@@ -1094,31 +1094,62 @@ tokens_core_easing:
   linear:   { valor: 'linear',                        css: '--nph-core-easing-linear',   use: "Velocidade constante. SO progresso e girador. NAO USE em transicao de interface." }
 
 tokens_motion:
-  motion/hover:
-    css: '--nph-motion-hover'
-    duracao: 100
-    curva: core/easing/standard
+  regra_do_par: "Cada papel de movimento sao DOIS tokens: -duration e -easing. Andam juntos e NUNCA se misturam entre papeis - nao use a duracao de enter com a curva de exit. Forma alinhada ao Figma em 24-08-2026, por decisao da Indiane: cada token e uma variavel e uma custom property. Nenhum valor mudou."
+
+  motion/hover-duration:
+    css: '--nph-motion-hover-duration'
+    alias: core/duration/100
+    valor: 100
     use: "Hover, foco e mudanca de cor de fundo. Precisa parecer instantaneo — quem passa o mouse ja esta indo para a proxima coisa."
-  motion/state:
-    css: '--nph-motion-state'
-    duracao: 150
-    curva: core/easing/standard
+  motion/hover-easing:
+    css: '--nph-motion-hover-easing'
+    alias: core/easing/standard
+    valor: 'cubic-bezier(0.4, 0, 0.2, 1)'
+    use: "A curva do papel hover. USE sempre junto de motion/hover-duration."
+
+  motion/state-duration:
+    css: '--nph-motion-state-duration'
+    alias: core/duration/200
+    valor: 150
     use: "Troca de estado que FICA: selecao, checkbox, alternancia, mudanca de aba."
-  motion/enter:
-    css: '--nph-motion-enter'
-    duracao: 250
-    curva: core/easing/enter
+  motion/state-easing:
+    css: '--nph-motion-state-easing'
+    alias: core/easing/standard
+    valor: 'cubic-bezier(0.4, 0, 0.2, 1)'
+    use: "A curva do papel state. USE sempre junto de motion/state-duration."
+
+  motion/enter-duration:
+    css: '--nph-motion-enter-duration'
+    alias: core/duration/300
+    valor: 250
     use: "Camada que APARECE vinda de fora: popover, menu, tooltip, dialogo, painel lateral."
-  motion/exit:
-    css: '--nph-motion-exit'
-    duracao: 150
-    curva: core/easing/exit
+  motion/enter-easing:
+    css: '--nph-motion-enter-easing'
+    alias: core/easing/enter
+    valor: 'cubic-bezier(0, 0, 0.2, 1)'
+    use: "A curva do papel enter - desacelera ao chegar. USE sempre junto de motion/enter-duration."
+
+  motion/exit-duration:
+    css: '--nph-motion-exit-duration'
+    alias: core/duration/200
+    valor: 150
     use: "A mesma camada saindo. Mais rapida que a entrada de proposito: quem fechou ja decidiu."
-  motion/expand:
-    css: '--nph-motion-expand'
-    duracao: 250
-    curva: core/easing/standard
+  motion/exit-easing:
+    css: '--nph-motion-exit-easing'
+    alias: core/easing/exit
+    valor: 'cubic-bezier(0.4, 0, 1, 1)'
+    use: "A curva do papel exit - acelera ao sair. USE sempre junto de motion/exit-duration."
+
+  motion/expand-duration:
+    css: '--nph-motion-expand-duration'
+    alias: core/duration/300
+    valor: 250
     use: "Peca que cresce ou encolhe NO PROPRIO LUGAR: acordeao, painel expansivel, linha de tabela que abre."
+  motion/expand-easing:
+    css: '--nph-motion-expand-easing'
+    alias: core/easing/standard
+    valor: 'cubic-bezier(0.4, 0, 0.2, 1)'
+    use: "A curva do papel expand. USE sempre junto de motion/expand-duration."
 
 # ---------------------------------------------------------------
 # ICONES - acervo Font Awesome Pro. A pergunta que vem ANTES do
