@@ -26,6 +26,50 @@ const estilo = `
   padding: 3rem 1.5rem;
 `;
 
+/**
+ * Inventario estatico do primeiro recorte P0.
+ *
+ * Dado literal de pagina, nao contrato de codigo: nenhum destes componentes
+ * existe no repositorio. A ordem e o escopo do recorte P0 vem do `README.md`,
+ * fonte vigente. Os motivos vem da "Lista de componentes — Nephos v1",
+ * registro de trabalho onde foram aprovados, mantido fora deste repositorio.
+ * Nada aqui declara implementacao.
+ */
+const recorteP0 = [
+  {
+    ordem: 1,
+    nome: 'nph-button',
+    motivo:
+      'Componente simples para validar o fluxo completo antes de multiplicar a complexidade.',
+  },
+  {
+    ordem: 2,
+    nome: 'nph-label',
+    motivo:
+      'Define a base semântica e acessível para os controles de formulário.',
+  },
+  {
+    ordem: 3,
+    nome: 'nph-input',
+    motivo:
+      'Testa a ficha no controle mais denso e absorve máscara, numérico e senha.',
+  },
+  {
+    ordem: 4,
+    nome: 'nph-field',
+    motivo:
+      'Compõe rótulo, controle e mensagem de erro, validando os estados de formulário.',
+  },
+  {
+    ordem: 5,
+    nome: 'nph-checkbox',
+    motivo:
+      'Testa seleção, estado marcado ou indeterminado e navegação por teclado.',
+  },
+];
+
+const STATUS_P0 = 'Planejado — não implementado';
+
 export const EmConstrucao = {
   name: 'Em construção',
   render: () => html`
@@ -41,6 +85,49 @@ export const EmConstrucao = {
       <p style="font-size: 1.125rem; margin: 0 0 2rem;">
         O Design System da IATec está em preparação.
         <strong>Nenhum componente foi implementado ainda.</strong>
+      </p>
+
+      <div
+        style="margin: 0 0 2rem; padding: 1rem 1.25rem; border: 1px solid #e0e0e0; border-left: 4px solid #6b6b6b; border-radius: 6px; background: #f7f7f7;"
+      >
+        <p style="margin: 0; font-size: .9375rem;">
+          Este inventário descreve o primeiro recorte planejado do Nephos. Nenhum
+          dos componentes abaixo foi implementado ainda.
+        </p>
+      </div>
+
+      <h2 style="font-size: 1rem; margin: 0 0 .75rem;">
+        Primeiro recorte P0 — planejado
+      </h2>
+
+      <ol style="list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem;">
+        ${recorteP0.map(
+          (item) => html`
+            <li style="border: 1px solid #e0e0e0; border-radius: 6px; padding: 1rem 1.25rem;">
+              <p
+                style="margin: 0 0 .25rem; text-transform: uppercase; letter-spacing: .08em; font-size: .6875rem; font-weight: 600; color: #6b6b6b;"
+              >
+                ${item.ordem} de 5 · recorte P0
+              </p>
+              <p
+                style="margin: 0 0 .5rem; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;"
+              >
+                <code style="font-size: 1rem; font-weight: 600;">${item.nome}</code>
+                <span
+                  style="font-size: .75rem; font-weight: 600; color: #6b6b6b; background: #f0f0f0; border: 1px solid #e0e0e0; border-radius: 999px; padding: .125rem .5rem;"
+                  >${STATUS_P0}</span
+                >
+              </p>
+              <p style="margin: 0; font-size: .9375rem;">${item.motivo}</p>
+            </li>
+          `,
+        )}
+      </ol>
+
+      <p style="margin: .75rem 0 0; font-size: .8125rem; color: #6b6b6b;">
+        Ordem e escopo do recorte P0 conforme o <code>README.md</code>, fonte
+        vigente. Os motivos vêm da <strong>Lista de componentes — Nephos v1</strong>,
+        registro de trabalho onde foram aprovados, mantido fora deste repositório.
       </p>
 
       <h2 style="font-size: 1rem; margin: 2rem 0 .5rem;">O que existe hoje</h2>
