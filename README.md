@@ -41,48 +41,41 @@ Para gerar a versão estática em `storybook-static/`:
 npm run build-storybook
 ```
 
-Não há outros scripts. Testes, pipeline e publicação ainda não foram
-definidos — veja as pendências abaixo.
+Não há outros scripts. O workflow de CI, os testes e a publicação ainda não
+existem — a direção deles está no P19, em
+[`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md).
 
-## Decisões técnicas a confirmar
+## Decisões técnicas vigentes
 
-Estas duas escolhas foram feitas apenas para conseguir criar e executar a
-página "Nephos — Em construção". São **provisórias** e não constituem
-arquitetura definitiva.
+As decisões P01, P02, P03, P17 e P19 estão registradas em
+[`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md).
 
-| Item | Escolha provisória | Responsável pela confirmação |
+**Status: decisão adotada pela Indiane em 24/08/2026, aguardando revisão de
+Elvys.** As regras devem ser seguidas no trabalho atual, salvo conflito
+técnico identificado ou orientação posterior de Elvys.
+
+| | Assunto | Decisão |
 |---|---|---|
-| Package manager | npm | Elvys |
-| Framework do Storybook | `@storybook/web-components-vite` | Elvys |
+| **P01** | Encapsulamento dos componentes | Shadow DOM aberto |
+| **P02** | Personalização e exposição de CSS | CSS custom properties como API pública; `::part` para partes internas; classes internas não são API |
+| **P03** | Organização do projeto | `src/components/<nome>/` com implementação, CSS, story e teste juntos; `src/tokens/` com `source` e `generated`; `src/styles/`; `src/shared/`; `docs/` |
+| **P17** | Formato e consumo de tokens | JSON como formato-fonte versionado; CSS custom properties como formato gerado |
+| **P19** | Storybook, testes e publicação | Manter `@storybook/web-components-vite`; build no CI em pull requests, como artefato privado |
 
-Motivo: o repositório estava vazio, sem package manager, lockfile, scripts ou
-framework preexistentes para seguir, e o projeto usa Web Components — não
-React.
+A nota traz o motivo, o escopo, o impacto e o que ficou fora de escopo de cada
+uma. Ela é a fonte da regra: em caso de divergência com este README, prevalece
+a nota.
 
-Não derive dessas escolhas estrutura de diretórios, formato de distribuição de
-tokens, estratégia de teste ou fluxo de publicação.
+O package manager é **npm** e o framework do Storybook é
+**`@storybook/web-components-vite`**. Os dois entraram como escolha de
+bootstrap e foram consolidados pelo P19.
 
-## Pendências antes do primeiro componente
+### O que continua fora de escopo
 
-| Pendência | Assunto | Estado |
-|---|---|---|
-| **P01** | Shadow DOM: aberto, fechado ou sem shadow | **pendente** |
-| **P02** | Como o CSS fica exposto: `::part`, custom properties ou classe global | **pendente** |
-| **P03** | Diretórios de trabalho na branch `v/3.0.0` | **pendente** |
-| **P17** | Formato de saída dos tokens: CSS custom properties, JSON ou os dois | **pendente** |
-| **P19** | Detalhes técnicos de Storybook, testes e publicação | **pendente** |
-
-Todas dependem de confirmação de Elvys. Enquanto não forem confirmadas, **não**
-faça nada disto:
-
-- implementar tokens no código;
-- criar componentes;
-- decidir a estrutura definitiva de diretórios;
-- configurar testes, publicação ou pipeline como solução final;
-- publicar o Storybook.
-
-Uma decisão delegada não é uma decisão fechada. Só encerre uma pendência com
-decisão ou evidência verificável, data, responsável e localização.
+Enquanto a auditoria Figma ↔ documentação não for concluída e o primeiro
+componente não for aprovado no Figma, não entram no repositório: valores de
+token em código, componentes, testes, workflow de CI, publicação pública ou
+deploy.
 
 ## Fontes de verdade
 
@@ -90,6 +83,7 @@ decisão ou evidência verificável, data, responsável e localização.
 |---|---|
 | Valores de token e decisões visuais | Figma `DS-IA-NEPHOS 5.0` |
 | Contrato técnico | `design.md`, na raiz deste repositório |
+| Decisões técnicas P01, P02, P03, P17 e P19 | [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) |
 | Governança, precedência e preflight | `GOVERNANCA.md` |
 | Instruções para agentes | `AGENTS.md` e `CLAUDE.md` |
 | Implementação entregue | Branch, commit, PR e Storybook deste repositório |

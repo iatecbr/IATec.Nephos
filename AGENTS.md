@@ -71,17 +71,30 @@ Antes de analisar, propor, editar ou implementar:
 - NUNCA declare branch, commit, Storybook, componente ou publicação como
   existente sem evidência verificável no repositório.
 
-## Limites ainda dependentes de decisão técnica
+## Decisões técnicas vigentes
+
+**Antes de criar ou modificar componentes, leia
+[`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md). P01, P02, P03, P17 e
+P19 são decisões vigentes e devem ser seguidas. Não as altere, substitua ou
+reabra sem explicar o conflito técnico, registrar uma proposta de mudança e
+solicitar revisão humana.**
+
+Status das cinco: *decisão adotada pela Indiane em 24/08/2026 — aguardando
+revisão de Elvys*. Elas valem para o trabalho atual. **Elvys não as aprovou**:
+não escreva nem sugira em lugar nenhum que ele aprovou. Se ele der orientação
+posterior que conflite com alguma, a orientação dele prevalece e a nota deve
+ser atualizada.
+
+Em resumo, e sem substituir a leitura da nota: Shadow DOM aberto (P01); CSS
+custom properties como API pública e `::part` para partes internas, com classes
+internas fora do contrato (P02); componente, CSS, story e teste juntos em
+`src/components/<nome>/` (P03); JSON como formato-fonte dos tokens e CSS custom
+properties como formato gerado (P17); `@storybook/web-components-vite` mantido,
+com build no CI em pull requests como artefato privado (P19).
 
 O que existe hoje neste repositório é o shell do Storybook com a página
-"Nephos — Em construção". Nenhum componente, token em código, teste, pipeline
-ou publicação foi definido.
-
-npm e `@storybook/web-components-vite` são escolhas **provisórias** de
-bootstrap, a confirmar com Elvys. Não as trate como arquitetura definitiva e
-não derive delas estrutura de diretórios, formato de token, teste ou
-publicação.
-
-Antes do primeiro componente, veja "Pendências antes do primeiro componente"
-no `README.md`: P01, P02, P03, P17 e P19 continuam **pendentes**. Não as feche
-nem presuma seu resultado. Diante de lacuna, pare e registre o impedimento.
+"Nephos — Em construção". Nenhum componente, token em código, teste, workflow
+de CI ou publicação foi criado. A nota registra, em cada decisão, o que ficou
+fora de escopo, e registra também os conflitos que continuam **abertos** — em
+especial o formato canônico dos tokens diante do YAML do `design.md`. Diante de
+lacuna, pare e registre o impedimento.

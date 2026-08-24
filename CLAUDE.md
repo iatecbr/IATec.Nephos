@@ -64,13 +64,33 @@
 - NUNCA declare implementação, testes, Storybook, branch, commit ou publicação
   sem evidência verificável.
 
+## Decisões técnicas vigentes
+
+**Antes de criar ou modificar componentes, leia
+[`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md). P01, P02, P03, P17 e
+P19 são decisões vigentes e devem ser seguidas. Não as altere, substitua ou
+reabra sem explicar o conflito técnico, registrar uma proposta de mudança e
+solicitar revisão humana.**
+
+Status das cinco: *decisão adotada pela Indiane em 24/08/2026 — aguardando
+revisão de Elvys*. Elas valem para o trabalho atual. **Elvys não as aprovou**:
+não escreva nem sugira em lugar nenhum que ele aprovou. Se ele der orientação
+posterior que conflite com alguma, a orientação dele prevalece e a nota deve
+ser atualizada.
+
+Em resumo, e sem substituir a leitura da nota: Shadow DOM aberto (P01); CSS
+custom properties como API pública e `::part` para partes internas, com classes
+internas fora do contrato (P02); componente, CSS, story e teste juntos em
+`src/components/<nome>/` (P03); JSON como formato-fonte dos tokens e CSS custom
+properties como formato gerado (P17); `@storybook/web-components-vite` mantido,
+com build no CI em pull requests como artefato privado (P19).
+
 ## Quando parar
 
 Pare e peça confirmação quando faltar uma decisão, fonte de verdade, ficha
 necessária, evidência visual ou quando fontes vigentes divergirem.
 
-npm e `@storybook/web-components-vite` são escolhas **provisórias** de
-bootstrap, a confirmar com Elvys. Não presuma a partir delas diretórios,
-distribuição de tokens, testes ou publicação. As pendências P01, P02, P03, P17
-e P19, listadas no `README.md`, continuam abertas: não as feche nem presuma
-seu resultado.
+Nem tudo foi decidido. A nota registra, em cada decisão, o que ficou fora de
+escopo, e registra os conflitos que continuam **abertos** — em especial o
+formato canônico dos tokens diante do YAML do `design.md`. Não presuma o
+resultado de um conflito aberto: pare e registre o impedimento.
