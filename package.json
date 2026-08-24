@@ -7,11 +7,14 @@
   "type": "module",
   "scripts": {
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "test:tokens": "node scripts/test-invariancia.mjs"
   },
   "devDependencies": {
     "@storybook/web-components-vite": "^10.5.10",
     "storybook": "^10.5.10",
+    "style-dictionary": "^5.5.2",
     "vite": "^8.2.2"
   },
   "dependencies": {
