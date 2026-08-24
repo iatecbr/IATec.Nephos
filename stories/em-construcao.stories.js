@@ -80,8 +80,8 @@ export const EmConstrucao = {
       <p
         style="margin: 2rem 0 0; padding-top: 1rem; border-top: 1px solid #e0e0e0; font-size: .875rem; color: #6b6b6b;"
       >
-        O registro completo — motivo, escopo, impacto, fora de escopo e os
-        conflitos que continuam abertos — está em
+        O registro completo — motivo, escopo, impacto e o que ficou fora de
+        escopo em cada uma — está em
         <code>docs/decisoes-tecnicas.md</code>.
       </p>
     </main>

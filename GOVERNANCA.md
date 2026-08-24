@@ -20,7 +20,7 @@ precedencia: 1
 | Precedência e regra de trabalho | Esta nota | Notas de sessão, relatórios de reunião, roteiro ou estudos |
 | Valores de token e decisão visual | Figma `DS-IA-NEPHOS 5.0`; a nota específica da fundação explica o uso | Kit Obra como se fosse implementação direta, valor literal ou exemplo antigo |
 | Contrato técnico para código | `design.md`, na raiz deste repositório | Valores literais, exemplos antigos ou notas de contexto |
-| Decisões técnicas P01, P02, P03, P17 e P19 | [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) | A §9 e a §10 do `design.md`, superadas pelo P03; qualquer texto que ainda as chame de pendência |
+| Decisões técnicas P01, P02, P03, P17 e P19 | [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) | A §9 e a §10 do `design.md`, que remetem a esta nota; qualquer texto que ainda chame as cinco de pendência |
 | Ordem e evidência das fases | Registro de planejamento mantido pela Indiane, **fora deste repositório**. O agente não tem acesso a ele: se a tarefa depender dessa ordem, pare e pergunte | Percentual sem fórmula ou checklist histórico |
 | Escopo de componentes | O recorte P0 no `README.md`. A lista completa da v1 **ainda não está fechada** e é mantida fora deste repositório | Qualquer lista de componentes não publicada aqui |
 | Implementação entregue | Branch, commit, PR e Storybook deste repositório | Declaração em nota sem evidência no repositório |
@@ -36,7 +36,7 @@ Em conflito, prevalece a fonte da linha correspondente. Uma fonte histórica só
 - O corte da v1 e as decisões de componentes **não estão fechados**. Só o recorte P0 do `README.md` está decidido.
 - **Nenhum componente do Nephos foi implementado.** O que existe neste repositório é o shell do Storybook com a página “Nephos — Em construção”.
 - As decisões técnicas **P01, P02, P03, P17 e P19 deixaram de ser pendências em 24/08/2026** e estão registradas em [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), com o status *decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de Elvys*. São regras vigentes: siga-as, não as trate como lacuna. **Elvys não as aprovou** — não registre nem sugira aprovação dele. Para alterá-las, explique o conflito técnico, registre uma proposta e peça revisão humana.
-- A nota mantém abertos os conflitos que ainda não têm decisão, entre eles o formato canônico dos tokens diante do YAML do `design.md`. Esses continuam sendo lacuna.
+- O P17 fixa a fonte canônica por responsabilidade: o **Figma** é a fonte visual; o `design.md` é o contrato humano e agêntico, não o arquivo de geração; o **JSON** é a fonte técnica versionada dos valores auditados; o **CSS custom properties** é gerado do JSON e não se edita à mão. Nenhum valor entra no JSON antes da auditoria Figma ↔ documentação.
 
 ## 3. Como medir avanço
 

@@ -91,6 +91,6 @@ Pare e peça confirmação quando faltar uma decisão, fonte de verdade, ficha
 necessária, evidência visual ou quando fontes vigentes divergirem.
 
 Nem tudo foi decidido. A nota registra, em cada decisão, o que ficou fora de
-escopo, e registra os conflitos que continuam **abertos** — em especial o
-formato canônico dos tokens diante do YAML do `design.md`. Não presuma o
-resultado de um conflito aberto: pare e registre o impedimento.
+escopo — entre outras coisas, a ferramenta de geração dos tokens ainda não foi
+escolhida e o workflow de CI não existe. Não presuma o resultado do que está
+fora de escopo: pare e registre o impedimento.

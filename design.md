@@ -1839,13 +1839,10 @@ Antes de construir ou modificar um componente, **abra o arquivo de metadados del
 | Storybook | Estados e variantes renderizados |
 | Lista de componentes — Nephos v1 | Escopo: os 78 componentes e as 6 ondas |
 
-> ~~**[Pendente]** Os caminhos acima são proposta. A fronteira de diretório é pergunta aberta com o Elvys.~~
->
-> **Superado em 24/08/2026 pelo P03.** A organização de diretórios está decidida
-> e registrada em [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), com o
-> status *decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de
-> Elvys*. Não trate a fronteira de diretório como pergunta aberta. O texto acima
-> fica preservado como registro do que valia antes.
+> **Decisão vigente — aguardando revisão de Elvys.** A organização de diretórios
+> está em [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) (P03). Até o
+> primeiro componente, os caminhos acima permanecem ponteiros de documentação; o
+> padrão de diretórios será aplicado quando a peça existir.
 
 ---
 
@@ -1872,7 +1869,7 @@ Antes de construir ou modificar um componente, **abra o arquivo de metadados del
 | 3o | ~~**Ícones**~~ Resolvida em 20-08-2026: regras, tamanhos, contrato, acervo e o núcleo completo de **34 ícones**, em três levas | Indiane |
 | 4 | ~~Cores de gráfico — não existem~~ Resolvida em 20-08-2026: quatro famílias, 30 tokens semânticos, verificados sob as três deficiências de visão | Indiane |
 | 5 | ~~Alfa — transparências sem token~~ Resolvida em 20-08-2026: 19 primitivos de alfa em preto e branco, mais `overlay/scrim`, `overlay/on-media` e `state/disabled-opacity` | Indiane |
-| 6 | Qual arquivo é canônico: o CSS ou este YAML. **Continua aberta, e ficou mais ampla em 24/08/2026:** o P17 estabeleceu **JSON** como formato-fonte versionado dos tokens, que não é nenhuma das duas opções originais. Falta decidir se o JSON substitui este YAML como fonte ou convive com ele. Ver o conflito registrado em `docs/decisoes-tecnicas.md` | Indiane + Elvys |
-| 7 | ~~Caminho dos diretórios (§9)~~ **Superado em 24/08/2026 pelo P03**, em `docs/decisoes-tecnicas.md` — decisão adotada pela Indiane, aguardando revisão de Elvys | Indiane |
+| 6 | ~~Qual arquivo é canônico: o CSS ou este YAML~~ Decidido em 24-08-2026: Figma é a fonte visual; este `design.md` é o contrato humano e agêntico; JSON será a fonte técnica versionada de valores auditados; CSS custom properties serão geradas do JSON. Ver `docs/decisoes-tecnicas.md` (P17). | Indiane — aguardando revisão de Elvys |
+| 7 | ~~Caminho dos diretórios (§9)~~ Decidido em 24-08-2026: padrão registrado em `docs/decisoes-tecnicas.md` (P03), aplicado a partir do primeiro componente. | Indiane — aguardando revisão de Elvys |
 | 8 | ~~Modo escuro foi calculado, nao visto~~ Resolvido em 18-08-2026: pagina `Cor` no Figma, claro e escuro lado a lado | Indiane |
 | 9 | **Padrão de hachura** para gráfico impresso em preto e branco. A série categórica separa por matiz, não por luminosidade | Indiane |

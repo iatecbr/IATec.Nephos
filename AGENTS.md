@@ -95,6 +95,7 @@ com build no CI em pull requests como artefato privado (P19).
 O que existe hoje neste repositório é o shell do Storybook com a página
 "Nephos — Em construção". Nenhum componente, token em código, teste, workflow
 de CI ou publicação foi criado. A nota registra, em cada decisão, o que ficou
-fora de escopo, e registra também os conflitos que continuam **abertos** — em
-especial o formato canônico dos tokens diante do YAML do `design.md`. Diante de
-lacuna, pare e registre o impedimento.
+fora de escopo. O P17 também fixa a fonte canônica por responsabilidade: o Figma
+é a fonte visual, o `design.md` é o contrato humano e agêntico, o JSON é a fonte
+técnica dos valores auditados e o CSS é gerado do JSON, nunca editado à mão.
+Diante de lacuna, pare e registre o impedimento.

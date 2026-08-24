@@ -123,9 +123,19 @@ Elvys.
 formato-fonte. **CSS custom properties** serão o formato **gerado** para
 consumo no browser.
 
-**Regra.** O Figma continua sendo a origem visual até a auditoria
-Figma ↔ documentação ser concluída. **Não criar tokens com valores fictícios ou
-não auditados.**
+**Fonte canônica por responsabilidade.**
+
+- O **Figma** é a fonte visual: define e valida valores, modos, aliases e
+  intenção de design.
+- O `design.md` é o contrato humano e agêntico: explica uso, acessibilidade,
+  nomenclatura e restrições. Ele não é o arquivo de geração.
+- O **JSON** será a fonte técnica versionada dos valores auditados que entram
+  no repositório.
+- As **CSS custom properties** serão geradas do JSON e não devem ser editadas
+  à mão.
+
+Enquanto a auditoria Figma ↔ documentação não terminar, nenhum valor entra no
+JSON. **Não criar tokens com valores fictícios ou não auditados.**
 
 **Motivo.** JSON é legível por ferramenta e serve de fonte para gerar outros
 formatos; CSS custom properties são o que o browser consome e o que o P02
@@ -140,12 +150,11 @@ ainda não foi escolhida.
 **Fora de escopo.** Criar arquivos de token, migrar valores do Figma para
 código, escolher ferramenta de geração e escrever o script de build de tokens.
 
-**Conflito aberto — não resolvido por esta nota.** O [`design.md`](../design.md),
-na raiz, já é um contrato em **YAML** com valores de token, e a §10 item 6 dele
-registra como pendência *qual arquivo é canônico: o CSS ou este YAML*. O P17
-introduz JSON, que não é nenhuma das duas opções. Falta decidir se o JSON
-substitui o YAML do `design.md` como fonte, ou se nasce da auditoria e convive
-com ele. **Decisão da Indiane, ainda não tomada.**
+**Compatibilidade com o [`design.md`](../design.md).** O YAML existente no
+`design.md` permanece como documentação do contrato até sua migração e
+validação no repositório. Depois da auditoria, o JSON será a fonte técnica dos
+valores; o `design.md` continuará explicando o critério e deverá apontar para o
+JSON, sem duplicar valores que possam divergir.
 
 **Status.** Decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de
 Elvys.
@@ -174,7 +183,9 @@ que o workflow existir.
 
 **Impacto.** Encerra o caráter provisório de `@storybook/web-components-vite`,
 que até 24/08/2026 constava como escolha de bootstrap a confirmar. O npm segue
-como package manager pela mesma decisão de continuidade.
+como package manager pela mesma decisão de continuidade. O CI e seu artefato
+privado são regras para o workflow futuro; esta nota não declara que eles já
+existem.
 
 **Fora de escopo.** Publicação pública, GitHub Pages, ambiente externo, deploy
 e configuração definitiva de testes. Criar o workflow de CI. Testes de
@@ -203,4 +214,4 @@ Isso vale para pessoas e para agentes.
 | [`../AGENTS.md`](../AGENTS.md) | Regra de leitura obrigatória antes de mexer em componente |
 | [`../CLAUDE.md`](../CLAUDE.md) | A mesma regra, espelhada |
 | [`../GOVERNANCA.md`](../GOVERNANCA.md) | Estado vigente do repositório |
-| [`../design.md`](../design.md) | Contrato das fundações; §9 e §10 anotadas como superadas pelo P03 |
+| [`../design.md`](../design.md) | Contrato das fundações; §9 e §10 alinhadas ao P03 e ao P17 |
