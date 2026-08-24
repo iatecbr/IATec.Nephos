@@ -9,8 +9,8 @@
 
 ## Antes de agir
 
-1. Leia `GOVERNANCA.md`, o `README.md`, o `design.md` e as fichas e notas
-   aplicáveis.
+1. Leia `GOVERNANCA.md`, o `README.md`, o `design.md`,
+   `docs/decisoes-tecnicas.md` e as fichas e notas aplicáveis.
 2. Para regras visuais e valores de token, consulte o Figma
    `DS-IA-NEPHOS 5.0`. Sem evidência verificável, pare e peça confirmação.
 3. Diferencie fato verificado, decisão vigente, proposta e pendência.
@@ -41,7 +41,14 @@
 - Escreva Web Components em Lit com prefixo `nph-`.
 - Use somente tokens semânticos nos componentes; nunca consuma valores
   literais, `core/*` ou `theme/*`.
-- Use Font Awesome Classic; nunca use Duotone.
+- Use **Font Awesome Pro**. **Classic** é a família padrão: todo ícone de
+  conteúdo, ação, estado, feedback e direção. **Duotone é permitido somente em
+  navegação estrutural** — menu, sidebar, grupo de navegação, atalho e
+  indicador de localização. Fora da navegação, Duotone é proibido: nada de
+  botão, campo, feedback, validação, alerta, tabela ou ação destrutiva. Nunca
+  misture Duotone e Classic no mesmo grupo de navegação. Light, Thin e Sharp
+  continuam proibidos. A chave de licença fica em variável de ambiente e
+  **nunca** entra no repositório.
 - Para cada componente, primeiro derive e aprove visualmente no Figma a
   referência estrutural do Obra configurada com tokens Nephos; depois
   implemente no repositório.
@@ -66,11 +73,9 @@
 
 ## Decisões técnicas vigentes
 
-**Antes de criar ou modificar componentes, leia
-[`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md). P01, P02, P03, P17 e
-P19 são decisões vigentes e devem ser seguidas. Não as altere, substitua ou
-reabra sem explicar o conflito técnico, registrar uma proposta de mudança e
-solicitar revisão humana.**
+**P01, P02, P03, P17 e P19 são decisões vigentes e devem ser seguidas. Não as
+altere, substitua ou reabra sem explicar o conflito técnico, registrar uma
+proposta de mudança e solicitar revisão humana.**
 
 Status das cinco: *decisão adotada pela Indiane em 24/08/2026 — aguardando
 revisão de Elvys*. Elas valem para o trabalho atual. **Elvys não as aprovou**:
@@ -82,8 +87,9 @@ Em resumo, e sem substituir a leitura da nota: Shadow DOM aberto (P01); CSS
 custom properties como API pública e `::part` para partes internas, com classes
 internas fora do contrato (P02); componente, CSS, story e teste juntos em
 `src/components/<nome>/` (P03); JSON como formato-fonte dos tokens e CSS custom
-properties como formato gerado (P17); `@storybook/web-components-vite` mantido,
-com build no CI em pull requests como artefato privado (P19).
+properties como formato gerado (P17); `@storybook/web-components-vite` mantido.
+Quando o workflow de CI for criado, ele executará o build em pull requests e
+disponibilizará um artefato privado (P19).
 
 ## Quando parar
 

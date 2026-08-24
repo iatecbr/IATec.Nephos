@@ -1161,8 +1161,12 @@ icone_regras:
   acervo: Font Awesome Pro
   familia_padrao: 'Classic Regular'
   familia_ativo: 'Classic Solid'
-  familia_unica: 'Classic. NAO existe Duotone no Nephos: o bars, unico icone de navegacao do nucleo, nao existe em Duotone no acervo, e uma regra cujo unico caso nao pode ser cumprido nao e regra. O territorio da navegacao se marca com sidebar/*, largura e posicao.'
-  estilos_proibidos: [light, thin, duotone, sharp]
+  familia_padrao_regra: 'Classic e a familia padrao. Todo icone de conteudo, acao, estado, feedback e direcao e Classic - Regular no normal, Solid no item ativo dentro de um grupo.'
+  duotone_navegacao: 'Duotone e PERMITIDO, e SOMENTE em navegacao estrutural: menu, sidebar, grupo de navegacao, atalho e indicador de localizacao. Serve para marcar o territorio da navegacao, junto de sidebar/*, largura e posicao.'
+  duotone_proibido_fora_da_navegacao: 'FORA da navegacao estrutural, Duotone continua proibido. NAO USE em botao, campo, feedback, validacao, alerta, tabela ou acao destrutiva.'
+  duotone_nao_mistura: 'NUNCA misture Duotone e Classic dentro do mesmo grupo de navegacao. O grupo inteiro e de uma familia so.'
+  estilos_proibidos: [light, thin, sharp]
+  historico_duotone: 'SUPERADA em 24-08-2026, por decisao da Indiane. A regra anterior dizia: "Classic. NAO existe Duotone no Nephos: o bars, unico icone de navegacao do nucleo, nao existe em Duotone no acervo, e uma regra cujo unico caso nao pode ser cumprido nao e regra." Preservada como registro; NAO e regra atual. Ver duotone_navegacao.'
   cor: "Herda do contexto via currentColor. NAO existe token de cor de icone."
   caixa: "Sempre quadrada. O desenho do Font Awesome nao e quadrado por natureza: e centralizado e escalado pela altura."
   espaco_ate_o_texto: space/inline-tight
@@ -1788,7 +1792,9 @@ Nunca faça. Cada linha é um erro prevenido.
 | A68 | Usar tamanho de ícone fora de `icon/size-sm`, `-md` e `-lg` |
 | A69 | Misturar Font Awesome com ícone de outra fonte ou desenhado à mão |
 | A70 | Usar Light ou Thin |
-| A70b | Usar qualquer família que não seja Classic — Light, Thin, Duotone ou Sharp |
+| A70b | Usar Sharp, ou qualquer família fora de Classic e Duotone |
+| A70c | Usar Duotone fora da navegação estrutural — em botão, campo, feedback, validação, alerta, tabela ou ação destrutiva |
+| A70d | Misturar Duotone e Classic dentro do mesmo grupo de navegação |
 | A71 | Pintar o ícone com cor que não seja a do contexto |
 | A72 | Misturar Solid e Regular no mesmo grupo sem que um marque estado ativo |
 | A73 | Ícone sem texto visível e sem `aria-label` |

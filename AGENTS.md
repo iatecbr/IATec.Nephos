@@ -11,8 +11,8 @@
 
 Antes de analisar, propor, editar ou implementar:
 
-1. Leia `GOVERNANCA.md`, o `README.md`, o `design.md` e a ficha e nota de
-   fundação aplicáveis.
+1. Leia `GOVERNANCA.md`, o `README.md`, o `design.md`,
+   `docs/decisoes-tecnicas.md` e a ficha e nota de fundação aplicáveis.
 2. Consulte o Figma `DS-IA-NEPHOS 5.0` para afirmar ou alterar valores de
    tokens e decisões visuais. Sem acesso, peça exportação ou confirmação
    verificável.
@@ -47,7 +47,14 @@ Antes de analisar, propor, editar ou implementar:
 - Todo componente é um Web Component escrito com Lit e com prefixo `nph-`.
 - Componentes consomem somente tokens semânticos; nunca consomem valores
   literais, `core/*` ou `theme/*`.
-- Use Font Awesome Classic. Duotone não faz parte do Nephos.
+- Use **Font Awesome Pro**. **Classic** é a família padrão: todo ícone de
+  conteúdo, ação, estado, feedback e direção. **Duotone é permitido somente em
+  navegação estrutural** — menu, sidebar, grupo de navegação, atalho e
+  indicador de localização. Fora da navegação, Duotone é proibido: nada de
+  botão, campo, feedback, validação, alerta, tabela ou ação destrutiva. Nunca
+  misture Duotone e Classic no mesmo grupo de navegação. Light, Thin e Sharp
+  continuam proibidos. A chave de licença fica em variável de ambiente e
+  **nunca** entra no repositório.
 - Para cada componente, primeiro derive a referência estrutural do Obra no
   Figma, configure-a com tokens Nephos e obtenha aprovação visual. Só então
   implemente no repositório.
@@ -73,11 +80,9 @@ Antes de analisar, propor, editar ou implementar:
 
 ## Decisões técnicas vigentes
 
-**Antes de criar ou modificar componentes, leia
-[`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md). P01, P02, P03, P17 e
-P19 são decisões vigentes e devem ser seguidas. Não as altere, substitua ou
-reabra sem explicar o conflito técnico, registrar uma proposta de mudança e
-solicitar revisão humana.**
+**P01, P02, P03, P17 e P19 são decisões vigentes e devem ser seguidas. Não as
+altere, substitua ou reabra sem explicar o conflito técnico, registrar uma
+proposta de mudança e solicitar revisão humana.**
 
 Status das cinco: *decisão adotada pela Indiane em 24/08/2026 — aguardando
 revisão de Elvys*. Elas valem para o trabalho atual. **Elvys não as aprovou**:
@@ -89,8 +94,9 @@ Em resumo, e sem substituir a leitura da nota: Shadow DOM aberto (P01); CSS
 custom properties como API pública e `::part` para partes internas, com classes
 internas fora do contrato (P02); componente, CSS, story e teste juntos em
 `src/components/<nome>/` (P03); JSON como formato-fonte dos tokens e CSS custom
-properties como formato gerado (P17); `@storybook/web-components-vite` mantido,
-com build no CI em pull requests como artefato privado (P19).
+properties como formato gerado (P17); `@storybook/web-components-vite` mantido.
+Quando o workflow de CI for criado, ele executará o build em pull requests e
+disponibilizará um artefato privado (P19).
 
 O que existe hoje neste repositório é o shell do Storybook com a página
 "Nephos — Em construção". Nenhum componente, token em código, teste, workflow
