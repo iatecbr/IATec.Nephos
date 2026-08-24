@@ -1186,6 +1186,19 @@ icone_licenca:
   arquivos: "NAO commitar o pacote Pro. So a referencia no package.json."
   build: "O pacote e puxado no build. O produto compilado pode conter os icones - isso e uso licenciado."
 
+icone_componente_figma:
+  conjunto: 'icon'
+  onde: 'Figma DS-IA-NEPHOS 5.0, pagina Icones, quadro "Componentes — icon"'
+  criado_em: '24-08-2026'
+  variantes: 35
+  icones_distintos: 34
+  propriedade_nome: '34 valores, um por icone do nucleo.'
+  propriedade_estilo: 'regular (padrao) e solid. Solid existe SOMENTE para star, unico icone com arte Solid no arquivo. As demais combinacoes com solid nao existem de proposito. NUNCA invente arte para preencher a matriz de variantes.'
+  tamanho_nao_e_variante: 'O tamanho NAO e variante do componente. Vem dos tokens icon/size-sm (16), icon/size-md (20) e icon/size-lg (24). No codigo e uma custom property, nao uma variante. A caixa e sempre quadrada; o desenho e centralizado e escalado pela altura.'
+  cor: 'O preenchimento ja esta ligado a variavel no componente. NAO pinte a mao.'
+  duotone_futuro: 'estilo=duotone NAO foi criado. O Font Awesome Pro nao esta instalado no ambiente do Figma - so existem as familias Free, e Duotone so vem no Pro. Quando o Pro estiver disponivel, acrescente estilo=duotone APENAS aos icones aprovados de navegacao estrutural. Ver duotone_navegacao e duotone_nao_mistura.'
+  curadoria: 'Concluida em 24-08-2026. Cinco categorias: Navegacao e menus (1), Direcao e revelacao (9), Acao (15), Estado e comunicacao (8), Conteudo e dados (2).'
+
 tokens_icon:
   icon/size-sm:
     css: '--nph-icon-size-sm'
