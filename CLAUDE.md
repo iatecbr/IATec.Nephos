@@ -73,11 +73,11 @@
 
 ## Decisões técnicas vigentes
 
-**P01, P02, P03, P17 e P19 são decisões vigentes e devem ser seguidas. Não as
+**P01, P02, P03, P17, P19 e P20 são decisões vigentes e devem ser seguidas. Não as
 altere, substitua ou reabra sem explicar o conflito técnico, registrar uma
 proposta de mudança e solicitar revisão humana.**
 
-Status das cinco: *decisão adotada pela Indiane em 24/08/2026 — aguardando
+Status das seis: *decisão adotada pela Indiane em 24/08/2026 — aguardando
 revisão de Elvys*. Elas valem para o trabalho atual. **Elvys não as aprovou**:
 não escreva nem sugira em lugar nenhum que ele aprovou. Se ele der orientação
 posterior que conflite com alguma, a orientação dele prevalece e a nota deve
@@ -87,7 +87,7 @@ Em resumo, e sem substituir a leitura da nota: Shadow DOM aberto (P01); CSS
 custom properties como API pública e `::part` para partes internas, com classes
 internas fora do contrato (P02); componente, CSS, story e teste juntos em
 `src/components/<nome>/` (P03); JSON como formato-fonte dos tokens e CSS custom
-properties como formato gerado (P17); `@storybook/web-components-vite` mantido.
+properties como formato gerado (P17); `@storybook/web-components-vite` mantido (P19); Style Dictionary v5 como gerador, com `data-nph-brand` e `data-nph-color-scheme` como contrato público de tema (P20).
 Quando o workflow de CI for criado, ele executará o build em pull requests e
 disponibilizará um artefato privado (P19).
 
@@ -96,7 +96,14 @@ disponibilizará um artefato privado (P19).
 Pare e peça confirmação quando faltar uma decisão, fonte de verdade, ficha
 necessária, evidência visual ou quando fontes vigentes divergirem.
 
+O que existe hoje neste repositório é o shell do Storybook com a página
+"Nephos — Em construção" e os **289 tokens auditados** migrados para
+`src/tokens/source/*.tokens.json`, com o CSS gerado em
+`src/tokens/generated/tokens.css` — **nunca edite o CSS gerado**. **Nenhum
+componente, teste de componente, workflow de CI ou publicação foi criado.**
+
 Nem tudo foi decidido. A nota registra, em cada decisão, o que ficou fora de
-escopo — entre outras coisas, a ferramenta de geração dos tokens ainda não foi
-escolhida e o workflow de CI não existe. Não presuma o resultado do que está
-fora de escopo: pare e registre o impedimento.
+escopo — entre outras coisas, o workflow de CI não existe, e os estilos de
+efeito, os estilos de texto e os primitivos adiados ainda não foram migrados.
+Não presuma o resultado do que está fora de escopo: pare e registre o
+impedimento.

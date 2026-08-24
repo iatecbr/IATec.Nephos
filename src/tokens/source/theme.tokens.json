@@ -1,0 +1,115 @@
+{
+  "$description": "Camada de marca. Um modo por vertical da IATec. So a camada semantic consome.",
+  "$extensions": {
+    "com.iatec.nephos": {
+      "camada": "theme",
+      "contagemEsperada": 6,
+      "origem": "Figma DS-IA-NEPHOS 5.0, colecao theme, leitura de 2026-08-24",
+      "modeSet": {
+        "nome": "brand",
+        "modos": [
+          "sistemas",
+          "gerencial",
+          "educacao",
+          "comercial",
+          "financeiro",
+          "igrejas",
+          "rh"
+        ],
+        "padrao": "sistemas",
+        "seletor": "[data-nph-brand=\"{modo}\"]"
+      }
+    }
+  },
+  "theme": {
+    "brand-400": {
+      "$type": "color",
+      "$value": "{core.sistemas.400}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.sistemas.400}",
+            "gerencial": "{core.gerencial.400}",
+            "educacao": "{core.educacao.700}",
+            "comercial": "{core.comercial.400}",
+            "financeiro": "{core.financeiro.400}",
+            "igrejas": "{core.igrejas.400}",
+            "rh": "{core.rh.400}"
+          }
+        }
+      }
+    },
+    "brand-500": {
+      "$type": "color",
+      "$value": "{core.sistemas.500}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.sistemas.500}",
+            "gerencial": "{core.gerencial.500}",
+            "educacao": "{core.educacao.500}",
+            "comercial": "{core.comercial.500}",
+            "financeiro": "{core.financeiro.500}",
+            "igrejas": "{core.igrejas.500}",
+            "rh": "{core.rh.500}"
+          }
+        }
+      }
+    },
+    "brand-600": {
+      "$type": "color",
+      "$value": "{core.sistemas.600}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.sistemas.600}",
+            "gerencial": "{core.gerencial.600}",
+            "educacao": "{core.educacao.700}",
+            "comercial": "{core.comercial.600}",
+            "financeiro": "{core.financeiro.600}",
+            "igrejas": "{core.igrejas.600}",
+            "rh": "{core.rh.600}"
+          }
+        }
+      }
+    },
+    "brand-700": {
+      "$type": "color",
+      "$value": "{core.sistemas.700}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.sistemas.700}",
+            "gerencial": "{core.gerencial.700}",
+            "educacao": "{core.educacao.800}",
+            "comercial": "{core.comercial.700}",
+            "financeiro": "{core.financeiro.700}",
+            "igrejas": "{core.igrejas.700}",
+            "rh": "{core.rh.700}"
+          }
+        }
+      }
+    },
+    "brand-on-400": {
+      "$type": "color",
+      "$value": "{core.neutral.950}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.neutral.950}",
+            "gerencial": "{core.base.white}",
+            "educacao": "{core.base.white}",
+            "comercial": "{core.neutral.950}",
+            "financeiro": "{core.neutral.950}",
+            "igrejas": "{core.base.white}",
+            "rh": "{core.base.white}"
+          }
+        }
+      }
+    },
+    "brand-on-600": {
+      "$type": "color",
+      "$value": "{core.base.white}"
+    }
+  }
+}

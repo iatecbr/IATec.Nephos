@@ -1,8 +1,23 @@
 ---
 sistema: Nephos
-versao: 1.5
-data: 2026-08-21
+versao: 1.6
+data: 2026-08-24
 status: migrado para o repositório em 2026-08-24; contrato de trabalho da branch `v/3.0.0`
+fonte_tecnica_dos_valores: >-
+  Desde 24-08-2026 os valores auditados vivem em `src/tokens/source/*.tokens.json`,
+  e o CSS é gerado a partir deles em `src/tokens/generated/tokens.css`. Este arquivo
+  continua sendo o contrato de USO — o que cada token significa, quando usar, quando
+  não usar e por quê. Se um valor aqui divergir do JSON, o JSON e o Figma prevalecem.
+  Ver `docs/tokens.md` e a decisão P20 em `docs/decisoes-tecnicas.md`.
+consumo_de_tema: >-
+  Marca e esquema de cor são dimensões independentes, expostas como dois atributos
+  no elemento raiz: `data-nph-brand` (sistemas, gerencial, educacao, comercial,
+  financeiro, igrejas, rh) e `data-nph-color-scheme` (light, dark).
+escopo_migrado_para_json: >-
+  289 itens em 24-08-2026: 139 primitivos core, 6 variáveis theme nos sete modos e
+  os 144 semânticos nos dois modos. Os 20 primitivos da P46 ficaram fora por decisão
+  registrada. Os demais primitivos, os estilos de efeito e os estilos de texto estão
+  adiados — adiado não significa sem consumidor.
 escopo_verificado: [cor, tipografia, espacamento, raio, elevacao, grid, movimento, cor_de_grafico]
 escopo_a_validar: []
 camadas: [core, theme, semantic]
@@ -783,14 +798,17 @@ regras_sombra_interna:
 tokens_control:
   control/height-compact:
     css: '--nph-control-height-compact'
+    alias: core/control-height/compact
     valor: 28
     use: "Altura de controle em tela densa: tabela, barra de ferramentas, filtro. NUNCA em alvo de toque - reprova a WCAG 2.5.8."
   control/height-default:
     css: '--nph-control-height-default'
+    alias: core/control-height/default
     valor: 36
     use: "Altura padrao de botao, campo e select. Na duvida, e esta."
   control/height-large:
     css: '--nph-control-height-large'
+    alias: core/control-height/large
     valor: 44
     use: "Formulario principal e tela sensivel ao toque. Garante o alvo minimo de 44px recomendado pela WCAG 2.2."
 
@@ -1013,6 +1031,18 @@ tokens_core_foco:
   regra: 'NUNCA consuma direto. O anel de foco vem dos estilos focus-ring/*, que ja ligam a largura e a cor.'
   core/focus-width/default: { valor: 3, css: '--nph-core-focus-width-default', alias_de: 'focus/ring-width' }
 
+tokens_core_icon:
+  regra: 'NUNCA consuma direto. Use icon/size-sm, -md e -lg. Lido do Figma em 24-08-2026, ao migrar os tokens para JSON.'
+  core/icon-size/100: { valor: 16, css: '--nph-core-icon-size-100', alias_de: 'icon/size-sm' }
+  core/icon-size/200: { valor: 20, css: '--nph-core-icon-size-200', alias_de: 'icon/size-md' }
+  core/icon-size/300: { valor: 24, css: '--nph-core-icon-size-300', alias_de: 'icon/size-lg' }
+
+tokens_core_control:
+  regra: 'NUNCA consuma direto. Use control/height-compact, -default e -large. Lido do Figma em 24-08-2026, ao migrar os tokens para JSON.'
+  core/control-height/compact: { valor: 28, css: '--nph-core-control-height-compact', alias_de: 'control/height-compact' }
+  core/control-height/default: { valor: 36, css: '--nph-core-control-height-default', alias_de: 'control/height-default' }
+  core/control-height/large:   { valor: 44, css: '--nph-core-control-height-large',   alias_de: 'control/height-large' }
+
 tokens_core_layout:
   regra: 'NUNCA consuma direto. Use os layout/* semanticos.'
   core/layout-width/app:               { valor: 1440, css: '--nph-core-layout-width-app',               alias_de: 'layout/max-app' }
@@ -1053,31 +1083,41 @@ tokens_core_sem_consumidor:
 tokens_alpha:
   shadow/color:
     css: '--nph-shadow-color'
+    alias_claro: core/alpha/black-10
+    alias_escuro: core/alpha/black-0
     claro: 'rgba(0,0,0,0.10)'
     escuro: 'rgba(0,0,0,0)'
     use: "A cor das sombras da faixa do meio - raised, dropdown, modal e drawer. NUNCA escolha a mao: use o estilo elevation/*. No escuro e transparente, porque la a elevacao vem da rampa surface."
   shadow/color-light:
     css: '--nph-shadow-color-light'
+    alias_claro: core/alpha/black-5
+    alias_escuro: core/alpha/black-0
     claro: 'rgba(0,0,0,0.05)'
     escuro: 'rgba(0,0,0,0)'
     use: "A cor das duas sombras mais leves - hairline e subtle. 5% e nao 10%: nesse alcance a sombra e um fio, e 10% a faria pesada. NUNCA escolha a mao."
   shadow/color-strong:
     css: '--nph-shadow-color-strong'
+    alias_claro: core/alpha/black-25
+    alias_escuro: core/alpha/black-0
     claro: 'rgba(0,0,0,0.25)'
     escuro: 'rgba(0,0,0,0)'
     use: "A cor do nivel maximo, spotlight. 25%: a peca que toma a tela inteira precisa se descolar de tudo. NUNCA escolha a mao."
   overlay/scrim:
     css: '--nph-overlay-scrim'
+    alias_claro: core/scrim/light
+    alias_escuro: core/scrim/dark
     claro: 'rgba(0,0,0,0.45)'
     escuro: 'rgba(0,0,0,0.65)'
     use: "Veu atras de dialogo e painel lateral. USE sempre que houver modal. Mais forte no escuro porque o fundo ja e escuro. Unico valor de alfa fora da escala de 8."
   overlay/on-media:
     css: '--nph-overlay-on-media'
+    alias: core/alpha/black-40
     claro: 'rgba(0,0,0,0.40)'
     escuro: 'rgba(0,0,0,0.40)'
     use: "Veu escuro sobre imagem, para o texto por cima continuar legivel. USE em capa, cartao com foto de fundo e galeria. Igual nos dois modos: a legibilidade sobre a imagem nao depende do tema."
   focus/ring-width:
     css: '--nph-focus-ring-width'
+    alias: core/focus-width/default
     valor: 3
     use: "A espessura de TODO anel de foco: 3px, igual nos dois modos. NUNCA escolha a mao: aplique um dos estilos focus-ring/*. NAO reduza para 1 ou 2 em peca pequena - o anel e o que torna o produto navegavel por teclado. A WCAG 2.2 pede no minimo 2px."
   state/disabled-opacity:
@@ -1133,22 +1173,27 @@ tokens_layout:
     use: "Margem lateral da pagina a partir de 1280px. Da respiro em tela grande sem esticar o conteudo."
   layout/max-app:
     css: '--nph-layout-max-app'
+    alias: core/layout-width/app
     valor: 1440
     use: "Largura maxima da area de aplicacao: painel, tabela, formulario - o que se OPERA. Acima disso o conteudo centraliza em vez de esticar."
   layout/max-reading:
     css: '--nph-layout-max-reading'
+    alias: core/layout-width/reading
     valor: 720
     use: "Largura maxima de texto corrido - o que se LE de ponta a ponta. Entrega a medida de 60 a 80 caracteres exigida pela tipografia. NAO USE em tabela ou painel de dados."
   layout/sidebar-expanded:
     css: '--nph-layout-sidebar-expanded'
+    alias: core/layout-width/sidebar-expanded
     valor: 280
     use: "Largura da barra lateral aberta. Vale para o shell da aplicacao e para a pagina de documentacao no Figma."
   layout/sidebar-collapsed:
     css: '--nph-layout-sidebar-collapsed'
+    alias: core/layout-width/sidebar-collapsed
     valor: 64
     use: "Largura da barra lateral recolhida, so com icone."
   layout/header-height:
     css: '--nph-layout-header-height'
+    alias: core/layout-height/header
     valor: 56
     use: "Altura da barra superior. Cabe um control/height-default (36) com respiro."
 
