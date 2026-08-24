@@ -948,6 +948,108 @@ tokens_core_alpha:
   black: 'core/alpha/black-<degrau>'
   white: 'core/alpha/white-<degrau>'
 
+# ---------------------------------------------------------------
+# PRIMITIVOS DE SOMBRA - nao sao tokens de projeto e nenhum
+# componente os consome. Existem para MONTAR os oito estilos de
+# elevacao. Componente usa o estilo elevation/*, nunca estes.
+# Documentados em 24-08-2026 a partir do que os estilos ligam de
+# fato no Figma - nao e proposta, e leitura do arquivo.
+# ---------------------------------------------------------------
+tokens_core_sombra:
+  regra: 'NUNCA consuma um destes num componente. Eles so aparecem dentro de um estilo elevation/*. Se voce precisa de uma sombra, escolha o estilo; se nenhum serve, pare e pergunte - nao monte uma sombra nova a mao.'
+  spread_e_negativo: 'Todo shadow-spread e zero ou negativo. Spread negativo encolhe a sombra em relacao a caixa, e o que impede a mancha de escapar pelas laterais em sombra de raio grande.'
+
+  shadow-y:
+    '100': { valor: 1,  css: '--nph-core-shadow-y-100',  usado_em: [elevation/raised, elevation/hairline, elevation/subtle] }
+    '200': { valor: 2,  css: '--nph-core-shadow-y-200',  usado_em: [elevation/dropdown] }
+    '300': { valor: 4,  css: '--nph-core-shadow-y-300',  usado_em: [elevation/dropdown, elevation/modal] }
+    '350': { valor: 8,  css: '--nph-core-shadow-y-350',  usado_em: [elevation/drawer] }
+    '400': { valor: 10, css: '--nph-core-shadow-y-400',  usado_em: [elevation/modal] }
+    '500': { valor: 20, css: '--nph-core-shadow-y-500',  usado_em: [elevation/drawer] }
+    '600': { valor: 25, css: '--nph-core-shadow-y-600',  usado_em: [elevation/spotlight] }
+
+  shadow-blur:
+    '0':   { valor: 0,  css: '--nph-core-shadow-blur-0',   usado_em: [elevation/hairline] }
+    '100': { valor: 2,  css: '--nph-core-shadow-blur-100', usado_em: [elevation/raised, elevation/subtle] }
+    '200': { valor: 3,  css: '--nph-core-shadow-blur-200', usado_em: [elevation/raised] }
+    '300': { valor: 4,  css: '--nph-core-shadow-blur-300', usado_em: [elevation/dropdown] }
+    '400': { valor: 6,  css: '--nph-core-shadow-blur-400', usado_em: [elevation/dropdown, elevation/modal] }
+    '450': { valor: 10, css: '--nph-core-shadow-blur-450', usado_em: [elevation/drawer] }
+    '500': { valor: 15, css: '--nph-core-shadow-blur-500', usado_em: [elevation/modal] }
+    '600': { valor: 25, css: '--nph-core-shadow-blur-600', usado_em: [elevation/drawer] }
+    '700': { valor: 50, css: '--nph-core-shadow-blur-700', usado_em: [elevation/spotlight] }
+
+  shadow-spread:
+    '0':   { valor: 0,   css: '--nph-core-shadow-spread-0',   usado_em: [elevation/raised, elevation/hairline, elevation/subtle] }
+    '100': { valor: -1,  css: '--nph-core-shadow-spread-100', usado_em: [elevation/raised, elevation/dropdown] }
+    '200': { valor: -2,  css: '--nph-core-shadow-spread-200', usado_em: [elevation/dropdown] }
+    '300': { valor: -3,  css: '--nph-core-shadow-spread-300', usado_em: [elevation/modal] }
+    '400': { valor: -4,  css: '--nph-core-shadow-spread-400', usado_em: [elevation/modal] }
+    '500': { valor: -5,  css: '--nph-core-shadow-spread-500', usado_em: [elevation/drawer] }
+    '600': { valor: -6,  css: '--nph-core-shadow-spread-600', usado_em: [elevation/drawer] }
+    '700': { valor: -12, css: '--nph-core-shadow-spread-700', usado_em: [elevation/spotlight] }
+
+  mapa_dos_estilos:
+    nota: 'Cada linha e uma camada de sombra, na ordem y / blur / spread / cor. Cinco estilos tem duas camadas; tres tem uma.'
+    elevation/none:      'sem efeito'
+    elevation/hairline:  ['1 / 0 / 0 / shadow/color-light']
+    elevation/subtle:    ['1 / 2 / 0 / shadow/color-light']
+    elevation/raised:    ['1 / 2 / -1 / shadow/color', '1 / 3 / 0 / shadow/color']
+    elevation/dropdown:  ['2 / 4 / -2 / shadow/color', '4 / 6 / -1 / shadow/color']
+    elevation/modal:     ['4 / 6 / -4 / shadow/color', '10 / 15 / -3 / shadow/color']
+    elevation/drawer:    ['8 / 10 / -6 / shadow/color', '20 / 25 / -5 / shadow/color']
+    elevation/spotlight: ['25 / 50 / -12 / shadow/color-strong']
+
+# ---------------------------------------------------------------
+# PRIMITIVOS DE VEU, FOCO E LAYOUT - cada um tem exatamente um
+# consumidor semantico. Componente consome o semantico.
+# ---------------------------------------------------------------
+tokens_core_veu:
+  regra: 'NUNCA consuma direto. Use overlay/scrim, que troca sozinho entre os modos.'
+  core/scrim/light: { valor: 'rgba(0,0,0,0.45)', css: '--nph-core-scrim-light', alias_de: 'overlay/scrim no modo claro' }
+  core/scrim/dark:  { valor: 'rgba(0,0,0,0.65)', css: '--nph-core-scrim-dark',  alias_de: 'overlay/scrim no modo escuro' }
+
+tokens_core_foco:
+  regra: 'NUNCA consuma direto. O anel de foco vem dos estilos focus-ring/*, que ja ligam a largura e a cor.'
+  core/focus-width/default: { valor: 3, css: '--nph-core-focus-width-default', alias_de: 'focus/ring-width' }
+
+tokens_core_layout:
+  regra: 'NUNCA consuma direto. Use os layout/* semanticos.'
+  core/layout-width/app:               { valor: 1440, css: '--nph-core-layout-width-app',               alias_de: 'layout/max-app' }
+  core/layout-width/reading:           { valor: 720,  css: '--nph-core-layout-width-reading',           alias_de: 'layout/max-reading' }
+  core/layout-width/sidebar-expanded:  { valor: 280,  css: '--nph-core-layout-width-sidebar-expanded',  alias_de: 'layout/sidebar-expanded' }
+  core/layout-width/sidebar-collapsed: { valor: 64,   css: '--nph-core-layout-width-sidebar-collapsed', alias_de: 'layout/sidebar-collapsed' }
+  core/layout-height/header:           { valor: 56,   css: '--nph-core-layout-height-header',           alias_de: 'layout/header-height' }
+
+# ---------------------------------------------------------------
+# PRIMITIVOS SEM CONSUMIDOR - existem no Figma e NENHUMA variavel
+# semantica, estilo ou componente os usa. Estao aqui para o
+# inventario ficar completo e verificavel, NAO porque tenham uso
+# definido. Verificado por indice reverso em 24-08-2026.
+# ---------------------------------------------------------------
+tokens_core_sem_consumidor:
+  estado: 'PENDENTE DE DECISAO - ficam com um papel definido ou saem do arquivo. Decisao da Indiane, ainda nao tomada.'
+  regra: 'NAO consuma nenhum destes e NAO invente um uso para eles. Se precisar de um valor que so existe aqui, pare e pergunte.'
+  nao_gerar_em_json: 'Enquanto estiverem nesta lista, NAO devem entrar no JSON de tokens: gerar CSS para um primitivo sem papel espalha divida.'
+
+  radius:
+    nota: 'Quatro degraus acima de core/radius/600, que e o ultimo com consumidor (radius/surface).'
+    '700':  { valor: 16 }
+    '800':  { valor: 22 }
+    '900':  { valor: 24 }
+    '1000': { valor: 26 }
+
+  space_degraus_altos:
+    nota: 'Quatro degraus acima de core/space/1100.'
+    '1200': { valor: 96 }
+    '1300': { valor: 112 }
+    '1400': { valor: 128 }
+    '1500': { valor: 144 }
+
+  space_fora_de_escala:
+    nota: 'Doze valores que NAO pertencem a escala de base 4 com meio-passo de 2. Nenhum tem consumidor e nenhum tem justificativa registrada. NAO os trate como escala.'
+    valores: [3, 5, 5.5, 6, 7, 7.5, 8.5, 9, 9.5, 10, 14, 15.5]
+
 tokens_alpha:
   shadow/color:
     css: '--nph-shadow-color'
