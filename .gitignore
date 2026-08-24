@@ -1,0 +1,23 @@
+# Node
+/node_modules
+npm-debug.log
+
+# Saida de build
+/dist
+storybook-static
+*storybook.log
+
+# Ferramentas de agente (locais, nao versionadas)
+.claude/
+.agents/
+
+# IDEs e editores
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.history/*
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
