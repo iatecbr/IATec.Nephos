@@ -196,9 +196,62 @@ Elvys.
 
 ---
 
+## P20 — Ferramenta de geração e contrato público de temas
+
+Esta decisão **complementa o P17**, que fixou JSON como formato-fonte e CSS
+custom properties como formato gerado, mas deixou a ferramenta em aberto.
+
+**Decisão.**
+
+- A ferramenta de geração é o **Style Dictionary v5**.
+- O contrato público de tematização são **dois atributos independentes**:
+  `data-nph-brand` e `data-nph-color-scheme`.
+- Os valores públicos de `data-nph-color-scheme` são **`light`** e **`dark`**.
+- Os valores de `data-nph-brand` são os nomes das verticais: `sistemas`,
+  `gerencial`, `educacao`, `comercial`, `financeiro`, `igrejas`, `rh`.
+- O namespace das extensões DTCG é **`com.iatec.nephos`**.
+
+**Motivo.** A ferramenta foi escolhida por requisito, não por popularidade:
+precisa suportar **camadas**, **aliases** e **modos**. O Style Dictionary trata
+aliases como sintaxe de primeira classe e, com `outputReferences`, emite
+`var(--outro-token)` em vez de achatar o alias em literal — o requisito que
+elimina as alternativas. Camadas saem da organização dos arquivos-fonte; modos
+saem de uma saída por modo, cada uma com seu seletor. É Node puro, sem
+acoplamento a plugin do Figma, coerente com o npm já fixado pelo P19.
+
+Os identificadores técnicos ficam em inglês. Os valores de marca ficam em
+português porque são nomes próprios das verticais, não termos técnicos.
+
+**Escopo.** Vale desde já para `src/tokens/`. Não altera o P17, que continua
+sendo a fonte da regra sobre formato e responsabilidade por camada.
+
+**Impacto.**
+
+1. `style-dictionary` entra como a primeira `devDependency` fora do Storybook.
+2. `src/tokens/generated/` passa a conter artefato versionado e gerado, que
+   **nunca** deve ser editado à mão. O build é determinístico para permitir, no
+   CI futuro, uma checagem de `git diff` vazio.
+3. Marca e esquema viram **contrato de HTML**: o consumidor põe os dois
+   atributos no elemento raiz. Omitir os dois entrega Sistemas no claro.
+4. O DTCG não tem modos nativos; o formato de modos em
+   `$extensions["com.iatec.nephos"].modes` é convenção do Nephos. Trocar de
+   ferramenta preserva o JSON, mas exige reescrever o passo que aplica os modos.
+5. **Limitação registrada:** o Style Dictionary 5.5.2 serializa `duration` na
+   forma estruturada do DTCG como `[object Object]`. A fonte permanece
+   estruturada; a conversão acontece só na saída, por transformador próprio. Há
+   validação que aborta o build se `[object Object]` reaparecer.
+
+**Fora de escopo.** Criar workflow de CI. Publicação. Gerar formatos além de CSS.
+Migrar estilos de efeito, estilos de texto ou os primitivos adiados.
+
+**Status.** Decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de
+Elvys.
+
+---
+
 ## Como mudar uma destas decisões
 
-Não altere, substitua ou reabra P01, P02, P03, P17 ou P19 sem:
+Não altere, substitua ou reabra P01, P02, P03, P17, P19 ou P20 sem:
 
 1. explicar o conflito técnico concreto;
 2. registrar uma proposta de mudança;
@@ -215,3 +268,4 @@ Isso vale para pessoas e para agentes.
 | [`../CLAUDE.md`](../CLAUDE.md) | A mesma regra, espelhada |
 | [`../GOVERNANCA.md`](../GOVERNANCA.md) | Estado vigente do repositório |
 | [`../design.md`](../design.md) | Contrato das fundações; §9 e §10 alinhadas ao P03 e ao P17 |
+| [`tokens.md`](tokens.md) | Como o P17 e o P20 são aplicados: fonte, geração, consumo e validações |
