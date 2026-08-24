@@ -1,76 +1,76 @@
-# Nephos - instrucoes para Claude
+# Nephos — instruções para Claude
 
 > **Antes de criar ou modificar qualquer UI, leia e siga `GOVERNANCA.md` e o
 > `design.md`. Antes de usar um componente, abra a ficha dele em
 > `fichas/<nome>.md`.**
 
-> Este arquivo espelha o `AGENTS.md`. Toda mudanca de governanca deve ser
+> Este arquivo espelha o `AGENTS.md`. Toda mudança de governança deve ser
 > aplicada aos dois.
 
 ## Antes de agir
 
 1. Leia `GOVERNANCA.md`, o `README.md`, o `design.md` e as fichas e notas
-   aplicaveis.
+   aplicáveis.
 2. Para regras visuais e valores de token, consulte o Figma
-   `DS-IA-NEPHOS 5.0`. Sem evidencia verificavel, pare e peca confirmacao.
-3. Diferencie fato verificado, decisao vigente, proposta e pendencia.
+   `DS-IA-NEPHOS 5.0`. Sem evidência verificável, pare e peça confirmação.
+3. Diferencie fato verificado, decisão vigente, proposta e pendência.
 4. Confirme que cada token, componente, variante e estado existe nas fontes
    vigentes.
 
 ## Salvaguardas contra erro documental
 
-1. Estado vigente e fonte canonica vencem sessoes, listas e decisoes historicas
-   ou superadas. Historico explica o passado; nunca cria regra atual.
-2. Decisao delegada continua aberta ate ter evidencia verificavel na fonte
-   apropriada. Nao a declare fechada por haver responsavel, recomendacao ou
-   conversa previa.
-3. Feche pendencia somente com decisao ou evidencia, data, responsavel e
-   localizacao verificavel. Feche apenas a parte comprovada.
+1. Estado vigente e fonte canônica vencem sessões, listas e decisões históricas
+   ou superadas. Histórico explica o passado; nunca cria regra atual.
+2. Decisão delegada continua aberta até ter evidência verificável na fonte
+   apropriada. Não a declare fechada por haver responsável, recomendação ou
+   conversa prévia.
+3. Feche pendência somente com decisão ou evidência, data, responsável e
+   localização verificável. Feche apenas a parte comprovada.
 4. Ao criar, unificar, remover ou tornar interno um componente, confira lista
-   vigente, numeracao, total, formula de progresso, itens restantes, plano,
-   contrato e documentos derivados. Conte somente a lista completa; nao some o
+   vigente, numeração, total, fórmula de progresso, itens restantes, plano,
+   contrato e documentos derivados. Conte somente a lista completa; não some o
    P0 uma segunda vez.
-5. Atualize primeiro a fonte canonica. Documento historico ou superado so
-   recebe anotacao de superacao para evitar contradicao; nao o reescreva como
+5. Atualize primeiro a fonte canônica. Documento histórico ou superado só
+   recebe anotação de superação para evitar contradição; não o reescreva como
    regra atual.
-6. Se uma verificacao falhar, corrija o metodo e execute-a novamente antes de
+6. Se uma verificação falhar, corrija o método e execute-a novamente antes de
    declarar resultado.
 
-## Restricoes duras
+## Restrições duras
 
 - Escreva Web Components em Lit com prefixo `nph-`.
-- Use somente tokens semanticos nos componentes; nunca consuma valores
+- Use somente tokens semânticos nos componentes; nunca consuma valores
   literais, `core/*` ou `theme/*`.
 - Use Font Awesome Classic; nunca use Duotone.
 - Para cada componente, primeiro derive e aprove visualmente no Figma a
-  referencia estrutural do Obra configurada com tokens Nephos; depois
-  implemente no repositorio.
-- Enquanto o licenciamento do Obra CE/shadcn estiver em validacao, use-o apenas
-  como referencia visual e estrutural; nunca copie codigo, assets, tokens ou
-  componentes para entregaveis do Nephos.
+  referência estrutural do Obra configurada com tokens Nephos; depois
+  implemente no repositório.
+- Enquanto o licenciamento do Obra CE/shadcn estiver em validação, use-o apenas
+  como referência visual e estrutural; nunca copie código, assets, tokens ou
+  componentes para entregáveis do Nephos.
 - Mantenha a ficha, o Figma, o Storybook e o contrato consistentes.
-- Ao concluir, registre data, responsavel, fonte de evidencia, decisao alterada
+- Ao concluir, registre data, responsável, fonte de evidência, decisão alterada
   e documentos sincronizados.
 
-## Nunca faca
+## Nunca faça
 
 - NUNCA use React, Vue, Angular, Svelte ou outro framework para escrever o
   Nephos.
 - NUNCA use Tailwind, shadcn/ui, Radix ou outra biblioteca de componentes como
-  dependencia de codigo.
+  dependência de código.
 - NUNCA escreva valores literais no CSS de componente.
-- NUNCA invente tokens, componentes, variantes, estados, combinacoes, metricas
-  de progresso ou decisoes de produto.
-- NUNCA declare implementacao, testes, Storybook, branch, commit ou publicacao
-  sem evidencia verificavel.
+- NUNCA invente tokens, componentes, variantes, estados, combinações, métricas
+  de progresso ou decisões de produto.
+- NUNCA declare implementação, testes, Storybook, branch, commit ou publicação
+  sem evidência verificável.
 
 ## Quando parar
 
-Pare e peca confirmacao quando faltar uma decisao, fonte de verdade, ficha
-necessaria, evidencia visual ou quando fontes vigentes divergirem.
+Pare e peça confirmação quando faltar uma decisão, fonte de verdade, ficha
+necessária, evidência visual ou quando fontes vigentes divergirem.
 
-npm e `@storybook/web-components-vite` sao escolhas **provisorias** de
-bootstrap, a confirmar com Elvys. Nao presuma a partir delas diretorios,
-distribuicao de tokens, testes ou publicacao. As pendencias P01, P02, P03, P17
-e P19, listadas no `README.md`, continuam abertas: nao as feche nem presuma
+npm e `@storybook/web-components-vite` são escolhas **provisórias** de
+bootstrap, a confirmar com Elvys. Não presuma a partir delas diretórios,
+distribuição de tokens, testes ou publicação. As pendências P01, P02, P03, P17
+e P19, listadas no `README.md`, continuam abertas: não as feche nem presuma
 seu resultado.
