@@ -1,8 +1,9 @@
 # Tokens — fonte, geração e consumo
 
-> **Status:** migração dos 289 itens auditados concluída em 24/08/2026, na branch
-> `feat/tokens-json`. Aguardando revisão. Nenhum componente `nph-*` foi
-> implementado.
+> **Status:** a migração-base dos 289 itens auditados foi concluída em
+> 24/08/2026 e mergeada na `v/3.0.0`. Em 25/08/2026, três tokens aprovados no
+> Figma para `nph-button` foram sincronizados localmente: a fonte técnica soma
+> 292 itens. Nenhum componente `nph-*` foi implementado.
 
 Esta nota explica **como os tokens vivem no repositório**. O que cada token
 significa, quando usar e quando não usar está no [`design.md`](../design.md), que
@@ -24,9 +25,9 @@ src/tokens/
   source/
     core.tokens.json       139 primitivos
     theme.tokens.json        6 variáveis de marca, sete modos
-    semantic.tokens.json   144 tokens semânticos, dois esquemas de cor
+    semantic.tokens.json   147 tokens semânticos, dois esquemas de cor
   generated/
-    tokens.css             417 declarações — GERADO
+    tokens.css             422 declarações — GERADO
 scripts/
   tokens-lib.mjs           funções puras: forma canônica, classificação, índice
   build-tokens.mjs         gerador
@@ -76,9 +77,25 @@ A classificação compara **alias e valor final** entre os modos, numa
 representação **canônica** — nunca por identidade de objeto, nunca por ordem de
 chave, nunca pelo `$type`. Está provada em `scripts/test-invariancia.mjs`.
 
-Dos 144 semânticos: **52 invariantes** e **92 variantes**. Os 92 são todos
-`color`. Entre os 52 há **9 tokens `color`** — a invariância não é uma
+Dos 147 semânticos: **53 invariantes** e **94 variantes**. Os 94 são todos
+`color`. Entre os 53 há **9 tokens `color`** — a invariância não é uma
 propriedade do tipo.
+
+## Atualização de 25-08-2026 — tokens de Button
+
+Os três tokens abaixo foram aprovados no Figma e sincronizados na fonte técnica:
+
+| Token | Tipo DTCG | Claro | Escuro |
+|---|---|---|---|
+| `color/destructive-foreground` | `color` | `{core.base.white}` | `{core.neutral.950}` |
+| `color/secondary-hover` | `color` | `{core.neutral.200}` | `{core.surface.700}` |
+| `state/hover-opacity` | `number` | `0.95` | `0.95` |
+
+`state/disabled-opacity` permanece `number = 0.5`.
+
+No Figma, opacidade é informada como percentual: 95 e 50. No JSON e no CSS,
+ela é uma fração: `0.95` e `0.5`. O gerador já emite tokens do tipo `number`
+corretamente; não existe transformação adicional de opacidade.
 
 **Invariante não quer dizer fixo.** `sidebar/primary` tem o mesmo alias em claro
 e escuro, então sai uma vez em `:root` — mas o que sai é

@@ -1,8 +1,8 @@
 ---
 sistema: Nephos
-versao: 1.6
-data: 2026-08-24
-status: migrado para o repositório em 2026-08-24; contrato de trabalho da branch `v/3.0.0`
+versao: 1.7
+data: 2026-08-25
+status: sincronizado com o Figma em 2026-08-25; contrato de trabalho da branch `v/3.0.0`
 fonte_tecnica_dos_valores: >-
   Desde 24-08-2026 os valores auditados vivem em `src/tokens/source/*.tokens.json`,
   e o CSS é gerado a partir deles em `src/tokens/generated/tokens.css`. Este arquivo
@@ -15,7 +15,7 @@ consumo_de_tema: >-
   financeiro, igrejas, rh) e `data-nph-color-scheme` (light, dark).
 escopo_migrado_para_json: >-
   289 itens em 24-08-2026: 139 primitivos core, 6 variáveis theme nos sete modos e
-  os 144 semânticos nos dois modos. Os 20 primitivos da P46 ficaram fora por decisão
+  os 147 semânticos nos dois modos. Os 20 primitivos da P46 ficaram fora por decisão
   registrada. Os demais primitivos, os estilos de efeito e os estilos de texto estão
   adiados — adiado não significa sem consumidor.
 escopo_verificado: [cor, tipografia, espacamento, raio, elevacao, grid, movimento, cor_de_grafico]
@@ -277,6 +277,12 @@ tokens_semantic:
     claro: core/neutral/900
     escuro: core/neutral/100
     use: "Texto sobre color/secondary."
+  color/secondary-hover:
+    css: '--nph-color-secondary-hover'
+    claro: core/neutral/200
+    escuro: core/surface/700
+    use: "Superfície de hover de ação secondary. Mantém a mudança visível nos dois modos."
+    nao_use: "Hover de primary, destructive, outline ou ghost."
   color/accent:
     css: '--nph-color-accent'
     claro: core/neutral/100
@@ -306,6 +312,12 @@ tokens_semantic:
     escuro: core/danger/400
     use: "Ação que apaga, revoga ou não tem volta."
     nao_use: "Erro de validação."
+  color/destructive-foreground:
+    css: '--nph-color-destructive-foreground'
+    claro: core/base/white
+    escuro: core/neutral/950
+    use: "Texto e ícone sobre color/destructive."
+    nao_use: "Sobre outro fundo sólido. O alias próprio existe porque color/primary-foreground não passa em todos os modos e marcas."
   color/border:
     css: '--nph-color-border'
     claro: core/neutral/200
@@ -1124,6 +1136,11 @@ tokens_alpha:
     css: '--nph-state-disabled-opacity'
     valor: 0.5
     use: "Opacidade do controle desabilitado, aplicada ao controle INTEIRO. A WCAG isenta elemento desabilitado do contraste minimo, mas desabilitado NUNCA e o unico sinal: o controle tambem para de responder e, quando houver motivo, ele e dito em texto."
+  state/hover-opacity:
+    css: '--nph-state-hover-opacity'
+    valor: 0.95
+    use: "Opacidade da superfície de hover de primary e destructive. Aplique somente à superfície; texto, ícone e foco permanecem em 100%."
+    nao_use: "Secondary, outline, ghost, foco, disabled ou texto isolado."
 
 # ---------------------------------------------------------------
 # GRID E LAYOUT - 12 colunas em TODA quebra. O que muda com a tela
