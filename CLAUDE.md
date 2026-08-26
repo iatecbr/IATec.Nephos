@@ -97,7 +97,7 @@ Pare e peça confirmação quando faltar uma decisão, fonte de verdade, ficha
 necessária, evidência visual ou quando fontes vigentes divergirem.
 
 O que existe hoje neste repositório é o shell do Storybook com a página
-"Nephos — Em construção" e os **289 tokens auditados** migrados para
+"Nephos — Em construção" e **292 tokens técnicos** em
 `src/tokens/source/*.tokens.json`, com o CSS gerado em
 `src/tokens/generated/tokens.css` — **nunca edite o CSS gerado**. **Nenhum
 componente, teste de componente, workflow de CI ou publicação foi criado.**

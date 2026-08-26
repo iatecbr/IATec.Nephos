@@ -99,7 +99,7 @@ Quando o workflow de CI for criado, ele executará o build em pull requests e
 disponibilizará um artefato privado (P19).
 
 O que existe hoje neste repositório é o shell do Storybook com a página
-"Nephos — Em construção" e os **289 tokens auditados** migrados para
+"Nephos — Em construção" e **292 tokens técnicos** em
 `src/tokens/source/*.tokens.json`, com o CSS gerado em
 `src/tokens/generated/tokens.css` — **nunca edite o CSS gerado**. **Nenhum
 componente, teste de componente, workflow de CI ou publicação foi criado.** A nota registra, em cada decisão, o que ficou

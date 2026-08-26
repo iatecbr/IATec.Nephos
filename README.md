@@ -6,8 +6,9 @@ de comportamento.
 
 > **Estado atual: shell inicial, com os tokens migrados.** **Nenhum componente
 > foi implementado.** O que existe aqui é o Storybook rodando com uma única
-> página, "Nephos — Em construção", e os **289 tokens auditados** do Figma
-> versionados em JSON, com o CSS gerado a partir deles.
+> página, "Nephos — Em construção", e os **292 tokens técnicos** versionados em
+> JSON, com o CSS gerado a partir deles. Esse total inclui os 289 itens da
+> migração-base e três tokens aprovados no Figma em 25/08/2026.
 
 ## O que o Nephos entrega
 

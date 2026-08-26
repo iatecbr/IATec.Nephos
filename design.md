@@ -14,10 +14,12 @@ consumo_de_tema: >-
   no elemento raiz: `data-nph-brand` (sistemas, gerencial, educacao, comercial,
   financeiro, igrejas, rh) e `data-nph-color-scheme` (light, dark).
 escopo_migrado_para_json: >-
-  289 itens em 24-08-2026: 139 primitivos core, 6 variáveis theme nos sete modos e
-  os 147 semânticos nos dois modos. Os 20 primitivos da P46 ficaram fora por decisão
-  registrada. Os demais primitivos, os estilos de efeito e os estilos de texto estão
-  adiados — adiado não significa sem consumidor.
+  292 itens: 139 primitivos core, 6 variáveis theme nos sete modos e os 147
+  semânticos nos dois modos. Os 289 itens da migração-base entraram em 24-08-2026;
+  três tokens de Button aprovados no Figma foram adicionados em 25-08-2026, no commit
+  505e36d. Os 20 primitivos da P46 ficaram fora por decisão registrada. Os demais
+  primitivos, os estilos de efeito e os estilos de texto estão adiados — adiado não
+  significa sem consumidor.
 escopo_verificado: [cor, tipografia, espacamento, raio, elevacao, grid, movimento, cor_de_grafico]
 escopo_a_validar: []
 camadas: [core, theme, semantic]

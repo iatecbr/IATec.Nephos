@@ -2,8 +2,9 @@
 
 > **Status:** a migração-base dos 289 itens auditados foi concluída em
 > 24/08/2026 e mergeada na `v/3.0.0`. Em 25/08/2026, três tokens aprovados no
-> Figma para `nph-button` foram sincronizados localmente: a fonte técnica soma
-> 292 itens. Nenhum componente `nph-*` foi implementado.
+> Figma para `nph-button` foram sincronizados e versionados no commit
+> `505e36d`: a fonte técnica soma 292 itens. Nenhum componente `nph-*` foi
+> implementado.
 
 Esta nota explica **como os tokens vivem no repositório**. O que cada token
 significa, quando usar e quando não usar está no [`design.md`](../design.md), que
