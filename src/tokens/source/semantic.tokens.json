@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "camada": "semantic",
-      "contagemEsperada": 144,
-      "origem": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leitura de 2026-08-24",
+      "contagemEsperada": 147,
+      "origem": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25",
       "modeSet": {
         "nome": "color-scheme",
         "modos": [
@@ -626,6 +626,18 @@
         }
       }
     },
+    "destructive-foreground": {
+      "$type": "color",
+      "$value": "{core.base.white}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.base.white}",
+            "escuro": "{core.neutral.950}"
+          }
+        }
+      }
+    },
     "dialog-foreground": {
       "$type": "color",
       "$value": "{core.neutral.950}",
@@ -766,6 +778,18 @@
           "modes": {
             "claro": "{core.neutral.100}",
             "escuro": "{core.surface.600}"
+          }
+        }
+      }
+    },
+    "secondary-hover": {
+      "$type": "color",
+      "$value": "{core.neutral.200}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.neutral.200}",
+            "escuro": "{core.surface.700}"
           }
         }
       }
@@ -1119,6 +1143,10 @@
     "disabled-opacity": {
       "$type": "number",
       "$value": 0.5
+    },
+    "hover-opacity": {
+      "$type": "number",
+      "$value": 0.95
     }
   },
   "status": {

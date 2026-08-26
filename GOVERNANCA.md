@@ -1,8 +1,8 @@
 ---
 titulo: Governança e preflight obrigatório para IA — Nephos
 tipo: norma operacional
-versao: 1.2
-data: 2026-08-21
+versao: 1.3
+data: 2026-08-25
 status: vigente
 origem: migrado do vault de trabalho em 2026-08-24, para a branch `v/3.0.0`
 leitura_obrigatoria: true
@@ -32,11 +32,11 @@ Em conflito, prevalece a fonte da linha correspondente. Uma fonte histórica só
 
 - Gate 0 e Fase 1 estão **concluídos documentalmente**; a evidência visual está no Figma `DS-IA-NEPHOS 5.0`.
 - O contrato técnico é o `design.md` na raiz deste repositório.
-- Contagens vigentes das fundações: **460 variáveis**, **14 estilos de texto**, **11 estilos de efeito**, **34 ícones no núcleo**, **7 tokens semânticos de espaço**, **8 tokens semânticos de raio** e **19 primitivos de alfa**.
+- Contagens vigentes das fundações: **463 variáveis**, **14 estilos de texto**, **11 estilos de efeito**, **34 ícones no núcleo**, **7 tokens semânticos de espaço**, **8 tokens semânticos de raio** e **19 primitivos de alfa**.
 - Ícones: o pacote é **Font Awesome Pro** e **Classic** é a família padrão. **Duotone é permitido somente em navegação estrutural** — menu, sidebar, grupo de navegação, atalho e indicador de localização. Fora da navegação continua proibido: botão, campo, feedback, validação, alerta, tabela e ação destrutiva. Não misture Duotone e Classic no mesmo grupo de navegação. Light, Thin e Sharp seguem proibidos. A chave de licença fica em variável de ambiente e nunca entra no repositório. *Decisão da Indiane em 24-08-2026; substitui a regra anterior, que proibia Duotone por completo.*
 - O corte da v1 e as decisões de componentes **não estão fechados**. Só o recorte P0 do `README.md` está decidido.
 - **Nenhum componente do Nephos foi implementado.** O que existe neste repositório é o shell do Storybook com a página “Nephos — Em construção” e os tokens migrados.
-- **Tokens migrados em 24-08-2026**, na branch `feat/tokens-json`: **289 itens** — 139 primitivos `core`, 6 variáveis `theme` nos sete modos e os 144 semânticos nos dois modos. Conferidos contra o Figma token a token e modo a modo, com **zero divergências**. Os **20 primitivos da P46** ficaram fora por decisão registrada. Os demais primitivos, os estilos de efeito e os estilos de texto estão **adiados** — adiado **não** significa sem consumidor: os 24 de `core/sombra`, por exemplo, têm consumidor conhecido nos estilos `elevation/*`.
+- **Migração-base de tokens em 24-08-2026**, na branch `feat/tokens-json`: **289 itens** — 139 primitivos `core`, 6 variáveis `theme` nos sete modos e os 144 semânticos nos dois modos. Conferidos contra o Figma token a token e modo a modo, com **zero divergências**. Em 25-08-2026, três tokens aprovados para `nph-button` elevaram o total técnico para **292 itens**, dos quais **147 são semânticos**, no commit `505e36d`. Os **20 primitivos da P46** ficaram fora por decisão registrada. Os demais primitivos, os estilos de efeito e os estilos de texto estão **adiados** — adiado **não** significa sem consumidor: os 24 de `core/sombra`, por exemplo, têm consumidor conhecido nos estilos `elevation/*`.
 - As decisões técnicas **P01, P02, P03, P17, P19 e P20 deixaram de ser pendências em 24/08/2026** e estão registradas em [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), com o status *decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de Elvys*. São regras vigentes: siga-as, não as trate como lacuna. **Elvys não as aprovou** — não registre nem sugira aprovação dele. Para alterá-las, explique o conflito técnico, registre uma proposta e peça revisão humana.
 - O P17 fixa a fonte canônica por responsabilidade: o **Figma** é a fonte visual; o `design.md` é o contrato humano e agêntico, não o arquivo de geração; o **JSON** é a fonte técnica versionada dos valores auditados; o **CSS custom properties** é gerado do JSON e não se edita à mão. A ferramenta de geração, o namespace de extensão e os atributos públicos `data-nph-brand` e `data-nph-color-scheme` estão fixados pelo **P20**. Só entra no JSON valor com evidência verificável de leitura do Figma.
 

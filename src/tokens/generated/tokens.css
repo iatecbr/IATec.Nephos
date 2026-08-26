@@ -211,6 +211,7 @@
 :root {
   --nph-layout-columns: 12;
   --nph-state-disabled-opacity: 0.5;
+  --nph-state-hover-opacity: 0.95;
   --nph-brand-educacao-foreground: var(--nph-core-base-white);
   --nph-brand-educacao-strong: var(--nph-core-educacao-700);
   --nph-chart-5: var(--nph-core-info-500);
@@ -314,6 +315,7 @@
   --nph-color-card-foreground: var(--nph-core-neutral-950);
   --nph-color-card: var(--nph-core-base-white);
   --nph-color-destructive: var(--nph-core-danger-600);
+  --nph-color-destructive-foreground: var(--nph-core-base-white);
   --nph-color-dialog-foreground: var(--nph-core-neutral-950);
   --nph-color-dialog: var(--nph-core-base-white);
   --nph-color-foreground: var(--nph-core-base-black);
@@ -324,6 +326,7 @@
   --nph-color-popover: var(--nph-core-base-white);
   --nph-color-secondary-foreground: var(--nph-core-neutral-900);
   --nph-color-secondary: var(--nph-core-neutral-100);
+  --nph-color-secondary-hover: var(--nph-core-neutral-200);
   --nph-focus-ring-error: var(--nph-core-danger-200);
   --nph-overlay-scrim: var(--nph-core-scrim-light);
   --nph-shadow-color-light: var(--nph-core-alpha-black-5);
@@ -408,6 +411,7 @@
   --nph-color-card-foreground: var(--nph-core-neutral-100);
   --nph-color-card: var(--nph-core-surface-800);
   --nph-color-destructive: var(--nph-core-danger-400);
+  --nph-color-destructive-foreground: var(--nph-core-neutral-950);
   --nph-color-dialog-foreground: var(--nph-core-neutral-100);
   --nph-color-dialog: var(--nph-core-surface-600);
   --nph-color-foreground: var(--nph-core-neutral-100);
@@ -418,6 +422,7 @@
   --nph-color-popover: var(--nph-core-surface-700);
   --nph-color-secondary-foreground: var(--nph-core-neutral-100);
   --nph-color-secondary: var(--nph-core-surface-600);
+  --nph-color-secondary-hover: var(--nph-core-surface-700);
   --nph-focus-ring-error: var(--nph-core-danger-400);
   --nph-overlay-scrim: var(--nph-core-scrim-dark);
   --nph-shadow-color-light: var(--nph-core-alpha-black-0);
