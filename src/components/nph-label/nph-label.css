@@ -1,0 +1,51 @@
+/**
+ * Estilo do `nph-label`.
+ *
+ * ATENCAO — este componente NAO usa Shadow DOM, e e a unica excecao registrada
+ * a P01. O motivo e funcional, nao estetico: a associacao nativa entre rotulo e
+ * controle nao atravessa a fronteira do Shadow DOM. De dentro dela, `for` nao
+ * alcanca um `id` do documento, o clique no rotulo nao levaria o cursor ao
+ * campo e o leitor de tela nao anunciaria o nome do campo — que e exatamente o
+ * que um rotulo existe para fazer. Decisao de Indiane em 27-08-2026.
+ *
+ * Como o elemento vive na luz, os seletores daqui sao globais. Eles miram o
+ * nome do proprio elemento, que so existe onde o componente foi usado, e as
+ * classes internas levam o prefixo `nph-label__`. Nem o nome de classe nem
+ * qualquer seletor deste arquivo e API publica (P02): contrato e apenas o que
+ * o componente consome de token.
+ *
+ * Nenhum valor literal de design entra aqui. Todo tamanho, peso, cor e espaco
+ * sai de token semantico.
+ */
+
+nph-label {
+  display: inline-block;
+}
+
+/*
+ * O rotulo e `text/label-md`, o papel padrao de todo controle. Os cinco
+ * pedacos do papel sao consumidos um a um: a camada `text` foi migrada para o
+ * codigo em 27-08-2026 e emite uma custom property por propriedade.
+ */
+nph-label .nph-label__texto {
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  color: var(--nph-color-foreground);
+}
+
+/*
+ * O asterisco de campo obrigatorio. A cor e `status/error`, cujo uso foi
+ * ampliado em 27-08-2026 para cobrir este caso. NUNCA use `color/destructive`:
+ * A5 proibe, e confundiria campo obrigatorio com campo em erro.
+ *
+ * O espaco ate o texto e `space/inline-tight`, e nao `space/inline`, porque
+ * asterisco e rotulo sao a MESMA unidade — nao sao dois elementos
+ * independentes.
+ */
+nph-label .nph-label__obrigatorio {
+  margin-inline-start: var(--nph-space-inline-tight);
+  color: var(--nph-status-error);
+}
