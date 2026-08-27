@@ -249,9 +249,77 @@ Elvys.
 
 ---
 
+## P21 — Plano técnico do primeiro componente: `nph-icon`
+
+**Decisão.** Para o primeiro componente, adotar as decisões abaixo até haver
+conflito técnico concreto ou revisão posterior de Elvys:
+
+1. Implementar `nph-icon` em Lit, com Shadow DOM aberto, SVG inline e um mapa
+   fechado dos 34 ícones aprovados. O pacote é Font Awesome Pro na linha 6,
+   usando os pacotes SVG `regular` e `solid`; `solid` permanece exclusivo de
+   `star`. A versão exata só é fixada após consulta autenticada ao registro, no
+   momento autorizado de instalação.
+2. O contrato público aprovado é `name` obrigatório, `variant=regular` por
+   padrão (`solid` somente para `star`), `size` obrigatório em `sm|md|lg` e
+   `label` opcional. `label` ausente, vazio ou somente com espaços após `trim`
+   torna o ícone decorativo. Não há slots, eventos, foco, clique, toque,
+   propriedade de cor ou `::part` inicial.
+3. O desenho de `eye`, `eye-slash` e `star` pode transbordar horizontalmente,
+   centralizado e sem corte ou reescala, dentro de caixa quadrada escalada pela
+   altura. `space/inline-tight` pertence ao contêiner que compõe ícone e texto.
+4. Entrada inválida não renderiza ícone e emite `console.error` apenas em
+   desenvolvimento. Não há fallback visual ou tamanho livre.
+5. Adotar TypeScript estrito, stories junto do componente e Vitest em modo
+   browser como base de validação do primeiro componente. A implementação
+   inclui descoberta de stories em `src/components/**`, testes em navegador para
+   `currentColor` e custom properties, e `build-storybook`.
+6. A política adotada para credenciais é: nenhum valor em arquivo versionado;
+   configuração local protegida do Git; referência à variável
+   `FONTAWESOME_NPM_AUTH_TOKEN` somente onde necessária; e segredo de CI
+   configurado fora do repositório. O CI futuro valida instalação, testes e
+   `build-storybook` em pull request, com artefato privado.
+7. Indiane aceita o risco de iniciar a implementação antes da revisão de Elvys.
+   A regra de proteção local foi aplicada por `.npmrc` ignorado pelo Git; isso
+   não substitui a revisão posterior de Elvys sobre licença, CI e plataforma.
+8. A organização do Storybook do `nph-icon` separa `Docs / Documentação`, para
+   leitura do contrato, de `Docs / Icons Overview`, para o catálogo pesquisável
+   do núcleo fechado de 34 ícones, e de `Validação`, para variantes, tamanhos,
+   herança de cor, acessibilidade e entrada inválida. A página documental é
+   derivada e aponta às fontes canônicas; não instala addon, MDX ou dependência
+   nova, não altera a API pública e não cria ícone, token ou variante. A busca
+   é comportamento da página Storybook, não do Web Component.
+
+**Motivo.** O plano técnico foi preparado e revisado contra o clone de trabalho,
+o contrato aprovado do componente e as decisões P01, P02, P03, P17 e P19. As
+decisões removem ambiguidades de API, comportamento, testes e segurança. A
+proteção contra inclusão acidental da configuração local foi aplicada; a
+revisão técnica de Elvys continua posterior e obrigatória.
+
+**Escopo.** Esta nota decide o plano de implementação do `nph-icon`. Não cria
+dependências, arquivos de componente, CI, segredos, configuração local ou
+publicação.
+
+**Impacto.**
+
+- Claude — código pode implementar a P21 antes da revisão de Elvys, sem expor
+  ou versionar credencial e sem criar CI.
+- Copilot atualiza a ficha e o Registro com a evidência de implementação,
+  Storybook e testes após a entrega verificável.
+- O CI continua inexistente até sua criação técnica em alteração própria.
+
+**Fora de escopo.** Criar ou expor credencial, configurar segredo, criar
+workflow, publicar Storybook ou implementar outro componente.
+
+**Status.** Decisão adotada pela Indiane em 26/08/2026 — implementação
+autorizada sob aceitação formal de risco; organização de `Docs / Documentação`,
+`Docs / Icons Overview` e `Validação` aprovada pela Indiane em 26/08/2026;
+revisão de Elvys pendente.
+
+---
+
 ## Como mudar uma destas decisões
 
-Não altere, substitua ou reabra P01, P02, P03, P17, P19 ou P20 sem:
+Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20 ou P21 sem:
 
 1. explicar o conflito técnico concreto;
 2. registrar uma proposta de mudança;
