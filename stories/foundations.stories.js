@@ -1,4 +1,12 @@
+/*
+ * Visao geral das fundacoes.
+ *
+ * O texto vem do dicionario de idioma, em `../.storybook/i18n/`. A story e
+ * UNICA: ela le `globals.locale` e busca a traducao.
+ */
 import { html } from 'lit';
+
+import { CHAVE, IDIOMA_PADRAO, textos } from '../.storybook/i18n/index.js';
 
 export default {
   title: 'Fundações/Visão geral',
@@ -30,51 +38,45 @@ const card = `
   padding: var(--nph-space-container-padding);
 `;
 
-const foundations = [
-  ['Cor', 'Camadas core, theme e semantic, nos modos claro e escuro.'],
-  ['Tipografia', 'Estilos de texto aprovados no Figma e documentados no contrato.'],
-  ['Espaçamento e raio', 'Tokens semânticos para composição e controles.'],
-  ['Ícones', 'Núcleo curado de 34 ícones Font Awesome Pro.'],
-];
-
 export const VisaoGeral = {
   name: 'Visão geral',
-  render: () => html`
-    <main style=${page}>
-      <section style=${content}>
-        <header>
-          <p style="color: var(--nph-color-primary); font-weight: 700; margin: 0 0 var(--nph-space-stack-tight);">
-            FUNDAÇÕES
-          </p>
-          <h1 style="font-size: 2rem; margin: 0;">Regras que mantêm o sistema coerente</h1>
-          <p style="color: var(--nph-color-muted-foreground); line-height: 1.6; margin: var(--nph-space-stack) 0 0; max-width: 44rem;">
-            As fundações definem os valores e as restrições que os componentes consomem.
-            O Storybook mostra o resultado em código; o Figma continua sendo a fonte visual.
-          </p>
-        </header>
+  render: (_args, contexto) => {
+    const t = textos(contexto?.globals?.[CHAVE] ?? IDIOMA_PADRAO).fundacoes;
 
-        <div style="display: grid; gap: var(--nph-space-stack); grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));">
-          ${foundations.map(
-            ([title, description]) => html`
-              <article style=${card}>
-                <h2 style="font-size: 1rem; margin: 0 0 var(--nph-space-stack-tight);">${title}</h2>
-                <p style="color: var(--nph-color-muted-foreground); line-height: 1.5; margin: 0;">
-                  ${description}
-                </p>
-              </article>
-            `,
-          )}
-        </div>
+    return html`
+      <main style=${page}>
+        <section style=${content}>
+          <header>
+            <p style="color: var(--nph-color-primary); font-weight: 700; margin: 0 0 var(--nph-space-stack-tight);">
+              ${t.selo}
+            </p>
+            <h1 style="font-size: 2rem; margin: 0;">${t.titulo}</h1>
+            <p style="color: var(--nph-color-muted-foreground); line-height: 1.6; margin: var(--nph-space-stack) 0 0; max-width: 44rem;">
+              ${t.resumo}
+            </p>
+          </header>
 
-        <aside style="${card} border-left: 4px solid var(--nph-color-primary);">
-          <strong>Como usar esta área</strong>
-          <p style="color: var(--nph-color-muted-foreground); line-height: 1.5; margin: var(--nph-space-stack-tight) 0 0;">
-            Consulte o contrato em <code>design.md</code> antes de criar ou alterar um
-            componente. Se a documentação não cobrir o caso, registre a lacuna em vez de
-            criar token, variante ou regra nova.
-          </p>
-        </aside>
-      </section>
-    </main>
-  `,
+          <div style="display: grid; gap: var(--nph-space-stack); grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));">
+            ${t.itens.map(
+              ([titulo, descricao]) => html`
+                <article style=${card}>
+                  <h2 style="font-size: 1rem; margin: 0 0 var(--nph-space-stack-tight);">${titulo}</h2>
+                  <p style="color: var(--nph-color-muted-foreground); line-height: 1.5; margin: 0;">
+                    ${descricao}
+                  </p>
+                </article>
+              `,
+            )}
+          </div>
+
+          <aside style="${card} border-left: 4px solid var(--nph-color-primary);">
+            <strong>${t.avisoTitulo}</strong>
+            <p style="color: var(--nph-color-muted-foreground); line-height: 1.5; margin: var(--nph-space-stack-tight) 0 0;">
+              ${t.avisoTexto1} <code>design.md</code> ${t.avisoTexto2}
+            </p>
+          </aside>
+        </section>
+      </main>
+    `;
+  },
 };

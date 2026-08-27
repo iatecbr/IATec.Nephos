@@ -16,66 +16,64 @@ import type { TemplateResult } from 'lit';
 import { NPH_ICON_NAMES } from './nph-icon.icons';
 import type { NphIconName } from './nph-icon.icons';
 
-export interface CategoriaDoNucleo {
-  readonly titulo: string;
-  readonly icones: readonly NphIconName[];
-}
+/**
+ * Um grupo do nucleo. O TITULO nao mora aqui: titulo e texto de vitrine e vem
+ * do dicionario de idioma, em `.storybook/i18n/`. A ordem dos grupos abaixo e a
+ * do `design.md` e casa, posicao a posicao, com `categorias` no dicionario.
+ */
+export type CategoriaDoNucleo = readonly NphIconName[];
 
 /**
- * Indice de categorias do nucleo. Titulos e ordem vem de `icones_nucleo`, no
+ * Indice de categorias do nucleo. A ordem vem de `icones_nucleo`, no
  * `design.md`. Este indice AGRUPA os nomes; ele nao os define — a fonte tecnica
  * continua sendo `NPH_ICON_NAMES`, e `nph-icon.demo.test.ts` exige que os dois
  * conjuntos sejam identicos.
  */
 export const CATEGORIAS: readonly CategoriaDoNucleo[] = [
-  { titulo: 'Navegação e menus', icones: ['bars'] },
-  {
-    titulo: 'Direção e revelação',
-    icones: [
-      'chevron-down',
-      'chevron-up',
-      'chevron-right',
-      'chevron-left',
-      'arrow-left',
-      'arrow-right',
-      'eye',
-      'eye-slash',
-      'ellipsis',
-    ],
-  },
-  {
-    titulo: 'Ação',
-    icones: [
-      'xmark',
-      'check',
-      'plus',
-      'minus',
-      'magnifying-glass',
-      'ellipsis-vertical',
-      'arrow-up-arrow-down',
-      'grip-vertical',
-      'pen-to-square',
-      'trash-can',
-      'arrow-up-from-bracket',
-      'download',
-      'gear',
-      'filter',
-      'filter-slash',
-    ],
-  },
-  {
-    titulo: 'Estado e comunicação',
-    icones: [
-      'circle-info',
-      'triangle-exclamation',
-      'circle-xmark',
-      'circle-check',
-      'circle-question',
-      'star',
-      'circle-notch',
-    ],
-  },
-  { titulo: 'Conteúdo e dados', icones: ['calendar-days', 'user'] },
+  /* navegacao_e_menus */
+  ['bars'],
+  /* direcao_e_revelacao */
+  [
+    'chevron-down',
+    'chevron-up',
+    'chevron-right',
+    'chevron-left',
+    'arrow-left',
+    'arrow-right',
+    'eye',
+    'eye-slash',
+    'ellipsis',
+  ],
+  /* acao */
+  [
+    'xmark',
+    'check',
+    'plus',
+    'minus',
+    'magnifying-glass',
+    'ellipsis-vertical',
+    'arrow-up-arrow-down',
+    'grip-vertical',
+    'pen-to-square',
+    'trash-can',
+    'arrow-up-from-bracket',
+    'download',
+    'gear',
+    'filter',
+    'filter-slash',
+  ],
+  /* estado_e_comunicacao */
+  [
+    'circle-info',
+    'triangle-exclamation',
+    'circle-xmark',
+    'circle-check',
+    'circle-question',
+    'star',
+    'circle-notch',
+  ],
+  /* conteudo_e_dados */
+  ['calendar-days', 'user'],
 ];
 
 /**
@@ -185,6 +183,6 @@ export function secao(titulo: string, conteudo: TemplateResult): TemplateResult 
 }
 
 /** Rodape de origem. Toda regra exibida aponta de onde veio. */
-export function fonte(origem: string): TemplateResult {
-  return html`<p style=${legenda}>Fonte: ${origem}</p>`;
+export function fonte(rotulo: string, origem: string): TemplateResult {
+  return html`<p style=${legenda}>${rotulo} ${origem}</p>`;
 }
