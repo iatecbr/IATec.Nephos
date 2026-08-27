@@ -1,13 +1,14 @@
-/**
- * Preview do Storybook do Nephos.
+/*
+ * Preview do Storybook do Nephos. Sem tema e sem decorators.
  *
- * Sem tema, sem tokens e sem decorators. O P17 ja decidiu o formato dos tokens
- * — JSON como fonte versionada, CSS custom properties como saida gerada — mas
- * nenhum valor entra no repositorio antes da auditoria Figma <-> documentacao.
- * Ver `docs/decisoes-tecnicas.md`.
- *
- * @type {import('@storybook/web-components').Preview}
+ * O CSS gerado a partir do JSON (P17) e carregado aqui porque os componentes
+ * consomem `--nph-*` de fora do Shadow DOM: sem ele, `var(--nph-icon-size-sm)`
+ * resolveria vazio e nenhuma caixa teria tamanho. O arquivo e GERADO — nunca
+ * edite `src/tokens/generated/tokens.css` a mao.
  */
+import '../src/tokens/generated/tokens.css';
+
+/** @type {import('@storybook/web-components').Preview} */
 const preview = {
   parameters: {},
 };

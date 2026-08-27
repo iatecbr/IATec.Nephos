@@ -1,0 +1,63 @@
+/**
+ * Estilo interno do `nph-icon`.
+ *
+ * Classes e seletores daqui NAO sao API publica (P02). O que e contrato:
+ * as custom properties de token que este arquivo consome, e nada alem disso.
+ * O componente nao expoe `::part` e nao declara custom property propria — o
+ * tamanho ja e servido por `icon/size-*` e a cor vem de `currentColor`.
+ *
+ * Nenhum valor literal de design entra aqui. As unicas quantidades escritas
+ * sao relacoes de caixa (`100%`, `auto`), nao decisoes visuais.
+ */
+
+/*
+ * O padrao e nao ocupar espaco. Sem isso, entrada invalida deixaria uma caixa
+ * vazia do tamanho do token — um fallback visual, proibido pela P21. O
+ * atributo `data-nph-rendered` e marca interna do proprio componente, aplicada
+ * so quando existe arte valida para desenhar.
+ */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Centraliza na caixa de linha do texto, nao na altura da letra. */
+  vertical-align: middle;
+  /* `eye`, `eye-slash` e `star` sao mais largos que a caixa: transbordam. */
+  overflow: visible;
+}
+
+/*
+ * A caixa e sempre quadrada e vem de token semantico. Nao existe tamanho
+ * livre: os tres seletores abaixo sao o dominio inteiro de `size`.
+ */
+:host([data-nph-rendered][size='sm']) {
+  inline-size: var(--nph-icon-size-sm);
+  block-size: var(--nph-icon-size-sm);
+}
+
+:host([data-nph-rendered][size='md']) {
+  inline-size: var(--nph-icon-size-md);
+  block-size: var(--nph-icon-size-md);
+}
+
+:host([data-nph-rendered][size='lg']) {
+  inline-size: var(--nph-icon-size-lg);
+  block-size: var(--nph-icon-size-lg);
+}
+
+/*
+ * O desenho e escalado pela ALTURA e mantem a proporcao natural. `flex: none`
+ * impede que o flex encolha a largura dos icones de 18: transbordo sim,
+ * reescala nao.
+ */
+svg {
+  display: block;
+  block-size: 100%;
+  inline-size: auto;
+  flex: none;
+  overflow: visible;
+}
