@@ -1,10 +1,10 @@
 {
-  "$description": "Camada 1 - primitivos. Nenhum componente consome daqui. Espelha a colecao `core` do Figma DS-IA-NEPHOS 5.0. Somente os primitivos necessarios para resolver a camada semantic. Os 20 itens da P46 estao fora por decisao registrada; os demais primitivos, estilos de efeito e estilos de texto estao adiados, sem juizo sobre consumidor.",
+  "$description": "Camada 1 - primitivos. Nenhum componente consome daqui. Espelha a colecao `core` do Figma DS-IA-NEPHOS 5.0. Somente os primitivos necessarios para resolver a camada semantic. Os 20 itens da P46 estao fora por decisao registrada; os demais primitivos, estilos de efeito e estilos de texto seguem adiados, exceto as duas familias de fonte, necessarias para resolver a camada text, sem juizo sobre consumidor.",
   "$extensions": {
     "com.iatec.nephos": {
       "camada": "core",
-      "contagemEsperada": 139,
-      "origem": "Figma DS-IA-NEPHOS 5.0, colecao core, leitura de 2026-08-24"
+      "contagemEsperada": 141,
+      "origem": "Figma DS-IA-NEPHOS 5.0, colecao core, leitura de 2026-08-24; as duas familias de fonte lidas dos estilos de texto do mesmo arquivo em 2026-08-27"
     }
   },
   "core": {
@@ -234,6 +234,22 @@
           "value": 3,
           "unit": "px"
         }
+      }
+    },
+    "font": {
+      "sans": {
+        "$type": "fontFamily",
+        "$value": [
+          "Noto Sans",
+          "sans-serif"
+        ]
+      },
+      "mono": {
+        "$type": "fontFamily",
+        "$value": [
+          "IBM Plex Mono",
+          "monospace"
+        ]
       }
     },
     "gerencial": {
