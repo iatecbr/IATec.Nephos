@@ -2,22 +2,31 @@
   "name": "nephos",
   "version": "3.0.0",
   "private": true,
-  "description": "Design System Nephos - shell inicial. Nenhum componente implementado.",
+  "description": "Design System Nephos - tokens auditados e o componente nph-icon.",
   "license": "Unlicense",
   "type": "module",
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build:tokens": "node scripts/build-tokens.mjs",
-    "test:tokens": "node scripts/test-invariancia.mjs"
+    "test:tokens": "node scripts/test-invariancia.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@storybook/web-components-vite": "^10.5.10",
+    "@vitest/browser-playwright": "^4.1.11",
+    "playwright": "^1.62.1",
     "storybook": "^10.5.10",
     "style-dictionary": "^5.5.2",
-    "vite": "^8.2.2"
+    "typescript": "^5.9.3",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
   },
   "dependencies": {
+    "@fortawesome/pro-regular-svg-icons": "6.7.2",
+    "@fortawesome/pro-solid-svg-icons": "6.7.2",
     "lit": "^3.3.3"
   }
 }
