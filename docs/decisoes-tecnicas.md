@@ -1,8 +1,33 @@
 # Decisões técnicas — Nephos
 
-Esta é a **fonte única** das decisões técnicas P01, P02, P03, P17 e P19. Em
-caso de divergência entre este arquivo e qualquer outro documento do
-repositório, prevalece este.
+Esta é a **fonte única** das decisões técnicas P01, P02, P03, P17, P19, P20,
+P21 e P62. Em caso de divergência entre este arquivo e qualquer outro documento
+do repositório, prevalece este.
+
+## Fila de revisão técnica — Elvys
+
+Tudo que espera revisão dele, em um lugar só. A coluna **Se ele discordar** diz
+o custo de mudar de ideia hoje, para priorizar a leitura.
+
+| # | Decisão | Adotada em | Se ele discordar |
+|---|---|---|---|
+| **P62.3** | `for` e `text` como API do `nph-label` | 27/08/2026 | **Barato agora, caro depois.** O `nph-input` e o `nph-field` serão construídos sobre elas |
+| **P62.2** | Formato dos tokens de tipografia: cinco propriedades por papel | 27/08/2026 | Médio. Os valores não mudam, só a emissão e o CSS que os consome |
+| **P62.1** | `nph-label` sem Shadow DOM — exceção à P01 | 27/08/2026 | Alto. É a única forma de a associação nativa funcionar; sem ela o rótulo perde a função |
+| **P62.4** | Dimensões em `px`, e não `rem` | 27/08/2026 | Alto e antigo. Vale para o sistema inteiro, não só tipografia |
+| **P01** | Shadow DOM aberto | 24/08/2026 | Alto. Todo componente depende |
+| **P02** | Custom properties como API pública | 24/08/2026 | Alto |
+| **P03** | Padrão de diretórios e TypeScript | 24/08/2026 | Médio |
+| **P17** | Papel de cada fonte de verdade | 24/08/2026 | Alto |
+| **P19** | Storybook, testes e publicação | 24/08/2026 | Médio |
+| **P20** | Style Dictionary v5 e contrato de tema | 24/08/2026 | Alto |
+| **P21** | Plano técnico do `nph-icon` | 26/08/2026 | Já implementado e mergeado sob aceitação de risco |
+
+**Fora desta nota, também aguardam confirmação dele:** licença, variável de CI,
+credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
+
+Se ele concordar com tudo, basta trocar o status desta nota. Se discordar de
+algum item, o item volta a ser pendência aberta e o que dependia dele para.
 
 > **Status de todas as decisões desta nota:**
 > *Decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de Elvys.*
@@ -317,9 +342,103 @@ revisão de Elvys pendente.
 
 ---
 
+## P62 — `nph-label`: exceção à P01, tipografia e API
+
+**Status.** Quatro decisões adotadas pela Indiane em 27/08/2026 — aguardando
+revisão de Elvys. As três primeiras nasceram de um problema concreto durante a
+implementação; a quarta é uma divergência antiga que a implementação expôs.
+
+### P62.1 — O `nph-label` não usa Shadow DOM
+
+**Decisão.** O `nph-label` é o **único componente do Nephos sem Shadow DOM**.
+Ele renderiza na luz. A P01 continua valendo para todos os demais.
+
+**Motivo.** A associação nativa entre rótulo e controle não atravessa a
+fronteira do Shadow DOM. De dentro dela, `for` não alcança um `id` do
+documento, o clique no rótulo não leva o cursor ao campo e o leitor de tela não
+anuncia o nome do campo. Como isso é a razão de existir de um rótulo, o
+encapsulamento cede.
+
+**Alternativa descartada.** Delegar a associação ao `nph-field`, que manteria a
+P01 intacta. Foi recusada por travar o recorte P0: o `nph-field` é o 4º da fila
+e ainda não existe, e o `nph-label` ficaria pronto e inútil até lá.
+
+**Limite.** É exceção de uma peça, não abertura de precedente. Qualquer outro
+componente que queira sair do Shadow DOM precisa de decisão própria.
+
+### P62.2 — Tipografia: cinco custom properties por papel
+
+**Decisão.** Cada um dos 14 papéis de texto emite cinco custom properties, com
+o campo `css` do `design.md` lido como **prefixo**, não como nome final:
+
+```css
+--nph-text-label-md-font-family   /* alias para --nph-core-font-sans */
+--nph-text-label-md-font-size
+--nph-text-label-md-line-height
+--nph-text-label-md-font-weight
+--nph-text-label-md-letter-spacing
+```
+
+**Motivo.** `letter-spacing` não cabe no atalho `font` do CSS, e componente
+costuma precisar de uma propriedade isolada. No gerador, a mudança é de uma
+linha: `fontFamily` entra em `TIPOS_TRATADOS`, e o transform `fontFamily/css`
+do próprio Style Dictionary cuida da emissão. Peso ficou como `number`, e não
+`fontWeight`, porque o DTCG aceita palavra ou número nesse tipo e a fonte do
+Nephos sempre grava número.
+
+**Por que agora.** Os 14 estilos estavam adiados desde a migração-base. O
+`nph-label` é o primeiro componente feito de texto puro: sem `text/label-md` em
+código, ele só existiria com valor literal, o que A2 proíbe. O mesmo bloqueio
+valia para `nph-input`, `nph-field` e `nph-checkbox`.
+
+**Origem dos valores.** Lidos dos 14 estilos de texto do Figma
+`DS-IA-NEPHOS 5.0` em 27/08/2026 e conferidos contra `tokens_typography` do
+`design.md`, item a item, sem divergência. Camadas: `core` 139 → 141,
+`semantic` 147 → 217, total 292 → **364**.
+
+### P62.3 — API do `nph-label`: `required`, `for` e `text`
+
+**Decisão.** Três propriedades públicas. `required` estava prevista no registro
+de componentes; `for` e `text` não estavam e saem da P62.1.
+
+| Propriedade | Papel |
+|---|---|
+| `required` | Booleana, padrão `false`. Acrescenta o asterisco ao fim do texto |
+| `for` | Espelha o atributo nativo de `<label>`. É o mecanismo da associação |
+| `text` | O texto do rótulo. É propriedade, e não conteúdo entre as tags, porque sem Shadow DOM não existe `slot` e o Lit substituiria os filhos do consumidor |
+
+**Esta é a decisão mais urgente da fila.** O `nph-input` e o `nph-field` serão
+construídos sobre ela. Mudar depois custa muito mais do que mudar agora.
+
+**Acessibilidade ligada a esta decisão.** O asterisco leva `aria-hidden` e é
+decorativo. A obrigatoriedade chega ao leitor de tela pelo próprio controle,
+com `required`, e não por texto escondido no rótulo: o estado pertence ao
+campo, e texto escondido exigiria uma string em português dentro do componente,
+proibido pelo plano trilíngue. **Consequência: o `nph-input` terá de carregar
+`required`.**
+
+### P62.4 — Dimensões saem em `px`, não em `rem`
+
+**Decisão.** Registrar a divergência em vez de corrigi-la agora.
+
+**O fato.** O `design.md` declara `unidade_css: rem, raiz 16px`. **Nenhuma
+camada do gerador cumpre isso**: espaço, raio, altura de controle, tamanho de
+ícone e agora tipografia saem todos em `px`. A migração de tipografia apenas
+seguiu o que já existia.
+
+**Motivo de não corrigir aqui.** Mudar para `rem` afeta todo `dimension` do
+sistema, não só a tipografia, e é decisão de pipeline. Corrigir dentro de um PR
+de componente esconderia uma mudança global dentro de uma entrega local.
+
+**O que fica aberto.** Ou o gerador passa a emitir `rem`, ou o `design.md`
+passa a declarar `px`. Hoje o contrato promete uma coisa e o código entrega
+outra, e isso não pode ficar assim indefinidamente.
+
+---
+
 ## Como mudar uma destas decisões
 
-Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20 ou P21 sem:
+Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21 ou P62 sem:
 
 1. explicar o conflito técnico concreto;
 2. registrar uma proposta de mudança;
