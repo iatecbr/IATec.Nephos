@@ -1,5 +1,7 @@
 # Tokens — fonte, geração e consumo
 
+**Português (BR)** · [English](tokens.en.md) · [Español](tokens.es.md)
+
 > **A fonte técnica soma 292 tokens**, dos quais 147 semânticos. A migração-base
 > de 289 itens foi concluída em 24/08/2026; os três tokens aprovados no Figma
 > para `nph-button` entraram em 25/08/2026, no commit `505e36d`. O comando

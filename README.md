@@ -1,5 +1,7 @@
 # Nephos 5.0
 
+**Português (BR)** · [English](README.en.md) · [Español](README.es.md)
+
 O Nephos é o Design System da IATec. Ele conecta fundações definidas no
 Figma, Web Components em Lit, documentação consultável e validação visual e
 de comportamento.
@@ -73,13 +75,13 @@ no elemento raiz e importe o CSS gerado:
 
 Omitir os dois entrega Sistemas no claro.
 
-O workflow de CI, os testes de componente e a publicação ainda não existem — a
-direção deles está no P19, em
+O workflow de CI e a publicação ainda não existem — a direção deles está no P19,
+em
 [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md).
 
 ## Decisões técnicas vigentes
 
-As decisões P01, P02, P03, P17, P19 e P20 estão registradas em
+As decisões P01, P02, P03, P17, P19, P20 e P21 estão registradas em
 [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md).
 
 **Status: decisão adotada pela Indiane em 24/08/2026, aguardando revisão de
@@ -94,6 +96,7 @@ técnico identificado ou orientação posterior de Elvys.
 | **P17** | Formato e consumo de tokens | JSON como formato-fonte versionado; CSS custom properties como formato gerado |
 | **P19** | Storybook, testes e publicação | Manter `@storybook/web-components-vite`; build no CI em pull requests, como artefato privado |
 | **P20** | Ferramenta de geração e contrato de temas | Style Dictionary v5; `data-nph-brand` e `data-nph-color-scheme` (`light`/`dark`); namespace `com.iatec.nephos` |
+| **P21** | Plano técnico do primeiro componente | Contrato do `nph-icon`; TypeScript estrito; stories junto do componente; Vitest em modo browser |
 
 A nota traz o motivo, o escopo, o impacto e o que ficou fora de escopo de cada
 uma. Ela é a fonte da regra: em caso de divergência com este README, prevalece
@@ -105,12 +108,10 @@ bootstrap e foram consolidados pelo P19.
 
 ### O que continua fora de escopo
 
-Os tokens auditados já entraram, em 24/08/2026. Continuam fora do repositório,
-enquanto o primeiro componente não for aprovado no Figma: componentes, testes
-de componente, workflow de CI, publicação pública e deploy. Também ficam fora
-os 20 primitivos da P46 e, adiados para rodada futura, os demais primitivos,
-os estilos de efeito e os estilos de texto — adiado não significa sem
-consumidor.
+Continuam fora do repositório: o workflow de CI, a publicação pública e o
+deploy. Também ficam fora os 20 primitivos da P46 e, adiados para rodada
+futura, os demais primitivos, os estilos de efeito e os estilos de texto —
+adiado não significa sem consumidor.
 
 ## Fontes de verdade
 
@@ -119,7 +120,7 @@ consumidor.
 | Valores de token e decisões visuais | Figma `DS-IA-NEPHOS 5.0` |
 | Contrato técnico e regras de uso | `design.md`, na raiz deste repositório |
 | Valores de token versionados | `src/tokens/source/*.tokens.json`; ver [`docs/tokens.md`](docs/tokens.md) |
-| Decisões técnicas P01, P02, P03, P17, P19 e P20 | [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) |
+| Decisões técnicas P01, P02, P03, P17, P19, P20 e P21 | [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) |
 | Governança, precedência e preflight | `GOVERNANCA.md` |
 | Instruções para agentes | `AGENTS.md` e `CLAUDE.md` |
 | Implementação entregue | Branch, commit, PR e Storybook deste repositório |
