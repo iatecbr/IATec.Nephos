@@ -15,6 +15,10 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
 
+    /* As stories em .ts leem os dicionarios de idioma, que sao .js do Storybook. */
+    "allowJs": true,
+    "checkJs": false,
+
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,

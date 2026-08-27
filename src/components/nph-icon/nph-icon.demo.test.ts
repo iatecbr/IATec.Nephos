@@ -10,7 +10,7 @@ import { describe, expect, it } from 'vitest';
 import { CATEGORIAS, TOTAL_DO_NUCLEO, filtrarNomes } from './nph-icon.demo';
 import { NPH_ICON_NAMES } from './nph-icon.icons';
 
-const DAS_CATEGORIAS = CATEGORIAS.flatMap((categoria) => [...categoria.icones]);
+const DAS_CATEGORIAS = CATEGORIAS.flatMap((categoria) => [...categoria]);
 
 describe('indice de categorias', () => {
   it('cobre exatamente o mesmo conjunto de NPH_ICON_NAMES', () => {
@@ -22,7 +22,7 @@ describe('indice de categorias', () => {
   });
 
   it('a soma das categorias e o total do nucleo', () => {
-    const soma = CATEGORIAS.reduce((total, categoria) => total + categoria.icones.length, 0);
+    const soma = CATEGORIAS.reduce((total, categoria) => total + categoria.length, 0);
     expect(soma).toBe(TOTAL_DO_NUCLEO);
     expect(TOTAL_DO_NUCLEO).toBe(34);
   });
