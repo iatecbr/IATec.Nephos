@@ -1,10 +1,10 @@
 # Tokens — fonte, geração e consumo
 
-> **Status:** a migração-base dos 289 itens auditados foi concluída em
-> 24/08/2026 e mergeada na `v/3.0.0`. Em 25/08/2026, três tokens aprovados no
-> Figma para `nph-button` foram sincronizados e versionados no commit
-> `505e36d`: a fonte técnica soma 292 itens. Nenhum componente `nph-*` foi
-> implementado.
+> **A fonte técnica soma 292 tokens**, dos quais 147 semânticos. A migração-base
+> de 289 itens foi concluída em 24/08/2026; os três tokens aprovados no Figma
+> para `nph-button` entraram em 25/08/2026, no commit `505e36d`. O comando
+> `npm run build:tokens` confere esse total a cada geração — se divergir, ele
+> reprova.
 
 Esta nota explica **como os tokens vivem no repositório**. O que cada token
 significa, quando usar e quando não usar está no [`design.md`](../design.md), que

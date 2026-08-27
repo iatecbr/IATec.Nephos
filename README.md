@@ -4,11 +4,10 @@ O Nephos é o Design System da IATec. Ele conecta fundações definidas no
 Figma, Web Components em Lit, documentação consultável e validação visual e
 de comportamento.
 
-> **Estado atual: shell inicial, com os tokens migrados.** **Nenhum componente
-> foi implementado.** O que existe aqui é o Storybook rodando com uma única
-> página, "Nephos — Em construção", e os **292 tokens técnicos** versionados em
-> JSON, com o CSS gerado a partir deles. Esse total inclui os 289 itens da
-> migração-base e três tokens aprovados no Figma em 25/08/2026.
+> **Em construção.** O que já está disponível para uso — componentes, variantes,
+> estados e regras — está no Storybook, gerado a partir do próprio código. Rode
+> `npm run storybook` para consultar. Este README não mantém contagem de
+> progresso: o avanço por fase é registro interno, não documentação de uso.
 
 ## O que o Nephos entrega
 
