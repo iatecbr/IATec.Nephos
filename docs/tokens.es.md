@@ -1,8 +1,11 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=9be63d11f05ace9c427cb5fdf7f4a4b0995f0c49eb6d26abbd92ccd047feed05 -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=9be63d11f05ace9c427cb5fdf7f4a4b0995f0c49eb6d26abbd92ccd047feed05 | status=rascunho -->
 
 # Tokens — fuente, generación y consumo
 
 [Português (BR)](tokens.md) · [English](tokens.en.md) · **Español**
+
+> **Traducción en borrador.** Todavía no revisada por una persona. Donde difiera
+> de la fuente en portugués, la fuente tiene razón.
 
 > Traducido de la fuente en portugués de Brasil, [`tokens.md`](tokens.md).
 > Si ambos difieren, prevalece el archivo en portugués.

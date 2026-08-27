@@ -1,8 +1,11 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=5d265941110bad829b6389d79fce982988d5d27bb805ab21c07913be0701383b -->
+<!-- i18n: lang=es | source=README.md | source-sha256=5d265941110bad829b6389d79fce982988d5d27bb805ab21c07913be0701383b | status=rascunho -->
 
 # Nephos 5.0
 
 [Português (BR)](README.md) · [English](README.en.md) · **Español**
+
+> **Traducción en borrador.** Todavía no revisada por una persona. Donde difiera
+> de la fuente en portugués, la fuente tiene razón.
 
 > Traducido de la fuente en portugués de Brasil, [`README.md`](README.md).
 > Si ambos difieren, prevalece el archivo en portugués.

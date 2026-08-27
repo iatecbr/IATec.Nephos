@@ -43,10 +43,18 @@ function ler(caminho) {
   return readFileSync(caminho, 'utf8');
 }
 
-const CABECALHO = /^<!-- i18n: lang=([a-z-]+) \| source=(\S+) \| source-sha256=(\S+) -->/;
+const CABECALHO =
+  /^<!-- i18n: lang=([a-z-]+) \| source=(\S+) \| source-sha256=(\S+) \| status=(\S+) -->/;
+
+/**
+ * Uma traducao so vale como versao publicada depois de lida por uma pessoa.
+ * Ate la ela e `rascunho`, e diz isso em voz alta no proprio arquivo.
+ */
+const ESTADOS = ['rascunho', 'revisado'];
 
 const falhas = [];
 const avisos = [];
+const rascunhos = [];
 let conferidos = 0;
 let atualizados = 0;
 
@@ -97,7 +105,13 @@ for (const pasta of PASTAS) {
         continue;
       }
 
-      const [linhaInteira, idiomaDeclarado, fonteDeclarada, hashDeclarado] = cabecalho;
+      const [linhaInteira, idiomaDeclarado, fonteDeclarada, hashDeclarado, estado] = cabecalho;
+
+      if (!ESTADOS.includes(estado)) {
+        falhas.push(`${caminho}: status=${estado} nao existe — use ${ESTADOS.join(" ou ")}`);
+      } else if (estado === "rascunho") {
+        rascunhos.push(caminho);
+      }
 
       if (idiomaDeclarado !== idioma) {
         falhas.push(`${caminho}: declara lang=${idiomaDeclarado}, mas o nome do arquivo diz ${idioma}`);
@@ -110,7 +124,7 @@ for (const pasta of PASTAS) {
         if (ATUALIZAR) {
           const novo = texto.replace(
             linhaInteira,
-            `<!-- i18n: lang=${idioma} | source=${fonte} | source-sha256=${esperado} -->`,
+            `<!-- i18n: lang=${idioma} | source=${fonte} | source-sha256=${esperado} | status=${estado} -->`,
           );
           writeFileSync(caminho, novo, 'utf8');
           atualizados += 1;
@@ -149,6 +163,13 @@ if (ATUALIZAR) {
 }
 
 console.log(`\n${conferidos} traducao(oes) conferida(s).`);
+
+if (rascunhos.length > 0) {
+  console.log(`${rascunhos.length} em RASCUNHO, aguardando revisao humana:`);
+  for (const caminho of rascunhos) {
+    console.log(`  - ${caminho}`);
+  }
+}
 
 for (const aviso of avisos) {
   console.log(`AVISO   ${aviso}`);
