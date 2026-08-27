@@ -485,7 +485,7 @@ tokens_semantic:
     css: '--nph-status-error'
     claro: core/danger/600
     escuro: core/danger/400
-    use: "Cor sólida do estado: ícone, ponto, barra da mensagem. Erro que já aconteceu: validação falhou, requisição quebrou."
+    use: "Cor sólida do estado: ícone, ponto, barra da mensagem. Erro que já aconteceu: validação falhou, requisição quebrou. Também o asterisco que marca campo obrigatório no nph-label: ali é aviso de exigência, não erro."
     nao_use: "ação destrutiva do usuário"
   status/error-surface:
     css: '--nph-status-error-surface'
@@ -665,6 +665,8 @@ tipografia_regras:
   piso: 12px
   enfase: "<strong> no HTML. Nao existe papel de enfase e nao se usa label para destacar palavra em paragrafo."
   pesos_por_regiao: no maximo 2
+  css_forma: "O campo `css` de cada papel e um PREFIXO, nao o nome final. Cada papel emite cinco custom properties: `-font-family`, `-font-size`, `-line-height`, `-font-weight` e `-letter-spacing`. Exemplo: text/label-md emite --nph-text-label-md-font-size. Sao cinco e nao uma porque `letter-spacing` nao cabe no atalho `font` do CSS e porque componente costuma precisar de uma propriedade isolada. Migrado em 27-08-2026; confirmar na revisao tecnica."
+  css_unidade_real: "As cinco saem em px, como TODO dimension do gerador hoje. A regra `unidade_css: rem` acima ainda nao e cumprida por nenhuma camada e vale para o sistema inteiro, nao so para tipografia: mudar isso e uma decisao de pipeline, separada desta migracao."
 
 tokens_typography:
   text/heading-xl:
