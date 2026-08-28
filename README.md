@@ -84,9 +84,9 @@ em
 As decisões P01, P02, P03, P17, P19, P20 e P21 estão registradas em
 [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md).
 
-**Status: decisão adotada pela Indiane em 24/08/2026, aguardando revisão de
-Elvys.** As regras devem ser seguidas no trabalho atual, salvo conflito
-técnico identificado ou orientação posterior de Elvys.
+**Status: decisão adotada pela Indiane em 24/08/2026 (P21 em 26/08/2026) —
+revisada e aprovada por Elvys em 28/08/2026.** As regras devem ser seguidas no
+trabalho atual, salvo orientação posterior de Elvys que as substitua.
 
 | | Assunto | Decisão |
 |---|---|---|
