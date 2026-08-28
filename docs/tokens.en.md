@@ -1,4 +1,4 @@
-<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=2707e4c18bbea8bdf6cbf8945bb9bd3f01fd99ed8a78656d33731d239d8a1cc1 | status=rascunho -->
+<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=e1d97e8ff212e8fd98144295c70d0846f14036f7785c0007f59ec8eb37eb0059 | status=rascunho -->
 
 # Tokens — source, generation and consumption
 
@@ -162,12 +162,13 @@ The `nephos/dimension/rem` transform divides the value by **16** and emits
 --nph-text-heading-xl-letter-spacing: -0.0125rem;  /* was -0.2px */
 ```
 
-**Radius stays in `px`, and that is not an oversight.** The `raio_regras` block
-in `design.md` declares `unidade_css: px` and gives the reason: radius in `rem`
-would grow with the user's font, and the piece would change **shape**, not size
-— a 6px button would turn into a pill. It is the only foundation the contract
-declares in `px`, so `core/radius` is left out of the conversion, by a written
-rule and not by an improvised exception.
+**Radius stays in `px` — Indiane's decision on 28/08/2026, recorded as P62.5.**
+The `raio_regras` block in `design.md` declares `unidade_css: px` and gives the
+reason: radius in `rem` would grow with the user's font, and the piece would
+change **shape**, not size — a 6px button would turn into a pill. `px` and `rem`
+behave identically under browser zoom; the difference only shows up in the
+user's font-size preference. It is the only foundation the contract declares in
+`px`, and P62.5 confirms that rule rather than changing it.
 
 The computed value does not change at the default 16px root: `1rem` still
 resolves to `16px`. What changes is that the interface now follows the user's

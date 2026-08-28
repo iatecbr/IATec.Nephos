@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=2707e4c18bbea8bdf6cbf8945bb9bd3f01fd99ed8a78656d33731d239d8a1cc1 | status=rascunho -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=e1d97e8ff212e8fd98144295c70d0846f14036f7785c0007f59ec8eb37eb0059 | status=rascunho -->
 
 # Tokens — fuente, generación y consumo
 
@@ -162,12 +162,14 @@ valor cero sale como `0`, sin unidad.
 --nph-text-heading-xl-letter-spacing: -0.0125rem;  /* era -0.2px */
 ```
 
-**El radio sigue en `px`, y no es un olvido.** El bloque `raio_regras` de
-`design.md` declara `unidade_css: px` y explica el motivo: el radio en `rem`
-crecería con la fuente del usuario y la pieza cambiaría de **forma**, no de
-tamaño — un botón de 6px se volvería cápsula. Es la única fundación que el
-contrato declara en `px`, así que `core/radius` queda fuera de la conversión,
-por regla escrita y no por excepción improvisada.
+**El radio sigue en `px` — decisión de Indiane el 28/08/2026, registrada como
+P62.5.** El bloque `raio_regras` de `design.md` declara `unidade_css: px` y
+explica el motivo: el radio en `rem` crecería con la fuente del usuario y la
+pieza cambiaría de **forma**, no de tamaño — un botón de 6px se volvería
+cápsula. `px` y `rem` se comportan igual con el zoom del navegador; la
+diferencia aparece solo en la preferencia de tamaño de fuente del usuario. Es la
+única fundación que el contrato declara en `px`, y la P62.5 la confirma en vez
+de alterarla.
 
 El valor computado no cambia con la raíz por defecto de 16px: `1rem` sigue
 resolviendo a `16px`. Lo que cambia es que ahora la interfaz acompaña la

@@ -154,12 +154,13 @@ Valor zero sai como `0`, sem unidade.
 --nph-text-heading-xl-letter-spacing: -0.0125rem;  /* era -0.2px */
 ```
 
-**Raio continua em `px`, e isso não é omissão.** O `raio_regras` do `design.md`
-declara `unidade_css: px` e explica o motivo: raio em `rem` cresceria com a
-fonte do usuário, e a peça mudaria de **forma**, não de tamanho — um botão de
-6px viraria cápsula. É a única fundação que o contrato declara em `px`, então
-`core/radius` fica fora da conversão, por regra escrita e não por exceção
-improvisada.
+**Raio continua em `px` — decisão de Indiane em 28/08/2026, registrada como
+P62.5.** O `raio_regras` do `design.md` declara `unidade_css: px` e explica o
+motivo: raio em `rem` cresceria com a fonte do usuário, e a peça mudaria de
+**forma**, não de tamanho — um botão de 6px viraria cápsula. `px` e `rem` se
+comportam igual no zoom do navegador; a diferença aparece só na preferência de
+fonte do usuário. É a única fundação que o contrato declara em `px`, e a P62.5
+a confirma em vez de alterá-la.
 
 O valor computado não muda com a raiz padrão de 16px: `1rem` continua
 resolvendo para `16px`. O que muda é que agora a interface acompanha a
