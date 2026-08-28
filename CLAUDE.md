@@ -77,11 +77,14 @@
 altere, substitua ou reabra sem explicar o conflito técnico, registrar uma
 proposta de mudança e solicitar revisão humana.**
 
-Status das seis: *decisão adotada pela Indiane em 24/08/2026 — aguardando
-revisão de Elvys*. Elas valem para o trabalho atual. **Elvys não as aprovou**:
-não escreva nem sugira em lugar nenhum que ele aprovou. Se ele der orientação
-posterior que conflite com alguma, a orientação dele prevalece e a nota deve
-ser atualizada.
+Status: *decisão adotada pela Indiane em 24/08/2026 (P21 em 26/08/2026) —
+revisada e aprovada por Elvys em 28/08/2026*. Elas valem para o trabalho
+atual. A P62 (`nph-label`, tipografia e dimensões, registrada em
+27/08/2026) também foi revisada por Elvys em 28/08/2026: aprovou P62.1, P62.2
+e P62.3 como estavam registradas; a P62.4 ele resolveu decidindo migrar o
+gerador de `px` para `rem` — migração ainda não implementada. Ver
+`docs/decisoes-tecnicas.md`. Se ele der orientação posterior que conflite com
+alguma, a orientação dele prevalece e a nota deve ser atualizada.
 
 Em resumo, e sem substituir a leitura da nota: Shadow DOM aberto (P01); CSS
 custom properties como API pública e `::part` para partes internas, com classes

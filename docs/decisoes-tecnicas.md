@@ -6,36 +6,43 @@ do repositório, prevalece este.
 
 ## Fila de revisão técnica — Elvys
 
-Tudo que espera revisão dele, em um lugar só. A coluna **Se ele discordar** diz
-o custo de mudar de ideia hoje, para priorizar a leitura.
+Registro de tudo que esperava revisão dele, em um lugar só. A coluna **Se ele
+discordar** dizia o custo de mudar de ideia, para priorizar a leitura; a coluna
+**Revisão de Elvys** registra o resultado.
 
-| # | Decisão | Adotada em | Se ele discordar |
-|---|---|---|---|
-| **P62.3** | `for` e `text` como API do `nph-label` | 27/08/2026 | **Barato agora, caro depois.** O `nph-input` e o `nph-field` serão construídos sobre elas |
-| **P62.2** | Formato dos tokens de tipografia: cinco propriedades por papel | 27/08/2026 | Médio. Os valores não mudam, só a emissão e o CSS que os consome |
-| **P62.1** | `nph-label` sem Shadow DOM — exceção à P01 | 27/08/2026 | Alto. É a única forma de a associação nativa funcionar; sem ela o rótulo perde a função |
-| **P62.4** | Dimensões em `px`, e não `rem` | 27/08/2026 | Alto e antigo. Vale para o sistema inteiro, não só tipografia |
-| **P01** | Shadow DOM aberto | 24/08/2026 | Alto. Todo componente depende |
-| **P02** | Custom properties como API pública | 24/08/2026 | Alto |
-| **P03** | Padrão de diretórios e TypeScript | 24/08/2026 | Médio |
-| **P17** | Papel de cada fonte de verdade | 24/08/2026 | Alto |
-| **P19** | Storybook, testes e publicação | 24/08/2026 | Médio |
-| **P20** | Style Dictionary v5 e contrato de tema | 24/08/2026 | Alto |
-| **P21** | Plano técnico do `nph-icon` | 26/08/2026 | Já implementado e mergeado sob aceitação de risco |
+**Revisão concluída em 28/08/2026**, item a item, em sessão de trabalho com
+Claude Code. Elvys aprovou como estavam registradas todas as decisões abaixo,
+exceto a P62.4, que ele resolveu de forma diferente da registrada (ver a
+subseção P62.4 para o detalhe).
 
-**Fora desta nota, também aguardam confirmação dele:** licença, variável de CI,
+| # | Decisão | Adotada em | Se ele discordar | Revisão de Elvys |
+|---|---|---|---|---|
+| **P62.3** | `for` e `text` como API do `nph-label` | 27/08/2026 | **Barato agora, caro depois.** O `nph-input` e o `nph-field` serão construídos sobre elas | Aprovada, 28/08/2026 |
+| **P62.2** | Formato dos tokens de tipografia: cinco propriedades por papel | 27/08/2026 | Médio. Os valores não mudam, só a emissão e o CSS que os consome | Aprovada, 28/08/2026 |
+| **P62.1** | `nph-label` sem Shadow DOM — exceção à P01 | 27/08/2026 | Alto. É a única forma de a associação nativa funcionar; sem ela o rótulo perde a função | Aprovada, 28/08/2026 |
+| **P62.4** | Dimensões em `px`, e não `rem` | 27/08/2026 | Alto e antigo. Vale para o sistema inteiro, não só tipografia | Resolvida por decisão própria: migrar o gerador para `rem` (implementação pendente) — 28/08/2026 |
+| **P01** | Shadow DOM aberto | 24/08/2026 | Alto. Todo componente depende | Aprovada, 28/08/2026 |
+| **P02** | Custom properties como API pública | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
+| **P03** | Padrão de diretórios e TypeScript | 24/08/2026 | Médio | Aprovada, 28/08/2026 |
+| **P17** | Papel de cada fonte de verdade | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
+| **P19** | Storybook, testes e publicação | 24/08/2026 | Médio | Aprovada, 28/08/2026 |
+| **P20** | Style Dictionary v5 e contrato de tema | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
+| **P21** | Plano técnico do `nph-icon` | 26/08/2026 | Já implementado e mergeado sob aceitação de risco | Aprovada, 28/08/2026 |
+
+**Fora desta nota, ainda aguardam confirmação dele:** licença, variável de CI,
 credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
 
-Se ele concordar com tudo, basta trocar o status desta nota. Se discordar de
-algum item, o item volta a ser pendência aberta e o que dependia dele para.
-
 > **Status de todas as decisões desta nota:**
-> *Decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de Elvys.*
+> *Decisão adotada pela Indiane em 24/08/2026 (P21 em 26/08/2026, P62 em
+> 27/08/2026) — revisada e aprovada por Elvys em 28/08/2026, item a item,
+> exceto a P62.4.*
 >
-> Elvys ainda não revisou nem aprovou formalmente estas decisões. Elas valem
-> para o trabalho atual e devem ser seguidas, salvo conflito técnico
-> identificado ou orientação posterior dele. **Nenhuma delas pode ser
-> apresentada como aprovada por Elvys.**
+> Elvys revisou e aprovou formalmente P01, P02, P03, P17, P19, P20, P21, P62.1,
+> P62.2 e P62.3 como estavam registradas. Para a P62.4, ele não aprovou o
+> registro da divergência sem correção: decidiu migrar o gerador para `rem`
+> (ver P62.4). Essas decisões valem para o trabalho atual e continuam
+> revisáveis: para alterá-las agora é preciso o mesmo rito de sempre —
+> conflito técnico explicado, proposta registrada, revisão humana.
 
 Antes desta nota, as cinco estavam registradas como pendências em aberto,
 delegadas a Elvys. Deixaram esse estado em 24/08/2026, para destravar a
@@ -62,8 +69,8 @@ personalização, o encapsulamento deixaria o componente impossível de tematiza
 **Fora de escopo.** Shadow DOM fechado, que não deve ser usado. Criar qualquer
 componente nesta tarefa.
 
-**Status.** Decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de
-Elvys.
+**Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
+por Elvys em 28/08/2026.
 
 ---
 
@@ -89,8 +96,8 @@ depender de classe interna quebra sem aviso, e isso não conta como regressão.
 quais partes específicas cada componente exporá — isso é decidido na ficha de
 cada peça.
 
-**Status.** Decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de
-Elvys.
+**Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
+por Elvys em 28/08/2026.
 
 ---
 
@@ -137,8 +144,8 @@ criado, o glob precisará passar a incluir `src/components/**`. O padrão també
 pede `.ts`, enquanto o shell atual é `.js` — o que exigirá TypeScript no
 projeto. Nada disso foi alterado nesta tarefa, por decisão de escopo.
 
-**Status.** Decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de
-Elvys.
+**Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
+por Elvys em 28/08/2026.
 
 ---
 
@@ -181,8 +188,8 @@ validação no repositório. Depois da auditoria, o JSON será a fonte técnica 
 valores; o `design.md` continuará explicando o critério e deverá apontar para o
 JSON, sem duplicar valores que possam divergir.
 
-**Status.** Decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de
-Elvys.
+**Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
+por Elvys em 28/08/2026.
 
 ---
 
@@ -216,8 +223,8 @@ existem.
 e configuração definitiva de testes. Criar o workflow de CI. Testes de
 interação e acessibilidade serão definidos com o primeiro componente real.
 
-**Status.** Decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de
-Elvys.
+**Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
+por Elvys em 28/08/2026.
 
 ---
 
@@ -269,8 +276,8 @@ sendo a fonte da regra sobre formato e responsabilidade por camada.
 **Fora de escopo.** Criar workflow de CI. Publicação. Gerar formatos além de CSS.
 Migrar estilos de efeito, estilos de texto ou os primitivos adiados.
 
-**Status.** Decisão adotada pela Indiane em 24/08/2026 — aguardando revisão de
-Elvys.
+**Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
+por Elvys em 28/08/2026.
 
 ---
 
@@ -338,15 +345,17 @@ workflow, publicar Storybook ou implementar outro componente.
 **Status.** Decisão adotada pela Indiane em 26/08/2026 — implementação
 autorizada sob aceitação formal de risco; organização de `Docs / Documentação`,
 `Docs / Icons Overview` e `Validação` aprovada pela Indiane em 26/08/2026;
-revisão de Elvys pendente.
+revisada e aprovada por Elvys em 28/08/2026.
 
 ---
 
 ## P62 — `nph-label`: exceção à P01, tipografia e API
 
-**Status.** Quatro decisões adotadas pela Indiane em 27/08/2026 — aguardando
-revisão de Elvys. As três primeiras nasceram de um problema concreto durante a
-implementação; a quarta é uma divergência antiga que a implementação expôs.
+**Status.** Quatro decisões adotadas pela Indiane em 27/08/2026. Elvys revisou
+em 28/08/2026: aprovou P62.1, P62.2 e P62.3 como estavam registradas; a P62.4
+ele resolveu de outra forma — ver a subseção. As três primeiras nasceram de um
+problema concreto durante a implementação; a quarta é uma divergência antiga
+que a implementação expôs.
 
 ### P62.1 — O `nph-label` não usa Shadow DOM
 
@@ -430,9 +439,20 @@ seguiu o que já existia.
 sistema, não só a tipografia, e é decisão de pipeline. Corrigir dentro de um PR
 de componente esconderia uma mudança global dentro de uma entrega local.
 
-**O que fica aberto.** Ou o gerador passa a emitir `rem`, ou o `design.md`
-passa a declarar `px`. Hoje o contrato promete uma coisa e o código entrega
-outra, e isso não pode ficar assim indefinidamente.
+**O que ficava aberto.** Ou o gerador passa a emitir `rem`, ou o `design.md`
+passa a declarar `px`. O contrato prometia uma coisa e o código entregava
+outra.
+
+**Decisão de Elvys — 28/08/2026.** Resolve a divergência: o **gerador migra
+para `rem`**. O `design.md` (`unidade_css: rem, raiz 16px`) não muda — é o
+código que passa a cumprir o contrato já escrito. Isso substitui o "registrar
+sem corrigir" acima; a divergência deixou de ser só anotada.
+
+**Escopo desta decisão.** Fixa o rumo, não a implementação. Afeta toda camada
+`dimension` do Style Dictionary — espaço, raio, altura de controle, tamanho de
+ícone e tipografia (P62.2) —, não só a tipografia. A migração em si (mudança no
+gerador, e revalidação da saída determinística de cada camada) **ainda não foi
+implementada** e é tarefa própria, fora desta nota.
 
 ---
 

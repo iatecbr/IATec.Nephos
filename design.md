@@ -2057,8 +2057,9 @@ Antes de construir ou modificar um componente, **abra o arquivo de metadados del
 | Storybook | Estados e variantes renderizados |
 | Lista de componentes — Nephos v1 | Escopo: os 75 componentes e as 6 ondas |
 
-> **Decisão vigente — aguardando revisão de Elvys.** A organização de diretórios
-> está em [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) (P03). Até o
+> **Decisão vigente — revisada e aprovada por Elvys em 28/08/2026.** A
+> organização de diretórios está em
+> [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) (P03). Até o
 > primeiro componente, os caminhos acima permanecem ponteiros de documentação; o
 > padrão de diretórios será aplicado quando a peça existir.
 
@@ -2087,7 +2088,7 @@ Antes de construir ou modificar um componente, **abra o arquivo de metadados del
 | 3o | ~~**Ícones**~~ Resolvida em 20-08-2026: regras, tamanhos, contrato, acervo e o núcleo completo de **34 ícones**, em três levas | Indiane |
 | 4 | ~~Cores de gráfico — não existem~~ Resolvida em 20-08-2026: quatro famílias, 30 tokens semânticos, verificados sob as três deficiências de visão | Indiane |
 | 5 | ~~Alfa — transparências sem token~~ Resolvida em 20-08-2026: 19 primitivos de alfa em preto e branco, mais `overlay/scrim`, `overlay/on-media` e `state/disabled-opacity` | Indiane |
-| 6 | ~~Qual arquivo é canônico: o CSS ou este YAML~~ Decidido em 24-08-2026: Figma é a fonte visual; este `design.md` é o contrato humano e agêntico; JSON será a fonte técnica versionada de valores auditados; CSS custom properties serão geradas do JSON. Ver `docs/decisoes-tecnicas.md` (P17). | Indiane — aguardando revisão de Elvys |
-| 7 | ~~Caminho dos diretórios (§9)~~ Decidido em 24-08-2026: padrão registrado em `docs/decisoes-tecnicas.md` (P03), aplicado a partir do primeiro componente. | Indiane — aguardando revisão de Elvys |
+| 6 | ~~Qual arquivo é canônico: o CSS ou este YAML~~ Decidido em 24-08-2026: Figma é a fonte visual; este `design.md` é o contrato humano e agêntico; JSON será a fonte técnica versionada de valores auditados; CSS custom properties serão geradas do JSON. Ver `docs/decisoes-tecnicas.md` (P17). | Indiane — revisado e aprovado por Elvys em 28-08-2026 |
+| 7 | ~~Caminho dos diretórios (§9)~~ Decidido em 24-08-2026: padrão registrado em `docs/decisoes-tecnicas.md` (P03), aplicado a partir do primeiro componente. | Indiane — revisado e aprovado por Elvys em 28-08-2026 |
 | 8 | ~~Modo escuro foi calculado, nao visto~~ Resolvido em 18-08-2026: pagina `Cor` no Figma, claro e escuro lado a lado | Indiane |
 | 9 | **Padrão de hachura** para gráfico impresso em preto e branco. A série categórica separa por matiz, não por luminosidade | Indiane |
