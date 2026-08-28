@@ -2,11 +2,17 @@
 
 **Português (BR)** · [English](tokens.en.md) · [Español](tokens.es.md)
 
-> **A fonte técnica soma 292 tokens**, dos quais 147 semânticos. A migração-base
+> **A fonte técnica soma 364 tokens**, dos quais 217 semânticos. A migração-base
 > de 289 itens foi concluída em 24/08/2026; os três tokens aprovados no Figma
-> para `nph-button` entraram em 25/08/2026, no commit `505e36d`. O comando
-> `npm run build:tokens` confere esse total a cada geração — se divergir, ele
-> reprova.
+> para `nph-button` entraram em 25/08/2026, no commit `505e36d`, levando a fonte
+> a 292. O comando `npm run build:tokens` confere esse total a cada geração — se
+> divergir, ele reprova.
+>
+> Em 27/08/2026 entrou a **camada de tipografia**: as duas famílias de fonte em
+> `core` e os **14 papéis de texto** em `semantic`, cada um com cinco
+> propriedades — 141 `core`, 6 `theme` e 217 `semantic`. O motivo foi concreto: o
+> `nph-label` é o primeiro componente feito de texto puro, e sem `text/label-md`
+> em código ele não podia existir sem valor literal.
 
 Esta nota explica **como os tokens vivem no repositório**. O que cada token
 significa, quando usar e quando não usar está no [`design.md`](../design.md), que
@@ -26,11 +32,11 @@ não duplica valores. Os valores nascem no Figma `DS-IA-NEPHOS 5.0`.
 ```text
 src/tokens/
   source/
-    core.tokens.json       139 primitivos
+    core.tokens.json       141 primitivos
     theme.tokens.json        6 variáveis de marca, sete modos
-    semantic.tokens.json   147 tokens semânticos, dois esquemas de cor
+    semantic.tokens.json   217 tokens semânticos, dois esquemas de cor
   generated/
-    tokens.css             422 declarações — GERADO
+    tokens.css             494 declarações — GERADO
 scripts/
   tokens-lib.mjs           funções puras: forma canônica, classificação, índice
   build-tokens.mjs         gerador
@@ -104,6 +110,35 @@ corretamente; não existe transformação adicional de opacidade.
 e escuro, então sai uma vez em `:root` — mas o que sai é
 `var(--nph-theme-brand-600)`, que continua trocando com `data-nph-brand`.
 
+## Atualização de 27-08-2026 — camada de tipografia
+
+Os 14 papéis de texto saíram da lista de adiados. Cada papel emite **cinco**
+custom properties, não uma:
+
+```css
+--nph-text-label-md-font-family
+--nph-text-label-md-font-size
+--nph-text-label-md-line-height
+--nph-text-label-md-font-weight
+--nph-text-label-md-letter-spacing
+```
+
+São cinco porque `letter-spacing` não cabe no atalho `font` do CSS e porque um
+componente muitas vezes precisa de uma propriedade isolada. O campo `css` de
+cada papel no `design.md` passa a ser lido como **prefixo**, não como nome
+final.
+
+A família é a única parte que vira alias: `--nph-text-label-md-font-family`
+aponta para `--nph-core-font-sans`. Tamanho, altura de linha, peso e
+espaçamento são literais no papel, exatamente como o `design.md` já os escrevia
+no bloco `valores`.
+
+**Duas ressalvas para a revisão técnica.** O formato de cinco propriedades foi
+escolhido nesta migração e ainda não passou por revisão; e as dimensões saem em
+`px`, como todo `dimension` do gerador hoje — a regra `unidade_css: rem` do
+`design.md` não é cumprida por nenhuma camada, e mudá-la é decisão de pipeline
+para o sistema inteiro, não só para tipografia.
+
 ## Consumo — dois atributos independentes
 
 Marca e esquema de cor são **dimensões independentes**: um produto pode estar em
@@ -163,7 +198,8 @@ O build **falha** — com código 1 e mensagem específica — quando:
 |---|---|
 | 20 primitivos da **P46** | **Excluídos por decisão registrada** — `core/radius` 700–1000, `core/space` 1200–1500 e os 12 fora de escala. Enquanto estiverem nessa lista, não entram no JSON. |
 | 151 demais primitivos `core` | **Adiados.** Não são alcançáveis a partir da camada `semantic`, o que **não** significa que não tenham consumidor. Destes, **24 são `core/sombra`, com consumidor conhecido** nos estilos `elevation/*`. Os outros 127 seguem adiados sem juízo sobre consumidor. |
-| 11 estilos de efeito · 14 estilos de texto | **Adiados.** Não são variáveis; exigem outro caminho de extração. |
+| 11 estilos de efeito | **Adiados.** Não são variáveis; exigem outro caminho de extração. |
+| 14 estilos de texto | **Migrados em 27/08/2026.** Deixaram de ser adiados. Não são variáveis do Figma: os valores foram lidos dos estilos de texto e conferidos contra `tokens_typography` do `design.md`, item a item, sem divergência. Cada papel virou cinco tokens em `semantic.text`, e as duas famílias entraram em `core.font`. |
 
 ## Limitação conhecida da ferramenta
 

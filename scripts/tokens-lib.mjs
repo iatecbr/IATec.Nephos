@@ -5,8 +5,19 @@
 
 export const NS = 'com.iatec.nephos';
 
-/** Tipos DTCG que o gerador sabe emitir. Qualquer outro e erro. */
-export const TIPOS_TRATADOS = new Set(['color', 'dimension', 'duration', 'cubicBezier', 'number']);
+/**
+ * Tipos DTCG que o gerador sabe emitir. Qualquer outro e erro.
+ *
+ * `fontFamily` entrou em 27-08-2026, com a camada `text`. O Style Dictionary ja
+ * traz o transform `fontFamily/css` no grupo `css`: ele junta a lista com
+ * virgula e cita o nome que precisa de aspas.
+ *
+ * Peso de fonte fica como `number`, e nao como `fontWeight`: o DTCG aceita
+ * palavra ou numero nesse tipo, e a fonte do Nephos sempre grava numero.
+ */
+export const TIPOS_TRATADOS = new Set([
+  'color', 'dimension', 'duration', 'cubicBezier', 'number', 'fontFamily',
+]);
 
 /**
  * Representacao canonica de um valor, estavel e independente de identidade de
