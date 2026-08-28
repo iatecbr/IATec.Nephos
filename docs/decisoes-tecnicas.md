@@ -431,20 +431,31 @@ proibido pelo plano trilíngue. **Consequência: o `nph-input` terá de carregar
 
 ### P62.4 — Dimensões saem em `px`, não em `rem`
 
-**Decisão.** Registrar a divergência em vez de corrigi-la agora.
+> **Leia o registro histórico abaixo como histórico.** A decisão original —
+> registrar a divergência sem corrigi-la — **foi substituída** pela decisão de
+> Elvys em 28/08/2026 e já está implementada. Para o estado atual, vá direto a
+> **Decisão de Elvys — 28/08/2026** e a **Implementação — 28/08/2026**, no fim
+> desta subseção. O que vem antes descreve a situação de 27/08/2026 e **não é o
+> estado do repositório hoje**.
 
-**O fato.** O `design.md` declara `unidade_css: rem, raiz 16px`. **Nenhuma
-camada do gerador cumpre isso**: espaço, raio, altura de controle, tamanho de
-ícone e agora tipografia saem todos em `px`. A migração de tipografia apenas
-seguiu o que já existia.
+**Decisão original, 27/08/2026 — SUPERADA.** Registrar a divergência em vez de
+corrigi-la naquele momento.
 
-**Motivo de não corrigir aqui.** Mudar para `rem` afeta todo `dimension` do
-sistema, não só a tipografia, e é decisão de pipeline. Corrigir dentro de um PR
-de componente esconderia uma mudança global dentro de uma entrega local.
+**O fato, em 27/08/2026.** O `design.md` declarava `unidade_css: rem, raiz
+16px` e **nenhuma camada do gerador cumpria isso**: espaço, raio, altura de
+controle, tamanho de ícone e a tipografia recém-migrada saíam todos em `px`. A
+migração de tipografia apenas seguiu o que já existia. **Isso deixou de valer
+em 28/08/2026:** hoje 92 dos 100 tokens `dimension` saem em `rem`, e só
+`core/radius` continua em `px`, pela P62.5.
 
-**O que ficava aberto.** Ou o gerador passa a emitir `rem`, ou o `design.md`
-passa a declarar `px`. O contrato prometia uma coisa e o código entregava
-outra.
+**Motivo de não corrigir naquele PR.** Mudar para `rem` afeta todo `dimension`
+do sistema, não só a tipografia, e é decisão de pipeline. Corrigir dentro de um
+PR de componente esconderia uma mudança global dentro de uma entrega local. Por
+isso a correção veio depois, em PR próprio.
+
+**O que ficava aberto, e não está mais.** Ou o gerador passaria a emitir `rem`,
+ou o `design.md` passaria a declarar `px`. O contrato prometia uma coisa e o
+código entregava outra. Resolvido abaixo.
 
 **Decisão de Elvys — 28/08/2026.** Resolve a divergência: o **gerador migra
 para `rem`**. O `design.md` (`unidade_css: rem, raiz 16px`) não muda — é o
