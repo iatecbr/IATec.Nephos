@@ -12,7 +12,9 @@
     "test:tokens": "node scripts/test-invariancia.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:i18n": "node scripts/test-i18n.mjs",
+    "i18n:update": "node scripts/test-i18n.mjs --update"
   },
   "devDependencies": {
     "@storybook/web-components-vite": "^10.5.10",

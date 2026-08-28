@@ -1,16 +1,18 @@
 # Tokens — fonte, geração e consumo
 
-> **Status:** a migração-base dos 289 itens auditados foi concluída em
-> 24/08/2026 e mergeada na `v/3.0.0`. Em 25/08/2026, três tokens aprovados no
-> Figma para `nph-button` foram sincronizados e versionados no commit
-> `505e36d`, levando a fonte técnica a 292 itens.
+**Português (BR)** · [English](tokens.en.md) · [Español](tokens.es.md)
+
+> **A fonte técnica soma 364 tokens**, dos quais 217 semânticos. A migração-base
+> de 289 itens foi concluída em 24/08/2026; os três tokens aprovados no Figma
+> para `nph-button` entraram em 25/08/2026, no commit `505e36d`, levando a fonte
+> a 292. O comando `npm run build:tokens` confere esse total a cada geração — se
+> divergir, ele reprova.
 >
 > Em 27/08/2026 entrou a **camada de tipografia**: as duas famílias de fonte em
 > `core` e os **14 papéis de texto** em `semantic`, cada um com cinco
-> propriedades. A fonte técnica passou a **364 itens** — 141 `core`, 6 `theme` e
-> 217 `semantic`. O motivo foi concreto: o `nph-label` é o primeiro componente
-> feito de texto puro, e sem `text/label-md` em código ele não podia existir sem
-> valor literal.
+> propriedades — 141 `core`, 6 `theme` e 217 `semantic`. O motivo foi concreto: o
+> `nph-label` é o primeiro componente feito de texto puro, e sem `text/label-md`
+> em código ele não podia existir sem valor literal.
 
 Esta nota explica **como os tokens vivem no repositório**. O que cada token
 significa, quando usar e quando não usar está no [`design.md`](../design.md), que

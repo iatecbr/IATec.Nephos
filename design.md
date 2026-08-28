@@ -2055,7 +2055,7 @@ Antes de construir ou modificar um componente, **abra o arquivo de metadados del
 | `fichas/<nome-do-componente>.md` | Função, variantes, estados, combinações inválidas, acessibilidade, tokens, relações, anti-padrões |
 | `fichas/blocos/<nome>.md` | Composição, quando usar, quando não, em que layout aparece |
 | Storybook | Estados e variantes renderizados |
-| Lista de componentes — Nephos v1 | Escopo: os 78 componentes e as 6 ondas |
+| Lista de componentes — Nephos v1 | Escopo: os 75 componentes e as 6 ondas |
 
 > **Decisão vigente — aguardando revisão de Elvys.** A organização de diretórios
 > está em [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) (P03). Até o
