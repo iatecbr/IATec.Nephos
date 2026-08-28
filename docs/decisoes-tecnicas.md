@@ -20,7 +20,7 @@ subseção P62.4 para o detalhe).
 | **P62.3** | `for` e `text` como API do `nph-label` | 27/08/2026 | **Barato agora, caro depois.** O `nph-input` e o `nph-field` serão construídos sobre elas | Aprovada, 28/08/2026 |
 | **P62.2** | Formato dos tokens de tipografia: cinco propriedades por papel | 27/08/2026 | Médio. Os valores não mudam, só a emissão e o CSS que os consome | Aprovada, 28/08/2026 |
 | **P62.1** | `nph-label` sem Shadow DOM — exceção à P01 | 27/08/2026 | Alto. É a única forma de a associação nativa funcionar; sem ela o rótulo perde a função | Aprovada, 28/08/2026 |
-| **P62.4** | Dimensões em `px`, e não `rem` | 27/08/2026 | Alto e antigo. Vale para o sistema inteiro, não só tipografia | Resolvida por decisão própria: migrar o gerador para `rem` (implementação pendente) — 28/08/2026 |
+| **P62.4** | Dimensões em `px`, e não `rem` | 27/08/2026 | Alto e antigo. Vale para o sistema inteiro, não só tipografia | Resolvida por decisão própria: migrar o gerador para `rem` — 28/08/2026. **Implementada em 28/08/2026**, exceto `core/radius`, que o `design.md` declara em `px` |
 | **P01** | Shadow DOM aberto | 24/08/2026 | Alto. Todo componente depende | Aprovada, 28/08/2026 |
 | **P02** | Custom properties como API pública | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
 | **P03** | Padrão de diretórios e TypeScript | 24/08/2026 | Médio | Aprovada, 28/08/2026 |
@@ -451,8 +451,26 @@ sem corrigir" acima; a divergência deixou de ser só anotada.
 **Escopo desta decisão.** Fixa o rumo, não a implementação. Afeta toda camada
 `dimension` do Style Dictionary — espaço, raio, altura de controle, tamanho de
 ícone e tipografia (P62.2) —, não só a tipografia. A migração em si (mudança no
-gerador, e revalidação da saída determinística de cada camada) **ainda não foi
-implementada** e é tarefa própria, fora desta nota.
+gerador, e revalidação da saída determinística de cada camada) é tarefa própria,
+fora desta nota.
+
+**Implementação — 28/08/2026.** Executada por autorização de Indiane. O
+transform `nephos/dimension/rem` em `scripts/build-tokens.mjs` divide por 16 e
+emite `rem`; zero sai como `0`. Converteram-se **92 dos 100 tokens `dimension`**
+— espaço, altura de controle, tamanho de ícone, largura e altura de layout,
+espessura de foco e os 42 de tipografia.
+
+**Divergência aberta sobre `core/radius`.** Os 8 primitivos de raio **não** foram
+convertidos, e essa é a única parte desta decisão que precisa de confirmação. O
+escopo acima cita "raio", mas o `raio_regras` do `design.md` — que esta mesma
+decisão manda **não** alterar — declara `unidade_css: px` e explica: *"Raio em
+rem cresceria com a fonte do usuario e um botao de 6px viraria capsula. Forma
+nao acompanha tamanho de texto."* Como as duas fontes vigentes se contradizem
+apenas neste ponto, a implementação seguiu o `design.md` e **registrou o
+conflito em vez de escolher por conta própria**. Some-se que `core/radius/full`
+vale `9999px`, que em `rem` viraria `624.9375rem`. Para converter o raio
+também, é preciso antes alterar `raio_regras` no `design.md` — o que contraria
+o "o `design.md` não muda" desta decisão.
 
 ---
 

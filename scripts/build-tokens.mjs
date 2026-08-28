@@ -100,7 +100,63 @@ StyleDictionary.registerTransform({
   filter: (t) => (t.$type || t.type) === 'duration' && t.$value && typeof t.$value === 'object',
   transform: (t) => String(t.$value.value) + String(t.$value.unit),
 });
-const TRANSFORMS = [...StyleDictionary.hooks.transformGroups.css, 'nephos/duration/css'];
+
+/**
+ * P62.4 — decisao de Elvys em 28/08/2026: o gerador emite `rem`, e o
+ * `design.md` nao muda. Ate aqui todo `dimension` saia em `px`, e o contrato
+ * ja prometia `rem`; quem estava errado era o codigo.
+ *
+ * A raiz e 16px, como `unidade_css: rem, raiz 16px` do `design.md` declara em
+ * tipografia_regras e espacamento_regras.
+ *
+ * FAMILIAS EM PX POR REGRA PROPRIA, e nao por omissao: `raio_regras` do
+ * `design.md` diz `unidade_css: px` e explica o motivo — raio em rem cresceria
+ * com a fonte do usuario e a peca mudaria de FORMA, nao de tamanho. Um botao
+ * de 6px viraria capsula. Por isso `core/radius` fica fora desta conversao.
+ * Nao e excecao improvisada: e a unica fundacao que o contrato declara em px.
+ */
+const REM_RAIZ = 16;
+const SEM_CONVERSAO = ['radius'];
+
+/** Numero curto: 1.75 e nao 1.7500000000000002, 0 e nao 0.0000. */
+function numeroCurto(n) {
+  return String(Number(n.toFixed(6)));
+}
+
+/**
+ * Quando este transform roda, o Style Dictionary ja serializou o `dimension`
+ * estruturado do DTCG na string "16px" — diferente do `duration`, que ele nao
+ * trata. Por isso lemos a string, e nao { value, unit }.
+ */
+const PX = /^(-?\d+(?:\.\d+)?)px$/;
+
+const emPx = (t) => {
+  const v = t.$value;
+  if (typeof v === 'string') return PX.exec(v);
+  if (v && typeof v === 'object' && v.unit === 'px') return [null, String(v.value)];
+  return null;
+};
+
+StyleDictionary.registerTransform({
+  name: 'nephos/dimension/rem',
+  type: 'value',
+  transitive: false,
+  filter: (t) =>
+    (t.$type || t.type) === 'dimension' &&
+    !t.path.some((seg) => SEM_CONVERSAO.includes(seg)) &&
+    emPx(t) !== null,
+  transform: (t) => {
+    const px = Number(emPx(t)[1]);
+    if (px === 0) return '0';
+    return numeroCurto(px / REM_RAIZ) + 'rem';
+  },
+});
+
+const TRANSFORMS = [
+  ...StyleDictionary.hooks.transformGroups.css,
+  'nephos/duration/css',
+  'nephos/dimension/rem',
+];
 
 function applyMode(node, modo) {
   if (Array.isArray(node)) return node.slice();
