@@ -2051,7 +2051,7 @@ Antes de construir ou modificar um componente, **abra o arquivo de metadados del
 
 | Onde | O quê |
 |---|---|
-| `Template de ficha — peças do Nephos.md` | O gabarito de toda ficha: metade YAML com os valores, metade Markdown com o critério. Copie a partir dele; não invente estrutura |
+| `fichas/_modelo.md` | O gabarito de toda ficha: metade YAML com os valores, metade Markdown com o critério. Copie a partir dele; não invente estrutura |
 | `fichas/<nome-do-componente>.md` | Função, variantes, estados, combinações inválidas, acessibilidade, tokens, relações, anti-padrões |
 | `fichas/blocos/<nome>.md` | Composição, quando usar, quando não, em que layout aparece |
 | Storybook | Estados e variantes renderizados |
