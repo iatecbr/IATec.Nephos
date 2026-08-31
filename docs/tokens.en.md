@@ -1,11 +1,8 @@
-<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=d9d43df2a8cce179c17a501e390c47e10105c23647cae54ec39b111d3c428906 | status=rascunho -->
+<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=d9d43df2a8cce179c17a501e390c47e10105c23647cae54ec39b111d3c428906 | status=revisado -->
 
 # Tokens — source, generation and consumption
 
 [Português (BR)](tokens.md) · **English** · [Español](tokens.es.md)
-
-> **Draft translation.** Not yet reviewed by a person. Where it disagrees with
-> the Portuguese source, the source is right.
 
 > Translated from the Brazilian Portuguese source, [`tokens.md`](tokens.md).
 > If the two disagree, the Portuguese file prevails.
@@ -33,7 +30,7 @@ duplicate values. Values originate in Figma `DS-IA-NEPHOS 5.0`.
 | **Figma `DS-IA-NEPHOS 5.0`** | Visual source. Defines and validates values, modes, aliases and intent. |
 | **`design.md`** | Human and agent-facing contract: usage, accessibility, naming, anti-patterns. **Not the generation file.** |
 | **`src/tokens/source/*.tokens.json`** | Versioned technical source of audited values. **This is what you edit.** |
-| **`src/tokens/generated/tokens.css`** | Generated artifact. **NEVER edit by hand.** |
+| **`src/tokens/generated/tokens.css`** | Generated artefact. **NEVER edit by hand.** |
 
 ## Files
 

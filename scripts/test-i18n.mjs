@@ -165,7 +165,7 @@ if (ATUALIZAR) {
 console.log(`\n${conferidos} traducao(oes) conferida(s).`);
 
 if (rascunhos.length > 0) {
-  console.log(`${rascunhos.length} em RASCUNHO, aguardando revisao humana:`);
+  console.log(`${rascunhos.length} em RASCUNHO, aguardando aceitacao:`);
   for (const caminho of rascunhos) {
     console.log(`  - ${caminho}`);
   }

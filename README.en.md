@@ -1,11 +1,8 @@
-<!-- i18n: lang=en | source=README.md | source-sha256=5d265941110bad829b6389d79fce982988d5d27bb805ab21c07913be0701383b | status=rascunho -->
+<!-- i18n: lang=en | source=README.md | source-sha256=5657d6fcceffd973c2fbe223e077ab81cba90c3338bb11e025a4a88deb690002 | status=revisado -->
 
 # Nephos 5.0
 
 [Português (BR)](README.md) · **English** · [Español](README.es.md)
-
-> **Draft translation.** Not yet reviewed by a person. Where it disagrees with
-> the Portuguese source, the source is right.
 
 > Translated from the Brazilian Portuguese source, [`README.md`](README.md).
 > If the two disagree, the Portuguese file prevails.
@@ -101,9 +98,9 @@ Elvys gives later guidance.
 |---|---|---|
 | **P01** | Component encapsulation | Open Shadow DOM |
 | **P02** | Customisation and CSS surface | CSS custom properties as the public API; `::part` for internal parts; internal classes are not API |
-| **P03** | Project layout | `src/components/<name>/` holding implementation, CSS, story and test together; `src/tokens/` with `source` and `generated`; `src/styles/`; `src/shared/`; `docs/` |
+| **P03** | Project layout | `src/components/<nome>/` holding implementation, CSS, story and test together; `src/tokens/` with `source` and `generated`; `src/styles/`; `src/shared/`; `docs/` |
 | **P17** | Token format and consumption | JSON as the versioned source format; CSS custom properties as the generated format |
-| **P19** | Storybook, tests and publishing | Keep `@storybook/web-components-vite`; build on CI for pull requests, as a private artifact |
+| **P19** | Storybook, tests and publishing | Keep `@storybook/web-components-vite`; build on CI for pull requests, as a private artefact |
 | **P20** | Generation tool and theme contract | Style Dictionary v5; `data-nph-brand` and `data-nph-color-scheme` (`light`/`dark`); `com.iatec.nephos` namespace |
 | **P21** | Technical plan for the first component | The `nph-icon` contract; strict TypeScript; stories next to the component; Vitest in browser mode |
 
@@ -133,7 +130,7 @@ mean unused.
 | Governance, precedence and preflight | `GOVERNANCA.md` |
 | Agent instructions | `AGENTS.md` and `CLAUDE.md` |
 | Delivered implementation | Branch, commit, PR and Storybook in this repository |
-| Spec sheet and selection rule for a piece | `fichas/<name>.md`, not created yet |
+| Spec sheet and selection rule for a piece | `fichas/<nome>.md`, not created yet |
 
 Where something is missing or in conflict, do not invent a decision: stop and
 ask for confirmation.

@@ -167,6 +167,12 @@ não está fechada.
 Blocos, layouts e templates só podem ser documentados depois de extraídos de
 uma tela real ou mock aprovado.
 
+## Versões de idioma
+
+Este repositório publica sua documentação de uso em português (BR), inglês e
+espanhol. O português é a fonte; veja [`docs/i18n.md`](docs/i18n.md) para a
+convenção.
+
 ## Licença
 
 Unlicense. Veja `LICENSE`.
