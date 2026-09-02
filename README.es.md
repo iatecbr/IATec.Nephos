@@ -1,11 +1,8 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=baddfa45a02c2803935a347b7aa64ba94eed86732c206870979f49101ff6eb7a | status=rascunho -->
+<!-- i18n: lang=es | source=README.md | source-sha256=5657d6fcceffd973c2fbe223e077ab81cba90c3338bb11e025a4a88deb690002 | status=revisado -->
 
 # Nephos 5.0
 
 [Português (BR)](README.md) · [English](README.en.md) · **Español**
-
-> **Traducción en borrador.** Todavía no revisada por una persona. Donde difiera
-> de la fuente en portugués, la fuente tiene razón.
 
 > Traducido de la fuente en portugués de Brasil, [`README.md`](README.md).
 > Si ambos difieren, prevalece el archivo en portugués.
@@ -24,7 +21,7 @@ comportamiento.
 
 - Web Components con prefijo `nph-`, escritos en Lit.
 - Tokens y reglas de uso definidos en el contrato `design.md`.
-- Documentación de componentes, bloques, layouts y plantillas.
+- Documentación de componentes, bloques, layouts y templates.
 - Stories y validación en Storybook.
 - Ejemplos de consumo para Vue, Angular y Blazor.
 
@@ -101,7 +98,7 @@ actual, salvo orientación posterior de Elvys que las sustituya.
 |---|---|---|
 | **P01** | Encapsulamiento de los componentes | Shadow DOM abierto |
 | **P02** | Personalización y exposición de CSS | CSS custom properties como API pública; `::part` para partes internas; las clases internas no son API |
-| **P03** | Organización del proyecto | `src/components/<nombre>/` con implementación, CSS, story y prueba juntos; `src/tokens/` con `source` y `generated`; `src/styles/`; `src/shared/`; `docs/` |
+| **P03** | Organización del proyecto | `src/components/<nome>/` con implementación, CSS, story y prueba juntos; `src/tokens/` con `source` y `generated`; `src/styles/`; `src/shared/`; `docs/` |
 | **P17** | Formato y consumo de tokens | JSON como formato fuente versionado; CSS custom properties como formato generado |
 | **P19** | Storybook, pruebas y publicación | Mantener `@storybook/web-components-vite`; build en CI para pull requests, como artefacto privado |
 | **P20** | Herramienta de generación y contrato de temas | Style Dictionary v5; `data-nph-brand` y `data-nph-color-scheme` (`light`/`dark`); namespace `com.iatec.nephos` |
@@ -133,7 +130,7 @@ ronda futura, los demás primitivos, los estilos de efecto y los estilos de text
 | Gobernanza, precedencia y preflight | `GOVERNANCA.md` |
 | Instrucciones para agentes | `AGENTS.md` y `CLAUDE.md` |
 | Implementación entregada | Branch, commit, PR y Storybook de este repositorio |
-| Ficha y regla de elección de una pieza | `fichas/<nombre>.md`, aún no creadas |
+| Ficha y regla de elección de una pieza | `fichas/<nome>.md`, aún no creadas |
 
 Ante una laguna o un conflicto, no invente una decisión: deténgase y pida
 confirmación.
@@ -170,9 +167,9 @@ aún no está cerrada.
 | Componente | Pieza reutilizable, pública y aislada. |
 | Bloque | Composición reutilizable de componentes para una función de interfaz. |
 | Layout | Estructura espacial recurrente de una pantalla. |
-| Plantilla | Estructura de un flujo o tipo de pantalla que combina layouts y bloques. |
+| Template | Estructura de un flujo o tipo de pantalla que combina layouts y bloques. |
 
-Bloques, layouts y plantillas solo pueden documentarse después de extraerse de
+Bloques, layouts y templates solo pueden documentarse después de extraerse de
 una pantalla real o de un mock aprobado.
 
 ## Versiones de idioma
