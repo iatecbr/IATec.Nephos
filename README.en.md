@@ -90,9 +90,9 @@ Portuguese only.
 Decisions P01, P02, P03, P17, P19, P20 and P21 are recorded in
 [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md).
 
-**Status: adopted by Indiane on 24/08/2026, pending review by Elvys.** The rules
-are to be followed in current work, unless a technical conflict is identified or
-Elvys gives later guidance.
+**Status: adopted by Indiane on 24/08/2026 (P21 on 26/08/2026) — reviewed and
+approved by Elvys on 28/08/2026.** The rules are to be followed in current work,
+unless later guidance from Elvys replaces them.
 
 | | Subject | Decision |
 |---|---|---|

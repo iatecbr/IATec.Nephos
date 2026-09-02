@@ -1,4 +1,4 @@
-<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=d9d43df2a8cce179c17a501e390c47e10105c23647cae54ec39b111d3c428906 | status=revisado -->
+<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=e1d97e8ff212e8fd98144295c70d0846f14036f7785c0007f59ec8eb37eb0059 | status=revisado -->
 
 # Tokens — source, generation and consumption
 
@@ -138,11 +138,38 @@ The family is the only part that becomes an alias:
 height, weight and letter spacing are literals on the role, exactly as
 `design.md` already wrote them in the `valores` block.
 
-**Two caveats for technical review.** The five-property shape was chosen during
-this migration and has not been reviewed yet; and dimensions come out in `px`,
-like every `dimension` in the generator today — the `unidade_css: rem` rule in
-`design.md` is not honoured by any layer, and changing it is a pipeline decision
-for the whole system, not just for typography.
+The five-property shape was approved by Elvys on 28/08/2026 (P62.2).
+
+The unit caveat **is gone**: dimensions used to come out in `px`, and from
+28/08/2026 they come out in `rem` — see the section below.
+
+## Update of 28-08-2026 — dimensions in `rem`
+
+The generator emitted `px` for every `dimension`, while `design.md` already
+promised `unidade_css: rem, raiz 16px`. **Elvys's decision in P62.4, on
+28/08/2026:** the contract does not change; the code starts honouring it.
+
+The `nephos/dimension/rem` transform divides the value by **16** and emits
+`rem`. A zero value comes out as `0`, with no unit.
+
+```css
+--nph-core-space-400: 1rem;        /* was 16px */
+--nph-core-control-height-default: 2.25rem;  /* was 36px */
+--nph-text-body-md-font-size: 0.875rem;      /* was 14px */
+--nph-text-heading-xl-letter-spacing: -0.0125rem;  /* was -0.2px */
+```
+
+**Radius stays in `px` — Indiane's decision on 28/08/2026, recorded as P62.5.**
+The `raio_regras` block in `design.md` declares `unidade_css: px` and gives the
+reason: radius in `rem` would grow with the user's font, and the piece would
+change **shape**, not size — a 6px button would turn into a pill. `px` and `rem`
+behave identically under browser zoom; the difference only shows up in the
+user's font-size preference. It is the only foundation the contract declares in
+`px`, and P62.5 confirms that rule rather than changing it.
+
+The computed value does not change at the default 16px root: `1rem` still
+resolves to `16px`. What changes is that the interface now follows the user's
+font-size preference.
 
 ## Consumption — two independent attributes
 

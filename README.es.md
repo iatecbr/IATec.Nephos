@@ -90,9 +90,9 @@ mantiene solo en portugués.
 Las decisiones P01, P02, P03, P17, P19, P20 y P21 están registradas en
 [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md).
 
-**Estado: adoptada por Indiane el 24/08/2026, pendiente de revisión de Elvys.**
-Las reglas deben seguirse en el trabajo actual, salvo conflicto técnico
-identificado u orientación posterior de Elvys.
+**Estado: adoptada por Indiane el 24/08/2026 (P21 el 26/08/2026) — revisada y
+aprobada por Elvys el 28/08/2026.** Las reglas deben seguirse en el trabajo
+actual, salvo orientación posterior de Elvys que las sustituya.
 
 | | Tema | Decisión |
 |---|---|---|

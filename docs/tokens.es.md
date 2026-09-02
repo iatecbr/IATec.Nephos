@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=d9d43df2a8cce179c17a501e390c47e10105c23647cae54ec39b111d3c428906 | status=revisado -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=e1d97e8ff212e8fd98144295c70d0846f14036f7785c0007f59ec8eb37eb0059 | status=revisado -->
 
 # Tokens — fuente, generación y consumo
 
@@ -138,11 +138,39 @@ La familia es la única parte que se convierte en alias:
 de línea, peso y espaciado son literales en el papel, exactamente como
 `design.md` ya los escribía en el bloque `valores`.
 
-**Dos salvedades para la revisión técnica.** El formato de cinco propiedades se
-eligió en esta migración y todavía no pasó por revisión; y las dimensiones salen
-en `px`, como todo `dimension` del generador hoy — la regla `unidade_css: rem` de
-`design.md` no la cumple ninguna capa, y cambiarla es una decisión de pipeline
-para todo el sistema, no solo para tipografía.
+El formato de cinco propiedades fue aprobado por Elvys el 28/08/2026 (P62.2).
+
+La salvedad de unidad **ya no existe**: las dimensiones salían en `px` y, desde
+el 28/08/2026, salen en `rem` — ver la sección de abajo.
+
+## Actualización del 28-08-2026 — dimensiones en `rem`
+
+El generador emitía `px` para todo `dimension`, mientras `design.md` ya prometía
+`unidade_css: rem, raiz 16px`. **Decisión de Elvys en la P62.4, el 28/08/2026:**
+el contrato no cambia; el código pasa a cumplirlo.
+
+El transform `nephos/dimension/rem` divide el valor por **16** y emite `rem`. El
+valor cero sale como `0`, sin unidad.
+
+```css
+--nph-core-space-400: 1rem;        /* era 16px */
+--nph-core-control-height-default: 2.25rem;  /* era 36px */
+--nph-text-body-md-font-size: 0.875rem;      /* era 14px */
+--nph-text-heading-xl-letter-spacing: -0.0125rem;  /* era -0.2px */
+```
+
+**El radio sigue en `px` — decisión de Indiane el 28/08/2026, registrada como
+P62.5.** El bloque `raio_regras` de `design.md` declara `unidade_css: px` y
+explica el motivo: el radio en `rem` crecería con la fuente del usuario y la
+pieza cambiaría de **forma**, no de tamaño — un botón de 6px se volvería
+cápsula. `px` y `rem` se comportan igual con el zoom del navegador; la
+diferencia aparece solo en la preferencia de tamaño de fuente del usuario. Es la
+única fundación que el contrato declara en `px`, y la P62.5 la confirma en vez
+de alterarla.
+
+El valor computado no cambia con la raíz por defecto de 16px: `1rem` sigue
+resolviendo a `16px`. Lo que cambia es que ahora la interfaz acompaña la
+preferencia de tamaño de fuente del usuario.
 
 ## Consumo — dos atributos independientes
 

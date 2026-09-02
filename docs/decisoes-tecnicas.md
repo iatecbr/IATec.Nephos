@@ -20,7 +20,8 @@ subseção P62.4 para o detalhe).
 | **P62.3** | `for` e `text` como API do `nph-label` | 27/08/2026 | **Barato agora, caro depois.** O `nph-input` e o `nph-field` serão construídos sobre elas | Aprovada, 28/08/2026 |
 | **P62.2** | Formato dos tokens de tipografia: cinco propriedades por papel | 27/08/2026 | Médio. Os valores não mudam, só a emissão e o CSS que os consome | Aprovada, 28/08/2026 |
 | **P62.1** | `nph-label` sem Shadow DOM — exceção à P01 | 27/08/2026 | Alto. É a única forma de a associação nativa funcionar; sem ela o rótulo perde a função | Aprovada, 28/08/2026 |
-| **P62.4** | Dimensões em `px`, e não `rem` | 27/08/2026 | Alto e antigo. Vale para o sistema inteiro, não só tipografia | Resolvida por decisão própria: migrar o gerador para `rem` (implementação pendente) — 28/08/2026 |
+| **P62.4** | Dimensões em `px`, e não `rem` | 27/08/2026 | Alto e antigo. Vale para o sistema inteiro, não só tipografia | Resolvida por decisão própria: migrar o gerador para `rem` — 28/08/2026. **Implementada em 28/08/2026** |
+| **P62.5** | O raio continua em `px` | 28/08/2026 | Baixo. Converter depois é uma linha no gerador, mas exige alterar `raio_regras` no `design.md` | **Nova — adotada por Indiane em 28/08/2026, aguardando revisão de Elvys.** Resolve a contradição de escopo da P62.4 |
 | **P01** | Shadow DOM aberto | 24/08/2026 | Alto. Todo componente depende | Aprovada, 28/08/2026 |
 | **P02** | Custom properties como API pública | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
 | **P03** | Padrão de diretórios e TypeScript | 24/08/2026 | Médio | Aprovada, 28/08/2026 |
@@ -353,7 +354,9 @@ revisada e aprovada por Elvys em 28/08/2026.
 
 **Status.** Quatro decisões adotadas pela Indiane em 27/08/2026. Elvys revisou
 em 28/08/2026: aprovou P62.1, P62.2 e P62.3 como estavam registradas; a P62.4
-ele resolveu de outra forma — ver a subseção. As três primeiras nasceram de um
+ele resolveu de outra forma — ver a subseção. A **P62.5**, adotada por Indiane
+em 28/08/2026 para resolver a contradição de escopo da P62.4, **aguarda revisão
+de Elvys**. As três primeiras nasceram de um
 problema concreto durante a implementação; a quarta é uma divergência antiga
 que a implementação expôs.
 
@@ -428,20 +431,31 @@ proibido pelo plano trilíngue. **Consequência: o `nph-input` terá de carregar
 
 ### P62.4 — Dimensões saem em `px`, não em `rem`
 
-**Decisão.** Registrar a divergência em vez de corrigi-la agora.
+> **Leia o registro histórico abaixo como histórico.** A decisão original —
+> registrar a divergência sem corrigi-la — **foi substituída** pela decisão de
+> Elvys em 28/08/2026 e já está implementada. Para o estado atual, vá direto a
+> **Decisão de Elvys — 28/08/2026** e a **Implementação — 28/08/2026**, no fim
+> desta subseção. O que vem antes descreve a situação de 27/08/2026 e **não é o
+> estado do repositório hoje**.
 
-**O fato.** O `design.md` declara `unidade_css: rem, raiz 16px`. **Nenhuma
-camada do gerador cumpre isso**: espaço, raio, altura de controle, tamanho de
-ícone e agora tipografia saem todos em `px`. A migração de tipografia apenas
-seguiu o que já existia.
+**Decisão original, 27/08/2026 — SUPERADA.** Registrar a divergência em vez de
+corrigi-la naquele momento.
 
-**Motivo de não corrigir aqui.** Mudar para `rem` afeta todo `dimension` do
-sistema, não só a tipografia, e é decisão de pipeline. Corrigir dentro de um PR
-de componente esconderia uma mudança global dentro de uma entrega local.
+**O fato, em 27/08/2026.** O `design.md` declarava `unidade_css: rem, raiz
+16px` e **nenhuma camada do gerador cumpria isso**: espaço, raio, altura de
+controle, tamanho de ícone e a tipografia recém-migrada saíam todos em `px`. A
+migração de tipografia apenas seguiu o que já existia. **Isso deixou de valer
+em 28/08/2026:** hoje 92 dos 100 tokens `dimension` saem em `rem`, e só
+`core/radius` continua em `px`, pela P62.5.
 
-**O que ficava aberto.** Ou o gerador passa a emitir `rem`, ou o `design.md`
-passa a declarar `px`. O contrato prometia uma coisa e o código entregava
-outra.
+**Motivo de não corrigir naquele PR.** Mudar para `rem` afeta todo `dimension`
+do sistema, não só a tipografia, e é decisão de pipeline. Corrigir dentro de um
+PR de componente esconderia uma mudança global dentro de uma entrega local. Por
+isso a correção veio depois, em PR próprio.
+
+**O que ficava aberto, e não está mais.** Ou o gerador passaria a emitir `rem`,
+ou o `design.md` passaria a declarar `px`. O contrato prometia uma coisa e o
+código entregava outra. Resolvido abaixo.
 
 **Decisão de Elvys — 28/08/2026.** Resolve a divergência: o **gerador migra
 para `rem`**. O `design.md` (`unidade_css: rem, raiz 16px`) não muda — é o
@@ -451,8 +465,60 @@ sem corrigir" acima; a divergência deixou de ser só anotada.
 **Escopo desta decisão.** Fixa o rumo, não a implementação. Afeta toda camada
 `dimension` do Style Dictionary — espaço, raio, altura de controle, tamanho de
 ícone e tipografia (P62.2) —, não só a tipografia. A migração em si (mudança no
-gerador, e revalidação da saída determinística de cada camada) **ainda não foi
-implementada** e é tarefa própria, fora desta nota.
+gerador, e revalidação da saída determinística de cada camada) é tarefa própria,
+fora desta nota.
+
+**Implementação — 28/08/2026.** Executada por autorização de Indiane. O
+transform `nephos/dimension/rem` em `scripts/build-tokens.mjs` divide por 16 e
+emite `rem`; zero sai como `0`. Converteram-se **92 dos 100 tokens `dimension`**
+— espaço, altura de controle, tamanho de ícone, largura e altura de layout,
+espessura de foco e os 42 de tipografia. Os 8 de raio ficam de fora pela P62.5.
+
+Os 8 primitivos de `core/radius` ficaram de fora, por decisão registrada na
+**P62.5**, abaixo.
+
+---
+
+### P62.5 — O raio continua em `px`
+
+**Decisão de Indiane, 28/08/2026.** `core/radius` fica fora da conversão da
+P62.4. Os outros 92 tokens `dimension` vão para `rem`; os 8 de raio continuam
+em `px`.
+
+**Por que existe esta decisão.** O escopo da P62.4 cita "raio" entre as
+famílias afetadas e, no mesmo parágrafo, determina que o `design.md` **não
+muda**. Para o raio, as duas coisas não cabem juntas: o `raio_regras` do
+`design.md` declara `unidade_css: px`. Converter o raio exigiria alterar o
+contrato que a própria P62.4 manda preservar.
+
+**Por que `px` e não `rem`.**
+
+1. **A regra tem motivo escrito, e o motivo continua válido.** O `design.md`
+   explica: *"Raio em rem cresceria com a fonte do usuario e um botao de 6px
+   viraria capsula. Forma nao acompanha tamanho de texto."* `px` e `rem` se
+   comportam igual no zoom do navegador; a diferença aparece só quando o
+   usuário aumenta a fonte — e aí o raio em `rem` **deforma** o botão em vez de
+   acompanhá-lo.
+2. **A menção a "raio" na P62.4 é incidental, não fundamentada.** Ela aparece
+   numa enumeração das famílias da camada `dimension`. A parte da P62.4 que foi
+   de fato decidida é a outra: o código passa a cumprir o contrato. Aqui, o
+   contrato diz `px`.
+3. **`core/radius/full` vale `9999px`**, que em `rem` viraria `624.9375rem` —
+   valor que ninguém escreveria de propósito, e sinal de que a família não foi
+   considerada quando a lista foi escrita.
+
+**O que esta decisão NÃO faz.** Não altera o `raio_regras` do `design.md`: ela
+o confirma. Não cria exceção nova — o raio já era a única fundação declarada em
+`px`. Não toca as outras três regras `unidade_css`.
+
+**Custo de mudar de ideia.** Baixo e simétrico: converter o raio depois é
+acrescentar `'radius'` fora da constante `SEM_CONVERSAO` em
+`scripts/build-tokens.mjs` e rodar `npm run build:tokens`. Mas exigiria alterar
+o `raio_regras` do `design.md` junto, e aí deixa de ser mudança de pipeline e
+vira mudança de contrato visual.
+
+**Status.** Decisão adotada por Indiane em 28/08/2026 — aguardando revisão de
+Elvys.
 
 ---
 

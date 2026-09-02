@@ -133,11 +133,38 @@ aponta para `--nph-core-font-sans`. Tamanho, altura de linha, peso e
 espaçamento são literais no papel, exatamente como o `design.md` já os escrevia
 no bloco `valores`.
 
-**Duas ressalvas para a revisão técnica.** O formato de cinco propriedades foi
-escolhido nesta migração e ainda não passou por revisão; e as dimensões saem em
-`px`, como todo `dimension` do gerador hoje — a regra `unidade_css: rem` do
-`design.md` não é cumprida por nenhuma camada, e mudá-la é decisão de pipeline
-para o sistema inteiro, não só para tipografia.
+O formato de cinco propriedades foi aprovado por Elvys em 28/08/2026 (P62.2).
+
+A ressalva de unidade **deixou de existir**: as dimensões saíam em `px`, e a
+partir de 28/08/2026 saem em `rem` — ver a seção abaixo.
+
+## Atualização de 28-08-2026 — dimensões em `rem`
+
+O gerador emitia `px` para todo `dimension`, enquanto o `design.md` já prometia
+`unidade_css: rem, raiz 16px`. **Decisão de Elvys na P62.4, em 28/08/2026:** o
+contrato não muda; o código passa a cumpri-lo.
+
+O transform `nephos/dimension/rem` divide o valor por **16** e emite `rem`.
+Valor zero sai como `0`, sem unidade.
+
+```css
+--nph-core-space-400: 1rem;        /* era 16px */
+--nph-core-control-height-default: 2.25rem;  /* era 36px */
+--nph-text-body-md-font-size: 0.875rem;      /* era 14px */
+--nph-text-heading-xl-letter-spacing: -0.0125rem;  /* era -0.2px */
+```
+
+**Raio continua em `px` — decisão de Indiane em 28/08/2026, registrada como
+P62.5.** O `raio_regras` do `design.md` declara `unidade_css: px` e explica o
+motivo: raio em `rem` cresceria com a fonte do usuário, e a peça mudaria de
+**forma**, não de tamanho — um botão de 6px viraria cápsula. `px` e `rem` se
+comportam igual no zoom do navegador; a diferença aparece só na preferência de
+fonte do usuário. É a única fundação que o contrato declara em `px`, e a P62.5
+a confirma em vez de alterá-la.
+
+O valor computado não muda com a raiz padrão de 16px: `1rem` continua
+resolvendo para `16px`. O que muda é que agora a interface acompanha a
+preferência de tamanho de fonte do usuário.
 
 ## Consumo — dois atributos independentes
 
