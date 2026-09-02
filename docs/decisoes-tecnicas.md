@@ -538,7 +538,8 @@ Isso vale para pessoas e para agentes.
 |---|---|
 | [`../README.md`](../README.md) | Resumo e ponteiro para esta nota |
 | [`../AGENTS.md`](../AGENTS.md) | Regra de leitura obrigatória antes de mexer em componente |
-| [`../CLAUDE.md`](../CLAUDE.md) | A mesma regra, espelhada |
+| [`../CLAUDE.md`](../CLAUDE.md) | Instrução exclusiva do Claude; a regra comum está no `AGENTS.md` |
 | [`../GOVERNANCA.md`](../GOVERNANCA.md) | Estado vigente do repositório |
 | [`../design.md`](../design.md) | Contrato das fundações; §9 e §10 alinhadas ao P03 e ao P17 |
 | [`tokens.md`](tokens.md) | Como o P17 e o P20 são aplicados: fonte, geração, consumo e validações |
+| [`../fichas/<nome>.md`](../fichas/) | Como a decisão chega ao componente: contrato, variantes, estados e tokens |
