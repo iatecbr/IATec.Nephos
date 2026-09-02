@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=e1d97e8ff212e8fd98144295c70d0846f14036f7785c0007f59ec8eb37eb0059 | status=revisado -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=ba6aedd1639b22f56695409aee8a19ddcbe9330fb4de12be30f4b831058a653f | status=revisado -->
 
 # Tokens — fuente, generación y consumo
 
@@ -10,8 +10,9 @@
 > **La fuente técnica suma 364 tokens**, de los cuales 217 son semánticos. La
 > migración base de 289 ítems se concluyó el 24/08/2026; los tres tokens
 > aprobados en Figma para `nph-button` entraron el 25/08/2026, en el commit
-> `505e36d`, llevando la fuente a 292. El comando `npm run build:tokens` verifica
-> ese total en cada generación — si difiere, falla.
+> `505e36d`, llevando la fuente a 292. Cada capa declara su propio conteo en
+> `contagemEsperada`, y `npm run build:tokens` falla cuando una capa difiere de
+> lo que declaró.
 >
 > El 27/08/2026 entró la **capa de tipografía**: las dos familias tipográficas en
 > `core` y los **14 papeles de texto** en `semantic`, cada uno con cinco

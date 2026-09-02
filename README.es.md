@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=5657d6fcceffd973c2fbe223e077ab81cba90c3338bb11e025a4a88deb690002 | status=revisado -->
+<!-- i18n: lang=es | source=README.md | source-sha256=eeb9bf2c9a41b18043b8f8c3e00e9aeb4236b48171b3f4d113f0e6d9af98f8a4 | status=revisado -->
 
 # Nephos 5.0
 
@@ -116,8 +116,8 @@ fueron consolidados por la P19.
 
 Siguen fuera del repositorio: el workflow de CI, la publicación pública y el
 deploy. También quedan fuera los 20 primitivos de la P46 y, aplazados para una
-ronda futura, los demás primitivos, los estilos de efecto y los estilos de texto
-— aplazado no significa sin consumidor.
+ronda futura, los demás primitivos y los estilos de efecto — aplazado no
+significa sin consumidor.
 
 ## Fuentes de verdad
 
@@ -130,7 +130,7 @@ ronda futura, los demás primitivos, los estilos de efecto y los estilos de text
 | Gobernanza, precedencia y preflight | `GOVERNANCA.md` |
 | Instrucciones para agentes | `AGENTS.md` y `CLAUDE.md` |
 | Implementación entregada | Branch, commit, PR y Storybook de este repositorio |
-| Ficha y regla de elección de una pieza | `fichas/<nome>.md`, aún no creadas |
+| Ficha y regla de elección de una pieza | `fichas/<nome>.md`, con la plantilla en `fichas/_modelo.md` |
 
 Ante una laguna o un conflicto, no invente una decisión: deténgase y pida
 confirmación.
@@ -158,7 +158,8 @@ en Figma.
 5. `nph-checkbox`
 
 Los demás componentes no entran en el P0 por defecto. La lista completa de la v1
-aún no está cerrada.
+— 75 componentes públicos en 6 ondas — se cerró el 26-08-2026 y se mantiene
+fuera de este repositorio.
 
 ## Taxonomía
 
