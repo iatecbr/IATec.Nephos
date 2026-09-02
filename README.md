@@ -110,8 +110,8 @@ bootstrap e foram consolidados pelo P19.
 
 Continuam fora do repositório: o workflow de CI, a publicação pública e o
 deploy. Também ficam fora os 20 primitivos da P46 e, adiados para rodada
-futura, os demais primitivos, os estilos de efeito e os estilos de texto —
-adiado não significa sem consumidor.
+futura, os demais primitivos e os estilos de efeito — adiado não significa sem
+consumidor.
 
 ## Fontes de verdade
 
@@ -124,7 +124,7 @@ adiado não significa sem consumidor.
 | Governança, precedência e preflight | `GOVERNANCA.md` |
 | Instruções para agentes | `AGENTS.md` e `CLAUDE.md` |
 | Implementação entregue | Branch, commit, PR e Storybook deste repositório |
-| Ficha e regra de escolha de uma peça | `fichas/<nome>.md`, ainda não criadas |
+| Ficha e regra de escolha de uma peça | `fichas/<nome>.md`, com o gabarito em `fichas/_modelo.md` |
 
 Em caso de lacuna ou conflito, não invente uma decisão: pare e solicite
 confirmação.
@@ -152,8 +152,9 @@ no Figma.
 4. `nph-field`
 5. `nph-checkbox`
 
-Os demais componentes não entram no P0 por padrão. A lista completa da v1 ainda
-não está fechada.
+Os demais componentes não entram no P0 por padrão. A lista completa da v1 — 75
+componentes públicos em 6 ondas — foi fechada em 26-08-2026 e é mantida fora
+deste repositório.
 
 ## Taxonomia
 

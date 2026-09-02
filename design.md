@@ -1,7 +1,7 @@
 ---
 sistema: Nephos
-versao: 1.7
-data: 2026-08-25
+versao: 1.8
+data: 2026-09-02
 status: sincronizado com o Figma em 2026-08-25; contrato de trabalho da branch `v/3.0.0`
 fonte_tecnica_dos_valores: >-
   Desde 24-08-2026 os valores auditados vivem em `src/tokens/source/*.tokens.json`,
@@ -14,11 +14,13 @@ consumo_de_tema: >-
   no elemento raiz: `data-nph-brand` (sistemas, gerencial, educacao, comercial,
   financeiro, igrejas, rh) e `data-nph-color-scheme` (light, dark).
 escopo_migrado_para_json: >-
-  292 itens: 139 primitivos core, 6 variáveis theme nos sete modos e os 147
+  364 itens: 141 primitivos core, 6 variáveis theme nos sete modos e os 217
   semânticos nos dois modos. Os 289 itens da migração-base entraram em 24-08-2026;
   três tokens de Button aprovados no Figma foram adicionados em 25-08-2026, no commit
-  505e36d. Os 20 primitivos da P46 ficaram fora por decisão registrada. Os demais
-  primitivos, os estilos de efeito e os estilos de texto estão adiados — adiado não
+  505e36d, levando a fonte a 292; a camada de tipografia — duas famílias de fonte em
+  core e os 14 papéis de texto em semantic, cinco propriedades cada — entrou em
+  27-08-2026 e levou a fonte a 364. Os 20 primitivos da P46 ficaram fora por decisão
+  registrada. Os demais primitivos e os estilos de efeito estão adiados — adiado não
   significa sem consumidor.
 escopo_verificado: [cor, tipografia, espacamento, raio, elevacao, grid, movimento, cor_de_grafico]
 escopo_a_validar: []
@@ -2055,13 +2057,13 @@ Antes de construir ou modificar um componente, **abra o arquivo de metadados del
 | `fichas/<nome-do-componente>.md` | Função, variantes, estados, combinações inválidas, acessibilidade, tokens, relações, anti-padrões |
 | `fichas/blocos/<nome>.md` | Composição, quando usar, quando não, em que layout aparece |
 | Storybook | Estados e variantes renderizados |
-| Lista de componentes — Nephos v1 | Escopo: os 75 componentes e as 6 ondas |
+| Lista de componentes — Nephos v1, no vault | Escopo: os 75 componentes públicos e as 6 ondas, fechados em 26-08-2026 |
 
 > **Decisão vigente — revisada e aprovada por Elvys em 28/08/2026.** A
 > organização de diretórios está em
-> [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) (P03). Até o
-> primeiro componente, os caminhos acima permanecem ponteiros de documentação; o
-> padrão de diretórios será aplicado quando a peça existir.
+> [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) (P03). O padrão de
+> diretórios da P03 já está aplicado em `src/components/nph-icon/` e
+> `src/components/nph-label/`. As fichas correspondentes estão em `fichas/`.
 
 ---
 

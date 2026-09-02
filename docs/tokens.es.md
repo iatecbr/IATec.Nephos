@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=e1d97e8ff212e8fd98144295c70d0846f14036f7785c0007f59ec8eb37eb0059 | status=revisado -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=7f1433e6ba44c208224bee002d67b6bf5f3ccc9065fc29902012a05275390f3d | status=revisado -->
 
 # Tokens — fuente, generación y consumo
 
@@ -10,8 +10,9 @@
 > **La fuente técnica suma 364 tokens**, de los cuales 217 son semánticos. La
 > migración base de 289 ítems se concluyó el 24/08/2026; los tres tokens
 > aprobados en Figma para `nph-button` entraron el 25/08/2026, en el commit
-> `505e36d`, llevando la fuente a 292. El comando `npm run build:tokens` verifica
-> ese total en cada generación — si difiere, falla.
+> `505e36d`, llevando la fuente a 292. Cada capa declara su propio conteo en
+> `contagemEsperada`, y `npm run build:tokens` falla cuando una capa difiere de
+> lo que declaró.
 >
 > El 27/08/2026 entró la **capa de tipografía**: las dos familias tipográficas en
 > `core` y los **14 papeles de texto** en `semantic`, cada uno con cinco
@@ -91,8 +92,8 @@ La clasificación compara **alias y valor final** entre los modos, en una
 representación **canónica** — nunca por identidad de objeto, nunca por orden de
 clave, nunca por el `$type`. Está probada en `scripts/test-invariancia.mjs`.
 
-De los 147 semánticos: **53 invariantes** y **94 variantes**. Los 94 son todos
-`color`. Entre los 53 hay **9 tokens `color`** — la invariancia no es una
+De los 217 semánticos: **123 invariantes** y **94 variantes**. Los 94 son todos
+`color`. Entre los 123 hay **9 tokens `color`** — la invariancia no es una
 propiedad del tipo.
 
 ## Actualización del 25-08-2026 — tokens de Button

@@ -1,111 +1,31 @@
-# Nephos — instruções para Claude
+# Nephos — instruções exclusivas do Claude
 
 > **Antes de criar ou modificar qualquer UI, leia e siga `GOVERNANCA.md` e o
 > `design.md`. Antes de usar um componente, abra a ficha dele em
 > `fichas/<nome>.md`.**
 
-> Este arquivo espelha o `AGENTS.md`. Toda mudança de governança deve ser
-> aplicada aos dois.
+> **`AGENTS.md` é o contrato comum. Leia-o primeiro, inteiro.** Este arquivo não
+> o repete: acrescenta apenas o que vale para o Claude e não vale para os demais
+> agentes. Em qualquer divergência entre os dois, prevalece o `AGENTS.md`.
 
-## Antes de agir
+## O papel do Claude no repositório
 
-1. Leia `GOVERNANCA.md`, o `README.md`, o `design.md`,
-   `docs/decisoes-tecnicas.md` e as fichas e notas aplicáveis.
-2. Para regras visuais e valores de token, consulte o Figma
-   `DS-IA-NEPHOS 5.0`. Sem evidência verificável, pare e peça confirmação.
-3. Diferencie fato verificado, decisão vigente, proposta e pendência.
-4. Confirme que cada token, componente, variante e estado existe nas fontes
-   vigentes.
-
-## Salvaguardas contra erro documental
-
-1. Estado vigente e fonte canônica vencem sessões, listas e decisões históricas
-   ou superadas. Histórico explica o passado; nunca cria regra atual.
-2. Decisão delegada continua aberta até ter evidência verificável na fonte
-   apropriada. Não a declare fechada por haver responsável, recomendação ou
-   conversa prévia.
-3. Feche pendência somente com decisão ou evidência, data, responsável e
-   localização verificável. Feche apenas a parte comprovada.
-4. Ao criar, unificar, remover ou tornar interno um componente, confira lista
-   vigente, numeração, total, fórmula de progresso, itens restantes, plano,
-   contrato e documentos derivados. Conte somente a lista completa; não some o
-   P0 uma segunda vez.
-5. Atualize primeiro a fonte canônica. Documento histórico ou superado só
-   recebe anotação de superação para evitar contradição; não o reescreva como
-   regra atual.
-6. Se uma verificação falhar, corrija o método e execute-a novamente antes de
-   declarar resultado.
-
-## Restrições duras
-
-- Escreva Web Components em Lit com prefixo `nph-`.
-- Use somente tokens semânticos nos componentes; nunca consuma valores
-  literais, `core/*` ou `theme/*`.
-- Use **Font Awesome Pro**. **Classic** é a família padrão: todo ícone de
-  conteúdo, ação, estado, feedback e direção. **Duotone é permitido somente em
-  navegação estrutural** — menu, sidebar, grupo de navegação, atalho e
-  indicador de localização. Fora da navegação, Duotone é proibido: nada de
-  botão, campo, feedback, validação, alerta, tabela ou ação destrutiva. Nunca
-  misture Duotone e Classic no mesmo grupo de navegação. Light, Thin e Sharp
-  continuam proibidos. A chave de licença fica em variável de ambiente e
-  **nunca** entra no repositório.
-- Para cada componente, primeiro derive e aprove visualmente no Figma a
-  referência estrutural do Obra configurada com tokens Nephos; depois
-  implemente no repositório.
-- Enquanto o licenciamento do Obra CE/shadcn estiver em validação, use-o apenas
-  como referência visual e estrutural; nunca copie código, assets, tokens ou
-  componentes para entregáveis do Nephos.
-- Mantenha a ficha, o Figma, o Storybook e o contrato consistentes.
-- Ao concluir, registre data, responsável, fonte de evidência, decisão alterada
-  e documentos sincronizados.
-
-## Nunca faça
-
-- NUNCA use React, Vue, Angular, Svelte ou outro framework para escrever o
-  Nephos.
-- NUNCA use Tailwind, shadcn/ui, Radix ou outra biblioteca de componentes como
-  dependência de código.
-- NUNCA escreva valores literais no CSS de componente.
-- NUNCA invente tokens, componentes, variantes, estados, combinações, métricas
-  de progresso ou decisões de produto.
-- NUNCA declare implementação, testes, Storybook, branch, commit ou publicação
-  sem evidência verificável.
-
-## Decisões técnicas vigentes
-
-**P01, P02, P03, P17, P19, P20 e P21 são decisões vigentes e devem ser seguidas. Não as
-altere, substitua ou reabra sem explicar o conflito técnico, registrar uma
-proposta de mudança e solicitar revisão humana.**
-
-Status: *decisão adotada pela Indiane em 24/08/2026 (P21 em 26/08/2026) —
-revisada e aprovada por Elvys em 28/08/2026*. Elas valem para o trabalho
-atual. A P62 (`nph-label`, tipografia e dimensões, registrada em
-27/08/2026) também foi revisada por Elvys em 28/08/2026: aprovou P62.1, P62.2
-e P62.3 como estavam registradas; a P62.4 ele resolveu decidindo migrar o
-gerador de `px` para `rem` — migração ainda não implementada. Ver
-`docs/decisoes-tecnicas.md`. Se ele der orientação posterior que conflite com
-alguma, a orientação dele prevalece e a nota deve ser atualizada.
-
-Em resumo, e sem substituir a leitura da nota: Shadow DOM aberto (P01); CSS
-custom properties como API pública e `::part` para partes internas, com classes
-internas fora do contrato (P02); componente, CSS, story e teste juntos em
-`src/components/<nome>/` (P03); JSON como formato-fonte dos tokens e CSS custom
-properties como formato gerado (P17); `@storybook/web-components-vite` mantido (P19); Style Dictionary v5 como gerador, com `data-nph-brand` e `data-nph-color-scheme` como contrato público de tema (P20); e o plano técnico do `nph-icon`, com o contrato do componente e a base de validação (P21).
-Quando o workflow de CI for criado, ele executará o build em pull requests e
-disponibilizará um artefato privado (P19).
+1. **O Claude aplica; não redige por conta própria.** O conteúdo documental é
+   redigido e auditado pelo Copilot, e o Claude o aplica no repositório sem
+   alterar o sentido aprovado. Edição editorial autônoma do Claude não é fonte
+   válida de regra.
+2. **Uma etapa, um PR pequeno e verificável.** Elvys revisa e faz o merge. O
+   Claude não faz o merge do próprio PR.
+3. **Branch e worktree isolados.** Quando a tarefa previr worktree, nenhuma
+   execução acontece no clone principal.
+4. **Plano antes de editar.** O Claude apresenta o que pretende alterar e espera
+   a aprovação da etapa; não edita antes disso.
+5. **Documentação pública traduzida muda no mesmo PR.** Alterou `README.md` ou
+   `docs/tokens.md`, atualize os pares `en`/`es`, rode `npm run i18n:update` e
+   `npm run test:i18n` antes de fechar o PR.
 
 ## Quando parar
 
-Pare e peça confirmação quando faltar uma decisão, fonte de verdade, ficha
-necessária, evidência visual ou quando fontes vigentes divergirem.
-
-O repositório tem **292 tokens técnicos** em `src/tokens/source/*.tokens.json`,
-com o CSS gerado em `src/tokens/generated/tokens.css` — **nunca edite o CSS
-gerado**. O primeiro componente, `nph-icon`, está implementado com stories e
-testes desde o PR #6. **O workflow de CI e a publicação continuam inexistentes.**
-
-Nem tudo foi decidido. A nota registra, em cada decisão, o que ficou fora de
-escopo — entre outras coisas, o workflow de CI não existe, e os estilos de
-efeito, os estilos de texto e os primitivos adiados ainda não foram migrados.
-Não presuma o resultado do que está fora de escopo: pare e registre o
-impedimento.
+Pare e peça confirmação quando faltar decisão, fonte de verdade, ficha,
+evidência visual, gate ou acesso — e quando duas fontes vigentes divergirem.
+Parar com o bloqueio registrado vale mais do que entregar com lacuna preenchida.

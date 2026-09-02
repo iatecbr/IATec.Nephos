@@ -1,4 +1,4 @@
-<!-- i18n: lang=en | source=README.md | source-sha256=5657d6fcceffd973c2fbe223e077ab81cba90c3338bb11e025a4a88deb690002 | status=revisado -->
+<!-- i18n: lang=en | source=README.md | source-sha256=eeb9bf2c9a41b18043b8f8c3e00e9aeb4236b48171b3f4d113f0e6d9af98f8a4 | status=revisado -->
 
 # Nephos 5.0
 
@@ -116,8 +116,7 @@ confirmed by P19.
 
 Still outside the repository: the CI workflow, public publishing and deployment.
 Also out: the 20 primitives from P46 and, deferred to a future round, the
-remaining primitives, the effect styles and the text styles — deferred does not
-mean unused.
+remaining primitives and the effect styles — deferred does not mean unused.
 
 ## Sources of truth
 
@@ -130,7 +129,7 @@ mean unused.
 | Governance, precedence and preflight | `GOVERNANCA.md` |
 | Agent instructions | `AGENTS.md` and `CLAUDE.md` |
 | Delivered implementation | Branch, commit, PR and Storybook in this repository |
-| Spec sheet and selection rule for a piece | `fichas/<nome>.md`, not created yet |
+| Spec sheet and selection rule for a piece | `fichas/<nome>.md`, with the template in `fichas/_modelo.md` |
 
 Where something is missing or in conflict, do not invent a decision: stop and
 ask for confirmation.
@@ -158,8 +157,9 @@ Figma.
 4. `nph-field`
 5. `nph-checkbox`
 
-Other components are not part of P0 by default. The full v1 list is not closed
-yet.
+Other components are not part of P0 by default. The full v1 list — 75 public
+components in 6 waves — was closed on 26-08-2026 and is kept outside this
+repository.
 
 ## Taxonomy
 
