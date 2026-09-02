@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=ba6aedd1639b22f56695409aee8a19ddcbe9330fb4de12be30f4b831058a653f | status=revisado -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=7f1433e6ba44c208224bee002d67b6bf5f3ccc9065fc29902012a05275390f3d | status=revisado -->
 
 # Tokens — fuente, generación y consumo
 
@@ -92,8 +92,8 @@ La clasificación compara **alias y valor final** entre los modos, en una
 representación **canónica** — nunca por identidad de objeto, nunca por orden de
 clave, nunca por el `$type`. Está probada en `scripts/test-invariancia.mjs`.
 
-De los 147 semánticos: **53 invariantes** y **94 variantes**. Los 94 son todos
-`color`. Entre los 53 hay **9 tokens `color`** — la invariancia no es una
+De los 217 semánticos: **123 invariantes** y **94 variantes**. Los 94 son todos
+`color`. Entre los 123 hay **9 tokens `color`** — la invariancia no es una
 propiedad del tipo.
 
 ## Actualización del 25-08-2026 — tokens de Button

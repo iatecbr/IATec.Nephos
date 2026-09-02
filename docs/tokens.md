@@ -86,8 +86,8 @@ A classificação compara **alias e valor final** entre os modos, numa
 representação **canônica** — nunca por identidade de objeto, nunca por ordem de
 chave, nunca pelo `$type`. Está provada em `scripts/test-invariancia.mjs`.
 
-Dos 147 semânticos: **53 invariantes** e **94 variantes**. Os 94 são todos
-`color`. Entre os 53 há **9 tokens `color`** — a invariância não é uma
+Dos 217 semânticos: **123 invariantes** e **94 variantes**. Os 94 são todos
+`color`. Entre os 123 há **9 tokens `color`** — a invariância não é uma
 propriedade do tipo.
 
 ## Atualização de 25-08-2026 — tokens de Button
