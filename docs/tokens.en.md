@@ -1,4 +1,4 @@
-<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=e1d97e8ff212e8fd98144295c70d0846f14036f7785c0007f59ec8eb37eb0059 | status=revisado -->
+<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=ba6aedd1639b22f56695409aee8a19ddcbe9330fb4de12be30f4b831058a653f | status=revisado -->
 
 # Tokens — source, generation and consumption
 
@@ -10,8 +10,8 @@
 > **The technical source totals 364 tokens**, 217 of them semantic. The 289-item
 > base migration was completed on 24/08/2026; the three tokens approved in Figma
 > for `nph-button` landed on 25/08/2026, in commit `505e36d`, taking the source
-> to 292. `npm run build:tokens` checks that total on every generation — if it
-> diverges, the build fails.
+> to 292. Each layer declares its own count in `contagemEsperada`, and
+> `npm run build:tokens` fails when a layer diverges from what it declared.
 >
 > On 27/08/2026 the **typography layer** landed: the two font families in `core`
 > and the **14 text roles** in `semantic`, each with five properties — 141

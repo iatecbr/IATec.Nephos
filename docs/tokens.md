@@ -5,8 +5,8 @@
 > **A fonte técnica soma 364 tokens**, dos quais 217 semânticos. A migração-base
 > de 289 itens foi concluída em 24/08/2026; os três tokens aprovados no Figma
 > para `nph-button` entraram em 25/08/2026, no commit `505e36d`, levando a fonte
-> a 292. O comando `npm run build:tokens` confere esse total a cada geração — se
-> divergir, ele reprova.
+> a 292. Cada camada declara a própria contagem em `contagemEsperada`, e
+> `npm run build:tokens` reprova quando a camada diverge do que declarou.
 >
 > Em 27/08/2026 entrou a **camada de tipografia**: as duas famílias de fonte em
 > `core` e os **14 papéis de texto** em `semantic`, cada um com cinco
