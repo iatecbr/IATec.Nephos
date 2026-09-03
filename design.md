@@ -14,17 +14,17 @@ consumo_de_tema: >-
   no elemento raiz: `data-nph-brand` (sistemas, gerencial, educacao, comercial,
   financeiro, igrejas, rh) e `data-nph-color-scheme` (light, dark).
 escopo_migrado_para_json: >-
-  401 itens: 168 primitivos core, 6 variáveis theme nos sete modos e os 227
+  404 itens: 168 primitivos core, 6 variáveis theme nos sete modos e os 230
   semânticos nos dois modos. Os 289 itens da migração-base entraram em 24-08-2026;
   três tokens de Button aprovados no Figma foram adicionados em 25-08-2026, no commit
   505e36d, levando a fonte a 292; a camada de tipografia — duas famílias de fonte em
   core e os 14 papéis de texto em semantic, cinco propriedades cada — entrou em
   27-08-2026 e levou a fonte a 364; em 03-09-2026 entraram os 24 primitivos de sombra
   e os 8 estilos de elevação (PF-15), as duas peças de movimento que faltavam (PF-16)
-  e o par do laço do girador (PF-05), levando a fonte a 401. Os 20 primitivos da P46
+  e o par do laço do girador (PF-05), levando a fonte a 404. Os 20 primitivos da P46
   ficaram fora por decisão registrada. Os demais primitivos seguem adiados — adiado
-  não significa sem consumidor. Os 3 estilos focus-ring/* NÃO foram gerados: ver a
-  nota no bloco tokens_elevation.
+  não significa sem consumidor. Os 3 anéis de foco entraram como focus-ring/invalid,
+  default e sidebar: ver a nota no bloco tokens_elevation.
 escopo_verificado: [cor, tipografia, espacamento, raio, elevacao, grid, movimento, cor_de_grafico]
 escopo_a_validar: []
 camadas: [core, theme, semantic]
@@ -959,10 +959,10 @@ tokens_elevation:
     css: '--nph-focus-ring-default'
     camadas: ['0 0 0 3px focus/ring']
     use: "O anel de foco de teclado. USE em TODO elemento operavel que recebe foco: botao, campo, select, checkbox, link, aba, item de menu. A cor vem da marca ativa. NUNCA remova o anel. NAO USE dentro da barra lateral - la e focus-ring/sidebar."
-  focus-ring/error:
-    css: '--nph-focus-ring-error'
+  focus-ring/invalid:
+    css: '--nph-focus-ring-invalid'
     camadas: ['0 0 0 3px focus/ring-error']
-    use: "O anel de foco em campo que falhou a validacao. USE junto com mensagem de texto e icone - o anel NUNCA e o unico sinal do erro."
+    use: "O anel de foco em campo que falhou a validacao. USE junto com mensagem de texto e icone - o anel NUNCA e o unico sinal do erro. O ESTILO e `invalid`; a COR que ele consome e `focus/ring-error` - nomes diferentes de proposito, porque os dois achatavam no mesmo --nph-focus-ring-error."
   focus-ring/sidebar:
     css: '--nph-focus-ring-sidebar'
     camadas: ['0 0 0 3px sidebar/ring']
@@ -974,9 +974,9 @@ tokens_elevation:
     use: "Nivel maximo, para a peca que toma a tela inteira: paleta de comando, busca em foco total. USE no maximo uma por tela. NAO empilhe com outro nivel."
 
   nota_focus_ring:
-    estado: 'OS TRES focus-ring/* NAO FORAM GERADOS em 03-09-2026, na PF-15. Os oito elevation/* foram.'
-    motivo: 'Este bloco da a focus-ring/error o nome CSS `--nph-focus-ring-error`, e o bloco tokens_alpha da o MESMO nome a focus/ring-error, que ja esta publicado como a COR do anel. Duas coisas diferentes com um nome so. O gerador reprovou a colisao; resolver o nome e decisao humana, nao escolha de quem executa.'
-    consequencia: 'Enquanto durar, nenhum componente aplica o anel de foco por token, e o `use` dos tres estilos acima descreve intencao, nao variavel existente. Ver docs/tokens.md.'
+    renomeado: 'focus-ring/error passou a focus-ring/invalid em 03-09-2026, no Figma e no codigo ao mesmo tempo. Decisao de Indiane.'
+    motivo: 'O nome antigo achatava em `--nph-focus-ring-error`, o MESMO nome que tokens_alpha da a focus/ring-error, ja publicado como a COR do anel. Duas coisas diferentes com um nome so. Renomeou-se o estilo, e nao a cor: nao se quebra custom property publicada, que a P02 define como API publica, para acomodar uma que ainda nao existia.'
+    leitura: 'A sombra e `invalid`; a cor que ela consome continua sendo `focus/ring-error`. `invalid` e o termo do HTML e da ARIA para o estado.'
 
 # ---------------------------------------------------------------
 # ALFA - escala de 19 degraus em preto e em branco, completa e

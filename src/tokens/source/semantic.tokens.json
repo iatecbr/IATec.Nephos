@@ -1,10 +1,10 @@
 {
-  "$description": "Camada 2 - semanticos. E daqui que componente e agente consomem. Regras de uso, acessibilidade e anti-padroes ficam no design.md, que nao duplica valores. Os 8 estilos de elevacao sao tokens `shadow`: cada camada liga geometria a core/shadow-* e cor a um semantico, exatamente como o estilo faz no Figma. Os 3 estilos focus-ring/* ficaram FORA: o nome CSS que o design.md da a focus-ring/error colide com o de focus/ring-error, e a colisao e decisao humana - ver docs/tokens.md.",
+  "$description": "Camada 2 - semanticos. E daqui que componente e agente consomem. Regras de uso, acessibilidade e anti-padroes ficam no design.md, que nao duplica valores. Os 11 estilos de efeito - elevation/* e focus-ring/* - sao tokens `shadow`: cada camada liga geometria a core/shadow-* ou a focus/ring-width, e cor a um semantico, exatamente como o estilo faz no Figma. O anel de erro chama-se focus-ring/invalid, e nao focus-ring/error: o nome antigo colidia no CSS gerado com a variavel de cor focus/ring-error.",
   "$extensions": {
     "com.iatec.nephos": {
       "camada": "semantic",
-      "contagemEsperada": 227,
-      "origem": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 8 estilos de elevacao lidos camada a camada em 2026-09-03",
+      "contagemEsperada": 230,
+      "origem": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03",
       "modeSet": {
         "nome": "color-scheme",
         "modos": [
@@ -988,6 +988,71 @@
           }
         }
       }
+    }
+  },
+  "focus-ring": {
+    "default": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 0,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 0,
+            "unit": "px"
+          },
+          "spread": "{focus.ring-width}",
+          "color": "{focus.ring}"
+        }
+      ]
+    },
+    "invalid": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 0,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 0,
+            "unit": "px"
+          },
+          "spread": "{focus.ring-width}",
+          "color": "{focus.ring-error}"
+        }
+      ]
+    },
+    "sidebar": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 0,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 0,
+            "unit": "px"
+          },
+          "spread": "{focus.ring-width}",
+          "color": "{sidebar.ring}"
+        }
+      ]
     }
   },
   "icon": {

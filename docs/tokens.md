@@ -2,7 +2,7 @@
 
 **Português (BR)** · [English](tokens.en.md) · [Español](tokens.es.md)
 
-> **A fonte técnica soma 401 tokens**, dos quais 227 semânticos. A migração-base
+> **A fonte técnica soma 404 tokens**, dos quais 230 semânticos. A migração-base
 > de 289 itens foi concluída em 24/08/2026; os três tokens aprovados no Figma
 > para `nph-button` entraram em 25/08/2026, no commit `505e36d`, levando a fonte
 > a 292. Cada camada declara a própria contagem em `contagemEsperada`, e
@@ -17,8 +17,8 @@
 > Em 03/09/2026 entraram a **sombra** e o que faltava de **movimento**: 24
 > primitivos e os 8 estilos de elevação (PF-15), `core/duration/400` e
 > `core/easing/linear` (PF-16) e o par do laço do girador (PF-05) — 168 `core`,
-> 6 `theme` e 227 `semantic`. Os 3 estilos `focus-ring/*` ficaram de fora; a
-> seção de 03-09-2026 diz por quê.
+> 6 `theme` e 230 `semantic`. Os 3 anéis de foco entraram na mesma data, depois
+> de um ajuste de nome que a seção de 03-09-2026 explica.
 
 Esta nota explica **como os tokens vivem no repositório**. O que cada token
 significa, quando usar e quando não usar está no [`design.md`](../design.md), que
@@ -40,9 +40,9 @@ src/tokens/
   source/
     core.tokens.json       168 primitivos
     theme.tokens.json        6 variáveis de marca, sete modos
-    semantic.tokens.json   227 tokens semânticos, dois esquemas de cor
+    semantic.tokens.json   230 tokens semânticos, dois esquemas de cor
   generated/
-    tokens.css             531 declarações — GERADO
+    tokens.css             534 declarações — GERADO
 scripts/
   tokens-lib.mjs           funções puras: forma canônica, classificação, índice
   build-tokens.mjs         gerador
@@ -93,8 +93,8 @@ A classificação compara **alias e valor final** entre os modos, numa
 representação **canônica** — nunca por identidade de objeto, nunca por ordem de
 chave, nunca pelo `$type`. Está provada em `scripts/test-invariancia.mjs`.
 
-Dos 227 semânticos: **133 invariantes** e **94 variantes**. Os 94 são todos
-`color`. Entre os 133 há **9 tokens `color`** — a invariância não é uma
+Dos 230 semânticos: **136 invariantes** e **94 variantes**. Os 94 são todos
+`color`. Entre os 136 há **9 tokens `color`** — a invariância não é uma
 propriedade do tipo.
 
 ## Atualização de 25-08-2026 — tokens de Button
@@ -242,25 +242,38 @@ das notas de movimento respondia `core/easing/linear` para o girador — um toke
 **A barra indeterminada continua sem valor.** O `nph-progress` foi adiado e não
 existe peça para decidir sobre ela.
 
-### O que ficou de fora: os três `focus-ring/*`
+### A colisão de nome, e como ela foi resolvida
 
-Os oito `elevation/*` foram gerados. Os três anéis de foco, não — e o motivo não
-é adiamento:
+Os 11 estilos entraram — mas os três anéis de foco só depois de um ajuste de
+nome. O `design.md` dava o **mesmo nome CSS** a duas coisas diferentes:
 
-| Token | Nome CSS que o `design.md` declara | O que é |
+| Token | Nome CSS | O que é |
 |---|---|---|
 | `focus/ring-error` | `--nph-focus-ring-error` | a **cor** do anel, publicada desde a migração-base |
-| `focus-ring/error` | `--nph-focus-ring-error` | a **sombra** do anel, de duas partes |
+| `focus-ring/error` | `--nph-focus-ring-error` | a **sombra** do anel |
 
-**O mesmo nome para duas coisas diferentes.** A colisão nasce da convenção de
-nomes: `/` vira `-`, e `focus-ring/error` e `focus/ring-error` achatam no mesmo
-identificador. No Figma ela não aparece, porque lá estilo e variável são espaços
-de nome separados.
+A colisão nasce da convenção de nomes: `/` vira `-`, e `focus-ring/error` e
+`focus/ring-error` achatam no mesmo identificador. No Figma ela não aparece,
+porque lá estilo e variável são espaços de nome separados. Quem a encontrou foi
+a validação nova — o build reprovou, com o nome e a contagem.
 
-O gerador reprovou, e foi assim que a colisão apareceu. Resolver o nome é
-decisão humana — renomear a cor quebraria uma custom property já publicada, que
-o P02 define como API pública. Os três anéis entram juntos quando a decisão
-existir; até lá, nenhum componente aplica o anel de foco por token.
+**Decisão de Indiane em 03/09/2026: renomear o estilo, não a cor.** O estilo
+`focus-ring/error` passou a se chamar **`focus-ring/invalid`**, no Figma e no
+código ao mesmo tempo. A cor publicada não mudou.
+
+Três razões. Não se quebra uma custom property já publicada — que a P02 define
+como API pública — para acomodar uma que ainda não existia. Renomear nos dois
+lugares juntos mantém o nome do estilo no Figma igual ao nome do token, sem a
+deriva silenciosa que apareceria se só o código mudasse. E `invalid` é o termo
+do HTML e da ARIA para esse estado, coerente com o `design.md`, que descreve o
+caso como "campo que falhou a validacao".
+
+O resultado se lê sozinho: a sombra é `invalid`, e a cor que ela usa continua
+sendo `error`.
+
+```css
+--nph-focus-ring-invalid: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring-error);
+```
 
 ## Consumo — dois atributos independentes
 
@@ -324,8 +337,7 @@ O build **falha** — com código 1 e mensagem específica — quando:
 | 20 primitivos da **P46** | **Excluídos por decisão registrada** — `core/radius` 700–1000, `core/space` 1200–1500 e os 12 fora de escala. Enquanto estiverem nessa lista, não entram no JSON. |
 | 127 demais primitivos `core` | **Adiados.** Não são alcançáveis a partir da camada `semantic`, o que **não** significa que não tenham consumidor. Seguem adiados sem juízo sobre consumidor. |
 | 24 primitivos `core/sombra` | **Migrados em 03/09/2026.** O consumidor que a linha acima já nomeava — os estilos `elevation/*` — passou a existir. |
-| 8 estilos de elevação | **Migrados em 03/09/2026.** Deixaram de ser adiados: viraram tokens `shadow`. |
-| 3 estilos `focus-ring/*` | **Não gerados.** Não é adiamento: é colisão de nome, e depende de decisão humana. Ver a seção de 03-09-2026. |
+| 11 estilos de efeito | **Migrados em 03/09/2026.** Deixaram de ser adiados: viraram tokens `shadow` — 8 de elevação e 3 anéis de foco. |
 | 14 estilos de texto | **Migrados em 27/08/2026.** Deixaram de ser adiados. Não são variáveis do Figma: os valores foram lidos dos estilos de texto e conferidos contra `tokens_typography` do `design.md`, item a item, sem divergência. Cada papel virou cinco tokens em `semantic.text`, e as duas famílias entraram em `core.font`. |
 
 ## Limitação conhecida da ferramenta

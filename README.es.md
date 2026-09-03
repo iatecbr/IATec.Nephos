@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=72d5cf8551972e548880d06bac87d456130522e9047b6cd421dd0f9f53e6eac1 | status=revisado -->
+<!-- i18n: lang=es | source=README.md | source-sha256=4ce2c0eeff51f18a19ed79801c4c52ace7846d41032b30bda54fa2df3d2340cf | status=revisado -->
 
 # Nephos 5.0
 
@@ -116,9 +116,9 @@ fueron consolidados por la P19.
 
 Siguen fuera del repositorio: el workflow de CI, la publicación pública y el
 deploy. También quedan fuera los 20 primitivos de la P46 y, aplazados para una
-ronda futura, los demás primitivos — aplazado no significa sin consumidor. Los
-estilos de efecto dejaron de estar aplazados el 03-09-2026: los ocho niveles de
-elevación entraron; los tres anillos de foco esperan una decisión de nombre.
+ronda futura, los demás primitivos — aplazado no significa sin consumidor. Los 11
+estilos de efecto dejaron de estar aplazados el 03-09-2026 — los ocho niveles de
+elevación y los tres anillos de foco.
 
 ## Fuentes de verdad
 

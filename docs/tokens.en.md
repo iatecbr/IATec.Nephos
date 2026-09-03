@@ -1,4 +1,4 @@
-<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=0d7ab20f3be7b33558b35184a50b8b1078f00ca5ec8ed8701fa2f5c10733fb48 | status=revisado -->
+<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=e736fbc0c88402dc5d62ac34580dec2b8813c095cc5c51ff4b460319af18b782 | status=revisado -->
 
 # Tokens — source, generation and consumption
 
@@ -7,7 +7,7 @@
 > Translated from the Brazilian Portuguese source, [`tokens.md`](tokens.md).
 > If the two disagree, the Portuguese file prevails.
 
-> **The technical source totals 401 tokens**, 227 of them semantic. The 289-item
+> **The technical source totals 404 tokens**, 230 of them semantic. The 289-item
 > base migration was completed on 24/08/2026; the three tokens approved in Figma
 > for `nph-button` landed on 25/08/2026, in commit `505e36d`, taking the source
 > to 292. Each layer declares its own count in `contagemEsperada`, and
@@ -22,8 +22,8 @@
 > On 03/09/2026 **shadow** and the missing **motion** pieces landed: 24
 > primitives and the 8 elevation styles (PF-15), `core/duration/400` and
 > `core/easing/linear` (PF-16) and the spinner-loop pair (PF-05) — 168 `core`,
-> 6 `theme` and 227 `semantic`. The 3 `focus-ring/*` styles stayed out; the
-> 03-09-2026 section says why.
+> 6 `theme` and 230 `semantic`. The 3 focus rings landed on the same date, after
+> a name change the 03-09-2026 section explains.
 
 This note explains **how tokens live in the repository**. What each token means,
 when to use it and when not to, is in [`design.md`](../design.md), which does not
@@ -45,9 +45,9 @@ src/tokens/
   source/
     core.tokens.json       168 primitives
     theme.tokens.json        6 brand variables, seven modes
-    semantic.tokens.json   227 semantic tokens, two colour schemes
+    semantic.tokens.json   230 semantic tokens, two colour schemes
   generated/
-    tokens.css             531 declarations — GENERATED
+    tokens.css             534 declarations — GENERATED
 scripts/
   tokens-lib.mjs           pure functions: canonical form, classification, index
   build-tokens.mjs         generator
@@ -98,8 +98,8 @@ Classification compares **alias and final value** across modes, in a
 **canonical** representation — never by object identity, never by key order,
 never by `$type`. It is proven in `scripts/test-invariancia.mjs`.
 
-Of the 227 semantic tokens: **133 invariant** and **94 variant**. All 94 are
-`color`. Among the 133 there are **9 `color` tokens** — invariance is not a
+Of the 230 semantic tokens: **136 invariant** and **94 variant**. All 94 are
+`color`. Among the 136 there are **9 `color` tokens** — invariance is not a
 property of the type.
 
 ## Update of 25-08-2026 — Button tokens
@@ -249,26 +249,39 @@ answers a role.
 **The indeterminate bar still has no value.** `nph-progress` was deferred and
 there is no piece to decide about.
 
-### What stayed out: the three `focus-ring/*`
+### The name collision, and how it was settled
 
-The eight `elevation/*` were generated. The three focus rings were not — and the
-reason is not deferral:
+All 11 styles landed — but the three focus rings only after a name change.
+`design.md` gave the **same CSS name** to two different things:
 
-| Token | CSS name `design.md` declares | What it is |
+| Token | CSS name | What it is |
 |---|---|---|
 | `focus/ring-error` | `--nph-focus-ring-error` | the ring's **colour**, published since the base migration |
-| `focus-ring/error` | `--nph-focus-ring-error` | the ring's **shadow**, in two parts |
+| `focus-ring/error` | `--nph-focus-ring-error` | the ring's **shadow** |
 
-**The same name for two different things.** The collision comes from the naming
-convention: `/` becomes `-`, and `focus-ring/error` and `focus/ring-error`
-flatten onto the same identifier. It does not show up in Figma, because there
-styles and variables are separate namespaces.
+The collision comes from the naming convention: `/` becomes `-`, and
+`focus-ring/error` and `focus/ring-error` flatten onto the same identifier. It
+does not show up in Figma, because there styles and variables are separate
+namespaces. What found it was the new validation — the build failed, with the
+name and the count.
 
-The generator rejected it, and that is how the collision surfaced. Settling the
-name is a human decision — renaming the colour would break an already published
-custom property, which P02 defines as public API. The three rings land together
-once that decision exists; until then, no component applies the focus ring
-through a token.
+**Indiane's decision on 03/09/2026: rename the style, not the colour.** The
+style `focus-ring/error` is now **`focus-ring/invalid`**, in Figma and in code at
+the same time. The published colour did not change.
+
+Three reasons. You do not break an already published custom property — which P02
+defines as public API — to accommodate one that did not exist yet. Renaming in
+both places at once keeps the style name in Figma identical to the token name,
+without the silent drift that would appear if only the code changed. And
+`invalid` is the HTML and ARIA term for this state, consistent with `design.md`,
+which describes the case as "campo que falhou a validacao".
+
+The result reads by itself: the shadow is `invalid`, and the colour it uses is
+still `error`.
+
+```css
+--nph-focus-ring-invalid: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring-error);
+```
 
 ## Consumption — two independent attributes
 
@@ -334,8 +347,7 @@ The build **fails** — with exit code 1 and a specific message — when:
 | 20 primitives from **P46** | **Excluded by recorded decision** — `core/radius` 700–1000, `core/space` 1200–1500 and the 12 off-scale ones. While they are on that list, they do not enter the JSON. |
 | The other 127 `core` primitives | **Deferred.** They are not reachable from the `semantic` layer, which does **not** mean they have no consumer. They remain deferred with no judgement about consumers. |
 | 24 `core/sombra` primitives | **Migrated on 03/09/2026.** The consumer the row above already named — the `elevation/*` styles — now exists. |
-| 8 elevation styles | **Migrated on 03/09/2026.** No longer deferred: they became `shadow` tokens. |
-| 3 `focus-ring/*` styles | **Not generated.** Not a deferral: a name collision, and it needs a human decision. See the 03-09-2026 section. |
+| 11 effect styles | **Migrated on 03/09/2026.** No longer deferred: they became `shadow` tokens — 8 elevation levels and 3 focus rings. |
 | 14 text styles | **Migrated on 27/08/2026.** No longer deferred. They are not Figma variables: the values were read from the text styles and checked against `tokens_typography` in `design.md`, item by item, with no divergence. Each role became five tokens in `semantic.text`, and the two families landed in `core.font`. |
 
 ## Known tool limitation

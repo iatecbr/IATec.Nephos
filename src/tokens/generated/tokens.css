@@ -369,6 +369,9 @@
   --nph-text-label-sm-font-family: var(--nph-core-font-sans);
   --nph-text-caption-font-family: var(--nph-core-font-sans);
   --nph-text-code-font-family: var(--nph-core-font-mono);
+  --nph-focus-ring-default: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring);
+  --nph-focus-ring-invalid: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring-error);
+  --nph-focus-ring-sidebar: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-sidebar-ring);
   --nph-sidebar-primary-foreground: var(--nph-theme-brand-on-600);
   --nph-sidebar-primary: var(--nph-theme-brand-600);
 }
