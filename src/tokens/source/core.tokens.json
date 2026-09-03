@@ -1,10 +1,10 @@
 {
-  "$description": "Camada 1 - primitivos. Nenhum componente consome daqui. Espelha a colecao `core` do Figma DS-IA-NEPHOS 5.0. Somente os primitivos necessarios para resolver a camada semantic. Os 20 itens da P46 estao fora por decisao registrada; os demais primitivos, estilos de efeito e estilos de texto seguem adiados, exceto as duas familias de fonte, necessarias para resolver a camada text, sem juizo sobre consumidor.",
+  "$description": "Camada 1 - primitivos. Nenhum componente consome daqui. Espelha a colecao `core` do Figma DS-IA-NEPHOS 5.0. Somente os primitivos necessarios para resolver a camada semantic. Os 20 itens da P46 estao fora por decisao registrada; os demais primitivos e os estilos de texto seguem adiados, exceto as duas familias de fonte, necessarias para resolver a camada text. Em 2026-09-03 entraram os 24 primitivos de sombra, que montam os estilos elevation/* (PF-15), e os tres de movimento: core/duration/400 e core/easing/linear (PF-16) e core/duration/loop, o laco de 800 ms do girador (PF-05).",
   "$extensions": {
     "com.iatec.nephos": {
       "camada": "core",
-      "contagemEsperada": 141,
-      "origem": "Figma DS-IA-NEPHOS 5.0, colecao core, leitura de 2026-08-24; as duas familias de fonte lidas dos estilos de texto do mesmo arquivo em 2026-08-27"
+      "contagemEsperada": 168,
+      "origem": "Figma DS-IA-NEPHOS 5.0, colecao core, leitura de 2026-08-24; as duas familias de fonte lidas dos estilos de texto do mesmo arquivo em 2026-08-27; os 24 primitivos de sombra e os tres de movimento lidos variavel a variavel em 2026-09-03"
     }
   },
   "core": {
@@ -144,6 +144,20 @@
           "value": 250,
           "unit": "ms"
         }
+      },
+      "400": {
+        "$type": "duration",
+        "$value": {
+          "value": 400,
+          "unit": "ms"
+        }
+      },
+      "loop": {
+        "$type": "duration",
+        "$value": {
+          "value": 800,
+          "unit": "ms"
+        }
       }
     },
     "easing": {
@@ -160,6 +174,15 @@
         "$type": "cubicBezier",
         "$value": [
           0.4,
+          0,
+          1,
+          1
+        ]
+      },
+      "linear": {
+        "$type": "cubicBezier",
+        "$value": [
+          0,
           0,
           1,
           1
@@ -556,6 +579,180 @@
       "light": {
         "$type": "color",
         "$value": "rgba(0, 0, 0, 0.45)"
+      }
+    },
+    "shadow-blur": {
+      "0": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        }
+      },
+      "100": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2,
+          "unit": "px"
+        }
+      },
+      "200": {
+        "$type": "dimension",
+        "$value": {
+          "value": 3,
+          "unit": "px"
+        }
+      },
+      "300": {
+        "$type": "dimension",
+        "$value": {
+          "value": 4,
+          "unit": "px"
+        }
+      },
+      "400": {
+        "$type": "dimension",
+        "$value": {
+          "value": 6,
+          "unit": "px"
+        }
+      },
+      "450": {
+        "$type": "dimension",
+        "$value": {
+          "value": 10,
+          "unit": "px"
+        }
+      },
+      "500": {
+        "$type": "dimension",
+        "$value": {
+          "value": 15,
+          "unit": "px"
+        }
+      },
+      "600": {
+        "$type": "dimension",
+        "$value": {
+          "value": 25,
+          "unit": "px"
+        }
+      },
+      "700": {
+        "$type": "dimension",
+        "$value": {
+          "value": 50,
+          "unit": "px"
+        }
+      }
+    },
+    "shadow-spread": {
+      "0": {
+        "$type": "dimension",
+        "$value": {
+          "value": 0,
+          "unit": "px"
+        }
+      },
+      "100": {
+        "$type": "dimension",
+        "$value": {
+          "value": -1,
+          "unit": "px"
+        }
+      },
+      "200": {
+        "$type": "dimension",
+        "$value": {
+          "value": -2,
+          "unit": "px"
+        }
+      },
+      "300": {
+        "$type": "dimension",
+        "$value": {
+          "value": -3,
+          "unit": "px"
+        }
+      },
+      "400": {
+        "$type": "dimension",
+        "$value": {
+          "value": -4,
+          "unit": "px"
+        }
+      },
+      "500": {
+        "$type": "dimension",
+        "$value": {
+          "value": -5,
+          "unit": "px"
+        }
+      },
+      "600": {
+        "$type": "dimension",
+        "$value": {
+          "value": -6,
+          "unit": "px"
+        }
+      },
+      "700": {
+        "$type": "dimension",
+        "$value": {
+          "value": -12,
+          "unit": "px"
+        }
+      }
+    },
+    "shadow-y": {
+      "100": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1,
+          "unit": "px"
+        }
+      },
+      "200": {
+        "$type": "dimension",
+        "$value": {
+          "value": 2,
+          "unit": "px"
+        }
+      },
+      "300": {
+        "$type": "dimension",
+        "$value": {
+          "value": 4,
+          "unit": "px"
+        }
+      },
+      "350": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        }
+      },
+      "400": {
+        "$type": "dimension",
+        "$value": {
+          "value": 10,
+          "unit": "px"
+        }
+      },
+      "500": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        }
+      },
+      "600": {
+        "$type": "dimension",
+        "$value": {
+          "value": 25,
+          "unit": "px"
+        }
       }
     },
     "sistemas": {

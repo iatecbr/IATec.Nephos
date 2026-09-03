@@ -14,9 +14,14 @@ export const NS = 'com.iatec.nephos';
  *
  * Peso de fonte fica como `number`, e nao como `fontWeight`: o DTCG aceita
  * palavra ou numero nesse tipo, e a fonte do Nephos sempre grava numero.
+ *
+ * `shadow` entrou em 03-09-2026, com os 11 estilos de efeito (PF-15). O Style
+ * Dictionary ja traz `shadow/css/shorthand` no grupo `css`: ele monta a
+ * shorthand e preserva a referencia de cada parte. Nao entrou dependencia
+ * nova - faltava so o tipo estar nesta lista.
  */
 export const TIPOS_TRATADOS = new Set([
-  'color', 'dimension', 'duration', 'cubicBezier', 'number', 'fontFamily',
+  'color', 'dimension', 'duration', 'cubicBezier', 'number', 'fontFamily', 'shadow',
 ]);
 
 /**
@@ -41,9 +46,20 @@ export function aliasDe(v) {
   return m ? m[1] : null;
 }
 
-/** Todas as referencias contidas num valor (string). */
-export const refs = (v) =>
-  typeof v === 'string' ? [...v.matchAll(/\{([^}]+)\}/g)].map((m) => m[1]) : [];
+/**
+ * Todas as referencias contidas num valor, em qualquer profundidade.
+ *
+ * Percorre array e objeto porque valor composto guarda referencia DENTRO de
+ * si: um token `shadow` tem uma referencia por camada, em `offsetY`, `blur`,
+ * `spread` e `color`. Enquanto esta funcao so lia string, nenhuma delas era
+ * validada - nem a existencia do alvo, nem o achatamento na saida.
+ */
+export function refs(v) {
+  if (typeof v === 'string') return [...v.matchAll(/\{([^}]+)\}/g)].map((m) => m[1]);
+  if (Array.isArray(v)) return v.flatMap(refs);
+  if (v !== null && typeof v === 'object') return Object.values(v).flatMap(refs);
+  return [];
+}
 
 /** Percorre folhas ($value) devolvendo [caminho, token]. */
 export function folhas(node, base = []) {

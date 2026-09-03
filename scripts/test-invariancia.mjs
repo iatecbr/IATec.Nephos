@@ -22,6 +22,13 @@ const durC = { value: 150, unit: 'ms' };
 const dimA = { unit: 'px', value: 16 };
 const dimB = { value: 16, unit: 'px' };
 
+/* Sombra: A e B tem o MESMO conteudo com a ordem de chave trocada, dentro e
+   fora da camada. C muda a geometria. Nenhum dos tres e o mesmo objeto. */
+const camada = (y, blur, spread) => ({ offsetX: { value: 0, unit: 'px' }, offsetY: { value: y, unit: 'px' }, blur: { value: blur, unit: 'px' }, spread: { value: spread, unit: 'px' }, color: '{core.base.white}' });
+const sombraA = [camada(1, 2, -1)];
+const sombraB = [{ color: '{core.base.white}', spread: { unit: 'px', value: -1 }, blur: { unit: 'px', value: 2 }, offsetY: { unit: 'px', value: 1 }, offsetX: { unit: 'px', value: 0 } }];
+const sombraC = [camada(4, 6, -4)];
+
 const core = {
   core: {
     space: { 400: { $type: 'dimension', $value: { value: 16, unit: 'px' } } },
@@ -62,6 +69,10 @@ const casos = {
     'bezier-arrays-distintos': { $type: 'cubicBezier', $value: [0, 0, 0.2, 1], ...modos([0, 0, 0.2, 1], [0, 0, 0.2, 1]) },
     // 10. cubicBezier com conteudo diferente -> variante
     'bezier-diferente': { $type: 'cubicBezier', $value: [0, 0, 0.2, 1], ...modos([0, 0, 0.2, 1], [0.4, 0, 1, 1]) },
+    // 11. shadow: camadas distintas na memoria, ordem de chave trocada, conteudo igual -> invariante
+    'shadow-ordem-trocada': { $type: 'shadow', $value: sombraA, ...modos(sombraA, sombraB) },
+    // 12. shadow com geometria diferente entre os modos -> variante
+    'shadow-diferente': { $type: 'shadow', $value: sombraA, ...modos(sombraA, sombraC) },
   },
 };
 
@@ -76,6 +87,8 @@ const ESPERADO = {
   'a.sem-modes': 'invariante',
   'a.bezier-arrays-distintos': 'invariante',
   'a.bezier-diferente': 'variante',
+  'a.shadow-ordem-trocada': 'invariante',
+  'a.shadow-diferente': 'variante',
 };
 
 const idx = indexar([core, theme, casos]);
@@ -97,6 +110,9 @@ const guardas = [
   ['dimA !== dimB (objetos realmente distintos)', dimA !== dimB],
   ['canon(dimA) === canon(dimB)', canon(dimA) === canon(dimB)],
   ['canon(durA) !== canon(durC) (conteudo diferente)', canon(durA) !== canon(durC)],
+  ['sombraA !== sombraB (objetos realmente distintos)', sombraA !== sombraB],
+  ['canon(sombraA) === canon(sombraB) (ordem de chave nao importa, em qualquer profundidade)', canon(sombraA) === canon(sombraB)],
+  ['canon(sombraA) !== canon(sombraC) (geometria diferente)', canon(sombraA) !== canon(sombraC)],
 ];
 console.log('\n=== GUARDAS ===');
 for (const [n, ok] of guardas) {

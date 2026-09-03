@@ -17,7 +17,7 @@
 import StyleDictionary from 'style-dictionary';
 import fs from 'node:fs';
 import path from 'node:path';
-import { NS, TIPOS_TRATADOS, folhas, refs, indexar, classifica } from './tokens-lib.mjs';
+import { NS, TIPOS_TRATADOS, aliasDe, folhas, refs, indexar, classifica } from './tokens-lib.mjs';
 
 const SRC = 'src/tokens/source';
 const OUT = 'src/tokens/generated/tokens.css';
@@ -109,14 +109,22 @@ StyleDictionary.registerTransform({
  * A raiz e 16px, como `unidade_css: rem, raiz 16px` do `design.md` declara em
  * tipografia_regras e espacamento_regras.
  *
- * FAMILIAS EM PX POR REGRA PROPRIA, e nao por omissao: `raio_regras` do
- * `design.md` diz `unidade_css: px` e explica o motivo — raio em rem cresceria
- * com a fonte do usuario e a peca mudaria de FORMA, nao de tamanho. Um botao
- * de 6px viraria capsula. Por isso `core/radius` fica fora desta conversao.
- * Nao e excecao improvisada: e a unica fundacao que o contrato declara em px.
+ * FAMILIAS EM PX POR REGRA PROPRIA, e nao por omissao. Sao DUAS, e cada uma
+ * tem a regra escrita no contrato:
+ *
+ * - `core/radius`, por `raio_regras.unidade_css: px` do `design.md`. Raio em
+ *   rem cresceria com a fonte do usuario e a peca mudaria de FORMA, nao de
+ *   tamanho: um botao de 6px viraria capsula (P62.5).
+ * - `core/shadow-*`, por `elevacao_regras.unidade_css: px`. A fundacao diz,
+ *   com todas as letras: "deslocamento, desfoque e spread em px, como o
+ *   raio. Sombra nao deve crescer com a fonte do usuario". Entrou em
+ *   03-09-2026, com a PF-15.
+ *
+ * O texto que chamava o raio de unica fundacao em px estava errado desde que
+ * `elevacao_regras` existe. Corrigido no `design.md` no mesmo PR.
  */
 const REM_RAIZ = 16;
-const SEM_CONVERSAO = ['radius'];
+const SEM_CONVERSAO = ['radius', 'shadow-y', 'shadow-blur', 'shadow-spread'];
 
 /** Numero curto: 1.75 e nao 1.7500000000000002, 0 e nao 0.0000. */
 function numeroCurto(n) {
@@ -152,10 +160,53 @@ StyleDictionary.registerTransform({
   },
 });
 
+/**
+ * SOMBRA - por que o transform e proprio, e nao o `shadow/css/shorthand` do
+ * Style Dictionary.
+ *
+ * O built-in monta a shorthand certa, mas quem escreve as referencias e o
+ * `outputReferences`, que trabalha por VALOR: ele procura o valor resolvido
+ * dentro da string pronta e troca pela `var()`. Numa sombra isso erra de
+ * posicao sempre que duas partes tem o mesmo valor - e elas tem. Em
+ * `elevation/hairline` (0 1 0 0) o deslocamento X, o desfoque e o spread sao
+ * todos zero, e a saida saia com `var(--nph-core-shadow-blur-0)` no lugar do
+ * X. O CSS computado ficava certo por coincidencia e a ligacao, errada:
+ * mudar o desfoque mexeria no deslocamento.
+ *
+ * Aqui a shorthand e montada a partir de `original.$value`, que ainda tem as
+ * referencias, e cada parte vai para a SUA posicao. O `outputReferences` do
+ * arquivo desliga para `shadow` - senao ele tentaria substituir de novo.
+ */
+const varDe = (ref) => 'var(--nph-' + ref.split('.').join('-') + ')';
+
+function parteDaSombra(v) {
+  const a = aliasDe(v);
+  if (a) return varDe(a);
+  if (v !== null && typeof v === 'object' && 'value' in v) return String(v.value) + String(v.unit);
+  return String(v);
+}
+
+StyleDictionary.registerTransform({
+  name: 'nephos/shadow/css',
+  type: 'value',
+  // transitivo: o valor tem referencia, e transform nao-transitivo e pulado nesse caso.
+  transitive: true,
+  filter: (t) => (t.$type || t.type) === 'shadow',
+  transform: (t) => {
+    const bruto = t.original && t.original.$value !== undefined ? t.original.$value : t.$value;
+    if (typeof bruto === 'string') return bruto;
+    const camadas = Array.isArray(bruto) ? bruto : [bruto];
+    return camadas
+      .map((c) => [c.offsetX, c.offsetY, c.blur, c.spread, c.color].map(parteDaSombra).join(' '))
+      .join(', ');
+  },
+});
+
 const TRANSFORMS = [
-  ...StyleDictionary.hooks.transformGroups.css,
+  ...StyleDictionary.hooks.transformGroups.css.filter((n) => n !== 'shadow/css/shorthand'),
   'nephos/duration/css',
   'nephos/dimension/rem',
+  'nephos/shadow/css',
 ];
 
 function applyMode(node, modo) {
@@ -199,7 +250,7 @@ async function bloco(camada, modo, seletor, subconjunto) {
           format: 'css/variables',
           filter: filtro,
           options: {
-            outputReferences: true,
+            outputReferences: (t) => (t.$type || t.type) !== 'shadow',
             selector: seletor,
             showFileHeader: false,
             formatting: { commentStyle: 'none' },
@@ -263,19 +314,38 @@ if (css.includes('[object Object]')) {
 
 // Nenhum alias pode ser achatado. A regra e por token: quem e referencia na
 // fonte TEM de sair como var(--nph-...). Quem e literal na fonte sai literal.
+//
+// Valor ESCALAR tem uma referencia so, e ela e o valor inteiro: basta exigir
+// que a saida comece com `var(`. Valor COMPOSTO - `shadow` - guarda uma
+// referencia por parte de cada camada, e a saida e uma shorthand com varias
+// `var()` no meio de literais. Para esse, a regra e de CONTAGEM: tantas
+// `var(--nph-` na saida quantas referencias a fonte declara. Uma so que
+// achatasse em literal derrubaria a conta.
 const nomeCss = (p) => '--nph-' + p.join('-');
-const deveSerVar = new Set();
+const escalares = new Set();
+const compostos = new Map();
 for (const fonte of [theme, semantic]) {
   for (const [p, t] of folhas(fonte)) {
     const m = (t.$extensions && t.$extensions[NS] && t.$extensions[NS].modes) || {};
-    if ([t.$value].concat(Object.values(m)).some((v) => refs(v).length > 0)) deveSerVar.add(nomeCss(p));
+    const valores = [t.$value].concat(Object.values(m));
+    if (!valores.some((v) => refs(v).length > 0)) continue;
+    if (Array.isArray(t.$value)) compostos.set(nomeCss(p), refs(t.$value).length);
+    else escalares.add(nomeCss(p));
   }
 }
 for (const linha of css.match(/--nph-[\w-]+:[^;]+;/g) || []) {
   const nome = linha.slice(0, linha.indexOf(':'));
   const valor = linha.slice(linha.indexOf(':') + 1, -1).trim();
-  if (deveSerVar.has(nome) && !valor.startsWith('var(')) {
+  if (escalares.has(nome) && !valor.startsWith('var(')) {
     posErros.push('alias achatado em literal: ' + nome + ' emitido como "' + valor + '"');
+  }
+  if (compostos.has(nome)) {
+    const emitidas = valor.split('var(--nph-').length - 1;
+    const esperadas = compostos.get(nome);
+    if (emitidas !== esperadas) {
+      posErros.push('alias achatado em valor composto: ' + nome + ' declara ' + esperadas +
+        ' referencia(s) na fonte e emitiu ' + emitidas + ' var() em "' + valor + '"');
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-<!-- i18n: lang=en | source=README.md | source-sha256=eeb9bf2c9a41b18043b8f8c3e00e9aeb4236b48171b3f4d113f0e6d9af98f8a4 | status=revisado -->
+<!-- i18n: lang=en | source=README.md | source-sha256=72d5cf8551972e548880d06bac87d456130522e9047b6cd421dd0f9f53e6eac1 | status=revisado -->
 
 # Nephos 5.0
 
@@ -116,7 +116,9 @@ confirmed by P19.
 
 Still outside the repository: the CI workflow, public publishing and deployment.
 Also out: the 20 primitives from P46 and, deferred to a future round, the
-remaining primitives and the effect styles — deferred does not mean unused.
+remaining primitives — deferred does not mean unused. The effect styles stopped
+being deferred on 03-09-2026: the eight elevation levels landed; the three focus
+rings are waiting on a naming decision.
 
 ## Sources of truth
 
