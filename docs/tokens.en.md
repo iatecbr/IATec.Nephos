@@ -1,4 +1,4 @@
-<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=7f1433e6ba44c208224bee002d67b6bf5f3ccc9065fc29902012a05275390f3d | status=revisado -->
+<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=e736fbc0c88402dc5d62ac34580dec2b8813c095cc5c51ff4b460319af18b782 | status=revisado -->
 
 # Tokens — source, generation and consumption
 
@@ -7,7 +7,7 @@
 > Translated from the Brazilian Portuguese source, [`tokens.md`](tokens.md).
 > If the two disagree, the Portuguese file prevails.
 
-> **The technical source totals 364 tokens**, 217 of them semantic. The 289-item
+> **The technical source totals 404 tokens**, 230 of them semantic. The 289-item
 > base migration was completed on 24/08/2026; the three tokens approved in Figma
 > for `nph-button` landed on 25/08/2026, in commit `505e36d`, taking the source
 > to 292. Each layer declares its own count in `contagemEsperada`, and
@@ -18,6 +18,12 @@
 > `core`, 6 `theme` and 217 `semantic`. The reason was concrete: `nph-label` is
 > the first component made of pure text, and without `text/label-md` in code it
 > could not exist without a literal value.
+>
+> On 03/09/2026 **shadow** and the missing **motion** pieces landed: 24
+> primitives and the 8 elevation styles (PF-15), `core/duration/400` and
+> `core/easing/linear` (PF-16) and the spinner-loop pair (PF-05) — 168 `core`,
+> 6 `theme` and 230 `semantic`. The 3 focus rings landed on the same date, after
+> a name change the 03-09-2026 section explains.
 
 This note explains **how tokens live in the repository**. What each token means,
 when to use it and when not to, is in [`design.md`](../design.md), which does not
@@ -37,11 +43,11 @@ duplicate values. Values originate in Figma `DS-IA-NEPHOS 5.0`.
 ```text
 src/tokens/
   source/
-    core.tokens.json       141 primitives
+    core.tokens.json       168 primitives
     theme.tokens.json        6 brand variables, seven modes
-    semantic.tokens.json   217 semantic tokens, two colour schemes
+    semantic.tokens.json   230 semantic tokens, two colour schemes
   generated/
-    tokens.css             494 declarations — GENERATED
+    tokens.css             534 declarations — GENERATED
 scripts/
   tokens-lib.mjs           pure functions: canonical form, classification, index
   build-tokens.mjs         generator
@@ -64,8 +70,9 @@ not empty — the guarantee that nobody hand-edited the CSS.
 
 ## Format
 
-DTCG — `$type`, `$value`, `$description`. The types in use are **`color`**,
-**`dimension`**, **`duration`**, **`cubicBezier`** and **`number`**.
+DTCG — `$type`, `$value`, `$description`. The seven handled types are
+**`color`**, **`dimension`**, **`duration`**, **`cubicBezier`**, **`number`**,
+**`fontFamily`** and **`shadow`**.
 
 DTCG has **no native modes** yet. Modes live under
 `$extensions["com.iatec.nephos"].modes`, and the generator applies them before
@@ -91,8 +98,8 @@ Classification compares **alias and final value** across modes, in a
 **canonical** representation — never by object identity, never by key order,
 never by `$type`. It is proven in `scripts/test-invariancia.mjs`.
 
-Of the 217 semantic tokens: **123 invariant** and **94 variant**. All 94 are
-`color`. Among the 123 there are **9 `color` tokens** — invariance is not a
+Of the 230 semantic tokens: **136 invariant** and **94 variant**. All 94 are
+`color`. Among the 136 there are **9 `color` tokens** — invariance is not a
 property of the type.
 
 ## Update of 25-08-2026 — Button tokens
@@ -159,17 +166,122 @@ The `nephos/dimension/rem` transform divides the value by **16** and emits
 --nph-text-heading-xl-letter-spacing: -0.0125rem;  /* was -0.2px */
 ```
 
-**Radius stays in `px` — Indiane's decision on 28/08/2026, recorded as P62.5.**
+**Radius and shadow stay in `px`.** Radius by Indiane's decision on 28/08/2026,
+recorded as P62.5; the shadow geometry since 03/09/2026, per
+`elevacao_regras.unidade_css: px`.
 The `raio_regras` block in `design.md` declares `unidade_css: px` and gives the
 reason: radius in `rem` would grow with the user's font, and the piece would
 change **shape**, not size — a 6px button would turn into a pill. `px` and `rem`
 behave identically under browser zoom; the difference only shows up in the
-user's font-size preference. It is the only foundation the contract declares in
-`px`, and P62.5 confirms that rule rather than changing it.
+user's font-size preference. They are the **two** foundations the contract declares
+in `px`, and for the same reason: the shadow foundation says, in so many words,
+"offset, blur and spread in px, like the radius; a shadow must not grow with the
+user's font". P62.5 confirms the radius rule rather than changing it. The text
+that called radius the *only* foundation in `px` had been wrong ever since
+`elevacao_regras` existed, and was corrected on 03/09/2026.
 
 The computed value does not change at the default 16px root: `1rem` still
 resolves to `16px`. What changes is that the interface now follows the user's
 font-size preference.
+
+## Update of 03-09-2026 — shadow, elevation and the spinner loop
+
+Three foundation gaps landed in the same PR: **PF-15** (shadow), **PF-16** (the
+two missing motion pieces) and **PF-05** (the loop duration).
+
+### What was missing, and it was not what it looked like
+
+The earlier diagnosis said the effect styles "are not variables and require a
+different extraction path". That was not it. Style Dictionary v5, already fixed
+by P20, treats shadow as a **native type**, and `shadow/css/shorthand` was
+already in the `css` group the generator uses. One line was missing: `shadow`
+was not in `TIPOS_TRATADOS`. No new dependency was added.
+
+### The 24 primitives, and why they land together
+
+In Figma, every layer of the `elevation/*` styles **binds its geometry to
+variables** — `core/shadow-y`, `core/shadow-blur` and `core/shadow-spread` — and
+only the colour comes from a semantic token. Porting the style with the numbers
+written by hand would be a poorer translation than what the file holds. The 24
+primitives leave the deferred list because the consumer the scope table already
+named now exists.
+
+**The geometry is emitted in `px`,** per `elevacao_regras.unidade_css: px`. It is
+the second family outside the `rem` conversion, alongside `core/radius`.
+
+### Why the generator assembles the shadow itself
+
+`shadow/css/shorthand` builds the right shorthand, but what writes the
+references is `outputReferences`, which works **by value**: it looks for the
+resolved value inside the finished string and swaps it for the `var()`. In a
+shadow that lands on the wrong slot whenever two parts share a value — and they
+do. In `elevation/hairline` (0 · 1 · 0 · 0) the X offset, the blur and the
+spread are all zero, and the output came out with
+`var(--nph-core-shadow-blur-0)` **in the X slot**. The computed CSS was right by
+coincidence, and the binding was wrong: touching the blur would move the offset.
+
+Hence `nephos/shadow/css`, which builds the shorthand from `original.$value` —
+where the references still are — and puts each part in **its** slot.
+`outputReferences` is switched off for `shadow`, otherwise it would substitute
+again. Validation 7 was extended to prove it: on a composite value it counts how
+many `var()` the output carries against how many references the source declares.
+
+### Motion: the sixth role
+
+`core/duration/400` and `core/easing/linear` were already in `design.md` and in
+anti-patterns A61 and A66, and had never entered the JSON — forgotten execution,
+not a decision. `linear` enters as `cubicBezier [0, 0, 1, 1]`, the exact
+equivalent, because `cubicBezier` is the type the system uses for curves; the
+CSS comes out as `cubic-bezier(0, 0, 1, 1)`.
+
+The spinner loop — **800 ms, `linear` curve, infinite repetition**, decided by
+Indiane on 02/09/2026 in a study with 600, 800 and 1000 side by side — enters as
+`core/duration/loop` **and as a sixth role**: `motion/loop-duration` and
+`motion/loop-easing`.
+
+Six roles, and not five, for a contract reason: a component consumes **only** the
+semantic layer. Stopping at `core/duration/loop` would close PF-05 and leave
+`nph-spinner` blocked, because implementing it would require consuming `core/*`.
+The role also settles an earlier contradiction: the "agent test" in the motion
+notes answered `core/easing/linear` for the spinner — a `core` token — and now it
+answers a role.
+
+**The indeterminate bar still has no value.** `nph-progress` was deferred and
+there is no piece to decide about.
+
+### The name collision, and how it was settled
+
+All 11 styles landed — but the three focus rings only after a name change.
+`design.md` gave the **same CSS name** to two different things:
+
+| Token | CSS name | What it is |
+|---|---|---|
+| `focus/ring-error` | `--nph-focus-ring-error` | the ring's **colour**, published since the base migration |
+| `focus-ring/error` | `--nph-focus-ring-error` | the ring's **shadow** |
+
+The collision comes from the naming convention: `/` becomes `-`, and
+`focus-ring/error` and `focus/ring-error` flatten onto the same identifier. It
+does not show up in Figma, because there styles and variables are separate
+namespaces. What found it was the new validation — the build failed, with the
+name and the count.
+
+**Indiane's decision on 03/09/2026: rename the style, not the colour.** The
+style `focus-ring/error` is now **`focus-ring/invalid`**, in Figma and in code at
+the same time. The published colour did not change.
+
+Three reasons. You do not break an already published custom property — which P02
+defines as public API — to accommodate one that did not exist yet. Renaming in
+both places at once keeps the style name in Figma identical to the token name,
+without the silent drift that would appear if only the code changed. And
+`invalid` is the HTML and ARIA term for this state, consistent with `design.md`,
+which describes the case as "campo que falhou a validacao".
+
+The result reads by itself: the shadow is `invalid`, and the colour it uses is
+still `error`.
+
+```css
+--nph-focus-ring-invalid: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring-error);
+```
 
 ## Consumption — two independent attributes
 
@@ -212,7 +324,7 @@ The build **fails** — with exit code 1 and a specific message — when:
 
 **In the source**
 
-1. a `$type` outside the five handled ones appears;
+1. a `$type` outside the seven handled ones appears;
 2. a token declares `modes` and a value is missing for some mode of the layer;
 3. a `{...}` reference points to a token that exists in no source;
 4. the token count of a layer does not match `contagemEsperada`.
@@ -221,7 +333,10 @@ The build **fails** — with exit code 1 and a specific message — when:
 
 5. an unresolved `{...}` reference remains;
 6. some value comes out as `[object Object]`;
-7. a token that is a reference in the source comes out flattened into a literal;
+7. a token that is a reference in the source comes out flattened into a literal
+   — on a scalar value, by requiring the output to start with `var(`; on a
+   composite value, by counting how many `var()` the output carries against how
+   many references the source declares;
 8. an invariant is emitted more than once, or a variant is not emitted once per
    mode.
 
@@ -230,8 +345,9 @@ The build **fails** — with exit code 1 and a specific message — when:
 | Item | Status |
 |---|---|
 | 20 primitives from **P46** | **Excluded by recorded decision** — `core/radius` 700–1000, `core/space` 1200–1500 and the 12 off-scale ones. While they are on that list, they do not enter the JSON. |
-| The other 151 `core` primitives | **Deferred.** They are not reachable from the `semantic` layer, which does **not** mean they have no consumer. Of these, **24 are `core/sombra`, with a known consumer** in the `elevation/*` styles. The other 127 remain deferred with no judgement about consumers. |
-| 11 effect styles | **Deferred.** They are not variables; they require a different extraction path. |
+| The other 127 `core` primitives | **Deferred.** They are not reachable from the `semantic` layer, which does **not** mean they have no consumer. They remain deferred with no judgement about consumers. |
+| 24 `core/sombra` primitives | **Migrated on 03/09/2026.** The consumer the row above already named — the `elevation/*` styles — now exists. |
+| 11 effect styles | **Migrated on 03/09/2026.** No longer deferred: they became `shadow` tokens — 8 elevation levels and 3 focus rings. |
 | 14 text styles | **Migrated on 27/08/2026.** No longer deferred. They are not Figma variables: the values were read from the text styles and checked against `tokens_typography` in `design.md`, item by item, with no divergence. Each role became five tokens in `semantic.text`, and the two families landed in `core.font`. |
 
 ## Known tool limitation

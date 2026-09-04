@@ -1,10 +1,10 @@
 {
-  "$description": "Camada 2 - semanticos. E daqui que componente e agente consomem. Regras de uso, acessibilidade e anti-padroes ficam no design.md, que nao duplica valores.",
+  "$description": "Camada 2 - semanticos. E daqui que componente e agente consomem. Regras de uso, acessibilidade e anti-padroes ficam no design.md, que nao duplica valores. Os 11 estilos de efeito - elevation/* e focus-ring/* - sao tokens `shadow`: cada camada liga geometria a core/shadow-* ou a focus/ring-width, e cor a um semantico, exatamente como o estilo faz no Figma. O anel de erro chama-se focus-ring/invalid, e nao focus-ring/error: o nome antigo colidia no CSS gerado com a variavel de cor focus/ring-error.",
   "$extensions": {
     "com.iatec.nephos": {
       "camada": "semantic",
-      "contagemEsperada": 217,
-      "origem": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27",
+      "contagemEsperada": 230,
+      "origem": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03",
       "modeSet": {
         "nome": "color-scheme",
         "modos": [
@@ -809,6 +809,157 @@
       "$value": "{core.control-height.large}"
     }
   },
+  "elevation": {
+    "drawer": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": "{core.shadow-y.350}",
+          "blur": "{core.shadow-blur.450}",
+          "spread": "{core.shadow-spread.600}",
+          "color": "{shadow.color}"
+        },
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": "{core.shadow-y.500}",
+          "blur": "{core.shadow-blur.600}",
+          "spread": "{core.shadow-spread.500}",
+          "color": "{shadow.color}"
+        }
+      ]
+    },
+    "dropdown": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": "{core.shadow-y.200}",
+          "blur": "{core.shadow-blur.300}",
+          "spread": "{core.shadow-spread.200}",
+          "color": "{shadow.color}"
+        },
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": "{core.shadow-y.300}",
+          "blur": "{core.shadow-blur.400}",
+          "spread": "{core.shadow-spread.100}",
+          "color": "{shadow.color}"
+        }
+      ]
+    },
+    "hairline": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": "{core.shadow-y.100}",
+          "blur": "{core.shadow-blur.0}",
+          "spread": "{core.shadow-spread.0}",
+          "color": "{shadow.color-light}"
+        }
+      ]
+    },
+    "modal": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": "{core.shadow-y.300}",
+          "blur": "{core.shadow-blur.400}",
+          "spread": "{core.shadow-spread.400}",
+          "color": "{shadow.color}"
+        },
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": "{core.shadow-y.400}",
+          "blur": "{core.shadow-blur.500}",
+          "spread": "{core.shadow-spread.300}",
+          "color": "{shadow.color}"
+        }
+      ]
+    },
+    "none": {
+      "$type": "shadow",
+      "$value": "none"
+    },
+    "raised": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": "{core.shadow-y.100}",
+          "blur": "{core.shadow-blur.100}",
+          "spread": "{core.shadow-spread.100}",
+          "color": "{shadow.color}"
+        },
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": "{core.shadow-y.100}",
+          "blur": "{core.shadow-blur.200}",
+          "spread": "{core.shadow-spread.0}",
+          "color": "{shadow.color}"
+        }
+      ]
+    },
+    "spotlight": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": "{core.shadow-y.600}",
+          "blur": "{core.shadow-blur.700}",
+          "spread": "{core.shadow-spread.700}",
+          "color": "{shadow.color-strong}"
+        }
+      ]
+    },
+    "subtle": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": "{core.shadow-y.100}",
+          "blur": "{core.shadow-blur.100}",
+          "spread": "{core.shadow-spread.0}",
+          "color": "{shadow.color-light}"
+        }
+      ]
+    }
+  },
   "focus": {
     "ring-error": {
       "$type": "color",
@@ -837,6 +988,71 @@
           }
         }
       }
+    }
+  },
+  "focus-ring": {
+    "default": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 0,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 0,
+            "unit": "px"
+          },
+          "spread": "{focus.ring-width}",
+          "color": "{focus.ring}"
+        }
+      ]
+    },
+    "invalid": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 0,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 0,
+            "unit": "px"
+          },
+          "spread": "{focus.ring-width}",
+          "color": "{focus.ring-error}"
+        }
+      ]
+    },
+    "sidebar": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": {
+            "value": 0,
+            "unit": "px"
+          },
+          "offsetY": {
+            "value": 0,
+            "unit": "px"
+          },
+          "blur": {
+            "value": 0,
+            "unit": "px"
+          },
+          "spread": "{focus.ring-width}",
+          "color": "{sidebar.ring}"
+        }
+      ]
     }
   },
   "icon": {
@@ -927,6 +1143,14 @@
     "hover-easing": {
       "$type": "cubicBezier",
       "$value": "{core.easing.standard}"
+    },
+    "loop-duration": {
+      "$type": "duration",
+      "$value": "{core.duration.loop}"
+    },
+    "loop-easing": {
+      "$type": "cubicBezier",
+      "$value": "{core.easing.linear}"
     },
     "state-duration": {
       "$type": "duration",

@@ -32,8 +32,11 @@
   --nph-core-duration-100: 100ms;
   --nph-core-duration-200: 150ms;
   --nph-core-duration-300: 250ms;
+  --nph-core-duration-400: 400ms;
+  --nph-core-duration-loop: 800ms;
   --nph-core-easing-enter: cubic-bezier(0, 0, 0.2, 1);
   --nph-core-easing-exit: cubic-bezier(0.4, 0, 1, 1);
+  --nph-core-easing-linear: cubic-bezier(0, 0, 1, 1);
   --nph-core-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --nph-core-educacao-200: #ffddab;
   --nph-core-educacao-300: #ffcb81;
@@ -109,6 +112,30 @@
   --nph-core-rh-700: #2d134c;
   --nph-core-scrim-dark: rgba(0, 0, 0, 0.65);
   --nph-core-scrim-light: rgba(0, 0, 0, 0.45);
+  --nph-core-shadow-blur-0: 0px;
+  --nph-core-shadow-blur-100: 2px;
+  --nph-core-shadow-blur-200: 3px;
+  --nph-core-shadow-blur-300: 4px;
+  --nph-core-shadow-blur-400: 6px;
+  --nph-core-shadow-blur-450: 10px;
+  --nph-core-shadow-blur-500: 15px;
+  --nph-core-shadow-blur-600: 25px;
+  --nph-core-shadow-blur-700: 50px;
+  --nph-core-shadow-spread-0: 0px;
+  --nph-core-shadow-spread-100: -1px;
+  --nph-core-shadow-spread-200: -2px;
+  --nph-core-shadow-spread-300: -3px;
+  --nph-core-shadow-spread-400: -4px;
+  --nph-core-shadow-spread-500: -5px;
+  --nph-core-shadow-spread-600: -6px;
+  --nph-core-shadow-spread-700: -12px;
+  --nph-core-shadow-y-100: 1px;
+  --nph-core-shadow-y-200: 2px;
+  --nph-core-shadow-y-300: 4px;
+  --nph-core-shadow-y-350: 8px;
+  --nph-core-shadow-y-400: 10px;
+  --nph-core-shadow-y-500: 20px;
+  --nph-core-shadow-y-600: 25px;
   --nph-core-sistemas-100: #d8e6fd;
   --nph-core-sistemas-200: #b1cdfb;
   --nph-core-sistemas-300: #89b4fa;
@@ -211,6 +238,7 @@
    emitidos uma vez. Invariante entre modos NAO quer dizer fixo: um alias para
    theme/* continua trocando com data-nph-brand. */
 :root {
+  --nph-elevation-none: none;
   --nph-layout-columns: 12;
   --nph-state-disabled-opacity: 0.5;
   --nph-state-hover-opacity: 0.95;
@@ -279,6 +307,13 @@
   --nph-control-height-compact: var(--nph-core-control-height-compact);
   --nph-control-height-default: var(--nph-core-control-height-default);
   --nph-control-height-large: var(--nph-core-control-height-large);
+  --nph-elevation-drawer: 0px var(--nph-core-shadow-y-350) var(--nph-core-shadow-blur-450) var(--nph-core-shadow-spread-600) var(--nph-shadow-color), 0px var(--nph-core-shadow-y-500) var(--nph-core-shadow-blur-600) var(--nph-core-shadow-spread-500) var(--nph-shadow-color);
+  --nph-elevation-dropdown: 0px var(--nph-core-shadow-y-200) var(--nph-core-shadow-blur-300) var(--nph-core-shadow-spread-200) var(--nph-shadow-color), 0px var(--nph-core-shadow-y-300) var(--nph-core-shadow-blur-400) var(--nph-core-shadow-spread-100) var(--nph-shadow-color);
+  --nph-elevation-hairline: 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-0) var(--nph-core-shadow-spread-0) var(--nph-shadow-color-light);
+  --nph-elevation-modal: 0px var(--nph-core-shadow-y-300) var(--nph-core-shadow-blur-400) var(--nph-core-shadow-spread-400) var(--nph-shadow-color), 0px var(--nph-core-shadow-y-400) var(--nph-core-shadow-blur-500) var(--nph-core-shadow-spread-300) var(--nph-shadow-color);
+  --nph-elevation-raised: 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-100) var(--nph-core-shadow-spread-100) var(--nph-shadow-color), 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-200) var(--nph-core-shadow-spread-0) var(--nph-shadow-color);
+  --nph-elevation-spotlight: 0px var(--nph-core-shadow-y-600) var(--nph-core-shadow-blur-700) var(--nph-core-shadow-spread-700) var(--nph-shadow-color-strong);
+  --nph-elevation-subtle: 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-100) var(--nph-core-shadow-spread-0) var(--nph-shadow-color-light);
   --nph-focus-ring-width: var(--nph-core-focus-width-default);
   --nph-icon-size-lg: var(--nph-core-icon-size-300);
   --nph-icon-size-md: var(--nph-core-icon-size-200);
@@ -300,6 +335,8 @@
   --nph-motion-expand-easing: var(--nph-core-easing-standard);
   --nph-motion-hover-duration: var(--nph-core-duration-100);
   --nph-motion-hover-easing: var(--nph-core-easing-standard);
+  --nph-motion-loop-duration: var(--nph-core-duration-loop);
+  --nph-motion-loop-easing: var(--nph-core-easing-linear);
   --nph-motion-state-duration: var(--nph-core-duration-200);
   --nph-motion-state-easing: var(--nph-core-easing-standard);
   --nph-overlay-on-media: var(--nph-core-alpha-black-40);
@@ -332,6 +369,9 @@
   --nph-text-label-sm-font-family: var(--nph-core-font-sans);
   --nph-text-caption-font-family: var(--nph-core-font-sans);
   --nph-text-code-font-family: var(--nph-core-font-mono);
+  --nph-focus-ring-default: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring);
+  --nph-focus-ring-invalid: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring-error);
+  --nph-focus-ring-sidebar: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-sidebar-ring);
   --nph-sidebar-primary-foreground: var(--nph-theme-brand-on-600);
   --nph-sidebar-primary: var(--nph-theme-brand-600);
 }

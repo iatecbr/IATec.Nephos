@@ -110,8 +110,9 @@ bootstrap e foram consolidados pelo P19.
 
 Continuam fora do repositório: o workflow de CI, a publicação pública e o
 deploy. Também ficam fora os 20 primitivos da P46 e, adiados para rodada
-futura, os demais primitivos e os estilos de efeito — adiado não significa sem
-consumidor.
+futura, os demais primitivos — adiado não significa sem consumidor. Os 11 estilos
+de efeito deixaram de ser adiados em 03-09-2026 — os oito níveis de elevação e
+os três anéis de foco.
 
 ## Fontes de verdade
 

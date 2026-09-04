@@ -144,8 +144,8 @@ properties como formato gerado (P17); `@storybook/web-components-vite` mantido (
 Quando o workflow de CI for criado, ele executará o build em pull requests e
 disponibilizará um artefato privado (P19).
 
-O repositório tem **364 tokens técnicos** em `src/tokens/source/*.tokens.json` —
-141 em `core`, 6 em `theme` e 217 em `semantic` —, com o CSS gerado em
+O repositório tem **404 tokens técnicos** em `src/tokens/source/*.tokens.json` —
+168 em `core`, 6 em `theme` e 230 em `semantic` —, com o CSS gerado em
 `src/tokens/generated/tokens.css`: **nunca edite o CSS gerado**. Dois
 componentes estão implementados, com stories e testes: `nph-icon`, desde o PR
 #6, e `nph-label`, desde o PR #10. As fichas de componente são canônicas em

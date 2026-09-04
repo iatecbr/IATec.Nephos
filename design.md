@@ -14,14 +14,17 @@ consumo_de_tema: >-
   no elemento raiz: `data-nph-brand` (sistemas, gerencial, educacao, comercial,
   financeiro, igrejas, rh) e `data-nph-color-scheme` (light, dark).
 escopo_migrado_para_json: >-
-  364 itens: 141 primitivos core, 6 variáveis theme nos sete modos e os 217
+  404 itens: 168 primitivos core, 6 variáveis theme nos sete modos e os 230
   semânticos nos dois modos. Os 289 itens da migração-base entraram em 24-08-2026;
   três tokens de Button aprovados no Figma foram adicionados em 25-08-2026, no commit
   505e36d, levando a fonte a 292; a camada de tipografia — duas famílias de fonte em
   core e os 14 papéis de texto em semantic, cinco propriedades cada — entrou em
-  27-08-2026 e levou a fonte a 364. Os 20 primitivos da P46 ficaram fora por decisão
-  registrada. Os demais primitivos e os estilos de efeito estão adiados — adiado não
-  significa sem consumidor.
+  27-08-2026 e levou a fonte a 364; em 03-09-2026 entraram os 24 primitivos de sombra
+  e os 8 estilos de elevação (PF-15), as duas peças de movimento que faltavam (PF-16)
+  e o par do laço do girador (PF-05), levando a fonte a 404. Os 20 primitivos da P46
+  ficaram fora por decisão registrada. Os demais primitivos seguem adiados — adiado
+  não significa sem consumidor. Os 3 anéis de foco entraram como focus-ring/invalid,
+  default e sidebar: ver a nota no bloco tokens_elevation.
 escopo_verificado: [cor, tipografia, espacamento, raio, elevacao, grid, movimento, cor_de_grafico]
 escopo_a_validar: []
 camadas: [core, theme, semantic]
@@ -668,7 +671,7 @@ tipografia_regras:
   enfase: "<strong> no HTML. Nao existe papel de enfase e nao se usa label para destacar palavra em paragrafo."
   pesos_por_regiao: no maximo 2
   css_forma: "O campo `css` de cada papel e um PREFIXO, nao o nome final. Cada papel emite cinco custom properties: `-font-family`, `-font-size`, `-line-height`, `-font-weight` e `-letter-spacing`. Exemplo: text/label-md emite --nph-text-label-md-font-size. Sao cinco e nao uma porque `letter-spacing` nao cabe no atalho `font` do CSS e porque componente costuma precisar de uma propriedade isolada. Migrado em 27-08-2026; confirmar na revisao tecnica."
-  css_unidade_real: "As cinco saem em rem desde 28-08-2026, quando o gerador passou a cumprir a regra `unidade_css` acima (P62.4, decisao de Elvys). Antes saiam em px. A conversao usa raiz 16px e vale para todo dimension, EXCETO core/radius, que segue `raio_regras.unidade_css: px` por regra propria."
+  css_unidade_real: "As cinco saem em rem desde 28-08-2026, quando o gerador passou a cumprir a regra `unidade_css` acima (P62.4, decisao de Elvys). Antes saiam em px. A conversao usa raiz 16px e vale para todo dimension, EXCETO core/radius e core/shadow-*, que seguem `raio_regras.unidade_css: px` e `elevacao_regras.unidade_css: px` por regra propria."
 
 tokens_typography:
   text/heading-xl:
@@ -833,7 +836,8 @@ tokens_control:
 # ---------------------------------------------------------------
 # RAIO - primitivos em core (invisiveis) e 8 tokens de intencao na
 # colecao semantic. Componente consome SO os semanticos.
-# ATENCAO: raio e em px, NAO em rem. E a unica fundacao assim.
+# ATENCAO: raio e em px, NAO em rem. Sao DUAS as fundacoes assim -
+# esta e a de sombra, que declara o mesmo em elevacao_regras.
 # Raio nao deve crescer com a fonte do usuario: a peca mudaria de
 # forma, nao de tamanho.
 # ---------------------------------------------------------------
@@ -898,8 +902,8 @@ tokens_radius:
     use: "Forma totalmente arredondada. USE somente em peca pequena cuja forma comunica marcador: selo, contador, avatar, botao do switch. NUNCA em botao comum, campo ou cartao."
 
 # ---------------------------------------------------------------
-# ELEVACAO - o nivel e um ESTILO DE EFEITO, nao uma variavel: uma
-# sombra de duas camadas nao cabe em uma variavel. As cores de
+# ELEVACAO - no Figma o nivel e um ESTILO DE EFEITO; no codigo ele e um
+# token DTCG do tipo `shadow`, gerado desde 03-09-2026 (PF-15). As cores de
 # sombra sao semanticas e ficam TRANSPARENTES no modo escuro, onde
 # a elevacao vem da rampa surface (ver secao 3 deste arquivo).
 # Componente usa elevation/*; NUNCA escolhe shadow/* a mao.
@@ -955,10 +959,10 @@ tokens_elevation:
     css: '--nph-focus-ring-default'
     camadas: ['0 0 0 3px focus/ring']
     use: "O anel de foco de teclado. USE em TODO elemento operavel que recebe foco: botao, campo, select, checkbox, link, aba, item de menu. A cor vem da marca ativa. NUNCA remova o anel. NAO USE dentro da barra lateral - la e focus-ring/sidebar."
-  focus-ring/error:
-    css: '--nph-focus-ring-error'
+  focus-ring/invalid:
+    css: '--nph-focus-ring-invalid'
     camadas: ['0 0 0 3px focus/ring-error']
-    use: "O anel de foco em campo que falhou a validacao. USE junto com mensagem de texto e icone - o anel NUNCA e o unico sinal do erro."
+    use: "O anel de foco em campo que falhou a validacao. USE junto com mensagem de texto e icone - o anel NUNCA e o unico sinal do erro. O ESTILO e `invalid`; a COR que ele consome e `focus/ring-error` - nomes diferentes de proposito, porque os dois achatavam no mesmo --nph-focus-ring-error."
   focus-ring/sidebar:
     css: '--nph-focus-ring-sidebar'
     camadas: ['0 0 0 3px sidebar/ring']
@@ -968,6 +972,11 @@ tokens_elevation:
     camadas: ['0 25px 50px -12px shadow/color-strong']
     equivale_a: 'shadow-2xl do kit de referencia'
     use: "Nivel maximo, para a peca que toma a tela inteira: paleta de comando, busca em foco total. USE no maximo uma por tela. NAO empilhe com outro nivel."
+
+  nota_focus_ring:
+    renomeado: 'focus-ring/error passou a focus-ring/invalid em 03-09-2026, no Figma e no codigo ao mesmo tempo. Decisao de Indiane.'
+    motivo: 'O nome antigo achatava em `--nph-focus-ring-error`, o MESMO nome que tokens_alpha da a focus/ring-error, ja publicado como a COR do anel. Duas coisas diferentes com um nome so. Renomeou-se o estilo, e nao a cor: nao se quebra custom property publicada, que a P02 define como API publica, para acomodar uma que ainda nao existia.'
+    leitura: 'A sombra e `invalid`; a cor que ela consome continua sendo `focus/ring-error`. `invalid` e o termo do HTML e da ARIA para o estado.'
 
 # ---------------------------------------------------------------
 # ALFA - escala de 19 degraus em preto e em branco, completa e
@@ -1256,15 +1265,16 @@ tokens_core_duration:
   '200': { valor: 150, css: '--nph-core-duration-200', use: "Troca de estado, e saida de camada." }
   '300': { valor: 250, css: '--nph-core-duration-300', use: "Camada que aparece, e expansao." }
   '400': { valor: 400, css: '--nph-core-duration-400', use: "Movimento grande. NUNCA em interacao repetida." }
+  loop:  { valor: 800, css: '--nph-core-duration-loop', use: "Laco continuo do girador: 800 ms a volta, repeticao infinita. FORA da escala de transicao, que termina em 400 e descreve movimento que comeca e termina; um laco repete. Decisao de Indiane em 02-09-2026 (PF-05)." }
 
 tokens_core_easing:
   standard: { valor: 'cubic-bezier(0.4, 0, 0.2, 1)', css: '--nph-core-easing-standard', use: "Acelera e desacelera. O que muda no proprio lugar." }
   enter:    { valor: 'cubic-bezier(0, 0, 0.2, 1)',   css: '--nph-core-easing-enter',    use: "So desacelera. O que APARECE: chega rapido e freia ao assentar." }
   exit:     { valor: 'cubic-bezier(0.4, 0, 1, 1)',   css: '--nph-core-easing-exit',     use: "So acelera. O que SOME: parte devagar e vai embora rapido." }
-  linear:   { valor: 'linear',                        css: '--nph-core-easing-linear',   use: "Velocidade constante. SO progresso e girador. NAO USE em transicao de interface." }
+  linear:   { valor: 'linear', css: '--nph-core-easing-linear', fonte_json: 'cubicBezier [0, 0, 1, 1] - o equivalente exato, porque cubicBezier e o tipo DTCG que o sistema usa para curva (PF-16)', css_gerado: 'cubic-bezier(0, 0, 1, 1)', use: "Velocidade constante. SO progresso e girador. NAO USE em transicao de interface." }
 
 tokens_motion:
-  regra_do_par: "Cada papel de movimento sao DOIS tokens: -duration e -easing. Andam juntos e NUNCA se misturam entre papeis - nao use a duracao de enter com a curva de exit. Forma alinhada ao Figma em 24-08-2026, por decisao da Indiane: cada token e uma variavel e uma custom property. Nenhum valor mudou."
+  regra_do_par: "Cada papel de movimento sao DOIS tokens: -duration e -easing. Andam juntos e NUNCA se misturam entre papeis - nao use a duracao de enter com a curva de exit. Forma alinhada ao Figma em 24-08-2026, por decisao da Indiane: cada token e uma variavel e uma custom property. Nenhum valor mudou. Sao SEIS papeis desde 03-09-2026, quando o laco do girador entrou (PF-05)."
 
   motion/hover-duration:
     css: '--nph-motion-hover-duration'
@@ -1320,6 +1330,17 @@ tokens_motion:
     alias: core/easing/standard
     valor: 'cubic-bezier(0.4, 0, 0.2, 1)'
     use: "A curva do papel expand. USE sempre junto de motion/expand-duration."
+
+  motion/loop-duration:
+    css: '--nph-motion-loop-duration'
+    alias: core/duration/loop
+    valor: 800
+    use: "Laco continuo: o girador em rotacao, com repeticao infinita. USE sempre junto de motion/loop-easing."
+  motion/loop-easing:
+    css: '--nph-motion-loop-easing'
+    alias: core/easing/linear
+    valor: 'cubic-bezier(0, 0, 1, 1)'
+    use: "A curva do papel loop - velocidade constante, sem comeco nem fim. USE sempre junto de motion/loop-duration. E este papel que torna o girador consumivel sem tocar em core/*, como a regra 4 exige."
 
 # ---------------------------------------------------------------
 # ICONES - acervo Font Awesome Pro. A pergunta que vem ANTES do
@@ -1745,7 +1766,7 @@ A curva diz o que a peça é. A pergunta não é quanto arredondar.
 
 **Raio aninhado:** interno = externo − padding. Contêiner em 8 com padding 4 → interno 4. Com padding 8 → interno 0 (`radius/none`). Interno nunca igual ao externo.
 
-**Raio é px, não rem.** É a única fundação assim. Em rem, o canto cresceria com a fonte do usuário e a peça mudaria de forma.
+**Raio é px, não rem.** Sombra também — são as duas fundações assim, e as duas pelo mesmo motivo. Em rem, o canto cresceria com a fonte do usuário e a peça mudaria de forma.
 
 **Raio não varia por modo.** Forma não é tema.
 
@@ -2086,7 +2107,7 @@ Antes de construir ou modificar um componente, **abra o arquivo de metadados del
 | 3k | ~~Fundação de grid e layout~~ Resolvida em 20-08-2026: 12 colunas, 4 pontos de quebra, duas larguras máximas e as medidas do shell | Indiane |
 | 3l | **Comportamento do shell** — em que quebra a barra recolhe — é anatomia de layout e depende de tela real ou mock aprovado | Indiane |
 | 3m | ~~Fundação de movimento~~ Resolvida em 20-08-2026: 4 durações, 4 curvas, 5 papéis e a regra de movimento reduzido. **As sete fundações estão fechadas** | Indiane |
-| 3n | **Duração do laço** de girador e barra indeterminada fica acima da escala e não tem valor definido | Indiane |
+| 3n | ~~**Duração do laço**~~ **Resolvida em 02-09-2026: 800 ms a volta do girador**, com a curva `linear` e repetição infinita. Entrou no código em 03-09-2026 como `core/duration/loop` e o papel `motion/loop-*`. **A barra indeterminada continua sem valor** — o `nph-progress` foi adiado | Indiane |
 | 3o | ~~**Ícones**~~ Resolvida em 20-08-2026: regras, tamanhos, contrato, acervo e o núcleo completo de **34 ícones**, em três levas | Indiane |
 | 4 | ~~Cores de gráfico — não existem~~ Resolvida em 20-08-2026: quatro famílias, 30 tokens semânticos, verificados sob as três deficiências de visão | Indiane |
 | 5 | ~~Alfa — transparências sem token~~ Resolvida em 20-08-2026: 19 primitivos de alfa em preto e branco, mais `overlay/scrim`, `overlay/on-media` e `state/disabled-opacity` | Indiane |
