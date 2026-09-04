@@ -53,7 +53,7 @@
     "pr": null
   },
   "contexto": null,
-  "atualizado_em": "2026-09-03"
+  "atualizado_em": "2026-09-04"
 }
 ```
 
