@@ -21,7 +21,7 @@ subseção P62.4 para o detalhe).
 | **P62.2** | Formato dos tokens de tipografia: cinco propriedades por papel | 27/08/2026 | Médio. Os valores não mudam, só a emissão e o CSS que os consome | Aprovada, 28/08/2026 |
 | **P62.1** | `nph-label` sem Shadow DOM — exceção à P01 | 27/08/2026 | Alto. É a única forma de a associação nativa funcionar; sem ela o rótulo perde a função | Aprovada, 28/08/2026 |
 | **P62.4** | Dimensões em `px`, e não `rem` | 27/08/2026 | Alto e antigo. Vale para o sistema inteiro, não só tipografia | Resolvida por decisão própria: migrar o gerador para `rem` — 28/08/2026. **Implementada em 28/08/2026** |
-| **P62.5** | O raio continua em `px` | 28/08/2026 | Baixo. Converter depois é uma linha no gerador, mas exige alterar `raio_regras` no `design.md` | **Nova — adotada por Indiane em 28/08/2026, aguardando revisão de Elvys.** Resolve a contradição de escopo da P62.4 |
+| **P62.5** | O raio continua em `px` | 28/08/2026 | Baixo. Converter depois é uma linha no gerador, mas exige alterar `raio_regras` no `design.md` | Adotada por Indiane em 28/08/2026. **Revisada e aprovada por Mauro em 09/09/2026, no PR #25, mergeado em `ed7c009`.** Resolve a contradição de escopo da P62.4 |
 | **P01** | Shadow DOM aberto | 24/08/2026 | Alto. Todo componente depende | Aprovada, 28/08/2026 |
 | **P02** | Custom properties como API pública | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
 | **P03** | Padrão de diretórios e TypeScript | 24/08/2026 | Médio | Aprovada, 28/08/2026 |
@@ -355,8 +355,8 @@ revisada e aprovada por Elvys em 28/08/2026.
 **Status.** Quatro decisões adotadas pela Indiane em 27/08/2026. Elvys revisou
 em 28/08/2026: aprovou P62.1, P62.2 e P62.3 como estavam registradas; a P62.4
 ele resolveu de outra forma — ver a subseção. A **P62.5**, adotada por Indiane
-em 28/08/2026 para resolver a contradição de escopo da P62.4, **aguarda revisão
-de Elvys**. As três primeiras nasceram de um
+em 28/08/2026 para resolver a contradição de escopo da P62.4, **foi revisada e
+aprovada por Mauro em 09/09/2026**, no PR #25. As três primeiras nasceram de um
 problema concreto durante a implementação; a quarta é uma divergência antiga
 que a implementação expôs.
 
@@ -520,8 +520,13 @@ vira mudança de contrato visual.
 **Status.** Decisão adotada por Indiane em 28/08/2026 — revisão documental das
 evidências concluída pelo Copilot em 09/09/2026. A revisão confirmou a compatibilidade
 com `raio_regras` do `design.md`, a separação dos 8 tokens de raio dos 92 `dimension`
-convertidos e o custo descrito para uma mudança futura. Este PR aguarda somente revisão
-e merge de Elvys ou Mauro.
+convertidos e o custo descrito para uma mudança futura.
+
+**Revisada e aprovada por Mauro em 09/09/2026**, no PR #25, sobre o commit `5fa4821`,
+mergeado na `v/3.0.0` em `ed7c009`. São duas evidências distintas e ambas necessárias:
+a revisão documental do Copilot conferiu as evidências, e a aprovação de Mauro é o rito
+de revisão humana que as demais decisões técnicas passaram. Com ela, a P62.5 deixa de
+ser a única decisão da P62 sem revisão registrada.
 
 ---
 
