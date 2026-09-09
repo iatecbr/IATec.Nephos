@@ -14,8 +14,8 @@
    redigido e auditado pelo Copilot, e o Claude o aplica no repositório sem
    alterar o sentido aprovado. Edição editorial autônoma do Claude não é fonte
    válida de regra.
-2. **Uma etapa, um PR pequeno e verificável.** Elvys revisa e faz o merge. O
-   Claude não faz o merge do próprio PR.
+2. **Uma etapa, um PR pequeno e verificável.** Elvys ou Mauro revisam e fazem o
+   merge. O Claude não faz o merge do próprio PR.
 3. **Branch e worktree isolados.** Quando a tarefa previr worktree, nenhuma
    execução acontece no clone principal.
 4. **Plano antes de editar.** O Claude apresenta o que pretende alterar e espera
