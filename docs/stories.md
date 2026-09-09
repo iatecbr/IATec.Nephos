@@ -43,22 +43,29 @@ Um caso não vira norma geral por conveniência.
 ## 1. A ordem
 
 Nenhum componente entra no repositório antes da aprovação visual no Figma. A
-sequência que as fontes vigentes sustentam é:
+sequência que as fontes **deste repositório** sustentam é:
 
-**Figma aprovado → ficha completa, sem pendência → código, stories e testes →
-comparação Figma × Storybook → evidência e aceite.**
+**Figma aprovado → ficha completa, sem pendência → código, stories e testes.**
 
 **Fonte:** [`../README.md`](../README.md), "Fluxo por componente", passos 2 a 5, e
 a frase *"Nenhum componente pode ser implementado no repositório antes de sua
 aprovação no Figma"*; [`../AGENTS.md`](../AGENTS.md), "Regras obrigatórias":
 *"primeiro derive a referência estrutural do Obra no Figma, configure-a com tokens
-Nephos e obtenha aprovação visual. Só então implemente no repositório"*;
-[`../fichas/_modelo.md`](../fichas/_modelo.md), §7, critérios 1 e 6;
-[`../GOVERNANCA.md`](../GOVERNANCA.md), §1, linha "Implementação entregue".
-**Limite:** este guia cobre o terceiro passo — código, stories e testes. Os demais
-têm dono e rito próprios, fora daqui. **Plano técnico não é etapa geral deste
-fluxo:** o repositório tem um caso só, a **P21**, do `nph-icon`, e um caso não é
-gabarito — ver §7.
+Nephos e obtenha aprovação visual. Só então implemente no repositório"*. O que
+conta como ficha completa está em [`../fichas/_modelo.md`](../fichas/_modelo.md),
+§7, critério 1: *"a ficha responde a todos os itens, sem campo em branco"*.
+
+**Limite:** este guia cobre o terceiro passo — código, stories e testes.
+
+**Comparação Figma × Storybook, evidência e aceite não são prescritos por este
+guia.** Dependem do registro de planejamento e dos gates externos aplicáveis: o
+[`../GOVERNANCA.md`](../GOVERNANCA.md), §1, declara que *"ordem e evidência das
+fases"* vivem em *"registro de planejamento mantido pela Indiane, fora deste
+repositório"*, e que quem depender dessa ordem deve parar e perguntar. Este guia
+não a reproduz.
+
+**Plano técnico também não é etapa geral deste fluxo:** o repositório tem um caso
+só, a **P21**, do `nph-icon`, e um caso não é gabarito — ver §7.
 
 ---
 
