@@ -271,8 +271,11 @@ A peça sai da fila quando:
 2. os tokens citados são semânticos e foram auditados;
 3. cada estado nomeia o token que usa;
 4. existe página no Figma com propósito, anatomia, variantes, estados e limites de uso;
-5. existe história no Storybook cobrindo **cada variante e cada estado** — uma por
-   variante e por estado, não uma por componente;
+5. **cada variante e cada estado aparece em alguma story verificável** — uma mesma
+   story pode cobrir mais de uma combinação, e nenhuma combinação fica de fora. O
+   critério é **cobertura rastreável**, não quantidade de arquivos, páginas ou
+   stories. *Decisão da Indiane em 09-09-2026; substitui a regra de formato
+   anterior, que exigia uma story por variante e por estado;*
 6. Figma e Storybook não divergem — ou a divergência está registrada com a decisão que
    falta;
 7. as Dicas para IA existem e dizem quando escolher esta peça, não o que ela é;
