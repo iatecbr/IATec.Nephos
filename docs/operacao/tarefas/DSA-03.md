@@ -1,7 +1,7 @@
 ```json
 {
   "id": "DSA-03",
-  "objetivo": "Alinhar a ficha e a arte versionada de nph-icon a decisao I7 sobre circle-info no estilo solid.",
+  "objetivo": "Alinhar os contratos e a arte de nph-icon a decisao I7 sobre circle-info no estilo solid.",
   "fase": "F4",
   "ordem_aprovada": 80,
   "responsavel": "claude-codigo",
@@ -11,7 +11,7 @@
   "gates": [
     {
       "id": "revisao-e-merge",
-      "descricao": "A ficha e a arte de circle-info solid estao revisadas e mergeadas na branch padrao.",
+      "descricao": "Ficha, contratos, arte, testes e Storybook de circle-info solid estao revisados e mergeados na branch padrao.",
       "comando": null,
       "evidencia": null,
       "resultado": "pendente",
@@ -41,24 +41,31 @@
 }
 ```
 
-# DSA-03 — alinhar nph-icon a I7
+# DSA-03 — alinhar contratos de nph-icon a I7
 
 ## Objetivo
-A ficha de `nph-icon` e a arte versionada de `circle-info` registram a decisao I7:
-`regular` continua padrao, e `circle-info` pode usar `solid` pelo motivo aprovado.
+A ficha, os contratos tecnicos, a arte versionada, os testes e o Storybook de
+`nph-icon` registram a decisao I7: `regular` continua padrao, e `circle-info`
+pode usar `solid` pelo motivo aprovado.
 
 ## Como se prova
-**`revisao-e-merge`** — a ficha e a arte de `circle-info` no estilo `solid` passam
-pelos testes aplicaveis, sao revisadas e mergeadas na branch padrao. A evidencia deve
-registrar branch, commit, PR, comando executado e resultado.
+**`revisao-e-merge`** — ficha, `design.md`, `docs/decisoes-tecnicas.md`, arte,
+testes, Storybook e seus dicionarios passam pelos testes aplicaveis, sao revisados e
+mergeados na branch padrao. A evidencia deve registrar branch, commit, PR, comando
+executado e resultado.
 
 ## O que esta tarefa não faz
 Nao libera `solid` para outros nomes, nao altera a API de `nph-label` e nao inicia
-`nph-field`. Qualquer novo nome ou estado exige motivo coerente e decisao registrada.
+`nph-field`. A atualizacao da Fundacao de icones no WORK BRAIN fica para o Copilot
+depois da entrega verificavel. Qualquer novo nome ou estado exige motivo coerente e
+decisao registrada.
 
 ## Fontes
 - `fichas/nph-icon.md`
 - `src/components/nph-icon/`
+- `.storybook/i18n/pt-BR.js`, `.storybook/i18n/en.js`, `.storybook/i18n/es.js`
+- `design.md`
+- `docs/decisoes-tecnicas.md`
 - `docs/operacao/README.md`
 - `GOVERNANCA.md`, `AGENTS.md`, `CLAUDE.md`
 - WORK BRAIN — `02 PROJETOS/DS-Agentico/Registro de decisões — Nephos.md`, I7
