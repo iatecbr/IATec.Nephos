@@ -133,11 +133,12 @@ Os caminhos que a execução abre — e só eles.
 | `em-andamento` | existe `contextos/<ID>.md`, com `worktree` e `sha_inicial` |
 | `aguardando-decisao` | há ao menos uma decisão pendente, com `pergunta` e `quem_decide` |
 | `bloqueada` | há ao menos um bloqueio, com `dono` e `o_que_resolve` |
-| `em-revisao` | `revisao_git.pr` está preenchido |
-| `concluida` | **todo** gate `passou`, com evidência que existe em disco, `verificado_em` e `verificado_por` — e **sem** arquivo de contexto |
+| `em-revisao` | `revisao_git.pr` está preenchido. O campo registra o estado no commit da revisão; na consulta, o merge pode encerrar a tarefa por derivação. |
+| `concluida` | **todo** gate `passou`, com evidência que existe em disco, `verificado_em` e `verificado_por` — e **sem** arquivo de contexto. Se a tarefa está `em-revisao`, o verificador também a considera concluída quando `revisao_git.commit` é ancestral de `origin/HEAD`. |
 
 Estado que mente é erro, não descuido. O verificador não aceita a palavra
-`concluida`: ele abre o arquivo de evidência.
+`concluida`: ele abre o arquivo de evidência. O merge é verificado no Git no
+momento da consulta; não se cria commit ou PR apenas para trocar o estado.
 
 ## 3. A ordem da próxima atividade
 
@@ -269,7 +270,8 @@ está fora do schema · `V04` campo obrigatório presente e não vazio
 `passou` e evidência existente · `V07` `bloqueada` com bloqueio aberto, `dono` e
 `o_que_resolve` · `V08` `aguardando-decisao` com `pergunta` e `quem_decide` ·
 `V09` `pronta` com todas as dependências `concluida` · `V10` `em-revisao` com
-`revisao_git.pr`
+`revisao_git.pr`. Na consulta da fila, uma `em-revisao` com gates passados,
+sem contexto e commit integrado em `origin/HEAD` tem estado efetivo `concluida`.
 
 **Dependências** · `V11` todo ID citado existe · `V12` sem ciclo ·
 `V13` sem autodependência

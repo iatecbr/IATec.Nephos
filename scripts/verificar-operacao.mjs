@@ -18,6 +18,7 @@
  *   node scripts/verificar-operacao.mjs --proxima    valida e mostra a fila
  *   node scripts/verificar-operacao.mjs --exemplos   autoteste sobre os fixtures
  */
+import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { basename, join } from 'node:path';
 
@@ -48,6 +49,43 @@ const TETO_LINHAS_CONTEXTO = 60;
 
 const PADRAO_ID = /^[A-Z][A-Z0-9]{1,3}-[A-Z0-9]{1,6}$/;
 const PADRAO_DATA = /^\d{4}-\d{2}-\d{2}$/;
+
+function todosGatesPassaram(dados) {
+  return Array.isArray(dados.gates)
+    && dados.gates.length > 0
+    && dados.gates.every((gate) => gate && typeof gate === 'object' && gate.resultado === 'passou');
+}
+
+/**
+ * O merge e um fato do Git, posterior ao commit que colocou a tarefa em revisao.
+ * Deriva o encerramento sem criar um segundo PR apenas para alterar o JSON.
+ */
+export function estadoOperacional(dados, estaIntegrado) {
+  if (
+    dados.estado === 'em-revisao'
+    && !vazio(dados.revisao_git && dados.revisao_git.commit)
+    && dados.contexto === null
+    && todosGatesPassaram(dados)
+    && estaIntegrado(dados.revisao_git.commit)
+  ) {
+    return { estado: 'concluida', derivadoDoMerge: true };
+  }
+  return { estado: dados.estado, derivadoDoMerge: false };
+}
+
+function estaIntegradoNaBranchPadrao(commit) {
+  const resultado = spawnSync(
+    'git',
+    ['merge-base', '--is-ancestor', commit, 'origin/HEAD'],
+    { stdio: 'ignore' },
+  );
+  if (resultado.error || (resultado.status !== 0 && resultado.status !== 1)) {
+    throw new Error(
+      `nao foi possivel verificar se "${commit}" foi integrado em origin/HEAD; atualize o remoto e corrija a referencia Git antes de calcular a fila`,
+    );
+  }
+  return resultado.status === 0;
+}
 
 /**
  * Varredura de segredo. Automatiza a regra de retomada segura da PO-001: a
@@ -467,8 +505,11 @@ export function validar(raiz) {
 // FILA
 // ---------------------------------------------------------------
 
-function fila(tarefas) {
-  const todas = [...tarefas.values()].map((t) => t.dados);
+function fila(tarefas, estaIntegrado = () => false) {
+  const todas = [...tarefas.values()].map((t) => ({
+    ...t.dados,
+    ...estadoOperacional(t.dados, estaIntegrado),
+  }));
   const destrava = (id) => todas.filter((d) => (d.dependencias || []).includes(id)).length;
 
   const elegiveis = todas
@@ -498,14 +539,18 @@ function fila(tarefas) {
       if (d.estado === 'em-revisao') {
         return { id: d.id, rotulo: 'em-revisao', motivo: `PR ${d.revisao_git && d.revisao_git.pr}` };
       }
-      return { id: d.id, rotulo: 'concluida', motivo: 'ja entregue, com evidencia' };
+      return {
+        id: d.id,
+        rotulo: 'concluida',
+        motivo: d.derivadoDoMerge ? 'merge comprovado na branch padrao' : 'ja entregue, com evidencia',
+      };
     });
 
   return { elegiveis, fora };
 }
 
 function imprimirFila(tarefas) {
-  const { elegiveis, fora } = fila(tarefas);
+  const { elegiveis, fora } = fila(tarefas, estaIntegradoNaBranchPadrao);
   const linhas = [];
 
   if (elegiveis.length === 0) {
@@ -555,6 +600,23 @@ const CASOS_INVALIDOS = {
 function autoteste() {
   let falhas = 0;
 
+  const tarefaEmRevisao = {
+    estado: 'em-revisao',
+    revisao_git: { commit: 'abc123' },
+    contexto: null,
+    gates: [{ resultado: 'passou' }],
+  };
+  const encerradaPorMerge = estadoOperacional(tarefaEmRevisao, (commit) => commit === 'abc123');
+  const segueEmRevisao = estadoOperacional({
+    ...tarefaEmRevisao,
+    gates: [{ resultado: 'pendente' }],
+  }, () => true);
+  const testeMerge = encerradaPorMerge.estado === 'concluida'
+    && encerradaPorMerge.derivadoDoMerge
+    && segueEmRevisao.estado === 'em-revisao';
+  if (!testeMerge) falhas += 1;
+  console.log(`${testeMerge ? 'PASSOU' : 'FALHOU'}  estado derivado pelo merge`);
+
   console.log('=== VALIDOS ===');
   const dirValidos = join(RAIZ_FIXTURES, 'validos');
   const { erros: errosValidos, conferidas } = validar(dirValidos);
@@ -597,30 +659,32 @@ function autoteste() {
 // CLI
 // ---------------------------------------------------------------
 
-const args = process.argv.slice(2);
+if (import.meta.main) {
+  const args = process.argv.slice(2);
 
-if (args.includes('--exemplos')) {
-  process.exit(autoteste());
-}
-
-const { erros, tarefas, conferidas } = validar(RAIZ_OPERACAO);
-
-if (erros.length > 0) {
-  console.error(`FALHOU: ${erros.length} erro(s) em ${RAIZ_OPERACAO}/`);
-  for (const e of erros) console.error(`  - ${e.codigo} ${e.caminho}: ${e.msg}`);
-  if (args.includes('--proxima')) {
-    console.error('\nA fila NAO foi calculada: fila sobre arvore invalida e pior que fila nenhuma.');
+  if (args.includes('--exemplos')) {
+    process.exit(autoteste());
   }
-  process.exit(1);
+
+  const { erros, tarefas, conferidas } = validar(RAIZ_OPERACAO);
+
+  if (erros.length > 0) {
+    console.error(`FALHOU: ${erros.length} erro(s) em ${RAIZ_OPERACAO}/`);
+    for (const e of erros) console.error(`  - ${e.codigo} ${e.caminho}: ${e.msg}`);
+    if (args.includes('--proxima')) {
+      console.error('\nA fila NAO foi calculada: fila sobre arvore invalida e pior que fila nenhuma.');
+    }
+    process.exit(1);
+  }
+
+  console.log(`${conferidas} tarefa(s) conferida(s).`);
+
+  if (args.includes('--proxima')) {
+    console.log('');
+    imprimirFila(tarefas);
+  } else {
+    console.log('OK: schema, estados, dependencias, gates, evidencias, contexto e ficha conferem.');
+  }
+
+  process.exit(0);
 }
-
-console.log(`${conferidas} tarefa(s) conferida(s).`);
-
-if (args.includes('--proxima')) {
-  console.log('');
-  imprimirFila(tarefas);
-} else {
-  console.log('OK: schema, estados, dependencias, gates, evidencias, contexto e ficha conferem.');
-}
-
-process.exit(0);
