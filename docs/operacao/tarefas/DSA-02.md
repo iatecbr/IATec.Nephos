@@ -25,7 +25,7 @@
   "referencias_de_decisao": [],
   "origem_externa": {
     "classificacao": "interna-permitida",
-    "url_ou_id": "WORK BRAIN — 03 MEMÓRIA/decisoes/2026-09-03-tres-decisoes-visuais-do-nph-input.md",
+    "url_ou_id": "WORK BRAIN — 03 MEMÓRIA/decisoes/2026-09-03-tres-decisoes-visuais-do-nph-input.md; 03 MEMÓRIA/agentes/2026-09.md, registro de 2026-09-03 sobre space/inline",
     "data": "2026-09-03",
     "autoria": "indiane",
     "trecho": null,
@@ -64,3 +64,4 @@ no Figma, ja autorizada pela Indiane.
 - `docs/operacao/README.md`
 - `GOVERNANCA.md`, `AGENTS.md`, `CLAUDE.md`
 - WORK BRAIN — `03 MEMÓRIA/decisoes/2026-09-03-tres-decisoes-visuais-do-nph-input.md`
+- WORK BRAIN — `03 MEMÓRIA/agentes/2026-09.md`, registro de 2026-09-03 sobre `space/inline`
