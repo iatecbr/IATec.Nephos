@@ -132,9 +132,9 @@ atual. A P62 (`nph-label`, tipografia e dimensões, registrada em
 e P62.3 como estavam registradas; a P62.4 ele resolveu decidindo migrar o
 gerador de `px` para `rem` — **migração implementada em 28/08/2026 e mergeada
 no PR #12**. A **P62.5**, adotada pela Indiane em 28/08/2026, mantém
-`core/radius` em `px` e **aguarda revisão de Elvys**: não converta o raio. Ver
-`docs/decisoes-tecnicas.md`. Se ele der orientação posterior que conflite com
-alguma, a orientação dele prevalece e a nota deve ser atualizada.
+`core/radius` em `px` e teve as evidências documentais revisadas pelo Copilot em
+09/09/2026: não converta o raio. Ver `docs/decisoes-tecnicas.md`. Mudança posterior
+exige conflito técnico concreto, proposta registrada e decisão humana.
 
 Em resumo, e sem substituir a leitura da nota: Shadow DOM aberto (P01); CSS
 custom properties como API pública e `::part` para partes internas, com classes

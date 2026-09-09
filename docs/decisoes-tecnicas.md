@@ -517,8 +517,11 @@ acrescentar `'radius'` fora da constante `SEM_CONVERSAO` em
 o `raio_regras` do `design.md` junto, e aí deixa de ser mudança de pipeline e
 vira mudança de contrato visual.
 
-**Status.** Decisão adotada por Indiane em 28/08/2026 — aguardando revisão de
-Elvys.
+**Status.** Decisão adotada por Indiane em 28/08/2026 — revisão documental das
+evidências concluída pelo Copilot em 09/09/2026. A revisão confirmou a compatibilidade
+com `raio_regras` do `design.md`, a separação dos 8 tokens de raio dos 92 `dimension`
+convertidos e o custo descrito para uma mudança futura. Este PR aguarda somente revisão
+e merge de Elvys ou Mauro.
 
 ---
 
