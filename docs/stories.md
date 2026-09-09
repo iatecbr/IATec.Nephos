@@ -43,13 +43,22 @@ Um caso não vira norma geral por conveniência.
 ## 1. A ordem
 
 Nenhum componente entra no repositório antes da aprovação visual no Figma. A
-sequência é: **ficha sem pendência → Figma aprovado → plano técnico → código,
-stories e testes → comparação Figma × Storybook → evidência e aceite.**
+sequência que as fontes vigentes sustentam é:
 
-**Fonte:** [`../README.md`](../README.md), "Fluxo por componente";
-[`../GOVERNANCA.md`](../GOVERNANCA.md), §4.
-**Limite:** este guia cobre o quarto passo. Os demais têm dono e rito próprios,
-fora daqui.
+**Figma aprovado → ficha completa, sem pendência → código, stories e testes →
+comparação Figma × Storybook → evidência e aceite.**
+
+**Fonte:** [`../README.md`](../README.md), "Fluxo por componente", passos 2 a 5, e
+a frase *"Nenhum componente pode ser implementado no repositório antes de sua
+aprovação no Figma"*; [`../AGENTS.md`](../AGENTS.md), "Regras obrigatórias":
+*"primeiro derive a referência estrutural do Obra no Figma, configure-a com tokens
+Nephos e obtenha aprovação visual. Só então implemente no repositório"*;
+[`../fichas/_modelo.md`](../fichas/_modelo.md), §7, critérios 1 e 6;
+[`../GOVERNANCA.md`](../GOVERNANCA.md), §1, linha "Implementação entregue".
+**Limite:** este guia cobre o terceiro passo — código, stories e testes. Os demais
+têm dono e rito próprios, fora daqui. **Plano técnico não é etapa geral deste
+fluxo:** o repositório tem um caso só, a **P21**, do `nph-icon`, e um caso não é
+gabarito — ver §7.
 
 ---
 
