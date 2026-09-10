@@ -48,6 +48,18 @@ Antes de analisar, propor, editar ou implementar:
 6. Se uma verificação falhar, corrija o método e execute-a novamente antes de
    declarar resultado.
 
+## Fluxo de branch e pull request — v5
+
+- A branch de integração atual é `v/5.0.0`. Para cada entrega, crie uma branch
+  curta a partir de `origin/v/5.0.0`, com o prefixo definido em
+  `contributing.md`.
+- Nunca faça a entrega diretamente em `v/5.0.0`. Abra um pull request da branch
+  de tarefa para `v/5.0.0`.
+- Elvys ou Mauro revisam e fazem o merge. Não faça o merge do próprio pull
+  request.
+- Esta convenção vale até uma instrução versionada substituí-la. A configuração
+  de branch padrão no GitHub não muda esse destino de integração.
+
 ## Regras obrigatórias
 
 - Todo componente é um Web Component escrito com Lit e com prefixo `nph-`.
