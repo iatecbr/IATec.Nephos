@@ -75,12 +75,40 @@ Antes de analisar, propor, editar ou implementar:
   **nunca** entra no repositório.
 - Para cada componente, primeiro derive a referência estrutural do Obra no
   Figma, configure-a com tokens Nephos e obtenha aprovação visual. Só então
-  implemente no repositório.
+  implemente no repositório. A ordem completa está em **A ordem de um
+  componente**, abaixo, e é cobrada pelo verificador.
 - Enquanto o licenciamento do Obra CE/shadcn estiver em validação, use-o apenas
   como referência visual e estrutural; nunca copie código, assets, tokens ou
   componentes para entregáveis do Nephos.
 - Registre data, responsável, fonte de evidência, decisão alterada e
   documentos sincronizados ao concluir.
+
+## A ordem de um componente
+
+**Documentação Figma aceita → código local → ficha final → revisão e PR.** Vale
+para todo agente. Uma **tarefa de componente** é a que declara
+`responsavel: "claude-codigo"` e `peca` preenchida em
+`docs/operacao/tarefas/<ID>.md`.
+
+1. **Antes de qualquer código de componente**, a documentação da peça no Figma
+   `DS-IA-NEPHOS 5.0` precisa estar **aceita por Indiane** e registrada no gate
+   `documentacao-figma-aceita`, com `resultado: "passou"` e evidência em
+   `docs/operacao/evidencias/<ID>/`. Enquanto o gate não passar, a tarefa fica
+   `bloqueada` — não é `pronta` nem `em-andamento`, e nenhum código começa.
+2. **A evidência prova a procedência**, e não o gosto de quem aceitou:
+   `responsavel` `indiane`, `origem_externa` `interna-permitida` com a URL ou o
+   ID do frame no Figma, `data`, `autoria` e `decisao_convertida` nomeando o
+   **frame** e o **`COMPONENT_SET`**. Conteúdo restrito do Figma **não** é
+   copiado para a evidência: o que entra é a decisão convertida.
+3. **Enquanto a tarefa está `pronta` ou `em-andamento`, código local sem ficha é
+   permitido.** Ficha exigida no primeiro commit vira formulário preenchido às
+   cegas; o contrato da peça sai da prática.
+4. **Antes de `em-revisao` e de `concluida`**, a ficha canônica em
+   `fichas/<peca>.md` tem de existir, a partir de `fichas/_modelo.md`.
+
+O verificador cobra os três momentos: `V30` o gate, `V31` a procedência da
+evidência, `V28` a ficha. Contrato completo em
+[`docs/operacao/README.md`](docs/operacao/README.md), §2b e §5b.
 
 ## Proibições
 
@@ -95,6 +123,8 @@ Antes de analisar, propor, editar ou implementar:
   métricas de progresso ou decisões de produto.
 - NUNCA declare branch, commit, Storybook, componente ou publicação como
   existente sem evidência verificável no repositório.
+- NUNCA escreva código de componente antes do gate `documentacao-figma-aceita`
+  passar, nem leve a tarefa a `em-revisao` ou `concluida` sem a ficha canônica.
 
 ## Onde o agente pode escrever
 

@@ -5,10 +5,19 @@
   "fase": "F4",
   "ordem_aprovada": 80,
   "responsavel": "claude-codigo",
-  "estado": "pronta",
+  "estado": "bloqueada",
   "peca": "nph-icon",
   "dependencias": [],
   "gates": [
+    {
+      "id": "documentacao-figma-aceita",
+      "descricao": "A documentacao de nph-icon no Figma foi aceita por Indiane e registrada como evidencia.",
+      "comando": null,
+      "evidencia": null,
+      "resultado": "pendente",
+      "verificado_em": null,
+      "verificado_por": null
+    },
     {
       "id": "revisao-e-merge",
       "descricao": "Ficha, contratos, arte, testes e Storybook de circle-info solid estao revisados e mergeados na branch padrao.",
@@ -19,7 +28,15 @@
       "verificado_por": null
     }
   ],
-  "bloqueios": [],
+  "bloqueios": [
+    {
+      "id": "B1",
+      "o_que_trava": "A trava documental exige documentacao Figma aceita antes de codigo de componente, e o gate ainda esta pendente.",
+      "dono": "indiane",
+      "o_que_resolve": "Documentação Figma do nph-icon aceita e registrada como evidência.",
+      "aberto_em": "2026-09-10"
+    }
+  ],
   "decisoes_pendentes": [],
   "evidencias": [],
   "referencias_de_decisao": [],
@@ -37,7 +54,7 @@
     "pr": null
   },
   "contexto": null,
-  "atualizado_em": "2026-09-09"
+  "atualizado_em": "2026-09-10"
 }
 ```
 
@@ -49,6 +66,12 @@ A ficha, os contratos tecnicos, a arte versionada, os testes e o Storybook de
 pode usar `solid` pelo motivo aprovado.
 
 ## Como se prova
+**`documentacao-figma-aceita`** — a documentacao de `nph-icon` no Figma
+`DS-IA-NEPHOS 5.0` e aceita por Indiane, e a aceitacao entra em
+`docs/operacao/evidencias/DSA-03/`, com a URL ou o ID do frame, a data, a autoria
+e a decisao convertida, nomeando o frame e o COMPONENT_SET. Enquanto este gate
+nao passar, a tarefa fica `bloqueada` e nenhum codigo de componente comeca.
+
 **`revisao-e-merge`** — ficha, `design.md`, `docs/decisoes-tecnicas.md`, arte,
 testes, Storybook e seus dicionarios passam pelos testes aplicaveis, sao revisados e
 mergeados na branch padrao. A evidencia deve registrar branch, commit, PR, comando

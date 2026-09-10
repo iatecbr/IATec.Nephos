@@ -56,8 +56,8 @@ conteúdo.
   "dependencias": ["DSA-01"],
   "gates": [
     {
-      "id": "figma-aprovado",
-      "descricao": "Aprovacao visual no frame do componente.",
+      "id": "documentacao-figma-aceita",
+      "descricao": "A documentacao do componente no Figma foi aceita por Indiane.",
       "comando": null,
       "evidencia": null,
       "resultado": "pendente",
@@ -95,7 +95,7 @@ ignorada.
 | `ordem_aprovada` | inteiro ≥ 1 | único entre as tarefas não `concluida` |
 | `responsavel` | enum | `indiane`, `claude-codigo`, `claude-figma`, `copilot`, `elvys` |
 | `estado` | enum | os seis abaixo |
-| `peca` | string ou `null` | quando preenchido, exige `fichas/<peca>.md` |
+| `peca` | string ou `null` | quando preenchido, exige `fichas/<peca>.md` em `em-revisao` e `concluida` — ver §2b |
 | `dependencias` | lista de IDs | pode ser vazia |
 | `gates` | lista de objetos | ao menos um, cada um com `id`, `descricao` e `resultado` |
 | `bloqueios` | lista de objetos | pode ser vazia |
@@ -138,6 +138,29 @@ Os caminhos que a execução abre — e só eles.
 
 Estado que mente é erro, não descuido. O verificador não aceita a palavra
 `concluida`: ele abre o arquivo de evidência.
+
+## 2b. A trava documental: Figma → código local → ficha → revisão
+
+Uma **tarefa de componente** é a que tem `responsavel: "claude-codigo"` **e**
+`peca` preenchida. Para ela, a ordem do trabalho é cobrada pela máquina, e não
+pela boa vontade de quem executa:
+
+| Momento | O que já tem de existir | Quem cobra |
+|---|---|---|
+| Antes de qualquer código de componente | o gate `documentacao-figma-aceita` com `resultado: "passou"` | `V30` |
+| Enquanto a tarefa está `pronta` ou `em-andamento` | nada além disso — **código local sem ficha é permitido** | — |
+| Antes de `em-revisao` e de `concluida` | a ficha canônica em `fichas/<peca>.md` | `V28` |
+
+**Por que os dois conjuntos de estado são diferentes.** A documentação no Figma
+é o que impede o componente de nascer errado, então ela vem antes. A ficha é o
+contrato consolidado da peça — ela sai da prática, e cobrá-la no primeiro commit
+transformaria o contrato em formulário preenchido às cegas. Código local sem
+ficha é trabalho em curso, não violação; código sem documentação aceita é
+invenção.
+
+A `origem_externa` da própria tarefa continua governada pela §4 e **não**
+substitui o gate: uma coisa é de onde a tarefa veio, outra é a documentação da
+peça ter sido aceita.
 
 ## 3. A ordem da próxima atividade
 
@@ -215,6 +238,47 @@ raiz do repositório** e tem de existir em disco; o campo `tarefa` do arquivo te
 de bater com o ID que o referencia. Ponteiro que aponta para o vazio não dá erro
 sozinho — só deixa de funcionar. Por isso o verificador abre o arquivo.
 
+### 5b. A evidência do gate documental
+
+O gate `documentacao-figma-aceita` tem um formato próprio, porque o que ele prova
+não é a saída de um comando: é uma **aceitação humana**. A evidência fica em
+`evidencias/<ID>/`, na própria árvore, e o verificador cobra a procedência inteira
+(`V31`):
+
+```json
+{
+  "tarefa": "<ID>",
+  "gate": "documentacao-figma-aceita",
+  "data": "2026-09-10",
+  "responsavel": "indiane",
+  "comando": null,
+  "codigo_de_saida": null,
+  "sha": null,
+  "origem_externa": {
+    "classificacao": "interna-permitida",
+    "url_ou_id": "<URL ou ID do frame no Figma>",
+    "data": "2026-09-10",
+    "autoria": "<quem registrou>",
+    "trecho": null,
+    "decisao_convertida": "<o frame aceito e o COMPONENT_SET que saiu dali>"
+  }
+}
+```
+
+| O que `V31` cobra | Por quê |
+|---|---|
+| `gate` é `documentacao-figma-aceita` | a evidência não serve a outro gate por engano |
+| `responsavel` é `indiane` | aceitar documentação é decisão dela, não do agente |
+| `origem_externa.classificacao` é `interna-permitida` | o Figma é interno, e permitido: ver §4 |
+| `origem_externa.url_ou_id` nomeia o Figma | sem o ponteiro, ninguém reabre o frame |
+| `origem_externa.data` em `AAAA-MM-DD`, e `autoria` | quando, e por quem |
+| `origem_externa.decisao_convertida` nomeia o **frame** e o **COMPONENT_SET** | é o elo entre o que foi aceito e o que será construído |
+| o arquivo está em `evidencias/<ID>/` | a prova é local e versionada, não um link que some |
+
+**Não se copia conteúdo restrito do Figma para cá.** O que entra é a decisão
+convertida — o requisito que saiu do frame —, e não o conteúdo do frame. É a
+mesma regra da §4, aplicada à evidência.
+
 ## 6. Contexto curto
 
 `contextos/<ID>.md`. Um por tarefa, ligado a um worktree, **reescrito a cada
@@ -257,7 +321,11 @@ não proíbe stories nem variáveis chamadas `meta`.
 **Como a Metadata lê a ficha ainda não está decidido** — build ou execução — e
 essa decisão não pertence a esta etapa.
 
-## 8. As 29 regras do verificador
+**A ficha é cobrada no fim, não no começo.** A `V28` só exige `fichas/<peca>.md`
+em `em-revisao` e `concluida`. Antes disso, a peça pode ter código local e não
+ter ficha — ver §2b.
+
+## 8. As 31 regras do verificador
 
 Cada erro sai com o código, o caminho e a mensagem.
 
@@ -289,9 +357,17 @@ chaves fechado, sem as seis proibidas · `V24` no máximo 60 linhas ·
 `sha_inicial`
 
 **Contrato de metadados** · `V27` nenhum `meta.ts` ou `metadata.ts` em
-`src/components/` · `V28` `peca` preenchida exige `fichas/<peca>.md`
+`src/components/` · `V28` `peca` preenchida exige `fichas/<peca>.md` **em
+`em-revisao` e `concluida`**
 
 **Fila** · `V29` `ordem_aprovada` inteiro ≥ 1, único entre as não `concluida`
+
+**Trava documental** · `V30` tarefa de componente em `pronta`, `em-andamento`,
+`em-revisao` ou `concluida` exige o gate `documentacao-figma-aceita` com
+`resultado: "passou"` · `V31` a evidência desse gate prova a procedência: `gate`
+correspondente, `responsavel` `indiane`, `origem_externa` `interna-permitida` com
+URL ou ID do Figma, `data`, `autoria` e `decisao_convertida` nomeando o frame e o
+`COMPONENT_SET`, em `evidencias/<ID>/`
 
 ## 9. Os exemplos
 
