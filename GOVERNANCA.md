@@ -26,6 +26,7 @@ precedencia: 1
 | Escopo de componentes | O recorte P0 no `README.md`. A lista completa da v1 foi fechada em 26-08-2026 — 75 componentes públicos em 6 ondas — e é mantida fora deste repositório | Qualquer lista de componentes não publicada aqui |
 | Implementação entregue | Branch, commit, PR e Storybook deste repositório | Declaração em nota sem evidência no repositório |
 | Ficha, variantes, estados e regra de escolha de um componente | `fichas/<nome>.md`, com o gabarito em `fichas/_modelo.md` | Nota do vault, print do Figma ou texto de Storybook sem fonte |
+| Documentação Figma aceita de um componente | O gate `documentacao-figma-aceita` da tarefa em `docs/operacao/tarefas/<ID>.md`, com a evidência em `docs/operacao/evidencias/<ID>/` | Conversa, print, aprovação verbal ou comentário no Figma sem evidência versionada |
 
 Em conflito, prevalece a fonte da linha correspondente. Uma fonte histórica só pode registrar o que ocorreu; ela não prescreve o que fazer agora.
 
@@ -61,6 +62,16 @@ Antes de agir, a IA deve:
 6. Parar e perguntar quando faltar decisão, ficha necessária à tarefa, fonte de verdade ou houver conflito entre fontes vigentes. Ausência de branch, commit ou Storybook bloqueia apenas a **alegação** de que existem; não bloqueia uma tarefa autorizada de criá-los.
 7. Atualizar simultaneamente as fontes afetadas quando uma decisão mudar: contrato, nota de fundação, plano/estado e documentação derivada.
 8. Ao encerrar, registrar evidência, data, responsável, decisão alterada e documentos sincronizados.
+
+### A ordem de um componente
+
+Componente não começa pelo código. A sequência é **documentação Figma aceita → código local → ficha final → revisão e PR**, e ela é cobrada pela máquina, não pela boa vontade de quem executa:
+
+1. **Antes de qualquer código de componente**, a documentação da peça no Figma `DS-IA-NEPHOS 5.0` precisa estar aceita por Indiane e registrada no gate `documentacao-figma-aceita` da tarefa, com evidência em `docs/operacao/evidencias/<ID>/`. Sem isso, a tarefa não é `pronta` nem `em-andamento`: é `bloqueada`.
+2. **Enquanto a tarefa está `pronta` ou `em-andamento`**, código local sem ficha é permitido. Ficha exigida no primeiro commit vira formulário preenchido às cegas; ela sai da prática.
+3. **Antes de `em-revisao` e de `concluida`**, a ficha canônica em `fichas/<peca>.md` tem de existir.
+
+O verificador cobra os três momentos em `V30`, `V28` e `V31` — ver [`docs/operacao/README.md`](docs/operacao/README.md), §2b e §5b.
 
 ## 5. Salvaguardas contra erro documental
 

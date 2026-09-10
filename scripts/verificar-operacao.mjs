@@ -32,6 +32,16 @@ const FASES = ['F0', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7'];
 const CLASSIFICACOES = ['publica', 'interna-permitida', 'interna-restrita', 'desconhecida'];
 const RESULTADOS_GATE = ['pendente', 'passou', 'falhou'];
 
+/**
+ * A trava documental. A documentacao Figma aceita vem ANTES do codigo de
+ * componente; a ficha canonica vem DEPOIS dele, antes da revisao. Por isso os
+ * dois conjuntos de estado sao diferentes: codigo local sem ficha e trabalho em
+ * curso, nao violacao.
+ */
+const GATE_DOCUMENTACAO_FIGMA = 'documentacao-figma-aceita';
+const ESTADOS_EXIGEM_GATE_FIGMA = ['pronta', 'em-andamento', 'em-revisao', 'concluida'];
+const ESTADOS_EXIGEM_FICHA = ['em-revisao', 'concluida'];
+
 /** Schema fechado: chave de topo fora desta lista reprova em V03. */
 const CAMPOS = [
   'id', 'objetivo', 'fase', 'ordem_aprovada', 'responsavel', 'estado', 'peca',
@@ -93,6 +103,71 @@ const vazio = (v) => v === undefined || v === null || (typeof v === 'string' && 
 // ---------------------------------------------------------------
 // VALIDACAO
 // ---------------------------------------------------------------
+
+/**
+ * V31 — a procedencia da evidencia do gate documental.
+ *
+ * A trava so vale se a prova disser DE ONDE a documentacao veio e QUEM a
+ * aceitou. Um gate "passou" sem procedencia e uma palavra: nao da para
+ * auditar depois, e e exatamente o que a V30 tenta impedir. A evidencia fica
+ * em `evidencias/<ID>/` da propria arvore, e nao carrega conteudo restrito do
+ * Figma — so a decisao convertida, com o frame e o COMPONENT_SET que a
+ * originaram.
+ *
+ * V15, V16 e V17 ja cobrem gate sem evidencia, ponteiro quebrado e bloco JSON
+ * invalido. Esta funcao so olha o que sobra: a procedencia.
+ */
+function validarEvidenciaDocumental(idTarefa, gate, falha) {
+  const ev = gate.evidencia;
+  if (typeof ev !== 'string' || vazio(ev) || !existsSync(ev)) return;
+  const caminho = ev.replace(/\\/g, '/');
+
+  if (!new RegExp(`(^|/)evidencias/${idTarefa}/[^/]+\\.md$`).test(caminho)) {
+    falha('V31', caminho, `a evidencia documental de "${idTarefa}" tem de ficar em evidencias/${idTarefa}/`);
+  }
+
+  const { dados, erro } = blocoJson(ler(caminho));
+  if (erro) return;
+
+  if (dados.gate !== GATE_DOCUMENTACAO_FIGMA) {
+    falha('V31', caminho, `o campo "gate" e "${dados.gate}", e nao "${GATE_DOCUMENTACAO_FIGMA}"`);
+  }
+  if (dados.responsavel !== 'indiane') {
+    falha('V31', caminho, `quem aceita a documentacao e indiane, e "responsavel" declara "${dados.responsavel}"`);
+  }
+
+  const oe = dados.origem_externa;
+  if (oe === undefined || oe === null || typeof oe !== 'object' || Array.isArray(oe)) {
+    falha('V31', caminho, 'a evidencia documental nao declara "origem_externa" como objeto');
+    return;
+  }
+  if (oe.classificacao !== 'interna-permitida') {
+    falha('V31', caminho, `origem_externa.classificacao e "${oe.classificacao}" — a documentacao Figma e "interna-permitida"`);
+  }
+  if (vazio(oe.url_ou_id)) {
+    falha('V31', caminho, 'origem_externa nao declara "url_ou_id" — falta a URL ou o ID do Figma');
+  } else if (!/figma/i.test(oe.url_ou_id)) {
+    falha('V31', caminho, `origem_externa.url_ou_id "${oe.url_ou_id}" nao aponta para o Figma`);
+  }
+  if (vazio(oe.data)) {
+    falha('V31', caminho, 'origem_externa nao declara "data"');
+  } else if (!PADRAO_DATA.test(oe.data)) {
+    falha('V31', caminho, `origem_externa.data "${oe.data}" nao esta em AAAA-MM-DD`);
+  }
+  if (vazio(oe.autoria)) {
+    falha('V31', caminho, 'origem_externa nao declara "autoria" — falta quem registrou');
+  }
+  if (vazio(oe.decisao_convertida)) {
+    falha('V31', caminho, 'origem_externa nao declara "decisao_convertida"');
+    return;
+  }
+  if (!/frame/i.test(oe.decisao_convertida)) {
+    falha('V31', caminho, 'origem_externa.decisao_convertida nao nomeia o frame de origem');
+  }
+  if (!oe.decisao_convertida.includes('COMPONENT_SET')) {
+    falha('V31', caminho, 'origem_externa.decisao_convertida nao nomeia o COMPONENT_SET');
+  }
+}
 
 /**
  * Valida uma arvore operacional inteira.
@@ -332,12 +407,31 @@ export function validar(raiz) {
       }
     }
 
-    // V28 — peca preenchida exige a ficha
-    if (!vazio(dados.peca)) {
+    // V28 — a ficha canonica e cobrada no fim, nao no comeco. Codigo local sem
+    // ficha e permitido enquanto a tarefa esta pronta ou em andamento.
+    if (!vazio(dados.peca) && ESTADOS_EXIGEM_FICHA.includes(estado)) {
       const ficha = join(RAIZ_FICHAS, `${dados.peca}.md`).replace(/\\/g, '/');
       if (!existsSync(ficha)) {
-        falha('V28', caminho, `declara peca "${dados.peca}", mas ${ficha} nao existe`);
+        falha('V28', caminho, `estado ${estado} com peca "${dados.peca}", mas ${ficha} nao existe`);
       }
+    }
+
+    // V30 — nenhum codigo de componente antes da documentacao Figma aceita.
+    const tarefaDeComponente = dados.responsavel === 'claude-codigo' && !vazio(dados.peca);
+    const gateFigma = gates.find((g) => g !== null && typeof g === 'object' && g.id === GATE_DOCUMENTACAO_FIGMA);
+    if (tarefaDeComponente && ESTADOS_EXIGEM_GATE_FIGMA.includes(estado)) {
+      if (gateFigma === undefined) {
+        falha('V30', caminho, `tarefa de componente em "${estado}" nao declara o gate "${GATE_DOCUMENTACAO_FIGMA}"`);
+      } else if (gateFigma.resultado !== 'passou') {
+        falha('V30', caminho, `tarefa de componente em "${estado}" tem "${GATE_DOCUMENTACAO_FIGMA}" em "${gateFigma.resultado}" — exige "passou"`);
+      }
+    }
+
+    // V31 — o gate documental aprovado prova de onde a documentacao veio.
+    for (const g of gates) {
+      if (g === null || typeof g !== 'object') continue;
+      if (g.id !== GATE_DOCUMENTACAO_FIGMA || g.resultado !== 'passou') continue;
+      validarEvidenciaDocumental(dados.id, g, falha);
     }
   }
 
@@ -538,11 +632,14 @@ const CASOS_INVALIDOS = {
   'bloqueada-sem-bloqueio': 'V07',
   'campo-faltando': 'V04',
   'chave-desconhecida': 'V03',
+  'componente-sem-gate-figma': 'V30',
   'concluida-sem-evidencia': 'V06',
   'contexto-muda-estado': 'V23',
   'dependencia-ciclica': 'V12',
   'dependencia-inexistente': 'V11',
   'estado-invalido': 'V05',
+  'evidencia-figma-fora-do-diretorio': 'V31',
+  'evidencia-figma-sem-procedencia': 'V31',
   'evidencia-inexistente': 'V16',
   'id-fora-do-padrao': 'V02',
   'id-nao-bate': 'V01',

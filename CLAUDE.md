@@ -23,9 +23,18 @@
 5. **Documentação pública traduzida muda no mesmo PR.** Alterou `README.md` ou
    `docs/tokens.md`, atualize os pares `en`/`es`, rode `npm run i18n:update` e
    `npm run test:i18n` antes de fechar o PR.
+6. **O Claude não aceita a documentação Figma de um componente — ele a lê.**
+   Quem aceita é a Indiane, e o gate `documentacao-figma-aceita` da tarefa é a
+   única forma de o Claude saber que ela aceitou. Ler o frame, ver o desenho ou
+   ouvir "pode ir" não substitui o gate. A ordem completa — documentação Figma
+   aceita, código local, ficha final, revisão — está em **A ordem de um
+   componente**, no `AGENTS.md`; este arquivo não a repete.
 
 ## Quando parar
 
 Pare e peça confirmação quando faltar decisão, fonte de verdade, ficha,
 evidência visual, gate ou acesso — e quando duas fontes vigentes divergirem.
 Parar com o bloqueio registrado vale mais do que entregar com lacuna preenchida.
+
+Em componente, o gate que falta é quase sempre `documentacao-figma-aceita`:
+registre o bloqueio na tarefa e pare, em vez de começar o código "enquanto isso".
