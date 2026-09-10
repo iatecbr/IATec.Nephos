@@ -2,8 +2,8 @@
 
 ## Branch
 
-Crie uma branch a partir da base atual usando um dos prefixos abaixo, seguido de uma
-descrição curta em kebab-case:
+Durante a v5, crie cada branch de tarefa a partir de `origin/v/5.0.0`, usando
+um dos prefixos abaixo seguido de uma descrição curta em kebab-case:
 
 - `feat/` para funcionalidade ou componente;
 - `fix/` para correção;
@@ -17,6 +17,9 @@ Exemplo: `docs/pe01-pe03-contrib-p625`.
 Use `tipo(escopo): resumo curto` quando houver escopo; omita o parêntese quando ele não
 ajudar a entender a mudança. Os tipos seguem os prefixos de branch: `feat`, `fix`,
 `docs` e `chore`.
+
+Todo pull request da v5 tem `v/5.0.0` como branch de destino. Nunca faça a
+entrega diretamente nessa branch.
 
 O título do pull request repete o título do commit principal. A descrição informa:
 
