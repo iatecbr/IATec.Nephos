@@ -33,7 +33,9 @@ api:
     reflete: false
     restricao: >-
       `regular` é o padrão; `solid` está disponível para todos os nomes do acervo.
-      Light, Thin e Sharp não existem no contrato.
+      A I7 autorizou `circle-info` em `solid` porque o contorno regular some ao
+      lado do texto, principalmente no modo claro. Light, Thin e Sharp não
+      existem no contrato.
   size:
     tipo: enum
     valores: [sm, md, lg]
@@ -113,7 +115,7 @@ anti_padroes:
 
 fontes:
   design_md: "design.md, no repositório"
-  decisao: "P21, adotada por Indiane em 26-08-2026"
+  decisao: "P21, adotada por Indiane em 26-08-2026; I7, 08-09-2026"
   testes: "src/components/nph-icon/nph-icon.test.ts"
   evidencia_de_uso: "branch v/3.0.0, PR #6, merge 437dd60"
   storybook: "src/components/nph-icon/nph-icon.stories.ts"
@@ -155,7 +157,9 @@ recorrente.
 ## Variantes
 
 **Por aparência — `variant`:** `regular` é o padrão. `solid` existe para todos os nomes
-do acervo e é usado quando o contexto pede maior presença visual.
+do acervo e é usado quando o contexto pede maior presença visual. A I7 (08-09-2026)
+autorizou `circle-info` em `solid` porque o contorno regular some ao lado do texto,
+principalmente no modo claro.
 
 **Por tamanho — `size`:** `sm` dentro de controle, célula de tabela e campo; `md` em item
 de menu, aba e ação de destaque; `lg` quando o ícone carrega significado sozinho —

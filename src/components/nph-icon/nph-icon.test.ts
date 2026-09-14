@@ -106,6 +106,14 @@ describe('variant', () => {
     expect(erros).not.toHaveBeenCalled();
   });
 
+  it('circle-info aceita solid, com arte diferente da regular', async () => {
+    const regular = await montar({ name: 'circle-info', variant: 'regular', size: 'sm' });
+    const solid = await montar({ name: 'circle-info', variant: 'solid', size: 'sm' });
+    expect(svgDe(solid)).not.toBeNull();
+    expect(caminhoDe(solid)).not.toBe(caminhoDe(regular));
+    expect(erros).not.toHaveBeenCalled();
+  });
+
   it('cada nome aceita solid', async () => {
     for (const nome of NPH_ICON_NAMES) {
       const icone = await montar({ name: nome, variant: 'solid', size: 'sm' });
