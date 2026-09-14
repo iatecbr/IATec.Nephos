@@ -72,14 +72,14 @@ describe('registro do elemento', () => {
   });
 });
 
-describe('nucleo fechado de 34 icones', () => {
+describe('nucleo fechado de 93 icones', () => {
   it('o mapa do componente e identico a icones_nucleo do design.md', () => {
     const doDocumento = nomesDoDesignMd();
-    expect(doDocumento).toHaveLength(34);
+    expect(doDocumento).toHaveLength(93);
     expect([...NPH_ICON_NAMES].sort()).toEqual([...doDocumento].sort());
   });
 
-  it('cada um dos 34 nomes desenha um caminho', async () => {
+  it('cada um dos 93 nomes desenha um caminho', async () => {
     for (const nome of NPH_ICON_NAMES) {
       const icone = await montar({ name: nome, size: 'sm' });
       expect(svgDe(icone), nome).not.toBeNull();
@@ -106,12 +106,13 @@ describe('variant', () => {
     expect(erros).not.toHaveBeenCalled();
   });
 
-  it('solid em qualquer outro nome nao renderiza e reclama', async () => {
-    for (const nome of ['check', 'bars', 'circle-check']) {
+  it('cada nome aceita solid', async () => {
+    for (const nome of NPH_ICON_NAMES) {
       const icone = await montar({ name: nome, variant: 'solid', size: 'sm' });
-      expect(svgDe(icone), nome).toBeNull();
+      expect(svgDe(icone), nome).not.toBeNull();
+      icone.remove();
     }
-    expect(erros).toHaveBeenCalledTimes(3);
+    expect(erros).not.toHaveBeenCalled();
   });
 
   it('familia proibida nao renderiza', async () => {
