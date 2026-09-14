@@ -5,7 +5,7 @@
   "fase": "F4",
   "ordem_aprovada": 80,
   "responsavel": "claude-codigo",
-  "estado": "pronta",
+  "estado": "concluida",
   "peca": "nph-icon",
   "dependencias": [],
   "gates": [
@@ -20,18 +20,19 @@
     },
     {
       "id": "revisao-e-merge",
-      "descricao": "Ficha, contratos, arte, testes e Storybook de circle-info solid estao revisados e mergeados na branch padrao.",
-      "comando": null,
-      "evidencia": null,
-      "resultado": "pendente",
-      "verificado_em": null,
-      "verificado_por": null
+      "descricao": "Os PRs #34 e #35, aprovados por maurocsjr, ja entregaram I7 na v/5.0.0; o commit fff0624 e ancestral do merge 4c33737.",
+      "comando": "git merge-base --is-ancestor fff0624e44d7679877f36a28bb03225226f4eaec origin/v/5.0.0",
+      "evidencia": "docs/operacao/evidencias/DSA-03/revisao-e-merge-2026-09-14.md",
+      "resultado": "passou",
+      "verificado_em": "2026-09-14",
+      "verificado_por": "copilot"
     }
   ],
   "bloqueios": [],
   "decisoes_pendentes": [],
   "evidencias": [
-    "docs/operacao/evidencias/DSA-03/documentacao-figma-aceita-2026-09-14.md"
+    "docs/operacao/evidencias/DSA-03/documentacao-figma-aceita-2026-09-14.md",
+    "docs/operacao/evidencias/DSA-03/revisao-e-merge-2026-09-14.md"
   ],
   "referencias_de_decisao": [],
   "origem_externa": {
@@ -43,9 +44,9 @@
     "decisao_convertida": "A decisao I7 permite circle-info no estilo solid; em 09-09-2026 Indiane autorizou migrar DSA-03 para docs/operacao/tarefas/ como ciclo comparavel do M6."
   },
   "revisao_git": {
-    "branch": null,
-    "commit": null,
-    "pr": null
+    "branch": "feat/nph-icon-acervo-completo",
+    "commit": "fff0624e44d7679877f36a28bb03225226f4eaec",
+    "pr": "34"
   },
   "contexto": null,
   "atualizado_em": "2026-09-14"
@@ -87,8 +88,9 @@ decisao registrada.
 - `GOVERNANCA.md`, `AGENTS.md`, `CLAUDE.md`
 - WORK BRAIN — `02 PROJETOS/DS-Agentico/Registro de decisões — Nephos.md`, I7
 
-## Por que está `pronta`
-Indiane aceitou o frame `Documentacao — nph-icon` (`346:4`) em 14-09-2026. O
-gate `documentacao-figma-aceita` passou, com evidencia local no formato da
-§5b, e o bloqueio B1 saiu. O gate `revisao-e-merge` continua `pendente`: codigo
-local pode comecar; a tarefa ainda nao foi entregue.
+## Por que está `concluida`
+Os PRs #34 (código, testes e Storybook, merge `0e93f0a`) e #35 (ficha e
+contratos, merge `9ed82e5`) foram revisados por Mauro (`maurocsjr`) e
+mergeados na `v/5.0.0` em 14-09-2026. O commit `fff0624` é ancestral da ponta
+`4c33737`. Os testes de `nph-icon` passaram (38/38). Os dois gates estão
+`passou`, com evidência local, data e responsável, e não há contexto ativo.
