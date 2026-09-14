@@ -490,7 +490,7 @@ tokens_semantic:
     css: '--nph-status-error'
     claro: core/danger/600
     escuro: core/danger/400
-    use: "Cor sólida do estado: ícone, ponto, barra da mensagem. Erro que já aconteceu: validação falhou, requisição quebrou. Também o asterisco que marca campo obrigatório no nph-label: ali é aviso de exigência, não erro."
+    use: "Cor sólida do estado: ícone, ponto, barra da mensagem. Erro que já aconteceu: validação falhou, requisição quebrou. Também a borda de campo inválido — o campo que reprovou na validação. E o asterisco que marca campo obrigatório no nph-label: ali é aviso de exigência, não erro."
     nao_use: "ação destrutiva do usuário"
   status/error-surface:
     css: '--nph-status-error-surface'
