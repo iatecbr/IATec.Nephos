@@ -5,23 +5,25 @@
   "fase": "F1",
   "ordem_aprovada": 90,
   "responsavel": "claude-codigo",
-  "estado": "pronta",
+  "estado": "concluida",
   "peca": null,
   "dependencias": [],
   "gates": [
     {
       "id": "revisao-e-merge",
-      "descricao": "Os usos aprovados estao registrados, revisados e mergeados na branch padrao.",
-      "comando": null,
-      "evidencia": null,
-      "resultado": "pendente",
-      "verificado_em": null,
-      "verificado_por": null
+      "descricao": "O PR #33 foi revisado por maurocsjr e mergeado na v/5.0.0; o commit 8903873 e ancestral do merge 8e11751.",
+      "comando": "git merge-base --is-ancestor 89038735f968a1abbcc629cdde02097d3041454a origin/v/5.0.0",
+      "evidencia": "docs/operacao/evidencias/DSA-02/revisao-e-merge-2026-09-14.md",
+      "resultado": "passou",
+      "verificado_em": "2026-09-14",
+      "verificado_por": "copilot"
     }
   ],
   "bloqueios": [],
   "decisoes_pendentes": [],
-  "evidencias": [],
+  "evidencias": [
+    "docs/operacao/evidencias/DSA-02/revisao-e-merge-2026-09-14.md"
+  ],
   "referencias_de_decisao": [],
   "origem_externa": {
     "classificacao": "interna-permitida",
@@ -32,12 +34,12 @@
     "decisao_convertida": "status/error cobre borda de campo invalido e space/inline-tight cobre o par icone e texto dentro de controle; em 09-09-2026 Indiane autorizou migrar DSA-02 para docs/operacao/tarefas/ como ciclo comparavel do M6."
   },
   "revisao_git": {
-    "branch": null,
-    "commit": null,
-    "pr": null
+    "branch": "docs/dsa02-status-error-inline-tight",
+    "commit": "89038735f968a1abbcc629cdde02097d3041454a",
+    "pr": "33"
   },
   "contexto": null,
-  "atualizado_em": "2026-09-10"
+  "atualizado_em": "2026-09-14"
 }
 ```
 
@@ -65,3 +67,9 @@ no Figma, ja autorizada pela Indiane.
 - `GOVERNANCA.md`, `AGENTS.md`, `CLAUDE.md`
 - WORK BRAIN — `03 MEMÓRIA/decisoes/2026-09-03-tres-decisoes-visuais-do-nph-input.md`
 - WORK BRAIN — `03 MEMÓRIA/agentes/2026-09.md`, registro de 2026-09-03 sobre `space/inline`
+
+## Por que está `concluida`
+O PR #33 foi revisado por Mauro (`maurocsjr`) e mergeado na `v/5.0.0` em
+14-09-2026, no merge commit `8e11751`. O commit `8903873`, que registrou os
+usos aprovados, é ancestral da branch padrão depois do merge. O único gate está
+`passou`, com evidência local, data e responsável, e não há contexto ativo.
