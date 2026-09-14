@@ -119,8 +119,10 @@ tags: [nephos, ds-agentico, ficha, componente, nph-spinner, incompleta]
 > `nph-label` eu conferi a API no repositório, propriedade por propriedade. Aqui não há
 > o que conferir. Não leia esta API com a mesma confiança.
 >
-> **Ela se completa quando o componente for implementado** — decisão de Indiane em
-> 31-08-2026. Volta para `Índice — DS-Agentico` (vault).
+> **A ficha só se completa no encerramento do componente**, com implementação
+> verificável, comparação Figma × Storybook, evidência e aceite. Até lá, o bloco
+> `api` continua proposta — decisão da Indiane em 31-08-2026. Volta para
+> `Índice — DS-Agentico` (vault).
 
 ## Função
 
@@ -263,9 +265,10 @@ carregamento — e aí o girador é decorativo.
 2. **A implementação**, e com ela: a API conferida no código, o Storybook e os testes.
 3. **O nível de WCAG** (PI-05), para o critério de contraste ter aceite.
 
-**Quando o componente for implementado, esta ficha é reaberta** e o bloco `api` deixa de
-ser proposta: passa a ser conferido propriedade por propriedade, como nas duas fichas
-implementadas.
+**Depois de existir implementação verificável, a ficha só é atualizada no
+encerramento**, após comparação Figma × Storybook, evidência e aceite. Só então
+o bloco `api` deixa de ser proposta e passa a ser conferido propriedade por
+propriedade, como nas fichas implementadas.
 
 | O quê | Onde |
 |---|---|

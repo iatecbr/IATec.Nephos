@@ -138,12 +138,10 @@ o JSON versionado fica em `source/`, o CSS gerado fica em `generated/`.
 **Fora de escopo.** Criar `src/`, `src/components/`, `src/tokens/`,
 `src/styles/` ou `src/shared/` nesta tarefa. Criar componentes.
 
-**Divergência conhecida, a resolver no primeiro componente.** A configuração
-atual do Storybook aponta para `../stories/**/*.stories.js`, e a página em
-construção vive em `stories/`, na raiz. Quando o primeiro componente for
-criado, o glob precisará passar a incluir `src/components/**`. O padrão também
-pede `.ts`, enquanto o shell atual é `.js` — o que exigirá TypeScript no
-projeto. Nada disso foi alterado nesta tarefa, por decisão de escopo.
+**Divergência resolvida no primeiro componente.** A configuração do Storybook
+inclui as stories em `src/components/**/*.stories.ts`, e a estrutura passou a
+usar TypeScript conforme este padrão. O histórico desta divergência explica o
+escopo da P03; não autoriza alteração futura.
 
 **Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
 por Elvys em 28/08/2026.

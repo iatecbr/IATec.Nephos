@@ -1380,15 +1380,10 @@ icone_licenca:
 icone_componente_figma:
   conjunto: 'icon'
   onde: 'Figma DS-IA-NEPHOS 5.0, pagina Icones, quadro "Componentes — icon"'
-  criado_em: '24-08-2026'
-  variantes: 35
-  icones_distintos: 34
-  propriedade_nome: '34 valores, um por icone do nucleo.'
-  propriedade_estilo: 'regular (padrao) e solid. Solid existe SOMENTE para star, unico icone com arte Solid no arquivo. As demais combinacoes com solid nao existem de proposito. NUNCA invente arte para preencher a matriz de variantes.'
-  tamanho_nao_e_variante: 'O tamanho NAO e variante do componente. Vem dos tokens icon/size-sm (16), icon/size-md (20) e icon/size-lg (24). No codigo e uma custom property, nao uma variante. A caixa e sempre quadrada; o desenho e centralizado e escalado pela altura.'
-  cor: 'O preenchimento ja esta ligado a variavel no componente. NAO pinte a mao.'
-  duotone_futuro: 'estilo=duotone NAO foi criado. O Font Awesome Pro nao esta instalado no ambiente do Figma - so existem as familias Free, e Duotone so vem no Pro. Quando o Pro estiver disponivel, acrescente estilo=duotone APENAS aos icones aprovados de navegacao estrutural. Ver duotone_navegacao e duotone_nao_mistura.'
-  curadoria: 'Concluida em 24-08-2026. Cinco categorias: Navegacao e menus (1), Direcao e revelacao (9), Acao (15), Estado e comunicacao (8), Conteudo e dados (2).'
+  regra_de_leitura: 'Consulte o Figma para afirmar a matriz vigente: nomes, variantes, categorias, bindings e contagens. Este contrato nao registra estado do canvas nem disponibilidade de bibliotecas.'
+  tamanho_nao_e_variante: 'O tamanho vem dos tokens icon/size-sm (16), icon/size-md (20) e icon/size-lg (24). No codigo e uma custom property, nao uma variante. A caixa e sempre quadrada; o desenho e centralizado e escalado pela altura.'
+  cor: 'O preenchimento herda currentColor do contexto. NAO pinte a mao.'
+  duotone: 'So crie Duotone para icone aprovado de navegacao estrutural, depois de evidencia atual no Figma e decisao humana. Se a mudanca ampliar a API, o nucleo ou a arte implementada, explique o conflito e siga o processo de revisao da P21 antes de alterar o contrato ou o codigo.'
 
 tokens_icon:
   icon/size-sm:
