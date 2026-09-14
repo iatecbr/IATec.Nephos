@@ -1,7 +1,7 @@
 ```json
 {
   "id": "DSA-02",
-  "objetivo": "Registrar no contrato tecnico os usos aprovados de status/error e space/inline para campos de formulario.",
+  "objetivo": "Registrar no contrato tecnico os usos aprovados de status/error e space/inline-tight para campos de formulario.",
   "fase": "F1",
   "ordem_aprovada": 90,
   "responsavel": "claude-codigo",
@@ -29,7 +29,7 @@
     "data": "2026-09-03",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "status/error cobre borda de campo invalido e space/inline cobre o par icone e texto dentro de controle; em 09-09-2026 Indiane autorizou migrar DSA-02 para docs/operacao/tarefas/ como ciclo comparavel do M6."
+    "decisao_convertida": "status/error cobre borda de campo invalido e space/inline-tight cobre o par icone e texto dentro de controle; em 09-09-2026 Indiane autorizou migrar DSA-02 para docs/operacao/tarefas/ como ciclo comparavel do M6."
   },
   "revisao_git": {
     "branch": null,
@@ -37,7 +37,7 @@
     "pr": null
   },
   "contexto": null,
-  "atualizado_em": "2026-09-09"
+  "atualizado_em": "2026-09-10"
 }
 ```
 
@@ -45,7 +45,7 @@
 
 ## Objetivo
 O contrato tecnico registra que `status/error` cobre a borda de campo invalido e
-`space/inline` cobre o par icone e texto dentro de um controle.
+`space/inline-tight` cobre o par icone e texto dentro de um controle.
 
 ## Como se prova
 **`revisao-e-merge`** — os usos aprovados sao registrados sem alterar valor, alias,
