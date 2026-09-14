@@ -288,15 +288,15 @@ por Elvys em 28/08/2026.
 conflito técnico concreto ou revisão posterior de Elvys:
 
 1. Implementar `nph-icon` em Lit, com Shadow DOM aberto, SVG inline e um mapa
-   fechado dos 34 ícones aprovados. O pacote é Font Awesome Pro na linha 6,
-   usando os pacotes SVG `regular` e `solid`; `solid` permanece exclusivo de
-   `star`. A versão exata só é fixada após consulta autenticada ao registro, no
+   fechado dos 93 ícones aprovados. O pacote é Font Awesome Pro na linha 6,
+   usando os pacotes SVG `regular` e `solid`; cada nome aprovado tem as duas
+   artes. A versão exata só é fixada após consulta autenticada ao registro, no
    momento autorizado de instalação.
 2. O contrato público aprovado é `name` obrigatório, `variant=regular` por
-   padrão (`solid` somente para `star`), `size` obrigatório em `sm|md|lg` e
-   `label` opcional. `label` ausente, vazio ou somente com espaços após `trim`
-   torna o ícone decorativo. Não há slots, eventos, foco, clique, toque,
-   propriedade de cor ou `::part` inicial.
+   padrão, com `solid` disponível para cada nome do acervo aprovado, `size`
+   obrigatório em `sm|md|lg` e `label` opcional. `label` ausente, vazio ou
+   somente com espaços após `trim` torna o ícone decorativo. Não há slots,
+   eventos, foco, clique, toque, propriedade de cor ou `::part` inicial.
 3. O desenho de `eye`, `eye-slash` e `star` pode transbordar horizontalmente,
    centralizado e sem corte ou reescala, dentro de caixa quadrada escalada pela
    altura. `space/inline-tight` pertence ao contêiner que compõe ícone e texto.
@@ -316,7 +316,7 @@ conflito técnico concreto ou revisão posterior de Elvys:
    não substitui a revisão posterior de Elvys sobre licença, CI e plataforma.
 8. A organização do Storybook do `nph-icon` separa `Docs / Documentação`, para
    leitura do contrato, de `Docs / Icons Overview`, para o catálogo pesquisável
-   do núcleo fechado de 34 ícones, e de `Validação`, para variantes, tamanhos,
+   do núcleo fechado de 93 ícones, e de `Validação`, para variantes, tamanhos,
    herança de cor, acessibilidade e entrada inválida. A página documental é
    derivada e aponta às fontes canônicas; não instala addon, MDX ou dependência
    nova, não altera a API pública e não cria ícone, token ou variante. A busca

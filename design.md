@@ -1410,22 +1410,22 @@ tokens_icon:
 icones_nucleo:
   navegacao_e_menus:
     familia: 'Classic Regular'
-    icones: [bars]
+    icones: [bars, house]
   direcao_e_revelacao:
     familia: 'Classic Regular'
-    icones: [chevron-down, chevron-up, chevron-right, chevron-left, arrow-left, arrow-right, eye, eye-slash, ellipsis]
+    icones: [angle-left, arrow-down-to-line, arrow-left, arrow-right, arrow-up, caret-up, chevron-down, chevron-left, chevron-right, chevron-up, chevrons-down, chevrons-left, circle-chevron-down, circle-chevron-left, circle-down, circle-up, ellipsis, eye, eye-slash, square-chevron-left, triple-chevrons-left]
     nota: 'ellipsis (horizontal) significa ITENS OMITIDOS - paginacao, trilha. Nao confundir com ellipsis-vertical, que significa MAIS ACOES NESTA LINHA e fica em acao.'
   acao:
     familia: 'Classic Regular'
-    icones: [xmark, check, plus, minus, magnifying-glass, ellipsis-vertical, arrow-up-arrow-down, grip-vertical, pen-to-square, trash-can, arrow-up-from-bracket, download, gear, filter, filter-slash]
+    icones: [arrow-down-arrow-up, arrow-up-arrow-down, arrow-up-from-bracket, check, circle-half-stroke, cloud-arrow-up, download, ellipsis-vertical, filter, filter-slash, gear, grid-2, grip-vertical, link, list, magnifying-glass, minus, paper-plane, paperclip, pen, pen-to-square, plus, print, right-to-bracket, rotate-right, share, share-from-square, thumbs-down, thumbs-up, thumbtack, thumbtack-slash, trash, trash-can, user-circle-minus, user-circle-plus, user-minus, xmark]
   estado_e_comunicacao:
     familia: 'Classic Regular'
-    icones: [circle-info, triangle-exclamation, circle-xmark, circle-check, circle-question, star, circle-notch]
-    variantes: {star: 'Regular marca nao favoritado; Solid marca favoritado. E a unica peca do nucleo com duas variantes.'}
+    icones: [alarm-clock, badge-check, bell, circle-check, circle-info, circle-notch, circle-question, circle-xmark, heart, lock, question, star, triangle-exclamation]
+    variantes: {todos: 'Regular e padrao; Solid esta disponivel para cada nome do acervo.'}
     nota: 'Os cinco primeiros sao um para cada estado do sistema. Todo estado carrega icone alem da cor. circle-notch e o girador: anel com corte, feito para rotacao continua com core/easing/linear.'
   conteudo_e_dados:
     familia: 'Classic Regular'
-    icones: [calendar-days, user]
+    icones: [calendar, calendar-days, circle-user, clipboard, clock, comment, envelope, file, files, folder, folder-open, font-awesome, globe, inbox, key, location-dot, suitcase, tag, trophy, user]
 
 icones_segunda_leva:
   pendente: false

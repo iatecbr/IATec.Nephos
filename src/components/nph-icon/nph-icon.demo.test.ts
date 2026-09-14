@@ -24,7 +24,7 @@ describe('indice de categorias', () => {
   it('a soma das categorias e o total do nucleo', () => {
     const soma = CATEGORIAS.reduce((total, categoria) => total + categoria.length, 0);
     expect(soma).toBe(TOTAL_DO_NUCLEO);
-    expect(TOTAL_DO_NUCLEO).toBe(34);
+    expect(TOTAL_DO_NUCLEO).toBe(93);
   });
 });
 
