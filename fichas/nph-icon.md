@@ -301,10 +301,10 @@ outro componente, em vez de arte nova.
 | Figma | página `NPH — Icon` (`346:2`), frames `346:3` e `346:4` |
 | Regras de acervo, família, tamanho e cor | `Fundação — ícones` (vault) |
 | A ficha de origem, agora memória | `TRABALHO/DESIGN SYSTEM/02 — Componentes/fichas/nph-icon.md` |
-| O que está aberto | `Pendências do Nephos` (vault) — **PF-08**, **PF-10**, **PO-001** e **PE-04** |
+| O que está aberto | `Pendências do Nephos` (vault) — **PF-08** e **PO-001** |
 
-**Licença.** Nenhuma credencial é versionada. Licença, variável de CI, plataforma e
-política de credencial continuam pendentes de confirmação do Elvys — **PE-04**.
+**Licença.** A **PE-04 está fechada**. Nenhuma credencial é versionada; a configuração
+local permanece fora do Git e não pode ser lida, exposta, adicionada ou versionada.
 
 ---
 
