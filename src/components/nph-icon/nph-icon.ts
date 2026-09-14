@@ -2,8 +2,8 @@
  * `nph-icon` — primeiro componente do Nephos.
  *
  * Contrato aprovado (ficha `nph-icon`, `design.md` `contrato_nph_icon`, P21):
- * - `name` obrigatorio, kebab-case, restrito aos 34 icones do nucleo;
- * - `variant` `regular` por padrao; `solid` somente com `name="star"`;
+ * - `name` obrigatorio, kebab-case, restrito aos 93 icones do nucleo;
+ * - `variant` `regular` por padrao; `solid` disponivel para todo nome aprovado;
  * - `size` obrigatorio, `sm`, `md` ou `lg`, sem padrao e sem valor livre;
  * - `label` ausente, vazio ou so com espacos depois de `trim` e decorativo;
  * - sem slots, eventos, foco, clique, toque, propriedade de cor ou `::part`;
@@ -68,7 +68,7 @@ export class NphIcon extends LitElement {
   /** Nome do icone no nucleo Nephos, em kebab-case. Obrigatorio. */
   name: NphIconName | null = null;
 
-  /** `regular` quando ausente. `solid` so existe para `star`. */
+  /** `regular` quando ausente; `solid` existe para todo nome aprovado. */
   variant: NphIconVariant | null = null;
 
   /** `sm`, `md` ou `lg`. Obrigatorio: nao ha padrao. */
@@ -122,8 +122,7 @@ export class NphIcon extends LitElement {
     const arte = buscarArte(name, variant);
     if (arte === undefined) {
       erroDeDesenvolvimento(
-        `variant "solid" nao existe para name "${name}". ` +
-          'No nucleo Nephos, solid existe somente para "star".',
+        `nao existe arte "${variant}" para name "${name}".`,
       );
       return undefined;
     }

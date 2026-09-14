@@ -42,7 +42,7 @@ function t(contexto: Contexto | undefined) {
   return textos(idioma).validacao;
 }
 
-/** A unica peca do nucleo com duas artes. Nenhuma outra combinacao existe. */
+/** `regular` e `solid` existem para todos os nomes do acervo. */
 export const Variantes: Story = {
   name: 'Variantes',
   render: (_args, contexto: Contexto) => {
@@ -54,11 +54,11 @@ export const Variantes: Story = {
           html`
             <div style="display: flex; gap: var(--nph-space-section);">
               <div style=${celula}>
-                <nph-icon name="star" variant="regular" size="lg"></nph-icon>
+                <nph-icon name="circle-info" variant="regular" size="lg"></nph-icon>
                 <span style=${legenda}>${v.variantesRegular}</span>
               </div>
               <div style=${celula}>
-                <nph-icon name="star" variant="solid" size="lg"></nph-icon>
+                <nph-icon name="circle-info" variant="solid" size="lg"></nph-icon>
                 <span style=${legenda}>${v.variantesSolid}</span>
               </div>
             </div>
@@ -184,8 +184,8 @@ export const EntradaInvalida: Story = {
             <nph-icon name="rocket" size="sm"></nph-icon>
           </li>
           <li>
-            name="check" variant="solid" size="sm" — ${v.invalidaCasos[1]}
-            <nph-icon name="check" variant="solid" size="sm"></nph-icon>
+            name="check" variant="duotone" size="sm" — ${v.invalidaCasos[1]}
+            <nph-icon name="check" variant="duotone" size="sm"></nph-icon>
           </li>
           <li>
             name="check" size="xl" — ${v.invalidaCasos[2]}

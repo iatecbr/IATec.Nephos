@@ -5,12 +5,12 @@ status: vigente
 titulo: "nph-icon"
 tipo: ficha de componente
 criado: 2026-08-31
-atualizado: 2026-08-31
+atualizado: 2026-09-14
 resolve: >-
   Disponibiliza um ícone do núcleo Nephos com tamanho, família e acessibilidade
   consistentes, sem introduzir cor ou arte fora do acervo aprovado.
 use_quando:
-  - "Um controle ou conteúdo precisa de um ícone que existe no núcleo de 34."
+  - "Um controle ou conteúdo precisa de um ícone que existe no núcleo de 93 nomes."
   - "O ícone reforça um rótulo, estado ou direção sem substituir a informação textual."
 nao_use_quando:
   - "A ação tem consequência ou é específica do domínio — use rótulo textual junto."
@@ -23,7 +23,7 @@ api:
     padrao: nenhum
     reflete: false
     restricao: >-
-      Em kebab-case, e limitado aos 34 nomes do núcleo. Nome fora do núcleo não
+      Em kebab-case, e limitado aos 93 nomes do núcleo. Nome fora do núcleo não
       renderiza e emite erro só em desenvolvimento.
   variant:
     tipo: enum
@@ -32,8 +32,8 @@ api:
     padrao: regular
     reflete: false
     restricao: >-
-      `solid` só existe para `star`. Com outro nome não há arte, e o ícone não
-      renderiza. Light, Thin e Sharp não existem no contrato.
+      `regular` é o padrão; `solid` está disponível para todos os nomes do acervo.
+      Light, Thin e Sharp não existem no contrato.
   size:
     tipo: enum
     valores: [sm, md, lg]
@@ -60,8 +60,8 @@ api:
 variantes:
   variant:
     eixo: aparencia
-    escolha_quando: "regular por padrão; solid apenas no `star` favoritado"
-    nao_combine_com: ["nomes sem arte solid", "light, thin, sharp"]
+    escolha_quando: "regular por padrão; solid quando o contexto pede maior presença visual"
+    nao_combine_com: ["light, thin, sharp"]
   size:
     eixo: tamanho
     escolha_quando: "sm dentro de controle e célula; md em menu e aba; lg quando o ícone carrega significado sozinho"
@@ -95,7 +95,6 @@ acessibilidade:
   alternativa_a_cor: "Ícone nunca é o único sinal de um estado"
 
 combinacoes_invalidas:
-  - "`variant=solid` com nome diferente de `star` — não há arte"
   - "`size` ausente — não há padrão"
   - "Duotone fora de navegação estrutural"
 
@@ -141,7 +140,7 @@ tags: [nephos, ds-agentico, ficha, componente, nph-icon]
 **O problema que resolve:** dá aos controles e ao conteúdo do Nephos um ícone curado,
 acessível e consistente, sem abrir espaço para arte ou cor fora do acervo aprovado.
 
-**Quando usar:** quando um controle ou conteúdo precisa de um dos **34 ícones do
+**Quando usar:** quando um controle ou conteúdo precisa de um dos **93 ícones do
 núcleo**, para reforçar um rótulo, um estado, uma direção ou uma ação universal
 recorrente.
 
@@ -155,9 +154,8 @@ recorrente.
 
 ## Variantes
 
-**Por aparência — `variant`:** `regular` é o padrão. `solid` **só existe para o `star`**,
-e marca o item favoritado. É a aplicação da regra de que Solid marca o item atual dentro
-de um grupo Classic.
+**Por aparência — `variant`:** `regular` é o padrão. `solid` existe para todos os nomes
+do acervo e é usado quando o contexto pede maior presença visual.
 
 **Por tamanho — `size`:** `sm` dentro de controle, célula de tabela e campo; `md` em item
 de menu, aba e ação de destaque; `lg` quando o ícone carrega significado sozinho —
@@ -166,8 +164,8 @@ estado vazio, cabeçalho de seção. **Na dúvida, `sm`.**
 **Por densidade:** `nao_se_aplica`. O ícone não tem eixo de densidade; quem muda de
 densidade é o controle em volta.
 
-**Não combine com:** `solid` em nome que não seja `star`, tamanho livre, e as famílias
-Light, Thin e Sharp — que não existem no contrato.
+**Não combine com:** tamanho livre e as famílias Light, Thin e Sharp — que não existem
+no contrato.
 
 ## Estados
 
@@ -247,7 +245,7 @@ de tela real.
 - **Ícone sozinho dentro de um controle:** o rótulo acessível vai **no controle**, não no
   ícone.
 - **`size` é obrigatório e não tem padrão.** Esquecer significa ícone que não aparece.
-- **Se o ícone que você precisa não está nos 34: sinalize a lacuna, não desenhe.**
+- **Se o ícone que você precisa não está nos 93: sinalize a lacuna, não desenhe.**
 
 ## Exemplos
 
@@ -262,9 +260,8 @@ outro componente, em vez de arte nova.
 - **Não usar para:** comunicar sozinho uma ação destrutiva ou de domínio.
 - **Não combinar com:** família proibida, Duotone fora de navegação estrutural, ícone
   fora do núcleo.
-- **Combinações inválidas, e por quê:** `variant=solid` com nome diferente de `star` —
-  não existe a arte, e o ícone não renderiza · `size` ausente — não há padrão, e o ícone
-  não renderiza · Duotone em botão, campo, feedback, alerta, tabela ou ação destrutiva —
+- **Combinações inválidas, e por quê:** `size` ausente — não há padrão, e o ícone não
+  renderiza · Duotone em botão, campo, feedback, alerta, tabela ou ação destrutiva —
   proibido pela fundação.
 - **Não criar nem adaptar sem decisão:** arte, nome, variante, token de cor, tamanho
   livre ou qualquer configuração de licença.
@@ -277,12 +274,12 @@ outro componente, em vez de arte nova.
 |---|---|
 | Implementado e integrado | Está na branch padrão `v/3.0.0`, pelo **PR #6**, merge `437dd60`, em 27-08-2026 |
 | A API do código | `name`, `variant`, `size` e `label` — **exatamente o contrato desta ficha**, conferido propriedade por propriedade em `src/components/nph-icon/nph-icon.ts` |
-| O núcleo no código | `NPH_ICON_NAMES` tem **34 nomes**, batendo com o núcleo curado |
+| O núcleo no código | `NPH_ICON_NAMES` tem **93 nomes**, todos com `regular` e `solid` |
 | `size` reflete no DOM | Confirmado no código, com o motivo escrito lá: o CSS interno seleciona a caixa por ele |
 | Erro de entrada inválida | Confirmado: só em ambiente de desenvolvimento |
 | Stories | 5 em `nph-icon.stories.ts` |
 | Testes | 30 casos declarados em `nph-icon.test.ts` |
-| Aprovação visual | Indiane, em **26-08-2026**, na página `NPH — Icon` (`346:2`) |
+| Aprovação visual | Documentação Figma aprovada em **14-09-2026**, no frame `Documentação — nph-icon` (`346:4`) |
 
 > **Uma divergência que encontrei, e como resolvi.** A ficha antiga em
 > `TRABALHO/DESIGN SYSTEM/02 — Componentes/fichas/nph-icon.md` diz que o gate restante é
@@ -293,7 +290,7 @@ outro componente, em vez de arte nova.
 | O quê | Onde |
 |---|---|
 | Contrato técnico | `design.md`, no repositório |
-| A decisão que originou | **P21**, adotada por Indiane em 26-08-2026, com Lit, Shadow DOM aberto, SVG inline, mapa fechado dos 34 ícones e Font Awesome Pro 6.7.2 |
+| A decisão que originou | **P21**, com Lit, Shadow DOM aberto, SVG inline, mapa fechado dos 93 ícones e Font Awesome Pro 6.7.2 |
 | Decisões posteriores ao plano técnico | `size` obrigatório · erro de entrada inválida só em desenvolvimento · `space/inline-tight` é do contêiner · `label` só com espaços é decorativo · `eye`, `eye-slash` e `star` podem transbordar |
 | Testes | `src/components/nph-icon/nph-icon.test.ts` |
 | Storybook | `src/components/nph-icon/nph-icon.stories.ts` |
