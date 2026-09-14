@@ -346,6 +346,13 @@ autorizada sob aceitação formal de risco; organização de `Docs / Documentaç
 `Docs / Icons Overview` e `Validação` aprovada pela Indiane em 26/08/2026;
 revisada e aprovada por Elvys em 28/08/2026.
 
+**Emenda I7, 08/09/2026 — absorvida pela matriz de 14/09/2026.** A redação
+original da P21 restringia `solid` ao `star`. A I7 autorizou `circle-info` em
+`solid` porque o contorno `regular` some ao lado do texto, principalmente no
+modo claro; `regular` continua o padrão. Em 14/09/2026 a documentação Figma
+aprovada ampliou `solid` a todos os 93 nomes; os itens 1 e 2 já descrevem esse
+acervo. Esta nota registra o motivo da I7 e não reabre nem reduz o mapa vigente.
+
 ---
 
 ## P62 — `nph-label`: exceção à P01, tipografia e API
