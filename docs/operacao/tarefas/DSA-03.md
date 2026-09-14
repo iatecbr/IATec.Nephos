@@ -5,7 +5,7 @@
   "fase": "F4",
   "ordem_aprovada": 80,
   "responsavel": "claude-codigo",
-  "estado": "bloqueada",
+  "estado": "pronta",
   "peca": "nph-icon",
   "dependencias": [],
   "gates": [
@@ -13,10 +13,10 @@
       "id": "documentacao-figma-aceita",
       "descricao": "A documentacao de nph-icon no Figma foi aceita por Indiane e registrada como evidencia.",
       "comando": null,
-      "evidencia": null,
-      "resultado": "pendente",
-      "verificado_em": null,
-      "verificado_por": null
+      "evidencia": "docs/operacao/evidencias/DSA-03/documentacao-figma-aceita-2026-09-14.md",
+      "resultado": "passou",
+      "verificado_em": "2026-09-14",
+      "verificado_por": "indiane"
     },
     {
       "id": "revisao-e-merge",
@@ -28,17 +28,11 @@
       "verificado_por": null
     }
   ],
-  "bloqueios": [
-    {
-      "id": "B1",
-      "o_que_trava": "A trava documental exige documentacao Figma aceita antes de codigo de componente, e o gate ainda esta pendente.",
-      "dono": "indiane",
-      "o_que_resolve": "Documentação Figma do nph-icon aceita e registrada como evidência.",
-      "aberto_em": "2026-09-10"
-    }
-  ],
+  "bloqueios": [],
   "decisoes_pendentes": [],
-  "evidencias": [],
+  "evidencias": [
+    "docs/operacao/evidencias/DSA-03/documentacao-figma-aceita-2026-09-14.md"
+  ],
   "referencias_de_decisao": [],
   "origem_externa": {
     "classificacao": "interna-permitida",
@@ -54,7 +48,7 @@
     "pr": null
   },
   "contexto": null,
-  "atualizado_em": "2026-09-10"
+  "atualizado_em": "2026-09-14"
 }
 ```
 
@@ -92,3 +86,9 @@ decisao registrada.
 - `docs/operacao/README.md`
 - `GOVERNANCA.md`, `AGENTS.md`, `CLAUDE.md`
 - WORK BRAIN — `02 PROJETOS/DS-Agentico/Registro de decisões — Nephos.md`, I7
+
+## Por que está `pronta`
+Indiane aceitou o frame `Documentacao — nph-icon` (`346:4`) em 14-09-2026. O
+gate `documentacao-figma-aceita` passou, com evidencia local no formato da
+§5b, e o bloqueio B1 saiu. O gate `revisao-e-merge` continua `pendente`: codigo
+local pode comecar; a tarefa ainda nao foi entregue.
