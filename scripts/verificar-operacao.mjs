@@ -89,7 +89,7 @@ const SEGREDOS = [
 const ler = (caminho) => readFileSync(caminho, 'utf8').replace(/\r\n/g, '\n');
 
 const listarMd = (dir) => (existsSync(dir) && statSync(dir).isDirectory()
-  ? readdirSync(dir).filter((n) => n.endsWith('.md')).sort()
+  ? readdirSync(dir).filter((n) => n.endsWith('.md') && statSync(join(dir, n)).isFile()).sort()
   : []);
 
 /** Extrai e faz parse do PRIMEIRO bloco ```json do arquivo. */
@@ -754,7 +754,9 @@ const CASOS_INVALIDOS = {
   'evidencia-figma-fora-do-diretorio': 'V31',
   'evidencia-figma-sem-procedencia': 'V31',
   'evidencia-inexistente': 'V16',
+  'ficha-aspa-no-meio': 'V32',
   'ficha-bloco-recuo-irregular': 'V32',
+  'ficha-chave-ambigua': 'V32',
   'ficha-escalar-ambiguo': 'V32',
   'ficha-fora-do-subconjunto': 'V32',
   'ficha-mapa-em-linha': 'V32',

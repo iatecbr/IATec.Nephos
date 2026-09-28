@@ -121,6 +121,9 @@ function lerMapa(estado, recuo) {
     if (m === null) throw new ErroDeFicha(linha.numero, 'chave fora do formato `nome: valor`');
     const [, chave, bruto] = m;
     if (CHAVE_NUMERICA.test(chave)) throw new ErroDeFicha(linha.numero, `chave numerica "${chave}" nao e aceita`);
+    if (chave === 'true' || chave === 'false' || AMBIGUO.some((re) => re.test(chave))) {
+      throw new ErroDeFicha(linha.numero, `a chave "${chave}" o YAML leria como null, booleano ou numero`);
+    }
     if (chave === '__proto__') throw new ErroDeFicha(linha.numero, 'a chave __proto__ nao e aceita');
     if (Object.hasOwn(mapa, chave)) throw new ErroDeFicha(linha.numero, `chave "${chave}" repetida no mesmo mapa`);
     estado.i += 1;
@@ -214,7 +217,9 @@ function lerListaEmLinha(valor, numero) {
   let atual = '';
   let emAspas = false;
   for (const c of miolo) {
-    if (c === '"') emAspas = !emAspas;
+    /* A aspa so abre no comeco do item; no meio de texto sem aspas ela fica no
+     * texto, e `lerEscalar` a recusa. */
+    if (c === '"' && (emAspas || atual.trim() === '')) emAspas = !emAspas;
     if (!emAspas && (c === '[' || c === ']')) throw new ErroDeFicha(numero, 'lista de listas nao e aceita');
     if (!emAspas && c === ',') {
       itens.push(atual);
@@ -240,6 +245,7 @@ function lerEscalar(valor, numero) {
     if (miolo.includes('"')) throw new ErroDeFicha(numero, 'aspas dentro de aspas nao sao aceitas');
     return miolo;
   }
+  if (valor.includes('"')) throw new ErroDeFicha(numero, 'aspas no meio de texto sem aspas nao sao aceitas');
   if (valor.startsWith("'")) throw new ErroDeFicha(numero, 'aspas simples nao sao aceitas; use aspas duplas');
   if (/^[&*!]/.test(valor)) throw new ErroDeFicha(numero, 'ancora, alias e etiqueta nao sao aceitos');
   if (/^[{}]/.test(valor)) throw new ErroDeFicha(numero, 'mapa em linha `{...}` nao e aceito');
