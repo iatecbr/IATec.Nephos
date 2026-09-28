@@ -429,7 +429,7 @@ As demais lacunas, nomeadas para não parecerem regra:
 | Gabarito de plano técnico | Existe um só, a **P21**, para o `nph-icon`. Um caso não é gabarito |
 | Tamanho de PR, captura de tela, link de pré-visualização | O `contributing.md` pede PR pequeno **sem número**, e não trata de captura nem de pré-visualização. A **P19** prevê o Storybook como artefato privado de CI, e **a CI não existe** |
 | A bateria completa de validações | Os comandos estão no `package.json` — `build:tokens`, `test:tokens`, `typecheck`, `test`, `test:i18n`, `build-storybook` e `test:operacao`. A obrigação de rodar todos, e em que ordem, **não tem fonte neste repositório** |
-| `meta.ts` e `metadata.ts` | **Proibidos.** A regra `V27` do verificador reprova os dois nomes dentro de `src/components/`. A ficha é a fonte; a Metadata deriva dela |
+| `meta.ts` e `metadata.ts` | **Proibidos.** A regra `V27` do verificador reprova os dois nomes dentro de `src/components/`. A ficha é a fonte; a Metadata deriva dela, gerada em `src/shared/metadata/` por `node scripts/verificar-operacao.mjs --gerar-metadata` (P63) |
 
 ---
 
