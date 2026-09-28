@@ -1,7 +1,7 @@
 # Decisões técnicas — Nephos
 
 Esta é a **fonte única** das decisões técnicas P01, P02, P03, P17, P19, P20,
-P21 e P62. Em caso de divergência entre este arquivo e qualquer outro documento
+P21, P62 e P63. Em caso de divergência entre este arquivo e qualquer outro documento
 do repositório, prevalece este.
 
 ## Fila de revisão técnica — Elvys
@@ -29,6 +29,7 @@ subseção P62.4 para o detalhe).
 | **P19** | Storybook, testes e publicação | 24/08/2026 | Médio | Aprovada, 28/08/2026 |
 | **P20** | Style Dictionary v5 e contrato de tema | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
 | **P21** | Plano técnico do `nph-icon` | 26/08/2026 | Já implementado e mergeado sob aceitação de risco | Aprovada, 28/08/2026 |
+| **P63** | Metadata gerada a partir da ficha | 28/09/2026 | Médio. Mudar local ou formato depois exige gerar de novo e ajustar quem lê; a ficha não muda | Aguardando revisão |
 
 **Fora desta nota, ainda aguardam confirmação dele:** licença, variável de CI,
 credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
@@ -535,9 +536,46 @@ ser a única decisão da P62 sem revisão registrada.
 
 ---
 
+## P63 — Metadata gerada a partir da ficha
+
+**Decisão.**
+
+- A ficha em `fichas/<nome>.md` continua sendo a fonte do contrato da peça. A
+  **Metadata** é uma cópia derivada, em JSON, do YAML da ficha.
+- A leitura acontece **no build**. O arquivo é gerado por
+  `node scripts/verificar-operacao.mjs --gerar-metadata`, é versionado e
+  **nunca** é editado à mão.
+- O local é `src/shared/metadata/<peca>.json`. Só ficha com `status: vigente`
+  gera arquivo.
+- O JSON espelha o YAML inteiro, na ordem da ficha, com recuo de 2 espaços, fim
+  de linha LF e quebra de linha final.
+- A regra `V32` do verificador reprova Metadata que não bate com a ficha, JSON
+  sem ficha vigente e ficha fora da gramática do leitor.
+
+**Motivo.** Código, Storybook, teste e um futuro servidor de consulta precisam
+ler o contrato sem interpretar Markdown. Gerar a cópia a partir da ficha entrega
+esse formato sem abrir uma segunda fonte: a `V27` continua reprovando `meta.ts`
+e `metadata.ts` dentro de `src/components/`.
+
+**Escopo.** O YAML da ficha é lido por `scripts/ficha-lib.mjs`, que cobre só o
+subconjunto que o gabarito usa e recusa, com o número da linha, o que não
+reconhece. Nenhuma dependência nova entra. Tarefa, contexto e evidência
+continuam em JSON, como decidido em 02/09/2026.
+
+**Impacto.** Quem muda uma ficha vigente roda `--gerar-metadata` no mesmo
+commit. Sem isso, `npm run test:operacao` reprova pela `V32`.
+
+**Fora de escopo.** A aba de Metadata no Storybook, o servidor de consulta
+(MCP) e a conferência do bloco `api` da ficha contra o código.
+
+**Status.** Decisão adotada pela Indiane em 28/09/2026, por delegação —
+aguardando revisão técnica de Elvys ou Mauro.
+
+---
+
 ## Como mudar uma destas decisões
 
-Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21 ou P62 sem:
+Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21, P62 ou P63 sem:
 
 1. explicar o conflito técnico concreto;
 2. registrar uma proposta de mudança;

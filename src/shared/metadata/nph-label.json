@@ -1,0 +1,128 @@
+{
+  "peca": "nph-label",
+  "nivel": "componente",
+  "status": "vigente",
+  "titulo": "nph-label",
+  "tipo": "ficha de componente",
+  "criado": "2026-08-31",
+  "atualizado": "2026-08-31",
+  "resolve": "Nomeia um controle de formulário de forma visível e acessível. O rótulo é só um texto: não carrega layout, estado, ajuda nem mensagem de erro.",
+  "use_quando": [
+    "Um controle de formulário precisa de nome visível, sozinho ou dentro de um nph-field."
+  ],
+  "nao_use_quando": [
+    "É frase com verbo e ponto final — isso é `text/body-md`.",
+    "Abre uma seção ou grupo — isso é `text/heading-sm`.",
+    "É ênfase dentro de um parágrafo — isso é `<strong>`."
+  ],
+  "api": {
+    "text": {
+      "tipo": "string",
+      "obrigatoria": true,
+      "padrao": "vazio",
+      "reflete": false,
+      "restricao": "Carrega o conteúdo do rótulo, já localizado pela aplicação consumidora. Existe como propriedade porque, sem Shadow DOM, não há `slot`."
+    },
+    "required": {
+      "tipo": "boolean",
+      "obrigatoria": false,
+      "padrao": false,
+      "reflete": true,
+      "restricao": "Acrescenta o asterisco ao fim do texto. O asterisco é decorativo (`aria-hidden`): a obrigatoriedade precisa ser comunicada pelo controle."
+    },
+    "for": {
+      "tipo": "string",
+      "obrigatoria": false,
+      "padrao": "nulo",
+      "reflete": true,
+      "restricao": "`id` do controle que este rótulo nomeia. Espelha o atributo nativo e é o mecanismo da associação — a razão de o componente não usar Shadow DOM."
+    },
+    "slots": "nenhum",
+    "eventos": "nenhum",
+    "cor": "Não é propriedade. O texto é `color/foreground` e o asterisco é `status/error`, sempre — inclusive quando o campo está em erro."
+  },
+  "variantes": {
+    "required": {
+      "eixo": "aparencia",
+      "escolha_quando": "true quando o preenchimento do campo for obrigatório",
+      "nao_combine_com": [
+        "layout",
+        "weight",
+        "state"
+      ]
+    }
+  },
+  "estados": {
+    "nenhum": {
+      "token": "nao_se_aplica",
+      "muda_para_a_pessoa": "Nada muda no rótulo. Erro e desabilitado são mostrados pelo campo e pela composição"
+    }
+  },
+  "regras_de_negocio": [
+    "Campo obrigatório é sinalizado pelo asterisco — e a obrigatoriedade real é do controle"
+  ],
+  "erros_de_dominio": [],
+  "tokens": {
+    "texto": [
+      "text/label-md"
+    ],
+    "cor_do_texto": "color/foreground",
+    "cor_do_asterisco": "status/error",
+    "espaco_antes_do_asterisco": "space/inline-tight"
+  },
+  "dicas_para_ia": [
+    "Rótulo de campo é `nph-label`; frase com verbo e ponto final não é.",
+    "O rótulo não muda no erro. Quem muda é o campo e a mensagem.",
+    "Não procure propriedade de layout: a posição é do `nph-field`.",
+    "`required=true` sozinho não comunica obrigatoriedade a leitor de tela."
+  ],
+  "acessibilidade": {
+    "semantica": "Elemento nativo `<label>`",
+    "nome_acessivel": "O rótulo é a origem do nome acessível do controle",
+    "teclado": [],
+    "foco": "Não recebe foco e não tem tecla própria",
+    "contraste": "Medido em 27-08-2026 nos dois modos; as quatro combinações passam em 4,5:1",
+    "alternativa_a_cor": "O asterisco é sinal de forma, não de cor — e é decorativo"
+  },
+  "combinacoes_invalidas": [
+    "`required=true` sem legenda visível explicando a convenção no formulário",
+    "Criar propriedade de layout, peso ou estado — as três foram recusadas por decisão"
+  ],
+  "relacoes": {
+    "combina_com": [
+      "nph-input",
+      "nph-field",
+      "nph-checkbox"
+    ],
+    "pai": [
+      "nph-field"
+    ],
+    "filho": [],
+    "complementa_bloco": [
+      "pendente"
+    ],
+    "aparece_em": [
+      "pendente"
+    ]
+  },
+  "anti_padroes": [
+    "Mudar a cor do rótulo quando o campo entra em erro",
+    "Usar `nph-label` para abrir seção ou dar ênfase",
+    "Tratar o asterisco como o sinal de obrigatoriedade para tecnologia assistiva"
+  ],
+  "fontes": {
+    "design_md": "design.md, no repositório",
+    "decisao": "P62.1, P62.2 e P62.3, aprovadas pelo Elvys em 28-08-2026",
+    "testes": "src/components/nph-label/nph-label.test.ts",
+    "evidencia_de_uso": "branch v/3.0.0, PR #10, merge e231eba",
+    "storybook": "src/components/nph-label/nph-label.stories.ts",
+    "figma": "página NPH — Label, conjunto mestre 374:6"
+  },
+  "tags": [
+    "nephos",
+    "ds-agentico",
+    "ficha",
+    "componente",
+    "nph-label"
+  ]
+}

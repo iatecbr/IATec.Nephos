@@ -20,6 +20,7 @@ verificador impede que a resposta seja plausível e falsa.
 npm run test:operacao                            # valida a árvore
 node scripts/verificar-operacao.mjs --proxima    # valida e mostra a fila
 node scripts/verificar-operacao.mjs --exemplos   # autoteste sobre os fixtures
+node scripts/verificar-operacao.mjs --gerar-metadata   # grava a Metadata das fichas e valida
 ```
 
 A consulta é uma bandeira do mesmo binário, e não um comando novo: um comando por
@@ -31,8 +32,10 @@ Tarefa, contexto e evidência têm a mesma forma: um **bloco JSON cercado**, o
 primeiro do arquivo, seguido de prosa em Markdown. O JSON dá os valores, que a
 máquina lê sem interpretar texto; o Markdown dá o critério, que a pessoa lê.
 
-O formato é JSON e não YAML porque nenhum script deste repositório lê YAML, e
-adotar YAML custaria uma dependência nova. O `JSON.parse` já vem no Node.
+O formato é JSON e não YAML porque adotar um leitor de YAML completo custaria
+uma dependência nova, e o `JSON.parse` já vem no Node. A ficha é a exceção: o
+YAML dela é lido por `scripts/ficha-lib.mjs`, que cobre só um subconjunto
+fechado — ver §7.
 
 ## 1. Tarefa
 
@@ -318,14 +321,17 @@ Por isso o verificador reprova `meta.ts` e `metadata.ts` dentro de
 ponteiro que quebra em silêncio. A regra vale para esses dois nomes de arquivo, e
 não proíbe stories nem variáveis chamadas `meta`.
 
-**Como a Metadata lê a ficha ainda não está decidido** — build ou execução — e
-essa decisão não pertence a esta etapa.
+**A Metadata é gerada no build** (P63). `node scripts/verificar-operacao.mjs
+--gerar-metadata` lê o YAML de cada ficha vigente e grava
+`src/shared/metadata/<peca>.json`. O arquivo nunca é editado à mão: quem muda a
+ficha gera de novo no mesmo commit, e a `V32` reprova a cópia que não bate com
+a ficha.
 
 **A ficha é cobrada no fim, não no começo.** A `V28` só exige `fichas/<peca>.md`
 em `em-revisao` e `concluida`. Antes disso, a peça pode ter código local e não
 ter ficha — ver §2b.
 
-## 8. As 31 regras do verificador
+## 8. As 32 regras do verificador
 
 Cada erro sai com o código, o caminho e a mensagem.
 
@@ -358,7 +364,9 @@ chaves fechado, sem as seis proibidas · `V24` no máximo 60 linhas ·
 
 **Contrato de metadados** · `V27` nenhum `meta.ts` ou `metadata.ts` em
 `src/components/` · `V28` `peca` preenchida exige `fichas/<peca>.md` **em
-`em-revisao` e `concluida`**
+`em-revisao` e `concluida`** · `V32` a Metadata em `src/shared/metadata/` é cópia
+exata de cada ficha vigente, não há JSON sem ficha vigente e a ficha cabe na
+gramática de `scripts/ficha-lib.mjs`
 
 **Fila** · `V29` `ordem_aprovada` inteiro ≥ 1, único entre as não `concluida`
 

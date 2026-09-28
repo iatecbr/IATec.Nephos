@@ -136,7 +136,7 @@ evidência, `V28` a ficha. Contrato completo em
 | `fichas/<nome>.md` — a partir de `fichas/_modelo.md` | `.env` e variantes — segredo nunca entra no repositório |
 | `.storybook/i18n/` — os dicionários de idioma, um arquivo por idioma | `.claude/` e `.agents/` — ferramentas locais, ignoradas pelo Git |
 | `scripts/` — gerador e validações, sempre por decisão registrada | Qualquer arquivo fora deste repositório |
-| `docs/` e `stories/` | |
+| `docs/` e `stories/` | `src/shared/metadata/` — é gerado por `node scripts/verificar-operacao.mjs --gerar-metadata` (P63); nunca edite à mão |
 
 Fora desta lista, pare e peça autorização. Espalhar arquivo em diretório novo
 sem decisão registrada é o mesmo que inventar estrutura.

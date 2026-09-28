@@ -1,0 +1,149 @@
+{
+  "peca": "nph-icon",
+  "nivel": "componente",
+  "status": "vigente",
+  "titulo": "nph-icon",
+  "tipo": "ficha de componente",
+  "criado": "2026-08-31",
+  "atualizado": "2026-09-14",
+  "resolve": "Disponibiliza um ícone do núcleo Nephos com tamanho, família e acessibilidade consistentes, sem introduzir cor ou arte fora do acervo aprovado.",
+  "use_quando": [
+    "Um controle ou conteúdo precisa de um ícone que existe no núcleo de 93 nomes.",
+    "O ícone reforça um rótulo, estado ou direção sem substituir a informação textual."
+  ],
+  "nao_use_quando": [
+    "A ação tem consequência ou é específica do domínio — use rótulo textual junto.",
+    "O ícone que você precisa não existe no núcleo: registre a lacuna e pergunte."
+  ],
+  "api": {
+    "name": {
+      "tipo": "string",
+      "obrigatoria": true,
+      "padrao": "nenhum",
+      "reflete": false,
+      "restricao": "Em kebab-case, e limitado aos 93 nomes do núcleo. Nome fora do núcleo não renderiza e emite erro só em desenvolvimento."
+    },
+    "variant": {
+      "tipo": "enum",
+      "valores": [
+        "regular",
+        "solid"
+      ],
+      "obrigatoria": false,
+      "padrao": "regular",
+      "reflete": false,
+      "restricao": "`regular` é o padrão; `solid` está disponível para todos os nomes do acervo. A I7 autorizou `circle-info` em `solid` porque o contorno regular some ao lado do texto, principalmente no modo claro. Light, Thin e Sharp não existem no contrato."
+    },
+    "size": {
+      "tipo": "enum",
+      "valores": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "obrigatoria": true,
+      "padrao": "nenhum",
+      "reflete": true,
+      "restricao": "Reflete como atributo porque o CSS interno seleciona a caixa por ele. Não aceita valor livre e não tem padrão — ausente, o ícone não renderiza."
+    },
+    "label": {
+      "tipo": "string",
+      "obrigatoria": false,
+      "padrao": "vazio",
+      "reflete": false,
+      "restricao": "Ausente, vazio ou só com espaços torna o ícone decorativo e aplica `aria-hidden`. Valor não vazio vira o nome acessível."
+    },
+    "slots": "nenhum",
+    "eventos": "nenhum",
+    "cor": "Não é propriedade. Herda `currentColor` do contexto — não existe token de cor de ícone."
+  },
+  "variantes": {
+    "variant": {
+      "eixo": "aparencia",
+      "escolha_quando": "regular por padrão; solid quando o contexto pede maior presença visual",
+      "nao_combine_com": [
+        "light, thin, sharp"
+      ]
+    },
+    "size": {
+      "eixo": "tamanho",
+      "escolha_quando": "sm dentro de controle e célula; md em menu e aba; lg quando o ícone carrega significado sozinho",
+      "nao_combine_com": [
+        "valor livre de tamanho"
+      ]
+    }
+  },
+  "estados": {
+    "nao_se_aplica": {
+      "token": "nao_se_aplica",
+      "muda_para_a_pessoa": "O estado pertence ao controle que consome o ícone, não ao ícone"
+    }
+  },
+  "regras_de_negocio": [],
+  "erros_de_dominio": [],
+  "tokens": {
+    "tamanho": [
+      "icon/size-sm",
+      "icon/size-md",
+      "icon/size-lg"
+    ],
+    "cor": "currentColor"
+  },
+  "dicas_para_ia": [
+    "Ação com consequência nunca leva ícone sozinho — põe texto.",
+    "Na dúvida de tamanho, `size=sm`.",
+    "Não procure propriedade de cor: ela não existe, o ícone herda do contexto.",
+    "Ícone ao lado de texto é decorativo: deixe `label` vazio.",
+    "Ícone sozinho num controle: o `label` vai no controle, não no ícone."
+  ],
+  "acessibilidade": {
+    "semantica": "Sem papel próprio. Decorativo por padrão",
+    "nome_acessivel": "Vem de `label`; vazio marca como decorativo e aplica aria-hidden",
+    "teclado": [],
+    "foco": "Nunca recebe foco. O foco pertence ao controle envolvente",
+    "contraste": "Ícone significativo: 3:1 contra o fundo (WCAG 1.4.11)",
+    "alternativa_a_cor": "Ícone nunca é o único sinal de um estado"
+  },
+  "combinacoes_invalidas": [
+    "`size` ausente — não há padrão",
+    "Duotone fora de navegação estrutural"
+  ],
+  "relacoes": {
+    "combina_com": [
+      "nph-button",
+      "nph-spinner"
+    ],
+    "pai": [
+      "nph-button",
+      "os controles que o contêm"
+    ],
+    "filho": [],
+    "complementa_bloco": [
+      "pendente"
+    ],
+    "aparece_em": [
+      "pendente"
+    ]
+  },
+  "anti_padroes": [
+    "Ícone sozinho em ação com consequência",
+    "Pintar o ícone com cor que não seja a do contexto",
+    "Usar tamanho fora dos três tokens",
+    "Simular Duotone com arte ou variante vazia"
+  ],
+  "fontes": {
+    "design_md": "design.md, no repositório",
+    "decisao": "P21, adotada por Indiane em 26-08-2026; I7, 08-09-2026",
+    "testes": "src/components/nph-icon/nph-icon.test.ts",
+    "evidencia_de_uso": "branch v/3.0.0, PR #6, merge 437dd60",
+    "storybook": "src/components/nph-icon/nph-icon.stories.ts",
+    "figma": "página NPH — Icon (346:2)"
+  },
+  "tags": [
+    "nephos",
+    "ds-agentico",
+    "ficha",
+    "componente",
+    "nph-icon"
+  ]
+}

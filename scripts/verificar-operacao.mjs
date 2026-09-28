@@ -8,8 +8,10 @@
  *
  * A metade de maquina de tarefa, contexto e evidencia e um bloco JSON cercado,
  * o primeiro do arquivo Markdown. JSON e nao YAML por decisao de Indiane em
- * 02-09-2026: nenhum script deste repositorio le YAML, e adotar YAML custaria
- * uma dependencia nova. O `JSON.parse` ja vem no Node.
+ * 02-09-2026: adotar um leitor de YAML completo custaria uma dependencia nova, e
+ * o `JSON.parse` ja vem no Node. A ficha e a excecao: o YAML dela e lido por
+ * `ficha-lib.mjs`, que cobre so um subconjunto fechado e nao traz dependencia.
+ * Tarefa continua em JSON.
  *
  * Contrato completo em docs/operacao/README.md.
  *
@@ -17,14 +19,21 @@
  *   node scripts/verificar-operacao.mjs              valida docs/operacao/
  *   node scripts/verificar-operacao.mjs --proxima    valida e mostra a fila
  *   node scripts/verificar-operacao.mjs --exemplos   autoteste sobre os fixtures
+ *   node scripts/verificar-operacao.mjs --gerar-metadata
+ *                                                    grava a Metadata a partir
+ *                                                    das fichas e valida
  */
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
+
+import { ErroDeFicha, lerFicha } from './ficha-lib.mjs';
 
 const RAIZ_OPERACAO = 'docs/operacao';
 const RAIZ_FIXTURES = 'scripts/fixtures/operacao';
 const RAIZ_COMPONENTES = 'src/components';
 const RAIZ_FICHAS = 'fichas';
+/** A Metadata e gerada: so `--gerar-metadata` grava aqui. Nunca edite a mao. */
+const RAIZ_METADATA = 'src/shared/metadata';
 
 const ESTADOS = ['pronta', 'em-andamento', 'aguardando-decisao', 'bloqueada', 'em-revisao', 'concluida'];
 const RESPONSAVEIS = ['indiane', 'claude-codigo', 'claude-figma', 'copilot', 'elvys'];
@@ -80,7 +89,7 @@ const SEGREDOS = [
 const ler = (caminho) => readFileSync(caminho, 'utf8').replace(/\r\n/g, '\n');
 
 const listarMd = (dir) => (existsSync(dir) && statSync(dir).isDirectory()
-  ? readdirSync(dir).filter((n) => n.endsWith('.md')).sort()
+  ? readdirSync(dir).filter((n) => n.endsWith('.md') && statSync(join(dir, n)).isFile()).sort()
   : []);
 
 /** Extrai e faz parse do PRIMEIRO bloco ```json do arquivo. */
@@ -175,7 +184,12 @@ function validarEvidenciaDocumental(idTarefa, gate, falha) {
  * Caminhos declarados em evidencias[] sao sempre a partir da raiz do
  * repositorio, e precisam existir la.
  */
-export function validar(raiz) {
+export function validar(raiz, opcoes = {}) {
+  const {
+    fichas: dirFichas = RAIZ_FICHAS,
+    metadata: dirMetadata = RAIZ_METADATA,
+    metadataObrigatoria = true,
+  } = opcoes;
   const erros = [];
   const falha = (codigo, caminho, msg) => erros.push({ codigo, caminho, msg });
 
@@ -553,8 +567,107 @@ export function validar(raiz) {
     falha('V27', p, 'contrato concorrente: a ficha em fichas/<nome>.md e a fonte, e a Metadata deriva dela (PI-01)');
   }
 
+  // V32 — a Metadata e copia fiel da ficha vigente
+  validarMetadata(dirFichas, dirMetadata, metadataObrigatoria, falha);
+
   erros.sort((a, b) => (a.codigo + a.caminho + a.msg).localeCompare(b.codigo + b.caminho + b.msg));
   return { erros, tarefas: porId, contextos, conferidas: tarefas.size };
+}
+
+// ---------------------------------------------------------------
+// METADATA
+// ---------------------------------------------------------------
+
+/**
+ * Le as fichas do primeiro nivel de `dirFichas` e calcula a Metadata que cada
+ * ficha vigente produz. Arquivo sem `---` na linha 1 nao e ficha e fica de
+ * fora. Ficha que nao cabe na gramatica vira erro, com a linha.
+ */
+function calcularMetadata(dirFichas) {
+  const esperados = new Map();
+  const errosDeLeitura = [];
+  for (const nome of listarMd(dirFichas)) {
+    const caminho = join(dirFichas, nome).replace(/\\/g, '/');
+    try {
+      const ficha = lerFicha(ler(caminho));
+      if (ficha !== null && ficha.vigente) esperados.set(`${basename(nome, '.md')}.json`, ficha.json);
+    } catch (e) {
+      if (!(e instanceof ErroDeFicha)) throw e;
+      errosDeLeitura.push({ caminho: `${caminho}:${e.linha}`, msg: `a ficha nao cabe na gramatica: ${e.message}` });
+    }
+  }
+  return { esperados, errosDeLeitura };
+}
+
+/**
+ * V32. A Metadata so vale se for a copia exata do que a ficha produz: um
+ * arquivo derivado que diverge da fonte e o ponteiro que quebra em silencio.
+ * A comparacao normaliza o fim de linha (`ler`), porque com `core.autocrlf` o
+ * mesmo arquivo chega em CRLF no Windows e em LF no resto.
+ *
+ * No uso real as duas pastas sao obrigatorias. No autoteste, um caso sem
+ * `fichas/` e sem `metadata/` nao tem o que conferir.
+ */
+function validarMetadata(dirFichas, dirMetadata, obrigatoria, falha) {
+  const temFichas = existsSync(dirFichas);
+  const temMetadata = existsSync(dirMetadata);
+  if (!obrigatoria && !temFichas && !temMetadata) return;
+  if (obrigatoria && !temFichas) {
+    falha('V32', dirFichas, 'a pasta de fichas nao existe');
+    return;
+  }
+
+  const { esperados, errosDeLeitura } = temFichas ? calcularMetadata(dirFichas) : { esperados: new Map(), errosDeLeitura: [] };
+  for (const e of errosDeLeitura) falha('V32', e.caminho, e.msg);
+
+  if (obrigatoria && !temMetadata && esperados.size > 0) {
+    falha('V32', dirMetadata, 'a pasta da Metadata nao existe — rode node scripts/verificar-operacao.mjs --gerar-metadata');
+    return;
+  }
+
+  for (const [nome, json] of esperados) {
+    const caminho = join(dirMetadata, nome).replace(/\\/g, '/');
+    if (!existsSync(caminho)) {
+      falha('V32', caminho, 'falta a Metadata desta ficha vigente — rode --gerar-metadata');
+    } else if (ler(caminho) !== json) {
+      falha('V32', caminho, 'a Metadata nao bate com a ficha: ela foi editada a mao ou a ficha mudou depois — rode --gerar-metadata');
+    }
+  }
+
+  const existentes = temMetadata ? readdirSync(dirMetadata).filter((n) => n.endsWith('.json')).sort() : [];
+  for (const nome of existentes) {
+    if (!esperados.has(nome)) {
+      falha('V32', join(dirMetadata, nome).replace(/\\/g, '/'), 'Metadata sem ficha vigente correspondente');
+    }
+  }
+}
+
+/**
+ * Grava a Metadata de todas as fichas vigentes, ou de nenhuma: se uma ficha
+ * nao cabe na gramatica, nada e gravado. JSON orfao nao e apagado — a V32 o
+ * acusa, e quem decide o que fazer com ele e uma pessoa.
+ */
+function gerarMetadata() {
+  const { esperados, errosDeLeitura } = calcularMetadata(RAIZ_FICHAS);
+  if (errosDeLeitura.length > 0) {
+    console.error('FALHOU: nenhuma Metadata foi gravada.');
+    for (const e of errosDeLeitura) console.error(`  - V32 ${e.caminho}: ${e.msg}`);
+    return 1;
+  }
+  mkdirSync(RAIZ_METADATA, { recursive: true });
+  for (const [nome, json] of esperados) {
+    const caminho = join(RAIZ_METADATA, nome);
+    /* Conteudo igual nao se regrava: com `core.autocrlf`, regravar em LF um
+     * arquivo que o checkout trouxe em CRLF sujaria o `git status` sem mudanca. */
+    if (existsSync(caminho) && ler(caminho) === json) {
+      console.log(`inalterado: ${RAIZ_METADATA}/${nome}`);
+      continue;
+    }
+    writeFileSync(caminho, json, 'utf8');
+    console.log(`gravado: ${RAIZ_METADATA}/${nome}`);
+  }
+  console.log('');
+  return 0;
 }
 
 // ---------------------------------------------------------------
@@ -641,26 +754,57 @@ const CASOS_INVALIDOS = {
   'evidencia-figma-fora-do-diretorio': 'V31',
   'evidencia-figma-sem-procedencia': 'V31',
   'evidencia-inexistente': 'V16',
+  'ficha-aspa-no-meio': 'V32',
+  'ficha-bloco-recuo-irregular': 'V32',
+  'ficha-chave-ambigua': 'V32',
+  'ficha-escalar-ambiguo': 'V32',
+  'ficha-fora-do-subconjunto': 'V32',
+  'ficha-mapa-em-linha': 'V32',
+  'ficha-mapa-em-lista': 'V32',
   'id-fora-do-padrao': 'V02',
   'id-nao-bate': 'V01',
+  'metadata-desatualizada': 'V32',
+  'metadata-sem-ficha': 'V32',
   'ordem-duplicada': 'V29',
   'peca-sem-ficha': 'V28',
   'pronta-com-dependencia-aberta': 'V09',
   'restrita-com-trecho': 'V19',
 };
 
+/**
+ * Cada caso confere as proprias fichas e a propria Metadata, nunca as do
+ * repositorio: senao uma Metadata desatualizada na arvore real apareceria como
+ * codigo extra em todos os casos.
+ */
+function opcoesDoCaso(dir) {
+  return { fichas: join(dir, 'fichas'), metadata: join(dir, 'metadata'), metadataObrigatoria: false };
+}
+
 function autoteste() {
   let falhas = 0;
 
   console.log('=== VALIDOS ===');
   const dirValidos = join(RAIZ_FIXTURES, 'validos');
-  const { erros: errosValidos, conferidas } = validar(dirValidos);
+  const { erros: errosValidos, conferidas } = validar(dirValidos, opcoesDoCaso(dirValidos));
   if (errosValidos.length === 0) {
     console.log(`PASSOU  validos                        ${conferidas} tarefa(s), nenhum erro`);
   } else {
     falhas += 1;
     console.log('FALHOU  validos                        deveria passar limpo:');
     for (const e of errosValidos) console.log(`          ${e.codigo} ${e.caminho}: ${e.msg}`);
+  }
+
+  /* O mesmo texto em LF e em CRLF tem de gerar a mesma Metadata. Sem
+   * .gitattributes, e o unico jeito de provar os dois fins de linha em
+   * qualquer maquina. */
+  const fichaDoCaso = ler(join(dirValidos, 'fichas', 'nph-exemplo.md'));
+  const emLf = lerFicha(fichaDoCaso).json;
+  const emCrlf = lerFicha(fichaDoCaso.replace(/\n/g, '\r\n')).json;
+  if (emLf === emCrlf) {
+    console.log('PASSOU  fim de linha                   LF e CRLF geram a mesma Metadata');
+  } else {
+    falhas += 1;
+    console.log('FALHOU  fim de linha                   LF e CRLF geram Metadata diferente');
   }
 
   console.log('\n=== INVALIDOS: cada um tem de falhar PELO CODIGO PREVISTO ===');
@@ -671,7 +815,7 @@ function autoteste() {
       console.log(`FALHOU  ${caso.padEnd(30)} esperado=${esperado} obtido=(fixture ausente)`);
       continue;
     }
-    const { erros } = validar(dir);
+    const { erros } = validar(dir, opcoesDoCaso(dir));
     const codigos = [...new Set(erros.map((e) => e.codigo))].sort();
     const ok = codigos.length === 1 && codigos[0] === esperado;
     if (!ok) falhas += 1;
@@ -696,14 +840,23 @@ function autoteste() {
 
 const args = process.argv.slice(2);
 
+if (args.includes('--gerar-metadata') && (args.includes('--exemplos') || args.includes('--proxima'))) {
+  console.error('--gerar-metadata nao se combina com --exemplos nem com --proxima.');
+  process.exit(2);
+}
+
 if (args.includes('--exemplos')) {
   process.exit(autoteste());
+}
+
+if (args.includes('--gerar-metadata') && gerarMetadata() !== 0) {
+  process.exit(1);
 }
 
 const { erros, tarefas, conferidas } = validar(RAIZ_OPERACAO);
 
 if (erros.length > 0) {
-  console.error(`FALHOU: ${erros.length} erro(s) em ${RAIZ_OPERACAO}/`);
+  console.error(`FALHOU: ${erros.length} erro(s)`);
   for (const e of erros) console.error(`  - ${e.codigo} ${e.caminho}: ${e.msg}`);
   if (args.includes('--proxima')) {
     console.error('\nA fila NAO foi calculada: fila sobre arvore invalida e pior que fila nenhuma.');
