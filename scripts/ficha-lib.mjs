@@ -26,8 +26,10 @@
  * tabulacao, lista de listas, mapa dentro de lista, mapa em linha `{...}`,
  * aspas simples, barra invertida dentro de aspas, chave repetida no mesmo mapa,
  * `__proto__`, bloco `>-` com recuo irregular, numero acima do inteiro seguro,
- * texto sem aspas que comeca com indicador de YAML e chave numerica (o JSON
- * reordenaria chave numerica e quebraria a ordem da ficha).
+ * texto sem aspas que comeca com indicador de YAML, texto sem aspas que o YAML
+ * leria como null, booleano ou numero, espaco no fim de linha dentro de `>-`
+ * e chave numerica (o JSON reordenaria chave numerica e quebraria a ordem da
+ * ficha).
  */
 
 /** Erro de leitura com a linha do arquivo onde ele aconteceu. */
@@ -40,6 +42,23 @@ export class ErroDeFicha extends Error {
 
 const CHAVE = /^([A-Za-z0-9_./-]+):(?: (.*))?$/;
 const CHAVE_NUMERICA = /^\d+$/;
+
+/**
+ * Texto sem aspas que o YAML 1.1 ou 1.2 resolveria como null, booleano ou
+ * numero. So `true`, `false` e inteiro decimal sem zero a esquerda sao lidos
+ * como tipo; o resto destes seria texto aqui e tipo no YAML padrao, e a
+ * Metadata divergiria em silencio. Por isso se recusa.
+ */
+const AMBIGUO = [
+  /^(?:null|Null|NULL|~)$/,
+  /^(?:y|Y|yes|Yes|YES|n|N|no|No|NO|True|TRUE|False|FALSE|on|On|ON|off|Off|OFF)$/,
+  /^[-+]?(?:0b[01_]+|0x[0-9a-fA-F_]+|0o[0-7]+|0[0-7_]+|[0-9][0-9_]*)$/,
+  /^[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+(?:\.[0-9_]*)?$/,
+  /^[-+]?(?:[0-9][0-9_]*)?\.[0-9_]*(?:[eE][-+]?[0-9]+)?$/,
+  /^[-+]?[0-9][0-9_]*[eE][-+]?[0-9]+$/,
+  /^[-+]?\.(?:inf|Inf|INF)$/,
+  /^\.(?:nan|NaN|NAN)$/,
+];
 
 /**
  * Separa o frontmatter. Devolve `null` quando o arquivo nao comeca com `---`
@@ -60,13 +79,13 @@ export function lerYaml(linhas) {
   for (const { numero, conteudo } of linhas) {
     if (conteudo.includes('\t')) throw new ErroDeFicha(numero, 'tabulacao nao e aceita');
     if (conteudo.trim() === '') {
-      uteis.push({ numero, recuo: -1, texto: '' });
+      uteis.push({ numero, recuo: -1, texto: '', bruto: conteudo });
       continue;
     }
     const recuo = conteudo.length - conteudo.trimStart().length;
     const texto = conteudo.trim();
     if (texto.startsWith('#')) throw new ErroDeFicha(numero, 'comentario `#` nao e aceito');
-    uteis.push({ numero, recuo, texto });
+    uteis.push({ numero, recuo, texto, bruto: conteudo });
   }
 
   const estado = { i: 0, linhas: uteis };
@@ -173,6 +192,8 @@ function lerBlocoDobrado(estado, recuo, numeroDaChave) {
     if (linha.recuo !== recuoDoBloco) {
       throw new ErroDeFicha(linha.numero, 'todas as linhas de um bloco `>-` tem de ter o mesmo recuo');
     }
+    /* O YAML preserva espaco no fim de linha de bloco; aparar mudaria o texto. */
+    if (/ $/.test(linha.bruto)) throw new ErroDeFicha(linha.numero, 'espaco no fim de linha dentro de bloco `>-` nao e aceito');
     partes.push(linha.texto);
     estado.i += 1;
   }
@@ -229,8 +250,14 @@ function lerEscalar(valor, numero) {
   if (/: /.test(valor) || valor.endsWith(':')) {
     throw new ErroDeFicha(numero, 'texto sem aspas com `: ` e ambiguo; use aspas duplas');
   }
+  if (/^[,\]]/.test(valor) || valor === '=' || valor === '<<') {
+    throw new ErroDeFicha(numero, 'texto sem aspas nao pode comecar com , ou ] nem ser = ou <<; use aspas duplas');
+  }
   if (valor === 'true') return true;
   if (valor === 'false') return false;
+  if (AMBIGUO.some((re) => re.test(valor)) && !/^(0|[1-9]\d*)$/.test(valor)) {
+    throw new ErroDeFicha(numero, `o YAML leria "${valor}" como null, booleano ou numero; use aspas duplas para texto`);
+  }
   if (/^\d+$/.test(valor)) {
     const n = Number(valor);
     if (!Number.isSafeInteger(n)) throw new ErroDeFicha(numero, 'numero grande demais para JSON sem perder precisao; use aspas duplas');

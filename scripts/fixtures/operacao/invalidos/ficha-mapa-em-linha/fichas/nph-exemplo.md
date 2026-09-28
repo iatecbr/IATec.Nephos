@@ -2,8 +2,7 @@
 peca: nph-exemplo
 status: vigente
 relacoes:
-  pai:
-    - b: c
+  pai: [{}, nph-button]
 ---
 
 # nph-exemplo
