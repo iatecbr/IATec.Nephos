@@ -754,7 +754,9 @@ const CASOS_INVALIDOS = {
   'evidencia-figma-fora-do-diretorio': 'V31',
   'evidencia-figma-sem-procedencia': 'V31',
   'evidencia-inexistente': 'V16',
+  'ficha-bloco-recuo-irregular': 'V32',
   'ficha-fora-do-subconjunto': 'V32',
+  'ficha-mapa-em-lista': 'V32',
   'id-fora-do-padrao': 'V02',
   'id-nao-bate': 'V01',
   'metadata-desatualizada': 'V32',
@@ -850,7 +852,7 @@ if (args.includes('--gerar-metadata') && gerarMetadata() !== 0) {
 const { erros, tarefas, conferidas } = validar(RAIZ_OPERACAO);
 
 if (erros.length > 0) {
-  console.error(`FALHOU: ${erros.length} erro(s) em ${RAIZ_OPERACAO}/`);
+  console.error(`FALHOU: ${erros.length} erro(s)`);
   for (const e of erros) console.error(`  - ${e.codigo} ${e.caminho}: ${e.msg}`);
   if (args.includes('--proxima')) {
     console.error('\nA fila NAO foi calculada: fila sobre arvore invalida e pior que fila nenhuma.');

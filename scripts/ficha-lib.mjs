@@ -23,9 +23,11 @@
  * so digitos vira numero; o resto vira texto, inclusive data e `nulo`.
  *
  * O que se recusa: `|`, ancora, etiqueta, `#` de comentario fora de aspas,
- * tabulacao, lista de listas, mapa dentro de lista, aspas simples, barra
- * invertida dentro de aspas, chave repetida no mesmo mapa e chave numerica
- * (o JSON reordenaria chave numerica e quebraria a ordem da ficha).
+ * tabulacao, lista de listas, mapa dentro de lista, mapa em linha `{...}`,
+ * aspas simples, barra invertida dentro de aspas, chave repetida no mesmo mapa,
+ * `__proto__`, bloco `>-` com recuo irregular, numero acima do inteiro seguro,
+ * texto sem aspas que comeca com indicador de YAML e chave numerica (o JSON
+ * reordenaria chave numerica e quebraria a ordem da ficha).
  */
 
 /** Erro de leitura com a linha do arquivo onde ele aconteceu. */
@@ -44,7 +46,8 @@ const CHAVE_NUMERICA = /^\d+$/;
  * na linha 1: esse arquivo nao e ficha, e fica de fora sem reprovar.
  */
 export function extrairFrontmatter(texto) {
-  const linhas = texto.replace(/\r\n/g, '\n').split('\n');
+  /* BOM no inicio (o PowerShell 5.1 grava assim) esconderia o `---` da linha 1. */
+  const linhas = texto.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').split('\n');
   if (linhas[0] !== '---') return null;
   const fim = linhas.indexOf('---', 1);
   if (fim === -1) throw new ErroDeFicha(1, 'o frontmatter abre com `---` e nao fecha');
@@ -99,6 +102,7 @@ function lerMapa(estado, recuo) {
     if (m === null) throw new ErroDeFicha(linha.numero, 'chave fora do formato `nome: valor`');
     const [, chave, bruto] = m;
     if (CHAVE_NUMERICA.test(chave)) throw new ErroDeFicha(linha.numero, `chave numerica "${chave}" nao e aceita`);
+    if (chave === '__proto__') throw new ErroDeFicha(linha.numero, 'a chave __proto__ nao e aceita');
     if (Object.hasOwn(mapa, chave)) throw new ErroDeFicha(linha.numero, `chave "${chave}" repetida no mesmo mapa`);
     estado.i += 1;
     const valor = bruto === undefined ? '' : bruto.trim();
@@ -152,6 +156,7 @@ function lerLista(estado, recuo) {
 
 function lerBlocoDobrado(estado, recuo, numeroDaChave) {
   const partes = [];
+  let recuoDoBloco = null;
   while (estado.i < estado.linhas.length) {
     const linha = estado.linhas[estado.i];
     if (linha.recuo === -1) {
@@ -162,6 +167,12 @@ function lerBlocoDobrado(estado, recuo, numeroDaChave) {
       break;
     }
     if (linha.recuo <= recuo) break;
+    /* Recuo diferente dentro do bloco muda o sentido no YAML padrao (quebra de
+     * linha preservada, ou erro). Recusar evita juntar em silencio. */
+    if (recuoDoBloco === null) recuoDoBloco = linha.recuo;
+    if (linha.recuo !== recuoDoBloco) {
+      throw new ErroDeFicha(linha.numero, 'todas as linhas de um bloco `>-` tem de ter o mesmo recuo');
+    }
     partes.push(linha.texto);
     estado.i += 1;
   }
@@ -171,7 +182,6 @@ function lerBlocoDobrado(estado, recuo, numeroDaChave) {
 
 function lerValor(valor, numero) {
   if (valor.startsWith('[')) return lerListaEmLinha(valor, numero);
-  if (valor.startsWith('{')) throw new ErroDeFicha(numero, 'mapa em linha `{...}` nao e aceito');
   return lerEscalar(valor, numero);
 }
 
@@ -211,13 +221,21 @@ function lerEscalar(valor, numero) {
   }
   if (valor.startsWith("'")) throw new ErroDeFicha(numero, 'aspas simples nao sao aceitas; use aspas duplas');
   if (/^[&*!]/.test(valor)) throw new ErroDeFicha(numero, 'ancora, alias e etiqueta nao sao aceitos');
+  if (/^[{}]/.test(valor)) throw new ErroDeFicha(numero, 'mapa em linha `{...}` nao e aceito');
+  if (/^[|>]/.test(valor)) throw new ErroDeFicha(numero, 'bloco `|` ou `>` so e aceito como `>-` depois de uma chave');
+  if (valor === '-' || valor.startsWith('- ')) throw new ErroDeFicha(numero, 'lista de listas nao e aceita');
+  if (/^[@`%?]/.test(valor)) throw new ErroDeFicha(numero, 'texto sem aspas nao pode comecar com @, crase, % ou ?; use aspas duplas');
   if (/(^|\s)#/.test(valor)) throw new ErroDeFicha(numero, 'comentario `#` fora de aspas nao e aceito');
   if (/: /.test(valor) || valor.endsWith(':')) {
     throw new ErroDeFicha(numero, 'texto sem aspas com `: ` e ambiguo; use aspas duplas');
   }
   if (valor === 'true') return true;
   if (valor === 'false') return false;
-  if (/^\d+$/.test(valor)) return Number(valor);
+  if (/^\d+$/.test(valor)) {
+    const n = Number(valor);
+    if (!Number.isSafeInteger(n)) throw new ErroDeFicha(numero, 'numero grande demais para JSON sem perder precisao; use aspas duplas');
+    return n;
+  }
   return valor;
 }
 
