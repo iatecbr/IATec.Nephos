@@ -656,7 +656,14 @@ function gerarMetadata() {
   }
   mkdirSync(RAIZ_METADATA, { recursive: true });
   for (const [nome, json] of esperados) {
-    writeFileSync(join(RAIZ_METADATA, nome), json, 'utf8');
+    const caminho = join(RAIZ_METADATA, nome);
+    /* Conteudo igual nao se regrava: com `core.autocrlf`, regravar em LF um
+     * arquivo que o checkout trouxe em CRLF sujaria o `git status` sem mudanca. */
+    if (existsSync(caminho) && ler(caminho) === json) {
+      console.log(`inalterado: ${RAIZ_METADATA}/${nome}`);
+      continue;
+    }
+    writeFileSync(caminho, json, 'utf8');
     console.log(`gravado: ${RAIZ_METADATA}/${nome}`);
   }
   console.log('');
