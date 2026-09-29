@@ -274,7 +274,7 @@ function readScalar(value, lineNumber) {
 
 /**
  * Le uma ficha inteira. Devolve `null` quando o arquivo nao e ficha (sem `---`
- * na linha 1); senao `{ dados, vigente, json }`. Lanca `SpecError`.
+ * na linha 1); senao `{ data, inForce, json }`. Lanca `SpecError`.
  *
  * O fim de linha e normalizado aqui mesmo: com `core.autocrlf`, a ficha chega
  * em CRLF no Windows e em LF no resto, e a Metadata tem de sair igual.
