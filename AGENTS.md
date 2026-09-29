@@ -82,6 +82,9 @@ Antes de analisar, propor, editar ou implementar:
   componentes para entregáveis do Nephos.
 - Registre data, responsável, fonte de evidência, decisão alterada e
   documentos sincronizados ao concluir.
+- Escreva os nomes do código em inglês; comentário e mensagem para quem mantém o
+  repositório ficam em PT-BR. Chave de dados, bandeira da linha de comando, nome
+  de arquivo já citado e nome público não mudam (P64, aguardando revisão).
 
 ## A ordem de um componente
 

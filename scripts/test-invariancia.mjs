@@ -8,12 +8,12 @@
  *
  * Rode com: npm run test:tokens
  */
-import { canon, classifica, indexar, NS } from './tokens-lib.mjs';
+import { canon, classify, buildIndex, NS } from './tokens-lib.mjs';
 
-const MODOS = ['claro', 'escuro'];
-const PADROES = { core: null, theme: 'sistemas', semantic: null };
+const MODES = ['claro', 'escuro'];
+const DEFAULT_MODES = { core: null, theme: 'sistemas', semantic: null };
 
-const modos = (claro, escuro) => ({ $extensions: { [NS]: { modes: { claro, escuro } } } });
+const modes = (light, dark) => ({ $extensions: { [NS]: { modes: { claro: light, escuro: dark } } } });
 
 /* Objetos DISTINTOS na memoria, com ordem de chave trocada, mesmo conteudo. */
 const durA = { value: 250, unit: 'ms' };
@@ -24,10 +24,10 @@ const dimB = { value: 16, unit: 'px' };
 
 /* Sombra: A e B tem o MESMO conteudo com a ordem de chave trocada, dentro e
    fora da camada. C muda a geometria. Nenhum dos tres e o mesmo objeto. */
-const camada = (y, blur, spread) => ({ offsetX: { value: 0, unit: 'px' }, offsetY: { value: y, unit: 'px' }, blur: { value: blur, unit: 'px' }, spread: { value: spread, unit: 'px' }, color: '{core.base.white}' });
-const sombraA = [camada(1, 2, -1)];
-const sombraB = [{ color: '{core.base.white}', spread: { unit: 'px', value: -1 }, blur: { unit: 'px', value: 2 }, offsetY: { unit: 'px', value: 1 }, offsetX: { unit: 'px', value: 0 } }];
-const sombraC = [camada(4, 6, -4)];
+const layer = (y, blur, spread) => ({ offsetX: { value: 0, unit: 'px' }, offsetY: { value: y, unit: 'px' }, blur: { value: blur, unit: 'px' }, spread: { value: spread, unit: 'px' }, color: '{core.base.white}' });
+const shadowA = [layer(1, 2, -1)];
+const shadowB = [{ color: '{core.base.white}', spread: { unit: 'px', value: -1 }, blur: { unit: 'px', value: 2 }, offsetY: { unit: 'px', value: 1 }, offsetX: { unit: 'px', value: 0 } }];
+const shadowC = [layer(4, 6, -4)];
 
 const core = {
   core: {
@@ -47,36 +47,36 @@ const theme = {
   },
 };
 
-const casos = {
+const cases = {
   a: {
     // 1. mesmo objeto literal repetido -> invariante
-    'mesmo-objeto': { $type: 'duration', $value: durA, ...modos(durA, durA) },
+    'mesmo-objeto': { $type: 'duration', $value: durA, ...modes(durA, durA) },
     // 2. valores estruturados DIFERENTES -> variante
-    'valores-diferentes': { $type: 'duration', $value: durA, ...modos(durA, durC) },
+    'valores-diferentes': { $type: 'duration', $value: durA, ...modes(durA, durC) },
     // 3. objetos DISTINTOS, ordem de chave trocada, conteudo igual -> invariante
-    'objetos-distintos-ordem-trocada': { $type: 'duration', $value: durA, ...modos(durA, durB) },
+    'objetos-distintos-ordem-trocada': { $type: 'duration', $value: durA, ...modes(durA, durB) },
     // 4. idem para dimension
-    'dimension-objetos-distintos': { $type: 'dimension', $value: dimA, ...modos(dimA, dimB) },
+    'dimension-objetos-distintos': { $type: 'dimension', $value: dimA, ...modes(dimA, dimB) },
     // 5. alias igual nos dois modos -> invariante
-    'alias-igual': { $type: 'color', $value: '{core.base.white}', ...modos('{core.base.white}', '{core.base.white}') },
+    'alias-igual': { $type: 'color', $value: '{core.base.white}', ...modes('{core.base.white}', '{core.base.white}') },
     // 6. alias diferente, valor final diferente -> variante
-    'alias-diferente': { $type: 'color', $value: '{core.base.white}', ...modos('{core.base.white}', '{core.surface.900}') },
+    'alias-diferente': { $type: 'color', $value: '{core.base.white}', ...modes('{core.base.white}', '{core.surface.900}') },
     // 7. alias dependente de marca, igual nos dois modos -> invariante
-    'alias-de-marca': { $type: 'color', $value: '{theme.brand-600}', ...modos('{theme.brand-600}', '{theme.brand-600}') },
+    'alias-de-marca': { $type: 'color', $value: '{theme.brand-600}', ...modes('{theme.brand-600}', '{theme.brand-600}') },
     // 8. sem bloco modes -> invariante por definicao
     'sem-modes': { $type: 'number', $value: 0.5 },
     // 9. cubicBezier em arrays distintos, conteudo igual -> invariante
-    'bezier-arrays-distintos': { $type: 'cubicBezier', $value: [0, 0, 0.2, 1], ...modos([0, 0, 0.2, 1], [0, 0, 0.2, 1]) },
+    'bezier-arrays-distintos': { $type: 'cubicBezier', $value: [0, 0, 0.2, 1], ...modes([0, 0, 0.2, 1], [0, 0, 0.2, 1]) },
     // 10. cubicBezier com conteudo diferente -> variante
-    'bezier-diferente': { $type: 'cubicBezier', $value: [0, 0, 0.2, 1], ...modos([0, 0, 0.2, 1], [0.4, 0, 1, 1]) },
+    'bezier-diferente': { $type: 'cubicBezier', $value: [0, 0, 0.2, 1], ...modes([0, 0, 0.2, 1], [0.4, 0, 1, 1]) },
     // 11. shadow: camadas distintas na memoria, ordem de chave trocada, conteudo igual -> invariante
-    'shadow-ordem-trocada': { $type: 'shadow', $value: sombraA, ...modos(sombraA, sombraB) },
+    'shadow-ordem-trocada': { $type: 'shadow', $value: shadowA, ...modes(shadowA, shadowB) },
     // 12. shadow com geometria diferente entre os modos -> variante
-    'shadow-diferente': { $type: 'shadow', $value: sombraA, ...modos(sombraA, sombraC) },
+    'shadow-diferente': { $type: 'shadow', $value: shadowA, ...modes(shadowA, shadowC) },
   },
 };
 
-const ESPERADO = {
+const EXPECTED = {
   'a.mesmo-objeto': 'invariante',
   'a.valores-diferentes': 'variante',
   'a.objetos-distintos-ordem-trocada': 'invariante',
@@ -91,36 +91,36 @@ const ESPERADO = {
   'a.shadow-diferente': 'variante',
 };
 
-const idx = indexar([core, theme, casos]);
-const { invariantes, variantes } = classifica(casos, MODOS, idx, PADROES);
+const idx = buildIndex([core, theme, cases]);
+const { invariants, variants } = classify(cases, MODES, idx, DEFAULT_MODES);
 
-let falhas = 0;
+let failures = 0;
 console.log('=== PROVA: classificacao por forma canonica, nao por identidade de objeto ===');
-for (const [nome, esperado] of Object.entries(ESPERADO)) {
-  const obtido = invariantes.has(nome) ? 'invariante' : variantes.has(nome) ? 'variante' : 'NAO CLASSIFICADO';
-  const ok = obtido === esperado;
-  if (!ok) falhas++;
-  console.log((ok ? 'PASSOU ' : 'FALHOU ') + nome.padEnd(36) + ' esperado=' + esperado + ' obtido=' + obtido);
+for (const [name, expected] of Object.entries(EXPECTED)) {
+  const actual = invariants.has(name) ? 'invariante' : variants.has(name) ? 'variante' : 'NAO CLASSIFICADO';
+  const ok = actual === expected;
+  if (!ok) failures++;
+  console.log((ok ? 'PASSOU ' : 'FALHOU ') + name.padEnd(36) + ' esperado=' + expected + ' obtido=' + actual);
 }
 
 /* Guardas explicitas sobre identidade de objeto. */
-const guardas = [
+const guards = [
   ['durA !== durB (objetos realmente distintos)', durA !== durB],
   ['canon(durA) === canon(durB) (forma canonica igual)', canon(durA) === canon(durB)],
   ['dimA !== dimB (objetos realmente distintos)', dimA !== dimB],
   ['canon(dimA) === canon(dimB)', canon(dimA) === canon(dimB)],
   ['canon(durA) !== canon(durC) (conteudo diferente)', canon(durA) !== canon(durC)],
-  ['sombraA !== sombraB (objetos realmente distintos)', sombraA !== sombraB],
-  ['canon(sombraA) === canon(sombraB) (ordem de chave nao importa, em qualquer profundidade)', canon(sombraA) === canon(sombraB)],
-  ['canon(sombraA) !== canon(sombraC) (geometria diferente)', canon(sombraA) !== canon(sombraC)],
+  ['sombraA !== sombraB (objetos realmente distintos)', shadowA !== shadowB],
+  ['canon(sombraA) === canon(sombraB) (ordem de chave nao importa, em qualquer profundidade)', canon(shadowA) === canon(shadowB)],
+  ['canon(sombraA) !== canon(sombraC) (geometria diferente)', canon(shadowA) !== canon(shadowC)],
 ];
 console.log('\n=== GUARDAS ===');
-for (const [n, ok] of guardas) {
-  if (!ok) falhas++;
+for (const [n, ok] of guards) {
+  if (!ok) failures++;
   console.log((ok ? 'PASSOU ' : 'FALHOU ') + n);
 }
 
-console.log('\n' + (falhas === 0
-  ? 'RESULTADO: ' + (Object.keys(ESPERADO).length + guardas.length) + ' verificacoes, todas passaram.'
-  : 'RESULTADO: ' + falhas + ' falha(s).'));
-process.exit(falhas === 0 ? 0 : 1);
+console.log('\n' + (failures === 0
+  ? 'RESULTADO: ' + (Object.keys(EXPECTED).length + guards.length) + ' verificacoes, todas passaram.'
+  : 'RESULTADO: ' + failures + ' falha(s).'));
+process.exit(failures === 0 ? 0 : 1);

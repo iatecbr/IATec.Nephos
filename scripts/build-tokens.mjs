@@ -17,70 +17,70 @@
 import StyleDictionary from 'style-dictionary';
 import fs from 'node:fs';
 import path from 'node:path';
-import { NS, TIPOS_TRATADOS, aliasDe, folhas, refs, indexar, classifica } from './tokens-lib.mjs';
+import { NS, HANDLED_TYPES, aliasOf, leaves, refs, buildIndex, classify } from './tokens-lib.mjs';
 
 const SRC = 'src/tokens/source';
 const OUT = 'src/tokens/generated/tokens.css';
 
-const erros = [];
-const falha = (m) => erros.push(m);
+const errors = [];
+const fail = (m) => errors.push(m);
 
 const load = (f) => JSON.parse(fs.readFileSync(path.join(SRC, f), 'utf8'));
 const core = load('core.tokens.json');
 const theme = load('theme.tokens.json');
 const semantic = load('semantic.tokens.json');
-const fontes = [core, theme, semantic];
+const sources = [core, theme, semantic];
 
-const idx = indexar(fontes);
-const declarados = new Set(idx.keys());
+const idx = buildIndex(sources);
+const declared = new Set(idx.keys());
 
 const tm = theme.$extensions[NS].modeSet;
 const sm = semantic.$extensions[NS].modeSet;
 /** Modo padrao por prefixo de camada, usado ao resolver a cadeia de alias. */
-const PADROES = { core: null, theme: tm.padrao, ...Object.fromEntries(
+const DEFAULT_MODES = { core: null, theme: tm.padrao, ...Object.fromEntries(
   Object.keys(semantic).filter((k) => !k.startsWith('$')).map((k) => [k, sm.padrao]),
 ) };
 
 // ---------------------------------------------------------------
 // VALIDACOES DE FONTE - falham antes de gerar qualquer coisa
 // ---------------------------------------------------------------
-for (const fonte of fontes) {
-  const ext = (fonte.$extensions && fonte.$extensions[NS]) || {};
-  const camada = ext.camada || '(sem camada)';
-  const modos = ext.modeSet ? ext.modeSet.modos : null;
-  const lista = folhas(fonte);
+for (const source of sources) {
+  const ext = (source.$extensions && source.$extensions[NS]) || {};
+  const layer = ext.camada || '(sem camada)';
+  const modes = ext.modeSet ? ext.modeSet.modos : null;
+  const list = leaves(source);
 
-  if (ext.contagemEsperada !== undefined && lista.length !== ext.contagemEsperada) {
-    falha('camada "' + camada + '": ' + lista.length + ' tokens, esperado ' + ext.contagemEsperada);
+  if (ext.contagemEsperada !== undefined && list.length !== ext.contagemEsperada) {
+    fail('camada "' + layer + '": ' + list.length + ' tokens, esperado ' + ext.contagemEsperada);
   }
 
-  for (const [p, t] of lista) {
-    const nome = p.join('.');
+  for (const [p, t] of list) {
+    const name = p.join('.');
 
-    if (!TIPOS_TRATADOS.has(t.$type)) {
-      falha('token "' + nome + '": $type "' + t.$type + '" nao tratado. Tratados: ' + [...TIPOS_TRATADOS].join(', '));
+    if (!HANDLED_TYPES.has(t.$type)) {
+      fail('token "' + name + '": $type "' + t.$type + '" nao tratado. Tratados: ' + [...HANDLED_TYPES].join(', '));
     }
 
     const m = t.$extensions && t.$extensions[NS] && t.$extensions[NS].modes;
     if (m) {
-      if (!modos) {
-        falha('token "' + nome + '": declara modes, mas a camada "' + camada + '" nao declara modeSet');
+      if (!modes) {
+        fail('token "' + name + '": declara modes, mas a camada "' + layer + '" nao declara modeSet');
       } else {
-        for (const modo of modos) {
-          if (!(modo in m)) falha('token "' + nome + '": falta valor para o modo "' + modo + '"');
+        for (const mode of modes) {
+          if (!(mode in m)) fail('token "' + name + '": falta valor para o modo "' + mode + '"');
         }
       }
     }
 
-    const alvos = refs(t.$value).concat(Object.values(m || {}).flatMap(refs));
-    for (const a of alvos) {
-      if (!declarados.has(a)) falha('token "' + nome + '": referencia "{' + a + '}" nao existe em nenhuma fonte');
+    const targets = refs(t.$value).concat(Object.values(m || {}).flatMap(refs));
+    for (const a of targets) {
+      if (!declared.has(a)) fail('token "' + name + '": referencia "{' + a + '}" nao existe em nenhuma fonte');
     }
   }
 }
 
-if (erros.length) {
-  console.error('FALHA na validacao da fonte:\n' + erros.map((e) => '  - ' + e).join('\n'));
+if (errors.length) {
+  console.error('FALHA na validacao da fonte:\n' + errors.map((e) => '  - ' + e).join('\n'));
   process.exit(1);
 }
 
@@ -123,11 +123,11 @@ StyleDictionary.registerTransform({
  * O texto que chamava o raio de unica fundacao em px estava errado desde que
  * `elevacao_regras` existe. Corrigido no `design.md` no mesmo PR.
  */
-const REM_RAIZ = 16;
-const SEM_CONVERSAO = ['radius', 'shadow-y', 'shadow-blur', 'shadow-spread'];
+const REM_ROOT = 16;
+const NO_CONVERSION = ['radius', 'shadow-y', 'shadow-blur', 'shadow-spread'];
 
 /** Numero curto: 1.75 e nao 1.7500000000000002, 0 e nao 0.0000. */
-function numeroCurto(n) {
+function shortNumber(n) {
   return String(Number(n.toFixed(6)));
 }
 
@@ -138,7 +138,7 @@ function numeroCurto(n) {
  */
 const PX = /^(-?\d+(?:\.\d+)?)px$/;
 
-const emPx = (t) => {
+const inPx = (t) => {
   const v = t.$value;
   if (typeof v === 'string') return PX.exec(v);
   if (v && typeof v === 'object' && v.unit === 'px') return [null, String(v.value)];
@@ -151,12 +151,12 @@ StyleDictionary.registerTransform({
   transitive: false,
   filter: (t) =>
     (t.$type || t.type) === 'dimension' &&
-    !t.path.some((seg) => SEM_CONVERSAO.includes(seg)) &&
-    emPx(t) !== null,
+    !t.path.some((seg) => NO_CONVERSION.includes(seg)) &&
+    inPx(t) !== null,
   transform: (t) => {
-    const px = Number(emPx(t)[1]);
+    const px = Number(inPx(t)[1]);
     if (px === 0) return '0';
-    return numeroCurto(px / REM_RAIZ) + 'rem';
+    return shortNumber(px / REM_ROOT) + 'rem';
   },
 });
 
@@ -177,11 +177,11 @@ StyleDictionary.registerTransform({
  * referencias, e cada parte vai para a SUA posicao. O `outputReferences` do
  * arquivo desliga para `shadow` - senao ele tentaria substituir de novo.
  */
-const varDe = (ref) => 'var(--nph-' + ref.split('.').join('-') + ')';
+const varOf = (ref) => 'var(--nph-' + ref.split('.').join('-') + ')';
 
-function parteDaSombra(v) {
-  const a = aliasDe(v);
-  if (a) return varDe(a);
+function shadowPart(v) {
+  const a = aliasOf(v);
+  if (a) return varOf(a);
   if (v !== null && typeof v === 'object' && 'value' in v) return String(v.value) + String(v.unit);
   return String(v);
 }
@@ -193,11 +193,11 @@ StyleDictionary.registerTransform({
   transitive: true,
   filter: (t) => (t.$type || t.type) === 'shadow',
   transform: (t) => {
-    const bruto = t.original && t.original.$value !== undefined ? t.original.$value : t.$value;
-    if (typeof bruto === 'string') return bruto;
-    const camadas = Array.isArray(bruto) ? bruto : [bruto];
-    return camadas
-      .map((c) => [c.offsetX, c.offsetY, c.blur, c.spread, c.color].map(parteDaSombra).join(' '))
+    const raw = t.original && t.original.$value !== undefined ? t.original.$value : t.$value;
+    if (typeof raw === 'string') return raw;
+    const layers = Array.isArray(raw) ? raw : [raw];
+    return layers
+      .map((c) => [c.offsetX, c.offsetY, c.blur, c.spread, c.color].map(shadowPart).join(' '))
       .join(', ');
   },
 });
@@ -209,34 +209,34 @@ const TRANSFORMS = [
   'nephos/shadow/css',
 ];
 
-function applyMode(node, modo) {
+function applyMode(node, mode) {
   if (Array.isArray(node)) return node.slice();
   if (node === null || typeof node !== 'object') return node;
   const out = {};
-  for (const [k, v] of Object.entries(node)) out[k] = applyMode(v, modo);
-  if ('$value' in out && modo) {
+  for (const [k, v] of Object.entries(node)) out[k] = applyMode(v, mode);
+  if ('$value' in out && mode) {
     const m = out.$extensions && out.$extensions[NS] && out.$extensions[NS].modes;
-    if (m && modo in m) out.$value = m[modo];
+    if (m && mode in m) out.$value = m[mode];
   }
   return out;
 }
 
-const famSemantic = new Set(Object.keys(semantic).filter((k) => !k.startsWith('$')));
+const semanticFamily = new Set(Object.keys(semantic).filter((k) => !k.startsWith('$')));
 
-async function bloco(camada, modo, seletor, subconjunto) {
+async function block(layer, mode, selector, subset) {
   const tokens = Object.assign(
     {},
     applyMode(core, null),
-    applyMode(theme, camada === 'theme' ? modo : null),
-    applyMode(semantic, camada === 'semantic' ? modo : null),
+    applyMode(theme, layer === 'theme' ? mode : null),
+    applyMode(semantic, layer === 'semantic' ? mode : null),
   );
-  const daCamada =
-    camada === 'core' ? (t) => t.path[0] === 'core'
-    : camada === 'theme' ? (t) => t.path[0] === 'theme'
-    : (t) => famSemantic.has(t.path[0]);
-  const filtro = subconjunto
-    ? (t) => daCamada(t) && subconjunto.has(t.path.join('.'))
-    : daCamada;
+  const ofLayer =
+    layer === 'core' ? (t) => t.path[0] === 'core'
+    : layer === 'theme' ? (t) => t.path[0] === 'theme'
+    : (t) => semanticFamily.has(t.path[0]);
+  const filterFn = subset
+    ? (t) => ofLayer(t) && subset.has(t.path.join('.'))
+    : ofLayer;
 
   const sd = new StyleDictionary({
     tokens,
@@ -248,10 +248,10 @@ async function bloco(camada, modo, seletor, subconjunto) {
         files: [{
           destination: 'x.css',
           format: 'css/variables',
-          filter: filtro,
+          filter: filterFn,
           options: {
             outputReferences: (t) => (t.$type || t.type) !== 'shadow',
-            selector: seletor,
+            selector: selector,
             showFileHeader: false,
             formatting: { commentStyle: 'none' },
           },
@@ -260,35 +260,35 @@ async function bloco(camada, modo, seletor, subconjunto) {
     },
   }, { verbosity: 'silent', warnings: 'silent' });
   await sd.hasInitialized;
-  const arquivos = await sd.formatPlatform('css');
-  return arquivos[0].output.trim();
+  const files = await sd.formatPlatform('css');
+  return files[0].output.trim();
 }
 
-const sel = (set, modo, publico) => {
-  const s = set.seletor.replace('{modo}', publico || modo);
-  return modo === set.padrao ? ':root,\n' + s : s;
+const sel = (set, mode, publicValue) => {
+  const s = set.seletor.replace('{modo}', publicValue || mode);
+  return mode === set.padrao ? ':root,\n' + s : s;
 };
 
-const { invariantes, variantes } = classifica(semantic, sm.modos, idx, PADROES);
+const { invariants, variants } = classify(semantic, sm.modos, idx, DEFAULT_MODES);
 
-const partes = [];
-partes.push('/* camada 1 - core: primitivos, valores literais. Nenhum componente consome daqui. */');
-partes.push(await bloco('core', null, ':root'));
+const parts = [];
+parts.push('/* camada 1 - core: primitivos, valores literais. Nenhum componente consome daqui. */');
+parts.push(await block('core', null, ':root'));
 
-partes.push('\n/* camada de marca - um bloco por vertical da IATec. */');
-for (const m of tm.modos) partes.push(await bloco('theme', m, sel(tm, m)));
+parts.push('\n/* camada de marca - um bloco por vertical da IATec. */');
+for (const m of tm.modos) parts.push(await block('theme', m, sel(tm, m)));
 
-partes.push(
+parts.push(
   '\n/* camada 2 - semantic, invariantes: alias e valor final iguais em claro e escuro,\n' +
   '   emitidos uma vez. Invariante entre modos NAO quer dizer fixo: um alias para\n' +
   '   theme/* continua trocando com data-nph-brand. */',
 );
-partes.push(await bloco('semantic', sm.padrao, ':root', invariantes));
+parts.push(await block('semantic', sm.padrao, ':root', invariants));
 
-partes.push('\n/* camada 2 - semantic, variantes: um bloco por esquema de cor. */');
-for (const m of sm.modos) partes.push(await bloco('semantic', m, sel(sm, m, sm.valorPublico[m]), variantes));
+parts.push('\n/* camada 2 - semantic, variantes: um bloco por esquema de cor. */');
+for (const m of sm.modos) parts.push(await block('semantic', m, sel(sm, m, sm.valorPublico[m]), variants));
 
-const cabecalho = [
+const header = [
   '/**',
   ' * ARQUIVO GERADO - NAO EDITE.',
   ' * Fonte: src/tokens/source/*.tokens.json',
@@ -297,19 +297,19 @@ const cabecalho = [
   '',
 ].join('\n');
 
-const css = cabecalho + partes.join('\n') + '\n';
+const css = header + parts.join('\n') + '\n';
 
 // ---------------------------------------------------------------
 // VALIDACOES DE SAIDA
 // ---------------------------------------------------------------
-const posErros = [];
+const outputErrors = [];
 
-const naoResolvidas = css.match(/\{[^}\n]+\}/g);
-if (naoResolvidas) {
-  posErros.push('referencias nao resolvidas na saida: ' + [...new Set(naoResolvidas)].join(', '));
+const unresolved = css.match(/\{[^}\n]+\}/g);
+if (unresolved) {
+  outputErrors.push('referencias nao resolvidas na saida: ' + [...new Set(unresolved)].join(', '));
 }
 if (css.includes('[object Object]')) {
-  posErros.push('valor serializado como "[object Object]" - tipo DTCG que o Style Dictionary nao converteu');
+  outputErrors.push('valor serializado como "[object Object]" - tipo DTCG que o Style Dictionary nao converteu');
 }
 
 // Nenhum alias pode ser achatado. A regra e por token: quem e referencia na
@@ -321,56 +321,56 @@ if (css.includes('[object Object]')) {
 // `var()` no meio de literais. Para esse, a regra e de CONTAGEM: tantas
 // `var(--nph-` na saida quantas referencias a fonte declara. Uma so que
 // achatasse em literal derrubaria a conta.
-const nomeCss = (p) => '--nph-' + p.join('-');
-const escalares = new Set();
-const compostos = new Map();
-for (const fonte of [theme, semantic]) {
-  for (const [p, t] of folhas(fonte)) {
+const cssName = (p) => '--nph-' + p.join('-');
+const scalars = new Set();
+const composites = new Map();
+for (const source of [theme, semantic]) {
+  for (const [p, t] of leaves(source)) {
     const m = (t.$extensions && t.$extensions[NS] && t.$extensions[NS].modes) || {};
-    const valores = [t.$value].concat(Object.values(m));
-    if (!valores.some((v) => refs(v).length > 0)) continue;
-    if (Array.isArray(t.$value)) compostos.set(nomeCss(p), refs(t.$value).length);
-    else escalares.add(nomeCss(p));
+    const values = [t.$value].concat(Object.values(m));
+    if (!values.some((v) => refs(v).length > 0)) continue;
+    if (Array.isArray(t.$value)) composites.set(cssName(p), refs(t.$value).length);
+    else scalars.add(cssName(p));
   }
 }
-for (const linha of css.match(/--nph-[\w-]+:[^;]+;/g) || []) {
-  const nome = linha.slice(0, linha.indexOf(':'));
-  const valor = linha.slice(linha.indexOf(':') + 1, -1).trim();
-  if (escalares.has(nome) && !valor.startsWith('var(')) {
-    posErros.push('alias achatado em literal: ' + nome + ' emitido como "' + valor + '"');
+for (const line of css.match(/--nph-[\w-]+:[^;]+;/g) || []) {
+  const name = line.slice(0, line.indexOf(':'));
+  const value = line.slice(line.indexOf(':') + 1, -1).trim();
+  if (scalars.has(name) && !value.startsWith('var(')) {
+    outputErrors.push('alias achatado em literal: ' + name + ' emitido como "' + value + '"');
   }
-  if (compostos.has(nome)) {
-    const emitidas = valor.split('var(--nph-').length - 1;
-    const esperadas = compostos.get(nome);
-    if (emitidas !== esperadas) {
-      posErros.push('alias achatado em valor composto: ' + nome + ' declara ' + esperadas +
-        ' referencia(s) na fonte e emitiu ' + emitidas + ' var() em "' + valor + '"');
+  if (composites.has(name)) {
+    const emitted = value.split('var(--nph-').length - 1;
+    const expected = composites.get(name);
+    if (emitted !== expected) {
+      outputErrors.push('alias achatado em valor composto: ' + name + ' declara ' + expected +
+        ' referencia(s) na fonte e emitiu ' + emitted + ' var() em "' + value + '"');
     }
   }
 }
 
 // Cada token semantico tem de aparecer: invariante uma vez, variante uma por modo.
-for (const nome of invariantes) {
-  const n = (css.match(new RegExp('^\\s*' + nomeCss(nome.split('.')) + ':', 'gm')) || []).length;
-  if (n !== 1) posErros.push('invariante "' + nome + '" emitido ' + n + ' vez(es), esperado 1');
+for (const name of invariants) {
+  const n = (css.match(new RegExp('^\\s*' + cssName(name.split('.')) + ':', 'gm')) || []).length;
+  if (n !== 1) outputErrors.push('invariante "' + name + '" emitido ' + n + ' vez(es), esperado 1');
 }
-for (const nome of variantes) {
-  const n = (css.match(new RegExp('^\\s*' + nomeCss(nome.split('.')) + ':', 'gm')) || []).length;
-  if (n !== sm.modos.length) posErros.push('variante "' + nome + '" emitido ' + n + ' vez(es), esperado ' + sm.modos.length);
+for (const name of variants) {
+  const n = (css.match(new RegExp('^\\s*' + cssName(name.split('.')) + ':', 'gm')) || []).length;
+  if (n !== sm.modos.length) outputErrors.push('variante "' + name + '" emitido ' + n + ' vez(es), esperado ' + sm.modos.length);
 }
 
-if (posErros.length) {
-  console.error('FALHA na validacao da saida:\n' + posErros.map((e) => '  - ' + e).join('\n'));
+if (outputErrors.length) {
+  console.error('FALHA na validacao da saida:\n' + outputErrors.map((e) => '  - ' + e).join('\n'));
   process.exit(1);
 }
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, css, 'utf8');
 
-const conta = (f) => folhas(f).length;
+const count = (f) => leaves(f).length;
 console.log('gerado: ' + OUT);
 console.log('fonte OK: tipos tratados, modos completos, referencias existentes, contagem por camada');
 console.log('saida OK: sem referencia pendente, sem [object Object], sem alias achatado, ocorrencias por modo corretas');
-console.log('camadas: core ' + conta(core) + ' + theme ' + conta(theme) + ' + semantic ' + conta(semantic) +
-  ' = ' + (conta(core) + conta(theme) + conta(semantic)));
-console.log('semantic: ' + invariantes.size + ' invariantes (uma vez em :root) + ' + variantes.size + ' variantes (um bloco por modo)');
+console.log('camadas: core ' + count(core) + ' + theme ' + count(theme) + ' + semantic ' + count(semantic) +
+  ' = ' + (count(core) + count(theme) + count(semantic)));
+console.log('semantic: ' + invariants.size + ' invariantes (uma vez em :root) + ' + variants.size + ' variantes (um bloco por modo)');

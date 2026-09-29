@@ -20,7 +20,7 @@ export const NS = 'com.iatec.nephos';
  * shorthand e preserva a referencia de cada parte. Nao entrou dependencia
  * nova - faltava so o tipo estar nesta lista.
  */
-export const TIPOS_TRATADOS = new Set([
+export const HANDLED_TYPES = new Set([
   'color', 'dimension', 'duration', 'cubicBezier', 'number', 'fontFamily', 'shadow',
 ]);
 
@@ -40,7 +40,7 @@ export function canon(v) {
 }
 
 /** Se o valor for uma referencia `{a.b.c}`, devolve `a.b.c`; senao, null. */
-export function aliasDe(v) {
+export function aliasOf(v) {
   if (typeof v !== 'string') return null;
   const m = /^\{([^}]+)\}$/.exec(v.trim());
   return m ? m[1] : null;
@@ -62,26 +62,26 @@ export function refs(v) {
 }
 
 /** Percorre folhas ($value) devolvendo [caminho, token]. */
-export function folhas(node, base = []) {
+export function leaves(node, base = []) {
   const out = [];
   for (const [k, v] of Object.entries(node)) {
     if (k.startsWith('$')) continue;
     if (v && typeof v === 'object' && '$value' in v) out.push([base.concat(k), v]);
-    else if (v && typeof v === 'object') out.push(...folhas(v, base.concat(k)));
+    else if (v && typeof v === 'object') out.push(...leaves(v, base.concat(k)));
   }
   return out;
 }
 
 /** Valor bruto de um token num modo: o valor do modo, ou o $value quando invariante. */
-export function valorNoModo(token, modo) {
+export function valueInMode(token, mode) {
   const m = token.$extensions && token.$extensions[NS] && token.$extensions[NS].modes;
-  return m && modo in m ? m[modo] : token.$value;
+  return m && mode in m ? m[mode] : token.$value;
 }
 
 /** Indexa todos os tokens de varias fontes por caminho pontuado. */
-export function indexar(fontes) {
+export function buildIndex(sources) {
   const idx = new Map();
-  for (const f of fontes) for (const [p, t] of folhas(f)) idx.set(p.join('.'), t);
+  for (const f of sources) for (const [p, t] of leaves(f)) idx.set(p.join('.'), t);
   return idx;
 }
 
@@ -90,15 +90,15 @@ export function indexar(fontes) {
  * Quando o alvo tem modos proprios (a camada de marca tem sete), usa o modo
  * padrao daquela camada — o mesmo criterio da leitura do Figma.
  */
-export function valorFinal(valor, idx, padroesPorPrefixo, profundidade = 0) {
-  if (profundidade > 12) return 'CICLO';
-  const a = aliasDe(valor);
-  if (!a) return canon(valor);
-  const alvo = idx.get(a);
-  if (!alvo) return 'AUSENTE:' + a;
-  const prefixo = a.split('.')[0];
-  const modoPadrao = padroesPorPrefixo[prefixo];
-  return valorFinal(valorNoModo(alvo, modoPadrao), idx, padroesPorPrefixo, profundidade + 1);
+export function finalValue(value, idx, defaultsByPrefix, depth = 0) {
+  if (depth > 12) return 'CICLO';
+  const a = aliasOf(value);
+  if (!a) return canon(value);
+  const target = idx.get(a);
+  if (!target) return 'AUSENTE:' + a;
+  const prefix = a.split('.')[0];
+  const defaultMode = defaultsByPrefix[prefix];
+  return finalValue(valueInMode(target, defaultMode), idx, defaultsByPrefix, depth + 1);
 }
 
 /**
@@ -108,19 +108,19 @@ export function valorFinal(valor, idx, padroesPorPrefixo, profundidade = 0) {
  * todos os modos. A comparacao usa a forma canonica — nunca identidade de
  * objeto, nunca ordem de chave, nunca o $type.
  */
-export function classifica(fonte, modos, idx, padroesPorPrefixo) {
-  const invariantes = new Set();
-  const variantes = new Set();
-  const detalhe = new Map();
-  for (const [p, t] of folhas(fonte)) {
-    const nome = p.join('.');
-    const chaves = modos.map((m) => {
-      const bruto = valorNoModo(t, m);
-      return canon(aliasDe(bruto)) + '::' + valorFinal(bruto, idx, padroesPorPrefixo);
+export function classify(source, modes, idx, defaultsByPrefix) {
+  const invariants = new Set();
+  const variants = new Set();
+  const detail = new Map();
+  for (const [p, t] of leaves(source)) {
+    const name = p.join('.');
+    const keys = modes.map((m) => {
+      const raw = valueInMode(t, m);
+      return canon(aliasOf(raw)) + '::' + finalValue(raw, idx, defaultsByPrefix);
     });
-    const igual = chaves.every((c) => c === chaves[0]);
-    (igual ? invariantes : variantes).add(nome);
-    detalhe.set(nome, { igual, chaves });
+    const equal = keys.every((c) => c === keys[0]);
+    (equal ? invariants : variants).add(name);
+    detail.set(name, { equal, keys });
   }
-  return { invariantes, variantes, detalhe };
+  return { invariants, variants, detail };
 }
