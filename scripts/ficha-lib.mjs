@@ -33,15 +33,15 @@
  */
 
 /** Erro de leitura com a linha do arquivo onde ele aconteceu. */
-export class ErroDeFicha extends Error {
-  constructor(linha, mensagem) {
-    super(mensagem);
-    this.linha = linha;
+export class SpecError extends Error {
+  constructor(line, message) {
+    super(message);
+    this.line = line;
   }
 }
 
-const CHAVE = /^([A-Za-z0-9_./-]+):(?: (.*))?$/;
-const CHAVE_NUMERICA = /^\d+$/;
+const KEY = /^([A-Za-z0-9_./-]+):(?: (.*))?$/;
+const NUMERIC_KEY = /^\d+$/;
 
 /**
  * Texto sem aspas que o YAML 1.1 ou 1.2 resolveria como null, booleano ou
@@ -49,7 +49,7 @@ const CHAVE_NUMERICA = /^\d+$/;
  * como tipo; o resto destes seria texto aqui e tipo no YAML padrao, e a
  * Metadata divergiria em silencio. Por isso se recusa.
  */
-const AMBIGUO = [
+const AMBIGUOUS = [
   /^(?:null|Null|NULL|~)$/,
   /^(?:y|Y|yes|Yes|YES|n|N|no|No|NO|True|TRUE|False|FALSE|on|On|ON|off|Off|OFF)$/,
   /^[-+]?(?:0b[01_]+|0x[0-9a-fA-F_]+|0o[0-7]+|0[0-7_]+|[0-9][0-9_]*)$/,
@@ -64,228 +64,228 @@ const AMBIGUO = [
  * Separa o frontmatter. Devolve `null` quando o arquivo nao comeca com `---`
  * na linha 1: esse arquivo nao e ficha, e fica de fora sem reprovar.
  */
-export function extrairFrontmatter(texto) {
+export function extractFrontmatter(text) {
   /* BOM no inicio (o PowerShell 5.1 grava assim) esconderia o `---` da linha 1. */
-  const linhas = texto.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').split('\n');
-  if (linhas[0] !== '---') return null;
-  const fim = linhas.indexOf('---', 1);
-  if (fim === -1) throw new ErroDeFicha(1, 'o frontmatter abre com `---` e nao fecha');
-  return linhas.slice(1, fim).map((conteudo, i) => ({ numero: i + 2, conteudo }));
+  const lines = text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').split('\n');
+  if (lines[0] !== '---') return null;
+  const end = lines.indexOf('---', 1);
+  if (end === -1) throw new SpecError(1, 'o frontmatter abre com `---` e nao fecha');
+  return lines.slice(1, end).map((content, i) => ({ lineNumber: i + 2, content }));
 }
 
-/** Le o subconjunto de YAML. `linhas` vem de `extrairFrontmatter`. */
-export function lerYaml(linhas) {
-  const uteis = [];
-  for (const { numero, conteudo } of linhas) {
-    if (conteudo.includes('\t')) throw new ErroDeFicha(numero, 'tabulacao nao e aceita');
-    if (conteudo.trim() === '') {
-      uteis.push({ numero, recuo: -1, texto: '', bruto: conteudo });
+/** Le o subconjunto de YAML. `lines` vem de `extractFrontmatter`. */
+export function readYaml(lines) {
+  const meaningful = [];
+  for (const { lineNumber, content } of lines) {
+    if (content.includes('\t')) throw new SpecError(lineNumber, 'tabulacao nao e aceita');
+    if (content.trim() === '') {
+      meaningful.push({ lineNumber, indent: -1, text: '', raw: content });
       continue;
     }
-    const recuo = conteudo.length - conteudo.trimStart().length;
-    const texto = conteudo.trim();
-    if (texto.startsWith('#')) throw new ErroDeFicha(numero, 'comentario `#` nao e aceito');
-    uteis.push({ numero, recuo, texto, bruto: conteudo });
+    const indent = content.length - content.trimStart().length;
+    const text = content.trim();
+    if (text.startsWith('#')) throw new SpecError(lineNumber, 'comentario `#` nao e aceito');
+    meaningful.push({ lineNumber, indent, text, raw: content });
   }
 
-  const estado = { i: 0, linhas: uteis };
-  pularBrancas(estado);
-  if (estado.i >= uteis.length) return {};
-  if (uteis[estado.i].recuo !== 0) {
-    throw new ErroDeFicha(uteis[estado.i].numero, 'a primeira chave precisa comecar na coluna 1');
+  const state = { i: 0, lines: meaningful };
+  skipBlankLines(state);
+  if (state.i >= meaningful.length) return {};
+  if (meaningful[state.i].indent !== 0) {
+    throw new SpecError(meaningful[state.i].lineNumber, 'a primeira chave precisa comecar na coluna 1');
   }
-  const raiz = lerMapa(estado, 0);
-  pularBrancas(estado);
-  if (estado.i < uteis.length) {
-    throw new ErroDeFicha(uteis[estado.i].numero, 'recuo fora do esperado');
+  const root = readMap(state, 0);
+  skipBlankLines(state);
+  if (state.i < meaningful.length) {
+    throw new SpecError(meaningful[state.i].lineNumber, 'recuo fora do esperado');
   }
-  return raiz;
+  return root;
 }
 
-function pularBrancas(estado) {
-  while (estado.i < estado.linhas.length && estado.linhas[estado.i].recuo === -1) estado.i += 1;
+function skipBlankLines(state) {
+  while (state.i < state.lines.length && state.lines[state.i].indent === -1) state.i += 1;
 }
 
-function proxima(estado) {
-  pularBrancas(estado);
-  return estado.linhas[estado.i];
+function peek(state) {
+  skipBlankLines(state);
+  return state.lines[state.i];
 }
 
-function lerMapa(estado, recuo) {
-  const mapa = {};
-  for (let linha = proxima(estado); linha !== undefined && linha.recuo === recuo; linha = proxima(estado)) {
-    if (linha.texto.startsWith('-')) {
-      throw new ErroDeFicha(linha.numero, 'item de lista onde se esperava uma chave');
+function readMap(state, indent) {
+  const map = {};
+  for (let line = peek(state); line !== undefined && line.indent === indent; line = peek(state)) {
+    if (line.text.startsWith('-')) {
+      throw new SpecError(line.lineNumber, 'item de lista onde se esperava uma chave');
     }
-    const m = linha.texto.match(CHAVE);
-    if (m === null) throw new ErroDeFicha(linha.numero, 'chave fora do formato `nome: valor`');
-    const [, chave, bruto] = m;
-    if (CHAVE_NUMERICA.test(chave)) throw new ErroDeFicha(linha.numero, `chave numerica "${chave}" nao e aceita`);
-    if (chave === 'true' || chave === 'false' || AMBIGUO.some((re) => re.test(chave))) {
-      throw new ErroDeFicha(linha.numero, `a chave "${chave}" o YAML leria como null, booleano ou numero`);
+    const m = line.text.match(KEY);
+    if (m === null) throw new SpecError(line.lineNumber, 'chave fora do formato `nome: valor`');
+    const [, key, raw] = m;
+    if (NUMERIC_KEY.test(key)) throw new SpecError(line.lineNumber, `chave numerica "${key}" nao e aceita`);
+    if (key === 'true' || key === 'false' || AMBIGUOUS.some((re) => re.test(key))) {
+      throw new SpecError(line.lineNumber, `a chave "${key}" o YAML leria como null, booleano ou numero`);
     }
-    if (chave === '__proto__') throw new ErroDeFicha(linha.numero, 'a chave __proto__ nao e aceita');
-    if (Object.hasOwn(mapa, chave)) throw new ErroDeFicha(linha.numero, `chave "${chave}" repetida no mesmo mapa`);
-    estado.i += 1;
-    const valor = bruto === undefined ? '' : bruto.trim();
+    if (key === '__proto__') throw new SpecError(line.lineNumber, 'a chave __proto__ nao e aceita');
+    if (Object.hasOwn(map, key)) throw new SpecError(line.lineNumber, `chave "${key}" repetida no mesmo mapa`);
+    state.i += 1;
+    const value = raw === undefined ? '' : raw.trim();
 
-    if (valor === '') {
-      const filho = proxima(estado);
-      if (filho === undefined || filho.recuo <= recuo) {
-        throw new ErroDeFicha(linha.numero, `a chave "${chave}" nao tem valor`);
+    if (value === '') {
+      const child = peek(state);
+      if (child === undefined || child.indent <= indent) {
+        throw new SpecError(line.lineNumber, `a chave "${key}" nao tem valor`);
       }
-      if (filho.recuo !== recuo + 2) throw new ErroDeFicha(filho.numero, 'o recuo e de 2 espacos por nivel');
-      mapa[chave] = filho.texto.startsWith('- ') || filho.texto === '-'
-        ? lerLista(estado, recuo + 2)
-        : lerMapa(estado, recuo + 2);
+      if (child.indent !== indent + 2) throw new SpecError(child.lineNumber, 'o recuo e de 2 espacos por nivel');
+      map[key] = child.text.startsWith('- ') || child.text === '-'
+        ? readList(state, indent + 2)
+        : readMap(state, indent + 2);
       continue;
     }
 
-    if (valor === '>-') {
-      mapa[chave] = lerBlocoDobrado(estado, recuo, linha.numero);
+    if (value === '>-') {
+      map[key] = readFoldedBlock(state, indent, line.lineNumber);
       continue;
     }
-    if (/^[|>]/.test(valor)) throw new ErroDeFicha(linha.numero, `bloco "${valor}" nao e aceito; so \`>-\``);
+    if (/^[|>]/.test(value)) throw new SpecError(line.lineNumber, `bloco "${value}" nao e aceito; so \`>-\``);
 
-    mapa[chave] = lerValor(valor, linha.numero);
-    const depois = proxima(estado);
-    if (depois !== undefined && depois.recuo > recuo) {
-      throw new ErroDeFicha(depois.numero, 'valor em mais de uma linha so e aceito com `>-`');
+    map[key] = readValue(value, line.lineNumber);
+    const after = peek(state);
+    if (after !== undefined && after.indent > indent) {
+      throw new SpecError(after.lineNumber, 'valor em mais de uma linha so e aceito com `>-`');
     }
   }
-  return mapa;
+  return map;
 }
 
-function lerLista(estado, recuo) {
-  const lista = [];
-  for (let linha = proxima(estado); linha !== undefined && linha.recuo === recuo; linha = proxima(estado)) {
-    if (!(linha.texto.startsWith('- ') || linha.texto === '-')) {
-      throw new ErroDeFicha(linha.numero, 'chave misturada com itens de lista');
+function readList(state, indent) {
+  const list = [];
+  for (let line = peek(state); line !== undefined && line.indent === indent; line = peek(state)) {
+    if (!(line.text.startsWith('- ') || line.text === '-')) {
+      throw new SpecError(line.lineNumber, 'chave misturada com itens de lista');
     }
-    const item = linha.texto.slice(1).trim();
-    if (item === '') throw new ErroDeFicha(linha.numero, 'item de lista vazio ou aninhado');
-    if (item.startsWith('[') || item.startsWith('- ')) throw new ErroDeFicha(linha.numero, 'lista de listas nao e aceita');
-    if (!item.startsWith('"') && CHAVE.test(item)) throw new ErroDeFicha(linha.numero, 'mapa dentro de lista nao e aceito');
-    lista.push(lerEscalar(item, linha.numero));
-    estado.i += 1;
-    const depois = proxima(estado);
-    if (depois !== undefined && depois.recuo > recuo) {
-      throw new ErroDeFicha(depois.numero, 'item de lista em mais de uma linha nao e aceito');
+    const item = line.text.slice(1).trim();
+    if (item === '') throw new SpecError(line.lineNumber, 'item de lista vazio ou aninhado');
+    if (item.startsWith('[') || item.startsWith('- ')) throw new SpecError(line.lineNumber, 'lista de listas nao e aceita');
+    if (!item.startsWith('"') && KEY.test(item)) throw new SpecError(line.lineNumber, 'mapa dentro de lista nao e aceito');
+    list.push(readScalar(item, line.lineNumber));
+    state.i += 1;
+    const after = peek(state);
+    if (after !== undefined && after.indent > indent) {
+      throw new SpecError(after.lineNumber, 'item de lista em mais de uma linha nao e aceito');
     }
   }
-  return lista;
+  return list;
 }
 
-function lerBlocoDobrado(estado, recuo, numeroDaChave) {
-  const partes = [];
-  let recuoDoBloco = null;
-  while (estado.i < estado.linhas.length) {
-    const linha = estado.linhas[estado.i];
-    if (linha.recuo === -1) {
-      const seguinte = estado.linhas.slice(estado.i + 1).find((l) => l.recuo !== -1);
-      if (seguinte !== undefined && seguinte.recuo > recuo) {
-        throw new ErroDeFicha(linha.numero, 'linha em branco dentro de bloco `>-` nao e aceita');
+function readFoldedBlock(state, indent, keyLineNumber) {
+  const parts = [];
+  let blockIndent = null;
+  while (state.i < state.lines.length) {
+    const line = state.lines[state.i];
+    if (line.indent === -1) {
+      const nextLine = state.lines.slice(state.i + 1).find((l) => l.indent !== -1);
+      if (nextLine !== undefined && nextLine.indent > indent) {
+        throw new SpecError(line.lineNumber, 'linha em branco dentro de bloco `>-` nao e aceita');
       }
       break;
     }
-    if (linha.recuo <= recuo) break;
+    if (line.indent <= indent) break;
     /* Recuo diferente dentro do bloco muda o sentido no YAML padrao (quebra de
      * linha preservada, ou erro). Recusar evita juntar em silencio. */
-    if (recuoDoBloco === null) recuoDoBloco = linha.recuo;
-    if (linha.recuo !== recuoDoBloco) {
-      throw new ErroDeFicha(linha.numero, 'todas as linhas de um bloco `>-` tem de ter o mesmo recuo');
+    if (blockIndent === null) blockIndent = line.indent;
+    if (line.indent !== blockIndent) {
+      throw new SpecError(line.lineNumber, 'todas as linhas de um bloco `>-` tem de ter o mesmo recuo');
     }
     /* O YAML preserva espaco no fim de linha de bloco; aparar mudaria o texto. */
-    if (/ $/.test(linha.bruto)) throw new ErroDeFicha(linha.numero, 'espaco no fim de linha dentro de bloco `>-` nao e aceito');
-    partes.push(linha.texto);
-    estado.i += 1;
+    if (/ $/.test(line.raw)) throw new SpecError(line.lineNumber, 'espaco no fim de linha dentro de bloco `>-` nao e aceito');
+    parts.push(line.text);
+    state.i += 1;
   }
-  if (partes.length === 0) throw new ErroDeFicha(numeroDaChave, 'bloco `>-` vazio');
-  return partes.join(' ');
+  if (parts.length === 0) throw new SpecError(keyLineNumber, 'bloco `>-` vazio');
+  return parts.join(' ');
 }
 
-function lerValor(valor, numero) {
-  if (valor.startsWith('[')) return lerListaEmLinha(valor, numero);
-  return lerEscalar(valor, numero);
+function readValue(value, lineNumber) {
+  if (value.startsWith('[')) return readInlineList(value, lineNumber);
+  return readScalar(value, lineNumber);
 }
 
-function lerListaEmLinha(valor, numero) {
-  if (!valor.endsWith(']')) throw new ErroDeFicha(numero, 'lista em linha sem `]` no fim');
-  const miolo = valor.slice(1, -1);
-  if (miolo.trim() === '') return [];
-  const itens = [];
-  let atual = '';
-  let emAspas = false;
-  for (const c of miolo) {
+function readInlineList(value, lineNumber) {
+  if (!value.endsWith(']')) throw new SpecError(lineNumber, 'lista em linha sem `]` no fim');
+  const inner = value.slice(1, -1);
+  if (inner.trim() === '') return [];
+  const items = [];
+  let current = '';
+  let inQuotes = false;
+  for (const c of inner) {
     /* A aspa so abre no comeco do item; no meio de texto sem aspas ela fica no
-     * texto, e `lerEscalar` a recusa. */
-    if (c === '"' && (emAspas || atual.trim() === '')) emAspas = !emAspas;
-    if (!emAspas && (c === '[' || c === ']')) throw new ErroDeFicha(numero, 'lista de listas nao e aceita');
-    if (!emAspas && c === ',') {
-      itens.push(atual);
-      atual = '';
+     * texto, e `readScalar` a recusa. */
+    if (c === '"' && (inQuotes || current.trim() === '')) inQuotes = !inQuotes;
+    if (!inQuotes && (c === '[' || c === ']')) throw new SpecError(lineNumber, 'lista de listas nao e aceita');
+    if (!inQuotes && c === ',') {
+      items.push(current);
+      current = '';
       continue;
     }
-    atual += c;
+    current += c;
   }
-  if (emAspas) throw new ErroDeFicha(numero, 'aspas abertas e nao fechadas');
-  itens.push(atual);
-  return itens.map((item) => {
-    const limpo = item.trim();
-    if (limpo === '') throw new ErroDeFicha(numero, 'item vazio em lista em linha');
-    return lerEscalar(limpo, numero);
+  if (inQuotes) throw new SpecError(lineNumber, 'aspas abertas e nao fechadas');
+  items.push(current);
+  return items.map((item) => {
+    const trimmed = item.trim();
+    if (trimmed === '') throw new SpecError(lineNumber, 'item vazio em lista em linha');
+    return readScalar(trimmed, lineNumber);
   });
 }
 
-function lerEscalar(valor, numero) {
-  if (valor.startsWith('"')) {
-    if (valor.length < 2 || !valor.endsWith('"')) throw new ErroDeFicha(numero, 'aspas abertas e nao fechadas');
-    const miolo = valor.slice(1, -1);
-    if (miolo.includes('\\')) throw new ErroDeFicha(numero, 'barra invertida dentro de aspas nao e aceita');
-    if (miolo.includes('"')) throw new ErroDeFicha(numero, 'aspas dentro de aspas nao sao aceitas');
-    return miolo;
+function readScalar(value, lineNumber) {
+  if (value.startsWith('"')) {
+    if (value.length < 2 || !value.endsWith('"')) throw new SpecError(lineNumber, 'aspas abertas e nao fechadas');
+    const inner = value.slice(1, -1);
+    if (inner.includes('\\')) throw new SpecError(lineNumber, 'barra invertida dentro de aspas nao e aceita');
+    if (inner.includes('"')) throw new SpecError(lineNumber, 'aspas dentro de aspas nao sao aceitas');
+    return inner;
   }
-  if (valor.includes('"')) throw new ErroDeFicha(numero, 'aspas no meio de texto sem aspas nao sao aceitas');
-  if (valor.startsWith("'")) throw new ErroDeFicha(numero, 'aspas simples nao sao aceitas; use aspas duplas');
-  if (/^[&*!]/.test(valor)) throw new ErroDeFicha(numero, 'ancora, alias e etiqueta nao sao aceitos');
-  if (/^[{}]/.test(valor)) throw new ErroDeFicha(numero, 'mapa em linha `{...}` nao e aceito');
-  if (/^[|>]/.test(valor)) throw new ErroDeFicha(numero, 'bloco `|` ou `>` so e aceito como `>-` depois de uma chave');
-  if (valor === '-' || valor.startsWith('- ')) throw new ErroDeFicha(numero, 'lista de listas nao e aceita');
-  if (/^[@`%?]/.test(valor)) throw new ErroDeFicha(numero, 'texto sem aspas nao pode comecar com @, crase, % ou ?; use aspas duplas');
-  if (/(^|\s)#/.test(valor)) throw new ErroDeFicha(numero, 'comentario `#` fora de aspas nao e aceito');
-  if (/: /.test(valor) || valor.endsWith(':')) {
-    throw new ErroDeFicha(numero, 'texto sem aspas com `: ` e ambiguo; use aspas duplas');
+  if (value.includes('"')) throw new SpecError(lineNumber, 'aspas no meio de texto sem aspas nao sao aceitas');
+  if (value.startsWith("'")) throw new SpecError(lineNumber, 'aspas simples nao sao aceitas; use aspas duplas');
+  if (/^[&*!]/.test(value)) throw new SpecError(lineNumber, 'ancora, alias e etiqueta nao sao aceitos');
+  if (/^[{}]/.test(value)) throw new SpecError(lineNumber, 'mapa em linha `{...}` nao e aceito');
+  if (/^[|>]/.test(value)) throw new SpecError(lineNumber, 'bloco `|` ou `>` so e aceito como `>-` depois de uma chave');
+  if (value === '-' || value.startsWith('- ')) throw new SpecError(lineNumber, 'lista de listas nao e aceita');
+  if (/^[@`%?]/.test(value)) throw new SpecError(lineNumber, 'texto sem aspas nao pode comecar com @, crase, % ou ?; use aspas duplas');
+  if (/(^|\s)#/.test(value)) throw new SpecError(lineNumber, 'comentario `#` fora de aspas nao e aceito');
+  if (/: /.test(value) || value.endsWith(':')) {
+    throw new SpecError(lineNumber, 'texto sem aspas com `: ` e ambiguo; use aspas duplas');
   }
-  if (/^[,\]]/.test(valor) || valor === '=' || valor === '<<') {
-    throw new ErroDeFicha(numero, 'texto sem aspas nao pode comecar com , ou ] nem ser = ou <<; use aspas duplas');
+  if (/^[,\]]/.test(value) || value === '=' || value === '<<') {
+    throw new SpecError(lineNumber, 'texto sem aspas nao pode comecar com , ou ] nem ser = ou <<; use aspas duplas');
   }
-  if (valor === 'true') return true;
-  if (valor === 'false') return false;
-  if (AMBIGUO.some((re) => re.test(valor)) && !/^(0|[1-9]\d*)$/.test(valor)) {
-    throw new ErroDeFicha(numero, `o YAML leria "${valor}" como null, booleano ou numero; use aspas duplas para texto`);
+  if (value === 'true') return true;
+  if (value === 'false') return false;
+  if (AMBIGUOUS.some((re) => re.test(value)) && !/^(0|[1-9]\d*)$/.test(value)) {
+    throw new SpecError(lineNumber, `o YAML leria "${value}" como null, booleano ou numero; use aspas duplas para texto`);
   }
-  if (/^\d+$/.test(valor)) {
-    const n = Number(valor);
-    if (!Number.isSafeInteger(n)) throw new ErroDeFicha(numero, 'numero grande demais para JSON sem perder precisao; use aspas duplas');
+  if (/^\d+$/.test(value)) {
+    const n = Number(value);
+    if (!Number.isSafeInteger(n)) throw new SpecError(lineNumber, 'numero grande demais para JSON sem perder precisao; use aspas duplas');
     return n;
   }
-  return valor;
+  return value;
 }
 
 /**
  * Le uma ficha inteira. Devolve `null` quando o arquivo nao e ficha (sem `---`
- * na linha 1); senao `{ dados, vigente, json }`. Lanca `ErroDeFicha`.
+ * na linha 1); senao `{ dados, vigente, json }`. Lanca `SpecError`.
  *
  * O fim de linha e normalizado aqui mesmo: com `core.autocrlf`, a ficha chega
  * em CRLF no Windows e em LF no resto, e a Metadata tem de sair igual.
  */
-export function lerFicha(texto) {
-  const linhas = extrairFrontmatter(texto);
-  if (linhas === null) return null;
-  const dados = lerYaml(linhas);
+export function readSpec(text) {
+  const lines = extractFrontmatter(text);
+  if (lines === null) return null;
+  const data = readYaml(lines);
   return {
-    dados,
-    vigente: dados.status === 'vigente',
-    json: JSON.stringify(dados, null, 2) + '\n',
+    data,
+    inForce: data.status === 'vigente',
+    json: JSON.stringify(data, null, 2) + '\n',
   };
 }
