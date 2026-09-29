@@ -1,7 +1,7 @@
 # Decisões técnicas — Nephos
 
 Esta é a **fonte única** das decisões técnicas P01, P02, P03, P17, P19, P20,
-P21, P62 e P63. Em caso de divergência entre este arquivo e qualquer outro documento
+P21, P62, P63 e P64. Em caso de divergência entre este arquivo e qualquer outro documento
 do repositório, prevalece este.
 
 ## Fila de revisão técnica — Elvys
@@ -30,6 +30,7 @@ subseção P62.4 para o detalhe).
 | **P20** | Style Dictionary v5 e contrato de tema | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
 | **P21** | Plano técnico do `nph-icon` | 26/08/2026 | Já implementado e mergeado sob aceitação de risco | Aprovada, 28/08/2026 |
 | **P63** | Metadata gerada a partir da ficha | 28/09/2026 | Médio. Mudar local ou formato depois exige gerar de novo e ajustar quem lê; a ficha não muda | Aguardando revisão |
+| **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Aguardando revisão |
 
 **Fora desta nota, ainda aguardam confirmação dele:** licença, variável de CI,
 credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
@@ -518,7 +519,8 @@ o confirma. Não cria exceção nova — o raio já era a única fundação decl
 `px`. Não toca as outras três regras `unidade_css`.
 
 **Custo de mudar de ideia.** Baixo e simétrico: converter o raio depois é
-acrescentar `'radius'` fora da constante `SEM_CONVERSAO` em
+acrescentar `'radius'` fora da constante `NO_CONVERSION` (antes `SEM_CONVERSAO`;
+renomeada pela P64 em 29/09/2026) em
 `scripts/build-tokens.mjs` e rodar `npm run build:tokens`. Mas exigiria alterar
 o `raio_regras` do `design.md` junto, e aí deixa de ser mudança de pipeline e
 vira mudança de contrato visual.
@@ -573,9 +575,49 @@ aguardando revisão técnica de Elvys ou Mauro.
 
 ---
 
+## P64 — Idioma do código
+
+**Decisão.**
+
+- Os **nomes do código** — variável, constante, função, classe, parâmetro e
+  propriedade interna — são escritos em **inglês**.
+- **Comentário, mensagem de erro e saída para quem mantém o repositório**
+  continuam em **PT-BR**, a língua da equipe e da documentação interna.
+- Vale para todo o código versionado: `scripts/`, `src/`, `stories/` e
+  `.storybook/`.
+
+**Fora da regra**, porque é contrato de dados ou de interface e mudar quebraria
+quem já usa:
+
+- as chaves do JSON de tarefa, contexto e evidência, as chaves do JSON dos tokens
+  e as chaves do YAML das fichas;
+- as bandeiras da linha de comando e os nomes de arquivo que a documentação e
+  os comandos já citam;
+- os nomes públicos, que já são inglês: tags `nph-*`, propriedades, custom
+  properties e os atributos `data-nph-*`;
+- o texto que aparece para quem lê: título e nome de story, descrição de teste,
+  mensagens e os dicionários de `.storybook/i18n/`;
+- o registro histórico, que continua citando o nome da época.
+
+**Motivo.** Até aqui não havia regra, e a prática estava misturada: o
+`verificar-operacao.mjs` era todo em PT-BR, o `build-tokens.mjs` misturava os dois
+idiomas, e os componentes tinham API em inglês e funções internas em PT-BR. A
+revisão do PR #41 apontou isso. A regra segue o que a P20 já fixa para tokens e
+tema e o que `fichas/_modelo.md` fixa para as fichas: identificador em inglês,
+todo o resto em português.
+
+**Impacto.** Código novo nasce na regra. O código existente migra por pasta, na
+tarefa `DSA-07`, sem mudar comportamento: a saída dos scripts é idêntica antes e
+depois, e os arquivos gerados não mudam. `scripts/` migrou em 29/09/2026.
+
+**Status.** Decisão adotada pela Indiane em 28/09/2026 — aguardando revisão
+técnica de Elvys ou Mauro.
+
+---
+
 ## Como mudar uma destas decisões
 
-Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21, P62 ou P63 sem:
+Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21, P62, P63 ou P64 sem:
 
 1. explicar o conflito técnico concreto;
 2. registrar uma proposta de mudança;
