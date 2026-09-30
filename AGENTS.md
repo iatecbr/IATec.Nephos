@@ -53,8 +53,29 @@ Antes de analisar, propor, editar ou implementar:
 - A branch de integração atual é `v/5.0.0`. Para cada entrega, crie uma branch
   curta a partir de `origin/v/5.0.0`, com o prefixo definido em
   `contributing.md`.
-- Nunca faça a entrega diretamente em `v/5.0.0`. Abra um pull request da branch
-  de tarefa para `v/5.0.0`.
+- A régua é o risco. Se a mudança, errada, quebra algo ou muda o trabalho de
+  outra pessoa, ela vai por pull request. Se não, vai por push direto em
+  `v/5.0.0`. Na dúvida, pull request.
+- **Push direto em `v/5.0.0`**, depois de a prova passar:
+
+  | Mudança | Prova antes do push |
+  |---|---|
+  | Registro de tarefa e evidência em `docs/operacao/` | `node scripts/verificar-operacao.mjs` sai 0 |
+  | Só de token: `src/tokens/source/*.tokens.json`, o `tokens.css` gerado e os trechos de token e de contagem da documentação | `npm run build:tokens` e os testes passam |
+  | Correção de texto que não muda regra: erro, link, contagem ou status | `git diff --check` sai 0; `npm run test:i18n` quando o texto tiver tradução |
+  | Registro de decisão técnica já aprovada | `node scripts/verificar-operacao.mjs` sai 0 |
+
+- **Pull request da branch de tarefa para `v/5.0.0`**: código de componente,
+  CSS, story e teste; `scripts/`, inclusive o gerador de tokens e o
+  verificador; Storybook, dependência e configuração; regra de agente ou de
+  contribuição (`AGENTS.md`, `CLAUDE.md`, `contributing.md`, `GOVERNANCA.md`);
+  ficha de componente; decisão técnica nova.
+- Mudanças de push direto vão juntas num push só. Mudanças de pull request
+  independentes e já validadas vão num pull request de lote, com um commit por
+  item.
+- Decisão técnica nova é revisada no pull request que a traz. O merge é a
+  aprovação: depois dele, a decisão não fica "aguardando revisão", e não se
+  pede revisão em pull request já fechado.
 - Elvys ou Mauro revisam e fazem o merge. Não faça o merge do próprio pull
   request.
 - Esta convenção vale até uma instrução versionada substituí-la. A configuração
