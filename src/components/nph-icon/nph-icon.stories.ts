@@ -131,7 +131,7 @@ export const HerancaDeCor: Story = {
                    border-radius: var(--nph-radius-control);"
           >
             <nph-icon name="circle-info" size="lg"></nph-icon>
-            <span style="font-family: monospace; font-size: 12px;">primary</span>
+            <span style="font-family: var(--nph-text-code-font-family); font-size: 12px;">primary</span>
           </div>
         </div>
         <p style=${legenda}>${v.corNota}</p>

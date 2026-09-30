@@ -167,7 +167,7 @@ export const pagina = `
 
 export const legenda = `
   color: var(--nph-color-muted-foreground);
-  font-family: monospace;
+  font-family: var(--nph-text-code-font-family);
   font-size: 12px;
 `;
 

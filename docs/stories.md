@@ -275,7 +275,9 @@ duplica componente por modo.
 
 **Fonte:** `nph-label.stories.ts`, função `quadro()` e cabeçalho;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P20**.
-**Limite:** um componente. Só o `nph-label` tem story de modo.
+**Limite:** um componente. Só o `nph-label` tem story de modo. O quadro vence o
+modo global do Storybook (§6.4) só para as variáveis dos blocos de esquema de
+cor; os tokens compostos declarados em `:root` resolvem o valor na raiz.
 
 ### 4.7 A moldura não é precedente
 
@@ -397,6 +399,11 @@ Sem ele, uma custom property de token resolveria vazio e nenhuma caixa teria
 tamanho. O arquivo é **gerado** a partir do JSON: nunca se edita
 `src/tokens/generated/tokens.css` à mão.
 
+O preview também carrega as fontes do Nephos — Noto Sans e IBM Plex Mono —
+pelo `@fontsource`, sem chamada externa, e aplica fonte, fundo e cor da página
+por `--nph-*`. Os tokens só declaram a família: sem esse carregamento, a página
+cai na fonte padrão do navegador.
+
 **Fonte:** `.storybook/preview.js`;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P17** e **P20**.
 **Limite:** regra escrita e aplicada; não depende de componente.
@@ -406,6 +413,28 @@ tamanho. O arquivo é **gerado** a partir do JSON: nunca se edita
 **Fonte:** [`../contributing.md`](../contributing.md).
 **Limite:** convenção registrada no repositório; nenhum componente a sustenta
 ainda.
+
+### 6.4 Seletor de modo: um modo por vez
+
+A barra de ferramentas tem um seletor único de modo, ao lado do idioma. Ele muda
+o global `colorScheme` (`light` ou `dark`), e os dois lados trocam juntos: a
+moldura, pelo tema do `manager.js`, e a página, pelo `data-nph-color-scheme` que
+o decorator do `preview.js` aplica na raiz. Não existe moldura clara com página
+escura, nem o contrário.
+
+A moldura segue a identidade Solutions, com o destaque `#1FBFFF` e a tinta
+`#031A24` por cima. Esses hex vivem só em `.storybook/manager.js` e
+`.storybook/manager-head.html`. No modo claro, o azul aparece só como fundo:
+texto e ícone ficam em neutro, porque `#1FBFFF` sobre branco não passa no
+contraste. A página continua só com `--nph-*`.
+
+O `manager-head.html` depende de atributos internos do Storybook
+(`data-nodetype`, `data-selected`). Ao atualizar o Storybook, confira o item
+selecionado da barra lateral nos dois modos.
+
+**Fonte:** `.storybook/manager.js`, `.storybook/manager-head.html`,
+`.storybook/preview.js`; [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P20**.
+**Limite:** regra do Storybook; não muda API de componente.
 
 ---
 

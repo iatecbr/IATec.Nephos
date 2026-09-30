@@ -26,6 +26,13 @@ export default {
     'componentes-nph-icon-validação--entrada-invalida': 'Entrada inválida',
   },
 
+  modo: {
+    claro: 'Modo claro',
+    escuro: 'Modo oscuro',
+    paraClaro: 'Cambiar al modo claro',
+    paraEscuro: 'Cambiar al modo oscuro',
+  },
+
   boasVindas: {
     selo: 'IATEC · DESIGN SYSTEM',
     resumo:

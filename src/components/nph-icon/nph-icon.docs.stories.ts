@@ -71,7 +71,7 @@ const regraDeOcultacao = html`
 function linha(termo: string, descricao: TemplateResult | string): TemplateResult {
   return html`
     <tr>
-      <th scope="row" style="${celulaDeTabela} font-family: monospace; white-space: nowrap;">
+      <th scope="row" style="${celulaDeTabela} font-family: var(--nph-text-code-font-family); white-space: nowrap;">
         ${termo}
       </th>
       <td style=${celulaDeTabela}>${descricao}</td>

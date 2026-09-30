@@ -1,0 +1,25 @@
+<!--
+  Item selecionado da barra lateral, na identidade Solutions: fundo azul
+  #1FBFFF e tinta #031A24 por cima, nos dois modos.
+
+  O Storybook pinta esse item com texto branco fixo (theme.color.lightest) e,
+  no escuro, escurece o fundo. Branco sobre #1FBFFF fica abaixo do contraste
+  AA, e o tema nao expoe outra cor para o texto. Por isso esta regra.
+
+  RISCO: `data-nodetype` e `data-selected` sao atributos internos do Storybook,
+  nao API publica. O `!important` e necessario porque o CSS gerado pelo
+  Storybook tem seletor mais especifico e e injetado depois. Ao atualizar o
+  Storybook, confira o item selecionado nos dois modos.
+-->
+<style>
+  [data-nodetype][data-selected='true'],
+  [data-nodetype][data-selected='true']:hover,
+  [data-nodetype][data-selected='true']:focus {
+    background: #1fbfff !important;
+    color: #031a24 !important;
+  }
+
+  [data-nodetype][data-selected='true'] svg {
+    color: #031a24 !important;
+  }
+</style>

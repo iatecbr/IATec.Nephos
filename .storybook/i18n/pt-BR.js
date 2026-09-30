@@ -32,6 +32,17 @@ export default {
     'componentes-nph-icon-validação--entrada-invalida': 'Entrada inválida',
   },
 
+  /*
+   * Seletor de modo da barra de ferramentas. Um modo por vez: moldura e pagina
+   * trocam juntas.
+   */
+  modo: {
+    claro: 'Modo claro',
+    escuro: 'Modo escuro',
+    paraClaro: 'Mudar para o modo claro',
+    paraEscuro: 'Mudar para o modo escuro',
+  },
+
   boasVindas: {
     selo: 'IATEC · DESIGN SYSTEM',
     resumo:
