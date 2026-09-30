@@ -72,14 +72,15 @@ describe('registro do elemento', () => {
   });
 });
 
-describe('nucleo fechado de 93 icones', () => {
+describe('nucleo fechado de icones_nucleo do design.md', () => {
   it('o mapa do componente e identico a icones_nucleo do design.md', () => {
     const doDocumento = nomesDoDesignMd();
-    expect(doDocumento).toHaveLength(93);
+    expect(doDocumento.length).toBeGreaterThan(0);
+    expect(new Set(doDocumento).size).toBe(doDocumento.length);
     expect([...NPH_ICON_NAMES].sort()).toEqual([...doDocumento].sort());
   });
 
-  it('cada um dos 93 nomes desenha um caminho', async () => {
+  it('cada nome do nucleo desenha um caminho', async () => {
     for (const nome of NPH_ICON_NAMES) {
       const icone = await montar({ name: nome, size: 'sm' });
       expect(svgDe(icone), nome).not.toBeNull();

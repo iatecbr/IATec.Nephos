@@ -2,7 +2,8 @@
  * `nph-icon` — primeiro componente do Nephos.
  *
  * Contrato aprovado (ficha `nph-icon`, `design.md` `contrato_nph_icon`, P21):
- * - `name` obrigatorio, kebab-case, restrito aos 93 icones do nucleo;
+ * - `name` obrigatorio, kebab-case, restrito aos icones do nucleo
+ *   (`NPH_ICON_NAMES`, de `design.md` `icones_nucleo`);
  * - `variant` `regular` por padrao; `solid` disponivel para todo nome aprovado;
  * - `size` obrigatorio, `sm`, `md` ou `lg`, sem padrao e sem valor livre;
  * - `label` ausente, vazio ou so com espacos depois de `trim` e decorativo;

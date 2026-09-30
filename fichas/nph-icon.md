@@ -249,7 +249,7 @@ de tela real.
 - **Ícone sozinho dentro de um controle:** o rótulo acessível vai **no controle**, não no
   ícone.
 - **`size` é obrigatório e não tem padrão.** Esquecer significa ícone que não aparece.
-- **Se o ícone que você precisa não está nos 93: sinalize a lacuna, não desenhe.**
+- **Se o ícone que você precisa não está no núcleo: sinalize a lacuna, não desenhe.**
 
 ## Exemplos
 
