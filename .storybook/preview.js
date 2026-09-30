@@ -7,7 +7,8 @@
  * edite `src/tokens/generated/tokens.css` a mao.
  *
  * As fontes do Nephos — Noto Sans e IBM Plex Mono — vem do `@fontsource`, sem
- * chamada externa. Os tokens so declaram a familia; sem este carregamento, a
+ * chamada externa. Os pesos sao os dos papeis de texto: 400, 500 (`text/label-*`)
+ * e 600. Os tokens so declaram a familia; sem este carregamento, a
  * pagina cairia na fonte padrao do navegador.
  *
  * O global `colorScheme` (light | dark) e o modo de cor. Um modo por vez: o

@@ -9,7 +9,8 @@
   RISCO: `data-nodetype` e `data-selected` sao atributos internos do Storybook,
   nao API publica. O `!important` e necessario porque o CSS gerado pelo
   Storybook tem seletor mais especifico e e injetado depois. Ao atualizar o
-  Storybook, confira o item selecionado nos dois modos.
+  Storybook, confira nos dois modos o item selecionado e os links de pular
+  para o conteudo.
 -->
 <style>
   [data-nodetype][data-selected='true'],
@@ -20,6 +21,17 @@
   }
 
   [data-nodetype][data-selected='true'] svg {
+    color: #031a24 !important;
+  }
+
+  /*
+   * Links de pular para o conteudo, que aparecem com o foco do teclado. O
+   * Storybook pinta texto na cor secundaria sobre branco; no escuro, azul sobre
+   * branco fica abaixo do AA. Mesmo par do item selecionado.
+   */
+  a[href='#storybook-preview-wrapper']:focus,
+  a[href='#main-content-wrapper']:focus {
+    background: #1fbfff !important;
     color: #031a24 !important;
   }
 </style>
