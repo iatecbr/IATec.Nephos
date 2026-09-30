@@ -257,7 +257,7 @@ explicando o asterisco, com a obrigatoriedade também declarada no controle.
 | `required` e `for` refletem no DOM | Confirmado no código |
 | Sem Shadow DOM | Confirmado, com o motivo escrito no próprio arquivo |
 | Tokens consumidos | Conferidos em `nph-label.css`: `text/label-md` (cinco propriedades), `color/foreground`, `status/error`, `space/inline-tight` |
-| Stories e testes | 4 stories e 17 casos de teste |
+| Stories e testes | Em `nph-label.stories.ts` e `nph-label.test.ts` |
 | Aprovação visual | Indiane, em **27-08-2026**, conjunto mestre `374:6` na página `NPH — Label`, nos modos claro e escuro |
 
 > **Duas divergências que encontrei na ficha antiga, e como resolvi.**
