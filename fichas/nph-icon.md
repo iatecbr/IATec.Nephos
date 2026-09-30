@@ -298,7 +298,7 @@ outro componente, em vez de arte nova.
 | Decisões posteriores ao plano técnico | `size` obrigatório · erro de entrada inválida só em desenvolvimento · `space/inline-tight` é do contêiner · `label` só com espaços é decorativo · `eye`, `eye-slash` e `star` podem transbordar |
 | Testes | `src/components/nph-icon/nph-icon.test.ts` |
 | Storybook | `src/components/nph-icon/nph-icon.stories.ts` |
-| Figma | página `NPH — Icon` (`346:2`), frames `346:3` e `346:4` |
+| Figma | página `NPH — Icon` (`346:2`), quadro `nph-icon` (`1130:956`) e `Raiz — nph-icon` (`1138:1694`) |
 | Regras de acervo, família, tamanho e cor | `Fundação — ícones` (vault) |
 | A ficha de origem, agora memória | `TRABALHO/DESIGN SYSTEM/02 — Componentes/fichas/nph-icon.md` |
 | O que está aberto | `Pendências do Nephos` (vault) — **PF-08** e **PO-001** |

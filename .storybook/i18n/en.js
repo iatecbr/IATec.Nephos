@@ -198,7 +198,7 @@ export default {
       'design.md — contrato_nph_icon, icone_regras, icone_acessibilidade, tokens_icon, icones_nucleo.',
       'docs/decisoes-tecnicas.md — P01, P02, P03, P17, P19, P20 and P21.',
       'nph-icon spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.',
-      'Figma DS-IA-NEPHOS 5.0 — page NPH — Icon (346:2), frames Componentes — nph-icon (346:3) and Documentação — nph-icon (346:4).',
+      'Figma DS-IA-NEPHOS 5.0 — page NPH — Icon (346:2), frames nph-icon (1130:956) and Raiz — nph-icon (1138:1694).',
       'Storybook — Icons Overview, in this folder; Validation, in the folder next to it.',
     ],
 
