@@ -61,7 +61,7 @@ Antes de analisar, propor, editar ou implementar:
   | Mudança | Prova antes do push |
   |---|---|
   | Registro de tarefa e evidência em `docs/operacao/` | `node scripts/verificar-operacao.mjs` sai 0 |
-  | Só de token: `src/tokens/source/*.tokens.json`, o `tokens.css` gerado e os trechos de token e de contagem da documentação | `npm run build:tokens` e os testes passam |
+  | Só de token: `src/tokens/source/*.tokens.json`, o `tokens.css` gerado e os trechos de token e de contagem da documentação | `npm run build:tokens`, `npm run test:tokens`, `npm test`, `npm run typecheck` e `npm run test:i18n` passam |
   | Correção de texto que não muda regra: erro, link, contagem ou status | `git diff --check` sai 0; `npm run test:i18n` quando o texto tiver tradução |
   | Registro de decisão técnica já aprovada | `node scripts/verificar-operacao.mjs` sai 0 |
 
@@ -69,7 +69,9 @@ Antes de analisar, propor, editar ou implementar:
   CSS, story e teste; `scripts/`, inclusive o gerador de tokens e o
   verificador; Storybook, dependência e configuração; regra de agente ou de
   contribuição (`AGENTS.md`, `CLAUDE.md`, `contributing.md`, `GOVERNANCA.md`);
-  ficha de componente; decisão técnica nova.
+  ficha de componente; decisão técnica nova. Nesses quatro arquivos, contagem,
+  link ou status é correção de texto e vai por push direto; mudar o que a regra
+  manda vai por pull request.
 - Mudanças de push direto vão juntas num push só. Mudanças de pull request
   independentes e já validadas vão num pull request de lote, com um commit por
   item.
