@@ -200,13 +200,11 @@ import { faTrophy as rTrophy } from '@fortawesome/pro-regular-svg-icons/faTrophy
 import { faTrophy as sTrophy } from '@fortawesome/pro-solid-svg-icons/faTrophy';
 
 /**
- * Os nomes do nucleo (`design.md`, bloco `icones_nucleo`), na ordem das categorias.
- * A ordem e documental; a busca e por chave.
+ * Os nomes do nucleo (`design.md`, bloco `icones_nucleo`).
+ * A ordem do array nao e contrato; a busca e por chave.
  */
 export const NPH_ICON_NAMES = [
-  /* navegacao_e_menus */
   'bars',
-  /* direcao_e_revelacao */
   'chevron-down',
   'chevron-up',
   'chevron-right',
@@ -216,7 +214,6 @@ export const NPH_ICON_NAMES = [
   'eye',
   'eye-slash',
   'ellipsis',
-  /* acao */
   'xmark',
   'check',
   'plus',
@@ -232,7 +229,6 @@ export const NPH_ICON_NAMES = [
   'gear',
   'filter',
   'filter-slash',
-  /* estado_e_comunicacao */
   'circle-info',
   'triangle-exclamation',
   'circle-xmark',
@@ -240,7 +236,6 @@ export const NPH_ICON_NAMES = [
   'circle-question',
   'star',
   'circle-notch',
-  /* conteudo_e_dados */
   'calendar-days',
   'user',
   'house',
