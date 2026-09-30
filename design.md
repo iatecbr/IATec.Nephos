@@ -14,20 +14,14 @@ consumo_de_tema: >-
   no elemento raiz: `data-nph-brand` (sistemas, gerencial, educacao, comercial,
   financeiro, igrejas, rh) e `data-nph-color-scheme` (light, dark).
 escopo_migrado_para_json: >-
-  414 itens: 172 primitivos core, 6 variáveis theme nos sete modos e os 236
-  semânticos nos dois modos. Os 289 itens da migração-base entraram em 24-08-2026;
-  três tokens de Button aprovados no Figma foram adicionados em 25-08-2026, no commit
-  505e36d, levando a fonte a 292; a camada de tipografia — duas famílias de fonte em
-  core e os 14 papéis de texto em semantic, cinco propriedades cada — entrou em
-  27-08-2026 e levou a fonte a 364; em 03-09-2026 entraram os 24 primitivos de sombra
-  e os 8 estilos de elevação (PF-15), as duas peças de movimento que faltavam (PF-16)
-  e o par do laço do girador (PF-05), levando a fonte a 404. Os 20 primitivos da P46
-  ficaram fora por decisão registrada. Os demais primitivos seguem adiados — adiado
-  não significa sem consumidor. Os 3 anéis de foco entraram como focus-ring/invalid,
-  default e sidebar: ver a nota no bloco tokens_elevation. Em 30-09-2026 entraram
-  core/border-width/default, core/radius/off-scale/7, /11 e /18 e seis semânticos —
-  border/width e os raios do anel de foco —, e core/focus-width/default passou de 3
-  para 4, como no Figma desde 09-09-2026, levando a fonte a 414.
+  As camadas core, theme (nos sete modos) e semantic (nos dois modos), em
+  src/tokens/source/*.tokens.json. Cada camada declara a própria contagem em
+  contagemEsperada, e npm run build:tokens mostra os totais e reprova quando uma
+  camada diverge; este contrato não repete os números. Os primitivos da P46
+  ficaram fora por decisão registrada. Os demais primitivos seguem adiados —
+  adiado não significa sem consumidor. Os anéis de foco entraram como
+  focus-ring/invalid, default e sidebar: ver a nota no bloco tokens_elevation. O
+  que entrou em cada data está em docs/tokens.md.
 escopo_verificado: [cor, tipografia, espacamento, raio, elevacao, grid, movimento, cor_de_grafico]
 escopo_a_validar: []
 camadas: [core, theme, semantic]

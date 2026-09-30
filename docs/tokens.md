@@ -2,22 +2,22 @@
 
 **Português (BR)** · [English](tokens.en.md) · [Español](tokens.es.md)
 
-> **A fonte técnica soma 414 tokens**, dos quais 236 semânticos. A migração-base
-> de 289 itens foi concluída em 24/08/2026; os três tokens aprovados no Figma
-> para `nph-button` entraram em 25/08/2026, no commit `505e36d`, levando a fonte
-> a 292. Cada camada declara a própria contagem em `contagemEsperada`, e
-> `npm run build:tokens` reprova quando a camada diverge do que declarou.
+> **A fonte técnica é `src/tokens/source/*.tokens.json`.** Cada camada declara a
+> própria contagem em `contagemEsperada`, e `npm run build:tokens` mostra os
+> totais e reprova quando a camada diverge do que declarou. Esta nota não repete
+> os totais. A migração-base foi concluída em 24/08/2026; os três tokens
+> aprovados no Figma para `nph-button` entraram em 25/08/2026, no commit
+> `505e36d`.
 >
 > Em 27/08/2026 entrou a **camada de tipografia**: as duas famílias de fonte em
 > `core` e os **14 papéis de texto** em `semantic`, cada um com cinco
-> propriedades — 141 `core`, 6 `theme` e 217 `semantic`. O motivo foi concreto: o
+> propriedades. O motivo foi concreto: o
 > `nph-label` é o primeiro componente feito de texto puro, e sem `text/label-md`
 > em código ele não podia existir sem valor literal.
 >
 > Em 03/09/2026 entraram a **sombra** e o que faltava de **movimento**: 24
 > primitivos e os 8 estilos de elevação (PF-15), `core/duration/400` e
-> `core/easing/linear` (PF-16) e o par do laço do girador (PF-05) — 168 `core`,
-> 6 `theme` e 230 `semantic`. Os 3 anéis de foco entraram na mesma data, depois
+> `core/easing/linear` (PF-16) e o par do laço do girador (PF-05). Os 3 anéis de foco entraram na mesma data, depois
 > de um ajuste de nome que a seção de 03-09-2026 explica.
 >
 > Em 30/09/2026 entraram a **espessura de borda** e os **raios do anel de foco**:
@@ -25,7 +25,7 @@
 > semânticos — `border/width`, `focus/radius-inner`, `focus/radius-control`,
 > `focus/radius-surface`, `focus/border-radius-control` e
 > `focus/radius-control-with-border`. `core/focus-width/default` passou de 3 para
-> 4 px, como no Figma desde 09/09/2026 — 172 `core`, 6 `theme` e 236 `semantic`.
+> 4 px, como no Figma desde 09/09/2026.
 
 Esta nota explica **como os tokens vivem no repositório**. O que cada token
 significa, quando usar e quando não usar está no [`design.md`](../design.md), que
@@ -45,11 +45,11 @@ não duplica valores. Os valores nascem no Figma `DS-IA-NEPHOS 5.0`.
 ```text
 src/tokens/
   source/
-    core.tokens.json       172 primitivos
-    theme.tokens.json        6 variáveis de marca, sete modos
-    semantic.tokens.json   236 tokens semânticos, dois esquemas de cor
+    core.tokens.json       primitivos
+    theme.tokens.json      variáveis de marca, sete modos
+    semantic.tokens.json   tokens semânticos, dois esquemas de cor
   generated/
-    tokens.css             544 declarações — GERADO
+    tokens.css             declarações — GERADO
 scripts/
   tokens-lib.mjs           funções puras: forma canônica, classificação, índice
   build-tokens.mjs         gerador
@@ -100,9 +100,9 @@ A classificação compara **alias e valor final** entre os modos, numa
 representação **canônica** — nunca por identidade de objeto, nunca por ordem de
 chave, nunca pelo `$type`. Está provada em `scripts/test-invariancia.mjs`.
 
-Dos 236 semânticos: **142 invariantes** e **94 variantes**. Os 94 são todos
-`color`. Entre os 142 há **9 tokens `color`** — a invariância não é uma
-propriedade do tipo.
+Os semânticos variantes são todos `color`, mas há tokens `color` entre os
+invariantes — a invariância não é uma propriedade do tipo. `npm run build:tokens`
+mostra quantos há de cada.
 
 ## Atualização de 25-08-2026 — tokens de Button
 

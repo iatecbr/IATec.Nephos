@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=8d351e6fb7a6ed62393854ca7d6c091776b890d57d8d09dab0a15d186ac6878e | status=rascunho -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=9a1564812ec868461adace078f6b4aff1c189bdf3588eed4c1a1947998b0565f | status=rascunho -->
 
 # Tokens — fuente, generación y consumo
 
@@ -7,23 +7,22 @@
 > Traducido de la fuente en portugués de Brasil, [`tokens.md`](tokens.md).
 > Si ambos difieren, prevalece el archivo en portugués.
 
-> **La fuente técnica suma 414 tokens**, de los cuales 236 son semánticos. La
-> migración base de 289 ítems se concluyó el 24/08/2026; los tres tokens
+> **La fuente técnica es `src/tokens/source/*.tokens.json`.** Cada capa declara
+> su propio conteo en `contagemEsperada`, y `npm run build:tokens` muestra los
+> totales y falla cuando una capa difiere de lo que declaró. Esta nota no repite
+> los totales. La migración base se concluyó el 24/08/2026; los tres tokens
 > aprobados en Figma para `nph-button` entraron el 25/08/2026, en el commit
-> `505e36d`, llevando la fuente a 292. Cada capa declara su propio conteo en
-> `contagemEsperada`, y `npm run build:tokens` falla cuando una capa difiere de
-> lo que declaró.
+> `505e36d`.
 >
 > El 27/08/2026 entró la **capa de tipografía**: las dos familias tipográficas en
 > `core` y los **14 papeles de texto** en `semantic`, cada uno con cinco
-> propiedades — 141 `core`, 6 `theme` y 217 `semantic`. El motivo fue concreto:
+> propiedades. El motivo fue concreto:
 > `nph-label` es el primer componente hecho de texto puro, y sin `text/label-md`
 > en código no podía existir sin un valor literal.
 >
 > El 03/09/2026 entraron la **sombra** y lo que faltaba de **movimiento**: 24
 > primitivos y los 8 estilos de elevación (PF-15), `core/duration/400` y
-> `core/easing/linear` (PF-16) y el par del lazo del spinner (PF-05) — 168
-> `core`, 6 `theme` y 230 `semantic`. Los 3 anillos de foco entraron en la misma
+> `core/easing/linear` (PF-16) y el par del lazo del spinner (PF-05). Los 3 anillos de foco entraron en la misma
 > fecha, tras un ajuste de nombre que la sección del 03-09-2026 explica.
 >
 > El 30/09/2026 entraron el **grosor de borde** y los **radios del anillo de
@@ -31,7 +30,7 @@
 > seis semánticos — `border/width`, `focus/radius-inner`, `focus/radius-control`,
 > `focus/radius-surface`, `focus/border-radius-control` y
 > `focus/radius-control-with-border`. `core/focus-width/default` pasó de 3 a 4 px,
-> como en Figma desde el 09/09/2026 — 172 `core`, 6 `theme` y 236 `semantic`.
+> como en Figma desde el 09/09/2026.
 
 Esta nota explica **cómo viven los tokens en el repositorio**. Qué significa cada
 token, cuándo usarlo y cuándo no, está en [`design.md`](../design.md), que no
@@ -51,11 +50,11 @@ duplica valores. Los valores nacen en Figma `DS-IA-NEPHOS 5.0`.
 ```text
 src/tokens/
   source/
-    core.tokens.json       172 primitivos
-    theme.tokens.json        6 variables de marca, siete modos
-    semantic.tokens.json   236 tokens semánticos, dos esquemas de color
+    core.tokens.json       primitivos
+    theme.tokens.json      variables de marca, siete modos
+    semantic.tokens.json   tokens semánticos, dos esquemas de color
   generated/
-    tokens.css             544 declaraciones — GENERADO
+    tokens.css             declaraciones — GENERADO
 scripts/
   tokens-lib.mjs           funciones puras: forma canónica, clasificación, índice
   build-tokens.mjs         generador
@@ -106,9 +105,9 @@ La clasificación compara **alias y valor final** entre los modos, en una
 representación **canónica** — nunca por identidad de objeto, nunca por orden de
 clave, nunca por el `$type`. Está probada en `scripts/test-invariancia.mjs`.
 
-De los 236 semánticos: **142 invariantes** y **94 variantes**. Los 94 son todos
-`color`. Entre los 142 hay **9 tokens `color`** — la invariancia no es una
-propiedad del tipo.
+Los semánticos variantes son todos `color`, pero hay tokens `color` entre los
+invariantes — la invariancia no es una propiedad del tipo. `npm run build:tokens`
+muestra cuántos hay de cada uno.
 
 ## Actualización del 25-08-2026 — tokens de Button
 
