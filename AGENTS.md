@@ -107,7 +107,7 @@ Antes de analisar, propor, editar ou implementar:
   documentos sincronizados ao concluir.
 - Escreva os nomes do código em inglês; comentário e mensagem para quem mantém o
   repositório ficam em PT-BR. Chave de dados, bandeira da linha de comando, nome
-  de arquivo já citado e nome público não mudam (P64, aguardando revisão).
+  de arquivo já citado e nome público não mudam (P64, revisada por Mauro em 30/09/2026).
 
 ## A ordem de um componente
 

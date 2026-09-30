@@ -29,8 +29,8 @@ subseção P62.4 para o detalhe).
 | **P19** | Storybook, testes e publicação | 24/08/2026 | Médio | Aprovada, 28/08/2026 |
 | **P20** | Style Dictionary v5 e contrato de tema | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
 | **P21** | Plano técnico do `nph-icon` | 26/08/2026 | Já implementado e mergeado sob aceitação de risco | Aprovada, 28/08/2026 |
-| **P63** | Metadata gerada a partir da ficha | 28/09/2026 | Médio. Mudar local ou formato depois exige gerar de novo e ajustar quem lê; a ficha não muda | Aguardando revisão |
-| **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Aguardando revisão |
+| **P63** | Metadata gerada a partir da ficha | 28/09/2026 | Médio. Mudar local ou formato depois exige gerar de novo e ajustar quem lê; a ficha não muda | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** |
+| **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** |
 
 **Fora desta nota, ainda aguardam confirmação dele:** licença, variável de CI,
 credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
@@ -571,7 +571,7 @@ commit. Sem isso, `npm run test:operacao` reprova pela `V32`.
 (MCP) e a conferência do bloco `api` da ficha contra o código.
 
 **Status.** Decisão adotada pela Indiane em 28/09/2026, por delegação —
-aguardando revisão técnica de Elvys ou Mauro.
+revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.
 
 ---
 
@@ -610,8 +610,8 @@ todo o resto em português.
 tarefa `DSA-07`, sem mudar comportamento: a saída dos scripts é idêntica antes e
 depois, e os arquivos gerados não mudam. `scripts/` migrou em 29/09/2026.
 
-**Status.** Decisão adotada pela Indiane em 28/09/2026 — aguardando revisão
-técnica de Elvys ou Mauro.
+**Status.** Decisão adotada pela Indiane em 28/09/2026 — revisada e aprovada
+por Mauro em 30/09/2026, no chat da equipe.
 
 ---
 
