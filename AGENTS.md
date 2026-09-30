@@ -55,6 +55,12 @@ Antes de analisar, propor, editar ou implementar:
   `contributing.md`.
 - Nunca faça a entrega diretamente em `v/5.0.0`. Abra um pull request da branch
   de tarefa para `v/5.0.0`.
+- Exceção, por decisão da Indiane em 30-09-2026: mudança **só de token** —
+  `src/tokens/source/*.tokens.json`, o `tokens.css` gerado e os trechos de token
+  e de contagem de `design.md`, `docs/tokens*.md`, `AGENTS.md` e `GOVERNANCA.md` —
+  vai por push direto em `v/5.0.0`, depois de `npm run build:tokens`,
+  `npm run test:tokens`, `npm test`, `npm run typecheck` e `npm run test:i18n`
+  passarem. Mudança em componente, story, script ou teste continua por pull request.
 - Elvys ou Mauro revisam e fazem o merge. Não faça o merge do próprio pull
   request.
 - Esta convenção vale até uma instrução versionada substituí-la. A configuração
@@ -189,8 +195,8 @@ properties como formato gerado (P17); `@storybook/web-components-vite` mantido (
 Quando o workflow de CI for criado, ele executará o build em pull requests e
 disponibilizará um artefato privado (P19).
 
-O repositório tem **404 tokens técnicos** em `src/tokens/source/*.tokens.json` —
-168 em `core`, 6 em `theme` e 230 em `semantic` —, com o CSS gerado em
+O repositório tem **414 tokens técnicos** em `src/tokens/source/*.tokens.json` —
+172 em `core`, 6 em `theme` e 236 em `semantic` —, com o CSS gerado em
 `src/tokens/generated/tokens.css`: **nunca edite o CSS gerado**. Dois
 componentes estão implementados, com stories e testes: `nph-icon`, desde o PR
 #6, e `nph-label`, desde o PR #10. As fichas de componente são canônicas em

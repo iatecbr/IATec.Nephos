@@ -19,7 +19,9 @@ ajudar a entender a mudança. Os tipos seguem os prefixos de branch: `feat`, `fi
 `docs` e `chore`.
 
 Todo pull request da v5 tem `v/5.0.0` como branch de destino. Nunca faça a
-entrega diretamente nessa branch.
+entrega diretamente nessa branch. A exceção é a mudança só de token, que vai por
+push direto depois de o build e os testes passarem — ver `AGENTS.md`, seção
+"Fluxo de branch e pull request — v5".
 
 O título do pull request repete o título do commit principal. A descrição informa:
 
