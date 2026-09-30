@@ -110,7 +110,7 @@ decisão numerada ou datada.
  * `nph-icon` — primeiro componente do Nephos.
  *
  * Contrato aprovado (ficha `nph-icon`, `design.md` `contrato_nph_icon`, P21):
- * - `name` obrigatorio, kebab-case, restrito aos 34 icones do nucleo;
+ * - `name` obrigatorio, kebab-case, restrito aos icones do nucleo;
  * ...
  */
 ```
@@ -338,13 +338,13 @@ texto** e compara:
 import designMd from '../../../design.md?raw';
 ```
 
-No `nph-icon`, a lista dos 93 nomes é extraída de `icones_nucleo:` no
+No `nph-icon`, a lista dos nomes é extraída de `icones_nucleo:` no
 `design.md` e comparada com o mapa fechado do componente — se a fonte mudar lá,
 o teste reprova aqui. No `nph-label`, o teste verifica que o `use` de
 `status/error` autoriza o asterisco e que o anti-padrão **A5** continua vigente.
 
-**Fonte:** `nph-icon.test.ts`, função `nomesDoDesignMd` e grupo *"nucleo fechado
-de 34 icones"*; `nph-label.test.ts`, grupo *"contrato de token"*.
+**Fonte:** `nph-icon.test.ts`, função `nomesDoDesignMd` e grupo que confere o núcleo
+fechado; `nph-label.test.ts`, grupo *"contrato de token"*.
 **Limite:** dois componentes.
 
 ### 5.3 O teste fixa a API reativa
@@ -442,7 +442,7 @@ Registradas aqui porque quem for construir um componente vai esbarrar nelas.
 |---|---|
 | Idioma nas stories | [`i18n.md`](i18n.md) e o `nph-icon` mandam o texto explicativo vir do dicionário; o `nph-label.stories.ts` traz português literal nas legendas |
 | API do `nph-label` | A ficha e o código declaram `text`, `required` e `for`; a matriz aprovada no Figma tem quatro variantes, com `info`. Correção registrada como `DSA-04` |
-| `variant="solid"` no `nph-icon` | O [`../design.md`](../design.md), a **P21** e a ficha definem `regular` como padrão e `solid` como disponível para cada um dos 93 nomes. A decisão **I7** originou a ampliação e a `DSA-03` foi concluída |
+| `variant="solid"` no `nph-icon` | O [`../design.md`](../design.md), a **P21** e a ficha definem `regular` como padrão e `solid` como disponível para cada nome do núcleo. A decisão **I7** originou a ampliação e a `DSA-03` foi concluída |
 
 ---
 

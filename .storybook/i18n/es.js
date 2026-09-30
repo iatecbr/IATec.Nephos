@@ -65,7 +65,7 @@ export default {
       ['Color', 'Las capas core, theme y semantic, en los modos claro y oscuro.'],
       ['Tipografía', 'Estilos de texto aprobados en Figma y documentados en el contrato.'],
       ['Espaciado y radio', 'Tokens semánticos para composición y controles.'],
-      ['Iconos', 'Núcleo curado de 34 iconos Font Awesome Pro.'],
+      ['Iconos', 'Núcleo curado de iconos Font Awesome Pro.'],
     ],
     avisoTitulo: 'Cómo usar esta área',
     avisoTexto1: 'Consulte el contrato en',
@@ -189,7 +189,7 @@ export default {
       'No usar el paquete, archivo o secreto de Font Awesome Pro en material versionado.',
       'No crear una variante visual solo para completar una matriz.',
       'No usar Duotone fuera de la navegación estructural ni mezclar Duotone y Classic en el mismo grupo.',
-      'No usar un name fuera de los 34 iconos del núcleo Nephos.',
+      'No usar un name fuera del núcleo de iconos del Nephos.',
       'No definir el color como propiedad; el icono hereda currentColor del contexto.',
     ],
 

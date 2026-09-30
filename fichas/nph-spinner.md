@@ -254,7 +254,7 @@ carregamento — e aí o girador é decorativo.
 |---|---|
 | Aprovação visual | **Aprovado**, na página `NPH — Spinner`, com `size=sm\|md` |
 | Implementação | **Não existe.** Sem código, sem stories, sem testes |
-| Arte | `circle-notch`, do núcleo de 34 ícones |
+| Arte | `circle-notch`, do núcleo de ícones |
 | Escopo | **Entra na v1**, como **preparação antes do P0** — não entra no recorte P0 e não o reordena |
 | Movimento | **Aberto** — PF-05 e PF-16 |
 

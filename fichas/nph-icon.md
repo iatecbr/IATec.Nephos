@@ -10,7 +10,7 @@ resolve: >-
   Disponibiliza um ícone do núcleo Nephos com tamanho, família e acessibilidade
   consistentes, sem introduzir cor ou arte fora do acervo aprovado.
 use_quando:
-  - "Um controle ou conteúdo precisa de um ícone que existe no núcleo de 93 nomes."
+  - "Um controle ou conteúdo precisa de um ícone que existe no núcleo."
   - "O ícone reforça um rótulo, estado ou direção sem substituir a informação textual."
 nao_use_quando:
   - "A ação tem consequência ou é específica do domínio — use rótulo textual junto."
@@ -23,7 +23,7 @@ api:
     padrao: nenhum
     reflete: false
     restricao: >-
-      Em kebab-case, e limitado aos 93 nomes do núcleo. Nome fora do núcleo não
+      Em kebab-case, e limitado aos nomes do núcleo. Nome fora do núcleo não
       renderiza e emite erro só em desenvolvimento.
   variant:
     tipo: enum
@@ -142,7 +142,7 @@ tags: [nephos, ds-agentico, ficha, componente, nph-icon]
 **O problema que resolve:** dá aos controles e ao conteúdo do Nephos um ícone curado,
 acessível e consistente, sem abrir espaço para arte ou cor fora do acervo aprovado.
 
-**Quando usar:** quando um controle ou conteúdo precisa de um dos **93 ícones do
+**Quando usar:** quando um controle ou conteúdo precisa de um dos **ícones do
 núcleo**, para reforçar um rótulo, um estado, uma direção ou uma ação universal
 recorrente.
 
@@ -278,7 +278,7 @@ outro componente, em vez de arte nova.
 |---|---|
 | Implementado e integrado | Está na branch padrão `v/3.0.0`, pelo **PR #6**, merge `437dd60`, em 27-08-2026 |
 | A API do código | `name`, `variant`, `size` e `label` — **exatamente o contrato desta ficha**, conferido propriedade por propriedade em `src/components/nph-icon/nph-icon.ts` |
-| O núcleo no código | `NPH_ICON_NAMES` tem **93 nomes**, todos com `regular` e `solid` |
+| O núcleo no código | `NPH_ICON_NAMES` é a lista vigente dos nomes, todos com `regular` e `solid` |
 | `size` reflete no DOM | Confirmado no código, com o motivo escrito lá: o CSS interno seleciona a caixa por ele |
 | Erro de entrada inválida | Confirmado: só em ambiente de desenvolvimento |
 | Stories | 5 em `nph-icon.stories.ts` |
@@ -294,7 +294,7 @@ outro componente, em vez de arte nova.
 | O quê | Onde |
 |---|---|
 | Contrato técnico | `design.md`, no repositório |
-| A decisão que originou | **P21**, com Lit, Shadow DOM aberto, SVG inline, mapa fechado dos 93 ícones e Font Awesome Pro 6.7.2 |
+| A decisão que originou | **P21**, com Lit, Shadow DOM aberto, SVG inline, mapa fechado dos ícones do núcleo e Font Awesome Pro 6.7.2 |
 | Decisões posteriores ao plano técnico | `size` obrigatório · erro de entrada inválida só em desenvolvimento · `space/inline-tight` é do contêiner · `label` só com espaços é decorativo · `eye`, `eye-slash` e `star` podem transbordar |
 | Testes | `src/components/nph-icon/nph-icon.test.ts` |
 | Storybook | `src/components/nph-icon/nph-icon.stories.ts` |
