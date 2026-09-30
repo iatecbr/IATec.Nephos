@@ -281,8 +281,8 @@ outro componente, em vez de arte nova.
 | O núcleo no código | `NPH_ICON_NAMES` é a lista vigente dos nomes, todos com `regular` e `solid` |
 | `size` reflete no DOM | Confirmado no código, com o motivo escrito lá: o CSS interno seleciona a caixa por ele |
 | Erro de entrada inválida | Confirmado: só em ambiente de desenvolvimento |
-| Stories | 5 em `nph-icon.stories.ts` |
-| Testes | 30 casos declarados em `nph-icon.test.ts` |
+| Stories | Em `nph-icon.stories.ts` |
+| Testes | Declarados em `nph-icon.test.ts` |
 | Aprovação visual | Documentação Figma aprovada em **14-09-2026**, no frame `Documentação — nph-icon` (`346:4`) |
 
 > **Uma divergência que encontrei, e como resolvi.** A ficha antiga em
