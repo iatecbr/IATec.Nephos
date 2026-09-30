@@ -1,7 +1,7 @@
 /**
  * Mapa fechado dos icones do nucleo Nephos.
  *
- * Fonte do dominio: `design.md`, bloco `icones_nucleo` — 93 nomes distintos em
+ * Fonte do dominio: `design.md`, bloco `icones_nucleo` — nomes distintos em
  * cinco categorias, todos com as variantes `regular` e `solid`. Nao acrescente
  * nome, familia ou variante aqui sem decisao registrada: fora da lista e lacuna,
  * nao ausencia.
@@ -200,7 +200,7 @@ import { faTrophy as rTrophy } from '@fortawesome/pro-regular-svg-icons/faTrophy
 import { faTrophy as sTrophy } from '@fortawesome/pro-solid-svg-icons/faTrophy';
 
 /**
- * Os 93 nomes do nucleo, na ordem das categorias do `design.md`.
+ * Os nomes do nucleo (`design.md`, bloco `icones_nucleo`), na ordem das categorias.
  * A ordem e documental; a busca e por chave.
  */
 export const NPH_ICON_NAMES = [
