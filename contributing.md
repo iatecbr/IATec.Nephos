@@ -18,10 +18,12 @@ Use `tipo(escopo): resumo curto` quando houver escopo; omita o parêntese quando
 ajudar a entender a mudança. Os tipos seguem os prefixos de branch: `feat`, `fix`,
 `docs` e `chore`.
 
-Todo pull request da v5 tem `v/5.0.0` como branch de destino. Nunca faça a
-entrega diretamente nessa branch. A exceção é a mudança só de token, que vai por
-push direto depois de o build e os testes passarem — ver `AGENTS.md`, seção
-"Fluxo de branch e pull request — v5".
+Todo pull request da v5 tem `v/5.0.0` como branch de destino. O que vai por
+push direto nessa branch e o que exige pull request segue a régua de risco do
+`AGENTS.md`, em "Fluxo de branch e pull request — v5": registro de tarefa,
+token, correção de texto e registro de decisão já aprovada vão direto, com a
+prova passando; código, scripts, Storybook, dependência, regra, ficha e decisão
+técnica nova vão por pull request.
 
 O título do pull request repete o título do commit principal. A descrição informa:
 
@@ -33,7 +35,8 @@ O título do pull request repete o título do commit principal. A descrição in
 
 ## Rito
 
-Abra PRs pequenos, com uma mudança coerente por vez. Faça commit quando chegar a um
+Quando a mudança exigir pull request, junte no mesmo PR os itens independentes e
+já validados, com um commit por item. Faça commit quando chegar a um
 estado que funciona, não no fim do dia. Mudança visual inclui comparação verificável;
 mudança de código inclui os testes aplicáveis.
 
