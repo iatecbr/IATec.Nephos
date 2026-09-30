@@ -12,6 +12,7 @@
   --nph-core-alpha-black-5: rgba(0, 0, 0, 0.05);
   --nph-core-base-black: #000000;
   --nph-core-base-white: #ffffff;
+  --nph-core-border-width-default: 0.0625rem;
   --nph-core-comercial-400: #659ca7;
   --nph-core-comercial-500: #3e8391;
   --nph-core-comercial-600: #326974;
@@ -50,7 +51,7 @@
   --nph-core-financeiro-600: #3e5e3a;
   --nph-core-financeiro-700: #2e462c;
   --nph-core-financeiro-800: #1f2f1d;
-  --nph-core-focus-width-default: 0.1875rem;
+  --nph-core-focus-width-default: 0.25rem;
   --nph-core-font-sans: 'Noto Sans', sans-serif;
   --nph-core-font-mono: 'IBM Plex Mono', monospace;
   --nph-core-gerencial-400: #335c85;
@@ -106,6 +107,9 @@
   --nph-core-radius-450: 10px;
   --nph-core-radius-600: 14px;
   --nph-core-radius-full: 9999px;
+  --nph-core-radius-off-scale-7: 7px;
+  --nph-core-radius-off-scale-11: 11px;
+  --nph-core-radius-off-scale-18: 18px;
   --nph-core-rh-400: #6f4d99;
   --nph-core-rh-500: #4b207f;
   --nph-core-rh-600: #3c1a66;
@@ -298,6 +302,7 @@
   --nph-text-code-line-height: 1.25rem;
   --nph-text-code-font-weight: 400;
   --nph-text-code-letter-spacing: 0;
+  --nph-border-width: var(--nph-core-border-width-default);
   --nph-brand-educacao-foreground: var(--nph-core-base-white);
   --nph-brand-educacao-strong: var(--nph-core-educacao-700);
   --nph-chart-5: var(--nph-core-info-500);
@@ -314,6 +319,11 @@
   --nph-elevation-raised: 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-100) var(--nph-core-shadow-spread-100) var(--nph-shadow-color), 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-200) var(--nph-core-shadow-spread-0) var(--nph-shadow-color);
   --nph-elevation-spotlight: 0px var(--nph-core-shadow-y-600) var(--nph-core-shadow-blur-700) var(--nph-core-shadow-spread-700) var(--nph-shadow-color-strong);
   --nph-elevation-subtle: 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-100) var(--nph-core-shadow-spread-0) var(--nph-shadow-color-light);
+  --nph-focus-border-radius-control: var(--nph-core-radius-off-scale-7);
+  --nph-focus-radius-control: var(--nph-core-radius-450);
+  --nph-focus-radius-control-with-border: var(--nph-core-radius-off-scale-11);
+  --nph-focus-radius-inner: var(--nph-core-radius-400);
+  --nph-focus-radius-surface: var(--nph-core-radius-off-scale-18);
   --nph-focus-ring-width: var(--nph-core-focus-width-default);
   --nph-icon-size-lg: var(--nph-core-icon-size-300);
   --nph-icon-size-md: var(--nph-core-icon-size-200);

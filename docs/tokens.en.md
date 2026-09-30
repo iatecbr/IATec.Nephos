@@ -1,4 +1,4 @@
-<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=e736fbc0c88402dc5d62ac34580dec2b8813c095cc5c51ff4b460319af18b782 | status=revisado -->
+<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=8d351e6fb7a6ed62393854ca7d6c091776b890d57d8d09dab0a15d186ac6878e | status=rascunho -->
 
 # Tokens — source, generation and consumption
 
@@ -7,7 +7,7 @@
 > Translated from the Brazilian Portuguese source, [`tokens.md`](tokens.md).
 > If the two disagree, the Portuguese file prevails.
 
-> **The technical source totals 404 tokens**, 230 of them semantic. The 289-item
+> **The technical source totals 414 tokens**, 236 of them semantic. The 289-item
 > base migration was completed on 24/08/2026; the three tokens approved in Figma
 > for `nph-button` landed on 25/08/2026, in commit `505e36d`, taking the source
 > to 292. Each layer declares its own count in `contagemEsperada`, and
@@ -24,6 +24,13 @@
 > `core/easing/linear` (PF-16) and the spinner-loop pair (PF-05) — 168 `core`,
 > 6 `theme` and 230 `semantic`. The 3 focus rings landed on the same date, after
 > a name change the 03-09-2026 section explains.
+>
+> On 30/09/2026 the **border width** and the **focus ring radii** landed:
+> `core/border-width/default`, `core/radius/off-scale/7`, `/11` and `/18` and six
+> semantic tokens — `border/width`, `focus/radius-inner`, `focus/radius-control`,
+> `focus/radius-surface`, `focus/border-radius-control` and
+> `focus/radius-control-with-border`. `core/focus-width/default` went from 3 to
+> 4 px, as in Figma since 09/09/2026 — 172 `core`, 6 `theme` and 236 `semantic`.
 
 This note explains **how tokens live in the repository**. What each token means,
 when to use it and when not to, is in [`design.md`](../design.md), which does not
@@ -43,11 +50,11 @@ duplicate values. Values originate in Figma `DS-IA-NEPHOS 5.0`.
 ```text
 src/tokens/
   source/
-    core.tokens.json       168 primitives
+    core.tokens.json       172 primitives
     theme.tokens.json        6 brand variables, seven modes
-    semantic.tokens.json   230 semantic tokens, two colour schemes
+    semantic.tokens.json   236 semantic tokens, two colour schemes
   generated/
-    tokens.css             534 declarations — GENERATED
+    tokens.css             544 declarations — GENERATED
 scripts/
   tokens-lib.mjs           pure functions: canonical form, classification, index
   build-tokens.mjs         generator
@@ -98,8 +105,8 @@ Classification compares **alias and final value** across modes, in a
 **canonical** representation — never by object identity, never by key order,
 never by `$type`. It is proven in `scripts/test-invariancia.mjs`.
 
-Of the 230 semantic tokens: **136 invariant** and **94 variant**. All 94 are
-`color`. Among the 136 there are **9 `color` tokens** — invariance is not a
+Of the 236 semantic tokens: **142 invariant** and **94 variant**. All 94 are
+`color`. Among the 142 there are **9 `color` tokens** — invariance is not a
 property of the type.
 
 ## Update of 25-08-2026 — Button tokens

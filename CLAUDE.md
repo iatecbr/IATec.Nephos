@@ -21,9 +21,9 @@
    execução acontece no clone principal.
 4. **Plano antes de editar.** O Claude apresenta o que pretende alterar e espera
    a aprovação da etapa; não edita antes disso.
-5. **Documentação pública traduzida muda no mesmo PR.** Alterou `README.md` ou
+5. **Documentação pública traduzida muda na mesma entrega (PR ou push).** Alterou `README.md` ou
    `docs/tokens.md`, atualize os pares `en`/`es`, rode `npm run i18n:update` e
-   `npm run test:i18n` antes de fechar o PR.
+   `npm run test:i18n` antes de fechar a entrega.
 6. **O Claude não aceita a documentação Figma de um componente — ele a lê.**
    Quem aceita é a Indiane, e o gate `documentacao-figma-aceita` da tarefa é a
    única forma de o Claude saber que ela aceitou. Ler o frame, ver o desenho ou

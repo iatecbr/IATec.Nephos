@@ -3,7 +3,7 @@
   "$extensions": {
     "com.iatec.nephos": {
       "camada": "semantic",
-      "contagemEsperada": 230,
+      "contagemEsperada": 236,
       "origem": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03",
       "modeSet": {
         "nome": "color-scheme",
@@ -19,6 +19,12 @@
         }
       },
       "nota": "Token sem bloco `modes` e invariante entre modos: alias e valor final equivalentes em claro e escuro. Invariante NAO quer dizer fixo - um alias para theme/* continua trocando com data-nph-brand."
+    }
+  },
+  "border": {
+    "width": {
+      "$type": "dimension",
+      "$value": "{core.border-width.default}"
     }
   },
   "brand": {
@@ -972,6 +978,26 @@
           }
         }
       }
+    },
+    "border-radius-control": {
+      "$type": "dimension",
+      "$value": "{core.radius.off-scale.7}"
+    },
+    "radius-control": {
+      "$type": "dimension",
+      "$value": "{core.radius.450}"
+    },
+    "radius-control-with-border": {
+      "$type": "dimension",
+      "$value": "{core.radius.off-scale.11}"
+    },
+    "radius-inner": {
+      "$type": "dimension",
+      "$value": "{core.radius.400}"
+    },
+    "radius-surface": {
+      "$type": "dimension",
+      "$value": "{core.radius.off-scale.18}"
     },
     "ring-width": {
       "$type": "dimension",

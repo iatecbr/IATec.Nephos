@@ -14,7 +14,7 @@ consumo_de_tema: >-
   no elemento raiz: `data-nph-brand` (sistemas, gerencial, educacao, comercial,
   financeiro, igrejas, rh) e `data-nph-color-scheme` (light, dark).
 escopo_migrado_para_json: >-
-  404 itens: 168 primitivos core, 6 variáveis theme nos sete modos e os 230
+  414 itens: 172 primitivos core, 6 variáveis theme nos sete modos e os 236
   semânticos nos dois modos. Os 289 itens da migração-base entraram em 24-08-2026;
   três tokens de Button aprovados no Figma foram adicionados em 25-08-2026, no commit
   505e36d, levando a fonte a 292; a camada de tipografia — duas famílias de fonte em
@@ -24,7 +24,10 @@ escopo_migrado_para_json: >-
   e o par do laço do girador (PF-05), levando a fonte a 404. Os 20 primitivos da P46
   ficaram fora por decisão registrada. Os demais primitivos seguem adiados — adiado
   não significa sem consumidor. Os 3 anéis de foco entraram como focus-ring/invalid,
-  default e sidebar: ver a nota no bloco tokens_elevation.
+  default e sidebar: ver a nota no bloco tokens_elevation. Em 30-09-2026 entraram
+  core/border-width/default, core/radius/off-scale/7, /11 e /18 e seis semânticos —
+  border/width e os raios do anel de foco —, e core/focus-width/default passou de 3
+  para 4, como no Figma desde 09-09-2026, levando a fonte a 414.
 escopo_verificado: [cor, tipografia, espacamento, raio, elevacao, grid, movimento, cor_de_grafico]
 escopo_a_validar: []
 camadas: [core, theme, semantic]
@@ -858,6 +861,9 @@ tokens_core_radius:
   '500':  { valor: 12,   css: '--nph-core-radius-500' }
   '600':  { valor: 14,   css: '--nph-core-radius-600' }
   full:   { valor: 9999, css: '--nph-core-radius-full' }
+  off-scale/7:  { valor: 7,  css: '--nph-core-radius-off-scale-7',  alias_de: 'focus/border-radius-control' }
+  off-scale/11: { valor: 11, css: '--nph-core-radius-off-scale-11', alias_de: 'focus/radius-control-with-border' }
+  off-scale/18: { valor: 18, css: '--nph-core-radius-off-scale-18', alias_de: 'focus/radius-surface' }
 
 tokens_radius:
   radius/none:
@@ -957,15 +963,15 @@ tokens_elevation:
     use: "Painel grande que entra pela borda da tela: gaveta, folha lateral, painel de comando. Acima de modal em alcance, nao em bloqueio. NAO USE em dialogo comum."
   focus-ring/default:
     css: '--nph-focus-ring-default'
-    camadas: ['0 0 0 3px focus/ring']
+    camadas: ['0 0 0 4px focus/ring']
     use: "O anel de foco de teclado. USE em TODO elemento operavel que recebe foco: botao, campo, select, checkbox, link, aba, item de menu. A cor vem da marca ativa. NUNCA remova o anel. NAO USE dentro da barra lateral - la e focus-ring/sidebar."
   focus-ring/invalid:
     css: '--nph-focus-ring-invalid'
-    camadas: ['0 0 0 3px focus/ring-error']
+    camadas: ['0 0 0 4px focus/ring-error']
     use: "O anel de foco em campo que falhou a validacao. USE junto com mensagem de texto e icone - o anel NUNCA e o unico sinal do erro. O ESTILO e `invalid`; a COR que ele consome e `focus/ring-error` - nomes diferentes de proposito, porque os dois achatavam no mesmo --nph-focus-ring-error."
   focus-ring/sidebar:
     css: '--nph-focus-ring-sidebar'
-    camadas: ['0 0 0 3px sidebar/ring']
+    camadas: ['0 0 0 4px sidebar/ring']
     use: "O anel de foco dentro da barra lateral, onde o fundo e outro. USE em item de navegacao, botao de recolher e busca da barra."
   elevation/spotlight:
     css: '--nph-elevation-spotlight'
@@ -1056,7 +1062,11 @@ tokens_core_veu:
 
 tokens_core_foco:
   regra: 'NUNCA consuma direto. O anel de foco vem dos estilos focus-ring/*, que ja ligam a largura e a cor.'
-  core/focus-width/default: { valor: 3, css: '--nph-core-focus-width-default', alias_de: 'focus/ring-width' }
+  core/focus-width/default: { valor: 4, css: '--nph-core-focus-width-default', alias_de: 'focus/ring-width' }
+
+tokens_core_borda:
+  regra: 'NUNCA consuma direto. Use border/width.'
+  core/border-width/default: { valor: 1, css: '--nph-core-border-width-default', alias_de: 'border/width' }
 
 tokens_core_icon:
   regra: 'NUNCA consuma direto. Use icon/size-sm, -md e -lg. Lido do Figma em 24-08-2026, ao migrar os tokens para JSON.'
@@ -1090,7 +1100,7 @@ tokens_core_sem_consumidor:
   nao_gerar_em_json: 'Enquanto estiverem nesta lista, NAO devem entrar no JSON de tokens: gerar CSS para um primitivo sem papel espalha divida.'
 
   radius:
-    nota: 'Quatro degraus acima de core/radius/600, que e o ultimo com consumidor (radius/surface).'
+    nota: 'Quatro degraus acima de core/radius/600, que e o ultimo degrau da escala com consumidor (radius/surface).'
     '700':  { valor: 16 }
     '800':  { valor: 22 }
     '900':  { valor: 24 }
@@ -1145,8 +1155,38 @@ tokens_alpha:
   focus/ring-width:
     css: '--nph-focus-ring-width'
     alias: core/focus-width/default
-    valor: 3
-    use: "A espessura de TODO anel de foco: 3px, igual nos dois modos. NUNCA escolha a mao: aplique um dos estilos focus-ring/*. NAO reduza para 1 ou 2 em peca pequena - o anel e o que torna o produto navegavel por teclado. A WCAG 2.2 pede no minimo 2px."
+    valor: 4
+    use: "A espessura de TODO anel de foco: 4px, igual nos dois modos. NUNCA escolha a mao: aplique um dos estilos focus-ring/*. NAO reduza para 1 ou 2 em peca pequena - o anel e o que torna o produto navegavel por teclado. A WCAG 2.2 pede no minimo 2px."
+  border/width:
+    css: '--nph-border-width'
+    alias: core/border-width/default
+    valor: 1
+    use: "Espessura de borda e de contorno de controle, caixa e linha."
+  focus/border-radius-control:
+    css: '--nph-focus-border-radius-control'
+    alias: core/radius/off-scale/7
+    valor: 7
+    use: "Raio da borda de foco de 1 px em volta de controle com radius/control."
+  focus/radius-control:
+    css: '--nph-focus-radius-control'
+    alias: core/radius/450
+    valor: 10
+    use: "Raio do halo de foco em volta de controle com radius/control: radius/control + focus/ring-width."
+  focus/radius-control-with-border:
+    css: '--nph-focus-radius-control-with-border'
+    alias: core/radius/off-scale/11
+    valor: 11
+    use: "Raio do halo de foco em volta da borda de foco de um controle: focus/border-radius-control + focus/ring-width."
+  focus/radius-inner:
+    css: '--nph-focus-radius-inner'
+    alias: core/radius/400
+    valor: 8
+    use: "Raio do halo de foco em volta de peça com radius/inner: radius/inner + focus/ring-width."
+  focus/radius-surface:
+    css: '--nph-focus-radius-surface'
+    alias: core/radius/off-scale/18
+    valor: 18
+    use: "Raio do halo de foco em volta de peça com radius/surface: radius/surface + focus/ring-width."
   state/disabled-opacity:
     css: '--nph-state-disabled-opacity'
     valor: 0.5
