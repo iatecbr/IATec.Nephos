@@ -80,6 +80,9 @@ Antes de analisar, propor, editar ou implementar:
   pede revisão em pull request já fechado.
 - Elvys ou Mauro revisam e fazem o merge. Não faça o merge do próprio pull
   request.
+- Ao abrir o pull request, peça no mesmo passo a revisão do Mauro no GitHub:
+  `gh pr edit <número> --add-reviewer maurocsjr`. Esse é o padrão. Outro
+  revisor, só quando a Indiane indicar.
 - Esta convenção vale até uma instrução versionada substituí-la. A configuração
   de branch padrão no GitHub não muda esse destino de integração.
 
