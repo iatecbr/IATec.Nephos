@@ -19,44 +19,44 @@
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { TemplateResult } from 'lit';
 
-import estilos from './nph-icon.css?inline';
+import iconCss from './nph-icon.css?inline';
 import {
   NPH_ICON_NAMES,
-  buscarArte,
-  ehNomeDoNucleo,
-  ehTamanho,
-  ehVariante,
+  findGlyph,
+  isCoreName,
+  isSize,
+  isVariant,
 } from './nph-icon.icons';
 import type { NphIconName, NphIconSize, NphIconVariant } from './nph-icon.icons';
 
 const TAG = 'nph-icon';
 
 /** Marca interna, nao API: presente so quando existe arte valida desenhada. */
-const ATRIBUTO_RENDERIZADO = 'data-nph-rendered';
+const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 
 /** O que o `render` precisa saber. Extraido da definicao do Font Awesome. */
-interface Desenho {
-  readonly largura: number;
-  readonly altura: number;
-  readonly caminho: string;
+interface Drawing {
+  readonly width: number;
+  readonly height: number;
+  readonly path: string;
 }
 
 /**
  * Erro de desenvolvimento. Fora de um bundler que defina `import.meta.env`,
  * o encadeamento opcional simplesmente silencia — nunca quebra a pagina.
  */
-function erroDeDesenvolvimento(mensagem: string): void {
+function devError(message: string): void {
   if (import.meta.env?.DEV) {
-    console.error(`[${TAG}] ${mensagem}`);
+    console.error(`[${TAG}] ${message}`);
   }
 }
 
-function citar(valor: string | null): string {
-  return valor === null ? 'ausente' : `"${valor}"`;
+function quote(value: string | null): string {
+  return value === null ? 'ausente' : `"${value}"`;
 }
 
 export class NphIcon extends LitElement {
-  static override styles = unsafeCSS(estilos);
+  static override styles = unsafeCSS(iconCss);
 
   static override properties = {
     name: { type: String },
@@ -78,11 +78,11 @@ export class NphIcon extends LitElement {
   /** Nome acessivel. Vazio ou so espacos torna o icone decorativo. */
   label: string | null = null;
 
-  private desenho: Desenho | undefined = undefined;
+  private drawing: Drawing | undefined = undefined;
 
   protected override willUpdate(): void {
-    this.desenho = this.resolverDesenho();
-    this.aplicarSemantica();
+    this.drawing = this.resolveDrawing();
+    this.applySemantics();
   }
 
   /**
@@ -91,51 +91,51 @@ export class NphIcon extends LitElement {
    * proprio: quem esta desenvolvendo precisa saber TODAS as causas, nao a
    * primeira.
    */
-  private resolverDesenho(): Desenho | undefined {
+  private resolveDrawing(): Drawing | undefined {
     const name = this.name;
     const variant = this.variant ?? 'regular';
     const size = this.size;
 
-    const nomeValido = name !== null && ehNomeDoNucleo(name);
-    const varianteValida = ehVariante(variant);
-    const tamanhoValido = size !== null && ehTamanho(size);
+    const validName = name !== null && isCoreName(name);
+    const validVariant = isVariant(variant);
+    const validSize = size !== null && isSize(size);
 
-    if (!nomeValido) {
-      erroDeDesenvolvimento(
-        `name ${citar(name)} nao pertence ao nucleo Nephos. ` +
+    if (!validName) {
+      devError(
+        `name ${quote(name)} nao pertence ao nucleo Nephos. ` +
           `Use um dos ${NPH_ICON_NAMES.length} nomes aprovados, em kebab-case.`,
       );
     }
-    if (!varianteValida) {
-      erroDeDesenvolvimento(
-        `variant ${citar(this.variant)} nao existe. Use "regular" ou "solid".`,
+    if (!validVariant) {
+      devError(
+        `variant ${quote(this.variant)} nao existe. Use "regular" ou "solid".`,
       );
     }
-    if (!tamanhoValido) {
-      erroDeDesenvolvimento(
-        `size ${citar(size)} nao existe. Use "sm", "md" ou "lg" — nao ha padrao nem valor livre.`,
+    if (!validSize) {
+      devError(
+        `size ${quote(size)} nao existe. Use "sm", "md" ou "lg" — nao ha padrao nem valor livre.`,
       );
     }
-    if (!nomeValido || !varianteValida || !tamanhoValido) {
+    if (!validName || !validVariant || !validSize) {
       return undefined;
     }
 
-    const arte = buscarArte(name, variant);
-    if (arte === undefined) {
-      erroDeDesenvolvimento(
+    const glyph = findGlyph(name, variant);
+    if (glyph === undefined) {
+      devError(
         `nao existe arte "${variant}" para name "${name}".`,
       );
       return undefined;
     }
 
-    const [largura, altura, , , caminho] = arte.icon;
-    if (typeof caminho !== 'string') {
+    const [width, height, , , path] = glyph.icon;
+    if (typeof path !== 'string') {
       /* Caminho multiplo e Duotone, que nao entra no mapa fechado. */
-      erroDeDesenvolvimento(`a arte de "${name}" nao tem caminho unico.`);
+      devError(`a arte de "${name}" nao tem caminho unico.`);
       return undefined;
     }
 
-    return { largura, altura, caminho };
+    return { width, height, path };
   }
 
   /**
@@ -143,13 +143,13 @@ export class NphIcon extends LitElement {
    * Sem arte valida o elemento fica fora da arvore de acessibilidade, porque
    * nao ha nada para anunciar.
    */
-  private aplicarSemantica(): void {
-    const rotulo = (this.label ?? '').trim();
-    const nomeavel = this.desenho !== undefined && rotulo !== '';
+  private applySemantics(): void {
+    const label = (this.label ?? '').trim();
+    const nameable = this.drawing !== undefined && label !== '';
 
-    if (nomeavel) {
+    if (nameable) {
       this.setAttribute('role', 'img');
-      this.setAttribute('aria-label', rotulo);
+      this.setAttribute('aria-label', label);
       this.removeAttribute('aria-hidden');
     } else {
       this.removeAttribute('role');
@@ -157,23 +157,23 @@ export class NphIcon extends LitElement {
       this.setAttribute('aria-hidden', 'true');
     }
 
-    this.toggleAttribute(ATRIBUTO_RENDERIZADO, this.desenho !== undefined);
+    this.toggleAttribute(RENDERED_ATTRIBUTE, this.drawing !== undefined);
   }
 
   protected override render(): TemplateResult | typeof nothing {
-    const desenho = this.desenho;
-    if (desenho === undefined) {
+    const drawing = this.drawing;
+    if (drawing === undefined) {
       return nothing;
     }
 
     return html`<svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 ${desenho.largura} ${desenho.altura}"
+      viewBox="0 0 ${drawing.width} ${drawing.height}"
       fill="currentColor"
       aria-hidden="true"
       focusable="false"
     >
-      <path d=${desenho.caminho}></path>
+      <path d=${drawing.path}></path>
     </svg>`;
   }
 }

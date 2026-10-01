@@ -26,13 +26,13 @@ import '@fontsource/noto-sans/latin-500.css';
 import '@fontsource/noto-sans/latin-600.css';
 import '@fontsource/ibm-plex-mono/latin-400.css';
 import '../src/tokens/generated/tokens.css';
-import { CHAVE, IDIOMAS, IDIOMA_PADRAO } from './i18n/index.js';
+import { LOCALE_GLOBAL, LOCALES, DEFAULT_LOCALE } from './i18n/index.js';
 
 /** O mesmo nome do global em `manager.js`. */
-const MODO = 'colorScheme';
+const COLOR_SCHEME = 'colorScheme';
 
 /** Fonte, fundo e cor da pagina, sempre por token. Injetado uma vez. */
-const ESTILO_DA_PAGINA = `
+const PAGE_STYLE = `
   body {
     font-family: var(--nph-core-font-sans);
     background: var(--nph-color-background);
@@ -43,19 +43,19 @@ const ESTILO_DA_PAGINA = `
   }
 `;
 
-function garantirEstilo() {
-  if (document.getElementById('nph-estilo-da-pagina')) return;
-  const estilo = document.createElement('style');
-  estilo.id = 'nph-estilo-da-pagina';
-  estilo.textContent = ESTILO_DA_PAGINA;
-  document.head.appendChild(estilo);
+function ensureStyle() {
+  if (document.getElementById('nph-page-style')) return;
+  const style = document.createElement('style');
+  style.id = 'nph-page-style';
+  style.textContent = PAGE_STYLE;
+  document.head.appendChild(style);
 }
 
 /** @type {import('@storybook/web-components').Decorator} */
-const modoDeCor = (story, contexto) => {
-  garantirEstilo();
-  const modo = contexto.globals?.[MODO] === 'dark' ? 'dark' : 'light';
-  document.documentElement.setAttribute('data-nph-color-scheme', modo);
+const withColorScheme = (story, context) => {
+  ensureStyle();
+  const colorScheme = context.globals?.[COLOR_SCHEME] === 'dark' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-nph-color-scheme', colorScheme);
   return story();
 };
 
@@ -63,25 +63,25 @@ const modoDeCor = (story, contexto) => {
 const preview = {
   parameters: {},
 
-  decorators: [modoDeCor],
+  decorators: [withColorScheme],
 
   initialGlobals: {
-    [CHAVE]: IDIOMA_PADRAO,
-    [MODO]: 'light',
+    [LOCALE_GLOBAL]: DEFAULT_LOCALE,
+    [COLOR_SCHEME]: 'light',
   },
 
   globalTypes: {
-    [CHAVE]: {
+    [LOCALE_GLOBAL]: {
       description: 'Idioma dos textos explicativos',
       toolbar: {
         title: 'Idioma',
         icon: 'globe',
-        items: IDIOMAS,
+        items: LOCALES,
         dynamicTitle: true,
       },
     },
     /* Sem `toolbar`: quem mostra o seletor e a ferramenta do `manager.js`. */
-    [MODO]: {
+    [COLOR_SCHEME]: {
       description: 'Modo de cor da moldura e da pagina',
     },
   },

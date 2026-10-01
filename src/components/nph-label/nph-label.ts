@@ -78,9 +78,9 @@ export class NphLabel extends LitElement {
   }
 
   protected override render(): TemplateResult {
-    return html`<label class="nph-label__texto" for=${this.for ?? nothing}
+    return html`<label class="nph-label__text" for=${this.for ?? nothing}
       >${this.text}${this.required
-        ? html`<span class="nph-label__obrigatorio" aria-hidden="true">*</span>`
+        ? html`<span class="nph-label__required" aria-hidden="true">*</span>`
         : nothing}</label
     >`;
   }

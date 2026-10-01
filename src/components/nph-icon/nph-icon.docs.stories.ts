@@ -15,34 +15,34 @@
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
-import { CHAVE, IDIOMA_PADRAO, textos } from '../../../.storybook/i18n/index.js';
+import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-icon';
 import { NPH_ICON_NAMES, NPH_ICON_SIZES } from './nph-icon.icons';
 import {
-  CATEGORIAS,
-  TOTAL_DO_NUCLEO,
-  botao,
-  campo,
-  celula,
-  filtrarNomes,
-  grade,
-  legenda,
-  pagina,
-  prosa,
+  CATEGORIES,
+  CORE_TOTAL,
+  button,
+  field,
+  cell,
+  filterNames,
+  grid,
+  caption,
+  page,
+  prose,
 } from './nph-icon.demo';
 import {
-  cabecalho,
-  corpo,
-  demonstracao,
-  fonte,
-  indice,
-  lista,
-  naoFazer,
-  nota,
-  secao,
-  tabela,
-  texto,
-  usarNaoUsar,
+  header,
+  body,
+  demo,
+  source,
+  index,
+  list,
+  dontDo,
+  note,
+  section,
+  table,
+  text,
+  useDontUse,
 } from '../../shared/docs/pagina';
 
 const meta: Meta = {
@@ -56,19 +56,19 @@ export default meta;
 
 type Story = StoryObj;
 
-interface Contexto {
+interface GlobalsContext {
   globals?: Record<string, unknown>;
 }
 
-function idiomaDe(contexto: Contexto | undefined): string {
-  return (contexto?.globals?.[CHAVE] as string | undefined) ?? IDIOMA_PADRAO;
+function localeOf(context: GlobalsContext | undefined): string {
+  return (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
 }
 
 /*
  * `hidden` precisa vencer o `display` inline da moldura. Regra de cenario,
  * restrita a esta pagina.
  */
-const regraDeOcultacao = html`
+const hidingRule = html`
   <style>
     [hidden] {
       display: none !important;
@@ -77,16 +77,16 @@ const regraDeOcultacao = html`
 `;
 
 /** Ids das secoes: identificadores tecnicos, iguais em qualquer idioma. */
-const SECOES = {
-  quandoUsar: 'quando-usar',
+const SECTIONS = {
+  whenToUse: 'quando-usar',
   api: 'api',
-  nucleo: 'nucleo',
-  tamanho: 'tamanho',
-  cor: 'cor',
-  acessibilidade: 'acessibilidade',
-  invalida: 'entrada-invalida',
-  antiPadroes: 'anti-padroes',
-  referencias: 'referencias',
+  core: 'nucleo',
+  size: 'tamanho',
+  color: 'cor',
+  accessibility: 'acessibilidade',
+  invalid: 'entrada-invalida',
+  antiPatterns: 'anti-padroes',
+  references: 'referencias',
 } as const;
 
 /**
@@ -95,195 +95,195 @@ const SECOES = {
  */
 export const Documentacao: Story = {
   name: 'Documentação',
-  render: (_args, contexto: Contexto) => {
-    const dicionario = textos(idiomaDe(contexto));
-    const d = dicionario.docs;
-    const categorias = dicionario.categorias;
-    const tituloDoNucleo = d.nucleoTitulo(TOTAL_DO_NUCLEO);
+  render: (_args, context: GlobalsContext) => {
+    const dictionary = translations(localeOf(context));
+    const d = dictionary.docs;
+    const categories = dictionary.categories;
+    const coreHeading = d.coreTitle(CORE_TOTAL);
 
     return html`
-      <div style=${corpo}>
-        ${cabecalho('nph-icon', d.resumo)}
+      <div style=${body}>
+        ${header('nph-icon', d.summary)}
 
-        ${nota('info', d.derivadaTitulo, d.derivadaTexto1)}
+        ${note('info', d.derivedTitle, d.derivedText1)}
 
-        ${indice(d.nestaPagina, [
-          { id: SECOES.quandoUsar, titulo: d.quandoUsarTitulo },
-          { id: SECOES.api, titulo: d.apiTitulo },
-          { id: SECOES.nucleo, titulo: tituloDoNucleo },
-          { id: SECOES.tamanho, titulo: d.tamanhoTitulo },
-          { id: SECOES.cor, titulo: d.corTitulo },
-          { id: SECOES.acessibilidade, titulo: d.acessibilidadeTitulo },
-          { id: SECOES.invalida, titulo: d.invalidaTitulo },
-          { id: SECOES.antiPadroes, titulo: d.antiPadroesTitulo },
-          { id: SECOES.referencias, titulo: d.referenciasTitulo },
+        ${index(d.onThisPage, [
+          { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
+          { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.core, title: coreHeading },
+          { id: SECTIONS.size, title: d.sizeTitle },
+          { id: SECTIONS.color, title: d.colorTitle },
+          { id: SECTIONS.accessibility, title: d.accessibilityTitle },
+          { id: SECTIONS.invalid, title: d.invalidTitle },
+          { id: SECTIONS.antiPatterns, title: d.antiPatternsTitle },
+          { id: SECTIONS.references, title: d.referencesTitle },
         ])}
 
-        ${secao(
-          SECOES.quandoUsar,
-          d.quandoUsarTitulo,
+        ${section(
+          SECTIONS.whenToUse,
+          d.whenToUseTitle,
           html`
-            ${usarNaoUsar(
-              { titulo: d.quandoUsarTitulo, itens: d.quandoUsar },
-              { titulo: d.quandoNaoUsarTitulo, itens: d.quandoNaoUsar },
+            ${useDontUse(
+              { title: d.whenToUseTitle, items: d.whenToUse },
+              { title: d.whenNotToUseTitle, items: d.whenNotToUse },
             )}
-            ${fonte(d.fonteRotulo, d.fonteFicha)}
+            ${source(d.sourceLabel, d.sourceSpec)}
           `,
         )}
 
-        ${secao(
-          SECOES.api,
-          d.apiTitulo,
+        ${section(
+          SECTIONS.api,
+          d.apiTitle,
           html`
-            ${tabela(
-              d.cabecalhoApi,
+            ${table(
+              d.apiHeader,
               d.api.map(
-                ([termo, descricao]: [string, (total: number) => string]) =>
-                  [termo, descricao(TOTAL_DO_NUCLEO)] as const,
+                ([term, description]: [string, (total: number) => string]) =>
+                  [term, description(CORE_TOTAL)] as const,
               ),
               'auto',
             )}
-            ${fonte(d.fonteRotulo, d.fonteFichaContrato)}
+            ${source(d.sourceLabel, d.sourceSpecContract)}
           `,
         )}
 
-        ${secao(
-          SECOES.nucleo,
-          tituloDoNucleo,
+        ${section(
+          SECTIONS.core,
+          coreHeading,
           html`
-            ${texto(d.nucleoTexto)}
-            ${tabela(
-              d.cabecalhoNucleo,
-              CATEGORIAS.map(
-                (categoria, indice) =>
-                  [categorias[indice] ?? '', d.nucleoContagem(categoria.length)] as const,
+            ${text(d.coreText)}
+            ${table(
+              d.coreHeader,
+              CATEGORIES.map(
+                (category, index) =>
+                  [categories[index] ?? '', d.coreCount(category.length)] as const,
               ),
-              'texto',
+              'text',
             )}
-            ${nota('info', d.notaSolidTitulo, d.nucleoRegra)}
-            ${fonte(d.fonteRotulo, d.fonteNucleo)}
+            ${note('info', d.solidNoteTitle, d.coreRule)}
+            ${source(d.sourceLabel, d.sourceCore)}
           `,
         )}
 
-        ${secao(
-          SECOES.tamanho,
-          d.tamanhoTitulo,
+        ${section(
+          SECTIONS.size,
+          d.sizeTitle,
           html`
-            ${texto(d.tamanhoTexto)}
-            ${demonstracao(
+            ${text(d.sizeText)}
+            ${demo(
               html`${NPH_ICON_SIZES.map(
-                (tamanho) => html`
+                (size) => html`
                   <div style="display: flex; flex-direction: column; align-items: center; gap: var(--nph-space-inline-tight);">
-                    <nph-icon name="gear" size=${tamanho}></nph-icon>
-                    <code style="color: var(--nph-color-muted-foreground);">${tamanho}</code>
+                    <nph-icon name="gear" size=${size}></nph-icon>
+                    <code style="color: var(--nph-color-muted-foreground);">${size}</code>
                   </div>
                 `,
               )}`,
-              d.legendaTamanho,
+              d.sizeCaption,
             )}
-            ${tabela(
-              d.cabecalhoTamanho,
-              d.tamanhoTabela.map(([token, uso]: [string, string]) => [token, uso] as const),
+            ${table(
+              d.sizeHeader,
+              d.sizeTable.map(([token, usage]: [string, string]) => [token, usage] as const),
             )}
-            ${nota('info', d.notaTransbordoTitulo, d.tamanhoTransbordo)}
-            ${fonte(d.fonteRotulo, d.fonteTamanho)}
+            ${note('info', d.overflowNoteTitle, d.sizeOverflow)}
+            ${source(d.sourceLabel, d.sourceSize)}
           `,
         )}
 
-        ${secao(
-          SECOES.cor,
-          d.corTitulo,
-          html`${texto(d.corTexto)} ${fonte(d.fonteRotulo, d.fonteCor)}`,
+        ${section(
+          SECTIONS.color,
+          d.colorTitle,
+          html`${text(d.colorText)} ${source(d.sourceLabel, d.sourceColor)}`,
         )}
 
-        ${secao(
-          SECOES.acessibilidade,
-          d.acessibilidadeTitulo,
-          html`${lista(d.acessibilidade)} ${fonte(d.fonteRotulo, d.fonteAcessibilidade)}`,
+        ${section(
+          SECTIONS.accessibility,
+          d.accessibilityTitle,
+          html`${list(d.accessibility)} ${source(d.sourceLabel, d.sourceAccessibility)}`,
         )}
 
-        ${secao(
-          SECOES.invalida,
-          d.invalidaTitulo,
+        ${section(
+          SECTIONS.invalid,
+          d.invalidTitle,
           html`
-            ${texto(d.invalidaTexto)}
-            ${nota('warning', d.notaInvalidaTitulo, d.invalidaPonteiro)}
-            ${fonte(d.fonteRotulo, d.fonteInvalida)}
+            ${text(d.invalidText)}
+            ${note('warning', d.invalidNoteTitle, d.invalidPointer)}
+            ${source(d.sourceLabel, d.sourceInvalid)}
           `,
         )}
 
-        ${secao(
-          SECOES.antiPadroes,
-          d.antiPadroesTitulo,
-          html`${naoFazer(d.antiPadroesTitulo, d.antiPadroes)} ${fonte(d.fonteRotulo, d.fonteFicha)}`,
+        ${section(
+          SECTIONS.antiPatterns,
+          d.antiPatternsTitle,
+          html`${dontDo(d.antiPatternsTitle, d.antiPatterns)} ${source(d.sourceLabel, d.sourceSpec)}`,
         )}
 
-        ${secao(SECOES.referencias, d.referenciasTitulo, lista(d.referencias))}
+        ${section(SECTIONS.references, d.referencesTitle, list(d.references))}
       </div>
     `;
   },
 };
 
 
-function galeriaDe(alvo: EventTarget | null): HTMLElement | null {
-  return alvo instanceof HTMLElement
-    ? alvo.closest<HTMLElement>('[data-nph-galeria]')
+function galleryOf(target: EventTarget | null): HTMLElement | null {
+  return target instanceof HTMLElement
+    ? target.closest<HTMLElement>('[data-nph-gallery]')
     : null;
 }
 
 /**
  * Filtra a grade no navegador. O conjunto exibido vem sempre de
- * `filtrarNomes` sobre `NPH_ICON_NAMES`: e impossivel esta pagina mostrar um
+ * `filterNames` sobre `NPH_ICON_NAMES`: e impossivel esta pagina mostrar um
  * icone que nao esteja no nucleo.
  *
  * O idioma vem do proprio DOM, gravado na renderizacao: o tratador de evento
  * nao tem acesso ao contexto da story.
  */
-function aplicarFiltro(galeria: HTMLElement, termo: string): void {
-  const g = textos(galeria.dataset['nphIdioma'] ?? IDIOMA_PADRAO).galeria;
-  const correspondentes = new Set<string>(filtrarNomes(NPH_ICON_NAMES, termo));
+function applyFilter(gallery: HTMLElement, term: string): void {
+  const g = translations(gallery.dataset['nphLocale'] ?? DEFAULT_LOCALE).gallery;
+  const matches = new Set<string>(filterNames(NPH_ICON_NAMES, term));
 
-  for (const item of galeria.querySelectorAll<HTMLElement>('[data-nph-nome]')) {
-    item.hidden = !correspondentes.has(item.dataset['nphNome'] ?? '');
+  for (const item of gallery.querySelectorAll<HTMLElement>('[data-nph-name]')) {
+    item.hidden = !matches.has(item.dataset['nphName'] ?? '');
   }
 
-  for (const categoria of galeria.querySelectorAll<HTMLElement>('[data-nph-categoria]')) {
-    categoria.hidden =
-      categoria.querySelectorAll('[data-nph-nome]:not([hidden])').length === 0;
+  for (const category of gallery.querySelectorAll<HTMLElement>('[data-nph-category]')) {
+    category.hidden =
+      category.querySelectorAll('[data-nph-name]:not([hidden])').length === 0;
   }
 
-  const vazio = galeria.querySelector<HTMLElement>('[data-nph-vazio]');
-  if (vazio !== null) {
-    vazio.hidden = correspondentes.size > 0;
+  const empty = gallery.querySelector<HTMLElement>('[data-nph-empty]');
+  if (empty !== null) {
+    empty.hidden = matches.size > 0;
   }
 
   /* O contador so muda de texto quando o numero muda: leitor de tela nao e mural. */
-  const contador = galeria.querySelector<HTMLElement>('[data-nph-contador]');
-  const total = String(correspondentes.size);
-  if (contador !== null && contador.dataset['nphEncontrados'] !== total) {
-    contador.dataset['nphEncontrados'] = total;
-    contador.textContent = g.contador(correspondentes.size, TOTAL_DO_NUCLEO);
+  const counter = gallery.querySelector<HTMLElement>('[data-nph-counter]');
+  const total = String(matches.size);
+  if (counter !== null && counter.dataset['nphFound'] !== total) {
+    counter.dataset['nphFound'] = total;
+    counter.textContent = g.counter(matches.size, CORE_TOTAL);
   }
 }
 
-function aoBuscar(evento: Event): void {
-  const alvo = evento.currentTarget;
-  const galeria = galeriaDe(alvo);
-  if (galeria === null || !(alvo instanceof HTMLInputElement)) {
+function onSearch(event: Event): void {
+  const target = event.currentTarget;
+  const gallery = galleryOf(target);
+  if (gallery === null || !(target instanceof HTMLInputElement)) {
     return;
   }
-  aplicarFiltro(galeria, alvo.value);
+  applyFilter(gallery, target.value);
 }
 
-function aoLimpar(evento: Event): void {
-  const galeria = galeriaDe(evento.currentTarget);
-  const busca = galeria?.querySelector<HTMLInputElement>('[data-nph-busca]') ?? null;
-  if (galeria === null || busca === null) {
+function onClear(event: Event): void {
+  const gallery = galleryOf(event.currentTarget);
+  const search = gallery?.querySelector<HTMLInputElement>('[data-nph-search]') ?? null;
+  if (gallery === null || search === null) {
     return;
   }
-  busca.value = '';
-  aplicarFiltro(galeria, '');
-  busca.focus();
+  search.value = '';
+  applyFilter(gallery, '');
+  search.focus();
 }
 
 /**
@@ -295,19 +295,19 @@ function aoLimpar(evento: Event): void {
  */
 export const IconsOverview: Story = {
   name: 'Icons Overview',
-  render: (_args, contexto: Contexto) => {
-    const idioma = idiomaDe(contexto);
-    const dicionario = textos(idioma);
-    const g = dicionario.galeria;
-    const categorias = dicionario.categorias;
+  render: (_args, context: GlobalsContext) => {
+    const locale = localeOf(context);
+    const dictionary = translations(locale);
+    const g = dictionary.gallery;
+    const categories = dictionary.categories;
 
     return html`
-      <div style=${pagina} data-nph-galeria data-nph-idioma=${idioma}>
-        ${regraDeOcultacao}
-        <header style=${prosa}>
-          <h1 style="margin: 0;">${g.titulo}</h1>
+      <div style=${page} data-nph-gallery data-nph-locale=${locale}>
+        ${hidingRule}
+        <header style=${prose}>
+          <h1 style="margin: 0;">${g.title}</h1>
           <p style="margin: 0;">
-            ${g.resumo1} ${TOTAL_DO_NUCLEO} ${g.resumo2} <strong>${g.resumo3}</strong>.
+            ${g.summary1} ${CORE_TOTAL} ${g.summary2} <strong>${g.summary3}</strong>.
           </p>
         </header>
 
@@ -315,51 +315,51 @@ export const IconsOverview: Story = {
           style="display: flex; align-items: flex-end; gap: var(--nph-space-inline); flex-wrap: wrap;"
         >
           <div style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
-            <label for="nph-icon-busca">${g.rotuloBusca}</label>
+            <label for="nph-icon-search">${g.searchLabel}</label>
             <input
-              id="nph-icon-busca"
-              data-nph-busca
+              id="nph-icon-search"
+              data-nph-search
               type="search"
               autocomplete="off"
               spellcheck="false"
-              placeholder=${g.exemploBusca}
-              aria-controls="nph-icon-grade"
-              style=${campo}
-              @input=${aoBuscar}
+              placeholder=${g.searchExample}
+              aria-controls="nph-icon-grid"
+              style=${field}
+              @input=${onSearch}
             />
           </div>
-          <button type="button" style=${botao} @click=${aoLimpar}>${g.limpar}</button>
+          <button type="button" style=${button} @click=${onClear}>${g.clear}</button>
         </div>
 
         <p
-          data-nph-contador
-          data-nph-encontrados=${TOTAL_DO_NUCLEO}
+          data-nph-counter
+          data-nph-found=${CORE_TOTAL}
           role="status"
           aria-live="polite"
-          style="${legenda} margin: 0;"
+          style="${caption} margin: 0;"
         >
-          ${g.contador(TOTAL_DO_NUCLEO, TOTAL_DO_NUCLEO)}
+          ${g.counter(CORE_TOTAL, CORE_TOTAL)}
         </p>
 
         <div
-          id="nph-icon-grade"
+          id="nph-icon-grid"
           style="display: flex; flex-direction: column; gap: var(--nph-space-section);"
         >
-          ${CATEGORIAS.map(
-            (categoria, indice) => html`
+          ${CATEGORIES.map(
+            (category, index) => html`
               <section
-                data-nph-categoria
+                data-nph-category
                 style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);"
               >
                 <h3 style="margin: 0; font-size: 14px;">
-                  ${categorias[indice] ?? ''} (${categoria.length})
+                  ${categories[index] ?? ''} (${category.length})
                 </h3>
-                <div style=${grade}>
-                  ${categoria.map(
-                    (nome) => html`
-                      <div data-nph-nome=${nome} style=${celula}>
-                        <nph-icon name=${nome} size="md"></nph-icon>
-                        <span style=${legenda}>${nome}</span>
+                <div style=${grid}>
+                  ${category.map(
+                    (name) => html`
+                      <div data-nph-name=${name} style=${cell}>
+                        <nph-icon name=${name} size="md"></nph-icon>
+                        <span style=${caption}>${name}</span>
                       </div>
                     `,
                   )}
@@ -369,7 +369,7 @@ export const IconsOverview: Story = {
           )}
         </div>
 
-        <p data-nph-vazio hidden style=${legenda}>${g.vazio}</p>
+        <p data-nph-empty hidden style=${caption}>${g.empty}</p>
       </div>
     `;
   },

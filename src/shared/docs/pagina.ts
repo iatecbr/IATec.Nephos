@@ -17,7 +17,7 @@ import type { TemplateResult } from 'lit';
 
 import '../../components/nph-icon/nph-icon';
 
-type Papel =
+type TextRole =
   | 'heading-lg'
   | 'heading-md'
   | 'body-md'
@@ -28,22 +28,22 @@ type Papel =
   | 'code';
 
 /** As cinco propriedades de um papel de texto, sempre juntas. */
-export function papel(nome: Papel): string {
+export function textRole(name: TextRole): string {
   return `
-    font-family: var(--nph-text-${nome}-font-family);
-    font-size: var(--nph-text-${nome}-font-size);
-    line-height: var(--nph-text-${nome}-line-height);
-    font-weight: var(--nph-text-${nome}-font-weight);
-    letter-spacing: var(--nph-text-${nome}-letter-spacing);
+    font-family: var(--nph-text-${name}-font-family);
+    font-size: var(--nph-text-${name}-font-size);
+    line-height: var(--nph-text-${name}-line-height);
+    font-weight: var(--nph-text-${name}-font-weight);
+    letter-spacing: var(--nph-text-${name}-letter-spacing);
   `;
 }
 
 /** Largura de leitura: `layout/max-reading`, para o que se le de ponta a ponta. */
-const LEITURA = 'max-width: var(--nph-layout-max-reading);';
-const BORDA = 'var(--nph-border-width) solid var(--nph-color-border)';
+const READING = 'max-width: var(--nph-layout-max-reading);';
+const BORDER = 'var(--nph-border-width) solid var(--nph-color-border)';
 
 /** Corpo da pagina de conteudo: fundo, cor e respiro, por token. */
-export const corpo = `
+export const body = `
   color: var(--nph-color-foreground);
   background: var(--nph-color-background);
   padding: var(--nph-space-section) var(--nph-space-container-padding);
@@ -53,19 +53,19 @@ export const corpo = `
 `;
 
 /** Item do indice: o id da secao e o titulo exibido. */
-export interface ItemDoIndice {
+export interface IndexItem {
   id: string;
-  titulo: string;
+  title: string;
 }
 
 /** Linha de tabela: o termo (codigo) e a descricao. */
-export type LinhaDeTabela = readonly [string, TemplateResult | string];
+export type TableRow = readonly [string, TemplateResult | string];
 
-export function cabecalho(titulo: string, resumo: string): TemplateResult {
+export function header(title: string, summary: string): TemplateResult {
   return html`
     <header style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
-      <h1 style="margin: 0; ${papel('heading-lg')}">${titulo}</h1>
-      <p style="margin: 0; ${papel('body-md')} ${LEITURA}">${resumo}</p>
+      <h1 style="margin: 0; ${textRole('heading-lg')}">${title}</h1>
+      <p style="margin: 0; ${textRole('body-md')} ${READING}">${summary}</p>
     </header>
   `;
 }
@@ -81,44 +81,44 @@ export function cabecalho(titulo: string, resumo: string): TemplateResult {
  * (`focus/ring`, `focus/ring-width`), que troca com o modo de cor. Fica numa
  * regra porque estilo inline nao alcanca `:focus`.
  */
-const FOCO_DA_SECAO = html`
+const SECTION_FOCUS = html`
   <style>
-    [data-nph-secao]:focus {
+    [data-nph-section]:focus {
       outline: var(--nph-focus-ring-width) solid var(--nph-focus-ring);
       outline-offset: var(--nph-space-inline-tight);
     }
   </style>
 `;
 
-function irPara(evento: Event, id: string): void {
-  evento.preventDefault();
-  const link = evento.currentTarget as HTMLElement;
-  const destino = link.ownerDocument.getElementById(id);
-  if (!destino) return;
-  destino.scrollIntoView({ block: 'start' });
-  destino.focus({ preventScroll: true });
+function goTo(event: Event, id: string): void {
+  event.preventDefault();
+  const link = event.currentTarget as HTMLElement;
+  const destination = link.ownerDocument.getElementById(id);
+  if (!destination) return;
+  destination.scrollIntoView({ block: 'start' });
+  destination.focus({ preventScroll: true });
 }
 
-export function indice(rotulo: string, itens: readonly ItemDoIndice[]): TemplateResult {
+export function index(label: string, items: readonly IndexItem[]): TemplateResult {
   return html`
-    ${FOCO_DA_SECAO}
+    ${SECTION_FOCUS}
     <nav
-      aria-label=${rotulo}
+      aria-label=${label}
       style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight); padding-top: var(--nph-space-stack);"
     >
-      <span style="${papel('label-sm')} color: var(--nph-color-muted-foreground); text-transform: uppercase;">
-        ${rotulo}
+      <span style="${textRole('label-sm')} color: var(--nph-color-muted-foreground); text-transform: uppercase;">
+        ${label}
       </span>
       <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: var(--nph-space-inline-tight);">
-        ${itens.map(
-          ({ id, titulo }) => html`
+        ${items.map(
+          ({ id, title }) => html`
             <li>
               <a
                 href="#${id}"
-                @click=${(evento: Event) => irPara(evento, id)}
-                style="display: inline-block; ${papel('label-sm')} color: var(--nph-color-foreground); text-decoration: none; border: ${BORDA}; border-radius: var(--nph-radius-full); padding: var(--nph-space-inline-tight) var(--nph-space-inline);"
+                @click=${(event: Event) => goTo(event, id)}
+                style="display: inline-block; ${textRole('label-sm')} color: var(--nph-color-foreground); text-decoration: none; border: ${BORDER}; border-radius: var(--nph-radius-full); padding: var(--nph-space-inline-tight) var(--nph-space-inline);"
               >
-                ${titulo}
+                ${title}
               </a>
             </li>
           `,
@@ -128,93 +128,93 @@ export function indice(rotulo: string, itens: readonly ItemDoIndice[]): Template
   `;
 }
 
-export function secao(id: string, titulo: string, conteudo: TemplateResult): TemplateResult {
+export function section(id: string, title: string, content: TemplateResult): TemplateResult {
   return html`
     <section
       id=${id}
       tabindex="-1"
-      data-nph-secao
+      data-nph-section
       style="display: flex; flex-direction: column; gap: var(--nph-space-stack); padding-top: var(--nph-space-section); scroll-margin-top: var(--nph-space-stack); border-radius: var(--nph-radius-control);"
     >
       <h2
-        style="margin: 0; ${papel('heading-md')} padding-bottom: var(--nph-space-stack-tight); border-bottom: ${BORDA};"
+        style="margin: 0; ${textRole('heading-md')} padding-bottom: var(--nph-space-stack-tight); border-bottom: ${BORDER};"
       >
-        ${titulo}
+        ${title}
       </h2>
-      ${conteudo}
+      ${content}
     </section>
   `;
 }
 
-export function texto(conteudo: TemplateResult | string): TemplateResult {
-  return html`<p style="margin: 0; ${papel('body-md')} ${LEITURA}">${conteudo}</p>`;
+export function text(content: TemplateResult | string): TemplateResult {
+  return html`<p style="margin: 0; ${textRole('body-md')} ${READING}">${content}</p>`;
 }
 
-export function lista(itens: readonly string[]): TemplateResult {
+export function list(items: readonly string[]): TemplateResult {
   return html`
-    <ul style="margin: 0; padding-left: var(--nph-space-container-padding); ${papel('body-md')} ${LEITURA} display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
-      ${itens.map((item) => html`<li>${item}</li>`)}
+    <ul style="margin: 0; padding-left: var(--nph-space-container-padding); ${textRole('body-md')} ${READING} display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
+      ${items.map((item) => html`<li>${item}</li>`)}
     </ul>
   `;
 }
 
-export function demonstracao(conteudo: TemplateResult, legenda: string): TemplateResult {
+export function demo(content: TemplateResult, caption: string): TemplateResult {
   return html`
-    <figure data-nph-demonstracao style="margin: 0; display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
+    <figure data-nph-demo style="margin: 0; display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
       <div
-        style="border: ${BORDA}; border-radius: var(--nph-radius-control); padding: var(--nph-space-section) var(--nph-space-container-padding); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: var(--nph-space-section);"
+        style="border: ${BORDER}; border-radius: var(--nph-radius-control); padding: var(--nph-space-section) var(--nph-space-container-padding); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: center; gap: var(--nph-space-section);"
       >
-        ${conteudo}
+        ${content}
       </div>
-      <figcaption style="${papel('caption')} color: var(--nph-color-muted-foreground);">${legenda}</figcaption>
+      <figcaption style="${textRole('caption')} color: var(--nph-color-muted-foreground);">${caption}</figcaption>
     </figure>
   `;
 }
 
 /**
- * Como a primeira coluna aparece: `codigo` sempre em text/code; `texto` sempre
+ * Como a primeira coluna aparece: `code` sempre em text/code; `text` sempre
  * em text/body-sm; `auto` usa text/code so quando o termo e um identificador
  * (minusculas, sem acento nem espaco: `name`, `icon/size-sm`) e texto nos
  * demais ("Slots e eventos", "Interação").
  */
-export type ColunaDoTermo = 'codigo' | 'texto' | 'auto';
+export type TermColumn = 'code' | 'text' | 'auto';
 
-function ehIdentificador(termo: string): boolean {
-  return /^[a-z0-9][a-z0-9/_.:-]*$/.test(termo.trim());
+function isIdentifier(term: string): boolean {
+  return /^[a-z0-9][a-z0-9/_.:-]*$/.test(term.trim());
 }
 
-export function tabela(
-  cabecalhos: readonly [string, string],
-  linhas: readonly LinhaDeTabela[],
-  termo: ColunaDoTermo = 'codigo',
+export function table(
+  headers: readonly [string, string],
+  rows: readonly TableRow[],
+  term: TermColumn = 'code',
 ): TemplateResult {
-  const papelDoTermo = (texto: string): string =>
-    termo === 'codigo' || (termo === 'auto' && ehIdentificador(texto))
-      ? `${papel('code')} white-space: nowrap;`
-      : `${papel('body-sm')} font-weight: var(--nph-text-label-md-font-weight);`;
-  const celula = `padding: var(--nph-space-stack) var(--nph-space-inline); border-bottom: ${BORDA}; vertical-align: top; text-align: left;`;
+  const termRole = (text: string): string =>
+    term === 'code' || (term === 'auto' && isIdentifier(text))
+      ? `${textRole('code')} white-space: nowrap;`
+      : `${textRole('body-sm')} font-weight: var(--nph-text-label-md-font-weight);`;
+  const cell = `padding: var(--nph-space-stack) var(--nph-space-inline); border-bottom: ${BORDER}; vertical-align: top; text-align: left;`;
   return html`
     <table style="border-collapse: collapse; width: 100%;">
       <thead>
         <tr>
-          ${cabecalhos.map(
-            (titulo) => html`
+          ${headers.map(
+            (title) => html`
               <th
                 scope="col"
-                style="${celula} padding-top: var(--nph-space-inline-tight); padding-bottom: var(--nph-space-inline-tight); ${papel('label-sm')} color: var(--nph-color-muted-foreground); text-transform: uppercase;"
+                style="${cell} padding-top: var(--nph-space-inline-tight); padding-bottom: var(--nph-space-inline-tight); ${textRole('label-sm')} color: var(--nph-color-muted-foreground); text-transform: uppercase;"
               >
-                ${titulo}
+                ${title}
               </th>
             `,
           )}
         </tr>
       </thead>
       <tbody>
-        ${linhas.map(
-          ([nome, descricao]) => html`
+        ${rows.map(
+          ([name, description]) => html`
             <tr>
-              <th scope="row" style="${celula} ${papelDoTermo(nome)}">${nome}</th>
-              <td style="${celula} ${papel('body-sm')}">${descricao}</td>
+              <th scope="row" style="${cell} ${termRole(name)}">${name}</th>
+              <td style="${cell} ${textRole('body-sm')}">${description}</td>
             </tr>
           `,
         )}
@@ -223,53 +223,53 @@ export function tabela(
   `;
 }
 
-type TipoDeNota = 'info' | 'warning';
+type NoteKind = 'info' | 'warning';
 
-const ICONE_DA_NOTA: Record<TipoDeNota, 'circle-info' | 'triangle-exclamation'> = {
+const NOTE_ICON: Record<NoteKind, 'circle-info' | 'triangle-exclamation'> = {
   info: 'circle-info',
   warning: 'triangle-exclamation',
 };
 
-export function nota(tipo: TipoDeNota, titulo: string, conteudo: string): TemplateResult {
+export function note(kind: NoteKind, title: string, content: string): TemplateResult {
   return html`
     <div
       role="note"
-      data-nph-nota=${tipo}
-      style="display: flex; gap: var(--nph-space-inline); padding: var(--nph-space-stack) var(--nph-space-container-padding); border-radius: var(--nph-radius-control); background: var(--nph-status-${tipo}-surface); border: var(--nph-border-width) solid var(--nph-status-${tipo}-border); color: var(--nph-status-${tipo}-foreground);"
+      data-nph-note=${kind}
+      style="display: flex; gap: var(--nph-space-inline); padding: var(--nph-space-stack) var(--nph-space-container-padding); border-radius: var(--nph-radius-control); background: var(--nph-status-${kind}-surface); border: var(--nph-border-width) solid var(--nph-status-${kind}-border); color: var(--nph-status-${kind}-foreground);"
     >
-      <span style="color: var(--nph-status-${tipo}); display: inline-flex;">
-        <nph-icon name=${ICONE_DA_NOTA[tipo]} size="md"></nph-icon>
+      <span style="color: var(--nph-status-${kind}); display: inline-flex;">
+        <nph-icon name=${NOTE_ICON[kind]} size="md"></nph-icon>
       </span>
       <div style="display: flex; flex-direction: column; gap: var(--nph-space-inline-tight);">
-        <strong style="${papel('label-md')}">${titulo}</strong>
-        <span style="${papel('body-sm')}">${conteudo}</span>
+        <strong style="${textRole('label-md')}">${title}</strong>
+        <span style="${textRole('body-sm')}">${content}</span>
       </div>
     </div>
   `;
 }
 
-type TipoDeCartao = 'success' | 'error';
+type CardKind = 'success' | 'error';
 
-function cartao(
-  tipo: TipoDeCartao,
-  titulo: string,
-  itens: readonly string[],
+function card(
+  kind: CardKind,
+  title: string,
+  items: readonly string[],
 ): TemplateResult {
-  const icone = tipo === 'success' ? 'circle-check' : 'circle-xmark';
+  const icon = kind === 'success' ? 'circle-check' : 'circle-xmark';
   return html`
     <div
-      data-nph-cartao=${tipo}
-      style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: var(--nph-space-stack-tight); padding: var(--nph-space-stack) var(--nph-space-container-padding); border-radius: var(--nph-radius-control); background: var(--nph-status-${tipo}-surface); border: var(--nph-border-width) solid var(--nph-status-${tipo}-border); color: var(--nph-status-${tipo}-foreground);"
+      data-nph-card=${kind}
+      style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: var(--nph-space-stack-tight); padding: var(--nph-space-stack) var(--nph-space-container-padding); border-radius: var(--nph-radius-control); background: var(--nph-status-${kind}-surface); border: var(--nph-border-width) solid var(--nph-status-${kind}-border); color: var(--nph-status-${kind}-foreground);"
     >
-      <strong style="${papel('label-md')}">${titulo}</strong>
+      <strong style="${textRole('label-md')}">${title}</strong>
       <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
-        ${itens.map(
+        ${items.map(
           (item) => html`
-            <li style="display: flex; gap: var(--nph-space-inline-tight); ${papel('body-sm')}">
+            <li style="display: flex; gap: var(--nph-space-inline-tight); ${textRole('body-sm')}">
               <span
-                style="color: var(--nph-status-${tipo}); display: inline-flex; align-items: center; height: var(--nph-text-body-sm-line-height);"
+                style="color: var(--nph-status-${kind}); display: inline-flex; align-items: center; height: var(--nph-text-body-sm-line-height);"
               >
-                <nph-icon name=${icone} size="sm"></nph-icon>
+                <nph-icon name=${icon} size="sm"></nph-icon>
               </span>
               <span>${item}</span>
             </li>
@@ -281,29 +281,29 @@ function cartao(
 }
 
 /** Quando usar e quando nao usar, lado a lado. */
-export function usarNaoUsar(
-  usar: { titulo: string; itens: readonly string[] },
-  naoUsar: { titulo: string; itens: readonly string[] },
+export function useDontUse(
+  use: { title: string; items: readonly string[] },
+  dontUse: { title: string; items: readonly string[] },
 ): TemplateResult {
   return html`
     <div style="display: flex; flex-wrap: wrap; gap: var(--nph-space-stack);">
-      ${cartao('success', usar.titulo, usar.itens)} ${cartao('error', naoUsar.titulo, naoUsar.itens)}
+      ${card('success', use.title, use.items)} ${card('error', dontUse.title, dontUse.items)}
     </div>
   `;
 }
 
 /** So o cartao de erro, para listas de anti-padrao. */
-export function naoFazer(titulo: string, itens: readonly string[]): TemplateResult {
-  return html`<div style="display: flex;">${cartao('error', titulo, itens)}</div>`;
+export function dontDo(title: string, items: readonly string[]): TemplateResult {
+  return html`<div style="display: flex;">${card('error', title, items)}</div>`;
 }
 
 /** Rodape de origem. Toda regra exibida aponta de onde veio. */
-export function fonte(rotulo: string, origem: string): TemplateResult {
+export function source(label: string, origin: string): TemplateResult {
   return html`
     <p
-      style="margin: 0; padding-top: var(--nph-space-stack-tight); border-top: ${BORDA}; ${papel('caption')} color: var(--nph-color-muted-foreground);"
+      style="margin: 0; padding-top: var(--nph-space-stack-tight); border-top: ${BORDER}; ${textRole('caption')} color: var(--nph-color-muted-foreground);"
     >
-      ${rotulo} ${origem}
+      ${label} ${origin}
     </p>
   `;
 }
