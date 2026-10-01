@@ -116,11 +116,17 @@ export default {
   docs: {
     resumo:
       'Disponibiliza um ícone do núcleo Nephos com tamanho, família e acessibilidade consistentes, sem introduzir cor ou arte fora do acervo aprovado.',
+    nestaPagina: 'Nesta página',
+    cabecalhoApi: ['Propriedade', 'Regra'],
+    cabecalhoTamanho: ['Token', 'Quando usar'],
+    cabecalhoNucleo: ['Categoria', 'Ícones'],
+    legendaTamanho: 'Os tamanhos aprovados, com instâncias reais do nph-icon.',
+    notaTransbordoTitulo: 'Exceção de largura',
+    notaSolidTitulo: 'Estilos e famílias',
+    notaInvalidaTitulo: 'Onde ver os casos',
     derivadaTitulo: 'Esta página é derivada.',
     derivadaTexto1:
       'Em caso de divergência, prevalecem as fontes canônicas: design.md para o contrato técnico e docs/decisoes-tecnicas.md para as decisões P01, P02, P03, P17, P19, P20 e P21. A ficha nph-icon e o Figma DS-IA-NEPHOS 5.0 completam o contrato do componente. Nenhuma regra é criada aqui.',
-    derivadaTexto2:
-      'Estado documental: P01, P02, P03, P17, P19 e P20 são decisões adotadas pela Indiane em 24/08/2026; a P21 foi adotada em 26/08/2026, com aceitação formal de risco. Todas aguardam revisão de Elvys. A aprovação do Figma em 26-08-2026 é visual e não substitui essa revisão.',
 
     quandoUsarTitulo: 'Quando usar',
     quandoUsar: [
@@ -137,7 +143,7 @@ export default {
     apiTitulo: 'API pública aprovada',
     api: [
       ['name', (total) => `Obrigatório, em kebab-case e limitado aos ${total} ícones do núcleo Nephos.`],
-      ['variant', () => 'regular por padrão ou solid somente quando name=star.'],
+      ['variant', () => 'regular por padrão; solid quando o contexto pede maior presença visual. Os dois existem para todos os nomes do núcleo.'],
       ['size', () => 'sm, md ou lg; não aceita valor livre.'],
       [
         'label',
@@ -160,7 +166,7 @@ export default {
       'O acervo é Font Awesome Pro e Classic é a família padrão. O catálogo completo, com busca, está em Icons Overview, nesta mesma pasta.',
     nucleoContagem: (n) => `${n} ícones`,
     nucleoRegra:
-      'solid existe somente para star: Regular marca não favoritado, Solid marca favoritado. As demais combinações com solid não existem de propósito — nunca invente arte para preencher a matriz. Light, Thin e Sharp são proibidos. Duotone é permitido somente em navegação estrutural, sem misturar famílias no mesmo grupo, e ainda não tem arte disponível.',
+      'regular e solid existem para todos os nomes do núcleo; regular é o padrão, e solid entra quando o contexto pede maior presença visual. Nunca invente arte fora do acervo. Light, Thin e Sharp são proibidos. Duotone é permitido somente em navegação estrutural, sem misturar famílias no mesmo grupo, e ainda não tem arte disponível.',
 
     tamanhoTitulo: 'Tamanho',
     tamanhoTexto:
@@ -198,7 +204,7 @@ export default {
 
     invalidaTitulo: 'Entrada inválida',
     invalidaTexto:
-      'name fora do núcleo, size fora da lista aprovada ou variant=solid com outro nome não renderizam ícone e falham na validação de desenvolvimento. Não há fallback visual nem tamanho livre. O erro sai por console.error apenas em desenvolvimento.',
+      'name fora do núcleo, size ausente ou fora da lista aprovada, ou variant inexistente não renderizam ícone e falham na validação de desenvolvimento. Não há fallback visual nem tamanho livre. O erro sai por console.error apenas em desenvolvimento.',
     invalidaPonteiro: 'Os casos estão demonstrados em Validação › Entrada inválida.',
 
     antiPadroesTitulo: 'Anti-padrões',
@@ -234,11 +240,11 @@ export default {
   },
 
   validacao: {
-    variantesSecao: 'star',
-    variantesRegular: 'regular — não favoritado',
-    variantesSolid: 'solid — favoritado',
+    variantesSecao: 'regular e solid',
+    variantesRegular: 'regular — padrão',
+    variantesSolid: 'solid — mais presença visual',
     variantesNota:
-      'solid existe somente para star. Qualquer outro nome com variant="solid" não renderiza.',
+      'regular e solid existem para todos os nomes do núcleo.',
 
     tamanhosTransbordoTitulo: 'Transbordo aprovado',
     tamanhosEye: 'eye — 18 de largura natural',
@@ -263,7 +269,7 @@ export default {
       'Os quatro casos abaixo não desenham nada e não ocupam espaço. Abra o console para ver um erro por propriedade inválida.',
     invalidaCasos: [
       'fora do núcleo:',
-      'solid só existe em star:',
+      'variant inexistente:',
       'tamanho livre não existe:',
       'size é obrigatório:',
     ],

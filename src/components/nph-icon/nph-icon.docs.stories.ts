@@ -13,7 +13,6 @@
  * atributo, propriedade, evento ou estilo do `nph-icon` foi criado para ela.
  */
 import { html } from 'lit';
-import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { CHAVE, IDIOMA_PADRAO, textos } from '../../../.storybook/i18n/index.js';
@@ -24,18 +23,27 @@ import {
   TOTAL_DO_NUCLEO,
   botao,
   campo,
-  cartao,
   celula,
-  celulaDeTabela,
   filtrarNomes,
-  fonte,
   grade,
   legenda,
   pagina,
   prosa,
+} from './nph-icon.demo';
+import {
+  cabecalho,
+  corpo,
+  demonstracao,
+  fonte,
+  indice,
+  lista,
+  naoFazer,
+  nota,
   secao,
   tabela,
-} from './nph-icon.demo';
+  texto,
+  usarNaoUsar,
+} from '../../shared/docs/pagina';
 
 const meta: Meta = {
   title: 'Componentes/nph-icon/Docs',
@@ -68,28 +76,22 @@ const regraDeOcultacao = html`
   </style>
 `;
 
-function linha(termo: string, descricao: TemplateResult | string): TemplateResult {
-  return html`
-    <tr>
-      <th scope="row" style="${celulaDeTabela} font-family: var(--nph-text-code-font-family); white-space: nowrap;">
-        ${termo}
-      </th>
-      <td style=${celulaDeTabela}>${descricao}</td>
-    </tr>
-  `;
-}
-
-function itens(lista: readonly string[]): TemplateResult {
-  return html`
-    <ul style="margin: 0; padding-left: var(--nph-space-container-padding);">
-      ${lista.map((texto) => html`<li>${texto}</li>`)}
-    </ul>
-  `;
-}
+/** Ids das secoes: identificadores tecnicos, iguais em qualquer idioma. */
+const SECOES = {
+  quandoUsar: 'quando-usar',
+  api: 'api',
+  nucleo: 'nucleo',
+  tamanho: 'tamanho',
+  cor: 'cor',
+  acessibilidade: 'acessibilidade',
+  invalida: 'entrada-invalida',
+  antiPadroes: 'anti-padroes',
+  referencias: 'referencias',
+} as const;
 
 /**
- * Pagina de leitura. Todo bloco declara a origem da regra que mostra; nada
- * aqui e decidido nesta pagina.
+ * Pagina de leitura, montada com os blocos de `src/shared/docs/pagina.ts`. Todo
+ * bloco declara a origem da regra que mostra; nada aqui e decidido nesta pagina.
  */
 export const Documentacao: Story = {
   name: 'Documentação',
@@ -97,117 +99,131 @@ export const Documentacao: Story = {
     const dicionario = textos(idiomaDe(contexto));
     const d = dicionario.docs;
     const categorias = dicionario.categorias;
+    const tituloDoNucleo = d.nucleoTitulo(TOTAL_DO_NUCLEO);
 
     return html`
-      <div style=${pagina}>
-        <header style=${prosa}>
-          <h1 style="margin: 0;">nph-icon</h1>
-          <p>${d.resumo}</p>
-        </header>
+      <div style=${corpo}>
+        ${cabecalho('nph-icon', d.resumo)}
 
-        <div style=${cartao}>
-          <strong>${d.derivadaTitulo}</strong>
-          <p style="margin: 0;">${d.derivadaTexto1}</p>
-          <p style="margin: 0;">${d.derivadaTexto2}</p>
-        </div>
+        ${nota('info', d.derivadaTitulo, d.derivadaTexto1)}
+
+        ${indice(d.nestaPagina, [
+          { id: SECOES.quandoUsar, titulo: d.quandoUsarTitulo },
+          { id: SECOES.api, titulo: d.apiTitulo },
+          { id: SECOES.nucleo, titulo: tituloDoNucleo },
+          { id: SECOES.tamanho, titulo: d.tamanhoTitulo },
+          { id: SECOES.cor, titulo: d.corTitulo },
+          { id: SECOES.acessibilidade, titulo: d.acessibilidadeTitulo },
+          { id: SECOES.invalida, titulo: d.invalidaTitulo },
+          { id: SECOES.antiPadroes, titulo: d.antiPadroesTitulo },
+          { id: SECOES.referencias, titulo: d.referenciasTitulo },
+        ])}
 
         ${secao(
+          SECOES.quandoUsar,
           d.quandoUsarTitulo,
-          html`${itens(d.quandoUsar)} ${fonte(d.fonteRotulo, d.fonteFicha)}`,
+          html`
+            ${usarNaoUsar(
+              { titulo: d.quandoUsarTitulo, itens: d.quandoUsar },
+              { titulo: d.quandoNaoUsarTitulo, itens: d.quandoNaoUsar },
+            )}
+            ${fonte(d.fonteRotulo, d.fonteFicha)}
+          `,
         )}
 
         ${secao(
-          d.quandoNaoUsarTitulo,
-          html`${itens(d.quandoNaoUsar)} ${fonte(d.fonteRotulo, d.fonteFicha)}`,
-        )}
-
-        ${secao(
+          SECOES.api,
           d.apiTitulo,
           html`
-            <table style=${tabela}>
-              <tbody>
-                ${d.api.map(
-                  ([termo, descricao]: [string, (total: number) => string]) =>
-                    linha(termo, descricao(TOTAL_DO_NUCLEO)),
-                )}
-              </tbody>
-            </table>
+            ${tabela(
+              d.cabecalhoApi,
+              d.api.map(
+                ([termo, descricao]: [string, (total: number) => string]) =>
+                  [termo, descricao(TOTAL_DO_NUCLEO)] as const,
+              ),
+              'auto',
+            )}
             ${fonte(d.fonteRotulo, d.fonteFichaContrato)}
           `,
         )}
 
         ${secao(
-          d.nucleoTitulo(TOTAL_DO_NUCLEO),
+          SECOES.nucleo,
+          tituloDoNucleo,
           html`
-            <p style="margin: 0;">${d.nucleoTexto}</p>
-            <table style=${tabela}>
-              <tbody>
-                ${CATEGORIAS.map((categoria, indice) =>
-                  linha(categorias[indice] ?? '', d.nucleoContagem(categoria.length)),
-                )}
-              </tbody>
-            </table>
-            <p style="margin: 0;">${d.nucleoRegra}</p>
+            ${texto(d.nucleoTexto)}
+            ${tabela(
+              d.cabecalhoNucleo,
+              CATEGORIAS.map(
+                (categoria, indice) =>
+                  [categorias[indice] ?? '', d.nucleoContagem(categoria.length)] as const,
+              ),
+              'texto',
+            )}
+            ${nota('info', d.notaSolidTitulo, d.nucleoRegra)}
             ${fonte(d.fonteRotulo, d.fonteNucleo)}
           `,
         )}
 
         ${secao(
+          SECOES.tamanho,
           d.tamanhoTitulo,
           html`
-            <p style="margin: 0;">${d.tamanhoTexto}</p>
-            <div style="display: flex; align-items: center; gap: var(--nph-space-section);">
-              ${NPH_ICON_SIZES.map(
+            ${texto(d.tamanhoTexto)}
+            ${demonstracao(
+              html`${NPH_ICON_SIZES.map(
                 (tamanho) => html`
-                  <div style=${celula}>
+                  <div style="display: flex; flex-direction: column; align-items: center; gap: var(--nph-space-inline-tight);">
                     <nph-icon name="gear" size=${tamanho}></nph-icon>
-                    <span style=${legenda}>size="${tamanho}" — icon/size-${tamanho}</span>
+                    <code style="color: var(--nph-color-muted-foreground);">${tamanho}</code>
                   </div>
                 `,
-              )}
-            </div>
-            <table style=${tabela}>
-              <tbody>
-                ${d.tamanhoTabela.map(([token, uso]: [string, string]) => linha(token, uso))}
-              </tbody>
-            </table>
-            <p style="margin: 0;">${d.tamanhoTransbordo}</p>
+              )}`,
+              d.legendaTamanho,
+            )}
+            ${tabela(
+              d.cabecalhoTamanho,
+              d.tamanhoTabela.map(([token, uso]: [string, string]) => [token, uso] as const),
+            )}
+            ${nota('info', d.notaTransbordoTitulo, d.tamanhoTransbordo)}
             ${fonte(d.fonteRotulo, d.fonteTamanho)}
           `,
         )}
 
         ${secao(
+          SECOES.cor,
           d.corTitulo,
-          html`
-            <p style="margin: 0;">${d.corTexto}</p>
-            ${fonte(d.fonteRotulo, d.fonteCor)}
-          `,
+          html`${texto(d.corTexto)} ${fonte(d.fonteRotulo, d.fonteCor)}`,
         )}
 
         ${secao(
+          SECOES.acessibilidade,
           d.acessibilidadeTitulo,
-          html`${itens(d.acessibilidade)} ${fonte(d.fonteRotulo, d.fonteAcessibilidade)}`,
+          html`${lista(d.acessibilidade)} ${fonte(d.fonteRotulo, d.fonteAcessibilidade)}`,
         )}
 
         ${secao(
+          SECOES.invalida,
           d.invalidaTitulo,
           html`
-            <p style="margin: 0;">${d.invalidaTexto}</p>
-            <p style="margin: 0;">${d.invalidaPonteiro}</p>
+            ${texto(d.invalidaTexto)}
+            ${nota('warning', d.notaInvalidaTitulo, d.invalidaPonteiro)}
             ${fonte(d.fonteRotulo, d.fonteInvalida)}
           `,
         )}
 
         ${secao(
+          SECOES.antiPadroes,
           d.antiPadroesTitulo,
-          html`${itens(d.antiPadroes)} ${fonte(d.fonteRotulo, d.fonteFicha)}`,
+          html`${naoFazer(d.antiPadroesTitulo, d.antiPadroes)} ${fonte(d.fonteRotulo, d.fonteFicha)}`,
         )}
 
-        ${secao(d.referenciasTitulo, html`${itens(d.referencias)}`)}
+        ${secao(SECOES.referencias, d.referenciasTitulo, lista(d.referencias))}
       </div>
     `;
   },
 };
+
 
 function galeriaDe(alvo: EventTarget | null): HTMLElement | null {
   return alvo instanceof HTMLElement
