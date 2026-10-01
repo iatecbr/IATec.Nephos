@@ -31,18 +31,18 @@ import {
   prosa,
 } from './nph-icon.demo';
 import {
-  cabecalho,
-  corpo,
-  demonstracao,
-  fonte,
-  indice,
-  lista,
-  naoFazer,
-  nota,
-  secao,
-  tabela,
-  texto,
-  usarNaoUsar,
+  body,
+  doNot,
+  example,
+  header,
+  index,
+  list,
+  note,
+  section,
+  source,
+  table,
+  text,
+  useOrDoNotUse,
 } from '../../shared/docs/pagina';
 
 const meta: Meta = {
@@ -77,7 +77,7 @@ const regraDeOcultacao = html`
 `;
 
 /** Ids das secoes: identificadores tecnicos, iguais em qualquer idioma. */
-const SECOES = {
+const SECTIONS = {
   quandoUsar: 'quando-usar',
   api: 'api',
   nucleo: 'nucleo',
@@ -99,43 +99,43 @@ export const Documentacao: Story = {
     const dicionario = textos(idiomaDe(contexto));
     const d = dicionario.docs;
     const categorias = dicionario.categorias;
-    const tituloDoNucleo = d.nucleoTitulo(TOTAL_DO_NUCLEO);
+    const coreTitle = d.nucleoTitulo(TOTAL_DO_NUCLEO);
 
     return html`
-      <div style=${corpo}>
-        ${cabecalho('nph-icon', d.resumo)}
+      <div style=${body}>
+        ${header('nph-icon', d.resumo)}
 
-        ${nota('info', d.derivadaTitulo, d.derivadaTexto1)}
+        ${note('info', d.derivadaTitulo, d.derivadaTexto1)}
 
-        ${indice(d.nestaPagina, [
-          { id: SECOES.quandoUsar, titulo: d.quandoUsarTitulo },
-          { id: SECOES.api, titulo: d.apiTitulo },
-          { id: SECOES.nucleo, titulo: tituloDoNucleo },
-          { id: SECOES.tamanho, titulo: d.tamanhoTitulo },
-          { id: SECOES.cor, titulo: d.corTitulo },
-          { id: SECOES.acessibilidade, titulo: d.acessibilidadeTitulo },
-          { id: SECOES.invalida, titulo: d.invalidaTitulo },
-          { id: SECOES.antiPadroes, titulo: d.antiPadroesTitulo },
-          { id: SECOES.referencias, titulo: d.referenciasTitulo },
+        ${index(d.nestaPagina, [
+          { id: SECTIONS.quandoUsar, titulo: d.quandoUsarTitulo },
+          { id: SECTIONS.api, titulo: d.apiTitulo },
+          { id: SECTIONS.nucleo, titulo: coreTitle },
+          { id: SECTIONS.tamanho, titulo: d.tamanhoTitulo },
+          { id: SECTIONS.cor, titulo: d.corTitulo },
+          { id: SECTIONS.acessibilidade, titulo: d.acessibilidadeTitulo },
+          { id: SECTIONS.invalida, titulo: d.invalidaTitulo },
+          { id: SECTIONS.antiPadroes, titulo: d.antiPadroesTitulo },
+          { id: SECTIONS.referencias, titulo: d.referenciasTitulo },
         ])}
 
-        ${secao(
-          SECOES.quandoUsar,
+        ${section(
+          SECTIONS.quandoUsar,
           d.quandoUsarTitulo,
           html`
-            ${usarNaoUsar(
-              { titulo: d.quandoUsarTitulo, itens: d.quandoUsar },
-              { titulo: d.quandoNaoUsarTitulo, itens: d.quandoNaoUsar },
+            ${useOrDoNotUse(
+              { title: d.quandoUsarTitulo, items: d.quandoUsar },
+              { title: d.quandoNaoUsarTitulo, items: d.quandoNaoUsar },
             )}
-            ${fonte(d.fonteRotulo, d.fonteFicha)}
+            ${source(d.fonteRotulo, d.fonteFicha)}
           `,
         )}
 
-        ${secao(
-          SECOES.api,
+        ${section(
+          SECTIONS.api,
           d.apiTitulo,
           html`
-            ${tabela(
+            ${table(
               d.cabecalhoApi,
               d.api.map(
                 ([termo, descricao]: [string, (total: number) => string]) =>
@@ -143,34 +143,34 @@ export const Documentacao: Story = {
               ),
               'auto',
             )}
-            ${fonte(d.fonteRotulo, d.fonteFichaContrato)}
+            ${source(d.fonteRotulo, d.fonteFichaContrato)}
           `,
         )}
 
-        ${secao(
-          SECOES.nucleo,
-          tituloDoNucleo,
+        ${section(
+          SECTIONS.nucleo,
+          coreTitle,
           html`
-            ${texto(d.nucleoTexto)}
-            ${tabela(
+            ${text(d.nucleoTexto)}
+            ${table(
               d.cabecalhoNucleo,
               CATEGORIAS.map(
                 (categoria, indice) =>
                   [categorias[indice] ?? '', d.nucleoContagem(categoria.length)] as const,
               ),
-              'texto',
+              'text',
             )}
-            ${nota('info', d.notaSolidTitulo, d.nucleoRegra)}
-            ${fonte(d.fonteRotulo, d.fonteNucleo)}
+            ${note('info', d.notaSolidTitulo, d.nucleoRegra)}
+            ${source(d.fonteRotulo, d.fonteNucleo)}
           `,
         )}
 
-        ${secao(
-          SECOES.tamanho,
+        ${section(
+          SECTIONS.tamanho,
           d.tamanhoTitulo,
           html`
-            ${texto(d.tamanhoTexto)}
-            ${demonstracao(
+            ${text(d.tamanhoTexto)}
+            ${example(
               html`${NPH_ICON_SIZES.map(
                 (tamanho) => html`
                   <div style="display: flex; flex-direction: column; align-items: center; gap: var(--nph-space-inline-tight);">
@@ -181,44 +181,44 @@ export const Documentacao: Story = {
               )}`,
               d.legendaTamanho,
             )}
-            ${tabela(
+            ${table(
               d.cabecalhoTamanho,
               d.tamanhoTabela.map(([token, uso]: [string, string]) => [token, uso] as const),
             )}
-            ${nota('info', d.notaTransbordoTitulo, d.tamanhoTransbordo)}
-            ${fonte(d.fonteRotulo, d.fonteTamanho)}
+            ${note('info', d.notaTransbordoTitulo, d.tamanhoTransbordo)}
+            ${source(d.fonteRotulo, d.fonteTamanho)}
           `,
         )}
 
-        ${secao(
-          SECOES.cor,
+        ${section(
+          SECTIONS.cor,
           d.corTitulo,
-          html`${texto(d.corTexto)} ${fonte(d.fonteRotulo, d.fonteCor)}`,
+          html`${text(d.corTexto)} ${source(d.fonteRotulo, d.fonteCor)}`,
         )}
 
-        ${secao(
-          SECOES.acessibilidade,
+        ${section(
+          SECTIONS.acessibilidade,
           d.acessibilidadeTitulo,
-          html`${lista(d.acessibilidade)} ${fonte(d.fonteRotulo, d.fonteAcessibilidade)}`,
+          html`${list(d.acessibilidade)} ${source(d.fonteRotulo, d.fonteAcessibilidade)}`,
         )}
 
-        ${secao(
-          SECOES.invalida,
+        ${section(
+          SECTIONS.invalida,
           d.invalidaTitulo,
           html`
-            ${texto(d.invalidaTexto)}
-            ${nota('warning', d.notaInvalidaTitulo, d.invalidaPonteiro)}
-            ${fonte(d.fonteRotulo, d.fonteInvalida)}
+            ${text(d.invalidaTexto)}
+            ${note('warning', d.notaInvalidaTitulo, d.invalidaPonteiro)}
+            ${source(d.fonteRotulo, d.fonteInvalida)}
           `,
         )}
 
-        ${secao(
-          SECOES.antiPadroes,
+        ${section(
+          SECTIONS.antiPadroes,
           d.antiPadroesTitulo,
-          html`${naoFazer(d.antiPadroesTitulo, d.antiPadroes)} ${fonte(d.fonteRotulo, d.fonteFicha)}`,
+          html`${doNot(d.antiPadroesTitulo, d.antiPadroes)} ${source(d.fonteRotulo, d.fonteFicha)}`,
         )}
 
-        ${secao(SECOES.referencias, d.referenciasTitulo, lista(d.referencias))}
+        ${section(SECTIONS.referencias, d.referenciasTitulo, list(d.referencias))}
       </div>
     `;
   },

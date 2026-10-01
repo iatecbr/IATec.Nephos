@@ -10,107 +10,107 @@ import '../../tokens/generated/tokens.css';
 import ptBR from '../../../.storybook/i18n/pt-BR.js';
 import en from '../../../.storybook/i18n/en.js';
 import es from '../../../.storybook/i18n/es.js';
-import { demonstracao, fonte, indice, nota, secao, tabela, usarNaoUsar } from './pagina';
+import { example, index, note, section, source, table, useOrDoNotUse } from './pagina';
 
 afterEach(() => {
   document.body.replaceChildren();
 });
 
-async function montar(conteudo: TemplateResult): Promise<HTMLElement> {
-  const alvo = document.createElement('div');
-  document.body.append(alvo);
-  render(conteudo, alvo);
-  const icones = [...alvo.querySelectorAll('nph-icon')] as unknown as Array<{
+async function renderContent(content: TemplateResult): Promise<HTMLElement> {
+  const target = document.createElement('div');
+  document.body.append(target);
+  render(content, target);
+  const icons = [...target.querySelectorAll('nph-icon')] as unknown as Array<{
     updateComplete: Promise<unknown>;
   }>;
-  await Promise.all(icones.map((icone) => icone.updateComplete));
-  return alvo;
+  await Promise.all(icons.map((icon) => icon.updateComplete));
+  return target;
 }
 
 describe('blocos da pagina de conteudo', () => {
   it('secao gera <section id> com <h2>', async () => {
-    const alvo = await montar(secao('tamanho', 'Tamanho', html`<p>texto</p>`));
-    const elemento = alvo.querySelector('section');
-    expect(elemento?.id).toBe('tamanho');
-    expect(elemento?.querySelector('h2')?.textContent?.trim()).toBe('Tamanho');
+    const target = await renderContent(section('tamanho', 'Tamanho', html`<p>texto</p>`));
+    const element = target.querySelector('section');
+    expect(element?.id).toBe('tamanho');
+    expect(element?.querySelector('h2')?.textContent?.trim()).toBe('Tamanho');
   });
 
   it('indice gera um link "#id" por item, dentro de um nav nomeado', async () => {
-    const itens = [
+    const items = [
       { id: 'a', titulo: 'A' },
       { id: 'b', titulo: 'B' },
     ];
-    const alvo = await montar(indice('Nesta página', itens));
-    const nav = alvo.querySelector('nav');
+    const target = await renderContent(index('Nesta página', items));
+    const nav = target.querySelector('nav');
     expect(nav?.getAttribute('aria-label')).toBe('Nesta página');
-    const links = [...alvo.querySelectorAll('a')].map((a) => a.getAttribute('href'));
+    const links = [...target.querySelectorAll('a')].map((a) => a.getAttribute('href'));
     expect(links).toEqual(['#a', '#b']);
   });
 
   it('o link do indice leva o foco a secao sem navegar a pagina', async () => {
-    const alvo = await montar(html`
-      ${indice('Nesta página', [{ id: 'destino', titulo: 'Destino' }])}
-      ${secao('destino', 'Destino', html`<p>texto</p>`)}
+    const target = await renderContent(html`
+      ${index('Nesta página', [{ id: 'destino', titulo: 'Destino' }])}
+      ${section('destino', 'Destino', html`<p>texto</p>`)}
     `);
-    const endereco = window.location.href;
-    alvo.querySelector('a')?.click();
-    expect(window.location.href).toBe(endereco);
+    const url = window.location.href;
+    target.querySelector('a')?.click();
+    expect(window.location.href).toBe(url);
     expect(document.activeElement?.id).toBe('destino');
 
-    const focada = document.getElementById('destino') as HTMLElement;
-    const estilo = getComputedStyle(focada);
-    expect(estilo.outlineStyle).toBe('solid');
-    expect(parseFloat(estilo.outlineWidth)).toBeGreaterThan(0);
+    const focused = document.getElementById('destino') as HTMLElement;
+    const style = getComputedStyle(focused);
+    expect(style.outlineStyle).toBe('solid');
+    expect(parseFloat(style.outlineWidth)).toBeGreaterThan(0);
   });
 
   it('nota tem role="note" e o icone e decorativo', async () => {
-    const alvo = await montar(nota('info', 'Título', 'Texto'));
-    const elemento = alvo.querySelector('[role="note"]');
-    expect(elemento).not.toBeNull();
-    expect(elemento?.querySelector('nph-icon')?.getAttribute('aria-hidden')).toBe('true');
+    const target = await renderContent(note('info', 'Título', 'Texto'));
+    const element = target.querySelector('[role="note"]');
+    expect(element).not.toBeNull();
+    expect(element?.querySelector('nph-icon')?.getAttribute('aria-hidden')).toBe('true');
   });
 
   it('cartoes de usar e nao usar tem icones decorativos', async () => {
-    const alvo = await montar(
-      usarNaoUsar({ titulo: 'Usar', itens: ['um'] }, { titulo: 'Não usar', itens: ['dois'] }),
+    const target = await renderContent(
+      useOrDoNotUse({ title: 'Usar', items: ['um'] }, { title: 'Não usar', items: ['dois'] }),
     );
-    const icones = [...alvo.querySelectorAll('nph-icon')];
-    expect(icones.length).toBeGreaterThan(0);
-    for (const icone of icones) {
-      expect(icone.getAttribute('aria-hidden')).toBe('true');
+    const icons = [...target.querySelectorAll('nph-icon')];
+    expect(icons.length).toBeGreaterThan(0);
+    for (const icon of icons) {
+      expect(icon.getAttribute('aria-hidden')).toBe('true');
     }
   });
 
   it('demonstracao nao tem fundo proprio, so borda', async () => {
-    const alvo = await montar(demonstracao(html`<span>exemplo</span>`, 'Legenda'));
-    const area = alvo.querySelector('[data-nph-demonstracao] > div') as HTMLElement;
+    const target = await renderContent(example(html`<span>exemplo</span>`, 'Legenda'));
+    const area = target.querySelector('[data-nph-demonstracao] > div') as HTMLElement;
     expect(getComputedStyle(area).backgroundColor).toBe('rgba(0, 0, 0, 0)');
     expect(getComputedStyle(area).borderTopStyle).toBe('solid');
   });
 
   it('tabela em auto usa fonte de codigo so para identificador', async () => {
-    const alvo = await montar(
-      tabela(['Termo', 'Regra'], [['icon/size-sm', 'um'], ['Slots e eventos', 'dois'], ['Interação', 'três']], 'auto'),
+    const target = await renderContent(
+      table(['Termo', 'Regra'], [['icon/size-sm', 'um'], ['Slots e eventos', 'dois'], ['Interação', 'três']], 'auto'),
     );
-    const celulas = [...alvo.querySelectorAll<HTMLElement>('tbody th')];
-    expect(celulas).toHaveLength(3);
-    const familia = (el: HTMLElement): string => getComputedStyle(el).fontFamily;
-    expect(familia(celulas[0] as HTMLElement)).toContain('IBM Plex Mono');
-    expect(familia(celulas[1] as HTMLElement)).not.toContain('IBM Plex Mono');
-    expect(familia(celulas[2] as HTMLElement)).not.toContain('IBM Plex Mono');
+    const cells = [...target.querySelectorAll<HTMLElement>('tbody th')];
+    expect(cells).toHaveLength(3);
+    const family = (element: HTMLElement): string => getComputedStyle(element).fontFamily;
+    expect(family(cells[0] as HTMLElement)).toContain('IBM Plex Mono');
+    expect(family(cells[1] as HTMLElement)).not.toContain('IBM Plex Mono');
+    expect(family(cells[2] as HTMLElement)).not.toContain('IBM Plex Mono');
   });
 
   it('fonte fica num rodape com linha acima', async () => {
-    const alvo = await montar(fonte('Fonte:', 'design.md'));
-    const p = alvo.querySelector('p') as HTMLElement;
+    const target = await renderContent(source('Fonte:', 'design.md'));
+    const p = target.querySelector('p') as HTMLElement;
     expect(p.textContent?.trim()).toBe('Fonte: design.md');
     expect(getComputedStyle(p).borderTopStyle).toBe('solid');
   });
 });
 
 describe('textos da pagina nos tres idiomas', () => {
-  const DICIONARIOS = { 'pt-BR': ptBR, en, es } as const;
-  const CHAVES = [
+  const DICTIONARIES = { 'pt-BR': ptBR, en, es } as const;
+  const KEYS = [
     'nestaPagina',
     'cabecalhoApi',
     'cabecalhoTamanho',
@@ -121,22 +121,22 @@ describe('textos da pagina nos tres idiomas', () => {
     'notaInvalidaTitulo',
   ] as const;
 
-  for (const [idioma, dicionario] of Object.entries(DICIONARIOS)) {
-    it(`${idioma}: as chaves novas existem e nao sao vazias`, () => {
-      const docs = dicionario.docs as Record<string, unknown>;
-      for (const chave of CHAVES) {
-        const valor = docs[chave];
-        const textos = Array.isArray(valor) ? valor : [valor];
-        expect(textos.length, chave).toBeGreaterThan(0);
-        for (const texto of textos) {
-          expect(typeof texto, chave).toBe('string');
-          expect((texto as string).trim(), chave).not.toBe('');
+  for (const [locale, dictionary] of Object.entries(DICTIONARIES)) {
+    it(`${locale}: as chaves novas existem e nao sao vazias`, () => {
+      const docs = dictionary.docs as Record<string, unknown>;
+      for (const key of KEYS) {
+        const value = docs[key];
+        const texts = Array.isArray(value) ? value : [value];
+        expect(texts.length, key).toBeGreaterThan(0);
+        for (const text of texts) {
+          expect(typeof text, key).toBe('string');
+          expect((text as string).trim(), key).not.toBe('');
         }
       }
     });
 
-    it(`${idioma}: o texto de processo saiu da pagina`, () => {
-      expect('derivadaTexto2' in dicionario.docs).toBe(false);
+    it(`${locale}: o texto de processo saiu da pagina`, () => {
+      expect('derivadaTexto2' in dictionary.docs).toBe(false);
     });
   }
 });

@@ -311,11 +311,11 @@ página de Storybook.
 
 ```ts
 /** Rodape de origem. Toda regra exibida aponta de onde veio. */
-export function fonte(rotulo, origem) { /* ... */ }
+export function source(label, origin) { /* ... */ }
 ```
 
-**Fonte:** `src/shared/docs/pagina.ts`, função `fonte()`;
-`nph-icon.docs.stories.ts`, onde cada seção fecha com `fonte(...)`.
+**Fonte:** `src/shared/docs/pagina.ts`, função `source()`;
+`nph-icon.docs.stories.ts`, onde cada seção fecha com `source(...)`.
 **Limite:** um componente.
 
 ### 4.10 Página de conteúdo: os mesmos blocos em toda página `Docs`
@@ -325,15 +325,15 @@ A página de leitura de um componente é montada com os blocos de
 
 | Bloco | Regra |
 |---|---|
-| `cabecalho` | o h1 é `text/heading-lg`, um por página; o resumo é `text/body-md` |
-| `indice` | um link `#id` por seção, num `nav` nomeado; nenhuma âncora sem seção |
-| `secao` | `<section id>` com h2 em `text/heading-md` e linha embaixo; respiro maior antes do título do que depois |
-| `texto` e `lista` | `text/body-md`, com largura de leitura limitada |
-| `demonstracao` | instâncias reais numa área **sem fundo**, só com borda, e legenda embaixo |
-| `tabela` | com cabeçalho; o termo em `text/code`, a descrição em `text/body-sm` |
-| `nota` | a exceção à regra vira nota (`role="note"`), nas cores `status/*`, nunca um parágrafo comum |
-| `usarNaoUsar` e `naoFazer` | quando usar e quando não usar lado a lado, nas cores `status/success-*` e `status/error-*` |
-| `fonte` | o rodapé de origem, em `text/caption`, com linha fina acima |
+| `header` | o h1 é `text/heading-lg`, um por página; o resumo é `text/body-md` |
+| `index` | um link `#id` por seção, num `nav` nomeado; nenhuma âncora sem seção |
+| `section` | `<section id>` com h2 em `text/heading-md` e linha embaixo; respiro maior antes do título do que depois |
+| `text` e `list` | `text/body-md`, com largura de leitura limitada |
+| `example` | instâncias reais numa área **sem fundo**, só com borda, e legenda embaixo |
+| `table` | com cabeçalho; o termo em `text/code`, a descrição em `text/body-sm` |
+| `note` | a exceção à regra vira nota (`role="note"`), nas cores `status/*`, nunca um parágrafo comum |
+| `useOrDoNotUse` e `doNot` | quando usar e quando não usar lado a lado, nas cores `status/success-*` e `status/error-*` |
+| `source` | o rodapé de origem, em `text/caption`, com linha fina acima |
 
 Os blocos usam só `--nph-*`. A página não traz texto de processo: estado de
 revisão, nomes de quem aprova e pendências ficam no registro operacional.

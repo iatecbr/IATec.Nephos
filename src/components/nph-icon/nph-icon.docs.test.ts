@@ -17,47 +17,47 @@ afterEach(() => {
   document.body.replaceChildren();
 });
 
-const DICIONARIOS = { 'pt-BR': ptBR, en, es } as const;
+const DICTIONARIES = { 'pt-BR': ptBR, en, es } as const;
 
 /** Restricao antiga do solid a star, em qualquer ordem dentro da frase. */
-const SOLID_SO_EM_STAR = /solid[^.]*\bstar\b|\bstar\b[^.]*solid/i;
+const SOLID_ONLY_IN_STAR = /solid[^.]*\bstar\b|\bstar\b[^.]*solid/i;
 
-function renderizar(idioma: string): HTMLElement {
-  const alvo = document.createElement('div');
-  document.body.append(alvo);
-  const desenhar = Documentacao.render as (args: unknown, contexto: unknown) => TemplateResult;
-  render(desenhar({}, { globals: { locale: idioma } }), alvo);
-  return alvo;
+function renderDocumentation(locale: string): HTMLElement {
+  const target = document.createElement('div');
+  document.body.append(target);
+  const renderStory = Documentacao.render as (args: unknown, context: unknown) => TemplateResult;
+  render(renderStory({}, { globals: { locale } }), target);
+  return target;
 }
 
 describe('Documentação — indice', () => {
-  for (const idioma of Object.keys(DICIONARIOS)) {
-    it(`${idioma}: todo link aponta para uma secao e toda secao tem link`, () => {
-      const alvo = renderizar(idioma);
-      const alvos = [...alvo.querySelectorAll('nav a')].map((a) =>
+  for (const locale of Object.keys(DICTIONARIES)) {
+    it(`${locale}: todo link aponta para uma secao e toda secao tem link`, () => {
+      const target = renderDocumentation(locale);
+      const targets = [...target.querySelectorAll('nav a')].map((a) =>
         (a.getAttribute('href') ?? '').replace(/^#/, ''),
       );
-      const secoes = [...alvo.querySelectorAll('section[id]')].map((s) => s.id);
+      const sections = [...target.querySelectorAll('section[id]')].map((s) => s.id);
 
-      expect(alvos.length).toBeGreaterThan(0);
-      for (const id of alvos) {
-        expect(alvo.querySelector(`#${id}`), `âncora #${id}`).not.toBeNull();
+      expect(targets.length).toBeGreaterThan(0);
+      for (const id of targets) {
+        expect(target.querySelector(`#${id}`), `âncora #${id}`).not.toBeNull();
       }
-      expect([...secoes].sort()).toEqual([...alvos].sort());
+      expect([...sections].sort()).toEqual([...targets].sort());
     });
   }
 });
 
 describe('regra vigente do solid nos textos', () => {
-  for (const [idioma, dicionario] of Object.entries(DICIONARIOS)) {
-    it(`${idioma}: nenhum texto restringe solid a star`, () => {
-      const d = dicionario.docs;
-      const v = dicionario.validacao;
-      const linhas = d.api as unknown as ReadonlyArray<readonly [string, (total: number) => string]>;
-      const variant = linhas.find(([termo]) => termo === 'variant');
+  for (const [locale, dictionary] of Object.entries(DICTIONARIES)) {
+    it(`${locale}: nenhum texto restringe solid a star`, () => {
+      const d = dictionary.docs;
+      const v = dictionary.validacao;
+      const rows = d.api as unknown as ReadonlyArray<readonly [string, (total: number) => string]>;
+      const variant = rows.find(([term]) => term === 'variant');
       expect(variant).toBeDefined();
 
-      const textos = [
+      const texts = [
         variant?.[1](0) ?? '',
         d.nucleoRegra,
         d.invalidaTexto,
@@ -67,13 +67,13 @@ describe('regra vigente do solid nos textos', () => {
         v.variantesNota,
         ...v.invalidaCasos,
       ];
-      for (const texto of textos) {
-        expect(texto, texto).not.toMatch(SOLID_SO_EM_STAR);
+      for (const text of texts) {
+        expect(text, text).not.toMatch(SOLID_ONLY_IN_STAR);
       }
     });
 
-    it(`${idioma}: o segundo caso de entrada invalida descreve variant inexistente`, () => {
-      expect(dicionario.validacao.invalidaCasos[1]).toMatch(/variant/i);
+    it(`${locale}: o segundo caso de entrada invalida descreve variant inexistente`, () => {
+      expect(dictionary.validacao.invalidaCasos[1]).toMatch(/variant/i);
     });
   }
 });
