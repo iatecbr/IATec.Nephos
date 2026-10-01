@@ -182,6 +182,7 @@ uma API, confira a versão aqui e, na dúvida, leia a documentação da versão.
 | `vitest` e `@vitest/browser-playwright` | ^4.1.11 |
 | `playwright` | ^1.62.1 |
 | `typescript` | ^5.9.3 |
+| `@fontsource/noto-sans` e `@fontsource/ibm-plex-mono` | ^5.3.0 |
 
 Ambiente validado: Node 24.18.0 e npm 11.16.0. O package manager é **npm**.
 Quando esta tabela e o `package.json` divergirem, vale o `package.json` — e a

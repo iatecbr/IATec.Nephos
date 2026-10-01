@@ -19,7 +19,7 @@ export default {
 const page = `
   color: var(--nph-color-foreground);
   background: var(--nph-color-background);
-  font-family: system-ui, sans-serif;
+  font-family: var(--nph-core-font-sans);
   min-height: 100vh;
   padding: var(--nph-space-section) var(--nph-space-container-padding);
 `;

@@ -18,6 +18,8 @@
     "i18n:update": "node scripts/test-i18n.mjs --update"
   },
   "devDependencies": {
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/noto-sans": "^5.3.0",
     "@storybook/web-components-vite": "^10.5.10",
     "@vitest/browser-playwright": "^4.1.11",
     "playwright": "^1.62.1",
