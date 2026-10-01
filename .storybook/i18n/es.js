@@ -105,11 +105,17 @@ export default {
   docs: {
     resumo:
       'Entrega un icono del núcleo Nephos con tamaño, familia y accesibilidad consistentes, sin introducir color ni arte fuera del acervo aprobado.',
+    nestaPagina: 'En esta página',
+    cabecalhoApi: ['Propiedad', 'Regla'],
+    cabecalhoTamanho: ['Token', 'Cuándo usar'],
+    cabecalhoNucleo: ['Categoría', 'Iconos'],
+    legendaTamanho: 'Los tamaños aprobados, con instancias reales de nph-icon.',
+    notaTransbordoTitulo: 'Excepción de ancho',
+    notaSolidTitulo: 'Estilos y familias',
+    notaInvalidaTitulo: 'Dónde ver los casos',
     derivadaTitulo: 'Esta página es derivada.',
     derivadaTexto1:
       'En caso de divergencia, prevalecen las fuentes canónicas: design.md para el contrato técnico y docs/decisoes-tecnicas.md para las decisiones P01, P02, P03, P17, P19, P20 y P21. La ficha nph-icon y el Figma DS-IA-NEPHOS 5.0 completan el contrato del componente. Aquí no se crea ninguna regla.',
-    derivadaTexto2:
-      'Estado documental: P01, P02, P03, P17, P19 y P20 fueron adoptadas por Indiane el 24/08/2026; la P21 se adoptó el 26/08/2026, con aceptación formal de riesgo. Todas esperan revisión de Elvys. La aprobación de Figma del 26-08-2026 es visual y no sustituye esa revisión.',
 
     quandoUsarTitulo: 'Cuándo usarlo',
     quandoUsar: [
@@ -126,7 +132,7 @@ export default {
     apiTitulo: 'API pública aprobada',
     api: [
       ['name', (total) => `Obligatorio, en kebab-case y limitado a los ${total} iconos del núcleo Nephos.`],
-      ['variant', () => 'regular por defecto, o solid solo cuando name=star.'],
+      ['variant', () => 'regular por defecto; solid cuando el contexto pide más presencia visual. Los dos existen para todos los nombres del núcleo.'],
       ['size', () => 'sm, md o lg; no acepta valor libre.'],
       [
         'label',
@@ -149,7 +155,7 @@ export default {
       'El acervo es Font Awesome Pro y Classic es la familia por defecto. El catálogo completo, con búsqueda, está en Icons Overview, en esta misma carpeta.',
     nucleoContagem: (n) => `${n} iconos`,
     nucleoRegra:
-      'solid existe solo para star: Regular marca no favorito, Solid marca favorito. Las demás combinaciones con solid no existen a propósito — nunca invente arte para completar la matriz. Light, Thin y Sharp están prohibidos. Duotone se permite solo en navegación estructural, sin mezclar familias en el mismo grupo, y todavía no tiene arte disponible.',
+      'regular y solid existen para todos los nombres del núcleo; regular es el predeterminado, y solid entra cuando el contexto pide más presencia visual. Nunca invente arte fuera del acervo. Light, Thin y Sharp están prohibidos. Duotone se permite solo en navegación estructural, sin mezclar familias en el mismo grupo, y todavía no tiene arte disponible.',
 
     tamanhoTitulo: 'Tamaño',
     tamanhoTexto:
@@ -187,7 +193,7 @@ export default {
 
     invalidaTitulo: 'Entrada inválida',
     invalidaTexto:
-      'Un name fuera del núcleo, un size fuera de la lista aprobada o variant=solid con otro nombre no renderizan icono y fallan en la validación de desarrollo. No hay fallback visual ni tamaño libre. El error sale por console.error solo en desarrollo.',
+      'Un name fuera del núcleo, un size ausente o fuera de la lista aprobada, o una variant inexistente no renderizan icono y fallan en la validación de desarrollo. No hay fallback visual ni tamaño libre. El error sale por console.error solo en desarrollo.',
     invalidaPonteiro: 'Los casos están demostrados en Validación › Entrada inválida.',
 
     antiPadroesTitulo: 'Antipatrones',
@@ -223,11 +229,11 @@ export default {
   },
 
   validacao: {
-    variantesSecao: 'star',
-    variantesRegular: 'regular — no favorito',
-    variantesSolid: 'solid — favorito',
+    variantesSecao: 'regular y solid',
+    variantesRegular: 'regular — predeterminado',
+    variantesSolid: 'solid — más presencia visual',
     variantesNota:
-      'solid existe solo para star. Cualquier otro nombre con variant="solid" no renderiza.',
+      'regular y solid existen para todos los nombres del núcleo.',
 
     tamanhosTransbordoTitulo: 'Desbordamiento aprobado',
     tamanhosEye: 'eye — 18 de ancho natural',
@@ -252,7 +258,7 @@ export default {
       'Los cuatro casos siguientes no dibujan nada y no ocupan espacio. Abra la consola para ver un error por propiedad inválida.',
     invalidaCasos: [
       'fuera del núcleo:',
-      'solid existe solo en star:',
+      'variant inexistente:',
       'un tamaño libre no existe:',
       'size es obligatorio:',
     ],

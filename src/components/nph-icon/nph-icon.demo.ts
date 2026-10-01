@@ -233,7 +233,7 @@ export const celulaDeTabela = `
   vertical-align: top;
 `;
 
-/** Bloco com titulo, usado nas duas paginas. */
+/** Bloco com titulo, usado pelas stories de Validacao. */
 export function secao(titulo: string, conteudo: TemplateResult): TemplateResult {
   return html`
     <section style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
@@ -241,9 +241,4 @@ export function secao(titulo: string, conteudo: TemplateResult): TemplateResult 
       ${conteudo}
     </section>
   `;
-}
-
-/** Rodape de origem. Toda regra exibida aponta de onde veio. */
-export function fonte(rotulo: string, origem: string): TemplateResult {
-  return html`<p style=${legenda}>${rotulo} ${origem}</p>`;
 }

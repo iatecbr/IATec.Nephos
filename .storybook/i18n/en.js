@@ -105,11 +105,17 @@ export default {
   docs: {
     resumo:
       'Provides an icon from the Nephos core with consistent size, family and accessibility, without introducing colour or artwork outside the approved set.',
+    nestaPagina: 'On this page',
+    cabecalhoApi: ['Property', 'Rule'],
+    cabecalhoTamanho: ['Token', 'When to use'],
+    cabecalhoNucleo: ['Category', 'Icons'],
+    legendaTamanho: 'The approved sizes, with real nph-icon instances.',
+    notaTransbordoTitulo: 'Width exception',
+    notaSolidTitulo: 'Styles and families',
+    notaInvalidaTitulo: 'Where to see the cases',
     derivadaTitulo: 'This page is derived.',
     derivadaTexto1:
       'In case of divergence, the canonical sources prevail: design.md for the technical contract and docs/decisoes-tecnicas.md for decisions P01, P02, P03, P17, P19, P20 and P21. The nph-icon spec sheet and the DS-IA-NEPHOS 5.0 Figma file complete the component contract. No rule is created here.',
-    derivadaTexto2:
-      'Documentation status: P01, P02, P03, P17, P19 and P20 were adopted by Indiane on 24/08/2026; P21 was adopted on 26/08/2026, under a formal acceptance of risk. All of them await review by Elvys. The Figma approval on 26-08-2026 is visual and does not replace that review.',
 
     quandoUsarTitulo: 'When to use it',
     quandoUsar: [
@@ -126,7 +132,7 @@ export default {
     apiTitulo: 'Approved public API',
     api: [
       ['name', (total) => `Required, in kebab-case and limited to the ${total} icons of the Nephos core.`],
-      ['variant', () => 'regular by default, or solid only when name=star.'],
+      ['variant', () => 'regular by default; solid when the context needs more visual presence. Both exist for every name in the core.'],
       ['size', () => 'sm, md or lg; free values are not accepted.'],
       [
         'label',
@@ -149,7 +155,7 @@ export default {
       'The set is Font Awesome Pro and Classic is the default family. The full catalogue, with search, is under Icons Overview, in this same folder.',
     nucleoContagem: (n) => `${n} icons`,
     nucleoRegra:
-      'solid exists only for star: Regular means not favourited, Solid means favourited. The other combinations with solid do not exist on purpose — never invent artwork to fill the matrix. Light, Thin and Sharp are forbidden. Duotone is allowed only in structural navigation, without mixing families within one group, and has no artwork available yet.',
+      'regular and solid exist for every name in the core; regular is the default, and solid comes in when the context needs more visual presence. Never invent artwork outside the collection. Light, Thin and Sharp are forbidden. Duotone is allowed only in structural navigation, without mixing families within one group, and has no artwork available yet.',
 
     tamanhoTitulo: 'Size',
     tamanhoTexto:
@@ -187,7 +193,7 @@ export default {
 
     invalidaTitulo: 'Invalid input',
     invalidaTexto:
-      'A name outside the core, a size outside the approved list, or variant=solid with another name render no icon and fail development validation. There is no visual fallback and no free size. The error is reported through console.error in development only.',
+      'A name outside the core, a missing size or one outside the approved list, or a variant that does not exist render no icon and fail development validation. There is no visual fallback and no free size. The error is reported through console.error in development only.',
     invalidaPonteiro: 'The cases are demonstrated under Validation › Invalid input.',
 
     antiPadroesTitulo: 'Anti-patterns',
@@ -223,11 +229,11 @@ export default {
   },
 
   validacao: {
-    variantesSecao: 'star',
-    variantesRegular: 'regular — not favourited',
-    variantesSolid: 'solid — favourited',
+    variantesSecao: 'regular and solid',
+    variantesRegular: 'regular — default',
+    variantesSolid: 'solid — more visual presence',
     variantesNota:
-      'solid exists only for star. Any other name with variant="solid" renders nothing.',
+      'regular and solid exist for every name in the core.',
 
     tamanhosTransbordoTitulo: 'Approved overflow',
     tamanhosEye: 'eye — 18 wide by nature',
@@ -252,7 +258,7 @@ export default {
       'The four cases below draw nothing and take up no space. Open the console to see one error per invalid property.',
     invalidaCasos: [
       'outside the core:',
-      'solid exists only for star:',
+      'a variant that does not exist:',
       'a free size does not exist:',
       'size is required:',
     ],
