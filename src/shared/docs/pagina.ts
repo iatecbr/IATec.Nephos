@@ -55,7 +55,7 @@ export const body = `
 /** Item do indice: o id da secao e o titulo exibido. */
 export interface IndexItem {
   id: string;
-  titulo: string;
+  title: string;
 }
 
 /** Linha de tabela: o termo (codigo) e a descricao. */
@@ -111,14 +111,14 @@ export function index(label: string, items: readonly IndexItem[]): TemplateResul
       </span>
       <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: var(--nph-space-inline-tight);">
         ${items.map(
-          ({ id, titulo }) => html`
+          ({ id, title }) => html`
             <li>
               <a
                 href="#${id}"
                 @click=${(event: Event) => navigateTo(event, id)}
                 style="display: inline-block; ${textRole('label-sm')} color: var(--nph-color-foreground); text-decoration: none; border: ${BORDER}; border-radius: var(--nph-radius-full); padding: var(--nph-space-inline-tight) var(--nph-space-inline);"
               >
-                ${titulo}
+                ${title}
               </a>
             </li>
           `,

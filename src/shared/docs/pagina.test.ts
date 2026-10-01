@@ -37,8 +37,8 @@ describe('blocos da pagina de conteudo', () => {
 
   it('indice gera um link "#id" por item, dentro de um nav nomeado', async () => {
     const items = [
-      { id: 'a', titulo: 'A' },
-      { id: 'b', titulo: 'B' },
+      { id: 'a', title: 'A' },
+      { id: 'b', title: 'B' },
     ];
     const target = await renderContent(index('Nesta página', items));
     const nav = target.querySelector('nav');
@@ -49,7 +49,7 @@ describe('blocos da pagina de conteudo', () => {
 
   it('o link do indice leva o foco a secao sem navegar a pagina', async () => {
     const target = await renderContent(html`
-      ${index('Nesta página', [{ id: 'destino', titulo: 'Destino' }])}
+      ${index('Nesta página', [{ id: 'destino', title: 'Destino' }])}
       ${section('destino', 'Destino', html`<p>texto</p>`)}
     `);
     const url = window.location.href;

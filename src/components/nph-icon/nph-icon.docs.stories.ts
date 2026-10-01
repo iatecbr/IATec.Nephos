@@ -78,15 +78,15 @@ const regraDeOcultacao = html`
 
 /** Ids das secoes: identificadores tecnicos, iguais em qualquer idioma. */
 const SECTIONS = {
-  quandoUsar: 'quando-usar',
+  whenToUse: 'quando-usar',
   api: 'api',
-  nucleo: 'nucleo',
-  tamanho: 'tamanho',
-  cor: 'cor',
-  acessibilidade: 'acessibilidade',
-  invalida: 'entrada-invalida',
-  antiPadroes: 'anti-padroes',
-  referencias: 'referencias',
+  core: 'nucleo',
+  size: 'tamanho',
+  color: 'cor',
+  accessibility: 'acessibilidade',
+  invalid: 'entrada-invalida',
+  antiPatterns: 'anti-padroes',
+  references: 'referencias',
 } as const;
 
 /**
@@ -108,19 +108,19 @@ export const Documentacao: Story = {
         ${note('info', d.derivadaTitulo, d.derivadaTexto1)}
 
         ${index(d.nestaPagina, [
-          { id: SECTIONS.quandoUsar, titulo: d.quandoUsarTitulo },
-          { id: SECTIONS.api, titulo: d.apiTitulo },
-          { id: SECTIONS.nucleo, titulo: coreTitle },
-          { id: SECTIONS.tamanho, titulo: d.tamanhoTitulo },
-          { id: SECTIONS.cor, titulo: d.corTitulo },
-          { id: SECTIONS.acessibilidade, titulo: d.acessibilidadeTitulo },
-          { id: SECTIONS.invalida, titulo: d.invalidaTitulo },
-          { id: SECTIONS.antiPadroes, titulo: d.antiPadroesTitulo },
-          { id: SECTIONS.referencias, titulo: d.referenciasTitulo },
+          { id: SECTIONS.whenToUse, title: d.quandoUsarTitulo },
+          { id: SECTIONS.api, title: d.apiTitulo },
+          { id: SECTIONS.core, title: coreTitle },
+          { id: SECTIONS.size, title: d.tamanhoTitulo },
+          { id: SECTIONS.color, title: d.corTitulo },
+          { id: SECTIONS.accessibility, title: d.acessibilidadeTitulo },
+          { id: SECTIONS.invalid, title: d.invalidaTitulo },
+          { id: SECTIONS.antiPatterns, title: d.antiPadroesTitulo },
+          { id: SECTIONS.references, title: d.referenciasTitulo },
         ])}
 
         ${section(
-          SECTIONS.quandoUsar,
+          SECTIONS.whenToUse,
           d.quandoUsarTitulo,
           html`
             ${useOrDoNotUse(
@@ -148,7 +148,7 @@ export const Documentacao: Story = {
         )}
 
         ${section(
-          SECTIONS.nucleo,
+          SECTIONS.core,
           coreTitle,
           html`
             ${text(d.nucleoTexto)}
@@ -166,7 +166,7 @@ export const Documentacao: Story = {
         )}
 
         ${section(
-          SECTIONS.tamanho,
+          SECTIONS.size,
           d.tamanhoTitulo,
           html`
             ${text(d.tamanhoTexto)}
@@ -191,19 +191,19 @@ export const Documentacao: Story = {
         )}
 
         ${section(
-          SECTIONS.cor,
+          SECTIONS.color,
           d.corTitulo,
           html`${text(d.corTexto)} ${source(d.fonteRotulo, d.fonteCor)}`,
         )}
 
         ${section(
-          SECTIONS.acessibilidade,
+          SECTIONS.accessibility,
           d.acessibilidadeTitulo,
           html`${list(d.acessibilidade)} ${source(d.fonteRotulo, d.fonteAcessibilidade)}`,
         )}
 
         ${section(
-          SECTIONS.invalida,
+          SECTIONS.invalid,
           d.invalidaTitulo,
           html`
             ${text(d.invalidaTexto)}
@@ -213,12 +213,12 @@ export const Documentacao: Story = {
         )}
 
         ${section(
-          SECTIONS.antiPadroes,
+          SECTIONS.antiPatterns,
           d.antiPadroesTitulo,
           html`${doNot(d.antiPadroesTitulo, d.antiPadroes)} ${source(d.fonteRotulo, d.fonteFicha)}`,
         )}
 
-        ${section(SECTIONS.referencias, d.referenciasTitulo, list(d.referencias))}
+        ${section(SECTIONS.references, d.referenciasTitulo, list(d.referencias))}
       </div>
     `;
   },
