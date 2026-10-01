@@ -138,7 +138,7 @@ export const Documentacao: Story = {
             ${table(
               docs.cabecalhoApi,
               docs.api.map(
-                ([term, description]: [string, (total: number) => string]) =>
+                ([term, description]: [string, (count: number) => string]) =>
                   [term, description(CORE_TOTAL)] as const,
               ),
               'auto',
