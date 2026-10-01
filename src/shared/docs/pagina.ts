@@ -38,7 +38,8 @@ export function papel(nome: Papel): string {
   `;
 }
 
-const LEITURA = 'max-width: 62ch;';
+/** Largura de leitura: `layout/max-reading`, para o que se le de ponta a ponta. */
+const LEITURA = 'max-width: var(--nph-layout-max-reading);';
 const BORDA = 'var(--nph-border-width) solid var(--nph-color-border)';
 
 /** Corpo da pagina de conteudo: fundo, cor e respiro, por token. */
@@ -75,6 +76,20 @@ export function cabecalho(titulo: string, resumo: string): TemplateResult {
  * secao no proprio documento e leva o foco para ela; o `href` fica para
  * semantica e para abrir em nova aba.
  */
+/*
+ * A secao que recebe o foco pelo indice mostra o anel de foco do Nephos
+ * (`focus/ring`, `focus/ring-width`), que troca com o modo de cor. Fica numa
+ * regra porque estilo inline nao alcanca `:focus`.
+ */
+const FOCO_DA_SECAO = html`
+  <style>
+    [data-nph-secao]:focus {
+      outline: var(--nph-focus-ring-width) solid var(--nph-focus-ring);
+      outline-offset: var(--nph-space-inline-tight);
+    }
+  </style>
+`;
+
 function irPara(evento: Event, id: string): void {
   evento.preventDefault();
   const link = evento.currentTarget as HTMLElement;
@@ -86,6 +101,7 @@ function irPara(evento: Event, id: string): void {
 
 export function indice(rotulo: string, itens: readonly ItemDoIndice[]): TemplateResult {
   return html`
+    ${FOCO_DA_SECAO}
     <nav
       aria-label=${rotulo}
       style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight); padding-top: var(--nph-space-stack);"
@@ -117,7 +133,8 @@ export function secao(id: string, titulo: string, conteudo: TemplateResult): Tem
     <section
       id=${id}
       tabindex="-1"
-      style="display: flex; flex-direction: column; gap: var(--nph-space-stack); padding-top: var(--nph-space-section); scroll-margin-top: var(--nph-space-stack); outline: none;"
+      data-nph-secao
+      style="display: flex; flex-direction: column; gap: var(--nph-space-stack); padding-top: var(--nph-space-section); scroll-margin-top: var(--nph-space-stack); border-radius: var(--nph-radius-control);"
     >
       <h2
         style="margin: 0; ${papel('heading-md')} padding-bottom: var(--nph-space-stack-tight); border-bottom: ${BORDA};"
@@ -242,14 +259,16 @@ function cartao(
   return html`
     <div
       data-nph-cartao=${tipo}
-      style="flex: 1 1 18rem; display: flex; flex-direction: column; gap: var(--nph-space-stack-tight); padding: var(--nph-space-stack) var(--nph-space-container-padding); border-radius: var(--nph-radius-control); background: var(--nph-status-${tipo}-surface); border: var(--nph-border-width) solid var(--nph-status-${tipo}-border); color: var(--nph-status-${tipo}-foreground);"
+      style="flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: var(--nph-space-stack-tight); padding: var(--nph-space-stack) var(--nph-space-container-padding); border-radius: var(--nph-radius-control); background: var(--nph-status-${tipo}-surface); border: var(--nph-border-width) solid var(--nph-status-${tipo}-border); color: var(--nph-status-${tipo}-foreground);"
     >
       <strong style="${papel('label-md')}">${titulo}</strong>
       <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
         ${itens.map(
           (item) => html`
             <li style="display: flex; gap: var(--nph-space-inline-tight); ${papel('body-sm')}">
-              <span style="color: var(--nph-status-${tipo}); display: inline-flex; padding-top: 2px;">
+              <span
+                style="color: var(--nph-status-${tipo}); display: inline-flex; align-items: center; height: var(--nph-text-body-sm-line-height);"
+              >
                 <nph-icon name=${icone} size="sm"></nph-icon>
               </span>
               <span>${item}</span>

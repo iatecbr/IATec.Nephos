@@ -56,6 +56,11 @@ describe('blocos da pagina de conteudo', () => {
     alvo.querySelector('a')?.click();
     expect(window.location.href).toBe(endereco);
     expect(document.activeElement?.id).toBe('destino');
+
+    const focada = document.getElementById('destino') as HTMLElement;
+    const estilo = getComputedStyle(focada);
+    expect(estilo.outlineStyle).toBe('solid');
+    expect(parseFloat(estilo.outlineWidth)).toBeGreaterThan(0);
   });
 
   it('nota tem role="note" e o icone e decorativo', async () => {
