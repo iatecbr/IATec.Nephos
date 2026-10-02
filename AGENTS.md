@@ -112,7 +112,10 @@ Antes de analisar, propor, editar ou implementar:
   e mensagem para quem mantém o repositório ficam em PT-BR. Chave de dados,
   bandeira da linha de comando, nome de script, arquivo citado em comando gravado
   em `docs/operacao/` e nome público não mudam (P64, revisada por Mauro em
-  30/09/2026; emenda de 02/10/2026 em revisão no #49).
+  30/09/2026; emenda de 02/10/2026 em revisão no #49). A prova é
+  `npm run test:naming`, em toda mudança que toca `src/`, `stories/`,
+  `.storybook/` ou `scripts/`; exceção nova entra em
+  `scripts/naming-exceptions.json` com a classe e é revisada no PR.
 
 ## A ordem de um componente
 

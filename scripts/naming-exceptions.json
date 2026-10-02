@@ -1,0 +1,273 @@
+[
+  {
+    "file": ".storybook/i18n/index.js",
+    "class": "ui-text",
+    "names": [
+      "Español"
+    ]
+  },
+  {
+    "file": ".storybook/preview.js",
+    "class": "ui-text",
+    "names": [
+      "Idioma"
+    ]
+  },
+  {
+    "file": "package.json",
+    "class": "cli",
+    "names": [
+      "test:operacao"
+    ]
+  },
+  {
+    "file": "scripts/build-tokens.mjs",
+    "class": "token-schema",
+    "names": [
+      "camada",
+      "contagemEsperada",
+      "modos",
+      "padrao",
+      "seletor",
+      "valorPublico",
+      "{modo}"
+    ]
+  },
+  {
+    "file": "scripts/spec-lib.mjs",
+    "class": "spec-schema",
+    "names": [
+      "vigente"
+    ]
+  },
+  {
+    "file": "scripts/test-i18n.mjs",
+    "class": "i18n-header",
+    "names": [
+      "rascunho",
+      "revisado"
+    ]
+  },
+  {
+    "file": "scripts/test-invariance.mjs",
+    "class": "output-text",
+    "names": [
+      "invariante",
+      "variante"
+    ]
+  },
+  {
+    "file": "scripts/test-invariance.mjs",
+    "class": "token-schema",
+    "names": [
+      "claro",
+      "escuro",
+      "sistemas"
+    ]
+  },
+  {
+    "file": "scripts/test-naming.mjs",
+    "class": "contract-path",
+    "names": [
+      "contextos",
+      "evidencias",
+      "fichas",
+      "tarefas"
+    ]
+  },
+  {
+    "file": "scripts/verificar-operacao.mjs",
+    "class": "cli",
+    "names": [
+      "--exemplos",
+      "--gerar-metadata",
+      "--proxima",
+      "verificar-operacao"
+    ]
+  },
+  {
+    "file": "scripts/verificar-operacao.mjs",
+    "class": "contract-path",
+    "names": [
+      "(^|/)evidencias/${}/[^/]+\\.md$",
+      "contextos",
+      "docs/operacao",
+      "evidencias",
+      "fichas",
+      "tarefas"
+    ]
+  },
+  {
+    "file": "scripts/verificar-operacao.mjs",
+    "class": "operation-schema",
+    "names": [
+      "aguardando-decisao",
+      "atualizado_em",
+      "autoria",
+      "bloqueada",
+      "bloqueios",
+      "classificacao",
+      "claude-codigo",
+      "concluida",
+      "contexto",
+      "decisao",
+      "decisao_convertida",
+      "decisoes_pendentes",
+      "dependencias",
+      "desconhecida",
+      "descricao",
+      "documentacao-figma-aceita",
+      "dono",
+      "em-revisao",
+      "estado",
+      "evidencia",
+      "falhou",
+      "fase",
+      "interna-permitida",
+      "interna-restrita",
+      "o_que_resolve",
+      "o_que_trava",
+      "objetivo",
+      "ordem_aprovada",
+      "origem_externa",
+      "passou",
+      "peca",
+      "pendente",
+      "pergunta",
+      "prioridade",
+      "pronta",
+      "publica",
+      "quem_decide",
+      "referencias_de_decisao",
+      "responsavel",
+      "resultado",
+      "revisao_git",
+      "sha_inicial",
+      "tarefa",
+      "trecho",
+      "verificado_em",
+      "verificado_por"
+    ]
+  },
+  {
+    "file": "scripts/verificar-operacao.mjs",
+    "class": "output-text",
+    "names": [
+      "(inexistente)",
+      "aguarda-decisao"
+    ]
+  },
+  {
+    "file": "src/components/nph-icon/nph-icon.docs.stories.ts",
+    "class": "anchor",
+    "names": [
+      "acessibilidade",
+      "anti-padroes",
+      "entrada-invalida",
+      "nucleo",
+      "quando-usar",
+      "referencias",
+      "tamanho"
+    ]
+  },
+  {
+    "file": "src/components/nph-icon/nph-icon.docs.stories.ts",
+    "class": "story-export",
+    "names": [
+      "Documentacao"
+    ]
+  },
+  {
+    "file": "src/components/nph-icon/nph-icon.docs.test.ts",
+    "class": "story-export",
+    "names": [
+      "Documentacao"
+    ]
+  },
+  {
+    "file": "src/components/nph-icon/nph-icon.stories.ts",
+    "class": "story-export",
+    "names": [
+      "Acessibilidade",
+      "EntradaInvalida",
+      "HerancaDeCor",
+      "Tamanhos",
+      "Variantes"
+    ]
+  },
+  {
+    "file": "src/components/nph-icon/nph-icon.test.ts",
+    "class": "design-md",
+    "names": [
+      "icones_nucleo:",
+      "icones_segunda_leva:"
+    ]
+  },
+  {
+    "file": "src/components/nph-icon/nph-icon.test.ts",
+    "class": "ui-text",
+    "names": [
+      "Buscar",
+      "Concluido"
+    ]
+  },
+  {
+    "file": "src/components/nph-icon/nph-icon.ts",
+    "class": "output-text",
+    "names": [
+      "ausente"
+    ]
+  },
+  {
+    "file": "src/components/nph-label/nph-label.stories.ts",
+    "class": "story-export",
+    "names": [
+      "AssociacaoComOControle",
+      "Matriz",
+      "ModoClaroEEscuro",
+      "OQueORotuloNaoFaz"
+    ]
+  },
+  {
+    "file": "src/components/nph-label/nph-label.test.ts",
+    "class": "design-md",
+    "names": [
+      "asterisco",
+      "nao_use"
+    ]
+  },
+  {
+    "file": "src/shared/docs/page.test.ts",
+    "class": "ui-text",
+    "names": [
+      "<p>texto</p>",
+      "<span>exemplo</span>",
+      "Destino",
+      "Fonte:",
+      "Interação",
+      "Legenda",
+      "Regra",
+      "Tamanho",
+      "Termo",
+      "Texto",
+      "Título",
+      "Usar",
+      "dois",
+      "três"
+    ]
+  },
+  {
+    "file": "stories/foundations.stories.js",
+    "class": "story-export",
+    "names": [
+      "VisaoGeral"
+    ]
+  },
+  {
+    "file": "stories/welcome.stories.js",
+    "class": "story-export",
+    "names": [
+      "BoasVindas"
+    ]
+  }
+]
