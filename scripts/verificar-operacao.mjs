@@ -10,7 +10,7 @@
  * o primeiro do arquivo Markdown. JSON e nao YAML por decisao de Indiane em
  * 02-09-2026: adotar um leitor de YAML completo custaria uma dependencia nova, e
  * o `JSON.parse` ja vem no Node. A ficha e a excecao: o YAML dela e lido por
- * `ficha-lib.mjs`, que cobre so um subconjunto fechado e nao traz dependencia.
+ * `spec-lib.mjs`, que cobre so um subconjunto fechado e nao traz dependencia.
  * Tarefa continua em JSON.
  *
  * Contrato completo em docs/operacao/README.md.
@@ -26,7 +26,7 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
 
-import { SpecError, readSpec } from './ficha-lib.mjs';
+import { SpecError, readSpec } from './spec-lib.mjs';
 
 const OPERATIONS_ROOT = 'docs/operacao';
 const FIXTURES_ROOT = 'scripts/fixtures/operacao';

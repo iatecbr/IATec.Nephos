@@ -9,7 +9,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build:tokens": "node scripts/build-tokens.mjs",
-    "test:tokens": "node scripts/test-invariancia.mjs",
+    "test:tokens": "node scripts/test-invariance.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",

@@ -1,5 +1,5 @@
 /**
- * Funcoes puras compartilhadas por build-tokens.mjs e test-invariancia.mjs.
+ * Funcoes puras compartilhadas por build-tokens.mjs e test-invariance.mjs.
  * Sem efeito colateral: importar este arquivo nao le disco nem gera nada.
  */
 

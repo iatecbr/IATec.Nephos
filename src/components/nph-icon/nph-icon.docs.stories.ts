@@ -43,7 +43,7 @@ import {
   table,
   text,
   useDontUse,
-} from '../../shared/docs/pagina';
+} from '../../shared/docs/page';
 
 const meta: Meta = {
   title: 'Componentes/nph-icon/Docs',
@@ -90,7 +90,7 @@ const SECTIONS = {
 } as const;
 
 /**
- * Pagina de leitura, montada com os blocos de `src/shared/docs/pagina.ts`. Todo
+ * Pagina de leitura, montada com os blocos de `src/shared/docs/page.ts`. Todo
  * bloco declara a origem da regra que mostra; nada aqui e decidido nesta pagina.
  */
 export const Documentacao: Story = {

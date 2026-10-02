@@ -1,5 +1,5 @@
 /**
- * Contrato dos blocos da pagina de conteudo (`pagina.ts`) e das chaves de
+ * Contrato dos blocos da pagina de conteudo (`page.ts`) e das chaves de
  * texto que eles consomem nos tres idiomas do Storybook.
  */
 import { afterEach, describe, expect, it } from 'vitest';
@@ -10,7 +10,7 @@ import '../../tokens/generated/tokens.css';
 import ptBR from '../../../.storybook/i18n/pt-BR.js';
 import en from '../../../.storybook/i18n/en.js';
 import es from '../../../.storybook/i18n/es.js';
-import { demo, source, index, note, section, table, useDontUse } from './pagina';
+import { demo, source, index, note, section, table, useDontUse } from './page';
 
 afterEach(() => {
   document.body.replaceChildren();

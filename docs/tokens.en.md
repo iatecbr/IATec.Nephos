@@ -1,4 +1,4 @@
-<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=9a1564812ec868461adace078f6b4aff1c189bdf3588eed4c1a1947998b0565f | status=rascunho -->
+<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=0bb2b3e12097de6e48631b8332429d2b7a6d30e078dcc788f9e8512a27e3c3ef | status=rascunho -->
 
 # Tokens — source, generation and consumption
 
@@ -57,7 +57,7 @@ src/tokens/
 scripts/
   tokens-lib.mjs           pure functions: canonical form, classification, index
   build-tokens.mjs         generator
-  test-invariancia.mjs     proof of the classifier
+  test-invariance.mjs      proof of the classifier
 ```
 
 ## How to generate
@@ -102,7 +102,7 @@ value, so that any generic tool resolves something correct.
 
 Classification compares **alias and final value** across modes, in a
 **canonical** representation — never by object identity, never by key order,
-never by `$type`. It is proven in `scripts/test-invariancia.mjs`.
+never by `$type`. It is proven in `scripts/test-invariance.mjs`.
 
 The variant semantic tokens are all `color`, but there are `color` tokens among
 the invariant ones — invariance is not a property of the type.

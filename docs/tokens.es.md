@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=9a1564812ec868461adace078f6b4aff1c189bdf3588eed4c1a1947998b0565f | status=rascunho -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=0bb2b3e12097de6e48631b8332429d2b7a6d30e078dcc788f9e8512a27e3c3ef | status=rascunho -->
 
 # Tokens — fuente, generación y consumo
 
@@ -58,7 +58,7 @@ src/tokens/
 scripts/
   tokens-lib.mjs           funciones puras: forma canónica, clasificación, índice
   build-tokens.mjs         generador
-  test-invariancia.mjs     prueba del clasificador
+  test-invariance.mjs      prueba del clasificador
 ```
 
 ## Cómo generar
@@ -103,7 +103,7 @@ por defecto, para que cualquier herramienta genérica resuelva algo correcto.
 
 La clasificación compara **alias y valor final** entre los modos, en una
 representación **canónica** — nunca por identidad de objeto, nunca por orden de
-clave, nunca por el `$type`. Está probada en `scripts/test-invariancia.mjs`.
+clave, nunca por el `$type`. Está probada en `scripts/test-invariance.mjs`.
 
 Los semánticos variantes son todos `color`, pero hay tokens `color` entre los
 invariantes — la invariancia no es una propiedad del tipo. `npm run build:tokens`

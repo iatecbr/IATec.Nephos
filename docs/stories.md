@@ -314,14 +314,14 @@ página de Storybook.
 export function source(label, origin) { /* ... */ }
 ```
 
-**Fonte:** `src/shared/docs/pagina.ts`, função `source()`;
+**Fonte:** `src/shared/docs/page.ts`, função `source()`;
 `nph-icon.docs.stories.ts`, onde cada seção fecha com `source(...)`.
 **Limite:** um componente.
 
 ### 4.10 Página de conteúdo: os mesmos blocos em toda página `Docs`
 
 A página de leitura de um componente é montada com os blocos de
-`src/shared/docs/pagina.ts`, para que todas se leiam do mesmo jeito:
+`src/shared/docs/page.ts`, para que todas se leiam do mesmo jeito:
 
 | Bloco | Regra |
 |---|---|
@@ -338,7 +338,7 @@ A página de leitura de um componente é montada com os blocos de
 Os blocos usam só `--nph-*`. A página não traz texto de processo: estado de
 revisão, nomes de quem aprova e pendências ficam no registro operacional.
 
-**Fonte:** `src/shared/docs/pagina.ts` e `pagina.test.ts`;
+**Fonte:** `src/shared/docs/page.ts` e `page.test.ts`;
 `nph-icon.docs.stories.ts`, story `Documentação`, e `nph-icon.docs.test.ts`.
 **Limite:** um componente usa o modelo.
 

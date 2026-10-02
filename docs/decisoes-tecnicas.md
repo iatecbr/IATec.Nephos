@@ -559,7 +559,7 @@ ler o contrato sem interpretar Markdown. Gerar a cópia a partir da ficha entreg
 esse formato sem abrir uma segunda fonte: a `V27` continua reprovando `meta.ts`
 e `metadata.ts` dentro de `src/components/`.
 
-**Escopo.** O YAML da ficha é lido por `scripts/ficha-lib.mjs`, que cobre só o
+**Escopo.** O YAML da ficha é lido por `scripts/spec-lib.mjs` (antes `ficha-lib.mjs`; renomeado pela P64 em 02/10/2026), que cobre só o
 subconjunto que o gabarito usa e recusa, com o número da linha, o que não
 reconhece. Nenhuma dependência nova entra. Tarefa, contexto e evidência
 continuam em JSON, como decidido em 02/09/2026.
