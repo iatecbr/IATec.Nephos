@@ -620,7 +620,8 @@ a regra. Ficam: o que comando gravado em `docs/operacao/` cita, os diretórios
 do contrato do verificador (`fichas/`, `docs/operacao/tarefas/`, `evidencias/`,
 `contextos/`, e as mesmas subpastas dentro dos fixtures) e a documentação, que
 inclui os nomes dos arquivos de evidência. Os casos de fixture do verificador
-e do teste de invariância também passam para o inglês. Adotada pela Indiane em
+e do teste de invariância também passam para o inglês. Prova: `npm run test:naming`, com as exceções
+de contrato em `scripts/naming-exceptions.json`. Adotada pela Indiane em
 02/10/2026; revisão no PR #49.
 
 **Status.** Decisão adotada pela Indiane em 28/09/2026 — revisada e aprovada
