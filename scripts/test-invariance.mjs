@@ -50,45 +50,45 @@ const theme = {
 const cases = {
   a: {
     // 1. mesmo objeto literal repetido -> invariante
-    'mesmo-objeto': { $type: 'duration', $value: durA, ...modes(durA, durA) },
+    'same-object': { $type: 'duration', $value: durA, ...modes(durA, durA) },
     // 2. valores estruturados DIFERENTES -> variante
-    'valores-diferentes': { $type: 'duration', $value: durA, ...modes(durA, durC) },
+    'different-values': { $type: 'duration', $value: durA, ...modes(durA, durC) },
     // 3. objetos DISTINTOS, ordem de chave trocada, conteudo igual -> invariante
-    'objetos-distintos-ordem-trocada': { $type: 'duration', $value: durA, ...modes(durA, durB) },
+    'distinct-objects-swapped-order': { $type: 'duration', $value: durA, ...modes(durA, durB) },
     // 4. idem para dimension
-    'dimension-objetos-distintos': { $type: 'dimension', $value: dimA, ...modes(dimA, dimB) },
+    'dimension-distinct-objects': { $type: 'dimension', $value: dimA, ...modes(dimA, dimB) },
     // 5. alias igual nos dois modos -> invariante
-    'alias-igual': { $type: 'color', $value: '{core.base.white}', ...modes('{core.base.white}', '{core.base.white}') },
+    'same-alias': { $type: 'color', $value: '{core.base.white}', ...modes('{core.base.white}', '{core.base.white}') },
     // 6. alias diferente, valor final diferente -> variante
-    'alias-diferente': { $type: 'color', $value: '{core.base.white}', ...modes('{core.base.white}', '{core.surface.900}') },
+    'different-alias': { $type: 'color', $value: '{core.base.white}', ...modes('{core.base.white}', '{core.surface.900}') },
     // 7. alias dependente de marca, igual nos dois modos -> invariante
-    'alias-de-marca': { $type: 'color', $value: '{theme.brand-600}', ...modes('{theme.brand-600}', '{theme.brand-600}') },
+    'brand-alias': { $type: 'color', $value: '{theme.brand-600}', ...modes('{theme.brand-600}', '{theme.brand-600}') },
     // 8. sem bloco modes -> invariante por definicao
-    'sem-modes': { $type: 'number', $value: 0.5 },
+    'no-modes': { $type: 'number', $value: 0.5 },
     // 9. cubicBezier em arrays distintos, conteudo igual -> invariante
-    'bezier-arrays-distintos': { $type: 'cubicBezier', $value: [0, 0, 0.2, 1], ...modes([0, 0, 0.2, 1], [0, 0, 0.2, 1]) },
+    'bezier-distinct-arrays': { $type: 'cubicBezier', $value: [0, 0, 0.2, 1], ...modes([0, 0, 0.2, 1], [0, 0, 0.2, 1]) },
     // 10. cubicBezier com conteudo diferente -> variante
-    'bezier-diferente': { $type: 'cubicBezier', $value: [0, 0, 0.2, 1], ...modes([0, 0, 0.2, 1], [0.4, 0, 1, 1]) },
+    'different-bezier': { $type: 'cubicBezier', $value: [0, 0, 0.2, 1], ...modes([0, 0, 0.2, 1], [0.4, 0, 1, 1]) },
     // 11. shadow: camadas distintas na memoria, ordem de chave trocada, conteudo igual -> invariante
-    'shadow-ordem-trocada': { $type: 'shadow', $value: shadowA, ...modes(shadowA, shadowB) },
+    'shadow-swapped-order': { $type: 'shadow', $value: shadowA, ...modes(shadowA, shadowB) },
     // 12. shadow com geometria diferente entre os modos -> variante
-    'shadow-diferente': { $type: 'shadow', $value: shadowA, ...modes(shadowA, shadowC) },
+    'different-shadow': { $type: 'shadow', $value: shadowA, ...modes(shadowA, shadowC) },
   },
 };
 
 const EXPECTED = {
-  'a.mesmo-objeto': 'invariante',
-  'a.valores-diferentes': 'variante',
-  'a.objetos-distintos-ordem-trocada': 'invariante',
-  'a.dimension-objetos-distintos': 'invariante',
-  'a.alias-igual': 'invariante',
-  'a.alias-diferente': 'variante',
-  'a.alias-de-marca': 'invariante',
-  'a.sem-modes': 'invariante',
-  'a.bezier-arrays-distintos': 'invariante',
-  'a.bezier-diferente': 'variante',
-  'a.shadow-ordem-trocada': 'invariante',
-  'a.shadow-diferente': 'variante',
+  'a.same-object': 'invariante',
+  'a.different-values': 'variante',
+  'a.distinct-objects-swapped-order': 'invariante',
+  'a.dimension-distinct-objects': 'invariante',
+  'a.same-alias': 'invariante',
+  'a.different-alias': 'variante',
+  'a.brand-alias': 'invariante',
+  'a.no-modes': 'invariante',
+  'a.bezier-distinct-arrays': 'invariante',
+  'a.different-bezier': 'variante',
+  'a.shadow-swapped-order': 'invariante',
+  'a.different-shadow': 'variante',
 };
 
 const idx = buildIndex([core, theme, cases]);
@@ -110,9 +110,9 @@ const guards = [
   ['dimA !== dimB (objetos realmente distintos)', dimA !== dimB],
   ['canon(dimA) === canon(dimB)', canon(dimA) === canon(dimB)],
   ['canon(durA) !== canon(durC) (conteudo diferente)', canon(durA) !== canon(durC)],
-  ['sombraA !== sombraB (objetos realmente distintos)', shadowA !== shadowB],
-  ['canon(sombraA) === canon(sombraB) (ordem de chave nao importa, em qualquer profundidade)', canon(shadowA) === canon(shadowB)],
-  ['canon(sombraA) !== canon(sombraC) (geometria diferente)', canon(shadowA) !== canon(shadowC)],
+  ['shadowA !== shadowB (objetos realmente distintos)', shadowA !== shadowB],
+  ['canon(shadowA) === canon(shadowB) (ordem de chave nao importa, em qualquer profundidade)', canon(shadowA) === canon(shadowB)],
+  ['canon(shadowA) !== canon(shadowC) (geometria diferente)', canon(shadowA) !== canon(shadowC)],
 ];
 console.log('\n=== GUARDAS ===');
 for (const [n, ok] of guards) {

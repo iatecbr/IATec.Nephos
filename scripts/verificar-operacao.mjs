@@ -29,7 +29,7 @@ import { basename, join } from 'node:path';
 import { SpecError, readSpec } from './spec-lib.mjs';
 
 const OPERATIONS_ROOT = 'docs/operacao';
-const FIXTURES_ROOT = 'scripts/fixtures/operacao';
+const FIXTURES_ROOT = 'scripts/fixtures/operations';
 const COMPONENTS_ROOT = 'src/components';
 const SPECS_ROOT = 'fichas';
 /** A Metadata e gerada: so `--gerar-metadata` grava aqui. Nunca edite a mao. */
@@ -741,34 +741,34 @@ function printQueue(tasks) {
 
 /** Um diretorio por caso, e o codigo que ele TEM de disparar. */
 const INVALID_CASES = {
-  'aguardando-sem-pergunta': 'V08',
-  'bloqueada-sem-bloqueio': 'V07',
-  'campo-faltando': 'V04',
-  'chave-desconhecida': 'V03',
-  'componente-sem-gate-figma': 'V30',
-  'concluida-sem-evidencia': 'V06',
-  'contexto-muda-estado': 'V23',
-  'dependencia-ciclica': 'V12',
-  'dependencia-inexistente': 'V11',
-  'estado-invalido': 'V05',
-  'evidencia-figma-fora-do-diretorio': 'V31',
-  'evidencia-figma-sem-procedencia': 'V31',
-  'evidencia-inexistente': 'V16',
-  'ficha-aspa-no-meio': 'V32',
-  'ficha-bloco-recuo-irregular': 'V32',
-  'ficha-chave-ambigua': 'V32',
-  'ficha-escalar-ambiguo': 'V32',
-  'ficha-fora-do-subconjunto': 'V32',
-  'ficha-mapa-em-linha': 'V32',
-  'ficha-mapa-em-lista': 'V32',
-  'id-fora-do-padrao': 'V02',
-  'id-nao-bate': 'V01',
-  'metadata-desatualizada': 'V32',
-  'metadata-sem-ficha': 'V32',
-  'ordem-duplicada': 'V29',
-  'peca-sem-ficha': 'V28',
-  'pronta-com-dependencia-aberta': 'V09',
-  'restrita-com-trecho': 'V19',
+  'awaiting-without-question': 'V08',
+  'blocked-without-blocker': 'V07',
+  'missing-field': 'V04',
+  'unknown-key': 'V03',
+  'component-without-figma-gate': 'V30',
+  'done-without-evidence': 'V06',
+  'context-changes-state': 'V23',
+  'cyclic-dependency': 'V12',
+  'missing-dependency': 'V11',
+  'invalid-state': 'V05',
+  'figma-evidence-outside-directory': 'V31',
+  'figma-evidence-without-provenance': 'V31',
+  'missing-evidence': 'V16',
+  'spec-quote-in-middle': 'V32',
+  'spec-block-irregular-indent': 'V32',
+  'spec-ambiguous-key': 'V32',
+  'spec-ambiguous-scalar': 'V32',
+  'spec-outside-subset': 'V32',
+  'spec-inline-map': 'V32',
+  'spec-map-in-list': 'V32',
+  'id-off-pattern': 'V02',
+  'id-mismatch': 'V01',
+  'stale-metadata': 'V32',
+  'metadata-without-spec': 'V32',
+  'duplicate-order': 'V29',
+  'piece-without-spec': 'V28',
+  'ready-with-open-dependency': 'V09',
+  'restricted-with-excerpt': 'V19',
 };
 
 /**
@@ -784,20 +784,20 @@ function selfTest() {
   let failures = 0;
 
   console.log('=== VALIDOS ===');
-  const validDir = join(FIXTURES_ROOT, 'validos');
+  const validDir = join(FIXTURES_ROOT, 'valid');
   const { errors: validErrors, checked } = validate(validDir, caseOptions(validDir));
   if (validErrors.length === 0) {
-    console.log(`PASSOU  validos                        ${checked} tarefa(s), nenhum erro`);
+    console.log(`PASSOU  valid                          ${checked} tarefa(s), nenhum erro`);
   } else {
     failures += 1;
-    console.log('FALHOU  validos                        deveria passar limpo:');
+    console.log('FALHOU  valid                          deveria passar limpo:');
     for (const e of validErrors) console.log(`          ${e.code} ${e.filePath}: ${e.msg}`);
   }
 
   /* O mesmo texto em LF e em CRLF tem de gerar a mesma Metadata. Sem
    * .gitattributes, e o unico jeito de provar os dois fins de linha em
    * qualquer maquina. */
-  const caseSpec = read(join(validDir, 'fichas', 'nph-exemplo.md'));
+  const caseSpec = read(join(validDir, 'fichas', 'nph-example.md'));
   const lfJson = readSpec(caseSpec).json;
   const crlfJson = readSpec(caseSpec.replace(/\n/g, '\r\n')).json;
   if (lfJson === crlfJson) {
@@ -809,7 +809,7 @@ function selfTest() {
 
   console.log('\n=== INVALIDOS: cada um tem de falhar PELO CODIGO PREVISTO ===');
   for (const [caseName, expected] of Object.entries(INVALID_CASES)) {
-    const dir = join(FIXTURES_ROOT, 'invalidos', caseName);
+    const dir = join(FIXTURES_ROOT, 'invalid', caseName);
     if (!existsSync(dir)) {
       failures += 1;
       console.log(`FALHOU  ${caseName.padEnd(30)} esperado=${expected} obtido=(fixture ausente)`);

@@ -379,7 +379,7 @@ URL ou ID do Figma, `data`, `autoria` e `decisao_convertida` nomeando o frame e 
 
 ## 9. Os exemplos
 
-Os fixtures do verificador vivem em `scripts/fixtures/operacao/`, **fora desta
+Os fixtures do verificador vivem em `scripts/fixtures/operations/`, **fora desta
 árvore**. Eles são entradas de teste, inclusive inválidas de propósito, e ficar
 fora daqui é o que impede um exemplo inválido de entrar na fila real.
 
