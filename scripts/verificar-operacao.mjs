@@ -453,16 +453,16 @@ export function validate(root, options = {}) {
   const inCycle = new Set();
   const color = new Map();
   const visit = (id, stack) => {
-    if (color.get(id) === 'preto') return;
-    if (color.get(id) === 'cinza') {
+    if (color.get(id) === 'done') return;
+    if (color.get(id) === 'visiting') {
       for (const n of stack.slice(stack.indexOf(id))) inCycle.add(n);
       return;
     }
-    color.set(id, 'cinza');
+    color.set(id, 'visiting');
     const t = byId.get(id);
     const deps = t && Array.isArray(t.data.dependencias) ? t.data.dependencias : [];
     for (const d of deps) if (byId.has(d)) visit(d, [...stack, id]);
-    color.set(id, 'preto');
+    color.set(id, 'done');
   };
   for (const id of [...byId.keys()].sort()) visit(id, []);
   for (const id of [...inCycle].sort()) {
