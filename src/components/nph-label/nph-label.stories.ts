@@ -27,40 +27,40 @@ export default meta;
 type Story = StoryObj;
 
 /** Moldura de demonstracao. Nao vale como precedente para CSS de componente. */
-function pagina(conteudo: TemplateResult): TemplateResult {
+function page(content: TemplateResult): TemplateResult {
   return html`<div
     style="padding:32px;display:flex;flex-direction:column;gap:32px;background:var(--nph-color-background)"
   >
-    ${conteudo}
+    ${content}
   </div>`;
 }
 
-function secao(titulo: string, conteudo: TemplateResult): TemplateResult {
+function section(title: string, content: TemplateResult): TemplateResult {
   return html`<section style="display:flex;flex-direction:column;gap:12px">
     <h2
       style="margin:0;font-family:var(--nph-text-heading-sm-font-family);font-size:var(--nph-text-heading-sm-font-size);font-weight:var(--nph-text-heading-sm-font-weight);line-height:var(--nph-text-heading-sm-line-height);color:var(--nph-color-foreground)"
     >
-      ${titulo}
+      ${title}
     </h2>
-    ${conteudo}
+    ${content}
   </section>`;
 }
 
-function legenda(texto: string): TemplateResult {
+function caption(text: string): TemplateResult {
   return html`<p
     style="margin:0;font-family:var(--nph-text-body-sm-font-family);font-size:var(--nph-text-body-sm-font-size);line-height:var(--nph-text-body-sm-line-height);color:var(--nph-color-muted-foreground)"
   >
-    ${texto}
+    ${text}
   </p>`;
 }
 
 /** Quadro que fixa um esquema de cor, para comparar claro e escuro lado a lado. */
-function quadro(esquema: 'light' | 'dark', conteudo: TemplateResult): TemplateResult {
+function frame(scheme: 'light' | 'dark', content: TemplateResult): TemplateResult {
   return html`<div
-    data-nph-color-scheme=${esquema}
+    data-nph-color-scheme=${scheme}
     style="padding:24px;border-radius:var(--nph-radius-control);background:var(--nph-color-background);display:flex;flex-direction:column;gap:16px"
   >
-    ${conteudo}
+    ${content}
   </div>`;
 }
 
@@ -70,11 +70,11 @@ function quadro(esquema: 'light' | 'dark', conteudo: TemplateResult): TemplateRe
  */
 export const Matriz: Story = {
   render: () =>
-    pagina(html`
-      ${secao(
+    page(html`
+      ${section(
         'Matriz — 2 combinações',
         html`
-          ${legenda('required é a única propriedade do componente.')}
+          ${caption('required é a única propriedade do componente.')}
           <nph-label text="Nome completo"></nph-label>
           <nph-label text="Nome completo" required></nph-label>
         `,
@@ -88,10 +88,10 @@ export const Matriz: Story = {
  */
 export const ModoClaroEEscuro: Story = {
   render: () =>
-    pagina(html`
-      ${secao(
+    page(html`
+      ${section(
         'Modo claro',
-        quadro(
+        frame(
           'light',
           html`
             <nph-label text="Nome completo"></nph-label>
@@ -99,9 +99,9 @@ export const ModoClaroEEscuro: Story = {
           `,
         ),
       )}
-      ${secao(
+      ${section(
         'Modo escuro',
-        quadro(
+        frame(
           'dark',
           html`
             <nph-label text="Nome completo"></nph-label>
@@ -118,20 +118,20 @@ export const ModoClaroEEscuro: Story = {
  */
 export const AssociacaoComOControle: Story = {
   render: () =>
-    pagina(html`
-      ${secao(
+    page(html`
+      ${section(
         'Associação com o controle',
         html`
-          ${legenda('Clique no rótulo: o cursor vai para o campo.')}
+          ${caption('Clique no rótulo: o cursor vai para o campo.')}
           <div style="display:flex;flex-direction:column;gap:var(--nph-space-stack-tight)">
-            <nph-label for="campo-nome" text="Nome completo" required></nph-label>
+            <nph-label for="name-field" text="Nome completo" required></nph-label>
             <input
-              id="campo-nome"
+              id="name-field"
               required
               style="font-family:var(--nph-text-body-md-font-family);font-size:var(--nph-text-body-md-font-size);height:var(--nph-control-height-default);border:1px solid var(--nph-color-border);border-radius:var(--nph-radius-control);padding-inline:var(--nph-space-control-padding);background:var(--nph-color-background);color:var(--nph-color-foreground)"
             />
           </div>
-          ${legenda('Campos com * são obrigatórios.')}
+          ${caption('Campos com * são obrigatórios.')}
         `,
       )}
     `),
@@ -143,20 +143,20 @@ export const AssociacaoComOControle: Story = {
  */
 export const OQueORotuloNaoFaz: Story = {
   render: () =>
-    pagina(html`
-      ${secao(
+    page(html`
+      ${section(
         'Erro não muda o rótulo',
         html`
-          ${legenda(
+          ${caption(
             'O rótulo permanece em color/foreground. O erro aparece no campo e na mensagem abaixo dele — nunca no rótulo.',
           )}
           <nph-label text="Nome completo" required></nph-label>
         `,
       )}
-      ${secao(
+      ${section(
         'Desabilitado não é estado do rótulo',
         html`
-          ${legenda(
+          ${caption(
             'O nph-field aplicará state/disabled-opacity ao controle inteiro. O rótulo não tem estado próprio.',
           )}
           <div style="opacity:var(--nph-state-disabled-opacity)">

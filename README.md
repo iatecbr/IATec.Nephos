@@ -145,6 +145,9 @@ confirmação.
 Nenhum componente pode ser implementado no repositório antes de sua aprovação
 no Figma.
 
+Todo pull request pede, ao ser aberto, a revisão do Mauro (`maurocsjr`) no
+GitHub. Elvys ou Mauro revisam e fazem o merge.
+
 ## Primeiro recorte P0
 
 1. `nph-button`

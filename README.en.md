@@ -1,4 +1,4 @@
-<!-- i18n: lang=en | source=README.md | source-sha256=4ce2c0eeff51f18a19ed79801c4c52ace7846d41032b30bda54fa2df3d2340cf | status=revisado -->
+<!-- i18n: lang=en | source=README.md | source-sha256=ad3e0c808e033a895b61730a1c53e865ef0feb5005c7616c803cbde86ef15d7f | status=revisado -->
 
 # Nephos 5.0
 
@@ -150,6 +150,9 @@ ask for confirmation.
 
 No component may be implemented in the repository before it is approved in
 Figma.
+
+Every pull request requests a review from Mauro (`maurocsjr`) on GitHub when
+it is opened. Elvys or Mauro review and merge.
 
 ## First P0 slice
 

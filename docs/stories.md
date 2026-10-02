@@ -160,7 +160,7 @@ visual — e emite um erro por causa, **somente em desenvolvimento**. A validaç
 acumula: cada propriedade reprovada emite o próprio erro, e não só a primeira.
 Quem desenvolve precisa ver todas as causas de uma vez.
 
-**Fonte:** `nph-icon.ts`, `erroDeDesenvolvimento` e `resolverDesenho`;
+**Fonte:** `nph-icon.ts`, `devError` e `resolveDrawing`;
 `nph-icon.css`, a regra `:host` que esconde o elemento sem arte;
 `nph-icon.test.ts`, casos *"acumula um erro por propriedade invalida"* e
 *"nao deixa fallback visual: nada dentro do shadow root"*;
@@ -273,7 +273,7 @@ O esquema de cor troca por `data-nph-color-scheme`, o contrato público de tema
 da **P20**. A mesma peça aparece nos dois contextos, na mesma story — não se
 duplica componente por modo.
 
-**Fonte:** `nph-label.stories.ts`, função `quadro()` e cabeçalho;
+**Fonte:** `nph-label.stories.ts`, função `frame()` e cabeçalho;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P20**.
 **Limite:** um componente. Só o `nph-label` tem story de modo. O quadro vence o
 modo global do Storybook (§6.4) só para as variáveis dos blocos de esquema de
@@ -288,7 +288,7 @@ definida.
 Quando a moldura é compartilhada entre páginas, ela mora em um arquivo que
 **não** termina em `.stories.ts`, para o glob do Storybook não indexá-la.
 
-**Fonte:** `nph-label.stories.ts`, função `pagina()`; `nph-icon.stories.ts`,
+**Fonte:** `nph-label.stories.ts`, função `page()`; `nph-icon.stories.ts`,
 cabeçalho; `nph-icon.demo.ts`, linhas 1-12.
 **Limite:** dois componentes declaram o não-precedente; um usa arquivo separado.
 
@@ -311,34 +311,34 @@ página de Storybook.
 
 ```ts
 /** Rodape de origem. Toda regra exibida aponta de onde veio. */
-export function fonte(rotulo, origem) { /* ... */ }
+export function source(label, origin) { /* ... */ }
 ```
 
-**Fonte:** `src/shared/docs/pagina.ts`, função `fonte()`;
-`nph-icon.docs.stories.ts`, onde cada seção fecha com `fonte(...)`.
+**Fonte:** `src/shared/docs/page.ts`, função `source()`;
+`nph-icon.docs.stories.ts`, onde cada seção fecha com `source(...)`.
 **Limite:** um componente.
 
 ### 4.10 Página de conteúdo: os mesmos blocos em toda página `Docs`
 
 A página de leitura de um componente é montada com os blocos de
-`src/shared/docs/pagina.ts`, para que todas se leiam do mesmo jeito:
+`src/shared/docs/page.ts`, para que todas se leiam do mesmo jeito:
 
 | Bloco | Regra |
 |---|---|
-| `cabecalho` | o h1 é `text/heading-lg`, um por página; o resumo é `text/body-md` |
-| `indice` | um link `#id` por seção, num `nav` nomeado; nenhuma âncora sem seção |
-| `secao` | `<section id>` com h2 em `text/heading-md` e linha embaixo; respiro maior antes do título do que depois |
-| `texto` e `lista` | `text/body-md`, com largura de leitura limitada |
-| `demonstracao` | instâncias reais numa área **sem fundo**, só com borda, e legenda embaixo |
-| `tabela` | com cabeçalho; o termo em `text/code`, a descrição em `text/body-sm` |
-| `nota` | a exceção à regra vira nota (`role="note"`), nas cores `status/*`, nunca um parágrafo comum |
-| `usarNaoUsar` e `naoFazer` | quando usar e quando não usar lado a lado, nas cores `status/success-*` e `status/error-*` |
-| `fonte` | o rodapé de origem, em `text/caption`, com linha fina acima |
+| `header` | o h1 é `text/heading-lg`, um por página; o resumo é `text/body-md` |
+| `index` | um link `#id` por seção, num `nav` nomeado; nenhuma âncora sem seção |
+| `section` | `<section id>` com h2 em `text/heading-md` e linha embaixo; respiro maior antes do título do que depois |
+| `text` e `list` | `text/body-md`, com largura de leitura limitada |
+| `demo` | instâncias reais numa área **sem fundo**, só com borda, e legenda embaixo |
+| `table` | com cabeçalho; o termo em `text/code`, a descrição em `text/body-sm` |
+| `note` | a exceção à regra vira nota (`role="note"`), nas cores `status/*`, nunca um parágrafo comum |
+| `useDontUse` e `dontDo` | quando usar e quando não usar lado a lado, nas cores `status/success-*` e `status/error-*` |
+| `source` | o rodapé de origem, em `text/caption`, com linha fina acima |
 
 Os blocos usam só `--nph-*`. A página não traz texto de processo: estado de
 revisão, nomes de quem aprova e pendências ficam no registro operacional.
 
-**Fonte:** `src/shared/docs/pagina.ts` e `pagina.test.ts`;
+**Fonte:** `src/shared/docs/page.ts` e `page.test.ts`;
 `nph-icon.docs.stories.ts`, story `Documentação`, e `nph-icon.docs.test.ts`.
 **Limite:** um componente usa o modelo.
 
@@ -369,7 +369,7 @@ No `nph-icon`, a lista dos nomes é extraída de `icones_nucleo:` no
 o teste reprova aqui. No `nph-label`, o teste verifica que o `use` de
 `status/error` autoriza o asterisco e que o anti-padrão **A5** continua vigente.
 
-**Fonte:** `nph-icon.test.ts`, função `nomesDoDesignMd` e grupo que confere o núcleo
+**Fonte:** `nph-icon.test.ts`, função `namesFromDesignMd` e grupo que confere o núcleo
 fechado; `nph-label.test.ts`, grupo *"contrato de token"*.
 **Limite:** dois componentes.
 

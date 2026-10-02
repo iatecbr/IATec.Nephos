@@ -6,7 +6,7 @@
  */
 import { html } from 'lit';
 
-import { CHAVE, IDIOMA_PADRAO, textos } from '../.storybook/i18n/index.js';
+import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../.storybook/i18n/index.js';
 
 export default {
   title: 'Fundações/Visão geral',
@@ -40,29 +40,29 @@ const card = `
 
 export const VisaoGeral = {
   name: 'Visão geral',
-  render: (_args, contexto) => {
-    const t = textos(contexto?.globals?.[CHAVE] ?? IDIOMA_PADRAO).fundacoes;
+  render: (_args, context) => {
+    const t = translations(context?.globals?.[LOCALE_GLOBAL] ?? DEFAULT_LOCALE).foundations;
 
     return html`
       <main style=${page}>
         <section style=${content}>
           <header>
             <p style="color: var(--nph-color-primary); font-weight: 700; margin: 0 0 var(--nph-space-stack-tight);">
-              ${t.selo}
+              ${t.badge}
             </p>
-            <h1 style="font-size: 2rem; margin: 0;">${t.titulo}</h1>
+            <h1 style="font-size: 2rem; margin: 0;">${t.title}</h1>
             <p style="color: var(--nph-color-muted-foreground); line-height: 1.6; margin: var(--nph-space-stack) 0 0; max-width: 44rem;">
-              ${t.resumo}
+              ${t.summary}
             </p>
           </header>
 
           <div style="display: grid; gap: var(--nph-space-stack); grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));">
-            ${t.itens.map(
-              ([titulo, descricao]) => html`
+            ${t.items.map(
+              ([title, description]) => html`
                 <article style=${card}>
-                  <h2 style="font-size: 1rem; margin: 0 0 var(--nph-space-stack-tight);">${titulo}</h2>
+                  <h2 style="font-size: 1rem; margin: 0 0 var(--nph-space-stack-tight);">${title}</h2>
                   <p style="color: var(--nph-color-muted-foreground); line-height: 1.5; margin: 0;">
-                    ${descricao}
+                    ${description}
                   </p>
                 </article>
               `,
@@ -70,9 +70,9 @@ export const VisaoGeral = {
           </div>
 
           <aside style="${card} border-left: 4px solid var(--nph-color-primary);">
-            <strong>${t.avisoTitulo}</strong>
+            <strong>${t.noticeTitle}</strong>
             <p style="color: var(--nph-color-muted-foreground); line-height: 1.5; margin: var(--nph-space-stack-tight) 0 0;">
-              ${t.avisoTexto1} <code>design.md</code> ${t.avisoTexto2}
+              ${t.noticeText1} <code>design.md</code> ${t.noticeText2}
             </p>
           </aside>
         </section>

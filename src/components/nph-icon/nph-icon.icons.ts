@@ -311,9 +311,9 @@ export const NPH_ICON_SIZES = ['sm', 'md', 'lg'] as const;
 
 export type NphIconSize = (typeof NPH_ICON_SIZES)[number];
 
-type ArteDoIcone = Readonly<Record<NphIconVariant, IconDefinition>>;
+type IconGlyph = Readonly<Record<NphIconVariant, IconDefinition>>;
 
-function arte(regular: IconDefinition, solid: IconDefinition): ArteDoIcone {
+function glyph(regular: IconDefinition, solid: IconDefinition): IconGlyph {
   return { regular, solid };
 }
 
@@ -322,119 +322,119 @@ function arte(regular: IconDefinition, solid: IconDefinition): ArteDoIcone {
  * `regular` e `solid`. O `satisfies` impede nomes fora do nucleo e combinacoes
  * incompletas em tempo de compilacao.
  */
-const ARTE = {
-  bars: arte(rBars, sBars),
-  'chevron-down': arte(rChevronDown, sChevronDown),
-  'chevron-up': arte(rChevronUp, sChevronUp),
-  'chevron-right': arte(rChevronRight, sChevronRight),
-  'chevron-left': arte(rChevronLeft, sChevronLeft),
-  'arrow-left': arte(rArrowLeft, sArrowLeft),
-  'arrow-right': arte(rArrowRight, sArrowRight),
-  eye: arte(rEye, sEye),
-  'eye-slash': arte(rEyeSlash, sEyeSlash),
-  ellipsis: arte(rEllipsis, sEllipsis),
-  xmark: arte(rXmark, sXmark),
-  check: arte(rCheck, sCheck),
-  plus: arte(rPlus, sPlus),
-  minus: arte(rMinus, sMinus),
-  'magnifying-glass': arte(rMagnifyingGlass, sMagnifyingGlass),
-  'ellipsis-vertical': arte(rEllipsisVertical, sEllipsisVertical),
-  'arrow-up-arrow-down': arte(rArrowUpArrowDown, sArrowUpArrowDown),
-  'grip-vertical': arte(rGripVertical, sGripVertical),
-  'pen-to-square': arte(rPenToSquare, sPenToSquare),
-  'trash-can': arte(rTrashCan, sTrashCan),
-  'arrow-up-from-bracket': arte(rArrowUpFromBracket, sArrowUpFromBracket),
-  download: arte(rDownload, sDownload),
-  gear: arte(rGear, sGear),
-  filter: arte(rFilter, sFilter),
-  'filter-slash': arte(rFilterSlash, sFilterSlash),
-  'circle-info': arte(rCircleInfo, sCircleInfo),
-  'triangle-exclamation': arte(rTriangleExclamation, sTriangleExclamation),
-  'circle-xmark': arte(rCircleXmark, sCircleXmark),
-  'circle-check': arte(rCircleCheck, sCircleCheck),
-  'circle-question': arte(rCircleQuestion, sCircleQuestion),
-  star: arte(rStar, sStar),
-  'circle-notch': arte(rCircleNotch, sCircleNotch),
-  'calendar-days': arte(rCalendarDays, sCalendarDays),
-  user: arte(rUser, sUser),
-  house: arte(rHouse, sHouse),
-  'angle-left': arte(rAngleLeft, sAngleLeft),
-  'arrow-down-to-line': arte(rArrowDownToLine, sArrowDownToLine),
-  'arrow-up': arte(rArrowUp, sArrowUp),
-  'caret-up': arte(rCaretUp, sCaretUp),
-  'chevrons-down': arte(rChevronsDown, sChevronsDown),
-  'chevrons-left': arte(rChevronsLeft, sChevronsLeft),
-  'circle-chevron-down': arte(rCircleChevronDown, sCircleChevronDown),
-  'circle-chevron-left': arte(rCircleChevronLeft, sCircleChevronLeft),
-  'circle-down': arte(rCircleDown, sCircleDown),
-  'circle-up': arte(rCircleUp, sCircleUp),
-  'square-chevron-left': arte(rSquareChevronLeft, sSquareChevronLeft),
-  'triple-chevrons-left': arte(rTripleChevronsLeft, sTripleChevronsLeft),
-  'arrow-down-arrow-up': arte(rArrowDownArrowUp, sArrowDownArrowUp),
-  'circle-half-stroke': arte(rCircleHalfStroke, sCircleHalfStroke),
-  'cloud-arrow-up': arte(rCloudArrowUp, sCloudArrowUp),
-  'grid-2': arte(rGrid2, sGrid2),
-  link: arte(rLink, sLink),
-  list: arte(rList, sList),
-  'paper-plane': arte(rPaperPlane, sPaperPlane),
-  paperclip: arte(rPaperclip, sPaperclip),
-  pen: arte(rPen, sPen),
-  print: arte(rPrint, sPrint),
-  'right-to-bracket': arte(rRightToBracket, sRightToBracket),
-  'rotate-right': arte(rRotateRight, sRotateRight),
-  share: arte(rShare, sShare),
-  'share-from-square': arte(rShareFromSquare, sShareFromSquare),
-  'thumbs-down': arte(rThumbsDown, sThumbsDown),
-  'thumbs-up': arte(rThumbsUp, sThumbsUp),
-  thumbtack: arte(rThumbtack, sThumbtack),
-  'thumbtack-slash': arte(rThumbtackSlash, sThumbtackSlash),
-  trash: arte(rTrash, sTrash),
-  'user-circle-minus': arte(rUserCircleMinus, sUserCircleMinus),
-  'user-circle-plus': arte(rUserCirclePlus, sUserCirclePlus),
-  'user-minus': arte(rUserMinus, sUserMinus),
-  'alarm-clock': arte(rAlarmClock, sAlarmClock),
-  'badge-check': arte(rBadgeCheck, sBadgeCheck),
-  bell: arte(rBell, sBell),
-  heart: arte(rHeart, sHeart),
-  lock: arte(rLock, sLock),
-  question: arte(rQuestion, sQuestion),
-  calendar: arte(rCalendar, sCalendar),
-  'circle-user': arte(rCircleUser, sCircleUser),
-  clipboard: arte(rClipboard, sClipboard),
-  clock: arte(rClock, sClock),
-  comment: arte(rComment, sComment),
-  envelope: arte(rEnvelope, sEnvelope),
-  file: arte(rFile, sFile),
-  files: arte(rFiles, sFiles),
-  folder: arte(rFolder, sFolder),
-  'folder-open': arte(rFolderOpen, sFolderOpen),
-  'font-awesome': arte(rFontAwesome, sFontAwesome),
-  globe: arte(rGlobe, sGlobe),
-  inbox: arte(rInbox, sInbox),
-  key: arte(rKey, sKey),
-  'location-dot': arte(rLocationDot, sLocationDot),
-  suitcase: arte(rSuitcase, sSuitcase),
-  tag: arte(rTag, sTag),
-  trophy: arte(rTrophy, sTrophy),
-} satisfies Readonly<Record<NphIconName, ArteDoIcone>>;
+const GLYPHS = {
+  bars: glyph(rBars, sBars),
+  'chevron-down': glyph(rChevronDown, sChevronDown),
+  'chevron-up': glyph(rChevronUp, sChevronUp),
+  'chevron-right': glyph(rChevronRight, sChevronRight),
+  'chevron-left': glyph(rChevronLeft, sChevronLeft),
+  'arrow-left': glyph(rArrowLeft, sArrowLeft),
+  'arrow-right': glyph(rArrowRight, sArrowRight),
+  eye: glyph(rEye, sEye),
+  'eye-slash': glyph(rEyeSlash, sEyeSlash),
+  ellipsis: glyph(rEllipsis, sEllipsis),
+  xmark: glyph(rXmark, sXmark),
+  check: glyph(rCheck, sCheck),
+  plus: glyph(rPlus, sPlus),
+  minus: glyph(rMinus, sMinus),
+  'magnifying-glass': glyph(rMagnifyingGlass, sMagnifyingGlass),
+  'ellipsis-vertical': glyph(rEllipsisVertical, sEllipsisVertical),
+  'arrow-up-arrow-down': glyph(rArrowUpArrowDown, sArrowUpArrowDown),
+  'grip-vertical': glyph(rGripVertical, sGripVertical),
+  'pen-to-square': glyph(rPenToSquare, sPenToSquare),
+  'trash-can': glyph(rTrashCan, sTrashCan),
+  'arrow-up-from-bracket': glyph(rArrowUpFromBracket, sArrowUpFromBracket),
+  download: glyph(rDownload, sDownload),
+  gear: glyph(rGear, sGear),
+  filter: glyph(rFilter, sFilter),
+  'filter-slash': glyph(rFilterSlash, sFilterSlash),
+  'circle-info': glyph(rCircleInfo, sCircleInfo),
+  'triangle-exclamation': glyph(rTriangleExclamation, sTriangleExclamation),
+  'circle-xmark': glyph(rCircleXmark, sCircleXmark),
+  'circle-check': glyph(rCircleCheck, sCircleCheck),
+  'circle-question': glyph(rCircleQuestion, sCircleQuestion),
+  star: glyph(rStar, sStar),
+  'circle-notch': glyph(rCircleNotch, sCircleNotch),
+  'calendar-days': glyph(rCalendarDays, sCalendarDays),
+  user: glyph(rUser, sUser),
+  house: glyph(rHouse, sHouse),
+  'angle-left': glyph(rAngleLeft, sAngleLeft),
+  'arrow-down-to-line': glyph(rArrowDownToLine, sArrowDownToLine),
+  'arrow-up': glyph(rArrowUp, sArrowUp),
+  'caret-up': glyph(rCaretUp, sCaretUp),
+  'chevrons-down': glyph(rChevronsDown, sChevronsDown),
+  'chevrons-left': glyph(rChevronsLeft, sChevronsLeft),
+  'circle-chevron-down': glyph(rCircleChevronDown, sCircleChevronDown),
+  'circle-chevron-left': glyph(rCircleChevronLeft, sCircleChevronLeft),
+  'circle-down': glyph(rCircleDown, sCircleDown),
+  'circle-up': glyph(rCircleUp, sCircleUp),
+  'square-chevron-left': glyph(rSquareChevronLeft, sSquareChevronLeft),
+  'triple-chevrons-left': glyph(rTripleChevronsLeft, sTripleChevronsLeft),
+  'arrow-down-arrow-up': glyph(rArrowDownArrowUp, sArrowDownArrowUp),
+  'circle-half-stroke': glyph(rCircleHalfStroke, sCircleHalfStroke),
+  'cloud-arrow-up': glyph(rCloudArrowUp, sCloudArrowUp),
+  'grid-2': glyph(rGrid2, sGrid2),
+  link: glyph(rLink, sLink),
+  list: glyph(rList, sList),
+  'paper-plane': glyph(rPaperPlane, sPaperPlane),
+  paperclip: glyph(rPaperclip, sPaperclip),
+  pen: glyph(rPen, sPen),
+  print: glyph(rPrint, sPrint),
+  'right-to-bracket': glyph(rRightToBracket, sRightToBracket),
+  'rotate-right': glyph(rRotateRight, sRotateRight),
+  share: glyph(rShare, sShare),
+  'share-from-square': glyph(rShareFromSquare, sShareFromSquare),
+  'thumbs-down': glyph(rThumbsDown, sThumbsDown),
+  'thumbs-up': glyph(rThumbsUp, sThumbsUp),
+  thumbtack: glyph(rThumbtack, sThumbtack),
+  'thumbtack-slash': glyph(rThumbtackSlash, sThumbtackSlash),
+  trash: glyph(rTrash, sTrash),
+  'user-circle-minus': glyph(rUserCircleMinus, sUserCircleMinus),
+  'user-circle-plus': glyph(rUserCirclePlus, sUserCirclePlus),
+  'user-minus': glyph(rUserMinus, sUserMinus),
+  'alarm-clock': glyph(rAlarmClock, sAlarmClock),
+  'badge-check': glyph(rBadgeCheck, sBadgeCheck),
+  bell: glyph(rBell, sBell),
+  heart: glyph(rHeart, sHeart),
+  lock: glyph(rLock, sLock),
+  question: glyph(rQuestion, sQuestion),
+  calendar: glyph(rCalendar, sCalendar),
+  'circle-user': glyph(rCircleUser, sCircleUser),
+  clipboard: glyph(rClipboard, sClipboard),
+  clock: glyph(rClock, sClock),
+  comment: glyph(rComment, sComment),
+  envelope: glyph(rEnvelope, sEnvelope),
+  file: glyph(rFile, sFile),
+  files: glyph(rFiles, sFiles),
+  folder: glyph(rFolder, sFolder),
+  'folder-open': glyph(rFolderOpen, sFolderOpen),
+  'font-awesome': glyph(rFontAwesome, sFontAwesome),
+  globe: glyph(rGlobe, sGlobe),
+  inbox: glyph(rInbox, sInbox),
+  key: glyph(rKey, sKey),
+  'location-dot': glyph(rLocationDot, sLocationDot),
+  suitcase: glyph(rSuitcase, sSuitcase),
+  tag: glyph(rTag, sTag),
+  trophy: glyph(rTrophy, sTrophy),
+} satisfies Readonly<Record<NphIconName, IconGlyph>>;
 
-const NOMES = new Set<string>(NPH_ICON_NAMES);
-const VARIANTES = new Set<string>(NPH_ICON_VARIANTS);
-const TAMANHOS = new Set<string>(NPH_ICON_SIZES);
+const NAMES = new Set<string>(NPH_ICON_NAMES);
+const VARIANTS = new Set<string>(NPH_ICON_VARIANTS);
+const SIZES = new Set<string>(NPH_ICON_SIZES);
 
-export function ehNomeDoNucleo(valor: string): valor is NphIconName {
-  return NOMES.has(valor);
+export function isCoreName(value: string): value is NphIconName {
+  return NAMES.has(value);
 }
 
-export function ehVariante(valor: string): valor is NphIconVariant {
-  return VARIANTES.has(valor);
+export function isVariant(value: string): value is NphIconVariant {
+  return VARIANTS.has(value);
 }
 
-export function ehTamanho(valor: string): valor is NphIconSize {
-  return TAMANHOS.has(valor);
+export function isSize(value: string): value is NphIconSize {
+  return SIZES.has(value);
 }
 
 /** Devolve a arte declarada para uma combinacao valida do nucleo. */
-export function buscarArte(name: NphIconName, variant: NphIconVariant): IconDefinition {
-  return ARTE[name][variant];
+export function findGlyph(name: NphIconName, variant: NphIconVariant): IconDefinition {
+  return GLYPHS[name][variant];
 }

@@ -27,7 +27,7 @@ nph-label {
  * pedacos do papel sao consumidos um a um: a camada `text` foi migrada para o
  * codigo em 27-08-2026 e emite uma custom property por propriedade.
  */
-nph-label .nph-label__texto {
+nph-label .nph-label__text {
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);
@@ -45,7 +45,7 @@ nph-label .nph-label__texto {
  * asterisco e rotulo sao a MESMA unidade — nao sao dois elementos
  * independentes.
  */
-nph-label .nph-label__obrigatorio {
+nph-label .nph-label__required {
   margin-inline-start: var(--nph-space-inline-tight);
   color: var(--nph-status-error);
 }

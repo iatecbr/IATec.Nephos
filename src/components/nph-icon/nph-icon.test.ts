@@ -15,35 +15,35 @@ import { NphIcon } from './nph-icon';
 import { NPH_ICON_NAMES } from './nph-icon.icons';
 
 /* `NphIcon` e importado como valor para registrar o elemento e para tipar. */
-const REGISTRADO = customElements.get('nph-icon');
+const REGISTERED = customElements.get('nph-icon');
 
-let erros: MockInstance<typeof console.error>;
+let errors: MockInstance<typeof console.error>;
 
 beforeEach(() => {
-  erros = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+  errors = vi.spyOn(console, 'error').mockImplementation(() => undefined);
 });
 
 afterEach(() => {
-  erros.mockRestore();
+  errors.mockRestore();
   document.body.replaceChildren();
 });
 
-async function montar(atributos: Record<string, string>): Promise<NphIcon> {
-  const elemento = document.createElement('nph-icon');
-  for (const [chave, valor] of Object.entries(atributos)) {
-    elemento.setAttribute(chave, valor);
+async function mount(attributes: Record<string, string>): Promise<NphIcon> {
+  const element = document.createElement('nph-icon');
+  for (const [key, value] of Object.entries(attributes)) {
+    element.setAttribute(key, value);
   }
-  document.body.append(elemento);
-  await elemento.updateComplete;
-  return elemento;
+  document.body.append(element);
+  await element.updateComplete;
+  return element;
 }
 
-function svgDe(elemento: NphIcon): SVGSVGElement | null {
-  return elemento.shadowRoot?.querySelector('svg') ?? null;
+function svgOf(element: NphIcon): SVGSVGElement | null {
+  return element.shadowRoot?.querySelector('svg') ?? null;
 }
 
-function caminhoDe(elemento: NphIcon): string {
-  return elemento.shadowRoot?.querySelector('path')?.getAttribute('d') ?? '';
+function pathOf(element: NphIcon): string {
+  return element.shadowRoot?.querySelector('path')?.getAttribute('d') ?? '';
 }
 
 /**
@@ -51,280 +51,280 @@ function caminhoDe(elemento: NphIcon): string {
  * componente nao pode divergir da fonte: se a lista mudar la, este teste
  * reprova aqui.
  */
-function nomesDoDesignMd(): string[] {
-  const inicio = designMd.indexOf('icones_nucleo:');
-  const fim = designMd.indexOf('icones_segunda_leva:');
-  expect(inicio).toBeGreaterThan(-1);
-  expect(fim).toBeGreaterThan(inicio);
+function namesFromDesignMd(): string[] {
+  const start = designMd.indexOf('icones_nucleo:');
+  const end = designMd.indexOf('icones_segunda_leva:');
+  expect(start).toBeGreaterThan(-1);
+  expect(end).toBeGreaterThan(start);
 
-  const bloco = designMd.slice(inicio, fim);
-  const listas = [...bloco.matchAll(/icones:\s*\[([^\]]+)\]/g)];
-  expect(listas.length).toBe(5);
+  const block = designMd.slice(start, end);
+  const lists = [...block.matchAll(/icones:\s*\[([^\]]+)\]/g)];
+  expect(lists.length).toBe(5);
 
-  return listas.flatMap((lista) =>
-    (lista[1] ?? '').split(',').map((nome) => nome.trim()),
+  return lists.flatMap((list) =>
+    (list[1] ?? '').split(',').map((name) => name.trim()),
   );
 }
 
 describe('registro do elemento', () => {
   it('define nph-icon uma unica vez', () => {
-    expect(REGISTRADO).toBe(NphIcon);
+    expect(REGISTERED).toBe(NphIcon);
   });
 });
 
 describe('nucleo fechado de icones_nucleo do design.md', () => {
   it('o mapa do componente e identico a icones_nucleo do design.md', () => {
-    const doDocumento = nomesDoDesignMd();
-    expect(doDocumento.length).toBeGreaterThan(0);
-    expect(new Set(doDocumento).size).toBe(doDocumento.length);
-    expect([...NPH_ICON_NAMES].sort()).toEqual([...doDocumento].sort());
+    const fromDocument = namesFromDesignMd();
+    expect(fromDocument.length).toBeGreaterThan(0);
+    expect(new Set(fromDocument).size).toBe(fromDocument.length);
+    expect([...NPH_ICON_NAMES].sort()).toEqual([...fromDocument].sort());
   });
 
   it('cada nome do nucleo desenha um caminho', async () => {
-    for (const nome of NPH_ICON_NAMES) {
-      const icone = await montar({ name: nome, size: 'sm' });
-      expect(svgDe(icone), nome).not.toBeNull();
-      expect(caminhoDe(icone).length, nome).toBeGreaterThan(0);
-      icone.remove();
+    for (const name of NPH_ICON_NAMES) {
+      const icon = await mount({ name: name, size: 'sm' });
+      expect(svgOf(icon), name).not.toBeNull();
+      expect(pathOf(icon).length, name).toBeGreaterThan(0);
+      icon.remove();
     }
-    expect(erros).not.toHaveBeenCalled();
+    expect(errors).not.toHaveBeenCalled();
   });
 });
 
 describe('variant', () => {
   it('regular e o padrao quando o atributo esta ausente', async () => {
-    const semAtributo = await montar({ name: 'star', size: 'sm' });
-    const explicito = await montar({ name: 'star', variant: 'regular', size: 'sm' });
-    expect(caminhoDe(semAtributo)).toBe(caminhoDe(explicito));
-    expect(erros).not.toHaveBeenCalled();
+    const withoutAttribute = await mount({ name: 'star', size: 'sm' });
+    const explicit = await mount({ name: 'star', variant: 'regular', size: 'sm' });
+    expect(pathOf(withoutAttribute)).toBe(pathOf(explicit));
+    expect(errors).not.toHaveBeenCalled();
   });
 
   it('star aceita solid, com arte diferente da regular', async () => {
-    const regular = await montar({ name: 'star', variant: 'regular', size: 'sm' });
-    const solid = await montar({ name: 'star', variant: 'solid', size: 'sm' });
-    expect(svgDe(solid)).not.toBeNull();
-    expect(caminhoDe(solid)).not.toBe(caminhoDe(regular));
-    expect(erros).not.toHaveBeenCalled();
+    const regular = await mount({ name: 'star', variant: 'regular', size: 'sm' });
+    const solid = await mount({ name: 'star', variant: 'solid', size: 'sm' });
+    expect(svgOf(solid)).not.toBeNull();
+    expect(pathOf(solid)).not.toBe(pathOf(regular));
+    expect(errors).not.toHaveBeenCalled();
   });
 
   it('circle-info aceita solid, com arte diferente da regular', async () => {
-    const regular = await montar({ name: 'circle-info', variant: 'regular', size: 'sm' });
-    const solid = await montar({ name: 'circle-info', variant: 'solid', size: 'sm' });
-    expect(svgDe(solid)).not.toBeNull();
-    expect(caminhoDe(solid)).not.toBe(caminhoDe(regular));
-    expect(erros).not.toHaveBeenCalled();
+    const regular = await mount({ name: 'circle-info', variant: 'regular', size: 'sm' });
+    const solid = await mount({ name: 'circle-info', variant: 'solid', size: 'sm' });
+    expect(svgOf(solid)).not.toBeNull();
+    expect(pathOf(solid)).not.toBe(pathOf(regular));
+    expect(errors).not.toHaveBeenCalled();
   });
 
   it('cada nome aceita solid', async () => {
-    for (const nome of NPH_ICON_NAMES) {
-      const icone = await montar({ name: nome, variant: 'solid', size: 'sm' });
-      expect(svgDe(icone), nome).not.toBeNull();
-      icone.remove();
+    for (const name of NPH_ICON_NAMES) {
+      const icon = await mount({ name: name, variant: 'solid', size: 'sm' });
+      expect(svgOf(icon), name).not.toBeNull();
+      icon.remove();
     }
-    expect(erros).not.toHaveBeenCalled();
+    expect(errors).not.toHaveBeenCalled();
   });
 
   it('familia proibida nao renderiza', async () => {
-    for (const familia of ['light', 'thin', 'sharp', 'duotone']) {
-      const icone = await montar({ name: 'check', variant: familia, size: 'sm' });
-      expect(svgDe(icone), familia).toBeNull();
+    for (const family of ['light', 'thin', 'sharp', 'duotone']) {
+      const icon = await mount({ name: 'check', variant: family, size: 'sm' });
+      expect(svgOf(icon), family).toBeNull();
     }
-    expect(erros).toHaveBeenCalledTimes(4);
+    expect(errors).toHaveBeenCalledTimes(4);
   });
 });
 
 describe('size', () => {
   it('cada tamanho vem do token semantico correspondente', async () => {
-    const esperado: Record<string, string> = { sm: '16px', md: '20px', lg: '24px' };
-    for (const [tamanho, medida] of Object.entries(esperado)) {
-      const icone = await montar({ name: 'gear', size: tamanho });
-      const estilo = getComputedStyle(icone);
-      expect(estilo.inlineSize, tamanho).toBe(medida);
-      expect(estilo.blockSize, tamanho).toBe(medida);
+    const expected: Record<string, string> = { sm: '16px', md: '20px', lg: '24px' };
+    for (const [size, measure] of Object.entries(expected)) {
+      const icon = await mount({ name: 'gear', size: size });
+      const style = getComputedStyle(icon);
+      expect(style.inlineSize, size).toBe(measure);
+      expect(style.blockSize, size).toBe(measure);
     }
-    expect(erros).not.toHaveBeenCalled();
+    expect(errors).not.toHaveBeenCalled();
   });
 
   it('e obrigatorio: sem size nao ha icone nem caixa', async () => {
-    const icone = await montar({ name: 'gear' });
-    expect(svgDe(icone)).toBeNull();
-    expect(getComputedStyle(icone).display).toBe('none');
-    expect(erros).toHaveBeenCalledTimes(1);
+    const icon = await mount({ name: 'gear' });
+    expect(svgOf(icon)).toBeNull();
+    expect(getComputedStyle(icon).display).toBe('none');
+    expect(errors).toHaveBeenCalledTimes(1);
   });
 
   it('valor livre nao renderiza', async () => {
-    for (const tamanho of ['xl', '16', '16px', '']) {
-      const icone = await montar({ name: 'gear', size: tamanho });
-      expect(svgDe(icone), tamanho).toBeNull();
+    for (const size of ['xl', '16', '16px', '']) {
+      const icon = await mount({ name: 'gear', size: size });
+      expect(svgOf(icon), size).toBeNull();
     }
-    expect(erros).toHaveBeenCalledTimes(4);
+    expect(errors).toHaveBeenCalledTimes(4);
   });
 });
 
 describe('entrada invalida', () => {
   it('name fora do nucleo nao renderiza e reclama', async () => {
-    for (const nome of ['rocket', 'Star', 'fa-star', 'times', '']) {
-      const icone = await montar({ name: nome, size: 'sm' });
-      expect(svgDe(icone), nome).toBeNull();
-      expect(getComputedStyle(icone).display, nome).toBe('none');
+    for (const name of ['rocket', 'Star', 'fa-star', 'times', '']) {
+      const icon = await mount({ name: name, size: 'sm' });
+      expect(svgOf(icon), name).toBeNull();
+      expect(getComputedStyle(icon).display, name).toBe('none');
     }
-    expect(erros).toHaveBeenCalledTimes(5);
+    expect(errors).toHaveBeenCalledTimes(5);
   });
 
   it('name ausente nao renderiza e reclama', async () => {
-    const icone = await montar({ size: 'sm' });
-    expect(svgDe(icone)).toBeNull();
-    expect(erros).toHaveBeenCalledTimes(1);
+    const icon = await mount({ size: 'sm' });
+    expect(svgOf(icon)).toBeNull();
+    expect(errors).toHaveBeenCalledTimes(1);
   });
 
   it('acumula um erro por propriedade invalida', async () => {
-    await montar({ name: 'rocket', variant: 'thin', size: 'xl' });
-    expect(erros).toHaveBeenCalledTimes(3);
+    await mount({ name: 'rocket', variant: 'thin', size: 'xl' });
+    expect(errors).toHaveBeenCalledTimes(3);
   });
 
   it('nao deixa fallback visual: nada dentro do shadow root', async () => {
-    const icone = await montar({ name: 'rocket', size: 'sm' });
-    expect(icone.shadowRoot?.querySelector('*') ?? null).toBeNull();
+    const icon = await mount({ name: 'rocket', size: 'sm' });
+    expect(icon.shadowRoot?.querySelector('*') ?? null).toBeNull();
   });
 });
 
 describe('acessibilidade', () => {
   it('sem label o icone e decorativo', async () => {
-    const icone = await montar({ name: 'check', size: 'sm' });
-    expect(icone.getAttribute('aria-hidden')).toBe('true');
-    expect(icone.hasAttribute('role')).toBe(false);
-    expect(icone.hasAttribute('aria-label')).toBe(false);
+    const icon = await mount({ name: 'check', size: 'sm' });
+    expect(icon.getAttribute('aria-hidden')).toBe('true');
+    expect(icon.hasAttribute('role')).toBe(false);
+    expect(icon.hasAttribute('aria-label')).toBe(false);
   });
 
   it('label vazio ou so com espacos e decorativo', async () => {
-    for (const rotulo of ['', ' ', '   \t ']) {
-      const icone = await montar({ name: 'check', size: 'sm', label: rotulo });
-      expect(icone.getAttribute('aria-hidden'), JSON.stringify(rotulo)).toBe('true');
-      expect(icone.hasAttribute('role'), JSON.stringify(rotulo)).toBe(false);
+    for (const label of ['', ' ', '   \t ']) {
+      const icon = await mount({ name: 'check', size: 'sm', label: label });
+      expect(icon.getAttribute('aria-hidden'), JSON.stringify(label)).toBe('true');
+      expect(icon.hasAttribute('role'), JSON.stringify(label)).toBe(false);
     }
   });
 
   it('label com conteudo nomeia o icone', async () => {
-    const icone = await montar({ name: 'magnifying-glass', size: 'sm', label: 'Buscar' });
-    expect(icone.getAttribute('role')).toBe('img');
-    expect(icone.getAttribute('aria-label')).toBe('Buscar');
-    expect(icone.hasAttribute('aria-hidden')).toBe(false);
+    const icon = await mount({ name: 'magnifying-glass', size: 'sm', label: 'Buscar' });
+    expect(icon.getAttribute('role')).toBe('img');
+    expect(icon.getAttribute('aria-label')).toBe('Buscar');
+    expect(icon.hasAttribute('aria-hidden')).toBe(false);
   });
 
   it('label e aparado antes de virar nome acessivel', async () => {
-    const icone = await montar({ name: 'magnifying-glass', size: 'sm', label: '  Buscar  ' });
-    expect(icone.getAttribute('aria-label')).toBe('Buscar');
+    const icon = await mount({ name: 'magnifying-glass', size: 'sm', label: '  Buscar  ' });
+    expect(icon.getAttribute('aria-label')).toBe('Buscar');
   });
 
   it('entrada invalida fica fora da arvore de acessibilidade', async () => {
-    const icone = await montar({ name: 'rocket', size: 'sm', label: 'Buscar' });
-    expect(icone.getAttribute('aria-hidden')).toBe('true');
-    expect(icone.hasAttribute('role')).toBe(false);
+    const icon = await mount({ name: 'rocket', size: 'sm', label: 'Buscar' });
+    expect(icon.getAttribute('aria-hidden')).toBe('true');
+    expect(icon.hasAttribute('role')).toBe(false);
   });
 
   it('o svg interno nunca e anunciado nem focalizavel', async () => {
-    const icone = await montar({ name: 'check', size: 'sm', label: 'Concluido' });
-    const svg = svgDe(icone);
+    const icon = await mount({ name: 'check', size: 'sm', label: 'Concluido' });
+    const svg = svgOf(icon);
     expect(svg?.getAttribute('aria-hidden')).toBe('true');
     expect(svg?.getAttribute('focusable')).toBe('false');
   });
 
   it('o label troca de decorativo para nomeado sem recriar o elemento', async () => {
-    const icone = await montar({ name: 'check', size: 'sm' });
-    expect(icone.getAttribute('aria-hidden')).toBe('true');
-    icone.label = 'Concluido';
-    await icone.updateComplete;
-    expect(icone.getAttribute('role')).toBe('img');
-    expect(icone.hasAttribute('aria-hidden')).toBe(false);
+    const icon = await mount({ name: 'check', size: 'sm' });
+    expect(icon.getAttribute('aria-hidden')).toBe('true');
+    icon.label = 'Concluido';
+    await icon.updateComplete;
+    expect(icon.getAttribute('role')).toBe('img');
+    expect(icon.hasAttribute('aria-hidden')).toBe(false);
   });
 });
 
 describe('ausencia de interacao', () => {
   it('nao recebe foco', async () => {
-    const icone = await montar({ name: 'check', size: 'sm', label: 'Concluido' });
-    expect(icone.hasAttribute('tabindex')).toBe(false);
-    icone.focus();
-    expect(document.activeElement).not.toBe(icone);
+    const icon = await mount({ name: 'check', size: 'sm', label: 'Concluido' });
+    expect(icon.hasAttribute('tabindex')).toBe(false);
+    icon.focus();
+    expect(document.activeElement).not.toBe(icon);
   });
 
   it('nao expoe slot', async () => {
-    const icone = await montar({ name: 'check', size: 'sm' });
-    expect(icone.shadowRoot?.querySelector('slot')).toBeNull();
+    const icon = await mount({ name: 'check', size: 'sm' });
+    expect(icon.shadowRoot?.querySelector('slot')).toBeNull();
   });
 
   it('nao intercepta nem inventa evento: o clique chega ao controle em volta', async () => {
-    const controle = document.createElement('button');
-    document.body.append(controle);
+    const control = document.createElement('button');
+    document.body.append(control);
 
-    const icone = document.createElement('nph-icon');
-    icone.setAttribute('name', 'trash-can');
-    icone.setAttribute('size', 'sm');
-    controle.append(icone);
-    await icone.updateComplete;
+    const icon = document.createElement('nph-icon');
+    icon.setAttribute('name', 'trash-can');
+    icon.setAttribute('size', 'sm');
+    control.append(icon);
+    await icon.updateComplete;
 
-    const noControle: string[] = [];
-    controle.addEventListener('click', (evento) => noControle.push(evento.type));
+    const onControl: string[] = [];
+    control.addEventListener('click', (event) => onControl.push(event.type));
 
-    const noIcone: string[] = [];
-    for (const tipo of ['change', 'input', 'select', 'toggle', 'nph-icon-click']) {
-      icone.addEventListener(tipo, () => noIcone.push(tipo));
+    const onIcon: string[] = [];
+    for (const kind of ['change', 'input', 'select', 'toggle', 'nph-icon-click']) {
+      icon.addEventListener(kind, () => onIcon.push(kind));
     }
 
-    const svg = icone.shadowRoot?.querySelector('svg');
+    const svg = icon.shadowRoot?.querySelector('svg');
     svg?.dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true }));
 
-    expect(noControle).toEqual(['click']);
-    expect(noIcone).toEqual([]);
+    expect(onControl).toEqual(['click']);
+    expect(onIcon).toEqual([]);
   });
 });
 
 describe('cor e caixa', () => {
   it('o desenho herda currentColor do contexto', async () => {
-    const contexto = document.createElement('div');
-    contexto.style.color = 'rgb(255, 0, 0)';
-    document.body.append(contexto);
+    const context = document.createElement('div');
+    context.style.color = 'rgb(255, 0, 0)';
+    document.body.append(context);
 
-    const icone = document.createElement('nph-icon');
-    icone.setAttribute('name', 'circle-check');
-    icone.setAttribute('size', 'md');
-    contexto.append(icone);
-    await icone.updateComplete;
+    const icon = document.createElement('nph-icon');
+    icon.setAttribute('name', 'circle-check');
+    icon.setAttribute('size', 'md');
+    context.append(icon);
+    await icon.updateComplete;
 
-    const caminho = icone.shadowRoot?.querySelector('path');
-    expect(caminho).not.toBeNull();
-    expect(getComputedStyle(caminho as SVGPathElement).fill).toBe('rgb(255, 0, 0)');
+    const path = icon.shadowRoot?.querySelector('path');
+    expect(path).not.toBeNull();
+    expect(getComputedStyle(path as SVGPathElement).fill).toBe('rgb(255, 0, 0)');
   });
 
   it('a API reativa e exatamente name, variant, size e label', () => {
-    const propriedades = [...NphIcon.elementProperties.keys()].map(String).sort();
-    expect(propriedades).toEqual(['label', 'name', 'size', 'variant']);
+    const properties = [...NphIcon.elementProperties.keys()].map(String).sort();
+    expect(properties).toEqual(['label', 'name', 'size', 'variant']);
   });
 
   it('a cor sai de currentColor, nao de propriedade', async () => {
-    const icone = await montar({ name: 'check', size: 'sm' });
-    expect(svgDe(icone)?.getAttribute('fill')).toBe('currentColor');
+    const icon = await mount({ name: 'check', size: 'sm' });
+    expect(svgOf(icon)?.getAttribute('fill')).toBe('currentColor');
   });
 
   it('eye transborda a caixa quadrada, centralizado e sem reescala', async () => {
-    const icone = await montar({ name: 'eye', size: 'sm' });
-    const caixa = icone.getBoundingClientRect();
-    const desenho = (svgDe(icone) as SVGSVGElement).getBoundingClientRect();
+    const icon = await mount({ name: 'eye', size: 'sm' });
+    const box = icon.getBoundingClientRect();
+    const drawing = (svgOf(icon) as SVGSVGElement).getBoundingClientRect();
 
-    expect(Math.round(caixa.width)).toBe(16);
-    expect(Math.round(caixa.height)).toBe(16);
+    expect(Math.round(box.width)).toBe(16);
+    expect(Math.round(box.height)).toBe(16);
     /* 576x512 escalado por altura 16 da 18 de largura. */
-    expect(Math.round(desenho.width)).toBe(18);
-    expect(Math.round(desenho.height)).toBe(16);
+    expect(Math.round(drawing.width)).toBe(18);
+    expect(Math.round(drawing.height)).toBe(16);
     /* Transbordo simetrico: 1px de cada lado. */
-    expect(Math.round(caixa.left - desenho.left)).toBe(1);
-    expect(Math.round(desenho.right - caixa.right)).toBe(1);
+    expect(Math.round(box.left - drawing.left)).toBe(1);
+    expect(Math.round(drawing.right - box.right)).toBe(1);
   });
 
   it('icone de largura natural igual a altura nao transborda', async () => {
-    const icone = await montar({ name: 'circle-check', size: 'lg' });
-    const caixa = icone.getBoundingClientRect();
-    const desenho = (svgDe(icone) as SVGSVGElement).getBoundingClientRect();
-    expect(Math.round(caixa.width)).toBe(24);
-    expect(Math.round(desenho.width)).toBe(24);
+    const icon = await mount({ name: 'circle-check', size: 'lg' });
+    const box = icon.getBoundingClientRect();
+    const drawing = (svgOf(icon) as SVGSVGElement).getBoundingClientRect();
+    expect(Math.round(box.width)).toBe(24);
+    expect(Math.round(drawing.width)).toBe(24);
   });
 });

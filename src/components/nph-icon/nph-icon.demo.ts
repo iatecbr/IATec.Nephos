@@ -19,9 +19,9 @@ import type { NphIconName } from './nph-icon.icons';
 /**
  * Um grupo do nucleo. O TITULO nao mora aqui: titulo e texto de vitrine e vem
  * do dicionario de idioma, em `.storybook/i18n/`. A ordem dos grupos abaixo e a
- * do `design.md` e casa, posicao a posicao, com `categorias` no dicionario.
+ * do `design.md` e casa, posicao a posicao, com `categories` no dicionario.
  */
-export type CategoriaDoNucleo = readonly NphIconName[];
+export type CoreCategory = readonly NphIconName[];
 
 /**
  * Indice de categorias do nucleo. A ordem vem de `icones_nucleo`, no
@@ -29,7 +29,7 @@ export type CategoriaDoNucleo = readonly NphIconName[];
  * continua sendo `NPH_ICON_NAMES`, e `nph-icon.demo.test.ts` exige que os dois
  * conjuntos sejam identicos.
  */
-export const CATEGORIAS: readonly CategoriaDoNucleo[] = [
+export const CATEGORIES: readonly CoreCategory[] = [
   /* navegacao_e_menus */
   ['bars', 'house'],
   /* direcao_e_revelacao */
@@ -142,21 +142,21 @@ export const CATEGORIAS: readonly CategoriaDoNucleo[] = [
  * deles: por construcao, a busca nunca pode revelar icone fora dos aprovados.
  * Termo vazio ou so com espacos devolve tudo.
  */
-export function filtrarNomes(
-  nomes: readonly NphIconName[],
-  termo: string,
+export function filterNames(
+  names: readonly NphIconName[],
+  term: string,
 ): NphIconName[] {
-  const procurado = termo.trim().toLowerCase();
-  if (procurado === '') {
-    return [...nomes];
+  const needle = term.trim().toLowerCase();
+  if (needle === '') {
+    return [...names];
   }
-  return nomes.filter((nome) => nome.includes(procurado));
+  return names.filter((name) => name.includes(needle));
 }
 
 /** Total do nucleo, derivado do mapa fechado — nunca digitado a mao. */
-export const TOTAL_DO_NUCLEO = NPH_ICON_NAMES.length;
+export const CORE_TOTAL = NPH_ICON_NAMES.length;
 
-export const pagina = `
+export const page = `
   color: var(--nph-color-foreground);
   background: var(--nph-color-background);
   padding: var(--nph-space-container-padding);
@@ -165,25 +165,25 @@ export const pagina = `
   gap: var(--nph-space-section);
 `;
 
-export const legenda = `
+export const caption = `
   color: var(--nph-color-muted-foreground);
   font-family: var(--nph-text-code-font-family);
   font-size: 12px;
 `;
 
-export const grade = `
+export const grid = `
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
   gap: var(--nph-space-stack);
 `;
 
-export const celula = `
+export const cell = `
   display: flex;
   align-items: center;
   gap: var(--nph-space-inline-tight);
 `;
 
-export const campo = `
+export const field = `
   color: var(--nph-color-foreground);
   background: var(--nph-color-background);
   border: 1px solid var(--nph-color-border);
@@ -193,7 +193,7 @@ export const campo = `
   min-width: 18rem;
 `;
 
-export const botao = `
+export const button = `
   color: var(--nph-color-foreground);
   background: var(--nph-color-card);
   border: 1px solid var(--nph-color-border);
@@ -203,14 +203,14 @@ export const botao = `
   cursor: pointer;
 `;
 
-export const prosa = `
+export const prose = `
   display: flex;
   flex-direction: column;
   gap: var(--nph-space-stack-tight);
   max-width: 60rem;
 `;
 
-export const cartao = `
+export const card = `
   background: var(--nph-color-card);
   color: var(--nph-color-card-foreground);
   border: 1px solid var(--nph-color-border);
@@ -221,24 +221,24 @@ export const cartao = `
   gap: var(--nph-space-stack-tight);
 `;
 
-export const tabela = `
+export const table = `
   border-collapse: collapse;
   text-align: left;
   width: 100%;
 `;
 
-export const celulaDeTabela = `
+export const tableCell = `
   border-bottom: 1px solid var(--nph-color-border);
   padding: var(--nph-space-inline-tight) var(--nph-space-inline);
   vertical-align: top;
 `;
 
 /** Bloco com titulo, usado pelas stories de Validacao. */
-export function secao(titulo: string, conteudo: TemplateResult): TemplateResult {
+export function section(title: string, content: TemplateResult): TemplateResult {
   return html`
     <section style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
-      <h3 style="margin: 0; font-size: 14px;">${titulo}</h3>
-      ${conteudo}
+      <h3 style="margin: 0; font-size: 14px;">${title}</h3>
+      ${content}
     </section>
   `;
 }

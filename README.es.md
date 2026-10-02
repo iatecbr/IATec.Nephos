@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=4ce2c0eeff51f18a19ed79801c4c52ace7846d41032b30bda54fa2df3d2340cf | status=revisado -->
+<!-- i18n: lang=es | source=README.md | source-sha256=ad3e0c808e033a895b61730a1c53e865ef0feb5005c7616c803cbde86ef15d7f | status=revisado -->
 
 # Nephos 5.0
 
@@ -149,6 +149,9 @@ confirmación.
 
 Ningún componente puede implementarse en el repositorio antes de su aprobación
 en Figma.
+
+Todo pull request pide, al abrirse, la revisión de Mauro (`maurocsjr`) en
+GitHub. Elvys o Mauro revisan y hacen el merge.
 
 ## Primer recorte P0
 
