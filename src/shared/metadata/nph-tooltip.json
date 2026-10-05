@@ -1,0 +1,103 @@
+{
+  "peca": "nph-tooltip",
+  "nivel": "componente",
+  "status": "vigente",
+  "resolve": "Mostra uma explicação curta para o gatilho de informação de um nph-label sem transferir o foco para o balão.",
+  "use_quando": [
+    "O gatilho info de um nph-label precisar revelar uma explicação curta."
+  ],
+  "nao_use_quando": [
+    "A informação for texto de apoio ou mensagem de erro do campo — isso é responsabilidade do nph-field.",
+    "O conteúdo precisar de ação, foco ou contexto persistente — use nph-popover."
+  ],
+  "api": {
+    "text": {
+      "tipo": "string",
+      "obrigatoria": true,
+      "padrao": "vazio",
+      "reflete": false,
+      "restricao": "Carrega o texto do balão, já localizado pela aplicação consumidora. Vazio ou só espaços não mostra o balão."
+    },
+    "open": {
+      "tipo": "boolean",
+      "obrigatoria": false,
+      "padrao": false,
+      "reflete": true,
+      "restricao": "Mostra ou oculta o balão. Abrir, fechar e posicionar são responsabilidade do consumidor."
+    }
+  },
+  "variantes": "nao_se_aplica",
+  "estados": {
+    "fechado": {
+      "token": "nao_se_aplica",
+      "muda_para_a_pessoa": "O balão e seu texto não são mostrados."
+    },
+    "aberto": {
+      "token": "color/tooltip",
+      "muda_para_a_pessoa": "A explicação é mostrada pelo balão."
+    }
+  },
+  "regras_de_negocio": [
+    "O balão abre somente pela ativação do gatilho; não abre no hover.",
+    "O texto cabe inteiro em até duas linhas, sem reticências, hifenização automática ou palavra partida."
+  ],
+  "erros_de_dominio": [],
+  "tokens": {
+    "fundo": "color/tooltip",
+    "texto": [
+      "text/body-sm",
+      "color/tooltip-foreground"
+    ],
+    "raio": "radius/inner",
+    "padding_vertical": "space/inline-tight",
+    "padding_horizontal": "space/inline",
+    "elevacao": "elevation/dropdown",
+    "largura_maxima": "layout/max-tooltip-width",
+    "altura_maxima": "layout/max-tooltip-height"
+  },
+  "dicas_para_ia": [
+    "Use nph-tooltip somente para a explicação curta aberta pelo gatilho info de nph-label.",
+    "Não acrescente título, ícone, ação, seta ou borda.",
+    "Não crie propriedade de posicionamento: quem abre e posiciona é o consumidor.",
+    "Para conteúdo que pede foco ou ação, escolha nph-popover."
+  ],
+  "acessibilidade": {
+    "semantica": "O host é uma região viva `role=status` desde a montagem, aberto ou fechado.",
+    "nome_acessivel": "O texto recebido em text é o conteúdo anunciado pela região viva.",
+    "teclado": [],
+    "foco": "O balão não recebe foco; o foco permanece no gatilho.",
+    "contraste": "O texto usa color/tooltip-foreground sobre color/tooltip nos dois esquemas.",
+    "alternativa_a_cor": "A explicação é transmitida pelo texto; a cor não é o único sinal."
+  },
+  "combinacoes_invalidas": [
+    "Abrir no hover — o balão abre somente pela ativação do gatilho.",
+    "Adicionar título, ícone, ação, seta ou borda — o escopo é só texto.",
+    "Transferir foco para o balão — o foco permanece no gatilho.",
+    "Usar nph-tooltip para conteúdo com ação ou foco — use nph-popover."
+  ],
+  "relacoes": {
+    "combina_com": [
+      "nph-label"
+    ],
+    "pai": [
+      "nph-label"
+    ],
+    "filho": [],
+    "complementa_bloco": [],
+    "aparece_em": []
+  },
+  "anti_padroes": [
+    "Usar o balão como texto de apoio ou mensagem de erro do campo.",
+    "Abrir o balão no hover.",
+    "Cortar, truncar ou partir uma palavra para caber no balão.",
+    "Aplicar elevation/dropdown numa subárvore com data-nph-color-scheme diferente da raiz: a sombra pode usar a cor do esquema da raiz."
+  ],
+  "fontes": {
+    "design_md": "design.md, seção de color/tooltip, color/tooltip-foreground, layout/max-tooltip-width, layout/max-tooltip-height, radius/inner e tooltip",
+    "decisao": "P65 — API e semântica do nph-tooltip, 05-10-2026",
+    "testes": "src/components/nph-tooltip/nph-tooltip.test.ts",
+    "evidencia_de_uso": "nph-label, pelo gatilho info",
+    "storybook": "src/components/nph-tooltip/nph-tooltip.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, quadro nph-tooltip 1237:5 e componente 1237:3"
+  }
+}
