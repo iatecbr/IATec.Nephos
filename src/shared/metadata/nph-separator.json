@@ -11,7 +11,7 @@
   "nao_use_quando": [
     "Contornar um campo — a borda de campo é color/input, que cumpre 3:1.",
     "Afastar dois blocos — o espaço vem de space/stack ou space/section.",
-    "Separar com texto no meio, como ou e e — não existe variante com texto."
+    "Pôr uma palavra no meio do divisor — não existe variante com texto."
   ],
   "api": {
     "orientation": {
@@ -69,11 +69,12 @@
   ],
   "relacoes": {
     "combina_com": [
-      "nph-dropdown-menu",
       "nph-button"
     ],
     "pai": [
-      "nph-dropdown-menu"
+      "menu",
+      "barra de ações",
+      "cartão"
     ],
     "filho": [],
     "complementa_bloco": [],
@@ -89,7 +90,7 @@
     "design_md": "design.md, color/border, border/width e layout/separator-width e layout/separator-height, que são o comprimento do mestre no Figma",
     "decisao": "P66 — API e semântica de nph-spinner, nph-separator e nph-kbd, 05-10-2026",
     "testes": "src/components/nph-separator/nph-separator.test.ts",
-    "evidencia_de_uso": "nph-dropdown-menu, entre grupos de itens, desenhado no Figma",
+    "evidencia_de_uso": "nenhuma em código ainda; o quadro aceito mostra menu, barra de ações e cartão",
     "storybook": "src/components/nph-separator/nph-separator.stories.ts",
     "figma": "DS-IA-NEPHOS 5.0, quadro nph-separator 1196:674 e conjunto 762:6"
   }

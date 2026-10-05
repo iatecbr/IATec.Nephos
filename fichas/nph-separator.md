@@ -12,7 +12,7 @@ use_quando:
 nao_use_quando:
   - "Contornar um campo — a borda de campo é color/input, que cumpre 3:1."
   - "Afastar dois blocos — o espaço vem de space/stack ou space/section."
-  - "Separar com texto no meio, como ou e e — não existe variante com texto."
+  - "Pôr uma palavra no meio do divisor — não existe variante com texto."
 api:
   orientation:
     tipo: enum
@@ -55,8 +55,8 @@ combinacoes_invalidas:
   - "Texto no meio do divisor — não existe variante com texto."
   - "Espessura ou cor diferentes — o divisor viraria sinal de estado."
 relacoes:
-  combina_com: [nph-dropdown-menu, nph-button]
-  pai: [nph-dropdown-menu]
+  combina_com: [nph-button]
+  pai: [menu, barra de ações, cartão]
   filho: []
   complementa_bloco: []
   aparece_em: []
@@ -69,7 +69,7 @@ fontes:
   design_md: "design.md, color/border, border/width e layout/separator-width e layout/separator-height, que são o comprimento do mestre no Figma"
   decisao: "P66 — API e semântica de nph-spinner, nph-separator e nph-kbd, 05-10-2026"
   testes: "src/components/nph-separator/nph-separator.test.ts"
-  evidencia_de_uso: "nph-dropdown-menu, entre grupos de itens, desenhado no Figma"
+  evidencia_de_uso: "nenhuma em código ainda; o quadro aceito mostra menu, barra de ações e cartão"
   storybook: "src/components/nph-separator/nph-separator.stories.ts"
   figma: "DS-IA-NEPHOS 5.0, quadro nph-separator 1196:674 e conjunto 762:6"
 ---
@@ -131,9 +131,10 @@ usa dá o comprimento.
 
 ## Relações
 
-**Combina com:** `nph-dropdown-menu` e `nph-button`, numa barra de ações.
+**Combina com:** `nph-button`, numa barra de ações.
 
-**O que é pai:** `nph-dropdown-menu`, entre grupos de itens; barra de ações e cartão.
+**O que é pai:** menu, entre grupos de itens; barra de ações; e cartão, entre
+cabeçalho e conteúdo.
 
 **O que é filho:** nada.
 
@@ -181,8 +182,8 @@ a ação de sair.
   `layout/separator-width` e `layout/separator-height`.
 - **A decisão que originou:** P66, de 05-10-2026.
 - **Testes:** `src/components/nph-separator/nph-separator.test.ts`.
-- **Evidência de uso:** `nph-dropdown-menu`, entre grupos de itens, desenhado no
-  Figma.
+- **Evidência de uso:** nenhuma em código ainda. O quadro aceito mostra o divisor
+  em menu, barra de ações e cartão.
 - **Storybook:** `src/components/nph-separator/nph-separator.stories.ts`.
 - **Figma:** quadro `nph-separator` (`1196:674`) e conjunto `762:6` no
   `DS-IA-NEPHOS 5.0`.
