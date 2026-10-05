@@ -5,7 +5,7 @@
   "fase": "F4",
   "ordem_aprovada": 125,
   "responsavel": "claude-codigo",
-  "estado": "pronta",
+  "estado": "em-revisao",
   "peca": "nph-kbd",
   "dependencias": [],
   "gates": [
@@ -46,7 +46,7 @@
     "trecho": null,
     "decisao_convertida": "O frame nph-kbd (1193:20) foi aceito como especificacao de API e comportamento do nph-kbd. COMPONENT_SET: nenhum; COMPONENT unico 772:3, com a propriedade de texto tecla. Em 05-10-2026 Indiane aprovou o recorte da primeira entrega, com o Lote A num plano e num PR."
   },
-  "revisao_git": { "branch": null, "commit": null, "pr": null },
+  "revisao_git": { "branch": "feat/lote-a-icon-spinner-separator-kbd", "commit": null, "pr": "54" },
   "contexto": null,
   "atualizado_em": "2026-10-05"
 }

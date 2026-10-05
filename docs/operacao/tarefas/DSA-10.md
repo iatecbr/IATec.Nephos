@@ -5,7 +5,7 @@
   "fase": "F4",
   "ordem_aprovada": 120,
   "responsavel": "claude-codigo",
-  "estado": "pronta",
+  "estado": "em-revisao",
   "peca": "nph-separator",
   "dependencias": [],
   "gates": [
@@ -45,7 +45,7 @@
     "trecho": null,
     "decisao_convertida": "O frame nph-separator (1196:674) foi aceito como especificacao de API e comportamento do nph-separator. COMPONENT_SET 762:6, variante orientacao horizontal|vertical, padrao horizontal. Em 05-10-2026 Indiane aprovou o recorte da primeira entrega, com o Lote A num plano e num PR."
   },
-  "revisao_git": { "branch": null, "commit": null, "pr": null },
+  "revisao_git": { "branch": "feat/lote-a-icon-spinner-separator-kbd", "commit": null, "pr": "54" },
   "contexto": null,
   "atualizado_em": "2026-10-05"
 }

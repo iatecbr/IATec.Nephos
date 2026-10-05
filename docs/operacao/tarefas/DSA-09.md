@@ -5,7 +5,7 @@
   "fase": "F4",
   "ordem_aprovada": 115,
   "responsavel": "claude-codigo",
-  "estado": "pronta",
+  "estado": "em-revisao",
   "peca": "nph-spinner",
   "dependencias": ["DSA-03"],
   "gates": [
@@ -47,7 +47,7 @@
     "trecho": null,
     "decisao_convertida": "O frame nph-spinner (1195:22210) foi aceito como especificacao de API e comportamento do nph-spinner. COMPONENT_SET 281:11, variante size sm|md, padrao sm. Em 05-10-2026 Indiane aprovou o recorte da primeira entrega, com o Lote A (icon, spinner, separator, kbd) num plano e num PR."
   },
-  "revisao_git": { "branch": null, "commit": null, "pr": null },
+  "revisao_git": { "branch": "feat/lote-a-icon-spinner-separator-kbd", "commit": null, "pr": "54" },
   "contexto": null,
   "atualizado_em": "2026-10-05"
 }
