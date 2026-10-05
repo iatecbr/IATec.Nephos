@@ -5,7 +5,7 @@
   "fase": "F4",
   "ordem_aprovada": 130,
   "responsavel": "claude-codigo",
-  "estado": "pronta",
+  "estado": "em-revisao",
   "peca": "nph-badge",
   "dependencias": ["DSA-03"],
   "gates": [
@@ -31,7 +31,8 @@
   "bloqueios": [],
   "decisoes_pendentes": [],
   "evidencias": [
-    "docs/operacao/evidencias/DSA-12/documentacao-figma-aceita-2026-10-02.md"
+    "docs/operacao/evidencias/DSA-12/documentacao-figma-aceita-2026-10-02.md",
+    "docs/operacao/evidencias/DSA-12/storybook-validacao-2026-10-05.md"
   ],
   "referencias_de_decisao": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, recorte da primeira entrega (Lote B)",
@@ -45,7 +46,7 @@
     "trecho": null,
     "decisao_convertida": "O frame nph-badge (1196:1100) foi aceito como especificacao de API e comportamento do nph-badge. COMPONENT_SET 878:30, variantes tipo (primary, secondary, info, warn, help, danger, success) e enfase (solid, light), padrao primary e solid; texto e icone opcional. O aceite de 01-10-2026 foi completado em 02-10-2026 pela retirada do hover (o selo nao e clicavel)."
   },
-  "revisao_git": { "branch": "feat/lote-b-badge-button", "commit": null, "pr": null },
+  "revisao_git": { "branch": "feat/lote-b-badge-button", "commit": null, "pr": "56" },
   "contexto": null,
   "atualizado_em": "2026-10-05"
 }

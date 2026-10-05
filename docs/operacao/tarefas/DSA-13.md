@@ -39,7 +39,8 @@
   ],
   "decisoes_pendentes": [],
   "evidencias": [
-    "docs/operacao/evidencias/DSA-13/documentacao-figma-aceita-2026-10-02.md"
+    "docs/operacao/evidencias/DSA-13/documentacao-figma-aceita-2026-10-02.md",
+    "docs/operacao/evidencias/DSA-13/storybook-validacao-2026-10-05.md"
   ],
   "referencias_de_decisao": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, recorte da primeira entrega (Lote B)",
@@ -54,7 +55,7 @@
     "trecho": null,
     "decisao_convertida": "O frame nph-button (1197:5449) foi aceito como especificacao de API e comportamento do nph-button. COMPONENT_SET 461:13009 (com texto) e COMPONENT_SET 498:15671 (so icone), variantes tipo, enfase, size e state, com icone de inicio e de fim. O aceite de 01-10-2026 foi completado em 02-10-2026 pelo hover solido nos tokens de hover, que supera a B4."
   },
-  "revisao_git": { "branch": "feat/lote-b-badge-button", "commit": null, "pr": null },
+  "revisao_git": { "branch": "feat/lote-b-badge-button", "commit": null, "pr": "56" },
   "contexto": null,
   "atualizado_em": "2026-10-05"
 }
