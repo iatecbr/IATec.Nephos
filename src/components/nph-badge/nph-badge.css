@@ -1,0 +1,98 @@
+/**
+ * Estilo interno do `nph-badge`.
+ *
+ * Classes e seletores daqui NAO sao API publica (P02). O contrato sao as custom
+ * properties de token consumidas aqui. As variaveis `--_bg` e `--_fg` sao
+ * internas ao shadow root: guardam o token do par tipo × enfase e nao sao API.
+ *
+ * Nenhum valor literal de design entra aqui. `nowrap` e relacao de caixa: o selo
+ * tem uma ou duas palavras numa linha so (quadro `1196:1100`).
+ */
+
+/* Sem texto ou com entrada invalida, nao ocupa espaco: sem fallback visual. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  gap: var(--nph-space-inline-tight);
+  padding-block: var(--nph-space-inline-tight);
+  padding-inline: var(--nph-space-control-padding);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--_bg);
+  color: var(--_fg);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+  white-space: nowrap;
+}
+
+/* O icone herda `currentColor`: fica na cor do texto. */
+.icon {
+  flex: none;
+}
+
+/* solid */
+:host([severity='primary'][emphasis='solid']) {
+  --_bg: var(--nph-color-primary);
+  --_fg: var(--nph-color-primary-foreground);
+}
+:host([severity='secondary'][emphasis='solid']) {
+  --_bg: var(--nph-color-secondary);
+  --_fg: var(--nph-color-secondary-foreground);
+}
+:host([severity='info'][emphasis='solid']) {
+  --_bg: var(--nph-status-info);
+  --_fg: var(--nph-status-on-solid);
+}
+:host([severity='warn'][emphasis='solid']) {
+  --_bg: var(--nph-status-warning);
+  --_fg: var(--nph-status-on-solid);
+}
+:host([severity='help'][emphasis='solid']) {
+  --_bg: var(--nph-status-help);
+  --_fg: var(--nph-status-on-solid);
+}
+:host([severity='danger'][emphasis='solid']) {
+  --_bg: var(--nph-color-destructive);
+  --_fg: var(--nph-color-destructive-foreground);
+}
+:host([severity='success'][emphasis='solid']) {
+  --_bg: var(--nph-status-success);
+  --_fg: var(--nph-status-on-solid);
+}
+
+/* light */
+:host([severity='primary'][emphasis='light']) {
+  --_bg: var(--nph-color-primary-surface);
+  --_fg: var(--nph-color-primary-on-surface);
+}
+:host([severity='secondary'][emphasis='light']) {
+  --_bg: var(--nph-color-secondary-light);
+  --_fg: var(--nph-color-secondary-foreground);
+}
+:host([severity='info'][emphasis='light']) {
+  --_bg: var(--nph-status-info-surface);
+  --_fg: var(--nph-status-info-foreground);
+}
+:host([severity='warn'][emphasis='light']) {
+  --_bg: var(--nph-status-warning-surface);
+  --_fg: var(--nph-status-warning-foreground);
+}
+:host([severity='help'][emphasis='light']) {
+  --_bg: var(--nph-status-help-surface);
+  --_fg: var(--nph-status-help-foreground);
+}
+:host([severity='danger'][emphasis='light']) {
+  --_bg: var(--nph-color-destructive-surface);
+  --_fg: var(--nph-color-destructive-on-surface);
+}
+:host([severity='success'][emphasis='light']) {
+  --_bg: var(--nph-status-success-surface);
+  --_fg: var(--nph-status-success-foreground);
+}
