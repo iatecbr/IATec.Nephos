@@ -15,7 +15,21 @@
     "componentes-nph-icon-validação--tamanhos": "Tamanhos",
     "componentes-nph-icon-validação--heranca-de-cor": "Herança de cor",
     "componentes-nph-icon-validação--acessibilidade": "Acessibilidade",
-    "componentes-nph-icon-validação--entrada-invalida": "Entrada inválida"
+    "componentes-nph-icon-validação--entrada-invalida": "Entrada inválida",
+    "componentes-nph-badge-docs": "Docs",
+    "componentes-nph-badge-docs--documentation": "Documentação",
+    "componentes-nph-badge-validação": "Validação",
+    "componentes-nph-badge-validação--matrix": "Matriz",
+    "componentes-nph-badge-validação--with-icon": "Com ícone",
+    "componentes-nph-badge-validação--two-words": "Duas palavras",
+    "componentes-nph-button-docs": "Docs",
+    "componentes-nph-button-docs--documentation": "Documentação",
+    "componentes-nph-button-validação": "Validação",
+    "componentes-nph-button-validação--matrix": "Matriz",
+    "componentes-nph-button-validação--sizes": "Tamanhos",
+    "componentes-nph-button-validação--icons": "Ícones",
+    "componentes-nph-button-validação--disabled": "Desabilitado",
+    "componentes-nph-button-validação--loading": "Carregando"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -249,5 +263,293 @@
       "tamanho livre não existe",
       "size é obrigatório"
     ]
+  },
+  "badgeDocs": {
+    "summary": "Etiqueta curta que rotula o estado ou a categoria de um item. Se não há o que escrever, não há selo.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha nph-badge, o design.md para os tokens e docs/decisoes-tecnicas.md para a P68. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Para rotular o estado ou a categoria de um item.",
+      "Escolha o tipo pelo significado. Estado permanente usa secondary ou primary; success confirma um evento que acabou de acontecer.",
+      "Escreva uma ou duas palavras.",
+      "Ligue o ícone só para reforçar a palavra.",
+      "Dê um estado por item."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Como botão: o selo não recebe clique nem foco. Use nph-button.",
+      "success como selo permanente: use secondary ou primary.",
+      "Selo sem texto, só com ícone.",
+      "Dois selos de status no mesmo item.",
+      "Frase dentro do selo: o texto de apoio fica fora da peça."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "severity",
+        "O tipo, pelo significado: primary (padrão), secondary, info, warn, help, danger ou success. Reflete no atributo."
+      ],
+      [
+        "emphasis",
+        "A ênfase: solid (padrão) ou light. Reflete no atributo."
+      ],
+      [
+        "text",
+        "Uma ou duas palavras, já localizadas. É o nome acessível. Vazio ou só espaços: não há selo."
+      ],
+      [
+        "icon",
+        "Um nome do núcleo do nph-icon, antes do texto. Vazio: sem ícone."
+      ]
+    ],
+    "variantsTitle": "Tipo e ênfase",
+    "variantsCaption": "Os tipos nas ênfases solid e light; na segunda linha de cada ênfase, com ícone.",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Contêiner",
+        "radius/full; space/inline-tight em cima e embaixo e space/control-padding nas laterais. A cor de fundo vem do tipo e da ênfase."
+      ],
+      [
+        "Ícone (opcional)",
+        "Antes do texto, em icon/size-sm, na cor do texto, a space/inline-tight dele. Arte do nph-icon."
+      ],
+      [
+        "Texto",
+        "text/label-sm, numa linha só. É o nome acessível da peça."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "O texto passa 4,5:1 em todos os tipos e ênfases, nos dois modos e em todas as marcas; o menor valor é 4,64:1, no primary light do modo claro."
+      ],
+      [
+        "Foco visível",
+        "O selo não recebe clique nem foco. Para ação, use nph-button."
+      ],
+      [
+        "Cor não é o único sinal",
+        "Todo selo tem texto: a cor nunca é o único sinal, e o ícone só reforça a palavra."
+      ],
+      [
+        "Alvo de toque",
+        "Não é alvo de toque: o selo não recebe clique."
+      ],
+      [
+        "Nome acessível",
+        "O texto é o nome acessível da peça. O ícone é decorativo."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "examplePermanent": "Estado permanente de um documento.",
+    "exampleCategory": "Categoria de um item.",
+    "exampleIcon": "Estado com ícone reforçando a palavra.",
+    "exampleItems": [
+      "Relatório anual",
+      "Contrato",
+      "Solicitação 218"
+    ],
+    "exampleBadges": [
+      "Rascunho",
+      "Financeiro",
+      "Recusado"
+    ],
+    "antiPatternsTitle": "Não usar",
+    "antiPatterns": [
+      "Usar como botão: o selo não recebe clique nem foco. Use nph-button.",
+      "Usar success como selo permanente: use secondary ou primary.",
+      "Selo sem texto, só com ícone.",
+      "Dois selos de status no mesmo item.",
+      "Frase dentro do selo: texto de apoio fica fora da peça.",
+      "Pintar o fundo ou o texto à mão: a cor vem do tipo e da ênfase."
+    ],
+    "referencesTitle": "Referências",
+    "references": [
+      "ficha nph-badge — função, variantes, acessibilidade, tokens e anti-padrões.",
+      "docs/decisoes-tecnicas.md — P68 (API e semântica), P01, P02 e P03.",
+      "design.md — as cores color/* e status/*, text/label-sm, radius/full e os espaços.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Badge, quadro nph-badge (1196:1100) e conjunto 878:30.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "ficha nph-badge; Figma, quadro nph-badge (1196:1100)",
+    "sourceApi": "ficha nph-badge; docs/decisoes-tecnicas.md › P68",
+    "sourceAnatomy": "Figma, conjunto 878:30; design.md"
+  },
+  "buttonDocs": {
+    "summary": "Dispara uma ação identificada por texto. Varia em tipo, ênfase, tamanho e estado, com ícone opcional no início ou no fim. Sem texto, é o botão só com ícone.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha nph-button, o design.md para os tokens e docs/decisoes-tecnicas.md para a P68. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Para iniciar uma ação identificada por texto, como salvar ou enviar.",
+      "Escreva no texto o que acontece ao clicar.",
+      "Escolha o tipo pelo significado da ação, nunca pela cor.",
+      "Escolha a ênfase pelo quanto a ação se destaca: solid, outline, light ou ghost.",
+      "Use size large em tela de toque.",
+      "Sem texto, use o botão só com ícone e dê nome acessível."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para mostrar erro de campo: a validação é do campo (nph-field).",
+      "Só com ícone em ação com consequência, como excluir ou publicar.",
+      "Para navegar para outro destino.",
+      "size compact como alvo principal em tela de toque."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "severity",
+        "O tipo, pelo significado da ação: primary (padrão), secondary, info, warn, help, danger ou success. Reflete no atributo."
+      ],
+      [
+        "emphasis",
+        "Quanto a ação se destaca: solid (padrão), outline, light ou ghost. outline, light e ghost existem só em primary, secondary e danger. Reflete no atributo."
+      ],
+      [
+        "size",
+        "compact (padrão), default ou large. large atende o alvo de toque de 44 px. Reflete no atributo."
+      ],
+      [
+        "text",
+        "O que acontece ao clicar, já localizado. É o nome acessível."
+      ],
+      [
+        "icon-start",
+        "Um nome do núcleo do nph-icon antes do texto, em icon/size-sm. Pode conviver com icon-end."
+      ],
+      [
+        "icon-end",
+        "Um nome do núcleo do nph-icon depois do texto, em icon/size-sm."
+      ],
+      [
+        "label",
+        "Nome acessível do botão sem texto. Obrigatório nele; com texto, não é usado."
+      ],
+      [
+        "disabled",
+        "Desliga o botão: sai da ordem do Tab e não dispara clique. Reflete no atributo."
+      ],
+      [
+        "loading",
+        "Mostra o girador do nph-spinner no lugar do ícone de início; o texto fica, o foco continua e o clique não chega a quem usa. Reflete no atributo."
+      ]
+    ],
+    "variantsTitle": "Tipo e ênfase",
+    "variantsCaption": "Os tipos em cada ênfase, no tamanho default. Passe o mouse para ver o hover e use Tab para ver o foco.",
+    "sizesTitle": "Tamanhos",
+    "sizesText": "A altura vem de control/height-compact, -default ou -large. O texto é text/label-md em todos. Sem texto, o botão é quadrado e o ícone acompanha a caixa: sm no compact, md no default e lg no large.",
+    "sizesCaption": "compact, default e large, com texto, com ícone e só com ícone.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "O que muda"
+    ],
+    "states": [
+      [
+        "default",
+        "Repouso. A cor comunica o tipo da ação."
+      ],
+      [
+        "hover-active",
+        "A superfície muda para o token de hover do tipo e da ênfase."
+      ],
+      [
+        "focus",
+        "Para quem usa o teclado: uma borda na cor do tipo e um halo por fora, sem mudar o tamanho. No secondary, a borda é focus/border."
+      ],
+      [
+        "disabled",
+        "O botão inteiro em state/disabled-opacity, fora do Tab."
+      ],
+      [
+        "loading",
+        "O girador do nph-spinner no lugar do ícone de início. O texto continua."
+      ]
+    ],
+    "statesCaption": "disabled e loading.",
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "Texto e ícone passam 4,5:1 em todos os tipos e ênfases, nos dois modos e em todas as marcas; o menor valor é 4,64:1, no primary outline e light do modo claro. As bordas passam 3:1."
+      ],
+      [
+        "Foco visível",
+        "No foco, a borda e o halo aparecem para quem navega pelo teclado."
+      ],
+      [
+        "Cor não é o único sinal",
+        "A cor nunca é o único sinal de intenção, foco ou estado: o texto diz o que acontece ao clicar."
+      ],
+      [
+        "Alvo de toque",
+        "size large atende o alvo de toque de 44 px; compact não é alvo principal em tela de toque."
+      ],
+      [
+        "Nome acessível",
+        "O texto é o nome do botão. Sem texto, o nome vem de label, obrigatório."
+      ],
+      [
+        "Teclado",
+        "Tab entra e sai; Enter e Espaço acionam."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleForm": "Ações de formulário: principal e secundária.",
+    "exampleConsequence": "Ação com consequência, sempre com texto.",
+    "exampleIconOnly": "Ação universal sem texto, com nome acessível.",
+    "exampleTexts": [
+      "Salvar",
+      "Cancelar",
+      "Excluir conta",
+      "Adicionar"
+    ],
+    "antiPatternsTitle": "Não usar",
+    "antiPatterns": [
+      "Mostrar erro de campo no botão: a validação é do campo (nph-field).",
+      "Usar só ícone em ação com consequência, como excluir ou publicar.",
+      "Aumentar o ícone para dar destaque.",
+      "Usar a cor como único sinal de intenção, foco ou estado.",
+      "Navegar para outro destino com o botão.",
+      "Criar tipo, ênfase ou tamanho fora da matriz, ou pintar o botão à mão."
+    ],
+    "referencesTitle": "Referências",
+    "references": [
+      "ficha nph-button — função, variantes, estados, acessibilidade, tokens e anti-padrões.",
+      "docs/decisoes-tecnicas.md — P68 (API e semântica), P01, P02, P03 e P66 (nph-spinner).",
+      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* e as cores color/* e status/*.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Button, quadro nph-button (1197:5449) e conjuntos 461:13009 e 498:15671.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "ficha nph-button; Figma, quadro nph-button (1197:5449)",
+    "sourceApi": "ficha nph-button; docs/decisoes-tecnicas.md › P68",
+    "sourceStates": "Figma, conjuntos 461:13009 e 498:15671; design.md"
   }
 }
