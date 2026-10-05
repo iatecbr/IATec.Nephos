@@ -162,6 +162,16 @@ describe('o que o selo nao tem', () => {
 });
 
 describe('montagem e entrada invalida', () => {
+  it('texto nulo ou undefined nao quebra: nao ha selo', async () => {
+    const element = await mount({ text: 'Label' });
+    element.text = null as unknown as string;
+    await element.updateComplete;
+    expect(element.shadowRoot?.querySelector('.text')).toBeNull();
+    element.text = undefined as unknown as string;
+    await element.updateComplete;
+    expect(element.getBoundingClientRect().width).toBe(0);
+  });
+
   it('sem texto nao ha selo: 0 x 0 e sem erro', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const element = await mount({ text: '   ' });

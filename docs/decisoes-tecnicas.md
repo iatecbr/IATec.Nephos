@@ -754,7 +754,7 @@ decisão própria, como na P66. Os nomes seguem a P64.
   que decide o envio de formulário. As duas peças usam o mesmo nome para a mesma
   escolha.
 - **`nph-badge`**
-  - `severity`: os sete tipos, padrão `primary`, reflete no atributo.
+  - `severity`: os tipos acima, padrão `primary`, reflete no atributo.
   - `emphasis`: `solid` (padrão) ou `light`, reflete no atributo. Os padrões são
     os do conjunto `878:30`.
   - `text`: string, padrão vazio. É o nome acessível. Vazio ou só espaços: nada é

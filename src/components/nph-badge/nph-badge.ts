@@ -112,7 +112,7 @@ export class NphBadge extends LitElement {
     const icon = (this.icon ?? '').trim();
     return html`${icon !== '' ? html`<nph-icon class="icon" name=${icon} size="sm"></nph-icon>` : nothing}<span
         class="text"
-        >${this.text.trim()}</span
+        >${(this.text ?? '').trim()}</span
       >`;
   }
 }

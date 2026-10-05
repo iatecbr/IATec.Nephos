@@ -205,7 +205,7 @@ export class NphButton extends LitElement {
       return nothing;
     }
     const size = this.size;
-    const text = this.text.trim();
+    const text = (this.text ?? '').trim();
     const start = (this.iconStart ?? '').trim();
     const end = (this.iconEnd ?? '').trim();
 
@@ -224,7 +224,7 @@ export class NphButton extends LitElement {
       class="control"
       type="button"
       ?disabled=${this.disabled}
-      aria-label=${this.iconOnly ? this.label.trim() : nothing}
+      aria-label=${this.iconOnly ? (this.label ?? '').trim() : nothing}
       aria-disabled=${this.loading && !this.disabled ? 'true' : nothing}
       aria-busy=${this.loading ? 'true' : nothing}
       @click=${(event: Event) => this.blockInactive(event)}

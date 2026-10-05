@@ -2,7 +2,7 @@
  * Stories de VALIDACAO do `nph-badge`.
  *
  * Provam a matriz aceita no Figma (quadro `1196:1100`, conjunto `878:30`): os
- * sete tipos nas duas enfases, com e sem icone. "Selo" e o texto padrao do
+ * tipos nas duas enfases, com e sem icone. "Selo" e o texto padrao do
  * conjunto; as outras palavras sao so conteudo de exemplo desta pagina.
  *
  * O esquema de cor vem do seletor global do Storybook, aplicado na raiz. Nao ha
@@ -40,7 +40,7 @@ function matrix(icon: string): TemplateResult {
   </div>`;
 }
 
-/** Os sete tipos nas duas enfases, sem icone. */
+/** Os tipos nas duas enfases, sem icone. */
 export const Matrix: Story = {
   name: 'Matriz',
   render: () => matrix(''),

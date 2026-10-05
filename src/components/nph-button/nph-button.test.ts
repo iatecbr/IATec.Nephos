@@ -358,6 +358,18 @@ describe('nome acessivel', () => {
 });
 
 describe('montagem e entrada invalida', () => {
+  it('texto removido ou undefined vira so icone, sem quebrar o render', async () => {
+    const element = await mount({ text: 'Save', iconStart: 'plus', label: 'Add' });
+    element.removeAttribute('text');
+    element.text = null as unknown as string;
+    await element.updateComplete;
+    expect(control(element).querySelector('.text')).toBeNull();
+    expect(control(element).getAttribute('aria-label')).toBe('Add');
+    element.text = undefined as unknown as string;
+    await element.updateComplete;
+    expect(control(element).getAttribute('aria-label')).toBe('Add');
+  });
+
   it('sem texto e sem icone e montagem: nada e sem erro', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const element = await mount({});
