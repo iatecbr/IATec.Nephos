@@ -229,20 +229,25 @@ export default {
   },
 
   validation: {
-    variantsSection: 'regular y solid',
+    variantsTitle: 'Variantes',
     variantsRegular: 'regular — predeterminado',
     variantsSolid: 'solid — más presencia visual',
     variantsNote:
       'regular y solid existen para todos los nombres del núcleo.',
 
+    sizesTitle: 'Tamaños',
+    sizesSummary: 'El tamaño viene de un token semántico. No existe valor libre.',
     sizesOverflowTitle: 'Desbordamiento aprobado',
     sizesEye: 'eye — 18 de ancho natural',
     sizesCircleCheck: 'circle-check — ancho igual a la altura',
     sizesNote:
       'La caja normaliza altura y alineación, no ancho: eye, eye-slash y star desbordan centrados, sin recorte y sin reescalado.',
 
-    colorNote: 'Ningún icono de arriba fue pintado. Todos heredan el color del contexto.',
+    colorTitle: 'Herencia de color',
+    colorNote: 'Ningún icono de abajo fue pintado. Todos heredan el color del contexto.',
 
+    a11yTitle: 'Accesibilidad',
+    a11ySummary: 'Decorativo junto a texto; nombrado cuando va solo.',
     a11yDecorativeTitle: 'Con texto al lado — decorativo',
     a11yDecorativeExample: 'Eliminar registro',
     a11yDecorativeNote:
@@ -251,16 +256,19 @@ export default {
     a11yNamedLabel: 'Buscar',
     a11yNamedNote:
       'Con label: role="img" y aria-label en el host. Solo para símbolo universal y recurrente; una acción con consecuencias nunca anda sola.',
+    a11yFocusTitle: 'Foco',
     a11yFocusNote:
       'El icono nunca recibe foco: el teclado y el objetivo táctil pertenecen al control de alrededor.',
 
+    invalidTitle: 'Entrada inválida',
+    invalidHeader: ['Entrada', 'Por qué no dibuja'],
     invalidIntro:
       'Los cuatro casos siguientes no dibujan nada y no ocupan espacio. Abra la consola para ver un error por propiedad inválida.',
     invalidCases: [
-      'fuera del núcleo:',
-      'variant inexistente:',
-      'un tamaño libre no existe:',
-      'size es obligatorio:',
+      'fuera del núcleo',
+      'variant inexistente',
+      'un tamaño libre no existe',
+      'size es obligatorio',
     ],
   },
 };

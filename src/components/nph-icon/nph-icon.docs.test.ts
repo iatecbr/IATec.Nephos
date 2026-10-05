@@ -61,7 +61,6 @@ describe('regra vigente do solid nos textos', () => {
         variant?.[1](0) ?? '',
         d.coreRule,
         d.invalidText,
-        v.variantsSection,
         v.variantsRegular,
         v.variantsSolid,
         v.variantsNote,
