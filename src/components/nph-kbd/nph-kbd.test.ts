@@ -107,6 +107,16 @@ describe('anatomia', () => {
     expect(style.fontFamily).toContain('Noto Sans');
     expect(style.fontWeight).toBe('500');
   });
+
+  it('tecla de texto longo: uma linha, altura 24, a caixa acompanha o texto', async () => {
+    const short = (await mount('K')).getBoundingClientRect().width;
+    const kbd = await mount('Page Down');
+    const box = kbd.getBoundingClientRect();
+    expect(box.height).toBe(FIGMA_HEIGHT);
+    expect(box.width).toBeGreaterThan(short);
+    const inner = kbdOf(kbd) as HTMLElement;
+    expect(inner.scrollWidth).toBeLessThanOrEqual(inner.clientWidth);
+  });
 });
 
 describe('contrato de token', () => {

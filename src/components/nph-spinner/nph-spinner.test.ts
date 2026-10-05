@@ -82,8 +82,15 @@ describe('movimento', () => {
     const style = getComputedStyle(glyphOf(spinner) as HTMLElement);
     expect(style.animationName).toBe('nph-spinner-turn');
     expect(style.animationIterationCount).toBe('infinite');
-    expect(style.animationDuration).toBe('0.8s');
-    expect(style.animationTimingFunction).toBe('cubic-bezier(0, 0, 1, 1)');
+    /* O esperado sai do proprio token: se o laco mudar, o teste acompanha. */
+    const probe = document.createElement('div');
+    probe.style.animationDuration = 'var(--nph-motion-loop-duration)';
+    probe.style.animationTimingFunction = 'var(--nph-motion-loop-easing)';
+    document.body.append(probe);
+    const expected = getComputedStyle(probe);
+    expect(expected.animationDuration).not.toBe('0s');
+    expect(style.animationDuration).toBe(expected.animationDuration);
+    expect(style.animationTimingFunction).toBe(expected.animationTimingFunction);
   });
 
   it('com movimento reduzido, o giro para', async () => {
