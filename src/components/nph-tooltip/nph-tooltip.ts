@@ -2,7 +2,8 @@
  * `nph-tooltip` — o balao de ajuda.
  *
  * Contrato aceito no Figma (quadro `1237:5`, componente `1237:3`) e decisoes
- * de Indiane em 01-10-2026 (Registro de decisoes, L11.5 a L11.7):
+ * de Indiane em 01-10-2026 (Registro de decisoes: L11.5 para o comportamento e
+ * o escopo; L11.6 e L11.7 para a anatomia):
  * - so texto. Nao tem titulo, icone, acao, seta nem borda;
  * - o texto acompanha a largura ate `layout/max-tooltip-width` e depois quebra
  *   a linha. Cabe inteiro, em ate duas linhas: sem reticencias e sem palavra

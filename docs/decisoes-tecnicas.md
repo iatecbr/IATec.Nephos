@@ -31,7 +31,7 @@ subseção P62.4 para o detalhe).
 | **P21** | Plano técnico do `nph-icon` | 26/08/2026 | Já implementado e mergeado sob aceitação de risco | Aprovada, 28/08/2026 |
 | **P63** | Metadata gerada a partir da ficha | 28/09/2026 | Médio. Mudar local ou formato depois exige gerar de novo e ajustar quem lê; a ficha não muda | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** |
 | **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** Emenda de 02/10/2026 em revisão no PR #49. |
-| **P65** | API e semântica do `nph-tooltip` | 05/10/2026 | Baixo agora. O `nph-label` é o primeiro consumidor; mudar depois exige refazer o gatilho dele | Anatomia e comportamento adotados por Indiane em 01/10/2026 (L11.5 a L11.7). Revisão no PR por `maurocsjr` |
+| **P65** | API e semântica do `nph-tooltip` | 05/10/2026 | Baixo agora. O `nph-label` é o primeiro consumidor; mudar depois exige refazer o gatilho dele | Comportamento e escopo (L11.5) e anatomia (L11.6, L11.7 e o quadro aceito) adotados por Indiane em 01/10/2026. Revisão no PR por `maurocsjr` |
 
 **Fora desta nota, ainda aguardam confirmação dele:** licença, variável de CI,
 credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
@@ -660,8 +660,8 @@ PR #49.
   entre palavras: sem reticências, sem hifenização automática, sem palavra
   partida. Cabe em até duas linhas; texto mais longo é erro de conteúdo.
 
-**Fonte.** Anatomia e comportamento: decisões de Indiane em 01/10/2026 —
-Registro de decisões (vault), L11.5 a L11.7 — e o quadro `nph-tooltip`
+**Fonte.** Comportamento e escopo: decisão de Indiane em 01/10/2026, L11.5 do
+Registro de decisões (vault). Anatomia: L11.6 e L11.7 e o quadro `nph-tooltip`
 (`1237:5`) aceito no Figma `DS-IA-NEPHOS 5.0`, com o componente `1237:3`. O
 padding segue o redesenho aceito no mesmo dia; a L11.5 ainda cita
 `space/container-padding`, que o redesenho substituiu. A API (`text`, `open`)
