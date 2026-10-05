@@ -1,0 +1,986 @@
+{
+  "fonte": {
+    "arquivo": "Figma DS-IA-NEPHOS 5.0",
+    "fileKey": "UuhW1qPkdkdQ6IAjOsxOua",
+    "lido_em": "2026-10-05",
+    "totais": {
+      "core": 322,
+      "semantic": 195,
+      "theme": 14
+    }
+  },
+  "novos": [
+    {
+      "name": "focus/border",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "theme/brand-focus"
+        },
+        "escuro": {
+          "alias": "theme/brand-300"
+        }
+      }
+    },
+    {
+      "name": "focus/halo",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "theme/brand-200"
+        },
+        "escuro": {
+          "alias": "theme/brand-200"
+        }
+      }
+    },
+    {
+      "name": "focus/halo-info",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/info/200"
+        },
+        "escuro": {
+          "alias": "core/info/200"
+        }
+      }
+    },
+    {
+      "name": "focus/halo-warn",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/warn/200"
+        },
+        "escuro": {
+          "alias": "core/warn/200"
+        }
+      }
+    },
+    {
+      "name": "focus/halo-help",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/help/200"
+        },
+        "escuro": {
+          "alias": "core/help/200"
+        }
+      }
+    },
+    {
+      "name": "focus/halo-danger",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/danger/200"
+        },
+        "escuro": {
+          "alias": "core/danger/200"
+        }
+      }
+    },
+    {
+      "name": "focus/halo-success",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/success/200"
+        },
+        "escuro": {
+          "alias": "core/success/200"
+        }
+      }
+    },
+    {
+      "name": "focus/halo-error",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "focus/halo-danger"
+        },
+        "escuro": {
+          "alias": "focus/halo-danger"
+        }
+      }
+    },
+    {
+      "name": "color/primary-surface",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "theme/brand-50"
+        },
+        "escuro": {
+          "alias": "theme/brand-900"
+        }
+      }
+    },
+    {
+      "name": "color/primary-on-surface",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "theme/brand-600"
+        },
+        "escuro": {
+          "alias": "theme/brand-100"
+        }
+      }
+    },
+    {
+      "name": "color/primary-surface-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "theme/brand-100"
+        },
+        "escuro": {
+          "alias": "theme/brand-800"
+        }
+      }
+    },
+    {
+      "name": "color/primary-on-surface-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "theme/brand-700"
+        },
+        "escuro": {
+          "alias": "theme/brand-100"
+        }
+      }
+    },
+    {
+      "name": "color/primary-border",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "theme/brand-600"
+        },
+        "escuro": {
+          "alias": "theme/brand-300"
+        }
+      }
+    },
+    {
+      "name": "color/primary-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "theme/brand-700"
+        },
+        "escuro": {
+          "alias": "theme/brand-400-hover"
+        }
+      }
+    },
+    {
+      "name": "color/destructive-surface",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/danger/50"
+        },
+        "escuro": {
+          "alias": "core/danger/900"
+        }
+      }
+    },
+    {
+      "name": "color/destructive-on-surface",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/danger/600"
+        },
+        "escuro": {
+          "alias": "core/danger/100"
+        }
+      }
+    },
+    {
+      "name": "color/destructive-surface-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/danger/100"
+        },
+        "escuro": {
+          "alias": "core/danger/800"
+        }
+      }
+    },
+    {
+      "name": "color/destructive-on-surface-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/danger/700"
+        },
+        "escuro": {
+          "alias": "core/danger/100"
+        }
+      }
+    },
+    {
+      "name": "color/destructive-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/danger/700"
+        },
+        "escuro": {
+          "alias": "core/danger/300"
+        }
+      }
+    },
+    {
+      "name": "color/secondary-surface-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/surface/200"
+        },
+        "escuro": {
+          "alias": "core/surface/600"
+        }
+      }
+    },
+    {
+      "name": "color/secondary-light",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/surface/50"
+        },
+        "escuro": {
+          "alias": "core/surface/700"
+        }
+      }
+    },
+    {
+      "name": "color/secondary-light-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/surface/100"
+        },
+        "escuro": {
+          "alias": "core/surface/600"
+        }
+      }
+    },
+    {
+      "name": "color/input-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/neutral/500"
+        },
+        "escuro": {
+          "alias": "core/surface/200"
+        }
+      }
+    },
+    {
+      "name": "color/accent-subtle",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/neutral/50"
+        },
+        "escuro": {
+          "alias": "core/surface/700"
+        }
+      }
+    },
+    {
+      "name": "status/on-solid",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "color/background"
+        },
+        "escuro": {
+          "alias": "color/background"
+        }
+      }
+    },
+    {
+      "name": "color/tooltip",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/neutral/600"
+        },
+        "escuro": {
+          "alias": "core/neutral/700"
+        }
+      }
+    },
+    {
+      "name": "color/tooltip-foreground",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/base/white"
+        },
+        "escuro": {
+          "alias": "core/neutral/100"
+        }
+      }
+    },
+    {
+      "name": "status/info-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/info/700"
+        },
+        "escuro": {
+          "alias": "core/info/300"
+        }
+      }
+    },
+    {
+      "name": "status/warning-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/warn/700"
+        },
+        "escuro": {
+          "alias": "core/warn/300"
+        }
+      }
+    },
+    {
+      "name": "status/help-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/help/700"
+        },
+        "escuro": {
+          "alias": "core/help/300"
+        }
+      }
+    },
+    {
+      "name": "status/success-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/success/700"
+        },
+        "escuro": {
+          "alias": "core/success/300"
+        }
+      }
+    },
+    {
+      "name": "status/info-surface-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/info/100"
+        },
+        "escuro": {
+          "alias": "core/info/800"
+        }
+      }
+    },
+    {
+      "name": "status/warning-surface-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/warn/100"
+        },
+        "escuro": {
+          "alias": "core/warn/800"
+        }
+      }
+    },
+    {
+      "name": "status/help-surface-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/help/100"
+        },
+        "escuro": {
+          "alias": "core/help/800"
+        }
+      }
+    },
+    {
+      "name": "status/success-surface-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/success/100"
+        },
+        "escuro": {
+          "alias": "core/success/800"
+        }
+      }
+    },
+    {
+      "name": "layout/max-tooltip-width",
+      "type": "FLOAT",
+      "modes": {
+        "claro": {
+          "alias": "core/layout-width/tooltip"
+        },
+        "escuro": {
+          "alias": "core/layout-width/tooltip"
+        }
+      }
+    },
+    {
+      "name": "layout/max-tooltip-height",
+      "type": "FLOAT",
+      "modes": {
+        "claro": {
+          "alias": "core/layout-height/tooltip"
+        },
+        "escuro": {
+          "alias": "core/layout-height/tooltip"
+        }
+      }
+    },
+    {
+      "name": "layout/field-width",
+      "type": "FLOAT",
+      "modes": {
+        "claro": {
+          "alias": "core/layout-width/field"
+        },
+        "escuro": {
+          "alias": "core/layout-width/field"
+        }
+      }
+    },
+    {
+      "name": "layout/input-width",
+      "type": "FLOAT",
+      "modes": {
+        "claro": {
+          "alias": "core/layout-width/input"
+        },
+        "escuro": {
+          "alias": "core/layout-width/input"
+        }
+      }
+    },
+    {
+      "name": "layout/rich-option-width",
+      "type": "FLOAT",
+      "modes": {
+        "claro": {
+          "alias": "core/layout-width/rich-option"
+        },
+        "escuro": {
+          "alias": "core/layout-width/rich-option"
+        }
+      }
+    },
+    {
+      "name": "layout/separator-width",
+      "type": "FLOAT",
+      "modes": {
+        "claro": {
+          "alias": "core/layout-width/separator"
+        },
+        "escuro": {
+          "alias": "core/layout-width/separator"
+        }
+      }
+    },
+    {
+      "name": "layout/separator-height",
+      "type": "FLOAT",
+      "modes": {
+        "claro": {
+          "alias": "core/layout-height/separator"
+        },
+        "escuro": {
+          "alias": "core/layout-height/separator"
+        }
+      }
+    },
+    {
+      "name": "theme/brand-50",
+      "type": "COLOR",
+      "modes": {
+        "sistemas": {
+          "alias": "core/sistemas/50"
+        },
+        "gerencial": {
+          "alias": "core/gerencial/50"
+        },
+        "educacao": {
+          "alias": "core/educacao/50"
+        },
+        "comercial": {
+          "alias": "core/comercial/50"
+        },
+        "financeiro": {
+          "alias": "core/financeiro/50"
+        },
+        "igrejas": {
+          "alias": "core/igrejas/50"
+        },
+        "rh": {
+          "alias": "core/rh/50"
+        }
+      }
+    },
+    {
+      "name": "theme/brand-100",
+      "type": "COLOR",
+      "modes": {
+        "sistemas": {
+          "alias": "core/sistemas/100"
+        },
+        "gerencial": {
+          "alias": "core/gerencial/100"
+        },
+        "educacao": {
+          "alias": "core/educacao/100"
+        },
+        "comercial": {
+          "alias": "core/comercial/100"
+        },
+        "financeiro": {
+          "alias": "core/financeiro/100"
+        },
+        "igrejas": {
+          "alias": "core/igrejas/100"
+        },
+        "rh": {
+          "alias": "core/rh/100"
+        }
+      }
+    },
+    {
+      "name": "theme/brand-200",
+      "type": "COLOR",
+      "modes": {
+        "sistemas": {
+          "alias": "core/sistemas/200"
+        },
+        "gerencial": {
+          "alias": "core/gerencial/200"
+        },
+        "educacao": {
+          "alias": "core/educacao/200"
+        },
+        "comercial": {
+          "alias": "core/comercial/200"
+        },
+        "financeiro": {
+          "alias": "core/financeiro/200"
+        },
+        "igrejas": {
+          "alias": "core/igrejas/200"
+        },
+        "rh": {
+          "alias": "core/rh/200"
+        }
+      }
+    },
+    {
+      "name": "theme/brand-300",
+      "type": "COLOR",
+      "modes": {
+        "sistemas": {
+          "alias": "core/sistemas/300"
+        },
+        "gerencial": {
+          "alias": "core/gerencial/300"
+        },
+        "educacao": {
+          "alias": "core/educacao/300"
+        },
+        "comercial": {
+          "alias": "core/comercial/300"
+        },
+        "financeiro": {
+          "alias": "core/financeiro/300"
+        },
+        "igrejas": {
+          "alias": "core/igrejas/300"
+        },
+        "rh": {
+          "alias": "core/rh/300"
+        }
+      }
+    },
+    {
+      "name": "theme/brand-800",
+      "type": "COLOR",
+      "modes": {
+        "sistemas": {
+          "alias": "core/sistemas/800"
+        },
+        "gerencial": {
+          "alias": "core/gerencial/800"
+        },
+        "educacao": {
+          "alias": "core/educacao/800"
+        },
+        "comercial": {
+          "alias": "core/comercial/800"
+        },
+        "financeiro": {
+          "alias": "core/financeiro/800"
+        },
+        "igrejas": {
+          "alias": "core/igrejas/800"
+        },
+        "rh": {
+          "alias": "core/rh/800"
+        }
+      }
+    },
+    {
+      "name": "theme/brand-900",
+      "type": "COLOR",
+      "modes": {
+        "sistemas": {
+          "alias": "core/sistemas/900"
+        },
+        "gerencial": {
+          "alias": "core/gerencial/900"
+        },
+        "educacao": {
+          "alias": "core/educacao/900"
+        },
+        "comercial": {
+          "alias": "core/comercial/900"
+        },
+        "financeiro": {
+          "alias": "core/financeiro/900"
+        },
+        "igrejas": {
+          "alias": "core/igrejas/900"
+        },
+        "rh": {
+          "alias": "core/rh/900"
+        }
+      }
+    },
+    {
+      "name": "theme/brand-focus",
+      "type": "COLOR",
+      "modes": {
+        "sistemas": {
+          "alias": "core/sistemas/500"
+        },
+        "gerencial": {
+          "alias": "core/gerencial/500"
+        },
+        "educacao": {
+          "alias": "core/educacao/700"
+        },
+        "comercial": {
+          "alias": "core/comercial/500"
+        },
+        "financeiro": {
+          "alias": "core/financeiro/500"
+        },
+        "igrejas": {
+          "alias": "core/igrejas/500"
+        },
+        "rh": {
+          "alias": "core/rh/500"
+        }
+      }
+    },
+    {
+      "name": "theme/brand-400-hover",
+      "type": "COLOR",
+      "modes": {
+        "sistemas": {
+          "alias": "core/sistemas/300"
+        },
+        "gerencial": {
+          "alias": "core/gerencial/500"
+        },
+        "educacao": {
+          "alias": "core/educacao/800"
+        },
+        "comercial": {
+          "alias": "core/comercial/300"
+        },
+        "financeiro": {
+          "alias": "core/financeiro/300"
+        },
+        "igrejas": {
+          "alias": "core/igrejas/500"
+        },
+        "rh": {
+          "alias": "core/rh/500"
+        }
+      }
+    }
+  ],
+  "repontados": [
+    {
+      "name": "color/input",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/neutral/400"
+        },
+        "escuro": {
+          "alias": "core/surface/300"
+        }
+      }
+    },
+    {
+      "name": "color/muted-foreground",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/neutral/600"
+        },
+        "escuro": {
+          "alias": "core/surface/200"
+        }
+      }
+    },
+    {
+      "name": "color/secondary",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/surface/200"
+        },
+        "escuro": {
+          "alias": "core/surface/600"
+        }
+      }
+    },
+    {
+      "name": "color/secondary-foreground",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/surface/900"
+        },
+        "escuro": {
+          "alias": "core/surface/100"
+        }
+      }
+    },
+    {
+      "name": "color/secondary-hover",
+      "type": "COLOR",
+      "modes": {
+        "claro": {
+          "alias": "core/surface/300"
+        },
+        "escuro": {
+          "alias": "core/surface/700"
+        }
+      }
+    }
+  ],
+  "primitivos": [
+    {
+      "name": "core/sistemas/50",
+      "value": "#ebf2fe"
+    },
+    {
+      "name": "core/gerencial/50",
+      "value": "#e6ebf0"
+    },
+    {
+      "name": "core/gerencial/100",
+      "value": "#ccd6e0"
+    },
+    {
+      "name": "core/gerencial/200",
+      "value": "#99adc2"
+    },
+    {
+      "name": "core/gerencial/300",
+      "value": "#6685a3"
+    },
+    {
+      "name": "core/gerencial/800",
+      "value": "#001429"
+    },
+    {
+      "name": "core/gerencial/900",
+      "value": "#000a14"
+    },
+    {
+      "name": "core/educacao/50",
+      "value": "#fff6ea"
+    },
+    {
+      "name": "core/educacao/100",
+      "value": "#ffeed5"
+    },
+    {
+      "name": "core/educacao/900",
+      "value": "#332209"
+    },
+    {
+      "name": "core/comercial/50",
+      "value": "#ecf3f4"
+    },
+    {
+      "name": "core/comercial/100",
+      "value": "#d8e6e9"
+    },
+    {
+      "name": "core/comercial/200",
+      "value": "#b2cdd3"
+    },
+    {
+      "name": "core/comercial/300",
+      "value": "#8bb5bd"
+    },
+    {
+      "name": "core/comercial/800",
+      "value": "#19343a"
+    },
+    {
+      "name": "core/comercial/900",
+      "value": "#0c1a1d"
+    },
+    {
+      "name": "core/financeiro/50",
+      "value": "#edf1ed"
+    },
+    {
+      "name": "core/financeiro/100",
+      "value": "#dbe3db"
+    },
+    {
+      "name": "core/financeiro/300",
+      "value": "#94ac92"
+    },
+    {
+      "name": "core/financeiro/900",
+      "value": "#0f170f"
+    },
+    {
+      "name": "core/igrejas/50",
+      "value": "#f2e9ed"
+    },
+    {
+      "name": "core/igrejas/100",
+      "value": "#e5d4db"
+    },
+    {
+      "name": "core/igrejas/900",
+      "value": "#19080f"
+    },
+    {
+      "name": "core/rh/50",
+      "value": "#ede9f2"
+    },
+    {
+      "name": "core/rh/100",
+      "value": "#dbd2e5"
+    },
+    {
+      "name": "core/rh/200",
+      "value": "#b7a6cc"
+    },
+    {
+      "name": "core/rh/300",
+      "value": "#9379b2"
+    },
+    {
+      "name": "core/rh/800",
+      "value": "#1e0d33"
+    },
+    {
+      "name": "core/rh/900",
+      "value": "#0f0619"
+    },
+    {
+      "name": "core/neutral/600",
+      "value": "#5c5c5c"
+    },
+    {
+      "name": "core/surface/50",
+      "value": "#edeeef"
+    },
+    {
+      "name": "core/surface/100",
+      "value": "#dbdde0"
+    },
+    {
+      "name": "core/surface/200",
+      "value": "#b7bbc1"
+    },
+    {
+      "name": "core/info/300",
+      "value": "#67b5dd"
+    },
+    {
+      "name": "core/info/700",
+      "value": "#014f77"
+    },
+    {
+      "name": "core/warn/300",
+      "value": "#f29b6d"
+    },
+    {
+      "name": "core/warn/700",
+      "value": "#8c3507"
+    },
+    {
+      "name": "core/help/700",
+      "value": "#581f8c"
+    },
+    {
+      "name": "core/success/300",
+      "value": "#73c892"
+    },
+    {
+      "name": "core/success/700",
+      "value": "#0d622c"
+    },
+    {
+      "name": "core/layout-width/tooltip",
+      "value": 235
+    },
+    {
+      "name": "core/layout-height/tooltip",
+      "value": 44
+    },
+    {
+      "name": "core/layout-width/field",
+      "value": 320
+    },
+    {
+      "name": "core/layout-width/input",
+      "value": 280
+    },
+    {
+      "name": "core/layout-width/rich-option",
+      "value": 320
+    },
+    {
+      "name": "core/layout-width/separator",
+      "value": 240
+    },
+    {
+      "name": "core/layout-height/separator",
+      "value": 48
+    }
+  ]
+}

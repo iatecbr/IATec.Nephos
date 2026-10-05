@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "camada": "theme",
-      "contagemEsperada": 6,
-      "origem": "Figma DS-IA-NEPHOS 5.0, colecao theme, leitura de 2026-08-24",
+      "contagemEsperada": 14,
+      "origem": "Figma DS-IA-NEPHOS 5.0, colecao theme, leitura de 2026-08-24; brand-50, 100, 200, 300, 800, 900, brand-focus e brand-400-hover lidos em 2026-10-05 (DSA-04)",
       "modeSet": {
         "nome": "brand",
         "modos": [
@@ -110,6 +110,142 @@
     "brand-on-600": {
       "$type": "color",
       "$value": "{core.base.white}"
+    },
+    "brand-50": {
+      "$type": "color",
+      "$value": "{core.sistemas.50}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.sistemas.50}",
+            "gerencial": "{core.gerencial.50}",
+            "educacao": "{core.educacao.50}",
+            "comercial": "{core.comercial.50}",
+            "financeiro": "{core.financeiro.50}",
+            "igrejas": "{core.igrejas.50}",
+            "rh": "{core.rh.50}"
+          }
+        }
+      }
+    },
+    "brand-100": {
+      "$type": "color",
+      "$value": "{core.sistemas.100}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.sistemas.100}",
+            "gerencial": "{core.gerencial.100}",
+            "educacao": "{core.educacao.100}",
+            "comercial": "{core.comercial.100}",
+            "financeiro": "{core.financeiro.100}",
+            "igrejas": "{core.igrejas.100}",
+            "rh": "{core.rh.100}"
+          }
+        }
+      }
+    },
+    "brand-200": {
+      "$type": "color",
+      "$value": "{core.sistemas.200}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.sistemas.200}",
+            "gerencial": "{core.gerencial.200}",
+            "educacao": "{core.educacao.200}",
+            "comercial": "{core.comercial.200}",
+            "financeiro": "{core.financeiro.200}",
+            "igrejas": "{core.igrejas.200}",
+            "rh": "{core.rh.200}"
+          }
+        }
+      }
+    },
+    "brand-300": {
+      "$type": "color",
+      "$value": "{core.sistemas.300}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.sistemas.300}",
+            "gerencial": "{core.gerencial.300}",
+            "educacao": "{core.educacao.300}",
+            "comercial": "{core.comercial.300}",
+            "financeiro": "{core.financeiro.300}",
+            "igrejas": "{core.igrejas.300}",
+            "rh": "{core.rh.300}"
+          }
+        }
+      }
+    },
+    "brand-800": {
+      "$type": "color",
+      "$value": "{core.sistemas.800}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.sistemas.800}",
+            "gerencial": "{core.gerencial.800}",
+            "educacao": "{core.educacao.800}",
+            "comercial": "{core.comercial.800}",
+            "financeiro": "{core.financeiro.800}",
+            "igrejas": "{core.igrejas.800}",
+            "rh": "{core.rh.800}"
+          }
+        }
+      }
+    },
+    "brand-900": {
+      "$type": "color",
+      "$value": "{core.sistemas.900}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.sistemas.900}",
+            "gerencial": "{core.gerencial.900}",
+            "educacao": "{core.educacao.900}",
+            "comercial": "{core.comercial.900}",
+            "financeiro": "{core.financeiro.900}",
+            "igrejas": "{core.igrejas.900}",
+            "rh": "{core.rh.900}"
+          }
+        }
+      }
+    },
+    "brand-focus": {
+      "$type": "color",
+      "$value": "{core.sistemas.500}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.sistemas.500}",
+            "gerencial": "{core.gerencial.500}",
+            "educacao": "{core.educacao.700}",
+            "comercial": "{core.comercial.500}",
+            "financeiro": "{core.financeiro.500}",
+            "igrejas": "{core.igrejas.500}",
+            "rh": "{core.rh.500}"
+          }
+        }
+      }
+    },
+    "brand-400-hover": {
+      "$type": "color",
+      "$value": "{core.sistemas.300}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "sistemas": "{core.sistemas.300}",
+            "gerencial": "{core.gerencial.500}",
+            "educacao": "{core.educacao.800}",
+            "comercial": "{core.comercial.300}",
+            "financeiro": "{core.financeiro.300}",
+            "igrejas": "{core.igrejas.500}",
+            "rh": "{core.rh.500}"
+          }
+        }
+      }
     }
   }
 }

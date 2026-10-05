@@ -1,10 +1,10 @@
 {
-  "$description": "Camada 1 - primitivos. Nenhum componente consome daqui. Espelha a colecao `core` do Figma DS-IA-NEPHOS 5.0. Somente os primitivos necessarios para resolver a camada semantic. Os 20 itens da P46 estao fora por decisao registrada; os demais primitivos e os estilos de texto seguem adiados, exceto as duas familias de fonte, necessarias para resolver a camada text. Em 2026-09-03 entraram os 24 primitivos de sombra, que montam os estilos elevation/* (PF-15), e os tres de movimento: core/duration/400 e core/easing/linear (PF-16) e core/duration/loop, o laco de 800 ms do girador (PF-05).",
+  "$description": "Camada 1 - primitivos. Nenhum componente consome daqui. Espelha a colecao `core` do Figma DS-IA-NEPHOS 5.0. Somente os primitivos necessarios para resolver a camada semantic. Os 20 itens da P46 estao fora por decisao registrada; os demais primitivos e os estilos de texto seguem adiados, exceto as duas familias de fonte, necessarias para resolver a camada text. Em 2026-09-03 entraram os 24 primitivos de sombra, que montam os estilos elevation/* (PF-15), e os tres de movimento: core/duration/400 e core/easing/linear (PF-16) e core/duration/loop, o laco de 800 ms do girador (PF-05). Em 2026-10-05 entraram 47 primitivos, os necessarios para resolver os tokens de theme e semantic que o Figma tinha e o codigo nao (DSA-04): 40 cores e 7 medidas de layout (tooltip, field, input, rich-option e separator).",
   "$extensions": {
     "com.iatec.nephos": {
       "camada": "core",
-      "contagemEsperada": 172,
-      "origem": "Figma DS-IA-NEPHOS 5.0, colecao core, leitura de 2026-08-24; as duas familias de fonte lidas dos estilos de texto do mesmo arquivo em 2026-08-27; os 24 primitivos de sombra e os tres de movimento lidos variavel a variavel em 2026-09-03"
+      "contagemEsperada": 219,
+      "origem": "Figma DS-IA-NEPHOS 5.0, colecao core, leitura de 2026-08-24; as duas familias de fonte lidas dos estilos de texto do mesmo arquivo em 2026-08-27; os 24 primitivos de sombra e os tres de movimento lidos variavel a variavel em 2026-09-03; os 47 primitivos que resolvem os tokens trazidos na DSA-04 (40 cores e 7 larguras e alturas de layout) lidos variavel a variavel em 2026-10-05"
     }
   },
   "core": {
@@ -50,6 +50,22 @@
       }
     },
     "comercial": {
+      "50": {
+        "$type": "color",
+        "$value": "#ecf3f4"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#d8e6e9"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#b2cdd3"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#8bb5bd"
+      },
       "400": {
         "$type": "color",
         "$value": "#659ca7"
@@ -65,6 +81,14 @@
       "700": {
         "$type": "color",
         "$value": "#254f57"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#19343a"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#0c1a1d"
       }
     },
     "control-height": {
@@ -208,6 +232,14 @@
       }
     },
     "educacao": {
+      "50": {
+        "$type": "color",
+        "$value": "#fff6ea"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#ffeed5"
+      },
       "200": {
         "$type": "color",
         "$value": "#ffddab"
@@ -231,12 +263,28 @@
       "800": {
         "$type": "color",
         "$value": "#664412"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#332209"
       }
     },
     "financeiro": {
+      "50": {
+        "$type": "color",
+        "$value": "#edf1ed"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#dbe3db"
+      },
       "200": {
         "$type": "color",
         "$value": "#b8c8b6"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#94ac92"
       },
       "400": {
         "$type": "color",
@@ -257,6 +305,10 @@
       "800": {
         "$type": "color",
         "$value": "#1f2f1d"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#0f170f"
       }
     },
     "focus-width": {
@@ -285,6 +337,22 @@
       }
     },
     "gerencial": {
+      "50": {
+        "$type": "color",
+        "$value": "#e6ebf0"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#ccd6e0"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#99adc2"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#6685a3"
+      },
       "400": {
         "$type": "color",
         "$value": "#335c85"
@@ -300,6 +368,14 @@
       "700": {
         "$type": "color",
         "$value": "#001f3d"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#001429"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#000a14"
       }
     },
     "help": {
@@ -330,6 +406,10 @@
       "600": {
         "$type": "color",
         "$value": "#7629bb"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#581f8c"
       },
       "800": {
         "$type": "color",
@@ -364,6 +444,14 @@
       }
     },
     "igrejas": {
+      "50": {
+        "$type": "color",
+        "$value": "#f2e9ed"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#e5d4db"
+      },
       "200": {
         "$type": "color",
         "$value": "#cca8b7"
@@ -391,6 +479,10 @@
       "800": {
         "$type": "color",
         "$value": "#330f1e"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#19080f"
       }
     },
     "info": {
@@ -406,6 +498,10 @@
         "$type": "color",
         "$value": "#9acee9"
       },
+      "300": {
+        "$type": "color",
+        "$value": "#67b5dd"
+      },
       "400": {
         "$type": "color",
         "$value": "#359dd2"
@@ -417,6 +513,10 @@
       "600": {
         "$type": "color",
         "$value": "#026a9f"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#014f77"
       },
       "800": {
         "$type": "color",
@@ -432,6 +532,20 @@
         "$type": "dimension",
         "$value": {
           "value": 56,
+          "unit": "px"
+        }
+      },
+      "tooltip": {
+        "$type": "dimension",
+        "$value": {
+          "value": 44,
+          "unit": "px"
+        }
+      },
+      "separator": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
           "unit": "px"
         }
       }
@@ -464,6 +578,41 @@
           "value": 280,
           "unit": "px"
         }
+      },
+      "tooltip": {
+        "$type": "dimension",
+        "$value": {
+          "value": 235,
+          "unit": "px"
+        }
+      },
+      "field": {
+        "$type": "dimension",
+        "$value": {
+          "value": 320,
+          "unit": "px"
+        }
+      },
+      "input": {
+        "$type": "dimension",
+        "$value": {
+          "value": 280,
+          "unit": "px"
+        }
+      },
+      "rich-option": {
+        "$type": "dimension",
+        "$value": {
+          "value": 320,
+          "unit": "px"
+        }
+      },
+      "separator": {
+        "$type": "dimension",
+        "$value": {
+          "value": 240,
+          "unit": "px"
+        }
       }
     },
     "neutral": {
@@ -490,6 +639,10 @@
       "500": {
         "$type": "color",
         "$value": "#737373"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#5c5c5c"
       },
       "700": {
         "$type": "color",
@@ -586,6 +739,22 @@
       }
     },
     "rh": {
+      "50": {
+        "$type": "color",
+        "$value": "#ede9f2"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#dbd2e5"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#b7a6cc"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#9379b2"
+      },
       "400": {
         "$type": "color",
         "$value": "#6f4d99"
@@ -601,6 +770,14 @@
       "700": {
         "$type": "color",
         "$value": "#2d134c"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#1e0d33"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#0f0619"
       }
     },
     "scrim": {
@@ -788,6 +965,10 @@
       }
     },
     "sistemas": {
+      "50": {
+        "$type": "color",
+        "$value": "#ebf2fe"
+      },
       "100": {
         "$type": "color",
         "$value": "#d8e6fd"
@@ -889,6 +1070,10 @@
         "$type": "color",
         "$value": "#a2dab7"
       },
+      "300": {
+        "$type": "color",
+        "$value": "#73c892"
+      },
       "400": {
         "$type": "color",
         "$value": "#45b56e"
@@ -896,6 +1081,10 @@
       "600": {
         "$type": "color",
         "$value": "#12823b"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#0d622c"
       },
       "800": {
         "$type": "color",
@@ -907,6 +1096,18 @@
       }
     },
     "surface": {
+      "50": {
+        "$type": "color",
+        "$value": "#edeeef"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#dbdde0"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#b7bbc1"
+      },
       "300": {
         "$type": "color",
         "$value": "#9399a1"
@@ -949,6 +1150,10 @@
         "$type": "color",
         "$value": "#f7bc9e"
       },
+      "300": {
+        "$type": "color",
+        "$value": "#f29b6d"
+      },
       "400": {
         "$type": "color",
         "$value": "#ee793d"
@@ -956,6 +1161,10 @@
       "600": {
         "$type": "color",
         "$value": "#bb460a"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#8c3507"
       },
       "800": {
         "$type": "color",

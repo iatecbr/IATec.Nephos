@@ -272,18 +272,18 @@ tokens_semantic:
     nao_use: "Sobre qualquer outro fundo."
   color/secondary:
     css: '--nph-color-secondary'
-    claro: core/neutral/100
+    claro: core/surface/200
     escuro: core/surface/600
     use: "Ação alternativa que acompanha a primária."
     nao_use: "Ação destrutiva."
   color/secondary-foreground:
     css: '--nph-color-secondary-foreground'
-    claro: core/neutral/900
-    escuro: core/neutral/100
+    claro: core/surface/900
+    escuro: core/surface/100
     use: "Texto sobre color/secondary."
   color/secondary-hover:
     css: '--nph-color-secondary-hover'
-    claro: core/neutral/200
+    claro: core/surface/300
     escuro: core/surface/700
     use: "Superfície de hover de ação secondary. Mantém a mudança visível nos dois modos."
     nao_use: "Hover de primary, destructive, outline ou ghost."
@@ -306,8 +306,8 @@ tokens_semantic:
     nao_use: "Hover."
   color/muted-foreground:
     css: '--nph-color-muted-foreground'
-    claro: core/neutral/500
-    escuro: core/neutral/300
+    claro: core/neutral/600
+    escuro: core/surface/200
     use: "Legenda, texto auxiliar, placeholder, metadado."
     nao_use: "Texto necessário para concluir a tarefa."
   color/destructive:
@@ -330,7 +330,7 @@ tokens_semantic:
     nao_use: "Borda de campo de formulário."
   color/input:
     css: '--nph-color-input'
-    claro: core/neutral/200
+    claro: core/neutral/400
     escuro: core/surface/300
     use: "Borda de campo: input, select, textarea, checkbox."
   color/card:
@@ -366,6 +366,89 @@ tokens_semantic:
     claro: core/neutral/950
     escuro: core/neutral/100
     use: "Texto e icone sobre color/dialog. 7,68:1 no escuro."
+  color/primary-surface:
+    css: '--nph-color-primary-surface'
+    claro: theme/brand-50
+    escuro: theme/brand-900
+    use: "Fundo da acao principal em enfase leve: nph-button com enfase light ou outline. Acompanha a marca ativa. USE sempre com color/primary-on-surface. NAO USE como fundo de pagina, cartao ou area — para isso existem color/background, color/card e color/muted."
+  color/primary-on-surface:
+    css: '--nph-color-primary-on-surface'
+    claro: theme/brand-600
+    escuro: theme/brand-100
+    use: "Texto, icone e borda sobre color/primary-surface. Cor viva da marca no modo claro, tom claro no modo escuro. USE somente sobre ela. NAO USE sobre color/primary solido — ali vale color/primary-foreground."
+  color/primary-surface-hover:
+    css: '--nph-color-primary-surface-hover'
+    claro: theme/brand-100
+    escuro: theme/brand-800
+    use: "Superficie da acao principal em enfase leve, no estado hover-active. USE somente nesse estado, com color/primary-on-surface por cima. NAO USE como fundo em repouso — ali vale color/primary-surface."
+  color/primary-on-surface-hover:
+    css: '--nph-color-primary-on-surface-hover'
+    claro: theme/brand-700
+    escuro: theme/brand-100
+    use: "Texto, icone e borda sobre color/primary-surface-hover. USE somente no estado hover-active da enfase leve. NAO USE em repouso — ali vale color/primary-on-surface."
+  color/primary-border:
+    css: '--nph-color-primary-border'
+    claro: theme/brand-600
+    escuro: theme/brand-300
+  color/primary-hover:
+    css: '--nph-color-primary-hover'
+    claro: theme/brand-700
+    escuro: theme/brand-400-hover
+  color/destructive-surface:
+    css: '--nph-color-destructive-surface'
+    claro: core/danger/50
+    escuro: core/danger/900
+    use: "Fundo da acao destrutiva em enfase leve: nph-button com enfase light ou outline. USE sempre com color/destructive-on-surface. NAO USE em mensagem de erro de validacao — ali vale status/error-surface."
+  color/destructive-on-surface:
+    css: '--nph-color-destructive-on-surface'
+    claro: core/danger/600
+    escuro: core/danger/100
+    use: "Texto, icone e borda sobre color/destructive-surface. USE somente sobre ela. NAO USE sobre color/destructive solido — ali vale color/destructive-foreground."
+  color/destructive-surface-hover:
+    css: '--nph-color-destructive-surface-hover'
+    claro: core/danger/100
+    escuro: core/danger/800
+    use: "Superficie da acao destrutiva em enfase leve, no estado hover-active. USE somente nesse estado, com color/destructive-on-surface por cima. NAO USE como fundo em repouso — ali vale color/destructive-surface."
+  color/destructive-on-surface-hover:
+    css: '--nph-color-destructive-on-surface-hover'
+    claro: core/danger/700
+    escuro: core/danger/100
+    use: "Texto, icone e borda sobre color/destructive-surface-hover. USE somente no estado hover-active da enfase leve. NAO USE em repouso — ali vale color/destructive-on-surface."
+  color/destructive-hover:
+    css: '--nph-color-destructive-hover'
+    claro: core/danger/700
+    escuro: core/danger/300
+  color/secondary-surface-hover:
+    css: '--nph-color-secondary-surface-hover'
+    claro: core/surface/200
+    escuro: core/surface/600
+    use: "Superficie da acao alternativa em enfase leve, no estado hover-active. USE somente nesse estado, com color/secondary-foreground por cima. NAO USE no botao secondary solido — ali vale color/secondary-hover."
+  color/secondary-light:
+    css: '--nph-color-secondary-light'
+    claro: core/surface/50
+    escuro: core/surface/700
+  color/secondary-light-hover:
+    css: '--nph-color-secondary-light-hover'
+    claro: core/surface/100
+    escuro: core/surface/600
+  color/input-hover:
+    css: '--nph-color-input-hover'
+    claro: core/neutral/500
+    escuro: core/surface/200
+  color/accent-subtle:
+    css: '--nph-color-accent-subtle'
+    claro: core/neutral/50
+    escuro: core/surface/700
+  color/tooltip:
+    css: '--nph-color-tooltip'
+    claro: core/neutral/600
+    escuro: core/neutral/700
+    use: "Fundo do balão de ajuda (nph-tooltip): superfície escura, presa a um gatilho, que não bloqueia a página. USE só no nph-tooltip. NÃO USE em popover, menu ou diálogo — esses são color/popover e color/dialog."
+  color/tooltip-foreground:
+    css: '--nph-color-tooltip-foreground'
+    claro: core/base/white
+    escuro: core/neutral/100
+    use: "Texto sobre color/tooltip. USE só dentro do nph-tooltip. NÃO USE sobre outro fundo."
   focus/ring:
     css: '--nph-focus-ring'
     claro: theme/brand-700
@@ -378,6 +461,45 @@ tokens_semantic:
     escuro: core/danger/400
     use: "Anel de foco em campo que falhou validação."
     nao_use: "Sozinho, sem mensagem de texto."
+  focus/border:
+    css: '--nph-focus-border'
+    claro: theme/brand-focus
+    escuro: theme/brand-300
+  focus/halo:
+    css: '--nph-focus-halo'
+    claro: theme/brand-200
+    escuro: theme/brand-200
+    use: "HALO do foco: a faixa clara por fora da borda. É decoração e não precisa cumprir 3:1 — quem cumpre é focus/border. Aponta para o tom 200 da marca nos dois modos. Criado em 03-09-2026 para o componente parar de apontar direto para a camada de marca."
+  focus/halo-info:
+    css: '--nph-focus-halo-info'
+    claro: core/info/200
+    escuro: core/info/200
+    use: "HALO do foco quando o controle é do tipo info. Decoração: quem cumpre o mínimo de 3:1 é a borda. Fica no tom claro da mesma matiz nos dois modos, para não sumir dentro da borda no escuro. Criado em 03-09-2026 por decisão da Indiane."
+  focus/halo-warn:
+    css: '--nph-focus-halo-warn'
+    claro: core/warn/200
+    escuro: core/warn/200
+    use: "HALO do foco quando o controle é do tipo warn. Decoração: quem cumpre o mínimo de 3:1 é a borda. Fica no tom claro da mesma matiz nos dois modos, para não sumir dentro da borda no escuro. Criado em 03-09-2026 por decisão da Indiane."
+  focus/halo-help:
+    css: '--nph-focus-halo-help'
+    claro: core/help/200
+    escuro: core/help/200
+    use: "HALO do foco quando o controle é do tipo help. Decoração: quem cumpre o mínimo de 3:1 é a borda. Fica no tom claro da mesma matiz nos dois modos, para não sumir dentro da borda no escuro. Criado em 03-09-2026 por decisão da Indiane."
+  focus/halo-danger:
+    css: '--nph-focus-halo-danger'
+    claro: core/danger/200
+    escuro: core/danger/200
+    use: "HALO do foco quando o controle é do tipo danger. Decoração: quem cumpre o mínimo de 3:1 é a borda. Fica no tom claro da mesma matiz nos dois modos, para não sumir dentro da borda no escuro. Criado em 03-09-2026 por decisão da Indiane."
+  focus/halo-success:
+    css: '--nph-focus-halo-success'
+    claro: core/success/200
+    escuro: core/success/200
+    use: "HALO do foco quando o controle é do tipo success. Decoração: quem cumpre o mínimo de 3:1 é a borda. Fica no tom claro da mesma matiz nos dois modos, para não sumir dentro da borda no escuro. Criado em 03-09-2026 por decisão da Indiane."
+  focus/halo-error:
+    css: '--nph-focus-halo-error'
+    claro: focus/halo-danger
+    escuro: focus/halo-danger
+    use: "HALO do foco quando o campo está inválido. Decoração; quem cumpre o contraste é a borda, que nesse estado é status/error. Tom claro nos dois modos. Renomeado de focus/ring-error em 03-09-2026, pelo mesmo motivo do focus/border."
   sidebar/background:
     css: '--nph-sidebar-background'
     claro: core/neutral/50
@@ -525,6 +647,42 @@ tokens_semantic:
     claro: core/success/800
     escuro: core/success/100
     use: "Texto dentro da mensagem. Sempre em conjunto com os outros três papéis de status/success."
+  status/on-solid:
+    css: '--nph-status-on-solid'
+    claro: color/background
+    escuro: color/background
+  status/info-hover:
+    css: '--nph-status-info-hover'
+    claro: core/info/700
+    escuro: core/info/300
+  status/info-surface-hover:
+    css: '--nph-status-info-surface-hover'
+    claro: core/info/100
+    escuro: core/info/800
+  status/warning-hover:
+    css: '--nph-status-warning-hover'
+    claro: core/warn/700
+    escuro: core/warn/300
+  status/warning-surface-hover:
+    css: '--nph-status-warning-surface-hover'
+    claro: core/warn/100
+    escuro: core/warn/800
+  status/help-hover:
+    css: '--nph-status-help-hover'
+    claro: core/help/700
+    escuro: core/help/300
+  status/help-surface-hover:
+    css: '--nph-status-help-surface-hover'
+    claro: core/help/100
+    escuro: core/help/800
+  status/success-hover:
+    css: '--nph-status-success-hover'
+    claro: core/success/700
+    escuro: core/success/300
+  status/success-surface-hover:
+    css: '--nph-status-success-surface-hover'
+    claro: core/success/100
+    escuro: core/success/800
   brand/sistemas:
     css: '--nph-brand-sistemas'
     claro: core/sistemas/500
@@ -653,6 +811,37 @@ tokens_theme:
     css: '--nph-theme-brand-on-400'
     valor_por_modo: "core/neutral/950 em Sistemas, Comercial e Financeiro; core/base/white em Gerencial, Igrejas, Recursos Humanos e Educacao"
     use: "Texto sobre o tom da marca no modo escuro. Varia por vertical porque a luminancia do tom varia: onde o 400 e claro, o texto e escuro."
+  theme/brand-50:
+    css: '--nph-theme-brand-50'
+    valor_por_modo: core/<vertical>/50
+    use: "Tom mais claro da marca ativa. Fundo de peca em enfase leve: botao light, faixa, selo. Consumido so por semantic."
+  theme/brand-100:
+    css: '--nph-theme-brand-100'
+    valor_por_modo: core/<vertical>/100
+    use: "Tom muito claro da marca ativa. Texto e icone sobre superficie escura da marca no modo escuro. Consumido so por semantic."
+  theme/brand-200:
+    css: '--nph-theme-brand-200'
+    valor_por_modo: core/<vertical>/200
+    use: "Tom claro da marca ativa. Borda de peca em enfase leve no modo claro. Consumido so por semantic."
+  theme/brand-300:
+    css: '--nph-theme-brand-300'
+    valor_por_modo: core/<vertical>/300
+    use: "Tom 300 da marca ativa. Criado em 03-09-2026 para a borda de foco no modo escuro, onde o 400 reprovava o mínimo de 3:1 em Gerencial e Recursos Humanos. Não usar para preenchimento nem texto."
+  theme/brand-800:
+    css: '--nph-theme-brand-800'
+    valor_por_modo: core/<vertical>/800
+    use: "Tom escuro da marca ativa. Texto e icone sobre superficie clara da marca no modo claro. Consumido so por semantic."
+  theme/brand-900:
+    css: '--nph-theme-brand-900'
+    valor_por_modo: core/<vertical>/900
+    use: "Tom mais escuro da marca ativa. Fundo de peca em enfase leve no modo escuro. Consumido so por semantic."
+  theme/brand-focus:
+    css: '--nph-theme-brand-focus'
+    valor_por_modo: "core/<vertical>/500 em seis verticais; core/educacao/700 em Educacao"
+    use: "Tom da marca usado no anel de foco. Tom 500 em seis verticais; Educação usa 700 porque o 500 dela mede 1,92:1 contra branco e reprova o mínimo de 3:1 do critério 1.4.11 da WCAG 2.2 AA. Decisão de Indiane em 03-09-2026. Não usar para preenchimento nem texto."
+  theme/brand-400-hover:
+    css: '--nph-theme-brand-400-hover'
+    valor_por_modo: "core/<vertical>/300 em Sistemas, Comercial e Financeiro; core/<vertical>/500 em Gerencial, Igrejas e Recursos Humanos; core/educacao/800 em Educacao"
 
 # ---------------------------------------------------------------
 # TIPOGRAFIA - os 14 papeis. Todo texto usa um deles. Nenhum texto
@@ -1081,6 +1270,13 @@ tokens_core_layout:
   core/layout-width/sidebar-expanded:  { valor: 280,  css: '--nph-core-layout-width-sidebar-expanded',  alias_de: 'layout/sidebar-expanded' }
   core/layout-width/sidebar-collapsed: { valor: 64,   css: '--nph-core-layout-width-sidebar-collapsed', alias_de: 'layout/sidebar-collapsed' }
   core/layout-height/header:           { valor: 56,   css: '--nph-core-layout-height-header',           alias_de: 'layout/header-height' }
+  core/layout-width/tooltip:           { valor: 235, css: '--nph-core-layout-width-tooltip', alias_de: 'layout/max-tooltip-width' }
+  core/layout-height/tooltip:          { valor: 44, css: '--nph-core-layout-height-tooltip', alias_de: 'layout/max-tooltip-height' }
+  core/layout-width/field:             { valor: 320, css: '--nph-core-layout-width-field', alias_de: 'layout/field-width' }
+  core/layout-width/input:             { valor: 280, css: '--nph-core-layout-width-input', alias_de: 'layout/input-width' }
+  core/layout-width/rich-option:       { valor: 320, css: '--nph-core-layout-width-rich-option', alias_de: 'layout/rich-option-width' }
+  core/layout-width/separator:         { valor: 240, css: '--nph-core-layout-width-separator', alias_de: 'layout/separator-width' }
+  core/layout-height/separator:        { valor: 48, css: '--nph-core-layout-height-separator', alias_de: 'layout/separator-height' }
 
 # ---------------------------------------------------------------
 # PRIMITIVOS SEM CONSUMIDOR - existem no Figma e NENHUMA variavel
@@ -1262,6 +1458,36 @@ tokens_layout:
     alias: core/layout-height/header
     valor: 56
     use: "Altura da barra superior. Cabe um control/height-default (36) com respiro."
+  layout/max-tooltip-width:
+    css: '--nph-layout-max-tooltip-width'
+    alias: core/layout-width/tooltip
+    valor: 235
+    use: "Largura máxima do nph-tooltip. USE só no balão de ajuda: até aqui ele acompanha o texto, depois quebra a linha. NÃO USE em popover, menu ou texto corrido — texto corrido é layout/max-reading."
+  layout/max-tooltip-height:
+    css: '--nph-layout-max-tooltip-height'
+    alias: core/layout-height/tooltip
+    valor: 44
+    use: "Altura máxima do nph-tooltip: no máximo duas linhas de texto. O texto precisa caber inteiro, sem reticências e sem quebrar palavra. NÃO USE fora do balão de ajuda."
+  layout/field-width:
+    css: '--nph-layout-field-width'
+    alias: core/layout-width/field
+    valor: 320
+  layout/input-width:
+    css: '--nph-layout-input-width'
+    alias: core/layout-width/input
+    valor: 280
+  layout/rich-option-width:
+    css: '--nph-layout-rich-option-width'
+    alias: core/layout-width/rich-option
+    valor: 320
+  layout/separator-width:
+    css: '--nph-layout-separator-width'
+    alias: core/layout-width/separator
+    valor: 240
+  layout/separator-height:
+    css: '--nph-layout-separator-height'
+    alias: core/layout-height/separator
+    valor: 48
 
 grades_por_quebra:
   base: { margem: 16, estilo_figma: grid/compact }

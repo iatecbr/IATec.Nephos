@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "camada": "semantic",
-      "contagemEsperada": 236,
-      "origem": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03",
+      "contagemEsperada": 278,
+      "origem": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04)",
       "modeSet": {
         "nome": "color-scheme",
         "modos": [
@@ -682,11 +682,11 @@
     },
     "input": {
       "$type": "color",
-      "$value": "{core.neutral.200}",
+      "$value": "{core.neutral.400}",
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.200}",
+            "claro": "{core.neutral.400}",
             "escuro": "{core.surface.300}"
           }
         }
@@ -694,12 +694,12 @@
     },
     "muted-foreground": {
       "$type": "color",
-      "$value": "{core.neutral.500}",
+      "$value": "{core.neutral.600}",
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.500}",
-            "escuro": "{core.neutral.300}"
+            "claro": "{core.neutral.600}",
+            "escuro": "{core.surface.200}"
           }
         }
       }
@@ -766,23 +766,23 @@
     },
     "secondary-foreground": {
       "$type": "color",
-      "$value": "{core.neutral.900}",
+      "$value": "{core.surface.900}",
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.900}",
-            "escuro": "{core.neutral.100}"
+            "claro": "{core.surface.900}",
+            "escuro": "{core.surface.100}"
           }
         }
       }
     },
     "secondary": {
       "$type": "color",
-      "$value": "{core.neutral.100}",
+      "$value": "{core.surface.200}",
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.100}",
+            "claro": "{core.surface.200}",
             "escuro": "{core.surface.600}"
           }
         }
@@ -790,12 +790,228 @@
     },
     "secondary-hover": {
       "$type": "color",
-      "$value": "{core.neutral.200}",
+      "$value": "{core.surface.300}",
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.200}",
+            "claro": "{core.surface.300}",
             "escuro": "{core.surface.700}"
+          }
+        }
+      }
+    },
+    "primary-surface": {
+      "$type": "color",
+      "$value": "{theme.brand-50}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{theme.brand-50}",
+            "escuro": "{theme.brand-900}"
+          }
+        }
+      }
+    },
+    "primary-on-surface": {
+      "$type": "color",
+      "$value": "{theme.brand-600}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{theme.brand-600}",
+            "escuro": "{theme.brand-100}"
+          }
+        }
+      }
+    },
+    "primary-surface-hover": {
+      "$type": "color",
+      "$value": "{theme.brand-100}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{theme.brand-100}",
+            "escuro": "{theme.brand-800}"
+          }
+        }
+      }
+    },
+    "primary-on-surface-hover": {
+      "$type": "color",
+      "$value": "{theme.brand-700}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{theme.brand-700}",
+            "escuro": "{theme.brand-100}"
+          }
+        }
+      }
+    },
+    "primary-border": {
+      "$type": "color",
+      "$value": "{theme.brand-600}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{theme.brand-600}",
+            "escuro": "{theme.brand-300}"
+          }
+        }
+      }
+    },
+    "primary-hover": {
+      "$type": "color",
+      "$value": "{theme.brand-700}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{theme.brand-700}",
+            "escuro": "{theme.brand-400-hover}"
+          }
+        }
+      }
+    },
+    "destructive-surface": {
+      "$type": "color",
+      "$value": "{core.danger.50}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.danger.50}",
+            "escuro": "{core.danger.900}"
+          }
+        }
+      }
+    },
+    "destructive-on-surface": {
+      "$type": "color",
+      "$value": "{core.danger.600}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.danger.600}",
+            "escuro": "{core.danger.100}"
+          }
+        }
+      }
+    },
+    "destructive-surface-hover": {
+      "$type": "color",
+      "$value": "{core.danger.100}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.danger.100}",
+            "escuro": "{core.danger.800}"
+          }
+        }
+      }
+    },
+    "destructive-on-surface-hover": {
+      "$type": "color",
+      "$value": "{core.danger.700}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.danger.700}",
+            "escuro": "{core.danger.100}"
+          }
+        }
+      }
+    },
+    "destructive-hover": {
+      "$type": "color",
+      "$value": "{core.danger.700}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.danger.700}",
+            "escuro": "{core.danger.300}"
+          }
+        }
+      }
+    },
+    "secondary-surface-hover": {
+      "$type": "color",
+      "$value": "{core.surface.200}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.surface.200}",
+            "escuro": "{core.surface.600}"
+          }
+        }
+      }
+    },
+    "secondary-light": {
+      "$type": "color",
+      "$value": "{core.surface.50}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.surface.50}",
+            "escuro": "{core.surface.700}"
+          }
+        }
+      }
+    },
+    "secondary-light-hover": {
+      "$type": "color",
+      "$value": "{core.surface.100}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.surface.100}",
+            "escuro": "{core.surface.600}"
+          }
+        }
+      }
+    },
+    "input-hover": {
+      "$type": "color",
+      "$value": "{core.neutral.500}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.neutral.500}",
+            "escuro": "{core.surface.200}"
+          }
+        }
+      }
+    },
+    "accent-subtle": {
+      "$type": "color",
+      "$value": "{core.neutral.50}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.neutral.50}",
+            "escuro": "{core.surface.700}"
+          }
+        }
+      }
+    },
+    "tooltip": {
+      "$type": "color",
+      "$value": "{core.neutral.600}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.neutral.600}",
+            "escuro": "{core.neutral.700}"
+          }
+        }
+      }
+    },
+    "tooltip-foreground": {
+      "$type": "color",
+      "$value": "{core.base.white}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.base.white}",
+            "escuro": "{core.neutral.100}"
           }
         }
       }
@@ -1014,6 +1230,46 @@
           }
         }
       }
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{theme.brand-focus}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{theme.brand-focus}",
+            "escuro": "{theme.brand-300}"
+          }
+        }
+      }
+    },
+    "halo": {
+      "$type": "color",
+      "$value": "{theme.brand-200}"
+    },
+    "halo-info": {
+      "$type": "color",
+      "$value": "{core.info.200}"
+    },
+    "halo-warn": {
+      "$type": "color",
+      "$value": "{core.warn.200}"
+    },
+    "halo-help": {
+      "$type": "color",
+      "$value": "{core.help.200}"
+    },
+    "halo-danger": {
+      "$type": "color",
+      "$value": "{core.danger.200}"
+    },
+    "halo-success": {
+      "$type": "color",
+      "$value": "{core.success.200}"
+    },
+    "halo-error": {
+      "$type": "color",
+      "$value": "{focus.halo-danger}"
     }
   },
   "focus-ring": {
@@ -1135,6 +1391,34 @@
     "sidebar-expanded": {
       "$type": "dimension",
       "$value": "{core.layout-width.sidebar-expanded}"
+    },
+    "max-tooltip-width": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.tooltip}"
+    },
+    "max-tooltip-height": {
+      "$type": "dimension",
+      "$value": "{core.layout-height.tooltip}"
+    },
+    "field-width": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.field}"
+    },
+    "input-width": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.input}"
+    },
+    "rich-option-width": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.rich-option}"
+    },
+    "separator-width": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.separator}"
+    },
+    "separator-height": {
+      "$type": "dimension",
+      "$value": "{core.layout-height.separator}"
     }
   },
   "motion": {
@@ -1636,6 +1920,106 @@
           "modes": {
             "claro": "{core.warn.600}",
             "escuro": "{core.warn.400}"
+          }
+        }
+      }
+    },
+    "on-solid": {
+      "$type": "color",
+      "$value": "{color.background}"
+    },
+    "info-hover": {
+      "$type": "color",
+      "$value": "{core.info.700}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.info.700}",
+            "escuro": "{core.info.300}"
+          }
+        }
+      }
+    },
+    "warning-hover": {
+      "$type": "color",
+      "$value": "{core.warn.700}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.warn.700}",
+            "escuro": "{core.warn.300}"
+          }
+        }
+      }
+    },
+    "help-hover": {
+      "$type": "color",
+      "$value": "{core.help.700}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.help.700}",
+            "escuro": "{core.help.300}"
+          }
+        }
+      }
+    },
+    "success-hover": {
+      "$type": "color",
+      "$value": "{core.success.700}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.success.700}",
+            "escuro": "{core.success.300}"
+          }
+        }
+      }
+    },
+    "info-surface-hover": {
+      "$type": "color",
+      "$value": "{core.info.100}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.info.100}",
+            "escuro": "{core.info.800}"
+          }
+        }
+      }
+    },
+    "warning-surface-hover": {
+      "$type": "color",
+      "$value": "{core.warn.100}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.warn.100}",
+            "escuro": "{core.warn.800}"
+          }
+        }
+      }
+    },
+    "help-surface-hover": {
+      "$type": "color",
+      "$value": "{core.help.100}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.help.100}",
+            "escuro": "{core.help.800}"
+          }
+        }
+      }
+    },
+    "success-surface-hover": {
+      "$type": "color",
+      "$value": "{core.success.100}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "claro": "{core.success.100}",
+            "escuro": "{core.success.800}"
           }
         }
       }
