@@ -124,3 +124,37 @@ export function classify(source, modes, idx, defaultsByPrefix) {
   }
   return { invariants, variants, detail };
 }
+
+/**
+ * Invariantes que DEPENDEM de marca ou de esquema (P67).
+ *
+ * Um invariante e dependente quando alguma referencia dele aponta para
+ * `theme.*`, para um variante ou para outro invariante dependente. O conjunto
+ * sai por ponto fixo, para pegar a cadeia invariante -> invariante -> theme.
+ *
+ * Por que importa: custom property com `var()` resolve no elemento que a
+ * declara, e o filho herda o valor ja resolvido. Um dependente declarado so em
+ * `:root` fica com a marca e o esquema da raiz numa subarvore que troca os dois.
+ */
+export function dependents(source, invariants, variants) {
+  const tokens = new Map(leaves(source).map(([p, t]) => [p.join('.'), t]));
+  const references = (name) => {
+    const t = tokens.get(name);
+    const m = (t.$extensions && t.$extensions[NS] && t.$extensions[NS].modes) || {};
+    return refs(t.$value).concat(Object.values(m).flatMap(refs));
+  };
+  const out = new Set();
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const name of invariants) {
+      if (out.has(name)) continue;
+      const hit = references(name).some((r) => r.startsWith('theme.') || variants.has(r) || out.has(r));
+      if (hit) {
+        out.add(name);
+        changed = true;
+      }
+    }
+  }
+  return out;
+}
