@@ -2,7 +2,7 @@
 sistema: Nephos
 versao: 1.8
 data: 2026-09-02
-status: sincronizado com o Figma em 2026-08-25; contrato de trabalho da branch `v/3.0.0`
+status: sincronizado com o Figma em 2026-08-25; contrato de trabalho da branch `v/5.0.0`
 fonte_tecnica_dos_valores: >-
   Desde 24-08-2026 os valores auditados vivem em `src/tokens/source/*.tokens.json`,
   e o CSS é gerado a partir deles em `src/tokens/generated/tokens.css`. Este arquivo
@@ -2338,8 +2338,8 @@ Antes de construir ou modificar um componente, **abra o arquivo de metadados del
 > **Decisão vigente — revisada e aprovada por Elvys em 28/08/2026.** A
 > organização de diretórios está em
 > [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) (P03). O padrão de
-> diretórios da P03 já está aplicado em `src/components/nph-icon/` e
-> `src/components/nph-label/`. As fichas correspondentes estão em `fichas/`.
+> diretórios da P03 já está aplicado em cada componente de `src/components/`.
+> As fichas correspondentes estão em `fichas/`.
 
 ---
 
