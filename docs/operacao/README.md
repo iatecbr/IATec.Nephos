@@ -34,7 +34,7 @@ máquina lê sem interpretar texto; o Markdown dá o critério, que a pessoa lê
 
 O formato é JSON e não YAML porque adotar um leitor de YAML completo custaria
 uma dependência nova, e o `JSON.parse` já vem no Node. A ficha é a exceção: o
-YAML dela é lido por `scripts/ficha-lib.mjs`, que cobre só um subconjunto
+YAML dela é lido por `scripts/spec-lib.mjs`, que cobre só um subconjunto
 fechado — ver §7.
 
 ## 1. Tarefa
@@ -366,7 +366,7 @@ chaves fechado, sem as seis proibidas · `V24` no máximo 60 linhas ·
 `src/components/` · `V28` `peca` preenchida exige `fichas/<peca>.md` **em
 `em-revisao` e `concluida`** · `V32` a Metadata em `src/shared/metadata/` é cópia
 exata de cada ficha vigente, não há JSON sem ficha vigente e a ficha cabe na
-gramática de `scripts/ficha-lib.mjs`
+gramática de `scripts/spec-lib.mjs`
 
 **Fila** · `V29` `ordem_aprovada` inteiro ≥ 1, único entre as não `concluida`
 
@@ -379,7 +379,7 @@ URL ou ID do Figma, `data`, `autoria` e `decisao_convertida` nomeando o frame e 
 
 ## 9. Os exemplos
 
-Os fixtures do verificador vivem em `scripts/fixtures/operacao/`, **fora desta
+Os fixtures do verificador vivem em `scripts/fixtures/operations/`, **fora desta
 árvore**. Eles são entradas de teste, inclusive inválidas de propósito, e ficar
 fora daqui é o que impede um exemplo inválido de entrar na fila real.
 

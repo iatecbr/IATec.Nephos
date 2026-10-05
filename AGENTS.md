@@ -80,6 +80,9 @@ Antes de analisar, propor, editar ou implementar:
   pede revisão em pull request já fechado.
 - Elvys ou Mauro revisam e fazem o merge. Não faça o merge do próprio pull
   request.
+- Ao abrir o pull request, peça no mesmo passo a revisão do Mauro no GitHub:
+  `gh pr edit <número> --add-reviewer maurocsjr`. Esse é o padrão. Outro
+  revisor, só quando a Indiane indicar.
 - Esta convenção vale até uma instrução versionada substituí-la. A configuração
   de branch padrão no GitHub não muda esse destino de integração.
 
@@ -105,9 +108,15 @@ Antes de analisar, propor, editar ou implementar:
   componentes para entregáveis do Nephos.
 - Registre data, responsável, fonte de evidência, decisão alterada e
   documentos sincronizados ao concluir.
-- Escreva os nomes do código em inglês; comentário e mensagem para quem mantém o
-  repositório ficam em PT-BR. Chave de dados, bandeira da linha de comando, nome
-  de arquivo já citado e nome público não mudam (P64, revisada por Mauro em 30/09/2026).
+- Escreva os nomes do código e os nomes de arquivo técnico em inglês; comentário
+  e mensagem para quem mantém o repositório ficam em PT-BR. Chave de dados,
+  bandeira da linha de comando, nome de script, arquivo citado em comando gravado
+  em `docs/operacao/` e nome público não mudam (P64, revisada por Mauro em
+  30/09/2026; emenda de 02/10/2026 em revisão no #49). A prova é
+  `npm run test:naming`, em toda mudança que toca `src/`, `stories/`,
+  `.storybook/` ou `scripts/`; exceção nova entra em
+  `scripts/naming-exceptions.json` com a classe, palavra nova entra em
+  `scripts/naming-vocabulary.json`, e as duas são revisadas no PR.
 
 ## A ordem de um componente
 
@@ -160,7 +169,7 @@ evidência, `V28` a ficha. Contrato completo em
 | `src/tokens/source/*.tokens.json` — só com evidência de leitura do Figma | `.npmrc` — configuração local de credencial, fora do Git |
 | `src/styles/` e `src/shared/` — padrão P03; criar só quando a peça exigir | `storybook-static/` — artefato de build |
 | `fichas/<nome>.md` — a partir de `fichas/_modelo.md` | `.env` e variantes — segredo nunca entra no repositório |
-| `.storybook/i18n/` — os dicionários de idioma, um arquivo por idioma | `.claude/` e `.agents/` — ferramentas locais, ignoradas pelo Git |
+| `.storybook/i18n/` — os dicionários de idioma, um arquivo `.js` por idioma (`pt-BR.js`, `en.js`, `es.js`), reunidos em `index.js` | `.claude/` e `.agents/` — ferramentas locais, ignoradas pelo Git |
 | `scripts/` — gerador e validações, sempre por decisão registrada | Qualquer arquivo fora deste repositório |
 | `docs/` e `stories/` | `src/shared/metadata/` — é gerado por `node scripts/verificar-operacao.mjs --gerar-metadata` (P63); nunca edite à mão |
 

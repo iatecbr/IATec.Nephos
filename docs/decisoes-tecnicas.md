@@ -30,7 +30,7 @@ subseção P62.4 para o detalhe).
 | **P20** | Style Dictionary v5 e contrato de tema | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
 | **P21** | Plano técnico do `nph-icon` | 26/08/2026 | Já implementado e mergeado sob aceitação de risco | Aprovada, 28/08/2026 |
 | **P63** | Metadata gerada a partir da ficha | 28/09/2026 | Médio. Mudar local ou formato depois exige gerar de novo e ajustar quem lê; a ficha não muda | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** |
-| **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** |
+| **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** Emenda de 02/10/2026 em revisão no PR #49. |
 
 **Fora desta nota, ainda aguardam confirmação dele:** licença, variável de CI,
 credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
@@ -559,7 +559,7 @@ ler o contrato sem interpretar Markdown. Gerar a cópia a partir da ficha entreg
 esse formato sem abrir uma segunda fonte: a `V27` continua reprovando `meta.ts`
 e `metadata.ts` dentro de `src/components/`.
 
-**Escopo.** O YAML da ficha é lido por `scripts/ficha-lib.mjs`, que cobre só o
+**Escopo.** O YAML da ficha é lido por `scripts/spec-lib.mjs` (antes `ficha-lib.mjs`; renomeado pela P64 em 02/10/2026), que cobre só o
 subconjunto que o gabarito usa e recusa, com o número da linha, o que não
 reconhece. Nenhuma dependência nova entra. Tarefa, contexto e evidência
 continuam em JSON, como decidido em 02/09/2026.
@@ -591,8 +591,9 @@ quem já usa:
 
 - as chaves do JSON de tarefa, contexto e evidência, as chaves do JSON dos tokens
   e as chaves do YAML das fichas;
-- as bandeiras da linha de comando e os nomes de arquivo que a documentação e
-  os comandos já citam;
+- as bandeiras da linha de comando, os nomes de script do `package.json` e os
+  nomes de arquivo citados em comando gravado em `docs/operacao/` (hoje, só
+  `scripts/verificar-operacao.mjs`);
 - os nomes públicos, que já são inglês: tags `nph-*`, propriedades, custom
   properties e os atributos `data-nph-*`;
 - o texto que aparece para quem lê: título e nome de story, descrição de teste,
@@ -610,8 +611,22 @@ todo o resto em português.
 tarefa `DSA-07`, sem mudar comportamento: a saída dos scripts é idêntica antes e
 depois, e os arquivos gerados não mudam. `scripts/` migrou em 29/09/2026.
 
+**Emenda de 02/10/2026 — nomes de arquivo.** Nome de arquivo técnico em
+português mantinha a mistura de idiomas que a P64 tirou dos identificadores. Os
+arquivos renomeados não são citados por comando gravado em `docs/operacao/` nem
+por schema; a documentação vigente que os cita muda junto. Nome de arquivo
+técnico de código (`src/`, `stories/`, `.storybook/`, `scripts/`) também segue
+a regra. Ficam: o que comando gravado em `docs/operacao/` cita, os diretórios
+do contrato do verificador (`fichas/`, `docs/operacao/tarefas/`, `evidencias/`,
+`contextos/`, e as mesmas subpastas dentro dos fixtures) e a documentação, que
+inclui os nomes dos arquivos de evidência. Os casos de fixture do verificador
+e do teste de invariância também passam para o inglês. Prova: `npm run test:naming`, com as exceções
+de contrato em `scripts/naming-exceptions.json`. Adotada pela Indiane em
+02/10/2026; revisão no PR #49.
+
 **Status.** Decisão adotada pela Indiane em 28/09/2026 — revisada e aprovada
-por Mauro em 30/09/2026, no chat da equipe.
+por Mauro em 30/09/2026, no chat da equipe. Emenda de 02/10/2026 em revisão no
+PR #49.
 
 ---
 

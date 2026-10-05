@@ -7,7 +7,7 @@
  * Technical identifiers are never translated and never live in the dictionary.
  */
 export default {
-  barraLateral: {
+  sidebar: {
     'comece-aqui': 'Start here',
     'comece-aqui-boas-vindas': 'Welcome',
     'comece-aqui-boas-vindas--boas-vindas': 'Welcome',
@@ -26,61 +26,61 @@ export default {
     'componentes-nph-icon-validação--entrada-invalida': 'Invalid input',
   },
 
-  modo: {
-    claro: 'Light mode',
-    escuro: 'Dark mode',
-    paraClaro: 'Switch to light mode',
-    paraEscuro: 'Switch to dark mode',
+  colorScheme: {
+    light: 'Light mode',
+    dark: 'Dark mode',
+    toLight: 'Switch to light mode',
+    toDark: 'Switch to dark mode',
   },
 
-  boasVindas: {
-    selo: 'IATEC · DESIGN SYSTEM',
-    resumo:
+  welcome: {
+    badge: 'IATEC · DESIGN SYSTEM',
+    summary:
       'A catalogue of components and foundations for building consistent, accessible and verifiable experiences.',
-    comoNavegar: 'How to navigate',
-    passos: [
+    howToNavigate: 'How to navigate',
+    steps: [
       {
-        titulo: '1. Start with the foundations',
-        texto:
+        title: '1. Start with the foundations',
+        text:
           'Check colour, typography, spacing, radius and icons before deciding how a piece should look.',
-        destino: 'Foundations › Overview',
+        destination: 'Foundations › Overview',
       },
       {
-        titulo: '2. Look up the component',
-        texto:
+        title: '2. Look up the component',
+        text:
           'Each component gathers its states, variants, accessibility and runnable examples.',
-        destino: 'Components › nph-icon',
+        destination: 'Components › nph-icon',
       },
       {
-        titulo: '3. Report a gap',
-        texto:
+        title: '3. Report a gap',
+        text:
           'If a case is not documented, do not improvise API, token, variant or behaviour.',
-        destino: 'Canonical spec sheet and record',
+        destination: 'Canonical spec sheet and record',
       },
     ],
-    estadoTitulo: 'Current state',
-    estadoTexto:
+    statusTitle: 'Current state',
+    statusText:
       'Tokens are generated from the audited source. nph-icon is implemented and awaits a visual comparison between Figma and Storybook before final acceptance.',
   },
 
-  fundacoes: {
-    selo: 'FOUNDATIONS',
-    titulo: 'The rules that keep the system coherent',
-    resumo:
+  foundations: {
+    badge: 'FOUNDATIONS',
+    title: 'The rules that keep the system coherent',
+    summary:
       'Foundations define the values and constraints that components consume. Storybook shows the result in code; Figma remains the visual source.',
-    itens: [
+    items: [
       ['Colour', 'The core, theme and semantic layers, in light and dark modes.'],
       ['Typography', 'Text styles approved in Figma and documented in the contract.'],
       ['Spacing and radius', 'Semantic tokens for composition and controls.'],
       ['Icons', 'A curated core of Font Awesome Pro icons.'],
     ],
-    avisoTitulo: 'How to use this area',
-    avisoTexto1: 'Check the contract in',
-    avisoTexto2:
+    noticeTitle: 'How to use this area',
+    noticeText1: 'Check the contract in',
+    noticeText2:
       'before creating or changing a component. If the documentation does not cover the case, report the gap instead of creating a new token, variant or rule.',
   },
 
-  categorias: [
+  categories: [
     'Navigation and menus',
     'Direction and disclosure',
     'Action',
@@ -88,48 +88,48 @@ export default {
     'Content and data',
   ],
 
-  galeria: {
-    titulo: 'Icons Overview',
-    resumo1: 'The',
-    resumo2:
+  gallery: {
+    title: 'Icons Overview',
+    summary1: 'The',
+    summary2:
       'approved icons of the Nephos core, grouped by the categories in design.md. The component contract is under',
-    resumo3: 'Documentation',
-    rotuloBusca: 'Search icons by name',
-    exemploBusca: 'e.g. chevron',
-    limpar: 'Clear',
-    contador: (achados, total) => `${achados} of ${total} icons`,
-    vazio:
+    summary3: 'Documentation',
+    searchLabel: 'Search icons by name',
+    searchExample: 'e.g. chevron',
+    clear: 'Clear',
+    counter: (found, total) => `${found} of ${total} icons`,
+    empty:
       'No core icon matches this search. If the icon you need is not here, it is a gap: ask before adding it.',
   },
 
   docs: {
-    resumo:
+    summary:
       'Provides an icon from the Nephos core with consistent size, family and accessibility, without introducing colour or artwork outside the approved set.',
-    nestaPagina: 'On this page',
-    cabecalhoApi: ['Property', 'Rule'],
-    cabecalhoTamanho: ['Token', 'When to use'],
-    cabecalhoNucleo: ['Category', 'Icons'],
-    legendaTamanho: 'The approved sizes, with real nph-icon instances.',
-    notaTransbordoTitulo: 'Width exception',
-    notaSolidTitulo: 'Styles and families',
-    notaInvalidaTitulo: 'Where to see the cases',
-    derivadaTitulo: 'This page is derived.',
-    derivadaTexto1:
+    onThisPage: 'On this page',
+    apiHeader: ['Property', 'Rule'],
+    sizeHeader: ['Token', 'When to use'],
+    coreHeader: ['Category', 'Icons'],
+    sizeCaption: 'The approved sizes, with real nph-icon instances.',
+    overflowNoteTitle: 'Width exception',
+    solidNoteTitle: 'Styles and families',
+    invalidNoteTitle: 'Where to see the cases',
+    derivedTitle: 'This page is derived.',
+    derivedText1:
       'In case of divergence, the canonical sources prevail: design.md for the technical contract and docs/decisoes-tecnicas.md for decisions P01, P02, P03, P17, P19, P20 and P21. The nph-icon spec sheet and the DS-IA-NEPHOS 5.0 Figma file complete the component contract. No rule is created here.',
 
-    quandoUsarTitulo: 'When to use it',
-    quandoUsar: [
+    whenToUseTitle: 'When to use it',
+    whenToUse: [
       'A control or piece of content needs an icon that exists in the Nephos core.',
       'The icon reinforces a label, state or direction without replacing the textual information.',
     ],
 
-    quandoNaoUsarTitulo: 'When not to use it',
-    quandoNaoUsar: [
+    whenNotToUseTitle: 'When not to use it',
+    whenNotToUse: [
       'The action is domain-specific or has consequences: use a text label alongside the icon.',
       'The requested icon does not exist in the core: report the gap and wait for a decision.',
     ],
 
-    apiTitulo: 'Approved public API',
+    apiTitle: 'Approved public API',
     api: [
       ['name', (total) => `Required, in kebab-case and limited to the ${total} icons of the Nephos core.`],
       ['variant', () => 'regular by default; solid when the context needs more visual presence. Both exist for every name in the core.'],
@@ -150,17 +150,17 @@ export default {
       ],
     ],
 
-    nucleoTitulo: (total) => `A core of ${total} icons`,
-    nucleoTexto:
+    coreTitle: (total) => `A core of ${total} icons`,
+    coreText:
       'The set is Font Awesome Pro and Classic is the default family. The full catalogue, with search, is under Icons Overview, in this same folder.',
-    nucleoContagem: (n) => `${n} icons`,
-    nucleoRegra:
+    coreCount: (n) => `${n} icons`,
+    coreRule:
       'regular and solid exist for every name in the core; regular is the default, and solid comes in when the context needs more visual presence. Never invent artwork outside the collection. Light, Thin and Sharp are forbidden. Duotone is allowed only in structural navigation, without mixing families within one group, and has no artwork available yet.',
 
-    tamanhoTitulo: 'Size',
-    tamanhoTexto:
+    sizeTitle: 'Size',
+    sizeText:
       'Size is not a visual variant: it comes from a semantic token, and free values do not exist. The box is always square; the artwork is centred and scaled by height.',
-    tamanhoTabela: [
+    sizeTable: [
       [
         'icon/size-sm',
         'Inside a control, a table cell, a field, and next to 14px text. When in doubt, this is the one.',
@@ -174,15 +174,15 @@ export default {
         'Section heading, empty state, and an icon that carries meaning on its own. Do not use in dense screens or in lists.',
       ],
     ],
-    tamanhoTransbordo:
+    sizeOverflow:
       'eye, eye-slash and star are 18 wide by nature, above the 16 of the box: the box normalises height and alignment, not width. The artwork overflows centred, without clipping and without rescaling.',
 
-    corTitulo: 'Colour',
-    corTexto:
+    colorTitle: 'Colour',
+    colorText:
       'Colour is inherited from the context through currentColor. There is no icon colour token, and colour is not a property of the component. The gap to the text is space/inline-tight and belongs to the container that composes icon and text, not to the icon.',
 
-    acessibilidadeTitulo: 'Accessibility',
-    acessibilidade: [
+    accessibilityTitle: 'Accessibility',
+    accessibility: [
       'With visible text beside it, the icon is decorative and takes aria-hidden — otherwise the screen reader reads it twice.',
       'With no visible text, aria-label is required.',
       'A meaningful icon requires 3:1 contrast (WCAG 1.4.11).',
@@ -191,13 +191,13 @@ export default {
       'Icon and colour are never the only signal of state or action.',
     ],
 
-    invalidaTitulo: 'Invalid input',
-    invalidaTexto:
+    invalidTitle: 'Invalid input',
+    invalidText:
       'A name outside the core, a missing size or one outside the approved list, or a variant that does not exist render no icon and fail development validation. There is no visual fallback and no free size. The error is reported through console.error in development only.',
-    invalidaPonteiro: 'The cases are demonstrated under Validation › Invalid input.',
+    invalidPointer: 'The cases are demonstrated under Validation › Invalid input.',
 
-    antiPadroesTitulo: 'Anti-patterns',
-    antiPadroes: [
+    antiPatternsTitle: 'Anti-patterns',
+    antiPatterns: [
       'Do not use an icon alone to delete, approve, publish, export or perform any other domain-specific action.',
       'Do not put the Font Awesome Pro package, files or secret into versioned material.',
       'Do not create a visual variant just to fill a matrix.',
@@ -206,8 +206,8 @@ export default {
       'Do not define colour as a property; the icon inherits currentColor from the context.',
     ],
 
-    referenciasTitulo: 'References',
-    referencias: [
+    referencesTitle: 'References',
+    references: [
       'design.md — contrato_nph_icon, icone_regras, icone_acessibilidade, tokens_icon, icones_nucleo.',
       'docs/decisoes-tecnicas.md — P01, P02, P03, P17, P19, P20 and P21.',
       'nph-icon spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.',
@@ -215,48 +215,48 @@ export default {
       'Storybook — Icons Overview, in this folder; Validation, in the folder next to it.',
     ],
 
-    fonteRotulo: 'Source:',
-    fonteFicha: 'nph-icon spec sheet',
-    fonteFichaContrato:
+    sourceLabel: 'Source:',
+    sourceSpec: 'nph-icon spec sheet',
+    sourceSpecContract:
       'nph-icon spec sheet; design.md › contrato_nph_icon; docs/decisoes-tecnicas.md › P21',
-    fonteNucleo: 'design.md › icones_nucleo, icone_regras and icone_componente_figma',
-    fonteTamanho:
+    sourceCore: 'design.md › icones_nucleo, icone_regras and icone_componente_figma',
+    sourceSize:
       'design.md › tokens_icon, icone_regras.caixa and icones_terceira_leva.largura; docs/decisoes-tecnicas.md › P21',
-    fonteCor:
+    sourceColor:
       'design.md › icone_regras.cor and icone_regras.espaco_ate_o_texto; docs/decisoes-tecnicas.md › P21',
-    fonteAcessibilidade: 'design.md › icone_acessibilidade; nph-icon spec sheet',
-    fonteInvalida: 'nph-icon spec sheet; docs/decisoes-tecnicas.md › P21',
+    sourceAccessibility: 'design.md › icone_acessibilidade; nph-icon spec sheet',
+    sourceInvalid: 'nph-icon spec sheet; docs/decisoes-tecnicas.md › P21',
   },
 
-  validacao: {
-    variantesSecao: 'regular and solid',
-    variantesRegular: 'regular — default',
-    variantesSolid: 'solid — more visual presence',
-    variantesNota:
+  validation: {
+    variantsSection: 'regular and solid',
+    variantsRegular: 'regular — default',
+    variantsSolid: 'solid — more visual presence',
+    variantsNote:
       'regular and solid exist for every name in the core.',
 
-    tamanhosTransbordoTitulo: 'Approved overflow',
-    tamanhosEye: 'eye — 18 wide by nature',
-    tamanhosCircleCheck: 'circle-check — width equal to height',
-    tamanhosNota:
+    sizesOverflowTitle: 'Approved overflow',
+    sizesEye: 'eye — 18 wide by nature',
+    sizesCircleCheck: 'circle-check — width equal to height',
+    sizesNote:
       'The box normalises height and alignment, not width: eye, eye-slash and star overflow centred, without clipping and without rescaling.',
 
-    corNota: 'None of the icons above was painted. They all inherit the colour of the context.',
+    colorNote: 'None of the icons above was painted. They all inherit the colour of the context.',
 
-    acessDecorativoTitulo: 'With text beside it — decorative',
-    acessDecorativoExemplo: 'Delete record',
-    acessDecorativoNota:
+    a11yDecorativeTitle: 'With text beside it — decorative',
+    a11yDecorativeExample: 'Delete record',
+    a11yDecorativeNote:
       'Without label: aria-hidden on the host. The screen reader reads the text only once.',
-    acessNomeadoTitulo: 'With no visible text — named',
-    acessNomeadoRotulo: 'Search',
-    acessNomeadoNota:
+    a11yNamedTitle: 'With no visible text — named',
+    a11yNamedLabel: 'Search',
+    a11yNamedNote:
       'With label: role="img" and aria-label on the host. Only for a universal, recurring symbol; an action with consequences never stands alone.',
-    acessFocoNota:
+    a11yFocusNote:
       'The icon never takes focus: keyboard and touch target belong to the surrounding control.',
 
-    invalidaIntro:
+    invalidIntro:
       'The four cases below draw nothing and take up no space. Open the console to see one error per invalid property.',
-    invalidaCasos: [
+    invalidCases: [
       'outside the core:',
       'a variant that does not exist:',
       'a free size does not exist:',

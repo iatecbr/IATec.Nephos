@@ -1,0 +1,5963 @@
+[
+  {
+    "label": "identificador camelCase",
+    "files": {
+      "src/a.ts": "export const botaoSalvar = 1;"
+    },
+    "catches": [
+      "botaoSalvar"
+    ],
+    "exactly": [
+      "src/a.ts:1 botaoSalvar (identifier)"
+    ]
+  },
+  {
+    "label": "constante MAIUSCULA",
+    "files": {
+      "src/a.ts": "export const BOTAO_PRIMARIO = 1;"
+    },
+    "catches": [
+      "BOTAO_PRIMARIO"
+    ],
+    "exactly": [
+      "src/a.ts:1 BOTAO_PRIMARIO (identifier)"
+    ]
+  },
+  {
+    "label": "literal kebab",
+    "files": {
+      "src/a.ts": "export const a = 'botao-primario';"
+    },
+    "catches": [
+      "botao-primario"
+    ],
+    "exactly": [
+      "src/a.ts:1 botao-primario (literal)"
+    ]
+  },
+  {
+    "label": "chave de objeto",
+    "files": {
+      "src/a.ts": "export const a = { rotulo: 1, 'tamanho-grande': 2 };"
+    },
+    "catches": [
+      "rotulo",
+      "tamanho-grande"
+    ],
+    "exactly": [
+      "src/a.ts:1 rotulo (property)",
+      "src/a.ts:1 tamanho-grande (key)"
+    ]
+  },
+  {
+    "label": "destructuring e parametro",
+    "files": {
+      "src/a.ts": "export const f = ({ altura }: { altura: number }, largura: number) => altura + largura;"
+    },
+    "catches": [
+      "altura",
+      "largura"
+    ],
+    "exactly": [
+      "src/a.ts:1 altura (identifier)",
+      "src/a.ts:1 altura (property)",
+      "src/a.ts:1 largura (identifier)"
+    ]
+  },
+  {
+    "label": "acento e gerundio",
+    "files": {
+      "src/a.ts": "export const situação = 1, salvando = 2, carregandoDados = 3;"
+    },
+    "catches": [
+      "situação",
+      "salvando",
+      "carregandoDados"
+    ],
+    "exactly": [
+      "src/a.ts:1 carregandoDados (identifier)",
+      "src/a.ts:1 salvando (identifier)",
+      "src/a.ts:1 situação (identifier)"
+    ]
+  },
+  {
+    "label": "CRLF",
+    "files": {
+      "src/a.ts": "export const a = 1;\r\nexport const modoEscuro = 2;\r\n"
+    },
+    "catches": [
+      "modoEscuro"
+    ],
+    "exactly": [
+      "src/a.ts:2 modoEscuro (identifier)"
+    ]
+  },
+  {
+    "label": "css do Lit",
+    "files": {
+      "src/a.ts": "import { css } from \"lit\"; export const s = css`.botao { color: red; }`;"
+    },
+    "catches": [
+      ".botao"
+    ],
+    "exactly": [
+      "src/a.ts:1 .botao (template)"
+    ]
+  },
+  {
+    "label": "part e data- no html",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<i part=\"rotulo\" data-estado=\"x\"></i>`;"
+    },
+    "catches": [
+      "rotulo",
+      "data-estado"
+    ],
+    "exactly": [
+      "src/a.ts:1 data-estado (template)",
+      "src/a.ts:1 rotulo (template)"
+    ]
+  },
+  {
+    "label": "part sem aspas",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<i part=rotulo></i>`;"
+    },
+    "catches": [
+      "rotulo"
+    ],
+    "exactly": [
+      "src/a.ts:1 rotulo (template)"
+    ]
+  },
+  {
+    "label": "class com ${} no meio",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const x = \"a\"; export const t = html`<i class=\"card ${x} escuro\"></i>`;"
+    },
+    "catches": [
+      "escuro"
+    ],
+    "exactly": [
+      "src/a.ts:1 escuro (template)"
+    ]
+  },
+  {
+    "label": "class com ${} no inicio",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const x = \"a\"; export const t = html`<i class=\"${x} escuro\"></i>`;"
+    },
+    "catches": [
+      "escuro"
+    ],
+    "exactly": [
+      "src/a.ts:1 escuro (template)"
+    ]
+  },
+  {
+    "label": "part com ${}",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const x = \"a\"; export const t = html`<i part=\"a ${x} rotulo\"></i>`;"
+    },
+    "catches": [
+      "rotulo"
+    ],
+    "exactly": [
+      "src/a.ts:1 rotulo (template)"
+    ]
+  },
+  {
+    "label": "classe condicional do Lit",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const c = true; export const t = html`<i class=${c ? \"card escuro\" : \"card\"}></i>`;"
+    },
+    "catches": [
+      "escuro"
+    ],
+    "exactly": [
+      "src/a.ts:1 escuro (class-list)"
+    ]
+  },
+  {
+    "label": "html aninhado",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const c = true; export const t = html`<ul>${c ? html`<li class=\"item ativo\"></li>` : \"\"}</ul>`;"
+    },
+    "catches": [
+      "ativo"
+    ],
+    "exactly": [
+      "src/a.ts:1 ativo (template)"
+    ]
+  },
+  {
+    "label": "id montado",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const p = \"a\"; export const t = html`<i id=\"${p}-rotulo\" aria-describedby=\"${p}-ajuda\"></i>`;"
+    },
+    "catches": [
+      "${}-rotulo",
+      "${}-ajuda"
+    ],
+    "exactly": [
+      "src/a.ts:1 ${}-ajuda (template)",
+      "src/a.ts:1 ${}-rotulo (template)"
+    ]
+  },
+  {
+    "label": "css ::part e atributo",
+    "files": {
+      "src/a.ts": "import { css } from \"lit\"; export const s = css`:host::part(rotulo) { color: red; } :host([variante=\"primaria\"]) { color: red; }`;"
+    },
+    "catches": [
+      "rotulo",
+      "variante",
+      "primaria"
+    ],
+    "exactly": [
+      "src/a.ts:1 primaria (template)",
+      "src/a.ts:1 rotulo (template)",
+      "src/a.ts:1 variante (template)"
+    ]
+  },
+  {
+    "label": "seletor colado em ${}",
+    "files": {
+      "src/a.ts": "import { css, unsafeCSS } from \"lit\"; const s = unsafeCSS(\"x\"); export const a = css`:host ${s}.escuro { color: red; } ${s}#rodape { color: red; }`;"
+    },
+    "catches": [
+      ".escuro",
+      "#rodape"
+    ],
+    "exactly": [
+      "src/a.ts:1 #rodape (template)",
+      "src/a.ts:1 .escuro (template)"
+    ]
+  },
+  {
+    "label": "className e setAttribute",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement, ok: boolean, x: string) => { el.className = \"botao primario\"; el.className = `card ${x} escuro`; el.className = ok ? \"card claro\" : \"card\"; el.setAttribute(\"part\", \"base rotulo\"); el.setAttribute(\"class\", \"card \" + \"base cinza\"); };"
+    },
+    "catches": [
+      "botao",
+      "escuro",
+      "claro",
+      "rotulo",
+      "cinza"
+    ],
+    "exactly": [
+      "src/a.ts:1 botao (class-list)",
+      "src/a.ts:1 cinza (class-list)",
+      "src/a.ts:1 claro (class-list)",
+      "src/a.ts:1 escuro (class-list)",
+      "src/a.ts:1 primario (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "literal em objeto dentro de chamada",
+    "files": {
+      "src/a.ts": "const warn = (x: unknown) => x; warn({ mode: \"escuro\" });"
+    },
+    "catches": [
+      "escuro"
+    ],
+    "exactly": [
+      "src/a.ts:1 escuro (literal)"
+    ]
+  },
+  {
+    "label": "caminho montado",
+    "files": {
+      "src/a.ts": "const id = \"a\"; export const p = `${id}/rascunho/${id}`;"
+    },
+    "catches": [
+      "${}/rascunho/${}"
+    ],
+    "exactly": [
+      "src/a.ts:1 ${}/rascunho/${} (literal)"
+    ]
+  },
+  {
+    "label": "css e html em arquivo",
+    "files": {
+      "src/a.css": "/* .comentario__texto */\n.nph-label__texto { color: red; }\r\n",
+      ".storybook/a.html": "<div class=\"barra-lateral\"></div>"
+    },
+    "catches": [
+      ".nph-label__texto",
+      "barra-lateral"
+    ],
+    "exactly": [
+      ".storybook/a.html:1 barra-lateral (css-html)",
+      "src/a.css:2 .nph-label__texto (css-html)"
+    ]
+  },
+  {
+    "label": "pasta e arquivo",
+    "files": {
+      "src/rascunho.md": "x",
+      "scripts/fixtures/operations/invalid/caso-novo/a.md": "x",
+      "src/evidencias/modoEscuro.ts": "export {};",
+      "src/x/botao-2026-10-02.md": "x"
+    },
+    "catches": [
+      "rascunho",
+      "caso-novo",
+      "modoEscuro",
+      "botao-2026-10-02"
+    ],
+    "exactly": [
+      "scripts/fixtures/operations/invalid/caso-novo/a.md:0 caso-novo (folder)",
+      "src/evidencias/modoEscuro.ts:0 evidencias (folder)",
+      "src/evidencias/modoEscuro.ts:0 modoEscuro (file)",
+      "src/rascunho.md:0 rascunho (file)",
+      "src/x/botao-2026-10-02.md:0 botao-2026-10-02 (file)"
+    ]
+  },
+  {
+    "label": "chave de dicionario",
+    "files": {
+      ".storybook/i18n/en.js": "export default { titulo: 'Title', sidebar: { 'comece-aqui': 'Start' }, colorScheme: { dark: 'Modo escuro' } };"
+    },
+    "catches": [
+      "titulo"
+    ],
+    "exactly": [
+      ".storybook/i18n/en.js:1 titulo (property)"
+    ]
+  },
+  {
+    "label": "script npm",
+    "files": {
+      "package.json": "{ \"scripts\": { \"gerar:icones\": \"x\" } }"
+    },
+    "catches": [
+      "gerar:icones"
+    ],
+    "exactly": [
+      "package.json:0 gerar:icones (npm-script)"
+    ]
+  },
+  {
+    "label": "palavra inglesa nao reprova",
+    "files": {
+      "src/a.ts": "export const colorScheme = 1, data = 2, does = 3, total = 4, index = 5, section = 6, item = 7, horseshoes = 8, undoes = 9, valor = 10, simCard = 11, pasta = 12, boas = 13, commando = 14, classes = 15, CLASSES = 16;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mensagem, descricao e texto ficam fora",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const n = 1; console.warn(\"nao encontrado: \" + \"carregando\"); export const e = () => { throw new Error(`falhou ${\"escuro\"}`); }; export const t = html`<button aria-label=\"Fechar janela\">Salvar</button>`; export const m = `Arquivo ${n} nao encontrado`;",
+      "src/a.test.ts": "describe(\"botao\", () => { it(\"mostra o rotulo\", () => {}); });",
+      "src/a.stories.ts": "export default { title: 'Componentes/X/Validação' }; export const Story = { name: 'Variação' };",
+      "scripts/fixtures/operations/valid/evidencias/DSA-01/verificador-2026-09-02.md": "x"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "comparacao com texto nao e classe",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement, a: string) => { el.className = a === \"modo escuro\" ? \"on\" : \"off\"; };"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "plural -oes",
+    "files": {
+      "src/a.ts": "export const botoes = 1, nphCartoes = 2, questoes = 3;"
+    },
+    "catches": [
+      "botoes",
+      "nphCartoes",
+      "questoes"
+    ],
+    "exactly": [
+      "src/a.ts:1 botoes (identifier)",
+      "src/a.ts:1 nphCartoes (identifier)",
+      "src/a.ts:1 questoes (identifier)"
+    ]
+  },
+  {
+    "label": "participio -ado/-ido",
+    "files": {
+      "src/a.ts": "export const e1 = new CustomEvent('alterado'); export const k = 'nph-tema'; export const expandido = true;"
+    },
+    "catches": [
+      "alterado",
+      "nph-tema",
+      "expandido"
+    ],
+    "exactly": [
+      "src/a.ts:1 alterado (literal)",
+      "src/a.ts:1 expandido (identifier)",
+      "src/a.ts:1 nph-tema (literal)"
+    ]
+  },
+  {
+    "label": "seletor composto",
+    "files": {
+      "src/a.css": ".card.escuro { color: red; }\n.x:hover.ativo { color: red; }\n:host(&.selecionada) { color: red; }\n#a.rodape { color: red; }"
+    },
+    "catches": [
+      ".escuro",
+      ".ativo",
+      ".selecionada",
+      ".rodape"
+    ],
+    "exactly": [
+      "src/a.css:1 .escuro (css-html)",
+      "src/a.css:2 .ativo (css-html)",
+      "src/a.css:3 .selecionada (css-html)",
+      "src/a.css:4 .rodape (css-html)"
+    ]
+  },
+  {
+    "label": "numero com ponto nao e seletor",
+    "files": {
+      "src/a.css": ".card { margin: 1.5rem; line-height: 1.25; }"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "classe condicional com && || ??",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const c = true; const x = \"\"; const y = null; export const t = html`<i class=${c && \"card escuro\"}></i><i class=${x || \"card claro\"}></i><i class=${y ?? \"card cinza\"}></i>`;"
+    },
+    "catches": [
+      "escuro",
+      "claro",
+      "cinza"
+    ],
+    "exactly": [
+      "src/a.ts:1 cinza (class-list)",
+      "src/a.ts:1 claro (class-list)",
+      "src/a.ts:1 escuro (class-list)"
+    ]
+  },
+  {
+    "label": "aria-controls e exportparts",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const f = (el: HTMLElement) => { el.setAttribute(\"aria-controls\", \"menu esquerdo\"); }; export const t = html`<nph-x exportparts=\"rotulo:base, icone\"></nph-x>`;"
+    },
+    "catches": [
+      "rotulo",
+      "esquerdo",
+      "icone"
+    ],
+    "exactly": [
+      "src/a.ts:1 esquerdo (class-list)",
+      "src/a.ts:1 icone (template)",
+      "src/a.ts:1 rotulo (template)"
+    ]
+  },
+  {
+    "label": "args.name da story reprova",
+    "files": {
+      "src/a.stories.ts": "export default { title: 'Componentes/X' }; export const A = { name: 'Variação', args: { name: 'botaoPrimario' }, argTypes: { size: { name: 'tamanho' } } };"
+    },
+    "catches": [
+      "botaoPrimario",
+      "tamanho"
+    ],
+    "exactly": [
+      "src/a.stories.ts:1 botaoPrimario (literal)",
+      "src/a.stories.ts:1 tamanho (literal)"
+    ]
+  },
+  {
+    "label": "name e title da story passam",
+    "files": {
+      "src/b.stories.ts": "const meta = { title: 'Componentes/X/Validação' }; export default meta; export const Primeira = { name: 'Variação' };",
+      "src/c.stories.js": "export default { title: 'Comece aqui/Boas-vindas' };"
+    },
+    "catches": [
+      "Primeira"
+    ],
+    "exactly": [
+      "src/b.stories.ts:1 Primeira (identifier)"
+    ]
+  },
+  {
+    "label": "regex literal",
+    "files": {
+      "src/a.ts": "export const r = /^botao-(primario|secundario)$/;"
+    },
+    "catches": [
+      "^botao-(primario|secundario)$"
+    ],
+    "exactly": [
+      "src/a.ts:1 ^botao-(primario|secundario)$ (regex)"
+    ]
+  },
+  {
+    "label": "extensao sem regra reprova",
+    "files": {
+      "src/a.tsx": "export {};",
+      "src/b.jsx": "x",
+      "src/c.mts": "x",
+      "src/d.cts": "x",
+      "src/e.scss": "x",
+      "src/f.sass": "x",
+      "src/g.less": "x",
+      "src/h.svg": "x",
+      "src/i.mdx": "x",
+      "src/j.yml": "x",
+      "src/k.png": "x"
+    },
+    "catches": [
+      {
+        "name": "*.tsx",
+        "role": "extension"
+      },
+      {
+        "name": "*.jsx",
+        "role": "extension"
+      },
+      {
+        "name": "*.mts",
+        "role": "extension"
+      },
+      {
+        "name": "*.cts",
+        "role": "extension"
+      },
+      {
+        "name": "*.scss",
+        "role": "extension"
+      },
+      {
+        "name": "*.sass",
+        "role": "extension"
+      },
+      {
+        "name": "*.less",
+        "role": "extension"
+      },
+      {
+        "name": "*.svg",
+        "role": "extension"
+      },
+      {
+        "name": "*.mdx",
+        "role": "extension"
+      },
+      {
+        "name": "*.yml",
+        "role": "extension"
+      },
+      {
+        "name": "*.png",
+        "role": "extension"
+      }
+    ],
+    "exactly": [
+      "src/a.tsx:0 *.tsx (extension)",
+      "src/b.jsx:0 *.jsx (extension)",
+      "src/c.mts:0 *.mts (extension)",
+      "src/d.cts:0 *.cts (extension)",
+      "src/e.scss:0 *.scss (extension)",
+      "src/f.sass:0 *.sass (extension)",
+      "src/g.less:0 *.less (extension)",
+      "src/h.svg:0 *.svg (extension)",
+      "src/i.mdx:0 *.mdx (extension)",
+      "src/j.yml:0 *.yml (extension)",
+      "src/k.png:0 *.png (extension)"
+    ]
+  },
+  {
+    "label": "keyframes, container e grid-area",
+    "files": {
+      "src/a.css": "@keyframes desliza { from { opacity: 0; } }\n.a { animation-name: desliza; container-name: cartao; grid-area: rodape; grid-template-areas: \"cabecalho cabecalho\" \"lado conteudo\"; }"
+    },
+    "catches": [
+      "desliza",
+      "cartao",
+      "rodape",
+      "cabecalho",
+      "lado",
+      "conteudo"
+    ],
+    "exactly": [
+      "src/a.css:1 desliza (css-html)",
+      "src/a.css:2 cabecalho (css-html)",
+      "src/a.css:2 cartao (css-html)",
+      "src/a.css:2 conteudo (css-html)",
+      "src/a.css:2 desliza (css-html)",
+      "src/a.css:2 lado (css-html)",
+      "src/a.css:2 rodape (css-html)"
+    ]
+  },
+  {
+    "label": "comentario de css e html fica fora",
+    "files": {
+      "src/a.css": "/* .botao__rotulo e #rodape */\n.card { color: red; }",
+      ".storybook/a.html": "<!-- class=\"barra-lateral\" -->\n<div class=\"card\"></div>"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "dicionario: chave fora de sidebar reprova",
+    "files": {
+      ".storybook/i18n/pt-BR.js": "export default { 'comece-aqui': 'x', sidebar: { 'comece-aqui-boas-vindas': 'Boas-vindas' }, title: 'Modo escuro' };"
+    },
+    "catches": [
+      "comece-aqui"
+    ],
+    "exactly": [
+      ".storybook/i18n/pt-BR.js:1 comece-aqui (key)"
+    ]
+  },
+  {
+    "label": "dicionario: sidebar e valor passam",
+    "files": {
+      ".storybook/i18n/es.js": "export default { sidebar: { 'comece-aqui': 'Empieza', componentes: 'Componentes' }, colorScheme: { dark: 'Modo oscuro', toLight: 'Cambiar' } };"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "evidencia com nome de gate sob evidencias passa",
+    "files": {
+      "scripts/fixtures/operations/valid/evidencias/DSA-09/botao-aceito-2026-10-02.md": "x",
+      "docs-fora/evidencias/x.md": "x"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "vocabulario de DS",
+    "files": {
+      "src/a.ts": "export const espessura = 1, opacidade = 2, alinhamento = 3, disponivel = 4, clicar = 5, vermelho = 6, azul = 7, acima = 8, conta = 9;"
+    },
+    "catches": [
+      "espessura",
+      "opacidade",
+      "alinhamento",
+      "disponivel",
+      "clicar",
+      "vermelho",
+      "azul",
+      "acima",
+      "conta"
+    ],
+    "exactly": [
+      "src/a.ts:1 acima (identifier)",
+      "src/a.ts:1 alinhamento (identifier)",
+      "src/a.ts:1 azul (identifier)",
+      "src/a.ts:1 clicar (identifier)",
+      "src/a.ts:1 conta (identifier)",
+      "src/a.ts:1 disponivel (identifier)",
+      "src/a.ts:1 espessura (identifier)",
+      "src/a.ts:1 opacidade (identifier)",
+      "src/a.ts:1 vermelho (identifier)"
+    ]
+  },
+  {
+    "label": "fins -mento, -dade, -agem, -eiro, -inho, -avel",
+    "files": {
+      "src/a.ts": "export const posicionamento = 1, visibilidade = 2, embalagem = 3, mensageiro = 4, botaozinho = 5, clicavel = 6;"
+    },
+    "catches": [
+      "posicionamento",
+      "visibilidade",
+      "embalagem",
+      "mensageiro",
+      "botaozinho",
+      "clicavel"
+    ],
+    "exactly": [
+      "src/a.ts:1 botaozinho (identifier)",
+      "src/a.ts:1 clicavel (identifier)",
+      "src/a.ts:1 embalagem (identifier)",
+      "src/a.ts:1 mensageiro (identifier)",
+      "src/a.ts:1 posicionamento (identifier)",
+      "src/a.ts:1 visibilidade (identifier)"
+    ]
+  },
+  {
+    "label": "ingles com fim portugues nao reprova",
+    "files": {
+      "src/a.ts": "export const kendo = 1, lido = 2, fido = 3, mikado = 4, dorado = 5, bushido = 6, aloes = 7, macao = 8, grenada = 9, aida = 10, orlando = 11, memento = 12, travel = 13, gravel = 14, swivel = 15, video = 16, audio = 17, radio = 18, studio = 19, ratio = 20, todo = 21, agenda = 22, soda = 23, panda = 24, idea = 25;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "CSS: @container, @layer, contador, linhas e animation",
+    "files": {
+      "src/a.css": "@container cartao (min-width: 1px) { .a { color: red; } }\n@layer base, componentes;\n.b { counter-reset: contador; }\n.b::before { content: counter(passo); }\n.g { grid-template-columns: [inicio] 1fr [fim]; grid-column: meio / final; }\n.h { animation: desliza 1s ease-in infinite; }"
+    },
+    "catches": [
+      "cartao",
+      "componentes",
+      "contador",
+      "passo",
+      "inicio",
+      "fim",
+      "meio",
+      "desliza"
+    ],
+    "exactly": [
+      "src/a.css:1 cartao (css-html)",
+      "src/a.css:2 componentes (css-html)",
+      "src/a.css:3 contador (css-html)",
+      "src/a.css:4 passo (css-html)",
+      "src/a.css:5 fim (css-html)",
+      "src/a.css:5 inicio (css-html)",
+      "src/a.css:5 meio (css-html)",
+      "src/a.css:6 desliza (css-html)"
+    ]
+  },
+  {
+    "label": "view-transition-name",
+    "files": {
+      "src/a.css": ".a { view-transition-name: cartao; }"
+    },
+    "catches": [
+      "cartao"
+    ],
+    "exactly": [
+      "src/a.css:1 cartao (css-html)"
+    ]
+  },
+  {
+    "label": "@keyframes sozinho",
+    "files": {
+      "src/a.css": "@keyframes surgir { from { opacity: 0; } }"
+    },
+    "catches": [
+      "surgir"
+    ],
+    "exactly": [
+      "src/a.css:1 surgir (css-html)"
+    ]
+  },
+  {
+    "label": "animation-name sozinho",
+    "files": {
+      "src/a.css": ".a { animation-name: piscar; }"
+    },
+    "catches": [
+      "piscar"
+    ],
+    "exactly": [
+      "src/a.css:1 piscar (css-html)"
+    ]
+  },
+  {
+    "label": "exportparts separado por virgula e dois-pontos",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<nph-x exportparts=\"rotulo:base,cabecalho\"></nph-x>`;"
+    },
+    "catches": [
+      "rotulo",
+      "cabecalho"
+    ],
+    "exactly": [
+      "src/a.ts:1 cabecalho (template)",
+      "src/a.ts:1 rotulo (template)"
+    ]
+  },
+  {
+    "label": "name de objeto aninhado em story reprova",
+    "files": {
+      "src/a.stories.ts": "export default { title: 'X' }; export function f() { const local = { name: 'botaoPrimario' }; return local; }"
+    },
+    "catches": [
+      "botaoPrimario"
+    ],
+    "exactly": [
+      "src/a.stories.ts:1 botaoPrimario (literal)"
+    ]
+  },
+  {
+    "label": "story com satisfies e storyName passa",
+    "files": {
+      "src/a.stories.ts": "const meta = { title: 'Componentes/Botão' } satisfies Meta; export default meta; export const Story = { name: 'Variação' } satisfies StoryObj; Story.storyName = 'Tamanho';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "tag, evento, propriedade e valor de atributo no html",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1; const x = true; const y = 1; export const t = html`<nph-botao @nph-alterado=${f} tamanho=\"primaria\" ?desabilitado=${x} .rotulo=${y} title=\"Salvar\"></nph-botao>`;"
+    },
+    "catches": [
+      "nph-botao",
+      "nph-alterado",
+      "tamanho",
+      "primaria",
+      "desabilitado",
+      "rotulo"
+    ],
+    "exactly": [
+      "src/a.ts:1 desabilitado (template)",
+      "src/a.ts:1 nph-alterado (template)",
+      "src/a.ts:1 nph-botao (template)",
+      "src/a.ts:1 primaria (template)",
+      "src/a.ts:1 rotulo (template)",
+      "src/a.ts:1 tamanho (template)"
+    ]
+  },
+  {
+    "label": "atributo de texto em componente custom passa",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<nph-x title=\"Salvar\" aria-label=\"Fechar\" placeholder=\"Buscar\"></nph-x>`;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "tipo template literal",
+    "files": {
+      "src/a.ts": "export type Tamanho = `${string}-destaque`;"
+    },
+    "catches": [
+      "Tamanho",
+      "${}-destaque"
+    ],
+    "exactly": [
+      "src/a.ts:1 ${}-destaque (literal)",
+      "src/a.ts:1 Tamanho (identifier)"
+    ]
+  },
+  {
+    "label": "fail e warn locais com valor tecnico reprovam",
+    "files": {
+      "scripts/a.mjs": "const fail = (...x) => x; const warn = (x) => x; warn('botao-primario'); fail('rotulo');"
+    },
+    "catches": [
+      "botao-primario",
+      "rotulo"
+    ],
+    "exactly": [
+      "scripts/a.mjs:1 botao-primario (literal)",
+      "scripts/a.mjs:1 rotulo (literal)"
+    ]
+  },
+  {
+    "label": "fail com mensagem passa",
+    "files": {
+      "scripts/a.mjs": "const fail = (...x) => x; fail('V01', 'arquivo sem ficha');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "nome datado fora de operations reprova",
+    "files": {
+      "scripts/fixtures/naming/botao-2026-10-02.md": "x"
+    },
+    "catches": [
+      "botao-2026-10-02"
+    ],
+    "exactly": [
+      "scripts/fixtures/naming/botao-2026-10-02.md:0 botao-2026-10-02 (file)"
+    ]
+  },
+  {
+    "label": "css e html em varias linhas",
+    "files": {
+      "src/a.css": ".g {\n  grid-template-areas:\n    \"cabecalho cabecalho\"\n    \"esquerdo conteudo\";\n  animation:\n    desliza 1s;\n}\n@layer\n  componentes;",
+      ".storybook/a.html": "<nph-botao\n  variante=\"primaria\"\n  tamanho='destaque'\n></nph-botao>"
+    },
+    "catches": [
+      "cabecalho",
+      "esquerdo",
+      "conteudo",
+      "desliza",
+      "componentes",
+      "nph-botao",
+      "variante",
+      "primaria",
+      "tamanho",
+      "destaque"
+    ],
+    "exactly": [
+      ".storybook/a.html:1 destaque (css-html)",
+      ".storybook/a.html:1 nph-botao (css-html)",
+      ".storybook/a.html:1 primaria (css-html)",
+      ".storybook/a.html:1 tamanho (css-html)",
+      ".storybook/a.html:1 variante (css-html)",
+      ".storybook/a.html:4 nph-botao (css-html)",
+      "src/a.css:2 cabecalho (css-html)",
+      "src/a.css:2 conteudo (css-html)",
+      "src/a.css:2 esquerdo (css-html)",
+      "src/a.css:5 desliza (css-html)",
+      "src/a.css:8 componentes (css-html)"
+    ]
+  },
+  {
+    "label": "valor de atributo de componente: sem aspas, value e content; valor com espaco e texto",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<nph-x tamanho=destaque variante=\"primaria secundaria\" value=\"escuro\" content=\"rodape\"></nph-x>`;"
+    },
+    "catches": [
+      "destaque",
+      "escuro",
+      "rodape"
+    ],
+    "exactly": [
+      "src/a.ts:1 destaque (template)",
+      "src/a.ts:1 escuro (template)",
+      "src/a.ts:1 rodape (template)",
+      "src/a.ts:1 tamanho (template)",
+      "src/a.ts:1 variante (template)"
+    ]
+  },
+  {
+    "label": "clsx, objeto e constante de classe",
+    "files": {
+      "src/a.ts": "const clsx = (...a: string[]) => a.join(\" \"); export const a = clsx(\"card escuro\"); export const p = { className: \"card claro\", class: \"card cinza\" };"
+    },
+    "catches": [
+      "escuro",
+      "claro",
+      "cinza"
+    ],
+    "exactly": [
+      "src/a.ts:1 cinza (class-list)",
+      "src/a.ts:1 claro (class-list)",
+      "src/a.ts:1 escuro (class-list)"
+    ]
+  },
+  {
+    "label": "estilo por propriedade",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.animation = \"desliza 1s\"; el.style.gridTemplateAreas = \"\\\"cabecalho conteudo\\\"\"; el.style.setProperty(\"container-name\", \"cartao\"); }; export const s = { animationName: \"piscar\", gridArea: \"rodape\" };"
+    },
+    "catches": [
+      "desliza",
+      "cabecalho",
+      "conteudo",
+      "cartao",
+      "piscar",
+      "rodape"
+    ],
+    "exactly": [
+      "src/a.ts:1 cabecalho (style)",
+      "src/a.ts:1 cartao (literal)",
+      "src/a.ts:1 cartao (style)",
+      "src/a.ts:1 conteudo (style)",
+      "src/a.ts:1 desliza (style)",
+      "src/a.ts:1 piscar (literal)",
+      "src/a.ts:1 piscar (style)",
+      "src/a.ts:1 rodape (literal)",
+      "src/a.ts:1 rodape (style)"
+    ]
+  },
+  {
+    "label": "CSS: state, highlight, grid-template, grid, counter-style, list-style, page, font-family, keyframes com aspas",
+    "files": {
+      "src/a.css": ":host(:state(aberto)) { color: red; }\n::highlight(destaque) { color: red; }\n.a { grid-template: \"cabecalho\" 1fr / auto; }\n.b { grid: \"rodape\" 1fr / auto; }\n@counter-style marcador { system: cyclic; }\n.c { list-style: marcador inside; }\n@page capa { margin: 0; }\n.d { font-family: fonte-padrao, sans-serif; }\n@keyframes \"surgir\" { from { opacity: 0; } }"
+    },
+    "catches": [
+      "aberto",
+      "destaque",
+      "cabecalho",
+      "rodape",
+      "marcador",
+      "capa",
+      "fonte-padrao",
+      "surgir"
+    ],
+    "exactly": [
+      "src/a.css:1 aberto (css-html)",
+      "src/a.css:2 destaque (css-html)",
+      "src/a.css:3 cabecalho (css-html)",
+      "src/a.css:4 rodape (css-html)",
+      "src/a.css:5 marcador (css-html)",
+      "src/a.css:6 marcador (css-html)",
+      "src/a.css:7 capa (css-html)",
+      "src/a.css:8 fonte-padrao (css-html)",
+      "src/a.css:9 surgir (css-html)"
+    ]
+  },
+  {
+    "label": "acento decomposto (NFD)",
+    "files": {
+      "src/a.ts": "export const a = \"botão\";",
+      "src/botão.ts": "export {};"
+    },
+    "catches": [
+      "botão"
+    ],
+    "exactly": [
+      "src/a.ts:1 botão (literal)",
+      "src/botão.ts:0 botão (file)"
+    ]
+  },
+  {
+    "label": "const de nivel 1 que nao e story reprova",
+    "files": {
+      "src/a.stories.ts": "export default { title: 'X' }; const ICON = { name: 'seta-esquerda' }; export const A = { args: { icon: ICON } };"
+    },
+    "catches": [
+      "seta-esquerda"
+    ],
+    "exactly": [
+      "src/a.stories.ts:1 seta-esquerda (literal)"
+    ]
+  },
+  {
+    "label": "variavel local com nome de chave excetuada reprova",
+    "files": {
+      "src/a.ts": "export function demo(t: { estado: string }) { const estado = t.estado; return estado; }"
+    },
+    "catches": [
+      "estado"
+    ],
+    "exactly": [
+      "src/a.ts:1 estado (identifier)",
+      "src/a.ts:1 estado (property)"
+    ]
+  },
+  {
+    "label": "mensagem com ternario passa",
+    "files": {
+      "src/a.ts": "const c = true; console.log(c ? \"botao\" : \"x\");"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "fail com mensagem que tem token tecnico passa",
+    "files": {
+      "scripts/a.mjs": "const fail = (...x) => x; fail('V01', 'arquivo .botao sem ficha');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "evidencia datada em operations passa",
+    "files": {
+      "scripts/fixtures/operations/invalid/botao-2026-10-02.md": "x",
+      "scripts/fixtures/operations/valid/evidencias/DSA-09/botao-aceito-2026-10-02.md": "x",
+      "scripts/fixtures/operations/valid/contextos/DSA-01.md": "x"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "identificador privado e sigla",
+    "files": {
+      "src/a.ts": "export class A { #botao = 1; } export interface HTMLBotaoElement { x: number }"
+    },
+    "catches": [
+      "#botao",
+      "HTMLBotaoElement"
+    ],
+    "exactly": [
+      "src/a.ts:1 #botao (property)",
+      "src/a.ts:1 HTMLBotaoElement (identifier)"
+    ]
+  },
+  {
+    "label": "palavras comuns aos dois idiomas passam",
+    "files": {
+      "src/a.ts": "export const menus = 1, lateral = 2, mover = 3, nova = 4, topoSort = 5, grande = 6, forte = 7, largo = 8, suave = 9, pulsar = 10, soma = 11, canto = 12, dados = 13, dia = 14, mes = 15, ano = 16, que = 17, aba = 18, legenda = 19, redoes = 20, cargoes = 21, nada = 22, sacramento = 23, valencia = 24;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "pasta de contrato e evidencia fora de operations reprovam",
+    "files": {
+      "src/contextos/a.ts": "export {};",
+      "src/fichas/b.ts": "export {};",
+      "src/x/evidencias/relatorio-2026-01-01.md": "x"
+    },
+    "catches": [
+      "contextos",
+      "fichas",
+      "evidencias",
+      "relatorio-2026-01-01"
+    ],
+    "exactly": [
+      "src/contextos/a.ts:0 contextos (folder)",
+      "src/fichas/b.ts:0 fichas (folder)",
+      "src/x/evidencias/relatorio-2026-01-01.md:0 evidencias (folder)",
+      "src/x/evidencias/relatorio-2026-01-01.md:0 relatorio-2026-01-01 (file)"
+    ]
+  },
+  {
+    "label": "linha e papel do achado",
+    "files": {
+      "src/a.css": ".card {}\n\n.botao { color: red; }",
+      "src/b.ts": "export function f(o: { estado: string }) { const estado = o.estado; const { estado: s } = o; return [estado, s]; }"
+    },
+    "catches": [
+      {
+        "name": ".botao",
+        "line": 3,
+        "role": "css-html"
+      },
+      {
+        "name": "estado",
+        "role": "identifier"
+      },
+      {
+        "name": "estado",
+        "role": "property"
+      }
+    ],
+    "exactly": [
+      "src/a.css:3 .botao (css-html)",
+      "src/b.ts:1 estado (identifier)",
+      "src/b.ts:1 estado (property)"
+    ]
+  },
+  {
+    "label": "sigla com palavra PT",
+    "files": {
+      "src/a.ts": "export interface HTMLRotuloElement { x: number }"
+    },
+    "catches": [
+      "HTMLRotuloElement"
+    ],
+    "exactly": [
+      "src/a.ts:1 HTMLRotuloElement (identifier)"
+    ]
+  },
+  {
+    "label": "text do nph-label e aria-valuetext passam",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<nph-label text=\"Salvar\"></nph-label><div role=\"progressbar\" aria-valuetext=\"Carregando\"></div>`;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "cn e cx",
+    "files": {
+      "src/a.ts": "const cn = (...a: string[]) => a.join(\" \"); const cx = cn; export const a = cn(\"card escuro\"); export const b = cx(\"card claro\");"
+    },
+    "catches": [
+      "escuro",
+      "claro"
+    ],
+    "exactly": [
+      "src/a.ts:1 claro (class-list)",
+      "src/a.ts:1 escuro (class-list)"
+    ]
+  },
+  {
+    "label": "setProperty de animation",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => el.style.setProperty(\"animation\", \"piscar 1s\");"
+    },
+    "catches": [
+      "piscar"
+    ],
+    "exactly": [
+      "src/a.ts:1 piscar (style)"
+    ]
+  },
+  {
+    "label": "objeto de estilo (styleMap)",
+    "files": {
+      "src/a.ts": "const styleMap = (x: object) => x; export const s = styleMap({ animation: \"piscar 1s\" });"
+    },
+    "catches": [
+      "piscar"
+    ],
+    "exactly": [
+      "src/a.ts:1 piscar (style)"
+    ]
+  },
+  {
+    "label": "chave CSS kebab em objeto de estilo",
+    "files": {
+      "src/a.ts": "export const s = { 'grid-area': 'cabecalho x' };"
+    },
+    "catches": [
+      "cabecalho"
+    ],
+    "exactly": [
+      "src/a.ts:1 cabecalho (style)"
+    ]
+  },
+  {
+    "label": "@counter-style sozinho",
+    "files": {
+      "src/a.css": "@counter-style marcador { system: cyclic; }"
+    },
+    "catches": [
+      "marcador"
+    ],
+    "exactly": [
+      "src/a.css:1 marcador (css-html)"
+    ]
+  },
+  {
+    "label": "list-style-type sozinho",
+    "files": {
+      "src/a.css": ".a { list-style-type: marcador; }"
+    },
+    "catches": [
+      "marcador"
+    ],
+    "exactly": [
+      "src/a.css:1 marcador (css-html)"
+    ]
+  },
+  {
+    "label": "list-style sozinho",
+    "files": {
+      "src/a.css": ".a { list-style: marcador inside; }"
+    },
+    "catches": [
+      "marcador"
+    ],
+    "exactly": [
+      "src/a.css:1 marcador (css-html)"
+    ]
+  },
+  {
+    "label": "font-family com nome entre aspas passa",
+    "files": {
+      "src/a.css": ".a { font-family: \"Noto Padrao Sans\", sans-serif; }"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "lista inglesa inteira passa",
+    "files": {
+      "src/a.ts": "export const words = ['aficionado', 'aficionados', 'aida', 'aikido', 'aloes', 'antiheroes', 'armada', 'armadas', 'avocado', 'avocados', 'barbados', 'bravado', 'buffaloes', 'bushido', 'cacao', 'canada', 'candida', 'canoes', 'cargoes', 'chao', 'ciao', 'cicada', 'cicadas', 'colorado', 'commando', 'crescendo', 'curacao', 'dados', 'desperado', 'desperados', 'does', 'dominoes', 'dorado', 'drivel', 'echoes', 'eldorado', 'embargoes', 'enchilada', 'enchiladas', 'fido', 'floes', 'florida', 'foes', 'foregoes', 'forgoes', 'frescoes', 'frida', 'gavel', 'goes', 'granada', 'gravel', 'grenada', 'haloes', 'heroes', 'hoes', 'horseshoes', 'innuendo', 'javel', 'kakao', 'kannada', 'kendo', 'lambada', 'libido', 'libidos', 'lido', 'lidos', 'lucida', 'macao', 'mangoes', 'memento', 'mementos', 'mikado', 'mistletoes', 'mosquitoes', 'mottoes', 'nada', 'navel', 'nevada', 'nintendo', 'noes', 'oboes', 'orlando', 'outdoes', 'overdoes', 'pavel', 'pendo', 'pimento', 'pimentos', 'potatoes', 'prada', 'ravel', 'redoes', 'roes', 'sacramento', 'shoes', 'shrivel', 'sloes', 'snivel', 'snowshoes', 'superheroes', 'swivel', 'tada', 'tao', 'throes', 'tiptoes', 'toes', 'tomatoes', 'tornado', 'tornadoes', 'tornados', 'torpedoes', 'travel', 'undergoes', 'undoes', 'unravel', 'valencia', 'vetoes', 'volcanoes', 'woes', 'xiao', 'zeroes'];"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "seletor de tipo de custom element",
+    "files": {
+      "src/a.css": "nph-rotulo { color: red; }\nnph-field nph-rotulo-interno { color: red; }",
+      "src/b.ts": "import { css } from \"lit\"; export const s = css`::slotted(nph-icone) { color: red; } :host-context(nph-tema) { color: red; } :is(nph-botao, .x) { color: red; }`; export const q = (r: ParentNode) => r.querySelector(\"nph-lista > nph-item-lista\");"
+    },
+    "catches": [
+      "nph-rotulo",
+      "nph-rotulo-interno",
+      "nph-icone",
+      "nph-tema",
+      "nph-botao",
+      "nph-lista",
+      "nph-item-lista"
+    ],
+    "exactly": [
+      "src/a.css:1 nph-rotulo (css-html)",
+      "src/a.css:2 nph-rotulo-interno (css-html)",
+      "src/b.ts:1 nph-botao (template)",
+      "src/b.ts:1 nph-icone (template)",
+      "src/b.ts:1 nph-item-lista (selector)",
+      "src/b.ts:1 nph-lista (selector)",
+      "src/b.ts:1 nph-tema (template)"
+    ]
+  },
+  {
+    "label": "script e on* de html",
+    "files": {
+      ".storybook/preview-head.html": "<script>\n  const estadoAtual = 1;\n  document.body.dataset.modoEscuro = \"1\";\n</script>\n<button onclick=\"abrirMenu()\">x</button>"
+    },
+    "catches": [
+      {
+        "name": "estadoAtual",
+        "line": 2
+      },
+      "modoEscuro",
+      "abrirMenu"
+    ],
+    "exactly": [
+      ".storybook/preview-head.html:2 estadoAtual (identifier)",
+      ".storybook/preview-head.html:3 modoEscuro (property)",
+      ".storybook/preview-head.html:5 abrirMenu (identifier)"
+    ]
+  },
+  {
+    "label": "valor de data-* em elemento nativo",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<div data-state=\"aberto\" data-variant='primaria'></div>`;"
+    },
+    "catches": [
+      "aberto",
+      "primaria"
+    ],
+    "exactly": [
+      "src/a.ts:1 aberto (template)",
+      "src/a.ts:1 primaria (template)"
+    ]
+  },
+  {
+    "label": "atributo que cita id",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<button popovertarget=\"dica-ajuda\"></button><input list=\"opcoes-busca\" form=\"formulario-principal\">`;"
+    },
+    "catches": [
+      "dica-ajuda",
+      "opcoes-busca",
+      "formulario-principal"
+    ],
+    "exactly": [
+      "src/a.ts:1 dica-ajuda (template)",
+      "src/a.ts:1 formulario-principal (template)",
+      "src/a.ts:1 opcoes-busca (template)"
+    ]
+  },
+  {
+    "label": "style inline sem ponto e virgula",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<div style=\"grid-area: cabecalho\"></div>`;",
+      ".storybook/a.html": "<div style=\"grid-area: rodape\"></div>"
+    },
+    "catches": [
+      "cabecalho",
+      "rodape"
+    ],
+    "exactly": [
+      ".storybook/a.html:1 rodape (css-html)",
+      "src/a.ts:1 cabecalho (template)"
+    ]
+  },
+  {
+    "label": "estilo montado por concatenacao",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement, d: number, x: string) => { el.style.animation = \"piscar \" + d + \"s\"; el.style.gridArea = \"cabecalho \" + x; };"
+    },
+    "catches": [
+      "piscar",
+      "cabecalho"
+    ],
+    "exactly": [
+      "src/a.ts:1 cabecalho (style)",
+      "src/a.ts:1 piscar (style)"
+    ]
+  },
+  {
+    "label": "view-transition-class e layer() de @import",
+    "files": {
+      "src/a.css": "@import url(\"x.css\") layer(componentes);\n.a { view-transition-class: cartao; }"
+    },
+    "catches": [
+      "componentes",
+      "cartao"
+    ],
+    "exactly": [
+      "src/a.css:1 componentes (css-html)",
+      "src/a.css:2 cartao (css-html)"
+    ]
+  },
+  {
+    "label": "palavras comuns aos dois idiomas passam (rodada 7)",
+    "files": {
+      "src/a.ts": "export const cores = 1, anterior = 2, agora = 3, clique = 4, salvo = 5, outro = 6, rota = 7, bate = 8, clara = 9, rosa = 10, avocados = 11, tornados = 12, superheroes = 13, mementos = 14, lidos = 15;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "vocabulario novo da rodada 7",
+    "files": {
+      "src/a.ts": "export const moldura = 1, relatorio = 2, externo = 3, seta = 4, fechou = 6, carta = 7;"
+    },
+    "catches": [
+      "moldura",
+      "relatorio",
+      "externo",
+      "seta",
+      "fechou",
+      "carta"
+    ],
+    "exactly": [
+      "src/a.ts:1 carta (identifier)",
+      "src/a.ts:1 externo (identifier)",
+      "src/a.ts:1 fechou (identifier)",
+      "src/a.ts:1 moldura (identifier)",
+      "src/a.ts:1 relatorio (identifier)",
+      "src/a.ts:1 seta (identifier)"
+    ]
+  },
+  {
+    "label": "prosa hifenizada nao e seletor",
+    "files": {
+      ".storybook/a.html": "<p>Seja bem-vindo ao painel</p>",
+      "src/b.ts": "import { html } from \"lit\"; export const t = html`<p>Seja bem-vindo ao painel</p>`; export const s = \"Use o modo-escuro quando quiser\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "seletor de tipo: linha, descendente primeiro e colado",
+    "files": {
+      "src/a.css": "nph-a,\nnph-botao {}\nnph-rotulo nph-icon { color: red; }\n.a{}nph-gaveta{}"
+    },
+    "catches": [
+      {
+        "name": "nph-botao",
+        "line": 2
+      },
+      {
+        "name": "nph-rotulo",
+        "line": 3
+      },
+      {
+        "name": "nph-gaveta",
+        "line": 4
+      }
+    ],
+    "exactly": [
+      "src/a.css:2 nph-botao (css-html)",
+      "src/a.css:3 nph-rotulo (css-html)",
+      "src/a.css:4 nph-gaveta (css-html)"
+    ]
+  },
+  {
+    "label": "script e on* de html com linha",
+    "files": {
+      ".storybook/b.html": "<div>\n</div>\n<button onclick=\"abrirGaveta()\">x</button>\n<script>\n  const estadoInterno = 1;\n</script>"
+    },
+    "catches": [
+      {
+        "name": "abrirGaveta",
+        "line": 3
+      },
+      {
+        "name": "estadoInterno",
+        "line": 5
+      }
+    ],
+    "exactly": [
+      ".storybook/b.html:3 abrirGaveta (identifier)",
+      ".storybook/b.html:5 estadoInterno (identifier)"
+    ]
+  },
+  {
+    "label": "corpo do script nao e marcacao",
+    "files": {
+      ".storybook/c.html": "<script>\n  const x = \".botao-interno\";\n</script>"
+    },
+    "catches": [
+      {
+        "name": ".botao-interno",
+        "role": "literal"
+      }
+    ],
+    "exactly": [
+      ".storybook/c.html:2 .botao-interno (literal)"
+    ]
+  },
+  {
+    "label": "on* sem aspas",
+    "files": {
+      ".storybook/d.html": "<button onclick=abrirJanela()>x</button>"
+    },
+    "catches": [
+      "abrirJanela"
+    ],
+    "exactly": [
+      ".storybook/d.html:1 abrirJanela (identifier)"
+    ]
+  },
+  {
+    "label": "atributos que citam id (todos)",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<td headers=\"cabecalho-um\"></td><button commandfor=\"painel-um\" interestfor=\"dica-um\"></button><div anchor=\"ancora-menu\" itemref=\"trecho-um\"></div>`;"
+    },
+    "catches": [
+      "cabecalho-um",
+      "painel-um",
+      "dica-um",
+      "ancora-menu",
+      "trecho-um"
+    ],
+    "exactly": [
+      "src/a.ts:1 ancora-menu (template)",
+      "src/a.ts:1 cabecalho-um (template)",
+      "src/a.ts:1 dica-um (template)",
+      "src/a.ts:1 painel-um (template)",
+      "src/a.ts:1 trecho-um (template)"
+    ]
+  },
+  {
+    "label": "estilo por ternario, parenteses e indice",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement, c: boolean, x: string) => { el.style.animation = c ? \"girar 1s\" : \"x\"; el.style.gridArea = (\"cabecalho \" + x); el.style[\"gridArea\"] = \"barra x\"; };"
+    },
+    "catches": [
+      "girar",
+      "cabecalho",
+      "barra"
+    ],
+    "exactly": [
+      "src/a.ts:1 barra (style)",
+      "src/a.ts:1 cabecalho (style)",
+      "src/a.ts:1 girar (style)"
+    ]
+  },
+  {
+    "label": "layer() com ponto",
+    "files": {
+      "src/a.css": "@import url(\"x.css\") layer(base.componentes);"
+    },
+    "catches": [
+      "componentes"
+    ],
+    "exactly": [
+      "src/a.css:1 .componentes (css-html)",
+      "src/a.css:1 componentes (css-html)"
+    ]
+  },
+  {
+    "label": "arquivo com nome de diretorio do contrato reprova",
+    "files": {
+      "scripts/fixtures/operations/valid/tarefas.ts": "export {};"
+    },
+    "catches": [
+      "tarefas"
+    ],
+    "exactly": [
+      "scripts/fixtures/operations/valid/tarefas.ts:0 tarefas (file)"
+    ]
+  },
+  {
+    "label": "plural ingles fora da lista passa",
+    "files": {
+      "src/a.ts": "export const innuendos = 1, desperadoes = 2, innuendoes = 3;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "plural de palavra do vocabulario reprova",
+    "files": {
+      "src/a.ts": "export const rodapes = 1, dialogos = 2, setas = 3;"
+    },
+    "catches": [
+      "rodapes",
+      "dialogos",
+      "setas"
+    ],
+    "exactly": [
+      "src/a.ts:1 dialogos (identifier)",
+      "src/a.ts:1 rodapes (identifier)",
+      "src/a.ts:1 setas (identifier)"
+    ]
+  },
+  {
+    "label": "seletor de tipo: prefixos",
+    "files": {
+      "src/a.css": "nph-cartao-p0{}\n.a nph-cartao-p1{}\n.a,nph-cartao-p2{}\n.a>nph-cartao-p3{}\n.a+nph-cartao-p4{}\n.a~nph-cartao-p5{}\n:is(nph-cartao-p6){}\n:is(.a)nph-cartao-p7{}\n.a{nph-cartao-p8{}}\n.a{}nph-cartao-p9{}\n.a{color:red;nph-cartao-p10{}}"
+    },
+    "catches": [
+      "nph-cartao-p0",
+      "nph-cartao-p1",
+      "nph-cartao-p2",
+      "nph-cartao-p3",
+      "nph-cartao-p4",
+      "nph-cartao-p5",
+      "nph-cartao-p6",
+      "nph-cartao-p7",
+      "nph-cartao-p8",
+      "nph-cartao-p9",
+      "nph-cartao-p10"
+    ],
+    "exactly": [
+      "src/a.css:1 nph-cartao-p0 (css-html)",
+      "src/a.css:10 nph-cartao-p9 (css-html)",
+      "src/a.css:11 nph-cartao-p10 (css-html)",
+      "src/a.css:2 nph-cartao-p1 (css-html)",
+      "src/a.css:3 nph-cartao-p2 (css-html)",
+      "src/a.css:4 nph-cartao-p3 (css-html)",
+      "src/a.css:5 nph-cartao-p4 (css-html)",
+      "src/a.css:6 nph-cartao-p5 (css-html)",
+      "src/a.css:7 nph-cartao-p6 (css-html)",
+      "src/a.css:8 nph-cartao-p7 (css-html)",
+      "src/a.css:9 nph-cartao-p8 (css-html)"
+    ]
+  },
+  {
+    "label": "seletor de tipo: terminos",
+    "files": {
+      "src/a.css": "nph-cartao-q1,.b{}\nnph-cartao-q2{}\nnph-cartao-q3.x{}\nnph-cartao-q4:hover{}\nnph-cartao-q5#i{}\nnph-cartao-q6[x]{}\nnph-cartao-q7>.b{}\nnph-cartao-q8+.b{}\nnph-cartao-q9~.b{}\n:is(nph-cartao-q10){}"
+    },
+    "catches": [
+      "nph-cartao-q1",
+      "nph-cartao-q2",
+      "nph-cartao-q3",
+      "nph-cartao-q4",
+      "nph-cartao-q5",
+      "nph-cartao-q6",
+      "nph-cartao-q7",
+      "nph-cartao-q8",
+      "nph-cartao-q9",
+      "nph-cartao-q10"
+    ],
+    "exactly": [
+      "src/a.css:1 nph-cartao-q1 (css-html)",
+      "src/a.css:10 nph-cartao-q10 (css-html)",
+      "src/a.css:2 nph-cartao-q2 (css-html)",
+      "src/a.css:3 nph-cartao-q3 (css-html)",
+      "src/a.css:4 nph-cartao-q4 (css-html)",
+      "src/a.css:5 nph-cartao-q5 (css-html)",
+      "src/a.css:6 nph-cartao-q6 (css-html)",
+      "src/a.css:7 nph-cartao-q7 (css-html)",
+      "src/a.css:8 nph-cartao-q8 (css-html)",
+      "src/a.css:9 nph-cartao-q9 (css-html)"
+    ]
+  },
+  {
+    "label": "seletor de tipo: descendentes",
+    "files": {
+      "src/a.css": "nph-cartao-r1 b{}\nnph-cartao-r2 *{}\nnph-cartao-r3 .x &{}\nnph-cartao-r4 [x]{}"
+    },
+    "catches": [
+      "nph-cartao-r1",
+      "nph-cartao-r2",
+      "nph-cartao-r3",
+      "nph-cartao-r4"
+    ],
+    "exactly": [
+      "src/a.css:1 nph-cartao-r1 (css-html)",
+      "src/a.css:2 nph-cartao-r2 (css-html)",
+      "src/a.css:3 nph-cartao-r3 (css-html)",
+      "src/a.css:4 nph-cartao-r4 (css-html)"
+    ]
+  },
+  {
+    "label": "seletor de tipo: com atributo e string",
+    "files": {
+      "src/a.css": "nph-cartao-s1[data-state=\"open\"] {}\nnph-cartao-s2[name='x'] {}\nnph-cartao-s3:not([variant=\"x\"]) {}\n:where(nph-cartao-s4[open=\"x\"], nph-cartao-s5) {}",
+      "src/b.ts": "import { css } from \"lit\"; export const s = css`:host nph-cartao-s6[name='x'] {}`;",
+      ".storybook/a.html": "<style>nph-cartao-s7[data-x=\"1\"] {}</style>",
+      "src/c.ts": "import { html } from \"lit\"; export const t = html`<style>nph-cartao-s8[data-x=\"1\"] {}</style>`;"
+    },
+    "catches": [
+      "nph-cartao-s1",
+      "nph-cartao-s2",
+      "nph-cartao-s3",
+      "nph-cartao-s4",
+      "nph-cartao-s5",
+      "nph-cartao-s6",
+      "nph-cartao-s7",
+      "nph-cartao-s8"
+    ],
+    "exactly": [
+      ".storybook/a.html:1 nph-cartao-s7 (css-html)",
+      "src/a.css:1 nph-cartao-s1 (css-html)",
+      "src/a.css:2 nph-cartao-s2 (css-html)",
+      "src/a.css:3 nph-cartao-s3 (css-html)",
+      "src/a.css:4 nph-cartao-s4 (css-html)",
+      "src/a.css:4 nph-cartao-s5 (css-html)",
+      "src/b.ts:1 nph-cartao-s6 (template)",
+      "src/c.ts:1 nph-cartao-s8 (template)"
+    ]
+  },
+  {
+    "label": "seletor de tipo: ; e } fecham a lista",
+    "files": {
+      "src/a.css": "@import \"x.css\" a nph-cartao-z1 b; .c {}\n.a { --x: a nph-cartao-z2 b } .d {}"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "seletor de tipo: css aninhado e comentario no meio",
+    "files": {
+      "src/a.css": ":host{nph-cartao-n1{}}\n.a{color:red;nph-cartao-n2{}}",
+      "src/b.ts": "import { css } from \"lit\"; export const s = css`nph-cartao-n3 /* x */ {}`;"
+    },
+    "catches": [
+      "nph-cartao-n1",
+      "nph-cartao-n2",
+      "nph-cartao-n3"
+    ],
+    "exactly": [
+      "src/a.css:1 nph-cartao-n1 (css-html)",
+      "src/a.css:2 nph-cartao-n2 (css-html)",
+      "src/b.ts:1 nph-cartao-n3 (template)"
+    ]
+  },
+  {
+    "label": "argumento de seletor: cada chamada, template, concatenacao e decorator",
+    "files": {
+      "src/a.ts": "const el = document.body; const x = \"y\"; const i = 1;\nel.querySelector(\"nph-cartao-a1 x\"); el.querySelectorAll(\"nph-cartao-a2 x\"); el.closest(\"nph-cartao-a3 x\"); el.matches(\"nph-cartao-a4 x\");\nel.querySelector(`nph-cartao-a5 ${x}`); el.querySelector(\"nph-cartao-a6 \" + x);\nel.querySelector('nph-menu nph-item-menu[aria-current=\"page\"]'); el.querySelector(`nph-cartao-a7 nph-item[data-i=\"${i}\"]`);\nel.matches(':not(nph-cartao-a8[data-x=\"y\"]) *');\ndeclare function query(s: string): PropertyDecorator; declare function queryAll(s: string): PropertyDecorator; declare function queryAsync(s: string): PropertyDecorator; declare function queryAssignedElements(o: object): PropertyDecorator;\nclass A { @query('nph-cartao-d1 x') a!: Element; @queryAll('nph-cartao-d2 > x') b!: Element; @queryAsync('nph-cartao-d3 x') c!: Element; @queryAssignedElements({ selector: 'nph-aba, nph-cartao-d4' }) d!: Element; }"
+    },
+    "catches": [
+      "nph-cartao-a1",
+      "nph-cartao-a2",
+      "nph-cartao-a3",
+      "nph-cartao-a4",
+      "nph-cartao-a5",
+      "nph-cartao-a6",
+      "nph-cartao-a7",
+      "nph-cartao-a8",
+      "nph-cartao-d1",
+      "nph-cartao-d2",
+      "nph-cartao-d3",
+      "nph-cartao-d4"
+    ],
+    "exactly": [
+      "src/a.ts:2 nph-cartao-a1 (selector)",
+      "src/a.ts:2 nph-cartao-a2 (selector)",
+      "src/a.ts:2 nph-cartao-a3 (selector)",
+      "src/a.ts:2 nph-cartao-a4 (selector)",
+      "src/a.ts:3 nph-cartao-a5 (selector)",
+      "src/a.ts:3 nph-cartao-a6 (selector)",
+      "src/a.ts:4 nph-cartao-a7 (selector)",
+      "src/a.ts:5 nph-cartao-a8 (selector)",
+      "src/a.ts:7 nph-cartao-d1 (selector)",
+      "src/a.ts:7 nph-cartao-d2 (selector)",
+      "src/a.ts:7 nph-cartao-d3 (selector)",
+      "src/a.ts:7 nph-cartao-d4 (selector)"
+    ]
+  },
+  {
+    "label": "argumento de seletor so na 1a posicao",
+    "files": {
+      "src/a.ts": "const el = document.body; const a = \"x\"; el.querySelector(a, \"Seja bem-vindo ao painel\");"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "desestruturacao com alias e property",
+    "files": {
+      "src/a.ts": "export const f = (o: any) => { const { estado: s } = o; return s; };"
+    },
+    "catches": [
+      {
+        "name": "estado",
+        "role": "property"
+      }
+    ],
+    "exactly": [
+      "src/a.ts:1 estado (property)"
+    ]
+  },
+  {
+    "label": "aria-valuetext em componente passa",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<nph-x aria-valuetext=\"Carregando\"></nph-x>`;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "plural -s da lista inglesa passa",
+    "files": {
+      "src/a.ts": "export const bravados = 1, mikados = 2, fidos = 3, lambadas = 4;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "comentario dentro de script nao e marcacao",
+    "files": {
+      ".storybook/e.html": "<script>\n// .painel-lateral\n</script>"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "& em css puro nao e sufixo",
+    "files": {
+      "src/a.css": "a[href*=\"&-escuro\"] {}"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "on* com aspa simples, maiusculas e SCRIPT",
+    "files": {
+      ".storybook/f.html": "<button onclick='abrirPainel()'>x</button>\n<button onClick=\"abrirCartao()\">y</button>\n<SCRIPT>const estadoMaiusculo = 1;</SCRIPT>"
+    },
+    "catches": [
+      "abrirPainel",
+      "abrirCartao",
+      "estadoMaiusculo"
+    ],
+    "exactly": [
+      ".storybook/f.html:1 abrirPainel (identifier)",
+      ".storybook/f.html:2 abrirCartao (identifier)",
+      ".storybook/f.html:3 estadoMaiusculo (identifier)"
+    ]
+  },
+  {
+    "label": "style com chave kebab entre colchetes",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { (el.style as any)['grid-area'] = 'rodape x'; };"
+    },
+    "catches": [
+      "rodape"
+    ],
+    "exactly": [
+      "src/a.ts:1 rodape (style)"
+    ]
+  },
+  {
+    "label": "texto corrido com hifen e chaves passa",
+    "files": {
+      "src/a.ts": "export const a = \"Seja bem-vindo, {nome}\";",
+      "src/a.stories.ts": "export default { title: 'X' }; export const A = { args: { label: 'Seja bem-vindo, {nome}' } };",
+      "src/b.ts": "import { css, html } from \"lit\"; export const s = css`/* Usado no modo-escuro, seja bem-vindo */ :host {}`; export const t = html`<p>Seja bem-vindo {x}</p><!-- nota { -->`;",
+      ".storybook/g.html": "<p>Seja bem-vindo {{ nome }}</p>"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "extensao conhecida e arquivo oculto sem extensao passam",
+    "files": {
+      "src/a.ts": "export {};",
+      "src/b.js": "x",
+      "src/c.mjs": "x",
+      "src/d.cjs": "x",
+      "src/e.css": ".a{}",
+      "src/f.html": "<p></p>",
+      "src/g.json": "{}",
+      "src/h.md": "x",
+      "src/.gitkeep": ""
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "folha de estilo em string",
+    "files": {
+      "src/a.ts": "export const PAGE_STYLE = \"nph-cartao-fs1 { display: block; }\"; export const f = (s: HTMLStyleElement) => { s.textContent = \"nph-cartao-fs2 { color: red; }\"; }; declare const unsafeCSS: (s: string) => unknown; export const u = unsafeCSS(\"nph-cartao-fs3 { display: block; }\"); export const sheet = new CSSStyleSheet(); sheet.replaceSync(\"nph-cartao-fs4 { color: red; }\"); sheet.insertRule(\"nph-cartao-fs5 { color: red; }\");"
+    },
+    "catches": [
+      "nph-cartao-fs1",
+      "nph-cartao-fs2",
+      "nph-cartao-fs3",
+      "nph-cartao-fs4",
+      "nph-cartao-fs5"
+    ],
+    "exactly": [
+      "src/a.ts:1 nph-cartao-fs1 (template)",
+      "src/a.ts:1 nph-cartao-fs2 (template)",
+      "src/a.ts:1 nph-cartao-fs3 (template)",
+      "src/a.ts:1 nph-cartao-fs4 (template)",
+      "src/a.ts:1 nph-cartao-fs5 (template)"
+    ]
+  },
+  {
+    "label": "ingles comum de codigo passa (rodada 10)",
+    "files": {
+      "src/a.ts": "export const resolver = 1, resolvers = 2, modulo = 3, modulos = 4, indices = 5;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "vocabulario novo da rodada 10",
+    "files": {
+      "src/a.ts": "export const seja = 1, manha = 2, guarda = 3, chuva = 4, faixa = 5, gatilho = 6, alternador = 7, deslizador = 8, etiqueta = 9, miniatura = 10, carrossel = 11, sanfona = 12, trilha = 13, migalhas = 14, indice = 15;"
+    },
+    "catches": [
+      "seja",
+      "manha",
+      "guarda",
+      "chuva",
+      "faixa",
+      "gatilho",
+      "alternador",
+      "deslizador",
+      "etiqueta",
+      "miniatura",
+      "carrossel",
+      "sanfona",
+      "trilha",
+      "migalhas",
+      "indice"
+    ],
+    "exactly": [
+      "src/a.ts:1 alternador (identifier)",
+      "src/a.ts:1 carrossel (identifier)",
+      "src/a.ts:1 chuva (identifier)",
+      "src/a.ts:1 deslizador (identifier)",
+      "src/a.ts:1 etiqueta (identifier)",
+      "src/a.ts:1 faixa (identifier)",
+      "src/a.ts:1 gatilho (identifier)",
+      "src/a.ts:1 guarda (identifier)",
+      "src/a.ts:1 indice (identifier)",
+      "src/a.ts:1 manha (identifier)",
+      "src/a.ts:1 migalhas (identifier)",
+      "src/a.ts:1 miniatura (identifier)",
+      "src/a.ts:1 sanfona (identifier)",
+      "src/a.ts:1 seja (identifier)",
+      "src/a.ts:1 trilha (identifier)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: c3 so <!-- --> off",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<!-- <nph-x estado=\"aberto\"> --><p>x</p>`;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: c4 comentario vira vazio (indice)",
+    "files": {
+      "src/a.css": "/* a\nb */ .botao {}\n<!-- x\n -->\n.rodape {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:2 .botao (css-html)",
+      "src/a.css:5 .rodape (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: fs1 comentario arquivo off",
+    "files": {
+      ".storybook/a.html": "<!-- <script>const estadoAtual = 1;</script> -->\n<p>x</p>"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: i1 idents sem /",
+    "files": {
+      "src/a.css": ".a { grid-row: inicio/fim; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 fim (css-html)",
+      "src/a.css:1 inicio (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: v2 VALUE cruza <",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<code>grid-area: rodape</code>`;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: a1 sem lookbehind",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<div user-name=\"Situação\">x</div>`;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: a3 aspa dupla obrigatoria",
+    "files": {
+      "src/a.ts": "export const f = (x: string) => '<i class=\"botao-ativo ' + x + '\">';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 botao-ativo (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: a4 aspa simples obrigatoria",
+    "files": {
+      "src/a.ts": "export const f = (x: string) => \"<i class='botao-ativo \" + x + \"'>\";"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 botao-ativo (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sn ident sem digito",
+    "files": {
+      "src/a.css": "x2-cartao {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 x2-cartao (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sl4 cruza {",
+    "files": {
+      "src/a.css": "nph-cartao b { c {} }\nnph-rotulo { {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 nph-cartao (css-html)",
+      "src/a.css:2 nph-rotulo (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sl5 cruza \"",
+    "files": {
+      "src/a.css": ".a{} nph-cartao b\"x {}"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: sl6 cruza '",
+    "files": {
+      "src/a.css": ".a{} nph-cartao b'x {}"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: sl7 cruza [ ]",
+    "files": {
+      "src/a.css": "nph-cartao [x {}"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: sl9 sem alt \"...\"",
+    "files": {
+      "src/a.css": "nph-cartao:lang(\"pt\") {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 nph-cartao (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sl10 sem alt '...'",
+    "files": {
+      "src/a.css": "nph-cartao:lang('pt') {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 nph-cartao (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sd .",
+    "files": {
+      "src/a.css": "nph-cartao .x {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 nph-cartao (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sd #",
+    "files": {
+      "src/a.css": "nph-cartao #x {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 nph-cartao (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sd [",
+    "files": {
+      "src/a.css": "nph-cartao [x] {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 nph-cartao (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sd :",
+    "files": {
+      "src/a.css": "nph-cartao :hover {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 nph-cartao (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: b3 [attr~=] off",
+    "files": {
+      "src/a.css": ".a[class~=\"selecionado\"] {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 selecionado (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: b4 [attr=v] aspa obrigatoria",
+    "files": {
+      "src/a.css": ".a[variante=primaria] {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 primaria (css-html)",
+      "src/a.css:1 variante (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: d1 data- off",
+    "files": {
+      "src/a.css": ".a::before { content: attr(data-rotulo); }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 data-rotulo (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: d2 --custom off",
+    "files": {
+      "src/a.css": ".a { color: var(--cor-fundo); }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 --cor-fundo (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: k1 .classe sem trava de numero",
+    "files": {
+      "src/a.css": ".col-2.selecionado {}\nh2.titulo-grande {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 .selecionado (css-html)",
+      "src/a.css:2 .titulo-grande (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: h2 #id sem filtro hex",
+    "files": {
+      "src/a.css": ".a { color: #fadada; }"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: h3 #id sem lookbehind",
+    "files": {
+      "src/a.css": "div#rodape {}\nnph-botao#principal {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 #rodape (css-html)",
+      "src/a.css:2 nph-botao (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: n8 @layer sem ponto",
+    "files": {
+      "src/a.css": "@layer base.componentes;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 .componentes (css-html)",
+      "src/a.css:1 componentes (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: np container",
+    "files": {
+      "src/a.css": ".a { container: cartao / inline-size; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 cartao (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ng4 areas sem aspa simples",
+    "files": {
+      "src/a.css": ".a { grid-template-areas: 'cabecalho'; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 cabecalho (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: nc2 counter-increment off",
+    "files": {
+      "src/a.css": ".a { counter-increment: contador; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 contador (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: nc3 counter-set off",
+    "files": {
+      "src/a.css": ".a { counter-set: contador; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 contador (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: nc5 counters() off",
+    "files": {
+      "src/a.css": "li::before { content: counters(passo, \".\"); }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 passo (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: nn2 linha nomeada so um nome",
+    "files": {
+      "src/a.css": ".g { grid-template-columns: [inicio meio] 1fr; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 inicio (css-html)",
+      "src/a.css:1 meio (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: nr2 sem grid-row",
+    "files": {
+      "src/a.css": ".a { grid-row: inicio; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 inicio (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: nr3 sem -start/-end",
+    "files": {
+      "src/a.css": ".a { grid-row-start: inicio; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 inicio (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: m12 attrs sem tirar =valor",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<nph-x tamanho=grande variante= primaria a=b.c></nph-x>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 primaria (template)",
+      "src/a.ts:2 tamanho (template)",
+      "src/a.ts:2 variante (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: m13 tag sem aspas no corpo",
+    "files": {
+      ".storybook/a.html": "<nph-x title=\"a > b\" estado=\"aberto\"></nph-x>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 aberto (css-html)",
+      ".storybook/a.html:1 estado (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: y2 <style> sem fim aberto",
+    "files": {
+      "src/a.ts": "export const s = \"<style>nph-cartao-x[a] {}\";"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 nph-cartao-x (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: y3 <style> sem i",
+    "files": {
+      ".storybook/a.html": "<STYLE>nph-cartao {}</STYLE>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 nph-cartao (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: y5 <style> sem offset",
+    "files": {
+      ".storybook/a.html": "<p>x</p>\n<p>y</p>\n<style>\n.botao {}\n</style>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:4 .botao (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: y6 <style> sempre",
+    "files": {
+      "src/a.css": ".a::before { content: \"<style>.botao{}\"; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 .botao (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ss1 STYLESHEET nunca",
+    "files": {
+      "src/a.ts": "import { unsafeCSS } from \"lit\"; export const s = unsafeCSS(\"nph-cartao { display: block; }\");"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 nph-cartao (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ct4 STYLESHEET nao conta",
+    "files": {
+      "src/a.ts": "export const s = \"nph-cartao { display: block; }\";"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 nph-cartao (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ta sem alt",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<nph-img alt=\"Situação atual\"></nph-img>`;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: ta sem aria-description",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<nph-x aria-description=\"Situação atual\"></nph-x>`;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: ta sem aria-roledescription",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<nph-x aria-roledescription=\"Situação atual\"></nph-x>`;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: ta sem label",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<nph-input label=\"Situação atual\"></nph-input>`;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: ia sem for",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<label for=\"campo-nome\"></label>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 campo-nome (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ia sem slot",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<span slot=\"rotulo\"></span>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 rotulo (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ia sem name",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<input name=\"nome-completo\">`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 nome-completo (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ia sem aria-labelledby",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<div aria-labelledby=\"titulo-dialogo\"></div>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 titulo-dialogo (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ia sem aria-describedby",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<div aria-describedby=\"ajuda-campo\"></div>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 ajuda-campo (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ia sem aria-owns",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<div aria-owns=\"lista-opcoes\"></div>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 lista-opcoes (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ia sem aria-activedescendant",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<div aria-activedescendant=\"opcao-ativa\"></div>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 opcao-ativa (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ia sem aria-details",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<div aria-details=\"detalhe-campo\"></div>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 detalhe-campo (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ia sem aria-errormessage",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<div aria-errormessage=\"erro-campo\"></div>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 erro-campo (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ia sem form",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nexport const t = html`<button form=\"formulario\"></button>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 formulario (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: w4 plural sem limite",
+    "files": {
+      "src/a.ts": "export const nos = 1, has = 2, pais = 3;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 pais (identifier)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: w5 fim sem limite",
+    "files": {
+      "src/a.ts": "export const userDao = 1, ado = 2, tao = 3;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: w7 min 2 -> 1",
+    "files": {
+      "scripts/a.mjs": "export const map = { 'ç': 'c', 'é': 'e' };"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: w8 min 2 -> 3",
+    "files": {
+      "src/a.ts": "export const s = 'já';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 já (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: im1 throw off",
+    "files": {
+      "scripts/a.mjs": "throw 'falha-carregando';"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: im6 sem stdout",
+    "files": {
+      "scripts/a.mjs": "process.stdout.write('carregando');"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: im6b sem stderr",
+    "files": {
+      "scripts/a.mjs": "process.stderr.write('carregando');"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: im8 sem it",
+    "files": {
+      "src/a.test.ts": "declare const it: any; it('estado-aberto', () => {});"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: im9 sem test",
+    "files": {
+      "src/a.test.ts": "declare const test: any; test('estado-aberto', () => {});"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: im11 sem warn",
+    "files": {
+      "scripts/a.mjs": "const warn = (x) => x; warn('arquivo .botao sem ficha');"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: im13 regex dentro de msg nao conta",
+    "files": {
+      "scripts/a.mjs": "console.log(/^botao-(primario)$/);"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: im16 passa parenteses off",
+    "files": {
+      "scripts/a.mjs": "const ok = 1; console.log((ok ? 'pronto' : 'carregando'));"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: im19 passa tudo",
+    "files": {
+      "scripts/a.mjs": "console.log({ x: 'aberto' });"
+    },
+    "catches": [],
+    "exactly": [
+      "scripts/a.mjs:1 aberto (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: im20 qualquer binario",
+    "files": {
+      "scripts/a.mjs": "const x = 1; console.log(x === 'carregando');"
+    },
+    "catches": [],
+    "exactly": [
+      "scripts/a.mjs:1 carregando (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: qa2 sem subir parenteses",
+    "files": {
+      "src/a.ts": "document.querySelector(('nph-cartao x'));"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 nph-cartao (selector)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: qa5 selector: com aspas",
+    "files": {
+      "src/a.ts": "export const o = { 'selector': 'nph-cartao x' };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 nph-cartao (selector)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: qa14 query sem ^",
+    "files": {
+      "src/a.ts": "declare const db: any; db.query('Seja bem-vindo ao painel');"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: qa17 seletor querySelector sem ponto",
+    "files": {
+      "src/a.ts": "const matches = (s: string) => s; matches('Seja bem-vindo ao painel');"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: cl5 sem parenteses",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement, a: boolean) => { el.className = (a ? 'gaveta aberta' : 'gaveta'); };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 aberta (class-list)",
+      "src/a.ts:1 gaveta (class-list)",
+      "src/a.ts:1 gaveta (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: cl12 template span sem atributo aberto",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nconst c = true; export const t = html`<i class=\"card ${c ? 'card-ativo escuro' : ''}\"></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 card-ativo (class-list)",
+      "src/a.ts:2 escuro (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: cl14 template span so head",
+    "files": {
+      "src/a.ts": "import { html, css } from \"lit\";\nconst a = 1, c = true; export const t = html`<b>${a}</b><i class=${c ? 'card escuro' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 escuro (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: cl16 .id =",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.id = 'campo nome'; };"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: cl17 .slot =",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.slot = 'campo rotulo'; };"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: cl18 .htmlFor =",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLLabelElement) => { el.htmlFor = 'campo nome'; };"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: cl19 right/left",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => 'card escuro' === el.className;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: cl-fn sem classnames",
+    "files": {
+      "src/a.ts": "declare const classnames: any; export const a = classnames('card escuro');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 escuro (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: cl-fn sem classNames",
+    "files": {
+      "src/a.ts": "declare const classNames: any; export const a = classNames('card escuro');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 escuro (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: cl-m sem remove",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => el.classList.remove('card escuro');"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: cl-m sem replace",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => el.classList.replace('card', 'card escuro');"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: cl-m sem contains",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => el.classList.contains('card escuro');"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: cl26 toggleAttribute off",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => el.toggleAttribute('class', 'card escuro' as any);"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: cl27b setAttribute qualquer arg",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => el.setAttribute('card escuro' as any, 'x');"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: cl28 setAttribute qualquer nome",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => el.setAttribute('title', 'Carregando dados');"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: sy11 setProperty qualquer nome",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => el.style.setProperty('grid-row-start', 'span inicio');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 inicio (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sp-key sem animationName",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.animationName = 'piscar, girar'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 girar (style)",
+      "src/a.ts:1 piscar (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sp-key sem gridTemplate",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.gridTemplate = '\"cabecalho\" 1fr / auto'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 cabecalho (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sp-key sem grid",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.grid = '\"cabecalho\" 1fr / auto'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 cabecalho (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sp-key sem gridRow",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.gridRow = 'inicio / fim'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 fim (style)",
+      "src/a.ts:1 inicio (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sp-key sem gridColumn",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.gridColumn = 'inicio / fim'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 fim (style)",
+      "src/a.ts:1 inicio (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sp-key sem container",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.container = 'cartao / inline-size'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 cartao (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sp-key sem containerName",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.containerName = 'cartao lista'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 cartao (style)",
+      "src/a.ts:1 lista (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sp-key sem viewTransitionName",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.viewTransitionName = 'cartao x'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 cartao (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sp-key sem counterReset",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.counterReset = 'contador 0'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 contador (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sp-key sem counterIncrement",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.counterIncrement = 'contador 1'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 contador (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sp-key sem listStyle",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.listStyle = 'marcador inside'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 marcador (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sp-key sem fontFamily",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.fontFamily = 'Fonte Padrao, sans-serif'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 Fonte (style)",
+      "src/a.ts:1 Padrao (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: sy13 style tambem como template",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { el.style.animation = 'piscar 1s url(#rodape) .botao'; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 #rodape (style)",
+      "src/a.ts:1 .botao (style)",
+      "src/a.ts:1 piscar (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: st3 sem as",
+    "files": {
+      "stories/a.stories.ts": "export default { title: 'Componentes/Botão' } as any;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: st5 sem parenteses",
+    "files": {
+      "stories/a.stories.ts": "export default ({ title: 'Componentes/Botão' });"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: st7 nivel 1 qualquer",
+    "files": {
+      "stories/a.stories.ts": "export default { title: 'X' }; export namespace N { export const A = { name: 'Variação' }; }"
+    },
+    "catches": [],
+    "exactly": [
+      "stories/a.stories.ts:1 Variação (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: st12 story em qualquer arquivo",
+    "files": {
+      "src/a.ts": "export const A = { name: 'Variação' }; export default { title: 'Situação' };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 Situação (literal)",
+      "src/a.ts:1 Variação (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: st14 holder nao objeto",
+    "files": {
+      "stories/a.stories.ts": "export default { title: 'Componentes/Botão' };"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: f9 EVIDENCE sem data",
+    "files": {
+      "scripts/fixtures/operations/valid/x/botao-aceito.md": "x"
+    },
+    "catches": [],
+    "exactly": [
+      "scripts/fixtures/operations/valid/x/botao-aceito.md:0 botao-aceito (file)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: id5 Signature nao e prop",
+    "files": {
+      "src/a.ts": "export interface A { estado: string }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 estado (property)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: id6 Declaration nao e prop",
+    "files": {
+      "src/a.ts": "export class A { estado = 1; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 estado (property)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: id7 Method nao e prop",
+    "files": {
+      "src/a.ts": "export class A { abrir() {} }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 abrir (property)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: tl3 key nao e key",
+    "files": {
+      "src/a.ts": "export const a = { 'tamanho-grande': 1 };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 tamanho-grande (key)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: tl4 isKey sem Signature",
+    "files": {
+      "src/a.ts": "export interface A { 'tamanho-grande': 1 }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 tamanho-grande (key)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ct2 unsafeCSS off",
+    "files": {
+      "src/a.ts": "declare const unsafeCSS: any; export const s = unsafeCSS`nph-cartao x {}`;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: ct3 tag qualquer",
+    "files": {
+      "src/a.ts": "const globalCss = String.raw; export const s = globalCss`nph-cartao x {}`;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: lit2 literal sem marcador ${}",
+    "files": {
+      "src/a.ts": "const x = 1; export const s = `${x}-rotulo`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ${}-rotulo (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ho6 on* sem \\s",
+    "files": {
+      ".storybook/a.html": "<meta content=\"Seja bem-vindo\">"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: kd2 sem .cjs",
+    "files": {
+      "scripts/a.cjs": "const estadoAtual = 1;"
+    },
+    "catches": [],
+    "exactly": [
+      "scripts/a.cjs:1 estadoAtual (identifier)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: qa16 seletor sem css",
+    "files": {
+      "src/a.ts": "document.querySelector('nph-cartao x');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 nph-cartao (selector)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: p2 ct3",
+    "files": {
+      "src/a.ts": "const scss = String.raw; export const s = scss`nph-cartao x {}`;"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutante da revisao: p2 cl16",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement, p: string) => { el.id = `${p} rotulo`; };"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "ternario de texto num template nao e classe",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const c = true; export const t = html`<p>${c ? \"texto corrido\" : \"\"}</p>`;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "diretorios do contrato em operations passam",
+    "files": {
+      "scripts/fixtures/operations/valid/tarefas/DSA-01.md": "x",
+      "scripts/fixtures/operations/valid/fichas/nph-example.md": "x",
+      "scripts/fixtures/operations/valid/contextos/DSA-01.md": "x",
+      "scripts/fixtures/operations/valid/evidencias/DSA-01/verificador-2026-09-02.md": "x"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "pastas geradas ficam fora",
+    "files": {
+      "src/tokens/generated/botao.css": ".botao{}",
+      "src/shared/metadata/nph-botao.json": "{}",
+      "src/node_modules/botao/x.js": "export const botao = 1;",
+      "src/storybook-static/botao.js": "export const botao = 1;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "acesso a propriedade tem papel property",
+    "files": {
+      "src/a.ts": "export const f = (o: { estado: string }) => o.estado;"
+    },
+    "catches": [
+      {
+        "name": "estado",
+        "role": "property"
+      }
+    ],
+    "exactly": [
+      "src/a.ts:1 estado (property)"
+    ]
+  },
+  {
+    "label": "valores dos tres dicionarios passam",
+    "files": {
+      ".storybook/i18n/pt-BR.js": "export default { colorScheme: { dark: 'Modo escuro', toLight: 'Mudar para o claro' } };",
+      ".storybook/i18n/en.js": "export default { colorScheme: { dark: 'Modo escuro' } };",
+      ".storybook/i18n/es.js": "export default { colorScheme: { dark: 'Modo escuro' } };"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "evidencia datada com digito no nome do gate passa",
+    "files": {
+      "scripts/fixtures/operations/valid/evidencias/DSA-01/revisao2-2026-01-01.md": "x"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "idents de CSS com sublinhado, hifen e maiuscula",
+    "files": {
+      "src/a.css": ".a { grid-area: _rodape; }\n@page Capa_Principal-um { margin: 0; }\n@container Cartao_Lista-x (min-width: 1px) { .b {} }\n@container style(--x: 1) { .c {} }\n@container scroll-state(stuck: top) { .d {} }\n@container not (min-width: 1px) { .e {} }\n@counter-style marcador_Seta-x { system: cyclic; }\n@keyframes Desliza_Rapido-x { from { opacity: 0; } }\n.f { content: counter(Passo_Atual-x); }\n.g { grid-template-columns: [Inicio_Linha-x] 1fr [fim_Linha-y]; }\n.h { list-style: Marcador_Seta-y inside; }\n.i { font-family: 'Fonte Padrao', fonte_padrao-x; }\n.j { grid-template-areas: 'cabecalho_x cabecalho-y'; }\n.k { grid: \"rodape_x\" 1fr / auto; }\n@layer base, Componentes_Base-x;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 _rodape (css-html)",
+      "src/a.css:10 Inicio_Linha-x (css-html)",
+      "src/a.css:10 fim_Linha-y (css-html)",
+      "src/a.css:11 Marcador_Seta-y (css-html)",
+      "src/a.css:12 fonte_padrao-x (css-html)",
+      "src/a.css:13 cabecalho-y (css-html)",
+      "src/a.css:13 cabecalho_x (css-html)",
+      "src/a.css:14 rodape_x (css-html)",
+      "src/a.css:15 Componentes_Base-x (css-html)",
+      "src/a.css:2 Capa_Principal-um (css-html)",
+      "src/a.css:3 Cartao_Lista-x (css-html)",
+      "src/a.css:7 marcador_Seta-x (css-html)",
+      "src/a.css:8 Desliza_Rapido-x (css-html)",
+      "src/a.css:9 Passo_Atual-x (css-html)"
+    ]
+  },
+  {
+    "label": "data- com hifen e seletor de atributo com cada operador",
+    "files": {
+      "src/a.css": ".a[data-estado-atual] {}\n.b[class|=\"secao-um\"] {}\n.c[class^=\"secao_dois\"] {}\n.d[class$=\"secao-tres\"] {}\n.e[class*=\"secao-quatro\"] {}\n.f[estado-x='aberto_um'] {}\n.g[estado-y=aberto-dois] {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 data-estado-atual (css-html)",
+      "src/a.css:2 secao-um (css-html)",
+      "src/a.css:3 secao_dois (css-html)",
+      "src/a.css:4 secao-tres (css-html)",
+      "src/a.css:5 secao-quatro (css-html)",
+      "src/a.css:6 aberto_um (css-html)",
+      "src/a.css:6 estado-x (css-html)",
+      "src/a.css:7 aberto-dois (css-html)",
+      "src/a.css:7 estado-y (css-html)"
+    ]
+  },
+  {
+    "label": "classe e id com sublinhado, maiuscula e digito",
+    "files": {
+      "src/a.css": ".Botao_Primario-1 {}\n#Rodape_Principal-2 {}\n.col-2.selecionado {}\n.a { margin: 1.5rem; }\nh2.titulo-um {}\n#a1b2c3 {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 .Botao_Primario-1 (css-html)",
+      "src/a.css:2 #Rodape_Principal-2 (css-html)",
+      "src/a.css:3 .selecionado (css-html)",
+      "src/a.css:5 .titulo-um (css-html)"
+    ]
+  },
+  {
+    "label": "seletor de tipo: cada termino e descendente",
+    "files": {
+      "src/a.css": "nph-cartao-e1{}\nnph-cartao-e2 {}\nnph-cartao-e3 .x{}\nnph-cartao-e4 #x{}\nnph-cartao-e5 [x]{}\nnph-cartao-e6 :hover{}\nnph-cartao-e7 &{}\nnph-cartao-e8 *{}\nnph-cartao-e9 b{}\n.a{nph-cartao-e10 {}}\nnph-cartao-e11[x=\"]\"] {}\nnph-cartao-e12[x=']'] {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 nph-cartao-e1 (css-html)",
+      "src/a.css:10 nph-cartao-e10 (css-html)",
+      "src/a.css:11 nph-cartao-e11 (css-html)",
+      "src/a.css:12 nph-cartao-e12 (css-html)",
+      "src/a.css:2 nph-cartao-e2 (css-html)",
+      "src/a.css:3 nph-cartao-e3 (css-html)",
+      "src/a.css:4 nph-cartao-e4 (css-html)",
+      "src/a.css:5 nph-cartao-e5 (css-html)",
+      "src/a.css:6 nph-cartao-e6 (css-html)",
+      "src/a.css:7 nph-cartao-e7 (css-html)",
+      "src/a.css:8 nph-cartao-e8 (css-html)",
+      "src/a.css:9 nph-cartao-e9 (css-html)"
+    ]
+  },
+  {
+    "label": "valor de declaracao para em ; } { < >",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<div style=\"grid-area: rodape_a\"></div><div style='animation: piscar_b 1s'></div><div style=\"container-name: cartao_c;color:red\"></div>`;",
+      "src/b.css": ".a{list-style:marcador_d}\n.b{font-family:fonte_e}\n.c{grid:\"cabecalho_f\"}\n.d{grid-template-areas:\"cabecalho_g\"}",
+      ".storybook/c.html": "<div style=\"grid-template: 'cabecalho_h' 1fr\"></div><p style=\"font-family: fonte_i\">x</p>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/c.html:1 cabecalho_h (css-html)",
+      ".storybook/c.html:1 fonte_i (css-html)",
+      "src/a.ts:1 cartao_c (template)",
+      "src/a.ts:1 piscar_b (template)",
+      "src/a.ts:1 rodape_a (template)",
+      "src/b.css:1 marcador_d (css-html)",
+      "src/b.css:2 fonte_e (css-html)",
+      "src/b.css:3 cabecalho_f (css-html)",
+      "src/b.css:4 cabecalho_g (css-html)"
+    ]
+  },
+  {
+    "label": "marcacao: tag com maiuscula, atributos com cada prefixo e valor",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const t = html`<Nph-Gaveta_Um @nph-alterou=${f} ?desabilitado=${f} .rotulo_x=${f} estado:um=\"aberto_x\" tamanho=destaque_y variante='primaria_z' title=\"Situação\"></Nph-Gaveta_Um>`;\nexport const u = html`<nph-x a=b=c estado=`;\nexport const v = '<nph-y estado=\"aberto_w';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 Nph-Gaveta_Um (template)",
+      "src/a.ts:2 aberto_x (template)",
+      "src/a.ts:2 desabilitado (template)",
+      "src/a.ts:2 destaque_y (template)",
+      "src/a.ts:2 estado:um (template)",
+      "src/a.ts:2 nph-alterou (template)",
+      "src/a.ts:2 primaria_z (template)",
+      "src/a.ts:2 rotulo_x (template)",
+      "src/a.ts:2 tamanho (template)",
+      "src/a.ts:2 variante (template)",
+      "src/a.ts:3 estado (template)",
+      "src/a.ts:4 aberto_w (template)",
+      "src/a.ts:4 estado (template)"
+    ]
+  },
+  {
+    "label": "href com fragmento",
+    "files": {
+      ".storybook/a.html": "<a href=\"#secao_Um-x\">a</a><a href=\"pagina.html#secao\">b</a><a href=\"#\">c</a>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 secao_Um-x (css-html)"
+    ]
+  },
+  {
+    "label": "style sem fechamento e style com STYLE",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; export const t = html`<style>nph-cartao-u1 { color: red; }`; export const u = html`<STYLE>nph-cartao-u2 {}</STYLE>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 nph-cartao-u1 (template)",
+      "src/a.ts:1 nph-cartao-u2 (template)"
+    ]
+  },
+  {
+    "label": "folha de estilo: aninhada, innerText e chaves soltas",
+    "files": {
+      "src/a.ts": "export const f = (s: HTMLElement) => { s.innerText = \"nph-cartao-v1 { color: red; }\"; };\nexport const NESTED_STYLE = \"nph-cartao-v2 { .x { color: red; } }\";\nexport const BAD_STYLE = \"nph-cartao-v3 { color: red; } }\";\nexport const QUOTE_STYLE = \"nph-cartao-v4 { content: 'x'; }\";\nexport const TAG_STYLE = \"<b>nph-cartao-v5 { color: red; }</b>\";"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 nph-cartao-v1 (template)",
+      "src/a.ts:2 nph-cartao-v2 (template)",
+      "src/a.ts:4 nph-cartao-v4 (template)"
+    ]
+  },
+  {
+    "label": "fail e warn com valor tecnico reprovam, cada um",
+    "files": {
+      "scripts/a.mjs": "const fail = (...x) => x; const warn = (...x) => x; fail('estado-um'); warn('estado-dois');"
+    },
+    "catches": [],
+    "exactly": [
+      "scripts/a.mjs:1 estado-dois (literal)",
+      "scripts/a.mjs:1 estado-um (literal)"
+    ]
+  },
+  {
+    "label": "constante de seletor com aspas na chave",
+    "files": {
+      "src/a.ts": "export const o = { 'itemSelector': 'nph-cartao-w1 x', \"listSelector\": 'nph-cartao-w2 y' };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 nph-cartao-w1 (selector)",
+      "src/a.ts:1 nph-cartao-w2 (selector)"
+    ]
+  },
+  {
+    "label": "matches.call e afins",
+    "files": {
+      "src/a.ts": "const el = document.body; Element.prototype.querySelector.call(el, \"nph-cartao-x1 a\"); Element.prototype.querySelectorAll.call(el, \"nph-cartao-x2 a\"); Element.prototype.closest.call(el, \"nph-cartao-x3 a\"); Element.prototype.matches.call(el, \"nph-cartao-x4 a\");"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 nph-cartao-x1 (selector)",
+      "src/a.ts:1 nph-cartao-x2 (selector)",
+      "src/a.ts:1 nph-cartao-x3 (selector)",
+      "src/a.ts:1 nph-cartao-x4 (selector)"
+    ]
+  },
+  {
+    "label": "className em objeto com cada aspa",
+    "files": {
+      "src/a.ts": "export const o = { 'className': 'card escuro', \"class\": 'card claro' };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 claro (class-list)",
+      "src/a.ts:1 escuro (class-list)"
+    ]
+  },
+  {
+    "label": "clsx chamado como metodo",
+    "files": {
+      "src/a.ts": "const u = { clsx: (...a: string[]) => a.join(\" \") }; export const a = u.clsx(\"card cinza\");"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 cinza (class-list)"
+    ]
+  },
+  {
+    "label": "style com conversao de tipo generica e template na chave",
+    "files": {
+      "src/a.ts": "export const f = (el: HTMLElement) => { (el.style as Record<string, string>)[\"gridArea\"] = \"rodape_a x\"; (el.style as any)[`gridArea`] = \"rodape_b x\"; ((el.style))[\"animation\"] = \"piscar_c 1s\"; };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 piscar_c (style)",
+      "src/a.ts:1 rodape_a (style)",
+      "src/a.ts:1 rodape_b (style)"
+    ]
+  },
+  {
+    "label": "objeto de estilo com chave entre aspas de cada tipo",
+    "files": {
+      "src/a.ts": "export const s = { 'gridArea': 'rodape_a x', \"animation\": 'piscar_b 1s' };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 piscar_b (style)",
+      "src/a.ts:1 rodape_a (style)"
+    ]
+  },
+  {
+    "label": "title e name da story com chave entre aspas",
+    "files": {
+      "src/a.stories.ts": "export default { 'title': 'Componentes/Botão' }; export const A = { \"name\": 'Variação' };"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "sidebar com chave entre aspas",
+    "files": {
+      ".storybook/i18n/en.js": "export default { 'sidebar': { 'comece-aqui': 'Start' }, \"x\": { y: 1 } };"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "on* com espaco antes do igual e valor sem aspas com espaco depois",
+    "files": {
+      ".storybook/a.html": "<button onclick = \"abrirGaveta()\">x</button>\n<button onclick=abrirPainel() type=\"button\">y</button>\n<button onclick='abrirCartao()'>z</button>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 abrirGaveta (identifier)",
+      ".storybook/a.html:2 abrirPainel (identifier)",
+      ".storybook/a.html:3 abrirCartao (identifier)"
+    ]
+  },
+  {
+    "label": "mutacao: classe depois de numero no inicio",
+    "files": {
+      ".storybook/a.html": "<div style=\"1.estado-um\"></div>"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: classe depois de numero com espaco",
+    "files": {
+      "src/a.css": ".a { margin: 1.estado-dois; }"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: classe depois de ponto e numero",
+    "files": {
+      "src/a.css": "a.1.estado-tres {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 .estado-tres (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: classe com sublinhado no inicio",
+    "files": {
+      "src/a.css": "._estado-cinco {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 ._estado-cinco (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: page com sublinhado",
+    "files": {
+      "src/a.css": "@page _capa { margin: 0; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 _capa (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: container com sublinhado",
+    "files": {
+      "src/a.css": "@container _cartao (min-width: 1px) { .a {} }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 _cartao (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: layer com bloco",
+    "files": {
+      "src/a.css": "@layer base { .botao {} }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 .botao (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: counter com sublinhado",
+    "files": {
+      "src/a.css": ".a { content: counters(_passo, \".\"); }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 _passo (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: linha de grid com varios nomes",
+    "files": {
+      "src/a.css": ".a { grid-template-columns: [linha Inicio-x _fim-y] 1fr; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 Inicio-x (css-html)",
+      "src/a.css:1 _fim-y (css-html)",
+      "src/a.css:1 linha (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: fonte com chave de abertura",
+    "files": {
+      "src/a.css": ".a{font-family: fonte_e { estado_f }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 fonte_e (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: fonte com menor e maior",
+    "files": {
+      "src/a.css": ".a{font-family: fonte_g > estado_h < estado_i}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 fonte_g (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: area de grid com menor e maior",
+    "files": {
+      "src/a.css": ".a{grid-template-areas: \"cabecalho_a\" > \"estado_b\"}\n.b{grid: \"cabecalho_c\" < \"estado_d\"}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 cabecalho_a (css-html)",
+      "src/a.css:2 cabecalho_c (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: area de grid com chaves",
+    "files": {
+      "src/a.css": ".a{grid-template: \"cabecalho_e\" { \"estado_f\" }\n.b{grid: \"cabecalho_g\"; \"estado_h\"}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 cabecalho_e (css-html)",
+      "src/a.css:2 cabecalho_g (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: evento com arroba em string",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const a = '<nph-a @clique=\"abrirPainel\">';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: propriedade booleana em string",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const a = '<nph-a ?desabilitado=\"estado_x\">';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 desabilitado (template)"
+    ]
+  },
+  {
+    "label": "mutacao: propriedade com ponto em string",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const a = '<nph-a .rotulo=\"estado_y\">';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 rotulo (template)"
+    ]
+  },
+  {
+    "label": "mutacao: atributo com maiuscula e sublinhado",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const a = '<nph-a Estado=\"x\" _situacao=\"y\" estado.um=\"z\">';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 Estado (template)",
+      "src/a.ts:2 _situacao (template)",
+      "src/a.ts:2 estado.um (template)"
+    ]
+  },
+  {
+    "label": "mutacao: valor sem aspas e seus terminos",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const a = '<nph-a tamanho=destaque_a>'; export const b = '<nph-b tamanho=destaque_b\"x\">'; export const c = \"<nph-c tamanho=destaque_c'x'>\"; export const d = '<nph-d tamanho=destaque_d=estado_e>'; export const e = '<nph-e tamanho=destaque_f`x`>';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 destaque_a (template)",
+      "src/a.ts:2 destaque_b (template)",
+      "src/a.ts:2 destaque_c (template)",
+      "src/a.ts:2 destaque_d (template)",
+      "src/a.ts:2 destaque_f (template)",
+      "src/a.ts:2 estado_e (template)",
+      "src/a.ts:2 tamanho (template)"
+    ]
+  },
+  {
+    "label": "mutacao: valor entre aspas simples em tag sem hifen",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const a = \"<div variante='primaria_z'>\";"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 variante (template)"
+    ]
+  },
+  {
+    "label": "mutacao: valor sem aspas em tag sem hifen",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const a = '<div tamanho=destaque_y>';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 tamanho (template)"
+    ]
+  },
+  {
+    "label": "mutacao: texto depois do fechamento de style",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const a = html`<style>.a{}</style><p>Texto .botao {}</p>`;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: folha com aspas e combinador",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const A_STYLE = \"nph-cartao-y1 > nph-cartao-y2 { color: red; }\"; export const B_STYLE = 'nph-cartao-y3[x=\"a\"] { color: red; }'; export const C_STYLE = \"<b>nph-cartao-y4 { color: red; }\";"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 nph-cartao-y1 (template)",
+      "src/a.ts:2 nph-cartao-y2 (template)",
+      "src/a.ts:2 nph-cartao-y3 (template)"
+    ]
+  },
+  {
+    "label": "mutacao: folha com chave sobrando no meio",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const F_STYLE = \"nph-cartao-z3 { color: red; }} nph-cartao-z4 { color: red; }\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: folha com bloco vazio aninhado e folha",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const I_STYLE = \"nph-cartao-z8 { .a { color: red; } { } }\"; export const J_STYLE = \"nph-cartao-z9 { a: b; .c { d: e; } } }\";"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 nph-cartao-z8 (template)"
+    ]
+  },
+  {
+    "label": "mutacao: folha com aninhado e chave aberta",
+    "files": {
+      "src/a.ts": "import { html } from \"lit\"; const f = () => 1;\nexport const K_STYLE = \"nph-cartao-w1 { .a { b: c; { } }\"; export const L_STYLE = \"nph-cartao-w2 { { a: b } }\"; export const M_STYLE = \"nph-cartao-w3 { a: b } } {\";"
+    },
+    "catches": [],
+    "exactly": []
+  },
+  {
+    "label": "mutacao: warn com frase e nome tecnico",
+    "files": {
+      "scripts/a.mjs": "const warn = (...x) => x; warn('o estado-dois falhou'); warn('<nph-cartao-q2> sem estado');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: sidebar com aspas duplas",
+    "files": {
+      ".storybook/i18n/en.js": "export default { \"sidebar\": { \"comece-aqui\": \"Start\" } };"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: folha de estilo de forma rara 3",
+    "files": {
+      "src/a.ts": "export const S3_STYLE = \"nph-cartao-s3 {{a: b}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: folha de estilo de forma rara 7",
+    "files": {
+      "src/a.ts": "export const S7_STYLE = \"nph-cartao-s7 {}a: b}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: folha de estilo de forma rara 8",
+    "files": {
+      "src/a.ts": "export const S8_STYLE = \"nph-cartao-s8 {a: b{}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: folha de estilo de forma rara 10",
+    "files": {
+      "src/a.ts": "export const S10_STYLE = \"nph-cartao-s10 {{{a: b}}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: folha de estilo de forma rara 11",
+    "files": {
+      "src/a.ts": "export const S11_STYLE = \"nph-cartao-s11 {}{a: b}}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: folha de estilo de forma rara 13",
+    "files": {
+      "src/a.ts": "export const S13_STYLE = \"nph-cartao-s13 {{}a: b}}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: folha de estilo de forma rara 16",
+    "files": {
+      "src/a.ts": "export const S16_STYLE = \"nph-cartao-s16 {{a: b}{}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: seletor de tipo com colchete fechado e ponto e virgula",
+    "files": {
+      "src/a.css": "nph-cartao-g4 [a] ; b] {}"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: fonte com menor antes do maior",
+    "files": {
+      "src/a.css": ".a{font-family: fonte_j < estado_k}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 fonte_j (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: area de grid com chave de fechamento",
+    "files": {
+      "src/a.css": ".a{grid:\"cabecalho_k\"} \"estado_l\" {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 cabecalho_k (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: tag dentro de tag sem hifen",
+    "files": {
+      "src/a.css": "<div <nph-estado-b variante=\"primaria_q\">"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 nph-estado-b (css-html)",
+      "src/a.css:1 primaria_q (css-html)",
+      "src/a.css:1 variante (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: tag com aspa simples contendo maior",
+    "files": {
+      ".storybook/a.html": "<div title='a>b' estado-c=\"x\">"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 estado-c (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: linha de grid com sublinhado no inicio",
+    "files": {
+      "src/a.css": ".a{grid-template-columns:[_inicio-x] 1fr}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 _inicio-x (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: fail com marcacao",
+    "files": {
+      "scripts/a.mjs": "const fail = (...x) => x; fail('<nph-cartao-q3> sem estado');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutacao: on sem aspas seguido de atributo com hifen",
+    "files": {
+      ".storybook/a.html": "<button onclick=abrir() estado-x=1>a</button>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 abrir (identifier)",
+      ".storybook/a.html:1 estado-x (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: on sem aspas colado no fechamento",
+    "files": {
+      ".storybook/a.html": "<button onclick=abrir()>Situacao_um</button>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 abrir (identifier)"
+    ]
+  },
+  {
+    "label": "mutacao: cor hex de cada tamanho com palavra",
+    "files": {
+      "src/a.css": ".a{color:#cada}\n.b{color:#cada12}\n.c{color:#cada1234}\n.d{color:#cada1}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:4 #cada1 (css-html)"
+    ]
+  },
+  {
+    "label": "mutacao: keyframes com nome entre aspas",
+    "files": {
+      "src/a.css": "@keyframes 'desliza_x' { from { opacity: 0; } }\n@keyframes \"desliza_y\" { from { opacity: 0; } }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 desliza_x (css-html)",
+      "src/a.css:2 desliza_y (css-html)"
+    ]
+  },
+  {
+    "label": "arquivo sem extensao reprova, inclusive script com #!",
+    "files": {
+      "src/LICENSE": "x",
+      "scripts/verificar-x": "#!/usr/bin/env node\nconst rotulo = 1;"
+    },
+    "catches": [],
+    "exactly": [
+      "scripts/verificar-x:0 (sem extensao) (extension)",
+      "src/LICENSE:0 (sem extensao) (extension)"
+    ]
+  },
+  {
+    "label": "arquivo oculto vale pela extensao",
+    "files": {
+      "scripts/.config-x.yaml": "a: 1",
+      "src/.rascunho": ""
+    },
+    "catches": [],
+    "exactly": [
+      "scripts/.config-x.yaml:0 *.yaml (extension)",
+      "src/.rascunho:0 .rascunho (file)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: selector ${} colado",
+    "files": {
+      "src/a.ts": "this.querySelector(`nph-rotulo-${v} .item`);"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 nph-rotulo-${} (selector)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: 184 aspa aberta",
+    "files": {
+      "src/a.css": "nph-rotulo[a=\"b] {} nph-cartao[c='d] {}"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha com prefixo de fornecedor",
+    "files": {
+      "src/a.ts": "export const a = '.cartao-a { -webkit-line-clamp: 2; }'; export const b = '.cartao-b { -moz-appearance: none; }'; export const c = '.cartao-c { -ms-overflow-style: none; }'; export const d = '.cartao-d { --cor-x: red; }';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 --cor-x (template)",
+      "src/a.ts:1 .cartao-a (template)",
+      "src/a.ts:1 .cartao-b (template)",
+      "src/a.ts:1 .cartao-c (template)",
+      "src/a.ts:1 .cartao-d (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: font aspas simples",
+    "files": {
+      "src/a.css": ".a { font-family: 'Nova Fonte Sans', serif; }"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: xlink href",
+    "files": {
+      ".storybook/a.html": "<svg><use xlink:href=\"#icone-seta\"></use><use href=\"#icone-voltar\"></use><a nohref=\"#icone-x\">a</a></svg>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 icone-seta (css-html)",
+      ".storybook/a.html:1 icone-voltar (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: folha de forma rara com propriedade 3",
+    "files": {
+      "src/a.ts": "export const s3 = \"nph-cartao-s3 {{color: red}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha de forma rara com propriedade 10",
+    "files": {
+      "src/a.ts": "export const s10 = \"nph-cartao-s10 {{{color: red}}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha de forma rara com propriedade 11",
+    "files": {
+      "src/a.ts": "export const s11 = \"nph-cartao-s11 {}{color: red}}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha de forma rara com propriedade 15",
+    "files": {
+      "src/a.ts": "export const s15 = \"nph-cartao-s15 {{color: red}}}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha de forma rara com propriedade 16",
+    "files": {
+      "src/a.ts": "export const s16 = \"nph-cartao-s16 {{color: red}{}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha com propriedade desconhecida",
+    "files": {
+      "src/a.ts": "export const a = 'Seja bem-vindo de volta {usuario: nome}'; export const b = 'Use o guarda-chuva {cor: azul}'; export const c = '.cartao-e { color: red; estado: x; }';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha aninhada com pseudo",
+    "files": {
+      "src/a.ts": "export const a = '.cartao-f { a:hover { color: red; } }'; export const b = '.cartao-g { .b { color: red; } }';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 .cartao-f (template)",
+      "src/a.ts:1 .cartao-g (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: html folha",
+    "files": {
+      "src/a.ts": "const css = html`.rotulo-x { color: red }`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 .rotulo-x (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: argumento de css com propriedade desconhecida",
+    "files": {
+      "src/a.ts": "sheet.replaceSync('.cartao-n { cor: azul; }');\nsheet.insertRule('.cartao-o { cor: azul; }');\nconst x = unsafeCSS('.cartao-p { cor: azul; }');\nsheet.replace('.cartao-q { cor: azul; }');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 .cartao-n (template)",
+      "src/a.ts:2 .cartao-o (template)",
+      "src/a.ts:3 .cartao-p (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span part",
+    "files": {
+      "src/a.ts": "html`<i part=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span exportparts",
+    "files": {
+      "src/a.ts": "html`<i exportparts=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span id",
+    "files": {
+      "src/a.ts": "html`<i id=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span for",
+    "files": {
+      "src/a.ts": "html`<i for=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span slot",
+    "files": {
+      "src/a.ts": "html`<i slot=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span name",
+    "files": {
+      "src/a.ts": "html`<i name=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span aria-labelledby",
+    "files": {
+      "src/a.ts": "html`<i aria-labelledby=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span aria-describedby",
+    "files": {
+      "src/a.ts": "html`<i aria-describedby=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span aria-controls",
+    "files": {
+      "src/a.ts": "html`<i aria-controls=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span aria-owns",
+    "files": {
+      "src/a.ts": "html`<i aria-owns=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span aria-activedescendant",
+    "files": {
+      "src/a.ts": "html`<i aria-activedescendant=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span aria-details",
+    "files": {
+      "src/a.ts": "html`<i aria-details=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span aria-errormessage",
+    "files": {
+      "src/a.ts": "html`<i aria-errormessage=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span popovertarget",
+    "files": {
+      "src/a.ts": "html`<i popovertarget=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span list",
+    "files": {
+      "src/a.ts": "html`<i list=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span form",
+    "files": {
+      "src/a.ts": "html`<i form=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span headers",
+    "files": {
+      "src/a.ts": "html`<i headers=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span commandfor",
+    "files": {
+      "src/a.ts": "html`<i commandfor=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span interestfor",
+    "files": {
+      "src/a.ts": "html`<i interestfor=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span anchor",
+    "files": {
+      "src/a.ts": "html`<i anchor=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span itemref",
+    "files": {
+      "src/a.ts": "html`<i itemref=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span data-estado",
+    "files": {
+      "src/a.ts": "html`<i data-estado=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 data-estado (template)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span data-tipo-x",
+    "files": {
+      "src/a.ts": "html`<i data-tipo-x=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 data-tipo-x (template)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span aspa simples",
+    "files": {
+      "src/a.ts": "html`<i class='x ${c ? 'rotulo ativo' : ''}'></i>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span xclass",
+    "files": {
+      "src/a.ts": "html`<i myclass=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: VALUE chave",
+    "files": {
+      "src/a.css": ".a{animation:x} rotulo;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: VALUE chave2",
+    "files": {
+      "src/a.css": ".a{animation:x{ rotulo;}"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: VALUE aspa2",
+    "files": {
+      "src/a.css": ".a { animation: desliza \"x\" rotulo; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 desliza (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: VALUE aspa",
+    "files": {
+      "src/a.css": ".a { animation: desliza 'x' rotulo; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 desliza (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: VALUE menor",
+    "files": {
+      "src/a.css": ".a { animation: x < rotulo; }"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: VALUE maior",
+    "files": {
+      "src/a.css": ".a { animation: x > rotulo; }"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: grid-row-end",
+    "files": {
+      "src/a.css": ".a { grid-row-end: fim; grid-column-end: fim2x; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 fim (css-html)",
+      "src/a.css:1 fim2x (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: grid-column-start",
+    "files": {
+      "src/a.css": ".a { grid-column-start: inicio; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 inicio (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: 203 sem b",
+    "files": {
+      "src/a.css": ".minhacontainer:hover rotulo {}"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: STYLE gridRowEnd",
+    "files": {
+      "src/a.ts": "el.style.gridRowEnd = 'span fim';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 fim (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: STYLE gridColumnStart",
+    "files": {
+      "src/a.ts": "el.style.gridColumnStart = 'inicio 2';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 inicio (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: STYLE gridColumnEnd",
+    "files": {
+      "src/a.ts": "el.style.gridColumnEnd = 'span fim';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 fim (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: STYLE viewTransitionClass",
+    "files": {
+      "src/a.ts": "el.style.viewTransitionClass = 'rotulo cartao';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 cartao (style)",
+      "src/a.ts:1 rotulo (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: STYLE counterSet",
+    "files": {
+      "src/a.ts": "el.style.counterSet = 'passo 1';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 passo (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: STYLE listStyleType",
+    "files": {
+      "src/a.ts": "el.style.listStyleType = 'x rotulo';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 rotulo (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: acento u",
+    "files": {
+      "src/a.ts": "const únicoX = 1; const x = \"número\";"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 número (literal)",
+      "src/a.ts:1 únicoX (identifier)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: gado",
+    "files": {
+      "src/a.ts": "const gado = 1;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 gado (identifier)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: seletor de tipo seguido de parentese",
+    "files": {
+      "src/a.css": "nph-cartao-q1 ( {}"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: hex espaco",
+    "files": {
+      "src/a.css": "#decada {} #cada {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 #cada (css-html)",
+      "src/a.css:1 #decada (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: hex maiuscula",
+    "files": {
+      "src/a.css": ".a { color: #DECADA; }"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: style multilinha tag longa",
+    "files": {
+      ".storybook/a.html": "<nph-botao-grande\nstyle=\"a:1;\nanimation: desliza\"></nph-botao-grande>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 nph-botao-grande (css-html)",
+      ".storybook/a.html:3 desliza (css-html)",
+      ".storybook/a.html:3 nph-botao-grande (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: href frag",
+    "files": {
+      "src/a.ts": "html`<a href=\"#rotulo?x\"></a><a href=\"#rotulo.y\"></a>`;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha com duas regras",
+    "files": {
+      "src/a.ts": "export const a = '.cartao-a { color: red } .cartao-b { color: red }';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 .cartao-a (template)",
+      "src/a.ts:1 .cartao-b (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: as const seletor",
+    "files": {
+      "src/a.ts": "const itemSelector = '.lista .item-ativo' as const; el.className = 'rotulo ativo' as string; el.className = ('rotulo ativo')!;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 .item-ativo (selector)",
+      "src/a.ts:1 .lista (selector)",
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: className com nao nulo",
+    "files": {
+      "src/a.ts": "el.className = ('rotulo ativo')!;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: new ErrorX",
+    "files": {
+      "src/a.ts": "new ErrorList('rotulo');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 rotulo (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ternario cond",
+    "files": {
+      "src/a.ts": "console.log('rotulo' ? a : b);"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 rotulo (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: it.skip",
+    "files": {
+      "src/a.ts": "it.skip('rotulo', () => {}); describe.only('rotulo-x', () => {});"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: re.test",
+    "files": {
+      "src/a.ts": "/x/.test('rotulo'); re.test('rotulo');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 rotulo (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: constante de seletor em classe",
+    "files": {
+      "src/a.ts": "class A { static itemSelector = '.lista .item-ativo'; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 .item-ativo (selector)",
+      "src/a.ts:1 .lista (selector)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: selArg chave",
+    "files": {
+      "src/a.ts": "f({ 'a .rotulo-x selector': 1 });"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: selectorHelp",
+    "files": {
+      "src/a.ts": "const selectorHelp = 'Use nph-botao aqui';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: cssArg 2o",
+    "files": {
+      "src/a.ts": "unsafeCSS(a, '.rotulo-x b');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: cssArg climb",
+    "files": {
+      "src/a.ts": "sheet.replaceSync('.cartao-x { color: red }' + extra); unsafeCSS(c ? '.a .rotulo-y {}' : '');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 .cartao-x (template)",
+      "src/a.ts:1 .rotulo-y (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: span title depois de class",
+    "files": {
+      "src/a.ts": "html`<i class=\"a\" title=${c ? 'rotulo ativo' : ''}></i>`;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: className baseVal",
+    "files": {
+      "src/a.ts": "el.className.baseVal = 'rotulo ativo';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: classes key",
+    "files": {
+      "src/a.ts": "f({ classes: 'rotulo ativo' });"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: cnpj",
+    "files": {
+      "src/a.ts": "cnpj('rotulo ativo');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: setAttribute 3 args",
+    "files": {
+      "src/a.js": "el.setAttribute('class', 'a', 'rotulo ativo');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: setAttribute ident",
+    "files": {
+      "src/a.ts": "el.setAttribute(id, 'rotulo ativo');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: style. sem $",
+    "files": {
+      "src/a.ts": "obj.style.gridArea.foo = 'rodape x';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: setProperty ident",
+    "files": {
+      "src/a.ts": "const animation = 'animation'; el.style.setProperty(animation, 'desliza 1s');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: contrato arquivo",
+    "files": {
+      "scripts/fixtures/operations/fichas": "x"
+    },
+    "catches": [],
+    "exactly": [
+      "scripts/fixtures/operations/fichas:0 (sem extensao) (extension)",
+      "scripts/fixtures/operations/fichas:0 fichas (file)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: evidencia pasta PT",
+    "files": {
+      "scripts/fixtures/operations/rotulo-2026-01-01.md/a.md": "x"
+    },
+    "catches": [],
+    "exactly": [
+      "scripts/fixtures/operations/rotulo-2026-01-01.md/a.md:0 rotulo-2026-01-01.md (folder)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: ts como js",
+    "files": {
+      "src/a.ts": "enum Tamanho { Pequeno = 'pequeno' } let a: Rotulo = <Tipo>x; f<Valor>(); declare module 'rotulo-x'; abstract class K { private campo?: Rotulo; } const z = w!; type V = `nph-${'medio'}`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 Pequeno (identifier)",
+      "src/a.ts:1 Rotulo (identifier)",
+      "src/a.ts:1 Tamanho (identifier)",
+      "src/a.ts:1 Tipo (identifier)",
+      "src/a.ts:1 campo (property)",
+      "src/a.ts:1 medio (literal)",
+      "src/a.ts:1 pequeno (literal)",
+      "src/a.ts:1 rotulo-x (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: jsx em js",
+    "files": {
+      "src/a.js": "const x = <nph-rotulo-x class=\"a\">t</nph-rotulo-x>;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.js:1 nph-rotulo-x (identifier)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: papel property",
+    "files": {
+      "src/a.ts": "x.rotulo = 1; rotulo.x = 2; const o = { rotulo: 1 }; interface I { rotulo: string; m(): void } class K { rotulo = 1; metodo() {} } const { rotulo: r } = o; type Q = { rotuloQ(): void };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 metodo (property)",
+      "src/a.ts:1 rotulo (identifier)",
+      "src/a.ts:1 rotulo (property)",
+      "src/a.ts:1 rotuloQ (property)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: prop valor",
+    "files": {
+      "src/a.ts": "const o = { x: rotulo }; class K { x = rotulo; } f({ x: rotulo });"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 rotulo (identifier)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: storyName $",
+    "files": {
+      "stories/a.stories.ts": "A.storyNameX = 'Rotulo'; A.storyName = 'Botao';"
+    },
+    "catches": [],
+    "exactly": [
+      "stories/a.stories.ts:1 Rotulo (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: dicionario valor",
+    "files": {
+      ".storybook/i18n/pt-BR.js": "export default { save: 'Salvar', sidebar: { 'a-b': 'Rótulo' } };"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: template cssName",
+    "files": {
+      "src/a.ts": "el.style.animation = 'a <style>.rotulo-x{}</style> <nph-botao-y>';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 .rotulo-x (style)",
+      "src/a.ts:1 nph-botao-y (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: script markup",
+    "files": {
+      ".storybook/a.html": "<script>const a = '<nph-rotulo-x>'; // <nph-botao-y>\n</script>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 <nph-rotulo-x> (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: cada elemento HTML com atributo",
+    "files": {
+      "src/a.ts": "export const t = [\n  '<a estado-x=\"a\">',\n  '<abbr estado-x=\"a\">',\n  '<address estado-x=\"a\">',\n  '<area estado-x=\"a\">',\n  '<article estado-x=\"a\">',\n  '<aside estado-x=\"a\">',\n  '<audio estado-x=\"a\">',\n  '<b estado-x=\"a\">',\n  '<base estado-x=\"a\">',\n  '<bdi estado-x=\"a\">',\n  '<bdo estado-x=\"a\">',\n  '<blockquote estado-x=\"a\">',\n  '<body estado-x=\"a\">',\n  '<br estado-x=\"a\">',\n  '<button estado-x=\"a\">',\n  '<canvas estado-x=\"a\">',\n  '<caption estado-x=\"a\">',\n  '<cite estado-x=\"a\">',\n  '<code estado-x=\"a\">',\n  '<col estado-x=\"a\">',\n  '<colgroup estado-x=\"a\">',\n  '<data estado-x=\"a\">',\n  '<datalist estado-x=\"a\">',\n  '<dd estado-x=\"a\">',\n  '<del estado-x=\"a\">',\n  '<details estado-x=\"a\">',\n  '<dfn estado-x=\"a\">',\n  '<dialog estado-x=\"a\">',\n  '<div estado-x=\"a\">',\n  '<dl estado-x=\"a\">',\n  '<dt estado-x=\"a\">',\n  '<em estado-x=\"a\">',\n  '<embed estado-x=\"a\">',\n  '<fieldset estado-x=\"a\">',\n  '<figcaption estado-x=\"a\">',\n  '<figure estado-x=\"a\">',\n  '<footer estado-x=\"a\">',\n  '<form estado-x=\"a\">',\n  '<h1 estado-x=\"a\">',\n  '<h2 estado-x=\"a\">',\n  '<h3 estado-x=\"a\">',\n  '<h4 estado-x=\"a\">',\n  '<h5 estado-x=\"a\">',\n  '<h6 estado-x=\"a\">',\n  '<head estado-x=\"a\">',\n  '<header estado-x=\"a\">',\n  '<hgroup estado-x=\"a\">',\n  '<hr estado-x=\"a\">',\n  '<html estado-x=\"a\">',\n  '<i estado-x=\"a\">',\n  '<iframe estado-x=\"a\">',\n  '<img estado-x=\"a\">',\n  '<input estado-x=\"a\">',\n  '<ins estado-x=\"a\">',\n  '<kbd estado-x=\"a\">',\n  '<label estado-x=\"a\">',\n  '<legend estado-x=\"a\">',\n  '<li estado-x=\"a\">',\n  '<link estado-x=\"a\">',\n  '<main estado-x=\"a\">',\n  '<map estado-x=\"a\">',\n  '<mark estado-x=\"a\">',\n  '<menu estado-x=\"a\">',\n  '<meta estado-x=\"a\">',\n  '<meter estado-x=\"a\">',\n  '<nav estado-x=\"a\">',\n  '<noscript estado-x=\"a\">',\n  '<object estado-x=\"a\">',\n  '<ol estado-x=\"a\">',\n  '<optgroup estado-x=\"a\">',\n  '<option estado-x=\"a\">',\n  '<output estado-x=\"a\">',\n  '<p estado-x=\"a\">',\n  '<picture estado-x=\"a\">',\n  '<pre estado-x=\"a\">',\n  '<progress estado-x=\"a\">',\n  '<q estado-x=\"a\">',\n  '<rp estado-x=\"a\">',\n  '<rt estado-x=\"a\">',\n  '<ruby estado-x=\"a\">',\n  '<s estado-x=\"a\">',\n  '<samp estado-x=\"a\">',\n  '<script estado-x=\"a\">',\n  '<search estado-x=\"a\">',\n  '<section estado-x=\"a\">',\n  '<select estado-x=\"a\">',\n  '<slot estado-x=\"a\">',\n  '<small estado-x=\"a\">',\n  '<source estado-x=\"a\">',\n  '<span estado-x=\"a\">',\n  '<strong estado-x=\"a\">',\n  '<style estado-x=\"a\">',\n  '<sub estado-x=\"a\">',\n  '<summary estado-x=\"a\">',\n  '<sup estado-x=\"a\">',\n  '<table estado-x=\"a\">',\n  '<tbody estado-x=\"a\">',\n  '<td estado-x=\"a\">',\n  '<template estado-x=\"a\">',\n  '<textarea estado-x=\"a\">',\n  '<tfoot estado-x=\"a\">',\n  '<th estado-x=\"a\">',\n  '<thead estado-x=\"a\">',\n  '<time estado-x=\"a\">',\n  '<title estado-x=\"a\">',\n  '<tr estado-x=\"a\">',\n  '<track estado-x=\"a\">',\n  '<u estado-x=\"a\">',\n  '<ul estado-x=\"a\">',\n  '<var estado-x=\"a\">',\n  '<video estado-x=\"a\">',\n  '<wbr estado-x=\"a\">',\n  '<svg estado-x=\"a\">',\n  '<g estado-x=\"a\">',\n  '<path estado-x=\"a\">',\n  '<circle estado-x=\"a\">',\n  '<rect estado-x=\"a\">',\n  '<line estado-x=\"a\">',\n  '<polyline estado-x=\"a\">',\n  '<polygon estado-x=\"a\">',\n  '<ellipse estado-x=\"a\">',\n  '<text estado-x=\"a\">',\n  '<tspan estado-x=\"a\">',\n  '<textpath estado-x=\"a\">',\n  '<use estado-x=\"a\">',\n  '<symbol estado-x=\"a\">',\n  '<defs estado-x=\"a\">',\n  '<clippath estado-x=\"a\">',\n  '<mask estado-x=\"a\">',\n  '<pattern estado-x=\"a\">',\n  '<lineargradient estado-x=\"a\">',\n  '<radialgradient estado-x=\"a\">',\n  '<stop estado-x=\"a\">',\n  '<image estado-x=\"a\">',\n  '<foreignobject estado-x=\"a\">',\n  '<filter estado-x=\"a\">',\n  '<marker estado-x=\"a\">',\n  '<desc estado-x=\"a\">',\n  '<metadata estado-x=\"a\">',\n  '<switch estado-x=\"a\">',\n  '<view estado-x=\"a\">',\n  '<set estado-x=\"a\">',\n  '<animate estado-x=\"a\">',\n  '<animatemotion estado-x=\"a\">',\n  '<animatetransform estado-x=\"a\">',\n  '<mpath estado-x=\"a\">',\n  '<feblend estado-x=\"a\">',\n  '<fecolormatrix estado-x=\"a\">',\n  '<fecomponenttransfer estado-x=\"a\">',\n  '<fecomposite estado-x=\"a\">',\n  '<feconvolvematrix estado-x=\"a\">',\n  '<fediffuselighting estado-x=\"a\">',\n  '<fedisplacementmap estado-x=\"a\">',\n  '<fedistantlight estado-x=\"a\">',\n  '<fedropshadow estado-x=\"a\">',\n  '<feflood estado-x=\"a\">',\n  '<fefunca estado-x=\"a\">',\n  '<fefuncb estado-x=\"a\">',\n  '<fefuncg estado-x=\"a\">',\n  '<fefuncr estado-x=\"a\">',\n  '<fegaussianblur estado-x=\"a\">',\n  '<feimage estado-x=\"a\">',\n  '<femerge estado-x=\"a\">',\n  '<femergenode estado-x=\"a\">',\n  '<femorphology estado-x=\"a\">',\n  '<feoffset estado-x=\"a\">',\n  '<fepointlight estado-x=\"a\">',\n  '<fespecularlighting estado-x=\"a\">',\n  '<fespotlight estado-x=\"a\">',\n  '<fetile estado-x=\"a\">',\n  '<feturbulence estado-x=\"a\">',\n  '<math estado-x=\"a\">',\n  '<mi estado-x=\"a\">',\n  '<mn estado-x=\"a\">',\n  '<mo estado-x=\"a\">',\n  '<ms estado-x=\"a\">',\n  '<mtext estado-x=\"a\">',\n  '<mrow estado-x=\"a\">',\n  '<msub estado-x=\"a\">',\n  '<msup estado-x=\"a\">',\n  '<msubsup estado-x=\"a\">',\n  '<mfrac estado-x=\"a\">',\n  '<msqrt estado-x=\"a\">',\n  '<mroot estado-x=\"a\">',\n  '<mtable estado-x=\"a\">',\n  '<mtr estado-x=\"a\">',\n  '<mtd estado-x=\"a\">',\n  '<semantics estado-x=\"a\">',\n  '<annotation estado-x=\"a\">',\n  '<selectedcontent estado-x=\"a\">',\n];"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:10 estado-x (template)",
+      "src/a.ts:100 estado-x (template)",
+      "src/a.ts:101 estado-x (template)",
+      "src/a.ts:102 estado-x (template)",
+      "src/a.ts:103 estado-x (template)",
+      "src/a.ts:104 estado-x (template)",
+      "src/a.ts:105 estado-x (template)",
+      "src/a.ts:106 estado-x (template)",
+      "src/a.ts:107 estado-x (template)",
+      "src/a.ts:108 estado-x (template)",
+      "src/a.ts:109 estado-x (template)",
+      "src/a.ts:11 estado-x (template)",
+      "src/a.ts:110 estado-x (template)",
+      "src/a.ts:111 estado-x (template)",
+      "src/a.ts:112 estado-x (template)",
+      "src/a.ts:113 estado-x (template)",
+      "src/a.ts:114 estado-x (template)",
+      "src/a.ts:115 estado-x (template)",
+      "src/a.ts:116 estado-x (template)",
+      "src/a.ts:117 estado-x (template)",
+      "src/a.ts:118 estado-x (template)",
+      "src/a.ts:119 estado-x (template)",
+      "src/a.ts:12 estado-x (template)",
+      "src/a.ts:120 estado-x (template)",
+      "src/a.ts:121 estado-x (template)",
+      "src/a.ts:122 estado-x (template)",
+      "src/a.ts:123 estado-x (template)",
+      "src/a.ts:124 estado-x (template)",
+      "src/a.ts:125 estado-x (template)",
+      "src/a.ts:126 estado-x (template)",
+      "src/a.ts:127 estado-x (template)",
+      "src/a.ts:128 estado-x (template)",
+      "src/a.ts:129 estado-x (template)",
+      "src/a.ts:13 estado-x (template)",
+      "src/a.ts:130 estado-x (template)",
+      "src/a.ts:131 estado-x (template)",
+      "src/a.ts:132 estado-x (template)",
+      "src/a.ts:133 estado-x (template)",
+      "src/a.ts:134 estado-x (template)",
+      "src/a.ts:135 estado-x (template)",
+      "src/a.ts:136 estado-x (template)",
+      "src/a.ts:137 estado-x (template)",
+      "src/a.ts:138 estado-x (template)",
+      "src/a.ts:139 estado-x (template)",
+      "src/a.ts:14 estado-x (template)",
+      "src/a.ts:140 estado-x (template)",
+      "src/a.ts:141 estado-x (template)",
+      "src/a.ts:142 estado-x (template)",
+      "src/a.ts:143 estado-x (template)",
+      "src/a.ts:144 estado-x (template)",
+      "src/a.ts:145 estado-x (template)",
+      "src/a.ts:146 estado-x (template)",
+      "src/a.ts:147 estado-x (template)",
+      "src/a.ts:148 estado-x (template)",
+      "src/a.ts:149 estado-x (template)",
+      "src/a.ts:15 estado-x (template)",
+      "src/a.ts:150 estado-x (template)",
+      "src/a.ts:151 estado-x (template)",
+      "src/a.ts:152 estado-x (template)",
+      "src/a.ts:153 estado-x (template)",
+      "src/a.ts:154 estado-x (template)",
+      "src/a.ts:155 estado-x (template)",
+      "src/a.ts:156 estado-x (template)",
+      "src/a.ts:157 estado-x (template)",
+      "src/a.ts:158 estado-x (template)",
+      "src/a.ts:159 estado-x (template)",
+      "src/a.ts:16 estado-x (template)",
+      "src/a.ts:160 estado-x (template)",
+      "src/a.ts:161 estado-x (template)",
+      "src/a.ts:162 estado-x (template)",
+      "src/a.ts:163 estado-x (template)",
+      "src/a.ts:164 estado-x (template)",
+      "src/a.ts:165 estado-x (template)",
+      "src/a.ts:166 estado-x (template)",
+      "src/a.ts:167 estado-x (template)",
+      "src/a.ts:168 estado-x (template)",
+      "src/a.ts:169 estado-x (template)",
+      "src/a.ts:17 estado-x (template)",
+      "src/a.ts:170 estado-x (template)",
+      "src/a.ts:171 estado-x (template)",
+      "src/a.ts:172 estado-x (template)",
+      "src/a.ts:173 estado-x (template)",
+      "src/a.ts:174 estado-x (template)",
+      "src/a.ts:175 estado-x (template)",
+      "src/a.ts:176 estado-x (template)",
+      "src/a.ts:177 estado-x (template)",
+      "src/a.ts:178 estado-x (template)",
+      "src/a.ts:179 estado-x (template)",
+      "src/a.ts:18 estado-x (template)",
+      "src/a.ts:180 estado-x (template)",
+      "src/a.ts:181 estado-x (template)",
+      "src/a.ts:182 estado-x (template)",
+      "src/a.ts:183 estado-x (template)",
+      "src/a.ts:184 estado-x (template)",
+      "src/a.ts:185 estado-x (template)",
+      "src/a.ts:186 estado-x (template)",
+      "src/a.ts:187 estado-x (template)",
+      "src/a.ts:188 estado-x (template)",
+      "src/a.ts:189 estado-x (template)",
+      "src/a.ts:19 estado-x (template)",
+      "src/a.ts:190 estado-x (template)",
+      "src/a.ts:191 estado-x (template)",
+      "src/a.ts:2 estado-x (template)",
+      "src/a.ts:20 estado-x (template)",
+      "src/a.ts:21 estado-x (template)",
+      "src/a.ts:22 estado-x (template)",
+      "src/a.ts:23 estado-x (template)",
+      "src/a.ts:24 estado-x (template)",
+      "src/a.ts:25 estado-x (template)",
+      "src/a.ts:26 estado-x (template)",
+      "src/a.ts:27 estado-x (template)",
+      "src/a.ts:28 estado-x (template)",
+      "src/a.ts:29 estado-x (template)",
+      "src/a.ts:3 estado-x (template)",
+      "src/a.ts:30 estado-x (template)",
+      "src/a.ts:31 estado-x (template)",
+      "src/a.ts:32 estado-x (template)",
+      "src/a.ts:33 estado-x (template)",
+      "src/a.ts:34 estado-x (template)",
+      "src/a.ts:35 estado-x (template)",
+      "src/a.ts:36 estado-x (template)",
+      "src/a.ts:37 estado-x (template)",
+      "src/a.ts:38 estado-x (template)",
+      "src/a.ts:39 estado-x (template)",
+      "src/a.ts:4 estado-x (template)",
+      "src/a.ts:40 estado-x (template)",
+      "src/a.ts:41 estado-x (template)",
+      "src/a.ts:42 estado-x (template)",
+      "src/a.ts:43 estado-x (template)",
+      "src/a.ts:44 estado-x (template)",
+      "src/a.ts:45 estado-x (template)",
+      "src/a.ts:46 estado-x (template)",
+      "src/a.ts:47 estado-x (template)",
+      "src/a.ts:48 estado-x (template)",
+      "src/a.ts:49 estado-x (template)",
+      "src/a.ts:5 estado-x (template)",
+      "src/a.ts:50 estado-x (template)",
+      "src/a.ts:51 estado-x (template)",
+      "src/a.ts:52 estado-x (template)",
+      "src/a.ts:53 estado-x (template)",
+      "src/a.ts:54 estado-x (template)",
+      "src/a.ts:55 estado-x (template)",
+      "src/a.ts:56 estado-x (template)",
+      "src/a.ts:57 estado-x (template)",
+      "src/a.ts:58 estado-x (template)",
+      "src/a.ts:59 estado-x (template)",
+      "src/a.ts:6 estado-x (template)",
+      "src/a.ts:60 estado-x (template)",
+      "src/a.ts:61 estado-x (template)",
+      "src/a.ts:62 estado-x (template)",
+      "src/a.ts:63 estado-x (template)",
+      "src/a.ts:64 estado-x (template)",
+      "src/a.ts:65 estado-x (template)",
+      "src/a.ts:66 estado-x (template)",
+      "src/a.ts:67 estado-x (template)",
+      "src/a.ts:68 estado-x (template)",
+      "src/a.ts:69 estado-x (template)",
+      "src/a.ts:7 estado-x (template)",
+      "src/a.ts:70 estado-x (template)",
+      "src/a.ts:71 estado-x (template)",
+      "src/a.ts:72 estado-x (template)",
+      "src/a.ts:73 estado-x (template)",
+      "src/a.ts:74 estado-x (template)",
+      "src/a.ts:75 estado-x (template)",
+      "src/a.ts:76 estado-x (template)",
+      "src/a.ts:77 estado-x (template)",
+      "src/a.ts:78 estado-x (template)",
+      "src/a.ts:79 estado-x (template)",
+      "src/a.ts:8 estado-x (template)",
+      "src/a.ts:80 estado-x (template)",
+      "src/a.ts:81 estado-x (template)",
+      "src/a.ts:82 estado-x (template)",
+      "src/a.ts:83 estado-x (template)",
+      "src/a.ts:84 estado-x (template)",
+      "src/a.ts:85 estado-x (template)",
+      "src/a.ts:86 estado-x (template)",
+      "src/a.ts:87 estado-x (template)",
+      "src/a.ts:88 estado-x (template)",
+      "src/a.ts:89 estado-x (template)",
+      "src/a.ts:9 estado-x (template)",
+      "src/a.ts:90 estado-x (template)",
+      "src/a.ts:91 estado-x (template)",
+      "src/a.ts:92 estado-x (template)",
+      "src/a.ts:93 estado-x (template)",
+      "src/a.ts:94 estado-x (template)",
+      "src/a.ts:95 estado-x (template)",
+      "src/a.ts:96 estado-x (template)",
+      "src/a.ts:97 estado-x (template)",
+      "src/a.ts:98 estado-x (template)",
+      "src/a.ts:99 estado-x (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: tag desconhecida e texto",
+    "files": {
+      "src/a.ts": "export const a = { text: 'Digite <nome do arquivo> aqui' }; export const b = 'Use <Tab ou seta> para navegar'; export const c = 'Uso: node x.mjs <caminho da ficha>';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: tag em maiuscula",
+    "files": {
+      "src/a.ts": "export const a = '<DIV estado-x=\"a\">'; export const b = '<clipPath id=\"corte-x\">';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 estado-x (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: folha com propriedade de varias palavras",
+    "files": {
+      "src/a.ts": "export const a = '.cartao-j { background-color: red; }';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 .cartao-j (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: folha com campo de outra interface",
+    "files": {
+      "src/a.ts": "export const a = '.cartao-k { href: x; }';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha sem declaracao valida",
+    "files": {
+      "src/a.ts": "export const a = '.cartao-h { : red; }'; export const b = '.cartao-i { color : red }';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 .cartao-i (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: cssText e setAttribute style",
+    "files": {
+      "src/a.ts": "el.style.cssText = 'grid-area: cabecalho'; el.setAttribute('style', 'animation: desliza 1s'); el.setAttribute(x, 'animation: piscar 1s'); el.setAttribute('class', 'animation: rotulo'); el.setAttribute('style', 'a', 'animation: pulsa');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 cabecalho (style)",
+      "src/a.ts:1 desliza (style)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: setAttribute com variavel style",
+    "files": {
+      "src/a.ts": "const style = 'x'; el.setAttribute(style, 'animation: desliza');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: sp +=",
+    "files": {
+      "src/a.ts": "el.style.animation += ', pulsa 1s'; if (el.style.gridArea === 'rodape x') {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 pulsa (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: console?.log",
+    "files": {
+      "src/a.ts": "console?.log('rotulo');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha de forma rara v2 5",
+    "files": {
+      "src/a.ts": "export const t5 = \"nph-cartao-t5 {};color:red}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha de forma rara v2 6",
+    "files": {
+      "src/a.ts": "export const t6 = \"nph-cartao-t6 {color:red;{}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha de forma rara v2 10",
+    "files": {
+      "src/a.ts": "export const t10 = \"nph-cartao-t10 {{};color:red}}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha de forma rara v2 11",
+    "files": {
+      "src/a.ts": "export const t11 = \"nph-cartao-t11 {{color:red;{}}\";"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: marcador no inicio de ident css",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = css`.x { animation: ${v}-desliza 1s; }`;\nexport const b = css`.x { --${v}-cor: red; }`;\nexport const c = css`[data-${v}-estado] {}`;\nexport const d = css`.${v}-rotulo {}`;\nexport const e = css`#${v}-rodape {}`;\nexport const f = css`@counter-style ${v}-marcador { system: cyclic; }`;\nexport const g = css`@page ${v}-capa { margin: 0; }`;\nexport const h = css`@container ${v}-cartao (min-width: 1px) { .y {} }`;\nexport const i = css`.x { content: counter(${v}-passo); }`;\nexport const j = css`.x { grid-template-columns: [${v}-inicio ${v}-fim] 1fr; }`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:10 ${}-passo (template)",
+      "src/a.ts:11 ${}-fim (template)",
+      "src/a.ts:11 ${}-inicio (template)",
+      "src/a.ts:2 ${}-desliza (template)",
+      "src/a.ts:3 --${}-cor (template)",
+      "src/a.ts:4 data-${}-estado (template)",
+      "src/a.ts:5 .${}-rotulo (template)",
+      "src/a.ts:6 #${}-rodape (template)",
+      "src/a.ts:7 ${}-marcador (template)",
+      "src/a.ts:8 ${}-capa (template)",
+      "src/a.ts:9 ${}-cartao (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: rodada 12 M1",
+    "files": {
+      "src/a.ts": "import { html, css, unsafeCSS } from 'lit'; const v = 1; const id = 2; const c = true;\nexport const a = html`<div style=\"view-transition-name: cartao-${id}\"></div>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 cartao-${} (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: rodada 12 M6",
+    "files": {
+      "src/a.ts": "import { html, css, unsafeCSS } from 'lit'; const v = 1; const id = 2; const c = true;\nexport const a = css`.x { --nph-${v}-cor: red; color: var(--nph-${v}-fundo); }`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 --nph-${}-cor (template)",
+      "src/a.ts:2 --nph-${}-fundo (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: M7 data- com marcador html",
+    "files": {
+      "src/a.ts": "import { html, css, LitElement, unsafeCSS } from 'lit';\nexport const t = (v: string) => html`<div data-${v}-estado=\"x\"></div>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 data-${}-estado (template)",
+      "src/a.ts:2 estado (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: rodada 12 M5",
+    "files": {
+      "src/a.ts": "import { html, css, unsafeCSS } from 'lit'; const v = 1; const id = 2; const c = true;\nexport const a = css`.nph-${v}-rotulo {}`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 .nph-${}-rotulo (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: marcador no meio de ident css",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = css`@page capa${v}x { margin: 0; }`;\nexport const b = css`@container cartao${v}x (min-width: 1px) { .y {} }`;\nexport const c = css`.x { content: counters(passo${v}x, \".\"); }`;\nexport const d = css`.x { grid-template-columns: [inicio${v}x fim${v}y] 1fr; }`;\nexport const e = css`.rotulo${v}x {}`;\nexport const f = css`#rodape${v}x {}`;\nexport const g = css`@counter-style marcador${v}x { system: cyclic; }`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 capa${}x (template)",
+      "src/a.ts:3 cartao${}x (template)",
+      "src/a.ts:4 passo${}x (template)",
+      "src/a.ts:5 fim${}y (template)",
+      "src/a.ts:5 inicio${}x (template)",
+      "src/a.ts:6 .rotulo${}x (template)",
+      "src/a.ts:7 #rodape${}x (template)",
+      "src/a.ts:8 marcador${}x (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: M10 keyframes colado",
+    "files": {
+      "src/a.ts": "import { html, css, LitElement, unsafeCSS } from 'lit';\nconst v = unsafeCSS('x');\nexport const s = css`@keyframes desliza-${v} { from { opacity: 0 } }`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:3 desliza-${} (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: folha que comeca com chave",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = '{color:red} .cartao-x{color:red}';\nexport const b = ' {color:red} .cartao-y{color:red}';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: C fail com tab",
+    "files": {
+      "src/a.ts": "fail('rotulo-a\\tx'); warn('<nph-rotulo-b a=\"1\">\\tx'); fail('<nph-rotulo-c a=\"1\"> x');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: rodada 12 NS",
+    "files": {
+      "src/a.ts": "import { html, css, unsafeCSS } from 'lit'; const v = 1; const id = 2; const c = true;\nimport * as lit from 'lit'; export const a = lit.unsafeCSS('.cartao-c .x { cor: azul }');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 .cartao-c (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: rodada 12 Y3",
+    "files": {
+      "src/a.ts": "import { html, css, unsafeCSS } from 'lit'; const v = 1; const id = 2; const c = true;\nexport const a = html`<div style=\"${c ? 'animation: desliza 1s' : ''}\"></div>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 desliza (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: style com aspa simples no lit",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = html`<div style='${'grid-area: cabecalho'}'></div>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 cabecalho (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: marcacao so com fecho",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = 'Use <nph-cartao-x></nph-cartao-x> aqui';\nexport const b = 'Use <nph-cartao-y /> aqui';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 nph-cartao-x (template)",
+      "src/a.ts:3 nph-cartao-y (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: marcacao atravessando maior e menor",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = '<b > = <nph-cartao-v>';\nexport const b = '<b <= <nph-cartao-w>';\nexport const c = 'veja <b estado> e x=1';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: atributos de texto de componente",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = '<nph-x alt=\"estado\"></nph-x>';\nexport const b = '<nph-x aria-description=\"estado\"></nph-x>';\nexport const c = '<nph-x label=\"estado\"></nph-x>';\nexport const d = '<nph-x aria-roledescription=\"estado\"></nph-x>';\nexport const e = '<nph-x title=\"estado\"></nph-x>';\nexport const f = '<nph-x placeholder=\"estado\"></nph-x>';\nexport const g = '<nph-x aria-label=\"estado\"></nph-x>';\nexport const h = '<nph-x aria-valuetext=\"estado\"></nph-x>';\nexport const i = '<nph-x text=\"estado\"></nph-x>';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: valueAt: style bare apos quebra",
+    "files": {
+      ".storybook/a.html": "<div style=\ngrid-area:cabecalho></div>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:2 cabecalho (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: msg tipo template em console",
+    "files": {
+      "src/a.ts": "console.log<`estado-${string}`>('x');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 estado-${} (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: html .storybook texto",
+    "files": {
+      ".storybook/manager-head.html": "<p>Use o guarda-chuva {cor: azul} e <nome do arquivo> e <data de início>.</p>\n<!-- comentario: .botao-x -->"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: E evidencia com maiuscula",
+    "files": {
+      "scripts/fixtures/operations/evidencias/Relatorio-gate-2026-01-01.md": ""
+    },
+    "catches": [],
+    "exactly": [
+      "scripts/fixtures/operations/evidencias/Relatorio-gate-2026-01-01.md:0 Relatorio-gate-2026-01-01 (file)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: E evidencia com sufixo",
+    "files": {
+      "scripts/fixtures/operations/evidencias/gate-2026-01-01.md.rascunho.md": ""
+    },
+    "catches": [],
+    "exactly": [
+      "scripts/fixtures/operations/evidencias/gate-2026-01-01.md.rascunho.md:0 gate-2026-01-01.md.rascunho (file)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: W camel e sigla",
+    "files": {
+      "src/a.ts": "export const aRotuloAtivo = 1; export const URLRotuloXMLEstado = 2; export const aBcDeEstado = 3;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 URLRotuloXMLEstado (identifier)",
+      "src/a.ts:1 aBcDeEstado (identifier)",
+      "src/a.ts:1 aRotuloAtivo (identifier)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: K comentario multilinha css",
+    "files": {
+      "src/a.css": "/* a\n.rotulo-a */ .x {}\n/**/.cartao-b {}\n<!-- .painel-c -->.y {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:3 .cartao-b (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: K comentario aninhado",
+    "files": {
+      "src/a.css": "/* a */ .rotulo-a {} /* b */ .x {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 .rotulo-a (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: crlf css",
+    "files": {
+      "src/a.css": ".a {\r\n  animation:\r\n desliza;\r\n}\r\n.rotulo-x\r\n{}\r\nnph-cartao-x\r\n{}\r\n"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:2 desliza (css-html)",
+      "src/a.css:5 .rotulo-x (css-html)",
+      "src/a.css:7 nph-cartao-x (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: H hex com quebra",
+    "files": {
+      "src/a.css": "#cada\n{ }\n#fada\t{}\n.x { color: #cada; }\n#decada{}\n#abc {}\n#ab {}\n#a {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 #cada (css-html)",
+      "src/a.css:3 #fada (css-html)",
+      "src/a.css:5 #decada (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: A attr com espacos e quebras",
+    "files": {
+      "src/a.css": "[ variante = \"primario\" ] {}\n[variante\n=\n\"secundario\"] {}\n[variante\t~=\t'terciario'] {}\n[estado] {}\n[x=] {}\n[x=\"\"] {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:2 secundario (css-html)",
+      "src/a.css:2 variante (css-html)",
+      "src/a.css:5 terciario (css-html)",
+      "src/a.css:5 variante (css-html)",
+      "src/a.css:6 estado (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: A at-rules com tab e quebra",
+    "files": {
+      "src/a.css": "@keyframes\tdesliza {}\n@keyframes\n\"piscar\" {}\n@keyframes\"pulsa\" {}\n@counter-style\testrela {}\n@counter-style\nseta {}\n@page\tcapa {}\n@page\nrosto {}\n@container\tcartao (min-width:1px){}\n@container\npainel (min-width:1px){}\n@layer\tbase, tema.escuro.forte;\n@layer\ncamada;\n@layer{}\n.x { counter-reset: secao; content: counter(\tsecao) counters(\nitem, \".\"); }\n@import url(x.css) layer(tema.escuro.forte);\n.y{content:counter(capitulo)}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 desliza (css-html)",
+      "src/a.css:11 cartao (css-html)",
+      "src/a.css:12 painel (css-html)",
+      "src/a.css:14 .escuro (css-html)",
+      "src/a.css:14 escuro (css-html)",
+      "src/a.css:14 tema (css-html)",
+      "src/a.css:15 camada (css-html)",
+      "src/a.css:18 secao (css-html)",
+      "src/a.css:2 piscar (css-html)",
+      "src/a.css:20 .escuro (css-html)",
+      "src/a.css:20 escuro (css-html)",
+      "src/a.css:20 tema (css-html)",
+      "src/a.css:6 seta (css-html)",
+      "src/a.css:8 capa (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: espaco: @counter-stylemarcador{}\"",
+    "files": {
+      "src/a.css": "@counter-stylemarcador{}"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: espaco: @pagecapa{}\"",
+    "files": {
+      "src/a.css": "@pagecapa{}"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: A layer sem espaco",
+    "files": {
+      "src/a.css": "@layercamada {} .a { x: xlayer(tema) } @keyframesdesliza {} @containercartao {}"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: espaco: .a{content:counter(\\tpasso\\t)}\"",
+    "files": {
+      "src/a.css": ".a{content:counter(\tpasso\t)}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 passo (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: A grid linhas",
+    "files": {
+      "src/a.css": ".x { grid-template-columns: [inicio]\t1fr [meio\tfim] 1fr [ fim2 ] [] [a\nb]; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 fim (css-html)",
+      "src/a.css:1 inicio (css-html)",
+      "src/a.css:1 meio (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: A list-style sem prop",
+    "files": {
+      "src/a.css": ".x { xlist-style: seta; xfont-family: rotulo; xgrid: \"topo\"; xanimation: piscar; }"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: A areas com tab",
+    "files": {
+      "src/a.css": ".x { grid-template-areas:\t\"cabecalho rodape\"\t\"lateral corpo\"; grid:\n\"topo\" 1fr / auto; grid-template:'meio'; } .y { grid-area:\trodape; animation:\npiscar 1s; list-style:\tseta; font-family:\n\"A B\", \"Fonte rotulo Sans\", serif; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 cabecalho (css-html)",
+      "src/a.css:1 corpo (css-html)",
+      "src/a.css:1 rodape (css-html)",
+      "src/a.css:2 meio (css-html)",
+      "src/a.css:2 piscar (css-html)",
+      "src/a.css:2 rodape (css-html)",
+      "src/a.css:3 seta (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: espaco: <button\\tonclick\\t=\\tabrir()>x</button>\"",
+    "files": {
+      ".storybook/a.html": "<button\tonclick\t=\tabrir()>x</button>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 abrir (identifier)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: espaco: export const t = '<nph-r\\thint=\\t\\\"Digite\\to\\tnome\\\"\\tvariant=\\t\\\"pri",
+    "files": {
+      "src/a.ts": "export const t = '<nph-r\thint=\t\"Digite\to\tnome\"\tvariant=\t\"primario\t\"></nph-r>';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 primario (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: M style tag variantes",
+    "files": {
+      ".storybook/a.html": "<style media=\"all\">.rotulo-a {}</style><STYLE>.rotulo-b {}</STYLE><styles>.rotulo-c {}</styles><style>.rotulo-d {}"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 .rotulo-a (css-html)",
+      ".storybook/a.html:1 .rotulo-b (css-html)",
+      ".storybook/a.html:1 .rotulo-d (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: F folha variantes",
+    "files": {
+      "src/a.ts": "export const a = '\\t.cartao-a {color:red}\\n'; export const b = '.cartao-b{color:red}.cartao-c{color:red}'; export const c = '.cartao-d { a:hover { color: red } }'; export const d = '.cartao-e {\\tcolor\\t:\\tred;\\n}'; export const e = '.cartao-f {;color:red}'; export const f = '.cartao-g { .x {color:red} }'; export const g = ' .cartao-h { color: red } \\n .cartao-i { margin: 0 }  ';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 .cartao-a (template)",
+      "src/a.ts:1 .cartao-b{color:red}.cartao-c{color:red} (literal)",
+      "src/a.ts:1 .cartao-d (template)",
+      "src/a.ts:1 .cartao-e (template)",
+      "src/a.ts:1 .cartao-f (template)",
+      "src/a.ts:1 .cartao-g (template)",
+      "src/a.ts:1 .cartao-h (template)",
+      "src/a.ts:1 .cartao-i (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: folha que nao fecha com chave",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = '.cartao-x{color:red} .y';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: C mensagens prefixo",
+    "files": {
+      "src/a.ts": "testar('rotulo-x'); itens('rotulo-y'); describeIt('rotulo-z'); consoleX.log('rotulo-w'); console.log.bind('rotulo-v'); process.stdout.write2('rotulo-u'); failOver('<nph-rotulo-t a=\"1\">x</nph-rotulo-t> b'); xwarn('<nph-rotulo-s a=\"1\"> b'); it.each('rotulo-r'); test.skip.only('rotulo-q');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 itens (identifier)",
+      "src/a.ts:1 nph-rotulo-s (template)",
+      "src/a.ts:1 nph-rotulo-t (template)",
+      "src/a.ts:1 rotulo-q (literal)",
+      "src/a.ts:1 rotulo-u (literal)",
+      "src/a.ts:1 rotulo-w (literal)",
+      "src/a.ts:1 rotulo-x (literal)",
+      "src/a.ts:1 rotulo-y (literal)",
+      "src/a.ts:1 rotulo-z (literal)",
+      "src/a.ts:1 testar (identifier)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: espaco: const warn = (x) => x; warn('<nph-cartao-q\\ta=\\\"1\\\">\\tb');\"",
+    "files": {
+      "src/a.ts": "const warn = (x) => x; warn('<nph-cartao-q\ta=\"1\">\tb');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: C css arg sufixos",
+    "files": {
+      "src/a.ts": "myunsafeCSS('.cartao-a .x { color: red }'); unsafeCSSX('.cartao-b .x { cor: azul }'); x.unsafeCSS('.cartao-c .x { cor: azul }'); s.replaceSyncX('.cartao-d { cor: azul }'); s.insertRules('.cartao-e { cor: azul }');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 .cartao-a (template)",
+      "src/a.ts:1 .cartao-c (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: C className variantes",
+    "files": {
+      "src/a.ts": "const o = { subclass: 'rotulo ativo', classNames: 'rotulo-b c', 'class': 'rotulo-c d', \"className\": 'rotulo-d e', classy: 'rotulo-e f' }; el.classNameX = 'rotulo-f g'; el.xclassName = 'rotulo-g h';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 rotulo-c (class-list)",
+      "src/a.ts:1 rotulo-d (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: C clsx variantes",
+    "files": {
+      "src/a.ts": "toCn('rotulo-a b'); x.clsx('rotulo-b c'); myclsx('rotulo-c d'); clsx2('rotulo-d e'); a.cn('rotulo-e f');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 rotulo-b (class-list)",
+      "src/a.ts:1 rotulo-e (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: C setAttribute variantes",
+    "files": {
+      "src/a.ts": "el.setAttributeNS(null, 'class', 'rotulo-a b'); el.setAttributeX('class', 'rotulo-b c'); el.setAttributeX('style', 'animation: desliza'); el.setAttribute('style', 'animation: piscar'); setAttribute('class', 'rotulo-z y');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 piscar (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: espaco: import { html } from 'lit'; export const t = html`<divstyle=${'grid-a",
+    "files": {
+      "src/a.ts": "import { html } from 'lit'; export const t = html`<divstyle=${'grid-area: cabecalho'}></div>`;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: espaco: import { html } from 'lit'; export const t = html`<div\\tstyle\\t=\\t${'",
+    "files": {
+      "src/a.ts": "import { html } from 'lit'; export const t = html`<div\tstyle\t=\t${'grid-area: cabecalho'}></div>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 cabecalho (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: espaco: import { html } from 'lit'; export const t = html`<div style=\\\" ${'an",
+    "files": {
+      "src/a.ts": "import { html } from 'lit'; export const t = html`<div style=\" ${'animation: desliza 1s'}\"></div>`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 desliza (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: C style variantes",
+    "files": {
+      "src/a.ts": "(el.style  as  any)['animation'] = 'desliza 1s'; ((el.style as X) as Y).animationName = 'piscar'; (el.style as any)['grid-area'] = 'rodape x'; el.style[ 'animation' ] = 'pulsa 1s'; el.style[`gridArea`] = 'topo x'; el.styleX.animation = 'gira 1s'; el.style.animationX = 'roda 1s';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 desliza (style)",
+      "src/a.ts:1 piscar (literal)",
+      "src/a.ts:1 piscar (style)",
+      "src/a.ts:1 pulsa (style)",
+      "src/a.ts:1 rodape (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: espaco: const el = document.body; (el.style\\tas\\tany)['gridArea']\\t=\\t'rodape",
+    "files": {
+      "src/a.ts": "const el = document.body; (el.style\tas\tany)['gridArea']\t=\t'rodape\ty';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 rodape (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: espaco: const el = document.body; el.style[\\t'animation'\\t]\\t=\\t'piscar\\t1s';",
+    "files": {
+      "src/a.ts": "const el = document.body; el.style[\t'animation'\t]\t=\t'piscar\t1s';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 piscar (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: C setProperty variantes",
+    "files": {
+      "src/a.ts": "el.style.setPropertyX('animation', 'desliza 1s'); el.style.setProperty('animation-name', 'piscar x'); setProperty('animation', 'pulsa 1s');"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 piscar (style)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: C story arquivos",
+    "files": {
+      "src/a.stories.test.ts": "export default { title: 'Rotulo/Estado' }; export const A = { name: 'Primario' };",
+      "src/b.stories.ts.md": "",
+      "src/c.stories.d.ts": "export const B = { name: 'Secundario' };",
+      "src/d.xstories.ts": "export default { title: 'Pagina/Titulo' };"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.stories.test.ts:1 Primario (literal)",
+      "src/a.stories.test.ts:1 Rotulo/Estado (literal)",
+      "src/c.stories.d.ts:1 Secundario (literal)",
+      "src/d.xstories.ts:1 Pagina/Titulo (literal)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: C classlist com tab",
+    "files": {
+      "src/a.ts": "el.className = 'rotulo\\tativo  painel\\nx';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 ativo (class-list)",
+      "src/a.ts:1 painel (class-list)",
+      "src/a.ts:1 rotulo (class-list)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: espaco: export const t = '<nph-x\\testado\\t=\\t\\\"aberto\\\"\\t>';\"",
+    "files": {
+      "src/a.ts": "export const t = '<nph-x\testado\t=\t\"aberto\"\t>';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:1 aberto (template)",
+      "src/a.ts:1 estado (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: C css html arquivos",
+    "files": {
+      "src/a.css.md": ".rotulo-a {}",
+      "src/b.html.md": "<div class=\"rotulo-b\"></div>",
+      "src/c.xcss": ".rotulo-c {}",
+      "src/d.CSS": ".rotulo-d {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/c.xcss:0 *.xcss (extension)",
+      "src/d.CSS:0 *.CSS (extension)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: C html crlf e scripts",
+    "files": {
+      ".storybook/a.html": "<script>window.configuracao = 1;</script>\r\n<p class=\"x\">a</p>\r\n<script type=\"module\">window.estado = 2;</script>\r\n<scripts>window.rotulo = 3;</scripts>\r\n<script></script><SCRIPT>window.painel = 4;</SCRIPT>"
+    },
+    "catches": [],
+    "exactly": [
+      ".storybook/a.html:1 configuracao (property)",
+      ".storybook/a.html:3 estado (property)",
+      ".storybook/a.html:5 painel (property)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: rodada 12 S4",
+    "files": {
+      "src/a.ts": "import { html, css, unsafeCSS } from 'lit'; const v = 1; const id = 2; const c = true;\nexport const a = '.cartao-d { /* nota */ color: red; }';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 .cartao-d (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: folha com ponto e virgula no topo",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = '.cartao-x{color:red}; .y{color:red}';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha com tag no topo",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = '.cartao-x{color:red} <b> .y{color:red}';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha com propriedade desconhecida sem PT",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = '.cartao-x{color:red; zindex: 1}';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 .cartao-x (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: marcacao em html e svg sem forma",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = html`Use <nph-cartao-p> aqui`;\nexport const b = svg`Use <nph-cartao-s> aqui`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 nph-cartao-p (template)",
+      "src/a.ts:3 nph-cartao-s (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: rodada 12 FP2",
+    "files": {
+      "scripts/a.mjs": "const USAGE = 'Uso: node scripts/a.mjs --task <id-da-tarefa>'; const L2 = ['  --since <data-inicial>', 'Informe e <label do campo>', '<code da tarefa>']; export { USAGE, L2 };"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: rodada 12 S3",
+    "files": {
+      "src/a.ts": "import { html, css, unsafeCSS } from 'lit'; const v = 1; const id = 2; const c = true;\nexport const a = '.cartao-c { anchor-name: --x; }';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 .cartao-c (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: folha com propriedade composta PT",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = '.cartao-x{color:red; estado-atual: 1}';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: data- no meio com marcador",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = css`[data-estado${v}x] {}`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 data-estado${}x (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: data- colado em palavra",
+    "files": {
+      "src/a.css": ".xdata-estado {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 .xdata-estado (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: seletor de tipo com primeira parte de uma letra",
+    "files": {
+      "src/a.css": "x-estado {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 x-estado (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: seletor de tipo que termina em hifen",
+    "files": {
+      "src/a.css": "rodape- {}"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 rodape- (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: atributo de seletor sem nome",
+    "files": {
+      "src/a.css": "[=estado] {}"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: counter colado em palavra",
+    "files": {
+      "src/a.css": ".a { x: xcounter(passo); }"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: list-style com tab antes dos dois pontos",
+    "files": {
+      "src/a.css": ".a { list-style\t: seta; }\n.b { font-family\t: fonte_x; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 seta (css-html)",
+      "src/a.css:2 fonte_x (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: font-family com aspas vazias coladas",
+    "files": {
+      "src/a.css": ".a { font-family: \"\"seta; }\n.b { font-family: ''marcador; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 seta (css-html)",
+      "src/a.css:2 marcador (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: grid colado em palavra",
+    "files": {
+      "src/a.css": ".a { xgrid: \"rodape\"; }"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: grid-template-areas com quebra antes dos dois pontos",
+    "files": {
+      "src/a.css": ".a { grid-template-areas\n: \"rodape\"; }"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.css:1 rodape (css-html)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: areas com aspas vazias coladas",
+    "files": {
+      "src/a.css": ".a { grid-template-areas: \"\"rodape\"; }\n.b { grid: ''cabecalho'; }"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: atributo de uma letra em tag html",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = '<i e=\"estado\"></i>';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: declaracao com pseudo PT aninhado",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = '.cartao-x { estado:hover { color: red } }';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 .cartao-x (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: query com sufixo",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nconst queryX = (s) => s; queryX('.botao-x .y');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: unsafeCSS com prefixo",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nconst myunsafeCSS = (s) => s; myunsafeCSS('.cartao-x .y { cor: azul }');"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha com chave sobrando e volta, com espaco",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = '.cartao-x { color: red }} {{ color: red }';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: data- em css fora de colchete",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = css`.x { content: attr(data-estado-x); }`;"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 data-estado-x (template)"
+    ]
+  },
+  {
+    "label": "mutante da revisao: hreflang com fragmento",
+    "files": {
+      ".storybook/a.html": "<a hreflang=\"#rodape-x\">a</a>"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: folha so com campo de outra interface",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nexport const a = '.cartao-x { codec: x }';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "mutante da revisao: style com espaco antes de nome que comeca com as",
+    "files": {
+      "src/a.ts": "import { html, css, svg, unsafeCSS } from 'lit'; const v = 1;\nconst assign = document.body; ( assign.style).gridArea = 'rodape w';\nconst alias = document.body; (alias as any).style.gridArea = 'rodape v';"
+    },
+    "catches": [],
+    "exactly": [
+      "src/a.ts:2 rodape (style)",
+      "src/a.ts:3 rodape (style)"
+    ]
+  }
+]

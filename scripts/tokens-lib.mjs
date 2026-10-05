@@ -1,5 +1,5 @@
 /**
- * Funcoes puras compartilhadas por build-tokens.mjs e test-invariancia.mjs.
+ * Funcoes puras compartilhadas por build-tokens.mjs e test-invariance.mjs.
  * Sem efeito colateral: importar este arquivo nao le disco nem gera nada.
  */
 
@@ -91,11 +91,11 @@ export function buildIndex(sources) {
  * padrao daquela camada — o mesmo criterio da leitura do Figma.
  */
 export function finalValue(value, idx, defaultsByPrefix, depth = 0) {
-  if (depth > 12) return 'CICLO';
+  if (depth > 12) return 'CYCLE';
   const a = aliasOf(value);
   if (!a) return canon(value);
   const target = idx.get(a);
-  if (!target) return 'AUSENTE:' + a;
+  if (!target) return 'MISSING:' + a;
   const prefix = a.split('.')[0];
   const defaultMode = defaultsByPrefix[prefix];
   return finalValue(valueInMode(target, defaultMode), idx, defaultsByPrefix, depth + 1);

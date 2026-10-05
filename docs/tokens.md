@@ -53,7 +53,7 @@ src/tokens/
 scripts/
   tokens-lib.mjs           funções puras: forma canônica, classificação, índice
   build-tokens.mjs         gerador
-  test-invariancia.mjs     prova do classificador
+  test-invariance.mjs      prova do classificador
 ```
 
 ## Como gerar
@@ -98,7 +98,7 @@ que qualquer ferramenta genérica resolva algo correto.
 
 A classificação compara **alias e valor final** entre os modos, numa
 representação **canônica** — nunca por identidade de objeto, nunca por ordem de
-chave, nunca pelo `$type`. Está provada em `scripts/test-invariancia.mjs`.
+chave, nunca pelo `$type`. Está provada em `scripts/test-invariance.mjs`.
 
 Os semânticos variantes são todos `color`, mas há tokens `color` entre os
 invariantes — a invariância não é uma propriedade do tipo. `npm run build:tokens`

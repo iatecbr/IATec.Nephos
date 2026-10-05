@@ -9,12 +9,13 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build:tokens": "node scripts/build-tokens.mjs",
-    "test:tokens": "node scripts/test-invariancia.mjs",
+    "test:tokens": "node scripts/test-invariance.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "test:i18n": "node scripts/test-i18n.mjs",
     "test:operacao": "node scripts/verificar-operacao.mjs",
+    "test:naming": "node scripts/test-naming.mjs",
     "i18n:update": "node scripts/test-i18n.mjs --update"
   },
   "devDependencies": {
