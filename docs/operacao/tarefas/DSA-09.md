@@ -32,7 +32,8 @@
   "decisoes_pendentes": [],
   "evidencias": [
     "docs/operacao/evidencias/DSA-09/documentacao-figma-aceita-2026-10-01.md",
-    "docs/operacao/evidencias/DSA-09/nph-icon-revalidado-2026-10-05.md"
+    "docs/operacao/evidencias/DSA-09/nph-icon-revalidado-2026-10-05.md",
+    "docs/operacao/evidencias/DSA-09/storybook-validacao-2026-10-05.md"
   ],
   "referencias_de_decisao": [
     "docs/decisoes-tecnicas.md#p21",
