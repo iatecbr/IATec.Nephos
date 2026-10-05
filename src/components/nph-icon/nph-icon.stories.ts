@@ -189,21 +189,24 @@ export const EntradaInvalida: Story = {
     return html`
       <div style=${body}>
         ${header(v.invalidTitle, v.invalidIntro)}
-        ${table(v.invalidHeader, [
-          [
-            'name="rocket" size="sm"',
-            html`${v.invalidCases[0]} <nph-icon name="rocket" size="sm"></nph-icon>`,
-          ],
-          [
-            'name="check" variant="duotone" size="sm"',
-            html`${v.invalidCases[1]} <nph-icon name="check" variant="duotone" size="sm"></nph-icon>`,
-          ],
-          [
-            'name="check" size="xl"',
-            html`${v.invalidCases[2]} <nph-icon name="check" size="xl"></nph-icon>`,
-          ],
-          ['name="check"', html`${v.invalidCases[3]} <nph-icon name="check"></nph-icon>`],
-        ])}
+        <!-- O termo da tabela nao quebra linha: em tela estreita a tabela rola, a pagina nao. -->
+        <div style="overflow-x: auto;">
+          ${table(v.invalidHeader, [
+            [
+              'name="rocket" size="sm"',
+              html`${v.invalidCases[0]} <nph-icon name="rocket" size="sm"></nph-icon>`,
+            ],
+            [
+              'name="check" variant="duotone" size="sm"',
+              html`${v.invalidCases[1]} <nph-icon name="check" variant="duotone" size="sm"></nph-icon>`,
+            ],
+            [
+              'name="check" size="xl"',
+              html`${v.invalidCases[2]} <nph-icon name="check" size="xl"></nph-icon>`,
+            ],
+            ['name="check"', html`${v.invalidCases[3]} <nph-icon name="check"></nph-icon>`],
+          ])}
+        </div>
       </div>
     `;
   },

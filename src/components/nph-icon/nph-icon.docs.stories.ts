@@ -262,6 +262,13 @@ function applyFilter(gallery: HTMLElement, term: string): void {
   for (const category of gallery.querySelectorAll<HTMLElement>('[data-nph-category]')) {
     category.hidden =
       category.querySelectorAll('[data-nph-name]:not([hidden])').length === 0;
+
+    /* O chip do indice some junto com a categoria: link para secao oculta nao leva a nada. */
+    const id = category.querySelector('section[id]')?.id ?? '';
+    const chip = gallery.querySelector(`nav a[href="#${id}"]`)?.closest('li');
+    if (chip instanceof HTMLElement) {
+      chip.hidden = category.hidden;
+    }
   }
 
   const empty = gallery.querySelector<HTMLElement>('[data-nph-empty]');
@@ -301,8 +308,8 @@ function onClear(event: Event): void {
 /**
  * Catalogo visual dos icones do nucleo, com busca por nome.
  *
- * Cada item mostra o `nph-icon` SEM `label`, decorativo, ao lado do nome em
- * texto: com texto visivel ao lado, rotular o icone faria o leitor de tela ler
+ * Cada cartao mostra o `nph-icon` SEM `label`, decorativo, com o nome em texto
+ * embaixo: com texto visivel junto, rotular o icone faria o leitor de tela ler
  * duas vezes.
  */
 export const IconsOverview: Story = {
