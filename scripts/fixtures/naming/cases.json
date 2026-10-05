@@ -319,13 +319,13 @@
   {
     "label": "chave de dicionario",
     "files": {
-      ".storybook/i18n/en.js": "export default { titulo: 'Title', sidebar: { 'comece-aqui': 'Start' }, colorScheme: { dark: 'Modo escuro' } };"
+      ".storybook/i18n/en.json": "{ \"titulo\": \"Title\", \"sidebar\": { \"comece-aqui\": \"Start\" }, \"colorScheme\": { \"dark\": \"Modo escuro\" } }"
     },
     "catches": [
       "titulo"
     ],
     "exactly": [
-      ".storybook/i18n/en.js:1 titulo (property)"
+      ".storybook/i18n/en.json:1 titulo (key)"
     ]
   },
   {
@@ -606,19 +606,28 @@
   {
     "label": "dicionario: chave fora de sidebar reprova",
     "files": {
-      ".storybook/i18n/pt-BR.js": "export default { 'comece-aqui': 'x', sidebar: { 'comece-aqui-boas-vindas': 'Boas-vindas' }, title: 'Modo escuro' };"
+      ".storybook/i18n/pt-BR.json": "{ \"comece-aqui\": \"x\", \"sidebar\": { \"comece-aqui-boas-vindas\": \"Boas-vindas\" }, \"title\": \"Modo escuro\" }"
     },
     "catches": [
       "comece-aqui"
     ],
     "exactly": [
-      ".storybook/i18n/pt-BR.js:1 comece-aqui (key)"
+      ".storybook/i18n/pt-BR.json:1 comece-aqui (key)"
     ]
   },
   {
     "label": "dicionario: sidebar e valor passam",
     "files": {
-      ".storybook/i18n/es.js": "export default { sidebar: { 'comece-aqui': 'Empieza', componentes: 'Componentes' }, colorScheme: { dark: 'Modo oscuro', toLight: 'Cambiar' } };"
+      ".storybook/i18n/es.json": "{ \"sidebar\": { \"comece-aqui\": \"Empieza\", \"componentes\": \"Componentes\" }, \"colorScheme\": { \"dark\": \"Modo oscuro\", \"toLight\": \"Cambiar\" } }"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "json fora dos dicionarios continua fora",
+    "files": {
+      ".storybook/dados.json": "{ \"titulo\": \"x\" }",
+      "src/a.json": "{ \"botao\": \"x\" }"
     },
     "catches": [],
     "clean": true
@@ -3113,9 +3122,9 @@
   {
     "label": "valores dos tres dicionarios passam",
     "files": {
-      ".storybook/i18n/pt-BR.js": "export default { colorScheme: { dark: 'Modo escuro', toLight: 'Mudar para o claro' } };",
-      ".storybook/i18n/en.js": "export default { colorScheme: { dark: 'Modo escuro' } };",
-      ".storybook/i18n/es.js": "export default { colorScheme: { dark: 'Modo escuro' } };"
+      ".storybook/i18n/pt-BR.json": "{ \"colorScheme\": { \"dark\": \"Modo escuro\", \"toLight\": \"Mudar para o claro\" } }",
+      ".storybook/i18n/en.json": "{ \"colorScheme\": { \"dark\": \"Modo escuro\" } }",
+      ".storybook/i18n/es.json": "{ \"colorScheme\": { \"dark\": \"Modo escuro\" } }"
     },
     "catches": [],
     "clean": true
@@ -3368,7 +3377,7 @@
   {
     "label": "sidebar com chave entre aspas",
     "files": {
-      ".storybook/i18n/en.js": "export default { 'sidebar': { 'comece-aqui': 'Start' }, \"x\": { y: 1 } };"
+      ".storybook/i18n/en.json": "{ \"sidebar\": { \"comece-aqui\": \"Start\" }, \"x\": { \"y\": 1 } }"
     },
     "catches": [],
     "clean": true
@@ -3646,9 +3655,9 @@
     "clean": true
   },
   {
-    "label": "mutacao: sidebar com aspas duplas",
+    "label": "mutacao: sidebar em varias linhas",
     "files": {
-      ".storybook/i18n/en.js": "export default { \"sidebar\": { \"comece-aqui\": \"Start\" } };"
+      ".storybook/i18n/en.json": "{\n  \"sidebar\": {\n    \"comece-aqui\": \"Start\"\n  }\n}"
     },
     "catches": [],
     "clean": true
@@ -4726,7 +4735,7 @@
   {
     "label": "mutante da revisao: dicionario valor",
     "files": {
-      ".storybook/i18n/pt-BR.js": "export default { save: 'Salvar', sidebar: { 'a-b': 'Rótulo' } };"
+      ".storybook/i18n/pt-BR.json": "{ \"save\": \"Salvar\", \"sidebar\": { \"a-b\": \"Rótulo\" } }"
     },
     "catches": [],
     "clean": true
