@@ -1,7 +1,7 @@
 # Decisões técnicas — Nephos
 
 Esta é a **fonte única** das decisões técnicas P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65 e P66. Em caso de divergência entre este arquivo e qualquer outro documento
+P21, P62, P63, P64, P65, P66 e P68. Em caso de divergência entre este arquivo e qualquer outro documento
 do repositório, prevalece este.
 
 ## Fila de revisão técnica — Elvys
@@ -33,6 +33,7 @@ subseção P62.4 para o detalhe).
 | **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** Emenda de 02/10/2026 aprovada por Mauro no PR #49, com merge em 05/10/2026. |
 | **P65** | API e semântica do `nph-tooltip` | 05/10/2026 | Baixo agora. O `nph-label` é o primeiro consumidor; mudar depois exige refazer o gatilho dele | Comportamento e escopo (L11.5) e anatomia (L11.6, L11.7 e o quadro aceito) adotados por Indiane em 01/10/2026. API e semântica aprovadas por `maurocsjr` no PR #51, com merge em 05/10/2026 |
 | **P66** | API e semântica de `nph-spinner`, `nph-separator` e `nph-kbd` | 05/10/2026 | Baixo agora. O `nph-button` (Lote B) e o `nph-rich-option` serão os primeiros consumidores | Anatomia e comportamento: quadros aceitos por Indiane em 01/10/2026. API e semântica: proposta técnica, revisão no PR por `maurocsjr` |
+| **P68** | API e semântica de `nph-badge` e `nph-button` | 05/10/2026 | Baixo agora. Nenhuma peça consome as duas ainda | Anatomia e comportamento: quadros aceitos por Indiane em 01/10/2026, completados em 02/10/2026. API e semântica: proposta técnica, revisão no PR por `maurocsjr` |
 
 **Fora desta nota, ainda aguardam confirmação dele:** licença, variável de CI,
 credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
@@ -737,9 +738,124 @@ semântica em revisão no PR do Lote A.
 
 ---
 
+## P68 — `nph-badge` e `nph-button`: API e semântica
+
+**Decisão.** As duas peças são Web Components com **Shadow DOM aberto** (P01),
+CSS em arquivo próprio importado `?inline`, como o `nph-icon`. Nenhuma tem slot,
+evento próprio, propriedade de cor ou `::part`. Anatomia só por token semântico.
+Entrada inválida não renderiza nada e emite `console.error` só em
+desenvolvimento, um por causa e acumulando — a regra da P21, adotada aqui por
+decisão própria, como na P66. Os nomes seguem a P64.
+
+- **Nomes comuns às duas.** O `tipo` do Figma é `severity`, e a `enfase` é
+  `emphasis`. `severity` é o nome do PrimeNG, que é a fonte dos valores
+  (`primary`, `secondary`, `info`, `warn`, `help`, `danger`, `success`; B1 do
+  Registro de decisões). `type` não é usado: no botão, ele é o atributo nativo
+  que decide o envio de formulário. As duas peças usam o mesmo nome para a mesma
+  escolha.
+- **`nph-badge`**
+  - `severity`: os sete tipos, padrão `primary`, reflete no atributo.
+  - `emphasis`: `solid` (padrão) ou `light`, reflete no atributo. Os padrões são
+    os do conjunto `878:30`.
+  - `text`: string, padrão vazio. É o nome acessível. Vazio ou só espaços: nada é
+    mostrado (0 × 0), sem erro. É o estado de montagem, como no `nph-kbd` (P66), e
+    a regra do quadro: se não há o que escrever, não há selo.
+  - `icon`: string, padrão vazio. Um nome do núcleo do `nph-icon`, antes do texto,
+    em `icon/size-sm`, na cor do texto e decorativo.
+  - Só texto, sem role. Não recebe clique, foco nem hover: o hover saiu do Figma
+    em 02/10/2026, porque o selo não é clicável.
+  - O texto fica numa linha (`white-space: nowrap`): uma ou duas palavras.
+- **`nph-button`**
+  - `severity` (padrão `primary`), `emphasis` (`solid`, padrão, `outline`,
+    `light` ou `ghost`) e `size` (`compact`, padrão, `default` ou `large`).
+    `outline`, `light` e `ghost` só existem em `primary`, `secondary` e `danger`
+    (B1). O padrão `compact` é o do quadro aceito (`1197:5449`, seção 5) e da
+    variante padrão do conjunto `461:13009`. Os três refletem no atributo, como
+    `disabled` e `loading`: o CSS interno seleciona por eles.
+  - `text`: o que acontece ao clicar, e o nome acessível. Fica numa linha
+    (`white-space: nowrap`), porque a altura é fixa no token de controle.
+  - `icon-start` e `icon-end` (propriedades `iconStart` e `iconEnd`): um nome do
+    núcleo cada, em `icon/size-sm` quando há texto, e podem conviver (B6).
+  - **Só ícone (B5).** Sem texto e com um ícone, o botão é quadrado, na altura do
+    controle, sem respiro lateral, e o ícone acompanha a caixa: `sm` no
+    `compact`, `md` no `default` e `lg` no `large` (conjunto `498:15671`). O
+    `label` é obrigatório e vira o `aria-label` do botão nativo; com texto, ele
+    não é usado.
+  - Um `<button type="button">` nativo dentro do shadow root, com
+    `delegatesFocus`. Teclado nativo: Tab entra e sai; Enter e Espaço acionam. O
+    clique é o `click` nativo, que atravessa o shadow root e chega ao host.
+  - **Foco** só em `:focus-visible`: borda de `border/width` encostada, com raio
+    `focus/border-radius-control`, e halo de `focus/ring-width` por fora, com raio
+    `focus/radius-control-with-border`, sem mudar o tamanho. A borda tem a cor do
+    tipo (`color/primary`, `status/info`, `status/warning`, `status/help`,
+    `color/destructive`, `status/success`) e, no `secondary`, `focus/border`. O
+    halo é `focus/halo` no `primary` e no `secondary`, e `focus/halo-<matiz>` nos
+    demais. Igual em todas as ênfases.
+  - **Hover** (`hover-active`) nos tokens de hover de cada par: `color/*-hover` e
+    `status/*-hover` no sólido, por decisão de 02/10/2026, que supera a B4;
+    `*-surface-hover` e `*-on-surface-hover` no `outline` e no `light`; a
+    superfície do tipo no `ghost`.
+  - `disabled`: `disabled` nativo. O botão sai do Tab, não dispara clique e fica
+    em `state/disabled-opacity`, nas cores do repouso.
+  - `loading` (o `carregando` do Figma): o girador do `nph-spinner` entra no lugar
+    do ícone de início, o de fim some e o texto fica. No só ícone, o girador
+    substitui o ícone: `sm` no `compact` e `md` no `default` e no `large`. O botão
+    continua focável, com `aria-disabled="true"` e `aria-busy="true"`, e o clique
+    não chega a quem usa. O girador é decorativo.
+  - Em `disabled` e em `loading`, um ouvinte no botão nativo e outro, de captura,
+    no host param o `click`, também o de `click()` chamado no host.
+  - Entrada inválida: `severity`, `emphasis` ou `size` fora da lista; `outline`,
+    `light` ou `ghost` em `info`, `warn`, `help` ou `success`; ícone fora do
+    núcleo; sem texto e com dois ícones; sem texto, com um ícone e sem `label`.
+    **Sem texto e sem ícone é montagem**: nada, sem erro, como no `nph-kbd`.
+- **Literais escritos, e por quê.** `transparent` (o `ghost` não tem fundo);
+  `nowrap`; `calc(-1 * ...)`, que põe a borda e o halo do foco por fora; e
+  `inset 0 0 0` no `box-shadow` da borda do `outline`, que é traço por dentro,
+  como no `nph-kbd`. Nenhum é valor visual.
+
+**Limites conhecidos.**
+
+- **L-a — subárvore com outro esquema ou outra marca.** `status/on-solid` (alias
+  de `color/background`) e `focus/halo` (alias de `theme/brand-200`) saem só em
+  `:root`. Numa parte da tela com outro `data-nph-color-scheme` ou outro
+  `data-nph-brand`, os dois ficam com o valor da raiz: o texto sólido de `info`,
+  `warn`, `help` e `success`, nas duas peças, e o halo do `primary` e do
+  `secondary`. É a mesma pendência do gerador de tokens que a P65 registra para a
+  sombra. Quando o gerador redeclarar esses invariantes por esquema, as duas
+  peças corrigem sozinhas: elas consomem os mesmos nomes de token.
+- **L-b — `use` do `design.md` mais estreito que o Figma aceito.** O quadro e os
+  conjuntos aceitos usam tokens onde o `use` ainda não cita esse uso:
+  `color/primary-surface` e `color/destructive-surface` (o `use` cita
+  "nph-button com ênfase light ou outline") também servem ao hover do `ghost` e
+  ao badge `light`; `color/primary-on-surface` ("somente sobre ela") também no
+  `ghost` sem fundo; `color/muted` (`nao_use: "Hover."`) no hover do `ghost`
+  secondary e como fundo do `outline` secondary; `status/<matiz>` (ícone, ponto,
+  barra) como fundo sólido de badge e button; `status/<matiz>-surface` e
+  `-foreground` ("sempre em conjunto com os outros três papéis") no badge
+  `light`, sem `-border`. As peças seguem o Figma; a ampliação do `use` é
+  decisão pendente da Indiane, e este PR não muda o `design.md`.
+
+**Fonte.** Quadros aceitos no Figma `DS-IA-NEPHOS 5.0` em 01/10/2026 e
+completados em 02/10/2026: `nph-badge` (`1196:1100`, conjunto `878:30`; o hover
+saiu) e `nph-button` (`1197:5449`, conjuntos `461:13009` e `498:15671`; o hover
+sólido passou aos tokens de hover). Os dois têm QA UX de Figma e auditoria
+textual aprovados em 02/10/2026. Registro de decisões (vault): B1, B5 e B6. Os
+nomes `severity`, `emphasis`, `text`, `icon`, `iconStart`, `iconEnd`, `label` e
+`loading`, a semântica do `loading` e a regra de entrada inválida são proposta
+técnica desta implementação.
+
+**Fora de escopo.** Envio de formulário (`type="submit"`, elemento associado a
+formulário), link com cara de botão, grupo de botões, botão de largura fluida,
+texto em mais de uma linha, selo clicável e selo com contagem.
+
+**Status.** Anatomia e comportamento aceitos por Indiane em 01/10/2026 e
+completados em 02/10/2026; API e semântica em revisão no PR do Lote B.
+
+---
+
 ## Como mudar uma destas decisões
 
-Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65 ou P66 sem:
+Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66 ou P68 sem:
 
 1. explicar o conflito técnico concreto;
 2. registrar uma proposta de mudança;
