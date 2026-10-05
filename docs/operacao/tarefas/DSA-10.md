@@ -31,7 +31,8 @@
   "bloqueios": [],
   "decisoes_pendentes": [],
   "evidencias": [
-    "docs/operacao/evidencias/DSA-10/documentacao-figma-aceita-2026-10-01.md"
+    "docs/operacao/evidencias/DSA-10/documentacao-figma-aceita-2026-10-01.md",
+    "docs/operacao/evidencias/DSA-10/storybook-validacao-2026-10-05.md"
   ],
   "referencias_de_decisao": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, recorte da primeira entrega (Lote A)"
