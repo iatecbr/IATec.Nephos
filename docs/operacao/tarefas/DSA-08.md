@@ -5,7 +5,7 @@
   "fase": "F4",
   "ordem_aprovada": 105,
   "responsavel": "claude-codigo",
-  "estado": "pronta",
+  "estado": "em-revisao",
   "peca": "nph-tooltip",
   "dependencias": [],
   "gates": [
@@ -45,7 +45,7 @@
     "trecho": null,
     "decisao_convertida": "O frame nph-tooltip (1237:5) foi aceito como especificacao de API e comportamento do nph-tooltip. COMPONENT_SET: nenhum; COMPONENT unico 1237:3, sem variantes. Em 05-10-2026 Indiane decidiu que o nph-tooltip entra em codigo antes da entrega de codigo da DSA-04."
   },
-  "revisao_git": { "branch": null, "commit": null, "pr": null },
+  "revisao_git": { "branch": "feat/dsa08-nph-tooltip", "commit": null, "pr": "51" },
   "contexto": null,
   "atualizado_em": "2026-10-05"
 }
@@ -83,3 +83,8 @@ duas linhas. Nao altera o Figma.
 - `GOVERNANCA.md`, `AGENTS.md`, `CLAUDE.md`
 - Figma `DS-IA-NEPHOS 5.0`, quadro `1237:5` e componente `1237:3`
 - WORK BRAIN — `02 PROJETOS/DS-Agentico/Registro de decisões — Nephos.md`, L11
+
+## Por que está `em-revisao`
+O PR #51 traz o componente, os testes, as stories, a ficha canônica
+`fichas/nph-tooltip.md` com a Metadata, a decisão técnica P65 e as regras do
+`design.md`. Falta a revisão e o merge de `maurocsjr`.
