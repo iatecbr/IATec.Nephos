@@ -43,12 +43,12 @@
     "decisao_convertida": "Na revisao aprovada do PR #41, maurocsjr observou que codigo deve seguir o padrao em ingles; em 28-09-2026 Indiane decidiu tratar a convencao numa tarefa propria e adotar: nomes do codigo em ingles, comentario e mensagem em PT-BR, em todo o codigo versionado; fase F0 e ordem 100. O bloqueio pelo merge do PR #41 caiu em a30be89."
   },
   "revisao_git": {
-    "branch": "chore/idioma-do-codigo-scripts",
-    "commit": "9ae9fa4",
-    "pr": "42"
+    "branch": "chore/p64-nomes-codigo",
+    "commit": "5c719c8",
+    "pr": "49"
   },
   "contexto": null,
-  "atualizado_em": "2026-09-29"
+  "atualizado_em": "2026-10-05"
 }
 ```
 
@@ -83,3 +83,5 @@ o `git status` marca `tokens.css` depois do build sem mudança de conteúdo.
 - `AGENTS.md` — Regras obrigatórias
 - PR #41 — comentário de `maurocsjr`
 - PR #42 — primeiro PR da migração (`scripts/`)
+- PR #49 — migração de `src/`, `stories/` e `.storybook/`, emenda da P64 e
+  `npm run test:naming`; merge em 05-10-2026 (`183ff01`)

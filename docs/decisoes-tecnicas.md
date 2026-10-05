@@ -30,8 +30,8 @@ subseção P62.4 para o detalhe).
 | **P20** | Style Dictionary v5 e contrato de tema | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
 | **P21** | Plano técnico do `nph-icon` | 26/08/2026 | Já implementado e mergeado sob aceitação de risco | Aprovada, 28/08/2026 |
 | **P63** | Metadata gerada a partir da ficha | 28/09/2026 | Médio. Mudar local ou formato depois exige gerar de novo e ajustar quem lê; a ficha não muda | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** |
-| **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** Emenda de 02/10/2026 em revisão no PR #49. |
-| **P65** | API e semântica do `nph-tooltip` | 05/10/2026 | Baixo agora. O `nph-label` é o primeiro consumidor; mudar depois exige refazer o gatilho dele | Comportamento e escopo (L11.5) e anatomia (L11.6, L11.7 e o quadro aceito) adotados por Indiane em 01/10/2026. Revisão no PR por `maurocsjr` |
+| **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** Emenda de 02/10/2026 aprovada por Mauro no PR #49, com merge em 05/10/2026. |
+| **P65** | API e semântica do `nph-tooltip` | 05/10/2026 | Baixo agora. O `nph-label` é o primeiro consumidor; mudar depois exige refazer o gatilho dele | Comportamento e escopo (L11.5) e anatomia (L11.6, L11.7 e o quadro aceito) adotados por Indiane em 01/10/2026. API e semântica aprovadas por `maurocsjr` no PR #51, com merge em 05/10/2026 |
 
 **Fora desta nota, ainda aguardam confirmação dele:** licença, variável de CI,
 credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
@@ -623,11 +623,11 @@ do contrato do verificador (`fichas/`, `docs/operacao/tarefas/`, `evidencias/`,
 inclui os nomes dos arquivos de evidência. Os casos de fixture do verificador
 e do teste de invariância também passam para o inglês. Prova: `npm run test:naming`, com as exceções
 de contrato em `scripts/naming-exceptions.json`. Adotada pela Indiane em
-02/10/2026; revisão no PR #49.
+02/10/2026; aprovada por Mauro no PR #49.
 
 **Status.** Decisão adotada pela Indiane em 28/09/2026 — revisada e aprovada
-por Mauro em 30/09/2026, no chat da equipe. Emenda de 02/10/2026 em revisão no
-PR #49.
+por Mauro em 30/09/2026, no chat da equipe. Emenda de 02/10/2026 aprovada por
+Mauro no PR #49, com merge em 05/10/2026.
 
 ---
 
@@ -673,7 +673,7 @@ sombra fica com a cor da raiz. É uma pendência do gerador de tokens, e não
 desta peça.
 
 **Status.** Anatomia e comportamento adotados por Indiane em 01/10/2026; API e
-semântica em revisão no PR do `nph-tooltip` (DSA-08).
+semântica aprovadas por Mauro no PR #51 (DSA-08), com merge em 05/10/2026.
 
 ---
 

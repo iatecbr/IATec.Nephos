@@ -45,7 +45,7 @@
     "trecho": null,
     "decisao_convertida": "O frame nph-tooltip (1237:5) foi aceito como especificacao de API e comportamento do nph-tooltip. COMPONENT_SET: nenhum; COMPONENT unico 1237:3, sem variantes. Em 05-10-2026 Indiane decidiu que o nph-tooltip entra em codigo antes da entrega de codigo da DSA-04."
   },
-  "revisao_git": { "branch": "feat/dsa08-nph-tooltip", "commit": null, "pr": "51" },
+  "revisao_git": { "branch": "feat/dsa08-nph-tooltip", "commit": "06af125", "pr": "51" },
   "contexto": null,
   "atualizado_em": "2026-10-05"
 }
@@ -87,4 +87,5 @@ duas linhas. Nao altera o Figma.
 ## Por que está `em-revisao`
 O PR #51 traz o componente, os testes, as stories, a ficha canônica
 `fichas/nph-tooltip.md` com a Metadata, a decisão técnica P65 e as regras do
-`design.md`. Falta a revisão e o merge de `maurocsjr`.
+`design.md`. `maurocsjr` aprovou e fez o merge em 05-10-2026 (`d4ff326`). Falta
+registrar a evidência do gate `revisao-e-merge`.
