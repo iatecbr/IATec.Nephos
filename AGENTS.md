@@ -112,7 +112,7 @@ Antes de analisar, propor, editar ou implementar:
   e mensagem para quem mantém o repositório ficam em PT-BR. Chave de dados,
   bandeira da linha de comando, nome de script, arquivo citado em comando gravado
   em `docs/operacao/` e nome público não mudam (P64, revisada por Mauro em
-  30/09/2026; emenda de 02/10/2026 em revisão no #49). A prova é
+  30/09/2026; emenda de 02/10/2026 aprovada por Mauro no PR #49). A prova é
   `npm run test:naming`, em toda mudança que toca `src/`, `stories/`,
   `.storybook/` ou `scripts/`; exceção nova entra em
   `scripts/naming-exceptions.json` com a classe, palavra nova entra em
@@ -224,9 +224,9 @@ disponibilizará um artefato privado (P19).
 
 Os tokens técnicos ficam em `src/tokens/source/*.tokens.json`, nas camadas
 `core`, `theme` e `semantic`, com o CSS gerado em
-`src/tokens/generated/tokens.css`: **nunca edite o CSS gerado**. Dois
+`src/tokens/generated/tokens.css`: **nunca edite o CSS gerado**. Três
 componentes estão implementados, com stories e testes: `nph-icon`, desde o PR
-#6, e `nph-label`, desde o PR #10. As fichas de componente são canônicas em
+#6, `nph-label`, desde o PR #10, e `nph-tooltip`, desde o PR #51. As fichas de componente são canônicas em
 `fichas/<nome>.md`, com o gabarito em `fichas/_modelo.md`, desde o PR #13.
 **O workflow de CI e a publicação continuam inexistentes.** A nota registra, em
 cada decisão, o que ficou fora de escopo. O P17 também fixa a fonte canônica por
