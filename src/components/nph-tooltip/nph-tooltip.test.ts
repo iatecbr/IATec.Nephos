@@ -144,6 +144,13 @@ describe('contrato de token', () => {
 });
 
 describe('medida', () => {
+  it('limites de largura e altura do Figma: 235 e 44', async () => {
+    const tooltip = await mount({ text: ONE_LINE, open: true });
+    const style = getComputedStyle(bubbleOf(tooltip) as HTMLElement);
+    expect(style.maxWidth).toBe(MAX_WIDTH + 'px');
+    expect(style.maxHeight).toBe(MAX_HEIGHT + 'px');
+  });
+
   it('texto curto: uma linha de 24, ate 235 de largura', async () => {
     const tooltip = await mount({ text: ONE_LINE, open: true });
     const bubble = bubbleOf(tooltip) as HTMLElement;
