@@ -7,9 +7,7 @@ import { html, render } from 'lit';
 import type { TemplateResult } from 'lit';
 
 import '../../tokens/generated/tokens.css';
-import ptBR from '../../../.storybook/i18n/pt-BR.js';
-import en from '../../../.storybook/i18n/en.js';
-import es from '../../../.storybook/i18n/es.js';
+import { translations } from '../../../.storybook/i18n/index.js';
 import { demo, source, index, note, section, table, useDontUse } from './page';
 
 afterEach(() => {
@@ -109,7 +107,7 @@ describe('blocos da pagina de conteudo', () => {
 });
 
 describe('textos da pagina nos tres idiomas', () => {
-  const DICTIONARIES = { 'pt-BR': ptBR, en, es } as const;
+  const DICTIONARIES = { 'pt-BR': translations('pt-BR'), en: translations('en'), es: translations('es') } as const;
   const KEYS = [
     'onThisPage',
     'apiHeader',

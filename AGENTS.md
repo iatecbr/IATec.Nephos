@@ -169,7 +169,7 @@ evidência, `V28` a ficha. Contrato completo em
 | `src/tokens/source/*.tokens.json` — só com evidência de leitura do Figma | `.npmrc` — configuração local de credencial, fora do Git |
 | `src/styles/` e `src/shared/` — padrão P03; criar só quando a peça exigir | `storybook-static/` — artefato de build |
 | `fichas/<nome>.md` — a partir de `fichas/_modelo.md` | `.env` e variantes — segredo nunca entra no repositório |
-| `.storybook/i18n/` — os dicionários de idioma, um arquivo `.js` por idioma (`pt-BR.js`, `en.js`, `es.js`), reunidos em `index.js` | `.claude/` e `.agents/` — ferramentas locais, ignoradas pelo Git |
+| `.storybook/i18n/` — os dicionários de idioma, um arquivo `.json` por idioma (`pt-BR.json`, `en.json`, `es.json`), reunidos em `index.js` | `.claude/` e `.agents/` — ferramentas locais, ignoradas pelo Git |
 | `scripts/` — gerador e validações, sempre por decisão registrada | Qualquer arquivo fora deste repositório |
 | `docs/` e `stories/` | `src/shared/metadata/` — é gerado por `node scripts/verificar-operacao.mjs --gerar-metadata` (P63); nunca edite à mão |
 
