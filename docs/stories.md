@@ -276,8 +276,10 @@ duplica componente por modo.
 **Fonte:** `nph-label.stories.ts`, função `frame()` e cabeçalho;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P20**.
 **Limite:** um componente. Só o `nph-label` tem story de modo. O quadro vence o
-modo global do Storybook (§6.4) só para as variáveis dos blocos de esquema de
-cor; os tokens compostos declarados em `:root` resolvem o valor na raiz.
+modo global do Storybook (§6.4) para todos os tokens semânticos: os invariantes
+que dependem de marca ou de esquema também são redeclarados em cada raiz de
+esquema (**P67**). Um quadro com outra marca leva `data-nph-brand` e
+`data-nph-color-scheme` no mesmo elemento.
 
 ### 4.7 A moldura não é precedente
 
