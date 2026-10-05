@@ -529,7 +529,8 @@
       "Salvar",
       "Cancelar",
       "Excluir conta",
-      "Adicionar"
+      "Fechar",
+      "Novo"
     ],
     "antiPatternsTitle": "Não usar",
     "antiPatterns": [

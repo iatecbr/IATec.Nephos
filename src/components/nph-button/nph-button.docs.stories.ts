@@ -61,7 +61,7 @@ export const Documentation: Story = {
   name: 'Documentação',
   render: (_args, context: GlobalsContext) => {
     const d = translations(localeOf(context)).buttonDocs;
-    const [save, cancel, deleteAccount, add] = d.exampleTexts as string[];
+    const [save, cancel, deleteAccount, close, create] = d.exampleTexts as string[];
 
     return html`
       <div style=${body}>
@@ -128,8 +128,8 @@ export const Documentation: Story = {
                 ${NPH_BUTTON_SIZES.map(
                   (size) => html`<div style=${row}>
                     <nph-button size=${size} text=${save}></nph-button>
-                    <nph-button size=${size} text=${add} icon-start="plus"></nph-button>
-                    <nph-button size=${size} icon-start="plus" label=${add}></nph-button>
+                    <nph-button size=${size} text=${create} icon-start="plus"></nph-button>
+                    <nph-button size=${size} icon-start="xmark" label=${close}></nph-button>
                     <code>${size}</code>
                   </div>`,
                 )}
@@ -150,7 +150,7 @@ export const Documentation: Story = {
                 <nph-button size="default" text=${save} disabled></nph-button>
                 <nph-button size="default" emphasis="outline" severity="secondary" text=${cancel} disabled></nph-button>
                 <nph-button size="default" text=${save} loading></nph-button>
-                <nph-button size="default" icon-start="plus" label=${add} loading></nph-button>
+                <nph-button size="default" icon-start="xmark" label=${close} loading></nph-button>
               </div>`,
               d.statesCaption,
             )}
@@ -182,7 +182,7 @@ export const Documentation: Story = {
             )}
             ${demo(html`<nph-button size="default" severity="danger" text=${deleteAccount}></nph-button>`, d.exampleConsequence)}
             ${demo(
-              html`<nph-button size="default" severity="secondary" emphasis="ghost" icon-start="plus" label=${add}></nph-button>`,
+              html`<nph-button size="default" severity="secondary" emphasis="ghost" icon-start="xmark" label=${close}></nph-button>`,
               d.exampleIconOnly,
             )}
             ${source(d.sourceLabel, d.sourceSpec)}

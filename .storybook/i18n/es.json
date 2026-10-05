@@ -529,7 +529,8 @@
       "Guardar",
       "Cancelar",
       "Eliminar cuenta",
-      "Añadir"
+      "Cerrar",
+      "Nuevo"
     ],
     "antiPatternsTitle": "No usar",
     "antiPatterns": [

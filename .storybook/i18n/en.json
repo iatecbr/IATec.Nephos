@@ -529,7 +529,8 @@
       "Save",
       "Cancel",
       "Delete account",
-      "Add"
+      "Close",
+      "New"
     ],
     "antiPatternsTitle": "Do not use",
     "antiPatterns": [

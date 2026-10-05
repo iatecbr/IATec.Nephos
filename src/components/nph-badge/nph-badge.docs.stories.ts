@@ -152,7 +152,7 @@ export const Documentation: Story = {
             )}
             ${demo(
               html`<span style=${item}
-                >${request} <nph-badge severity="danger" emphasis="light" text=${rejected} icon="circle-info"></nph-badge
+                >${request} <nph-badge severity="danger" emphasis="light" text=${rejected} icon="circle-xmark"></nph-badge
               ></span>`,
               d.exampleIcon,
             )}

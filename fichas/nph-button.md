@@ -8,7 +8,7 @@ resolve: >-
 use_quando:
   - "Iniciar uma ação identificada por texto, como salvar ou enviar."
   - "Destacar a ação principal de um bloco diante das alternativas, pela ênfase."
-  - "Ação universal sem texto, como adicionar, com nome acessível."
+  - "Ação universal sem texto, como fechar ou buscar, com nome acessível."
 nao_use_quando:
   - "A pessoa vai para outro destino — isso é navegação, e não ação."
   - "Mostrar erro de campo — a validação é do campo, no nph-field."
@@ -43,9 +43,12 @@ api:
     padrao: compact
     reflete: true
     restricao: >-
-      O padrão é o do quadro aceito no Figma. large atende o alvo de toque de
-      44 px; compact nunca é alvo principal em tela de toque. Campo e botão lado
-      a lado usam o mesmo tamanho.
+      O padrão compact é o do quadro aceito no Figma, e diverge da T4, que prende
+      compact ao contexto denso; a escolha entre compact e default está pendente
+      com a Indiane. Em formulário comum, passe size default. large atende o alvo
+      de toque de 44 px; compact nunca é alvo principal em tela de toque. Campo e
+      botão lado a lado usam o mesmo tamanho. Valor fora da lista não desenha
+      nada e emite console.error em desenvolvimento.
   text:
     tipo: string
     obrigatoria: false
@@ -61,7 +64,8 @@ api:
     reflete: false
     restricao: >-
       Um nome do núcleo do nph-icon antes do texto, em icon/size-sm. Pode
-      conviver com icon-end. A propriedade é iconStart.
+      conviver com icon-end. A propriedade é iconStart. Nome fora do núcleo não
+      desenha nada e emite console.error em desenvolvimento.
   icon-end:
     tipo: string
     obrigatoria: false
@@ -69,7 +73,8 @@ api:
     reflete: false
     restricao: >-
       Um nome do núcleo do nph-icon depois do texto, em icon/size-sm. A
-      propriedade é iconEnd.
+      propriedade é iconEnd. Nome fora do núcleo não desenha nada e emite
+      console.error em desenvolvimento.
   label:
     tipo: string
     obrigatoria: false
@@ -153,14 +158,14 @@ dicas_para_ia:
   - "Enquanto a ação demora, use loading em vez de desligar o botão sem explicação."
   - "Não escolha a cor do ícone: ele herda a cor do texto."
 acessibilidade:
-  semantica: "Um botão nativo dentro do componente, com type=button. Nunca uma div com clique."
+  semantica: "Um botão nativo dentro do componente, com type=button. Nunca uma div com clique. No loading, o botão nativo leva aria-disabled e aria-busy."
   nome_acessivel: "O texto visível. Sem texto, o label, obrigatório."
   teclado:
     - "Tab entra e sai do botão."
     - "Enter aciona."
     - "Espaço aciona."
-  foco: "Só para o teclado: borda na cor do tipo, encostada, e halo por fora, sem mudar o tamanho. Quem cumpre o contraste mínimo é a borda."
-  contraste: "Texto e ícone passam 4,5:1 em todos os tipos e ênfases, nos dois esquemas e em todas as marcas; o menor valor é 4,64:1, no primary outline e light do esquema claro. As bordas passam 3:1."
+  foco: "Só para o teclado: borda na cor do tipo, encostada, e halo por fora, sem mudar o tamanho. A borda é o indicador. Limite conhecido: no escuro, color/primary fica abaixo de 3:1 contra o fundo em Gerencial, Recursos Humanos e Igrejas; a pendência é da Indiane desde 02-10-2026."
+  contraste: "Texto e ícone passam 4,5:1 em todos os tipos e ênfases, nos dois esquemas e em todas as marcas; o menor valor é 4,64:1, no primary outline e light do esquema claro. A borda do outline passa 3:1. A borda de foco do primary tem o limite descrito em foco."
   alternativa_a_cor: "O texto diz o que acontece ao clicar; a cor nunca é o único sinal de intenção, foco ou estado."
 combinacoes_invalidas:
   - "outline, light ou ghost em info, warn, help ou success — a matriz não os tem."
@@ -202,7 +207,7 @@ que ela está, e comunica pelo tipo e pela ênfase o peso dessa ação.
 
 - Para iniciar uma ação identificada por texto, como salvar ou enviar.
 - Para destacar a ação principal de um bloco diante das alternativas, pela ênfase.
-- Sem texto, para uma ação universal, como adicionar, com nome acessível.
+- Sem texto, para uma ação universal, como fechar ou buscar, com nome acessível.
 
 **Quando NÃO usar:**
 
@@ -222,7 +227,9 @@ que ela está, e comunica pelo tipo e pela ênfase o peso dessa ação.
 
 **Por tamanho:** `compact` (28, padrão do quadro aceito), `default` (36) e `large` (44).
 `large` atende o alvo de toque de 44 px. `compact` fica preso a tabela, barra de
-ferramentas ou filtro e nunca é alvo principal em tela de toque.
+ferramentas ou filtro e nunca é alvo principal em tela de toque. O padrão `compact`
+diverge dessa regra (T4) e está pendente com a Indiane; em formulário comum, passe
+`size` `default`.
 
 **Por densidade:** `nao_se_aplica`.
 
@@ -242,8 +249,10 @@ principal em tela de toque; tamanho diferente do campo ao lado.
 | `disabled` | `state/disabled-opacity` | O botão inteiro perde opacidade, sai do Tab e para de responder |
 | `loading` | o girador herda a cor do texto | O girador ocupa o lugar do ícone de início, o texto continua e o clique deixa de valer |
 
-**Feedback e foco:** o foco aparece só para quem usa o teclado e **não se remove**. Quem
-cumpre o contraste mínimo é a borda; o halo é a segunda camada.
+**Feedback e foco:** o foco aparece só para quem usa o teclado e **não se remove**. A
+borda é o indicador; o halo é a segunda camada. Limite conhecido: no escuro,
+`color/primary` fica abaixo de 3:1 contra o fundo em Gerencial, Recursos Humanos e
+Igrejas, pendência da Indiane desde 02-10-2026.
 
 **Regra de negócio que a peça carrega:** `nao_se_aplica`. O botão dispara a ação que a
 tela define.
@@ -254,11 +263,11 @@ tela define.
 
 | Critério | Regra |
 |---|---|
-| Semântica | Um botão nativo dentro do componente, com `type=button`. Nunca uma `div` com clique |
+| Semântica | Um botão nativo dentro do componente, com `type=button`. Nunca uma `div` com clique. No `loading`, o botão nativo leva `aria-disabled` e `aria-busy` |
 | Nome acessível | O texto visível. Sem texto, o `label`, obrigatório |
 | Teclado | Tab entra e sai; Enter e Espaço acionam |
-| Foco | Só para o teclado: borda na cor do tipo e halo por fora, sem mudar o tamanho |
-| Contraste | Texto e ícone passam 4,5:1 em todos os tipos e ênfases, nos dois esquemas e em todas as marcas; o menor valor é 4,64:1, no `primary` `outline` e `light` do esquema claro. As bordas passam 3:1 |
+| Foco | Só para o teclado: borda na cor do tipo e halo por fora, sem mudar o tamanho. No escuro, a borda do `primary` fica abaixo de 3:1 contra o fundo em Gerencial, Recursos Humanos e Igrejas (pendência de 02-10-2026) |
+| Contraste | Texto e ícone passam 4,5:1 em todos os tipos e ênfases, nos dois esquemas e em todas as marcas; o menor valor é 4,64:1, no `primary` `outline` e `light` do esquema claro. A borda do `outline` passa 3:1 |
 | Alternativa à cor | O texto diz o que acontece ao clicar; a cor nunca é o único sinal |
 
 ## Relações
@@ -291,7 +300,7 @@ tela define.
 | Foco | `border/width`, `focus/border-radius-control`, `focus/ring-width`, `focus/radius-control-with-border`, `focus/border`, `focus/halo` e `focus/halo-<matiz>` |
 
 **Restrições de uso:** o componente não escolhe altura, cor, raio nem tipografia: tudo
-vem de token. Dois limites estão na P68: `status/on-solid` e `focus/halo` saem só na raiz
+vem de token. Os limites L-a e L-b estão na P68: `status/on-solid` e `focus/halo` saem só na raiz
 até o gerador de tokens os redeclarar por esquema e por marca (L-a), e o `use` de alguns
 tokens no `design.md` ainda não cita este uso (L-b).
 
@@ -312,7 +321,7 @@ tokens no `design.md` ainda não cita este uso (L-b).
 de "Cancelar" em `secondary` `outline`, os dois em `size` `default`.
 
 **Caso alternativo:** "Excluir conta" em `danger` `solid`, sempre com texto; e, para a
-ação universal de adicionar, o só ícone `plus` em `secondary` `ghost`, com `label`.
+ação universal de fechar, o só ícone `xmark` em `secondary` `ghost`, com `label` "Fechar".
 
 ## Anti-padrões
 
