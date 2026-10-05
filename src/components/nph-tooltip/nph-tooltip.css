@@ -1,0 +1,42 @@
+/**
+ * Estilo interno do `nph-tooltip`.
+ *
+ * Classes e seletores daqui NAO sao API publica (P02). O que e contrato: as
+ * custom properties de token que este arquivo consome. O componente nao
+ * expoe `::part` e nao declara custom property propria.
+ *
+ * Nenhum valor literal de design entra aqui. As palavras-chave de caixa
+ * (`inline-block`, `max-content`, `border-box`, `normal`, `manual`) sao
+ * relacoes de layout, nao decisoes visuais.
+ */
+
+/*
+ * O host fica no fluxo mesmo fechado: e a regiao viva `role="status"`, que
+ * precisa existir antes de o texto aparecer. Sem filho, nao ocupa espaco.
+ */
+:host {
+  display: inline-block;
+}
+
+.bubble {
+  box-sizing: border-box;
+  inline-size: max-content;
+  max-inline-size: var(--nph-layout-max-tooltip-width);
+  max-block-size: var(--nph-layout-max-tooltip-height);
+  padding-block: var(--nph-space-inline-tight);
+  padding-inline: var(--nph-space-inline);
+  border-radius: var(--nph-radius-inner);
+  background-color: var(--nph-color-tooltip);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-color-tooltip-foreground);
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+  /* Quebra so entre palavras: nunca reticencias, nunca palavra partida. */
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
+}

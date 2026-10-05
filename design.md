@@ -348,7 +348,7 @@ tokens_semantic:
     css: '--nph-color-popover'
     claro: core/base/white
     escuro: core/surface/700
-    use: "Camada flutuante presa a um gatilho, que NAO bloqueia a pagina: popover, dropdown, tooltip, menu de contexto."
+    use: "Camada flutuante presa a um gatilho, que NAO bloqueia a pagina: popover, dropdown, menu de contexto."
     nao_use: "Conteudo fixo da pagina. Dialogo, modal ou painel lateral - esses sao color/dialog."
   color/popover-foreground:
     css: '--nph-color-popover-foreground'
@@ -360,7 +360,7 @@ tokens_semantic:
     claro: core/base/white
     escuro: core/surface/600
     use: "Fundo de dialogo, modal e painel lateral - a camada que BLOQUEIA a pagina. No escuro sobe para surface/600, um degrau acima do popover: e o nivel mais alto da rampa, e no escuro a rampa E a elevacao. USE sempre com overlay/scrim."
-    nao_use: "Popover, tooltip ou menu suspenso - esses sao color/popover."
+    nao_use: "Popover ou menu suspenso - esses sao color/popover. Tooltip e color/tooltip."
   color/dialog-foreground:
     css: '--nph-color-dialog-foreground'
     claro: core/neutral/950
@@ -1063,7 +1063,7 @@ tokens_radius:
     css: '--nph-radius-inner'
     alias: core/radius/200
     valor: 4
-    use: "USE em elemento aninhado dentro de um controle ou conteiner: checkbox, icone com fundo, item dentro de popover, miniatura. Raio interno e sempre menor que o externo."
+    use: "USE em elemento aninhado dentro de um controle ou conteiner: checkbox, icone com fundo, item dentro de popover, miniatura. Raio interno e sempre menor que o externo. Tambem e o raio do balao de ajuda (nph-tooltip)."
   radius/control:
     css: '--nph-radius-control'
     alias: core/radius/300
@@ -1073,12 +1073,12 @@ tokens_radius:
     css: '--nph-radius-container'
     alias: core/radius/400
     valor: 8
-    use: "USE em popover, tooltip e menu suspenso - a camada flutuante presa a um gatilho. NAO USE em cartao ou painel: esses sao radius/surface. NAO USE em controle."
+    use: "USE em popover e menu suspenso - a camada flutuante presa a um gatilho. O tooltip usa radius/inner. NAO USE em cartao ou painel: esses sao radius/surface. NAO USE em controle."
   radius/overlay:
     css: '--nph-radius-overlay'
     alias: core/radius/450
     valor: 10
-    use: "USE em camada flutuante grande: dialogo, modal, painel lateral. E a BASE da escala do kit de referencia (--radius = 10), da qual control e container derivam. Popover e tooltip NAO entram aqui - esses sao radius/container."
+    use: "USE em camada flutuante grande: dialogo, modal, painel lateral. E a BASE da escala do kit de referencia (--radius = 10), da qual control e container derivam. Popover NAO entra aqui - e radius/container; tooltip e radius/inner."
   radius/surface:
     css: '--nph-radius-surface'
     alias: core/radius/600
@@ -2005,7 +2005,7 @@ A curva diz o que a peça é. A pergunta não é quanto arredondar.
 | A peça… | Token |
 |---|---|
 | se **opera** | `radius/control` (6) — padrão do sistema |
-| **contém** e flutua preso a um gatilho | `radius/container` (8) |
+| **contém** e flutua preso a um gatilho | `radius/container` (8); o tooltip é `radius/inner` (4) |
 | **flutua grande** | `radius/overlay` (10) |
 | **carrega conteúdo** sem flutuar | `radius/surface` (14) |
 | é **marcador** | `radius/subtle` (2) ou `radius/full` |
@@ -2015,7 +2015,7 @@ A curva diz o que a peça é. A pergunta não é quanto arredondar.
 | Dúvida | Regra |
 |---|---|
 | `control` × `container` | Botão dentro de cartão: botão é `control`, cartão é `container`. |
-| `container` × `overlay` | Popover e tooltip são `container`. Diálogo, modal e painel lateral são `overlay`. |
+| `container` × `overlay` | Popover é `container`; tooltip é `inner`. Diálogo, modal e painel lateral são `overlay`. |
 | `subtle` × `inner` | `subtle` é marcador que não contém nada. `inner` é elemento aninhado com conteúdo. |
 | `full` × `control` | `full` só em peça pequena cuja forma comunica marcador. Botão e campo nunca são pill. |
 

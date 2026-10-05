@@ -1,7 +1,7 @@
 # Decisões técnicas — Nephos
 
 Esta é a **fonte única** das decisões técnicas P01, P02, P03, P17, P19, P20,
-P21, P62, P63 e P64. Em caso de divergência entre este arquivo e qualquer outro documento
+P21, P62, P63, P64 e P65. Em caso de divergência entre este arquivo e qualquer outro documento
 do repositório, prevalece este.
 
 ## Fila de revisão técnica — Elvys
@@ -31,6 +31,7 @@ subseção P62.4 para o detalhe).
 | **P21** | Plano técnico do `nph-icon` | 26/08/2026 | Já implementado e mergeado sob aceitação de risco | Aprovada, 28/08/2026 |
 | **P63** | Metadata gerada a partir da ficha | 28/09/2026 | Médio. Mudar local ou formato depois exige gerar de novo e ajustar quem lê; a ficha não muda | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** |
 | **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** Emenda de 02/10/2026 em revisão no PR #49. |
+| **P65** | API e semântica do `nph-tooltip` | 05/10/2026 | Baixo agora. O `nph-label` é o primeiro consumidor; mudar depois exige refazer o gatilho dele | Comportamento e escopo (L11.5) e anatomia (L11.6, L11.7 e o quadro aceito) adotados por Indiane em 01/10/2026. Revisão no PR por `maurocsjr` |
 
 **Fora desta nota, ainda aguardam confirmação dele:** licença, variável de CI,
 credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
@@ -630,9 +631,55 @@ PR #49.
 
 ---
 
+## P65 — `nph-tooltip`: API e semântica
+
+**Decisão.**
+
+- O `nph-tooltip` é um Web Component com **Shadow DOM aberto** (P01). O CSS
+  fica em `nph-tooltip.css`, importado `?inline`, como no `nph-icon`.
+- **API pública: duas propriedades.**
+
+  | Propriedade | Papel |
+  |---|---|
+  | `text` | String, padrão vazio. O texto do balão, já localizado pela aplicação consumidora. Vazio ou só espaços: nada é mostrado |
+  | `open` | Booleana, padrão `false`, reflete no atributo. Mostra o balão |
+
+- **Sem slot, sem evento, sem posicionamento e sem gatilho próprios.** Quem
+  abre, fecha e posiciona é o consumidor. O primeiro é o gatilho `info` do
+  `nph-label`, que abre por clique, Enter ou Espaço e fecha com Esc ou clique
+  fora; o balão não abre no hover.
+- **Semântica de toggletip.** O host é uma região viva `role="status"` desde a
+  montagem, aberto ou fechado: o leitor de tela só anuncia mudança dentro de
+  uma região que já existia. O balão não é focável; o foco fica no gatilho.
+- **Anatomia só por token semântico:** fundo `color/tooltip`; texto
+  `text/body-sm` em `color/tooltip-foreground`; raio `radius/inner`; padding
+  `space/inline-tight` em cima e embaixo e `space/inline` nas laterais;
+  `elevation/dropdown`; sem borda e sem seta. Largura até
+  `layout/max-tooltip-width` e altura até `layout/max-tooltip-height`.
+- **O texto não é cortado.** Ele acompanha a largura até o máximo e quebra só
+  entre palavras: sem reticências, sem hifenização automática, sem palavra
+  partida. Cabe em até duas linhas; texto mais longo é erro de conteúdo.
+
+**Fonte.** Comportamento e escopo: decisão de Indiane em 01/10/2026, L11.5 do
+Registro de decisões (vault). Anatomia: L11.6 e L11.7 e o quadro `nph-tooltip`
+(`1237:5`) aceito no Figma `DS-IA-NEPHOS 5.0`, com o componente `1237:3`. O
+padding segue o redesenho aceito no mesmo dia; a L11.5 ainda cita
+`space/container-padding`, que o redesenho substituiu. A API (`text`, `open`)
+e a semântica (`role="status"`) são proposta técnica desta implementação.
+
+**Limite conhecido.** `elevation/dropdown` sai em `:root` com
+`var(--nph-shadow-color)`. Numa subárvore com outro `data-nph-color-scheme`, a
+sombra fica com a cor da raiz. É uma pendência do gerador de tokens, e não
+desta peça.
+
+**Status.** Anatomia e comportamento adotados por Indiane em 01/10/2026; API e
+semântica em revisão no PR do `nph-tooltip` (DSA-08).
+
+---
+
 ## Como mudar uma destas decisões
 
-Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21, P62, P63 ou P64 sem:
+Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21, P62, P63, P64 ou P65 sem:
 
 1. explicar o conflito técnico concreto;
 2. registrar uma proposta de mudança;
