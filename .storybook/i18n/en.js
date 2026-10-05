@@ -229,20 +229,25 @@ export default {
   },
 
   validation: {
-    variantsSection: 'regular and solid',
+    variantsTitle: 'Variants',
     variantsRegular: 'regular — default',
     variantsSolid: 'solid — more visual presence',
     variantsNote:
       'regular and solid exist for every name in the core.',
 
+    sizesTitle: 'Sizes',
+    sizesSummary: 'Size comes from a semantic token. There is no free value.',
     sizesOverflowTitle: 'Approved overflow',
     sizesEye: 'eye — 18 wide by nature',
     sizesCircleCheck: 'circle-check — width equal to height',
     sizesNote:
       'The box normalises height and alignment, not width: eye, eye-slash and star overflow centred, without clipping and without rescaling.',
 
-    colorNote: 'None of the icons above was painted. They all inherit the colour of the context.',
+    colorTitle: 'Colour inheritance',
+    colorNote: 'None of the icons below was painted. They all inherit the colour of the context.',
 
+    a11yTitle: 'Accessibility',
+    a11ySummary: 'Decorative beside text; named when it stands alone.',
     a11yDecorativeTitle: 'With text beside it — decorative',
     a11yDecorativeExample: 'Delete record',
     a11yDecorativeNote:
@@ -251,16 +256,19 @@ export default {
     a11yNamedLabel: 'Search',
     a11yNamedNote:
       'With label: role="img" and aria-label on the host. Only for a universal, recurring symbol; an action with consequences never stands alone.',
+    a11yFocusTitle: 'Focus',
     a11yFocusNote:
       'The icon never takes focus: keyboard and touch target belong to the surrounding control.',
 
+    invalidTitle: 'Invalid input',
+    invalidHeader: ['Input', 'Why nothing is drawn'],
     invalidIntro:
       'The four cases below draw nothing and take up no space. Open the console to see one error per invalid property.',
     invalidCases: [
-      'outside the core:',
-      'a variant that does not exist:',
-      'a free size does not exist:',
-      'size is required:',
+      'outside the core',
+      'a variant that does not exist',
+      'a free size does not exist',
+      'size is required',
     ],
   },
 };

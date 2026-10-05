@@ -240,20 +240,25 @@ export default {
   },
 
   validation: {
-    variantsSection: 'regular e solid',
+    variantsTitle: 'Variantes',
     variantsRegular: 'regular — padrão',
     variantsSolid: 'solid — mais presença visual',
     variantsNote:
       'regular e solid existem para todos os nomes do núcleo.',
 
+    sizesTitle: 'Tamanhos',
+    sizesSummary: 'Tamanho vem de token semântico. Não existe valor livre.',
     sizesOverflowTitle: 'Transbordo aprovado',
     sizesEye: 'eye — 18 de largura natural',
     sizesCircleCheck: 'circle-check — largura igual à altura',
     sizesNote:
       'A caixa normaliza altura e alinhamento, não largura: eye, eye-slash e star transbordam centralizados, sem corte e sem reescala.',
 
-    colorNote: 'Nenhum ícone acima foi pintado. Todos herdam a cor do contexto.',
+    colorTitle: 'Herança de cor',
+    colorNote: 'Nenhum ícone abaixo foi pintado. Todos herdam a cor do contexto.',
 
+    a11yTitle: 'Acessibilidade',
+    a11ySummary: 'Decorativo ao lado de texto; nomeado quando anda sozinho.',
     a11yDecorativeTitle: 'Com texto ao lado — decorativo',
     a11yDecorativeExample: 'Excluir registro',
     a11yDecorativeNote:
@@ -262,16 +267,19 @@ export default {
     a11yNamedLabel: 'Buscar',
     a11yNamedNote:
       'Com label: role="img" e aria-label no host. Só para símbolo universal e recorrente; ação com consequência nunca anda sozinha.',
+    a11yFocusTitle: 'Foco',
     a11yFocusNote:
       'O ícone nunca recebe foco: teclado e alvo de toque pertencem ao controle em volta.',
 
+    invalidTitle: 'Entrada inválida',
+    invalidHeader: ['Entrada', 'Por que não desenha'],
     invalidIntro:
       'Os quatro casos abaixo não desenham nada e não ocupam espaço. Abra o console para ver um erro por propriedade inválida.',
     invalidCases: [
-      'fora do núcleo:',
-      'variant inexistente:',
-      'tamanho livre não existe:',
-      'size é obrigatório:',
+      'fora do núcleo',
+      'variant inexistente',
+      'tamanho livre não existe',
+      'size é obrigatório',
     ],
   },
 };

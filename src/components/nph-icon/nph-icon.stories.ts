@@ -10,8 +10,10 @@
  * idioma. A story e UNICA por caso: nao existe copia por idioma.
  *
  * A leitura do contrato e o catalogo visual ficam em
- * `Componentes/nph-icon/Docs`. A moldura de demonstracao vem de
- * `nph-icon.demo.ts` e nao vale como precedente para CSS de componente.
+ * `Componentes/nph-icon/Docs`. Cabecalho, secao, demonstracao e tabela vem de
+ * `src/shared/docs/page.ts`, os mesmos blocos da pagina Documentacao; a amostra
+ * vem de `nph-icon.demo.ts`. Nada disso vale como precedente para CSS de
+ * componente.
  */
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -19,7 +21,8 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-icon';
 import { NPH_ICON_SIZES } from './nph-icon.icons';
-import { cell, caption, page, section } from './nph-icon.demo';
+import { specimen } from './nph-icon.demo';
+import { body, demo, header, section, table, text, textRole } from '../../shared/docs/page';
 
 const meta: Meta = {
   title: 'Componentes/nph-icon/Validação',
@@ -48,23 +51,21 @@ export const Variantes: Story = {
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`
-      <div style=${page}>
-        ${section(
-          v.variantsSection,
+      <div style=${body}>
+        ${header(v.variantsTitle, v.variantsNote)}
+        ${demo(
           html`
-            <div style="display: flex; gap: var(--nph-space-section);">
-              <div style=${cell}>
-                <nph-icon name="circle-info" variant="regular" size="lg"></nph-icon>
-                <span style=${caption}>${v.variantsRegular}</span>
-              </div>
-              <div style=${cell}>
-                <nph-icon name="circle-info" variant="solid" size="lg"></nph-icon>
-                <span style=${caption}>${v.variantsSolid}</span>
-              </div>
-            </div>
+            ${specimen(
+              html`<nph-icon name="circle-info" variant="regular" size="lg"></nph-icon>`,
+              v.variantsRegular,
+            )}
+            ${specimen(
+              html`<nph-icon name="circle-info" variant="solid" size="lg"></nph-icon>`,
+              v.variantsSolid,
+            )}
           `,
+          'name="circle-info" size="lg"',
         )}
-        <p style=${caption}>${v.variantsNote}</p>
       </div>
     `;
   },
@@ -76,31 +77,32 @@ export const Tamanhos: Story = {
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`
-      <div style=${page}>
-        <div style="display: flex; align-items: center; gap: var(--nph-space-section);">
-          ${NPH_ICON_SIZES.map(
-            (size) => html`
-              <div style=${cell}>
-                <nph-icon name="gear" size=${size}></nph-icon>
-                <span style=${caption}>size="${size}" — icon/size-${size}</span>
-              </div>
-            `,
-          )}
-        </div>
+      <div style=${body}>
+        ${header(v.sizesTitle, v.sizesSummary)}
+        ${demo(
+          html`${NPH_ICON_SIZES.map((size) =>
+            specimen(
+              html`<nph-icon name="gear" size=${size}></nph-icon>`,
+              html`size="${size}"<br />icon/size-${size}`,
+            ),
+          )}`,
+          'name="gear"',
+        )}
         ${section(
+          'overflow',
           v.sizesOverflowTitle,
           html`
-            <div style="display: flex; align-items: center; gap: var(--nph-space-section);">
-              <div style=${cell}>
-                <nph-icon name="eye" size="lg"></nph-icon>
-                <span style=${caption}>${v.sizesEye}</span>
-              </div>
-              <div style=${cell}>
-                <nph-icon name="circle-check" size="lg"></nph-icon>
-                <span style=${caption}>${v.sizesCircleCheck}</span>
-              </div>
-            </div>
-            <p style=${caption}>${v.sizesNote}</p>
+            ${text(v.sizesNote)}
+            ${demo(
+              html`
+                ${specimen(html`<nph-icon name="eye" size="lg"></nph-icon>`, v.sizesEye)}
+                ${specimen(
+                  html`<nph-icon name="circle-check" size="lg"></nph-icon>`,
+                  v.sizesCircleCheck,
+                )}
+              `,
+              'size="lg"',
+            )}
           `,
         )}
       </div>
@@ -113,28 +115,30 @@ export const HerancaDeCor: Story = {
   name: 'Herança de cor',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
+    const frame = (style: string) => html`
+      <span style="display: inline-flex; padding: var(--nph-space-control-padding); border-radius: var(--nph-radius-control); ${style}">
+        <nph-icon name="circle-info" size="lg"></nph-icon>
+      </span>
+    `;
     return html`
-      <div style=${page}>
-        <div style="display: flex; align-items: center; gap: var(--nph-space-section);">
-          <div style=${cell}>
-            <nph-icon name="circle-info" size="lg"></nph-icon>
-            <span style=${caption}>color/foreground</span>
-          </div>
-          <div style="${cell} color: var(--nph-color-muted-foreground);">
-            <nph-icon name="circle-info" size="lg"></nph-icon>
-            <span style=${caption}>color/muted-foreground</span>
-          </div>
-          <div
-            style="${cell} color: var(--nph-color-primary-foreground);
-                   background: var(--nph-color-primary);
-                   padding: var(--nph-space-control-padding);
-                   border-radius: var(--nph-radius-control);"
-          >
-            <nph-icon name="circle-info" size="lg"></nph-icon>
-            <span style="font-family: var(--nph-text-code-font-family); font-size: 12px;">primary</span>
-          </div>
-        </div>
-        <p style=${caption}>${v.colorNote}</p>
+      <div style=${body}>
+        ${header(v.colorTitle, v.colorNote)}
+        ${demo(
+          html`
+            ${specimen(frame('color: var(--nph-color-foreground);'), 'color/foreground')}
+            ${specimen(
+              frame('color: var(--nph-color-muted-foreground);'),
+              'color/muted-foreground',
+            )}
+            ${specimen(
+              frame(
+                'color: var(--nph-color-primary-foreground); background: var(--nph-color-primary);',
+              ),
+              'color/primary-foreground',
+            )}
+          `,
+          'name="circle-info" size="lg"',
+        )}
       </div>
     `;
   },
@@ -146,25 +150,32 @@ export const Acessibilidade: Story = {
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`
-      <div style=${page}>
+      <div style=${body}>
+        ${header(v.a11yTitle, v.a11ySummary)}
         ${section(
+          'decorative',
           v.a11yDecorativeTitle,
-          html`
-            <div style=${cell}>
-              <nph-icon name="trash-can" size="sm"></nph-icon>
-              <span>${v.a11yDecorativeExample}</span>
-            </div>
-            <p style=${caption}>${v.a11yDecorativeNote}</p>
-          `,
+          demo(
+            html`
+              <span
+                style="display: inline-flex; align-items: center; gap: var(--nph-space-inline-tight); ${textRole('body-md')}"
+              >
+                <nph-icon name="trash-can" size="sm"></nph-icon>
+                ${v.a11yDecorativeExample}
+              </span>
+            `,
+            v.a11yDecorativeNote,
+          ),
         )}
         ${section(
+          'named',
           v.a11yNamedTitle,
-          html`
-            <nph-icon name="magnifying-glass" size="md" label=${v.a11yNamedLabel}></nph-icon>
-            <p style=${caption}>${v.a11yNamedNote}</p>
-          `,
+          demo(
+            html`<nph-icon name="magnifying-glass" size="md" label=${v.a11yNamedLabel}></nph-icon>`,
+            v.a11yNamedNote,
+          ),
         )}
-        <p style=${caption}>${v.a11yFocusNote}</p>
+        ${section('focus', v.a11yFocusTitle, text(v.a11yFocusNote))}
       </div>
     `;
   },
@@ -176,26 +187,26 @@ export const EntradaInvalida: Story = {
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`
-      <div style=${page}>
-        <p style=${caption}>${v.invalidIntro}</p>
-        <ul style="${caption} list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
-          <li>
-            name="rocket" size="sm" — ${v.invalidCases[0]}
-            <nph-icon name="rocket" size="sm"></nph-icon>
-          </li>
-          <li>
-            name="check" variant="duotone" size="sm" — ${v.invalidCases[1]}
-            <nph-icon name="check" variant="duotone" size="sm"></nph-icon>
-          </li>
-          <li>
-            name="check" size="xl" — ${v.invalidCases[2]}
-            <nph-icon name="check" size="xl"></nph-icon>
-          </li>
-          <li>
-            name="check" — ${v.invalidCases[3]}
-            <nph-icon name="check"></nph-icon>
-          </li>
-        </ul>
+      <div style=${body}>
+        ${header(v.invalidTitle, v.invalidIntro)}
+        <!-- O termo da tabela nao quebra linha: em tela estreita a tabela rola, a pagina nao. -->
+        <div style="overflow-x: auto;">
+          ${table(v.invalidHeader, [
+            [
+              'name="rocket" size="sm"',
+              html`${v.invalidCases[0]} <nph-icon name="rocket" size="sm"></nph-icon>`,
+            ],
+            [
+              'name="check" variant="duotone" size="sm"',
+              html`${v.invalidCases[1]} <nph-icon name="check" variant="duotone" size="sm"></nph-icon>`,
+            ],
+            [
+              'name="check" size="xl"',
+              html`${v.invalidCases[2]} <nph-icon name="check" size="xl"></nph-icon>`,
+            ],
+            ['name="check"', html`${v.invalidCases[3]} <nph-icon name="check"></nph-icon>`],
+          ])}
+        </div>
       </div>
     `;
   },

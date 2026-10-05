@@ -22,13 +22,13 @@ import {
   CATEGORIES,
   CORE_TOTAL,
   button,
+  counter,
   field,
-  cell,
   filterNames,
   grid,
-  caption,
-  page,
-  prose,
+  searchLabel,
+  tile,
+  tileName,
 } from './nph-icon.demo';
 import {
   header,
@@ -88,6 +88,18 @@ const SECTIONS = {
   antiPatterns: 'anti-padroes',
   references: 'referencias',
 } as const;
+
+/**
+ * Ids das categorias do catalogo, na ordem de `CATEGORIES`: os grupos
+ * de `icones_nucleo`, no `design.md`, com nome tecnico em ingles.
+ */
+const CATEGORY_IDS = [
+  'navigation-and-menus',
+  'direction-and-disclosure',
+  'action',
+  'status-and-communication',
+  'content-and-data',
+] as const;
 
 /**
  * Pagina de leitura, montada com os blocos de `src/shared/docs/page.ts`. Todo
@@ -250,6 +262,13 @@ function applyFilter(gallery: HTMLElement, term: string): void {
   for (const category of gallery.querySelectorAll<HTMLElement>('[data-nph-category]')) {
     category.hidden =
       category.querySelectorAll('[data-nph-name]:not([hidden])').length === 0;
+
+    /* O chip do indice some junto com a categoria: link para secao oculta nao leva a nada. */
+    const id = category.querySelector('section[id]')?.id ?? '';
+    const chip = gallery.querySelector(`nav a[href="#${id}"]`)?.closest('li');
+    if (chip instanceof HTMLElement) {
+      chip.hidden = category.hidden;
+    }
   }
 
   const empty = gallery.querySelector<HTMLElement>('[data-nph-empty]');
@@ -289,8 +308,8 @@ function onClear(event: Event): void {
 /**
  * Catalogo visual dos icones do nucleo, com busca por nome.
  *
- * Cada item mostra o `nph-icon` SEM `label`, decorativo, ao lado do nome em
- * texto: com texto visivel ao lado, rotular o icone faria o leitor de tela ler
+ * Cada cartao mostra o `nph-icon` SEM `label`, decorativo, com o nome em texto
+ * embaixo: com texto visivel junto, rotular o icone faria o leitor de tela ler
  * duas vezes.
  */
 export const IconsOverview: Story = {
@@ -302,20 +321,16 @@ export const IconsOverview: Story = {
     const categories = dictionary.categories;
 
     return html`
-      <div style=${page} data-nph-gallery data-nph-locale=${locale}>
+      <div style=${body} data-nph-gallery data-nph-locale=${locale}>
         ${hidingRule}
-        <header style=${prose}>
-          <h1 style="margin: 0;">${g.title}</h1>
-          <p style="margin: 0;">
-            ${g.summary1} ${CORE_TOTAL} ${g.summary2} <strong>${g.summary3}</strong>.
-          </p>
-        </header>
+        ${header(g.title, `${g.summary1} ${g.summary2} ${g.summary3}.`)}
 
         <div
-          style="display: flex; align-items: flex-end; gap: var(--nph-space-inline); flex-wrap: wrap;"
+          role="search"
+          style="display: flex; align-items: flex-end; gap: var(--nph-space-inline); flex-wrap: wrap; padding-top: var(--nph-space-stack);"
         >
           <div style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
-            <label for="nph-icon-search">${g.searchLabel}</label>
+            <label for="nph-icon-search" style=${searchLabel}>${g.searchLabel}</label>
             <input
               id="nph-icon-search"
               data-nph-search
@@ -336,40 +351,45 @@ export const IconsOverview: Story = {
           data-nph-found=${CORE_TOTAL}
           role="status"
           aria-live="polite"
-          style="${caption} margin: 0;"
+          style=${counter}
         >
           ${g.counter(CORE_TOTAL, CORE_TOTAL)}
         </p>
 
-        <div
-          id="nph-icon-grid"
-          style="display: flex; flex-direction: column; gap: var(--nph-space-section);"
-        >
+        ${index(
+          dictionary.docs.onThisPage,
+          CATEGORIES.map((_, position) => ({
+            id: CATEGORY_IDS[position] ?? '',
+            title: categories[position] ?? '',
+          })),
+        )}
+
+        <div id="nph-icon-grid" style="display: flex; flex-direction: column;">
           ${CATEGORIES.map(
-            (category, index) => html`
-              <section
-                data-nph-category
-                style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);"
-              >
-                <h3 style="margin: 0; font-size: 14px;">
-                  ${categories[index] ?? ''} (${category.length})
-                </h3>
-                <div style=${grid}>
-                  ${category.map(
-                    (name) => html`
-                      <div data-nph-name=${name} style=${cell}>
-                        <nph-icon name=${name} size="md"></nph-icon>
-                        <span style=${caption}>${name}</span>
-                      </div>
-                    `,
-                  )}
-                </div>
-              </section>
+            (category, position) => html`
+              <div data-nph-category>
+                ${section(
+                  CATEGORY_IDS[position] ?? '',
+                  categories[position] ?? '',
+                  html`
+                    <div style=${grid}>
+                      ${category.map(
+                        (name) => html`
+                          <div data-nph-name=${name} style=${tile}>
+                            <nph-icon name=${name} size="lg"></nph-icon>
+                            <span style=${tileName}>${name}</span>
+                          </div>
+                        `,
+                      )}
+                    </div>
+                  `,
+                )}
+              </div>
             `,
           )}
         </div>
 
-        <p data-nph-empty hidden style=${caption}>${g.empty}</p>
+        <div data-nph-empty hidden>${text(g.empty)}</div>
       </div>
     `;
   },

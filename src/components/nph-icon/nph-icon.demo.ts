@@ -6,13 +6,14 @@
  * e a pagina de validacao usem o mesmo cenario sem duplicar codigo.
  *
  * Nada aqui e contrato. Os poucos valores literais que aparecem (colunas de
- * grade, tamanho de fonte de legenda) pertencem a moldura da demonstracao e
+ * grade, largura do campo de busca) pertencem a moldura da demonstracao e
  * NAO valem como precedente para CSS de componente. O que e contrato esta no
  * proprio `nph-icon` e nas fontes canonicas.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 
+import { textRole } from '../../shared/docs/page';
 import { NPH_ICON_NAMES } from './nph-icon.icons';
 import type { NphIconName } from './nph-icon.icons';
 
@@ -156,89 +157,84 @@ export function filterNames(
 /** Total do nucleo, derivado do mapa fechado — nunca digitado a mao. */
 export const CORE_TOTAL = NPH_ICON_NAMES.length;
 
-export const page = `
-  color: var(--nph-color-foreground);
-  background: var(--nph-color-background);
-  padding: var(--nph-space-container-padding);
-  display: flex;
-  flex-direction: column;
-  gap: var(--nph-space-section);
-`;
+/*
+ * Moldura das paginas do `nph-icon`. O cabecalho, as secoes, a demonstracao e
+ * as notas vem de `src/shared/docs/page.ts`, iguais aos da pagina Documentacao;
+ * aqui fica so o que e proprio destas paginas: a amostra com legenda, a busca e
+ * a grade do catalogo.
+ */
 
-export const caption = `
-  color: var(--nph-color-muted-foreground);
-  font-family: var(--nph-text-code-font-family);
-  font-size: 12px;
-`;
+const BORDER = 'var(--nph-border-width) solid var(--nph-color-border)';
 
-export const grid = `
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
-  gap: var(--nph-space-stack);
-`;
+/** Amostra de demonstracao: a instancia real em cima, a legenda tecnica embaixo. */
+export function specimen(
+  content: TemplateResult,
+  label: TemplateResult | string,
+): TemplateResult {
+  return html`
+    <div
+      style="display: flex; flex-direction: column; align-items: center; gap: var(--nph-space-stack-tight); text-align: center;"
+    >
+      ${content}
+      <span style="${textRole('code')} color: var(--nph-color-muted-foreground);">${label}</span>
+    </div>
+  `;
+}
 
-export const cell = `
-  display: flex;
-  align-items: center;
-  gap: var(--nph-space-inline-tight);
-`;
+/** Rotulo, campo e botao da busca do catalogo. */
+export const searchLabel = `${textRole('label-md')}`;
 
 export const field = `
+  ${textRole('body-md')}
   color: var(--nph-color-foreground);
   background: var(--nph-color-background);
-  border: 1px solid var(--nph-color-border);
+  border: ${BORDER};
   border-radius: var(--nph-radius-control);
   padding: var(--nph-space-control-padding);
-  font: inherit;
-  min-width: 18rem;
+  width: 18rem;
+  max-width: 100%;
+  box-sizing: border-box;
 `;
 
 export const button = `
+  ${textRole('label-md')}
   color: var(--nph-color-foreground);
   background: var(--nph-color-card);
-  border: 1px solid var(--nph-color-border);
+  border: ${BORDER};
   border-radius: var(--nph-radius-control);
   padding: var(--nph-space-control-padding);
-  font: inherit;
   cursor: pointer;
 `;
 
-export const prose = `
-  display: flex;
-  flex-direction: column;
-  gap: var(--nph-space-stack-tight);
-  max-width: 60rem;
+/** Contador da busca, em legenda. */
+export const counter = `
+  margin: 0;
+  ${textRole('caption')}
+  color: var(--nph-color-muted-foreground);
 `;
 
-export const card = `
-  background: var(--nph-color-card);
-  color: var(--nph-color-card-foreground);
-  border: 1px solid var(--nph-color-border);
+/** Grade do catalogo: cartoes de mesma largura, quantos couberem na linha. */
+export const grid = `
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+  gap: var(--nph-space-stack);
+`;
+
+/** Cartao de um icone no catalogo: o icone centrado e o nome embaixo. */
+export const tile = `
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nph-space-stack-tight);
+  padding: var(--nph-space-stack) var(--nph-space-inline);
+  border: ${BORDER};
   border-radius: var(--nph-radius-control);
-  padding: var(--nph-space-container-padding);
-  display: flex;
-  flex-direction: column;
-  gap: var(--nph-space-stack-tight);
+  text-align: center;
+  overflow-wrap: anywhere;
 `;
 
-export const table = `
-  border-collapse: collapse;
-  text-align: left;
-  width: 100%;
+export const tileName = `
+  ${textRole('code')}
+  color: var(--nph-color-muted-foreground);
 `;
-
-export const tableCell = `
-  border-bottom: 1px solid var(--nph-color-border);
-  padding: var(--nph-space-inline-tight) var(--nph-space-inline);
-  vertical-align: top;
-`;
-
-/** Bloco com titulo, usado pelas stories de Validacao. */
-export function section(title: string, content: TemplateResult): TemplateResult {
-  return html`
-    <section style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
-      <h3 style="margin: 0; font-size: 14px;">${title}</h3>
-      ${content}
-    </section>
-  `;
-}
