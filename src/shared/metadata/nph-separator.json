@@ -1,0 +1,97 @@
+{
+  "peca": "nph-separator",
+  "nivel": "componente",
+  "status": "vigente",
+  "resolve": "Separa itens irmãos ou regiões de um contêiner com uma linha decorativa, sem carregar estado nem criar espaço.",
+  "use_quando": [
+    "Separar grupos de itens num menu.",
+    "Separar ações lado a lado numa barra de ações.",
+    "Separar o cabeçalho do conteúdo num cartão."
+  ],
+  "nao_use_quando": [
+    "Contornar um campo — a borda de campo é color/input, que cumpre 3:1.",
+    "Afastar dois blocos — o espaço vem de space/stack ou space/section.",
+    "Pôr uma palavra no meio do divisor — não existe variante com texto."
+  ],
+  "api": {
+    "orientation": {
+      "tipo": "enum",
+      "valores": [
+        "horizontal",
+        "vertical"
+      ],
+      "obrigatoria": false,
+      "padrao": "horizontal",
+      "reflete": true,
+      "restricao": "Reflete porque o CSS interno seleciona a linha por ele. horizontal entre itens empilhados; vertical entre itens lado a lado. Valor fora da lista não desenha nada e emite console.error em desenvolvimento."
+    }
+  },
+  "variantes": {
+    "orientation": {
+      "eixo": "aparencia",
+      "escolha_quando": "horizontal entre itens empilhados; vertical entre itens lado a lado.",
+      "nao_combine_com": [
+        "texto"
+      ]
+    }
+  },
+  "estados": {
+    "padrao": {
+      "token": "color/border",
+      "muda_para_a_pessoa": "Uma linha separa os itens; ela não muda com interação."
+    }
+  },
+  "regras_de_negocio": [
+    "A espessura é sempre border/width e a cor é sempre color/border: mudar uma ou outra faria do divisor um sinal de estado.",
+    "A horizontal preenche a largura em pai de bloco ou flex em coluna; a vertical preenche a altura em pai flex em linha ou grid. Fora disso, quem usa dá o comprimento."
+  ],
+  "erros_de_dominio": [],
+  "tokens": {
+    "cor": "color/border",
+    "espessura": "border/width"
+  },
+  "dicas_para_ia": [
+    "Use nph-separator para separar itens irmãos ou regiões; para afastar blocos, use space/stack ou space/section.",
+    "Use orientation vertical entre itens lado a lado, dentro de um pai flex em linha.",
+    "Não use nph-separator como borda de campo: o campo usa color/input."
+  ],
+  "acessibilidade": {
+    "semantica": "O host fica `aria-hidden`: o divisor é decorativo e não entra na árvore de acessibilidade.",
+    "nome_acessivel": "nao_se_aplica",
+    "teclado": [],
+    "foco": "O divisor não recebe foco.",
+    "contraste": "É decorativo: color/border não precisa cumprir 3:1.",
+    "alternativa_a_cor": "O divisor não carrega estado; a separação é estrutural."
+  },
+  "combinacoes_invalidas": [
+    "Texto no meio do divisor — não existe variante com texto.",
+    "Espessura ou cor diferentes — o divisor viraria sinal de estado."
+  ],
+  "relacoes": {
+    "combina_com": [
+      "nph-button"
+    ],
+    "pai": [
+      "menu",
+      "barra de ações",
+      "cartão"
+    ],
+    "filho": [],
+    "complementa_bloco": [],
+    "aparece_em": []
+  },
+  "anti_padroes": [
+    "Usar o divisor como borda de campo.",
+    "Usar o divisor como espaçador.",
+    "Pôr texto no meio do divisor.",
+    "Mudar a espessura ou a cor do divisor."
+  ],
+  "fontes": {
+    "design_md": "design.md, color/border, border/width e layout/separator-width e layout/separator-height, que são o comprimento do mestre no Figma",
+    "decisao": "P66 — API e semântica de nph-spinner, nph-separator e nph-kbd, 05-10-2026",
+    "testes": "src/components/nph-separator/nph-separator.test.ts",
+    "evidencia_de_uso": "nenhuma em código ainda; o quadro aceito mostra menu, barra de ações e cartão",
+    "storybook": "src/components/nph-separator/nph-separator.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, quadro nph-separator 1196:674 e conjunto 762:6"
+  }
+}

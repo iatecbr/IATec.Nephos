@@ -1,7 +1,7 @@
 # Decisões técnicas — Nephos
 
 Esta é a **fonte única** das decisões técnicas P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64 e P65. Em caso de divergência entre este arquivo e qualquer outro documento
+P21, P62, P63, P64, P65 e P66. Em caso de divergência entre este arquivo e qualquer outro documento
 do repositório, prevalece este.
 
 ## Fila de revisão técnica — Elvys
@@ -32,6 +32,7 @@ subseção P62.4 para o detalhe).
 | **P63** | Metadata gerada a partir da ficha | 28/09/2026 | Médio. Mudar local ou formato depois exige gerar de novo e ajustar quem lê; a ficha não muda | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** |
 | **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** Emenda de 02/10/2026 aprovada por Mauro no PR #49, com merge em 05/10/2026. |
 | **P65** | API e semântica do `nph-tooltip` | 05/10/2026 | Baixo agora. O `nph-label` é o primeiro consumidor; mudar depois exige refazer o gatilho dele | Comportamento e escopo (L11.5) e anatomia (L11.6, L11.7 e o quadro aceito) adotados por Indiane em 01/10/2026. API e semântica aprovadas por `maurocsjr` no PR #51, com merge em 05/10/2026 |
+| **P66** | API e semântica de `nph-spinner`, `nph-separator` e `nph-kbd` | 05/10/2026 | Baixo agora. O `nph-button` (Lote B) e o `nph-rich-option` serão os primeiros consumidores | Anatomia e comportamento: quadros aceitos por Indiane em 01/10/2026. API e semântica: proposta técnica, revisão no PR por `maurocsjr` |
 
 **Fora desta nota, ainda aguardam confirmação dele:** licença, variável de CI,
 credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
@@ -677,9 +678,68 @@ semântica aprovadas por Mauro no PR #51 (DSA-08), com merge em 05/10/2026.
 
 ---
 
+## P66 — `nph-spinner`, `nph-separator` e `nph-kbd`: API e semântica
+
+**Decisão.** As três peças são Web Components com **Shadow DOM aberto** (P01),
+CSS em arquivo próprio importado `?inline`, como o `nph-icon`. Nenhuma tem slot,
+evento, foco, clique, propriedade de cor ou `::part`. Anatomia só por token
+semântico. Entrada inválida não renderiza nada e emite `console.error` só em
+desenvolvimento, sem fallback visual — a mesma regra da P21, adotada aqui por
+decisão própria, como pede o `docs/stories.md` (§2.5).
+
+- **`nph-spinner`**
+  - `size`: `sm` (padrão) ou `md`, reflete no atributo. O padrão segue o quadro
+    aceito e supera o "sem padrão" da ficha de 31/08/2026.
+  - `label`: string opcional. Não vazia depois do `trim` e com `size` válido, o
+    host recebe `role="img"` e `aria-label`. Sem isso, `aria-hidden="true"`. É o
+    padrão do `nph-icon` (P21, item 2).
+  - O desenho é o `circle-notch` do `nph-icon`, no mesmo `size`. Gira em
+    `motion/loop-duration` e `motion/loop-easing`. Com `prefers-reduced-motion:
+    reduce` o giro para (WCAG 2.3.3).
+  - Literais escritos: `rotate(0)` e `rotate(1turn)` no `@keyframes`. São a
+    definição geométrica da volta, não uma decisão visual.
+- **`nph-separator`**
+  - `orientation`: `horizontal` (padrão) ou `vertical`, reflete no atributo.
+  - Uma linha de `border/width` em `color/border`. O host fica `aria-hidden` e
+    sem role: é decorativo.
+  - Preenche o contêiner. A horizontal preenche a largura em pai de bloco ou
+    flex em coluna. A vertical preenche a altura em pai flex em linha ou grid.
+    Fora disso, quem usa dá o comprimento.
+  - `layout/separator-width` e `layout/separator-height` não são consumidos. Os
+    dois são o comprimento FIXED do mestre `762:6`, e o quadro aceito manda "a
+    instância preenche o contêiner".
+- **`nph-kbd`**
+  - `text`: string, padrão vazio. É a propriedade `tecla` do Figma. O nome é
+    `text`, como no `nph-label` (P62.3) e no `nph-tooltip` (P65), e não `key`,
+    que frameworks consumidores reservam. "K" é só conteúdo de exemplo do
+    Figma.
+  - Vazio ou só espaços: nada é mostrado (0 × 0), sem erro. É o estado de
+    montagem antes de o consumidor preencher o texto.
+  - O texto fica dentro de `<kbd>`, e o leitor de tela lê a tecla por ele. A
+    combinação junta uma peça por tecla.
+  - A borda é traço por dentro, como no Figma, feita com `box-shadow: inset` em
+    `border/width`. A altura fica igual à do componente aceito: a linha de
+    `text/label-sm` mais `space/inline-tight` em cima e embaixo. O único zero
+    escrito é `margin: 0`, que tira a margem padrão do `<kbd>`.
+
+**Fonte.** Quadros aceitos no Figma `DS-IA-NEPHOS 5.0` em 01/10/2026:
+`nph-spinner` (`1195:22210`, conjunto `281:11`), `nph-separator` (`1196:674`,
+conjunto `762:6`) e `nph-kbd` (`1193:20`, componente `772:3`). Os três têm QA UX
+de Figma e auditoria textual aprovados. Os nomes `text` e `orientation`, o
+padrão vazio do `text`, a semântica `role="img"` do spinner e a regra de
+entrada inválida são proposta técnica desta implementação.
+
+**Fora de escopo.** O girador dentro do `nph-button` (Lote B). Indicador de
+progresso conhecido. Separador com texto. Combinação de teclas numa peça só.
+
+**Status.** Anatomia e comportamento aceitos por Indiane em 01/10/2026; API e
+semântica em revisão no PR do Lote A.
+
+---
+
 ## Como mudar uma destas decisões
 
-Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21, P62, P63, P64 ou P65 sem:
+Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65 ou P66 sem:
 
 1. explicar o conflito técnico concreto;
 2. registrar uma proposta de mudança;

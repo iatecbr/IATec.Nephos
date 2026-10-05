@@ -1,0 +1,41 @@
+/**
+ * Estilo interno do `nph-spinner`.
+ *
+ * Classes e seletores daqui NAO sao API publica (P02). O contrato sao as custom
+ * properties de token consumidas aqui. O tamanho vem do `nph-icon` (`icon/size-*`),
+ * e a cor, de `currentColor`.
+ *
+ * A unica grandeza escrita e `1turn`, a volta completa do giro: e a definicao
+ * geometrica da rotacao, nao uma decisao visual. Duracao e curva vem de
+ * `motion/loop-*` (P66).
+ */
+
+/* Entrada invalida nao ocupa espaco: sem fallback visual. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.glyph {
+  animation: nph-spinner-turn var(--nph-motion-loop-duration) var(--nph-motion-loop-easing) infinite;
+}
+
+/* WCAG 2.3.3: com movimento reduzido o giro para; o aviso continua. */
+@media (prefers-reduced-motion: reduce) {
+  .glyph {
+    animation: none;
+  }
+}
+
+@keyframes nph-spinner-turn {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}

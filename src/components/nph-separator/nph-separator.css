@@ -1,0 +1,34 @@
+/**
+ * Estilo interno do `nph-separator`.
+ *
+ * Classes e seletores daqui NAO sao API publica (P02). O contrato sao as custom
+ * properties de token consumidas aqui. Nenhum valor literal de design entra:
+ * a espessura e `border/width` e a cor e `color/border`.
+ *
+ * `layout/separator-width` e `layout/separator-height` NAO sao consumidos: sao o
+ * comprimento do mestre no Figma, e a regra da peca e preencher o conteiner
+ * (P66).
+ */
+
+/* Entrada invalida nao ocupa espaco: sem fallback visual. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: block;
+  flex: none;
+  background-color: var(--nph-color-border);
+}
+
+/* Preenche a largura em pai de bloco ou flex em coluna. */
+:host([data-nph-rendered][orientation='horizontal']) {
+  block-size: var(--nph-border-width);
+  inline-size: auto;
+}
+
+/* Preenche a altura em pai flex em linha ou grid. */
+:host([data-nph-rendered][orientation='vertical']) {
+  inline-size: var(--nph-border-width);
+  align-self: stretch;
+}

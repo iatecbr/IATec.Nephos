@@ -1,0 +1,88 @@
+{
+  "peca": "nph-kbd",
+  "nivel": "componente",
+  "status": "vigente",
+  "resolve": "Mostra uma tecla de atalho de teclado ao lado do que ela aciona, como peça estática.",
+  "use_quando": [
+    "Mostrar o atalho de teclado ao lado da ação que ele aciona.",
+    "Mostrar o atalho numa opção do nph-rich-option."
+  ],
+  "nao_use_quando": [
+    "A peça precisaria ser clicável ou receber foco — use nph-button.",
+    "A combinação viria numa peça só, como Ctrl+K — use uma peça por tecla, lado a lado."
+  ],
+  "api": {
+    "text": {
+      "tipo": "string",
+      "obrigatoria": true,
+      "padrao": "vazio",
+      "reflete": false,
+      "restricao": "O texto de uma tecla, já localizado pela aplicação consumidora. Vazio ou só espaços não mostra nada e não é erro."
+    }
+  },
+  "variantes": "nao_se_aplica",
+  "estados": {
+    "padrao": {
+      "token": "color/muted",
+      "muda_para_a_pessoa": "A tecla aparece numa caixa; ela não muda com interação."
+    }
+  },
+  "regras_de_negocio": [
+    "Uma peça por tecla: a combinação junta as peças lado a lado."
+  ],
+  "erros_de_dominio": [],
+  "tokens": {
+    "fundo": "color/muted",
+    "texto": [
+      "text/label-sm",
+      "color/muted-foreground"
+    ],
+    "borda": [
+      "border/width",
+      "color/border"
+    ],
+    "raio": "radius/inner",
+    "padding": "space/inline-tight"
+  },
+  "dicas_para_ia": [
+    "Use nph-kbd para mostrar um atalho ao lado do que ele aciona; para a ação em si, use nph-button.",
+    "Numa combinação, ponha uma nph-kbd por tecla, lado a lado.",
+    "Escreva a tecla pela propriedade text; não pinte a caixa nem o texto."
+  ],
+  "acessibilidade": {
+    "semantica": "O texto fica dentro de `<kbd>`; o host não tem role extra.",
+    "nome_acessivel": "O leitor de tela anuncia a tecla pelo texto dela.",
+    "teclado": [],
+    "foco": "A peça não recebe foco: ela não tem interação.",
+    "contraste": "color/muted-foreground sobre color/muted passa 4,5:1 nos dois esquemas e em todas as marcas.",
+    "alternativa_a_cor": "A tecla é escrita no texto; a cor não carrega significado."
+  },
+  "combinacoes_invalidas": [
+    "A combinação inteira numa peça só — use uma peça por tecla.",
+    "Variante de estilo — não há uso declarado."
+  ],
+  "relacoes": {
+    "combina_com": [
+      "nph-rich-option"
+    ],
+    "pai": [
+      "nph-rich-option"
+    ],
+    "filho": [],
+    "complementa_bloco": [],
+    "aparece_em": []
+  },
+  "anti_padroes": [
+    "Usar como botão ou controle.",
+    "Criar variante de estilo.",
+    "Pintar a caixa ou o texto à mão."
+  ],
+  "fontes": {
+    "design_md": "design.md, text/label-sm, color/muted, color/muted-foreground, color/border, border/width, radius/inner e space/inline-tight",
+    "decisao": "P66 — API e semântica de nph-spinner, nph-separator e nph-kbd, 05-10-2026",
+    "testes": "src/components/nph-kbd/nph-kbd.test.ts",
+    "evidencia_de_uso": "nph-rich-option, pela opção de mostrar atalho",
+    "storybook": "src/components/nph-kbd/nph-kbd.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, quadro nph-kbd 1193:20 e componente 772:3"
+  }
+}
