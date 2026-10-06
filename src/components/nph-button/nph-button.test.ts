@@ -1,10 +1,10 @@
 /**
- * Testes do `nph-button` (P68), em navegador de verdade (P21, item 5): cor
- * resolvida, hover real, foco por teclado e medida so existem onde ha layout.
+ * Tests of `nph-button` (P68), in a real browser (P21, item 5): resolved color,
+ * real hover, keyboard focus and measurements only exist where there is layout.
  *
- * Os esquemas de cor sao trocados na raiz (`data-nph-color-scheme` no `html`).
- * Numa parte da tela com outra marca e outro esquema, `status/on-solid` e
- * `focus/halo` resolvem o valor local (P67).
+ * Color schemes are switched at the root (`data-nph-color-scheme` on `html`).
+ * In a part of the screen with another brand and another scheme, `status/on-solid` and
+ * `focus/halo` resolve the local value (P67).
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
@@ -20,7 +20,7 @@ type Props = Partial<
   Pick<NphButton, 'severity' | 'emphasis' | 'size' | 'text' | 'iconStart' | 'iconEnd' | 'label' | 'disabled' | 'loading'>
 >;
 
-/** Tokens de cada par, lidos variante a variante em `461:13009`. */
+/** Tokens of each pair, read variant by variant in `461:13009`. */
 interface Pair {
   bg: string | null;
   bgHover: string;
@@ -68,7 +68,7 @@ const PAIRS: ReadonlyArray<readonly [NphButtonSeverity, NphButtonEmphasis, Pair]
   ['danger', 'ghost', { bg: null, bgHover: '--nph-color-destructive-surface', fg: '--nph-color-destructive-on-surface' }],
 ];
 
-/** Foco por tipo, igual em todas as enfases. */
+/** Focus per severity, the same in all emphases. */
 const FOCUS: Readonly<Record<NphButtonSeverity, readonly [string, string]>> = {
   primary: ['--nph-color-primary', '--nph-focus-halo'],
   secondary: ['--nph-focus-border', '--nph-focus-halo'],
@@ -107,7 +107,7 @@ async function mount(props: Props = { text: 'Save' }): Promise<NphButton> {
 
 function control(element: NphButton): HTMLButtonElement {
   const button = element.shadowRoot?.querySelector<HTMLButtonElement>('button');
-  if (!button) throw new Error('sem <button> interno');
+  if (!button) throw new Error('no inner <button>');
   return button;
 }
 
@@ -120,12 +120,12 @@ function resolved(property: string, token: string): string {
   return value;
 }
 
-/** Uma marca que nao e a padrao, lida do CSS gerado. */
+/** A brand that is not the default, read from the generated CSS. */
 const DEFAULT_BRAND = /:root,\s*\[data-nph-brand="([\w-]+)"\]/.exec(tokensCss)?.[1] ?? '';
 const OTHER_BRAND =
   [...tokensCss.matchAll(/\[data-nph-brand="([\w-]+)"\]/g)].map((m) => m[1] ?? '').find((brand) => brand !== DEFAULT_BRAND) ?? '';
 
-/** Uma parte da tela com outra marca e outro esquema, no mesmo elemento (P67). */
+/** A part of the screen with another brand and another scheme, on the same element (P67). */
 function scope(): HTMLElement {
   const part = document.createElement('div');
   part.setAttribute('data-nph-brand', OTHER_BRAND);
@@ -134,7 +134,7 @@ function scope(): HTMLElement {
   return part;
 }
 
-/** O valor de um token dentro de um elemento. */
+/** The value of a token inside an element. */
 function resolvedIn(parent: HTMLElement, property: string, token: string): string {
   const probe = document.createElement('div');
   probe.style.setProperty(property, `var(${token})`);
@@ -144,23 +144,23 @@ function resolvedIn(parent: HTMLElement, property: string, token: string): strin
   return value;
 }
 
-/** Cor do traco do outline, tirada do `box-shadow` `inset`. */
+/** Outline stroke color, taken from the `inset` `box-shadow`. */
 function insetColor(button: HTMLButtonElement): string {
   const shadow = getComputedStyle(button).boxShadow;
   return shadow === 'none' ? 'none' : (shadow.match(/rgba?\([^)]*\)/)?.[0] ?? shadow);
 }
 
-describe('registro e API', () => {
-  it('define nph-button uma unica vez', () => {
+describe('registration and API', () => {
+  it('defines nph-button only once', () => {
     expect(customElements.get('nph-button')).toBe(NphButton);
   });
 
-  it('a API publica e exatamente a da P68', () => {
+  it('the public API is exactly the one in P68', () => {
     const declared = [...(NphButton as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
     expect(declared).toEqual(['severity', 'emphasis', 'size', 'text', 'iconStart', 'iconEnd', 'label', 'disabled', 'loading']);
   });
 
-  it('os padroes sao primary, solid e default (size default por decisao de 05-10-2026)', async () => {
+  it('the defaults are primary, solid and default (size default by decision of 05-10-2026)', async () => {
     const element = await mount();
     expect([element.severity, element.emphasis, element.size]).toEqual(['primary', 'solid', 'default']);
     expect(getComputedStyle(control(element)).height).toBe(resolved('height', '--nph-control-height-default'));
@@ -168,13 +168,13 @@ describe('registro e API', () => {
     expect(element.loading).toBe(false);
   });
 
-  it('os valores sao os do Figma, nada alem', () => {
+  it('the values are the Figma ones, nothing more', () => {
     expect([...NPH_BUTTON_SEVERITIES]).toEqual(['primary', 'secondary', 'info', 'warn', 'help', 'danger', 'success']);
     expect([...NPH_BUTTON_EMPHASES]).toEqual(['solid', 'outline', 'light', 'ghost']);
     expect([...NPH_BUTTON_SIZES]).toEqual(['compact', 'default', 'large']);
   });
 
-  it('os atributos dos icones sao icon-start e icon-end', async () => {
+  it('the icon attributes are icon-start and icon-end', async () => {
     const element = document.createElement('nph-button');
     element.setAttribute('text', 'New');
     element.setAttribute('icon-start', 'plus');
@@ -185,7 +185,7 @@ describe('registro e API', () => {
   });
 });
 
-describe('cores por tipo e enfase, em repouso e no hover, nos dois esquemas', () => {
+describe('colors per severity and emphasis, at rest and on hover, in both schemes', () => {
   for (const scheme of ['light', 'dark'] as const) {
     for (const [severity, emphasis, pair] of PAIRS) {
       it(`${scheme} · ${severity} ${emphasis}`, async () => {
@@ -209,9 +209,9 @@ describe('cores por tipo e enfase, em repouso e no hover, nos dois esquemas', ()
   }
 });
 
-describe('tamanhos e anatomia', () => {
+describe('sizes and anatomy', () => {
   for (const size of NPH_BUTTON_SIZES) {
-    it(`${size}: altura do token, respiro, espaco, raio e texto label-md`, async () => {
+    it(`${size}: token height, padding, gap, radius and label-md text`, async () => {
       const element = await mount({ size, text: 'Save', iconStart: 'plus', iconEnd: 'chevron-down' });
       const button = control(element);
       const style = getComputedStyle(button);
@@ -227,7 +227,7 @@ describe('tamanhos e anatomia', () => {
       expect([...button.children].map((node) => node.tagName.toLowerCase())).toEqual(['nph-icon', 'span', 'nph-icon']);
     });
 
-    it(`${size}: so icone e quadrado e o icone acompanha a caixa`, async () => {
+    it(`${size}: icon only is square and the icon follows the box`, async () => {
       const element = await mount({ size, iconStart: 'plus', label: 'Add' });
       const box = control(element).getBoundingClientRect();
       const height = Number.parseFloat(resolved('height', HEIGHT[size]));
@@ -238,9 +238,9 @@ describe('tamanhos e anatomia', () => {
   }
 });
 
-describe('foco', () => {
+describe('focus', () => {
   for (const severity of NPH_BUTTON_SEVERITIES) {
-    it(`${severity}: Tab mostra a borda na cor do tipo e o halo por fora`, async () => {
+    it(`${severity}: Tab shows the border in the severity color and the halo outside`, async () => {
       const before = document.createElement('input');
       document.body.append(before);
       const element = await mount({ severity, size: 'default', text: 'Save' });
@@ -257,7 +257,7 @@ describe('foco', () => {
       expect(halo.borderTopColor).toBe(resolved('color', haloToken));
       expect(halo.borderTopWidth).toBe(resolved('width', '--nph-focus-ring-width'));
       expect(halo.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-focus-radius-control-with-border'));
-      /* Por fora, sem mudar o tamanho: 1 px de borda e 4 px de halo. */
+      /* Outside, without changing the size: 1 px of border and 4 px of halo. */
       const box = button.getBoundingClientRect();
       const borderWidth = Number.parseFloat(resolved('width', '--nph-border-width'));
       const ringWidth = Number.parseFloat(resolved('width', '--nph-focus-ring-width'));
@@ -266,7 +266,7 @@ describe('foco', () => {
     });
   }
 
-  it('numa parte da tela com outra marca e outro esquema, o texto solido e o halo sao os locais (P67)', async () => {
+  it('in a part of the screen with another brand and another scheme, the solid text and the halo are the local ones (P67)', async () => {
     const part = scope();
     const before = document.createElement('input');
     const info = document.createElement('nph-button');
@@ -286,21 +286,21 @@ describe('foco', () => {
     expect(getComputedStyle(control(primary), '::after').borderTopColor).toBe(halo);
   });
 
-  it('o clique de mouse nao desenha o foco', async () => {
+  it('a mouse click does not draw the focus', async () => {
     const element = await mount({ text: 'Save' });
     await userEvent.click(control(element));
     expect(getComputedStyle(control(element), '::before').content).toBe('none');
   });
 
-  it('o foco do host vai para o botao nativo', async () => {
+  it('host focus goes to the native button', async () => {
     const element = await mount({ text: 'Save' });
     element.focus();
     expect(element.shadowRoot?.activeElement).toBe(control(element));
   });
 });
 
-describe('acao e teclado', () => {
-  it('clique, Enter e Espaco disparam click no host', async () => {
+describe('action and keyboard', () => {
+  it('click, Enter and Space fire click on the host', async () => {
     const element = await mount({ text: 'Save' });
     const clicks = vi.fn();
     element.addEventListener('click', clicks);
@@ -310,14 +310,14 @@ describe('acao e teclado', () => {
     expect(clicks).toHaveBeenCalledTimes(3);
   });
 
-  it('o botao interno e type=button: nao envia formulario', async () => {
+  it('the inner button is type=button: it does not submit a form', async () => {
     const element = await mount();
     expect(control(element).type).toBe('button');
   });
 });
 
 describe('disabled', () => {
-  it('sai do Tab, nao dispara click e fica em state/disabled-opacity', async () => {
+  it('leaves the Tab order, does not fire click and stays at state/disabled-opacity', async () => {
     const before = document.createElement('input');
     document.body.append(before);
     const element = await mount({ text: 'Save', disabled: true });
@@ -333,7 +333,7 @@ describe('disabled', () => {
     expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
   });
 
-  it('no hover, as cores ficam as do repouso', async () => {
+  it('on hover, the colors stay the resting ones', async () => {
     const element = await mount({ text: 'Save', disabled: true });
     const rest = getComputedStyle(control(element)).backgroundColor;
     await userEvent.hover(element, { force: true });
@@ -342,7 +342,7 @@ describe('disabled', () => {
 });
 
 describe('loading', () => {
-  it('o girador entra no lugar do icone de inicio, o de fim some e o texto fica', async () => {
+  it('the spinner replaces the start icon, the end one disappears and the text stays', async () => {
     const element = await mount({ text: 'Save', iconStart: 'plus', iconEnd: 'chevron-down', loading: true });
     const button = control(element);
     expect([...button.children].map((node) => node.tagName.toLowerCase())).toEqual(['nph-spinner', 'span']);
@@ -351,8 +351,8 @@ describe('loading', () => {
     expect(button.querySelector('.text')?.textContent).toBe('Save');
   });
 
-  it('continua focavel, anuncia ocupado e nao dispara click', async () => {
-    /* O Tab parte de um campo antes do botao, e nao do foco que o teste anterior deixou. */
+  it('stays focusable, announces busy and does not fire click', async () => {
+    /* Tab starts from a field before the button, not from the focus the previous test left behind. */
     const before = document.createElement('input');
     document.body.append(before);
     const element = await mount({ text: 'Save', loading: true });
@@ -370,7 +370,7 @@ describe('loading', () => {
     expect(getComputedStyle(element).opacity).toBe('1');
   });
 
-  it('no so icone, o girador e sm no compact e md no default e no large', async () => {
+  it('in icon only, the spinner is sm in compact and md in default and large', async () => {
     const sizes: Record<NphButtonSize, string> = { compact: 'sm', default: 'md', large: 'md' };
     for (const size of NPH_BUTTON_SIZES) {
       const element = await mount({ size, iconStart: 'plus', label: 'Add', loading: true });
@@ -381,29 +381,29 @@ describe('loading', () => {
     }
   });
 
-  it('o girador herda a cor do texto', async () => {
+  it('the spinner inherits the text color', async () => {
     const element = await mount({ severity: 'danger', emphasis: 'light', text: 'Delete', loading: true });
     const spinner = control(element).querySelector('nph-spinner');
     expect(spinner && getComputedStyle(spinner).color).toBe(resolved('color', '--nph-color-destructive-on-surface'));
   });
 });
 
-describe('nome acessivel', () => {
-  it('com texto, o nome e o texto e nao ha aria-label', async () => {
+describe('accessible name', () => {
+  it('with text, the name is the text and there is no aria-label', async () => {
     const element = await mount({ text: 'Save', label: 'ignored' });
     expect(control(element).hasAttribute('aria-label')).toBe(false);
     expect(control(element).textContent?.trim()).toBe('Save');
   });
 
-  it('so icone: aria-label vem de label e o icone e decorativo', async () => {
+  it('icon only: aria-label comes from label and the icon is decorative', async () => {
     const element = await mount({ iconEnd: 'xmark', label: 'Close' });
     expect(control(element).getAttribute('aria-label')).toBe('Close');
     expect(control(element).querySelector('nph-icon')?.getAttribute('aria-hidden')).toBe('true');
   });
 });
 
-describe('montagem e entrada invalida', () => {
-  it('texto removido ou undefined vira so icone, sem quebrar o render', async () => {
+describe('mount and invalid input', () => {
+  it('removed or undefined text becomes icon only, without breaking the render', async () => {
     const element = await mount({ text: 'Save', iconStart: 'plus', label: 'Add' });
     element.removeAttribute('text');
     element.text = null as unknown as string;
@@ -415,7 +415,7 @@ describe('montagem e entrada invalida', () => {
     expect(control(element).getAttribute('aria-label')).toBe('Add');
   });
 
-  it('sem texto e sem icone e montagem: nada e sem erro', async () => {
+  it('no text and no icon is a mount: nothing and no error', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const element = await mount({});
     expect(element.shadowRoot?.querySelector('button')).toBeNull();
@@ -424,18 +424,18 @@ describe('montagem e entrada invalida', () => {
   });
 
   const cases: ReadonlyArray<readonly [string, Props, number]> = [
-    ['severity fora da lista', { severity: 'neutral' as NphButtonSeverity, text: 'Save' }, 1],
-    ['emphasis fora da lista', { emphasis: 'link' as NphButtonEmphasis, text: 'Save' }, 1],
-    ['outline em info (B1)', { severity: 'info', emphasis: 'outline', text: 'Save' }, 1],
-    ['ghost em success (B1)', { severity: 'success', emphasis: 'ghost', text: 'Save' }, 1],
-    ['size fora da lista', { size: 'small' as NphButtonSize, text: 'Save' }, 1],
-    ['icone fora do nucleo', { text: 'Save', iconStart: 'not-a-core-name' }, 1],
-    ['so icone sem label', { iconStart: 'plus' }, 1],
-    ['dois icones sem texto', { iconStart: 'plus', iconEnd: 'xmark', label: 'More' }, 1],
-    ['acumula as causas', { severity: 'neutral' as NphButtonSeverity, size: 'small' as NphButtonSize, iconStart: 'not-a-core-name', text: 'Save' }, 3],
+    ['severity outside the list', { severity: 'neutral' as NphButtonSeverity, text: 'Save' }, 1],
+    ['emphasis outside the list', { emphasis: 'link' as NphButtonEmphasis, text: 'Save' }, 1],
+    ['outline in info (B1)', { severity: 'info', emphasis: 'outline', text: 'Save' }, 1],
+    ['ghost in success (B1)', { severity: 'success', emphasis: 'ghost', text: 'Save' }, 1],
+    ['size outside the list', { size: 'small' as NphButtonSize, text: 'Save' }, 1],
+    ['icon outside the core', { text: 'Save', iconStart: 'not-a-core-name' }, 1],
+    ['icon only without label', { iconStart: 'plus' }, 1],
+    ['two icons without text', { iconStart: 'plus', iconEnd: 'xmark', label: 'More' }, 1],
+    ['accumulates the causes', { severity: 'neutral' as NphButtonSeverity, size: 'small' as NphButtonSize, iconStart: 'not-a-core-name', text: 'Save' }, 3],
   ];
   for (const [name, props, count] of cases) {
-    it(`${name}: nada e ${count} erro(s)`, async () => {
+    it(`${name}: nothing and ${count} error(s)`, async () => {
       const error = vi.spyOn(console, 'error').mockImplementation(() => {});
       const element = await mount(props);
       expect(error).toHaveBeenCalledTimes(count);
@@ -445,22 +445,22 @@ describe('montagem e entrada invalida', () => {
   }
 });
 
-describe('o que o botao nao tem', () => {
-  it('nao tem slot nem part', async () => {
+describe('what the button does not have', () => {
+  it('has no slot or part', async () => {
     const element = await mount();
     expect(element.shadowRoot?.querySelector('slot, [part]')).toBeNull();
   });
 });
 
-describe('contrato de token', () => {
-  it('todo token consumido existe no CSS gerado', () => {
+describe('token contract', () => {
+  it('every consumed token exists in the generated CSS', () => {
     const consumed = new Set(componentCss.match(/--nph-[a-z0-9-]+/g) ?? []);
     for (const token of consumed) {
       expect(tokensCss, token).toContain(`${token}:`);
     }
   });
 
-  it('nao ha valor literal de cor nem de medida no CSS do componente', () => {
+  it('there is no literal color or measurement value in the component CSS', () => {
     const rules = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
     expect(rules).not.toMatch(/#[0-9a-fA-F]{3,8}\b|\d+px|rgba?\(/);
   });

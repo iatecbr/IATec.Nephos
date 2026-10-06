@@ -1,18 +1,18 @@
 /**
- * Estilo interno do `nph-button`.
+ * Internal style of `nph-button`.
  *
- * Classes e seletores daqui NAO sao API publica (P02). O contrato sao as custom
- * properties de token consumidas aqui. As variaveis `--_*` sao internas ao
- * shadow root: guardam o token de cada parte do par tipo × enfase e nao sao API.
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the
+ * shadow root: they hold the token of each part of the severity × emphasis pair and are not API.
  *
- * Nenhum valor literal de design entra aqui. Relacoes de caixa escritas (P68):
- * `transparent` (o ghost nao tem fundo), `nowrap` (o texto fica numa linha,
- * porque a altura e fixa no token), `calc(-1 * ...)` (borda e halo de foco por
- * fora, sem mudar o tamanho) e `inset` com zeros no `box-shadow` (a borda do
- * outline e traco por dentro, como no `nph-kbd`).
+ * No literal design value goes in here. Written box relations (P68):
+ * `transparent` (ghost has no background), `nowrap` (the text stays on one line,
+ * because the height is fixed in the token), `calc(-1 * ...)` (focus border and halo
+ * outside, without changing the size) and `inset` with zeros in `box-shadow` (the
+ * outline border is a stroke on the inside, as in `nph-kbd`).
  */
 
-/* Sem conteudo ou com entrada invalida, nao ocupa espaco: sem fallback visual. */
+/* With no content or with invalid input, it takes no space: no visual fallback. */
 :host {
   display: none;
 }
@@ -32,7 +32,7 @@
   --_height: var(--nph-control-height-large);
 }
 
-/* Desabilitado: o botao inteiro perde opacidade, nas cores do repouso. */
+/* Disabled: the whole button loses opacity, in the resting colors. */
 :host([disabled]) {
   opacity: var(--nph-state-disabled-opacity);
 }
@@ -62,7 +62,7 @@
   outline: none;
 }
 
-/* So icone: caixa quadrada na altura do controle, sem respiro lateral. */
+/* Icon only: square box at the control height, without side padding. */
 :host([data-nph-icon-only]) .control {
   inline-size: var(--_height);
   padding-inline: 0;
@@ -72,14 +72,14 @@
   flex: none;
 }
 
-/* hover-active: so quando o botao responde. */
+/* hover-active: only when the button responds. */
 .control:not(:disabled):not([aria-disabled='true']):is(:hover, :active) {
   background-color: var(--_bg-hover, var(--_bg));
   color: var(--_fg-hover, var(--_fg));
   box-shadow: var(--_outline-hover, var(--_outline, none));
 }
 
-/* Foco: borda encostada e halo por fora, so para o teclado. */
+/* Focus: tight border and halo on the outside, keyboard only. */
 .control:focus-visible::before,
 .control:focus-visible::after {
   content: '';
@@ -100,7 +100,7 @@
   border-radius: var(--nph-focus-radius-control-with-border);
 }
 
-/* Cor do foco por tipo (igual em todas as enfases). */
+/* Focus color per severity (the same in all emphases). */
 :host([severity='primary']) {
   --_focus-border: var(--nph-color-primary);
   --_focus-halo: var(--nph-focus-halo);
@@ -130,7 +130,7 @@
   --_focus-halo: var(--nph-focus-halo-success);
 }
 
-/* solid: o hover usa o token de hover do tipo (decisao de 02-10-2026). */
+/* solid: hover uses the severity hover token (decision of 02-10-2026). */
 :host([severity='primary'][emphasis='solid']) {
   --_bg: var(--nph-color-primary);
   --_bg-hover: var(--nph-color-primary-hover);
@@ -167,7 +167,7 @@
   --_fg: var(--nph-status-on-solid);
 }
 
-/* outline: superficie clara e borda na cor do texto, por dentro. */
+/* outline: light surface and border in the text color, on the inside. */
 :host([severity='primary'][emphasis='outline']) {
   --_bg: var(--nph-color-primary-surface);
   --_bg-hover: var(--nph-color-primary-surface-hover);
@@ -191,7 +191,7 @@
   --_outline-hover: inset 0 0 0 var(--nph-border-width) var(--nph-color-destructive-on-surface-hover);
 }
 
-/* light: superficie clara, sem borda. */
+/* light: light surface, no border. */
 :host([severity='primary'][emphasis='light']) {
   --_bg: var(--nph-color-primary-surface);
   --_bg-hover: var(--nph-color-primary-surface-hover);
@@ -210,7 +210,7 @@
   --_fg-hover: var(--nph-color-destructive-on-surface-hover);
 }
 
-/* ghost: sem fundo em repouso; o hover ganha a superficie do tipo. */
+/* ghost: no background at rest; hover gets the severity surface. */
 :host([severity='primary'][emphasis='ghost']) {
   --_bg: transparent;
   --_bg-hover: var(--nph-color-primary-surface);

@@ -1,10 +1,10 @@
 /**
- * Testes do `nph-badge` (P68), em navegador de verdade (P21, item 5): a cor
- * resolvida, a altura e a fonte so existem onde ha layout.
+ * Tests of `nph-badge` (P68), in a real browser (P21, item 5): the resolved
+ * color, the height and the font only exist where there is layout.
  *
- * Os esquemas de cor sao trocados na raiz (`data-nph-color-scheme` no `html`).
- * Numa parte da tela com outra marca e outro esquema, `status/on-solid` resolve
- * o valor local (P67).
+ * Color schemes are switched at the root (`data-nph-color-scheme` on `html`).
+ * In a part of the screen with another brand and another scheme, `status/on-solid`
+ * resolves the local value (P67).
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
@@ -15,7 +15,7 @@ import componentCss from './nph-badge.css?raw';
 import { NPH_BADGE_EMPHASES, NPH_BADGE_SEVERITIES, NphBadge } from './nph-badge';
 import type { NphBadgeEmphasis, NphBadgeSeverity } from './nph-badge';
 
-/** Pares de fundo e texto do conjunto `878:30`, lidos no Figma. */
+/** Background and text pairs of set `878:30`, read from Figma. */
 const PAIRS: Readonly<Record<NphBadgeEmphasis, Readonly<Record<NphBadgeSeverity, readonly [string, string]>>>> = {
   solid: {
     primary: ['--nph-color-primary', '--nph-color-primary-foreground'],
@@ -56,7 +56,7 @@ async function mount(props: Partial<Pick<NphBadge, 'severity' | 'emphasis' | 'te
   return element;
 }
 
-/** O valor que o navegador da a um token, na mesma propriedade. */
+/** The value the browser gives a token, in the same property. */
 function resolved(property: string, token: string): string {
   const probe = document.createElement('div');
   probe.style.setProperty(property, `var(${token})`);
@@ -66,12 +66,12 @@ function resolved(property: string, token: string): string {
   return value;
 }
 
-/** Uma marca que nao e a padrao, lida do CSS gerado. */
+/** A brand that is not the default one, read from the generated CSS. */
 const DEFAULT_BRAND = /:root,\s*\[data-nph-brand="([\w-]+)"\]/.exec(tokensCss)?.[1] ?? '';
 const OTHER_BRAND =
   [...tokensCss.matchAll(/\[data-nph-brand="([\w-]+)"\]/g)].map((m) => m[1] ?? '').find((brand) => brand !== DEFAULT_BRAND) ?? '';
 
-/** Uma parte da tela com outra marca e outro esquema, no mesmo elemento (P67). */
+/** A part of the screen with another brand and another scheme, on the same element (P67). */
 function scope(): HTMLElement {
   const part = document.createElement('div');
   part.setAttribute('data-nph-brand', OTHER_BRAND);
@@ -80,7 +80,7 @@ function scope(): HTMLElement {
   return part;
 }
 
-/** O valor de um token dentro de um elemento. */
+/** The value of a token inside an element. */
 function resolvedIn(parent: HTMLElement, property: string, token: string): string {
   const probe = document.createElement('div');
   probe.style.setProperty(property, `var(${token})`);
@@ -90,17 +90,17 @@ function resolvedIn(parent: HTMLElement, property: string, token: string): strin
   return value;
 }
 
-describe('registro e API', () => {
-  it('define nph-badge uma unica vez', () => {
+describe('registration and API', () => {
+  it('defines nph-badge only once', () => {
     expect(customElements.get('nph-badge')).toBe(NphBadge);
   });
 
-  it('a API publica e exatamente severity, emphasis, text e icon', () => {
+  it('the public API is exactly severity, emphasis, text and icon', () => {
     const declared = [...(NphBadge as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
     expect(declared).toEqual(['severity', 'emphasis', 'text', 'icon']);
   });
 
-  it('os padroes sao primary e solid, como no conjunto 878:30', async () => {
+  it('the defaults are primary and solid, as in set 878:30', async () => {
     const element = await mount();
     expect(element.severity).toBe('primary');
     expect(element.emphasis).toBe('solid');
@@ -108,14 +108,14 @@ describe('registro e API', () => {
     expect(element.getAttribute('emphasis')).toBe('solid');
   });
 
-  it('os valores sao os do Figma, nada alem', () => {
+  it('the values are those of Figma, nothing more', () => {
     expect([...NPH_BADGE_SEVERITIES]).toEqual(['primary', 'secondary', 'info', 'warn', 'help', 'danger', 'success']);
     expect([...NPH_BADGE_EMPHASES]).toEqual(['solid', 'light']);
   });
 });
 
-describe('cores por tipo e enfase, nos dois esquemas', () => {
-  it('numa parte da tela com outra marca e outro esquema, o texto solido e o local (P67)', async () => {
+describe('colors by severity and emphasis, in both schemes', () => {
+  it('in a part of the screen with another brand and another scheme, the solid text is the local one (P67)', async () => {
     const part = scope();
     const element = document.createElement('nph-badge');
     Object.assign(element, { severity: 'info', text: 'Label' });
@@ -129,7 +129,7 @@ describe('cores por tipo e enfase, nos dois esquemas', () => {
   for (const scheme of ['light', 'dark'] as const) {
     for (const emphasis of NPH_BADGE_EMPHASES) {
       for (const severity of NPH_BADGE_SEVERITIES) {
-        it(`${scheme} · ${severity} ${emphasis}: fundo e texto nos tokens`, async () => {
+        it(`${scheme} · ${severity} ${emphasis}: background and text on the tokens`, async () => {
           document.documentElement.setAttribute('data-nph-color-scheme', scheme);
           const element = await mount({ severity, emphasis, text: 'Label', icon: 'circle-info' });
           const [bg, fg] = PAIRS[emphasis][severity];
@@ -144,8 +144,8 @@ describe('cores por tipo e enfase, nos dois esquemas', () => {
   }
 });
 
-describe('anatomia', () => {
-  it('mede 24 de altura, com respiro, espaco e raio pelos tokens', async () => {
+describe('anatomy', () => {
+  it('measures 24 in height, with padding, gap and radius from the tokens', async () => {
     const element = await mount({ text: 'Label', icon: 'circle-info' });
     const style = getComputedStyle(element);
     expect(element.getBoundingClientRect().height).toBe(24);
@@ -157,21 +157,21 @@ describe('anatomia', () => {
     expect(style.fontWeight).toBe(resolved('font-weight', '--nph-text-label-sm-font-weight'));
   });
 
-  it('o icone vem antes do texto, em sm', async () => {
+  it('the icon comes before the text, at sm', async () => {
     const element = await mount({ text: 'Label', icon: 'circle-info' });
     const children = [...(element.shadowRoot?.children ?? [])].filter((node) => node.tagName !== 'STYLE');
     expect(children.map((node) => node.tagName.toLowerCase())).toEqual(['nph-icon', 'span']);
     expect(children[0]?.getAttribute('size')).toBe('sm');
   });
 
-  it('o texto fica numa linha so', async () => {
+  it('the text stays on a single line', async () => {
     const element = await mount({ text: 'Under review' });
     expect(getComputedStyle(element).whiteSpace).toBe('nowrap');
   });
 });
 
-describe('o que o selo nao tem', () => {
-  it('nao recebe foco nem tem role', async () => {
+describe('what the badge does not have', () => {
+  it('does not receive focus and has no role', async () => {
     const element = await mount();
     element.focus();
     expect(document.activeElement).not.toBe(element);
@@ -180,24 +180,24 @@ describe('o que o selo nao tem', () => {
     expect(element.shadowRoot?.querySelector('button, a, [tabindex]')).toBeNull();
   });
 
-  it('nao tem slot', async () => {
+  it('has no slot', async () => {
     const element = await mount();
     expect(element.shadowRoot?.querySelector('slot')).toBeNull();
   });
 
-  it('o CSS nao muda nada no hover nem no foco', () => {
+  it('the CSS changes nothing on hover or focus', () => {
     expect(componentCss).not.toMatch(/:hover|:focus|:active/);
   });
 
-  it('o texto e o nome acessivel; o icone e decorativo', async () => {
+  it('the text is the accessible name; the icon is decorative', async () => {
     const element = await mount({ text: 'Approved', icon: 'circle-check' });
     expect(element.shadowRoot?.querySelector('.text')?.textContent).toBe('Approved');
     expect(element.shadowRoot?.querySelector('nph-icon')?.getAttribute('aria-hidden')).toBe('true');
   });
 });
 
-describe('montagem e entrada invalida', () => {
-  it('texto nulo ou undefined nao quebra: nao ha selo', async () => {
+describe('mounting and invalid input', () => {
+  it('null or undefined text does not break: there is no badge', async () => {
     const element = await mount({ text: 'Label' });
     element.text = null as unknown as string;
     await element.updateComplete;
@@ -207,7 +207,7 @@ describe('montagem e entrada invalida', () => {
     expect(element.getBoundingClientRect().width).toBe(0);
   });
 
-  it('sem texto nao ha selo: 0 x 0 e sem erro', async () => {
+  it('without text there is no badge: 0 x 0 and no error', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const element = await mount({ text: '   ' });
     const box = element.getBoundingClientRect();
@@ -215,7 +215,7 @@ describe('montagem e entrada invalida', () => {
     expect(error).not.toHaveBeenCalled();
   });
 
-  it('acumula um erro por causa e nao desenha nada', async () => {
+  it('emits one error per cause and draws nothing', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const element = await mount({
       severity: 'neutral' as NphBadgeSeverity,
@@ -229,15 +229,15 @@ describe('montagem e entrada invalida', () => {
   });
 });
 
-describe('contrato de token', () => {
-  it('todo token consumido existe no CSS gerado', () => {
+describe('token contract', () => {
+  it('every consumed token exists in the generated CSS', () => {
     const consumed = new Set(componentCss.match(/--nph-[a-z0-9-]+/g) ?? []);
     for (const token of consumed) {
       expect(tokensCss, token).toContain(`${token}:`);
     }
   });
 
-  it('nao ha valor literal de cor nem de medida no CSS do componente', () => {
+  it('there is no literal color or measure value in the component CSS', () => {
     const rules = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
     expect(rules).not.toMatch(/#[0-9a-fA-F]{3,8}\b|\d+px|rgba?\(/);
   });

@@ -1,13 +1,13 @@
 /**
- * Pagina de leitura do `nph-button`.
+ * Reading page of `nph-button`.
  *
- * Nao prova contrato — isso e papel de `Components/nph-button/Validation` e dos
- * testes. O conteudo e transcrito do quadro aceito no Figma (`1197:5449`), da
- * ficha e da P68; nada e decidido aqui.
+ * It does not prove the contract — that is the role of `Components/nph-button/Validation` and of the
+ * tests. The content is transcribed from the frame accepted in Figma (`1197:5449`), from the
+ * `ficha` and from P68; nothing is decided here.
  *
- * O texto vem do dicionario de idioma, em `.storybook/i18n/`, na chave
- * `buttonDocs`. A story e UNICA: ela le `globals.locale` e busca a traducao.
- * Identificadores tecnicos aparecem literais e sao iguais em qualquer idioma.
+ * The text comes from the language dictionary, in `.storybook/i18n/`, under the key
+ * `buttonDocs`. The story is SINGLE: it reads `globals.locale` and fetches the translation.
+ * Technical identifiers appear literally and are the same in any language.
  */
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -36,7 +36,7 @@ function localeOf(context: GlobalsContext | undefined): string {
   return (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
 }
 
-/** Ids das secoes: identificadores tecnicos, iguais em qualquer idioma. */
+/** Section ids: technical identifiers, the same in any language. */
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
@@ -49,14 +49,14 @@ const SECTIONS = {
   references: 'references',
 } as const;
 
-/** Os tipos que tem outline, light e ghost (B1). */
+/** The severities that have outline, light and ghost (B1). */
 const WITH_LIGHT_EMPHASES = ['primary', 'secondary', 'danger'];
 
-/* Moldura de demonstracao. Nao e precedente para CSS de componente. */
+/* Demonstration frame. Not a precedent for component CSS. */
 const column = 'display: flex; flex-direction: column; gap: var(--nph-space-stack);';
 const row = 'display: flex; flex-wrap: wrap; align-items: center; gap: var(--nph-space-inline);';
 
-/** Pagina de leitura, montada com os blocos de `src/shared/docs/page.ts`. */
+/** Reading page, assembled with the blocks of `src/shared/docs/page.ts`. */
 export const Documentation: Story = {
   name: 'Documentation',
   render: (_args, context: GlobalsContext) => {

@@ -1,30 +1,30 @@
 /**
- * `nph-button` — o botao que dispara uma acao identificada por texto.
+ * `nph-button` — the button that triggers an action identified by text.
  *
- * Contrato aceito no Figma (quadro `1197:5449`, conjuntos `461:13009`, com
- * texto, e `498:15671`, so icone), decisoes B1, B5 e B6 do Registro (vault),
- * hover solido nos tokens de hover (02-10-2026, supera a B4) e P68:
- * - `severity` (o `tipo` do Figma): `primary` (padrao), `secondary`, `info`,
- *   `warn`, `help`, `danger` ou `success`. Escolhe-se pelo significado da acao;
- * - `emphasis` (a `enfase`): `solid` (padrao), `outline`, `light` ou `ghost`.
- *   `outline`, `light` e `ghost` existem so em primary, secondary e danger (B1);
- * - `size`: `compact`, `default` (padrao, por decisao de Indiane em
- *   05-10-2026, pela T4) ou `large`;
- * - `text`: diz o que acontece ao clicar. E o nome acessivel;
- * - `icon-start` e `icon-end`: um nome do nucleo do `nph-icon` cada, em
- *   `icon/size-sm` com texto. Podem conviver (B6);
- * - sem texto, o botao e o "so icone" (B5): um icone so, que acompanha a caixa
- *   (sm no compact, md no default, lg no large), e `label` obrigatorio como
- *   nome acessivel (nome decidido por Indiane em 05-10-2026);
- * - `disabled`: o botao inteiro em `state/disabled-opacity` e fora do Tab;
- * - `loading` (o `carregando`): o girador do `nph-spinner` entra no lugar do
- *   icone de inicio, o icone de fim some e o texto fica. O botao continua
- *   focavel e o clique nao chega a quem usa;
- * - sem slot, sem evento proprio, sem propriedade de cor e sem `::part`. O
- *   clique e o `click` nativo, que atravessa o shadow root;
- * - entrada invalida nao renderiza e emite `console.error` so em
- *   desenvolvimento, um por causa e acumulando (P68, regra da P21). Sem texto e
- *   sem icone e montagem: nada, sem erro (precedente do `nph-kbd`, P66).
+ * Contract accepted in Figma (frame `1197:5449`, sets `461:13009`, with
+ * text, and `498:15671`, icon only), decisions B1, B5 and B6 of the `Registro` (vault),
+ * solid hover on the hover tokens (02-10-2026, supersedes B4) and P68:
+ * - `severity` (the Figma `tipo`): `primary` (default), `secondary`, `info`,
+ *   `warn`, `help`, `danger` or `success`. Chosen by the meaning of the action;
+ * - `emphasis` (the `enfase`): `solid` (default), `outline`, `light` or `ghost`.
+ *   `outline`, `light` and `ghost` exist only in primary, secondary and danger (B1);
+ * - `size`: `compact`, `default` (default, by Indiane's decision on
+ *   05-10-2026, via T4) or `large`;
+ * - `text`: says what happens on click. It is the accessible name;
+ * - `icon-start` and `icon-end`: one `nph-icon` core name each, at
+ *   `icon/size-sm` with text. They can coexist (B6);
+ * - without text, the button is the "icon only" (B5): a single icon that follows the box
+ *   (sm in compact, md in default, lg in large), and `label` is required as the
+ *   accessible name (name decided by Indiane on 05-10-2026);
+ * - `disabled`: the whole button at `state/disabled-opacity` and out of the Tab order;
+ * - `loading` (the `carregando`): the `nph-spinner` replaces the start
+ *   icon, the end icon disappears and the text stays. The button remains
+ *   focusable and the click does not reach the consumer;
+ * - no slot, no own event, no color property and no `::part`. The
+ *   click is the native `click`, which crosses the shadow root;
+ * - invalid input does not render and emits `console.error` only in
+ *   development, one per cause and accumulating (P68, P21 rule). No text and
+ *   no icon is a mount: nothing, no error (precedent of `nph-kbd`, P66).
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
@@ -37,7 +37,7 @@ import buttonCss from './nph-button.css?inline';
 
 const TAG = 'nph-button';
 
-/** Marcas internas, nao API. */
+/** Internal markers, not API. */
 const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 const ICON_ONLY_ATTRIBUTE = 'data-nph-icon-only';
 
@@ -58,24 +58,24 @@ export type NphButtonEmphasis = (typeof NPH_BUTTON_EMPHASES)[number];
 export const NPH_BUTTON_SIZES = ['compact', 'default', 'large'] as const;
 export type NphButtonSize = (typeof NPH_BUTTON_SIZES)[number];
 
-/** Os tipos que so existem em `solid` (B1). */
+/** The severities that exist only in `solid` (B1). */
 const SOLID_ONLY: readonly NphButtonSeverity[] = ['info', 'warn', 'help', 'success'];
 
-/** No so icone, o icone acompanha a caixa (Description de `498:15671`). */
+/** In icon-only, the icon follows the box (Description of `498:15671`). */
 const ICON_ONLY_ICON_SIZE: Readonly<Record<NphButtonSize, NphIconSize>> = {
   compact: 'sm',
   default: 'md',
   large: 'lg',
 };
 
-/** O girador do so icone: `sm` no compact, `md` no default e no large (Figma). */
+/** The icon-only spinner: `sm` in compact, `md` in default and large (Figma). */
 const ICON_ONLY_SPINNER_SIZE: Readonly<Record<NphButtonSize, 'sm' | 'md'>> = {
   compact: 'sm',
   default: 'md',
   large: 'md',
 };
 
-/** Erro de desenvolvimento; fora de bundler com `import.meta.env`, silencia. */
+/** Development error; outside a bundler with `import.meta.env`, it stays silent. */
 function devError(message: string): void {
   if (import.meta.env?.DEV) {
     console.error(`[${TAG}] ${message}`);
@@ -89,11 +89,11 @@ function oneOf<T extends string>(list: readonly T[], value: string): value is T 
 export class NphButton extends LitElement {
   static override styles = unsafeCSS(buttonCss);
 
-  /* O foco do host vai para o `<button>` nativo de dentro. */
+  /* Host focus goes to the inner native `<button>`. */
   static override shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
 
   static override properties = {
-    /* Os cinco que refletem sao lidos pelo CSS interno. */
+    /* The reflected ones are read by the internal CSS. */
     severity: { type: String, reflect: true },
     emphasis: { type: String, reflect: true },
     size: { type: String, reflect: true },
@@ -108,11 +108,11 @@ export class NphButton extends LitElement {
   declare severity: NphButtonSeverity;
   declare emphasis: NphButtonEmphasis;
   declare size: NphButtonSize;
-  /** O que acontece ao clicar, ja localizado pela aplicacao consumidora. */
+  /** What happens on click, already localized by the consuming application. */
   declare text: string;
   declare iconStart: string;
   declare iconEnd: string;
-  /** Nome acessivel do so icone. Com texto, nao e usado. */
+  /** Accessible name of the icon-only button. With text, it is not used. */
   declare label: string;
   declare disabled: boolean;
   declare loading: boolean;
@@ -131,11 +131,11 @@ export class NphButton extends LitElement {
     this.label = '';
     this.disabled = false;
     this.loading = false;
-    /* `click()` chamado no proprio host tambem para em disabled e loading. */
+    /* `click()` called on the host itself also stops in disabled and loading. */
     this.addEventListener('click', (event) => this.blockInactive(event), { capture: true });
   }
 
-  /** Em disabled ou loading, o clique nao chega a quem usa. */
+  /** In disabled or loading, the click does not reach the consumer. */
   private blockInactive(event: Event): void {
     if (this.disabled || this.loading) {
       event.preventDefault();
@@ -153,40 +153,40 @@ export class NphButton extends LitElement {
     let valid = true;
 
     if (!oneOf(NPH_BUTTON_SEVERITIES, severity)) {
-      devError(`severity "${severity}" nao existe. Use ${NPH_BUTTON_SEVERITIES.join(', ')}.`);
+      devError(`severity "${severity}" does not exist. Use ${NPH_BUTTON_SEVERITIES.join(', ')}.`);
       valid = false;
     }
     if (!oneOf(NPH_BUTTON_EMPHASES, emphasis)) {
-      devError(`emphasis "${emphasis}" nao existe. Use ${NPH_BUTTON_EMPHASES.join(', ')}.`);
+      devError(`emphasis "${emphasis}" does not exist. Use ${NPH_BUTTON_EMPHASES.join(', ')}.`);
       valid = false;
     } else if (emphasis !== 'solid' && (SOLID_ONLY as readonly string[]).includes(severity)) {
-      devError(`emphasis "${emphasis}" nao existe em severity "${severity}": so solid (B1).`);
+      devError(`emphasis "${emphasis}" does not exist in severity "${severity}": only solid (B1).`);
       valid = false;
     }
     if (!oneOf(NPH_BUTTON_SIZES, size)) {
-      devError(`size "${size}" nao existe. Use ${NPH_BUTTON_SIZES.join(', ')}.`);
+      devError(`size "${size}" does not exist. Use ${NPH_BUTTON_SIZES.join(', ')}.`);
       valid = false;
     }
     if (start !== '' && !isCoreName(start)) {
-      devError(`icon-start "${start}" nao e um nome do nucleo do nph-icon.`);
+      devError(`icon-start "${start}" is not a core name of nph-icon.`);
       valid = false;
     }
     if (end !== '' && !isCoreName(end)) {
-      devError(`icon-end "${end}" nao e um nome do nucleo do nph-icon.`);
+      devError(`icon-end "${end}" is not a core name of nph-icon.`);
       valid = false;
     }
 
     const icons = (start !== '' ? 1 : 0) + (end !== '' ? 1 : 0);
     if (text === '' && icons === 2) {
-      devError('sem texto, o botao tem um icone so: dois icones sem rotulo nao dizem a acao.');
+      devError('without text, the button has a single icon: two icons without a label do not say the action.');
       valid = false;
     }
     if (text === '' && icons === 1 && (this.label ?? '').trim() === '') {
-      devError('sem texto, o botao precisa de label: e o nome acessivel do so icone.');
+      devError('without text, the button needs a label: it is the accessible name of the icon-only button.');
       valid = false;
     }
 
-    /* Sem texto e sem icone e montagem, nao erro: nada a desenhar. */
+    /* No text and no icon is a mount, not an error: nothing to draw. */
     this.valid = valid && (text !== '' || icons > 0);
     this.iconOnly = text === '' && icons === 1;
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);

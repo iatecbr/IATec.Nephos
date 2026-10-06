@@ -1,17 +1,17 @@
 /**
- * Stories de VALIDACAO do `nph-button`.
+ * Stories for VALIDATION of `nph-button`.
  *
- * Provam a matriz aceita no Figma (quadro `1197:5449`, conjuntos `461:13009` e
- * `498:15671`): os pares de tipo e enfase (B1), os tres tamanhos, os icones de
- * inicio e de fim, o so icone e os estados disabled e loading. O hover e o foco
- * sao estados de interacao: aparecem passando o mouse e navegando com Tab. O
- * texto de exemplo dos botoes vem do dicionario de idioma, na chave
- * `buttonValidation` (`docs/i18n.md`, "Storybook"); na matriz, o texto e o
- * nome tecnico do tipo.
+ * They prove the matrix accepted in Figma (frame `1197:5449`, sets `461:13009` and
+ * `498:15671`): the severity and emphasis pairs (B1), the three sizes, the start
+ * and end icons, the icon only and the disabled and loading states. Hover and focus
+ * are interaction states: they show up by moving the mouse and navigating with Tab. The
+ * example text of the buttons comes from the language dictionary, under the key
+ * `buttonValidation` (`docs/i18n.md`, "Storybook"); in the matrix, the text is the
+ * technical name of the severity.
  *
- * O esquema de cor vem do seletor global do Storybook, aplicado na raiz. Numa
- * parte da tela com outra marca e outro esquema, no mesmo elemento,
- * `status/on-solid` e `focus/halo` resolvem o valor local (P67).
+ * The color scheme comes from the global Storybook selector, applied at the root. In a
+ * part of the screen with another brand and another scheme, on the same element,
+ * `status/on-solid` and `focus/halo` resolve the local value (P67).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -34,17 +34,17 @@ interface GlobalsContext {
   globals?: Record<string, unknown>;
 }
 
-/** Atalho: o dicionario destas stories no idioma escolhido. */
+/** Shortcut: the dictionary of these stories in the chosen language. */
 function t(context: GlobalsContext | undefined) {
   const locale = (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
   return translations(locale).buttonValidation;
 }
 
-/* Moldura de demonstracao. Nao e precedente para CSS de componente. */
+/* Demonstration frame. Not a precedent for component CSS. */
 const page = 'display: flex; flex-direction: column; gap: var(--nph-space-stack); padding: var(--nph-space-section);';
 const row = 'display: flex; flex-wrap: wrap; align-items: center; gap: var(--nph-space-inline);';
 
-/** Os pares que existem (B1): solid em todos; as outras enfases so em tres tipos. */
+/** The pairs that exist (B1): solid in all; the other emphases only in three severities. */
 function pairs(): ReadonlyArray<readonly [NphButtonSeverity, NphButtonEmphasis]> {
   return NPH_BUTTON_EMPHASES.flatMap((emphasis) =>
     NPH_BUTTON_SEVERITIES.filter(
@@ -65,7 +65,7 @@ function byEmphasis(render: (severity: NphButtonSeverity, emphasis: NphButtonEmp
   </div>`;
 }
 
-/** Cada par de tipo e enfase que existe, no tamanho default. Passe o mouse para o hover. */
+/** Each severity and emphasis pair that exists, at the default size. Move the mouse for hover. */
 export const Matrix: Story = {
   name: 'Matrix',
   render: () =>
@@ -75,7 +75,7 @@ export const Matrix: Story = {
     ),
 };
 
-/** Os tres tamanhos, com texto e so icone. O texto e label-md em todos. */
+/** The three sizes, with text and icon only. The text is label-md in all. */
 export const Sizes: Story = {
   name: 'Sizes',
   render: (_args, context: GlobalsContext) => {
@@ -92,7 +92,7 @@ export const Sizes: Story = {
   },
 };
 
-/** Icone de inicio, de fim e os dois juntos (B6), em icon/size-sm. */
+/** Start icon, end icon and both together (B6), at icon/size-sm. */
 export const Icons: Story = {
   name: 'Icons',
   render: (_args, context: GlobalsContext) => {
@@ -107,7 +107,7 @@ export const Icons: Story = {
   },
 };
 
-/** Desabilitado: o botao inteiro em state/disabled-opacity, fora do Tab. */
+/** Disabled: the whole button at state/disabled-opacity, out of the Tab order. */
 export const Disabled: Story = {
   name: 'Disabled',
   render: () =>
@@ -117,7 +117,7 @@ export const Disabled: Story = {
     ),
 };
 
-/** Carregando: o girador no lugar do icone de inicio; o texto fica. */
+/** Loading: the spinner in place of the start icon; the text stays. */
 export const Loading: Story = {
   name: 'Loading',
   render: (_args, context: GlobalsContext) => html`${byEmphasis(

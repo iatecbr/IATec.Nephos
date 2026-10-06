@@ -1,13 +1,13 @@
 /**
- * Pagina de leitura do `nph-badge`.
+ * Reading page of `nph-badge`.
  *
- * Nao prova contrato — isso e papel de `Components/nph-badge/Validation` e dos
- * testes. O conteudo e transcrito do quadro aceito no Figma (`1196:1100`), da
- * ficha e da P68; nada e decidido aqui.
+ * It does not prove the contract — that is the role of `Components/nph-badge/Validation` and of the
+ * tests. The content is transcribed from the frame accepted in Figma (`1196:1100`), from the
+ * spec sheet (`ficha`) and from P68; nothing is decided here.
  *
- * O texto vem do dicionario de idioma, em `.storybook/i18n/`, na chave
- * `badgeDocs`. A story e UNICA: ela le `globals.locale` e busca a traducao.
- * Identificadores tecnicos aparecem literais e sao iguais em qualquer idioma.
+ * The text comes from the language dictionary, in `.storybook/i18n/`, under the
+ * `badgeDocs` key. The story is SINGLE: it reads `globals.locale` and looks up the translation.
+ * Technical identifiers appear literally and are the same in any language.
  */
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -36,7 +36,7 @@ function localeOf(context: GlobalsContext | undefined): string {
   return (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
 }
 
-/** Ids das secoes: identificadores tecnicos, iguais em qualquer idioma. */
+/** Section ids: technical identifiers, the same in any language. */
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
@@ -48,12 +48,12 @@ const SECTIONS = {
   references: 'references',
 } as const;
 
-/* Moldura de demonstracao. Nao e precedente para CSS de componente. */
+/* Demo frame. Not a precedent for component CSS. */
 const column = 'display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);';
 const row = 'display: flex; flex-wrap: wrap; align-items: center; gap: var(--nph-space-inline-tight);';
 const item = 'display: flex; align-items: center; gap: var(--nph-space-inline); color: var(--nph-color-foreground);';
 
-/** Pagina de leitura, montada com os blocos de `src/shared/docs/page.ts`. */
+/** Reading page, built with the blocks of `src/shared/docs/page.ts`. */
 export const Documentation: Story = {
   name: 'Documentation',
   render: (_args, context: GlobalsContext) => {

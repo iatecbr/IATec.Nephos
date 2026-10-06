@@ -1,7 +1,7 @@
 /**
- * Contrato da pagina Documentation do `nph-badge`: indice sem ancora orfa nos
- * tres idiomas, nenhum marcador sobrando e o dicionario `badgeDocs` com a mesma
- * forma em pt-BR, en e es (o `test:i18n` so le pares `.md`).
+ * Contract of the `nph-badge` Documentation page: index with no orphan anchor in
+ * all three languages, no leftover placeholder, and the `badgeDocs` dictionary with the same
+ * shape in pt-BR, en and es (`test:i18n` only reads `.md` pairs).
  */
 import { afterEach, describe, expect, it } from 'vitest';
 import { render } from 'lit';
@@ -26,7 +26,7 @@ function renderInLocale(locale: string): HTMLElement {
   return target;
 }
 
-/** A forma de um valor: chaves de objeto e tamanho de lista, sem o texto. */
+/** The shape of a value: object keys and list length, without the text. */
 function shape(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(shape);
   if (value !== null && typeof value === 'object') {
@@ -35,9 +35,9 @@ function shape(value: unknown): unknown {
   return typeof value;
 }
 
-describe('Documentação do nph-badge', () => {
+describe('nph-badge documentation', () => {
   for (const locale of LOCALES) {
-    it(`${locale}: todo link aponta para uma secao e toda secao tem link`, () => {
+    it(`${locale}: every link points to a section and every section has a link`, () => {
       const target = renderInLocale(locale);
       const links = [...target.querySelectorAll('nav a')].map((a) => (a.getAttribute('href') ?? '').replace(/^#/, ''));
       const sections = [...target.querySelectorAll('section[id]')].map((s) => s.id);
@@ -45,11 +45,11 @@ describe('Documentação do nph-badge', () => {
       expect([...sections].sort()).toEqual([...links].sort());
     });
 
-    it(`${locale}: nenhum marcador {nome} sobra na pagina`, () => {
+    it(`${locale}: no {name} placeholder is left on the page`, () => {
       expect(renderInLocale(locale).textContent ?? '').not.toMatch(/\{\w+\}/);
     });
 
-    it(`${locale}: toda instancia da pagina renderiza`, async () => {
+    it(`${locale}: every instance on the page renders`, async () => {
       const target = renderInLocale(locale);
       const pieces = [...target.querySelectorAll('nph-badge')] as Array<HTMLElement & { updateComplete: Promise<unknown> }>;
       await Promise.all(pieces.map((piece) => piece.updateComplete));
@@ -60,20 +60,20 @@ describe('Documentação do nph-badge', () => {
     });
   }
 
-  it('en e es tem a mesma forma de pt-BR', () => {
+  it('en and es have the same shape as pt-BR', () => {
     const source = shape(translations('pt-BR').badgeDocs);
     expect(shape(translations('en').badgeDocs)).toEqual(source);
     expect(shape(translations('es').badgeDocs)).toEqual(source);
   });
 });
 
-describe('Validação do nph-badge: texto so do dicionario', () => {
+describe('nph-badge validation: text only from the dictionary', () => {
   type Renderable = { render?: (args: unknown, context: unknown) => TemplateResult };
   const stories = Object.entries(validation).filter(
     ([name, story]) => name !== 'default' && typeof (story as Renderable).render === 'function',
   ) as Array<[string, Renderable]>;
 
-  /** Tudo que a pessoa le: o texto da pagina e os textos passados as pecas. */
+  /** Everything the person reads: the page text and the texts passed to the pieces. */
   function visibleText(target: HTMLElement): string {
     const attributes = [...target.querySelectorAll('[text], [label], [aria-label]')].flatMap((el) =>
       ['text', 'label', 'aria-label'].map((name) => el.getAttribute(name) ?? ''),
@@ -81,7 +81,7 @@ describe('Validação do nph-badge: texto so do dicionario', () => {
     return [target.textContent ?? '', ...attributes].join(' ');
   }
 
-  /** Os textos de pt-BR que nao existem em en, achatados. */
+  /** The pt-BR texts that do not exist in en, flattened. */
   function portugueseOnly(): string[] {
     const flat = (value: unknown): string[] =>
       Array.isArray(value) ? value.flatMap(flat) : typeof value === 'object' && value !== null ? Object.values(value).flatMap(flat) : [String(value)];
@@ -89,13 +89,13 @@ describe('Validação do nph-badge: texto so do dicionario', () => {
     return flat(translations('pt-BR').badgeValidation).filter((value) => !english.includes(value));
   }
 
-  it('toda story de Validacao le o dicionario', () => {
+  it('every Validation story reads the dictionary', () => {
     expect(stories.length).toBeGreaterThan(0);
     expect(portugueseOnly().length).toBeGreaterThan(0);
   });
 
   for (const [name, story] of stories) {
-    it(`${name}: em en, nenhum texto de pt-BR aparece`, () => {
+    it(`${name}: in en, no pt-BR text appears`, () => {
       const target = document.createElement('div');
       document.body.append(target);
       render(story.render?.({}, { globals: { locale: 'en' } }) as TemplateResult, target);
@@ -106,7 +106,7 @@ describe('Validação do nph-badge: texto so do dicionario', () => {
     });
   }
 
-  it('en e es tem a mesma forma de pt-BR', () => {
+  it('en and es have the same shape as pt-BR', () => {
     const source = shape(translations('pt-BR').badgeValidation);
     expect(shape(translations('en').badgeValidation)).toEqual(source);
     expect(shape(translations('es').badgeValidation)).toEqual(source);

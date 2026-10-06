@@ -1,15 +1,16 @@
 /**
- * Estilo interno do `nph-badge`.
+ * Internal style of `nph-badge`.
  *
- * Classes e seletores daqui NAO sao API publica (P02). O contrato sao as custom
- * properties de token consumidas aqui. As variaveis `--_bg` e `--_fg` sao
- * internas ao shadow root: guardam o token do par tipo × enfase e nao sao API.
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_bg` and `--_fg` variables are
+ * internal to the shadow root: they hold the token of the severity × emphasis
+ * pair and are not API.
  *
- * Nenhum valor literal de design entra aqui. `nowrap` e relacao de caixa: o selo
- * tem uma ou duas palavras numa linha so (quadro `1196:1100`).
+ * No literal design value goes in here. `nowrap` is a box relation: the badge
+ * has one or two words on a single line (frame `1196:1100`).
  */
 
-/* Sem texto ou com entrada invalida, nao ocupa espaco: sem fallback visual. */
+/* Without text or with invalid input, it takes no space: no visual fallback. */
 :host {
   display: none;
 }
@@ -32,7 +33,7 @@
   white-space: nowrap;
 }
 
-/* O icone herda `currentColor`: fica na cor do texto. */
+/* The icon inherits `currentColor`: it takes the text color. */
 .icon {
   flex: none;
 }
