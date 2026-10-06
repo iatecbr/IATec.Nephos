@@ -1,7 +1,7 @@
 ```json
 {
   "id": "DSA-10",
-  "objetivo": "Implementar o nph-separator, o divisor decorativo de uma linha, com o contrato aceito no Figma.",
+  "objetivo": "Implement the nph-separator, the one-line decorative divider, with the contract accepted in Figma.",
   "fase": "F4",
   "ordem_aprovada": 120,
   "responsavel": "claude-codigo",
@@ -11,7 +11,7 @@
   "gates": [
     {
       "id": "documentacao-figma-aceita",
-      "descricao": "A documentacao de nph-separator no Figma foi aceita por Indiane e registrada como evidencia.",
+      "descricao": "The nph-separator documentation in Figma was accepted by Indiane and recorded as evidence.",
       "comando": null,
       "evidencia": "docs/operacao/evidencias/DSA-10/documentacao-figma-aceita-2026-10-01.md",
       "resultado": "passou",
@@ -20,7 +20,7 @@
     },
     {
       "id": "revisao-e-merge",
-      "descricao": "Componente, CSS, testes, stories, ficha e decisao tecnica revisados por maurocsjr e mergeados na v/5.0.0.",
+      "descricao": "Component, CSS, tests, stories, spec and technical decision reviewed by maurocsjr and merged into v/5.0.0.",
       "comando": null,
       "evidencia": null,
       "resultado": "pendente",
@@ -34,7 +34,7 @@
     "docs/operacao/evidencias/DSA-10/documentacao-figma-aceita-2026-10-01.md"
   ],
   "referencias_de_decisao": [
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, recorte da primeira entrega (Lote A)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, first-delivery cut (Batch A)"
   ],
   "origem_externa": {
     "classificacao": "interna-permitida",
@@ -42,7 +42,7 @@
     "data": "2026-10-01",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "O frame nph-separator (1196:674) foi aceito como especificacao de API e comportamento do nph-separator. COMPONENT_SET 762:6, variante orientacao horizontal|vertical, padrao horizontal. Em 05-10-2026 Indiane aprovou o recorte da primeira entrega, com o Lote A num plano e num PR."
+    "decisao_convertida": "The nph-separator frame (1196:674) was accepted as the API and behavior specification of the nph-separator. COMPONENT_SET 762:6, `orientacao` variant horizontal|vertical, default horizontal. On 05-10-2026 Indiane approved the cut of the first delivery, with Batch A in one plan and one PR."
   },
   "revisao_git": { "branch": null, "commit": null, "pr": null },
   "contexto": null,
@@ -50,29 +50,29 @@
 }
 ```
 
-# DSA-10 — nph-separator, o divisor
+# DSA-10 — nph-separator, the divider
 
-## Objetivo
-Existe o `nph-separator` em `src/components/nph-separator/`, com ficha, testes e
-stories, no contrato aceito no Figma: uma linha de `border/width` em
-`color/border`, horizontal ou vertical, que preenche o conteiner e fica oculta do
-leitor de tela.
+## Goal
+The `nph-separator` exists in `src/components/nph-separator/`, with a spec, tests
+and stories, in the contract accepted in Figma: a `border/width` line in
+`color/border`, horizontal or vertical, that fills the container and is hidden from
+the screen reader.
 
-## Como se prova
-**`documentacao-figma-aceita`** — o quadro `nph-separator` (`1196:674`) do Figma
-`DS-IA-NEPHOS 5.0` foi aceito por Indiane em 01-10-2026, com QA UX de Figma e
-auditoria textual aprovados. A evidencia nomeia o frame e o COMPONENT_SET
-(`762:6`).
+## How it is proved
+**`documentacao-figma-aceita`** — the `nph-separator` frame (`1196:674`) of the
+Figma file `DS-IA-NEPHOS 5.0` was accepted by Indiane on 01-10-2026, with the Figma
+UX QA and the text audit approved. The evidence names the frame and the
+COMPONENT_SET (`762:6`).
 
-**`revisao-e-merge`** — componente, CSS, testes, stories, ficha e a decisao
-tecnica passam pelos comandos de prova, sao revisados por `maurocsjr` e
-mergeados na `v/5.0.0`.
+**`revisao-e-merge`** — component, CSS, tests, stories, spec and the technical
+decision pass the proof commands, are reviewed by `maurocsjr` and
+merged into `v/5.0.0`.
 
-## O que esta tarefa não faz
-Nao cria variante com texto, espessura ou cor nova. Nao serve de espacador nem de
-borda de campo.
+## What this task does not do
+It does not create a variant with text, thickness or a new color. It does not serve
+as a spacer or as a field border.
 
-## Fontes
-- Figma `DS-IA-NEPHOS 5.0`, quadro `1196:674` e conjunto `762:6`
+## Sources
+- Figma `DS-IA-NEPHOS 5.0`, frame `1196:674` and set `762:6`
 - `design.md` — `border/width`, `color/border`, `layout/separator-*`
 - `fichas/_modelo.md`
