@@ -4,23 +4,23 @@
   "gate": null,
   "data": "2026-10-05",
   "responsavel": "claude-codigo",
-  "comando": "npx storybook dev -p 6022 --no-open; leitura por getBoundingClientRect e getComputedStyle no navegador integrado",
+  "comando": "npx storybook dev -p 6022 --no-open; reading through getBoundingClientRect and getComputedStyle in the integrated browser",
   "codigo_de_saida": null,
   "sha": null,
   "origem_externa": null
 }
 ```
 
-# DSA-11 — `nph-kbd` no Storybook
+# DSA-11 — `nph-kbd` in Storybook
 
-Prova das stories `Validação` abertas no navegador integrado (Chromium), na
-branch `feat/lote-a-icon-spinner-separator-kbd`, antes do commit que vai para
-inspeção. Cada story foi aberta nos esquemas claro e escuro, a 375 px e a 188 px
-de largura (o equivalente a zoom 2 em 375). Nenhuma story rolou na horizontal.
+Proof of the `Validação` stories opened in the integrated browser (Chromium), on the
+branch `feat/lote-a-icon-spinner-separator-kbd`, before the commit that goes to
+inspection. Each story was opened in the light and dark schemes, at 375 px and at 188 px
+wide (the equivalent of zoom 2 at 375). No story scrolled horizontally.
 
-Esta evidência não é de gate. O nome não segue `<gate>-<data>`.
+This evidence is not a gate evidence. Its name does not follow `<gate>-<date>`.
 
-| Story | Medida | Cor e semântica |
+| Story | Measurement | Color and semantics |
 |---|---|---|
-| Tecla | K 16,0 x 24; Esc 27,6 x 24; Shift 36,3 x 24; F2 22,0 x 24 | claro fundo rgb(227, 227, 227) e texto rgb(92, 92, 92); escuro fundo rgb(45, 51, 59) e texto rgb(183, 187, 193); sem role nem aria-hidden |
-| Combinacao | Ctrl 30,1; Shift 36,3; P 15,7, todas com 24 de altura, lado a lado | mesmas cores |
+| `Tecla` | K 16.0 x 24; Esc 27.6 x 24; Shift 36.3 x 24; F2 22.0 x 24 | light background rgb(227, 227, 227) and text rgb(92, 92, 92); dark background rgb(45, 51, 59) and text rgb(183, 187, 193); no role nor aria-hidden |
+| `Combinacao` | Ctrl 30.1; Shift 36.3; P 15.7, all 24 high, side by side | same colors |

@@ -4,23 +4,23 @@
   "gate": null,
   "data": "2026-10-05",
   "responsavel": "claude-codigo",
-  "comando": "npx storybook dev -p 6022 --no-open; leitura por getBoundingClientRect e getComputedStyle no navegador integrado",
+  "comando": "npx storybook dev -p 6022 --no-open; reading through getBoundingClientRect and getComputedStyle in the integrated browser",
   "codigo_de_saida": null,
   "sha": null,
   "origem_externa": null
 }
 ```
 
-# DSA-10 — `nph-separator` no Storybook
+# DSA-10 — `nph-separator` in Storybook
 
-Prova das stories `Validação` abertas no navegador integrado (Chromium), na
-branch `feat/lote-a-icon-spinner-separator-kbd`, antes do commit que vai para
-inspeção. Cada story foi aberta nos esquemas claro e escuro, a 375 px e a 188 px
-de largura (o equivalente a zoom 2 em 375). Nenhuma story rolou na horizontal.
+Proof of the `Validação` stories opened in the integrated browser (Chromium), on the
+branch `feat/lote-a-icon-spinner-separator-kbd`, before the commit that goes to
+inspection. Each story was opened in the light and dark schemes, at 375 px and at 188 px
+wide (the equivalent of zoom 2 at 375). No story scrolled horizontally.
 
-Esta evidência não é de gate. O nome não segue `<gate>-<data>`.
+This evidence is not a gate evidence. Its name does not follow `<gate>-<date>`.
 
-| Story | Medida | Cor e semântica |
+| Story | Measurement | Color and semantics |
 |---|---|---|
-| Horizontal | 279,2 x 1 a 375 px e 92 x 1 a 188 px, preenche a largura | claro rgb(199, 199, 199), escuro rgb(111, 119, 130); aria-hidden=true |
-| Vertical | 1 x 21,6 entre dois itens em flex em linha | mesmas cores; aria-hidden=true |
+| `Horizontal` | 279.2 x 1 at 375 px and 92 x 1 at 188 px, fills the width | light rgb(199, 199, 199), dark rgb(111, 119, 130); aria-hidden=true |
+| `Vertical` | 1 x 21.6 between two items in a row flex | same colors; aria-hidden=true |
