@@ -261,7 +261,7 @@ verifica**, com data quando houver:
 export const ColorInheritance: Story = { /* ... */ };
 ```
 
-**Fonte:** as onze stories dos três arquivos.
+**Fonte:** as stories dos três arquivos.
 **Limite:** dois componentes.
 
 ### 4.5 Cobertura, não quantidade

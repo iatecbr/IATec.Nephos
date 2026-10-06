@@ -641,7 +641,8 @@ Adotada pela Indiane em 06/10/2026, a partir da revisão do Mauro no PR #56.
 
 **Status.** Decisão adotada pela Indiane em 28/09/2026 — revisada e aprovada
 por Mauro em 30/09/2026, no chat da equipe. Emenda de 02/10/2026 aprovada por
-Mauro no PR #49, com merge em 05/10/2026.
+Mauro no PR #49, com merge em 05/10/2026. Emenda de 06/10/2026 (Storybook)
+adotada pela Indiane, em revisão no PR #56.
 
 ---
 
