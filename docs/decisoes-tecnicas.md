@@ -790,6 +790,8 @@ decisão da P65 não muda; só o limite dela ganha a anotação.
 
 **Status.** Consumo decidido por Indiane em 05/10/2026; gerador em revisão no PR.
 
+---
+
 ## P68 — `nph-badge` e `nph-button`: API e semântica
 
 **Decisão.** As duas peças são Web Components com **Shadow DOM aberto** (P01),
