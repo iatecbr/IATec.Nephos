@@ -116,7 +116,7 @@ acessibilidade:
     - "Enter e Espaço abrem e fecham o balão."
     - "Esc fecha o balão aberto, e o foco fica no ícone."
   foco: "O texto não recebe foco. O ícone de informação recebe, com borda focus/border e halo focus/halo por fora, só pelo teclado"
-  contraste: "Medido em 27-08-2026 nos dois modos; as quatro combinações passam em 4,5:1"
+  contraste: "Medido nos dois modos: o texto e o asterisco passam em 4,5:1; o ícone, em color/muted-foreground, 6,69:1 e 9,81:1; a borda de foco, em focus/border, 3,68:1 e 8,98:1"
   alternativa_a_cor: "O asterisco é sinal de forma, não de cor — e é decorativo"
 
 combinacoes_invalidas:
@@ -196,9 +196,10 @@ são do ícone de informação: o **foco**, pelo teclado, e o **aberto**, com o 
 |---|---|
 | **Erro** | **O rótulo não muda.** Continua em `color/foreground`. O erro fica no campo e na mensagem |
 | **Desabilitado** | Não é do rótulo. O `nph-field` aplica `state/disabled-opacity` ao controle inteiro |
-| **Ajuda e mensagem de erro** | São do `nph-field`. O rótulo carrega só o texto e o asterisco |
+| **Ajuda e mensagem de erro** | São do `nph-field`. O rótulo carrega o texto, o asterisco e o gatilho da ajuda, não a ajuda (L8) |
 
-**O que muda para a pessoa:** nada, no rótulo.
+**O que muda para a pessoa:** nada, no texto. No ícone de informação, o foco e o balão
+aberto.
 
 **Feedback e foco:** o texto do rótulo **não é focável**. Ativar o rótulo move o foco
 para o controle associado — comportamento nativo do `<label>`, que só funciona por causa
@@ -251,11 +252,12 @@ pensando em acrescentar uma das duas aqui, o lugar é o `nph-field`.
 
 ## Tokens, intenção e Dicas para IA
 
-**Tokens semânticos usados** — conferidos no CSS do componente em 31-08-2026:
+**Tokens semânticos usados** — conferidos no CSS do componente em 31-08-2026; o
+gatilho, em 06-10-2026:
 
 | Parte | Token |
 |---|---|
-| O texto | `text/label-md`, nas cinco propriedades do papel |
+| O texto | `text/label-md`, em todas as propriedades do papel |
 | A cor do texto | `color/foreground` |
 | A cor do asterisco | `status/error` |
 | O espaço antes do asterisco | `space/inline-tight` |
@@ -264,8 +266,8 @@ pensando em acrescentar uma das duas aqui, o lugar é o `nph-field`.
 | O foco do ícone | `border/width` em `focus/border`, raio `focus/border-radius-control`; halo `focus/ring-width` em `focus/halo`, raio `focus/radius-control-with-border` |
 | O espaço até o balão | `space/inline` |
 
-**Esta peça é a primeira prova em código da P62.2** — os catorze papéis de texto com
-cinco propriedades cada. Sem eles, o rótulo só existiria com valor literal.
+**Esta peça é a primeira prova em código da P62.2** — os papéis de texto, cada um com
+as suas propriedades. Sem eles, o rótulo só existiria com valor literal.
 
 **Restrições de uso:** o `use` de `status/error` foi **ampliado no `design.md` antes do
 código**, para cobrir o asterisco. A cor do rótulo **não muda** em nenhuma situação. Os
@@ -310,7 +312,7 @@ nome do ícone, como "Sobre CPF".
 
 ## Fontes e decisões
 
-### Estado da implementação — evidência verificada em 31-08-2026
+### Estado da implementação — evidência verificada em 31-08-2026; o gatilho, em 06-10-2026
 
 | O quê | Evidência |
 |---|---|
@@ -318,9 +320,9 @@ nome do ícone, como "Sobre CPF".
 | A API do código | `text`, `required` e `for` — **é a P62.3**, conferida propriedade por propriedade em `src/components/nph-label/nph-label.ts`. `info` e `info-label` entram pela **P62.6** (DSA-04), em revisão |
 | `required` e `for` refletem no DOM | Confirmado no código |
 | Sem Shadow DOM | Confirmado, com o motivo escrito no próprio arquivo |
-| Tokens consumidos | Conferidos em `nph-label.css`: `text/label-md` (cinco propriedades), `color/foreground`, `status/error`, `space/inline-tight`; com o gatilho, os do bloco `tokens` |
+| Tokens consumidos | Conferidos em `nph-label.css`: `text/label-md` (as propriedades do papel), `color/foreground`, `status/error`, `space/inline-tight`; com o gatilho, os do bloco `tokens` |
 | Stories e testes | Em `nph-label.stories.ts` e `nph-label.test.ts` |
-| Aprovação visual | Indiane, em **27-08-2026**, conjunto mestre `374:6` na página `NPH — Label`, nos modos claro e escuro |
+| Aprovação visual | Indiane, em **27-08-2026**, conjunto mestre `374:6` na página `NPH — Label`, nos modos claro e escuro; em **08-09-2026**, a matriz `required` × `info` (L8); em **01-10-2026**, o foco do ícone e o quadro `1194:1482` (L9 e L10) |
 
 > **Duas divergências que encontrei na ficha antiga, e como resolvi.**
 >
@@ -357,7 +359,7 @@ associação, e **`text`**, que carrega o conteúdo — porque sem Shadow DOM n�
 | 2 | Layout | **Não é do rótulo** — pertence ao `nph-field` |
 | 3 | Obrigatório | **Asterisco**, no formato `Nome completo *` |
 | 4 | Desabilitado | **Não tem estado próprio** |
-| 5 | Fronteira com `nph-field` | **Ajuda e mensagem de erro são do `nph-field`** |
+| 5 | Fronteira com `nph-field` | **Ajuda e mensagem de erro são do `nph-field`** — superada em parte pela L8: o rótulo carrega o gatilho da ajuda |
 
 | O quê | Onde |
 |---|---|
@@ -376,4 +378,6 @@ reescritas no modelo de nove seções, sem alteração de regra. O bloco `api`, 
 consumidos, a ausência de Shadow DOM e o estado da implementação são **evidência
 verificada no repositório** em 31-08-2026. As Dicas para IA são **novas**. A P62.1, a
 P62.2 e a P62.3 são **decisão humana** da Indiane, aprovadas pelo Elvys em 28-08-2026.
-Nenhuma alteração foi feita em código, tokens, testes, Figma ou repositório.*
+Em 06-10-2026, a ficha ganhou o gatilho de informação (DSA-04): a anatomia e o
+comportamento vêm da L8 à L11 e do quadro `1194:1482`, aceitos por Indiane; a API e a
+semântica são a **P62.6**, em revisão no PR por `maurocsjr`.*

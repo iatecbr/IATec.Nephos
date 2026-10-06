@@ -130,7 +130,7 @@
       "Esc fecha o balão aberto, e o foco fica no ícone."
     ],
     "foco": "O texto não recebe foco. O ícone de informação recebe, com borda focus/border e halo focus/halo por fora, só pelo teclado",
-    "contraste": "Medido em 27-08-2026 nos dois modos; as quatro combinações passam em 4,5:1",
+    "contraste": "Medido nos dois modos: o texto e o asterisco passam em 4,5:1; o ícone, em color/muted-foreground, 6,69:1 e 9,81:1; a borda de foco, em focus/border, 3,68:1 e 8,98:1",
     "alternativa_a_cor": "O asterisco é sinal de forma, não de cor — e é decorativo"
   },
   "combinacoes_invalidas": [
