@@ -72,9 +72,9 @@ const preview = {
 
   globalTypes: {
     [LOCALE_GLOBAL]: {
-      description: 'Idioma dos textos explicativos',
+      description: 'Language of the explanatory texts',
       toolbar: {
-        title: 'Idioma',
+        title: 'Language',
         icon: 'globe',
         items: LOCALES,
         dynamicTitle: true,
@@ -82,7 +82,7 @@ const preview = {
     },
     /* Without `toolbar`: the `manager.js` tool is what shows the selector. */
     [COLOR_SCHEME]: {
-      description: 'Modo de cor da moldura e da pagina',
+      description: 'Color mode of the frame and the page',
     },
   },
 };

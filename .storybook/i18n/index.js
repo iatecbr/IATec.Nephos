@@ -5,7 +5,8 @@
  * looks the text up in the dictionary. Tripling a story would mean fixing every
  * change three times, and someone would eventually forget one.
  *
- * `pt-BR` is the source. `en` and `es` are translations. Technical
+ * `en` is the source and the default. `pt-BR` and `es` are translations
+ * (P64, amendment of 06/10/2026). Technical
  * identifiers — `nph-icon`, tokens, attributes, commands, paths — do not go
  * through here: they appear literally in the story, the same in every language.
  *
@@ -16,7 +17,7 @@
  * The dictionaries are JSON, one per language, and JSON has no comments: their
  * rules live here.
  *
- * - `pt-BR.json` is the source language. Every sentence starts there; `en.json`
+ * - `en.json` is the source language. Every sentence starts there; `pt-BR.json`
  *   and `es.json` are translations and never decide content. If they diverge,
  *   the source wins.
  * - `sidebar` translates sidebar labels by entry id. An entry without a key
@@ -28,28 +29,28 @@
  *   marker is the same in all three languages; only the surrounding text is
  *   translated.
  */
-import ptBR from './pt-BR.json';
 import en from './en.json';
+import ptBR from './pt-BR.json';
 import es from './es.json';
 
 /** The global's identifier is `locale`, in English, like every technical name. */
 export const LOCALE_GLOBAL = 'locale';
 
-export const DEFAULT_LOCALE = 'pt-BR';
+export const DEFAULT_LOCALE = 'en';
 
 /** Display order in the selector. The source comes first. */
 export const LOCALES = [
-  { value: 'pt-BR', title: 'Português (BR)', right: '🇧🇷' },
   { value: 'en', title: 'English', right: '🇺🇸' },
+  { value: 'pt-BR', title: 'Português (BR)', right: '🇧🇷' },
   { value: 'es', title: 'Español', right: '🇪🇸' },
 ];
 
-const DICTIONARIES = { 'pt-BR': ptBR, en, es };
+const DICTIONARIES = { en, 'pt-BR': ptBR, es };
 
 /**
  * Returns the dictionary for the requested language. An unknown language falls
- * back to the source instead of breaking the page: Portuguese text is a small,
- * visible defect; a blank story is a big one.
+ * back to the source, English, instead of breaking the page: text in the wrong
+ * language is a small, visible defect; a blank story is a big one.
  */
 export function translations(locale) {
   return DICTIONARIES[locale] ?? DICTIONARIES[DEFAULT_LOCALE];
