@@ -174,12 +174,12 @@ describe('token contract', () => {
   it('design.md authorizes status/error as the required indicator', () => {
     const block = designMd.slice(designMd.indexOf('  status/error:'));
     const usage = block.slice(0, block.indexOf('nao_use'));
-    expect(usage).toContain('asterisco');
-    expect(usage).toContain('obrigat');
+    expect(usage).toContain('asterisk');
+    expect(usage).toContain('required');
   });
 
   it('A5 still forbids color/destructive on validation errors', () => {
-    expect(designMd).toContain('Usar `color/destructive` em erro de validação');
+    expect(designMd).toContain('Use `color/destructive` for a validation error');
   });
 
   it('the text/label-md role exists in the generated CSS', async () => {
