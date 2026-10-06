@@ -1098,7 +1098,7 @@ tokens_radius:
     css: '--nph-radius-full'
     alias: core/radius/full
     valor: 9999
-    use: "Forma totalmente arredondada. USE somente em peca pequena cuja forma comunica marcador: selo, contador, avatar, botao do switch. NUNCA em botao comum, campo ou cartao."
+    use: "Forma totalmente arredondada. USE somente em peca pequena cuja forma comunica marcador: selo, contador, botao do switch. NUNCA em botao comum, campo ou cartao. NUNCA em avatar: o avatar e quadrado de cantos arredondados (avatar/radius-*)."
 
 # ---------------------------------------------------------------
 # ELEVACAO - no Figma o nivel e um ESTILO DE EFEITO; no codigo ele e um
