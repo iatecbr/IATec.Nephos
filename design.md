@@ -262,7 +262,7 @@ tokens_semantic:
     css: '--nph-color-primary'
     claro: theme/brand-600
     escuro: theme/brand-400
-    use: "Fundo da ação mais importante da tela. Vem da marca ativa: o Nephos e multimarcas e primary muda quando a marca muda."
+    use: "Fundo da ação mais importante da tela. Vem da marca ativa: o Nephos e multimarcas e primary muda quando a marca muda. Também o fundo do nph-badge solid, que rotula estado ou categoria pelo significado."
     nao_use: "Dois primarios no mesmo bloco de decisao. Fixar um valor proprio, ignorando a marca ativa."
   color/primary-foreground:
     css: '--nph-color-primary-foreground'
@@ -274,13 +274,13 @@ tokens_semantic:
     css: '--nph-color-secondary'
     claro: core/surface/200
     escuro: core/surface/600
-    use: "Ação alternativa que acompanha a primária."
+    use: "Ação alternativa que acompanha a primária. Também o fundo do nph-badge solid, que rotula estado ou categoria pelo significado."
     nao_use: "Ação destrutiva."
   color/secondary-foreground:
     css: '--nph-color-secondary-foreground'
     claro: core/surface/900
     escuro: core/surface/100
-    use: "Texto sobre color/secondary."
+    use: "Texto sobre color/secondary. No nph-button e no nph-badge secondary, também texto, ícone e borda sobre color/secondary-light e color/muted, e o texto do nph-button ghost secondary, que não tem fundo."
   color/secondary-hover:
     css: '--nph-color-secondary-hover'
     claro: core/surface/300
@@ -302,8 +302,8 @@ tokens_semantic:
     css: '--nph-color-muted'
     claro: core/neutral/100
     escuro: core/surface/700
-    use: "Fundo permanente sem ênfase: cabeçalho de tabela, área desabilitada."
-    nao_use: "Hover."
+    use: "Fundo permanente sem ênfase: cabeçalho de tabela, área desabilitada. Também o fundo do nph-button outline secondary e o hover do ghost secondary."
+    nao_use: "Hover, exceto o do nph-button ghost secondary."
   color/muted-foreground:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
@@ -314,7 +314,7 @@ tokens_semantic:
     css: '--nph-color-destructive'
     claro: core/danger/600
     escuro: core/danger/400
-    use: "Ação que apaga, revoga ou não tem volta."
+    use: "Ação que apaga, revoga ou não tem volta. Também o fundo do nph-badge solid, que rotula estado ou categoria pelo significado."
     nao_use: "Erro de validação."
   color/destructive-foreground:
     css: '--nph-color-destructive-foreground'
@@ -370,12 +370,12 @@ tokens_semantic:
     css: '--nph-color-primary-surface'
     claro: theme/brand-50
     escuro: theme/brand-900
-    use: "Fundo da acao principal em enfase leve: nph-button com enfase light ou outline. Acompanha a marca ativa. USE sempre com color/primary-on-surface. NAO USE como fundo de pagina, cartao ou area — para isso existem color/background, color/card e color/muted."
+    use: "Fundo da acao principal em enfase leve: nph-button com enfase light ou outline. Tambem o nph-badge light e o hover do nph-button ghost. Acompanha a marca ativa. USE sempre com color/primary-on-surface. NAO USE como fundo de pagina, cartao ou area — para isso existem color/background, color/card e color/muted."
   color/primary-on-surface:
     css: '--nph-color-primary-on-surface'
     claro: theme/brand-600
     escuro: theme/brand-100
-    use: "Texto, icone e borda sobre color/primary-surface. Cor viva da marca no modo claro, tom claro no modo escuro. USE somente sobre ela. NAO USE sobre color/primary solido — ali vale color/primary-foreground."
+    use: "Texto, icone e borda sobre color/primary-surface. Cor viva da marca no modo claro, tom claro no modo escuro. USE somente sobre ela, salvo a excecao. Excecao: texto do nph-button ghost, que nao tem fundo. NAO USE sobre color/primary solido — ali vale color/primary-foreground."
   color/primary-surface-hover:
     css: '--nph-color-primary-surface-hover'
     claro: theme/brand-100
@@ -394,16 +394,17 @@ tokens_semantic:
     css: '--nph-color-primary-hover'
     claro: theme/brand-700
     escuro: theme/brand-400-hover
+    use: "Fundo de color/primary no hover-active do nph-button solid, com color/primary-foreground por cima (decisao de 02-10-2026, supera a B4)."
   color/destructive-surface:
     css: '--nph-color-destructive-surface'
     claro: core/danger/50
     escuro: core/danger/900
-    use: "Fundo da acao destrutiva em enfase leve: nph-button com enfase light ou outline. USE sempre com color/destructive-on-surface. NAO USE em mensagem de erro de validacao — ali vale status/error-surface."
+    use: "Fundo da acao destrutiva em enfase leve: nph-button com enfase light ou outline. Tambem o nph-badge light e o hover do nph-button ghost. USE sempre com color/destructive-on-surface. NAO USE em mensagem de erro de validacao — ali vale status/error-surface."
   color/destructive-on-surface:
     css: '--nph-color-destructive-on-surface'
     claro: core/danger/600
     escuro: core/danger/100
-    use: "Texto, icone e borda sobre color/destructive-surface. USE somente sobre ela. NAO USE sobre color/destructive solido — ali vale color/destructive-foreground."
+    use: "Texto, icone e borda sobre color/destructive-surface. USE somente sobre ela, salvo a excecao. Excecao: texto do nph-button ghost, que nao tem fundo. NAO USE sobre color/destructive solido — ali vale color/destructive-foreground."
   color/destructive-surface-hover:
     css: '--nph-color-destructive-surface-hover'
     claro: core/danger/100
@@ -418,6 +419,7 @@ tokens_semantic:
     css: '--nph-color-destructive-hover'
     claro: core/danger/700
     escuro: core/danger/300
+    use: "Fundo de color/destructive no hover-active do nph-button solid, com color/destructive-foreground por cima (decisao de 02-10-2026, supera a B4)."
   color/secondary-surface-hover:
     css: '--nph-color-secondary-surface-hover'
     claro: core/surface/200
@@ -427,10 +429,12 @@ tokens_semantic:
     css: '--nph-color-secondary-light'
     claro: core/surface/50
     escuro: core/surface/700
+    use: "Fundo da acao alternativa em enfase leve: nph-button e nph-badge secondary light, com color/secondary-foreground. NAO USE em outline — ali e color/muted."
   color/secondary-light-hover:
     css: '--nph-color-secondary-light-hover'
     claro: core/surface/100
     escuro: core/surface/600
+    use: "Hover-active do nph-button secondary light, com color/secondary-foreground por cima. NAO USE em outline — ali e color/secondary-surface-hover."
   color/input-hover:
     css: '--nph-color-input-hover'
     claro: core/neutral/500
@@ -453,7 +457,7 @@ tokens_semantic:
     css: '--nph-focus-ring'
     claro: theme/brand-700
     escuro: theme/brand-400
-    use: "Anel de foco de teclado, em todo elemento focável."
+    use: "Anel de foco de teclado, em todo elemento focável, exceto onde o foco é borda e halo (regra 6)."
     nao_use: "Remover."
   focus/ring-error:
     css: '--nph-focus-ring-error'
@@ -465,6 +469,7 @@ tokens_semantic:
     css: '--nph-focus-border'
     claro: theme/brand-focus
     escuro: theme/brand-300
+    use: "Borda de foco de 1 px do controle que recebe foco com borda e halo (regra 6), como no secondary do nph-button e no gatilho info do nph-label. É ela que cumpre o mínimo de 3:1; o halo é decoração."
   focus/halo:
     css: '--nph-focus-halo'
     claro: theme/brand-200
@@ -546,13 +551,13 @@ tokens_semantic:
     css: '--nph-status-info'
     claro: core/info/600
     escuro: core/info/400
-    use: "Cor sólida do estado: ícone, ponto, barra da mensagem. Informação neutra: aviso do sistema, dica contextual."
+    use: "Cor sólida do estado: ícone, ponto, barra da mensagem. Informação neutra: aviso do sistema, dica contextual. Também o fundo sólido do nph-badge e do nph-button, com status/on-solid. O nao_use continua valendo."
     nao_use: "erro, risco ou confirmação"
   status/info-surface:
     css: '--nph-status-info-surface'
     claro: core/info/50
     escuro: core/info/900
-    use: "Fundo da mensagem. Sempre em conjunto com os outros três papéis de status/info."
+    use: "Fundo da mensagem. Sempre em conjunto com os outros três papéis de status/info. Exceção: no nph-badge light vale só o par -surface e -foreground, sem -border."
   status/info-border:
     css: '--nph-status-info-border'
     claro: core/info/200
@@ -562,18 +567,18 @@ tokens_semantic:
     css: '--nph-status-info-foreground'
     claro: core/info/800
     escuro: core/info/100
-    use: "Texto dentro da mensagem. Sempre em conjunto com os outros três papéis de status/info."
+    use: "Texto dentro da mensagem. Sempre em conjunto com os outros três papéis de status/info. Exceção: no nph-badge light vale só o par -surface e -foreground, sem -border."
   status/warning:
     css: '--nph-status-warning'
     claro: core/warn/600
     escuro: core/warn/400
-    use: "Cor sólida do estado: ícone, ponto, barra da mensagem. Algo pode dar errado, ou exige cuidado antes de seguir."
+    use: "Cor sólida do estado: ícone, ponto, barra da mensagem. Algo pode dar errado, ou exige cuidado antes de seguir. Também o fundo sólido do nph-badge e do nph-button, com status/on-solid. O nao_use continua valendo."
     nao_use: "erro que já aconteceu"
   status/warning-surface:
     css: '--nph-status-warning-surface'
     claro: core/warn/50
     escuro: core/warn/900
-    use: "Fundo da mensagem. Sempre em conjunto com os outros três papéis de status/warning."
+    use: "Fundo da mensagem. Sempre em conjunto com os outros três papéis de status/warning. Exceção: no nph-badge light vale só o par -surface e -foreground, sem -border."
   status/warning-border:
     css: '--nph-status-warning-border'
     claro: core/warn/200
@@ -583,18 +588,18 @@ tokens_semantic:
     css: '--nph-status-warning-foreground'
     claro: core/warn/800
     escuro: core/warn/100
-    use: "Texto dentro da mensagem. Sempre em conjunto com os outros três papéis de status/warning."
+    use: "Texto dentro da mensagem. Sempre em conjunto com os outros três papéis de status/warning. Exceção: no nph-badge light vale só o par -surface e -foreground, sem -border."
   status/help:
     css: '--nph-status-help'
     claro: core/help/600
     escuro: core/help/400
-    use: "Cor sólida do estado: ícone, ponto, barra da mensagem. Ajuda e orientação: explicação, tour, conteúdo de apoio."
+    use: "Cor sólida do estado: ícone, ponto, barra da mensagem. Ajuda e orientação: explicação, tour, conteúdo de apoio. Também o fundo sólido do nph-badge e do nph-button, com status/on-solid. O nao_use continua valendo."
     nao_use: "estado do sistema"
   status/help-surface:
     css: '--nph-status-help-surface'
     claro: core/help/50
     escuro: core/help/900
-    use: "Fundo da mensagem. Sempre em conjunto com os outros três papéis de status/help."
+    use: "Fundo da mensagem. Sempre em conjunto com os outros três papéis de status/help. Exceção: no nph-badge light vale só o par -surface e -foreground, sem -border."
   status/help-border:
     css: '--nph-status-help-border'
     claro: core/help/200
@@ -604,7 +609,7 @@ tokens_semantic:
     css: '--nph-status-help-foreground'
     claro: core/help/800
     escuro: core/help/100
-    use: "Texto dentro da mensagem. Sempre em conjunto com os outros três papéis de status/help."
+    use: "Texto dentro da mensagem. Sempre em conjunto com os outros três papéis de status/help. Exceção: no nph-badge light vale só o par -surface e -foreground, sem -border."
   status/error:
     css: '--nph-status-error'
     claro: core/danger/600
@@ -630,13 +635,13 @@ tokens_semantic:
     css: '--nph-status-success'
     claro: core/success/600
     escuro: core/success/400
-    use: "Cor sólida do estado: ícone, ponto, barra da mensagem. Confirmação de que a ação deu certo."
+    use: "Cor sólida do estado: ícone, ponto, barra da mensagem. Confirmação de que a ação deu certo. Também o fundo sólido do nph-badge e do nph-button, com status/on-solid. O nao_use continua valendo."
     nao_use: "estado permanente como selo de ativo"
   status/success-surface:
     css: '--nph-status-success-surface'
     claro: core/success/50
     escuro: core/success/900
-    use: "Fundo da mensagem. Sempre em conjunto com os outros três papéis de status/success."
+    use: "Fundo da mensagem. Sempre em conjunto com os outros três papéis de status/success. Exceção: no nph-badge light vale só o par -surface e -foreground, sem -border."
   status/success-border:
     css: '--nph-status-success-border'
     claro: core/success/200
@@ -646,15 +651,17 @@ tokens_semantic:
     css: '--nph-status-success-foreground'
     claro: core/success/800
     escuro: core/success/100
-    use: "Texto dentro da mensagem. Sempre em conjunto com os outros três papéis de status/success."
+    use: "Texto dentro da mensagem. Sempre em conjunto com os outros três papéis de status/success. Exceção: no nph-badge light vale só o par -surface e -foreground, sem -border."
   status/on-solid:
     css: '--nph-status-on-solid'
     claro: color/background
     escuro: color/background
+    use: "Texto e ícone sobre o fundo sólido de status: nph-badge e nph-button nos tipos info, warn, help e success. NÃO USE sobre a superfície clara da mensagem — ali vale status/<matiz>-foreground."
   status/info-hover:
     css: '--nph-status-info-hover'
     claro: core/info/700
     escuro: core/info/300
+    use: "Fundo de status/info no hover-active do nph-button solid, com status/on-solid por cima (decisão de 02-10-2026, supera a B4)."
   status/info-surface-hover:
     css: '--nph-status-info-surface-hover'
     claro: core/info/100
@@ -663,6 +670,7 @@ tokens_semantic:
     css: '--nph-status-warning-hover'
     claro: core/warn/700
     escuro: core/warn/300
+    use: "Fundo de status/warning no hover-active do nph-button solid, com status/on-solid por cima (decisão de 02-10-2026, supera a B4)."
   status/warning-surface-hover:
     css: '--nph-status-warning-surface-hover'
     claro: core/warn/100
@@ -671,6 +679,7 @@ tokens_semantic:
     css: '--nph-status-help-hover'
     claro: core/help/700
     escuro: core/help/300
+    use: "Fundo de status/help no hover-active do nph-button solid, com status/on-solid por cima (decisão de 02-10-2026, supera a B4)."
   status/help-surface-hover:
     css: '--nph-status-help-surface-hover'
     claro: core/help/100
@@ -679,6 +688,7 @@ tokens_semantic:
     css: '--nph-status-success-hover'
     claro: core/success/700
     escuro: core/success/300
+    use: "Fundo de status/success no hover-active do nph-button solid, com status/on-solid por cima (decisão de 02-10-2026, supera a B4)."
   status/success-surface-hover:
     css: '--nph-status-success-surface-hover'
     claro: core/success/100
@@ -951,7 +961,7 @@ tokens_space:
     css: '--nph-space-inline-tight'
     alias: core/space/100
     valor: 4
-    use: "Espaco horizontal DENTRO de uma unidade: icone e seu texto, valor e sua unidade. NAO USE entre elementos independentes - ai e space/inline."
+    use: "Espaco horizontal DENTRO de uma unidade: icone e seu texto, valor e sua unidade. Excecao: o respiro de cima e de baixo do nph-badge, como o Figma desenha. NAO USE entre elementos independentes - ai e space/inline."
   space/inline:
     css: '--nph-space-inline'
     alias: core/space/200
@@ -976,7 +986,7 @@ tokens_space:
     css: '--nph-space-control-padding'
     alias: core/space/300
     valor: 12
-    use: "Padding horizontal interno de botao, campo e select - o que se opera. NAO USE em cartao."
+    use: "Padding horizontal interno de botao, campo e select - o que se opera - e as laterais do nph-badge. NAO USE em cartao."
   space/container-padding:
     css: '--nph-space-container-padding'
     alias: core/space/400
@@ -1106,7 +1116,7 @@ elevacao_regras:
   spread_negativo: 'Encolhe a sombra e a mantem ancorada sob a peca, em vez de vazar pelas laterais.'
   alinhamento: 'Os sete niveis com sombra batem exatamente na geometria E na opacidade do kit shadcn: hairline=2xs, subtle=xs, raised=sm, dropdown=md, modal=lg, drawer=xl, spotlight=2xl. Nomes por intencao sao do Nephos; os numeros foram alinhados para que trocar o estilo de um componente adaptado seja 1:1.'
   um_nivel_por_peca: "Nao empilhar elevacao dentro de elevacao."
-  sombra_nao_e_estado: "Hover e foco se resolvem com cor e anel de foco, nunca subindo o nivel."
+  sombra_nao_e_estado: "Hover e foco se resolvem com cor e foco visivel, nunca subindo o nivel."
   modal_exige_veu: overlay/scrim
 
 tokens_elevation:
@@ -1147,7 +1157,7 @@ tokens_elevation:
   focus-ring/default:
     css: '--nph-focus-ring-default'
     camadas: ['0 0 0 4px focus/ring']
-    use: "O anel de foco de teclado. USE em TODO elemento operavel que recebe foco: botao, campo, select, checkbox, link, aba, item de menu. A cor vem da marca ativa. NUNCA remova o anel. NAO USE dentro da barra lateral - la e focus-ring/sidebar."
+    use: "O anel de foco de teclado. USE em TODO elemento operavel que recebe foco: botao, campo, select, checkbox, link, aba, item de menu - salvo onde o foco e borda e halo (regra 6). A cor vem da marca ativa. NUNCA remova o foco visivel. NAO USE dentro da barra lateral - la e focus-ring/sidebar. Onde o Figma aceito desenha borda e halo, eles valem no lugar do anel. No nph-button, a borda de foco e border/width na cor do tipo (color/primary, status/info, status/warning, status/help, color/destructive ou status/success) e focus/border no secondary, com raio focus/border-radius-control; o halo e focus/ring-width em focus/halo no primary e no secondary, e em focus/halo-<matiz> nos demais, com raio focus/radius-control-with-border. No gatilho info do nph-label, borda focus/border e halo focus/halo."
   focus-ring/invalid:
     css: '--nph-focus-ring-invalid'
     camadas: ['0 0 0 4px focus/ring-error']
@@ -1244,7 +1254,7 @@ tokens_core_veu:
   core/scrim/dark:  { valor: 'rgba(0,0,0,0.65)', css: '--nph-core-scrim-dark',  alias_de: 'overlay/scrim no modo escuro' }
 
 tokens_core_foco:
-  regra: 'NUNCA consuma direto. O anel de foco vem dos estilos focus-ring/*, que ja ligam a largura e a cor.'
+  regra: 'NUNCA consuma direto. O anel de foco vem dos estilos focus-ring/*, que ja ligam a largura e a cor, ou do halo de foco da regra 6.'
   core/focus-width/default: { valor: 4, css: '--nph-core-focus-width-default', alias_de: 'focus/ring-width' }
 
 tokens_core_borda:
@@ -1346,7 +1356,7 @@ tokens_alpha:
     css: '--nph-focus-ring-width'
     alias: core/focus-width/default
     valor: 4
-    use: "A espessura de TODO anel de foco: 4px, igual nos dois modos. NUNCA escolha a mao: aplique um dos estilos focus-ring/*. NAO reduza para 1 ou 2 em peca pequena - o anel e o que torna o produto navegavel por teclado. A WCAG 2.2 pede no minimo 2px."
+    use: "A espessura de TODO anel de foco: 4px, igual nos dois modos. NUNCA escolha a mao: aplique um dos estilos focus-ring/* ou o halo de foco da regra 6. NAO reduza para 1 ou 2 em peca pequena - o anel e o que torna o produto navegavel por teclado. A WCAG 2.2 pede no minimo 2px."
   border/width:
     css: '--nph-border-width'
     alias: core/border-width/default
@@ -1384,8 +1394,8 @@ tokens_alpha:
   state/hover-opacity:
     css: '--nph-state-hover-opacity'
     valor: 0.95
-    use: "Opacidade da superfície de hover de primary e destructive. Aplique somente à superfície; texto, ícone e foco permanecem em 100%."
-    nao_use: "Secondary, outline, ghost, foco, disabled ou texto isolado."
+    use: "Era o hover sólido do nph-button (B4, Registro). Desde 02-10-2026, o botão usa color/primary-hover, color/destructive-hover, color/secondary-hover e status/*-hover. NÃO USE em hover de botão."
+    nao_use: "Hover de botão; secondary, outline, ghost, foco, disabled ou texto isolado."
 
 # ---------------------------------------------------------------
 # GRID E LAYOUT - 12 colunas em TODA quebra. O que muda com a tela
@@ -1518,7 +1528,7 @@ movimento_reduzido:
   escala: opacidade
   giro: "Para. Indicador estatico ou progresso determinado."
   duracao: core/duration/100
-  nao_muda: "Cor de estado, anel de foco e qualquer indicacao que nao seja movimento. Reduzir movimento NAO e remover feedback."
+  nao_muda: "Cor de estado, foco visivel e qualquer indicacao que nao seja movimento. Reduzir movimento NAO e remover feedback."
 
 tokens_core_duration:
   '100': { valor: 100, css: '--nph-core-duration-100', use: "Retorno imediato: hover, foco, cor de fundo." }
@@ -1655,12 +1665,12 @@ tokens_icon:
     css: '--nph-icon-size-md'
     alias: core/icon-size/200
     valor: 20
-    use: "Item de menu, aba e acao de destaque, onde 16 fica pequeno ao lado do rotulo. NAO USE dentro de botao comum."
+    use: "Item de menu, aba e acao de destaque, onde 16 fica pequeno ao lado do rotulo. NAO USE dentro de botao com texto. No nph-button so icone, o icone acompanha a caixa: md no default."
   icon/size-lg:
     css: '--nph-icon-size-lg'
     alias: core/icon-size/300
     valor: 24
-    use: "Cabecalho de secao, estado vazio e icone que carrega significado sozinho. NAO USE em tela densa nem em lista."
+    use: "Cabecalho de secao, estado vazio, icone que carrega significado sozinho e o nph-button so icone large. NAO USE em tela densa nem em lista."
 
 icones_nucleo:
   navegacao_e_menus:
@@ -1928,7 +1938,7 @@ Imperativo absoluto. Não são preferências.
 3. **NUNCA** escreva valor literal de cor, espaçamento, fonte ou raio no CSS de componente. Somente `var(--nph-*)`.
 4. Componente consome **somente** `tokens_semantic`. **NUNCA** consuma `tokens_core` diretamente.
 5. Cor **NUNCA** é o único indicador. Todo estado carrega ícone e texto além da cor.
-6. O anel de foco (`focus/ring`) é obrigatório em todo elemento focável e **NUNCA** é removido.
+6. O foco visível é obrigatório em todo elemento focável e **NUNCA** é removido. É o anel `focus/ring`, por um estilo `focus-ring/*`, ou, onde o Figma aceito desenha borda e halo — como no `nph-button` e no gatilho `info` do `nph-label` —, a borda de foco de `border/width`, encostada, com o halo de `focus/ring-width` por fora (ver `focus-ring/default`).
 7. Toda superfície que carrega texto respeita **4,5:1**; todo limite de controle respeita **3:1** (WCAG 2.1 AA).
 8. **NUNCA** crie token, componente, ícone ou padrão novo para contornar uma lacuna. Ver §8.
 
@@ -1940,8 +1950,8 @@ Quando dois tokens parecem servir, é isto que decide.
 
 | Dúvida | Regra |
 |---|---|
-| `muted` × `accent` | `muted` é permanente; `accent` é temporário. Se o estado some quando o mouse sai, é `accent`. |
-| `destructive` × `status/error` | `destructive` é o que o **usuário vai fazer**. `status/error` é o que o **sistema já reportou**. Botão "Excluir" é `destructive`; a mensagem "CPF inválido" é `status/error`. |
+| `muted` × `accent` | `muted` é permanente; `accent` é temporário. Se o estado some quando o mouse sai, é `accent`. Exceção: o hover do `nph-button` ghost secondary é `color/muted`, como o Figma desenha. |
+| `destructive` × `status/error` | `destructive` é o que o **usuário vai fazer**. `status/error` é o que o **sistema já reportou**. Botão "Excluir" é `destructive`; a mensagem "CPF inválido" é `status/error`. No `nph-badge`, o tipo danger rotula um estado negativo de um item, como recusado; a mensagem do sistema continua `status/error`. |
 | `border` × `input` | `border` é divisor e contorno. `input` é limite de controle de formulário — mais visível por exigência da WCAG 1.4.11. |
 | `card` × `popover` | `card` é conteúdo fixo na página. `popover` é camada flutuante. |
 | `brand/*` × `color/primary` | `brand/*` identifica a vertical quando as sete marcas precisam aparecer ao mesmo tempo. `color/primary` é a ação primária e vem da **marca ativa**, pela coleção `theme`. |
@@ -1984,10 +1994,10 @@ Espaço agrupa. A pergunta não é quanto fica bonito, e sim **o que estas duas 
 
 | Dúvida | Regra |
 |---|---|
-| `inline-tight` × `stack-tight` | Mesmo valor (4), eixos diferentes. `inline` é horizontal, `stack` é vertical. |
+| `inline-tight` × `stack-tight` | Mesmo valor (4), eixos diferentes. `inline` é horizontal, `stack` é vertical. Exceção: o respiro de cima e de baixo do `nph-badge` é `inline-tight`, como o Figma desenha. |
 | `inline-tight` × `inline` | Dentro de uma unidade é `tight`; entre unidades é `inline`. Ícone no botão é `tight`; botão ao lado de botão é `inline`. |
 | `stack` × `section` | 16 é entre itens da mesma lista; 32 é entre assuntos. Se há título novo, é `section`. |
-| `control-padding` × `container-padding` | Controle é o que se **opera** (botão, campo, select). Contêiner é o que **contém** (cartão, painel, popover). |
+| `control-padding` × `container-padding` | Controle é o que se **opera** (botão, campo, select). Contêiner é o que **contém** (cartão, painel, popover). O `nph-badge` usa `control-padding` nas laterais. |
 | `container-padding` × margem da página | Dentro do cartão é `container-padding`. A margem da página **não é token de espaço**: é `layout/margin-compact`, `-default` ou `-wide`, que mudam por ponto de quebra. |
 
 **Padding não é gap.** Padding é o respiro dentro de uma caixa; gap é a distância entre caixas. O valor pode coincidir; a intenção não.
@@ -2038,7 +2048,7 @@ A curva diz o que a peça é. A pergunta não é quanto arredondar.
 
 **Um nível por peça.** Não empilhar elevação dentro de elevação.
 
-**Sombra não é estado.** Hover e foco se resolvem com cor e anel de foco, nunca subindo o nível.
+**Sombra não é estado.** Hover e foco se resolvem com cor e foco visível, nunca subindo o nível.
 
 **No escuro não há sombra.** A elevação vem da rampa `surface` e da borda — ver §3. As cores de sombra ficam transparentes sozinhas; o estilo de efeito é o mesmo nos dois modos.
 
@@ -2084,7 +2094,7 @@ A curva diz o que a peça é. A pergunta não é quanto arredondar.
 
 **Anime opacidade e transformação.** Largura, altura e posição de layout travam em lista e tabela grandes.
 
-**Movimento reduzido é obrigatório.** Deslize e escala viram opacidade; giro para; duração cai para 100. Cor de estado e anel de foco **não** mudam — reduzir movimento não é remover feedback.
+**Movimento reduzido é obrigatório.** Deslize e escala viram opacidade; giro para; duração cai para 100. Cor de estado e foco visível **não** mudam — reduzir movimento não é remover feedback.
 
 **Movimento nunca é o único sinal de um estado** — mesma lógica da regra 5.
 
@@ -2187,7 +2197,7 @@ Nunca faça. Cada linha é um erro prevenido.
 | A4 | Fixar `color/primary` num valor proprio, ignorando a marca ativa |
 | A5 | Usar `color/destructive` em erro de validação |
 | A6 | Usar cor como único indicador de estado |
-| A7 | Remover o anel de foco |
+| A7 | Remover o foco visível |
 | A8 | Usar `color/muted-foreground` em texto essencial (está no mínimo da norma) |
 | A9 | Simular elevação com sombra no modo escuro |
 | A10 | Inverter tons mecanicamente entre claro e escuro |
