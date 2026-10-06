@@ -33,5 +33,5 @@ $ echo $?
 0
 ```
 
-`npm run test:naming` exits 0 with the `specs` group in `enforce`: no running
+From `bb16d9f` on, `npm run test:naming` exits 0 with the `specs` group in `enforce`: no running
 text in Portuguese is left in `fichas/`.

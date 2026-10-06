@@ -14,7 +14,9 @@
  * name such as figma.com or com.iatec.nephos), paths with a slash (such as
  * docs/operacao/tarefas/ in a recorded command), command-line flags (--name) and the three language names of
  * the language selector, and any token with a digit (a hash, an id, a measure).
- * A Portuguese pair written with a slash passes too: a known limit.
+ * A Portuguese pair written with a slash passes too: a known limit. So does the
+ * part without a space of a quoted YAML list item that holds a comma
+ * (`['ênfase, título']` reports only `título`): the flow list is split on commas.
  *
  * Known limit: a Portuguese word that is not in the vocabulary, has no accent
  * and is not a function word passes. Every word a review finds goes into

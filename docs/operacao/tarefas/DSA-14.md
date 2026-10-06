@@ -5,7 +5,7 @@
   "fase": "F0",
   "ordem_aprovada": 140,
   "responsavel": "claude-codigo",
-  "estado": "pronta",
+  "estado": "em-revisao",
   "peca": null,
   "dependencias": [],
   "gates": [
@@ -39,7 +39,7 @@
     "Decision by Indiane on 2026-10-06: path (a), the spec YAML is written in English and the Metadata remains an exact copy (P63 intact)"
   ],
   "origem_externa": null,
-  "revisao_git": { "branch": "docs/fichas-ingles-dsa14", "commit": "f496e4e96ec37c2cce8d9e1dfc8e96851e61686f", "pr": null },
+  "revisao_git": { "branch": "docs/fichas-ingles-dsa14", "commit": "f496e4e96ec37c2cce8d9e1dfc8e96851e61686f", "pr": "62" },
   "contexto": null,
   "atualizado_em": "2026-10-06"
 }
