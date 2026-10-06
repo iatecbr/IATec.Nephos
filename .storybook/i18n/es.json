@@ -260,38 +260,107 @@
     ]
   },
   "labelDocs": {
-    "summary": "Dice qué debe escribir o elegir la persona en un campo. Puede marcar obligatorio y mostrar el icono de información. El texto no tiene estado; solo el icono de información recibe el foco.",
+    "summary": "Dice qué debe escribir o elegir la persona en un campo. Puede marcar obligatorio y mostrar un icono de información. El texto no tiene estado; solo el icono de información recibe el foco.",
     "onThisPage": "En esta página",
     "derivedTitle": "Esta página es derivada.",
     "derivedText": "Si hay diferencias, prevalecen las fuentes canónicas: la ficha nph-label, design.md para los tokens y docs/decisoes-tecnicas.md para la P62. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
     "sourceLabel": "Fuente:",
-    "whenToUseTitle": "Cuándo usar",
-    "whenToUse": [
-      "Para dar un nombre visible a un control de formulario, solo o dentro de un nph-field.",
-      "required cuando completar el campo es obligatorio, con el asterisco explicado en una leyenda visible del formulario.",
-      "info, con info-label, para mostrar el icono de información después del texto.",
-      "Mantener la etiqueta en color/foreground, incluso con el campo en error."
+    "sampleText": "Nombre completo",
+    "info": "Explica lo que pide el campo.",
+    "infoLabel": "Sobre nombre completo",
+    "purposeTitle": "1. Finalidad",
+    "purpose": "Etiqueta de texto que dice qué debe escribir o elegir la persona en un campo.",
+    "descriptionTitle": "2. Descripción del componente",
+    "description": "Use nph-label para dar un nombre visible a un control de formulario, solo o dentro de un nph-field. La etiqueta es solo un texto: no tiene estado, tamaño ni layout. La excepción es el icono de información, que recibe el foco. No sustituye al título de sección, que es heading-sm, al texto de cuerpo, ni a la ayuda y el mensaje de error, que son del nph-field.",
+    "anatomyTitle": "3. Anatomía",
+    "anatomyCaption": "nph-label — propiedades required, info y state.",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
     ],
-    "whenNotToUseTitle": "Cuándo no usar",
-    "whenNotToUse": [
-      "Para una frase con verbo y punto final: eso es texto de cuerpo.",
-      "Como título de sección o de grupo: eso es heading-sm.",
-      "Para énfasis dentro de un párrafo: eso es <strong>.",
-      "Para ayuda o mensaje de error: son del nph-field."
+    "anatomy": [
+      [
+        "1. Texto",
+        "text/label-md en color/foreground"
+      ],
+      [
+        "2. Asterisco (required=true)",
+        "marca el campo obligatorio, en status/error"
+      ],
+      [
+        "3. Icono de información (info=true)",
+        "va después del texto"
+      ],
+      [
+        "4. Espacio hasta el control",
+        "space/stack-tight"
+      ]
     ],
-    "apiTitle": "API",
+    "accessibilityTitle": "4. Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "contraste",
+        "El texto usa color/foreground: 21:1 en claro y 14,73:1 en oscuro, por encima de 4,5:1 (WCAG 1.4.3). El asterisco, en status/error, tiene 6,88:1 y 5,01:1. El icono de información, en color/muted-foreground, tiene 6,69:1 y 9,81:1, y el borde de foco, en focus/border, 3,68:1 y 8,98:1, por encima de 3:1 (WCAG 1.4.11)."
+      ],
+      [
+        "foco visible",
+        "El texto de la etiqueta no recibe el foco: el foco aparece en el control que nombra. El icono de información es un disparador y, con foco, muestra el borde focus/border y el halo focus/halo alrededor del objetivo (state=focus)."
+      ],
+      [
+        "el color no es la única señal",
+        "Lo obligatorio se marca con el asterisco, explicado en una leyenda visible del formulario. La etiqueta no usa color/destructive, que confunde obligatorio con error."
+      ],
+      [
+        "objetivo táctil",
+        "El icono de información tiene un objetivo de 24×24, con el dibujo de 16 px en el centro (WCAG 2.5.8). Hacer clic en el texto de la etiqueta lleva el foco al control que nombra."
+      ],
+      [
+        "nombre accesible",
+        "El texto de la etiqueta es el nombre visible del control que acompaña."
+      ]
+    ],
+    "accessibilityCaption": "El texto es el nombre visible del control. Obligatorio marcado por el asterisco. Icono de información después del texto.",
+    "propertiesTitle": "5. Propiedades, variantes y estados",
+    "propertiesHeader": [
+      "Campo",
+      "Regla"
+    ],
+    "properties": [
+      [
+        "required",
+        "variante · por defecto false. Valores: false · true. true cuando completar el campo es obligatorio: añade el asterisco después del texto. false no lleva ningún indicador."
+      ],
+      [
+        "info",
+        "variante · por defecto false. Valores: false · true. true añade el icono de información después del texto. En el código, info es el texto de la explicación: con valor, muestra el icono."
+      ],
+      [
+        "state",
+        "variante · por defecto default. Valores: default · focus. focus solo existe con info=true y muestra el foco del icono de información. El texto de la etiqueta no tiene estado."
+      ]
+    ],
+    "propertiesCaptions": [
+      "required = false · info = false",
+      "required = true",
+      "info = true",
+      "required = false · info = true · abierto"
+    ],
     "apiHeader": [
-      "Propiedad",
+      "Propiedad en código",
       "Regla"
     ],
     "api": [
       [
         "text",
-        "El texto de la etiqueta, ya localizado. Es el nombre visible del control."
+        "El texto de la etiqueta, ya localizado."
       ],
       [
         "required",
-        "Por defecto false. true añade el asterisco después del texto, en status/error. Se refleja en el atributo."
+        "Booleana, por defecto false. Se refleja en el atributo."
       ],
       [
         "for",
@@ -299,69 +368,14 @@
       ],
       [
         "info",
-        "El texto de la explicación, ya localizado. Con valor, junto con info-label, muestra el icono de información, que abre el nph-tooltip con ese texto."
+        "El texto de la explicación, ya localizado. Con info-label, muestra el icono de información, que abre el nph-tooltip con ese texto por clic, Enter o Espacio y se cierra con Esc, un clic fuera o Tab hacia fuera."
       ],
       [
         "info-label (infoLabel)",
         "El nombre accesible del icono de información. Sin él, el icono no aparece."
       ]
     ],
-    "variantsTitle": "Variantes y estados",
-    "variantsCaption": "required e info, solos y juntos. Con el foco por Tab, el icono de información muestra el borde focus/border y el halo focus/halo; el texto no tiene estado.",
-    "openCaption": "Abierto: active el icono (clic, Enter o Espacio). El nph-tooltip aparece debajo de la etiqueta, a space/inline. Se cierra con Esc, un clic fuera o Tab hacia fuera.",
-    "info": "Explica lo que pide el campo.",
-    "infoLabel": "Sobre nombre completo",
-    "anatomyTitle": "Anatomía",
-    "anatomyHeader": [
-      "Parte",
-      "Regla"
-    ],
-    "anatomy": [
-      [
-        "Texto",
-        "text/label-md en color/foreground."
-      ],
-      [
-        "Asterisco (required)",
-        "Marca el campo obligatorio, en status/error, a space/inline-tight del texto."
-      ],
-      [
-        "Icono de información (info)",
-        "Va después del texto, a space/inline-tight. Objetivo de 24×24 con el dibujo circle-info de icon/size-sm en el centro, en color/muted-foreground."
-      ],
-      [
-        "Espacio hasta el control",
-        "space/stack-tight."
-      ]
-    ],
-    "accessibilityTitle": "Accesibilidad",
-    "accessibilityHeader": [
-      "Criterio",
-      "Regla"
-    ],
-    "accessibility": [
-      [
-        "Contraste",
-        "El texto usa color/foreground: 21:1 en claro y 14,73:1 en oscuro, por encima de 4,5:1 (WCAG 1.4.3). El asterisco, en status/error, tiene 6,88:1 y 5,01:1. El icono de información, en color/muted-foreground, tiene 6,69:1 y 9,81:1, y el borde de foco, en focus/border, 3,68:1 y 8,98:1, por encima de 3:1 (WCAG 1.4.11)."
-      ],
-      [
-        "Foco visible",
-        "El texto de la etiqueta no recibe el foco: el foco aparece en el control que nombra. El icono de información es un disparador y, con foco, muestra el borde focus/border y el halo focus/halo alrededor del objetivo."
-      ],
-      [
-        "El color no es la única señal",
-        "Lo obligatorio se marca con el asterisco, explicado en una leyenda visible del formulario. La etiqueta no usa color/destructive, que confunde obligatorio con error."
-      ],
-      [
-        "Objetivo táctil",
-        "El icono de información tiene un objetivo de 24×24, con el dibujo de 16 px en el centro (WCAG 2.5.8). Hacer clic en el texto de la etiqueta lleva el foco al control que nombra."
-      ],
-      [
-        "Nombre accesible",
-        "El texto de la etiqueta es el nombre visible del control que acompaña. El icono de información es un botón nombrado por info-label; la explicación se anuncia sin quitarle el foco."
-      ]
-    ],
-    "relationsTitle": "Relaciones y contexto",
+    "relationsTitle": "6. Relaciones y contexto",
     "relations": [
       "Dentro de un nph-field, la etiqueta es la del propio campo; no añada un nph-label suelto además de ella.",
       "La ayuda y el mensaje de error son del nph-field, no de la etiqueta.",
@@ -369,22 +383,29 @@
       "La etiqueta se queda en color/foreground incluso con el campo en error: quien muestra el error es el campo.",
       "El icono de información abre el nph-tooltip, que muestra el texto de info."
     ],
-    "examplesTitle": "Ejemplos",
-    "exampleAlone": "Etiqueta sola, encima del control, con space/stack-tight.",
-    "exampleRequired": "Campo obligatorio: el asterisco viene de required y se explica en una leyenda.",
-    "exampleWithInfo": "Icono de información después del texto.",
-    "exampleLabels": [
-      "Nombre completo",
-      "Correo electrónico",
-      "Documento"
+    "relationsCaption": "Sola, encima del control, con space/stack-tight.",
+    "whenToUseTitle": "7. Cuándo usar",
+    "whenToUse": [
+      "Para dar un nombre visible a un control de formulario, solo o dentro de un nph-field.",
+      "required=true cuando completar el campo es obligatorio, con el asterisco explicado en una leyenda del formulario.",
+      "info=true para mostrar el icono de información después del texto."
     ],
-    "exampleInfoTexts": [
-      "Solo los números, sin puntos ni guiones.",
-      "Sobre documento"
+    "examplesTitle": "8. Ejemplos obligatorios",
+    "examplesCaptions": [
+      "Campo obligatorio: el asterisco viene de required.",
+      "Etiqueta sola, encima del control.",
+      "Icono de información después del texto."
     ],
+    "doTitle": "9. Hacer",
+    "do": [
+      "Usarla para dar un nombre visible a un control de formulario, sola o dentro de un nph-field.",
+      "Explicar el asterisco en una leyenda visible del formulario.",
+      "Mantener la etiqueta en color/foreground, incluso con el campo en error."
+    ],
+    "doCaption": "Asterisco explicado en una leyenda.",
     "requiredLegend": "* Campos obligatorios",
-    "antiPatternsTitle": "No usar",
-    "antiPatterns": [
+    "dontTitle": "10. No usar",
+    "dont": [
       "Usarla para una frase con verbo y punto final: eso es texto de cuerpo.",
       "Usarla como título de sección o de grupo: eso es heading-sm.",
       "Usarla para énfasis dentro de un párrafo: eso es <strong>.",
@@ -395,13 +416,12 @@
     "referencesTitle": "Referencias",
     "references": [
       "ficha nph-label — función, API, accesibilidad, tokens y antipatrones.",
-      "docs/decisoes-tecnicas.md — P62 (excepción a la P01, tipografía y API) y P62.6 (el disparador de información), P65 (nph-tooltip).",
+      "docs/decisoes-tecnicas.md — P62 (excepción a la P01, tipografía y API, ampliada por la P62.6) y P65 (nph-tooltip).",
       "design.md — color/foreground, status/error, color/muted-foreground, text/label-md, los espacios y el foco.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Label, marco nph-label (1194:1482) y conjunto 374:6.",
       "Storybook — Validação, en la carpeta de al lado."
     ],
-    "sourceSpec": "ficha nph-label; Figma, marco nph-label (1194:1482)",
-    "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 y P62.6",
-    "sourceAnatomy": "Figma, conjunto 374:6; design.md"
+    "sourceFrame": "Figma, marco nph-label (1194:1482)",
+    "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 y P62.6"
   }
 }

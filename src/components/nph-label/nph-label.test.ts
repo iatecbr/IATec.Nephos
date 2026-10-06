@@ -552,8 +552,7 @@ describe('abrir e fechar o balao', () => {
     await userEvent.click(triggerOf(el));
     await settle(el);
     el.remove();
-    expect(remove.mock.calls.some(([type]) => type === 'pointerdown')).toBe(true);
-    expect(() => document.body.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }))).not.toThrow();
+    expect(remove.mock.calls.some(([type, , options]) => type === 'pointerdown' && options === true)).toBe(true);
   });
 });
 
