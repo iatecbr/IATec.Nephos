@@ -175,7 +175,7 @@ invalid_combinations:
   - "compact as the main target on a touch screen — 28 px against the recommended 44 px."
 relations:
   combines_with: [nph-icon, nph-spinner, nph-input, nph-field]
-  parents: ["formulário", "action bar", "dialog footer"]
+  parents: ["form", "action bar", "dialog footer"]
   children: [nph-icon, nph-spinner]
   complements_block: []
   appears_in: []

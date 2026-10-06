@@ -2,7 +2,7 @@
 piece: nph-draft
 status: "incompleta — aguarda implementação"
 api:
-  origem: >-
+  origin: >-
     PROPOSTA. Ficha que nao e vigente nao gera Metadata.
 ---
 

@@ -25,7 +25,7 @@ tokens:
   color: color/foreground
 sources:
   usage_evidence: "branch v/3.0.0, PR #6, merge 437dd60"
-  contagem: 17
+  count: 17
   decision: unset
 use_when:
   - "Quando precisa: com dois-pontos."

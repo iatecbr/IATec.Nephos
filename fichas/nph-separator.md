@@ -56,7 +56,7 @@ invalid_combinations:
   - "A different thickness or color — the divider would become a state signal."
 relations:
   combines_with: [nph-button]
-  parents: [menu, action bar, cartão]
+  parents: [menu, action bar, card]
   children: []
   complements_block: []
   appears_in: []

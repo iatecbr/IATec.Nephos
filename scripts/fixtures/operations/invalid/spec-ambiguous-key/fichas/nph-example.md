@@ -2,7 +2,7 @@
 piece: nph-example
 status: active
 states:
-  on: ligado
+  on: enabled
 ---
 
 # nph-example

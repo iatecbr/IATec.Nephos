@@ -258,7 +258,7 @@
       "nph-field"
     ],
     "parents": [
-      "formulário",
+      "form",
       "action bar",
       "dialog footer"
     ],
