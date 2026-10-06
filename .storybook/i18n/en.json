@@ -15,7 +15,16 @@
     "componentes-nph-icon-validação--tamanhos": "Sizes",
     "componentes-nph-icon-validação--heranca-de-cor": "Colour inheritance",
     "componentes-nph-icon-validação--acessibilidade": "Accessibility",
-    "componentes-nph-icon-validação--entrada-invalida": "Invalid input"
+    "componentes-nph-icon-validação--entrada-invalida": "Invalid input",
+    "componentes-nph-label-docs": "Docs",
+    "componentes-nph-label-docs--documentation": "Documentation",
+    "componentes-nph-label-validação": "Validation",
+    "componentes-nph-label-validação--matriz": "Matrix",
+    "componentes-nph-label-validação--modo-claro-e-escuro": "Light and dark mode",
+    "componentes-nph-label-validação--associacao-com-o-controle": "Association with the control",
+    "componentes-nph-label-validação--o-que-o-rotulo-nao-faz": "What the label does not do",
+    "componentes-nph-label-validação--trigger-focus": "Trigger focus",
+    "componentes-nph-label-validação--open": "Open"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -249,5 +258,150 @@
       "a free size does not exist",
       "size is required"
     ]
+  },
+  "labelDocs": {
+    "summary": "Tells people what they need to type or choose in a field. It can mark a field as required and show the information icon. The text has no state; only the information icon takes focus.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "If anything differs, the canonical sources win: the nph-label spec, design.md for tokens and docs/decisoes-tecnicas.md for P62. The Figma file DS-IA-NEPHOS 5.0 is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "To give a form control a visible name, on its own or inside an nph-field.",
+      "required when filling in the field is mandatory, with the asterisk explained in a visible legend on the form.",
+      "info, with info-label, to show the information icon after the text.",
+      "Keep the label in color/foreground, even when the field has an error."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "For a sentence with a verb and a full stop: that is body text.",
+      "As a section or group title: that is heading-sm.",
+      "For emphasis inside a paragraph: that is <strong>.",
+      "For help or an error message: they belong to nph-field."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "text",
+        "The label text, already localized. It is the visible name of the control."
+      ],
+      [
+        "required",
+        "Defaults to false. true adds the asterisk after the text, in status/error. Reflects to the attribute."
+      ],
+      [
+        "for",
+        "The id of the control the label names, as in the native <label>. Reflects to the attribute."
+      ],
+      [
+        "info",
+        "The explanation text, already localized. When set, together with info-label, it shows the information icon, which opens nph-tooltip with this text."
+      ],
+      [
+        "info-label (infoLabel)",
+        "The accessible name of the information icon. Without it, the icon does not appear."
+      ]
+    ],
+    "variantsTitle": "Variants and states",
+    "variantsCaption": "required and info, alone and together. With Tab focus, the information icon shows the focus/border border and the focus/halo halo; the text has no state.",
+    "openCaption": "Open: activate the icon (click, Enter or Space). nph-tooltip appears below the label, at space/inline. It closes with Esc, a click outside or Tab out.",
+    "info": "Explains what the field asks for.",
+    "infoLabel": "About full name",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Text",
+        "text/label-md in color/foreground."
+      ],
+      [
+        "Asterisk (required)",
+        "Marks the field as required, in status/error, at space/inline-tight from the text."
+      ],
+      [
+        "Information icon (info)",
+        "Comes after the text, at space/inline-tight. A 24×24 target with the circle-info art at icon/size-sm in the centre, in color/muted-foreground."
+      ],
+      [
+        "Space to the control",
+        "space/stack-tight."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Contrast",
+        "The text uses color/foreground: 21:1 in light and 14.73:1 in dark, above 4.5:1 (WCAG 1.4.3). The asterisk, in status/error, has 6.88:1 and 5.01:1. The information icon, in color/muted-foreground, has 6.69:1 and 9.81:1, and the focus border, in focus/border, 3.68:1 and 8.98:1, above 3:1 (WCAG 1.4.11)."
+      ],
+      [
+        "Visible focus",
+        "The label text does not take focus: focus shows on the control it names. The information icon is a trigger and, when focused, shows the focus/border border and the focus/halo halo around the target."
+      ],
+      [
+        "Colour is not the only cue",
+        "Required is marked by the asterisk, explained in a visible legend on the form. The label does not use color/destructive, which mixes up required and error."
+      ],
+      [
+        "Touch target",
+        "The information icon has a 24×24 target, with the 16 px art in the centre (WCAG 2.5.8). Clicking the label text moves focus to the control it names."
+      ],
+      [
+        "Accessible name",
+        "The label text is the visible name of the control it goes with. The information icon is a button named by info-label; the explanation is announced without taking focus away from it."
+      ]
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "Inside an nph-field, the label is the field's own; do not add a loose nph-label next to it.",
+      "Help and error messages belong to nph-field, not to the label.",
+      "The space to the control is space/stack-tight.",
+      "The label stays in color/foreground even when the field has an error: the field shows the error.",
+      "The information icon opens nph-tooltip, which shows the info text."
+    ],
+    "examplesTitle": "Examples",
+    "exampleAlone": "Label on its own, above the control, with space/stack-tight.",
+    "exampleRequired": "Required field: the asterisk comes from required and is explained in a legend.",
+    "exampleWithInfo": "Information icon after the text.",
+    "exampleLabels": [
+      "Full name",
+      "Email",
+      "Tax ID"
+    ],
+    "exampleInfoTexts": [
+      "Numbers only, no dots or dashes.",
+      "About tax ID"
+    ],
+    "requiredLegend": "* Required fields",
+    "antiPatternsTitle": "Do not use",
+    "antiPatterns": [
+      "Using it for a sentence with a verb and a full stop: that is body text.",
+      "Using it as a section or group title: that is heading-sm.",
+      "Using it for emphasis inside a paragraph: that is <strong>.",
+      "Putting help or an error message in the label: they belong to nph-field.",
+      "Using the field's example text instead of the label.",
+      "Painting the label or the asterisk with color/destructive: it mixes up required and error."
+    ],
+    "referencesTitle": "References",
+    "references": [
+      "nph-label spec — purpose, API, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P62 (exception to P01, typography and API) and P62.6 (the information trigger), P65 (nph-tooltip).",
+      "design.md — color/foreground, status/error, color/muted-foreground, text/label-md, the spacing and the focus.",
+      "Figma DS-IA-NEPHOS 5.0 — page NPH — Label, frame nph-label (1194:1482) and component set 374:6.",
+      "Storybook — Validação, in the folder next to this one."
+    ],
+    "sourceSpec": "nph-label spec; Figma, frame nph-label (1194:1482)",
+    "sourceApi": "nph-label spec; docs/decisoes-tecnicas.md › P62.3 and P62.6",
+    "sourceAnatomy": "Figma, component set 374:6; design.md"
   }
 }

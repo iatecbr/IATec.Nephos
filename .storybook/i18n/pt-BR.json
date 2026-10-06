@@ -15,7 +15,16 @@
     "componentes-nph-icon-validação--tamanhos": "Tamanhos",
     "componentes-nph-icon-validação--heranca-de-cor": "Herança de cor",
     "componentes-nph-icon-validação--acessibilidade": "Acessibilidade",
-    "componentes-nph-icon-validação--entrada-invalida": "Entrada inválida"
+    "componentes-nph-icon-validação--entrada-invalida": "Entrada inválida",
+    "componentes-nph-label-docs": "Docs",
+    "componentes-nph-label-docs--documentation": "Documentação",
+    "componentes-nph-label-validação": "Validação",
+    "componentes-nph-label-validação--matriz": "Matriz",
+    "componentes-nph-label-validação--modo-claro-e-escuro": "Modo claro e escuro",
+    "componentes-nph-label-validação--associacao-com-o-controle": "Associação com o controle",
+    "componentes-nph-label-validação--o-que-o-rotulo-nao-faz": "O que o rótulo não faz",
+    "componentes-nph-label-validação--trigger-focus": "Foco do gatilho",
+    "componentes-nph-label-validação--open": "Aberto"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -249,5 +258,150 @@
       "tamanho livre não existe",
       "size é obrigatório"
     ]
+  },
+  "labelDocs": {
+    "summary": "Diz o que a pessoa precisa escrever ou escolher em um campo. Pode marcar obrigatório e mostrar o ícone de informação. O texto não tem estado; só o ícone de informação recebe foco.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha nph-label, o design.md para os tokens e docs/decisoes-tecnicas.md para a P62. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Para dar nome visível a um controle de formulário, sozinho ou dentro de um nph-field.",
+      "required quando o preenchimento é obrigatório, com o asterisco explicado numa legenda visível do formulário.",
+      "info, com info-label, para mostrar o ícone de informação depois do texto.",
+      "Manter o rótulo em color/foreground, mesmo com o campo em erro."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para frase com verbo e ponto final: isso é texto de corpo.",
+      "Como título de seção ou de grupo: isso é heading-sm.",
+      "Para ênfase dentro de parágrafo: isso é <strong>.",
+      "Para ajuda ou mensagem de erro: são do nph-field."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "text",
+        "O texto do rótulo, já localizado. É o nome visível do controle."
+      ],
+      [
+        "required",
+        "Padrão false. true acrescenta o asterisco depois do texto, em status/error. Reflete no atributo."
+      ],
+      [
+        "for",
+        "O id do controle que o rótulo nomeia, como no <label> nativo. Reflete no atributo."
+      ],
+      [
+        "info",
+        "O texto da explicação, já localizado. Preenchido, com info-label, mostra o ícone de informação, que abre o nph-tooltip com esse texto."
+      ],
+      [
+        "info-label (infoLabel)",
+        "O nome acessível do ícone de informação. Sem ele, o ícone não aparece."
+      ]
+    ],
+    "variantsTitle": "Variantes e estados",
+    "variantsCaption": "required e info, sozinhos e juntos. Com o foco por Tab, o ícone de informação mostra a borda focus/border e o halo focus/halo; o texto não tem estado.",
+    "openCaption": "Aberto: ative o ícone (clique, Enter ou Espaço). O nph-tooltip aparece abaixo do rótulo, a space/inline. Fecha com Esc, clique fora ou Tab para fora.",
+    "info": "Explica o que o campo pede.",
+    "infoLabel": "Sobre nome completo",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Texto",
+        "text/label-md em color/foreground."
+      ],
+      [
+        "Asterisco (required)",
+        "Marca o campo obrigatório, em status/error, a space/inline-tight do texto."
+      ],
+      [
+        "Ícone de informação (info)",
+        "Fica depois do texto, a space/inline-tight. Alvo de 24×24 com a arte circle-info de icon/size-sm no centro, em color/muted-foreground."
+      ],
+      [
+        "Espaço até o controle",
+        "space/stack-tight."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "O texto usa color/foreground: 21:1 no claro e 14,73:1 no escuro, acima de 4,5:1 (WCAG 1.4.3). O asterisco, em status/error, tem 6,88:1 e 5,01:1. O ícone de informação, em color/muted-foreground, tem 6,69:1 e 9,81:1, e a borda de foco, em focus/border, 3,68:1 e 8,98:1, acima de 3:1 (WCAG 1.4.11)."
+      ],
+      [
+        "Foco visível",
+        "O texto do rótulo não recebe foco: o foco aparece no controle que ele nomeia. O ícone de informação é gatilho e, com foco, mostra a borda focus/border e o halo focus/halo em volta do alvo."
+      ],
+      [
+        "Cor não é o único sinal",
+        "Obrigatório é marcado pelo asterisco, explicado numa legenda visível do formulário. O rótulo não usa color/destructive, que confunde obrigatório com erro."
+      ],
+      [
+        "Alvo de toque",
+        "O ícone de informação tem alvo de 24×24, com a arte de 16 px no centro (WCAG 2.5.8). Clicar no texto do rótulo leva o foco ao controle que ele nomeia."
+      ],
+      [
+        "Nome acessível",
+        "O texto do rótulo é o nome visível do controle que ele acompanha. O ícone de informação é um botão nomeado por info-label; a explicação é anunciada sem tirar o foco dele."
+      ]
+    ],
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Dentro de um nph-field, o rótulo é o do próprio campo; não ponha um nph-label solto além dele.",
+      "Ajuda e mensagem de erro são do nph-field, não do rótulo.",
+      "O espaço até o controle é space/stack-tight.",
+      "O rótulo fica em color/foreground mesmo com o campo em erro: quem mostra o erro é o campo.",
+      "O ícone de informação abre o nph-tooltip, que mostra o texto de info."
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleAlone": "Rótulo sozinho, acima do controle, com space/stack-tight.",
+    "exampleRequired": "Campo obrigatório: o asterisco vem do required e é explicado numa legenda.",
+    "exampleWithInfo": "Ícone de informação depois do texto.",
+    "exampleLabels": [
+      "Nome completo",
+      "E-mail",
+      "CPF"
+    ],
+    "exampleInfoTexts": [
+      "Só os números, sem ponto nem traço.",
+      "Sobre CPF"
+    ],
+    "requiredLegend": "* Campos obrigatórios",
+    "antiPatternsTitle": "Não usar",
+    "antiPatterns": [
+      "Usar para frase com verbo e ponto final: isso é texto de corpo.",
+      "Usar como título de seção ou de grupo: isso é heading-sm.",
+      "Usar para ênfase dentro de parágrafo: isso é <strong>.",
+      "Pôr ajuda ou mensagem de erro no rótulo: são do nph-field.",
+      "Usar o texto de exemplo do campo no lugar do rótulo.",
+      "Pintar rótulo ou asterisco com color/destructive: confunde obrigatório com erro."
+    ],
+    "referencesTitle": "Referências",
+    "references": [
+      "ficha nph-label — função, API, acessibilidade, tokens e anti-padrões.",
+      "docs/decisoes-tecnicas.md — P62 (exceção à P01, tipografia e API) e P62.6 (o gatilho de informação), P65 (nph-tooltip).",
+      "design.md — color/foreground, status/error, color/muted-foreground, text/label-md, os espaços e o foco.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Label, quadro nph-label (1194:1482) e conjunto 374:6.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "ficha nph-label; Figma, quadro nph-label (1194:1482)",
+    "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 e P62.6",
+    "sourceAnatomy": "Figma, conjunto 374:6; design.md"
   }
 }

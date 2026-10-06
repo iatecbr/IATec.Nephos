@@ -118,7 +118,7 @@ decisão numerada ou datada.
 Quem abre o arquivo seis meses depois precisa saber **quem decidiu aquilo**, sem
 sair dele.
 
-**Fonte:** `nph-icon.ts`, linhas 1-17; `nph-label.ts`, linhas 1-45;
+**Fonte:** `nph-icon.ts`, linhas 1-17; `nph-label.ts`, linhas 1-54;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P21**.
 **Limite:** dois componentes.
 
@@ -132,7 +132,7 @@ registrada como **P62.1**. O motivo está escrito nos dois arquivos: a associaç
 nativa entre rótulo e controle não atravessa a fronteira do Shadow DOM, e sem
 ela o rótulo perde a função.
 
-**Fonte:** `nph-label.ts`, linhas 12-20; `nph-label.css`, linhas 3-10;
+**Fonte:** `nph-label.ts`, linhas 17-23; `nph-label.css`, linhas 3-10;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P01** e **P62.1**.
 **Limite:** um componente. Esta regra descreve **como registrar** uma exceção —
 ela **não autoriza abrir** nenhuma. Abrir exceção é decisão humana, com revisão
@@ -207,10 +207,12 @@ renderizado. `Componentes/<peça>/Docs` é leitura e catálogo — e não prova 
 
 **Fonte:** [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P21**, item 8,
 aprovada em 28/08/2026; `nph-icon.stories.ts` e `nph-icon.docs.stories.ts`.
-**Limite:** um componente tem os dois papéis. O `nph-label` tem só `Validação`.
-`Docs` entra quando houver catálogo a oferecer — no `nph-icon`, o núcleo de 34
-ícones. Não invente uma página de leitura para uma peça que não tem o que
-catalogar.
+**Limite:** dois componentes têm os dois papéis: o `nph-icon` e o `nph-label`.
+`Docs` entra quando houver o que oferecer — no `nph-icon`, o catálogo do núcleo;
+no `nph-label`, a página do quadro aceito no Figma, por decisão de Indiane de
+05/10/2026 (Claude escreve a documentação do Storybook dos componentes do
+lote). Não invente uma página de leitura para uma peça que não tem o que
+oferecer.
 
 ### 4.2 O título e o nome dizem a afirmação
 
@@ -231,14 +233,16 @@ verifica**, com data quando houver:
 /**
  * Stories de VALIDACAO do `nph-label`.
  *
- * Cada pagina prova uma parte do contrato aprovado em 27-08-2026: a matriz de
- * duas variantes, a paridade com o Figma nos dois esquemas de cor, a
- * associacao com o controle e a ausencia de estado proprio.
+ * Cada pagina prova uma parte do contrato aprovado (27-08-2026, 08-09-2026 e
+ * 01-10-2026): a matriz `required` x `info` do conjunto `374:6`, a paridade com
+ * o Figma nos dois esquemas de cor, o foco e o balao aberto do gatilho de
+ * informacao (quadro `1194:1482`), a associacao com o controle e a ausencia de
+ * estado proprio do texto.
  */
 ```
 
 **Fonte:** `nph-icon.stories.ts` 1-14; `nph-icon.docs.stories.ts` 1-13;
-`nph-label.stories.ts` 1-10.
+`nph-label.stories.ts` 1-16.
 **Limite:** dois componentes, três arquivos.
 
 ### 4.4 Cada story diz, em uma linha, o que prova
@@ -258,7 +262,7 @@ story pode cobrir mais de uma combinação, e nenhuma combinação fica de fora.
 critério é **cobertura rastreável**, não quantidade de arquivos, páginas ou
 stories.
 
-Na prática: o `nph-label` cobre as duas combinações numa página `Matriz`; o
+Na prática: o `nph-label` cobre `required` × `info` numa página `Matriz`; o
 `nph-icon` cobre variante, tamanho, herança de cor, acessibilidade e entrada
 inválida em cinco páginas por afirmação.
 
@@ -386,8 +390,8 @@ expect(propriedades).toEqual(['label', 'name', 'size', 'variant']);
 Assim, propriedade nova não entra sem alguém reprovar um teste.
 
 **Fonte:** `nph-icon.test.ts`, *"a API reativa e exatamente name, variant, size e
-label"*; `nph-label.test.ts`, *"a API publica e exatamente text, required e
-for"*.
+label"*; `nph-label.test.ts`, *"a API publica e exatamente text, required, for,
+info e infoLabel"*.
 **Limite:** dois componentes.
 
 ### 5.4 O teste confirma que o token existe no CSS gerado
@@ -496,7 +500,6 @@ Registradas aqui porque quem for construir um componente vai esbarrar nelas.
 | Assunto | As fontes, e o que cada uma diz |
 |---|---|
 | Idioma nas stories | [`i18n.md`](i18n.md) e o `nph-icon` mandam o texto explicativo vir do dicionário; o `nph-label.stories.ts` traz português literal nas legendas |
-| API do `nph-label` | A ficha e o código declaram `text`, `required` e `for`; a matriz aprovada no Figma tem quatro variantes, com `info`. Correção registrada como `DSA-04` |
 | `variant="solid"` no `nph-icon` | O [`../design.md`](../design.md), a **P21** e a ficha definem `regular` como padrão e `solid` como disponível para cada nome do núcleo. A decisão **I7** originou a ampliação e a `DSA-03` foi concluída |
 
 ---
