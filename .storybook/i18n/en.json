@@ -270,10 +270,10 @@
     "infoLabel": "About full name",
     "purposeTitle": "1. Purpose",
     "purpose": "A text label that tells people what they need to type or choose in a field.",
+    "selectionCaption": "nph-label — properties required, info and state.",
     "descriptionTitle": "2. Component description",
     "description": "Use nph-label to give a form control a visible name, on its own or inside an nph-field. The label is just text: it has no state, size or layout. The exception is the information icon, which takes focus. It does not replace the section title, which is heading-sm, body text, or help and error messages, which belong to nph-field.",
     "anatomyTitle": "3. Anatomy",
-    "anatomyCaption": "nph-label — properties required, info and state.",
     "anatomyHeader": [
       "Part",
       "Rule"
@@ -346,8 +346,7 @@
     "propertiesCaptions": [
       "required = false · info = false",
       "required = true",
-      "info = true",
-      "required = false · info = true · open"
+      "info = true"
     ],
     "apiHeader": [
       "Property in code",

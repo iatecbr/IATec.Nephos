@@ -270,10 +270,10 @@
     "infoLabel": "Sobre nome completo",
     "purposeTitle": "1. Finalidade",
     "purpose": "Rótulo de texto que diz o que a pessoa precisa escrever ou escolher em um campo.",
+    "selectionCaption": "nph-label — propriedades required, info e state.",
     "descriptionTitle": "2. Descrição do componente",
     "description": "Use nph-label para dar nome visível a um controle de formulário, sozinho ou dentro de um nph-field. O rótulo é só um texto: não tem estado, tamanho nem layout. A exceção é o ícone de informação, que recebe foco. Não substitui o título de seção, que é heading-sm, o texto de corpo, nem a ajuda e a mensagem de erro, que são do nph-field.",
     "anatomyTitle": "3. Anatomia",
-    "anatomyCaption": "nph-label — propriedades required, info e state.",
     "anatomyHeader": [
       "Parte",
       "Regra"
@@ -346,8 +346,7 @@
     "propertiesCaptions": [
       "required = false · info = false",
       "required = true",
-      "info = true",
-      "required = false · info = true · aberto"
+      "info = true"
     ],
     "apiHeader": [
       "Propriedade em código",

@@ -270,10 +270,10 @@
     "infoLabel": "Sobre nombre completo",
     "purposeTitle": "1. Finalidad",
     "purpose": "Etiqueta de texto que dice qué debe escribir o elegir la persona en un campo.",
+    "selectionCaption": "nph-label — propiedades required, info y state.",
     "descriptionTitle": "2. Descripción del componente",
     "description": "Use nph-label para dar un nombre visible a un control de formulario, solo o dentro de un nph-field. La etiqueta es solo un texto: no tiene estado, tamaño ni layout. La excepción es el icono de información, que recibe el foco. No sustituye al título de sección, que es heading-sm, al texto de cuerpo, ni a la ayuda y el mensaje de error, que son del nph-field.",
     "anatomyTitle": "3. Anatomía",
-    "anatomyCaption": "nph-label — propiedades required, info y state.",
     "anatomyHeader": [
       "Parte",
       "Regla"
@@ -346,8 +346,7 @@
     "propertiesCaptions": [
       "required = false · info = false",
       "required = true",
-      "info = true",
-      "required = false · info = true · abierto"
+      "info = true"
     ],
     "apiHeader": [
       "Propiedad en código",

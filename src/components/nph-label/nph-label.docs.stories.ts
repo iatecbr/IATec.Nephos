@@ -109,7 +109,11 @@ export const Documentation: Story = {
         ${section(
           SECTIONS.purpose,
           d.purposeTitle,
-          html`${text(d.purpose)} ${source(d.sourceLabel, d.sourceFrame)}`,
+          html`
+            ${text(d.purpose)}
+            ${demo(html`<nph-label text=${sample}></nph-label>`, d.selectionCaption)}
+            ${source(d.sourceLabel, d.sourceFrame)}
+          `,
         )}
 
         ${section(
@@ -122,7 +126,6 @@ export const Documentation: Story = {
           SECTIONS.anatomy,
           d.anatomyTitle,
           html`
-            ${demo(html`<nph-label text=${sample}></nph-label>`, d.anatomyCaption)}
             ${table(d.anatomyHeader, d.anatomy.map(([part, rule]: [string, string]) => [part, rule] as const), 'text')}
             ${source(d.sourceLabel, d.sourceFrame)}
           `,
@@ -157,7 +160,6 @@ export const Documentation: Story = {
             ${demo(html`<nph-label text=${sample}></nph-label>`, d.propertiesCaptions[0])}
             ${demo(html`<nph-label text=${sample} required></nph-label>`, d.propertiesCaptions[1])}
             ${demo(withInfo(), d.propertiesCaptions[2])}
-            ${demo(html`<div style=${roomBelow}>${withInfo()}</div>`, d.propertiesCaptions[3])}
             ${source(d.sourceLabel, d.sourceFrame)}
             ${table(d.apiHeader, d.api.map(([term, rule]: [string, string]) => [term, rule] as const))}
             ${source(d.sourceLabel, d.sourceApi)}
