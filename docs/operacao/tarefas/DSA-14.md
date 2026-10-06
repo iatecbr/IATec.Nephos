@@ -5,7 +5,7 @@
   "fase": "F0",
   "ordem_aprovada": 140,
   "responsavel": "claude-codigo",
-  "estado": "em-revisao",
+  "estado": "concluida",
   "peca": null,
   "dependencias": [],
   "gates": [
@@ -22,15 +22,15 @@
       "id": "revisao-e-merge",
       "descricao": "Generator, specs or technical decision that change reviewed by maurocsjr and merged into v/5.0.0.",
       "comando": null,
-      "evidencia": null,
-      "resultado": "pendente",
-      "verificado_em": null,
-      "verificado_por": null
+      "evidencia": "docs/operacao/evidencias/DSA-14/revisao-e-merge-2026-10-06.md",
+      "resultado": "passou",
+      "verificado_em": "2026-10-06",
+      "verificado_por": "claude-codigo"
     }
   ],
   "bloqueios": [],
   "decisoes_pendentes": [],
-  "evidencias": ["docs/operacao/evidencias/DSA-14/metadata-em-ingles-2026-10-06.md"],
+  "evidencias": ["docs/operacao/evidencias/DSA-14/metadata-em-ingles-2026-10-06.md", "docs/operacao/evidencias/DSA-14/revisao-e-merge-2026-10-06.md"],
   "referencias_de_decisao": [
     "docs/decisoes-tecnicas.md#p63",
     "docs/decisoes-tecnicas.md#p64",
@@ -39,7 +39,7 @@
     "Decision by Indiane on 2026-10-06: path (a), the spec YAML is written in English and the Metadata remains an exact copy (P63 intact)"
   ],
   "origem_externa": null,
-  "revisao_git": { "branch": "docs/fichas-ingles-dsa14", "commit": "f496e4e96ec37c2cce8d9e1dfc8e96851e61686f", "pr": "62" },
+  "revisao_git": { "branch": "docs/fichas-ingles-dsa14", "commit": "63300ad927db04dc2587c8347668e39db84f4b22", "pr": "62" },
   "contexto": null,
   "atualizado_em": "2026-10-06"
 }
