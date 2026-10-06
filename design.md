@@ -308,7 +308,7 @@ tokens_semantic:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
     escuro: core/surface/200
-    use: "Legenda, texto auxiliar, placeholder, metadado."
+    use: "Legenda, texto auxiliar, placeholder, metadado. Também o ícone do gatilho de informação do nph-label, como o Figma aceito desenha (decisão de 06-10-2026)."
     nao_use: "Texto necessário para concluir a tarefa."
   color/destructive:
     css: '--nph-color-destructive'
