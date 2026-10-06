@@ -5,7 +5,7 @@
   "fase": "F4",
   "ordem_aprovada": 110,
   "responsavel": "claude-codigo",
-  "estado": "pronta",
+  "estado": "em-revisao",
   "peca": "nph-label",
   "dependencias": ["DSA-07", "DSA-08"],
   "gates": [
@@ -41,7 +41,8 @@
   "decisoes_pendentes": [],
   "evidencias": [
     "docs/operacao/evidencias/DSA-04/documentacao-figma-aceita-2026-10-01.md",
-    "docs/operacao/evidencias/DSA-04/tokens-conferidos-com-figma-2026-10-05.md"
+    "docs/operacao/evidencias/DSA-04/tokens-conferidos-com-figma-2026-10-05.md",
+    "docs/operacao/evidencias/DSA-04/storybook-validacao-2026-10-06.md"
   ],
   "referencias_de_decisao": [
     "docs/decisoes-tecnicas.md#p62",
@@ -55,7 +56,7 @@
     "trecho": null,
     "decisao_convertida": "O frame nph-label (1194:1482) e o COMPONENT_SET 374:6 foram aceitos com info, infoLabel, foco do gatilho e a linha aberto. infoLabel vazio omite o gatilho (decisao de 01-10-2026). Em 05-10-2026 Indiane decidiu que o nph-tooltip (DSA-08) entra em codigo antes desta entrega."
   },
-  "revisao_git": { "branch": "feat/dsa04-nph-label-info", "commit": null, "pr": null },
+  "revisao_git": { "branch": "feat/dsa04-nph-label-info", "commit": "3417a76", "pr": "58" },
   "contexto": null,
   "atualizado_em": "2026-10-06"
 }
