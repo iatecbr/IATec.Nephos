@@ -3,16 +3,16 @@ peca: nph-separator
 nivel: componente
 status: vigente
 resolve: >-
-  Separa itens irmãos ou regiões de um contêiner com uma linha decorativa, sem
-  carregar estado nem criar espaço.
+  Separates sibling items or regions of a container with a decorative line, without
+  carrying state or creating space.
 use_quando:
-  - "Separar grupos de itens num menu."
-  - "Separar ações lado a lado numa barra de ações."
-  - "Separar o cabeçalho do conteúdo num cartão."
+  - "Separating groups of items in a menu."
+  - "Separating side-by-side actions in an action bar."
+  - "Separating the header from the content in a card."
 nao_use_quando:
-  - "Contornar um campo — a borda de campo é color/input, que cumpre 3:1."
-  - "Afastar dois blocos — o espaço vem de space/stack ou space/section."
-  - "Pôr uma palavra no meio do divisor — não existe variante com texto."
+  - "Outlining a field — the field border is color/input, which meets 3:1."
+  - "Spacing two blocks apart — the space comes from space/stack or space/section."
+  - "Putting a word in the middle of the divider — there is no variant with text."
 api:
   orientation:
     tipo: enum
@@ -21,169 +21,169 @@ api:
     padrao: horizontal
     reflete: true
     restricao: >-
-      Reflete porque o CSS interno seleciona a linha por ele. horizontal entre
-      itens empilhados; vertical entre itens lado a lado. Valor fora da lista não
-      desenha nada e emite console.error em desenvolvimento.
+      Reflects because the internal CSS selects the line by it. horizontal between
+      stacked items; vertical between side-by-side items. A value outside the list
+      draws nothing and emits console.error in development.
 variantes:
   orientation:
     eixo: aparencia
-    escolha_quando: "horizontal entre itens empilhados; vertical entre itens lado a lado."
+    escolha_quando: "horizontal between stacked items; vertical between side-by-side items."
     nao_combine_com: [texto]
 estados:
   padrao:
     token: color/border
-    muda_para_a_pessoa: "Uma linha separa os itens; ela não muda com interação."
+    muda_para_a_pessoa: "A line separates the items; it does not change with interaction."
 regras_de_negocio:
-  - "A espessura é sempre border/width e a cor é sempre color/border: mudar uma ou outra faria do divisor um sinal de estado."
-  - "A horizontal preenche a largura em pai de bloco ou flex em coluna; a vertical preenche a altura em pai flex em linha ou grid. Fora disso, quem usa dá o comprimento."
+  - "The thickness is always border/width and the color is always color/border: changing either would turn the divider into a state signal."
+  - "The horizontal one fills the width in a block parent or a column flex parent; the vertical one fills the height in a row flex or grid parent. Otherwise, whoever uses it gives the length."
 erros_de_dominio: []
 tokens:
   cor: color/border
   espessura: border/width
 dicas_para_ia:
-  - "Use nph-separator para separar itens irmãos ou regiões; para afastar blocos, use space/stack ou space/section."
-  - "Use orientation vertical entre itens lado a lado, dentro de um pai flex em linha."
-  - "Não use nph-separator como borda de campo: o campo usa color/input."
+  - "Use nph-separator to separate sibling items or regions; to space blocks apart, use space/stack or space/section."
+  - "Use orientation vertical between side-by-side items, inside a row flex parent."
+  - "Do not use nph-separator as a field border: the field uses color/input."
 acessibilidade:
-  semantica: "O host fica `aria-hidden`: o divisor é decorativo e não entra na árvore de acessibilidade."
+  semantica: "The host is `aria-hidden`: the divider is decorative and stays out of the accessibility tree."
   nome_acessivel: nao_se_aplica
   teclado: []
-  foco: "O divisor não recebe foco."
-  contraste: "É decorativo: color/border não precisa cumprir 3:1."
-  alternativa_a_cor: "O divisor não carrega estado; a separação é estrutural."
+  foco: "The divider does not receive focus."
+  contraste: "It is decorative: color/border does not need to meet 3:1."
+  alternativa_a_cor: "The divider carries no state; the separation is structural."
 combinacoes_invalidas:
-  - "Texto no meio do divisor — não existe variante com texto."
-  - "Espessura ou cor diferentes — o divisor viraria sinal de estado."
+  - "Text in the middle of the divider — there is no variant with text."
+  - "A different thickness or color — the divider would become a state signal."
 relacoes:
   combina_com: [nph-button]
-  pai: [menu, barra de ações, cartão]
+  pai: [menu, action bar, cartão]
   filho: []
   complementa_bloco: []
   aparece_em: []
 anti_padroes:
-  - "Usar o divisor como borda de campo."
-  - "Usar o divisor como espaçador."
-  - "Pôr texto no meio do divisor."
-  - "Mudar a espessura ou a cor do divisor."
+  - "Using the divider as a field border."
+  - "Using the divider as a spacer."
+  - "Putting text in the middle of the divider."
+  - "Changing the thickness or the color of the divider."
 fontes:
-  design_md: "design.md, color/border, border/width e layout/separator-width e layout/separator-height, que são o comprimento do mestre no Figma"
-  decisao: "P66 — API e semântica de nph-spinner, nph-separator e nph-kbd, 05-10-2026"
+  design_md: "design.md, color/border, border/width and layout/separator-width and layout/separator-height, which are the length of the master in Figma"
+  decisao: "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026"
   testes: "src/components/nph-separator/nph-separator.test.ts"
-  evidencia_de_uso: "nenhuma em código ainda; o quadro aceito mostra menu, barra de ações e cartão"
+  evidencia_de_uso: "none in code yet; the accepted frame shows menu, action bar and card"
   storybook: "src/components/nph-separator/nph-separator.stories.ts"
-  figma: "DS-IA-NEPHOS 5.0, quadro nph-separator 1196:674 e conjunto 762:6"
+  figma: "DS-IA-NEPHOS 5.0, nph-separator frame 1196:674 and set 762:6"
 ---
 
 # nph-separator
 
-## Função
+## Function
 
-**O problema que resolve:** separa itens irmãos ou regiões de um contêiner com uma
-linha decorativa. Separa, não afasta.
+**The problem it solves:** separates sibling items or regions of a container with a
+decorative line. It separates; it does not space apart.
 
-**Quando usar:**
+**When to use:**
 
-- Entre grupos de itens num menu.
-- Entre ações lado a lado numa barra de ações.
-- Entre o cabeçalho e o conteúdo de um cartão.
+- Between groups of items in a menu.
+- Between side-by-side actions in an action bar.
+- Between the header and the content of a card.
 
-**Quando NÃO usar:**
+**When NOT to use:**
 
-- **Como borda de campo** — o campo usa `color/input`, que cumpre 3:1.
-- **Como espaçador** — o espaço entre blocos vem de `space/stack` ou
+- **As a field border** — the field uses `color/input`, which meets 3:1.
+- **As a spacer** — the space between blocks comes from `space/stack` or
   `space/section`.
-- **Com texto no meio** ("ou", "e") — não existe variante com texto.
+- **With text in the middle** ("or", "and") — there is no variant with text.
 
-## Variantes
+## Variants
 
-| Variante | Valores | Escolha quando |
+| Variant | Values | Choose when |
 |---|---|---|
-| `orientation` | `horizontal` (padrão), `vertical` | `horizontal` entre itens empilhados; `vertical` entre itens lado a lado |
+| `orientation` | `horizontal` (default), `vertical` | `horizontal` between stacked items; `vertical` between side-by-side items |
 
-**Por tamanho e densidade:** `nao_se_aplica`.
+**By size and density:** `nao_se_aplica`.
 
-**Não combine com:** texto, espessura ou cor diferentes.
+**Do not combine with:** text, a different thickness or color.
 
-## Estados
+## States
 
-| Estado | Token | O que muda para a pessoa |
+| State | Token | What changes for the person |
 |---|---|---|
-| Padrão | `color/border` | Uma linha separa os itens; ela não muda com interação |
+| Default | `color/border` | A line separates the items; it does not change with interaction |
 
-**Feedback e foco:** o divisor não recebe foco nem reage a interação.
+**Feedback and focus:** the divider does not receive focus nor react to interaction.
 
-**Regra de negócio que a peça carrega:** a espessura é sempre `border/width` e a cor
-é sempre `color/border`. A horizontal preenche a largura em pai de bloco ou flex em
-coluna; a vertical preenche a altura em pai flex em linha ou grid. Fora disso, quem
-usa dá o comprimento.
+**Business rule the piece carries:** the thickness is always `border/width` and the color
+is always `color/border`. The horizontal one fills the width in a block parent or a column
+flex parent; the vertical one fills the height in a row flex or grid parent. Otherwise, whoever
+uses it gives the length.
 
-**Estados de erro do domínio:** nenhum.
+**Domain error states:** none.
 
-## Acessibilidade
+## Accessibility
 
-| Critério | Regra |
+| Criterion | Rule |
 |---|---|
-| Semântica | O host fica `aria-hidden`: o divisor é decorativo |
-| Nome acessível | `nao_se_aplica` |
-| Teclado e foco | O divisor não recebe foco |
-| Contraste | É decorativo: `color/border` não precisa cumprir 3:1 |
-| Alternativa à cor | O divisor não carrega estado |
+| Semantics | The host is `aria-hidden`: the divider is decorative |
+| Accessible name | `nao_se_aplica` |
+| Keyboard and focus | The divider does not receive focus |
+| Contrast | It is decorative: `color/border` does not need to meet 3:1 |
+| Alternative to color | The divider carries no state |
 
-## Relações
+## Relations
 
-**Combina com:** `nph-button`, numa barra de ações.
+**Combines with:** `nph-button`, in an action bar.
 
-**O que é pai:** menu, entre grupos de itens; barra de ações; e cartão, entre
-cabeçalho e conteúdo.
+**What is the parent:** a menu, between groups of items; an action bar; and a card, between
+header and content.
 
-**O que é filho:** nada.
+**What is the child:** nothing.
 
-**Qual bloco esta peça complementa:** nenhum.
+**Which block this piece complements:** none.
 
-**Aparece nos layouts:** nenhum.
+**Appears in layouts:** none.
 
-## Tokens, intenção e Dicas para IA
+## Tokens, intent and AI hints
 
-| Parte | Token |
+| Part | Token |
 |---|---|
-| Cor | `color/border` |
-| Espessura | `border/width` |
+| Color | `color/border` |
+| Thickness | `border/width` |
 
-**Restrições de uso:** o comprimento vem do contêiner. `layout/separator-width` e
-`layout/separator-height` são o comprimento do mestre no Figma e não são usados em
-código.
+**Usage restrictions:** the length comes from the container. `layout/separator-width` and
+`layout/separator-height` are the length of the master in Figma and are not used in
+code.
 
-**Dicas para IA:**
+**AI hints:**
 
-- Use `nph-separator` para separar itens irmãos ou regiões; para afastar blocos, use
-  `space/stack` ou `space/section`.
-- Use `orientation="vertical"` entre itens lado a lado, dentro de um pai flex em
-  linha.
-- Não use `nph-separator` como borda de campo: o campo usa `color/input`.
+- Use `nph-separator` to separate sibling items or regions; to space blocks apart, use
+  `space/stack` or `space/section`.
+- Use `orientation="vertical"` between side-by-side items, inside a row flex
+  parent.
+- Do not use `nph-separator` as a field border: the field uses `color/input`.
 
-## Exemplos
+## Examples
 
-**Caso recomendado:** num menu, `nph-separator` horizontal entre o grupo de perfil e
-a ação de sair.
+**Recommended case:** in a menu, a horizontal `nph-separator` between the profile group and
+the sign-out action.
 
-**Caso alternativo:** numa barra de ações, `nph-separator` vertical entre "Editar" e
-"Excluir", num pai flex em linha.
+**Alternative case:** in an action bar, a vertical `nph-separator` between "Edit" and
+"Delete", in a row flex parent.
 
-## Anti-padrões
+## Anti-patterns
 
-- **Não usar como borda de campo** — use `color/input`.
-- **Não usar como espaçador** — use `space/stack` ou `space/section`.
-- **Não pôr texto no meio** — não existe variante com texto.
-- **Não mudar espessura ou cor** — o divisor viraria sinal de estado.
+- **Do not use as a field border** — use `color/input`.
+- **Do not use as a spacer** — use `space/stack` or `space/section`.
+- **Do not put text in the middle** — there is no variant with text.
+- **Do not change the thickness or color** — the divider would become a state signal.
 
-## Fontes e decisões
+## Sources and decisions
 
-- **`design.md` do repositório:** `color/border`, `border/width`,
-  `layout/separator-width` e `layout/separator-height`.
-- **A decisão que originou:** P66, de 05-10-2026.
-- **Testes:** `src/components/nph-separator/nph-separator.test.ts`.
-- **Evidência de uso:** nenhuma em código ainda. O quadro aceito mostra o divisor
-  em menu, barra de ações e cartão.
+- **The repository `design.md`:** `color/border`, `border/width`,
+  `layout/separator-width` and `layout/separator-height`.
+- **The decision that originated it:** P66, of 05-10-2026.
+- **Tests:** `src/components/nph-separator/nph-separator.test.ts`.
+- **Usage evidence:** none in code yet. The accepted frame shows the divider
+  in a menu, an action bar and a card.
 - **Storybook:** `src/components/nph-separator/nph-separator.stories.ts`.
-- **Figma:** quadro `nph-separator` (`1196:674`) e conjunto `762:6` no
+- **Figma:** `nph-separator` frame (`1196:674`) and set `762:6` in
   `DS-IA-NEPHOS 5.0`.

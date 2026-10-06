@@ -2,15 +2,15 @@
   "peca": "nph-spinner",
   "nivel": "componente",
   "status": "vigente",
-  "resolve": "Mostra que o sistema está trabalhando quando a espera não tem hora para acabar, sem ser o único sinal de que algo está acontecendo.",
+  "resolve": "Shows that the system is working when the wait has no set time to end, without being the only sign that something is happening.",
   "use_quando": [
-    "Salvar um formulário, buscar dados ou esperar a resposta de um botão, com texto de estado ao lado.",
-    "A espera é curta e a pessoa precisa ver que o clique funcionou."
+    "Saving a form, fetching data or waiting for a button's response, with status text beside it.",
+    "The wait is short and the person needs to see that the click worked."
   ],
   "nao_use_quando": [
-    "O progresso é conhecido — mostre o progresso em texto ou percentual; o girador não serve.",
-    "O girador seria o único sinal de espera — escreva ao lado o que está acontecendo ou dê um label.",
-    "A peça precisaria receber clique ou foco — o alvo é o controle em volta."
+    "The progress is known — show the progress in text or percentage; the spinner does not fit.",
+    "The spinner would be the only sign of waiting — write beside it what is happening or give it a label.",
+    "The piece would need to receive click or focus — the target is the surrounding control."
   ],
   "api": {
     "size": {
@@ -22,20 +22,20 @@
       "obrigatoria": false,
       "padrao": "sm",
       "reflete": true,
-      "restricao": "Reflete porque o CSS interno seleciona o desenho por ele. sm dentro de botão ou campo; md em área de conteúdo, cartão ou bloco em destaque. Não existe lg. Valor fora da lista não desenha nada e emite console.error em desenvolvimento."
+      "restricao": "Reflects because the internal CSS selects the drawing by it. sm inside a button or field; md in a content area, card or highlighted block. lg does not exist. A value outside the list draws nothing and emits console.error in development."
     },
     "label": {
       "tipo": "string",
       "obrigatoria": false,
       "padrao": "vazio",
       "reflete": false,
-      "restricao": "Nome acessível do girador quando não há texto de estado ao lado. Vazio ou só espaços deixa o girador decorativo, fora da árvore de acessibilidade."
+      "restricao": "Accessible name of the spinner when there is no status text beside it. Empty or whitespace-only makes the spinner decorative, out of the accessibility tree."
     }
   },
   "variantes": {
     "size": {
       "eixo": "tamanho",
-      "escolha_quando": "sm dentro de botão ou campo; md em área de conteúdo, cartão ou bloco em destaque.",
+      "escolha_quando": "sm inside a button or field; md in a content area, card or highlighted block.",
       "nao_combine_com": [
         "lg",
         "type"
@@ -45,16 +45,16 @@
   "estados": {
     "girando": {
       "token": "motion/loop-duration",
-      "muda_para_a_pessoa": "O circle-notch gira continuamente enquanto a espera dura."
+      "muda_para_a_pessoa": "The circle-notch spins continuously while the wait lasts."
     },
     "movimento-reduzido": {
       "token": "nao_se_aplica",
-      "muda_para_a_pessoa": "Com movimento reduzido pedido pelo sistema, o giro para e o aviso continua pelo texto ou pelo label."
+      "muda_para_a_pessoa": "With reduced motion requested by the system, the spin stops and the notice continues through the text or the label."
     }
   },
   "regras_de_negocio": [
-    "O girador nunca é o único sinal de espera: há texto de estado ao lado ou label.",
-    "A cor herda do contexto; o girador não tem propriedade de cor."
+    "The spinner is never the only sign of waiting: there is status text beside it or a label.",
+    "The color inherits from the context; the spinner has no color property."
   ],
   "erros_de_dominio": [],
   "tokens": {
@@ -67,24 +67,24 @@
     "cor_solto": "color/foreground"
   },
   "dicas_para_ia": [
-    "Use nph-spinner quando a espera não tem hora para acabar; com progresso conhecido, mostre o progresso.",
-    "Ponha sempre um texto de estado ao lado, como Salvando…; sem texto, preencha label.",
-    "Use size sm dentro de botão ou campo e md em área de conteúdo.",
-    "A arte é o circle-notch do nph-icon; não use o spinner clássico, que gira em passos."
+    "Use nph-spinner when the wait has no set time to end; with known progress, show the progress.",
+    "Always put status text beside it, such as Saving…; without text, fill in label.",
+    "Use size sm inside a button or field and md in a content area.",
+    "The artwork is the circle-notch of nph-icon; do not use the classic spinner, which spins in steps."
   ],
   "acessibilidade": {
-    "semantica": "Com label, o host é `role=img` com `aria-label`. Sem label, o host fica `aria-hidden` e o texto ao lado dá o aviso.",
-    "nome_acessivel": "O label, quando não há texto de estado ao lado.",
+    "semantica": "With label, the host is `role=img` with `aria-label`. Without label, the host is `aria-hidden` and the text beside it gives the notice.",
+    "nome_acessivel": "The label, when there is no status text beside it.",
     "teclado": [],
-    "foco": "O girador não recebe foco; quem recebe é o controle em volta.",
-    "contraste": "Solto, usa color/foreground, acima de 3:1 nos dois esquemas; dentro de um controle, vale o par do texto do controle.",
-    "alternativa_a_cor": "O aviso vem do texto de estado ou do label; a cor não carrega significado."
+    "foco": "The spinner does not receive focus; the surrounding control does.",
+    "contraste": "Standalone, it uses color/foreground, above 3:1 in both schemes; inside a control, the pair of the control's text applies.",
+    "alternativa_a_cor": "The notice comes from the status text or the label; color carries no meaning."
   },
   "combinacoes_invalidas": [
-    "size lg — não existe; o maior tamanho é md.",
-    "Propriedade type, inclusive a antiga Type=Mirrored do kit — foi removida.",
-    "Girador sem texto ao lado e sem label — vira o único sinal de espera.",
-    "Girador para progresso conhecido — mostre o progresso."
+    "size lg — it does not exist; the largest size is md.",
+    "Property type, including the old Type=Mirrored of the kit — it was removed.",
+    "Spinner without text beside it and without label — it becomes the only sign of waiting.",
+    "Spinner for known progress — show the progress."
   ],
   "relacoes": {
     "combina_com": [
@@ -101,17 +101,17 @@
     "aparece_em": []
   },
   "anti_padroes": [
-    "Usar o girador como único sinal de espera.",
-    "Esticar, girar à mão ou recolorir o girador.",
-    "Trocar a arte do circle-notch por outro ícone, inclusive o spinner clássico.",
-    "Manter o giro quando o sistema pede movimento reduzido."
+    "Using the spinner as the only sign of waiting.",
+    "Stretching, rotating by hand or recoloring the spinner.",
+    "Swapping the circle-notch artwork for another icon, including the classic spinner.",
+    "Keeping the spin when the system asks for reduced motion."
   ],
   "fontes": {
-    "design_md": "design.md, motion/loop-duration, motion/loop-easing, icon/size-sm, icon/size-md e o circle-notch em icones_nucleo",
-    "decisao": "P66 — API e semântica de nph-spinner, nph-separator e nph-kbd, 05-10-2026",
+    "design_md": "design.md, motion/loop-duration, motion/loop-easing, icon/size-sm, icon/size-md and the circle-notch in `icones_nucleo`",
+    "decisao": "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026",
     "testes": "src/components/nph-spinner/nph-spinner.test.ts",
-    "evidencia_de_uso": "nph-button, no state carregando, previsto no Lote B",
+    "evidencia_de_uso": "nph-button, in the `carregando` state, planned in Batch B",
     "storybook": "src/components/nph-spinner/nph-spinner.stories.ts",
-    "figma": "DS-IA-NEPHOS 5.0, quadro nph-spinner 1195:22210 e conjunto 281:11"
+    "figma": "DS-IA-NEPHOS 5.0, nph-spinner frame 1195:22210 and set 281:11"
   }
 }
