@@ -8,7 +8,7 @@ criado: 2026-08-31
 atualizado: 2026-10-06
 resolve: >-
   Nomeia um controle de formulário de forma visível e acessível. O rótulo é só
-  um texto: não carrega layout, estado nem mensagem de erro. Carrega o gatilho
+  um texto: não carrega layout, estado do texto nem mensagem de erro. Carrega o gatilho
   da ajuda, não a ajuda: o ícone de informação abre o nph-tooltip.
 use_quando:
   - "Um controle de formulário precisa de nome visível, sozinho ou dentro de um nph-field."
@@ -153,7 +153,7 @@ tags: [nephos, ds-agentico, ficha, componente, nph-label]
 # nph-label
 
 > **O princípio que rege esta peça, aprovado por Indiane em 27-08-2026: o rótulo é só um
-> texto.** Ele não carrega layout, estado nem mensagem de erro. Desde 08-09-2026 (L8),
+> texto.** Ele não carrega layout, estado do texto nem mensagem de erro. Desde 08-09-2026 (L8),
 > ele carrega o **gatilho** da ajuda, não a ajuda: o ícone de informação abre o
 > `nph-tooltip`.
 >
@@ -222,7 +222,7 @@ asterisco é decorativo** — ver Acessibilidade.
 | Teclado e foco | O texto não recebe foco. O ícone de informação entra no Tab; Enter e Espaço abrem e fecham o balão; Esc fecha. O balão é região viva `role="status"` e não recebe foco |
 | Nome do ícone | `info-label`. Sem ele, o ícone não aparece |
 | Alvo de toque | O ícone de informação tem alvo de 24 × 24, com a arte de 16 px no centro (WCAG 2.5.8) |
-| Contraste | Medido em 27-08-2026, nos dois modos: o texto e o asterisco passam no mínimo de 4,5:1. O ícone, em `color/muted-foreground`, tem 6,69:1 e 9,81:1, e a borda de foco, em `focus/border`, 3,68:1 e 8,98:1 (quadro `1194:1482`) |
+| Contraste | Nos dois modos. Texto e asterisco, medidos em 27-08-2026, passam no mínimo de 4,5:1. O ícone, em `color/muted-foreground`, medido em 08-09-2026 (L8): 6,69:1 e 9,81:1. A borda de foco, em `focus/border`, medida em 01-10-2026 (quadro `1194:1482`): 3,68:1 e 8,98:1 |
 | Alternativa à cor | O asterisco é **sinal de forma, não de cor** |
 
 > ⚠️ **O asterisco não comunica obrigatoriedade para leitor de tela.** No código ele sai

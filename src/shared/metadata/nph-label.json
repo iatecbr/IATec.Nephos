@@ -6,7 +6,7 @@
   "tipo": "ficha de componente",
   "criado": "2026-08-31",
   "atualizado": "2026-10-06",
-  "resolve": "Nomeia um controle de formulário de forma visível e acessível. O rótulo é só um texto: não carrega layout, estado nem mensagem de erro. Carrega o gatilho da ajuda, não a ajuda: o ícone de informação abre o nph-tooltip.",
+  "resolve": "Nomeia um controle de formulário de forma visível e acessível. O rótulo é só um texto: não carrega layout, estado do texto nem mensagem de erro. Carrega o gatilho da ajuda, não a ajuda: o ícone de informação abre o nph-tooltip.",
   "use_quando": [
     "Um controle de formulário precisa de nome visível, sozinho ou dentro de um nph-field."
   ],
