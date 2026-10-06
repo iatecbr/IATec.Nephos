@@ -839,8 +839,9 @@ function main() {
   console.log(
     ok
       ? `\nRESULT: no technical name in Portuguese outside ${EXCEPTIONS_FILE}.`
-      : `\nRESULT: ${failures.length} name(s) in Portuguese without an exception, ${unused.length} unused exception(s), ${problems.length} invalid exception(s).\n` +
-        `Rename to English. If it is a contract, record it in ${EXCEPTIONS_FILE} with the class, for review in the PR.`,
+      : `\nRESULT: ${failures.length} name(s) in Portuguese without an exception, ${unused.length} unused exception(s), ${problems.length} invalid exception(s); ` +
+        `documentation: ${docFailures.length} word(s) in Portuguese, ${docUnused.length} unused exception(s).\n` +
+        `Rename or translate to English. If it is a contract, record it in ${EXCEPTIONS_FILE} (code) or ${LANGUAGE_EXCEPTIONS_FILE} (documentation) with the class, for review in the PR.`,
   );
   process.exit(ok ? 0 : 1);
 }
