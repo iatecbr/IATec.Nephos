@@ -49,3 +49,83 @@ nph-label .nph-label__required {
   margin-inline-start: var(--nph-space-inline-tight);
   color: var(--nph-status-error);
 }
+
+/*
+ * O gatilho de informacao (L8 a L11; P62.6). Tudo daqui so vale quando o
+ * gatilho existe: o host ganha `data-nph-info`, e sem ele a raiz continua
+ * `inline-block`, como sempre foi.
+ *
+ * A raiz alinha texto e gatilho ao centro, a `space/inline-tight`, como o
+ * conjunto `374:6`. `position: relative` ancora o balao, que fica abaixo do
+ * rotulo sem empurrar o formulario: o balao "nao bloqueia a pagina" (`use` de
+ * `color/tooltip`).
+ */
+nph-label[data-nph-info] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nph-space-inline-tight);
+  position: relative;
+}
+
+/*
+ * Alvo de 24 x 24: a arte de `icon/size-sm` com `space/inline-tight` em volta
+ * (WCAG 2.5.8). Como o elemento vive na luz, o botao zera o que uma folha
+ * da aplicacao poderia ter posto em `button`.
+ */
+nph-label .nph-label__info {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: content-box;
+  inline-size: var(--nph-icon-size-sm);
+  block-size: var(--nph-icon-size-sm);
+  margin: 0;
+  padding: var(--nph-space-inline-tight);
+  border: 0;
+  background: transparent;
+  color: var(--nph-color-muted-foreground);
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+/*
+ * Foco por teclado: borda de `border/width` em `focus/border`, encostada, e
+ * halo de `focus/ring-width` em `focus/halo` por fora — o mesmo desenho do
+ * `nph-button` (L9). Os dois ficam fora da caixa e nao mudam o tamanho.
+ */
+nph-label .nph-label__info:focus-visible::before,
+nph-label .nph-label__info:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+  border-style: solid;
+}
+
+nph-label .nph-label__info:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border-width: var(--nph-border-width);
+  border-color: var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+
+nph-label .nph-label__info:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border-width: var(--nph-focus-ring-width);
+  border-color: var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}
+
+/*
+ * O balao: abaixo do rotulo, alinhado ao inicio, a `space/inline` (linha
+ * "aberto" do quadro `1194:1482`). A largura e a do proprio texto, ate o
+ * maximo do `nph-tooltip`, e nao a do rotulo.
+ */
+nph-label .nph-label__tooltip {
+  position: absolute;
+  inset-block-start: calc(100% + var(--nph-space-inline));
+  inset-inline-start: 0;
+  inline-size: max-content;
+}
