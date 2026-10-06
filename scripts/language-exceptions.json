@@ -16,7 +16,7 @@
       "conteudo",
       "fonte"
     ],
-    "reason": "Flow-map keys of the token contract quoted in values; they change in DSA-15."
+    "reason": "Keys of the design.md contract, outside the DSA-15 scope; they stay as they are."
   },
   {
     "file": "docs/decisoes-tecnicas.md",
