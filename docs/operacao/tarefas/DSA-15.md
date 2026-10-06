@@ -5,7 +5,7 @@
   "phase": "F0",
   "approved_order": 150,
   "owner": "claude-code",
-  "state": "ready",
+  "state": "in-review",
   "piece": null,
   "dependencies": ["DSA-14"],
   "gates": [
@@ -13,10 +13,10 @@
       "id": "keys-in-english",
       "description": "Every contract key covered by the decision is in English in the schema, in the files that use it and in the scripts that read it, and the verifier, the token build and the tests pass.",
       "command": "node scripts/verificar-operacao.mjs",
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-15/keys-in-english-2026-10-06.md",
+      "result": "passed",
+      "verified_at": "2026-10-06",
+      "verified_by": "claude-code"
     },
     {
       "id": "review-and-merge",
@@ -30,7 +30,7 @@
   ],
   "blockers": [],
   "pending_decisions": [],
-  "evidence": [],
+  "evidence": ["docs/operacao/evidencias/DSA-15/keys-in-english-2026-10-06.md"],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p64",
     "docs/decisoes-tecnicas.md#p63",
@@ -38,7 +38,7 @@
     "Decision of 06-10-2026, by Indiane's delegation: the name map recorded in this task"
   ],
   "external_origin": null,
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "dsa15/operation", "commit": "827858fbf2d7f2d281350dcb5dd744afa2f398b4", "pr": "66" },
   "context": null,
   "updated_at": "2026-10-06"
 }
