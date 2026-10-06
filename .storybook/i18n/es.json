@@ -552,5 +552,20 @@
     "sourceSpec": "ficha nph-button; Figma, marco nph-button (1197:5449)",
     "sourceApi": "ficha nph-button; docs/decisoes-tecnicas.md › P68",
     "sourceStates": "Figma, conjuntos 461:13009 y 498:15671; design.md"
+  },
+  "badgeValidation": {
+    "sample": "Insignia",
+    "twoWords": [
+      "En revisión",
+      "Aprobado",
+      "Falta firma"
+    ]
+  },
+  "buttonValidation": {
+    "save": "Guardar",
+    "add": "Nuevo",
+    "close": "Cerrar",
+    "options": "Opciones",
+    "filter": "Filtrar"
   }
 }

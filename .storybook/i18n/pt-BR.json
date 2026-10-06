@@ -552,5 +552,20 @@
     "sourceSpec": "ficha nph-button; Figma, quadro nph-button (1197:5449)",
     "sourceApi": "ficha nph-button; docs/decisoes-tecnicas.md › P68",
     "sourceStates": "Figma, conjuntos 461:13009 e 498:15671; design.md"
+  },
+  "badgeValidation": {
+    "sample": "Selo",
+    "twoWords": [
+      "Em análise",
+      "Aprovado",
+      "Falta assinatura"
+    ]
+  },
+  "buttonValidation": {
+    "save": "Salvar",
+    "add": "Novo",
+    "close": "Fechar",
+    "options": "Opções",
+    "filter": "Filtrar"
   }
 }

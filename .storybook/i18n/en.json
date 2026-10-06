@@ -552,5 +552,20 @@
     "sourceSpec": "nph-button spec sheet; Figma, frame nph-button (1197:5449)",
     "sourceApi": "nph-button spec sheet; docs/decisoes-tecnicas.md › P68",
     "sourceStates": "Figma, sets 461:13009 and 498:15671; design.md"
+  },
+  "badgeValidation": {
+    "sample": "Badge",
+    "twoWords": [
+      "In review",
+      "Approved",
+      "Missing signature"
+    ]
+  },
+  "buttonValidation": {
+    "save": "Save",
+    "add": "New",
+    "close": "Close",
+    "options": "Options",
+    "filter": "Filter"
   }
 }
