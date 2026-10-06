@@ -5,7 +5,7 @@
   "fase": "F4",
   "ordem_aprovada": 125,
   "responsavel": "claude-codigo",
-  "estado": "pronta",
+  "estado": "em-revisao",
   "peca": "nph-kbd",
   "dependencias": [],
   "gates": [
@@ -31,7 +31,8 @@
   "bloqueios": [],
   "decisoes_pendentes": [],
   "evidencias": [
-    "docs/operacao/evidencias/DSA-11/documentacao-figma-aceita-2026-10-01.md"
+    "docs/operacao/evidencias/DSA-11/documentacao-figma-aceita-2026-10-01.md",
+    "docs/operacao/evidencias/DSA-11/storybook-validacao-2026-10-05.md"
   ],
   "referencias_de_decisao": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-02.md, a combination is one piece per key",
@@ -45,7 +46,7 @@
     "trecho": null,
     "decisao_convertida": "The nph-kbd frame (1193:20) was accepted as the API and behavior specification of the nph-kbd. COMPONENT_SET: none; single COMPONENT 772:3, with the text property `tecla`. On 05-10-2026 Indiane approved the cut of the first delivery, with Batch A in one plan and one PR."
   },
-  "revisao_git": { "branch": null, "commit": null, "pr": null },
+  "revisao_git": { "branch": "feat/lote-a-icon-spinner-separator-kbd", "commit": null, "pr": "54" },
   "contexto": null,
   "atualizado_em": "2026-10-05"
 }

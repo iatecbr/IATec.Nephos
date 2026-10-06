@@ -15,7 +15,18 @@
     "componentes-nph-icon-validação--tamanhos": "Sizes",
     "componentes-nph-icon-validação--heranca-de-cor": "Colour inheritance",
     "componentes-nph-icon-validação--acessibilidade": "Accessibility",
-    "componentes-nph-icon-validação--entrada-invalida": "Invalid input"
+    "componentes-nph-icon-validação--entrada-invalida": "Invalid input",
+    "componentes-nph-spinner-validação": "Validation",
+    "componentes-nph-spinner-validação--sizes": "Sizes",
+    "componentes-nph-spinner-validação--accessibility": "Accessibility",
+    "componentes-nph-spinner-validação--invalid-input": "Invalid input",
+    "componentes-nph-separator-validação": "Validation",
+    "componentes-nph-separator-validação--horizontal": "Horizontal",
+    "componentes-nph-separator-validação--vertical": "Vertical",
+    "componentes-nph-kbd-validação": "Validation",
+    "componentes-nph-kbd-validação--single-key": "Key",
+    "componentes-nph-kbd-validação--combination": "Combination",
+    "componentes-nph-kbd-validação--mac-combination": "Combination on macOS"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -249,5 +260,15 @@
       "a free size does not exist",
       "size is required"
     ]
+  },
+  "spinnerValidation": {
+    "savingText": "Saving…",
+    "savingLabel": "Saving"
+  },
+  "separatorValidation": {
+    "profile": "Profile",
+    "signOut": "Sign out",
+    "edit": "Edit",
+    "delete": "Delete"
   }
 }

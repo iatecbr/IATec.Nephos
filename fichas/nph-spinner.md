@@ -1,290 +1,210 @@
 ---
 peca: nph-spinner
 nivel: componente
-status: "incomplete — awaiting implementation"
-titulo: "nph-spinner"
-tipo: component spec
-criado: 2026-08-31
-atualizado: 2026-08-31
+status: vigente
 resolve: >-
-  Makes loading perceptible while an action or content area has not
-  finished yet — without being the only sign that something is happening.
+  Shows that the system is working when the wait has no set time to
+  end, without being the only sign that something is happening.
 use_quando:
-  - "A content area is loading."
-  - "A button or field needs to indicate processing in progress."
+  - "Saving a form, fetching data or waiting for a button's response, with status text beside it."
+  - "The wait is short and the person needs to see that the click worked."
 nao_use_quando:
-  - "The spinner would be the only sign that something is happening."
-  - "The context requires a touch action — the spinner is not a control."
-
+  - "The progress is known — show the progress in text or percentage; the spinner does not fit."
+  - "The spinner would be the only sign of waiting — write beside it what is happening or give it a label."
+  - "The piece would need to receive click or focus — the target is the surrounding control."
 api:
-  origem: >-
-    PROPOSAL — there is no code to check. The two implemented specs
-    (`nph-icon` and `nph-label`) have the API checked property by property
-    in the repository; this one does NOT. Read it as approved intent, not as a
-    verified contract.
   size:
     tipo: enum
     valores: [sm, md]
-    obrigatoria: true
-    padrao: nenhum
-    reflete: "to be defined in the implementation"
+    obrigatoria: false
+    padrao: sm
+    reflete: true
     restricao: >-
-      `sm` inside a button and a field; `md` in a content area. `lg` does not exist and
-      is not created. The old `type=Mirrored`, inherited from the kit, was removed.
+      Reflects because the internal CSS selects the drawing by it. sm inside a
+      button or field; md in a content area, card or highlighted block. lg does
+      not exist. A value outside the list draws nothing and emits console.error in
+      development.
   label:
     tipo: string
     obrigatoria: false
-    padrao: "to be defined in the implementation"
-    reflete: "to be defined in the implementation"
+    padrao: "vazio"
+    reflete: false
     restricao: >-
-      Without adjacent loading text, the spinner needs an accessible name.
-      With text beside it, it is decorative. The exact form belongs to the technical plan.
-  slots: "to be defined in the implementation"
-  eventos: "to be defined in the implementation"
-  cor: >-
-    It is not a property. It inherits `currentColor` from the context, like every icon.
-
+      Accessible name of the spinner when there is no status text beside it. Empty or
+      whitespace-only makes the spinner decorative, out of the accessibility tree.
 variantes:
   size:
     eixo: tamanho
-    escolha_quando: "by the usage context, never by visual preference"
-    nao_combine_com: ["lg", "type", "Type=Mirrored"]
-
+    escolha_quando: "sm inside a button or field; md in a content area, card or highlighted block."
+    nao_combine_com: [lg, type]
 estados:
-  carregando:
-    token: "pending — PF-05 and PF-16"
-    muda_para_a_pessoa: "The `circle-notch` spins continuously while the operation is in progress"
-
-regras_de_negocio: []
+  girando:
+    token: motion/loop-duration
+    muda_para_a_pessoa: "The circle-notch spins continuously while the wait lasts."
+  movimento-reduzido:
+    token: nao_se_aplica
+    muda_para_a_pessoa: "With reduced motion requested by the system, the spin stops and the notice continues through the text or the label."
+regras_de_negocio:
+  - "The spinner is never the only sign of waiting: there is status text beside it or a label."
+  - "The color inherits from the context; the spinner has no color property."
 erros_de_dominio: []
-
 tokens:
   tamanho: [icon/size-sm, icon/size-md]
-  arte: circle-notch
-  cor: currentColor
-  movimento: "pending — see PF-05 and PF-16"
-
+  duracao: motion/loop-duration
+  curva: motion/loop-easing
+  cor_solto: color/foreground
 dicas_para_ia:
-  - "A spinner is never the only sign: it needs text or context that says what is happening."
-  - "Inside a button or field it is `sm`; a content area is `md`. There is no `lg`."
-  - "Do not invent duration, repetition or curve: the two motion decisions are open."
-  - "The artwork is `circle-notch`. Do not use the classic `spinner`."
-
+  - "Use nph-spinner when the wait has no set time to end; with known progress, show the progress."
+  - "Always put status text beside it, such as Saving…; without text, fill in label."
+  - "Use size sm inside a button or field and md in a content area."
+  - "The artwork is the circle-notch of nph-icon; do not use the classic spinner, which spins in steps."
 acessibilidade:
-  semantica: "Progress indicator; decorative when there is adjacent loading text"
-  nome_acessivel: "Without adjacent text, an accessible name is required; with text, hide it from assistive technologies"
+  semantica: "With label, the host is `role=img` with `aria-label`. Without label, the host is `aria-hidden` and the text beside it gives the notice."
+  nome_acessivel: "The label, when there is no status text beside it."
   teclado: []
-  foco: "It does not receive focus and is not a touch target"
-  contraste: "pending — depends on the organization's WCAG level (PI-05)"
-  alternativa_a_cor: "The textual context communicates the loading; the spinner alone is not enough"
-
+  foco: "The spinner does not receive focus; the surrounding control does."
+  contraste: "Standalone, it uses color/foreground, above 3:1 in both schemes; inside a control, the pair of the control's text applies."
+  alternativa_a_cor: "The notice comes from the status text or the label; color carries no meaning."
 combinacoes_invalidas:
-  - "Spinner as the only sign of processing"
-  - "Creating duration, repetition or motion token without a technical decision"
-  - "`size=lg` or any `type`"
-
+  - "size lg — it does not exist; the largest size is md."
+  - "Property type, including the old Type=Mirrored of the kit — it was removed."
+  - "Spinner without text beside it and without label — it becomes the only sign of waiting."
+  - "Spinner for known progress — show the progress."
 relacoes:
   combina_com: [nph-icon, nph-button]
-  pai: [nph-button, "the content area being loaded"]
-  filho: []
-  complementa_bloco: [pendente]
-  aparece_em: [pendente]
-
+  pai: [nph-button]
+  filho: [nph-icon]
+  complementa_bloco: []
+  aparece_em: []
 anti_padroes:
-  - "Using the classic `spinner` instead of `circle-notch`"
-  - "Exposing `Type=Mirrored` or an `lg` variant"
-  - "Implementing motion by inference"
-
+  - "Using the spinner as the only sign of waiting."
+  - "Stretching, rotating by hand or recoloring the spinner."
+  - "Swapping the circle-notch artwork for another icon, including the classic spinner."
+  - "Keeping the spin when the system asks for reduced motion."
 fontes:
-  design_md: "design.md — icon and size rules; motion pending"
-  decisao: "`Registro de decisões e status — Componentes Nephos`"
-  testes: "does not exist — no implementation"
-  evidencia_de_uso: "does not exist — no implementation"
-  storybook: "does not exist — no implementation"
-  figma: "page `NPH — Spinner`, visually approved"
-tags: [nephos, ds-agentico, ficha, componente, nph-spinner, incompleta]
+  design_md: "design.md, motion/loop-duration, motion/loop-easing, icon/size-sm, icon/size-md and the circle-notch in `icones_nucleo`"
+  decisao: "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026"
+  testes: "src/components/nph-spinner/nph-spinner.test.ts"
+  evidencia_de_uso: "nph-button, in the `carregando` state, planned in Batch B"
+  storybook: "src/components/nph-spinner/nph-spinner.stories.ts"
+  figma: "DS-IA-NEPHOS 5.0, nph-spinner frame 1195:22210 and set 281:11"
 ---
-
-> **References marked `(vault)`** are in `02 PROJETOS/DS-Agentico/`, in the WORK BRAIN —
-> outside this repository. They were Obsidian wikilinks and were converted into an
-> explicit reference in the migration of 31-08-2026.
 
 # nph-spinner
 
-> ⚠️ **This spec is incomplete, on purpose.** The component **has not been
-> implemented**: there is no code, Storybook or tests. What exists is the visual
-> approval, the defined artwork and the scope decisions — and that is what is here.
->
-> **The `api` block is a proposal, not a verified contract.** In the specs of `nph-icon` and
-> `nph-label` I checked the API in the repository, property by property. Here there is
-> nothing to check. Do not read this API with the same confidence.
->
-> **The spec is only completed at the component's closing**, with verifiable
-> implementation, Figma × Storybook comparison, evidence and acceptance. Until then, the
-> `api` block remains a proposal — Indiane's decision on 31-08-2026. Back to
-> `Índice — DS-Agentico` (vault).
-
 ## Function
 
-**The problem it solves:** makes loading **perceptible** while an action or
-content area has not finished yet.
+**The problem it solves:** shows that the system is working when the wait
+has no set time to end, without being the only sign that something is happening.
 
-**When to use:** `sm` inside a button or field; `md` in a content area that is loading.
+**When to use:**
+
+- When saving a form, fetching data or waiting for a button's response, with
+  status text beside it, such as "Saving…".
+- When the wait is short and the person needs to see that the click worked.
 
 **When NOT to use:**
 
-- **As the only progress message.** A spinner alone does not say what is happening,
-  nor how much is left.
-- **As a control.** It does not receive touch or click — it is not a button.
+- **Known progress** — show the progress in text or percentage.
+- **As the only sign of waiting** — write beside it what is happening or give it a
+  `label`.
+- **As a click or focus target** — the target is the surrounding control.
 
 ## Variants
 
-**By size — `size`:** `sm` and `md`. **The choice is by the usage context, never by
-visual preference:** inside a button and a field it is `sm`; a content area is `md`.
+| Variant | Values | Choose when |
+|---|---|---|
+| `size` | `sm` (default), `md` | `sm` inside a button or field; `md` in a content area, card or highlighted block |
 
-**By appearance and by density:** `nao_se_aplica`.
+**By appearance and density:** `nao_se_aplica`.
 
-**Do not combine with:** `lg` — **it does not exist and is not created** — and `type`, including the old
-`Type=Mirrored`, inherited from the Obra kit and **removed by decision**.
+**Do not combine with:** `lg`, which does not exist, nor `type`, including the old
+`Type=Mirrored` of the kit, which was removed. Do not create a new size.
 
 ## States
 
-**Supported state: loading.** It is the only one.
+| State | Token | What changes for the person |
+|---|---|---|
+| Spinning | `motion/loop-duration` and `motion/loop-easing` | The `circle-notch` spins continuously while the wait lasts |
+| Reduced motion | `nao_se_aplica` | The spin stops, and the notice continues through the text or the `label` |
 
-**What changes for the person:** the `circle-notch` **spins continuously** while the operation
-is in progress.
+**Feedback and focus:** the spinner does not receive click or focus. Focus belongs to the
+surrounding control.
 
-**Which token this state uses: `pendente`.** And this is the gap that keeps the spec from
-closing:
+**Business rule the piece carries:** the spinner is never the only sign of waiting.
+The color inherits from the context: standalone, it resolves to `color/foreground`; inside a control,
+it follows the color of the control's text.
 
-| What is missing | Where it is recorded |
-|---|---|
-| **The loop duration** — it sits above the scale and has no defined value | **PF-05** |
-| **The `linear` curve** — `design.md` declares `core/easing/linear`, and it **does not exist** in the token source or in the generated CSS | **PF-16** |
-
-**Without both, the spinner does not spin.** See `Pendências do Nephos` (vault).
-
-**Feedback and focus:** it does not receive focus and is not a touch target.
-
-> **Do not implement the motion by inference.** Duration, repetition and curve are an open
-> technical decision. Choosing a plausible value here is exactly the failure mode that
-> this documentation exists to prevent.
+**Domain error states:** none.
 
 ## Accessibility
 
 | Criterion | Rule |
 |---|---|
-| Semantics | Progress indicator. **Decorative when there is adjacent loading text** |
-| Without adjacent text | **Accessible name required** |
-| With text beside it | Hide the spinner from assistive technologies — otherwise the information is announced twice |
-| Keyboard and focus | It does not receive focus, it is not a touch target |
-| Contrast | `pendente` — depends on the organization's WCAG level (**PI-05**) |
-| Alternative to color | **The textual context communicates the loading.** The spinner is not a sufficient sign on its own |
-
-**Reduced motion.** The motion foundation is explicit: with reduced motion, the
-spin **stops** — it becomes a static indicator or determinate progress. This **is not removing the
-feedback**: whoever asked for reduction still needs to know that something is happening, and it is
-the text that carries that information. See `Fundação — movimento` (vault).
+| Semantics | With `label`, the host is `role="img"` with `aria-label`. Without `label`, the host is `aria-hidden` |
+| Accessible name | The `label`, when there is no status text beside it. With text beside it, the spinner is decorative, so the screen reader does not read twice |
+| Keyboard and focus | The spinner does not receive focus |
+| Motion | With `prefers-reduced-motion: reduce`, the spin stops (WCAG 2.3.3). Reducing motion is not removing the notice |
+| Contrast | Standalone, `color/foreground` stays above 3:1 in both schemes; inside a control, the pair of the control's text applies |
+| Alternative to color | The notice comes from the text or the `label` |
 
 ## Relations
 
-**Combines with:** `nph-icon` — from which it inherits the artwork — and `nph-button`.
+**Combines with:** `nph-icon` and `nph-button`.
 
-**What is parent:** the `nph-button` while processing, and the content area being loaded.
+**What is the parent:** `nph-button`, in the loading state.
 
-**What is child:** nothing. The spinner is a leaf.
+**What is the child:** `nph-icon`, with the `circle-notch` in the same `size`.
 
-**Which block it complements:** `pendente` — Phase 5 has not started.
+**Which block this piece complements:** none.
 
-**Appears in the layouts:** `pendente`, for the same reason.
-
-**The dependency that orders the queue:** `nph-spinner` comes **after** `nph-icon`, because
-its artwork is the core's `circle-notch`. And it is **preparation before P0**: the button's
-loading state depends on it.
+**Appears in layouts:** none.
 
 ## Tokens, intent and AI hints
 
-**Semantic tokens used:** `icon/size-sm` and `icon/size-md`.
+| Part | Token |
+|---|---|
+| Size | `icon/size-sm` and `icon/size-md`, through `nph-icon` |
+| Turn duration | `motion/loop-duration` |
+| Curve | `motion/loop-easing` |
+| Color, standalone | `color/foreground`, by inheritance |
 
-**The artwork:** `circle-notch` — a ring with a cut, made for **continuous rotation**. The
-classic `spinner` was discarded because it is drawn to spin in **eight discrete
-steps**, and not to spin smoothly.
-
-**The color:** inherits `currentColor`. There is no spinner color token.
-
-**The motion:** `pendente`. See States.
-
-**Usage restrictions:** do not use a literal value, do not consume `core/*` directly, do not
-use alternative artwork.
+**Usage restrictions:** the color always comes from the context. The artwork is always the
+`circle-notch` of `nph-icon`, made for continuous rotation.
 
 **AI hints:**
 
-- **A spinner is never the only sign.** It needs text or context that says what is
-  happening.
-- **Inside a button or field it is `sm`; a content area is `md`.** There is no `lg`.
-- **Do not invent duration, repetition or curve.** The two motion decisions are
-  open — PF-05 and PF-16.
-- **The artwork is `circle-notch`**, not the classic `spinner`.
-- **With reduced motion, the spin stops.** The feedback becomes the text.
+- Use `nph-spinner` when the wait has no set time to end; with known
+  progress, show the progress.
+- Always put status text beside it, such as "Saving…"; without text, fill in
+  `label`.
+- Use `size="sm"` inside a button or field and `size="md"` in a content area.
+- The artwork is the `circle-notch`; do not use the classic `spinner`, which spins in steps.
 
 ## Examples
 
-**Recommended case:** an `sm` spinner inside an action being processed, with an accessible
-name and with the button text saying what is happening.
+**Recommended case:** when saving a form, `nph-spinner` in `sm` beside the
+text "Saving…", decorative.
 
-**Alternative case:** an `md` spinner in a content area, accompanied by a loading
-message — and then the spinner is decorative.
+**Alternative case:** when loading a content area without visible text,
+`nph-spinner` in `md` with `label` "Loading results".
 
 ## Anti-patterns
 
-- **Do not use for:** signaling on its own that an operation is underway.
-- **Do not combine with:** an unapproved size, a type inherited from the Obra kit, or artwork other
-  than `circle-notch`.
-- **Invalid combinations, and why:** `size=lg` — does not exist · any `type` — the
-  property was removed · spinner without context text — the loading is silent
-  for those who do not see the animation.
-- **Do not create or adapt without a decision:** duration, repetition, motion token or the technical
-  API.
+- **Do not use as the only sign of waiting** — give text beside it or a `label`.
+- **Do not stretch, rotate by hand or recolor** — size and color come from the tokens and the
+  context.
+- **Do not swap the artwork** — the drawing is the `circle-notch` of `nph-icon`.
+- **Do not keep the spin with reduced motion** — the spin stops and the notice continues.
+- **Do not use with known progress** — show the progress.
 
 ## Sources and decisions
 
-### What exists today — 31-08-2026
-
-| What | Status |
-|---|---|
-| Visual approval | **Approved**, on the `NPH — Spinner` page, with `size=sm\|md` |
-| Implementation | **Does not exist.** No code, no stories, no tests |
-| Artwork | `circle-notch`, from the icon core |
-| Scope | **In v1**, as **preparation before P0** — it is not part of the P0 cut and does not reorder it |
-| Motion | **Open** — PF-05 and PF-16 |
-
-### What is missing for this spec to close
-
-1. **The motion decision** — loop duration and the curve. Without it the component cannot
-   be implemented without inventing a value.
-2. **The implementation**, and with it: the API checked in the code, Storybook and the tests.
-3. **The WCAG level** (PI-05), so the contrast criterion can be accepted.
-
-**Once a verifiable implementation exists, the spec is only updated at the
-closing**, after Figma × Storybook comparison, evidence and acceptance. Only then
-does the `api` block stop being a proposal and become checked property by
-property, as in the implemented specs.
-
-| What | Where |
-|---|---|
-| Technical contract | `design.md` — icon and size rules; motion pending |
-| The scope decision and the visual evidence | `TRABALHO/DESIGN SYSTEM/02 — Componentes/Registro de decisões e status — Componentes Nephos.md` |
-| The artwork and the icon rules | `Fundação — ícones` (vault) |
-| The motion rules | `Fundação — movimento` (vault) |
-| The origin spec, now memory | `TRABALHO/DESIGN SYSTEM/02 — Componentes/fichas/nph-spinner.md` |
-| What is open | `Pendências do Nephos` (vault) — **PF-05**, **PF-16** and **PI-05** |
-
----
-
-*Provenance: function, variants, state, accessibility, relations, examples and
-anti-patterns are **evidence** — they come from the origin spec, in draft, rewritten in the
-nine-section model without any rule change. The visual approval and the scope decision
-are a **human decision** by Indiane. **The `api` block is a proposal**, and it is marked as such:
-there is no code to check. The AI hints are **new**. PF-05, PF-16 and PI-05 are
-**pending items** already recorded. The spec is born incomplete by Indiane's decision on
-31-08-2026, and nothing was invented to fill what is missing.*
+- **The repository `design.md`:** `motion/loop-duration`, `motion/loop-easing`,
+  `icon/size-sm`, `icon/size-md` and the `circle-notch` in the icon core.
+- **The decision that originated it:** P66, of 05-10-2026.
+- **Tests:** `src/components/nph-spinner/nph-spinner.test.ts`.
+- **Usage evidence:** `nph-button`, in the loading state, planned in Batch B.
+- **Storybook:** `src/components/nph-spinner/nph-spinner.stories.ts`.
+- **Figma:** `nph-spinner` frame (`1195:22210`) and set `281:11` in
+  `DS-IA-NEPHOS 5.0`.

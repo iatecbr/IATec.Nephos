@@ -15,7 +15,18 @@
     "componentes-nph-icon-validação--tamanhos": "Tamanhos",
     "componentes-nph-icon-validação--heranca-de-cor": "Herança de cor",
     "componentes-nph-icon-validação--acessibilidade": "Acessibilidade",
-    "componentes-nph-icon-validação--entrada-invalida": "Entrada inválida"
+    "componentes-nph-icon-validação--entrada-invalida": "Entrada inválida",
+    "componentes-nph-spinner-validação": "Validação",
+    "componentes-nph-spinner-validação--sizes": "Tamanhos",
+    "componentes-nph-spinner-validação--accessibility": "Acessibilidade",
+    "componentes-nph-spinner-validação--invalid-input": "Entrada inválida",
+    "componentes-nph-separator-validação": "Validação",
+    "componentes-nph-separator-validação--horizontal": "Horizontal",
+    "componentes-nph-separator-validação--vertical": "Vertical",
+    "componentes-nph-kbd-validação": "Validação",
+    "componentes-nph-kbd-validação--single-key": "Tecla",
+    "componentes-nph-kbd-validação--combination": "Combinação",
+    "componentes-nph-kbd-validação--mac-combination": "Combinação no macOS"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -249,5 +260,15 @@
       "tamanho livre não existe",
       "size é obrigatório"
     ]
+  },
+  "spinnerValidation": {
+    "savingText": "Salvando…",
+    "savingLabel": "Salvando"
+  },
+  "separatorValidation": {
+    "profile": "Perfil",
+    "signOut": "Sair",
+    "edit": "Editar",
+    "delete": "Excluir"
   }
 }

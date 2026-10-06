@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65 and P67. If this file and any other document in the
+P21, P62, P63, P64, P65, P66 and P67. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -32,6 +32,7 @@ P62.4 subsection for the detail).
 | **P63** | Metadata generated from the spec | 28/09/2026 | Medium. Changing location or format later requires generating again and adjusting whoever reads it; the spec does not change | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** |
 | **P64** | Code language | 28/09/2026 | Medium. Applies to all new code; migrating what exists only swaps names | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** Amendment of 02/10/2026 approved by Mauro in PR #49, merged on 05/10/2026. |
 | **P65** | API and semantics of `nph-tooltip` | 05/10/2026 | Low now. `nph-label` is the first consumer; changing later requires redoing its trigger | Behavior and scope (L11.5) and anatomy (L11.6, L11.7 and the accepted frame) adopted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #51, merged on 05/10/2026 |
+| **P66** | API and semantics of `nph-spinner`, `nph-separator` and `nph-kbd` | 05/10/2026 | Low now. `nph-button` (Batch B) and `nph-rich-option` will be the first consumers | Anatomy and behavior: frames accepted by Indiane on 01/10/2026. API and semantics: technical proposal, review in the PR by `maurocsjr` |
 | **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Technical proposal, review in the PR by `maurocsjr` |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
@@ -718,6 +719,65 @@ semantics approved by Mauro in PR #51 (DSA-08), merged on 05/10/2026.
 
 ---
 
+## P66 — `nph-spinner`, `nph-separator` and `nph-kbd`: API and semantics
+
+**Decision.** The three pieces are Web Components with **open Shadow DOM** (P01),
+CSS in its own file imported `?inline`, as in `nph-icon`. None has a slot,
+event, focus, click, color property or `::part`. Anatomy only through semantic
+tokens. Invalid input renders nothing and emits `console.error` only in
+development, with no visual fallback — the same rule as P21, adopted here by
+its own decision, as `docs/stories.md` (§2.5) asks.
+
+- **`nph-spinner`**
+  - `size`: `sm` (default) or `md`, reflected to the attribute. The default follows the
+    accepted frame and supersedes the `sem padrão` of the spec of 31/08/2026.
+  - `label`: optional string. When not empty after `trim` and with a valid `size`, the
+    host gets `role="img"` and `aria-label`. Without it, `aria-hidden="true"`. It is the
+    pattern of `nph-icon` (P21, item 2).
+  - The drawing is the `circle-notch` of `nph-icon`, in the same `size`. It spins with
+    `motion/loop-duration` and `motion/loop-easing`. With `prefers-reduced-motion:
+    reduce` the spin stops (WCAG 2.3.3).
+  - Written literals: `rotate(0)` and `rotate(1turn)` in the `@keyframes`. They are the
+    geometric definition of the turn, not a visual decision.
+- **`nph-separator`**
+  - `orientation`: `horizontal` (default) or `vertical`, reflected to the attribute.
+  - One line of `border/width` in `color/border`. The host is `aria-hidden` and
+    has no role: it is decorative.
+  - It fills the container. The horizontal one fills the width in a block parent or
+    a column flex. The vertical one fills the height in a row flex parent or grid.
+    Outside that, whoever uses it gives the length.
+  - `layout/separator-width` and `layout/separator-height` are not consumed. The
+    two are the FIXED length of master `762:6`, and the accepted frame says
+    `a instância preenche o contêiner`.
+- **`nph-kbd`**
+  - `text`: string, default empty. It is the Figma property `tecla`. The name is
+    `text`, as in `nph-label` (P62.3) and in `nph-tooltip` (P65), and not `key`,
+    which consuming frameworks reserve. `K` is only example content from
+    Figma.
+  - Empty or only spaces: nothing is shown (0 × 0), with no error. It is the
+    mount state before the consumer fills in the text.
+  - The text sits inside `<kbd>`, and the screen reader reads the key through it. A
+    combination joins one piece per key.
+  - The border is an inside stroke, as in Figma, made with `box-shadow: inset` in
+    `border/width`. The height stays equal to that of the accepted component: the line of
+    `text/label-sm` plus `space/inline-tight` top and bottom. The only written
+    zero is `margin: 0`, which removes the default margin of `<kbd>`.
+
+**Source.** Frames accepted in the Figma file `DS-IA-NEPHOS 5.0` on 01/10/2026:
+`nph-spinner` (`1195:22210`, set `281:11`), `nph-separator` (`1196:674`,
+set `762:6`) and `nph-kbd` (`1193:20`, component `772:3`). All three have Figma UX QA
+and textual audit approved. The names `text` and `orientation`, the
+empty default of `text`, the `role="img"` semantics of the spinner and the
+invalid input rule are a technical proposal of this implementation.
+
+**Out of scope.** The spinner inside `nph-button` (Batch B). Determinate progress
+indicator. Separator with text. Key combination in a single piece.
+
+**Status.** Anatomy and behavior accepted by Indiane on 01/10/2026; API and
+semantics under review in the Batch A PR.
+
+---
+
 ## P67 — Dependent invariants in each scheme root
 
 This decision **complements P20** without changing it. P20 still fixes the two
@@ -773,7 +833,7 @@ P65 decision does not change; only its limit gets the annotation.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65 or P67 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66 or P67 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

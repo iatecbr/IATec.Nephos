@@ -5,7 +5,7 @@
   "fase": "F4",
   "ordem_aprovada": 115,
   "responsavel": "claude-codigo",
-  "estado": "pronta",
+  "estado": "em-revisao",
   "peca": "nph-spinner",
   "dependencias": ["DSA-03"],
   "gates": [
@@ -32,7 +32,8 @@
   "decisoes_pendentes": [],
   "evidencias": [
     "docs/operacao/evidencias/DSA-09/documentacao-figma-aceita-2026-10-01.md",
-    "docs/operacao/evidencias/DSA-09/nph-icon-revalidado-2026-10-05.md"
+    "docs/operacao/evidencias/DSA-09/nph-icon-revalidado-2026-10-05.md",
+    "docs/operacao/evidencias/DSA-09/storybook-validacao-2026-10-05.md"
   ],
   "referencias_de_decisao": [
     "docs/decisoes-tecnicas.md#p21",
@@ -46,7 +47,7 @@
     "trecho": null,
     "decisao_convertida": "The nph-spinner frame (1195:22210) was accepted as the API and behavior specification of the nph-spinner. COMPONENT_SET 281:11, size variant sm|md, default sm. On 05-10-2026 Indiane approved the cut of the first delivery, with Batch A (icon, spinner, separator, kbd) in one plan and one PR."
   },
-  "revisao_git": { "branch": null, "commit": null, "pr": null },
+  "revisao_git": { "branch": "feat/lote-a-icon-spinner-separator-kbd", "commit": null, "pr": "54" },
   "contexto": null,
   "atualizado_em": "2026-10-05"
 }
