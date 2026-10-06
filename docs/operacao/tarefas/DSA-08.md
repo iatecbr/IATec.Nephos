@@ -5,7 +5,7 @@
   "fase": "F4",
   "ordem_aprovada": 105,
   "responsavel": "claude-codigo",
-  "estado": "em-revisao",
+  "estado": "concluida",
   "peca": "nph-tooltip",
   "dependencias": [],
   "gates": [
@@ -21,17 +21,18 @@
     {
       "id": "revisao-e-merge",
       "descricao": "Componente, CSS, testes, stories, ficha, P65 e regras do design.md revisados por maurocsjr e mergeados na v/5.0.0.",
-      "comando": null,
-      "evidencia": null,
-      "resultado": "pendente",
-      "verificado_em": null,
-      "verificado_por": null
+      "comando": "git merge-base --is-ancestor 06af12539de95416ee816ca65f63298063e1bf6b origin/v/5.0.0",
+      "evidencia": "docs/operacao/evidencias/DSA-08/revisao-e-merge-2026-10-06.md",
+      "resultado": "passou",
+      "verificado_em": "2026-10-06",
+      "verificado_por": "claude-codigo"
     }
   ],
   "bloqueios": [],
   "decisoes_pendentes": [],
   "evidencias": [
-    "docs/operacao/evidencias/DSA-08/documentacao-figma-aceita-2026-10-01.md"
+    "docs/operacao/evidencias/DSA-08/documentacao-figma-aceita-2026-10-01.md",
+    "docs/operacao/evidencias/DSA-08/revisao-e-merge-2026-10-06.md"
   ],
   "referencias_de_decisao": [
     "WORK BRAIN — 02 PROJETOS/DS-Agentico/Registro de decisões — Nephos.md, L11.5 a L11.7",
@@ -47,7 +48,7 @@
   },
   "revisao_git": { "branch": "feat/dsa08-nph-tooltip", "commit": "06af125", "pr": "51" },
   "contexto": null,
-  "atualizado_em": "2026-10-05"
+  "atualizado_em": "2026-10-06"
 }
 ```
 
@@ -84,8 +85,8 @@ duas linhas. Nao altera o Figma.
 - Figma `DS-IA-NEPHOS 5.0`, quadro `1237:5` e componente `1237:3`
 - WORK BRAIN — `02 PROJETOS/DS-Agentico/Registro de decisões — Nephos.md`, L11
 
-## Por que está `em-revisao`
-O PR #51 traz o componente, os testes, as stories, a ficha canônica
+## Por que está `concluida`
+O PR #51 trouxe o componente, os testes, as stories, a ficha canônica
 `fichas/nph-tooltip.md` com a Metadata, a decisão técnica P65 e as regras do
-`design.md`. `maurocsjr` aprovou e fez o merge em 05-10-2026 (`d4ff326`). Falta
-registrar a evidência do gate `revisao-e-merge`.
+`design.md`. `maurocsjr` aprovou e fez o merge em 05-10-2026 (`d4ff326`). A
+evidência do gate `revisao-e-merge` foi registrada em 06-10-2026.
