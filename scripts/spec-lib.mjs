@@ -1,38 +1,40 @@
 /**
- * Leitura da ficha e geracao da Metadata.
+ * Spec reading and Metadata generation.
  *
- * A ficha em `fichas/<nome>.md` e a fonte do contrato da peca; a Metadata e
- * uma copia derivada, em JSON, para quem le por maquina. Este arquivo so tem
- * funcoes puras: nao le nem grava disco.
+ * The spec in `fichas/<name>.md` is the source of the piece contract; the
+ * Metadata is a derived JSON copy, for whoever reads by machine. This file
+ * only has pure functions: it neither reads nor writes disk.
  *
- * O repositorio nao tem leitor de YAML, e adotar um custaria uma dependencia
- * nova. Por isso o leitor aqui cobre so o SUBCONJUNTO que o gabarito usa, e
- * recusa com o numero da linha tudo o que nao reconhece. Recusar e melhor que
- * adivinhar: um valor lido errado vira Metadata errada, em silencio.
+ * The repository has no YAML reader, and adopting one would cost a new
+ * dependency. So the reader here covers only the SUBSET the template uses,
+ * and rejects with the line number everything it does not recognize.
+ * Rejecting beats guessing: a wrongly read value becomes wrong Metadata,
+ * silently.
  *
- * O que entra:
- *   - so o primeiro par `---` do arquivo, com o primeiro `---` na linha 1;
- *   - mapa por recuo de 2 espacos; chave feita de letra, numero, `_`, `-`,
- *     `.` e `/`;
- *   - lista com `- `, cujos itens sao escalares;
- *   - lista em linha `[...]`, que respeita aspas duplas; `[]`;
- *   - bloco dobrado `>-`, que vira uma linha so;
- *   - linha em branco entre chaves.
+ * What is accepted:
+ *   - only the first `---` pair of the file, with the first `---` on line 1;
+ *   - map by 2-space indentation; key made of letter, digit, `_`, `-`,
+ *     `.` and `/`;
+ *   - list with `- `, whose items are scalars;
+ *   - inline list `[...]`, which respects double quotes; `[]`;
+ *   - folded block `>-`, which becomes a single line;
+ *   - blank line between keys.
  *
- * Escalares: entre aspas duplas vira texto; `true` e `false` viram booleano;
- * so digitos vira numero; o resto vira texto, inclusive data e `nulo`.
+ * Scalars: between double quotes it becomes text; `true` and `false` become
+ * boolean; digits only becomes number; the rest becomes text, including date
+ * and `nulo`.
  *
- * O que se recusa: `|`, ancora, etiqueta, `#` de comentario fora de aspas,
- * tabulacao, lista de listas, mapa dentro de lista, mapa em linha `{...}`,
- * aspas simples, barra invertida dentro de aspas, chave repetida no mesmo mapa,
- * `__proto__`, bloco `>-` com recuo irregular, numero acima do inteiro seguro,
- * texto sem aspas que comeca com indicador de YAML, texto sem aspas que o YAML
- * leria como null, booleano ou numero, espaco no fim de linha dentro de `>-`
- * e chave numerica (o JSON reordenaria chave numerica e quebraria a ordem da
- * ficha).
+ * What is rejected: `|`, anchor, tag, comment `#` outside quotes,
+ * tab, list of lists, map inside list, inline map `{...}`,
+ * single quotes, backslash inside quotes, repeated key in the same map,
+ * `__proto__`, `>-` block with irregular indentation, number above the safe
+ * integer, unquoted text that starts with a YAML indicator, unquoted text that
+ * YAML would read as null, boolean or number, trailing space inside `>-`
+ * and numeric key (JSON would reorder a numeric key and break the order of
+ * the spec).
  */
 
-/** Erro de leitura com a linha do arquivo onde ele aconteceu. */
+/** Read error with the file line where it happened. */
 export class SpecError extends Error {
   constructor(line, message) {
     super(message);
@@ -44,10 +46,10 @@ const KEY = /^([A-Za-z0-9_./-]+):(?: (.*))?$/;
 const NUMERIC_KEY = /^\d+$/;
 
 /**
- * Texto sem aspas que o YAML 1.1 ou 1.2 resolveria como null, booleano ou
- * numero. So `true`, `false` e inteiro decimal sem zero a esquerda sao lidos
- * como tipo; o resto destes seria texto aqui e tipo no YAML padrao, e a
- * Metadata divergiria em silencio. Por isso se recusa.
+ * Unquoted text that YAML 1.1 or 1.2 would resolve as null, boolean or
+ * number. Only `true`, `false` and decimal integer without a leading zero are
+ * read as a type; the rest of these would be text here and a type in standard
+ * YAML, and the Metadata would diverge silently. That is why it is rejected.
  */
 const AMBIGUOUS = [
   /^(?:null|Null|NULL|~)$/,
@@ -61,30 +63,30 @@ const AMBIGUOUS = [
 ];
 
 /**
- * Separa o frontmatter. Devolve `null` quando o arquivo nao comeca com `---`
- * na linha 1: esse arquivo nao e ficha, e fica de fora sem reprovar.
+ * Splits the frontmatter. Returns `null` when the file does not start with
+ * `---` on line 1: that file is not a spec, and is left out without failing.
  */
 export function extractFrontmatter(text) {
-  /* BOM no inicio (o PowerShell 5.1 grava assim) esconderia o `---` da linha 1. */
-  const lines = text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').split('\n');
+  /* A BOM at the start (PowerShell 5.1 writes it) would hide the `---` on line 1. */
+  const lines = text.replace(/^﻿/, '').replace(/\r\n/g, '\n').split('\n');
   if (lines[0] !== '---') return null;
   const end = lines.indexOf('---', 1);
-  if (end === -1) throw new SpecError(1, 'o frontmatter abre com `---` e nao fecha');
+  if (end === -1) throw new SpecError(1, 'the frontmatter opens with `---` and does not close');
   return lines.slice(1, end).map((content, i) => ({ lineNumber: i + 2, content }));
 }
 
-/** Le o subconjunto de YAML. `lines` vem de `extractFrontmatter`. */
+/** Reads the YAML subset. `lines` comes from `extractFrontmatter`. */
 export function readYaml(lines) {
   const meaningful = [];
   for (const { lineNumber, content } of lines) {
-    if (content.includes('\t')) throw new SpecError(lineNumber, 'tabulacao nao e aceita');
+    if (content.includes('\t')) throw new SpecError(lineNumber, 'tab is not accepted');
     if (content.trim() === '') {
       meaningful.push({ lineNumber, indent: -1, text: '', raw: content });
       continue;
     }
     const indent = content.length - content.trimStart().length;
     const text = content.trim();
-    if (text.startsWith('#')) throw new SpecError(lineNumber, 'comentario `#` nao e aceito');
+    if (text.startsWith('#')) throw new SpecError(lineNumber, 'comment `#` is not accepted');
     meaningful.push({ lineNumber, indent, text, raw: content });
   }
 
@@ -92,12 +94,12 @@ export function readYaml(lines) {
   skipBlankLines(state);
   if (state.i >= meaningful.length) return {};
   if (meaningful[state.i].indent !== 0) {
-    throw new SpecError(meaningful[state.i].lineNumber, 'a primeira chave precisa comecar na coluna 1');
+    throw new SpecError(meaningful[state.i].lineNumber, 'the first key must start at column 1');
   }
   const root = readMap(state, 0);
   skipBlankLines(state);
   if (state.i < meaningful.length) {
-    throw new SpecError(meaningful[state.i].lineNumber, 'recuo fora do esperado');
+    throw new SpecError(meaningful[state.i].lineNumber, 'unexpected indentation');
   }
   return root;
 }
@@ -115,26 +117,26 @@ function readMap(state, indent) {
   const map = {};
   for (let line = peek(state); line !== undefined && line.indent === indent; line = peek(state)) {
     if (line.text.startsWith('-')) {
-      throw new SpecError(line.lineNumber, 'item de lista onde se esperava uma chave');
+      throw new SpecError(line.lineNumber, 'list item where a key was expected');
     }
     const m = line.text.match(KEY);
-    if (m === null) throw new SpecError(line.lineNumber, 'chave fora do formato `nome: valor`');
+    if (m === null) throw new SpecError(line.lineNumber, 'key outside the `name: value` format');
     const [, key, raw] = m;
-    if (NUMERIC_KEY.test(key)) throw new SpecError(line.lineNumber, `chave numerica "${key}" nao e aceita`);
+    if (NUMERIC_KEY.test(key)) throw new SpecError(line.lineNumber, `numeric key "${key}" is not accepted`);
     if (key === 'true' || key === 'false' || AMBIGUOUS.some((re) => re.test(key))) {
-      throw new SpecError(line.lineNumber, `a chave "${key}" o YAML leria como null, booleano ou numero`);
+      throw new SpecError(line.lineNumber, `key "${key}" would be read by YAML as null, boolean or number`);
     }
-    if (key === '__proto__') throw new SpecError(line.lineNumber, 'a chave __proto__ nao e aceita');
-    if (Object.hasOwn(map, key)) throw new SpecError(line.lineNumber, `chave "${key}" repetida no mesmo mapa`);
+    if (key === '__proto__') throw new SpecError(line.lineNumber, 'key __proto__ is not accepted');
+    if (Object.hasOwn(map, key)) throw new SpecError(line.lineNumber, `key "${key}" repeated in the same map`);
     state.i += 1;
     const value = raw === undefined ? '' : raw.trim();
 
     if (value === '') {
       const child = peek(state);
       if (child === undefined || child.indent <= indent) {
-        throw new SpecError(line.lineNumber, `a chave "${key}" nao tem valor`);
+        throw new SpecError(line.lineNumber, `key "${key}" has no value`);
       }
-      if (child.indent !== indent + 2) throw new SpecError(child.lineNumber, 'o recuo e de 2 espacos por nivel');
+      if (child.indent !== indent + 2) throw new SpecError(child.lineNumber, 'indentation is 2 spaces per level');
       map[key] = child.text.startsWith('- ') || child.text === '-'
         ? readList(state, indent + 2)
         : readMap(state, indent + 2);
@@ -145,12 +147,12 @@ function readMap(state, indent) {
       map[key] = readFoldedBlock(state, indent, line.lineNumber);
       continue;
     }
-    if (/^[|>]/.test(value)) throw new SpecError(line.lineNumber, `bloco "${value}" nao e aceito; so \`>-\``);
+    if (/^[|>]/.test(value)) throw new SpecError(line.lineNumber, `block "${value}" is not accepted; only \`>-\``);
 
     map[key] = readValue(value, line.lineNumber);
     const after = peek(state);
     if (after !== undefined && after.indent > indent) {
-      throw new SpecError(after.lineNumber, 'valor em mais de uma linha so e aceito com `>-`');
+      throw new SpecError(after.lineNumber, 'a value on more than one line is only accepted with `>-`');
     }
   }
   return map;
@@ -160,17 +162,17 @@ function readList(state, indent) {
   const list = [];
   for (let line = peek(state); line !== undefined && line.indent === indent; line = peek(state)) {
     if (!(line.text.startsWith('- ') || line.text === '-')) {
-      throw new SpecError(line.lineNumber, 'chave misturada com itens de lista');
+      throw new SpecError(line.lineNumber, 'key mixed with list items');
     }
     const item = line.text.slice(1).trim();
-    if (item === '') throw new SpecError(line.lineNumber, 'item de lista vazio ou aninhado');
-    if (item.startsWith('[') || item.startsWith('- ')) throw new SpecError(line.lineNumber, 'lista de listas nao e aceita');
-    if (!item.startsWith('"') && KEY.test(item)) throw new SpecError(line.lineNumber, 'mapa dentro de lista nao e aceito');
+    if (item === '') throw new SpecError(line.lineNumber, 'empty or nested list item');
+    if (item.startsWith('[') || item.startsWith('- ')) throw new SpecError(line.lineNumber, 'list of lists is not accepted');
+    if (!item.startsWith('"') && KEY.test(item)) throw new SpecError(line.lineNumber, 'map inside list is not accepted');
     list.push(readScalar(item, line.lineNumber));
     state.i += 1;
     const after = peek(state);
     if (after !== undefined && after.indent > indent) {
-      throw new SpecError(after.lineNumber, 'item de lista em mais de uma linha nao e aceito');
+      throw new SpecError(after.lineNumber, 'list item on more than one line is not accepted');
     }
   }
   return list;
@@ -184,23 +186,23 @@ function readFoldedBlock(state, indent, keyLineNumber) {
     if (line.indent === -1) {
       const nextLine = state.lines.slice(state.i + 1).find((l) => l.indent !== -1);
       if (nextLine !== undefined && nextLine.indent > indent) {
-        throw new SpecError(line.lineNumber, 'linha em branco dentro de bloco `>-` nao e aceita');
+        throw new SpecError(line.lineNumber, 'blank line inside `>-` block is not accepted');
       }
       break;
     }
     if (line.indent <= indent) break;
-    /* Recuo diferente dentro do bloco muda o sentido no YAML padrao (quebra de
-     * linha preservada, ou erro). Recusar evita juntar em silencio. */
+    /* Different indentation inside the block changes the meaning in standard YAML
+     * (line break preserved, or error). Rejecting avoids joining it silently. */
     if (blockIndent === null) blockIndent = line.indent;
     if (line.indent !== blockIndent) {
-      throw new SpecError(line.lineNumber, 'todas as linhas de um bloco `>-` tem de ter o mesmo recuo');
+      throw new SpecError(line.lineNumber, 'all lines of a `>-` block must have the same indentation');
     }
-    /* O YAML preserva espaco no fim de linha de bloco; aparar mudaria o texto. */
-    if (/ $/.test(line.raw)) throw new SpecError(line.lineNumber, 'espaco no fim de linha dentro de bloco `>-` nao e aceito');
+    /* YAML preserves trailing space on a block line; trimming would change the text. */
+    if (/ $/.test(line.raw)) throw new SpecError(line.lineNumber, 'trailing space on a line inside a `>-` block is not accepted');
     parts.push(line.text);
     state.i += 1;
   }
-  if (parts.length === 0) throw new SpecError(keyLineNumber, 'bloco `>-` vazio');
+  if (parts.length === 0) throw new SpecError(keyLineNumber, 'empty `>-` block');
   return parts.join(' ');
 }
 
@@ -210,17 +212,17 @@ function readValue(value, lineNumber) {
 }
 
 function readInlineList(value, lineNumber) {
-  if (!value.endsWith(']')) throw new SpecError(lineNumber, 'lista em linha sem `]` no fim');
+  if (!value.endsWith(']')) throw new SpecError(lineNumber, 'inline list without `]` at the end');
   const inner = value.slice(1, -1);
   if (inner.trim() === '') return [];
   const items = [];
   let current = '';
   let inQuotes = false;
   for (const c of inner) {
-    /* A aspa so abre no comeco do item; no meio de texto sem aspas ela fica no
-     * texto, e `readScalar` a recusa. */
+    /* A quote only opens at the start of the item; in the middle of unquoted text it stays
+     * in the text, and `readScalar` rejects it. */
     if (c === '"' && (inQuotes || current.trim() === '')) inQuotes = !inQuotes;
-    if (!inQuotes && (c === '[' || c === ']')) throw new SpecError(lineNumber, 'lista de listas nao e aceita');
+    if (!inQuotes && (c === '[' || c === ']')) throw new SpecError(lineNumber, 'list of lists is not accepted');
     if (!inQuotes && c === ',') {
       items.push(current);
       current = '';
@@ -228,56 +230,56 @@ function readInlineList(value, lineNumber) {
     }
     current += c;
   }
-  if (inQuotes) throw new SpecError(lineNumber, 'aspas abertas e nao fechadas');
+  if (inQuotes) throw new SpecError(lineNumber, 'quotes opened and not closed');
   items.push(current);
   return items.map((item) => {
     const trimmed = item.trim();
-    if (trimmed === '') throw new SpecError(lineNumber, 'item vazio em lista em linha');
+    if (trimmed === '') throw new SpecError(lineNumber, 'empty item in inline list');
     return readScalar(trimmed, lineNumber);
   });
 }
 
 function readScalar(value, lineNumber) {
   if (value.startsWith('"')) {
-    if (value.length < 2 || !value.endsWith('"')) throw new SpecError(lineNumber, 'aspas abertas e nao fechadas');
+    if (value.length < 2 || !value.endsWith('"')) throw new SpecError(lineNumber, 'quotes opened and not closed');
     const inner = value.slice(1, -1);
-    if (inner.includes('\\')) throw new SpecError(lineNumber, 'barra invertida dentro de aspas nao e aceita');
-    if (inner.includes('"')) throw new SpecError(lineNumber, 'aspas dentro de aspas nao sao aceitas');
+    if (inner.includes('\\')) throw new SpecError(lineNumber, 'backslash inside quotes is not accepted');
+    if (inner.includes('"')) throw new SpecError(lineNumber, 'quotes inside quotes are not accepted');
     return inner;
   }
-  if (value.includes('"')) throw new SpecError(lineNumber, 'aspas no meio de texto sem aspas nao sao aceitas');
-  if (value.startsWith("'")) throw new SpecError(lineNumber, 'aspas simples nao sao aceitas; use aspas duplas');
-  if (/^[&*!]/.test(value)) throw new SpecError(lineNumber, 'ancora, alias e etiqueta nao sao aceitos');
-  if (/^[{}]/.test(value)) throw new SpecError(lineNumber, 'mapa em linha `{...}` nao e aceito');
-  if (/^[|>]/.test(value)) throw new SpecError(lineNumber, 'bloco `|` ou `>` so e aceito como `>-` depois de uma chave');
-  if (value === '-' || value.startsWith('- ')) throw new SpecError(lineNumber, 'lista de listas nao e aceita');
-  if (/^[@`%?]/.test(value)) throw new SpecError(lineNumber, 'texto sem aspas nao pode comecar com @, crase, % ou ?; use aspas duplas');
-  if (/(^|\s)#/.test(value)) throw new SpecError(lineNumber, 'comentario `#` fora de aspas nao e aceito');
+  if (value.includes('"')) throw new SpecError(lineNumber, 'quotes in the middle of unquoted text are not accepted');
+  if (value.startsWith("'")) throw new SpecError(lineNumber, 'single quotes are not accepted; use double quotes');
+  if (/^[&*!]/.test(value)) throw new SpecError(lineNumber, 'anchor, alias and tag are not accepted');
+  if (/^[{}]/.test(value)) throw new SpecError(lineNumber, 'inline map `{...}` is not accepted');
+  if (/^[|>]/.test(value)) throw new SpecError(lineNumber, 'block `|` or `>` is only accepted as `>-` after a key');
+  if (value === '-' || value.startsWith('- ')) throw new SpecError(lineNumber, 'list of lists is not accepted');
+  if (/^[@`%?]/.test(value)) throw new SpecError(lineNumber, 'unquoted text cannot start with @, backtick, % or ?; use double quotes');
+  if (/(^|\s)#/.test(value)) throw new SpecError(lineNumber, 'comment `#` outside quotes is not accepted');
   if (/: /.test(value) || value.endsWith(':')) {
-    throw new SpecError(lineNumber, 'texto sem aspas com `: ` e ambiguo; use aspas duplas');
+    throw new SpecError(lineNumber, 'unquoted text with `: ` is ambiguous; use double quotes');
   }
   if (/^[,\]]/.test(value) || value === '=' || value === '<<') {
-    throw new SpecError(lineNumber, 'texto sem aspas nao pode comecar com , ou ] nem ser = ou <<; use aspas duplas');
+    throw new SpecError(lineNumber, 'unquoted text cannot start with , or ] nor be = or <<; use double quotes');
   }
   if (value === 'true') return true;
   if (value === 'false') return false;
   if (AMBIGUOUS.some((re) => re.test(value)) && !/^(0|[1-9]\d*)$/.test(value)) {
-    throw new SpecError(lineNumber, `o YAML leria "${value}" como null, booleano ou numero; use aspas duplas para texto`);
+    throw new SpecError(lineNumber, `YAML would read "${value}" as null, boolean or number; use double quotes for text`);
   }
   if (/^\d+$/.test(value)) {
     const n = Number(value);
-    if (!Number.isSafeInteger(n)) throw new SpecError(lineNumber, 'numero grande demais para JSON sem perder precisao; use aspas duplas');
+    if (!Number.isSafeInteger(n)) throw new SpecError(lineNumber, 'number too large for JSON without losing precision; use double quotes');
     return n;
   }
   return value;
 }
 
 /**
- * Le uma ficha inteira. Devolve `null` quando o arquivo nao e ficha (sem `---`
- * na linha 1); senao `{ data, inForce, json }`. Lanca `SpecError`.
+ * Reads a whole spec. Returns `null` when the file is not a spec (no `---`
+ * on line 1); otherwise `{ data, inForce, json }`. Throws `SpecError`.
  *
- * O fim de linha e normalizado aqui mesmo: com `core.autocrlf`, a ficha chega
- * em CRLF no Windows e em LF no resto, e a Metadata tem de sair igual.
+ * The line ending is normalized right here: with `core.autocrlf`, the spec
+ * arrives as CRLF on Windows and LF elsewhere, and the Metadata must come out the same.
  */
 export function readSpec(text) {
   const lines = extractFrontmatter(text);
