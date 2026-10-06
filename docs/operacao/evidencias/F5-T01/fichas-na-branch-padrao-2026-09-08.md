@@ -11,9 +11,9 @@
 }
 ```
 
-# fichas-na-branch-padrao — F5-T01
+# `fichas-na-branch-padrao` — F5-T01
 
-Saída colada, sem edição:
+Output pasted, unedited:
 
 ```text
 $ test -d fichas
@@ -21,9 +21,9 @@ $ echo $?
 0
 ```
 
-`fichas/` está na baseline: o PR #13 foi mergeado por Elvys em 01-09-2026, merge commit
-`348e68e`, ancestral de `2b992fc`, que é o `origin/v/3.0.0` desta execução. O diretório
-contém `_modelo.md`, `nph-icon.md`, `nph-label.md` e `nph-spinner.md`.
+`fichas/` is in the baseline: PR #13 was merged by Elvys on 01-09-2026, merge commit
+`348e68e`, an ancestor of `2b992fc`, which is the `origin/v/3.0.0` of this run. The directory
+contains `_modelo.md`, `nph-icon.md`, `nph-label.md` and `nph-spinner.md`.
 
-O gate era o único que já podia ter passado antes desta sessão. Estava `pendente` porque
-faltava exatamente este arquivo: o comando e o código de saída colados.
+This gate was the only one that could already have passed before this session. It was `pendente`
+because exactly this file was missing: the command and the exit code, pasted.

@@ -11,9 +11,9 @@
 }
 ```
 
-# blocos-e-ligacoes — F5-T01
+# `blocos-e-ligacoes` — F5-T01
 
-Saída colada, sem edição:
+Output pasted, unedited:
 
 ```text
 $ test -d fichas/blocos
@@ -21,12 +21,12 @@ $ echo $?
 0
 ```
 
-O diretório existe e carrega a convenção em `fichas/blocos/README.md`, criada no commit
-`8b09118`. A convenção cobre as quatro exigências do gate: o gabarito único
-(`fichas/_modelo.md`), os quatro acréscimos em `relacoes`, a direção do ponteiro entre
-contrato, ficha e Storybook, e a restrição de origem.
+The directory exists and carries the convention in `fichas/blocos/README.md`, created in commit
+`8b09118`. The convention covers the gate's four requirements: the single template
+(`fichas/_modelo.md`), the four additions to `relacoes`, the direction of the pointer between
+contract, spec sheet and Storybook, and the origin restriction.
 
-Os quatro links relativos do arquivo foram conferidos por comando:
+The file's four relative links were checked by command:
 
 ```text
 $ cd fichas/blocos && for p in ../../design.md ../_modelo.md ../../docs/operacao/README.md ../../README.md; do test -f "$p" && echo "OK   $p" || echo "QUEBRADO $p"; done
@@ -36,5 +36,5 @@ OK   ../../docs/operacao/README.md
 OK   ../../README.md
 ```
 
-**Nenhum bloco foi documentado.** A restrição de origem — bloco só se documenta depois de
-extraído de padrão real ou de mock aprovado — segue cumprida.
+**No block was documented.** The origin restriction — a block is only documented after being
+extracted from a real pattern or an approved mock — is still met.

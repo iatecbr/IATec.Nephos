@@ -13,15 +13,15 @@
 
 # DSA-07 — `convencao-registrada`
 
-A P64 está em `docs/decisoes-tecnicas.md`, com o escopo decidido por Indiane em
-28-09-2026 e a revisão técnica registrada: Mauro aprovou a decisão em
-30-09-2026, no chat da equipe, e a emenda de 02-10-2026 no PR #49, com merge em
-05-10-2026 (`183ff01`). O `AGENTS.md`, em "Regras obrigatórias", traz a regra.
+P64 is in `docs/decisoes-tecnicas.md`, with the scope decided by Indiane on
+28-09-2026 and the technical review recorded: Mauro approved the decision on
+30-09-2026, in the team chat, and the amendment of 02-10-2026 in PR #49, merged on
+05-10-2026 (`183ff01`). `AGENTS.md`, under `Regras obrigatórias` (mandatory rules), carries the rule.
 
-Não há comando de gate: a prova é a leitura dos três trechos abaixo, na ponta
-`7dd370d` da `v/5.0.0`.
+There is no gate command: the proof is reading the three excerpts below, at the
+tip `7dd370d` of `v/5.0.0`.
 
-## Leitura
+## Reading
 
 ```text
 $ grep -n "^## P64" docs/decisoes-tecnicas.md
