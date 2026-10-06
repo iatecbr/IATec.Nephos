@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "DSA-08",
-  "gate": "revisao-e-merge",
-  "data": "2026-10-06",
-  "responsavel": "claude-codigo",
-  "comando": "git merge-base --is-ancestor 06af12539de95416ee816ca65f63298063e1bf6b origin/v/5.0.0",
-  "codigo_de_saida": 0,
+  "task": "DSA-08",
+  "gate": "review-and-merge",
+  "date": "2026-10-06",
+  "owner": "claude-code",
+  "command": "git merge-base --is-ancestor 06af12539de95416ee816ca65f63298063e1bf6b origin/v/5.0.0",
+  "exit_code": 0,
   "sha": "7dd370d403adc49aaad7b391e34cc5aa50730784",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# DSA-08 — `revisao-e-merge`
+# DSA-08 — `review-and-merge`
 
 PR #51 (`feat/dsa08-nph-tooltip`) brought the component, the CSS, the tests, the
 stories, the canonical spec sheet `fichas/nph-tooltip.md` with the Metadata, the

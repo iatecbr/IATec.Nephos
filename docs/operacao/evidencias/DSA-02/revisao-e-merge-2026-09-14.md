@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "DSA-02",
-  "gate": "revisao-e-merge",
-  "data": "2026-09-14",
-  "responsavel": "copilot",
-  "comando": "git merge-base --is-ancestor 89038735f968a1abbcc629cdde02097d3041454a origin/v/5.0.0",
-  "codigo_de_saida": 0,
+  "task": "DSA-02",
+  "gate": "review-and-merge",
+  "date": "2026-09-14",
+  "owner": "copilot",
+  "command": "git merge-base --is-ancestor 89038735f968a1abbcc629cdde02097d3041454a origin/v/5.0.0",
+  "exit_code": 0,
   "sha": "8e11751e0e3fcf57f32eee4a044e8a000ba7fa15",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# DSA-02 — `revisao-e-merge`
+# DSA-02 — `review-and-merge`
 
 PR #33 was reviewed by Mauro (`maurocsjr`) and merged into `v/5.0.0` on
 14-09-2026. Merge commit `8e11751` contains commit `8903873`, which recorded

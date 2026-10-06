@@ -1,25 +1,25 @@
 ```json
 {
-  "tarefa": "DSA-03",
-  "gate": "revisao-e-merge",
-  "data": "2026-09-14",
-  "responsavel": "copilot",
-  "comando": "git merge-base --is-ancestor fff0624e44d7679877f36a28bb03225226f4eaec origin/v/5.0.0",
-  "codigo_de_saida": 0,
+  "task": "DSA-03",
+  "gate": "review-and-merge",
+  "date": "2026-09-14",
+  "owner": "copilot",
+  "command": "git merge-base --is-ancestor fff0624e44d7679877f36a28bb03225226f4eaec origin/v/5.0.0",
+  "exit_code": 0,
   "sha": "4c33737cedda4171d2f3596f6c58c2d8e00d4a77",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# DSA-03 — `revisao-e-merge`
+# DSA-03 — `review-and-merge`
 
 Decision I7 (`circle-info` in `solid`, `regular` as the default) is already on
 `v/5.0.0`. Nothing was reimplemented in this pass: the code, the tests and
 Storybook came in PR #34; the spec sheet and the contracts came in PR #35. Both
 were reviewed by Mauro (`maurocsjr`, `APPROVED`) and merged on 14-09-2026.
 
-PR #37 only recorded the gate `documentacao-figma-aceita`. This evidence closes
-the gate `revisao-e-merge` over what is already an ancestor of the default branch.
+PR #37 only recorded the gate `figma-docs-accepted`. This evidence closes
+the gate `review-and-merge` over what is already an ancestor of the default branch.
 
 ## Command
 
@@ -33,7 +33,7 @@ No output. Exit code `0`, which confirms that commit `fff0624` of I7 in the
 code is an ancestor of the default branch tip `4c33737`.
 
 The same holds for the contracts commit `05fd0fa78bb85f84f86c90a76eb747d94aad1875`
-(`codigo_de_saida` 0).
+(`exit_code` 0).
 
 ## Applicable tests
 

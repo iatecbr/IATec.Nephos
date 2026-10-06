@@ -1,36 +1,36 @@
 ```json
 {
   "id": "DSA-02",
-  "objetivo": "Publicar o guia de desenvolvimento em docs/stories.md.",
-  "fase": "F4",
-  "ordem_aprovada": 40,
-  "responsavel": "claude-codigo",
-  "estado": "pronta",
-  "peca": null,
-  "dependencias": [],
+  "goal": "Publicar o guia de desenvolvimento em docs/stories.md.",
+  "phase": "F4",
+  "approved_order": 40,
+  "owner": "claude-code",
+  "state": "ready",
+  "piece": null,
+  "dependencies": [],
   "gates": [
     {
-      "id": "arquivo-existe",
-      "descricao": "docs/stories.md versionado no repositorio.",
-      "comando": "test -f docs/stories.md",
-      "evidencia": null,
-      "resultado": "pendente",
-      "verificado_em": null,
-      "verificado_por": null
+      "id": "file-exists",
+      "description": "docs/stories.md versionado no repositorio.",
+      "command": "test -f docs/stories.md",
+      "evidence": null,
+      "result": "pending",
+      "verified_at": null,
+      "verified_by": null
     }
   ],
-  "bloqueios": [],
-  "decisoes_pendentes": [],
-  "evidencias": [],
-  "referencias_de_decisao": [],
-  "origem_externa": null,
-  "revisao_git": {
+  "blockers": [],
+  "pending_decisions": [],
+  "evidence": [],
+  "decision_refs": [],
+  "external_origin": null,
+  "git_review": {
     "branch": null,
     "commit": null,
     "pr": null
   },
-  "contexto": null,
-  "atualizado_em": "2026-09-02"
+  "context": null,
+  "updated_at": "2026-09-02"
 }
 ```
 

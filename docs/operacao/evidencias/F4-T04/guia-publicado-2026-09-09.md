@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "F4-T04",
-  "gate": "guia-publicado",
-  "data": "2026-09-09",
-  "responsavel": "claude-codigo",
-  "comando": "test -f docs/stories.md",
-  "codigo_de_saida": 0,
+  "task": "F4-T04",
+  "gate": "guide-published",
+  "date": "2026-09-09",
+  "owner": "claude-code",
+  "command": "test -f docs/stories.md",
+  "exit_code": 0,
   "sha": "cd5668e6ebe682cb62169a2a451755c6bd562e4c",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# `guia-publicado` — F4-T04
+# `guide-published` — F4-T04
 
 Output pasted, unedited:
 
@@ -61,7 +61,7 @@ OK        ../contributing.md
 ## What this gate does not prove
 
 It proves that the guide exists, is traceable and does not invent rules. **It does not prove that
-F4-T04 is finished.** The task stays `em-revisao` until PR #28 is merged, by the same
+F4-T04 is finished.** The task stays `in-review` until PR #28 is merged, by the same
 criterion applied to F5-T01.
 
 It also does not prove the Figma × Storybook comparison: it still has no artifact in this repository, and

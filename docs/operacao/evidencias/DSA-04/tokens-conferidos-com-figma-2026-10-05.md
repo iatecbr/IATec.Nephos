@@ -1,24 +1,24 @@
 ```json
 {
-  "tarefa": "DSA-04",
-  "gate": "tokens-conferidos-com-figma",
-  "data": "2026-10-05",
-  "responsavel": "claude-codigo",
-  "comando": "node docs/operacao/evidencias/DSA-04/conferir-tokens-figma.cjs",
-  "codigo_de_saida": 0,
+  "task": "DSA-04",
+  "gate": "tokens-checked-against-figma",
+  "date": "2026-10-05",
+  "owner": "claude-code",
+  "command": "node docs/operacao/evidencias/DSA-04/conferir-tokens-figma.cjs",
+  "exit_code": 0,
   "sha": "e03e4926aff69af39f9563ad58df36768431835e",
-  "origem_externa": {
-    "classificacao": "interna-permitida",
-    "url_ou_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0",
-    "data": "2026-10-05",
-    "autoria": "claude-codigo",
-    "trecho": null,
-    "decisao_convertida": "Reading of the Figma local variables (core 322, semantic 195, theme 14) against src/tokens/source: 50 theme and semantic tokens that Figma had and the code did not, 5 tokens with an old value in the code and the 47 primitives that resolve them."
+  "external_origin": {
+    "classification": "internal-allowed",
+    "url_or_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0",
+    "date": "2026-10-05",
+    "author": "claude-code",
+    "excerpt": null,
+    "converted_decision": "Reading of the Figma local variables (core 322, semantic 195, theme 14) against src/tokens/source: 50 theme and semantic tokens that Figma had and the code did not, 5 tokens with an old value in the code and the 47 primitives that resolve them."
   }
 }
 ```
 
-# DSA-04 — `tokens-conferidos-com-figma`
+# DSA-04 — `tokens-checked-against-figma`
 
 The tokens that `nph-label` and `nph-tooltip` consume, and the others that the
 Figma `DS-IA-NEPHOS 5.0` had and the code did not, were brought into

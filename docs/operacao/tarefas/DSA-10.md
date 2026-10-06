@@ -1,54 +1,54 @@
 ```json
 {
   "id": "DSA-10",
-  "objetivo": "Implement the nph-separator, the one-line decorative divider, with the contract accepted in Figma.",
-  "fase": "F4",
-  "ordem_aprovada": 120,
-  "responsavel": "claude-codigo",
-  "estado": "concluida",
-  "peca": "nph-separator",
-  "dependencias": [],
+  "goal": "Implement the nph-separator, the one-line decorative divider, with the contract accepted in Figma.",
+  "phase": "F4",
+  "approved_order": 120,
+  "owner": "claude-code",
+  "state": "done",
+  "piece": "nph-separator",
+  "dependencies": [],
   "gates": [
     {
-      "id": "documentacao-figma-aceita",
-      "descricao": "The nph-separator documentation in Figma was accepted by Indiane and recorded as evidence.",
-      "comando": null,
-      "evidencia": "docs/operacao/evidencias/DSA-10/documentacao-figma-aceita-2026-10-01.md",
-      "resultado": "passou",
-      "verificado_em": "2026-10-01",
-      "verificado_por": "indiane"
+      "id": "figma-docs-accepted",
+      "description": "The nph-separator documentation in Figma was accepted by Indiane and recorded as evidence.",
+      "command": null,
+      "evidence": "docs/operacao/evidencias/DSA-10/documentacao-figma-aceita-2026-10-01.md",
+      "result": "passed",
+      "verified_at": "2026-10-01",
+      "verified_by": "indiane"
     },
     {
-      "id": "revisao-e-merge",
-      "descricao": "Component, CSS, tests, stories, spec and technical decision reviewed by maurocsjr and merged into v/5.0.0.",
-      "comando": null,
-      "evidencia": "docs/operacao/evidencias/DSA-10/revisao-e-merge-2026-10-06.md",
-      "resultado": "passou",
-      "verificado_em": "2026-10-06",
-      "verificado_por": "claude-codigo"
+      "id": "review-and-merge",
+      "description": "Component, CSS, tests, stories, spec and technical decision reviewed by maurocsjr and merged into v/5.0.0.",
+      "command": null,
+      "evidence": "docs/operacao/evidencias/DSA-10/revisao-e-merge-2026-10-06.md",
+      "result": "passed",
+      "verified_at": "2026-10-06",
+      "verified_by": "claude-code"
     }
   ],
-  "bloqueios": [],
-  "decisoes_pendentes": [],
-  "evidencias": [
+  "blockers": [],
+  "pending_decisions": [],
+  "evidence": [
     "docs/operacao/evidencias/DSA-10/documentacao-figma-aceita-2026-10-01.md",
     "docs/operacao/evidencias/DSA-10/storybook-validacao-2026-10-05.md",
     "docs/operacao/evidencias/DSA-10/revisao-e-merge-2026-10-06.md"
   ],
-  "referencias_de_decisao": [
+  "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, first-delivery cut (Batch A)"
   ],
-  "origem_externa": {
-    "classificacao": "interna-permitida",
-    "url_ou_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1196-674",
-    "data": "2026-10-01",
-    "autoria": "indiane",
-    "trecho": null,
-    "decisao_convertida": "The nph-separator frame (1196:674) was accepted as the API and behavior specification of the nph-separator. COMPONENT_SET 762:6, `orientacao` variant horizontal|vertical, default horizontal. On 05-10-2026 Indiane approved the cut of the first delivery, with Batch A in one plan and one PR."
+  "external_origin": {
+    "classification": "internal-allowed",
+    "url_or_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1196-674",
+    "date": "2026-10-01",
+    "author": "indiane",
+    "excerpt": null,
+    "converted_decision": "The nph-separator frame (1196:674) was accepted as the API and behavior specification of the nph-separator. COMPONENT_SET 762:6, `orientacao` variant horizontal|vertical, default horizontal. On 05-10-2026 Indiane approved the cut of the first delivery, with Batch A in one plan and one PR."
   },
-  "revisao_git": { "branch": "feat/lote-a-icon-spinner-separator-kbd", "commit": "6f82829af3439adf650c54bd5002d85bb3198534", "pr": "54" },
-  "contexto": null,
-  "atualizado_em": "2026-10-06"
+  "git_review": { "branch": "feat/lote-a-icon-spinner-separator-kbd", "commit": "6f82829af3439adf650c54bd5002d85bb3198534", "pr": "54" },
+  "context": null,
+  "updated_at": "2026-10-06"
 }
 ```
 
@@ -61,12 +61,12 @@ and stories, in the contract accepted in Figma: a `border/width` line in
 the screen reader.
 
 ## How it is proved
-**`documentacao-figma-aceita`** — the `nph-separator` frame (`1196:674`) of the
+**`figma-docs-accepted`** — the `nph-separator` frame (`1196:674`) of the
 Figma file `DS-IA-NEPHOS 5.0` was accepted by Indiane on 01-10-2026, with the Figma
 UX QA and the text audit approved. The evidence names the frame and the
 COMPONENT_SET (`762:6`).
 
-**`revisao-e-merge`** — component, CSS, tests, stories, spec and the technical
+**`review-and-merge`** — component, CSS, tests, stories, spec and the technical
 decision pass the proof commands, are reviewed by `maurocsjr` and
 merged into `v/5.0.0`.
 

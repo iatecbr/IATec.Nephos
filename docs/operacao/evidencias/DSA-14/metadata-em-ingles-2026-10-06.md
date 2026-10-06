@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "DSA-14",
-  "gate": "metadata-em-ingles",
-  "data": "2026-10-06",
-  "responsavel": "claude-codigo",
-  "comando": "node scripts/verificar-operacao.mjs",
-  "codigo_de_saida": 0,
+  "task": "DSA-14",
+  "gate": "metadata-in-english",
+  "date": "2026-10-06",
+  "owner": "claude-code",
+  "command": "node scripts/verificar-operacao.mjs",
+  "exit_code": 0,
   "sha": "63300ad927db04dc2587c8347668e39db84f4b22",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# DSA-14 — `metadata-em-ingles`
+# DSA-14 — `metadata-in-english`
 
 Path (a), decided by Indiane on 06-10-2026: the spec YAML is written in English
 and the Metadata stays an exact copy of it (P63). At `63300ad` the current specs

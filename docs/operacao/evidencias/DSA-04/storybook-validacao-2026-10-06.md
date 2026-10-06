@@ -1,13 +1,13 @@
 ```json
 {
-  "tarefa": "DSA-04",
+  "task": "DSA-04",
   "gate": null,
-  "data": "2026-10-06",
-  "responsavel": "claude-codigo",
-  "comando": "npx storybook dev -p 6013 --no-open; reading through getComputedStyle and getBoundingClientRect in the integrated browser",
-  "codigo_de_saida": null,
+  "date": "2026-10-06",
+  "owner": "claude-code",
+  "command": "npx storybook dev -p 6013 --no-open; reading through getComputedStyle and getBoundingClientRect in the integrated browser",
+  "exit_code": null,
   "sha": "151b317",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 

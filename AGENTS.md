@@ -129,24 +129,24 @@ Before analyzing, proposing, editing or implementing:
 
 **Accepted Figma documentation → local code → final sheet → review and PR.**
 It holds for every agent. A **component task** is one that declares
-`responsavel: "claude-codigo"` and a filled-in `peca` in
+`owner: "claude-code"` and a filled-in `piece` in
 `docs/operacao/tarefas/<ID>.md`.
 
 1. **Before any component code**, the documentation of the piece in the Figma
    `DS-IA-NEPHOS 5.0` must be **accepted by Indiane** and recorded in the
-   `documentacao-figma-aceita` gate, with `resultado: "passou"` and evidence in
+   `figma-docs-accepted` gate, with `result: "passed"` and evidence in
    `docs/operacao/evidencias/<ID>/`. While the gate has not passed, the task
-   stays `bloqueada` — it is not `pronta` or `em-andamento`, and no code
+   stays `blocked` — it is not `ready` or `in-progress`, and no code
    starts.
 2. **The evidence proves provenance**, not the taste of whoever accepted:
-   `responsavel` `indiane`, `origem_externa` `interna-permitida` with the URL
-   or the frame ID in Figma, `data`, `autoria` and `decisao_convertida` naming
+   `owner` `indiane`, `external_origin` `internal-allowed` with the URL
+   or the frame ID in Figma, `date`, `author` and `converted_decision` naming
    the **frame** and the **`COMPONENT_SET`**. Restricted Figma content is
    **not** copied into the evidence: what goes in is the converted decision.
-3. **While the task is `pronta` or `em-andamento`, local code without a sheet
+3. **While the task is `ready` or `in-progress`, local code without a sheet
    is allowed.** A sheet required in the first commit becomes a form filled in
    blind; the contract of the piece comes out of practice.
-4. **Before `em-revisao` and `concluida`**, the canonical sheet at
+4. **Before `in-review` and `done`**, the canonical sheet at
    `fichas/<piece>.md` must exist, built from `fichas/_modelo.md`.
 
 The verifier enforces the three moments: `V30` the gate, `V31` the provenance
@@ -166,8 +166,8 @@ of the evidence, `V28` the sheet. Full contract in
   metrics or product decisions.
 - NEVER declare a branch, commit, Storybook, component or publication as
   existing without verifiable evidence in the repository.
-- NEVER write component code before the `documentacao-figma-aceita` gate
-  passes, nor take the task to `em-revisao` or `concluida` without the
+- NEVER write component code before the `figma-docs-accepted` gate
+  passes, nor take the task to `in-review` or `done` without the
   canonical sheet.
 
 ## Where the agent may write

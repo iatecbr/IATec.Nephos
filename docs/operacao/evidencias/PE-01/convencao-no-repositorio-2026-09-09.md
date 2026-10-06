@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "PE-01",
-  "gate": "convencao-no-repositorio",
-  "data": "2026-09-09",
-  "responsavel": "claude-codigo",
-  "comando": "test -f contributing.md",
-  "codigo_de_saida": 0,
+  "task": "PE-01",
+  "gate": "convention-in-repository",
+  "date": "2026-09-09",
+  "owner": "claude-code",
+  "command": "test -f contributing.md",
+  "exit_code": 0,
   "sha": "ed7c009adf09599104bc9868fee79b1092ad63cb",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# PE-01 — `convencao-no-repositorio`
+# PE-01 — `convention-in-repository`
 
 `contributing.md` exists on the default branch. It came in through PR #25, in the
 content commit `5fa4821`, and `v/3.0.0` is at merge `ed7c009`. The file writes the

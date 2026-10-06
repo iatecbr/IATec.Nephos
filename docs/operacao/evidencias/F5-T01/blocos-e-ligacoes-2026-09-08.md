@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "F5-T01",
-  "gate": "blocos-e-ligacoes",
-  "data": "2026-09-08",
-  "responsavel": "claude-codigo",
-  "comando": "test -d fichas/blocos",
-  "codigo_de_saida": 0,
+  "task": "F5-T01",
+  "gate": "blocks-and-links",
+  "date": "2026-09-08",
+  "owner": "claude-code",
+  "command": "test -d fichas/blocos",
+  "exit_code": 0,
   "sha": "8b09118a662a00ee974abf982172896612d4c1b7",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# `blocos-e-ligacoes` — F5-T01
+# `blocks-and-links` — F5-T01
 
 Output pasted, unedited:
 
@@ -23,7 +23,7 @@ $ echo $?
 
 The directory exists and carries the convention in `fichas/blocos/README.md`, created in commit
 `8b09118`. The convention covers the gate's four requirements: the single template
-(`fichas/_modelo.md`), the four additions to `relacoes`, the direction of the pointer between
+(`fichas/_modelo.md`), the four additions to `relations`, the direction of the pointer between
 contract, spec sheet and Storybook, and the origin restriction.
 
 The file's four relative links were checked by command:

@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "DSA-07",
-  "gate": "migracao-sem-mudanca-de-comportamento",
-  "data": "2026-10-06",
-  "responsavel": "claude-codigo",
-  "comando": "npm run build:tokens && node scripts/verificar-operacao.mjs --gerar-metadata && git diff --quiet && node -e \"process.exit(require('child_process').execSync('git ls-files --others --exclude-standard').length?1:0)\" && npm run typecheck && npm test && npm run test:tokens && npm run test:i18n && npm run test:operacao && node scripts/verificar-operacao.mjs --exemplos && npm run build-storybook",
-  "codigo_de_saida": 0,
+  "task": "DSA-07",
+  "gate": "migration-without-behavior-change",
+  "date": "2026-10-06",
+  "owner": "claude-code",
+  "command": "npm run build:tokens && node scripts/verificar-operacao.mjs --gerar-metadata && git diff --quiet && node -e \"process.exit(require('child_process').execSync('git ls-files --others --exclude-standard').length?1:0)\" && npm run typecheck && npm test && npm run test:tokens && npm run test:i18n && npm run test:operacao && node scripts/verificar-operacao.mjs --exemplos && npm run build-storybook",
+  "exit_code": 0,
   "sha": "183ff01522cd0fd8f0688242a8814763fda1a138",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# DSA-07 — `migracao-sem-mudanca-de-comportamento`
+# DSA-07 — `migration-without-behavior-change`
 
 The P64 migration came in two PRs: #42 (`scripts/`, merge `ea93ed3`) and #49
 (`src/`, `stories/` and `.storybook/`, merge `183ff01`). For each merge, the 11

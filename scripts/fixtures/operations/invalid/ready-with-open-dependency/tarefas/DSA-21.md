@@ -1,44 +1,44 @@
 ```json
 {
   "id": "DSA-21",
-  "objetivo": "Exemplo de validacao do verificador operacional.",
-  "fase": "F4",
-  "ordem_aprovada": 21,
-  "responsavel": "claude-codigo",
-  "estado": "bloqueada",
-  "peca": null,
-  "dependencias": [],
+  "goal": "Exemplo de validacao do verificador operacional.",
+  "phase": "F4",
+  "approved_order": 21,
+  "owner": "claude-code",
+  "state": "blocked",
+  "piece": null,
+  "dependencies": [],
   "gates": [
     {
-      "id": "arquivo-existe",
-      "descricao": "O artefato previsto existe e esta versionado.",
-      "comando": "npm run test:operacao",
-      "evidencia": null,
-      "resultado": "pendente",
-      "verificado_em": null,
-      "verificado_por": null
+      "id": "file-exists",
+      "description": "O artefato previsto existe e esta versionado.",
+      "command": "npm run test:operacao",
+      "evidence": null,
+      "result": "pending",
+      "verified_at": null,
+      "verified_by": null
     }
   ],
-  "bloqueios": [
+  "blockers": [
     {
       "id": "B1",
-      "o_que_trava": "Exemplo de bloqueio aberto, usado so como fixture.",
-      "dono": "indiane",
-      "o_que_resolve": "A decisao registrada que fecha o bloqueio.",
-      "aberto_em": "2026-09-02"
+      "what_blocks": "Exemplo de bloqueio aberto, usado so como fixture.",
+      "owner": "indiane",
+      "what_resolves": "A decisao registrada que fecha o bloqueio.",
+      "opened_at": "2026-09-02"
     }
   ],
-  "decisoes_pendentes": [],
-  "evidencias": [],
-  "referencias_de_decisao": [],
-  "origem_externa": null,
-  "revisao_git": {
+  "pending_decisions": [],
+  "evidence": [],
+  "decision_refs": [],
+  "external_origin": null,
+  "git_review": {
     "branch": null,
     "commit": null,
     "pr": null
   },
-  "contexto": null,
-  "atualizado_em": "2026-09-02"
+  "context": null,
+  "updated_at": "2026-09-02"
 }
 ```
 

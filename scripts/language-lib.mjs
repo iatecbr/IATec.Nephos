@@ -104,7 +104,7 @@ export function docFiles() {
  * Running text of a Markdown file, line by line: { line, text }.
  * A fenced block is code and stays out, except json, yaml and the front matter,
  * whose string values with a space are text. A value without a space is a
- * technical value (an enum such as `aguardando-decisao`) and a key never counts:
+ * technical value (an enum such as `awaiting-decision`) and a key never counts:
  * both are contract (P64, D4).
  */
 export function docProse(source) {

@@ -1,38 +1,38 @@
 ```json
 {
   "id": "DSA-58",
-  "objetivo": "Exemplo de validacao do verificador operacional.",
-  "fase": "F4",
-  "ordem_aprovada": 10,
-  "responsavel": "claude-codigo",
-  "estado": "pronta",
-  "peca": "nph-icon",
-  "dependencias": [],
+  "goal": "Exemplo de validacao do verificador operacional.",
+  "phase": "F4",
+  "approved_order": 10,
+  "owner": "claude-code",
+  "state": "ready",
+  "piece": "nph-icon",
+  "dependencies": [],
   "gates": [
     {
-      "id": "documentacao-figma-aceita",
-      "descricao": "A documentacao do componente no Figma foi aceita por Indiane.",
-      "comando": null,
-      "evidencia": "scripts/fixtures/operations/invalid/figma-evidence-outside-directory/proof-outside/DSA-58/documentacao-figma-aceita-2026-09-10.md",
-      "resultado": "passou",
-      "verificado_em": "2026-09-10",
-      "verificado_por": "indiane"
+      "id": "figma-docs-accepted",
+      "description": "A documentacao do componente no Figma foi aceita por Indiane.",
+      "command": null,
+      "evidence": "scripts/fixtures/operations/invalid/figma-evidence-outside-directory/proof-outside/DSA-58/documentacao-figma-aceita-2026-09-10.md",
+      "result": "passed",
+      "verified_at": "2026-09-10",
+      "verified_by": "indiane"
     }
   ],
-  "bloqueios": [],
-  "decisoes_pendentes": [],
-  "evidencias": [
+  "blockers": [],
+  "pending_decisions": [],
+  "evidence": [
     "scripts/fixtures/operations/invalid/figma-evidence-outside-directory/proof-outside/DSA-58/documentacao-figma-aceita-2026-09-10.md"
   ],
-  "referencias_de_decisao": [],
-  "origem_externa": null,
-  "revisao_git": {
+  "decision_refs": [],
+  "external_origin": null,
+  "git_review": {
     "branch": null,
     "commit": null,
     "pr": null
   },
-  "contexto": null,
-  "atualizado_em": "2026-09-10"
+  "context": null,
+  "updated_at": "2026-09-10"
 }
 ```
 

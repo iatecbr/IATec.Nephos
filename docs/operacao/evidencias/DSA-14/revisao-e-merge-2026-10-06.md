@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "DSA-14",
-  "gate": "revisao-e-merge",
-  "data": "2026-10-06",
-  "responsavel": "claude-codigo",
-  "comando": "git merge-base --is-ancestor 5e02c8e21940d74c407b3b5b44fa4081fa3911ea origin/v/5.0.0",
-  "codigo_de_saida": 0,
+  "task": "DSA-14",
+  "gate": "review-and-merge",
+  "date": "2026-10-06",
+  "owner": "claude-code",
+  "command": "git merge-base --is-ancestor 5e02c8e21940d74c407b3b5b44fa4081fa3911ea origin/v/5.0.0",
+  "exit_code": 0,
   "sha": "7b297a295082566518332d3b1a905f79ab2a30a3",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# DSA-14 — `revisao-e-merge`
+# DSA-14 — `review-and-merge`
 
 PR #62 (`docs/fichas-ingles-dsa14`) brought the specs in English, the regenerated
 Metadata, the `specs` group of `test:naming` in `enforce` and the DSA-14 and

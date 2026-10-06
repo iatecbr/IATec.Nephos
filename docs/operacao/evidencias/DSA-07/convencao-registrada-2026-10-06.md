@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "DSA-07",
-  "gate": "convencao-registrada",
-  "data": "2026-10-06",
-  "responsavel": "claude-codigo",
-  "comando": null,
-  "codigo_de_saida": null,
+  "task": "DSA-07",
+  "gate": "convention-recorded",
+  "date": "2026-10-06",
+  "owner": "claude-code",
+  "command": null,
+  "exit_code": null,
   "sha": "7dd370d403adc49aaad7b391e34cc5aa50730784",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# DSA-07 — `convencao-registrada`
+# DSA-07 — `convention-recorded`
 
 P64 is in `docs/decisoes-tecnicas.md`, with the scope decided by Indiane on
 28-09-2026 and the technical review recorded: Mauro approved the decision on
