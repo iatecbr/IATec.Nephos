@@ -22,13 +22,13 @@ escopo_migrado_para_json: >-
   deferred does not mean without a consumer. The focus rings came in as
   focus-ring/invalid, default and sidebar: see the note in the tokens_elevation block. What
   came in on each date is in docs/tokens.md.
-escopo_verificado: [color, typography, spacing, radius, elevation, grid, motion, chart_color]
+escopo_verificado: [cor, tipografia, espacamento, raio, elevacao, grid, movimento, cor_de_grafico]
 escopo_a_validar: []
 camadas: [core, theme, semantic]
 prefixo_componente: nph-
 prefixo_css: --nph-
 consumidor: Moses
-leitores: [Moses, development]
+leitores: [Moses, desenvolvimento]
 nao_use_como: visual introduction or portal content; for that, see `Fundações` (Foundations), Figma and SITE Nephos
 saida_alvo: semantic HTML + CSS custom properties, consuming the nph- Web Components in Lit directly. No PrimeNG. (decided by Indiane on 18-08-2026)
 regra_de_leitura: >-
@@ -1179,8 +1179,8 @@ tokens_core_alpha:
   degraus: [0, 0.01, 3.33, 5, 10, 15, 20, 25, 30, 40, 50, 60, 70, 75, 80, 85, 90, 95, 100]
   degraus_de_projeto: [0, 5, 10, 20, 40, 60, 80, 100]
   nota: 'Steps 0.01 and 3.33 are not design values: 0.01 is a Figma technique to make an area clickable, 3.33 is one thirtieth. They exist to receive components imported from the kit.'
-  black: 'core/alpha/black-<step>'
-  white: 'core/alpha/white-<step>'
+  black: 'core/alpha/black-<degrau>'
+  white: 'core/alpha/white-<degrau>'
 
 # ---------------------------------------------------------------
 # SHADOW PRIMITIVES - they are not design tokens and no
@@ -1506,16 +1506,16 @@ movimento_regras:
   saida_mais_rapida_que_entrada: true
   entrada: 250
   saida: 150
-  linear_so_em: [progress, spinner]
-  anime_apenas: [opacity, transform]
+  linear_so_em: [progresso, girador]
+  anime_apenas: [opacidade, transformacao]
   nao_anime: "Width, height and layout position - it stutters in large lists and tables."
   movimento_nunca_e_unico_sinal: true
 
 movimento_reduzido:
   obrigatorio: true
   norma: WCAG 2.3.3
-  deslize: opacity
-  escala: opacity
+  deslize: opacidade
+  escala: opacidade
   giro: "Stops. Static indicator or determinate progress."
   duracao: core/duration/100
   nao_muda: "State color, focus ring and any indication that is not motion. Reducing motion is NOT removing feedback."

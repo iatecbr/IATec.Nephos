@@ -77,8 +77,8 @@ the root element and import the generated CSS:
 Omitting both gives you Sistemas in light mode.
 
 The CI workflow and publishing do not exist yet — their direction is set by P19,
-in [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), which is kept in
-Portuguese only.
+in [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), which exists in
+English only.
 
 ## Technical decisions in force
 
@@ -175,8 +175,8 @@ a real screen or an approved mock.
 
 ## Language versions
 
-This repository publishes its usage documentation in Portuguese (BR), English
-and Spanish. Portuguese is the source; see [`docs/i18n.md`](docs/i18n.md) for the
+This repository publishes its usage documentation in English, Portuguese (BR)
+and Spanish. English is the source; see [`docs/i18n.md`](docs/i18n.md) for the
 convention.
 
 ## Licence

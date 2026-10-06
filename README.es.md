@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=c4de36a2cc85b9ff23fc853412d415b729b00ed03cd7b5bca21fca35e391a27b | status=revisado -->
+<!-- i18n: lang=es | source=README.md | source-sha256=8390638e2e0effbfe32fb654410f4045cb70a93fb14864454b9b947751764dad | status=revisado -->
 
 # Nephos 5.0
 
@@ -83,7 +83,7 @@ Omitir ambos entrega Sistemas en claro.
 
 El workflow de CI y la publicación todavía no existen — su dirección está fijada
 por la P19, en [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), que se
-mantiene solo en portugués.
+mantiene solo en inglés.
 
 ## Decisiones técnicas vigentes
 
@@ -179,8 +179,8 @@ una pantalla real o de un mock aprobado.
 
 ## Versiones de idioma
 
-Este repositorio publica su documentación de uso en portugués (BR), inglés y
-español. El portugués es la fuente; ver [`docs/i18n.md`](docs/i18n.md) para la
+Este repositorio publica su documentación de uso en inglés, portugués (BR) y
+español. El inglés es la fuente; ver [`docs/i18n.md`](docs/i18n.md) para la
 convención.
 
 ## Licencia

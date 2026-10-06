@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=README.md | source-sha256=c4de36a2cc85b9ff23fc853412d415b729b00ed03cd7b5bca21fca35e391a27b | status=revisado -->
+<!-- i18n: lang=pt-BR | source=README.md | source-sha256=8390638e2e0effbfe32fb654410f4045cb70a93fb14864454b9b947751764dad | status=revisado -->
 
 # Nephos 5.0
 
@@ -179,8 +179,8 @@ uma tela real ou mock aprovado.
 
 ## Versões de idioma
 
-Este repositório publica sua documentação de uso em português (BR), inglês e
-espanhol. O português é a fonte; veja [`docs/i18n.md`](docs/i18n.md) para a
+Este repositório publica sua documentação de uso em inglês, português (BR) e
+espanhol. O inglês é a fonte; veja [`docs/i18n.md`](docs/i18n.md) para a
 convenção.
 
 ## Licença
