@@ -126,7 +126,10 @@ export function docProse(source) {
       for (const m of line.matchAll(/"((?:[^"\\]|\\.)*)"(\s*:)?/g)) if (!m[2]) values.push(m[1]);
     } else {
       const m = /^\s*-?\s*[\w"'-]+\s*:\s*(.+)$/.exec(line) ?? /^\s*-\s+(.+)$/.exec(line);
-      if (m) values.push(m[1].trim().replace(/^["']|["']$/g, ''));
+      const value = m ? m[1].trim() : '';
+      /* A flow list is judged item by item: `[cor, tipografia]` is a list of technical values. */
+      if (/^\[.*\]$/.test(value)) for (const item of value.slice(1, -1).split(',')) values.push(item.trim().replace(/^["']|["']$/g, ''));
+      else if (m) values.push(value.replace(/^["']|["']$/g, ''));
     }
     return values.filter((v) => /\s/.test(v.trim())).join(' ');
   };

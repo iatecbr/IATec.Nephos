@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=f73d0c7c70c115899ca133b550889471126eb7a576918a6d5fc17449806ba1df | status=revisado -->
+<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=2c2da33a5f9826a832c86290d3fcec2f7ea647aeabb9cdc9bc82c26f25fcf4a7 | status=revisado -->
 
 # Tokens — fonte, geração e consumo
 
@@ -163,7 +163,7 @@ partir de 28/08/2026 saem em `rem` — ver a seção abaixo.
 ## Atualização de 28-08-2026 — dimensões em `rem`
 
 O gerador emitia `px` para todo `dimension`, enquanto o `design.md` já prometia
-`unidade_css: rem, raiz 16px`. **Decisão de Elvys na P62.4, em 28/08/2026:** o
+`unidade_css: rem, root 16px`. **Decisão de Elvys na P62.4, em 28/08/2026:** o
 contrato não muda; o código passa a cumpri-lo.
 
 O transform `nephos/dimension/rem` divide o valor por **16** e emite `rem`.
