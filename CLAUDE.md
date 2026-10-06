@@ -1,44 +1,48 @@
-# Nephos — instruções exclusivas do Claude
+# Nephos — instructions exclusive to Claude
 
-> **Antes de criar ou modificar qualquer UI, leia e siga `GOVERNANCA.md` e o
-> `design.md`. Antes de usar um componente, abra a ficha dele em
-> `fichas/<nome>.md`.**
+> **Before creating or changing any UI, read and follow `GOVERNANCA.md` and
+> `design.md`. Before using a component, open its sheet at
+> `fichas/<name>.md`.**
 
-> **`AGENTS.md` é o contrato comum. Leia-o primeiro, inteiro.** Este arquivo não
-> o repete: acrescenta apenas o que vale para o Claude e não vale para os demais
-> agentes. Em qualquer divergência entre os dois, prevalece o `AGENTS.md`.
+> **`AGENTS.md` is the shared contract. Read it first, in full.** This file
+> does not repeat it: it adds only what applies to Claude and not to the other
+> agents. In any divergence between the two, `AGENTS.md` prevails.
 
-## O papel do Claude no repositório
+## Claude's role in the repository
 
-1. **O Claude aplica; não redige por conta própria.** O conteúdo documental é
-   redigido e auditado pelo Copilot, e o Claude o aplica no repositório sem
-   alterar o sentido aprovado. Edição editorial autônoma do Claude não é fonte
-   válida de regra.
-2. **PR só quando há risco.** A régua de risco do `AGENTS.md` diz o que vai por
-   push direto em `v/5.0.0` e o que exige PR. No PR, Elvys ou Mauro revisam e
-   fazem o merge. O Claude não faz o merge do próprio PR.
-3. **Branch e worktree isolados.** Quando a tarefa previr worktree, nenhuma
-   execução acontece no clone principal.
-4. **Plano antes de editar.** O Claude apresenta o que pretende alterar e espera
-   a aprovação da etapa; não edita antes disso.
-5. **Documentação pública traduzida muda na mesma entrega (PR ou push).** Alterou `README.md` ou
-   `docs/tokens.md`, atualize os pares `en`/`es`, rode `npm run i18n:update` e
-   `npm run test:i18n` antes de fechar a entrega.
-6. **O que o Claude escreve no repositório sai em inglês** — código, comentário,
-   mensagem, ficha e documentação —; commit, pull request e comentário para quem
-   revisa saem em português (P64, emenda de 06/10/2026; regra completa no `AGENTS.md`).
-7. **O Claude não aceita a documentação Figma de um componente — ele a lê.**
-   Quem aceita é a Indiane, e o gate `documentacao-figma-aceita` da tarefa é a
-   única forma de o Claude saber que ela aceitou. Ler o frame, ver o desenho ou
-   ouvir "pode ir" não substitui o gate. A ordem completa — documentação Figma
-   aceita, código local, ficha final, revisão — está em **A ordem de um
-   componente**, no `AGENTS.md`; este arquivo não a repete.
+1. **Claude applies; it does not draft on its own.** The documentation content
+   is drafted and audited by Copilot, and Claude applies it to the repository
+   without changing the approved meaning. Autonomous editorial editing by
+   Claude is not a valid source of rules.
+2. **A PR only when there is risk.** The risk yardstick in `AGENTS.md` says
+   what goes by direct push to `v/5.0.0` and what requires a PR. In a PR,
+   Elvys or Mauro review and merge. Claude does not merge its own PR.
+3. **Isolated branch and worktree.** When the task calls for a worktree, no
+   execution happens in the main clone.
+4. **Plan before editing.** Claude presents what it intends to change and
+   waits for approval of the step; it does not edit before that.
+5. **Translated public documentation changes in the same delivery (PR or
+   push).** If you changed `README.md` or `docs/tokens.md`, update the
+   `pt-BR`/`es` pairs, run `npm run i18n:update` and `npm run test:i18n`
+   before closing the delivery.
+6. **What Claude writes in the repository comes out in English** — code,
+   comments, messages, sheets and documentation —; commits, pull requests and
+   comments to reviewers come out in Portuguese (P64, amendment of 06/10/2026;
+   full rule in `AGENTS.md`).
+7. **Claude does not accept a component's Figma documentation — it reads it.**
+   Indiane accepts it, and the task's `documentacao-figma-aceita` gate is the
+   only way for Claude to know she accepted. Reading the frame, seeing the
+   design or hearing "go ahead" does not replace the gate. The full order —
+   accepted Figma documentation, local code, final sheet, review — is in **The
+   order of a component**, in `AGENTS.md`; this file does not repeat it.
 
-## Quando parar
+## When to stop
 
-Pare e peça confirmação quando faltar decisão, fonte de verdade, ficha,
-evidência visual, gate ou acesso — e quando duas fontes vigentes divergirem.
-Parar com o bloqueio registrado vale mais do que entregar com lacuna preenchida.
+Stop and ask for confirmation when a decision, source of truth, sheet, visual
+evidence, gate or access is missing — and when two current sources diverge.
+Stopping with the blocker recorded is worth more than delivering with a gap
+filled in.
 
-Em componente, o gate que falta é quase sempre `documentacao-figma-aceita`:
-registre o bloqueio na tarefa e pare, em vez de começar o código "enquanto isso".
+For a component, the missing gate is almost always `documentacao-figma-aceita`:
+record the blocker in the task and stop, instead of starting the code "in the
+meantime".
