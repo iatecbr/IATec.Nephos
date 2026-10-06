@@ -13,24 +13,24 @@
     "data": "2026-09-14",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "O frame Documentacao — nph-icon (346:4) foi aceito e passou a ser a especificacao temporaria de API e comportamento do COMPONENT_SET icon."
+    "decisao_convertida": "The frame `Documentacao — nph-icon` (346:4) was accepted and became the temporary API and behavior specification of the COMPONENT_SET icon."
   }
 }
 ```
 
 # DSA-03 — `documentacao-figma-aceita`
 
-Indiane aceitou a documentacao Figma do `nph-icon` em 14-09-2026. O frame
-`Documentacao — nph-icon` (`346:4`), na pagina `NPH — Icon` do arquivo
-`DS-IA-NEPHOS 5.0`, e a especificacao temporaria de API e comportamento. O
-conjunto mestre e o COMPONENT_SET `icon`.
+Indiane accepted the Figma documentation of `nph-icon` on 14-09-2026. The frame
+`Documentacao — nph-icon` (`346:4`), on the page `NPH — Icon` of the file
+`DS-IA-NEPHOS 5.0`, is the temporary API and behavior specification. The
+master set is the COMPONENT_SET `icon`.
 
-Nao ha saida de comando. A aceitacao e observacao humana, registrada com a
-data, a autoria, a URL do frame e o COMPONENT_SET. Conteudo restrito do Figma
-nao entra nesta evidencia.
+There is no command output. The acceptance is a human observation, recorded with
+the date, the authorship, the frame URL and the COMPONENT_SET. Restricted Figma
+content does not enter this evidence.
 
-## Fonte da aceitacao
+## Source of the acceptance
 
-WORK BRAIN — `03 MEMORIA/diario/2026/2026-09-14.md`, decisao de 14-09-2026:
-Indiane aprovou a documentacao Figma do `nph-icon` (`Documentacao — nph-icon`,
+WORK BRAIN — `03 MEMORIA/diario/2026/2026-09-14.md`, decision of 14-09-2026:
+Indiane approved the Figma documentation of `nph-icon` (`Documentacao — nph-icon`,
 `346:4`).

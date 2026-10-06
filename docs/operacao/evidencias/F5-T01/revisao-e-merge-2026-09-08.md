@@ -13,22 +13,22 @@
 
 # F5-T01 — `revisao-e-merge`
 
-O PR #23 foi mergeado na `v/3.0.0`. O merge commit é `b166b23`, ponta da branch padrão
-nesta verificação, e o commit `7c11fc3`, que encerrou a sessão de execução da F5-T01, é
-ancestral dele.
+PR #23 was merged into `v/3.0.0`. The merge commit is `b166b23`, the default branch tip
+at this verification, and commit `7c11fc3`, which closed the F5-T01 execution session, is an
+ancestor of it.
 
-## Comando
+## Command
 
 ```
 git merge-base --is-ancestor 7c11fc3 origin/v/3.0.0
 ```
 
-## Saída
+## Output
 
-Sem saída. Código de saída `0`, que é o que este comando devolve quando o primeiro
-commit é ancestral do segundo.
+No output. Exit code `0`, which is what this command returns when the first
+commit is an ancestor of the second.
 
-## Contexto verificável
+## Verifiable context
 
 ```
 $ git fetch --prune
@@ -44,7 +44,7 @@ b166b23 Merge pull request #23 from iatecbr/docs/m5-f5-t01-blocos
 2b992fc Merge pull request #21 from iatecbr/docs/m5-ativacao-f5-t01
 ```
 
-Os dois gates anteriores, repetidos sobre `b166b23`:
+The two previous gates, repeated over `b166b23`:
 
 ```
 $ test -d fichas; echo $?

@@ -1,7 +1,7 @@
 ```json
 {
   "id": "DSA-14",
-  "objetivo": "Publicar a Metadata de cada peca em ingles, sem deixar de ser derivada da ficha, para que agente de IA e consumidor leiam um contrato num idioma so.",
+  "objetivo": "Publish the Metadata of each piece in English, while it remains derived from the spec, so that AI agents and consumers read a contract in a single language.",
   "fase": "F0",
   "ordem_aprovada": 140,
   "responsavel": "claude-codigo",
@@ -11,7 +11,7 @@
   "gates": [
     {
       "id": "metadata-em-ingles",
-      "descricao": "Toda Metadata em src/shared/metadata/ tem chaves e texto em ingles, e o verificador confirma que ela continua derivada da ficha vigente (V32).",
+      "descricao": "All Metadata in src/shared/metadata/ has keys and text in English, and the verifier confirms that it remains derived from the current spec (V32).",
       "comando": "node scripts/verificar-operacao.mjs",
       "evidencia": null,
       "resultado": "pendente",
@@ -20,7 +20,7 @@
     },
     {
       "id": "revisao-e-merge",
-      "descricao": "Gerador, fichas ou decisao tecnica que mudarem revisados por maurocsjr e mergeados na v/5.0.0.",
+      "descricao": "Generator, specs or technical decision that change reviewed by maurocsjr and merged into v/5.0.0.",
       "comando": null,
       "evidencia": null,
       "resultado": "pendente",
@@ -31,7 +31,7 @@
   "bloqueios": [],
   "decisoes_pendentes": [
     {
-      "pergunta": "Qual caminho leva a Metadata ao ingles: (a) o YAML das fichas passa a ser escrito em ingles e a Metadata segue copia exata (P63 intacta); (b) a ficha ganha o texto em ingles ao lado do portugues e o gerador publica so o ingles; ou (c) a Metadata passa a ser publicada nos tres idiomas, como sugere a revisao do PR #56?",
+      "pergunta": "Which path takes the Metadata to English: (a) the YAML of the specs is written in English and the Metadata remains an exact copy (P63 intact); (b) the spec gains the English text beside the Portuguese and the generator publishes only the English; or (c) the Metadata is published in the three languages, as the review of PR #56 suggests?",
       "quem_decide": "indiane"
     }
   ],
@@ -39,8 +39,8 @@
   "referencias_de_decisao": [
     "docs/decisoes-tecnicas.md#p63",
     "docs/decisoes-tecnicas.md#p64",
-    "PR #56, revisao de maurocsjr em 2026-10-06: Metadata para IA em ingles, se nao houver os tres idiomas",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-06.md, Metadata em ingles vira tarefa propria"
+    "PR #56, review by maurocsjr on 2026-10-06: Metadata for AI in English, if there are not three languages",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-06.md, Metadata in English becomes a task of its own"
   ],
   "origem_externa": null,
   "revisao_git": { "branch": null, "commit": null, "pr": null },
@@ -49,35 +49,35 @@
 }
 ```
 
-# DSA-14 — Metadata em inglês
+# DSA-14 — Metadata in English
 
-## Objetivo
-A Metadata de toda peça vigente, em `src/shared/metadata/<peca>.json`, sai em
-inglês, nas chaves e no texto, e continua gerada da ficha por
-`node scripts/verificar-operacao.mjs --gerar-metadata`. Quem lê a Metadata não
-encontra português.
+## Goal
+The Metadata of every current piece, in `src/shared/metadata/<peca>.json`, comes out
+in English, in the keys and in the text, and remains generated from the spec by
+`node scripts/verificar-operacao.mjs --gerar-metadata`. Whoever reads the Metadata
+finds no Portuguese.
 
-## Por que aguarda decisão
-Pela P63, a Metadata é cópia exata do YAML da ficha, e o YAML está em
-português. Passar a Metadata para o inglês muda a ficha, o gerador ou a própria
-P63. O caminho é a decisão pendente; a ordem 140 só põe a tarefa na fila e não
-fixa prioridade.
+## Why it awaits a decision
+Under P63, the Metadata is an exact copy of the spec's YAML, and the YAML is in
+Portuguese. Moving the Metadata to English changes the spec, the generator or P63
+itself. The path is the pending decision; order 140 only puts the task in the queue
+and does not set priority.
 
-## Como se prova
-**`metadata-em-ingles`** — `node scripts/verificar-operacao.mjs` sai 0, com a
-`V32` conferindo que cada Metadata bate com a ficha vigente, e nenhuma Metadata
-traz chave ou texto em português.
+## How it is proved
+**`metadata-em-ingles`** — `node scripts/verificar-operacao.mjs` exits 0, with
+`V32` checking that each Metadata matches the current spec, and no Metadata
+carries a key or text in Portuguese.
 
-**`revisao-e-merge`** — o que mudar (gerador, fichas, decisão técnica) passa
-pelos comandos de prova, é revisado por `maurocsjr` e mergeado na `v/5.0.0`.
+**`revisao-e-merge`** — whatever changes (generator, specs, technical decision)
+passes the proof commands, is reviewed by `maurocsjr` and merged into `v/5.0.0`.
 
-## O que esta tarefa não faz
-Não muda o conteúdo das fichas, só o idioma. Não cria a aba de Metadata no
-Storybook nem o servidor de consulta, que estão fora de escopo da P63. Não muda
-as stories, que seguem a emenda de 06/10/2026 da P64.
+## What this task does not do
+It does not change the content of the specs, only the language. It does not create
+the Metadata tab in Storybook or the query server, which are out of scope of P63.
+It does not change the stories, which follow the 06/10/2026 amendment to P64.
 
-## Fontes
-- `docs/decisoes-tecnicas.md` — P63 e P64
-- `scripts/verificar-operacao.mjs` e `scripts/spec-lib.mjs`
+## Sources
+- `docs/decisoes-tecnicas.md` — P63 and P64
+- `scripts/verificar-operacao.mjs` and `scripts/spec-lib.mjs`
 - `src/shared/metadata/`
-- `fichas/` e `fichas/_modelo.md`
+- `fichas/` and `fichas/_modelo.md`

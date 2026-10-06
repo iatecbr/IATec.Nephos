@@ -1,7 +1,7 @@
 ```json
 {
   "id": "DSA-07",
-  "objetivo": "Registrar a convencao de idioma do codigo e migrar o codigo versionado para ela, sem mudar comportamento.",
+  "objetivo": "Record the code language convention and migrate the versioned code to it, without changing behavior.",
   "fase": "F0",
   "ordem_aprovada": 100,
   "responsavel": "claude-codigo",
@@ -11,7 +11,7 @@
   "gates": [
     {
       "id": "convencao-registrada",
-      "descricao": "A P64 existe em docs/decisoes-tecnicas.md com o escopo decidido, a regra esta no AGENTS.md e a revisao tecnica foi registrada.",
+      "descricao": "P64 exists in docs/decisoes-tecnicas.md with the decided scope, the rule is in AGENTS.md and the technical review was recorded.",
       "comando": null,
       "evidencia": "docs/operacao/evidencias/DSA-07/convencao-registrada-2026-10-06.md",
       "resultado": "passou",
@@ -20,7 +20,7 @@
     },
     {
       "id": "migracao-sem-mudanca-de-comportamento",
-      "descricao": "Em cada PR da migracao, a saida (stdout, stderr e codigo) dos scripts e identica antes e depois, os artefatos gerados nao mudam de conteudo, nenhum arquivo novo aparece e a bateria sai com 0. Cobre scripts, src, stories e .storybook.",
+      "descricao": "In each migration PR, the output (stdout, stderr and exit code) of the scripts is identical before and after, the generated artifacts do not change content, no new file appears and the test suite exits 0. Covers scripts, src, stories and .storybook.",
       "comando": "npm run build:tokens && node scripts/verificar-operacao.mjs --gerar-metadata && git diff --quiet && node -e \"process.exit(require('child_process').execSync('git ls-files --others --exclude-standard').length?1:0)\" && npm run typecheck && npm test && npm run test:tokens && npm run test:i18n && npm run test:operacao && node scripts/verificar-operacao.mjs --exemplos && npm run build-storybook",
       "evidencia": "docs/operacao/evidencias/DSA-07/migracao-sem-mudanca-de-comportamento-2026-10-06.md",
       "resultado": "passou",
@@ -43,7 +43,7 @@
     "data": "2026-09-28",
     "autoria": "maurocsjr",
     "trecho": null,
-    "decisao_convertida": "Na revisao aprovada do PR #41, maurocsjr observou que codigo deve seguir o padrao em ingles; em 28-09-2026 Indiane decidiu tratar a convencao numa tarefa propria e adotar: nomes do codigo em ingles, comentario e mensagem em PT-BR, em todo o codigo versionado; fase F0 e ordem 100. O bloqueio pelo merge do PR #41 caiu em a30be89."
+    "decisao_convertida": "In the approved review of PR #41, maurocsjr noted that code should follow the English standard; on 28-09-2026 Indiane decided to handle the convention in a task of its own and adopt: code names in English, comments and messages in PT-BR, across all versioned code; phase F0 and order 100. The blocker on the merge of PR #41 was lifted in a30be89."
   },
   "revisao_git": {
     "branch": "chore/p64-nomes-codigo",
@@ -55,36 +55,36 @@
 }
 ```
 
-# DSA-07 — convenção de idioma do código
+# DSA-07 — code language convention
 
-## Objetivo
+## Goal
 
-O repositório tem uma regra escrita sobre o idioma do código, e o código versionado
-a segue. Percebe-se porque a P64 existe, o `AGENTS.md` cita a regra e a bateria
-passa igual antes e depois da migração.
+The repository has a written rule about the code language, and the versioned code
+follows it. You can tell because P64 exists, `AGENTS.md` cites the rule and the
+test suite passes the same before and after the migration.
 
-## Como se prova
+## How it is proved
 
-**`convencao-registrada`** — a P64 está em `docs/decisoes-tecnicas.md` e a revisão
-técnica fica registrada nela, como nas demais. O `AGENTS.md` traz a regra.
+**`convencao-registrada`** — P64 is in `docs/decisoes-tecnicas.md` and the technical
+review is recorded in it, as in the others. `AGENTS.md` carries the rule.
 
-**`migracao-sem-mudanca-de-comportamento`** — em cada PR, a saída dos scripts é
-comparada antes e depois e tem de ser idêntica, e o comando do gate sai com 0. O juiz
-de arquivo é `git diff` vazio e nenhum arquivo não rastreado: com `core.autocrlf`,
-o `git status` marca `tokens.css` depois do build sem mudança de conteúdo.
+**`migracao-sem-mudanca-de-comportamento`** — in each PR, the output of the scripts
+is compared before and after and must be identical, and the gate command exits 0.
+The file judge is an empty `git diff` and no untracked file: with `core.autocrlf`,
+`git status` flags `tokens.css` after the build without a content change.
 
-## O que esta tarefa não faz
+## What this task does not do
 
-- Não muda chave de dados, bandeira da linha de comando, nome de arquivo já citado
-  nem nome público.
-- Não muda comportamento nem texto de mensagem.
-- Não reescreve registro histórico.
+- It does not change a data key, a command-line flag, an already cited file name or
+  a public name.
+- It does not change behavior or message text.
+- It does not rewrite historical records.
 
-## Fontes
+## Sources
 
 - `docs/decisoes-tecnicas.md` — P64
-- `AGENTS.md` — Regras obrigatórias
-- PR #41 — comentário de `maurocsjr`
-- PR #42 — primeiro PR da migração (`scripts/`)
-- PR #49 — migração de `src/`, `stories/` e `.storybook/`, emenda da P64 e
-  `npm run test:naming`; merge em 05-10-2026 (`183ff01`)
+- `AGENTS.md` — Mandatory rules
+- PR #41 — comment by `maurocsjr`
+- PR #42 — first migration PR (`scripts/`)
+- PR #49 — migration of `src/`, `stories/` and `.storybook/`, amendment of P64 and
+  `npm run test:naming`; merged on 05-10-2026 (`183ff01`)

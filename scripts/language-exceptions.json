@@ -1,1 +1,129 @@
-[]
+[
+  {
+    "file": "README.md",
+    "class": "prose-text",
+    "names": [
+      "Sistemas"
+    ],
+    "reason": "Name of the default brand (vertical), a proper name."
+  },
+  {
+    "file": "design.md",
+    "class": "contract-term",
+    "names": [
+      "margem",
+      "estilo",
+      "conteudo",
+      "fonte"
+    ],
+    "reason": "Flow-map keys of the token contract quoted in values; they change in DSA-15."
+  },
+  {
+    "file": "docs/decisoes-tecnicas.md",
+    "class": "prose-text",
+    "names": [
+      "Sistemas"
+    ],
+    "reason": "Name of the default brand (vertical), a proper name."
+  },
+  {
+    "file": "docs/operacao/evidencias/DSA-04/tokens-conferidos-com-figma-2026-10-05.md",
+    "class": "prose-text",
+    "names": [
+      "novos"
+    ],
+    "reason": "Command output pasted as it was printed at the time."
+  },
+  {
+    "file": "docs/operacao/evidencias/F5-T01/fichas-na-branch-padrao-2026-09-08.md",
+    "class": "contract-term",
+    "names": [
+      "fichas"
+    ],
+    "reason": "Recorded command `test -d fichas`; the directory is part of the verifier contract."
+  },
+  {
+    "file": "docs/operacao/evidencias/PE-03/revisao-registrada-2026-09-09.md",
+    "class": "prose-text",
+    "names": [
+      "aprovada",
+      "foi"
+    ],
+    "reason": "Recorded grep command and its output, quoting the register as it was."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-03.md",
+    "class": "prose-text",
+    "names": [
+      "de",
+      "decisões"
+    ],
+    "reason": "Title of a vault note quoted as a source."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-04.md",
+    "class": "prose-text",
+    "names": [
+      "de",
+      "decisões"
+    ],
+    "reason": "Title of a vault note quoted as a source."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-08.md",
+    "class": "prose-text",
+    "names": [
+      "de",
+      "decisões",
+      "decisão"
+    ],
+    "reason": "Titles of vault notes quoted as sources."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-13.md",
+    "class": "prose-text",
+    "names": [
+      "de",
+      "decisões"
+    ],
+    "reason": "Title of a vault note quoted as a source."
+  },
+  {
+    "file": "docs/operacao/tarefas/F4-T04.md",
+    "class": "prose-text",
+    "names": [
+      "ativas"
+    ],
+    "reason": "Title of a vault note quoted as a source."
+  },
+  {
+    "file": "docs/operacao/tarefas/F5-T01.md",
+    "class": "contract-term",
+    "names": [
+      "fichas"
+    ],
+    "reason": "Recorded command `test -d fichas`; the directory is part of the verifier contract."
+  },
+  {
+    "file": "docs/operacao/tarefas/PF-15.md",
+    "class": "prose-text",
+    "names": [
+      "sombra",
+      "elevação"
+    ],
+    "reason": "Title of PR #19 quoted as it was."
+  },
+  {
+    "file": "docs/tokens.md",
+    "class": "prose-text",
+    "names": [
+      "campo",
+      "que",
+      "falhou",
+      "validacao",
+      "Educação",
+      "Sistemas"
+    ],
+    "reason": "A quoted Portuguese token description and brand (vertical) names, which are proper names."
+  }
+]

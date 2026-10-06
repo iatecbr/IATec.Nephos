@@ -1,7 +1,7 @@
 ```json
 {
   "id": "DSA-09",
-  "objetivo": "Implementar o nph-spinner, o girador de espera sem hora para acabar, com o contrato aceito no Figma.",
+  "objetivo": "Implement the nph-spinner, the waiting spinner with no end time, with the contract accepted in Figma.",
   "fase": "F4",
   "ordem_aprovada": 115,
   "responsavel": "claude-codigo",
@@ -11,7 +11,7 @@
   "gates": [
     {
       "id": "documentacao-figma-aceita",
-      "descricao": "A documentacao de nph-spinner no Figma foi aceita por Indiane e registrada como evidencia.",
+      "descricao": "The nph-spinner documentation in Figma was accepted by Indiane and recorded as evidence.",
       "comando": null,
       "evidencia": "docs/operacao/evidencias/DSA-09/documentacao-figma-aceita-2026-10-01.md",
       "resultado": "passou",
@@ -20,7 +20,7 @@
     },
     {
       "id": "revisao-e-merge",
-      "descricao": "Componente, CSS, testes, stories, ficha e decisao tecnica revisados por maurocsjr e mergeados na v/5.0.0.",
+      "descricao": "Component, CSS, tests, stories, spec and technical decision reviewed by maurocsjr and merged into v/5.0.0.",
       "comando": null,
       "evidencia": null,
       "resultado": "pendente",
@@ -36,7 +36,7 @@
   ],
   "referencias_de_decisao": [
     "docs/decisoes-tecnicas.md#p21",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, recorte da primeira entrega (Lote A)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, first-delivery cut (Batch A)"
   ],
   "origem_externa": {
     "classificacao": "interna-permitida",
@@ -44,7 +44,7 @@
     "data": "2026-10-01",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "O frame nph-spinner (1195:22210) foi aceito como especificacao de API e comportamento do nph-spinner. COMPONENT_SET 281:11, variante size sm|md, padrao sm. Em 05-10-2026 Indiane aprovou o recorte da primeira entrega, com o Lote A (icon, spinner, separator, kbd) num plano e num PR."
+    "decisao_convertida": "The nph-spinner frame (1195:22210) was accepted as the API and behavior specification of the nph-spinner. COMPONENT_SET 281:11, size variant sm|md, default sm. On 05-10-2026 Indiane approved the cut of the first delivery, with Batch A (icon, spinner, separator, kbd) in one plan and one PR."
   },
   "revisao_git": { "branch": null, "commit": null, "pr": null },
   "contexto": null,
@@ -52,32 +52,33 @@
 }
 ```
 
-# DSA-09 — nph-spinner, o girador
+# DSA-09 — nph-spinner, the spinner
 
-## Objetivo
-Existe o `nph-spinner` em `src/components/nph-spinner/`, com ficha, testes e
-stories, no contrato aceito no Figma: o `circle-notch` do `nph-icon` girando em
-`motion/loop-*`, nos tamanhos `sm` e `md`, parado com movimento reduzido.
+## Goal
+The `nph-spinner` exists in `src/components/nph-spinner/`, with a spec, tests and
+stories, in the contract accepted in Figma: the `circle-notch` of the `nph-icon`
+spinning at `motion/loop-*`, in sizes `sm` and `md`, stopped under reduced motion.
 
-## Como se prova
-**`documentacao-figma-aceita`** — o quadro `nph-spinner` (`1195:22210`) do Figma
-`DS-IA-NEPHOS 5.0` foi aceito por Indiane em 01-10-2026, com QA UX de Figma e
-auditoria textual aprovados. A evidencia nomeia o frame e o COMPONENT_SET
-(`281:11`).
+## How it is proved
+**`documentacao-figma-aceita`** — the `nph-spinner` frame (`1195:22210`) of the
+Figma file `DS-IA-NEPHOS 5.0` was accepted by Indiane on 01-10-2026, with the Figma
+UX QA and the text audit approved. The evidence names the frame and the
+COMPONENT_SET (`281:11`).
 
-**`revisao-e-merge`** — componente, CSS, testes, stories, ficha e a decisao
-tecnica passam pelos comandos de prova, sao revisados por `maurocsjr` e
-mergeados na `v/5.0.0`.
+**`revisao-e-merge`** — component, CSS, tests, stories, spec and the technical
+decision pass the proof commands, are reviewed by `maurocsjr` and
+merged into `v/5.0.0`.
 
-A evidencia `nph-icon-revalidado-2026-10-05.md` registra que o `nph-icon`, que o
-spinner consome, bate com o Figma aceito.
+The evidence `nph-icon-revalidado-2026-10-05.md` records that the `nph-icon`, which
+the spinner consumes, matches the accepted Figma.
 
-## O que esta tarefa não faz
-Nao muda o `nph-icon`. Nao poe o girador dentro do `nph-button` (Lote B). Nao
-cria tamanho `lg`, token novo nem indicador de progresso conhecido.
+## What this task does not do
+It does not change the `nph-icon`. It does not put the spinner inside the
+`nph-button` (Batch B). It does not create an `lg` size, a new token or a
+known-progress indicator.
 
-## Fontes
-- Figma `DS-IA-NEPHOS 5.0`, quadro `1195:22210` e conjunto `281:11`
+## Sources
+- Figma `DS-IA-NEPHOS 5.0`, frame `1195:22210` and set `281:11`
 - `design.md` — `motion/loop-duration`, `motion/loop-easing`, `icon/size-*`
 - `docs/decisoes-tecnicas.md` — P21
 - `fichas/_modelo.md`, `fichas/nph-spinner.md`

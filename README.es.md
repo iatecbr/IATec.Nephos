@@ -1,11 +1,11 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=ad3e0c808e033a895b61730a1c53e865ef0feb5005c7616c803cbde86ef15d7f | status=revisado -->
+<!-- i18n: lang=es | source=README.md | source-sha256=8390638e2e0effbfe32fb654410f4045cb70a93fb14864454b9b947751764dad | status=revisado -->
 
 # Nephos 5.0
 
-[Português (BR)](README.md) · [English](README.en.md) · **Español**
+[English](README.md) · [Português (BR)](README.pt-BR.md) · **Español**
 
-> Traducido de la fuente en portugués de Brasil, [`README.md`](README.md).
-> Si ambos difieren, prevalece el archivo en portugués.
+> Traducido de la fuente en inglés, [`README.md`](README.md).
+> Si ambos difieren, prevalece el archivo en inglés.
 
 Nephos es el Design System de IATec. Conecta fundamentos definidos en Figma, Web
 Components escritos en Lit, documentación consultable y validación visual y de
@@ -83,7 +83,7 @@ Omitir ambos entrega Sistemas en claro.
 
 El workflow de CI y la publicación todavía no existen — su dirección está fijada
 por la P19, en [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), que se
-mantiene solo en portugués.
+mantiene solo en inglés.
 
 ## Decisiones técnicas vigentes
 
@@ -179,8 +179,8 @@ una pantalla real o de un mock aprobado.
 
 ## Versiones de idioma
 
-Este repositorio publica su documentación de uso en portugués (BR), inglés y
-español. El portugués es la fuente; ver [`docs/i18n.md`](docs/i18n.md) para la
+Este repositorio publica su documentación de uso en inglés, portugués (BR) y
+español. El inglés es la fuente; ver [`docs/i18n.md`](docs/i18n.md) para la
 convención.
 
 ## Licencia

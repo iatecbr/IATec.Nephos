@@ -13,21 +13,21 @@
 
 # PF-15 — `revisao-e-merge`
 
-O PR #19 foi mergeado na `v/3.0.0`. O merge commit é `ec09459`, e ele é ancestral da
-ponta atual da branch padrão.
+PR #19 was merged into `v/3.0.0`. The merge commit is `ec09459`, and it is an ancestor of the
+current tip of the default branch.
 
-## Comando
+## Command
 
 ```
 git merge-base --is-ancestor ec09459 origin/v/3.0.0
 ```
 
-## Saída
+## Output
 
-Sem saída. Código de saída `0`, que é o que este comando devolve quando o primeiro
-commit é ancestral do segundo.
+No output. Exit code `0`, which is what this command returns when the first
+commit is an ancestor of the second.
 
-## Contexto verificável
+## Verifiable context
 
 ```
 git log --oneline --merges origin/v/3.0.0 | head -3

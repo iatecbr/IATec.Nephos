@@ -6153,5 +6153,25 @@
       "src/a.ts": "// de-duplicate entries and count num items\nexport const size = 1;"
     },
     "clean": true
+  },
+  {
+    "label": "prose: tokens with a digit (hash, id, measure) pass",
+    "prose": true,
+    "files": {
+      "docs/a.md": "Merged at a1de3f0 and e1bf6b, see P64 and 24px.\n"
+    },
+    "clean": true
+  },
+  {
+    "label": "prose: a YAML flow list is judged item by item",
+    "prose": true,
+    "files": {
+      "design.md": "---\nescopo: [cor, tipografia, cor_de_grafico]\ndicas: [\"Use o token certo para cada caso\", nph-label]\n---\n"
+    },
+    "exactly": [
+      "design.md:3 para (doc)",
+      "design.md:3 cada (doc)",
+      "design.md:3 caso (doc)"
+    ]
   }
 ]

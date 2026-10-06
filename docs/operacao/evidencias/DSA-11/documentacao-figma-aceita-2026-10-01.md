@@ -13,27 +13,27 @@
     "data": "2026-10-01",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "O frame nph-kbd (1193:20), na pagina NPH — Kbd, foi aceito como especificacao de API e comportamento do nph-kbd. COMPONENT_SET: nenhum; COMPONENT unico 772:3, sem variantes, com a propriedade de texto tecla."
+    "decisao_convertida": "The frame nph-kbd (1193:20), on the page `NPH — Kbd`, was accepted as the API and behavior specification of nph-kbd. COMPONENT_SET: none; single COMPONENT 772:3, no variants, with the text property `tecla`."
   }
 }
 ```
 
 # DSA-11 — `documentacao-figma-aceita`
 
-Indiane aceitou a documentacao do quadro `nph-kbd` (`1193:20`) em 01-10-2026, no
-arquivo `DS-IA-NEPHOS 5.0`, pagina `NPH — Kbd`. O QA UX de Figma teve revisao
-independente aprovada em 02-10-2026, e a auditoria textual foi aprovada em
+Indiane accepted the documentation of the `nph-kbd` board (`1193:20`) on 01-10-2026, in the
+file `DS-IA-NEPHOS 5.0`, page `NPH — Kbd`. The Figma UX QA had an approved
+independent review on 02-10-2026, and the textual audit was approved on
 02-10-2026.
 
-O `nph-kbd` nao tem COMPONENT_SET: e um COMPONENT unico (`772:3`), sem variantes,
-com a propriedade de texto `tecla`.
+`nph-kbd` has no COMPONENT_SET: it is a single COMPONENT (`772:3`), with no variants,
+with the text property `tecla`.
 
-Nao ha saida de comando. A aceitacao e observacao humana, registrada com a
-data, a autoria, a URL do frame e o componente. Conteudo restrito do Figma nao
-entra nesta evidencia.
+There is no command output. The acceptance is a human observation, recorded with
+the date, the authorship, the frame URL and the component. Restricted Figma content does not
+enter this evidence.
 
-## Fonte da aceitacao
+## Source of the acceptance
 
-WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: aceite da documentacao dos
-11 componentes, entre eles o `nph-kbd`. `2026-10-02.md`: QA UX de Figma com
-revisao independente aprovada e auditoria textual aprovada.
+WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: acceptance of the documentation of the
+11 components, among them `nph-kbd`. `2026-10-02.md`: Figma UX QA with
+approved independent review and approved textual audit.

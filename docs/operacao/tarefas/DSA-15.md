@@ -31,7 +31,7 @@
   "bloqueios": [],
   "decisoes_pendentes": [
     {
-      "pergunta": "Which contract keys move to English, with which name map (for example objetivo, use_quando, modos, claro and escuro), and in which order, given that the change touches the docs/operacao schema, the spec YAML, the generated Metadata and the token JSON at once?",
+      "pergunta": "Which contract keys move to English, with which name map (for example `objetivo`, `use_quando`, `modos`, `claro` and `escuro`), and in which order, given that the change touches the docs/operacao schema, the spec YAML, the generated Metadata and the token JSON at once?",
       "quem_decide": "indiane"
     }
   ],

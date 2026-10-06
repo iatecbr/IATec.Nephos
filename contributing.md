@@ -1,45 +1,46 @@
-# Como contribuir
+# How to contribute
 
 ## Branch
 
-Durante a v5, crie cada branch de tarefa a partir de `origin/v/5.0.0`, usando
-um dos prefixos abaixo seguido de uma descrição curta em kebab-case:
+During v5, create each task branch from `origin/v/5.0.0`, using one of the
+prefixes below followed by a short description in kebab-case:
 
-- `feat/` para funcionalidade ou componente;
-- `fix/` para correção;
-- `docs/` para documentação;
-- `chore/` para manutenção sem mudança de produto.
+- `feat/` for a feature or component;
+- `fix/` for a fix;
+- `docs/` for documentation;
+- `chore/` for maintenance with no product change.
 
-Exemplo: `docs/pe01-pe03-contrib-p625`.
+Example: `docs/pe01-pe03-contrib-p625`.
 
-## Commit e pull request
+## Commit and pull request
 
-Use `tipo(escopo): resumo curto` quando houver escopo; omita o parêntese quando ele não
-ajudar a entender a mudança. Os tipos seguem os prefixos de branch: `feat`, `fix`,
-`docs` e `chore`.
+Use `type(scope): short summary` when there is a scope; omit the parentheses
+when they do not help to understand the change. The types follow the branch
+prefixes: `feat`, `fix`, `docs` and `chore`.
 
-Todo pull request da v5 tem `v/5.0.0` como branch de destino. O que vai por
-push direto nessa branch e o que exige pull request segue a régua de risco do
-`AGENTS.md`, em "Fluxo de branch e pull request — v5": registro de tarefa,
-token, correção de texto e registro de decisão já aprovada vão direto, com a
-prova passando; código, scripts, Storybook, dependência, regra, ficha e decisão
-técnica nova vão por pull request.
+Every v5 pull request has `v/5.0.0` as its target branch. What goes by direct
+push to that branch and what requires a pull request follows the risk
+yardstick in `AGENTS.md`, under "Branch and pull request flow — v5": task
+record, token, text fix and record of an already approved decision go
+directly, with the proof passing; code, scripts, Storybook, dependency, rule,
+sheet and new technical decision go through a pull request.
 
-O título do pull request repete o título do commit principal. A descrição informa:
+The pull request title repeats the title of the main commit. The description
+states:
 
-1. objetivo e limite do lote;
-2. arquivos alterados;
-3. comandos executados e resultado;
-4. evidência necessária para revisão;
-5. bloqueio restante, se houver.
+1. the goal and the limit of the batch;
+2. the files changed;
+3. the commands executed and the result;
+4. the evidence needed for review;
+5. the remaining blocker, if any.
 
-## Rito
+## Ritual
 
-Quando a mudança exigir pull request, junte no mesmo PR os itens independentes e
-já validados, com um commit por item. Faça commit quando chegar a um
-estado que funciona, não no fim do dia. Mudança visual inclui comparação verificável;
-mudança de código inclui os testes aplicáveis.
+When the change requires a pull request, put the independent and
+already-validated items in the same PR, with one commit per item. Commit when
+you reach a state that works, not at the end of the day. A visual change
+includes a verifiable comparison; a code change includes the applicable tests.
 
-Quem executa prepara a branch, os commits e o pull request. Elvys ou Mauro revisam e
-fazem o merge; a revisão não transfere a eles a redação do conteúdo nem decisões de
-produto.
+Whoever executes prepares the branch, the commits and the pull request. Elvys
+or Mauro review and merge; the review does not transfer to them the drafting
+of the content or product decisions.
