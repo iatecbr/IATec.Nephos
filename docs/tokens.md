@@ -302,7 +302,7 @@ Educação + dark without anything being re-authored.
 | `data-nph-brand` | `sistemas`, `gerencial`, `educacao`, `comercial`, `financeiro`, `igrejas`, `rh` | `sistemas` |
 | `data-nph-color-scheme` | `light`, `dark` | `light` |
 
-The `data-nph-brand` values are the names of IATec's business verticals. The
+The `data-nph-brand` values are the names of IATec's verticals. The
 internal JSON keys use `claro` and `escuro`, mirroring the Figma modes; the
 mapping to `light`/`dark` is declared in `modeSet.valorPublico`.
 
