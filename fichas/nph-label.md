@@ -207,7 +207,8 @@ da decisão de não usar Shadow DOM. O ícone de informação é focável: com f
 borda `focus/border` e o halo `focus/halo` em volta do alvo de 24 × 24. Ativado por
 clique, Enter ou Espaço, abre o `nph-tooltip` abaixo do rótulo, a `space/inline`; fecha
 com Esc, clique fora ou Tab para fora. O fechamento por Tab é a leitura, para o
-teclado, do "clique fora" da L11 (P62.6). Passar o mouse não abre.
+teclado, do "clique fora" da L11, confirmada por Indiane em 06-10-2026 (P62.6). Passar o
+mouse não abre.
 
 **Regra de negócio que a peça carrega:** o asterisco sinaliza campo obrigatório. **Mas o
 asterisco é decorativo** — ver Acessibilidade.
@@ -271,8 +272,8 @@ as suas propriedades. Sem eles, o rótulo só existiria com valor literal.
 
 **Restrições de uso:** o `use` de `status/error` foi **ampliado no `design.md` antes do
 código**, para cobrir o asterisco. A cor do rótulo **não muda** em nenhuma situação. Os
-limites do gatilho estão na P62.6: o `use` de `color/muted-foreground` ainda não cita o
-ícone (L-a); a regra 6 do `design.md` passa a admitir borda e halo pelo PR #57 (L-b); e o
+limites do gatilho estão na P62.6: o `use` de `color/muted-foreground` passa a citar o
+ícone pelo PR #57, por decisão de Indiane de 06-10-2026 (L-a); a regra 6 do `design.md` passa a admitir borda e halo pelo PR #57 (L-b); e o
 balão não tem `z-index`, porque não há token de camada (L-c).
 
 **Dicas para IA:**

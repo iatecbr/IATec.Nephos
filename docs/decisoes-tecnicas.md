@@ -587,8 +587,8 @@ anotação "Ampliada pela P62.6".
   - **Tab para fora**: `focusout` do gatilho fecha quando o foco vai para um
     elemento fora do `nph-label`. É a leitura, para o teclado, do "clique fora"
     da L11.5: sem ela, o balão ficaria aberto sobre o próximo campo, sem Esc que
-    o feche. **Interpretação da L11.5**: Indiane confirma no Storybook, e o
-    Mauro revisa a implementação. Clique no balão, que não é focável, não fecha.
+    o feche. Leitura confirmada por Indiane em 06/10/2026; a implementação é
+    revisada no PR. Clique no balão, que não é focável, não fecha.
 - **Anatomia, só por token** (conjunto `374:6` e quadro `1194:1482`). Só com o
   gatilho, o host recebe `data-nph-info`, e a raiz passa a `inline-flex`, ao
   centro, com `gap` de `space/inline-tight` e `position: relative`; sem ele, a
@@ -612,7 +612,8 @@ anotação "Ampliada pela P62.6".
 - **L-a — `use` de `color/muted-foreground`.** O `use` no `design.md`
   ("Legenda, texto auxiliar, placeholder, metadado") não cita o ícone do
   gatilho, que o Figma aceito usa (contraste de 6,69:1 no claro e 9,81:1 no
-  escuro, L8). O código segue o Figma; ampliar o `use` é decisão de Indiane.
+  escuro, L8). O código segue o Figma. Indiane decidiu em 06/10/2026 ampliar o
+  `use` para o ícone do gatilho, no PR #57; com ele, este limite fica resolvido.
 - **L-b — regra 6 do `design.md`.** A regra 6 e o `focus-ring/default` ainda
   falam só do anel `focus/ring`. O alinhamento ao foco por borda e halo está no
   PR #57, que já cita o gatilho `info`; este entra depois dele.
@@ -623,8 +624,9 @@ anotação "Ampliada pela P62.6".
 **Fonte.** Anatomia e comportamento: L8 a L11 do Registro de decisões (vault),
 aceitos por Indiane em 08/09/2026 e 01/10/2026, e o quadro `nph-label`
 (`1194:1482`) com o conjunto `374:6`, no Figma `DS-IA-NEPHOS 5.0`. A API
-(`info`, `infoLabel`), a semântica, o fechamento por Tab e a adaptação da
-§2.5 são proposta técnica desta implementação.
+(`info`, `infoLabel`), a semântica e a adaptação da §2.5 são proposta técnica
+desta implementação. O fechamento por Tab é leitura da L11.5, confirmada por
+Indiane em 06/10/2026.
 
 **Status.** Anatomia e comportamento adotados por Indiane em 01/10/2026; API e
 semântica em revisão no PR por `maurocsjr`.
