@@ -1,13 +1,13 @@
 /**
- * Shell inicial do Storybook do Nephos.
+ * Initial Storybook shell for Nephos.
  *
- * Configuracao minima, deliberadamente. O framework
- * `@storybook/web-components-vite` esta mantido por decisao do P19, registrada
- * em `docs/decisoes-tecnicas.md`.
+ * Minimal configuration, deliberately. The `@storybook/web-components-vite`
+ * framework is kept by decision P19, recorded in `docs/decisoes-tecnicas.md`.
  *
- * O primeiro glob e a pagina "Em construcao", que continua na raiz. O segundo
- * atende ao P03: story junto do componente, em `src/components/<nome>/`, em
- * TypeScript. A divergencia registrada no P03 se encerra com o `nph-icon`.
+ * The first glob is the `Em construção` page, which stays at the root. The
+ * second serves P03: story next to the component, in
+ * `src/components/<nome>/`, in TypeScript. The divergence recorded in P03 ends
+ * with `nph-icon`.
  *
  * @type {import('@storybook/web-components-vite').StorybookConfig}
  */
