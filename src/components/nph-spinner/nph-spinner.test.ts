@@ -1,6 +1,6 @@
 /**
- * Testes do `nph-spinner` (P66), em navegador de verdade (P21, item 5): giro,
- * movimento reduzido e medida so existem onde ha layout e animacao.
+ * Tests of `nph-spinner` (P66), in a real browser (P21, item 5): spin, reduced
+ * motion and size only exist where there is layout and animation.
  */
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cdp } from 'vitest/browser';
@@ -27,17 +27,17 @@ function glyphOf(element: NphSpinner): HTMLElement | null {
   return element.shadowRoot?.querySelector<HTMLElement>('nph-icon') ?? null;
 }
 
-describe('registro e API', () => {
-  it('define nph-spinner uma unica vez', () => {
+describe('registration and API', () => {
+  it('defines nph-spinner exactly once', () => {
     expect(customElements.get('nph-spinner')).toBe(NphSpinner);
   });
 
-  it('a API publica e exatamente size e label', () => {
+  it('the public API is exactly size and label', () => {
     const declared = [...(NphSpinner as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
     expect(new Set(declared)).toEqual(new Set(['size', 'label']));
   });
 
-  it('size vale sm por padrao e reflete no atributo', async () => {
+  it('size is sm by default and reflects to the attribute', async () => {
     const spinner = await mount();
     expect(spinner.size).toBe('sm');
     expect(spinner.getAttribute('size')).toBe('sm');
@@ -47,8 +47,8 @@ describe('registro e API', () => {
   });
 });
 
-describe('desenho', () => {
-  it('desenha o circle-notch do nph-icon, no mesmo tamanho', async () => {
+describe('drawing', () => {
+  it('draws the circle-notch of nph-icon, at the same size', async () => {
     for (const size of ['sm', 'md'] as const) {
       const spinner = await mount({ size });
       const glyph = glyphOf(spinner);
@@ -58,7 +58,7 @@ describe('desenho', () => {
     }
   });
 
-  it('medida: sm 16 e md 20, quadrado', async () => {
+  it('size: sm 16 and md 20, square', async () => {
     for (const [size, side] of [['sm', 16], ['md', 20]] as const) {
       const spinner = await mount({ size });
       const box = (glyphOf(spinner) as HTMLElement).getBoundingClientRect();
@@ -68,7 +68,7 @@ describe('desenho', () => {
     }
   });
 
-  it('a cor herda do contexto', async () => {
+  it('the color inherits from the context', async () => {
     const spinner = await mount();
     spinner.style.color = 'rgb(1, 2, 3)';
     const svg = (glyphOf(spinner) as HTMLElement).shadowRoot?.querySelector('svg') as SVGElement;
@@ -76,13 +76,13 @@ describe('desenho', () => {
   });
 });
 
-describe('movimento', () => {
-  it('gira por padrao, com a duracao e a curva de motion/loop', async () => {
+describe('motion', () => {
+  it('spins by default, with the duration and easing of motion/loop', async () => {
     const spinner = await mount();
     const style = getComputedStyle(glyphOf(spinner) as HTMLElement);
     expect(style.animationName).toBe('nph-spinner-turn');
     expect(style.animationIterationCount).toBe('infinite');
-    /* O esperado sai do proprio token: se o laco mudar, o teste acompanha. */
+    /* The expected value comes from the token itself: if the loop changes, the test follows. */
     const probe = document.createElement('div');
     probe.style.animationDuration = 'var(--nph-motion-loop-duration)';
     probe.style.animationTimingFunction = 'var(--nph-motion-loop-easing)';
@@ -93,7 +93,7 @@ describe('movimento', () => {
     expect(style.animationTimingFunction).toBe(expected.animationTimingFunction);
   });
 
-  it('com movimento reduzido, o giro para', async () => {
+  it('with reduced motion, the spin stops', async () => {
     const session = cdp();
     try {
       await session.send('Emulation.setEmulatedMedia', {
@@ -103,18 +103,18 @@ describe('movimento', () => {
       const spinner = await mount();
       expect(getComputedStyle(glyphOf(spinner) as HTMLElement).animationName).toBe('none');
     } finally {
-      /* Volta ao padrao do navegador de teste; `features: []` nao desfaz. */
+      /* Back to the test browser's default; `features: []` does not undo it. */
       await session.send('Emulation.setEmulatedMedia', {
         features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }],
       });
     }
-    /* A emulacao nao vaza para os testes seguintes. */
+    /* The emulation does not leak into the following tests. */
     await vi.waitFor(() => expect(matchMedia('(prefers-reduced-motion: reduce)').matches).toBe(false));
   });
 });
 
-describe('semantica e foco', () => {
-  it('sem label: fora da arvore de acessibilidade', async () => {
+describe('semantics and focus', () => {
+  it('without label: outside the accessibility tree', async () => {
     for (const label of [null, '', '   ']) {
       const spinner = await mount({ label });
       expect(spinner.getAttribute('aria-hidden'), JSON.stringify(label)).toBe('true');
@@ -124,14 +124,14 @@ describe('semantica e foco', () => {
     }
   });
 
-  it('com label: role img e nome acessivel', async () => {
+  it('with label: role img and accessible name', async () => {
     const spinner = await mount({ label: '  Salvando o cadastro  ' });
     expect(spinner.getAttribute('role')).toBe('img');
     expect(spinner.getAttribute('aria-label')).toBe('Salvando o cadastro');
     expect(spinner.hasAttribute('aria-hidden')).toBe(false);
   });
 
-  it('nao recebe foco e nao tem elemento focavel', async () => {
+  it('does not receive focus and has no focusable element', async () => {
     const spinner = await mount({ label: 'Salvando o cadastro' });
     const before = document.activeElement;
     spinner.focus();
@@ -141,8 +141,8 @@ describe('semantica e foco', () => {
   });
 });
 
-describe('entrada invalida', () => {
-  it('size fora de sm e md: nada desenhado, 0x0, sem nome, um console.error', async () => {
+describe('invalid input', () => {
+  it('size outside sm and md: nothing drawn, 0x0, no name, one console.error', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const spinner = await mount({ size: 'lg', label: 'Carregando os dados' });
     expect(glyphOf(spinner)).toBeNull();
@@ -156,10 +156,10 @@ describe('entrada invalida', () => {
   });
 });
 
-describe('contrato de token', () => {
+describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
 
-  it('toda custom property do CSS existe no tokens.css', () => {
+  it('every custom property in the CSS exists in tokens.css', () => {
     const used = [...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1]);
     expect(used).toEqual(expect.arrayContaining(['--nph-motion-loop-duration', '--nph-motion-loop-easing']));
     for (const name of used) {
@@ -167,7 +167,7 @@ describe('contrato de token', () => {
     }
   });
 
-  it('o CSS nao tem valor literal de design alem da volta 1turn', () => {
+  it('the CSS has no literal design value beyond the 1turn full turn', () => {
     const withoutTurn = cssWithoutComments.replace('rotate(1turn)', '');
     expect(withoutTurn).not.toMatch(/#[0-9a-f]{3,8}\b/i);
     expect(withoutTurn).not.toMatch(/\b(rgb|rgba|hsl|hsla)\(/i);

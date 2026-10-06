@@ -1,7 +1,6 @@
 /**
- * Testes do `nph-separator` (P66), em navegador de verdade (P21, item 5):
- * espessura, preenchimento do conteiner e cor resolvida so existem onde ha
- * layout.
+ * Tests of `nph-separator` (P66), in a real browser (P21, item 5): thickness,
+ * container filling and resolved color only exist where there is layout.
  */
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
@@ -15,7 +14,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-/** Um conteiner de 200 x 120 com o divisor entre dois blocos. */
+/** A 200 x 120 container with the divider between two blocks. */
 async function mountIn(display: string, orientation?: string): Promise<{ parent: HTMLElement; separator: NphSeparator }> {
   const parent = document.createElement('div');
   parent.style.cssText = `display: ${display}; inline-size: 200px; block-size: 120px;`;
@@ -27,50 +26,50 @@ async function mountIn(display: string, orientation?: string): Promise<{ parent:
   return { parent, separator };
 }
 
-describe('registro e API', () => {
-  it('define nph-separator uma unica vez', () => {
+describe('registration and API', () => {
+  it('defines nph-separator exactly once', () => {
     expect(customElements.get('nph-separator')).toBe(NphSeparator);
   });
 
-  it('a API publica e exatamente orientation', () => {
+  it('the public API is exactly orientation', () => {
     const declared = [...(NphSeparator as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
     expect(declared).toEqual(['orientation']);
   });
 
-  it('orientation vale horizontal por padrao e reflete no atributo', async () => {
+  it('orientation is horizontal by default and reflects to the attribute', async () => {
     const { separator } = await mountIn('block');
     expect(separator.orientation).toBe('horizontal');
     expect(separator.getAttribute('orientation')).toBe('horizontal');
   });
 });
 
-describe('desenho', () => {
-  it('horizontal em pai de bloco: espessura 1, largura do pai', async () => {
+describe('drawing', () => {
+  it('horizontal in a block parent: thickness 1, parent width', async () => {
     const { separator } = await mountIn('block');
     const box = separator.getBoundingClientRect();
     expect(box.height).toBe(1);
     expect(box.width).toBe(200);
   });
 
-  it('horizontal em flex em coluna: largura do pai', async () => {
+  it('horizontal in a column flex: parent width', async () => {
     const { separator } = await mountIn('flex; flex-direction: column', 'horizontal');
     expect(separator.getBoundingClientRect().width).toBe(200);
   });
 
-  it('vertical em flex em linha: espessura 1, altura do pai, mesmo com o pai centralizando', async () => {
-    /* `align-items: center` tira o estica do pai: quem preenche e a propria peca. */
+  it('vertical in a row flex: thickness 1, parent height, even with the parent centering', async () => {
+    /* `align-items: center` removes the parent's stretch: the piece itself does the filling. */
     const { separator } = await mountIn('flex; align-items: center', 'vertical');
     const box = separator.getBoundingClientRect();
     expect(box.width).toBe(1);
     expect(box.height).toBe(120);
   });
 
-  it('vertical em grid: altura da linha do grid', async () => {
+  it('vertical in a grid: grid row height', async () => {
     const { separator } = await mountIn('grid; grid-auto-flow: column', 'vertical');
     expect(separator.getBoundingClientRect().height).toBe(120);
   });
 
-  it('a cor e color/border', async () => {
+  it('the color is color/border', async () => {
     const { separator } = await mountIn('block');
     const probe = document.createElement('div');
     probe.style.backgroundColor = 'var(--nph-color-border)';
@@ -79,8 +78,8 @@ describe('desenho', () => {
   });
 });
 
-describe('semantica e foco', () => {
-  it('decorativo: aria-hidden, sem role, sem foco', async () => {
+describe('semantics and focus', () => {
+  it('decorative: aria-hidden, no role, no focus', async () => {
     const { separator } = await mountIn('block');
     expect(separator.getAttribute('aria-hidden')).toBe('true');
     expect(separator.hasAttribute('role')).toBe(false);
@@ -91,8 +90,8 @@ describe('semantica e foco', () => {
   });
 });
 
-describe('entrada invalida', () => {
-  it('orientation desconhecida: 0x0 e um console.error', async () => {
+describe('invalid input', () => {
+  it('unknown orientation: 0x0 and one console.error', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const { separator } = await mountIn('block', 'diagonal');
     const box = separator.getBoundingClientRect();
@@ -103,10 +102,10 @@ describe('entrada invalida', () => {
   });
 });
 
-describe('contrato de token', () => {
+describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
 
-  it('toda custom property do CSS existe no tokens.css', () => {
+  it('every custom property in the CSS exists in tokens.css', () => {
     const used = [...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1]);
     expect(new Set(used)).toEqual(new Set(['--nph-color-border', '--nph-border-width']));
     for (const name of used) {
@@ -114,7 +113,7 @@ describe('contrato de token', () => {
     }
   });
 
-  it('o CSS nao tem valor literal de design', () => {
+  it('the CSS has no literal design value', () => {
     expect(cssWithoutComments).not.toMatch(/#[0-9a-f]{3,8}\b/i);
     expect(cssWithoutComments).not.toMatch(/\b(rgb|rgba|hsl|hsla)\(/i);
     expect(cssWithoutComments).not.toMatch(/\d(px|rem|em|ms|s|deg|turn|%)/);

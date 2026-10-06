@@ -1,10 +1,11 @@
 /**
- * Stories de VALIDACAO do `nph-kbd`.
+ * VALIDATION stories of `nph-kbd`.
  *
- * Provam a tecla unica e a combinacao, uma peca por tecla, como no quadro
- * `1193:20`, e a combinacao com os simbolos do macOS. As teclas sao conteudo
- * de exemplo e nao passam pelo dicionario de idioma: sao nome de tecla, igual
- * nos tres idiomas. O esquema de cor vem do seletor global do Storybook.
+ * They prove the single key and the combination, one piece per key, as in frame
+ * `1193:20`, and the combination with the macOS symbols. The keys are example
+ * content and do not go through the language dictionary: they are key names,
+ * the same in all three languages. The color scheme comes from the global
+ * Storybook selector.
  */
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -21,7 +22,7 @@ type Story = StoryObj;
 
 const row = 'display: flex; align-items: center; gap: var(--nph-space-inline-tight); padding: var(--nph-space-section);';
 
-/** Uma tecla por peca, pela propriedade text. */
+/** One key per piece, through the text property. */
 export const SingleKey: Story = {
   name: 'Tecla',
   render: () => html`<div style=${row}>
@@ -32,7 +33,7 @@ export const SingleKey: Story = {
   </div>`,
 };
 
-/** A combinacao junta uma peca por tecla, lado a lado. */
+/** The combination joins one piece per key, side by side. */
 export const Combination: Story = {
   name: 'Combinação',
   render: () => html`<div style=${row}>
@@ -43,9 +44,9 @@ export const Combination: Story = {
 };
 
 /**
- * A mesma combinacao no macOS, com os simbolos do sistema: Command, Shift e a
- * letra. O texto de cada tecla chega pronto da aplicacao consumidora, que
- * escolhe o conjunto pelo sistema de quem usa; a peca nao detecta o sistema.
+ * The same combination on macOS, with the system symbols: Command, Shift and the
+ * letter. The text of each key arrives ready from the consuming application,
+ * which picks the set by the user's system; the piece does not detect the system.
  */
 export const MacCombination: Story = {
   name: 'Combinação no macOS',
