@@ -5,8 +5,8 @@
   "titulo": "nph-label",
   "tipo": "ficha de componente",
   "criado": "2026-08-31",
-  "atualizado": "2026-08-31",
-  "resolve": "Nomeia um controle de formulário de forma visível e acessível. O rótulo é só um texto: não carrega layout, estado, ajuda nem mensagem de erro.",
+  "atualizado": "2026-10-06",
+  "resolve": "Nomeia um controle de formulário de forma visível e acessível. O rótulo é só um texto: não carrega layout, estado nem mensagem de erro. Carrega o gatilho da ajuda, não a ajuda: o ícone de informação abre o nph-tooltip.",
   "use_quando": [
     "Um controle de formulário precisa de nome visível, sozinho ou dentro de um nph-field."
   ],
@@ -37,6 +37,20 @@
       "reflete": true,
       "restricao": "`id` do controle que este rótulo nomeia. Espelha o atributo nativo e é o mecanismo da associação — a razão de o componente não usar Shadow DOM."
     },
+    "info": {
+      "tipo": "string",
+      "obrigatoria": false,
+      "padrao": "vazio",
+      "reflete": false,
+      "restricao": "O texto da explicação, já localizado pela aplicação consumidora. Com info-label, mostra o ícone de informação depois do texto, que abre o nph-tooltip com este texto. Sem info-label, o ícone não aparece e sai console.error em desenvolvimento; o rótulo continua."
+    },
+    "info-label": {
+      "tipo": "string",
+      "obrigatoria": false,
+      "padrao": "vazio",
+      "reflete": false,
+      "restricao": "O nome acessível do ícone de informação. A propriedade é infoLabel. Sem info, não aparece nada e não há erro."
+    },
     "slots": "nenhum",
     "eventos": "nenhum",
     "cor": "Não é propriedade. O texto é `color/foreground` e o asterisco é `status/error`, sempre — inclusive quando o campo está em erro."
@@ -47,15 +61,30 @@
       "escolha_quando": "true quando o preenchimento do campo for obrigatório",
       "nao_combine_com": [
         "layout",
-        "weight",
-        "state"
+        "weight"
+      ]
+    },
+    "info": {
+      "eixo": "aparencia",
+      "escolha_quando": "Quando o campo precisa de uma explicação curta que não cabe no rótulo; no código, é o texto de info com info-label.",
+      "nao_combine_com": [
+        "layout",
+        "weight"
       ]
     }
   },
   "estados": {
-    "nenhum": {
+    "default": {
       "token": "nao_se_aplica",
-      "muda_para_a_pessoa": "Nada muda no rótulo. Erro e desabilitado são mostrados pelo campo e pela composição"
+      "muda_para_a_pessoa": "O texto não tem estado. Erro e desabilitado são mostrados pelo campo e pela composição"
+    },
+    "focus": {
+      "token": "borda border/width em focus/border e halo focus/ring-width em focus/halo, em volta do alvo de 24 por 24",
+      "muda_para_a_pessoa": "Só no ícone de informação e só pelo teclado: a borda e o halo marcam o foco, sem mudar o tamanho."
+    },
+    "aberto": {
+      "token": "o nph-tooltip, abaixo do rótulo, a space/inline",
+      "muda_para_a_pessoa": "O balão mostra a explicação; fecha com Esc, clique fora ou Tab para fora. Passar o mouse não abre."
     }
   },
   "regras_de_negocio": [
@@ -68,25 +97,46 @@
     ],
     "cor_do_texto": "color/foreground",
     "cor_do_asterisco": "status/error",
-    "espaco_antes_do_asterisco": "space/inline-tight"
+    "espaco_antes_do_asterisco": "space/inline-tight",
+    "espaco_ate_o_gatilho": "space/inline-tight",
+    "gatilho": [
+      "icon/size-sm",
+      "space/inline-tight",
+      "color/muted-foreground"
+    ],
+    "foco_do_gatilho": [
+      "border/width",
+      "focus/border-radius-control",
+      "focus/ring-width",
+      "focus/radius-control-with-border",
+      "focus/border",
+      "focus/halo"
+    ],
+    "espaco_ate_o_balao": "space/inline"
   },
   "dicas_para_ia": [
     "Rótulo de campo é `nph-label`; frase com verbo e ponto final não é.",
     "O rótulo não muda no erro. Quem muda é o campo e a mensagem.",
     "Não procure propriedade de layout: a posição é do `nph-field`.",
-    "`required=true` sozinho não comunica obrigatoriedade a leitor de tela."
+    "`required=true` sozinho não comunica obrigatoriedade a leitor de tela.",
+    "O ícone de informação aparece com info e info-label juntos; info-label é o nome que o leitor de tela anuncia."
   ],
   "acessibilidade": {
-    "semantica": "Elemento nativo `<label>`",
-    "nome_acessivel": "O rótulo é a origem do nome acessível do controle",
-    "teclado": [],
-    "foco": "Não recebe foco e não tem tecla própria",
+    "semantica": "Elemento nativo `<label>`; o ícone de informação é um `<button>` nativo depois dele, fora do `<label>`, com aria-expanded e aria-controls apontando o nph-tooltip",
+    "nome_acessivel": "O rótulo é a origem do nome acessível do controle. O ícone de informação é nomeado por info-label",
+    "teclado": [
+      "Tab entra e sai do ícone de informação; o texto não recebe foco.",
+      "Enter e Espaço abrem e fecham o balão.",
+      "Esc fecha o balão aberto, e o foco fica no ícone."
+    ],
+    "foco": "O texto não recebe foco. O ícone de informação recebe, com borda focus/border e halo focus/halo por fora, só pelo teclado",
     "contraste": "Medido em 27-08-2026 nos dois modos; as quatro combinações passam em 4,5:1",
     "alternativa_a_cor": "O asterisco é sinal de forma, não de cor — e é decorativo"
   },
   "combinacoes_invalidas": [
     "`required=true` sem legenda visível explicando a convenção no formulário",
-    "Criar propriedade de layout, peso ou estado — as três foram recusadas por decisão"
+    "Criar propriedade de layout ou de peso — as duas foram recusadas por decisão; o texto também não tem estado",
+    "info sem info-label — o ícone não aparece, porque não teria nome acessível"
   ],
   "relacoes": {
     "combina_com": [
@@ -97,7 +147,10 @@
     "pai": [
       "nph-field"
     ],
-    "filho": [],
+    "filho": [
+      "nph-icon",
+      "nph-tooltip"
+    ],
     "complementa_bloco": [
       "pendente"
     ],
@@ -112,11 +165,11 @@
   ],
   "fontes": {
     "design_md": "design.md, no repositório",
-    "decisao": "P62.1, P62.2 e P62.3, aprovadas pelo Elvys em 28-08-2026",
+    "decisao": "P62.1, P62.2 e P62.3, aprovadas pelo Elvys em 28-08-2026; P62.6, o gatilho de informação, em revisão no PR por maurocsjr",
     "testes": "src/components/nph-label/nph-label.test.ts",
     "evidencia_de_uso": "branch v/3.0.0, PR #10, merge e231eba",
     "storybook": "src/components/nph-label/nph-label.stories.ts",
-    "figma": "página NPH — Label, conjunto mestre 374:6"
+    "figma": "página NPH — Label, quadro nph-label 1194:1482 e conjunto mestre 374:6"
   },
   "tags": [
     "nephos",
