@@ -37,13 +37,7 @@
       "aberto_em": "2026-10-05"
     }
   ],
-  "decisoes_pendentes": [
-    {
-      "pergunta": "O size padrao do nph-button continua compact, como no quadro aceito, ou passa a default, como no nph-input? A T4 prende compact ao contexto denso.",
-      "quem_decide": "indiane",
-      "aberta_em": "2026-10-05"
-    }
-  ],
+  "decisoes_pendentes": [],
   "evidencias": [
     "docs/operacao/evidencias/DSA-13/documentacao-figma-aceita-2026-10-02.md",
     "docs/operacao/evidencias/DSA-13/storybook-validacao-2026-10-05.md"

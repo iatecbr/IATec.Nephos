@@ -430,7 +430,7 @@
       ],
       [
         "size",
-        "compact (predeterminado), default o large. large cumple el objetivo táctil de 44 px. Se refleja en el atributo."
+        "compact, default (predeterminado) o large. large cumple el objetivo táctil de 44 px. Se refleja en el atributo."
       ],
       [
         "text",

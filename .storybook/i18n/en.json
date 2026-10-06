@@ -430,7 +430,7 @@
       ],
       [
         "size",
-        "compact (default), default or large. large meets the 44 px touch target. Reflected to the attribute."
+        "compact, default (the default) or large. large meets the 44 px touch target. Reflected to the attribute."
       ],
       [
         "text",

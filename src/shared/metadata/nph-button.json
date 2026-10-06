@@ -52,9 +52,9 @@
         "large"
       ],
       "obrigatoria": false,
-      "padrao": "compact",
+      "padrao": "default",
       "reflete": true,
-      "restricao": "O padrão compact é o do quadro aceito no Figma, e diverge da T4, que prende compact ao contexto denso; a escolha entre compact e default está pendente com a Indiane. Em formulário comum, passe size default. large atende o alvo de toque de 44 px; compact nunca é alvo principal em tela de toque. Campo e botão lado a lado usam o mesmo tamanho. Valor fora da lista não desenha nada e emite console.error em desenvolvimento."
+      "restricao": "O padrão default é decisão de Indiane em 05-10-2026, pela T4: compact fica preso ao contexto denso. large atende o alvo de toque de 44 px; compact nunca é alvo principal em tela de toque. Campo e botão lado a lado usam o mesmo tamanho. Valor fora da lista não desenha nada e emite console.error em desenvolvimento."
     },
     "text": {
       "tipo": "string",
@@ -82,7 +82,7 @@
       "obrigatoria": false,
       "padrao": "vazio",
       "reflete": false,
-      "restricao": "Nome acessível do só ícone, obrigatório nele: sem label, o só ícone não desenha nada e emite console.error em desenvolvimento. Com texto, não é usado."
+      "restricao": "Nome acessível do só ícone, obrigatório nele: sem label, o só ícone não desenha nada e emite console.error em desenvolvimento. Com texto, não é usado. O nome label é decisão de Indiane em 05-10-2026 e supera o aria-label de 02-09-2026."
     },
     "disabled": {
       "tipo": "boolean",
@@ -280,7 +280,7 @@
   ],
   "fontes": {
     "design_md": "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* e as cores color/* e status/* do bloco tokens",
-    "decisao": "P68 — API e semântica de nph-badge e nph-button, 05-10-2026; B1, B5 e B6 do Registro de decisões; hover sólido nos tokens de hover, 02-10-2026",
+    "decisao": "P68 — API e semântica de nph-badge e nph-button, 05-10-2026; B1, B5 e B6 do Registro de decisões; hover sólido nos tokens de hover, 02-10-2026; size padrão default e o nome label, decisões de Indiane em 05-10-2026",
     "testes": "src/components/nph-button/nph-button.test.ts e nph-button.docs.test.ts",
     "evidencia_de_uso": "pendente — nenhuma tela aprovada consome o botão ainda",
     "storybook": "src/components/nph-button/nph-button.stories.ts e nph-button.docs.stories.ts",

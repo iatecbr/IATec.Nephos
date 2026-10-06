@@ -71,7 +71,7 @@ export const Sizes: Story = {
       (size) => html`<div style=${row}>
         <nph-button size=${size} text="Salvar"></nph-button>
         <nph-button size=${size} text="Novo" icon-start="plus"></nph-button>
-        <nph-button size=${size} icon-start="plus" label="Adicionar"></nph-button>
+        <nph-button size=${size} icon-start="xmark" label="Fechar"></nph-button>
       </div>`,
     )}
   </div>`,
@@ -109,7 +109,7 @@ export const Loading: Story = {
     <div style=${page}>
       <div style=${row}>
         ${NPH_BUTTON_SIZES.map(
-          (size) => html`<nph-button size=${size} icon-start="plus" label="Adicionar" loading></nph-button>`,
+          (size) => html`<nph-button size=${size} icon-start="xmark" label="Fechar" loading></nph-button>`,
         )}
       </div>
     </div>`,

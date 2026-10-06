@@ -40,12 +40,11 @@ api:
     tipo: enum
     valores: [compact, default, large]
     obrigatoria: false
-    padrao: compact
+    padrao: default
     reflete: true
     restricao: >-
-      O padrão compact é o do quadro aceito no Figma, e diverge da T4, que prende
-      compact ao contexto denso; a escolha entre compact e default está pendente
-      com a Indiane. Em formulário comum, passe size default. large atende o alvo
+      O padrão default é decisão de Indiane em 05-10-2026, pela T4: compact fica
+      preso ao contexto denso. large atende o alvo
       de toque de 44 px; compact nunca é alvo principal em tela de toque. Campo e
       botão lado a lado usam o mesmo tamanho. Valor fora da lista não desenha
       nada e emite console.error em desenvolvimento.
@@ -83,7 +82,8 @@ api:
     restricao: >-
       Nome acessível do só ícone, obrigatório nele: sem label, o só ícone não
       desenha nada e emite console.error em desenvolvimento. Com texto, não é
-      usado.
+      usado. O nome label é decisão de Indiane em 05-10-2026 e supera o
+      aria-label de 02-09-2026.
   disabled:
     tipo: boolean
     obrigatoria: false
@@ -189,7 +189,7 @@ anti_padroes:
   - "Pintar o botão à mão ou criar tipo, ênfase ou tamanho fora da matriz."
 fontes:
   design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* e as cores color/* e status/* do bloco tokens"
-  decisao: "P68 — API e semântica de nph-badge e nph-button, 05-10-2026; B1, B5 e B6 do Registro de decisões; hover sólido nos tokens de hover, 02-10-2026"
+  decisao: "P68 — API e semântica de nph-badge e nph-button, 05-10-2026; B1, B5 e B6 do Registro de decisões; hover sólido nos tokens de hover, 02-10-2026; size padrão default e o nome label, decisões de Indiane em 05-10-2026"
   testes: "src/components/nph-button/nph-button.test.ts e nph-button.docs.test.ts"
   evidencia_de_uso: "pendente — nenhuma tela aprovada consome o botão ainda"
   storybook: "src/components/nph-button/nph-button.stories.ts e nph-button.docs.stories.ts"
@@ -225,11 +225,9 @@ que ela está, e comunica pelo tipo e pela ênfase o peso dessa ação.
   precisa se delimitar; `light` quando o contorno pesaria; `ghost` para ação terciária.
   `outline`, `light` e `ghost` existem **só** em `primary`, `secondary` e `danger`.
 
-**Por tamanho:** `compact` (28, padrão do quadro aceito), `default` (36) e `large` (44).
-`large` atende o alvo de toque de 44 px. `compact` fica preso a tabela, barra de
-ferramentas ou filtro e nunca é alvo principal em tela de toque. O padrão `compact`
-diverge dessa regra (T4) e está pendente com a Indiane; em formulário comum, passe
-`size` `default`.
+**Por tamanho:** `compact` (28), `default` (36, o padrão) e `large` (44). `large`
+atende o alvo de toque de 44 px. `compact` fica preso a tabela, barra de
+ferramentas ou filtro e nunca é alvo principal em tela de toque (T4).
 
 **Por densidade:** `nao_se_aplica`.
 
@@ -342,6 +340,7 @@ ação universal de fechar, o só ícone `xmark` em `secondary` `ghost`, com `la
   `space/inline-tight`, `radius/control`, `text/label-md`, `icon/size-*`,
   `state/disabled-opacity`, `focus/*` e as cores `color/*` e `status/*`.
 - **A decisão que originou:** P68, de 05-10-2026; B1, B5 e B6 do Registro de decisões;
+  o `size` padrão `default` e o nome `label`, decididos por Indiane em 05-10-2026;
   o hover sólido nos tokens de hover, decidido por Indiane em 02-10-2026, que supera a
   B4. O quadro foi aceito em 01-10-2026 e completado em 02-10-2026.
 - **Testes:** `src/components/nph-button/nph-button.test.ts` e `nph-button.docs.test.ts`.

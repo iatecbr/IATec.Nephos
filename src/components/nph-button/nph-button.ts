@@ -8,13 +8,14 @@
  *   `warn`, `help`, `danger` ou `success`. Escolhe-se pelo significado da acao;
  * - `emphasis` (a `enfase`): `solid` (padrao), `outline`, `light` ou `ghost`.
  *   `outline`, `light` e `ghost` existem so em primary, secondary e danger (B1);
- * - `size`: `compact` (padrao, pelo quadro aceito), `default` ou `large`;
+ * - `size`: `compact`, `default` (padrao, por decisao de Indiane em
+ *   05-10-2026, pela T4) ou `large`;
  * - `text`: diz o que acontece ao clicar. E o nome acessivel;
  * - `icon-start` e `icon-end`: um nome do nucleo do `nph-icon` cada, em
  *   `icon/size-sm` com texto. Podem conviver (B6);
  * - sem texto, o botao e o "so icone" (B5): um icone so, que acompanha a caixa
  *   (sm no compact, md no default, lg no large), e `label` obrigatorio como
- *   nome acessivel;
+ *   nome acessivel (nome decidido por Indiane em 05-10-2026);
  * - `disabled`: o botao inteiro em `state/disabled-opacity` e fora do Tab;
  * - `loading` (o `carregando`): o girador do `nph-spinner` entra no lugar do
  *   icone de inicio, o icone de fim some e o texto fica. O botao continua
@@ -123,7 +124,7 @@ export class NphButton extends LitElement {
     super();
     this.severity = 'primary';
     this.emphasis = 'solid';
-    this.size = 'compact';
+    this.size = 'default';
     this.text = '';
     this.iconStart = '';
     this.iconEnd = '';

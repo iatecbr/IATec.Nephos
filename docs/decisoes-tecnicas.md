@@ -767,10 +767,11 @@ decisão própria, como na P66. Os nomes seguem a P64.
   - O texto fica numa linha (`white-space: nowrap`): uma ou duas palavras.
 - **`nph-button`**
   - `severity` (padrão `primary`), `emphasis` (`solid`, padrão, `outline`,
-    `light` ou `ghost`) e `size` (`compact`, padrão, `default` ou `large`).
+    `light` ou `ghost`) e `size` (`compact`, `default`, padrão, ou `large`).
     `outline`, `light` e `ghost` só existem em `primary`, `secondary` e `danger`
-    (B1). O padrão `compact` é o do quadro aceito (`1197:5449`, seção 5) e da
-    variante padrão do conjunto `461:13009`. Os três refletem no atributo, como
+    (B1). O padrão `default` é decisão de Indiane em 05/10/2026, pela T4
+    (`compact` fica preso ao contexto denso), e supera o "padrão compact" do
+    quadro aceito (`1197:5449`, seção 5). Os três refletem no atributo, como
     `disabled` e `loading`: o CSS interno seleciona por eles.
   - `text`: o que acontece ao clicar, e o nome acessível. Fica numa linha
     (`white-space: nowrap`), porque a altura é fixa no token de controle.
@@ -780,7 +781,10 @@ decisão própria, como na P66. Os nomes seguem a P64.
     controle, sem respiro lateral, e o ícone acompanha a caixa: `sm` no
     `compact`, `md` no `default` e `lg` no `large` (conjunto `498:15671`). O
     `label` é obrigatório e vira o `aria-label` do botão nativo; com texto, ele
-    não é usado.
+    não é usado. O nome `label` é decisão de Indiane em 05/10/2026: supera o
+    `aria-label` aprovado em 02/09/2026, porque o `aria-label` posto no host não
+    nomeia o botão de dentro do shadow root, e segue o `nph-icon` e o
+    `nph-spinner`.
   - Um `<button type="button">` nativo dentro do shadow root, com
     `delegatesFocus`. Teclado nativo: Tab entra e sai; Enter e Espaço acionam. O
     clique é o `click` nativo, que atravessa o shadow root e chega ao host.
@@ -840,9 +844,10 @@ completados em 02/10/2026: `nph-badge` (`1196:1100`, conjunto `878:30`; o hover
 saiu) e `nph-button` (`1197:5449`, conjuntos `461:13009` e `498:15671`; o hover
 sólido passou aos tokens de hover). Os dois têm QA UX de Figma e auditoria
 textual aprovados em 02/10/2026. Registro de decisões (vault): B1, B5 e B6. Os
-nomes `severity`, `emphasis`, `text`, `icon`, `iconStart`, `iconEnd`, `label` e
+nomes `severity`, `emphasis`, `text`, `icon`, `iconStart`, `iconEnd` e
 `loading`, a semântica do `loading` e a regra de entrada inválida são proposta
-técnica desta implementação.
+técnica desta implementação. O `label` e o `size` padrão `default` são decisões
+de Indiane em 05/10/2026.
 
 **Fora de escopo.** Envio de formulário (`type="submit"`, elemento associado a
 formulário), link com cara de botão, grupo de botões, botão de largura fluida,

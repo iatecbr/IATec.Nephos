@@ -136,9 +136,10 @@ describe('registro e API', () => {
     expect(declared).toEqual(['severity', 'emphasis', 'size', 'text', 'iconStart', 'iconEnd', 'label', 'disabled', 'loading']);
   });
 
-  it('os padroes sao primary, solid e compact, como no quadro 1197:5449', async () => {
+  it('os padroes sao primary, solid e default (size default por decisao de 05-10-2026)', async () => {
     const element = await mount();
-    expect([element.severity, element.emphasis, element.size]).toEqual(['primary', 'solid', 'compact']);
+    expect([element.severity, element.emphasis, element.size]).toEqual(['primary', 'solid', 'default']);
+    expect(getComputedStyle(control(element)).height).toBe(resolved('height', '--nph-control-height-default'));
     expect(element.disabled).toBe(false);
     expect(element.loading).toBe(false);
   });

@@ -430,7 +430,7 @@
       ],
       [
         "size",
-        "compact (padrão), default ou large. large atende o alvo de toque de 44 px. Reflete no atributo."
+        "compact, default (padrão) ou large. large atende o alvo de toque de 44 px. Reflete no atributo."
       ],
       [
         "text",
