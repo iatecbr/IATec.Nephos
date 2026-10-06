@@ -1,7 +1,7 @@
 ```json
 {
   "id": "DSA-02",
-  "objetivo": "Registrar no contrato tecnico os usos aprovados de status/error e space/inline-tight para campos de formulario.",
+  "objetivo": "Record in the technical contract the approved uses of status/error and space/inline-tight for form fields.",
   "fase": "F1",
   "ordem_aprovada": 90,
   "responsavel": "claude-codigo",
@@ -11,7 +11,7 @@
   "gates": [
     {
       "id": "revisao-e-merge",
-      "descricao": "O PR #33 foi revisado por maurocsjr e mergeado na v/5.0.0; o commit 8903873 e ancestral do merge 8e11751.",
+      "descricao": "PR #33 was reviewed by maurocsjr and merged into v/5.0.0; commit 8903873 is an ancestor of merge 8e11751.",
       "comando": "git merge-base --is-ancestor 89038735f968a1abbcc629cdde02097d3041454a origin/v/5.0.0",
       "evidencia": "docs/operacao/evidencias/DSA-02/revisao-e-merge-2026-09-14.md",
       "resultado": "passou",
@@ -27,11 +27,11 @@
   "referencias_de_decisao": [],
   "origem_externa": {
     "classificacao": "interna-permitida",
-    "url_ou_id": "WORK BRAIN — 03 MEMÓRIA/decisoes/2026-09-03-tres-decisoes-visuais-do-nph-input.md; 03 MEMÓRIA/agentes/2026-09.md, registro de 2026-09-03 sobre space/inline",
+    "url_ou_id": "WORK BRAIN — 03 MEMÓRIA/decisoes/2026-09-03-tres-decisoes-visuais-do-nph-input.md; 03 MEMÓRIA/agentes/2026-09.md, record of 2026-09-03 about space/inline",
     "data": "2026-09-03",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "status/error cobre borda de campo invalido e space/inline-tight cobre o par icone e texto dentro de controle; em 09-09-2026 Indiane autorizou migrar DSA-02 para docs/operacao/tarefas/ como ciclo comparavel do M6."
+    "decisao_convertida": "status/error covers the border of an invalid field and space/inline-tight covers the icon and text pair inside a control; on 09-09-2026 Indiane authorized migrating DSA-02 to docs/operacao/tarefas/ as a comparable M6 cycle."
   },
   "revisao_git": {
     "branch": "docs/dsa02-status-error-inline-tight",
@@ -43,33 +43,33 @@
 }
 ```
 
-# DSA-02 — registrar usos de token em campo
+# DSA-02 — record token uses in a field
 
-## Objetivo
-O contrato tecnico registra que `status/error` cobre a borda de campo invalido e
-`space/inline-tight` cobre o par icone e texto dentro de um controle.
+## Goal
+The technical contract records that `status/error` covers the border of an invalid
+field and `space/inline-tight` covers the icon and text pair inside a control.
 
-## Como se prova
-**`revisao-e-merge`** — os usos aprovados sao registrados sem alterar valor, alias,
-nome CSS ou `nao_use` dos tokens; a alteracao passa pelos testes aplicaveis, revisao
-e merge na branch padrao. A evidencia deve registrar branch, commit, PR, comando
-executado e resultado.
+## How it is proved
+**`revisao-e-merge`** — the approved uses are recorded without changing the value,
+alias, CSS name or `nao_use` of the tokens; the change passes the applicable tests,
+review and merge into the default branch. The evidence must record branch, commit,
+PR, the command run and the result.
 
-## O que esta tarefa não faz
-Nao altera valores ou aliases, nao cria token e nao muda os escopos de Figma de
-`status/error`. A ampliacao de `STROKE_COLOR` continua sendo uma alteracao separada
-no Figma, ja autorizada pela Indiane.
+## What this task does not do
+It does not change values or aliases, does not create a token and does not change
+the Figma scopes of `status/error`. Widening `STROKE_COLOR` remains a separate
+change in Figma, already authorized by Indiane.
 
-## Fontes
+## Sources
 - `design.md`
 - `docs/tokens.md`
 - `docs/operacao/README.md`
 - `GOVERNANCA.md`, `AGENTS.md`, `CLAUDE.md`
 - WORK BRAIN — `03 MEMÓRIA/decisoes/2026-09-03-tres-decisoes-visuais-do-nph-input.md`
-- WORK BRAIN — `03 MEMÓRIA/agentes/2026-09.md`, registro de 2026-09-03 sobre `space/inline`
+- WORK BRAIN — `03 MEMÓRIA/agentes/2026-09.md`, record of 2026-09-03 about `space/inline`
 
-## Por que está `concluida`
-O PR #33 foi revisado por Mauro (`maurocsjr`) e mergeado na `v/5.0.0` em
-14-09-2026, no merge commit `8e11751`. O commit `8903873`, que registrou os
-usos aprovados, é ancestral da branch padrão depois do merge. O único gate está
-`passou`, com evidência local, data e responsável, e não há contexto ativo.
+## Why it is `concluida`
+PR #33 was reviewed by Mauro (`maurocsjr`) and merged into `v/5.0.0` on
+14-09-2026, in merge commit `8e11751`. Commit `8903873`, which recorded the
+approved uses, is an ancestor of the default branch after the merge. The only gate
+is `passou`, with local evidence, date and owner, and there is no active context.
