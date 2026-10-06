@@ -1,8 +1,8 @@
 /**
- * Contrato da pagina Documentation do `nph-label`: indice sem ancora orfa nos
- * tres idiomas, nenhum marcador sobrando, toda instancia renderizada e o
- * dicionario `labelDocs` com a mesma forma em pt-BR, en e es (o `test:i18n` so
- * le pares `.md`).
+ * Contract of the Documentation page of `nph-label`: index without an orphan
+ * anchor in the three languages, no leftover placeholder, every instance
+ * rendered and the `labelDocs` dictionary with the same shape in pt-BR, en and
+ * es (`test:i18n` only reads `.md` pairs).
  */
 import { afterEach, describe, expect, it } from 'vitest';
 import { render } from 'lit';
@@ -28,7 +28,7 @@ function renderInLocale(locale: string): HTMLElement {
   return target;
 }
 
-/** A forma de um valor: chaves de objeto e tamanho de lista, sem o texto. */
+/** The shape of a value: object keys and list length, without the text. */
 function shape(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(shape);
   if (value !== null && typeof value === 'object') {
@@ -37,9 +37,9 @@ function shape(value: unknown): unknown {
   return typeof value;
 }
 
-describe('Documentação do nph-label', () => {
+describe('nph-label Documentation', () => {
   for (const locale of LOCALES) {
-    it(`${locale}: todo link aponta para uma secao e toda secao tem link`, () => {
+    it(`${locale}: every link points to a section and every section has a link`, () => {
       const target = renderInLocale(locale);
       const links = [...target.querySelectorAll('nav a')].map((a) => (a.getAttribute('href') ?? '').replace(/^#/, ''));
       const sections = [...target.querySelectorAll('section[id]')].map((s) => s.id);
@@ -47,11 +47,11 @@ describe('Documentação do nph-label', () => {
       expect([...sections].sort()).toEqual([...links].sort());
     });
 
-    it(`${locale}: nenhum marcador {nome} sobra na pagina`, () => {
+    it(`${locale}: no {name} placeholder is left on the page`, () => {
       expect(renderInLocale(locale).textContent ?? '').not.toMatch(/\{\w+\}/);
     });
 
-    it(`${locale}: toda instancia renderiza o rotulo, e as com info o gatilho`, async () => {
+    it(`${locale}: every instance renders the label, and those with info the trigger`, async () => {
       const target = renderInLocale(locale);
       const pieces = [...target.querySelectorAll('nph-label')] as NphLabel[];
       await Promise.all(pieces.map((piece) => piece.updateComplete));
@@ -64,7 +64,7 @@ describe('Documentação do nph-label', () => {
       }
     });
 
-    it(`${locale}: todo rotulo com for nomeia um controle da pagina`, async () => {
+    it(`${locale}: every label with for names a control on the page`, async () => {
       const target = renderInLocale(locale);
       const pieces = [...target.querySelectorAll('nph-label[for]')] as NphLabel[];
       await Promise.all(pieces.map((piece) => piece.updateComplete));
@@ -75,7 +75,7 @@ describe('Documentação do nph-label', () => {
     });
   }
 
-  it('en e es tem a mesma forma de pt-BR', () => {
+  it('en and es have the same shape as pt-BR', () => {
     for (const key of ['labelDocs', 'labelValidation'] as const) {
       const source = shape(translations('pt-BR')[key]);
       expect(shape(translations('en')[key]), key).toEqual(source);
@@ -84,13 +84,13 @@ describe('Documentação do nph-label', () => {
   });
 });
 
-describe('Validação do nph-label: texto so do dicionario', () => {
+describe('nph-label Validation: text only from the dictionary', () => {
   type Renderable = { render?: (args: unknown, context: unknown) => TemplateResult };
   const stories = Object.entries(validation).filter(
     ([name, story]) => name !== 'default' && typeof (story as Renderable).render === 'function',
   ) as Array<[string, Renderable]>;
 
-  /** Tudo que a pessoa le: o texto da pagina e os textos passados aos rotulos. */
+  /** Everything the person reads: the page text and the texts passed to the labels. */
   function visibleText(target: HTMLElement): string {
     const attributes = [...target.querySelectorAll('[text], [info], [info-label], [aria-label]')].flatMap((el) =>
       ['text', 'info', 'info-label', 'aria-label'].map((name) => el.getAttribute(name) ?? ''),
@@ -98,12 +98,12 @@ describe('Validação do nph-label: texto so do dicionario', () => {
     return [target.textContent ?? '', ...attributes].join(' ');
   }
 
-  it('toda story de Validacao le o dicionario', () => {
+  it('every Validation story reads the dictionary', () => {
     expect(stories.length).toBeGreaterThan(0);
   });
 
   for (const [name, story] of stories) {
-    it(`${name}: em en, nenhum texto de pt-BR aparece`, async () => {
+    it(`${name}: in en, no pt-BR text appears`, async () => {
       const target = document.createElement('div');
       document.body.append(target);
       render(story.render?.({}, { globals: { locale: 'en' } }) as TemplateResult, target);

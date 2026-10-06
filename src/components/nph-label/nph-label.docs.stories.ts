@@ -1,18 +1,19 @@
 /**
- * Pagina de leitura do `nph-label`.
+ * Reading page of `nph-label`.
  *
- * Nao prova contrato — isso e papel de `Componentes/nph-label/Validacao` e dos
- * testes. As secoes 1 a 10 seguem o quadro aceito no Figma (`1194:1482`), com
- * o texto literal dele; a tabela da API em codigo vem da ficha e da P62.6, e
- * diz isso no rodape. Nada e decidido aqui.
+ * It does not prove the contract — that is the role of
+ * `Components/nph-label/Validation` and of the tests. Sections 1 to 10 follow
+ * the frame accepted in Figma (`1194:1482`), with its literal text; the table
+ * of the API in code comes from the spec sheet (`ficha`) and from P62.6, and
+ * says so in its footer. Nothing is decided here.
  *
- * O texto vem do dicionario de idioma, em `.storybook/i18n/`, na chave
- * `labelDocs`. A story e UNICA: ela le `globals.locale` e busca a traducao.
- * Identificadores tecnicos aparecem literais e sao iguais em qualquer idioma.
+ * The text comes from the language dictionary, in `.storybook/i18n/`, under
+ * the `labelDocs` key. The story is SINGLE: it reads `globals.locale` and
+ * looks up the translation. Technical identifiers appear literally and are the
+ * same in any language.
  *
- * O `nph-input` e o `nph-field` ainda nao existem em codigo. Onde o quadro
- * mostra o rotulo acima do controle, a demonstracao usa um `<input>` nativo na
- * moldura.
+ * `nph-input` and `nph-field` do not exist in code yet. Where the frame shows
+ * the label above the control, the demo uses a native `<input>` in the frame.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -23,7 +24,7 @@ import './nph-label';
 import { body, demo, dontDo, header, index, list, note, section, source, table, text } from '../../shared/docs/page';
 
 const meta: Meta = {
-  title: 'Componentes/nph-label/Docs',
+  title: 'Components/nph-label/Docs',
   parameters: {
     layout: 'fullscreen',
   },
@@ -41,7 +42,7 @@ function localeOf(context: GlobalsContext | undefined): string {
   return (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
 }
 
-/** Ids das secoes: identificadores tecnicos, iguais em qualquer idioma. */
+/** Section ids: technical identifiers, the same in any language. */
 const SECTIONS = {
   purpose: 'purpose',
   description: 'description',
@@ -56,7 +57,7 @@ const SECTIONS = {
   references: 'references',
 } as const;
 
-/* Moldura de demonstracao. Nao e precedente para CSS de componente. */
+/* Demo frame. Not a precedent for component CSS. */
 const column = 'display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);';
 const field = 'display: flex; flex-direction: column; gap: var(--nph-space-stack-tight); max-inline-size: 20rem;';
 const control =
@@ -67,15 +68,15 @@ const roomBelow = 'padding-block-end: var(--nph-space-section);';
 
 let nextId = 0;
 
-/** Rotulo acima de um `<input>` nativo, ligados por `for`. */
+/** Label above a native `<input>`, linked by `for`. */
 function labelled(label: (id: string) => TemplateResult): TemplateResult {
   const id = `nph-label-docs-${++nextId}`;
   return html`<div style=${field}>${label(id)}<input id=${id} style=${control} /></div>`;
 }
 
-/** Pagina de leitura, montada com os blocos de `src/shared/docs/page.ts`. */
+/** Reading page, assembled with the blocks from `src/shared/docs/page.ts`. */
 export const Documentation: Story = {
-  name: 'Documentação',
+  name: 'Documentation',
   render: (_args, context: GlobalsContext) => {
     const d = translations(localeOf(context)).labelDocs;
     const sample = d.sampleText as string;

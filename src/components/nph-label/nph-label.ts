@@ -1,56 +1,58 @@
 /**
- * `nph-label` — o rotulo de um controle de formulario.
+ * `nph-label` — the label of a form control.
  *
- * Contrato aprovado (ficha `nph-label`; Registro de decisoes, secao do
- * `nph-label`; decisoes de Indiane em 27-08-2026, 08-09-2026 e 01-10-2026):
- * - o rotulo e SO um texto. Nao tem caixa, borda, fundo, sombra nem estado;
- * - `required` acrescenta um asterisco ao fim do texto, em `status/error`;
- * - NAO existe propriedade de layout, de peso nem de estado. Posicao e do
- *   `nph-field`; erro nao muda o rotulo; desabilitado desbota o controle
- *   inteiro, pelo `nph-field`, e nao por estado proprio;
- * - ajuda e mensagem de erro pertencem ao `nph-field`. O rotulo carrega o
- *   GATILHO da ajuda, nao a ajuda (L8): com `info` e `infoLabel`, um icone de
- *   informacao depois do texto abre o `nph-tooltip` com o texto de `info`.
- *   O gatilho recebe foco, com borda e halo (L9); abre por clique, Enter ou
- *   Espaco e fecha com Esc ou clique fora (L11).
+ * Approved contract (spec `nph-label`; Decision Register, `nph-label`
+ * section; decisions by Indiane on 27-08-2026, 08-09-2026 and 01-10-2026):
+ * - the label is ONLY text. It has no box, border, background, shadow or state;
+ * - `required` appends an asterisk to the end of the text, in `status/error`;
+ * - there is NO layout, weight or state property. Position belongs to
+ *   `nph-field`; an error does not change the label; disabled fades the whole
+ *   control, through `nph-field`, not through a state of its own;
+ * - help and error message belong to `nph-field`. The label carries the help
+ *   TRIGGER, not the help (L8): with `info` and `infoLabel`, an information
+ *   icon after the text opens `nph-tooltip` with the text of `info`.
+ *   The trigger receives focus, with border and halo (L9); it opens on click,
+ *   Enter or Space and closes with Esc or a click outside (L11).
  *
- * EXCECAO A P01 — este e o unico componente do Nephos SEM Shadow DOM.
- * A associacao nativa entre rotulo e controle nao atravessa a fronteira do
- * Shadow DOM: `for` nao alcancaria um `id` do documento e o clique no rotulo
- * nao levaria o cursor ao campo. Como isso e a razao de existir de um rotulo,
- * o encapsulamento cede. Decisao de Indiane em 27-08-2026, depois de a
- * alternativa de delegar a associacao ao `nph-field` ser descartada por travar
- * o recorte P0 — o `nph-field` ainda nao existe.
+ * EXCEPTION TO P01 — this is the only Nephos component WITHOUT Shadow DOM.
+ * The native association between label and control does not cross the Shadow
+ * DOM boundary: `for` would not reach an `id` in the document and clicking
+ * the label would not move the cursor to the field. Since that is the reason
+ * a label exists, encapsulation yields. Decision by Indiane on 27-08-2026,
+ * after the alternative of delegating the association to `nph-field` was
+ * discarded because it blocked the P0 cut — `nph-field` does not exist yet.
  *
- * API — cinco propriedades (P62.3, ampliada pela P62.6):
- * - `required`, a unica prevista no Registro original;
- * - `for`, que espelha o atributo nativo de `<label>` e e o mecanismo da
- *   associacao que a decisao de 27-08 escolheu;
- * - `text`, que carrega o texto do rotulo. Ele e propriedade, e nao conteudo
- *   entre as tags, porque sem Shadow DOM nao ha `<slot>`: o Lit renderiza
- *   dentro do proprio elemento e substituiria qualquer filho escrito pelo
- *   consumidor;
- * - `info`, o texto da explicacao que o balao mostra;
- * - `infoLabel` (`info-label`), o nome acessivel do gatilho (L11.3).
- * O gatilho so aparece com os dois preenchidos. `info` sem `infoLabel` e
- * entrada invalida: o gatilho nao aparece e `console.error` sai em
- * desenvolvimento, mas o rotulo continua — ele e o nome do controle e nao
- * some por causa da ajuda (P62.6). `infoLabel` sem `info` e montagem: nada.
+ * API — five properties (P62.3, widened by P62.6):
+ * - `required`, the only one foreseen in the original Register;
+ * - `for`, which mirrors the native `<label>` attribute and is the
+ *   association mechanism chosen by the 27-08 decision;
+ * - `text`, which carries the label text. It is a property, not content
+ *   between the tags, because without Shadow DOM there is no `<slot>`: Lit
+ *   renders inside the element itself and would replace any child written by
+ *   the consumer;
+ * - `info`, the text of the explanation the bubble shows;
+ * - `infoLabel` (`info-label`), the accessible name of the trigger (L11.3).
+ * The trigger only appears with both filled in. `info` without `infoLabel` is
+ * invalid input: the trigger does not appear and `console.error` fires in
+ * development, but the label stays — it is the name of the control and does
+ * not disappear because of the help (P62.6). `infoLabel` without `info` is
+ * assembly: nothing.
  *
- * ACESSIBILIDADE — o asterisco e DECORATIVO para tecnologia assistiva e leva
- * `aria-hidden`. A obrigatoriedade tem de chegar ao leitor de tela pelo proprio
- * controle, com `required`, e nao por texto escondido dentro do rotulo. Duas
- * razoes: o estado obrigatorio pertence ao campo, nao ao rotulo, e texto
- * escondido exigiria uma string em portugues dentro do componente, proibido
- * pelo plano trilingue — nenhum `nph-*` conhece idioma.
+ * ACCESSIBILITY — the asterisk is DECORATIVE for assistive technology and
+ * carries `aria-hidden`. The required state must reach the screen reader
+ * through the control itself, with `required`, not through hidden text inside
+ * the label. Two reasons: the required state belongs to the field, not to the
+ * label, and hidden text would require a Portuguese string inside the
+ * component, forbidden by the trilingual plan — no `nph-*` knows a language.
  *
- * O gatilho e um `<button>` nativo DEPOIS do `<label>`, fora dele: dentro, ele
- * entraria no nome acessivel do controle. O balao e uma regiao viva
- * `role="status"` que existe antes de abrir (P65), e o foco fica no gatilho.
+ * The trigger is a native `<button>` AFTER the `<label>`, outside it: inside,
+ * it would enter the accessible name of the control. The bubble is a live
+ * region `role="status"` that exists before opening (P65), and focus stays on
+ * the trigger.
  *
- * Alem disso, o formulario que usar `required` precisa de uma legenda visivel
- * explicando a convencao do asterisco. Isso e regra de tela, verificada na
- * revisao de composicao, e nao algo que o componente possa impor sozinho.
+ * Besides that, a form that uses `required` needs a visible legend
+ * explaining the asterisk convention. That is a screen rule, checked in the
+ * composition review, not something the component can enforce on its own.
  */
 import { LitElement, html, nothing } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
@@ -61,14 +63,14 @@ import './nph-label.css';
 
 const TAG = 'nph-label';
 
-/** Marca do host quando o gatilho existe: o CSS so muda a raiz nesse caso. */
+/** Host marker when the trigger exists: the CSS only changes the root in that case. */
 const INFO_ATTRIBUTE = 'data-nph-info';
 
 let nextId = 0;
 
 /**
- * Erro de desenvolvimento, no padrao do `nph-icon`. Fora de um bundler que
- * defina `import.meta.env`, o encadeamento opcional silencia.
+ * Development error, following the `nph-icon` pattern. Outside a bundler that
+ * defines `import.meta.env`, optional chaining keeps it silent.
  */
 function devError(message: string): void {
   if (import.meta.env?.DEV) {
@@ -83,31 +85,31 @@ export class NphLabel extends LitElement {
     for: { type: String, reflect: true },
     info: { type: String },
     infoLabel: { type: String, attribute: 'info-label' },
-    /* Interno: o balao aberto. Nao e API (P62.6). */
+    /* Internal: the open bubble. Not API (P62.6). */
     opened: { state: true },
   };
 
-  /** O texto do rotulo. Chega ja localizado pela aplicacao consumidora. */
+  /** The label text. Arrives already localized by the consuming application. */
   declare text: string;
 
-  /** Campo obrigatorio. Acrescenta o asterisco ao fim do texto. */
+  /** Required field. Appends the asterisk to the end of the text. */
   declare required: boolean;
 
-  /** `id` do controle que este rotulo nomeia. Espelha o atributo nativo. */
+  /** `id` of the control this label names. Mirrors the native attribute. */
   declare for: string | null;
 
-  /** O texto da explicacao, mostrado no `nph-tooltip`. Ja localizado. */
+  /** The text of the explanation, shown in `nph-tooltip`. Already localized. */
   declare info: string;
 
-  /** Nome acessivel do gatilho de informacao. Ja localizado. */
+  /** Accessible name of the information trigger. Already localized. */
   declare infoLabel: string;
 
   declare protected opened: boolean;
 
-  /** `id` do balao, para o `aria-controls` do gatilho. Unico por instancia. */
+  /** `id` of the bubble, for the trigger's `aria-controls`. Unique per instance. */
   private readonly tooltipId = `${TAG}-info-${++nextId}`;
 
-  /** Ultima causa reclamada, para reclamar uma vez por causa. */
+  /** Last cause reported, to report once per cause. */
   private reported = '';
 
   constructor() {
@@ -121,8 +123,8 @@ export class NphLabel extends LitElement {
   }
 
   /**
-   * Renderiza na luz, nao em Shadow DOM. Ver a nota de excecao a P01 no topo.
-   * Sem isso, `for` nao alcancaria o controle e o rotulo perderia a funcao.
+   * Renders in the light DOM, not in Shadow DOM. See the P01 exception note at the top.
+   * Without this, `for` would not reach the control and the label would lose its function.
    */
   protected override createRenderRoot(): HTMLElement {
     return this;
@@ -149,10 +151,10 @@ export class NphLabel extends LitElement {
   protected override willUpdate(changed: PropertyValues<this>): void {
     if (changed.has('info') || changed.has('infoLabel')) {
       if (this.infoText !== '' && this.triggerName === '') {
-        const cause = 'info sem info-label';
+        const cause = 'info without info-label';
         if (this.reported !== cause) {
           this.reported = cause;
-          devError('info exige info-label, o nome acessivel do gatilho; o gatilho nao foi desenhado.');
+          devError('info requires info-label, the accessible name of the trigger; the trigger was not drawn.');
         }
       } else {
         this.reported = '';
@@ -165,7 +167,7 @@ export class NphLabel extends LitElement {
 
   protected override updated(changed: PropertyValues<this>): void {
     this.toggleAttribute(INFO_ATTRIBUTE, this.hasTrigger);
-    /* `opened` e protegido: o mapa tipado do Lit so conhece as chaves publicas. */
+    /* `opened` is protected: Lit's typed map only knows the public keys. */
     if ((changed as Map<PropertyKey, unknown>).has('opened')) {
       if (this.opened) {
         this.startListening();
@@ -183,22 +185,22 @@ export class NphLabel extends LitElement {
     return this.querySelector<HTMLElement>('nph-tooltip');
   }
 
-  /* Clique, Enter e Espaco chegam aqui pelo comportamento nativo do botao. */
+  /* Click, Enter and Space arrive here through the native button behaviour. */
   private readonly onActivate = (): void => {
     this.opened = !this.opened;
-    /* No Safari, clicar num botao nao lhe da foco; sem foco, o Esc nao chega. */
+    /* In Safari, clicking a button does not give it focus; without focus, Esc does not arrive. */
     this.trigger()?.focus();
   };
 
   private readonly onKeydown = (event: KeyboardEvent): void => {
     if (event.key === 'Escape' && this.opened) {
       this.opened = false;
-      /* O dialogo que contem o formulario nao fecha junto. */
+      /* The dialog that contains the form does not close along with it. */
       event.stopPropagation();
     }
   };
 
-  /* Tab para fora: so fecha quando o foco foi para outro lugar conhecido. */
+  /* Tab out: only closes when focus went to another known place. */
   private readonly onFocusout = (event: FocusEvent): void => {
     const next = event.relatedTarget;
     if (this.opened && next instanceof Node && !this.contains(next)) {
@@ -206,7 +208,7 @@ export class NphLabel extends LitElement {
     }
   };
 
-  /* Clique fora do gatilho e do balao fecha (L11.5). */
+  /* A click outside the trigger and the bubble closes it (L11.5). */
   private readonly onOutsidePointer = (event: PointerEvent): void => {
     const path = event.composedPath();
     const trigger = this.trigger();

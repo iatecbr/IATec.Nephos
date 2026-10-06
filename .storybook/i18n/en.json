@@ -1,33 +1,58 @@
 {
   "sidebar": {
-    "comece-aqui": "Start here",
-    "comece-aqui-boas-vindas": "Welcome",
-    "comece-aqui-boas-vindas--boas-vindas": "Welcome",
-    "fundações": "Foundations",
-    "fundações-visão-geral": "Overview",
-    "fundações-visão-geral--visao-geral": "Overview",
-    "componentes": "Components",
-    "componentes-nph-icon-docs": "Docs",
-    "componentes-nph-icon-docs--documentacao": "Documentation",
-    "componentes-nph-icon-docs--icons-overview": "Icons Overview",
-    "componentes-nph-icon-validação": "Validation",
-    "componentes-nph-icon-validação--variantes": "Variants",
-    "componentes-nph-icon-validação--tamanhos": "Sizes",
-    "componentes-nph-icon-validação--heranca-de-cor": "Colour inheritance",
-    "componentes-nph-icon-validação--acessibilidade": "Accessibility",
-    "componentes-nph-icon-validação--entrada-invalida": "Invalid input",
-    "componentes-nph-label-docs": "Docs",
-    "componentes-nph-label-docs--documentation": "Documentation",
-    "componentes-nph-label-validação": "Validation",
-    "componentes-nph-label-validação--matriz": "Matrix",
-    "componentes-nph-label-validação--modo-claro-e-escuro": "Light and dark mode",
-    "componentes-nph-label-validação--associacao-com-o-controle": "Association with the control",
-    "componentes-nph-label-validação--o-que-o-rotulo-nao-faz": "What the label does not do",
-    "componentes-nph-label-validação--trigger-focus": "Trigger focus",
-    "componentes-nph-label-validação--open": "Open",
-    "componentes-nph-tooltip-validação": "Validation",
-    "componentes-nph-tooltip-validação--one-line": "One line",
-    "componentes-nph-tooltip-validação--two-lines": "Two lines"
+    "start-here": "Start here",
+    "start-here-welcome": "Welcome",
+    "start-here-welcome--welcome": "Welcome",
+    "foundations": "Foundations",
+    "foundations-overview": "Overview",
+    "foundations-overview--overview": "Overview",
+    "components": "Components",
+    "components-nph-icon-docs": "Docs",
+    "components-nph-icon-docs--documentation": "Documentation",
+    "components-nph-icon-docs--icons-overview": "Icons Overview",
+    "components-nph-icon-validation": "Validation",
+    "components-nph-icon-validation--variants": "Variants",
+    "components-nph-icon-validation--sizes": "Sizes",
+    "components-nph-icon-validation--color-inheritance": "Colour inheritance",
+    "components-nph-icon-validation--accessibility": "Accessibility",
+    "components-nph-icon-validation--invalid-input": "Invalid input",
+    "components-nph-badge-docs": "Docs",
+    "components-nph-badge-docs--documentation": "Documentation",
+    "components-nph-badge-validation": "Validation",
+    "components-nph-badge-validation--matrix": "Matrix",
+    "components-nph-badge-validation--with-icon": "With icon",
+    "components-nph-badge-validation--two-words": "Two words",
+    "components-nph-button-docs": "Docs",
+    "components-nph-button-docs--documentation": "Documentation",
+    "components-nph-button-validation": "Validation",
+    "components-nph-button-validation--matrix": "Matrix",
+    "components-nph-button-validation--sizes": "Sizes",
+    "components-nph-button-validation--icons": "Icons",
+    "components-nph-button-validation--disabled": "Disabled",
+    "components-nph-button-validation--loading": "Loading",
+    "components-nph-spinner-validation": "Validation",
+    "components-nph-spinner-validation--sizes": "Sizes",
+    "components-nph-spinner-validation--accessibility": "Accessibility",
+    "components-nph-spinner-validation--invalid-input": "Invalid input",
+    "components-nph-separator-validation": "Validation",
+    "components-nph-separator-validation--horizontal": "Horizontal",
+    "components-nph-separator-validation--vertical": "Vertical",
+    "components-nph-kbd-validation": "Validation",
+    "components-nph-kbd-validation--single-key": "Key",
+    "components-nph-kbd-validation--combination": "Combination",
+    "components-nph-kbd-validation--mac-combination": "Combination on macOS",
+    "components-nph-label-docs": "Docs",
+    "components-nph-label-docs--documentation": "Documentation",
+    "components-nph-label-validation": "Validation",
+    "components-nph-label-validation--matrix": "Matrix",
+    "components-nph-label-validation--light-and-dark-mode": "Light and dark mode",
+    "components-nph-label-validation--association-with-control": "Association with the control",
+    "components-nph-label-validation--what-the-label-does-not-do": "What the label does not do",
+    "components-nph-label-validation--trigger-focus": "Trigger focus",
+    "components-nph-label-validation--open": "Open",
+    "components-nph-tooltip-validation": "Validation",
+    "components-nph-tooltip-validation--one-line": "One line",
+    "components-nph-tooltip-validation--two-lines": "Two lines"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -262,6 +287,295 @@
       "size is required"
     ]
   },
+  "badgeDocs": {
+    "summary": "A short tag that labels the status or the category of an item. If there is nothing to write, there is no badge.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-badge spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P68. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "To label the status or the category of an item.",
+      "Choose the severity by meaning. A permanent status uses secondary or primary; success confirms an event that has just happened.",
+      "Write one or two words.",
+      "Turn the icon on only to reinforce the word.",
+      "Give one status per item."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "As a button: the badge takes no click and no focus. Use nph-button.",
+      "success as a permanent badge: use secondary or primary.",
+      "A badge without text, with only an icon.",
+      "Two status badges on the same item.",
+      "A sentence inside the badge: supporting text stays outside the component."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "severity",
+        "The severity, by meaning: primary (default), secondary, info, warn, help, danger or success. Reflected to the attribute."
+      ],
+      [
+        "emphasis",
+        "The emphasis: solid (default) or light. Reflected to the attribute."
+      ],
+      [
+        "text",
+        "One or two words, already localized. It is the accessible name. Empty or only spaces: there is no badge."
+      ],
+      [
+        "icon",
+        "A name from the nph-icon core, before the text. Empty: no icon."
+      ]
+    ],
+    "variantsTitle": "Severity and emphasis",
+    "variantsCaption": "The severities in the solid and light emphases; in the second row of each emphasis, with an icon.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Container",
+        "radius/full; space/inline-tight on top and bottom and space/control-padding on the sides. The background colour comes from the severity and the emphasis."
+      ],
+      [
+        "Icon (optional)",
+        "Before the text, at icon/size-sm, in the text colour, space/inline-tight away from it. Artwork from nph-icon."
+      ],
+      [
+        "Text",
+        "text/label-sm, on a single line. It is the accessible name of the component."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Contrast",
+        "The text passes 4.5:1 in every severity and emphasis, in both modes and in every brand; the lowest value is 4.64:1, in primary light in light mode."
+      ],
+      [
+        "Visible focus",
+        "The badge takes no click and no focus. For an action, use nph-button."
+      ],
+      [
+        "Colour is not the only signal",
+        "Every badge has text: colour is never the only signal, and the icon only reinforces the word."
+      ],
+      [
+        "Touch target",
+        "It is not a touch target: the badge takes no click."
+      ],
+      [
+        "Accessible name",
+        "The text is the accessible name of the component. The icon is decorative."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplePermanent": "Permanent status of a document.",
+    "exampleCategory": "Category of an item.",
+    "exampleIcon": "Status with an icon reinforcing the word.",
+    "exampleItems": [
+      "Annual report",
+      "Contract",
+      "Request 218"
+    ],
+    "exampleBadges": [
+      "Draft",
+      "Finance",
+      "Rejected"
+    ],
+    "antiPatternsTitle": "Do not use",
+    "antiPatterns": [
+      "Using it as a button: the badge takes no click and no focus. Use nph-button.",
+      "Using success as a permanent badge: use secondary or primary.",
+      "A badge without text, with only an icon.",
+      "Two status badges on the same item.",
+      "A sentence inside the badge: supporting text stays outside the component.",
+      "Painting the background or the text by hand: the colour comes from the severity and the emphasis."
+    ],
+    "referencesTitle": "References",
+    "references": [
+      "nph-badge spec sheet — purpose, variants, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P68 (API and semantics), P01, P02 and P03.",
+      "design.md — the color/* and status/* colours, text/label-sm, radius/full and the spacing.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Badge, frame nph-badge (1196:1100) and set 878:30.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-badge spec sheet; Figma, frame nph-badge (1196:1100)",
+    "sourceApi": "nph-badge spec sheet; docs/decisoes-tecnicas.md › P68",
+    "sourceAnatomy": "Figma, set 878:30; design.md"
+  },
+  "buttonDocs": {
+    "summary": "Triggers an action identified by text. It varies in severity, emphasis, size and state, with an optional icon at the start or the end. Without text, it is the icon-only button.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-button spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P68. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "To start an action identified by text, such as save or send.",
+      "Write in the text what happens on click.",
+      "Choose the severity by the meaning of the action, never by colour.",
+      "Choose the emphasis by how much the action stands out: solid, outline, light or ghost.",
+      "Use size large on touch screens.",
+      "Without text, use the icon-only button and give it an accessible name."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "To show a field error: validation belongs to the field (nph-field).",
+      "Icon only on an action with consequences, such as delete or publish.",
+      "To navigate to another destination.",
+      "size compact as the main target on a touch screen."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "severity",
+        "The severity, by the meaning of the action: primary (default), secondary, info, warn, help, danger or success. Reflected to the attribute."
+      ],
+      [
+        "emphasis",
+        "How much the action stands out: solid (default), outline, light or ghost. outline, light and ghost exist only in primary, secondary and danger. Reflected to the attribute."
+      ],
+      [
+        "size",
+        "compact, default (the default) or large. large meets the 44 px touch target. Reflected to the attribute."
+      ],
+      [
+        "text",
+        "What happens on click, already localized. It is the accessible name."
+      ],
+      [
+        "icon-start",
+        "A name from the nph-icon core before the text, at icon/size-sm. It can coexist with icon-end."
+      ],
+      [
+        "icon-end",
+        "A name from the nph-icon core after the text, at icon/size-sm."
+      ],
+      [
+        "label",
+        "Accessible name of the button without text. Required there; with text, it is not used."
+      ],
+      [
+        "disabled",
+        "Turns the button off: it leaves the Tab order and fires no click. Reflected to the attribute."
+      ],
+      [
+        "loading",
+        "Shows the nph-spinner in place of the start icon; the text stays, focus remains and the click does not reach the consumer. Reflected to the attribute."
+      ]
+    ],
+    "variantsTitle": "Severity and emphasis",
+    "variantsCaption": "The severities in each emphasis, at the default size. Hover to see the hover state and use Tab to see focus.",
+    "sizesTitle": "Sizes",
+    "sizesText": "The height comes from control/height-compact, -default or -large. The text is text/label-md in all of them. Without text, the button is square and the icon follows the box: sm in compact, md in default and lg in large.",
+    "sizesCaption": "compact, default and large, with text, with an icon and icon only.",
+    "statesTitle": "States",
+    "statesHeader": [
+      "State",
+      "What changes"
+    ],
+    "states": [
+      [
+        "default",
+        "Rest. The colour conveys the severity of the action."
+      ],
+      [
+        "hover-active",
+        "The surface changes to the hover token of the severity and emphasis."
+      ],
+      [
+        "focus",
+        "For keyboard users: a border in the severity colour and a halo outside it, without changing the size. In secondary, the border is focus/border."
+      ],
+      [
+        "disabled",
+        "The whole button at state/disabled-opacity, out of the Tab order."
+      ],
+      [
+        "loading",
+        "The nph-spinner in place of the start icon. The text stays."
+      ]
+    ],
+    "statesCaption": "disabled and loading.",
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Contrast",
+        "Text and icon pass 4.5:1 in every severity and emphasis, in both modes and in every brand; the lowest value is 4.64:1, in primary outline and light in light mode. Borders pass 3:1."
+      ],
+      [
+        "Visible focus",
+        "On focus, the border and the halo appear for keyboard users."
+      ],
+      [
+        "Colour is not the only signal",
+        "Colour is never the only signal of intent, focus or state: the text says what happens on click."
+      ],
+      [
+        "Touch target",
+        "size large meets the 44 px touch target; compact is not a main target on a touch screen."
+      ],
+      [
+        "Accessible name",
+        "The text is the name of the button. Without text, the name comes from label, which is required."
+      ],
+      [
+        "Keyboard",
+        "Tab moves in and out; Enter and Space activate."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleForm": "Form actions: main and secondary.",
+    "exampleConsequence": "An action with consequences, always with text.",
+    "exampleIconOnly": "A universal action without text, with an accessible name.",
+    "exampleTexts": [
+      "Save",
+      "Cancel",
+      "Delete account",
+      "Close",
+      "New"
+    ],
+    "antiPatternsTitle": "Do not use",
+    "antiPatterns": [
+      "Showing a field error on the button: validation belongs to the field (nph-field).",
+      "Using icon only on an action with consequences, such as delete or publish.",
+      "Enlarging the icon to add emphasis.",
+      "Using colour as the only signal of intent, focus or state.",
+      "Navigating to another destination with the button.",
+      "Creating a severity, emphasis or size outside the matrix, or painting the button by hand."
+    ],
+    "referencesTitle": "References",
+    "references": [
+      "nph-button spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P68 (API and semantics), P01, P02, P03 and P66 (nph-spinner).",
+      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colours.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Button, frame nph-button (1197:5449) and sets 461:13009 and 498:15671.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-button spec sheet; Figma, frame nph-button (1197:5449)",
+    "sourceApi": "nph-button spec sheet; docs/decisoes-tecnicas.md › P68",
+    "sourceStates": "Figma, sets 461:13009 and 498:15671; design.md"
+  },
   "labelDocs": {
     "summary": "Tells people what they need to type or choose in a field. It can mark the field as required and show an information icon. The text has no state; only the information icon takes focus.",
     "onThisPage": "On this page",
@@ -421,10 +735,35 @@
       "docs/decisoes-tecnicas.md — P62 (exception to P01, typography and API, extended by P62.6) and P65 (nph-tooltip).",
       "design.md — color/foreground, status/error, color/muted-foreground, text/label-md, the spacing and the focus.",
       "Figma DS-IA-NEPHOS 5.0 — page NPH — Label, frame nph-label (1194:1482) and component set 374:6.",
-      "Storybook — Validação, in the folder next to this one."
+      "Storybook — Validation, in the folder next to this one."
     ],
     "sourceFrame": "Figma, frame nph-label (1194:1482)",
     "sourceApi": "nph-label spec; docs/decisoes-tecnicas.md › P62.3 and P62.6"
+  },
+  "badgeValidation": {
+    "sample": "Badge",
+    "twoWords": [
+      "In review",
+      "Approved",
+      "Missing signature"
+    ]
+  },
+  "buttonValidation": {
+    "save": "Save",
+    "add": "New",
+    "close": "Close",
+    "options": "Options",
+    "filter": "Filter"
+  },
+  "spinnerValidation": {
+    "savingText": "Saving…",
+    "savingLabel": "Saving"
+  },
+  "separatorValidation": {
+    "profile": "Profile",
+    "signOut": "Sign out",
+    "edit": "Edit",
+    "delete": "Delete"
   },
   "labelValidation": {
     "sampleText": "Full name",

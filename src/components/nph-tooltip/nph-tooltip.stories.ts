@@ -1,14 +1,15 @@
 /**
- * Stories de VALIDACAO do `nph-tooltip`.
+ * VALIDATION stories of `nph-tooltip`.
  *
- * Cada story mostra o balao aberto com o conteudo de exemplo do Figma
- * (quadro `1237:5`): uma linha e duas linhas. Nao ha texto explicativo, so o
- * texto do balao. Ele vem do dicionario de idioma, na chave
- * `tooltipValidation` (`docs/i18n.md`, "Storybook"), e em cada idioma o texto
- * de duas linhas ocupa duas linhas.
+ * Each story shows the open bubble with the Figma example content
+ * (frame `1237:5`): one line and two lines. There is no explanatory text,
+ * only the bubble text, which is content and arrives ready from the
+ * application. It comes from the language dictionary, under the
+ * `tooltipValidation` key (`docs/i18n.md`, "Storybook"), and in every
+ * language the two-line text takes up two lines.
  *
- * O esquema de cor vem do seletor global do Storybook, aplicado na raiz da
- * pagina.
+ * The color scheme comes from the Storybook global selector, applied at the
+ * page root.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -18,7 +19,7 @@ import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook
 import './nph-tooltip';
 
 const meta: Meta = {
-  title: 'Componentes/nph-tooltip/Validação',
+  title: 'Components/nph-tooltip/Validation',
 };
 
 export default meta;
@@ -29,7 +30,7 @@ interface GlobalsContext {
   globals?: Record<string, unknown>;
 }
 
-/** Atalho: o dicionario destas stories no idioma escolhido. */
+/** Shortcut: the dictionary of these stories in the chosen language. */
 function t(context: GlobalsContext | undefined) {
   const locale = (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
   return translations(locale).tooltipValidation;
@@ -42,11 +43,11 @@ function frame(text: string): TemplateResult {
 }
 
 export const OneLine: Story = {
-  name: 'Uma linha',
+  name: 'One line',
   render: (_args, context: GlobalsContext) => frame(t(context).oneLine),
 };
 
 export const TwoLines: Story = {
-  name: 'Duas linhas',
+  name: 'Two lines',
   render: (_args, context: GlobalsContext) => frame(t(context).twoLines),
 };

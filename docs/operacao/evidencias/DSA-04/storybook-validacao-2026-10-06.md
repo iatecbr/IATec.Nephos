@@ -4,36 +4,36 @@
   "gate": null,
   "data": "2026-10-06",
   "responsavel": "claude-codigo",
-  "comando": "npx storybook dev -p 6013 --no-open; leitura por getComputedStyle e getBoundingClientRect no navegador integrado",
+  "comando": "npx storybook dev -p 6013 --no-open; reading through getComputedStyle and getBoundingClientRect in the integrated browser",
   "codigo_de_saida": null,
   "sha": "151b317",
   "origem_externa": null
 }
 ```
 
-# DSA-04 — `nph-label` no Storybook
+# DSA-04 — `nph-label` in Storybook
 
-Prova das stories `Validação` e da página `Docs` abertas no navegador
-integrado (Chromium, `devicePixelRatio` 1,25), na branch
-`feat/dsa04-nph-label-info`, na marca padrão. Os valores do Figma foram lidos
-por `use_figma` no mesmo dia, no conjunto `374:6`, na linha "aberto" do quadro
-`1194:1482` e nas variáveis, modos `claro` e `escuro` com o tema `Sistemas`.
+Proof of the `Validação` stories and of the `Docs` page opened in the integrated
+browser (Chromium, `devicePixelRatio` 1.25), on the branch
+`feat/dsa04-nph-label-info`, in the default brand. The Figma values were read
+through `use_figma` on the same day, in component set `374:6`, in the `aberto` row of frame
+`1194:1482` and in the variables, modes `claro` and `escuro` with the `Sistemas` theme.
 
-Esta evidência não é de gate. O nome não segue `<gate>-<data>`.
+This evidence is not a gate evidence. Its name does not follow `<gate>-<date>`.
 
-| Story | O que foi medido | Storybook | Figma |
+| Story | What was measured | Storybook | Figma |
 |---|---|---|---|
-| Foco do gatilho, quadro claro (foco por Tab) | gatilho; raiz; texto até o gatilho; ícone | 24 × 24; 24; 4; 16, `#5c5c5c` | 24 × 24; 24; `space/inline-tight` 4; `icon/size-sm` 16, `color/muted-foreground` `#5c5c5c` |
-| Foco do gatilho, quadro claro | borda e halo do foco | borda 26, `#3b82f6`, raio 7; halo 34, `#b1cdfb`, traço 4, raio 11 | borda 26 × 26, `focus/border` `#3b82f6`, raio 7; halo 34 × 34, `focus/halo` `#b1cdfb`, traço 4, raio 11 |
-| Foco do gatilho, quadro escuro | ícone; borda; halo | `#b7bbc1`; `#89b4fa`, 26; `#b1cdfb`, 34 | `#b7bbc1`; `#89b4fa`; `#b1cdfb` |
-| Aberto, esquema claro | balão aberto; distância; fundo e texto | `open`, `aria-expanded="true"`; x 0 e y 8 do rótulo; `#5c5c5c` e `#ffffff` | abaixo do rótulo, mesmo x, `space/inline` 8; `color/tooltip` `#5c5c5c` e `color/tooltip-foreground` `#ffffff` |
-| Aberto, esquema escuro | fundo e texto | `#454545` e `#e3e3e3` | `#454545` e `#e3e3e3` |
-| Docs › Documentação | seções em pt-BR, en e es | 1 a 10 do quadro e Referências, 13 rótulos e 4 gatilhos em cada idioma | seções 1 a 10 do quadro `1194:1482` |
+| `Foco do gatilho`, light frame (focus by Tab) | trigger; root; text up to the trigger; icon | 24 × 24; 24; 4; 16, `#5c5c5c` | 24 × 24; 24; `space/inline-tight` 4; `icon/size-sm` 16, `color/muted-foreground` `#5c5c5c` |
+| `Foco do gatilho`, light frame | focus border and halo | border 26, `#3b82f6`, radius 7; halo 34, `#b1cdfb`, stroke 4, radius 11 | border 26 × 26, `focus/border` `#3b82f6`, radius 7; halo 34 × 34, `focus/halo` `#b1cdfb`, stroke 4, radius 11 |
+| `Foco do gatilho`, dark frame | icon; border; halo | `#b7bbc1`; `#89b4fa`, 26; `#b1cdfb`, 34 | `#b7bbc1`; `#89b4fa`; `#b1cdfb` |
+| `Aberto`, light scheme | open balloon; distance; background and text | `open`, `aria-expanded="true"`; x 0 and y 8 from the label; `#5c5c5c` and `#ffffff` | below the label, same x, `space/inline` 8; `color/tooltip` `#5c5c5c` and `color/tooltip-foreground` `#ffffff` |
+| `Aberto`, dark scheme | background and text | `#454545` and `#e3e3e3` | `#454545` and `#e3e3e3` |
+| `Docs › Documentação` | sections in pt-BR, en and es | 1 to 10 of the frame and References, 13 labels and 4 triggers in each language | sections 1 to 10 of frame `1194:1482` |
 
-A borda do foco é computada como `0.8px` com `devicePixelRatio` 1,25: o
-navegador ajusta a borda de `border/width` (1 px) a um pixel do aparelho. A
-caixa da borda continua com 26, como no Figma. Nos testes em Chromium, com
-`devicePixelRatio` 1, a largura é 1 px.
+The focus border is computed as `0.8px` with `devicePixelRatio` 1.25: the
+browser snaps the `border/width` border (1 px) to a device pixel. The
+border box stays at 26, as in Figma. In the Chromium tests, with
+`devicePixelRatio` 1, the width is 1 px.
 
-Sem rolagem horizontal a 375 px nas stories e na Docs, conferido na inspeção
-do código.
+No horizontal scrolling at 375 px in the stories and in the Docs, checked in the code
+inspection.

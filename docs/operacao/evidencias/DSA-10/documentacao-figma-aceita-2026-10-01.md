@@ -13,27 +13,27 @@
     "data": "2026-10-01",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "O frame nph-separator (1196:674), na pagina NPH — Separator, foi aceito como especificacao de API e comportamento do nph-separator. COMPONENT_SET: nph-separator (762:6), variante orientacao horizontal|vertical, padrao horizontal."
+    "decisao_convertida": "The frame nph-separator (1196:674), on the page `NPH — Separator`, was accepted as the API and behavior specification of nph-separator. COMPONENT_SET: nph-separator (762:6), variant `orientacao` horizontal|vertical, default horizontal."
   }
 }
 ```
 
 # DSA-10 — `documentacao-figma-aceita`
 
-Indiane aceitou a documentacao do quadro `nph-separator` (`1196:674`) em
-01-10-2026, no arquivo `DS-IA-NEPHOS 5.0`, pagina `NPH — Separator`. O QA UX de
-Figma teve revisao independente aprovada em 02-10-2026, e a auditoria textual foi
-aprovada em 02-10-2026.
+Indiane accepted the documentation of the `nph-separator` board (`1196:674`) on
+01-10-2026, in the file `DS-IA-NEPHOS 5.0`, page `NPH — Separator`. The Figma UX
+QA had an approved independent review on 02-10-2026, and the textual audit was
+approved on 02-10-2026.
 
-O COMPONENT_SET e `nph-separator` (`762:6`), com a variante `orientacao`
-(`horizontal`, `vertical`) e padrao `horizontal`.
+The COMPONENT_SET is `nph-separator` (`762:6`), with the variant `orientacao`
+(`horizontal`, `vertical`) and default `horizontal`.
 
-Nao ha saida de comando. A aceitacao e observacao humana, registrada com a
-data, a autoria, a URL do frame e o conjunto. Conteudo restrito do Figma nao
-entra nesta evidencia.
+There is no command output. The acceptance is a human observation, recorded with
+the date, the authorship, the frame URL and the set. Restricted Figma content does not
+enter this evidence.
 
-## Fonte da aceitacao
+## Source of the acceptance
 
-WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: aceite da documentacao dos
-11 componentes, entre eles o `nph-separator`. `2026-10-02.md`: QA UX de Figma com
-revisao independente aprovada e auditoria textual aprovada.
+WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: acceptance of the documentation of the
+11 components, among them `nph-separator`. `2026-10-02.md`: Figma UX QA with
+approved independent review and approved textual audit.

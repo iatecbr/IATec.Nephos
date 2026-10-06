@@ -1,15 +1,15 @@
 /*
- * Visao geral das fundacoes.
+ * Overview of the foundations.
  *
- * O texto vem do dicionario de idioma, em `../.storybook/i18n/`. A story e
- * UNICA: ela le `globals.locale` e busca a traducao.
+ * The text comes from the language dictionary, in `../.storybook/i18n/`. The
+ * story is SINGLE: it reads `globals.locale` and looks up the translation.
  */
 import { html } from 'lit';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../.storybook/i18n/index.js';
 
 export default {
-  title: 'Fundações/Visão geral',
+  title: 'Foundations/Overview',
   parameters: {
     layout: 'fullscreen',
   },
@@ -38,8 +38,8 @@ const card = `
   padding: var(--nph-space-container-padding);
 `;
 
-export const VisaoGeral = {
-  name: 'Visão geral',
+export const Overview = {
+  name: 'Overview',
   render: (_args, context) => {
     const t = translations(context?.globals?.[LOCALE_GLOBAL] ?? DEFAULT_LOCALE).foundations;
 

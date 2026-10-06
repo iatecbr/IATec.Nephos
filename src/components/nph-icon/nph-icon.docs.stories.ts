@@ -1,16 +1,16 @@
 /**
- * Paginas de leitura do `nph-icon`: documentacao e catalogo visual.
+ * Reading pages of `nph-icon`: documentation and visual catalog.
  *
- * Nenhuma das duas prova contrato — isso e papel de `Componentes/nph-icon/
- * Validacao` e dos testes. Aqui se le e se procura.
+ * Neither proves the contract — that is the role of `Components/nph-icon/
+ * Validation` and of the tests. Here one reads and searches.
  *
- * O texto vem do dicionario de idioma, em `.storybook/i18n/`. Cada story e
- * UNICA: ela le `globals.locale` e busca a traducao. Identificadores tecnicos
- * — `nph-icon`, nomes de token, atributos e comandos — aparecem literais e sao
- * iguais em qualquer idioma.
+ * The text comes from the language dictionary, in `.storybook/i18n/`. Each
+ * story is UNIQUE: it reads `globals.locale` and fetches the translation.
+ * Technical identifiers — `nph-icon`, token names, attributes and commands —
+ * appear literally and are the same in any language.
  *
- * A busca da galeria pertence a ESTA pagina, nao a API do componente: nenhum
- * atributo, propriedade, evento ou estilo do `nph-icon` foi criado para ela.
+ * The gallery search belongs to THIS page, not to the component API: no
+ * attribute, property, event or style of `nph-icon` was created for it.
  */
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -46,7 +46,7 @@ import {
 } from '../../shared/docs/page';
 
 const meta: Meta = {
-  title: 'Componentes/nph-icon/Docs',
+  title: 'Components/nph-icon/Docs',
   parameters: {
     layout: 'fullscreen',
   },
@@ -65,8 +65,8 @@ function localeOf(context: GlobalsContext | undefined): string {
 }
 
 /*
- * `hidden` precisa vencer o `display` inline da moldura. Regra de cenario,
- * restrita a esta pagina.
+ * `hidden` must beat the inline `display` of the frame. Scenario rule,
+ * restricted to this page.
  */
 const hidingRule = html`
   <style>
@@ -76,22 +76,22 @@ const hidingRule = html`
   </style>
 `;
 
-/** Ids das secoes: identificadores tecnicos, iguais em qualquer idioma. */
+/** Section ids: technical identifiers, the same in any language. */
 const SECTIONS = {
-  whenToUse: 'quando-usar',
+  whenToUse: 'when-to-use',
   api: 'api',
-  core: 'nucleo',
-  size: 'tamanho',
-  color: 'cor',
-  accessibility: 'acessibilidade',
-  invalid: 'entrada-invalida',
-  antiPatterns: 'anti-padroes',
-  references: 'referencias',
+  core: 'core',
+  size: 'size',
+  color: 'color',
+  accessibility: 'accessibility',
+  invalid: 'invalid-input',
+  antiPatterns: 'anti-patterns',
+  references: 'references',
 } as const;
 
 /**
- * Ids das categorias do catalogo, na ordem de `CATEGORIES`: os grupos
- * de `icones_nucleo`, no `design.md`, com nome tecnico em ingles.
+ * Catalog category ids, in the order of `CATEGORIES`: the groups
+ * of `icones_nucleo`, in `design.md`, with a technical name in English.
  */
 const CATEGORY_IDS = [
   'navigation-and-menus',
@@ -102,11 +102,12 @@ const CATEGORY_IDS = [
 ] as const;
 
 /**
- * Pagina de leitura, montada com os blocos de `src/shared/docs/page.ts`. Todo
- * bloco declara a origem da regra que mostra; nada aqui e decidido nesta pagina.
+ * Reading page, assembled with the blocks of `src/shared/docs/page.ts`. Every
+ * block declares the origin of the rule it shows; nothing here is decided on
+ * this page.
  */
-export const Documentacao: Story = {
-  name: 'Documentação',
+export const Documentation: Story = {
+  name: 'Documentation',
   render: (_args, context: GlobalsContext) => {
     const dictionary = translations(localeOf(context));
     const d = dictionary.docs;
@@ -244,12 +245,12 @@ function galleryOf(target: EventTarget | null): HTMLElement | null {
 }
 
 /**
- * Filtra a grade no navegador. O conjunto exibido vem sempre de
- * `filterNames` sobre `NPH_ICON_NAMES`: e impossivel esta pagina mostrar um
- * icone que nao esteja no nucleo.
+ * Filters the grid in the browser. The displayed set always comes from
+ * `filterNames` over `NPH_ICON_NAMES`: it is impossible for this page to show
+ * an icon that is not in the core.
  *
- * O idioma vem do proprio DOM, gravado na renderizacao: o tratador de evento
- * nao tem acesso ao contexto da story.
+ * The language comes from the DOM itself, written at render time: the event
+ * handler has no access to the story context.
  */
 function applyFilter(gallery: HTMLElement, term: string): void {
   const g = translations(gallery.dataset['nphLocale'] ?? DEFAULT_LOCALE).gallery;
@@ -263,7 +264,7 @@ function applyFilter(gallery: HTMLElement, term: string): void {
     category.hidden =
       category.querySelectorAll('[data-nph-name]:not([hidden])').length === 0;
 
-    /* O chip do indice some junto com a categoria: link para secao oculta nao leva a nada. */
+    /* The index chip disappears with the category: a link to a hidden section leads nowhere. */
     const id = category.querySelector('section[id]')?.id ?? '';
     const chip = gallery.querySelector(`nav a[href="#${id}"]`)?.closest('li');
     if (chip instanceof HTMLElement) {
@@ -276,7 +277,7 @@ function applyFilter(gallery: HTMLElement, term: string): void {
     empty.hidden = matches.size > 0;
   }
 
-  /* O contador so muda de texto quando o numero muda: leitor de tela nao e mural. */
+  /* The counter only changes text when the number changes: a screen reader is not a notice board. */
   const counter = gallery.querySelector<HTMLElement>('[data-nph-counter]');
   const total = String(matches.size);
   if (counter !== null && counter.dataset['nphFound'] !== total) {
@@ -306,11 +307,11 @@ function onClear(event: Event): void {
 }
 
 /**
- * Catalogo visual dos icones do nucleo, com busca por nome.
+ * Visual catalog of the core icons, with search by name.
  *
- * Cada cartao mostra o `nph-icon` SEM `label`, decorativo, com o nome em texto
- * embaixo: com texto visivel junto, rotular o icone faria o leitor de tela ler
- * duas vezes.
+ * Each card shows the `nph-icon` WITHOUT `label`, decorative, with the name as
+ * text below: with visible text alongside, labeling the icon would make the
+ * screen reader read it twice.
  */
 export const IconsOverview: Story = {
   name: 'Icons Overview',

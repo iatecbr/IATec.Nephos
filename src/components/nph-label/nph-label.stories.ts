@@ -1,19 +1,19 @@
 /**
- * Stories de VALIDACAO do `nph-label`.
+ * VALIDATION stories of `nph-label`.
  *
- * Cada pagina prova uma parte do contrato aprovado (27-08-2026, 08-09-2026 e
- * 01-10-2026): a matriz `required` x `info` do conjunto `374:6`, a paridade com
- * o Figma nos dois esquemas de cor, o foco e o balao aberto do gatilho de
- * informacao (quadro `1194:1482`), a associacao com o controle e a ausencia de
- * estado proprio do texto.
+ * Each page proves a part of the approved contract (27-08-2026, 08-09-2026
+ * and 01-10-2026): the `required` x `info` matrix of the set `374:6`, parity
+ * with Figma in both color schemes, the focus and the open bubble of the
+ * information trigger (frame `1194:1482`), the association with the control
+ * and the absence of a state of the text's own.
  *
- * Todo texto visivel — titulo de secao, legenda e o conteudo de exemplo dos
- * rotulos — vem do dicionario de idioma, na chave `labelValidation`
- * (`docs/i18n.md`, "Storybook"). A story le `globals.locale`.
+ * The dark frame switches `data-nph-color-scheme`, which is the public theme
+ * contract set by P20. No story duplicates a component per mode: the same
+ * piece is shown in both contexts.
  *
- * O quadro escuro troca `data-nph-color-scheme`, que e o contrato publico de
- * tema fixado pela P20. Nenhuma story duplica componente por modo: a mesma
- * peca e mostrada nos dois contextos.
+ * All visible text — section title, caption and the labels' example
+ * content — comes from the language dictionary, under the `labelValidation`
+ * key (`docs/i18n.md`, "Storybook"). The story reads `globals.locale`.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -24,7 +24,7 @@ import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook
 import './nph-label';
 
 const meta: Meta = {
-  title: 'Componentes/nph-label/Validação',
+  title: 'Components/nph-label/Validation',
   parameters: {
     layout: 'fullscreen',
   },
@@ -38,7 +38,7 @@ interface GlobalsContext {
   globals?: Record<string, unknown>;
 }
 
-/** Atalho: o dicionario destas stories no idioma escolhido. */
+/** Shortcut: the dictionary of these stories in the chosen language. */
 function t(context: GlobalsContext | undefined) {
   const locale = (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
   return translations(locale).labelValidation;
@@ -46,7 +46,7 @@ function t(context: GlobalsContext | undefined) {
 
 type Texts = ReturnType<typeof t>;
 
-/** Moldura de demonstracao. Nao vale como precedente para CSS de componente. */
+/** Demo frame. Not valid as a precedent for component CSS. */
 function page(content: TemplateResult): TemplateResult {
   return html`<div
     style="padding:32px;display:flex;flex-direction:column;gap:32px;background:var(--nph-color-background)"
@@ -74,7 +74,7 @@ function caption(text: string): TemplateResult {
   </p>`;
 }
 
-/** Quadro que fixa um esquema de cor, para comparar claro e escuro lado a lado. */
+/** Frame that fixes a color scheme, to compare light and dark side by side. */
 function frame(scheme: 'light' | 'dark', content: TemplateResult): TemplateResult {
   return html`<div
     data-nph-color-scheme=${scheme}
@@ -84,7 +84,7 @@ function frame(scheme: 'light' | 'dark', content: TemplateResult): TemplateResul
   </div>`;
 }
 
-/** Rotulo com o gatilho de informacao, com o texto de exemplo do dicionario. */
+/** Label with the information trigger, with the example text from the dictionary. */
 function withInfo(v: Texts, required = false): TemplateResult {
   return html`<nph-label
     text=${v.sampleText}
@@ -94,7 +94,7 @@ function withInfo(v: Texts, required = false): TemplateResult {
   ></nph-label>`;
 }
 
-/** As combinacoes de `required` e `info`, na ordem do conjunto `374:6`. */
+/** The combinations of `required` and `info`, in the order of the set `374:6`. */
 function combinations(v: Texts): TemplateResult {
   return html`
     <nph-label text=${v.sampleText}></nph-label>
@@ -104,10 +104,11 @@ function combinations(v: Texts): TemplateResult {
 }
 
 /**
- * A matriz inteira: `required` x `info`. Nao existe layout nem peso, e o texto
- * nao tem estado — o foco e so do gatilho de informacao.
+ * The whole matrix: `required` x `info`. There is no layout or weight, and the
+ * text has no state — focus belongs only to the information trigger.
  */
-export const Matriz: Story = {
+export const Matrix: Story = {
+  name: 'Matrix',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return page(html`${section(v.matrixTitle, html`${caption(v.matrixCaption)} ${combinations(v)}`)}`);
@@ -115,10 +116,11 @@ export const Matriz: Story = {
 };
 
 /**
- * Paridade com o Figma. O asterisco clareia sozinho no modo escuro porque
- * `status/error` tem um valor por esquema; nada e pintado a mao.
+ * Parity with Figma. The asterisk lightens by itself in dark mode because
+ * `status/error` has one value per scheme; nothing is painted by hand.
  */
-export const ModoClaroEEscuro: Story = {
+export const LightAndDarkMode: Story = {
+  name: 'Light and dark mode',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return page(html`
@@ -129,10 +131,12 @@ export const ModoClaroEEscuro: Story = {
 };
 
 /**
- * A razao de o componente nao usar Shadow DOM. Clicar no rotulo poe o cursor
- * no campo, e o leitor de tela anuncia o nome ao chegar nele.
+ * The reason the component does not use Shadow DOM. Clicking the label puts
+ * the cursor in the field, and the screen reader announces the name on
+ * reaching it.
  */
-export const AssociacaoComOControle: Story = {
+export const AssociationWithControl: Story = {
+  name: 'Association with the control',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return page(html`
@@ -156,10 +160,11 @@ export const AssociacaoComOControle: Story = {
 };
 
 /**
- * O que o rotulo NAO faz. Erro e desabilitado nao mudam o rotulo: quem mostra
- * os dois e o campo, e mais tarde o `nph-field`.
+ * What the label does NOT do. Error and disabled do not change the label: the
+ * field shows both, and later `nph-field`.
  */
-export const OQueORotuloNaoFaz: Story = {
+export const WhatTheLabelDoesNotDo: Story = {
+  name: 'What the label does not do',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return page(html`
@@ -178,11 +183,12 @@ export const OQueORotuloNaoFaz: Story = {
 };
 
 /**
- * O foco do gatilho: borda `focus/border` e halo `focus/halo` em volta do alvo
- * de 24 x 24 (L9). Aparece so pelo teclado: clique no campo de cima e use Tab.
+ * The trigger focus: `focus/border` border and `focus/halo` halo around the
+ * 24 x 24 target (L9). It only shows through the keyboard: click the field
+ * above and use Tab.
  */
 export const TriggerFocus: Story = {
-  name: 'Foco do gatilho',
+  name: 'Trigger focus',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return page(html`
@@ -199,12 +205,12 @@ export const TriggerFocus: Story = {
 };
 
 /**
- * O balao aberto: o `nph-tooltip` abaixo do rotulo, alinhado ao inicio, a
- * `space/inline` (linha "aberto" do quadro). Abre por clique, Enter ou Espaco;
- * fecha com Esc, clique fora ou Tab para fora.
+ * The open bubble: `nph-tooltip` below the label, aligned to the start, at
+ * `space/inline` (row `aberto` of the frame). It opens on click, Enter or
+ * Space; it closes with Esc, a click outside or Tab out.
  */
 export const Open: Story = {
-  name: 'Aberto',
+  name: 'Open',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return page(html`

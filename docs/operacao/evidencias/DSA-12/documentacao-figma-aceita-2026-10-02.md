@@ -13,30 +13,30 @@
     "data": "2026-10-02",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "O frame nph-badge (1196:1100), na pagina NPH — Badge, foi aceito como especificacao de API e comportamento do nph-badge. COMPONENT_SET: nph-badge (878:30), variantes tipo (primary, secondary, info, warn, help, danger, success) e enfase (solid, light), padrao primary e solid; propriedades texto, icone e troca de icone. O aceite de 01-10-2026 foi completado em 02-10-2026: o state=hover saiu, porque o selo nao e clicavel."
+    "decisao_convertida": "The frame nph-badge (1196:1100), on the page `NPH — Badge`, was accepted as the API and behavior specification of nph-badge. COMPONENT_SET: nph-badge (878:30), variants `tipo` (primary, secondary, info, warn, help, danger, success) and `enfase` (solid, light), default primary and solid; properties text, icon and icon swap. The acceptance of 01-10-2026 was completed on 02-10-2026: state=hover was removed, because the badge is not clickable."
   }
 }
 ```
 
 # DSA-12 — `documentacao-figma-aceita`
 
-Indiane aceitou a documentacao do quadro `nph-badge` (`1196:1100`) em
-01-10-2026, no arquivo `DS-IA-NEPHOS 5.0`, pagina `NPH — Badge`. Em 02-10-2026
-ela decidiu tirar o hover do selo ("se não é clicável não recebe hover"), e o
-conjunto ficou sem o eixo `state`. O QA UX de Figma teve revisao independente
-aprovada em 02-10-2026, e a auditoria textual foi aprovada na rodada 2, no
-mesmo dia.
+Indiane accepted the documentation of the `nph-badge` board (`1196:1100`) on
+01-10-2026, in the file `DS-IA-NEPHOS 5.0`, page `NPH — Badge`. On 02-10-2026
+she decided to remove the hover from the badge (`se não é clicável não recebe hover`, "if it is not clickable it gets no hover"), and the
+set was left without the `state` axis. The Figma UX QA had an approved independent review
+on 02-10-2026, and the textual audit was approved in round 2, on the
+same day.
 
-O COMPONENT_SET e `nph-badge` (`878:30`), com as variantes `tipo` (`primary`,
-`secondary`, `info`, `warn`, `help`, `danger`, `success`) e `enfase` (`solid`,
-`light`), padrao `primary` e `solid`.
+The COMPONENT_SET is `nph-badge` (`878:30`), with the variants `tipo` (`primary`,
+`secondary`, `info`, `warn`, `help`, `danger`, `success`) and `enfase` (`solid`,
+`light`), default `primary` and `solid`.
 
-Nao ha saida de comando. A aceitacao e observacao humana, registrada com a
-data, a autoria, a URL do frame e o conjunto. Conteudo restrito do Figma nao
-entra nesta evidencia.
+There is no command output. The acceptance is a human observation, recorded with
+the date, the authorship, the frame URL and the set. Restricted Figma content does not
+enter this evidence.
 
-## Fonte da aceitacao
+## Source of the acceptance
 
-WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: aceite da documentacao dos
-11 componentes, entre eles o `nph-badge`. `2026-10-02.md`: retirada do hover,
-QA UX de Figma com revisao independente aprovada e auditoria textual aprovada.
+WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: acceptance of the documentation of the
+11 components, among them `nph-badge`. `2026-10-02.md`: removal of the hover,
+Figma UX QA with approved independent review and approved textual audit.

@@ -1,7 +1,7 @@
 ```json
 {
   "id": "DSA-03",
-  "objetivo": "Alinhar os contratos e a arte de nph-icon a decisao I7 sobre circle-info no estilo solid.",
+  "objetivo": "Align the nph-icon contracts and artwork with decision I7 about circle-info in the solid style.",
   "fase": "F4",
   "ordem_aprovada": 80,
   "responsavel": "claude-codigo",
@@ -11,7 +11,7 @@
   "gates": [
     {
       "id": "documentacao-figma-aceita",
-      "descricao": "A documentacao de nph-icon no Figma foi aceita por Indiane e registrada como evidencia.",
+      "descricao": "The nph-icon documentation in Figma was accepted by Indiane and recorded as evidence.",
       "comando": null,
       "evidencia": "docs/operacao/evidencias/DSA-03/documentacao-figma-aceita-2026-09-14.md",
       "resultado": "passou",
@@ -20,7 +20,7 @@
     },
     {
       "id": "revisao-e-merge",
-      "descricao": "Os PRs #34 e #35, aprovados por maurocsjr, ja entregaram I7 na v/5.0.0; o commit fff0624 e ancestral do merge 4c33737.",
+      "descricao": "PRs #34 and #35, approved by maurocsjr, already delivered I7 into v/5.0.0; commit fff0624 is an ancestor of merge 4c33737.",
       "comando": "git merge-base --is-ancestor fff0624e44d7679877f36a28bb03225226f4eaec origin/v/5.0.0",
       "evidencia": "docs/operacao/evidencias/DSA-03/revisao-e-merge-2026-09-14.md",
       "resultado": "passou",
@@ -41,7 +41,7 @@
     "data": "2026-09-08",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "A decisao I7 permite circle-info no estilo solid; em 09-09-2026 Indiane autorizou migrar DSA-03 para docs/operacao/tarefas/ como ciclo comparavel do M6."
+    "decisao_convertida": "Decision I7 allows circle-info in the solid style; on 09-09-2026 Indiane authorized migrating DSA-03 to docs/operacao/tarefas/ as a comparable M6 cycle."
   },
   "revisao_git": {
     "branch": "feat/nph-icon-acervo-completo",
@@ -53,32 +53,33 @@
 }
 ```
 
-# DSA-03 — alinhar contratos de nph-icon a I7
+# DSA-03 — align nph-icon contracts with I7
 
-## Objetivo
-A ficha, os contratos tecnicos, a arte versionada, os testes e o Storybook de
-`nph-icon` registram a decisao I7: `regular` continua padrao, e `circle-info`
-pode usar `solid` pelo motivo aprovado.
+## Goal
+The `nph-icon` spec, technical contracts, versioned artwork, tests and Storybook
+record decision I7: `regular` remains the default, and `circle-info` may use
+`solid` for the approved reason.
 
-## Como se prova
-**`documentacao-figma-aceita`** — a documentacao de `nph-icon` no Figma
-`DS-IA-NEPHOS 5.0` e aceita por Indiane, e a aceitacao entra em
-`docs/operacao/evidencias/DSA-03/`, com a URL ou o ID do frame, a data, a autoria
-e a decisao convertida, nomeando o frame e o COMPONENT_SET. Enquanto este gate
-nao passar, a tarefa fica `bloqueada` e nenhum codigo de componente comeca.
+## How it is proved
+**`documentacao-figma-aceita`** — the `nph-icon` documentation in the Figma file
+`DS-IA-NEPHOS 5.0` is accepted by Indiane, and the acceptance goes into
+`docs/operacao/evidencias/DSA-03/`, with the frame URL or ID, the date, the
+authorship and the converted decision, naming the frame and the COMPONENT_SET.
+While this gate has not passed, the task stays `bloqueada` and no component code
+starts.
 
-**`revisao-e-merge`** — ficha, `design.md`, `docs/decisoes-tecnicas.md`, arte,
-testes, Storybook e seus dicionarios passam pelos testes aplicaveis, sao revisados e
-mergeados na branch padrao. A evidencia deve registrar branch, commit, PR, comando
-executado e resultado.
+**`revisao-e-merge`** — spec, `design.md`, `docs/decisoes-tecnicas.md`, artwork,
+tests, Storybook and their dictionaries pass the applicable tests, are reviewed and
+merged into the default branch. The evidence must record branch, commit, PR, the
+command run and the result.
 
-## O que esta tarefa não faz
-Nao libera `solid` para outros nomes, nao altera a API de `nph-label` e nao inicia
-`nph-field`. A atualizacao da Fundacao de icones no WORK BRAIN fica para o Copilot
-depois da entrega verificavel. Qualquer novo nome ou estado exige motivo coerente e
-decisao registrada.
+## What this task does not do
+It does not release `solid` for other names, does not change the `nph-label` API
+and does not start `nph-field`. Updating the icon Foundation in the WORK BRAIN is
+left to Copilot after the verifiable delivery. Any new name or state requires a
+coherent reason and a recorded decision.
 
-## Fontes
+## Sources
 - `fichas/nph-icon.md`
 - `src/components/nph-icon/`
 - `.storybook/i18n/pt-BR.js`, `.storybook/i18n/en.js`, `.storybook/i18n/es.js`
@@ -88,9 +89,9 @@ decisao registrada.
 - `GOVERNANCA.md`, `AGENTS.md`, `CLAUDE.md`
 - WORK BRAIN — `02 PROJETOS/DS-Agentico/Registro de decisões — Nephos.md`, I7
 
-## Por que está `concluida`
-Os PRs #34 (código, testes e Storybook, merge `0e93f0a`) e #35 (ficha e
-contratos, merge `9ed82e5`) foram revisados por Mauro (`maurocsjr`) e
-mergeados na `v/5.0.0` em 14-09-2026. O commit `fff0624` é ancestral da ponta
-`4c33737`. Os testes de `nph-icon` passaram (38/38). Os dois gates estão
-`passou`, com evidência local, data e responsável, e não há contexto ativo.
+## Why it is `concluida`
+PRs #34 (code, tests and Storybook, merge `0e93f0a`) and #35 (spec and
+contracts, merge `9ed82e5`) were reviewed by Mauro (`maurocsjr`) and
+merged into `v/5.0.0` on 14-09-2026. Commit `fff0624` is an ancestor of the tip
+`4c33737`. The `nph-icon` tests passed (38/38). Both gates are
+`passou`, with local evidence, date and owner, and there is no active context.

@@ -3,19 +3,19 @@ peca: nph-label
 nivel: componente
 status: vigente
 titulo: "nph-label"
-tipo: ficha de componente
+tipo: component spec
 criado: 2026-08-31
 atualizado: 2026-10-06
 resolve: >-
-  Nomeia um controle de formulário de forma visível e acessível. O rótulo é só
-  um texto: não carrega layout, estado do texto nem mensagem de erro. Carrega o gatilho
-  da ajuda, não a ajuda: o ícone de informação abre o nph-tooltip.
+  Names a form control in a visible and accessible way. The label is
+  only text, and it carries no layout, text state or error message. It carries the trigger
+  of the help, not the help: the information icon opens the nph-tooltip.
 use_quando:
-  - "Um controle de formulário precisa de nome visível, sozinho ou dentro de um nph-field."
+  - "A form control needs a visible name, on its own or inside an nph-field."
 nao_use_quando:
-  - "É frase com verbo e ponto final — isso é `text/body-md`."
-  - "Abre uma seção ou grupo — isso é `text/heading-sm`."
-  - "É ênfase dentro de um parágrafo — isso é `<strong>`."
+  - "It is a sentence with a verb and a full stop — that is `text/body-md`."
+  - "It opens a section or group — that is `text/heading-sm`."
+  - "It is emphasis inside a paragraph — that is `<strong>`."
 
 api:
   text:
@@ -24,71 +24,71 @@ api:
     padrao: "vazio"
     reflete: false
     restricao: >-
-      Carrega o conteúdo do rótulo, já localizado pela aplicação consumidora.
-      Existe como propriedade porque, sem Shadow DOM, não há `slot`.
+      Carries the label content, already localized by the consuming application.
+      It exists as a property because, without Shadow DOM, there is no `slot`.
   required:
     tipo: boolean
     obrigatoria: false
     padrao: false
     reflete: true
     restricao: >-
-      Acrescenta o asterisco ao fim do texto. O asterisco é decorativo
-      (`aria-hidden`): a obrigatoriedade precisa ser comunicada pelo controle.
+      Adds the asterisk at the end of the text. The asterisk is decorative
+      (`aria-hidden`): the requiredness must be communicated by the control.
   for:
     tipo: string
     obrigatoria: false
     padrao: nulo
     reflete: true
     restricao: >-
-      `id` do controle que este rótulo nomeia. Espelha o atributo nativo e é o
-      mecanismo da associação — a razão de o componente não usar Shadow DOM.
+      `id` of the control this label names. It mirrors the native attribute and is the
+      association mechanism — the reason the component does not use Shadow DOM.
   info:
     tipo: string
     obrigatoria: false
     padrao: "vazio"
     reflete: false
     restricao: >-
-      O texto da explicação, já localizado pela aplicação consumidora. Com
-      info-label, mostra o ícone de informação depois do texto, que abre o
-      nph-tooltip com este texto. Sem info-label, o ícone não aparece e sai
-      console.error em desenvolvimento; o rótulo continua.
+      The text of the explanation, already localized by the consuming application. With
+      info-label, it shows the information icon after the text, which opens the
+      nph-tooltip with this text. Without info-label, the icon does not appear and
+      console.error is emitted in development; the label remains.
   info-label:
     tipo: string
     obrigatoria: false
     padrao: "vazio"
     reflete: false
     restricao: >-
-      O nome acessível do ícone de informação. A propriedade é infoLabel. Sem
-      info, não aparece nada e não há erro.
+      The accessible name of the information icon. The property is infoLabel. Without
+      info, nothing appears and there is no error.
   slots: nenhum
   eventos: nenhum
   cor: >-
-    Não é propriedade. O texto é `color/foreground` e o asterisco é
-    `status/error`, sempre — inclusive quando o campo está em erro.
+    It is not a property. The text is `color/foreground` and the asterisk is
+    `status/error`, always — including when the field is in error.
 
 variantes:
   required:
     eixo: aparencia
-    escolha_quando: "true quando o preenchimento do campo for obrigatório"
+    escolha_quando: "true when filling in the field is required"
     nao_combine_com: ["layout", "weight"]
   info:
     eixo: aparencia
-    escolha_quando: "Quando o campo precisa de uma explicação curta que não cabe no rótulo; no código, é o texto de info com info-label."
+    escolha_quando: "When the field needs a short explanation that does not fit in the label; in code, it is the text of info with info-label."
     nao_combine_com: ["layout", "weight"]
 
 estados:
   default:
     token: nao_se_aplica
-    muda_para_a_pessoa: "O texto não tem estado. Erro e desabilitado são mostrados pelo campo e pela composição"
+    muda_para_a_pessoa: "The text has no state. Error and disabled are shown by the field and by the composition"
   focus:
-    token: "borda border/width em focus/border e halo focus/ring-width em focus/halo, em volta do alvo de 24 por 24"
-    muda_para_a_pessoa: "Só no ícone de informação e só pelo teclado: a borda e o halo marcam o foco, sem mudar o tamanho."
+    token: "border border/width in focus/border and halo focus/ring-width in focus/halo, around the 24 by 24 target"
+    muda_para_a_pessoa: "Only on the information icon and only from the keyboard: the border and the halo mark the focus, without changing the size."
   aberto:
-    token: "o nph-tooltip, abaixo do rótulo, a space/inline"
-    muda_para_a_pessoa: "O balão mostra a explicação; fecha com Esc, clique fora ou Tab para fora. Passar o mouse não abre."
+    token: "the nph-tooltip, below the label, at space/inline"
+    muda_para_a_pessoa: "The balloon shows the explanation; it closes with Esc, click outside or Tab out. Hovering does not open it."
 
 regras_de_negocio:
-  - "Campo obrigatório é sinalizado pelo asterisco — e a obrigatoriedade real é do controle"
+  - "A required field is signaled by the asterisk — and the actual requiredness belongs to the control"
 erros_de_dominio: []
 
 tokens:
@@ -102,27 +102,27 @@ tokens:
   espaco_ate_o_balao: space/inline
 
 dicas_para_ia:
-  - "Rótulo de campo é `nph-label`; frase com verbo e ponto final não é."
-  - "O rótulo não muda no erro. Quem muda é o campo e a mensagem."
-  - "Não procure propriedade de layout: a posição é do `nph-field`."
-  - "`required=true` sozinho não comunica obrigatoriedade a leitor de tela."
-  - "O ícone de informação aparece com info e info-label juntos; info-label é o nome que o leitor de tela anuncia."
+  - "A field label is `nph-label`; a sentence with a verb and a full stop is not."
+  - "The label does not change on error. The field and the message change."
+  - "Do not look for a layout property: the position belongs to `nph-field`."
+  - "`required=true` alone does not communicate requiredness to a screen reader."
+  - "The information icon appears with info and info-label together; info-label is the name the screen reader announces."
 
 acessibilidade:
-  semantica: "Elemento nativo `<label>`; o ícone de informação é um `<button>` nativo depois dele, fora do `<label>`, com aria-expanded e aria-controls apontando o nph-tooltip"
-  nome_acessivel: "O rótulo é a origem do nome acessível do controle. O ícone de informação é nomeado por info-label"
+  semantica: "Native `<label>` element; the information icon is a native `<button>` after it, outside the `<label>`, with aria-expanded and aria-controls pointing to the nph-tooltip"
+  nome_acessivel: "The label is the source of the accessible name of the control. The information icon is named by info-label"
   teclado:
-    - "Tab entra e sai do ícone de informação; o texto não recebe foco."
-    - "Enter e Espaço abrem e fecham o balão."
-    - "Esc fecha o balão aberto, e o foco fica no ícone."
-  foco: "O texto não recebe foco. O ícone de informação recebe, com borda focus/border e halo focus/halo por fora, só pelo teclado"
-  contraste: "Medido nos dois modos: o texto e o asterisco passam em 4,5:1; o ícone, em color/muted-foreground, 6,69:1 e 9,81:1; a borda de foco, em focus/border, 3,68:1 e 8,98:1"
-  alternativa_a_cor: "O asterisco é sinal de forma, não de cor — e é decorativo"
+    - "Tab enters and leaves the information icon; the text does not receive focus."
+    - "Enter and Space open and close the balloon."
+    - "Esc closes the open balloon, and focus stays on the icon."
+  foco: "The text does not receive focus. The information icon does, with border focus/border and halo focus/halo outside, only from the keyboard"
+  contraste: "Measured in both modes: the text and the asterisk pass at 4.5:1; the icon, in color/muted-foreground, 6.69:1 and 9.81:1; the focus border, in focus/border, 3.68:1 and 8.98:1"
+  alternativa_a_cor: "The asterisk is a shape signal, not a color one — and it is decorative"
 
 combinacoes_invalidas:
-  - "`required=true` sem legenda visível explicando a convenção no formulário"
-  - "Criar propriedade de layout ou de peso — as duas foram recusadas por decisão; o texto também não tem estado"
-  - "info sem info-label — o ícone não aparece, porque não teria nome acessível"
+  - "`required=true` without a visible legend explaining the convention in the form"
+  - "Creating a layout or weight property — both were refused by decision; the text also has no state"
+  - "info without info-label — the icon does not appear, because it would have no accessible name"
 
 relacoes:
   combina_com: [nph-input, nph-field, nph-checkbox]
@@ -132,253 +132,254 @@ relacoes:
   aparece_em: [pendente]
 
 anti_padroes:
-  - "Mudar a cor do rótulo quando o campo entra em erro"
-  - "Usar `nph-label` para abrir seção ou dar ênfase"
-  - "Tratar o asterisco como o sinal de obrigatoriedade para tecnologia assistiva"
+  - "Changing the label color when the field enters error"
+  - "Using `nph-label` to open a section or give emphasis"
+  - "Treating the asterisk as the requiredness signal for assistive technology"
 
 fontes:
-  design_md: "design.md, no repositório"
-  decisao: "P62.1, P62.2 e P62.3, aprovadas pelo Elvys em 28-08-2026; P62.6, o gatilho de informação, em revisão no PR por maurocsjr"
+  design_md: "design.md, in the repository"
+  decisao: "P62.1, P62.2 and P62.3, approved by Elvys on 28-08-2026; P62.6, the information trigger, under review in the PR by maurocsjr"
   testes: "src/components/nph-label/nph-label.test.ts"
   evidencia_de_uso: "branch v/3.0.0, PR #10, merge e231eba"
   storybook: "src/components/nph-label/nph-label.stories.ts"
-  figma: "página NPH — Label, quadro nph-label 1194:1482 e conjunto mestre 374:6"
+  figma: "page NPH — Label, nph-label frame 1194:1482 and master set 374:6"
 tags: [nephos, ds-agentico, ficha, componente, nph-label]
 ---
 
-> **Referências marcadas `(vault)`** estão em `02 PROJETOS/DS-Agentico/`, no WORK BRAIN —
-> fora deste repositório. Elas eram wikilinks do Obsidian e foram convertidas em
-> referência explícita na migração de 31-08-2026.
+> **References marked `(vault)`** are in `02 PROJETOS/DS-Agentico/`, in the WORK BRAIN —
+> outside this repository. They were Obsidian wikilinks and were converted into an
+> explicit reference in the migration of 31-08-2026.
 
 # nph-label
 
-> **O princípio que rege esta peça, aprovado por Indiane em 27-08-2026: o rótulo é só um
-> texto.** Ele não carrega layout, estado do texto nem mensagem de erro. Desde 08-09-2026 (L8),
-> ele carrega o **gatilho** da ajuda, não a ajuda: o ícone de informação abre o
+> **The principle that governs this piece, approved by Indiane on 27-08-2026: the label is
+> only text.** It carries no layout, text state or error message. Since 08-09-2026 (L8),
+> it carries the **trigger** of the help, not the help: the information icon opens the
 > `nph-tooltip`.
 >
-> A API está no bloco YAML acima. Volta para `Índice — DS-Agentico` (vault).
+> The API is in the YAML block above. Back to `Índice — DS-Agentico` (Index — DS-Agentico) (vault).
 
-## Função
+## Function
 
-**O problema que resolve:** nomeia um controle de formulário de forma visível e
-acessível.
+**The problem it solves:** names a form control in a visible and
+accessible way.
 
-**Quando usar:** sempre que um controle de formulário precisar de nome visível —
-sozinho ou dentro de um `nph-field`.
+**When to use:** whenever a form control needs a visible name —
+on its own or inside an `nph-field`.
 
-**Quando NÃO usar:**
+**When NOT to use:**
 
-- **Frase com verbo e ponto final** — isso é `text/body-md`.
-- **Abrir uma seção ou grupo** — isso é `text/heading-sm`.
-- **Dar ênfase dentro de um parágrafo** — isso é `<strong>`, não um rótulo.
+- **A sentence with a verb and a full stop** — that is `text/body-md`.
+- **Opening a section or group** — that is `text/heading-sm`.
+- **Giving emphasis inside a paragraph** — that is `<strong>`, not a label.
 
-## Variantes
+## Variants
 
-**Por aparência — `required` e `info`:** cada uma `false` ou `true`, sozinhas ou juntas
-(conjunto `374:6`). `required` acrescenta o asterisco; `info` acrescenta o ícone de
-informação depois do texto. No código, `info` é o texto da explicação e só desenha o
-ícone com `info-label`.
+**By appearance — `required` and `info`:** each one `false` or `true`, alone or together
+(master set `374:6`). `required` adds the asterisk; `info` adds the information icon
+after the text. In code, `info` is the text of the explanation and only draws the
+icon with `info-label`.
 
-**Por tamanho e por densidade:** `nao_se_aplica`. O rótulo tem um papel de texto só.
+**By size and by density:** `nao_se_aplica`. The label has a single text role.
 
-**Não combine com:** `layout` e `weight`. **As duas foram recusadas por decisão
-registrada** em 27-08-2026 — layout é do `nph-field` e peso é da fundação de tipografia.
-O texto também não tem estado; o eixo `state` do Figma (`default` e `focus`) existe só
-com `info` e é o foco do ícone (L9).
+**Do not combine with:** `layout` and `weight`. **Both were refused by a recorded
+decision** on 27-08-2026 — layout belongs to `nph-field` and weight belongs to the typography foundation.
+The text also has no state; the Figma `state` axis (`default` and `focus`) exists only
+with `info` and is the focus of the icon (L9).
 
-## Estados
+## States
 
-**O texto não tem estado próprio**, e isso é decisão, não omissão. Os únicos estados
-são do ícone de informação: o **foco**, pelo teclado, e o **aberto**, com o balão.
+**The text has no state of its own**, and this is a decision, not an omission. The only states
+belong to the information icon: **focus**, from the keyboard, and **open**, with the balloon.
 
-| A situação | Onde ela aparece |
+| The situation | Where it appears |
 |---|---|
-| **Erro** | **O rótulo não muda.** Continua em `color/foreground`. O erro fica no campo e na mensagem |
-| **Desabilitado** | Não é do rótulo. O `nph-field` aplica `state/disabled-opacity` ao controle inteiro |
-| **Ajuda e mensagem de erro** | São do `nph-field`. O rótulo carrega o texto, o asterisco e o gatilho da ajuda, não a ajuda (L8) |
+| **Error** | **The label does not change.** It stays in `color/foreground`. The error stays in the field and in the message |
+| **Disabled** | It does not belong to the label. `nph-field` applies `state/disabled-opacity` to the whole control |
+| **Help and error message** | They belong to `nph-field`. The label carries the text, the asterisk and the trigger of the help, not the help (L8) |
 
-**O que muda para a pessoa:** nada, no texto. No ícone de informação, o foco e o balão
-aberto.
+**What changes for the person:** nothing, in the text. On the information icon, the focus and the open
+balloon.
 
-**Feedback e foco:** o texto do rótulo **não é focável**. Ativar o rótulo move o foco
-para o controle associado — comportamento nativo do `<label>`, que só funciona por causa
-da decisão de não usar Shadow DOM. O ícone de informação é focável: com foco, mostra a
-borda `focus/border` e o halo `focus/halo` em volta do alvo de 24 × 24. Ativado por
-clique, Enter ou Espaço, abre o `nph-tooltip` abaixo do rótulo, a `space/inline`; fecha
-com Esc, clique fora ou Tab para fora. O fechamento por Tab é a leitura, para o
-teclado, do "clique fora" da L11, confirmada por Indiane em 06-10-2026 (P62.6). Passar o
-mouse não abre.
+**Feedback and focus:** the label text **is not focusable**. Activating the label moves focus
+to the associated control — native `<label>` behavior, which only works because of
+the decision not to use Shadow DOM. The information icon is focusable: with focus, it shows the
+`focus/border` border and the `focus/halo` halo around the 24 × 24 target. Activated by
+click, Enter or Space, it opens the `nph-tooltip` below the label, at `space/inline`; it closes
+with Esc, click outside or Tab out. Closing by Tab is the keyboard reading
+of the "click outside" of L11, confirmed by Indiane on 06-10-2026 (P62.6). Hovering
+does not open it.
 
-**Regra de negócio que a peça carrega:** o asterisco sinaliza campo obrigatório. **Mas o
-asterisco é decorativo** — ver Acessibilidade.
+**Business rule the piece carries:** the asterisk signals a required field. **But the
+asterisk is decorative** — see Accessibility.
 
-## Acessibilidade
+## Accessibility
 
-| Critério | Regra |
+| Criterion | Rule |
 |---|---|
-| Semântica | Elemento nativo `<label>`. O ícone de informação é um `<button>` nativo depois dele, fora do `<label>`, com `aria-expanded` e `aria-controls` |
-| Associação | Pelo atributo `for`, apontando o `id` do controle |
-| Nome acessível | **O rótulo é a origem do nome acessível do controle.** Havendo rótulo visível associado, o controle **não** recebe nome duplicado por `aria-label` |
-| Teclado e foco | O texto não recebe foco. O ícone de informação entra no Tab; Enter e Espaço abrem e fecham o balão; Esc fecha. O balão é região viva `role="status"` e não recebe foco |
-| Nome do ícone | `info-label`. Sem ele, o ícone não aparece |
-| Alvo de toque | O ícone de informação tem alvo de 24 × 24, com a arte de 16 px no centro (WCAG 2.5.8) |
-| Contraste | Nos dois modos. Texto e asterisco, medidos em 27-08-2026, passam no mínimo de 4,5:1. O ícone, em `color/muted-foreground`, medido em 08-09-2026 (L8): 6,69:1 e 9,81:1. A borda de foco, em `focus/border`, medida em 01-10-2026 (quadro `1194:1482`): 3,68:1 e 8,98:1 |
-| Alternativa à cor | O asterisco é **sinal de forma, não de cor** |
+| Semantics | Native `<label>` element. The information icon is a native `<button>` after it, outside the `<label>`, with `aria-expanded` and `aria-controls` |
+| Association | Through the `for` attribute, pointing to the `id` of the control |
+| Accessible name | **The label is the source of the accessible name of the control.** When there is an associated visible label, the control does **not** receive a duplicate name through `aria-label` |
+| Keyboard and focus | The text does not receive focus. The information icon enters the Tab order; Enter and Space open and close the balloon; Esc closes it. The balloon is a `role="status"` live region and does not receive focus |
+| Icon name | `info-label`. Without it, the icon does not appear |
+| Touch target | The information icon has a 24 × 24 target, with the 16 px artwork in the center (WCAG 2.5.8) |
+| Contrast | In both modes. Text and asterisk, measured on 27-08-2026, pass the minimum of 4.5:1. The icon, in `color/muted-foreground`, measured on 08-09-2026 (L8): 6.69:1 and 9.81:1. The focus border, in `focus/border`, measured on 01-10-2026 (frame `1194:1482`): 3.68:1 and 8.98:1 |
+| Alternative to color | The asterisk is a **shape signal, not a color one** |
 
-> ⚠️ **O asterisco não comunica obrigatoriedade para leitor de tela.** No código ele sai
-> com `aria-hidden` — é decorativo. Duas consequências, e as duas são obrigatórias:
+> ⚠️ **The asterisk does not communicate requiredness to a screen reader.** In the code it is output
+> with `aria-hidden` — it is decorative. Two consequences, and both are mandatory:
 >
-> 1. **A obrigatoriedade precisa ser comunicada por código** ao controle, por tecnologia
->    assistiva. `required=true` no rótulo **não faz isso**.
-> 2. **Todo formulário que usar `required=true` precisa de legenda visível** explicando
->    a convenção do asterisco. O símbolo é sinal visual, não substituto.
+> 1. **Requiredness must be communicated in code** to the control, for assistive
+>    technology. `required=true` on the label **does not do this**.
+> 2. **Every form that uses `required=true` needs a visible legend** explaining
+>    the asterisk convention. The symbol is a visual signal, not a substitute.
 
-## Relações
+## Relations
 
-**Combina com:** `nph-input`, `nph-field` e `nph-checkbox`.
+**Combines with:** `nph-input`, `nph-field` and `nph-checkbox`.
 
-**O que é pai:** o `nph-field`, que compõe rótulo, controle e mensagem — e é ele quem
-decide a **posição** do rótulo em relação ao controle.
+**What is the parent:** `nph-field`, which composes label, control and message — and it is the one that
+decides the **position** of the label relative to the control.
 
-**O que é filho:** com o gatilho, o `nph-icon` (`circle-info`) e o `nph-tooltip`, que
-mostra a explicação. Sem o gatilho, o `nph-label` é folha.
+**What is the child:** with the trigger, `nph-icon` (`circle-info`) and `nph-tooltip`, which
+shows the explanation. Without the trigger, `nph-label` is a leaf.
 
-**Qual bloco complementa:** `pendente` — a Fase 5 não começou.
+**Which block it complements:** `pendente` — Phase 5 has not started.
 
-**Aparece nos layouts:** `pendente`, pelo mesmo motivo.
+**Appears in layouts:** `pendente`, for the same reason.
 
-**A fronteira, escrita:** ajuda e mensagem de erro **não são do rótulo**. Se você está
-pensando em acrescentar uma das duas aqui, o lugar é o `nph-field`.
+**The boundary, in writing:** help and error message **do not belong to the label**. If you are
+thinking of adding either of them here, the place is `nph-field`.
 
-## Tokens, intenção e Dicas para IA
+## Tokens, intent and AI hints
 
-**Tokens semânticos usados** — conferidos no CSS do componente em 31-08-2026; o
-gatilho, em 06-10-2026:
+**Semantic tokens used** — checked in the component CSS on 31-08-2026; the
+trigger, on 06-10-2026:
 
-| Parte | Token |
+| Part | Token |
 |---|---|
-| O texto | `text/label-md`, em todas as propriedades do papel |
-| A cor do texto | `color/foreground` |
-| A cor do asterisco | `status/error` |
-| O espaço antes do asterisco | `space/inline-tight` |
-| O espaço até o ícone de informação | `space/inline-tight` |
-| O ícone de informação | `circle-info` `solid` em `icon/size-sm`, com `space/inline-tight` em volta (alvo de 24 × 24), em `color/muted-foreground` |
-| O foco do ícone | `border/width` em `focus/border`, raio `focus/border-radius-control`; halo `focus/ring-width` em `focus/halo`, raio `focus/radius-control-with-border` |
-| O espaço até o balão | `space/inline` |
+| The text | `text/label-md`, in all the properties of the role |
+| The text color | `color/foreground` |
+| The asterisk color | `status/error` |
+| The space before the asterisk | `space/inline-tight` |
+| The space up to the information icon | `space/inline-tight` |
+| The information icon | `circle-info` `solid` in `icon/size-sm`, with `space/inline-tight` around it (24 × 24 target), in `color/muted-foreground` |
+| The icon focus | `border/width` in `focus/border`, radius `focus/border-radius-control`; halo `focus/ring-width` in `focus/halo`, radius `focus/radius-control-with-border` |
+| The space up to the balloon | `space/inline` |
 
-**Esta peça é a primeira prova em código da P62.2** — os papéis de texto, cada um com
-as suas propriedades. Sem eles, o rótulo só existiria com valor literal.
+**This piece is the first proof in code of P62.2** — the text roles, each one with
+its properties. Without them, the label would only exist with a literal value.
 
-**Restrições de uso:** o `use` de `status/error` foi **ampliado no `design.md` antes do
-código**, para cobrir o asterisco. A cor do rótulo **não muda** em nenhuma situação. Os
-limites do gatilho estão na P62.6: o `use` de `color/muted-foreground` passa a citar o
-ícone pelo PR #57, por decisão de Indiane de 06-10-2026 (L-a); a regra 6 do `design.md` passa a admitir borda e halo pelo PR #57 (L-b); e o
-balão não tem `z-index`, porque não há token de camada (L-c).
+**Usage restrictions:** the `use` of `status/error` was **extended in `design.md` before the
+code**, to cover the asterisk. The label color **does not change** in any situation. The
+limits of the trigger are in P62.6: the `use` of `color/muted-foreground` comes to mention the
+icon through PR #57, by Indiane's decision of 06-10-2026 (L-a); rule 6 of `design.md` comes to admit border and halo through PR #57 (L-b); and the
+balloon has no `z-index`, because there is no layer token (L-c).
 
-**Dicas para IA:**
+**AI hints:**
 
-- **Rótulo de campo é `nph-label`.** Frase com verbo e ponto final não é — é `body-md`.
-- **O rótulo não muda no erro.** Quem muda é o campo e a mensagem. Se você está
-  procurando como deixar o rótulo vermelho, a resposta é: não deixa.
-- **Não procure propriedade de layout.** A posição do rótulo é do `nph-field`.
-- **`required=true` sozinho não comunica obrigatoriedade** a leitor de tela. O controle
-  precisa dizer isso em código, e o formulário precisa de legenda visível.
-- **`text` é propriedade, não conteúdo entre as tags.** Sem Shadow DOM não há `slot`.
-- **Ícone de informação é `info` mais `info-label`.** Sem o nome, o ícone não aparece. O
-  texto da explicação vai no balão, não no rótulo.
+- **A field label is `nph-label`.** A sentence with a verb and a full stop is not — it is `body-md`.
+- **The label does not change on error.** The field and the message change. If you are
+  looking for how to make the label red, the answer is: you don't.
+- **Do not look for a layout property.** The label position belongs to `nph-field`.
+- **`required=true` alone does not communicate requiredness** to a screen reader. The control
+  must say so in code, and the form needs a visible legend.
+- **`text` is a property, not content between the tags.** Without Shadow DOM there is no `slot`.
+- **The information icon is `info` plus `info-label`.** Without the name, the icon does not appear. The
+  text of the explanation goes in the balloon, not in the label.
 
-## Exemplos
+## Examples
 
-**Caso recomendado:** `nph-label` com `text` e `for` apontando o `id` do `nph-input`,
-dentro de um `nph-field` — o rótulo nomeia, o campo compõe.
+**Recommended case:** `nph-label` with `text` and `for` pointing to the `id` of `nph-input`,
+inside an `nph-field` — the label names, the field composes.
 
-**Caso alternativo:** `required=true` num formulário que já traz a legenda visível
-explicando o asterisco, com a obrigatoriedade também declarada no controle.
+**Alternative case:** `required=true` in a form that already has the visible legend
+explaining the asterisk, with the requiredness also declared on the control.
 
-**Com explicação:** `info` com o texto curto do que o campo pede e `info-label` com o
-nome do ícone, como "Sobre CPF".
+**With an explanation:** `info` with the short text of what the field asks for and `info-label` with the
+name of the icon, such as `Sobre CPF` (About CPF).
 
-## Anti-padrões
+## Anti-patterns
 
-- **Não usar para:** abrir seção, dar ênfase, ou escrever frase corrida.
-- **Não combinar com:** propriedade de layout ou de peso — as duas foram recusadas por
-  decisão.
-- **Combinações inválidas, e por quê:** `required=true` sem legenda visível no formulário
-  — o asterisco sozinho não explica a convenção · mudar a cor do rótulo no erro — a
-  decisão é que ele não muda · esperar que o asterisco anuncie obrigatoriedade a leitor
-  de tela — ele é `aria-hidden` · `info` sem `info-label` — o ícone não teria nome.
-- **Não criar nem adaptar sem decisão:** variante nova, token de cor próprio, ou
-  qualquer propriedade além das que estão no bloco `api`.
+- **Do not use to:** open a section, give emphasis, or write running text.
+- **Do not combine with:** a layout or weight property — both were refused by
+  decision.
+- **Invalid combinations, and why:** `required=true` without a visible legend in the form
+  — the asterisk alone does not explain the convention · changing the label color on error — the
+  decision is that it does not change · expecting the asterisk to announce requiredness to a screen
+  reader — it is `aria-hidden` · `info` without `info-label` — the icon would have no name.
+- **Do not create or adapt without a decision:** a new variant, an own color token, or
+  any property beyond those in the `api` block.
 
-## Fontes e decisões
+## Sources and decisions
 
-### Estado da implementação — evidência verificada em 31-08-2026; o gatilho, em 06-10-2026
+### Implementation status — evidence verified on 31-08-2026; the trigger, on 06-10-2026
 
-| O quê | Evidência |
+| What | Evidence |
 |---|---|
-| Implementado e integrado | Está na branch padrão `v/3.0.0`, pelo **PR #10**, merge `e231eba`, em 28-08-2026. **É o segundo componente disponível na branch padrão** |
-| A API do código | `text`, `required` e `for` — **é a P62.3**, conferida propriedade por propriedade em `src/components/nph-label/nph-label.ts`. `info` e `info-label` entram pela **P62.6** (DSA-04), em revisão |
-| `required` e `for` refletem no DOM | Confirmado no código |
-| Sem Shadow DOM | Confirmado, com o motivo escrito no próprio arquivo |
-| Tokens consumidos | Conferidos em `nph-label.css`: `text/label-md` (as propriedades do papel), `color/foreground`, `status/error`, `space/inline-tight`; com o gatilho, os do bloco `tokens` |
-| Stories e testes | Em `nph-label.stories.ts` e `nph-label.test.ts` |
-| Aprovação visual | Indiane, em **27-08-2026**, conjunto mestre `374:6` na página `NPH — Label`, nos modos claro e escuro; em **08-09-2026**, a matriz `required` × `info` (L8); em **01-10-2026**, o foco do ícone e o quadro `1194:1482` (L9 e L10) |
+| Implemented and integrated | It is on the default branch `v/3.0.0`, through **PR #10**, merge `e231eba`, on 28-08-2026. **It is the second component available on the default branch** |
+| The code API | `text`, `required` and `for` — **it is P62.3**, checked property by property in `src/components/nph-label/nph-label.ts`. `info` and `info-label` come in through **P62.6** (DSA-04), under review |
+| `required` and `for` reflect in the DOM | Confirmed in the code |
+| No Shadow DOM | Confirmed, with the reason written in the file itself |
+| Tokens consumed | Checked in `nph-label.css`: `text/label-md` (the properties of the role), `color/foreground`, `status/error`, `space/inline-tight`; with the trigger, those of the `tokens` block |
+| Stories and tests | In `nph-label.stories.ts` and `nph-label.test.ts` |
+| Visual approval | Indiane, on **27-08-2026**, master set `374:6` on the `NPH — Label` page, in light and dark modes; on **08-09-2026**, the `required` × `info` matrix (L8); on **01-10-2026**, the icon focus and frame `1194:1482` (L9 and L10) |
 
-> **Duas divergências que encontrei na ficha antiga, e como resolvi.**
+> **Two divergences I found in the old spec, and how I resolved them.**
 >
-> A ficha em `TRABALHO/DESIGN SYSTEM/02 — Componentes/fichas/nph-label.md` diz que **"a
-> forma de associação é pendente"** e que **"o componente não está na `v/3.0.0`"**. As
-> duas ficaram para trás: a associação é o `for`, fechada pela **P62.3**, e o componente
-> foi mergeado em 28-08-2026. Ela também registra as duas decisões técnicas como
-> "pendentes de confirmação de Elvys" — **a P62.1 e a P62.3 foram aprovadas por ele em
-> 28-08-2026**. A fonte de estado é o `Estado vigente — Nephos` (vault), confirmado no
-> repositório; a ficha antiga é memória.
+> The spec at `TRABALHO/DESIGN SYSTEM/02 — Componentes/fichas/nph-label.md` says that
+> **`a forma de associação é pendente`** (the association form is pending) and that
+> **`o componente não está na v/3.0.0`** (the component is not on `v/3.0.0`). Both
+> fell behind: the association is `for`, closed by **P62.3**, and the component
+> was merged on 28-08-2026. It also records the two technical decisions as
+> `pendentes de confirmação de Elvys` (pending confirmation by Elvys) — **P62.1 and P62.3 were approved by him on
+> 28-08-2026**. The status source is the `Estado vigente — Nephos` (Current status — Nephos) (vault), confirmed in the
+> repository; the old spec is memory.
 
-### A exceção que esta peça carrega
+### The exception this piece carries
 
-**`nph-label` é o único componente do Nephos sem Shadow DOM.** É a **P62.1**, exceção
-declarada à P01, **de uma peça só, sem abrir precedente**.
+**`nph-label` is the only Nephos component without Shadow DOM.** It is **P62.1**, a declared
+exception to P01, **for a single piece, without setting a precedent**.
 
-**O motivo, e ele importa:** a associação nativa entre rótulo e controle **não atravessa
-a fronteira do Shadow DOM**. Sem isso, o `for` não alcançaria o `id` do controle, o
-clique no rótulo não moveria o foco, e **o rótulo perderia a função**. A exceção existe
-para preservar comportamento nativo do navegador, não por conveniência de implementação.
+**The reason, and it matters:** the native association between label and control **does not cross
+the Shadow DOM boundary**. Without it, `for` would not reach the `id` of the control, a
+click on the label would not move focus, and **the label would lose its function**. The exception exists
+to preserve native browser behavior, not for implementation convenience.
 
-E ela obrigou duas propriedades a mais que o previsto: **`for`**, o mecanismo da
-associação, e **`text`**, que carrega o conteúdo — porque sem Shadow DOM não existe
+And it required two more properties than planned: **`for`**, the association
+mechanism, and **`text`**, which carries the content — because without Shadow DOM there is no
 `slot`.
 
-**Não imite esta exceção em outro componente.** Ela vale para esta peça, por este motivo.
+**Do not imitate this exception in another component.** It applies to this piece, for this reason.
 
-### As decisões de 27-08-2026
+### The decisions of 27-08-2026
 
-| # | Assunto | A decisão |
+| # | Subject | The decision |
 |---|---|---|
-| — | Escopo | Entra na v1 como **2º item do recorte P0** (21-08-2026) |
-| 1 | Erro | **O rótulo não muda** |
-| 2 | Layout | **Não é do rótulo** — pertence ao `nph-field` |
-| 3 | Obrigatório | **Asterisco**, no formato `Nome completo *` |
-| 4 | Desabilitado | **Não tem estado próprio** |
-| 5 | Fronteira com `nph-field` | **Ajuda e mensagem de erro são do `nph-field`** — superada em parte pela L8: o rótulo carrega o gatilho da ajuda |
+| — | Scope | Enters v1 as the **2nd item of the P0 cut** (21-08-2026) |
+| 1 | Error | **The label does not change** |
+| 2 | Layout | **It does not belong to the label** — it belongs to `nph-field` |
+| 3 | Required | **Asterisk**, in the format `Nome completo *` (Full name *) |
+| 4 | Disabled | **It has no state of its own** |
+| 5 | Boundary with `nph-field` | **Help and error message belong to `nph-field`** — partly superseded by L8: the label carries the trigger of the help |
 
-| O quê | Onde |
+| What | Where |
 |---|---|
-| Contrato técnico | `design.md`, no repositório |
-| As decisões técnicas | `docs/decisoes-tecnicas.md` — P62.1, P62.2, P62.3 e P62.6 |
-| Regras de papel de texto | `Fundação — tipografia` (vault) |
-| Regras de cor do texto e do estado | `Fundação — cor` (vault) |
-| A ficha de origem, agora memória | `TRABALHO/DESIGN SYSTEM/02 — Componentes/fichas/nph-label.md` |
-| O que está aberto | `Pendências do Nephos` (vault) |
+| Technical contract | `design.md`, in the repository |
+| The technical decisions | `docs/decisoes-tecnicas.md` — P62.1, P62.2, P62.3 and P62.6 |
+| Text role rules | `Fundação — tipografia` (Foundation — typography) (vault) |
+| Text and state color rules | `Fundação — cor` (Foundation — color) (vault) |
+| The origin spec, now memory | `TRABALHO/DESIGN SYSTEM/02 — Componentes/fichas/nph-label.md` |
+| What is open | `Pendências do Nephos` (Nephos open items) (vault) |
 
 ---
 
-*Procedência: função, variantes, estados, acessibilidade, relações, exemplos,
-anti-padrões e as decisões de 27-08-2026 são **evidência** — vêm da ficha de origem,
-reescritas no modelo de nove seções, sem alteração de regra. O bloco `api`, os tokens
-consumidos, a ausência de Shadow DOM e o estado da implementação são **evidência
-verificada no repositório** em 31-08-2026. As Dicas para IA são **novas**. A P62.1, a
-P62.2 e a P62.3 são **decisão humana** da Indiane, aprovadas pelo Elvys em 28-08-2026.
-Em 06-10-2026, a ficha ganhou o gatilho de informação (DSA-04): a anatomia e o
-comportamento vêm da L8 à L11 e do quadro `1194:1482`, aceitos por Indiane; a API e a
-semântica são a **P62.6**, em revisão no PR por `maurocsjr`.*
+*Provenance: function, variants, states, accessibility, relations, examples,
+anti-patterns and the decisions of 27-08-2026 are **evidence** — they come from the origin spec,
+rewritten in the nine-section template, without any rule change. The `api` block, the tokens
+consumed, the absence of Shadow DOM and the implementation status are **evidence
+verified in the repository** on 31-08-2026. The AI hints are **new**. P62.1,
+P62.2 and P62.3 are a **human decision** by Indiane, approved by Elvys on 28-08-2026.
+On 06-10-2026, the spec gained the information trigger (DSA-04): the anatomy and the
+behavior come from L8 to L11 and from frame `1194:1482`, accepted by Indiane; the API and the
+semantics are **P62.6**, under review in the PR by `maurocsjr`.*

@@ -1,14 +1,14 @@
 /**
- * Prova do contrato do `nph-label`, em navegador de verdade.
+ * Proof of the `nph-label` contract, in a real browser.
  *
- * Cobre o que a ficha e o Registro prometem: o asterisco de `required`, a
- * ausencia de Shadow DOM, a associacao com o controle, o asterisco decorativo
- * para tecnologia assistiva, a ausencia de propriedade de layout, peso ou
- * estado, e o gatilho de informacao (L8 a L11, P62.6): quando aparece, a
- * medida e a cor pelos tokens, o foco por borda e halo, e como o balao abre,
- * fecha e se posiciona.
+ * Covers what the spec and the Register promise: the `required` asterisk, the
+ * absence of Shadow DOM, the association with the control, the asterisk being
+ * decorative for assistive technology, the absence of a layout, weight or
+ * state property, and the information trigger (L8 to L11, P62.6): when it
+ * appears, its measure and color through the tokens, focus through border and
+ * halo, and how the bubble opens, closes and is positioned.
  *
- * Os esquemas de cor sao trocados na raiz (`data-nph-color-scheme` no `html`).
+ * The color schemes are switched at the root (`data-nph-color-scheme` on `html`).
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
@@ -35,7 +35,7 @@ afterEach(async () => {
   vi.restoreAllMocks();
 });
 
-/** Monta o elemento, espera a primeira renderizacao e devolve. */
+/** Mounts the element, waits for the first render and returns it. */
 async function mount(configure: (el: NphLabel) => void = () => undefined, parent: HTMLElement = document.body): Promise<NphLabel> {
   const el = document.createElement('nph-label');
   configure(el);
@@ -44,7 +44,7 @@ async function mount(configure: (el: NphLabel) => void = () => undefined, parent
   return el;
 }
 
-/** Rotulo com gatilho: texto, `info` e `infoLabel` de exemplo. */
+/** Label with trigger: example text, `info` and `infoLabel`. */
 function withInfo(e: NphLabel): void {
   e.text = 'Full name';
   e.info = 'Explains what the field asks for.';
@@ -53,7 +53,7 @@ function withInfo(e: NphLabel): void {
 
 const labelOf = (el: NphLabel): HTMLLabelElement => {
   const l = el.querySelector('label');
-  if (l === null) throw new Error('o elemento nao renderizou um <label>');
+  if (l === null) throw new Error('the element did not render a <label>');
   return l;
 };
 
@@ -61,7 +61,7 @@ const asterisk = (el: NphLabel): HTMLElement | null => el.querySelector('.nph-la
 
 const triggerOf = (el: NphLabel): HTMLButtonElement => {
   const b = el.querySelector<HTMLButtonElement>('button');
-  if (b === null) throw new Error('o elemento nao renderizou o gatilho');
+  if (b === null) throw new Error('the element did not render the trigger');
   return b;
 };
 
@@ -69,17 +69,17 @@ type Tooltip = HTMLElement & { open: boolean; text: string; updateComplete: Prom
 
 const tooltipOf = (el: NphLabel): Tooltip => {
   const t = el.querySelector<Tooltip>('nph-tooltip');
-  if (t === null) throw new Error('o elemento nao renderizou o nph-tooltip');
+  if (t === null) throw new Error('the element did not render nph-tooltip');
   return t;
 };
 
 const bubbleOf = (el: NphLabel): HTMLElement => {
   const b = tooltipOf(el).shadowRoot?.querySelector<HTMLElement>('.bubble');
-  if (!b) throw new Error('o balao nao esta aberto');
+  if (!b) throw new Error('the bubble is not open');
   return b;
 };
 
-/** O valor que o navegador da a um token, na mesma propriedade. */
+/** The value the browser gives a token, in the same property. */
 function resolved(property: string, token: string, parent: HTMLElement = document.body): string {
   const probe = document.createElement('div');
   probe.style.setProperty(property, `var(${token})`);
@@ -91,20 +91,20 @@ function resolved(property: string, token: string, parent: HTMLElement = documen
 
 const px = (property: string, token: string): number => Number.parseFloat(resolved(property, token));
 
-/** Espera o Lit renderizar de novo depois de um evento. */
+/** Waits for Lit to render again after an event. */
 async function settle(el: NphLabel): Promise<void> {
   await el.updateComplete;
   await tooltipOf(el).updateComplete;
 }
 
-describe('registro', () => {
-  it('define a tag uma vez e exporta a classe', () => {
+describe('registration', () => {
+  it('defines the tag once and exports the class', () => {
     expect(REGISTERED).toBe(NphLabel);
   });
 });
 
-describe('required acrescenta o asterisco', () => {
-  it('required=false e o padrao e nao desenha asterisco', async () => {
+describe('required appends the asterisk', () => {
+  it('required=false is the default and draws no asterisk', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
     });
@@ -113,7 +113,7 @@ describe('required acrescenta o asterisco', () => {
     expect(asterisk(el)).toBeNull();
   });
 
-  it('required=true acrescenta o asterisco ao fim do texto', async () => {
+  it('required=true appends the asterisk to the end of the text', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
       e.required = true;
@@ -123,14 +123,14 @@ describe('required acrescenta o asterisco', () => {
     expect(labelOf(el).textContent).toBe('Nome completo*');
   });
 
-  it('required reflete para atributo, para o CSS do consumidor poder mirar', async () => {
+  it('required reflects to an attribute, so the consumer CSS can target it', async () => {
     const el = await mount((e) => {
       e.required = true;
     });
     expect(el.hasAttribute('required')).toBe(true);
   });
 
-  it('alternar required desenha e apaga o asterisco', async () => {
+  it('toggling required draws and removes the asterisk', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
       e.required = true;
@@ -141,13 +141,13 @@ describe('required acrescenta o asterisco', () => {
   });
 });
 
-describe('excecao a P01 — sem Shadow DOM', () => {
-  it('nao abre shadow root: sem isso a associacao nativa nao funcionaria', async () => {
+describe('exception to P01 — no Shadow DOM', () => {
+  it('does not open a shadow root: without it the native association would not work', async () => {
     const el = await mount();
     expect(el.shadowRoot).toBeNull();
   });
 
-  it('renderiza o <label> na luz, dentro do proprio elemento', async () => {
+  it('renders the <label> in the light DOM, inside the element itself', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
     });
@@ -155,8 +155,8 @@ describe('excecao a P01 — sem Shadow DOM', () => {
   });
 });
 
-describe('associacao com o controle', () => {
-  it('for chega ao <label> e o clique leva o foco ao campo', async () => {
+describe('association with the control', () => {
+  it('for reaches the <label> and a click moves focus to the field', async () => {
     const field = document.createElement('input');
     field.id = 'name-field';
     document.body.append(field);
@@ -173,7 +173,7 @@ describe('associacao com o controle', () => {
     expect(document.activeElement).toBe(field);
   });
 
-  it('com o gatilho, o clique no texto continua levando o foco ao campo (P62.1)', async () => {
+  it('with the trigger, clicking the text still moves focus to the field (P62.1)', async () => {
     const field = document.createElement('input');
     field.id = 'name-field';
     document.body.append(field);
@@ -186,7 +186,7 @@ describe('associacao com o controle', () => {
     expect(document.activeElement).toBe(field);
   });
 
-  it('sem for, o atributo nao e emitido em branco', async () => {
+  it('without for, the attribute is not emitted blank', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
     });
@@ -194,8 +194,8 @@ describe('associacao com o controle', () => {
   });
 });
 
-describe('acessibilidade', () => {
-  it('o rotulo da o nome acessivel do campo', async () => {
+describe('accessibility', () => {
+  it('the label gives the field its accessible name', async () => {
     const field = document.createElement('input');
     field.id = 'name-field';
     document.body.append(field);
@@ -203,11 +203,11 @@ describe('acessibilidade', () => {
       e.text = 'Nome completo';
       e.for = 'name-field';
     });
-    /* `labels` e a via oficial: e o que o leitor de tela usa para nomear. */
+    /* `labels` is the official route: it is what the screen reader uses to name. */
     expect([...(field.labels ?? [])]).toContain(labelOf(el));
   });
 
-  it('o asterisco e decorativo: leva aria-hidden', async () => {
+  it('the asterisk is decorative: it carries aria-hidden', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
       e.required = true;
@@ -215,7 +215,7 @@ describe('acessibilidade', () => {
     expect(asterisk(el)?.getAttribute('aria-hidden')).toBe('true');
   });
 
-  it('o componente nao injeta texto proprio: nenhum idioma vive aqui', async () => {
+  it('the component injects no text of its own: no language lives here', async () => {
     const el = await mount((e) => {
       e.text = 'Full name';
       e.required = true;
@@ -223,7 +223,7 @@ describe('acessibilidade', () => {
     expect(labelOf(el).textContent).toBe('Full name*');
   });
 
-  it('o gatilho e um botao nativo depois do <label>, fora dele, nomeado por infoLabel', async () => {
+  it('the trigger is a native button after the <label>, outside it, named by infoLabel', async () => {
     const el = await mount(withInfo);
     const trigger = triggerOf(el);
     expect(trigger.type).toBe('button');
@@ -235,7 +235,7 @@ describe('acessibilidade', () => {
     expect(trigger.getAttribute('aria-controls')).toBe(tooltipOf(el).id);
   });
 
-  it('o gatilho nao entra no nome do campo: o texto do <label> continua so o rotulo', async () => {
+  it('the trigger does not enter the field name: the <label> text stays only the label', async () => {
     const el = await mount((e) => {
       withInfo(e);
       e.required = true;
@@ -243,7 +243,7 @@ describe('acessibilidade', () => {
     expect(labelOf(el).textContent).toBe('Full name*');
   });
 
-  it('o icone e circle-info solid sm, decorativo', async () => {
+  it('the icon is circle-info solid sm, decorative', async () => {
     const el = await mount(withInfo);
     const icon = triggerOf(el).querySelector('nph-icon');
     expect(icon?.getAttribute('name')).toBe('circle-info');
@@ -253,7 +253,7 @@ describe('acessibilidade', () => {
     expect(icon?.getAttribute('aria-hidden')).toBe('true');
   });
 
-  it('o balao e regiao viva desde a montagem, fechado, com o texto de info', async () => {
+  it('the bubble is a live region from mount, closed, with the info text', async () => {
     const el = await mount(withInfo);
     const tooltip = tooltipOf(el);
     expect(tooltip.getAttribute('role')).toBe('status');
@@ -261,15 +261,15 @@ describe('acessibilidade', () => {
     expect(tooltip.text).toBe('Explains what the field asks for.');
   });
 
-  it('cada rotulo tem o seu id de balao', async () => {
+  it('each label has its own bubble id', async () => {
     const a = await mount(withInfo);
     const b = await mount(withInfo);
     expect(tooltipOf(a).id).not.toBe(tooltipOf(b).id);
   });
 });
 
-describe('quando o gatilho aparece', () => {
-  it('sem info, o DOM e o de hoje: so o <label>, e a raiz continua inline-block', async () => {
+describe('when the trigger appears', () => {
+  it('without info, the DOM is the one of today: only the <label>, and the root stays inline-block', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
     });
@@ -280,14 +280,14 @@ describe('quando o gatilho aparece', () => {
     expect(getComputedStyle(el).position).toBe('static');
   });
 
-  it('com info e infoLabel, o gatilho e o balao aparecem', async () => {
+  it('with info and infoLabel, the trigger and the bubble appear', async () => {
     const el = await mount(withInfo);
     expect(el.hasAttribute('data-nph-info')).toBe(true);
     expect(triggerOf(el)).toBeTruthy();
     expect(tooltipOf(el)).toBeTruthy();
   });
 
-  it('info-label e o atributo de infoLabel; info e infoLabel nao refletem', async () => {
+  it('info-label is the attribute of infoLabel; info and infoLabel do not reflect', async () => {
     const el = document.createElement('nph-label');
     el.setAttribute('text', 'Full name');
     el.setAttribute('info', 'Explains.');
@@ -302,7 +302,7 @@ describe('quando o gatilho aparece', () => {
     expect(set.hasAttribute('info-label')).toBe(false);
   });
 
-  it('info sem infoLabel: sem gatilho, rotulo intacto e console.error uma vez', async () => {
+  it('info without infoLabel: no trigger, label intact and console.error once', async () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const el = await mount((e) => {
       e.text = 'Full name';
@@ -317,7 +317,7 @@ describe('quando o gatilho aparece', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('infoLabel so com espacos conta como vazio', async () => {
+  it('infoLabel with only spaces counts as empty', async () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const el = await mount((e) => {
       e.text = 'Full name';
@@ -328,7 +328,7 @@ describe('quando o gatilho aparece', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it('infoLabel sem info e montagem: nada, sem erro', async () => {
+  it('infoLabel without info is assembly: nothing, no error', async () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const el = await mount((e) => {
       e.text = 'Full name';
@@ -338,7 +338,7 @@ describe('quando o gatilho aparece', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('tirar info apaga o gatilho e fecha o balao', async () => {
+  it('removing info erases the trigger and closes the bubble', async () => {
     const el = await mount(withInfo);
     await userEvent.click(triggerOf(el));
     el.info = '';
@@ -348,9 +348,9 @@ describe('quando o gatilho aparece', () => {
   });
 });
 
-describe('medidas e cor pelos tokens', () => {
+describe('measures and color through the tokens', () => {
   for (const scheme of ['light', 'dark'] as const) {
-    it(`${scheme}: gatilho 24 x 24, icone sm em color/muted-foreground, a space/inline-tight do texto`, async () => {
+    it(`${scheme}: 24 x 24 trigger, sm icon in color/muted-foreground, space/inline-tight from the text`, async () => {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
       const el = await mount(withInfo);
       const trigger = triggerOf(el);
@@ -368,7 +368,7 @@ describe('medidas e cor pelos tokens', () => {
     });
   }
 
-  it('com o gatilho, a raiz tem a altura dele e o texto fica ao centro', async () => {
+  it('with the trigger, the root has its height and the text sits in the center', async () => {
     const el = await mount(withInfo);
     const root = el.getBoundingClientRect();
     const trigger = triggerOf(el).getBoundingClientRect();
@@ -377,7 +377,7 @@ describe('medidas e cor pelos tokens', () => {
     expect(text.top - root.top).toBeCloseTo(root.bottom - text.bottom, 1);
   });
 
-  it('sem o gatilho, a altura e a do texto (text/label-md)', async () => {
+  it('without the trigger, the height is that of the text (text/label-md)', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
     });
@@ -385,7 +385,7 @@ describe('medidas e cor pelos tokens', () => {
   });
 });
 
-describe('foco do gatilho', () => {
+describe('trigger focus', () => {
   async function tabToTrigger(parent: HTMLElement = document.body): Promise<NphLabel> {
     const before = document.createElement('input');
     parent.append(before);
@@ -396,7 +396,7 @@ describe('foco do gatilho', () => {
     return el;
   }
 
-  it('Tab mostra a borda focus/border e o halo focus/halo, por fora, sem mudar o tamanho', async () => {
+  it('Tab shows the focus/border border and the focus/halo halo, outside, without changing the size', async () => {
     const el = await tabToTrigger();
     const trigger = triggerOf(el);
     const border = getComputedStyle(trigger, '::before');
@@ -414,13 +414,13 @@ describe('foco do gatilho', () => {
     expect(Number.parseFloat(halo.height)).toBeCloseTo(box.height + 2 * (borderWidth + ringWidth), 2);
   });
 
-  it('o clique de mouse nao desenha o foco', async () => {
+  it('a mouse click does not draw the focus', async () => {
     const el = await mount(withInfo);
     await userEvent.click(triggerOf(el));
     expect(getComputedStyle(triggerOf(el), '::before').content).toBe('none');
   });
 
-  it('numa parte da tela com outra marca e outro esquema, o halo e o local (P67)', async () => {
+  it('in a part of the screen with another brand and another scheme, the halo is the local one (P67)', async () => {
     const defaultBrand = /:root,\s*\[data-nph-brand="([\w-]+)"\]/.exec(tokensCss)?.[1] ?? '';
     const otherBrand =
       [...tokensCss.matchAll(/\[data-nph-brand="([\w-]+)"\]/g)].map((m) => m[1] ?? '').find((b) => b !== defaultBrand) ?? '';
@@ -435,8 +435,8 @@ describe('foco do gatilho', () => {
   });
 });
 
-describe('abrir e fechar o balao', () => {
-  it('o clique abre e fecha, e o gatilho fica com o foco', async () => {
+describe('opening and closing the bubble', () => {
+  it('a click opens and closes, and the trigger keeps focus', async () => {
     const el = await mount(withInfo);
     const trigger = triggerOf(el);
     await userEvent.click(trigger);
@@ -451,7 +451,7 @@ describe('abrir e fechar o balao', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
-  it('Enter e Espaco alternam', async () => {
+  it('Enter and Space toggle', async () => {
     const el = await mount(withInfo);
     triggerOf(el).focus();
     await userEvent.keyboard('{Enter}');
@@ -462,7 +462,7 @@ describe('abrir e fechar o balao', () => {
     expect(tooltipOf(el).open).toBe(false);
   });
 
-  it('Esc com o balao aberto fecha, deixa o foco no gatilho e nao propaga', async () => {
+  it('Esc with the bubble open closes it, leaves focus on the trigger and does not propagate', async () => {
     const el = await mount(withInfo);
     const outer = vi.fn();
     document.body.addEventListener('keydown', outer);
@@ -476,7 +476,7 @@ describe('abrir e fechar o balao', () => {
     document.body.removeEventListener('keydown', outer);
   });
 
-  it('Esc com o balao fechado nao e interceptado', async () => {
+  it('Esc with the bubble closed is not intercepted', async () => {
     const el = await mount(withInfo);
     const outer = vi.fn();
     document.body.addEventListener('keydown', outer);
@@ -486,7 +486,7 @@ describe('abrir e fechar o balao', () => {
     document.body.removeEventListener('keydown', outer);
   });
 
-  it('clique fora fecha; clique dentro do balao nao fecha', async () => {
+  it('a click outside closes; a click inside the bubble does not close', async () => {
     const outside = document.createElement('p');
     outside.textContent = 'outside';
     document.body.append(outside);
@@ -501,7 +501,7 @@ describe('abrir e fechar o balao', () => {
     expect(tooltipOf(el).open).toBe(false);
   });
 
-  it('clique no texto do rotulo fecha o balao e leva o foco ao campo', async () => {
+  it('a click on the label text closes the bubble and moves focus to the field', async () => {
     const field = document.createElement('input');
     field.id = 'name-field';
     document.body.append(field);
@@ -517,7 +517,7 @@ describe('abrir e fechar o balao', () => {
     expect(document.activeElement).toBe(field);
   });
 
-  it('Tab e Shift+Tab para fora fecham', async () => {
+  it('Tab and Shift+Tab out close it', async () => {
     const before = document.createElement('input');
     document.body.append(before);
     const el = await mount(withInfo);
@@ -539,14 +539,14 @@ describe('abrir e fechar o balao', () => {
     expect(tooltipOf(el).open).toBe(false);
   });
 
-  it('passar o mouse nao abre', async () => {
+  it('hovering does not open it', async () => {
     const el = await mount(withInfo);
     await userEvent.hover(triggerOf(el));
     await settle(el);
     expect(tooltipOf(el).open).toBe(false);
   });
 
-  it('desconectar com o balao aberto solta o ouvinte do documento', async () => {
+  it('disconnecting with the bubble open releases the document listener', async () => {
     const remove = vi.spyOn(document, 'removeEventListener');
     const el = await mount(withInfo);
     await userEvent.click(triggerOf(el));
@@ -556,8 +556,8 @@ describe('abrir e fechar o balao', () => {
   });
 });
 
-describe('posicao do balao', () => {
-  it('abaixo do rotulo, alinhado ao inicio, a space/inline, sem mudar a altura do rotulo', async () => {
+describe('bubble position', () => {
+  it('below the label, aligned to the start, at space/inline, without changing the label height', async () => {
     const el = await mount(withInfo);
     const before = el.getBoundingClientRect();
     await userEvent.click(triggerOf(el));
@@ -569,7 +569,7 @@ describe('posicao do balao', () => {
     expect(tooltip.top - root.bottom).toBeCloseTo(px('width', '--nph-space-inline'), 1);
   });
 
-  it('rotulo curto e explicacao longa: o balao vai ate a largura maxima, em ate duas linhas', async () => {
+  it('short label and long explanation: the bubble goes up to the maximum width, in up to two lines', async () => {
     const el = await mount((e) => {
       e.text = 'CPF';
       e.info = 'Use the number printed on the identity card, digits only, without dots or dashes.';
@@ -584,40 +584,40 @@ describe('posicao do balao', () => {
   });
 });
 
-describe('o que o rotulo NAO tem', () => {
-  it('nao expoe layout, peso nem estado', async () => {
+describe('what the label does NOT have', () => {
+  it('exposes no layout, weight or state', async () => {
     const el = await mount();
     for (const forbidden of ['layout', 'weight', 'state', 'disabled', 'error', 'invalid', 'open']) {
       expect(forbidden in el).toBe(false);
     }
   });
 
-  it('a API publica e exatamente text, required, for, info e infoLabel', () => {
+  it('the public API is exactly text, required, for, info and infoLabel', () => {
     const properties = (NphLabel as unknown as { elementProperties: Map<string, { state?: boolean }> }).elementProperties;
     const declared = [...properties].filter(([, options]) => options.state !== true).map(([name]) => name);
     expect(new Set(declared)).toEqual(new Set(['text', 'required', 'for', 'info', 'infoLabel']));
   });
 });
 
-describe('contrato de token', () => {
-  it('o design.md autoriza status/error como indicador de obrigatorio', () => {
+describe('token contract', () => {
+  it('design.md authorizes status/error as the required indicator', () => {
     const block = designMd.slice(designMd.indexOf('  status/error:'));
     const usage = block.slice(0, block.indexOf('nao_use'));
-    expect(usage).toContain('asterisco');
-    expect(usage).toContain('obrigat');
+    expect(usage).toContain('asterisk');
+    expect(usage).toContain('required');
   });
 
-  it('A5 continua proibindo color/destructive em erro de validacao', () => {
-    expect(designMd).toContain('Usar `color/destructive` em erro de validação');
+  it('A5 still forbids color/destructive on validation errors', () => {
+    expect(designMd).toContain('Use `color/destructive` for a validation error');
   });
 
-  it('o papel text/label-md existe no CSS gerado', () => {
+  it('the text/label-md role exists in the generated CSS', () => {
     for (const part of ['font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing']) {
       expect(tokensCss).toContain('--nph-text-label-md-' + part + ':');
     }
   });
 
-  it('todo token que o gatilho e o balao consomem existe no CSS gerado', () => {
+  it('every token the trigger and the bubble consume exists in the generated CSS', () => {
     for (const token of [
       '--nph-space-inline-tight',
       '--nph-space-inline',

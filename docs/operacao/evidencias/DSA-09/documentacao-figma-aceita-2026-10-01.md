@@ -13,27 +13,27 @@
     "data": "2026-10-01",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "O frame nph-spinner (1195:22210), na pagina NPH — Spinner, foi aceito como especificacao de API e comportamento do nph-spinner. COMPONENT_SET: nph-spinner (281:11), variante size sm|md, padrao sm."
+    "decisao_convertida": "The frame nph-spinner (1195:22210), on the page `NPH — Spinner`, was accepted as the API and behavior specification of nph-spinner. COMPONENT_SET: nph-spinner (281:11), variant size sm|md, default sm."
   }
 }
 ```
 
 # DSA-09 — `documentacao-figma-aceita`
 
-Indiane aceitou a documentacao do quadro `nph-spinner` (`1195:22210`) em
-01-10-2026, no arquivo `DS-IA-NEPHOS 5.0`, pagina `NPH — Spinner`. O QA UX de
-Figma teve revisao independente aprovada em 02-10-2026, e a auditoria textual foi
-aprovada em 02-10-2026.
+Indiane accepted the documentation of the `nph-spinner` board (`1195:22210`) on
+01-10-2026, in the file `DS-IA-NEPHOS 5.0`, page `NPH — Spinner`. The Figma UX QA
+had an approved independent review on 02-10-2026, and the textual audit was
+approved on 02-10-2026.
 
-O COMPONENT_SET e `nph-spinner` (`281:11`), com a variante `size` (`sm`, `md`) e
-padrao `sm`.
+The COMPONENT_SET is `nph-spinner` (`281:11`), with the variant `size` (`sm`, `md`)
+and default `sm`.
 
-Nao ha saida de comando. A aceitacao e observacao humana, registrada com a
-data, a autoria, a URL do frame e o conjunto. Conteudo restrito do Figma nao
-entra nesta evidencia.
+There is no command output. The acceptance is a human observation, recorded with
+the date, the authorship, the frame URL and the set. Restricted Figma content does not
+enter this evidence.
 
-## Fonte da aceitacao
+## Source of the acceptance
 
-WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: aceite da documentacao dos
-11 componentes, entre eles o `nph-spinner`. `2026-10-02.md`: QA UX de Figma com
-revisao independente aprovada e auditoria textual aprovada.
+WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: acceptance of the documentation of the
+11 components, among them `nph-spinner`. `2026-10-02.md`: Figma UX QA with
+approved independent review and approved textual audit.

@@ -1,0 +1,228 @@
+/**
+ * Internal style of `nph-button`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the
+ * shadow root: they hold the token of each part of the severity × emphasis pair and are not API.
+ *
+ * No literal design value goes in here. Written box relations (P68):
+ * `transparent` (ghost has no background), `nowrap` (the text stays on one line,
+ * because the height is fixed in the token), `calc(-1 * ...)` (focus border and halo
+ * outside, without changing the size) and `inset` with zeros in `box-shadow` (the
+ * outline border is a stroke on the inside, as in `nph-kbd`).
+ */
+
+/* With no content or with invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+:host([size='compact']) {
+  --_height: var(--nph-control-height-compact);
+}
+:host([size='default']) {
+  --_height: var(--nph-control-height-default);
+}
+:host([size='large']) {
+  --_height: var(--nph-control-height-large);
+}
+
+/* Disabled: the whole button loses opacity, in the resting colors. */
+:host([disabled]) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+.control {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nph-space-inline-tight);
+  block-size: var(--_height);
+  margin: 0;
+  padding-block: 0;
+  padding-inline: var(--nph-space-control-padding);
+  border: none;
+  border-radius: var(--nph-radius-control);
+  background-color: var(--_bg);
+  box-shadow: var(--_outline, none);
+  color: var(--_fg);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  white-space: nowrap;
+  outline: none;
+}
+
+/* Icon only: square box at the control height, without side padding. */
+:host([data-nph-icon-only]) .control {
+  inline-size: var(--_height);
+  padding-inline: 0;
+}
+
+.icon {
+  flex: none;
+}
+
+/* hover-active: only when the button responds. */
+.control:not(:disabled):not([aria-disabled='true']):is(:hover, :active) {
+  background-color: var(--_bg-hover, var(--_bg));
+  color: var(--_fg-hover, var(--_fg));
+  box-shadow: var(--_outline-hover, var(--_outline, none));
+}
+
+/* Focus: tight border and halo on the outside, keyboard only. */
+.control:focus-visible::before,
+.control:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.control:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--_focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+
+.control:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--_focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}
+
+/* Focus color per severity (the same in all emphases). */
+:host([severity='primary']) {
+  --_focus-border: var(--nph-color-primary);
+  --_focus-halo: var(--nph-focus-halo);
+}
+:host([severity='secondary']) {
+  --_focus-border: var(--nph-focus-border);
+  --_focus-halo: var(--nph-focus-halo);
+}
+:host([severity='info']) {
+  --_focus-border: var(--nph-status-info);
+  --_focus-halo: var(--nph-focus-halo-info);
+}
+:host([severity='warn']) {
+  --_focus-border: var(--nph-status-warning);
+  --_focus-halo: var(--nph-focus-halo-warn);
+}
+:host([severity='help']) {
+  --_focus-border: var(--nph-status-help);
+  --_focus-halo: var(--nph-focus-halo-help);
+}
+:host([severity='danger']) {
+  --_focus-border: var(--nph-color-destructive);
+  --_focus-halo: var(--nph-focus-halo-danger);
+}
+:host([severity='success']) {
+  --_focus-border: var(--nph-status-success);
+  --_focus-halo: var(--nph-focus-halo-success);
+}
+
+/* solid: hover uses the severity hover token (decision of 02-10-2026). */
+:host([severity='primary'][emphasis='solid']) {
+  --_bg: var(--nph-color-primary);
+  --_bg-hover: var(--nph-color-primary-hover);
+  --_fg: var(--nph-color-primary-foreground);
+}
+:host([severity='secondary'][emphasis='solid']) {
+  --_bg: var(--nph-color-secondary);
+  --_bg-hover: var(--nph-color-secondary-hover);
+  --_fg: var(--nph-color-secondary-foreground);
+}
+:host([severity='info'][emphasis='solid']) {
+  --_bg: var(--nph-status-info);
+  --_bg-hover: var(--nph-status-info-hover);
+  --_fg: var(--nph-status-on-solid);
+}
+:host([severity='warn'][emphasis='solid']) {
+  --_bg: var(--nph-status-warning);
+  --_bg-hover: var(--nph-status-warning-hover);
+  --_fg: var(--nph-status-on-solid);
+}
+:host([severity='help'][emphasis='solid']) {
+  --_bg: var(--nph-status-help);
+  --_bg-hover: var(--nph-status-help-hover);
+  --_fg: var(--nph-status-on-solid);
+}
+:host([severity='danger'][emphasis='solid']) {
+  --_bg: var(--nph-color-destructive);
+  --_bg-hover: var(--nph-color-destructive-hover);
+  --_fg: var(--nph-color-destructive-foreground);
+}
+:host([severity='success'][emphasis='solid']) {
+  --_bg: var(--nph-status-success);
+  --_bg-hover: var(--nph-status-success-hover);
+  --_fg: var(--nph-status-on-solid);
+}
+
+/* outline: light surface and border in the text color, on the inside. */
+:host([severity='primary'][emphasis='outline']) {
+  --_bg: var(--nph-color-primary-surface);
+  --_bg-hover: var(--nph-color-primary-surface-hover);
+  --_fg: var(--nph-color-primary-on-surface);
+  --_fg-hover: var(--nph-color-primary-on-surface-hover);
+  --_outline: inset 0 0 0 var(--nph-border-width) var(--nph-color-primary-on-surface);
+  --_outline-hover: inset 0 0 0 var(--nph-border-width) var(--nph-color-primary-on-surface-hover);
+}
+:host([severity='secondary'][emphasis='outline']) {
+  --_bg: var(--nph-color-muted);
+  --_bg-hover: var(--nph-color-secondary-surface-hover);
+  --_fg: var(--nph-color-secondary-foreground);
+  --_outline: inset 0 0 0 var(--nph-border-width) var(--nph-color-secondary-foreground);
+}
+:host([severity='danger'][emphasis='outline']) {
+  --_bg: var(--nph-color-destructive-surface);
+  --_bg-hover: var(--nph-color-destructive-surface-hover);
+  --_fg: var(--nph-color-destructive-on-surface);
+  --_fg-hover: var(--nph-color-destructive-on-surface-hover);
+  --_outline: inset 0 0 0 var(--nph-border-width) var(--nph-color-destructive-on-surface);
+  --_outline-hover: inset 0 0 0 var(--nph-border-width) var(--nph-color-destructive-on-surface-hover);
+}
+
+/* light: light surface, no border. */
+:host([severity='primary'][emphasis='light']) {
+  --_bg: var(--nph-color-primary-surface);
+  --_bg-hover: var(--nph-color-primary-surface-hover);
+  --_fg: var(--nph-color-primary-on-surface);
+  --_fg-hover: var(--nph-color-primary-on-surface-hover);
+}
+:host([severity='secondary'][emphasis='light']) {
+  --_bg: var(--nph-color-secondary-light);
+  --_bg-hover: var(--nph-color-secondary-light-hover);
+  --_fg: var(--nph-color-secondary-foreground);
+}
+:host([severity='danger'][emphasis='light']) {
+  --_bg: var(--nph-color-destructive-surface);
+  --_bg-hover: var(--nph-color-destructive-surface-hover);
+  --_fg: var(--nph-color-destructive-on-surface);
+  --_fg-hover: var(--nph-color-destructive-on-surface-hover);
+}
+
+/* ghost: no background at rest; hover gets the severity surface. */
+:host([severity='primary'][emphasis='ghost']) {
+  --_bg: transparent;
+  --_bg-hover: var(--nph-color-primary-surface);
+  --_fg: var(--nph-color-primary-on-surface);
+}
+:host([severity='secondary'][emphasis='ghost']) {
+  --_bg: transparent;
+  --_bg-hover: var(--nph-color-muted);
+  --_fg: var(--nph-color-secondary-foreground);
+}
+:host([severity='danger'][emphasis='ghost']) {
+  --_bg: transparent;
+  --_bg-hover: var(--nph-color-destructive-surface);
+  --_fg: var(--nph-color-destructive-on-surface);
+}

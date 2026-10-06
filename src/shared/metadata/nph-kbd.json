@@ -1,0 +1,88 @@
+{
+  "peca": "nph-kbd",
+  "nivel": "componente",
+  "status": "vigente",
+  "resolve": "Shows a keyboard shortcut key beside what it triggers, as a static piece.",
+  "use_quando": [
+    "Showing the keyboard shortcut beside the action it triggers.",
+    "Showing the shortcut in an option of nph-rich-option."
+  ],
+  "nao_use_quando": [
+    "The piece would need to be clickable or receive focus — use nph-button.",
+    "The combination would come in a single piece, such as Ctrl+K — use one piece per key, side by side."
+  ],
+  "api": {
+    "text": {
+      "tipo": "string",
+      "obrigatoria": true,
+      "padrao": "vazio",
+      "reflete": false,
+      "restricao": "The text of one key, already localized by the consuming application. Empty or whitespace-only shows nothing and is not an error."
+    }
+  },
+  "variantes": "nao_se_aplica",
+  "estados": {
+    "padrao": {
+      "token": "color/muted",
+      "muda_para_a_pessoa": "The key appears in a box; it does not change with interaction."
+    }
+  },
+  "regras_de_negocio": [
+    "One piece per key: the combination puts the pieces side by side."
+  ],
+  "erros_de_dominio": [],
+  "tokens": {
+    "fundo": "color/muted",
+    "texto": [
+      "text/label-sm",
+      "color/muted-foreground"
+    ],
+    "borda": [
+      "border/width",
+      "color/border"
+    ],
+    "raio": "radius/inner",
+    "padding": "space/inline-tight"
+  },
+  "dicas_para_ia": [
+    "Use nph-kbd to show a shortcut beside what it triggers; for the action itself, use nph-button.",
+    "In a combination, put one nph-kbd per key, side by side.",
+    "Write the key through the text property; do not paint the box or the text."
+  ],
+  "acessibilidade": {
+    "semantica": "The text sits inside `<kbd>`; the host has no extra role.",
+    "nome_acessivel": "The screen reader announces the key by its text.",
+    "teclado": [],
+    "foco": "The piece does not receive focus: it has no interaction.",
+    "contraste": "color/muted-foreground on color/muted passes 4.5:1 in both schemes and in every brand.",
+    "alternativa_a_cor": "The key is written in the text; color carries no meaning."
+  },
+  "combinacoes_invalidas": [
+    "The whole combination in a single piece — use one piece per key.",
+    "Style variant — there is no declared use."
+  ],
+  "relacoes": {
+    "combina_com": [
+      "nph-rich-option"
+    ],
+    "pai": [
+      "nph-rich-option"
+    ],
+    "filho": [],
+    "complementa_bloco": [],
+    "aparece_em": []
+  },
+  "anti_padroes": [
+    "Using it as a button or control.",
+    "Creating a style variant.",
+    "Painting the box or the text by hand."
+  ],
+  "fontes": {
+    "design_md": "design.md, text/label-sm, color/muted, color/muted-foreground, color/border, border/width, radius/inner and space/inline-tight",
+    "decisao": "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026",
+    "testes": "src/components/nph-kbd/nph-kbd.test.ts",
+    "evidencia_de_uso": "nph-rich-option, through the option of showing a shortcut",
+    "storybook": "src/components/nph-kbd/nph-kbd.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, nph-kbd frame 1193:20 and component 772:3"
+  }
+}

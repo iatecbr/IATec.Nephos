@@ -1,28 +1,29 @@
 /*
- * Manager do Storybook do Nephos: a moldura (barra lateral e barra de
- * ferramentas).
+ * Nephos Storybook manager: the frame (sidebar and toolbar).
  *
- * A moldura segue a identidade Solutions, com o destaque azul #1FBFFF e a tinta
- * #031A24 por cima. Os hex vivem SO aqui e no `manager-head.html`: sao da
- * identidade da moldura, nao do Nephos. As paginas usam apenas `--nph-*`.
+ * The frame follows the Solutions identity, with the blue #1FBFFF highlight and
+ * the #031A24 ink on top. The hex values live ONLY here and in
+ * `manager-head.html`: they belong to the frame's identity, not to Nephos. The
+ * pages use only `--nph-*`.
  *
- * Um modo por vez. O global `colorScheme` (light | dark) troca a moldura, por
- * `api.setOptions`, e a pagina, pelo decorator do `preview.js`. No claro o azul
- * aparece so como fundo; texto e icone ficam em neutro, porque #1FBFFF sobre
- * branco nao passa no contraste.
+ * One mode at a time. The `colorScheme` global (light | dark) switches the
+ * frame, through `api.setOptions`, and the page, through the `preview.js`
+ * decorator. In light mode the blue appears only as a background; text and icon
+ * stay neutral, because #1FBFFF on white fails contrast.
  *
- * A barra lateral acompanha o idioma escolhido, mas os IDs de story NAO mudam:
- * o `title` de cada CSF continua em portugues, entao links salvos e permalinks
- * seguem valendo. So o ROTULO exibido e traduzido, por `renderLabel`.
+ * The sidebar follows the chosen language, but the story IDs do NOT change with
+ * the language: the `title`, the `name` and the export of each CSF are English
+ * identifiers (P64, amendment of 06/10/2026), so the ID and the permalink are
+ * the same in every language. Only the displayed LABEL is translated, through
+ * `renderLabel`, from the `sidebar` subtree of the dictionary.
  *
- * `nph-icon` nao tem traducao no dicionario de propósito — e nome tecnico, e
- * `sidebarLabel` devolve `undefined`, o que faz o Storybook usar o nome
- * original.
+ * `nph-icon` has no translation in the dictionary on purpose — it is a
+ * technical name, and `sidebarLabel` returns `undefined`, which makes Storybook
+ * use the original name.
  */
 /*
- * `react`, `@storybook/icons` e os modulos `storybook/*` nao estao no
- * `package.json`: o builder do manager os resolve para os globais do proprio
- * Storybook.
+ * `react`, `@storybook/icons` and the `storybook/*` modules are not in
+ * `package.json`: the manager builder resolves them to Storybook's own globals.
  */
 import React from 'react';
 import { addons, types, useGlobals } from 'storybook/manager-api';
@@ -37,13 +38,14 @@ import '@fontsource/ibm-plex-mono/latin-400.css';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, sidebarLabel, translations } from './i18n/index.js';
 
-/** O mesmo nome do global em `preview.js`. */
+/** The same global name as in `preview.js`. */
 const COLOR_SCHEME = 'colorScheme';
 
 /*
- * Logotipo Nephos, copiado de `ID. VISUAL APRESENTAÇÕES/Marcas Solutions/SVG/
- * Nephos/` no vault da equipe. `nephos-dark.svg` e `nephos-light.svg` so
- * diferem na cor das letras: pretas no claro, brancas no escuro.
+ * Nephos logo, copied from the team vault, in
+ * `ID. VISUAL APRESENTAÇÕES/Marcas Solutions/SVG/Nephos/`. `nephos-dark.svg`
+ * and `nephos-light.svg` differ only in the letter color: black in light mode,
+ * white in dark mode.
  */
 const logo = (letters) =>
   `<svg width="1519" height="263" viewBox="0 0 1519 263" fill="none" xmlns="http://www.w3.org/2000/svg"> <g clip-path="url(#clip0_1303_3879)"> <path d="M546.4 41.3H518.47C482.36 41.3 459.93 62.8801 459.93 97.6101V243.29H483.18V96.77C483.18 75.63 496.01 63.9901 519.31 63.9901H545.56C568.86 63.9901 581.69 75.63 581.69 96.77V243.29H604.94V97.6101C604.94 62.8801 582.51 41.3 546.4 41.3Z" fill="${letters}"/> <path d="M647.05 98.7299V186.98C647.05 221.71 669.37 243.29 705.31 243.29H780.89V220.6H706.43C682.79 220.6 670.3 209.26 670.3 187.82V154.2H764.14V131.51H670.3V97.8899C670.3 76.7499 683.13 65.1099 706.43 65.1099H780.89V42.4199H705.31C669.37 42.4199 647.05 63.9999 647.05 98.7299Z" fill="${letters}"/> <path d="M901.1 42.4199H814.63V243.29H837.88V65.1099H901.1C923.86 65.1099 936.39 77.0499 936.39 98.7299V132.52C936.39 154.2 923.86 166.14 901.1 166.14H837.88V188.83H901.1C937.21 188.83 959.64 167.25 959.64 132.52V98.7299C959.64 64.5299 936.66 42.4199 901.1 42.4199Z" fill="${letters}"/> <path d="M1120.72 131.51H1022.21V42.4199H998.96V243.29H1022.21V154.2H1120.72V243.29H1143.97V42.4199H1120.72V131.51Z" fill="${letters}"/> <path d="M1275.35 41.3H1247.42C1211.86 41.3 1188.88 63.4001 1188.88 97.6101V188.1C1188.88 222.83 1211.31 244.41 1247.42 244.41H1275.35C1311.46 244.41 1333.89 222.83 1333.89 188.1V97.6101C1333.89 63.41 1310.91 41.3 1275.35 41.3ZM1310.65 96.77V188.93C1310.65 210.07 1297.82 221.71 1274.52 221.71H1248.27C1224.97 221.71 1212.14 210.07 1212.14 188.93V96.77C1212.14 75.63 1224.97 63.9901 1248.27 63.9901H1274.52C1297.82 63.9901 1310.65 75.63 1310.65 96.77Z" fill="${letters}"/> <path d="M1459.69 131.51H1422.83C1400.07 131.51 1387.53 119.67 1387.53 98.1699C1387.53 76.6699 1400.06 65.1099 1422.83 65.1099H1504.55V42.4199H1423.39C1387.28 42.4199 1364.85 63.7799 1364.85 98.1699C1364.85 132.56 1387.28 154.2 1423.39 154.2H1460.26C1483.02 154.2 1495.56 166.04 1495.56 187.54C1495.56 209.04 1483.03 220.6 1460.26 220.6H1369.88V243.29H1459.7C1495.81 243.29 1518.24 221.93 1518.24 187.54C1518.24 153.15 1495.81 131.51 1459.7 131.51H1459.69Z" fill="${letters}"/> <path d="M304.45 90.55C301.43 98.59 297.57 106.21 292.97 113.32C298.17 114.19 303.63 116.11 310.64 120.62C353.87 148.48 346.84 215.28 298.48 232.36C296.04 233.22 285.14 236.57 283.74 236.57H222.16C225.35 229.04 234.52 217.42 241.03 212.8C249.13 207.06 262.55 207.61 265.34 195.43C271.53 168.4 236.39 158.36 227.38 180.2C225.11 185.69 227.26 191.04 224.17 195.94L181.26 244.08C178.57 256.68 187.59 260.27 198.41 261.27C227.27 263.95 291.66 263.58 316.98 250.85C388.11 215.08 372.36 113.47 304.45 90.55Z" fill="#40D49B"/> <path d="M31.79 109.67C-14.45 146.85 -9.58999 219.54 42.14 248.92C115.65 290.67 161.12 217.56 204.43 167.28C209.68 161.18 214.91 155.42 220.15 150.23C226.25 145.73 235.65 146.81 241.16 140.39C257.66 121.18 232.62 94.7599 212.61 110.47C203.23 117.83 207.56 125.89 203.32 133.39C200.07 139.15 188.91 152.39 176.2 166.67C159.38 185.57 139.82 206.27 132.2 213.84C62.97 282.55 -16.6 179.11 46.96 128.6C61 117.44 78.16 113.37 94.56 116.13C88.91 107.92 84.25 98.9599 80.78 89.4399C62.23 94.5199 47.57 96.9699 31.8 109.65L31.79 109.67Z" fill="#1FBFFF"/> <path d="M280.78 86.06C261.08 -29.75 97.89 -28.54 82.97 88.84C82.23 89.05 81.5 89.25 80.77 89.45C84.24 98.97 88.9 107.93 94.55 116.14C104.48 117.81 114.13 121.98 122.65 128.61C129.86 134.22 137.98 148.89 149.39 140.11C168.26 125.59 119.84 95.15 106.74 94.29C113.14 6.33997 238.6 -1.63004 256.12 86.09C258.05 95.76 253.04 109 268.7 111.41C278.69 112.94 285.56 112.07 292.97 113.32C297.57 106.22 301.43 98.59 304.45 90.55C297.15 88.09 289.25 86.53 280.78 86.06Z" fill="#E543A1"/> </g> <defs> <clipPath id="clip0_1303_3879"> <rect width="1518.23" height="262.61" fill="white"/> </clipPath> </defs> </svg>`;
@@ -94,8 +96,8 @@ const THEMES = {
 };
 
 /*
- * Modo pedido na URL (`?globals=colorScheme:dark`). Serve para a primeira
- * pintura sair no modo certo, antes de o preview mandar os globais.
+ * Mode requested in the URL (`?globals=colorScheme:dark`). It lets the first
+ * paint come out in the right mode, before the preview sends the globals.
  */
 const URL_COLOR_SCHEME = /(?:^|;)colorScheme:dark(?:;|$)/.test(
   new URLSearchParams(window.location.search).get('globals') ?? '',
@@ -109,7 +111,7 @@ const getColorScheme = (globals) => {
   return URL_COLOR_SCHEME;
 };
 
-/** Botao unico: mostra o modo atual e troca para o outro. */
+/** Single button: shows the current mode and switches to the other. */
 function ColorSchemeSelector() {
   const [globals, updateGlobals] = useGlobals();
   const colorScheme = getColorScheme(globals);
@@ -136,7 +138,7 @@ addons.register('nephos/color-scheme', (api) => {
     current = getColorScheme(globals);
     apply();
   });
-  /* SET_CONFIG reaplica o tema do `setConfig`; o modo escolhido tem de voltar. */
+  /* SET_CONFIG reapplies the theme from `setConfig`; the chosen mode must come back. */
   channel.on(SET_CONFIG, () => setTimeout(apply, 0));
 
   addons.add('nephos/color-scheme/selector', {

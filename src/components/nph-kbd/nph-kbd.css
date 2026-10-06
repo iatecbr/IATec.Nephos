@@ -1,0 +1,38 @@
+/**
+ * Internal style of `nph-kbd`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the
+ * token custom properties consumed here. No literal design value goes in.
+ *
+ * The border is an inner stroke, as in Figma: `box-shadow inset` at
+ * `border/width`, outside the flow. So the height is the `text/label-sm` line
+ * plus the `space/inline-tight` padding above and below, same as the accepted
+ * component (P66). The only zero written is `margin: 0`, which removes the
+ * browser's default margin.
+ */
+
+/* Without text, nothing takes up space. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+kbd {
+  display: block;
+  margin: 0;
+  padding: var(--nph-space-inline-tight);
+  background-color: var(--nph-color-muted);
+  box-shadow: inset 0 0 0 var(--nph-border-width) var(--nph-color-border);
+  border-radius: var(--nph-radius-inner);
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  line-height: var(--nph-text-label-sm-line-height);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+  white-space: nowrap;
+}

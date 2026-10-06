@@ -1,21 +1,22 @@
 /**
- * Estilo do `nph-label`.
+ * Style of `nph-label`.
  *
- * ATENCAO — este componente NAO usa Shadow DOM, e e a unica excecao registrada
- * a P01. O motivo e funcional, nao estetico: a associacao nativa entre rotulo e
- * controle nao atravessa a fronteira do Shadow DOM. De dentro dela, `for` nao
- * alcanca um `id` do documento, o clique no rotulo nao levaria o cursor ao
- * campo e o leitor de tela nao anunciaria o nome do campo — que e exatamente o
- * que um rotulo existe para fazer. Decisao de Indiane em 27-08-2026.
+ * WARNING — this component does NOT use Shadow DOM, and it is the only
+ * registered exception to P01. The reason is functional, not aesthetic: the
+ * native association between label and control does not cross the Shadow DOM
+ * boundary. From inside it, `for` cannot reach an `id` in the document,
+ * clicking the label would not move the cursor to the field and the screen
+ * reader would not announce the field name — which is exactly what a label
+ * exists to do. Decision by Indiane on 27-08-2026.
  *
- * Como o elemento vive na luz, os seletores daqui sao globais. Eles miram o
- * nome do proprio elemento, que so existe onde o componente foi usado, e as
- * classes internas levam o prefixo `nph-label__`. Nem o nome de classe nem
- * qualquer seletor deste arquivo e API publica (P02): contrato e apenas o que
- * o componente consome de token.
+ * Since the element lives in the light DOM, the selectors here are global.
+ * They target the element's own name, which only exists where the component
+ * was used, and the internal classes carry the `nph-label__` prefix. Neither
+ * the class name nor any selector in this file is public API (P02): the
+ * contract is only what the component consumes in tokens.
  *
- * Nenhum valor literal de design entra aqui. Todo tamanho, peso, cor e espaco
- * sai de token semantico.
+ * No literal design value goes in here. Every size, weight, color and space
+ * comes from a semantic token.
  */
 
 nph-label {
@@ -23,9 +24,9 @@ nph-label {
 }
 
 /*
- * O rotulo e `text/label-md`, o papel padrao de todo controle. Os cinco
- * pedacos do papel sao consumidos um a um: a camada `text` foi migrada para o
- * codigo em 27-08-2026 e emite uma custom property por propriedade.
+ * The label is `text/label-md`, the default role of every control. The five
+ * pieces of the role are consumed one by one: the `text` layer was migrated
+ * to code on 27-08-2026 and emits one custom property per property.
  */
 nph-label .nph-label__text {
   font-family: var(--nph-text-label-md-font-family);
@@ -37,13 +38,13 @@ nph-label .nph-label__text {
 }
 
 /*
- * O asterisco de campo obrigatorio. A cor e `status/error`, cujo uso foi
- * ampliado em 27-08-2026 para cobrir este caso. NUNCA use `color/destructive`:
- * A5 proibe, e confundiria campo obrigatorio com campo em erro.
+ * The required-field asterisk. The color is `status/error`, whose use was
+ * widened on 27-08-2026 to cover this case. NEVER use `color/destructive`:
+ * A5 forbids it, and it would confuse a required field with a field in error.
  *
- * O espaco ate o texto e `space/inline-tight`, e nao `space/inline`, porque
- * asterisco e rotulo sao a MESMA unidade — nao sao dois elementos
- * independentes.
+ * The space up to the text is `space/inline-tight`, not `space/inline`,
+ * because asterisk and label are the SAME unit — they are not two
+ * independent elements.
  */
 nph-label .nph-label__required {
   margin-inline-start: var(--nph-space-inline-tight);
@@ -51,14 +52,14 @@ nph-label .nph-label__required {
 }
 
 /*
- * O gatilho de informacao (L8 a L11; P62.6). Tudo daqui so vale quando o
- * gatilho existe: o host ganha `data-nph-info`, e sem ele a raiz continua
- * `inline-block`, como sempre foi.
+ * The information trigger (L8 to L11; P62.6). Everything from here on only
+ * applies when the trigger exists: the host gets `data-nph-info`, and without
+ * it the root stays `inline-block`, as it always was.
  *
- * A raiz alinha texto e gatilho ao centro, a `space/inline-tight`, como o
- * conjunto `374:6`. `position: relative` ancora o balao, que fica abaixo do
- * rotulo sem empurrar o formulario: o balao "nao bloqueia a pagina" (`use` de
- * `color/tooltip`).
+ * The root aligns text and trigger to the center, at `space/inline-tight`,
+ * like the set `374:6`. `position: relative` anchors the bubble, which sits
+ * below the label without pushing the form: the bubble does not block the
+ * page (`use` of `color/tooltip`).
  */
 nph-label[data-nph-info] {
   display: inline-flex;
@@ -68,9 +69,9 @@ nph-label[data-nph-info] {
 }
 
 /*
- * Alvo de 24 x 24: a arte de `icon/size-sm` com `space/inline-tight` em volta
- * (WCAG 2.5.8). Como o elemento vive na luz, o botao zera o que uma folha
- * da aplicacao poderia ter posto em `button`.
+ * 24 x 24 target: the `icon/size-sm` artwork with `space/inline-tight` around
+ * it (WCAG 2.5.8). Since the element lives in the light DOM, the button resets
+ * whatever an application stylesheet could have set on `button`.
  */
 nph-label .nph-label__info {
   position: relative;
@@ -91,9 +92,9 @@ nph-label .nph-label__info {
 }
 
 /*
- * Foco por teclado: borda de `border/width` em `focus/border`, encostada, e
- * halo de `focus/ring-width` em `focus/halo` por fora — o mesmo desenho do
- * `nph-button` (L9). Os dois ficam fora da caixa e nao mudam o tamanho.
+ * Keyboard focus: a `border/width` border in `focus/border`, flush, and a
+ * `focus/ring-width` halo in `focus/halo` outside it — the same drawing as
+ * `nph-button` (L9). Both sit outside the box and do not change the size.
  */
 nph-label .nph-label__info:focus-visible::before,
 nph-label .nph-label__info:focus-visible::after {
@@ -119,9 +120,9 @@ nph-label .nph-label__info:focus-visible::after {
 }
 
 /*
- * O balao: abaixo do rotulo, alinhado ao inicio, a `space/inline` (linha
- * "aberto" do quadro `1194:1482`). A largura e a do proprio texto, ate o
- * maximo do `nph-tooltip`, e nao a do rotulo.
+ * The bubble: below the label, aligned to the start, at `space/inline` (row
+ * `aberto` of frame `1194:1482`). The width is that of the text itself, up to
+ * the `nph-tooltip` maximum, not that of the label.
  */
 nph-label .nph-label__tooltip {
   position: absolute;

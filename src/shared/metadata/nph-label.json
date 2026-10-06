@@ -3,17 +3,17 @@
   "nivel": "componente",
   "status": "vigente",
   "titulo": "nph-label",
-  "tipo": "ficha de componente",
+  "tipo": "component spec",
   "criado": "2026-08-31",
   "atualizado": "2026-10-06",
-  "resolve": "Nomeia um controle de formulário de forma visível e acessível. O rótulo é só um texto: não carrega layout, estado do texto nem mensagem de erro. Carrega o gatilho da ajuda, não a ajuda: o ícone de informação abre o nph-tooltip.",
+  "resolve": "Names a form control in a visible and accessible way. The label is only text, and it carries no layout, text state or error message. It carries the trigger of the help, not the help: the information icon opens the nph-tooltip.",
   "use_quando": [
-    "Um controle de formulário precisa de nome visível, sozinho ou dentro de um nph-field."
+    "A form control needs a visible name, on its own or inside an nph-field."
   ],
   "nao_use_quando": [
-    "É frase com verbo e ponto final — isso é `text/body-md`.",
-    "Abre uma seção ou grupo — isso é `text/heading-sm`.",
-    "É ênfase dentro de um parágrafo — isso é `<strong>`."
+    "It is a sentence with a verb and a full stop — that is `text/body-md`.",
+    "It opens a section or group — that is `text/heading-sm`.",
+    "It is emphasis inside a paragraph — that is `<strong>`."
   ],
   "api": {
     "text": {
@@ -21,44 +21,44 @@
       "obrigatoria": true,
       "padrao": "vazio",
       "reflete": false,
-      "restricao": "Carrega o conteúdo do rótulo, já localizado pela aplicação consumidora. Existe como propriedade porque, sem Shadow DOM, não há `slot`."
+      "restricao": "Carries the label content, already localized by the consuming application. It exists as a property because, without Shadow DOM, there is no `slot`."
     },
     "required": {
       "tipo": "boolean",
       "obrigatoria": false,
       "padrao": false,
       "reflete": true,
-      "restricao": "Acrescenta o asterisco ao fim do texto. O asterisco é decorativo (`aria-hidden`): a obrigatoriedade precisa ser comunicada pelo controle."
+      "restricao": "Adds the asterisk at the end of the text. The asterisk is decorative (`aria-hidden`): the requiredness must be communicated by the control."
     },
     "for": {
       "tipo": "string",
       "obrigatoria": false,
       "padrao": "nulo",
       "reflete": true,
-      "restricao": "`id` do controle que este rótulo nomeia. Espelha o atributo nativo e é o mecanismo da associação — a razão de o componente não usar Shadow DOM."
+      "restricao": "`id` of the control this label names. It mirrors the native attribute and is the association mechanism — the reason the component does not use Shadow DOM."
     },
     "info": {
       "tipo": "string",
       "obrigatoria": false,
       "padrao": "vazio",
       "reflete": false,
-      "restricao": "O texto da explicação, já localizado pela aplicação consumidora. Com info-label, mostra o ícone de informação depois do texto, que abre o nph-tooltip com este texto. Sem info-label, o ícone não aparece e sai console.error em desenvolvimento; o rótulo continua."
+      "restricao": "The text of the explanation, already localized by the consuming application. With info-label, it shows the information icon after the text, which opens the nph-tooltip with this text. Without info-label, the icon does not appear and console.error is emitted in development; the label remains."
     },
     "info-label": {
       "tipo": "string",
       "obrigatoria": false,
       "padrao": "vazio",
       "reflete": false,
-      "restricao": "O nome acessível do ícone de informação. A propriedade é infoLabel. Sem info, não aparece nada e não há erro."
+      "restricao": "The accessible name of the information icon. The property is infoLabel. Without info, nothing appears and there is no error."
     },
     "slots": "nenhum",
     "eventos": "nenhum",
-    "cor": "Não é propriedade. O texto é `color/foreground` e o asterisco é `status/error`, sempre — inclusive quando o campo está em erro."
+    "cor": "It is not a property. The text is `color/foreground` and the asterisk is `status/error`, always — including when the field is in error."
   },
   "variantes": {
     "required": {
       "eixo": "aparencia",
-      "escolha_quando": "true quando o preenchimento do campo for obrigatório",
+      "escolha_quando": "true when filling in the field is required",
       "nao_combine_com": [
         "layout",
         "weight"
@@ -66,7 +66,7 @@
     },
     "info": {
       "eixo": "aparencia",
-      "escolha_quando": "Quando o campo precisa de uma explicação curta que não cabe no rótulo; no código, é o texto de info com info-label.",
+      "escolha_quando": "When the field needs a short explanation that does not fit in the label; in code, it is the text of info with info-label.",
       "nao_combine_com": [
         "layout",
         "weight"
@@ -76,19 +76,19 @@
   "estados": {
     "default": {
       "token": "nao_se_aplica",
-      "muda_para_a_pessoa": "O texto não tem estado. Erro e desabilitado são mostrados pelo campo e pela composição"
+      "muda_para_a_pessoa": "The text has no state. Error and disabled are shown by the field and by the composition"
     },
     "focus": {
-      "token": "borda border/width em focus/border e halo focus/ring-width em focus/halo, em volta do alvo de 24 por 24",
-      "muda_para_a_pessoa": "Só no ícone de informação e só pelo teclado: a borda e o halo marcam o foco, sem mudar o tamanho."
+      "token": "border border/width in focus/border and halo focus/ring-width in focus/halo, around the 24 by 24 target",
+      "muda_para_a_pessoa": "Only on the information icon and only from the keyboard: the border and the halo mark the focus, without changing the size."
     },
     "aberto": {
-      "token": "o nph-tooltip, abaixo do rótulo, a space/inline",
-      "muda_para_a_pessoa": "O balão mostra a explicação; fecha com Esc, clique fora ou Tab para fora. Passar o mouse não abre."
+      "token": "the nph-tooltip, below the label, at space/inline",
+      "muda_para_a_pessoa": "The balloon shows the explanation; it closes with Esc, click outside or Tab out. Hovering does not open it."
     }
   },
   "regras_de_negocio": [
-    "Campo obrigatório é sinalizado pelo asterisco — e a obrigatoriedade real é do controle"
+    "A required field is signaled by the asterisk — and the actual requiredness belongs to the control"
   ],
   "erros_de_dominio": [],
   "tokens": {
@@ -115,28 +115,28 @@
     "espaco_ate_o_balao": "space/inline"
   },
   "dicas_para_ia": [
-    "Rótulo de campo é `nph-label`; frase com verbo e ponto final não é.",
-    "O rótulo não muda no erro. Quem muda é o campo e a mensagem.",
-    "Não procure propriedade de layout: a posição é do `nph-field`.",
-    "`required=true` sozinho não comunica obrigatoriedade a leitor de tela.",
-    "O ícone de informação aparece com info e info-label juntos; info-label é o nome que o leitor de tela anuncia."
+    "A field label is `nph-label`; a sentence with a verb and a full stop is not.",
+    "The label does not change on error. The field and the message change.",
+    "Do not look for a layout property: the position belongs to `nph-field`.",
+    "`required=true` alone does not communicate requiredness to a screen reader.",
+    "The information icon appears with info and info-label together; info-label is the name the screen reader announces."
   ],
   "acessibilidade": {
-    "semantica": "Elemento nativo `<label>`; o ícone de informação é um `<button>` nativo depois dele, fora do `<label>`, com aria-expanded e aria-controls apontando o nph-tooltip",
-    "nome_acessivel": "O rótulo é a origem do nome acessível do controle. O ícone de informação é nomeado por info-label",
+    "semantica": "Native `<label>` element; the information icon is a native `<button>` after it, outside the `<label>`, with aria-expanded and aria-controls pointing to the nph-tooltip",
+    "nome_acessivel": "The label is the source of the accessible name of the control. The information icon is named by info-label",
     "teclado": [
-      "Tab entra e sai do ícone de informação; o texto não recebe foco.",
-      "Enter e Espaço abrem e fecham o balão.",
-      "Esc fecha o balão aberto, e o foco fica no ícone."
+      "Tab enters and leaves the information icon; the text does not receive focus.",
+      "Enter and Space open and close the balloon.",
+      "Esc closes the open balloon, and focus stays on the icon."
     ],
-    "foco": "O texto não recebe foco. O ícone de informação recebe, com borda focus/border e halo focus/halo por fora, só pelo teclado",
-    "contraste": "Medido nos dois modos: o texto e o asterisco passam em 4,5:1; o ícone, em color/muted-foreground, 6,69:1 e 9,81:1; a borda de foco, em focus/border, 3,68:1 e 8,98:1",
-    "alternativa_a_cor": "O asterisco é sinal de forma, não de cor — e é decorativo"
+    "foco": "The text does not receive focus. The information icon does, with border focus/border and halo focus/halo outside, only from the keyboard",
+    "contraste": "Measured in both modes: the text and the asterisk pass at 4.5:1; the icon, in color/muted-foreground, 6.69:1 and 9.81:1; the focus border, in focus/border, 3.68:1 and 8.98:1",
+    "alternativa_a_cor": "The asterisk is a shape signal, not a color one — and it is decorative"
   },
   "combinacoes_invalidas": [
-    "`required=true` sem legenda visível explicando a convenção no formulário",
-    "Criar propriedade de layout ou de peso — as duas foram recusadas por decisão; o texto também não tem estado",
-    "info sem info-label — o ícone não aparece, porque não teria nome acessível"
+    "`required=true` without a visible legend explaining the convention in the form",
+    "Creating a layout or weight property — both were refused by decision; the text also has no state",
+    "info without info-label — the icon does not appear, because it would have no accessible name"
   ],
   "relacoes": {
     "combina_com": [
@@ -159,17 +159,17 @@
     ]
   },
   "anti_padroes": [
-    "Mudar a cor do rótulo quando o campo entra em erro",
-    "Usar `nph-label` para abrir seção ou dar ênfase",
-    "Tratar o asterisco como o sinal de obrigatoriedade para tecnologia assistiva"
+    "Changing the label color when the field enters error",
+    "Using `nph-label` to open a section or give emphasis",
+    "Treating the asterisk as the requiredness signal for assistive technology"
   ],
   "fontes": {
-    "design_md": "design.md, no repositório",
-    "decisao": "P62.1, P62.2 e P62.3, aprovadas pelo Elvys em 28-08-2026; P62.6, o gatilho de informação, em revisão no PR por maurocsjr",
+    "design_md": "design.md, in the repository",
+    "decisao": "P62.1, P62.2 and P62.3, approved by Elvys on 28-08-2026; P62.6, the information trigger, under review in the PR by maurocsjr",
     "testes": "src/components/nph-label/nph-label.test.ts",
     "evidencia_de_uso": "branch v/3.0.0, PR #10, merge e231eba",
     "storybook": "src/components/nph-label/nph-label.stories.ts",
-    "figma": "página NPH — Label, quadro nph-label 1194:1482 e conjunto mestre 374:6"
+    "figma": "page NPH — Label, nph-label frame 1194:1482 and master set 374:6"
   },
   "tags": [
     "nephos",

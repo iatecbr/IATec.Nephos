@@ -1,25 +1,25 @@
 /*
- * Preview do Storybook do Nephos: a pagina que mostra cada story.
+ * Nephos Storybook preview: the page that shows each story.
  *
- * O CSS gerado a partir do JSON (P17) e carregado aqui porque os componentes
- * consomem `--nph-*` de fora do Shadow DOM: sem ele, `var(--nph-icon-size-sm)`
- * resolveria vazio e nenhuma caixa teria tamanho. O arquivo e GERADO — nunca
- * edite `src/tokens/generated/tokens.css` a mao.
+ * The CSS generated from the JSON (P17) is loaded here because components
+ * consume `--nph-*` from outside the Shadow DOM: without it,
+ * `var(--nph-icon-size-sm)` would resolve empty and no box would have a size.
+ * The file is GENERATED — never edit `src/tokens/generated/tokens.css` by hand.
  *
- * As fontes do Nephos — Noto Sans e IBM Plex Mono — vem do `@fontsource`, sem
- * chamada externa. Os pesos sao os dos papeis de texto: 400, 500 (`text/label-*`)
- * e 600. Os tokens so declaram a familia; sem este carregamento, a
- * pagina cairia na fonte padrao do navegador.
+ * The Nephos fonts — Noto Sans and IBM Plex Mono — come from `@fontsource`,
+ * with no external call. The weights are those of the text roles: 400, 500
+ * (`text/label-*`) and 600. The tokens only declare the family; without this
+ * loading, the page would fall back to the browser's default font.
  *
- * O global `colorScheme` (light | dark) e o modo de cor. Um modo por vez: o
- * decorator aplica `data-nph-color-scheme` na raiz da pagina, e o `manager.js`
- * troca a moldura junto. Um quadro que fixa o proprio esquema, como no
- * `nph-label`, continua vencendo para as variaveis dos blocos de esquema.
+ * The `colorScheme` global (light | dark) is the color mode. One mode at a time:
+ * the decorator applies `data-nph-color-scheme` on the page root, and
+ * `manager.js` switches the frame along with it. A frame that pins its own
+ * scheme, as in `nph-label`, still wins for the variables of the scheme blocks.
  *
- * O global `locale` da o idioma dos textos explicativos. Ele NAO e API de
- * componente: nenhum `nph-*` conhece idioma, e o conteudo acessivel do
- * consumidor — `label`, por exemplo — continua chegando ja localizado pela
- * aplicacao. Ver `docs/i18n.md`.
+ * The `locale` global gives the language of the explanatory texts. It is NOT
+ * component API: no `nph-*` knows a language, and the consumer's accessible
+ * content — `label`, for example — still arrives already localized by the
+ * application. See `docs/i18n.md`.
  */
 import '@fontsource/noto-sans/latin-400.css';
 import '@fontsource/noto-sans/latin-500.css';
@@ -28,10 +28,10 @@ import '@fontsource/ibm-plex-mono/latin-400.css';
 import '../src/tokens/generated/tokens.css';
 import { LOCALE_GLOBAL, LOCALES, DEFAULT_LOCALE } from './i18n/index.js';
 
-/** O mesmo nome do global em `manager.js`. */
+/** The same global name as in `manager.js`. */
 const COLOR_SCHEME = 'colorScheme';
 
-/** Fonte, fundo e cor da pagina, sempre por token. Injetado uma vez. */
+/** Page font, background and color, always by token. Injected once. */
 const PAGE_STYLE = `
   body {
     font-family: var(--nph-core-font-sans);
@@ -72,17 +72,17 @@ const preview = {
 
   globalTypes: {
     [LOCALE_GLOBAL]: {
-      description: 'Idioma dos textos explicativos',
+      description: 'Language of the explanatory texts',
       toolbar: {
-        title: 'Idioma',
+        title: 'Language',
         icon: 'globe',
         items: LOCALES,
         dynamicTitle: true,
       },
     },
-    /* Sem `toolbar`: quem mostra o seletor e a ferramenta do `manager.js`. */
+    /* Without `toolbar`: the `manager.js` tool is what shows the selector. */
     [COLOR_SCHEME]: {
-      description: 'Modo de cor da moldura e da pagina',
+      description: 'Color mode of the frame and the page',
     },
   },
 };
