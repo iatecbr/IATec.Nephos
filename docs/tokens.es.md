@@ -1,11 +1,11 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=d12aa3c53435b6aa6da72dc4c844d42980068357f90374ca0d4da77066709bb3 | status=rascunho -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=f73d0c7c70c115899ca133b550889471126eb7a576918a6d5fc17449806ba1df | status=rascunho -->
 
 # Tokens — fuente, generación y consumo
 
-[Português (BR)](tokens.md) · [English](tokens.en.md) · **Español**
+[English](tokens.md) · [Português (BR)](tokens.pt-BR.md) · **Español**
 
-> Traducido de la fuente en portugués de Brasil, [`tokens.md`](tokens.md).
-> Si ambos difieren, prevalece el archivo en portugués.
+> Traducido de la fuente en inglés, [`tokens.md`](tokens.md).
+> Si ambos difieren, prevalece el archivo en inglés.
 
 > **La fuente técnica es `src/tokens/source/*.tokens.json`.** Cada capa declara
 > su propio conteo en `contagemEsperada`, y `npm run build:tokens` muestra los
