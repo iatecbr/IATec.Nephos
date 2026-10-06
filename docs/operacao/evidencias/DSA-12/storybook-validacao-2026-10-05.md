@@ -4,23 +4,23 @@
   "gate": null,
   "data": "2026-10-05",
   "responsavel": "claude-codigo",
-  "comando": "npx storybook dev -p 6023 --no-open; leitura por getComputedStyle e getBoundingClientRect no navegador integrado",
+  "comando": "npx storybook dev -p 6023 --no-open; read through getComputedStyle and getBoundingClientRect in the integrated browser",
   "codigo_de_saida": null,
   "sha": null,
   "origem_externa": null
 }
 ```
 
-# DSA-12 — `nph-badge` no Storybook
+# DSA-12 — `nph-badge` in Storybook
 
-Prova das stories `Validação` e da pagina `Docs` abertas no navegador
-integrado (Chromium), na branch `feat/lote-b-badge-button`. O esquema foi
-trocado na raiz (`data-nph-color-scheme` no `html`), na marca padrao.
+Proof of the `Validação` stories and of the `Docs` page opened in the integrated
+browser (Chromium), on the `feat/lote-b-badge-button` branch. The scheme was
+switched at the root (`data-nph-color-scheme` on `html`), in the default brand.
 
-Esta evidência não é de gate. O nome não segue `<gate>-<data>`.
+This evidence is not a gate evidence. The name does not follow `<gate>-<data>`.
 
-| Story | Medida | Cor |
+| Story | Measurement | Color |
 |---|---|---|
-| Com ícone | 24 de altura; 69,66 de largura com "Selo" e ícone (o Figma, que arredonda o texto, dá 70) | fundo, texto e ícone de cada par iguais ao Figma lido no mesmo dia, nos dois esquemas. Ex.: claro `primary` `solid` `#2f68c5` e `#ffffff`; escuro `success` `light` `#04210f` e `#d0eddb` |
-| Matriz, Com ícone, Duas palavras | sem rolagem horizontal a 375 e a 188 px | — |
-| Docs › Documentação | sem rolagem a 375 px; a 188 px rola (212 de largura), como a pagina Docs do `nph-icon` na base, por causa das tabelas e cartões de `src/shared/docs/page.ts` | — |
+| `Com ícone` | 24 high; 69.66 wide with `Selo` and the icon (Figma, which rounds the text, gives 70) | background, text and icon of each pair equal to the Figma read on the same day, in both schemes. E.g.: light `primary` `solid` `#2f68c5` and `#ffffff`; dark `success` `light` `#04210f` and `#d0eddb` |
+| `Matriz`, `Com ícone`, `Duas palavras` | no horizontal scrolling at 375 and at 188 px | — |
+| `Docs › Documentação` | no scrolling at 375 px; at 188 px it scrolls (212 wide), like the `Docs` page of `nph-icon` on the base, because of the tables and cards of `src/shared/docs/page.ts` | — |

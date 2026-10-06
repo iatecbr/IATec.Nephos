@@ -4,27 +4,27 @@
   "gate": null,
   "data": "2026-10-05",
   "responsavel": "claude-codigo",
-  "comando": "npx storybook dev -p 6023 --no-open; leitura por getComputedStyle e getBoundingClientRect no navegador integrado",
+  "comando": "npx storybook dev -p 6023 --no-open; read through getComputedStyle and getBoundingClientRect in the integrated browser",
   "codigo_de_saida": null,
   "sha": null,
   "origem_externa": null
 }
 ```
 
-# DSA-13 — `nph-button` no Storybook
+# DSA-13 — `nph-button` in Storybook
 
-Prova das stories `Validação` e da pagina `Docs` abertas no navegador
-integrado (Chromium), na branch `feat/lote-b-badge-button`. O esquema foi
-trocado na raiz (`data-nph-color-scheme` no `html`), na marca padrao. O hover
-e o foco foram lidos das variaveis internas resolvidas e conferidos pelos testes
-com hover real e Tab.
+Proof of the `Validação` stories and of the `Docs` page opened in the integrated
+browser (Chromium), on the `feat/lote-b-badge-button` branch. The scheme was
+switched at the root (`data-nph-color-scheme` on `html`), in the default brand. Hover
+and focus were read from the resolved internal variables and checked by the tests
+with real hover and Tab.
 
-Esta evidência não é de gate. O nome não segue `<gate>-<data>`.
+This evidence is not a gate evidence. The name does not follow `<gate>-<data>`.
 
-| Story | Medida | Cor |
+| Story | Measurement | Color |
 |---|---|---|
-| Matriz | 36 de altura no `default` | repouso, hover, borda do `outline` e borda e halo do foco de cada par iguais ao Figma lido no mesmo dia, nos dois esquemas. Ex.: claro `primary` `solid` `#2f68c5`, hover `#234e94`, texto `#ffffff`, foco `#2f68c5` e `#b1cdfb`; escuro `info` `solid` `#359dd2`, hover `#67b5dd`, texto `#0f1114`, halo `#9acee9`; claro `secondary` `outline` `#e3e3e3`, borda e texto `#0f1114`, hover `#b7bbc1`, foco `#3b82f6` |
-| Tamanhos | 28, 36 e 44 de altura; o só ícone é quadrado, com o ícone em `sm`, `md` e `lg` | — |
-| Ícones, Desabilitado, Carregando | `disabled` em `state/disabled-opacity`; `loading` com o girador `sm` (e `md` no só ícone `default` e `large`) | — |
-| Todas as de Validação | sem rolagem horizontal a 375 e a 188 px | — |
-| Docs › Documentação | sem rolagem a 375 px; a 188 px rola (233 de largura), como a pagina Docs do `nph-icon` na base | — |
+| `Matriz` | 36 high in `default` | rest, hover, `outline` border and focus border and halo of each pair equal to the Figma read on the same day, in both schemes. E.g.: light `primary` `solid` `#2f68c5`, hover `#234e94`, text `#ffffff`, focus `#2f68c5` and `#b1cdfb`; dark `info` `solid` `#359dd2`, hover `#67b5dd`, text `#0f1114`, halo `#9acee9`; light `secondary` `outline` `#e3e3e3`, border and text `#0f1114`, hover `#b7bbc1`, focus `#3b82f6` |
+| `Tamanhos` | 28, 36 and 44 high; the icon-only one is square, with the icon in `sm`, `md` and `lg` | — |
+| `Ícones`, `Desabilitado`, `Carregando` | `disabled` in `state/disabled-opacity`; `loading` with the `sm` spinner (and `md` in the icon-only `default` and `large`) | — |
+| All of `Validação` | no horizontal scrolling at 375 and at 188 px | — |
+| `Docs › Documentação` | no scrolling at 375 px; at 188 px it scrolls (233 wide), like the `Docs` page of `nph-icon` on the base | — |
