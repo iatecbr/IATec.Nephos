@@ -158,7 +158,7 @@ The unit caveat **is gone**: dimensions used to come out in `px`, and from
 ## Update of 28-08-2026 — dimensions in `rem`
 
 The generator emitted `px` for every `dimension`, while `design.md` already
-promised `unidade_css: rem, raiz 16px`. **Elvys's decision in P62.4, on
+promised `unidade_css: rem, root 16px`. **Elvys's decision in P62.4, on
 28/08/2026:** the contract does not change; the code starts honouring it.
 
 The `nephos/dimension/rem` transform divides the value by **16** and emits
