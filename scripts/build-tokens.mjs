@@ -9,15 +9,18 @@
  *
  * Um token e INVARIANTE quando alias e valor final sao equivalentes em todos os
  * modos — comparados pela forma canonica, nunca por identidade de objeto e nunca
- * pelo $type. Invariante sai uma vez em :root. Invariante NAO quer dizer fixo: um
- * alias para theme/* continua trocando com data-nph-brand.
+ * pelo $type. Invariante sai uma vez. Invariante NAO quer dizer fixo: um alias
+ * para theme/* ou para um variante continua trocando com a marca e o esquema.
+ * Esse invariante DEPENDENTE sai em :root e em cada raiz de esquema
+ * ([data-nph-color-scheme]), para resolver ali a marca e o esquema locais (P67).
+ * Os demais ficam so em :root, onde o consumidor pode personaliza-los (P02).
  *
  * NUNCA edite src/tokens/generated/. Edite a fonte e rode `npm run build:tokens`.
  */
 import StyleDictionary from 'style-dictionary';
 import fs from 'node:fs';
 import path from 'node:path';
-import { NS, HANDLED_TYPES, aliasOf, leaves, refs, buildIndex, classify } from './tokens-lib.mjs';
+import { NS, HANDLED_TYPES, aliasOf, leaves, refs, buildIndex, classify, dependents } from './tokens-lib.mjs';
 
 const SRC = 'src/tokens/source';
 const OUT = 'src/tokens/generated/tokens.css';
@@ -270,6 +273,10 @@ const sel = (set, mode, publicValue) => {
 };
 
 const { invariants, variants } = classify(semantic, sm.modos, idx, DEFAULT_MODES);
+const dependentInvariants = dependents(semantic, invariants, variants);
+const independentInvariants = new Set([...invariants].filter((n) => !dependentInvariants.has(n)));
+/** Toda raiz de esquema redeclara os dependentes; com a marca no mesmo elemento, resolve as duas. */
+const DEPENDENT_SELECTOR = ':root,\n[data-nph-color-scheme]';
 
 const parts = [];
 parts.push('/* camada 1 - core: primitivos, valores literais. Nenhum componente consome daqui. */');
@@ -280,10 +287,17 @@ for (const m of tm.modos) parts.push(await block('theme', m, sel(tm, m)));
 
 parts.push(
   '\n/* camada 2 - semantic, invariantes: alias e valor final iguais em claro e escuro,\n' +
-  '   emitidos uma vez. Invariante entre modos NAO quer dizer fixo: um alias para\n' +
-  '   theme/* continua trocando com data-nph-brand. */',
+  '   emitidos uma vez, em :root. Aqui o consumidor pode personaliza-los (P02). */',
 );
-parts.push(await block('semantic', sm.padrao, ':root', invariants));
+parts.push(await block('semantic', sm.padrao, ':root', independentInvariants));
+
+parts.push(
+  '\n/* camada 2 - semantic, invariantes dependentes: o alias aponta para theme/* ou\n' +
+  '   para um variante. Saem tambem em cada raiz de esquema, para resolver ali a\n' +
+  '   marca e o esquema locais. Numa parte da tela com outra marca,\n' +
+  '   data-nph-brand e data-nph-color-scheme vao no mesmo elemento (P67). */',
+);
+parts.push(await block('semantic', sm.padrao, DEPENDENT_SELECTOR, dependentInvariants));
 
 parts.push('\n/* camada 2 - semantic, variantes: um bloco por esquema de cor. */');
 for (const m of sm.modos) parts.push(await block('semantic', m, sel(sm, m, sm.valorPublico[m]), variants));
@@ -359,6 +373,23 @@ for (const name of variants) {
   if (n !== sm.modos.length) outputErrors.push('variante "' + name + '" emitido ' + n + ' vez(es), esperado ' + sm.modos.length);
 }
 
+// Invariante dependente sai no bloco das raizes de esquema; independente, nunca
+// (P67). Fora dele, o dependente resolve a marca e o esquema da raiz numa
+// subarvore; dentro dele, o independente perderia a personalizacao da raiz (P02).
+const dependentBlockStart = css.indexOf(DEPENDENT_SELECTOR + ' {');
+const dependentBlock = dependentBlockStart < 0 ? '' : css.slice(dependentBlockStart, css.indexOf('}', dependentBlockStart));
+const inDependentBlock = new Set((dependentBlock.match(/--nph-[\w-]+(?=:)/g) || []));
+for (const name of dependentInvariants) {
+  if (!inDependentBlock.has(cssName(name.split('.')))) {
+    outputErrors.push('invariante dependente "' + name + '" fora do bloco ' + JSON.stringify(DEPENDENT_SELECTOR));
+  }
+}
+for (const name of independentInvariants) {
+  if (inDependentBlock.has(cssName(name.split('.')))) {
+    outputErrors.push('invariante independente "' + name + '" no bloco ' + JSON.stringify(DEPENDENT_SELECTOR));
+  }
+}
+
 if (outputErrors.length) {
   console.error('FALHA na validacao da saida:\n' + outputErrors.map((e) => '  - ' + e).join('\n'));
   process.exit(1);
@@ -373,4 +404,5 @@ console.log('fonte OK: tipos tratados, modos completos, referencias existentes, 
 console.log('saida OK: sem referencia pendente, sem [object Object], sem alias achatado, ocorrencias por modo corretas');
 console.log('camadas: core ' + count(core) + ' + theme ' + count(theme) + ' + semantic ' + count(semantic) +
   ' = ' + (count(core) + count(theme) + count(semantic)));
-console.log('semantic: ' + invariants.size + ' invariantes (uma vez em :root) + ' + variants.size + ' variantes (um bloco por modo)');
+console.log('semantic: ' + invariants.size + ' invariantes (' + independentInvariants.size + ' em :root, ' +
+  dependentInvariants.size + ' dependentes tambem em cada raiz de esquema) + ' + variants.size + ' variantes (um bloco por modo)');
