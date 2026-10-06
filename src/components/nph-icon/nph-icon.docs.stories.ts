@@ -1,8 +1,8 @@
 /**
  * Paginas de leitura do `nph-icon`: documentacao e catalogo visual.
  *
- * Nenhuma das duas prova contrato — isso e papel de `Componentes/nph-icon/
- * Validacao` e dos testes. Aqui se le e se procura.
+ * Nenhuma das duas prova contrato — isso e papel de `Components/nph-icon/
+ * Validation` e dos testes. Aqui se le e se procura.
  *
  * O texto vem do dicionario de idioma, em `.storybook/i18n/`. Cada story e
  * UNICA: ela le `globals.locale` e busca a traducao. Identificadores tecnicos
@@ -46,7 +46,7 @@ import {
 } from '../../shared/docs/page';
 
 const meta: Meta = {
-  title: 'Componentes/nph-icon/Docs',
+  title: 'Components/nph-icon/Docs',
   parameters: {
     layout: 'fullscreen',
   },
@@ -78,15 +78,15 @@ const hidingRule = html`
 
 /** Ids das secoes: identificadores tecnicos, iguais em qualquer idioma. */
 const SECTIONS = {
-  whenToUse: 'quando-usar',
+  whenToUse: 'when-to-use',
   api: 'api',
-  core: 'nucleo',
-  size: 'tamanho',
-  color: 'cor',
-  accessibility: 'acessibilidade',
-  invalid: 'entrada-invalida',
-  antiPatterns: 'anti-padroes',
-  references: 'referencias',
+  core: 'core',
+  size: 'size',
+  color: 'color',
+  accessibility: 'accessibility',
+  invalid: 'invalid-input',
+  antiPatterns: 'anti-patterns',
+  references: 'references',
 } as const;
 
 /**
@@ -105,8 +105,8 @@ const CATEGORY_IDS = [
  * Pagina de leitura, montada com os blocos de `src/shared/docs/page.ts`. Todo
  * bloco declara a origem da regra que mostra; nada aqui e decidido nesta pagina.
  */
-export const Documentacao: Story = {
-  name: 'Documentação',
+export const Documentation: Story = {
+  name: 'Documentation',
   render: (_args, context: GlobalsContext) => {
     const dictionary = translations(localeOf(context));
     const d = dictionary.docs;

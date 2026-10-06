@@ -11,9 +11,11 @@
  * aparece so como fundo; texto e icone ficam em neutro, porque #1FBFFF sobre
  * branco nao passa no contraste.
  *
- * A barra lateral acompanha o idioma escolhido, mas os IDs de story NAO mudam:
- * o `title` de cada CSF continua em portugues, entao links salvos e permalinks
- * seguem valendo. So o ROTULO exibido e traduzido, por `renderLabel`.
+ * A barra lateral acompanha o idioma escolhido, mas os IDs de story NAO mudam
+ * com o idioma: o `title`, o `name` e a exportacao de cada CSF sao
+ * identificadores em ingles (P64, emenda de 06/10/2026), entao o ID e o
+ * permalink sao os mesmos em qualquer idioma. So o ROTULO exibido e traduzido,
+ * por `renderLabel`, a partir da subarvore `sidebar` do dicionario.
  *
  * `nph-icon` nao tem traducao no dicionario de propósito — e nome tecnico, e
  * `sidebarLabel` devolve `undefined`, o que faz o Storybook usar o nome

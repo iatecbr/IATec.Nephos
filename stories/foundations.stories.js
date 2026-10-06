@@ -9,7 +9,7 @@ import { html } from 'lit';
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../.storybook/i18n/index.js';
 
 export default {
-  title: 'Fundações/Visão geral',
+  title: 'Foundations/Overview',
   parameters: {
     layout: 'fullscreen',
   },
@@ -38,8 +38,8 @@ const card = `
   padding: var(--nph-space-container-padding);
 `;
 
-export const VisaoGeral = {
-  name: 'Visão geral',
+export const Overview = {
+  name: 'Overview',
   render: (_args, context) => {
     const t = translations(context?.globals?.[LOCALE_GLOBAL] ?? DEFAULT_LOCALE).foundations;
 

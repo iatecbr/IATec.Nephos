@@ -1,7 +1,7 @@
 /**
  * Pagina de leitura do `nph-button`.
  *
- * Nao prova contrato — isso e papel de `Componentes/nph-button/Validacao` e dos
+ * Nao prova contrato — isso e papel de `Components/nph-button/Validation` e dos
  * testes. O conteudo e transcrito do quadro aceito no Figma (`1197:5449`), da
  * ficha e da P68; nada e decidido aqui.
  *
@@ -18,7 +18,7 @@ import { NPH_BUTTON_EMPHASES, NPH_BUTTON_SEVERITIES, NPH_BUTTON_SIZES } from './
 import { body, demo, dontDo, header, index, list, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
 
 const meta: Meta = {
-  title: 'Componentes/nph-button/Docs',
+  title: 'Components/nph-button/Docs',
   parameters: {
     layout: 'fullscreen',
   },
@@ -58,7 +58,7 @@ const row = 'display: flex; flex-wrap: wrap; align-items: center; gap: var(--nph
 
 /** Pagina de leitura, montada com os blocos de `src/shared/docs/page.ts`. */
 export const Documentation: Story = {
-  name: 'Documentação',
+  name: 'Documentation',
   render: (_args, context: GlobalsContext) => {
     const d = translations(localeOf(context)).buttonDocs;
     const [save, cancel, deleteAccount, close, create] = d.exampleTexts as string[];

@@ -198,29 +198,42 @@ a espessura de uma borda de moldura —, que não é decisão visual.
 
 ## 4. As stories
 
-### 4.1 Dois papéis: `Validação` prova, `Docs` explica
+### 4.1 Dois papéis: `Validation` prova, `Docs` explica
 
-`Componentes/<peça>/Validação` prova o contrato com o componente real
-renderizado. `Componentes/<peça>/Docs` é leitura e catálogo — e não prova nada.
+`Components/<peça>/Validation` prova o contrato com o componente real
+renderizado. `Components/<peça>/Docs` é leitura e catálogo — e não prova nada.
+Na barra lateral em português, os dois aparecem como `Componentes › <peça> ›
+Validação` e `Docs` (§4.2).
 
-**`Validação` é obrigatória. `Docs` não é.**
+**`Validation` é obrigatória. `Docs` não é.**
 
 **Fonte:** [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P21**, item 8,
 aprovada em 28/08/2026; `nph-icon.stories.ts` e `nph-icon.docs.stories.ts`.
-**Limite:** um componente tem os dois papéis. O `nph-label` tem só `Validação`.
+**Limite:** um componente tem os dois papéis. O `nph-label` tem só `Validation`.
 `Docs` entra quando houver catálogo a oferecer — no `nph-icon`, o núcleo de 34
 ícones. Não invente uma página de leitura para uma peça que não tem o que
 catalogar.
 
 ### 4.2 O título e o nome dizem a afirmação
 
-Título em `Componentes/<peça>/<papel>`. Nome de story em português, descrevendo
-**o que a página afirma**, não a aparência: `Herança de cor`, `Entrada
-inválida`, `Associação com o controle`, `O que o rótulo não faz`.
+Título em `Components/<peça>/Validation` ou `Components/<peça>/Docs`. O nome
+da story descreve **o que a página afirma**, não a aparência: `Color
+inheritance`, `Invalid input`, `Association with the control`, `What the label
+does not do`.
 
-**Fonte:** `nph-icon.stories.ts`, `nph-icon.docs.stories.ts` e
-`nph-label.stories.ts`, campos `title` e `name`.
-**Limite:** dois componentes, três arquivos.
+Título, nome de story, exportação da story e âncora da página são
+**identificadores em inglês** (P64, emenda de 06/10/2026): deles saem o ID e o
+permalink do Storybook, iguais em qualquer idioma. O rótulo que a pessoa lê na
+barra lateral vem do dicionário, na subárvore `sidebar` de `.storybook/i18n/`,
+com o ID da story ou do grupo como chave: `pt-BR.json` traz `Componentes`,
+`Validação`, `Herança de cor`; `en.json` e `es.json` trazem a tradução.
+Story nova entra com a chave de `sidebar` nos três idiomas.
+
+**Fonte:** [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P64**, emenda de
+06/10/2026; `nph-icon.stories.ts`, `nph-icon.docs.stories.ts` e
+`nph-label.stories.ts`, campos `title` e `name`; `.storybook/i18n/*.json`,
+chave `sidebar`.
+**Limite:** a regra vale para todas as stories do repositório.
 
 ### 4.3 O arquivo abre dizendo o que as páginas provam
 
@@ -245,7 +258,7 @@ verifica**, com data quando houver:
 
 ```ts
 /** A cor nao e propriedade: vem de `currentColor`. */
-export const HerancaDeCor: Story = { /* ... */ };
+export const ColorInheritance: Story = { /* ... */ };
 ```
 
 **Fonte:** as onze stories dos três arquivos.
@@ -258,12 +271,12 @@ story pode cobrir mais de uma combinação, e nenhuma combinação fica de fora.
 critério é **cobertura rastreável**, não quantidade de arquivos, páginas ou
 stories.
 
-Na prática: o `nph-label` cobre as duas combinações numa página `Matriz`; o
+Na prática: o `nph-label` cobre as duas combinações numa página `Matrix`; o
 `nph-icon` cobre variante, tamanho, herança de cor, acessibilidade e entrada
 inválida em cinco páginas por afirmação.
 
 **Fonte:** [`../fichas/_modelo.md`](../fichas/_modelo.md), §7, critério 5,
-decisão de 09-09-2026; `nph-label.stories.ts`, story `Matriz`;
+decisão de 09-09-2026; `nph-label.stories.ts`, story `Matrix`;
 `nph-icon.stories.ts`, as cinco páginas.
 **Limite:** dois componentes. A regra não impõe estrutura de arquivo.
 
@@ -300,11 +313,15 @@ Uma story **nunca** é duplicada por idioma: ela lê o idioma escolhido e busca 
 texto em `.storybook/i18n/`. Identificadores técnicos — tags `nph-*`, nomes de
 token, atributos, comandos — aparecem literais e iguais em qualquer idioma.
 
+**Nenhum texto em português é escrito à mão numa story.** Todo texto visível —
+explicação, legenda, título de seção e o conteúdo de exemplo passado à peça —
+nasce em `pt-BR.json` e tem tradução em `en.json` e `es.json`; a story lê com
+`translations(locale)`, pelo atalho `t(context)`.
+
 **Fonte:** [`i18n.md`](i18n.md), seção "Storybook"; `.storybook/i18n/index.js`,
-linhas 1-12; `nph-icon.stories.ts` e `nph-icon.docs.stories.ts`, na leitura do
-dicionário.
-**Limite:** a regra está escrita e um componente a cumpre. **O
-`nph-label.stories.ts` traz texto em português literal nas legendas** — ver §8.
+linhas 1-12; [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P64**, emenda de
+06/10/2026; `nph-spinner.stories.ts` e `nph-badge.stories.ts`, função `t()`.
+**Limite:** a regra vale para todas as stories do repositório.
 
 ### 4.9 Numa página de leitura, toda regra aponta de onde veio
 
@@ -495,7 +512,6 @@ Registradas aqui porque quem for construir um componente vai esbarrar nelas.
 
 | Assunto | As fontes, e o que cada uma diz |
 |---|---|
-| Idioma nas stories | [`i18n.md`](i18n.md) e o `nph-icon` mandam o texto explicativo vir do dicionário; o `nph-label.stories.ts` traz português literal nas legendas |
 | API do `nph-label` | A ficha e o código declaram `text`, `required` e `for`; a matriz aprovada no Figma tem quatro variantes, com `info`. Correção registrada como `DSA-04` |
 | `variant="solid"` no `nph-icon` | O [`../design.md`](../design.md), a **P21** e a ficha definem `regular` como padrão e `solid` como disponível para cada nome do núcleo. A decisão **I7** originou a ampliação e a `DSA-03` foi concluída |
 

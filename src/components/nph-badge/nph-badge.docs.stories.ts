@@ -1,7 +1,7 @@
 /**
  * Pagina de leitura do `nph-badge`.
  *
- * Nao prova contrato — isso e papel de `Componentes/nph-badge/Validacao` e dos
+ * Nao prova contrato — isso e papel de `Components/nph-badge/Validation` e dos
  * testes. O conteudo e transcrito do quadro aceito no Figma (`1196:1100`), da
  * ficha e da P68; nada e decidido aqui.
  *
@@ -18,7 +18,7 @@ import { NPH_BADGE_EMPHASES, NPH_BADGE_SEVERITIES } from './nph-badge';
 import { body, demo, dontDo, header, index, list, note, section, source, table, useDontUse } from '../../shared/docs/page';
 
 const meta: Meta = {
-  title: 'Componentes/nph-badge/Docs',
+  title: 'Components/nph-badge/Docs',
   parameters: {
     layout: 'fullscreen',
   },
@@ -55,7 +55,7 @@ const item = 'display: flex; align-items: center; gap: var(--nph-space-inline); 
 
 /** Pagina de leitura, montada com os blocos de `src/shared/docs/page.ts`. */
 export const Documentation: Story = {
-  name: 'Documentação',
+  name: 'Documentation',
   render: (_args, context: GlobalsContext) => {
     const d = translations(localeOf(context)).badgeDocs;
     const [report, contract, request] = d.exampleItems as string[];

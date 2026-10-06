@@ -30,7 +30,7 @@ subseção P62.4 para o detalhe).
 | **P20** | Style Dictionary v5 e contrato de tema | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
 | **P21** | Plano técnico do `nph-icon` | 26/08/2026 | Já implementado e mergeado sob aceitação de risco | Aprovada, 28/08/2026 |
 | **P63** | Metadata gerada a partir da ficha | 28/09/2026 | Médio. Mudar local ou formato depois exige gerar de novo e ajustar quem lê; a ficha não muda | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** |
-| **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** Emenda de 02/10/2026 aprovada por Mauro no PR #49, com merge em 05/10/2026. |
+| **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** Emenda de 02/10/2026 aprovada por Mauro no PR #49, com merge em 05/10/2026. Emenda de 06/10/2026 (Storybook) adotada por Indiane, em revisão no PR #56. |
 | **P65** | API e semântica do `nph-tooltip` | 05/10/2026 | Baixo agora. O `nph-label` é o primeiro consumidor; mudar depois exige refazer o gatilho dele | Comportamento e escopo (L11.5) e anatomia (L11.6, L11.7 e o quadro aceito) adotados por Indiane em 01/10/2026. API e semântica aprovadas por `maurocsjr` no PR #51, com merge em 05/10/2026 |
 | **P66** | API e semântica de `nph-spinner`, `nph-separator` e `nph-kbd` | 05/10/2026 | Baixo agora. O `nph-button` (Lote B) e o `nph-rich-option` serão os primeiros consumidores | Anatomia e comportamento: quadros aceitos por Indiane em 01/10/2026. API e semântica: proposta técnica, revisão no PR por `maurocsjr` |
 | **P67** | Invariantes dependentes redeclarados em cada raiz de esquema | 05/10/2026 | Médio. Muda onde o gerador emite 14 tokens e fixa como uma parte da tela troca de marca | Consumo decidido por Indiane em 05/10/2026. Proposta técnica, revisão no PR por `maurocsjr` |
@@ -600,8 +600,8 @@ quem já usa:
   `scripts/verificar-operacao.mjs`);
 - os nomes públicos, que já são inglês: tags `nph-*`, propriedades, custom
   properties e os atributos `data-nph-*`;
-- o texto que aparece para quem lê: título e nome de story, descrição de teste,
-  mensagens e os dicionários de `.storybook/i18n/`;
+- o texto que aparece para quem lê: descrição de teste, mensagens e o texto dos
+  dicionários de `.storybook/i18n/`;
 - o registro histórico, que continua citando o nome da época.
 
 **Motivo.** Até aqui não havia regra, e a prática estava misturada: o
@@ -627,6 +627,15 @@ inclui os nomes dos arquivos de evidência. Os casos de fixture do verificador
 e do teste de invariância também passam para o inglês. Prova: `npm run test:naming`, com as exceções
 de contrato em `scripts/naming-exceptions.json`. Adotada pela Indiane em
 02/10/2026; aprovada por Mauro no PR #49.
+
+**Emenda de 06/10/2026 — Storybook.** Título, nome de story, exportação de story
+e âncora de página são identificadores em inglês: deles saem o ID e o permalink
+do Storybook. O texto visível de uma story vem só dos dicionários de
+`.storybook/i18n/` — `pt-BR.json` é a fonte, `en.json` e `es.json` as
+traduções —, e nenhum texto em português é escrito à mão na story. O rótulo da
+barra lateral vem da subárvore `sidebar`, cujas chaves são os IDs de story e de
+grupo, em inglês. Os IDs e as URLs do Storybook mudam uma vez, nesta emenda.
+Adotada pela Indiane em 06/10/2026, a partir da revisão do Mauro no PR #56.
 
 **Status.** Decisão adotada pela Indiane em 28/09/2026 — revisada e aprovada
 por Mauro em 30/09/2026, no chat da equipe. Emenda de 02/10/2026 aprovada por

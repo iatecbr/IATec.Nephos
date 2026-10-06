@@ -158,45 +158,6 @@
     ]
   },
   {
-    "file": "src/components/nph-icon/nph-icon.docs.stories.ts",
-    "class": "anchor",
-    "names": [
-      "acessibilidade",
-      "anti-padroes",
-      "entrada-invalida",
-      "nucleo",
-      "quando-usar",
-      "referencias",
-      "tamanho",
-      "cor"
-    ]
-  },
-  {
-    "file": "src/components/nph-icon/nph-icon.docs.stories.ts",
-    "class": "story-export",
-    "names": [
-      "Documentacao"
-    ]
-  },
-  {
-    "file": "src/components/nph-icon/nph-icon.docs.test.ts",
-    "class": "story-export",
-    "names": [
-      "Documentacao"
-    ]
-  },
-  {
-    "file": "src/components/nph-icon/nph-icon.stories.ts",
-    "class": "story-export",
-    "names": [
-      "Acessibilidade",
-      "EntradaInvalida",
-      "HerancaDeCor",
-      "Tamanhos",
-      "Variantes"
-    ]
-  },
-  {
     "file": "src/components/nph-icon/nph-icon.test.ts",
     "class": "design-md",
     "names": [
@@ -218,16 +179,6 @@
     "class": "output-text",
     "names": [
       "ausente"
-    ]
-  },
-  {
-    "file": "src/components/nph-label/nph-label.stories.ts",
-    "class": "story-export",
-    "names": [
-      "AssociacaoComOControle",
-      "Matriz",
-      "ModoClaroEEscuro",
-      "OQueORotuloNaoFaz"
     ]
   },
   {
@@ -255,20 +206,6 @@
       "Usar",
       "dois",
       "três"
-    ]
-  },
-  {
-    "file": "stories/foundations.stories.js",
-    "class": "story-export",
-    "names": [
-      "VisaoGeral"
-    ]
-  },
-  {
-    "file": "stories/welcome.stories.js",
-    "class": "story-export",
-    "names": [
-      "BoasVindas"
     ]
   }
 ]

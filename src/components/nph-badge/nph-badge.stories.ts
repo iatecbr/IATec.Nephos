@@ -19,7 +19,7 @@ import './nph-badge';
 import { NPH_BADGE_EMPHASES, NPH_BADGE_SEVERITIES } from './nph-badge';
 
 const meta: Meta = {
-  title: 'Componentes/nph-badge/Validação',
+  title: 'Components/nph-badge/Validation',
 };
 
 export default meta;
@@ -54,19 +54,19 @@ function matrix(text: string, icon: string): TemplateResult {
 
 /** Os tipos nas duas enfases, sem icone. */
 export const Matrix: Story = {
-  name: 'Matriz',
+  name: 'Matrix',
   render: (_args, context: GlobalsContext) => matrix(t(context).sample, ''),
 };
 
 /** O icone vem antes do texto, em icon/size-sm, na cor do texto. */
 export const WithIcon: Story = {
-  name: 'Com ícone',
+  name: 'With icon',
   render: (_args, context: GlobalsContext) => matrix(t(context).sample, 'circle-info'),
 };
 
 /** Uma ou duas palavras, numa linha so: o selo nao quebra. */
 export const TwoWords: Story = {
-  name: 'Duas palavras',
+  name: 'Two words',
   render: (_args, context: GlobalsContext) => {
     const [review, approved, signature] = t(context).twoWords as string[];
     return html`<div style=${page}>

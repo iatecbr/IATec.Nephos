@@ -18,7 +18,9 @@
  *
  * - `pt-BR.json` e o idioma-fonte. Toda frase nasce nele; `en.json` e `es.json`
  *   sao traducoes e nunca decidem conteudo. Se divergirem, a fonte vence.
- * - `sidebar` traduz rotulos da barra lateral por id de entrada. Entrada sem
+ * - `sidebar` traduz rotulos da barra lateral por id de entrada. O id e o da
+ *   story ou do grupo, em ingles, porque titulo, nome e exportacao da story sao
+ *   identificadores (P64); o rotulo em portugues vem daqui. Entrada sem
  *   chave mantem o nome original — e o caso de `nph-icon`, que e nome tecnico.
  * - `colorScheme` e o seletor de modo da barra de ferramentas. Um modo por vez:
  *   moldura e pagina trocam juntas.

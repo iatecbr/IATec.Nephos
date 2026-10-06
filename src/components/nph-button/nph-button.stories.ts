@@ -23,7 +23,7 @@ import { NPH_BUTTON_EMPHASES, NPH_BUTTON_SEVERITIES, NPH_BUTTON_SIZES } from './
 import type { NphButtonEmphasis, NphButtonSeverity } from './nph-button';
 
 const meta: Meta = {
-  title: 'Componentes/nph-button/Validação',
+  title: 'Components/nph-button/Validation',
 };
 
 export default meta;
@@ -67,7 +67,7 @@ function byEmphasis(render: (severity: NphButtonSeverity, emphasis: NphButtonEmp
 
 /** Cada par de tipo e enfase que existe, no tamanho default. Passe o mouse para o hover. */
 export const Matrix: Story = {
-  name: 'Matriz',
+  name: 'Matrix',
   render: () =>
     byEmphasis(
       (severity, emphasis) =>
@@ -77,7 +77,7 @@ export const Matrix: Story = {
 
 /** Os tres tamanhos, com texto e so icone. O texto e label-md em todos. */
 export const Sizes: Story = {
-  name: 'Tamanhos',
+  name: 'Sizes',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`<div style=${page}>
@@ -94,7 +94,7 @@ export const Sizes: Story = {
 
 /** Icone de inicio, de fim e os dois juntos (B6), em icon/size-sm. */
 export const Icons: Story = {
-  name: 'Ícones',
+  name: 'Icons',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`<div style=${page}>
@@ -109,7 +109,7 @@ export const Icons: Story = {
 
 /** Desabilitado: o botao inteiro em state/disabled-opacity, fora do Tab. */
 export const Disabled: Story = {
-  name: 'Desabilitado',
+  name: 'Disabled',
   render: () =>
     byEmphasis(
       (severity, emphasis) =>
@@ -119,7 +119,7 @@ export const Disabled: Story = {
 
 /** Carregando: o girador no lugar do icone de inicio; o texto fica. */
 export const Loading: Story = {
-  name: 'Carregando',
+  name: 'Loading',
   render: (_args, context: GlobalsContext) => html`${byEmphasis(
     (severity, emphasis) =>
       html`<nph-button severity=${severity} emphasis=${emphasis} size="default" text=${severity} loading></nph-button>`,

@@ -10,7 +10,7 @@
  * idioma. A story e UNICA por caso: nao existe copia por idioma.
  *
  * A leitura do contrato e o catalogo visual ficam em
- * `Componentes/nph-icon/Docs`. Cabecalho, secao, demonstracao e tabela vem de
+ * `Components/nph-icon/Docs`. Cabecalho, secao, demonstracao e tabela vem de
  * `src/shared/docs/page.ts`, os mesmos blocos da pagina Documentacao; a amostra
  * vem de `nph-icon.demo.ts`. Nada disso vale como precedente para CSS de
  * componente.
@@ -25,7 +25,7 @@ import { specimen } from './nph-icon.demo';
 import { body, demo, header, section, table, text, textRole } from '../../shared/docs/page';
 
 const meta: Meta = {
-  title: 'Componentes/nph-icon/Validação',
+  title: 'Components/nph-icon/Validation',
   parameters: {
     layout: 'fullscreen',
   },
@@ -46,8 +46,8 @@ function t(context: GlobalsContext | undefined) {
 }
 
 /** `regular` e `solid` existem para todos os nomes do acervo. */
-export const Variantes: Story = {
-  name: 'Variantes',
+export const Variants: Story = {
+  name: 'Variants',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`
@@ -72,8 +72,8 @@ export const Variantes: Story = {
 };
 
 /** Tamanho vem de token semantico. Nao existe valor livre. */
-export const Tamanhos: Story = {
-  name: 'Tamanhos',
+export const Sizes: Story = {
+  name: 'Sizes',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`
@@ -111,8 +111,8 @@ export const Tamanhos: Story = {
 };
 
 /** A cor nao e propriedade: vem de `currentColor`. */
-export const HerancaDeCor: Story = {
-  name: 'Herança de cor',
+export const ColorInheritance: Story = {
+  name: 'Color inheritance',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     const frame = (style: string) => html`
@@ -145,8 +145,8 @@ export const HerancaDeCor: Story = {
 };
 
 /** Decorativo ao lado de texto; nomeado quando anda sozinho. */
-export const Acessibilidade: Story = {
-  name: 'Acessibilidade',
+export const Accessibility: Story = {
+  name: 'Accessibility',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`
@@ -182,8 +182,8 @@ export const Acessibilidade: Story = {
 };
 
 /** Entrada invalida nao renderiza e reclama no console em desenvolvimento. */
-export const EntradaInvalida: Story = {
-  name: 'Entrada inválida',
+export const InvalidInput: Story = {
+  name: 'Invalid input',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`

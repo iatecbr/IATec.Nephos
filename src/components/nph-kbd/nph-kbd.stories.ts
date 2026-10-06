@@ -12,7 +12,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import './nph-kbd';
 
 const meta: Meta = {
-  title: 'Componentes/nph-kbd/Validação',
+  title: 'Components/nph-kbd/Validation',
 };
 
 export default meta;
@@ -23,7 +23,7 @@ const row = 'display: flex; align-items: center; gap: var(--nph-space-inline-tig
 
 /** Uma tecla por peca, pela propriedade text. */
 export const SingleKey: Story = {
-  name: 'Tecla',
+  name: 'Key',
   render: () => html`<div style=${row}>
     <nph-kbd text="K"></nph-kbd>
     <nph-kbd text="Esc"></nph-kbd>
@@ -34,7 +34,7 @@ export const SingleKey: Story = {
 
 /** A combinacao junta uma peca por tecla, lado a lado. */
 export const Combination: Story = {
-  name: 'Combinação',
+  name: 'Combination',
   render: () => html`<div style=${row}>
     <nph-kbd text="Ctrl"></nph-kbd>
     <nph-kbd text="Shift"></nph-kbd>
@@ -48,7 +48,7 @@ export const Combination: Story = {
  * escolhe o conjunto pelo sistema de quem usa; a peca nao detecta o sistema.
  */
 export const MacCombination: Story = {
-  name: 'Combinação no macOS',
+  name: 'Combination on macOS',
   render: () => html`<div style=${row}>
     <nph-kbd text="⌘"></nph-kbd>
     <nph-kbd text="⇧"></nph-kbd>

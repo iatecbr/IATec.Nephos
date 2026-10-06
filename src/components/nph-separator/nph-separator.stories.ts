@@ -14,7 +14,7 @@ import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook
 import './nph-separator';
 
 const meta: Meta = {
-  title: 'Componentes/nph-separator/Validação',
+  title: 'Components/nph-separator/Validation',
 };
 
 export default meta;
