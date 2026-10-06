@@ -1,12 +1,13 @@
 /**
- * Stories de VALIDACAO do `nph-tooltip`.
+ * VALIDATION stories of `nph-tooltip`.
  *
- * Cada story mostra o balao aberto com o conteudo de exemplo do Figma
- * (quadro `1237:5`): uma linha e duas linhas. Nao ha texto explicativo, so o
- * texto do balao, que e conteudo e chega pronto da aplicacao.
+ * Each story shows the open bubble with the Figma example content
+ * (frame `1237:5`): one line and two lines. There is no explanatory text,
+ * only the bubble text, which is content and arrives ready from the
+ * application.
  *
- * O esquema de cor vem do seletor global do Storybook, aplicado na raiz da
- * pagina.
+ * The color scheme comes from the Storybook global selector, applied at the
+ * page root.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';

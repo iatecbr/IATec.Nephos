@@ -1,14 +1,14 @@
 /**
- * Mapa fechado dos icones do nucleo Nephos.
+ * Closed map of the Nephos core icons.
  *
- * Fonte do dominio: `design.md`, bloco `icones_nucleo` — nomes distintos em
- * cinco categorias, todos com as variantes `regular` e `solid`. Nao acrescente
- * nome, familia ou variante aqui sem decisao registrada: fora da lista e lacuna,
- * nao ausencia.
+ * Domain source: `design.md`, block `icones_nucleo` — distinct names in
+ * five categories, all with the `regular` and `solid` variants. Do not add a
+ * name, family or variant here without a recorded decision: outside the list
+ * is a gap, not an absence.
  *
- * Os desenhos vem do Font Awesome Pro linha 6, pacotes SVG `regular` e `solid`.
- * Cada arte usa uma importacao profunda para manter fora do pacote os icones que
- * nao pertencem ao nucleo. Nenhum arquivo do acervo e versionado.
+ * The drawings come from Font Awesome Pro line 6, SVG packages `regular` and
+ * `solid`. Each artwork uses a deep import to keep icons that do not belong to
+ * the core out of the bundle. No file of the asset collection is versioned.
  */
 import type { IconDefinition } from '@fortawesome/pro-regular-svg-icons';
 
@@ -200,8 +200,8 @@ import { faTrophy as rTrophy } from '@fortawesome/pro-regular-svg-icons/faTrophy
 import { faTrophy as sTrophy } from '@fortawesome/pro-solid-svg-icons/faTrophy';
 
 /**
- * Os nomes do nucleo (`design.md`, bloco `icones_nucleo`).
- * A ordem do array nao e contrato; a busca e por chave.
+ * The core names (`design.md`, block `icones_nucleo`).
+ * The array order is not contract; lookup is by key.
  */
 export const NPH_ICON_NAMES = [
   'bars',
@@ -301,12 +301,12 @@ export const NPH_ICON_NAMES = [
 
 export type NphIconName = (typeof NPH_ICON_NAMES)[number];
 
-/** `regular` e o padrao; `solid` existe para todos os nomes do nucleo. */
+/** `regular` is the default; `solid` exists for every core name. */
 export const NPH_ICON_VARIANTS = ['regular', 'solid'] as const;
 
 export type NphIconVariant = (typeof NPH_ICON_VARIANTS)[number];
 
-/** Tamanho vem de token semantico. Nao existe valor livre. */
+/** Size comes from a semantic token. There is no free value. */
 export const NPH_ICON_SIZES = ['sm', 'md', 'lg'] as const;
 
 export type NphIconSize = (typeof NPH_ICON_SIZES)[number];
@@ -318,9 +318,9 @@ function glyph(regular: IconDefinition, solid: IconDefinition): IconGlyph {
 }
 
 /**
- * Matriz fechada: cada nome aprovado declara explicitamente suas artes
- * `regular` e `solid`. O `satisfies` impede nomes fora do nucleo e combinacoes
- * incompletas em tempo de compilacao.
+ * Closed matrix: each approved name explicitly declares its `regular` and
+ * `solid` artwork. The `satisfies` prevents names outside the core and
+ * incomplete combinations at compile time.
  */
 const GLYPHS = {
   bars: glyph(rBars, sBars),
@@ -434,7 +434,7 @@ export function isSize(value: string): value is NphIconSize {
   return SIZES.has(value);
 }
 
-/** Devolve a arte declarada para uma combinacao valida do nucleo. */
+/** Returns the declared artwork for a valid core combination. */
 export function findGlyph(name: NphIconName, variant: NphIconVariant): IconDefinition {
   return GLYPHS[name][variant];
 }

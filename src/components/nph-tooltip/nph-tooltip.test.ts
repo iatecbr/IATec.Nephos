@@ -1,7 +1,7 @@
 /**
- * Testes do `nph-tooltip` (P65), em navegador de verdade (P21, item 5):
- * medida de linha, quebra de palavra e custom property resolvida so existem
- * onde ha layout e fonte carregada.
+ * Tests of `nph-tooltip` (P65), in a real browser (P21, item 5):
+ * line measure, word breaking and a resolved custom property only exist
+ * where there is layout and a loaded font.
  */
 import { afterEach, beforeAll, describe, expect, it } from 'vitest';
 
@@ -18,7 +18,7 @@ const MAX_HEIGHT = 44;
 const LINE_HEIGHT = 24;
 
 beforeAll(async () => {
-  /* Sem a fonte do token, a medida sairia na fonte de reserva do navegador. */
+  /* Without the token font, the measure would come out in the browser fallback font. */
   await document.fonts.load('400 12px "Noto Sans"');
   await document.fonts.ready;
 });
@@ -39,14 +39,14 @@ function bubbleOf(element: NphTooltip): HTMLElement | null {
   return element.shadowRoot?.querySelector<HTMLElement>('.bubble') ?? null;
 }
 
-/** O no de texto do balao. O Lit poe marcadores de comentario ao redor dele. */
+/** The bubble text node. Lit puts comment markers around it. */
 function textNodeOf(bubble: HTMLElement): Text {
   const textNode = [...bubble.childNodes].find((node) => node.nodeType === Node.TEXT_NODE);
   expect(textNode).toBeDefined();
   return textNode as Text;
 }
 
-/** Topos distintos das linhas do texto, lidos dos retangulos do proprio no de texto. */
+/** Distinct tops of the text lines, read from the rectangles of the text node itself. */
 function lineTops(bubble: HTMLElement): number[] {
   const range = document.createRange();
   range.selectNodeContents(textNodeOf(bubble));
@@ -54,19 +54,19 @@ function lineTops(bubble: HTMLElement): number[] {
   return [...new Set(tops)];
 }
 
-describe('registro e API', () => {
-  it('define nph-tooltip uma unica vez', () => {
+describe('registration and API', () => {
+  it('defines nph-tooltip only once', () => {
     expect(customElements.get('nph-tooltip')).toBe(NphTooltip);
   });
 
-  it('a API publica e exatamente text e open', () => {
+  it('the public API is exactly text and open', () => {
     const declared = Object.keys(
       Object.fromEntries((NphTooltip as unknown as { elementProperties: Map<string, unknown> }).elementProperties),
     );
     expect(new Set(declared)).toEqual(new Set(['text', 'open']));
   });
 
-  it('open reflete no atributo', async () => {
+  it('open reflects to the attribute', async () => {
     const tooltip = await mount({ text: ONE_LINE, open: true });
     expect(tooltip.hasAttribute('open')).toBe(true);
     tooltip.open = false;
@@ -75,8 +75,8 @@ describe('registro e API', () => {
   });
 });
 
-describe('semantica e foco', () => {
-  it('o host e role="status" fechado e aberto', async () => {
+describe('semantics and focus', () => {
+  it('the host is role="status" closed and open', async () => {
     const tooltip = await mount({ text: ONE_LINE });
     expect(tooltip.getAttribute('role')).toBe('status');
     tooltip.open = true;
@@ -84,7 +84,7 @@ describe('semantica e foco', () => {
     expect(tooltip.getAttribute('role')).toBe('status');
   });
 
-  it('nao recebe foco e nao tem elemento focavel', async () => {
+  it('does not receive focus and has no focusable element', async () => {
     const tooltip = await mount({ text: ONE_LINE, open: true });
     const before = document.activeElement;
     tooltip.focus();
@@ -95,14 +95,14 @@ describe('semantica e foco', () => {
   });
 });
 
-describe('abrir e fechar', () => {
-  it('fechado: sem balao e sem o texto', async () => {
+describe('open and close', () => {
+  it('closed: no bubble and no text', async () => {
     const tooltip = await mount({ text: ONE_LINE });
     expect(bubbleOf(tooltip)).toBeNull();
     expect(tooltip.shadowRoot?.textContent ?? '').not.toContain(ONE_LINE);
   });
 
-  it('aberto com texto vazio ou so espacos: sem balao', async () => {
+  it('open with empty or whitespace-only text: no bubble', async () => {
     for (const text of ['', '   ']) {
       const tooltip = await mount({ text, open: true });
       expect(bubbleOf(tooltip), JSON.stringify(text)).toBeNull();
@@ -110,16 +110,16 @@ describe('abrir e fechar', () => {
     }
   });
 
-  it('aberto: mostra o texto', async () => {
+  it('open: shows the text', async () => {
     const tooltip = await mount({ text: ONE_LINE, open: true });
     expect(bubbleOf(tooltip)?.textContent).toBe(ONE_LINE);
   });
 });
 
-describe('contrato de token', () => {
+describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
 
-  it('toda custom property do CSS existe no tokens.css', () => {
+  it('every custom property in the CSS exists in tokens.css', () => {
     const used = [...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1]);
     expect(used.length).toBeGreaterThan(0);
     for (const name of used) {
@@ -127,13 +127,13 @@ describe('contrato de token', () => {
     }
   });
 
-  it('o CSS nao tem valor literal de design', () => {
+  it('the CSS has no literal design value', () => {
     expect(cssWithoutComments).not.toMatch(/#[0-9a-f]{3,8}\b/i);
     expect(cssWithoutComments).not.toMatch(/\b(rgb|rgba|hsl|hsla)\(/i);
     expect(cssWithoutComments).not.toMatch(/\d(px|rem|ms)\b/);
   });
 
-  it('computado: sem reticencias, sem hifenizacao automatica, border-box', async () => {
+  it('computed: no ellipsis, no automatic hyphenation, border-box', async () => {
     const tooltip = await mount({ text: TWO_LINES, open: true });
     const style = getComputedStyle(bubbleOf(tooltip) as HTMLElement);
     expect(style.textOverflow).not.toBe('ellipsis');
@@ -143,15 +143,15 @@ describe('contrato de token', () => {
   });
 });
 
-describe('medida', () => {
-  it('limites de largura e altura do Figma: 235 e 44', async () => {
+describe('measure', () => {
+  it('Figma width and height limits: 235 and 44', async () => {
     const tooltip = await mount({ text: ONE_LINE, open: true });
     const style = getComputedStyle(bubbleOf(tooltip) as HTMLElement);
     expect(style.maxWidth).toBe(MAX_WIDTH + 'px');
     expect(style.maxHeight).toBe(MAX_HEIGHT + 'px');
   });
 
-  it('texto curto: uma linha de 24, ate 235 de largura', async () => {
+  it('short text: one line of 24, up to 235 wide', async () => {
     const tooltip = await mount({ text: ONE_LINE, open: true });
     const bubble = bubbleOf(tooltip) as HTMLElement;
     const box = bubble.getBoundingClientRect();
@@ -160,7 +160,7 @@ describe('medida', () => {
     expect(lineTops(bubble)).toHaveLength(1);
   });
 
-  it('texto do Figma: duas linhas, cabe em 235 × 44, sem transbordo', async () => {
+  it('Figma text: two lines, fits in 235 × 44, no overflow', async () => {
     const tooltip = await mount({ text: TWO_LINES, open: true });
     const bubble = bubbleOf(tooltip) as HTMLElement;
     const box = bubble.getBoundingClientRect();
@@ -170,7 +170,7 @@ describe('medida', () => {
     expect(bubble.scrollHeight).toBeLessThanOrEqual(bubble.clientHeight);
   });
 
-  it('nenhuma palavra do texto de duas linhas foi partida', async () => {
+  it('no word of the two-line text was broken', async () => {
     const tooltip = await mount({ text: TWO_LINES, open: true });
     const bubble = bubbleOf(tooltip) as HTMLElement;
     const textNode = textNodeOf(bubble);
