@@ -598,7 +598,7 @@
     "delete": "Delete"
   },
   "labelValidation": {
-    "matrixTitle": "Matrix — 2 combinations",
+    "matrixTitle": "Matrix",
     "matrixCaption": "required is the only property of the component.",
     "fullName": "Full name",
     "lightMode": "Light mode",

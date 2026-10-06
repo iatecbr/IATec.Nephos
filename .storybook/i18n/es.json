@@ -598,7 +598,7 @@
     "delete": "Eliminar"
   },
   "labelValidation": {
-    "matrixTitle": "Matriz — 2 combinaciones",
+    "matrixTitle": "Matriz",
     "matrixCaption": "required es la única propiedad del componente.",
     "fullName": "Nombre completo",
     "lightMode": "Modo claro",
