@@ -16,7 +16,8 @@ import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const LANGUAGES = ['en', 'es'];
+/** English is the source (P64, amendment of 06/10/2026); these are the translations. */
+const LANGUAGES = ['pt-BR', 'es'];
 const FOLDERS = ['.', 'docs'];
 const UPDATE = process.argv.includes('--update');
 
@@ -45,7 +46,7 @@ function read(filePath) {
 }
 
 const HEADER =
-  /^<!-- i18n: lang=([a-z-]+) \| source=(\S+) \| source-sha256=(\S+) \| status=(\S+) -->/;
+  /^<!-- i18n: lang=([A-Za-z-]+) \| source=(\S+) \| source-sha256=(\S+) \| status=(\S+) -->/;
 
 /**
  * A translation only counts as a published version after a person has read it.
@@ -63,7 +64,7 @@ let updated = 0;
 function pairsOf(folder) {
   const pairs = new Map();
   for (const name of readdirSync(folder)) {
-    const m = name.match(/^(.+)\.(en|es)\.md$/);
+    const m = name.match(/^(.+)\.(pt-BR|es)\.md$/);
     if (!m) continue;
     const [, base, language] = m;
     const source = join(folder, `${base}.md`).replace(/\\/g, '/');
@@ -92,7 +93,7 @@ for (const folder of FOLDERS) {
     }
 
     /* The language selector must exist in all three files. */
-    if (!sourceText.includes('**Português (BR)**')) {
+    if (!sourceText.includes('**English**')) {
       failures.push(`${source}: no language selector at the top`);
     }
 

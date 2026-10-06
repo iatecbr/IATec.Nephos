@@ -1,11 +1,11 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=ad3e0c808e033a895b61730a1c53e865ef0feb5005c7616c803cbde86ef15d7f | status=revisado -->
+<!-- i18n: lang=es | source=README.md | source-sha256=c4de36a2cc85b9ff23fc853412d415b729b00ed03cd7b5bca21fca35e391a27b | status=revisado -->
 
 # Nephos 5.0
 
-[Português (BR)](README.md) · [English](README.en.md) · **Español**
+[English](README.md) · [Português (BR)](README.pt-BR.md) · **Español**
 
-> Traducido de la fuente en portugués de Brasil, [`README.md`](README.md).
-> Si ambos difieren, prevalece el archivo en portugués.
+> Traducido de la fuente en inglés, [`README.md`](README.md).
+> Si ambos difieren, prevalece el archivo en inglés.
 
 Nephos es el Design System de IATec. Conecta fundamentos definidos en Figma, Web
 Components escritos en Lit, documentación consultable y validación visual y de

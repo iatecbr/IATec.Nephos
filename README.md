@@ -1,31 +1,32 @@
 # Nephos 5.0
 
-**Português (BR)** · [English](README.en.md) · [Español](README.es.md)
+**English** · [Português (BR)](README.pt-BR.md) · [Español](README.es.md)
 
-O Nephos é o Design System da IATec. Ele conecta fundações definidas no
-Figma, Web Components em Lit, documentação consultável e validação visual e
-de comportamento.
+Nephos is IATec's Design System. It connects foundations defined in Figma, Web
+Components written in Lit, browsable documentation, and visual and behavioural
+validation.
 
-> **Em construção.** O que já está disponível para uso — componentes, variantes,
-> estados e regras — está no Storybook, gerado a partir do próprio código. Rode
-> `npm run storybook` para consultar. Este README não mantém contagem de
-> progresso: o avanço por fase é registro interno, não documentação de uso.
+> **Under construction.** Whatever is already available for use — components,
+> variants, states and rules — lives in Storybook, generated from the code
+> itself. Run `npm run storybook` to browse it. This README does not track
+> progress counts: phase progress is internal record keeping, not usage
+> documentation.
 
-## O que o Nephos entrega
+## What Nephos delivers
 
-- Web Components com prefixo `nph-`, escritos em Lit.
-- Tokens e regras de uso definidos no contrato `design.md`.
-- Documentação de componentes, blocos, layouts e templates.
-- Stories e validação no Storybook.
-- Exemplos de consumo para Vue, Angular e Blazor.
+- Web Components prefixed with `nph-`, written in Lit.
+- Tokens and usage rules defined in the `design.md` contract.
+- Documentation for components, blocks, layouts and templates.
+- Stories and validation in Storybook.
+- Consumption examples for Vue, Angular and Blazor.
 
-O Nephos não depende de PrimeNG, shadcn/ui, Radix, Tailwind ou outro
-framework de componentes. O UI kit Obra é uma referência visual e estrutural,
-não uma dependência de código.
+Nephos does not depend on PrimeNG, shadcn/ui, Radix, Tailwind or any other
+component framework. The Obra UI kit is a visual and structural reference, not a
+code dependency.
 
-## Como rodar o Storybook
+## Running Storybook
 
-Requer Node.js e npm. Validado com Node 24.18.0 e npm 11.16.0.
+Requires Node.js and npm. Validated with Node 24.18.0 and npm 11.16.0.
 
 ```bash
 npm install
@@ -35,9 +36,9 @@ npm install
 npm run storybook
 ```
 
-O Storybook sobe em `http://localhost:6006`.
+Storybook starts at `http://localhost:6006`.
 
-Para gerar a versão estática em `storybook-static/`:
+To build the static version into `storybook-static/`:
 
 ```bash
 npm run build-storybook
@@ -45,8 +46,8 @@ npm run build-storybook
 
 ## Tokens
 
-Os valores auditados no Figma vivem em `src/tokens/source/*.tokens.json`. O CSS
-é **gerado** a partir deles e **nunca deve ser editado à mão**.
+The values audited in Figma live in `src/tokens/source/*.tokens.json`. The CSS is
+**generated** from them and **must never be edited by hand**.
 
 ```bash
 npm run build:tokens
@@ -56,99 +57,99 @@ npm run build:tokens
 npm run test:tokens
 ```
 
-Detalhes de formato, modos, validações e escopo estão em
+Format, modes, validations and scope are detailed in
 [`docs/tokens.md`](docs/tokens.md).
 
-### Consumir os temas
+### Consuming the themes
 
-Marca e esquema de cor são **dimensões independentes**. Ponha os dois atributos
-no elemento raiz e importe o CSS gerado:
+Brand and colour scheme are **independent dimensions**. Put both attributes on
+the root element and import the generated CSS:
 
 ```html
 <html data-nph-brand="educacao" data-nph-color-scheme="dark">
 ```
 
-| Atributo | Valores | Padrão |
+| Attribute | Values | Default |
 |---|---|---|
 | `data-nph-brand` | `sistemas`, `gerencial`, `educacao`, `comercial`, `financeiro`, `igrejas`, `rh` | `sistemas` |
 | `data-nph-color-scheme` | `light`, `dark` | `light` |
 
-Omitir os dois entrega Sistemas no claro.
+Omitting both gives you Sistemas in light mode.
 
-O workflow de CI e a publicação ainda não existem — a direção deles está no P19,
-em
+The CI workflow and publishing do not exist yet — their direction is set by P19,
+in [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), which is kept in
+Portuguese only.
+
+## Technical decisions in force
+
+Decisions P01, P02, P03, P17, P19, P20 and P21 are recorded in
 [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md).
 
-## Decisões técnicas vigentes
+**Status: adopted by Indiane on 24/08/2026 (P21 on 26/08/2026) — reviewed and
+approved by Elvys on 28/08/2026.** The rules are to be followed in current work,
+unless later guidance from Elvys replaces them.
 
-As decisões P01, P02, P03, P17, P19, P20 e P21 estão registradas em
-[`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md).
-
-**Status: decisão adotada pela Indiane em 24/08/2026 (P21 em 26/08/2026) —
-revisada e aprovada por Elvys em 28/08/2026.** As regras devem ser seguidas no
-trabalho atual, salvo orientação posterior de Elvys que as substitua.
-
-| | Assunto | Decisão |
+| | Subject | Decision |
 |---|---|---|
-| **P01** | Encapsulamento dos componentes | Shadow DOM aberto |
-| **P02** | Personalização e exposição de CSS | CSS custom properties como API pública; `::part` para partes internas; classes internas não são API |
-| **P03** | Organização do projeto | `src/components/<nome>/` com implementação, CSS, story e teste juntos; `src/tokens/` com `source` e `generated`; `src/styles/`; `src/shared/`; `docs/` |
-| **P17** | Formato e consumo de tokens | JSON como formato-fonte versionado; CSS custom properties como formato gerado |
-| **P19** | Storybook, testes e publicação | Manter `@storybook/web-components-vite`; build no CI em pull requests, como artefato privado |
-| **P20** | Ferramenta de geração e contrato de temas | Style Dictionary v5; `data-nph-brand` e `data-nph-color-scheme` (`light`/`dark`); namespace `com.iatec.nephos` |
-| **P21** | Plano técnico do primeiro componente | Contrato do `nph-icon`; TypeScript estrito; stories junto do componente; Vitest em modo browser |
+| **P01** | Component encapsulation | Open Shadow DOM |
+| **P02** | Customisation and CSS surface | CSS custom properties as the public API; `::part` for internal parts; internal classes are not API |
+| **P03** | Project layout | `src/components/<nome>/` holding implementation, CSS, story and test together; `src/tokens/` with `source` and `generated`; `src/styles/`; `src/shared/`; `docs/` |
+| **P17** | Token format and consumption | JSON as the versioned source format; CSS custom properties as the generated format |
+| **P19** | Storybook, tests and publishing | Keep `@storybook/web-components-vite`; build on CI for pull requests, as a private artefact |
+| **P20** | Generation tool and theme contract | Style Dictionary v5; `data-nph-brand` and `data-nph-color-scheme` (`light`/`dark`); `com.iatec.nephos` namespace |
+| **P21** | Technical plan for the first component | The `nph-icon` contract; strict TypeScript; stories next to the component; Vitest in browser mode |
 
-A nota traz o motivo, o escopo, o impacto e o que ficou fora de escopo de cada
-uma. Ela é a fonte da regra: em caso de divergência com este README, prevalece
-a nota.
+That note carries the rationale, scope, impact and out-of-scope items for each
+decision. It is the source of the rule: if it disagrees with this README, the
+note prevails.
 
-O package manager é **npm** e o framework do Storybook é
-**`@storybook/web-components-vite`**. Os dois entraram como escolha de
-bootstrap e foram consolidados pelo P19.
+The package manager is **npm** and the Storybook framework is
+**`@storybook/web-components-vite`**. Both started as bootstrap choices and were
+confirmed by P19.
 
-### O que continua fora de escopo
+### What remains out of scope
 
-Continuam fora do repositório: o workflow de CI, a publicação pública e o
-deploy. Também ficam fora os 20 primitivos da P46 e, adiados para rodada
-futura, os demais primitivos — adiado não significa sem consumidor. Os 11 estilos
-de efeito deixaram de ser adiados em 03-09-2026 — os oito níveis de elevação e
-os três anéis de foco.
+Still outside the repository: the CI workflow, public publishing and deployment.
+Also out: the 20 primitives from P46 and, deferred to a future round, the
+remaining primitives — deferred does not mean unused. All 11 effect styles stopped
+being deferred on 03-09-2026 — the eight elevation levels and the three focus
+rings.
 
-## Fontes de verdade
+## Sources of truth
 
-| Assunto | Fonte |
+| Subject | Source |
 |---|---|
-| Valores de token e decisões visuais | Figma `DS-IA-NEPHOS 5.0` |
-| Contrato técnico e regras de uso | `design.md`, na raiz deste repositório |
-| Valores de token versionados | `src/tokens/source/*.tokens.json`; ver [`docs/tokens.md`](docs/tokens.md) |
-| Decisões técnicas P01, P02, P03, P17, P19, P20 e P21 | [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) |
-| Governança, precedência e preflight | `GOVERNANCA.md` |
-| Instruções para agentes | `AGENTS.md` e `CLAUDE.md` |
-| Implementação entregue | Branch, commit, PR e Storybook deste repositório |
-| Ficha e regra de escolha de uma peça | `fichas/<nome>.md`, com o gabarito em `fichas/_modelo.md` |
+| Token values and visual decisions | Figma `DS-IA-NEPHOS 5.0` |
+| Technical contract and usage rules | `design.md`, at the root of this repository |
+| Versioned token values | `src/tokens/source/*.tokens.json`; see [`docs/tokens.md`](docs/tokens.md) |
+| Technical decisions P01, P02, P03, P17, P19, P20 and P21 | [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) |
+| Governance, precedence and preflight | `GOVERNANCA.md` |
+| Agent instructions | `AGENTS.md` and `CLAUDE.md` |
+| Delivered implementation | Branch, commit, PR and Storybook in this repository |
+| Spec sheet and selection rule for a piece | `fichas/<nome>.md`, with the template in `fichas/_modelo.md` |
 
-Em caso de lacuna ou conflito, não invente uma decisão: pare e solicite
-confirmação.
+Where something is missing or in conflict, do not invent a decision: stop and
+ask for confirmation.
 
-## Fluxo por componente
+## Per-component flow
 
-1. Clonar no Figma `DS-IA-NEPHOS 5.0` o componente estruturalmente equivalente
-   do UI kit Obra.
-2. Configurar a peça somente com tokens Nephos e aprová-la visualmente no
+1. In Figma `DS-IA-NEPHOS 5.0`, clone the structurally equivalent component from
+   the Obra UI kit.
+2. Configure the piece using Nephos tokens only and get it visually approved in
    Figma.
-3. Criar ou completar sua ficha, incluindo variantes, estados, acessibilidade,
-   relações e anti-padrões.
-4. Implementar o Web Component em Lit no repositório.
-5. Criar stories para variantes e estados e validar comportamento, teclado,
-   foco e acessibilidade.
+3. Create or complete its spec sheet, covering variants, states, accessibility,
+   relationships and anti-patterns.
+4. Implement the Web Component in Lit in this repository.
+5. Create stories for variants and states, and validate behaviour, keyboard,
+   focus and accessibility.
 
-Nenhum componente pode ser implementado no repositório antes de sua aprovação
-no Figma.
+No component may be implemented in the repository before it is approved in
+Figma.
 
-Todo pull request pede, ao ser aberto, a revisão do Mauro (`maurocsjr`) no
-GitHub. Elvys ou Mauro revisam e fazem o merge.
+Every pull request requests a review from Mauro (`maurocsjr`) on GitHub when
+it is opened. Elvys or Mauro review and merge.
 
-## Primeiro recorte P0
+## First P0 slice
 
 1. `nph-button`
 2. `nph-label`
@@ -156,28 +157,28 @@ GitHub. Elvys ou Mauro revisam e fazem o merge.
 4. `nph-field`
 5. `nph-checkbox`
 
-Os demais componentes não entram no P0 por padrão. A lista completa da v1 — 75
-componentes públicos em 6 ondas — foi fechada em 26-08-2026 e é mantida fora
-deste repositório.
+Other components are not part of P0 by default. The full v1 list — 75 public
+components in 6 waves — was closed on 26-08-2026 and is kept outside this
+repository.
 
-## Taxonomia
+## Taxonomy
 
-| Nível | Descrição |
+| Level | Description |
 |---|---|
-| Componente | Peça reutilizável, pública e isolada. |
-| Bloco | Composição reutilizável de componentes para uma função de interface. |
-| Layout | Estrutura espacial recorrente de uma tela. |
-| Template | Estrutura de um fluxo ou tipo de tela que combina layouts e blocos. |
+| Component | A reusable, public, isolated piece. |
+| Block | A reusable composition of components serving one interface function. |
+| Layout | A recurring spatial structure of a screen. |
+| Template | The structure of a flow or screen type, combining layouts and blocks. |
 
-Blocos, layouts e templates só podem ser documentados depois de extraídos de
-uma tela real ou mock aprovado.
+Blocks, layouts and templates may only be documented after being extracted from
+a real screen or an approved mock.
 
-## Versões de idioma
+## Language versions
 
-Este repositório publica sua documentação de uso em português (BR), inglês e
-espanhol. O português é a fonte; veja [`docs/i18n.md`](docs/i18n.md) para a
-convenção.
+This repository publishes its usage documentation in Portuguese (BR), English
+and Spanish. Portuguese is the source; see [`docs/i18n.md`](docs/i18n.md) for the
+convention.
 
-## Licença
+## Licence
 
-Unlicense. Veja `LICENSE`.
+Unlicense. See `LICENSE`.
