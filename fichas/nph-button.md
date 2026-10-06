@@ -3,17 +3,17 @@ peca: nph-button
 nivel: componente
 status: vigente
 resolve: >-
-  Dá à pessoa um alvo claro para iniciar uma ação na tela em que ela está, e
-  comunica pelo tipo e pela ênfase o peso dessa ação.
+  Gives the person a clear target to start an action on the screen they are on, and
+  communicates through the type and the emphasis the weight of that action.
 use_quando:
-  - "Iniciar uma ação identificada por texto, como salvar ou enviar."
-  - "Destacar a ação principal de um bloco diante das alternativas, pela ênfase."
-  - "Ação universal sem texto, como fechar ou buscar, com nome acessível."
+  - "Starting an action identified by text, such as save or send."
+  - "Highlighting the main action of a block over the alternatives, through emphasis."
+  - "A universal action without text, such as close or search, with an accessible name."
 nao_use_quando:
-  - "A pessoa vai para outro destino — isso é navegação, e não ação."
-  - "Mostrar erro de campo — a validação é do campo, no nph-field."
-  - "Ação com consequência, como excluir ou publicar, só com ícone — escreva o texto."
-  - "Rotular um estado — use nph-badge."
+  - "The person goes to another destination — that is navigation, not action."
+  - "Showing a field error — validation belongs to the field, in nph-field."
+  - "An action with a consequence, such as delete or publish, with an icon only — write the text."
+  - "Labeling a state — use nph-badge."
 api:
   severity:
     tipo: enum
@@ -22,9 +22,9 @@ api:
     padrao: primary
     reflete: true
     restricao: >-
-      O tipo do Figma. Escolha pelo significado da ação, nunca pela cor.
-      Reflete porque o CSS interno seleciona a cor por ele. Valor fora da lista
-      não desenha nada e emite console.error em desenvolvimento.
+      The Figma type. Choose by the meaning of the action, never by the color.
+      Reflects because the internal CSS selects the color by it. A value outside the list
+      draws nothing and emits console.error in development.
   emphasis:
     tipo: enum
     valores: [solid, outline, light, ghost]
@@ -32,10 +32,10 @@ api:
     padrao: solid
     reflete: true
     restricao: >-
-      A ênfase do Figma: quanto a ação se destaca. outline, light e ghost só
-      existem em primary, secondary e danger; nos outros tipos, só solid.
-      Combinação fora disso não desenha nada e emite console.error em
-      desenvolvimento.
+      The Figma emphasis: how much the action stands out. outline, light and ghost only
+      exist in primary, secondary and danger; in the other types, only solid.
+      A combination outside that draws nothing and emits console.error in
+      development.
   size:
     tipo: enum
     valores: [compact, default, large]
@@ -43,94 +43,94 @@ api:
     padrao: default
     reflete: true
     restricao: >-
-      O padrão default é decisão de Indiane em 05-10-2026, pela T4: compact fica
-      preso ao contexto denso. large atende o alvo
-      de toque de 44 px; compact nunca é alvo principal em tela de toque. Campo e
-      botão lado a lado usam o mesmo tamanho. Valor fora da lista não desenha
-      nada e emite console.error em desenvolvimento.
+      The default value default is a decision by Indiane on 05-10-2026, through T4: compact stays
+      tied to the dense context. large meets the touch target
+      of 44 px; compact is never the main target on a touch screen. A field and a
+      button side by side use the same size. A value outside the list draws
+      nothing and emits console.error in development.
   text:
     tipo: string
     obrigatoria: false
     padrao: "vazio"
     reflete: false
     restricao: >-
-      O que acontece ao clicar, já localizado pela aplicação consumidora. É o
-      nome acessível. Fica numa linha. Sem texto, o botão é o só ícone.
+      What happens on click, already localized by the consuming application. It is the
+      accessible name. It stays on one line. Without text, the button is the icon-only button.
   icon-start:
     tipo: string
     obrigatoria: false
     padrao: "vazio"
     reflete: false
     restricao: >-
-      Um nome do núcleo do nph-icon antes do texto, em icon/size-sm. Pode
-      conviver com icon-end. A propriedade é iconStart. Nome fora do núcleo não
-      desenha nada e emite console.error em desenvolvimento.
+      A name from the nph-icon core before the text, in icon/size-sm. It can
+      coexist with icon-end. The property is iconStart. A name outside the core
+      draws nothing and emits console.error in development.
   icon-end:
     tipo: string
     obrigatoria: false
     padrao: "vazio"
     reflete: false
     restricao: >-
-      Um nome do núcleo do nph-icon depois do texto, em icon/size-sm. A
-      propriedade é iconEnd. Nome fora do núcleo não desenha nada e emite
-      console.error em desenvolvimento.
+      A name from the nph-icon core after the text, in icon/size-sm. The
+      property is iconEnd. A name outside the core draws nothing and emits
+      console.error in development.
   label:
     tipo: string
     obrigatoria: false
     padrao: "vazio"
     reflete: false
     restricao: >-
-      Nome acessível do só ícone, obrigatório nele: sem label, o só ícone não
-      desenha nada e emite console.error em desenvolvimento. Com texto, não é
-      usado. O nome label é decisão de Indiane em 05-10-2026 e supera o
-      aria-label de 02-09-2026.
+      Accessible name of the icon-only button, mandatory in it: without label, the icon-only button
+      draws nothing and emits console.error in development. With text, it is not
+      used. The name label is a decision by Indiane on 05-10-2026 and supersedes the
+      aria-label of 02-09-2026.
   disabled:
     tipo: boolean
     obrigatoria: false
     padrao: false
     reflete: true
     restricao: >-
-      Desliga o botão: sai da ordem do Tab, não dispara clique e fica em
-      state/disabled-opacity. Não é o único sinal: diga o motivo em texto
-      quando houver.
+      Turns the button off: it leaves the Tab order, does not fire a click and stays at
+      state/disabled-opacity. It is not the only sign: state the reason in text
+      when there is one.
   loading:
     tipo: boolean
     obrigatoria: false
     padrao: false
     reflete: true
     restricao: >-
-      O carregando do Figma. O girador do nph-spinner entra no lugar do ícone de
-      início, o de fim some e o texto fica. O botão continua focável e o clique
-      não chega a quem usa.
+      The Figma loading state. The nph-spinner spinner takes the place of the start
+      icon, the end icon disappears and the text stays. The button remains focusable and the click
+      does not reach the consumer.
 variantes:
   severity:
     eixo: aparencia
-    escolha_quando: "Pelo significado da ação: danger para o que apaga ou não tem volta; primary para a ação principal."
-    nao_combine_com: ["outra ação primary solid no mesmo bloco"]
+    escolha_quando: "By the meaning of the action: danger for what deletes or cannot be undone; primary for the main action."
+    nao_combine_com: ["another primary solid action in the same block"]
   emphasis:
     eixo: aparencia
-    escolha_quando: "solid para a ação com peso; outline quando acompanha a principal e precisa se delimitar; light quando o contorno pesaria; ghost para ação terciária."
-    nao_combine_com: ["outline, light ou ghost em info, warn, help ou success"]
+    escolha_quando: "solid for the action with weight; outline when it accompanies the main one and needs to be delimited; light when the outline would weigh too much; ghost for a tertiary action."
+    nao_combine_com: ["outline, light or ghost in info, warn, help or success"]
   size:
     eixo: tamanho
-    escolha_quando: "large em tela de toque e formulário principal; compact dentro de tabela, barra de ferramentas ou filtro; default no resto."
-    nao_combine_com: ["compact como alvo principal em tela de toque", "tamanho diferente do campo ao lado"]
+    escolha_quando: "large on a touch screen and in the main form; compact inside a table, toolbar or filter; default everywhere else."
+    nao_combine_com: ["compact as the main target on a touch screen", "a size different from the field beside it"]
 estados:
   default:
-    token: "o fundo e o texto do tipo e da ênfase, no bloco tokens"
-    muda_para_a_pessoa: "Repouso. A cor comunica o tipo da ação."
+    token: "the background and the text of the type and the emphasis, in the tokens block"
+    muda_para_a_pessoa: "Rest. The color communicates the type of the action."
   hover-active:
-    token: "o token de hover do par: color/*-hover e status/*-hover no solid; *-surface-hover e *-on-surface-hover no outline e no light; a superfície do tipo no ghost"
-    muda_para_a_pessoa: "A superfície muda e confirma que o alvo responde."
+    token: "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost"
+    muda_para_a_pessoa: "The surface changes and confirms that the target responds."
   focus:
-    token: "borda border/width na cor do tipo (focus/border no secondary) e halo focus/ring-width em focus/halo ou focus/halo-<matiz>"
-    muda_para_a_pessoa: "Para quem usa o teclado, uma borda na cor da ação e um halo por fora marcam o foco, sem mudar o tamanho."
+    token: "border border/width in the color of the type (focus/border in secondary) and halo focus/ring-width in focus/halo or `focus/halo-<matiz>`"
+    muda_para_a_pessoa: "For keyboard users, a border in the color of the action and a halo outside mark the focus, without changing the size."
   disabled:
     token: state/disabled-opacity
-    muda_para_a_pessoa: "O botão inteiro perde opacidade, sai do Tab e para de responder."
+    muda_para_a_pessoa: "The whole button loses opacity, leaves the Tab order and stops responding."
   loading:
-    token: "o girador herda a cor do texto do par; nenhum token próprio"
-    muda_para_a_pessoa: "O girador ocupa o lugar do ícone de início, o texto continua e o clique deixa de valer."
+    token: "the spinner inherits the color of the pair's text; no token of its own"
+    muda_para_a_pessoa: "The spinner takes the place of the start icon, the text stays and the click stops counting."
 regras_de_negocio: []
 erros_de_dominio: []
 tokens:
@@ -150,202 +150,202 @@ tokens:
   leve_secondary: [color/muted, color/secondary-surface-hover, color/secondary-light, color/secondary-light-hover, color/secondary-foreground]
   leve_danger: [color/destructive-surface, color/destructive-surface-hover, color/destructive-on-surface, color/destructive-on-surface-hover]
 dicas_para_ia:
-  - "Ação que acontece na tela é nph-button. Ir para outro destino é navegação, e não botão."
-  - "Escolha severity pelo significado da ação, nunca pela cor."
-  - "Uma ação principal por bloco; as outras vão em outline, light ou ghost."
-  - "Ponha size large em tela de toque e o mesmo tamanho do campo ao lado."
-  - "Sem texto, preencha label; ação com consequência sempre tem texto."
-  - "Enquanto a ação demora, use loading em vez de desligar o botão sem explicação."
-  - "Não escolha a cor do ícone: ele herda a cor do texto."
+  - "An action that happens on the screen is nph-button. Going to another destination is navigation, not a button."
+  - "Choose severity by the meaning of the action, never by the color."
+  - "One main action per block; the others go in outline, light or ghost."
+  - "Set size large on a touch screen and the same size as the field beside it."
+  - "Without text, fill in label; an action with a consequence always has text."
+  - "While the action takes time, use loading instead of turning the button off without explanation."
+  - "Do not choose the icon color: it inherits the text color."
 acessibilidade:
-  semantica: "Um botão nativo dentro do componente, com type=button. Nunca uma div com clique. No loading, o botão nativo leva aria-disabled e aria-busy."
-  nome_acessivel: "O texto visível. Sem texto, o label, obrigatório."
+  semantica: "A native button inside the component, with type=button. Never a div with a click. In loading, the native button carries aria-disabled and aria-busy."
+  nome_acessivel: "The visible text. Without text, the label, mandatory."
   teclado:
-    - "Tab entra e sai do botão."
-    - "Enter aciona."
-    - "Espaço aciona."
-  foco: "Só para o teclado: borda na cor do tipo, encostada, e halo por fora, sem mudar o tamanho. A borda é o indicador. Limite conhecido: no escuro, color/primary fica abaixo de 3:1 contra o fundo em Gerencial, Recursos Humanos e Igrejas; a pendência é da Indiane desde 02-10-2026."
-  contraste: "Texto e ícone passam 4,5:1 em todos os tipos e ênfases, nos dois esquemas e em todas as marcas; o menor valor é 4,64:1, no primary outline e light do esquema claro. A borda do outline passa 3:1. A borda de foco do primary tem o limite descrito em foco."
-  alternativa_a_cor: "O texto diz o que acontece ao clicar; a cor nunca é o único sinal de intenção, foco ou estado."
+    - "Tab enters and leaves the button."
+    - "Enter activates."
+    - "Space activates."
+  foco: "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; the open item belongs to Indiane since 02-10-2026."
+  contraste: "Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in primary outline and light of the light scheme. The outline border passes 3:1. The focus border of primary has the limit described in `foco`."
+  alternativa_a_cor: "The text says what happens on click; color is never the only sign of intent, focus or state."
 combinacoes_invalidas:
-  - "outline, light ou ghost em info, warn, help ou success — a matriz não os tem."
-  - "Só ícone sem label — o leitor de tela anunciaria só botão."
-  - "Dois ícones sem texto — não dizem a ação."
-  - "Só ícone em ação com consequência, como excluir ou publicar — escreva o texto."
-  - "compact como alvo principal em tela de toque — 28 px contra os 44 px recomendados."
+  - "outline, light or ghost in info, warn, help or success — the matrix does not have them."
+  - "Icon only without label — the screen reader would announce only button."
+  - "Two icons without text — they do not state the action."
+  - "Icon only in an action with a consequence, such as delete or publish — write the text."
+  - "compact as the main target on a touch screen — 28 px against the recommended 44 px."
 relacoes:
   combina_com: [nph-icon, nph-spinner, nph-input, nph-field]
-  pai: ["formulário", "barra de ações", "rodapé de diálogo"]
+  pai: ["formulário", "action bar", "dialog footer"]
   filho: [nph-icon, nph-spinner]
   complementa_bloco: []
   aparece_em: []
 anti_padroes:
-  - "Mostrar erro de campo no botão."
-  - "Usar o botão para navegar a outro destino."
-  - "Aumentar o ícone para dar destaque."
-  - "Usar a cor como único sinal de intenção, foco ou estado."
-  - "Remover ou redesenhar o foco."
-  - "Misturar tamanhos entre botão e campo lado a lado."
-  - "Pintar o botão à mão ou criar tipo, ênfase ou tamanho fora da matriz."
+  - "Showing a field error on the button."
+  - "Using the button to navigate to another destination."
+  - "Enlarging the icon to give emphasis."
+  - "Using color as the only sign of intent, focus or state."
+  - "Removing or redrawing the focus."
+  - "Mixing sizes between a button and a field side by side."
+  - "Painting the button by hand or creating a type, emphasis or size outside the matrix."
 fontes:
-  design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* e as cores color/* e status/* do bloco tokens"
-  decisao: "P68 — API e semântica de nph-badge e nph-button, 05-10-2026; B1, B5 e B6 do Registro de decisões; hover sólido nos tokens de hover, 02-10-2026; size padrão default e o nome label, decisões de Indiane em 05-10-2026"
-  testes: "src/components/nph-button/nph-button.test.ts e nph-button.docs.test.ts"
-  evidencia_de_uso: "pendente — nenhuma tela aprovada consome o botão ainda"
-  storybook: "src/components/nph-button/nph-button.stories.ts e nph-button.docs.stories.ts"
-  figma: "DS-IA-NEPHOS 5.0, quadro nph-button 1197:5449 e conjuntos 461:13009 e 498:15671"
+  design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block"
+  decisao: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, decisions by Indiane on 05-10-2026"
+  testes: "src/components/nph-button/nph-button.test.ts and nph-button.docs.test.ts"
+  evidencia_de_uso: "pending — no approved screen consumes the button yet"
+  storybook: "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts"
+  figma: "DS-IA-NEPHOS 5.0, nph-button frame 1197:5449 and sets 461:13009 and 498:15671"
 ---
 
 # nph-button
 
-## Função
+## Function
 
-**O problema que resolve:** dá à pessoa um alvo claro para iniciar uma ação na tela em
-que ela está, e comunica pelo tipo e pela ênfase o peso dessa ação.
+**The problem it solves:** gives the person a clear target to start an action on the screen
+they are on, and communicates through the type and the emphasis the weight of that action.
 
-**Quando usar:**
+**When to use:**
 
-- Para iniciar uma ação identificada por texto, como salvar ou enviar.
-- Para destacar a ação principal de um bloco diante das alternativas, pela ênfase.
-- Sem texto, para uma ação universal, como fechar ou buscar, com nome acessível.
+- To start an action identified by text, such as save or send.
+- To highlight the main action of a block over the alternatives, through emphasis.
+- Without text, for a universal action, such as close or search, with an accessible name.
 
-**Quando NÃO usar:**
+**When NOT to use:**
 
-- **Para ir a outro destino** — isso é navegação, e não ação.
-- **Para mostrar erro de campo** — a validação é do campo, no `nph-field`.
-- **Só com ícone em ação com consequência**, como excluir ou publicar — escreva o texto.
-- **Para rotular um estado** — use `nph-badge`.
+- **To go to another destination** — that is navigation, not action.
+- **To show a field error** — validation belongs to the field, in `nph-field`.
+- **Icon only in an action with a consequence**, such as delete or publish — write the text.
+- **To label a state** — use `nph-badge`.
 
-## Variantes
+## Variants
 
-**Por aparência:** `severity` (o tipo do Figma) e `emphasis` (a ênfase).
+**By appearance:** `severity` (the Figma type) and `emphasis` (the emphasis).
 
-- `severity` é escolhido **estritamente** pelo significado da ação, nunca pela cor.
-- `emphasis`: `solid` para a ação com peso; `outline` quando ela acompanha a principal e
-  precisa se delimitar; `light` quando o contorno pesaria; `ghost` para ação terciária.
-  `outline`, `light` e `ghost` existem **só** em `primary`, `secondary` e `danger`.
+- `severity` is chosen **strictly** by the meaning of the action, never by the color.
+- `emphasis`: `solid` for the action with weight; `outline` when it accompanies the main one and
+  needs to be delimited; `light` when the outline would weigh too much; `ghost` for a tertiary action.
+  `outline`, `light` and `ghost` exist **only** in `primary`, `secondary` and `danger`.
 
-**Por tamanho:** `compact` (28), `default` (36, o padrão) e `large` (44). `large`
-atende o alvo de toque de 44 px. `compact` fica preso a tabela, barra de
-ferramentas ou filtro e nunca é alvo principal em tela de toque (T4).
+**By size:** `compact` (28), `default` (36, the default) and `large` (44). `large`
+meets the touch target of 44 px. `compact` stays tied to a table, toolbar
+or filter and is never the main target on a touch screen (T4).
 
-**Por densidade:** `nao_se_aplica`.
+**By density:** `nao_se_aplica`.
 
-**Sem texto:** o botão é o só ícone — quadrado, na altura do controle, com o ícone
-acompanhando a caixa: `sm` no `compact`, `md` no `default` e `lg` no `large`.
+**Without text:** the button is the icon-only button — square, at the control height, with the icon
+following the box: `sm` in `compact`, `md` in `default` and `lg` in `large`.
 
-**Não combine com:** outra ação `primary` `solid` no mesmo bloco; `compact` como alvo
-principal em tela de toque; tamanho diferente do campo ao lado.
+**Do not combine with:** another `primary` `solid` action in the same block; `compact` as the main
+target on a touch screen; a size different from the field beside it.
 
-## Estados
+## States
 
-| Estado | Token | O que muda para a pessoa |
+| State | Token | What changes for the person |
 |---|---|---|
-| `default` | o fundo e o texto do tipo e da ênfase | Repouso. A cor comunica o tipo da ação |
-| `hover-active` | `color/*-hover` e `status/*-hover` no `solid`; `*-surface-hover` e `*-on-surface-hover` no `outline` e no `light`; a superfície do tipo no `ghost` | A superfície muda e confirma que o alvo responde |
-| `focus` | borda `border/width` na cor do tipo (`focus/border` no `secondary`) e halo `focus/ring-width` em `focus/halo` ou `focus/halo-<matiz>` | Uma borda na cor da ação e um halo por fora marcam o foco, sem mudar o tamanho |
-| `disabled` | `state/disabled-opacity` | O botão inteiro perde opacidade, sai do Tab e para de responder |
-| `loading` | o girador herda a cor do texto | O girador ocupa o lugar do ícone de início, o texto continua e o clique deixa de valer |
+| `default` | the background and the text of the type and the emphasis | Rest. The color communicates the type of the action |
+| `hover-active` | `color/*-hover` and `status/*-hover` in `solid`; `*-surface-hover` and `*-on-surface-hover` in `outline` and `light`; the surface of the type in `ghost` | The surface changes and confirms that the target responds |
+| `focus` | border `border/width` in the color of the type (`focus/border` in `secondary`) and halo `focus/ring-width` in `focus/halo` or `focus/halo-<matiz>` | A border in the color of the action and a halo outside mark the focus, without changing the size |
+| `disabled` | `state/disabled-opacity` | The whole button loses opacity, leaves the Tab order and stops responding |
+| `loading` | the spinner inherits the text color | The spinner takes the place of the start icon, the text stays and the click stops counting |
 
-**Feedback e foco:** o foco aparece só para quem usa o teclado e **não se remove**. A
-borda é o indicador; o halo é a segunda camada. Limite conhecido: no escuro,
-`color/primary` fica abaixo de 3:1 contra o fundo em Gerencial, Recursos Humanos e
-Igrejas, pendência da Indiane desde 02-10-2026.
+**Feedback and focus:** focus appears only for keyboard users and **is not removed**. The
+border is the indicator; the halo is the second layer. Known limit: in dark mode,
+`color/primary` falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and
+`Igrejas`, an open item of Indiane since 02-10-2026.
 
-**Regra de negócio que a peça carrega:** `nao_se_aplica`. O botão dispara a ação que a
-tela define.
+**Business rule the piece carries:** `nao_se_aplica`. The button fires the action the
+screen defines.
 
-**Estados de erro do domínio:** `nao_se_aplica`. Erro é do campo, nunca do botão.
+**Domain error states:** `nao_se_aplica`. An error belongs to the field, never to the button.
 
-## Acessibilidade
+## Accessibility
 
-| Critério | Regra |
+| Criterion | Rule |
 |---|---|
-| Semântica | Um botão nativo dentro do componente, com `type=button`. Nunca uma `div` com clique. No `loading`, o botão nativo leva `aria-disabled` e `aria-busy` |
-| Nome acessível | O texto visível. Sem texto, o `label`, obrigatório |
-| Teclado | Tab entra e sai; Enter e Espaço acionam |
-| Foco | Só para o teclado: borda na cor do tipo e halo por fora, sem mudar o tamanho. No escuro, a borda do `primary` fica abaixo de 3:1 contra o fundo em Gerencial, Recursos Humanos e Igrejas (pendência de 02-10-2026) |
-| Contraste | Texto e ícone passam 4,5:1 em todos os tipos e ênfases, nos dois esquemas e em todas as marcas; o menor valor é 4,64:1, no `primary` `outline` e `light` do esquema claro. A borda do `outline` passa 3:1 |
-| Alternativa à cor | O texto diz o que acontece ao clicar; a cor nunca é o único sinal |
+| Semantics | A native button inside the component, with `type=button`. Never a `div` with a click. In `loading`, the native button carries `aria-disabled` and `aria-busy` |
+| Accessible name | The visible text. Without text, the `label`, mandatory |
+| Keyboard | Tab enters and leaves; Enter and Space activate |
+| Focus | Keyboard only: a border in the color of the type and a halo outside, without changing the size. In dark mode, the border of `primary` falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas` (open item of 02-10-2026) |
+| Contrast | Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in `primary` `outline` and `light` of the light scheme. The `outline` border passes 3:1 |
+| Alternative to color | The text says what happens on click; color is never the only sign |
 
-## Relações
+## Relations
 
-**Combina com:** `nph-icon`, `nph-spinner`, `nph-input` e `nph-field`.
+**Combines with:** `nph-icon`, `nph-spinner`, `nph-input` and `nph-field`.
 
-**O que é pai:** formulário, barra de ações e rodapé de diálogo.
+**What is the parent:** form, action bar and dialog footer.
 
-**O que é filho:** `nph-icon`, por `icon-start` e `icon-end`, e `nph-spinner`, no
-`loading`. O botão não tem slot.
+**What is the child:** `nph-icon`, through `icon-start` and `icon-end`, and `nph-spinner`, in
+`loading`. The button has no slot.
 
-**Qual bloco esta peça complementa:** nenhum ainda.
+**Which block this piece complements:** none yet.
 
-**Aparece nos layouts:** nenhum ainda.
+**Appears in layouts:** none yet.
 
-## Tokens, intenção e Dicas para IA
+## Tokens, intent and AI hints
 
-| Parte | Token |
+| Part | Token |
 |---|---|
-| Altura | `control/height-compact`, `-default` ou `-large` |
-| Respiro lateral | `space/control-padding` |
-| Espaço entre ícone e texto | `space/inline-tight` |
-| Raio | `radius/control` |
-| Texto | `text/label-md`, igual em todos os tamanhos |
-| Ícone | `icon/size-sm` com texto; `sm`, `md` ou `lg` no só ícone |
-| `solid` | `color/primary`, `color/secondary`, `status/<matiz>` ou `color/destructive`, com o hover e o texto do par |
-| `outline` | a superfície clara do tipo, com a borda e o texto na mesma cor, por dentro |
-| `light` | a superfície clara do tipo, sem borda |
-| `ghost` | sem fundo em repouso; a superfície do tipo no hover |
-| Foco | `border/width`, `focus/border-radius-control`, `focus/ring-width`, `focus/radius-control-with-border`, `focus/border`, `focus/halo` e `focus/halo-<matiz>` |
+| Height | `control/height-compact`, `-default` or `-large` |
+| Side padding | `space/control-padding` |
+| Space between icon and text | `space/inline-tight` |
+| Radius | `radius/control` |
+| Text | `text/label-md`, the same in every size |
+| Icon | `icon/size-sm` with text; `sm`, `md` or `lg` in the icon-only button |
+| `solid` | `color/primary`, `color/secondary`, `status/<matiz>` or `color/destructive`, with the hover and the text of the pair |
+| `outline` | the light surface of the type, with the border and the text in the same color, inside |
+| `light` | the light surface of the type, without a border |
+| `ghost` | no background at rest; the surface of the type on hover |
+| Focus | `border/width`, `focus/border-radius-control`, `focus/ring-width`, `focus/radius-control-with-border`, `focus/border`, `focus/halo` and `focus/halo-<matiz>` |
 
-**Restrições de uso:** o componente não escolhe altura, cor, raio nem tipografia: tudo
-vem de token. Numa parte da tela com outra marca,
-`data-nph-brand` e `data-nph-color-scheme` vão no mesmo elemento (P67). O limite L-b está
-na P68: o `use` de alguns tokens no `design.md` ainda não cita este uso.
+**Usage restrictions:** the component does not choose height, color, radius or typography: everything
+comes from a token. In a part of the screen with another brand,
+`data-nph-brand` and `data-nph-color-scheme` go on the same element (P67). The limit L-b is
+in P68: the `use` of some tokens in `design.md` does not cite this usage yet.
 
-**Dicas para IA:**
+**AI hints:**
 
-- Ação que acontece na tela é `nph-button`. Ir para outro destino é navegação, e não
-  botão.
-- Escolha `severity` pelo significado da ação, nunca pela cor.
-- Uma ação principal por bloco; as outras vão em `outline`, `light` ou `ghost`.
-- Ponha `size` `large` em tela de toque e o mesmo tamanho do campo ao lado.
-- Sem texto, preencha `label`; ação com consequência sempre tem texto.
-- Enquanto a ação demora, use `loading` em vez de desligar o botão sem explicação.
-- Não escolha a cor do ícone: ele herda a cor do texto.
+- An action that happens on the screen is `nph-button`. Going to another destination is navigation, not a
+  button.
+- Choose `severity` by the meaning of the action, never by the color.
+- One main action per block; the others go in `outline`, `light` or `ghost`.
+- Set `size` `large` on a touch screen and the same size as the field beside it.
+- Without text, fill in `label`; an action with a consequence always has text.
+- While the action takes time, use `loading` instead of turning the button off without explanation.
+- Do not choose the icon color: it inherits the text color.
 
-## Exemplos
+## Examples
 
-**Caso recomendado:** no rodapé de um formulário, "Salvar" em `primary` `solid` ao lado
-de "Cancelar" em `secondary` `outline`, os dois em `size` `default`.
+**Recommended case:** in the footer of a form, "Save" in `primary` `solid` next to
+"Cancel" in `secondary` `outline`, both in `size` `default`.
 
-**Caso alternativo:** "Excluir conta" em `danger` `solid`, sempre com texto; e, para a
-ação universal de fechar, o só ícone `xmark` em `secondary` `ghost`, com `label` "Fechar".
+**Alternative case:** "Delete account" in `danger` `solid`, always with text; and, for the
+universal close action, the icon-only button `xmark` in `secondary` `ghost`, with `label` "Close".
 
-## Anti-padrões
+## Anti-patterns
 
-- **Não mostrar erro de campo no botão** — a validação é do `nph-field`.
-- **Não usar o botão para navegar** a outro destino.
-- **Não aumentar o ícone** para dar destaque.
-- **Não usar a cor como único sinal** de intenção, foco ou estado.
-- **Não remover nem redesenhar o foco.**
-- **Não misturar tamanhos** entre botão e campo lado a lado.
-- **Combinações inválidas:** `outline`, `light` ou `ghost` em `info`, `warn`, `help` ou
-  `success`; só ícone sem `label`; dois ícones sem texto; só ícone em ação com
-  consequência; `compact` como alvo principal em tela de toque.
-- **Não criar sem decisão:** tipo, ênfase, tamanho ou cor fora da matriz.
+- **Do not show a field error on the button** — validation belongs to `nph-field`.
+- **Do not use the button to navigate** to another destination.
+- **Do not enlarge the icon** to give emphasis.
+- **Do not use color as the only sign** of intent, focus or state.
+- **Do not remove or redraw the focus.**
+- **Do not mix sizes** between a button and a field side by side.
+- **Invalid combinations:** `outline`, `light` or `ghost` in `info`, `warn`, `help` or
+  `success`; icon only without `label`; two icons without text; icon only in an action with a
+  consequence; `compact` as the main target on a touch screen.
+- **Do not create without a decision:** a type, emphasis, size or color outside the matrix.
 
-## Fontes e decisões
+## Sources and decisions
 
-- **`design.md` do repositório:** `control/height-*`, `space/control-padding`,
+- **The repository `design.md`:** `control/height-*`, `space/control-padding`,
   `space/inline-tight`, `radius/control`, `text/label-md`, `icon/size-*`,
-  `state/disabled-opacity`, `focus/*` e as cores `color/*` e `status/*`.
-- **A decisão que originou:** P68, de 05-10-2026; B1, B5 e B6 do Registro de decisões;
-  o `size` padrão `default` e o nome `label`, decididos por Indiane em 05-10-2026;
-  o hover sólido nos tokens de hover, decidido por Indiane em 02-10-2026, que supera a
-  B4. O quadro foi aceito em 01-10-2026 e completado em 02-10-2026.
-- **Testes:** `src/components/nph-button/nph-button.test.ts` e `nph-button.docs.test.ts`.
-- **Evidência de uso:** pendente — nenhuma tela aprovada consome o botão ainda.
-- **Storybook:** `src/components/nph-button/nph-button.stories.ts` (Validação) e
+  `state/disabled-opacity`, `focus/*` and the colors `color/*` and `status/*`.
+- **The decision that originated it:** P68, of 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log);
+  the default `size` `default` and the name `label`, decided by Indiane on 05-10-2026;
+  the solid hover on the hover tokens, decided by Indiane on 02-10-2026, which supersedes
+  B4. The frame was accepted on 01-10-2026 and completed on 02-10-2026.
+- **Tests:** `src/components/nph-button/nph-button.test.ts` and `nph-button.docs.test.ts`.
+- **Usage evidence:** pending — no approved screen consumes the button yet.
+- **Storybook:** `src/components/nph-button/nph-button.stories.ts` (Validation) and
   `nph-button.docs.stories.ts` (Docs).
-- **Figma:** quadro `nph-button` (`1197:5449`) e conjuntos `461:13009` e `498:15671` no
+- **Figma:** `nph-button` frame (`1197:5449`) and sets `461:13009` and `498:15671` in
   `DS-IA-NEPHOS 5.0`.
