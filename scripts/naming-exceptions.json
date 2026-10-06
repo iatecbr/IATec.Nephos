@@ -7,13 +7,6 @@
     ]
   },
   {
-    "file": ".storybook/preview.js",
-    "class": "ui-text",
-    "names": [
-      "Idioma"
-    ]
-  },
-  {
     "file": "package.json",
     "class": "cli",
     "names": [
