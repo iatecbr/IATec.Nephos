@@ -1,16 +1,17 @@
 /**
- * Blocos da pagina de conteudo do Storybook do Nephos.
+ * Blocks of the Nephos Storybook content page.
  *
- * Toda pagina de leitura de componente monta o texto com estes blocos, para que
- * as paginas se leiam do mesmo jeito: titulo de secao com linha, texto com
- * largura de leitura, demonstracao em area propria, tabela com cabecalho,
- * excecao como nota e fonte no rodape. Ver `docs/stories.md`, §4.8.
+ * Every component reading page builds its text with these blocks, so that the
+ * pages read the same way: section title with a rule, text at reading width,
+ * demo in its own area, table with a header, exception as a note and source
+ * in the footer. See `docs/stories.md`, §4.8.
  *
- * So `--nph-*`: nenhum hex, nenhum valor de cor literal. O h1 da pagina usa
- * `text/heading-lg` e o titulo de secao `text/heading-md` (design.md: o titulo
- * da tela e heading-lg; secao dentro dela e heading-md).
+ * Only `--nph-*`: no hex, no literal color value. The page h1 uses
+ * `text/heading-lg` and the section title `text/heading-md` (design.md: the
+ * screen title is heading-lg; a section inside it is heading-md).
  *
- * A demonstracao NAO tem fundo proprio: so a borda separa o exemplo do texto.
+ * The demo has NO background of its own: only the border separates the
+ * example from the text.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -27,7 +28,7 @@ type TextRole =
   | 'caption'
   | 'code';
 
-/** As cinco propriedades de um papel de texto, sempre juntas. */
+/** The five properties of a text role, always together. */
 export function textRole(name: TextRole): string {
   return `
     font-family: var(--nph-text-${name}-font-family);
@@ -38,11 +39,11 @@ export function textRole(name: TextRole): string {
   `;
 }
 
-/** Largura de leitura: `layout/max-reading`, para o que se le de ponta a ponta. */
+/** Reading width: `layout/max-reading`, for what is read end to end. */
 const READING = 'max-width: var(--nph-layout-max-reading);';
 const BORDER = 'var(--nph-border-width) solid var(--nph-color-border)';
 
-/** Corpo da pagina de conteudo: fundo, cor e respiro, por token. */
+/** Body of the content page: background, color and spacing, by token. */
 export const body = `
   color: var(--nph-color-foreground);
   background: var(--nph-color-background);
@@ -52,13 +53,13 @@ export const body = `
   gap: var(--nph-space-stack);
 `;
 
-/** Item do indice: o id da secao e o titulo exibido. */
+/** Index item: the section id and the displayed title. */
 export interface IndexItem {
   id: string;
   title: string;
 }
 
-/** Linha de tabela: o termo (codigo) e a descricao. */
+/** Table row: the term (code) and the description. */
 export type TableRow = readonly [string, TemplateResult | string];
 
 export function header(title: string, summary: string): TemplateResult {
@@ -71,15 +72,15 @@ export function header(title: string, summary: string): TemplateResult {
 }
 
 /*
- * O preview do Storybook abre links na janela de cima (`base target=_parent`):
- * um `href="#id"` puro tiraria a pessoa do Storybook. O clique rola ate a
- * secao no proprio documento e leva o foco para ela; o `href` fica para
- * semantica e para abrir em nova aba.
+ * The Storybook preview opens links in the top window (`base target=_parent`):
+ * a bare `href="#id"` would take the person out of Storybook. The click
+ * scrolls to the section in the document itself and moves focus to it; the
+ * `href` stays for semantics and for opening in a new tab.
  */
 /*
- * A secao que recebe o foco pelo indice mostra o anel de foco do Nephos
- * (`focus/ring`, `focus/ring-width`), que troca com o modo de cor. Fica numa
- * regra porque estilo inline nao alcanca `:focus`.
+ * The section that receives focus from the index shows the Nephos focus ring
+ * (`focus/ring`, `focus/ring-width`), which switches with the color mode. It
+ * lives in a rule because inline style cannot reach `:focus`.
  */
 const SECTION_FOCUS = html`
   <style>
@@ -172,10 +173,10 @@ export function demo(content: TemplateResult, caption: string): TemplateResult {
 }
 
 /**
- * Como a primeira coluna aparece: `code` sempre em text/code; `text` sempre
- * em text/body-sm; `auto` usa text/code so quando o termo e um identificador
- * (minusculas, sem acento nem espaco: `name`, `icon/size-sm`) e texto nos
- * demais ("Slots e eventos", "Interação").
+ * How the first column appears: `code` always in text/code; `text` always
+ * in text/body-sm; `auto` uses text/code only when the term is an identifier
+ * (lowercase, no accent or space: `name`, `icon/size-sm`) and text in the
+ * rest (`Slots e eventos`, `Interação`).
  */
 export type TermColumn = 'code' | 'text' | 'auto';
 
@@ -280,7 +281,7 @@ function card(
   `;
 }
 
-/** Quando usar e quando nao usar, lado a lado. */
+/** When to use and when not to use, side by side. */
 export function useDontUse(
   use: { title: string; items: readonly string[] },
   dontUse: { title: string; items: readonly string[] },
@@ -292,12 +293,12 @@ export function useDontUse(
   `;
 }
 
-/** So o cartao de erro, para listas de anti-padrao. */
+/** Only the error card, for anti-pattern lists. */
 export function dontDo(title: string, items: readonly string[]): TemplateResult {
   return html`<div style="display: flex;">${card('error', title, items)}</div>`;
 }
 
-/** Rodape de origem. Toda regra exibida aponta de onde veio. */
+/** Origin footer. Every displayed rule points to where it came from. */
 export function source(label: string, origin: string): TemplateResult {
   return html`
     <p

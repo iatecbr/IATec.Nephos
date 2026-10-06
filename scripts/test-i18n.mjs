@@ -1,15 +1,16 @@
 /**
- * Prova das versoes de idioma.
+ * Proof of the language versions.
  *
- * O ponto central: uma traducao desatualizada nao pode PARECER vigente. Cada
- * traducao declara o hash do conteudo da fonte que traduziu; se a fonte mudou,
- * o hash deixa de bater e este script reprova.
+ * The central point: an outdated translation must not LOOK current. Each
+ * translation declares the hash of the source content it translated; if the
+ * source changed, the hash stops matching and this script fails.
  *
- * Usamos hash do CONTEUDO, nao do commit: o commit que publica a fonte e o
- * mesmo que publica a traducao, entao referenciar commit seria circular.
+ * We use a hash of the CONTENT, not of the commit: the commit that publishes
+ * the source is the same one that publishes the translation, so referencing a
+ * commit would be circular.
  *
- * Rode com: npm run test:i18n
- * Depois de traduzir uma alteracao: npm run i18n:update
+ * Run with: npm run test:i18n
+ * After translating a change: npm run i18n:update
  */
 import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
@@ -20,8 +21,8 @@ const FOLDERS = ['.', 'docs'];
 const UPDATE = process.argv.includes('--update');
 
 /**
- * Identificadores que NUNCA sao traduzidos. Se um deles aparece na fonte e
- * some de uma traducao, alguem traduziu nome tecnico.
+ * Identifiers that are NEVER translated. If one of them appears in the source
+ * and vanishes from a translation, someone translated a technical name.
  */
 const PROTECTED = [
   'nph-',
@@ -34,7 +35,7 @@ const PROTECTED = [
   'src/tokens/generated',
 ];
 
-/** Normaliza fim de linha para que CRLF e LF produzam o mesmo hash. */
+/** Normalizes line endings so CRLF and LF produce the same hash. */
 function hashOf(text) {
   return createHash('sha256').update(text.replace(/\r\n/g, '\n'), 'utf8').digest('hex');
 }
@@ -47,8 +48,8 @@ const HEADER =
   /^<!-- i18n: lang=([a-z-]+) \| source=(\S+) \| source-sha256=(\S+) \| status=(\S+) -->/;
 
 /**
- * Uma traducao so vale como versao publicada depois de lida por uma pessoa.
- * Ate la ela e `rascunho`, e diz isso em voz alta no proprio arquivo.
+ * A translation only counts as a published version after a person has read it.
+ * Until then it is `rascunho`, and says so loudly in the file itself.
  */
 const STATUSES = ['rascunho', 'revisado'];
 
@@ -58,7 +59,7 @@ const drafts = [];
 let checked = 0;
 let updated = 0;
 
-/** Encontra os pares fonte -> traducoes pela convencao de sufixo. */
+/** Finds the source -> translations pairs by the suffix convention. */
 function pairsOf(folder) {
   const pairs = new Map();
   for (const name of readdirSync(folder)) {
@@ -78,7 +79,7 @@ for (const folder of FOLDERS) {
     try {
       sourceText = read(source);
     } catch {
-      failures.push(`${source}: existe traducao, mas a fonte nao existe`);
+      failures.push(`${source}: a translation exists, but the source does not`);
       continue;
     }
 
@@ -86,13 +87,13 @@ for (const folder of FOLDERS) {
     const present = translations.map((t) => t.language);
     for (const language of LANGUAGES) {
       if (!present.includes(language)) {
-        failures.push(`${source}: falta a versao "${language}"`);
+        failures.push(`${source}: missing the "${language}" version`);
       }
     }
 
-    /* O seletor de idioma precisa existir nos tres arquivos. */
+    /* The language selector must exist in all three files. */
     if (!sourceText.includes('**Português (BR)**')) {
-      failures.push(`${source}: sem o seletor de idioma no topo`);
+      failures.push(`${source}: no language selector at the top`);
     }
 
     for (const { language, filePath } of translations) {
@@ -101,23 +102,23 @@ for (const folder of FOLDERS) {
       const header = text.match(HEADER);
 
       if (header === null) {
-        failures.push(`${filePath}: sem o comentario de rastreio na primeira linha`);
+        failures.push(`${filePath}: no tracking comment on the first line`);
         continue;
       }
 
       const [fullLine, declaredLanguage, declaredSource, declaredHash, state] = header;
 
       if (!STATUSES.includes(state)) {
-        failures.push(`${filePath}: status=${state} nao existe — use ${STATUSES.join(" ou ")}`);
+        failures.push(`${filePath}: status=${state} does not exist — use ${STATUSES.join(" or ")}`);
       } else if (state === "rascunho") {
         drafts.push(filePath);
       }
 
       if (declaredLanguage !== language) {
-        failures.push(`${filePath}: declara lang=${declaredLanguage}, mas o nome do arquivo diz ${language}`);
+        failures.push(`${filePath}: declares lang=${declaredLanguage}, but the file name says ${language}`);
       }
       if (declaredSource !== source) {
-        failures.push(`${filePath}: declara source=${declaredSource}, mas a fonte e ${source}`);
+        failures.push(`${filePath}: declares source=${declaredSource}, but the source is ${source}`);
       }
 
       if (declaredHash !== expected) {
@@ -128,30 +129,30 @@ for (const folder of FOLDERS) {
           );
           writeFileSync(filePath, updatedText, 'utf8');
           updated += 1;
-          console.log(`atualizado: ${filePath}`);
+          console.log(`updated: ${filePath}`);
         } else if (declaredHash === 'PENDING') {
-          failures.push(`${filePath}: hash da fonte nao gravado — rode npm run i18n:update`);
+          failures.push(`${filePath}: source hash not recorded — run npm run i18n:update`);
         } else {
           failures.push(
-            `${filePath}: DESATUALIZADO — a fonte ${source} mudou depois desta traducao`,
+            `${filePath}: OUTDATED — the source ${source} changed after this translation`,
           );
         }
       }
 
-      /* Ninguem pode ter traduzido identificador tecnico. */
+      /* No one may have translated a technical identifier. */
       for (const term of PROTECTED) {
         if (sourceText.includes(term) && !text.includes(term)) {
-          failures.push(`${filePath}: o identificador tecnico "${term}" sumiu da traducao`);
+          failures.push(`${filePath}: the technical identifier "${term}" vanished from the translation`);
         }
       }
 
-      /* Os links entre idiomas precisam apontar para arquivos que existem. */
+      /* Links between languages must point to files that exist. */
       for (const target of text.matchAll(/\]\(([A-Za-z0-9._-]+\.(?:en|es)?\.?md)\)/g)) {
         const destination = join(folder, target[1]).replace(/\\/g, '/');
         try {
           read(destination);
         } catch {
-          warnings.push(`${filePath}: link de idioma aponta para ${destination}, que nao existe`);
+          warnings.push(`${filePath}: language link points to ${destination}, which does not exist`);
         }
       }
     }
@@ -159,28 +160,28 @@ for (const folder of FOLDERS) {
 }
 
 if (UPDATE) {
-  console.log(`\n${updated} hash(es) gravado(s).`);
+  console.log(`\n${updated} hash(es) recorded.`);
 }
 
-console.log(`\n${checked} traducao(oes) conferida(s).`);
+console.log(`\n${checked} translation(s) checked.`);
 
 if (drafts.length > 0) {
-  console.log(`${drafts.length} em RASCUNHO, aguardando aceitacao:`);
+  console.log(`${drafts.length} in DRAFT (\`rascunho\`), awaiting acceptance:`);
   for (const filePath of drafts) {
     console.log(`  - ${filePath}`);
   }
 }
 
 for (const warning of warnings) {
-  console.log(`AVISO   ${warning}`);
+  console.log(`WARNING ${warning}`);
 }
 
 if (failures.length > 0) {
-  console.error('\nFALHOU:');
+  console.error('\nFAILED:');
   for (const fail of failures) {
     console.error(`  - ${fail}`);
   }
   process.exit(1);
 }
 
-console.log('OK: idioma, fonte, hash, seletor e identificadores tecnicos conferem.');
+console.log('OK: language, source, hash, selector and technical identifiers match.');

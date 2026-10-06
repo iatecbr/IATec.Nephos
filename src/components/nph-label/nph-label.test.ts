@@ -1,10 +1,10 @@
 /**
- * Prova do contrato do `nph-label`.
+ * Proof of the `nph-label` contract.
  *
- * Cobre o que a ficha e o Registro prometem: a matriz de duas variantes, a
- * ausencia de Shadow DOM, a associacao com o controle, o asterisco decorativo
- * para tecnologia assistiva e a ausencia de propriedade de layout, peso ou
- * estado.
+ * Covers what the spec and the Register promise: the two-variant matrix, the
+ * absence of Shadow DOM, the association with the control, the asterisk being
+ * decorative for assistive technology and the absence of a layout, weight or
+ * state property.
  */
 import { describe, expect, it, afterEach } from 'vitest';
 
@@ -18,7 +18,7 @@ afterEach(() => {
   document.body.replaceChildren();
 });
 
-/** Monta o elemento, espera a primeira renderizacao e devolve. */
+/** Mounts the element, waits for the first render and returns it. */
 async function mount(configure: (el: NphLabel) => void = () => undefined): Promise<NphLabel> {
   const el = document.createElement('nph-label');
   configure(el);
@@ -29,21 +29,21 @@ async function mount(configure: (el: NphLabel) => void = () => undefined): Promi
 
 const labelOf = (el: NphLabel): HTMLLabelElement => {
   const l = el.querySelector('label');
-  if (l === null) throw new Error('o elemento nao renderizou um <label>');
+  if (l === null) throw new Error('the element did not render a <label>');
   return l;
 };
 
 const asterisk = (el: NphLabel): HTMLElement | null =>
   el.querySelector('.nph-label__required');
 
-describe('registro', () => {
-  it('define a tag uma vez e exporta a classe', () => {
+describe('registration', () => {
+  it('defines the tag once and exports the class', () => {
     expect(REGISTERED).toBe(NphLabel);
   });
 });
 
-describe('a matriz tem exatamente duas combinacoes', () => {
-  it('required=false e o padrao e nao desenha asterisco', async () => {
+describe('the matrix has exactly two combinations', () => {
+  it('required=false is the default and draws no asterisk', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
     });
@@ -52,7 +52,7 @@ describe('a matriz tem exatamente duas combinacoes', () => {
     expect(asterisk(el)).toBeNull();
   });
 
-  it('required=true acrescenta o asterisco ao fim do texto', async () => {
+  it('required=true appends the asterisk to the end of the text', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
       e.required = true;
@@ -62,14 +62,14 @@ describe('a matriz tem exatamente duas combinacoes', () => {
     expect(labelOf(el).textContent).toBe('Nome completo*');
   });
 
-  it('required reflete para atributo, para o CSS do consumidor poder mirar', async () => {
+  it('required reflects to an attribute, so the consumer CSS can target it', async () => {
     const el = await mount((e) => {
       e.required = true;
     });
     expect(el.hasAttribute('required')).toBe(true);
   });
 
-  it('alternar required desenha e apaga o asterisco', async () => {
+  it('toggling required draws and removes the asterisk', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
       e.required = true;
@@ -80,13 +80,13 @@ describe('a matriz tem exatamente duas combinacoes', () => {
   });
 });
 
-describe('excecao a P01 — sem Shadow DOM', () => {
-  it('nao abre shadow root: sem isso a associacao nativa nao funcionaria', async () => {
+describe('exception to P01 — no Shadow DOM', () => {
+  it('does not open a shadow root: without it the native association would not work', async () => {
     const el = await mount();
     expect(el.shadowRoot).toBeNull();
   });
 
-  it('renderiza o <label> na luz, dentro do proprio elemento', async () => {
+  it('renders the <label> in the light DOM, inside the element itself', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
     });
@@ -94,8 +94,8 @@ describe('excecao a P01 — sem Shadow DOM', () => {
   });
 });
 
-describe('associacao com o controle', () => {
-  it('for chega ao <label> e o clique leva o foco ao campo', async () => {
+describe('association with the control', () => {
+  it('for reaches the <label> and a click moves focus to the field', async () => {
     const field = document.createElement('input');
     field.id = 'name-field';
     document.body.append(field);
@@ -112,7 +112,7 @@ describe('associacao com o controle', () => {
     expect(document.activeElement).toBe(field);
   });
 
-  it('sem for, o atributo nao e emitido em branco', async () => {
+  it('without for, the attribute is not emitted blank', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
     });
@@ -120,8 +120,8 @@ describe('associacao com o controle', () => {
   });
 });
 
-describe('acessibilidade', () => {
-  it('o rotulo da o nome acessivel do campo', async () => {
+describe('accessibility', () => {
+  it('the label gives the field its accessible name', async () => {
     const field = document.createElement('input');
     field.id = 'name-field';
     document.body.append(field);
@@ -129,11 +129,11 @@ describe('acessibilidade', () => {
       e.text = 'Nome completo';
       e.for = 'name-field';
     });
-    /* `labels` e a via oficial: e o que o leitor de tela usa para nomear. */
+    /* `labels` is the official route: it is what the screen reader uses to name. */
     expect([...(field.labels ?? [])]).toContain(labelOf(el));
   });
 
-  it('o asterisco e decorativo: leva aria-hidden', async () => {
+  it('the asterisk is decorative: it carries aria-hidden', async () => {
     const el = await mount((e) => {
       e.text = 'Nome completo';
       e.required = true;
@@ -141,7 +141,7 @@ describe('acessibilidade', () => {
     expect(asterisk(el)?.getAttribute('aria-hidden')).toBe('true');
   });
 
-  it('o componente nao injeta texto proprio: nenhum idioma vive aqui', async () => {
+  it('the component injects no text of its own: no language lives here', async () => {
     const el = await mount((e) => {
       e.text = 'Full name';
       e.required = true;
@@ -150,15 +150,15 @@ describe('acessibilidade', () => {
   });
 });
 
-describe('o que o rotulo NAO tem', () => {
-  it('nao expoe layout, peso nem estado', async () => {
+describe('what the label does NOT have', () => {
+  it('exposes no layout, weight or state', async () => {
     const el = await mount();
     for (const forbidden of ['layout', 'weight', 'state', 'disabled', 'error', 'invalid']) {
       expect(forbidden in el).toBe(false);
     }
   });
 
-  it('a API publica e exatamente text, required e for', () => {
+  it('the public API is exactly text, required and for', () => {
     const declared = Object.keys(
       (NphLabel as unknown as { elementProperties: Map<string, unknown> }).elementProperties
         ? Object.fromEntries(
@@ -170,19 +170,19 @@ describe('o que o rotulo NAO tem', () => {
   });
 });
 
-describe('contrato de token', () => {
-  it('o design.md autoriza status/error como indicador de obrigatorio', () => {
+describe('token contract', () => {
+  it('design.md authorizes status/error as the required indicator', () => {
     const block = designMd.slice(designMd.indexOf('  status/error:'));
     const usage = block.slice(0, block.indexOf('nao_use'));
     expect(usage).toContain('asterisco');
     expect(usage).toContain('obrigat');
   });
 
-  it('A5 continua proibindo color/destructive em erro de validacao', () => {
+  it('A5 still forbids color/destructive on validation errors', () => {
     expect(designMd).toContain('Usar `color/destructive` em erro de validação');
   });
 
-  it('o papel text/label-md existe no CSS gerado', async () => {
+  it('the text/label-md role exists in the generated CSS', async () => {
     const css = (await import('../../tokens/generated/tokens.css?raw')).default;
     for (const part of ['font-family', 'font-size', 'font-weight', 'line-height', 'letter-spacing']) {
       expect(css).toContain('--nph-text-label-md-' + part + ':');

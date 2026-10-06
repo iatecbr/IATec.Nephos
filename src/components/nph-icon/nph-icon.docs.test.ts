@@ -1,7 +1,7 @@
 /**
- * Contrato da pagina Documentacao do `nph-icon` e dos textos de Validacao:
- * indice sem ancora orfa, nos tres idiomas, e a regra vigente do `solid`
- * (ficha `nph-icon`: regular e solid existem para todos os nomes do nucleo).
+ * Contract of the `nph-icon` Documentation page and of the Validation texts:
+ * index with no orphan anchor, in the three languages, and the current rule of
+ * `solid` (spec `nph-icon`: regular and solid exist for every core name).
  */
 import { afterEach, describe, expect, it } from 'vitest';
 import { render } from 'lit';
@@ -18,7 +18,7 @@ afterEach(() => {
 
 const DICTIONARIES = { 'pt-BR': translations('pt-BR'), en: translations('en'), es: translations('es') } as const;
 
-/** Restricao antiga do solid a star, em qualquer ordem dentro da frase. */
+/** Old restriction of solid to star, in any order within the sentence. */
 const SOLID_ONLY_ON_STAR = /solid[^.]*\bstar\b|\bstar\b[^.]*solid/i;
 
 function renderInLocale(locale: string, story: { render?: unknown } = Documentacao): HTMLElement {
@@ -29,9 +29,9 @@ function renderInLocale(locale: string, story: { render?: unknown } = Documentac
   return target;
 }
 
-describe('Documentação — indice', () => {
+describe('Documentation — index', () => {
   for (const locale of Object.keys(DICTIONARIES)) {
-    it(`${locale}: todo link aponta para uma secao e toda secao tem link`, () => {
+    it(`${locale}: every link points to a section and every section has a link`, () => {
       const target = renderInLocale(locale);
       const targets = [...target.querySelectorAll('nav a')].map((a) =>
         (a.getAttribute('href') ?? '').replace(/^#/, ''),
@@ -40,16 +40,16 @@ describe('Documentação — indice', () => {
 
       expect(targets.length).toBeGreaterThan(0);
       for (const id of targets) {
-        expect(target.querySelector(`#${id}`), `âncora #${id}`).not.toBeNull();
+        expect(target.querySelector(`#${id}`), `anchor #${id}`).not.toBeNull();
       }
       expect([...sections].sort()).toEqual([...targets].sort());
     });
   }
 });
 
-describe('regra vigente do solid nos textos', () => {
+describe('current rule of solid in the texts', () => {
   for (const [locale, dictionary] of Object.entries(DICTIONARIES)) {
-    it(`${locale}: nenhum texto restringe solid a star`, () => {
+    it(`${locale}: no text restricts solid to star`, () => {
       const d = dictionary.docs;
       const v = dictionary.validation;
       const variant = d.api.find(([term]: [string, string]) => term === 'variant');
@@ -69,18 +69,18 @@ describe('regra vigente do solid nos textos', () => {
       }
     });
 
-    it(`${locale}: o segundo caso de entrada invalida descreve variant inexistente`, () => {
+    it(`${locale}: the second invalid-input case describes a nonexistent variant`, () => {
       expect(dictionary.validation.invalidCases[1]).toMatch(/variant/i);
     });
   }
 });
 
-describe('marcadores de numero nos textos', () => {
-  /** Marcador `{nome}` que `format()` nao preencheu. */
+describe('number placeholders in the texts', () => {
+  /** `{nome}` placeholder that `format()` did not fill. */
   const LEFTOVER_MARKER = /\{\w+\}/;
 
   for (const [locale, dictionary] of Object.entries(DICTIONARIES)) {
-    it(`${locale}: Documentação mostra os numeros e nao deixa marcador`, () => {
+    it(`${locale}: Documentation shows the numbers and leaves no placeholder`, () => {
       const target = renderInLocale(locale);
       const d = dictionary.docs;
       const page = target.textContent ?? '';
@@ -95,7 +95,7 @@ describe('marcadores de numero nos textos', () => {
       }
     });
 
-    it(`${locale}: Icons Overview mostra o contador e nao deixa marcador`, () => {
+    it(`${locale}: Icons Overview shows the counter and leaves no placeholder`, () => {
       const target = renderInLocale(locale, IconsOverview);
       const counter = target.querySelector('[data-nph-counter]')?.textContent?.trim();
 

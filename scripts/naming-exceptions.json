@@ -34,6 +34,13 @@
     ]
   },
   {
+    "file": "scripts/language-lib.mjs",
+    "class": "contract-path",
+    "names": [
+      "fichas"
+    ]
+  },
+  {
     "file": "scripts/spec-lib.mjs",
     "class": "spec-schema",
     "names": [
@@ -46,14 +53,6 @@
     "names": [
       "rascunho",
       "revisado"
-    ]
-  },
-  {
-    "file": "scripts/test-invariance.mjs",
-    "class": "output-text",
-    "names": [
-      "invariante",
-      "variante"
     ]
   },
   {
@@ -72,6 +71,7 @@
       "contextos",
       "evidencias",
       "fichas",
+      "fichas/",
       "tarefas"
     ]
   },
@@ -153,7 +153,6 @@
     "file": "scripts/verificar-operacao.mjs",
     "class": "output-text",
     "names": [
-      "(inexistente)",
       "aguarda-decisao"
     ]
   },
@@ -211,13 +210,6 @@
     "names": [
       "Buscar",
       "Concluido"
-    ]
-  },
-  {
-    "file": "src/components/nph-icon/nph-icon.ts",
-    "class": "output-text",
-    "names": [
-      "ausente"
     ]
   },
   {

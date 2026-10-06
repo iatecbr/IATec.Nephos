@@ -108,15 +108,18 @@ Antes de analisar, propor, editar ou implementar:
   componentes para entregáveis do Nephos.
 - Registre data, responsável, fonte de evidência, decisão alterada e
   documentos sincronizados ao concluir.
-- Escreva os nomes do código e os nomes de arquivo técnico em inglês; comentário
-  e mensagem para quem mantém o repositório ficam em PT-BR. Chave de dados,
-  bandeira da linha de comando, nome de script, arquivo citado em comando gravado
-  em `docs/operacao/` e nome público não mudam (P64, revisada por Mauro em
-  30/09/2026; emenda de 02/10/2026 aprovada por Mauro no PR #49). A prova é
-  `npm run test:naming`, em toda mudança que toca `src/`, `stories/`,
-  `.storybook/` ou `scripts/`; exceção nova entra em
-  `scripts/naming-exceptions.json` com a classe, palavra nova entra em
-  `scripts/naming-vocabulary.json`, e as duas são revisadas no PR.
+- Idioma: código (nomes, nomes de arquivo técnico, comentário, mensagem e
+  descrição de teste), fichas, documentação deste repositório e Storybook em
+  inglês; Figma e vault em português; commit, pull request e comentário para
+  quem revisa em português. Chave de contrato, bandeira da linha de comando, nome
+  de script, arquivo citado em comando gravado em `docs/operacao/` e nome público
+  não mudam (P64, revisada por Mauro em 30/09/2026; emenda de 02/10/2026 aprovada
+  por Mauro no PR #49; emenda de 06/10/2026; chaves de contrato na `DSA-15`). A
+  prova é `npm run test:naming`, em toda mudança que toca `src/`, `stories/`,
+  `.storybook/`, `scripts/` ou a documentação; exceção nova entra em
+  `scripts/naming-exceptions.json` ou em `scripts/language-exceptions.json` com
+  a classe, palavra nova entra em `scripts/naming-vocabulary.json`, e as três são
+  revisadas no PR.
 
 ## A ordem de um componente
 

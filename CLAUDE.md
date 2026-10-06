@@ -24,7 +24,10 @@
 5. **Documentação pública traduzida muda na mesma entrega (PR ou push).** Alterou `README.md` ou
    `docs/tokens.md`, atualize os pares `en`/`es`, rode `npm run i18n:update` e
    `npm run test:i18n` antes de fechar a entrega.
-6. **O Claude não aceita a documentação Figma de um componente — ele a lê.**
+6. **O que o Claude escreve no repositório sai em inglês** — código, comentário,
+   mensagem, ficha e documentação —; commit, pull request e comentário para quem
+   revisa saem em português (P64, emenda de 06/10/2026; regra completa no `AGENTS.md`).
+7. **O Claude não aceita a documentação Figma de um componente — ele a lê.**
    Quem aceita é a Indiane, e o gate `documentacao-figma-aceita` da tarefa é a
    única forma de o Claude saber que ela aceitou. Ler o frame, ver o desenho ou
    ouvir "pode ir" não substitui o gate. A ordem completa — documentação Figma

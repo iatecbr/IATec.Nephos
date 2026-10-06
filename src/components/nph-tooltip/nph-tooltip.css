@@ -1,18 +1,19 @@
 /**
- * Estilo interno do `nph-tooltip`.
+ * Internal style of `nph-tooltip`.
  *
- * Classes e seletores daqui NAO sao API publica (P02). O que e contrato: as
- * custom properties de token que este arquivo consome. O componente nao
- * expoe `::part` e nao declara custom property propria.
+ * Classes and selectors here are NOT public API (P02). The contract is the
+ * token custom properties this file consumes. The component exposes no
+ * `::part` and declares no custom property of its own.
  *
- * Nenhum valor literal de design entra aqui. As palavras-chave de caixa
- * (`inline-block`, `max-content`, `border-box`, `normal`, `manual`) sao
- * relacoes de layout, nao decisoes visuais.
+ * No literal design value goes in here. The box keywords (`inline-block`,
+ * `max-content`, `border-box`, `normal`, `manual`) are layout relations, not
+ * visual decisions.
  */
 
 /*
- * O host fica no fluxo mesmo fechado: e a regiao viva `role="status"`, que
- * precisa existir antes de o texto aparecer. Sem filho, nao ocupa espaco.
+ * The host stays in the flow even when closed: it is the `role="status"` live
+ * region, which must exist before the text appears. With no child, it takes
+ * no space.
  */
 :host {
   display: inline-block;
@@ -34,7 +35,7 @@
   font-weight: var(--nph-text-body-sm-font-weight);
   line-height: var(--nph-text-body-sm-line-height);
   letter-spacing: var(--nph-text-body-sm-letter-spacing);
-  /* Quebra so entre palavras: nunca reticencias, nunca palavra partida. */
+  /* Breaks only between words: never an ellipsis, never a broken word. */
   white-space: normal;
   overflow-wrap: normal;
   word-break: normal;

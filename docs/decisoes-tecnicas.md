@@ -585,6 +585,7 @@ revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.
   propriedade interna — são escritos em **inglês**.
 - **Comentário, mensagem de erro e saída para quem mantém o repositório**
   continuam em **PT-BR**, a língua da equipe e da documentação interna.
+  *(Superado pela emenda de 06/10/2026, abaixo: passam para o inglês.)*
 - Vale para todo o código versionado: `scripts/`, `src/`, `stories/` e
   `.storybook/`.
 
@@ -599,7 +600,8 @@ quem já usa:
 - os nomes públicos, que já são inglês: tags `nph-*`, propriedades, custom
   properties e os atributos `data-nph-*`;
 - o texto que aparece para quem lê: título e nome de story, descrição de teste,
-  mensagens e os dicionários de `.storybook/i18n/`;
+  mensagens e os dicionários de `.storybook/i18n/`; *(descrição de teste e
+  mensagens: superado pela emenda de 06/10/2026, abaixo)*
 - o registro histórico, que continua citando o nome da época.
 
 **Motivo.** Até aqui não havia regra, e a prática estava misturada: o
@@ -626,9 +628,47 @@ e do teste de invariância também passam para o inglês. Prova: `npm run test:n
 de contrato em `scripts/naming-exceptions.json`. Adotada pela Indiane em
 02/10/2026; aprovada por Mauro no PR #49.
 
+**Emenda de 06/10/2026 — idioma da documentação, dos comentários e das
+mensagens.** O repositório passa a ter um idioma só para quem o lê, pessoa ou
+agente: o inglês.
+
+- **Em inglês:** o código inteiro, inclusive **comentário**, **mensagem**
+  (console, `throw`, `Error`, saída do processo, `fail`/`warn`, mensagem de
+  asserção) e **descrição de teste** (`describe`, `it`, `test`), que é texto do
+  código e não texto exibido a quem usa o Storybook; as **fichas**; **toda a
+  documentação do DS que o agente lê** — `design.md`, `AGENTS.md`, `CLAUDE.md`,
+  `GOVERNANCA.md`, `contributing.md`, o `README.md` e `docs/` inteiro, inclusive
+  `docs/operacao/` (tarefas e evidências); e o **Storybook**, com o inglês como
+  idioma-fonte e padrão.
+- **A ficha em inglês é a fonte.** O quadro do componente no Figma, em
+  português, é a versão para pessoas; se os dois divergirem, vale a ficha.
+- **Fica fora, em português:** o Figma; o vault de trabalho da equipe; commit,
+  descrição de pull request e comentário para quem revisa; os valores traduzidos
+  dos dicionários `pt-BR` e `es` de `.storybook/i18n/` e as traduções `pt-BR` e
+  `es` da documentação pública; o registro histórico, que continua citando o nome
+  e o texto da época.
+- **As chaves de contrato não mudam agora.** Chave e valor de enumeração do JSON
+  de tarefa, contexto e evidência, chave do YAML das fichas (e da Metadata) e
+  chave, modo e marca do JSON dos tokens — `objetivo`, `estado`,
+  `aguardando-decisao`, `use_quando`, `modos`, `claro`, `escuro` — continuam em
+  português até a tarefa própria, `DSA-15`, que migra por último. Texto que cita
+  uma delas a põe entre crases.
+- **A tradução é fiel:** não muda regra, número nem decisão.
+
+**Prova.** `npm run test:naming` passa a reprovar português em comentário,
+mensagem e descrição de teste de `src/`, `stories/`, `.storybook/` e `scripts/`,
+inclusive comentário dentro de template `html`, `svg` e `css`. A documentação é
+conferida pelo mesmo comando, por vocabulário (`scripts/language-lib.mjs`), em
+dois grupos — documentação e fichas —, que ficam em modo aviso até a tradução de
+cada um entrar. Exceção de texto entra em `scripts/naming-exceptions.json` (código)
+ou em `scripts/language-exceptions.json` (documentação), só com as classes
+`prose-text` e `contract-term`, que nunca cobrem nome técnico. Adotada pela
+Indiane em 06/10/2026.
+
 **Status.** Decisão adotada pela Indiane em 28/09/2026 — revisada e aprovada
 por Mauro em 30/09/2026, no chat da equipe. Emenda de 02/10/2026 aprovada por
-Mauro no PR #49, com merge em 05/10/2026.
+Mauro no PR #49, com merge em 05/10/2026. Emenda de 06/10/2026 adotada pela
+Indiane, em revisão no pull request que a traz.
 
 ---
 

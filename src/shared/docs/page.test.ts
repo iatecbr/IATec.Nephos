@@ -1,6 +1,6 @@
 /**
- * Contrato dos blocos da pagina de conteudo (`page.ts`) e das chaves de
- * texto que eles consomem nos tres idiomas do Storybook.
+ * Contract of the content page blocks (`page.ts`) and of the text keys
+ * they consume in the three Storybook languages.
  */
 import { afterEach, describe, expect, it } from 'vitest';
 import { html, render } from 'lit';
@@ -25,15 +25,15 @@ async function mount(content: TemplateResult): Promise<HTMLElement> {
   return target;
 }
 
-describe('blocos da pagina de conteudo', () => {
-  it('secao gera <section id> com <h2>', async () => {
+describe('content page blocks', () => {
+  it('section generates <section id> with <h2>', async () => {
     const target = await mount(section('size', 'Tamanho', html`<p>texto</p>`));
     const element = target.querySelector('section');
     expect(element?.id).toBe('size');
     expect(element?.querySelector('h2')?.textContent?.trim()).toBe('Tamanho');
   });
 
-  it('indice gera um link "#id" por item, dentro de um nav nomeado', async () => {
+  it('index generates one "#id" link per item, inside a named nav', async () => {
     const items = [
       { id: 'a', title: 'A' },
       { id: 'b', title: 'B' },
@@ -45,7 +45,7 @@ describe('blocos da pagina de conteudo', () => {
     expect(links).toEqual(['#a', '#b']);
   });
 
-  it('o link do indice leva o foco a secao sem navegar a pagina', async () => {
+  it('the index link moves focus to the section without navigating the page', async () => {
     const target = await mount(html`
       ${index('Nesta página', [{ id: 'target', title: 'Destino' }])}
       ${section('target', 'Destino', html`<p>texto</p>`)}
@@ -61,14 +61,14 @@ describe('blocos da pagina de conteudo', () => {
     expect(parseFloat(style.outlineWidth)).toBeGreaterThan(0);
   });
 
-  it('nota tem role="note" e o icone e decorativo', async () => {
+  it('note has role="note" and the icon is decorative', async () => {
     const target = await mount(note('info', 'Título', 'Texto'));
     const element = target.querySelector('[role="note"]');
     expect(element).not.toBeNull();
     expect(element?.querySelector('nph-icon')?.getAttribute('aria-hidden')).toBe('true');
   });
 
-  it('cartoes de usar e nao usar tem icones decorativos', async () => {
+  it('use and do-not-use cards have decorative icons', async () => {
     const target = await mount(
       useDontUse({ title: 'Usar', items: ['um'] }, { title: 'Não usar', items: ['dois'] }),
     );
@@ -79,14 +79,14 @@ describe('blocos da pagina de conteudo', () => {
     }
   });
 
-  it('demonstracao nao tem fundo proprio, so borda', async () => {
+  it('demo has no background of its own, only a border', async () => {
     const target = await mount(demo(html`<span>exemplo</span>`, 'Legenda'));
     const area = target.querySelector('[data-nph-demo] > div') as HTMLElement;
     expect(getComputedStyle(area).backgroundColor).toBe('rgba(0, 0, 0, 0)');
     expect(getComputedStyle(area).borderTopStyle).toBe('solid');
   });
 
-  it('tabela em auto usa fonte de codigo so para identificador', async () => {
+  it('table in auto uses the code font only for identifiers', async () => {
     const target = await mount(
       table(['Termo', 'Regra'], [['icon/size-sm', 'um'], ['Slots e eventos', 'dois'], ['Interação', 'três']], 'auto'),
     );
@@ -98,7 +98,7 @@ describe('blocos da pagina de conteudo', () => {
     expect(family(cells[2] as HTMLElement)).not.toContain('IBM Plex Mono');
   });
 
-  it('fonte fica num rodape com linha acima', async () => {
+  it('source sits in a footer with a rule above', async () => {
     const target = await mount(source('Fonte:', 'design.md'));
     const p = target.querySelector('p') as HTMLElement;
     expect(p.textContent?.trim()).toBe('Fonte: design.md');
@@ -106,7 +106,7 @@ describe('blocos da pagina de conteudo', () => {
   });
 });
 
-describe('textos da pagina nos tres idiomas', () => {
+describe('page texts in the three languages', () => {
   const DICTIONARIES = { 'pt-BR': translations('pt-BR'), en: translations('en'), es: translations('es') } as const;
   const KEYS = [
     'onThisPage',
@@ -120,7 +120,7 @@ describe('textos da pagina nos tres idiomas', () => {
   ] as const;
 
   for (const [locale, dictionary] of Object.entries(DICTIONARIES)) {
-    it(`${locale}: as chaves novas existem e nao sao vazias`, () => {
+    it(`${locale}: the new keys exist and are not empty`, () => {
       const docs = dictionary.docs as Record<string, unknown>;
       for (const key of KEYS) {
         const value = docs[key];
@@ -133,7 +133,7 @@ describe('textos da pagina nos tres idiomas', () => {
       }
     });
 
-    it(`${locale}: o texto de processo saiu da pagina`, () => {
+    it(`${locale}: the process text left the page`, () => {
       expect('derivedText2' in dictionary.docs).toBe(false);
     });
   }
