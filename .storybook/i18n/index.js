@@ -7,7 +7,9 @@
  *
  * `pt-BR` e a fonte. `en` e `es` sao traducoes. Identificadores tecnicos —
  * `nph-icon`, tokens, atributos, comandos, caminhos — nao passam por aqui:
- * aparecem literais na story, iguais em qualquer idioma.
+ * aparecem literais na story, iguais em qualquer idioma. Texto em portugues
+ * escrito a mao numa story reprova no `npm run test:naming`: todo texto visivel
+ * mora aqui.
  *
  * Ver `docs/i18n.md`.
  */

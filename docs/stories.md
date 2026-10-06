@@ -321,6 +321,9 @@ nasce em `pt-BR.json` e tem tradução em `en.json` e `es.json`; a story lê com
 **Fonte:** [`i18n.md`](i18n.md), seção "Storybook"; `.storybook/i18n/index.js`,
 linhas 1-12; [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P64**, emenda de
 06/10/2026; `nph-spinner.stories.ts` e `nph-badge.stories.ts`, função `t()`.
+**Prova:** `npm run test:naming` reprova título e nome de story em português e
+texto em português escrito na story — entre as tags, nos atributos de texto e em
+literal com espaço —, e diz para onde levar o texto.
 **Limite:** a regra vale para todas as stories do repositório.
 
 ### 4.9 Numa página de leitura, toda regra aponta de onde veio

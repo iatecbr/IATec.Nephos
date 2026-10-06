@@ -635,6 +635,8 @@ do Storybook. O texto visível de uma story vem só dos dicionários de
 traduções —, e nenhum texto em português é escrito à mão na story. O rótulo da
 barra lateral vem da subárvore `sidebar`, cujas chaves são os IDs de story e de
 grupo, em inglês. Os IDs e as URLs do Storybook mudam uma vez, nesta emenda.
+Prova: `npm run test:naming`, que lê título, nome e chave de `sidebar` como
+identificador e reprova texto em português escrito à mão numa story.
 Adotada pela Indiane em 06/10/2026, a partir da revisão do Mauro no PR #56.
 
 **Status.** Decisão adotada pela Indiane em 28/09/2026 — revisada e aprovada
