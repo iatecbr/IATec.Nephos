@@ -121,8 +121,11 @@ ela é uma fração: `0.95` e `0.5`. O gerador já emite tokens do tipo `number`
 corretamente; não existe transformação adicional de opacidade.
 
 **Invariante não quer dizer fixo.** `sidebar/primary` tem o mesmo alias em claro
-e escuro, então sai uma vez em `:root` — mas o que sai é
-`var(--nph-theme-brand-600)`, que continua trocando com `data-nph-brand`.
+e escuro, então sai uma vez — mas o que sai é `var(--nph-theme-brand-600)`, que
+continua trocando com `data-nph-brand`. Esse invariante é **dependente**: o alias
+aponta para `theme/*` ou para um variante. Por isso ele sai em `:root` e também
+em cada raiz de esquema, `[data-nph-color-scheme]`, onde a `var()` resolve a
+marca e o esquema locais (P67). Os demais invariantes ficam só em `:root`.
 
 ## Atualização de 27-08-2026 — camada de tipografia
 
@@ -303,13 +306,26 @@ mapeamento para `light`/`dark` está declarado em `modeSet.valorPublico`.
 Omitir os dois atributos entrega Sistemas no claro, porque cada bloco padrão é
 emitido também em `:root`.
 
+**Uma parte da tela com outra marca leva os dois atributos no mesmo
+elemento** (decisão de Indiane, 05/10/2026; P67):
+
+```html
+<section data-nph-brand="educacao" data-nph-color-scheme="light">
+```
+
+Só o esquema também vale numa parte da tela: `data-nph-color-scheme="dark"`
+sozinho resolve tudo no escuro. Só a marca, sem o esquema no mesmo elemento,
+não é suportado: os tokens que dependem de marca continuariam com a marca da
+raiz.
+
 ## Estrutura do CSS gerado
 
 ```css
 :root { --nph-core-sistemas-600: #2f68c5; }                       /* camada 1 */
 :root, [data-nph-brand="sistemas"] { --nph-theme-brand-600: var(--nph-core-sistemas-600); }
 [data-nph-brand="educacao"]        { --nph-theme-brand-600: var(--nph-core-educacao-700); }
-:root { --nph-sidebar-primary: var(--nph-theme-brand-600); }      /* invariantes */
+:root { --nph-radius-control: var(--nph-core-radius-300); }       /* invariantes */
+:root, [data-nph-color-scheme] { --nph-sidebar-primary: var(--nph-theme-brand-600); } /* dependentes */
 :root, [data-nph-color-scheme="light"] { --nph-color-primary: var(--nph-theme-brand-600); }
 [data-nph-color-scheme="dark"]         { --nph-color-primary: var(--nph-theme-brand-400); }
 ```
@@ -335,7 +351,9 @@ O build **falha** — com código 1 e mensagem específica — quando:
    escalar, exigindo que a saída comece com `var(`; em valor composto, contando
    quantas `var()` a saída traz contra quantas referências a fonte declara;
 8. um invariante é emitido mais de uma vez, ou um variante não é emitido uma vez
-   por modo.
+   por modo;
+9. um invariante dependente fica fora do bloco `:root, [data-nph-color-scheme]`,
+   ou um independente entra nele.
 
 ## O que está fora desta rodada
 

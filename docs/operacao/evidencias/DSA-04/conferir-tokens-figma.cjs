@@ -8,8 +8,10 @@
  * Para cada token da leitura, procura a custom property no bloco certo do CSS:
  * - primitivo `core/*`: valor final (cor em hex; dimensao em rem, raiz 16);
  * - `theme/*`: alias em cada um dos 7 blocos `[data-nph-brand="<marca>"]`;
- * - semantico igual nos dois modos: alias uma vez no bloco `:root` dos
- *   invariantes; diferente: alias nos blocos de `light` (claro) e `dark` (escuro).
+ * - semantico igual nos dois modos: alias uma vez num bloco de invariantes, o de
+ *   `:root` ou o dos dependentes, `:root, [data-nph-color-scheme]` (P67), e em
+ *   nenhum bloco de esquema; diferente: alias nos blocos de `light` (claro) e
+ *   `dark` (escuro).
  * Imprime uma linha por divergencia e o total. Sai 1 se houver divergencia.
  */
 'use strict';
@@ -77,10 +79,10 @@ for (const { name, modes } of [...reading.novos, ...reading.repontados]) {
   const light = aliasVar(modes.claro.alias);
   const dark = aliasVar(modes.escuro.alias);
   if (light === dark) {
-    const found = valuesIn(prop, (s) => s === ':root');
-    const inScheme = valuesIn(prop, (s) => s.includes('data-nph-color-scheme'));
+    const found = valuesIn(prop, (s) => s === ':root' || s === ':root, [data-nph-color-scheme]');
+    const inScheme = valuesIn(prop, (s) => s.includes('data-nph-color-scheme='));
     if (found.length !== 1 || found[0] !== light || inScheme.length !== 0) {
-      errors.push(name + ': esperado ' + light + ' so em :root, encontrado ' + JSON.stringify({ root: found, esquema: inScheme }));
+      errors.push(name + ': esperado ' + light + ' so num bloco de invariantes, encontrado ' + JSON.stringify({ invariantes: found, esquema: inScheme }));
     }
   } else {
     for (const [mode, expected] of [['claro', light], ['escuro', dark]]) {

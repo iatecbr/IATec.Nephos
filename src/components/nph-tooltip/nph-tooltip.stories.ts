@@ -6,9 +6,7 @@
  * texto do balao, que e conteudo e chega pronto da aplicacao.
  *
  * O esquema de cor vem do seletor global do Storybook, aplicado na raiz da
- * pagina. Nao ha quadro escuro em subarvore: a sombra `elevation/dropdown` sai
- * em `:root` e, numa subarvore com outro esquema, ficaria com a cor da raiz
- * (pendencia do gerador de tokens).
+ * pagina.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
