@@ -11,6 +11,7 @@ import type { TemplateResult } from 'lit';
 import '../../tokens/generated/tokens.css';
 import { translations } from '../../../.storybook/i18n/index.js';
 import { Documentation } from './nph-label.docs.stories';
+import * as validation from './nph-label.stories';
 import type { NphLabel } from './nph-label';
 
 afterEach(() => {
@@ -75,8 +76,45 @@ describe('Documentação do nph-label', () => {
   }
 
   it('en e es tem a mesma forma de pt-BR', () => {
-    const source = shape(translations('pt-BR').labelDocs);
-    expect(shape(translations('en').labelDocs)).toEqual(source);
-    expect(shape(translations('es').labelDocs)).toEqual(source);
+    for (const key of ['labelDocs', 'labelValidation'] as const) {
+      const source = shape(translations('pt-BR')[key]);
+      expect(shape(translations('en')[key]), key).toEqual(source);
+      expect(shape(translations('es')[key]), key).toEqual(source);
+    }
   });
+});
+
+describe('Validação do nph-label: texto so do dicionario', () => {
+  type Renderable = { render?: (args: unknown, context: unknown) => TemplateResult };
+  const stories = Object.entries(validation).filter(
+    ([name, story]) => name !== 'default' && typeof (story as Renderable).render === 'function',
+  ) as Array<[string, Renderable]>;
+
+  /** Tudo que a pessoa le: o texto da pagina e os textos passados aos rotulos. */
+  function visibleText(target: HTMLElement): string {
+    const attributes = [...target.querySelectorAll('[text], [info], [info-label], [aria-label]')].flatMap((el) =>
+      ['text', 'info', 'info-label', 'aria-label'].map((name) => el.getAttribute(name) ?? ''),
+    );
+    return [target.textContent ?? '', ...attributes].join(' ');
+  }
+
+  it('toda story de Validacao le o dicionario', () => {
+    expect(stories.length).toBeGreaterThan(0);
+  });
+
+  for (const [name, story] of stories) {
+    it(`${name}: em en, nenhum texto de pt-BR aparece`, async () => {
+      const target = document.createElement('div');
+      document.body.append(target);
+      render(story.render?.({}, { globals: { locale: 'en' } }) as TemplateResult, target);
+      await Promise.all([...target.querySelectorAll('nph-label')].map((el) => (el as NphLabel).updateComplete));
+      const text = visibleText(target);
+      const english = Object.values(translations('en').labelValidation) as string[];
+      for (const value of Object.values(translations('pt-BR').labelValidation) as string[]) {
+        if (!english.includes(value)) {
+          expect(text, value).not.toContain(value);
+        }
+      }
+    });
+  }
 });

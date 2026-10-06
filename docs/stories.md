@@ -301,14 +301,17 @@ cabeçalho; `nph-icon.demo.ts`, linhas 1-12.
 ### 4.8 O texto explicativo vem do dicionário
 
 Uma story **nunca** é duplicada por idioma: ela lê o idioma escolhido e busca o
-texto em `.storybook/i18n/`. Identificadores técnicos — tags `nph-*`, nomes de
+texto em `.storybook/i18n/`. Isso vale também para o conteúdo de exemplo das
+stories de `Validação`: o texto de um rótulo, de um botão ou de um selo de
+demonstração vem do dicionário. Identificadores técnicos — tags `nph-*`, nomes de
 token, atributos, comandos — aparecem literais e iguais em qualquer idioma.
 
 **Fonte:** [`i18n.md`](i18n.md), seção "Storybook"; `.storybook/i18n/index.js`,
 linhas 1-12; `nph-icon.stories.ts` e `nph-icon.docs.stories.ts`, na leitura do
-dicionário.
-**Limite:** a regra está escrita e um componente a cumpre. **O
-`nph-label.stories.ts` traz texto em português literal nas legendas** — ver §8.
+dicionário; `nph-label.stories.ts`, chave `labelValidation`; revisão de
+`maurocsjr` no PR #54, que pediu chave de tradução para o texto de exemplo.
+**Limite:** o `nph-icon` e o `nph-label` cumprem a regra. **O
+`nph-tooltip.stories.ts` traz texto de exemplo em português literal** — ver §8.
 
 ### 4.9 Numa página de leitura, toda regra aponta de onde veio
 
@@ -499,7 +502,7 @@ Registradas aqui porque quem for construir um componente vai esbarrar nelas.
 
 | Assunto | As fontes, e o que cada uma diz |
 |---|---|
-| Idioma nas stories | [`i18n.md`](i18n.md) e o `nph-icon` mandam o texto explicativo vir do dicionário; o `nph-label.stories.ts` traz português literal nas legendas |
+| Idioma nas stories | [`i18n.md`](i18n.md), o `nph-icon` e o `nph-label` tiram o texto do dicionário; o `nph-tooltip.stories.ts` traz texto de exemplo em português literal |
 | `variant="solid"` no `nph-icon` | O [`../design.md`](../design.md), a **P21** e a ficha definem `regular` como padrão e `solid` como disponível para cada nome do núcleo. A decisão **I7** originou a ampliação e a `DSA-03` foi concluída |
 
 ---

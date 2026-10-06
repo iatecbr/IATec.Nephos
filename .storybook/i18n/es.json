@@ -422,5 +422,26 @@
     ],
     "sourceFrame": "Figma, marco nph-label (1194:1482)",
     "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 y P62.6"
+  },
+  "labelValidation": {
+    "sampleText": "Nombre completo",
+    "info": "Explica lo que pide el campo.",
+    "infoLabel": "Sobre nombre completo",
+    "matrixTitle": "Matriz",
+    "matrixCaption": "required añade el asterisco; info con info-label añade el icono de información.",
+    "lightTitle": "Modo claro",
+    "darkTitle": "Modo oscuro",
+    "associationTitle": "Asociación con el control",
+    "associationCaption": "Haga clic en la etiqueta: el cursor va al campo.",
+    "requiredLegend": "Los campos con * son obligatorios.",
+    "errorTitle": "El error no cambia la etiqueta",
+    "errorCaption": "La etiqueta se queda en color/foreground. El error aparece en el campo y en el mensaje debajo de él — nunca en la etiqueta.",
+    "disabledTitle": "Deshabilitado no es un estado de la etiqueta",
+    "disabledCaption": "El nph-field aplicará state/disabled-opacity al control entero. La etiqueta no tiene estado propio.",
+    "focusTitle": "Foco del disparador",
+    "focusCaption": "Haga clic en el campo y pulse Tab: el foco va al icono de información. El texto de la etiqueta no recibe el foco.",
+    "tabStartLabel": "Punto de partida del Tab",
+    "openTitle": "Globo abierto",
+    "openCaption": "El globo se abre al activar el icono y se cierra con Esc, un clic fuera o Tab hacia fuera. Pasar el ratón no lo abre."
   }
 }

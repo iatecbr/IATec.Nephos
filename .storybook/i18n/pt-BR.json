@@ -422,5 +422,26 @@
     ],
     "sourceFrame": "Figma, quadro nph-label (1194:1482)",
     "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 e P62.6"
+  },
+  "labelValidation": {
+    "sampleText": "Nome completo",
+    "info": "Explica o que o campo pede.",
+    "infoLabel": "Sobre nome completo",
+    "matrixTitle": "Matriz",
+    "matrixCaption": "required acrescenta o asterisco; info com info-label acrescenta o ícone de informação.",
+    "lightTitle": "Modo claro",
+    "darkTitle": "Modo escuro",
+    "associationTitle": "Associação com o controle",
+    "associationCaption": "Clique no rótulo: o cursor vai para o campo.",
+    "requiredLegend": "Campos com * são obrigatórios.",
+    "errorTitle": "Erro não muda o rótulo",
+    "errorCaption": "O rótulo permanece em color/foreground. O erro aparece no campo e na mensagem abaixo dele — nunca no rótulo.",
+    "disabledTitle": "Desabilitado não é estado do rótulo",
+    "disabledCaption": "O nph-field aplicará state/disabled-opacity ao controle inteiro. O rótulo não tem estado próprio.",
+    "focusTitle": "Foco do gatilho",
+    "focusCaption": "Clique no campo e aperte Tab: o foco vai para o ícone de informação. O texto do rótulo não recebe foco.",
+    "tabStartLabel": "Ponto de partida do Tab",
+    "openTitle": "Balão aberto",
+    "openCaption": "O balão abre pela ativação do ícone e fecha com Esc, clique fora ou Tab para fora. Passar o mouse não abre."
   }
 }

@@ -7,8 +7,9 @@
  * informacao (quadro `1194:1482`), a associacao com o controle e a ausencia de
  * estado proprio do texto.
  *
- * As legendas sao texto literal em portugues, como as que ja existiam aqui
- * (`docs/stories.md`, §8); a pagina `Docs` e a que vem do dicionario.
+ * Todo texto visivel — titulo de secao, legenda e o conteudo de exemplo dos
+ * rotulos — vem do dicionario de idioma, na chave `labelValidation`
+ * (`docs/i18n.md`, "Storybook"). A story le `globals.locale`.
  *
  * O quadro escuro troca `data-nph-color-scheme`, que e o contrato publico de
  * tema fixado pela P20. Nenhuma story duplica componente por modo: a mesma
@@ -19,6 +20,7 @@ import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { userEvent } from 'storybook/test';
 
+import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-label';
 
 const meta: Meta = {
@@ -31,6 +33,18 @@ const meta: Meta = {
 export default meta;
 
 type Story = StoryObj;
+
+interface GlobalsContext {
+  globals?: Record<string, unknown>;
+}
+
+/** Atalho: o dicionario destas stories no idioma escolhido. */
+function t(context: GlobalsContext | undefined) {
+  const locale = (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
+  return translations(locale).labelValidation;
+}
+
+type Texts = ReturnType<typeof t>;
 
 /** Moldura de demonstracao. Nao vale como precedente para CSS de componente. */
 function page(content: TemplateResult): TemplateResult {
@@ -70,17 +84,22 @@ function frame(scheme: 'light' | 'dark', content: TemplateResult): TemplateResul
   </div>`;
 }
 
-/** Texto de exemplo da explicacao e do nome do gatilho. So conteudo desta pagina. */
-const INFO = 'Explica o que o campo pede.';
-const INFO_LABEL = 'Sobre nome completo';
+/** Rotulo com o gatilho de informacao, com o texto de exemplo do dicionario. */
+function withInfo(v: Texts, required = false): TemplateResult {
+  return html`<nph-label
+    text=${v.sampleText}
+    ?required=${required}
+    info=${v.info}
+    info-label=${v.infoLabel}
+  ></nph-label>`;
+}
 
 /** As combinacoes de `required` e `info`, na ordem do conjunto `374:6`. */
-function combinations(): TemplateResult {
+function combinations(v: Texts): TemplateResult {
   return html`
-    <nph-label text="Nome completo"></nph-label>
-    <nph-label text="Nome completo" required></nph-label>
-    <nph-label text="Nome completo" info=${INFO} info-label=${INFO_LABEL}></nph-label>
-    <nph-label text="Nome completo" required info=${INFO} info-label=${INFO_LABEL}></nph-label>
+    <nph-label text=${v.sampleText}></nph-label>
+    <nph-label text=${v.sampleText} required></nph-label>
+    ${withInfo(v)} ${withInfo(v, true)}
   `;
 }
 
@@ -89,16 +108,10 @@ function combinations(): TemplateResult {
  * nao tem estado — o foco e so do gatilho de informacao.
  */
 export const Matriz: Story = {
-  render: () =>
-    page(html`
-      ${section(
-        'Matriz',
-        html`
-          ${caption('required acrescenta o asterisco; info com info-label acrescenta o ícone de informação.')}
-          ${combinations()}
-        `,
-      )}
-    `),
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`${section(v.matrixTitle, html`${caption(v.matrixCaption)} ${combinations(v)}`)}`);
+  },
 };
 
 /**
@@ -106,17 +119,13 @@ export const Matriz: Story = {
  * `status/error` tem um valor por esquema; nada e pintado a mao.
  */
 export const ModoClaroEEscuro: Story = {
-  render: () =>
-    page(html`
-      ${section(
-        'Modo claro',
-        frame(
-          'light',
-          combinations(),
-        ),
-      )}
-      ${section('Modo escuro', frame('dark', combinations()))}
-    `),
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
+      ${section(v.lightTitle, frame('light', combinations(v)))}
+      ${section(v.darkTitle, frame('dark', combinations(v)))}
+    `);
+  },
 };
 
 /**
@@ -124,24 +133,26 @@ export const ModoClaroEEscuro: Story = {
  * no campo, e o leitor de tela anuncia o nome ao chegar nele.
  */
 export const AssociacaoComOControle: Story = {
-  render: () =>
-    page(html`
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
       ${section(
-        'Associação com o controle',
+        v.associationTitle,
         html`
-          ${caption('Clique no rótulo: o cursor vai para o campo.')}
+          ${caption(v.associationCaption)}
           <div style="display:flex;flex-direction:column;gap:var(--nph-space-stack-tight)">
-            <nph-label for="name-field" text="Nome completo" required></nph-label>
+            <nph-label for="name-field" text=${v.sampleText} required></nph-label>
             <input
               id="name-field"
               required
               style="font-family:var(--nph-text-body-md-font-family);font-size:var(--nph-text-body-md-font-size);height:var(--nph-control-height-default);border:1px solid var(--nph-color-border);border-radius:var(--nph-radius-control);padding-inline:var(--nph-space-control-padding);background:var(--nph-color-background);color:var(--nph-color-foreground)"
             />
           </div>
-          ${caption('Campos com * são obrigatórios.')}
+          ${caption(v.requiredLegend)}
         `,
       )}
-    `),
+    `);
+  },
 };
 
 /**
@@ -149,29 +160,21 @@ export const AssociacaoComOControle: Story = {
  * os dois e o campo, e mais tarde o `nph-field`.
  */
 export const OQueORotuloNaoFaz: Story = {
-  render: () =>
-    page(html`
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
+      ${section(v.errorTitle, html`${caption(v.errorCaption)} <nph-label text=${v.sampleText} required></nph-label>`)}
       ${section(
-        'Erro não muda o rótulo',
+        v.disabledTitle,
         html`
-          ${caption(
-            'O rótulo permanece em color/foreground. O erro aparece no campo e na mensagem abaixo dele — nunca no rótulo.',
-          )}
-          <nph-label text="Nome completo" required></nph-label>
-        `,
-      )}
-      ${section(
-        'Desabilitado não é estado do rótulo',
-        html`
-          ${caption(
-            'O nph-field aplicará state/disabled-opacity ao controle inteiro. O rótulo não tem estado próprio.',
-          )}
+          ${caption(v.disabledCaption)}
           <div style="opacity:var(--nph-state-disabled-opacity)">
-            <nph-label text="Nome completo" required></nph-label>
+            <nph-label text=${v.sampleText} required></nph-label>
           </div>
         `,
       )}
-    `),
+    `);
+  },
 };
 
 /**
@@ -180,18 +183,19 @@ export const OQueORotuloNaoFaz: Story = {
  */
 export const TriggerFocus: Story = {
   name: 'Foco do gatilho',
-  render: () =>
-    page(html`
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
       ${section(
-        'Foco do gatilho',
+        v.focusTitle,
         html`
-          ${caption('Clique no campo e aperte Tab: o foco vai para o ícone de informação. O texto do rótulo não recebe foco.')}
-          <input aria-label="Ponto de partida do Tab" />
-          ${frame('light', html`<nph-label text="Nome completo" info=${INFO} info-label=${INFO_LABEL}></nph-label>`)}
-          ${frame('dark', html`<nph-label text="Nome completo" info=${INFO} info-label=${INFO_LABEL}></nph-label>`)}
+          ${caption(v.focusCaption)}
+          <input aria-label=${v.tabStartLabel} />
+          ${frame('light', withInfo(v))} ${frame('dark', withInfo(v))}
         `,
       )}
-    `),
+    `);
+  },
 };
 
 /**
@@ -201,18 +205,18 @@ export const TriggerFocus: Story = {
  */
 export const Open: Story = {
   name: 'Aberto',
-  render: () =>
-    page(html`
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
       ${section(
-        'Balão aberto',
+        v.openTitle,
         html`
-          ${caption('O balão abre pela ativação do ícone e fecha com Esc, clique fora ou Tab para fora. Passar o mouse não abre.')}
-          <div style="padding-block-end:var(--nph-space-section)">
-            <nph-label text="Nome completo" info=${INFO} info-label=${INFO_LABEL}></nph-label>
-          </div>
+          ${caption(v.openCaption)}
+          <div style="padding-block-end:var(--nph-space-section)">${withInfo(v)}</div>
         `,
       )}
-    `),
+    `);
+  },
   play: async ({ canvasElement }) => {
     const trigger = canvasElement.querySelector<HTMLButtonElement>('nph-label .nph-label__info');
     if (trigger) {

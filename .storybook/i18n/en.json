@@ -422,5 +422,26 @@
     ],
     "sourceFrame": "Figma, frame nph-label (1194:1482)",
     "sourceApi": "nph-label spec; docs/decisoes-tecnicas.md › P62.3 and P62.6"
+  },
+  "labelValidation": {
+    "sampleText": "Full name",
+    "info": "Explains what the field asks for.",
+    "infoLabel": "About full name",
+    "matrixTitle": "Matrix",
+    "matrixCaption": "required adds the asterisk; info with info-label adds the information icon.",
+    "lightTitle": "Light mode",
+    "darkTitle": "Dark mode",
+    "associationTitle": "Association with the control",
+    "associationCaption": "Click the label: the cursor moves to the field.",
+    "requiredLegend": "Fields marked * are required.",
+    "errorTitle": "An error does not change the label",
+    "errorCaption": "The label stays in color/foreground. The error shows on the field and in the message below it — never on the label.",
+    "disabledTitle": "Disabled is not a label state",
+    "disabledCaption": "nph-field will apply state/disabled-opacity to the whole control. The label has no state of its own.",
+    "focusTitle": "Trigger focus",
+    "focusCaption": "Click the field and press Tab: focus moves to the information icon. The label text does not take focus.",
+    "tabStartLabel": "Tab starting point",
+    "openTitle": "Open tooltip",
+    "openCaption": "The tooltip opens when the icon is activated and closes with Esc, a click outside or Tab out. Hovering does not open it."
   }
 }
