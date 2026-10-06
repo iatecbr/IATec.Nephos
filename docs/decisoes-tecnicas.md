@@ -1,7 +1,7 @@
 # Decisões técnicas — Nephos
 
 Esta é a **fonte única** das decisões técnicas P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65 e P66. Em caso de divergência entre este arquivo e qualquer outro documento
+P21, P62, P63, P64, P65, P66 e P67. Em caso de divergência entre este arquivo e qualquer outro documento
 do repositório, prevalece este.
 
 ## Fila de revisão técnica — Elvys
@@ -33,6 +33,7 @@ subseção P62.4 para o detalhe).
 | **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** Emenda de 02/10/2026 aprovada por Mauro no PR #49, com merge em 05/10/2026. |
 | **P65** | API e semântica do `nph-tooltip` | 05/10/2026 | Baixo agora. O `nph-label` é o primeiro consumidor; mudar depois exige refazer o gatilho dele | Comportamento e escopo (L11.5) e anatomia (L11.6, L11.7 e o quadro aceito) adotados por Indiane em 01/10/2026. API e semântica aprovadas por `maurocsjr` no PR #51, com merge em 05/10/2026 |
 | **P66** | API e semântica de `nph-spinner`, `nph-separator` e `nph-kbd` | 05/10/2026 | Baixo agora. O `nph-button` (Lote B) e o `nph-rich-option` serão os primeiros consumidores | Anatomia e comportamento: quadros aceitos por Indiane em 01/10/2026. API e semântica: proposta técnica, revisão no PR por `maurocsjr` |
+| **P67** | Invariantes dependentes redeclarados em cada raiz de esquema | 05/10/2026 | Médio. Muda onde o gerador emite 14 tokens e fixa como uma parte da tela troca de marca | Consumo decidido por Indiane em 05/10/2026. Proposta técnica, revisão no PR por `maurocsjr` |
 
 **Fora desta nota, ainda aguardam confirmação dele:** licença, variável de CI,
 credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
@@ -671,7 +672,7 @@ e a semântica (`role="status"`) são proposta técnica desta implementação.
 **Limite conhecido.** `elevation/dropdown` sai em `:root` com
 `var(--nph-shadow-color)`. Numa subárvore com outro `data-nph-color-scheme`, a
 sombra fica com a cor da raiz. É uma pendência do gerador de tokens, e não
-desta peça.
+desta peça. *Resolvido pela P67.*
 
 **Status.** Anatomia e comportamento adotados por Indiane em 01/10/2026; API e
 semântica aprovadas por Mauro no PR #51 (DSA-08), com merge em 05/10/2026.
@@ -737,9 +738,62 @@ semântica em revisão no PR do Lote A.
 
 ---
 
+## P67 — Invariantes dependentes em cada raiz de esquema
+
+Esta decisão **complementa a P20** sem alterá-la. A P20 continua fixando os dois
+atributos como contrato de tema; a P67 diz como eles valem numa parte da tela.
+
+**Conflito técnico.** Uma custom property com `var()` resolve no elemento que a
+declara, e o filho herda o valor já resolvido. O gerador emitia os invariantes
+uma vez, só em `:root`. Numa parte da tela com outra marca ou outro esquema, o
+invariante que aponta para `theme/*` ou para um variante ficava com o valor da
+raiz. Medido no navegador: em `data-nph-brand="educacao"`, `--nph-focus-halo`
+saía `#b1cdfb`, o halo de Sistemas. Na sombra (`elevation/*`), a cor ficava a do
+claro numa parte escura — o limite registrado na P65.
+
+**Decisão.**
+
+- Um invariante é **dependente** quando alguma referência dele aponta para
+  `theme/*`, para um variante ou para outro dependente (ponto fixo, em
+  `scripts/tokens-lib.mjs`, `dependents()`).
+- O gerador emite os dependentes em `:root, [data-nph-color-scheme]`: toda raiz
+  de esquema redeclara, e a `var()` resolve ali a marca e o esquema locais. Os
+  demais invariantes ficam só em `:root`.
+- **Consumo, decidido por Indiane em 05/10/2026:** uma parte da tela com outra
+  marca leva `data-nph-brand` **e** `data-nph-color-scheme` no mesmo elemento. Só
+  o esquema numa parte da tela também vale. Só a marca, sem o esquema no mesmo
+  elemento, não é suportado.
+- Validação nova do gerador: dependente fora do bloco de esquema, ou
+  independente dentro dele, reprova o build.
+
+**Motivo.** Redeclarar só os dependentes, e não todos os invariantes, preserva a
+personalização do consumidor (P02): um invariante independente personalizado em
+`:root` continua chegando a qualquer parte da tela. Exigir os dois atributos
+juntos dispensa `@scope` e não pede navegador recente.
+
+**Limite.** Um dependente personalizado só em `:root` não chega a uma parte da
+tela com `data-nph-color-scheme`: ali ele é redeclarado. Para personalizá-lo,
+declare-o também no elemento de esquema.
+
+**Impacto.** O CSS gerado move linhas de um bloco para outro, sem mudar nenhum
+valor. A prova está em `src/shared/tokens/tokens-cascade.test.ts`: uma parte da
+tela com marca e esquema resolve todo token de marca e semântico igual à raiz
+com os mesmos atributos, nas sete marcas e nos dois esquemas. O comando do gate
+da DSA-04 (`conferir-tokens-figma.cjs`) passou a aceitar os dois blocos de
+invariantes.
+
+**Rito.** Esta decisão toca o limite da P65 e o uso da P20, por isso segue o
+rito da seção "Como mudar uma destas decisões": o conflito técnico está acima, a
+proposta é esta seção, e a revisão humana é a de `maurocsjr` no PR. O texto da
+decisão da P65 não muda; só o limite dela ganha a anotação.
+
+**Status.** Consumo decidido por Indiane em 05/10/2026; gerador em revisão no PR.
+
+---
+
 ## Como mudar uma destas decisões
 
-Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65 ou P66 sem:
+Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66 ou P67 sem:
 
 1. explicar o conflito técnico concreto;
 2. registrar uma proposta de mudança;

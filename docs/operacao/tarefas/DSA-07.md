@@ -5,7 +5,7 @@
   "fase": "F0",
   "ordem_aprovada": 100,
   "responsavel": "claude-codigo",
-  "estado": "em-revisao",
+  "estado": "concluida",
   "peca": null,
   "dependencias": [],
   "gates": [
@@ -13,24 +13,27 @@
       "id": "convencao-registrada",
       "descricao": "A P64 existe em docs/decisoes-tecnicas.md com o escopo decidido, a regra esta no AGENTS.md e a revisao tecnica foi registrada.",
       "comando": null,
-      "evidencia": null,
-      "resultado": "pendente",
-      "verificado_em": null,
-      "verificado_por": null
+      "evidencia": "docs/operacao/evidencias/DSA-07/convencao-registrada-2026-10-06.md",
+      "resultado": "passou",
+      "verificado_em": "2026-10-06",
+      "verificado_por": "claude-codigo"
     },
     {
       "id": "migracao-sem-mudanca-de-comportamento",
       "descricao": "Em cada PR da migracao, a saida (stdout, stderr e codigo) dos scripts e identica antes e depois, os artefatos gerados nao mudam de conteudo, nenhum arquivo novo aparece e a bateria sai com 0. Cobre scripts, src, stories e .storybook.",
       "comando": "npm run build:tokens && node scripts/verificar-operacao.mjs --gerar-metadata && git diff --quiet && node -e \"process.exit(require('child_process').execSync('git ls-files --others --exclude-standard').length?1:0)\" && npm run typecheck && npm test && npm run test:tokens && npm run test:i18n && npm run test:operacao && node scripts/verificar-operacao.mjs --exemplos && npm run build-storybook",
-      "evidencia": null,
-      "resultado": "pendente",
-      "verificado_em": null,
-      "verificado_por": null
+      "evidencia": "docs/operacao/evidencias/DSA-07/migracao-sem-mudanca-de-comportamento-2026-10-06.md",
+      "resultado": "passou",
+      "verificado_em": "2026-10-06",
+      "verificado_por": "claude-codigo"
     }
   ],
   "bloqueios": [],
   "decisoes_pendentes": [],
-  "evidencias": [],
+  "evidencias": [
+    "docs/operacao/evidencias/DSA-07/convencao-registrada-2026-10-06.md",
+    "docs/operacao/evidencias/DSA-07/migracao-sem-mudanca-de-comportamento-2026-10-06.md"
+  ],
   "referencias_de_decisao": [
     "docs/decisoes-tecnicas.md#p64"
   ],
@@ -48,7 +51,7 @@
     "pr": "49"
   },
   "contexto": null,
-  "atualizado_em": "2026-10-05"
+  "atualizado_em": "2026-10-06"
 }
 ```
 

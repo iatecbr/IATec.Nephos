@@ -8,7 +8,7 @@
  *
  * Rode com: npm run test:tokens
  */
-import { canon, classify, buildIndex, NS } from './tokens-lib.mjs';
+import { canon, classify, buildIndex, dependents, NS } from './tokens-lib.mjs';
 
 const MODES = ['claro', 'escuro'];
 const DEFAULT_MODES = { core: null, theme: 'sistemas', semantic: null };
@@ -103,6 +103,40 @@ for (const [name, expected] of Object.entries(EXPECTED)) {
   console.log((ok ? 'PASSOU ' : 'FALHOU ') + name.padEnd(36) + ' esperado=' + expected + ' obtido=' + actual);
 }
 
+/*
+ * Invariantes DEPENDENTES (P67): os que precisam sair tambem em cada raiz de
+ * esquema. Usa os casos acima mais tres cadeias proprias.
+ */
+const chains = {
+  b: {
+    // via variante: aponta para um token que muda entre claro e escuro
+    'via-variant': { $type: 'color', $value: '{a.different-alias}' },
+    // transitivo: invariante -> invariante que aponta para theme
+    'transitive': { $type: 'color', $value: '{a.brand-alias}' },
+    // so core: nao depende de marca nem de esquema
+    'core-only': { $type: 'color', $value: '{a.same-alias}' },
+  },
+};
+const chainSource = { ...cases, ...chains };
+const chainIdx = buildIndex([core, theme, chainSource]);
+const chainClass = classify(chainSource, MODES, chainIdx, DEFAULT_MODES);
+const dep = dependents(chainSource, chainClass.invariants, chainClass.variants);
+
+const EXPECTED_DEPENDENTS = {
+  'a.brand-alias': true, // direto em theme
+  'b.via-variant': true,
+  'b.transitive': true,
+  'b.core-only': false,
+  'a.same-alias': false,
+};
+console.log('\n=== PROVA: invariantes dependentes de marca ou de esquema ===');
+for (const [name, expected] of Object.entries(EXPECTED_DEPENDENTS)) {
+  const actual = dep.has(name);
+  const ok = actual === expected;
+  if (!ok) failures++;
+  console.log((ok ? 'PASSOU ' : 'FALHOU ') + name.padEnd(36) + ' esperado=' + expected + ' obtido=' + actual);
+}
+
 /* Guardas explicitas sobre identidade de objeto. */
 const guards = [
   ['durA !== durB (objetos realmente distintos)', durA !== durB],
@@ -121,6 +155,6 @@ for (const [n, ok] of guards) {
 }
 
 console.log('\n' + (failures === 0
-  ? 'RESULTADO: ' + (Object.keys(EXPECTED).length + guards.length) + ' verificacoes, todas passaram.'
+  ? 'RESULTADO: ' + (Object.keys(EXPECTED).length + Object.keys(EXPECTED_DEPENDENTS).length + guards.length) + ' verificacoes, todas passaram.'
   : 'RESULTADO: ' + failures + ' falha(s).'));
 process.exit(failures === 0 ? 0 : 1);

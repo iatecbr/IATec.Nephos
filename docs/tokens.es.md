@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=0bb2b3e12097de6e48631b8332429d2b7a6d30e078dcc788f9e8512a27e3c3ef | status=rascunho -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=d12aa3c53435b6aa6da72dc4c844d42980068357f90374ca0d4da77066709bb3 | status=rascunho -->
 
 # Tokens — fuente, generación y consumo
 
@@ -127,8 +127,12 @@ es una fracción: `0.95` y `0.5`. El generador ya emite tokens de tipo `number`
 correctamente; no existe transformación adicional de opacidad.
 
 **Invariante no quiere decir fijo.** `sidebar/primary` tiene el mismo alias en
-claro y oscuro, así que sale una vez en `:root` — pero lo que sale es
-`var(--nph-theme-brand-600)`, que sigue cambiando con `data-nph-brand`.
+claro y oscuro, así que sale una vez — pero lo que sale es
+`var(--nph-theme-brand-600)`, que sigue cambiando con `data-nph-brand`. Ese
+invariante es **dependiente**: el alias apunta a `theme/*` o a un variante. Por
+eso sale en `:root` y también en cada raíz de esquema, `[data-nph-color-scheme]`,
+donde la `var()` resuelve la marca y el esquema locales (P67). Los demás
+invariantes quedan solo en `:root`.
 
 ## Actualización del 27-08-2026 — capa de tipografía
 
@@ -314,13 +318,26 @@ el mapeo a `light`/`dark` está declarado en `modeSet.valorPublico`.
 Omitir los dos atributos entrega Sistemas en claro, porque cada bloque por
 defecto se emite también en `:root`.
 
+**Una parte de la pantalla con otra marca lleva los dos atributos en el mismo
+elemento** (decisión de Indiane, 05/10/2026; P67):
+
+```html
+<section data-nph-brand="educacao" data-nph-color-scheme="light">
+```
+
+Solo el esquema también vale en una parte de la pantalla:
+`data-nph-color-scheme="dark"` solo resuelve todo en oscuro. Solo la marca, sin
+el esquema en el mismo elemento, no está soportado: los tokens que dependen de
+la marca seguirían con la marca de la raíz.
+
 ## Estructura del CSS generado
 
 ```css
 :root { --nph-core-sistemas-600: #2f68c5; }                       /* capa 1 */
 :root, [data-nph-brand="sistemas"] { --nph-theme-brand-600: var(--nph-core-sistemas-600); }
 [data-nph-brand="educacao"]        { --nph-theme-brand-600: var(--nph-core-educacao-700); }
-:root { --nph-sidebar-primary: var(--nph-theme-brand-600); }      /* invariantes */
+:root { --nph-radius-control: var(--nph-core-radius-300); }       /* invariantes */
+:root, [data-nph-color-scheme] { --nph-sidebar-primary: var(--nph-theme-brand-600); } /* dependientes */
 :root, [data-nph-color-scheme="light"] { --nph-color-primary: var(--nph-theme-brand-600); }
 [data-nph-color-scheme="dark"]         { --nph-color-primary: var(--nph-theme-brand-400); }
 ```
@@ -348,7 +365,9 @@ El build **falla** — con código 1 y mensaje específico — cuando:
    compuesto, contando cuántas `var()` trae la salida contra cuántas
    referencias declara la fuente;
 8. un invariante se emite más de una vez, o un variante no se emite una vez por
-   modo.
+   modo;
+9. un invariante dependiente queda fuera del bloque
+   `:root, [data-nph-color-scheme]`, o uno independiente entra en él.
 
 ## Qué queda fuera de esta ronda
 

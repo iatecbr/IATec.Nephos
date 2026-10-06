@@ -5,7 +5,7 @@
   "fase": "F4",
   "ordem_aprovada": 110,
   "responsavel": "claude-codigo",
-  "estado": "bloqueada",
+  "estado": "pronta",
   "peca": "nph-label",
   "dependencias": ["DSA-07", "DSA-08"],
   "gates": [
@@ -29,7 +29,7 @@
     },
     {
       "id": "revisao-e-merge",
-      "descricao": "Componente, CSS, testes, stories, ficha, P62.6 e regras do design.md revisados por maurocsjr e mergeados na v/5.0.0.",
+      "descricao": "Componente, CSS, testes, stories, ficha e P62.6 revisados por maurocsjr e mergeados na v/5.0.0; a regra 6 do design.md entra pelo PR #57.",
       "comando": null,
       "evidencia": null,
       "resultado": "pendente",
@@ -37,22 +37,7 @@
       "verificado_por": null
     }
   ],
-  "bloqueios": [
-    {
-      "id": "B1",
-      "o_que_trava": "DSA-08 sem merge: o nph-tooltip ainda nao existe em codigo.",
-      "dono": "maurocsjr",
-      "o_que_resolve": "Revisao e merge do PR do nph-tooltip (DSA-08) na v/5.0.0.",
-      "aberto_em": "2026-10-05"
-    },
-    {
-      "id": "B2",
-      "o_que_trava": "DSA-07 sem merge, PR #49: os arquivos do nph-label mudam de nome interno nesse PR.",
-      "dono": "maurocsjr",
-      "o_que_resolve": "Revisao e merge do PR #49 na v/5.0.0.",
-      "aberto_em": "2026-10-05"
-    }
-  ],
+  "bloqueios": [],
   "decisoes_pendentes": [],
   "evidencias": [
     "docs/operacao/evidencias/DSA-04/documentacao-figma-aceita-2026-10-01.md",
@@ -72,7 +57,7 @@
   },
   "revisao_git": { "branch": "feat/dsa04-nph-label-info", "commit": null, "pr": null },
   "contexto": null,
-  "atualizado_em": "2026-10-05"
+  "atualizado_em": "2026-10-06"
 }
 ```
 
@@ -93,9 +78,10 @@ docs/operacao/evidencias/DSA-04/conferir-tokens-figma.cjs` sai 0: os tokens
 de foco, de tooltip e os demais que o Figma tinha e o codigo nao estao no
 `tokens.css` gerado com o mesmo alias e valor.
 
-**`revisao-e-merge`** — componente, CSS, testes, stories, ficha, a decisao
-tecnica P62.6 e as regras do `design.md` passam pelos comandos de prova, sao
-revisados por `maurocsjr` e mergeados na `v/5.0.0`.
+**`revisao-e-merge`** — componente, CSS, testes, stories, ficha e a decisao
+tecnica P62.6 passam pelos comandos de prova, sao revisados por `maurocsjr` e
+mergeados na `v/5.0.0`. A regra 6 do `design.md` (borda e halo de foco) entra
+pelo PR #57.
 
 ## O que esta tarefa não faz
 Nao implementa o `nph-tooltip` (DSA-08). Nao renomeia nem deprecia `focus/ring`

@@ -34,7 +34,8 @@
  * classe, seletor, estilo nem marcacao).
  *
  * Fica fora por ser contrato ou documentacao: o conteudo de .json (chaves dos
- * tokens, P20; Metadata gerada, P63) e de .md.
+ * tokens, P20; Metadata gerada, P63) e de .md. A excecao sao os dicionarios de
+ * .storybook/i18n/*.json: as chaves deles sao nome tecnico e continuam na regra.
  *
  * Limite conhecido: palavra colada sem separador (modoescuro, botaoprimario) e palavra
  * que nao esta no vocabulario nem tem fim tipico do portugues passam. Toda palavra que
@@ -71,7 +72,7 @@ const CONTRACT_DIRS = new Set(['tarefas', 'evidencias', 'contextos', 'fichas']);
 const OPERATIONS_FIXTURES = 'scripts/fixtures/operations/';
 /** Nome de evidencia: <gate>-<AAAA-MM-DD>.md (docs/operacao/README.md). */
 const EVIDENCE_NAME = /^[a-z0-9-]+-\d{4}-\d{2}-\d{2}\.md$/;
-const DICTIONARIES = new Set(['.storybook/i18n/pt-BR.js', '.storybook/i18n/en.js', '.storybook/i18n/es.js']);
+const DICTIONARIES = new Set(['.storybook/i18n/pt-BR.json', '.storybook/i18n/en.json', '.storybook/i18n/es.json']);
 const EXCEPTIONS_FILE = 'scripts/naming-exceptions.json';
 const SELF_TEST_FILE = 'scripts/fixtures/naming/cases.json';
 
@@ -548,6 +549,13 @@ function scan(root = '.') {
 
     for (const file of files.filter((f) => CODE_EXTENSIONS.has(f.split('.').pop()))) {
       scanCode(file, fs.readFileSync(file, 'utf8'));
+    }
+
+    /* Dicionario de idioma: JSON e expressao JS valida. Com o prefixo na mesma linha, a
+     * linha nao muda e a varredura e a mesma do codigo: chave fora de sidebar reprova,
+     * valor e sidebar passam. O nome nao termina em .ts, entao o AST sai como JS. */
+    for (const file of files.filter((f) => DICTIONARIES.has(f))) {
+      scanCode(file, `export default ${fs.readFileSync(file, 'utf8')}`);
     }
 
     /* Estilo e marcacao: o arquivo inteiro, sem comentario, para pegar construcao em varias

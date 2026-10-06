@@ -15,7 +15,7 @@
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
-import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
+import { LOCALE_GLOBAL, DEFAULT_LOCALE, format, translations } from '../../../.storybook/i18n/index.js';
 import './nph-icon';
 import { NPH_ICON_NAMES, NPH_ICON_SIZES } from './nph-icon.icons';
 import {
@@ -111,7 +111,7 @@ export const Documentacao: Story = {
     const dictionary = translations(localeOf(context));
     const d = dictionary.docs;
     const categories = dictionary.categories;
-    const coreHeading = d.coreTitle(CORE_TOTAL);
+    const coreHeading = format(d.coreTitle, { total: CORE_TOTAL });
 
     return html`
       <div style=${body}>
@@ -150,8 +150,8 @@ export const Documentacao: Story = {
             ${table(
               d.apiHeader,
               d.api.map(
-                ([term, description]: [string, (total: number) => string]) =>
-                  [term, description(CORE_TOTAL)] as const,
+                ([term, description]: [string, string]) =>
+                  [term, format(description, { total: CORE_TOTAL })] as const,
               ),
               'auto',
             )}
@@ -168,7 +168,7 @@ export const Documentacao: Story = {
               d.coreHeader,
               CATEGORIES.map(
                 (category, index) =>
-                  [categories[index] ?? '', d.coreCount(category.length)] as const,
+                  [categories[index] ?? '', format(d.coreCount, { count: category.length })] as const,
               ),
               'text',
             )}
@@ -281,7 +281,7 @@ function applyFilter(gallery: HTMLElement, term: string): void {
   const total = String(matches.size);
   if (counter !== null && counter.dataset['nphFound'] !== total) {
     counter.dataset['nphFound'] = total;
-    counter.textContent = g.counter(matches.size, CORE_TOTAL);
+    counter.textContent = format(g.counter, { found: matches.size, total: CORE_TOTAL });
   }
 }
 
@@ -353,7 +353,7 @@ export const IconsOverview: Story = {
           aria-live="polite"
           style=${counter}
         >
-          ${g.counter(CORE_TOTAL, CORE_TOTAL)}
+          ${format(g.counter, { found: CORE_TOTAL, total: CORE_TOTAL })}
         </p>
 
         ${index(

@@ -1,4 +1,4 @@
-<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=0bb2b3e12097de6e48631b8332429d2b7a6d30e078dcc788f9e8512a27e3c3ef | status=rascunho -->
+<!-- i18n: lang=en | source=docs/tokens.md | source-sha256=d12aa3c53435b6aa6da72dc4c844d42980068357f90374ca0d4da77066709bb3 | status=rascunho -->
 
 # Tokens — source, generation and consumption
 
@@ -126,8 +126,12 @@ a fraction: `0.95` and `0.5`. The generator already emits `number` tokens
 correctly; there is no additional opacity transform.
 
 **Invariant does not mean fixed.** `sidebar/primary` has the same alias in light
-and dark, so it is emitted once under `:root` — but what is emitted is
-`var(--nph-theme-brand-600)`, which still changes with `data-nph-brand`.
+and dark, so it is emitted once — but what is emitted is
+`var(--nph-theme-brand-600)`, which still changes with `data-nph-brand`. That
+invariant is **dependent**: its alias points to `theme/*` or to a variant. So it
+is emitted under `:root` and also on every scheme root, `[data-nph-color-scheme]`,
+where the `var()` resolves the local brand and scheme (P67). The other
+invariants stay under `:root` only.
 
 ## Update of 27-08-2026 — typography layer
 
@@ -310,13 +314,26 @@ mapping to `light`/`dark` is declared in `modeSet.valorPublico`.
 Omitting both attributes gives Sistemas in light, because every default block is
 also emitted under `:root`.
 
+**A part of the screen with another brand carries both attributes on the same
+element** (Indiane's decision, 05/10/2026; P67):
+
+```html
+<section data-nph-brand="educacao" data-nph-color-scheme="light">
+```
+
+The scheme alone also works on a part of the screen:
+`data-nph-color-scheme="dark"` by itself resolves everything in dark. The brand
+alone, without the scheme on the same element, is not supported: the tokens that
+depend on the brand would keep the root brand.
+
 ## Structure of the generated CSS
 
 ```css
 :root { --nph-core-sistemas-600: #2f68c5; }                       /* layer 1 */
 :root, [data-nph-brand="sistemas"] { --nph-theme-brand-600: var(--nph-core-sistemas-600); }
 [data-nph-brand="educacao"]        { --nph-theme-brand-600: var(--nph-core-educacao-700); }
-:root { --nph-sidebar-primary: var(--nph-theme-brand-600); }      /* invariants */
+:root { --nph-radius-control: var(--nph-core-radius-300); }       /* invariants */
+:root, [data-nph-color-scheme] { --nph-sidebar-primary: var(--nph-theme-brand-600); } /* dependents */
 :root, [data-nph-color-scheme="light"] { --nph-color-primary: var(--nph-theme-brand-600); }
 [data-nph-color-scheme="dark"]         { --nph-color-primary: var(--nph-theme-brand-400); }
 ```
@@ -344,7 +361,9 @@ The build **fails** — with exit code 1 and a specific message — when:
    composite value, by counting how many `var()` the output carries against how
    many references the source declares;
 8. an invariant is emitted more than once, or a variant is not emitted once per
-   mode.
+   mode;
+9. a dependent invariant is outside the `:root, [data-nph-color-scheme]` block,
+   or an independent one is inside it.
 
 ## Out of scope for this round
 
