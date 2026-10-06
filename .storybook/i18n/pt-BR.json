@@ -29,7 +29,18 @@
     "componentes-nph-button-validação--sizes": "Tamanhos",
     "componentes-nph-button-validação--icons": "Ícones",
     "componentes-nph-button-validação--disabled": "Desabilitado",
-    "componentes-nph-button-validação--loading": "Carregando"
+    "componentes-nph-button-validação--loading": "Carregando",
+    "componentes-nph-spinner-validação": "Validação",
+    "componentes-nph-spinner-validação--sizes": "Tamanhos",
+    "componentes-nph-spinner-validação--accessibility": "Acessibilidade",
+    "componentes-nph-spinner-validação--invalid-input": "Entrada inválida",
+    "componentes-nph-separator-validação": "Validação",
+    "componentes-nph-separator-validação--horizontal": "Horizontal",
+    "componentes-nph-separator-validação--vertical": "Vertical",
+    "componentes-nph-kbd-validação": "Validação",
+    "componentes-nph-kbd-validação--single-key": "Tecla",
+    "componentes-nph-kbd-validação--combination": "Combinação",
+    "componentes-nph-kbd-validação--mac-combination": "Combinação no macOS"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -567,5 +578,15 @@
     "close": "Fechar",
     "options": "Opções",
     "filter": "Filtrar"
+  },
+  "spinnerValidation": {
+    "savingText": "Salvando…",
+    "savingLabel": "Salvando"
+  },
+  "separatorValidation": {
+    "profile": "Perfil",
+    "signOut": "Sair",
+    "edit": "Editar",
+    "delete": "Excluir"
   }
 }

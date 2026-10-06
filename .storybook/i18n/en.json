@@ -29,7 +29,18 @@
     "componentes-nph-button-validação--sizes": "Sizes",
     "componentes-nph-button-validação--icons": "Icons",
     "componentes-nph-button-validação--disabled": "Disabled",
-    "componentes-nph-button-validação--loading": "Loading"
+    "componentes-nph-button-validação--loading": "Loading",
+    "componentes-nph-spinner-validação": "Validation",
+    "componentes-nph-spinner-validação--sizes": "Sizes",
+    "componentes-nph-spinner-validação--accessibility": "Accessibility",
+    "componentes-nph-spinner-validação--invalid-input": "Invalid input",
+    "componentes-nph-separator-validação": "Validation",
+    "componentes-nph-separator-validação--horizontal": "Horizontal",
+    "componentes-nph-separator-validação--vertical": "Vertical",
+    "componentes-nph-kbd-validação": "Validation",
+    "componentes-nph-kbd-validação--single-key": "Key",
+    "componentes-nph-kbd-validação--combination": "Combination",
+    "componentes-nph-kbd-validação--mac-combination": "Combination on macOS"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -567,5 +578,15 @@
     "close": "Close",
     "options": "Options",
     "filter": "Filter"
+  },
+  "spinnerValidation": {
+    "savingText": "Saving…",
+    "savingLabel": "Saving"
+  },
+  "separatorValidation": {
+    "profile": "Profile",
+    "signOut": "Sign out",
+    "edit": "Edit",
+    "delete": "Delete"
   }
 }
