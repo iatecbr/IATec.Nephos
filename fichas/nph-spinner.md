@@ -1,59 +1,59 @@
 ---
 peca: nph-spinner
 nivel: componente
-status: "incompleta — aguarda implementação"
+status: "incomplete — awaiting implementation"
 titulo: "nph-spinner"
-tipo: ficha de componente
+tipo: component spec
 criado: 2026-08-31
 atualizado: 2026-08-31
 resolve: >-
-  Torna o carregamento perceptível enquanto uma ação ou área de conteúdo ainda
-  não terminou — sem ser o único sinal de que algo está acontecendo.
+  Makes loading perceptible while an action or content area has not
+  finished yet — without being the only sign that something is happening.
 use_quando:
-  - "Uma área de conteúdo está carregando."
-  - "Um botão ou campo precisa indicar processamento em andamento."
+  - "A content area is loading."
+  - "A button or field needs to indicate processing in progress."
 nao_use_quando:
-  - "O girador seria o único sinal de que algo está acontecendo."
-  - "O contexto exige uma ação de toque — o girador não é um controle."
+  - "The spinner would be the only sign that something is happening."
+  - "The context requires a touch action — the spinner is not a control."
 
 api:
   origem: >-
-    PROPOSTA — não há código para conferir. As duas fichas implementadas
-    (`nph-icon` e `nph-label`) têm a API conferida propriedade por propriedade
-    no repositório; esta NÃO tem. Leia como intenção aprovada, não como
-    contrato verificado.
+    PROPOSAL — there is no code to check. The two implemented specs
+    (`nph-icon` and `nph-label`) have the API checked property by property
+    in the repository; this one does NOT. Read it as approved intent, not as a
+    verified contract.
   size:
     tipo: enum
     valores: [sm, md]
     obrigatoria: true
     padrao: nenhum
-    reflete: "a definir na implementação"
+    reflete: "to be defined in the implementation"
     restricao: >-
-      `sm` dentro de botão e campo; `md` em área de conteúdo. `lg` não existe e
-      não se cria. A antiga `type=Mirrored`, herdada do kit, foi removida.
+      `sm` inside a button and a field; `md` in a content area. `lg` does not exist and
+      is not created. The old `type=Mirrored`, inherited from the kit, was removed.
   label:
     tipo: string
     obrigatoria: false
-    padrao: "a definir na implementação"
-    reflete: "a definir na implementação"
+    padrao: "to be defined in the implementation"
+    reflete: "to be defined in the implementation"
     restricao: >-
-      Sem texto de carregamento adjacente, o girador precisa de nome acessível.
-      Com texto ao lado, é decorativo. A forma exata é do plano técnico.
-  slots: "a definir na implementação"
-  eventos: "a definir na implementação"
+      Without adjacent loading text, the spinner needs an accessible name.
+      With text beside it, it is decorative. The exact form belongs to the technical plan.
+  slots: "to be defined in the implementation"
+  eventos: "to be defined in the implementation"
   cor: >-
-    Não é propriedade. Herda `currentColor` do contexto, como todo ícone.
+    It is not a property. It inherits `currentColor` from the context, like every icon.
 
 variantes:
   size:
     eixo: tamanho
-    escolha_quando: "pelo contexto de uso, nunca por preferência visual"
+    escolha_quando: "by the usage context, never by visual preference"
     nao_combine_com: ["lg", "type", "Type=Mirrored"]
 
 estados:
   carregando:
-    token: "pendente — PF-05 e PF-16"
-    muda_para_a_pessoa: "O `circle-notch` gira continuamente enquanto a operação está em andamento"
+    token: "pending — PF-05 and PF-16"
+    muda_para_a_pessoa: "The `circle-notch` spins continuously while the operation is in progress"
 
 regras_de_negocio: []
 erros_de_dominio: []
@@ -62,229 +62,229 @@ tokens:
   tamanho: [icon/size-sm, icon/size-md]
   arte: circle-notch
   cor: currentColor
-  movimento: "pendente — ver PF-05 e PF-16"
+  movimento: "pending — see PF-05 and PF-16"
 
 dicas_para_ia:
-  - "Girador nunca é o único sinal: precisa de texto ou contexto que diga o que está acontecendo."
-  - "Dentro de botão ou campo é `sm`; área de conteúdo é `md`. Não existe `lg`."
-  - "Não invente duração, repetição ou curva: as duas decisões de movimento estão abertas."
-  - "A arte é `circle-notch`. Não use o `spinner` clássico."
+  - "A spinner is never the only sign: it needs text or context that says what is happening."
+  - "Inside a button or field it is `sm`; a content area is `md`. There is no `lg`."
+  - "Do not invent duration, repetition or curve: the two motion decisions are open."
+  - "The artwork is `circle-notch`. Do not use the classic `spinner`."
 
 acessibilidade:
-  semantica: "Indicador de progresso; decorativo quando houver texto de carregamento adjacente"
-  nome_acessivel: "Sem texto adjacente, nome acessível obrigatório; com texto, ocultar de tecnologias assistivas"
+  semantica: "Progress indicator; decorative when there is adjacent loading text"
+  nome_acessivel: "Without adjacent text, an accessible name is required; with text, hide it from assistive technologies"
   teclado: []
-  foco: "Não recebe foco e não é alvo de toque"
-  contraste: "pendente — depende do nível de WCAG da organização (PI-05)"
-  alternativa_a_cor: "O contexto textual informa o carregamento; o girador não basta sozinho"
+  foco: "It does not receive focus and is not a touch target"
+  contraste: "pending — depends on the organization's WCAG level (PI-05)"
+  alternativa_a_cor: "The textual context communicates the loading; the spinner alone is not enough"
 
 combinacoes_invalidas:
-  - "Girador como único sinal de processamento"
-  - "Criar duração, repetição ou token de movimento sem decisão técnica"
-  - "`size=lg` ou qualquer `type`"
+  - "Spinner as the only sign of processing"
+  - "Creating duration, repetition or motion token without a technical decision"
+  - "`size=lg` or any `type`"
 
 relacoes:
   combina_com: [nph-icon, nph-button]
-  pai: [nph-button, "a área de conteúdo em carregamento"]
+  pai: [nph-button, "the content area being loaded"]
   filho: []
   complementa_bloco: [pendente]
   aparece_em: [pendente]
 
 anti_padroes:
-  - "Usar o `spinner` clássico em vez do `circle-notch`"
-  - "Expor `Type=Mirrored` ou variante `lg`"
-  - "Implementar movimento por inferência"
+  - "Using the classic `spinner` instead of `circle-notch`"
+  - "Exposing `Type=Mirrored` or an `lg` variant"
+  - "Implementing motion by inference"
 
 fontes:
-  design_md: "design.md — regras de ícone e tamanhos; movimento pendente"
-  decisao: "Registro de decisões e status — Componentes Nephos"
-  testes: "não existe — sem implementação"
-  evidencia_de_uso: "não existe — sem implementação"
-  storybook: "não existe — sem implementação"
-  figma: "página NPH — Spinner, aprovado visualmente"
+  design_md: "design.md — icon and size rules; motion pending"
+  decisao: "`Registro de decisões e status — Componentes Nephos`"
+  testes: "does not exist — no implementation"
+  evidencia_de_uso: "does not exist — no implementation"
+  storybook: "does not exist — no implementation"
+  figma: "page `NPH — Spinner`, visually approved"
 tags: [nephos, ds-agentico, ficha, componente, nph-spinner, incompleta]
 ---
 
-> **Referências marcadas `(vault)`** estão em `02 PROJETOS/DS-Agentico/`, no WORK BRAIN —
-> fora deste repositório. Elas eram wikilinks do Obsidian e foram convertidas em
-> referência explícita na migração de 31-08-2026.
+> **References marked `(vault)`** are in `02 PROJETOS/DS-Agentico/`, in the WORK BRAIN —
+> outside this repository. They were Obsidian wikilinks and were converted into an
+> explicit reference in the migration of 31-08-2026.
 
 # nph-spinner
 
-> ⚠️ **Esta ficha está incompleta, de propósito.** O componente **não foi
-> implementado**: não há código, Storybook nem testes. O que existe é a aprovação
-> visual, a arte definida e as decisões de escopo — e é isso que está aqui.
+> ⚠️ **This spec is incomplete, on purpose.** The component **has not been
+> implemented**: there is no code, Storybook or tests. What exists is the visual
+> approval, the defined artwork and the scope decisions — and that is what is here.
 >
-> **O bloco `api` é proposta, não contrato verificado.** Nas fichas do `nph-icon` e do
-> `nph-label` eu conferi a API no repositório, propriedade por propriedade. Aqui não há
-> o que conferir. Não leia esta API com a mesma confiança.
+> **The `api` block is a proposal, not a verified contract.** In the specs of `nph-icon` and
+> `nph-label` I checked the API in the repository, property by property. Here there is
+> nothing to check. Do not read this API with the same confidence.
 >
-> **A ficha só se completa no encerramento do componente**, com implementação
-> verificável, comparação Figma × Storybook, evidência e aceite. Até lá, o bloco
-> `api` continua proposta — decisão da Indiane em 31-08-2026. Volta para
+> **The spec is only completed at the component's closing**, with verifiable
+> implementation, Figma × Storybook comparison, evidence and acceptance. Until then, the
+> `api` block remains a proposal — Indiane's decision on 31-08-2026. Back to
 > `Índice — DS-Agentico` (vault).
 
-## Função
+## Function
 
-**O problema que resolve:** torna o carregamento **perceptível** enquanto uma ação ou
-área de conteúdo ainda não terminou.
+**The problem it solves:** makes loading **perceptible** while an action or
+content area has not finished yet.
 
-**Quando usar:** `sm` dentro de botão ou campo; `md` em área de conteúdo carregando.
+**When to use:** `sm` inside a button or field; `md` in a content area that is loading.
 
-**Quando NÃO usar:**
+**When NOT to use:**
 
-- **Como única mensagem de andamento.** Girador sozinho não diz o que está acontecendo,
-  nem quanto falta.
-- **Como controle.** Ele não recebe toque nem clique — não é um botão.
+- **As the only progress message.** A spinner alone does not say what is happening,
+  nor how much is left.
+- **As a control.** It does not receive touch or click — it is not a button.
 
-## Variantes
+## Variants
 
-**Por tamanho — `size`:** `sm` e `md`. **A escolha é pelo contexto de uso, nunca por
-preferência visual:** dentro de botão e campo é `sm`; área de conteúdo é `md`.
+**By size — `size`:** `sm` and `md`. **The choice is by the usage context, never by
+visual preference:** inside a button and a field it is `sm`; a content area is `md`.
 
-**Por aparência e por densidade:** `nao_se_aplica`.
+**By appearance and by density:** `nao_se_aplica`.
 
-**Não combine com:** `lg` — **não existe e não se cria** — e `type`, incluindo a antiga
-`Type=Mirrored`, herdada do kit Obra e **removida por decisão**.
+**Do not combine with:** `lg` — **it does not exist and is not created** — and `type`, including the old
+`Type=Mirrored`, inherited from the Obra kit and **removed by decision**.
 
-## Estados
+## States
 
-**Estado suportado: carregando.** É o único.
+**Supported state: loading.** It is the only one.
 
-**O que muda para a pessoa:** o `circle-notch` **gira continuamente** enquanto a operação
-está em andamento.
+**What changes for the person:** the `circle-notch` **spins continuously** while the operation
+is in progress.
 
-**Qual token este estado usa: `pendente`.** E esta é a lacuna que impede a ficha de
-fechar:
+**Which token this state uses: `pendente`.** And this is the gap that keeps the spec from
+closing:
 
-| O que falta | Onde está registrado |
+| What is missing | Where it is recorded |
 |---|---|
-| **A duração do laço** — fica acima da escala e não tem valor definido | **PF-05** |
-| **A curva `linear`** — o `design.md` declara `core/easing/linear`, e ela **não existe** na fonte de tokens nem no CSS gerado | **PF-16** |
+| **The loop duration** — it sits above the scale and has no defined value | **PF-05** |
+| **The `linear` curve** — `design.md` declares `core/easing/linear`, and it **does not exist** in the token source or in the generated CSS | **PF-16** |
 
-**Sem as duas, o girador não gira.** Ver `Pendências do Nephos` (vault).
+**Without both, the spinner does not spin.** See `Pendências do Nephos` (vault).
 
-**Feedback e foco:** não recebe foco e não é alvo de toque.
+**Feedback and focus:** it does not receive focus and is not a touch target.
 
-> **Não implemente o movimento por inferência.** Duração, repetição e curva são decisão
-> técnica em aberto. Escolher um valor plausível aqui é exatamente o modo de falha que
-> esta documentação existe para evitar.
+> **Do not implement the motion by inference.** Duration, repetition and curve are an open
+> technical decision. Choosing a plausible value here is exactly the failure mode that
+> this documentation exists to prevent.
 
-## Acessibilidade
+## Accessibility
 
-| Critério | Regra |
+| Criterion | Rule |
 |---|---|
-| Semântica | Indicador de progresso. **Decorativo quando houver texto de carregamento adjacente** |
-| Sem texto adjacente | **Nome acessível obrigatório** |
-| Com texto ao lado | Ocultar o girador de tecnologias assistivas — senão a informação é anunciada duas vezes |
-| Teclado e foco | Não recebe foco, não é alvo de toque |
-| Contraste | `pendente` — depende do nível de WCAG da organização (**PI-05**) |
-| Alternativa à cor | **O contexto textual informa o carregamento.** O girador não é sinal suficiente isoladamente |
+| Semantics | Progress indicator. **Decorative when there is adjacent loading text** |
+| Without adjacent text | **Accessible name required** |
+| With text beside it | Hide the spinner from assistive technologies — otherwise the information is announced twice |
+| Keyboard and focus | It does not receive focus, it is not a touch target |
+| Contrast | `pendente` — depends on the organization's WCAG level (**PI-05**) |
+| Alternative to color | **The textual context communicates the loading.** The spinner is not a sufficient sign on its own |
 
-**Movimento reduzido.** A fundação de movimento é explícita: com movimento reduzido, o
-giro **para** — vira indicador estático ou progresso determinado. Isso **não é remover o
-feedback**: quem pediu redução continua precisando saber que algo está acontecendo, e é
-o texto que carrega essa informação. Ver `Fundação — movimento` (vault).
+**Reduced motion.** The motion foundation is explicit: with reduced motion, the
+spin **stops** — it becomes a static indicator or determinate progress. This **is not removing the
+feedback**: whoever asked for reduction still needs to know that something is happening, and it is
+the text that carries that information. See `Fundação — movimento` (vault).
 
-## Relações
+## Relations
 
-**Combina com:** `nph-icon` — de quem herda a arte — e `nph-button`.
+**Combines with:** `nph-icon` — from which it inherits the artwork — and `nph-button`.
 
-**O que é pai:** o `nph-button` em processamento, e a área de conteúdo em carregamento.
+**What is parent:** the `nph-button` while processing, and the content area being loaded.
 
-**O que é filho:** nada. O girador é folha.
+**What is child:** nothing. The spinner is a leaf.
 
-**Qual bloco complementa:** `pendente` — a Fase 5 não começou.
+**Which block it complements:** `pendente` — Phase 5 has not started.
 
-**Aparece nos layouts:** `pendente`, pelo mesmo motivo.
+**Appears in the layouts:** `pendente`, for the same reason.
 
-**A dependência que ordena a fila:** o `nph-spinner` vem **depois** do `nph-icon`, porque
-a arte dele é o `circle-notch` do núcleo. E ele é **preparação antes do P0**: o estado de
-carregamento do botão depende dele.
+**The dependency that orders the queue:** `nph-spinner` comes **after** `nph-icon`, because
+its artwork is the core's `circle-notch`. And it is **preparation before P0**: the button's
+loading state depends on it.
 
-## Tokens, intenção e Dicas para IA
+## Tokens, intent and AI hints
 
-**Tokens semânticos usados:** `icon/size-sm` e `icon/size-md`.
+**Semantic tokens used:** `icon/size-sm` and `icon/size-md`.
 
-**A arte:** `circle-notch` — anel com um corte, feito para **rotação contínua**. O
-`spinner` clássico foi descartado porque é desenhado para girar em **oito passos
-discretos**, e não para girar liso.
+**The artwork:** `circle-notch` — a ring with a cut, made for **continuous rotation**. The
+classic `spinner` was discarded because it is drawn to spin in **eight discrete
+steps**, and not to spin smoothly.
 
-**A cor:** herda `currentColor`. Não existe token de cor de girador.
+**The color:** inherits `currentColor`. There is no spinner color token.
 
-**O movimento:** `pendente`. Ver Estados.
+**The motion:** `pendente`. See States.
 
-**Restrições de uso:** não usar valor literal, não consumir `core/*` diretamente, não
-usar arte alternativa.
+**Usage restrictions:** do not use a literal value, do not consume `core/*` directly, do not
+use alternative artwork.
 
-**Dicas para IA:**
+**AI hints:**
 
-- **Girador nunca é o único sinal.** Precisa de texto ou contexto que diga o que está
-  acontecendo.
-- **Dentro de botão ou campo é `sm`; área de conteúdo é `md`.** Não existe `lg`.
-- **Não invente duração, repetição ou curva.** As duas decisões de movimento estão
-  abertas — PF-05 e PF-16.
-- **A arte é `circle-notch`**, não o `spinner` clássico.
-- **Com movimento reduzido, o giro para.** O feedback passa a ser o texto.
+- **A spinner is never the only sign.** It needs text or context that says what is
+  happening.
+- **Inside a button or field it is `sm`; a content area is `md`.** There is no `lg`.
+- **Do not invent duration, repetition or curve.** The two motion decisions are
+  open — PF-05 and PF-16.
+- **The artwork is `circle-notch`**, not the classic `spinner`.
+- **With reduced motion, the spin stops.** The feedback becomes the text.
 
-## Exemplos
+## Examples
 
-**Caso recomendado:** girador `sm` dentro de uma ação em processamento, com nome
-acessível e com o texto do botão dizendo o que está acontecendo.
+**Recommended case:** an `sm` spinner inside an action being processed, with an accessible
+name and with the button text saying what is happening.
 
-**Caso alternativo:** girador `md` em uma área de conteúdo, acompanhado de mensagem de
-carregamento — e aí o girador é decorativo.
+**Alternative case:** an `md` spinner in a content area, accompanied by a loading
+message — and then the spinner is decorative.
 
-## Anti-padrões
+## Anti-patterns
 
-- **Não usar para:** sinalizar sozinho que uma operação está em curso.
-- **Não combinar com:** tamanho não aprovado, tipo herdado do kit Obra, ou arte diferente
-  de `circle-notch`.
-- **Combinações inválidas, e por quê:** `size=lg` — não existe · qualquer `type` — a
-  propriedade foi removida · girador sem texto de contexto — o carregamento fica mudo
-  para quem não vê a animação.
-- **Não criar nem adaptar sem decisão:** duração, repetição, token de movimento ou a API
-  técnica.
+- **Do not use for:** signaling on its own that an operation is underway.
+- **Do not combine with:** an unapproved size, a type inherited from the Obra kit, or artwork other
+  than `circle-notch`.
+- **Invalid combinations, and why:** `size=lg` — does not exist · any `type` — the
+  property was removed · spinner without context text — the loading is silent
+  for those who do not see the animation.
+- **Do not create or adapt without a decision:** duration, repetition, motion token or the technical
+  API.
 
-## Fontes e decisões
+## Sources and decisions
 
-### O que existe hoje — 31-08-2026
+### What exists today — 31-08-2026
 
-| O quê | Situação |
+| What | Status |
 |---|---|
-| Aprovação visual | **Aprovado**, na página `NPH — Spinner`, com `size=sm\|md` |
-| Implementação | **Não existe.** Sem código, sem stories, sem testes |
-| Arte | `circle-notch`, do núcleo de ícones |
-| Escopo | **Entra na v1**, como **preparação antes do P0** — não entra no recorte P0 e não o reordena |
-| Movimento | **Aberto** — PF-05 e PF-16 |
+| Visual approval | **Approved**, on the `NPH — Spinner` page, with `size=sm\|md` |
+| Implementation | **Does not exist.** No code, no stories, no tests |
+| Artwork | `circle-notch`, from the icon core |
+| Scope | **In v1**, as **preparation before P0** — it is not part of the P0 cut and does not reorder it |
+| Motion | **Open** — PF-05 and PF-16 |
 
-### O que falta para esta ficha fechar
+### What is missing for this spec to close
 
-1. **A decisão de movimento** — duração do laço e a curva. Sem ela o componente não pode
-   ser implementado sem inventar valor.
-2. **A implementação**, e com ela: a API conferida no código, o Storybook e os testes.
-3. **O nível de WCAG** (PI-05), para o critério de contraste ter aceite.
+1. **The motion decision** — loop duration and the curve. Without it the component cannot
+   be implemented without inventing a value.
+2. **The implementation**, and with it: the API checked in the code, Storybook and the tests.
+3. **The WCAG level** (PI-05), so the contrast criterion can be accepted.
 
-**Depois de existir implementação verificável, a ficha só é atualizada no
-encerramento**, após comparação Figma × Storybook, evidência e aceite. Só então
-o bloco `api` deixa de ser proposta e passa a ser conferido propriedade por
-propriedade, como nas fichas implementadas.
+**Once a verifiable implementation exists, the spec is only updated at the
+closing**, after Figma × Storybook comparison, evidence and acceptance. Only then
+does the `api` block stop being a proposal and become checked property by
+property, as in the implemented specs.
 
-| O quê | Onde |
+| What | Where |
 |---|---|
-| Contrato técnico | `design.md` — regras de ícone e tamanhos; movimento pendente |
-| A decisão de escopo e a evidência visual | `TRABALHO/DESIGN SYSTEM/02 — Componentes/Registro de decisões e status — Componentes Nephos.md` |
-| A arte e as regras de ícone | `Fundação — ícones` (vault) |
-| As regras de movimento | `Fundação — movimento` (vault) |
-| A ficha de origem, agora memória | `TRABALHO/DESIGN SYSTEM/02 — Componentes/fichas/nph-spinner.md` |
-| O que está aberto | `Pendências do Nephos` (vault) — **PF-05**, **PF-16** e **PI-05** |
+| Technical contract | `design.md` — icon and size rules; motion pending |
+| The scope decision and the visual evidence | `TRABALHO/DESIGN SYSTEM/02 — Componentes/Registro de decisões e status — Componentes Nephos.md` |
+| The artwork and the icon rules | `Fundação — ícones` (vault) |
+| The motion rules | `Fundação — movimento` (vault) |
+| The origin spec, now memory | `TRABALHO/DESIGN SYSTEM/02 — Componentes/fichas/nph-spinner.md` |
+| What is open | `Pendências do Nephos` (vault) — **PF-05**, **PF-16** and **PI-05** |
 
 ---
 
-*Procedência: função, variantes, estado, acessibilidade, relações, exemplos e
-anti-padrões são **evidência** — vêm da ficha de origem, em rascunho, reescritas no
-modelo de nove seções sem alteração de regra. A aprovação visual e a decisão de escopo
-são **decisão humana** da Indiane. **O bloco `api` é proposta**, e está marcado como tal:
-não há código para conferir. As Dicas para IA são **novas**. PF-05, PF-16 e PI-05 são
-**pendências** já registradas. A ficha nasce incompleta por decisão de Indiane em
-31-08-2026, e nada foi inventado para preencher o que falta.*
+*Provenance: function, variants, state, accessibility, relations, examples and
+anti-patterns are **evidence** — they come from the origin spec, in draft, rewritten in the
+nine-section model without any rule change. The visual approval and the scope decision
+are a **human decision** by Indiane. **The `api` block is a proposal**, and it is marked as such:
+there is no code to check. The AI hints are **new**. PF-05, PF-16 and PI-05 are
+**pending items** already recorded. The spec is born incomplete by Indiane's decision on
+31-08-2026, and nothing was invented to fill what is missing.*

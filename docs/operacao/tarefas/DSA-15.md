@@ -31,7 +31,7 @@
   "bloqueios": [],
   "decisoes_pendentes": [
     {
-      "pergunta": "Which contract keys move to English, with which name map (for example `objetivo`, `use_quando`, `modos`, `claro` and `escuro`), and in which order, given that the change touches the docs/operacao schema, the spec YAML, the generated Metadata and the token JSON at once?",
+      "pergunta": "Which contract keys move to English, with which name map (for example `objetivo`, `use_quando`, `modos`, `claro` and `escuro`), and in which order, given that the change touches the docs/operacao schema, the spec YAML, the generated Metadata and the token JSON at once? Does it also include the single-word values of the specs and of the Metadata (`vazio`, `nenhum`, `nulo`, `pendente`, `nao_se_aplica`, `aparencia`)?",
       "quem_decide": "indiane"
     }
   ],
@@ -73,7 +73,9 @@ build:tokens`, `npm run test:tokens`, `npm test` and `npm run test:naming` pass.
 `maurocsjr` and is merged into `v/5.0.0`.
 
 ## What this task does not do
-It does not change values, rules or behaviour, only key names. It does not
+It changes only key names and, as the amendment of 06/10/2026 to P64 says, the
+enum values of the task, context and evidence JSON (such as `aguardando-decisao`);
+it changes no rule or behaviour. It does not
 translate text, which the language migration already covers. It does not change
 public names (`nph-*` tags, properties, custom properties and `data-nph-*`
 attributes) unless the decision says so.

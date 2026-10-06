@@ -1,124 +1,125 @@
 ---
-titulo: "Modelo de ficha — Nephos"
-tipo: template do contrato agêntico
+titulo: "Spec template — Nephos"
+tipo: agentic contract template
 criado: 2026-08-31
 atualizado: 2026-08-31
-status: aguardando revisão
+status: awaiting review
 leitura_obrigatoria: true
 precedencia: 5
 aplica_se_a: [componente, bloco, layout, template]
 fontes:
-  - "TRABALHO/DESIGN SYSTEM/02 — Componentes/Template de ficha — peças do Nephos.md — versão 1.0, de 20-08-2026"
-  - "`Documentos obrigatórios de um Design System agêntico — especificação para o Nephos` (vault) — o modelo de 9 seções"
+  - "`TRABALHO/DESIGN SYSTEM/02 — Componentes/Template de ficha — peças do Nephos.md` — version 1.0, of 20-08-2026"
+  - "`Documentos obrigatórios de um Design System agêntico — especificação para o Nephos` (vault) — the 9-section model"
   - "`Índice — DS-Agentico` (vault)"
 tags: [nephos, ds-agentico, ficha, template]
 ---
 
-> **Referências marcadas `(vault)`** estão em `02 PROJETOS/DS-Agentico/`, no WORK BRAIN —
-> fora deste repositório. Elas eram wikilinks do Obsidian e foram convertidas em
-> referência explícita na migração de 31-08-2026.
+> **References marked `(vault)`** are in `02 PROJETOS/DS-Agentico/`, in the WORK BRAIN —
+> outside this repository. They were Obsidian wikilinks and were converted into an
+> explicit reference in the migration of 31-08-2026.
 
-# Modelo de ficha — Nephos
+# Spec template — Nephos
 
-> **Por que o modelo vem antes das fichas.** Uma estrutura padrão preenchida treze
-> vezes vale mais que treze documentos que divergem. O agente aprende a forma uma vez
-> e passa a saber onde procurar em qualquer peça.
+> **Why the template comes before the specs.** One standard structure filled in thirteen
+> times is worth more than thirteen documents that diverge. The agent learns the shape once
+> and then knows where to look in any piece.
 >
-> Volta para `Índice — DS-Agentico` (vault).
+> Back to `Índice — DS-Agentico` (vault).
 
-**Como usar.** Copie o gabarito da seção 4. Preencha **tudo**. Campo que não se
-aplica recebe `nao_se_aplica`; campo ainda não decidido recebe `pendente` — nunca
-fique em branco, porque branco o agente lê como "não existe" e inventa.
+**How to use.** Copy the template in section 4. Fill in **everything**. A field that does not
+apply gets `nao_se_aplica`; a field not yet decided gets `pendente` — never
+leave it blank, because the agent reads blank as "does not exist" and invents.
 
-**Onde salvar:** nesta pasta — `fichas/<nome>.md`, **no repositório**. Este modelo também
-é canônico aqui, em `fichas/_modelo.md`. **Decisão da Indiane em 31-08-2026 (PI-01):** as
-fichas de componente e o gabarito vivem no repositório, que é onde o `AGENTS.md`, o
-`CLAUDE.md` e o `design.md` já mandavam abri-las, e onde está quem as consome.
+**Where to save:** in this folder — `fichas/<name>.md`, **in the repository**. This template is
+also canonical here, in `fichas/_modelo.md`. **Indiane's decision on 31-08-2026 (PI-01):** the
+component specs and the template live in the repository, which is where `AGENTS.md`,
+`CLAUDE.md` and `design.md` already told readers to open them, and where those who consume them are.
 
-**No vault existe apenas um ponteiro** para cada uma. Se você encontrar critério de peça
-escrito lá, é erro: a fonte é este diretório.
+**In the vault there is only a pointer** to each one. If you find piece criteria
+written there, it is an error: the source is this directory.
 
-**O que não entra.** Histórico, justificativa longa, conversa de reunião ou decisão
-superada. Ficha é contrato enxuto: decisão consolidada, valor verificável, ponteiro e
-procedimento.
+**What does not go in.** History, long justification, meeting talk or superseded
+decision. A spec is a lean contract: consolidated decision, verifiable value, pointer and
+procedure.
 
-**E a ficha não documenta aparência.** "Botão com fundo azul e cantos arredondados" é
-o que dá para ver — falta o que importa.
+**And the spec does not document appearance.** "Button with a blue background and rounded corners" is
+what you can see — what matters is missing.
 
-## 1. As duas metades
+## 1. The two halves
 
-| Metade | O que carrega | Quem lê |
+| Half | What it carries | Who reads it |
 |---|---|---|
-| **YAML** no topo | Os **valores**: tokens, variantes, estados, combinações inválidas | A máquina, sem interpretar prosa |
-| **Markdown** abaixo | O **critério**: quando escolher esta peça e não a parecida, o que nunca fazer | O agente e a pessoa, ao decidir |
+| **YAML** at the top | The **values**: tokens, variants, states, invalid combinations | The machine, without interpreting prose |
+| **Markdown** below | The **criterion**: when to choose this piece and not the similar one, what never to do | The agent and the person, when deciding |
 
-As duas são obrigatórias. O YAML sozinho descreve a peça e não ensina a escolhê-la; o
-Markdown sozinho não é verificável.
+Both are required. The YAML alone describes the piece and does not teach how to choose it; the
+Markdown alone is not verifiable.
 
-**A API mora no YAML, e só ali.** Decisão da Indiane em 31-08-2026: propriedade, tipo,
-obrigatoriedade, valor padrão e restrição são **valores**, e valor é a metade da
-máquina. **Não existe seção "API" em Markdown** — as nove seções são nove em todas as
-fichas. O texto explica *quando escolher a peça*; o YAML diz *o que ela aceita*.
+**The API lives in the YAML, and only there.** Indiane's decision on 31-08-2026: property, type,
+requiredness, default value and restriction are **values**, and a value is the machine's
+half. **There is no "API" section in Markdown** — the nine sections are nine in every
+spec. The text explains *when to choose the piece*; the YAML says *what it accepts*.
 
-## 2. As seis regras de escrita
+## 2. The six writing rules
 
-1. **Imperativo absoluto nas regras.** "O espaçamento é **estrito** de 4px" — a
-   palavra "estrito" avisa ao agente que a regra não se quebra. "Prefira" e
-   "geralmente" convidam à exceção.
-2. **A seção de anti-padrões é obrigatória.** Ficha sem "nunca faça" está incompleta,
-   mesmo parecendo completa. É a seção com maior retorno por linha escrita.
-3. **Combinações inválidas não são opcionais.** É o que impede a invenção de variantes
-   que não funcionariam.
-4. **Só token semântico.** Nenhuma ficha cita `core/*`, `theme/*` ou valor literal.
-5. **Nomes de identificador em inglês; todo o resto em português.**
-6. **Documente também o que não é seu.** Componente de terceiro usado como está
-   precisa de ficha — a documentação do fornecedor diz o que ele faz, não **quando
-   escolhê-lo dentro do Nephos**. Essa camada é sua.
+1. **Absolute imperative in the rules.** "The spacing is **strictly** 4px" — the
+   word "strictly" warns the agent that the rule does not break. "Prefer" and
+   "usually" invite the exception.
+2. **The anti-patterns section is required.** A spec without "never do" is incomplete,
+   even if it looks complete. It is the section with the highest return per line written.
+3. **Invalid combinations are not optional.** They are what prevents the invention of variants
+   that would not work.
+4. **Semantic tokens only.** No spec cites `core/*`, `theme/*` or a literal value.
+5. **The spec text is in English** (P64, amendment of 06-10-2026). YAML keys and
+   single-word contract values stay as they are until DSA-15.
+6. **Also document what is not yours.** A third-party component used as is
+   needs a spec — the vendor's documentation says what it does, not **when to
+   choose it within Nephos**. That layer is yours.
 
-E uma regra de migração: **migrar não é copiar.** O conteúdo atual foi escrito para
-pessoas lerem. Ao trazer para cá, reescreva no formato de decisão, em vez de copiar
-descrição visual.
+And one migration rule: **migrating is not copying.** The current content was written for
+people to read. When bringing it here, rewrite it in decision format, instead of copying
+visual description.
 
-## 3. As nove seções
+## 3. The nine sections
 
-> **Fundação não usa este modelo.** Decisão da Indiane em 31-08-2026: as oito fichas de
-> fundação têm **forma própria** — significado de cada token · regra de uso ·
-> anti-padrões · o que a fundação não cobre · Dicas para IA · fontes e decisões.
-> "Variantes", "Estados" e "Relações" não descrevem uma fundação: cor não tem estado de
-> hover, ela **é** o que o hover usa. Ver `Fundação — cor` (vault), que é o gabarito das
-> outras sete.
+> **Foundation does not use this template.** Indiane's decision on 31-08-2026: the eight
+> foundation specs have **their own shape** — meaning of each token · usage rule ·
+> anti-patterns · what the foundation does not cover · AI hints · sources and decisions.
+> "Variants", "States" and "Relations" do not describe a foundation: color has no hover
+> state, it **is** what hover uses. See `Fundação — cor` (vault), which is the template for the
+> other seven.
 
-| # | Seção | O que responde |
+| # | Section | What it answers |
 |---|---|---|
-| 1 | Função | o problema que resolve · quando usar · quando **não** usar |
-| 2 | Variantes | as variantes · escolha esta quando · não combine com |
-| 3 | Estados | os estados · **qual token cada estado usa** · o que muda para a pessoa · feedback e foco |
-| 4 | Acessibilidade | semântica · nome acessível · teclado e foco · contraste |
-| 5 | Relações | combina com · **o que é pai, o que é filho** · **qual bloco complementa** · em que layouts aparece |
-| 6 | Tokens, intenção e **Dicas para IA** | tokens semânticos · restrições de uso · **quando escolher esta peça e não a parecida** |
-| 7 | Exemplos | caso recomendado · caso alternativo |
-| 8 | Anti-padrões | não usar para · não combinar com · combinações inválidas · não criar sem decisão |
-| 9 | Fontes e decisões | `design.md` · a decisão que originou · testes · evidência de uso |
+| 1 | Function | the problem it solves · when to use · when **not** to use |
+| 2 | Variants | the variants · choose this when · do not combine with |
+| 3 | States | the states · **which token each state uses** · what changes for the person · feedback and focus |
+| 4 | Accessibility | semantics · accessible name · keyboard and focus · contrast |
+| 5 | Relations | combines with · **what is parent, what is child** · **which block it complements** · in which layouts it appears |
+| 6 | Tokens, intent and **AI hints** | semantic tokens · usage restrictions · **when to choose this piece and not the similar one** |
+| 7 | Examples | recommended case · alternative case |
+| 8 | Anti-patterns | do not use for · do not combine with · invalid combinations · do not create without a decision |
+| 9 | Sources and decisions | `design.md` · the originating decision · tests · usage evidence |
 
-## 4. O gabarito — copie a partir daqui
+## 4. The template — copy from here
 
 ```markdown
 ---
-peca: nph-<nome>                      # ou o nome do bloco, layout ou template
+peca: nph-<nome>                      # or the name of the block, layout or template
 nivel: componente                     # componente | fundacao | bloco | layout | template
 status: rascunho                      # rascunho | vigente | descontinuado
 resolve: >-
-  Uma frase: o problema que esta peça resolve.
-use_quando: []                        # situações concretas
-nao_use_quando: []                    # cada item aponta a peça certa para o caso
-api:                                  # o CONTRATO PÚBLICO da peça. Não vira seção
-  <propriedade>:                      #   em Markdown: API é valor, e valor mora aqui
+  One sentence: the problem this piece solves.
+use_quando: []                        # concrete situations
+nao_use_quando: []                    # each item points to the right piece for the case
+api:                                  # the piece's PUBLIC CONTRACT. It does not become a section
+  <propriedade>:                      #   in Markdown: API is a value, and values live here
     tipo: ""                          # string | boolean | number | enum
-    valores: []                       # só quando tipo=enum; a lista fechada
+    valores: []                       # only when tipo=enum; the closed list
     obrigatoria: false                # true | false
-    padrao: ""                        # o valor assumido quando nada é passado
-    reflete: false                    # true quando vira atributo no DOM, e por quê
-    restricao: ""                     # o limite de uso, quando houver
+    padrao: ""                        # the value assumed when nothing is passed
+    reflete: false                    # true when it becomes a DOM attribute, and why
+    restricao: ""                     # the usage limit, when there is one
 variantes:
   <nome-da-variante>:
     eixo: aparencia                   # aparencia | tamanho | densidade
@@ -126,182 +127,182 @@ variantes:
     nao_combine_com: []
 estados:
   <nome-do-estado>:
-    token: ""                         # QUAL token semântico este estado usa
+    token: ""                         # WHICH semantic token this state uses
     muda_para_a_pessoa: ""
-regras_de_negocio: []                 # regra do domínio que a peça carrega
-erros_de_dominio: []                  # estados de erro do produto, não só visuais
-tokens:                               # SÓ camada semântica
+regras_de_negocio: []                 # domain rule the piece carries
+erros_de_dominio: []                  # product error states, not only visual ones
+tokens:                               # semantic layer ONLY
   <propriedade>: <token>
-dicas_para_ia: []                     # frases de escolha, em linguagem natural
+dicas_para_ia: []                     # choice sentences, in natural language
 acessibilidade:
-  semantica: ""                       # elemento ou role
-  nome_acessivel: ""                  # de onde sai o nome
-  teclado: []                         # teclas e o que cada uma faz
+  semantica: ""                       # element or role
+  nome_acessivel: ""                  # where the name comes from
+  teclado: []                         # keys and what each one does
   foco: ""
-  contraste: ""                       # pendente até a PI-05 fixar o nível de WCAG
-  alternativa_a_cor: ""               # como o estado é percebido sem cor
-combinacoes_invalidas: []             # cada item: o que não pode e por quê
+  contraste: ""                       # pendente until PI-05 sets the WCAG level
+  alternativa_a_cor: ""               # how the state is perceived without color
+combinacoes_invalidas: []             # each item: what is not allowed and why
 relacoes:
   combina_com: []
-  pai: []                             # o que costuma conter esta peça
-  filho: []                           # o que esta peça costuma conter
-  complementa_bloco: []               # o elo com a Fase 5
-  aparece_em: []                      # blocos, layouts ou templates
-  # nos níveis de composição, acrescente:
-  # exige: []                         # peças obrigatórias
+  pai: []                             # what usually contains this piece
+  filho: []                           # what this piece usually contains
+  complementa_bloco: []               # the link with Phase 5
+  aparece_em: []                      # blocks, layouts or templates
+  # at composition levels, add:
+  # exige: []                         # required pieces
   # variacoes_aceitaveis: []
   # contexto_de_layout: ""
 anti_padroes: []
 fontes:
   design_md: ""
-  decisao: ""                         # a decisão que originou a peça, com data
+  decisao: ""                         # the decision that originated the piece, with date
   testes: ""
-  evidencia_de_uso: ""                # onde ela já é usada de verdade
+  evidencia_de_uso: ""                # where it is actually used already
   storybook: ""
   figma: ""
 ---
 
-# <nome da peça>
+# <piece name>
 
-## Função
+## Function
 
-- **Problema que resolve:**
-- **Quando usar:**
-- **Quando NÃO usar:**
+- **Problem it solves:**
+- **When to use:**
+- **When NOT to use:**
 
-## Variantes
+## Variants
 
-- **Variantes por aparência:**
-- **Variantes por tamanho:**
-- **Variantes por densidade:**
-- **Escolha esta variante quando:**
-- **Não combine com:**
+- **Variants by appearance:**
+- **Variants by size:**
+- **Variants by density:**
+- **Choose this variant when:**
+- **Do not combine with:**
 
-## Estados
+## States
 
-- **Estados suportados, e o token de cada um:**
-- **O que muda para a pessoa usuária:**
-- **Regras de feedback e foco:**
-- **Regra de negócio que a peça carrega:**
-- **Estados de erro do domínio:**
+- **Supported states, and the token of each one:**
+- **What changes for the user:**
+- **Feedback and focus rules:**
+- **Business rule the piece carries:**
+- **Domain error states:**
 
-## Acessibilidade
+## Accessibility
 
-- **Semântica necessária:**
-- **Nome acessível e rótulos:**
-- **Teclado e foco:**
-- **Contraste:**
-- **Alternativa à cor:**
+- **Required semantics:**
+- **Accessible name and labels:**
+- **Keyboard and focus:**
+- **Contrast:**
+- **Alternative to color:**
 
-## Relações
+## Relations
 
-- **Combina com:**
-- **O que é pai (onde esta peça aparece dentro):**
-- **O que é filho (o que ela contém):**
-- **Qual bloco esta peça complementa:**
-- **Aparece nos layouts:**
+- **Combines with:**
+- **What is parent (what this piece appears inside):**
+- **What is child (what it contains):**
+- **Which block this piece complements:**
+- **Appears in the layouts:**
 
-## Tokens, intenção e Dicas para IA
+## Tokens, intent and AI hints
 
-- **Tokens semânticos usados:**
-- **Restrições de uso:**
-- **Dicas para IA:**
-  - <uma frase por linha, dizendo QUANDO escolher esta peça e não a parecida>
+- **Semantic tokens used:**
+- **Usage restrictions:**
+- **AI hints:**
+  - <one sentence per line, saying WHEN to choose this piece and not the similar one>
 
-## Exemplos
+## Examples
 
-- **Caso recomendado:**
-- **Caso alternativo:**
+- **Recommended case:**
+- **Alternative case:**
 
-## Anti-padrões
+## Anti-patterns
 
-- **Não usar para:**
-- **Não combinar com:**
-- **Combinações inválidas, e por quê:**
-- **Não criar nem adaptar sem decisão:**
+- **Do not use for:**
+- **Do not combine with:**
+- **Invalid combinations, and why:**
+- **Do not create or adapt without a decision:**
 
-## Fontes e decisões
+## Sources and decisions
 
-- **`design.md` do repositório:**
-- **A decisão que originou, com data e responsável:**
-- **Testes:**
-- **Evidência de uso:**
+- **The repository `design.md`:**
+- **The originating decision, with date and owner:**
+- **Tests:**
+- **Usage evidence:**
 - **Storybook:**
 - **Figma:**
 ```
 
-## 5. O que muda em bloco, layout e template
+## 5. What changes in block, layout and template
 
-**Mesmo gabarito** — eles não ganham estrutura própria —, com quatro acréscimos em
-`relacoes` e na seção Relações:
+**Same template** — they do not get their own structure —, with four additions in
+`relacoes` and in the Relations section:
 
-| Acréscimo | O que responde |
+| Addition | What it answers |
 |---|---|
-| `exige` | Que peças a composição **obriga**. Sem elas, não é aquela composição |
-| `variacoes_aceitaveis` | O que pode mudar sem virar outra coisa |
-| `contexto_de_layout` | Em que layout ela costuma aparecer |
-| Objetivo da composição | Que objetivo de interface ela resolve — não a aparência |
+| `exige` | Which pieces the composition **requires**. Without them, it is not that composition |
+| `variacoes_aceitaveis` | What can change without becoming something else |
+| `contexto_de_layout` | In which layout it usually appears |
+| Composition goal | Which interface goal it solves — not the appearance |
 
-**O critério que separa componente de bloco:** componente é reutilizável em qualquer
-contexto; bloco resolve uma situação específica. Um botão é componente. "Barra de
-ações de uma listagem — filtrar, exportar, criar novo" é bloco.
+**The criterion that separates component from block:** a component is reusable in any
+context; a block solves a specific situation. A button is a component. "Action bar
+of a listing — filter, export, create new" is a block.
 
-**Restrição de origem:** bloco, layout e template só são documentados depois de
-**extraídos** de padrão real ou de mock aprovado. Nenhum dos três nasce porque
-apareceu em uma referência.
+**Origin restriction:** block, layout and template are only documented after being
+**extracted** from a real pattern or from an approved mock. None of the three is born because
+it appeared in a reference.
 
-## 6. As três seções que não são negociáveis
+## 6. The three sections that are not negotiable
 
-- **Relações** é o que amarra os níveis. Sem ela, o agente sabe montar a peça e **não
-  sabe onde encaixá-la** — e o resultado é uma tela que reúne componentes corretos sem
-  formar uma interface coerente.
-- **Anti-padrões** corta o espaço de erro. É o que impede a IA de inventar variantes
-  que não funcionariam. Documento sem "nunca faça" está incompleto, mesmo parecendo
-  completo.
-- **Dicas para IA** é a mais fácil de esquecer, porque parece repetir a lista de
-  tokens. Não repete: **a lista diz o que a peça consome; a dica diz quando escolher
-  esta peça e não a parecida.** Exemplo: "use para a ação principal do formulário;
-  para navegação simples, use link".
+- **Relations** is what ties the levels together. Without it, the agent knows how to build the piece and **does not
+  know where to fit it** — and the result is a screen that gathers correct components without
+  forming a coherent interface.
+- **Anti-patterns** cuts the error space. It is what prevents the AI from inventing variants
+  that would not work. A document without "never do" is incomplete, even if it looks
+  complete.
+- **AI hints** is the easiest to forget, because it seems to repeat the list of
+  tokens. It does not: **the list says what the piece consumes; the hint says when to choose
+  this piece and not the similar one.** Example: "use for the main action of the form;
+  for simple navigation, use a link".
 
-## 7. Quando a ficha está pronta
+## 7. When the spec is ready
 
-A peça sai da fila quando:
+The piece leaves the queue when:
 
-1. a ficha responde a **todos** os itens, sem campo em branco;
-2. os tokens citados são semânticos e foram auditados;
-3. cada estado nomeia o token que usa;
-4. existe página no Figma com propósito, anatomia, variantes, estados e limites de uso;
-5. **cada variante e cada estado aparece em alguma story verificável** — uma mesma
-   story pode cobrir mais de uma combinação, e nenhuma combinação fica de fora. O
-   critério é **cobertura rastreável**, não quantidade de arquivos, páginas ou
-   stories. *Decisão da Indiane em 09-09-2026; substitui a regra de formato
-   anterior, que exigia uma story por variante e por estado;*
-6. Figma e Storybook não divergem — ou a divergência está registrada com a decisão que
-   falta;
-7. as Dicas para IA existem e dizem quando escolher esta peça, não o que ela é;
-8. o bloco `api` está completo e **confere com o código**, quando a peça já estiver
-   implementada — propriedade por propriedade, não por impressão.
+1. the spec answers **all** items, with no blank field;
+2. the cited tokens are semantic and have been audited;
+3. each state names the token it uses;
+4. there is a Figma page with purpose, anatomy, variants, states and usage limits;
+5. **each variant and each state appears in some verifiable story** — one
+   story can cover more than one combination, and no combination is left out. The
+   criterion is **traceable coverage**, not the number of files, pages or
+   stories. *Indiane's decision on 09-09-2026; it replaces the previous format
+   rule, which required one story per variant and per state;*
+6. Figma and Storybook do not diverge — or the divergence is recorded with the decision that
+   is missing;
+7. the AI hints exist and say when to choose this piece, not what it is;
+8. the `api` block is complete and **matches the code**, when the piece is already
+   implemented — property by property, not by impression.
 
-Checklist incompleto significa peça **em andamento**, não peça entregue.
+An incomplete checklist means a piece **in progress**, not a delivered piece.
 
-## 8. Por onde começar
+## 8. Where to start
 
-**Pelas fichas do `nph-icon` e do `nph-label`.** São os dois componentes já
-implementados e integrados na branch principal: têm mais evidência no repositório e
-calibram o formato para os três seguintes.
+**With the specs of `nph-icon` and `nph-label`.** They are the two components already
+implemented and integrated in the main branch: they have the most evidence in the repository and
+calibrate the format for the next three.
 
-> A versão 1.0 deste template, de 20-08-2026, recomendava começar pelo `nph-input`,
-> por ser o componente mais denso e o melhor teste do gabarito. O raciocínio continua
-> bom, mas foi **superado pela decisão da Indiane em 30-08-2026**: evidência real de
-> código pesa mais que densidade, nesta altura do projeto. O `nph-input` é a quinta
-> ficha.
+> Version 1.0 of this template, of 20-08-2026, recommended starting with `nph-input`,
+> because it is the densest component and the best test of the template. The reasoning is still
+> sound, but it was **superseded by Indiane's decision on 30-08-2026**: real code evidence
+> weighs more than density, at this point in the project. `nph-input` is the fifth
+> spec.
 
 ---
 
-*Procedência: a estrutura, as duas metades, as regras de escrita, o gabarito base e o
-critério de pronto são **evidência** — vêm de `Template de ficha — peças do Nephos.md`,
-versão 1.0, de 20-08-2026. As nove seções, os acréscimos de estado, densidade,
-relação de pai e filho, Dicas para IA e "Fontes e decisões" são **exigência da régua**.
-A ordem de preenchimento é **decisão humana** da Indiane, em 30-08-2026. O destino do
-nível de contraste é **pendência** — PI-05. O destino do arquivo foi decidido pela
-Indiane em 31-08-2026: repositório, em `fichas/`.*
+*Provenance: the structure, the two halves, the writing rules, the base template and the
+readiness criterion are **evidence** — they come from `Template de ficha — peças do Nephos.md`,
+version 1.0, of 20-08-2026. The nine sections, the additions of state, density,
+parent and child relation, AI hints and "Sources and decisions" are **a requirement of the yardstick**.
+The filling order is a **human decision** by Indiane, on 30-08-2026. The destination of the
+contrast level is **pending** — PI-05. The destination of the file was decided by
+Indiane on 31-08-2026: repository, in `fichas/`.*

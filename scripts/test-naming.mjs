@@ -90,7 +90,7 @@ const LANGUAGE_EXCEPTIONS_FILE = 'scripts/language-exceptions.json';
  * Portuguese it finds and keeps the exit code; 'enforce' fails. Each group goes to
  * 'enforce' when its translation is merged (docs: PR 2; specs: PR 4).
  */
-const LANGUAGE_MODES = { docs: 'enforce', specs: 'warn' };
+const LANGUAGE_MODES = { docs: 'enforce', specs: 'enforce' };
 const SELF_TEST_FILE = 'scripts/fixtures/naming/cases.json';
 
 const CLASSES = {
