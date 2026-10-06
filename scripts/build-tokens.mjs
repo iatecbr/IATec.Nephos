@@ -40,8 +40,8 @@ const declared = new Set(idx.keys());
 const tm = theme.$extensions[NS].modeSet;
 const sm = semantic.$extensions[NS].modeSet;
 /** Default mode per layer prefix, used when resolving the alias chain. */
-const DEFAULT_MODES = { core: null, theme: tm.padrao, ...Object.fromEntries(
-  Object.keys(semantic).filter((k) => !k.startsWith('$')).map((k) => [k, sm.padrao]),
+const DEFAULT_MODES = { core: null, theme: tm.default, ...Object.fromEntries(
+  Object.keys(semantic).filter((k) => !k.startsWith('$')).map((k) => [k, sm.default]),
 ) };
 
 // ---------------------------------------------------------------
@@ -49,12 +49,12 @@ const DEFAULT_MODES = { core: null, theme: tm.padrao, ...Object.fromEntries(
 // ---------------------------------------------------------------
 for (const source of sources) {
   const ext = (source.$extensions && source.$extensions[NS]) || {};
-  const layer = ext.camada || '(no layer)';
-  const modes = ext.modeSet ? ext.modeSet.modos : null;
+  const layer = ext.layer || '(no layer)';
+  const modes = ext.modeSet ? ext.modeSet.modes : null;
   const list = leaves(source);
 
-  if (ext.contagemEsperada !== undefined && list.length !== ext.contagemEsperada) {
-    fail('layer "' + layer + '": ' + list.length + ' tokens, expected ' + ext.contagemEsperada);
+  if (ext.expectedCount !== undefined && list.length !== ext.expectedCount) {
+    fail('layer "' + layer + '": ' + list.length + ' tokens, expected ' + ext.expectedCount);
   }
 
   for (const [p, t] of list) {
@@ -267,11 +267,11 @@ async function block(layer, mode, selector, subset) {
 }
 
 const sel = (set, mode, publicValue) => {
-  const s = set.seletor.replace('{modo}', publicValue || mode);
-  return mode === set.padrao ? ':root,\n' + s : s;
+  const s = set.selector.replace('{mode}', publicValue || mode);
+  return mode === set.default ? ':root,\n' + s : s;
 };
 
-const { invariants, variants } = classify(semantic, sm.modos, idx, DEFAULT_MODES);
+const { invariants, variants } = classify(semantic, sm.modes, idx, DEFAULT_MODES);
 const dependentInvariants = dependents(semantic, invariants, variants);
 const independentInvariants = new Set([...invariants].filter((n) => !dependentInvariants.has(n)));
 /** Every scheme root redeclares the dependents; with the brand on the same element, it resolves both. */
@@ -282,13 +282,13 @@ parts.push('/* camada 1 - core: primitivos, valores literais. Nenhum componente 
 parts.push(await block('core', null, ':root'));
 
 parts.push('\n/* camada de marca - um bloco por vertical da IATec. */');
-for (const m of tm.modos) parts.push(await block('theme', m, sel(tm, m)));
+for (const m of tm.modes) parts.push(await block('theme', m, sel(tm, m)));
 
 parts.push(
   '\n/* camada 2 - semantic, invariantes: alias e valor final iguais em claro e escuro,\n' +
   '   emitidos uma vez, em :root. Aqui o consumidor pode personaliza-los (P02). */',
 );
-parts.push(await block('semantic', sm.padrao, ':root', independentInvariants));
+parts.push(await block('semantic', sm.default, ':root', independentInvariants));
 
 parts.push(
   '\n/* camada 2 - semantic, invariantes dependentes: o alias aponta para theme/* ou\n' +
@@ -296,10 +296,10 @@ parts.push(
   '   marca e o esquema locais. Numa parte da tela com outra marca,\n' +
   '   data-nph-brand e data-nph-color-scheme vao no mesmo elemento (P67). */',
 );
-parts.push(await block('semantic', sm.padrao, DEPENDENT_SELECTOR, dependentInvariants));
+parts.push(await block('semantic', sm.default, DEPENDENT_SELECTOR, dependentInvariants));
 
 parts.push('\n/* camada 2 - semantic, variantes: um bloco por esquema de cor. */');
-for (const m of sm.modos) parts.push(await block('semantic', m, sel(sm, m, sm.valorPublico[m]), variants));
+for (const m of sm.modes) parts.push(await block('semantic', m, sel(sm, m, sm.publicValue[m]), variants));
 
 const header = [
   '/**',
@@ -370,7 +370,7 @@ for (const name of invariants) {
 }
 for (const name of variants) {
   const n = (css.match(new RegExp('^\\s*' + cssName(name.split('.')) + ':', 'gm')) || []).length;
-  if (n !== sm.modos.length) outputErrors.push('variant "' + name + '" emitted ' + n + ' time(s), expected ' + sm.modos.length);
+  if (n !== sm.modes.length) outputErrors.push('variant "' + name + '" emitted ' + n + ' time(s), expected ' + sm.modes.length);
 }
 
 // A dependent invariant comes out in the scheme-roots block; an independent one,

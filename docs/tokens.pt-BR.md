@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=eb8f3d91aafe3d9fa221bfde43b1d0b4042144ba1a1fc73d973ab73eeb1a14b4 | status=revisado -->
+<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=0cf666d35033f58c086206d68d6da424f196de7af98400a42d7d8ada133577f7 | status=revisado -->
 
 # Tokens — fonte, geração e consumo
 
@@ -8,7 +8,7 @@
 > Se os dois divergirem, vale o arquivo em inglês.
 
 > **A fonte técnica é `src/tokens/source/*.tokens.json`.** Cada camada declara a
-> própria contagem em `contagemEsperada`, e `npm run build:tokens` mostra os
+> própria contagem em `expectedCount`, e `npm run build:tokens` mostra os
 > totais e reprova quando a camada diverge do que declarou. Esta nota não repete
 > os totais. A migração-base foi concluída em 24/08/2026; os três tokens
 > aprovados no Figma para `nph-button` entraram em 25/08/2026, no commit
@@ -305,8 +305,8 @@ Educação + escuro sem nada ser reautorado.
 | `data-nph-color-scheme` | `light`, `dark` | `light` |
 
 Os valores de `data-nph-brand` são os nomes das verticais da IATec. As chaves
-internas do JSON usam `claro` e `escuro`, espelhando os modos do Figma; o
-mapeamento para `light`/`dark` está declarado em `modeSet.valorPublico`.
+internas do JSON usam `light` e `dark` (no Figma os modos se chamam claro e
+escuro); o mapeamento para o valor público está declarado em `modeSet.publicValue`.
 
 Omitir os dois atributos entrega Sistemas no claro, porque cada bloco padrão é
 emitido também em `:root`.
@@ -346,7 +346,7 @@ O build **falha** — com código 1 e mensagem específica — quando:
 1. aparece um `$type` fora dos sete tratados;
 2. um token declara `modes` e falta valor para algum modo da camada;
 3. uma referência `{...}` aponta para token que não existe em nenhuma fonte;
-4. a contagem de tokens de uma camada não bate com `contagemEsperada`.
+4. a contagem de tokens de uma camada não bate com `expectedCount`.
 
 **Na saída**
 

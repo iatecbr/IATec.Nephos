@@ -14,19 +14,6 @@
     ]
   },
   {
-    "file": "scripts/build-tokens.mjs",
-    "class": "token-schema",
-    "names": [
-      "camada",
-      "contagemEsperada",
-      "modos",
-      "padrao",
-      "seletor",
-      "valorPublico",
-      "{modo}"
-    ]
-  },
-  {
     "file": "scripts/language-lib.mjs",
     "class": "contract-path",
     "names": [
@@ -52,8 +39,6 @@
     "file": "scripts/test-invariance.mjs",
     "class": "token-schema",
     "names": [
-      "claro",
-      "escuro",
       "sistemas"
     ]
   },

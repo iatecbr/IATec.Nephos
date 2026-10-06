@@ -16,7 +16,7 @@ consumo_de_tema: >-
 escopo_migrado_para_json: >-
   The core, theme (in the seven modes) and semantic (in the two modes) layers, in
   src/tokens/source/*.tokens.json. Each layer declares its own count in
-  contagemEsperada, and npm run build:tokens shows the totals and fails when a
+  expectedCount, and npm run build:tokens shows the totals and fails when a
   layer diverges; this contract does not repeat the numbers. The P46 primitives
   were left out by a recorded decision. The other primitives remain deferred —
   deferred does not mean without a consumer. The focus rings came in as
