@@ -290,7 +290,7 @@ tokens_semantic:
   color/accent:
     css: '--nph-color-accent'
     claro: core/neutral/100
-    escuro: core/surface/700
+    escuro: core/surface/600
     use: "Realce temporário: hover, item focado, linha ativa."
     nao_use: "Fundo permanente de bloco."
   color/accent-foreground:
