@@ -68,7 +68,7 @@ const AMBIGUOUS = [
  */
 export function extractFrontmatter(text) {
   /* A BOM at the start (PowerShell 5.1 writes it) would hide the `---` on line 1. */
-  const lines = text.replace(/^﻿/, '').replace(/\r\n/g, '\n').split('\n');
+  const lines = text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n').split('\n');
   if (lines[0] !== '---') return null;
   const end = lines.indexOf('---', 1);
   if (end === -1) throw new SpecError(1, 'the frontmatter opens with `---` and does not close');

@@ -54,12 +54,14 @@ export function createDetector(vocabulary) {
       .replace(/\]\([^)\s]*\)/g, blank)
       .replace(/<[a-z]+:[^>\s]*>/gi, blank)
       .replace(/\b[a-z][a-z0-9+.-]*:\/\/\S+/gi, blank)
-      .replace(/[\w.-]*\w\/[\w./-]*|\/[\w.-]+\//g, blank)
-      .replace(/(?<![\w-])--[a-z][\w-]*/gi, blank)
-      .replace(/[\w-]+(?:\.[\w-]+)+/g, blank)
+      .replace(/[\p{L}\p{N}_.-]*[\p{L}\p{N}_]\/[\p{L}\p{N}_./-]*|\/[\p{L}\p{N}_.-]+\//gu, blank)
+      .replace(/(?<![\p{L}\p{N}_-])--[a-z][\w-]*/giu, blank)
+      .replace(/[\p{L}\p{N}_-]+(?:\.[\p{L}\p{N}_-]+)+/gu, blank)
       .replace(LANGUAGE_NAMES, blank);
     const out = [];
     for (const m of cleaned.matchAll(LETTERS)) {
+      /* A function word glued to a hyphen is part of an English compound (de-duplicate). */
+      if (functionWords.has(m[0].toLowerCase()) && cleaned[m.index + m[0].length] === '-') continue;
       if (isPtProseWord(m[0])) out.push({ word: m[0], index: m.index });
     }
     return out;
@@ -106,8 +108,17 @@ export function docProse(source) {
   const out = [];
   let fence = null;
   let frontMatter = lines[0] === '---';
+  /* Indent of a YAML key that opened a block scalar (key: >- or key: |); its deeper lines are text. */
+  let blockIndent = null;
   const dataValues = (line, kind) => {
     const values = [];
+    if (kind === 'yaml') {
+      const indent = line.match(/^\s*/)[0].length;
+      if (blockIndent !== null && (line.trim() === '' || indent > blockIndent)) return line.trim();
+      blockIndent = null;
+      const block = /^(\s*)-?\s*[\w"'-]+\s*:\s*[>|][-+]?\s*$/.exec(line);
+      if (block) { blockIndent = block[1].length; return ''; }
+    }
     if (kind === 'json') {
       /* Each string in order, so quotes pair up; a string followed by a colon is a key. */
       for (const m of line.matchAll(/"((?:[^"\\]|\\.)*)"(\s*:)?/g)) if (!m[2]) values.push(m[1]);
@@ -131,6 +142,7 @@ export function docProse(source) {
       return;
     }
     if (open) {
+      blockIndent = null;
       const info = open[2].toLowerCase();
       fence = { marker: open[1], kind: info === 'json' ? 'json' : info === 'yaml' || info === 'yml' ? 'yaml' : null };
       return;

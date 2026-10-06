@@ -6118,5 +6118,40 @@
       "docs/operacao/tarefas/DSA-01.md": "```json\n{\n  \"comando\": \"node scripts/verificar-operacao.mjs --proxima\"\n}\n```\n\nThe task lives in docs/operacao/tarefas/ and its proof in evidencias/DSA-01/.\n"
     },
     "clean": true
+  },
+  {
+    "label": "prose: accented path segments pass",
+    "prose": true,
+    "files": {
+      "docs/a.md": "See 03 MEMÓRIA/diario/x.md and docs/operação/x for the record.\n"
+    },
+    "clean": true
+  },
+  {
+    "label": "prose: YAML block scalar continuation lines are text",
+    "prose": true,
+    "files": {
+      "fichas/nph-x.md": "---\nnome: nph-x\nresolve: >-\n  Disponibiliza um icone para quem usa\n  o componente.\n---\n"
+    },
+    "catches": [
+      {
+        "name": "para",
+        "line": 4,
+        "role": "doc"
+      },
+      {
+        "name": "quem",
+        "line": 4,
+        "role": "doc"
+      }
+    ]
+  },
+  {
+    "label": "prose: function word glued to a hyphen and \"num\" pass",
+    "prose": true,
+    "files": {
+      "src/a.ts": "// de-duplicate entries and count num items\nexport const size = 1;"
+    },
+    "clean": true
   }
 ]
