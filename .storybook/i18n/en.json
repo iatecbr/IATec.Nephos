@@ -24,7 +24,10 @@
     "componentes-nph-label-validação--associacao-com-o-controle": "Association with the control",
     "componentes-nph-label-validação--o-que-o-rotulo-nao-faz": "What the label does not do",
     "componentes-nph-label-validação--trigger-focus": "Trigger focus",
-    "componentes-nph-label-validação--open": "Open"
+    "componentes-nph-label-validação--open": "Open",
+    "componentes-nph-tooltip-validação": "Validation",
+    "componentes-nph-tooltip-validação--one-line": "One line",
+    "componentes-nph-tooltip-validação--two-lines": "Two lines"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -443,5 +446,9 @@
     "tabStartLabel": "Tab starting point",
     "openTitle": "Open tooltip",
     "openCaption": "The tooltip opens when the icon is activated and closes with Esc, a click outside or Tab out. Hovering does not open it."
+  },
+  "tooltipValidation": {
+    "oneLine": "Explains what the field asks for.",
+    "twoLines": "Use the name as it appears on the document, without abbreviating."
   }
 }

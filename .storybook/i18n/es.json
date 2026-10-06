@@ -24,7 +24,10 @@
     "componentes-nph-label-validação--associacao-com-o-controle": "Asociación con el control",
     "componentes-nph-label-validação--o-que-o-rotulo-nao-faz": "Lo que la etiqueta no hace",
     "componentes-nph-label-validação--trigger-focus": "Foco del disparador",
-    "componentes-nph-label-validação--open": "Abierto"
+    "componentes-nph-label-validação--open": "Abierto",
+    "componentes-nph-tooltip-validação": "Validación",
+    "componentes-nph-tooltip-validação--one-line": "Una línea",
+    "componentes-nph-tooltip-validação--two-lines": "Dos líneas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -443,5 +446,9 @@
     "tabStartLabel": "Punto de partida del Tab",
     "openTitle": "Globo abierto",
     "openCaption": "El globo se abre al activar el icono y se cierra con Esc, un clic fuera o Tab hacia fuera. Pasar el ratón no lo abre."
+  },
+  "tooltipValidation": {
+    "oneLine": "Explica lo que pide el campo.",
+    "twoLines": "Use el nombre como está en el documento, sin abreviar ni reordenar."
   }
 }
