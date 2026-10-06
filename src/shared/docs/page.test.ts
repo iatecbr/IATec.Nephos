@@ -7,7 +7,7 @@ import { html, render } from 'lit';
 import type { TemplateResult } from 'lit';
 
 import '../../tokens/generated/tokens.css';
-import { translations } from '../../../.storybook/i18n/index.js';
+import { DEFAULT_LOCALE, LOCALES, translations } from '../../../.storybook/i18n/index.js';
 import { demo, source, index, note, section, table, useDontUse } from './page';
 
 afterEach(() => {
@@ -137,4 +137,34 @@ describe('page texts in the three languages', () => {
       expect('derivedText2' in dictionary.docs).toBe(false);
     });
   }
+});
+
+/* The Storybook language contract (P64, amendment of 06/10/2026): English is the source and the default. */
+/** Every key path of a dictionary, with the length of each list. */
+function shape(value: unknown, prefix = ''): string[] {
+  if (Array.isArray(value)) return [`${prefix}[${value.length}]`, ...value.flatMap((v, i) => shape(v, `${prefix}[${i}]`))];
+  if (value && typeof value === 'object') {
+    return Object.entries(value as Record<string, unknown>).flatMap(([k, v]) => [`${prefix}.${k}`, ...shape(v, `${prefix}.${k}`)]);
+  }
+  return [];
+}
+
+describe('Storybook languages', () => {
+  it('English is the default language', () => {
+    expect(DEFAULT_LOCALE).toBe('en');
+  });
+
+  it('the selector lists the source first: en, pt-BR, es', () => {
+    expect(LOCALES.map((l) => l.value)).toEqual(['en', 'pt-BR', 'es']);
+  });
+
+  it('an unknown language falls back to the English dictionary', () => {
+    expect(translations('xx')).toBe(translations('en'));
+  });
+
+  it('pt-BR and es have the same keys and list lengths as the English source', () => {
+    const source = shape(translations('en')).sort();
+    expect(shape(translations('pt-BR')).sort()).toEqual(source);
+    expect(shape(translations('es')).sort()).toEqual(source);
+  });
 });
