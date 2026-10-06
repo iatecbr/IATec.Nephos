@@ -298,9 +298,9 @@ tela define.
 | Foco | `border/width`, `focus/border-radius-control`, `focus/ring-width`, `focus/radius-control-with-border`, `focus/border`, `focus/halo` e `focus/halo-<matiz>` |
 
 **Restrições de uso:** o componente não escolhe altura, cor, raio nem tipografia: tudo
-vem de token. Os limites L-a e L-b estão na P68: `status/on-solid` e `focus/halo` saem só na raiz
-até o gerador de tokens os redeclarar por esquema e por marca (L-a), e o `use` de alguns
-tokens no `design.md` ainda não cita este uso (L-b).
+vem de token. Numa parte da tela com outra marca,
+`data-nph-brand` e `data-nph-color-scheme` vão no mesmo elemento (P67). O limite L-b está
+na P68: o `use` de alguns tokens no `design.md` ainda não cita este uso.
 
 **Dicas para IA:**
 

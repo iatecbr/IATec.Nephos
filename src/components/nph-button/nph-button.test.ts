@@ -2,9 +2,9 @@
  * Testes do `nph-button` (P68), em navegador de verdade (P21, item 5): cor
  * resolvida, hover real, foco por teclado e medida so existem onde ha layout.
  *
- * Os esquemas de cor sao trocados na raiz (`data-nph-color-scheme` no `html`):
- * `status/on-solid` e `focus/halo` saem em `:root` ate o gerador redeclarar os
- * invariantes por esquema (P68, limite L-a).
+ * Os esquemas de cor sao trocados na raiz (`data-nph-color-scheme` no `html`).
+ * Numa parte da tela com outra marca e outro esquema, `status/on-solid` e
+ * `focus/halo` resolvem o valor local (P67).
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { userEvent } from 'vitest/browser';
@@ -115,6 +115,30 @@ function resolved(property: string, token: string): string {
   const probe = document.createElement('div');
   probe.style.setProperty(property, `var(${token})`);
   document.body.append(probe);
+  const value = getComputedStyle(probe).getPropertyValue(property);
+  probe.remove();
+  return value;
+}
+
+/** Uma marca que nao e a padrao, lida do CSS gerado. */
+const DEFAULT_BRAND = /:root,\s*\[data-nph-brand="([\w-]+)"\]/.exec(tokensCss)?.[1] ?? '';
+const OTHER_BRAND =
+  [...tokensCss.matchAll(/\[data-nph-brand="([\w-]+)"\]/g)].map((m) => m[1] ?? '').find((brand) => brand !== DEFAULT_BRAND) ?? '';
+
+/** Uma parte da tela com outra marca e outro esquema, no mesmo elemento (P67). */
+function scope(): HTMLElement {
+  const part = document.createElement('div');
+  part.setAttribute('data-nph-brand', OTHER_BRAND);
+  part.setAttribute('data-nph-color-scheme', 'dark');
+  document.body.append(part);
+  return part;
+}
+
+/** O valor de um token dentro de um elemento. */
+function resolvedIn(parent: HTMLElement, property: string, token: string): string {
+  const probe = document.createElement('div');
+  probe.style.setProperty(property, `var(${token})`);
+  parent.append(probe);
   const value = getComputedStyle(probe).getPropertyValue(property);
   probe.remove();
   return value;
@@ -241,6 +265,26 @@ describe('foco', () => {
       expect(Number.parseFloat(halo.height)).toBeCloseTo(box.height + 2 * (borderWidth + ringWidth), 2);
     });
   }
+
+  it('numa parte da tela com outra marca e outro esquema, o texto solido e o halo sao os locais (P67)', async () => {
+    const part = scope();
+    const before = document.createElement('input');
+    const info = document.createElement('nph-button');
+    Object.assign(info, { severity: 'info', text: 'Save' });
+    const primary = document.createElement('nph-button');
+    Object.assign(primary, { severity: 'primary', text: 'Save' });
+    part.append(info, before, primary);
+    await Promise.all([info.updateComplete, primary.updateComplete]);
+    const onSolid = resolvedIn(part, 'color', '--nph-status-on-solid');
+    const halo = resolvedIn(part, 'color', '--nph-focus-halo');
+    expect(onSolid).not.toBe(resolved('color', '--nph-status-on-solid'));
+    expect(halo).not.toBe(resolved('color', '--nph-focus-halo'));
+    expect(getComputedStyle(control(info)).color).toBe(onSolid);
+    before.focus();
+    await userEvent.tab();
+    expect(primary.shadowRoot?.activeElement).toBe(control(primary));
+    expect(getComputedStyle(control(primary), '::after').borderTopColor).toBe(halo);
+  });
 
   it('o clique de mouse nao desenha o foco', async () => {
     const element = await mount({ text: 'Save' });

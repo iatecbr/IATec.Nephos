@@ -202,10 +202,10 @@ palavras, para a pessoa reconhecer o item sem ler o detalhe.
 | `solid` | `primary`: `color/primary` e `color/primary-foreground`; `secondary`: `color/secondary` e `color/secondary-foreground`; `info`, `warn`, `help` e `success`: `status/<matiz>` e `status/on-solid`; `danger`: `color/destructive` e `color/destructive-foreground` |
 | `light` | `primary`: `color/primary-surface` e `color/primary-on-surface`; `secondary`: `color/secondary-light` e `color/secondary-foreground`; `info`, `warn`, `help` e `success`: `status/<matiz>-surface` e `status/<matiz>-foreground`; `danger`: `color/destructive-surface` e `color/destructive-on-surface` |
 
-**Restrições de uso:** a cor vem de `severity` e `emphasis`, nos dois esquemas. Os
-limites L-a e L-b estão na P68: `status/on-solid` sai só na raiz até o gerador de tokens o
-redeclarar por esquema (L-a), e o `use` de alguns tokens no `design.md` ainda não cita o
-selo (L-b).
+**Restrições de uso:** a cor vem de `severity` e `emphasis`, nos dois esquemas. Numa
+parte da tela com outra marca, `data-nph-brand` e `data-nph-color-scheme` vão no mesmo
+elemento (P67). O limite L-b está na P68: o `use` de alguns tokens no `design.md` ainda
+não cita o selo.
 
 **Dicas para IA:**
 

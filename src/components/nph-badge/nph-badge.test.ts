@@ -2,9 +2,9 @@
  * Testes do `nph-badge` (P68), em navegador de verdade (P21, item 5): a cor
  * resolvida, a altura e a fonte so existem onde ha layout.
  *
- * Os esquemas de cor sao trocados na raiz (`data-nph-color-scheme` no `html`):
- * `status/on-solid` e o halo saem em `:root` ate o gerador redeclarar os
- * invariantes por esquema (P68, limite L-a).
+ * Os esquemas de cor sao trocados na raiz (`data-nph-color-scheme` no `html`).
+ * Numa parte da tela com outra marca e outro esquema, `status/on-solid` resolve
+ * o valor local (P67).
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
@@ -66,6 +66,30 @@ function resolved(property: string, token: string): string {
   return value;
 }
 
+/** Uma marca que nao e a padrao, lida do CSS gerado. */
+const DEFAULT_BRAND = /:root,\s*\[data-nph-brand="([\w-]+)"\]/.exec(tokensCss)?.[1] ?? '';
+const OTHER_BRAND =
+  [...tokensCss.matchAll(/\[data-nph-brand="([\w-]+)"\]/g)].map((m) => m[1] ?? '').find((brand) => brand !== DEFAULT_BRAND) ?? '';
+
+/** Uma parte da tela com outra marca e outro esquema, no mesmo elemento (P67). */
+function scope(): HTMLElement {
+  const part = document.createElement('div');
+  part.setAttribute('data-nph-brand', OTHER_BRAND);
+  part.setAttribute('data-nph-color-scheme', 'dark');
+  document.body.append(part);
+  return part;
+}
+
+/** O valor de um token dentro de um elemento. */
+function resolvedIn(parent: HTMLElement, property: string, token: string): string {
+  const probe = document.createElement('div');
+  probe.style.setProperty(property, `var(${token})`);
+  parent.append(probe);
+  const value = getComputedStyle(probe).getPropertyValue(property);
+  probe.remove();
+  return value;
+}
+
 describe('registro e API', () => {
   it('define nph-badge uma unica vez', () => {
     expect(customElements.get('nph-badge')).toBe(NphBadge);
@@ -91,6 +115,17 @@ describe('registro e API', () => {
 });
 
 describe('cores por tipo e enfase, nos dois esquemas', () => {
+  it('numa parte da tela com outra marca e outro esquema, o texto solido e o local (P67)', async () => {
+    const part = scope();
+    const element = document.createElement('nph-badge');
+    Object.assign(element, { severity: 'info', text: 'Label' });
+    part.append(element);
+    await element.updateComplete;
+    const onSolid = resolvedIn(part, 'color', '--nph-status-on-solid');
+    expect(onSolid).not.toBe(resolved('color', '--nph-status-on-solid'));
+    expect(getComputedStyle(element).color).toBe(onSolid);
+  });
+
   for (const scheme of ['light', 'dark'] as const) {
     for (const emphasis of NPH_BADGE_EMPHASES) {
       for (const severity of NPH_BADGE_SEVERITIES) {

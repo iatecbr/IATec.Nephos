@@ -7,10 +7,9 @@
  * sao estados de interacao: aparecem passando o mouse e navegando com Tab. "Salvar"
  * e os demais textos sao so conteudo de exemplo desta pagina.
  *
- * O esquema de cor vem do seletor global do Storybook, aplicado na raiz. Nao ha
- * quadro escuro em subarvore: `status/on-solid` e `focus/halo` saem em `:root`
- * e, numa subarvore com outro esquema ou marca, ficariam com o valor da raiz
- * (P68, limite L-a).
+ * O esquema de cor vem do seletor global do Storybook, aplicado na raiz. Numa
+ * parte da tela com outra marca e outro esquema, no mesmo elemento,
+ * `status/on-solid` e `focus/halo` resolvem o valor local (P67).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';

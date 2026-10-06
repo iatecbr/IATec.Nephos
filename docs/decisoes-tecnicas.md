@@ -878,7 +878,10 @@ decisão própria, como na P66. Os nomes seguem a P64.
   `warn`, `help` e `success`, nas duas peças, e o halo do `primary` e do
   `secondary`. É a mesma pendência do gerador de tokens que a P65 registra para a
   sombra. Quando o gerador redeclarar esses invariantes por esquema, as duas
-  peças corrigem sozinhas: elas consomem os mesmos nomes de token.
+  peças corrigem sozinhas: elas consomem os mesmos nomes de token. *Resolvido
+  pela P67:* os dois saem em cada raiz de esquema, e uma parte da tela com outra
+  marca leva `data-nph-brand` e `data-nph-color-scheme` no mesmo elemento. Os
+  testes das duas peças medem isso.
 - **L-b — `use` do `design.md` mais estreito que o Figma aceito.** O quadro e os
   conjuntos aceitos usam tokens onde o `use` ainda não cita esse uso:
   `color/primary-surface` e `color/destructive-surface` (o `use` cita

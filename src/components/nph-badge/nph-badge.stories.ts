@@ -5,9 +5,9 @@
  * tipos nas duas enfases, com e sem icone. "Selo" e o texto padrao do
  * conjunto; as outras palavras sao so conteudo de exemplo desta pagina.
  *
- * O esquema de cor vem do seletor global do Storybook, aplicado na raiz. Nao ha
- * quadro escuro em subarvore: `status/on-solid` sai em `:root` e, numa
- * subarvore com outro esquema, ficaria com o valor da raiz (P68, limite L-a).
+ * O esquema de cor vem do seletor global do Storybook, aplicado na raiz. Numa
+ * parte da tela com outra marca e outro esquema, no mesmo elemento,
+ * `status/on-solid` resolve o valor local (P67).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
