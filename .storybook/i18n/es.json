@@ -735,7 +735,7 @@
       "docs/decisoes-tecnicas.md — P62 (excepción a la P01, tipografía y API, ampliada por la P62.6) y P65 (nph-tooltip).",
       "design.md — color/foreground, status/error, color/muted-foreground, text/label-md, los espacios y el foco.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Label, marco nph-label (1194:1482) y conjunto 374:6.",
-      "Storybook — Validação, en la carpeta de al lado."
+      "Storybook — Validación, en la carpeta de al lado."
     ],
     "sourceFrame": "Figma, marco nph-label (1194:1482)",
     "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 y P62.6"
