@@ -1,21 +1,21 @@
 /**
- * Gera src/tokens/generated/tokens.css a partir de src/tokens/source/*.tokens.json.
+ * Generates src/tokens/generated/tokens.css from src/tokens/source/*.tokens.json.
  *
- * O DTCG ainda nao tem modos nativos. Os modos vivem em
- * $extensions["com.iatec.nephos"].modes e sao aplicados aqui, antes do Style
- * Dictionary: para cada modo, o $value do token passa a ser o valor daquele modo.
- * O Style Dictionary entao resolve as referencias e emite um bloco CSS por modo,
- * com o seletor declarado no proprio arquivo-fonte.
+ * DTCG does not have native modes yet. Modes live in
+ * $extensions["com.iatec.nephos"].modes and are applied here, before Style
+ * Dictionary: for each mode, the token's $value becomes that mode's value.
+ * Style Dictionary then resolves the references and emits one CSS block per
+ * mode, with the selector declared in the source file itself.
  *
- * Um token e INVARIANTE quando alias e valor final sao equivalentes em todos os
- * modos — comparados pela forma canonica, nunca por identidade de objeto e nunca
- * pelo $type. Invariante sai uma vez. Invariante NAO quer dizer fixo: um alias
- * para theme/* ou para um variante continua trocando com a marca e o esquema.
- * Esse invariante DEPENDENTE sai em :root e em cada raiz de esquema
- * ([data-nph-color-scheme]), para resolver ali a marca e o esquema locais (P67).
- * Os demais ficam so em :root, onde o consumidor pode personaliza-los (P02).
+ * A token is INVARIANT when alias and final value are equivalent in all modes —
+ * compared by canonical form, never by object identity and never by $type. An
+ * invariant is emitted once. Invariant does NOT mean fixed: an alias to
+ * theme/* or to a variant keeps switching with the brand and the scheme. That
+ * DEPENDENT invariant is emitted on :root and on each scheme root
+ * ([data-nph-color-scheme]), to resolve the local brand and scheme there (P67).
+ * The others stay on :root only, where the consumer can customize them (P02).
  *
- * NUNCA edite src/tokens/generated/. Edite a fonte e rode `npm run build:tokens`.
+ * NEVER edit src/tokens/generated/. Edit the source and run `npm run build:tokens`.
  */
 import StyleDictionary from 'style-dictionary';
 import fs from 'node:fs';
@@ -39,62 +39,62 @@ const declared = new Set(idx.keys());
 
 const tm = theme.$extensions[NS].modeSet;
 const sm = semantic.$extensions[NS].modeSet;
-/** Modo padrao por prefixo de camada, usado ao resolver a cadeia de alias. */
+/** Default mode per layer prefix, used when resolving the alias chain. */
 const DEFAULT_MODES = { core: null, theme: tm.padrao, ...Object.fromEntries(
   Object.keys(semantic).filter((k) => !k.startsWith('$')).map((k) => [k, sm.padrao]),
 ) };
 
 // ---------------------------------------------------------------
-// VALIDACOES DE FONTE - falham antes de gerar qualquer coisa
+// SOURCE VALIDATIONS - they fail before generating anything
 // ---------------------------------------------------------------
 for (const source of sources) {
   const ext = (source.$extensions && source.$extensions[NS]) || {};
-  const layer = ext.camada || '(sem camada)';
+  const layer = ext.camada || '(no layer)';
   const modes = ext.modeSet ? ext.modeSet.modos : null;
   const list = leaves(source);
 
   if (ext.contagemEsperada !== undefined && list.length !== ext.contagemEsperada) {
-    fail('camada "' + layer + '": ' + list.length + ' tokens, esperado ' + ext.contagemEsperada);
+    fail('layer "' + layer + '": ' + list.length + ' tokens, expected ' + ext.contagemEsperada);
   }
 
   for (const [p, t] of list) {
     const name = p.join('.');
 
     if (!HANDLED_TYPES.has(t.$type)) {
-      fail('token "' + name + '": $type "' + t.$type + '" nao tratado. Tratados: ' + [...HANDLED_TYPES].join(', '));
+      fail('token "' + name + '": $type "' + t.$type + '" not handled. Handled: ' + [...HANDLED_TYPES].join(', '));
     }
 
     const m = t.$extensions && t.$extensions[NS] && t.$extensions[NS].modes;
     if (m) {
       if (!modes) {
-        fail('token "' + name + '": declara modes, mas a camada "' + layer + '" nao declara modeSet');
+        fail('token "' + name + '": declares modes, but layer "' + layer + '" does not declare modeSet');
       } else {
         for (const mode of modes) {
-          if (!(mode in m)) fail('token "' + name + '": falta valor para o modo "' + mode + '"');
+          if (!(mode in m)) fail('token "' + name + '": missing value for mode "' + mode + '"');
         }
       }
     }
 
     const targets = refs(t.$value).concat(Object.values(m || {}).flatMap(refs));
     for (const a of targets) {
-      if (!declared.has(a)) fail('token "' + name + '": referencia "{' + a + '}" nao existe em nenhuma fonte');
+      if (!declared.has(a)) fail('token "' + name + '": reference "{' + a + '}" does not exist in any source');
     }
   }
 }
 
 if (errors.length) {
-  console.error('FALHA na validacao da fonte:\n' + errors.map((e) => '  - ' + e).join('\n'));
+  console.error('FAILURE in source validation:\n' + errors.map((e) => '  - ' + e).join('\n'));
   process.exit(1);
 }
 
 // ---------------------------------------------------------------
-// GERACAO
+// GENERATION
 // ---------------------------------------------------------------
 
 /**
- * O Style Dictionary 5.5.2 serializa `duration` na forma estruturada do DTCG
- * ({ value, unit }) como "[object Object]". A fonte permanece estruturada, como
- * manda o DTCG; a conversao para `250ms` acontece so na saida CSS.
+ * Style Dictionary 5.5.2 serializes `duration` in the DTCG structured form
+ * ({ value, unit }) as "[object Object]". The source stays structured, as DTCG
+ * requires; the conversion to `250ms` happens only in the CSS output.
  */
 StyleDictionary.registerTransform({
   name: 'nephos/duration/css',
@@ -105,39 +105,38 @@ StyleDictionary.registerTransform({
 });
 
 /**
- * P62.4 — decisao de Elvys em 28/08/2026: o gerador emite `rem`, e o
- * `design.md` nao muda. Ate aqui todo `dimension` saia em `px`, e o contrato
- * ja prometia `rem`; quem estava errado era o codigo.
+ * P62.4 — Elvys's decision on 28/08/2026: the generator emits `rem`, and
+ * `design.md` does not change. Until then every `dimension` came out in `px`,
+ * and the contract already promised `rem`; the code was the one in the wrong.
  *
- * A raiz e 16px, como `unidade_css: rem, raiz 16px` do `design.md` declara em
- * tipografia_regras e espacamento_regras.
+ * The root is 16px, as `unidade_css: rem, root 16px` in `design.md` declares in
+ * `tipografia_regras` and `espacamento_regras`.
  *
- * FAMILIAS EM PX POR REGRA PROPRIA, e nao por omissao. Sao DUAS, e cada uma
- * tem a regra escrita no contrato:
+ * FAMILIES IN PX BY THEIR OWN RULE, not by omission. There are TWO, and each
+ * has its rule written in the contract:
  *
- * - `core/radius`, por `raio_regras.unidade_css: px` do `design.md`. Raio em
- *   rem cresceria com a fonte do usuario e a peca mudaria de FORMA, nao de
- *   tamanho: um botao de 6px viraria capsula (P62.5).
- * - `core/shadow-*`, por `elevacao_regras.unidade_css: px`. A fundacao diz,
- *   com todas as letras: "deslocamento, desfoque e spread em px, como o
- *   raio. Sombra nao deve crescer com a fonte do usuario". Entrou em
- *   03-09-2026, com a PF-15.
+ * - `core/radius`, by `raio_regras.unidade_css: px` in `design.md`. Radius in
+ *   rem would grow with the user's font and the piece would change SHAPE, not
+ *   size: a 6px button would become a capsule (P62.5).
+ * - `core/shadow-*`, by `elevacao_regras.unidade_css: px`. The foundation says,
+ *   in so many words: "offset, blur and spread in px, like the radius. Shadow
+ *   must not grow with the user's font". Added on 03-09-2026, with PF-15.
  *
- * O texto que chamava o raio de unica fundacao em px estava errado desde que
- * `elevacao_regras` existe. Corrigido no `design.md` no mesmo PR.
+ * The text that called radius the only foundation in px had been wrong since
+ * `elevacao_regras` existed. Fixed in `design.md` in the same PR.
  */
 const REM_ROOT = 16;
 const NO_CONVERSION = ['radius', 'shadow-y', 'shadow-blur', 'shadow-spread'];
 
-/** Numero curto: 1.75 e nao 1.7500000000000002, 0 e nao 0.0000. */
+/** Short number: 1.75, not 1.7500000000000002; 0, not 0.0000. */
 function shortNumber(n) {
   return String(Number(n.toFixed(6)));
 }
 
 /**
- * Quando este transform roda, o Style Dictionary ja serializou o `dimension`
- * estruturado do DTCG na string "16px" — diferente do `duration`, que ele nao
- * trata. Por isso lemos a string, e nao { value, unit }.
+ * By the time this transform runs, Style Dictionary has already serialized the
+ * structured DTCG `dimension` into the string "16px" — unlike `duration`, which
+ * it does not handle. That is why we read the string, not { value, unit }.
  */
 const PX = /^(-?\d+(?:\.\d+)?)px$/;
 
@@ -164,21 +163,21 @@ StyleDictionary.registerTransform({
 });
 
 /**
- * SOMBRA - por que o transform e proprio, e nao o `shadow/css/shorthand` do
- * Style Dictionary.
+ * SHADOW - why the transform is our own, and not Style Dictionary's
+ * `shadow/css/shorthand`.
  *
- * O built-in monta a shorthand certa, mas quem escreve as referencias e o
- * `outputReferences`, que trabalha por VALOR: ele procura o valor resolvido
- * dentro da string pronta e troca pela `var()`. Numa sombra isso erra de
- * posicao sempre que duas partes tem o mesmo valor - e elas tem. Em
- * `elevation/hairline` (0 1 0 0) o deslocamento X, o desfoque e o spread sao
- * todos zero, e a saida saia com `var(--nph-core-shadow-blur-0)` no lugar do
- * X. O CSS computado ficava certo por coincidencia e a ligacao, errada:
- * mudar o desfoque mexeria no deslocamento.
+ * The built-in builds the right shorthand, but what writes the references is
+ * `outputReferences`, which works by VALUE: it searches for the resolved value
+ * inside the finished string and swaps in the `var()`. On a shadow that picks
+ * the wrong position whenever two parts have the same value - and they do. In
+ * `elevation/hairline` (0 1 0 0) the X offset, the blur and the spread are all
+ * zero, and the output came out with `var(--nph-core-shadow-blur-0)` in place
+ * of X. The computed CSS was right by coincidence and the binding wrong:
+ * changing the blur would move the offset.
  *
- * Aqui a shorthand e montada a partir de `original.$value`, que ainda tem as
- * referencias, e cada parte vai para a SUA posicao. O `outputReferences` do
- * arquivo desliga para `shadow` - senao ele tentaria substituir de novo.
+ * Here the shorthand is built from `original.$value`, which still has the
+ * references, and each part goes to ITS position. The file's `outputReferences`
+ * is turned off for `shadow` - otherwise it would try to substitute again.
  */
 const varOf = (ref) => 'var(--nph-' + ref.split('.').join('-') + ')';
 
@@ -192,7 +191,7 @@ function shadowPart(v) {
 StyleDictionary.registerTransform({
   name: 'nephos/shadow/css',
   type: 'value',
-  // transitivo: o valor tem referencia, e transform nao-transitivo e pulado nesse caso.
+  // transitive: the value has a reference, and a non-transitive transform is skipped in that case.
   transitive: true,
   filter: (t) => (t.$type || t.type) === 'shadow',
   transform: (t) => {
@@ -275,7 +274,7 @@ const sel = (set, mode, publicValue) => {
 const { invariants, variants } = classify(semantic, sm.modos, idx, DEFAULT_MODES);
 const dependentInvariants = dependents(semantic, invariants, variants);
 const independentInvariants = new Set([...invariants].filter((n) => !dependentInvariants.has(n)));
-/** Toda raiz de esquema redeclara os dependentes; com a marca no mesmo elemento, resolve as duas. */
+/** Every scheme root redeclares the dependents; with the brand on the same element, it resolves both. */
 const DEPENDENT_SELECTOR = ':root,\n[data-nph-color-scheme]';
 
 const parts = [];
@@ -314,27 +313,28 @@ const header = [
 const css = header + parts.join('\n') + '\n';
 
 // ---------------------------------------------------------------
-// VALIDACOES DE SAIDA
+// OUTPUT VALIDATIONS
 // ---------------------------------------------------------------
 const outputErrors = [];
 
 const unresolved = css.match(/\{[^}\n]+\}/g);
 if (unresolved) {
-  outputErrors.push('referencias nao resolvidas na saida: ' + [...new Set(unresolved)].join(', '));
+  outputErrors.push('unresolved references in the output: ' + [...new Set(unresolved)].join(', '));
 }
 if (css.includes('[object Object]')) {
-  outputErrors.push('valor serializado como "[object Object]" - tipo DTCG que o Style Dictionary nao converteu');
+  outputErrors.push('value serialized as "[object Object]" - DTCG type that Style Dictionary did not convert');
 }
 
-// Nenhum alias pode ser achatado. A regra e por token: quem e referencia na
-// fonte TEM de sair como var(--nph-...). Quem e literal na fonte sai literal.
+// No alias may be flattened. The rule is per token: what is a reference in the
+// source MUST come out as var(--nph-...). What is a literal in the source comes
+// out literal.
 //
-// Valor ESCALAR tem uma referencia so, e ela e o valor inteiro: basta exigir
-// que a saida comece com `var(`. Valor COMPOSTO - `shadow` - guarda uma
-// referencia por parte de cada camada, e a saida e uma shorthand com varias
-// `var()` no meio de literais. Para esse, a regra e de CONTAGEM: tantas
-// `var(--nph-` na saida quantas referencias a fonte declara. Uma so que
-// achatasse em literal derrubaria a conta.
+// A SCALAR value has a single reference, and it is the whole value: it is enough
+// to require that the output start with `var(`. A COMPOSITE value - `shadow` -
+// keeps one reference per part of each layer, and the output is a shorthand with
+// several `var()` amid literals. For that one the rule is COUNTING: as many
+// `var(--nph-` in the output as references the source declares. A single one
+// flattened into a literal would break the count.
 const cssName = (p) => '--nph-' + p.join('-');
 const scalars = new Set();
 const composites = new Map();
@@ -351,47 +351,47 @@ for (const line of css.match(/--nph-[\w-]+:[^;]+;/g) || []) {
   const name = line.slice(0, line.indexOf(':'));
   const value = line.slice(line.indexOf(':') + 1, -1).trim();
   if (scalars.has(name) && !value.startsWith('var(')) {
-    outputErrors.push('alias achatado em literal: ' + name + ' emitido como "' + value + '"');
+    outputErrors.push('alias flattened into a literal: ' + name + ' emitted as "' + value + '"');
   }
   if (composites.has(name)) {
     const emitted = value.split('var(--nph-').length - 1;
     const expected = composites.get(name);
     if (emitted !== expected) {
-      outputErrors.push('alias achatado em valor composto: ' + name + ' declara ' + expected +
-        ' referencia(s) na fonte e emitiu ' + emitted + ' var() em "' + value + '"');
+      outputErrors.push('alias flattened in a composite value: ' + name + ' declares ' + expected +
+        ' reference(s) in the source and emitted ' + emitted + ' var() in "' + value + '"');
     }
   }
 }
 
-// Cada token semantico tem de aparecer: invariante uma vez, variante uma por modo.
+// Each semantic token must appear: invariant once, variant once per mode.
 for (const name of invariants) {
   const n = (css.match(new RegExp('^\\s*' + cssName(name.split('.')) + ':', 'gm')) || []).length;
-  if (n !== 1) outputErrors.push('invariante "' + name + '" emitido ' + n + ' vez(es), esperado 1');
+  if (n !== 1) outputErrors.push('invariant "' + name + '" emitted ' + n + ' time(s), expected 1');
 }
 for (const name of variants) {
   const n = (css.match(new RegExp('^\\s*' + cssName(name.split('.')) + ':', 'gm')) || []).length;
-  if (n !== sm.modos.length) outputErrors.push('variante "' + name + '" emitido ' + n + ' vez(es), esperado ' + sm.modos.length);
+  if (n !== sm.modos.length) outputErrors.push('variant "' + name + '" emitted ' + n + ' time(s), expected ' + sm.modos.length);
 }
 
-// Invariante dependente sai no bloco das raizes de esquema; independente, nunca
-// (P67). Fora dele, o dependente resolve a marca e o esquema da raiz numa
-// subarvore; dentro dele, o independente perderia a personalizacao da raiz (P02).
+// A dependent invariant comes out in the scheme-roots block; an independent one,
+// never (P67). Outside it, the dependent resolves the root's brand and scheme in
+// a subtree; inside it, the independent would lose the root's customization (P02).
 const dependentBlockStart = css.indexOf(DEPENDENT_SELECTOR + ' {');
 const dependentBlock = dependentBlockStart < 0 ? '' : css.slice(dependentBlockStart, css.indexOf('}', dependentBlockStart));
 const inDependentBlock = new Set((dependentBlock.match(/--nph-[\w-]+(?=:)/g) || []));
 for (const name of dependentInvariants) {
   if (!inDependentBlock.has(cssName(name.split('.')))) {
-    outputErrors.push('invariante dependente "' + name + '" fora do bloco ' + JSON.stringify(DEPENDENT_SELECTOR));
+    outputErrors.push('dependent invariant "' + name + '" outside the block ' + JSON.stringify(DEPENDENT_SELECTOR));
   }
 }
 for (const name of independentInvariants) {
   if (inDependentBlock.has(cssName(name.split('.')))) {
-    outputErrors.push('invariante independente "' + name + '" no bloco ' + JSON.stringify(DEPENDENT_SELECTOR));
+    outputErrors.push('independent invariant "' + name + '" in the block ' + JSON.stringify(DEPENDENT_SELECTOR));
   }
 }
 
 if (outputErrors.length) {
-  console.error('FALHA na validacao da saida:\n' + outputErrors.map((e) => '  - ' + e).join('\n'));
+  console.error('FAILURE in output validation:\n' + outputErrors.map((e) => '  - ' + e).join('\n'));
   process.exit(1);
 }
 
@@ -399,10 +399,10 @@ fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, css, 'utf8');
 
 const count = (f) => leaves(f).length;
-console.log('gerado: ' + OUT);
-console.log('fonte OK: tipos tratados, modos completos, referencias existentes, contagem por camada');
-console.log('saida OK: sem referencia pendente, sem [object Object], sem alias achatado, ocorrencias por modo corretas');
-console.log('camadas: core ' + count(core) + ' + theme ' + count(theme) + ' + semantic ' + count(semantic) +
+console.log('generated: ' + OUT);
+console.log('source OK: handled types, complete modes, existing references, count per layer');
+console.log('output OK: no pending reference, no [object Object], no flattened alias, correct occurrences per mode');
+console.log('layers: core ' + count(core) + ' + theme ' + count(theme) + ' + semantic ' + count(semantic) +
   ' = ' + (count(core) + count(theme) + count(semantic)));
-console.log('semantic: ' + invariants.size + ' invariantes (' + independentInvariants.size + ' em :root, ' +
-  dependentInvariants.size + ' dependentes tambem em cada raiz de esquema) + ' + variants.size + ' variantes (um bloco por modo)');
+console.log('semantic: ' + invariants.size + ' invariants (' + independentInvariants.size + ' on :root, ' +
+  dependentInvariants.size + ' dependents also on each scheme root) + ' + variants.size + ' variants (one block per mode)');

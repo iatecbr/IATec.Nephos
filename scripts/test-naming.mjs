@@ -1,107 +1,130 @@
 #!/usr/bin/env node
 /**
- * Prova da P64: nome tecnico em portugues reprova.
+ * Proof of P64: a technical name in Portuguese fails, and so does Portuguese in
+ * comments, messages, test descriptions and documentation (amendment of 06/10/2026).
  *
- * Confere, em src/, stories/, .storybook/ e scripts/:
- *   - todo identificador do codigo (.ts, .js, .mjs, .cjs), pelo AST do TypeScript;
- *   - todo literal e regex literal sem espaco (valor tecnico: id, chave, estado,
- *     caminho), inclusive template com ${...};
- *   - em marcacao (template html``/svg``, .html, string com atributo ou fecho de tag): tag de componente,
- *     nome de atributo, de evento (@x) e de propriedade (.x, ?x), valor de atributo
- *     de id (class, part, id, for, slot, name, aria-* de id, data-*), valor de
- *     atributo de componente, href="#id", e o CSS do style="..." e do <style>;
- *   - em CSS (.css, <style>, style="...", css``, folha de estilo em string,
- *     unsafeCSS/replaceSync/insertRule e argumento de seletor): seletor de classe,
- *     de id e de tipo de custom element, ::part, :state, ::highlight, atributo,
- *     custom property, @keyframes, animation, @container, @layer, contadores e grid;
- *   - lista de classe montada: className, setAttribute('class'|'part'|'id'...),
- *     clsx/cn/cx/classnames, { className }; estilo por propriedade (el.style.x,
- *     setProperty, objeto de estilo), inclusive por ternario e concatenacao;
- *   - argumento de seletor: querySelector(All), closest, matches (e .call), os
- *     decorators @query/@queryAll/@queryAsync, `selector:` e constante *Selector;
- *   - o <script> e os on* de .html, pelo AST;
- *   - o nome de cada pasta e arquivo; os nomes de script do package.json.
+ * Checks, in src/, stories/, .storybook/ and scripts/:
+ *   - every code identifier (.ts, .js, .mjs, .cjs), through the TypeScript AST;
+ *   - every literal and regex literal without a space (technical value: id, key, state,
+ *     path), including templates with ${...};
+ *   - in markup (html``/svg`` template, .html, string with an attribute or a closing tag): component tag,
+ *     attribute name, event (@x) and property (.x, ?x) name, value of an id
+ *     attribute (class, part, id, for, slot, name, id-like aria-*, data-*), value of a
+ *     component attribute, href="#id", and the CSS of style="..." and of <style>;
+ *   - in CSS (.css, <style>, style="...", css``, stylesheet in a string,
+ *     unsafeCSS/replaceSync/insertRule and selector argument): class selector,
+ *     id selector and custom element type selector, ::part, :state, ::highlight, attribute,
+ *     custom property, @keyframes, animation, @container, @layer, counters and grid;
+ *   - built class list: className, setAttribute('class'|'part'|'id'...),
+ *     clsx/cn/cx/classnames, { className }; per-property style (el.style.x,
+ *     setProperty, style object), including through ternary and concatenation;
+ *   - selector argument: querySelector(All), closest, matches (and .call), the
+ *     decorators @query/@queryAll/@queryAsync, `selector:` and a *Selector constant;
+ *   - the <script> and the on* attributes of .html, through the AST;
+ *   - the name of every folder and file; the script names of package.json;
+ *   - running text: every comment, every message (direct argument of console, throw,
+ *     Error, process output, fail/warn with text), every test description and the prose
+ *     of the documentation. Each Portuguese word is a hit (roles comment, message, doc).
  *
- * Extensao fora de KNOWN_EXTENSIONS reprova: arquivo de tipo novo (.tsx, .scss, .mdx,
- * .svg...) so entra depois que esta regra aprender a le-lo, com caso no autoteste.
- * Arquivo sem extensao (LICENSE, script com #!) tambem reprova. Arquivo oculto vale pela
- * extensao (.config.yaml reprova); oculto sem extensao (.gitkeep) e conferido so pelo nome.
+ * Extension outside KNOWN_EXTENSIONS fails: a file of a new type (.tsx, .scss, .mdx,
+ * .svg...) only gets in after this rule learns to read it, with a case in the self-test.
+ * A file without an extension (LICENSE, script with #!) also fails. A hidden file counts by its
+ * extension (.config.yaml fails); a hidden file without an extension (.gitkeep) is checked by name only.
  *
- * Fica fora, pela P64: comentario, mensagem (argumento direto de console, throw,
- * Error, saida do processo, fail/warn com texto), descricao de teste, o texto dos
- * dicionarios de .storybook/i18n/ e as chaves de sidebar (IDs de story), title e
- * name da propria story e texto corrido (literal com espaco que nao e lista de
- * classe, seletor, estilo nem marcacao).
+ * Left out by P64: the text of the .storybook/i18n/ dictionaries and the sidebar keys
+ * (story IDs), the title and name of the story itself and any other literal text
+ * (a literal with a space that is not a class list, selector, style or markup).
  *
- * Fica fora por ser contrato ou documentacao: o conteudo de .json (chaves dos
- * tokens, P20; Metadata gerada, P63) e de .md. A excecao sao os dicionarios de
- * .storybook/i18n/*.json: as chaves deles sao nome tecnico e continuam na regra.
+ * Left out because it is contract: the content of .json (token keys, P20; generated
+ * Metadata, P63). The exception is the .storybook/i18n/*.json dictionaries: their
+ * keys are technical names and stay under the rule.
  *
- * Limite conhecido: palavra colada sem separador (modoescuro, botaoprimario) e palavra
- * que nao esta no vocabulario nem tem fim tipico do portugues passam. Toda palavra que
- * uma revisao achar entra em scripts/naming-vocabulary.json, e o caso entra em
- * scripts/fixtures/naming/cases.json, que roda antes da varredura.
+ * Documentation phase, by group: LANGUAGE_MODES says 'warn' (prints the Portuguese it finds and
+ * keeps the exit code) or 'enforce' (fails); scripts/language-lib.mjs lists the files and groups.
  *
- * Contrato que continua em portugues entra em scripts/naming-exceptions.json,
- * com uma classe da lista fechada CLASSES. Excecao sem uso tambem reprova, para
- * a lista nao guardar nome que ja saiu do codigo.
+ * Known limit: a word glued without a separator (modoescuro, botaoprimario) and a word
+ * that is not in the vocabulary nor has a typical Portuguese ending pass. Every word that
+ * a review finds goes into scripts/naming-vocabulary.json, and the case goes into
+ * scripts/fixtures/naming/cases.json, which runs before the scan.
  *
- * Rode com: npm run test:naming
- * Listar tudo o que a regra ve, com ou sem excecao: npm run test:naming -- --list
+ * A contract that stays in Portuguese goes into scripts/naming-exceptions.json,
+ * with a class from the closed list CLASSES. An unused exception also fails, so the
+ * list does not keep a name that already left the code. Quotes of running text
+ * (comment, message, documentation) go into scripts/language-exceptions.json for the
+ * documentation, or into the same file as above for code, only with the text classes
+ * `prose-text` and `contract-term`, which cover only the roles comment, message and doc.
+ *
+ * Run with: npm run test:naming
+ * List everything the rule sees, with or without exception: npm run test:naming -- --list
  */
 import { createRequire } from 'node:module';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createDetector, docFiles, docProse, EXCLUDED_FUNCTION_WORDS } from './language-lib.mjs';
 
 const require = createRequire(import.meta.url);
 const ts = require('typescript');
 
-/** Raiz do repositorio: o script roda igual de qualquer pasta. */
+/** Repository root: the script runs the same from any folder. */
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const ROOTS = ['src', 'stories', '.storybook', 'scripts'];
-/** Gerados: o nome sai de outra fonte, que ja e conferida (tokens JSON, ficha). */
+/** Generated: the name comes from another source, which is already checked (token JSON, spec). */
 const SKIPPED_DIRS = new Set(['node_modules', 'storybook-static', 'src/tokens/generated', 'src/shared/metadata']);
-/** Tipos de arquivo que esta regra sabe ler. Outro tipo reprova ate a regra aprender. */
+/** File types this rule can read. Any other type fails until the rule learns it. */
 const CODE_EXTENSIONS = new Set(['ts', 'js', 'mjs', 'cjs']);
 const KNOWN_EXTENSIONS = new Set([...CODE_EXTENSIONS, 'css', 'html', 'json', 'md']);
-/** Diretorios do contrato do verificador (V28, V30, V31): isentos so em scripts/fixtures/operations/. */
+/** Directories of the checker contract (V28, V30, V31): exempt only in scripts/fixtures/operations/. */
 const CONTRACT_DIRS = new Set(['tarefas', 'evidencias', 'contextos', 'fichas']);
 const OPERATIONS_FIXTURES = 'scripts/fixtures/operations/';
-/** Nome de evidencia: <gate>-<AAAA-MM-DD>.md (docs/operacao/README.md). */
+/** Evidence name: <gate>-<YYYY-MM-DD>.md (`docs/operacao/README.md`). */
 const EVIDENCE_NAME = /^[a-z0-9-]+-\d{4}-\d{2}-\d{2}\.md$/;
 const DICTIONARIES = new Set(['.storybook/i18n/pt-BR.json', '.storybook/i18n/en.json', '.storybook/i18n/es.json']);
 const EXCEPTIONS_FILE = 'scripts/naming-exceptions.json';
+/** Exceptions of the documentation phase: only the text classes are valid there. */
+const LANGUAGE_EXCEPTIONS_FILE = 'scripts/language-exceptions.json';
+/**
+ * Documentation phase, by group (P64, amendment of 06/10/2026). 'warn' prints the
+ * Portuguese it finds and keeps the exit code; 'enforce' fails. Each group goes to
+ * 'enforce' when its translation is merged (docs: PR 2; specs: PR 4).
+ */
+const LANGUAGE_MODES = { docs: 'enforce', specs: 'enforce' };
 const SELF_TEST_FILE = 'scripts/fixtures/naming/cases.json';
 
 const CLASSES = {
-  'story-export': 'exportacao de story: gera o ID e o permalink',
-  'storybook-id': 'ID, titulo ou chave de navegacao do Storybook',
-  anchor: 'id de secao usado como ancora de URL',
-  'operation-schema': 'chave ou valor do schema de docs/operacao (P64, fora da regra)',
-  'token-schema': 'chave, modo ou marca do JSON dos tokens (P20, P64)',
-  'spec-schema': 'chave ou valor do YAML da ficha e da Metadata (P63, P64)',
-  'design-md': 'chave lida do design.md',
-  'i18n-header': 'formato do cabecalho das traducoes (test-i18n)',
-  cli: 'nome de script npm, bandeira ou arquivo citado em comando gravado em docs/operacao/',
-  'contract-path': 'diretorio do contrato do verificador, citado pelo proprio verificador',
-  'output-text': 'palavra impressa na saida de um script',
-  'ui-text': 'texto exibido ou de exemplo, numa palavra so',
+  'story-export': 'story export: generates the ID and the permalink',
+  'storybook-id': 'Storybook ID, title or navigation key',
+  anchor: 'section id used as a URL anchor',
+  'operation-schema': 'key or value of the docs/operacao schema (P64, outside the rule)',
+  'token-schema': 'key, mode or brand of the tokens JSON (P20, P64)',
+  'spec-schema': 'key or value of the spec YAML and of the Metadata (P63, P64)',
+  'design-md': 'key read from design.md',
+  'i18n-header': 'format of the translations header (test-i18n)',
+  cli: 'npm script name, flag or file cited in a command recorded in docs/operacao/',
+  'contract-path': 'checker contract directory, cited by the checker itself',
+  'output-text': 'word printed in the output of a script',
+  'ui-text': 'displayed or example text, a single word',
+  'prose-text': 'quote of the time or proper name in running text (comment, message, documentation)',
+  'contract-term': 'contract key or value quoted in running text (P64, D4: it changes in DSA-15)',
 };
+/** Running text roles, and the only classes that cover them. A text class never covers a technical name. */
+const TEXT_ROLES = new Set(['comment', 'message', 'doc']);
+const TEXT_CLASSES = new Set(['prose-text', 'contract-term']);
 
 /*
- * Vocabulario PT, fins tipicos e a lista fechada de palavras inglesas com esses fins
- * ficam em scripts/naming-vocabulary.json, que diz tambem o que fica de fora e por que.
+ * Portuguese vocabulary, typical endings and the closed list of English words with those endings
+ * live in scripts/naming-vocabulary.json, which also says what is left out and why.
  */
 const VOCABULARY = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'scripts/naming-vocabulary.json'), 'utf8'));
 const PT_WORDS = new Set(VOCABULARY.portuguese);
-/** Fim tipico do portugues; palavra inglesa com o mesmo fim fica numa lista FECHADA, palavra a palavra. */
+/** Typical Portuguese ending; an English word with the same ending goes in a CLOSED list, word by word. */
 const PT_ENDING = new RegExp(`(?:${VOCABULARY.portugueseEndings.join('|')})$`);
 const EN_SAME_ENDING = new Set(VOCABULARY.englishSameEnding);
-/** Palavra inglesa de codigo que as regras acima confundiriam (indices = plural de indice). */
+/** English code word that the rules above would mistake (indices = plural of an index). */
 const EN_WORDS = new Set(VOCABULARY.english);
+const { ptWordsInProse } = createDetector(VOCABULARY);
 
 function isPtWord(word) {
   const w = word.toLowerCase();
@@ -109,12 +132,12 @@ function isPtWord(word) {
   if (EN_WORDS.has(w)) return false;
   if (/[à-ÿ]/.test(w)) return true;
   if (PT_WORDS.has(w)) return true;
-  /* Plural em -s de palavra do vocabulario (rodape → rodapes, seta → setas). */
+  /* Plural in -s of a vocabulary word (`rodape` → `rodapes`, `seta` → `setas`). */
   if (w.endsWith('s') && PT_WORDS.has(w.slice(0, -1))) return true;
   return w.length > 3 && PT_ENDING.test(w) && !isEnglishSameEnding(w);
 }
 
-/** Palavra inglesa da lista, ou o plural dela em -s/-es (tornados, avocados, potatoes). */
+/** English word from the list, or its plural in -s/-es (tornados, avocados, potatoes). */
 function isEnglishSameEnding(w) {
   return EN_SAME_ENDING.has(w) || (w.endsWith('s') && EN_SAME_ENDING.has(w.slice(0, -1))) ||
     (w.endsWith('es') && EN_SAME_ENDING.has(w.slice(0, -2)));
@@ -129,20 +152,20 @@ function words(name) {
 }
 const hasPt = (name) => words(name).some(isPtWord);
 
-/** Atributos cujo valor e nome tecnico (classe, part, id ou referencia a id). aria-label e texto. */
+/** Attributes whose value is a technical name (class, part, id or id reference). aria-label is text. */
 const ID_ATTRS = ['class', 'part', 'exportparts', 'id', 'for', 'slot', 'name', 'aria-labelledby', 'aria-describedby',
   'aria-controls', 'aria-owns', 'aria-activedescendant', 'aria-details', 'aria-errormessage', 'popovertarget', 'list',
   'form', 'headers', 'commandfor', 'interestfor', 'anchor', 'itemref'];
 const ID_ATTR_NAME = new RegExp(`^(?:${ID_ATTRS.join('|')})$|^data-`);
 /**
- * Atributos cujo valor e texto exibido: ficam fora, pela P64. `text` e o texto do
- * nph-label (API da P62.3). value e content sao valor tecnico e continuam na regra.
+ * Attributes whose value is displayed text: left out, by P64. `text` is the text of
+ * nph-label (API of P62.3). value and content are a technical value and stay under the rule.
  */
 const TEXT_ATTRS = new Set(['title', 'alt', 'placeholder', 'aria-label', 'aria-description', 'aria-roledescription',
   'aria-valuetext', 'label', 'text']);
 /**
- * Elementos HTML, SVG e MathML. Fora deles, tag sem hifen e texto: '<nome do arquivo>' num texto de
- * ajuda nao tem atributos.
+ * HTML, SVG and MathML elements. Outside them, a tag without a hyphen is text: '<file name>' in a help
+ * text has no attributes.
  */
 const HTML_ELEMENTS = new Set(`a abbr address area article aside audio b base bdi bdo blockquote body br button
 canvas caption cite code col colgroup data datalist dd del details dfn dialog div dl dt em embed fieldset
@@ -157,8 +180,8 @@ fedisplacementmap fedistantlight fedropshadow feflood fefunca fefuncb fefuncg fe
 femerge femergenode femorphology feoffset fepointlight fespecularlighting fespotlight fetile feturbulence math
 mi mn mo ms mtext mrow msub msup msubsup mfrac msqrt mroot mtable mtr mtd semantics annotation selectedcontent`.split(/\s+/));
 /**
- * Propriedades CSS conhecidas, em kebab-case: as de CSSStyleDeclaration no lib.dom do
- * TypeScript. Folha de estilo em string so conta se toda declaracao usar uma delas.
+ * Known CSS properties, in kebab-case: those of CSSStyleDeclaration in the TypeScript
+ * lib.dom. A stylesheet in a string only counts if every declaration uses one of them.
  */
 const CSS_PROPERTIES = (() => {
   const dom = fs.readFileSync(require.resolve('typescript/lib/lib.dom.d.ts'), 'utf8');
@@ -166,7 +189,7 @@ const CSS_PROPERTIES = (() => {
   const block = dom.slice(start, dom.indexOf('\n}', start));
   return new Set([...block.matchAll(/^\s+(\w+): string;/gm)].map((m) => m[1].replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)));
 })();
-/** Propriedades CSS cujo valor tem nomes; o estilo por propriedade (el.style.x) usa o mesmo mapa. */
+/** CSS properties whose value has names; the per-property style (el.style.x) uses the same map. */
 const STYLE_PROPS = {
   animation: 'animation', animationName: 'animation-name', gridTemplateAreas: 'grid-template-areas',
   gridTemplate: 'grid-template', grid: 'grid', gridArea: 'grid-area', gridRow: 'grid-row', gridColumn: 'grid-column',
@@ -182,9 +205,9 @@ const blank = (c) => c.replace(/[^\n]/g, ' ');
 const stripComments = (s) => s.replace(/\/\*[\s\S]*?\*\/|<!--[\s\S]*?-->/g, blank);
 
 /**
- * Tokens tecnicos de um texto com espaco. Devolve { value, index } para o chamador achar a
- * linha. `css`: o texto e CSS; so nele valem os seletores e os nomes de CSS. `markup`: le tag,
- * atributo e valor; o style="..." e o <style> sao lidos como CSS.
+ * Technical tokens of a text with a space. Returns { value, index } so the caller can find the
+ * line. `css`: the text is CSS; only there do selectors and CSS names count. `markup`: reads tag,
+ * attribute and value; style="..." and <style> are read as CSS.
  */
 function technicalTokensAt(rawText, { css = false, markup = true } = {}) {
   const text = stripComments(rawText);
@@ -197,20 +220,20 @@ function technicalTokensAt(rawText, { css = false, markup = true } = {}) {
   const sub = (chunk, start) => { for (const t of technicalTokensAt(chunk, { css: true })) push(t.value, start + t.index); };
 
   each(/(--[a-z\u0001][\w\u0001-]*)/g, (m) => push(m[1], m.index));
-  /* data-x so em CSS ou marcacao: '<data-inicial>' num texto de uso nao e atributo. */
+  /* data-x only in CSS or markup: `<data-inicial>` in a usage text is not an attribute. */
   if (css || markup) each(/\b(data-[a-z\u0001][\w\u0001-]*)/g, (m) => push(m[1], m.index));
 
   if (css) {
-    /* Valor de declaracao sem string: para no ; } { e na aspa ou no < de um style="..." */
+    /* Declaration value without a string: stops at ; } { and at the quote or < of a style="..." */
     const VALUE = `([^;}{"'<>]+)`;
-    /* Seletor de tipo de custom element: ident com hifen em posicao de seletor, numa lista que
-     * abre bloco ({ adiante; [atributo] e string contam como parte do seletor; ; e } fecham).
-     * O ident pode ter o marcador de ${} (nph-rotulo-${v}). */
+    /* Custom element type selector: hyphenated ident in a selector position, in a list that
+     * opens a block ({ ahead; [attribute] and string count as part of the selector; ; and } close).
+     * The ident may have the ${} marker (`nph-rotulo-${v}`). */
     each(/(?:^|[\s,>+~(){};])([a-z][a-z0-9]*-[\w\u0001-]*)(?=(?:[^};"'[]|\[(?:[^\]"']|"[^"]*"|'[^']*')*\]|"[^"]*"|'[^']*')*\{)(?=\s*[,{.:#[>+~)]|\s+[a-z*&\u0001])/g,
       (m) => push(m[1], m.index + m[0].length - m[1].length));
-    /* Classe e id: ponto ou # que nao e parte de numero isolado (1.5rem, #1f2). */
+    /* Class and id: a dot or # that is not part of an isolated number (1.5rem, #1f2). */
     each(/(?<!(?:^|[^\w.-])\d+)\.([a-zA-Z_\u0001][\w\u0001-]*)/g, (m) => push('.' + m[1], m.index));
-    /* Cor hex tem 3, 4, 6 ou 8 digitos e nao abre bloco: #decada { } e id, color: #decada e cor. */
+    /* A hex color has 3, 4, 6 or 8 digits and does not open a block: #decada { } is an id, color: #decada is a color. */
     each(/#([a-zA-Z\u0001][\w\u0001-]*)(?=(\s*\{)?)/g, (m) => {
       if (m[2] || !/^(?:[\da-f]{3,4}|[\da-f]{6}|[\da-f]{8})$/i.test(m[1])) push('#' + m[1], m.index);
     });
@@ -223,19 +246,19 @@ function technicalTokensAt(rawText, { css = false, markup = true } = {}) {
     each(/@layer\s+([^{;]+)/g, (m) => idents(m[1].replace(/\./g, ' '), m.index));
     each(/\blayer\(([^)]*)\)/g, (m) => idents(m[1].replace(/\./g, ' '), m.index));
     each(/\bcounters?\(\s*([a-zA-Z_\u0001][\w\u0001-]*)/g, (m) => push(m[1], m.index));
-    /* Linha nomeada de grid: [inicio] 1fr [fim]. */
+    /* Named grid line: `[inicio] 1fr [fim]`. */
     each(/\[([a-zA-Z_\u0001][\w\u0001-]*(?:\s+[a-zA-Z_\u0001][\w\u0001-]*)*)\]/g, (m) => idents(m[1], m.index));
     each(new RegExp(`\\b(?:animation|animation-name|container|container-name|grid-area|grid-row|grid-row-start|grid-row-end|grid-column|grid-column-start|grid-column-end|view-transition-name|view-transition-class|list-style-type|counter-reset|counter-increment|counter-set)\\s*:\\s*${VALUE}`, 'g'),
       (m) => idents(m[1], m.index));
     each(/\b(?:list-style|font-family)\s*:\s*([^;}{<>]+)/g, (m) => idents(m[1].replace(/"[^"]*"|'[^']*'/g, ' '), m.index));
-    /* Areas de grid: grid-template-areas e os atalhos grid-template e grid, com as strings. */
+    /* Grid areas: grid-template-areas and the grid-template and grid shorthands, with the strings. */
     each(/\b(?:grid-template-areas|grid-template|grid)\s*:\s*([^;}{<>]+)/g, (m) => {
       for (const q of m[1].matchAll(/"([^"]*)"|'([^']*)'/g)) idents(q[1] ?? q[2], m.index);
     });
   }
 
-  /* Marcacao: tag, atributos, valores de id, href="#x", style="..." e <style>. A aspa pode ficar
-   * aberta no fim do texto: '<i class="botao-ativo ' + x + '">' parte o atributo em dois literais. */
+  /* Markup: tag, attributes, id values, href="#x", style="..." and <style>. The quote may stay
+   * open at the end of the text: `<i class="botao-ativo ' + x + '">` splits the attribute into two literals. */
   if (markup) each(/<\/?([a-zA-Z][\w-]*)((?:[^<>"']|"[^"]*"|'[^']*'|"[^"]*$|'[^']*$)*)/g, (m) => {
     const tag = m[1];
     const attrs = m[2];
@@ -251,7 +274,7 @@ function technicalTokensAt(rawText, { css = false, markup = true } = {}) {
       if (name === 'style') sub(value, valueAt);
       else if (/(?:^|:)href$/.test(name)) { const frag = /^#([\w-]+)$/.exec(value); if (frag) push(frag[1], at); }
       else if (ID_ATTR_NAME.test(name)) for (const v of value.split(/[\s,:]+/)) push(v, at);
-      /* Valor de componente: um valor tecnico (variant="primary"); com espaco e texto (hint="Digite o nome"). */
+      /* Component value: a technical value (variant="primary"); with a space it is text (`hint="Digite o nome"`). */
       else if (tag.includes('-') && !TEXT_ATTRS.has(name) && !/\s/.test(value.trim())) push(value.trim(), at);
     }
   });
@@ -263,12 +286,12 @@ function technicalTokensAt(rawText, { css = false, markup = true } = {}) {
 const technicalTokens = (text, options) => technicalTokensAt(text, options).map((t) => t.value);
 
 /**
- * Folha de estilo em string, onde quer que esteja: sem comentario, o literal inteiro e uma
- * sequencia de regras seletor { ... } com chaves balanceadas, aninhadas ou vazias, e ao menos
- * uma declaracao usa propriedade conhecida: do lib.dom, de fornecedor (-webkit-x) ou --custom.
- * Propriedade que o lib.dom ainda nao tem passa se nao for palavra PT; composta (anchor-name) conta
- * como conhecida.
- * Texto corrido com chaves ("Seja bem-vindo, {usuario: nome}") nao e folha.
+ * Stylesheet in a string, wherever it is: without comments, the whole literal is a
+ * sequence of selector { ... } rules with balanced, nested or empty braces, and at least
+ * one declaration uses a known property: from lib.dom, vendor (-webkit-x) or --custom.
+ * A property that lib.dom does not have yet passes if it is not a PT word; a compound one (anchor-name)
+ * counts as known.
+ * Running text with braces (`Seja bem-vindo, {usuario: nome}`) is not a stylesheet.
  */
 function isStylesheetText(raw) {
   const text = stripComments(raw);
@@ -280,9 +303,9 @@ function isStylesheetText(raw) {
     else if (depth === 0 && (ch === ';' || ch === '<')) return false;
   }
   if (depth !== 0) return false;
-  /* Declaracao: prop: valor ate ; ou }. Seletor aninhado com pseudo (a:hover {) nao e declaracao. */
+  /* Declaration: prop: value up to ; or }. A nested selector with a pseudo (a:hover {) is not a declaration. */
   const props = [...text.matchAll(/[{;]\s*(-?[\w-]+)\s*:[^;{}]*(?=[;}])/g)].map((m) => m[1]);
-  /* Conhecida: do lib.dom, de fornecedor, --custom, ou composta com hifen e sem palavra PT (anchor-name). */
+  /* Known: from lib.dom, vendor, --custom, or compound with a hyphen and no PT word (anchor-name). */
   const known = (p) => p.startsWith('-') || CSS_PROPERTIES.has(p) || (p.includes('-') && !hasPt(p));
   return props.some(known) && props.every((p) => known(p) || !hasPt(p));
 }
@@ -297,7 +320,7 @@ function walk(dir, acc) {
   return acc;
 }
 
-/** Sobe pelas expressoes que so repassam o valor: parenteses, ternario, + && || ??. */
+/** Climbs through the expressions that only pass the value along: parentheses, ternary, + && || ??. */
 const PASS_OPERATORS = new Set([ts.SyntaxKind.PlusToken, ts.SyntaxKind.AmpersandAmpersandToken,
   ts.SyntaxKind.BarBarToken, ts.SyntaxKind.QuestionQuestionToken]);
 function climb(start) {
@@ -310,13 +333,13 @@ function climb(start) {
 const calleeOf = (call) => call.expression.getText().replace(/\?\./g, '.');
 
 const MESSAGE_CALLEE = /^(console\.\w+|process\.(stdout|stderr)\.write|describe|it|test)(\.\w+)?$/;
-/** Funcoes locais de relato (verificar-operacao: fail; e afins): so texto corrido conta como mensagem. */
+/** Local reporting functions (`verificar-operacao`: fail; and the like): only running text counts as a message. */
 const LOCAL_MESSAGE_CALLEE = /^(fail|warn)$/;
 /**
- * Mensagem e so o argumento DIRETO de console, throw, Error, saida do processo ou
- * descricao de teste, inclusive montado por template, concatenacao ou ternario. Literal
- * dentro de objeto, array, comparacao ou funcao passada como argumento nao e mensagem.
- * Em fail/warn, so o texto com espaco: fail('rotulo') e valor tecnico.
+ * A message is only the DIRECT argument of console, throw, Error, process output or
+ * test description, including when built by template, concatenation or ternary. A literal
+ * inside an object, array, comparison or function passed as an argument is not a message.
+ * In fail/warn, only text with a space: `fail('rotulo')` is a technical value.
  */
 function isInsideMessage(node, text = '') {
   let child = node;
@@ -337,9 +360,9 @@ function isInsideMessage(node, text = '') {
 }
 
 /**
- * Literal que e seletor CSS: 1o argumento de querySelector, querySelectorAll, closest,
- * matches (2o em .call), dos decorators @query/@queryAll/@queryAsync; `selector:`; ou o
- * valor de uma constante ou propriedade cujo nome termina em Selector/SELECTOR.
+ * Literal that is a CSS selector: 1st argument of querySelector, querySelectorAll, closest,
+ * matches (2nd in .call), of the decorators @query/@queryAll/@queryAsync; `selector:`; or the
+ * value of a constant or property whose name ends in Selector/SELECTOR.
  */
 function isSelectorArgument(start) {
   const node = climb(start);
@@ -354,7 +377,7 @@ function isSelectorArgument(start) {
   return p.arguments[0] === node && /(?:\.(?:querySelector|querySelectorAll|closest|matches)|^(?:query|queryAll|queryAsync))$/.test(callee);
 }
 
-/** Literal que e CSS por ser argumento de unsafeCSS, replaceSync ou insertRule. */
+/** Literal that is CSS because it is an argument of unsafeCSS, replaceSync or insertRule. */
 function isCssArgument(start) {
   const node = climb(start);
   const p = node.parent;
@@ -362,25 +385,25 @@ function isCssArgument(start) {
     /(?:(?:^|\.)unsafeCSS|\.(?:replaceSync|insertRule))$/.test(calleeOf(p)));
 }
 
-/** Texto do template logo antes de uma interpolacao ${...}. */
+/** Template text right before a ${...} interpolation. */
 function textBeforeSpan(span) {
   const template = span.parent;
   const i = template.templateSpans.indexOf(span);
   return i === 0 ? template.head.text : template.templateSpans[i - 1].literal.text;
 }
 
-/** Literal com espaco que vira lista de classe, part ou id: el.className = '...', setAttribute('class', '...'). */
+/** Literal with a space that becomes a class, part or id list: el.className = '...', setAttribute('class', '...'). */
 function isClassList(start) {
   const node = climb(start);
   const p = node.parent;
   if (!p) return false;
-  /* Classe condicional do Lit: class=${c ? 'a b' : 'c'} ou class="x ${...}". O texto antes da
-   * interpolacao abre o atributo e ainda nao o fechou. */
+  /* Conditional Lit class: class=${c ? 'a b' : 'c'} or class="x ${...}". The text before the
+   * interpolation opens the attribute and has not closed it yet. */
   if (ts.isTemplateSpan(p) && p.expression === node) {
     return new RegExp(`\\b(?:${ID_ATTRS.join('|')}|data-[\\w-]+)\\s*=\\s*(?:"[^"]*|'[^']*)?$`).test(textBeforeSpan(p));
   }
   if (ts.isBinaryExpression(p) && p.right === node) return /\.className$/.test(p.left.getText());
-  /* Objeto de props ou de classMap: { className: 'a b' }, { class: 'a b' }. */
+  /* Props or classMap object: { className: 'a b' }, { class: 'a b' }. */
   if (ts.isPropertyAssignment(p) && p.initializer === node) return /^['"]?(className|class)['"]?$/.test(p.name.getText());
   if (ts.isCallExpression(p) && p.arguments.includes(node)) {
     const callee = calleeOf(p);
@@ -394,17 +417,17 @@ function isClassList(start) {
 }
 
 /**
- * Propriedade de estilo cujo valor tem nomes: el.style.x = '...' (ou +=), el.style['x'] = '...',
- * setProperty('x', '...') ou { x: '...' } num objeto de estilo. Devolve o nome CSS, ou
- * 'cssText' quando o valor e uma lista de declaracoes (el.style.cssText, setAttribute('style')):
- * "cssText: grid-area: x;" le os nomes de cada declaracao do mesmo jeito.
+ * Style property whose value has names: el.style.x = '...' (or +=), el.style['x'] = '...',
+ * setProperty('x', '...') or { x: '...' } in a style object. Returns the CSS name, or
+ * 'cssText' when the value is a list of declarations (el.style.cssText, setAttribute('style')):
+ * "cssText: grid-area: x;" reads the names of each declaration the same way.
  */
 const ASSIGN_OPERATORS = new Set([ts.SyntaxKind.EqualsToken, ts.SyntaxKind.PlusEqualsToken]);
 function styleProperty(start) {
   const node = climb(start);
   const p = node.parent;
   if (!p) return null;
-  /* style=${'grid-area: x'} ou style="${...}" num template do Lit: lista de declaracoes. */
+  /* style=${'grid-area: x'} or style="${...}" in a Lit template: list of declarations. */
   if (ts.isTemplateSpan(p) && p.expression === node) return /\bstyle\s*=\s*(?:"[^"]*|'[^']*)?$/.test(textBeforeSpan(p)) ? 'cssText' : null;
   const cssName = (key) => (key === 'cssText' ? key : key ? STYLE_PROPS[key] ?? (CSS_NAMES.has(key) ? key : null) : null);
   if (ts.isCallExpression(p) && /\.setAttribute$/.test(calleeOf(p)) && p.arguments[1] === node) {
@@ -412,7 +435,7 @@ function styleProperty(start) {
     return ts.isStringLiteralLike(a) && a.text === 'style' ? 'cssText' : null;
   }
   if (ts.isBinaryExpression(p) && p.right === node && ASSIGN_OPERATORS.has(p.operatorToken.kind)) {
-    /* (el.style as any)['x'] tambem: sem a conversao de tipo e sem os parenteses. */
+    /* (el.style as any)['x'] too: without the type cast and without the parentheses. */
     const left = p.left.getText().replace(/\s+as\s+[^)]*/g, '').replace(/\)/g, '');
     const m = /\.style(?:\.(\w+)|\[\s*['"`]([\w-]+)['"`]\s*\])$/.exec(left);
     return m ? cssName(m[1] ?? m[2]) : null;
@@ -426,10 +449,10 @@ function styleProperty(start) {
 }
 
 /**
- * title e name da PROPRIA story ficam fora (texto do Storybook): propriedade direta do
- * objeto do `export default`, de uma constante exportada de nivel 1 (a story) ou da
- * constante que o `export default` exporta (meta). `args.name`, e name de qualquer outro
- * objeto, e valor de propriedade e continua na regra.
+ * title and name of the story ITSELF are left out (Storybook text): a direct property of the
+ * `export default` object, of a top-level exported constant (the story) or of the
+ * constant that `export default` exports (meta). `args.name`, and name of any other
+ * object, is a property value and stays under the rule.
  */
 function isStoryTitleOrName(node) {
   const p = node.parent;
@@ -460,27 +483,39 @@ function scan(root = '.') {
   process.chdir(root);
   try {
     const hits = [];
-    /* O marcador de ${...} sai como ${} em todo papel: visivel na saida e escrevivel na excecao.
-     * NFC: acento decomposto (nome de arquivo vindo do macOS) vira a letra acentuada. */
+    /* The ${...} marker comes out as ${} in every role: visible in the output and writable in the exception.
+     * NFC: a decomposed accent (file name coming from macOS) becomes the accented letter. */
     const add = (file, line, raw, role) => {
       const name = raw.replace(/\u0001/g, '${}').normalize('NFC');
       if (hasPt(name)) hits.push({ file, line, name, role });
     };
     const lineAt = (src, index) => src.slice(0, index).split('\n').length;
+    /* Running text (comment, message, documentation): every Portuguese word is a hit, on its own line. */
+    const addProse = (file, firstLine, text, role, group) => {
+      for (const { word, index } of ptWordsInProse(text)) {
+        hits.push({ file, line: firstLine + lineAt(text, index) - 1, name: word.normalize('NFC'), role, ...(group ? { group } : {}) });
+      }
+    };
+    /* Comments inside markup or CSS text, <!-- --> and slash-star, each on its own line. */
+    const addEmbeddedComments = (file, firstLine, text) => {
+      for (const m of text.matchAll(/<!--([\s\S]*?)-->|\/\*([\s\S]*?)\*\//g)) {
+        addProse(file, firstLine + lineAt(text, m.index) - 1, m[1] ?? m[2], 'comment');
+      }
+    };
     const files = ROOTS.filter((r) => fs.existsSync(r)).flatMap((r) => walk(r, []));
 
-    /* Pasta, arquivo e extensao. Diretorio do contrato do verificador e nome de evidencia so ficam
-     * fora dentro de scripts/fixtures/operations/, onde o verificador os exige. */
+    /* Folder, file and extension. A checker contract directory and an evidence name are only left
+     * out inside scripts/fixtures/operations/, where the checker requires them. */
     for (const file of files) {
       const parts = file.split('/');
       const inOperations = file.startsWith(OPERATIONS_FIXTURES);
       const base = parts[parts.length - 1];
-      /* O ponto inicial de um arquivo oculto nao separa extensao: .config.yaml tem extensao yaml.
-       * Oculto sem extensao (.gitkeep) e marcador de ferramenta: vale so o nome. */
+      /* The leading dot of a hidden file does not split an extension: .config.yaml has the yaml extension.
+       * A hidden file without an extension (.gitkeep) is a tool marker: only the name counts. */
       const stem = base.replace(/^\./, '');
       const ext = stem.includes('.') ? stem.split('.').pop() : '';
       const marker = !ext && base.startsWith('.');
-      if (!marker && !KNOWN_EXTENSIONS.has(ext)) hits.push({ file, line: 0, name: ext ? `*.${ext}` : '(sem extensao)', role: 'extension' });
+      if (!marker && !KNOWN_EXTENSIONS.has(ext)) hits.push({ file, line: 0, name: ext ? `*.${ext}` : '(no extension)', role: 'extension' });
       parts.forEach((seg, i) => {
         const isLast = i === parts.length - 1;
         if (!isLast && inOperations && CONTRACT_DIRS.has(seg)) return;
@@ -489,17 +524,28 @@ function scan(root = '.') {
       });
     }
 
-    /* Codigo: um arquivo .ts/.js, ou um pedaco de codigo dentro de .html (<script> e on*). */
+    /* Code: a .ts/.js file, or a piece of code inside .html (<script> and on*). */
     const scanCode = (file, src, lineOffset = 0) => {
       const kind = file.endsWith('.ts') ? ts.ScriptKind.TS : ts.ScriptKind.JS;
       const sf = ts.createSourceFile(file, src, ts.ScriptTarget.Latest, true, kind);
       const line = (n) => sf.getLineAndCharacterOfPosition(n.getStart(sf)).line + 1 + lineOffset;
       const isDictionary = DICTIONARIES.has(file);
       const isStory = /\.stories\.\w+$/.test(file);
+      /* Comments: the leading and trailing comment ranges of every node, each read once. */
+      const seenComments = new Set();
+      const readComments = (pos) => {
+        for (const r of [...(ts.getLeadingCommentRanges(src, pos) ?? []), ...(ts.getTrailingCommentRanges(src, pos) ?? [])]) {
+          if (seenComments.has(r.pos)) continue;
+          seenComments.add(r.pos);
+          const body = src.slice(r.pos, r.end).replace(/^\/\/|^\/\*|\*\/$/g, '');
+          addProse(file, sf.getLineAndCharacterOfPosition(r.pos).line + 1 + lineOffset, body, 'comment');
+        }
+      };
       const visit = (node) => {
+        if (!isDictionary) { readComments(node.pos); readComments(node.end); }
         if (ts.isIdentifier(node) || ts.isPrivateIdentifier(node)) {
-          /* Nome de propriedade (acesso, chave, assinatura, campo, metodo, desestruturacao com
-           * alias) tem papel proprio: excecao de chave de schema nao cobre variavel local. */
+          /* A property name (access, key, signature, field, method, destructuring with
+           * alias) has its own role: a schema key exception does not cover a local variable. */
           const p = node.parent;
           const isProperty = p && (
             (ts.isPropertyAccessExpression(p) && p.name === node) ||
@@ -508,12 +554,12 @@ function scan(root = '.') {
             (ts.isBindingElement(p) && p.propertyName === node));
           if (!(isDictionary && insideProperty(node, ['sidebar']))) add(file, line(node), node.text, isProperty ? 'property' : 'identifier');
         } else if (ts.isRegularExpressionLiteral(node)) {
-          /* Regex literal: o corpo, sem as barras e as flags. */
+          /* Regex literal: the body, without the slashes and the flags. */
           if (!isInsideMessage(node)) add(file, line(node), node.text.slice(1, node.text.lastIndexOf('/')), 'regex');
         } else if (ts.isStringLiteralLike(node) || ts.isTemplateExpression(node) || ts.isTemplateLiteralTypeNode(node)) {
-          /* Template com ${...} (valor ou tipo): o texto inteiro, com cada interpolacao trocada
-           * por um marcador que nao e espaco. Assim um caminho montado continua sendo valor
-           * tecnico, e um atributo cortado por ${...} continua inteiro. */
+          /* Template with ${...} (value or type): the whole text, with each interpolation replaced
+           * by a marker that is not a space. So a built path remains a technical
+           * value, and an attribute cut by ${...} remains whole. */
           const text = ts.isTemplateExpression(node) || ts.isTemplateLiteralTypeNode(node)
             ? node.head.text + node.templateSpans.map((span) => '\u0001' + span.literal.text).join('')
             : (node.text ?? '');
@@ -524,18 +570,20 @@ function scan(root = '.') {
             isInsideMessage(node, text) ||
             (isDictionary && (!isKey || insideProperty(node, ['sidebar']))) ||
             (isStory && (isStoryTitleOrName(node) || isStoryName));
+          if (!isDictionary && isInsideMessage(node, text)) addProse(file, line(node), text.replace(/\u0001/g, ' '), 'message');
           if (!skip) {
             const cssName = styleProperty(node);
             if (cssName) for (const t of technicalTokens(`${cssName}: ${text};`, { css: true })) add(file, line(node), t, 'style');
-            /* Argumento de seletor e seletor CSS: le como bloco. */
+            /* A selector argument is a CSS selector: reads it as a block. */
             if (isSelectorArgument(node)) for (const t of technicalTokens(`${text} {}`, { css: true })) add(file, line(node), t, 'selector');
-            /* CSS: css`` do Lit, argumento de unsafeCSS/replaceSync/insertRule, ou folha de estilo inteira. */
+            /* CSS: Lit css``, argument of unsafeCSS/replaceSync/insertRule, or a whole stylesheet. */
             const tag = p && ts.isTaggedTemplateExpression(p) && p.template === node ? p.tag.getText() : '';
             const css = tag === 'css' || isCssArgument(node) || isStylesheetText(text);
+            if (css || tag === 'html' || tag === 'svg' || /<!--/.test(text)) addEmbeddedComments(file, line(node), text);
             if (text && !/\s/.test(text)) add(file, line(node), text, isKey ? 'key' : 'literal');
             else if (isClassList(node)) for (const t of text.split(/\s+/).filter(Boolean)) add(file, line(node), t, 'class-list');
-            /* Marcacao: em html``/svg``, ou quando o texto tem forma de marcacao (tag com atributo,
-             * fecho de tag). '<id-da-tarefa>' num texto de uso nao e tag. */
+            /* Markup: in html``/svg``, or when the text has the shape of markup (tag with attribute,
+             * closing tag). `<id-da-tarefa>` in a usage text is not a tag. */
             else if (!cssName) {
               const markup = tag === 'html' || tag === 'svg' || /<[a-zA-Z][\w-]*\s[^<>]*=|<\/|\/>/.test(text);
               for (const t of technicalTokens(text, { css, markup })) add(file, line(node), t, 'template');
@@ -545,25 +593,27 @@ function scan(root = '.') {
         ts.forEachChild(node, visit);
       };
       visit(sf);
+      if (!isDictionary) readComments(sf.endOfFileToken.pos);
     };
 
     for (const file of files.filter((f) => CODE_EXTENSIONS.has(f.split('.').pop()))) {
       scanCode(file, fs.readFileSync(file, 'utf8'));
     }
 
-    /* Dicionario de idioma: JSON e expressao JS valida. Com o prefixo na mesma linha, a
-     * linha nao muda e a varredura e a mesma do codigo: chave fora de sidebar reprova,
-     * valor e sidebar passam. O nome nao termina em .ts, entao o AST sai como JS. */
+    /* Language dictionary: JSON is a valid JS expression. With the prefix on the same line, the
+     * line does not change and the scan is the same as for code: a key outside sidebar fails,
+     * a value and sidebar pass. The name does not end in .ts, so the AST comes out as JS. */
     for (const file of files.filter((f) => DICTIONARIES.has(f))) {
       scanCode(file, `export default ${fs.readFileSync(file, 'utf8')}`);
     }
 
-    /* Estilo e marcacao: o arquivo inteiro, sem comentario, para pegar construcao em varias
-     * linhas. A linha sai do indice do token. */
+    /* Style and markup: the whole file, without comments, to catch a multi-line
+     * construct. The line comes from the token index. */
     for (const file of files.filter((f) => /\.(css|html)$/.test(f))) {
+      addEmbeddedComments(file, 1, fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n'));
       let src = stripComments(fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n'));
       if (file.endsWith('.html')) {
-        /* <script> e atributo on*: codigo, pelo AST. O corpo do <script> sai da marcacao. */
+        /* <script> and on* attribute: code, through the AST. The <script> body leaves the markup. */
         src = src.replace(/(<script\b[^>]*>)([\s\S]*?)(<\/script>)/gi, (whole, open, body, close, index) => {
           scanCode(file, body, lineAt(src, index + open.length) - 1);
           return open + blank(body) + close;
@@ -577,30 +627,37 @@ function scan(root = '.') {
 
     const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
     for (const name of Object.keys(pkg.scripts || {})) add('package.json', 0, name, 'npm-script');
+
+    /* Documentation: the running text of each file in scope (scripts/language-lib.mjs). */
+    for (const { file, group } of docFiles()) {
+      for (const { line, text } of docProse(fs.readFileSync(file, 'utf8'))) addProse(file, line, text, 'doc', group);
+    }
     return hits;
   } finally {
     process.chdir(prev);
   }
 }
 
-/** Confere a lista de excecoes: arquivo, nomes nao vazios, classe da lista fechada. */
-function validateExceptions(list) {
+/** Checks the exception list: file, non-empty names, class from the closed list. */
+function validateExceptions(list, { textOnly = false } = {}) {
   const problems = [];
   for (const [i, e] of list.entries()) {
-    if (!e.file || !Array.isArray(e.names) || !e.names.length) problems.push(`entrada ${i}: precisa de "file" e "names"`);
-    else if (e.file.endsWith('/')) problems.push(`entrada ${i} (${e.file}): excecao vale para um arquivo, nao para uma pasta`);
-    if (!Object.hasOwn(CLASSES, e.class)) problems.push(`entrada ${i} (${e.file}): classe desconhecida "${e.class}"`);
+    if (!e.file || !Array.isArray(e.names) || !e.names.length) problems.push(`entry ${i}: needs "file" and "names"`);
+    else if (e.file.endsWith('/')) problems.push(`entry ${i} (${e.file}): an exception applies to a file, not to a folder`);
+    if (!Object.hasOwn(CLASSES, e.class)) problems.push(`entry ${i} (${e.file}): unknown class "${e.class}"`);
+    else if (textOnly && !TEXT_CLASSES.has(e.class)) problems.push(`entry ${i} (${e.file}): only a text class is valid in ${LANGUAGE_EXCEPTIONS_FILE}, not "${e.class}"`);
   }
   return problems;
 }
 
 /*
- * A excecao cobre arquivo + nome. Variavel (declaracao ou referencia, papel identifier) so e
- * coberta por excecao de exportacao de story: chave de schema excetuada nao libera variavel
- * local nova com o mesmo nome. Extensao desconhecida nunca e coberta.
+ * An exception covers file + name. A variable (declaration or reference, role identifier) is only
+ * covered by a story export exception: an excepted schema key does not release a new local
+ * variable with the same name. An unknown extension is never covered.
  */
 const covers = (e, hit) => hit.role !== 'extension' && hit.file === e.file && Array.isArray(e.names) &&
-  e.names.includes(hit.name) && (hit.role !== 'identifier' || e.class === 'story-export');
+  e.names.includes(hit.name) && TEXT_ROLES.has(hit.role) === TEXT_CLASSES.has(e.class) &&
+  (hit.role !== 'identifier' || e.class === 'story-export');
 
 function evaluate(hits, list) {
   const used = new Set();
@@ -616,16 +673,16 @@ function evaluate(hits, list) {
 }
 
 /*
- * Autoteste: cada caso de scripts/fixtures/naming/cases.json monta uma arvore temporaria e
- * confere o que a regra ve. `catches` tem de aparecer (o nome, ou { name, line, role });
- * `clean: true` nao pode ter nenhum achado; `exactly` tem de ser a lista inteira de achados,
- * cada um como "arquivo:linha nome (papel)".
- * Todo caso que escapou numa revisao entra la, para nao voltar.
+ * Self-test: each case of scripts/fixtures/naming/cases.json builds a temporary tree and
+ * checks what the rule sees. `catches` must appear (the name, or { name, line, role });
+ * `clean: true` cannot have any finding; `exactly` must be the whole list of findings,
+ * each as "file:line name (role)".
+ * Every case that escaped in a review goes in there, so it does not come back.
  */
 function selfTest() {
   const failures = [];
   const cases = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, SELF_TEST_FILE), 'utf8'));
-  for (const { label, files, catches = [], clean, exactly } of cases) {
+  for (const { label, files, catches = [], clean, exactly, prose } of cases) {
     const root = fs.mkdtempSync(path.join(os.tmpdir(), 'nph-naming-'));
     try {
       if (!files['package.json']) fs.writeFileSync(path.join(root, 'package.json'), '{ "scripts": {} }');
@@ -633,26 +690,26 @@ function selfTest() {
         fs.mkdirSync(path.dirname(path.join(root, rel)), { recursive: true });
         fs.writeFileSync(path.join(root, rel), content);
       }
-      const hits = scan(root);
+      const hits = scan(root).filter((h) => prose || !TEXT_ROLES.has(h.role));
       const names = hits.map((h) => h.name);
       const found = (c) => (typeof c === 'string'
         ? names.includes(c)
         : hits.some((h) => h.name === c.name && (c.line === undefined || h.line === c.line) && (c.role === undefined || h.role === c.role)));
       const missing = catches.filter((c) => !found(c)).map((c) => (typeof c === 'string' ? c : JSON.stringify(c)));
-      if (missing.length) failures.push(`${label}: nao pegou ${missing.join(', ')}`);
-      if (clean && names.length) failures.push(`${label}: acusou ${names.join(', ')}`);
+      if (missing.length) failures.push(`${label}: did not catch ${missing.join(', ')}`);
+      if (clean && names.length) failures.push(`${label}: reported ${names.join(', ')}`);
       if (exactly) {
         const got = [...new Set(hits.map((h) => `${h.file}:${h.line} ${h.name} (${h.role})`))].sort();
         const want = [...new Set(exactly)].sort();
-        if (got.join('|') !== want.join('|')) failures.push(`${label}: esperava [${want.join(', ')}], veio [${got.join(', ')}]`);
+        if (got.join('|') !== want.join('|')) failures.push(`${label}: expected [${want.join(', ')}], got [${got.join(', ')}]`);
       }
     } finally {
       fs.rmSync(root, { recursive: true, force: true });
     }
   }
 
-  /* Excecoes: nome sem excecao reprova; excecao sem uso aparece; arquivo errado nao cobre;
-   * chave de schema nao cobre variavel local; a de story cobre; lista invalida e acusada. */
+  /* Exceptions: a name without an exception fails; an unused exception shows up; the wrong file does not cover;
+   * a schema key does not cover a local variable; the story one does; an invalid list is reported. */
   let structural = 0;
   const check = (ok, message) => { structural++; if (!ok) failures.push(message); };
   const list = [
@@ -670,9 +727,9 @@ function selfTest() {
     { file: 'src/a.ts', line: 6, name: 'Story', role: 'identifier' },
     { file: 'src/a.ts', line: 0, name: '*.tsx', role: 'extension' },
   ], list);
-  check(r.failures.map((f) => f.line).join(',') === '2,3,5,0', `excecao: falhas esperadas nas linhas 2,3,5,0, veio ${r.failures.map((f) => f.line).join(',')}`);
-  /* A excecao de '*.tsx' nao cobre a extensao: fica sem uso. */
-  check(r.unused.join('|') === 'src/a.ts invented|src/a.ts *.tsx', `excecao: esperava sem uso [invented, *.tsx], veio [${r.unused.join(', ')}]`);
+  check(r.failures.map((f) => f.line).join(',') === '2,3,5,0', `exception: expected failures on lines 2,3,5,0, got ${r.failures.map((f) => f.line).join(',')}`);
+  /* The '*.tsx' exception does not cover the extension: it stays unused. */
+  check(r.unused.join('|') === 'src/a.ts invented|src/a.ts *.tsx', `exception: expected unused [invented, *.tsx], got [${r.unused.join(', ')}]`);
   const bad = validateExceptions([
     { file: 'src/a.ts', class: 'ui-text', names: [] },
     { file: 'src/', class: 'ui-text', names: ['x'] },
@@ -683,28 +740,53 @@ function selfTest() {
     { file: 'src/a.ts', class: 'toString', names: ['x'] },
     { file: 'src/a.ts', class: 'ui-text', names: ['ok'] },
   ]);
-  check(bad.length === 7 && bad.every((b, i) => b.startsWith(`entrada ${i}`)), `excecao: validacao esperava 7 problemas nas entradas 0-6, veio ${bad.join(' | ')}`);
+  check(bad.length === 7 && bad.every((b, i) => b.startsWith(`entry ${i}`)), `exception: validation expected 7 problems in entries 0-6, got ${bad.join(' | ')}`);
 
-  /* Vocabulario: todo fim reprova uma palavra feita so dele; toda palavra inglesa da lista
-   * passa, com o plural, e reprovaria sem a lista (senao a entrada e morta: sem fim portugues,
-   * curta demais, ou plural de outra entrada); nenhuma palavra PT esta na lista inglesa, e toda
-   * palavra PT reprova. */
-  for (const ending of VOCABULARY.portugueseEndings) check(isPtWord(`zxq${ending}`), `vocabulario: o fim "${ending}" nao reprova`);
+  /* Text classes cover only running text, and technical classes never cover it. */
+  const textList = [
+    { file: 'src/a.ts', class: 'prose-text', names: ['quotedWord'] },
+    { file: 'src/a.ts', class: 'operation-schema', names: ['schemaKey'] },
+  ];
+  const t = evaluate([
+    { file: 'src/a.ts', line: 1, name: 'quotedWord', role: 'comment' },
+    { file: 'src/a.ts', line: 2, name: 'quotedWord', role: 'literal' },
+    { file: 'src/a.ts', line: 3, name: 'schemaKey', role: 'message' },
+    { file: 'src/a.ts', line: 4, name: 'schemaKey', role: 'key' },
+  ], textList);
+  check(t.failures.map((f) => f.line).join(',') === '2,3', `text class: expected failures on lines 2,3, got ${t.failures.map((f) => f.line).join(',')}`);
+  const textBad = validateExceptions([
+    { file: 'docs/a.md', class: 'ui-text', names: ['x'] },
+    { file: 'docs/a.md', class: 'contract-term', names: ['x'] },
+  ], { textOnly: true });
+  check(textBad.length === 1 && textBad[0].startsWith('entry 0'), `text class: expected 1 problem on entry 0 of the documentation list, got ${textBad.join(' | ')}`);
+
+  /* Function words: none is English or excluded, and each one is detected. */
+  const excluded = new Set(EXCLUDED_FUNCTION_WORDS);
+  for (const word of VOCABULARY.portugueseFunctionWords) {
+    check(!EN_WORDS.has(word) && !EN_SAME_ENDING.has(word) && !excluded.has(word), `vocabulary: "${word}" is a function word and also English or excluded`);
+    check(ptWordsInProse(`see ${word} here`).some((w) => w.word === word), `vocabulary: function word "${word}" is not detected`);
+  }
+
+  /* Vocabulary: every ending fails a word made only of it; every English word in the list
+   * passes, with the plural, and would fail without the list (otherwise the entry is dead: no Portuguese
+   * ending, too short, or the plural of another entry); no PT word is in the English list, and every
+   * PT word fails. */
+  for (const ending of VOCABULARY.portugueseEndings) check(isPtWord(`zxq${ending}`), `vocabulary: the ending "${ending}" does not fail`);
   for (const word of VOCABULARY.englishSameEnding) {
-    check(!isPtWord(word) && !isPtWord(`${word}s`), `vocabulario: "${word}" (ou o plural) esta na lista inglesa e ainda reprova`);
+    check(!isPtWord(word) && !isPtWord(`${word}s`), `vocabulary: "${word}" (or its plural) is in the English list and still fails`);
     EN_SAME_ENDING.delete(word);
-    check(isPtWord(word), `vocabulario: "${word}" na lista inglesa nao reprovaria sem ela (entrada morta)`);
+    check(isPtWord(word), `vocabulary: "${word}" in the English list would not fail without it (dead entry)`);
     EN_SAME_ENDING.add(word);
   }
   for (const word of VOCABULARY.portuguese) {
-    check(!EN_SAME_ENDING.has(word) && !EN_WORDS.has(word), `vocabulario: "${word}" esta numa lista inglesa tambem`);
-    check(isPtWord(word) && (EN_WORDS.has(`${word}s`) || isPtWord(`${word}s`)), `vocabulario: "${word}" (ou o plural) nao reprova`);
+    check(!EN_SAME_ENDING.has(word) && !EN_WORDS.has(word), `vocabulary: "${word}" is in an English list too`);
+    check(isPtWord(word) && (EN_WORDS.has(`${word}s`) || isPtWord(`${word}s`)), `vocabulary: "${word}" (or its plural) does not fail`);
   }
-  /* Lista `english`: toda palavra passa, e cada uma reprovaria sem a lista (senao a entrada e morta). */
+  /* `english` list: every word passes, and each would fail without the list (otherwise the entry is dead). */
   for (const word of VOCABULARY.english) {
-    check(!isPtWord(word), `vocabulario: "${word}" esta na lista english e ainda reprova`);
+    check(!isPtWord(word), `vocabulary: "${word}" is in the english list and still fails`);
     EN_WORDS.delete(word);
-    check(isPtWord(word), `vocabulario: "${word}" na lista english nao reprovaria sem ela (entrada morta)`);
+    check(isPtWord(word), `vocabulary: "${word}" in the english list would not fail without it (dead entry)`);
     EN_WORDS.add(word);
   }
   return { failures, total: cases.length + structural };
@@ -712,38 +794,57 @@ function selfTest() {
 
 function main() {
   const { failures: selfFailures, total } = selfTest();
-  for (const f of selfFailures) console.log(`AUTOTESTE FALHOU ${f}`);
+  for (const f of selfFailures) console.log(`SELF-TEST FAILED ${f}`);
   if (selfFailures.length) {
-    console.log(`\nRESULTADO: o autoteste da regra falhou (${selfFailures.length}); a varredura nao vale ate a regra ser corrigida.`);
+    console.log(`\nRESULT: the rule self-test failed (${selfFailures.length}); the scan is not valid until the rule is fixed.`);
     process.exit(1);
   }
-  console.log(`Autoteste: ${total} casos passaram.`);
+  console.log(`Self-test: ${total} cases passed.`);
 
   const listAll = process.argv.includes('--list');
   const hits = scan(REPO_ROOT);
   const list = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, EXCEPTIONS_FILE), 'utf8'));
   const problems = validateExceptions(list);
-  const { failures, matched, unused } = evaluate(hits, list);
+  const codeHits = hits.filter((h) => h.role !== 'doc');
+  const docHits = hits.filter((h) => h.role === 'doc');
+  const { failures, matched, unused } = evaluate(codeHits, list);
+  const languageList = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, LANGUAGE_EXCEPTIONS_FILE), 'utf8'));
+  problems.push(...validateExceptions(languageList, { textOnly: true }).map((p) => `${LANGUAGE_EXCEPTIONS_FILE}: ${p}`));
+  const docs = evaluate(docHits, languageList);
+  const modeOf = (file) => LANGUAGE_MODES[docHits.find((h) => h.file === file)?.group ?? (file.startsWith('fichas/') ? 'specs' : 'docs')];
+  const docFailures = docs.failures.filter((h) => LANGUAGE_MODES[h.group] === 'enforce');
+  const docWarnings = docs.failures.filter((h) => LANGUAGE_MODES[h.group] !== 'enforce');
+  const docUnused = docs.unused.filter((u) => modeOf(u.split(' ')[0]) === 'enforce');
   if (listAll) {
-    for (const h of matched) console.log(`EXCECAO ${h.file}:${h.line} ${h.name} (${h.role}) [${h.class}]`);
+    for (const h of matched) console.log(`EXCEPTION ${h.file}:${h.line} ${h.name} (${h.role}) [${h.class}]`);
   }
   for (const f of failures) {
     console.log(f.role === 'extension'
-      ? `FALHOU ${f.file}: extensao sem regra de nomes (${f.name}); ensine scripts/test-naming.mjs a ler o tipo antes`
-      : `FALHOU ${f.file}:${f.line} ${f.name} (${f.role})`);
+      ? `FAILED ${f.file}: extension without a naming rule (${f.name}); teach scripts/test-naming.mjs to read the type first`
+      : `FAILED ${f.file}:${f.line} ${f.name} (${f.role})`);
   }
-  for (const u of unused) console.log(`EXCECAO SEM USO ${u}`);
-  for (const p of problems) console.log(`EXCECAO INVALIDA ${p}`);
+  for (const u of unused) console.log(`UNUSED EXCEPTION ${u}`);
+  for (const f of docFailures) console.log(`FAILED ${f.file}:${f.line} ${f.name} (doc, ${f.group})`);
+  for (const u of docUnused) console.log(`UNUSED EXCEPTION ${LANGUAGE_EXCEPTIONS_FILE} ${u}`);
+  if (docWarnings.length) {
+    const byFile = new Map();
+    for (const w of docWarnings) byFile.set(w.file, (byFile.get(w.file) ?? 0) + 1);
+    if (listAll) for (const w of docWarnings) console.log(`WARNING ${w.file}:${w.line} ${w.name} (doc, ${w.group})`);
+    console.log(`\nWARNING: documentation still in Portuguese (warn mode, exit code unchanged): ${docWarnings.length} word(s) in ${byFile.size} file(s).`);
+    for (const [file, count] of [...byFile].sort()) console.log(`  ${file}: ${count}`);
+  }
+  for (const p of problems) console.log(`INVALID EXCEPTION ${p}`);
 
-  const ok = failures.length === 0 && unused.length === 0 && problems.length === 0;
+  const ok = failures.length === 0 && unused.length === 0 && problems.length === 0 && docFailures.length === 0 && docUnused.length === 0;
   console.log(
     ok
-      ? `\nRESULTADO: nenhum nome tecnico em portugues fora de ${EXCEPTIONS_FILE}.`
-      : `\nRESULTADO: ${failures.length} nome(s) em portugues sem excecao, ${unused.length} excecao(oes) sem uso, ${problems.length} excecao(oes) invalida(s).\n` +
-        `Renomeie para ingles. Se for contrato, registre em ${EXCEPTIONS_FILE} com a classe, para revisao no PR.`,
+      ? `\nRESULT: no technical name in Portuguese outside ${EXCEPTIONS_FILE}.`
+      : `\nRESULT: ${failures.length} name(s) in Portuguese without an exception, ${unused.length} unused exception(s), ${problems.length} invalid exception(s); ` +
+        `documentation: ${docFailures.length} word(s) in Portuguese, ${docUnused.length} unused exception(s).\n` +
+        `Rename or translate to English. If it is a contract, record it in ${EXCEPTIONS_FILE} (code) or ${LANGUAGE_EXCEPTIONS_FILE} (documentation) with the class, for review in the PR.`,
   );
   process.exit(ok ? 0 : 1);
 }
 
-/* Sempre roda: nada importa este arquivo. Comparar caminhos falha por junction ou symlink, e a prova sairia 0 calada. */
+/* Always runs: nothing imports this file. Comparing paths fails through a junction or symlink, and the proof would silently exit 0. */
 main();

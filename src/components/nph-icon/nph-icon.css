@@ -1,20 +1,21 @@
 /**
- * Estilo interno do `nph-icon`.
+ * Internal style of `nph-icon`.
  *
- * Classes e seletores daqui NAO sao API publica (P02). O que e contrato:
- * as custom properties de token que este arquivo consome, e nada alem disso.
- * O componente nao expoe `::part` e nao declara custom property propria — o
- * tamanho ja e servido por `icon/size-*` e a cor vem de `currentColor`.
+ * Classes and selectors here are NOT public API (P02). What is contract:
+ * the token custom properties this file consumes, and nothing else.
+ * The component exposes no `::part` and declares no custom property of its
+ * own — the size is already served by `icon/size-*` and the color comes from
+ * `currentColor`.
  *
- * Nenhum valor literal de design entra aqui. As unicas quantidades escritas
- * sao relacoes de caixa (`100%`, `auto`), nao decisoes visuais.
+ * No literal design value goes in here. The only quantities written are
+ * box relations (`100%`, `auto`), not visual decisions.
  */
 
 /*
- * O padrao e nao ocupar espaco. Sem isso, entrada invalida deixaria uma caixa
- * vazia do tamanho do token — um fallback visual, proibido pela P21. O
- * atributo `data-nph-rendered` e marca interna do proprio componente, aplicada
- * so quando existe arte valida para desenhar.
+ * The default is to take up no space. Without this, an invalid input would
+ * leave an empty box the size of the token — a visual fallback, forbidden by
+ * P21. The `data-nph-rendered` attribute is an internal mark of the component
+ * itself, applied only when there is valid artwork to draw.
  */
 :host {
   display: none;
@@ -24,15 +25,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  /* Centraliza na caixa de linha do texto, nao na altura da letra. */
+  /* Centers on the text line box, not on the letter height. */
   vertical-align: middle;
-  /* `eye`, `eye-slash` e `star` sao mais largos que a caixa: transbordam. */
+  /* `eye`, `eye-slash` and `star` are wider than the box: they overflow. */
   overflow: visible;
 }
 
 /*
- * A caixa e sempre quadrada e vem de token semantico. Nao existe tamanho
- * livre: os tres seletores abaixo sao o dominio inteiro de `size`.
+ * The box is always square and comes from a semantic token. There is no free
+ * size: the three selectors below are the entire domain of `size`.
  */
 :host([data-nph-rendered][size='sm']) {
   inline-size: var(--nph-icon-size-sm);
@@ -50,9 +51,9 @@
 }
 
 /*
- * O desenho e escalado pela ALTURA e mantem a proporcao natural. `flex: none`
- * impede que o flex encolha a largura dos icones de 18: transbordo sim,
- * reescala nao.
+ * The drawing is scaled by HEIGHT and keeps its natural proportion. `flex: none`
+ * stops flex from shrinking the width of the 18-wide icons: overflow yes,
+ * rescaling no.
  */
 svg {
   display: block;

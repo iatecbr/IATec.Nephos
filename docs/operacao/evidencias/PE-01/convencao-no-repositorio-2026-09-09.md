@@ -13,22 +13,22 @@
 
 # PE-01 — `convencao-no-repositorio`
 
-O `contributing.md` existe na branch padrão. Ele entrou pelo PR #25, no commit de
-conteúdo `5fa4821`, e a `v/3.0.0` está no merge `ed7c009`. O arquivo escreve a
-convenção de nome de branch — `feat/`, `fix/`, `docs/` e `chore/` com descrição em
-kebab-case —, o formato `tipo(escopo): resumo curto` para commit e título de pull
-request, e os cinco itens que a descrição do PR precisa informar.
+`contributing.md` exists on the default branch. It came in through PR #25, in the
+content commit `5fa4821`, and `v/3.0.0` is at merge `ed7c009`. The file writes the
+branch name convention — `feat/`, `fix/`, `docs/` and `chore/` with a description in
+kebab-case —, the format `tipo(escopo): resumo curto` (`type(scope): short summary`) for commits and pull request
+titles, and the five items that the PR description must state.
 
-## Comando
+## Command
 
 ```
 test -f contributing.md
 ```
 
-## Saída
+## Output
 
-Sem saída. Este comando não imprime nada quando o arquivo existe, então o código de
-saída é a prova. Capturado imediatamente depois dele:
+No output. This command prints nothing when the file exists, so the exit code
+is the proof. Captured immediately after it:
 
 ```
 $ test -f contributing.md
@@ -36,7 +36,7 @@ $ echo $?
 0
 ```
 
-## Contexto verificável
+## Verifiable context
 
 ```
 $ git rev-parse origin/v/3.0.0
@@ -60,6 +60,6 @@ ed7c009 Merge pull request #25 from iatecbr/docs/pe01-pe03-contrib-p625
  4 files changed, 46 insertions(+), 6 deletions(-)
 ```
 
-O PR #25 foi aprovado por `maurocsjr` e mergeado por ele em 09/09/2026, conferido na
-página do pull request: "maurocsjr approved these changes" e "maurocsjr merged commit
-ed7c009 into v/3.0.0".
+PR #25 was approved by `maurocsjr` and merged by him on 09/09/2026, checked on the
+pull request page: `maurocsjr approved these changes` and `maurocsjr merged commit
+ed7c009 into v/3.0.0`.

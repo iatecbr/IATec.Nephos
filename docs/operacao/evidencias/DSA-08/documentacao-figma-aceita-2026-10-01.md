@@ -13,27 +13,27 @@
     "data": "2026-10-01",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "O frame nph-tooltip (1237:5), na pagina NPH — Tooltip, foi aceito como especificacao de API e comportamento do nph-tooltip. COMPONENT_SET: nenhum; COMPONENT unico 1237:3, sem variantes."
+    "decisao_convertida": "The frame nph-tooltip (1237:5), on the page `NPH — Tooltip`, was accepted as the API and behavior specification of nph-tooltip. COMPONENT_SET: none; single COMPONENT 1237:3, no variants."
   }
 }
 ```
 
 # DSA-08 — `documentacao-figma-aceita`
 
-Indiane aceitou o quadro `nph-tooltip` (`1237:5`), com a documentacao, em
-01-10-2026, no arquivo `DS-IA-NEPHOS 5.0`, pagina `NPH — Tooltip`. O QA UX de
-Figma teve revisao independente aprovada, e a auditoria textual foi aprovada no
-mesmo dia.
+Indiane accepted the `nph-tooltip` board (`1237:5`), with its documentation, on
+01-10-2026, in the file `DS-IA-NEPHOS 5.0`, page `NPH — Tooltip`. The Figma UX QA
+had an approved independent review, and the textual audit was approved on the
+same day.
 
-O `nph-tooltip` nao tem COMPONENT_SET: e um COMPONENT unico (`1237:3`), sem
-variantes.
+`nph-tooltip` has no COMPONENT_SET: it is a single COMPONENT (`1237:3`), with no
+variants.
 
-Nao ha saida de comando. A aceitacao e observacao humana, registrada com a
-data, a autoria, a URL do frame e o componente. Conteudo restrito do Figma nao
-entra nesta evidencia.
+There is no command output. The acceptance is a human observation, recorded with
+the date, the authorship, the frame URL and the component. Restricted Figma content does not
+enter this evidence.
 
-## Fonte da aceitacao
+## Source of the acceptance
 
-WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: aceite visual do quadro
-`nph-tooltip` (`1237:5`) e da distancia de 8 px ao gatilho; QA UX de Figma e
-revisao independente aprovados; auditoria textual aprovada na rodada 2.
+WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: visual acceptance of the
+`nph-tooltip` board (`1237:5`) and of the 8 px distance to the trigger; Figma UX QA and
+independent review approved; textual audit approved in round 2.

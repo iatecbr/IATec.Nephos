@@ -1,9 +1,10 @@
 /*
- * Pagina de entrada do Storybook.
+ * Storybook entry page.
  *
- * O texto vem do dicionario de idioma, em `../.storybook/i18n/`. A story e
- * UNICA: ela le `globals.locale` e busca a traducao. Nao existe uma copia desta
- * pagina por idioma — triplicar exigiria corrigir tres vezes toda alteracao.
+ * The text comes from the language dictionary, in `../.storybook/i18n/`. The
+ * story is SINGLE: it reads `globals.locale` and looks up the translation.
+ * There is no copy of this page per language — tripling it would require
+ * fixing every change three times.
  */
 import { html } from 'lit';
 

@@ -13,31 +13,31 @@
 
 # DSA-03 — `revisao-e-merge`
 
-A decisão I7 (`circle-info` em `solid`, `regular` como padrão) já está na
-`v/5.0.0`. Não houve reimplementação nesta passagem: o código, os testes e o
-Storybook vieram no PR #34; a ficha e os contratos vieram no PR #35. Os dois
-foram revisados por Mauro (`maurocsjr`, `APPROVED`) e mergeados em 14-09-2026.
+Decision I7 (`circle-info` in `solid`, `regular` as the default) is already on
+`v/5.0.0`. Nothing was reimplemented in this pass: the code, the tests and
+Storybook came in PR #34; the spec sheet and the contracts came in PR #35. Both
+were reviewed by Mauro (`maurocsjr`, `APPROVED`) and merged on 14-09-2026.
 
-O PR #37 só registrou o gate `documentacao-figma-aceita`. Esta evidência fecha
-o gate `revisao-e-merge` sobre o que já é ancestral da branch padrão.
+PR #37 only recorded the gate `documentacao-figma-aceita`. This evidence closes
+the gate `revisao-e-merge` over what is already an ancestor of the default branch.
 
-## Comando
+## Command
 
 ```text
 git merge-base --is-ancestor fff0624e44d7679877f36a28bb03225226f4eaec origin/v/5.0.0
 ```
 
-## Saída
+## Output
 
-Sem saída. Código de saída `0`, que confirma que o commit `fff0624` da I7 no
-código é ancestral da ponta `4c33737` da branch padrão.
+No output. Exit code `0`, which confirms that commit `fff0624` of I7 in the
+code is an ancestor of the default branch tip `4c33737`.
 
-O mesmo vale para o commit de contratos `05fd0fa78bb85f84f86c90a76eb747d94aad1875`
+The same holds for the contracts commit `05fd0fa78bb85f84f86c90a76eb747d94aad1875`
 (`codigo_de_saida` 0).
 
-## Testes aplicáveis
+## Applicable tests
 
-Em `C:\dev\nephos-v5` no SHA `4c33737`:
+In `C:\dev\nephos-v5` at SHA `4c33737`:
 
 ```text
 npm test -- src/components/nph-icon/nph-icon.test.ts src/components/nph-icon/nph-icon.demo.test.ts
@@ -48,11 +48,11 @@ Test Files  2 passed (2)
      Tests  38 passed (38)
 ```
 
-Os testes cobrem o núcleo de 93 nomes, `regular` como padrão, `solid` em cada
-nome (incluindo `circle-info`) e a story `Variantes` com `circle-info` regular
+The tests cover the core of 93 names, `regular` as the default, `solid` on every
+name (including `circle-info`) and the `Variantes` story with `circle-info` regular
 versus solid.
 
-## Contexto verificável
+## Verifiable context
 
 ```text
 PS> git fetch origin --prune
@@ -74,9 +74,9 @@ PS> $LASTEXITCODE
 0
 ```
 
-## PRs mergeados
+## Merged PRs
 
-| PR | Merge | Commit da entrega | Revisor |
+| PR | Merge | Delivery commit | Reviewer |
 |---|---|---|---|
 | [#34](https://github.com/iatecbr/IATec.Nephos/pull/34) | `0e93f0a` (2026-09-14T14:33:01Z) | `fff0624` | `maurocsjr` APPROVED |
 | [#35](https://github.com/iatecbr/IATec.Nephos/pull/35) | `9ed82e5` (2026-09-14T14:33:35Z) | `05fd0fa` | `maurocsjr` APPROVED |

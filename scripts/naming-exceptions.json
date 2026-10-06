@@ -7,13 +7,6 @@
     ]
   },
   {
-    "file": ".storybook/preview.js",
-    "class": "ui-text",
-    "names": [
-      "Idioma"
-    ]
-  },
-  {
     "file": "package.json",
     "class": "cli",
     "names": [
@@ -34,6 +27,13 @@
     ]
   },
   {
+    "file": "scripts/language-lib.mjs",
+    "class": "contract-path",
+    "names": [
+      "fichas"
+    ]
+  },
+  {
     "file": "scripts/spec-lib.mjs",
     "class": "spec-schema",
     "names": [
@@ -46,14 +46,6 @@
     "names": [
       "rascunho",
       "revisado"
-    ]
-  },
-  {
-    "file": "scripts/test-invariance.mjs",
-    "class": "output-text",
-    "names": [
-      "invariante",
-      "variante"
     ]
   },
   {
@@ -72,6 +64,7 @@
       "contextos",
       "evidencias",
       "fichas",
+      "fichas/",
       "tarefas"
     ]
   },
@@ -153,7 +146,6 @@
     "file": "scripts/verificar-operacao.mjs",
     "class": "output-text",
     "names": [
-      "(inexistente)",
       "aguarda-decisao"
     ]
   },
@@ -214,13 +206,6 @@
     ]
   },
   {
-    "file": "src/components/nph-icon/nph-icon.ts",
-    "class": "output-text",
-    "names": [
-      "ausente"
-    ]
-  },
-  {
     "file": "src/components/nph-label/nph-label.stories.ts",
     "class": "story-export",
     "names": [
@@ -234,7 +219,6 @@
     "file": "src/components/nph-label/nph-label.test.ts",
     "class": "design-md",
     "names": [
-      "asterisco",
       "nao_use"
     ]
   },

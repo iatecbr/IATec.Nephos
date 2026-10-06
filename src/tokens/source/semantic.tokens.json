@@ -567,7 +567,7 @@
         "com.iatec.nephos": {
           "modes": {
             "claro": "{core.neutral.100}",
-            "escuro": "{core.surface.700}"
+            "escuro": "{core.surface.600}"
           }
         }
       }

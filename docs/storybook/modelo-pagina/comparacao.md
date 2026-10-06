@@ -1,42 +1,43 @@
-# Comparação — modelo de página de conteúdo × protótipo do Figma
+# Comparison — content page template × Figma prototype
 
-Comparação estrutural e de token da story **Componentes › nph-icon › Docs ›
-Documentação** com o protótipo aprovado no Figma. Não é comparação pixel a pixel.
+Structural and token comparison of the story
+`Componentes › nph-icon › Docs › Documentação` with the prototype approved in
+Figma. It is not a pixel-by-pixel comparison.
 
-## Referência
+## Reference
 
-| Modo | Figma | Arquivo exportado |
+| Mode | Figma | Exported file |
 |---|---|---|
-| Claro | [`1181:703`](https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1181-703), página `1181:821`, dentro do bloco `1181:608` | `figma-claro.png` (1x, 1280 de largura) |
-| Escuro | [`1181:978`](https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1181-978), página `1181:1096`, dentro do bloco `1181:608` | `figma-escuro.png` (1x, 1280 de largura) |
+| Light | [`1181:703`](https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1181-703), page `1181:821`, inside block `1181:608` | `figma-claro.png` (1x, 1280 wide) |
+| Dark | [`1181:978`](https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1181-978), page `1181:1096`, inside block `1181:608` | `figma-escuro.png` (1x, 1280 wide) |
 
-Os prints do Storybook (`storybook-claro.png` e `storybook-escuro.png`) foram
-capturados em viewport de 1280 de largura, com o painel inferior fechado, e
-reduzidos pela ferramenta de captura para 800 de largura.
+The Storybook screenshots (`storybook-claro.png` and `storybook-escuro.png`)
+were captured in a 1280-wide viewport, with the bottom panel closed, and
+reduced by the capture tool to 800 wide.
 
-## O que confere
+## What matches
 
-| Ponto | Figma | Storybook |
+| Point | Figma | Storybook |
 |---|---|---|
-| Ordem dos blocos | cabeçalho, índice, seções | igual |
-| Título de seção | `text/heading-md` com linha embaixo | igual (medido: tamanho, entrelinha e peso batem com o token) |
-| Texto | `text/body-md`, largura de leitura | igual |
-| Demonstração | só borda, sem fundo | igual (fundo computado transparente, borda em `--nph-color-border`) |
-| Tabela | cabeçalho em `text/label-sm`, termo em `text/code` | igual |
-| Nota | `status/info-*` | igual, e `status/warning-*` na entrada inválida |
-| Quando usar | cartões `status/success-*` e `status/error-*` lado a lado | igual |
-| Fonte | rodapé `text/caption` com linha fina | igual |
-| Modo escuro | modo `escuro` da coleção `semantic` | `data-nph-color-scheme="dark"` |
+| Order of the blocks | header, index, sections | same |
+| Section title | `text/heading-md` with a line below | same (measured: size, line height and weight match the token) |
+| Text | `text/body-md`, reading width | same |
+| Demonstration | border only, no background | same (computed background transparent, border in `--nph-color-border`) |
+| Table | header in `text/label-sm`, term in `text/code` | same |
+| Note | `status/info-*` | same, and `status/warning-*` on invalid input |
+| When to use | `status/success-*` and `status/error-*` cards side by side | same |
+| Source | `text/caption` footer with a thin line | same |
+| Dark mode | `escuro` mode of the `semantic` collection | `data-nph-color-scheme="dark"` |
 
-## Divergências, com o motivo
+## Divergences, with the reason
 
-| Divergência | Motivo |
+| Divergence | Reason |
 |---|---|
-| O h1 usa `text/heading-lg`, e não `heading-xl` | `design.md`: o título da tela é `heading-lg`; seção é `heading-md` |
-| A linha `variant` diz que `solid` existe para todos os nomes | a ficha `nph-icon` vigente; o protótipo ainda trazia a regra antiga, restrita a `star` |
-| O aviso "Esta página é derivada" aparece como nota, no topo | o protótipo não mostrava o aviso; o texto de processo saiu, e ficou só a regra de precedência das fontes |
-| A página tem todas as seções (Núcleo, Cor, Entrada inválida, Anti-padrões, Referências) | o protótipo mostrava uma amostra das seções |
-| Os cartões de "Quando usar" têm título | dão nome a cada lista para quem lê e para o leitor de tela |
-| Linhas da API que não são identificador ("Slots e eventos", "Interação") saem em texto, e não em fonte de código | a tabela usa fonte de código só para identificador |
-| A legenda da demonstração diz "os tamanhos aprovados" | texto vivo não traz contagem |
-| A barra de ferramentas tem os botões nativos do Storybook | o protótipo simplificou a barra |
+| The h1 uses `text/heading-lg`, and not `heading-xl` | `design.md`: the screen title is `heading-lg`; a section is `heading-md` |
+| The `variant` row says that `solid` exists for all names | the current `nph-icon` sheet; the prototype still carried the old rule, restricted to `star` |
+| The "This page is derived" notice appears as a note, at the top | the prototype did not show the notice; the process text was removed, and only the rule of precedence of the sources remained |
+| The page has all the sections (Core, Color, Invalid input, Anti-patterns, References) | the prototype showed a sample of the sections |
+| The "When to use" cards have a title | they name each list for the reader and for the screen reader |
+| API rows that are not identifiers ("Slots and events", "Interaction") come out as text, not in a code font | the table uses a code font only for identifiers |
+| The demonstration caption says "the approved sizes" | live text carries no count |
+| The toolbar has Storybook's native buttons | the prototype simplified the toolbar |

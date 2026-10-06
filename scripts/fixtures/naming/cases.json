@@ -3836,8 +3836,8 @@
     },
     "catches": [],
     "exactly": [
-      "scripts/verificar-x:0 (sem extensao) (extension)",
-      "src/LICENSE:0 (sem extensao) (extension)"
+      "scripts/verificar-x:0 (no extension) (extension)",
+      "src/LICENSE:0 (no extension) (extension)"
     ]
   },
   {
@@ -4658,7 +4658,7 @@
     },
     "catches": [],
     "exactly": [
-      "scripts/fixtures/operations/fichas:0 (sem extensao) (extension)",
+      "scripts/fixtures/operations/fichas:0 (no extension) (extension)",
       "scripts/fixtures/operations/fichas:0 fichas (file)"
     ]
   },
@@ -5967,6 +5967,211 @@
     "exactly": [
       "src/a.ts:2 rodape (style)",
       "src/a.ts:3 rodape (style)"
+    ]
+  },
+  {
+    "label": "prose: Portuguese comment in code fails",
+    "prose": true,
+    "files": {
+      "src/a.ts": "// valor que nao muda\nexport const size = 1;\n/* fica para depois */\nexport const gap = 2;"
+    },
+    "exactly": [
+      "src/a.ts:1 que (comment)",
+      "src/a.ts:1 nao (comment)",
+      "src/a.ts:1 muda (comment)",
+      "src/a.ts:3 fica (comment)",
+      "src/a.ts:3 para (comment)",
+      "src/a.ts:3 depois (comment)"
+    ]
+  },
+  {
+    "label": "prose: English comment with a contract key between backticks passes",
+    "prose": true,
+    "files": {
+      "src/a.ts": "// Reads the `objetivo` key from figma.com and com.iatec.nephos.\nexport const size = 1;"
+    },
+    "clean": true
+  },
+  {
+    "label": "prose: Portuguese message and test description fail",
+    "prose": true,
+    "files": {
+      "src/a.test.ts": "it('mostra o rotulo quando pedido', () => {});\nconsole.log('nada para fazer');\nthrow new Error(`falta ${x} para rodar`);"
+    },
+    "catches": [
+      {
+        "name": "quando",
+        "line": 1,
+        "role": "message"
+      },
+      {
+        "name": "para",
+        "line": 2,
+        "role": "message"
+      },
+      {
+        "name": "para",
+        "line": 3,
+        "role": "message"
+      }
+    ]
+  },
+  {
+    "label": "prose: English message passes",
+    "prose": true,
+    "files": {
+      "src/a.test.ts": "it('shows the label when asked', () => {});\nconsole.log('nothing to do');"
+    },
+    "clean": true
+  },
+  {
+    "label": "prose: CSS and HTML file comments fail",
+    "prose": true,
+    "files": {
+      "src/a.css": "/* cor do texto quando ativo */\n:host { display: block; }",
+      "src/b.html": "<!-- pagina de exemplo para teste -->\n<div></div>"
+    },
+    "catches": [
+      {
+        "name": "quando",
+        "line": 1,
+        "role": "comment"
+      },
+      {
+        "name": "para",
+        "line": 1,
+        "role": "comment"
+      }
+    ]
+  },
+  {
+    "label": "prose: comment inside html and css templates fails",
+    "prose": true,
+    "files": {
+      "src/a.stories.ts": "import { html, css } from 'lit';\nexport const view = html`<div>\n  <!-- O termo da tabela nao quebra linha -->\n</div>`;\nexport const style = css`:host { /* espaco entre os itens */ gap: 0; }`;"
+    },
+    "catches": [
+      {
+        "name": "nao",
+        "line": 3,
+        "role": "comment"
+      },
+      {
+        "name": "entre",
+        "line": 5,
+        "role": "comment"
+      }
+    ]
+  },
+  {
+    "label": "prose: Portuguese documentation is a doc hit",
+    "prose": true,
+    "files": {
+      "docs/a.md": "# Title\n\nEsta regra vale para todo agente.\n"
+    },
+    "catches": [
+      {
+        "name": "Esta",
+        "line": 3,
+        "role": "doc"
+      },
+      {
+        "name": "para",
+        "line": 3,
+        "role": "doc"
+      }
+    ]
+  },
+  {
+    "label": "prose: json enum passes, json text value fails, keys never count",
+    "prose": true,
+    "files": {
+      "docs/operacao/tarefas/DSA-01.md": "```json\n{\n  \"estado\": \"aguardando-decisao\",\n  \"objetivo\": \"Publicar a Metadata para quem consulta\"\n}\n```\n"
+    },
+    "exactly": [
+      "docs/operacao/tarefas/DSA-01.md:4 Publicar (doc)",
+      "docs/operacao/tarefas/DSA-01.md:4 para (doc)",
+      "docs/operacao/tarefas/DSA-01.md:4 quem (doc)"
+    ]
+  },
+  {
+    "label": "prose: URLs, code fences and the language selector pass",
+    "prose": true,
+    "files": {
+      "README.md": "# Nephos\n\n**English** · [Português (BR)](README.pt-BR.md) · [Español](README.es.md)\n\nSee https://www.figma.com/design/x and <https://github.com/a/b>.\n\n```bash\nnpm run test:naming # sem mudanca\n```\n"
+    },
+    "clean": true
+  },
+  {
+    "label": "prose: translations stay out of the documentation phase",
+    "prose": true,
+    "files": {
+      "README.es.md": "Esta regra vale para todo agente.\n",
+      "docs/a.pt-BR.md": "Esta regra vale para todo agente.\n"
+    },
+    "clean": true
+  },
+  {
+    "label": "prose: paths with a slash and recorded commands pass",
+    "prose": true,
+    "files": {
+      "docs/operacao/tarefas/DSA-01.md": "```json\n{\n  \"comando\": \"node scripts/verificar-operacao.mjs --proxima\"\n}\n```\n\nThe task lives in docs/operacao/tarefas/ and its proof in evidencias/DSA-01/.\n"
+    },
+    "clean": true
+  },
+  {
+    "label": "prose: accented path segments pass",
+    "prose": true,
+    "files": {
+      "docs/a.md": "See 03 MEMÓRIA/diario/x.md and docs/operação/x for the record.\n"
+    },
+    "clean": true
+  },
+  {
+    "label": "prose: YAML block scalar continuation lines are text",
+    "prose": true,
+    "files": {
+      "fichas/nph-x.md": "---\nnome: nph-x\nresolve: >-\n  Disponibiliza um icone para quem usa\n  o componente.\n---\n"
+    },
+    "catches": [
+      {
+        "name": "para",
+        "line": 4,
+        "role": "doc"
+      },
+      {
+        "name": "quem",
+        "line": 4,
+        "role": "doc"
+      }
+    ]
+  },
+  {
+    "label": "prose: function word glued to a hyphen and \"num\" pass",
+    "prose": true,
+    "files": {
+      "src/a.ts": "// de-duplicate entries and count num items\nexport const size = 1;"
+    },
+    "clean": true
+  },
+  {
+    "label": "prose: tokens with a digit (hash, id, measure) pass",
+    "prose": true,
+    "files": {
+      "docs/a.md": "Merged at a1de3f0 and e1bf6b, see P64 and 24px.\n"
+    },
+    "clean": true
+  },
+  {
+    "label": "prose: a YAML flow list is judged item by item",
+    "prose": true,
+    "files": {
+      "design.md": "---\nescopo: [cor, tipografia, cor_de_grafico]\ndicas: [\"Use o token certo para cada caso\", nph-label]\n---\n"
+    },
+    "exactly": [
+      "design.md:3 para (doc)",
+      "design.md:3 cada (doc)",
+      "design.md:3 caso (doc)"
     ]
   }
 ]

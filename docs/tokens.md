@@ -1,62 +1,61 @@
-# Tokens — fonte, geração e consumo
+# Tokens — source, generation and consumption
 
-**Português (BR)** · [English](tokens.en.md) · [Español](tokens.es.md)
+**English** · [Português (BR)](tokens.pt-BR.md) · [Español](tokens.es.md)
 
-> **A fonte técnica é `src/tokens/source/*.tokens.json`.** Cada camada declara a
-> própria contagem em `contagemEsperada`, e `npm run build:tokens` mostra os
-> totais e reprova quando a camada diverge do que declarou. Esta nota não repete
-> os totais. A migração-base foi concluída em 24/08/2026; os três tokens
-> aprovados no Figma para `nph-button` entraram em 25/08/2026, no commit
-> `505e36d`.
+> **The technical source is `src/tokens/source/*.tokens.json`.** Each layer
+> declares its own count in `contagemEsperada`, and `npm run build:tokens` shows
+> the totals and fails when a layer diverges from what it declared. This note
+> does not repeat the totals. The base migration was completed on 24/08/2026;
+> the three tokens approved in Figma for `nph-button` landed on 25/08/2026, in
+> commit `505e36d`.
 >
-> Em 27/08/2026 entrou a **camada de tipografia**: as duas famílias de fonte em
-> `core` e os **14 papéis de texto** em `semantic`, cada um com cinco
-> propriedades. O motivo foi concreto: o
-> `nph-label` é o primeiro componente feito de texto puro, e sem `text/label-md`
-> em código ele não podia existir sem valor literal.
+> On 27/08/2026 the **typography layer** landed: the two font families in `core`
+> and the **14 text roles** in `semantic`, each with five properties. The reason was concrete: `nph-label` is
+> the first component made of pure text, and without `text/label-md` in code it
+> could not exist without a literal value.
 >
-> Em 03/09/2026 entraram a **sombra** e o que faltava de **movimento**: 24
-> primitivos e os 8 estilos de elevação (PF-15), `core/duration/400` e
-> `core/easing/linear` (PF-16) e o par do laço do girador (PF-05). Os 3 anéis de foco entraram na mesma data, depois
-> de um ajuste de nome que a seção de 03-09-2026 explica.
+> On 03/09/2026 **shadow** and the missing **motion** pieces landed: 24
+> primitives and the 8 elevation styles (PF-15), `core/duration/400` and
+> `core/easing/linear` (PF-16) and the spinner-loop pair (PF-05). The 3 focus rings landed on the same date, after
+> a name change the 03-09-2026 section explains.
 >
-> Em 30/09/2026 entraram a **espessura de borda** e os **raios do anel de foco**:
-> `core/border-width/default`, `core/radius/off-scale/7`, `/11` e `/18` e seis
-> semânticos — `border/width`, `focus/radius-inner`, `focus/radius-control`,
-> `focus/radius-surface`, `focus/border-radius-control` e
-> `focus/radius-control-with-border`. `core/focus-width/default` passou de 3 para
-> 4 px, como no Figma desde 09/09/2026.
+> On 30/09/2026 the **border width** and the **focus ring radii** landed:
+> `core/border-width/default`, `core/radius/off-scale/7`, `/11` and `/18` and six
+> semantic tokens — `border/width`, `focus/radius-inner`, `focus/radius-control`,
+> `focus/radius-surface`, `focus/border-radius-control` and
+> `focus/radius-control-with-border`. `core/focus-width/default` went from 3 to
+> 4 px, as in Figma since 09/09/2026.
 
-Esta nota explica **como os tokens vivem no repositório**. O que cada token
-significa, quando usar e quando não usar está no [`design.md`](../design.md), que
-não duplica valores. Os valores nascem no Figma `DS-IA-NEPHOS 5.0`.
+This note explains **how tokens live in the repository**. What each token means,
+when to use it and when not to, is in [`design.md`](../design.md), which does not
+duplicate values. Values originate in Figma `DS-IA-NEPHOS 5.0`.
 
-## Fonte de verdade por responsabilidade (P17)
+## Source of truth by responsibility (P17)
 
-| Camada | Papel |
+| Layer | Role |
 |---|---|
-| **Figma `DS-IA-NEPHOS 5.0`** | Fonte visual. Define e valida valores, modos, aliases e intenção. |
-| **`design.md`** | Contrato humano e agêntico: uso, acessibilidade, nomenclatura, anti-padrões. **Não é o arquivo de geração.** |
-| **`src/tokens/source/*.tokens.json`** | Fonte técnica versionada dos valores auditados. **É o que se edita.** |
-| **`src/tokens/generated/tokens.css`** | Artefato gerado. **NUNCA edite à mão.** |
+| **Figma `DS-IA-NEPHOS 5.0`** | Visual source. Defines and validates values, modes, aliases and intent. |
+| **`design.md`** | Human and agent-facing contract: usage, accessibility, naming, anti-patterns. **Not the generation file.** |
+| **`src/tokens/source/*.tokens.json`** | Versioned technical source of audited values. **This is what you edit.** |
+| **`src/tokens/generated/tokens.css`** | Generated artefact. **NEVER edit by hand.** |
 
-## Arquivos
+## Files
 
 ```text
 src/tokens/
   source/
-    core.tokens.json       primitivos
-    theme.tokens.json      variáveis de marca, sete modos
-    semantic.tokens.json   tokens semânticos, dois esquemas de cor
+    core.tokens.json       primitives
+    theme.tokens.json      brand variables, seven modes
+    semantic.tokens.json   semantic tokens, two colour schemes
   generated/
-    tokens.css             declarações — GERADO
+    tokens.css             declarations — GENERATED
 scripts/
-  tokens-lib.mjs           funções puras: forma canônica, classificação, índice
-  build-tokens.mjs         gerador
-  test-invariance.mjs      prova do classificador
+  tokens-lib.mjs           pure functions: canonical form, classification, index
+  build-tokens.mjs         generator
+  test-invariance.mjs      proof of the classifier
 ```
 
-## Como gerar
+## How to generate
 
 ```bash
 npm run build:tokens
@@ -66,20 +65,20 @@ npm run build:tokens
 npm run test:tokens
 ```
 
-O build é determinístico: duas execuções sobre a mesma fonte produzem arquivo
-idêntico. Isso permite, no CI futuro, reexecutar a geração e falhar se o `git
-diff` não for vazio — a garantia de que ninguém editou o CSS à mão.
+The build is deterministic: two runs over the same source produce an identical
+file. That allows a future CI to re-run generation and fail when `git diff` is
+not empty — the guarantee that nobody hand-edited the CSS.
 
-## Formato
+## Format
 
-DTCG — `$type`, `$value`, `$description`. Os sete tipos tratados são
+DTCG — `$type`, `$value`, `$description`. The seven handled types are
 **`color`**, **`dimension`**, **`duration`**, **`cubicBezier`**, **`number`**,
-**`fontFamily`** e **`shadow`**.
+**`fontFamily`** and **`shadow`**.
 
-O DTCG ainda **não tem modos nativos**. Os modos vivem em
-`$extensions["com.iatec.nephos"].modes`, e o gerador os aplica antes de entregar
-a árvore ao Style Dictionary. `$value` guarda sempre o valor do modo padrão, para
-que qualquer ferramenta genérica resolva algo correto.
+DTCG has **no native modes** yet. Modes live under
+`$extensions["com.iatec.nephos"].modes`, and the generator applies them before
+handing the tree to Style Dictionary. `$value` always holds the default mode's
+value, so that any generic tool resolves something correct.
 
 ```json
 "brand-600": {
@@ -92,45 +91,47 @@ que qualquer ferramenta genérica resolva algo correto.
 }
 ```
 
-**Um token sem bloco `modes` é invariante entre os modos da sua camada.**
+**A token with no `modes` block is invariant across the modes of its layer.**
 
-## Invariante × variante
+## Invariant vs. variant
 
-A classificação compara **alias e valor final** entre os modos, numa
-representação **canônica** — nunca por identidade de objeto, nunca por ordem de
-chave, nunca pelo `$type`. Está provada em `scripts/test-invariance.mjs`.
+Classification compares **alias and final value** across modes, in a
+**canonical** representation — never by object identity, never by key order,
+never by `$type`. It is proven in `scripts/test-invariance.mjs`.
 
-Os semânticos variantes são todos `color`, mas há tokens `color` entre os
-invariantes — a invariância não é uma propriedade do tipo. `npm run build:tokens`
-mostra quantos há de cada.
+The variant semantic tokens are all `color`, but there are `color` tokens among
+the invariant ones — invariance is not a property of the type.
+`npm run build:tokens` shows how many there are of each.
 
-## Atualização de 25-08-2026 — tokens de Button
+## Update of 25-08-2026 — Button tokens
 
-Os três tokens abaixo foram aprovados no Figma e sincronizados na fonte técnica:
+The three tokens below were approved in Figma and synchronised into the
+technical source:
 
-| Token | Tipo DTCG | Claro | Escuro |
+| Token | DTCG type | Light | Dark |
 |---|---|---|---|
 | `color/destructive-foreground` | `color` | `{core.base.white}` | `{core.neutral.950}` |
 | `color/secondary-hover` | `color` | `{core.neutral.200}` | `{core.surface.700}` |
 | `state/hover-opacity` | `number` | `0.95` | `0.95` |
 
-`state/disabled-opacity` permanece `number = 0.5`.
+`state/disabled-opacity` stays at `number = 0.5`.
 
-No Figma, opacidade é informada como percentual: 95 e 50. No JSON e no CSS,
-ela é uma fração: `0.95` e `0.5`. O gerador já emite tokens do tipo `number`
-corretamente; não existe transformação adicional de opacidade.
+In Figma, opacity is expressed as a percentage: 95 and 50. In JSON and CSS it is
+a fraction: `0.95` and `0.5`. The generator already emits `number` tokens
+correctly; there is no additional opacity transform.
 
-**Invariante não quer dizer fixo.** `sidebar/primary` tem o mesmo alias em claro
-e escuro, então sai uma vez — mas o que sai é `var(--nph-theme-brand-600)`, que
-continua trocando com `data-nph-brand`. Esse invariante é **dependente**: o alias
-aponta para `theme/*` ou para um variante. Por isso ele sai em `:root` e também
-em cada raiz de esquema, `[data-nph-color-scheme]`, onde a `var()` resolve a
-marca e o esquema locais (P67). Os demais invariantes ficam só em `:root`.
+**Invariant does not mean fixed.** `sidebar/primary` has the same alias in light
+and dark, so it is emitted once — but what is emitted is
+`var(--nph-theme-brand-600)`, which still changes with `data-nph-brand`. That
+invariant is **dependent**: its alias points to `theme/*` or to a variant. So it
+is emitted under `:root` and also on every scheme root, `[data-nph-color-scheme]`,
+where the `var()` resolves the local brand and scheme (P67). The other
+invariants stay under `:root` only.
 
-## Atualização de 27-08-2026 — camada de tipografia
+## Update of 27-08-2026 — typography layer
 
-Os 14 papéis de texto saíram da lista de adiados. Cada papel emite **cinco**
-custom properties, não uma:
+The 14 text roles left the deferred list. Each role emits **five** custom
+properties, not one:
 
 ```css
 --nph-text-label-md-font-family
@@ -140,245 +141,249 @@ custom properties, não uma:
 --nph-text-label-md-letter-spacing
 ```
 
-São cinco porque `letter-spacing` não cabe no atalho `font` do CSS e porque um
-componente muitas vezes precisa de uma propriedade isolada. O campo `css` de
-cada papel no `design.md` passa a ser lido como **prefixo**, não como nome
-final.
+Five, because `letter-spacing` does not fit in the CSS `font` shorthand and
+because a component often needs one property in isolation. The `css` field of
+each role in `design.md` is now read as a **prefix**, not as the final name.
 
-A família é a única parte que vira alias: `--nph-text-label-md-font-family`
-aponta para `--nph-core-font-sans`. Tamanho, altura de linha, peso e
-espaçamento são literais no papel, exatamente como o `design.md` já os escrevia
-no bloco `valores`.
+The family is the only part that becomes an alias:
+`--nph-text-label-md-font-family` points to `--nph-core-font-sans`. Size, line
+height, weight and letter spacing are literals on the role, exactly as
+`design.md` already wrote them in the `valores` block.
 
-O formato de cinco propriedades foi aprovado por Elvys em 28/08/2026 (P62.2).
+The five-property shape was approved by Elvys on 28/08/2026 (P62.2).
 
-A ressalva de unidade **deixou de existir**: as dimensões saíam em `px`, e a
-partir de 28/08/2026 saem em `rem` — ver a seção abaixo.
+The unit caveat **is gone**: dimensions used to come out in `px`, and from
+28/08/2026 they come out in `rem` — see the section below.
 
-## Atualização de 28-08-2026 — dimensões em `rem`
+## Update of 28-08-2026 — dimensions in `rem`
 
-O gerador emitia `px` para todo `dimension`, enquanto o `design.md` já prometia
-`unidade_css: rem, raiz 16px`. **Decisão de Elvys na P62.4, em 28/08/2026:** o
-contrato não muda; o código passa a cumpri-lo.
+The generator emitted `px` for every `dimension`, while `design.md` already
+promised `unidade_css: rem, root 16px`. **Elvys's decision in P62.4, on
+28/08/2026:** the contract does not change; the code starts honouring it.
 
-O transform `nephos/dimension/rem` divide o valor por **16** e emite `rem`.
-Valor zero sai como `0`, sem unidade.
+The `nephos/dimension/rem` transform divides the value by **16** and emits
+`rem`. A zero value comes out as `0`, with no unit.
 
 ```css
---nph-core-space-400: 1rem;        /* era 16px */
---nph-core-control-height-default: 2.25rem;  /* era 36px */
---nph-text-body-md-font-size: 0.875rem;      /* era 14px */
---nph-text-heading-xl-letter-spacing: -0.0125rem;  /* era -0.2px */
+--nph-core-space-400: 1rem;        /* was 16px */
+--nph-core-control-height-default: 2.25rem;  /* was 36px */
+--nph-text-body-md-font-size: 0.875rem;      /* was 14px */
+--nph-text-heading-xl-letter-spacing: -0.0125rem;  /* was -0.2px */
 ```
 
-**Raio e sombra continuam em `px`.** O raio por decisão de Indiane em
-28/08/2026, registrada como P62.5; a geometria de sombra desde 03/09/2026, por
-`elevacao_regras.unidade_css: px`. O `raio_regras` do `design.md` declara `unidade_css: px` e explica o
-motivo: raio em `rem` cresceria com a fonte do usuário, e a peça mudaria de
-**forma**, não de tamanho — um botão de 6px viraria cápsula. `px` e `rem` se
-comportam igual no zoom do navegador; a diferença aparece só na preferência de
-fonte do usuário. São as **duas** fundações que o contrato declara
-em `px`, e pelo mesmo motivo: a fundação de sombra diz, com todas as letras,
-"deslocamento, desfoque e spread em px, como o raio; sombra não deve crescer com
-a fonte do usuário". A P62.5 confirma a regra do raio em vez de alterá-la. O
-texto que chamava o raio de *única* fundação em `px` estava errado desde que
-`elevacao_regras` existe, e foi corrigido em 03/09/2026.
+**Radius and shadow stay in `px`.** Radius by Indiane's decision on 28/08/2026,
+recorded as P62.5; the shadow geometry since 03/09/2026, per
+`elevacao_regras.unidade_css: px`.
+The `raio_regras` block in `design.md` declares `unidade_css: px` and gives the
+reason: radius in `rem` would grow with the user's font, and the piece would
+change **shape**, not size — a 6px button would turn into a pill. `px` and `rem`
+behave identically under browser zoom; the difference only shows up in the
+user's font-size preference. They are the **two** foundations the contract declares
+in `px`, and for the same reason: the shadow foundation says, in so many words,
+"offset, blur and spread in px, like the radius; a shadow must not grow with the
+user's font". P62.5 confirms the radius rule rather than changing it. The text
+that called radius the *only* foundation in `px` had been wrong ever since
+`elevacao_regras` existed, and was corrected on 03/09/2026.
 
-O valor computado não muda com a raiz padrão de 16px: `1rem` continua
-resolvendo para `16px`. O que muda é que agora a interface acompanha a
-preferência de tamanho de fonte do usuário.
+The computed value does not change at the default 16px root: `1rem` still
+resolves to `16px`. What changes is that the interface now follows the user's
+font-size preference.
 
-## Atualização de 03-09-2026 — sombra, elevação e o laço do girador
+## Update of 03-09-2026 — shadow, elevation and the spinner loop
 
-Três pendências de fundação entraram no mesmo PR: **PF-15** (sombra), **PF-16**
-(as duas peças de movimento que faltavam) e **PF-05** (a duração do laço).
+Three foundation gaps landed in the same PR: **PF-15** (shadow), **PF-16** (the
+two missing motion pieces) and **PF-05** (the loop duration).
 
-### O que faltava, e não era o que parecia
+### What was missing, and it was not what it looked like
 
-O diagnóstico anterior dizia que os estilos de efeito "não são variáveis e
-exigem outro caminho de extração". Não era isso. O Style Dictionary v5, já
-fixado pela P20, trata sombra como **tipo nativo**, e `shadow/css/shorthand` já
-vinha no grupo `css` que o gerador usa. Faltava uma linha: `shadow` não estava em
-`TIPOS_TRATADOS`. Nenhuma dependência nova entrou.
+The earlier diagnosis said the effect styles "are not variables and require a
+different extraction path". That was not it. Style Dictionary v5, already fixed
+by P20, treats shadow as a **native type**, and `shadow/css/shorthand` was
+already in the `css` group the generator uses. One line was missing: `shadow`
+was not in `TIPOS_TRATADOS`. No new dependency was added.
 
-### Os 24 primitivos, e por que entram junto
+### The 24 primitives, and why they land together
 
-No Figma, cada camada dos estilos `elevation/*` **liga a geometria a variável** —
-`core/shadow-y`, `core/shadow-blur` e `core/shadow-spread` —, e só a cor vem de
-um semântico. Portar o estilo com os números escritos à mão seria uma tradução
-mais pobre do que o arquivo tem. Os 24 primitivos saem do adiamento porque o
-consumidor que a tabela de escopo já nomeava passou a existir.
+In Figma, every layer of the `elevation/*` styles **binds its geometry to
+variables** — `core/shadow-y`, `core/shadow-blur` and `core/shadow-spread` — and
+only the colour comes from a semantic token. Porting the style with the numbers
+written by hand would be a poorer translation than what the file holds. The 24
+primitives leave the deferred list because the consumer the scope table already
+named now exists.
 
-**A geometria sai em `px`,** por `elevacao_regras.unidade_css: px`. É a segunda
-família fora da conversão para `rem`, ao lado de `core/radius`.
+**The geometry is emitted in `px`,** per `elevacao_regras.unidade_css: px`. It is
+the second family outside the `rem` conversion, alongside `core/radius`.
 
-### Por que o gerador monta a sombra sozinho
+### Why the generator assembles the shadow itself
 
-O `shadow/css/shorthand` monta a shorthand certa, mas quem escreve as
-referências é o `outputReferences`, que trabalha **por valor**: ele procura o
-valor resolvido dentro da string pronta e troca pela `var()`. Numa sombra isso
-erra de posição sempre que duas partes têm o mesmo valor — e elas têm. Em
-`elevation/hairline` (0 · 1 · 0 · 0) o deslocamento X, o desfoque e o spread são
-todos zero, e a saída vinha com `var(--nph-core-shadow-blur-0)` **na posição do
-X**. O CSS computado ficava certo por coincidência, e a ligação, errada: mexer no
-desfoque mexeria no deslocamento.
+`shadow/css/shorthand` builds the right shorthand, but what writes the
+references is `outputReferences`, which works **by value**: it looks for the
+resolved value inside the finished string and swaps it for the `var()`. In a
+shadow that lands on the wrong slot whenever two parts share a value — and they
+do. In `elevation/hairline` (0 · 1 · 0 · 0) the X offset, the blur and the
+spread are all zero, and the output came out with
+`var(--nph-core-shadow-blur-0)` **in the X slot**. The computed CSS was right by
+coincidence, and the binding was wrong: touching the blur would move the offset.
 
-Por isso existe `nephos/shadow/css`, que monta a shorthand a partir de
-`original.$value` — onde as referências ainda estão — e põe cada parte na **sua**
-posição. O `outputReferences` é desligado para `shadow`, senão substituiria de
-novo. A validação 7 foi estendida para provar isso: em valor composto, ela conta
-quantas `var()` a saída traz contra quantas referências a fonte declara.
+Hence `nephos/shadow/css`, which builds the shorthand from `original.$value` —
+where the references still are — and puts each part in **its** slot.
+`outputReferences` is switched off for `shadow`, otherwise it would substitute
+again. Validation 7 was extended to prove it: on a composite value it counts how
+many `var()` the output carries against how many references the source declares.
 
-### Movimento: o sexto papel
+### Motion: the sixth role
 
-`core/duration/400` e `core/easing/linear` já estavam no `design.md` e nos
-anti-padrões A61 e A66, e nunca tinham entrado no JSON — era execução esquecida,
-não decisão. `linear` entra como `cubicBezier [0, 0, 1, 1]`, o equivalente
-exato, porque `cubicBezier` é o tipo que o sistema usa para curva; o CSS sai
-`cubic-bezier(0, 0, 1, 1)`.
+`core/duration/400` and `core/easing/linear` were already in `design.md` and in
+anti-patterns A61 and A66, and had never entered the JSON — forgotten execution,
+not a decision. `linear` enters as `cubicBezier [0, 0, 1, 1]`, the exact
+equivalent, because `cubicBezier` is the type the system uses for curves; the
+CSS comes out as `cubic-bezier(0, 0, 1, 1)`.
 
-O laço do girador — **800 ms, curva `linear`, repetição infinita**, decidido por
-Indiane em 02/09/2026 num estudo com 600, 800 e 1000 lado a lado — entra como
-`core/duration/loop` **e como um sexto papel**: `motion/loop-duration` e
+The spinner loop — **800 ms, `linear` curve, infinite repetition**, decided by
+Indiane on 02/09/2026 in a study with 600, 800 and 1000 side by side — enters as
+`core/duration/loop` **and as a sixth role**: `motion/loop-duration` and
 `motion/loop-easing`.
 
-São seis papéis, e não cinco, por uma razão de contrato: componente consome
-**somente** a camada semântica. Parar em `core/duration/loop` fecharia a PF-05 e
-deixaria o `nph-spinner` travado, porque implementá-lo exigiria consumir
-`core/*`. O papel também resolve uma contradição anterior: o "teste do agente"
-das notas de movimento respondia `core/easing/linear` para o girador — um token
-`core` — e agora responde um papel.
+Six roles, and not five, for a contract reason: a component consumes **only** the
+semantic layer. Stopping at `core/duration/loop` would close PF-05 and leave
+`nph-spinner` blocked, because implementing it would require consuming `core/*`.
+The role also settles an earlier contradiction: the "agent test" in the motion
+notes answered `core/easing/linear` for the spinner — a `core` token — and now it
+answers a role.
 
-**A barra indeterminada continua sem valor.** O `nph-progress` foi adiado e não
-existe peça para decidir sobre ela.
+**The indeterminate bar still has no value.** `nph-progress` was deferred and
+there is no piece to decide about.
 
-### A colisão de nome, e como ela foi resolvida
+### The name collision, and how it was settled
 
-Os 11 estilos entraram — mas os três anéis de foco só depois de um ajuste de
-nome. O `design.md` dava o **mesmo nome CSS** a duas coisas diferentes:
+All 11 styles landed — but the three focus rings only after a name change.
+`design.md` gave the **same CSS name** to two different things:
 
-| Token | Nome CSS | O que é |
+| Token | CSS name | What it is |
 |---|---|---|
-| `focus/ring-error` | `--nph-focus-ring-error` | a **cor** do anel, publicada desde a migração-base |
-| `focus-ring/error` | `--nph-focus-ring-error` | a **sombra** do anel |
+| `focus/ring-error` | `--nph-focus-ring-error` | the ring's **colour**, published since the base migration |
+| `focus-ring/error` | `--nph-focus-ring-error` | the ring's **shadow** |
 
-A colisão nasce da convenção de nomes: `/` vira `-`, e `focus-ring/error` e
-`focus/ring-error` achatam no mesmo identificador. No Figma ela não aparece,
-porque lá estilo e variável são espaços de nome separados. Quem a encontrou foi
-a validação nova — o build reprovou, com o nome e a contagem.
+The collision comes from the naming convention: `/` becomes `-`, and
+`focus-ring/error` and `focus/ring-error` flatten onto the same identifier. It
+does not show up in Figma, because there styles and variables are separate
+namespaces. What found it was the new validation — the build failed, with the
+name and the count.
 
-**Decisão de Indiane em 03/09/2026: renomear o estilo, não a cor.** O estilo
-`focus-ring/error` passou a se chamar **`focus-ring/invalid`**, no Figma e no
-código ao mesmo tempo. A cor publicada não mudou.
+**Indiane's decision on 03/09/2026: rename the style, not the colour.** The
+style `focus-ring/error` is now **`focus-ring/invalid`**, in Figma and in code at
+the same time. The published colour did not change.
 
-Três razões. Não se quebra uma custom property já publicada — que a P02 define
-como API pública — para acomodar uma que ainda não existia. Renomear nos dois
-lugares juntos mantém o nome do estilo no Figma igual ao nome do token, sem a
-deriva silenciosa que apareceria se só o código mudasse. E `invalid` é o termo
-do HTML e da ARIA para esse estado, coerente com o `design.md`, que descreve o
-caso como "campo que falhou a validacao".
+Three reasons. You do not break an already published custom property — which P02
+defines as public API — to accommodate one that did not exist yet. Renaming in
+both places at once keeps the style name in Figma identical to the token name,
+without the silent drift that would appear if only the code changed. And
+`invalid` is the HTML and ARIA term for this state, consistent with `design.md`,
+which describes the case as "campo que falhou a validacao".
 
-O resultado se lê sozinho: a sombra é `invalid`, e a cor que ela usa continua
-sendo `error`.
+The result reads by itself: the shadow is `invalid`, and the colour it uses is
+still `error`.
 
 ```css
 --nph-focus-ring-invalid: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring-error);
 ```
 
-## Consumo — dois atributos independentes
+## Consumption — two independent attributes
 
-Marca e esquema de cor são **dimensões independentes**: um produto pode estar em
-Educação + escuro sem nada ser reautorado.
+Brand and colour scheme are **independent dimensions**: a product can be in
+Educação + dark without anything being re-authored.
 
 ```html
 <html data-nph-brand="educacao" data-nph-color-scheme="dark">
 ```
 
-| Atributo | Valores | Padrão |
+| Attribute | Values | Default |
 |---|---|---|
 | `data-nph-brand` | `sistemas`, `gerencial`, `educacao`, `comercial`, `financeiro`, `igrejas`, `rh` | `sistemas` |
 | `data-nph-color-scheme` | `light`, `dark` | `light` |
 
-Os valores de `data-nph-brand` são os nomes das verticais da IATec. As chaves
-internas do JSON usam `claro` e `escuro`, espelhando os modos do Figma; o
-mapeamento para `light`/`dark` está declarado em `modeSet.valorPublico`.
+The `data-nph-brand` values are the names of IATec's business verticals. The
+internal JSON keys use `claro` and `escuro`, mirroring the Figma modes; the
+mapping to `light`/`dark` is declared in `modeSet.valorPublico`.
 
-Omitir os dois atributos entrega Sistemas no claro, porque cada bloco padrão é
-emitido também em `:root`.
+Omitting both attributes gives Sistemas in light, because every default block is
+also emitted under `:root`.
 
-**Uma parte da tela com outra marca leva os dois atributos no mesmo
-elemento** (decisão de Indiane, 05/10/2026; P67):
+**A part of the screen with another brand carries both attributes on the same
+element** (Indiane's decision, 05/10/2026; P67):
 
 ```html
 <section data-nph-brand="educacao" data-nph-color-scheme="light">
 ```
 
-Só o esquema também vale numa parte da tela: `data-nph-color-scheme="dark"`
-sozinho resolve tudo no escuro. Só a marca, sem o esquema no mesmo elemento,
-não é suportado: os tokens que dependem de marca continuariam com a marca da
-raiz.
+The scheme alone also works on a part of the screen:
+`data-nph-color-scheme="dark"` by itself resolves everything in dark. The brand
+alone, without the scheme on the same element, is not supported: the tokens that
+depend on the brand would keep the root brand.
 
-## Estrutura do CSS gerado
+## Structure of the generated CSS
 
 ```css
-:root { --nph-core-sistemas-600: #2f68c5; }                       /* camada 1 */
+:root { --nph-core-sistemas-600: #2f68c5; }                       /* layer 1 */
 :root, [data-nph-brand="sistemas"] { --nph-theme-brand-600: var(--nph-core-sistemas-600); }
 [data-nph-brand="educacao"]        { --nph-theme-brand-600: var(--nph-core-educacao-700); }
-:root { --nph-radius-control: var(--nph-core-radius-300); }       /* invariantes */
-:root, [data-nph-color-scheme] { --nph-sidebar-primary: var(--nph-theme-brand-600); } /* dependentes */
+:root { --nph-radius-control: var(--nph-core-radius-300); }       /* invariants */
+:root, [data-nph-color-scheme] { --nph-sidebar-primary: var(--nph-theme-brand-600); } /* dependents */
 :root, [data-nph-color-scheme="light"] { --nph-color-primary: var(--nph-theme-brand-600); }
 [data-nph-color-scheme="dark"]         { --nph-color-primary: var(--nph-theme-brand-400); }
 ```
 
-Aliases viram `var()`, nunca literais. Só a camada `core` carrega valor literal.
+Aliases become `var()`, never literals. Only the `core` layer carries literal
+values.
 
-## Validações do gerador
+## Generator validations
 
-O build **falha** — com código 1 e mensagem específica — quando:
+The build **fails** — with exit code 1 and a specific message — when:
 
-**Na fonte**
+**In the source**
 
-1. aparece um `$type` fora dos sete tratados;
-2. um token declara `modes` e falta valor para algum modo da camada;
-3. uma referência `{...}` aponta para token que não existe em nenhuma fonte;
-4. a contagem de tokens de uma camada não bate com `contagemEsperada`.
+1. a `$type` outside the seven handled ones appears;
+2. a token declares `modes` and a value is missing for some mode of the layer;
+3. a `{...}` reference points to a token that exists in no source;
+4. the token count of a layer does not match `contagemEsperada`.
 
-**Na saída**
+**In the output**
 
-5. sobra referência `{...}` não resolvida;
-6. algum valor sai como `[object Object]`;
-7. um token que é referência na fonte sai achatado em literal — em valor
-   escalar, exigindo que a saída comece com `var(`; em valor composto, contando
-   quantas `var()` a saída traz contra quantas referências a fonte declara;
-8. um invariante é emitido mais de uma vez, ou um variante não é emitido uma vez
-   por modo;
-9. um invariante dependente fica fora do bloco `:root, [data-nph-color-scheme]`,
-   ou um independente entra nele.
+5. an unresolved `{...}` reference remains;
+6. some value comes out as `[object Object]`;
+7. a token that is a reference in the source comes out flattened into a literal
+   — on a scalar value, by requiring the output to start with `var(`; on a
+   composite value, by counting how many `var()` the output carries against how
+   many references the source declares;
+8. an invariant is emitted more than once, or a variant is not emitted once per
+   mode;
+9. a dependent invariant is outside the `:root, [data-nph-color-scheme]` block,
+   or an independent one is inside it.
 
-## O que está fora desta rodada
+## Out of scope for this round
 
-| Item | Situação |
+| Item | Status |
 |---|---|
-| 20 primitivos da **P46** | **Excluídos por decisão registrada** — `core/radius` 700–1000, `core/space` 1200–1500 e os 12 fora de escala. Enquanto estiverem nessa lista, não entram no JSON. |
-| 127 demais primitivos `core` | **Adiados.** Não são alcançáveis a partir da camada `semantic`, o que **não** significa que não tenham consumidor. Seguem adiados sem juízo sobre consumidor. |
-| 24 primitivos `core/sombra` | **Migrados em 03/09/2026.** O consumidor que a linha acima já nomeava — os estilos `elevation/*` — passou a existir. |
-| 11 estilos de efeito | **Migrados em 03/09/2026.** Deixaram de ser adiados: viraram tokens `shadow` — 8 de elevação e 3 anéis de foco. |
-| 14 estilos de texto | **Migrados em 27/08/2026.** Deixaram de ser adiados. Não são variáveis do Figma: os valores foram lidos dos estilos de texto e conferidos contra `tokens_typography` do `design.md`, item a item, sem divergência. Cada papel virou cinco tokens em `semantic.text`, e as duas famílias entraram em `core.font`. |
+| 20 primitives from **P46** | **Excluded by recorded decision** — `core/radius` 700–1000, `core/space` 1200–1500 and the 12 off-scale ones. While they are on that list, they do not enter the JSON. |
+| The other 127 `core` primitives | **Deferred.** They are not reachable from the `semantic` layer, which does **not** mean they have no consumer. They remain deferred with no judgement about consumers. |
+| 24 `core/sombra` primitives | **Migrated on 03/09/2026.** The consumer the row above already named — the `elevation/*` styles — now exists. |
+| 11 effect styles | **Migrated on 03/09/2026.** No longer deferred: they became `shadow` tokens — 8 elevation levels and 3 focus rings. |
+| 14 text styles | **Migrated on 27/08/2026.** No longer deferred. They are not Figma variables: the values were read from the text styles and checked against `tokens_typography` in `design.md`, item by item, with no divergence. Each role became five tokens in `semantic.text`, and the two families landed in `core.font`. |
 
-## Limitação conhecida da ferramenta
+## Known tool limitation
 
-O Style Dictionary 5.5.2 serializa `duration` na forma estruturada do DTCG
-(`{ value, unit }`) como `[object Object]`. A fonte **permanece estruturada**,
-como manda o DTCG; a conversão para `250ms` acontece só na saída, pelo
-transformador `nephos/duration/css` registrado em `scripts/build-tokens.mjs`. A
-validação 6 existe para que essa classe de falha nunca passe silenciosa.
+Style Dictionary 5.5.2 serialises `duration` in the structured DTCG form
+(`{ value, unit }`) as `[object Object]`. The source **stays structured**, as
+DTCG requires; conversion to `250ms` happens only on output, through the
+`nephos/duration/css` transform registered in `scripts/build-tokens.mjs`.
+Validation 6 exists so that this class of failure never passes silently.
 
-## Como alterar um valor
+## How to change a value
 
-1. Altere no **Figma** — ele é a fonte visual.
-2. Atualize `src/tokens/source/*.tokens.json`.
-3. Rode `npm run build:tokens` e confira que passou.
-4. Registre evidência, data e responsável, conforme o `GOVERNANCA.md`.
+1. Change it in **Figma** — it is the visual source.
+2. Update `src/tokens/source/*.tokens.json`.
+3. Run `npm run build:tokens` and confirm it passed.
+4. Record evidence, date and owner, as required by `GOVERNANCA.md`.
 
-Nunca edite `src/tokens/generated/`. Nunca escreva valor literal no CSS de um
-componente: componentes consomem **apenas tokens semânticos**.
+Never edit `src/tokens/generated/`. Never write a literal value in a component's
+CSS: components consume **semantic tokens only**.

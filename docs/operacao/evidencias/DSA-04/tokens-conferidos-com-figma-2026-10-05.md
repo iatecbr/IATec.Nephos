@@ -13,41 +13,41 @@
     "data": "2026-10-05",
     "autoria": "claude-codigo",
     "trecho": null,
-    "decisao_convertida": "Leitura das variaveis locais do Figma (core 322, semantic 195, theme 14) contra src/tokens/source: 50 tokens de theme e semantic que o Figma tinha e o codigo nao, 5 tokens com valor antigo no codigo e os 47 primitivos que os resolvem."
+    "decisao_convertida": "Reading of the Figma local variables (core 322, semantic 195, theme 14) against src/tokens/source: 50 theme and semantic tokens that Figma had and the code did not, 5 tokens with an old value in the code and the 47 primitives that resolve them."
   }
 }
 ```
 
 # DSA-04 — `tokens-conferidos-com-figma`
 
-Os tokens que o `nph-label` e o `nph-tooltip` consomem, e os demais que o Figma
-`DS-IA-NEPHOS 5.0` tinha e o codigo nao, foram trazidos para
-`src/tokens/source/*.tokens.json` no commit `e03e492`. Este gate prova que o
-`src/tokens/generated/tokens.css` gerado nesse commit bate com a leitura do
+The tokens that `nph-label` and `nph-tooltip` consume, and the others that the
+Figma `DS-IA-NEPHOS 5.0` had and the code did not, were brought into
+`src/tokens/source/*.tokens.json` in commit `e03e492`. This gate proves that the
+`src/tokens/generated/tokens.css` generated at that commit matches the reading of
 Figma.
 
-## Arquivos
+## Files
 
-- `docs/operacao/evidencias/DSA-04/tokens-figma-2026-10-05.json` — a leitura do
-  Figma de 05-10-2026: nome, tipo e alias por modo dos 50 tokens novos e dos 5
-  repontados, e o valor dos 47 primitivos.
-- `docs/operacao/evidencias/DSA-04/conferir-tokens-figma.cjs` — o script de
-  conferencia. So leitura, sem dependencia.
+- `docs/operacao/evidencias/DSA-04/tokens-figma-2026-10-05.json` — the Figma
+  reading of 05-10-2026: name, type and alias per mode of the 50 new tokens and of
+  the 5 repointed ones, and the value of the 47 primitives.
+- `docs/operacao/evidencias/DSA-04/conferir-tokens-figma.cjs` — the check
+  script. Read-only, no dependencies.
 
-## Como rodar de novo
+## How to run it again
 
-Da raiz do repositorio, no commit `e03e492` ou depois dele:
+From the repository root, at commit `e03e492` or later:
 
     node docs/operacao/evidencias/DSA-04/conferir-tokens-figma.cjs
 
-## Saida, sem edicao
+## Output, unedited
 
     conferidos: 102 tokens (47 primitivos, 50 novos, 5 repontados); divergencias: 0
 
-Codigo de saida: 0.
+Exit code: 0.
 
-## Limite
+## Limit
 
-A leitura vem das consultas as variaveis do Figma feitas em 05-10-2026. Nenhum
-texto de uso das variaveis entra aqui. Os textos em rascunho e as variaveis sem
-descricao ficam para aprovacao de Indiane.
+The reading comes from the Figma variable queries made on 05-10-2026. No usage
+text of the variables enters here. The draft texts and the variables without a
+description are left for Indiane's approval.
