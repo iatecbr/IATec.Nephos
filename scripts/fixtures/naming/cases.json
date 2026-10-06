@@ -6153,5 +6153,13 @@
       "src/a.ts": "// de-duplicate entries and count num items\nexport const size = 1;"
     },
     "clean": true
+  },
+  {
+    "label": "prose: tokens with a digit (hash, id, measure) pass",
+    "prose": true,
+    "files": {
+      "docs/a.md": "Merged at a1de3f0 and e1bf6b, see P64 and 24px.\n"
+    },
+    "clean": true
   }
 ]

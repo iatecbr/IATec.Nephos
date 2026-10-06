@@ -109,7 +109,7 @@ StyleDictionary.registerTransform({
  * `design.md` does not change. Until then every `dimension` came out in `px`,
  * and the contract already promised `rem`; the code was the one in the wrong.
  *
- * The root is 16px, as `unidade_css: rem, raiz 16px` in `design.md` declares in
+ * The root is 16px, as `unidade_css: rem, root 16px` in `design.md` declares in
  * `tipografia_regras` and `espacamento_regras`.
  *
  * FAMILIES IN PX BY THEIR OWN RULE, not by omission. There are TWO, and each
