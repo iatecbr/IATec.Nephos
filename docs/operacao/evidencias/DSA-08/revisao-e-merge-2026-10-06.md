@@ -13,26 +13,26 @@
 
 # DSA-08 — `revisao-e-merge`
 
-O PR #51 (`feat/dsa08-nph-tooltip`) trouxe o componente, o CSS, os testes, as
-stories, a ficha canônica `fichas/nph-tooltip.md` com a Metadata, a decisão
-técnica P65 e as regras do `design.md` que citam o balão. `maurocsjr` aprovou e
-fez o merge em 05-10-2026, no commit `d4ff326`. O commit da entrega, `06af125`,
-é ancestral da ponta da branch padrão.
+PR #51 (`feat/dsa08-nph-tooltip`) brought the component, the CSS, the tests, the
+stories, the canonical spec sheet `fichas/nph-tooltip.md` with the Metadata, the
+technical decision P65 and the `design.md` rules that cite the balloon. `maurocsjr`
+approved and merged it on 05-10-2026, at commit `d4ff326`. The delivery commit,
+`06af125`, is an ancestor of the default branch tip.
 
-## Comando
+## Command
 
 ```text
 git merge-base --is-ancestor 06af12539de95416ee816ca65f63298063e1bf6b origin/v/5.0.0
 ```
 
-## Saída
+## Output
 
-Sem saída. Código de saída `0`: o commit `06af125` é ancestral da ponta
-`7dd370d` da `v/5.0.0`.
+No output. Exit code `0`: commit `06af125` is an ancestor of the tip
+`7dd370d` of `v/5.0.0`.
 
-## Testes aplicáveis
+## Applicable tests
 
-Em `C:\dev\nephos-wt-dsa04`, no SHA `7dd370d`:
+In `C:\dev\nephos-wt-dsa04`, at SHA `7dd370d`:
 
 ```text
 npm test -- src/components/nph-tooltip
@@ -43,8 +43,8 @@ npm test -- src/components/nph-tooltip
       Tests  15 passed (15)
 ```
 
-## PR mergeado
+## Merged PR
 
-| PR | Merge | Commit da entrega | Revisor |
+| PR | Merge | Delivery commit | Reviewer |
 |---|---|---|---|
 | [#51](https://github.com/iatecbr/IATec.Nephos/pull/51) | `d4ff326` (2026-10-05T16:58:28Z) | `06af125` | `maurocsjr` APPROVED (2026-10-05T16:58:19Z) |

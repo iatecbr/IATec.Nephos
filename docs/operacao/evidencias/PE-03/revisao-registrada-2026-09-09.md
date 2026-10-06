@@ -13,50 +13,50 @@
 
 # PE-03 — `revisao-registrada`
 
-A revisão da P62.5 está registrada em `docs/decisoes-tecnicas.md`, com data e
-responsável, no mesmo rito das demais decisões técnicas.
+The review of P62.5 is recorded in `docs/decisoes-tecnicas.md`, with date and
+owner, in the same ritual as the other technical decisions.
 
-## Quem revisou, e o que é cada evidência
+## Who reviewed, and what each piece of evidence is
 
-São duas coisas distintas, e o gate exige a segunda:
+There are two distinct things, and the gate requires the second:
 
-1. **Revisão documental pelo Copilot**, em 09/09/2026, que conferiu a compatibilidade
-   com `raio_regras` do `design.md`, a separação dos 8 tokens de raio dos 92
-   `dimension` convertidos e o custo de uma mudança futura. Ela entrou no repositório
-   pelo commit `5fa4821`.
-2. **Revisão humana por `maurocsjr`**, que aprovou o PR #25 em 09/09/2026 e o mergeou
-   em `ed7c009`. É esta que cumpre o rito — a P62.1, a P62.2 e a P62.3 foram aprovadas
-   por Elvys em 28/08/2026, e a P62.5 era a única sem revisão registrada.
+1. **Documentary review by Copilot**, on 09/09/2026, which checked the compatibility
+   with `raio_regras` of `design.md`, the separation of the 8 radius tokens from the 92
+   converted `dimension` tokens and the cost of a future change. It entered the repository
+   through commit `5fa4821`.
+2. **Human review by `maurocsjr`**, who approved PR #25 on 09/09/2026 and merged it
+   at `ed7c009`. This is the one that fulfills the ritual — P62.1, P62.2 and P62.3 were approved
+   by Elvys on 28/08/2026, and P62.5 was the only one without a recorded review.
 
-A Governança do projeto registra que Elvys e Mauro têm o mesmo poder de revisão e
-aprovação, por decisão de Indiane em 08/09/2026; o `contributing.md` desta baseline
-escreve a mesma regra: "Elvys ou Mauro revisam e fazem o merge".
+The project Governance records that Elvys and Mauro have the same review and
+approval power, by decision of Indiane on 08/09/2026; the `contributing.md` of this baseline
+writes the same rule: `Elvys ou Mauro revisam e fazem o merge` (Elvys or Mauro review and merge).
 
-## Onde o registro está
+## Where the record is
 
-`docs/decisoes-tecnicas.md`, em três lugares, todos nesta branch:
+`docs/decisoes-tecnicas.md`, in three places, all on this branch:
 
-- **linha 24** — a tabela-resumo: "Adotada por Indiane em 28/08/2026. **Revisada e
-  aprovada por Mauro em 09/09/2026, no PR #25, mergeado em `ed7c009`.**"
-- **linha 357** — o `Status` da P62: "a **P62.5** ... **foi revisada e aprovada por
-  Mauro em 09/09/2026**, no PR #25."
-- **linhas 525 a 529** — o `Status` da seção `### P62.5`, que separa a revisão
-  documental do Copilot da aprovação de Mauro e cita o commit revisado e o merge.
+- **line 24** — the summary table: `Adotada por Indiane em 28/08/2026. **Revisada e
+  aprovada por Mauro em 09/09/2026, no PR #25, mergeado em ed7c009.**` (Adopted by Indiane on 28/08/2026. Reviewed and approved by Mauro on 09/09/2026, in PR #25, merged at `ed7c009`.)
+- **line 357** — the `Status` of P62: `a **P62.5** ... **foi revisada e aprovada por
+  Mauro em 09/09/2026**, no PR #25.` (P62.5 ... was reviewed and approved by Mauro on 09/09/2026, in PR #25.)
+- **lines 525 to 529** — the `Status` of the section `### P62.5`, which separates the documentary
+  review by Copilot from Mauro's approval and cites the reviewed commit and the merge.
 
-## Comando
+## Command
 
 ```
 grep -n "Revisada e aprovada por Mauro" docs/decisoes-tecnicas.md
 ```
 
-## Saída
+## Output
 
 ```
 24:| **P62.5** | O raio continua em `px` | 28/08/2026 | Baixo. Converter depois é uma linha no gerador, mas exige alterar `raio_regras` no `design.md` | Adotada por Indiane em 28/08/2026. **Revisada e aprovada por Mauro em 09/09/2026, no PR #25, mergeado em `ed7c009`.** Resolve a contradição de escopo da P62.4 |
 525:**Revisada e aprovada por Mauro em 09/09/2026**, no PR #25, sobre o commit `5fa4821`,
 ```
 
-Nenhuma ocorrência de "aguardando revisão de Elvys" resta no arquivo:
+No occurrence of `aguardando revisão de Elvys` (awaiting Elvys's review) remains in the file:
 
 ```
 $ grep -rn "aguarda.*revis.*Elvys\|aguardando revis.*Elvys" docs/decisoes-tecnicas.md
@@ -64,7 +64,7 @@ $ echo $?
 1
 ```
 
-## Contexto verificável
+## Verifiable context
 
 ```
 $ git log -1 --format='%h %an %ad %s' 5fa4821
@@ -77,5 +77,5 @@ $ git merge-base --is-ancestor 5fa4821 origin/v/3.0.0; echo $?
 0
 ```
 
-A aprovação foi conferida na página do PR #25 no GitHub, com a conta autenticada:
-"maurocsjr approved these changes" e "maurocsjr merged commit ed7c009 into v/3.0.0".
+The approval was checked on the PR #25 page on GitHub, with the authenticated account:
+`maurocsjr approved these changes` and `maurocsjr merged commit ed7c009 into v/3.0.0`.

@@ -13,22 +13,22 @@
 
 # DSA-02 — `revisao-e-merge`
 
-O PR #33 foi revisado por Mauro (`maurocsjr`) e mergeado na `v/5.0.0` em
-14-09-2026. O merge commit `8e11751` contém o commit `8903873` que registrou
-os usos de `status/error` e `space/inline-tight`.
+PR #33 was reviewed by Mauro (`maurocsjr`) and merged into `v/5.0.0` on
+14-09-2026. Merge commit `8e11751` contains commit `8903873`, which recorded
+the uses of `status/error` and `space/inline-tight`.
 
-## Comando
+## Command
 
 ```text
 git merge-base --is-ancestor 89038735f968a1abbcc629cdde02097d3041454a origin/v/5.0.0
 ```
 
-## Saída
+## Output
 
-Sem saída. Código de saída `0`, que confirma que o commit da DSA-02 é
-ancestral da ponta `8e11751` da branch padrão.
+No output. Exit code `0`, which confirms that the DSA-02 commit is an
+ancestor of the default branch tip `8e11751`.
 
-## Contexto verificável
+## Verifiable context
 
 ```text
 PS> git fetch origin --prune
