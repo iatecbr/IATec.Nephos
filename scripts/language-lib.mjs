@@ -13,8 +13,8 @@
  * between backticks, URLs (link targets, autolinks, bare http and any dotted
  * name such as figma.com or com.iatec.nephos), paths with a slash (such as
  * docs/operacao/tarefas/ in a recorded command), command-line flags (--name) and the three language names of
- * the language selector. A Portuguese pair written with a slash passes too: a
- * known limit.
+ * the language selector, and any token with a digit (a hash, an id, a measure).
+ * A Portuguese pair written with a slash passes too: a known limit.
  *
  * Known limit: a Portuguese word that is not in the vocabulary, has no accent
  * and is not a function word passes. Every word a review finds goes into
@@ -57,7 +57,9 @@ export function createDetector(vocabulary) {
       .replace(/[\p{L}\p{N}_.-]*[\p{L}\p{N}_]\/[\p{L}\p{N}_./-]*|\/[\p{L}\p{N}_.-]+\//gu, blank)
       .replace(/(?<![\p{L}\p{N}_-])--[a-z][\w-]*/giu, blank)
       .replace(/[\p{L}\p{N}_-]+(?:\.[\p{L}\p{N}_-]+)+/gu, blank)
-      .replace(LANGUAGE_NAMES, blank);
+      .replace(LANGUAGE_NAMES, blank)
+      /* A token with a digit is a hash, an id or a measure (e1bf6b, P64, 24px), not a word. */
+      .replace(/[\p{L}\p{N}_]*\p{N}[\p{L}\p{N}_]*/gu, blank);
     const out = [];
     for (const m of cleaned.matchAll(LETTERS)) {
       /* A function word glued to a hyphen is part of an English compound (de-duplicate). */
