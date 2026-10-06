@@ -22,6 +22,7 @@ subseção P62.4 para o detalhe).
 | **P62.1** | `nph-label` sem Shadow DOM — exceção à P01 | 27/08/2026 | Alto. É a única forma de a associação nativa funcionar; sem ela o rótulo perde a função | Aprovada, 28/08/2026 |
 | **P62.4** | Dimensões em `px`, e não `rem` | 27/08/2026 | Alto e antigo. Vale para o sistema inteiro, não só tipografia | Resolvida por decisão própria: migrar o gerador para `rem` — 28/08/2026. **Implementada em 28/08/2026** |
 | **P62.5** | O raio continua em `px` | 28/08/2026 | Baixo. Converter depois é uma linha no gerador, mas exige alterar `raio_regras` no `design.md` | Adotada por Indiane em 28/08/2026. **Revisada e aprovada por Mauro em 09/09/2026, no PR #25, mergeado em `ed7c009`.** Resolve a contradição de escopo da P62.4 |
+| **P62.6** | `info` e `infoLabel` no `nph-label`: o gatilho de informação | 06/10/2026 | Médio. O `nph-field` vai montar o rótulo com o gatilho; mudar a API depois exige refazer os dois | Anatomia e comportamento: L8 a L11, adotados por Indiane em 08/09/2026 e 01/10/2026. API e semântica: proposta técnica, revisão no PR por `maurocsjr` |
 | **P01** | Shadow DOM aberto | 24/08/2026 | Alto. Todo componente depende | Aprovada, 28/08/2026 |
 | **P02** | Custom properties como API pública | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
 | **P03** | Padrão de diretórios e TypeScript | 24/08/2026 | Médio | Aprovada, 28/08/2026 |
@@ -438,6 +439,8 @@ campo, e texto escondido exigiria uma string em português dentro do componente,
 proibido pelo plano trilíngue. **Consequência: o `nph-input` terá de carregar
 `required`.**
 
+*Ampliada pela P62.6.*
+
 ### P62.4 — Dimensões saem em `px`, não em `rem`
 
 > **Leia o registro histórico abaixo como histórico.** A decisão original —
@@ -537,6 +540,94 @@ mergeado na `v/3.0.0` em `ed7c009`. São duas evidências distintas e ambas nece
 a revisão documental do Copilot conferiu as evidências, e a aprovação de Mauro é o rito
 de revisão humana que as demais decisões técnicas passaram. Com ela, a P62.5 deixa de
 ser a única decisão da P62 sem revisão registrada.
+
+### P62.6 — Gatilho de informação: `info` e `infoLabel`
+
+**Conflito com a P62.3.** A P62.3 fixou três propriedades públicas (`required`,
+`for` e `text`). A L8 do Registro de decisões (08/09/2026) diz que ganhar `info`
+é mudança de contrato, e a L9 e a L11 (01/10/2026) dão foco e balão ao gatilho.
+Esta decisão amplia a API para cinco propriedades, pelo rito de "Como mudar uma
+destas decisões": o conflito está aqui, a proposta é esta seção, e a revisão
+humana é a de `maurocsjr` no PR. O texto da P62.3 não muda; ela ganha só a
+anotação "Ampliada pela P62.6".
+
+**Decisão.**
+
+- **API: duas propriedades novas, nenhuma reflete** (são conteúdo, como `text`).
+
+  | Propriedade | Papel |
+  |---|---|
+  | `info` | String, padrão vazio. O texto da explicação, já localizado pela aplicação consumidora. É o `text` do `nph-tooltip` |
+  | `infoLabel` (`info-label`) | String, padrão vazio. O nome acessível do gatilho (L11.3) |
+
+  O gatilho aparece só com as duas preenchidas, depois de `trim`. `info` sem
+  `infoLabel` é entrada inválida: o gatilho não aparece e `console.error` sai em
+  desenvolvimento, uma vez por causa. O rótulo continua: ele é o nome do
+  controle e não pode sumir por causa da ajuda. Isso adapta a regra de entrada
+  inválida do `docs/stories.md` (§2.5, que manda não desenhar nada) só à parte
+  inválida, como a própria §2.5 pede para outra peça: decidir e registrar.
+  `infoLabel` sem `info` é estado de montagem: nada, sem erro (decisão de
+  01/10/2026: `infoLabel` vazio omite o gatilho).
+- **Semântica.** O gatilho é um `<button type="button">` nativo **depois** do
+  `<label>`, fora dele: dentro, entraria no nome acessível do controle. Leva
+  `aria-label` = `infoLabel`, `aria-expanded` e `aria-controls` com o `id` do
+  `nph-tooltip`, único por instância. O ícone é `circle-info` `solid` `sm`,
+  decorativo. O `nph-tooltip` existe desde a montagem, fechado, porque a região
+  `role="status"` precisa existir antes de abrir (P65). O estado aberto é
+  interno e não é API.
+- **Abrir e fechar.** Clique, Enter ou Espaço alternam, pelo comportamento
+  nativo do botão; ao abrir, o gatilho recebe `focus()` (no Safari, clicar num
+  botão não lhe dá foco, e sem foco o Esc não chegaria). Sem hover. Fecham:
+  - **Esc** (L11.5), num ouvinte de `keydown` no próprio gatilho, nunca no
+    documento. Com o balão aberto, fecha e para a propagação — o diálogo que
+    contém o formulário não fecha junto; com o balão fechado, não intercepta;
+  - **clique fora** (L11.5), fora do gatilho e do balão. Clicar no texto do
+    rótulo fecha e leva o foco ao controle (P62.1). Ouvinte de `pointerdown` no
+    documento, em captura, só enquanto aberto, solto ao fechar e ao desconectar;
+  - **Tab para fora**: `focusout` do gatilho fecha quando o foco vai para um
+    elemento fora do `nph-label`. É a leitura, para o teclado, do "clique fora"
+    da L11.5: sem ela, o balão ficaria aberto sobre o próximo campo, sem Esc que
+    o feche. **Interpretação da L11.5**: Indiane confirma no Storybook, e o
+    Mauro revisa a implementação. Clique no balão, que não é focável, não fecha.
+- **Anatomia, só por token** (conjunto `374:6` e quadro `1194:1482`). Só com o
+  gatilho, o host recebe `data-nph-info`, e a raiz passa a `inline-flex`, ao
+  centro, com `gap` de `space/inline-tight` e `position: relative`; sem ele, a
+  raiz continua `inline-block`. O gatilho tem 24 × 24, a arte de
+  `icon/size-sm` com `space/inline-tight` em volta (WCAG 2.5.8), sem fundo nem
+  borda, em `color/muted-foreground`. O foco, só em `:focus-visible`, é a borda
+  de `border/width` em `focus/border` com raio `focus/border-radius-control` e
+  o halo de `focus/ring-width` em `focus/halo` com raio
+  `focus/radius-control-with-border`, os dois por fora — o mesmo desenho do
+  foco do `nph-button` no Figma (L9). O balão fica abaixo do rótulo, alinhado
+  ao início, a `space/inline`, em `position: absolute`: não empurra o
+  formulário, como o `use` de `color/tooltip` pede ("não bloqueia a página").
+  A largura é a do texto, até a máxima do `nph-tooltip`.
+- **Literais e por quê:** `transparent` (gatilho sem fundo), `calc(-1 * …)`
+  para pôr borda e halo por fora, `position` e `inset` do balão, e os resets do
+  botão (`margin: 0`, `border: 0`, `font: inherit`), porque o elemento vive na
+  luz e uma folha da aplicação pode alcançar `button`. Nenhum valor visual.
+
+**Limites conhecidos.**
+
+- **L-a — `use` de `color/muted-foreground`.** O `use` no `design.md`
+  ("Legenda, texto auxiliar, placeholder, metadado") não cita o ícone do
+  gatilho, que o Figma aceito usa (contraste de 6,69:1 no claro e 9,81:1 no
+  escuro, L8). O código segue o Figma; ampliar o `use` é decisão de Indiane.
+- **L-b — regra 6 do `design.md`.** A regra 6 e o `focus-ring/default` ainda
+  falam só do anel `focus/ring`. O alinhamento ao foco por borda e halo está no
+  PR #57, que já cita o gatilho `info`; este entra depois dele.
+- **L-c — sem `z-index`.** Não há token de camada. Um irmão posicionado que
+  venha depois no DOM pode ficar por cima do balão. O balão também não vira para
+  cima perto da borda da tela.
+
+**Fonte.** Anatomia e comportamento: L8 a L11 do Registro de decisões (vault),
+aceitos por Indiane em 08/09/2026 e 01/10/2026, e o quadro `nph-label`
+(`1194:1482`) com o conjunto `374:6`, no Figma `DS-IA-NEPHOS 5.0`. A API
+(`info`, `infoLabel`), a semântica, o fechamento por Tab e a adaptação da
+§2.5 são proposta técnica desta implementação.
+
+**Status.** Anatomia e comportamento adotados por Indiane em 01/10/2026; API e
+semântica em revisão no PR por `maurocsjr`.
 
 ---
 
