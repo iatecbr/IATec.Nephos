@@ -1,22 +1,27 @@
 /**
- * Stories de VALIDACAO do `nph-label`.
+ * VALIDATION stories of `nph-label`.
  *
- * Cada pagina prova uma parte do contrato aprovado em 27-08-2026: a matriz de
- * duas variantes, a paridade com o Figma nos dois esquemas de cor, a
- * associacao com o controle e a ausencia de estado proprio.
+ * Each page proves a part of the contract approved on 27-08-2026: the
+ * two-variant matrix, parity with Figma in both color schemes, the
+ * association with the control and the absence of a state of its own.
  *
- * O quadro escuro troca `data-nph-color-scheme`, que e o contrato publico de
- * tema fixado pela P20. Nenhuma story duplica componente por modo: a mesma
- * peca e mostrada nos dois contextos.
+ * The dark frame switches `data-nph-color-scheme`, which is the public theme
+ * contract set by P20. No story duplicates a component per mode: the same
+ * piece is shown in both contexts.
+ *
+ * All visible text, including the label's example content, comes from the
+ * language dictionary, under the `labelValidation` key (`docs/i18n.md`,
+ * "Storybook").
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
+import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-label';
 
 const meta: Meta = {
-  title: 'Componentes/nph-label/Validação',
+  title: 'Components/nph-label/Validation',
   parameters: {
     layout: 'fullscreen',
   },
@@ -26,7 +31,17 @@ export default meta;
 
 type Story = StoryObj;
 
-/** Moldura de demonstracao. Nao vale como precedente para CSS de componente. */
+interface GlobalsContext {
+  globals?: Record<string, unknown>;
+}
+
+/** Shortcut: the dictionary of these stories in the chosen language. */
+function t(context: GlobalsContext | undefined) {
+  const locale = (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
+  return translations(locale).labelValidation;
+}
+
+/** Demo frame. Not valid as a precedent for component CSS. */
 function page(content: TemplateResult): TemplateResult {
   return html`<div
     style="padding:32px;display:flex;flex-direction:column;gap:32px;background:var(--nph-color-background)"
@@ -54,7 +69,7 @@ function caption(text: string): TemplateResult {
   </p>`;
 }
 
-/** Quadro que fixa um esquema de cor, para comparar claro e escuro lado a lado. */
+/** Frame that fixes a color scheme, to compare light and dark side by side. */
 function frame(scheme: 'light' | 'dark', content: TemplateResult): TemplateResult {
   return html`<div
     data-nph-color-scheme=${scheme}
@@ -65,104 +80,114 @@ function frame(scheme: 'light' | 'dark', content: TemplateResult): TemplateResul
 }
 
 /**
- * A matriz inteira. Sao DUAS combinacoes: `required` false e true. Nao existe
- * layout, peso nem estado — as tres foram recusadas por decisao registrada.
+ * The whole matrix. There are TWO combinations: `required` false and true.
+ * There is no layout, weight or state — all three were refused by a recorded
+ * decision.
  */
-export const Matriz: Story = {
-  render: () =>
-    page(html`
+export const Matrix: Story = {
+  name: 'Matrix',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
       ${section(
-        'Matriz — 2 combinações',
+        v.matrixTitle,
         html`
-          ${caption('required é a única propriedade do componente.')}
-          <nph-label text="Nome completo"></nph-label>
-          <nph-label text="Nome completo" required></nph-label>
+          ${caption(v.matrixCaption)}
+          <nph-label text=${v.fullName}></nph-label>
+          <nph-label text=${v.fullName} required></nph-label>
         `,
       )}
-    `),
+    `);
+  },
 };
 
 /**
- * Paridade com o Figma. O asterisco clareia sozinho no modo escuro porque
- * `status/error` tem um valor por esquema; nada e pintado a mao.
+ * Parity with Figma. The asterisk lightens by itself in dark mode because
+ * `status/error` has one value per scheme; nothing is painted by hand.
  */
-export const ModoClaroEEscuro: Story = {
-  render: () =>
-    page(html`
+export const LightAndDarkMode: Story = {
+  name: 'Light and dark mode',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
       ${section(
-        'Modo claro',
+        v.lightMode,
         frame(
           'light',
           html`
-            <nph-label text="Nome completo"></nph-label>
-            <nph-label text="Nome completo" required></nph-label>
+            <nph-label text=${v.fullName}></nph-label>
+            <nph-label text=${v.fullName} required></nph-label>
           `,
         ),
       )}
       ${section(
-        'Modo escuro',
+        v.darkMode,
         frame(
           'dark',
           html`
-            <nph-label text="Nome completo"></nph-label>
-            <nph-label text="Nome completo" required></nph-label>
+            <nph-label text=${v.fullName}></nph-label>
+            <nph-label text=${v.fullName} required></nph-label>
           `,
         ),
       )}
-    `),
+    `);
+  },
 };
 
 /**
- * A razao de o componente nao usar Shadow DOM. Clicar no rotulo poe o cursor
- * no campo, e o leitor de tela anuncia o nome ao chegar nele.
+ * The reason the component does not use Shadow DOM. Clicking the label puts
+ * the cursor in the field, and the screen reader announces the name on
+ * reaching it.
  */
-export const AssociacaoComOControle: Story = {
-  render: () =>
-    page(html`
+export const AssociationWithControl: Story = {
+  name: 'Association with the control',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
       ${section(
-        'Associação com o controle',
+        v.associationTitle,
         html`
-          ${caption('Clique no rótulo: o cursor vai para o campo.')}
+          ${caption(v.associationCaption)}
           <div style="display:flex;flex-direction:column;gap:var(--nph-space-stack-tight)">
-            <nph-label for="name-field" text="Nome completo" required></nph-label>
+            <nph-label for="name-field" text=${v.fullName} required></nph-label>
             <input
               id="name-field"
               required
               style="font-family:var(--nph-text-body-md-font-family);font-size:var(--nph-text-body-md-font-size);height:var(--nph-control-height-default);border:1px solid var(--nph-color-border);border-radius:var(--nph-radius-control);padding-inline:var(--nph-space-control-padding);background:var(--nph-color-background);color:var(--nph-color-foreground)"
             />
           </div>
-          ${caption('Campos com * são obrigatórios.')}
+          ${caption(v.requiredNote)}
         `,
       )}
-    `),
+    `);
+  },
 };
 
 /**
- * O que o rotulo NAO faz. Erro e desabilitado nao mudam o rotulo: quem mostra
- * os dois e o campo, e mais tarde o `nph-field`.
+ * What the label does NOT do. Error and disabled do not change the label: the
+ * field shows both, and later `nph-field`.
  */
-export const OQueORotuloNaoFaz: Story = {
-  render: () =>
-    page(html`
+export const WhatTheLabelDoesNotDo: Story = {
+  name: 'What the label does not do',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
       ${section(
-        'Erro não muda o rótulo',
+        v.errorTitle,
         html`
-          ${caption(
-            'O rótulo permanece em color/foreground. O erro aparece no campo e na mensagem abaixo dele — nunca no rótulo.',
-          )}
-          <nph-label text="Nome completo" required></nph-label>
+          ${caption(v.errorCaption)}
+          <nph-label text=${v.fullName} required></nph-label>
         `,
       )}
       ${section(
-        'Desabilitado não é estado do rótulo',
+        v.disabledTitle,
         html`
-          ${caption(
-            'O nph-field aplicará state/disabled-opacity ao controle inteiro. O rótulo não tem estado próprio.',
-          )}
+          ${caption(v.disabledCaption)}
           <div style="opacity:var(--nph-state-disabled-opacity)">
-            <nph-label text="Nome completo" required></nph-label>
+            <nph-label text=${v.fullName} required></nph-label>
           </div>
         `,
       )}
-    `),
+    `);
+  },
 };

@@ -1,235 +1,251 @@
-# Nephos — instruções para agentes
+# Nephos — instructions for agents
 
-> **Antes de criar ou modificar qualquer UI, leia e siga `GOVERNANCA.md` e o
-> `design.md`. Antes de usar um componente, abra a ficha dele em
-> `fichas/<nome>.md`.**
+> **Before creating or changing any UI, read and follow `GOVERNANCA.md` and
+> `design.md`. Before using a component, open its sheet at
+> `fichas/<name>.md`.**
 
-> **Este é o contrato comum de todos os agentes.** O `CLAUDE.md` não é espelho
-> deste arquivo: ele acrescenta apenas o que é exclusivo do Claude e remete a
-> este para todo o resto. Regra que vale para qualquer agente muda aqui, e só
-> aqui.
+> **This is the shared contract for all agents.** `CLAUDE.md` is not a mirror
+> of this file: it adds only what is exclusive to Claude and points here for
+> everything else. A rule that applies to any agent changes here, and only
+> here.
 
-## Preflight obrigatório
+## Mandatory preflight
 
-Antes de analisar, propor, editar ou implementar:
+Before analyzing, proposing, editing or implementing:
 
-1. Leia `GOVERNANCA.md`, o `README.md`, o `design.md`,
-   `docs/decisoes-tecnicas.md`, a ficha do componente em `fichas/<nome>.md` e a
-   nota de fundação aplicável. O gabarito de ficha é `fichas/_modelo.md`.
-   Quando `product.md` existir com conteúdo aprovado, leia-o também. Quando
-   `docs/operacao/` existir, abra a tarefa indicada e as evidências dela antes
-   de qualquer contexto curto de sessão.
-2. Consulte o Figma `DS-IA-NEPHOS 5.0` para afirmar ou alterar valores de
-   tokens e decisões visuais. Sem acesso, peça exportação ou confirmação
-   verificável.
-3. Declare as fontes lidas, as restrições aplicáveis, as lacunas ou conflitos
-   e a evidência existente no repositório.
-4. Verifique que cada token, componente, variante e estado existe na fonte
-   vigente.
-5. Pare e peça confirmação diante de lacuna de decisão, ficha necessária,
-   fonte de verdade ausente ou conflito entre fontes vigentes.
+1. Read `GOVERNANCA.md`, `README.md`, `design.md`,
+   `docs/decisoes-tecnicas.md`, the component sheet at `fichas/<name>.md` and
+   the applicable foundation note. The sheet template is `fichas/_modelo.md`.
+   When `product.md` exists with approved content, read it too. When
+   `docs/operacao/` exists, open the indicated task and its evidence before
+   any short session context.
+2. Consult the Figma `DS-IA-NEPHOS 5.0` to state or change token values and
+   visual decisions. Without access, ask for an export or a verifiable
+   confirmation.
+3. Declare the sources read, the applicable constraints, the gaps or
+   conflicts, and the evidence that already exists in the repository.
+4. Verify that every token, component, variant and state exists in the
+   current source.
+5. Stop and ask for confirmation when facing a decision gap, a required
+   sheet, a missing source of truth or a conflict between current sources.
 
-## Salvaguardas contra erro documental
+## Safeguards against documentation errors
 
-1. Estado vigente e fonte canônica vencem sessões, listas e decisões históricas
-   ou superadas. Histórico explica o passado; nunca cria regra atual.
-2. Decisão delegada continua aberta até ter evidência verificável na fonte
-   apropriada. Não a declare fechada por haver responsável, recomendação ou
-   conversa prévia.
-3. Feche pendência somente com decisão ou evidência, data, responsável e
-   localização verificável. Feche apenas a parte comprovada.
-4. Ao criar, unificar, remover ou tornar interno um componente, confira lista
-   vigente, numeração, total, fórmula de progresso, itens restantes, plano,
-   contrato e documentos derivados. Conte somente a lista completa; não some o
-   P0 uma segunda vez.
-5. Atualize primeiro a fonte canônica. Documento histórico ou superado só
-   recebe anotação de superação para evitar contradição; não o reescreva como
-   regra atual.
-6. Se uma verificação falhar, corrija o método e execute-a novamente antes de
-   declarar resultado.
+1. The current state and the canonical source win over sessions, lists and
+   historical or superseded decisions. History explains the past; it never
+   creates a current rule.
+2. A delegated decision stays open until it has verifiable evidence in the
+   appropriate source. Do not declare it closed because there is an owner, a
+   recommendation or a prior conversation.
+3. Close a pending item only with a decision or evidence, a date, an owner and
+   a verifiable location. Close only the part that is proven.
+4. When creating, merging, removing or making a component internal, check the
+   current list, numbering, total, progress formula, remaining items, plan,
+   contract and derived documents. Count only the complete list; do not add
+   P0 a second time.
+5. Update the canonical source first. A historical or superseded document
+   receives only a supersession note to avoid contradiction; do not rewrite
+   it as a current rule.
+6. If a check fails, fix the method and run it again before declaring a
+   result.
 
-## Fluxo de branch e pull request — v5
+## Branch and pull request flow — v5
 
-- A branch de integração atual é `v/5.0.0`. Para cada entrega, crie uma branch
-  curta a partir de `origin/v/5.0.0`, com o prefixo definido em
+- The current integration branch is `v/5.0.0`. For each deliverable, create a
+  short branch from `origin/v/5.0.0`, with the prefix defined in
   `contributing.md`.
-- A régua é o risco. Se a mudança, errada, quebra algo ou muda o trabalho de
-  outra pessoa, ela vai por pull request. Se não, vai por push direto em
-  `v/5.0.0`. Na dúvida, pull request.
-- **Push direto em `v/5.0.0`**, depois de a prova passar:
+- The yardstick is risk. If the change, when wrong, breaks something or
+  changes someone else's work, it goes through a pull request. If not, it goes
+  by direct push to `v/5.0.0`. When in doubt, pull request.
+- **Direct push to `v/5.0.0`**, after the proof passes:
 
-  | Mudança | Prova antes do push |
+  | Change | Proof before the push |
   |---|---|
-  | Registro de tarefa e evidência em `docs/operacao/` | `node scripts/verificar-operacao.mjs` sai 0 |
-  | Só de token: `src/tokens/source/*.tokens.json`, o `tokens.css` gerado e os trechos de token e de contagem da documentação | `npm run build:tokens`, `npm run test:tokens`, `npm test`, `npm run typecheck` e `npm run test:i18n` passam |
-  | Correção de texto que não muda regra: erro, link, contagem ou status | `git diff --check` sai 0; `npm run test:i18n` quando o texto tiver tradução |
-  | Registro de decisão técnica já aprovada | `node scripts/verificar-operacao.mjs` sai 0 |
+  | Task and evidence record in `docs/operacao/` | `node scripts/verificar-operacao.mjs` exits 0 |
+  | Token-only: `src/tokens/source/*.tokens.json`, the generated `tokens.css` and the token and count passages of the documentation | `npm run build:tokens`, `npm run test:tokens`, `npm test`, `npm run typecheck` and `npm run test:i18n` pass |
+  | Text fix that does not change a rule: error, link, count or status | `git diff --check` exits 0; `npm run test:i18n` when the text has a translation |
+  | Record of an already approved technical decision | `node scripts/verificar-operacao.mjs` exits 0 |
 
-- **Pull request da branch de tarefa para `v/5.0.0`**: código de componente,
-  CSS, story e teste; `scripts/`, inclusive o gerador de tokens e o
-  verificador; Storybook, dependência e configuração; regra de agente ou de
-  contribuição (`AGENTS.md`, `CLAUDE.md`, `contributing.md`, `GOVERNANCA.md`);
-  ficha de componente; decisão técnica nova. Nesses quatro arquivos, contagem,
-  link ou status é correção de texto e vai por push direto; mudar o que a regra
-  manda vai por pull request.
-- Mudanças de push direto vão juntas num push só. Mudanças de pull request
-  independentes e já validadas vão num pull request de lote, com um commit por
-  item.
-- Decisão técnica nova é revisada no pull request que a traz. O merge é a
-  aprovação: depois dele, a decisão não fica "aguardando revisão", e não se
-  pede revisão em pull request já fechado.
-- Elvys ou Mauro revisam e fazem o merge. Não faça o merge do próprio pull
-  request.
-- Ao abrir o pull request, peça no mesmo passo a revisão do Mauro no GitHub:
-  `gh pr edit <número> --add-reviewer maurocsjr`. Esse é o padrão. Outro
-  revisor, só quando a Indiane indicar.
-- Esta convenção vale até uma instrução versionada substituí-la. A configuração
-  de branch padrão no GitHub não muda esse destino de integração.
+- **Pull request from the task branch to `v/5.0.0`**: component code, CSS,
+  story and test; `scripts/`, including the token generator and the verifier;
+  Storybook, dependency and configuration; agent or contribution rule
+  (`AGENTS.md`, `CLAUDE.md`, `contributing.md`, `GOVERNANCA.md`); component
+  sheet; new technical decision. In those four files, a count, link or status
+  is a text fix and goes by direct push; changing what the rule commands goes
+  through a pull request.
+- Direct-push changes go together in a single push. Independent,
+  already-validated pull request changes go in a batch pull request, with one
+  commit per item.
+- A new technical decision is reviewed in the pull request that brings it. The
+  merge is the approval: after it, the decision is not left "awaiting review",
+  and no review is requested on an already closed pull request.
+- Elvys or Mauro review and merge. Do not merge your own pull request.
+- When opening the pull request, request Mauro's review on GitHub in the same
+  step: `gh pr edit <number> --add-reviewer maurocsjr`. That is the default.
+  Another reviewer, only when Indiane indicates one.
+- This convention holds until a versioned instruction replaces it. The default
+  branch setting on GitHub does not change this integration target.
 
-## Regras obrigatórias
+## Mandatory rules
 
-- Todo componente é um Web Component escrito com Lit e com prefixo `nph-`.
-- Componentes consomem somente tokens semânticos; nunca consomem valores
-  literais, `core/*` ou `theme/*`.
-- Use **Font Awesome Pro**. **Classic** é a família padrão: todo ícone de
-  conteúdo, ação, estado, feedback e direção. **Duotone é permitido somente em
-  navegação estrutural** — menu, sidebar, grupo de navegação, atalho e
-  indicador de localização. Fora da navegação, Duotone é proibido: nada de
-  botão, campo, feedback, validação, alerta, tabela ou ação destrutiva. Nunca
-  misture Duotone e Classic no mesmo grupo de navegação. Light, Thin e Sharp
-  continuam proibidos. A chave de licença fica em variável de ambiente e
-  **nunca** entra no repositório.
-- Para cada componente, primeiro derive a referência estrutural do Obra no
-  Figma, configure-a com tokens Nephos e obtenha aprovação visual. Só então
-  implemente no repositório. A ordem completa está em **A ordem de um
-  componente**, abaixo, e é cobrada pelo verificador.
-- Enquanto o licenciamento do Obra CE/shadcn estiver em validação, use-o apenas
-  como referência visual e estrutural; nunca copie código, assets, tokens ou
-  componentes para entregáveis do Nephos.
-- Registre data, responsável, fonte de evidência, decisão alterada e
-  documentos sincronizados ao concluir.
-- Escreva os nomes do código e os nomes de arquivo técnico em inglês; comentário
-  e mensagem para quem mantém o repositório ficam em PT-BR. Chave de dados,
-  bandeira da linha de comando, nome de script, arquivo citado em comando gravado
-  em `docs/operacao/` e nome público não mudam (P64, revisada por Mauro em
-  30/09/2026; emenda de 02/10/2026 aprovada por Mauro no PR #49). A prova é
-  `npm run test:naming`, em toda mudança que toca `src/`, `stories/`,
-  `.storybook/` ou `scripts/`; exceção nova entra em
-  `scripts/naming-exceptions.json` com a classe, palavra nova entra em
-  `scripts/naming-vocabulary.json`, e as duas são revisadas no PR.
+- Every component is a Web Component written with Lit and with the `nph-`
+  prefix.
+- Components consume only semantic tokens; never literal values, `core/*` or
+  `theme/*`.
+- Use **Font Awesome Pro**. **Classic** is the default family: every content,
+  action, state, feedback and direction icon. **Duotone is allowed only in
+  structural navigation** — menu, sidebar, navigation group, shortcut and
+  location indicator. Outside navigation, Duotone is forbidden: no button,
+  field, feedback, validation, alert, table or destructive action. Never mix
+  Duotone and Classic in the same navigation group. Light, Thin and Sharp
+  remain forbidden. The license key lives in an environment variable and
+  **never** enters the repository.
+- For each component, first derive the structural reference from Obra in
+  Figma, configure it with Nephos tokens and obtain visual approval. Only then
+  implement in the repository. The full order is in **The order of a
+  component**, below, and is enforced by the verifier.
+- While the licensing of Obra CE/shadcn is under validation, use it only as a
+  visual and structural reference; never copy code, assets, tokens or
+  components into Nephos deliverables.
+- Record the date, owner, evidence source, changed decision and synchronized
+  documents on completion.
+- Language: code (names, technical file names, comments, messages and test
+  descriptions), sheets, the documentation of this repository and Storybook in
+  English; Figma and the vault in Portuguese; commit, pull request and comment
+  to reviewers in Portuguese. Contract keys, command-line flags, script names,
+  files cited in commands recorded in `docs/operacao/` and public names do not
+  change (P64, reviewed by Mauro on 30/09/2026; amendment of 02/10/2026
+  approved by Mauro in PR #49; amendment of 06/10/2026; contract keys in
+  `DSA-15`). In a story, the title, name, export and anchor are also
+  identifiers in English, and all visible text comes from `.storybook/i18n/`
+  (Storybook naming item of the amendment of 06/10/2026, in review in PR #56).
+  The proof is `npm run test:naming`, on every change that touches
+  `src/`, `stories/`, `.storybook/`, `scripts/` or the documentation; a new
+  exception goes into `scripts/naming-exceptions.json` or into
+  `scripts/language-exceptions.json` with its class, a new word goes into
+  `scripts/naming-vocabulary.json`, and all three are reviewed in the PR.
 
-## A ordem de um componente
+## The order of a component
 
-**Documentação Figma aceita → código local → ficha final → revisão e PR.** Vale
-para todo agente. Uma **tarefa de componente** é a que declara
-`responsavel: "claude-codigo"` e `peca` preenchida em
+**Accepted Figma documentation → local code → final sheet → review and PR.**
+It holds for every agent. A **component task** is one that declares
+`responsavel: "claude-codigo"` and a filled-in `peca` in
 `docs/operacao/tarefas/<ID>.md`.
 
-1. **Antes de qualquer código de componente**, a documentação da peça no Figma
-   `DS-IA-NEPHOS 5.0` precisa estar **aceita por Indiane** e registrada no gate
-   `documentacao-figma-aceita`, com `resultado: "passou"` e evidência em
-   `docs/operacao/evidencias/<ID>/`. Enquanto o gate não passar, a tarefa fica
-   `bloqueada` — não é `pronta` nem `em-andamento`, e nenhum código começa.
-2. **A evidência prova a procedência**, e não o gosto de quem aceitou:
-   `responsavel` `indiane`, `origem_externa` `interna-permitida` com a URL ou o
-   ID do frame no Figma, `data`, `autoria` e `decisao_convertida` nomeando o
-   **frame** e o **`COMPONENT_SET`**. Conteúdo restrito do Figma **não** é
-   copiado para a evidência: o que entra é a decisão convertida.
-3. **Enquanto a tarefa está `pronta` ou `em-andamento`, código local sem ficha é
-   permitido.** Ficha exigida no primeiro commit vira formulário preenchido às
-   cegas; o contrato da peça sai da prática.
-4. **Antes de `em-revisao` e de `concluida`**, a ficha canônica em
-   `fichas/<peca>.md` tem de existir, a partir de `fichas/_modelo.md`.
+1. **Before any component code**, the documentation of the piece in the Figma
+   `DS-IA-NEPHOS 5.0` must be **accepted by Indiane** and recorded in the
+   `documentacao-figma-aceita` gate, with `resultado: "passou"` and evidence in
+   `docs/operacao/evidencias/<ID>/`. While the gate has not passed, the task
+   stays `bloqueada` — it is not `pronta` or `em-andamento`, and no code
+   starts.
+2. **The evidence proves provenance**, not the taste of whoever accepted:
+   `responsavel` `indiane`, `origem_externa` `interna-permitida` with the URL
+   or the frame ID in Figma, `data`, `autoria` and `decisao_convertida` naming
+   the **frame** and the **`COMPONENT_SET`**. Restricted Figma content is
+   **not** copied into the evidence: what goes in is the converted decision.
+3. **While the task is `pronta` or `em-andamento`, local code without a sheet
+   is allowed.** A sheet required in the first commit becomes a form filled in
+   blind; the contract of the piece comes out of practice.
+4. **Before `em-revisao` and `concluida`**, the canonical sheet at
+   `fichas/<piece>.md` must exist, built from `fichas/_modelo.md`.
 
-O verificador cobra os três momentos: `V30` o gate, `V31` a procedência da
-evidência, `V28` a ficha. Contrato completo em
-[`docs/operacao/README.md`](docs/operacao/README.md), §2b e §5b.
+The verifier enforces the three moments: `V30` the gate, `V31` the provenance
+of the evidence, `V28` the sheet. Full contract in
+[`docs/operacao/README.md`](docs/operacao/README.md), §2b and §5b.
 
-## Proibições
+## Prohibitions
 
-- NUNCA implemente o Nephos com React, Vue, Angular, Svelte ou outro framework.
-  Eles são ambientes de consumo, não a tecnologia de autoria.
-- NUNCA use Tailwind ou outro framework de CSS utilitário.
-- NUNCA instale shadcn/ui, Radix ou outra biblioteca de componentes. O Obra é
-  referência visual e estrutural, não dependência de código.
-- NUNCA escreva valores literais de cor, espaçamento, raio, elevação,
-  tipografia ou movimento no CSS de componente.
-- NUNCA invente tokens, componentes, variantes, estados, combinações,
-  métricas de progresso ou decisões de produto.
-- NUNCA declare branch, commit, Storybook, componente ou publicação como
-  existente sem evidência verificável no repositório.
-- NUNCA escreva código de componente antes do gate `documentacao-figma-aceita`
-  passar, nem leve a tarefa a `em-revisao` ou `concluida` sem a ficha canônica.
+- NEVER implement Nephos with React, Vue, Angular, Svelte or another
+  framework. They are consumption environments, not the authoring technology.
+- NEVER use Tailwind or another utility CSS framework.
+- NEVER install shadcn/ui, Radix or another component library. Obra is a
+  visual and structural reference, not a code dependency.
+- NEVER write literal color, spacing, radius, elevation, typography or motion
+  values in component CSS.
+- NEVER invent tokens, components, variants, states, combinations, progress
+  metrics or product decisions.
+- NEVER declare a branch, commit, Storybook, component or publication as
+  existing without verifiable evidence in the repository.
+- NEVER write component code before the `documentacao-figma-aceita` gate
+  passes, nor take the task to `em-revisao` or `concluida` without the
+  canonical sheet.
 
-## Onde o agente pode escrever
+## Where the agent may write
 
-| Pode escrever | Nunca escreve |
+| May write | Never writes |
 |---|---|
-| `src/components/<nome>/` — implementação, CSS, story e teste da peça (P03) | `src/tokens/generated/` — é gerado por `npm run build:tokens` |
-| `src/tokens/source/*.tokens.json` — só com evidência de leitura do Figma | `.npmrc` — configuração local de credencial, fora do Git |
-| `src/styles/` e `src/shared/` — padrão P03; criar só quando a peça exigir | `storybook-static/` — artefato de build |
-| `fichas/<nome>.md` — a partir de `fichas/_modelo.md` | `.env` e variantes — segredo nunca entra no repositório |
-| `.storybook/i18n/` — os dicionários de idioma, um arquivo `.json` por idioma (`pt-BR.json`, `en.json`, `es.json`), reunidos em `index.js` | `.claude/` e `.agents/` — ferramentas locais, ignoradas pelo Git |
-| `scripts/` — gerador e validações, sempre por decisão registrada | Qualquer arquivo fora deste repositório |
-| `docs/` e `stories/` | `src/shared/metadata/` — é gerado por `node scripts/verificar-operacao.mjs --gerar-metadata` (P63); nunca edite à mão |
+| `src/components/<name>/` — implementation, CSS, story and test of the piece (P03) | `src/tokens/generated/` — generated by `npm run build:tokens` |
+| `src/tokens/source/*.tokens.json` — only with evidence of reading Figma | `.npmrc` — local credential configuration, outside Git |
+| `src/styles/` and `src/shared/` — P03 pattern; create only when the piece requires it | `storybook-static/` — build artifact |
+| `fichas/<name>.md` — from `fichas/_modelo.md` | `.env` and variants — a secret never enters the repository |
+| `.storybook/i18n/` — the language dictionaries, one `.json` file per language (`pt-BR.json`, `en.json`, `es.json`), gathered in `index.js` | `.claude/` and `.agents/` — local tools, ignored by Git |
+| `scripts/` — generator and validations, always by recorded decision | Any file outside this repository |
+| `docs/` and `stories/` | `src/shared/metadata/` — generated by `node scripts/verificar-operacao.mjs --gerar-metadata` (P63); never edit by hand |
 
-Fora desta lista, pare e peça autorização. Espalhar arquivo em diretório novo
-sem decisão registrada é o mesmo que inventar estrutura.
+Outside this list, stop and ask for authorization. Spreading files into a new
+directory without a recorded decision is the same as inventing structure.
 
-## Versões em uso — consulte, não presuma
+## Versions in use — look them up, do not assume
 
-O modelo conhece a versão do treino dele, não a deste repositório. Antes de usar
-uma API, confira a versão aqui e, na dúvida, leia a documentação da versão.
+The model knows the version from its training, not the one in this
+repository. Before using an API, check the version here and, when in doubt,
+read the documentation for that version.
 
-| Dependência | Versão declarada em `package.json` |
+| Dependency | Version declared in `package.json` |
 |---|---|
 | `lit` | ^3.3.3 |
-| `@fortawesome/pro-regular-svg-icons` e `pro-solid-svg-icons` | 6.7.2 (fixas) |
-| `storybook` e `@storybook/web-components-vite` | ^10.5.10 |
+| `@fortawesome/pro-regular-svg-icons` and `pro-solid-svg-icons` | 6.7.2 (pinned) |
+| `storybook` and `@storybook/web-components-vite` | ^10.5.10 |
 | `style-dictionary` | ^5.5.2 |
 | `vite` | ^8.2.2 |
-| `vitest` e `@vitest/browser-playwright` | ^4.1.11 |
+| `vitest` and `@vitest/browser-playwright` | ^4.1.11 |
 | `playwright` | ^1.62.1 |
 | `typescript` | ^5.9.3 |
-| `@fontsource/noto-sans` e `@fontsource/ibm-plex-mono` | ^5.3.0 |
+| `@fontsource/noto-sans` and `@fontsource/ibm-plex-mono` | ^5.3.0 |
 
-Ambiente validado: Node 24.18.0 e npm 11.16.0. O package manager é **npm**.
-Quando esta tabela e o `package.json` divergirem, vale o `package.json` — e a
-tabela está errada e precisa ser corrigida no mesmo PR.
+Validated environment: Node 24.18.0 and npm 11.16.0. The package manager is
+**npm**. When this table and `package.json` diverge, `package.json` wins — and
+the table is wrong and must be corrected in the same PR.
 
-## Decisões técnicas vigentes
+## Current technical decisions
 
-**P01, P02, P03, P17, P19, P20 e P21 são decisões vigentes e devem ser seguidas. Não as
-altere, substitua ou reabra sem explicar o conflito técnico, registrar uma
-proposta de mudança e solicitar revisão humana.**
+**P01, P02, P03, P17, P19, P20 and P21 are current decisions and must be
+followed. Do not change, replace or reopen them without explaining the
+technical conflict, recording a change proposal and requesting human
+review.**
 
-Status: *decisão adotada pela Indiane em 24/08/2026 (P21 em 26/08/2026) —
-revisada e aprovada por Elvys em 28/08/2026*. Elas valem para o trabalho
-atual. A P62 (`nph-label`, tipografia e dimensões, registrada em
-27/08/2026) também foi revisada por Elvys em 28/08/2026: aprovou P62.1, P62.2
-e P62.3 como estavam registradas; a P62.4 ele resolveu decidindo migrar o
-gerador de `px` para `rem` — **migração implementada em 28/08/2026 e mergeada
-no PR #12**. A **P62.5**, adotada pela Indiane em 28/08/2026, mantém
-`core/radius` em `px` e teve as evidências documentais revisadas pelo Copilot em
-09/09/2026: não converta o raio. Ver `docs/decisoes-tecnicas.md`. Mudança posterior
-exige conflito técnico concreto, proposta registrada e decisão humana.
+Status: *decision adopted by Indiane on 24/08/2026 (P21 on 26/08/2026) —
+reviewed and approved by Elvys on 28/08/2026*. They hold for the current work.
+P62 (`nph-label`, typography and dimensions, recorded on 27/08/2026) was also
+reviewed by Elvys on 28/08/2026: he approved P62.1, P62.2 and P62.3 as
+recorded; for P62.4 he resolved it by deciding to migrate the generator from
+`px` to `rem` — **migration implemented on 28/08/2026 and merged in PR #12**.
+**P62.5**, adopted by Indiane on 28/08/2026, keeps `core/radius` in `px` and
+had its documentary evidence reviewed by Copilot on 09/09/2026: do not convert
+the radius. See `docs/decisoes-tecnicas.md`. A later change requires a
+concrete technical conflict, a recorded proposal and a human decision.
 
-Em resumo, e sem substituir a leitura da nota: Shadow DOM aberto (P01); CSS
-custom properties como API pública e `::part` para partes internas, com classes
-internas fora do contrato (P02); componente, CSS, story e teste juntos em
-`src/components/<nome>/` (P03); JSON como formato-fonte dos tokens e CSS custom
-properties como formato gerado (P17); `@storybook/web-components-vite` mantido (P19); Style Dictionary v5 como gerador, com `data-nph-brand` e `data-nph-color-scheme` como contrato público de tema (P20); e o plano técnico do `nph-icon`, com o contrato do componente e a base de validação (P21).
-Quando o workflow de CI for criado, ele executará o build em pull requests e
-disponibilizará um artefato privado (P19).
+In summary, and without replacing a reading of the note: open Shadow DOM
+(P01); CSS custom properties as the public API and `::part` for internal
+parts, with internal classes outside the contract (P02); component, CSS, story
+and test together in `src/components/<name>/` (P03); JSON as the source format
+of the tokens and CSS custom properties as the generated format (P17);
+`@storybook/web-components-vite` kept (P19); Style Dictionary v5 as the
+generator, with `data-nph-brand` and `data-nph-color-scheme` as the public
+theme contract (P20); and the technical plan for `nph-icon`, with the
+component contract and the validation base (P21). When the CI workflow is
+created, it will run the build on pull requests and make a private artifact
+available (P19).
 
-Os tokens técnicos ficam em `src/tokens/source/*.tokens.json`, nas camadas
-`core`, `theme` e `semantic`, com o CSS gerado em
-`src/tokens/generated/tokens.css`: **nunca edite o CSS gerado**. Três
-componentes estão implementados, com stories e testes: `nph-icon`, desde o PR
-#6, `nph-label`, desde o PR #10, e `nph-tooltip`, desde o PR #51. As fichas de componente são canônicas em
-`fichas/<nome>.md`, com o gabarito em `fichas/_modelo.md`, desde o PR #13.
-**O workflow de CI e a publicação continuam inexistentes.** A nota registra, em
-cada decisão, o que ficou fora de escopo. O P17 também fixa a fonte canônica por
-responsabilidade: o Figma é a fonte visual, o `design.md` é o contrato humano e
-agêntico, o JSON é a fonte técnica dos valores auditados e o CSS é gerado do
-JSON, nunca editado à mão. Diante de lacuna, pare e registre o impedimento.
+The technical tokens live in `src/tokens/source/*.tokens.json`, in the layers
+`core`, `theme` and `semantic`, with the generated CSS in
+`src/tokens/generated/tokens.css`: **never edit the generated CSS**. Three
+components are implemented, with stories and tests: `nph-icon`, since PR #6,
+`nph-label`, since PR #10, and `nph-tooltip`, since PR #51. The component
+sheets are canonical at `fichas/<name>.md`, with the template at
+`fichas/_modelo.md`, since PR #13. **The CI workflow and publication remain
+nonexistent.** The note records, in each decision, what was left out of scope.
+P17 also fixes the canonical source by responsibility: Figma is the visual
+source, `design.md` is the human and agentic contract, the JSON is the
+technical source of audited values and the CSS is generated from the JSON,
+never edited by hand. Facing a gap, stop and record the blocker.

@@ -1,11 +1,11 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=d12aa3c53435b6aa6da72dc4c844d42980068357f90374ca0d4da77066709bb3 | status=rascunho -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=2c2da33a5f9826a832c86290d3fcec2f7ea647aeabb9cdc9bc82c26f25fcf4a7 | status=rascunho -->
 
 # Tokens — fuente, generación y consumo
 
-[Português (BR)](tokens.md) · [English](tokens.en.md) · **Español**
+[English](tokens.md) · [Português (BR)](tokens.pt-BR.md) · **Español**
 
-> Traducido de la fuente en portugués de Brasil, [`tokens.md`](tokens.md).
-> Si ambos difieren, prevalece el archivo en portugués.
+> Traducido de la fuente en inglés, [`tokens.md`](tokens.md).
+> Si ambos difieren, prevalece el archivo en inglés.
 
 > **La fuente técnica es `src/tokens/source/*.tokens.json`.** Cada capa declara
 > su propio conteo en `contagemEsperada`, y `npm run build:tokens` muestra los
@@ -164,7 +164,7 @@ el 28/08/2026, salen en `rem` — ver la sección de abajo.
 ## Actualización del 28-08-2026 — dimensiones en `rem`
 
 El generador emitía `px` para todo `dimension`, mientras `design.md` ya prometía
-`unidade_css: rem, raiz 16px`. **Decisión de Elvys en la P62.4, el 28/08/2026:**
+`unidade_css: rem, root 16px`. **Decisión de Elvys en la P62.4, el 28/08/2026:**
 el contrato no cambia; el código pasa a cumplirlo.
 
 El transform `nephos/dimension/rem` divide el valor por **16** y emite `rem`. El

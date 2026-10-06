@@ -13,32 +13,31 @@
     "data": "2026-10-02",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "O frame nph-button (1197:5449), na pagina NPH — Button, foi aceito como especificacao de API e comportamento do nph-button. COMPONENT_SET: nph-button (461:13009) e nph-button — so icone (498:15671), variantes tipo, enfase, size e state, com icone de inicio e de fim. O aceite de 01-10-2026 foi completado em 02-10-2026: o hover solido passou aos tokens de hover, o que supera a B4."
+    "decisao_convertida": "The frame nph-button (1197:5449), on the page `NPH — Button`, was accepted as the API and behavior specification of nph-button. COMPONENT_SET: nph-button (461:13009) and `nph-button — so icone` (498:15671), variants `tipo`, `enfase`, `size` and `state`, with start and end icon. The acceptance of 01-10-2026 was completed on 02-10-2026: the solid hover moved to the hover tokens, which supersedes B4."
   }
 }
 ```
 
 # DSA-13 — `documentacao-figma-aceita`
 
-Indiane aceitou a documentacao do quadro `nph-button` (`1197:5449`) em
-01-10-2026, no arquivo `DS-IA-NEPHOS 5.0`, pagina `NPH — Button`. Em 02-10-2026
-ela decidiu que o hover das enfases solidas usa os tokens de hover ("button usa
-os tokens de hover"), o que supera a B4, e aprovou esse hover visualmente no
-mesmo dia. O QA UX de Figma teve revisao independente aprovada em 02-10-2026, e
-a auditoria textual foi aprovada na rodada 2, no mesmo dia.
+Indiane accepted the documentation of the `nph-button` board (`1197:5449`) on
+01-10-2026, in the file `DS-IA-NEPHOS 5.0`, page `NPH — Button`. On 02-10-2026
+she decided that the hover of the solid emphases uses the hover tokens (`button usa os tokens de hover`, "button uses the hover tokens"), which supersedes B4, and visually approved that hover on the
+same day. The Figma UX QA had an approved independent review on 02-10-2026, and
+the textual audit was approved in round 2, on the same day.
 
-Os COMPONENT_SET sao `nph-button` (`461:13009`), com texto, e
-`nph-button — so icone` (`498:15671`), com as variantes `tipo`, `enfase`,
-`size` e `state`. As enfases `outline`, `light` e `ghost` existem so nos tipos
-`primary`, `secondary` e `danger` (B1).
+The COMPONENT_SETs are `nph-button` (`461:13009`), with text, and
+`nph-button — so icone` (`498:15671`), with the variants `tipo`, `enfase`,
+`size` and `state`. The emphases `outline`, `light` and `ghost` exist only in the types
+`primary`, `secondary` and `danger` (B1).
 
-Nao ha saida de comando. A aceitacao e observacao humana, registrada com a
-data, a autoria, a URL do frame e os conjuntos. Conteudo restrito do Figma nao
-entra nesta evidencia.
+There is no command output. The acceptance is a human observation, recorded with
+the date, the authorship, the frame URL and the sets. Restricted Figma content does not
+enter this evidence.
 
-## Fonte da aceitacao
+## Source of the acceptance
 
-WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: aceite da documentacao dos
-11 componentes, entre eles o `nph-button`. `2026-10-02.md`: hover solido nos
-tokens de hover e o aceite visual dele, QA UX de Figma com revisao independente
-aprovada e auditoria textual aprovada.
+WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: acceptance of the documentation of the
+11 components, among them `nph-button`. `2026-10-02.md`: solid hover on the
+hover tokens and its visual acceptance, Figma UX QA with approved independent review
+and approved textual audit.

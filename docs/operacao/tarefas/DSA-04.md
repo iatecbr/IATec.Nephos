@@ -1,17 +1,17 @@
 ```json
 {
   "id": "DSA-04",
-  "objetivo": "Acrescentar ao nph-label o gatilho de informacao (info e infoLabel), com foco visivel e abertura do nph-tooltip, no contrato aceito no Figma.",
+  "objetivo": "Add the information trigger (info and infoLabel) to nph-label, with a visible focus and opening of the nph-tooltip, in the contract accepted in Figma.",
   "fase": "F4",
   "ordem_aprovada": 110,
   "responsavel": "claude-codigo",
-  "estado": "bloqueada",
+  "estado": "pronta",
   "peca": "nph-label",
   "dependencias": ["DSA-07", "DSA-08"],
   "gates": [
     {
       "id": "documentacao-figma-aceita",
-      "descricao": "A documentacao de nph-label no Figma, com info, foco e a linha aberto, foi aceita por Indiane e registrada como evidencia.",
+      "descricao": "The nph-label documentation in Figma, with info, focus and the open row, was accepted by Indiane and recorded as evidence.",
       "comando": null,
       "evidencia": "docs/operacao/evidencias/DSA-04/documentacao-figma-aceita-2026-10-01.md",
       "resultado": "passou",
@@ -20,7 +20,7 @@
     },
     {
       "id": "tokens-conferidos-com-figma",
-      "descricao": "Os tokens de theme e semantic do Figma, e os primitivos que os resolvem, estao no tokens.css gerado com o mesmo alias e valor.",
+      "descricao": "The theme and semantic tokens from Figma, and the primitives that resolve them, are in the generated tokens.css with the same alias and value.",
       "comando": "node docs/operacao/evidencias/DSA-04/conferir-tokens-figma.cjs",
       "evidencia": "docs/operacao/evidencias/DSA-04/tokens-conferidos-com-figma-2026-10-05.md",
       "resultado": "passou",
@@ -29,7 +29,7 @@
     },
     {
       "id": "revisao-e-merge",
-      "descricao": "Componente, CSS, testes, stories, ficha, P62.6 e regras do design.md revisados por maurocsjr e mergeados na v/5.0.0.",
+      "descricao": "Component, CSS, tests, stories, spec and P62.6 reviewed by maurocsjr and merged into v/5.0.0; rule 6 of design.md goes in through PR #57.",
       "comando": null,
       "evidencia": null,
       "resultado": "pendente",
@@ -37,22 +37,7 @@
       "verificado_por": null
     }
   ],
-  "bloqueios": [
-    {
-      "id": "B1",
-      "o_que_trava": "DSA-08 sem merge: o nph-tooltip ainda nao existe em codigo.",
-      "dono": "maurocsjr",
-      "o_que_resolve": "Revisao e merge do PR do nph-tooltip (DSA-08) na v/5.0.0.",
-      "aberto_em": "2026-10-05"
-    },
-    {
-      "id": "B2",
-      "o_que_trava": "DSA-07 sem merge, PR #49: os arquivos do nph-label mudam de nome interno nesse PR.",
-      "dono": "maurocsjr",
-      "o_que_resolve": "Revisao e merge do PR #49 na v/5.0.0.",
-      "aberto_em": "2026-10-05"
-    }
-  ],
+  "bloqueios": [],
   "decisoes_pendentes": [],
   "evidencias": [
     "docs/operacao/evidencias/DSA-04/documentacao-figma-aceita-2026-10-01.md",
@@ -68,45 +53,48 @@
     "data": "2026-10-01",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "O frame nph-label (1194:1482) e o COMPONENT_SET 374:6 foram aceitos com info, infoLabel, foco do gatilho e a linha aberto. infoLabel vazio omite o gatilho (decisao de 01-10-2026). Em 05-10-2026 Indiane decidiu que o nph-tooltip (DSA-08) entra em codigo antes desta entrega."
+    "decisao_convertida": "The nph-label frame (1194:1482) and the COMPONENT_SET 374:6 were accepted with info, infoLabel, the trigger focus and the open row. An empty infoLabel omits the trigger (decision of 01-10-2026). On 05-10-2026 Indiane decided that the nph-tooltip (DSA-08) goes into code before this delivery."
   },
   "revisao_git": { "branch": "feat/dsa04-nph-label-info", "commit": null, "pr": null },
   "contexto": null,
-  "atualizado_em": "2026-10-05"
+  "atualizado_em": "2026-10-06"
 }
 ```
 
-# DSA-04 — gatilho de informacao do nph-label
+# DSA-04 — nph-label information trigger
 
-## Objetivo
-O `nph-label` aceita `info` e `infoLabel` (`info-label`). Com os dois
-preenchidos, mostra o gatilho de informacao, com foco visivel, que abre o
-`nph-tooltip` com o texto de `info`. Sem `info`, o rotulo e o de hoje.
+## Goal
+The `nph-label` accepts `info` and `infoLabel` (`info-label`). With both filled in,
+it shows the information trigger, with a visible focus, which opens the
+`nph-tooltip` with the text of `info`. Without `info`, the label is the one it is
+today.
 
-## Como se prova
-**`documentacao-figma-aceita`** — o quadro `nph-label` (`1194:1482`) e o
-COMPONENT_SET `374:6` foram aceitos por Indiane em 01-10-2026, com QA UX de
-Figma e auditoria textual aprovados.
+## How it is proved
+**`documentacao-figma-aceita`** — the `nph-label` frame (`1194:1482`) and the
+COMPONENT_SET `374:6` were accepted by Indiane on 01-10-2026, with the Figma UX QA
+and the text audit approved.
 
 **`tokens-conferidos-com-figma`** — `node
-docs/operacao/evidencias/DSA-04/conferir-tokens-figma.cjs` sai 0: os tokens
-de foco, de tooltip e os demais que o Figma tinha e o codigo nao estao no
-`tokens.css` gerado com o mesmo alias e valor.
+docs/operacao/evidencias/DSA-04/conferir-tokens-figma.cjs` exits 0: the focus
+tokens, the tooltip tokens and the others that Figma had and the code did not are
+in the generated `tokens.css` with the same alias and value.
 
-**`revisao-e-merge`** — componente, CSS, testes, stories, ficha, a decisao
-tecnica P62.6 e as regras do `design.md` passam pelos comandos de prova, sao
-revisados por `maurocsjr` e mergeados na `v/5.0.0`.
+**`revisao-e-merge`** — component, CSS, tests, stories, spec and the technical
+decision P62.6 pass the proof commands, are reviewed by `maurocsjr` and
+merged into `v/5.0.0`. Rule 6 of `design.md` (focus border and halo) goes in
+through PR #57.
 
-## O que esta tarefa não faz
-Nao implementa o `nph-tooltip` (DSA-08). Nao renomeia nem deprecia `focus/ring`
-e `focus/ring-error`. Nao muda `nph-field` nem `nph-input`. Nao altera o Figma.
+## What this task does not do
+It does not implement the `nph-tooltip` (DSA-08). It does not rename or deprecate
+`focus/ring` and `focus/ring-error`. It does not change `nph-field` or `nph-input`.
+It does not change Figma.
 
-## Fontes
+## Sources
 - `fichas/nph-label.md`
 - `src/components/nph-label/`
 - `design.md`
 - `docs/decisoes-tecnicas.md`
 - `docs/operacao/README.md`
 - `GOVERNANCA.md`, `AGENTS.md`, `CLAUDE.md`
-- Figma `DS-IA-NEPHOS 5.0`, quadro `1194:1482` e COMPONENT_SET `374:6`
+- Figma `DS-IA-NEPHOS 5.0`, frame `1194:1482` and COMPONENT_SET `374:6`
 - WORK BRAIN — `02 PROJETOS/DS-Agentico/Registro de decisões — Nephos.md`, L8 a L11

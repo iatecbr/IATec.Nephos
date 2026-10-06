@@ -1,80 +1,87 @@
-# Guia de desenvolvimento de componentes
+# Component development guide
 
-Esta nota existe só em `pt-BR`: é instrução interna para quem mantém o
-repositório, não documentação de uso. Ver [`i18n.md`](i18n.md).
+This note has no translations: it is an internal instruction for those who
+maintain the repository, not usage documentation. See [`i18n.md`](i18n.md).
 
-## Para que serve
+## What it is for
 
-Este guia diz **como se constrói um componente do Nephos neste repositório** — o
-que o código precisa declarar, como as stories provam o contrato e o que os
-testes têm de cobrir.
+This guide says **how a Nephos component is built in this repository** — what
+the code must declare, how the stories prove the contract and what the tests
+must cover.
 
-Ele não decide nada. Toda regra abaixo foi **extraída de prática que já existe
-no repositório**, e cada uma declara de onde veio e até onde vale.
+It decides nothing. Every rule below was **extracted from practice that already
+exists in the repository**, and each one declares where it came from and how
+far it holds.
 
-## O que este guia não é
+## What this guide is not
 
-- **Não é a ficha.** A ficha da peça é canônica em `fichas/<nome>.md`, com o
-  gabarito em [`../fichas/_modelo.md`](../fichas/_modelo.md). Este guia não
-  repete o contrato de um componente: diz como código, stories e testes se
-  comportam diante dele.
-- **Não é o contrato de token.** Isso é o [`../design.md`](../design.md).
-- **Não é a decisão técnica.** As decisões numeradas moram em
-  [`decisoes-tecnicas.md`](decisoes-tecnicas.md). Aqui elas são citadas, nunca
-  reescritas.
-- **Não é um segundo contrato.** O Storybook é superfície derivada da ficha —
-  ver [`operacao/README.md`](operacao/README.md), §7.
+- **It is not the sheet.** The sheet of the piece is canonical at
+  `fichas/<name>.md`, with the template at
+  [`../fichas/_modelo.md`](../fichas/_modelo.md). This guide does not repeat a
+  component's contract: it says how code, stories and tests behave in front of
+  it.
+- **It is not the token contract.** That is [`../design.md`](../design.md).
+- **It is not the technical decision.** The numbered decisions live in
+  [`decisoes-tecnicas.md`](decisoes-tecnicas.md). Here they are cited, never
+  rewritten.
+- **It is not a second contract.** Storybook is a surface derived from the
+  sheet — see [`operacao/README.md`](operacao/README.md), §7.
 
-## Como ler
+## How to read
 
-Cada regra fecha com duas linhas:
+Each rule closes with two lines:
 
-- **Fonte** — onde a prática existe no repositório, com arquivo e trecho.
-- **Limite** — até onde ela vale, e quantos componentes a sustentam.
+- **Source** — where the practice exists in the repository, with file and
+  passage.
+- **Limit** — how far it holds, and how many components support it.
 
-**Regra sem prática verificável neste repositório não está aqui.** O que falta
-está na §7, nomeado.
+**A rule without verifiable practice in this repository is not here.** What is
+missing is in §7, by name.
 
-Quando uma regra é sustentada por um componente só, isso está escrito no Limite.
-Um caso não vira norma geral por conveniência.
-
----
-
-## 1. A ordem
-
-Nenhum componente entra no repositório antes da aprovação visual no Figma. A
-sequência que as fontes **deste repositório** sustentam é:
-
-**Figma aprovado → ficha completa, sem pendência → código, stories e testes.**
-
-**Fonte:** [`../README.md`](../README.md), "Fluxo por componente", passos 2 a 5, e
-a frase *"Nenhum componente pode ser implementado no repositório antes de sua
-aprovação no Figma"*; [`../AGENTS.md`](../AGENTS.md), "Regras obrigatórias":
-*"primeiro derive a referência estrutural do Obra no Figma, configure-a com tokens
-Nephos e obtenha aprovação visual. Só então implemente no repositório"*. O que
-conta como ficha completa está em [`../fichas/_modelo.md`](../fichas/_modelo.md),
-§7, critério 1: *"a ficha responde a todos os itens, sem campo em branco"*.
-
-**Limite:** este guia cobre o terceiro passo — código, stories e testes.
-
-**Comparação Figma × Storybook, evidência e aceite não são prescritos por este
-guia.** Dependem do registro de planejamento e dos gates externos aplicáveis: o
-[`../GOVERNANCA.md`](../GOVERNANCA.md), §1, declara que *"ordem e evidência das
-fases"* vivem em *"registro de planejamento mantido pela Indiane, fora deste
-repositório"*, e que quem depender dessa ordem deve parar e perguntar. Este guia
-não a reproduz.
-
-**Plano técnico também não é etapa geral deste fluxo:** o repositório tem um caso
-só, a **P21**, do `nph-icon`, e um caso não é gabarito — ver §7.
+When a rule is supported by a single component, that is written in the Limit.
+A single case does not become a general norm for convenience.
 
 ---
 
-## 2. O componente
+## 1. The order
 
-### 2.1 Um Web Component em Lit, registrado sob guarda
+No component enters the repository before visual approval in Figma. The
+sequence that the sources **of this repository** support is:
 
-Todo componente é um Web Component escrito com Lit, com prefixo estrito `nph-`.
-O arquivo termina registrando a tag **uma vez só** e declarando o tipo:
+**Approved Figma → complete sheet, with no pending item → code, stories and
+tests.**
+
+**Source:** [`../README.md`](../README.md), "Component flow", steps 2 to 5, and
+the sentence *"No component may be implemented in the repository before its
+approval in Figma"*; [`../AGENTS.md`](../AGENTS.md), "Mandatory rules":
+*"first derive the structural reference from Obra in Figma, configure it with
+Nephos tokens and obtain visual approval. Only then implement in the
+repository"*. What counts as a complete sheet is in
+[`../fichas/_modelo.md`](../fichas/_modelo.md), §7, criterion 1: *"the sheet
+answers every item, with no blank field"*.
+
+**Limit:** this guide covers the third step — code, stories and tests.
+
+**Figma × Storybook comparison, evidence and acceptance are not prescribed by
+this guide.** They depend on the planning record and on the applicable external
+gates: [`../GOVERNANCA.md`](../GOVERNANCA.md), §1, declares that *"order and
+evidence of the phases"* live in a *"planning record kept by Indiane, outside
+this repository"*, and that whoever depends on that order must stop and ask.
+This guide does not reproduce it.
+
+**A technical plan is also not a general step of this flow:** the repository
+has a single case, **P21**, for `nph-icon`, and one case is not a template —
+see §7.
+
+---
+
+## 2. The component
+
+### 2.1 A Web Component in Lit, registered under a guard
+
+Every component is a Web Component written with Lit, with the strict `nph-`
+prefix. The file ends by registering the tag **only once** and declaring the
+type:
 
 ```ts
 const TAG = 'nph-icon';
@@ -90,420 +97,450 @@ declare global {
 }
 ```
 
-A guarda existe porque a story, o teste e o consumidor podem importar o módulo
-mais de uma vez na mesma página.
+The guard exists because the story, the test and the consumer may import the
+module more than once on the same page.
 
-**Fonte:** `src/components/nph-icon/nph-icon.ts` e
-`src/components/nph-label/nph-label.ts`, blocos finais;
+**Source:** `src/components/nph-icon/nph-icon.ts` and
+`src/components/nph-label/nph-label.ts`, final blocks;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P03**;
-[`../AGENTS.md`](../AGENTS.md), "Regras obrigatórias".
-**Limite:** dois componentes. Vale para componente público `nph-*`.
+[`../AGENTS.md`](../AGENTS.md), "Mandatory rules".
+**Limit:** two components. It holds for a public `nph-*` component.
 
-### 2.2 O arquivo abre declarando o contrato e de onde ele vem
+### 2.2 The file opens by declaring the contract and where it comes from
 
-O bloco de abertura não descreve o que o código faz — isso o código já diz. Ele
-declara **o contrato aprovado e a fonte dele**: a ficha, o `design.md` e a
-decisão numerada ou datada.
+The opening block does not describe what the code does — the code already says
+that. It declares **the approved contract and its source**: the sheet,
+`design.md` and the numbered or dated decision.
 
 ```ts
 /**
- * `nph-icon` — primeiro componente do Nephos.
+ * `nph-icon` — the first Nephos component.
  *
- * Contrato aprovado (ficha `nph-icon`, `design.md` `contrato_nph_icon`, P21):
- * - `name` obrigatorio, kebab-case, restrito aos icones do nucleo;
+ * Approved contract (sheet `nph-icon`, `design.md` `contrato_nph_icon`, P21):
+ * - `name` required, kebab-case, restricted to the core icons;
  * ...
  */
 ```
 
-Quem abre o arquivo seis meses depois precisa saber **quem decidiu aquilo**, sem
-sair dele.
+Whoever opens the file six months later needs to know **who decided that**,
+without leaving it.
 
-**Fonte:** `nph-icon.ts`, linhas 1-17; `nph-label.ts`, linhas 1-45;
+**Source:** `nph-icon.ts`, lines 1-17; `nph-label.ts`, lines 1-45;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P21**.
-**Limite:** dois componentes.
+**Limit:** two components.
 
-### 2.3 Exceção a decisão técnica se escreve no próprio arquivo
+### 2.3 An exception to a technical decision is written in the file itself
 
-Quando uma peça precisa sair de uma decisão vigente, o motivo, a alternativa
-descartada e a data ficam no arquivo — no componente e no CSS dele.
+When a piece needs to depart from a current decision, the reason, the
+discarded alternative and the date stay in the file — in the component and in
+its CSS.
 
-O `nph-label` é o único componente sem Shadow DOM, exceção declarada à **P01** e
-registrada como **P62.1**. O motivo está escrito nos dois arquivos: a associação
-nativa entre rótulo e controle não atravessa a fronteira do Shadow DOM, e sem
-ela o rótulo perde a função.
+`nph-label` is the only component without Shadow DOM, a declared exception to
+**P01** and recorded as **P62.1**. The reason is written in both files: the
+native association between label and control does not cross the Shadow DOM
+boundary, and without it the label loses its function.
 
-**Fonte:** `nph-label.ts`, linhas 12-20; `nph-label.css`, linhas 3-10;
-[`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P01** e **P62.1**.
-**Limite:** um componente. Esta regra descreve **como registrar** uma exceção —
-ela **não autoriza abrir** nenhuma. Abrir exceção é decisão humana, com revisão
-técnica.
+**Source:** `nph-label.ts`, lines 12-20; `nph-label.css`, lines 3-10;
+[`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P01** and **P62.1**.
+**Limit:** one component. This rule describes **how to record** an exception —
+it does **not authorize opening** any. Opening an exception is a human
+decision, with technical review.
 
-### 2.4 Propriedade que reflete diz por quê
+### 2.4 A property that reflects says why
 
-`reflect: true` põe a propriedade no DOM e a torna alcançável por seletor. Isso
-é consequência de contrato, não detalhe: escreva o motivo ao lado.
+`reflect: true` puts the property in the DOM and makes it reachable by a
+selector. That is a consequence of the contract, not a detail: write the
+reason next to it.
 
 ```ts
-/* `size` reflete porque o CSS interno seleciona a caixa por ele. */
+/* `size` reflects because the internal CSS selects the box by it. */
 size: { type: String, reflect: true },
 ```
 
-**Fonte:** `nph-icon.ts`, declaração de `size`; `nph-label.test.ts`, caso
-*"required reflete para atributo, para o CSS do consumidor poder mirar"*.
-**Limite:** um componente documenta no código, o outro no teste. A prática é
-registrar o motivo em algum lugar verificável — não há forma única.
+**Source:** `nph-icon.ts`, declaration of `size`; `nph-label.test.ts`, case
+*"required reflects to an attribute, so the consumer's CSS can target it"*.
+**Limit:** one component documents it in the code, the other in the test. The
+practice is to record the reason somewhere verifiable — there is no single
+form.
 
-### 2.5 Entrada inválida não renderiza, e reclama uma vez por causa
+### 2.5 Invalid input does not render, and complains once per cause
 
-Quando o contrato é violado, o componente **não desenha nada** — sem fallback
-visual — e emite um erro por causa, **somente em desenvolvimento**. A validação
-acumula: cada propriedade reprovada emite o próprio erro, e não só a primeira.
-Quem desenvolve precisa ver todas as causas de uma vez.
+When the contract is violated, the component **draws nothing** — no visual
+fallback — and emits one error per cause, **only in development**. Validation
+accumulates: each rejected property emits its own error, not just the first.
+Whoever develops needs to see every cause at once.
 
-**Fonte:** `nph-icon.ts`, `devError` e `resolveDrawing`;
-`nph-icon.css`, a regra `:host` que esconde o elemento sem arte;
-`nph-icon.test.ts`, casos *"acumula um erro por propriedade invalida"* e
-*"nao deixa fallback visual: nada dentro do shadow root"*;
+**Source:** `nph-icon.ts`, `devError` and `resolveDrawing`;
+`nph-icon.css`, the `:host` rule that hides the element without artwork;
+`nph-icon.test.ts`, cases *"accumulates one error per invalid property"* and
+*"leaves no visual fallback: nothing inside the shadow root"*;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P21**, item 4.
-**Limite:** um componente. A **P21** fixou este comportamento **para o
-`nph-icon`**. Outra peça que precise dele decide por conta própria, e registra.
+**Limit:** one component. **P21** fixed this behavior **for `nph-icon`**.
+Another piece that needs it decides on its own, and records it.
 
 ---
 
-## 3. O CSS
+## 3. The CSS
 
-### 3.1 O CSS abre dizendo o que não é contrato
+### 3.1 The CSS opens by saying what is not contract
 
-Classe e seletor internos **não são API pública** — a **P02** define que o
-contrato é a custom property e o `::part`. O arquivo declara isso na abertura,
-junto com a regra de que nenhum valor literal de design entra.
+An internal class and selector **are not public API** — **P02** defines that
+the contract is the custom property and the `::part`. The file declares this at
+the opening, together with the rule that no literal design value enters.
 
-**Fonte:** `nph-icon.css`, linhas 1-9; `nph-label.css`, linhas 1-19;
+**Source:** `nph-icon.css`, lines 1-9; `nph-label.css`, lines 1-19;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P02**.
-**Limite:** dois componentes.
+**Limit:** two components.
 
-### 3.2 Só token semântico
+### 3.2 Only semantic tokens
 
-Nenhum hexadecimal, medida, raio, sombra, duração ou papel de texto escrito à
-mão. Tudo sai de `var(--nph-*)`, na camada semântica.
+No hexadecimal, measure, radius, shadow, duration or text role written by
+hand. Everything comes from `var(--nph-*)`, in the semantic layer.
 
-A única quantidade que aparece literal é **relação de caixa** — `100%`, `auto`,
-a espessura de uma borda de moldura —, que não é decisão visual.
+The only quantity that appears literal is a **box relation** — `100%`, `auto`,
+the thickness of a frame border —, which is not a visual decision.
 
-**Fonte:** `nph-icon.css` e `nph-label.css`, integralmente;
-[`../design.md`](../design.md), regras 3 e 4 e anti-padrões **A2** e **A25**.
-**Limite:** dois componentes.
+**Source:** `nph-icon.css` and `nph-label.css`, in full;
+[`../design.md`](../design.md), rules 3 and 4 and anti-patterns **A2** and
+**A25**.
+**Limit:** two components.
 
 ---
 
-## 4. As stories
+## 4. The stories
 
-### 4.1 Dois papéis: `Validação` prova, `Docs` explica
+### 4.1 Two roles: `Validation` proves, `Docs` explains
 
-`Componentes/<peça>/Validação` prova o contrato com o componente real
-renderizado. `Componentes/<peça>/Docs` é leitura e catálogo — e não prova nada.
+`Components/<piece>/Validation` proves the contract with the real component
+rendered. `Components/<piece>/Docs` is reading and catalog — and proves
+nothing. In the Portuguese sidebar, the two appear as
+`Componentes › <piece> › Validação` and `Docs` (§4.2).
 
-**`Validação` é obrigatória. `Docs` não é.**
+**`Validation` is mandatory. `Docs` is not.**
 
-**Fonte:** [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P21**, item 8,
-aprovada em 28/08/2026; `nph-icon.stories.ts` e `nph-icon.docs.stories.ts`.
-**Limite:** um componente tem os dois papéis. O `nph-label` tem só `Validação`.
-`Docs` entra quando houver catálogo a oferecer — no `nph-icon`, o núcleo de 34
-ícones. Não invente uma página de leitura para uma peça que não tem o que
-catalogar.
+**Source:** [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P21**, item 8,
+approved on 28/08/2026; `nph-icon.stories.ts` and `nph-icon.docs.stories.ts`.
+**Limit:** one component has both roles. `nph-label` has only `Validation`.
+`Docs` enters when there is a catalog to offer — in `nph-icon`, the core of 34
+icons. Do not invent a reading page for a piece that has nothing to catalog.
 
-### 4.2 O título e o nome dizem a afirmação
+### 4.2 The title and the name state the claim
 
-Título em `Componentes/<peça>/<papel>`. Nome de story em português, descrevendo
-**o que a página afirma**, não a aparência: `Herança de cor`, `Entrada
-inválida`, `Associação com o controle`, `O que o rótulo não faz`.
+Title in `Components/<piece>/Validation` or `Components/<piece>/Docs`. The story
+name describes **what the page claims**, not the appearance: `Color
+inheritance`, `Invalid input`, `Association with the control`, `What the label
+does not do`.
 
-**Fonte:** `nph-icon.stories.ts`, `nph-icon.docs.stories.ts` e
-`nph-label.stories.ts`, campos `title` e `name`.
-**Limite:** dois componentes, três arquivos.
+Title, story name, story export and page anchor are **identifiers in English**
+(P64, amendment of 06/10/2026): the Storybook ID and permalink come from them,
+the same in any language. The label the person reads in the sidebar comes from
+the dictionary, in the `sidebar` subtree of `.storybook/i18n/`, with the story
+or group ID as the key: `en.json` carries the English labels; `pt-BR.json` and
+`es.json` carry the translation — `pt-BR.json` carries `Componentes`,
+`Validação`, `Herança de cor`. A new story goes in
+with the `sidebar` key in the three languages.
 
-### 4.3 O arquivo abre dizendo o que as páginas provam
+**Source:** [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P64**, amendment of
+06/10/2026; `nph-icon.stories.ts`, `nph-icon.docs.stories.ts` and
+`nph-label.stories.ts`, fields `title` and `name`; `.storybook/i18n/*.json`,
+`sidebar` key.
+**Limit:** the rule applies to every story in the repository.
 
-O bloco de topo declara o que aquele arquivo prova e **qual decisão ele
-verifica**, com data quando houver:
+### 4.3 The file opens by saying what the pages prove
+
+The top block declares what that file proves and **which decision it
+verifies**, with a date when there is one:
 
 ```ts
 /**
- * Stories de VALIDACAO do `nph-label`.
+ * VALIDATION stories for `nph-label`.
  *
- * Cada pagina prova uma parte do contrato aprovado em 27-08-2026: a matriz de
- * duas variantes, a paridade com o Figma nos dois esquemas de cor, a
- * associacao com o controle e a ausencia de estado proprio.
+ * Each page proves a part of the contract approved on 27-08-2026: the matrix
+ * of two variants, the parity with Figma in both color schemes, the
+ * association with the control and the absence of its own state.
  */
 ```
 
-**Fonte:** `nph-icon.stories.ts` 1-14; `nph-icon.docs.stories.ts` 1-13;
+**Source:** `nph-icon.stories.ts` 1-14; `nph-icon.docs.stories.ts` 1-13;
 `nph-label.stories.ts` 1-10.
-**Limite:** dois componentes, três arquivos.
+**Limit:** two components, three files.
 
-### 4.4 Cada story diz, em uma linha, o que prova
+### 4.4 Each story says, in one line, what it proves
 
 ```ts
-/** A cor nao e propriedade: vem de `currentColor`. */
-export const HerancaDeCor: Story = { /* ... */ };
+/** Color is not a property: it comes from `currentColor`. */
+export const ColorInheritance: Story = { /* ... */ };
 ```
 
-**Fonte:** as onze stories dos três arquivos.
-**Limite:** dois componentes.
+**Source:** the stories of the three files.
+**Limit:** two components.
 
-### 4.5 Cobertura, não quantidade
+### 4.5 Coverage, not quantity
 
-**Cada variante e cada estado aparece em alguma story verificável.** Uma mesma
-story pode cobrir mais de uma combinação, e nenhuma combinação fica de fora. O
-critério é **cobertura rastreável**, não quantidade de arquivos, páginas ou
-stories.
+**Each variant and each state appears in some verifiable story.** One story may
+cover more than one combination, and no combination is left out. The criterion
+is **traceable coverage**, not the quantity of files, pages or stories.
 
-Na prática: o `nph-label` cobre as duas combinações numa página `Matriz`; o
-`nph-icon` cobre variante, tamanho, herança de cor, acessibilidade e entrada
-inválida em cinco páginas por afirmação.
+In practice: `nph-label` covers the two combinations in one `Matrix` page;
+`nph-icon` covers variant, size, color inheritance, accessibility and invalid
+input in five pages, one per claim.
 
-**Fonte:** [`../fichas/_modelo.md`](../fichas/_modelo.md), §7, critério 5,
-decisão de 09-09-2026; `nph-label.stories.ts`, story `Matriz`;
-`nph-icon.stories.ts`, as cinco páginas.
-**Limite:** dois componentes. A regra não impõe estrutura de arquivo.
+**Source:** [`../fichas/_modelo.md`](../fichas/_modelo.md), §7, criterion 5,
+decision of 09-09-2026; `nph-label.stories.ts`, `Matrix` story;
+`nph-icon.stories.ts`, the five pages.
+**Limit:** two components. The rule does not impose a file structure.
 
-### 4.6 Claro e escuro sem duplicar story
+### 4.6 Light and dark without duplicating a story
 
-O esquema de cor troca por `data-nph-color-scheme`, o contrato público de tema
-da **P20**. A mesma peça aparece nos dois contextos, na mesma story — não se
-duplica componente por modo.
+The color scheme switches by `data-nph-color-scheme`, the public theme contract
+of **P20**. The same piece appears in both contexts, in the same story — a
+component is not duplicated per mode.
 
-**Fonte:** `nph-label.stories.ts`, função `frame()` e cabeçalho;
+**Source:** `nph-label.stories.ts`, `frame()` function and header;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P20**.
-**Limite:** um componente. Só o `nph-label` tem story de modo. O quadro vence o
-modo global do Storybook (§6.4) para todos os tokens semânticos: os invariantes
-que dependem de marca ou de esquema também são redeclarados em cada raiz de
-esquema (**P67**). Um quadro com outra marca leva `data-nph-brand` e
-`data-nph-color-scheme` no mesmo elemento.
+**Limit:** one component. Only `nph-label` has a mode story. The frame beats
+Storybook's global mode (§6.4) for every semantic token: the invariants that
+depend on brand or scheme are also redeclared at each scheme root (**P67**). A
+frame with another brand carries `data-nph-brand` and `data-nph-color-scheme`
+on the same element.
 
-### 4.7 A moldura não é precedente
+### 4.7 The frame is not a precedent
 
-O cenário que envolve a demonstração — respiro, grade, legenda — **não vale como
-precedente para CSS de componente**, e isso fica escrito onde a moldura é
-definida.
+The scenery that wraps the demonstration — breathing room, grid, caption —
+**does not hold as a precedent for component CSS**, and that is written where
+the frame is defined.
 
-Quando a moldura é compartilhada entre páginas, ela mora em um arquivo que
-**não** termina em `.stories.ts`, para o glob do Storybook não indexá-la.
+When the frame is shared between pages, it lives in a file that does **not**
+end in `.stories.ts`, so that Storybook's glob does not index it.
 
-**Fonte:** `nph-label.stories.ts`, função `page()`; `nph-icon.stories.ts`,
-cabeçalho; `nph-icon.demo.ts`, linhas 1-12.
-**Limite:** dois componentes declaram o não-precedente; um usa arquivo separado.
+**Source:** `nph-label.stories.ts`, `page()` function; `nph-icon.stories.ts`,
+header; `nph-icon.demo.ts`, lines 1-12.
+**Limit:** two components declare the non-precedent; one uses a separate file.
 
-### 4.8 O texto explicativo vem do dicionário
+### 4.8 The explanatory text comes from the dictionary
 
-Uma story **nunca** é duplicada por idioma: ela lê o idioma escolhido e busca o
-texto em `.storybook/i18n/`. Identificadores técnicos — tags `nph-*`, nomes de
-token, atributos, comandos — aparecem literais e iguais em qualquer idioma.
+A story is **never** duplicated per language: it reads the chosen language and
+fetches the text from `.storybook/i18n/`. Technical identifiers — `nph-*` tags,
+token names, attributes, commands — appear literal and identical in any
+language.
 
-**Fonte:** [`i18n.md`](i18n.md), seção "Storybook"; `.storybook/i18n/index.js`,
-linhas 1-12; `nph-icon.stories.ts` e `nph-icon.docs.stories.ts`, na leitura do
-dicionário.
-**Limite:** a regra está escrita e um componente a cumpre. **O
-`nph-label.stories.ts` traz texto em português literal nas legendas** — ver §8.
+**No visible text is hand-written in a story.** All visible text — explanation,
+caption, section title and the example content passed to the piece — is born in
+`en.json`, the source, and has a translation in `pt-BR.json` and `es.json`; the
+story reads it with `translations(locale)`, through the `t(context)` shortcut.
 
-### 4.9 Numa página de leitura, toda regra aponta de onde veio
+**Source:** [`i18n.md`](i18n.md), "Storybook" section;
+`.storybook/i18n/index.js`, lines 1-12;
+[`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P64**, amendment of
+06/10/2026; `nph-spinner.stories.ts` and `nph-badge.stories.ts`, `t()`
+function.
+**Proof:** `npm run test:naming` fails a story title and name in Portuguese and
+Portuguese text written in the story — between tags, in text attributes and in
+a literal with a space —, and says where to move the text.
+**Limit:** the rule applies to every story in the repository.
 
-Cada bloco da página `Docs` fecha com o rodapé de origem. Nada é decidido numa
-página de Storybook.
+### 4.9 On a reading page, every rule points to where it came from
+
+Each block of the `Docs` page closes with the origin footer. Nothing is decided
+on a Storybook page.
 
 ```ts
-/** Rodape de origem. Toda regra exibida aponta de onde veio. */
+/** Origin footer. Every rule shown points to where it came from. */
 export function source(label, origin) { /* ... */ }
 ```
 
-**Fonte:** `src/shared/docs/page.ts`, função `source()`;
-`nph-icon.docs.stories.ts`, onde cada seção fecha com `source(...)`.
-**Limite:** um componente.
+**Source:** `src/shared/docs/page.ts`, `source()` function;
+`nph-icon.docs.stories.ts`, where each section closes with `source(...)`.
+**Limit:** one component.
 
-### 4.10 Página de conteúdo: os mesmos blocos em toda página `Docs`
+### 4.10 Content page: the same blocks on every `Docs` page
 
-A página de leitura de um componente é montada com os blocos de
-`src/shared/docs/page.ts`, para que todas se leiam do mesmo jeito:
+A component's reading page is assembled from the blocks of
+`src/shared/docs/page.ts`, so that all of them read the same way:
 
-| Bloco | Regra |
+| Block | Rule |
 |---|---|
-| `header` | o h1 é `text/heading-lg`, um por página; o resumo é `text/body-md` |
-| `index` | um link `#id` por seção, num `nav` nomeado; nenhuma âncora sem seção |
-| `section` | `<section id>` com h2 em `text/heading-md` e linha embaixo; respiro maior antes do título do que depois |
-| `text` e `list` | `text/body-md`, com largura de leitura limitada |
-| `demo` | instâncias reais numa área **sem fundo**, só com borda, e legenda embaixo |
-| `table` | com cabeçalho; o termo em `text/code`, a descrição em `text/body-sm` |
-| `note` | a exceção à regra vira nota (`role="note"`), nas cores `status/*`, nunca um parágrafo comum |
-| `useDontUse` e `dontDo` | quando usar e quando não usar lado a lado, nas cores `status/success-*` e `status/error-*` |
-| `source` | o rodapé de origem, em `text/caption`, com linha fina acima |
+| `header` | the h1 is `text/heading-lg`, one per page; the summary is `text/body-md` |
+| `index` | one `#id` link per section, in a named `nav`; no anchor without a section |
+| `section` | `<section id>` with an h2 in `text/heading-md` and a line below; more breathing room before the title than after |
+| `text` and `list` | `text/body-md`, with a limited reading width |
+| `demo` | real instances in an area **without background**, with border only, and a caption below |
+| `table` | with a header; the term in `text/code`, the description in `text/body-sm` |
+| `note` | the exception to the rule becomes a note (`role="note"`), in the `status/*` colors, never a plain paragraph |
+| `useDontUse` and `dontDo` | when to use and when not to use side by side, in the `status/success-*` and `status/error-*` colors |
+| `source` | the origin footer, in `text/caption`, with a thin line above |
 
-Os blocos usam só `--nph-*`. A página não traz texto de processo: estado de
-revisão, nomes de quem aprova e pendências ficam no registro operacional.
+The blocks use only `--nph-*`. The page carries no process text: review state,
+names of approvers and pending items stay in the operational record.
 
-**Fonte:** `src/shared/docs/page.ts` e `page.test.ts`;
-`nph-icon.docs.stories.ts`, story `Documentação`, e `nph-icon.docs.test.ts`.
-**Limite:** um componente usa o modelo.
+**Source:** `src/shared/docs/page.ts` and `page.test.ts`;
+`nph-icon.docs.stories.ts`, `Documentação` (documentation) story, and
+`nph-icon.docs.test.ts`.
+**Limit:** one component uses the template.
 
 ---
 
-## 5. Os testes
+## 5. The tests
 
-### 5.1 O teste prova o contrato, em navegador de verdade
+### 5.1 The test proves the contract, in a real browser
 
-O teste não confere aparência: confere **o que a ficha promete**. Roda em
-Chromium, com Vitest em modo browser.
+The test does not check appearance: it checks **what the sheet promises**. It
+runs in Chromium, with Vitest in browser mode.
 
-**Fonte:** `nph-icon.test.ts` e `nph-label.test.ts`, cabeçalhos;
+**Source:** `nph-icon.test.ts` and `nph-label.test.ts`, headers;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P21**, item 5.
-**Limite:** dois componentes.
+**Limit:** two components.
 
-### 5.2 O teste confronta o código com o `design.md`
+### 5.2 The test confronts the code with `design.md`
 
-Esta é a prática mais forte do repositório. O teste **importa o contrato como
-texto** e compara:
+This is the strongest practice in the repository. The test **imports the
+contract as text** and compares:
 
 ```ts
 import designMd from '../../../design.md?raw';
 ```
 
-No `nph-icon`, a lista dos nomes é extraída de `icones_nucleo:` no
-`design.md` e comparada com o mapa fechado do componente — se a fonte mudar lá,
-o teste reprova aqui. No `nph-label`, o teste verifica que o `use` de
-`status/error` autoriza o asterisco e que o anti-padrão **A5** continua vigente.
+In `nph-icon`, the list of names is extracted from `icones_nucleo:` in
+`design.md` and compared with the component's closed map — if the source
+changes there, the test fails here. In `nph-label`, the test verifies that the
+`use` of `status/error` authorizes the asterisk and that anti-pattern **A5**
+remains in force.
 
-**Fonte:** `nph-icon.test.ts`, função `namesFromDesignMd` e grupo que confere o núcleo
-fechado; `nph-label.test.ts`, grupo *"contrato de token"*.
-**Limite:** dois componentes.
+**Source:** `nph-icon.test.ts`, `namesFromDesignMd` function and the group that
+checks the closed core; `nph-label.test.ts`, *"token contract"* group.
+**Limit:** two components.
 
-### 5.3 O teste fixa a API reativa
+### 5.3 The test pins the reactive API
 
-A lista de propriedades é conferida contra a aprovada, por `elementProperties`:
+The list of properties is checked against the approved one, through
+`elementProperties`:
 
 ```ts
 expect(propriedades).toEqual(['label', 'name', 'size', 'variant']);
 ```
 
-Assim, propriedade nova não entra sem alguém reprovar um teste.
+That way, a new property does not enter without someone failing a test.
 
-**Fonte:** `nph-icon.test.ts`, *"a API reativa e exatamente name, variant, size e
-label"*; `nph-label.test.ts`, *"a API publica e exatamente text, required e
-for"*.
-**Limite:** dois componentes.
+**Source:** `nph-icon.test.ts`, *"the reactive API is exactly name, variant,
+size and label"*; `nph-label.test.ts`, *"the public API is exactly text,
+required and for"*.
+**Limit:** two components.
 
-### 5.4 O teste confirma que o token existe no CSS gerado
+### 5.4 The test confirms that the token exists in the generated CSS
 
-Consumir um token que o gerador não emite deixa a peça sem valor, em silêncio.
-O teste abre o CSS gerado e confere.
+Consuming a token that the generator does not emit leaves the piece without
+value, silently. The test opens the generated CSS and checks.
 
-**Fonte:** `nph-label.test.ts`, *"o papel text/label-md existe no CSS gerado"*.
-**Limite:** um componente.
+**Source:** `nph-label.test.ts`, *"the text/label-md role exists in the
+generated CSS"*.
+**Limit:** one component.
 
-### 5.5 O teste cobre a ausência
+### 5.5 The test covers the absence
 
-O que a peça **não** tem e **não** faz é testado com o mesmo peso do que ela
-faz: ausência de foco, de slot, de evento inventado, de propriedade recusada.
+What the piece does **not** have and does **not** do is tested with the same
+weight as what it does: absence of focus, of a slot, of an invented event, of a
+refused property.
 
-**Fonte:** `nph-icon.test.ts`, grupo *"ausencia de interacao"*;
-`nph-label.test.ts`, grupo *"o que o rotulo NAO tem"*.
-**Limite:** dois componentes.
+**Source:** `nph-icon.test.ts`, *"absence of interaction"* group;
+`nph-label.test.ts`, *"what the label does NOT have"* group.
+**Limit:** two components.
 
 ---
 
-## 6. Storybook e repositório
+## 6. Storybook and repository
 
-### 6.1 A story mora junto do componente
+### 6.1 The story lives next to the component
 
-`src/components/<nome>/<nome>.stories.ts`. O glob do Storybook aponta para lá.
+`src/components/<name>/<name>.stories.ts`. Storybook's glob points there.
 
-**Fonte:** `.storybook/main.js`; [`decisoes-tecnicas.md`](decisoes-tecnicas.md),
-**P03** e **P19**.
-**Limite:** dois componentes.
+**Source:** `.storybook/main.js`; [`decisoes-tecnicas.md`](decisoes-tecnicas.md),
+**P03** and **P19**.
+**Limit:** two components.
 
-### 6.2 O preview carrega o CSS gerado, que ninguém edita
+### 6.2 The preview loads the generated CSS, which nobody edits
 
-Sem ele, uma custom property de token resolveria vazio e nenhuma caixa teria
-tamanho. O arquivo é **gerado** a partir do JSON: nunca se edita
-`src/tokens/generated/tokens.css` à mão.
+Without it, a token custom property would resolve empty and no box would have a
+size. The file is **generated** from the JSON: never edit
+`src/tokens/generated/tokens.css` by hand.
 
-O preview também carrega as fontes do Nephos — Noto Sans e IBM Plex Mono —
-pelo `@fontsource`, sem chamada externa, e aplica fonte, fundo e cor da página
-por `--nph-*`. Os tokens só declaram a família: sem esse carregamento, a página
-cai na fonte padrão do navegador.
+The preview also loads the Nephos fonts — Noto Sans and IBM Plex Mono — through
+`@fontsource`, with no external call, and applies the page font, background and
+color through `--nph-*`. The tokens only declare the family: without this
+loading, the page falls back to the browser's default font.
 
-**Fonte:** `.storybook/preview.js`;
-[`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P17** e **P20**.
-**Limite:** regra escrita e aplicada; não depende de componente.
+**Source:** `.storybook/preview.js`;
+[`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P17** and **P20**.
+**Limit:** a rule written and applied; it does not depend on a component.
 
-### 6.3 Branch, commit e PR seguem o `contributing.md`
+### 6.3 Branch, commit and PR follow `contributing.md`
 
-**Fonte:** [`../contributing.md`](../contributing.md).
-**Limite:** convenção registrada no repositório; nenhum componente a sustenta
-ainda.
+**Source:** [`../contributing.md`](../contributing.md).
+**Limit:** a convention recorded in the repository; no component supports it
+yet.
 
-### 6.4 Seletor de modo: um modo por vez
+### 6.4 Mode selector: one mode at a time
 
-A barra de ferramentas tem um seletor único de modo, ao lado do idioma. Ele muda
-o global `colorScheme` (`light` ou `dark`), e os dois lados trocam juntos: a
-moldura, pelo tema do `manager.js`, e a página, pelo `data-nph-color-scheme` que
-o decorator do `preview.js` aplica na raiz. Não existe moldura clara com página
-escura, nem o contrário.
+The toolbar has a single mode selector, next to the language. It changes the
+`colorScheme` global (`light` or `dark`), and both sides switch together: the
+frame, through the `manager.js` theme, and the page, through the
+`data-nph-color-scheme` that the `preview.js` decorator applies at the root.
+There is no light frame with a dark page, nor the reverse.
 
-A moldura segue a identidade Solutions, com o destaque `#1FBFFF` e a tinta
-`#031A24` por cima. Esses hex vivem só em `.storybook/manager.js` e
-`.storybook/manager-head.html`. No modo claro, o azul aparece só como fundo:
-texto e ícone ficam em neutro, porque `#1FBFFF` sobre branco não passa no
-contraste. A página continua só com `--nph-*`.
+The frame follows the Solutions identity, with the `#1FBFFF` highlight and the
+`#031A24` ink on top of it. Those hex values live only in `.storybook/manager.js`
+and `.storybook/manager-head.html`. In light mode, the blue appears only as a
+background: text and icon stay neutral, because `#1FBFFF` on white does not
+pass the contrast check. The page continues with only `--nph-*`.
 
-O `manager-head.html` depende de atributos internos do Storybook
-(`data-nodetype`, `data-selected`). Ao atualizar o Storybook, confira o item
-selecionado da barra lateral nos dois modos.
+`manager-head.html` depends on internal Storybook attributes (`data-nodetype`,
+`data-selected`). When updating Storybook, check the selected sidebar item in
+both modes.
 
-**Fonte:** `.storybook/manager.js`, `.storybook/manager-head.html`,
+**Source:** `.storybook/manager.js`, `.storybook/manager-head.html`,
 `.storybook/preview.js`; [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P20**.
-**Limite:** regra do Storybook; não muda API de componente.
+**Limit:** a Storybook rule; it does not change a component API.
 
 ---
 
-## 7. O que este guia não cobre
+## 7. What this guide does not cover
 
-**Componentes sem código verificável em `src/components/` não sustentam regras
-de implementação neste guia.** Hoje isso vale para `nph-spinner`, `nph-button` e
-`nph-field`: nenhum dos três tem código em `src/components/`, e por isso nenhuma
-regra deste guia se apoia neles.
+**Components without verifiable code in `src/components/` do not support
+implementation rules in this guide.** Today that holds for `nph-spinner`,
+`nph-button` and `nph-field`: none of the three has code in
+`src/components/`, and therefore no rule in this guide rests on them.
 
-**Fonte:** `git ls-tree --name-only origin/v/3.0.0 src/components/` devolve
-`src/components/nph-icon` e `src/components/nph-label`, e nada mais.
-**Limite:** a afirmação é sobre ausência de código no repositório, e nada além
-disso.
+**Source:** `git ls-tree --name-only origin/v/3.0.0 src/components/` returns
+`src/components/nph-icon` and `src/components/nph-label`, and nothing else.
+**Limit:** the statement is about the absence of code in the repository, and
+nothing beyond that.
 
-As demais lacunas, nomeadas para não parecerem regra:
+The other gaps, named so they do not look like rules:
 
-| O que falta | Por que não está aqui |
+| What is missing | Why it is not here |
 |---|---|
-| Como se mede a comparação Figma × Storybook | O passo existe no gate, mas **nenhum artefato deste repositório** registra uma medição. Sem prática verificável, não vira regra |
-| Gabarito de plano técnico | Existe um só, a **P21**, para o `nph-icon`. Um caso não é gabarito |
-| Tamanho de PR, captura de tela, link de pré-visualização | O `contributing.md` pede PR pequeno **sem número**, e não trata de captura nem de pré-visualização. A **P19** prevê o Storybook como artefato privado de CI, e **a CI não existe** |
-| A bateria completa de validações | Os comandos estão no `package.json` — `build:tokens`, `test:tokens`, `typecheck`, `test`, `test:i18n`, `build-storybook` e `test:operacao`. A obrigação de rodar todos, e em que ordem, **não tem fonte neste repositório** |
-| `meta.ts` e `metadata.ts` | **Proibidos.** A regra `V27` do verificador reprova os dois nomes dentro de `src/components/`. A ficha é a fonte; a Metadata deriva dela, gerada em `src/shared/metadata/` por `node scripts/verificar-operacao.mjs --gerar-metadata` (P63) |
+| How the Figma × Storybook comparison is measured | The step exists in the gate, but **no artifact in this repository** records a measurement. Without verifiable practice, it does not become a rule |
+| Template for a technical plan | There is only one, **P21**, for `nph-icon`. One case is not a template |
+| PR size, screenshot, preview link | `contributing.md` asks for a small PR **with no number**, and does not address screenshots or previews. **P19** foresees Storybook as a private CI artifact, and **CI does not exist** |
+| The complete battery of validations | The commands are in `package.json` — `build:tokens`, `test:tokens`, `typecheck`, `test`, `test:i18n`, `build-storybook` and `test:operacao`. The obligation to run all of them, and in what order, **has no source in this repository** |
+| `meta.ts` and `metadata.ts` | **Forbidden.** Verifier rule `V27` rejects both names inside `src/components/`. The sheet is the source; the Metadata derives from it, generated in `src/shared/metadata/` by `node scripts/verificar-operacao.mjs --gerar-metadata` (P63) |
 
 ---
 
-## 8. Divergências abertas
+## 8. Open divergences
 
-Registradas aqui porque quem for construir um componente vai esbarrar nelas.
-**Este guia não escolhe lado.**
+Recorded here because whoever builds a component will run into them. **This
+guide does not pick a side.**
 
-| Assunto | As fontes, e o que cada uma diz |
+| Subject | The sources, and what each one says |
 |---|---|
-| Idioma nas stories | [`i18n.md`](i18n.md) e o `nph-icon` mandam o texto explicativo vir do dicionário; o `nph-label.stories.ts` traz português literal nas legendas |
-| API do `nph-label` | A ficha e o código declaram `text`, `required` e `for`; a matriz aprovada no Figma tem quatro variantes, com `info`. Correção registrada como `DSA-04` |
-| `variant="solid"` no `nph-icon` | O [`../design.md`](../design.md), a **P21** e a ficha definem `regular` como padrão e `solid` como disponível para cada nome do núcleo. A decisão **I7** originou a ampliação e a `DSA-03` foi concluída |
+| `nph-label` API | The sheet and the code declare `text`, `required` and `for`; the matrix approved in Figma has four variants, with `info`. Correction recorded as `DSA-04` |
+| `variant="solid"` in `nph-icon` | [`../design.md`](../design.md), **P21** and the sheet define `regular` as the default and `solid` as available for each core name. Decision **I7** originated the expansion and `DSA-03` was completed |
 
 ---
 
-*Procedência: todas as regras deste guia são **prática verificável** deste
-repositório, lidas na baseline `20882bf` em 09-09-2026, arquivo a arquivo. As
-decisões numeradas citadas — P01, P02, P03, P17, P19, P20, P21 e P62.1 — não são
-reescritas aqui: a fonte é [`decisoes-tecnicas.md`](decisoes-tecnicas.md). Onde
-uma regra é sustentada por um componente só, o Limite diz isso. O que não tem
-prática verificável está na §7 como lacuna, e não como regra.*
+*Provenance: all the rules in this guide are **verifiable practice** of this
+repository, read at baseline `20882bf` on 09-09-2026, file by file. The cited
+numbered decisions — P01, P02, P03, P17, P19, P20, P21 and P62.1 — are not
+rewritten here: the source is [`decisoes-tecnicas.md`](decisoes-tecnicas.md).
+Where a rule is supported by a single component, the Limit says so. What has no
+verifiable practice is in §7 as a gap, and not as a rule.*

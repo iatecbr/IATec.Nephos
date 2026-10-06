@@ -1,43 +1,43 @@
 /**
- * `nph-label` — o rotulo de um controle de formulario.
+ * `nph-label` — the label of a form control.
  *
- * Contrato aprovado (ficha `nph-label`; Registro de decisoes, secao do
- * `nph-label`; decisoes de Indiane em 27-08-2026):
- * - o rotulo e SO um texto. Nao tem caixa, borda, fundo, icone nem sombra;
- * - `required` acrescenta um asterisco ao fim do texto, em `status/error`;
- * - NAO existe propriedade de layout, de peso nem de estado. Posicao e do
- *   `nph-field`; erro nao muda o rotulo; desabilitado desbota o controle
- *   inteiro, pelo `nph-field`, e nao por estado proprio;
- * - ajuda e mensagem de erro pertencem ao `nph-field`, nunca a esta peca.
+ * Approved contract (spec `nph-label`; Decision Register, `nph-label`
+ * section; decisions by Indiane on 27-08-2026):
+ * - the label is ONLY text. It has no box, border, background, icon or shadow;
+ * - `required` appends an asterisk to the end of the text, in `status/error`;
+ * - there is NO layout, weight or state property. Position belongs to
+ *   `nph-field`; an error does not change the label; disabled fades the whole
+ *   control, through `nph-field`, not through a state of its own;
+ * - help and error message belong to `nph-field`, never to this piece.
  *
- * EXCECAO A P01 — este e o unico componente do Nephos SEM Shadow DOM.
- * A associacao nativa entre rotulo e controle nao atravessa a fronteira do
- * Shadow DOM: `for` nao alcancaria um `id` do documento e o clique no rotulo
- * nao levaria o cursor ao campo. Como isso e a razao de existir de um rotulo,
- * o encapsulamento cede. Decisao de Indiane em 27-08-2026, depois de a
- * alternativa de delegar a associacao ao `nph-field` ser descartada por travar
- * o recorte P0 — o `nph-field` ainda nao existe.
+ * EXCEPTION TO P01 — this is the only Nephos component WITHOUT Shadow DOM.
+ * The native association between label and control does not cross the Shadow
+ * DOM boundary: `for` would not reach an `id` in the document and clicking
+ * the label would not move the cursor to the field. Since that is the reason
+ * a label exists, encapsulation yields. Decision by Indiane on 27-08-2026,
+ * after the alternative of delegating the association to `nph-field` was
+ * discarded because it blocked the P0 cut — `nph-field` does not exist yet.
  *
- * API — tres propriedades, e as tres saem da mesma decisao:
- * - `required`, a unica prevista no Registro;
- * - `for`, que espelha o atributo nativo de `<label>` e e o mecanismo da
- *   associacao que a decisao de 27-08 escolheu;
- * - `text`, que carrega o texto do rotulo. Ele e propriedade, e nao conteudo
- *   entre as tags, porque sem Shadow DOM nao ha `<slot>`: o Lit renderiza
- *   dentro do proprio elemento e substituiria qualquer filho escrito pelo
- *   consumidor. `for` e `text` nao estavam no Registro e precisam de
- *   confirmacao tecnica antes de virarem contrato.
+ * API — three properties, all three coming from the same decision:
+ * - `required`, the only one foreseen in the Register;
+ * - `for`, which mirrors the native `<label>` attribute and is the
+ *   association mechanism chosen by the 27-08 decision;
+ * - `text`, which carries the label text. It is a property, not content
+ *   between the tags, because without Shadow DOM there is no `<slot>`: Lit
+ *   renders inside the element itself and would replace any child written by
+ *   the consumer. `for` and `text` were not in the Register and need
+ *   technical confirmation before becoming contract.
  *
- * ACESSIBILIDADE — o asterisco e DECORATIVO para tecnologia assistiva e leva
- * `aria-hidden`. A obrigatoriedade tem de chegar ao leitor de tela pelo proprio
- * controle, com `required`, e nao por texto escondido dentro do rotulo. Duas
- * razoes: o estado obrigatorio pertence ao campo, nao ao rotulo, e texto
- * escondido exigiria uma string em portugues dentro do componente, proibido
- * pelo plano trilingue — nenhum `nph-*` conhece idioma.
+ * ACCESSIBILITY — the asterisk is DECORATIVE for assistive technology and
+ * carries `aria-hidden`. The required state must reach the screen reader
+ * through the control itself, with `required`, not through hidden text inside
+ * the label. Two reasons: the required state belongs to the field, not to the
+ * label, and hidden text would require a Portuguese string inside the
+ * component, forbidden by the trilingual plan — no `nph-*` knows a language.
  *
- * Alem disso, o formulario que usar `required` precisa de uma legenda visivel
- * explicando a convencao do asterisco. Isso e regra de tela, verificada na
- * revisao de composicao, e nao algo que o componente possa impor sozinho.
+ * Besides that, a form that uses `required` needs a visible legend
+ * explaining the asterisk convention. That is a screen rule, checked in the
+ * composition review, not something the component can enforce on its own.
  */
 import { LitElement, html, nothing } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -53,13 +53,13 @@ export class NphLabel extends LitElement {
     for: { type: String, reflect: true },
   };
 
-  /** O texto do rotulo. Chega ja localizado pela aplicacao consumidora. */
+  /** The label text. Arrives already localized by the consuming application. */
   declare text: string;
 
-  /** Campo obrigatorio. Acrescenta o asterisco ao fim do texto. */
+  /** Required field. Appends the asterisk to the end of the text. */
   declare required: boolean;
 
-  /** `id` do controle que este rotulo nomeia. Espelha o atributo nativo. */
+  /** `id` of the control this label names. Mirrors the native attribute. */
   declare for: string | null;
 
   constructor() {
@@ -70,8 +70,8 @@ export class NphLabel extends LitElement {
   }
 
   /**
-   * Renderiza na luz, nao em Shadow DOM. Ver a nota de excecao a P01 no topo.
-   * Sem isso, `for` nao alcancaria o controle e o rotulo perderia a funcao.
+   * Renders in the light DOM, not in Shadow DOM. See the P01 exception note at the top.
+   * Without this, `for` would not reach the control and the label would lose its function.
    */
   protected override createRenderRoot(): HTMLElement {
     return this;

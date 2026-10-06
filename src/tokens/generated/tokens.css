@@ -679,7 +679,7 @@
   --nph-chart-seq-5: var(--nph-core-sistemas-100);
   --nph-chart-track: var(--nph-core-surface-600);
   --nph-color-accent-foreground: var(--nph-core-neutral-100);
-  --nph-color-accent: var(--nph-core-surface-700);
+  --nph-color-accent: var(--nph-core-surface-600);
   --nph-color-background: var(--nph-core-surface-900);
   --nph-color-border: var(--nph-core-surface-400);
   --nph-color-card-foreground: var(--nph-core-neutral-100);

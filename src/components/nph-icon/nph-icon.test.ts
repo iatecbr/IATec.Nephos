@@ -1,10 +1,10 @@
 /**
- * Prova do contrato do `nph-icon`.
+ * Proof of the `nph-icon` contract.
  *
- * Roda em Chromium de verdade (P21, item 5). Os grupos abaixo cobrem o que a
- * ficha promete: nucleo fechado, variante, tamanho por token, entrada
- * invalida, acessibilidade, ausencia de interacao, heranca de cor e transbordo
- * dos icones largos.
+ * Runs in real Chromium (P21, item 5). The groups below cover what the
+ * spec promises: closed core, variant, size by token, invalid input,
+ * accessibility, absence of interaction, color inheritance and overflow of
+ * the wide icons.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { MockInstance } from 'vitest';
@@ -14,7 +14,7 @@ import '../../tokens/generated/tokens.css';
 import { NphIcon } from './nph-icon';
 import { NPH_ICON_NAMES } from './nph-icon.icons';
 
-/* `NphIcon` e importado como valor para registrar o elemento e para tipar. */
+/* `NphIcon` is imported as a value to register the element and for typing. */
 const REGISTERED = customElements.get('nph-icon');
 
 let errors: MockInstance<typeof console.error>;
@@ -47,9 +47,9 @@ function pathOf(element: NphIcon): string {
 }
 
 /**
- * Extrai os nomes de `icones_nucleo` direto do `design.md`. O mapa do
- * componente nao pode divergir da fonte: se a lista mudar la, este teste
- * reprova aqui.
+ * Extracts the `icones_nucleo` names straight from `design.md`. The
+ * component map cannot diverge from the source: if the list changes there,
+ * this test fails here.
  */
 function namesFromDesignMd(): string[] {
   const start = designMd.indexOf('icones_nucleo:');
@@ -66,21 +66,21 @@ function namesFromDesignMd(): string[] {
   );
 }
 
-describe('registro do elemento', () => {
-  it('define nph-icon uma unica vez', () => {
+describe('element registration', () => {
+  it('defines nph-icon exactly once', () => {
     expect(REGISTERED).toBe(NphIcon);
   });
 });
 
-describe('nucleo fechado de icones_nucleo do design.md', () => {
-  it('o mapa do componente e identico a icones_nucleo do design.md', () => {
+describe('closed core of `icones_nucleo` in design.md', () => {
+  it('the component map is identical to `icones_nucleo` in design.md', () => {
     const fromDocument = namesFromDesignMd();
     expect(fromDocument.length).toBeGreaterThan(0);
     expect(new Set(fromDocument).size).toBe(fromDocument.length);
     expect([...NPH_ICON_NAMES].sort()).toEqual([...fromDocument].sort());
   });
 
-  it('cada nome do nucleo desenha um caminho', async () => {
+  it('every core name draws a path', async () => {
     for (const name of NPH_ICON_NAMES) {
       const icon = await mount({ name: name, size: 'sm' });
       expect(svgOf(icon), name).not.toBeNull();
@@ -92,14 +92,14 @@ describe('nucleo fechado de icones_nucleo do design.md', () => {
 });
 
 describe('variant', () => {
-  it('regular e o padrao quando o atributo esta ausente', async () => {
+  it('regular is the default when the attribute is absent', async () => {
     const withoutAttribute = await mount({ name: 'star', size: 'sm' });
     const explicit = await mount({ name: 'star', variant: 'regular', size: 'sm' });
     expect(pathOf(withoutAttribute)).toBe(pathOf(explicit));
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('star aceita solid, com arte diferente da regular', async () => {
+  it('star accepts solid, with artwork different from regular', async () => {
     const regular = await mount({ name: 'star', variant: 'regular', size: 'sm' });
     const solid = await mount({ name: 'star', variant: 'solid', size: 'sm' });
     expect(svgOf(solid)).not.toBeNull();
@@ -107,7 +107,7 @@ describe('variant', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('circle-info aceita solid, com arte diferente da regular', async () => {
+  it('circle-info accepts solid, with artwork different from regular', async () => {
     const regular = await mount({ name: 'circle-info', variant: 'regular', size: 'sm' });
     const solid = await mount({ name: 'circle-info', variant: 'solid', size: 'sm' });
     expect(svgOf(solid)).not.toBeNull();
@@ -115,7 +115,7 @@ describe('variant', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('cada nome aceita solid', async () => {
+  it('every name accepts solid', async () => {
     for (const name of NPH_ICON_NAMES) {
       const icon = await mount({ name: name, variant: 'solid', size: 'sm' });
       expect(svgOf(icon), name).not.toBeNull();
@@ -124,7 +124,7 @@ describe('variant', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('familia proibida nao renderiza', async () => {
+  it('a forbidden family does not render', async () => {
     for (const family of ['light', 'thin', 'sharp', 'duotone']) {
       const icon = await mount({ name: 'check', variant: family, size: 'sm' });
       expect(svgOf(icon), family).toBeNull();
@@ -134,7 +134,7 @@ describe('variant', () => {
 });
 
 describe('size', () => {
-  it('cada tamanho vem do token semantico correspondente', async () => {
+  it('each size comes from the corresponding semantic token', async () => {
     const expected: Record<string, string> = { sm: '16px', md: '20px', lg: '24px' };
     for (const [size, measure] of Object.entries(expected)) {
       const icon = await mount({ name: 'gear', size: size });
@@ -145,14 +145,14 @@ describe('size', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('e obrigatorio: sem size nao ha icone nem caixa', async () => {
+  it('is required: without size there is no icon or box', async () => {
     const icon = await mount({ name: 'gear' });
     expect(svgOf(icon)).toBeNull();
     expect(getComputedStyle(icon).display).toBe('none');
     expect(errors).toHaveBeenCalledTimes(1);
   });
 
-  it('valor livre nao renderiza', async () => {
+  it('a free value does not render', async () => {
     for (const size of ['xl', '16', '16px', '']) {
       const icon = await mount({ name: 'gear', size: size });
       expect(svgOf(icon), size).toBeNull();
@@ -161,8 +161,8 @@ describe('size', () => {
   });
 });
 
-describe('entrada invalida', () => {
-  it('name fora do nucleo nao renderiza e reclama', async () => {
+describe('invalid input', () => {
+  it('a name outside the core does not render and complains', async () => {
     for (const name of ['rocket', 'Star', 'fa-star', 'times', '']) {
       const icon = await mount({ name: name, size: 'sm' });
       expect(svgOf(icon), name).toBeNull();
@@ -171,32 +171,32 @@ describe('entrada invalida', () => {
     expect(errors).toHaveBeenCalledTimes(5);
   });
 
-  it('name ausente nao renderiza e reclama', async () => {
+  it('a missing name does not render and complains', async () => {
     const icon = await mount({ size: 'sm' });
     expect(svgOf(icon)).toBeNull();
     expect(errors).toHaveBeenCalledTimes(1);
   });
 
-  it('acumula um erro por propriedade invalida', async () => {
+  it('accumulates one error per invalid property', async () => {
     await mount({ name: 'rocket', variant: 'thin', size: 'xl' });
     expect(errors).toHaveBeenCalledTimes(3);
   });
 
-  it('nao deixa fallback visual: nada dentro do shadow root', async () => {
+  it('leaves no visual fallback: nothing inside the shadow root', async () => {
     const icon = await mount({ name: 'rocket', size: 'sm' });
     expect(icon.shadowRoot?.querySelector('*') ?? null).toBeNull();
   });
 });
 
-describe('acessibilidade', () => {
-  it('sem label o icone e decorativo', async () => {
+describe('accessibility', () => {
+  it('without a label the icon is decorative', async () => {
     const icon = await mount({ name: 'check', size: 'sm' });
     expect(icon.getAttribute('aria-hidden')).toBe('true');
     expect(icon.hasAttribute('role')).toBe(false);
     expect(icon.hasAttribute('aria-label')).toBe(false);
   });
 
-  it('label vazio ou so com espacos e decorativo', async () => {
+  it('an empty or whitespace-only label is decorative', async () => {
     for (const label of ['', ' ', '   \t ']) {
       const icon = await mount({ name: 'check', size: 'sm', label: label });
       expect(icon.getAttribute('aria-hidden'), JSON.stringify(label)).toBe('true');
@@ -204,32 +204,32 @@ describe('acessibilidade', () => {
     }
   });
 
-  it('label com conteudo nomeia o icone', async () => {
+  it('a label with content names the icon', async () => {
     const icon = await mount({ name: 'magnifying-glass', size: 'sm', label: 'Buscar' });
     expect(icon.getAttribute('role')).toBe('img');
     expect(icon.getAttribute('aria-label')).toBe('Buscar');
     expect(icon.hasAttribute('aria-hidden')).toBe(false);
   });
 
-  it('label e aparado antes de virar nome acessivel', async () => {
+  it('the label is trimmed before becoming the accessible name', async () => {
     const icon = await mount({ name: 'magnifying-glass', size: 'sm', label: '  Buscar  ' });
     expect(icon.getAttribute('aria-label')).toBe('Buscar');
   });
 
-  it('entrada invalida fica fora da arvore de acessibilidade', async () => {
+  it('invalid input stays out of the accessibility tree', async () => {
     const icon = await mount({ name: 'rocket', size: 'sm', label: 'Buscar' });
     expect(icon.getAttribute('aria-hidden')).toBe('true');
     expect(icon.hasAttribute('role')).toBe(false);
   });
 
-  it('o svg interno nunca e anunciado nem focalizavel', async () => {
+  it('the inner svg is never announced or focusable', async () => {
     const icon = await mount({ name: 'check', size: 'sm', label: 'Concluido' });
     const svg = svgOf(icon);
     expect(svg?.getAttribute('aria-hidden')).toBe('true');
     expect(svg?.getAttribute('focusable')).toBe('false');
   });
 
-  it('o label troca de decorativo para nomeado sem recriar o elemento', async () => {
+  it('the label switches from decorative to named without recreating the element', async () => {
     const icon = await mount({ name: 'check', size: 'sm' });
     expect(icon.getAttribute('aria-hidden')).toBe('true');
     icon.label = 'Concluido';
@@ -239,20 +239,20 @@ describe('acessibilidade', () => {
   });
 });
 
-describe('ausencia de interacao', () => {
-  it('nao recebe foco', async () => {
+describe('absence of interaction', () => {
+  it('does not receive focus', async () => {
     const icon = await mount({ name: 'check', size: 'sm', label: 'Concluido' });
     expect(icon.hasAttribute('tabindex')).toBe(false);
     icon.focus();
     expect(document.activeElement).not.toBe(icon);
   });
 
-  it('nao expoe slot', async () => {
+  it('exposes no slot', async () => {
     const icon = await mount({ name: 'check', size: 'sm' });
     expect(icon.shadowRoot?.querySelector('slot')).toBeNull();
   });
 
-  it('nao intercepta nem inventa evento: o clique chega ao controle em volta', async () => {
+  it('neither intercepts nor invents events: the click reaches the surrounding control', async () => {
     const control = document.createElement('button');
     document.body.append(control);
 
@@ -278,8 +278,8 @@ describe('ausencia de interacao', () => {
   });
 });
 
-describe('cor e caixa', () => {
-  it('o desenho herda currentColor do contexto', async () => {
+describe('color and box', () => {
+  it('the drawing inherits currentColor from the context', async () => {
     const context = document.createElement('div');
     context.style.color = 'rgb(255, 0, 0)';
     document.body.append(context);
@@ -295,32 +295,32 @@ describe('cor e caixa', () => {
     expect(getComputedStyle(path as SVGPathElement).fill).toBe('rgb(255, 0, 0)');
   });
 
-  it('a API reativa e exatamente name, variant, size e label', () => {
+  it('the reactive API is exactly name, variant, size and label', () => {
     const properties = [...NphIcon.elementProperties.keys()].map(String).sort();
     expect(properties).toEqual(['label', 'name', 'size', 'variant']);
   });
 
-  it('a cor sai de currentColor, nao de propriedade', async () => {
+  it('the color comes from currentColor, not from a property', async () => {
     const icon = await mount({ name: 'check', size: 'sm' });
     expect(svgOf(icon)?.getAttribute('fill')).toBe('currentColor');
   });
 
-  it('eye transborda a caixa quadrada, centralizado e sem reescala', async () => {
+  it('eye overflows the square box, centered and without rescaling', async () => {
     const icon = await mount({ name: 'eye', size: 'sm' });
     const box = icon.getBoundingClientRect();
     const drawing = (svgOf(icon) as SVGSVGElement).getBoundingClientRect();
 
     expect(Math.round(box.width)).toBe(16);
     expect(Math.round(box.height)).toBe(16);
-    /* 576x512 escalado por altura 16 da 18 de largura. */
+    /* 576x512 scaled by height 16 gives a width of 18. */
     expect(Math.round(drawing.width)).toBe(18);
     expect(Math.round(drawing.height)).toBe(16);
-    /* Transbordo simetrico: 1px de cada lado. */
+    /* Symmetric overflow: 1px on each side. */
     expect(Math.round(box.left - drawing.left)).toBe(1);
     expect(Math.round(drawing.right - box.right)).toBe(1);
   });
 
-  it('icone de largura natural igual a altura nao transborda', async () => {
+  it('an icon whose natural width equals its height does not overflow', async () => {
     const icon = await mount({ name: 'circle-check', size: 'lg' });
     const box = icon.getBoundingClientRect();
     const drawing = (svgOf(icon) as SVGSVGElement).getBoundingClientRect();

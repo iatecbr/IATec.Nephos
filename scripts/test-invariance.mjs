@@ -1,12 +1,12 @@
 /**
- * Prova automatizada do classificador de invariancia.
+ * Automated proof of the invariance classifier.
  *
- * O ponto central: a classificacao compara uma representacao CANONICA de alias
- * e valor final. Objetos JavaScript distintos, com ordem de chave diferente,
- * mas equivalentes em conteudo, tem de ser classificados como invariantes.
- * Igualdade por identidade (===) reprovaria nos casos 3 e 4.
+ * The central point: the classification compares a CANONICAL representation of
+ * alias and final value. Distinct JavaScript objects, with different key order
+ * but equivalent content, must be classified as invariants. Identity equality
+ * (===) would fail cases 3 and 4.
  *
- * Rode com: npm run test:tokens
+ * Run with: npm run test:tokens
  */
 import { canon, classify, buildIndex, dependents, NS } from './tokens-lib.mjs';
 
@@ -15,15 +15,15 @@ const DEFAULT_MODES = { core: null, theme: 'sistemas', semantic: null };
 
 const modes = (light, dark) => ({ $extensions: { [NS]: { modes: { claro: light, escuro: dark } } } });
 
-/* Objetos DISTINTOS na memoria, com ordem de chave trocada, mesmo conteudo. */
+/* DISTINCT objects in memory, with swapped key order, same content. */
 const durA = { value: 250, unit: 'ms' };
 const durB = { unit: 'ms', value: 250 };
 const durC = { value: 150, unit: 'ms' };
 const dimA = { unit: 'px', value: 16 };
 const dimB = { value: 16, unit: 'px' };
 
-/* Sombra: A e B tem o MESMO conteudo com a ordem de chave trocada, dentro e
-   fora da camada. C muda a geometria. Nenhum dos tres e o mesmo objeto. */
+/* Shadow: A and B have the SAME content with swapped key order, inside and
+   outside the layer. C changes the geometry. None of the three is the same object. */
 const layer = (y, blur, spread) => ({ offsetX: { value: 0, unit: 'px' }, offsetY: { value: y, unit: 'px' }, blur: { value: blur, unit: 'px' }, spread: { value: spread, unit: 'px' }, color: '{core.base.white}' });
 const shadowA = [layer(1, 2, -1)];
 const shadowB = [{ color: '{core.base.white}', spread: { unit: 'px', value: -1 }, blur: { unit: 'px', value: 2 }, offsetY: { unit: 'px', value: 1 }, offsetX: { unit: 'px', value: 0 } }];
@@ -49,71 +49,71 @@ const theme = {
 
 const cases = {
   a: {
-    // 1. mesmo objeto literal repetido -> invariante
+    // 1. same literal object repeated -> invariant
     'same-object': { $type: 'duration', $value: durA, ...modes(durA, durA) },
-    // 2. valores estruturados DIFERENTES -> variante
+    // 2. DIFFERENT structured values -> variant
     'different-values': { $type: 'duration', $value: durA, ...modes(durA, durC) },
-    // 3. objetos DISTINTOS, ordem de chave trocada, conteudo igual -> invariante
+    // 3. DISTINCT objects, swapped key order, same content -> invariant
     'distinct-objects-swapped-order': { $type: 'duration', $value: durA, ...modes(durA, durB) },
-    // 4. idem para dimension
+    // 4. same for dimension
     'dimension-distinct-objects': { $type: 'dimension', $value: dimA, ...modes(dimA, dimB) },
-    // 5. alias igual nos dois modos -> invariante
+    // 5. same alias in both modes -> invariant
     'same-alias': { $type: 'color', $value: '{core.base.white}', ...modes('{core.base.white}', '{core.base.white}') },
-    // 6. alias diferente, valor final diferente -> variante
+    // 6. different alias, different final value -> variant
     'different-alias': { $type: 'color', $value: '{core.base.white}', ...modes('{core.base.white}', '{core.surface.900}') },
-    // 7. alias dependente de marca, igual nos dois modos -> invariante
+    // 7. brand-dependent alias, same in both modes -> invariant
     'brand-alias': { $type: 'color', $value: '{theme.brand-600}', ...modes('{theme.brand-600}', '{theme.brand-600}') },
-    // 8. sem bloco modes -> invariante por definicao
+    // 8. no modes block -> invariant by definition
     'no-modes': { $type: 'number', $value: 0.5 },
-    // 9. cubicBezier em arrays distintos, conteudo igual -> invariante
+    // 9. cubicBezier in distinct arrays, same content -> invariant
     'bezier-distinct-arrays': { $type: 'cubicBezier', $value: [0, 0, 0.2, 1], ...modes([0, 0, 0.2, 1], [0, 0, 0.2, 1]) },
-    // 10. cubicBezier com conteudo diferente -> variante
+    // 10. cubicBezier with different content -> variant
     'different-bezier': { $type: 'cubicBezier', $value: [0, 0, 0.2, 1], ...modes([0, 0, 0.2, 1], [0.4, 0, 1, 1]) },
-    // 11. shadow: camadas distintas na memoria, ordem de chave trocada, conteudo igual -> invariante
+    // 11. shadow: layers distinct in memory, swapped key order, same content -> invariant
     'shadow-swapped-order': { $type: 'shadow', $value: shadowA, ...modes(shadowA, shadowB) },
-    // 12. shadow com geometria diferente entre os modos -> variante
+    // 12. shadow with different geometry between modes -> variant
     'different-shadow': { $type: 'shadow', $value: shadowA, ...modes(shadowA, shadowC) },
   },
 };
 
 const EXPECTED = {
-  'a.same-object': 'invariante',
-  'a.different-values': 'variante',
-  'a.distinct-objects-swapped-order': 'invariante',
-  'a.dimension-distinct-objects': 'invariante',
-  'a.same-alias': 'invariante',
-  'a.different-alias': 'variante',
-  'a.brand-alias': 'invariante',
-  'a.no-modes': 'invariante',
-  'a.bezier-distinct-arrays': 'invariante',
-  'a.different-bezier': 'variante',
-  'a.shadow-swapped-order': 'invariante',
-  'a.different-shadow': 'variante',
+  'a.same-object': 'invariant',
+  'a.different-values': 'variant',
+  'a.distinct-objects-swapped-order': 'invariant',
+  'a.dimension-distinct-objects': 'invariant',
+  'a.same-alias': 'invariant',
+  'a.different-alias': 'variant',
+  'a.brand-alias': 'invariant',
+  'a.no-modes': 'invariant',
+  'a.bezier-distinct-arrays': 'invariant',
+  'a.different-bezier': 'variant',
+  'a.shadow-swapped-order': 'invariant',
+  'a.different-shadow': 'variant',
 };
 
 const idx = buildIndex([core, theme, cases]);
 const { invariants, variants } = classify(cases, MODES, idx, DEFAULT_MODES);
 
 let failures = 0;
-console.log('=== PROVA: classificacao por forma canonica, nao por identidade de objeto ===');
+console.log('=== PROOF: classification by canonical form, not by object identity ===');
 for (const [name, expected] of Object.entries(EXPECTED)) {
-  const actual = invariants.has(name) ? 'invariante' : variants.has(name) ? 'variante' : 'NAO CLASSIFICADO';
+  const actual = invariants.has(name) ? 'invariant' : variants.has(name) ? 'variant' : 'UNCLASSIFIED';
   const ok = actual === expected;
   if (!ok) failures++;
-  console.log((ok ? 'PASSOU ' : 'FALHOU ') + name.padEnd(36) + ' esperado=' + expected + ' obtido=' + actual);
+  console.log((ok ? 'PASSED ' : 'FAILED ') + name.padEnd(36) + ' expected=' + expected + ' got=' + actual);
 }
 
 /*
- * Invariantes DEPENDENTES (P67): os que precisam sair tambem em cada raiz de
- * esquema. Usa os casos acima mais tres cadeias proprias.
+ * DEPENDENT invariants (P67): those that must also come out on each scheme
+ * root. Uses the cases above plus three chains of its own.
  */
 const chains = {
   b: {
-    // via variante: aponta para um token que muda entre claro e escuro
+    // via variant: points to a token that changes between light and dark
     'via-variant': { $type: 'color', $value: '{a.different-alias}' },
-    // transitivo: invariante -> invariante que aponta para theme
+    // transitive: invariant -> invariant that points to theme
     'transitive': { $type: 'color', $value: '{a.brand-alias}' },
-    // so core: nao depende de marca nem de esquema
+    // core only: depends on neither brand nor scheme
     'core-only': { $type: 'color', $value: '{a.same-alias}' },
   },
 };
@@ -123,38 +123,38 @@ const chainClass = classify(chainSource, MODES, chainIdx, DEFAULT_MODES);
 const dep = dependents(chainSource, chainClass.invariants, chainClass.variants);
 
 const EXPECTED_DEPENDENTS = {
-  'a.brand-alias': true, // direto em theme
+  'a.brand-alias': true, // directly on theme
   'b.via-variant': true,
   'b.transitive': true,
   'b.core-only': false,
   'a.same-alias': false,
 };
-console.log('\n=== PROVA: invariantes dependentes de marca ou de esquema ===');
+console.log('\n=== PROOF: invariants dependent on brand or scheme ===');
 for (const [name, expected] of Object.entries(EXPECTED_DEPENDENTS)) {
   const actual = dep.has(name);
   const ok = actual === expected;
   if (!ok) failures++;
-  console.log((ok ? 'PASSOU ' : 'FALHOU ') + name.padEnd(36) + ' esperado=' + expected + ' obtido=' + actual);
+  console.log((ok ? 'PASSED ' : 'FAILED ') + name.padEnd(36) + ' expected=' + expected + ' got=' + actual);
 }
 
-/* Guardas explicitas sobre identidade de objeto. */
+/* Explicit guards on object identity. */
 const guards = [
-  ['durA !== durB (objetos realmente distintos)', durA !== durB],
-  ['canon(durA) === canon(durB) (forma canonica igual)', canon(durA) === canon(durB)],
-  ['dimA !== dimB (objetos realmente distintos)', dimA !== dimB],
+  ['durA !== durB (really distinct objects)', durA !== durB],
+  ['canon(durA) === canon(durB) (same canonical form)', canon(durA) === canon(durB)],
+  ['dimA !== dimB (really distinct objects)', dimA !== dimB],
   ['canon(dimA) === canon(dimB)', canon(dimA) === canon(dimB)],
-  ['canon(durA) !== canon(durC) (conteudo diferente)', canon(durA) !== canon(durC)],
-  ['shadowA !== shadowB (objetos realmente distintos)', shadowA !== shadowB],
-  ['canon(shadowA) === canon(shadowB) (ordem de chave nao importa, em qualquer profundidade)', canon(shadowA) === canon(shadowB)],
-  ['canon(shadowA) !== canon(shadowC) (geometria diferente)', canon(shadowA) !== canon(shadowC)],
+  ['canon(durA) !== canon(durC) (different content)', canon(durA) !== canon(durC)],
+  ['shadowA !== shadowB (really distinct objects)', shadowA !== shadowB],
+  ['canon(shadowA) === canon(shadowB) (key order does not matter, at any depth)', canon(shadowA) === canon(shadowB)],
+  ['canon(shadowA) !== canon(shadowC) (different geometry)', canon(shadowA) !== canon(shadowC)],
 ];
-console.log('\n=== GUARDAS ===');
+console.log('\n=== GUARDS ===');
 for (const [n, ok] of guards) {
   if (!ok) failures++;
-  console.log((ok ? 'PASSOU ' : 'FALHOU ') + n);
+  console.log((ok ? 'PASSED ' : 'FAILED ') + n);
 }
 
 console.log('\n' + (failures === 0
-  ? 'RESULTADO: ' + (Object.keys(EXPECTED).length + Object.keys(EXPECTED_DEPENDENTS).length + guards.length) + ' verificacoes, todas passaram.'
-  : 'RESULTADO: ' + failures + ' falha(s).'));
+  ? 'RESULT: ' + (Object.keys(EXPECTED).length + Object.keys(EXPECTED_DEPENDENTS).length + guards.length) + ' checks, all passed.'
+  : 'RESULT: ' + failures + ' failure(s).'));
 process.exit(failures === 0 ? 0 : 1);

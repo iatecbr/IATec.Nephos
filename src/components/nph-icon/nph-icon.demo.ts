@@ -1,14 +1,14 @@
 /**
- * Moldura compartilhada pelas stories do `nph-icon`.
+ * Frame shared by the `nph-icon` stories.
  *
- * Este arquivo NAO e uma story: o nome nao termina em `.stories.ts`, entao o
- * glob do Storybook nao o indexa. Ele existe para que a pagina de documentacao
- * e a pagina de validacao usem o mesmo cenario sem duplicar codigo.
+ * This file is NOT a story: the name does not end in `.stories.ts`, so the
+ * Storybook glob does not index it. It exists so that the documentation page
+ * and the validation page use the same scenario without duplicating code.
  *
- * Nada aqui e contrato. Os poucos valores literais que aparecem (colunas de
- * grade, largura do campo de busca) pertencem a moldura da demonstracao e
- * NAO valem como precedente para CSS de componente. O que e contrato esta no
- * proprio `nph-icon` e nas fontes canonicas.
+ * Nothing here is contract. The few literal values that appear (grid
+ * columns, search field width) belong to the demonstration frame and
+ * are NOT a precedent for component CSS. What is contract lives in
+ * `nph-icon` itself and in the canonical sources.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -18,22 +18,23 @@ import { NPH_ICON_NAMES } from './nph-icon.icons';
 import type { NphIconName } from './nph-icon.icons';
 
 /**
- * Um grupo do nucleo. O TITULO nao mora aqui: titulo e texto de vitrine e vem
- * do dicionario de idioma, em `.storybook/i18n/`. A ordem dos grupos abaixo e a
- * do `design.md` e casa, posicao a posicao, com `categories` no dicionario.
+ * A group of the core. The TITLE does not live here: the title is showcase text
+ * and comes from the language dictionary, in `.storybook/i18n/`. The order of
+ * the groups below is that of `design.md` and matches, position by position,
+ * `categories` in the dictionary.
  */
 export type CoreCategory = readonly NphIconName[];
 
 /**
- * Indice de categorias do nucleo. A ordem vem de `icones_nucleo`, no
- * `design.md`. Este indice AGRUPA os nomes; ele nao os define — a fonte tecnica
- * continua sendo `NPH_ICON_NAMES`, e `nph-icon.demo.test.ts` exige que os dois
- * conjuntos sejam identicos.
+ * Category index of the core. The order comes from `icones_nucleo`, in
+ * `design.md`. This index GROUPS the names; it does not define them — the
+ * technical source remains `NPH_ICON_NAMES`, and `nph-icon.demo.test.ts`
+ * requires the two sets to be identical.
  */
 export const CATEGORIES: readonly CoreCategory[] = [
-  /* navegacao_e_menus */
+  /* `navegacao_e_menus` */
   ['bars', 'house'],
-  /* direcao_e_revelacao */
+  /* `direcao_e_revelacao` */
   [
     'angle-left',
     'arrow-down-to-line',
@@ -57,7 +58,7 @@ export const CATEGORIES: readonly CoreCategory[] = [
     'square-chevron-left',
     'triple-chevrons-left',
   ],
-  /* acao */
+  /* `acao` */
   [
     'arrow-down-arrow-up',
     'arrow-up-arrow-down',
@@ -97,7 +98,7 @@ export const CATEGORIES: readonly CoreCategory[] = [
     'user-minus',
     'xmark',
   ],
-  /* estado_e_comunicacao */
+  /* `estado_e_comunicacao` */
   [
     'alarm-clock',
     'badge-check',
@@ -113,7 +114,7 @@ export const CATEGORIES: readonly CoreCategory[] = [
     'star',
     'triangle-exclamation',
   ],
-  /* conteudo_e_dados */
+  /* `conteudo_e_dados` */
   [
     'calendar',
     'calendar-days',
@@ -139,9 +140,9 @@ export const CATEGORIES: readonly CoreCategory[] = [
 ];
 
 /**
- * Filtro puro da galeria. Recebe nomes do nucleo e devolve um SUBCONJUNTO
- * deles: por construcao, a busca nunca pode revelar icone fora dos aprovados.
- * Termo vazio ou so com espacos devolve tudo.
+ * Pure gallery filter. Takes core names and returns a SUBSET of them: by
+ * construction, the search can never reveal an icon outside the approved ones.
+ * An empty term or one with only spaces returns everything.
  */
 export function filterNames(
   names: readonly NphIconName[],
@@ -154,19 +155,19 @@ export function filterNames(
   return names.filter((name) => name.includes(needle));
 }
 
-/** Total do nucleo, derivado do mapa fechado — nunca digitado a mao. */
+/** Core total, derived from the closed map — never typed by hand. */
 export const CORE_TOTAL = NPH_ICON_NAMES.length;
 
 /*
- * Moldura das paginas do `nph-icon`. O cabecalho, as secoes, a demonstracao e
- * as notas vem de `src/shared/docs/page.ts`, iguais aos da pagina Documentacao;
- * aqui fica so o que e proprio destas paginas: a amostra com legenda, a busca e
- * a grade do catalogo.
+ * Frame of the `nph-icon` pages. The header, sections, demonstration and notes
+ * come from `src/shared/docs/page.ts`, the same as on the Documentation page;
+ * only what is specific to these pages stays here: the specimen with caption,
+ * the search and the catalog grid.
  */
 
 const BORDER = 'var(--nph-border-width) solid var(--nph-color-border)';
 
-/** Amostra de demonstracao: a instancia real em cima, a legenda tecnica embaixo. */
+/** Demonstration specimen: the real instance on top, the technical caption below. */
 export function specimen(
   content: TemplateResult,
   label: TemplateResult | string,
@@ -181,7 +182,7 @@ export function specimen(
   `;
 }
 
-/** Rotulo, campo e botao da busca do catalogo. */
+/** Label, field and button of the catalog search. */
 export const searchLabel = `${textRole('label-md')}`;
 
 export const field = `
@@ -206,21 +207,21 @@ export const button = `
   cursor: pointer;
 `;
 
-/** Contador da busca, em legenda. */
+/** Search counter, as a caption. */
 export const counter = `
   margin: 0;
   ${textRole('caption')}
   color: var(--nph-color-muted-foreground);
 `;
 
-/** Grade do catalogo: cartoes de mesma largura, quantos couberem na linha. */
+/** Catalog grid: cards of equal width, as many as fit in the row. */
 export const grid = `
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
   gap: var(--nph-space-stack);
 `;
 
-/** Cartao de um icone no catalogo: o icone centrado e o nome embaixo. */
+/** Card of one icon in the catalog: the icon centered and the name below. */
 export const tile = `
   display: flex;
   flex-direction: column;

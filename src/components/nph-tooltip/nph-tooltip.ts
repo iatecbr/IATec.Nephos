@@ -1,25 +1,27 @@
 /**
- * `nph-tooltip` — o balao de ajuda.
+ * `nph-tooltip` — the help bubble.
  *
- * Contrato aceito no Figma (quadro `1237:5`, componente `1237:3`) e decisoes
- * de Indiane em 01-10-2026 (Registro de decisoes: L11.5 para o comportamento e
- * o escopo; L11.6 e L11.7 para a anatomia):
- * - so texto. Nao tem titulo, icone, acao, seta nem borda;
- * - o texto acompanha a largura ate `layout/max-tooltip-width` e depois quebra
- *   a linha. Cabe inteiro, em ate duas linhas: sem reticencias e sem palavra
- *   partida. Texto mais longo e erro de conteudo, e o componente nao corta;
- * - abre so pela ativacao do gatilho que o usa (no `nph-label`, o gatilho
- *   `info`), e nunca no hover. Abrir, fechar e posicionar sao do consumidor:
- *   este componente so mostra o texto quando `open` esta ligado.
+ * Contract accepted in Figma (frame `1237:5`, component `1237:3`) and
+ * decisions by Indiane on 01-10-2026 (Decision Register: L11.5 for behavior
+ * and scope; L11.6 and L11.7 for anatomy):
+ * - text only. It has no title, icon, action, arrow or border;
+ * - the text follows the width up to `layout/max-tooltip-width` and then
+ *   wraps. It fits whole, in up to two lines: no ellipsis and no broken word.
+ *   Longer text is a content error, and the component does not cut it;
+ * - it opens only through activation of the trigger that uses it (in
+ *   `nph-label`, the `info` trigger), and never on hover. Opening, closing
+ *   and positioning belong to the consumer: this component only shows the
+ *   text when `open` is on.
  *
- * API — duas propriedades (P65):
- * - `text`, o texto do balao, ja localizado pela aplicacao consumidora;
- * - `open`, que mostra o balao. Reflete no atributo.
+ * API — two properties (P65):
+ * - `text`, the bubble text, already localized by the consuming application;
+ * - `open`, which shows the bubble. Reflects to the attribute.
  *
- * ACESSIBILIDADE — o balao abre por ativacao e o foco fica no gatilho, entao o
- * texto precisa ser anunciado sem receber foco. Por isso o host e uma regiao
- * viva `role="status"`, presente no DOM ANTES de abrir: o leitor de tela so
- * anuncia mudanca dentro de uma regiao que ja existia. O balao nao e focavel.
+ * ACCESSIBILITY — the bubble opens by activation and focus stays on the
+ * trigger, so the text must be announced without receiving focus. That is why
+ * the host is a `role="status"` live region, present in the DOM BEFORE
+ * opening: the screen reader only announces changes inside a region that
+ * already existed. The bubble is not focusable.
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -33,14 +35,14 @@ export class NphTooltip extends LitElement {
 
   static override properties = {
     text: { type: String },
-    /* `open` reflete para o consumidor poder estilizar e conferir o estado. */
+    /* `open` reflects so the consumer can style and check the state. */
     open: { type: Boolean, reflect: true },
   };
 
-  /** O texto do balao. Vazio ou so espacos: nada e mostrado. */
+  /** The bubble text. Empty or only spaces: nothing is shown. */
   declare text: string;
 
-  /** Mostra o balao. O consumidor liga e desliga. */
+  /** Shows the bubble. The consumer turns it on and off. */
   declare open: boolean;
 
   constructor() {

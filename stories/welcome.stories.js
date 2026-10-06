@@ -1,16 +1,17 @@
 /*
- * Pagina de entrada do Storybook.
+ * Storybook entry page.
  *
- * O texto vem do dicionario de idioma, em `../.storybook/i18n/`. A story e
- * UNICA: ela le `globals.locale` e busca a traducao. Nao existe uma copia desta
- * pagina por idioma — triplicar exigiria corrigir tres vezes toda alteracao.
+ * The text comes from the language dictionary, in `../.storybook/i18n/`. The
+ * story is SINGLE: it reads `globals.locale` and looks up the translation.
+ * There is no copy of this page per language — tripling it would require
+ * fixing every change three times.
  */
 import { html } from 'lit';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../.storybook/i18n/index.js';
 
 export default {
-  title: 'Comece aqui/Boas-vindas',
+  title: 'Start here/Welcome',
   parameters: {
     layout: 'fullscreen',
   },
@@ -39,8 +40,8 @@ const card = `
   padding: var(--nph-space-container-padding);
 `;
 
-export const BoasVindas = {
-  name: 'Boas-vindas',
+export const Welcome = {
+  name: 'Welcome',
   render: (_args, context) => {
     const t = translations(context?.globals?.[LOCALE_GLOBAL] ?? DEFAULT_LOCALE).welcome;
 
