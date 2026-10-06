@@ -1,96 +1,96 @@
 {
-  "peca": "nph-separator",
-  "nivel": "componente",
-  "status": "vigente",
-  "resolve": "Separates sibling items or regions of a container with a decorative line, without carrying state or creating space.",
-  "use_quando": [
+  "piece": "nph-separator",
+  "level": "component",
+  "status": "active",
+  "solves": "Separates sibling items or regions of a container with a decorative line, without carrying state or creating space.",
+  "use_when": [
     "Separating groups of items in a menu.",
     "Separating side-by-side actions in an action bar.",
     "Separating the header from the content in a card."
   ],
-  "nao_use_quando": [
+  "do_not_use_when": [
     "Outlining a field — the field border is color/input, which meets 3:1.",
     "Spacing two blocks apart — the space comes from space/stack or space/section.",
     "Putting a word in the middle of the divider — there is no variant with text."
   ],
   "api": {
     "orientation": {
-      "tipo": "enum",
-      "valores": [
+      "type": "enum",
+      "values": [
         "horizontal",
         "vertical"
       ],
-      "obrigatoria": false,
-      "padrao": "horizontal",
-      "reflete": true,
-      "restricao": "Reflects because the internal CSS selects the line by it. horizontal between stacked items; vertical between side-by-side items. A value outside the list draws nothing and emits console.error in development."
+      "required": false,
+      "default": "horizontal",
+      "reflects": true,
+      "constraint": "Reflects because the internal CSS selects the line by it. horizontal between stacked items; vertical between side-by-side items. A value outside the list draws nothing and emits console.error in development."
     }
   },
-  "variantes": {
+  "variants": {
     "orientation": {
-      "eixo": "aparencia",
-      "escolha_quando": "horizontal between stacked items; vertical between side-by-side items.",
-      "nao_combine_com": [
-        "texto"
+      "axis": "appearance",
+      "choose_when": "horizontal between stacked items; vertical between side-by-side items.",
+      "do_not_combine_with": [
+        "text"
       ]
     }
   },
-  "estados": {
-    "padrao": {
+  "states": {
+    "default": {
       "token": "color/border",
-      "muda_para_a_pessoa": "A line separates the items; it does not change with interaction."
+      "changes_for_user": "A line separates the items; it does not change with interaction."
     }
   },
-  "regras_de_negocio": [
+  "business_rules": [
     "The thickness is always border/width and the color is always color/border: changing either would turn the divider into a state signal.",
     "The horizontal one fills the width in a block parent or a column flex parent; the vertical one fills the height in a row flex or grid parent. Otherwise, whoever uses it gives the length."
   ],
-  "erros_de_dominio": [],
+  "domain_errors": [],
   "tokens": {
-    "cor": "color/border",
-    "espessura": "border/width"
+    "color": "color/border",
+    "thickness": "border/width"
   },
-  "dicas_para_ia": [
+  "ai_hints": [
     "Use nph-separator to separate sibling items or regions; to space blocks apart, use space/stack or space/section.",
     "Use orientation vertical between side-by-side items, inside a row flex parent.",
     "Do not use nph-separator as a field border: the field uses color/input."
   ],
-  "acessibilidade": {
-    "semantica": "The host is `aria-hidden`: the divider is decorative and stays out of the accessibility tree.",
-    "nome_acessivel": "nao_se_aplica",
-    "teclado": [],
-    "foco": "The divider does not receive focus.",
-    "contraste": "It is decorative: color/border does not need to meet 3:1.",
-    "alternativa_a_cor": "The divider carries no state; the separation is structural."
+  "accessibility": {
+    "semantics": "The host is `aria-hidden`: the divider is decorative and stays out of the accessibility tree.",
+    "accessible_name": "not_applicable",
+    "keyboard": [],
+    "focus": "The divider does not receive focus.",
+    "contrast": "It is decorative: color/border does not need to meet 3:1.",
+    "color_alternative": "The divider carries no state; the separation is structural."
   },
-  "combinacoes_invalidas": [
+  "invalid_combinations": [
     "Text in the middle of the divider — there is no variant with text.",
     "A different thickness or color — the divider would become a state signal."
   ],
-  "relacoes": {
-    "combina_com": [
+  "relations": {
+    "combines_with": [
       "nph-button"
     ],
-    "pai": [
+    "parents": [
       "menu",
       "action bar",
       "cartão"
     ],
-    "filho": [],
-    "complementa_bloco": [],
-    "aparece_em": []
+    "children": [],
+    "complements_block": [],
+    "appears_in": []
   },
-  "anti_padroes": [
+  "anti_patterns": [
     "Using the divider as a field border.",
     "Using the divider as a spacer.",
     "Putting text in the middle of the divider.",
     "Changing the thickness or the color of the divider."
   ],
-  "fontes": {
+  "sources": {
     "design_md": "design.md, color/border, border/width and layout/separator-width and layout/separator-height, which are the length of the master in Figma",
-    "decisao": "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026",
-    "testes": "src/components/nph-separator/nph-separator.test.ts",
-    "evidencia_de_uso": "none in code yet; the accepted frame shows menu, action bar and card",
+    "decision": "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026",
+    "tests": "src/components/nph-separator/nph-separator.test.ts",
+    "usage_evidence": "none in code yet; the accepted frame shows menu, action bar and card",
     "storybook": "src/components/nph-separator/nph-separator.stories.ts",
     "figma": "DS-IA-NEPHOS 5.0, nph-separator frame 1196:674 and set 762:6"
   }

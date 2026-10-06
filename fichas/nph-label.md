@@ -1,146 +1,146 @@
 ---
-peca: nph-label
-nivel: componente
-status: vigente
-titulo: "nph-label"
-tipo: component spec
-criado: 2026-08-31
-atualizado: 2026-10-06
-resolve: >-
+piece: nph-label
+level: component
+status: active
+title: "nph-label"
+type: component spec
+created: 2026-08-31
+updated: 2026-10-06
+solves: >-
   Names a form control in a visible and accessible way. The label is
   only text, and it carries no layout, text state or error message. It carries the trigger
   of the help, not the help: the information icon opens the nph-tooltip.
-use_quando:
+use_when:
   - "A form control needs a visible name, on its own or inside an nph-field."
-nao_use_quando:
+do_not_use_when:
   - "It is a sentence with a verb and a full stop — that is `text/body-md`."
   - "It opens a section or group — that is `text/heading-sm`."
   - "It is emphasis inside a paragraph — that is `<strong>`."
 
 api:
   text:
-    tipo: string
-    obrigatoria: true
-    padrao: "vazio"
-    reflete: false
-    restricao: >-
+    type: string
+    required: true
+    default: "empty"
+    reflects: false
+    constraint: >-
       Carries the label content, already localized by the consuming application.
       It exists as a property because, without Shadow DOM, there is no `slot`.
   required:
-    tipo: boolean
-    obrigatoria: false
-    padrao: false
-    reflete: true
-    restricao: >-
+    type: boolean
+    required: false
+    default: false
+    reflects: true
+    constraint: >-
       Adds the asterisk at the end of the text. The asterisk is decorative
       (`aria-hidden`): the requiredness must be communicated by the control.
   for:
-    tipo: string
-    obrigatoria: false
-    padrao: nulo
-    reflete: true
-    restricao: >-
+    type: string
+    required: false
+    default: unset
+    reflects: true
+    constraint: >-
       `id` of the control this label names. It mirrors the native attribute and is the
       association mechanism — the reason the component does not use Shadow DOM.
   info:
-    tipo: string
-    obrigatoria: false
-    padrao: "vazio"
-    reflete: false
-    restricao: >-
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
       The text of the explanation, already localized by the consuming application. With
       info-label, it shows the information icon after the text, which opens the
       nph-tooltip with this text. Without info-label, the icon does not appear and
       console.error is emitted in development; the label remains.
   info-label:
-    tipo: string
-    obrigatoria: false
-    padrao: "vazio"
-    reflete: false
-    restricao: >-
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
       The accessible name of the information icon. The property is infoLabel. Without
       info, nothing appears and there is no error.
-  slots: nenhum
-  eventos: nenhum
-  cor: >-
+  slots: none
+  events: none
+  color: >-
     It is not a property. The text is `color/foreground` and the asterisk is
     `status/error`, always — including when the field is in error.
 
-variantes:
+variants:
   required:
-    eixo: aparencia
-    escolha_quando: "true when filling in the field is required"
-    nao_combine_com: ["layout", "weight"]
+    axis: appearance
+    choose_when: "true when filling in the field is required"
+    do_not_combine_with: ["layout", "weight"]
   info:
-    eixo: aparencia
-    escolha_quando: "When the field needs a short explanation that does not fit in the label; in code, it is the text of info with info-label."
-    nao_combine_com: ["layout", "weight"]
+    axis: appearance
+    choose_when: "When the field needs a short explanation that does not fit in the label; in code, it is the text of info with info-label."
+    do_not_combine_with: ["layout", "weight"]
 
-estados:
+states:
   default:
-    token: nao_se_aplica
-    muda_para_a_pessoa: "The text has no state. Error and disabled are shown by the field and by the composition"
+    token: not_applicable
+    changes_for_user: "The text has no state. Error and disabled are shown by the field and by the composition"
   focus:
     token: "border border/width in focus/border and halo focus/ring-width in focus/halo, around the 24 by 24 target"
-    muda_para_a_pessoa: "Only on the information icon and only from the keyboard: the border and the halo mark the focus, without changing the size."
-  aberto:
+    changes_for_user: "Only on the information icon and only from the keyboard: the border and the halo mark the focus, without changing the size."
+  open:
     token: "the nph-tooltip, below the label, at space/inline"
-    muda_para_a_pessoa: "The balloon shows the explanation; it closes with Esc, click outside or Tab out. Hovering does not open it."
+    changes_for_user: "The balloon shows the explanation; it closes with Esc, click outside or Tab out. Hovering does not open it."
 
-regras_de_negocio:
+business_rules:
   - "A required field is signaled by the asterisk — and the actual requiredness belongs to the control"
-erros_de_dominio: []
+domain_errors: []
 
 tokens:
-  texto: [text/label-md]
-  cor_do_texto: color/foreground
-  cor_do_asterisco: status/error
-  espaco_antes_do_asterisco: space/inline-tight
-  espaco_ate_o_gatilho: space/inline-tight
-  gatilho: [icon/size-sm, space/inline-tight, color/muted-foreground]
-  foco_do_gatilho: [border/width, focus/border-radius-control, focus/ring-width, focus/radius-control-with-border, focus/border, focus/halo]
-  espaco_ate_o_balao: space/inline
+  text: [text/label-md]
+  text_color: color/foreground
+  asterisk_color: status/error
+  asterisk_gap: space/inline-tight
+  trigger_gap: space/inline-tight
+  trigger: [icon/size-sm, space/inline-tight, color/muted-foreground]
+  trigger_focus: [border/width, focus/border-radius-control, focus/ring-width, focus/radius-control-with-border, focus/border, focus/halo]
+  tooltip_gap: space/inline
 
-dicas_para_ia:
+ai_hints:
   - "A field label is `nph-label`; a sentence with a verb and a full stop is not."
   - "The label does not change on error. The field and the message change."
   - "Do not look for a layout property: the position belongs to `nph-field`."
   - "`required=true` alone does not communicate requiredness to a screen reader."
   - "The information icon appears with info and info-label together; info-label is the name the screen reader announces."
 
-acessibilidade:
-  semantica: "Native `<label>` element; the information icon is a native `<button>` after it, outside the `<label>`, with aria-expanded and aria-controls pointing to the nph-tooltip"
-  nome_acessivel: "The label is the source of the accessible name of the control. The information icon is named by info-label"
-  teclado:
+accessibility:
+  semantics: "Native `<label>` element; the information icon is a native `<button>` after it, outside the `<label>`, with aria-expanded and aria-controls pointing to the nph-tooltip"
+  accessible_name: "The label is the source of the accessible name of the control. The information icon is named by info-label"
+  keyboard:
     - "Tab enters and leaves the information icon; the text does not receive focus."
     - "Enter and Space open and close the balloon."
     - "Esc closes the open balloon, and focus stays on the icon."
-  foco: "The text does not receive focus. The information icon does, with border focus/border and halo focus/halo outside, only from the keyboard"
-  contraste: "Measured in both modes: the text and the asterisk pass at 4.5:1; the icon, in color/muted-foreground, 6.69:1 and 9.81:1; the focus border, in focus/border, 3.68:1 and 8.98:1"
-  alternativa_a_cor: "The asterisk is a shape signal, not a color one — and it is decorative"
+  focus: "The text does not receive focus. The information icon does, with border focus/border and halo focus/halo outside, only from the keyboard"
+  contrast: "Measured in both modes: the text and the asterisk pass at 4.5:1; the icon, in color/muted-foreground, 6.69:1 and 9.81:1; the focus border, in focus/border, 3.68:1 and 8.98:1"
+  color_alternative: "The asterisk is a shape signal, not a color one — and it is decorative"
 
-combinacoes_invalidas:
+invalid_combinations:
   - "`required=true` without a visible legend explaining the convention in the form"
   - "Creating a layout or weight property — both were refused by decision; the text also has no state"
   - "info without info-label — the icon does not appear, because it would have no accessible name"
 
-relacoes:
-  combina_com: [nph-input, nph-field, nph-checkbox]
-  pai: [nph-field]
-  filho: [nph-icon, nph-tooltip]
-  complementa_bloco: [pendente]
-  aparece_em: [pendente]
+relations:
+  combines_with: [nph-input, nph-field, nph-checkbox]
+  parents: [nph-field]
+  children: [nph-icon, nph-tooltip]
+  complements_block: [pending]
+  appears_in: [pending]
 
-anti_padroes:
+anti_patterns:
   - "Changing the label color when the field enters error"
   - "Using `nph-label` to open a section or give emphasis"
   - "Treating the asterisk as the requiredness signal for assistive technology"
 
-fontes:
+sources:
   design_md: "design.md, in the repository"
-  decisao: "P62.1, P62.2 and P62.3, approved by Elvys on 28-08-2026; P62.6, the information trigger, under review in the PR by maurocsjr"
-  testes: "src/components/nph-label/nph-label.test.ts"
-  evidencia_de_uso: "branch v/3.0.0, PR #10, merge e231eba"
+  decision: "P62.1, P62.2 and P62.3, approved by Elvys on 28-08-2026; P62.6, the information trigger, under review in the PR by maurocsjr"
+  tests: "src/components/nph-label/nph-label.test.ts"
+  usage_evidence: "branch v/3.0.0, PR #10, merge e231eba"
   storybook: "src/components/nph-label/nph-label.stories.ts"
   figma: "page NPH — Label, nph-label frame 1194:1482 and master set 374:6"
 tags: [nephos, ds-agentico, ficha, componente, nph-label]
@@ -180,7 +180,7 @@ on its own or inside an `nph-field`.
 after the text. In code, `info` is the text of the explanation and only draws the
 icon with `info-label`.
 
-**By size and by density:** `nao_se_aplica`. The label has a single text role.
+**By size and by density:** `not_applicable`. The label has a single text role.
 
 **Do not combine with:** `layout` and `weight`. **Both were refused by a recorded
 decision** on 27-08-2026 — layout belongs to `nph-field` and weight belongs to the typography foundation.
@@ -244,9 +244,9 @@ decides the **position** of the label relative to the control.
 **What is the child:** with the trigger, `nph-icon` (`circle-info`) and `nph-tooltip`, which
 shows the explanation. Without the trigger, `nph-label` is a leaf.
 
-**Which block it complements:** `pendente` — Phase 5 has not started.
+**Which block it complements:** `pending` — Phase 5 has not started.
 
-**Appears in layouts:** `pendente`, for the same reason.
+**Appears in layouts:** `pending`, for the same reason.
 
 **The boundary, in writing:** help and error message **do not belong to the label**. If you are
 thinking of adding either of them here, the place is `nph-field`.

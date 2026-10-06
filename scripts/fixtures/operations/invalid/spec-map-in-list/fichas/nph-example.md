@@ -1,8 +1,8 @@
 ---
-peca: nph-example
-status: vigente
-relacoes:
-  pai:
+piece: nph-example
+status: active
+relations:
+  parents:
     - b: c
 ---
 

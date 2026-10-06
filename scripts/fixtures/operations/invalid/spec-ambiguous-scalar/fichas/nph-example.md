@@ -1,9 +1,9 @@
 ---
-peca: nph-example
-status: vigente
+piece: nph-example
+status: active
 api:
-  texto:
-    padrao: null
+  text:
+    default: null
 ---
 
 # nph-example

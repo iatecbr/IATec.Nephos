@@ -1,5 +1,5 @@
 ---
-peca: nph-draft
+piece: nph-draft
 status: "incompleta — aguarda implementação"
 api:
   origem: >-

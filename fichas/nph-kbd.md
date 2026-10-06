@@ -1,68 +1,68 @@
 ---
-peca: nph-kbd
-nivel: componente
-status: vigente
-resolve: >-
+piece: nph-kbd
+level: component
+status: active
+solves: >-
   Shows a keyboard shortcut key beside what it triggers, as a static
   piece.
-use_quando:
+use_when:
   - "Showing the keyboard shortcut beside the action it triggers."
   - "Showing the shortcut in an option of nph-rich-option."
-nao_use_quando:
+do_not_use_when:
   - "The piece would need to be clickable or receive focus — use nph-button."
   - "The combination would come in a single piece, such as Ctrl+K — use one piece per key, side by side."
 api:
   text:
-    tipo: string
-    obrigatoria: true
-    padrao: "vazio"
-    reflete: false
-    restricao: >-
+    type: string
+    required: true
+    default: "empty"
+    reflects: false
+    constraint: >-
       The text of one key, already localized by the consuming application. Empty or
       whitespace-only shows nothing and is not an error.
-variantes: nao_se_aplica
-estados:
-  padrao:
+variants: not_applicable
+states:
+  default:
     token: color/muted
-    muda_para_a_pessoa: "The key appears in a box; it does not change with interaction."
-regras_de_negocio:
+    changes_for_user: "The key appears in a box; it does not change with interaction."
+business_rules:
   - "One piece per key: the combination puts the pieces side by side."
-erros_de_dominio: []
+domain_errors: []
 tokens:
-  fundo: color/muted
-  texto: [text/label-sm, color/muted-foreground]
-  borda: [border/width, color/border]
-  raio: radius/inner
+  background: color/muted
+  text: [text/label-sm, color/muted-foreground]
+  border: [border/width, color/border]
+  radius: radius/inner
   padding: space/inline-tight
-dicas_para_ia:
+ai_hints:
   - "Use nph-kbd to show a shortcut beside what it triggers; for the action itself, use nph-button."
   - "In a combination, put one nph-kbd per key, side by side."
   - "Write the key through the text property; do not paint the box or the text."
-acessibilidade:
-  semantica: "The text sits inside `<kbd>`; the host has no extra role."
-  nome_acessivel: "The screen reader announces the key by its text."
-  teclado: []
-  foco: "The piece does not receive focus: it has no interaction."
-  contraste: "color/muted-foreground on color/muted passes 4.5:1 in both schemes and in every brand."
-  alternativa_a_cor: "The key is written in the text; color carries no meaning."
-combinacoes_invalidas:
+accessibility:
+  semantics: "The text sits inside `<kbd>`; the host has no extra role."
+  accessible_name: "The screen reader announces the key by its text."
+  keyboard: []
+  focus: "The piece does not receive focus: it has no interaction."
+  contrast: "color/muted-foreground on color/muted passes 4.5:1 in both schemes and in every brand."
+  color_alternative: "The key is written in the text; color carries no meaning."
+invalid_combinations:
   - "The whole combination in a single piece — use one piece per key."
   - "Style variant — there is no declared use."
-relacoes:
-  combina_com: [nph-rich-option]
-  pai: [nph-rich-option]
-  filho: []
-  complementa_bloco: []
-  aparece_em: []
-anti_padroes:
+relations:
+  combines_with: [nph-rich-option]
+  parents: [nph-rich-option]
+  children: []
+  complements_block: []
+  appears_in: []
+anti_patterns:
   - "Using it as a button or control."
   - "Creating a style variant."
   - "Painting the box or the text by hand."
-fontes:
+sources:
   design_md: "design.md, text/label-sm, color/muted, color/muted-foreground, color/border, border/width, radius/inner and space/inline-tight"
-  decisao: "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026"
-  testes: "src/components/nph-kbd/nph-kbd.test.ts"
-  evidencia_de_uso: "nph-rich-option, through the option of showing a shortcut"
+  decision: "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026"
+  tests: "src/components/nph-kbd/nph-kbd.test.ts"
+  usage_evidence: "nph-rich-option, through the option of showing a shortcut"
   storybook: "src/components/nph-kbd/nph-kbd.stories.ts"
   figma: "DS-IA-NEPHOS 5.0, nph-kbd frame 1193:20 and component 772:3"
 ---
@@ -86,7 +86,7 @@ triggers. The piece is static.
 
 ## Variants
 
-**By appearance, size and density:** `nao_se_aplica`. The content arrives through the
+**By appearance, size and density:** `not_applicable`. The content arrives through the
 `text` property.
 
 **Do not combine with:** a style variant, which has no declared use.

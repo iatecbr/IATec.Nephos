@@ -1,7 +1,7 @@
 ---
-peca: nph-example
-status: vigente
-resolve: "Valor atual da ficha."
+piece: nph-example
+status: active
+solves: "Valor atual da ficha."
 ---
 
 # nph-example

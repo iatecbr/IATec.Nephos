@@ -1,33 +1,33 @@
 ---
-peca: nph-example
-nivel: componente
-status: vigente
-criado: 2026-09-28
-resolve: >-
+piece: nph-example
+level: component
+status: active
+created: 2026-09-28
+solves: >-
   Primeira linha do bloco
   e a segunda linha.
 api:
-  texto:
-    tipo: string
-    obrigatoria: true
-    padrao: "vazio"
-    reflete: false
-  cor: color/foreground
-  slots: nenhum
-variantes:
+  text:
+    type: string
+    required: true
+    default: "empty"
+    reflects: false
+  color: color/foreground
+  slots: none
+variants:
   variant:
-    nao_combine_com: ["light, thin, sharp"]
-relacoes:
-  pai: [nph-button, "os controles que o contêm"]
-  filho: []
+    do_not_combine_with: ["light, thin, sharp"]
+relations:
+  parents: [nph-button, "os controles que o contêm"]
+  children: []
 
 tokens:
-  cor: color/foreground
-fontes:
-  evidencia_de_uso: "branch v/3.0.0, PR #6, merge 437dd60"
+  color: color/foreground
+sources:
+  usage_evidence: "branch v/3.0.0, PR #6, merge 437dd60"
   contagem: 17
-  decisao: nulo
-use_quando:
+  decision: unset
+use_when:
   - "Quando precisa: com dois-pontos."
   - texto sem aspas
 ---
@@ -35,7 +35,7 @@ use_quando:
 # nph-example
 
 Fixture VALIDO da V32. Cobre os casos dificeis da gramatica: lista em linha
-com virgula dentro de aspas, lista mista, `[]`, booleano, numero, data, `nulo`,
+com virgula dentro de aspas, lista mista, `[]`, booleano, numero, data, `unset`,
 `#` dentro de aspas, `>-`, linha em branco entre chaves e a mesma chave em
 mapas diferentes.
 

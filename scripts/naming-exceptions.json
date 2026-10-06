@@ -21,13 +21,6 @@
     ]
   },
   {
-    "file": "scripts/spec-lib.mjs",
-    "class": "spec-schema",
-    "names": [
-      "vigente"
-    ]
-  },
-  {
     "file": "scripts/test-i18n.mjs",
     "class": "i18n-header",
     "names": [

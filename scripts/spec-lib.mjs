@@ -22,7 +22,7 @@
  *
  * Scalars: between double quotes it becomes text; `true` and `false` become
  * boolean; digits only becomes number; the rest becomes text, including date
- * and `nulo`.
+ * and `unset`.
  *
  * What is rejected: `|`, anchor, tag, comment `#` outside quotes,
  * tab, list of lists, map inside list, inline map `{...}`,
@@ -287,7 +287,7 @@ export function readSpec(text) {
   const data = readYaml(lines);
   return {
     data,
-    inForce: data.status === 'vigente',
+    inForce: data.status === 'active',
     json: JSON.stringify(data, null, 2) + '\n',
   };
 }

@@ -1,13 +1,13 @@
 ---
-titulo: "Spec template — Nephos"
-tipo: agentic contract template
-criado: 2026-08-31
-atualizado: 2026-08-31
+title: "Spec template — Nephos"
+type: agentic contract template
+created: 2026-08-31
+updated: 2026-08-31
 status: awaiting review
-leitura_obrigatoria: true
-precedencia: 5
-aplica_se_a: [componente, bloco, layout, template]
-fontes:
+required_reading: true
+precedence: 5
+applies_to: [component, block, layout, template]
+sources:
   - "`TRABALHO/DESIGN SYSTEM/02 — Componentes/Template de ficha — peças do Nephos.md` — version 1.0, of 20-08-2026"
   - "`Documentos obrigatórios de um Design System agêntico — especificação para o Nephos` (vault) — the 9-section model"
   - "`Índice — DS-Agentico` (vault)"
@@ -27,7 +27,7 @@ tags: [nephos, ds-agentico, ficha, template]
 > Back to `Índice — DS-Agentico` (vault).
 
 **How to use.** Copy the template in section 4. Fill in **everything**. A field that does not
-apply gets `nao_se_aplica`; a field not yet decided gets `pendente` — never
+apply gets `not_applicable`; a field not yet decided gets `pending` — never
 leave it blank, because the agent reads blank as "does not exist" and invents.
 
 **Where to save:** in this folder — `fichas/<name>.md`, **in the repository**. This template is
@@ -71,7 +71,7 @@ spec. The text explains *when to choose the piece*; the YAML says *what it accep
    that would not work.
 4. **Semantic tokens only.** No spec cites `core/*`, `theme/*` or a literal value.
 5. **The spec text is in English** (P64, amendment of 06-10-2026). YAML keys and
-   single-word contract values stay as they are until DSA-15.
+   single-word contract values are in English too, since DSA-15 (06-10-2026).
 6. **Also document what is not yours.** A third-party component used as is
    needs a spec — the vendor's documentation says what it does, not **when to
    choose it within Nephos**. That layer is yours.
@@ -105,59 +105,59 @@ visual description.
 
 ```markdown
 ---
-peca: nph-<nome>                      # or the name of the block, layout or template
-nivel: componente                     # componente | fundacao | bloco | layout | template
-status: rascunho                      # rascunho | vigente | descontinuado
-resolve: >-
+piece: nph-<name>                     # or the name of the block, layout or template
+level: component                      # component | foundation | block | layout | template
+status: draft                         # draft | active | deprecated
+solves: >-
   One sentence: the problem this piece solves.
-use_quando: []                        # concrete situations
-nao_use_quando: []                    # each item points to the right piece for the case
+use_when: []                          # concrete situations
+do_not_use_when: []                   # each item points to the right piece for the case
 api:                                  # the piece's PUBLIC CONTRACT. It does not become a section
-  <propriedade>:                      #   in Markdown: API is a value, and values live here
-    tipo: ""                          # string | boolean | number | enum
-    valores: []                       # only when tipo=enum; the closed list
-    obrigatoria: false                # true | false
-    padrao: ""                        # the value assumed when nothing is passed
-    reflete: false                    # true when it becomes a DOM attribute, and why
-    restricao: ""                     # the usage limit, when there is one
-variantes:
-  <nome-da-variante>:
-    eixo: aparencia                   # aparencia | tamanho | densidade
-    escolha_quando: ""
-    nao_combine_com: []
-estados:
-  <nome-do-estado>:
+  <property>:                         #   in Markdown: API is a value, and values live here
+    type: ""                          # string | boolean | number | enum
+    values: []                        # only when type=enum; the closed list
+    required: false                   # true | false
+    default: ""                       # the value assumed when nothing is passed
+    reflects: false                   # true when it becomes a DOM attribute, and why
+    constraint: ""                    # the usage limit, when there is one
+variants:
+  <variant-name>:
+    axis: appearance                  # appearance | size | density
+    choose_when: ""
+    do_not_combine_with: []
+states:
+  <state-name>:
     token: ""                         # WHICH semantic token this state uses
-    muda_para_a_pessoa: ""
-regras_de_negocio: []                 # domain rule the piece carries
-erros_de_dominio: []                  # product error states, not only visual ones
+    changes_for_user: ""
+business_rules: []                    # domain rule the piece carries
+domain_errors: []                     # product error states, not only visual ones
 tokens:                               # semantic layer ONLY
-  <propriedade>: <token>
-dicas_para_ia: []                     # choice sentences, in natural language
-acessibilidade:
-  semantica: ""                       # element or role
-  nome_acessivel: ""                  # where the name comes from
-  teclado: []                         # keys and what each one does
-  foco: ""
-  contraste: ""                       # pendente until PI-05 sets the WCAG level
-  alternativa_a_cor: ""               # how the state is perceived without color
-combinacoes_invalidas: []             # each item: what is not allowed and why
-relacoes:
-  combina_com: []
-  pai: []                             # what usually contains this piece
-  filho: []                           # what this piece usually contains
-  complementa_bloco: []               # the link with Phase 5
-  aparece_em: []                      # blocks, layouts or templates
+  <property>: <token>
+ai_hints: []                          # choice sentences, in natural language
+accessibility:
+  semantics: ""                       # element or role
+  accessible_name: ""                 # where the name comes from
+  keyboard: []                        # keys and what each one does
+  focus: ""
+  contrast: ""                        # pending until PI-05 sets the WCAG level
+  color_alternative: ""               # how the state is perceived without color
+invalid_combinations: []              # each item: what is not allowed and why
+relations:
+  combines_with: []
+  parents: []                         # what usually contains this piece
+  children: []                        # what this piece usually contains
+  complements_block: []               # the link with Phase 5
+  appears_in: []                      # blocks, layouts or templates
   # at composition levels, add:
-  # exige: []                         # required pieces
-  # variacoes_aceitaveis: []
-  # contexto_de_layout: ""
-anti_padroes: []
-fontes:
+  # requires: []                      # required pieces
+  # acceptable_variations: []
+  # layout_context: ""
+anti_patterns: []
+sources:
   design_md: ""
-  decisao: ""                         # the decision that originated the piece, with date
-  testes: ""
-  evidencia_de_uso: ""                # where it is actually used already
+  decision: ""                        # the decision that originated the piece, with date
+  tests: ""
+  usage_evidence: ""                  # where it is actually used already
   storybook: ""
   figma: ""
 ---
@@ -234,13 +234,13 @@ fontes:
 ## 5. What changes in block, layout and template
 
 **Same template** — they do not get their own structure —, with four additions in
-`relacoes` and in the Relations section:
+`relations` and in the Relations section:
 
 | Addition | What it answers |
 |---|---|
-| `exige` | Which pieces the composition **requires**. Without them, it is not that composition |
-| `variacoes_aceitaveis` | What can change without becoming something else |
-| `contexto_de_layout` | In which layout it usually appears |
+| `requires` | Which pieces the composition **requires**. Without them, it is not that composition |
+| `acceptable_variations` | What can change without becoming something else |
+| `layout_context` | In which layout it usually appears |
 | Composition goal | Which interface goal it solves — not the appearance |
 
 **The criterion that separates component from block:** a component is reusable in any

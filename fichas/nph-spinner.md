@@ -1,91 +1,91 @@
 ---
-peca: nph-spinner
-nivel: componente
-status: vigente
-resolve: >-
+piece: nph-spinner
+level: component
+status: active
+solves: >-
   Shows that the system is working when the wait has no set time to
   end, without being the only sign that something is happening.
-use_quando:
+use_when:
   - "Saving a form, fetching data or waiting for a button's response, with status text beside it."
   - "The wait is short and the person needs to see that the click worked."
-nao_use_quando:
+do_not_use_when:
   - "The progress is known — show the progress in text or percentage; the spinner does not fit."
   - "The spinner would be the only sign of waiting — write beside it what is happening or give it a label."
   - "The piece would need to receive click or focus — the target is the surrounding control."
 api:
   size:
-    tipo: enum
-    valores: [sm, md]
-    obrigatoria: false
-    padrao: sm
-    reflete: true
-    restricao: >-
+    type: enum
+    values: [sm, md]
+    required: false
+    default: sm
+    reflects: true
+    constraint: >-
       Reflects because the internal CSS selects the drawing by it. sm inside a
       button or field; md in a content area, card or highlighted block. lg does
       not exist. A value outside the list draws nothing and emits console.error in
       development.
   label:
-    tipo: string
-    obrigatoria: false
-    padrao: "vazio"
-    reflete: false
-    restricao: >-
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
       Accessible name of the spinner when there is no status text beside it. Empty or
       whitespace-only makes the spinner decorative, out of the accessibility tree.
-variantes:
+variants:
   size:
-    eixo: tamanho
-    escolha_quando: "sm inside a button or field; md in a content area, card or highlighted block."
-    nao_combine_com: [lg, type]
-estados:
-  girando:
+    axis: size
+    choose_when: "sm inside a button or field; md in a content area, card or highlighted block."
+    do_not_combine_with: [lg, type]
+states:
+  spinning:
     token: motion/loop-duration
-    muda_para_a_pessoa: "The circle-notch spins continuously while the wait lasts."
-  movimento-reduzido:
-    token: nao_se_aplica
-    muda_para_a_pessoa: "With reduced motion requested by the system, the spin stops and the notice continues through the text or the label."
-regras_de_negocio:
+    changes_for_user: "The circle-notch spins continuously while the wait lasts."
+  reduced-motion:
+    token: not_applicable
+    changes_for_user: "With reduced motion requested by the system, the spin stops and the notice continues through the text or the label."
+business_rules:
   - "The spinner is never the only sign of waiting: there is status text beside it or a label."
   - "The color inherits from the context; the spinner has no color property."
-erros_de_dominio: []
+domain_errors: []
 tokens:
-  tamanho: [icon/size-sm, icon/size-md]
-  duracao: motion/loop-duration
-  curva: motion/loop-easing
-  cor_solto: color/foreground
-dicas_para_ia:
+  size: [icon/size-sm, icon/size-md]
+  duration: motion/loop-duration
+  easing: motion/loop-easing
+  standalone_color: color/foreground
+ai_hints:
   - "Use nph-spinner when the wait has no set time to end; with known progress, show the progress."
   - "Always put status text beside it, such as Saving…; without text, fill in label."
   - "Use size sm inside a button or field and md in a content area."
   - "The artwork is the circle-notch of nph-icon; do not use the classic spinner, which spins in steps."
-acessibilidade:
-  semantica: "With label, the host is `role=img` with `aria-label`. Without label, the host is `aria-hidden` and the text beside it gives the notice."
-  nome_acessivel: "The label, when there is no status text beside it."
-  teclado: []
-  foco: "The spinner does not receive focus; the surrounding control does."
-  contraste: "Standalone, it uses color/foreground, above 3:1 in both schemes; inside a control, the pair of the control's text applies."
-  alternativa_a_cor: "The notice comes from the status text or the label; color carries no meaning."
-combinacoes_invalidas:
+accessibility:
+  semantics: "With label, the host is `role=img` with `aria-label`. Without label, the host is `aria-hidden` and the text beside it gives the notice."
+  accessible_name: "The label, when there is no status text beside it."
+  keyboard: []
+  focus: "The spinner does not receive focus; the surrounding control does."
+  contrast: "Standalone, it uses color/foreground, above 3:1 in both schemes; inside a control, the pair of the control's text applies."
+  color_alternative: "The notice comes from the status text or the label; color carries no meaning."
+invalid_combinations:
   - "size lg — it does not exist; the largest size is md."
   - "Property type, including the old Type=Mirrored of the kit — it was removed."
   - "Spinner without text beside it and without label — it becomes the only sign of waiting."
   - "Spinner for known progress — show the progress."
-relacoes:
-  combina_com: [nph-icon, nph-button]
-  pai: [nph-button]
-  filho: [nph-icon]
-  complementa_bloco: []
-  aparece_em: []
-anti_padroes:
+relations:
+  combines_with: [nph-icon, nph-button]
+  parents: [nph-button]
+  children: [nph-icon]
+  complements_block: []
+  appears_in: []
+anti_patterns:
   - "Using the spinner as the only sign of waiting."
   - "Stretching, rotating by hand or recoloring the spinner."
   - "Swapping the circle-notch artwork for another icon, including the classic spinner."
   - "Keeping the spin when the system asks for reduced motion."
-fontes:
+sources:
   design_md: "design.md, motion/loop-duration, motion/loop-easing, icon/size-sm, icon/size-md and the circle-notch in `icones_nucleo`"
-  decisao: "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026"
-  testes: "src/components/nph-spinner/nph-spinner.test.ts"
-  evidencia_de_uso: "nph-button, in the `carregando` state, planned in Batch B"
+  decision: "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026"
+  tests: "src/components/nph-spinner/nph-spinner.test.ts"
+  usage_evidence: "nph-button, in the `carregando` state, planned in Batch B"
   storybook: "src/components/nph-spinner/nph-spinner.stories.ts"
   figma: "DS-IA-NEPHOS 5.0, nph-spinner frame 1195:22210 and set 281:11"
 ---
@@ -116,7 +116,7 @@ has no set time to end, without being the only sign that something is happening.
 |---|---|---|
 | `size` | `sm` (default), `md` | `sm` inside a button or field; `md` in a content area, card or highlighted block |
 
-**By appearance and density:** `nao_se_aplica`.
+**By appearance and density:** `not_applicable`.
 
 **Do not combine with:** `lg`, which does not exist, nor `type`, including the old
 `Type=Mirrored` of the kit, which was removed. Do not create a new size.
@@ -126,7 +126,7 @@ has no set time to end, without being the only sign that something is happening.
 | State | Token | What changes for the person |
 |---|---|---|
 | Spinning | `motion/loop-duration` and `motion/loop-easing` | The `circle-notch` spins continuously while the wait lasts |
-| Reduced motion | `nao_se_aplica` | The spin stops, and the notice continues through the text or the `label` |
+| Reduced motion | `not_applicable` | The spin stops, and the notice continues through the text or the `label` |
 
 **Feedback and focus:** the spinner does not receive click or focus. Focus belongs to the
 surrounding control.

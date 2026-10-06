@@ -1,5 +1,5 @@
 {
-  "peca": "nph-example",
-  "status": "vigente",
-  "resolve": "Valor antigo da ficha."
+  "piece": "nph-example",
+  "status": "active",
+  "solves": "Valor antigo da ficha."
 }
