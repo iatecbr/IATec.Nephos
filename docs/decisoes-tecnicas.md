@@ -1,117 +1,117 @@
-# Decisões técnicas — Nephos
+# Technical decisions — Nephos
 
-Esta é a **fonte única** das decisões técnicas P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67 e P68. Em caso de divergência entre este arquivo e qualquer outro documento
-do repositório, prevalece este.
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
+P21, P62, P63, P64, P65, P66, P67 and P68. If this file and any other document in the
+repository disagree, this one prevails.
 
-## Fila de revisão técnica — Elvys
+## Technical review queue — Elvys
 
-Registro de tudo que esperava revisão dele, em um lugar só. A coluna **Se ele
-discordar** dizia o custo de mudar de ideia, para priorizar a leitura; a coluna
-**Revisão de Elvys** registra o resultado.
+Record of everything that was waiting for his review, in a single place. The **If he
+disagrees** column stated the cost of changing course, to prioritize the reading; the
+**Elvys's review** column records the outcome.
 
-**Revisão concluída em 28/08/2026**, item a item, em sessão de trabalho com
-Claude Code. Elvys aprovou como estavam registradas todas as decisões abaixo,
-exceto a P62.4, que ele resolveu de forma diferente da registrada (ver a
-subseção P62.4 para o detalhe).
+**Review completed on 28/08/2026**, item by item, in a working session with
+Claude Code. Elvys approved all the decisions below as they were recorded,
+except P62.4, which he resolved differently from what was recorded (see the
+P62.4 subsection for the detail).
 
-| # | Decisão | Adotada em | Se ele discordar | Revisão de Elvys |
+| # | Decision | Adopted on | If he disagrees | Elvys's review |
 |---|---|---|---|---|
-| **P62.3** | `for` e `text` como API do `nph-label` | 27/08/2026 | **Barato agora, caro depois.** O `nph-input` e o `nph-field` serão construídos sobre elas | Aprovada, 28/08/2026 |
-| **P62.2** | Formato dos tokens de tipografia: cinco propriedades por papel | 27/08/2026 | Médio. Os valores não mudam, só a emissão e o CSS que os consome | Aprovada, 28/08/2026 |
-| **P62.1** | `nph-label` sem Shadow DOM — exceção à P01 | 27/08/2026 | Alto. É a única forma de a associação nativa funcionar; sem ela o rótulo perde a função | Aprovada, 28/08/2026 |
-| **P62.4** | Dimensões em `px`, e não `rem` | 27/08/2026 | Alto e antigo. Vale para o sistema inteiro, não só tipografia | Resolvida por decisão própria: migrar o gerador para `rem` — 28/08/2026. **Implementada em 28/08/2026** |
-| **P62.5** | O raio continua em `px` | 28/08/2026 | Baixo. Converter depois é uma linha no gerador, mas exige alterar `raio_regras` no `design.md` | Adotada por Indiane em 28/08/2026. **Revisada e aprovada por Mauro em 09/09/2026, no PR #25, mergeado em `ed7c009`.** Resolve a contradição de escopo da P62.4 |
-| **P01** | Shadow DOM aberto | 24/08/2026 | Alto. Todo componente depende | Aprovada, 28/08/2026 |
-| **P02** | Custom properties como API pública | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
-| **P03** | Padrão de diretórios e TypeScript | 24/08/2026 | Médio | Aprovada, 28/08/2026 |
-| **P17** | Papel de cada fonte de verdade | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
-| **P19** | Storybook, testes e publicação | 24/08/2026 | Médio | Aprovada, 28/08/2026 |
-| **P20** | Style Dictionary v5 e contrato de tema | 24/08/2026 | Alto | Aprovada, 28/08/2026 |
-| **P21** | Plano técnico do `nph-icon` | 26/08/2026 | Já implementado e mergeado sob aceitação de risco | Aprovada, 28/08/2026 |
-| **P63** | Metadata gerada a partir da ficha | 28/09/2026 | Médio. Mudar local ou formato depois exige gerar de novo e ajustar quem lê; a ficha não muda | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** |
-| **P64** | Idioma do código | 28/09/2026 | Médio. Vale para todo código novo; a migração do que existe só troca nomes | Adotada por Indiane em 28/09/2026. **Revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.** Emenda de 02/10/2026 aprovada por Mauro no PR #49, com merge em 05/10/2026. Emenda de 06/10/2026 (Storybook) adotada por Indiane, em revisão no PR #56. |
-| **P65** | API e semântica do `nph-tooltip` | 05/10/2026 | Baixo agora. O `nph-label` é o primeiro consumidor; mudar depois exige refazer o gatilho dele | Comportamento e escopo (L11.5) e anatomia (L11.6, L11.7 e o quadro aceito) adotados por Indiane em 01/10/2026. API e semântica aprovadas por `maurocsjr` no PR #51, com merge em 05/10/2026 |
-| **P66** | API e semântica de `nph-spinner`, `nph-separator` e `nph-kbd` | 05/10/2026 | Baixo agora. O `nph-button` (Lote B) e o `nph-rich-option` serão os primeiros consumidores | Anatomia e comportamento: quadros aceitos por Indiane em 01/10/2026. API e semântica: proposta técnica, revisão no PR por `maurocsjr` |
-| **P67** | Invariantes dependentes redeclarados em cada raiz de esquema | 05/10/2026 | Médio. Muda onde o gerador emite 14 tokens e fixa como uma parte da tela troca de marca | Consumo decidido por Indiane em 05/10/2026. Proposta técnica, revisão no PR por `maurocsjr` |
-| **P68** | API e semântica de `nph-badge` e `nph-button` | 05/10/2026 | Baixo agora. Nenhuma peça consome as duas ainda | Anatomia e comportamento: quadros aceitos por Indiane em 01/10/2026, completados em 02/10/2026. API e semântica: proposta técnica, revisão no PR por `maurocsjr` |
+| **P62.3** | `for` and `text` as the API of `nph-label` | 27/08/2026 | **Cheap now, expensive later.** `nph-input` and `nph-field` will be built on top of them | Approved, 28/08/2026 |
+| **P62.2** | Format of the typography tokens: five properties per role | 27/08/2026 | Medium. The values do not change, only the emission and the CSS that consumes them | Approved, 28/08/2026 |
+| **P62.1** | `nph-label` without Shadow DOM — exception to P01 | 27/08/2026 | High. It is the only way the native association works; without it the label loses its function | Approved, 28/08/2026 |
+| **P62.4** | Dimensions in `px`, not `rem` | 27/08/2026 | High and old. Applies to the whole system, not just typography | Resolved by his own decision: migrate the generator to `rem` — 28/08/2026. **Implemented on 28/08/2026** |
+| **P62.5** | The radius stays in `px` | 28/08/2026 | Low. Converting later is one line in the generator, but requires changing `raio_regras` in `design.md` | Adopted by Indiane on 28/08/2026. **Reviewed and approved by Mauro on 09/09/2026, in PR #25, merged in `ed7c009`.** Resolves the scope contradiction of P62.4 |
+| **P01** | Open Shadow DOM | 24/08/2026 | High. Every component depends on it | Approved, 28/08/2026 |
+| **P02** | Custom properties as public API | 24/08/2026 | High | Approved, 28/08/2026 |
+| **P03** | Directory pattern and TypeScript | 24/08/2026 | Medium | Approved, 28/08/2026 |
+| **P17** | Role of each source of truth | 24/08/2026 | High | Approved, 28/08/2026 |
+| **P19** | Storybook, tests and publishing | 24/08/2026 | Medium | Approved, 28/08/2026 |
+| **P20** | Style Dictionary v5 and theme contract | 24/08/2026 | High | Approved, 28/08/2026 |
+| **P21** | Technical plan of `nph-icon` | 26/08/2026 | Already implemented and merged under risk acceptance | Approved, 28/08/2026 |
+| **P63** | Metadata generated from the spec | 28/09/2026 | Medium. Changing location or format later requires generating again and adjusting whoever reads it; the spec does not change | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** |
+| **P64** | Code language | 28/09/2026 | Medium. Applies to all new code; migrating what exists only swaps names | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** Amendment of 02/10/2026 approved by Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 (language, and the Storybook naming item) adopted by Indiane, each under review in the pull request that brings it. |
+| **P65** | API and semantics of `nph-tooltip` | 05/10/2026 | Low now. `nph-label` is the first consumer; changing later requires redoing its trigger | Behavior and scope (L11.5) and anatomy (L11.6, L11.7 and the accepted frame) adopted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #51, merged on 05/10/2026 |
+| **P66** | API and semantics of `nph-spinner`, `nph-separator` and `nph-kbd` | 05/10/2026 | Low now. `nph-button` (Batch B) and `nph-rich-option` will be the first consumers | Anatomy and behavior: frames accepted by Indiane on 01/10/2026. API and semantics: technical proposal, review in the PR by `maurocsjr` |
+| **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Technical proposal, review in the PR by `maurocsjr` |
+| **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics: technical proposal, review in the PR by `maurocsjr` |
 
-**Fora desta nota, ainda aguardam confirmação dele:** licença, variável de CI,
-credencial e plataforma do **Font Awesome Pro**. Ver `PO-001` no vault.
+**Outside this note, still awaiting his confirmation:** license, CI variable,
+credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
 
-> **Status de todas as decisões desta nota:**
-> *Decisão adotada pela Indiane em 24/08/2026 (P21 em 26/08/2026, P62 em
-> 27/08/2026) — revisada e aprovada por Elvys em 28/08/2026, item a item,
-> exceto a P62.4.*
+> **Status of all decisions in this note:**
+> *Decision adopted by Indiane on 24/08/2026 (P21 on 26/08/2026, P62 on
+> 27/08/2026) — reviewed and approved by Elvys on 28/08/2026, item by item,
+> except P62.4.*
 >
-> Elvys revisou e aprovou formalmente P01, P02, P03, P17, P19, P20, P21, P62.1,
-> P62.2 e P62.3 como estavam registradas. Para a P62.4, ele não aprovou o
-> registro da divergência sem correção: decidiu migrar o gerador para `rem`
-> (ver P62.4). Essas decisões valem para o trabalho atual e continuam
-> revisáveis: para alterá-las agora é preciso o mesmo rito de sempre —
-> conflito técnico explicado, proposta registrada, revisão humana.
+> Elvys formally reviewed and approved P01, P02, P03, P17, P19, P20, P21, P62.1,
+> P62.2 and P62.3 as they were recorded. For P62.4, he did not approve
+> recording the divergence without a correction: he decided to migrate the generator to `rem`
+> (see P62.4). These decisions apply to the current work and remain
+> revisable: changing them now requires the same rite as always —
+> technical conflict explained, proposal recorded, human review.
 
-Antes desta nota, as cinco estavam registradas como pendências em aberto,
-delegadas a Elvys. Deixaram esse estado em 24/08/2026, para destravar a
-continuidade do trabalho. O registro de que foram pendências é preservado de
-propósito: elas são decisões **vigentes e revisáveis**, não decisões fechadas.
-
----
-
-## P01 — Encapsulamento dos componentes
-
-**Decisão.** Componentes futuros com prefixo `nph-` usarão **Shadow DOM
-aberto**.
-
-**Motivo.** Encapsula os estilos internos e protege a implementação visual,
-mantendo inspeção, depuração e testes viáveis.
-
-**Escopo.** Só passa a ser aplicada ao criar o primeiro componente.
-
-**Impacto.** Todo componente `nph-*` nasce com Shadow DOM em modo aberto.
-Estilos de fora não vazam para dentro do componente, e o CSS interno não vaza
-para a página. Isso torna o P02 obrigatório: sem uma API pública de
-personalização, o encapsulamento deixaria o componente impossível de tematizar.
-
-**Fora de escopo.** Shadow DOM fechado, que não deve ser usado. Criar qualquer
-componente nesta tarefa.
-
-**Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
-por Elvys em 28/08/2026.
+Before this note, the five were recorded as open pending items,
+delegated to Elvys. They left that state on 24/08/2026, to unblock the
+continuity of the work. The record that they were pending items is preserved on
+purpose: they are **current and revisable** decisions, not closed decisions.
 
 ---
 
-## P02 — Personalização e exposição de CSS
+## P01 — Component encapsulation
 
-**Decisão.** A API pública de personalização visual usará **CSS custom
-properties**, para tokens e para personalização. Partes internas que
-precisarem ser estilizadas de fora poderão ser expostas com **`::part`**.
-Classes CSS internas **não são API pública**.
+**Decision.** Future components with the `nph-` prefix will use **open Shadow
+DOM**.
 
-**Motivo.** Permite tematização e os ajustes previstos sem transformar classes
-internas em contrato com o consumidor — o que congelaria a implementação e
-impediria refatoração.
+**Reason.** It encapsulates the internal styles and protects the visual implementation,
+while keeping inspection, debugging and testing feasible.
 
-**Escopo.** Só passa a ser aplicada ao criar o primeiro componente.
+**Scope.** It only starts to apply when the first component is created.
 
-**Impacto.** Define a fronteira entre o que é contrato e o que é interno:
-custom properties e `::part` são estáveis e versionados; nomes de classe
-dentro do Shadow DOM podem mudar a qualquer momento. Um consumidor que
-depender de classe interna quebra sem aviso, e isso não conta como regressão.
+**Impact.** Every `nph-*` component is born with Shadow DOM in open mode.
+Outside styles do not leak into the component, and the internal CSS does not leak
+into the page. This makes P02 mandatory: without a public customization
+API, encapsulation would make the component impossible to theme.
 
-**Fora de escopo.** Criar estilos, partes ou componentes nesta tarefa. Definir
-quais partes específicas cada componente exporá — isso é decidido na ficha de
-cada peça.
+**Out of scope.** Closed Shadow DOM, which must not be used. Creating any
+component in this task.
 
-**Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
-por Elvys em 28/08/2026.
+**Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
+by Elvys on 28/08/2026.
 
 ---
 
-## P03 — Organização do projeto
+## P02 — Customization and CSS exposure
 
-**Decisão.** O padrão futuro de diretórios é este, sem criar diretórios vazios
-desnecessários:
+**Decision.** The public visual customization API will use **CSS custom
+properties**, for tokens and for customization. Internal parts that
+need to be styled from outside may be exposed with **`::part`**.
+Internal CSS classes **are not public API**.
+
+**Reason.** It allows theming and the planned adjustments without turning internal
+classes into a contract with the consumer — which would freeze the implementation and
+prevent refactoring.
+
+**Scope.** It only starts to apply when the first component is created.
+
+**Impact.** It defines the boundary between what is contract and what is internal:
+custom properties and `::part` are stable and versioned; class names
+inside the Shadow DOM may change at any time. A consumer that
+depends on an internal class breaks without warning, and that does not count as a regression.
+
+**Out of scope.** Creating styles, parts or components in this task. Defining
+which specific parts each component will expose — that is decided in the spec of
+each piece.
+
+**Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
+by Elvys on 28/08/2026.
+
+---
+
+## P03 — Project organization
+
+**Decision.** The future directory pattern is this one, without creating unnecessary
+empty directories:
 
 ```text
 src/
@@ -129,822 +129,868 @@ src/
 docs/
 ```
 
-A estrutura que o Storybook já criou é preservada. Stories e testes ficam
-próximos do componente a que pertencem.
+The structure Storybook already created is preserved. Stories and tests sit
+next to the component they belong to.
 
-**Motivo.** Manter implementação, estilo, story e teste de uma peça no mesmo
-lugar, para que o componente seja legível e movível como uma unidade.
+**Reason.** Keep the implementation, style, story and test of a piece in the same
+place, so that the component is readable and movable as a unit.
 
-**Escopo.** Padrão futuro. Nenhum destes diretórios é criado agora, exceto
-`docs/`, que existe porque esta nota vive nele.
+**Scope.** Future pattern. None of these directories is created now, except
+`docs/`, which exists because this note lives in it.
 
-**Impacto.** `src/tokens/source/` e `src/tokens/generated/` materializam o P17:
-o JSON versionado fica em `source/`, o CSS gerado fica em `generated/`.
+**Impact.** `src/tokens/source/` and `src/tokens/generated/` materialize P17:
+the versioned JSON goes in `source/`, the generated CSS goes in `generated/`.
 
-**Fora de escopo.** Criar `src/`, `src/components/`, `src/tokens/`,
-`src/styles/` ou `src/shared/` nesta tarefa. Criar componentes.
+**Out of scope.** Creating `src/`, `src/components/`, `src/tokens/`,
+`src/styles/` or `src/shared/` in this task. Creating components.
 
-**Divergência resolvida no primeiro componente.** A configuração do Storybook
-inclui as stories em `src/components/**/*.stories.ts`, e a estrutura passou a
-usar TypeScript conforme este padrão. O histórico desta divergência explica o
-escopo da P03; não autoriza alteração futura.
+**Divergence resolved in the first component.** The Storybook configuration
+includes the stories in `src/components/**/*.stories.ts`, and the structure started
+using TypeScript according to this pattern. The history of this divergence explains the
+scope of P03; it does not authorize future changes.
 
-**Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
-por Elvys em 28/08/2026.
-
----
-
-## P17 — Formato e consumo de tokens
-
-**Decisão.** Tokens versionados no repositório usarão **JSON** como
-formato-fonte. **CSS custom properties** serão o formato **gerado** para
-consumo no browser.
-
-**Fonte canônica por responsabilidade.**
-
-- O **Figma** é a fonte visual: define e valida valores, modos, aliases e
-  intenção de design.
-- O `design.md` é o contrato humano e agêntico: explica uso, acessibilidade,
-  nomenclatura e restrições. Ele não é o arquivo de geração.
-- O **JSON** será a fonte técnica versionada dos valores auditados que entram
-  no repositório.
-- As **CSS custom properties** serão geradas do JSON e não devem ser editadas
-  à mão.
-
-Enquanto a auditoria Figma ↔ documentação não terminar, nenhum valor entra no
-JSON. **Não criar tokens com valores fictícios ou não auditados.**
-
-**Motivo.** JSON é legível por ferramenta e serve de fonte para gerar outros
-formatos; CSS custom properties são o que o browser consome e o que o P02
-define como API pública.
-
-**Escopo.** Nenhum valor de token entra no repositório antes da auditoria.
-
-**Impacto.** Cria uma etapa de geração entre a fonte e o consumo: o JSON é
-editado, o CSS é gerado e não deve ser editado à mão. A ferramenta de geração
-ainda não foi escolhida.
-
-**Fora de escopo.** Criar arquivos de token, migrar valores do Figma para
-código, escolher ferramenta de geração e escrever o script de build de tokens.
-
-**Compatibilidade com o [`design.md`](../design.md).** O YAML existente no
-`design.md` permanece como documentação do contrato até sua migração e
-validação no repositório. Depois da auditoria, o JSON será a fonte técnica dos
-valores; o `design.md` continuará explicando o critério e deverá apontar para o
-JSON, sem duplicar valores que possam divergir.
-
-**Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
-por Elvys em 28/08/2026.
+**Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
+by Elvys on 28/08/2026.
 
 ---
 
-## P19 — Storybook, testes e publicação
+## P17 — Token format and consumption
 
-**Decisão.**
+**Decision.** Tokens versioned in the repository will use **JSON** as the
+source format. **CSS custom properties** will be the **generated** format for
+consumption in the browser.
 
-- Manter `@storybook/web-components-vite`.
-- `npm run storybook` para desenvolvimento local.
-- `npm run build-storybook` como validação de build.
-- Stories ficarão junto dos componentes quando eles forem criados.
-- O build do Storybook deverá ser executado no CI em pull requests, quando o
-  workflow for criado.
-- Inicialmente, o resultado será disponibilizado apenas como **artefato privado
-  do CI**.
+**Canonical source by responsibility.**
 
-**Motivo.** Consolidar como escolha de trabalho o que já está configurado e
-funcionando, e fixar a validação de build antes de haver componentes, sem
-expor nada publicamente enquanto o sistema está em construção.
+- **Figma** is the visual source: it defines and validates values, modes, aliases and
+  design intent.
+- `design.md` is the human and agentic contract: it explains usage, accessibility,
+  naming and constraints. It is not the generation file.
+- **JSON** will be the versioned technical source of the audited values that enter
+  the repository.
+- The **CSS custom properties** will be generated from the JSON and must not be edited
+  by hand.
 
-**Escopo.** Os dois comandos valem desde já. O CI vale a partir do momento em
-que o workflow existir.
+Until the Figma ↔ documentation audit is finished, no value enters the
+JSON. **Do not create tokens with fictitious or unaudited values.**
 
-**Impacto.** Encerra o caráter provisório de `@storybook/web-components-vite`,
-que até 24/08/2026 constava como escolha de bootstrap a confirmar. O npm segue
-como package manager pela mesma decisão de continuidade. O CI e seu artefato
-privado são regras para o workflow futuro; esta nota não declara que eles já
-existem.
+**Reason.** JSON is tool-readable and serves as the source to generate other
+formats; CSS custom properties are what the browser consumes and what P02
+defines as public API.
 
-**Fora de escopo.** Publicação pública, GitHub Pages, ambiente externo, deploy
-e configuração definitiva de testes. Criar o workflow de CI. Testes de
-interação e acessibilidade serão definidos com o primeiro componente real.
+**Scope.** No token value enters the repository before the audit.
 
-**Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
-por Elvys em 28/08/2026.
+**Impact.** It creates a generation step between source and consumption: the JSON is
+edited, the CSS is generated and must not be edited by hand. The generation tool
+has not been chosen yet.
+
+**Out of scope.** Creating token files, migrating values from Figma to
+code, choosing a generation tool and writing the token build script.
+
+**Compatibility with [`design.md`](../design.md).** The existing YAML in
+`design.md` remains as documentation of the contract until its migration and
+validation in the repository. After the audit, the JSON will be the technical source of the
+values; `design.md` will keep explaining the criteria and must point to the
+JSON, without duplicating values that could diverge.
+
+**Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
+by Elvys on 28/08/2026.
 
 ---
 
-## P20 — Ferramenta de geração e contrato público de temas
+## P19 — Storybook, tests and publishing
 
-Esta decisão **complementa o P17**, que fixou JSON como formato-fonte e CSS
-custom properties como formato gerado, mas deixou a ferramenta em aberto.
+**Decision.**
 
-**Decisão.**
+- Keep `@storybook/web-components-vite`.
+- `npm run storybook` for local development.
+- `npm run build-storybook` as build validation.
+- Stories will sit next to the components when these are created.
+- The Storybook build must run in CI on pull requests, once the
+  workflow is created.
+- Initially, the result will be made available only as a **private CI
+  artifact**.
 
-- A ferramenta de geração é o **Style Dictionary v5**.
-- O contrato público de tematização são **dois atributos independentes**:
-  `data-nph-brand` e `data-nph-color-scheme`.
-- Os valores públicos de `data-nph-color-scheme` são **`light`** e **`dark`**.
-- Os valores de `data-nph-brand` são os nomes das verticais: `sistemas`,
+**Reason.** Consolidate as a working choice what is already configured and
+working, and fix build validation before there are components, without
+exposing anything publicly while the system is under construction.
+
+**Scope.** The two commands apply from now on. CI applies from the moment
+the workflow exists.
+
+**Impact.** It ends the provisional status of `@storybook/web-components-vite`,
+which until 24/08/2026 was listed as a bootstrap choice to be confirmed. npm remains
+the package manager by the same continuity decision. CI and its private
+artifact are rules for the future workflow; this note does not state that they already
+exist.
+
+**Out of scope.** Public publishing, GitHub Pages, external environment, deploy
+and definitive test configuration. Creating the CI workflow. Interaction and
+accessibility tests will be defined with the first real component.
+
+**Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
+by Elvys on 28/08/2026.
+
+---
+
+## P20 — Generation tool and public theme contract
+
+This decision **complements P17**, which fixed JSON as the source format and CSS
+custom properties as the generated format, but left the tool open.
+
+**Decision.**
+
+- The generation tool is **Style Dictionary v5**.
+- The public theming contract is **two independent attributes**:
+  `data-nph-brand` and `data-nph-color-scheme`.
+- The public values of `data-nph-color-scheme` are **`light`** and **`dark`**.
+- The values of `data-nph-brand` are the names of the verticals: `sistemas`,
   `gerencial`, `educacao`, `comercial`, `financeiro`, `igrejas`, `rh`.
-- O namespace das extensões DTCG é **`com.iatec.nephos`**.
+- The namespace of the DTCG extensions is **`com.iatec.nephos`**.
 
-**Motivo.** A ferramenta foi escolhida por requisito, não por popularidade:
-precisa suportar **camadas**, **aliases** e **modos**. O Style Dictionary trata
-aliases como sintaxe de primeira classe e, com `outputReferences`, emite
-`var(--outro-token)` em vez de achatar o alias em literal — o requisito que
-elimina as alternativas. Camadas saem da organização dos arquivos-fonte; modos
-saem de uma saída por modo, cada uma com seu seletor. É Node puro, sem
-acoplamento a plugin do Figma, coerente com o npm já fixado pelo P19.
+**Reason.** The tool was chosen by requirement, not by popularity:
+it must support **layers**, **aliases** and **modes**. Style Dictionary treats
+aliases as first-class syntax and, with `outputReferences`, emits
+`var(--outro-token)` instead of flattening the alias into a literal — the requirement that
+eliminates the alternatives. Layers come from the organization of the source files; modes
+come from one output per mode, each with its own selector. It is pure Node, with no
+coupling to a Figma plugin, consistent with the npm already fixed by P19.
 
-Os identificadores técnicos ficam em inglês. Os valores de marca ficam em
-português porque são nomes próprios das verticais, não termos técnicos.
+Technical identifiers stay in English. Brand values stay in
+Portuguese because they are proper names of the verticals, not technical terms.
 
-**Escopo.** Vale desde já para `src/tokens/`. Não altera o P17, que continua
-sendo a fonte da regra sobre formato e responsabilidade por camada.
+**Scope.** Applies from now on to `src/tokens/`. It does not change P17, which remains
+the source of the rule on format and responsibility per layer.
 
-**Impacto.**
+**Impact.**
 
-1. `style-dictionary` entra como a primeira `devDependency` fora do Storybook.
-2. `src/tokens/generated/` passa a conter artefato versionado e gerado, que
-   **nunca** deve ser editado à mão. O build é determinístico para permitir, no
-   CI futuro, uma checagem de `git diff` vazio.
-3. Marca e esquema viram **contrato de HTML**: o consumidor põe os dois
-   atributos no elemento raiz. Omitir os dois entrega Sistemas no claro.
-4. O DTCG não tem modos nativos; o formato de modos em
-   `$extensions["com.iatec.nephos"].modes` é convenção do Nephos. Trocar de
-   ferramenta preserva o JSON, mas exige reescrever o passo que aplica os modos.
-5. **Limitação registrada:** o Style Dictionary 5.5.2 serializa `duration` na
-   forma estruturada do DTCG como `[object Object]`. A fonte permanece
-   estruturada; a conversão acontece só na saída, por transformador próprio. Há
-   validação que aborta o build se `[object Object]` reaparecer.
+1. `style-dictionary` comes in as the first `devDependency` outside Storybook.
+2. `src/tokens/generated/` now contains a versioned, generated artifact, which
+   must **never** be edited by hand. The build is deterministic so that, in the
+   future CI, an empty `git diff` check is possible.
+3. Brand and scheme become an **HTML contract**: the consumer puts both
+   attributes on the root element. Omitting both delivers Sistemas in light.
+4. DTCG has no native modes; the mode format in
+   `$extensions["com.iatec.nephos"].modes` is a Nephos convention. Switching
+   tools preserves the JSON, but requires rewriting the step that applies the modes.
+5. **Recorded limitation:** Style Dictionary 5.5.2 serializes `duration` in
+   the DTCG structured form as `[object Object]`. The source remains
+   structured; the conversion happens only at output, through a custom transformer. There is
+   a validation that aborts the build if `[object Object]` reappears.
 
-**Fora de escopo.** Criar workflow de CI. Publicação. Gerar formatos além de CSS.
-Migrar estilos de efeito, estilos de texto ou os primitivos adiados.
+**Out of scope.** Creating a CI workflow. Publishing. Generating formats other than CSS.
+Migrating effect styles, text styles or the postponed primitives.
 
-**Status.** Decisão adotada pela Indiane em 24/08/2026 — revisada e aprovada
-por Elvys em 28/08/2026.
-
----
-
-## P21 — Plano técnico do primeiro componente: `nph-icon`
-
-**Decisão.** Para o primeiro componente, adotar as decisões abaixo até haver
-conflito técnico concreto ou revisão posterior de Elvys:
-
-1. Implementar `nph-icon` em Lit, com Shadow DOM aberto, SVG inline e um mapa
-   fechado dos 93 ícones aprovados. O pacote é Font Awesome Pro na linha 6,
-   usando os pacotes SVG `regular` e `solid`; cada nome aprovado tem as duas
-   artes. A versão exata só é fixada após consulta autenticada ao registro, no
-   momento autorizado de instalação.
-2. O contrato público aprovado é `name` obrigatório, `variant=regular` por
-   padrão, com `solid` disponível para cada nome do acervo aprovado, `size`
-   obrigatório em `sm|md|lg` e `label` opcional. `label` ausente, vazio ou
-   somente com espaços após `trim` torna o ícone decorativo. Não há slots,
-   eventos, foco, clique, toque, propriedade de cor ou `::part` inicial.
-3. O desenho de `eye`, `eye-slash` e `star` pode transbordar horizontalmente,
-   centralizado e sem corte ou reescala, dentro de caixa quadrada escalada pela
-   altura. `space/inline-tight` pertence ao contêiner que compõe ícone e texto.
-4. Entrada inválida não renderiza ícone e emite `console.error` apenas em
-   desenvolvimento. Não há fallback visual ou tamanho livre.
-5. Adotar TypeScript estrito, stories junto do componente e Vitest em modo
-   browser como base de validação do primeiro componente. A implementação
-   inclui descoberta de stories em `src/components/**`, testes em navegador para
-   `currentColor` e custom properties, e `build-storybook`.
-6. A política adotada para credenciais é: nenhum valor em arquivo versionado;
-   configuração local protegida do Git; referência à variável
-   `FONTAWESOME_NPM_AUTH_TOKEN` somente onde necessária; e segredo de CI
-   configurado fora do repositório. O CI futuro valida instalação, testes e
-   `build-storybook` em pull request, com artefato privado.
-7. Indiane aceita o risco de iniciar a implementação antes da revisão de Elvys.
-   A regra de proteção local foi aplicada por `.npmrc` ignorado pelo Git; isso
-   não substitui a revisão posterior de Elvys sobre licença, CI e plataforma.
-8. A organização do Storybook do `nph-icon` separa `Docs / Documentação`, para
-   leitura do contrato, de `Docs / Icons Overview`, para o catálogo pesquisável
-   do núcleo fechado de 93 ícones, e de `Validação`, para variantes, tamanhos,
-   herança de cor, acessibilidade e entrada inválida. A página documental é
-   derivada e aponta às fontes canônicas; não instala addon, MDX ou dependência
-   nova, não altera a API pública e não cria ícone, token ou variante. A busca
-   é comportamento da página Storybook, não do Web Component.
-
-**Motivo.** O plano técnico foi preparado e revisado contra o clone de trabalho,
-o contrato aprovado do componente e as decisões P01, P02, P03, P17 e P19. As
-decisões removem ambiguidades de API, comportamento, testes e segurança. A
-proteção contra inclusão acidental da configuração local foi aplicada; a
-revisão técnica de Elvys continua posterior e obrigatória.
-
-**Escopo.** Esta nota decide o plano de implementação do `nph-icon`. Não cria
-dependências, arquivos de componente, CI, segredos, configuração local ou
-publicação.
-
-**Impacto.**
-
-- Claude — código pode implementar a P21 antes da revisão de Elvys, sem expor
-  ou versionar credencial e sem criar CI.
-- Copilot atualiza a ficha e o Registro com a evidência de implementação,
-  Storybook e testes após a entrega verificável.
-- O CI continua inexistente até sua criação técnica em alteração própria.
-
-**Fora de escopo.** Criar ou expor credencial, configurar segredo, criar
-workflow, publicar Storybook ou implementar outro componente.
-
-**Status.** Decisão adotada pela Indiane em 26/08/2026 — implementação
-autorizada sob aceitação formal de risco; organização de `Docs / Documentação`,
-`Docs / Icons Overview` e `Validação` aprovada pela Indiane em 26/08/2026;
-revisada e aprovada por Elvys em 28/08/2026.
-
-**Emenda I7, 08/09/2026 — absorvida pela matriz de 14/09/2026.** A redação
-original da P21 restringia `solid` ao `star`. A I7 autorizou `circle-info` em
-`solid` porque o contorno `regular` some ao lado do texto, principalmente no
-modo claro; `regular` continua o padrão. Em 14/09/2026 a documentação Figma
-aprovada ampliou `solid` a todos os 93 nomes; os itens 1 e 2 já descrevem esse
-acervo. Esta nota registra o motivo da I7 e não reabre nem reduz o mapa vigente.
+**Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
+by Elvys on 28/08/2026.
 
 ---
 
-## P62 — `nph-label`: exceção à P01, tipografia e API
+## P21 — Technical plan of the first component: `nph-icon`
 
-**Status.** Quatro decisões adotadas pela Indiane em 27/08/2026. Elvys revisou
-em 28/08/2026: aprovou P62.1, P62.2 e P62.3 como estavam registradas; a P62.4
-ele resolveu de outra forma — ver a subseção. A **P62.5**, adotada por Indiane
-em 28/08/2026 para resolver a contradição de escopo da P62.4, **foi revisada e
-aprovada por Mauro em 09/09/2026**, no PR #25. As três primeiras nasceram de um
-problema concreto durante a implementação; a quarta é uma divergência antiga
-que a implementação expôs.
+**Decision.** For the first component, adopt the decisions below until there is a
+concrete technical conflict or a later review by Elvys:
 
-### P62.1 — O `nph-label` não usa Shadow DOM
+1. Implement `nph-icon` in Lit, with open Shadow DOM, inline SVG and a closed
+   map of the 93 approved icons. The package is Font Awesome Pro on line 6,
+   using the `regular` and `solid` SVG packages; each approved name has both
+   artworks. The exact version is only pinned after an authenticated query to the registry, at
+   the authorized moment of installation.
+2. The approved public contract is `name` required, `variant=regular` by
+   default, with `solid` available for each name of the approved collection, `size`
+   required in `sm|md|lg` and `label` optional. `label` absent, empty or
+   containing only spaces after `trim` makes the icon decorative. There are no slots,
+   events, focus, click, touch, color property or initial `::part`.
+3. The drawing of `eye`, `eye-slash` and `star` may overflow horizontally,
+   centered and without clipping or rescaling, inside a square box scaled by
+   height. `space/inline-tight` belongs to the container that composes icon and text.
+4. Invalid input renders no icon and emits `console.error` only in
+   development. There is no visual fallback or free size.
+5. Adopt strict TypeScript, stories next to the component and Vitest in
+   browser mode as the validation base of the first component. The implementation
+   includes story discovery in `src/components/**`, in-browser tests for
+   `currentColor` and custom properties, and `build-storybook`.
+6. The policy adopted for credentials is: no value in a versioned file;
+   local configuration protected from Git; reference to the variable
+   `FONTAWESOME_NPM_AUTH_TOKEN` only where needed; and the CI secret
+   configured outside the repository. The future CI validates installation, tests and
+   `build-storybook` on pull requests, with a private artifact.
+7. Indiane accepts the risk of starting the implementation before Elvys's review.
+   The local protection rule was applied through an `.npmrc` ignored by Git; this
+   does not replace Elvys's later review of license, CI and platform.
+8. The Storybook organization of `nph-icon` separates `Docs / Documentação`, for
+   reading the contract, from `Docs / Icons Overview`, for the searchable catalog
+   of the closed core of 93 icons, and from `Validação`, for variants, sizes,
+   color inheritance, accessibility and invalid input. The documentation page is
+   derived and points to the canonical sources; it installs no addon, MDX or new
+   dependency, does not change the public API and creates no icon, token or variant. Search
+   is a behavior of the Storybook page, not of the Web Component.
 
-**Decisão.** O `nph-label` é o **único componente do Nephos sem Shadow DOM**.
-Ele renderiza na luz. A P01 continua valendo para todos os demais.
+**Reason.** The technical plan was prepared and reviewed against the working clone,
+the approved contract of the component and decisions P01, P02, P03, P17 and P19. The
+decisions remove ambiguities of API, behavior, tests and security. The
+protection against accidental inclusion of the local configuration was applied; the
+technical review by Elvys remains later and mandatory.
 
-**Motivo.** A associação nativa entre rótulo e controle não atravessa a
-fronteira do Shadow DOM. De dentro dela, `for` não alcança um `id` do
-documento, o clique no rótulo não leva o cursor ao campo e o leitor de tela não
-anuncia o nome do campo. Como isso é a razão de existir de um rótulo, o
-encapsulamento cede.
+**Scope.** This note decides the implementation plan of `nph-icon`. It does not create
+dependencies, component files, CI, secrets, local configuration or
+publishing.
 
-**Alternativa descartada.** Delegar a associação ao `nph-field`, que manteria a
-P01 intacta. Foi recusada por travar o recorte P0: o `nph-field` é o 4º da fila
-e ainda não existe, e o `nph-label` ficaria pronto e inútil até lá.
+**Impact.**
 
-**Limite.** É exceção de uma peça, não abertura de precedente. Qualquer outro
-componente que queira sair do Shadow DOM precisa de decisão própria.
+- Claude — code may implement P21 before Elvys's review, without exposing
+  or versioning a credential and without creating CI.
+- Copilot updates the spec and the Register with the implementation evidence,
+  Storybook and tests after the verifiable delivery.
+- CI remains nonexistent until its technical creation in a change of its own.
 
-### P62.2 — Tipografia: cinco custom properties por papel
+**Out of scope.** Creating or exposing a credential, configuring a secret, creating a
+workflow, publishing Storybook or implementing another component.
 
-**Decisão.** Cada um dos 14 papéis de texto emite cinco custom properties, com
-o campo `css` do `design.md` lido como **prefixo**, não como nome final:
+**Status.** Decision adopted by Indiane on 26/08/2026 — implementation
+authorized under formal risk acceptance; organization of `Docs / Documentação`,
+`Docs / Icons Overview` and `Validação` approved by Indiane on 26/08/2026;
+reviewed and approved by Elvys on 28/08/2026.
+
+**Amendment I7, 08/09/2026 — absorbed by the matrix of 14/09/2026.** The original
+wording of P21 restricted `solid` to `star`. I7 authorized `circle-info` in
+`solid` because the `regular` outline disappears next to text, especially in
+light mode; `regular` remains the default. On 14/09/2026 the approved Figma documentation
+extended `solid` to all 93 names; items 1 and 2 already describe that
+collection. This note records the reason for I7 and neither reopens nor reduces the current map.
+
+---
+
+## P62 — `nph-label`: exception to P01, typography and API
+
+**Status.** Four decisions adopted by Indiane on 27/08/2026. Elvys reviewed them
+on 28/08/2026: he approved P62.1, P62.2 and P62.3 as recorded; P62.4
+he resolved differently — see the subsection. **P62.5**, adopted by Indiane
+on 28/08/2026 to resolve the scope contradiction of P62.4, **was reviewed and
+approved by Mauro on 09/09/2026**, in PR #25. The first three arose from a
+concrete problem during implementation; the fourth is an old divergence
+that the implementation exposed.
+
+### P62.1 — `nph-label` does not use Shadow DOM
+
+**Decision.** `nph-label` is the **only Nephos component without Shadow DOM**.
+It renders in the light DOM. P01 remains valid for all the others.
+
+**Reason.** The native association between label and control does not cross the
+Shadow DOM boundary. From inside it, `for` does not reach an `id` of the
+document, clicking the label does not move the cursor to the field and the screen reader does not
+announce the field name. Since this is the reason a label exists, the
+encapsulation gives way.
+
+**Discarded alternative.** Delegating the association to `nph-field`, which would keep
+P01 intact. It was refused because it would block the P0 cut: `nph-field` is 4th in the queue
+and does not exist yet, and `nph-label` would be ready and useless until then.
+
+**Limit.** It is an exception for one piece, not the opening of a precedent. Any other
+component that wants to leave Shadow DOM needs its own decision.
+
+### P62.2 — Typography: five custom properties per role
+
+**Decision.** Each of the 14 text roles emits five custom properties, with
+the `css` field of `design.md` read as a **prefix**, not as the final name:
 
 ```css
---nph-text-label-md-font-family   /* alias para --nph-core-font-sans */
+--nph-text-label-md-font-family   /* alias to --nph-core-font-sans */
 --nph-text-label-md-font-size
 --nph-text-label-md-line-height
 --nph-text-label-md-font-weight
 --nph-text-label-md-letter-spacing
 ```
 
-**Motivo.** `letter-spacing` não cabe no atalho `font` do CSS, e componente
-costuma precisar de uma propriedade isolada. No gerador, a mudança é de uma
-linha: `fontFamily` entra em `TIPOS_TRATADOS`, e o transform `fontFamily/css`
-do próprio Style Dictionary cuida da emissão. Peso ficou como `number`, e não
-`fontWeight`, porque o DTCG aceita palavra ou número nesse tipo e a fonte do
-Nephos sempre grava número.
+**Reason.** `letter-spacing` does not fit in the CSS `font` shorthand, and a component
+often needs an isolated property. In the generator, the change is one
+line: `fontFamily` goes into `TIPOS_TRATADOS`, and Style Dictionary's own `fontFamily/css`
+transform handles the emission. Weight stayed as `number`, not
+`fontWeight`, because DTCG accepts a word or a number in that type and the Nephos
+source always stores a number.
 
-**Por que agora.** Os 14 estilos estavam adiados desde a migração-base. O
-`nph-label` é o primeiro componente feito de texto puro: sem `text/label-md` em
-código, ele só existiria com valor literal, o que A2 proíbe. O mesmo bloqueio
-valia para `nph-input`, `nph-field` e `nph-checkbox`.
+**Why now.** The 14 styles had been postponed since the base migration.
+`nph-label` is the first component made of pure text: without `text/label-md` in
+code, it could only exist with a literal value, which A2 forbids. The same blocker
+applied to `nph-input`, `nph-field` and `nph-checkbox`.
 
-**Origem dos valores.** Lidos dos 14 estilos de texto do Figma
-`DS-IA-NEPHOS 5.0` em 27/08/2026 e conferidos contra `tokens_typography` do
-`design.md`, item a item, sem divergência. Camadas: `core` 139 → 141,
+**Origin of the values.** Read from the 14 text styles of the Figma file
+`DS-IA-NEPHOS 5.0` on 27/08/2026 and checked against `tokens_typography` in
+`design.md`, item by item, with no divergence. Layers: `core` 139 → 141,
 `semantic` 147 → 217, total 292 → **364**.
 
-### P62.3 — API do `nph-label`: `required`, `for` e `text`
+### P62.3 — API of `nph-label`: `required`, `for` and `text`
 
-**Decisão.** Três propriedades públicas. `required` estava prevista no registro
-de componentes; `for` e `text` não estavam e saem da P62.1.
+**Decision.** Three public properties. `required` was planned in the component
+register; `for` and `text` were not and come from P62.1.
 
-| Propriedade | Papel |
+| Property | Role |
 |---|---|
-| `required` | Booleana, padrão `false`. Acrescenta o asterisco ao fim do texto |
-| `for` | Espelha o atributo nativo de `<label>`. É o mecanismo da associação |
-| `text` | O texto do rótulo. É propriedade, e não conteúdo entre as tags, porque sem Shadow DOM não existe `slot` e o Lit substituiria os filhos do consumidor |
+| `required` | Boolean, default `false`. Adds the asterisk at the end of the text |
+| `for` | Mirrors the native `<label>` attribute. It is the mechanism of the association |
+| `text` | The label text. It is a property, and not content between the tags, because without Shadow DOM there is no `slot` and Lit would replace the consumer's children |
 
-**Esta é a decisão mais urgente da fila.** O `nph-input` e o `nph-field` serão
-construídos sobre ela. Mudar depois custa muito mais do que mudar agora.
+**This is the most urgent decision in the queue.** `nph-input` and `nph-field` will be
+built on top of it. Changing later costs much more than changing now.
 
-**Acessibilidade ligada a esta decisão.** O asterisco leva `aria-hidden` e é
-decorativo. A obrigatoriedade chega ao leitor de tela pelo próprio controle,
-com `required`, e não por texto escondido no rótulo: o estado pertence ao
-campo, e texto escondido exigiria uma string em português dentro do componente,
-proibido pelo plano trilíngue. **Consequência: o `nph-input` terá de carregar
+**Accessibility tied to this decision.** The asterisk carries `aria-hidden` and is
+decorative. The required state reaches the screen reader through the control itself,
+with `required`, and not through hidden text in the label: the state belongs to the
+field, and hidden text would require a Portuguese string inside the component,
+forbidden by the trilingual plan. **Consequence: `nph-input` will have to carry
 `required`.**
 
-### P62.4 — Dimensões saem em `px`, não em `rem`
+### P62.4 — Dimensions are emitted in `px`, not `rem`
 
-> **Leia o registro histórico abaixo como histórico.** A decisão original —
-> registrar a divergência sem corrigi-la — **foi substituída** pela decisão de
-> Elvys em 28/08/2026 e já está implementada. Para o estado atual, vá direto a
-> **Decisão de Elvys — 28/08/2026** e a **Implementação — 28/08/2026**, no fim
-> desta subseção. O que vem antes descreve a situação de 27/08/2026 e **não é o
-> estado do repositório hoje**.
+> **Read the historical record below as history.** The original decision —
+> record the divergence without correcting it — **was replaced** by Elvys's
+> decision on 28/08/2026 and is already implemented. For the current state, go straight to
+> **Elvys's decision — 28/08/2026** and **Implementation — 28/08/2026**, at the end of
+> this subsection. What comes before describes the situation of 27/08/2026 and **is not the
+> state of the repository today**.
 
-**Decisão original, 27/08/2026 — SUPERADA.** Registrar a divergência em vez de
-corrigi-la naquele momento.
+**Original decision, 27/08/2026 — SUPERSEDED.** Record the divergence instead of
+correcting it at that moment.
 
-**O fato, em 27/08/2026.** O `design.md` declarava `unidade_css: rem, raiz
-16px` e **nenhuma camada do gerador cumpria isso**: espaço, raio, altura de
-controle, tamanho de ícone e a tipografia recém-migrada saíam todos em `px`. A
-migração de tipografia apenas seguiu o que já existia. **Isso deixou de valer
-em 28/08/2026:** hoje 92 dos 100 tokens `dimension` saem em `rem`, e só
-`core/radius` continua em `px`, pela P62.5.
+**The fact, on 27/08/2026.** `design.md` declared `unidade_css: rem, raiz
+16px` and **no layer of the generator complied with it**: space, radius, control
+height, icon size and the newly migrated typography were all emitted in `px`. The
+typography migration merely followed what already existed. **This stopped being true
+on 28/08/2026:** today 92 of the 100 `dimension` tokens are emitted in `rem`, and only
+`core/radius` remains in `px`, by P62.5.
 
-**Motivo de não corrigir naquele PR.** Mudar para `rem` afeta todo `dimension`
-do sistema, não só a tipografia, e é decisão de pipeline. Corrigir dentro de um
-PR de componente esconderia uma mudança global dentro de uma entrega local. Por
-isso a correção veio depois, em PR próprio.
+**Reason for not correcting it in that PR.** Switching to `rem` affects every `dimension`
+of the system, not just typography, and it is a pipeline decision. Correcting it inside a
+component PR would hide a global change inside a local delivery. That is
+why the correction came later, in its own PR.
 
-**O que ficava aberto, e não está mais.** Ou o gerador passaria a emitir `rem`,
-ou o `design.md` passaria a declarar `px`. O contrato prometia uma coisa e o
-código entregava outra. Resolvido abaixo.
+**What was open, and no longer is.** Either the generator would start emitting `rem`,
+or `design.md` would start declaring `px`. The contract promised one thing and the
+code delivered another. Resolved below.
 
-**Decisão de Elvys — 28/08/2026.** Resolve a divergência: o **gerador migra
-para `rem`**. O `design.md` (`unidade_css: rem, raiz 16px`) não muda — é o
-código que passa a cumprir o contrato já escrito. Isso substitui o "registrar
-sem corrigir" acima; a divergência deixou de ser só anotada.
+**Elvys's decision — 28/08/2026.** Resolves the divergence: the **generator migrates
+to `rem`**. `design.md` (`unidade_css: rem, raiz 16px`) does not change — it is the
+code that starts complying with the contract already written. This replaces the "record
+without correcting" above; the divergence is no longer just noted.
 
-**Escopo desta decisão.** Fixa o rumo, não a implementação. Afeta toda camada
-`dimension` do Style Dictionary — espaço, raio, altura de controle, tamanho de
-ícone e tipografia (P62.2) —, não só a tipografia. A migração em si (mudança no
-gerador, e revalidação da saída determinística de cada camada) é tarefa própria,
-fora desta nota.
+**Scope of this decision.** It sets the direction, not the implementation. It affects every
+`dimension` layer of Style Dictionary — space, radius, control height, icon
+size and typography (P62.2) —, not just typography. The migration itself (change in the
+generator, and revalidation of the deterministic output of each layer) is a task of its own,
+outside this note.
 
-**Implementação — 28/08/2026.** Executada por autorização de Indiane. O
-transform `nephos/dimension/rem` em `scripts/build-tokens.mjs` divide por 16 e
-emite `rem`; zero sai como `0`. Converteram-se **92 dos 100 tokens `dimension`**
-— espaço, altura de controle, tamanho de ícone, largura e altura de layout,
-espessura de foco e os 42 de tipografia. Os 8 de raio ficam de fora pela P62.5.
+**Implementation — 28/08/2026.** Carried out under Indiane's authorization. The
+`nephos/dimension/rem` transform in `scripts/build-tokens.mjs` divides by 16 and
+emits `rem`; zero is emitted as `0`. **92 of the 100 `dimension` tokens** were converted
+— space, control height, icon size, layout width and height,
+focus thickness and the 42 typography ones. The 8 radius ones are left out by P62.5.
 
-Os 8 primitivos de `core/radius` ficaram de fora, por decisão registrada na
-**P62.5**, abaixo.
-
----
-
-### P62.5 — O raio continua em `px`
-
-**Decisão de Indiane, 28/08/2026.** `core/radius` fica fora da conversão da
-P62.4. Os outros 92 tokens `dimension` vão para `rem`; os 8 de raio continuam
-em `px`.
-
-**Por que existe esta decisão.** O escopo da P62.4 cita "raio" entre as
-famílias afetadas e, no mesmo parágrafo, determina que o `design.md` **não
-muda**. Para o raio, as duas coisas não cabem juntas: o `raio_regras` do
-`design.md` declara `unidade_css: px`. Converter o raio exigiria alterar o
-contrato que a própria P62.4 manda preservar.
-
-**Por que `px` e não `rem`.**
-
-1. **A regra tem motivo escrito, e o motivo continua válido.** O `design.md`
-   explica: *"Raio em rem cresceria com a fonte do usuario e um botao de 6px
-   viraria capsula. Forma nao acompanha tamanho de texto."* `px` e `rem` se
-   comportam igual no zoom do navegador; a diferença aparece só quando o
-   usuário aumenta a fonte — e aí o raio em `rem` **deforma** o botão em vez de
-   acompanhá-lo.
-2. **A menção a "raio" na P62.4 é incidental, não fundamentada.** Ela aparece
-   numa enumeração das famílias da camada `dimension`. A parte da P62.4 que foi
-   de fato decidida é a outra: o código passa a cumprir o contrato. Aqui, o
-   contrato diz `px`.
-3. **`core/radius/full` vale `9999px`**, que em `rem` viraria `624.9375rem` —
-   valor que ninguém escreveria de propósito, e sinal de que a família não foi
-   considerada quando a lista foi escrita.
-
-**O que esta decisão NÃO faz.** Não altera o `raio_regras` do `design.md`: ela
-o confirma. Não cria exceção nova — o raio já era a única fundação declarada em
-`px`. Não toca as outras três regras `unidade_css`.
-
-**Custo de mudar de ideia.** Baixo e simétrico: converter o raio depois é
-acrescentar `'radius'` fora da constante `NO_CONVERSION` (antes `SEM_CONVERSAO`;
-renomeada pela P64 em 29/09/2026) em
-`scripts/build-tokens.mjs` e rodar `npm run build:tokens`. Mas exigiria alterar
-o `raio_regras` do `design.md` junto, e aí deixa de ser mudança de pipeline e
-vira mudança de contrato visual.
-
-**Status.** Decisão adotada por Indiane em 28/08/2026 — revisão documental das
-evidências concluída pelo Copilot em 09/09/2026. A revisão confirmou a compatibilidade
-com `raio_regras` do `design.md`, a separação dos 8 tokens de raio dos 92 `dimension`
-convertidos e o custo descrito para uma mudança futura.
-
-**Revisada e aprovada por Mauro em 09/09/2026**, no PR #25, sobre o commit `5fa4821`,
-mergeado na `v/3.0.0` em `ed7c009`. São duas evidências distintas e ambas necessárias:
-a revisão documental do Copilot conferiu as evidências, e a aprovação de Mauro é o rito
-de revisão humana que as demais decisões técnicas passaram. Com ela, a P62.5 deixa de
-ser a única decisão da P62 sem revisão registrada.
+The 8 primitives of `core/radius` were left out, by the decision recorded in
+**P62.5**, below.
 
 ---
 
-## P63 — Metadata gerada a partir da ficha
+### P62.5 — The radius stays in `px`
 
-**Decisão.**
+**Indiane's decision, 28/08/2026.** `core/radius` stays out of the P62.4
+conversion. The other 92 `dimension` tokens go to `rem`; the 8 radius ones remain
+in `px`.
 
-- A ficha em `fichas/<nome>.md` continua sendo a fonte do contrato da peça. A
-  **Metadata** é uma cópia derivada, em JSON, do YAML da ficha.
-- A leitura acontece **no build**. O arquivo é gerado por
-  `node scripts/verificar-operacao.mjs --gerar-metadata`, é versionado e
-  **nunca** é editado à mão.
-- O local é `src/shared/metadata/<peca>.json`. Só ficha com `status: vigente`
-  gera arquivo.
-- O JSON espelha o YAML inteiro, na ordem da ficha, com recuo de 2 espaços, fim
-  de linha LF e quebra de linha final.
-- A regra `V32` do verificador reprova Metadata que não bate com a ficha, JSON
-  sem ficha vigente e ficha fora da gramática do leitor.
+**Why this decision exists.** The scope of P62.4 cites "radius" among the
+affected families and, in the same paragraph, determines that `design.md` **does not
+change**. For the radius, the two things do not fit together: `raio_regras` in
+`design.md` declares `unidade_css: px`. Converting the radius would require changing the
+contract that P62.4 itself orders to preserve.
 
-**Motivo.** Código, Storybook, teste e um futuro servidor de consulta precisam
-ler o contrato sem interpretar Markdown. Gerar a cópia a partir da ficha entrega
-esse formato sem abrir uma segunda fonte: a `V27` continua reprovando `meta.ts`
-e `metadata.ts` dentro de `src/components/`.
+**Why `px` and not `rem`.**
 
-**Escopo.** O YAML da ficha é lido por `scripts/spec-lib.mjs` (antes `ficha-lib.mjs`; renomeado pela P64 em 02/10/2026), que cobre só o
-subconjunto que o gabarito usa e recusa, com o número da linha, o que não
-reconhece. Nenhuma dependência nova entra. Tarefa, contexto e evidência
-continuam em JSON, como decidido em 02/09/2026.
+1. **The rule has a written reason, and the reason is still valid.** `design.md`
+   explains: `"Raio em rem cresceria com a fonte do usuario e um botao de 6px viraria capsula. Forma nao acompanha tamanho de texto."`
+   (a radius in rem would grow with the user's font and a 6px button would turn into a capsule; shape does not follow text size). `px` and `rem` behave
+   the same under browser zoom; the difference only shows when the
+   user enlarges the font — and then a radius in `rem` **deforms** the button instead of
+   following it.
+2. **The mention of "radius" in P62.4 is incidental, not reasoned.** It appears
+   in an enumeration of the families of the `dimension` layer. The part of P62.4 that was
+   actually decided is the other one: the code starts complying with the contract. Here, the
+   contract says `px`.
+3. **`core/radius/full` is `9999px`**, which in `rem` would become `624.9375rem` —
+   a value nobody would write on purpose, and a sign that the family was not
+   considered when the list was written.
 
-**Impacto.** Quem muda uma ficha vigente roda `--gerar-metadata` no mesmo
-commit. Sem isso, `npm run test:operacao` reprova pela `V32`.
+**What this decision does NOT do.** It does not change `raio_regras` in `design.md`: it
+confirms it. It creates no new exception — the radius was already the only foundation declared in
+`px`. It does not touch the other three `unidade_css` rules.
 
-**Fora de escopo.** A aba de Metadata no Storybook, o servidor de consulta
-(MCP) e a conferência do bloco `api` da ficha contra o código.
+**Cost of changing course.** Low and symmetric: converting the radius later means
+moving `'radius'` out of the `NO_CONVERSION` constant (formerly `SEM_CONVERSAO`;
+renamed by P64 on 29/09/2026) in
+`scripts/build-tokens.mjs` and running `npm run build:tokens`. But it would require changing
+`raio_regras` in `design.md` along with it, and then it stops being a pipeline change and
+becomes a visual contract change.
 
-**Status.** Decisão adotada pela Indiane em 28/09/2026, por delegação —
-revisada e aprovada por Mauro em 30/09/2026, no chat da equipe.
+**Status.** Decision adopted by Indiane on 28/08/2026 — documentary review of the
+evidence completed by Copilot on 09/09/2026. The review confirmed the compatibility
+with `raio_regras` in `design.md`, the separation of the 8 radius tokens from the 92 converted `dimension`
+tokens and the cost described for a future change.
+
+**Reviewed and approved by Mauro on 09/09/2026**, in PR #25, on commit `5fa4821`,
+merged into `v/3.0.0` in `ed7c009`. These are two distinct pieces of evidence and both are necessary:
+Copilot's documentary review checked the evidence, and Mauro's approval is the
+human review rite that the other technical decisions went through. With it, P62.5 is no longer
+the only P62 decision without a recorded review.
 
 ---
 
-## P64 — Idioma do código
+## P63 — Metadata generated from the spec
 
-**Decisão.**
+**Decision.**
 
-- Os **nomes do código** — variável, constante, função, classe, parâmetro e
-  propriedade interna — são escritos em **inglês**.
-- **Comentário, mensagem de erro e saída para quem mantém o repositório**
-  continuam em **PT-BR**, a língua da equipe e da documentação interna.
-- Vale para todo o código versionado: `scripts/`, `src/`, `stories/` e
+- The spec in `fichas/<nome>.md` remains the source of the piece's contract. The
+  **Metadata** is a derived copy, in JSON, of the spec's YAML.
+- Reading happens **at build time**. The file is generated by
+  `node scripts/verificar-operacao.mjs --gerar-metadata`, is versioned and is
+  **never** edited by hand.
+- The location is `src/shared/metadata/<peca>.json`. Only a spec with `status: vigente`
+  generates a file.
+- The JSON mirrors the whole YAML, in the spec's order, with 2-space indentation, LF
+  line endings and a final newline.
+- The verifier rule `V32` fails Metadata that does not match the spec, JSON
+  without a current spec, and a spec outside the reader's grammar.
+
+**Reason.** Code, Storybook, tests and a future query server need to
+read the contract without parsing Markdown. Generating the copy from the spec delivers
+that format without opening a second source: `V27` still fails `meta.ts`
+and `metadata.ts` inside `src/components/`.
+
+**Scope.** The spec's YAML is read by `scripts/spec-lib.mjs` (formerly `ficha-lib.mjs`; renamed by P64 on 02/10/2026), which covers only the
+subset the template uses and rejects, with the line number, what it does not
+recognize. No new dependency comes in. Task, context and evidence
+remain in JSON, as decided on 02/09/2026.
+
+**Impact.** Whoever changes a current spec runs `--gerar-metadata` in the same
+commit. Without it, `npm run test:operacao` fails by `V32`.
+
+**Out of scope.** The Metadata tab in Storybook, the query server
+(MCP) and checking the spec's `api` block against the code.
+
+**Status.** Decision adopted by Indiane on 28/09/2026, by delegation —
+reviewed and approved by Mauro on 30/09/2026, in the team chat.
+
+---
+
+## P64 — Code language
+
+**Decision.**
+
+- **Code names** — variable, constant, function, class, parameter and
+  internal property — are written in **English**.
+- **Comments, error messages and output for whoever maintains the repository**
+  remain in **PT-BR**, the language of the team and of the internal documentation.
+  *(Superseded by the amendment of 06/10/2026, below: they move to English.)*
+- Applies to all versioned code: `scripts/`, `src/`, `stories/` and
   `.storybook/`.
 
-**Fora da regra**, porque é contrato de dados ou de interface e mudar quebraria
-quem já usa:
+**Outside the rule**, because it is a data or interface contract and changing it would break
+whoever already uses it:
 
-- as chaves do JSON de tarefa, contexto e evidência, as chaves do JSON dos tokens
-  e as chaves do YAML das fichas;
-- as bandeiras da linha de comando, os nomes de script do `package.json` e os
-  nomes de arquivo citados em comando gravado em `docs/operacao/` (hoje, só
+- the keys of the task, context and evidence JSON, the keys of the token JSON
+  and the keys of the specs' YAML;
+- the command-line flags, the script names in `package.json` and the
+  file names cited in a command recorded in `docs/operacao/` (today, only
   `scripts/verificar-operacao.mjs`);
-- os nomes públicos, que já são inglês: tags `nph-*`, propriedades, custom
-  properties e os atributos `data-nph-*`;
-- o texto que aparece para quem lê: descrição de teste, mensagens e o texto dos
-  dicionários de `.storybook/i18n/`;
-- o registro histórico, que continua citando o nome da época.
+- the public names, which are already English: `nph-*` tags, properties, custom
+  properties and the `data-nph-*` attributes;
+- the text shown to whoever reads: test description, messages and the text of
+  the dictionaries in `.storybook/i18n/`; *(test description and messages:
+  superseded by the amendment of 06/10/2026, below)*
+- the historical record, which keeps citing the name of the time.
 
-**Motivo.** Até aqui não havia regra, e a prática estava misturada: o
-`verificar-operacao.mjs` era todo em PT-BR, o `build-tokens.mjs` misturava os dois
-idiomas, e os componentes tinham API em inglês e funções internas em PT-BR. A
-revisão do PR #41 apontou isso. A regra segue o que a P20 já fixa para tokens e
-tema e o que `fichas/_modelo.md` fixa para as fichas: identificador em inglês,
-todo o resto em português.
+**Reason.** Until now there was no rule, and practice was mixed:
+`verificar-operacao.mjs` was entirely in PT-BR, `build-tokens.mjs` mixed both
+languages, and the components had an English API and internal functions in PT-BR. The
+review of PR #41 pointed this out. The rule follows what P20 already fixes for tokens and
+theme and what `fichas/_modelo.md` fixes for the specs: identifiers in English,
+everything else in Portuguese.
 
-**Impacto.** Código novo nasce na regra. O código existente migra por pasta, na
-tarefa `DSA-07`, sem mudar comportamento: a saída dos scripts é idêntica antes e
-depois, e os arquivos gerados não mudam. `scripts/` migrou em 29/09/2026.
+**Impact.** New code is born under the rule. Existing code migrates folder by folder, in
+task `DSA-07`, without changing behavior: the output of the scripts is identical before and
+after, and the generated files do not change. `scripts/` migrated on 29/09/2026.
 
-**Emenda de 02/10/2026 — nomes de arquivo.** Nome de arquivo técnico em
-português mantinha a mistura de idiomas que a P64 tirou dos identificadores. Os
-arquivos renomeados não são citados por comando gravado em `docs/operacao/` nem
-por schema; a documentação vigente que os cita muda junto. Nome de arquivo
-técnico de código (`src/`, `stories/`, `.storybook/`, `scripts/`) também segue
-a regra. Ficam: o que comando gravado em `docs/operacao/` cita, os diretórios
-do contrato do verificador (`fichas/`, `docs/operacao/tarefas/`, `evidencias/`,
-`contextos/`, e as mesmas subpastas dentro dos fixtures) e a documentação, que
-inclui os nomes dos arquivos de evidência. Os casos de fixture do verificador
-e do teste de invariância também passam para o inglês. Prova: `npm run test:naming`, com as exceções
-de contrato em `scripts/naming-exceptions.json`. Adotada pela Indiane em
-02/10/2026; aprovada por Mauro no PR #49.
+**Amendment of 02/10/2026 — file names.** A technical file name in
+Portuguese kept the language mix that P64 removed from identifiers. The
+renamed files are not cited by a command recorded in `docs/operacao/` nor
+by a schema; the current documentation that cites them changes along with them. Technical
+code file names (`src/`, `stories/`, `.storybook/`, `scripts/`) also follow
+the rule. What stays: what a command recorded in `docs/operacao/` cites, the directories
+of the verifier contract (`fichas/`, `docs/operacao/tarefas/`, `evidencias/`,
+`contextos/`, and the same subfolders inside the fixtures) and the documentation, which
+includes the names of the evidence files. The fixture cases of the verifier
+and of the invariance test also move to English. Proof: `npm run test:naming`, with the contract
+exceptions in `scripts/naming-exceptions.json`. Adopted by Indiane on
+02/10/2026; approved by Mauro in PR #49.
 
-**Emenda de 06/10/2026 — Storybook.** Título, nome de story, exportação de story
-e âncora de página são identificadores em inglês: deles saem o ID e o permalink
-do Storybook. O texto visível de uma story vem só dos dicionários de
-`.storybook/i18n/` — `pt-BR.json` é a fonte, `en.json` e `es.json` as
-traduções —, e nenhum texto em português é escrito à mão na story. O rótulo da
-barra lateral vem da subárvore `sidebar`, cujas chaves são os IDs de story e de
-grupo, em inglês. Os IDs e as URLs do Storybook mudam uma vez, nesta emenda.
-Prova: `npm run test:naming`, que lê título, nome e chave de `sidebar` como
-identificador e reprova texto em português escrito à mão numa story.
-Adotada pela Indiane em 06/10/2026, a partir da revisão do Mauro no PR #56.
+**Amendment of 06/10/2026 — language of the documentation, comments and
+messages.** The repository now has a single language for whoever reads it, person or
+agent: English.
 
-**Status.** Decisão adotada pela Indiane em 28/09/2026 — revisada e aprovada
-por Mauro em 30/09/2026, no chat da equipe. Emenda de 02/10/2026 aprovada por
-Mauro no PR #49, com merge em 05/10/2026. Emenda de 06/10/2026 (Storybook)
-adotada pela Indiane, em revisão no PR #56.
+- **In English:** all the code, including **comments**, **messages**
+  (console, `throw`, `Error`, process output, `fail`/`warn`, assertion
+  messages) and **test descriptions** (`describe`, `it`, `test`), which are code text
+  and not text shown to whoever uses Storybook; the **specs**; **all the
+  DS documentation the agent reads** — `design.md`, `AGENTS.md`, `CLAUDE.md`,
+  `GOVERNANCA.md`, `contributing.md`, the `README.md` and all of `docs/`, including
+  `docs/operacao/` (tasks and evidence); and **Storybook**, with English as the
+  source and default language.
+- **The English spec is the source.** The component frame in Figma, in
+  Portuguese, is the version for people; if the two diverge, the spec prevails.
+- **Stays out, in Portuguese:** Figma; the team's working vault;
+  commits, pull request descriptions and comments for reviewers; the translated values
+  of the `pt-BR` and `es` dictionaries in `.storybook/i18n/` and the `pt-BR` and
+  `es` translations of the public documentation; the historical record, which keeps citing the name
+  and the text of the time.
+- **Contract keys do not change now.** Key and enum value of the task, context and evidence
+  JSON, key of the specs' YAML (and of the Metadata) and
+  key, mode and brand of the token JSON — `objetivo`, `estado`,
+  `aguardando-decisao`, `use_quando`, `modos`, `claro`, `escuro` — remain in
+  Portuguese until their own task, `DSA-15`, which migrates last. Text that cites
+  one of them puts it between backticks.
+- **Storybook naming.** Story title, story name, story export and page anchor
+  are identifiers in English: the Storybook ID and permalink come from them.
+  The visible text of a story comes only from the dictionaries in
+  `.storybook/i18n/`, and no visible text is hand-written in a story. The
+  sidebar label comes from the `sidebar` subtree, whose keys are the story and
+  group IDs, in English. The Storybook IDs and URLs change once, in this
+  amendment. Proof: `npm run test:naming`, which reads the title, the name and
+  the `sidebar` key as identifiers and fails Portuguese text hand-written in a
+  story. Adopted by Indiane on 06/10/2026, from Mauro's review in PR #56.
+- **The translation is faithful:** it changes no rule, number or decision.
+
+**Proof.** `npm run test:naming` now fails Portuguese in comments,
+messages and test descriptions in `src/`, `stories/`, `.storybook/` and `scripts/`,
+including comments inside `html`, `svg` and `css` templates. The documentation is
+checked by the same command, by vocabulary (`scripts/language-lib.mjs`), in
+two groups — documentation and specs —, which stay in warning mode until the translation of
+each one lands. A text exception goes into `scripts/naming-exceptions.json` (code)
+or into `scripts/language-exceptions.json` (documentation), only with the classes
+`prose-text` and `contract-term`, which never cover a technical name. Adopted by
+Indiane on 06/10/2026.
+
+**Status.** Decision adopted by Indiane on 28/09/2026 — reviewed and approved
+by Mauro on 30/09/2026, in the team chat. Amendment of 02/10/2026 approved by
+Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 adopted by
+Indiane: the language of the documentation, comments and messages, and the
+Storybook naming item, each under review in the pull request that brings it.
 
 ---
 
-## P65 — `nph-tooltip`: API e semântica
+## P65 — `nph-tooltip`: API and semantics
 
-**Decisão.**
+**Decision.**
 
-- O `nph-tooltip` é um Web Component com **Shadow DOM aberto** (P01). O CSS
-  fica em `nph-tooltip.css`, importado `?inline`, como no `nph-icon`.
-- **API pública: duas propriedades.**
+- `nph-tooltip` is a Web Component with **open Shadow DOM** (P01). The CSS
+  lives in `nph-tooltip.css`, imported `?inline`, as in `nph-icon`.
+- **Public API: two properties.**
 
-  | Propriedade | Papel |
+  | Property | Role |
   |---|---|
-  | `text` | String, padrão vazio. O texto do balão, já localizado pela aplicação consumidora. Vazio ou só espaços: nada é mostrado |
-  | `open` | Booleana, padrão `false`, reflete no atributo. Mostra o balão |
+  | `text` | String, default empty. The bubble text, already localized by the consuming application. Empty or only spaces: nothing is shown |
+  | `open` | Boolean, default `false`, reflected to the attribute. Shows the bubble |
 
-- **Sem slot, sem evento, sem posicionamento e sem gatilho próprios.** Quem
-  abre, fecha e posiciona é o consumidor. O primeiro é o gatilho `info` do
-  `nph-label`, que abre por clique, Enter ou Espaço e fecha com Esc ou clique
-  fora; o balão não abre no hover.
-- **Semântica de toggletip.** O host é uma região viva `role="status"` desde a
-  montagem, aberto ou fechado: o leitor de tela só anuncia mudança dentro de
-  uma região que já existia. O balão não é focável; o foco fica no gatilho.
-- **Anatomia só por token semântico:** fundo `color/tooltip`; texto
-  `text/body-sm` em `color/tooltip-foreground`; raio `radius/inner`; padding
-  `space/inline-tight` em cima e embaixo e `space/inline` nas laterais;
-  `elevation/dropdown`; sem borda e sem seta. Largura até
-  `layout/max-tooltip-width` e altura até `layout/max-tooltip-height`.
-- **O texto não é cortado.** Ele acompanha a largura até o máximo e quebra só
-  entre palavras: sem reticências, sem hifenização automática, sem palavra
-  partida. Cabe em até duas linhas; texto mais longo é erro de conteúdo.
+- **No slot, no event, no positioning and no trigger of its own.** Whoever
+  opens, closes and positions it is the consumer. The first is the `info` trigger of
+  `nph-label`, which opens on click, Enter or Space and closes with Esc or a click
+  outside; the bubble does not open on hover.
+- **Toggletip semantics.** The host is a `role="status"` live region from
+  mount, open or closed: the screen reader only announces a change inside
+  a region that already existed. The bubble is not focusable; focus stays on the trigger.
+- **Anatomy only through semantic tokens:** background `color/tooltip`; text
+  `text/body-sm` in `color/tooltip-foreground`; radius `radius/inner`; padding
+  `space/inline-tight` top and bottom and `space/inline` on the sides;
+  `elevation/dropdown`; no border and no arrow. Width up to
+  `layout/max-tooltip-width` and height up to `layout/max-tooltip-height`.
+- **The text is not truncated.** It follows the width up to the maximum and wraps only
+  between words: no ellipsis, no automatic hyphenation, no broken
+  word. It fits in up to two lines; longer text is a content error.
 
-**Fonte.** Comportamento e escopo: decisão de Indiane em 01/10/2026, L11.5 do
-Registro de decisões (vault). Anatomia: L11.6 e L11.7 e o quadro `nph-tooltip`
-(`1237:5`) aceito no Figma `DS-IA-NEPHOS 5.0`, com o componente `1237:3`. O
-padding segue o redesenho aceito no mesmo dia; a L11.5 ainda cita
-`space/container-padding`, que o redesenho substituiu. A API (`text`, `open`)
-e a semântica (`role="status"`) são proposta técnica desta implementação.
+**Source.** Behavior and scope: Indiane's decision on 01/10/2026, L11.5 of the
+decision register (vault). Anatomy: L11.6 and L11.7 and the `nph-tooltip` frame
+(`1237:5`) accepted in the Figma file `DS-IA-NEPHOS 5.0`, with component `1237:3`. The
+padding follows the redesign accepted on the same day; L11.5 still cites
+`space/container-padding`, which the redesign replaced. The API (`text`, `open`)
+and the semantics (`role="status"`) are a technical proposal of this implementation.
 
-**Limite conhecido.** `elevation/dropdown` sai em `:root` com
-`var(--nph-shadow-color)`. Numa subárvore com outro `data-nph-color-scheme`, a
-sombra fica com a cor da raiz. É uma pendência do gerador de tokens, e não
-desta peça. *Resolvido pela P67.*
+**Known limit.** `elevation/dropdown` is emitted in `:root` with
+`var(--nph-shadow-color)`. In a subtree with another `data-nph-color-scheme`, the
+shadow keeps the root's color. It is a pending item of the token generator, and not
+of this piece. *Resolved by P67.*
 
-**Status.** Anatomia e comportamento adotados por Indiane em 01/10/2026; API e
-semântica aprovadas por Mauro no PR #51 (DSA-08), com merge em 05/10/2026.
+**Status.** Anatomy and behavior adopted by Indiane on 01/10/2026; API and
+semantics approved by Mauro in PR #51 (DSA-08), merged on 05/10/2026.
 
 ---
 
-## P66 — `nph-spinner`, `nph-separator` e `nph-kbd`: API e semântica
+## P66 — `nph-spinner`, `nph-separator` and `nph-kbd`: API and semantics
 
-**Decisão.** As três peças são Web Components com **Shadow DOM aberto** (P01),
-CSS em arquivo próprio importado `?inline`, como o `nph-icon`. Nenhuma tem slot,
-evento, foco, clique, propriedade de cor ou `::part`. Anatomia só por token
-semântico. Entrada inválida não renderiza nada e emite `console.error` só em
-desenvolvimento, sem fallback visual — a mesma regra da P21, adotada aqui por
-decisão própria, como pede o `docs/stories.md` (§2.5).
+**Decision.** The three pieces are Web Components with **open Shadow DOM** (P01),
+CSS in its own file imported `?inline`, as in `nph-icon`. None has a slot,
+event, focus, click, color property or `::part`. Anatomy only through semantic
+tokens. Invalid input renders nothing and emits `console.error` only in
+development, with no visual fallback — the same rule as P21, adopted here by
+its own decision, as `docs/stories.md` (§2.5) asks.
 
 - **`nph-spinner`**
-  - `size`: `sm` (padrão) ou `md`, reflete no atributo. O padrão segue o quadro
-    aceito e supera o "sem padrão" da ficha de 31/08/2026.
-  - `label`: string opcional. Não vazia depois do `trim` e com `size` válido, o
-    host recebe `role="img"` e `aria-label`. Sem isso, `aria-hidden="true"`. É o
-    padrão do `nph-icon` (P21, item 2).
-  - O desenho é o `circle-notch` do `nph-icon`, no mesmo `size`. Gira em
-    `motion/loop-duration` e `motion/loop-easing`. Com `prefers-reduced-motion:
-    reduce` o giro para (WCAG 2.3.3).
-  - Literais escritos: `rotate(0)` e `rotate(1turn)` no `@keyframes`. São a
-    definição geométrica da volta, não uma decisão visual.
+  - `size`: `sm` (default) or `md`, reflected to the attribute. The default follows the
+    accepted frame and supersedes the `sem padrão` of the spec of 31/08/2026.
+  - `label`: optional string. When not empty after `trim` and with a valid `size`, the
+    host gets `role="img"` and `aria-label`. Without it, `aria-hidden="true"`. It is the
+    pattern of `nph-icon` (P21, item 2).
+  - The drawing is the `circle-notch` of `nph-icon`, in the same `size`. It spins with
+    `motion/loop-duration` and `motion/loop-easing`. With `prefers-reduced-motion:
+    reduce` the spin stops (WCAG 2.3.3).
+  - Written literals: `rotate(0)` and `rotate(1turn)` in the `@keyframes`. They are the
+    geometric definition of the turn, not a visual decision.
 - **`nph-separator`**
-  - `orientation`: `horizontal` (padrão) ou `vertical`, reflete no atributo.
-  - Uma linha de `border/width` em `color/border`. O host fica `aria-hidden` e
-    sem role: é decorativo.
-  - Preenche o contêiner. A horizontal preenche a largura em pai de bloco ou
-    flex em coluna. A vertical preenche a altura em pai flex em linha ou grid.
-    Fora disso, quem usa dá o comprimento.
-  - `layout/separator-width` e `layout/separator-height` não são consumidos. Os
-    dois são o comprimento FIXED do mestre `762:6`, e o quadro aceito manda "a
-    instância preenche o contêiner".
+  - `orientation`: `horizontal` (default) or `vertical`, reflected to the attribute.
+  - One line of `border/width` in `color/border`. The host is `aria-hidden` and
+    has no role: it is decorative.
+  - It fills the container. The horizontal one fills the width in a block parent or
+    a column flex. The vertical one fills the height in a row flex parent or grid.
+    Outside that, whoever uses it gives the length.
+  - `layout/separator-width` and `layout/separator-height` are not consumed. The
+    two are the FIXED length of master `762:6`, and the accepted frame says
+    `a instância preenche o contêiner`.
 - **`nph-kbd`**
-  - `text`: string, padrão vazio. É a propriedade `tecla` do Figma. O nome é
-    `text`, como no `nph-label` (P62.3) e no `nph-tooltip` (P65), e não `key`,
-    que frameworks consumidores reservam. "K" é só conteúdo de exemplo do
+  - `text`: string, default empty. It is the Figma property `tecla`. The name is
+    `text`, as in `nph-label` (P62.3) and in `nph-tooltip` (P65), and not `key`,
+    which consuming frameworks reserve. `K` is only example content from
     Figma.
-  - Vazio ou só espaços: nada é mostrado (0 × 0), sem erro. É o estado de
-    montagem antes de o consumidor preencher o texto.
-  - O texto fica dentro de `<kbd>`, e o leitor de tela lê a tecla por ele. A
-    combinação junta uma peça por tecla.
-  - A borda é traço por dentro, como no Figma, feita com `box-shadow: inset` em
-    `border/width`. A altura fica igual à do componente aceito: a linha de
-    `text/label-sm` mais `space/inline-tight` em cima e embaixo. O único zero
-    escrito é `margin: 0`, que tira a margem padrão do `<kbd>`.
+  - Empty or only spaces: nothing is shown (0 × 0), with no error. It is the
+    mount state before the consumer fills in the text.
+  - The text sits inside `<kbd>`, and the screen reader reads the key through it. A
+    combination joins one piece per key.
+  - The border is an inside stroke, as in Figma, made with `box-shadow: inset` in
+    `border/width`. The height stays equal to that of the accepted component: the line of
+    `text/label-sm` plus `space/inline-tight` top and bottom. The only written
+    zero is `margin: 0`, which removes the default margin of `<kbd>`.
 
-**Fonte.** Quadros aceitos no Figma `DS-IA-NEPHOS 5.0` em 01/10/2026:
-`nph-spinner` (`1195:22210`, conjunto `281:11`), `nph-separator` (`1196:674`,
-conjunto `762:6`) e `nph-kbd` (`1193:20`, componente `772:3`). Os três têm QA UX
-de Figma e auditoria textual aprovados. Os nomes `text` e `orientation`, o
-padrão vazio do `text`, a semântica `role="img"` do spinner e a regra de
-entrada inválida são proposta técnica desta implementação.
+**Source.** Frames accepted in the Figma file `DS-IA-NEPHOS 5.0` on 01/10/2026:
+`nph-spinner` (`1195:22210`, set `281:11`), `nph-separator` (`1196:674`,
+set `762:6`) and `nph-kbd` (`1193:20`, component `772:3`). All three have Figma UX QA
+and textual audit approved. The names `text` and `orientation`, the
+empty default of `text`, the `role="img"` semantics of the spinner and the
+invalid input rule are a technical proposal of this implementation.
 
-**Fora de escopo.** O girador dentro do `nph-button` (Lote B). Indicador de
-progresso conhecido. Separador com texto. Combinação de teclas numa peça só.
+**Out of scope.** The spinner inside `nph-button` (Batch B). Determinate progress
+indicator. Separator with text. Key combination in a single piece.
 
-**Status.** Anatomia e comportamento aceitos por Indiane em 01/10/2026; API e
-semântica em revisão no PR do Lote A.
+**Status.** Anatomy and behavior accepted by Indiane on 01/10/2026; API and
+semantics under review in the Batch A PR.
 
 ---
 
-## P67 — Invariantes dependentes em cada raiz de esquema
+## P67 — Dependent invariants in each scheme root
 
-Esta decisão **complementa a P20** sem alterá-la. A P20 continua fixando os dois
-atributos como contrato de tema; a P67 diz como eles valem numa parte da tela.
+This decision **complements P20** without changing it. P20 still fixes the two
+attributes as the theme contract; P67 says how they apply in a part of the screen.
 
-**Conflito técnico.** Uma custom property com `var()` resolve no elemento que a
-declara, e o filho herda o valor já resolvido. O gerador emitia os invariantes
-uma vez, só em `:root`. Numa parte da tela com outra marca ou outro esquema, o
-invariante que aponta para `theme/*` ou para um variante ficava com o valor da
-raiz. Medido no navegador: em `data-nph-brand="educacao"`, `--nph-focus-halo`
-saía `#b1cdfb`, o halo de Sistemas. Na sombra (`elevation/*`), a cor ficava a do
-claro numa parte escura — o limite registrado na P65.
+**Technical conflict.** A custom property with `var()` resolves on the element that
+declares it, and the child inherits the already resolved value. The generator emitted the invariants
+once, only in `:root`. In a part of the screen with another brand or another scheme, the
+invariant that points to `theme/*` or to a variant kept the root's
+value. Measured in the browser: in `data-nph-brand="educacao"`, `--nph-focus-halo`
+came out as `#b1cdfb`, the Sistemas halo. In the shadow (`elevation/*`), the color stayed the light
+one in a dark part — the limit recorded in P65.
 
-**Decisão.**
+**Decision.**
 
-- Um invariante é **dependente** quando alguma referência dele aponta para
-  `theme/*`, para um variante ou para outro dependente (ponto fixo, em
+- An invariant is **dependent** when some reference of it points to
+  `theme/*`, to a variant or to another dependent (fixed point, in
   `scripts/tokens-lib.mjs`, `dependents()`).
-- O gerador emite os dependentes em `:root, [data-nph-color-scheme]`: toda raiz
-  de esquema redeclara, e a `var()` resolve ali a marca e o esquema locais. Os
-  demais invariantes ficam só em `:root`.
-- **Consumo, decidido por Indiane em 05/10/2026:** uma parte da tela com outra
-  marca leva `data-nph-brand` **e** `data-nph-color-scheme` no mesmo elemento. Só
-  o esquema numa parte da tela também vale. Só a marca, sem o esquema no mesmo
-  elemento, não é suportado.
-- Validação nova do gerador: dependente fora do bloco de esquema, ou
-  independente dentro dele, reprova o build.
+- The generator emits the dependents in `:root, [data-nph-color-scheme]`: every scheme
+  root redeclares them, and the `var()` resolves there the local brand and scheme. The
+  other invariants stay only in `:root`.
+- **Consumption, decided by Indiane on 05/10/2026:** a part of the screen with another
+  brand carries `data-nph-brand` **and** `data-nph-color-scheme` on the same element. Only
+  the scheme in a part of the screen also works. Only the brand, without the scheme on the same
+  element, is not supported.
+- New generator validation: a dependent outside the scheme block, or an
+  independent one inside it, fails the build.
 
-**Motivo.** Redeclarar só os dependentes, e não todos os invariantes, preserva a
-personalização do consumidor (P02): um invariante independente personalizado em
-`:root` continua chegando a qualquer parte da tela. Exigir os dois atributos
-juntos dispensa `@scope` e não pede navegador recente.
+**Reason.** Redeclaring only the dependents, and not all invariants, preserves the
+consumer's customization (P02): an independent invariant customized in
+`:root` still reaches any part of the screen. Requiring both attributes
+together dispenses with `@scope` and does not ask for a recent browser.
 
-**Limite.** Um dependente personalizado só em `:root` não chega a uma parte da
-tela com `data-nph-color-scheme`: ali ele é redeclarado. Para personalizá-lo,
-declare-o também no elemento de esquema.
+**Limit.** A dependent customized only in `:root` does not reach a part of the
+screen with `data-nph-color-scheme`: there it is redeclared. To customize it,
+declare it on the scheme element as well.
 
-**Impacto.** O CSS gerado move linhas de um bloco para outro, sem mudar nenhum
-valor. A prova está em `src/shared/tokens/tokens-cascade.test.ts`: uma parte da
-tela com marca e esquema resolve todo token de marca e semântico igual à raiz
-com os mesmos atributos, nas sete marcas e nos dois esquemas. O comando do gate
-da DSA-04 (`conferir-tokens-figma.cjs`) passou a aceitar os dois blocos de
-invariantes.
+**Impact.** The generated CSS moves lines from one block to another, without changing any
+value. The proof is in `src/shared/tokens/tokens-cascade.test.ts`: a part of the
+screen with brand and scheme resolves every brand and semantic token the same as the root
+with the same attributes, in the seven brands and both schemes. The gate command
+of DSA-04 (`conferir-tokens-figma.cjs`) now accepts both invariant
+blocks.
 
-**Rito.** Esta decisão toca o limite da P65 e o uso da P20, por isso segue o
-rito da seção "Como mudar uma destas decisões": o conflito técnico está acima, a
-proposta é esta seção, e a revisão humana é a de `maurocsjr` no PR. O texto da
-decisão da P65 não muda; só o limite dela ganha a anotação.
+**Rite.** This decision touches the limit of P65 and the use of P20, so it follows the
+rite of the section "How to change one of these decisions": the technical conflict is above, the
+proposal is this section, and the human review is the one by `maurocsjr` in the PR. The text of the
+P65 decision does not change; only its limit gets the annotation.
 
-**Status.** Consumo decidido por Indiane em 05/10/2026; gerador em revisão no PR.
+**Status.** Consumption decided by Indiane on 05/10/2026; generator under review in the PR.
 
 ---
 
-## P68 — `nph-badge` e `nph-button`: API e semântica
+## P68 — `nph-badge` and `nph-button`: API and semantics
 
-**Decisão.** As duas peças são Web Components com **Shadow DOM aberto** (P01),
-CSS em arquivo próprio importado `?inline`, como o `nph-icon`. Nenhuma tem slot,
-evento próprio, propriedade de cor ou `::part`. Anatomia só por token semântico.
-Entrada inválida não renderiza nada e emite `console.error` só em
-desenvolvimento, um por causa e acumulando — a regra da P21, adotada aqui por
-decisão própria, como na P66. Os nomes seguem a P64.
+**Decision.** The two pieces are Web Components with **open Shadow DOM** (P01),
+CSS in its own file imported `?inline`, as in `nph-icon`. Neither has a slot,
+event of its own, color property or `::part`. Anatomy only through semantic
+tokens. Invalid input renders nothing and emits `console.error` only in
+development, one per cause and accumulating — the rule of P21, adopted here by
+its own decision, as in P66. The names follow P64.
 
-- **Nomes comuns às duas.** O `tipo` do Figma é `severity`, e a `enfase` é
-  `emphasis`. `severity` é o nome do PrimeNG, que é a fonte dos valores
-  (`primary`, `secondary`, `info`, `warn`, `help`, `danger`, `success`; B1 do
-  Registro de decisões). `type` não é usado: no botão, ele é o atributo nativo
-  que decide o envio de formulário. As duas peças usam o mesmo nome para a mesma
-  escolha.
+- **Names common to both.** The Figma `tipo` is `severity`, and the `enfase` is
+  `emphasis`. `severity` is the PrimeNG name, which is the source of the values
+  (`primary`, `secondary`, `info`, `warn`, `help`, `danger`, `success`; B1 of
+  the decision register). `type` is not used: on the button, it is the native
+  attribute that decides form submission. The two pieces use the same name for
+  the same choice.
 - **`nph-badge`**
-  - `severity`: os tipos acima, padrão `primary`, reflete no atributo.
-  - `emphasis`: `solid` (padrão) ou `light`, reflete no atributo. Os padrões são
-    os do conjunto `878:30`.
-  - `text`: string, padrão vazio. É o nome acessível. Vazio ou só espaços: nada é
-    mostrado (0 × 0), sem erro. É o estado de montagem, como no `nph-kbd` (P66), e
-    a regra do quadro: se não há o que escrever, não há selo.
-  - `icon`: string, padrão vazio. Um nome do núcleo do `nph-icon`, antes do texto,
-    em `icon/size-sm`, na cor do texto e decorativo.
-  - Só texto, sem role. Não recebe clique, foco nem hover: o hover saiu do Figma
-    em 02/10/2026, porque o selo não é clicável.
-  - O texto fica numa linha (`white-space: nowrap`): uma ou duas palavras.
+  - `severity`: the types above, default `primary`, reflected to the attribute.
+  - `emphasis`: `solid` (default) or `light`, reflected to the attribute. The
+    defaults are those of set `878:30`.
+  - `text`: string, default empty. It is the accessible name. Empty or only
+    spaces: nothing is shown (0 × 0), with no error. It is the mount state, as in
+    `nph-kbd` (P66), and the rule of the frame: if there is nothing to write,
+    there is no badge.
+  - `icon`: string, default empty. A name from the `nph-icon` core, before the
+    text, in `icon/size-sm`, in the text color and decorative.
+  - Text only, no role. It receives no click, focus or hover: the hover left
+    Figma on 02/10/2026, because the badge is not clickable.
+  - The text stays on one line (`white-space: nowrap`): one or two words.
 - **`nph-button`**
-  - `severity` (padrão `primary`), `emphasis` (`solid`, padrão, `outline`,
-    `light` ou `ghost`) e `size` (`compact`, `default`, padrão, ou `large`).
-    `outline`, `light` e `ghost` só existem em `primary`, `secondary` e `danger`
-    (B1). O padrão `default` é decisão de Indiane em 05/10/2026, pela T4
-    (`compact` fica preso ao contexto denso), e supera o "padrão compact" do
-    quadro aceito (`1197:5449`, seção 5). Os três refletem no atributo, como
-    `disabled` e `loading`: o CSS interno seleciona por eles.
-  - `text`: o que acontece ao clicar, e o nome acessível. Fica numa linha
-    (`white-space: nowrap`), porque a altura é fixa no token de controle.
-  - `icon-start` e `icon-end` (propriedades `iconStart` e `iconEnd`): um nome do
-    núcleo cada, em `icon/size-sm` quando há texto, e podem conviver (B6).
-  - **Só ícone (B5).** Sem texto e com um ícone, o botão é quadrado, na altura do
-    controle, sem respiro lateral, e o ícone acompanha a caixa: `sm` no
-    `compact`, `md` no `default` e `lg` no `large` (conjunto `498:15671`). O
-    `label` é obrigatório e vira o `aria-label` do botão nativo; com texto, ele
-    não é usado. O nome `label` é decisão de Indiane em 05/10/2026: supera o
-    `aria-label` aprovado em 02/09/2026, porque o `aria-label` posto no host não
-    nomeia o botão de dentro do shadow root, e segue o `nph-icon` e o
-    `nph-spinner`.
-  - Um `<button type="button">` nativo dentro do shadow root, com
-    `delegatesFocus`. Teclado nativo: Tab entra e sai; Enter e Espaço acionam. O
-    clique é o `click` nativo, que atravessa o shadow root e chega ao host.
-  - **Foco** só em `:focus-visible`: borda de `border/width` encostada, com raio
-    `focus/border-radius-control`, e halo de `focus/ring-width` por fora, com raio
-    `focus/radius-control-with-border`, sem mudar o tamanho. A borda tem a cor do
-    tipo (`color/primary`, `status/info`, `status/warning`, `status/help`,
-    `color/destructive`, `status/success`) e, no `secondary`, `focus/border`. O
-    halo é `focus/halo` no `primary` e no `secondary`, e `focus/halo-<matiz>` nos
-    demais. Igual em todas as ênfases.
-  - **Hover** (`hover-active`) nos tokens de hover de cada par: `color/*-hover` e
-    `status/*-hover` no sólido, por decisão de 02/10/2026, que supera a B4;
-    `*-surface-hover` e `*-on-surface-hover` no `outline` e no `light`; a
-    superfície do tipo no `ghost`.
-  - `disabled`: `disabled` nativo. O botão sai do Tab, não dispara clique e fica
-    em `state/disabled-opacity`, nas cores do repouso.
-  - `loading` (o `carregando` do Figma): o girador do `nph-spinner` entra no lugar
-    do ícone de início, o de fim some e o texto fica. No só ícone, o girador
-    substitui o ícone: `sm` no `compact` e `md` no `default` e no `large`. O botão
-    continua focável, com `aria-disabled="true"` e `aria-busy="true"`, e o clique
-    não chega a quem usa. O girador é decorativo.
-  - Em `disabled` e em `loading`, um ouvinte no botão nativo e outro, de captura,
-    no host param o `click`, também o de `click()` chamado no host.
-  - Entrada inválida: `severity`, `emphasis` ou `size` fora da lista; `outline`,
-    `light` ou `ghost` em `info`, `warn`, `help` ou `success`; ícone fora do
-    núcleo; sem texto e com dois ícones; sem texto, com um ícone e sem `label`.
-    **Sem texto e sem ícone é montagem**: nada, sem erro, como no `nph-kbd`.
-- **Literais escritos, e por quê.** `transparent` (o `ghost` não tem fundo);
-  `nowrap`; `calc(-1 * ...)`, que põe a borda e o halo do foco por fora; e
-  `inset 0 0 0` no `box-shadow` da borda do `outline`, que é traço por dentro,
-  como no `nph-kbd`. Nenhum é valor visual.
+  - `severity` (default `primary`), `emphasis` (`solid`, default, `outline`,
+    `light` or `ghost`) and `size` (`compact`, `default`, default, or `large`).
+    `outline`, `light` and `ghost` exist only in `primary`, `secondary` and
+    `danger` (B1). The `default` default is Indiane's decision on 05/10/2026,
+    through T4 (`compact` is tied to the dense context), and supersedes the
+    `padrão compact` of the accepted frame (`1197:5449`, section 5). The three
+    are reflected to the attribute, as are `disabled` and `loading`: the internal
+    CSS selects by them.
+  - `text`: what happens on click, and the accessible name. It stays on one line
+    (`white-space: nowrap`), because the height is fixed by the control token.
+  - `icon-start` and `icon-end` (properties `iconStart` and `iconEnd`): one core
+    name each, in `icon/size-sm` when there is text, and they can coexist (B6).
+  - **Icon only (B5).** With no text and one icon, the button is square, at the
+    control height, with no side padding, and the icon follows the box: `sm` in
+    `compact`, `md` in `default` and `lg` in `large` (set `498:15671`). The
+    `label` is required and becomes the `aria-label` of the native button; with
+    text, it is not used. The name `label` is Indiane's decision on 05/10/2026:
+    it supersedes the `aria-label` approved on 02/09/2026, because an
+    `aria-label` placed on the host does not name the button inside the shadow
+    root, and it follows `nph-icon` and `nph-spinner`.
+  - A native `<button type="button">` inside the shadow root, with
+    `delegatesFocus`. Native keyboard: Tab enters and leaves; Enter and Space
+    activate. The click is the native `click`, which crosses the shadow root and
+    reaches the host.
+  - **Focus** only on `:focus-visible`: a `border/width` border close to the
+    box, with radius `focus/border-radius-control`, and a `focus/ring-width` halo
+    outside, with radius `focus/radius-control-with-border`, without changing the
+    size. The border has the color of the type (`color/primary`, `status/info`,
+    `status/warning`, `status/help`, `color/destructive`, `status/success`) and,
+    in `secondary`, `focus/border`. The halo is `focus/halo` in `primary` and in
+    `secondary`, and `focus/halo-<hue>` in the others. The same in every
+    emphasis.
+  - **Hover** (`hover-active`) on the hover tokens of each pair: `color/*-hover`
+    and `status/*-hover` in solid, by the decision of 02/10/2026, which
+    supersedes B4; `*-surface-hover` and `*-on-surface-hover` in `outline` and in
+    `light`; the surface of the type in `ghost`.
+  - `disabled`: native `disabled`. The button leaves the Tab order, does not fire
+    a click and stays at `state/disabled-opacity`, in the resting colors.
+  - `loading` (the Figma `carregando`): the `nph-spinner` spinner takes the place
+    of the start icon, the end icon disappears and the text stays. In icon only,
+    the spinner replaces the icon: `sm` in `compact` and `md` in `default` and in
+    `large`. The button stays focusable, with `aria-disabled="true"` and
+    `aria-busy="true"`, and the click does not reach the consumer. The spinner is
+    decorative.
+  - In `disabled` and in `loading`, a listener on the native button and another,
+    in the capture phase, on the host stop the `click`, including one from
+    `click()` called on the host.
+  - Invalid input: `severity`, `emphasis` or `size` outside the list; `outline`,
+    `light` or `ghost` in `info`, `warn`, `help` or `success`; an icon outside
+    the core; no text and two icons; no text, one icon and no `label`. **No text
+    and no icon is the mount state**: nothing, with no error, as in `nph-kbd`.
+- **Written literals, and why.** `transparent` (`ghost` has no background);
+  `nowrap`; `calc(-1 * ...)`, which places the focus border and halo outside;
+  and `inset 0 0 0` in the `box-shadow` of the `outline` border, which is an
+  inside stroke, as in `nph-kbd`. None is a visual value.
 
-**Limites conhecidos.**
+**Known limits.**
 
-- **L-a — subárvore com outro esquema ou outra marca.** `status/on-solid` (alias
-  de `color/background`) e `focus/halo` (alias de `theme/brand-200`) saem só em
-  `:root`. Numa parte da tela com outro `data-nph-color-scheme` ou outro
-  `data-nph-brand`, os dois ficam com o valor da raiz: o texto sólido de `info`,
-  `warn`, `help` e `success`, nas duas peças, e o halo do `primary` e do
-  `secondary`. É a mesma pendência do gerador de tokens que a P65 registra para a
-  sombra. Quando o gerador redeclarar esses invariantes por esquema, as duas
-  peças corrigem sozinhas: elas consomem os mesmos nomes de token. *Resolvido
-  pela P67:* os dois saem em cada raiz de esquema, e uma parte da tela com outra
-  marca leva `data-nph-brand` e `data-nph-color-scheme` no mesmo elemento. Os
-  testes das duas peças medem isso.
-- **L-b — `use` do `design.md` mais estreito que o Figma aceito.** O quadro e os
-  conjuntos aceitos usam tokens onde o `use` ainda não cita esse uso:
-  `color/primary-surface` e `color/destructive-surface` (o `use` cita
-  "nph-button com ênfase light ou outline") também servem ao hover do `ghost` e
-  ao badge `light`; `color/primary-on-surface` ("somente sobre ela") também no
-  `ghost` sem fundo; `color/muted` (`nao_use: "Hover."`) no hover do `ghost`
-  secondary e como fundo do `outline` secondary; `status/<matiz>` (ícone, ponto,
-  barra) como fundo sólido de badge e button; `status/<matiz>-surface` e
-  `-foreground` ("sempre em conjunto com os outros três papéis") no badge
-  `light`, sem `-border`. As peças seguem o Figma; a ampliação do `use` é
-  decisão pendente da Indiane, e este PR não muda o `design.md`.
+- **L-a — subtree with another scheme or another brand.** `status/on-solid`
+  (alias of `color/background`) and `focus/halo` (alias of `theme/brand-200`)
+  are emitted only in `:root`. In a part of the screen with another
+  `data-nph-color-scheme` or another `data-nph-brand`, both keep the root's
+  value: the solid text of `info`, `warn`, `help` and `success`, in both pieces,
+  and the halo of `primary` and `secondary`. It is the same pending item of the
+  token generator that P65 records for the shadow. When the generator redeclares
+  these invariants per scheme, both pieces fix themselves: they consume the same
+  token names. *Resolved by P67:* both are emitted in each scheme root, and a
+  part of the screen with another brand carries `data-nph-brand` and
+  `data-nph-color-scheme` on the same element. The tests of both pieces measure
+  this.
+- **L-b — `use` in `design.md` narrower than the accepted Figma.** The accepted
+  frame and sets use tokens where the `use` does not yet cite that use:
+  `color/primary-surface` and `color/destructive-surface` (the `use` cites
+  "nph-button with light or outline emphasis") also serve the `ghost` hover and
+  the `light` badge; `color/primary-on-surface` ("USE only on it") also in the
+  `ghost` with no background; `color/muted` (`nao_use: "Hover."`) in the hover of
+  the `secondary` `ghost` and as the background of the `secondary` `outline`;
+  `status/<hue>` (icon, dot, bar) as the solid background of badge and button;
+  `status/<hue>-surface` and `-foreground` ("Always together with the other
+  three roles") in the `light` badge, without `-border`. The pieces follow
+  Figma; widening the `use` is a pending decision of Indiane, and this PR does
+  not change `design.md`.
 
-**Fonte.** Quadros aceitos no Figma `DS-IA-NEPHOS 5.0` em 01/10/2026 e
-completados em 02/10/2026: `nph-badge` (`1196:1100`, conjunto `878:30`; o hover
-saiu) e `nph-button` (`1197:5449`, conjuntos `461:13009` e `498:15671`; o hover
-sólido passou aos tokens de hover). Os dois têm QA UX de Figma e auditoria
-textual aprovados em 02/10/2026. Registro de decisões (vault): B1, B5 e B6. Os
-nomes `severity`, `emphasis`, `text`, `icon`, `iconStart`, `iconEnd` e
-`loading`, a semântica do `loading` e a regra de entrada inválida são proposta
-técnica desta implementação. O `label` e o `size` padrão `default` são decisões
-de Indiane em 05/10/2026.
+**Source.** Frames accepted in the Figma file `DS-IA-NEPHOS 5.0` on 01/10/2026
+and completed on 02/10/2026: `nph-badge` (`1196:1100`, set `878:30`; the hover
+left) and `nph-button` (`1197:5449`, sets `461:13009` and `498:15671`; the solid
+hover moved to the hover tokens). Both have Figma UX QA and textual audit
+approved on 02/10/2026. Decision register (vault): B1, B5 and B6. The names
+`severity`, `emphasis`, `text`, `icon`, `iconStart`, `iconEnd` and `loading`,
+the semantics of `loading` and the invalid input rule are a technical proposal
+of this implementation. The `label` and the `default` default `size` are
+Indiane's decisions on 05/10/2026.
 
-**Fora de escopo.** Envio de formulário (`type="submit"`, elemento associado a
-formulário), link com cara de botão, grupo de botões, botão de largura fluida,
-texto em mais de uma linha, selo clicável e selo com contagem.
+**Out of scope.** Form submission (`type="submit"`, form-associated element),
+link that looks like a button, button group, fluid-width button, text on more
+than one line, clickable badge and badge with a count.
 
-**Status.** Anatomia e comportamento aceitos por Indiane em 01/10/2026 e
-completados em 02/10/2026; API e semântica em revisão no PR do Lote B.
+**Status.** Anatomy and behavior accepted by Indiane on 01/10/2026 and
+completed on 02/10/2026; API and semantics under review in the Batch B PR.
 
 ---
 
-## Como mudar uma destas decisões
+## How to change one of these decisions
 
-Não altere, substitua ou reabra P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67 ou P68 sem:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67 or P68 without:
 
-1. explicar o conflito técnico concreto;
-2. registrar uma proposta de mudança;
-3. solicitar revisão humana.
+1. explaining the concrete technical conflict;
+2. recording a change proposal;
+3. requesting human review.
 
-Isso vale para pessoas e para agentes.
+This applies to people and to agents.
 
-## Onde estas decisões aparecem
+## Where these decisions appear
 
-| Documento | O que ele diz sobre elas |
+| Document | What it says about them |
 |---|---|
-| [`../README.md`](../README.md) | Resumo e ponteiro para esta nota |
-| [`../AGENTS.md`](../AGENTS.md) | Regra de leitura obrigatória antes de mexer em componente |
-| [`../CLAUDE.md`](../CLAUDE.md) | Instrução exclusiva do Claude; a regra comum está no `AGENTS.md` |
-| [`../GOVERNANCA.md`](../GOVERNANCA.md) | Estado vigente do repositório |
-| [`../design.md`](../design.md) | Contrato das fundações; §9 e §10 alinhadas ao P03 e ao P17 |
-| [`tokens.md`](tokens.md) | Como o P17 e o P20 são aplicados: fonte, geração, consumo e validações |
-| [`../fichas/<nome>.md`](../fichas/) | Como a decisão chega ao componente: contrato, variantes, estados e tokens |
+| [`../README.md`](../README.md) | Summary and pointer to this note |
+| [`../AGENTS.md`](../AGENTS.md) | Mandatory reading rule before touching a component |
+| [`../CLAUDE.md`](../CLAUDE.md) | Claude-only instruction; the common rule is in `AGENTS.md` |
+| [`../GOVERNANCA.md`](../GOVERNANCA.md) | Current state of the repository |
+| [`../design.md`](../design.md) | Foundations contract; §9 and §10 aligned with P03 and P17 |
+| [`tokens.md`](tokens.md) | How P17 and P20 are applied: source, generation, consumption and validations |
+| [`../fichas/<nome>.md`](../fichas/) | How the decision reaches the component: contract, variants, states and tokens |

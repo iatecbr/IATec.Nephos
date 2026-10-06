@@ -1,14 +1,14 @@
 /**
- * Stories de VALIDACAO do `nph-tooltip`.
+ * VALIDATION stories of `nph-tooltip`.
  *
- * Cada story mostra o balao aberto com o conteudo de exemplo do Figma
- * (quadro `1237:5`): uma linha e duas linhas. Nao ha texto explicativo, so o
- * texto do balao, que e conteudo e chega pronto da aplicacao. Ele vem do
- * dicionario de idioma, na chave `tooltipValidation` (`docs/i18n.md`,
- * "Storybook").
+ * Each story shows the open bubble with the Figma example content
+ * (frame `1237:5`): one line and two lines. There is no explanatory text,
+ * only the bubble text, which is content and arrives ready from the
+ * application. It comes from the language dictionary, under the
+ * `tooltipValidation` key (`docs/i18n.md`, "Storybook").
  *
- * O esquema de cor vem do seletor global do Storybook, aplicado na raiz da
- * pagina.
+ * The color scheme comes from the Storybook global selector, applied at the
+ * page root.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -29,7 +29,7 @@ interface GlobalsContext {
   globals?: Record<string, unknown>;
 }
 
-/** Atalho: o dicionario destas stories no idioma escolhido. */
+/** Shortcut: the dictionary of these stories in the chosen language. */
 function t(context: GlobalsContext | undefined) {
   const locale = (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
   return translations(locale).tooltipValidation;

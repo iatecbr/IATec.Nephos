@@ -11,9 +11,9 @@
 }
 ```
 
-# guia-publicado — F4-T04
+# `guia-publicado` — F4-T04
 
-Saída colada, sem edição:
+Output pasted, unedited:
 
 ```text
 $ test -f docs/stories.md
@@ -21,8 +21,8 @@ $ echo $?
 0
 ```
 
-`docs/stories.md` existe na branch `docs/f4-t04-guia-stories`, publicado pelo commit
-`cd5668e`. Na baseline de onde a branch saiu ele não existia:
+`docs/stories.md` exists on the branch `docs/f4-t04-guia-stories`, published by commit
+`cd5668e`. In the baseline the branch came from it did not exist:
 
 ```text
 $ git cat-file -e 20882bf:docs/stories.md
@@ -31,20 +31,19 @@ $ echo $?
 128
 ```
 
-## O que o guia entrega
+## What the guide delivers
 
-Seis grupos de regra — a ordem, o componente, o CSS, as stories, os testes, e
-Storybook e repositório —, mais a §7 com as lacunas e a §8 com as divergências
-abertas.
+Six groups of rules — the order, the component, the CSS, the stories, the tests, and
+Storybook and repository —, plus §7 with the gaps and §8 with the open divergences.
 
-**Cada regra fecha com `Fonte:` e `Limite:`.** A Fonte aponta arquivo e trecho deste
-repositório; o Limite diz até onde a regra vale e quantos componentes a sustentam.
-Onde há um caso só, está escrito.
+**Every rule closes with `Fonte:` and `Limite:`** (Source and Limit). The Source points to a file and excerpt of this
+repository; the Limit says how far the rule holds and how many components support it.
+Where there is only one case, it says so.
 
-O guia foi extraído da prática de `nph-icon` e `nph-label`, os dois componentes com
-código na baseline. **O piloto M5 não foi usado como fonte.**
+The guide was extracted from the practice of `nph-icon` and `nph-label`, the two components with
+code in the baseline. **The pilot M5 was not used as a source.**
 
-Os nove links relativos do guia foram conferidos por comando, sobre a mesma revisão:
+The guide's nine relative links were checked by command, over the same revision:
 
 ```text
 $ cd docs && for p in i18n.md decisoes-tecnicas.md operacao/README.md ../fichas/_modelo.md ../design.md ../README.md ../GOVERNANCA.md ../AGENTS.md ../contributing.md; do test -f "$p" && echo "OK        $p" || echo "QUEBRADO  $p"; done
@@ -59,11 +58,11 @@ OK        ../AGENTS.md
 OK        ../contributing.md
 ```
 
-## O que este gate não prova
+## What this gate does not prove
 
-Ele prova que o guia existe, é rastreável e não inventa regra. **Não prova que a
-F4-T04 terminou.** A tarefa fica `em-revisao` até o merge do PR #28, pelo mesmo
-critério aplicado à F5-T01.
+It proves that the guide exists, is traceable and does not invent rules. **It does not prove that
+F4-T04 is finished.** The task stays `em-revisao` until PR #28 is merged, by the same
+criterion applied to F5-T01.
 
-Também não prova a comparação Figma × Storybook: ela continua sem artefato neste
-repositório, e por isso está registrada no guia como lacuna, não como regra.
+It also does not prove the Figma × Storybook comparison: it still has no artifact in this repository, and
+for that reason it is recorded in the guide as a gap, not as a rule.

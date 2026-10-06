@@ -1,73 +1,78 @@
 /**
- * Idiomas do Storybook do Nephos.
+ * Storybook languages for Nephos.
  *
- * Uma story NUNCA e duplicada por idioma: ela le o idioma escolhido e busca o
- * texto no dicionario. Triplicar story significaria corrigir tres vezes toda
- * alteracao, e uma hora alguem esqueceria uma.
+ * A story is NEVER duplicated per language: it reads the chosen language and
+ * looks the text up in the dictionary. Tripling a story would mean fixing every
+ * change three times, and someone would eventually forget one.
  *
- * `pt-BR` e a fonte. `en` e `es` sao traducoes. Identificadores tecnicos —
- * `nph-icon`, tokens, atributos, comandos, caminhos — nao passam por aqui:
- * aparecem literais na story, iguais em qualquer idioma. Texto em portugues
- * escrito a mao numa story reprova no `npm run test:naming`: todo texto visivel
- * mora aqui.
+ * `en` is the source and the default. `pt-BR` and `es` are translations
+ * (P64, amendment of 06/10/2026). Technical
+ * identifiers — `nph-icon`, tokens, attributes, commands, paths — do not go
+ * through here: they appear literally in the story, the same in every language.
+ * Portuguese text hand-written in a story fails `npm run test:naming`: all
+ * visible text lives here.
  *
- * Ver `docs/i18n.md`.
+ * See `docs/i18n.md`.
  */
 
 /*
- * Os dicionarios sao JSON, um por idioma, e JSON nao tem comentario: as regras
- * deles ficam aqui.
+ * The dictionaries are JSON, one per language, and JSON has no comments: their
+ * rules live here.
  *
- * - `pt-BR.json` e o idioma-fonte. Toda frase nasce nele; `en.json` e `es.json`
- *   sao traducoes e nunca decidem conteudo. Se divergirem, a fonte vence.
- * - `sidebar` traduz rotulos da barra lateral por id de entrada. O id e o da
- *   story ou do grupo, em ingles, porque titulo, nome e exportacao da story sao
- *   identificadores (P64); o rotulo em portugues vem daqui. Entrada sem
- *   chave mantem o nome original — e o caso de `nph-icon`, que e nome tecnico.
- * - `colorScheme` e o seletor de modo da barra de ferramentas. Um modo por vez:
- *   moldura e pagina trocam juntas.
- * - `categories` segue a ordem de `icones_nucleo`, no design.md.
- * - Numero entra por marcador `{nome}`, preenchido por `format()`. O marcador e
- *   o mesmo nos tres idiomas; so o texto em volta e traduzido.
+ * - `en.json` is the source language. Every sentence starts there; `pt-BR.json`
+ *   and `es.json` are translations and never decide content. If they diverge,
+ *   the source wins.
+ * - `sidebar` translates sidebar labels by entry id. The id is the story's or
+ *   the group's, in English, because the story title, name and export are
+ *   identifiers (P64); the label in each language comes from here. An entry
+ *   without a key keeps its original name — the case of `nph-icon`, which is a
+ *   technical name.
+ * - `colorScheme` is the toolbar mode selector. One mode at a time: frame and
+ *   page switch together.
+ * - `categories` follows the order of `icones_nucleo`, in design.md.
+ * - A number enters through a `{nome}` marker, filled in by `format()`. The
+ *   marker is the same in all three languages; only the surrounding text is
+ *   translated.
  */
-import ptBR from './pt-BR.json';
 import en from './en.json';
+import ptBR from './pt-BR.json';
 import es from './es.json';
 
-/** O identificador do global e `locale`, em ingles, como todo nome tecnico. */
+/** The global's identifier is `locale`, in English, like every technical name. */
 export const LOCALE_GLOBAL = 'locale';
 
-export const DEFAULT_LOCALE = 'pt-BR';
+export const DEFAULT_LOCALE = 'en';
 
-/** Ordem de exibicao no seletor. A fonte vem primeiro. */
+/** Display order in the selector. The source comes first. */
 export const LOCALES = [
-  { value: 'pt-BR', title: 'Português (BR)', right: '🇧🇷' },
   { value: 'en', title: 'English', right: '🇺🇸' },
+  { value: 'pt-BR', title: 'Português (BR)', right: '🇧🇷' },
   { value: 'es', title: 'Español', right: '🇪🇸' },
 ];
 
-const DICTIONARIES = { 'pt-BR': ptBR, en, es };
+const DICTIONARIES = { en, 'pt-BR': ptBR, es };
 
 /**
- * Devolve o dicionario do idioma pedido. Idioma desconhecido cai na fonte, em
- * vez de quebrar a pagina: texto em portugues e um defeito visivel e pequeno;
- * uma story em branco e um defeito grande.
+ * Returns the dictionary for the requested language. An unknown language falls
+ * back to the source, English, instead of breaking the page: text in the wrong
+ * language is a small, visible defect; a blank story is a big one.
  */
 export function translations(locale) {
   return DICTIONARIES[locale] ?? DICTIONARIES[DEFAULT_LOCALE];
 }
 
 /**
- * Rotulo traduzido de uma entrada da barra lateral, ou `undefined` quando nao
- * ha traducao — e o caso de `nph-icon`, que e nome tecnico e nunca muda.
+ * Translated label of a sidebar entry, or `undefined` when there is no
+ * translation — the case of `nph-icon`, which is a technical name and never
+ * changes.
  */
 export function sidebarLabel(id, locale) {
   return translations(locale).sidebar[id];
 }
 
 /**
- * Preenche os marcadores `{nome}` de um texto do dicionario. Marcador sem valor
- * fica como esta, para o defeito aparecer na pagina em vez de sumir.
+ * Fills the `{nome}` markers of a dictionary text. A marker without a value
+ * stays as it is, so the defect shows on the page instead of vanishing.
  */
 export function format(template, values) {
   return template.replace(/\{(\w+)\}/g, (marker, name) =>

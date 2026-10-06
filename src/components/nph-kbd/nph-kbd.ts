@@ -1,13 +1,13 @@
 /**
- * `nph-kbd` — uma tecla de atalho, estatica.
+ * `nph-kbd` — a keyboard shortcut key, static.
  *
- * Contrato aceito no Figma (quadro `1193:20`, componente `772:3`) e P66:
- * - `text`, o texto de UMA tecla (`tecla` no Figma). A combinacao junta uma
- *   peca por tecla, lado a lado;
- * - vazio ou so espacos: nada e mostrado. Nao e erro: e o estado antes de o
- *   consumidor preencher o texto;
- * - sem interacao: sem foco, clique, evento, slot, variante ou `::part`;
- * - o leitor de tela anuncia a tecla pelo proprio texto, dentro de `<kbd>`.
+ * Contract accepted in Figma (frame `1193:20`, component `772:3`) and P66:
+ * - `text`, the text of ONE key (`tecla` in Figma). A combination joins one
+ *   piece per key, side by side;
+ * - empty or only spaces: nothing is shown. Not an error: it is the state
+ *   before the consumer fills in the text;
+ * - no interaction: no focus, click, event, slot, variant or `::part`;
+ * - the screen reader announces the key by its own text, inside `<kbd>`.
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -16,7 +16,7 @@ import kbdCss from './nph-kbd.css?inline';
 
 const TAG = 'nph-kbd';
 
-/** Marca interna, nao API: presente so quando ha texto para mostrar. */
+/** Internal mark, not API: present only when there is text to show. */
 const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 
 export class NphKbd extends LitElement {
@@ -26,7 +26,7 @@ export class NphKbd extends LitElement {
     text: { type: String },
   };
 
-  /** O texto de uma tecla. Vazio ou so espacos: nada e mostrado. */
+  /** The text of one key. Empty or only spaces: nothing is shown. */
   declare text: string;
 
   constructor() {

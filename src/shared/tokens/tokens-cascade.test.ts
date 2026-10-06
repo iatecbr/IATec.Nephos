@@ -1,26 +1,27 @@
 /**
- * Prova da cascata dos tokens numa subarvore (P67), em navegador de verdade:
- * so onde ha cascata e heranca se ve o valor que uma `var()` resolve.
+ * Proof of the token cascade in a subtree (P67), in a real browser:
+ * only where cascade and inheritance exist can you see the value a `var()`
+ * resolves to.
  *
- * Contrato de consumo (decisao de Indiane em 05-10-2026): numa parte da tela
- * com outra marca, `data-nph-brand` e `data-nph-color-scheme` vao no MESMO
- * elemento. Nessa subarvore, todo token de marca e semantico tem de resolver
- * igual ao que resolveria com os mesmos dois atributos na raiz.
+ * Consumption contract (decision by Indiane on 05-10-2026): in a part of the
+ * screen with another brand, `data-nph-brand` and `data-nph-color-scheme` go
+ * on the SAME element. In that subtree, every brand and semantic token must
+ * resolve the same as it would with the same two attributes on the root.
  */
 import { afterEach, describe, expect, it } from 'vitest';
 
 import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 
-/** As marcas e os esquemas saem dos seletores do proprio CSS gerado. */
+/** The brands and the schemes come from the selectors of the generated CSS itself. */
 const BRANDS = [...new Set([...tokensCss.matchAll(/\[data-nph-brand="([\w-]+)"\]/g)].map((m) => m[1] ?? ''))];
 const SCHEMES = [...new Set([...tokensCss.matchAll(/\[data-nph-color-scheme="([\w-]+)"\]/g)].map((m) => m[1] ?? ''))];
-/** A marca padrao e a que tambem sai em `:root`. */
+/** The default brand is the one that also comes out in `:root`. */
 const DEFAULT_BRAND = /:root,\s*\[data-nph-brand="([\w-]+)"\]/.exec(tokensCss)?.[1] ?? '';
-/** `--nph-theme-brand-200` da marca padrao: o valor errado que a subarvore herdava. */
+/** `--nph-theme-brand-200` of the default brand: the wrong value the subtree used to inherit. */
 const DEFAULT_BRAND_HALO = '#b1cdfb';
 
-/** Todo nome declarado, menos os primitivos: os de marca e os semanticos. */
+/** Every declared name, except the primitives: the brand ones and the semantic ones. */
 const NAMES = [...new Set([...tokensCss.matchAll(/(--nph-[\w-]+)\s*:/g)].map((m) => m[1] ?? ''))].filter(
   (name) => name !== '' && !name.startsWith('--nph-core-'),
 );
@@ -39,7 +40,7 @@ function read(element: Element, names: string[]): Record<string, string> {
   return Object.fromEntries(names.map((name) => [name, style.getPropertyValue(name).trim()]));
 }
 
-/** Valores num filho sem atributo de uma raiz que carrega os atributos. */
+/** Values on an attribute-less child of a root that carries the attributes. */
 function atRoot(attributes: Record<string, string>): Record<string, string> {
   for (const [key, value] of Object.entries(attributes)) root.setAttribute(key, value);
   const child = document.createElement('div');
@@ -50,7 +51,7 @@ function atRoot(attributes: Record<string, string>): Record<string, string> {
   return values;
 }
 
-/** Valores num elemento que carrega os atributos, sob a raiz sem atributo. */
+/** Values on an element that carries the attributes, under the attribute-less root. */
 function inSubtree(attributes: Record<string, string>): { element: HTMLElement; values: Record<string, string> } {
   const element = document.createElement('div');
   for (const [key, value] of Object.entries(attributes)) element.setAttribute(key, value);
@@ -60,22 +61,22 @@ function inSubtree(attributes: Record<string, string>): { element: HTMLElement; 
 
 function differences(expected: Record<string, string>, actual: Record<string, string>): string[] {
   return NAMES.filter((name) => expected[name] !== actual[name]).map(
-    (name) => `${name}: raiz ${expected[name]} | subarvore ${actual[name]}`,
+    (name) => `${name}: root ${expected[name]} | subtree ${actual[name]}`,
   );
 }
 
-describe('subarvore de esquema', () => {
-  it('data-nph-color-scheme="dark" numa subarvore resolve igual ao escuro na raiz', () => {
+describe('scheme subtree', () => {
+  it('data-nph-color-scheme="dark" on a subtree resolves the same as dark on the root', () => {
     const expected = atRoot({ 'data-nph-color-scheme': 'dark' });
     const { values } = inSubtree({ 'data-nph-color-scheme': 'dark' });
     expect(differences(expected, values)).toEqual([]);
   });
 });
 
-describe('subarvore de marca com o esquema no mesmo elemento', () => {
+describe('brand subtree with the scheme on the same element', () => {
   for (const brand of BRANDS) {
     for (const scheme of SCHEMES) {
-      it(`${brand} + ${scheme} resolve igual a raiz`, () => {
+      it(`${brand} + ${scheme} resolves the same as the root`, () => {
         const attributes = { 'data-nph-brand': brand, 'data-nph-color-scheme': scheme };
         const expected = atRoot(attributes);
         const { values } = inSubtree(attributes);
@@ -84,13 +85,13 @@ describe('subarvore de marca com o esquema no mesmo elemento', () => {
     }
   }
 
-  it('o CSS declara as sete marcas e os dois esquemas', () => {
+  it('the CSS declares the seven brands and the two schemes', () => {
     expect(BRANDS).toHaveLength(7);
     expect(SCHEMES).toEqual(['light', 'dark']);
     expect(BRANDS).toContain(DEFAULT_BRAND);
   });
 
-  it('focus/halo de outra marca deixa de sair o halo da marca padrao', () => {
+  it('focus/halo of another brand no longer comes out as the default brand halo', () => {
     for (const brand of BRANDS.filter((b) => b !== DEFAULT_BRAND)) {
       const { element } = inSubtree({ 'data-nph-brand': brand, 'data-nph-color-scheme': 'light' });
       const style = getComputedStyle(element);
@@ -102,8 +103,8 @@ describe('subarvore de marca com o esquema no mesmo elemento', () => {
   });
 });
 
-describe('personalizacao do consumidor (P02)', () => {
-  it('invariante independente personalizado na raiz chega a subarvore de esquema', () => {
+describe('consumer customization (P02)', () => {
+  it('an independent invariant customized on the root reaches the scheme subtree', () => {
     root.style.setProperty('--nph-radius-control', '0px');
     const { values } = inSubtree({ 'data-nph-color-scheme': 'dark' });
     expect(values['--nph-radius-control']).toBe('0px');

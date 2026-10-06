@@ -1,19 +1,19 @@
 /**
- * Stories de VALIDACAO do `nph-icon`.
+ * VALIDATION stories of `nph-icon`.
  *
- * Cada pagina aqui prova uma parte do contrato aprovado: variante, tamanho,
- * heranca de cor, acessibilidade e entrada invalida. Sao stories renderizadas,
- * nao texto: o que elas mostram e o componente real se comportando.
+ * Each page here proves one part of the approved contract: variant, size,
+ * color inheritance, accessibility and invalid input. They are rendered
+ * stories, not text: what they show is the real component behaving.
  *
- * O texto explicativo vem do dicionario de idioma; os identificadores tecnicos
- * — `star`, `solid`, `size`, `eye` — aparecem literais, iguais em qualquer
- * idioma. A story e UNICA por caso: nao existe copia por idioma.
+ * The explanatory text comes from the language dictionary; the technical
+ * identifiers — `star`, `solid`, `size`, `eye` — appear literally, the same in
+ * any language. The story is UNIQUE per case: there is no per-language copy.
  *
- * A leitura do contrato e o catalogo visual ficam em
- * `Components/nph-icon/Docs`. Cabecalho, secao, demonstracao e tabela vem de
- * `src/shared/docs/page.ts`, os mesmos blocos da pagina Documentacao; a amostra
- * vem de `nph-icon.demo.ts`. Nada disso vale como precedente para CSS de
- * componente.
+ * The reading of the contract and the visual catalog live in
+ * `Components/nph-icon/Docs`. Header, section, demonstration and table come
+ * from `src/shared/docs/page.ts`, the same blocks as the Documentation page;
+ * the specimen comes from `nph-icon.demo.ts`. None of this is a precedent for
+ * component CSS.
  */
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -39,13 +39,13 @@ interface GlobalsContext {
   globals?: Record<string, unknown>;
 }
 
-/** Atalho: o dicionario de validacao no idioma escolhido. */
+/** Shortcut: the validation dictionary in the chosen language. */
 function t(context: GlobalsContext | undefined) {
   const locale = (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
   return translations(locale).validation;
 }
 
-/** `regular` e `solid` existem para todos os nomes do acervo. */
+/** `regular` and `solid` exist for every name in the collection. */
 export const Variants: Story = {
   name: 'Variants',
   render: (_args, context: GlobalsContext) => {
@@ -71,7 +71,7 @@ export const Variants: Story = {
   },
 };
 
-/** Tamanho vem de token semantico. Nao existe valor livre. */
+/** Size comes from a semantic token. There is no free value. */
 export const Sizes: Story = {
   name: 'Sizes',
   render: (_args, context: GlobalsContext) => {
@@ -110,7 +110,7 @@ export const Sizes: Story = {
   },
 };
 
-/** A cor nao e propriedade: vem de `currentColor`. */
+/** Color is not a property: it comes from `currentColor`. */
 export const ColorInheritance: Story = {
   name: 'Color inheritance',
   render: (_args, context: GlobalsContext) => {
@@ -144,7 +144,7 @@ export const ColorInheritance: Story = {
   },
 };
 
-/** Decorativo ao lado de texto; nomeado quando anda sozinho. */
+/** Decorative next to text; named when it stands alone. */
 export const Accessibility: Story = {
   name: 'Accessibility',
   render: (_args, context: GlobalsContext) => {
@@ -181,7 +181,7 @@ export const Accessibility: Story = {
   },
 };
 
-/** Entrada invalida nao renderiza e reclama no console em desenvolvimento. */
+/** Invalid input does not render and complains in the console in development. */
 export const InvalidInput: Story = {
   name: 'Invalid input',
   render: (_args, context: GlobalsContext) => {
@@ -189,7 +189,7 @@ export const InvalidInput: Story = {
     return html`
       <div style=${body}>
         ${header(v.invalidTitle, v.invalidIntro)}
-        <!-- O termo da tabela nao quebra linha: em tela estreita a tabela rola, a pagina nao. -->
+        <!-- The table term does not wrap: on a narrow screen the table scrolls, the page does not. -->
         <div style="overflow-x: auto;">
           ${table(v.invalidHeader, [
             [

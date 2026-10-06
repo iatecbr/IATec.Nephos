@@ -1,106 +1,105 @@
 ---
-titulo: Governança e preflight obrigatório para IA — Nephos
-tipo: norma operacional
+titulo: Governance and mandatory preflight for AI — Nephos
+tipo: operational standard
 versao: 1.3
 data: 2026-08-25
 status: vigente
-origem: migrado do vault de trabalho em 2026-08-24, para a branch `v/3.0.0`
+origem: migrated from the work vault on 2026-08-24, to the `v/3.0.0` branch
 leitura_obrigatoria: true
 precedencia: 1
 ---
 
-# Governança e preflight obrigatório para IA — Nephos
+# Governance and mandatory preflight for AI — Nephos
 
-> **Leitura obrigatória antes de qualquer análise, proposta, edição ou implementação no Nephos.** Leia somente as fontes aplicáveis à tarefa. Se faltar a fonte vigente necessária para uma decisão, pare e peça confirmação; não complete lacunas por inferência. A ausência de implementação prévia não bloqueia a tarefa cujo objetivo autorizado seja criar essa implementação.
+> **Mandatory reading before any analysis, proposal, edit or implementation in Nephos.** Read only the sources that apply to the task. If the current source needed for a decision is missing, stop and ask for confirmation; do not fill gaps by inference. The absence of a prior implementation does not block a task whose authorized goal is to create that implementation.
 
-## 1. Fonte única por assunto
+## 1. Single source per subject
 
-| Assunto | Fonte vigente | Não usar como fonte de regra atual |
+| Subject | Current source | Do not use as a source of the current rule |
 |---|---|---|
-| Precedência e regra de trabalho | Esta nota | Notas de sessão, relatórios de reunião, roteiro ou estudos |
-| Valores de token e decisão visual | Figma `DS-IA-NEPHOS 5.0`; a nota específica da fundação explica o uso | Kit Obra como se fosse implementação direta, valor literal ou exemplo antigo |
-| Contrato técnico para código | `design.md`, na raiz deste repositório | Valores literais, exemplos antigos ou notas de contexto |
-| Valor de token no repositório | `src/tokens/source/*.tokens.json`, gerado para `src/tokens/generated/tokens.css`; ver [`docs/tokens.md`](docs/tokens.md) | O CSS gerado, que nunca é fonte; valor literal escrito à mão em componente |
-| Decisões técnicas P01, P02, P03, P17, P19, P20, P21 e P62 | [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) | A §9 e a §10 do `design.md`, que remetem a esta nota; qualquer texto que ainda chame qualquer uma delas de pendência |
-| Ordem e evidência das fases | Registro de planejamento mantido pela Indiane, **fora deste repositório**. O agente não tem acesso a ele: se a tarefa depender dessa ordem, pare e pergunte | Percentual sem fórmula ou checklist histórico |
-| Escopo de componentes | O recorte P0 no `README.md`. A lista completa da v1 foi fechada em 26-08-2026 — 75 componentes públicos em 6 ondas — e é mantida fora deste repositório | Qualquer lista de componentes não publicada aqui |
-| Implementação entregue | Branch, commit, PR e Storybook deste repositório | Declaração em nota sem evidência no repositório |
-| Ficha, variantes, estados e regra de escolha de um componente | `fichas/<nome>.md`, com o gabarito em `fichas/_modelo.md` | Nota do vault, print do Figma ou texto de Storybook sem fonte |
-| Documentação Figma aceita de um componente | O gate `documentacao-figma-aceita` da tarefa em `docs/operacao/tarefas/<ID>.md`, com a evidência em `docs/operacao/evidencias/<ID>/` | Conversa, print, aprovação verbal ou comentário no Figma sem evidência versionada |
+| Precedence and working rule | This note | Session notes, meeting reports, scripts or studies |
+| Token values and visual decision | Figma `DS-IA-NEPHOS 5.0`; the specific foundation note explains the use | The Obra kit as if it were a direct implementation, a literal value or an old example |
+| Technical contract for code | `design.md`, at the root of this repository | Literal values, old examples or context notes |
+| Token value in the repository | `src/tokens/source/*.tokens.json`, generated into `src/tokens/generated/tokens.css`; see [`docs/tokens.md`](docs/tokens.md) | The generated CSS, which is never a source; a literal value written by hand in a component |
+| Technical decisions P01, P02, P03, P17, P19, P20, P21 and P62 | [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) | §9 and §10 of `design.md`, which point to this note; any text that still calls any of them a pending item |
+| Order and evidence of the phases | Planning record kept by Indiane, **outside this repository**. The agent has no access to it: if the task depends on this order, stop and ask | A percentage without a formula or a historical checklist |
+| Component scope | The P0 cut in `README.md`. The full v1 list was closed on 26-08-2026 — 75 public components in 6 waves — and is kept outside this repository | Any component list not published here |
+| Delivered implementation | Branch, commit, PR and Storybook of this repository | A statement in a note without evidence in the repository |
+| Sheet, variants, states and selection rule of a component | `fichas/<name>.md`, with the template at `fichas/_modelo.md` | A vault note, a Figma screenshot or Storybook text without a source |
+| Accepted Figma documentation of a component | The `documentacao-figma-aceita` gate of the task in `docs/operacao/tarefas/<ID>.md`, with the evidence in `docs/operacao/evidencias/<ID>/` | A conversation, screenshot, verbal approval or Figma comment without versioned evidence |
 
-Em conflito, prevalece a fonte da linha correspondente. Uma fonte histórica só pode registrar o que ocorreu; ela não prescreve o que fazer agora.
+In a conflict, the source on the corresponding row prevails. A historical source can only record what happened; it does not prescribe what to do now.
 
-## 2. Estado vigente
+## 2. Current state
 
-- Gate 0 e Fase 1 estão **concluídos documentalmente**; a evidência visual está no Figma `DS-IA-NEPHOS 5.0`.
-- O contrato técnico é o `design.md` na raiz deste repositório.
-- As fundações vivem no Figma `DS-IA-NEPHOS 5.0` — variáveis `core`, `theme` e `semantic`, estilos de texto e estilos de efeito — e, no código, em `src/tokens/source/*.tokens.json`. A lista vigente de ícones é `icones_nucleo`, no `design.md`. Este arquivo não registra contagens: consulte a fonte.
-- Ícones: o pacote é **Font Awesome Pro** e **Classic** é a família padrão. **Duotone é permitido somente em navegação estrutural** — menu, sidebar, grupo de navegação, atalho e indicador de localização. Fora da navegação continua proibido: botão, campo, feedback, validação, alerta, tabela e ação destrutiva. Não misture Duotone e Classic no mesmo grupo de navegação. Light, Thin e Sharp seguem proibidos. A chave de licença fica em variável de ambiente e nunca entra no repositório. *Decisão da Indiane em 24-08-2026; substitui a regra anterior, que proibia Duotone por completo.*
-- O corte da v1 está fechado desde 26-08-2026: 75 componentes públicos, Ondas 1 a 6. A implementação de cada um continua sujeita ao gate de componente.
-- **`nph-icon`, `nph-label` e `nph-tooltip` são os componentes implementados**, com stories e testes, na `v/5.0.0`: o `nph-icon` desde o PR #6 (merge `437dd60`), o `nph-label` desde o PR #10 (merge `e231eba`) e o `nph-tooltip` desde o PR #51 (merge `d4ff326`). O PR #7 registrou a P21 (`8fe4271`) e o PR #8 organizou a navegação do Storybook (`79187c0`). Os demais componentes continuam não implementados — inclusive o `nph-spinner`, que tem ficha em `fichas/nph-spinner.md` e nenhum código em `src/components/`.
-- **Migração-base de tokens em 24-08-2026**, na branch `feat/tokens-json`, conferida contra o Figma token a token e modo a modo, com **zero divergências**. Os acréscimos seguintes estão no histórico do Git e em [`docs/tokens.md`](docs/tokens.md). Os primitivos da **P46** ficaram fora por decisão registrada. Os demais primitivos continuam **adiados** — adiado **não** significa sem consumidor. Os estilos de texto saíram do adiamento em 27-08-2026 e os estilos de efeito em 03-09-2026 — os de elevação e os anéis de foco. O anel de erro chama-se **`focus-ring/invalid`**, e não `focus-ring/error`: o nome antigo colidia, no CSS gerado, com a variável de cor `focus/ring-error`, e Indiane decidiu em 03-09-2026 renomear o estilo, não a cor publicada — ver [`docs/tokens.md`](docs/tokens.md).
-- As decisões técnicas **P01, P02, P03, P17, P19, P20 e P21 deixaram de ser pendências em 24/08/2026 (P21 em 26/08/2026)** e estão registradas em [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md). **Elvys revisou e aprovou todas em 28/08/2026.** A P62 (`nph-label`, tipografia e dimensões), registrada na mesma nota em 27/08/2026, também foi revisada por Elvys em 28/08/2026: aprovou P62.1, P62.2 e P62.3 como estavam registradas; para a P62.4, decidiu migrar o gerador de `px` para `rem`, **migração implementada em 28-08-2026 e mergeada no PR #12**. A **P62.5**, adotada pela Indiane em 28-08-2026, mantém `core/radius` em `px`; suas evidências documentais foram revisadas pelo Copilot em 09-09-2026. São regras vigentes: siga-as. Para alterar qualquer uma, explique o conflito técnico, registre uma proposta e peça revisão humana.
-- O P17 fixa a fonte canônica por responsabilidade: o **Figma** é a fonte visual; o `design.md` é o contrato humano e agêntico, não o arquivo de geração; o **JSON** é a fonte técnica versionada dos valores auditados; o **CSS custom properties** é gerado do JSON e não se edita à mão. A ferramenta de geração, o namespace de extensão e os atributos públicos `data-nph-brand` e `data-nph-color-scheme` estão fixados pelo **P20**. Só entra no JSON valor com evidência verificável de leitura do Figma.
+- Gate 0 and Phase 1 are **documentarily complete**; the visual evidence is in the Figma `DS-IA-NEPHOS 5.0`.
+- The technical contract is `design.md` at the root of this repository.
+- The foundations live in the Figma `DS-IA-NEPHOS 5.0` — `core`, `theme` and `semantic` variables, text styles and effect styles — and, in code, in `src/tokens/source/*.tokens.json`. The current list of icons is `icones_nucleo`, in `design.md`. This file does not record counts: consult the source.
+- Icons: the package is **Font Awesome Pro** and **Classic** is the default family. **Duotone is allowed only in structural navigation** — menu, sidebar, navigation group, shortcut and location indicator. Outside navigation it remains forbidden: button, field, feedback, validation, alert, table and destructive action. Do not mix Duotone and Classic in the same navigation group. Light, Thin and Sharp remain forbidden. The license key lives in an environment variable and never enters the repository. *Decision by Indiane on 2026-08-24; replaces the previous rule, which forbade Duotone entirely.*
+- The v1 cut has been closed since 26-08-2026: 75 public components, Waves 1 to 6. The implementation of each one remains subject to the component gate.
+- **`nph-icon`, `nph-label` and `nph-tooltip` are the implemented components**, with stories and tests, on `v/5.0.0`: `nph-icon` since PR #6 (merge `437dd60`), `nph-label` since PR #10 (merge `e231eba`) and `nph-tooltip` since PR #51 (merge `d4ff326`). PR #7 recorded P21 (`8fe4271`) and PR #8 organized the Storybook navigation (`79187c0`). The other components remain unimplemented — including `nph-spinner`, which has a sheet at `fichas/nph-spinner.md` and no code in `src/components/`.
+- **Base token migration on 24-08-2026**, on the `feat/tokens-json` branch, checked against Figma token by token and mode by mode, with **zero divergences**. The following additions are in the Git history and in [`docs/tokens.md`](docs/tokens.md). The primitives of **P46** were left out by recorded decision. The other primitives remain **deferred** — deferred does **not** mean without a consumer. The text styles left the deferral on 27-08-2026 and the effect styles on 03-09-2026 — the elevation ones and the focus rings. The error ring is called **`focus-ring/invalid`**, and not `focus-ring/error`: the old name collided, in the generated CSS, with the color variable `focus/ring-error`, and Indiane decided on 03-09-2026 to rename the style, not the published color — see [`docs/tokens.md`](docs/tokens.md).
+- The technical decisions **P01, P02, P03, P17, P19, P20 and P21 stopped being pending items on 24/08/2026 (P21 on 26/08/2026)** and are recorded in [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md). **Elvys reviewed and approved all of them on 28/08/2026.** P62 (`nph-label`, typography and dimensions), recorded in the same note on 27/08/2026, was also reviewed by Elvys on 28/08/2026: he approved P62.1, P62.2 and P62.3 as recorded; for P62.4, he decided to migrate the generator from `px` to `rem`, **a migration implemented on 28-08-2026 and merged in PR #12**. **P62.5**, adopted by Indiane on 28-08-2026, keeps `core/radius` in `px`; its documentary evidence was reviewed by Copilot on 09-09-2026. They are current rules: follow them. To change any of them, explain the technical conflict, record a proposal and ask for human review.
+- P17 fixes the canonical source by responsibility: **Figma** is the visual source; `design.md` is the human and agentic contract, not the generation file; the **JSON** is the versioned technical source of the audited values; the **CSS custom properties** are generated from the JSON and are not edited by hand. The generation tool, the extension namespace and the public attributes `data-nph-brand` and `data-nph-color-scheme` are fixed by **P20**. Only a value with verifiable evidence of reading Figma enters the JSON.
 
-## 3. Como medir avanço
+## 3. How to measure progress
 
-O avanço até entrega usa as oito fases com o mesmo peso, sem contar o Gate 0 como uma nona fase:
+Progress to delivery uses the eight phases with the same weight, without counting Gate 0 as a ninth phase:
 
 `(F0 + F1 + F2 + F3 + F4 + F5 + F6 + F7) / 8`
 
-O Gate 0 é uma condição de passagem para Fase 0; nunca é somado novamente ao percentual total. Um item só pode ser marcado concluído quando registrar: data, responsável, fonte de evidência e localização verificável. Checkboxes do plano medem apenas o próprio plano, não o projeto inteiro.
+Gate 0 is a condition for passing to Phase 0; it is never added again to the total percentage. An item can only be marked complete when it records: date, owner, evidence source and verifiable location. The plan's checkboxes measure only the plan itself, not the whole project.
 
-## 4. Preflight obrigatório
+## 4. Mandatory preflight
 
-Antes de agir, a IA deve:
+Before acting, the AI must:
 
-1. Ler esta nota, o `README.md`, o `design.md` e a ficha do componente, quando forem aplicáveis.
-2. Para afirmar valor ou regra visual, consultar o Figma `DS-IA-NEPHOS 5.0` ou pedir exportação/confirmação verificável quando não houver acesso.
-3. Identificar a fonte vigente de cada afirmação que pretende usar.
-4. Distinguir explicitamente fato verificado, decisão vigente, proposta e pendência.
-5. Conferir que token, componente e variante existem na fonte vigente.
-6. Parar e perguntar quando faltar decisão, ficha necessária à tarefa, fonte de verdade ou houver conflito entre fontes vigentes. Ausência de branch, commit ou Storybook bloqueia apenas a **alegação** de que existem; não bloqueia uma tarefa autorizada de criá-los.
-7. Atualizar simultaneamente as fontes afetadas quando uma decisão mudar: contrato, nota de fundação, plano/estado e documentação derivada.
-8. Ao encerrar, registrar evidência, data, responsável, decisão alterada e documentos sincronizados.
+1. Read this note, `README.md`, `design.md` and the component sheet, when applicable.
+2. To state a visual value or rule, consult the Figma `DS-IA-NEPHOS 5.0` or ask for an export/verifiable confirmation when there is no access.
+3. Identify the current source of each statement it intends to use.
+4. Explicitly distinguish verified fact, current decision, proposal and pending item.
+5. Check that the token, component and variant exist in the current source.
+6. Stop and ask when a decision, a sheet needed for the task or a source of truth is missing, or when there is a conflict between current sources. The absence of a branch, commit or Storybook blocks only the **claim** that they exist; it does not block an authorized task to create them.
+7. Update the affected sources simultaneously when a decision changes: contract, foundation note, plan/state and derived documentation.
+8. On closing, record evidence, date, owner, changed decision and synchronized documents.
 
-### A ordem de um componente
+### The order of a component
 
-Componente não começa pelo código. A sequência é **documentação Figma aceita → código local → ficha final → revisão e PR**, e ela é cobrada pela máquina, não pela boa vontade de quem executa:
+A component does not start with the code. The sequence is **accepted Figma documentation → local code → final sheet → review and PR**, and it is enforced by the machine, not by the goodwill of whoever executes:
 
-1. **Antes de qualquer código de componente**, a documentação da peça no Figma `DS-IA-NEPHOS 5.0` precisa estar aceita por Indiane e registrada no gate `documentacao-figma-aceita` da tarefa, com evidência em `docs/operacao/evidencias/<ID>/`. Sem isso, a tarefa não é `pronta` nem `em-andamento`: é `bloqueada`.
-2. **Enquanto a tarefa está `pronta` ou `em-andamento`**, código local sem ficha é permitido. Ficha exigida no primeiro commit vira formulário preenchido às cegas; ela sai da prática.
-3. **Antes de `em-revisao` e de `concluida`**, a ficha canônica em `fichas/<peca>.md` tem de existir.
+1. **Before any component code**, the documentation of the piece in the Figma `DS-IA-NEPHOS 5.0` must be accepted by Indiane and recorded in the task's `documentacao-figma-aceita` gate, with evidence in `docs/operacao/evidencias/<ID>/`. Without that, the task is not `pronta` or `em-andamento`: it is `bloqueada`.
+2. **While the task is `pronta` or `em-andamento`**, local code without a sheet is allowed. A sheet required in the first commit becomes a form filled in blind; it leaves the practice.
+3. **Before `em-revisao` and `concluida`**, the canonical sheet at `fichas/<piece>.md` must exist.
 
-O verificador cobra os três momentos em `V30`, `V28` e `V31` — ver [`docs/operacao/README.md`](docs/operacao/README.md), §2b e §5b.
+The verifier enforces the three moments in `V30`, `V28` and `V31` — see [`docs/operacao/README.md`](docs/operacao/README.md), §2b and §5b.
 
-## 5. Salvaguardas contra erro documental
+## 5. Safeguards against documentation errors
 
-Estas regras nasceram da auditoria de 21-08-2026 e são obrigatórias para toda
-IA que consulte ou altere esta documentação:
+These rules were born from the audit of 21-08-2026 and are mandatory for every
+AI that consults or changes this documentation:
 
-1. **Estado vigente vence histórico.** Use o bloco **Estado vigente** e a fonte
-   canônica do assunto para prescrever ações. Sessões anteriores, relatórios,
-   listas superadas e decisões marcadas como históricas ou superadas só
-   explicam o passado; nunca crie regra atual a partir delas.
-2. **Delegado não é fechado.** Uma decisão delegada a uma pessoa, à engenharia
-   ou ao jurídico permanece aberta até registrar a evidência exigida na fonte
-   apropriada. Não a declare concluída por haver responsável, intenção,
-   recomendação ou conversa prévia.
-3. **Pendência só fecha com prova.** Antes de mover uma pendência para
-   encerrada, registre decisão ou evidência, data, responsável e localização
-   verificável. Se a regra tiver partes independentes, feche somente a parte
-   comprovada e mantenha as demais abertas.
-4. **Toda mudança de escopo exige análise de impacto.** Ao criar, unificar,
-   remover ou tornar interno um componente, confira e atualize, quando
-   aplicável: lista vigente, numeração, total de componentes, fórmula e
-   denominador do progresso, itens restantes, plano, contrato e documentos
-   derivados. Valide a contagem na lista completa, sem contar um recorte
-   prioritário duas vezes.
-5. **Edite a fonte certa antes das cópias.** Atualize primeiro a fonte
-   canônica. Documentos históricos ou superados só recebem anotação de
-   superação quando necessário para não contradizer a regra atual; não
-   reescreva o passado nem presuma que tenham a mesma estrutura da fonte
-   vigente.
-6. **Validação falha não é validação.** Se uma busca, script ou verificação
-   falhar, investigue a causa, corrija o método e execute-a novamente antes de
-   declarar o resultado. Registre apenas verificações que realmente passaram.
+1. **The current state beats history.** Use the **Current state** block and
+   the canonical source of the subject to prescribe actions. Earlier sessions,
+   reports, superseded lists and decisions marked as historical or superseded
+   only explain the past; never create a current rule from them.
+2. **Delegated is not closed.** A decision delegated to a person, to
+   engineering or to legal stays open until the evidence required in the
+   appropriate source is recorded. Do not declare it complete because there is
+   an owner, an intention, a recommendation or a prior conversation.
+3. **A pending item only closes with proof.** Before moving a pending item to
+   closed, record the decision or evidence, date, owner and verifiable
+   location. If the rule has independent parts, close only the proven part and
+   keep the others open.
+4. **Every scope change requires an impact analysis.** When creating, merging,
+   removing or making a component internal, check and update, where
+   applicable: current list, numbering, total of components, progress formula
+   and denominator, remaining items, plan, contract and derived documents.
+   Validate the count on the complete list, without counting a priority cut
+   twice.
+5. **Edit the right source before the copies.** Update the canonical source
+   first. Historical or superseded documents only receive a supersession note
+   when necessary so as not to contradict the current rule; do not rewrite the
+   past or assume they have the same structure as the current source.
+6. **A failed validation is not a validation.** If a search, script or check
+   fails, investigate the cause, fix the method and run it again before
+   declaring the result. Record only the checks that actually passed.

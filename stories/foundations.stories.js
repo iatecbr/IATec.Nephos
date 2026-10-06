@@ -1,8 +1,8 @@
 /*
- * Visao geral das fundacoes.
+ * Overview of the foundations.
  *
- * O texto vem do dicionario de idioma, em `../.storybook/i18n/`. A story e
- * UNICA: ela le `globals.locale` e busca a traducao.
+ * The text comes from the language dictionary, in `../.storybook/i18n/`. The
+ * story is SINGLE: it reads `globals.locale` and looks up the translation.
  */
 import { html } from 'lit';
 

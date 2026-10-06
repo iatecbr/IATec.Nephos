@@ -1,11 +1,11 @@
 /**
- * Stories de VALIDACAO do `nph-separator`.
+ * VALIDATION stories of `nph-separator`.
  *
- * Provam as duas orientacoes preenchendo o conteiner, como no quadro
- * `1196:674`: horizontal entre itens empilhados e vertical entre itens lado a
- * lado. Os rotulos sao conteudo de exemplo do quadro e vem do dicionario de
- * idioma, em `.storybook/i18n/`. O esquema de cor vem do seletor global do
- * Storybook.
+ * They prove both orientations filling the container, as in frame `1196:674`:
+ * horizontal between stacked items and vertical between side-by-side items. The
+ * labels are example content from the frame and come from the language
+ * dictionary, in `.storybook/i18n/`. The color scheme comes from the global
+ * Storybook selector.
  */
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -25,7 +25,7 @@ interface GlobalsContext {
   globals?: Record<string, unknown>;
 }
 
-/** Atalho: o dicionario das stories do `nph-separator` no idioma escolhido. */
+/** Shortcut: the `nph-separator` stories dictionary in the chosen language. */
 function t(context: GlobalsContext | undefined) {
   const locale = (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
   return translations(locale).separatorValidation;
@@ -33,7 +33,7 @@ function t(context: GlobalsContext | undefined) {
 
 const frame = 'padding: var(--nph-space-section); max-inline-size: var(--nph-layout-field-width);';
 
-/** Entre itens empilhados, a linha preenche a largura. */
+/** Between stacked items, the line fills the width. */
 export const Horizontal: Story = {
   name: 'Horizontal',
   render: (_args, context: GlobalsContext) => {
@@ -48,7 +48,7 @@ export const Horizontal: Story = {
   },
 };
 
-/** Entre itens lado a lado, a linha preenche a altura. */
+/** Between side-by-side items, the line fills the height. */
 export const Vertical: Story = {
   name: 'Vertical',
   render: (_args, context: GlobalsContext) => {

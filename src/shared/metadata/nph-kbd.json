@@ -2,14 +2,14 @@
   "peca": "nph-kbd",
   "nivel": "componente",
   "status": "vigente",
-  "resolve": "Mostra uma tecla de atalho de teclado ao lado do que ela aciona, como peça estática.",
+  "resolve": "Shows a keyboard shortcut key beside what it triggers, as a static piece.",
   "use_quando": [
-    "Mostrar o atalho de teclado ao lado da ação que ele aciona.",
-    "Mostrar o atalho numa opção do nph-rich-option."
+    "Showing the keyboard shortcut beside the action it triggers.",
+    "Showing the shortcut in an option of nph-rich-option."
   ],
   "nao_use_quando": [
-    "A peça precisaria ser clicável ou receber foco — use nph-button.",
-    "A combinação viria numa peça só, como Ctrl+K — use uma peça por tecla, lado a lado."
+    "The piece would need to be clickable or receive focus — use nph-button.",
+    "The combination would come in a single piece, such as Ctrl+K — use one piece per key, side by side."
   ],
   "api": {
     "text": {
@@ -17,18 +17,18 @@
       "obrigatoria": true,
       "padrao": "vazio",
       "reflete": false,
-      "restricao": "O texto de uma tecla, já localizado pela aplicação consumidora. Vazio ou só espaços não mostra nada e não é erro."
+      "restricao": "The text of one key, already localized by the consuming application. Empty or whitespace-only shows nothing and is not an error."
     }
   },
   "variantes": "nao_se_aplica",
   "estados": {
     "padrao": {
       "token": "color/muted",
-      "muda_para_a_pessoa": "A tecla aparece numa caixa; ela não muda com interação."
+      "muda_para_a_pessoa": "The key appears in a box; it does not change with interaction."
     }
   },
   "regras_de_negocio": [
-    "Uma peça por tecla: a combinação junta as peças lado a lado."
+    "One piece per key: the combination puts the pieces side by side."
   ],
   "erros_de_dominio": [],
   "tokens": {
@@ -45,21 +45,21 @@
     "padding": "space/inline-tight"
   },
   "dicas_para_ia": [
-    "Use nph-kbd para mostrar um atalho ao lado do que ele aciona; para a ação em si, use nph-button.",
-    "Numa combinação, ponha uma nph-kbd por tecla, lado a lado.",
-    "Escreva a tecla pela propriedade text; não pinte a caixa nem o texto."
+    "Use nph-kbd to show a shortcut beside what it triggers; for the action itself, use nph-button.",
+    "In a combination, put one nph-kbd per key, side by side.",
+    "Write the key through the text property; do not paint the box or the text."
   ],
   "acessibilidade": {
-    "semantica": "O texto fica dentro de `<kbd>`; o host não tem role extra.",
-    "nome_acessivel": "O leitor de tela anuncia a tecla pelo texto dela.",
+    "semantica": "The text sits inside `<kbd>`; the host has no extra role.",
+    "nome_acessivel": "The screen reader announces the key by its text.",
     "teclado": [],
-    "foco": "A peça não recebe foco: ela não tem interação.",
-    "contraste": "color/muted-foreground sobre color/muted passa 4,5:1 nos dois esquemas e em todas as marcas.",
-    "alternativa_a_cor": "A tecla é escrita no texto; a cor não carrega significado."
+    "foco": "The piece does not receive focus: it has no interaction.",
+    "contraste": "color/muted-foreground on color/muted passes 4.5:1 in both schemes and in every brand.",
+    "alternativa_a_cor": "The key is written in the text; color carries no meaning."
   },
   "combinacoes_invalidas": [
-    "A combinação inteira numa peça só — use uma peça por tecla.",
-    "Variante de estilo — não há uso declarado."
+    "The whole combination in a single piece — use one piece per key.",
+    "Style variant — there is no declared use."
   ],
   "relacoes": {
     "combina_com": [
@@ -73,16 +73,16 @@
     "aparece_em": []
   },
   "anti_padroes": [
-    "Usar como botão ou controle.",
-    "Criar variante de estilo.",
-    "Pintar a caixa ou o texto à mão."
+    "Using it as a button or control.",
+    "Creating a style variant.",
+    "Painting the box or the text by hand."
   ],
   "fontes": {
-    "design_md": "design.md, text/label-sm, color/muted, color/muted-foreground, color/border, border/width, radius/inner e space/inline-tight",
-    "decisao": "P66 — API e semântica de nph-spinner, nph-separator e nph-kbd, 05-10-2026",
+    "design_md": "design.md, text/label-sm, color/muted, color/muted-foreground, color/border, border/width, radius/inner and space/inline-tight",
+    "decisao": "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026",
     "testes": "src/components/nph-kbd/nph-kbd.test.ts",
-    "evidencia_de_uso": "nph-rich-option, pela opção de mostrar atalho",
+    "evidencia_de_uso": "nph-rich-option, through the option of showing a shortcut",
     "storybook": "src/components/nph-kbd/nph-kbd.stories.ts",
-    "figma": "DS-IA-NEPHOS 5.0, quadro nph-kbd 1193:20 e componente 772:3"
+    "figma": "DS-IA-NEPHOS 5.0, nph-kbd frame 1193:20 and component 772:3"
   }
 }

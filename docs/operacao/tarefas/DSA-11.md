@@ -1,7 +1,7 @@
 ```json
 {
   "id": "DSA-11",
-  "objetivo": "Implementar o nph-kbd, a tecla estatica de um atalho de teclado, com o contrato aceito no Figma.",
+  "objetivo": "Implement the nph-kbd, the static key of a keyboard shortcut, with the contract accepted in Figma.",
   "fase": "F4",
   "ordem_aprovada": 125,
   "responsavel": "claude-codigo",
@@ -11,7 +11,7 @@
   "gates": [
     {
       "id": "documentacao-figma-aceita",
-      "descricao": "A documentacao de nph-kbd no Figma foi aceita por Indiane e registrada como evidencia.",
+      "descricao": "The nph-kbd documentation in Figma was accepted by Indiane and recorded as evidence.",
       "comando": null,
       "evidencia": "docs/operacao/evidencias/DSA-11/documentacao-figma-aceita-2026-10-01.md",
       "resultado": "passou",
@@ -20,7 +20,7 @@
     },
     {
       "id": "revisao-e-merge",
-      "descricao": "Componente, CSS, testes, stories, ficha e decisao tecnica revisados por maurocsjr e mergeados na v/5.0.0.",
+      "descricao": "Component, CSS, tests, stories, spec and technical decision reviewed by maurocsjr and merged into v/5.0.0.",
       "comando": null,
       "evidencia": null,
       "resultado": "pendente",
@@ -35,8 +35,8 @@
     "docs/operacao/evidencias/DSA-11/storybook-validacao-2026-10-05.md"
   ],
   "referencias_de_decisao": [
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-02.md, combinacao e uma peca por tecla",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, recorte da primeira entrega (Lote A)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-02.md, a combination is one piece per key",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, first-delivery cut (Batch A)"
   ],
   "origem_externa": {
     "classificacao": "interna-permitida",
@@ -44,7 +44,7 @@
     "data": "2026-10-01",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "O frame nph-kbd (1193:20) foi aceito como especificacao de API e comportamento do nph-kbd. COMPONENT_SET: nenhum; COMPONENT unico 772:3, com a propriedade de texto tecla. Em 05-10-2026 Indiane aprovou o recorte da primeira entrega, com o Lote A num plano e num PR."
+    "decisao_convertida": "The nph-kbd frame (1193:20) was accepted as the API and behavior specification of the nph-kbd. COMPONENT_SET: none; single COMPONENT 772:3, with the text property `tecla`. On 05-10-2026 Indiane approved the cut of the first delivery, with Batch A in one plan and one PR."
   },
   "revisao_git": { "branch": "feat/lote-a-icon-spinner-separator-kbd", "commit": null, "pr": "54" },
   "contexto": null,
@@ -52,28 +52,29 @@
 }
 ```
 
-# DSA-11 — nph-kbd, a tecla
+# DSA-11 — nph-kbd, the key
 
-## Objetivo
-Existe o `nph-kbd` em `src/components/nph-kbd/`, com ficha, testes e stories, no
-contrato aceito no Figma: uma tecla estatica, escrita em texto, em `color/muted`
-com borda `color/border`. A combinacao junta uma peca por tecla.
+## Goal
+The `nph-kbd` exists in `src/components/nph-kbd/`, with a spec, tests and stories,
+in the contract accepted in Figma: a static key, written as text, in `color/muted`
+with a `color/border` border. A combination joins one piece per key.
 
-## Como se prova
-**`documentacao-figma-aceita`** — o quadro `nph-kbd` (`1193:20`) do Figma
-`DS-IA-NEPHOS 5.0` foi aceito por Indiane em 01-10-2026, com QA UX de Figma e
-auditoria textual aprovados. A evidencia nomeia o frame e declara que nao ha
-COMPONENT_SET: o componente e unico (`772:3`).
+## How it is proved
+**`documentacao-figma-aceita`** — the `nph-kbd` frame (`1193:20`) of the Figma file
+`DS-IA-NEPHOS 5.0` was accepted by Indiane on 01-10-2026, with the Figma UX QA and
+the text audit approved. The evidence names the frame and declares that there is no
+COMPONENT_SET: the component is single (`772:3`).
 
-**`revisao-e-merge`** — componente, CSS, testes, stories, ficha e a decisao
-tecnica passam pelos comandos de prova, sao revisados por `maurocsjr` e
-mergeados na `v/5.0.0`.
+**`revisao-e-merge`** — component, CSS, tests, stories, spec and the technical
+decision pass the proof commands, are reviewed by `maurocsjr` and
+merged into `v/5.0.0`.
 
-## O que esta tarefa não faz
-Nao cria interacao, foco, variante de estilo nem combinacao numa peca so.
+## What this task does not do
+It does not create interaction, focus, a style variant or a combination in a single
+piece.
 
-## Fontes
-- Figma `DS-IA-NEPHOS 5.0`, quadro `1193:20` e componente `772:3`
+## Sources
+- Figma `DS-IA-NEPHOS 5.0`, frame `1193:20` and component `772:3`
 - `design.md` — `text/label-sm`, `color/muted`, `color/muted-foreground`,
   `color/border`, `border/width`, `radius/inner`, `space/inline-tight`
 - `fichas/_modelo.md`

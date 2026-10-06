@@ -13,70 +13,70 @@
 
 # DSA-07 — `migracao-sem-mudanca-de-comportamento`
 
-A migração da P64 entrou em dois PRs: o #42 (`scripts/`, merge `ea93ed3`) e o #49
-(`src/`, `stories/` e `.storybook/`, merge `183ff01`). Para cada merge, os 11
-passos do comando do gate rodaram no primeiro pai (antes) e no merge (depois),
-numa cópia limpa da árvore, com a mesma `node_modules`. As saídas foram
-comparadas depois de tirar tempo, caminho absoluto e cor.
+The P64 migration came in two PRs: #42 (`scripts/`, merge `ea93ed3`) and #49
+(`src/`, `stories/` and `.storybook/`, merge `183ff01`). For each merge, the 11
+steps of the gate command ran on the first parent (before) and on the merge (after),
+in a clean copy of the tree, with the same `node_modules`. The outputs were
+compared after removing time, absolute path and color.
 
-| PR | Antes | Depois |
+| PR | Before | After |
 |---|---|---|
 | #42 | `a30be89` | `ea93ed3` |
 | #49 | `ffa91ce` | `183ff01` |
 
-## Resultado
+## Result
 
-Nos quatro SHAs, os 11 passos saíram com código `0`. `git diff --quiet` saiu `0`
-depois do `build:tokens` e do `--gerar-metadata`, e `git ls-files --others
---exclude-standard` saiu vazio: os artefatos gerados não mudaram e nenhum arquivo
-novo apareceu.
+On the four SHAs, the 11 steps exited with code `0`. `git diff --quiet` exited `0`
+after `build:tokens` and `--gerar-metadata`, and `git ls-files --others
+--exclude-standard` came out empty: the generated artifacts did not change and no new
+file appeared.
 
-| # | Passo | #42 | #49 |
+| # | Step | #42 | #49 |
 |---|---|---|---|
-| 1 | `npm run build:tokens` | igual | igual |
-| 2 | `verificar-operacao.mjs --gerar-metadata` | contagem de tarefas (1) | igual |
+| 1 | `npm run build:tokens` | same | same |
+| 2 | `verificar-operacao.mjs --gerar-metadata` | task count (1) | same |
 | 3 | `git diff --quiet` | `0` / `0` | `0` / `0` |
-| 4 | `git ls-files --others --exclude-standard` | vazio | vazio |
-| 5 | `npm run typecheck` | igual | igual |
-| 6 | `npm test` | 56 testes, antes e depois | 79 testes, antes e depois |
-| 7 | `npm run test:tokens` | igual | renome (2) |
-| 8 | `npm run test:i18n` | igual | igual |
-| 9 | `npm run test:operacao` | contagem de tarefas (1) | igual |
-| 10 | `verificar-operacao.mjs --exemplos` | igual | renome (2) |
-| 11 | `npm run build-storybook` | igual | nome e tamanho do pacote (3) |
+| 4 | `git ls-files --others --exclude-standard` | empty | empty |
+| 5 | `npm run typecheck` | same | same |
+| 6 | `npm test` | 56 tests, before and after | 79 tests, before and after |
+| 7 | `npm run test:tokens` | same | rename (2) |
+| 8 | `npm run test:i18n` | same | same |
+| 9 | `npm run test:operacao` | task count (1) | same |
+| 10 | `verificar-operacao.mjs --exemplos` | same | rename (2) |
+| 11 | `npm run build-storybook` | same | bundle name and size (3) |
 
-## Critério aplicado
+## Criterion applied
 
-"Sem mudança de comportamento" quer dizer, em cada passo: o mesmo código de
-saída; o mesmo resultado de teste e de verificação (a contagem de testes e os
-pares `esperado=… obtido=…`); e os mesmos artefatos versionados (`git diff
---quiet` em `0` e nenhum arquivo não rastreado). Diferença de texto que não muda
-nenhum dos três é aceita e fica explicada abaixo: nome traduzido pela P64,
-contagem de registro que o próprio PR acrescenta, e hash ou tamanho do pacote do
-build.
+"No behavior change" means, in each step: the same exit code; the same test and
+verification result (the test count and the `esperado=… obtido=…` (expected=… got=…)
+pairs); and the same versioned artifacts (`git diff
+--quiet` at `0` and no untracked file). A text difference that changes none of
+the three is accepted and explained below: a name translated by P64, a
+registry count that the PR itself adds, and the hash or size of the build
+bundle.
 
-## O que difere, e por quê
+## What differs, and why
 
-1. **#42, passos 2 e 9:** `7 tarefa(s) conferida(s)` passa a `8`. O #42 acrescenta
+1. **#42, steps 2 and 9:** `7 tarefa(s) conferida(s)` (task count) becomes `8`. #42 adds
    `docs/operacao/tarefas/DSA-07.md` (`git diff --name-status a30be89 ea93ed3 --
-   docs/operacao/`). A linha de resultado é a mesma.
-2. **#49, passos 7 e 10:** só nomes de caso e de script traduzidos pela P64
+   docs/operacao/`). The result line is the same.
+2. **#49, steps 7 and 10:** only case and script names translated by P64
    (`test-invariancia.mjs` → `test-invariance.mjs`, `a.mesmo-objeto` →
    `a.same-object`, `sombraA` → `shadowA`, `validos` → `valid`,
-   `bloqueada-sem-bloqueio` → `blocked-without-blocker`, e os demais). Os pares
-   `esperado=… obtido=…` são idênticos, e as linhas finais também:
+   `bloqueada-sem-bloqueio` → `blocked-without-blocker`, and the others). The
+   `esperado=… obtido=…` pairs are identical, and so are the final lines:
    `RESULTADO: 1 arvore valida + 28 de 28 casos invalidos, cada um pelo codigo previsto.`
-3. **#49, passo 11:** o build termina com `Storybook build completed successfully`
-   nos dois. Mudam o hash do nome dos arquivos, o nome
-   `em-construcao.stories` → `welcome.stories` e o tamanho em kB dos pacotes que
-   tiveram identificadores renomeados (por exemplo, `iframe` 908,98 → 908,65 kB).
+3. **#49, step 11:** the build ends with `Storybook build completed successfully`
+   in both. The file name hash changes, the name
+   `em-construcao.stories` → `welcome.stories` changes, and so does the size in kB of the bundles that
+   had identifiers renamed (for example, `iframe` 908.98 → 908.65 kB).
 
-Nenhuma diferença muda comportamento: o código de saída, os resultados dos testes e
-os artefatos versionados são os mesmos antes e depois de cada PR.
+No difference changes behavior: the exit code, the test results and
+the versioned artifacts are the same before and after each PR.
 
-## Códigos de saída
+## Exit codes
 
-| Passo | #42 antes | #42 depois | #49 antes | #49 depois |
+| Step | #42 before | #42 after | #49 before | #49 after |
 |---|---|---|---|---|
 | `1-build-tokens` | 0 | 0 | 0 | 0 |
 | `2-gerar-metadata` | 0 | 0 | 0 | 0 |
@@ -90,15 +90,15 @@ os artefatos versionados são os mesmos antes e depois de cada PR.
 | `10-exemplos` | 0 | 0 | 0 | 0 |
 | `11-build-storybook` | 0 | 0 | 0 | 0 |
 
-O passo 3 grava o código de `git diff --quiet`; o passo 4, a lista de
-arquivos não rastreados (vazia nos quatro).
+Step 3 records the exit code of `git diff --quiet`; step 4, the list of
+untracked files (empty in all four).
 
-## Diferenças, saída normalizada
+## Differences, normalized output
 
-Normalização: sem cor ANSI, caminho do worktree trocado por `<worktree>`, tempo
-por `<t>`, hora por `<hora>`, hash do nome de arquivo do build por `<hash>`, e
-sem as linhas `Duration`, `Start at` e `Port … is in use`. Passo sem diferença
-não aparece.
+Normalization: no ANSI color, worktree path replaced by `<worktree>`, time
+by `<t>`, hour by `<hora>`, build file name hash by `<hash>`, and
+without the `Duration`, `Start at` and `Port … is in use` lines. A step with no difference
+does not appear.
 
 ### PR #42, `2-gerar-metadata`
 

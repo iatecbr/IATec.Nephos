@@ -1,13 +1,13 @@
 /**
- * Stories de VALIDACAO do `nph-spinner`.
+ * VALIDATION stories of `nph-spinner`.
  *
- * Provam os dois tamanhos, a semantica com e sem nome acessivel e a entrada
- * invalida. Nao ha texto explicativo: o rotulo "Salvando…" e conteudo de
- * exemplo do quadro `1195:22210`, que chega pronto da aplicacao. Ele vem do
- * dicionario de idioma, em `.storybook/i18n/`.
+ * They prove the two sizes, the semantics with and without an accessible name,
+ * and invalid input. There is no explanatory text: the saving label is example
+ * content from frame `1195:22210`, which arrives ready from the application. It
+ * comes from the language dictionary, in `.storybook/i18n/`.
  *
- * O giro para com movimento reduzido: ligue a preferencia do sistema e abra a
- * story de novo. O esquema de cor vem do seletor global do Storybook.
+ * The spin stops with reduced motion: turn on the system preference and open
+ * the story again. The color scheme comes from the global Storybook selector.
  */
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -27,7 +27,7 @@ interface GlobalsContext {
   globals?: Record<string, unknown>;
 }
 
-/** Atalho: o dicionario das stories do `nph-spinner` no idioma escolhido. */
+/** Shortcut: the `nph-spinner` stories dictionary in the chosen language. */
 function t(context: GlobalsContext | undefined) {
   const locale = (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
   return translations(locale).spinnerValidation;
@@ -35,7 +35,7 @@ function t(context: GlobalsContext | undefined) {
 
 const row = 'display: flex; align-items: center; gap: var(--nph-space-inline); padding: var(--nph-space-section);';
 
-/** `sm` dentro de botao ou campo; `md` em area de conteudo. */
+/** `sm` inside a button or field; `md` in a content area. */
 export const Sizes: Story = {
   name: 'Sizes',
   render: () => html`<div style=${row}>
@@ -44,7 +44,7 @@ export const Sizes: Story = {
   </div>`,
 };
 
-/** Com texto ao lado, decorativo; sem texto, com nome acessivel. */
+/** With text beside it, decorative; without text, with an accessible name. */
 export const Accessibility: Story = {
   name: 'Accessibility',
   render: (_args, context: GlobalsContext) => {
@@ -58,7 +58,7 @@ export const Accessibility: Story = {
   },
 };
 
-/** `size="lg"` nao existe: nada e desenhado. */
+/** `size="lg"` does not exist: nothing is drawn. */
 export const InvalidInput: Story = {
   name: 'Invalid input',
   render: () => html`<div style=${row}><nph-spinner size="lg"></nph-spinner></div>`,

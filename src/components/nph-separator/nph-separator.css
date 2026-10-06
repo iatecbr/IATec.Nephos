@@ -1,16 +1,16 @@
 /**
- * Estilo interno do `nph-separator`.
+ * Internal style of `nph-separator`.
  *
- * Classes e seletores daqui NAO sao API publica (P02). O contrato sao as custom
- * properties de token consumidas aqui. Nenhum valor literal de design entra:
- * a espessura e `border/width` e a cor e `color/border`.
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. No literal design value goes in: the
+ * thickness is `border/width` and the color is `color/border`.
  *
- * `layout/separator-width` e `layout/separator-height` NAO sao consumidos: sao o
- * comprimento do mestre no Figma, e a regra da peca e preencher o conteiner
- * (P66).
+ * `layout/separator-width` and `layout/separator-height` are NOT consumed: they
+ * are the length of the master in Figma, and the piece's rule is to fill the
+ * container (P66).
  */
 
-/* Entrada invalida nao ocupa espaco: sem fallback visual. */
+/* Invalid input takes up no space: no visual fallback. */
 :host {
   display: none;
 }
@@ -21,13 +21,13 @@
   background-color: var(--nph-color-border);
 }
 
-/* Preenche a largura em pai de bloco ou flex em coluna. */
+/* Fills the width in a block parent or a column flex parent. */
 :host([data-nph-rendered][orientation='horizontal']) {
   block-size: var(--nph-border-width);
   inline-size: auto;
 }
 
-/* Preenche a altura em pai flex em linha ou grid. */
+/* Fills the height in a row flex parent or a grid. */
 :host([data-nph-rendered][orientation='vertical']) {
   inline-size: var(--nph-border-width);
   align-self: stretch;

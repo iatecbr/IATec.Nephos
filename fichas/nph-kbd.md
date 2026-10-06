@@ -3,14 +3,14 @@ peca: nph-kbd
 nivel: componente
 status: vigente
 resolve: >-
-  Mostra uma tecla de atalho de teclado ao lado do que ela aciona, como peça
-  estática.
+  Shows a keyboard shortcut key beside what it triggers, as a static
+  piece.
 use_quando:
-  - "Mostrar o atalho de teclado ao lado da ação que ele aciona."
-  - "Mostrar o atalho numa opção do nph-rich-option."
+  - "Showing the keyboard shortcut beside the action it triggers."
+  - "Showing the shortcut in an option of nph-rich-option."
 nao_use_quando:
-  - "A peça precisaria ser clicável ou receber foco — use nph-button."
-  - "A combinação viria numa peça só, como Ctrl+K — use uma peça por tecla, lado a lado."
+  - "The piece would need to be clickable or receive focus — use nph-button."
+  - "The combination would come in a single piece, such as Ctrl+K — use one piece per key, side by side."
 api:
   text:
     tipo: string
@@ -18,15 +18,15 @@ api:
     padrao: "vazio"
     reflete: false
     restricao: >-
-      O texto de uma tecla, já localizado pela aplicação consumidora. Vazio ou
-      só espaços não mostra nada e não é erro.
+      The text of one key, already localized by the consuming application. Empty or
+      whitespace-only shows nothing and is not an error.
 variantes: nao_se_aplica
 estados:
   padrao:
     token: color/muted
-    muda_para_a_pessoa: "A tecla aparece numa caixa; ela não muda com interação."
+    muda_para_a_pessoa: "The key appears in a box; it does not change with interaction."
 regras_de_negocio:
-  - "Uma peça por tecla: a combinação junta as peças lado a lado."
+  - "One piece per key: the combination puts the pieces side by side."
 erros_de_dominio: []
 tokens:
   fundo: color/muted
@@ -35,19 +35,19 @@ tokens:
   raio: radius/inner
   padding: space/inline-tight
 dicas_para_ia:
-  - "Use nph-kbd para mostrar um atalho ao lado do que ele aciona; para a ação em si, use nph-button."
-  - "Numa combinação, ponha uma nph-kbd por tecla, lado a lado."
-  - "Escreva a tecla pela propriedade text; não pinte a caixa nem o texto."
+  - "Use nph-kbd to show a shortcut beside what it triggers; for the action itself, use nph-button."
+  - "In a combination, put one nph-kbd per key, side by side."
+  - "Write the key through the text property; do not paint the box or the text."
 acessibilidade:
-  semantica: "O texto fica dentro de `<kbd>`; o host não tem role extra."
-  nome_acessivel: "O leitor de tela anuncia a tecla pelo texto dela."
+  semantica: "The text sits inside `<kbd>`; the host has no extra role."
+  nome_acessivel: "The screen reader announces the key by its text."
   teclado: []
-  foco: "A peça não recebe foco: ela não tem interação."
-  contraste: "color/muted-foreground sobre color/muted passa 4,5:1 nos dois esquemas e em todas as marcas."
-  alternativa_a_cor: "A tecla é escrita no texto; a cor não carrega significado."
+  foco: "The piece does not receive focus: it has no interaction."
+  contraste: "color/muted-foreground on color/muted passes 4.5:1 in both schemes and in every brand."
+  alternativa_a_cor: "The key is written in the text; color carries no meaning."
 combinacoes_invalidas:
-  - "A combinação inteira numa peça só — use uma peça por tecla."
-  - "Variante de estilo — não há uso declarado."
+  - "The whole combination in a single piece — use one piece per key."
+  - "Style variant — there is no declared use."
 relacoes:
   combina_com: [nph-rich-option]
   pai: [nph-rich-option]
@@ -55,120 +55,120 @@ relacoes:
   complementa_bloco: []
   aparece_em: []
 anti_padroes:
-  - "Usar como botão ou controle."
-  - "Criar variante de estilo."
-  - "Pintar a caixa ou o texto à mão."
+  - "Using it as a button or control."
+  - "Creating a style variant."
+  - "Painting the box or the text by hand."
 fontes:
-  design_md: "design.md, text/label-sm, color/muted, color/muted-foreground, color/border, border/width, radius/inner e space/inline-tight"
-  decisao: "P66 — API e semântica de nph-spinner, nph-separator e nph-kbd, 05-10-2026"
+  design_md: "design.md, text/label-sm, color/muted, color/muted-foreground, color/border, border/width, radius/inner and space/inline-tight"
+  decisao: "P66 — API and semantics of nph-spinner, nph-separator and nph-kbd, 05-10-2026"
   testes: "src/components/nph-kbd/nph-kbd.test.ts"
-  evidencia_de_uso: "nph-rich-option, pela opção de mostrar atalho"
+  evidencia_de_uso: "nph-rich-option, through the option of showing a shortcut"
   storybook: "src/components/nph-kbd/nph-kbd.stories.ts"
-  figma: "DS-IA-NEPHOS 5.0, quadro nph-kbd 1193:20 e componente 772:3"
+  figma: "DS-IA-NEPHOS 5.0, nph-kbd frame 1193:20 and component 772:3"
 ---
 
 # nph-kbd
 
-## Função
+## Function
 
-**O problema que resolve:** mostra uma tecla de atalho de teclado ao lado do que ela
-aciona. A peça é estática.
+**The problem it solves:** shows a keyboard shortcut key beside what it
+triggers. The piece is static.
 
-**Quando usar:**
+**When to use:**
 
-- Ao lado da ação que o atalho aciona.
-- Numa opção do `nph-rich-option`, pela opção de mostrar atalho.
+- Beside the action the shortcut triggers.
+- In an option of `nph-rich-option`, through the option of showing a shortcut.
 
-**Quando NÃO usar:**
+**When NOT to use:**
 
-- **Como botão ou controle** — a peça não tem interação; use `nph-button`.
-- **Para a combinação inteira numa peça só** — use uma peça por tecla, lado a lado.
+- **As a button or control** — the piece has no interaction; use `nph-button`.
+- **For the whole combination in a single piece** — use one piece per key, side by side.
 
-## Variantes
+## Variants
 
-**Por aparência, tamanho e densidade:** `nao_se_aplica`. O conteúdo chega pela
-propriedade `text`.
+**By appearance, size and density:** `nao_se_aplica`. The content arrives through the
+`text` property.
 
-**Não combine com:** variante de estilo, que não tem uso declarado.
+**Do not combine with:** a style variant, which has no declared use.
 
-## Estados
+## States
 
-| Estado | Token | O que muda para a pessoa |
+| State | Token | What changes for the person |
 |---|---|---|
-| Padrão | `color/muted` | A tecla aparece numa caixa; ela não muda com interação |
+| Default | `color/muted` | The key appears in a box; it does not change with interaction |
 
-**Feedback e foco:** a peça não recebe foco nem reage a interação.
+**Feedback and focus:** the piece does not receive focus nor react to interaction.
 
-**Regra de negócio que a peça carrega:** uma peça por tecla. A combinação junta as
-peças lado a lado.
+**Business rule the piece carries:** one piece per key. The combination puts the
+pieces side by side.
 
-**Estados de erro do domínio:** nenhum.
+**Domain error states:** none.
 
-## Acessibilidade
+## Accessibility
 
-| Critério | Regra |
+| Criterion | Rule |
 |---|---|
-| Semântica | O texto fica dentro de `<kbd>`; o host não tem role extra |
-| Nome acessível | O leitor de tela anuncia a tecla pelo texto dela |
-| Teclado e foco | A peça não recebe foco |
-| Contraste | `color/muted-foreground` sobre `color/muted` passa 4,5:1 nos dois esquemas e em todas as marcas |
-| Alternativa à cor | A tecla é escrita no texto; a cor não carrega significado |
+| Semantics | The text sits inside `<kbd>`; the host has no extra role |
+| Accessible name | The screen reader announces the key by its text |
+| Keyboard and focus | The piece does not receive focus |
+| Contrast | `color/muted-foreground` on `color/muted` passes 4.5:1 in both schemes and in every brand |
+| Alternative to color | The key is written in the text; color carries no meaning |
 
-## Relações
+## Relations
 
-**Combina com:** `nph-rich-option`.
+**Combines with:** `nph-rich-option`.
 
-**O que é pai:** `nph-rich-option`, pela opção de mostrar atalho; e a linha de uma
-ação que tem atalho.
+**What is the parent:** `nph-rich-option`, through the option of showing a shortcut; and the row of an
+action that has a shortcut.
 
-**O que é filho:** nada. A `nph-kbd` contém só o texto da tecla.
+**What is the child:** nothing. `nph-kbd` contains only the text of the key.
 
-**Qual bloco esta peça complementa:** nenhum.
+**Which block this piece complements:** none.
 
-**Aparece nos layouts:** nenhum.
+**Appears in layouts:** none.
 
-## Tokens, intenção e Dicas para IA
+## Tokens, intent and AI hints
 
-| Parte | Token |
+| Part | Token |
 |---|---|
-| Fundo | `color/muted` |
-| Texto | `text/label-sm` e `color/muted-foreground` |
-| Borda | `border/width` e `color/border`, como traço por dentro |
-| Raio | `radius/inner` |
-| Respiro | `space/inline-tight` nos quatro lados |
+| Background | `color/muted` |
+| Text | `text/label-sm` and `color/muted-foreground` |
+| Border | `border/width` and `color/border`, as an inside stroke |
+| Radius | `radius/inner` |
+| Padding | `space/inline-tight` on all four sides |
 
-**Restrições de uso:** a cor vem dos tokens nos dois esquemas. A borda é traço por
-dentro e não soma à altura da peça.
+**Usage restrictions:** the color comes from the tokens in both schemes. The border is an inside
+stroke and does not add to the height of the piece.
 
-**Dicas para IA:**
+**AI hints:**
 
-- Use `nph-kbd` para mostrar um atalho ao lado do que ele aciona; para a ação em si,
+- Use `nph-kbd` to show a shortcut beside what it triggers; for the action itself,
   use `nph-button`.
-- Numa combinação, ponha uma `nph-kbd` por tecla, lado a lado.
-- Escreva a tecla pela propriedade `text`; não pinte a caixa nem o texto.
+- In a combination, put one `nph-kbd` per key, side by side.
+- Write the key through the `text` property; do not paint the box or the text.
 
-## Exemplos
+## Examples
 
-**Caso recomendado:** ao lado do rótulo "Buscar", as peças `⌘` e `K`, lado a lado.
+**Recommended case:** beside the label "Search", the pieces `⌘` and `K`, side by side.
 
-**Caso alternativo:** numa opção do `nph-rich-option`, a peça `K` mostra o atalho da
-opção.
+**Alternative case:** in an option of `nph-rich-option`, the piece `K` shows the shortcut of the
+option.
 
-## Anti-padrões
+## Anti-patterns
 
-- **Não usar como botão ou controle** — use `nph-button`.
-- **Não criar variante de estilo** — não há uso declarado.
-- **Não pintar a caixa ou o texto à mão** — a cor vem dos tokens.
-- **Não juntar a combinação numa peça só** — use uma peça por tecla.
+- **Do not use as a button or control** — use `nph-button`.
+- **Do not create a style variant** — there is no declared use.
+- **Do not paint the box or the text by hand** — the color comes from the tokens.
+- **Do not join the combination in a single piece** — use one piece per key.
 
-## Fontes e decisões
+## Sources and decisions
 
-- **`design.md` do repositório:** `text/label-sm`, `color/muted`,
-  `color/muted-foreground`, `color/border`, `border/width`, `radius/inner` e
+- **The repository `design.md`:** `text/label-sm`, `color/muted`,
+  `color/muted-foreground`, `color/border`, `border/width`, `radius/inner` and
   `space/inline-tight`.
-- **A decisão que originou:** P66, de 05-10-2026.
-- **Testes:** `src/components/nph-kbd/nph-kbd.test.ts`.
-- **Evidência de uso:** `nph-rich-option`, pela opção de mostrar atalho.
+- **The decision that originated it:** P66, of 05-10-2026.
+- **Tests:** `src/components/nph-kbd/nph-kbd.test.ts`.
+- **Usage evidence:** `nph-rich-option`, through the option of showing a shortcut.
 - **Storybook:** `src/components/nph-kbd/nph-kbd.stories.ts`.
-- **Figma:** quadro `nph-kbd` (`1193:20`) e componente `772:3` no
+- **Figma:** `nph-kbd` frame (`1193:20`) and component `772:3` in
   `DS-IA-NEPHOS 5.0`.

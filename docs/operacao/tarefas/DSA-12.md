@@ -1,7 +1,7 @@
 ```json
 {
   "id": "DSA-12",
-  "objetivo": "Implementar o nph-badge, o selo que rotula o estado ou a categoria de um item, com o contrato aceito no Figma.",
+  "objetivo": "Implement the nph-badge, the badge that labels the state or category of an item, with the contract accepted in Figma.",
   "fase": "F4",
   "ordem_aprovada": 130,
   "responsavel": "claude-codigo",
@@ -11,7 +11,7 @@
   "gates": [
     {
       "id": "documentacao-figma-aceita",
-      "descricao": "A documentacao de nph-badge no Figma foi aceita por Indiane e registrada como evidencia.",
+      "descricao": "The nph-badge documentation in Figma was accepted by Indiane and recorded as evidence.",
       "comando": null,
       "evidencia": "docs/operacao/evidencias/DSA-12/documentacao-figma-aceita-2026-10-02.md",
       "resultado": "passou",
@@ -20,7 +20,7 @@
     },
     {
       "id": "revisao-e-merge",
-      "descricao": "Componente, CSS, testes, stories, documentacao do Storybook, ficha e decisao tecnica revisados por maurocsjr e mergeados na v/5.0.0.",
+      "descricao": "Component, CSS, tests, stories, Storybook documentation, spec and technical decision reviewed by maurocsjr and merged into v/5.0.0.",
       "comando": null,
       "evidencia": null,
       "resultado": "pendente",
@@ -35,8 +35,8 @@
     "docs/operacao/evidencias/DSA-12/storybook-validacao-2026-10-05.md"
   ],
   "referencias_de_decisao": [
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, recorte da primeira entrega (Lote B)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-02.md, nph-badge sem hover"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, first-delivery cut (Batch B)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-02.md, nph-badge without hover"
   ],
   "origem_externa": {
     "classificacao": "interna-permitida",
@@ -44,7 +44,7 @@
     "data": "2026-10-02",
     "autoria": "indiane",
     "trecho": null,
-    "decisao_convertida": "O frame nph-badge (1196:1100) foi aceito como especificacao de API e comportamento do nph-badge. COMPONENT_SET 878:30, variantes tipo (primary, secondary, info, warn, help, danger, success) e enfase (solid, light), padrao primary e solid; texto e icone opcional. O aceite de 01-10-2026 foi completado em 02-10-2026 pela retirada do hover (o selo nao e clicavel)."
+    "decisao_convertida": "The nph-badge frame (1196:1100) was accepted as the API and behavior specification of the nph-badge. COMPONENT_SET 878:30, variants `tipo` (primary, secondary, info, warn, help, danger, success) and `enfase` (solid, light), default primary and solid; text and optional icon. The acceptance of 01-10-2026 was completed on 02-10-2026 by removing the hover (the badge is not clickable)."
   },
   "revisao_git": { "branch": "feat/lote-b-badge-button", "commit": null, "pr": "56" },
   "contexto": null,
@@ -52,29 +52,31 @@
 }
 ```
 
-# DSA-12 — nph-badge, o selo
+# DSA-12 — nph-badge, the badge
 
-## Objetivo
-Existe o `nph-badge` em `src/components/nph-badge/`, com ficha, testes, stories e
-pagina de documentacao no Storybook, no contrato aceito no Figma: um selo de uma
-ou duas palavras que rotula o estado ou a categoria de um item, com tipo, enfase
-e icone opcional antes do texto. O selo nao recebe clique nem foco.
+## Goal
+The `nph-badge` exists in `src/components/nph-badge/`, with a spec, tests, stories
+and a documentation page in Storybook, in the contract accepted in Figma: a badge
+of one or two words that labels the state or category of an item, with type,
+emphasis and an optional icon before the text. The badge receives neither click nor
+focus.
 
-## Como se prova
-**`documentacao-figma-aceita`** — o quadro `nph-badge` (`1196:1100`) do Figma
-`DS-IA-NEPHOS 5.0` foi aceito por Indiane em 01-10-2026 e completado em
-02-10-2026 pela retirada do hover, com QA UX de Figma e auditoria textual
-aprovados em 02-10-2026. A evidencia nomeia o frame e o COMPONENT_SET
+## How it is proved
+**`documentacao-figma-aceita`** — the `nph-badge` frame (`1196:1100`) of the Figma
+file `DS-IA-NEPHOS 5.0` was accepted by Indiane on 01-10-2026 and completed on
+02-10-2026 by removing the hover, with the Figma UX QA and the text audit
+approved on 02-10-2026. The evidence names the frame and the COMPONENT_SET
 (`878:30`).
 
-**`revisao-e-merge`** — componente, CSS, testes, stories, documentacao do
-Storybook, ficha e decisao tecnica passam pelos comandos de prova, sao
-revisados por `maurocsjr` e mergeados na `v/5.0.0`.
+**`revisao-e-merge`** — component, CSS, tests, stories, Storybook documentation,
+spec and technical decision pass the proof commands, are reviewed by
+`maurocsjr` and merged into `v/5.0.0`.
 
-## O que esta tarefa não faz
-Nao cria selo clicavel, com hover, com contagem ou so com icone.
+## What this task does not do
+It does not create a clickable badge, one with hover, with a count or with only an
+icon.
 
-## Fontes
-- Figma `DS-IA-NEPHOS 5.0`, quadro `1196:1100` e conjunto `878:30`
-- `design.md` — `text/label-sm`, `radius/full`, `space/control-padding`, `space/inline-tight`, `icon/size-sm` e as cores de `color/*` e `status/*`
+## Sources
+- Figma `DS-IA-NEPHOS 5.0`, frame `1196:1100` and set `878:30`
+- `design.md` — `text/label-sm`, `radius/full`, `space/control-padding`, `space/inline-tight`, `icon/size-sm` and the colors of `color/*` and `status/*`
 - `fichas/_modelo.md`
