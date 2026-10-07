@@ -52,7 +52,34 @@
     "components-nph-label-validation--open": "Abierto",
     "components-nph-tooltip-validation": "Validación",
     "components-nph-tooltip-validation--one-line": "Una línea",
-    "components-nph-tooltip-validation--two-lines": "Dos líneas"
+    "components-nph-tooltip-validation--two-lines": "Dos líneas",
+    "components-nph-input-docs": "Docs",
+    "components-nph-input-docs--documentation": "Documentación",
+    "components-nph-input-validation": "Validación",
+    "components-nph-input-validation--sizes": "Tamaños",
+    "components-nph-input-validation--content": "Contenido",
+    "components-nph-input-validation--invalid": "Error",
+    "components-nph-input-validation--disabled": "Deshabilitado",
+    "components-nph-input-validation--label-association": "Asociación con la etiqueta",
+    "components-nph-input-validation--required": "Obligatorio",
+    "components-nph-input-validation--long-content": "Contenido largo",
+    "components-nph-input-validation--invalid-input": "Entrada inválida",
+    "components-nph-checkbox-docs": "Docs",
+    "components-nph-checkbox-docs--documentation": "Documentación",
+    "components-nph-checkbox-validation": "Validación",
+    "components-nph-checkbox-validation--matrix": "Matriz",
+    "components-nph-checkbox-validation--hidden-text": "Texto oculto",
+    "components-nph-checkbox-validation--long-text": "Texto largo",
+    "components-nph-checkbox-validation--indeterminate": "Indeterminado",
+    "components-nph-checkbox-validation--group": "Grupo",
+    "components-nph-radio-docs": "Docs",
+    "components-nph-radio-docs--documentation": "Documentación",
+    "components-nph-radio-validation": "Validación",
+    "components-nph-radio-validation--group": "Grupo",
+    "components-nph-radio-validation--matrix": "Matriz",
+    "components-nph-radio-validation--two-groups": "Dos grupos",
+    "components-nph-radio-validation--hidden-text": "Texto oculto",
+    "components-nph-radio-validation--long-text": "Texto largo"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -789,5 +816,497 @@
   "tooltipValidation": {
     "oneLine": "Explica lo que pide el campo.",
     "twoLines": "Use el nombre como está en el documento, sin abreviar ni reordenar."
+  },
+  "inputValidation": {
+    "emailLabel": "Correo electrónico",
+    "emailPlaceholder": "nombre@ejemplo.com",
+    "emailValue": "ana.souza@example.com",
+    "invalidValue": "ana.souza@",
+    "searchLabel": "Buscar personas",
+    "searchPlaceholder": "Buscar por nombre",
+    "searchValue": "Ana Souza",
+    "clear": "Borrar",
+    "fullName": "Nombre completo",
+    "longValue": "Ana Beatriz de Souza Albuquerque Figueiredo Nogueira da Silva Prado",
+    "requiredLabel": "Número de matrícula",
+    "labelledByText": "Ciudad"
+  },
+  "inputDocs": {
+    "summary": "Campo para escribir o editar un valor de una línea. Varía en tamaño y estado, con ícono opcional al inicio y el ícono final que borra el valor.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: design.md para los tokens y docs/decisoes-tecnicas.md para la P69. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no nace ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Cuando la persona necesita escribir o editar un valor de una línea.",
+      "Dentro de un nph-field cuando el campo necesita etiqueta, ayuda o mensaje de error.",
+      "Con el ícono de inicio o el ícono final activado por la propiedad, sin crear variante.",
+      "Usar el ícono final para borrar el valor.",
+      "Un formulario usa un solo tamaño. default sirve para el uso general; large queda para la pantalla que exige el objetivo de 44 px por la accesibilidad de quien la usa. Campo y botón lado a lado usan el mismo tamaño."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para texto de varias líneas.",
+      "Pintar el campo común con color/muted: es el fondo del deshabilitado.",
+      "Usar el halo solo con el borde gris: quien cumple el contraste de 3:1 es el borde.",
+      "Poner el mensaje de error dentro del campo: desaparece cuando la persona escribe.",
+      "Usar el texto de ejemplo como única etiqueta."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "size",
+        "default (predeterminado) o large. Reflejada en el atributo."
+      ],
+      [
+        "value",
+        "El valor del campo. Escribir lo actualiza."
+      ],
+      [
+        "placeholder",
+        "Texto de ejemplo antes de escribir. Nunca es la etiqueta."
+      ],
+      [
+        "icon-start",
+        "Un nombre del núcleo de nph-icon, antes del valor, en icon/size-sm. Decorativo."
+      ],
+      [
+        "clearable",
+        "Muestra el ícono final (xmark) que borra el valor, dentro de un objetivo propio de 24 × 24. Aparece solo con valor y fuera del deshabilitado."
+      ],
+      [
+        "clear-label",
+        "Nombre accesible del botón de borrar. Obligatorio con clearable."
+      ],
+      [
+        "invalid",
+        "El estado de error: borde en status/error y aria-invalid. La frase del error queda en el nph-field. Reflejada."
+      ],
+      [
+        "disabled",
+        "Deshabilitado nativo: fondo color/muted y el campo entero en state/disabled-opacity. Prevalece sobre invalid. Reflejada."
+      ],
+      [
+        "required",
+        "Campo obligatorio, anunciado por el propio control."
+      ],
+      [
+        "name",
+        "Nombre en el formulario. El campo envía el valor, sigue el reinicio del formulario y el fieldset deshabilitado."
+      ],
+      [
+        "label",
+        "Nombre accesible cuando ningún nph-label está asociado al campo."
+      ],
+      [
+        "Eventos",
+        "input en cada cambio del valor; change cuando la persona sale del campo después de cambiarlo, y cuando se borra el valor. Enter envía el formulario."
+      ]
+    ],
+    "sizesTitle": "Tamaños",
+    "sizesText": "La altura viene de control/height-default y control/height-large; el ancho, de layout/input-width.",
+    "sizesCaption": "default y large.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "hover",
+        "Borde en color/input-hover."
+      ],
+      [
+        "foco",
+        "Borde en focus/border y halo focus/halo por fuera, pegado."
+      ],
+      [
+        "foco en borrar",
+        "El campo mantiene el borde color/input; focus/border y focus/halo rodean el objetivo de borrar."
+      ],
+      [
+        "error",
+        "Borde en status/error. La frase queda en el nph-field."
+      ],
+      [
+        "error con foco",
+        "Borde en status/error y halo focus/halo-error."
+      ],
+      [
+        "disabled",
+        "Fondo color/muted y el campo entero en state/disabled-opacity. No responde y sale del orden del Tab."
+      ]
+    ],
+    "statesCaption": "Error y deshabilitado en reposo. Hover y foco aparecen con el mouse y con el Tab.",
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "El borde usa color/input y es el que cumple 3:1 contra el fondo (WCAG 1.4.11); el halo es decoración."
+      ],
+      [
+        "Foco visible",
+        "En el foco, el borde toma el color de la marca con el halo claro pegado. En el foco en borrar, el borde de foco y el halo rodean el ícono final."
+      ],
+      [
+        "El color no es la única señal",
+        "En el error, la frase escrita queda en el nph-field; el color del borde no es la única señal."
+      ],
+      [
+        "Objetivo",
+        "El objetivo es el propio campo. large garantiza los 44 px. El ícono final, que borra el valor, tiene objetivo propio de 24 × 24."
+      ],
+      [
+        "Nombre accesible",
+        "El nombre viene de la etiqueta del nph-field, o de nph-label for. El texto de ejemplo no es etiqueta: desaparece cuando la persona escribe."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleSearch": "Búsqueda: ícono de inicio e ícono final para borrar.",
+    "exampleLabel": "Campo con etiqueta.",
+    "exampleError": "Error: la frase es del nph-field.",
+    "antiPatternsTitle": "Antipatrones",
+    "antiPatterns": [
+      "color/muted es el fondo del deshabilitado: no pintes el campo común con él.",
+      "Mensaje de error dentro del campo: desaparece cuando la persona escribe.",
+      "Texto de ejemplo como única etiqueta.",
+      "Halo solo con el borde gris."
+    ],
+    "referencesTitle": "Referencias",
+    "references": [
+      "docs/decisoes-tecnicas.md — P69 (API y semántica), P01, P02 y P62.3 (nph-label y required).",
+      "design.md — control/height-*, layout/input-width, space/control-padding, space/inline, space/inline-tight, radius/control, text/body-md, icon/size-sm, state/disabled-opacity, focus/* y los colores color/input, color/input-hover, color/muted y status/error.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Input, marco nph-input (1195:532) y conjunto 622:18359.",
+      "Storybook — Validación, en la carpeta al lado."
+    ],
+    "sourceSpec": "Figma, marco nph-input (1195:532)",
+    "sourceApi": "docs/decisoes-tecnicas.md › P69",
+    "sourceStates": "Figma, conjunto 622:18359; design.md"
+  },
+  "checkboxValidation": {
+    "accept": "Acepto los términos de uso",
+    "email": "Correo electrónico",
+    "sms": "Mensaje de texto",
+    "push": "Notificación en la aplicación",
+    "preferences": "Notificaciones",
+    "selectAll": "Seleccionar todos",
+    "rowName": "Seleccionar la fila Ana Souza",
+    "longText": "Acepto recibir mensajes sobre cursos nuevos, eventos y cambios en el calendario de la unidad en la que estudio",
+    "unchecked": "Sin marcar",
+    "checked": "Marcada",
+    "indeterminate": "Indeterminada"
+  },
+  "checkboxDocs": {
+    "summary": "Casilla de verificación con su propio texto al lado. Varía en marcado y estado; el texto se puede ocultar.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: design.md para los tokens y docs/decisoes-tecnicas.md para la P69. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no nace ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Cuando la persona puede marcar más de una opción, cada una independiente.",
+      "Para una sola opción, que la persona activa o desactiva.",
+      "indeterminate solo en el ítem que resume un grupo marcado en parte.",
+      "Dejar el mensaje de error fuera de la pieza.",
+      "Ocultar el texto con hide-text, en lugar de borrarlo, solo cuando el nombre ya está en el contexto, como en una celda de tabla."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Cuando las opciones se excluyen: eso es nph-radio.",
+      "Poner un nph-field alrededor solo para dar nombre: la casilla ya trae su propio texto.",
+      "Mezclar casilla y radio en el mismo grupo.",
+      "Pintar la casilla o la marca a mano."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "checked",
+        "Marca la opción. Reflejada en el atributo."
+      ],
+      [
+        "indeterminate",
+        "Muestra un grupo marcado solo en parte, con la marca minus. No es una respuesta de la persona; alternar la casilla lo quita. Reflejada."
+      ],
+      [
+        "text",
+        "El texto al lado de la casilla. Es el nombre del control. Obligatorio."
+      ],
+      [
+        "hide-text",
+        "Oculta el texto: la pieza queda solo con la casilla, en 24 × 24, y el texto pasa a ser el nombre accesible."
+      ],
+      [
+        "invalid",
+        "El estado de error: borde en status/error y aria-invalid. La frase queda fuera de la pieza. Reflejada."
+      ],
+      [
+        "disabled",
+        "Deshabilitado nativo: la pieza entera en state/disabled-opacity. Prevalece sobre invalid. Reflejada."
+      ],
+      [
+        "name y value",
+        "Nombre y valor en el formulario. El valor va solo cuando está marcada; value es on por defecto."
+      ],
+      [
+        "Eventos",
+        "input y change cuando la persona alterna la casilla."
+      ]
+    ],
+    "valuesTitle": "Marcado",
+    "valuesCaption": "Sin marcar, marcada e indeterminada. La marca, y no solo el color, dice que está marcada.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "hover",
+        "Borde en color/input-hover; marcada o indeterminada, la casilla también en state/hover-opacity."
+      ],
+      [
+        "foco",
+        "Borde en focus/border y halo focus/halo alrededor de la casilla, para quien navega con el teclado."
+      ],
+      [
+        "error",
+        "Borde en status/error. La frase queda fuera de la pieza."
+      ],
+      [
+        "error con foco",
+        "Borde en status/error y halo focus/halo-error."
+      ],
+      [
+        "disabled",
+        "La pieza entera en state/disabled-opacity. No responde y sale del orden del Tab."
+      ]
+    ],
+    "statesCaption": "Error y deshabilitado en reposo. Hover y foco aparecen con el mouse y con el Tab.",
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "El borde de la casilla usa color/input, el color de borde de control que cumple 3:1 contra el fondo (WCAG 1.4.11)."
+      ],
+      [
+        "Foco visible",
+        "En el foco, el anillo aparece alrededor de la casilla; en el error, el error con foco mantiene el anillo."
+      ],
+      [
+        "El color no es la única señal",
+        "Marcada e indeterminada muestran una marca, check o minus; el error tiene la frase escrita fuera de la pieza."
+      ],
+      [
+        "Objetivo",
+        "El área táctil es de 24 × 24 alrededor de la casilla de 16 × 16; el texto al lado también alterna."
+      ],
+      [
+        "Nombre accesible",
+        "El texto es el nombre del control. Con hide-text, la pieza queda solo con la casilla y el texto pasa a ser el aria-label."
+      ],
+      [
+        "Teclado",
+        "El Tab se detiene en cada casilla; el Espacio alterna."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleAccept": "Aceptación: una sola opción, que la persona activa o desactiva.",
+    "examplePreferences": "Preferencias: varias opciones independientes, apiladas.",
+    "exampleGroup": "Selección en grupo: el ítem que resume queda indeterminado.",
+    "antiPatternsTitle": "Antipatrones",
+    "antiPatterns": [
+      "Opciones que se excluyen: usa nph-radio.",
+      "Casilla y radio en el mismo grupo.",
+      "indeterminado como respuesta de la persona."
+    ],
+    "referencesTitle": "Referencias",
+    "references": [
+      "docs/decisoes-tecnicas.md — P69 (API y semántica), P01 y P02.",
+      "design.md — icon/size-sm, radius/inner, space/inline, space/inline-tight, text/label-md, state/disabled-opacity, state/hover-opacity, focus/* y los colores color/input, color/input-hover, color/primary y status/error.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Checkbox, marco nph-checkbox (1194:1033) y conjunto 740:18776.",
+      "Storybook — Validación, en la carpeta al lado."
+    ],
+    "sourceSpec": "Figma, marco nph-checkbox (1194:1033)",
+    "sourceApi": "docs/decisoes-tecnicas.md › P69",
+    "sourceStates": "Figma, conjunto 740:18776; design.md"
+  },
+  "radioValidation": {
+    "paymentTitle": "Forma de pago",
+    "pix": "Pix",
+    "card": "Tarjeta de crédito",
+    "slip": "Boleto bancario",
+    "shiftTitle": "Turno de trabajo",
+    "morning": "Mañana",
+    "afternoon": "Tarde",
+    "night": "Noche",
+    "bondTitle": "Tipo de vínculo",
+    "employee": "Empleado",
+    "contractor": "Prestador de servicios",
+    "rowName": "Elegir el plan Básico",
+    "longText": "Boleto bancario con pago hasta el quinto día hábil del mes, enviado al correo registrado en la matrícula",
+    "unchecked": "Sin marcar",
+    "checked": "Marcado"
+  },
+  "radioDocs": {
+    "summary": "Elección de una opción dentro de un grupo: marcar una desmarca la otra. Varía en marcado y estado; el texto se puede ocultar.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: design.md para los tokens y docs/decisoes-tecnicas.md para la P69. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no nace ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Cuando las opciones se excluyen: forma de pago, tipo de vínculo, turno de trabajo.",
+      "Siempre en grupo de dos a cinco opciones, todas visibles al mismo tiempo para que la persona compare.",
+      "Dar nombre al grupo en el nph-field alrededor.",
+      "Marcar una opción por defecto cuando haya una elección razonable.",
+      "Escribir las opciones de la misma forma y ordenarlas con una lógica visible."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Cuando la persona puede marcar más de una: eso es nph-checkbox.",
+      "Un radio solo: o faltan opciones, o la pieza es nph-checkbox.",
+      "Un radio rojo sin frase que lo explique.",
+      "Esperar que la persona desmarque haciendo clic de nuevo: ofrece Ninguna o usa una casilla.",
+      "Mezclar radio y casilla en el mismo grupo.",
+      "Con más de cinco opciones: nph-select."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "checked",
+        "Marca la opción y desmarca las demás del grupo. Reflejada en el atributo."
+      ],
+      [
+        "text",
+        "El texto al lado del círculo. Es el nombre del control. Obligatorio."
+      ],
+      [
+        "hide-text",
+        "Oculta el texto: la pieza queda en 24 × 24 y el texto pasa a ser el nombre accesible."
+      ],
+      [
+        "invalid",
+        "El estado de error: borde en status/error y aria-invalid. La frase es del nph-field. Error y deshabilitado no se combinan. Reflejada."
+      ],
+      [
+        "disabled",
+        "La pieza entera en state/disabled-opacity, fuera del Tab y de las flechas. Reflejada."
+      ],
+      [
+        "name",
+        "El grupo: todos los nph-radio con el mismo name, en la misma raíz y en el mismo formulario. Sin name, el radio queda solo."
+      ],
+      [
+        "value",
+        "Valor en el formulario, enviado solo por el marcado. Por defecto on."
+      ],
+      [
+        "Eventos",
+        "input y change en el radio que pasa a estar marcado."
+      ]
+    ],
+    "valuesTitle": "Marcado",
+    "valuesCaption": "Sin marcar y marcado. El punto dice la elección. No existe indeterminado.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "hover",
+        "Borde en color/input-hover; marcado, el círculo también en state/hover-opacity."
+      ],
+      [
+        "foco",
+        "Borde en focus/border y halo focus/halo alrededor del círculo."
+      ],
+      [
+        "error",
+        "Borde en status/error. La frase es del nph-field."
+      ],
+      [
+        "error con foco",
+        "Borde en status/error y halo focus/halo-error, por fuera."
+      ],
+      [
+        "disabled",
+        "La pieza entera en state/disabled-opacity. No responde."
+      ]
+    ],
+    "statesCaption": "Error y deshabilitado en reposo. Hover y foco aparecen con el mouse y con el Tab.",
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "El contorno del círculo usa color/input, el color de borde de control que cumple 3:1 contra el fondo (WCAG 1.4.11)."
+      ],
+      [
+        "Foco visible",
+        "En el foco, el anillo aparece alrededor del círculo; en el error con foco, el anillo de error entra por fuera."
+      ],
+      [
+        "El color no es la única señal",
+        "El borde dice el estado y el relleno dice la elección; el error tiene la frase en el nph-field."
+      ],
+      [
+        "Objetivo",
+        "Área de clic de 24 × 24 alrededor del círculo de 16; el texto al lado también activa la opción."
+      ],
+      [
+        "Nombre accesible",
+        "El texto es el nombre del control, y el grupo recibe el nombre del nph-field. Sin texto visible, el nombre accesible viene de text."
+      ],
+      [
+        "Teclado",
+        "Una sola parada de Tab por grupo, en el marcado o en el primero. Las flechas van a la siguiente opción y la marcan, volviendo al inicio; el Espacio marca la enfocada."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "examplePayment": "Forma de pago: tres opciones, una marcada.",
+    "exampleBond": "Tipo de vínculo: elección exclusiva.",
+    "exampleShift": "Turno de trabajo: grupo pequeño, todo visible.",
+    "antiPatternsTitle": "Antipatrones",
+    "antiPatterns": [
+      "Dos marcados: usa nph-checkbox.",
+      "Radio solo.",
+      "Rojo sin mensaje."
+    ],
+    "referencesTitle": "Referencias",
+    "references": [
+      "docs/decisoes-tecnicas.md — P69 (API y semántica), P01 y P02.",
+      "design.md — icon/size-sm, radius/full, space/inline, space/inline-tight, text/label-md, state/disabled-opacity, state/hover-opacity, focus/* y los colores color/input, color/input-hover, color/primary y status/error.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Radio, marco nph-radio (1196:311) y conjunto 848:66.",
+      "WAI-ARIA Authoring Practices — patrón Radio Group, para el teclado.",
+      "Storybook — Validación, en la carpeta al lado."
+    ],
+    "sourceSpec": "Figma, marco nph-radio (1196:311)",
+    "sourceApi": "docs/decisoes-tecnicas.md › P69",
+    "sourceStates": "Figma, conjunto 848:66; design.md"
   }
 }
