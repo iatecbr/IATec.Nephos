@@ -11,7 +11,7 @@ import { html } from 'lit';
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../.storybook/i18n/index.js';
 
 export default {
-  title: 'Comece aqui/Boas-vindas',
+  title: 'Start here/Welcome',
   parameters: {
     layout: 'fullscreen',
   },
@@ -40,8 +40,8 @@ const card = `
   padding: var(--nph-space-container-padding);
 `;
 
-export const BoasVindas = {
-  name: 'Boas-vindas',
+export const Welcome = {
+  name: 'Welcome',
   render: (_args, context) => {
     const t = translations(context?.globals?.[LOCALE_GLOBAL] ?? DEFAULT_LOCALE).welcome;
 

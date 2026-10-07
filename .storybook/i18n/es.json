@@ -1,32 +1,58 @@
 {
   "sidebar": {
-    "comece-aqui": "Empiece aquí",
-    "comece-aqui-boas-vindas": "Bienvenida",
-    "comece-aqui-boas-vindas--boas-vindas": "Bienvenida",
-    "fundações": "Fundamentos",
-    "fundações-visão-geral": "Visión general",
-    "fundações-visão-geral--visao-geral": "Visión general",
-    "componentes": "Componentes",
-    "componentes-nph-icon-docs": "Docs",
-    "componentes-nph-icon-docs--documentacao": "Documentación",
-    "componentes-nph-icon-docs--icons-overview": "Icons Overview",
-    "componentes-nph-icon-validação": "Validación",
-    "componentes-nph-icon-validação--variantes": "Variantes",
-    "componentes-nph-icon-validação--tamanhos": "Tamaños",
-    "componentes-nph-icon-validação--heranca-de-cor": "Herencia de color",
-    "componentes-nph-icon-validação--acessibilidade": "Accesibilidad",
-    "componentes-nph-icon-validação--entrada-invalida": "Entrada inválida",
-    "componentes-nph-spinner-validação": "Validación",
-    "componentes-nph-spinner-validação--sizes": "Tamaños",
-    "componentes-nph-spinner-validação--accessibility": "Accesibilidad",
-    "componentes-nph-spinner-validação--invalid-input": "Entrada inválida",
-    "componentes-nph-separator-validação": "Validación",
-    "componentes-nph-separator-validação--horizontal": "Horizontal",
-    "componentes-nph-separator-validação--vertical": "Vertical",
-    "componentes-nph-kbd-validação": "Validación",
-    "componentes-nph-kbd-validação--single-key": "Tecla",
-    "componentes-nph-kbd-validação--combination": "Combinación",
-    "componentes-nph-kbd-validação--mac-combination": "Combinación en macOS"
+    "start-here": "Empiece aquí",
+    "start-here-welcome": "Bienvenida",
+    "start-here-welcome--welcome": "Bienvenida",
+    "foundations": "Fundamentos",
+    "foundations-overview": "Visión general",
+    "foundations-overview--overview": "Visión general",
+    "components": "Componentes",
+    "components-nph-icon-docs": "Docs",
+    "components-nph-icon-docs--documentation": "Documentación",
+    "components-nph-icon-docs--icons-overview": "Icons Overview",
+    "components-nph-icon-validation": "Validación",
+    "components-nph-icon-validation--variants": "Variantes",
+    "components-nph-icon-validation--sizes": "Tamaños",
+    "components-nph-icon-validation--color-inheritance": "Herencia de color",
+    "components-nph-icon-validation--accessibility": "Accesibilidad",
+    "components-nph-icon-validation--invalid-input": "Entrada inválida",
+    "components-nph-badge-docs": "Docs",
+    "components-nph-badge-docs--documentation": "Documentación",
+    "components-nph-badge-validation": "Validación",
+    "components-nph-badge-validation--matrix": "Matriz",
+    "components-nph-badge-validation--with-icon": "Con icono",
+    "components-nph-badge-validation--two-words": "Dos palabras",
+    "components-nph-button-docs": "Docs",
+    "components-nph-button-docs--documentation": "Documentación",
+    "components-nph-button-validation": "Validación",
+    "components-nph-button-validation--matrix": "Matriz",
+    "components-nph-button-validation--sizes": "Tamaños",
+    "components-nph-button-validation--icons": "Iconos",
+    "components-nph-button-validation--disabled": "Deshabilitado",
+    "components-nph-button-validation--loading": "Cargando",
+    "components-nph-spinner-validation": "Validación",
+    "components-nph-spinner-validation--sizes": "Tamaños",
+    "components-nph-spinner-validation--accessibility": "Accesibilidad",
+    "components-nph-spinner-validation--invalid-input": "Entrada inválida",
+    "components-nph-separator-validation": "Validación",
+    "components-nph-separator-validation--horizontal": "Horizontal",
+    "components-nph-separator-validation--vertical": "Vertical",
+    "components-nph-kbd-validation": "Validación",
+    "components-nph-kbd-validation--single-key": "Tecla",
+    "components-nph-kbd-validation--combination": "Combinación",
+    "components-nph-kbd-validation--mac-combination": "Combinación en macOS",
+    "components-nph-label-docs": "Docs",
+    "components-nph-label-docs--documentation": "Documentación",
+    "components-nph-label-validation": "Validación",
+    "components-nph-label-validation--matrix": "Matriz",
+    "components-nph-label-validation--light-and-dark-mode": "Modo claro y oscuro",
+    "components-nph-label-validation--association-with-control": "Asociación con el control",
+    "components-nph-label-validation--what-the-label-does-not-do": "Lo que la etiqueta no hace",
+    "components-nph-label-validation--trigger-focus": "Foco del disparador",
+    "components-nph-label-validation--open": "Abierto",
+    "components-nph-tooltip-validation": "Validación",
+    "components-nph-tooltip-validation--one-line": "Una línea",
+    "components-nph-tooltip-validation--two-lines": "Dos líneas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -261,6 +287,474 @@
       "size es obligatorio"
     ]
   },
+  "badgeDocs": {
+    "summary": "Etiqueta corta que rotula el estado o la categoría de un elemento. Si no hay nada que escribir, no hay insignia.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-badge, design.md para los tokens y docs/decisoes-tecnicas.md para la P68. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Para rotular el estado o la categoría de un elemento.",
+      "Elija el tipo por el significado. Un estado permanente usa secondary o primary; success confirma un evento que acaba de ocurrir.",
+      "Escriba una o dos palabras.",
+      "Active el icono solo para reforzar la palabra.",
+      "Dé un estado por elemento."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Como botón: la insignia no recibe clic ni foco. Use nph-button.",
+      "success como insignia permanente: use secondary o primary.",
+      "Insignia sin texto, solo con icono.",
+      "Dos insignias de estado en el mismo elemento.",
+      "Una frase dentro de la insignia: el texto de apoyo queda fuera de la pieza."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "severity",
+        "El tipo, por el significado: primary (predeterminado), secondary, info, warn, help, danger o success. Se refleja en el atributo."
+      ],
+      [
+        "emphasis",
+        "El énfasis: solid (predeterminado) o light. Se refleja en el atributo."
+      ],
+      [
+        "text",
+        "Una o dos palabras, ya localizadas. Es el nombre accesible. Vacío o solo espacios: no hay insignia."
+      ],
+      [
+        "icon",
+        "Un nombre del núcleo de nph-icon, antes del texto. Vacío: sin icono."
+      ]
+    ],
+    "variantsTitle": "Tipo y énfasis",
+    "variantsCaption": "Los tipos en los énfasis solid y light; en la segunda fila de cada énfasis, con icono.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Contenedor",
+        "radius/full; space/inline-tight arriba y abajo y space/control-padding a los lados. El color de fondo viene del tipo y del énfasis."
+      ],
+      [
+        "Icono (opcional)",
+        "Antes del texto, en icon/size-sm, en el color del texto, a space/inline-tight de él. Arte de nph-icon."
+      ],
+      [
+        "Texto",
+        "text/label-sm, en una sola línea. Es el nombre accesible de la pieza."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "El texto pasa 4,5:1 en todos los tipos y énfasis, en los dos modos y en todas las marcas; el menor valor es 4,64:1, en primary light del modo claro."
+      ],
+      [
+        "Foco visible",
+        "La insignia no recibe clic ni foco. Para una acción, use nph-button."
+      ],
+      [
+        "El color no es la única señal",
+        "Toda insignia tiene texto: el color nunca es la única señal, y el icono solo refuerza la palabra."
+      ],
+      [
+        "Objetivo táctil",
+        "No es objetivo táctil: la insignia no recibe clic."
+      ],
+      [
+        "Nombre accesible",
+        "El texto es el nombre accesible de la pieza. El icono es decorativo."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "examplePermanent": "Estado permanente de un documento.",
+    "exampleCategory": "Categoría de un elemento.",
+    "exampleIcon": "Estado con icono que refuerza la palabra.",
+    "exampleItems": [
+      "Informe anual",
+      "Contrato",
+      "Solicitud 218"
+    ],
+    "exampleBadges": [
+      "Borrador",
+      "Financiero",
+      "Rechazado"
+    ],
+    "antiPatternsTitle": "No usar",
+    "antiPatterns": [
+      "Usar como botón: la insignia no recibe clic ni foco. Use nph-button.",
+      "Usar success como insignia permanente: use secondary o primary.",
+      "Insignia sin texto, solo con icono.",
+      "Dos insignias de estado en el mismo elemento.",
+      "Una frase dentro de la insignia: el texto de apoyo queda fuera de la pieza.",
+      "Pintar el fondo o el texto a mano: el color viene del tipo y del énfasis."
+    ],
+    "referencesTitle": "Referencias",
+    "references": [
+      "ficha nph-badge — función, variantes, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P68 (API y semántica), P01, P02 y P03.",
+      "design.md — los colores color/* y status/*, text/label-sm, radius/full y los espacios.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Badge, marco nph-badge (1196:1100) y conjunto 878:30.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "ficha nph-badge; Figma, marco nph-badge (1196:1100)",
+    "sourceApi": "ficha nph-badge; docs/decisoes-tecnicas.md › P68",
+    "sourceAnatomy": "Figma, conjunto 878:30; design.md"
+  },
+  "buttonDocs": {
+    "summary": "Dispara una acción identificada por texto. Varía en tipo, énfasis, tamaño y estado, con icono opcional al inicio o al final. Sin texto, es el botón solo con icono.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-button, design.md para los tokens y docs/decisoes-tecnicas.md para la P68. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Para iniciar una acción identificada por texto, como guardar o enviar.",
+      "Escriba en el texto lo que ocurre al hacer clic.",
+      "Elija el tipo por el significado de la acción, nunca por el color.",
+      "Elija el énfasis por cuánto se destaca la acción: solid, outline, light o ghost.",
+      "Use size large en pantallas táctiles.",
+      "Sin texto, use el botón solo con icono y dele un nombre accesible."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para mostrar un error de campo: la validación es del campo (nph-field).",
+      "Solo con icono en una acción con consecuencias, como eliminar o publicar.",
+      "Para navegar a otro destino.",
+      "size compact como objetivo principal en una pantalla táctil."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "severity",
+        "El tipo, por el significado de la acción: primary (predeterminado), secondary, info, warn, help, danger o success. Se refleja en el atributo."
+      ],
+      [
+        "emphasis",
+        "Cuánto se destaca la acción: solid (predeterminado), outline, light o ghost. outline, light y ghost existen solo en primary, secondary y danger. Se refleja en el atributo."
+      ],
+      [
+        "size",
+        "compact, default (predeterminado) o large. large cumple el objetivo táctil de 44 px. Se refleja en el atributo."
+      ],
+      [
+        "text",
+        "Lo que ocurre al hacer clic, ya localizado. Es el nombre accesible."
+      ],
+      [
+        "icon-start",
+        "Un nombre del núcleo de nph-icon antes del texto, en icon/size-sm. Puede convivir con icon-end."
+      ],
+      [
+        "icon-end",
+        "Un nombre del núcleo de nph-icon después del texto, en icon/size-sm."
+      ],
+      [
+        "label",
+        "Nombre accesible del botón sin texto. Obligatorio en él; con texto, no se usa."
+      ],
+      [
+        "disabled",
+        "Desactiva el botón: sale del orden de Tab y no dispara clic. Se refleja en el atributo."
+      ],
+      [
+        "loading",
+        "Muestra el nph-spinner en lugar del icono de inicio; el texto se queda, el foco continúa y el clic no llega a quien usa. Se refleja en el atributo."
+      ]
+    ],
+    "variantsTitle": "Tipo y énfasis",
+    "variantsCaption": "Los tipos en cada énfasis, en el tamaño default. Pase el ratón para ver el hover y use Tab para ver el foco.",
+    "sizesTitle": "Tamaños",
+    "sizesText": "La altura viene de control/height-compact, -default o -large. El texto es text/label-md en todos. Sin texto, el botón es cuadrado y el icono acompaña la caja: sm en compact, md en default y lg en large.",
+    "sizesCaption": "compact, default y large, con texto, con icono y solo con icono.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "Reposo. El color comunica el tipo de la acción."
+      ],
+      [
+        "hover-active",
+        "La superficie pasa al token de hover del tipo y del énfasis."
+      ],
+      [
+        "focus",
+        "Para quien usa el teclado: un borde en el color del tipo y un halo por fuera, sin cambiar el tamaño. En secondary, el borde es focus/border."
+      ],
+      [
+        "disabled",
+        "El botón entero en state/disabled-opacity, fuera del Tab."
+      ],
+      [
+        "loading",
+        "El nph-spinner en lugar del icono de inicio. El texto se queda."
+      ]
+    ],
+    "statesCaption": "disabled y loading.",
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "Texto e icono pasan 4,5:1 en todos los tipos y énfasis, en los dos modos y en todas las marcas; el menor valor es 4,64:1, en primary outline y light del modo claro. Los bordes pasan 3:1."
+      ],
+      [
+        "Foco visible",
+        "En el foco, el borde y el halo aparecen para quien navega con el teclado."
+      ],
+      [
+        "El color no es la única señal",
+        "El color nunca es la única señal de intención, foco o estado: el texto dice lo que ocurre al hacer clic."
+      ],
+      [
+        "Objetivo táctil",
+        "size large cumple el objetivo táctil de 44 px; compact no es objetivo principal en una pantalla táctil."
+      ],
+      [
+        "Nombre accesible",
+        "El texto es el nombre del botón. Sin texto, el nombre viene de label, obligatorio."
+      ],
+      [
+        "Teclado",
+        "Tab entra y sale; Enter y Espacio activan."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleForm": "Acciones de formulario: principal y secundaria.",
+    "exampleConsequence": "Acción con consecuencias, siempre con texto.",
+    "exampleIconOnly": "Acción universal sin texto, con nombre accesible.",
+    "exampleTexts": [
+      "Guardar",
+      "Cancelar",
+      "Eliminar cuenta",
+      "Cerrar",
+      "Nuevo"
+    ],
+    "antiPatternsTitle": "No usar",
+    "antiPatterns": [
+      "Mostrar un error de campo en el botón: la validación es del campo (nph-field).",
+      "Usar solo icono en una acción con consecuencias, como eliminar o publicar.",
+      "Agrandar el icono para destacar.",
+      "Usar el color como única señal de intención, foco o estado.",
+      "Navegar a otro destino con el botón.",
+      "Crear un tipo, énfasis o tamaño fuera de la matriz, o pintar el botón a mano."
+    ],
+    "referencesTitle": "Referencias",
+    "references": [
+      "ficha nph-button — función, variantes, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P68 (API y semántica), P01, P02, P03 y P66 (nph-spinner).",
+      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* y los colores color/* y status/*.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Button, marco nph-button (1197:5449) y conjuntos 461:13009 y 498:15671.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "ficha nph-button; Figma, marco nph-button (1197:5449)",
+    "sourceApi": "ficha nph-button; docs/decisoes-tecnicas.md › P68",
+    "sourceStates": "Figma, conjuntos 461:13009 y 498:15671; design.md"
+  },
+  "labelDocs": {
+    "summary": "Dice qué debe escribir o elegir la persona en un campo. Puede marcar obligatorio y mostrar un icono de información. El texto no tiene estado; solo el icono de información recibe el foco.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "Si hay diferencias, prevalecen las fuentes canónicas: la ficha nph-label, design.md para los tokens y docs/decisoes-tecnicas.md para la P62. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "sampleText": "Nombre completo",
+    "info": "Explica lo que pide el campo.",
+    "infoLabel": "Sobre nombre completo",
+    "purposeTitle": "1. Finalidad",
+    "purpose": "Etiqueta de texto que dice qué debe escribir o elegir la persona en un campo.",
+    "selectionCaption": "nph-label — propiedades required, info y state.",
+    "descriptionTitle": "2. Descripción del componente",
+    "description": "Use nph-label para dar un nombre visible a un control de formulario, solo o dentro de un nph-field. La etiqueta es solo un texto: no tiene estado, tamaño ni layout. La excepción es el icono de información, que recibe el foco. No sustituye al título de sección, que es heading-sm, al texto de cuerpo, ni a la ayuda y el mensaje de error, que son del nph-field.",
+    "anatomyTitle": "3. Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Texto",
+        "text/label-md en color/foreground"
+      ],
+      [
+        "2. Asterisco (required=true)",
+        "marca el campo obligatorio, en status/error"
+      ],
+      [
+        "3. Icono de información (info=true)",
+        "va después del texto"
+      ],
+      [
+        "4. Espacio hasta el control",
+        "space/stack-tight"
+      ]
+    ],
+    "accessibilityTitle": "4. Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "contraste",
+        "El texto usa color/foreground: 21:1 en claro y 14,73:1 en oscuro, por encima de 4,5:1 (WCAG 1.4.3). El asterisco, en status/error, tiene 6,88:1 y 5,01:1. El icono de información, en color/muted-foreground, tiene 6,69:1 y 9,81:1, y el borde de foco, en focus/border, 3,68:1 y 8,98:1, por encima de 3:1 (WCAG 1.4.11)."
+      ],
+      [
+        "foco visible",
+        "El texto de la etiqueta no recibe el foco: el foco aparece en el control que nombra. El icono de información es un disparador y, con foco, muestra el borde focus/border y el halo focus/halo alrededor del objetivo (state=focus)."
+      ],
+      [
+        "el color no es la única señal",
+        "Lo obligatorio se marca con el asterisco, explicado en una leyenda visible del formulario. La etiqueta no usa color/destructive, que confunde obligatorio con error."
+      ],
+      [
+        "objetivo táctil",
+        "El icono de información tiene un objetivo de 24×24, con el dibujo de 16 px en el centro (WCAG 2.5.8). Hacer clic en el texto de la etiqueta lleva el foco al control que nombra."
+      ],
+      [
+        "nombre accesible",
+        "El texto de la etiqueta es el nombre visible del control que acompaña."
+      ]
+    ],
+    "accessibilityCaption": "El texto es el nombre visible del control. Obligatorio marcado por el asterisco. Icono de información después del texto.",
+    "propertiesTitle": "5. Propiedades, variantes y estados",
+    "propertiesHeader": [
+      "Campo",
+      "Regla"
+    ],
+    "properties": [
+      [
+        "required",
+        "variante · por defecto false. Valores: false · true. true cuando completar el campo es obligatorio: añade el asterisco después del texto. false no lleva ningún indicador."
+      ],
+      [
+        "info",
+        "variante · por defecto false. Valores: false · true. true añade el icono de información después del texto. En el código, info es el texto de la explicación: con valor, muestra el icono."
+      ],
+      [
+        "state",
+        "variante · por defecto default. Valores: default · focus. focus solo existe con info=true y muestra el foco del icono de información. El texto de la etiqueta no tiene estado."
+      ]
+    ],
+    "propertiesCaptions": [
+      "required = false · info = false",
+      "required = true",
+      "info = true"
+    ],
+    "apiHeader": [
+      "Propiedad en código",
+      "Regla"
+    ],
+    "api": [
+      [
+        "text",
+        "El texto de la etiqueta, ya localizado."
+      ],
+      [
+        "required",
+        "Booleana, por defecto false. Se refleja en el atributo."
+      ],
+      [
+        "for",
+        "El id del control que la etiqueta nombra, como en el <label> nativo. Se refleja en el atributo."
+      ],
+      [
+        "info",
+        "El texto de la explicación, ya localizado. Con info-label, muestra el icono de información, que abre el nph-tooltip con ese texto por clic, Enter o Espacio y se cierra con Esc, un clic fuera o Tab hacia fuera."
+      ],
+      [
+        "info-label (infoLabel)",
+        "El nombre accesible del icono de información. Sin él, el icono no aparece."
+      ]
+    ],
+    "relationsTitle": "6. Relaciones y contexto",
+    "relations": [
+      "Dentro de un nph-field, la etiqueta es la del propio campo; no añada un nph-label suelto además de ella.",
+      "La ayuda y el mensaje de error son del nph-field, no de la etiqueta.",
+      "El espacio hasta el control es space/stack-tight.",
+      "La etiqueta se queda en color/foreground incluso con el campo en error: quien muestra el error es el campo.",
+      "El icono de información abre el nph-tooltip, que muestra el texto de info."
+    ],
+    "relationsCaption": "Sola, encima del control, con space/stack-tight.",
+    "whenToUseTitle": "7. Cuándo usar",
+    "whenToUse": [
+      "Para dar un nombre visible a un control de formulario, solo o dentro de un nph-field.",
+      "required=true cuando completar el campo es obligatorio, con el asterisco explicado en una leyenda del formulario.",
+      "info=true para mostrar el icono de información después del texto."
+    ],
+    "examplesTitle": "8. Ejemplos obligatorios",
+    "examplesCaptions": [
+      "Campo obligatorio: el asterisco viene de required.",
+      "Etiqueta sola, encima del control.",
+      "Icono de información después del texto."
+    ],
+    "doTitle": "9. Hacer",
+    "do": [
+      "Usarla para dar un nombre visible a un control de formulario, sola o dentro de un nph-field.",
+      "Explicar el asterisco en una leyenda visible del formulario.",
+      "Mantener la etiqueta en color/foreground, incluso con el campo en error."
+    ],
+    "doCaption": "Asterisco explicado en una leyenda.",
+    "requiredLegend": "* Campos obligatorios",
+    "dontTitle": "10. No usar",
+    "dont": [
+      "Usarla para una frase con verbo y punto final: eso es texto de cuerpo.",
+      "Usarla como título de sección o de grupo: eso es heading-sm.",
+      "Usarla para énfasis dentro de un párrafo: eso es <strong>.",
+      "Poner ayuda o mensaje de error en la etiqueta: son del nph-field.",
+      "Usar el texto de ejemplo del campo en lugar de la etiqueta.",
+      "Pintar la etiqueta o el asterisco con color/destructive: confunde obligatorio con error."
+    ],
+    "referencesTitle": "Referencias",
+    "references": [
+      "ficha nph-label — función, API, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P62 (excepción a la P01, tipografía y API, ampliada por la P62.6) y P65 (nph-tooltip).",
+      "design.md — color/foreground, status/error, color/muted-foreground, text/label-md, los espacios y el foco.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Label, marco nph-label (1194:1482) y conjunto 374:6.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceFrame": "Figma, marco nph-label (1194:1482)",
+    "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 y P62.6"
+  },
+  "badgeValidation": {
+    "sample": "Insignia",
+    "twoWords": [
+      "En revisión",
+      "Aprobado",
+      "Falta firma"
+    ]
+  },
+  "buttonValidation": {
+    "save": "Guardar",
+    "add": "Nuevo",
+    "close": "Cerrar",
+    "options": "Opciones",
+    "filter": "Filtrar"
+  },
   "spinnerValidation": {
     "savingText": "Guardando…",
     "savingLabel": "Guardando"
@@ -270,5 +764,30 @@
     "signOut": "Salir",
     "edit": "Editar",
     "delete": "Eliminar"
+  },
+  "labelValidation": {
+    "sampleText": "Nombre completo",
+    "info": "Explica lo que pide el campo.",
+    "infoLabel": "Sobre nombre completo",
+    "matrixTitle": "Matriz",
+    "matrixCaption": "required añade el asterisco; info con info-label añade el icono de información.",
+    "lightTitle": "Modo claro",
+    "darkTitle": "Modo oscuro",
+    "associationTitle": "Asociación con el control",
+    "associationCaption": "Haga clic en la etiqueta: el cursor va al campo.",
+    "requiredLegend": "Los campos con * son obligatorios.",
+    "errorTitle": "El error no cambia la etiqueta",
+    "errorCaption": "La etiqueta se queda en color/foreground. El error aparece en el campo y en el mensaje debajo de él — nunca en la etiqueta.",
+    "disabledTitle": "Deshabilitado no es un estado de la etiqueta",
+    "disabledCaption": "El nph-field aplicará state/disabled-opacity al control entero. La etiqueta no tiene estado propio.",
+    "focusTitle": "Foco del disparador",
+    "focusCaption": "Haga clic en el campo y pulse Tab: el foco va al icono de información. El texto de la etiqueta no recibe el foco.",
+    "tabStartLabel": "Punto de partida del Tab",
+    "openTitle": "Globo abierto",
+    "openCaption": "El globo se abre al activar el icono y se cierra con Esc, un clic fuera o Tab hacia fuera. Pasar el ratón no lo abre."
+  },
+  "tooltipValidation": {
+    "oneLine": "Explica lo que pide el campo.",
+    "twoLines": "Use el nombre como está en el documento, sin abreviar ni reordenar."
   }
 }

@@ -1,86 +1,86 @@
 ---
-peca: nph-tooltip
-nivel: componente
-status: vigente
-resolve: >-
+piece: nph-tooltip
+level: component
+status: active
+solves: >-
   Shows a short explanation for the information trigger of an nph-label without
   moving focus to the bubble.
-use_quando:
+use_when:
   - "The info trigger of an nph-label needs to reveal a short explanation."
-nao_use_quando:
+do_not_use_when:
   - "The information is helper text or a field error message — that is the responsibility of nph-field."
   - "The content needs an action, focus or persistent context — use nph-popover."
 api:
   text:
-    tipo: string
-    obrigatoria: true
-    padrao: "vazio"
-    reflete: false
-    restricao: >-
+    type: string
+    required: true
+    default: "empty"
+    reflects: false
+    constraint: >-
       Carries the bubble text, already localized by the consuming application. Empty
       or whitespace-only does not show the bubble.
   open:
-    tipo: boolean
-    obrigatoria: false
-    padrao: false
-    reflete: true
-    restricao: >-
+    type: boolean
+    required: false
+    default: false
+    reflects: true
+    constraint: >-
       Shows or hides the bubble. Opening, closing and positioning are the
       responsibility of the consumer.
-variantes: nao_se_aplica
-estados:
-  fechado:
-    token: nao_se_aplica
-    muda_para_a_pessoa: "The bubble and its text are not shown."
-  aberto:
+variants: not_applicable
+states:
+  closed:
+    token: not_applicable
+    changes_for_user: "The bubble and its text are not shown."
+  open:
     token: color/tooltip
-    muda_para_a_pessoa: "The explanation is shown by the bubble."
-regras_de_negocio:
+    changes_for_user: "The explanation is shown by the bubble."
+business_rules:
   - "The bubble opens only on trigger activation; it does not open on hover."
   - "The text fits entirely in up to two lines, without ellipsis, automatic hyphenation or broken words."
-erros_de_dominio: []
+domain_errors: []
 tokens:
-  fundo: color/tooltip
-  texto: [text/body-sm, color/tooltip-foreground]
-  raio: radius/inner
+  background: color/tooltip
+  text: [text/body-sm, color/tooltip-foreground]
+  radius: radius/inner
   padding_vertical: space/inline-tight
   padding_horizontal: space/inline
-  elevacao: elevation/dropdown
-  largura_maxima: layout/max-tooltip-width
-  altura_maxima: layout/max-tooltip-height
-dicas_para_ia:
+  elevation: elevation/dropdown
+  max_width: layout/max-tooltip-width
+  max_height: layout/max-tooltip-height
+ai_hints:
   - "Use nph-tooltip only for the short explanation opened by the info trigger of nph-label."
   - "Do not add a title, icon, action, arrow or border."
   - "Do not create a positioning property: the consumer opens and positions it."
   - "For content that asks for focus or action, choose nph-popover."
-acessibilidade:
-  semantica: "The host is a `role=status` live region from mount, open or closed."
-  nome_acessivel: "The text received in text is the content announced by the live region."
-  teclado: []
-  foco: "The bubble does not receive focus; focus stays on the trigger."
-  contraste: "The text uses color/tooltip-foreground on color/tooltip in both schemes."
-  alternativa_a_cor: "The explanation is conveyed by the text; color is not the only signal."
-combinacoes_invalidas:
+accessibility:
+  semantics: "The host is a `role=status` live region from mount, open or closed."
+  accessible_name: "The text received in text is the content announced by the live region."
+  keyboard: []
+  focus: "The bubble does not receive focus; focus stays on the trigger."
+  contrast: "The text uses color/tooltip-foreground on color/tooltip in both schemes."
+  color_alternative: "The explanation is conveyed by the text; color is not the only signal."
+invalid_combinations:
   - "Opening on hover — the bubble opens only on trigger activation."
   - "Adding a title, icon, action, arrow or border — the scope is text only."
   - "Moving focus to the bubble — focus stays on the trigger."
   - "Using nph-tooltip for content with action or focus — use nph-popover."
-relacoes:
-  combina_com: [nph-label]
-  pai: [nph-label]
-  filho: []
-  complementa_bloco: []
-  aparece_em: []
-anti_padroes:
+relations:
+  combines_with: [nph-label]
+  parents: [nph-label]
+  children: []
+  complements_block: []
+  appears_in: []
+anti_patterns:
   - "Using the bubble as helper text or a field error message."
   - "Opening the bubble on hover."
   - "Cutting, truncating or breaking a word to fit in the bubble."
   - "Applying elevation/dropdown in a subtree with a data-nph-color-scheme different from the root: the shadow may use the color of the root scheme."
-fontes:
+sources:
   design_md: "design.md, section on color/tooltip, color/tooltip-foreground, layout/max-tooltip-width, layout/max-tooltip-height, radius/inner and tooltip"
-  decisao: "P65 — API and semantics of nph-tooltip, 05-10-2026"
-  testes: "src/components/nph-tooltip/nph-tooltip.test.ts"
-  evidencia_de_uso: "nph-label, through the info trigger"
+  decision: "P65 — API and semantics of nph-tooltip, 05-10-2026"
+  tests: "src/components/nph-tooltip/nph-tooltip.test.ts"
+  usage_evidence: "nph-label, through the info trigger"
   storybook: "src/components/nph-tooltip/nph-tooltip.stories.ts"
   figma: "DS-IA-NEPHOS 5.0, nph-tooltip frame 1237:5 and component 1237:3"
 ---
@@ -103,7 +103,7 @@ explanation.
 
 ## Variants
 
-**By appearance, size and density:** `nao_se_aplica`. The component has no visual
+**By appearance, size and density:** `not_applicable`. The component has no visual
 variant; the content arrives through the `text` property.
 
 **Do not combine with:** title, icon, action, arrow, border or positioning
@@ -114,7 +114,7 @@ of the consumer.
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Closed | `nao_se_aplica` | The bubble and its text are not shown |
+| Closed | `not_applicable` | The bubble and its text are not shown |
 | Open | `color/tooltip` | The explanation is shown by the bubble |
 
 **Feedback and focus:** the bubble opens only on trigger activation, never on hover.

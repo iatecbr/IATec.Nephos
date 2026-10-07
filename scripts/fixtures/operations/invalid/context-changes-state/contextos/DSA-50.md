@@ -1,10 +1,10 @@
 ```json
 {
-  "tarefa": "DSA-50",
+  "task": "DSA-50",
   "worktree": "C:/dev/nephos-m2-lote",
-  "sha_inicial": "eff9e10",
-  "sha_final": null,
-  "estado": "concluida"
+  "start_sha": "eff9e10",
+  "end_sha": null,
+  "state": "done"
 }
 ```
 

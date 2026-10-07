@@ -26,7 +26,7 @@ precedencia: 1
 | Component scope | The P0 cut in `README.md`. The full v1 list was closed on 26-08-2026 — 75 public components in 6 waves — and is kept outside this repository | Any component list not published here |
 | Delivered implementation | Branch, commit, PR and Storybook of this repository | A statement in a note without evidence in the repository |
 | Sheet, variants, states and selection rule of a component | `fichas/<name>.md`, with the template at `fichas/_modelo.md` | A vault note, a Figma screenshot or Storybook text without a source |
-| Accepted Figma documentation of a component | The `documentacao-figma-aceita` gate of the task in `docs/operacao/tarefas/<ID>.md`, with the evidence in `docs/operacao/evidencias/<ID>/` | A conversation, screenshot, verbal approval or Figma comment without versioned evidence |
+| Accepted Figma documentation of a component | The `figma-docs-accepted` gate of the task in `docs/operacao/tarefas/<ID>.md`, with the evidence in `docs/operacao/evidencias/<ID>/` | A conversation, screenshot, verbal approval or Figma comment without versioned evidence |
 
 In a conflict, the source on the corresponding row prevails. A historical source can only record what happened; it does not prescribe what to do now.
 
@@ -67,9 +67,9 @@ Before acting, the AI must:
 
 A component does not start with the code. The sequence is **accepted Figma documentation → local code → final sheet → review and PR**, and it is enforced by the machine, not by the goodwill of whoever executes:
 
-1. **Before any component code**, the documentation of the piece in the Figma `DS-IA-NEPHOS 5.0` must be accepted by Indiane and recorded in the task's `documentacao-figma-aceita` gate, with evidence in `docs/operacao/evidencias/<ID>/`. Without that, the task is not `pronta` or `em-andamento`: it is `bloqueada`.
-2. **While the task is `pronta` or `em-andamento`**, local code without a sheet is allowed. A sheet required in the first commit becomes a form filled in blind; it leaves the practice.
-3. **Before `em-revisao` and `concluida`**, the canonical sheet at `fichas/<piece>.md` must exist.
+1. **Before any component code**, the documentation of the piece in the Figma `DS-IA-NEPHOS 5.0` must be accepted by Indiane and recorded in the task's `figma-docs-accepted` gate, with evidence in `docs/operacao/evidencias/<ID>/`. Without that, the task is not `ready` or `in-progress`: it is `blocked`.
+2. **While the task is `ready` or `in-progress`**, local code without a sheet is allowed. A sheet required in the first commit becomes a form filled in blind; it leaves the practice.
+3. **Before `in-review` and `done`**, the canonical sheet at `fichas/<piece>.md` must exist.
 
 The verifier enforces the three moments in `V30`, `V28` and `V31` — see [`docs/operacao/README.md`](docs/operacao/README.md), §2b and §5b.
 

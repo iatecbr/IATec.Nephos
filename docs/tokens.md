@@ -3,7 +3,7 @@
 **English** · [Português (BR)](tokens.pt-BR.md) · [Español](tokens.es.md)
 
 > **The technical source is `src/tokens/source/*.tokens.json`.** Each layer
-> declares its own count in `contagemEsperada`, and `npm run build:tokens` shows
+> declares its own count in `expectedCount`, and `npm run build:tokens` shows
 > the totals and fails when a layer diverges from what it declared. This note
 > does not repeat the totals. The base migration was completed on 24/08/2026;
 > the three tokens approved in Figma for `nph-button` landed on 25/08/2026, in
@@ -303,8 +303,8 @@ Educação + dark without anything being re-authored.
 | `data-nph-color-scheme` | `light`, `dark` | `light` |
 
 The `data-nph-brand` values are the names of IATec's verticals. The
-internal JSON keys use `claro` and `escuro`, mirroring the Figma modes; the
-mapping to `light`/`dark` is declared in `modeSet.valorPublico`.
+internal JSON keys use `light` and `dark` (the Figma modes keep their Portuguese
+names); the mapping to the public value is declared in `modeSet.publicValue`.
 
 Omitting both attributes gives Sistemas in light, because every default block is
 also emitted under `:root`.
@@ -345,7 +345,7 @@ The build **fails** — with exit code 1 and a specific message — when:
 1. a `$type` outside the seven handled ones appears;
 2. a token declares `modes` and a value is missing for some mode of the layer;
 3. a `{...}` reference points to a token that exists in no source;
-4. the token count of a layer does not match `contagemEsperada`.
+4. the token count of a layer does not match `expectedCount`.
 
 **In the output**
 

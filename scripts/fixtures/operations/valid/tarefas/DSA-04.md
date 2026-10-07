@@ -1,38 +1,38 @@
 ```json
 {
   "id": "DSA-04",
-  "objetivo": "Exercitar componente com documentacao Figma aceita e ainda sem ficha canonica.",
-  "fase": "F4",
-  "ordem_aprovada": 60,
-  "responsavel": "claude-codigo",
-  "estado": "pronta",
-  "peca": "nph-inexistente",
-  "dependencias": [],
+  "goal": "Exercitar componente com documentacao Figma aceita e ainda sem ficha canonica.",
+  "phase": "F4",
+  "approved_order": 60,
+  "owner": "claude-code",
+  "state": "ready",
+  "piece": "nph-inexistente",
+  "dependencies": [],
   "gates": [
     {
-      "id": "documentacao-figma-aceita",
-      "descricao": "A documentacao do componente no Figma foi aceita por Indiane.",
-      "comando": null,
-      "evidencia": "scripts/fixtures/operations/valid/evidencias/DSA-04/documentacao-figma-aceita-2026-09-10.md",
-      "resultado": "passou",
-      "verificado_em": "2026-09-10",
-      "verificado_por": "indiane"
+      "id": "figma-docs-accepted",
+      "description": "A documentacao do componente no Figma foi aceita por Indiane.",
+      "command": null,
+      "evidence": "scripts/fixtures/operations/valid/evidencias/DSA-04/documentacao-figma-aceita-2026-09-10.md",
+      "result": "passed",
+      "verified_at": "2026-09-10",
+      "verified_by": "indiane"
     }
   ],
-  "bloqueios": [],
-  "decisoes_pendentes": [],
-  "evidencias": [
+  "blockers": [],
+  "pending_decisions": [],
+  "evidence": [
     "scripts/fixtures/operations/valid/evidencias/DSA-04/documentacao-figma-aceita-2026-09-10.md"
   ],
-  "referencias_de_decisao": [],
-  "origem_externa": null,
-  "revisao_git": {
+  "decision_refs": [],
+  "external_origin": null,
+  "git_review": {
     "branch": null,
     "commit": null,
     "pr": null
   },
-  "contexto": null,
-  "atualizado_em": "2026-09-10"
+  "context": null,
+  "updated_at": "2026-09-10"
 }
 ```
 
@@ -41,12 +41,12 @@
 ## Objetivo
 Exercitar a trava documental no caso que ela existe para permitir: a
 documentacao Figma ja foi aceita, o codigo local pode comecar, e a ficha
-canonica so sera cobrada em em-revisao.
+canonica so sera cobrada em `in-review`.
 
 ## Como se prova
 Rodando `node scripts/verificar-operacao.mjs --exemplos`, que valida esta arvore.
-A V28 nao dispara porque o estado e pronta; a V30 nao dispara porque o gate
-`documentacao-figma-aceita` passou; a V31 nao dispara porque a evidencia declara
+A V28 nao dispara porque o estado e `ready`; a V30 nao dispara porque o gate
+`figma-docs-accepted` passou; a V31 nao dispara porque a evidencia declara
 a procedencia inteira.
 
 ## O que esta tarefa nao faz

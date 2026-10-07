@@ -1,24 +1,24 @@
 ```json
 {
-  "tarefa": "DSA-13",
-  "gate": "documentacao-figma-aceita",
-  "data": "2026-10-02",
-  "responsavel": "indiane",
-  "comando": null,
-  "codigo_de_saida": null,
+  "task": "DSA-13",
+  "gate": "figma-docs-accepted",
+  "date": "2026-10-02",
+  "owner": "indiane",
+  "command": null,
+  "exit_code": null,
   "sha": null,
-  "origem_externa": {
-    "classificacao": "interna-permitida",
-    "url_ou_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1197-5449",
-    "data": "2026-10-02",
-    "autoria": "indiane",
-    "trecho": null,
-    "decisao_convertida": "The frame nph-button (1197:5449), on the page `NPH — Button`, was accepted as the API and behavior specification of nph-button. COMPONENT_SET: nph-button (461:13009) and `nph-button — so icone` (498:15671), variants `tipo`, `enfase`, `size` and `state`, with start and end icon. The acceptance of 01-10-2026 was completed on 02-10-2026: the solid hover moved to the hover tokens, which supersedes B4."
+  "external_origin": {
+    "classification": "internal-allowed",
+    "url_or_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1197-5449",
+    "date": "2026-10-02",
+    "author": "indiane",
+    "excerpt": null,
+    "converted_decision": "The frame nph-button (1197:5449), on the page `NPH — Button`, was accepted as the API and behavior specification of nph-button. COMPONENT_SET: nph-button (461:13009) and `nph-button — so icone` (498:15671), variants `tipo`, `enfase`, `size` and `state`, with start and end icon. The acceptance of 01-10-2026 was completed on 02-10-2026: the solid hover moved to the hover tokens, which supersedes B4."
   }
 }
 ```
 
-# DSA-13 — `documentacao-figma-aceita`
+# DSA-13 — `figma-docs-accepted`
 
 Indiane accepted the documentation of the `nph-button` board (`1197:5449`) on
 01-10-2026, in the file `DS-IA-NEPHOS 5.0`, page `NPH — Button`. On 02-10-2026

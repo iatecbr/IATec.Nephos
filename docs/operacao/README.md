@@ -51,40 +51,40 @@ copying content.
 ```json
 {
   "id": "F4-T01",
-  "objetivo": "One sentence: what the task delivers.",
-  "fase": "F4",
-  "ordem_aprovada": 30,
-  "responsavel": "claude-codigo",
-  "estado": "bloqueada",
-  "peca": "nph-button",
-  "dependencias": ["DSA-01"],
+  "goal": "One sentence: what the task delivers.",
+  "phase": "F4",
+  "approved_order": 30,
+  "owner": "claude-code",
+  "state": "blocked",
+  "piece": "nph-button",
+  "dependencies": ["DSA-01"],
   "gates": [
     {
-      "id": "documentacao-figma-aceita",
-      "descricao": "The component documentation in Figma was accepted by Indiane.",
-      "comando": null,
-      "evidencia": null,
-      "resultado": "pendente",
-      "verificado_em": null,
-      "verificado_por": null
+      "id": "figma-docs-accepted",
+      "description": "The component documentation in Figma was accepted by Indiane.",
+      "command": null,
+      "evidence": null,
+      "result": "pending",
+      "verified_at": null,
+      "verified_by": null
     }
   ],
-  "bloqueios": [
+  "blockers": [
     {
       "id": "B1",
-      "o_que_trava": "What prevents moving on.",
-      "dono": "indiane",
-      "o_que_resolve": "What closes the blocker.",
-      "aberto_em": "2026-09-02"
+      "what_blocks": "What prevents moving on.",
+      "owner": "indiane",
+      "what_resolves": "What closes the blocker.",
+      "opened_at": "2026-09-02"
     }
   ],
-  "decisoes_pendentes": [],
-  "evidencias": [],
-  "referencias_de_decisao": ["docs/decisoes-tecnicas.md#p62"],
-  "origem_externa": null,
-  "revisao_git": { "branch": null, "commit": null, "pr": null },
-  "contexto": null,
-  "atualizado_em": "2026-09-02"
+  "pending_decisions": [],
+  "evidence": [],
+  "decision_refs": ["docs/decisoes-tecnicas.md#p62"],
+  "external_origin": null,
+  "git_review": { "branch": null, "commit": null, "pr": null },
+  "context": null,
+  "updated_at": "2026-09-02"
 }
 ```
 
@@ -94,22 +94,22 @@ ignored key.
 | Field | Type | Rule |
 |---|---|---|
 | `id` | string | matches the pattern and the file name |
-| `objetivo` | string | one sentence; what the task delivers |
-| `fase` | `F0` to `F7` | the phase in the phase plan |
-| `ordem_aprovada` | integer ≥ 1 | unique among the tasks that are not `concluida` |
-| `responsavel` | enum | `indiane`, `claude-codigo`, `claude-figma`, `copilot`, `elvys` |
-| `estado` | enum | the six below |
-| `peca` | string or `null` | when filled in, requires `fichas/<peca>.md` in `em-revisao` and `concluida` — see §2b |
-| `dependencias` | list of IDs | may be empty |
-| `gates` | list of objects | at least one, each with `id`, `descricao` and `resultado` |
-| `bloqueios` | list of objects | may be empty |
-| `decisoes_pendentes` | list of objects | may be empty |
-| `evidencias` | list of paths | from the repository root |
-| `referencias_de_decisao` | list of strings | may be empty |
-| `origem_externa` | object or `null` | see §4 |
-| `revisao_git` | object | `branch`, `commit`, `pr`; each a string or `null` |
-| `contexto` | path or `null` | `docs/operacao/contextos/<ID>.md` |
-| `atualizado_em` | `AAAA-MM-DD` | — |
+| `goal` | string | one sentence; what the task delivers |
+| `phase` | `F0` to `F7` | the phase in the phase plan |
+| `approved_order` | integer ≥ 1 | unique among the tasks that are not `done` |
+| `owner` | enum | `indiane`, `claude-code`, `claude-figma`, `copilot`, `elvys` |
+| `state` | enum | the six below |
+| `piece` | string or `null` | when filled in, requires `fichas/<piece>.md` in `in-review` and `done` — see §2b |
+| `dependencies` | list of IDs | may be empty |
+| `gates` | list of objects | at least one, each with `id`, `description` and `result` |
+| `blockers` | list of objects | may be empty |
+| `pending_decisions` | list of objects | may be empty |
+| `evidence` | list of paths | from the repository root |
+| `decision_refs` | list of strings | may be empty |
+| `external_origin` | object or `null` | see §4 |
+| `git_review` | object | `branch`, `commit`, `pr`; each a string or `null` |
+| `context` | path or `null` | `docs/operacao/contextos/<ID>.md` |
+| `updated_at` | `AAAA-MM-DD` | — |
 
 Below the block, four fixed sections — the same in every task:
 
@@ -133,27 +133,27 @@ The paths the execution opens — and only those.
 
 | State | Only valid when |
 |---|---|
-| `pronta` | **all** dependencies are `concluida` |
-| `em-andamento` | `contextos/<ID>.md` exists, with `worktree` and `sha_inicial` |
-| `aguardando-decisao` | there is at least one pending decision, with `pergunta` and `quem_decide` |
-| `bloqueada` | there is at least one blocker, with `dono` and `o_que_resolve` |
-| `em-revisao` | `revisao_git.pr` is filled in |
-| `concluida` | **every** gate is `passou`, with evidence that exists on disk, `verificado_em` and `verificado_por` — and **no** context file |
+| `ready` | **all** dependencies are `done` |
+| `in-progress` | `contextos/<ID>.md` exists, with `worktree` and `start_sha` |
+| `awaiting-decision` | there is at least one pending decision, with `question` and `decider` |
+| `blocked` | there is at least one blocker, with `owner` and `what_resolves` |
+| `in-review` | `git_review.pr` is filled in |
+| `done` | **every** gate is `passed`, with evidence that exists on disk, `verified_at` and `verified_by` — and **no** context file |
 
 A state that lies is an error, not an oversight. The verifier does not accept the
-word `concluida`: it opens the evidence file.
+word `done`: it opens the evidence file.
 
 ## 2b. The documentation lock: Figma → local code → spec → review
 
-A **component task** is one with `responsavel: "claude-codigo"` **and** `peca`
+A **component task** is one with `owner: "claude-code"` **and** `piece`
 filled in. For it, the order of the work is enforced by the machine, not by the
 goodwill of whoever executes it:
 
 | Moment | What must already exist | Who enforces it |
 |---|---|---|
-| Before any component code | the `documentacao-figma-aceita` gate with `resultado: "passou"` | `V30` |
-| While the task is `pronta` or `em-andamento` | nothing beyond that — **local code without a spec is allowed** | — |
-| Before `em-revisao` and `concluida` | the canonical spec in `fichas/<peca>.md` | `V28` |
+| Before any component code | the `figma-docs-accepted` gate with `result: "passed"` | `V30` |
+| While the task is `ready` or `in-progress` | nothing beyond that — **local code without a spec is allowed** | — |
+| Before `in-review` and `done` | the canonical spec in `fichas/<piece>.md` | `V28` |
 
 **Why the two sets of states differ.** The documentation in Figma is what stops
 the component from being born wrong, so it comes first. The spec is the
@@ -162,19 +162,19 @@ first commit would turn the contract into a form filled in blind. Local code
 without a spec is work in progress, not a violation; code without accepted
 documentation is invention.
 
-The task's own `origem_externa` stays governed by §4 and does **not** replace the
+The task's own `external_origin` stays governed by §4 and does **not** replace the
 gate: where the task came from is one thing, the piece's documentation having been
 accepted is another.
 
 ## 3. The order of the next activity
 
-**Only a task in `pronta` is eligible.** Since `pronta` already requires all
-dependencies to be `concluida`, eligibility and dependency are the same test.
+**Only a task in `ready` is eligible.** Since `ready` already requires all
+dependencies to be `done`, eligibility and dependency are the same test.
 
 Among the eligible ones, in this exact order:
 
-1. `ordem_aprovada` ascending — the approved order always comes first;
-2. `fase` ascending — `F0` before `F7`;
+1. `approved_order` ascending — the approved order always comes first;
+2. `phase` ascending — `F0` before `F7`;
 3. number of tasks that depend on it, descending — ties go to the one that unblocks more;
 4. `id` in alphabetical order — the final tie-breaker, which guarantees a total order.
 
@@ -190,26 +190,26 @@ exits with 1. A queue computed over an invalid tree is worse than no queue.
 ## 4. External origin and sanitization
 
 Figma, Slack, Fireflies, Jira, Linear, Notion and the like can originate
-information. None of them becomes a current source on its own. `origem_externa` is
+information. None of them becomes a current source on its own. `external_origin` is
 `null` or:
 
 ```json
 {
-  "classificacao": "interna-permitida",
-  "url_ou_id": "<URL or ID in the originating system>",
-  "data": "2026-08-17",
-  "autoria": "<who recorded it>",
-  "trecho": "<the minimal technical record, already sanitized>",
-  "decisao_convertida": "<the requirement or decision that came out of it>"
+  "classification": "internal-allowed",
+  "url_or_id": "<URL or ID in the originating system>",
+  "date": "2026-08-17",
+  "author": "<who recorded it>",
+  "excerpt": "<the minimal technical record, already sanitized>",
+  "converted_decision": "<the requirement or decision that came out of it>"
 }
 ```
 
 | Classification | What the verifier enforces |
 |---|---|
-| `publica` | requires `url_ou_id` and `data` |
-| `interna-permitida` | requires `url_ou_id`, `data`, `autoria` and `decisao_convertida` |
-| `interna-restrita` | **fails if there is a `trecho`**; the task must be `bloqueada` or `aguardando-decisao` |
-| `desconhecida` | same |
+| `public` | requires `url_or_id` and `date` |
+| `internal-allowed` | requires `url_or_id`, `date`, `author` and `converted_decision` |
+| `internal-restricted` | **fails if there is an `excerpt`**; the task must be `blocked` or `awaiting-decision` |
+| `unknown` | same |
 
 Restricted or unknown origin **is not copied**: it becomes a pending item for
 whoever decides to indicate the policy or the responsible person.
@@ -227,57 +227,61 @@ top and the output pasted below, unedited:
 
 ```json
 {
-  "tarefa": "<ID>",
+  "task": "<ID>",
   "gate": "<gate id>",
-  "data": "2026-09-02",
-  "responsavel": "claude-codigo",
-  "comando": "npm run test:operacao",
-  "codigo_de_saida": 0,
+  "date": "2026-09-02",
+  "owner": "claude-code",
+  "command": "npm run test:operacao",
+  "exit_code": 0,
   "sha": "<revision SHA>",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-The path declared in `evidencias[]` and in `gates[].evidencia` is **from the
-repository root** and must exist on disk; the file's `tarefa` field must match the
+Older evidence files keep the gate id of their time in the file name (for example
+`documentacao-figma-aceita-2026-10-01.md`): the keys and the gate ids moved to
+English in `DSA-15`, and the file names did not.
+
+The path declared in `evidence[]` and in `gates[].evidence` is **from the
+repository root** and must exist on disk; the file's `task` field must match the
 ID that references it. A pointer that points to nothing does not raise an error on
 its own — it just stops working. That is why the verifier opens the file.
 
 ### 5b. The evidence for the documentation gate
 
-The `documentacao-figma-aceita` gate has a format of its own, because what it
+The `figma-docs-accepted` gate has a format of its own, because what it
 proves is not the output of a command: it is a **human acceptance**. The evidence
 lives in `evidencias/<ID>/`, in the tree itself, and the verifier enforces the
 whole provenance (`V31`):
 
 ```json
 {
-  "tarefa": "<ID>",
-  "gate": "documentacao-figma-aceita",
-  "data": "2026-09-10",
-  "responsavel": "indiane",
-  "comando": null,
-  "codigo_de_saida": null,
+  "task": "<ID>",
+  "gate": "figma-docs-accepted",
+  "date": "2026-09-10",
+  "owner": "indiane",
+  "command": null,
+  "exit_code": null,
   "sha": null,
-  "origem_externa": {
-    "classificacao": "interna-permitida",
-    "url_ou_id": "<URL or ID of the frame in Figma>",
-    "data": "2026-09-10",
-    "autoria": "<who recorded it>",
-    "trecho": null,
-    "decisao_convertida": "<the accepted frame and the COMPONENT_SET that came out of it>"
+  "external_origin": {
+    "classification": "internal-allowed",
+    "url_or_id": "<URL or ID of the frame in Figma>",
+    "date": "2026-09-10",
+    "author": "<who recorded it>",
+    "excerpt": null,
+    "converted_decision": "<the accepted frame and the COMPONENT_SET that came out of it>"
   }
 }
 ```
 
 | What `V31` enforces | Why |
 |---|---|
-| `gate` is `documentacao-figma-aceita` | the evidence cannot serve another gate by mistake |
-| `responsavel` is `indiane` | accepting documentation is her decision, not the agent's |
-| `origem_externa.classificacao` is `interna-permitida` | Figma is internal, and permitted: see §4 |
-| `origem_externa.url_ou_id` names Figma | without the pointer, nobody can reopen the frame |
-| `origem_externa.data` in `AAAA-MM-DD`, and `autoria` | when, and by whom |
-| `origem_externa.decisao_convertida` names the **frame** and the **COMPONENT_SET** | it is the link between what was accepted and what will be built |
+| `gate` is `figma-docs-accepted` | the evidence cannot serve another gate by mistake |
+| `owner` is `indiane` | accepting documentation is her decision, not the agent's |
+| `external_origin.classification` is `internal-allowed` | Figma is internal, and permitted: see §4 |
+| `external_origin.url_or_id` names Figma | without the pointer, nobody can reopen the frame |
+| `external_origin.date` in `AAAA-MM-DD`, and `author` | when, and by whom |
+| `external_origin.converted_decision` names the **frame** and the **COMPONENT_SET** | it is the link between what was accepted and what will be built |
 | the file is in `evidencias/<ID>/` | the proof is local and versioned, not a link that vanishes |
 
 **Restricted Figma content is not copied here.** What goes in is the converted
@@ -291,18 +295,18 @@ pass**. It does not accumulate a conversation diary.
 
 ```json
 {
-  "tarefa": "<ID>",
+  "task": "<ID>",
   "worktree": "<worktree path>",
-  "sha_inicial": "<SHA>",
-  "sha_final": null
+  "start_sha": "<SHA>",
+  "end_sha": null
 }
 ```
 
 Below the block, eight fixed sections: goal of this pass, sources opened, changes,
 commands run, result, evidence, blocker and next command.
 
-**The context does not decide.** The keys `estado`, `fase`, `ordem_aprovada`,
-`prioridade`, `escopo` and `decisao` are forbidden in it — the only way to enforce
+**The context does not decide.** The keys `state`, `phase`, `approved_order`,
+`priority`, `scope` and `decision` are forbidden in it — the only way to enforce
 the rule is to forbid the key, because trusting whoever writes is not
 verification. The set of keys is closed at the four above.
 
@@ -325,12 +329,12 @@ stories or variables called `meta`.
 
 **The Metadata is generated at build** (P63). `node scripts/verificar-operacao.mjs
 --gerar-metadata` reads the YAML of each current spec and writes
-`src/shared/metadata/<peca>.json`. The file is never edited by hand: whoever
+`src/shared/metadata/<piece>.json`. The file is never edited by hand: whoever
 changes the spec generates it again in the same commit, and `V32` fails a copy that
 does not match the spec.
 
 **The spec is enforced at the end, not at the start.** `V28` only requires
-`fichas/<peca>.md` in `em-revisao` and `concluida`. Before that, the piece may have
+`fichas/<piece>.md` in `in-review` and `done`. Before that, the piece may have
 local code and no spec — see §2b.
 
 ## 8. The 32 verifier rules
@@ -341,42 +345,42 @@ Each error comes out with the code, the path and the message.
 and is unique · `V03` the first JSON block exists, parses, and no top-level key is
 outside the schema · `V04` required field present and not empty
 
-**State** · `V05` `estado` is one of the six · `V06` `concluida` with every gate
-`passou` and existing evidence · `V07` `bloqueada` with an open blocker, `dono` and
-`o_que_resolve` · `V08` `aguardando-decisao` with `pergunta` and `quem_decide` ·
-`V09` `pronta` with all dependencies `concluida` · `V10` `em-revisao` with
-`revisao_git.pr`
+**State** · `V05` `state` is one of the six · `V06` `done` with every gate
+`passed` and existing evidence · `V07` `blocked` with an open blocker, `owner` and
+`what_resolves` · `V08` `awaiting-decision` with `question` and `decider` ·
+`V09` `ready` with all dependencies `done` · `V10` `in-review` with
+`git_review.pr`
 
 **Dependencies** · `V11` every cited ID exists · `V12` no cycle ·
 `V13` no self-dependency
 
-**Gates and evidence** · `V14` gate with `id`, `descricao` and `resultado` ·
-`V15` `passou` gate with `evidencia`, `verificado_em` and `verificado_por` ·
-`V16` the evidence path exists on disk · `V17` the evidence's `tarefa` field
+**Gates and evidence** · `V14` gate with `id`, `description` and `result` ·
+`V15` `passed` gate with `evidence`, `verified_at` and `verified_by` ·
+`V16` the evidence path exists on disk · `V17` the evidence's `task` field
 matches the ID
 
 **External origin** · `V18` classification is one of the four · `V19` restricted or
-unknown without `trecho`, and the task in `bloqueada` or `aguardando-decisao` ·
+unknown without `excerpt`, and the task in `blocked` or `awaiting-decision` ·
 `V20` permitted with the four fields · `V21` secret scan
 
 **Context** · `V22` the context points to an existing task · `V23` closed set of
 keys, without the six forbidden ones · `V24` at most 60 lines ·
-`V25` `concluida` without context · `V26` `em-andamento` with context, `worktree` and
-`sha_inicial`
+`V25` `done` without context · `V26` `in-progress` with context, `worktree` and
+`start_sha`
 
 **Metadata contract** · `V27` no `meta.ts` or `metadata.ts` in
-`src/components/` · `V28` `peca` filled in requires `fichas/<peca>.md` **in
-`em-revisao` and `concluida`** · `V32` the Metadata in `src/shared/metadata/` is an
+`src/components/` · `V28` `piece` filled in requires `fichas/<piece>.md` **in
+`in-review` and `done`** · `V32` the Metadata in `src/shared/metadata/` is an
 exact copy of each current spec, there is no JSON without a current spec, and the
 spec fits the grammar of `scripts/spec-lib.mjs`
 
-**Queue** · `V29` `ordem_aprovada` integer ≥ 1, unique among those not `concluida`
+**Queue** · `V29` `approved_order` integer ≥ 1, unique among those not `done`
 
-**Documentation lock** · `V30` a component task in `pronta`, `em-andamento`,
-`em-revisao` or `concluida` requires the `documentacao-figma-aceita` gate with
-`resultado: "passou"` · `V31` the evidence for that gate proves provenance: matching
-`gate`, `responsavel` `indiane`, `origem_externa` `interna-permitida` with the
-Figma URL or ID, `data`, `autoria` and `decisao_convertida` naming the frame and the
+**Documentation lock** · `V30` a component task in `ready`, `in-progress`,
+`in-review` or `done` requires the `figma-docs-accepted` gate with
+`result: "passed"` · `V31` the evidence for that gate proves provenance: matching
+`gate`, `owner` `indiane`, `external_origin` `internal-allowed` with the
+Figma URL or ID, `date`, `author` and `converted_decision` naming the frame and the
 `COMPONENT_SET`, in `evidencias/<ID>/`
 
 ## 9. The examples

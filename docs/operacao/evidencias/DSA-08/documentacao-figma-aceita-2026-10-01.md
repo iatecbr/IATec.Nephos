@@ -1,24 +1,24 @@
 ```json
 {
-  "tarefa": "DSA-08",
-  "gate": "documentacao-figma-aceita",
-  "data": "2026-10-01",
-  "responsavel": "indiane",
-  "comando": null,
-  "codigo_de_saida": null,
+  "task": "DSA-08",
+  "gate": "figma-docs-accepted",
+  "date": "2026-10-01",
+  "owner": "indiane",
+  "command": null,
+  "exit_code": null,
   "sha": null,
-  "origem_externa": {
-    "classificacao": "interna-permitida",
-    "url_ou_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1237-5",
-    "data": "2026-10-01",
-    "autoria": "indiane",
-    "trecho": null,
-    "decisao_convertida": "The frame nph-tooltip (1237:5), on the page `NPH — Tooltip`, was accepted as the API and behavior specification of nph-tooltip. COMPONENT_SET: none; single COMPONENT 1237:3, no variants."
+  "external_origin": {
+    "classification": "internal-allowed",
+    "url_or_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1237-5",
+    "date": "2026-10-01",
+    "author": "indiane",
+    "excerpt": null,
+    "converted_decision": "The frame nph-tooltip (1237:5), on the page `NPH — Tooltip`, was accepted as the API and behavior specification of nph-tooltip. COMPONENT_SET: none; single COMPONENT 1237:3, no variants."
   }
 }
 ```
 
-# DSA-08 — `documentacao-figma-aceita`
+# DSA-08 — `figma-docs-accepted`
 
 Indiane accepted the `nph-tooltip` board (`1237:5`), with its documentation, on
 01-10-2026, in the file `DS-IA-NEPHOS 5.0`, page `NPH — Tooltip`. The Figma UX QA

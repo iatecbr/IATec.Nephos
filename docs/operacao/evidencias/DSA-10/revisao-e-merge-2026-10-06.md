@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "DSA-10",
-  "gate": "revisao-e-merge",
-  "data": "2026-10-06",
-  "responsavel": "claude-codigo",
-  "comando": "git merge-base --is-ancestor 6f82829af3439adf650c54bd5002d85bb3198534 origin/v/5.0.0",
-  "codigo_de_saida": 0,
+  "task": "DSA-10",
+  "gate": "review-and-merge",
+  "date": "2026-10-06",
+  "owner": "claude-code",
+  "command": "git merge-base --is-ancestor 6f82829af3439adf650c54bd5002d85bb3198534 origin/v/5.0.0",
+  "exit_code": 0,
   "sha": "d01da7b9e43d4e720c9222a44255152cd138b3dc",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# DSA-10 — `revisao-e-merge`
+# DSA-10 — `review-and-merge`
 
 PR #54 (`feat/lote-a-icon-spinner-separator-kbd`, Batch A) brought the `nph-separator` (component, CSS, tests, stories, the spec `fichas/nph-separator.md` with its Metadata and the technical decision P66). `maurocsjr` approved it on 2026-10-06T17:57:14Z and merged it on 06-10-2026, at commit `d01da7b`. The PR head, `6f82829`, is an ancestor of the default branch tip.
 

@@ -1,36 +1,36 @@
 ```json
 {
   "id": "DSA-50",
-  "objetivo": "Exemplo de validacao do verificador operacional.",
-  "fase": "F4",
-  "ordem_aprovada": 10,
-  "responsavel": "claude-codigo",
-  "estado": "em-andamento",
-  "peca": null,
-  "dependencias": [],
+  "goal": "Exemplo de validacao do verificador operacional.",
+  "phase": "F4",
+  "approved_order": 10,
+  "owner": "claude-code",
+  "state": "in-progress",
+  "piece": null,
+  "dependencies": [],
   "gates": [
     {
-      "id": "arquivo-existe",
-      "descricao": "O artefato previsto existe e esta versionado.",
-      "comando": "npm run test:operacao",
-      "evidencia": null,
-      "resultado": "pendente",
-      "verificado_em": null,
-      "verificado_por": null
+      "id": "file-exists",
+      "description": "O artefato previsto existe e esta versionado.",
+      "command": "npm run test:operacao",
+      "evidence": null,
+      "result": "pending",
+      "verified_at": null,
+      "verified_by": null
     }
   ],
-  "bloqueios": [],
-  "decisoes_pendentes": [],
-  "evidencias": [],
-  "referencias_de_decisao": [],
-  "origem_externa": null,
-  "revisao_git": {
+  "blockers": [],
+  "pending_decisions": [],
+  "evidence": [],
+  "decision_refs": [],
+  "external_origin": null,
+  "git_review": {
     "branch": null,
     "commit": null,
     "pr": null
   },
-  "contexto": "scripts/fixtures/operations/invalid/context-changes-state/contextos/DSA-50.md",
-  "atualizado_em": "2026-09-02"
+  "context": "scripts/fixtures/operations/invalid/context-changes-state/contextos/DSA-50.md",
+  "updated_at": "2026-09-02"
 }
 ```
 

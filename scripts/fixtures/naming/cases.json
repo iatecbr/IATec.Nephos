@@ -319,7 +319,7 @@
   {
     "label": "chave de dicionario",
     "files": {
-      ".storybook/i18n/en.json": "{ \"titulo\": \"Title\", \"sidebar\": { \"comece-aqui\": \"Start\" }, \"colorScheme\": { \"dark\": \"Modo escuro\" } }"
+      ".storybook/i18n/en.json": "{ \"titulo\": \"Title\", \"sidebar\": { \"start-here\": \"Start\" }, \"colorScheme\": { \"dark\": \"Modo escuro\" } }"
     },
     "catches": [
       "titulo"
@@ -353,7 +353,7 @@
     "files": {
       "src/a.ts": "import { html } from \"lit\"; const n = 1; console.warn(\"nao encontrado: \" + \"carregando\"); export const e = () => { throw new Error(`falhou ${\"escuro\"}`); }; export const t = html`<button aria-label=\"Fechar janela\">Salvar</button>`; export const m = `Arquivo ${n} nao encontrado`;",
       "src/a.test.ts": "describe(\"botao\", () => { it(\"mostra o rotulo\", () => {}); });",
-      "src/a.stories.ts": "export default { title: 'Componentes/X/Validação' }; export const Story = { name: 'Variação' };",
+      "src/a.stories.ts": "export default { title: 'Components/X/Validation' }; export const Story = { name: 'Variation' };",
       "scripts/fixtures/operations/valid/evidencias/DSA-01/verificador-2026-09-02.md": "x"
     },
     "catches": [],
@@ -460,7 +460,7 @@
   {
     "label": "args.name da story reprova",
     "files": {
-      "src/a.stories.ts": "export default { title: 'Componentes/X' }; export const A = { name: 'Variação', args: { name: 'botaoPrimario' }, argTypes: { size: { name: 'tamanho' } } };"
+      "src/a.stories.ts": "export default { title: 'Components/X' }; export const A = { name: 'Variation', args: { name: 'botaoPrimario' }, argTypes: { size: { name: 'tamanho' } } };"
     },
     "catches": [
       "botaoPrimario",
@@ -472,10 +472,10 @@
     ]
   },
   {
-    "label": "name e title da story passam",
+    "label": "English story name and title pass",
     "files": {
-      "src/b.stories.ts": "const meta = { title: 'Componentes/X/Validação' }; export default meta; export const Primeira = { name: 'Variação' };",
-      "src/c.stories.js": "export default { title: 'Comece aqui/Boas-vindas' };"
+      "src/b.stories.ts": "const meta = { title: 'Components/X/Validation' }; export default meta; export const Primeira = { name: 'Variation' };",
+      "src/c.stories.js": "export default { title: 'Start here/Welcome' };"
     },
     "catches": [
       "Primeira"
@@ -606,7 +606,7 @@
   {
     "label": "dicionario: chave fora de sidebar reprova",
     "files": {
-      ".storybook/i18n/pt-BR.json": "{ \"comece-aqui\": \"x\", \"sidebar\": { \"comece-aqui-boas-vindas\": \"Boas-vindas\" }, \"title\": \"Modo escuro\" }"
+      ".storybook/i18n/pt-BR.json": "{ \"comece-aqui\": \"x\", \"sidebar\": { \"start-here-welcome\": \"Boas-vindas\" }, \"title\": \"Modo escuro\" }"
     },
     "catches": [
       "comece-aqui"
@@ -616,9 +616,9 @@
     ]
   },
   {
-    "label": "dicionario: sidebar e valor passam",
+    "label": "dictionary: English sidebar and value pass",
     "files": {
-      ".storybook/i18n/es.json": "{ \"sidebar\": { \"comece-aqui\": \"Empieza\", \"componentes\": \"Componentes\" }, \"colorScheme\": { \"dark\": \"Modo oscuro\", \"toLight\": \"Cambiar\" } }"
+      ".storybook/i18n/es.json": "{ \"sidebar\": { \"start-here\": \"Empieza\", \"components\": \"Componentes\" }, \"colorScheme\": { \"dark\": \"Modo oscuro\", \"toLight\": \"Cambiar\" } }"
     },
     "catches": [],
     "clean": true
@@ -788,12 +788,29 @@
     ]
   },
   {
-    "label": "story com satisfies e storyName passa",
+    "label": "story with satisfies and storyName: title and name belong to the story",
     "files": {
       "src/a.stories.ts": "const meta = { title: 'Componentes/Botão' } satisfies Meta; export default meta; export const Story = { name: 'Variação' } satisfies StoryObj; Story.storyName = 'Tamanho';"
     },
-    "catches": [],
-    "clean": true
+    "catches": [
+      {
+        "name": "Componentes/Botão",
+        "role": "story-title"
+      },
+      {
+        "name": "Variação",
+        "role": "story-name"
+      },
+      {
+        "name": "Tamanho",
+        "role": "story-name"
+      }
+    ],
+    "exactly": [
+      "src/a.stories.ts:1 Componentes/Botão (story-title)",
+      "src/a.stories.ts:1 Tamanho (story-name)",
+      "src/a.stories.ts:1 Variação (story-name)"
+    ]
   },
   {
     "label": "tag, evento, propriedade e valor de atributo no html",
@@ -1812,10 +1829,9 @@
     ]
   },
   {
-    "label": "texto corrido com hifen e chaves passa",
+    "label": "running text with a hyphen and braces passes outside a story",
     "files": {
       "src/a.ts": "export const a = \"Seja bem-vindo, {nome}\";",
-      "src/a.stories.ts": "export default { title: 'X' }; export const A = { args: { label: 'Seja bem-vindo, {nome}' } };",
       "src/b.ts": "import { css, html } from \"lit\"; export const s = css`/* Usado no modo-escuro, seja bem-vindo */ :host {}`; export const t = html`<p>Seja bem-vindo {x}</p><!-- nota { -->`;",
       ".storybook/g.html": "<p>Seja bem-vindo {{ nome }}</p>"
     },
@@ -2905,7 +2921,9 @@
       "stories/a.stories.ts": "export default { title: 'Componentes/Botão' } as any;"
     },
     "catches": [],
-    "exactly": []
+    "exactly": [
+      "stories/a.stories.ts:1 Componentes/Botão (story-title)"
+    ]
   },
   {
     "label": "mutante da revisao: st5 sem parenteses",
@@ -2913,7 +2931,9 @@
       "stories/a.stories.ts": "export default ({ title: 'Componentes/Botão' });"
     },
     "catches": [],
-    "exactly": []
+    "exactly": [
+      "stories/a.stories.ts:1 Componentes/Botão (story-title)"
+    ]
   },
   {
     "label": "mutante da revisao: st7 nivel 1 qualquer",
@@ -2942,7 +2962,9 @@
       "stories/a.stories.ts": "export default { title: 'Componentes/Botão' };"
     },
     "catches": [],
-    "exactly": []
+    "exactly": [
+      "stories/a.stories.ts:1 Componentes/Botão (story-title)"
+    ]
   },
   {
     "label": "mutante da revisao: f9 EVIDENCE sem data",
@@ -3372,12 +3394,15 @@
       "src/a.stories.ts": "export default { 'title': 'Componentes/Botão' }; export const A = { \"name\": 'Variação' };"
     },
     "catches": [],
-    "clean": true
+    "exactly": [
+      "src/a.stories.ts:1 Componentes/Botão (story-title)",
+      "src/a.stories.ts:1 Variação (story-name)"
+    ]
   },
   {
     "label": "sidebar com chave entre aspas",
     "files": {
-      ".storybook/i18n/en.json": "{ \"sidebar\": { \"comece-aqui\": \"Start\" }, \"x\": { \"y\": 1 } }"
+      ".storybook/i18n/en.json": "{ \"sidebar\": { \"start-here\": \"Start\" }, \"x\": { \"y\": 1 } }"
     },
     "catches": [],
     "clean": true
@@ -3657,7 +3682,7 @@
   {
     "label": "mutacao: sidebar em varias linhas",
     "files": {
-      ".storybook/i18n/en.json": "{\n  \"sidebar\": {\n    \"comece-aqui\": \"Start\"\n  }\n}"
+      ".storybook/i18n/en.json": "{\n  \"sidebar\": {\n    \"start-here\": \"Start\"\n  }\n}"
     },
     "catches": [],
     "clean": true
@@ -4729,6 +4754,7 @@
     },
     "catches": [],
     "exactly": [
+      "stories/a.stories.ts:1 Botao (story-name)",
       "stories/a.stories.ts:1 Rotulo (literal)"
     ]
   },
@@ -5968,6 +5994,136 @@
       "src/a.ts:2 rodape (style)",
       "src/a.ts:3 rodape (style)"
     ]
+  },
+  {
+    "label": "story: Portuguese title fails",
+    "files": {
+      "src/a.stories.ts": "export default { title: 'Componentes/nph-x/Validação' };"
+    },
+    "catches": [
+      {
+        "name": "Componentes/nph-x/Validação",
+        "role": "story-title"
+      }
+    ],
+    "exactly": [
+      "src/a.stories.ts:1 Componentes/nph-x/Validação (story-title)"
+    ]
+  },
+  {
+    "label": "story: Portuguese name fails, including with a space",
+    "files": {
+      "stories/a.stories.js": "export default { title: 'Start here/Welcome' };\nexport const Sizes = { name: 'Tamanhos' };\nexport const Color = { name: 'Herança de cor' };"
+    },
+    "catches": [
+      {
+        "name": "Tamanhos",
+        "role": "story-name"
+      },
+      {
+        "name": "Herança de cor",
+        "role": "story-name"
+      }
+    ],
+    "exactly": [
+      "stories/a.stories.js:2 Tamanhos (story-name)",
+      "stories/a.stories.js:3 Herança de cor (story-name)"
+    ]
+  },
+  {
+    "label": "story: English title, name and export pass",
+    "files": {
+      "src/a.stories.ts": "const meta = { title: 'Components/nph-x/Validation' }; export default meta; export const ColorInheritance = { name: 'Color inheritance' }; ColorInheritance.storyName = 'Combination on macOS';"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "dictionary: Portuguese sidebar key fails",
+    "files": {
+      ".storybook/i18n/pt-BR.json": "{\n  \"sidebar\": {\n    \"components\": \"Componentes\",\n    \"componentes-nph-x-validação--tamanhos\": \"Tamanhos\"\n  }\n}"
+    },
+    "catches": [
+      {
+        "name": "componentes-nph-x-validação--tamanhos",
+        "role": "sidebar-key",
+        "line": 4
+      }
+    ],
+    "exactly": [
+      ".storybook/i18n/pt-BR.json:4 componentes-nph-x-validação--tamanhos (sidebar-key)"
+    ]
+  },
+  {
+    "label": "story: Portuguese text in html fails",
+    "files": {
+      "src/a.stories.ts": "import { html } from 'lit';\nexport default { title: 'Components/X' };\nexport const A = {\n  render: () => html`<p>Clique no rótulo</p>\n    <nph-label text=\"Nome completo\"></nph-label>\n    <nph-button label=\"Salvar\" icon-start=\"plus\"></nph-button> <span>Opções</span>`,\n};"
+    },
+    "catches": [
+      {
+        "name": "Clique no rótulo",
+        "role": "story-text"
+      },
+      {
+        "name": "Nome completo",
+        "role": "story-text"
+      },
+      {
+        "name": "Salvar",
+        "role": "story-text"
+      }
+    ],
+    "exactly": [
+      "src/a.stories.ts:4 Clique no rótulo (story-text)",
+      "src/a.stories.ts:5 Nome completo (story-text)",
+      "src/a.stories.ts:6 Opções (story-text)",
+      "src/a.stories.ts:6 Salvar (story-text)"
+    ]
+  },
+  {
+    "label": "story: Portuguese literal with a space fails",
+    "files": {
+      "src/a.stories.ts": "export default { title: 'Components/X' };\nexport const A = { render: () => frame('Explica o que o campo pede.') };\nexport const B = { args: { label: 'Seja bem-vindo, {nome}' } };"
+    },
+    "catches": [
+      {
+        "name": "Explica o que o campo pede.",
+        "role": "story-text"
+      },
+      {
+        "name": "Seja bem-vindo, {nome}",
+        "role": "story-text"
+      }
+    ],
+    "exactly": [
+      "src/a.stories.ts:2 Explica o que o campo pede. (story-text)",
+      "src/a.stories.ts:3 Seja bem-vindo, {nome} (story-text)"
+    ]
+  },
+  {
+    "label": "outside a story, Portuguese text stays out",
+    "files": {
+      "src/a.ts": "import { html } from 'lit';\nexport const a = html`<p>Clique no rótulo</p><nph-label text=\"Nome completo\"></nph-label>`;\nexport const b = 'Explica o que o campo pede.';",
+      "src/shared/docs/page.ts": "import { html } from 'lit';\nexport const c = (t) => html`<span title=\"Fonte da regra\">${t}</span>`;"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "story: dictionary text, style and technical value pass",
+    "files": {
+      "src/a.stories.ts": "import { html } from 'lit';\nimport { translations } from '../.storybook/i18n/index.js';\nfunction t(context) { return translations(context.globals.locale).x; }\nconst row = 'display: flex; align-items: center; gap: var(--nph-space-inline);';\nexport default { title: 'Components/nph-x/Validation' };\nexport const OneLine = {\n  name: 'One line',\n  render: (_args, context) => html`<div style=${row}>\n    <p>${t(context).caption}</p>\n    <nph-tooltip open text=${t(context).oneLine}></nph-tooltip>\n    <nph-icon name=\"circle-info\" size=\"lg\"></nph-icon> size=\"lg\" icon/size-lg\n  </div>`,\n};\nexport const Table = { render: () => table(['name=\"check\" size=\"xl\"', 'color/muted-foreground']) };"
+    },
+    "catches": [],
+    "clean": true
+  },
+  {
+    "label": "story: comment and message are not story text",
+    "files": {
+      "src/a.stories.ts": "import { html } from 'lit';\n/* Texto em portugues no comentario. */\nexport default { title: 'Components/X' };\nexport const A = {\n  render: () => {\n    console.error('Entrada inválida no exemplo');\n    return html`<!-- O termo da tabela nao quebra linha --><div style=\"overflow-x: auto;\"></div>`;\n  },\n};"
+    },
+    "catches": [],
+    "clean": true
   },
   {
     "label": "prose: Portuguese comment in code fails",

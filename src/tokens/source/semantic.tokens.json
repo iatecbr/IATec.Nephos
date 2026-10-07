@@ -2,23 +2,23 @@
   "$description": "Camada 2 - semanticos. E daqui que componente e agente consomem. Regras de uso, acessibilidade e anti-padroes ficam no design.md, que nao duplica valores. Os 11 estilos de efeito - elevation/* e focus-ring/* - sao tokens `shadow`: cada camada liga geometria a core/shadow-* ou a focus/ring-width, e cor a um semantico, exatamente como o estilo faz no Figma. O anel de erro chama-se focus-ring/invalid, e nao focus-ring/error: o nome antigo colidia no CSS gerado com a variavel de cor focus/ring-error.",
   "$extensions": {
     "com.iatec.nephos": {
-      "camada": "semantic",
-      "contagemEsperada": 278,
-      "origem": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04)",
+      "layer": "semantic",
+      "expectedCount": 278,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04)",
       "modeSet": {
-        "nome": "color-scheme",
-        "modos": [
-          "claro",
-          "escuro"
+        "name": "color-scheme",
+        "modes": [
+          "light",
+          "dark"
         ],
-        "padrao": "claro",
-        "seletor": "[data-nph-color-scheme=\"{modo}\"]",
-        "valorPublico": {
-          "claro": "light",
-          "escuro": "dark"
+        "default": "light",
+        "selector": "[data-nph-color-scheme=\"{mode}\"]",
+        "publicValue": {
+          "light": "light",
+          "dark": "dark"
         }
       },
-      "nota": "Token sem bloco `modes` e invariante entre modos: alias e valor final equivalentes em claro e escuro. Invariante NAO quer dizer fixo - um alias para theme/* continua trocando com data-nph-brand."
+      "note": "Token sem bloco `modes` e invariante entre modos: alias e valor final equivalentes em claro e escuro. Invariante NAO quer dizer fixo - um alias para theme/* continua trocando com data-nph-brand."
     }
   },
   "border": {
@@ -34,8 +34,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.white}",
-            "escuro": "{core.neutral.950}"
+            "light": "{core.base.white}",
+            "dark": "{core.neutral.950}"
           }
         }
       }
@@ -46,8 +46,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.comercial.600}",
-            "escuro": "{core.comercial.500}"
+            "light": "{core.comercial.600}",
+            "dark": "{core.comercial.500}"
           }
         }
       }
@@ -58,8 +58,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.comercial.500}",
-            "escuro": "{core.comercial.400}"
+            "light": "{core.comercial.500}",
+            "dark": "{core.comercial.400}"
           }
         }
       }
@@ -78,8 +78,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.educacao.500}",
-            "escuro": "{core.educacao.400}"
+            "light": "{core.educacao.500}",
+            "dark": "{core.educacao.400}"
           }
         }
       }
@@ -90,8 +90,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.white}",
-            "escuro": "{core.neutral.950}"
+            "light": "{core.base.white}",
+            "dark": "{core.neutral.950}"
           }
         }
       }
@@ -102,8 +102,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.financeiro.500}",
-            "escuro": "{core.financeiro.400}"
+            "light": "{core.financeiro.500}",
+            "dark": "{core.financeiro.400}"
           }
         }
       }
@@ -114,8 +114,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.white}",
-            "escuro": "{core.neutral.950}"
+            "light": "{core.base.white}",
+            "dark": "{core.neutral.950}"
           }
         }
       }
@@ -126,8 +126,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.gerencial.500}",
-            "escuro": "{core.gerencial.400}"
+            "light": "{core.gerencial.500}",
+            "dark": "{core.gerencial.400}"
           }
         }
       }
@@ -138,8 +138,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.white}",
-            "escuro": "{core.neutral.950}"
+            "light": "{core.base.white}",
+            "dark": "{core.neutral.950}"
           }
         }
       }
@@ -150,8 +150,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.igrejas.500}",
-            "escuro": "{core.igrejas.400}"
+            "light": "{core.igrejas.500}",
+            "dark": "{core.igrejas.400}"
           }
         }
       }
@@ -162,8 +162,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.white}",
-            "escuro": "{core.neutral.950}"
+            "light": "{core.base.white}",
+            "dark": "{core.neutral.950}"
           }
         }
       }
@@ -174,8 +174,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.rh.500}",
-            "escuro": "{core.rh.400}"
+            "light": "{core.rh.500}",
+            "dark": "{core.rh.400}"
           }
         }
       }
@@ -186,8 +186,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.white}",
-            "escuro": "{core.neutral.950}"
+            "light": "{core.base.white}",
+            "dark": "{core.neutral.950}"
           }
         }
       }
@@ -198,8 +198,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.sistemas.600}",
-            "escuro": "{core.sistemas.500}"
+            "light": "{core.sistemas.600}",
+            "dark": "{core.sistemas.500}"
           }
         }
       }
@@ -210,8 +210,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.sistemas.500}",
-            "escuro": "{core.sistemas.400}"
+            "light": "{core.sistemas.500}",
+            "dark": "{core.sistemas.400}"
           }
         }
       }
@@ -224,8 +224,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.sistemas.700}",
-            "escuro": "{core.sistemas.200}"
+            "light": "{core.sistemas.700}",
+            "dark": "{core.sistemas.200}"
           }
         }
       }
@@ -236,8 +236,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.educacao.700}",
-            "escuro": "{core.educacao.300}"
+            "light": "{core.educacao.700}",
+            "dark": "{core.educacao.300}"
           }
         }
       }
@@ -248,8 +248,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.financeiro.400}",
-            "escuro": "{core.financeiro.200}"
+            "light": "{core.financeiro.400}",
+            "dark": "{core.financeiro.200}"
           }
         }
       }
@@ -260,8 +260,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.igrejas.500}",
-            "escuro": "{core.igrejas.300}"
+            "light": "{core.igrejas.500}",
+            "dark": "{core.igrejas.300}"
           }
         }
       }
@@ -276,8 +276,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.help.500}",
-            "escuro": "{core.help.300}"
+            "light": "{core.help.500}",
+            "dark": "{core.help.300}"
           }
         }
       }
@@ -288,8 +288,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.sistemas.200}",
-            "escuro": "{core.sistemas.800}"
+            "light": "{core.sistemas.200}",
+            "dark": "{core.sistemas.800}"
           }
         }
       }
@@ -300,8 +300,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.educacao.200}",
-            "escuro": "{core.educacao.800}"
+            "light": "{core.educacao.200}",
+            "dark": "{core.educacao.800}"
           }
         }
       }
@@ -312,8 +312,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.financeiro.200}",
-            "escuro": "{core.financeiro.800}"
+            "light": "{core.financeiro.200}",
+            "dark": "{core.financeiro.800}"
           }
         }
       }
@@ -324,8 +324,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.igrejas.200}",
-            "escuro": "{core.igrejas.800}"
+            "light": "{core.igrejas.200}",
+            "dark": "{core.igrejas.800}"
           }
         }
       }
@@ -336,8 +336,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.info.200}",
-            "escuro": "{core.info.800}"
+            "light": "{core.info.200}",
+            "dark": "{core.info.800}"
           }
         }
       }
@@ -348,8 +348,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.help.200}",
-            "escuro": "{core.help.800}"
+            "light": "{core.help.200}",
+            "dark": "{core.help.800}"
           }
         }
       }
@@ -360,8 +360,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.400}",
-            "escuro": "{core.surface.400}"
+            "light": "{core.neutral.400}",
+            "dark": "{core.surface.400}"
           }
         }
       }
@@ -372,8 +372,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.700}",
-            "escuro": "{core.danger.300}"
+            "light": "{core.danger.700}",
+            "dark": "{core.danger.300}"
           }
         }
       }
@@ -388,8 +388,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.200}",
-            "escuro": "{core.danger.700}"
+            "light": "{core.danger.200}",
+            "dark": "{core.danger.700}"
           }
         }
       }
@@ -400,8 +400,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.100}",
-            "escuro": "{core.surface.600}"
+            "light": "{core.neutral.100}",
+            "dark": "{core.surface.600}"
           }
         }
       }
@@ -412,8 +412,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.sistemas.200}",
-            "escuro": "{core.sistemas.700}"
+            "light": "{core.sistemas.200}",
+            "dark": "{core.sistemas.700}"
           }
         }
       }
@@ -428,8 +428,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.sistemas.700}",
-            "escuro": "{core.sistemas.300}"
+            "light": "{core.sistemas.700}",
+            "dark": "{core.sistemas.300}"
           }
         }
       }
@@ -440,8 +440,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.100}",
-            "escuro": "{core.surface.700}"
+            "light": "{core.neutral.100}",
+            "dark": "{core.surface.700}"
           }
         }
       }
@@ -452,8 +452,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.100}",
-            "escuro": "{core.surface.700}"
+            "light": "{core.neutral.100}",
+            "dark": "{core.surface.700}"
           }
         }
       }
@@ -464,8 +464,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.500}",
-            "escuro": "{core.neutral.400}"
+            "light": "{core.neutral.500}",
+            "dark": "{core.neutral.400}"
           }
         }
       }
@@ -476,8 +476,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.700}",
-            "escuro": "{core.neutral.200}"
+            "light": "{core.neutral.700}",
+            "dark": "{core.neutral.200}"
           }
         }
       }
@@ -488,8 +488,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.sistemas.100}",
-            "escuro": "{core.sistemas.900}"
+            "light": "{core.sistemas.100}",
+            "dark": "{core.sistemas.900}"
           }
         }
       }
@@ -500,8 +500,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.sistemas.300}",
-            "escuro": "{core.sistemas.700}"
+            "light": "{core.sistemas.300}",
+            "dark": "{core.sistemas.700}"
           }
         }
       }
@@ -516,8 +516,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.sistemas.700}",
-            "escuro": "{core.sistemas.300}"
+            "light": "{core.sistemas.700}",
+            "dark": "{core.sistemas.300}"
           }
         }
       }
@@ -528,8 +528,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.sistemas.900}",
-            "escuro": "{core.sistemas.100}"
+            "light": "{core.sistemas.900}",
+            "dark": "{core.sistemas.100}"
           }
         }
       }
@@ -540,8 +540,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.200}",
-            "escuro": "{core.surface.600}"
+            "light": "{core.neutral.200}",
+            "dark": "{core.surface.600}"
           }
         }
       }
@@ -554,8 +554,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.950}",
-            "escuro": "{core.neutral.100}"
+            "light": "{core.neutral.950}",
+            "dark": "{core.neutral.100}"
           }
         }
       }
@@ -566,8 +566,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.100}",
-            "escuro": "{core.surface.600}"
+            "light": "{core.neutral.100}",
+            "dark": "{core.surface.600}"
           }
         }
       }
@@ -578,8 +578,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.white}",
-            "escuro": "{core.surface.900}"
+            "light": "{core.base.white}",
+            "dark": "{core.surface.900}"
           }
         }
       }
@@ -590,8 +590,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.200}",
-            "escuro": "{core.surface.400}"
+            "light": "{core.neutral.200}",
+            "dark": "{core.surface.400}"
           }
         }
       }
@@ -602,8 +602,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.950}",
-            "escuro": "{core.neutral.100}"
+            "light": "{core.neutral.950}",
+            "dark": "{core.neutral.100}"
           }
         }
       }
@@ -614,8 +614,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.white}",
-            "escuro": "{core.surface.800}"
+            "light": "{core.base.white}",
+            "dark": "{core.surface.800}"
           }
         }
       }
@@ -626,8 +626,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.600}",
-            "escuro": "{core.danger.400}"
+            "light": "{core.danger.600}",
+            "dark": "{core.danger.400}"
           }
         }
       }
@@ -638,8 +638,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.white}",
-            "escuro": "{core.neutral.950}"
+            "light": "{core.base.white}",
+            "dark": "{core.neutral.950}"
           }
         }
       }
@@ -650,8 +650,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.950}",
-            "escuro": "{core.neutral.100}"
+            "light": "{core.neutral.950}",
+            "dark": "{core.neutral.100}"
           }
         }
       }
@@ -662,8 +662,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.white}",
-            "escuro": "{core.surface.600}"
+            "light": "{core.base.white}",
+            "dark": "{core.surface.600}"
           }
         }
       }
@@ -674,8 +674,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.black}",
-            "escuro": "{core.neutral.100}"
+            "light": "{core.base.black}",
+            "dark": "{core.neutral.100}"
           }
         }
       }
@@ -686,8 +686,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.400}",
-            "escuro": "{core.surface.300}"
+            "light": "{core.neutral.400}",
+            "dark": "{core.surface.300}"
           }
         }
       }
@@ -698,8 +698,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.600}",
-            "escuro": "{core.surface.200}"
+            "light": "{core.neutral.600}",
+            "dark": "{core.surface.200}"
           }
         }
       }
@@ -710,8 +710,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.100}",
-            "escuro": "{core.surface.700}"
+            "light": "{core.neutral.100}",
+            "dark": "{core.surface.700}"
           }
         }
       }
@@ -722,8 +722,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.950}",
-            "escuro": "{core.neutral.100}"
+            "light": "{core.neutral.950}",
+            "dark": "{core.neutral.100}"
           }
         }
       }
@@ -734,8 +734,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.white}",
-            "escuro": "{core.surface.700}"
+            "light": "{core.base.white}",
+            "dark": "{core.surface.700}"
           }
         }
       }
@@ -746,8 +746,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{theme.brand-on-600}",
-            "escuro": "{theme.brand-on-400}"
+            "light": "{theme.brand-on-600}",
+            "dark": "{theme.brand-on-400}"
           }
         }
       }
@@ -758,8 +758,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{theme.brand-600}",
-            "escuro": "{theme.brand-400}"
+            "light": "{theme.brand-600}",
+            "dark": "{theme.brand-400}"
           }
         }
       }
@@ -770,8 +770,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.surface.900}",
-            "escuro": "{core.surface.100}"
+            "light": "{core.surface.900}",
+            "dark": "{core.surface.100}"
           }
         }
       }
@@ -782,8 +782,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.surface.200}",
-            "escuro": "{core.surface.600}"
+            "light": "{core.surface.200}",
+            "dark": "{core.surface.600}"
           }
         }
       }
@@ -794,8 +794,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.surface.300}",
-            "escuro": "{core.surface.700}"
+            "light": "{core.surface.300}",
+            "dark": "{core.surface.700}"
           }
         }
       }
@@ -806,8 +806,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{theme.brand-50}",
-            "escuro": "{theme.brand-900}"
+            "light": "{theme.brand-50}",
+            "dark": "{theme.brand-900}"
           }
         }
       }
@@ -818,8 +818,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{theme.brand-600}",
-            "escuro": "{theme.brand-100}"
+            "light": "{theme.brand-600}",
+            "dark": "{theme.brand-100}"
           }
         }
       }
@@ -830,8 +830,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{theme.brand-100}",
-            "escuro": "{theme.brand-800}"
+            "light": "{theme.brand-100}",
+            "dark": "{theme.brand-800}"
           }
         }
       }
@@ -842,8 +842,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{theme.brand-700}",
-            "escuro": "{theme.brand-100}"
+            "light": "{theme.brand-700}",
+            "dark": "{theme.brand-100}"
           }
         }
       }
@@ -854,8 +854,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{theme.brand-600}",
-            "escuro": "{theme.brand-300}"
+            "light": "{theme.brand-600}",
+            "dark": "{theme.brand-300}"
           }
         }
       }
@@ -866,8 +866,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{theme.brand-700}",
-            "escuro": "{theme.brand-400-hover}"
+            "light": "{theme.brand-700}",
+            "dark": "{theme.brand-400-hover}"
           }
         }
       }
@@ -878,8 +878,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.50}",
-            "escuro": "{core.danger.900}"
+            "light": "{core.danger.50}",
+            "dark": "{core.danger.900}"
           }
         }
       }
@@ -890,8 +890,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.600}",
-            "escuro": "{core.danger.100}"
+            "light": "{core.danger.600}",
+            "dark": "{core.danger.100}"
           }
         }
       }
@@ -902,8 +902,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.100}",
-            "escuro": "{core.danger.800}"
+            "light": "{core.danger.100}",
+            "dark": "{core.danger.800}"
           }
         }
       }
@@ -914,8 +914,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.700}",
-            "escuro": "{core.danger.100}"
+            "light": "{core.danger.700}",
+            "dark": "{core.danger.100}"
           }
         }
       }
@@ -926,8 +926,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.700}",
-            "escuro": "{core.danger.300}"
+            "light": "{core.danger.700}",
+            "dark": "{core.danger.300}"
           }
         }
       }
@@ -938,8 +938,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.surface.200}",
-            "escuro": "{core.surface.600}"
+            "light": "{core.surface.200}",
+            "dark": "{core.surface.600}"
           }
         }
       }
@@ -950,8 +950,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.surface.50}",
-            "escuro": "{core.surface.700}"
+            "light": "{core.surface.50}",
+            "dark": "{core.surface.700}"
           }
         }
       }
@@ -962,8 +962,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.surface.100}",
-            "escuro": "{core.surface.600}"
+            "light": "{core.surface.100}",
+            "dark": "{core.surface.600}"
           }
         }
       }
@@ -974,8 +974,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.500}",
-            "escuro": "{core.surface.200}"
+            "light": "{core.neutral.500}",
+            "dark": "{core.surface.200}"
           }
         }
       }
@@ -986,8 +986,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.50}",
-            "escuro": "{core.surface.700}"
+            "light": "{core.neutral.50}",
+            "dark": "{core.surface.700}"
           }
         }
       }
@@ -998,8 +998,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.600}",
-            "escuro": "{core.neutral.700}"
+            "light": "{core.neutral.600}",
+            "dark": "{core.neutral.700}"
           }
         }
       }
@@ -1010,8 +1010,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.base.white}",
-            "escuro": "{core.neutral.100}"
+            "light": "{core.base.white}",
+            "dark": "{core.neutral.100}"
           }
         }
       }
@@ -1189,8 +1189,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.200}",
-            "escuro": "{core.danger.400}"
+            "light": "{core.danger.200}",
+            "dark": "{core.danger.400}"
           }
         }
       }
@@ -1225,8 +1225,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{theme.brand-700}",
-            "escuro": "{theme.brand-400}"
+            "light": "{theme.brand-700}",
+            "dark": "{theme.brand-400}"
           }
         }
       }
@@ -1237,8 +1237,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{theme.brand-focus}",
-            "escuro": "{theme.brand-300}"
+            "light": "{theme.brand-focus}",
+            "dark": "{theme.brand-300}"
           }
         }
       }
@@ -1482,8 +1482,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.scrim.light}",
-            "escuro": "{core.scrim.dark}"
+            "light": "{core.scrim.light}",
+            "dark": "{core.scrim.dark}"
           }
         }
       }
@@ -1530,8 +1530,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.alpha.black-5}",
-            "escuro": "{core.alpha.black-0}"
+            "light": "{core.alpha.black-5}",
+            "dark": "{core.alpha.black-0}"
           }
         }
       }
@@ -1542,8 +1542,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.alpha.black-25}",
-            "escuro": "{core.alpha.black-0}"
+            "light": "{core.alpha.black-25}",
+            "dark": "{core.alpha.black-0}"
           }
         }
       }
@@ -1554,8 +1554,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.alpha.black-10}",
-            "escuro": "{core.alpha.black-0}"
+            "light": "{core.alpha.black-10}",
+            "dark": "{core.alpha.black-0}"
           }
         }
       }
@@ -1568,8 +1568,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.900}",
-            "escuro": "{core.neutral.100}"
+            "light": "{core.neutral.900}",
+            "dark": "{core.neutral.100}"
           }
         }
       }
@@ -1580,8 +1580,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.100}",
-            "escuro": "{core.surface.700}"
+            "light": "{core.neutral.100}",
+            "dark": "{core.surface.700}"
           }
         }
       }
@@ -1592,8 +1592,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.50}",
-            "escuro": "{core.surface.950}"
+            "light": "{core.neutral.50}",
+            "dark": "{core.surface.950}"
           }
         }
       }
@@ -1604,8 +1604,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.200}",
-            "escuro": "{core.surface.400}"
+            "light": "{core.neutral.200}",
+            "dark": "{core.surface.400}"
           }
         }
       }
@@ -1616,8 +1616,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.700}",
-            "escuro": "{core.neutral.300}"
+            "light": "{core.neutral.700}",
+            "dark": "{core.neutral.300}"
           }
         }
       }
@@ -1636,8 +1636,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.neutral.300}",
-            "escuro": "{core.neutral.200}"
+            "light": "{core.neutral.300}",
+            "dark": "{core.neutral.200}"
           }
         }
       }
@@ -1690,8 +1690,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.200}",
-            "escuro": "{core.danger.400}"
+            "light": "{core.danger.200}",
+            "dark": "{core.danger.400}"
           }
         }
       }
@@ -1702,8 +1702,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.800}",
-            "escuro": "{core.danger.100}"
+            "light": "{core.danger.800}",
+            "dark": "{core.danger.100}"
           }
         }
       }
@@ -1714,8 +1714,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.50}",
-            "escuro": "{core.danger.900}"
+            "light": "{core.danger.50}",
+            "dark": "{core.danger.900}"
           }
         }
       }
@@ -1726,8 +1726,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.danger.600}",
-            "escuro": "{core.danger.400}"
+            "light": "{core.danger.600}",
+            "dark": "{core.danger.400}"
           }
         }
       }
@@ -1738,8 +1738,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.help.200}",
-            "escuro": "{core.help.400}"
+            "light": "{core.help.200}",
+            "dark": "{core.help.400}"
           }
         }
       }
@@ -1750,8 +1750,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.help.800}",
-            "escuro": "{core.help.100}"
+            "light": "{core.help.800}",
+            "dark": "{core.help.100}"
           }
         }
       }
@@ -1762,8 +1762,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.help.50}",
-            "escuro": "{core.help.900}"
+            "light": "{core.help.50}",
+            "dark": "{core.help.900}"
           }
         }
       }
@@ -1774,8 +1774,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.help.600}",
-            "escuro": "{core.help.400}"
+            "light": "{core.help.600}",
+            "dark": "{core.help.400}"
           }
         }
       }
@@ -1786,8 +1786,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.info.200}",
-            "escuro": "{core.info.400}"
+            "light": "{core.info.200}",
+            "dark": "{core.info.400}"
           }
         }
       }
@@ -1798,8 +1798,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.info.800}",
-            "escuro": "{core.info.100}"
+            "light": "{core.info.800}",
+            "dark": "{core.info.100}"
           }
         }
       }
@@ -1810,8 +1810,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.info.50}",
-            "escuro": "{core.info.900}"
+            "light": "{core.info.50}",
+            "dark": "{core.info.900}"
           }
         }
       }
@@ -1822,8 +1822,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.info.600}",
-            "escuro": "{core.info.400}"
+            "light": "{core.info.600}",
+            "dark": "{core.info.400}"
           }
         }
       }
@@ -1834,8 +1834,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.success.200}",
-            "escuro": "{core.success.400}"
+            "light": "{core.success.200}",
+            "dark": "{core.success.400}"
           }
         }
       }
@@ -1846,8 +1846,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.success.800}",
-            "escuro": "{core.success.100}"
+            "light": "{core.success.800}",
+            "dark": "{core.success.100}"
           }
         }
       }
@@ -1858,8 +1858,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.success.50}",
-            "escuro": "{core.success.900}"
+            "light": "{core.success.50}",
+            "dark": "{core.success.900}"
           }
         }
       }
@@ -1870,8 +1870,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.success.600}",
-            "escuro": "{core.success.400}"
+            "light": "{core.success.600}",
+            "dark": "{core.success.400}"
           }
         }
       }
@@ -1882,8 +1882,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.warn.200}",
-            "escuro": "{core.warn.400}"
+            "light": "{core.warn.200}",
+            "dark": "{core.warn.400}"
           }
         }
       }
@@ -1894,8 +1894,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.warn.800}",
-            "escuro": "{core.warn.100}"
+            "light": "{core.warn.800}",
+            "dark": "{core.warn.100}"
           }
         }
       }
@@ -1906,8 +1906,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.warn.50}",
-            "escuro": "{core.warn.900}"
+            "light": "{core.warn.50}",
+            "dark": "{core.warn.900}"
           }
         }
       }
@@ -1918,8 +1918,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.warn.600}",
-            "escuro": "{core.warn.400}"
+            "light": "{core.warn.600}",
+            "dark": "{core.warn.400}"
           }
         }
       }
@@ -1934,8 +1934,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.info.700}",
-            "escuro": "{core.info.300}"
+            "light": "{core.info.700}",
+            "dark": "{core.info.300}"
           }
         }
       }
@@ -1946,8 +1946,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.warn.700}",
-            "escuro": "{core.warn.300}"
+            "light": "{core.warn.700}",
+            "dark": "{core.warn.300}"
           }
         }
       }
@@ -1958,8 +1958,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.help.700}",
-            "escuro": "{core.help.300}"
+            "light": "{core.help.700}",
+            "dark": "{core.help.300}"
           }
         }
       }
@@ -1970,8 +1970,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.success.700}",
-            "escuro": "{core.success.300}"
+            "light": "{core.success.700}",
+            "dark": "{core.success.300}"
           }
         }
       }
@@ -1982,8 +1982,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.info.100}",
-            "escuro": "{core.info.800}"
+            "light": "{core.info.100}",
+            "dark": "{core.info.800}"
           }
         }
       }
@@ -1994,8 +1994,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.warn.100}",
-            "escuro": "{core.warn.800}"
+            "light": "{core.warn.100}",
+            "dark": "{core.warn.800}"
           }
         }
       }
@@ -2006,8 +2006,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.help.100}",
-            "escuro": "{core.help.800}"
+            "light": "{core.help.100}",
+            "dark": "{core.help.800}"
           }
         }
       }
@@ -2018,8 +2018,8 @@
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "claro": "{core.success.100}",
-            "escuro": "{core.success.800}"
+            "light": "{core.success.100}",
+            "dark": "{core.success.800}"
           }
         }
       }

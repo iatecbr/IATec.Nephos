@@ -31,13 +31,22 @@
  * A file without an extension (LICENSE, script with #!) also fails. A hidden file counts by its
  * extension (.config.yaml fails); a hidden file without an extension (.gitkeep) is checked by name only.
  *
- * Left out by P64: the text of the .storybook/i18n/ dictionaries and the sidebar keys
- * (story IDs), the title and name of the story itself and any other literal text
- * (a literal with a space that is not a class list, selector, style or markup).
+ * Storybook (P64, amendment of 06/10/2026), because the ID and the permalink come from them:
+ *   - title, name and .storyName of the story itself are read word by word, as an
+ *     identifier (roles story-title and story-name);
+ *   - in stories (*.stories.*), the text shown on the page also fails in Portuguese
+ *     (role story-text): the text between the tags of html``/svg``, the text
+ *     attributes (label, text, title, aria-label...) and the literal with a space.
+ *     All visible text comes from .storybook/i18n/, through the story, with t(context).
+ *
+ * Left out by P64: the text (the values) of the .storybook/i18n/ dictionaries and,
+ * outside the stories, any other literal text (a literal with a space that is not a
+ * class list, selector, style or markup).
  *
  * Left out because it is contract: the content of .json (token keys, P20; generated
  * Metadata, P63). The exception is the .storybook/i18n/*.json dictionaries: their
- * keys are technical names and stay under the rule.
+ * keys are technical names and stay under the rule, including the sidebar keys, which
+ * are story and group IDs (role sidebar-key).
  *
  * Documentation phase, by group: LANGUAGE_MODES says 'warn' (prints the Portuguese it finds and
  * keeps the exit code) or 'enforce' (fails); scripts/language-lib.mjs lists the files and groups.
@@ -449,15 +458,22 @@ function styleProperty(start) {
 }
 
 /**
- * title and name of the story ITSELF are left out (Storybook text): a direct property of the
- * `export default` object, of a top-level exported constant (the story) or of the
- * constant that `export default` exports (meta). `args.name`, and name of any other
- * object, is a property value and stays under the rule.
+ * title and name of the story ITSELF: a direct property of the `export default` object, of a
+ * top-level exported constant (the story) or of the constant that `export default` exports
+ * (meta). The Storybook ID and permalink come from them: they are English identifiers (P64,
+ * amendment of 06/10/2026), and the displayed label lives in the `sidebar` subtree of the
+ * dictionary. Returns 'title' or 'name', or null. `args.name`, and name of any other object,
+ * is a property value and follows the literal rule.
  */
-function isStoryTitleOrName(node) {
+function storyTitleOrName(node) {
   const p = node.parent;
-  if (!(p && ts.isPropertyAssignment(p) && p.initializer === node)) return false;
-  if (!['title', 'name'].includes(p.name.getText().replace(/['"]/g, ''))) return false;
+  if (!(p && ts.isPropertyAssignment(p) && p.initializer === node)) return null;
+  const key = p.name.getText().replace(/['"]/g, '');
+  return ['title', 'name'].includes(key) && isStoryObject(p) ? key : null;
+}
+
+/** The property `p` belongs to the `export default` object, to the meta or to an exported story. */
+function isStoryObject(p) {
   let holder = p.parent;
   while (holder.parent && (ts.isAsExpression(holder.parent) || ts.isSatisfiesExpression(holder.parent) || ts.isParenthesizedExpression(holder.parent))) {
     holder = holder.parent;
@@ -476,6 +492,45 @@ function insideProperty(node, names) {
     if (ts.isPropertyAssignment(p) && names.includes(p.name.getText().replace(/['"]/g, ''))) return true;
   }
   return false;
+}
+
+/**
+ * List of CSS declarations without a block ('display: flex; gap: var(--x);'), like the frame a
+ * story keeps in a constant and passes to style=${...}: every property is known (lib.dom,
+ * vendor or --custom). It is style, not visible text.
+ */
+function isDeclarationList(raw) {
+  const text = stripComments(raw).trim();
+  const decls = text.split(';').map((d) => d.trim()).filter(Boolean);
+  return decls.length > 0 && decls.every((d) => {
+    const m = /^(-?-?[a-zA-Z][\w-]*)\s*:/.exec(d);
+    return Boolean(m && (m[1].startsWith('-') || CSS_PROPERTIES.has(m[1])));
+  });
+}
+
+/**
+ * Text shown on the page of a story, with the index where it starts. In markup: the text
+ * between the tags and the value of the text attributes (TEXT_ATTRS), without comments, <style>
+ * and <script>; a tag that is neither a known element nor a custom element is text ('<name>').
+ * Outside markup: the whole literal. The ${...} marker splits pieces, like a space.
+ */
+function visibleTextPieces(rawText, markup) {
+  if (!markup) return [{ value: rawText, index: 0 }];
+  const text = stripComments(rawText).replace(/<(style|script)\b[^>]*>[\s\S]*?(?:<\/\1>|$)/gi, blank);
+  const pieces = [];
+  const push = (value, index) => { if (/[A-Za-z\u00C0-\u00FF]/.test(value)) pieces.push({ value, index }); };
+  let last = 0;
+  for (const m of text.matchAll(/<\/?([a-zA-Z][\w-]*)((?:[^<>"']|"[^"]*"|'[^']*')*)>?/g)) {
+    const tag = m[1];
+    if (!tag.includes('-') && !HTML_ELEMENTS.has(tag.toLowerCase())) continue;
+    push(text.slice(last, m.index), last);
+    for (const a of m[2].matchAll(/([@?.]?)([a-zA-Z_][\w:.-]*)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=`<>]+))/g)) {
+      if (!a[1] && TEXT_ATTRS.has(a[2].toLowerCase())) push(a[3] ?? a[4] ?? a[5], m.index);
+    }
+    last = m.index + m[0].length;
+  }
+  push(text.slice(last), last);
+  return pieces;
 }
 
 function scan(root = '.') {
@@ -552,7 +607,7 @@ function scan(root = '.') {
             ((ts.isPropertyAssignment(p) || ts.isPropertySignature(p) || ts.isPropertyDeclaration(p) ||
               ts.isMethodDeclaration(p) || ts.isMethodSignature(p)) && p.name === node) ||
             (ts.isBindingElement(p) && p.propertyName === node));
-          if (!(isDictionary && insideProperty(node, ['sidebar']))) add(file, line(node), node.text, isProperty ? 'property' : 'identifier');
+          add(file, line(node), node.text, isProperty ? 'property' : 'identifier');
         } else if (ts.isRegularExpressionLiteral(node)) {
           /* Regex literal: the body, without the slashes and the flags. */
           if (!isInsideMessage(node)) add(file, line(node), node.text.slice(1, node.text.lastIndexOf('/')), 'regex');
@@ -566,12 +621,16 @@ function scan(root = '.') {
           const p = node.parent;
           const isKey = p && (ts.isPropertyAssignment(p) || ts.isPropertySignature(p)) && p.name === node;
           const isStoryName = p && ts.isBinaryExpression(p) && p.right === node && /\.storyName$/.test(p.left.getText());
-          const skip =
-            isInsideMessage(node, text) ||
-            (isDictionary && (!isKey || insideProperty(node, ['sidebar']))) ||
-            (isStory && (isStoryTitleOrName(node) || isStoryName));
+          /* title, name and .storyName of the story: an identifier, read word by word. */
+          const storyLabel = isStory ? (isStoryName ? 'name' : storyTitleOrName(node)) : null;
+          const skip = isInsideMessage(node, text) || (isDictionary && !isKey);
           if (!isDictionary && isInsideMessage(node, text)) addProse(file, line(node), text.replace(/\u0001/g, ' '), 'message');
-          if (!skip) {
+          if (!skip && storyLabel) {
+            add(file, line(node), text, `story-${storyLabel}`);
+          } else if (!skip && isDictionary && insideProperty(node, ['sidebar'])) {
+            /* Sidebar key: the ID of the story or of the group, which comes from the English title and name. */
+            add(file, line(node), text, 'sidebar-key');
+          } else if (!skip) {
             const cssName = styleProperty(node);
             if (cssName) for (const t of technicalTokens(`${cssName}: ${text};`, { css: true })) add(file, line(node), t, 'style');
             /* A selector argument is a CSS selector: reads it as a block. */
@@ -587,6 +646,15 @@ function scan(root = '.') {
             else if (!cssName) {
               const markup = tag === 'html' || tag === 'svg' || /<[a-zA-Z][\w-]*\s[^<>]*=|<\/|\/>/.test(text);
               for (const t of technicalTokens(text, { css, markup })) add(file, line(node), t, 'template');
+              /* In a story, text shown on the page comes from the dictionary: running text in Portuguese
+               * fails (P64, amendment of 06/10/2026). A literal without a space is already read above; in
+               * markup, the text between the tags and the text attributes count even without a space. */
+              if (isStory && !css && !isSelectorArgument(node) && (markup || !isDeclarationList(text))) {
+                for (const piece of visibleTextPieces(text, markup)) {
+                  const at = line(node) + text.slice(0, piece.index).split('\n').length - 1;
+                  add(file, at, piece.value.replace(/\s+/g, ' ').trim(), 'story-text');
+                }
+              }
             }
           }
         }
@@ -601,8 +669,8 @@ function scan(root = '.') {
     }
 
     /* Language dictionary: JSON is a valid JS expression. With the prefix on the same line, the
-     * line does not change and the scan is the same as for code: a key outside sidebar fails,
-     * a value and sidebar pass. The name does not end in .ts, so the AST comes out as JS. */
+     * line does not change and the scan is the same as for code: every key counts, including the
+     * sidebar keys; a value passes. The name does not end in .ts, so the AST comes out as JS. */
     for (const file of files.filter((f) => DICTIONARIES.has(f))) {
       scanCode(file, `export default ${fs.readFileSync(file, 'utf8')}`);
     }
@@ -792,6 +860,15 @@ function selfTest() {
   return { failures, total: cases.length + structural };
 }
 
+/** What to do with each story or sidebar finding: the displayed text lives in the dictionary. */
+const I18N_FILES = '.storybook/i18n/';
+const STORY_HINTS = {
+  'story-title': `; a story title is an English identifier, and the displayed label goes into the sidebar key of ${I18N_FILES}`,
+  'story-name': `; a story name is an English identifier, and the displayed label goes into the sidebar key of ${I18N_FILES}`,
+  'sidebar-key': '; the sidebar key is the ID of the story or of the group, which comes from the title and the story export, in English',
+  'story-text': `; visible text of a story comes from the dictionary: move it to ${I18N_FILES} and read it with t(context)`,
+};
+
 function main() {
   const { failures: selfFailures, total } = selfTest();
   for (const f of selfFailures) console.log(`SELF-TEST FAILED ${f}`);
@@ -821,7 +898,7 @@ function main() {
   for (const f of failures) {
     console.log(f.role === 'extension'
       ? `FAILED ${f.file}: extension without a naming rule (${f.name}); teach scripts/test-naming.mjs to read the type first`
-      : `FAILED ${f.file}:${f.line} ${f.name} (${f.role})`);
+      : `FAILED ${f.file}:${f.line} ${f.name} (${f.role})${STORY_HINTS[f.role] ?? ''}`);
   }
   for (const u of unused) console.log(`UNUSED EXCEPTION ${u}`);
   for (const f of docFailures) console.log(`FAILED ${f.file}:${f.line} ${f.name} (doc, ${f.group})`);

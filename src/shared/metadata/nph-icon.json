@@ -1,141 +1,141 @@
 {
-  "peca": "nph-icon",
-  "nivel": "componente",
-  "status": "vigente",
-  "titulo": "nph-icon",
-  "tipo": "component spec",
-  "criado": "2026-08-31",
-  "atualizado": "2026-09-14",
-  "resolve": "Provides an icon from the Nephos core with consistent size, family and accessibility, without introducing color or artwork outside the approved collection.",
-  "use_quando": [
+  "piece": "nph-icon",
+  "level": "component",
+  "status": "active",
+  "title": "nph-icon",
+  "type": "component spec",
+  "created": "2026-08-31",
+  "updated": "2026-09-14",
+  "solves": "Provides an icon from the Nephos core with consistent size, family and accessibility, without introducing color or artwork outside the approved collection.",
+  "use_when": [
     "A control or content needs an icon that exists in the core.",
     "The icon reinforces a label, state or direction without replacing the textual information."
   ],
-  "nao_use_quando": [
+  "do_not_use_when": [
     "The action has a consequence or is domain-specific — use a text label alongside.",
     "The icon you need does not exist in the core: record the gap and ask."
   ],
   "api": {
     "name": {
-      "tipo": "string",
-      "obrigatoria": true,
-      "padrao": "nenhum",
-      "reflete": false,
-      "restricao": "In kebab-case, and limited to the core names. A name outside the core does not render and emits an error only in development."
+      "type": "string",
+      "required": true,
+      "default": "none",
+      "reflects": false,
+      "constraint": "In kebab-case, and limited to the core names. A name outside the core does not render and emits an error only in development."
     },
     "variant": {
-      "tipo": "enum",
-      "valores": [
+      "type": "enum",
+      "values": [
         "regular",
         "solid"
       ],
-      "obrigatoria": false,
-      "padrao": "regular",
-      "reflete": false,
-      "restricao": "`regular` is the default; `solid` is available for every name in the collection. I7 authorized `circle-info` in `solid` because the regular outline disappears next to text, especially in light mode. Light, Thin and Sharp do not exist in the contract."
+      "required": false,
+      "default": "regular",
+      "reflects": false,
+      "constraint": "`regular` is the default; `solid` is available for every name in the collection. I7 authorized `circle-info` in `solid` because the regular outline disappears next to text, especially in light mode. Light, Thin and Sharp do not exist in the contract."
     },
     "size": {
-      "tipo": "enum",
-      "valores": [
+      "type": "enum",
+      "values": [
         "sm",
         "md",
         "lg"
       ],
-      "obrigatoria": true,
-      "padrao": "nenhum",
-      "reflete": true,
-      "restricao": "Reflects as an attribute because the internal CSS selects the box by it. It does not accept a free value and has no default — when absent, the icon does not render."
+      "required": true,
+      "default": "none",
+      "reflects": true,
+      "constraint": "Reflects as an attribute because the internal CSS selects the box by it. It does not accept a free value and has no default — when absent, the icon does not render."
     },
     "label": {
-      "tipo": "string",
-      "obrigatoria": false,
-      "padrao": "vazio",
-      "reflete": false,
-      "restricao": "Absent, empty or whitespace-only makes the icon decorative and applies `aria-hidden`. A non-empty value becomes the accessible name."
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "Absent, empty or whitespace-only makes the icon decorative and applies `aria-hidden`. A non-empty value becomes the accessible name."
     },
-    "slots": "nenhum",
-    "eventos": "nenhum",
-    "cor": "It is not a property. It inherits `currentColor` from the context — there is no icon color token."
+    "slots": "none",
+    "events": "none",
+    "color": "It is not a property. It inherits `currentColor` from the context — there is no icon color token."
   },
-  "variantes": {
+  "variants": {
     "variant": {
-      "eixo": "aparencia",
-      "escolha_quando": "regular by default; solid when the context asks for greater visual presence",
-      "nao_combine_com": [
+      "axis": "appearance",
+      "choose_when": "regular by default; solid when the context asks for greater visual presence",
+      "do_not_combine_with": [
         "light, thin, sharp"
       ]
     },
     "size": {
-      "eixo": "tamanho",
-      "escolha_quando": "sm inside a control and cell; md in menu and tab; lg when the icon carries meaning on its own",
-      "nao_combine_com": [
+      "axis": "size",
+      "choose_when": "sm inside a control and cell; md in menu and tab; lg when the icon carries meaning on its own",
+      "do_not_combine_with": [
         "free size value"
       ]
     }
   },
-  "estados": {
-    "nao_se_aplica": {
-      "token": "nao_se_aplica",
-      "muda_para_a_pessoa": "The state belongs to the control that consumes the icon, not to the icon"
+  "states": {
+    "not_applicable": {
+      "token": "not_applicable",
+      "changes_for_user": "The state belongs to the control that consumes the icon, not to the icon"
     }
   },
-  "regras_de_negocio": [],
-  "erros_de_dominio": [],
+  "business_rules": [],
+  "domain_errors": [],
   "tokens": {
-    "tamanho": [
+    "size": [
       "icon/size-sm",
       "icon/size-md",
       "icon/size-lg"
     ],
-    "cor": "currentColor"
+    "color": "currentColor"
   },
-  "dicas_para_ia": [
+  "ai_hints": [
     "An action with a consequence never takes an icon alone — add text.",
     "When in doubt about size, `size=sm`.",
     "Do not look for a color property: it does not exist, the icon inherits from the context.",
     "An icon next to text is decorative: leave `label` empty.",
     "An icon alone in a control: the `label` goes on the control, not on the icon."
   ],
-  "acessibilidade": {
-    "semantica": "No role of its own. Decorative by default",
-    "nome_acessivel": "Comes from `label`; empty marks it as decorative and applies aria-hidden",
-    "teclado": [],
-    "foco": "It never receives focus. Focus belongs to the enclosing control",
-    "contraste": "Meaningful icon: 3:1 against the background (WCAG 1.4.11)",
-    "alternativa_a_cor": "An icon is never the only signal of a state"
+  "accessibility": {
+    "semantics": "No role of its own. Decorative by default",
+    "accessible_name": "Comes from `label`; empty marks it as decorative and applies aria-hidden",
+    "keyboard": [],
+    "focus": "It never receives focus. Focus belongs to the enclosing control",
+    "contrast": "Meaningful icon: 3:1 against the background (WCAG 1.4.11)",
+    "color_alternative": "An icon is never the only signal of a state"
   },
-  "combinacoes_invalidas": [
+  "invalid_combinations": [
     "`size` absent — there is no default",
     "Duotone outside structural navigation"
   ],
-  "relacoes": {
-    "combina_com": [
+  "relations": {
+    "combines_with": [
       "nph-button",
       "nph-spinner"
     ],
-    "pai": [
+    "parents": [
       "nph-button",
       "the controls that contain it"
     ],
-    "filho": [],
-    "complementa_bloco": [
-      "pendente"
+    "children": [],
+    "complements_block": [
+      "pending"
     ],
-    "aparece_em": [
-      "pendente"
+    "appears_in": [
+      "pending"
     ]
   },
-  "anti_padroes": [
+  "anti_patterns": [
     "An icon alone in an action with a consequence",
     "Painting the icon with a color other than the context color",
     "Using a size outside the three tokens",
     "Simulating Duotone with artwork or an empty variant"
   ],
-  "fontes": {
+  "sources": {
     "design_md": "design.md, in the repository",
-    "decisao": "P21, adopted by Indiane on 26-08-2026; I7, 08-09-2026",
-    "testes": "src/components/nph-icon/nph-icon.test.ts",
-    "evidencia_de_uso": "branch v/3.0.0, PR #6, merge 437dd60",
+    "decision": "P21, adopted by Indiane on 26-08-2026; I7, 08-09-2026",
+    "tests": "src/components/nph-icon/nph-icon.test.ts",
+    "usage_evidence": "branch v/3.0.0, PR #6, merge 437dd60",
     "storybook": "src/components/nph-icon/nph-icon.stories.ts",
     "figma": "page NPH — Icon (346:2)"
   },

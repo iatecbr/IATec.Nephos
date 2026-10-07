@@ -13,7 +13,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import './nph-kbd';
 
 const meta: Meta = {
-  title: 'Componentes/nph-kbd/Validação',
+  title: 'Components/nph-kbd/Validation',
 };
 
 export default meta;
@@ -24,7 +24,7 @@ const row = 'display: flex; align-items: center; gap: var(--nph-space-inline-tig
 
 /** One key per piece, through the text property. */
 export const SingleKey: Story = {
-  name: 'Tecla',
+  name: 'Key',
   render: () => html`<div style=${row}>
     <nph-kbd text="K"></nph-kbd>
     <nph-kbd text="Esc"></nph-kbd>
@@ -35,7 +35,7 @@ export const SingleKey: Story = {
 
 /** The combination joins one piece per key, side by side. */
 export const Combination: Story = {
-  name: 'Combinação',
+  name: 'Combination',
   render: () => html`<div style=${row}>
     <nph-kbd text="Ctrl"></nph-kbd>
     <nph-kbd text="Shift"></nph-kbd>
@@ -49,7 +49,7 @@ export const Combination: Story = {
  * which picks the set by the user's system; the piece does not detect the system.
  */
 export const MacCombination: Story = {
-  name: 'Combinação no macOS',
+  name: 'Combination on macOS',
   render: () => html`<div style=${row}>
     <nph-kbd text="⌘"></nph-kbd>
     <nph-kbd text="⇧"></nph-kbd>

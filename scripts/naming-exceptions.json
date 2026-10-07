@@ -14,30 +14,10 @@
     ]
   },
   {
-    "file": "scripts/build-tokens.mjs",
-    "class": "token-schema",
-    "names": [
-      "camada",
-      "contagemEsperada",
-      "modos",
-      "padrao",
-      "seletor",
-      "valorPublico",
-      "{modo}"
-    ]
-  },
-  {
     "file": "scripts/language-lib.mjs",
     "class": "contract-path",
     "names": [
       "fichas"
-    ]
-  },
-  {
-    "file": "scripts/spec-lib.mjs",
-    "class": "spec-schema",
-    "names": [
-      "vigente"
     ]
   },
   {
@@ -52,8 +32,6 @@
     "file": "scripts/test-invariance.mjs",
     "class": "token-schema",
     "names": [
-      "claro",
-      "escuro",
       "sistemas"
     ]
   },
@@ -91,104 +69,6 @@
     ]
   },
   {
-    "file": "scripts/verificar-operacao.mjs",
-    "class": "operation-schema",
-    "names": [
-      "aguardando-decisao",
-      "atualizado_em",
-      "autoria",
-      "bloqueada",
-      "bloqueios",
-      "classificacao",
-      "claude-codigo",
-      "concluida",
-      "contexto",
-      "decisao",
-      "decisao_convertida",
-      "decisoes_pendentes",
-      "dependencias",
-      "desconhecida",
-      "descricao",
-      "documentacao-figma-aceita",
-      "dono",
-      "em-andamento",
-      "em-revisao",
-      "estado",
-      "evidencia",
-      "falhou",
-      "fase",
-      "interna-permitida",
-      "interna-restrita",
-      "o_que_trava",
-      "objetivo",
-      "ordem_aprovada",
-      "origem_externa",
-      "passou",
-      "peca",
-      "pendente",
-      "pergunta",
-      "prioridade",
-      "pronta",
-      "publica",
-      "quem_decide",
-      "referencias_de_decisao",
-      "responsavel",
-      "resultado",
-      "revisao_git",
-      "sha_inicial",
-      "tarefa",
-      "trecho",
-      "verificado_em",
-      "verificado_por"
-    ]
-  },
-  {
-    "file": "scripts/verificar-operacao.mjs",
-    "class": "output-text",
-    "names": [
-      "aguarda-decisao"
-    ]
-  },
-  {
-    "file": "src/components/nph-icon/nph-icon.docs.stories.ts",
-    "class": "anchor",
-    "names": [
-      "acessibilidade",
-      "anti-padroes",
-      "entrada-invalida",
-      "nucleo",
-      "quando-usar",
-      "referencias",
-      "tamanho",
-      "cor"
-    ]
-  },
-  {
-    "file": "src/components/nph-icon/nph-icon.docs.stories.ts",
-    "class": "story-export",
-    "names": [
-      "Documentacao"
-    ]
-  },
-  {
-    "file": "src/components/nph-icon/nph-icon.docs.test.ts",
-    "class": "story-export",
-    "names": [
-      "Documentacao"
-    ]
-  },
-  {
-    "file": "src/components/nph-icon/nph-icon.stories.ts",
-    "class": "story-export",
-    "names": [
-      "Acessibilidade",
-      "EntradaInvalida",
-      "HerancaDeCor",
-      "Tamanhos",
-      "Variantes"
-    ]
-  },
-  {
     "file": "src/components/nph-icon/nph-icon.test.ts",
     "class": "design-md",
     "names": [
@@ -203,16 +83,6 @@
     "names": [
       "Buscar",
       "Concluido"
-    ]
-  },
-  {
-    "file": "src/components/nph-label/nph-label.stories.ts",
-    "class": "story-export",
-    "names": [
-      "AssociacaoComOControle",
-      "Matriz",
-      "ModoClaroEEscuro",
-      "OQueORotuloNaoFaz"
     ]
   },
   {
@@ -239,20 +109,6 @@
       "Usar",
       "dois",
       "três"
-    ]
-  },
-  {
-    "file": "stories/foundations.stories.js",
-    "class": "story-export",
-    "names": [
-      "VisaoGeral"
-    ]
-  },
-  {
-    "file": "stories/welcome.stories.js",
-    "class": "story-export",
-    "names": [
-      "BoasVindas"
     ]
   }
 ]

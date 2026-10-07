@@ -1,42 +1,42 @@
 {
-  "peca": "nph-example",
-  "nivel": "componente",
-  "status": "vigente",
-  "criado": "2026-09-28",
-  "resolve": "Primeira linha do bloco e a segunda linha.",
+  "piece": "nph-example",
+  "level": "component",
+  "status": "active",
+  "created": "2026-09-28",
+  "solves": "Primeira linha do bloco e a segunda linha.",
   "api": {
-    "texto": {
-      "tipo": "string",
-      "obrigatoria": true,
-      "padrao": "vazio",
-      "reflete": false
+    "text": {
+      "type": "string",
+      "required": true,
+      "default": "empty",
+      "reflects": false
     },
-    "cor": "color/foreground",
-    "slots": "nenhum"
+    "color": "color/foreground",
+    "slots": "none"
   },
-  "variantes": {
+  "variants": {
     "variant": {
-      "nao_combine_com": [
+      "do_not_combine_with": [
         "light, thin, sharp"
       ]
     }
   },
-  "relacoes": {
-    "pai": [
+  "relations": {
+    "parents": [
       "nph-button",
       "os controles que o contêm"
     ],
-    "filho": []
+    "children": []
   },
   "tokens": {
-    "cor": "color/foreground"
+    "color": "color/foreground"
   },
-  "fontes": {
-    "evidencia_de_uso": "branch v/3.0.0, PR #6, merge 437dd60",
-    "contagem": 17,
-    "decisao": "nulo"
+  "sources": {
+    "usage_evidence": "branch v/3.0.0, PR #6, merge 437dd60",
+    "count": 17,
+    "decision": "unset"
   },
-  "use_quando": [
+  "use_when": [
     "Quando precisa: com dois-pontos.",
     "texto sem aspas"
   ]

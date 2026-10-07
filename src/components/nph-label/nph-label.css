@@ -50,3 +50,83 @@ nph-label .nph-label__required {
   margin-inline-start: var(--nph-space-inline-tight);
   color: var(--nph-status-error);
 }
+
+/*
+ * The information trigger (L8 to L11; P62.6). Everything from here on only
+ * applies when the trigger exists: the host gets `data-nph-info`, and without
+ * it the root stays `inline-block`, as it always was.
+ *
+ * The root aligns text and trigger to the center, at `space/inline-tight`,
+ * like the set `374:6`. `position: relative` anchors the bubble, which sits
+ * below the label without pushing the form: the bubble does not block the
+ * page (`use` of `color/tooltip`).
+ */
+nph-label[data-nph-info] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nph-space-inline-tight);
+  position: relative;
+}
+
+/*
+ * 24 x 24 target: the `icon/size-sm` artwork with `space/inline-tight` around
+ * it (WCAG 2.5.8). Since the element lives in the light DOM, the button resets
+ * whatever an application stylesheet could have set on `button`.
+ */
+nph-label .nph-label__info {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: content-box;
+  inline-size: var(--nph-icon-size-sm);
+  block-size: var(--nph-icon-size-sm);
+  margin: 0;
+  padding: var(--nph-space-inline-tight);
+  border: 0;
+  background: transparent;
+  color: var(--nph-color-muted-foreground);
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+/*
+ * Keyboard focus: a `border/width` border in `focus/border`, flush, and a
+ * `focus/ring-width` halo in `focus/halo` outside it — the same drawing as
+ * `nph-button` (L9). Both sit outside the box and do not change the size.
+ */
+nph-label .nph-label__info:focus-visible::before,
+nph-label .nph-label__info:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+  border-style: solid;
+}
+
+nph-label .nph-label__info:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border-width: var(--nph-border-width);
+  border-color: var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+
+nph-label .nph-label__info:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border-width: var(--nph-focus-ring-width);
+  border-color: var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}
+
+/*
+ * The bubble: below the label, aligned to the start, at `space/inline` (row
+ * `aberto` of frame `1194:1482`). The width is that of the text itself, up to
+ * the `nph-tooltip` maximum, not that of the label.
+ */
+nph-label .nph-label__tooltip {
+  position: absolute;
+  inset-block-start: calc(100% + var(--nph-space-inline));
+  inset-inline-start: 0;
+  inline-size: max-content;
+}

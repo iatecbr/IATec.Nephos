@@ -125,7 +125,7 @@ that. It declares **the approved contract and its source**: the sheet,
 Whoever opens the file six months later needs to know **who decided that**,
 without leaving it.
 
-**Source:** `nph-icon.ts`, lines 1-17; `nph-label.ts`, lines 1-45;
+**Source:** `nph-icon.ts`, lines 1-17; `nph-label.ts`, lines 1-56;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P21**.
 **Limit:** two components.
 
@@ -140,7 +140,7 @@ its CSS.
 native association between label and control does not cross the Shadow DOM
 boundary, and without it the label loses its function.
 
-**Source:** `nph-label.ts`, lines 12-20; `nph-label.css`, lines 3-10;
+**Source:** `nph-label.ts`, lines 17-23; `nph-label.css`, lines 3-10;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P01** and **P62.1**.
 **Limit:** one component. This rule describes **how to record** an exception —
 it does **not authorize opening** any. Opening an exception is a human
@@ -209,31 +209,45 @@ the thickness of a frame border —, which is not a visual decision.
 
 ## 4. The stories
 
-### 4.1 Two roles: `Validação` proves, `Docs` explains
+### 4.1 Two roles: `Validation` proves, `Docs` explains
 
-`Componentes/<piece>/Validação` proves the contract with the real component
-rendered. `Componentes/<piece>/Docs` is reading and catalog — and proves
-nothing.
+`Components/<piece>/Validation` proves the contract with the real component
+rendered. `Components/<piece>/Docs` is reading and catalog — and proves
+nothing. In the Portuguese sidebar, the two appear as
+`Componentes › <piece> › Validação` and `Docs` (§4.2).
 
-**`Validação` is mandatory. `Docs` is not.**
+**`Validation` is mandatory. `Docs` is not.**
 
 **Source:** [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P21**, item 8,
 approved on 28/08/2026; `nph-icon.stories.ts` and `nph-icon.docs.stories.ts`.
-**Limit:** one component has both roles. `nph-label` has only `Validação`.
-`Docs` enters when there is a catalog to offer — in `nph-icon`, the core of 34
-icons. Do not invent a reading page for a piece that has nothing to catalog.
+**Limit:** two components have both roles: `nph-icon` and `nph-label`.
+`Docs` enters when there is something to offer — in `nph-icon`, the catalog of
+the core; in `nph-label`, the page of the frame accepted in Figma, by Indiane's
+decision of 05/10/2026 (Claude writes the Storybook documentation of the
+components of the batch). Do not invent a reading page for a piece that has
+nothing to offer.
 
 ### 4.2 The title and the name state the claim
 
-Title in `Componentes/<piece>/<role>`. The story name is in Portuguese,
-describing **what the page claims**, not the appearance: `Herança de cor`
-(color inheritance), `Entrada inválida` (invalid input),
-`Associação com o controle` (association with the control),
-`O que o rótulo não faz` (what the label does not do).
+Title in `Components/<piece>/Validation` or `Components/<piece>/Docs`. The story
+name describes **what the page claims**, not the appearance: `Color
+inheritance`, `Invalid input`, `Association with the control`, `What the label
+does not do`.
 
-**Source:** `nph-icon.stories.ts`, `nph-icon.docs.stories.ts` and
-`nph-label.stories.ts`, fields `title` and `name`.
-**Limit:** two components, three files.
+Title, story name, story export and page anchor are **identifiers in English**
+(P64, amendment of 06/10/2026): the Storybook ID and permalink come from them,
+the same in any language. The label the person reads in the sidebar comes from
+the dictionary, in the `sidebar` subtree of `.storybook/i18n/`, with the story
+or group ID as the key: `en.json` carries the English labels; `pt-BR.json` and
+`es.json` carry the translation — `pt-BR.json` carries `Componentes`,
+`Validação`, `Herança de cor`. A new story goes in
+with the `sidebar` key in the three languages.
+
+**Source:** [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P64**, amendment of
+06/10/2026; `nph-icon.stories.ts`, `nph-icon.docs.stories.ts` and
+`nph-label.stories.ts`, fields `title` and `name`; `.storybook/i18n/*.json`,
+`sidebar` key.
+**Limit:** the rule applies to every story in the repository.
 
 ### 4.3 The file opens by saying what the pages prove
 
@@ -244,24 +258,26 @@ verifies**, with a date when there is one:
 /**
  * VALIDATION stories for `nph-label`.
  *
- * Each page proves a part of the contract approved on 27-08-2026: the matrix
- * of two variants, the parity with Figma in both color schemes, the
- * association with the control and the absence of its own state.
+ * Each page proves a part of the approved contract (27-08-2026, 08-09-2026 and
+ * 01-10-2026): the `required` x `info` matrix of component set `374:6`, the
+ * parity with Figma in both color schemes, the focus and the open balloon of
+ * the information trigger (frame `1194:1482`), the association with the
+ * control and the absence of its own state for the text.
  */
 ```
 
 **Source:** `nph-icon.stories.ts` 1-14; `nph-icon.docs.stories.ts` 1-13;
-`nph-label.stories.ts` 1-10.
+`nph-label.stories.ts` 1-16.
 **Limit:** two components, three files.
 
 ### 4.4 Each story says, in one line, what it proves
 
 ```ts
 /** Color is not a property: it comes from `currentColor`. */
-export const HerancaDeCor: Story = { /* ... */ };
+export const ColorInheritance: Story = { /* ... */ };
 ```
 
-**Source:** the eleven stories of the three files.
+**Source:** the stories of the three files.
 **Limit:** two components.
 
 ### 4.5 Coverage, not quantity
@@ -270,12 +286,12 @@ export const HerancaDeCor: Story = { /* ... */ };
 cover more than one combination, and no combination is left out. The criterion
 is **traceable coverage**, not the quantity of files, pages or stories.
 
-In practice: `nph-label` covers the two combinations in one `Matriz` (matrix)
-page; `nph-icon` covers variant, size, color inheritance, accessibility and
-invalid input in five pages, one per claim.
+In practice: `nph-label` covers `required` × `info` in one `Matrix` page;
+`nph-icon` covers variant, size, color inheritance, accessibility and invalid
+input in five pages, one per claim.
 
 **Source:** [`../fichas/_modelo.md`](../fichas/_modelo.md), §7, criterion 5,
-decision of 09-09-2026; `nph-label.stories.ts`, `Matriz` story;
+decision of 09-09-2026; `nph-label.stories.ts`, `Matrix` story;
 `nph-icon.stories.ts`, the five pages.
 **Limit:** two components. The rule does not impose a file structure.
 
@@ -313,12 +329,24 @@ fetches the text from `.storybook/i18n/`. Technical identifiers — `nph-*` tags
 token names, attributes, commands — appear literal and identical in any
 language.
 
+**No visible text is hand-written in a story.** All visible text — explanation,
+caption, section title and the example content passed to the piece — is born in
+`en.json`, the source, and has a translation in `pt-BR.json` and `es.json`; the
+story reads it with `translations(locale)`, through the `t(context)` shortcut.
+This also holds for the example content of the `Validation` stories: the text
+of a demonstration label, button or badge comes from the dictionary.
+
 **Source:** [`i18n.md`](i18n.md), "Storybook" section;
-`.storybook/i18n/index.js`, lines 1-12; `nph-icon.stories.ts` and
-`nph-icon.docs.stories.ts`, where the dictionary is read.
-**Limit:** the rule is written and one component complies with it. **The
-`nph-label.stories.ts` carries literal Portuguese text in the captions** — see
-§8.
+`.storybook/i18n/index.js`, lines 1-12;
+[`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P64**, amendment of
+06/10/2026; `nph-spinner.stories.ts` and `nph-badge.stories.ts`, `t()`
+function; `nph-label.stories.ts`, `labelValidation` key, and
+`nph-tooltip.stories.ts`, `tooltipValidation` key; review by `maurocsjr` in
+PR #54, which asked for a translation key for the example text.
+**Proof:** `npm run test:naming` fails a story title and name in Portuguese and
+Portuguese text written in the story — between tags, in text attributes and in
+a literal with a space —, and says where to move the text.
+**Limit:** the rule applies to every story in the repository.
 
 ### 4.9 On a reading page, every rule points to where it came from
 
@@ -404,7 +432,7 @@ That way, a new property does not enter without someone failing a test.
 
 **Source:** `nph-icon.test.ts`, *"the reactive API is exactly name, variant,
 size and label"*; `nph-label.test.ts`, *"the public API is exactly text,
-required and for"*.
+required, for, info and infoLabel"*.
 **Limit:** two components.
 
 ### 5.4 The test confirms that the token exists in the generated CSS
@@ -514,8 +542,6 @@ guide does not pick a side.**
 
 | Subject | The sources, and what each one says |
 |---|---|
-| Language in the stories | [`i18n.md`](i18n.md) and `nph-icon` require the explanatory text to come from the dictionary; `nph-label.stories.ts` carries literal Portuguese in the captions |
-| `nph-label` API | The sheet and the code declare `text`, `required` and `for`; the matrix approved in Figma has four variants, with `info`. Correction recorded as `DSA-04` |
 | `variant="solid"` in `nph-icon` | [`../design.md`](../design.md), **P21** and the sheet define `regular` as the default and `solid` as available for each core name. Decision **I7** originated the expansion and `DSA-03` was completed |
 
 ---

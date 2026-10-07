@@ -9,6 +9,8 @@
  * (P64, amendment of 06/10/2026). Technical
  * identifiers — `nph-icon`, tokens, attributes, commands, paths — do not go
  * through here: they appear literally in the story, the same in every language.
+ * Portuguese text hand-written in a story fails `npm run test:naming`: all
+ * visible text lives here.
  *
  * See `docs/i18n.md`.
  */
@@ -20,8 +22,11 @@
  * - `en.json` is the source language. Every sentence starts there; `pt-BR.json`
  *   and `es.json` are translations and never decide content. If they diverge,
  *   the source wins.
- * - `sidebar` translates sidebar labels by entry id. An entry without a key
- *   keeps its original name — the case of `nph-icon`, which is a technical name.
+ * - `sidebar` translates sidebar labels by entry id. The id is the story's or
+ *   the group's, in English, because the story title, name and export are
+ *   identifiers (P64); the label in each language comes from here. An entry
+ *   without a key keeps its original name — the case of `nph-icon`, which is a
+ *   technical name.
  * - `colorScheme` is the toolbar mode selector. One mode at a time: frame and
  *   page switch together.
  * - `categories` follows the order of `icones_nucleo`, in design.md.

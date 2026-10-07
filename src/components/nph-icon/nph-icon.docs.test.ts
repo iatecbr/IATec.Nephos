@@ -9,7 +9,7 @@ import type { TemplateResult } from 'lit';
 
 import '../../tokens/generated/tokens.css';
 import { format, translations } from '../../../.storybook/i18n/index.js';
-import { Documentacao, IconsOverview } from './nph-icon.docs.stories';
+import { Documentation, IconsOverview } from './nph-icon.docs.stories';
 import { CATEGORIES, CORE_TOTAL } from './nph-icon.demo';
 
 afterEach(() => {
@@ -21,7 +21,7 @@ const DICTIONARIES = { 'pt-BR': translations('pt-BR'), en: translations('en'), e
 /** Old restriction of solid to star, in any order within the sentence. */
 const SOLID_ONLY_ON_STAR = /solid[^.]*\bstar\b|\bstar\b[^.]*solid/i;
 
-function renderInLocale(locale: string, story: { render?: unknown } = Documentacao): HTMLElement {
+function renderInLocale(locale: string, story: { render?: unknown } = Documentation): HTMLElement {
   const target = document.createElement('div');
   document.body.append(target);
   const draw = story.render as (args: unknown, context: unknown) => TemplateResult;

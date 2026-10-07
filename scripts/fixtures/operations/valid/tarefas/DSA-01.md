@@ -1,40 +1,40 @@
 ```json
 {
   "id": "DSA-01",
-  "objetivo": "Exercitar gate com evidencia e contexto curto ativo.",
-  "fase": "F4",
-  "ordem_aprovada": 20,
-  "responsavel": "claude-codigo",
-  "estado": "em-andamento",
-  "peca": null,
-  "dependencias": [],
+  "goal": "Exercitar gate com evidencia e contexto curto ativo.",
+  "phase": "F4",
+  "approved_order": 20,
+  "owner": "claude-code",
+  "state": "in-progress",
+  "piece": null,
+  "dependencies": [],
   "gates": [
     {
-      "id": "verificador",
-      "descricao": "O verificador roda e sai com codigo 0.",
-      "comando": "npm run test:operacao",
-      "evidencia": "scripts/fixtures/operations/valid/evidencias/DSA-01/verificador-2026-09-02.md",
-      "resultado": "passou",
-      "verificado_em": "2026-09-02",
-      "verificado_por": "claude-codigo"
+      "id": "verifier",
+      "description": "O verificador roda e sai com codigo 0.",
+      "command": "npm run test:operacao",
+      "evidence": "scripts/fixtures/operations/valid/evidencias/DSA-01/verificador-2026-09-02.md",
+      "result": "passed",
+      "verified_at": "2026-09-02",
+      "verified_by": "claude-code"
     }
   ],
-  "bloqueios": [],
-  "decisoes_pendentes": [],
-  "evidencias": [
+  "blockers": [],
+  "pending_decisions": [],
+  "evidence": [
     "scripts/fixtures/operations/valid/evidencias/DSA-01/verificador-2026-09-02.md"
   ],
-  "referencias_de_decisao": [
+  "decision_refs": [
     "docs/decisoes-tecnicas.md#p03"
   ],
-  "origem_externa": null,
-  "revisao_git": {
+  "external_origin": null,
+  "git_review": {
     "branch": null,
     "commit": null,
     "pr": null
   },
-  "contexto": "scripts/fixtures/operations/valid/contextos/DSA-01.md",
-  "atualizado_em": "2026-09-02"
+  "context": "scripts/fixtures/operations/valid/contextos/DSA-01.md",
+  "updated_at": "2026-09-02"
 }
 ```
 

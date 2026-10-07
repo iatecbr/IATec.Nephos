@@ -16,7 +16,7 @@ import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook
 import './nph-spinner';
 
 const meta: Meta = {
-  title: 'Componentes/nph-spinner/Validação',
+  title: 'Components/nph-spinner/Validation',
 };
 
 export default meta;
@@ -37,7 +37,7 @@ const row = 'display: flex; align-items: center; gap: var(--nph-space-inline); p
 
 /** `sm` inside a button or field; `md` in a content area. */
 export const Sizes: Story = {
-  name: 'Tamanhos',
+  name: 'Sizes',
   render: () => html`<div style=${row}>
     <nph-spinner size="sm"></nph-spinner>
     <nph-spinner size="md"></nph-spinner>
@@ -46,7 +46,7 @@ export const Sizes: Story = {
 
 /** With text beside it, decorative; without text, with an accessible name. */
 export const Accessibility: Story = {
-  name: 'Acessibilidade',
+  name: 'Accessibility',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`<div style=${row}>
@@ -60,6 +60,6 @@ export const Accessibility: Story = {
 
 /** `size="lg"` does not exist: nothing is drawn. */
 export const InvalidInput: Story = {
-  name: 'Entrada inválida',
+  name: 'Invalid input',
   render: () => html`<div style=${row}><nph-spinner size="lg"></nph-spinner></div>`,
 };

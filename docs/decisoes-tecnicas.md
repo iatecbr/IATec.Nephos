@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66 and P67. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67 and P68. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -22,6 +22,7 @@ P62.4 subsection for the detail).
 | **P62.1** | `nph-label` without Shadow DOM — exception to P01 | 27/08/2026 | High. It is the only way the native association works; without it the label loses its function | Approved, 28/08/2026 |
 | **P62.4** | Dimensions in `px`, not `rem` | 27/08/2026 | High and old. Applies to the whole system, not just typography | Resolved by his own decision: migrate the generator to `rem` — 28/08/2026. **Implemented on 28/08/2026** |
 | **P62.5** | The radius stays in `px` | 28/08/2026 | Low. Converting later is one line in the generator, but requires changing `raio_regras` in `design.md` | Adopted by Indiane on 28/08/2026. **Reviewed and approved by Mauro on 09/09/2026, in PR #25, merged in `ed7c009`.** Resolves the scope contradiction of P62.4 |
+| **P62.6** | `info` and `infoLabel` in `nph-label`: the information trigger | 06/10/2026 | Medium. `nph-field` will assemble the label with the trigger; changing the API later requires redoing both | Anatomy and behavior: L8 to L11, adopted by Indiane on 08/09/2026 and 01/10/2026. API and semantics: technical proposal, review in the PR by `maurocsjr` |
 | **P01** | Open Shadow DOM | 24/08/2026 | High. Every component depends on it | Approved, 28/08/2026 |
 | **P02** | Custom properties as public API | 24/08/2026 | High | Approved, 28/08/2026 |
 | **P03** | Directory pattern and TypeScript | 24/08/2026 | Medium | Approved, 28/08/2026 |
@@ -30,10 +31,11 @@ P62.4 subsection for the detail).
 | **P20** | Style Dictionary v5 and theme contract | 24/08/2026 | High | Approved, 28/08/2026 |
 | **P21** | Technical plan of `nph-icon` | 26/08/2026 | Already implemented and merged under risk acceptance | Approved, 28/08/2026 |
 | **P63** | Metadata generated from the spec | 28/09/2026 | Medium. Changing location or format later requires generating again and adjusting whoever reads it; the spec does not change | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** |
-| **P64** | Code language | 28/09/2026 | Medium. Applies to all new code; migrating what exists only swaps names | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** Amendment of 02/10/2026 approved by Mauro in PR #49, merged on 05/10/2026. |
+| **P64** | Code language | 28/09/2026 | Medium. Applies to all new code; migrating what exists only swaps names | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** Amendment of 02/10/2026 approved by Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 (language, and the Storybook naming item) adopted by Indiane, each under review in the pull request that brings it. |
 | **P65** | API and semantics of `nph-tooltip` | 05/10/2026 | Low now. `nph-label` is the first consumer; changing later requires redoing its trigger | Behavior and scope (L11.5) and anatomy (L11.6, L11.7 and the accepted frame) adopted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #51, merged on 05/10/2026 |
 | **P66** | API and semantics of `nph-spinner`, `nph-separator` and `nph-kbd` | 05/10/2026 | Low now. `nph-button` (Batch B) and `nph-rich-option` will be the first consumers | Anatomy and behavior: frames accepted by Indiane on 01/10/2026. API and semantics: technical proposal, review in the PR by `maurocsjr` |
 | **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Technical proposal, review in the PR by `maurocsjr` |
+| **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics: technical proposal, review in the PR by `maurocsjr` |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -439,6 +441,8 @@ field, and hidden text would require a Portuguese string inside the component,
 forbidden by the trilingual plan. **Consequence: `nph-input` will have to carry
 `required`.**
 
+*Amended by P62.6.*
+
 ### P62.4 — Dimensions are emitted in `px`, not `rem`
 
 > **Read the historical record below as history.** The original decision —
@@ -539,19 +543,109 @@ Copilot's documentary review checked the evidence, and Mauro's approval is the
 human review rite that the other technical decisions went through. With it, P62.5 is no longer
 the only P62 decision without a recorded review.
 
+### P62.6 — Information trigger: `info` and `infoLabel`
+
+**Conflict with P62.3.** P62.3 fixed three public properties (`required`,
+`for` and `text`). L8 of the decision register (08/09/2026) says that gaining `info`
+is a contract change, and L9 and L11 (01/10/2026) give the trigger focus and a balloon.
+This decision extends the API to five properties, through the rite of "How to change one
+of these decisions": the conflict is here, the proposal is this section, and the human
+review is the one by `maurocsjr` in the PR. The text of P62.3 does not change; it only gains the
+annotation "Amended by P62.6".
+
+**Decision.**
+
+- **API: two new properties, neither reflects** (they are content, like `text`).
+
+  | Property | Role |
+  |---|---|
+  | `info` | String, empty by default. The text of the explanation, already localized by the consuming application. It is the `text` of `nph-tooltip` |
+  | `infoLabel` (`info-label`) | String, empty by default. The accessible name of the trigger (L11.3) |
+
+  The trigger appears only with both filled, after `trim`. `info` without
+  `infoLabel` is invalid input: the trigger does not appear and `console.error` is emitted in
+  development, once per cause. The label remains: it is the name of the
+  control and cannot disappear because of the help. This adapts the invalid input
+  rule of `docs/stories.md` (§2.5, which says to draw nothing) only to the invalid
+  part, as §2.5 itself asks for another piece: decide and record.
+  `infoLabel` without `info` is an assembly state: nothing, no error (decision of
+  01/10/2026: an empty `infoLabel` omits the trigger).
+- **Semantics.** The trigger is a native `<button type="button">` **after** the
+  `<label>`, outside it: inside, it would enter the accessible name of the control. It carries
+  `aria-label` = `infoLabel`, `aria-expanded` and `aria-controls` with the `id` of the
+  `nph-tooltip`, unique per instance. The icon is `circle-info` `solid` `sm`,
+  decorative. The `nph-tooltip` exists from mount, closed, because the
+  `role="status"` region must exist before opening (P65). The open state is
+  internal and is not API.
+- **Open and close.** Click, Enter or Space toggle, through the native behavior
+  of the button; on opening, the trigger receives `focus()` (in Safari, clicking a
+  button does not give it focus, and without focus Esc would not reach it). No hover. They close:
+  - **Esc** (L11.5), in a `keydown` listener on the trigger itself, never on the
+    document. With the balloon open, it closes and stops propagation — the dialog that
+    contains the form does not close along with it; with the balloon closed, it does not intercept;
+  - **click outside** (L11.5), outside the trigger and the balloon. Clicking the label
+    text closes and moves focus to the control (P62.1). A `pointerdown` listener on the
+    document, in capture, only while open, removed on closing and on disconnecting;
+  - **Tab out**: `focusout` of the trigger closes when focus goes to an
+    element outside the `nph-label`. It is the keyboard reading of the "click outside"
+    of L11.5: without it, the balloon would stay open over the next field, with no Esc to
+    close it. Reading confirmed by Indiane on 06/10/2026; the implementation is
+    reviewed in the PR. A click on the balloon, which is not focusable, does not close it.
+- **Anatomy, only through tokens** (component set `374:6` and frame `1194:1482`). Only with the
+  trigger, the host receives `data-nph-info`, and the root becomes `inline-flex`,
+  centered, with a `gap` of `space/inline-tight` and `position: relative`; without it, the
+  root stays `inline-block`. The trigger is 24 × 24, the artwork of
+  `icon/size-sm` with `space/inline-tight` around it (WCAG 2.5.8), with no background or
+  border, in `color/muted-foreground`. Focus, only on `:focus-visible`, is the border
+  of `border/width` in `focus/border` with radius `focus/border-radius-control` and
+  the halo of `focus/ring-width` in `focus/halo` with radius
+  `focus/radius-control-with-border`, both outside — the same drawing as the
+  focus of `nph-button` in Figma (L9). The balloon sits below the label, aligned
+  to the start, at `space/inline`, in `position: absolute`: it does not push the
+  form, as the `use` of `color/tooltip` asks ("does not block the page").
+  The width is that of the text, up to the maximum of `nph-tooltip`.
+- **Literals and why:** `transparent` (trigger without background), `calc(-1 * …)`
+  to put border and halo outside, `position` and `inset` of the balloon, and the
+  button resets (`margin: 0`, `border: 0`, `font: inherit`), because the element lives in the
+  light DOM and an application stylesheet can reach `button`. No visual value.
+
+**Known limits.**
+
+- **L-a — `use` of `color/muted-foreground`.** The `use` in `design.md`
+  ("Caption, helper text, placeholder, metadata") does not mention the icon of the
+  trigger, which the accepted Figma uses (contrast of 6.69:1 in light and 9.81:1 in
+  dark, L8). The code follows Figma. Indiane decided on 06/10/2026 to extend the
+  `use` to the trigger icon, in PR #57; with it, this limit is resolved.
+- **L-b — rule 6 of `design.md`.** Rule 6 and `focus-ring/default` still
+  speak only of the `focus/ring` ring. The alignment to focus by border and halo is in
+  PR #57, which already mentions the `info` trigger; this one goes in after it.
+- **L-c — no `z-index`.** There is no layer token. A positioned sibling that
+  comes later in the DOM can end up on top of the balloon. The balloon also does not flip
+  upward near the edge of the screen.
+
+**Source.** Anatomy and behavior: L8 to L11 of the decision register (vault),
+accepted by Indiane on 08/09/2026 and 01/10/2026, and the `nph-label` frame
+(`1194:1482`) with component set `374:6`, in the Figma file `DS-IA-NEPHOS 5.0`. The API
+(`info`, `infoLabel`), the semantics and the adaptation of §2.5 are a technical proposal
+of this implementation. Closing by Tab is a reading of L11.5, confirmed by
+Indiane on 06/10/2026.
+
+**Status.** Anatomy and behavior adopted by Indiane on 01/10/2026; API and
+semantics under review in the PR by `maurocsjr`.
+
 ---
 
 ## P63 — Metadata generated from the spec
 
 **Decision.**
 
-- The spec in `fichas/<nome>.md` remains the source of the piece's contract. The
+- The spec in `fichas/<name>.md` remains the source of the piece's contract. The
   **Metadata** is a derived copy, in JSON, of the spec's YAML.
 - Reading happens **at build time**. The file is generated by
   `node scripts/verificar-operacao.mjs --gerar-metadata`, is versioned and is
   **never** edited by hand.
-- The location is `src/shared/metadata/<peca>.json`. Only a spec with `status: vigente`
-  generates a file.
+- The location is `src/shared/metadata/<piece>.json`. Only a spec with `status: active`
+  (renamed in DSA-15) generates a file.
 - The JSON mirrors the whole YAML, in the spec's order, with 2-space indentation, LF
   line endings and a final newline.
 - The verifier rule `V32` fails Metadata that does not match the spec, JSON
@@ -600,9 +694,9 @@ whoever already uses it:
   `scripts/verificar-operacao.mjs`);
 - the public names, which are already English: `nph-*` tags, properties, custom
   properties and the `data-nph-*` attributes;
-- the text shown to whoever reads: story title and name, test description,
-  messages and the dictionaries in `.storybook/i18n/`; *(test description and
-  messages: superseded by the amendment of 06/10/2026, below)*
+- the text shown to whoever reads: test description, messages and the text of
+  the dictionaries in `.storybook/i18n/`; *(test description and messages:
+  superseded by the amendment of 06/10/2026, below)*
 - the historical record, which keeps citing the name of the time.
 
 **Reason.** Until now there was no rule, and practice was mixed:
@@ -653,7 +747,18 @@ agent: English.
   key, mode and brand of the token JSON — `objetivo`, `estado`,
   `aguardando-decisao`, `use_quando`, `modos`, `claro`, `escuro` — remain in
   Portuguese until their own task, `DSA-15`, which migrates last. Text that cites
-  one of them puts it between backticks.
+  one of them puts it between backticks. On 06/10/2026 `DSA-15` moved the contract
+  keys to English, with the map in `docs/operacao/tarefas/DSA-15.md`; the keys of
+  `design.md` and the brand names stay as they are.
+- **Storybook naming.** Story title, story name, story export and page anchor
+  are identifiers in English: the Storybook ID and permalink come from them.
+  The visible text of a story comes only from the dictionaries in
+  `.storybook/i18n/`, and no visible text is hand-written in a story. The
+  sidebar label comes from the `sidebar` subtree, whose keys are the story and
+  group IDs, in English. The Storybook IDs and URLs change once, in this
+  amendment. Proof: `npm run test:naming`, which reads the title, the name and
+  the `sidebar` key as identifiers and fails Portuguese text hand-written in a
+  story. Adopted by Indiane on 06/10/2026, from Mauro's review in PR #56.
 - **The translation is faithful:** it changes no rule, number or decision.
 
 **Proof.** `npm run test:naming` now fails Portuguese in comments,
@@ -669,7 +774,8 @@ Indiane on 06/10/2026.
 **Status.** Decision adopted by Indiane on 28/09/2026 — reviewed and approved
 by Mauro on 30/09/2026, in the team chat. Amendment of 02/10/2026 approved by
 Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 adopted by
-Indiane, under review in the pull request that brings it.
+Indiane: the language of the documentation, comments and messages, and the
+Storybook naming item, each under review in the pull request that brings it.
 
 ---
 
@@ -831,9 +937,140 @@ P65 decision does not change; only its limit gets the annotation.
 
 ---
 
+## P68 — `nph-badge` and `nph-button`: API and semantics
+
+**Decision.** The two pieces are Web Components with **open Shadow DOM** (P01),
+CSS in its own file imported `?inline`, as in `nph-icon`. Neither has a slot,
+event of its own, color property or `::part`. Anatomy only through semantic
+tokens. Invalid input renders nothing and emits `console.error` only in
+development, one per cause and accumulating — the rule of P21, adopted here by
+its own decision, as in P66. The names follow P64.
+
+- **Names common to both.** The Figma `tipo` is `severity`, and the `enfase` is
+  `emphasis`. `severity` is the PrimeNG name, which is the source of the values
+  (`primary`, `secondary`, `info`, `warn`, `help`, `danger`, `success`; B1 of
+  the decision register). `type` is not used: on the button, it is the native
+  attribute that decides form submission. The two pieces use the same name for
+  the same choice.
+- **`nph-badge`**
+  - `severity`: the types above, default `primary`, reflected to the attribute.
+  - `emphasis`: `solid` (default) or `light`, reflected to the attribute. The
+    defaults are those of set `878:30`.
+  - `text`: string, default empty. It is the accessible name. Empty or only
+    spaces: nothing is shown (0 × 0), with no error. It is the mount state, as in
+    `nph-kbd` (P66), and the rule of the frame: if there is nothing to write,
+    there is no badge.
+  - `icon`: string, default empty. A name from the `nph-icon` core, before the
+    text, in `icon/size-sm`, in the text color and decorative.
+  - Text only, no role. It receives no click, focus or hover: the hover left
+    Figma on 02/10/2026, because the badge is not clickable.
+  - The text stays on one line (`white-space: nowrap`): one or two words.
+- **`nph-button`**
+  - `severity` (default `primary`), `emphasis` (`solid`, default, `outline`,
+    `light` or `ghost`) and `size` (`compact`, `default`, default, or `large`).
+    `outline`, `light` and `ghost` exist only in `primary`, `secondary` and
+    `danger` (B1). The `default` default is Indiane's decision on 05/10/2026,
+    through T4 (`compact` is tied to the dense context), and supersedes the
+    `padrão compact` of the accepted frame (`1197:5449`, section 5). The three
+    are reflected to the attribute, as are `disabled` and `loading`: the internal
+    CSS selects by them.
+  - `text`: what happens on click, and the accessible name. It stays on one line
+    (`white-space: nowrap`), because the height is fixed by the control token.
+  - `icon-start` and `icon-end` (properties `iconStart` and `iconEnd`): one core
+    name each, in `icon/size-sm` when there is text, and they can coexist (B6).
+  - **Icon only (B5).** With no text and one icon, the button is square, at the
+    control height, with no side padding, and the icon follows the box: `sm` in
+    `compact`, `md` in `default` and `lg` in `large` (set `498:15671`). The
+    `label` is required and becomes the `aria-label` of the native button; with
+    text, it is not used. The name `label` is Indiane's decision on 05/10/2026:
+    it supersedes the `aria-label` approved on 02/09/2026, because an
+    `aria-label` placed on the host does not name the button inside the shadow
+    root, and it follows `nph-icon` and `nph-spinner`.
+  - A native `<button type="button">` inside the shadow root, with
+    `delegatesFocus`. Native keyboard: Tab enters and leaves; Enter and Space
+    activate. The click is the native `click`, which crosses the shadow root and
+    reaches the host.
+  - **Focus** only on `:focus-visible`: a `border/width` border close to the
+    box, with radius `focus/border-radius-control`, and a `focus/ring-width` halo
+    outside, with radius `focus/radius-control-with-border`, without changing the
+    size. The border has the color of the type (`color/primary`, `status/info`,
+    `status/warning`, `status/help`, `color/destructive`, `status/success`) and,
+    in `secondary`, `focus/border`. The halo is `focus/halo` in `primary` and in
+    `secondary`, and `focus/halo-<hue>` in the others. The same in every
+    emphasis.
+  - **Hover** (`hover-active`) on the hover tokens of each pair: `color/*-hover`
+    and `status/*-hover` in solid, by the decision of 02/10/2026, which
+    supersedes B4; `*-surface-hover` and `*-on-surface-hover` in `outline` and in
+    `light`; the surface of the type in `ghost`.
+  - `disabled`: native `disabled`. The button leaves the Tab order, does not fire
+    a click and stays at `state/disabled-opacity`, in the resting colors.
+  - `loading` (the Figma `carregando`): the `nph-spinner` spinner takes the place
+    of the start icon, the end icon disappears and the text stays. In icon only,
+    the spinner replaces the icon: `sm` in `compact` and `md` in `default` and in
+    `large`. The button stays focusable, with `aria-disabled="true"` and
+    `aria-busy="true"`, and the click does not reach the consumer. The spinner is
+    decorative.
+  - In `disabled` and in `loading`, a listener on the native button and another,
+    in the capture phase, on the host stop the `click`, including one from
+    `click()` called on the host.
+  - Invalid input: `severity`, `emphasis` or `size` outside the list; `outline`,
+    `light` or `ghost` in `info`, `warn`, `help` or `success`; an icon outside
+    the core; no text and two icons; no text, one icon and no `label`. **No text
+    and no icon is the mount state**: nothing, with no error, as in `nph-kbd`.
+- **Written literals, and why.** `transparent` (`ghost` has no background);
+  `nowrap`; `calc(-1 * ...)`, which places the focus border and halo outside;
+  and `inset 0 0 0` in the `box-shadow` of the `outline` border, which is an
+  inside stroke, as in `nph-kbd`. None is a visual value.
+
+**Known limits.**
+
+- **L-a — subtree with another scheme or another brand.** `status/on-solid`
+  (alias of `color/background`) and `focus/halo` (alias of `theme/brand-200`)
+  are emitted only in `:root`. In a part of the screen with another
+  `data-nph-color-scheme` or another `data-nph-brand`, both keep the root's
+  value: the solid text of `info`, `warn`, `help` and `success`, in both pieces,
+  and the halo of `primary` and `secondary`. It is the same pending item of the
+  token generator that P65 records for the shadow. When the generator redeclares
+  these invariants per scheme, both pieces fix themselves: they consume the same
+  token names. *Resolved by P67:* both are emitted in each scheme root, and a
+  part of the screen with another brand carries `data-nph-brand` and
+  `data-nph-color-scheme` on the same element. The tests of both pieces measure
+  this.
+- **L-b — `use` in `design.md` narrower than the accepted Figma.** The accepted
+  frame and sets use tokens where the `use` does not yet cite that use:
+  `color/primary-surface` and `color/destructive-surface` (the `use` cites
+  "nph-button with light or outline emphasis") also serve the `ghost` hover and
+  the `light` badge; `color/primary-on-surface` ("USE only on it") also in the
+  `ghost` with no background; `color/muted` (`nao_use: "Hover."`) in the hover of
+  the `secondary` `ghost` and as the background of the `secondary` `outline`;
+  `status/<hue>` (icon, dot, bar) as the solid background of badge and button;
+  `status/<hue>-surface` and `-foreground` ("Always together with the other
+  three roles") in the `light` badge, without `-border`. The pieces follow
+  Figma; widening the `use` is a pending decision of Indiane, and this PR does
+  not change `design.md`.
+
+**Source.** Frames accepted in the Figma file `DS-IA-NEPHOS 5.0` on 01/10/2026
+and completed on 02/10/2026: `nph-badge` (`1196:1100`, set `878:30`; the hover
+left) and `nph-button` (`1197:5449`, sets `461:13009` and `498:15671`; the solid
+hover moved to the hover tokens). Both have Figma UX QA and textual audit
+approved on 02/10/2026. Decision register (vault): B1, B5 and B6. The names
+`severity`, `emphasis`, `text`, `icon`, `iconStart`, `iconEnd` and `loading`,
+the semantics of `loading` and the invalid input rule are a technical proposal
+of this implementation. The `label` and the `default` default `size` are
+Indiane's decisions on 05/10/2026.
+
+**Out of scope.** Form submission (`type="submit"`, form-associated element),
+link that looks like a button, button group, fluid-width button, text on more
+than one line, clickable badge and badge with a count.
+
+**Status.** Anatomy and behavior accepted by Indiane on 01/10/2026 and
+completed on 02/10/2026; API and semantics under review in the Batch B PR.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66 or P67 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67 or P68 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
@@ -851,4 +1088,4 @@ This applies to people and to agents.
 | [`../GOVERNANCA.md`](../GOVERNANCA.md) | Current state of the repository |
 | [`../design.md`](../design.md) | Foundations contract; §9 and §10 aligned with P03 and P17 |
 | [`tokens.md`](tokens.md) | How P17 and P20 are applied: source, generation, consumption and validations |
-| [`../fichas/<nome>.md`](../fichas/) | How the decision reaches the component: contract, variants, states and tokens |
+| [`../fichas/<name>.md`](../fichas/) | How the decision reaches the component: contract, variants, states and tokens |

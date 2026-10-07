@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "PE-03",
-  "gate": "revisao-registrada",
-  "data": "2026-09-09",
-  "responsavel": "claude-codigo",
-  "comando": "grep -n \"Revisada e aprovada por Mauro\" docs/decisoes-tecnicas.md",
-  "codigo_de_saida": 0,
+  "task": "PE-03",
+  "gate": "review-recorded",
+  "date": "2026-09-09",
+  "owner": "claude-code",
+  "command": "grep -n \"Revisada e aprovada por Mauro\" docs/decisoes-tecnicas.md",
+  "exit_code": 0,
   "sha": "ed7c009adf09599104bc9868fee79b1092ad63cb",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# PE-03 — `revisao-registrada`
+# PE-03 — `review-recorded`
 
 The review of P62.5 is recorded in `docs/decisoes-tecnicas.md`, with date and
 owner, in the same ritual as the other technical decisions.

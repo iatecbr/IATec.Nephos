@@ -1,8 +1,8 @@
 /**
  * Reading pages of `nph-icon`: documentation and visual catalog.
  *
- * Neither proves the contract — that is the role of the Validation stories
- * and of the tests. Here one reads and searches.
+ * Neither proves the contract — that is the role of `Components/nph-icon/
+ * Validation` and of the tests. Here one reads and searches.
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`. Each
  * story is UNIQUE: it reads `globals.locale` and fetches the translation.
@@ -46,7 +46,7 @@ import {
 } from '../../shared/docs/page';
 
 const meta: Meta = {
-  title: 'Componentes/nph-icon/Docs',
+  title: 'Components/nph-icon/Docs',
   parameters: {
     layout: 'fullscreen',
   },
@@ -78,15 +78,15 @@ const hidingRule = html`
 
 /** Section ids: technical identifiers, the same in any language. */
 const SECTIONS = {
-  whenToUse: 'quando-usar',
+  whenToUse: 'when-to-use',
   api: 'api',
-  core: 'nucleo',
-  size: 'tamanho',
-  color: 'cor',
-  accessibility: 'acessibilidade',
-  invalid: 'entrada-invalida',
-  antiPatterns: 'anti-padroes',
-  references: 'referencias',
+  core: 'core',
+  size: 'size',
+  color: 'color',
+  accessibility: 'accessibility',
+  invalid: 'invalid-input',
+  antiPatterns: 'anti-patterns',
+  references: 'references',
 } as const;
 
 /**
@@ -106,8 +106,8 @@ const CATEGORY_IDS = [
  * block declares the origin of the rule it shows; nothing here is decided on
  * this page.
  */
-export const Documentacao: Story = {
-  name: 'Documentação',
+export const Documentation: Story = {
+  name: 'Documentation',
   render: (_args, context: GlobalsContext) => {
     const dictionary = translations(localeOf(context));
     const d = dictionary.docs;

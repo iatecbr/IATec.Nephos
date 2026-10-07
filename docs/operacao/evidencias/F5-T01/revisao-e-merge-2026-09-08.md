@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "F5-T01",
-  "gate": "revisao-e-merge",
-  "data": "2026-09-08",
-  "responsavel": "claude-codigo",
-  "comando": "git merge-base --is-ancestor 7c11fc3 origin/v/3.0.0",
-  "codigo_de_saida": 0,
+  "task": "F5-T01",
+  "gate": "review-and-merge",
+  "date": "2026-09-08",
+  "owner": "claude-code",
+  "command": "git merge-base --is-ancestor 7c11fc3 origin/v/3.0.0",
+  "exit_code": 0,
   "sha": "b166b238f93d7b239513f9411af37af91475b538",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# F5-T01 — `revisao-e-merge`
+# F5-T01 — `review-and-merge`
 
 PR #23 was merged into `v/3.0.0`. The merge commit is `b166b23`, the default branch tip
 at this verification, and commit `7c11fc3`, which closed the F5-T01 execution session, is an

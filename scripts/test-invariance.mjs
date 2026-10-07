@@ -10,10 +10,10 @@
  */
 import { canon, classify, buildIndex, dependents, NS } from './tokens-lib.mjs';
 
-const MODES = ['claro', 'escuro'];
+const MODES = ['light', 'dark'];
 const DEFAULT_MODES = { core: null, theme: 'sistemas', semantic: null };
 
-const modes = (light, dark) => ({ $extensions: { [NS]: { modes: { claro: light, escuro: dark } } } });
+const modes = (light, dark) => ({ $extensions: { [NS]: { modes: { light, dark } } } });
 
 /* DISTINCT objects in memory, with swapped key order, same content. */
 const durA = { value: 250, unit: 'ms' };

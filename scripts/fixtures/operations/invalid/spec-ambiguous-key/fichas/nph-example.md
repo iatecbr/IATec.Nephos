@@ -1,8 +1,8 @@
 ---
-peca: nph-example
-status: vigente
-estados:
-  on: ligado
+piece: nph-example
+status: active
+states:
+  on: enabled
 ---
 
 # nph-example

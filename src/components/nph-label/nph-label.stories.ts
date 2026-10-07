@@ -1,22 +1,30 @@
 /**
  * VALIDATION stories of `nph-label`.
  *
- * Each page proves a part of the contract approved on 27-08-2026: the
- * two-variant matrix, parity with Figma in both color schemes, the
- * association with the control and the absence of a state of its own.
+ * Each page proves a part of the approved contract (27-08-2026, 08-09-2026
+ * and 01-10-2026): the `required` x `info` matrix of the set `374:6`, parity
+ * with Figma in both color schemes, the focus and the open bubble of the
+ * information trigger (frame `1194:1482`), the association with the control
+ * and the absence of a state of the text's own.
  *
  * The dark frame switches `data-nph-color-scheme`, which is the public theme
  * contract set by P20. No story duplicates a component per mode: the same
  * piece is shown in both contexts.
+ *
+ * All visible text — section title, caption and the labels' example
+ * content — comes from the language dictionary, under the `labelValidation`
+ * key (`docs/i18n.md`, "Storybook"). The story reads `globals.locale`.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
+import { userEvent } from 'storybook/test';
 
+import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-label';
 
 const meta: Meta = {
-  title: 'Componentes/nph-label/Validação',
+  title: 'Components/nph-label/Validation',
   parameters: {
     layout: 'fullscreen',
   },
@@ -25,6 +33,18 @@ const meta: Meta = {
 export default meta;
 
 type Story = StoryObj;
+
+interface GlobalsContext {
+  globals?: Record<string, unknown>;
+}
+
+/** Shortcut: the dictionary of these stories in the chosen language. */
+function t(context: GlobalsContext | undefined) {
+  const locale = (context?.globals?.[LOCALE_GLOBAL] as string | undefined) ?? DEFAULT_LOCALE;
+  return translations(locale).labelValidation;
+}
+
+type Texts = ReturnType<typeof t>;
 
 /** Demo frame. Not valid as a precedent for component CSS. */
 function page(content: TemplateResult): TemplateResult {
@@ -64,53 +84,50 @@ function frame(scheme: 'light' | 'dark', content: TemplateResult): TemplateResul
   </div>`;
 }
 
+/** Label with the information trigger, with the example text from the dictionary. */
+function withInfo(v: Texts, required = false): TemplateResult {
+  return html`<nph-label
+    text=${v.sampleText}
+    ?required=${required}
+    info=${v.info}
+    info-label=${v.infoLabel}
+  ></nph-label>`;
+}
+
+/** The combinations of `required` and `info`, in the order of the set `374:6`. */
+function combinations(v: Texts): TemplateResult {
+  return html`
+    <nph-label text=${v.sampleText}></nph-label>
+    <nph-label text=${v.sampleText} required></nph-label>
+    ${withInfo(v)} ${withInfo(v, true)}
+  `;
+}
+
 /**
- * The whole matrix. There are TWO combinations: `required` false and true.
- * There is no layout, weight or state — all three were refused by a recorded
- * decision.
+ * The whole matrix: `required` x `info`. There is no layout or weight, and the
+ * text has no state — focus belongs only to the information trigger.
  */
-export const Matriz: Story = {
-  render: () =>
-    page(html`
-      ${section(
-        'Matriz — 2 combinações',
-        html`
-          ${caption('required é a única propriedade do componente.')}
-          <nph-label text="Nome completo"></nph-label>
-          <nph-label text="Nome completo" required></nph-label>
-        `,
-      )}
-    `),
+export const Matrix: Story = {
+  name: 'Matrix',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`${section(v.matrixTitle, html`${caption(v.matrixCaption)} ${combinations(v)}`)}`);
+  },
 };
 
 /**
  * Parity with Figma. The asterisk lightens by itself in dark mode because
  * `status/error` has one value per scheme; nothing is painted by hand.
  */
-export const ModoClaroEEscuro: Story = {
-  render: () =>
-    page(html`
-      ${section(
-        'Modo claro',
-        frame(
-          'light',
-          html`
-            <nph-label text="Nome completo"></nph-label>
-            <nph-label text="Nome completo" required></nph-label>
-          `,
-        ),
-      )}
-      ${section(
-        'Modo escuro',
-        frame(
-          'dark',
-          html`
-            <nph-label text="Nome completo"></nph-label>
-            <nph-label text="Nome completo" required></nph-label>
-          `,
-        ),
-      )}
-    `),
+export const LightAndDarkMode: Story = {
+  name: 'Light and dark mode',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
+      ${section(v.lightTitle, frame('light', combinations(v)))}
+      ${section(v.darkTitle, frame('dark', combinations(v)))}
+    `);
+  },
 };
 
 /**
@@ -118,53 +135,98 @@ export const ModoClaroEEscuro: Story = {
  * the cursor in the field, and the screen reader announces the name on
  * reaching it.
  */
-export const AssociacaoComOControle: Story = {
-  render: () =>
-    page(html`
+export const AssociationWithControl: Story = {
+  name: 'Association with the control',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
       ${section(
-        'Associação com o controle',
+        v.associationTitle,
         html`
-          ${caption('Clique no rótulo: o cursor vai para o campo.')}
+          ${caption(v.associationCaption)}
           <div style="display:flex;flex-direction:column;gap:var(--nph-space-stack-tight)">
-            <nph-label for="name-field" text="Nome completo" required></nph-label>
+            <nph-label for="name-field" text=${v.sampleText} required></nph-label>
             <input
               id="name-field"
               required
               style="font-family:var(--nph-text-body-md-font-family);font-size:var(--nph-text-body-md-font-size);height:var(--nph-control-height-default);border:1px solid var(--nph-color-border);border-radius:var(--nph-radius-control);padding-inline:var(--nph-space-control-padding);background:var(--nph-color-background);color:var(--nph-color-foreground)"
             />
           </div>
-          ${caption('Campos com * são obrigatórios.')}
+          ${caption(v.requiredLegend)}
         `,
       )}
-    `),
+    `);
+  },
 };
 
 /**
  * What the label does NOT do. Error and disabled do not change the label: the
  * field shows both, and later `nph-field`.
  */
-export const OQueORotuloNaoFaz: Story = {
-  render: () =>
-    page(html`
+export const WhatTheLabelDoesNotDo: Story = {
+  name: 'What the label does not do',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
+      ${section(v.errorTitle, html`${caption(v.errorCaption)} <nph-label text=${v.sampleText} required></nph-label>`)}
       ${section(
-        'Erro não muda o rótulo',
+        v.disabledTitle,
         html`
-          ${caption(
-            'O rótulo permanece em color/foreground. O erro aparece no campo e na mensagem abaixo dele — nunca no rótulo.',
-          )}
-          <nph-label text="Nome completo" required></nph-label>
-        `,
-      )}
-      ${section(
-        'Desabilitado não é estado do rótulo',
-        html`
-          ${caption(
-            'O nph-field aplicará state/disabled-opacity ao controle inteiro. O rótulo não tem estado próprio.',
-          )}
+          ${caption(v.disabledCaption)}
           <div style="opacity:var(--nph-state-disabled-opacity)">
-            <nph-label text="Nome completo" required></nph-label>
+            <nph-label text=${v.sampleText} required></nph-label>
           </div>
         `,
       )}
-    `),
+    `);
+  },
+};
+
+/**
+ * The trigger focus: `focus/border` border and `focus/halo` halo around the
+ * 24 x 24 target (L9). It only shows through the keyboard: click the field
+ * above and use Tab.
+ */
+export const TriggerFocus: Story = {
+  name: 'Trigger focus',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
+      ${section(
+        v.focusTitle,
+        html`
+          ${caption(v.focusCaption)}
+          <input aria-label=${v.tabStartLabel} />
+          ${frame('light', withInfo(v))} ${frame('dark', withInfo(v))}
+        `,
+      )}
+    `);
+  },
+};
+
+/**
+ * The open bubble: `nph-tooltip` below the label, aligned to the start, at
+ * `space/inline` (row `aberto` of the frame). It opens on click, Enter or
+ * Space; it closes with Esc, a click outside or Tab out.
+ */
+export const Open: Story = {
+  name: 'Open',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return page(html`
+      ${section(
+        v.openTitle,
+        html`
+          ${caption(v.openCaption)}
+          <div style="padding-block-end:var(--nph-space-section)">${withInfo(v)}</div>
+        `,
+      )}
+    `);
+  },
+  play: async ({ canvasElement }) => {
+    const trigger = canvasElement.querySelector<HTMLButtonElement>('nph-label .nph-label__info');
+    if (trigger) {
+      await userEvent.click(trigger);
+    }
+  },
 };

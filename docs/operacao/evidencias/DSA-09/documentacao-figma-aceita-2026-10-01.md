@@ -1,24 +1,24 @@
 ```json
 {
-  "tarefa": "DSA-09",
-  "gate": "documentacao-figma-aceita",
-  "data": "2026-10-01",
-  "responsavel": "indiane",
-  "comando": null,
-  "codigo_de_saida": null,
+  "task": "DSA-09",
+  "gate": "figma-docs-accepted",
+  "date": "2026-10-01",
+  "owner": "indiane",
+  "command": null,
+  "exit_code": null,
   "sha": null,
-  "origem_externa": {
-    "classificacao": "interna-permitida",
-    "url_ou_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1195-22210",
-    "data": "2026-10-01",
-    "autoria": "indiane",
-    "trecho": null,
-    "decisao_convertida": "The frame nph-spinner (1195:22210), on the page `NPH — Spinner`, was accepted as the API and behavior specification of nph-spinner. COMPONENT_SET: nph-spinner (281:11), variant size sm|md, default sm."
+  "external_origin": {
+    "classification": "internal-allowed",
+    "url_or_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1195-22210",
+    "date": "2026-10-01",
+    "author": "indiane",
+    "excerpt": null,
+    "converted_decision": "The frame nph-spinner (1195:22210), on the page `NPH — Spinner`, was accepted as the API and behavior specification of nph-spinner. COMPONENT_SET: nph-spinner (281:11), variant size sm|md, default sm."
   }
 }
 ```
 
-# DSA-09 — `documentacao-figma-aceita`
+# DSA-09 — `figma-docs-accepted`
 
 Indiane accepted the documentation of the `nph-spinner` board (`1195:22210`) on
 01-10-2026, in the file `DS-IA-NEPHOS 5.0`, page `NPH — Spinner`. The Figma UX QA

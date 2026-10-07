@@ -1,17 +1,17 @@
 ```json
 {
-  "tarefa": "PF-15",
-  "gate": "revisao-e-merge",
-  "data": "2026-09-08",
-  "responsavel": "claude-codigo",
-  "comando": "git merge-base --is-ancestor ec09459 origin/v/3.0.0",
-  "codigo_de_saida": 0,
+  "task": "PF-15",
+  "gate": "review-and-merge",
+  "date": "2026-09-08",
+  "owner": "claude-code",
+  "command": "git merge-base --is-ancestor ec09459 origin/v/3.0.0",
+  "exit_code": 0,
   "sha": "a850265445bf32d350e93b775d0c44b98a1d196b",
-  "origem_externa": null
+  "external_origin": null
 }
 ```
 
-# PF-15 — `revisao-e-merge`
+# PF-15 — `review-and-merge`
 
 PR #19 was merged into `v/3.0.0`. The merge commit is `ec09459`, and it is an ancestor of the
 current tip of the default branch.

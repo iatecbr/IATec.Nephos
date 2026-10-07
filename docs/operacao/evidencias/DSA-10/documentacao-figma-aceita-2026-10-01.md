@@ -1,24 +1,24 @@
 ```json
 {
-  "tarefa": "DSA-10",
-  "gate": "documentacao-figma-aceita",
-  "data": "2026-10-01",
-  "responsavel": "indiane",
-  "comando": null,
-  "codigo_de_saida": null,
+  "task": "DSA-10",
+  "gate": "figma-docs-accepted",
+  "date": "2026-10-01",
+  "owner": "indiane",
+  "command": null,
+  "exit_code": null,
   "sha": null,
-  "origem_externa": {
-    "classificacao": "interna-permitida",
-    "url_ou_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1196-674",
-    "data": "2026-10-01",
-    "autoria": "indiane",
-    "trecho": null,
-    "decisao_convertida": "The frame nph-separator (1196:674), on the page `NPH — Separator`, was accepted as the API and behavior specification of nph-separator. COMPONENT_SET: nph-separator (762:6), variant `orientacao` horizontal|vertical, default horizontal."
+  "external_origin": {
+    "classification": "internal-allowed",
+    "url_or_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1196-674",
+    "date": "2026-10-01",
+    "author": "indiane",
+    "excerpt": null,
+    "converted_decision": "The frame nph-separator (1196:674), on the page `NPH — Separator`, was accepted as the API and behavior specification of nph-separator. COMPONENT_SET: nph-separator (762:6), variant `orientacao` horizontal|vertical, default horizontal."
   }
 }
 ```
 
-# DSA-10 — `documentacao-figma-aceita`
+# DSA-10 — `figma-docs-accepted`
 
 Indiane accepted the documentation of the `nph-separator` board (`1196:674`) on
 01-10-2026, in the file `DS-IA-NEPHOS 5.0`, page `NPH — Separator`. The Figma UX

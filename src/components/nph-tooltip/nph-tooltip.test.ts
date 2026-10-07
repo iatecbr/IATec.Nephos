@@ -9,7 +9,12 @@ import '@fontsource/noto-sans/latin-400.css';
 import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import componentCss from './nph-tooltip.css?raw';
+import { render } from 'lit';
+import type { TemplateResult } from 'lit';
+
+import { translations } from '../../../.storybook/i18n/index.js';
 import { NphTooltip } from './nph-tooltip';
+import { OneLine, TwoLines } from './nph-tooltip.stories';
 
 const ONE_LINE = 'Explica o que o campo pede.';
 const TWO_LINES = 'Use o nome como está no documento, sem abreviar nem trocar a ordem.';
@@ -184,5 +189,56 @@ describe('measure', () => {
       expect(range.getClientRects().length, word).toBe(1);
       offset = start + word.length;
     }
+  });
+});
+
+describe('nph-tooltip Validation: dictionary text', () => {
+  const LOCALES = ['pt-BR', 'en', 'es'] as const;
+  type Renderable = { render?: (args: unknown, context: unknown) => TemplateResult };
+
+  async function renderStory(story: Renderable, locale: string): Promise<NphTooltip> {
+    const target = document.createElement('div');
+    document.body.append(target);
+    render(story.render?.({}, { globals: { locale } }) as TemplateResult, target);
+    const element = target.querySelector('nph-tooltip') as NphTooltip;
+    await element.updateComplete;
+    return element;
+  }
+
+  for (const locale of LOCALES) {
+    it(`${locale}: one line takes one line, and two lines take two, within 235 x 44`, async () => {
+      const texts = translations(locale).tooltipValidation;
+      const one = await renderStory(OneLine as Renderable, locale);
+      const two = await renderStory(TwoLines as Renderable, locale);
+      expect(one.text).toBe(texts.oneLine);
+      expect(two.text).toBe(texts.twoLines);
+      const oneBubble = bubbleOf(one) as HTMLElement;
+      const twoBubble = bubbleOf(two) as HTMLElement;
+      expect(lineTops(oneBubble)).toHaveLength(1);
+      expect(lineTops(twoBubble)).toHaveLength(2);
+      expect(twoBubble.getBoundingClientRect().width).toBeLessThanOrEqual(MAX_WIDTH + 0.5);
+      expect(twoBubble.getBoundingClientRect().height).toBeLessThanOrEqual(MAX_HEIGHT + 0.5);
+    });
+  }
+
+  it('en: no pt-BR text appears', async () => {
+    const english = Object.values(translations('en').tooltipValidation) as string[];
+    const portuguese = (Object.values(translations('pt-BR').tooltipValidation) as string[]).filter(
+      (value) => !english.includes(value),
+    );
+    expect(portuguese.length).toBeGreaterThan(0);
+    for (const story of [OneLine, TwoLines] as Renderable[]) {
+      const element = await renderStory(story, 'en');
+      for (const value of portuguese) {
+        expect(element.text).not.toBe(value);
+        expect(bubbleOf(element)?.textContent ?? '').not.toContain(value);
+      }
+    }
+  });
+
+  it('en and es have the same keys as pt-BR', () => {
+    const keys = Object.keys(translations('pt-BR').tooltipValidation);
+    expect(Object.keys(translations('en').tooltipValidation)).toEqual(keys);
+    expect(Object.keys(translations('es').tooltipValidation)).toEqual(keys);
   });
 });

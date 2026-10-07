@@ -16,7 +16,7 @@ consumo_de_tema: >-
 escopo_migrado_para_json: >-
   The core, theme (in the seven modes) and semantic (in the two modes) layers, in
   src/tokens/source/*.tokens.json. Each layer declares its own count in
-  contagemEsperada, and npm run build:tokens shows the totals and fails when a
+  expectedCount, and npm run build:tokens shows the totals and fails when a
   layer diverges; this contract does not repeat the numbers. The P46 primitives
   were left out by a recorded decision. The other primitives remain deferred —
   deferred does not mean without a consumer. The focus rings came in as
@@ -262,7 +262,7 @@ tokens_semantic:
     css: '--nph-color-primary'
     claro: theme/brand-600
     escuro: theme/brand-400
-    use: "Background of the most important action on the screen. Comes from the active brand: Nephos is multi-brand and primary changes when the brand changes."
+    use: "Background of the most important action on the screen. Comes from the active brand: Nephos is multi-brand and primary changes when the brand changes. Also the background of the solid nph-badge, which labels a state or category by its meaning."
     nao_use: "Two primaries in the same decision block. Pinning a value of its own, ignoring the active brand."
   color/primary-foreground:
     css: '--nph-color-primary-foreground'
@@ -274,13 +274,13 @@ tokens_semantic:
     css: '--nph-color-secondary'
     claro: core/surface/200
     escuro: core/surface/600
-    use: "Alternative action that accompanies the primary one."
+    use: "Alternative action that accompanies the primary one. Also the background of the solid nph-badge, which labels a state or category by its meaning."
     nao_use: "Destructive action."
   color/secondary-foreground:
     css: '--nph-color-secondary-foreground'
     claro: core/surface/900
     escuro: core/surface/100
-    use: "Text on color/secondary."
+    use: "Text on color/secondary. On the secondary nph-button and nph-badge, also text, icon and border on color/secondary-light and color/muted, and the text of the ghost secondary nph-button, which has no background."
   color/secondary-hover:
     css: '--nph-color-secondary-hover'
     claro: core/surface/300
@@ -302,19 +302,19 @@ tokens_semantic:
     css: '--nph-color-muted'
     claro: core/neutral/100
     escuro: core/surface/700
-    use: "Permanent background without emphasis: table header, disabled area."
-    nao_use: "Hover."
+    use: "Permanent background without emphasis: table header, disabled area. Also the background of the outline secondary nph-button and the hover of the ghost secondary."
+    nao_use: "Hover, except that of the ghost secondary nph-button."
   color/muted-foreground:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
     escuro: core/surface/200
-    use: "Caption, helper text, placeholder, metadata."
+    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it (decision of 06-10-2026)."
     nao_use: "Text needed to complete the task."
   color/destructive:
     css: '--nph-color-destructive'
     claro: core/danger/600
     escuro: core/danger/400
-    use: "Action that deletes, revokes or cannot be undone."
+    use: "Action that deletes, revokes or cannot be undone. Also the background of the solid nph-badge, which labels a state or category by its meaning."
     nao_use: "Validation error."
   color/destructive-foreground:
     css: '--nph-color-destructive-foreground'
@@ -370,12 +370,12 @@ tokens_semantic:
     css: '--nph-color-primary-surface'
     claro: theme/brand-50
     escuro: theme/brand-900
-    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Follows the active brand. USE always with color/primary-on-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted."
+    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge and the hover of the ghost nph-button. Follows the active brand. USE always with color/primary-on-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted."
   color/primary-on-surface:
     css: '--nph-color-primary-on-surface'
     claro: theme/brand-600
     escuro: theme/brand-100
-    use: "Text, icon and border on color/primary-surface. Vivid brand color in light mode, light tone in dark mode. USE only on it. DO NOT USE on solid color/primary — there color/primary-foreground applies."
+    use: "Text, icon and border on color/primary-surface. Vivid brand color in light mode, light tone in dark mode. USE only on it, except for the exception. Exception: text of the ghost nph-button, which has no background. DO NOT USE on solid color/primary — there color/primary-foreground applies."
   color/primary-surface-hover:
     css: '--nph-color-primary-surface-hover'
     claro: theme/brand-100
@@ -394,16 +394,17 @@ tokens_semantic:
     css: '--nph-color-primary-hover'
     claro: theme/brand-700
     escuro: theme/brand-400-hover
+    use: "Background of color/primary in the hover-active state of the solid nph-button, with color/primary-foreground on top (decision of 02-10-2026, supersedes B4)."
   color/destructive-surface:
     css: '--nph-color-destructive-surface'
     claro: core/danger/50
     escuro: core/danger/900
-    use: "Background of the destructive action in light emphasis: nph-button with light or outline emphasis. USE always with color/destructive-on-surface. DO NOT USE in a validation error message — there status/error-surface applies."
+    use: "Background of the destructive action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge and the hover of the ghost nph-button. USE always with color/destructive-on-surface. DO NOT USE in a validation error message — there status/error-surface applies."
   color/destructive-on-surface:
     css: '--nph-color-destructive-on-surface'
     claro: core/danger/600
     escuro: core/danger/100
-    use: "Text, icon and border on color/destructive-surface. USE only on it. DO NOT USE on solid color/destructive — there color/destructive-foreground applies."
+    use: "Text, icon and border on color/destructive-surface. USE only on it, except for the exception. Exception: text of the ghost nph-button, which has no background. DO NOT USE on solid color/destructive — there color/destructive-foreground applies."
   color/destructive-surface-hover:
     css: '--nph-color-destructive-surface-hover'
     claro: core/danger/100
@@ -418,6 +419,7 @@ tokens_semantic:
     css: '--nph-color-destructive-hover'
     claro: core/danger/700
     escuro: core/danger/300
+    use: "Background of color/destructive in the hover-active state of the solid nph-button, with color/destructive-foreground on top (decision of 02-10-2026, supersedes B4)."
   color/secondary-surface-hover:
     css: '--nph-color-secondary-surface-hover'
     claro: core/surface/200
@@ -427,10 +429,12 @@ tokens_semantic:
     css: '--nph-color-secondary-light'
     claro: core/surface/50
     escuro: core/surface/700
+    use: "Background of the alternative action in light emphasis: secondary light nph-button and nph-badge, with color/secondary-foreground. DO NOT USE in outline — there it is color/muted."
   color/secondary-light-hover:
     css: '--nph-color-secondary-light-hover'
     claro: core/surface/100
     escuro: core/surface/600
+    use: "Hover-active of the secondary light nph-button, with color/secondary-foreground on top. DO NOT USE in outline — there it is color/secondary-surface-hover."
   color/input-hover:
     css: '--nph-color-input-hover'
     claro: core/neutral/500
@@ -453,7 +457,7 @@ tokens_semantic:
     css: '--nph-focus-ring'
     claro: theme/brand-700
     escuro: theme/brand-400
-    use: "Keyboard focus ring, on every focusable element."
+    use: "Keyboard focus ring, on every focusable element, except where the focus is border and halo (rule 6)."
     nao_use: "Removing it."
   focus/ring-error:
     css: '--nph-focus-ring-error'
@@ -465,6 +469,7 @@ tokens_semantic:
     css: '--nph-focus-border'
     claro: theme/brand-focus
     escuro: theme/brand-300
+    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button and on the info trigger of the nph-label. It is the one that meets the 3:1 minimum; the halo is decoration."
   focus/halo:
     css: '--nph-focus-halo'
     claro: theme/brand-200
@@ -546,13 +551,13 @@ tokens_semantic:
     css: '--nph-status-info'
     claro: core/info/600
     escuro: core/info/400
-    use: "Solid color of the state: icon, dot, message bar. Neutral information: system notice, contextual tip."
+    use: "Solid color of the state: icon, dot, message bar. Neutral information: system notice, contextual tip. Also the solid background of the nph-badge and of the nph-button, with status/on-solid. The `nao_use` still applies."
     nao_use: "error, risk or confirmation"
   status/info-surface:
     css: '--nph-status-info-surface'
     claro: core/info/50
     escuro: core/info/900
-    use: "Message background. Always together with the other three roles of status/info."
+    use: "Message background. Always together with the other three roles of status/info. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border."
   status/info-border:
     css: '--nph-status-info-border'
     claro: core/info/200
@@ -562,18 +567,18 @@ tokens_semantic:
     css: '--nph-status-info-foreground'
     claro: core/info/800
     escuro: core/info/100
-    use: "Text inside the message. Always together with the other three roles of status/info."
+    use: "Text inside the message. Always together with the other three roles of status/info. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border."
   status/warning:
     css: '--nph-status-warning'
     claro: core/warn/600
     escuro: core/warn/400
-    use: "Solid color of the state: icon, dot, message bar. Something may go wrong, or requires care before proceeding."
+    use: "Solid color of the state: icon, dot, message bar. Something may go wrong, or requires care before proceeding. Also the solid background of the nph-badge and of the nph-button, with status/on-solid. The `nao_use` still applies."
     nao_use: "error that has already happened"
   status/warning-surface:
     css: '--nph-status-warning-surface'
     claro: core/warn/50
     escuro: core/warn/900
-    use: "Message background. Always together with the other three roles of status/warning."
+    use: "Message background. Always together with the other three roles of status/warning. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border."
   status/warning-border:
     css: '--nph-status-warning-border'
     claro: core/warn/200
@@ -583,18 +588,18 @@ tokens_semantic:
     css: '--nph-status-warning-foreground'
     claro: core/warn/800
     escuro: core/warn/100
-    use: "Text inside the message. Always together with the other three roles of status/warning."
+    use: "Text inside the message. Always together with the other three roles of status/warning. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border."
   status/help:
     css: '--nph-status-help'
     claro: core/help/600
     escuro: core/help/400
-    use: "Solid color of the state: icon, dot, message bar. Help and guidance: explanation, tour, support content."
+    use: "Solid color of the state: icon, dot, message bar. Help and guidance: explanation, tour, support content. Also the solid background of the nph-badge and of the nph-button, with status/on-solid. The `nao_use` still applies."
     nao_use: "system state"
   status/help-surface:
     css: '--nph-status-help-surface'
     claro: core/help/50
     escuro: core/help/900
-    use: "Message background. Always together with the other three roles of status/help."
+    use: "Message background. Always together with the other three roles of status/help. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border."
   status/help-border:
     css: '--nph-status-help-border'
     claro: core/help/200
@@ -604,7 +609,7 @@ tokens_semantic:
     css: '--nph-status-help-foreground'
     claro: core/help/800
     escuro: core/help/100
-    use: "Text inside the message. Always together with the other three roles of status/help."
+    use: "Text inside the message. Always together with the other three roles of status/help. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border."
   status/error:
     css: '--nph-status-error'
     claro: core/danger/600
@@ -630,13 +635,13 @@ tokens_semantic:
     css: '--nph-status-success'
     claro: core/success/600
     escuro: core/success/400
-    use: "Solid color of the state: icon, dot, message bar. Confirmation that the action succeeded."
+    use: "Solid color of the state: icon, dot, message bar. Confirmation that the action succeeded. Also the solid background of the nph-badge and of the nph-button, with status/on-solid. The `nao_use` still applies."
     nao_use: "permanent state such as an active badge"
   status/success-surface:
     css: '--nph-status-success-surface'
     claro: core/success/50
     escuro: core/success/900
-    use: "Message background. Always together with the other three roles of status/success."
+    use: "Message background. Always together with the other three roles of status/success. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border."
   status/success-border:
     css: '--nph-status-success-border'
     claro: core/success/200
@@ -646,15 +651,17 @@ tokens_semantic:
     css: '--nph-status-success-foreground'
     claro: core/success/800
     escuro: core/success/100
-    use: "Text inside the message. Always together with the other three roles of status/success."
+    use: "Text inside the message. Always together with the other three roles of status/success. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border."
   status/on-solid:
     css: '--nph-status-on-solid'
     claro: color/background
     escuro: color/background
+    use: "Text and icon on the solid status background: nph-badge and nph-button in the info, warn, help and success types. DO NOT USE on the light surface of the message — there status/<matiz>-foreground applies."
   status/info-hover:
     css: '--nph-status-info-hover'
     claro: core/info/700
     escuro: core/info/300
+    use: "Background of status/info in the hover-active state of the solid nph-button, with status/on-solid on top (decision of 02-10-2026, supersedes B4)."
   status/info-surface-hover:
     css: '--nph-status-info-surface-hover'
     claro: core/info/100
@@ -663,6 +670,7 @@ tokens_semantic:
     css: '--nph-status-warning-hover'
     claro: core/warn/700
     escuro: core/warn/300
+    use: "Background of status/warning in the hover-active state of the solid nph-button, with status/on-solid on top (decision of 02-10-2026, supersedes B4)."
   status/warning-surface-hover:
     css: '--nph-status-warning-surface-hover'
     claro: core/warn/100
@@ -671,6 +679,7 @@ tokens_semantic:
     css: '--nph-status-help-hover'
     claro: core/help/700
     escuro: core/help/300
+    use: "Background of status/help in the hover-active state of the solid nph-button, with status/on-solid on top (decision of 02-10-2026, supersedes B4)."
   status/help-surface-hover:
     css: '--nph-status-help-surface-hover'
     claro: core/help/100
@@ -679,6 +688,7 @@ tokens_semantic:
     css: '--nph-status-success-hover'
     claro: core/success/700
     escuro: core/success/300
+    use: "Background of status/success in the hover-active state of the solid nph-button, with status/on-solid on top (decision of 02-10-2026, supersedes B4)."
   status/success-surface-hover:
     css: '--nph-status-success-surface-hover'
     claro: core/success/100
@@ -951,7 +961,7 @@ tokens_space:
     css: '--nph-space-inline-tight'
     alias: core/space/100
     valor: 4
-    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. DO NOT USE between independent elements - there it is space/inline."
+    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it. DO NOT USE between independent elements - there it is space/inline."
   space/inline:
     css: '--nph-space-inline'
     alias: core/space/200
@@ -976,7 +986,7 @@ tokens_space:
     css: '--nph-space-control-padding'
     alias: core/space/300
     valor: 12
-    use: "Inner horizontal padding of button, field and select - what is operated. DO NOT USE on a card."
+    use: "Inner horizontal padding of button, field and select - what is operated - and the sides of the nph-badge. DO NOT USE on a card."
   space/container-padding:
     css: '--nph-space-container-padding'
     alias: core/space/400
@@ -1088,7 +1098,7 @@ tokens_radius:
     css: '--nph-radius-full'
     alias: core/radius/full
     valor: 9999
-    use: "Fully rounded shape. USE only on a small piece whose shape communicates a marker: badge, counter, avatar, switch knob. NEVER on a regular button, field or card."
+    use: "Fully rounded shape. USE only on a small piece whose shape communicates a marker: badge, counter, switch knob. NEVER on a regular button, field or card. NEVER on an avatar: the avatar is a square with rounded corners (avatar/radius-*)."
 
 # ---------------------------------------------------------------
 # ELEVATION - in Figma the level is an EFFECT STYLE; in code it is a
@@ -1106,7 +1116,7 @@ elevacao_regras:
   spread_negativo: 'Shrinks the shadow and keeps it anchored under the piece, instead of leaking out the sides.'
   alinhamento: 'The seven levels with a shadow match the geometry AND the opacity of the shadcn kit exactly: hairline=2xs, subtle=xs, raised=sm, dropdown=md, modal=lg, drawer=xl, spotlight=2xl. Intent names are Nephos own; the numbers were aligned so that swapping the style of an adapted component is 1:1.'
   um_nivel_por_peca: "Do not stack elevation inside elevation."
-  sombra_nao_e_estado: "Hover and focus are solved with color and the focus ring, never by raising the level."
+  sombra_nao_e_estado: "Hover and focus are solved with color and visible focus, never by raising the level."
   modal_exige_veu: overlay/scrim
 
 tokens_elevation:
@@ -1147,7 +1157,7 @@ tokens_elevation:
   focus-ring/default:
     css: '--nph-focus-ring-default'
     camadas: ['0 0 0 4px focus/ring']
-    use: "The keyboard focus ring. USE on EVERY operable element that receives focus: button, field, select, checkbox, link, tab, menu item. The color comes from the active brand. NEVER remove the ring. DO NOT USE inside the sidebar - there it is focus-ring/sidebar."
+    use: "The keyboard focus ring. USE on EVERY operable element that receives focus: button, field, select, checkbox, link, tab, menu item - except where the focus is border and halo (rule 6). The color comes from the active brand. NEVER remove the visible focus. DO NOT USE inside the sidebar - there it is focus-ring/sidebar. Where the accepted Figma draws border and halo, they apply in place of the ring. On the nph-button, the focus border is border/width in the color of the type (color/primary, status/info, status/warning, status/help, color/destructive or status/success) and focus/border on the secondary, with radius focus/border-radius-control; the halo is focus/ring-width in focus/halo on the primary and the secondary, and in focus/halo-<matiz> on the others, with radius focus/radius-control-with-border. On the info trigger of the nph-label, border focus/border and halo focus/halo."
   focus-ring/invalid:
     css: '--nph-focus-ring-invalid'
     camadas: ['0 0 0 4px focus/ring-error']
@@ -1244,7 +1254,7 @@ tokens_core_veu:
   core/scrim/dark:  { valor: 'rgba(0,0,0,0.65)', css: '--nph-core-scrim-dark',  alias_de: 'overlay/scrim in dark mode' }
 
 tokens_core_foco:
-  regra: 'NEVER consume directly. The focus ring comes from the focus-ring/* styles, which already bind the width and the color.'
+  regra: 'NEVER consume directly. The focus ring comes from the focus-ring/* styles, which already bind the width and the color, or from the focus halo of rule 6.'
   core/focus-width/default: { valor: 4, css: '--nph-core-focus-width-default', alias_de: 'focus/ring-width' }
 
 tokens_core_borda:
@@ -1346,7 +1356,7 @@ tokens_alpha:
     css: '--nph-focus-ring-width'
     alias: core/focus-width/default
     valor: 4
-    use: "The thickness of EVERY focus ring: 4px, equal in both modes. NEVER pick it by hand: apply one of the focus-ring/* styles. DO NOT reduce it to 1 or 2 on a small piece - the ring is what makes the product keyboard-navigable. WCAG 2.2 asks for at least 2px."
+    use: "The thickness of EVERY focus ring: 4px, equal in both modes. NEVER pick it by hand: apply one of the focus-ring/* styles or the focus halo of rule 6. DO NOT reduce it to 1 or 2 on a small piece - the ring is what makes the product keyboard-navigable. WCAG 2.2 asks for at least 2px."
   border/width:
     css: '--nph-border-width'
     alias: core/border-width/default
@@ -1384,8 +1394,8 @@ tokens_alpha:
   state/hover-opacity:
     css: '--nph-state-hover-opacity'
     valor: 0.95
-    use: "Opacity of the hover surface of primary and destructive. Apply only to the surface; text, icon and focus stay at 100%."
-    nao_use: "Secondary, outline, ghost, focus, disabled or isolated text."
+    use: "It was the solid hover of the nph-button (B4, `Registro`). Since 02-10-2026, the button uses color/primary-hover, color/destructive-hover, color/secondary-hover and status/*-hover. DO NOT USE on button hover."
+    nao_use: "Button hover; secondary, outline, ghost, focus, disabled or isolated text."
 
 # ---------------------------------------------------------------
 # GRID AND LAYOUT - 12 columns at EVERY breakpoint. What changes with the screen
@@ -1518,7 +1528,7 @@ movimento_reduzido:
   escala: opacidade
   giro: "Stops. Static indicator or determinate progress."
   duracao: core/duration/100
-  nao_muda: "State color, focus ring and any indication that is not motion. Reducing motion is NOT removing feedback."
+  nao_muda: "State color, visible focus and any indication that is not motion. Reducing motion is NOT removing feedback."
 
 tokens_core_duration:
   '100': { valor: 100, css: '--nph-core-duration-100', use: "Immediate feedback: hover, focus, background color." }
@@ -1655,12 +1665,12 @@ tokens_icon:
     css: '--nph-icon-size-md'
     alias: core/icon-size/200
     valor: 20
-    use: "Menu item, tab and highlighted action, where 16 is small next to the label. DO NOT USE inside a regular button."
+    use: "Menu item, tab and highlighted action, where 16 is small next to the label. DO NOT USE inside a button with text. On the icon-only nph-button, the icon follows the box: md in default."
   icon/size-lg:
     css: '--nph-icon-size-lg'
     alias: core/icon-size/300
     valor: 24
-    use: "Section header, empty state and an icon that carries meaning alone. DO NOT USE on a dense screen or in a list."
+    use: "Section header, empty state, an icon that carries meaning alone and the large icon-only nph-button. DO NOT USE on a dense screen or in a list."
 
 icones_nucleo:
   navegacao_e_menus:
@@ -1928,7 +1938,7 @@ Absolute imperative. They are not preferences.
 3. **NEVER** write a literal color, spacing, font or radius value in component CSS. Only `var(--nph-*)`.
 4. Components consume **only** `tokens_semantic`. **NEVER** consume `tokens_core` directly.
 5. Color is **NEVER** the only indicator. Every state carries an icon and text besides the color.
-6. The focus ring (`focus/ring`) is mandatory on every focusable element and is **NEVER** removed.
+6. Visible focus is mandatory on every focusable element and is **NEVER** removed. It is the `focus/ring` ring, through a `focus-ring/*` style, or, where the accepted Figma draws border and halo — as on the `nph-button` and on the `info` trigger of the `nph-label` —, the focus border of `border/width`, flush, with the halo of `focus/ring-width` outside (see `focus-ring/default`).
 7. Every surface that carries text meets **4,5:1**; every control boundary meets **3:1** (WCAG 2.1 AA).
 8. **NEVER** create a new token, component, icon or pattern to work around a gap. See §8.
 
@@ -1940,8 +1950,8 @@ When two tokens seem to fit, this is what decides.
 
 | Question | Rule |
 |---|---|
-| `muted` × `accent` | `muted` is permanent; `accent` is temporary. If the state disappears when the mouse leaves, it is `accent`. |
-| `destructive` × `status/error` | `destructive` is what the **user is going to do**. `status/error` is what the **system has already reported**. The "Delete" button is `destructive`; the message "Invalid CPF" is `status/error`. |
+| `muted` × `accent` | `muted` is permanent; `accent` is temporary. If the state disappears when the mouse leaves, it is `accent`. Exception: the hover of the ghost secondary `nph-button` is `color/muted`, as Figma draws it. |
+| `destructive` × `status/error` | `destructive` is what the **user is going to do**. `status/error` is what the **system has already reported**. The "Delete" button is `destructive`; the message "Invalid CPF" is `status/error`. On the `nph-badge`, the danger type labels a negative state of an item, such as rejected; the system message stays `status/error`. |
 | `border` × `input` | `border` is divider and outline. `input` is the boundary of a form control — more visible as required by WCAG 1.4.11. |
 | `card` × `popover` | `card` is fixed content on the page. `popover` is a floating layer. |
 | `brand/*` × `color/primary` | `brand/*` identifies the vertical when the seven brands need to appear at the same time. `color/primary` is the primary action and comes from the **active brand**, through the `theme` collection. |
@@ -1984,10 +1994,10 @@ Space groups. The question is not how much looks nice, but **what these two thin
 
 | Question | Rule |
 |---|---|
-| `inline-tight` × `stack-tight` | Same value (4), different axes. `inline` is horizontal, `stack` is vertical. |
+| `inline-tight` × `stack-tight` | Same value (4), different axes. `inline` is horizontal, `stack` is vertical. Exception: the top and bottom breathing room of the `nph-badge` is `inline-tight`, as Figma draws it. |
 | `inline-tight` × `inline` | Inside a unit it is `tight`; between units it is `inline`. An icon in a button is `tight`; a button next to a button is `inline`. |
 | `stack` × `section` | 16 is between items of the same list; 32 is between subjects. If there is a new title, it is `section`. |
-| `control-padding` × `container-padding` | A control is what is **operated** (button, field, select). A container is what **contains** (card, panel, popover). |
+| `control-padding` × `container-padding` | A control is what is **operated** (button, field, select). A container is what **contains** (card, panel, popover). The `nph-badge` uses `control-padding` on the sides. |
 | `container-padding` × page margin | Inside the card it is `container-padding`. The page margin **is not a space token**: it is `layout/margin-compact`, `-default` or `-wide`, which change by breakpoint. |
 
 **Padding is not gap.** Padding is the breathing room inside a box; gap is the distance between boxes. The value may coincide; the intent does not.
@@ -2038,7 +2048,7 @@ The curve says what the piece is. The question is not how much to round.
 
 **One level per piece.** Do not stack elevation inside elevation.
 
-**Shadow is not state.** Hover and focus are solved with color and the focus ring, never by raising the level.
+**Shadow is not state.** Hover and focus are solved with color and visible focus, never by raising the level.
 
 **In dark there is no shadow.** Elevation comes from the `surface` ramp and from the border — see §3. The shadow colors become transparent by themselves; the effect style is the same in both modes.
 
@@ -2084,7 +2094,7 @@ The curve says what the piece is. The question is not how much to round.
 
 **Animate opacity and transform.** Width, height and layout position stutter in large lists and tables.
 
-**Reduced motion is mandatory.** Slide and scale become opacity; rotation stops; duration drops to 100. State color and focus ring do **not** change — reducing motion is not removing feedback.
+**Reduced motion is mandatory.** Slide and scale become opacity; rotation stops; duration drops to 100. State color and visible focus do **not** change — reducing motion is not removing feedback.
 
 **Motion is never the only sign of a state** — same logic as rule 5.
 
@@ -2187,7 +2197,7 @@ Never do it. Each row is a prevented error.
 | A4 | Pin `color/primary` to a value of its own, ignoring the active brand |
 | A5 | Use `color/destructive` for a validation error |
 | A6 | Use color as the only state indicator |
-| A7 | Remove the focus ring |
+| A7 | Remove the visible focus |
 | A8 | Use `color/muted-foreground` on essential text (it is at the minimum of the standard) |
 | A9 | Simulate elevation with shadow in dark mode |
 | A10 | Invert tones mechanically between light and dark |

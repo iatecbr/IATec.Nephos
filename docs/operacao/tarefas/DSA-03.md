@@ -1,55 +1,55 @@
 ```json
 {
   "id": "DSA-03",
-  "objetivo": "Align the nph-icon contracts and artwork with decision I7 about circle-info in the solid style.",
-  "fase": "F4",
-  "ordem_aprovada": 80,
-  "responsavel": "claude-codigo",
-  "estado": "concluida",
-  "peca": "nph-icon",
-  "dependencias": [],
+  "goal": "Align the nph-icon contracts and artwork with decision I7 about circle-info in the solid style.",
+  "phase": "F4",
+  "approved_order": 80,
+  "owner": "claude-code",
+  "state": "done",
+  "piece": "nph-icon",
+  "dependencies": [],
   "gates": [
     {
-      "id": "documentacao-figma-aceita",
-      "descricao": "The nph-icon documentation in Figma was accepted by Indiane and recorded as evidence.",
-      "comando": null,
-      "evidencia": "docs/operacao/evidencias/DSA-03/documentacao-figma-aceita-2026-09-14.md",
-      "resultado": "passou",
-      "verificado_em": "2026-09-14",
-      "verificado_por": "indiane"
+      "id": "figma-docs-accepted",
+      "description": "The nph-icon documentation in Figma was accepted by Indiane and recorded as evidence.",
+      "command": null,
+      "evidence": "docs/operacao/evidencias/DSA-03/documentacao-figma-aceita-2026-09-14.md",
+      "result": "passed",
+      "verified_at": "2026-09-14",
+      "verified_by": "indiane"
     },
     {
-      "id": "revisao-e-merge",
-      "descricao": "PRs #34 and #35, approved by maurocsjr, already delivered I7 into v/5.0.0; commit fff0624 is an ancestor of merge 4c33737.",
-      "comando": "git merge-base --is-ancestor fff0624e44d7679877f36a28bb03225226f4eaec origin/v/5.0.0",
-      "evidencia": "docs/operacao/evidencias/DSA-03/revisao-e-merge-2026-09-14.md",
-      "resultado": "passou",
-      "verificado_em": "2026-09-14",
-      "verificado_por": "copilot"
+      "id": "review-and-merge",
+      "description": "PRs #34 and #35, approved by maurocsjr, already delivered I7 into v/5.0.0; commit fff0624 is an ancestor of merge 4c33737.",
+      "command": "git merge-base --is-ancestor fff0624e44d7679877f36a28bb03225226f4eaec origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-03/revisao-e-merge-2026-09-14.md",
+      "result": "passed",
+      "verified_at": "2026-09-14",
+      "verified_by": "copilot"
     }
   ],
-  "bloqueios": [],
-  "decisoes_pendentes": [],
-  "evidencias": [
+  "blockers": [],
+  "pending_decisions": [],
+  "evidence": [
     "docs/operacao/evidencias/DSA-03/documentacao-figma-aceita-2026-09-14.md",
     "docs/operacao/evidencias/DSA-03/revisao-e-merge-2026-09-14.md"
   ],
-  "referencias_de_decisao": [],
-  "origem_externa": {
-    "classificacao": "interna-permitida",
-    "url_ou_id": "WORK BRAIN — 02 PROJETOS/DS-Agentico/Registro de decisões — Nephos.md, I7",
-    "data": "2026-09-08",
-    "autoria": "indiane",
-    "trecho": null,
-    "decisao_convertida": "Decision I7 allows circle-info in the solid style; on 09-09-2026 Indiane authorized migrating DSA-03 to docs/operacao/tarefas/ as a comparable M6 cycle."
+  "decision_refs": [],
+  "external_origin": {
+    "classification": "internal-allowed",
+    "url_or_id": "WORK BRAIN — 02 PROJETOS/DS-Agentico/Registro de decisões — Nephos.md, I7",
+    "date": "2026-09-08",
+    "author": "indiane",
+    "excerpt": null,
+    "converted_decision": "Decision I7 allows circle-info in the solid style; on 09-09-2026 Indiane authorized migrating DSA-03 to docs/operacao/tarefas/ as a comparable M6 cycle."
   },
-  "revisao_git": {
+  "git_review": {
     "branch": "feat/nph-icon-acervo-completo",
     "commit": "fff0624e44d7679877f36a28bb03225226f4eaec",
     "pr": "34"
   },
-  "contexto": null,
-  "atualizado_em": "2026-09-14"
+  "context": null,
+  "updated_at": "2026-09-14"
 }
 ```
 
@@ -61,14 +61,14 @@ record decision I7: `regular` remains the default, and `circle-info` may use
 `solid` for the approved reason.
 
 ## How it is proved
-**`documentacao-figma-aceita`** — the `nph-icon` documentation in the Figma file
+**`figma-docs-accepted`** — the `nph-icon` documentation in the Figma file
 `DS-IA-NEPHOS 5.0` is accepted by Indiane, and the acceptance goes into
 `docs/operacao/evidencias/DSA-03/`, with the frame URL or ID, the date, the
 authorship and the converted decision, naming the frame and the COMPONENT_SET.
-While this gate has not passed, the task stays `bloqueada` and no component code
+While this gate has not passed, the task stays `blocked` and no component code
 starts.
 
-**`revisao-e-merge`** — spec, `design.md`, `docs/decisoes-tecnicas.md`, artwork,
+**`review-and-merge`** — spec, `design.md`, `docs/decisoes-tecnicas.md`, artwork,
 tests, Storybook and their dictionaries pass the applicable tests, are reviewed and
 merged into the default branch. The evidence must record branch, commit, PR, the
 command run and the result.
@@ -89,9 +89,9 @@ coherent reason and a recorded decision.
 - `GOVERNANCA.md`, `AGENTS.md`, `CLAUDE.md`
 - WORK BRAIN — `02 PROJETOS/DS-Agentico/Registro de decisões — Nephos.md`, I7
 
-## Why it is `concluida`
+## Why it is `done`
 PRs #34 (code, tests and Storybook, merge `0e93f0a`) and #35 (spec and
 contracts, merge `9ed82e5`) were reviewed by Mauro (`maurocsjr`) and
 merged into `v/5.0.0` on 14-09-2026. Commit `fff0624` is an ancestor of the tip
 `4c33737`. The `nph-icon` tests passed (38/38). Both gates are
-`passou`, with local evidence, date and owner, and there is no active context.
+`passed`, with local evidence, date and owner, and there is no active context.

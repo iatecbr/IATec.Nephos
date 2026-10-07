@@ -1,19 +1,19 @@
 ```json
 {
-  "tarefa": "DSA-09",
+  "task": "DSA-09",
   "gate": null,
-  "data": "2026-10-05",
-  "responsavel": "claude-codigo",
-  "comando": "node docs/operacao/evidencias/DSA-09/conferir-nph-icon-figma.cjs",
-  "codigo_de_saida": 0,
+  "date": "2026-10-05",
+  "owner": "claude-code",
+  "command": "node docs/operacao/evidencias/DSA-09/conferir-nph-icon-figma.cjs",
+  "exit_code": 0,
   "sha": "7670786",
-  "origem_externa": {
-    "classificacao": "interna-permitida",
-    "url_ou_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1130-956",
-    "data": "2026-10-05",
-    "autoria": "claude-codigo",
-    "trecho": null,
-    "decisao_convertida": "Set nph-icon (248:143) of the accepted frame 1130:956: property `nome` with 93 options and `estilo` regular|solid, checked against the code map."
+  "external_origin": {
+    "classification": "internal-allowed",
+    "url_or_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=1130-956",
+    "date": "2026-10-05",
+    "author": "claude-code",
+    "excerpt": null,
+    "converted_decision": "Set nph-icon (248:143) of the accepted frame 1130:956: property `nome` with 93 options and `estilo` regular|solid, checked against the code map."
   }
 }
 ```

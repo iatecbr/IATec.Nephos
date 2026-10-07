@@ -35,11 +35,11 @@ const SPECS_ROOT = 'fichas';
 /** The Metadata is generated: only `--gerar-metadata` writes here. Never edit by hand. */
 const METADATA_ROOT = 'src/shared/metadata';
 
-const STATES = ['pronta', 'em-andamento', 'aguardando-decisao', 'bloqueada', 'em-revisao', 'concluida'];
-const OWNERS = ['indiane', 'claude-codigo', 'claude-figma', 'copilot', 'elvys'];
+const STATES = ['ready', 'in-progress', 'awaiting-decision', 'blocked', 'in-review', 'done'];
+const OWNERS = ['indiane', 'claude-code', 'claude-figma', 'copilot', 'elvys'];
 const PHASES = ['F0', 'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7'];
-const CLASSIFICATIONS = ['publica', 'interna-permitida', 'interna-restrita', 'desconhecida'];
-const GATE_RESULTS = ['pendente', 'passou', 'falhou'];
+const CLASSIFICATIONS = ['public', 'internal-allowed', 'internal-restricted', 'unknown'];
+const GATE_RESULTS = ['pending', 'passed', 'failed'];
 
 /**
  * The documentation lock. The accepted Figma documentation comes BEFORE the
@@ -47,22 +47,22 @@ const GATE_RESULTS = ['pendente', 'passou', 'falhou'];
  * why the two sets of states differ: local code without a spec is work in
  * progress, not a violation.
  */
-const FIGMA_DOCS_GATE = 'documentacao-figma-aceita';
-const STATES_REQUIRING_FIGMA_GATE = ['pronta', 'em-andamento', 'em-revisao', 'concluida'];
-const STATES_REQUIRING_SPEC = ['em-revisao', 'concluida'];
+const FIGMA_DOCS_GATE = 'figma-docs-accepted';
+const STATES_REQUIRING_FIGMA_GATE = ['ready', 'in-progress', 'in-review', 'done'];
+const STATES_REQUIRING_SPEC = ['in-review', 'done'];
 
 /** Closed schema: a top-level key outside this list fails in V03. */
 const FIELDS = [
-  'id', 'objetivo', 'fase', 'ordem_aprovada', 'responsavel', 'estado', 'peca',
-  'dependencias', 'gates', 'bloqueios', 'decisoes_pendentes', 'evidencias',
-  'referencias_de_decisao', 'origem_externa', 'revisao_git', 'contexto', 'atualizado_em',
+  'id', 'goal', 'phase', 'approved_order', 'owner', 'state', 'piece',
+  'dependencies', 'gates', 'blockers', 'pending_decisions', 'evidence',
+  'decision_refs', 'external_origin', 'git_review', 'context', 'updated_at',
 ];
-const TEXT_FIELDS = ['id', 'objetivo', 'fase', 'responsavel', 'estado', 'atualizado_em'];
-const LIST_FIELDS = ['dependencias', 'gates', 'bloqueios', 'decisoes_pendentes', 'evidencias', 'referencias_de_decisao'];
+const TEXT_FIELDS = ['id', 'goal', 'phase', 'owner', 'state', 'updated_at'];
+const LIST_FIELDS = ['dependencies', 'gates', 'blockers', 'pending_decisions', 'evidence', 'decision_refs'];
 
 /** The context does not decide: these six keys are forbidden in it (V23). */
-const CONTEXT_KEYS = ['tarefa', 'worktree', 'sha_inicial', 'sha_final'];
-const FORBIDDEN_CONTEXT_KEYS = ['estado', 'fase', 'ordem_aprovada', 'prioridade', 'escopo', 'decisao'];
+const CONTEXT_KEYS = ['task', 'worktree', 'start_sha', 'end_sha'];
+const FORBIDDEN_CONTEXT_KEYS = ['state', 'phase', 'approved_order', 'priority', 'scope', 'decision'];
 const CONTEXT_LINE_LIMIT = 60;
 
 const ID_PATTERN = /^[A-Z][A-Z0-9]{1,3}-[A-Z0-9]{1,6}$/;
@@ -127,7 +127,7 @@ const isEmpty = (v) => v === undefined || v === null || (typeof v === 'string' &
  * invalid JSON block. This function only looks at what is left: provenance.
  */
 function validateDocumentEvidence(taskId, gate, fail) {
-  const ev = gate.evidencia;
+  const ev = gate.evidence;
   if (typeof ev !== 'string' || isEmpty(ev) || !existsSync(ev)) return;
   const filePath = ev.replace(/\\/g, '/');
 
@@ -141,47 +141,47 @@ function validateDocumentEvidence(taskId, gate, fail) {
   if (data.gate !== FIGMA_DOCS_GATE) {
     fail('V31', filePath, `the \`gate\` field is "${data.gate}", not "${FIGMA_DOCS_GATE}"`);
   }
-  if (data.responsavel !== 'indiane') {
-    fail('V31', filePath, `whoever accepts the documentation is indiane, and \`responsavel\` declares "${data.responsavel}"`);
+  if (data.owner !== 'indiane') {
+    fail('V31', filePath, `whoever accepts the documentation is indiane, and \`owner\` declares "${data.owner}"`);
   }
 
-  const origin = data.origem_externa;
+  const origin = data.external_origin;
   if (origin === undefined || origin === null || typeof origin !== 'object' || Array.isArray(origin)) {
-    fail('V31', filePath, 'the documentation evidence does not declare `origem_externa` as an object');
+    fail('V31', filePath, 'the documentation evidence does not declare `external_origin` as an object');
     return;
   }
-  if (origin.classificacao !== 'interna-permitida') {
-    fail('V31', filePath, `origem_externa.classificacao is "${origin.classificacao}"; the Figma documentation is \`interna-permitida\``);
+  if (origin.classification !== 'internal-allowed') {
+    fail('V31', filePath, `external_origin.classification is "${origin.classification}"; the Figma documentation is \`internal-allowed\``);
   }
-  if (isEmpty(origin.url_ou_id)) {
-    fail('V31', filePath, '`origem_externa` does not declare `url_ou_id`; the Figma URL or ID is missing');
-  } else if (!/figma/i.test(origin.url_ou_id)) {
-    fail('V31', filePath, `origem_externa.url_ou_id "${origin.url_ou_id}" does not point to Figma`);
+  if (isEmpty(origin.url_or_id)) {
+    fail('V31', filePath, '`external_origin` does not declare `url_or_id`; the Figma URL or ID is missing');
+  } else if (!/figma/i.test(origin.url_or_id)) {
+    fail('V31', filePath, `external_origin.url_or_id "${origin.url_or_id}" does not point to Figma`);
   }
-  if (isEmpty(origin.data)) {
-    fail('V31', filePath, '`origem_externa` does not declare `data`');
-  } else if (!DATE_PATTERN.test(origin.data)) {
-    fail('V31', filePath, `origem_externa.data "${origin.data}" is not in YYYY-MM-DD`);
+  if (isEmpty(origin.date)) {
+    fail('V31', filePath, '`external_origin` does not declare `date`');
+  } else if (!DATE_PATTERN.test(origin.date)) {
+    fail('V31', filePath, `external_origin.date "${origin.date}" is not in YYYY-MM-DD`);
   }
-  if (isEmpty(origin.autoria)) {
-    fail('V31', filePath, '`origem_externa` does not declare `autoria`; who registered it is missing');
+  if (isEmpty(origin.author)) {
+    fail('V31', filePath, '`external_origin` does not declare `author`; who registered it is missing');
   }
-  if (isEmpty(origin.decisao_convertida)) {
-    fail('V31', filePath, '`origem_externa` does not declare `decisao_convertida`');
+  if (isEmpty(origin.converted_decision)) {
+    fail('V31', filePath, '`external_origin` does not declare `converted_decision`');
     return;
   }
-  if (!/frame/i.test(origin.decisao_convertida)) {
-    fail('V31', filePath, 'origem_externa.decisao_convertida does not name the source frame');
+  if (!/frame/i.test(origin.converted_decision)) {
+    fail('V31', filePath, 'external_origin.converted_decision does not name the source frame');
   }
-  if (!origin.decisao_convertida.includes('COMPONENT_SET')) {
-    fail('V31', filePath, 'origem_externa.decisao_convertida does not name the COMPONENT_SET');
+  if (!origin.converted_decision.includes('COMPONENT_SET')) {
+    fail('V31', filePath, 'external_origin.converted_decision does not name the COMPONENT_SET');
   }
 }
 
 /**
  * Validates a whole operational tree.
  * `root` is the directory that contains `tarefas/`, `contextos/` and `evidencias/`.
- * Paths declared in `evidencias[]` are always from the repository root,
+ * Paths declared in `evidence[]` are always from the repository root,
  * and must exist there.
  */
 export function validate(root, options = {}) {
@@ -262,29 +262,29 @@ export function validate(root, options = {}) {
       fail('V02', filePath, `the id "${data.id}" does not match ${ID_PATTERN}`);
     }
 
-    if (typeof data.fase === 'string' && !PHASES.includes(data.fase)) {
-      fail('V04', filePath, `\`fase\` "${data.fase}" outside ${PHASES.join(', ')}`);
+    if (typeof data.phase === 'string' && !PHASES.includes(data.phase)) {
+      fail('V04', filePath, `\`phase\` "${data.phase}" outside ${PHASES.join(', ')}`);
     }
-    if (typeof data.responsavel === 'string' && !OWNERS.includes(data.responsavel)) {
-      fail('V04', filePath, `\`responsavel\` "${data.responsavel}" outside ${OWNERS.join(', ')}`);
+    if (typeof data.owner === 'string' && !OWNERS.includes(data.owner)) {
+      fail('V04', filePath, `\`owner\` "${data.owner}" outside ${OWNERS.join(', ')}`);
     }
-    if (typeof data.atualizado_em === 'string' && !DATE_PATTERN.test(data.atualizado_em)) {
-      fail('V04', filePath, `\`atualizado_em\` "${data.atualizado_em}" is not in YYYY-MM-DD`);
+    if (typeof data.updated_at === 'string' && !DATE_PATTERN.test(data.updated_at)) {
+      fail('V04', filePath, `\`updated_at\` "${data.updated_at}" is not in YYYY-MM-DD`);
     }
-    if (data.revisao_git === undefined || data.revisao_git === null || typeof data.revisao_git !== 'object') {
-      fail('V04', filePath, '`revisao_git` must be an object with `branch`, `commit` and `pr`');
+    if (data.git_review === undefined || data.git_review === null || typeof data.git_review !== 'object') {
+      fail('V04', filePath, '`git_review` must be an object with `branch`, `commit` and `pr`');
     } else {
       for (const key of ['branch', 'commit', 'pr']) {
-        if (!(key in data.revisao_git)) {
-          fail('V04', filePath, `\`revisao_git\` does not declare "${key}"`);
+        if (!(key in data.git_review)) {
+          fail('V04', filePath, `\`git_review\` does not declare "${key}"`);
         }
       }
     }
 
     // V05 — state is one of the six
-    const state = data.estado;
+    const state = data.state;
     if (!STATES.includes(state)) {
-      fail('V05', filePath, `\`estado\` "${state}" does not exist; use ${STATES.join(', ')}`);
+      fail('V05', filePath, `\`state\` "${state}" does not exist; use ${STATES.join(', ')}`);
     }
 
     const gates = Array.isArray(data.gates) ? data.gates : [];
@@ -299,56 +299,56 @@ export function validate(root, options = {}) {
         fail('V14', filePath, `${where} is not an object`);
         return;
       }
-      for (const key of ['id', 'descricao', 'resultado']) {
+      for (const key of ['id', 'description', 'result']) {
         if (isEmpty(g[key])) fail('V14', filePath, `${where} does not declare "${key}"`);
       }
-      if (g.resultado !== undefined && !GATE_RESULTS.includes(g.resultado)) {
-        fail('V14', filePath, `${where} has \`resultado\` "${g.resultado}"; use ${GATE_RESULTS.join(', ')}`);
+      if (g.result !== undefined && !GATE_RESULTS.includes(g.result)) {
+        fail('V14', filePath, `${where} has \`result\` "${g.result}"; use ${GATE_RESULTS.join(', ')}`);
       }
-      if (g.resultado === 'passou') {
-        for (const key of ['evidencia', 'verificado_em', 'verificado_por']) {
+      if (g.result === 'passed') {
+        for (const key of ['evidence', 'verified_at', 'verified_by']) {
           if (isEmpty(g[key])) fail('V15', filePath, `${where} passed but does not declare "${key}"`);
         }
       }
     });
 
-    // V06 — `concluida` with every gate passed and evidence existing
-    if (state === 'concluida') {
+    // V06 — `done` with every gate passed and evidence existing
+    if (state === 'done') {
       for (const [i, g] of gates.entries()) {
         if (g === null || typeof g !== 'object') continue;
-        if (g.resultado !== 'passou') {
-          fail('V06', filePath, `\`estado\` \`concluida\`, but gate #${i + 1} is "${g.resultado}"`);
-        } else if (isEmpty(g.evidencia) || !existsSync(g.evidencia)) {
-          fail('V06', filePath, `\`estado\` \`concluida\`, but the evidence of gate #${i + 1} does not exist on disk`);
+        if (g.result !== 'passed') {
+          fail('V06', filePath, `\`state\` \`done\`, but gate #${i + 1} is "${g.result}"`);
+        } else if (isEmpty(g.evidence) || !existsSync(g.evidence)) {
+          fail('V06', filePath, `\`state\` \`done\`, but the evidence of gate #${i + 1} does not exist on disk`);
         }
       }
     }
 
-    // V07 — `bloqueada` with an open blocker
-    if (state === 'bloqueada') {
-      const blockers = Array.isArray(data.bloqueios) ? data.bloqueios : [];
-      const validBlockers = blockers.filter((b) => b && typeof b === 'object' && !isEmpty(b.dono) && !isEmpty(b.o_que_resolve));
+    // V07 — `blocked` with an open blocker
+    if (state === 'blocked') {
+      const blockers = Array.isArray(data.blockers) ? data.blockers : [];
+      const validBlockers = blockers.filter((b) => b && typeof b === 'object' && !isEmpty(b.owner) && !isEmpty(b.what_resolves));
       if (validBlockers.length === 0) {
-        fail('V07', filePath, '`estado` `bloqueada` requires at least one blocker with `dono` and `o_que_resolve`');
+        fail('V07', filePath, '`state` `blocked` requires at least one blocker with `owner` and `what_resolves`');
       }
     }
 
-    // V08 — `aguardando-decisao` with `pergunta` and `quem_decide`
-    if (state === 'aguardando-decisao') {
-      const pending = Array.isArray(data.decisoes_pendentes) ? data.decisoes_pendentes : [];
-      const validDecisions = pending.filter((d) => d && typeof d === 'object' && !isEmpty(d.pergunta) && !isEmpty(d.quem_decide));
+    // V08 — `awaiting-decision` with `question` and `decider`
+    if (state === 'awaiting-decision') {
+      const pending = Array.isArray(data.pending_decisions) ? data.pending_decisions : [];
+      const validDecisions = pending.filter((d) => d && typeof d === 'object' && !isEmpty(d.question) && !isEmpty(d.decider));
       if (validDecisions.length === 0) {
-        fail('V08', filePath, '`estado` `aguardando-decisao` requires a pending decision with `pergunta` and `quem_decide`');
+        fail('V08', filePath, '`state` `awaiting-decision` requires a pending decision with `question` and `decider`');
       }
     }
 
-    // V10 — `em-revisao` with `revisao_git.pr`
-    if (state === 'em-revisao') {
-      const pr = data.revisao_git && data.revisao_git.pr;
-      if (isEmpty(pr)) fail('V10', filePath, '`estado` `em-revisao` requires `revisao_git.pr` filled in');
+    // V10 — `in-review` with `git_review.pr`
+    if (state === 'in-review') {
+      const pr = data.git_review && data.git_review.pr;
+      if (isEmpty(pr)) fail('V10', filePath, '`state` `in-review` requires `git_review.pr` filled in');
     }
 
-    const deps = Array.isArray(data.dependencias) ? data.dependencias : [];
+    const deps = Array.isArray(data.dependencies) ? data.dependencies : [];
 
     // V13 — no self-dependency
     if (deps.includes(data.id)) {
@@ -362,21 +362,21 @@ export function validate(root, options = {}) {
       }
     }
 
-    // V09 — `pronta` with all dependencies `concluida`
-    if (state === 'pronta') {
+    // V09 — `ready` with all dependencies `done`
+    if (state === 'ready') {
       for (const dep of deps) {
         const target = byId.get(dep);
-        const depState = target ? target.data.estado : '(nonexistent)';
-        if (depState !== 'concluida') {
-          fail('V09', filePath, `\`estado\` \`pronta\`, but dependency "${dep}" is "${depState}"`);
+        const depState = target ? target.data.state : '(nonexistent)';
+        if (depState !== 'done') {
+          fail('V09', filePath, `\`state\` \`ready\`, but dependency "${dep}" is "${depState}"`);
         }
       }
     }
 
     // V16 / V17 — declared evidence
     const evidencePaths = [
-      ...(Array.isArray(data.evidencias) ? data.evidencias : []),
-      ...gates.map((g) => (g && typeof g === 'object' ? g.evidencia : null)).filter((c) => !isEmpty(c)),
+      ...(Array.isArray(data.evidence) ? data.evidence : []),
+      ...gates.map((g) => (g && typeof g === 'object' ? g.evidence : null)).filter((c) => !isEmpty(c)),
     ];
     for (const ev of [...new Set(evidencePaths)].sort()) {
       if (typeof ev !== 'string' || !existsSync(ev)) {
@@ -386,65 +386,65 @@ export function validate(root, options = {}) {
       const { data: evidenceData, error } = jsonBlock(read(ev));
       if (error) {
         fail('V17', ev, `evidence without a valid json block: ${error}`);
-      } else if (evidenceData.tarefa !== data.id) {
-        fail('V17', ev, `the evidence declares \`tarefa\` "${evidenceData.tarefa}", but it is referenced by "${data.id}"`);
+      } else if (evidenceData.task !== data.id) {
+        fail('V17', ev, `the evidence declares \`task\` "${evidenceData.task}", but it is referenced by "${data.id}"`);
       }
     }
 
     // V18 / V19 / V20 — external origin
-    const origin = data.origem_externa;
+    const origin = data.external_origin;
     if (origin !== undefined && origin !== null) {
       if (typeof origin !== 'object' || Array.isArray(origin)) {
-        fail('V18', filePath, '`origem_externa` must be an object or null');
-      } else if (!CLASSIFICATIONS.includes(origin.classificacao)) {
-        fail('V18', filePath, `\`classificacao\` "${origin.classificacao}" outside ${CLASSIFICATIONS.join(', ')}`);
+        fail('V18', filePath, '`external_origin` must be an object or null');
+      } else if (!CLASSIFICATIONS.includes(origin.classification)) {
+        fail('V18', filePath, `\`classification\` "${origin.classification}" outside ${CLASSIFICATIONS.join(', ')}`);
       } else {
-        const c = origin.classificacao;
-        if (c === 'publica') {
-          for (const key of ['url_ou_id', 'data']) {
-            if (isEmpty(origin[key])) fail('V20', filePath, `origin \`publica\` requires "${key}"`);
+        const c = origin.classification;
+        if (c === 'public') {
+          for (const key of ['url_or_id', 'date']) {
+            if (isEmpty(origin[key])) fail('V20', filePath, `origin \`public\` requires "${key}"`);
           }
         }
-        if (c === 'interna-permitida') {
-          for (const key of ['url_ou_id', 'data', 'autoria', 'decisao_convertida']) {
-            if (isEmpty(origin[key])) fail('V20', filePath, `origin \`interna-permitida\` requires "${key}"`);
+        if (c === 'internal-allowed') {
+          for (const key of ['url_or_id', 'date', 'author', 'converted_decision']) {
+            if (isEmpty(origin[key])) fail('V20', filePath, `origin \`internal-allowed\` requires "${key}"`);
           }
         }
-        if (c === 'interna-restrita' || c === 'desconhecida') {
-          if (!isEmpty(origin.trecho)) {
-            fail('V19', filePath, `origin ${c} cannot carry \`trecho\`; the content is not copied`);
+        if (c === 'internal-restricted' || c === 'unknown') {
+          if (!isEmpty(origin.excerpt)) {
+            fail('V19', filePath, `origin ${c} cannot carry \`excerpt\`; the content is not copied`);
           }
-          if (state !== 'bloqueada' && state !== 'aguardando-decisao') {
-            fail('V19', filePath, `origin ${c} requires the task in \`bloqueada\` or \`aguardando-decisao\`, and it is "${state}"`);
+          if (state !== 'blocked' && state !== 'awaiting-decision') {
+            fail('V19', filePath, `origin ${c} requires the task in \`blocked\` or \`awaiting-decision\`, and it is "${state}"`);
           }
         }
       }
     }
 
     // V28 — the canonical spec is demanded at the end, not at the start. Local
-    // code without a spec is allowed while the task is `pronta` or `em-andamento`.
-    if (!isEmpty(data.peca) && STATES_REQUIRING_SPEC.includes(state)) {
-      const spec = join(SPECS_ROOT, `${data.peca}.md`).replace(/\\/g, '/');
+    // code without a spec is allowed while the task is `ready` or `in-progress`.
+    if (!isEmpty(data.piece) && STATES_REQUIRING_SPEC.includes(state)) {
+      const spec = join(SPECS_ROOT, `${data.piece}.md`).replace(/\\/g, '/');
       if (!existsSync(spec)) {
-        fail('V28', filePath, `\`estado\` ${state} with \`peca\` "${data.peca}", but ${spec} does not exist`);
+        fail('V28', filePath, `\`state\` ${state} with \`piece\` "${data.piece}", but ${spec} does not exist`);
       }
     }
 
     // V30 — no component code before the Figma documentation is accepted.
-    const isComponentTask = data.responsavel === 'claude-codigo' && !isEmpty(data.peca);
+    const isComponentTask = data.owner === 'claude-code' && !isEmpty(data.piece);
     const figmaGate = gates.find((g) => g !== null && typeof g === 'object' && g.id === FIGMA_DOCS_GATE);
     if (isComponentTask && STATES_REQUIRING_FIGMA_GATE.includes(state)) {
       if (figmaGate === undefined) {
         fail('V30', filePath, `component task in "${state}" does not declare the gate "${FIGMA_DOCS_GATE}"`);
-      } else if (figmaGate.resultado !== 'passou') {
-        fail('V30', filePath, `component task in "${state}" has "${FIGMA_DOCS_GATE}" in "${figmaGate.resultado}"; requires \`passou\``);
+      } else if (figmaGate.result !== 'passed') {
+        fail('V30', filePath, `component task in "${state}" has "${FIGMA_DOCS_GATE}" in "${figmaGate.result}"; requires \`passed\``);
       }
     }
 
     // V31 — the approved documentation gate proves where the documentation came from.
     for (const g of gates) {
       if (g === null || typeof g !== 'object') continue;
-      if (g.id !== FIGMA_DOCS_GATE || g.resultado !== 'passou') continue;
+      if (g.id !== FIGMA_DOCS_GATE || g.result !== 'passed') continue;
       validateDocumentEvidence(data.id, g, fail);
     }
   }
@@ -460,7 +460,7 @@ export function validate(root, options = {}) {
     }
     color.set(id, 'visiting');
     const t = byId.get(id);
-    const deps = t && Array.isArray(t.data.dependencias) ? t.data.dependencias : [];
+    const deps = t && Array.isArray(t.data.dependencies) ? t.data.dependencies : [];
     for (const d of deps) if (byId.has(d)) visit(d, [...stack, id]);
     color.set(id, 'done');
   };
@@ -469,17 +469,17 @@ export function validate(root, options = {}) {
     fail('V12', byId.get(id).filePath, `"${id}" takes part in a dependency cycle`);
   }
 
-  // V29 — `ordem_aprovada` integer, >= 1, unique among the non-`concluida`
+  // V29 — `approved_order` integer, >= 1, unique among the non-`done`
   const orders = new Map();
   for (const t of [...tasks.values()].sort((a, b) => a.filePath.localeCompare(b.filePath))) {
-    const o = t.data.ordem_aprovada;
+    const o = t.data.approved_order;
     if (!Number.isInteger(o) || o < 1) {
-      fail('V29', t.filePath, `\`ordem_aprovada\` "${o}" must be an integer >= 1`);
+      fail('V29', t.filePath, `\`approved_order\` "${o}" must be an integer >= 1`);
       continue;
     }
-    if (t.data.estado === 'concluida') continue;
+    if (t.data.state === 'done') continue;
     if (orders.has(o)) {
-      fail('V29', t.filePath, `\`ordem_aprovada\` ${o} is already used by ${orders.get(o)}`);
+      fail('V29', t.filePath, `\`approved_order\` ${o} is already used by ${orders.get(o)}`);
     } else {
       orders.set(o, t.filePath);
     }
@@ -498,8 +498,8 @@ export function validate(root, options = {}) {
     contexts.set(basename(name, '.md'), { filePath, data });
 
     // V22 — points to an existing task
-    if (isEmpty(data.tarefa) || !byId.has(data.tarefa)) {
-      fail('V22', filePath, `the context points to the task "${data.tarefa}", which does not exist in this tree`);
+    if (isEmpty(data.task) || !byId.has(data.task)) {
+      fail('V22', filePath, `the context points to the task "${data.task}", which does not exist in this tree`);
     }
 
     // V23 — closed set of keys, without the six forbidden ones
@@ -521,14 +521,14 @@ export function validate(root, options = {}) {
   // V25 / V26 — presence of the context according to the state
   for (const t of [...byId.values()].sort((a, b) => a.filePath.localeCompare(b.filePath))) {
     const ctx = contexts.get(t.data.id);
-    if (t.data.estado === 'concluida' && ctx) {
-      fail('V25', ctx.filePath, `the task "${t.data.id}" is \`concluida\` and cannot have an active context`);
+    if (t.data.state === 'done' && ctx) {
+      fail('V25', ctx.filePath, `the task "${t.data.id}" is \`done\` and cannot have an active context`);
     }
-    if (t.data.estado === 'em-andamento') {
+    if (t.data.state === 'in-progress') {
       if (!ctx) {
-        fail('V26', t.filePath, '`estado` `em-andamento` requires a context in `contextos/<ID>.md`');
+        fail('V26', t.filePath, '`state` `in-progress` requires a context in `contextos/<ID>.md`');
       } else {
-        for (const key of ['worktree', 'sha_inicial']) {
+        for (const key of ['worktree', 'start_sha']) {
           if (isEmpty(ctx.data[key])) fail('V26', ctx.filePath, `the context does not declare "${key}"`);
         }
       }
@@ -677,36 +677,36 @@ function generateMetadata() {
 
 function queue(tasks) {
   const all = [...tasks.values()].map((t) => t.data);
-  const unblocks = (id) => all.filter((d) => (d.dependencias || []).includes(id)).length;
+  const unblocks = (id) => all.filter((d) => (d.dependencies || []).includes(id)).length;
 
   const eligible = all
-    .filter((d) => d.estado === 'pronta')
+    .filter((d) => d.state === 'ready')
     .map((d) => ({ d, unblocks: unblocks(d.id) }))
     .sort((a, b) =>
-      a.d.ordem_aprovada - b.d.ordem_aprovada ||
-      a.d.fase.localeCompare(b.d.fase) ||
+      a.d.approved_order - b.d.approved_order ||
+      a.d.phase.localeCompare(b.d.phase) ||
       b.unblocks - a.unblocks ||
       a.d.id.localeCompare(b.d.id));
 
   const excluded = all
-    .filter((d) => d.estado !== 'pronta')
+    .filter((d) => d.state !== 'ready')
     .sort((a, b) => a.id.localeCompare(b.id))
     .map((d) => {
-      if (d.estado === 'bloqueada') {
-        const b = (d.bloqueios || [])[0] || {};
-        return { id: d.id, label: 'bloqueada', reason: `${b.o_que_trava || 'no description'} — owner: ${b.dono || '?'}` };
+      if (d.state === 'blocked') {
+        const b = (d.blockers || [])[0] || {};
+        return { id: d.id, label: 'blocked', reason: `${b.what_blocks || 'no description'} — owner: ${b.owner || '?'}` };
       }
-      if (d.estado === 'em-andamento') {
-        return { id: d.id, label: 'em-andamento', reason: `active context in ${OPERATIONS_ROOT}/contextos/${d.id}.md` };
+      if (d.state === 'in-progress') {
+        return { id: d.id, label: 'in-progress', reason: `active context in ${OPERATIONS_ROOT}/contextos/${d.id}.md` };
       }
-      if (d.estado === 'aguardando-decisao') {
-        const p = (d.decisoes_pendentes || [])[0] || {};
-        return { id: d.id, label: 'aguarda-decisao', reason: `${p.pergunta || 'no question'} — decides: ${p.quem_decide || '?'}` };
+      if (d.state === 'awaiting-decision') {
+        const p = (d.pending_decisions || [])[0] || {};
+        return { id: d.id, label: 'awaiting-decision', reason: `${p.question || 'no question'} — decides: ${p.decider || '?'}` };
       }
-      if (d.estado === 'em-revisao') {
-        return { id: d.id, label: 'em-revisao', reason: `PR ${d.revisao_git && d.revisao_git.pr}` };
+      if (d.state === 'in-review') {
+        return { id: d.id, label: 'in-review', reason: `PR ${d.git_review && d.git_review.pr}` };
       }
-      return { id: d.id, label: 'concluida', reason: 'already delivered, with evidence' };
+      return { id: d.id, label: 'done', reason: 'already delivered, with evidence' };
     });
 
   return { eligible, excluded };
@@ -720,18 +720,18 @@ function printQueue(tasks) {
     lines.push('NEXT: (no eligible task)');
   } else {
     const p = eligible[0];
-    lines.push(`NEXT: ${p.d.id}  (ordem_aprovada=${p.d.ordem_aprovada}, fase=${p.d.fase}, unblocks ${p.unblocks})`);
+    lines.push(`NEXT: ${p.d.id}  (approved_order=${p.d.approved_order}, phase=${p.d.phase}, unblocks ${p.unblocks})`);
   }
 
   lines.push('', 'Eligible queue:');
   if (eligible.length === 0) lines.push('  (empty)');
   eligible.forEach((e, i) => {
-    lines.push(`  ${i + 1}. ${e.d.id.padEnd(8)} order ${String(e.d.ordem_aprovada).padEnd(4)} ${e.d.fase}  unblocks ${e.unblocks}`);
+    lines.push(`  ${i + 1}. ${e.d.id.padEnd(8)} order ${String(e.d.approved_order).padEnd(4)} ${e.d.phase}  unblocks ${e.unblocks}`);
   });
 
   lines.push('', 'Outside the queue:');
   if (excluded.length === 0) lines.push('  (empty)');
-  for (const f of excluded) lines.push(`  ${f.id.padEnd(8)} ${f.label.padEnd(16)} ${f.reason}`);
+  for (const f of excluded) lines.push(`  ${f.id.padEnd(8)} ${f.label.padEnd(18)} ${f.reason}`);
 
   console.log(lines.join('\n'));
 }

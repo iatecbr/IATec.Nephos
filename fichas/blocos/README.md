@@ -13,21 +13,21 @@ Copy it from [`fichas/_modelo.md`](../_modelo.md). **A block has no template of 
 of the template is explicit: *"Same template — they do not get their own structure"*. They are the
 same two halves, the same nine sections and the same six writing rules.
 
-What changes is the `nivel` field, which becomes `bloco`, and the `peca` field, which gets the **name of the
+What changes is the `level` field, which becomes `block`, and the `piece` field, which gets the **name of the
 block** — without the `nph-` prefix, which belongs to components.
 
-A field that does not apply gets `nao_se_aplica`; a field not yet decided gets
-`pendente`. The agent reads blank as "does not exist" and invents.
+A field that does not apply gets `not_applicable`; a field not yet decided gets
+`pending`. The agent reads blank as "does not exist" and invents.
 
 ## 2. The four additions
 
-In `relacoes`, and in the **Relations** section in Markdown, the block spec adds:
+In `relations`, and in the **Relations** section in Markdown, the block spec adds:
 
 | Addition | What it answers |
 |---|---|
-| `exige` | Which pieces the composition **requires**. Without them, it is not that composition |
-| `variacoes_aceitaveis` | What can change without becoming something else |
-| `contexto_de_layout` | In which layout it usually appears |
+| `requires` | Which pieces the composition **requires**. Without them, it is not that composition |
+| `acceptable_variations` | What can change without becoming something else |
+| `layout_context` | In which layout it usually appears |
 | Composition goal | Which interface goal it solves — not the appearance |
 
 The criterion that separates component from block: **a component is reusable in any
@@ -41,19 +41,19 @@ outward**. That is the direction that keeps the pointer from breaking when a new
 
 | Pointer | Where it lives | What it points to |
 |---|---|---|
-| contract | `fontes.design_md` | the `design.md` section that decides what the block uses |
-| decision | `fontes.decisao` | the decision that originated the block, with date and owner |
-| Storybook | `fontes.storybook` | the story that renders the block |
-| evidence | `fontes.evidencia_de_uso` | where the block is actually used already |
+| contract | `sources.design_md` | the `design.md` section that decides what the block uses |
+| decision | `sources.decision` | the decision that originated the block, with date and owner |
+| Storybook | `sources.storybook` | the story that renders the block |
+| evidence | `sources.usage_evidence` | where the block is actually used already |
 
 **The way back does not exist, and that is on purpose.** `design.md` does not list block by block: §9
 points to `fichas/blocos/<name>.md` as a class. Documenting a new block, therefore,
 **does not change the contract** — and a contract that does not change with every block is a contract that does not
 accumulate dead pointers.
 
-**Between levels, the link is declared on both sides, and only in `relacoes`.** The
-component spec declares `complementa_bloco` and `aparece_em`; the block spec declares `exige` and
-`contexto_de_layout`. Neither side describes the other: each one names the other.
+**Between levels, the link is declared on both sides, and only in `relations`.** The
+component spec declares `complements_block` and `appears_in`; the block spec declares `requires` and
+`layout_context`. Neither side describes the other: each one names the other.
 
 **Storybook derives, it does not replace.** The spec is canonical; the Storybook Metadata surface
 is derived from it — see [`docs/operacao/README.md`](../../docs/operacao/README.md),

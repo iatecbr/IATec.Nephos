@@ -1,38 +1,38 @@
 ```json
 {
   "id": "DSA-20",
-  "objetivo": "Exemplo de validacao do verificador operacional.",
-  "fase": "F4",
-  "ordem_aprovada": 20,
-  "responsavel": "claude-codigo",
-  "estado": "pronta",
-  "peca": null,
-  "dependencias": [
+  "goal": "Exemplo de validacao do verificador operacional.",
+  "phase": "F4",
+  "approved_order": 20,
+  "owner": "claude-code",
+  "state": "ready",
+  "piece": null,
+  "dependencies": [
     "DSA-21"
   ],
   "gates": [
     {
-      "id": "arquivo-existe",
-      "descricao": "O artefato previsto existe e esta versionado.",
-      "comando": "npm run test:operacao",
-      "evidencia": null,
-      "resultado": "pendente",
-      "verificado_em": null,
-      "verificado_por": null
+      "id": "file-exists",
+      "description": "O artefato previsto existe e esta versionado.",
+      "command": "npm run test:operacao",
+      "evidence": null,
+      "result": "pending",
+      "verified_at": null,
+      "verified_by": null
     }
   ],
-  "bloqueios": [],
-  "decisoes_pendentes": [],
-  "evidencias": [],
-  "referencias_de_decisao": [],
-  "origem_externa": null,
-  "revisao_git": {
+  "blockers": [],
+  "pending_decisions": [],
+  "evidence": [],
+  "decision_refs": [],
+  "external_origin": null,
+  "git_review": {
     "branch": null,
     "commit": null,
     "pr": null
   },
-  "contexto": null,
-  "atualizado_em": "2026-09-02"
+  "context": null,
+  "updated_at": "2026-09-02"
 }
 ```
 

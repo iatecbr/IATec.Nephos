@@ -2,12 +2,12 @@
   "$description": "Camada de marca. Um modo por vertical da IATec. So a camada semantic consome.",
   "$extensions": {
     "com.iatec.nephos": {
-      "camada": "theme",
-      "contagemEsperada": 14,
-      "origem": "Figma DS-IA-NEPHOS 5.0, colecao theme, leitura de 2026-08-24; brand-50, 100, 200, 300, 800, 900, brand-focus e brand-400-hover lidos em 2026-10-05 (DSA-04)",
+      "layer": "theme",
+      "expectedCount": 14,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao theme, leitura de 2026-08-24; brand-50, 100, 200, 300, 800, 900, brand-focus e brand-400-hover lidos em 2026-10-05 (DSA-04)",
       "modeSet": {
-        "nome": "brand",
-        "modos": [
+        "name": "brand",
+        "modes": [
           "sistemas",
           "gerencial",
           "educacao",
@@ -16,8 +16,8 @@
           "igrejas",
           "rh"
         ],
-        "padrao": "sistemas",
-        "seletor": "[data-nph-brand=\"{modo}\"]"
+        "default": "sistemas",
+        "selector": "[data-nph-brand=\"{mode}\"]"
       }
     }
   },

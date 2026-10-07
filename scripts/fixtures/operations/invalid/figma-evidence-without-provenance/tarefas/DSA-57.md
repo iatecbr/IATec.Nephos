@@ -1,38 +1,38 @@
 ```json
 {
   "id": "DSA-57",
-  "objetivo": "Exemplo de validacao do verificador operacional.",
-  "fase": "F4",
-  "ordem_aprovada": 10,
-  "responsavel": "claude-codigo",
-  "estado": "pronta",
-  "peca": "nph-icon",
-  "dependencias": [],
+  "goal": "Exemplo de validacao do verificador operacional.",
+  "phase": "F4",
+  "approved_order": 10,
+  "owner": "claude-code",
+  "state": "ready",
+  "piece": "nph-icon",
+  "dependencies": [],
   "gates": [
     {
-      "id": "documentacao-figma-aceita",
-      "descricao": "A documentacao do componente no Figma foi aceita por Indiane.",
-      "comando": null,
-      "evidencia": "scripts/fixtures/operations/invalid/figma-evidence-without-provenance/evidencias/DSA-57/documentacao-figma-aceita-2026-09-10.md",
-      "resultado": "passou",
-      "verificado_em": "2026-09-10",
-      "verificado_por": "indiane"
+      "id": "figma-docs-accepted",
+      "description": "A documentacao do componente no Figma foi aceita por Indiane.",
+      "command": null,
+      "evidence": "scripts/fixtures/operations/invalid/figma-evidence-without-provenance/evidencias/DSA-57/documentacao-figma-aceita-2026-09-10.md",
+      "result": "passed",
+      "verified_at": "2026-09-10",
+      "verified_by": "indiane"
     }
   ],
-  "bloqueios": [],
-  "decisoes_pendentes": [],
-  "evidencias": [
+  "blockers": [],
+  "pending_decisions": [],
+  "evidence": [
     "scripts/fixtures/operations/invalid/figma-evidence-without-provenance/evidencias/DSA-57/documentacao-figma-aceita-2026-09-10.md"
   ],
-  "referencias_de_decisao": [],
-  "origem_externa": null,
-  "revisao_git": {
+  "decision_refs": [],
+  "external_origin": null,
+  "git_review": {
     "branch": null,
     "commit": null,
     "pr": null
   },
-  "contexto": null,
-  "atualizado_em": "2026-09-10"
+  "context": null,
+  "updated_at": "2026-09-10"
 }
 ```
 
@@ -43,8 +43,8 @@ Exemplo de validacao do verificador operacional.
 
 ## Como se prova
 Rodando `node scripts/verificar-operacao.mjs --exemplos`, que valida esta arvore.
-O gate `documentacao-figma-aceita` passou e aponta para uma evidencia que existe
-e casa a tarefa, mas a `origem_externa` dela nao declara `autoria` — nao da para
+O gate `figma-docs-accepted` passou e aponta para uma evidencia que existe
+e casa a tarefa, mas a `external_origin` dela nao declara `author` — nao da para
 saber quem registrou a aceitacao.
 
 ## O que esta tarefa nao faz

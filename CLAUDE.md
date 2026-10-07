@@ -30,7 +30,7 @@
    comments to reviewers come out in Portuguese (P64, amendment of 06/10/2026;
    full rule in `AGENTS.md`).
 7. **Claude does not accept a component's Figma documentation — it reads it.**
-   Indiane accepts it, and the task's `documentacao-figma-aceita` gate is the
+   Indiane accepts it, and the task's `figma-docs-accepted` gate is the
    only way for Claude to know she accepted. Reading the frame, seeing the
    design or hearing "go ahead" does not replace the gate. The full order —
    accepted Figma documentation, local code, final sheet, review — is in **The
@@ -43,6 +43,6 @@ evidence, gate or access is missing — and when two current sources diverge.
 Stopping with the blocker recorded is worth more than delivering with a gap
 filled in.
 
-For a component, the missing gate is almost always `documentacao-figma-aceita`:
+For a component, the missing gate is almost always `figma-docs-accepted`:
 record the blocker in the task and stop, instead of starting the code "in the
 meantime".

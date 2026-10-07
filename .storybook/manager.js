@@ -11,9 +11,11 @@
  * decorator. In light mode the blue appears only as a background; text and icon
  * stay neutral, because #1FBFFF on white fails contrast.
  *
- * The sidebar follows the chosen language, but the story IDs do NOT change: the
- * `title` of each CSF stays in Portuguese, so saved links and permalinks remain
- * valid. Only the displayed LABEL is translated, through `renderLabel`.
+ * The sidebar follows the chosen language, but the story IDs do NOT change with
+ * the language: the `title`, the `name` and the export of each CSF are English
+ * identifiers (P64, amendment of 06/10/2026), so the ID and the permalink are
+ * the same in every language. Only the displayed LABEL is translated, through
+ * `renderLabel`, from the `sidebar` subtree of the dictionary.
  *
  * `nph-icon` has no translation in the dictionary on purpose — it is a
  * technical name, and `sidebarLabel` returns `undefined`, which makes Storybook

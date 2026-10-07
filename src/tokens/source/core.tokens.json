@@ -2,9 +2,9 @@
   "$description": "Camada 1 - primitivos. Nenhum componente consome daqui. Espelha a colecao `core` do Figma DS-IA-NEPHOS 5.0. Somente os primitivos necessarios para resolver a camada semantic. Os 20 itens da P46 estao fora por decisao registrada; os demais primitivos e os estilos de texto seguem adiados, exceto as duas familias de fonte, necessarias para resolver a camada text. Em 2026-09-03 entraram os 24 primitivos de sombra, que montam os estilos elevation/* (PF-15), e os tres de movimento: core/duration/400 e core/easing/linear (PF-16) e core/duration/loop, o laco de 800 ms do girador (PF-05). Em 2026-10-05 entraram 47 primitivos, os necessarios para resolver os tokens de theme e semantic que o Figma tinha e o codigo nao (DSA-04): 40 cores e 7 medidas de layout (tooltip, field, input, rich-option e separator).",
   "$extensions": {
     "com.iatec.nephos": {
-      "camada": "core",
-      "contagemEsperada": 219,
-      "origem": "Figma DS-IA-NEPHOS 5.0, colecao core, leitura de 2026-08-24; as duas familias de fonte lidas dos estilos de texto do mesmo arquivo em 2026-08-27; os 24 primitivos de sombra e os tres de movimento lidos variavel a variavel em 2026-09-03; os 47 primitivos que resolvem os tokens trazidos na DSA-04 (40 cores e 7 larguras e alturas de layout) lidos variavel a variavel em 2026-10-05"
+      "layer": "core",
+      "expectedCount": 219,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao core, leitura de 2026-08-24; as duas familias de fonte lidas dos estilos de texto do mesmo arquivo em 2026-08-27; os 24 primitivos de sombra e os tres de movimento lidos variavel a variavel em 2026-09-03; os 47 primitivos que resolvem os tokens trazidos na DSA-04 (40 cores e 7 larguras e alturas de layout) lidos variavel a variavel em 2026-10-05"
     }
   },
   "core": {
