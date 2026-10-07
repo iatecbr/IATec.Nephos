@@ -86,8 +86,8 @@
   display: block;
 }
 
-/* Hover: border one step darker; checked, the circle also at state/hover-opacity. */
-:host(:not(:disabled)) .row:hover .target {
+/* Hover: border one step darker, outside error and focus; checked, the circle also at state/hover-opacity. */
+:host(:not(:disabled):not([invalid])) .row:not(:focus-visible):hover .target {
   --_border: var(--nph-color-input-hover);
 }
 

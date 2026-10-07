@@ -245,6 +245,13 @@ describe('states', () => {
     });
   }
 
+  it('hover keeps the focus/border of a focused field', async () => {
+    const element = await mount();
+    await userEvent.click(control(element));
+    await userEvent.hover(field(element));
+    expect(borderColor(element)).toBe(resolved('color', '--nph-focus-border'));
+  });
+
   it('invalid with focus on the clear keeps the status/error border (D8)', async () => {
     const element = await mount({ label: 'Search', value: 'Ana', invalid: true, clearable: true, clearLabel: 'Clear' });
     clearButton(element)?.focus();

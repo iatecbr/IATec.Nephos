@@ -86,8 +86,8 @@
   --_bg: var(--nph-color-primary);
 }
 
-/* Hover: border one step darker; checked, the box also at state/hover-opacity. */
-:host(:not(:disabled)) .row:hover .target {
+/* Hover: border one step darker, outside error and focus; checked, the box also at state/hover-opacity. */
+:host(:not(:disabled):not([invalid])) .row:hover .target:not(:has(.box:focus-visible)) {
   --_border: var(--nph-color-input-hover);
 }
 

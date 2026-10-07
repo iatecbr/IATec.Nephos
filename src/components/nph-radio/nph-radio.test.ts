@@ -192,6 +192,22 @@ describe('marking and states, in both schemes', () => {
     });
   }
 
+  it('hover keeps the status/error border of an invalid radio', async () => {
+    const element = await mount({ text: 'Pix', invalid: true });
+    await userEvent.hover(circle(element));
+    expect(borderColor(element)).toBe(resolved('color', '--nph-status-error'));
+  });
+
+  it('hover keeps the focus/border of a focused radio', async () => {
+    const before = document.createElement('input');
+    document.body.append(before);
+    const [first] = await group(['Pix', 'Card']);
+    before.focus();
+    await userEvent.tab();
+    await userEvent.hover(circle(first as NphRadio));
+    expect(borderColor(first as NphRadio)).toBe(resolved('color', '--nph-focus-border'));
+  });
+
   it('a mouse click does not draw the focus', async () => {
     const [first] = await group(['Pix', 'Card']);
     await userEvent.click(circle(first as NphRadio));

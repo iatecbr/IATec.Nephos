@@ -152,8 +152,8 @@ export class NphRadio extends LitElement {
   }
 
   /** The member of the group that receives Tab: the checked one or the first enabled one. */
-  private tabStop(): NphRadio | undefined {
-    const enabled = this.group().filter((radio) => !radio.inactive && radio.valid);
+  private tabStop(group: NphRadio[]): NphRadio | undefined {
+    const enabled = group.filter((radio) => !radio.inactive && radio.valid);
     return enabled.find((radio) => radio.checked) ?? enabled[0];
   }
 
@@ -235,9 +235,11 @@ export class NphRadio extends LitElement {
       return nothing;
     }
     const text = this.text.trim();
-    const tabindex = this.inactive ? nothing : this.tabStop() === this ? '0' : '-1';
+    /* One query of the group per render, for the Tab stop and the position. */
+    const group = this.group();
+    const tabindex = this.inactive ? nothing : this.tabStop(group) === this ? '0' : '-1';
     /* Each radio lives in its own shadow root: the position in the group is computed. */
-    const members = this.group().filter((radio) => radio.valid || radio === this);
+    const members = group.filter((radio) => radio.valid || radio === this);
     const position = members.indexOf(this) + 1;
     return html`<div
       class="row"

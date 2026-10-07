@@ -92,7 +92,7 @@
 }
 
 /* Hover: only when the field responds, is not in error and has no focus. */
-:host(:not(:disabled):not([invalid])) .field:hover {
+:host(:not(:disabled):not([invalid])) .field:not(:has(.control:focus-visible)):hover {
   --_border: var(--nph-color-input-hover);
 }
 

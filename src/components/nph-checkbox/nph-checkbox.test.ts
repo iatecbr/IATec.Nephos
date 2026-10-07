@@ -202,6 +202,22 @@ describe('marking and states, in both schemes', () => {
     });
   }
 
+  it('hover keeps the status/error border of an invalid box', async () => {
+    const element = await mount({ text: 'Email', invalid: true });
+    await userEvent.hover(box(element));
+    expect(borderColor(element)).toBe(resolved('color', '--nph-status-error'));
+  });
+
+  it('hover keeps the focus/border of a focused box', async () => {
+    const before = document.createElement('input');
+    document.body.append(before);
+    const element = await mount();
+    before.focus();
+    await userEvent.tab();
+    await userEvent.hover(box(element));
+    expect(borderColor(element)).toBe(resolved('color', '--nph-focus-border'));
+  });
+
   it('a mouse click does not draw the focus', async () => {
     const element = await mount();
     await userEvent.click(box(element));
