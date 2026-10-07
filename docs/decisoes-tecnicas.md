@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67 and P68. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68 and P69. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -36,6 +36,7 @@ P62.4 subsection for the detail).
 | **P66** | API and semantics of `nph-spinner`, `nph-separator` and `nph-kbd` | 05/10/2026 | Low now. `nph-button` (Batch B) and `nph-rich-option` will be the first consumers | Anatomy and behavior: frames accepted by Indiane on 01/10/2026. API and semantics: technical proposal, review in the PR by `maurocsjr` |
 | **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Technical proposal, review in the PR by `maurocsjr` |
 | **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics: technical proposal, review in the PR by `maurocsjr` |
+| **P69** | API and semantics of `nph-input`, `nph-checkbox` and `nph-radio` | 07/10/2026 | Low now. No piece consumes them yet; `nph-field` and `nph-rich-option` will be the first | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, input and radio completed on 02/10/2026. API and semantics: technical proposal, review in the PR by `maurocsjr` |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -1068,9 +1069,155 @@ completed on 02/10/2026; API and semantics under review in the Batch B PR.
 
 ---
 
+## P69 — `nph-input`, `nph-checkbox` and `nph-radio`: API and semantics
+
+**Decision.** The three pieces are Web Components with **open Shadow DOM** (P01),
+`delegatesFocus` and CSS in their own file imported `?inline`. None has a slot,
+event of its own, color property or `::part`. Anatomy only through semantic tokens.
+Invalid input renders nothing and emits `console.error` only in development, one per
+cause and accumulating — the rule of P21, adopted here by its own decision, as in
+P66 and P68. The names follow P64.
+
+- **Common to the three.**
+  - **Form-associated** (`static formAssociated = true`, `ElementInternals`): they
+    take part in `<form>` under `name` (reflected, because the form reads the host
+    attribute), follow form reset (`formResetCallback`, back to the initial attribute)
+    and a disabled `<fieldset>` (`formDisabledCallback`, without changing the
+    `disabled` property). `nph-button` left forms out (P68); a field that does not
+    reach the form would not serve.
+  - `invalid` is the Figma `erro`: border in `status/error` and `aria-invalid`. The
+    error sentence is never inside the piece: it belongs to `nph-field`.
+  - `disabled` (or a disabled `<fieldset>`, both matched by `:host(:disabled)`) puts
+    the whole piece at `state/disabled-opacity`, takes it out of Tab and wins over
+    `invalid`: the error leaves the screen and `aria-invalid` leaves the control, so
+    the screen reader does not announce what the eye does not see.
+  - Hover only where the piece responds; with `invalid`, the border stays in
+    `status/error`. Focus only on `:focus-visible`: border in `focus/border` and the
+    `focus/ring-width` halo in `focus/halo` (`focus/halo-error` with `invalid`),
+    outside the box, without changing the size.
+- **`nph-input`**
+  - `size`: `default` (default) or `large`, reflected. Height from
+    `control/height-*`, width from `layout/input-width` (the consumer may resize the
+    host).
+  - `value`, `placeholder` and `icon-start` (property `iconStart`: one core name of
+    `nph-icon`, decorative, in `icon/size-sm` and `color/muted-foreground`). Text
+    only: there is no `type`.
+  - `clearable` with `clear-label` (property `clearLabel`): the end icon `xmark`
+    clears the value, inside a native `<button type="button">` that is its own
+    24 × 24 target. It shows only with a value and outside disabled. Clearing empties
+    the value, dispatches `input` and `change` on the host and returns the focus to
+    the field. Its focus (the Figma `foco-limpar`) is the focus of `nph-button`: a
+    `border/width` border in `focus/border` with radius
+    `focus/border-radius-control` and the halo with radius
+    `focus/radius-control-with-border`, around the target; the field border stays
+    `color/input` (or `status/error` with `invalid`).
+  - `required`: the inner field carries `required`, the screen reader hears it from
+    the control (P62.3) and the form is invalid while it is empty. The validity of
+    the inner field is mirrored with it as the anchor, so `reportValidity()` points
+    to it.
+  - Accessible name: `label` or, without it, the text of the `<label>` elements
+    associated with the host — what `nph-label for` produces — without the
+    `aria-hidden` nodes (the asterisk). It is read on the next frame after
+    connecting, again when an associated label changes (a `MutationObserver`) and on
+    `focusin`. A click on the label puts the focus in the inner field.
+  - Events: the native `input` crosses the shadow root; the native `change` is not
+    composed and is dispatched again on the host. Enter submits the form, as a native
+    field does (`requestSubmit()`).
+  - Invalid input: `size` outside the list; `icon-start` outside the core;
+    `clearable` without `clear-label`. A field with no name at all renders, with no
+    error: the association may arrive later.
+- **`nph-checkbox`**
+  - A native `<input type="checkbox">` inside a native `<label>` with the text, drawn
+    by the tokens: 16 × 16 box (`icon/size-sm`, `radius/inner`) on a 24 × 24 target
+    (`space/inline-tight`), `space/inline` to the text in `text/label-md`.
+  - `checked` and `indeterminate` (the Figma `marcado`: false, true, indeterminado),
+    reflected. Checked or indeterminate: `color/primary` background, `color/input`
+    border and the `check` or `minus` mark of `nph-icon` in
+    `color/primary-foreground`. `indeterminate` shows `minus` whatever `checked` is,
+    and toggling clears it, as the native check box. On hover, the checked or
+    indeterminate box is at `state/hover-opacity`.
+  - `text`, the accessible name, and `hide-text` (the `mostrar rótulo` turned off):
+    the text leaves the screen and becomes the `aria-label`, and the piece stays at
+    24 × 24.
+  - `value` (default `on`) goes to the form only when checked. Native keyboard: Tab
+    stops at each box; Space toggles.
+- **`nph-radio`**
+  - No native `<input type="radio">`: native radios do not group across different
+    shadow roots. The inner element has `role="radio"`, `aria-checked`,
+    `aria-disabled`, `aria-invalid`, `aria-posinset` and `aria-setsize` (each radio
+    lives in its own shadow root, so the position in the group is computed) and a
+    managed `tabindex`. 16 circle in `radius/full` and an 8 dot, what is left of the
+    circle after `space/inline-tight` on each side.
+  - The group is every `nph-radio` with the same non-empty `name`, in the same root
+    and in the same form. Without `name`, the radio is alone. The group is not a
+    component: its name and `role="radiogroup"` belong to whoever assembles it
+    (`nph-field`).
+  - Keyboard, by the WAI-ARIA APG Radio Group pattern: a single Tab stop per group —
+    the checked one or, with none, the first enabled one; the arrows move to the
+    next or previous enabled one, wrapping around, and check it, without scrolling
+    the page; Space checks the focused one. A second click on the checked one does
+    not uncheck.
+  - Checking one (click, keyboard or `checked = true` in code) unchecks the others,
+    with `input` and `change` only on the newly checked one by the person, and no
+    event from code. Two checked at mount: the last one in document order stays, as
+    in native HTML. `value` (default `on`) goes only from the checked one.
+  - `text` and `hide-text` as in `nph-checkbox`.
+  - Invalid input also covers `invalid` with `disabled`: the frame says that error
+    and disabled do not combine (frame `1196:311`, section 5).
+- **Text required in `nph-checkbox` and `nph-radio`.** Empty `text` is invalid input,
+  with an error. It is not the mount state of `nph-kbd` and `nph-badge` (P66, P68):
+  those have nothing to show and are not controls; here it would be an operable
+  control without a name (WCAG 4.1.2), the anti-pattern written in both frames.
+- **Written literals, and why.** `0`, `none`, `100%` and `transparent` (the native
+  chrome of the field and of the clear button is not drawn), `appearance: none` (the
+  native box is drawn by the tokens), `nowrap` (the value scrolls inside the field),
+  `calc(-1 * ...)` (focus outside, without changing the size), `inset 0 0 0` in the
+  `box-shadow` (the border is a stroke on the inside, as in the Figma frame) and
+  `calc(... / 2)` (the first line of text centered on the 24 × 24 target). None is
+  a visual value.
+
+**Known limits.**
+
+- **L-a — `use` in `design.md` narrower than the accepted Figma.**
+  `state/hover-opacity` (its `use` speaks only of the button) on the hover of the
+  checked check box and radio; `color/muted-foreground` (placeholder and helper text)
+  on the icons of the field; `color/input-hover` without a `use`. The pieces follow
+  Figma; widening the `use` is a pending decision of Indiane, and this PR does not
+  change `design.md`.
+- **L-b — combinations that Figma does not draw.** `invalid` with hover keeps the
+  `status/error` border; `invalid` with focus on the clear button keeps the field
+  border in `status/error` and rings the target as the `foco-limpar`; in the check
+  box and in the field, disabled wins over `invalid`. Proposed here, pending
+  Indiane's acceptance.
+- **L-c — a label inserted much later.** An `nph-label for` that appears after the
+  first frame, when no label was associated before, names the field only on the
+  next `focusin`: the observer watches only the labels already associated.
+  `nph-field`, which assembles label and control together, closes this for good.
+
+**Source.** Frames accepted in the Figma file `DS-IA-NEPHOS 5.0` on 01/10/2026:
+`nph-input` (`1195:532`, set `622:18359`; completed on 02/10/2026 with the clear
+focus, the 24 × 24 target and `default` as the default size), `nph-checkbox`
+(`1194:1033`, set `740:18776`) and `nph-radio` (`1196:311`, set `848:66`; completed on
+02/10/2026). The three have Figma UX QA and textual audit approved on 02/10/2026; the
+states were renamed `foco` and `erro-foco` on 07/10/2026, without a design change.
+P62.3 (`required` in `nph-input`). The names, the form participation, the clear
+behavior, the name from `nph-label`, the radio keyboard and group and the invalid
+input rule are a technical proposal of this implementation.
+
+**Out of scope.** Mask, number and password in `nph-input` (they stay as future
+attributes of the field, out of this batch); `type` other than text; textarea;
+`readonly`, `maxlength`, `pattern`, `autocomplete`; error message inside the piece;
+`nph-field`; check box and radio group as components; `nph-rich-option`; switch;
+`required` in check box and radio.
+
+**Status.** Anatomy and behavior accepted by Indiane on 01/10/2026, input and radio
+completed on 02/10/2026; API and semantics under review in the Batch C PR.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67 or P68 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68 or P69 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
