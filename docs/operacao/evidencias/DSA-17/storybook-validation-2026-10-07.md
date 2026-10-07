@@ -34,3 +34,4 @@ The twelve color tokens used by the piece resolve, in the browser, to the same
 values as the variables of the Figma file `DS-IA-NEPHOS 5.0`, read on the same day,
 in both schemes. Hover and focus colors are proven by the tests, which compare each
 part with its token.
+After the first inspection, the hover rules leave error and focus alone: with the pointer over a piece in error, the border stays `status/error` (light `#b01e1e`, read on the checkbox `Matrix`), and over a focused piece it stays `focus/border`. The tests cover both cases.
