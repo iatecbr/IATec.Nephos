@@ -1,0 +1,154 @@
+/**
+ * Internal style of `nph-input`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the shadow
+ * root and are not API.
+ *
+ * No literal design value goes in here. Written box relations: `100%` (also the
+ * maximum width of the host, so the field never leaves its container), `0`,
+ * `none`, `transparent` (the field and the clear button draw no native chrome),
+ * `nowrap` and `min-inline-size: 0` (the value scrolls inside the field),
+ * `calc(-1 * ...)` (focus border and halo outside, without changing the size) and
+ * `inset` with zeros in `box-shadow` (the border is a stroke on the inside, as in
+ * the Figma frame and in the outline `nph-button`).
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/*
+ * The width comes from the token; the consumer may resize the host box. In a
+ * container narrower than the token (zoom, narrow screen), the field shrinks to it.
+ */
+:host([data-nph-rendered]) {
+  display: inline-block;
+  vertical-align: middle;
+  inline-size: var(--nph-layout-input-width);
+  max-inline-size: 100%;
+}
+
+:host([size='default']) {
+  --_height: var(--nph-control-height-default);
+}
+:host([size='large']) {
+  --_height: var(--nph-control-height-large);
+}
+
+/* Disabled (by the property or by a disabled fieldset): the whole field fades. */
+:host(:disabled) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+.field {
+  --_border: var(--nph-color-input);
+  --_halo: var(--nph-focus-halo);
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  inline-size: 100%;
+  block-size: var(--_height);
+  padding-block: 0;
+  padding-inline: var(--nph-space-control-padding);
+  border-radius: var(--nph-radius-control);
+  background-color: var(--nph-color-background);
+  box-shadow: inset 0 0 0 var(--nph-border-width) var(--_border);
+}
+
+:host(:disabled) .field {
+  background-color: var(--nph-color-muted);
+}
+
+.icon {
+  flex: none;
+  color: var(--nph-color-muted-foreground);
+}
+
+.control {
+  flex: 1;
+  min-inline-size: 0;
+  block-size: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  white-space: nowrap;
+  outline: none;
+}
+
+.control::placeholder {
+  color: var(--nph-color-muted-foreground);
+  opacity: 1;
+}
+
+/* Hover: only when the field responds, is not in error and has no focus. */
+:host(:not(:disabled):not([invalid])) .field:hover {
+  --_border: var(--nph-color-input-hover);
+}
+
+/* Focus on the field: border in the brand and halo outside, touching it. */
+.field:has(.control:focus-visible) {
+  --_border: var(--nph-focus-border);
+}
+
+.field:has(.control:focus-visible)::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--nph-focus-ring-width));
+  box-sizing: border-box;
+  border: var(--nph-focus-ring-width) solid var(--_halo);
+  border-radius: var(--nph-focus-radius-control);
+  pointer-events: none;
+}
+
+/* Error: the border says it; with focus, the halo is the error halo. Disabled wins. */
+:host([invalid]:not(:disabled)) .field {
+  --_border: var(--nph-status-error);
+  --_halo: var(--nph-focus-halo-error);
+}
+
+/* The clear button: its own 24 x 24 target. */
+.clear {
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: var(--nph-space-inline-tight);
+  border: none;
+  background: transparent;
+  color: var(--nph-color-muted-foreground);
+  outline: none;
+}
+
+/* `foco-limpar`: border and halo around the target, as on the nph-button. */
+.clear:focus-visible::before,
+.clear:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.clear:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+
+.clear:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}
