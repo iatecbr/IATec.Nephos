@@ -482,9 +482,114 @@
     ],
     "variantsTitle": "Severity and emphasis",
     "variantsCaption": "The severities in each emphasis, at the default size. Hover to see the hover state and use Tab to see focus.",
+    "severityNote": "info, warn, help and success exist only in solid.",
+    "severityUseHeader": [
+      "Severity",
+      "When to use"
+    ],
+    "severityUse": [
+      [
+        "primary",
+        "Use for the main action of the block."
+      ],
+      [
+        "secondary",
+        "Use for the alternative action that accompanies the main one, such as Cancel next to Save."
+      ],
+      [
+        "danger",
+        "Use for an action that deletes, revokes or cannot be undone."
+      ],
+      [
+        "info",
+        "Use for an action tied to neutral information, such as a system notice or a contextual tip."
+      ],
+      [
+        "warn",
+        "Use for an action that requires care before proceeding."
+      ],
+      [
+        "help",
+        "Use for an action that opens help or guidance, such as an explanation, a tour or support content."
+      ],
+      [
+        "success",
+        "Use for an action that confirms something succeeded."
+      ]
+    ],
+    "severityDontHeader": [
+      "Severity",
+      "When not to use"
+    ],
+    "severityDont": [
+      [
+        "primary",
+        "Do not use next to another primary solid action in the same block."
+      ],
+      [
+        "secondary",
+        "Do not use as the only main action of the block."
+      ],
+      [
+        "danger",
+        "Do not use with an icon only: write the text."
+      ],
+      [
+        "info",
+        "Do not use for an error, a risk or a confirmation."
+      ],
+      [
+        "warn",
+        "Do not use for an error that has already happened; for an action that deletes or cannot be undone, use danger."
+      ],
+      [
+        "help",
+        "Do not use to report a system state."
+      ],
+      [
+        "success",
+        "Do not use to label a permanent state, such as active: use nph-badge."
+      ]
+    ],
     "sizesTitle": "Sizes",
     "sizesText": "The height comes from control/height-compact, -default or -large. The text is text/label-md in all of them. Without text, the button is square and the icon follows the box: sm in compact, md in default and lg in large.",
     "sizesCaption": "compact, default and large, with text, with an icon and icon only.",
+    "sizeUseHeader": [
+      "Size",
+      "When to use"
+    ],
+    "sizeUse": [
+      [
+        "compact (28 px)",
+        "Use inside a table, toolbar or filter."
+      ],
+      [
+        "default (36 px)",
+        "Use everywhere else; it is the default."
+      ],
+      [
+        "large (44 px)",
+        "Use on a touch screen and in the main form; it meets the 44 px touch target."
+      ]
+    ],
+    "sizeDontHeader": [
+      "Size",
+      "When not to use"
+    ],
+    "sizeDont": [
+      [
+        "compact (28 px)",
+        "Do not use as the main target on a touch screen, or with a different size from the field beside it."
+      ],
+      [
+        "default (36 px)",
+        "Do not use with a different size from the field beside it."
+      ],
+      [
+        "large (44 px)",
+        "Do not use with a different size from the field beside it."
+      ]
+    ],
     "statesTitle": "States",
     "statesHeader": [
       "State",

@@ -114,6 +114,9 @@ export const Documentation: Story = {
               </div>`,
               d.variantsCaption,
             )}
+            ${text(d.severityNote)}
+            ${table(d.severityUseHeader, d.severityUse.map(([severity, rule]: [string, string]) => [severity, rule] as const))}
+            ${table(d.severityDontHeader, d.severityDont.map(([severity, rule]: [string, string]) => [severity, rule] as const))}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,
         )}
@@ -136,6 +139,9 @@ export const Documentation: Story = {
               </div>`,
               d.sizesCaption,
             )}
+            ${table(d.sizeUseHeader, d.sizeUse.map(([size, rule]: [string, string]) => [size, rule] as const))}
+            ${table(d.sizeDontHeader, d.sizeDont.map(([size, rule]: [string, string]) => [size, rule] as const))}
+            ${source(d.sourceLabel, d.sourceSpec)}
             ${source(d.sourceLabel, d.sourceStates)}
           `,
         )}

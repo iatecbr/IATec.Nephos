@@ -482,9 +482,114 @@
     ],
     "variantsTitle": "Tipo y énfasis",
     "variantsCaption": "Los tipos en cada énfasis, en el tamaño default. Pase el ratón para ver el hover y use Tab para ver el foco.",
+    "severityNote": "info, warn, help y success existen solo en solid.",
+    "severityUseHeader": [
+      "Tipo",
+      "Cuándo usar"
+    ],
+    "severityUse": [
+      [
+        "primary",
+        "En la acción principal del bloque."
+      ],
+      [
+        "secondary",
+        "En la acción alternativa que acompaña a la principal, como Cancelar junto a Guardar."
+      ],
+      [
+        "danger",
+        "En la acción que elimina, revoca o no se puede deshacer."
+      ],
+      [
+        "info",
+        "En la acción ligada a una información neutra, como un aviso del sistema o una sugerencia de contexto."
+      ],
+      [
+        "warn",
+        "En la acción que pide cuidado antes de seguir."
+      ],
+      [
+        "help",
+        "En la acción que abre ayuda u orientación, como una explicación, un recorrido o un contenido de soporte."
+      ],
+      [
+        "success",
+        "En la acción que confirma que algo salió bien."
+      ]
+    ],
+    "severityDontHeader": [
+      "Tipo",
+      "Cuándo no usar"
+    ],
+    "severityDont": [
+      [
+        "primary",
+        "Junto a otra acción primary solid en el mismo bloque."
+      ],
+      [
+        "secondary",
+        "Como la única acción principal del bloque."
+      ],
+      [
+        "danger",
+        "Solo con icono; escriba el texto."
+      ],
+      [
+        "info",
+        "En un error, un riesgo o una confirmación."
+      ],
+      [
+        "warn",
+        "En un error que ya ocurrió; si la acción elimina o no se puede deshacer, use danger."
+      ],
+      [
+        "help",
+        "Para informar un estado del sistema."
+      ],
+      [
+        "success",
+        "Para marcar un estado permanente, como \"activo\"; use nph-badge."
+      ]
+    ],
     "sizesTitle": "Tamaños",
     "sizesText": "La altura viene de control/height-compact, -default o -large. El texto es text/label-md en todos. Sin texto, el botón es cuadrado y el icono acompaña la caja: sm en compact, md en default y lg en large.",
     "sizesCaption": "compact, default y large, con texto, con icono y solo con icono.",
+    "sizeUseHeader": [
+      "Tamaño",
+      "Cuándo usar"
+    ],
+    "sizeUse": [
+      [
+        "compact (28 px)",
+        "Dentro de una tabla, barra de herramientas o filtro."
+      ],
+      [
+        "default (36 px)",
+        "En todos los demás casos; es el predeterminado."
+      ],
+      [
+        "large (44 px)",
+        "En pantallas táctiles y en el formulario principal; cumple el objetivo táctil de 44 px."
+      ]
+    ],
+    "sizeDontHeader": [
+      "Tamaño",
+      "Cuándo no usar"
+    ],
+    "sizeDont": [
+      [
+        "compact (28 px)",
+        "Como objetivo principal en una pantalla táctil; con un tamaño distinto del campo de al lado."
+      ],
+      [
+        "default (36 px)",
+        "Con un tamaño distinto del campo de al lado."
+      ],
+      [
+        "large (44 px)",
+        "Con un tamaño distinto del campo de al lado."
+      ]
+    ],
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",

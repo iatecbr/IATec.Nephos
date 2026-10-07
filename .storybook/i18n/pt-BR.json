@@ -482,9 +482,114 @@
     ],
     "variantsTitle": "Tipo e ênfase",
     "variantsCaption": "Os tipos em cada ênfase, no tamanho default. Passe o mouse para ver o hover e use Tab para ver o foco.",
+    "severityNote": "info, warn, help e success existem só em solid.",
+    "severityUseHeader": [
+      "Tipo",
+      "Quando usar"
+    ],
+    "severityUse": [
+      [
+        "primary",
+        "Na ação principal do bloco."
+      ],
+      [
+        "secondary",
+        "Na ação alternativa que acompanha a principal, como Cancelar ao lado de Salvar."
+      ],
+      [
+        "danger",
+        "Na ação que exclui, revoga ou não pode ser desfeita."
+      ],
+      [
+        "info",
+        "Na ação ligada a uma informação neutra, como um aviso do sistema ou uma dica de contexto."
+      ],
+      [
+        "warn",
+        "Na ação que pede cuidado antes de seguir."
+      ],
+      [
+        "help",
+        "Na ação que abre ajuda ou orientação, como uma explicação, um tour ou um conteúdo de suporte."
+      ],
+      [
+        "success",
+        "Na ação que confirma que algo deu certo."
+      ]
+    ],
+    "severityDontHeader": [
+      "Tipo",
+      "Quando não usar"
+    ],
+    "severityDont": [
+      [
+        "primary",
+        "Ao lado de outra ação primary solid no mesmo bloco."
+      ],
+      [
+        "secondary",
+        "Como a única ação principal do bloco."
+      ],
+      [
+        "danger",
+        "Só com ícone; escreva o texto."
+      ],
+      [
+        "info",
+        "Em erro, risco ou confirmação."
+      ],
+      [
+        "warn",
+        "Em erro que já aconteceu; se a ação exclui ou não pode ser desfeita, use danger."
+      ],
+      [
+        "help",
+        "Para informar um estado do sistema."
+      ],
+      [
+        "success",
+        "Para marcar um estado permanente, como \"ativo\"; use nph-badge."
+      ]
+    ],
     "sizesTitle": "Tamanhos",
     "sizesText": "A altura vem de control/height-compact, -default ou -large. O texto é text/label-md em todos. Sem texto, o botão é quadrado e o ícone acompanha a caixa: sm no compact, md no default e lg no large.",
     "sizesCaption": "compact, default e large, com texto, com ícone e só com ícone.",
+    "sizeUseHeader": [
+      "Tamanho",
+      "Quando usar"
+    ],
+    "sizeUse": [
+      [
+        "compact (28 px)",
+        "Dentro de tabela, barra de ferramentas ou filtro."
+      ],
+      [
+        "default (36 px)",
+        "Em todos os outros casos; é o padrão."
+      ],
+      [
+        "large (44 px)",
+        "Em tela de toque e no formulário principal; atende o alvo de toque de 44 px."
+      ]
+    ],
+    "sizeDontHeader": [
+      "Tamanho",
+      "Quando não usar"
+    ],
+    "sizeDont": [
+      [
+        "compact (28 px)",
+        "Como alvo principal em tela de toque; com tamanho diferente do campo ao lado."
+      ],
+      [
+        "default (36 px)",
+        "Com tamanho diferente do campo ao lado."
+      ],
+      [
+        "large (44 px)",
+        "Com tamanho diferente do campo ao lado."
+      ]
+    ],
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",
