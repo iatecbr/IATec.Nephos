@@ -6,7 +6,7 @@
  * component with its labelled matrix right after the header, then section
  * title with a rule, text at reading width,
  * demo in its own area, table with a header, exception as a note and source
- * in the footer. See `docs/stories.md`, §4.8.
+ * in the footer. See `docs/stories.md`, §4.10.
  *
  * Only `--nph-*`: no hex, no literal color value. The page h1 uses
  * `text/heading-lg` and the section title `text/heading-md` (design.md: the
