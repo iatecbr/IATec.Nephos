@@ -1,0 +1,117 @@
+/**
+ * Internal style of `nph-radio`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the shadow
+ * root and are not API.
+ *
+ * No literal design value goes in here. Written box relations: `0`, `none`,
+ * `inset` with zeros in `box-shadow` (the border is a stroke on the inside, as in
+ * the Figma frame), `overflow-wrap: anywhere` (a long word breaks inside the
+ * piece), `calc(... / 2)` (centers the first line of text on the 24 × 24
+ * target) and `inset: 0` on the halo, which fills the target. The dot is what is
+ * left of the circle after `space/inline-tight` on each side.
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* Disabled (by the property or by a disabled fieldset): the whole piece fades. */
+:host(:disabled) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+.row {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--nph-space-inline);
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  outline: none;
+}
+
+/* The 24 x 24 target around the 16 x 16 circle. */
+.target {
+  --_border: var(--nph-color-input);
+  --_bg: var(--nph-color-background);
+  --_halo: var(--nph-focus-halo);
+  position: relative;
+  flex: none;
+  display: inline-flex;
+  padding: var(--nph-space-inline-tight);
+}
+
+.circle {
+  display: block;
+  box-sizing: border-box;
+  inline-size: var(--nph-icon-size-sm);
+  block-size: var(--nph-icon-size-sm);
+  padding: var(--nph-space-inline-tight);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--_bg);
+  box-shadow: inset 0 0 0 var(--nph-border-width) var(--_border);
+}
+
+.dot {
+  display: none;
+  block-size: 100%;
+  border-radius: var(--nph-radius-full);
+  background-color: var(--nph-color-primary-foreground);
+}
+
+/* The first line of text sits centered on the target; a long word breaks instead of leaving the piece. */
+.text {
+  overflow-wrap: anywhere;
+  padding-block-start: calc(
+    (var(--nph-icon-size-sm) + var(--nph-space-inline-tight) + var(--nph-space-inline-tight) - var(--nph-text-label-md-line-height)) / 2
+  );
+}
+
+:host([checked]) .target {
+  --_bg: var(--nph-color-primary);
+}
+
+:host([checked]) .dot {
+  display: block;
+}
+
+/* Hover: border one step darker; checked, the circle also at state/hover-opacity. */
+:host(:not(:disabled)) .row:hover .target {
+  --_border: var(--nph-color-input-hover);
+}
+
+:host([checked]:not(:disabled)) .row:hover .circle {
+  opacity: var(--nph-state-hover-opacity);
+}
+
+/* Focus: border in the brand and halo filling the target, keyboard only. */
+.row:focus-visible .target {
+  --_border: var(--nph-focus-border);
+}
+
+.row:focus-visible .target::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border: var(--nph-focus-ring-width) solid var(--_halo);
+  border-radius: var(--nph-radius-full);
+  pointer-events: none;
+}
+
+/* Error: the border says it; with focus, the halo is the error halo. */
+:host([invalid]:not(:disabled)) .target {
+  --_border: var(--nph-status-error);
+  --_halo: var(--nph-focus-halo-error);
+}
