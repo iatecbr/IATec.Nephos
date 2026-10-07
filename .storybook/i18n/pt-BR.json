@@ -157,7 +157,11 @@
     "whenNotToUseTitle": "Quando não usar",
     "whenNotToUse": [
       "A ação é específica do domínio ou tem consequência: use rótulo textual junto ao ícone.",
-      "O ícone solicitado não existe no núcleo: registre a lacuna e aguarde decisão."
+      "O ícone solicitado não existe no núcleo: registre a lacuna e aguarde decisão.",
+      "Pacote, arquivo ou segredo do Font Awesome Pro em material versionado.",
+      "Variante visual criada só para preencher uma matriz.",
+      "Duotone fora da navegação estrutural, ou Duotone e Classic misturados no mesmo grupo.",
+      "Cor definida como propriedade: o ícone herda currentColor do contexto."
     ],
     "apiTitle": "API pública aprovada",
     "api": [
@@ -225,15 +229,6 @@
     "invalidTitle": "Entrada inválida",
     "invalidText": "name fora do núcleo, size ausente ou fora da lista aprovada, ou variant inexistente não renderizam ícone e falham na validação de desenvolvimento. Não há fallback visual nem tamanho livre. O erro sai por console.error apenas em desenvolvimento.",
     "invalidPointer": "Os casos estão demonstrados em Validação › Entrada inválida.",
-    "antiPatternsTitle": "Anti-padrões",
-    "antiPatterns": [
-      "Não usar ícone sozinho para excluir, aprovar, publicar, exportar ou outra ação específica do domínio.",
-      "Não usar o pacote, arquivo ou segredo do Font Awesome Pro em material versionado.",
-      "Não criar variante visual apenas para preencher uma matriz.",
-      "Não usar Duotone fora de navegação estrutural nem misturar Duotone e Classic no mesmo grupo.",
-      "Não usar um name fora do núcleo de ícones do Nephos.",
-      "Não definir cor como propriedade; o ícone herda currentColor do contexto."
-    ],
     "referencesTitle": "Referências",
     "references": [
       "design.md — contrato_nph_icon, icone_regras, icone_acessibilidade, tokens_icon, icones_nucleo.",
@@ -249,7 +244,8 @@
     "sourceSize": "design.md › tokens_icon, icone_regras.caixa e icones_terceira_leva.largura; docs/decisoes-tecnicas.md › P21",
     "sourceColor": "design.md › icone_regras.cor e icone_regras.espaco_ate_o_texto; docs/decisoes-tecnicas.md › P21",
     "sourceAccessibility": "design.md › icone_acessibilidade; ficha nph-icon",
-    "sourceInvalid": "ficha nph-icon; docs/decisoes-tecnicas.md › P21"
+    "sourceInvalid": "ficha nph-icon; docs/decisoes-tecnicas.md › P21",
+    "matrixLabel": "Matriz do componente"
   },
   "validation": {
     "variantsTitle": "Variantes",
@@ -307,7 +303,8 @@
       "success como selo permanente: use secondary ou primary.",
       "Selo sem texto, só com ícone.",
       "Dois selos de status no mesmo item.",
-      "Frase dentro do selo: o texto de apoio fica fora da peça."
+      "Frase dentro do selo: o texto de apoio fica fora da peça.",
+      "Pintar o fundo ou o texto à mão: a cor vem do tipo e da ênfase."
     ],
     "apiTitle": "API",
     "apiHeader": [
@@ -394,15 +391,6 @@
       "Financeiro",
       "Recusado"
     ],
-    "antiPatternsTitle": "Não usar",
-    "antiPatterns": [
-      "Usar como botão: o selo não recebe clique nem foco. Use nph-button.",
-      "Usar success como selo permanente: use secondary ou primary.",
-      "Selo sem texto, só com ícone.",
-      "Dois selos de status no mesmo item.",
-      "Frase dentro do selo: texto de apoio fica fora da peça.",
-      "Pintar o fundo ou o texto à mão: a cor vem do tipo e da ênfase."
-    ],
     "referencesTitle": "Referências",
     "references": [
       "ficha nph-badge — função, variantes, acessibilidade, tokens e anti-padrões.",
@@ -413,7 +401,9 @@
     ],
     "sourceSpec": "ficha nph-badge; Figma, quadro nph-badge (1196:1100)",
     "sourceApi": "ficha nph-badge; docs/decisoes-tecnicas.md › P68",
-    "sourceAnatomy": "Figma, conjunto 878:30; design.md"
+    "sourceAnatomy": "Figma, conjunto 878:30; design.md",
+    "matrixLabel": "Matriz do componente",
+    "sampleText": "Selo"
   },
   "buttonDocs": {
     "summary": "Dispara uma ação identificada por texto. Varia em tipo, ênfase, tamanho e estado, com ícone opcional no início ou no fim. Sem texto, é o botão só com ícone.",
@@ -738,7 +728,10 @@
       "Storybook — Validação, na pasta ao lado."
     ],
     "sourceFrame": "Figma, quadro nph-label (1194:1482)",
-    "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 e P62.6"
+    "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 e P62.6",
+    "doCardTitle": "Fazer",
+    "dontCardTitle": "Não usar",
+    "matrixLabel": "Matriz do componente"
   },
   "badgeValidation": {
     "sample": "Selo",

@@ -157,7 +157,11 @@
     "whenNotToUseTitle": "Cuándo no usarlo",
     "whenNotToUse": [
       "La acción es específica del dominio o tiene consecuencias: use una etiqueta textual junto al icono.",
-      "El icono solicitado no existe en el núcleo: registre la laguna y espere una decisión."
+      "El icono solicitado no existe en el núcleo: registre la laguna y espere una decisión.",
+      "El paquete, archivo o secreto de Font Awesome Pro en material versionado.",
+      "Una variante visual creada solo para completar una matriz.",
+      "Duotone fuera de la navegación estructural, o Duotone y Classic mezclados en el mismo grupo.",
+      "El color definido como propiedad: el icono hereda currentColor del contexto."
     ],
     "apiTitle": "API pública aprobada",
     "api": [
@@ -225,15 +229,6 @@
     "invalidTitle": "Entrada inválida",
     "invalidText": "Un name fuera del núcleo, un size ausente o fuera de la lista aprobada, o una variant inexistente no renderizan icono y fallan en la validación de desarrollo. No hay fallback visual ni tamaño libre. El error sale por console.error solo en desarrollo.",
     "invalidPointer": "Los casos están demostrados en Validación › Entrada inválida.",
-    "antiPatternsTitle": "Antipatrones",
-    "antiPatterns": [
-      "No usar un icono solo para eliminar, aprobar, publicar, exportar u otra acción específica del dominio.",
-      "No usar el paquete, archivo o secreto de Font Awesome Pro en material versionado.",
-      "No crear una variante visual solo para completar una matriz.",
-      "No usar Duotone fuera de la navegación estructural ni mezclar Duotone y Classic en el mismo grupo.",
-      "No usar un name fuera del núcleo de iconos del Nephos.",
-      "No definir el color como propiedad; el icono hereda currentColor del contexto."
-    ],
     "referencesTitle": "Referencias",
     "references": [
       "design.md — contrato_nph_icon, icone_regras, icone_acessibilidade, tokens_icon, icones_nucleo.",
@@ -249,7 +244,8 @@
     "sourceSize": "design.md › tokens_icon, icone_regras.caixa y icones_terceira_leva.largura; docs/decisoes-tecnicas.md › P21",
     "sourceColor": "design.md › icone_regras.cor y icone_regras.espaco_ate_o_texto; docs/decisoes-tecnicas.md › P21",
     "sourceAccessibility": "design.md › icone_acessibilidade; ficha nph-icon",
-    "sourceInvalid": "ficha nph-icon; docs/decisoes-tecnicas.md › P21"
+    "sourceInvalid": "ficha nph-icon; docs/decisoes-tecnicas.md › P21",
+    "matrixLabel": "Matriz del componente"
   },
   "validation": {
     "variantsTitle": "Variantes",
@@ -307,7 +303,8 @@
       "success como insignia permanente: use secondary o primary.",
       "Insignia sin texto, solo con icono.",
       "Dos insignias de estado en el mismo elemento.",
-      "Una frase dentro de la insignia: el texto de apoyo queda fuera de la pieza."
+      "Una frase dentro de la insignia: el texto de apoyo queda fuera de la pieza.",
+      "Pintar el fondo o el texto a mano: el color viene del tipo y del énfasis."
     ],
     "apiTitle": "API",
     "apiHeader": [
@@ -394,15 +391,6 @@
       "Financiero",
       "Rechazado"
     ],
-    "antiPatternsTitle": "No usar",
-    "antiPatterns": [
-      "Usar como botón: la insignia no recibe clic ni foco. Use nph-button.",
-      "Usar success como insignia permanente: use secondary o primary.",
-      "Insignia sin texto, solo con icono.",
-      "Dos insignias de estado en el mismo elemento.",
-      "Una frase dentro de la insignia: el texto de apoyo queda fuera de la pieza.",
-      "Pintar el fondo o el texto a mano: el color viene del tipo y del énfasis."
-    ],
     "referencesTitle": "Referencias",
     "references": [
       "ficha nph-badge — función, variantes, accesibilidad, tokens y antipatrones.",
@@ -413,7 +401,9 @@
     ],
     "sourceSpec": "ficha nph-badge; Figma, marco nph-badge (1196:1100)",
     "sourceApi": "ficha nph-badge; docs/decisoes-tecnicas.md › P68",
-    "sourceAnatomy": "Figma, conjunto 878:30; design.md"
+    "sourceAnatomy": "Figma, conjunto 878:30; design.md",
+    "matrixLabel": "Matriz del componente",
+    "sampleText": "Insignia"
   },
   "buttonDocs": {
     "summary": "Dispara una acción identificada por texto. Varía en tipo, énfasis, tamaño y estado, con icono opcional al inicio o al final. Sin texto, es el botón solo con icono.",
@@ -738,7 +728,10 @@
       "Storybook — Validación, en la carpeta de al lado."
     ],
     "sourceFrame": "Figma, marco nph-label (1194:1482)",
-    "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 y P62.6"
+    "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 y P62.6",
+    "doCardTitle": "Hacer",
+    "dontCardTitle": "No usar",
+    "matrixLabel": "Matriz del componente"
   },
   "badgeValidation": {
     "sample": "Insignia",
