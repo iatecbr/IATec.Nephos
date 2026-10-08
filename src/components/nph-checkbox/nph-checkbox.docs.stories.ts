@@ -113,9 +113,22 @@ export const Documentation: Story = {
           html`
             ${table(d.statesHeader, d.states.map(([state, change]: [string, string]) => [state, change] as const))}
             ${demo(
-              html`<div style=${row}>
-                <nph-checkbox text=${v.checked} checked invalid></nph-checkbox>
-                <nph-checkbox text=${v.checked} checked disabled></nph-checkbox>
+              html`<div style=${stack}>
+                <div style=${row}>
+                  <nph-checkbox text=${v.unchecked}></nph-checkbox>
+                  <nph-checkbox text=${v.checked} checked></nph-checkbox>
+                  <nph-checkbox text=${v.indeterminate} indeterminate></nph-checkbox>
+                </div>
+                <div style=${row}>
+                  <nph-checkbox text=${v.unchecked} invalid></nph-checkbox>
+                  <nph-checkbox text=${v.checked} checked invalid></nph-checkbox>
+                  <nph-checkbox text=${v.indeterminate} indeterminate invalid></nph-checkbox>
+                </div>
+                <div style=${row}>
+                  <nph-checkbox text=${v.unchecked} disabled></nph-checkbox>
+                  <nph-checkbox text=${v.checked} checked disabled></nph-checkbox>
+                  <nph-checkbox text=${v.indeterminate} indeterminate disabled></nph-checkbox>
+                </div>
               </div>`,
               d.statesCaption,
             )}
