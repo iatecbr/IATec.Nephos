@@ -138,7 +138,7 @@ anti_patterns:
 
 sources:
   design_md: "design.md, in the repository"
-  decision: "P62.1, P62.2 and P62.3, approved by Elvys on 28-08-2026; P62.6, the information trigger, under review in the PR by maurocsjr"
+  decision: "P62.1, P62.2 and P62.3; P62.6, the information trigger"
   tests: "src/components/nph-label/nph-label.test.ts"
   usage_evidence: "branch v/3.0.0, PR #10, merge e231eba"
   storybook: "src/components/nph-label/nph-label.stories.ts"
@@ -152,7 +152,7 @@ tags: [nephos, ds-agentico, ficha, componente, nph-label]
 
 # nph-label
 
-> **The principle that governs this piece, approved by Indiane on 27-08-2026: the label is
+> **The principle that governs this piece: the label is
 > only text.** It carries no layout, text state or error message. Since 08-09-2026 (L8),
 > it carries the **trigger** of the help, not the help: the information icon opens the
 > `nph-tooltip`.
@@ -207,7 +207,7 @@ the decision not to use Shadow DOM. The information icon is focusable: with focu
 `focus/border` border and the `focus/halo` halo around the 24 × 24 target. Activated by
 click, Enter or Space, it opens the `nph-tooltip` below the label, at `space/inline`; it closes
 with Esc, click outside or Tab out. Closing by Tab is the keyboard reading
-of the "click outside" of L11, confirmed by Indiane on 06-10-2026 (P62.6). Hovering
+of the "click outside" of L11, confirmed in P62.6. Hovering
 does not open it.
 
 **Business rule the piece carries:** the asterisk signals a required field. **But the
@@ -273,7 +273,7 @@ its properties. Without them, the label would only exist with a literal value.
 **Usage restrictions:** the `use` of `status/error` was **extended in `design.md` before the
 code**, to cover the asterisk. The label color **does not change** in any situation. The
 limits of the trigger are in P62.6: the `use` of `color/muted-foreground` comes to mention the
-icon through PR #57, by Indiane's decision of 06-10-2026 (L-a); rule 6 of `design.md` comes to admit border and halo through PR #57 (L-b); and the
+icon through PR #57 (L-a); rule 6 of `design.md` comes to admit border and halo through PR #57 (L-b); and the
 balloon has no `z-index`, because there is no layer token (L-c).
 
 **AI hints:**
@@ -323,7 +323,7 @@ name of the icon, such as `Sobre CPF` (About CPF).
 | No Shadow DOM | Confirmed, with the reason written in the file itself |
 | Tokens consumed | Checked in `nph-label.css`: `text/label-md` (the properties of the role), `color/foreground`, `status/error`, `space/inline-tight`; with the trigger, those of the `tokens` block |
 | Stories and tests | In `nph-label.stories.ts` and `nph-label.test.ts` |
-| Visual approval | Indiane, on **27-08-2026**, master set `374:6` on the `NPH — Label` page, in light and dark modes; on **08-09-2026**, the `required` × `info` matrix (L8); on **01-10-2026**, the icon focus and frame `1194:1482` (L9 and L10) |
+| Visual approval | Master set `374:6` on the `NPH — Label` page, in light and dark modes; the `required` × `info` matrix (L8); the icon focus and frame `1194:1482` (L9 and L10) |
 
 > **Two divergences I found in the old spec, and how I resolved them.**
 >
@@ -332,8 +332,8 @@ name of the icon, such as `Sobre CPF` (About CPF).
 > **`o componente não está na v/3.0.0`** (the component is not on `v/3.0.0`). Both
 > fell behind: the association is `for`, closed by **P62.3**, and the component
 > was merged on 28-08-2026. It also records the two technical decisions as
-> `pendentes de confirmação de Elvys` (pending confirmation by Elvys) — **P62.1 and P62.3 were approved by him on
-> 28-08-2026**. The status source is the `Estado vigente — Nephos` (Current status — Nephos) (vault), confirmed in the
+> `pendentes de confirmação` (pending confirmation) — **P62.1 and P62.3 were
+> approved in the technical review**. The status source is the `Estado vigente — Nephos` (Current status — Nephos) (vault), confirmed in the
 > repository; the old spec is memory.
 
 ### The exception this piece carries
@@ -379,7 +379,7 @@ anti-patterns and the decisions of 27-08-2026 are **evidence** — they come fro
 rewritten in the nine-section template, without any rule change. The `api` block, the tokens
 consumed, the absence of Shadow DOM and the implementation status are **evidence
 verified in the repository** on 31-08-2026. The AI hints are **new**. P62.1,
-P62.2 and P62.3 are a **human decision** by Indiane, approved by Elvys on 28-08-2026.
+P62.2 and P62.3 are a **human decision**, approved in the technical review.
 On 06-10-2026, the spec gained the information trigger (DSA-04): the anatomy and the
-behavior come from L8 to L11 and from frame `1194:1482`, accepted by Indiane; the API and the
-semantics are **P62.6**, under review in the PR by `maurocsjr`.*
+behavior come from L8 to L11 and from frame `1194:1482`, accepted; the API and the
+semantics are **P62.6**.*

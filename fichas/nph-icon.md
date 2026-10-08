@@ -115,7 +115,7 @@ anti_patterns:
 
 sources:
   design_md: "design.md, in the repository"
-  decision: "P21, adopted by Indiane on 26-08-2026; I7, 08-09-2026"
+  decision: "P21; I7"
   tests: "src/components/nph-icon/nph-icon.test.ts"
   usage_evidence: "branch v/3.0.0, PR #6, merge 437dd60"
   storybook: "src/components/nph-icon/nph-icon.stories.ts"
@@ -129,8 +129,8 @@ tags: [nephos, ds-agentico, ficha, componente, nph-icon]
 
 # nph-icon
 
-> **The API is in the YAML block above**, and that is where it lives — Indiane's decision on
-> 31-08-2026. This text answers **when to choose this piece**, not what it accepts.
+> **The API is in the YAML block above**, and that is where it lives — recorded
+> decision. This text answers **when to choose this piece**, not what it accepts.
 >
 > The collection, family, size and color rules belong to `Fundação — ícones` (Foundation — icons) (vault). This spec
 > does not repeat them: it points to them.
@@ -288,7 +288,7 @@ another component, instead of new artwork.
 > **A divergence I found, and how I resolved it.** The old spec at
 > `TRABALHO/DESIGN SYSTEM/02 — Componentes/fichas/nph-icon.md` says the remaining gate is
 > `comparar Figma × Storybook e registrar o aceite` (compare Figma × Storybook and record the acceptance). **The `Estado vigente — Nephos` (Current status — Nephos) (vault)
-> records that the comparison was made and accepted by Indiane on 26-08-2026.** The Status is
+> records that the comparison was made and accepted.** The Status is
 > the single source of status, and it is the one that counts — the old spec fell behind and is memory.
 
 | What | Where |
@@ -313,5 +313,5 @@ anti-patterns are **evidence** — they come from the origin spec, rewritten in 
 template, without any rule change. The `api` block and the implementation status table are
 **evidence verified in the repository** on 31-08-2026, property by property. The
 AI hints are **new**, distilled from criteria already written. P21 and the later
-decisions are a **human decision** by Indiane, on 26-08-2026. PF-08 is an **open item**.
+decisions are a **human decision**. PF-08 is an **open item**.
 No change was made to code, tokens, tests, Figma or repository.*

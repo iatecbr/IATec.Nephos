@@ -43,7 +43,7 @@ api:
     default: default
     reflects: true
     constraint: >-
-      The default value default is a decision by Indiane on 05-10-2026, through T4: compact stays
+      The default value default comes from P68, through T4: compact stays
       tied to the dense context. large meets the touch target
       of 44 px; compact is never the main target on a touch screen. A field and a
       button side by side use the same size. A value outside the list draws
@@ -82,8 +82,8 @@ api:
     constraint: >-
       Accessible name of the icon-only button, mandatory in it: without label, the icon-only button
       draws nothing and emits console.error in development. With text, it is not
-      used. The name label is a decision by Indiane on 05-10-2026 and supersedes the
-      aria-label of 02-09-2026.
+      used. The name label comes from P68 and supersedes the
+      earlier aria-label.
   disabled:
     type: boolean
     required: false
@@ -164,7 +164,7 @@ accessibility:
     - "Tab enters and leaves the button."
     - "Enter activates."
     - "Space activates."
-  focus: "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; the open item belongs to Indiane since 02-10-2026."
+  focus: "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; it is an open item."
   contrast: "Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in primary outline and light of the light scheme. The outline border passes 3:1. The focus border of primary has the limit described in `focus`."
   color_alternative: "The text says what happens on click; color is never the only sign of intent, focus or state."
 invalid_combinations:
@@ -189,7 +189,7 @@ anti_patterns:
   - "Painting the button by hand or creating a type, emphasis or size outside the matrix."
 sources:
   design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block"
-  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, decisions by Indiane on 05-10-2026"
+  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68"
   tests: "src/components/nph-button/nph-button.test.ts and nph-button.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the button yet"
   storybook: "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts"
@@ -250,7 +250,7 @@ target on a touch screen; a size different from the field beside it.
 **Feedback and focus:** focus appears only for keyboard users and **is not removed**. The
 border is the indicator; the halo is the second layer. Known limit: in dark mode,
 `color/primary` falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and
-`Igrejas`, an open item of Indiane since 02-10-2026.
+`Igrejas`, an open item.
 
 **Business rule the piece carries:** `not_applicable`. The button fires the action the
 screen defines.
@@ -340,9 +340,9 @@ universal close action, the icon-only button `xmark` in `secondary` `ghost`, wit
   `space/inline-tight`, `radius/control`, `text/label-md`, `icon/size-*`,
   `state/disabled-opacity`, `focus/*` and the colors `color/*` and `status/*`.
 - **The decision that originated it:** P68, of 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log);
-  the default `size` `default` and the name `label`, decided by Indiane on 05-10-2026;
-  the solid hover on the hover tokens, decided by Indiane on 02-10-2026, which supersedes
-  B4. The frame was accepted on 01-10-2026 and completed on 02-10-2026.
+  the default `size` `default` and the name `label`, in P68;
+  the solid hover on the hover tokens, which supersedes B4. The frame was accepted
+  and later completed.
 - **Tests:** `src/components/nph-button/nph-button.test.ts` and `nph-button.docs.test.ts`.
 - **Usage evidence:** pending — no approved screen consumes the button yet.
 - **Storybook:** `src/components/nph-button/nph-button.stories.ts` (Validation) and
