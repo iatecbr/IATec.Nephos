@@ -619,6 +619,8 @@ annotation "Amended by P62.6".
 - **L-b — rule 6 of `design.md`.** Rule 6 and `focus-ring/default` still
   speak only of the `focus/ring` ring. The alignment to focus by border and halo is in
   PR #57, which already mentions the `info` trigger; this one goes in after it.
+  *Resolved by PR #57:* rule 6 now names the focus border and halo, and cites the
+  `info` trigger of the `nph-label`.
 - **L-c — no `z-index`.** There is no layer token. A positioned sibling that
   comes later in the DOM can end up on top of the balloon. The balloon also does not flip
   upward near the edge of the screen.
@@ -1047,7 +1049,8 @@ its own decision, as in P66. The names follow P64.
   `status/<hue>-surface` and `-foreground` ("Always together with the other
   three roles") in the `light` badge, without `-border`. The pieces follow
   Figma; widening the `use` is a pending decision of Indiane, and this PR does
-  not change `design.md`.
+  not change `design.md`. *Resolved by PR #57:* the `use` of each of these
+  tokens now cites these uses.
 
 **Source.** Frames accepted in the Figma file `DS-IA-NEPHOS 5.0` on 01/10/2026
 and completed on 02/10/2026: `nph-badge` (`1196:1100`, set `878:30`; the hover
