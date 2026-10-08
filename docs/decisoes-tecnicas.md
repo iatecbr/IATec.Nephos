@@ -22,7 +22,7 @@ P62.4 subsection for the detail).
 | **P62.1** | `nph-label` without Shadow DOM — exception to P01 | 27/08/2026 | High. It is the only way the native association works; without it the label loses its function | Approved, 28/08/2026 |
 | **P62.4** | Dimensions in `px`, not `rem` | 27/08/2026 | High and old. Applies to the whole system, not just typography | Resolved by his own decision: migrate the generator to `rem` — 28/08/2026. **Implemented on 28/08/2026** |
 | **P62.5** | The radius stays in `px` | 28/08/2026 | Low. Converting later is one line in the generator, but requires changing `raio_regras` in `design.md` | Adopted by Indiane on 28/08/2026. **Reviewed and approved by Mauro on 09/09/2026, in PR #25, merged in `ed7c009`.** Resolves the scope contradiction of P62.4 |
-| **P62.6** | `info` and `infoLabel` in `nph-label`: the information trigger | 06/10/2026 | Medium. `nph-field` will assemble the label with the trigger; changing the API later requires redoing both | Anatomy and behavior: L8 to L11, adopted by Indiane on 08/09/2026 and 01/10/2026. API and semantics: technical proposal, review in the PR by `maurocsjr` |
+| **P62.6** | `info` and `infoLabel` in `nph-label`: the information trigger | 06/10/2026 | Medium. `nph-field` will assemble the label with the trigger; changing the API later requires redoing both | Anatomy and behavior: L8 to L11, adopted by Indiane on 08/09/2026 and 01/10/2026. API and semantics approved by `maurocsjr` in PR #58, merged in `455ead8` |
 | **P01** | Open Shadow DOM | 24/08/2026 | High. Every component depends on it | Approved, 28/08/2026 |
 | **P02** | Custom properties as public API | 24/08/2026 | High | Approved, 28/08/2026 |
 | **P03** | Directory pattern and TypeScript | 24/08/2026 | Medium | Approved, 28/08/2026 |
@@ -31,11 +31,11 @@ P62.4 subsection for the detail).
 | **P20** | Style Dictionary v5 and theme contract | 24/08/2026 | High | Approved, 28/08/2026 |
 | **P21** | Technical plan of `nph-icon` | 26/08/2026 | Already implemented and merged under risk acceptance | Approved, 28/08/2026 |
 | **P63** | Metadata generated from the spec | 28/09/2026 | Medium. Changing location or format later requires generating again and adjusting whoever reads it; the spec does not change | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** |
-| **P64** | Code language | 28/09/2026 | Medium. Applies to all new code; migrating what exists only swaps names | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** Amendment of 02/10/2026 approved by Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 (language, and the Storybook naming item) adopted by Indiane, each under review in the pull request that brings it. |
+| **P64** | Code language | 28/09/2026 | Medium. Applies to all new code; migrating what exists only swaps names | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** Amendment of 02/10/2026 approved by Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 adopted by Indiane: the language part approved by Mauro in PR #59, merged in `addb034`, and the Storybook naming item in PR #56, merged in `455ead8`. |
 | **P65** | API and semantics of `nph-tooltip` | 05/10/2026 | Low now. `nph-label` is the first consumer; changing later requires redoing its trigger | Behavior and scope (L11.5) and anatomy (L11.6, L11.7 and the accepted frame) adopted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #51, merged on 05/10/2026 |
-| **P66** | API and semantics of `nph-spinner`, `nph-separator` and `nph-kbd` | 05/10/2026 | Low now. `nph-button` (Batch B) and `nph-rich-option` will be the first consumers | Anatomy and behavior: frames accepted by Indiane on 01/10/2026. API and semantics: technical proposal, review in the PR by `maurocsjr` |
-| **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Technical proposal, review in the PR by `maurocsjr` |
-| **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics: technical proposal, review in the PR by `maurocsjr` |
+| **P66** | API and semantics of `nph-spinner`, `nph-separator` and `nph-kbd` | 05/10/2026 | Low now. `nph-button` (Batch B) and `nph-rich-option` will be the first consumers | Anatomy and behavior: frames accepted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #54, merged in `d01da7b` |
+| **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Generator approved by `maurocsjr` in PR #55, merged in `7dd370d` |
+| **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics approved by `maurocsjr` in PR #56, merged in `455ead8` |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -633,7 +633,7 @@ of this implementation. Closing by Tab is a reading of L11.5, confirmed by
 Indiane on 06/10/2026.
 
 **Status.** Anatomy and behavior adopted by Indiane on 01/10/2026; API and
-semantics under review in the PR by `maurocsjr`.
+semantics approved by `maurocsjr` in PR #58 (DSA-04), merged in `455ead8`.
 
 ---
 
@@ -776,8 +776,9 @@ Indiane on 06/10/2026.
 **Status.** Decision adopted by Indiane on 28/09/2026 — reviewed and approved
 by Mauro on 30/09/2026, in the team chat. Amendment of 02/10/2026 approved by
 Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 adopted by
-Indiane: the language of the documentation, comments and messages, and the
-Storybook naming item, each under review in the pull request that brings it.
+Indiane: the language of the documentation, comments and messages approved by
+Mauro in PR #59, merged in `addb034`; the Storybook naming item approved by
+Mauro in PR #56, merged in `455ead8`.
 
 ---
 
@@ -882,7 +883,7 @@ invalid input rule are a technical proposal of this implementation.
 indicator. Separator with text. Key combination in a single piece.
 
 **Status.** Anatomy and behavior accepted by Indiane on 01/10/2026; API and
-semantics under review in the Batch A PR.
+semantics approved by Mauro in PR #54 (Batch A), merged in `d01da7b`.
 
 ---
 
@@ -935,7 +936,8 @@ rite of the section "How to change one of these decisions": the technical confli
 proposal is this section, and the human review is the one by `maurocsjr` in the PR. The text of the
 P65 decision does not change; only its limit gets the annotation.
 
-**Status.** Consumption decided by Indiane on 05/10/2026; generator under review in the PR.
+**Status.** Consumption decided by Indiane on 05/10/2026; generator approved by
+Mauro in PR #55, merged in `7dd370d`.
 
 ---
 
@@ -1067,7 +1069,8 @@ link that looks like a button, button group, fluid-width button, text on more
 than one line, clickable badge and badge with a count.
 
 **Status.** Anatomy and behavior accepted by Indiane on 01/10/2026 and
-completed on 02/10/2026; API and semantics under review in the Batch B PR.
+completed on 02/10/2026; API and semantics approved by Mauro in PR #56
+(Batch B), merged in `455ead8`.
 
 ---
 
