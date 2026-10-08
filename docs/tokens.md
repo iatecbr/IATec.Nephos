@@ -150,7 +150,7 @@ The family is the only part that becomes an alias:
 height, weight and letter spacing are literals on the role, exactly as
 `design.md` already wrote them in the `valores` block.
 
-The five-property shape is recorded as P62.2.
+The five-property shape was approved in the technical review (P62.2).
 
 The unit caveat **is gone**: dimensions used to come out in `px`, and from
 28/08/2026 they come out in `rem` — see the section below.

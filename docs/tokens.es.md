@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=b9244eb8f1c83dee038a275cb2bc647b93340832130175d3deb18fe4bded21a5 | status=revisado -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=dcdbf410ce3f47c4bac2e7cf689be63af2b8c61c25c9b45039a00c93e7a63474 | status=revisado -->
 
 # Tokens — fuente, generación y consumo
 
@@ -156,7 +156,7 @@ La familia es la única parte que se convierte en alias:
 de línea, peso y espaciado son literales en el papel, exactamente como
 `design.md` ya los escribía en el bloque `valores`.
 
-El formato de cinco propiedades está registrado como P62.2.
+El formato de cinco propiedades fue aprobado en la revisión técnica (P62.2).
 
 La salvedad de unidad **ya no existe**: las dimensiones salían en `px` y, desde
 el 28/08/2026, salen en `rem` — ver la sección de abajo.

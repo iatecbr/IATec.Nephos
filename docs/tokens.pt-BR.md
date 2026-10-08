@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=b9244eb8f1c83dee038a275cb2bc647b93340832130175d3deb18fe4bded21a5 | status=revisado -->
+<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=dcdbf410ce3f47c4bac2e7cf689be63af2b8c61c25c9b45039a00c93e7a63474 | status=revisado -->
 
 # Tokens — fonte, geração e consumo
 
@@ -155,7 +155,7 @@ aponta para `--nph-core-font-sans`. Tamanho, altura de linha, peso e
 espaçamento são literais no papel, exatamente como o `design.md` já os escrevia
 no bloco `valores`.
 
-O formato de cinco propriedades está registrado como P62.2.
+O formato de cinco propriedades foi aprovado na revisão técnica (P62.2).
 
 A ressalva de unidade **deixou de existir**: as dimensões saíam em `px`, e a
 partir de 28/08/2026 saem em `rem` — ver a seção abaixo.

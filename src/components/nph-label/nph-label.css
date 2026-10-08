@@ -7,7 +7,7 @@
  * boundary. From inside it, `for` cannot reach an `id` in the document,
  * clicking the label would not move the cursor to the field and the screen
  * reader would not announce the field name — which is exactly what a label
- * exists to do. Recorded in P62.3.
+ * exists to do. Recorded in P62.1.
  *
  * Since the element lives in the light DOM, the selectors here are global.
  * They target the element's own name, which only exists where the component
