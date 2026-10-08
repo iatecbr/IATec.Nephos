@@ -354,11 +354,6 @@ export function useDontUse(
   `;
 }
 
-/** Only the error card. Kept for the nph-button page until it migrates to `useDontUse`. */
-export function dontDo(title: string, items: readonly string[]): TemplateResult {
-  return html`<div style="display: flex;">${card('error', title, items)}</div>`;
-}
-
 /** Origin footer. Every displayed rule points to where it came from. */
 export function source(label: string, origin: string): TemplateResult {
   return html`
