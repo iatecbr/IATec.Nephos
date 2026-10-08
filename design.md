@@ -468,7 +468,7 @@ tokens_semantic:
     css: '--nph-focus-border'
     claro: theme/brand-focus
     escuro: theme/brand-300
-    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button and on the info trigger of the nph-label. It is the one that meets the 3:1 minimum; the halo is decoration."
+    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button and on the info trigger of the nph-label. It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1."
   focus/halo:
     css: '--nph-focus-halo'
     claro: theme/brand-halo
@@ -1939,7 +1939,7 @@ Absolute imperative. They are not preferences.
 3. **NEVER** write a literal color, spacing, font or radius value in component CSS. Only `var(--nph-*)`.
 4. Components consume **only** `tokens_semantic`. **NEVER** consume `tokens_core` directly.
 5. Color is **NEVER** the only indicator. Every state carries an icon and text besides the color.
-6. Visible focus is mandatory on every focusable element and is **NEVER** removed. It is the `focus/ring` ring, through a `focus-ring/*` style, or, where the accepted Figma draws border and halo — as on the `nph-button` and on the `info` trigger of the `nph-label` —, the focus border of `border/width`, flush, with the halo of `focus/ring-width` outside (see `focus-ring/default`).
+6. Visible focus is mandatory on every focusable element and is **NEVER** removed. It is the `focus/ring` ring, through a `focus-ring/*` style, or, where the accepted Figma draws border and halo — as on the `nph-button` and on the `info` trigger of the `nph-label` —, the focus border of `border/width`, flush, with the halo of `focus/ring-width` outside (see `focus-ring/default`). There, the focus border meets **3:1** against the halo, its outside neighbor; the inside of the control does not count (see `focus/border`).
 7. Every surface that carries text meets **4,5:1**; every control boundary meets **3:1** (WCAG 2.1 AA).
 8. **NEVER** create a new token, component, icon or pattern to work around a gap. See §8.
 
