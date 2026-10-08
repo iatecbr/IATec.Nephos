@@ -552,12 +552,12 @@ both modes.
 ## 7. What this guide does not cover
 
 **Components without verifiable code in `src/components/` do not support
-implementation rules in this guide.** Today that holds for `nph-spinner`,
-`nph-button` and `nph-field`: none of the three has code in
-`src/components/`, and therefore no rule in this guide rests on them.
+implementation rules in this guide.** Today that holds, for example, for
+`nph-field`: it has no code in `src/components/`, and therefore no rule in this
+guide rests on it.
 
-**Source:** `git ls-tree --name-only origin/v/3.0.0 src/components/` returns
-`src/components/nph-icon` and `src/components/nph-label`, and nothing else.
+**Source:** `git ls-tree --name-only origin/v/5.0.0 src/components/` lists the
+pieces with code; a piece that is not in that list has none.
 **Limit:** the statement is about the absence of code in the repository, and
 nothing beyond that.
 
