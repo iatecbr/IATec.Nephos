@@ -133,7 +133,7 @@
   ],
   "sources": {
     "design_md": "design.md, in the repository",
-    "decision": "P21, adopted by Indiane on 26-08-2026; I7, 08-09-2026",
+    "decision": "P21; I7, 08-09-2026",
     "tests": "src/components/nph-icon/nph-icon.test.ts",
     "usage_evidence": "branch v/3.0.0, PR #6, merge 437dd60",
     "storybook": "src/components/nph-icon/nph-icon.stories.ts",

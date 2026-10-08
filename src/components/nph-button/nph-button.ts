@@ -8,14 +8,13 @@
  *   `warn`, `help`, `danger` or `success`. Chosen by the meaning of the action;
  * - `emphasis` (the `enfase`): `solid` (default), `outline`, `light` or `ghost`.
  *   `outline`, `light` and `ghost` exist only in primary, secondary and danger (B1);
- * - `size`: `compact`, `default` (default, by Indiane's decision on
- *   05-10-2026, via T4) or `large`;
+ * - `size`: `compact`, `default` (default, via T4) or `large`;
  * - `text`: says what happens on click. It is the accessible name;
  * - `icon-start` and `icon-end`: one `nph-icon` core name each, at
  *   `icon/size-sm` with text. They can coexist (B6);
  * - without text, the button is the "icon only" (B5): a single icon that follows the box
  *   (sm in compact, md in default, lg in large), and `label` is required as the
- *   accessible name (name decided by Indiane on 05-10-2026);
+ *   accessible name (P68);
  * - `disabled`: the whole button at `state/disabled-opacity` and out of the Tab order;
  * - `loading` (the `carregando`): the `nph-spinner` replaces the start
  *   icon, the end icon disappears and the text stays. The button remains

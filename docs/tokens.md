@@ -150,7 +150,7 @@ The family is the only part that becomes an alias:
 height, weight and letter spacing are literals on the role, exactly as
 `design.md` already wrote them in the `valores` block.
 
-The five-property shape was approved by Elvys on 28/08/2026 (P62.2).
+The five-property shape was approved in the technical review (P62.2).
 
 The unit caveat **is gone**: dimensions used to come out in `px`, and from
 28/08/2026 they come out in `rem` — see the section below.
@@ -158,8 +158,7 @@ The unit caveat **is gone**: dimensions used to come out in `px`, and from
 ## Update of 28-08-2026 — dimensions in `rem`
 
 The generator emitted `px` for every `dimension`, while `design.md` already
-promised `unidade_css: rem, root 16px`. **Elvys's decision in P62.4, on
-28/08/2026:** the contract does not change; the code starts honouring it.
+promised `unidade_css: rem, root 16px`. **Decision P62.4:** the contract does not change; the code starts honouring it.
 
 The `nephos/dimension/rem` transform divides the value by **16** and emits
 `rem`. A zero value comes out as `0`, with no unit.
@@ -171,8 +170,7 @@ The `nephos/dimension/rem` transform divides the value by **16** and emits
 --nph-text-heading-xl-letter-spacing: -0.0125rem;  /* was -0.2px */
 ```
 
-**Radius and shadow stay in `px`.** Radius by Indiane's decision on 28/08/2026,
-recorded as P62.5; the shadow geometry since 03/09/2026, per
+**Radius and shadow stay in `px`.** Radius by decision P62.5; the shadow geometry since 03/09/2026, per
 `elevacao_regras.unidade_css: px`.
 The `raio_regras` block in `design.md` declares `unidade_css: px` and gives the
 reason: radius in `rem` would grow with the user's font, and the piece would
@@ -239,8 +237,8 @@ not a decision. `linear` enters as `cubicBezier [0, 0, 1, 1]`, the exact
 equivalent, because `cubicBezier` is the type the system uses for curves; the
 CSS comes out as `cubic-bezier(0, 0, 1, 1)`.
 
-The spinner loop — **800 ms, `linear` curve, infinite repetition**, decided by
-Indiane on 02/09/2026 in a study with 600, 800 and 1000 side by side — enters as
+The spinner loop — **800 ms, `linear` curve, infinite repetition**, chosen in a
+study with 600, 800 and 1000 side by side — enters as
 `core/duration/loop` **and as a sixth role**: `motion/loop-duration` and
 `motion/loop-easing`.
 
@@ -270,7 +268,7 @@ does not show up in Figma, because there styles and variables are separate
 namespaces. What found it was the new validation — the build failed, with the
 name and the count.
 
-**Indiane's decision on 03/09/2026: rename the style, not the colour.** The
+**Decision: rename the style, not the colour.** The
 style `focus-ring/error` is now **`focus-ring/invalid`**, in Figma and in code at
 the same time. The published colour did not change.
 
@@ -310,7 +308,7 @@ Omitting both attributes gives Sistemas in light, because every default block is
 also emitted under `:root`.
 
 **A part of the screen with another brand carries both attributes on the same
-element** (Indiane's decision, 05/10/2026; P67):
+element** (P67):
 
 ```html
 <section data-nph-brand="educacao" data-nph-color-scheme="light">

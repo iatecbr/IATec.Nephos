@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=0cf666d35033f58c086206d68d6da424f196de7af98400a42d7d8ada133577f7 | status=revisado -->
+<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=dcdbf410ce3f47c4bac2e7cf689be63af2b8c61c25c9b45039a00c93e7a63474 | status=revisado -->
 
 # Tokens — fonte, geração e consumo
 
@@ -155,7 +155,7 @@ aponta para `--nph-core-font-sans`. Tamanho, altura de linha, peso e
 espaçamento são literais no papel, exatamente como o `design.md` já os escrevia
 no bloco `valores`.
 
-O formato de cinco propriedades foi aprovado por Elvys em 28/08/2026 (P62.2).
+O formato de cinco propriedades foi aprovado na revisão técnica (P62.2).
 
 A ressalva de unidade **deixou de existir**: as dimensões saíam em `px`, e a
 partir de 28/08/2026 saem em `rem` — ver a seção abaixo.
@@ -163,7 +163,7 @@ partir de 28/08/2026 saem em `rem` — ver a seção abaixo.
 ## Atualização de 28-08-2026 — dimensões em `rem`
 
 O gerador emitia `px` para todo `dimension`, enquanto o `design.md` já prometia
-`unidade_css: rem, root 16px`. **Decisão de Elvys na P62.4, em 28/08/2026:** o
+`unidade_css: rem, root 16px`. **Decisão P62.4:** o
 contrato não muda; o código passa a cumpri-lo.
 
 O transform `nephos/dimension/rem` divide o valor por **16** e emite `rem`.
@@ -176,8 +176,7 @@ Valor zero sai como `0`, sem unidade.
 --nph-text-heading-xl-letter-spacing: -0.0125rem;  /* era -0.2px */
 ```
 
-**Raio e sombra continuam em `px`.** O raio por decisão de Indiane em
-28/08/2026, registrada como P62.5; a geometria de sombra desde 03/09/2026, por
+**Raio e sombra continuam em `px`.** O raio pela decisão P62.5; a geometria de sombra desde 03/09/2026, por
 `elevacao_regras.unidade_css: px`. O `raio_regras` do `design.md` declara `unidade_css: px` e explica o
 motivo: raio em `rem` cresceria com a fonte do usuário, e a peça mudaria de
 **forma**, não de tamanho — um botão de 6px viraria cápsula. `px` e `rem` se
@@ -242,8 +241,8 @@ não decisão. `linear` entra como `cubicBezier [0, 0, 1, 1]`, o equivalente
 exato, porque `cubicBezier` é o tipo que o sistema usa para curva; o CSS sai
 `cubic-bezier(0, 0, 1, 1)`.
 
-O laço do girador — **800 ms, curva `linear`, repetição infinita**, decidido por
-Indiane em 02/09/2026 num estudo com 600, 800 e 1000 lado a lado — entra como
+O laço do girador — **800 ms, curva `linear`, repetição infinita**, escolhido num
+estudo com 600, 800 e 1000 lado a lado — entra como
 `core/duration/loop` **e como um sexto papel**: `motion/loop-duration` e
 `motion/loop-easing`.
 
@@ -272,7 +271,7 @@ A colisão nasce da convenção de nomes: `/` vira `-`, e `focus-ring/error` e
 porque lá estilo e variável são espaços de nome separados. Quem a encontrou foi
 a validação nova — o build reprovou, com o nome e a contagem.
 
-**Decisão de Indiane em 03/09/2026: renomear o estilo, não a cor.** O estilo
+**Decisão: renomear o estilo, não a cor.** O estilo
 `focus-ring/error` passou a se chamar **`focus-ring/invalid`**, no Figma e no
 código ao mesmo tempo. A cor publicada não mudou.
 
@@ -312,7 +311,7 @@ Omitir os dois atributos entrega Sistemas no claro, porque cada bloco padrão é
 emitido também em `:root`.
 
 **Uma parte da tela com outra marca leva os dois atributos no mesmo
-elemento** (decisão de Indiane, 05/10/2026; P67):
+elemento** (P67):
 
 ```html
 <section data-nph-brand="educacao" data-nph-color-scheme="light">

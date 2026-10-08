@@ -241,8 +241,8 @@ with the `circle-xmark` icon reinforcing the word.
 - **The repository `design.md`:** `text/label-sm`, `radius/full`, `space/inline-tight`,
   `space/control-padding`, `icon/size-sm` and the `color/*` and `status/*` colors of the tokens
   table.
-- **The originating decision:** P68, of 05-10-2026. The frame was accepted by Indiane on
-  01-10-2026 and completed on 02-10-2026, when the hover left.
+- **The originating decision:** P68, of 05-10-2026. The frame was accepted and was
+  completed on 02-10-2026, when the hover left.
 - **Tests:** `src/components/nph-badge/nph-badge.test.ts` and `nph-badge.docs.test.ts`.
 - **Usage evidence:** `pending` — no approved screen consumes the badge yet.
 - **Storybook:** `src/components/nph-badge/nph-badge.stories.ts` (Validation) and

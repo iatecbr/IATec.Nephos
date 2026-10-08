@@ -2,8 +2,8 @@
  * `nph-tooltip` — the help bubble.
  *
  * Contract accepted in Figma (frame `1237:5`, component `1237:3`) and
- * decisions by Indiane on 01-10-2026 (Decision Register: L11.5 for behavior
- * and scope; L11.6 and L11.7 for anatomy):
+ * the Decision Register (L11.5 for behavior and scope; L11.6 and L11.7 for
+ * anatomy):
  * - text only. It has no title, icon, action, arrow or border;
  * - the text follows the width up to `layout/max-tooltip-width` and then
  *   wraps. It fits whole, in up to two lines: no ellipsis and no broken word.
