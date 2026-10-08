@@ -88,8 +88,8 @@ const SECTIONS = {
   core: 'core',
   size: 'size',
   color: 'color',
-  accessibility: 'accessibility',
   invalid: 'invalid-input',
+  accessibility: 'accessibility',
   references: 'references',
 } as const;
 
@@ -142,8 +142,8 @@ export const Documentation: Story = {
           { id: SECTIONS.core, title: coreHeading },
           { id: SECTIONS.size, title: d.sizeTitle },
           { id: SECTIONS.color, title: d.colorTitle },
-          { id: SECTIONS.accessibility, title: d.accessibilityTitle },
           { id: SECTIONS.invalid, title: d.invalidTitle },
+          { id: SECTIONS.accessibility, title: d.accessibilityTitle },
           { id: SECTIONS.references, title: d.referencesTitle },
         ])}
 
@@ -225,12 +225,6 @@ export const Documentation: Story = {
         )}
 
         ${section(
-          SECTIONS.accessibility,
-          d.accessibilityTitle,
-          html`${list(d.accessibility)} ${source(d.sourceLabel, d.sourceAccessibility)}`,
-        )}
-
-        ${section(
           SECTIONS.invalid,
           d.invalidTitle,
           html`
@@ -238,6 +232,12 @@ export const Documentation: Story = {
             ${note('warning', d.invalidNoteTitle, d.invalidPointer)}
             ${source(d.sourceLabel, d.sourceInvalid)}
           `,
+        )}
+
+        ${section(
+          SECTIONS.accessibility,
+          d.accessibilityTitle,
+          html`${list(d.accessibility)} ${source(d.sourceLabel, d.sourceAccessibility)}`,
         )}
 
         ${section(SECTIONS.references, d.referencesTitle, list(d.references))}

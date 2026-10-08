@@ -49,9 +49,9 @@ const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
   properties: 'properties-variants-and-states',
+  relations: 'relations',
   anatomy: 'anatomy',
   accessibility: 'accessibility',
-  relations: 'relations',
   examples: 'required-examples',
   references: 'references',
 } as const;
@@ -104,9 +104,9 @@ export const Documentation: Story = {
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
           { id: SECTIONS.properties, title: d.propertiesTitle },
+          { id: SECTIONS.relations, title: d.relationsTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
-          { id: SECTIONS.relations, title: d.relationsTitle },
           { id: SECTIONS.examples, title: d.examplesTitle },
           { id: SECTIONS.references, title: d.referencesTitle },
         ])}
@@ -143,6 +143,19 @@ export const Documentation: Story = {
         )}
 
         ${section(
+          SECTIONS.relations,
+          d.relationsTitle,
+          html`
+            ${list(d.relations)}
+            ${demo(
+              labelled((id) => html`<nph-label for=${id} text=${sample}></nph-label>`),
+              d.relationsCaption,
+            )}
+            ${source(d.sourceLabel, d.sourceFrame)}
+          `,
+        )}
+
+        ${section(
           SECTIONS.anatomy,
           d.anatomyTitle,
           html`
@@ -167,19 +180,6 @@ export const Documentation: Story = {
                 ${withInfo()}
               </div>`,
               d.accessibilityCaption,
-            )}
-            ${source(d.sourceLabel, d.sourceFrame)}
-          `,
-        )}
-
-        ${section(
-          SECTIONS.relations,
-          d.relationsTitle,
-          html`
-            ${list(d.relations)}
-            ${demo(
-              labelled((id) => html`<nph-label for=${id} text=${sample}></nph-label>`),
-              d.relationsCaption,
             )}
             ${source(d.sourceLabel, d.sourceFrame)}
           `,
