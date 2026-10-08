@@ -389,6 +389,7 @@ tokens_semantic:
     css: '--nph-color-primary-border'
     claro: theme/brand-600
     escuro: theme/brand-300
+    use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. In light it is the same tone as the primary; in dark it goes up one tone, because the dark primary does not reach 3:1 as an outline in two of the seven brands."
   color/primary-hover:
     css: '--nph-color-primary-hover'
     claro: theme/brand-700
@@ -438,10 +439,12 @@ tokens_semantic:
     css: '--nph-color-input-hover'
     claro: core/neutral/500
     escuro: core/surface/200
+    use: "Border of the form field when the pointer is over it. One step above color/input, so the field responds to the mouse without changing size or weight. Do not use for a divider, a card outline or a message border."
   color/accent-subtle:
     css: '--nph-color-accent-subtle'
     claro: core/neutral/50
     escuro: core/surface/700
+    use: "Hover surface of a selectable container: option card, item the person chooses. Do not use for the hover of a menu item, table row or simple list item: those stay in color/accent."
   color/tooltip:
     css: '--nph-color-tooltip'
     claro: core/neutral/600
