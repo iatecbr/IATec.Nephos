@@ -75,10 +75,10 @@ describe('nph-label Documentation', () => {
     });
   }
 
-  it('en and es have the same shape as pt-BR', () => {
+  it('pt-BR and es have the same shape as en', () => {
     for (const key of ['labelDocs', 'labelValidation'] as const) {
-      const source = shape(translations('pt-BR')[key]);
-      expect(shape(translations('en')[key]), key).toEqual(source);
+      const source = shape(translations('en')[key]);
+      expect(shape(translations('pt-BR')[key]), key).toEqual(source);
       expect(shape(translations('es')[key]), key).toEqual(source);
     }
   });

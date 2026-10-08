@@ -35,7 +35,7 @@ function shape(value: unknown): unknown {
   return typeof value;
 }
 
-describe('nph-badge documentation', () => {
+describe('nph-badge Documentation', () => {
   for (const locale of LOCALES) {
     it(`${locale}: every link points to a section and every section has a link`, () => {
       const target = renderInLocale(locale);
@@ -60,14 +60,14 @@ describe('nph-badge documentation', () => {
     });
   }
 
-  it('en and es have the same shape as pt-BR', () => {
-    const source = shape(translations('pt-BR').badgeDocs);
-    expect(shape(translations('en').badgeDocs)).toEqual(source);
+  it('pt-BR and es have the same shape as en', () => {
+    const source = shape(translations('en').badgeDocs);
+    expect(shape(translations('pt-BR').badgeDocs)).toEqual(source);
     expect(shape(translations('es').badgeDocs)).toEqual(source);
   });
 });
 
-describe('nph-badge validation: text only from the dictionary', () => {
+describe('nph-badge Validation: text only from the dictionary', () => {
   type Renderable = { render?: (args: unknown, context: unknown) => TemplateResult };
   const stories = Object.entries(validation).filter(
     ([name, story]) => name !== 'default' && typeof (story as Renderable).render === 'function',
@@ -106,9 +106,9 @@ describe('nph-badge validation: text only from the dictionary', () => {
     });
   }
 
-  it('en and es have the same shape as pt-BR', () => {
-    const source = shape(translations('pt-BR').badgeValidation);
-    expect(shape(translations('en').badgeValidation)).toEqual(source);
+  it('pt-BR and es have the same shape as en', () => {
+    const source = shape(translations('en').badgeValidation);
+    expect(shape(translations('pt-BR').badgeValidation)).toEqual(source);
     expect(shape(translations('es').badgeValidation)).toEqual(source);
   });
 });
