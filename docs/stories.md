@@ -383,12 +383,40 @@ and "do not use" once, in a single `useDontUse` block, side by side.
 | `useDontUse` | when to use and when not to use side by side, in one block, in the `status/success-*` and `status/error-*` colors; `dontDo` (error card only) remains only on the page that has not migrated yet |
 | `source` | the origin footer, in `text/caption`, with a thin line above |
 
+#### Reference model: the `nph-badge` page
+
+The `Docs` page of `nph-badge` is the **model** for every component `Docs`
+page. A new page copies its order; a page that already exists is aligned to it.
+The order is fixed:
+
+1. `header`: the h1 with the component name and its summary.
+2. `matrix`: the labelled matrix of real instances.
+3. `note` of the page's origin (`info`): the page is derived from the Figma
+   frame and the sheet, and which one prevails in case of divergence.
+4. `index`: "On this page", one link per section below.
+5. Sections, in this order, each ending with its `source`:
+   1. **When to use**: a single `useDontUse` block.
+   2. **API**: `table` of properties, with the term in `text/code`.
+   3. **Variants**: `demo` of the real instances, with a caption.
+   4. **Anatomy**: `table` of the parts.
+   5. **Accessibility**: `table` of criteria.
+   6. **Examples**: one `demo` per example, each with its caption.
+   7. **References**: `list`, with no `source`.
+
+Each section has a stable English `id`, the same in any language. The page does
+not repeat a block that the model does not have (no anti-patterns section, no
+second "use / do not use").
+
+**Where the model is silent:** a section that only some components have (such
+as sizes, states or invalid input) has no recorded position. See §8.
+
 The blocks use only `--nph-*`. The page carries no process text: review state,
 names of approvers and pending items stay in the operational record.
 
 **Source:** `src/shared/docs/page.ts` and `page.test.ts`; the Figma
 documentation model (`1134:12862`, DS-IA-NEPHOS 5.0); the `Documentation`
-stories of `nph-badge`, `nph-icon` and `nph-label` and their `*.docs.test.ts`.
+story of `nph-badge` (the model) and its `nph-badge.docs.test.ts`. Chosen as the
+model by Indiane on 08-10-2026.
 **Limit:** the Docs pages of the components with code; `nph-button` still
 keeps its own anti-patterns block until it migrates.
 
@@ -547,6 +575,7 @@ guide does not pick a side.**
 
 | Subject | The sources, and what each one says |
 |---|---|
+| Position of component-specific sections on the `Docs` page | §4.10 fixes the seven sections of `nph-badge`. `nph-button` adds sizes and states, `nph-icon` adds core, size, color and invalid input, and `nph-label` uses its own order (purpose, description, anatomy, accessibility, properties, relations, when to use, examples, do and do not use, references). **[Pending decision]** where those sections enter the model |
 | `variant="solid"` in `nph-icon` | [`../design.md`](../design.md), **P21** and the sheet define `regular` as the default and `solid` as available for each core name. Decision **I7** originated the expansion and `DSA-03` was completed |
 
 ---
