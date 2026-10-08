@@ -58,6 +58,7 @@
     "components-nph-input-validation": "Validación",
     "components-nph-input-validation--sizes": "Tamaños",
     "components-nph-input-validation--content": "Contenido",
+    "components-nph-input-validation--states": "Estados",
     "components-nph-input-validation--invalid": "Error",
     "components-nph-input-validation--disabled": "Deshabilitado",
     "components-nph-input-validation--label-association": "Asociación con la etiqueta",

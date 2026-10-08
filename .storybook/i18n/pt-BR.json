@@ -58,6 +58,7 @@
     "components-nph-input-validation": "Validação",
     "components-nph-input-validation--sizes": "Tamanhos",
     "components-nph-input-validation--content": "Conteúdo",
+    "components-nph-input-validation--states": "Estados",
     "components-nph-input-validation--invalid": "Erro",
     "components-nph-input-validation--disabled": "Desabilitado",
     "components-nph-input-validation--label-association": "Associação com o rótulo",
