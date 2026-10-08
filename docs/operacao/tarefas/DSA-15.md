@@ -5,7 +5,7 @@
   "phase": "F0",
   "approved_order": 150,
   "owner": "claude-code",
-  "state": "in-review",
+  "state": "done",
   "piece": null,
   "dependencies": ["DSA-14"],
   "gates": [
@@ -22,15 +22,15 @@
       "id": "review-and-merge",
       "description": "Schema, scripts, specs, tokens and documentation that change are reviewed by maurocsjr and merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-15/review-and-merge-2026-10-08.md",
+      "result": "passed",
+      "verified_at": "2026-10-08",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
-  "evidence": ["docs/operacao/evidencias/DSA-15/keys-in-english-2026-10-06.md"],
+  "evidence": ["docs/operacao/evidencias/DSA-15/keys-in-english-2026-10-06.md", "docs/operacao/evidencias/DSA-15/review-and-merge-2026-10-08.md"],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p64",
     "docs/decisoes-tecnicas.md#p63",
@@ -38,9 +38,9 @@
     "Decision of 06-10-2026, by Indiane's delegation: the name map recorded in this task"
   ],
   "external_origin": null,
-  "git_review": { "branch": "dsa15/operation", "commit": "827858fbf2d7f2d281350dcb5dd744afa2f398b4", "pr": "66" },
+  "git_review": { "branch": "dsa15/operation", "commit": "f43be9354b71847e39532be786b9bf7ec6eb47f9", "pr": "66" },
   "context": null,
-  "updated_at": "2026-10-06"
+  "updated_at": "2026-10-08"
 }
 ```
 
