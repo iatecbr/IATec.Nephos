@@ -2,7 +2,7 @@
  * `nph-label` — the label of a form control.
  *
  * Approved contract (spec `nph-label`; Decision Register, `nph-label`
- * section; decisions by Indiane on 27-08-2026, 08-09-2026 and 01-10-2026):
+ * section):
  * - the label is ONLY text. It has no box, border, background, shadow or state;
  * - `required` appends an asterisk to the end of the text, in `status/error`;
  * - there is NO layout, weight or state property. Position belongs to
@@ -18,7 +18,7 @@
  * The native association between label and control does not cross the Shadow
  * DOM boundary: `for` would not reach an `id` in the document and clicking
  * the label would not move the cursor to the field. Since that is the reason
- * a label exists, encapsulation yields. Decision by Indiane on 27-08-2026,
+ * a label exists, encapsulation yields. Recorded in P62.3,
  * after the alternative of delegating the association to `nph-field` was
  * discarded because it blocked the P0 cut — `nph-field` does not exist yet.
  *
