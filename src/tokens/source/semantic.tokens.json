@@ -1245,7 +1245,15 @@
     },
     "halo": {
       "$type": "color",
-      "$value": "{theme.brand-200}"
+      "$value": "{theme.brand-halo}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{theme.brand-halo}",
+            "dark": "{theme.brand-200}"
+          }
+        }
+      }
     },
     "halo-info": {
       "$type": "color",

@@ -18,8 +18,8 @@ const BRANDS = [...new Set([...tokensCss.matchAll(/\[data-nph-brand="([\w-]+)"\]
 const SCHEMES = [...new Set([...tokensCss.matchAll(/\[data-nph-color-scheme="([\w-]+)"\]/g)].map((m) => m[1] ?? ''))];
 /** The default brand is the one that also comes out in `:root`. */
 const DEFAULT_BRAND = /:root,\s*\[data-nph-brand="([\w-]+)"\]/.exec(tokensCss)?.[1] ?? '';
-/** `--nph-theme-brand-200` of the default brand: the wrong value the subtree used to inherit. */
-const DEFAULT_BRAND_HALO = '#b1cdfb';
+/** `--nph-theme-brand-halo` of the default brand: the wrong value the subtree used to inherit. */
+const DEFAULT_BRAND_HALO = '#d8e6fd';
 
 /** Every declared name, except the primitives: the brand ones and the semantic ones. */
 const NAMES = [...new Set([...tokensCss.matchAll(/(--nph-[\w-]+)\s*:/g)].map((m) => m[1] ?? ''))].filter(
@@ -97,7 +97,7 @@ describe('brand subtree with the scheme on the same element', () => {
       const style = getComputedStyle(element);
       const halo = style.getPropertyValue('--nph-focus-halo').trim();
       expect(halo, brand).not.toBe(DEFAULT_BRAND_HALO);
-      expect(halo, brand).toBe(style.getPropertyValue('--nph-theme-brand-200').trim());
+      expect(halo, brand).toBe(style.getPropertyValue('--nph-theme-brand-halo').trim());
       element.remove();
     }
   });
