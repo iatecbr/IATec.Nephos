@@ -425,7 +425,10 @@
       "Para mostrar erro de campo: a validação é do campo (nph-field).",
       "Só com ícone em ação com consequência, como excluir ou publicar.",
       "Para navegar para outro destino.",
-      "size compact como alvo principal em tela de toque."
+      "size compact como alvo principal em tela de toque.",
+      "Aumentar o ícone para dar destaque.",
+      "Usar a cor como único sinal de intenção, foco ou estado.",
+      "Criar tipo, ênfase ou tamanho fora da matriz, ou pintar o botão à mão."
     ],
     "apiTitle": "API",
     "apiHeader": [
@@ -545,15 +548,6 @@
       "Fechar",
       "Novo"
     ],
-    "antiPatternsTitle": "Não usar",
-    "antiPatterns": [
-      "Mostrar erro de campo no botão: a validação é do campo (nph-field).",
-      "Usar só ícone em ação com consequência, como excluir ou publicar.",
-      "Aumentar o ícone para dar destaque.",
-      "Usar a cor como único sinal de intenção, foco ou estado.",
-      "Navegar para outro destino com o botão.",
-      "Criar tipo, ênfase ou tamanho fora da matriz, ou pintar o botão à mão."
-    ],
     "referencesTitle": "Referências",
     "references": [
       "ficha nph-button — função, variantes, estados, acessibilidade, tokens e anti-padrões.",
@@ -564,7 +558,8 @@
     ],
     "sourceSpec": "ficha nph-button; Figma, quadro nph-button (1197:5449)",
     "sourceApi": "ficha nph-button; docs/decisoes-tecnicas.md › P68",
-    "sourceStates": "Figma, conjuntos 461:13009 e 498:15671; design.md"
+    "sourceStates": "Figma, conjuntos 461:13009 e 498:15671; design.md",
+    "matrixLabel": "Matriz do componente"
   },
   "labelDocs": {
     "summary": "Diz o que a pessoa precisa escrever ou escolher em um campo. Pode marcar obrigatório e mostrar ícone de informação. O texto não tem estado; só o ícone de informação recebe foco.",
@@ -575,12 +570,9 @@
     "sampleText": "Nome completo",
     "info": "Explica o que o campo pede.",
     "infoLabel": "Sobre nome completo",
-    "purposeTitle": "1. Finalidade",
-    "purpose": "Rótulo de texto que diz o que a pessoa precisa escrever ou escolher em um campo.",
-    "selectionCaption": "nph-label — propriedades required, info e state.",
-    "descriptionTitle": "2. Descrição do componente",
+    "descriptionTitle": "Descrição do componente",
     "description": "Use nph-label para dar nome visível a um controle de formulário, sozinho ou dentro de um nph-field. O rótulo é só um texto: não tem estado, tamanho nem layout. A exceção é o ícone de informação, que recebe foco. Não substitui o título de seção, que é heading-sm, o texto de corpo, nem a ajuda e a mensagem de erro, que são do nph-field.",
-    "anatomyTitle": "3. Anatomia",
+    "anatomyTitle": "Anatomia",
     "anatomyHeader": [
       "Parte",
       "Regra"
@@ -603,7 +595,7 @@
         "space/stack-tight"
       ]
     ],
-    "accessibilityTitle": "4. Acessibilidade",
+    "accessibilityTitle": "Acessibilidade",
     "accessibilityHeader": [
       "Critério",
       "Regra"
@@ -631,7 +623,7 @@
       ]
     ],
     "accessibilityCaption": "O texto é o nome visível do controle. Obrigatório marcado pelo asterisco. Ícone de informação depois do texto.",
-    "propertiesTitle": "5. Propriedades, variantes e estados",
+    "propertiesTitle": "Propriedades, variantes e estados",
     "propertiesHeader": [
       "Campo",
       "Regra"
@@ -681,7 +673,7 @@
         "O nome acessível do ícone de informação. Sem ele, o ícone não aparece."
       ]
     ],
-    "relationsTitle": "6. Relações e contexto",
+    "relationsTitle": "Relações e contexto",
     "relations": [
       "Dentro de um nph-field, o rótulo é o do próprio campo; não ponha um nph-label solto além dele.",
       "Ajuda e mensagem de erro são do nph-field, não do rótulo.",
@@ -690,27 +682,22 @@
       "O ícone de informação abre o nph-tooltip, que mostra o texto de info."
     ],
     "relationsCaption": "Sozinho, acima do controle, com space/stack-tight.",
-    "whenToUseTitle": "7. Quando usar",
+    "whenToUseTitle": "Quando usar",
     "whenToUse": [
       "Para dar nome visível a um controle de formulário, sozinho ou dentro de um nph-field.",
       "required=true quando o preenchimento é obrigatório, com o asterisco explicado numa legenda do formulário.",
-      "info=true para mostrar o ícone de informação depois do texto."
-    ],
-    "examplesTitle": "8. Exemplos obrigatórios",
-    "examplesCaptions": [
-      "Campo obrigatório: o asterisco vem do required.",
-      "Rótulo sozinho, acima do controle.",
-      "Ícone de informação depois do texto."
-    ],
-    "doTitle": "9. Fazer",
-    "do": [
-      "Usar para dar nome visível a um controle de formulário, sozinho ou dentro de um nph-field.",
+      "info=true para mostrar o ícone de informação depois do texto.",
       "Explicar o asterisco numa legenda visível do formulário.",
       "Manter o rótulo em color/foreground, mesmo com o campo em erro."
     ],
-    "doCaption": "Asterisco explicado numa legenda.",
+    "examplesTitle": "Exemplos obrigatórios",
+    "examplesCaptions": [
+      "Campo obrigatório: o asterisco vem do required.",
+      "Rótulo sozinho, acima do controle.",
+      "Ícone de informação depois do texto.",
+      "Asterisco explicado numa legenda."
+    ],
     "requiredLegend": "* Campos obrigatórios",
-    "dontTitle": "10. Não usar",
     "dont": [
       "Usar para frase com verbo e ponto final: isso é texto de corpo.",
       "Usar como título de seção ou de grupo: isso é heading-sm.",
@@ -729,9 +716,8 @@
     ],
     "sourceFrame": "Figma, quadro nph-label (1194:1482)",
     "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 e P62.6",
-    "doCardTitle": "Fazer",
-    "dontCardTitle": "Não usar",
-    "matrixLabel": "Matriz do componente"
+    "matrixLabel": "Matriz do componente",
+    "whenNotToUseTitle": "Quando não usar"
   },
   "badgeValidation": {
     "sample": "Selo",
