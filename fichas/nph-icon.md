@@ -27,15 +27,15 @@ api:
       render and emits an error only in development.
   variant:
     type: enum
-    values: [regular, solid]
+    values: [light, solid]
     required: false
-    default: regular
+    default: light
     reflects: false
     constraint: >-
-      `regular` is the default; `solid` is available for every name in the collection.
-      I7 authorized `circle-info` in `solid` because the regular outline disappears
-      next to text, especially in light mode. Light, Thin and Sharp do not
-      exist in the contract.
+      `light` is the default; `solid` is available for every name in the collection.
+      I7 authorized `circle-info` in `solid` because the outline of the default style
+      disappears next to text, especially in light mode. Thin and Sharp do not
+      exist in the contract, and `regular` is not a valid value.
   size:
     type: enum
     values: [sm, md, lg]
@@ -62,8 +62,8 @@ api:
 variants:
   variant:
     axis: appearance
-    choose_when: "regular by default; solid when the context asks for greater visual presence"
-    do_not_combine_with: ["light, thin, sharp"]
+    choose_when: "light by default; solid when the context asks for greater visual presence"
+    do_not_combine_with: ["thin, sharp"]
   size:
     axis: size
     choose_when: "sm inside a control and cell; md in menu and tab; lg when the icon carries meaning on its own"
