@@ -398,17 +398,21 @@ The order is fixed:
    1. **When to use**: a single `useDontUse` block.
    2. **API**: `table` of properties, with the term in `text/code`.
    3. **Variants**: `demo` of the real instances, with a caption.
-   4. **Anatomy**: `table` of the parts.
-   5. **Accessibility**: `table` of criteria.
-   6. **Examples**: one `demo` per example, each with its caption.
-   7. **References**: `list`, with no `source`.
+   4. **Sizes**, only if the component has them: `demo` with a caption.
+   5. **States**, only if the component has them: `demo` with a caption.
+   6. **Anatomy**: `table` of the parts.
+   7. **Accessibility**: `table` of criteria.
+   8. **Examples**: one `demo` per example, each with its caption.
+   9. **References**: `list`, with no `source`.
 
 Each section has a stable English `id`, the same in any language. The page does
 not repeat a block that the model does not have (no anti-patterns section, no
 second "use / do not use").
 
-**Where the model is silent:** a section that only some components have (such
-as sizes, states or invalid input) has no recorded position. See §8.
+**Sizes and states** come right after Variants and before Anatomy (decided by
+Indiane on 08-10-2026). **Where the model is still silent:** any other section
+that only some components have (such as invalid input) has no recorded
+position. See §8.
 
 The blocks use only `--nph-*`. The page carries no process text: review state,
 names of approvers and pending items stay in the operational record.
@@ -575,7 +579,7 @@ guide does not pick a side.**
 
 | Subject | The sources, and what each one says |
 |---|---|
-| Position of component-specific sections on the `Docs` page | §4.10 fixes the seven sections of `nph-badge`. `nph-button` adds sizes and states, `nph-icon` adds core, size, color and invalid input, and `nph-label` uses its own order (purpose, description, anatomy, accessibility, properties, relations, when to use, examples, do and do not use, references). **[Pending decision]** where those sections enter the model |
+| Position of the other component-specific sections on the `Docs` page | §4.10 fixes the seven sections of `nph-badge` and places sizes and states after Variants. `nph-icon` still adds core, color and invalid input, and `nph-label` uses its own order (purpose, description, anatomy, accessibility, properties, relations, when to use, examples, do and do not use, references). **[Pending decision]** where those sections enter the model |
 | `variant="solid"` in `nph-icon` | [`../design.md`](../design.md), **P21** and the sheet define `regular` as the default and `solid` as available for each core name. Decision **I7** originated the expansion and `DSA-03` was completed |
 
 ---
