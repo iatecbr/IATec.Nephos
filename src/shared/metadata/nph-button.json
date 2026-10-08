@@ -82,7 +82,7 @@
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "Accessible name of the icon-only button, mandatory in it: without label, the icon-only button draws nothing and emits console.error in development. With text, it is not used. The name label comes from P68 and supersedes the earlier aria-label."
+      "constraint": "Accessible name of the icon-only button, mandatory in it: without label, the icon-only button draws nothing and emits console.error in development. With text, it is not used. The name label comes from P68 and supersedes the aria-label of 02-09-2026."
     },
     "disabled": {
       "type": "boolean",

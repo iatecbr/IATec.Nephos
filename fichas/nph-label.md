@@ -138,7 +138,7 @@ anti_patterns:
 
 sources:
   design_md: "design.md, in the repository"
-  decision: "P62.1, P62.2 and P62.3; P62.6, the information trigger"
+  decision: "P62.1, P62.2 and P62.3, approved in the technical review; P62.6, the information trigger, under technical review"
   tests: "src/components/nph-label/nph-label.test.ts"
   usage_evidence: "branch v/3.0.0, PR #10, merge e231eba"
   storybook: "src/components/nph-label/nph-label.stories.ts"
@@ -382,4 +382,4 @@ verified in the repository** on 31-08-2026. The AI hints are **new**. P62.1,
 P62.2 and P62.3 are a **human decision**, approved in the technical review.
 On 06-10-2026, the spec gained the information trigger (DSA-04): the anatomy and the
 behavior come from L8 to L11 and from frame `1194:1482`, accepted; the API and the
-semantics are **P62.6**.*
+semantics are **P62.6**, under technical review.*

@@ -83,7 +83,7 @@ api:
       Accessible name of the icon-only button, mandatory in it: without label, the icon-only button
       draws nothing and emits console.error in development. With text, it is not
       used. The name label comes from P68 and supersedes the
-      earlier aria-label.
+      aria-label of 02-09-2026.
   disabled:
     type: boolean
     required: false
@@ -342,7 +342,7 @@ universal close action, the icon-only button `xmark` in `secondary` `ghost`, wit
 - **The decision that originated it:** P68, of 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log);
   the default `size` `default` and the name `label`, in P68;
   the solid hover on the hover tokens, which supersedes B4. The frame was accepted
-  and later completed.
+  on 01-10-2026 and completed on 02-10-2026.
 - **Tests:** `src/components/nph-button/nph-button.test.ts` and `nph-button.docs.test.ts`.
 - **Usage evidence:** pending — no approved screen consumes the button yet.
 - **Storybook:** `src/components/nph-button/nph-button.stories.ts` (Validation) and
