@@ -119,9 +119,22 @@ export const Documentation: Story = {
           html`
             ${table(d.statesHeader, d.states.map(([state, change]: [string, string]) => [state, change] as const))}
             ${demo(
-              html`<div style=${row}>
-                <nph-input label=${v.emailLabel} value=${v.invalidValue} invalid></nph-input>
-                <nph-input label=${v.emailLabel} value=${v.emailValue} disabled></nph-input>
+              html`<div style=${column}>
+                <div style=${row}>
+                  <nph-input label=${v.emailLabel} placeholder=${v.emailPlaceholder}></nph-input>
+                  <nph-input label=${v.searchLabel} value=${v.searchValue} clearable clear-label=${v.clear}></nph-input>
+                  <nph-input label=${v.emailLabel} value=${v.emailValue}></nph-input>
+                </div>
+                <div style=${row}>
+                  <nph-input label=${v.emailLabel} value=${v.invalidValue} invalid></nph-input>
+                  <nph-input label=${v.emailLabel} value=${v.invalidValue} invalid clearable clear-label=${v.clear}></nph-input>
+                  <nph-input label=${v.emailLabel} value=${v.emailValue} invalid></nph-input>
+                </div>
+                <div style=${row}>
+                  <nph-input label=${v.emailLabel} placeholder=${v.emailPlaceholder} disabled></nph-input>
+                  <nph-input label=${v.emailLabel} value=${v.emailValue} disabled clearable clear-label=${v.clear}></nph-input>
+                  <nph-input label=${v.emailLabel} value=${v.emailValue} disabled></nph-input>
+                </div>
               </div>`,
               d.statesCaption,
             )}

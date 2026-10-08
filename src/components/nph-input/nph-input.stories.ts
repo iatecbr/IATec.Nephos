@@ -119,6 +119,28 @@ export const Disabled: Story = {
   },
 };
 
+/** Default, placeholder, value with clear, invalid, and disabled states. Mouse for hover; Tab for focus. */
+export const States: Story = {
+  name: 'States',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    const states = [
+      { invalid: false, disabled: false },
+      { invalid: true, disabled: false },
+      { invalid: false, disabled: true },
+    ];
+    return html`<div style=${page}>
+      ${states.map(
+        ({ invalid, disabled }) => html`<div style=${row}>
+          <nph-input label=${v.emailLabel} placeholder=${v.emailPlaceholder} ?invalid=${invalid} ?disabled=${disabled}></nph-input>
+          <nph-input label=${v.searchLabel} value=${v.searchValue} clearable clear-label=${v.clear} ?invalid=${invalid} ?disabled=${disabled}></nph-input>
+          <nph-input label=${v.emailLabel} value=${v.emailValue} ?invalid=${invalid} ?disabled=${disabled}></nph-input>
+        </div>`,
+      )}
+    </div>`;
+  },
+};
+
 /** The name comes from nph-label for; a click on the label puts the cursor in the field. */
 export const LabelAssociation: Story = {
   name: 'Label association',
