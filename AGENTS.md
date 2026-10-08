@@ -194,7 +194,7 @@ read the documentation for that version.
 | Dependency | Version declared in `package.json` |
 |---|---|
 | `lit` | ^3.3.3 |
-| `@fortawesome/pro-regular-svg-icons` and `pro-solid-svg-icons` | 6.7.2 (pinned) |
+| `@fortawesome/pro-light-svg-icons` and `pro-solid-svg-icons` | 6.7.2 (pinned) |
 | `storybook` and `@storybook/web-components-vite` | ^10.5.10 |
 | `style-dictionary` | ^5.5.2 |
 | `vite` | ^8.2.2 |

@@ -171,7 +171,7 @@
       ],
       [
         "variant",
-        "regular por defecto; solid cuando el contexto pide más presencia visual. Los dos existen para todos los nombres del núcleo."
+        "light por defecto; solid cuando el contexto pide más presencia visual. Los dos existen para todos los nombres del núcleo."
       ],
       [
         "size",
@@ -197,7 +197,7 @@
     "coreTitle": "Núcleo de {total} iconos",
     "coreText": "El acervo es Font Awesome Pro y Classic es la familia por defecto. El catálogo completo, con búsqueda, está en Icons Overview, en esta misma carpeta.",
     "coreCount": "{count} iconos",
-    "coreRule": "regular y solid existen para todos los nombres del núcleo; regular es el predeterminado, y solid entra cuando el contexto pide más presencia visual. Nunca invente arte fuera del acervo. Light, Thin y Sharp están prohibidos. Duotone se permite solo en navegación estructural, sin mezclar familias en el mismo grupo, y todavía no tiene arte disponible.",
+    "coreRule": "light y solid existen para todos los nombres del núcleo; light es el predeterminado, y solid entra cuando el contexto pide más presencia visual. Nunca invente arte fuera del acervo. Thin y Sharp están prohibidos. Duotone se permite solo en navegación estructural, sin mezclar familias en el mismo grupo, y todavía no tiene arte disponible.",
     "sizeTitle": "Tamaño",
     "sizeText": "El tamaño no es una variante visual: viene de un token semántico, y no existe valor libre. La caja es siempre cuadrada; el dibujo se centra y se escala por la altura.",
     "sizeTable": [
@@ -249,9 +249,9 @@
   },
   "validation": {
     "variantsTitle": "Variantes",
-    "variantsRegular": "regular — predeterminado",
+    "variantsLight": "light — predeterminado",
     "variantsSolid": "solid — más presencia visual",
-    "variantsNote": "regular y solid existen para todos los nombres del núcleo.",
+    "variantsNote": "light y solid existen para todos los nombres del núcleo.",
     "sizesTitle": "Tamaños",
     "sizesSummary": "El tamaño viene de un token semántico. No existe valor libre.",
     "sizesOverflowTitle": "Desbordamiento aprobado",

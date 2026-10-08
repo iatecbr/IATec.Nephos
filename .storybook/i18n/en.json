@@ -171,7 +171,7 @@
       ],
       [
         "variant",
-        "regular by default; solid when the context needs more visual presence. Both exist for every name in the core."
+        "light by default; solid when the context needs more visual presence. Both exist for every name in the core."
       ],
       [
         "size",
@@ -197,7 +197,7 @@
     "coreTitle": "A core of {total} icons",
     "coreText": "The set is Font Awesome Pro and Classic is the default family. The full catalogue, with search, is under Icons Overview, in this same folder.",
     "coreCount": "{count} icons",
-    "coreRule": "regular and solid exist for every name in the core; regular is the default, and solid comes in when the context needs more visual presence. Never invent artwork outside the collection. Light, Thin and Sharp are forbidden. Duotone is allowed only in structural navigation, without mixing families within one group, and has no artwork available yet.",
+    "coreRule": "light and solid exist for every name in the core; light is the default, and solid comes in when the context needs more visual presence. Never invent artwork outside the collection. Thin and Sharp are forbidden. Duotone is allowed only in structural navigation, without mixing families within one group, and has no artwork available yet.",
     "sizeTitle": "Size",
     "sizeText": "Size is not a visual variant: it comes from a semantic token, and free values do not exist. The box is always square; the artwork is centred and scaled by height.",
     "sizeTable": [
@@ -249,9 +249,9 @@
   },
   "validation": {
     "variantsTitle": "Variants",
-    "variantsRegular": "regular — default",
+    "variantsLight": "light — default",
     "variantsSolid": "solid — more visual presence",
-    "variantsNote": "regular and solid exist for every name in the core.",
+    "variantsNote": "light and solid exist for every name in the core.",
     "sizesTitle": "Sizes",
     "sizesSummary": "Size comes from a semantic token. There is no free value.",
     "sizesOverflowTitle": "Approved overflow",
