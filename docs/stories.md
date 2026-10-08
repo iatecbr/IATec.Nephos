@@ -421,8 +421,8 @@ names of approvers and pending items stay in the operational record.
 documentation model (`1134:12862`, DS-IA-NEPHOS 5.0); the `Documentation`
 story of `nph-badge` (the model) and its `nph-badge.docs.test.ts`. Chosen as the
 model by Indiane on 08-10-2026.
-**Limit:** the Docs pages of the components with code; `nph-button` still
-keeps its own anti-patterns block until it migrates.
+**Limit:** the Docs pages of the components with code. `nph-badge`, `nph-button`,
+`nph-icon` and `nph-label` follow the model; `dontDo` stays in `page.ts`, unused.
 
 ---
 
@@ -579,7 +579,7 @@ guide does not pick a side.**
 
 | Subject | The sources, and what each one says |
 |---|---|
-| Position of the other component-specific sections on the `Docs` page | §4.10 fixes the seven sections of `nph-badge` and places sizes and states after Variants. `nph-icon` still adds core, color and invalid input, and `nph-label` uses its own order (purpose, description, anatomy, accessibility, properties, relations, when to use, examples, do and do not use, references). **[Pending decision]** where those sections enter the model |
+| Position of the other component-specific sections on the `Docs` page | §4.10 fixes the seven sections of `nph-badge` and places sizes and states after Variants. `nph-icon` still adds core, color and invalid input after Variants, and `nph-label` adds relations and context before Examples. **[Pending decision]** whether those sections stay where they are or enter the model |
 | `variant="solid"` in `nph-icon` | [`../design.md`](../design.md), **P21** and the sheet define `regular` as the default and `solid` as available for each core name. Decision **I7** originated the expansion and `DSA-03` was completed |
 
 ---

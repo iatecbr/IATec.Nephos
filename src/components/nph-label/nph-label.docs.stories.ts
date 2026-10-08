@@ -46,15 +46,13 @@ function localeOf(context: GlobalsContext | undefined): string {
 
 /** Section ids: technical identifiers, the same in any language. */
 const SECTIONS = {
-  purpose: 'purpose',
-  description: 'description',
+  whenToUse: 'when-to-use',
+  api: 'api',
+  properties: 'properties-variants-and-states',
   anatomy: 'anatomy',
   accessibility: 'accessibility',
-  properties: 'properties-variants-and-states',
   relations: 'relations',
-  whenToUse: 'when-to-use',
   examples: 'required-examples',
-  doAndDont: 'do-and-do-not-use',
   references: 'references',
 } as const;
 
@@ -90,7 +88,6 @@ export const Documentation: Story = {
         info-label=${d.infoLabel}
       ></nph-label>`;
 
-    const doAndDontTitle = `${d.doTitle} · ${d.dontTitle}`;
     const combination = (required: boolean, info: boolean): string => `required = ${required} · info = ${info}`;
 
     return html`
@@ -104,32 +101,45 @@ export const Documentation: Story = {
         ])}
         ${note('info', d.derivedTitle, d.derivedText)}
         ${index(d.onThisPage, [
-          { id: SECTIONS.purpose, title: d.purposeTitle },
-          { id: SECTIONS.description, title: d.descriptionTitle },
+          { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
+          { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.properties, title: d.propertiesTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
-          { id: SECTIONS.properties, title: d.propertiesTitle },
           { id: SECTIONS.relations, title: d.relationsTitle },
-          { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.examples, title: d.examplesTitle },
-          { id: SECTIONS.doAndDont, title: doAndDontTitle },
           { id: SECTIONS.references, title: d.referencesTitle },
         ])}
 
         ${section(
-          SECTIONS.purpose,
-          d.purposeTitle,
+          SECTIONS.whenToUse,
+          d.whenToUseTitle,
           html`
-            ${text(d.purpose)}
-            ${demo(html`<nph-label text=${sample}></nph-label>`, d.selectionCaption)}
+            ${text(d.description)}
+            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.dont })}
             ${source(d.sourceLabel, d.sourceFrame)}
           `,
         )}
 
         ${section(
-          SECTIONS.description,
-          d.descriptionTitle,
-          html`${text(d.description)} ${source(d.sourceLabel, d.sourceFrame)}`,
+          SECTIONS.api,
+          d.apiTitle,
+          html`
+            ${table(d.apiHeader, d.api.map(([term, rule]: [string, string]) => [term, rule] as const))}
+            ${source(d.sourceLabel, d.sourceApi)}
+          `,
+        )}
+
+        ${section(
+          SECTIONS.properties,
+          d.propertiesTitle,
+          html`
+            ${table(d.propertiesHeader, d.properties.map(([term, rule]: [string, string]) => [term, rule] as const))}
+            ${demo(html`<nph-label text=${sample}></nph-label>`, d.propertiesCaptions[0])}
+            ${demo(html`<nph-label text=${sample} required></nph-label>`, d.propertiesCaptions[1])}
+            ${demo(withInfo(), d.propertiesCaptions[2])}
+            ${source(d.sourceLabel, d.sourceFrame)}
+          `,
         )}
 
         ${section(
@@ -163,20 +173,6 @@ export const Documentation: Story = {
         )}
 
         ${section(
-          SECTIONS.properties,
-          d.propertiesTitle,
-          html`
-            ${table(d.propertiesHeader, d.properties.map(([term, rule]: [string, string]) => [term, rule] as const))}
-            ${demo(html`<nph-label text=${sample}></nph-label>`, d.propertiesCaptions[0])}
-            ${demo(html`<nph-label text=${sample} required></nph-label>`, d.propertiesCaptions[1])}
-            ${demo(withInfo(), d.propertiesCaptions[2])}
-            ${source(d.sourceLabel, d.sourceFrame)}
-            ${table(d.apiHeader, d.api.map(([term, rule]: [string, string]) => [term, rule] as const))}
-            ${source(d.sourceLabel, d.sourceApi)}
-          `,
-        )}
-
-        ${section(
           SECTIONS.relations,
           d.relationsTitle,
           html`
@@ -187,12 +183,6 @@ export const Documentation: Story = {
             )}
             ${source(d.sourceLabel, d.sourceFrame)}
           `,
-        )}
-
-        ${section(
-          SECTIONS.whenToUse,
-          d.whenToUseTitle,
-          html`${list(d.whenToUse)} ${source(d.sourceLabel, d.sourceFrame)}`,
         )}
 
         ${section(
@@ -211,21 +201,12 @@ export const Documentation: Story = {
               html`<div style=${roomBelow}>${labelled((id) => withInfo({ for: id }))}</div>`,
               d.examplesCaptions[2],
             )}
-            ${source(d.sourceLabel, d.sourceFrame)}
-          `,
-        )}
-
-        ${section(
-          SECTIONS.doAndDont,
-          doAndDontTitle,
-          html`
-            ${useDontUse({ title: d.doCardTitle, items: d.do }, { title: d.dontCardTitle, items: d.dont })}
             ${demo(
               html`<div style=${column}>
                 <nph-label text=${sample} required></nph-label>
                 <p style=${legend}>${d.requiredLegend}</p>
               </div>`,
-              d.doCaption,
+              d.examplesCaptions[3],
             )}
             ${source(d.sourceLabel, d.sourceFrame)}
           `,
