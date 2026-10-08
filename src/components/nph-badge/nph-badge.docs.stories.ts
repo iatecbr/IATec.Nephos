@@ -3,7 +3,8 @@
  *
  * It does not prove the contract — that is the role of `Components/nph-badge/Validation` and of the
  * tests. The content is transcribed from the frame accepted in Figma (`1196:1100`), from the
- * spec sheet (`ficha`) and from P68; nothing is decided here.
+ * spec sheet (`ficha`) and from P68; nothing is decided here. The page opens
+ * with the labelled matrix of the frame (`1196:1308`).
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the
  * `badgeDocs` key. The story is SINGLE: it reads `globals.locale` and looks up the translation.
@@ -15,7 +16,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-badge';
 import { NPH_BADGE_EMPHASES, NPH_BADGE_SEVERITIES } from './nph-badge';
-import { body, demo, dontDo, header, index, list, note, section, source, table, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, useDontUse } from '../../shared/docs/page';
 
 const meta: Meta = {
   title: 'Components/nph-badge/Docs',
@@ -44,7 +45,6 @@ const SECTIONS = {
   anatomy: 'anatomy',
   accessibility: 'accessibility',
   examples: 'examples',
-  antiPatterns: 'anti-patterns',
   references: 'references',
 } as const;
 
@@ -64,6 +64,16 @@ export const Documentation: Story = {
     return html`
       <div style=${body}>
         ${header('nph-badge', d.summary)}
+        ${matrix(
+          d.matrixLabel,
+          NPH_BADGE_SEVERITIES.map((severity) => `severity: ${severity}`),
+          NPH_BADGE_EMPHASES.map((emphasis) => ({
+            label: `emphasis: ${emphasis}`,
+            cells: NPH_BADGE_SEVERITIES.map(
+              (severity) => html`<nph-badge severity=${severity} emphasis=${emphasis} text=${d.sampleText}></nph-badge>`,
+            ),
+          })),
+        )}
         ${note('info', d.derivedTitle, d.derivedText)}
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
@@ -72,7 +82,6 @@ export const Documentation: Story = {
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
           { id: SECTIONS.examples, title: d.examplesTitle },
-          { id: SECTIONS.antiPatterns, title: d.antiPatternsTitle },
           { id: SECTIONS.references, title: d.referencesTitle },
         ])}
 
@@ -158,12 +167,6 @@ export const Documentation: Story = {
             )}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,
-        )}
-
-        ${section(
-          SECTIONS.antiPatterns,
-          d.antiPatternsTitle,
-          html`${dontDo(d.antiPatternsTitle, d.antiPatterns)} ${source(d.sourceLabel, d.sourceSpec)}`,
         )}
 
         ${section(SECTIONS.references, d.referencesTitle, list(d.references))}

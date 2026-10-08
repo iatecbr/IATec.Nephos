@@ -27,6 +27,7 @@ import {
   filterNames,
   grid,
   searchLabel,
+  specimen,
   tile,
   tileName,
 } from './nph-icon.demo';
@@ -37,7 +38,7 @@ import {
   source,
   index,
   list,
-  dontDo,
+  matrix,
   note,
   section,
   table,
@@ -76,6 +77,10 @@ const hidingRule = html`
   </style>
 `;
 
+/* Icons of one category in the matrix: cells of equal width, as many as fit in the row. */
+const matrixRow =
+  'display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--nph-space-stack); padding-block-end: var(--nph-space-stack);';
+
 /** Section ids: technical identifiers, the same in any language. */
 const SECTIONS = {
   whenToUse: 'when-to-use',
@@ -85,7 +90,6 @@ const SECTIONS = {
   color: 'color',
   accessibility: 'accessibility',
   invalid: 'invalid-input',
-  antiPatterns: 'anti-patterns',
   references: 'references',
 } as const;
 
@@ -117,6 +121,18 @@ export const Documentation: Story = {
     return html`
       <div style=${body}>
         ${header('nph-icon', d.summary)}
+        ${matrix(
+          d.matrixLabel,
+          [],
+          CATEGORIES.map((category, position) => ({
+            label: categories[position] ?? '',
+            cells: [
+              html`<div style=${matrixRow}>
+                ${category.map((name) => specimen(html`<nph-icon name=${name} size="md"></nph-icon>`, name))}
+              </div>`,
+            ],
+          })),
+        )}
 
         ${note('info', d.derivedTitle, d.derivedText1)}
 
@@ -128,7 +144,6 @@ export const Documentation: Story = {
           { id: SECTIONS.color, title: d.colorTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
           { id: SECTIONS.invalid, title: d.invalidTitle },
-          { id: SECTIONS.antiPatterns, title: d.antiPatternsTitle },
           { id: SECTIONS.references, title: d.referencesTitle },
         ])}
 
@@ -223,12 +238,6 @@ export const Documentation: Story = {
             ${note('warning', d.invalidNoteTitle, d.invalidPointer)}
             ${source(d.sourceLabel, d.sourceInvalid)}
           `,
-        )}
-
-        ${section(
-          SECTIONS.antiPatterns,
-          d.antiPatternsTitle,
-          html`${dontDo(d.antiPatternsTitle, d.antiPatterns)} ${source(d.sourceLabel, d.sourceSpec)}`,
         )}
 
         ${section(SECTIONS.references, d.referencesTitle, list(d.references))}

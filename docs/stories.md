@@ -365,27 +365,32 @@ export function source(label, origin) { /* ... */ }
 ### 4.10 Content page: the same blocks on every `Docs` page
 
 A component's reading page is assembled from the blocks of
-`src/shared/docs/page.ts`, so that all of them read the same way:
+`src/shared/docs/page.ts`, so that all of them read the same way. The page
+follows the order and the sections of the Figma documentation frame: the
+component with its labelled matrix first, no anti-patterns section, and "use"
+and "do not use" once, in a single `useDontUse` block, side by side.
 
 | Block | Rule |
 |---|---|
 | `header` | the h1 is `text/heading-lg`, one per page; the summary is `text/body-md` |
+| `matrix` | right after `header`: real instances with columns and rows named by property and value, as in the Figma frame; border without background; the area scrolls by keyboard when it does not fit |
 | `index` | one `#id` link per section, in a named `nav`; no anchor without a section |
 | `section` | `<section id>` with an h2 in `text/heading-md` and a line below; more breathing room before the title than after |
 | `text` and `list` | `text/body-md`, with a limited reading width |
 | `demo` | real instances in an area **without background**, with border only, and a caption below |
 | `table` | with a header; the term in `text/code`, the description in `text/body-sm` |
 | `note` | the exception to the rule becomes a note (`role="note"`), in the `status/*` colors, never a plain paragraph |
-| `useDontUse` and `dontDo` | when to use and when not to use side by side, in the `status/success-*` and `status/error-*` colors |
+| `useDontUse` | when to use and when not to use side by side, in one block, in the `status/success-*` and `status/error-*` colors; `dontDo` (error card only) remains only on the page that has not migrated yet |
 | `source` | the origin footer, in `text/caption`, with a thin line above |
 
 The blocks use only `--nph-*`. The page carries no process text: review state,
 names of approvers and pending items stay in the operational record.
 
-**Source:** `src/shared/docs/page.ts` and `page.test.ts`;
-`nph-icon.docs.stories.ts`, `Documentação` (documentation) story, and
-`nph-icon.docs.test.ts`.
-**Limit:** one component uses the template.
+**Source:** `src/shared/docs/page.ts` and `page.test.ts`; the Figma
+documentation model (`1134:12862`, DS-IA-NEPHOS 5.0); the `Documentation`
+stories of `nph-badge`, `nph-icon` and `nph-label` and their `*.docs.test.ts`.
+**Limit:** the Docs pages of the components with code; `nph-button` still
+keeps its own anti-patterns block until it migrates.
 
 ---
 

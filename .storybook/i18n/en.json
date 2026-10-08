@@ -157,7 +157,11 @@
     "whenNotToUseTitle": "When not to use it",
     "whenNotToUse": [
       "The action is domain-specific or has consequences: use a text label alongside the icon.",
-      "The requested icon does not exist in the core: report the gap and wait for a decision."
+      "The requested icon does not exist in the core: report the gap and wait for a decision.",
+      "The Font Awesome Pro package, files or secret in versioned material.",
+      "A visual variant created just to fill a matrix.",
+      "Duotone outside structural navigation, or Duotone and Classic mixed in the same group.",
+      "Colour defined as a property: the icon inherits currentColor from the context."
     ],
     "apiTitle": "Approved public API",
     "api": [
@@ -225,15 +229,6 @@
     "invalidTitle": "Invalid input",
     "invalidText": "A name outside the core, a missing size or one outside the approved list, or a variant that does not exist render no icon and fail development validation. There is no visual fallback and no free size. The error is reported through console.error in development only.",
     "invalidPointer": "The cases are demonstrated under Validation › Invalid input.",
-    "antiPatternsTitle": "Anti-patterns",
-    "antiPatterns": [
-      "Do not use an icon alone to delete, approve, publish, export or perform any other domain-specific action.",
-      "Do not put the Font Awesome Pro package, files or secret into versioned material.",
-      "Do not create a visual variant just to fill a matrix.",
-      "Do not use Duotone outside structural navigation, and do not mix Duotone and Classic in the same group.",
-      "Do not use a name outside the Nephos icon core.",
-      "Do not define colour as a property; the icon inherits currentColor from the context."
-    ],
     "referencesTitle": "References",
     "references": [
       "design.md — contrato_nph_icon, icone_regras, icone_acessibilidade, tokens_icon, icones_nucleo.",
@@ -249,7 +244,8 @@
     "sourceSize": "design.md › tokens_icon, icone_regras.caixa and icones_terceira_leva.largura; docs/decisoes-tecnicas.md › P21",
     "sourceColor": "design.md › icone_regras.cor and icone_regras.espaco_ate_o_texto; docs/decisoes-tecnicas.md › P21",
     "sourceAccessibility": "design.md › icone_acessibilidade; nph-icon spec sheet",
-    "sourceInvalid": "nph-icon spec sheet; docs/decisoes-tecnicas.md › P21"
+    "sourceInvalid": "nph-icon spec sheet; docs/decisoes-tecnicas.md › P21",
+    "matrixLabel": "Component matrix"
   },
   "validation": {
     "variantsTitle": "Variants",
@@ -307,7 +303,8 @@
       "success as a permanent badge: use secondary or primary.",
       "A badge without text, with only an icon.",
       "Two status badges on the same item.",
-      "A sentence inside the badge: supporting text stays outside the component."
+      "A sentence inside the badge: supporting text stays outside the component.",
+      "Painting the background or the text by hand: the colour comes from the severity and the emphasis."
     ],
     "apiTitle": "API",
     "apiHeader": [
@@ -394,15 +391,6 @@
       "Finance",
       "Rejected"
     ],
-    "antiPatternsTitle": "Do not use",
-    "antiPatterns": [
-      "Using it as a button: the badge takes no click and no focus. Use nph-button.",
-      "Using success as a permanent badge: use secondary or primary.",
-      "A badge without text, with only an icon.",
-      "Two status badges on the same item.",
-      "A sentence inside the badge: supporting text stays outside the component.",
-      "Painting the background or the text by hand: the colour comes from the severity and the emphasis."
-    ],
     "referencesTitle": "References",
     "references": [
       "nph-badge spec sheet — purpose, variants, accessibility, tokens and anti-patterns.",
@@ -413,7 +401,9 @@
     ],
     "sourceSpec": "nph-badge spec sheet; Figma, frame nph-badge (1196:1100)",
     "sourceApi": "nph-badge spec sheet; docs/decisoes-tecnicas.md › P68",
-    "sourceAnatomy": "Figma, set 878:30; design.md"
+    "sourceAnatomy": "Figma, set 878:30; design.md",
+    "matrixLabel": "Component matrix",
+    "sampleText": "Badge"
   },
   "buttonDocs": {
     "summary": "Triggers an action identified by text. It varies in severity, emphasis, size and state, with an optional icon at the start or the end. Without text, it is the icon-only button.",
@@ -738,7 +728,10 @@
       "Storybook — Validation, in the folder next to this one."
     ],
     "sourceFrame": "Figma, frame nph-label (1194:1482)",
-    "sourceApi": "nph-label spec; docs/decisoes-tecnicas.md › P62.3 and P62.6"
+    "sourceApi": "nph-label spec; docs/decisoes-tecnicas.md › P62.3 and P62.6",
+    "doCardTitle": "Do",
+    "dontCardTitle": "Do not use",
+    "matrixLabel": "Component matrix"
   },
   "badgeValidation": {
     "sample": "Badge",

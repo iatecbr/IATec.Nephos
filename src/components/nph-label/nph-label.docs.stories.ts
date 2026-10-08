@@ -2,8 +2,10 @@
  * Reading page of `nph-label`.
  *
  * It does not prove the contract — that is the role of
- * `Components/nph-label/Validation` and of the tests. Sections 1 to 10 follow
- * the frame accepted in Figma (`1194:1482`), with its literal text; the table
+ * `Components/nph-label/Validation` and of the tests. The page opens with the
+ * labelled matrix of the frame (`1194:1694`); sections 1 to 10 follow the frame
+ * accepted in Figma (`1194:1482`), with its literal text, and 9 and 10 share one
+ * block, side by side; the table
  * of the API in code comes from the spec sheet (`ficha`) and from P62.6, and
  * says so in its footer. Nothing is decided here.
  *
@@ -21,7 +23,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-label';
-import { body, demo, dontDo, header, index, list, note, section, source, table, text } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
 
 const meta: Meta = {
   title: 'Components/nph-label/Docs',
@@ -52,8 +54,7 @@ const SECTIONS = {
   relations: 'relations',
   whenToUse: 'when-to-use',
   examples: 'required-examples',
-  do: 'do',
-  dont: 'do-not-use',
+  doAndDont: 'do-and-do-not-use',
   references: 'references',
 } as const;
 
@@ -89,9 +90,18 @@ export const Documentation: Story = {
         info-label=${d.infoLabel}
       ></nph-label>`;
 
+    const doAndDontTitle = `${d.doTitle} · ${d.dontTitle}`;
+    const combination = (required: boolean, info: boolean): string => `required = ${required} · info = ${info}`;
+
     return html`
       <div style=${body}>
         ${header('nph-label', d.summary)}
+        ${matrix(d.matrixLabel, [], [
+          { label: combination(false, false), cells: [html`<nph-label text=${sample}></nph-label>`] },
+          { label: combination(true, false), cells: [html`<nph-label text=${sample} required></nph-label>`] },
+          { label: combination(false, true), cells: [withInfo()] },
+          { label: combination(true, true), cells: [withInfo({ required: true })] },
+        ])}
         ${note('info', d.derivedTitle, d.derivedText)}
         ${index(d.onThisPage, [
           { id: SECTIONS.purpose, title: d.purposeTitle },
@@ -102,8 +112,7 @@ export const Documentation: Story = {
           { id: SECTIONS.relations, title: d.relationsTitle },
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.examples, title: d.examplesTitle },
-          { id: SECTIONS.do, title: d.doTitle },
-          { id: SECTIONS.dont, title: d.dontTitle },
+          { id: SECTIONS.doAndDont, title: doAndDontTitle },
           { id: SECTIONS.references, title: d.referencesTitle },
         ])}
 
@@ -207,10 +216,10 @@ export const Documentation: Story = {
         )}
 
         ${section(
-          SECTIONS.do,
-          d.doTitle,
+          SECTIONS.doAndDont,
+          doAndDontTitle,
           html`
-            ${list(d.do)}
+            ${useDontUse({ title: d.doCardTitle, items: d.do }, { title: d.dontCardTitle, items: d.dont })}
             ${demo(
               html`<div style=${column}>
                 <nph-label text=${sample} required></nph-label>
@@ -220,12 +229,6 @@ export const Documentation: Story = {
             )}
             ${source(d.sourceLabel, d.sourceFrame)}
           `,
-        )}
-
-        ${section(
-          SECTIONS.dont,
-          d.dontTitle,
-          html`${dontDo(d.dontTitle, d.dont)} ${source(d.sourceLabel, d.sourceFrame)}`,
         )}
 
         ${section(SECTIONS.references, d.referencesTitle, list(d.references))}
