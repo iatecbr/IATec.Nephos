@@ -57,11 +57,11 @@ api:
 variants:
   severity:
     axis: appearance
-    choose_when: "By the meaning of the state or category, never by the color."
+    choose_when: "By the meaning of the state or category, never by the color. primary: use for a permanent state or category that needs to stand out, in the brand color. secondary: use for a permanent state or category, without emphasis. info: use for something the person needs to know about the item. warn: use when the item asks for care before proceeding. help: use when the item has an explanation or help. danger: use for a negative state of the item, such as rejected. success: use to confirm an event that has just happened, never for a permanent state."
     do_not_combine_with: ["success in a permanent state"]
   emphasis:
     axis: appearance
-    choose_when: "solid when the badge needs weight; light when it accompanies the item without competing for attention."
+    choose_when: "solid: use to give the badge weight. light: use to accompany the item without competing for attention."
     do_not_combine_with: []
 states:
   default:
@@ -150,7 +150,24 @@ words, so the person recognizes the item without reading the detail.
 
 - `severity` is chosen **strictly** by meaning. A permanent state uses
   `secondary` or `primary`; `success` confirms an event that has just happened.
+  What separates `primary` from `secondary` is whether the state needs to stand out.
+
+| `severity` | When to use |
+|---|---|
+| `primary` | Use for a permanent state or category that needs to stand out, in the brand color. |
+| `secondary` | Use for a permanent state or category, without emphasis. |
+| `info` | Use for something the person needs to know about the item. |
+| `warn` | Use when the item asks for care before proceeding. |
+| `help` | Use when the item has an explanation or help. |
+| `danger` | Use for a negative state of the item, such as rejected. |
+| `success` | Use to confirm an event that has just happened, never for a permanent state. |
+
 - `emphasis` `solid` gives the badge weight; `light` accompanies the item without competing for attention.
+
+| `emphasis` | When to use |
+|---|---|
+| `solid` | Use to give the badge weight. |
+| `light` | Use to accompany the item without competing for attention. |
 
 **By size and density:** `not_applicable`. The badge has a single size.
 

@@ -125,6 +125,8 @@ export const Documentation: Story = {
               </div>`,
               d.variantsCaption,
             )}
+            ${table(d.severityUseHeader, d.severityUse.map(({ value, label }: { value: string; label: string }) => [value, label] as const))}
+            ${table(d.emphasisUseHeader, d.emphasisUse.map(({ value, label }: { value: string; label: string }) => [value, label] as const))}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,
         )}
