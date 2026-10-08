@@ -943,7 +943,7 @@
         "Fondo color/muted y el campo entero en state/disabled-opacity. No responde y sale del orden del Tab."
       ]
     ],
-    "statesCaption": "Error y deshabilitado en reposo. Hover y foco aparecen con el mouse y con el Tab.",
+    "statesCaption": "Tres líneas: en reposo (placeholder, valor con borrar, valor), en error (igual con invalid), deshabilitado (igual con disabled). Hover y foco aparecen con el mouse y con Tab.",
     "accessibilityTitle": "Accesibilidad",
     "accessibilityHeader": [
       "Criterio",
@@ -1095,7 +1095,7 @@
         "La pieza entera en state/disabled-opacity. No responde y sale del orden del Tab."
       ]
     ],
-    "statesCaption": "Error y deshabilitado en reposo. Hover y foco aparecen con el mouse y con el Tab.",
+    "statesCaption": "Tres líneas: en reposo (sin marcar, marcado, indeterminado), en error (igual con invalid), deshabilitado (igual con disabled). Hover y foco aparecen con el mouse y con Tab.",
     "accessibilityTitle": "Accesibilidad",
     "accessibilityHeader": [
       "Criterio",
@@ -1256,7 +1256,7 @@
         "La pieza entera en state/disabled-opacity. No responde."
       ]
     ],
-    "statesCaption": "Error y deshabilitado en reposo. Hover y foco aparecen con el mouse y con el Tab.",
+    "statesCaption": "Tres líneas: en reposo (sin marcar, marcado), en error (igual con invalid), deshabilitado (igual con disabled). Hover y foco aparecen con el mouse y con Tab.",
     "accessibilityTitle": "Accesibilidad",
     "accessibilityHeader": [
       "Criterio",

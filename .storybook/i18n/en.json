@@ -943,7 +943,7 @@
         "Background color/muted and the whole field at state/disabled-opacity. It does not respond and leaves the Tab order."
       ]
     ],
-    "statesCaption": "Error and disabled at rest. Hover and focus appear with the mouse and with Tab.",
+    "statesCaption": "Three rows: at rest (placeholder, value with clear, value), in error (same with invalid), disabled (same with disabled). Hover and focus appear with the mouse and with Tab.",
     "accessibilityTitle": "Accessibility",
     "accessibilityHeader": [
       "Criterion",
@@ -1095,7 +1095,7 @@
         "The whole piece at state/disabled-opacity. It does not respond and leaves the Tab order."
       ]
     ],
-    "statesCaption": "Error and disabled at rest. Hover and focus appear with the mouse and with Tab.",
+    "statesCaption": "Three rows: at rest (unchecked, checked, indeterminate), in error (same with invalid), disabled (same with disabled). Hover and focus appear with the mouse and with Tab.",
     "accessibilityTitle": "Accessibility",
     "accessibilityHeader": [
       "Criterion",
@@ -1256,7 +1256,7 @@
         "The whole piece at state/disabled-opacity. It does not respond."
       ]
     ],
-    "statesCaption": "Error and disabled at rest. Hover and focus appear with the mouse and with Tab.",
+    "statesCaption": "Three rows: at rest (unchecked, checked), in error (same with invalid), disabled (same with disabled). Hover and focus appear with the mouse and with Tab.",
     "accessibilityTitle": "Accessibility",
     "accessibilityHeader": [
       "Criterion",
