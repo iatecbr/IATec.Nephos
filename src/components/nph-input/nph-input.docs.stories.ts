@@ -126,13 +126,13 @@ export const Documentation: Story = {
                   <nph-input label=${v.emailLabel} value=${v.emailValue}></nph-input>
                 </div>
                 <div style=${row}>
-                  <nph-input label=${v.emailLabel} value=${v.invalidValue} invalid></nph-input>
-                  <nph-input label=${v.emailLabel} value=${v.invalidValue} invalid clearable clear-label=${v.clear}></nph-input>
+                  <nph-input label=${v.emailLabel} placeholder=${v.emailPlaceholder} invalid></nph-input>
+                  <nph-input label=${v.searchLabel} value=${v.searchValue} invalid clearable clear-label=${v.clear}></nph-input>
                   <nph-input label=${v.emailLabel} value=${v.emailValue} invalid></nph-input>
                 </div>
                 <div style=${row}>
                   <nph-input label=${v.emailLabel} placeholder=${v.emailPlaceholder} disabled></nph-input>
-                  <nph-input label=${v.emailLabel} value=${v.emailValue} disabled clearable clear-label=${v.clear}></nph-input>
+                  <nph-input label=${v.searchLabel} value=${v.searchValue} disabled clearable clear-label=${v.clear}></nph-input>
                   <nph-input label=${v.emailLabel} value=${v.emailValue} disabled></nph-input>
                 </div>
               </div>`,
