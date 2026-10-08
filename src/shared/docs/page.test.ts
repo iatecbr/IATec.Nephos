@@ -81,7 +81,7 @@ describe('content page blocks', () => {
 
   it('matrix names columns and rows and holds one cell per column', async () => {
     const target = await mount(
-      matrix('Matriz', ['severity: primary', 'severity: info'], [
+      matrix('Matrix', ['severity: primary', 'severity: info'], [
         { label: 'emphasis: solid', cells: [html`<span>a</span>`, html`<span>b</span>`] },
         { label: 'emphasis: light', cells: [html`<span>c</span>`, html`<span>d</span>`] },
       ]),
@@ -96,15 +96,15 @@ describe('content page blocks', () => {
   });
 
   it('matrix without columns has no header row and names each row', async () => {
-    const target = await mount(matrix('Matriz', [], [{ label: 'required = true', cells: [html`<span>a</span>`] }]));
+    const target = await mount(matrix('Matrix', [], [{ label: 'required = true', cells: [html`<span>a</span>`] }]));
     expect(target.querySelector('thead')).toBeNull();
     expect(target.querySelector('tbody th[scope="row"]')?.textContent?.trim()).toBe('required = true');
   });
 
   it('matrix area has a border, no background, and scrolls by keyboard under a name', async () => {
-    const target = await mount(matrix('Matriz', [], [{ label: 'a', cells: [html`<span>a</span>`] }]));
+    const target = await mount(matrix('Matrix', [], [{ label: 'a', cells: [html`<span>a</span>`] }]));
     const area = target.querySelector('[data-nph-matrix] > [role="region"]') as HTMLElement;
-    expect(area.getAttribute('aria-label')).toBe('Matriz');
+    expect(area.getAttribute('aria-label')).toBe('Matrix');
     expect(area.tabIndex).toBe(0);
     expect(getComputedStyle(area).overflowX).toBe('auto');
     expect(getComputedStyle(area).backgroundColor).toBe('rgba(0, 0, 0, 0)');
