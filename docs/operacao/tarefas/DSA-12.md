@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 130,
   "owner": "claude-code",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-badge",
   "dependencies": ["DSA-03"],
   "gates": [
@@ -22,17 +22,18 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories, Storybook documentation, spec and technical decision reviewed by maurocsjr and merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-12/review-and-merge-2026-10-08.md",
+      "result": "passed",
+      "verified_at": "2026-10-08",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-12/documentacao-figma-aceita-2026-10-02.md",
-    "docs/operacao/evidencias/DSA-12/storybook-validacao-2026-10-05.md"
+    "docs/operacao/evidencias/DSA-12/storybook-validacao-2026-10-05.md",
+    "docs/operacao/evidencias/DSA-12/review-and-merge-2026-10-08.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, first-delivery cut (Batch B)",
@@ -46,9 +47,9 @@
     "excerpt": null,
     "converted_decision": "The nph-badge frame (1196:1100) was accepted as the API and behavior specification of the nph-badge. COMPONENT_SET 878:30, variants `tipo` (primary, secondary, info, warn, help, danger, success) and `enfase` (solid, light), default primary and solid; text and optional icon. The acceptance of 01-10-2026 was completed on 02-10-2026 by removing the hover (the badge is not clickable)."
   },
-  "git_review": { "branch": "feat/lote-b-badge-button", "commit": null, "pr": "56" },
+  "git_review": { "branch": "feat/lote-b-badge-button", "commit": "d02c7ea988223e0a5f5fe73dfeb8acc58d533a4c", "pr": "56" },
   "context": null,
-  "updated_at": "2026-10-05"
+  "updated_at": "2026-10-08"
 }
 ```
 
