@@ -2,9 +2,11 @@
  * Blocks of the Nephos Storybook content page.
  *
  * Every component reading page builds its text with these blocks, so that the
- * pages read the same way: section title with a rule, text at reading width,
+ * pages read the same way, in the order of the Figma documentation frame: the
+ * component with its labelled matrix right after the header, then section
+ * title with a rule, text at reading width,
  * demo in its own area, table with a header, exception as a note and source
- * in the footer. See `docs/stories.md`, §4.8.
+ * in the footer. See `docs/stories.md`, §4.10.
  *
  * Only `--nph-*`: no hex, no literal color value. The page h1 uses
  * `text/heading-lg` and the section title `text/heading-md` (design.md: the
@@ -68,6 +70,65 @@ export function header(title: string, summary: string): TemplateResult {
       <h1 style="margin: 0; ${textRole('heading-lg')}">${title}</h1>
       <p style="margin: 0; ${textRole('body-md')} ${READING}">${summary}</p>
     </header>
+  `;
+}
+
+/** Matrix row: the row label and one cell per column. */
+export interface MatrixRow {
+  label: string;
+  cells: readonly TemplateResult[];
+}
+
+const MATRIX_LABEL = `${textRole('caption')} color: var(--nph-color-muted-foreground); white-space: nowrap;`;
+
+/**
+ * Top block of the page: the component with its labelled matrix, as the
+ * first part of the Figma frame. Columns and rows are named by property and
+ * value (`severity: primary`); with no columns, each row names its
+ * combination and holds the instances beside it. Only instances, in an area
+ * with border and no background. When it does not fit, the area scrolls on
+ * its own and takes focus, so the keyboard can scroll it too.
+ */
+export function matrix(
+  label: string,
+  columns: readonly string[],
+  rows: readonly MatrixRow[],
+): TemplateResult {
+  const cell = 'padding: var(--nph-space-inline-tight) var(--nph-space-inline); vertical-align: middle;';
+  return html`
+    <figure data-nph-matrix style="margin: 0;">
+      <div
+        role="region"
+        aria-label=${label}
+        tabindex="0"
+        style="overflow-x: auto; border: ${BORDER}; border-radius: var(--nph-radius-control); padding: var(--nph-space-section) var(--nph-space-container-padding);"
+      >
+        <table style="border-collapse: collapse; ${columns.length > 0 ? '' : 'width: 100%;'}">
+          ${columns.length > 0
+            ? html`<thead>
+                <tr>
+                  <td></td>
+                  ${columns.map(
+                    (column) => html`<th scope="col" style="${cell} ${MATRIX_LABEL} text-align: center; font-weight: inherit;">${column}</th>`,
+                  )}
+                </tr>
+              </thead>`
+            : ''}
+          <tbody>
+            ${rows.map(
+              (row) => html`
+                <tr>
+                  <th scope="row" style="${cell} ${MATRIX_LABEL} font-weight: inherit; ${columns.length > 0 ? 'text-align: right;' : 'text-align: left; width: 1%; vertical-align: top;'}">${row.label}</th>
+                  ${row.cells.map(
+                    (content) => html`<td style="${cell} ${columns.length > 0 ? 'text-align: center;' : 'text-align: left;'}">${content}</td>`,
+                  )}
+                </tr>
+              `,
+            )}
+          </tbody>
+        </table>
+      </div>
+    </figure>
   `;
 }
 
@@ -293,7 +354,7 @@ export function useDontUse(
   `;
 }
 
-/** Only the error card, for anti-pattern lists. */
+/** Only the error card. Kept for the nph-button page until it migrates to `useDontUse`. */
 export function dontDo(title: string, items: readonly string[]): TemplateResult {
   return html`<div style="display: flex;">${card('error', title, items)}</div>`;
 }

@@ -15,7 +15,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-button';
 import { NPH_BUTTON_EMPHASES, NPH_BUTTON_SEVERITIES, NPH_BUTTON_SIZES } from './nph-button';
-import { body, demo, dontDo, header, index, list, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
 
 const meta: Meta = {
   title: 'Components/nph-button/Docs',
@@ -45,7 +45,6 @@ const SECTIONS = {
   states: 'states',
   accessibility: 'accessibility',
   examples: 'examples',
-  antiPatterns: 'anti-patterns',
   references: 'references',
 } as const;
 
@@ -66,6 +65,18 @@ export const Documentation: Story = {
     return html`
       <div style=${body}>
         ${header('nph-button', d.summary)}
+        ${matrix(
+          d.matrixLabel,
+          NPH_BUTTON_SEVERITIES.map((severity) => `severity: ${severity}`),
+          NPH_BUTTON_EMPHASES.map((emphasis) => ({
+            label: `emphasis: ${emphasis}`,
+            cells: NPH_BUTTON_SEVERITIES.map((severity) =>
+              emphasis === 'solid' || WITH_LIGHT_EMPHASES.includes(severity)
+                ? html`<nph-button severity=${severity} emphasis=${emphasis} size="default" text=${save}></nph-button>`
+                : html``,
+            ),
+          })),
+        )}
         ${note('info', d.derivedTitle, d.derivedText)}
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
@@ -75,7 +86,6 @@ export const Documentation: Story = {
           { id: SECTIONS.states, title: d.statesTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
           { id: SECTIONS.examples, title: d.examplesTitle },
-          { id: SECTIONS.antiPatterns, title: d.antiPatternsTitle },
           { id: SECTIONS.references, title: d.referencesTitle },
         ])}
 
@@ -193,12 +203,6 @@ export const Documentation: Story = {
             )}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,
-        )}
-
-        ${section(
-          SECTIONS.antiPatterns,
-          d.antiPatternsTitle,
-          html`${dontDo(d.antiPatternsTitle, d.antiPatterns)} ${source(d.sourceLabel, d.sourceSpec)}`,
         )}
 
         ${section(SECTIONS.references, d.referencesTitle, list(d.references))}

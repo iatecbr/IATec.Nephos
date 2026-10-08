@@ -157,7 +157,11 @@
     "whenNotToUseTitle": "Cuándo no usarlo",
     "whenNotToUse": [
       "La acción es específica del dominio o tiene consecuencias: use una etiqueta textual junto al icono.",
-      "El icono solicitado no existe en el núcleo: registre la laguna y espere una decisión."
+      "El icono solicitado no existe en el núcleo: registre la laguna y espere una decisión.",
+      "El paquete, archivo o secreto de Font Awesome Pro en material versionado.",
+      "Una variante visual creada solo para completar una matriz.",
+      "Duotone fuera de la navegación estructural, o Duotone y Classic mezclados en el mismo grupo.",
+      "El color definido como propiedad: el icono hereda currentColor del contexto."
     ],
     "apiTitle": "API pública aprobada",
     "api": [
@@ -225,15 +229,6 @@
     "invalidTitle": "Entrada inválida",
     "invalidText": "Un name fuera del núcleo, un size ausente o fuera de la lista aprobada, o una variant inexistente no renderizan icono y fallan en la validación de desarrollo. No hay fallback visual ni tamaño libre. El error sale por console.error solo en desarrollo.",
     "invalidPointer": "Los casos están demostrados en Validación › Entrada inválida.",
-    "antiPatternsTitle": "Antipatrones",
-    "antiPatterns": [
-      "No usar un icono solo para eliminar, aprobar, publicar, exportar u otra acción específica del dominio.",
-      "No usar el paquete, archivo o secreto de Font Awesome Pro en material versionado.",
-      "No crear una variante visual solo para completar una matriz.",
-      "No usar Duotone fuera de la navegación estructural ni mezclar Duotone y Classic en el mismo grupo.",
-      "No usar un name fuera del núcleo de iconos del Nephos.",
-      "No definir el color como propiedad; el icono hereda currentColor del contexto."
-    ],
     "referencesTitle": "Referencias",
     "references": [
       "design.md — contrato_nph_icon, icone_regras, icone_acessibilidade, tokens_icon, icones_nucleo.",
@@ -249,7 +244,8 @@
     "sourceSize": "design.md › tokens_icon, icone_regras.caixa y icones_terceira_leva.largura; docs/decisoes-tecnicas.md › P21",
     "sourceColor": "design.md › icone_regras.cor y icone_regras.espaco_ate_o_texto; docs/decisoes-tecnicas.md › P21",
     "sourceAccessibility": "design.md › icone_acessibilidade; ficha nph-icon",
-    "sourceInvalid": "ficha nph-icon; docs/decisoes-tecnicas.md › P21"
+    "sourceInvalid": "ficha nph-icon; docs/decisoes-tecnicas.md › P21",
+    "matrixLabel": "Matriz del componente"
   },
   "validation": {
     "variantsTitle": "Variantes",
@@ -307,7 +303,8 @@
       "success como insignia permanente: use secondary o primary.",
       "Insignia sin texto, solo con icono.",
       "Dos insignias de estado en el mismo elemento.",
-      "Una frase dentro de la insignia: el texto de apoyo queda fuera de la pieza."
+      "Una frase dentro de la insignia: el texto de apoyo queda fuera de la pieza.",
+      "Pintar el fondo o el texto a mano: el color viene del tipo y del énfasis."
     ],
     "apiTitle": "API",
     "apiHeader": [
@@ -394,15 +391,6 @@
       "Financiero",
       "Rechazado"
     ],
-    "antiPatternsTitle": "No usar",
-    "antiPatterns": [
-      "Usar como botón: la insignia no recibe clic ni foco. Use nph-button.",
-      "Usar success como insignia permanente: use secondary o primary.",
-      "Insignia sin texto, solo con icono.",
-      "Dos insignias de estado en el mismo elemento.",
-      "Una frase dentro de la insignia: el texto de apoyo queda fuera de la pieza.",
-      "Pintar el fondo o el texto a mano: el color viene del tipo y del énfasis."
-    ],
     "referencesTitle": "Referencias",
     "references": [
       "ficha nph-badge — función, variantes, accesibilidad, tokens y antipatrones.",
@@ -413,7 +401,9 @@
     ],
     "sourceSpec": "ficha nph-badge; Figma, marco nph-badge (1196:1100)",
     "sourceApi": "ficha nph-badge; docs/decisoes-tecnicas.md › P68",
-    "sourceAnatomy": "Figma, conjunto 878:30; design.md"
+    "sourceAnatomy": "Figma, conjunto 878:30; design.md",
+    "matrixLabel": "Matriz del componente",
+    "sampleText": "Insignia"
   },
   "buttonDocs": {
     "summary": "Dispara una acción identificada por texto. Varía en tipo, énfasis, tamaño y estado, con icono opcional al inicio o al final. Sin texto, es el botón solo con icono.",
@@ -435,7 +425,10 @@
       "Para mostrar un error de campo: la validación es del campo (nph-field).",
       "Solo con icono en una acción con consecuencias, como eliminar o publicar.",
       "Para navegar a otro destino.",
-      "size compact como objetivo principal en una pantalla táctil."
+      "size compact como objetivo principal en una pantalla táctil.",
+      "Agrandar el icono para destacar.",
+      "Usar el color como única señal de intención, foco o estado.",
+      "Crear un tipo, énfasis o tamaño fuera de la matriz, o pintar el botón a mano."
     ],
     "apiTitle": "API",
     "apiHeader": [
@@ -660,15 +653,6 @@
       "Cerrar",
       "Nuevo"
     ],
-    "antiPatternsTitle": "No usar",
-    "antiPatterns": [
-      "Mostrar un error de campo en el botón: la validación es del campo (nph-field).",
-      "Usar solo icono en una acción con consecuencias, como eliminar o publicar.",
-      "Agrandar el icono para destacar.",
-      "Usar el color como única señal de intención, foco o estado.",
-      "Navegar a otro destino con el botón.",
-      "Crear un tipo, énfasis o tamaño fuera de la matriz, o pintar el botón a mano."
-    ],
     "referencesTitle": "Referencias",
     "references": [
       "ficha nph-button — función, variantes, estados, accesibilidad, tokens y antipatrones.",
@@ -679,7 +663,8 @@
     ],
     "sourceSpec": "ficha nph-button; Figma, marco nph-button (1197:5449)",
     "sourceApi": "ficha nph-button; docs/decisoes-tecnicas.md › P68",
-    "sourceStates": "Figma, conjuntos 461:13009 y 498:15671; design.md"
+    "sourceStates": "Figma, conjuntos 461:13009 y 498:15671; design.md",
+    "matrixLabel": "Matriz del componente"
   },
   "labelDocs": {
     "summary": "Dice qué debe escribir o elegir la persona en un campo. Puede marcar obligatorio y mostrar un icono de información. El texto no tiene estado; solo el icono de información recibe el foco.",
@@ -690,12 +675,9 @@
     "sampleText": "Nombre completo",
     "info": "Explica lo que pide el campo.",
     "infoLabel": "Sobre nombre completo",
-    "purposeTitle": "1. Finalidad",
-    "purpose": "Etiqueta de texto que dice qué debe escribir o elegir la persona en un campo.",
-    "selectionCaption": "nph-label — propiedades required, info y state.",
-    "descriptionTitle": "2. Descripción del componente",
+    "descriptionTitle": "Descripción del componente",
     "description": "Use nph-label para dar un nombre visible a un control de formulario, solo o dentro de un nph-field. La etiqueta es solo un texto: no tiene estado, tamaño ni layout. La excepción es el icono de información, que recibe el foco. No sustituye al título de sección, que es heading-sm, al texto de cuerpo, ni a la ayuda y el mensaje de error, que son del nph-field.",
-    "anatomyTitle": "3. Anatomía",
+    "anatomyTitle": "Anatomía",
     "anatomyHeader": [
       "Parte",
       "Regla"
@@ -718,7 +700,7 @@
         "space/stack-tight"
       ]
     ],
-    "accessibilityTitle": "4. Accesibilidad",
+    "accessibilityTitle": "Accesibilidad",
     "accessibilityHeader": [
       "Criterio",
       "Regla"
@@ -746,7 +728,7 @@
       ]
     ],
     "accessibilityCaption": "El texto es el nombre visible del control. Obligatorio marcado por el asterisco. Icono de información después del texto.",
-    "propertiesTitle": "5. Propiedades, variantes y estados",
+    "propertiesTitle": "Propiedades, variantes y estados",
     "propertiesHeader": [
       "Campo",
       "Regla"
@@ -796,7 +778,7 @@
         "El nombre accesible del icono de información. Sin él, el icono no aparece."
       ]
     ],
-    "relationsTitle": "6. Relaciones y contexto",
+    "relationsTitle": "Relaciones y contexto",
     "relations": [
       "Dentro de un nph-field, la etiqueta es la del propio campo; no añada un nph-label suelto además de ella.",
       "La ayuda y el mensaje de error son del nph-field, no de la etiqueta.",
@@ -805,27 +787,22 @@
       "El icono de información abre el nph-tooltip, que muestra el texto de info."
     ],
     "relationsCaption": "Sola, encima del control, con space/stack-tight.",
-    "whenToUseTitle": "7. Cuándo usar",
+    "whenToUseTitle": "Cuándo usar",
     "whenToUse": [
       "Para dar un nombre visible a un control de formulario, solo o dentro de un nph-field.",
       "required=true cuando completar el campo es obligatorio, con el asterisco explicado en una leyenda del formulario.",
-      "info=true para mostrar el icono de información después del texto."
-    ],
-    "examplesTitle": "8. Ejemplos obligatorios",
-    "examplesCaptions": [
-      "Campo obligatorio: el asterisco viene de required.",
-      "Etiqueta sola, encima del control.",
-      "Icono de información después del texto."
-    ],
-    "doTitle": "9. Hacer",
-    "do": [
-      "Usarla para dar un nombre visible a un control de formulario, sola o dentro de un nph-field.",
+      "info=true para mostrar el icono de información después del texto.",
       "Explicar el asterisco en una leyenda visible del formulario.",
       "Mantener la etiqueta en color/foreground, incluso con el campo en error."
     ],
-    "doCaption": "Asterisco explicado en una leyenda.",
+    "examplesTitle": "Ejemplos obligatorios",
+    "examplesCaptions": [
+      "Campo obligatorio: el asterisco viene de required.",
+      "Etiqueta sola, encima del control.",
+      "Icono de información después del texto.",
+      "Asterisco explicado en una leyenda."
+    ],
     "requiredLegend": "* Campos obligatorios",
-    "dontTitle": "10. No usar",
     "dont": [
       "Usarla para una frase con verbo y punto final: eso es texto de cuerpo.",
       "Usarla como título de sección o de grupo: eso es heading-sm.",
@@ -843,7 +820,9 @@
       "Storybook — Validación, en la carpeta de al lado."
     ],
     "sourceFrame": "Figma, marco nph-label (1194:1482)",
-    "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 y P62.6"
+    "sourceApi": "ficha nph-label; docs/decisoes-tecnicas.md › P62.3 y P62.6",
+    "matrixLabel": "Matriz del componente",
+    "whenNotToUseTitle": "Cuándo no usar"
   },
   "badgeValidation": {
     "sample": "Insignia",

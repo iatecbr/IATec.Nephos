@@ -112,3 +112,35 @@ describe('nph-badge validation: text only from the dictionary', () => {
     expect(shape(translations('es').badgeValidation)).toEqual(source);
   });
 });
+
+describe('nph-badge documentation — order of the Figma frame', () => {
+  for (const locale of ['pt-BR', 'en', 'es']) {
+    it(`${locale}: header, matrix, note and index open the page, in this order`, () => {
+      const target = renderInLocale(locale);
+      const page = target.firstElementChild as HTMLElement;
+      const opening = [...page.children]
+        .filter((element) => element.tagName !== 'STYLE')
+        .slice(0, 4)
+        .map((element) =>
+          element.matches('header')
+            ? 'header'
+            : element.matches('[data-nph-matrix]')
+              ? 'matrix'
+              : element.matches('[role="note"]')
+                ? 'note'
+                : element.matches('nav')
+                  ? 'index'
+                  : element.tagName.toLowerCase(),
+        );
+      expect(opening).toEqual(['header', 'matrix', 'note', 'index']);
+    });
+
+    it(`${locale}: no anti-patterns section, and one side-by-side use and do-not-use block`, () => {
+      const target = renderInLocale(locale);
+      expect(target.querySelector('#anti-patterns')).toBeNull();
+      const cards = [...target.querySelectorAll('[data-nph-card]')];
+      expect(cards.map((card) => card.getAttribute('data-nph-card'))).toEqual(['success', 'error']);
+      expect(cards[0]?.parentElement).toBe(cards[1]?.parentElement);
+    });
+  }
+});

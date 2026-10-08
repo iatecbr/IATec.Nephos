@@ -8,7 +8,7 @@ import type { TemplateResult } from 'lit';
 
 import '../../tokens/generated/tokens.css';
 import { DEFAULT_LOCALE, LOCALES, translations } from '../../../.storybook/i18n/index.js';
-import { demo, source, index, note, section, table, useDontUse } from './page';
+import { demo, matrix, source, index, note, section, table, useDontUse } from './page';
 
 afterEach(() => {
   document.body.replaceChildren();
@@ -77,6 +77,38 @@ describe('content page blocks', () => {
     for (const icon of icons) {
       expect(icon.getAttribute('aria-hidden')).toBe('true');
     }
+  });
+
+  it('matrix names columns and rows and holds one cell per column', async () => {
+    const target = await mount(
+      matrix('Matriz', ['severity: primary', 'severity: info'], [
+        { label: 'emphasis: solid', cells: [html`<span>a</span>`, html`<span>b</span>`] },
+        { label: 'emphasis: light', cells: [html`<span>c</span>`, html`<span>d</span>`] },
+      ]),
+    );
+    const columns = [...target.querySelectorAll('thead th[scope="col"]')].map((th) => th.textContent?.trim());
+    const rows = [...target.querySelectorAll('tbody th[scope="row"]')].map((th) => th.textContent?.trim());
+    expect(columns).toEqual(['severity: primary', 'severity: info']);
+    expect(rows).toEqual(['emphasis: solid', 'emphasis: light']);
+    for (const row of target.querySelectorAll('tbody tr')) {
+      expect(row.querySelectorAll('td')).toHaveLength(2);
+    }
+  });
+
+  it('matrix without columns has no header row and names each row', async () => {
+    const target = await mount(matrix('Matriz', [], [{ label: 'required = true', cells: [html`<span>a</span>`] }]));
+    expect(target.querySelector('thead')).toBeNull();
+    expect(target.querySelector('tbody th[scope="row"]')?.textContent?.trim()).toBe('required = true');
+  });
+
+  it('matrix area has a border, no background, and scrolls by keyboard under a name', async () => {
+    const target = await mount(matrix('Matriz', [], [{ label: 'a', cells: [html`<span>a</span>`] }]));
+    const area = target.querySelector('[data-nph-matrix] > [role="region"]') as HTMLElement;
+    expect(area.getAttribute('aria-label')).toBe('Matriz');
+    expect(area.tabIndex).toBe(0);
+    expect(getComputedStyle(area).overflowX).toBe('auto');
+    expect(getComputedStyle(area).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    expect(getComputedStyle(area).borderTopStyle).toBe('solid');
   });
 
   it('demo has no background of its own, only a border', async () => {

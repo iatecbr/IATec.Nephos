@@ -365,27 +365,65 @@ export function source(label, origin) { /* ... */ }
 ### 4.10 Content page: the same blocks on every `Docs` page
 
 A component's reading page is assembled from the blocks of
-`src/shared/docs/page.ts`, so that all of them read the same way:
+`src/shared/docs/page.ts`, so that all of them read the same way. The page
+follows the order and the sections of the Figma documentation frame: the
+component with its labelled matrix first, no anti-patterns section, and "use"
+and "do not use" once, in a single `useDontUse` block, side by side.
 
 | Block | Rule |
 |---|---|
 | `header` | the h1 is `text/heading-lg`, one per page; the summary is `text/body-md` |
+| `matrix` | right after `header`: real instances with columns and rows named by property and value, as in the Figma frame; border without background; the area scrolls by keyboard when it does not fit |
 | `index` | one `#id` link per section, in a named `nav`; no anchor without a section |
 | `section` | `<section id>` with an h2 in `text/heading-md` and a line below; more breathing room before the title than after |
 | `text` and `list` | `text/body-md`, with a limited reading width |
 | `demo` | real instances in an area **without background**, with border only, and a caption below |
 | `table` | with a header; the term in `text/code`, the description in `text/body-sm` |
 | `note` | the exception to the rule becomes a note (`role="note"`), in the `status/*` colors, never a plain paragraph |
-| `useDontUse` and `dontDo` | when to use and when not to use side by side, in the `status/success-*` and `status/error-*` colors |
+| `useDontUse` | when to use and when not to use side by side, in one block, in the `status/success-*` and `status/error-*` colors; `dontDo` (error card only) remains only on the page that has not migrated yet |
 | `source` | the origin footer, in `text/caption`, with a thin line above |
+
+#### Reference model: the `nph-badge` page
+
+The `Docs` page of `nph-badge` is the **model** for every component `Docs`
+page. A new page copies its order; a page that already exists is aligned to it.
+The order is fixed:
+
+1. `header`: the h1 with the component name and its summary.
+2. `matrix`: the labelled matrix of real instances.
+3. `note` of the page's origin (`info`): the page is derived from the Figma
+   frame and the sheet, and which one prevails in case of divergence.
+4. `index`: "On this page", one link per section below.
+5. Sections, in this order, each ending with its `source`:
+   1. **When to use**: a single `useDontUse` block.
+   2. **API**: `table` of properties, with the term in `text/code`.
+   3. **Sections of the component itself**, in this order: **Variants**
+      (`demo` of the real instances, with a caption), **Sizes** and **States**
+      (each only if the component has them, `demo` with a caption), then any
+      other section that is only the component's own, such as core, color,
+      relations and context, or invalid input.
+   4. **Anatomy**: `table` of the parts.
+   5. **Accessibility**: `table` of criteria.
+   6. **Examples**: one `demo` per example, each with its caption.
+   7. **References**: `list`, with no `source`.
+
+Each section has a stable English `id`, the same in any language. The page does
+not repeat a block that the model does not have (no anti-patterns section, no
+second "use / do not use").
+
+**Sections of the component itself** come after API and before Anatomy
+(decided by Indiane on 08-10-2026). Anatomy, Accessibility, Examples and
+References stay in the same position on every page.
 
 The blocks use only `--nph-*`. The page carries no process text: review state,
 names of approvers and pending items stay in the operational record.
 
-**Source:** `src/shared/docs/page.ts` and `page.test.ts`;
-`nph-icon.docs.stories.ts`, `Documentação` (documentation) story, and
-`nph-icon.docs.test.ts`.
-**Limit:** one component uses the template.
+**Source:** `src/shared/docs/page.ts` and `page.test.ts`; the Figma
+documentation model (`1134:12862`, DS-IA-NEPHOS 5.0); the `Documentation`
+story of `nph-badge` (the model) and its `nph-badge.docs.test.ts`. Chosen as the
+model by Indiane on 08-10-2026.
+**Limit:** the Docs pages of the components with code. `nph-badge`, `nph-button`,
+`nph-icon` and `nph-label` follow the model; `dontDo` stays in `page.ts`, unused.
 
 ---
 
