@@ -122,9 +122,19 @@ export const Documentation: Story = {
           html`
             ${table(d.statesHeader, d.states.map(([state, change]: [string, string]) => [state, change] as const))}
             ${demo(
-              html`<div style=${row}>
-                <nph-radio name="docs-invalid" text=${v.checked} checked invalid></nph-radio>
-                <nph-radio name="docs-disabled" text=${v.checked} checked disabled></nph-radio>
+              html`<div style=${stack}>
+                <div style=${row}>
+                  <nph-radio name="docs-default" text=${v.unchecked}></nph-radio>
+                  <nph-radio name="docs-default" text=${v.checked} checked></nph-radio>
+                </div>
+                <div style=${row}>
+                  <nph-radio name="docs-invalid" text=${v.unchecked} invalid></nph-radio>
+                  <nph-radio name="docs-invalid" text=${v.checked} checked invalid></nph-radio>
+                </div>
+                <div style=${row}>
+                  <nph-radio name="docs-disabled" text=${v.unchecked} disabled></nph-radio>
+                  <nph-radio name="docs-disabled" text=${v.checked} checked disabled></nph-radio>
+                </div>
               </div>`,
               d.statesCaption,
             )}
