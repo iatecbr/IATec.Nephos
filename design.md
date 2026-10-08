@@ -308,7 +308,7 @@ tokens_semantic:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
     escuro: core/surface/200
-    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it (decision of 06-10-2026)."
+    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it."
     nao_use: "Text needed to complete the task."
   color/destructive:
     css: '--nph-color-destructive'
@@ -394,7 +394,7 @@ tokens_semantic:
     css: '--nph-color-primary-hover'
     claro: theme/brand-700
     escuro: theme/brand-400-hover
-    use: "Background of color/primary in the hover-active state of the solid nph-button, with color/primary-foreground on top (decision of 02-10-2026, supersedes B4)."
+    use: "Background of color/primary in the hover-active state of the solid nph-button, with color/primary-foreground on top (supersedes B4)."
   color/destructive-surface:
     css: '--nph-color-destructive-surface'
     claro: core/danger/50
@@ -419,7 +419,7 @@ tokens_semantic:
     css: '--nph-color-destructive-hover'
     claro: core/danger/700
     escuro: core/danger/300
-    use: "Background of color/destructive in the hover-active state of the solid nph-button, with color/destructive-foreground on top (decision of 02-10-2026, supersedes B4)."
+    use: "Background of color/destructive in the hover-active state of the solid nph-button, with color/destructive-foreground on top (supersedes B4)."
   color/secondary-surface-hover:
     css: '--nph-color-secondary-surface-hover'
     claro: core/surface/200
@@ -474,37 +474,37 @@ tokens_semantic:
     css: '--nph-focus-halo'
     claro: theme/brand-halo
     escuro: theme/brand-200
-    use: "Focus HALO: the light band outside the border. It is decoration and does not need to meet 3:1 — focus/border meets it. In light mode it points to theme/brand-halo, the tone chosen per brand so the focus border stays visible against the halo; in dark mode, to the brand 200 tone. Created on 03-09-2026 so the component stops pointing directly at the brand layer; light mode changed on 08-10-2026."
+    use: "Focus HALO: the light band outside the border. It is decoration and does not need to meet 3:1 — focus/border meets it. In light mode it points to theme/brand-halo, the tone chosen per brand so the focus border stays visible against the halo; in dark mode, to the brand 200 tone. Created so the component stops pointing directly at the brand layer."
   focus/halo-info:
     css: '--nph-focus-halo-info'
     claro: core/info/200
     escuro: core/info/200
-    use: "Focus HALO when the control is of the info type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark. Created on 03-09-2026 by decision of Indiane."
+    use: "Focus HALO when the control is of the info type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark."
   focus/halo-warn:
     css: '--nph-focus-halo-warn'
     claro: core/warn/200
     escuro: core/warn/200
-    use: "Focus HALO when the control is of the warn type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark. Created on 03-09-2026 by decision of Indiane."
+    use: "Focus HALO when the control is of the warn type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark."
   focus/halo-help:
     css: '--nph-focus-halo-help'
     claro: core/help/200
     escuro: core/help/200
-    use: "Focus HALO when the control is of the help type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark. Created on 03-09-2026 by decision of Indiane."
+    use: "Focus HALO when the control is of the help type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark."
   focus/halo-danger:
     css: '--nph-focus-halo-danger'
     claro: core/danger/200
     escuro: core/danger/200
-    use: "Focus HALO when the control is of the danger type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark. Created on 03-09-2026 by decision of Indiane."
+    use: "Focus HALO when the control is of the danger type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark."
   focus/halo-success:
     css: '--nph-focus-halo-success'
     claro: core/success/200
     escuro: core/success/200
-    use: "Focus HALO when the control is of the success type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark. Created on 03-09-2026 by decision of Indiane."
+    use: "Focus HALO when the control is of the success type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark."
   focus/halo-error:
     css: '--nph-focus-halo-error'
     claro: focus/halo-danger
     escuro: focus/halo-danger
-    use: "Focus HALO when the field is invalid. Decoration; the border meets the contrast, and in this state it is status/error. Light tone in both modes. Renamed from focus/ring-error on 03-09-2026, for the same reason as focus/border."
+    use: "Focus HALO when the field is invalid. Decoration; the border meets the contrast, and in this state it is status/error. Light tone in both modes. Renamed from focus/ring-error, for the same reason as focus/border."
   sidebar/background:
     css: '--nph-sidebar-background'
     claro: core/neutral/50
@@ -661,7 +661,7 @@ tokens_semantic:
     css: '--nph-status-info-hover'
     claro: core/info/700
     escuro: core/info/300
-    use: "Background of status/info in the hover-active state of the solid nph-button, with status/on-solid on top (decision of 02-10-2026, supersedes B4)."
+    use: "Background of status/info in the hover-active state of the solid nph-button, with status/on-solid on top (supersedes B4)."
   status/info-surface-hover:
     css: '--nph-status-info-surface-hover'
     claro: core/info/100
@@ -670,7 +670,7 @@ tokens_semantic:
     css: '--nph-status-warning-hover'
     claro: core/warn/700
     escuro: core/warn/300
-    use: "Background of status/warning in the hover-active state of the solid nph-button, with status/on-solid on top (decision of 02-10-2026, supersedes B4)."
+    use: "Background of status/warning in the hover-active state of the solid nph-button, with status/on-solid on top (supersedes B4)."
   status/warning-surface-hover:
     css: '--nph-status-warning-surface-hover'
     claro: core/warn/100
@@ -679,7 +679,7 @@ tokens_semantic:
     css: '--nph-status-help-hover'
     claro: core/help/700
     escuro: core/help/300
-    use: "Background of status/help in the hover-active state of the solid nph-button, with status/on-solid on top (decision of 02-10-2026, supersedes B4)."
+    use: "Background of status/help in the hover-active state of the solid nph-button, with status/on-solid on top (supersedes B4)."
   status/help-surface-hover:
     css: '--nph-status-help-surface-hover'
     claro: core/help/100
@@ -688,7 +688,7 @@ tokens_semantic:
     css: '--nph-status-success-hover'
     claro: core/success/700
     escuro: core/success/300
-    use: "Background of status/success in the hover-active state of the solid nph-button, with status/on-solid on top (decision of 02-10-2026, supersedes B4)."
+    use: "Background of status/success in the hover-active state of the solid nph-button, with status/on-solid on top (supersedes B4)."
   status/success-surface-hover:
     css: '--nph-status-success-surface-hover'
     claro: core/success/100
@@ -836,7 +836,7 @@ tokens_theme:
   theme/brand-300:
     css: '--nph-theme-brand-300'
     valor_por_modo: core/<vertical>/300
-    use: "Tone 300 of the active brand. Created on 03-09-2026 for the focus border in dark mode, where the 400 failed the 3:1 minimum in `Gerencial` and `Recursos Humanos`. Do not use for fill or text."
+    use: "Tone 300 of the active brand. Created for the focus border in dark mode, where the 400 failed the 3:1 minimum in `Gerencial` and `Recursos Humanos`. Do not use for fill or text."
   theme/brand-800:
     css: '--nph-theme-brand-800'
     valor_por_modo: core/<vertical>/800
@@ -848,11 +848,11 @@ tokens_theme:
   theme/brand-focus:
     css: '--nph-theme-brand-focus'
     valor_por_modo: "core/<vertical>/500 in six verticals; core/educacao/700 in `Educacao`"
-    use: "Brand tone used in the focus ring. Tone 500 in six verticals; `Educação` uses 700 because its 500 measures 1,92:1 against white and fails the 3:1 minimum of WCAG 2.2 AA criterion 1.4.11. Decision by Indiane on 03-09-2026. Do not use for fill or text."
+    use: "Brand tone used in the focus ring. Tone 500 in six verticals; `Educação` uses 700 because its 500 measures 1,92:1 against white and fails the 3:1 minimum of WCAG 2.2 AA criterion 1.4.11. Do not use for fill or text."
   theme/brand-halo:
     css: '--nph-theme-brand-halo'
     valor_por_modo: "core/<vertical>/100 in `Sistemas` and `Comercial`; core/<vertical>/200 in `Financeiro` and `Igrejas`; core/<vertical>/300 in `Gerencial`, `Educacao` and `Recursos Humanos`"
-    use: "Focus halo tone in light mode, consumed only by focus/halo. In each brand it is the strongest tone at which the focus border still measures at least 3:1 against the halo. `Sistemas` does not reach 3:1 at any tone: 2,92:1 at 100, its best. Decision by Indiane on 08-10-2026. Do not use for fill, border or text."
+    use: "Focus halo tone in light mode, consumed only by focus/halo. In each brand it is the strongest tone at which the focus border still measures at least 3:1 against the halo. `Sistemas` does not reach 3:1 at any tone: 2,92:1 at 100, its best. Do not use for fill, border or text."
   theme/brand-400-hover:
     css: '--nph-theme-brand-400-hover'
     valor_por_modo: "core/<vertical>/300 in `Sistemas`, `Comercial` and `Financeiro`; core/<vertical>/500 in `Gerencial`, `Igrejas` and `Recursos Humanos`; core/educacao/800 in `Educacao`"
@@ -1398,7 +1398,7 @@ tokens_alpha:
   state/hover-opacity:
     css: '--nph-state-hover-opacity'
     valor: 0.95
-    use: "It was the solid hover of the nph-button (B4, `Registro`). Since 02-10-2026, the button uses color/primary-hover, color/destructive-hover, color/secondary-hover and status/*-hover. DO NOT USE on button hover."
+    use: "It was the solid hover of the nph-button (B4, `Registro`). The button now uses color/primary-hover, color/destructive-hover, color/secondary-hover and status/*-hover. DO NOT USE on button hover."
     nao_use: "Button hover; secondary, outline, ghost, focus, disabled or isolated text."
 
 # ---------------------------------------------------------------
