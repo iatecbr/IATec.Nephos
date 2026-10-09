@@ -79,10 +79,12 @@ Before analyzing, proposing, editing or implementing:
 - A new technical decision is reviewed in the pull request that brings it. The
   merge is the approval: after it, the decision is not left "awaiting review",
   and no review is requested on an already closed pull request.
-- Elvys or Mauro review and merge. Do not merge your own pull request.
-- When opening the pull request, request Mauro's review on GitHub in the same
-  step: `gh pr edit <number> --add-reviewer maurocsjr`. That is the default.
-  Another reviewer, only when Indiane indicates one.
+- Mauro and Elvys review and merge the pull requests Claude opens; Claude
+  does not merge its own pull request. Elvys reviews and merges his own pull
+  requests; Mauro does not review them.
+- When Claude opens a pull request, it requests Mauro's review on GitHub in
+  the same step: `gh pr edit <number> --add-reviewer maurocsjr`. Another
+  reviewer, only when Indiane indicates one.
 - This convention holds until a versioned instruction replaces it. The default
   branch setting on GitHub does not change this integration target.
 
@@ -128,11 +130,12 @@ Before analyzing, proposing, editing or implementing:
 ## The order of a component
 
 **Accepted Figma documentation → local code → final sheet → review and PR.**
-It holds for every agent. Who does each step, and what to do when Indiane
+It holds for every agent. Component code and sheets are written by Elvys;
+Claude takes only tokens. Who does each step, and what to do when Indiane
 sends a component to code, is in
-[`docs/operacao/component-handoff.md`](docs/operacao/component-handoff.md). A **component task** is one that declares
-`owner: "claude-code"` and a filled-in `piece` in
-`docs/operacao/tarefas/<ID>.md`.
+[`docs/operacao/component-handoff.md`](docs/operacao/component-handoff.md).
+A **component task** is one that declares `owner: "elvys"` and a filled-in
+`piece` in `docs/operacao/tarefas/<ID>.md`.
 
 1. **Before any component code**, the documentation of the piece in the Figma
    `DS-IA-NEPHOS 5.0` must be **accepted by Indiane** and recorded in the
@@ -151,8 +154,8 @@ sends a component to code, is in
 4. **Before `in-review` and `done`**, the canonical sheet at
    `fichas/<piece>.md` must exist, built from `fichas/_modelo.md`.
 
-The verifier enforces the three moments: `V30` the gate, `V31` the provenance
-of the evidence, `V28` the sheet. Full contract in
+The verifier enforces the three moments — `V30` the gate, `V31` the provenance
+of the evidence, `V28` the sheet — on tasks with `owner: "claude-code"`. Full contract in
 [`docs/operacao/README.md`](docs/operacao/README.md), §2b and §5b.
 
 ## Prohibitions
