@@ -278,34 +278,34 @@ const independentInvariants = new Set([...invariants].filter((n) => !dependentIn
 const DEPENDENT_SELECTOR = ':root,\n[data-nph-color-scheme]';
 
 const parts = [];
-parts.push('/* camada 1 - core: primitivos, valores literais. Nenhum componente consome daqui. */');
+parts.push('/* layer 1 - core: primitives, literal values. No component consumes from here. */');
 parts.push(await block('core', null, ':root'));
 
-parts.push('\n/* camada de marca - um bloco por vertical da IATec. */');
+parts.push('\n/* brand layer - one block per IATec vertical. */');
 for (const m of tm.modes) parts.push(await block('theme', m, sel(tm, m)));
 
 parts.push(
-  '\n/* camada 2 - semantic, invariantes: alias e valor final iguais em claro e escuro,\n' +
-  '   emitidos uma vez, em :root. Aqui o consumidor pode personaliza-los (P02). */',
+  '\n/* layer 2 - semantic, invariants: alias and final value equal in light and dark,\n' +
+  '   emitted once, in :root. Here the consumer can customize them (P02). */',
 );
 parts.push(await block('semantic', sm.default, ':root', independentInvariants));
 
 parts.push(
-  '\n/* camada 2 - semantic, invariantes dependentes: o alias aponta para theme/* ou\n' +
-  '   para um variante. Saem tambem em cada raiz de esquema, para resolver ali a\n' +
-  '   marca e o esquema locais. Numa parte da tela com outra marca,\n' +
-  '   data-nph-brand e data-nph-color-scheme vao no mesmo elemento (P67). */',
+  '\n/* layer 2 - semantic, dependent invariants: the alias points to theme/* or\n' +
+  '   to a variant. They also come out in each scheme root, to resolve there the\n' +
+  '   local brand and scheme. In a part of the screen with another brand,\n' +
+  '   data-nph-brand and data-nph-color-scheme go on the same element (P67). */',
 );
 parts.push(await block('semantic', sm.default, DEPENDENT_SELECTOR, dependentInvariants));
 
-parts.push('\n/* camada 2 - semantic, variantes: um bloco por esquema de cor. */');
+parts.push('\n/* layer 2 - semantic, variants: one block per color scheme. */');
 for (const m of sm.modes) parts.push(await block('semantic', m, sel(sm, m, sm.publicValue[m]), variants));
 
 const header = [
   '/**',
-  ' * ARQUIVO GERADO - NAO EDITE.',
-  ' * Fonte: src/tokens/source/*.tokens.json',
-  ' * Gere de novo com: npm run build:tokens',
+  ' * GENERATED FILE - DO NOT EDIT.',
+  ' * Source: src/tokens/source/*.tokens.json',
+  ' * Regenerate with: npm run build:tokens',
   ' */',
   '',
 ].join('\n');

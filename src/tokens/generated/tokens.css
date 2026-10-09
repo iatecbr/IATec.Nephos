@@ -1,9 +1,9 @@
 /**
- * ARQUIVO GERADO - NAO EDITE.
- * Fonte: src/tokens/source/*.tokens.json
- * Gere de novo com: npm run build:tokens
+ * GENERATED FILE - DO NOT EDIT.
+ * Source: src/tokens/source/*.tokens.json
+ * Regenerate with: npm run build:tokens
  */
-/* camada 1 - core: primitivos, valores literais. Nenhum componente consome daqui. */
+/* layer 1 - core: primitives, literal values. No component consumes from here. */
 :root {
   --nph-core-alpha-black-0: rgba(0, 0, 0, 0);
   --nph-core-alpha-black-10: rgba(0, 0, 0, 0.1);
@@ -231,7 +231,7 @@
   --nph-core-warn-900: #2f1202;
 }
 
-/* camada de marca - um bloco por vertical da IATec. */
+/* brand layer - one block per IATec vertical. */
 :root,
 [data-nph-brand="sistemas"] {
   --nph-theme-brand-400: var(--nph-core-sistemas-400);
@@ -353,8 +353,8 @@
   --nph-theme-brand-400-hover: var(--nph-core-rh-500);
 }
 
-/* camada 2 - semantic, invariantes: alias e valor final iguais em claro e escuro,
-   emitidos uma vez, em :root. Aqui o consumidor pode personaliza-los (P02). */
+/* layer 2 - semantic, invariants: alias and final value equal in light and dark,
+   emitted once, in :root. Here the consumer can customize them (P02). */
 :root {
   --nph-elevation-none: none;
   --nph-layout-columns: 12;
@@ -509,10 +509,10 @@
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
 }
 
-/* camada 2 - semantic, invariantes dependentes: o alias aponta para theme/* ou
-   para um variante. Saem tambem em cada raiz de esquema, para resolver ali a
-   marca e o esquema locais. Numa parte da tela com outra marca,
-   data-nph-brand e data-nph-color-scheme vao no mesmo elemento (P67). */
+/* layer 2 - semantic, dependent invariants: the alias points to theme/* or
+   to a variant. They also come out in each scheme root, to resolve there the
+   local brand and scheme. In a part of the screen with another brand,
+   data-nph-brand and data-nph-color-scheme go on the same element (P67). */
 :root,
 [data-nph-color-scheme] {
   --nph-elevation-drawer: 0px var(--nph-core-shadow-y-350) var(--nph-core-shadow-blur-450) var(--nph-core-shadow-spread-600) var(--nph-shadow-color), 0px var(--nph-core-shadow-y-500) var(--nph-core-shadow-blur-600) var(--nph-core-shadow-spread-500) var(--nph-shadow-color);
@@ -530,7 +530,7 @@
   --nph-status-on-solid: var(--nph-color-background);
 }
 
-/* camada 2 - semantic, variantes: um bloco por esquema de cor. */
+/* layer 2 - semantic, variants: one block per color scheme. */
 :root,
 [data-nph-color-scheme="light"] {
   --nph-brand-comercial-foreground: var(--nph-core-base-white);

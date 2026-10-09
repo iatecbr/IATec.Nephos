@@ -380,7 +380,7 @@ and "do not use" once, in a single `useDontUse` block, side by side.
 | `demo` | real instances in an area **without background**, with border only, and a caption below |
 | `table` | with a header; the term in `text/code`, the description in `text/body-sm` |
 | `note` | the exception to the rule becomes a note (`role="note"`), in the `status/*` colors, never a plain paragraph |
-| `useDontUse` | when to use and when not to use side by side, in one block, in the `status/success-*` and `status/error-*` colors; `dontDo` (error card only) remains only on the page that has not migrated yet |
+| `useDontUse` | when to use and when not to use side by side, in one block, in the `status/success-*` and `status/error-*` colors |
 | `source` | the origin footer, in `text/caption`, with a thin line above |
 
 #### Reference model: the `nph-badge` page
@@ -423,7 +423,7 @@ documentation model (`1134:12862`, DS-IA-NEPHOS 5.0); the `Documentation`
 story of `nph-badge` (the model) and its `nph-badge.docs.test.ts`. Chosen as the
 model by Indiane on 08-10-2026.
 **Limit:** the Docs pages of the components with code. `nph-badge`, `nph-button`,
-`nph-icon` and `nph-label` follow the model; `dontDo` stays in `page.ts`, unused.
+`nph-icon` and `nph-label` follow the model.
 
 ---
 
