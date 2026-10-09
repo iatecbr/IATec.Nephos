@@ -127,6 +127,7 @@
   --nph-core-layout-width-rich-option: 20rem;
   --nph-core-layout-width-separator: 15rem;
   --nph-core-layout-width-switch-track: 2.5rem;
+  --nph-core-line-height-100: 1rem;
   --nph-core-neutral-50: #f1f1f1;
   --nph-core-neutral-100: #e3e3e3;
   --nph-core-neutral-200: #c7c7c7;
@@ -484,6 +485,7 @@
   --nph-radius-overlay: var(--nph-core-radius-450);
   --nph-radius-subtle: var(--nph-core-radius-100);
   --nph-radius-surface: var(--nph-core-radius-600);
+  --nph-skeleton-line-height: var(--nph-core-line-height-100);
   --nph-space-container-padding: var(--nph-core-space-400);
   --nph-space-control-padding: var(--nph-core-space-300);
   --nph-space-inline-tight: var(--nph-core-space-100);

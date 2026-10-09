@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "layer": "core",
-      "expectedCount": 224,
-      "origin": "Figma DS-IA-NEPHOS 5.0, colecao core, leitura de 2026-08-24; as duas familias de fonte lidas dos estilos de texto do mesmo arquivo em 2026-08-27; os 24 primitivos de sombra e os tres de movimento lidos variavel a variavel em 2026-09-03; os 47 primitivos que resolvem os tokens trazidos na DSA-04 (40 cores e 7 larguras e alturas de layout) lidos variavel a variavel em 2026-10-05; os 5 primitivos de avatar e do trilho do nph-switch (avatar-size 100 a 300, avatar-overlap 100 e layout-width/switch-track) lidos variavel a variavel em 2026-10-08"
+      "expectedCount": 225,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao core, leitura de 2026-08-24; as duas familias de fonte lidas dos estilos de texto do mesmo arquivo em 2026-08-27; os 24 primitivos de sombra e os tres de movimento lidos variavel a variavel em 2026-09-03; os 47 primitivos que resolvem os tokens trazidos na DSA-04 (40 cores e 7 larguras e alturas de layout) lidos variavel a variavel em 2026-10-05; os 5 primitivos de avatar e do trilho do nph-switch (avatar-size 100 a 300, avatar-overlap 100 e layout-width/switch-track) lidos variavel a variavel em 2026-10-08; core/line-height/100, primitivo de skeleton/line-height, lido em 2026-10-09"
     }
   },
   "core": {
@@ -650,6 +650,15 @@
         "$type": "dimension",
         "$value": {
           "value": 40,
+          "unit": "px"
+        }
+      }
+    },
+    "line-height": {
+      "100": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
           "unit": "px"
         }
       }

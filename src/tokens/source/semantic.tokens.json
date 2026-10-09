@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "layer": "semantic",
-      "expectedCount": 286,
-      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08",
+      "expectedCount": 287,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09",
       "modeSet": {
         "name": "color-scheme",
         "modes": [
@@ -1679,6 +1679,12 @@
           }
         }
       }
+    }
+  },
+  "skeleton": {
+    "line-height": {
+      "$type": "dimension",
+      "$value": "{core.line-height.100}"
     }
   },
   "space": {

@@ -1077,6 +1077,13 @@ tokens_switch:
     valor: 40
     use: "Width of the nph-switch track: 40. USE only on the nph-switch track, with the height of icon/size-lg (24). DO NOT USE on another piece."
 
+tokens_skeleton:
+  skeleton/line-height:
+    css: '--nph-skeleton-line-height'
+    alias: core/line-height/100
+    valor: 16
+    use: "Height of the nph-skeleton line: 16. USE only on the line shape of nph-skeleton. DO NOT USE on another piece."
+
 # ---------------------------------------------------------------
 # RADIUS - primitives in core (invisible) and 8 intent tokens in the
 # semantic collection. Components consume ONLY the semantic ones.
