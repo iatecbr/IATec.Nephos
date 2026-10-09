@@ -145,9 +145,9 @@ word `done`: it opens the evidence file.
 
 ## 2b. The documentation lock: Figma → local code → spec → review
 
-A **component task** is one with `owner: "claude-code"` **and** `piece`
-filled in. For it, the order of the work is enforced by the machine, not by the
-goodwill of whoever executes it:
+A **component task** is one with `piece` filled in; its owner is `elvys`
+(see [`component-handoff.md`](component-handoff.md)). The verifier enforces the
+order below on tasks with `owner: "claude-code"`:
 
 | Moment | What must already exist | Who enforces it |
 |---|---|---|
