@@ -114,11 +114,10 @@ Before analyzing, proposing, editing or implementing:
   English; Figma and the vault in Portuguese; commit, pull request and comment
   to reviewers in Portuguese. Contract keys, command-line flags, script names,
   files cited in commands recorded in `docs/operacao/` and public names do not
-  change (P64, reviewed by Mauro on 30/09/2026; amendment of 02/10/2026
-  approved by Mauro in PR #49; amendment of 06/10/2026; contract keys in
-  `DSA-15`). In a story, the title, name, export and anchor are also
+  change (P64 and its amendments, in `docs/decisoes-tecnicas.md`; contract
+  keys in `DSA-15`). In a story, the title, name, export and anchor are also
   identifiers in English, and all visible text comes from `.storybook/i18n/`
-  (Storybook naming item of the amendment of 06/10/2026, in review in PR #56).
+  (Storybook naming item of P64).
   The proof is `npm run test:naming`, on every change that touches
   `src/`, `stories/`, `.storybook/`, `scripts/` or the documentation; a new
   exception goes into `scripts/naming-exceptions.json` or into
@@ -214,15 +213,12 @@ followed. Do not change, replace or reopen them without explaining the
 technical conflict, recording a change proposal and requesting human
 review.**
 
-Status: *decision adopted by Indiane on 24/08/2026 (P21 on 26/08/2026) —
-reviewed and approved by Elvys on 28/08/2026*. They hold for the current work.
-P62 (`nph-label`, typography and dimensions, recorded on 27/08/2026) was also
-reviewed by Elvys on 28/08/2026: he approved P62.1, P62.2 and P62.3 as
-recorded; for P62.4 he resolved it by deciding to migrate the generator from
-`px` to `rem` — **migration implemented on 28/08/2026 and merged in PR #12**.
-**P62.5**, adopted by Indiane on 28/08/2026, keeps `core/radius` in `px` and
-had its documentary evidence reviewed by Copilot on 09/09/2026: do not convert
-the radius. See `docs/decisoes-tecnicas.md`. A later change requires a
+Status: *adopted and technically reviewed*; the adoption and the review of each
+one are recorded in `docs/decisoes-tecnicas.md`. They hold for the current work.
+P62 (`nph-label`, typography and dimensions) was also reviewed: P62.1, P62.2
+and P62.3 as recorded; P62.4 was resolved by migrating the generator from `px`
+to `rem` — **merged in PR #12**. **P62.5** keeps `core/radius` in `px`: do not
+convert the radius. See `docs/decisoes-tecnicas.md`. A later change requires a
 concrete technical conflict, a recorded proposal and a human decision.
 
 In summary, and without replacing a reading of the note: open Shadow DOM
@@ -239,9 +235,11 @@ available (P19).
 
 The technical tokens live in `src/tokens/source/*.tokens.json`, in the layers
 `core`, `theme` and `semantic`, with the generated CSS in
-`src/tokens/generated/tokens.css`: **never edit the generated CSS**. Three
-components are implemented, with stories and tests: `nph-icon`, since PR #6,
-`nph-label`, since PR #10, and `nph-tooltip`, since PR #51. The component
+`src/tokens/generated/tokens.css`: **never edit the generated CSS**. The
+implemented components, with stories and tests, are `nph-icon` (PR #6),
+`nph-label` (PR #10), `nph-tooltip` (PR #51), `nph-spinner`, `nph-separator`
+and `nph-kbd` (PR #54), and `nph-badge` and `nph-button` (PR #56); the source
+is `src/components/` on `v/5.0.0`. The component
 sheets are canonical at `fichas/<name>.md`, with the template at
 `fichas/_modelo.md`, since PR #13. **The CI workflow and publication remain
 nonexistent.** The note records, in each decision, what was left out of scope.
