@@ -29,7 +29,7 @@ P62.4 subsection for the detail).
 | **P17** | Role of each source of truth | 24/08/2026 | High | Approved, 28/08/2026 |
 | **P19** | Storybook, tests and publishing | 24/08/2026 | Medium | Approved, 28/08/2026 |
 | **P20** | Style Dictionary v5 and theme contract | 24/08/2026 | High | Approved, 28/08/2026 |
-| **P21** | Technical plan of `nph-icon` | 26/08/2026 | Already implemented and merged under risk acceptance | Approved, 28/08/2026 |
+| **P21** | Technical plan of `nph-icon` | 26/08/2026 | Already implemented and merged under risk acceptance | Approved, 28/08/2026. Light amendment: under review in the pull request that brings it. |
 | **P63** | Metadata generated from the spec | 28/09/2026 | Medium. Changing location or format later requires generating again and adjusting whoever reads it; the spec does not change | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** |
 | **P64** | Code language | 28/09/2026 | Medium. Applies to all new code; migrating what exists only swaps names | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** Amendment of 02/10/2026 approved by Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 (language, and the Storybook naming item) adopted by Indiane, each under review in the pull request that brings it. |
 | **P65** | API and semantics of `nph-tooltip` | 05/10/2026 | Low now. `nph-label` is the first consumer; changing later requires redoing its trigger | Behavior and scope (L11.5) and anatomy (L11.6, L11.7 and the accepted frame) adopted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #51, merged on 05/10/2026 |
@@ -359,6 +359,15 @@ wording of P21 restricted `solid` to `star`. I7 authorized `circle-info` in
 light mode; `regular` remains the default. On 14/09/2026 the approved Figma documentation
 extended `solid` to all 93 names; items 1 and 2 already describe that
 collection. This note records the reason for I7 and neither reopens nor reduces the current map.
+
+**Amendment — Light as the default style.** The `regular` SVG package was replaced
+by `light` (`@fortawesome/pro-light-svg-icons`, same pinned version), and
+`variant=regular` by `variant=light` as the default; `solid` is unchanged. This
+replaces `regular` in items 1 and 2 and the sentence "`regular` remains the
+default" of amendment I7, which stay above as the record. `regular` is no longer a
+valid value and has no alias. Reason: at 16 px Regular draws a 1.5 px stroke and
+Light 1.0 px, the same weight as the text, so the Solid of the active item stands
+out. Thin and Sharp remain forbidden; Duotone is unchanged.
 
 ---
 

@@ -171,7 +171,7 @@
       ],
       [
         "variant",
-        "regular por padrão; solid quando o contexto pede maior presença visual. Os dois existem para todos os nomes do núcleo."
+        "light por padrão; solid quando o contexto pede maior presença visual. Os dois existem para todos os nomes do núcleo."
       ],
       [
         "size",
@@ -197,7 +197,7 @@
     "coreTitle": "Núcleo de {total} ícones",
     "coreText": "O acervo é Font Awesome Pro e Classic é a família padrão. O catálogo completo, com busca, está em Icons Overview, nesta mesma pasta.",
     "coreCount": "{count} ícones",
-    "coreRule": "regular e solid existem para todos os nomes do núcleo; regular é o padrão, e solid entra quando o contexto pede maior presença visual. Nunca invente arte fora do acervo. Light, Thin e Sharp são proibidos. Duotone é permitido somente em navegação estrutural, sem misturar famílias no mesmo grupo, e ainda não tem arte disponível.",
+    "coreRule": "light e solid existem para todos os nomes do núcleo; light é o padrão, e solid entra quando o contexto pede maior presença visual. Nunca invente arte fora do acervo. Thin e Sharp são proibidos. Duotone é permitido somente em navegação estrutural, sem misturar famílias no mesmo grupo, e ainda não tem arte disponível.",
     "sizeTitle": "Tamanho",
     "sizeText": "O tamanho não é variante visual: vem de token semântico, e não existe valor livre. A caixa é sempre quadrada; o desenho é centralizado e escalado pela altura.",
     "sizeTable": [
@@ -249,9 +249,9 @@
   },
   "validation": {
     "variantsTitle": "Variantes",
-    "variantsRegular": "regular — padrão",
+    "variantsLight": "light — padrão",
     "variantsSolid": "solid — mais presença visual",
-    "variantsNote": "regular e solid existem para todos os nomes do núcleo.",
+    "variantsNote": "light e solid existem para todos os nomes do núcleo.",
     "sizesTitle": "Tamanhos",
     "sizesSummary": "Tamanho vem de token semântico. Não existe valor livre.",
     "sizesOverflowTitle": "Transbordo aprovado",

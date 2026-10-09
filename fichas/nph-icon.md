@@ -27,15 +27,15 @@ api:
       render and emits an error only in development.
   variant:
     type: enum
-    values: [regular, solid]
+    values: [light, solid]
     required: false
-    default: regular
+    default: light
     reflects: false
     constraint: >-
-      `regular` is the default; `solid` is available for every name in the collection.
-      I7 authorized `circle-info` in `solid` because the regular outline disappears
-      next to text, especially in light mode. Light, Thin and Sharp do not
-      exist in the contract.
+      `light` is the default; `solid` is available for every name in the collection.
+      I7 authorized `circle-info` in `solid` because the outline of the default style
+      disappears next to text, especially in light mode. Thin and Sharp do not
+      exist in the contract, and `regular` is not a valid value.
   size:
     type: enum
     values: [sm, md, lg]
@@ -62,8 +62,8 @@ api:
 variants:
   variant:
     axis: appearance
-    choose_when: "regular by default; solid when the context asks for greater visual presence"
-    do_not_combine_with: ["light, thin, sharp"]
+    choose_when: "light by default; solid when the context asks for greater visual presence"
+    do_not_combine_with: ["thin, sharp"]
   size:
     axis: size
     choose_when: "sm inside a control and cell; md in menu and tab; lg when the icon carries meaning on its own"
@@ -156,9 +156,9 @@ action.
 
 ## Variants
 
-**By appearance — `variant`:** `regular` is the default. `solid` exists for every name
-in the collection and is used when the context asks for greater visual presence. I7 (08-09-2026)
-authorized `circle-info` in `solid` because the regular outline disappears next to text,
+**By appearance — `variant`:** `light` is the default. `solid` exists for every name
+in the collection and is used when the context asks for greater visual presence. I7
+authorized `circle-info` in `solid` because the outline of the default style disappears next to text,
 especially in light mode.
 
 **By size — `size`:** `sm` inside a control, table cell and field; `md` in a menu
@@ -168,7 +168,7 @@ empty state, section header. **When in doubt, `sm`.**
 **By density:** `not_applicable`. The icon has no density axis; what changes
 density is the surrounding control.
 
-**Do not combine with:** free size and the Light, Thin and Sharp families — which do not exist
+**Do not combine with:** free size and the Thin and Sharp families — which do not exist
 in the contract.
 
 ## States
@@ -278,7 +278,7 @@ another component, instead of new artwork.
 |---|---|
 | Implemented and integrated | It is on the default branch `v/3.0.0`, through **PR #6**, merge `437dd60`, on 27-08-2026 |
 | The code API | `name`, `variant`, `size` and `label` — **exactly the contract of this spec**, checked property by property in `src/components/nph-icon/nph-icon.ts` |
-| The core in the code | `NPH_ICON_NAMES` is the current list of names, all with `regular` and `solid` |
+| The core in the code | `NPH_ICON_NAMES` is the current list of names, all with `light` and `solid` |
 | `size` reflects in the DOM | Confirmed in the code, with the reason written there: the internal CSS selects the box by it |
 | Invalid input error | Confirmed: only in a development environment |
 | Stories | In `nph-icon.stories.ts` |

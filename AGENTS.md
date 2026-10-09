@@ -97,8 +97,8 @@ Before analyzing, proposing, editing or implementing:
   structural navigation** — menu, sidebar, navigation group, shortcut and
   location indicator. Outside navigation, Duotone is forbidden: no button,
   field, feedback, validation, alert, table or destructive action. Never mix
-  Duotone and Classic in the same navigation group. Light, Thin and Sharp
-  remain forbidden. The license key lives in an environment variable and
+  Duotone and Classic in the same navigation group. Light is the default style
+  and Solid marks the active item; Thin and Sharp remain forbidden. The license key lives in an environment variable and
   **never** enters the repository.
 - For each component, first derive the structural reference from Obra in
   Figma, configure it with Nephos tokens and obtain visual approval. Only then
@@ -194,7 +194,7 @@ read the documentation for that version.
 | Dependency | Version declared in `package.json` |
 |---|---|
 | `lit` | ^3.3.3 |
-| `@fortawesome/pro-regular-svg-icons` and `pro-solid-svg-icons` | 6.7.2 (pinned) |
+| `@fortawesome/pro-light-svg-icons` and `pro-solid-svg-icons` | 6.7.2 (pinned) |
 | `storybook` and `@storybook/web-components-vite` | ^10.5.10 |
 | `style-dictionary` | ^5.5.2 |
 | `vite` | ^8.2.2 |

@@ -4,7 +4,7 @@
  * Approved contract (spec `nph-icon`, `design.md` `contrato_nph_icon`, P21):
  * - `name` required, kebab-case, restricted to the core icons
  *   (`NPH_ICON_NAMES`, from `design.md` `icones_nucleo`);
- * - `variant` `regular` by default; `solid` available for every approved name;
+ * - `variant` `light` by default; `solid` available for every approved name;
  * - `size` required, `sm`, `md` or `lg`, with no default and no free value;
  * - `label` absent, empty or whitespace-only after `trim` is decorative;
  * - no slots, events, focus, click, touch, color property or `::part`;
@@ -69,7 +69,7 @@ export class NphIcon extends LitElement {
   /** Icon name in the Nephos core, in kebab-case. Required. */
   name: NphIconName | null = null;
 
-  /** `regular` when absent; `solid` exists for every approved name. */
+  /** `light` when absent; `solid` exists for every approved name. */
   variant: NphIconVariant | null = null;
 
   /** `sm`, `md` or `lg`. Required: there is no default. */
@@ -93,7 +93,7 @@ export class NphIcon extends LitElement {
    */
   private resolveDrawing(): Drawing | undefined {
     const name = this.name;
-    const variant = this.variant ?? 'regular';
+    const variant = this.variant ?? 'light';
     const size = this.size;
 
     const validName = name !== null && isCoreName(name);
@@ -108,7 +108,7 @@ export class NphIcon extends LitElement {
     }
     if (!validVariant) {
       devError(
-        `variant ${quote(this.variant)} does not exist. Use "regular" or "solid".`,
+        `variant ${quote(this.variant)} does not exist. Use "light" or "solid".`,
       );
     }
     if (!validSize) {

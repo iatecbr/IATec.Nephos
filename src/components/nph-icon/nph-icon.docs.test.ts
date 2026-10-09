@@ -1,7 +1,7 @@
 /**
  * Contract of the `nph-icon` Documentation page and of the Validation texts:
  * index with no orphan anchor, in the three languages, and the current rule of
- * `solid` (spec `nph-icon`: regular and solid exist for every core name).
+ * `solid` (spec `nph-icon`: light and solid exist for every core name).
  */
 import { afterEach, describe, expect, it } from 'vitest';
 import { render } from 'lit';
@@ -59,7 +59,7 @@ describe('current rule of solid in the texts', () => {
         variant?.[1] ?? '',
         d.coreRule,
         d.invalidText,
-        v.variantsRegular,
+        v.variantsLight,
         v.variantsSolid,
         v.variantsNote,
         ...v.invalidCases,

@@ -580,7 +580,7 @@ guide does not pick a side.**
 
 | Subject | The sources, and what each one says |
 |---|---|
-| `variant="solid"` in `nph-icon` | [`../design.md`](../design.md), **P21** and the sheet define `regular` as the default and `solid` as available for each core name. Decision **I7** originated the expansion and `DSA-03` was completed |
+| `variant="solid"` in `nph-icon` | [`../design.md`](../design.md), **P21** and the sheet define `light` as the default and `solid` as available for each core name. Decision **I7** originated the expansion and `DSA-03` was completed |
 
 ---
 

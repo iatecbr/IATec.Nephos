@@ -13,6 +13,7 @@ import designMd from '../../../design.md?raw';
 import '../../tokens/generated/tokens.css';
 import { NphIcon } from './nph-icon';
 import { NPH_ICON_NAMES } from './nph-icon.icons';
+import { faStar as lightStar } from '@fortawesome/pro-light-svg-icons/faStar';
 
 /* `NphIcon` is imported as a value to register the element and for typing. */
 const REGISTERED = customElements.get('nph-icon');
@@ -92,26 +93,27 @@ describe('closed core of `icones_nucleo` in design.md', () => {
 });
 
 describe('variant', () => {
-  it('regular is the default when the attribute is absent', async () => {
+  it('light is the default when the attribute is absent', async () => {
     const withoutAttribute = await mount({ name: 'star', size: 'sm' });
-    const explicit = await mount({ name: 'star', variant: 'regular', size: 'sm' });
+    const explicit = await mount({ name: 'star', variant: 'light', size: 'sm' });
     expect(pathOf(withoutAttribute)).toBe(pathOf(explicit));
+    expect(pathOf(withoutAttribute)).toBe(lightStar.icon[4]);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('star accepts solid, with artwork different from regular', async () => {
-    const regular = await mount({ name: 'star', variant: 'regular', size: 'sm' });
+  it('star accepts solid, with artwork different from light', async () => {
+    const light = await mount({ name: 'star', variant: 'light', size: 'sm' });
     const solid = await mount({ name: 'star', variant: 'solid', size: 'sm' });
     expect(svgOf(solid)).not.toBeNull();
-    expect(pathOf(solid)).not.toBe(pathOf(regular));
+    expect(pathOf(solid)).not.toBe(pathOf(light));
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('circle-info accepts solid, with artwork different from regular', async () => {
-    const regular = await mount({ name: 'circle-info', variant: 'regular', size: 'sm' });
+  it('circle-info accepts solid, with artwork different from light', async () => {
+    const light = await mount({ name: 'circle-info', variant: 'light', size: 'sm' });
     const solid = await mount({ name: 'circle-info', variant: 'solid', size: 'sm' });
     expect(svgOf(solid)).not.toBeNull();
-    expect(pathOf(solid)).not.toBe(pathOf(regular));
+    expect(pathOf(solid)).not.toBe(pathOf(light));
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -125,11 +127,17 @@ describe('variant', () => {
   });
 
   it('a forbidden family does not render', async () => {
-    for (const family of ['light', 'thin', 'sharp', 'duotone']) {
+    for (const family of ['thin', 'sharp', 'duotone']) {
       const icon = await mount({ name: 'check', variant: family, size: 'sm' });
       expect(svgOf(icon), family).toBeNull();
     }
-    expect(errors).toHaveBeenCalledTimes(4);
+    expect(errors).toHaveBeenCalledTimes(3);
+  });
+
+  it('regular is not a valid value and has no alias', async () => {
+    const icon = await mount({ name: 'check', variant: 'regular', size: 'sm' });
+    expect(svgOf(icon)).toBeNull();
+    expect(errors).toHaveBeenCalledTimes(1);
   });
 });
 

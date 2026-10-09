@@ -31,7 +31,7 @@
     "vitest": "^4.1.11"
   },
   "dependencies": {
-    "@fortawesome/pro-regular-svg-icons": "6.7.2",
+    "@fortawesome/pro-light-svg-icons": "6.7.2",
     "@fortawesome/pro-solid-svg-icons": "6.7.2",
     "lit": "^3.3.3"
   }

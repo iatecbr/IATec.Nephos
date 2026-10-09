@@ -1687,13 +1687,13 @@ tokens_motion:
 # ---------------------------------------------------------------
 icone_regras:
   acervo: Font Awesome Pro
-  familia_padrao: 'Classic Regular'
+  familia_padrao: 'Classic Light'
   familia_ativo: 'Classic Solid'
-  familia_padrao_regra: 'Classic is the default family. Every content, action, state, feedback and direction icon is Classic - Regular in the normal state, Solid on the active item inside a group.'
+  familia_padrao_regra: 'Classic is the default family. Every content, action, state, feedback and direction icon is Classic - Light in the normal state, Solid on the active item inside a group. At 16 px, Light draws a 1.0 px stroke, the same weight as the text, so the Solid of the active item stands out; Regular draws 1.5 px.'
   duotone_navegacao: 'Duotone is ALLOWED, and ONLY in structural navigation: menu, sidebar, navigation group, shortcut and location indicator. It serves to mark the navigation territory, together with sidebar/*, width and position.'
   duotone_proibido_fora_da_navegacao: 'OUTSIDE structural navigation, Duotone remains forbidden. DO NOT USE on a button, field, feedback, validation, alert, table or destructive action.'
   duotone_nao_mistura: 'NEVER mix Duotone and Classic inside the same navigation group. The whole group is of a single family.'
-  estilos_proibidos: [light, thin, sharp]
+  estilos_proibidos: [thin, sharp]
   historico_duotone: 'SUPERSEDED on 24-08-2026, by decision of Indiane. The previous rule said: `Classic. NAO existe Duotone no Nephos: o bars, unico icone de navegacao do nucleo, nao existe em Duotone no acervo, e uma regra cujo unico caso nao pode ser cumprido nao e regra.` (Classic. There is NO Duotone in Nephos: bars, the only navigation icon of the core, does not exist in Duotone in the library, and a rule whose only case cannot be met is not a rule.) Preserved as a record; it is NOT the current rule. See duotone_navegacao.'
   cor: "Inherits from the context via currentColor. There is NO icon color token."
   caixa: "Always square. The Font Awesome drawing is not square by nature: it is centered and scaled by height."
@@ -1741,22 +1741,22 @@ tokens_icon:
 
 icones_nucleo:
   navegacao_e_menus:
-    familia: 'Classic Regular'
+    familia: 'Classic Light'
     icones: [bars, house]
   direcao_e_revelacao:
-    familia: 'Classic Regular'
+    familia: 'Classic Light'
     icones: [angle-left, arrow-down-to-line, arrow-left, arrow-right, arrow-up, caret-up, chevron-down, chevron-left, chevron-right, chevron-up, chevrons-down, chevrons-left, circle-chevron-down, circle-chevron-left, circle-down, circle-up, ellipsis, eye, eye-slash, square-chevron-left, triple-chevrons-left]
     nota: 'ellipsis (horizontal) means OMITTED ITEMS - pagination, breadcrumb. Do not confuse with ellipsis-vertical, which means MORE ACTIONS ON THIS ROW and lives in action.'
   acao:
-    familia: 'Classic Regular'
+    familia: 'Classic Light'
     icones: [arrow-down-arrow-up, arrow-up-arrow-down, arrow-up-from-bracket, check, circle-half-stroke, cloud-arrow-up, download, ellipsis-vertical, filter, filter-slash, gear, grid-2, grip-vertical, link, list, magnifying-glass, minus, paper-plane, paperclip, pen, pen-to-square, plus, print, right-to-bracket, rotate-right, share, share-from-square, thumbs-down, thumbs-up, thumbtack, thumbtack-slash, trash, trash-can, user-circle-minus, user-circle-plus, user-minus, xmark]
   estado_e_comunicacao:
-    familia: 'Classic Regular'
+    familia: 'Classic Light'
     icones: [alarm-clock, badge-check, bell, circle-check, circle-info, circle-notch, circle-question, circle-xmark, heart, lock, question, star, triangle-exclamation]
-    variantes: {todos: 'Regular is the default; Solid is available for every name in the library.'}
+    variantes: {todos: 'Light is the default; Solid is available for every name in the library.'}
     nota: 'The first five are one for each system state. Every state carries an icon besides the color. circle-notch is the spinner: a ring with a cut, made for continuous rotation with core/easing/linear.'
   conteudo_e_dados:
-    familia: 'Classic Regular'
+    familia: 'Classic Light'
     icones: [calendar, calendar-days, circle-user, clipboard, clock, comment, envelope, file, files, folder, folder-open, font-awesome, globe, inbox, key, location-dot, suitcase, tag, trophy, user]
 
 icones_segunda_leva:
@@ -1779,7 +1779,7 @@ icones_nomenclatura:
 
 contrato_nph_icon:
   name: "Name of the icon in the library, in kebab-case. Only what exists in Font Awesome."
-  variant: "regular (default) or solid."
+  variant: "light (default) or solid."
   size: "sm, md or lg. No free value."
   label: "Accessible label. Empty marks the icon as decorative and applies aria-hidden."
   cor: "It is NOT a property. Inherits from the context."
@@ -2181,7 +2181,7 @@ The curve says what the piece is. The question is not how much to round.
 |---|---|
 | `size-sm` × `size-md` | Inside a control or cell it is `sm`. Next to a label in a menu or tab it is `md`. |
 | `size-md` × `size-lg` | `lg` only when the icon carries meaning alone. In a list, never. |
-| Regular × Solid | Inside a Classic group: Regular is the normal state, Solid marks the **current** item. |
+| Light × Solid | Inside a Classic group: Light is the normal state, Solid marks the **current** item. |
 
 **The icon inherits the text color** via `currentColor`. There is no icon color token.
 
@@ -2327,12 +2327,12 @@ Never do it. Each row is a prevented error.
 | A67 | Icon alone on an action with consequences — delete, approve, publish, export |
 | A68 | Use an icon size outside `icon/size-sm`, `-md` and `-lg` |
 | A69 | Mix Font Awesome with an icon from another source or drawn by hand |
-| A70 | Use Light or Thin |
+| A70 | Use Thin |
 | A70b | Use Sharp, or any family outside Classic and Duotone |
 | A70c | Use Duotone outside structural navigation — on a button, field, feedback, validation, alert, table or destructive action |
 | A70d | Mix Duotone and Classic inside the same navigation group |
 | A71 | Paint the icon with a color other than that of the context |
-| A72 | Mix Solid and Regular in the same group without one marking the active state |
+| A72 | Mix Solid and Light in the same group without one marking the active state |
 | A73 | Icon without visible text and without `aria-label` |
 | A74 | Icon that only repeats the label next to it |
 | A75 | Communicate a state only through the icon |
