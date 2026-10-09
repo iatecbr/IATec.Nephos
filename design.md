@@ -473,8 +473,8 @@ tokens_semantic:
   focus/halo:
     css: '--nph-focus-halo'
     claro: theme/brand-halo
-    escuro: theme/brand-200
-    use: "Focus HALO: the light band outside the border. It is decoration and does not need to meet 3:1 — focus/border meets it. In light mode it points to theme/brand-halo, the tone chosen per brand so the focus border stays visible against the halo; in dark mode, to the brand 200 tone. Created on 03-09-2026 so the component stops pointing directly at the brand layer; light mode changed on 08-10-2026."
+    escuro: theme/brand-halo-dark
+    use: "Focus HALO: the band outside the border. It is decoration and does not need to meet 3:1 — focus/border meets it. In light mode it points to theme/brand-halo and in dark mode to theme/brand-halo-dark, the tones chosen per brand so the focus border stays visible against the halo. It exists so the component does not point directly at the brand layer."
   focus/halo-info:
     css: '--nph-focus-halo-info'
     claro: core/info/200
@@ -853,6 +853,10 @@ tokens_theme:
     css: '--nph-theme-brand-halo'
     valor_por_modo: "core/<vertical>/100 in `Sistemas` and `Comercial`; core/<vertical>/200 in `Financeiro` and `Igrejas`; core/<vertical>/300 in `Gerencial`, `Educacao` and `Recursos Humanos`"
     use: "Focus halo tone in light mode, consumed only by focus/halo. In each brand it is the strongest tone at which the focus border still measures at least 3:1 against the halo. `Sistemas` does not reach 3:1 at any tone: 2,92:1 at 100, its best. Decision by Indiane on 08-10-2026. Do not use for fill, border or text."
+  theme/brand-halo-dark:
+    css: '--nph-theme-brand-halo-dark'
+    valor_por_modo: "core/<vertical>/700 in `Sistemas`, `Comercial` and `Financeiro`; core/<vertical>/500 in `Gerencial` and `Recursos Humanos`; core/igrejas/600 in `Igrejas`; core/educacao/800 in `Educacao`"
+    use: "Focus halo tone in dark mode, consumed only by focus/halo. In each brand it is darker than the focus border (theme/brand-300) and the closest to it at which the border still measures at least 3:1 against the halo; `Educacao` uses 800. Do not use for fill, border or text."
   theme/brand-400-hover:
     css: '--nph-theme-brand-400-hover'
     valor_por_modo: "core/<vertical>/300 in `Sistemas`, `Comercial` and `Financeiro`; core/<vertical>/500 in `Gerencial`, `Igrejas` and `Recursos Humanos`; core/educacao/800 in `Educacao`"

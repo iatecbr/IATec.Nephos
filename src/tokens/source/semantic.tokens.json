@@ -1280,7 +1280,7 @@
         "com.iatec.nephos": {
           "modes": {
             "light": "{theme.brand-halo}",
-            "dark": "{theme.brand-200}"
+            "dark": "{theme.brand-halo-dark}"
           }
         }
       }

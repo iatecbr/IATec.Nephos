@@ -249,6 +249,7 @@
   --nph-theme-brand-900: var(--nph-core-sistemas-900);
   --nph-theme-brand-focus: var(--nph-core-sistemas-500);
   --nph-theme-brand-halo: var(--nph-core-sistemas-100);
+  --nph-theme-brand-halo-dark: var(--nph-core-sistemas-700);
   --nph-theme-brand-400-hover: var(--nph-core-sistemas-300);
 }
 [data-nph-brand="gerencial"] {
@@ -266,6 +267,7 @@
   --nph-theme-brand-900: var(--nph-core-gerencial-900);
   --nph-theme-brand-focus: var(--nph-core-gerencial-500);
   --nph-theme-brand-halo: var(--nph-core-gerencial-300);
+  --nph-theme-brand-halo-dark: var(--nph-core-gerencial-500);
   --nph-theme-brand-400-hover: var(--nph-core-gerencial-500);
 }
 [data-nph-brand="educacao"] {
@@ -283,6 +285,7 @@
   --nph-theme-brand-900: var(--nph-core-educacao-900);
   --nph-theme-brand-focus: var(--nph-core-educacao-700);
   --nph-theme-brand-halo: var(--nph-core-educacao-300);
+  --nph-theme-brand-halo-dark: var(--nph-core-educacao-800);
   --nph-theme-brand-400-hover: var(--nph-core-educacao-800);
 }
 [data-nph-brand="comercial"] {
@@ -300,6 +303,7 @@
   --nph-theme-brand-900: var(--nph-core-comercial-900);
   --nph-theme-brand-focus: var(--nph-core-comercial-500);
   --nph-theme-brand-halo: var(--nph-core-comercial-100);
+  --nph-theme-brand-halo-dark: var(--nph-core-comercial-700);
   --nph-theme-brand-400-hover: var(--nph-core-comercial-300);
 }
 [data-nph-brand="financeiro"] {
@@ -317,6 +321,7 @@
   --nph-theme-brand-900: var(--nph-core-financeiro-900);
   --nph-theme-brand-focus: var(--nph-core-financeiro-500);
   --nph-theme-brand-halo: var(--nph-core-financeiro-200);
+  --nph-theme-brand-halo-dark: var(--nph-core-financeiro-700);
   --nph-theme-brand-400-hover: var(--nph-core-financeiro-300);
 }
 [data-nph-brand="igrejas"] {
@@ -334,6 +339,7 @@
   --nph-theme-brand-900: var(--nph-core-igrejas-900);
   --nph-theme-brand-focus: var(--nph-core-igrejas-500);
   --nph-theme-brand-halo: var(--nph-core-igrejas-200);
+  --nph-theme-brand-halo-dark: var(--nph-core-igrejas-600);
   --nph-theme-brand-400-hover: var(--nph-core-igrejas-500);
 }
 [data-nph-brand="rh"] {
@@ -351,6 +357,7 @@
   --nph-theme-brand-900: var(--nph-core-rh-900);
   --nph-theme-brand-focus: var(--nph-core-rh-500);
   --nph-theme-brand-halo: var(--nph-core-rh-300);
+  --nph-theme-brand-halo-dark: var(--nph-core-rh-500);
   --nph-theme-brand-400-hover: var(--nph-core-rh-500);
 }
 
@@ -780,5 +787,5 @@
   --nph-color-primary-hover: var(--nph-theme-brand-400-hover);
   --nph-focus-ring: var(--nph-theme-brand-400);
   --nph-focus-border: var(--nph-theme-brand-300);
-  --nph-focus-halo: var(--nph-theme-brand-200);
+  --nph-focus-halo: var(--nph-theme-brand-halo-dark);
 }
