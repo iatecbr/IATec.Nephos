@@ -128,7 +128,9 @@ Before analyzing, proposing, editing or implementing:
 ## The order of a component
 
 **Accepted Figma documentation → local code → final sheet → review and PR.**
-It holds for every agent. A **component task** is one that declares
+It holds for every agent. Who does each step, and what to do when Indiane
+sends a component to code, is in
+[`docs/operacao/component-handoff.md`](docs/operacao/component-handoff.md). A **component task** is one that declares
 `owner: "claude-code"` and a filled-in `piece` in
 `docs/operacao/tarefas/<ID>.md`.
 
