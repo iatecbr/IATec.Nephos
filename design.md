@@ -1033,6 +1033,50 @@ tokens_control:
     valor: 44
     use: "Main form and touch-sensitive screen. Guarantees the 44px minimum target recommended by WCAG 2.2."
 
+tokens_avatar:
+  avatar/size-sm:
+    css: '--nph-avatar-size-sm'
+    alias: core/avatar-size/100
+    valor: 24
+    use: "Avatar of 24. USE in a list option (nph-select, nph-combobox) and next to 14px text. DO NOT USE as an icon size."
+  avatar/size-md:
+    css: '--nph-avatar-size-md'
+    alias: core/avatar-size/200
+    valor: 32
+    use: "Avatar of 32. USE in a header, card and table row. DO NOT USE as an icon size."
+  avatar/size-lg:
+    css: '--nph-avatar-size-lg'
+    alias: core/avatar-size/300
+    valor: 40
+    use: "Avatar of 40. USE in a profile and to highlight a person. DO NOT USE as an icon size."
+  avatar/radius-sm:
+    css: '--nph-avatar-radius-sm'
+    alias: core/radius/300
+    valor: 6
+    use: "Corner of the 24 avatar. USE only on nph-avatar sm. The avatar is a square with rounded corners, never a circle."
+  avatar/radius-md:
+    css: '--nph-avatar-radius-md'
+    alias: core/radius/400
+    valor: 8
+    use: "Corner of the 32 avatar. USE only on nph-avatar md."
+  avatar/radius-lg:
+    css: '--nph-avatar-radius-lg'
+    alias: core/radius/450
+    valor: 10
+    use: "Corner of the 40 avatar. USE only on nph-avatar lg."
+  avatar/overlap:
+    css: '--nph-avatar-overlap'
+    alias: core/avatar-overlap/100
+    valor: -8
+    use: "Overlap between neighboring avatars: -8. USE only in the space between items of nph-avatar-stack. DO NOT USE as space between other components."
+
+tokens_switch:
+  switch/track-width:
+    css: '--nph-switch-track-width'
+    alias: core/layout-width/switch-track
+    valor: 40
+    use: "Width of the nph-switch track: 40. USE only on the nph-switch track, with the height of icon/size-lg (24). DO NOT USE on another piece."
+
 # ---------------------------------------------------------------
 # RADIUS - primitives in core (invisible) and 8 intent tokens in the
 # semantic collection. Components consume ONLY the semantic ones.
@@ -1271,6 +1315,13 @@ tokens_core_icon:
   core/icon-size/200: { valor: 20, css: '--nph-core-icon-size-200', alias_de: 'icon/size-md' }
   core/icon-size/300: { valor: 24, css: '--nph-core-icon-size-300', alias_de: 'icon/size-lg' }
 
+tokens_core_avatar:
+  regra: 'NEVER consume directly. Use avatar/size-sm, -md and -lg, and avatar/overlap.'
+  core/avatar-size/100:    { valor: 24, css: '--nph-core-avatar-size-100',    alias_de: 'avatar/size-sm' }
+  core/avatar-size/200:    { valor: 32, css: '--nph-core-avatar-size-200',    alias_de: 'avatar/size-md' }
+  core/avatar-size/300:    { valor: 40, css: '--nph-core-avatar-size-300',    alias_de: 'avatar/size-lg' }
+  core/avatar-overlap/100: { valor: -8, css: '--nph-core-avatar-overlap-100', alias_de: 'avatar/overlap' }
+
 tokens_core_control:
   regra: 'NEVER consume directly. Use control/height-compact, -default and -large. Read from Figma on 24-08-2026, when migrating the tokens to JSON.'
   core/control-height/compact: { valor: 28, css: '--nph-core-control-height-compact', alias_de: 'control/height-compact' }
@@ -1278,7 +1329,7 @@ tokens_core_control:
   core/control-height/large:   { valor: 44, css: '--nph-core-control-height-large',   alias_de: 'control/height-large' }
 
 tokens_core_layout:
-  regra: 'NEVER consume directly. Use the semantic layout/* tokens.'
+  regra: 'NEVER consume directly. Use the semantic layout/* tokens and switch/track-width.'
   core/layout-width/app:               { valor: 1440, css: '--nph-core-layout-width-app',               alias_de: 'layout/max-app' }
   core/layout-width/reading:           { valor: 720,  css: '--nph-core-layout-width-reading',           alias_de: 'layout/max-reading' }
   core/layout-width/sidebar-expanded:  { valor: 280,  css: '--nph-core-layout-width-sidebar-expanded',  alias_de: 'layout/sidebar-expanded' }
@@ -1291,6 +1342,7 @@ tokens_core_layout:
   core/layout-width/rich-option:       { valor: 320, css: '--nph-core-layout-width-rich-option', alias_de: 'layout/rich-option-width' }
   core/layout-width/separator:         { valor: 240, css: '--nph-core-layout-width-separator', alias_de: 'layout/separator-width' }
   core/layout-height/separator:        { valor: 48, css: '--nph-core-layout-height-separator', alias_de: 'layout/separator-height' }
+  core/layout-width/switch-track:      { valor: 40, css: '--nph-core-layout-width-switch-track', alias_de: 'switch/track-width' }
 
 # ---------------------------------------------------------------
 # PRIMITIVES WITHOUT A CONSUMER - they exist in Figma and NO semantic

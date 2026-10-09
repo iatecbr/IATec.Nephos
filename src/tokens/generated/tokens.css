@@ -10,6 +10,10 @@
   --nph-core-alpha-black-25: rgba(0, 0, 0, 0.25);
   --nph-core-alpha-black-40: rgba(0, 0, 0, 0.4);
   --nph-core-alpha-black-5: rgba(0, 0, 0, 0.05);
+  --nph-core-avatar-overlap-100: -0.5rem;
+  --nph-core-avatar-size-100: 1.5rem;
+  --nph-core-avatar-size-200: 2rem;
+  --nph-core-avatar-size-300: 2.5rem;
   --nph-core-base-black: #000000;
   --nph-core-base-white: #ffffff;
   --nph-core-border-width-default: 0.0625rem;
@@ -122,6 +126,7 @@
   --nph-core-layout-width-input: 17.5rem;
   --nph-core-layout-width-rich-option: 20rem;
   --nph-core-layout-width-separator: 15rem;
+  --nph-core-layout-width-switch-track: 2.5rem;
   --nph-core-neutral-50: #f1f1f1;
   --nph-core-neutral-100: #e3e3e3;
   --nph-core-neutral-200: #c7c7c7;
@@ -411,6 +416,13 @@
   --nph-text-code-line-height: 1.25rem;
   --nph-text-code-font-weight: 400;
   --nph-text-code-letter-spacing: 0;
+  --nph-avatar-size-sm: var(--nph-core-avatar-size-100);
+  --nph-avatar-size-md: var(--nph-core-avatar-size-200);
+  --nph-avatar-size-lg: var(--nph-core-avatar-size-300);
+  --nph-avatar-radius-sm: var(--nph-core-radius-300);
+  --nph-avatar-radius-md: var(--nph-core-radius-400);
+  --nph-avatar-radius-lg: var(--nph-core-radius-450);
+  --nph-avatar-overlap: var(--nph-core-avatar-overlap-100);
   --nph-border-width: var(--nph-core-border-width-default);
   --nph-brand-educacao-foreground: var(--nph-core-base-white);
   --nph-brand-educacao-strong: var(--nph-core-educacao-700);
@@ -479,6 +491,7 @@
   --nph-space-section: var(--nph-core-space-700);
   --nph-space-stack-tight: var(--nph-core-space-100);
   --nph-space-stack: var(--nph-core-space-400);
+  --nph-switch-track-width: var(--nph-core-layout-width-switch-track);
   --nph-text-heading-xl-font-family: var(--nph-core-font-sans);
   --nph-text-heading-lg-font-family: var(--nph-core-font-sans);
   --nph-text-heading-md-font-family: var(--nph-core-font-sans);
