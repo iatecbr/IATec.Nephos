@@ -475,9 +475,114 @@
     ],
     "variantsTitle": "Tipo y énfasis",
     "variantsCaption": "Los tipos en cada énfasis, en el tamaño default. Pase el ratón para ver el hover y use Tab para ver el foco.",
+    "severityNote": "info, warn, help y success existen solo en solid.",
+    "severityUseHeader": [
+      "Tipo",
+      "Cuándo usar"
+    ],
+    "severityUse": [
+      {
+        "value": "primary",
+        "label": "En la acción principal del bloque."
+      },
+      {
+        "value": "secondary",
+        "label": "En la acción alternativa que acompaña a la principal, como Cancelar junto a Guardar."
+      },
+      {
+        "value": "danger",
+        "label": "En la acción que elimina, revoca o no se puede deshacer."
+      },
+      {
+        "value": "info",
+        "label": "En la acción ligada a una información neutra, como un aviso del sistema o una sugerencia de contexto."
+      },
+      {
+        "value": "warn",
+        "label": "En la acción que pide cuidado antes de seguir."
+      },
+      {
+        "value": "help",
+        "label": "En la acción que abre ayuda u orientación, como una explicación, un recorrido o un contenido de soporte."
+      },
+      {
+        "value": "success",
+        "label": "En la acción que confirma que algo salió bien."
+      }
+    ],
+    "severityDontHeader": [
+      "Tipo",
+      "Cuándo no usar"
+    ],
+    "severityDont": [
+      {
+        "value": "primary",
+        "label": "Junto a otra acción primary solid en el mismo bloque."
+      },
+      {
+        "value": "secondary",
+        "label": "Como la única acción principal del bloque."
+      },
+      {
+        "value": "danger",
+        "label": "Solo con icono; escriba el texto."
+      },
+      {
+        "value": "info",
+        "label": "En un error, un riesgo o una confirmación."
+      },
+      {
+        "value": "warn",
+        "label": "En un error que ya ocurrió; si la acción elimina o no se puede deshacer, use danger."
+      },
+      {
+        "value": "help",
+        "label": "Para informar un estado del sistema."
+      },
+      {
+        "value": "success",
+        "label": "Para marcar un estado permanente, como \"activo\"; use nph-badge."
+      }
+    ],
     "sizesTitle": "Tamaños",
     "sizesText": "La altura viene de control/height-compact, -default o -large. El texto es text/label-md en todos. Sin texto, el botón es cuadrado y el icono acompaña la caja: sm en compact, md en default y lg en large.",
     "sizesCaption": "compact, default y large, con texto, con icono y solo con icono.",
+    "sizeUseHeader": [
+      "Tamaño",
+      "Cuándo usar"
+    ],
+    "sizeUse": [
+      {
+        "value": "compact (28 px)",
+        "label": "Dentro de una tabla, barra de herramientas o filtro."
+      },
+      {
+        "value": "default (36 px)",
+        "label": "En todos los demás casos; es el predeterminado."
+      },
+      {
+        "value": "large (44 px)",
+        "label": "En pantallas táctiles y en el formulario principal; cumple el objetivo táctil de 44 px."
+      }
+    ],
+    "sizeDontHeader": [
+      "Tamaño",
+      "Cuándo no usar"
+    ],
+    "sizeDont": [
+      {
+        "value": "compact (28 px)",
+        "label": "Como objetivo principal en una pantalla táctil; con un tamaño distinto del campo de al lado."
+      },
+      {
+        "value": "default (36 px)",
+        "label": "Con un tamaño distinto del campo de al lado."
+      },
+      {
+        "value": "large (44 px)",
+        "label": "Con un tamaño distinto del campo de al lado."
+      }
+    ],
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",

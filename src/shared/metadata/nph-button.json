@@ -102,9 +102,15 @@
   "variants": {
     "severity": {
       "axis": "appearance",
-      "choose_when": "By the meaning of the action: danger for what deletes or cannot be undone; primary for the main action.",
+      "choose_when": "By the meaning of the action, never by the color. primary: use for the main action of the block. secondary: use for the alternative action that accompanies the main one, such as Cancel next to Save. danger: use for an action that deletes, revokes or cannot be undone. info: use for an action tied to neutral information, such as a system notice or a contextual tip. warn: use for an action that requires care before proceeding. help: use for an action that opens help or guidance, such as an explanation, a tour or support content. success: use for an action that confirms something succeeded. info, warn, help and success exist only in solid.",
       "do_not_combine_with": [
-        "another primary solid action in the same block"
+        "primary: do not use next to another primary solid action in the same block.",
+        "secondary: do not use as the only main action of the block.",
+        "danger: do not use with an icon only: write the text.",
+        "info: do not use for an error, a risk or a confirmation.",
+        "warn: do not use for an error that has already happened; for an action that deletes or cannot be undone, use danger.",
+        "help: do not use to report a system state.",
+        "success: do not use to label a permanent state, such as active: use nph-badge."
       ]
     },
     "emphasis": {
@@ -116,10 +122,11 @@
     },
     "size": {
       "axis": "size",
-      "choose_when": "large on a touch screen and in the main form; compact inside a table, toolbar or filter; default everywhere else.",
+      "choose_when": "compact (28 px): use inside a table, toolbar or filter. default (36 px): use everywhere else; it is the default. large (44 px): use on a touch screen and in the main form; it meets the 44 px touch target.",
       "do_not_combine_with": [
-        "compact as the main target on a touch screen",
-        "a size different from the field beside it"
+        "compact: do not use as the main target on a touch screen, or with a different size from the field beside it.",
+        "default: do not use with a different size from the field beside it.",
+        "large: do not use with a different size from the field beside it."
       ]
     }
   },

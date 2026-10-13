@@ -105,16 +105,26 @@ api:
 variants:
   severity:
     axis: appearance
-    choose_when: "By the meaning of the action: danger for what deletes or cannot be undone; primary for the main action."
-    do_not_combine_with: ["another primary solid action in the same block"]
+    choose_when: "By the meaning of the action, never by the color. primary: use for the main action of the block. secondary: use for the alternative action that accompanies the main one, such as Cancel next to Save. danger: use for an action that deletes, revokes or cannot be undone. info: use for an action tied to neutral information, such as a system notice or a contextual tip. warn: use for an action that requires care before proceeding. help: use for an action that opens help or guidance, such as an explanation, a tour or support content. success: use for an action that confirms something succeeded. info, warn, help and success exist only in solid."
+    do_not_combine_with:
+      - "primary: do not use next to another primary solid action in the same block."
+      - "secondary: do not use as the only main action of the block."
+      - "danger: do not use with an icon only: write the text."
+      - "info: do not use for an error, a risk or a confirmation."
+      - "warn: do not use for an error that has already happened; for an action that deletes or cannot be undone, use danger."
+      - "help: do not use to report a system state."
+      - "success: do not use to label a permanent state, such as active: use nph-badge."
   emphasis:
     axis: appearance
     choose_when: "solid for the action with weight; outline when it accompanies the main one and needs to be delimited; light when the outline would weigh too much; ghost for a tertiary action."
     do_not_combine_with: ["outline, light or ghost in info, warn, help or success"]
   size:
     axis: size
-    choose_when: "large on a touch screen and in the main form; compact inside a table, toolbar or filter; default everywhere else."
-    do_not_combine_with: ["compact as the main target on a touch screen", "a size different from the field beside it"]
+    choose_when: "compact (28 px): use inside a table, toolbar or filter. default (36 px): use everywhere else; it is the default. large (44 px): use on a touch screen and in the main form; it meets the 44 px touch target."
+    do_not_combine_with:
+      - "compact: do not use as the main target on a touch screen, or with a different size from the field beside it."
+      - "default: do not use with a different size from the field beside it."
+      - "large: do not use with a different size from the field beside it."
 states:
   default:
     token: "the background and the text of the type and the emphasis, in the tokens block"
@@ -221,6 +231,18 @@ they are on, and communicates through the type and the emphasis the weight of th
 **By appearance:** `severity` (the Figma type) and `emphasis` (the emphasis).
 
 - `severity` is chosen **strictly** by the meaning of the action, never by the color.
+  `info`, `warn`, `help` and `success` exist only in `solid`.
+
+| `severity` | When to use | When not to use |
+|---|---|---|
+| `primary` | Use for the main action of the block. | Do not use next to another `primary` `solid` action in the same block. |
+| `secondary` | Use for the alternative action that accompanies the main one, such as Cancel next to Save. | Do not use as the only main action of the block. |
+| `danger` | Use for an action that deletes, revokes or cannot be undone. | Do not use with an icon only: write the text. |
+| `info` | Use for an action tied to neutral information, such as a system notice or a contextual tip. | Do not use for an error, a risk or a confirmation. |
+| `warn` | Use for an action that requires care before proceeding. | Do not use for an error that has already happened; for an action that deletes or cannot be undone, use `danger`. |
+| `help` | Use for an action that opens help or guidance, such as an explanation, a tour or support content. | Do not use to report a system state. |
+| `success` | Use for an action that confirms something succeeded. | Do not use to label a permanent state, such as active: use `nph-badge`. |
+
 - `emphasis`: `solid` for the action with weight; `outline` when it accompanies the main one and
   needs to be delimited; `light` when the outline would weigh too much; `ghost` for a tertiary action.
   `outline`, `light` and `ghost` exist **only** in `primary`, `secondary` and `danger`.
@@ -228,6 +250,12 @@ they are on, and communicates through the type and the emphasis the weight of th
 **By size:** `compact` (28), `default` (36, the default) and `large` (44). `large`
 meets the touch target of 44 px. `compact` stays tied to a table, toolbar
 or filter and is never the main target on a touch screen (T4).
+
+| `size` | When to use | When not to use |
+|---|---|---|
+| `compact` (28 px) | Use inside a table, toolbar or filter. | Do not use as the main target on a touch screen, or with a different size from the field beside it. |
+| `default` (36 px) | Use everywhere else; it is the default. | Do not use with a different size from the field beside it. |
+| `large` (44 px) | Use on a touch screen and in the main form; it meets the 44 px touch target. | Do not use with a different size from the field beside it. |
 
 **By density:** `not_applicable`.
 
