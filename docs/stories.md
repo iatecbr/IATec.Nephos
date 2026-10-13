@@ -218,14 +218,13 @@ nothing. In the Portuguese sidebar, the two appear as
 
 **`Validation` is mandatory. `Docs` is not.**
 
-**Source:** [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P21**, item 8,
-approved on 28/08/2026; `nph-icon.stories.ts` and `nph-icon.docs.stories.ts`.
-**Limit:** two components have both roles: `nph-icon` and `nph-label`.
+**Source:** [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P21**, item 8;
+`nph-icon.stories.ts` and `nph-icon.docs.stories.ts`.
+**Limit:** the components with a `Docs` page are listed in §4.10.
 `Docs` enters when there is something to offer — in `nph-icon`, the catalog of
-the core; in `nph-label`, the page of the frame accepted in Figma, by Indiane's
-decision of 05/10/2026 (Claude writes the Storybook documentation of the
-components of the batch). Do not invent a reading page for a piece that has
-nothing to offer.
+the core; in `nph-label`, `nph-badge` and `nph-button`, the page of the frame
+accepted in Figma. Do not invent a reading page for a piece that has nothing
+to offer.
 
 ### 4.2 The title and the name state the claim
 
@@ -235,7 +234,7 @@ inheritance`, `Invalid input`, `Association with the control`, `What the label
 does not do`.
 
 Title, story name, story export and page anchor are **identifiers in English**
-(P64, amendment of 06/10/2026): the Storybook ID and permalink come from them,
+(P64, Storybook naming item): the Storybook ID and permalink come from them,
 the same in any language. The label the person reads in the sidebar comes from
 the dictionary, in the `sidebar` subtree of `.storybook/i18n/`, with the story
 or group ID as the key: `en.json` carries the English labels; `pt-BR.json` and
@@ -243,8 +242,8 @@ or group ID as the key: `en.json` carries the English labels; `pt-BR.json` and
 `Validação`, `Herança de cor`. A new story goes in
 with the `sidebar` key in the three languages.
 
-**Source:** [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P64**, amendment of
-06/10/2026; `nph-icon.stories.ts`, `nph-icon.docs.stories.ts` and
+**Source:** [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P64**, Storybook
+naming item; `nph-icon.stories.ts`, `nph-icon.docs.stories.ts` and
 `nph-label.stories.ts`, fields `title` and `name`; `.storybook/i18n/*.json`,
 `sidebar` key.
 **Limit:** the rule applies to every story in the repository.
@@ -290,8 +289,8 @@ In practice: `nph-label` covers `required` × `info` in one `Matrix` page;
 `nph-icon` covers variant, size, color inheritance, accessibility and invalid
 input in five pages, one per claim.
 
-**Source:** [`../fichas/_modelo.md`](../fichas/_modelo.md), §7, criterion 5,
-decision of 09-09-2026; `nph-label.stories.ts`, `Matrix` story;
+**Source:** [`../fichas/_modelo.md`](../fichas/_modelo.md), §7, criterion 5;
+`nph-label.stories.ts`, `Matrix` story;
 `nph-icon.stories.ts`, the five pages.
 **Limit:** two components. The rule does not impose a file structure.
 
@@ -338,11 +337,11 @@ of a demonstration label, button or badge comes from the dictionary.
 
 **Source:** [`i18n.md`](i18n.md), "Storybook" section;
 `.storybook/i18n/index.js`, lines 1-12;
-[`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P64**, amendment of
-06/10/2026; `nph-spinner.stories.ts` and `nph-badge.stories.ts`, `t()`
+[`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P64**, Storybook naming
+item; `nph-spinner.stories.ts` and `nph-badge.stories.ts`, `t()`
 function; `nph-label.stories.ts`, `labelValidation` key, and
-`nph-tooltip.stories.ts`, `tooltipValidation` key; review by `maurocsjr` in
-PR #54, which asked for a translation key for the example text.
+`nph-tooltip.stories.ts`, `tooltipValidation` key; the review of PR #54,
+which asked for a translation key for the example text.
 **Proof:** `npm run test:naming` fails a story title and name in Portuguese and
 Portuguese text written in the story — between tags, in text attributes and in
 a literal with a space —, and says where to move the text.
@@ -411,17 +410,16 @@ Each section has a stable English `id`, the same in any language. The page does
 not repeat a block that the model does not have (no anti-patterns section, no
 second "use / do not use").
 
-**Sections of the component itself** come after API and before Anatomy
-(decided by Indiane on 08-10-2026). Anatomy, Accessibility, Examples and
-References stay in the same position on every page.
+**Sections of the component itself** come after API and before Anatomy.
+Anatomy, Accessibility, Examples and References stay in the same position on
+every page.
 
 The blocks use only `--nph-*`. The page carries no process text: review state,
 names of approvers and pending items stay in the operational record.
 
 **Source:** `src/shared/docs/page.ts` and `page.test.ts`; the Figma
 documentation model (`1134:12862`, DS-IA-NEPHOS 5.0); the `Documentation`
-story of `nph-badge` (the model) and its `nph-badge.docs.test.ts`. Chosen as the
-model by Indiane on 08-10-2026.
+story of `nph-badge` (the model) and its `nph-badge.docs.test.ts`.
 **Limit:** the Docs pages of the components with code. `nph-badge`, `nph-button`,
 `nph-icon` and `nph-label` follow the model; `dontDo` stays in `page.ts`, unused.
 
@@ -552,12 +550,12 @@ both modes.
 ## 7. What this guide does not cover
 
 **Components without verifiable code in `src/components/` do not support
-implementation rules in this guide.** Today that holds for `nph-spinner`,
-`nph-button` and `nph-field`: none of the three has code in
-`src/components/`, and therefore no rule in this guide rests on them.
+implementation rules in this guide.** Today that holds, for example, for
+`nph-field`: it has no code in `src/components/`, and therefore no rule in this
+guide rests on it.
 
-**Source:** `git ls-tree --name-only origin/v/3.0.0 src/components/` returns
-`src/components/nph-icon` and `src/components/nph-label`, and nothing else.
+**Source:** `git ls-tree --name-only origin/v/5.0.0 src/components/` lists the
+pieces with code; a piece that is not in that list has none.
 **Limit:** the statement is about the absence of code in the repository, and
 nothing beyond that.
 
@@ -568,7 +566,7 @@ The other gaps, named so they do not look like rules:
 | How the Figma × Storybook comparison is measured | The step exists in the gate, but **no artifact in this repository** records a measurement. Without verifiable practice, it does not become a rule |
 | Template for a technical plan | There is only one, **P21**, for `nph-icon`. One case is not a template |
 | PR size, screenshot, preview link | `contributing.md` asks for a small PR **with no number**, and does not address screenshots or previews. **P19** foresees Storybook as a private CI artifact, and **CI does not exist** |
-| The complete battery of validations | The commands are in `package.json` — `build:tokens`, `test:tokens`, `typecheck`, `test`, `test:i18n`, `build-storybook` and `test:operacao`. The obligation to run all of them, and in what order, **has no source in this repository** |
+| The complete battery of validations | The commands are in `package.json` — `build:tokens`, `test:tokens`, `typecheck`, `test`, `test:i18n`, `test:naming`, `build-storybook` and `test:operacao`. The obligation to run all of them, and in what order, **has no source in this repository** |
 | `meta.ts` and `metadata.ts` | **Forbidden.** Verifier rule `V27` rejects both names inside `src/components/`. The sheet is the source; the Metadata derives from it, generated in `src/shared/metadata/` by `node scripts/verificar-operacao.mjs --gerar-metadata` (P63) |
 
 ---
@@ -578,14 +576,12 @@ The other gaps, named so they do not look like rules:
 Recorded here because whoever builds a component will run into them. **This
 guide does not pick a side.**
 
-| Subject | The sources, and what each one says |
-|---|---|
-| `variant="solid"` in `nph-icon` | [`../design.md`](../design.md), **P21** and the sheet define `regular` as the default and `solid` as available for each core name. Decision **I7** originated the expansion and `DSA-03` was completed |
+None open. The last one, `variant="solid"` in `nph-icon`, closed: [`../design.md`](../design.md), **P21** and the sheet agree that `regular` is the default and `solid` is available for each core name.
 
 ---
 
 *Provenance: all the rules in this guide are **verifiable practice** of this
-repository, read at baseline `20882bf` on 09-09-2026, file by file. The cited
+repository, read at baseline `20882bf`, file by file. The cited
 numbered decisions — P01, P02, P03, P17, P19, P20, P21 and P62.1 — are not
 rewritten here: the source is [`decisoes-tecnicas.md`](decisoes-tecnicas.md).
 Where a rule is supported by a single component, the Limit says so. What has no

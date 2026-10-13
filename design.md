@@ -1,10 +1,9 @@
 ---
 sistema: Nephos
 versao: 1.8
-data: 2026-09-02
-status: synced with Figma on 2026-08-25; working contract of the `v/5.0.0` branch
+status: working contract of the `v/5.0.0` branch
 fonte_tecnica_dos_valores: >-
-  Since 24-08-2026 the audited values live in `src/tokens/source/*.tokens.json`,
+  The audited values live in `src/tokens/source/*.tokens.json`,
   and the CSS is generated from them in `src/tokens/generated/tokens.css`. This file
   remains the USAGE contract — what each token means, when to use it, when
   not to use it and why. If a value here diverges from the JSON, the JSON and Figma prevail.
@@ -30,7 +29,7 @@ prefixo_css: --nph-
 consumidor: Moses
 leitores: [Moses, desenvolvimento]
 nao_use_como: visual introduction or portal content; for that, see `Fundações` (Foundations), Figma and SITE Nephos
-saida_alvo: semantic HTML + CSS custom properties, consuming the nph- Web Components in Lit directly. No PrimeNG. (decided by Indiane on 18-08-2026)
+saida_alvo: semantic HTML + CSS custom properties, consuming the nph- Web Components in Lit directly. No PrimeNG.
 regra_de_leitura: >-
   Before building or changing any UI, read "GOVERNANCA.md" and this file.
   Before using a component, open its spec.
@@ -308,7 +307,7 @@ tokens_semantic:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
     escuro: core/surface/200
-    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it (decision of 06-10-2026)."
+    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it."
     nao_use: "Text needed to complete the task."
   color/destructive:
     css: '--nph-color-destructive'
@@ -390,11 +389,12 @@ tokens_semantic:
     css: '--nph-color-primary-border'
     claro: theme/brand-600
     escuro: theme/brand-300
+    use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. In light it is the same tone as the primary; in dark it goes up one tone, because the dark primary does not reach 3:1 as an outline in two of the seven brands."
   color/primary-hover:
     css: '--nph-color-primary-hover'
     claro: theme/brand-700
     escuro: theme/brand-400-hover
-    use: "Background of color/primary in the hover-active state of the solid nph-button, with color/primary-foreground on top (decision of 02-10-2026, supersedes B4)."
+    use: "Background of color/primary in the hover-active state of the solid nph-button, with color/primary-foreground on top (supersedes B4)."
   color/destructive-surface:
     css: '--nph-color-destructive-surface'
     claro: core/danger/50
@@ -419,7 +419,7 @@ tokens_semantic:
     css: '--nph-color-destructive-hover'
     claro: core/danger/700
     escuro: core/danger/300
-    use: "Background of color/destructive in the hover-active state of the solid nph-button, with color/destructive-foreground on top (decision of 02-10-2026, supersedes B4)."
+    use: "Background of color/destructive in the hover-active state of the solid nph-button, with color/destructive-foreground on top (supersedes B4)."
   color/secondary-surface-hover:
     css: '--nph-color-secondary-surface-hover'
     claro: core/surface/200
@@ -439,10 +439,12 @@ tokens_semantic:
     css: '--nph-color-input-hover'
     claro: core/neutral/500
     escuro: core/surface/200
+    use: "Border of the form field when the pointer is over it. One step above color/input, so the field responds to the mouse without changing size or weight. Do not use for a divider, a card outline or a message border."
   color/accent-subtle:
     css: '--nph-color-accent-subtle'
     claro: core/neutral/50
     escuro: core/surface/700
+    use: "Hover surface of a selectable container: option card, item the person chooses. Do not use for the hover of a menu item, table row or simple list item: those stay in color/accent."
   color/tooltip:
     css: '--nph-color-tooltip'
     claro: core/neutral/600
@@ -469,7 +471,7 @@ tokens_semantic:
     css: '--nph-focus-border'
     claro: theme/brand-focus
     escuro: theme/brand-300
-    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button and on the info trigger of the nph-label. It is the one that meets the 3:1 minimum; the halo is decoration."
+    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button and on the info trigger of the nph-label. It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it, from 3,10:1 to 5,88:1."
   focus/halo:
     css: '--nph-focus-halo'
     claro: theme/brand-halo
@@ -479,32 +481,32 @@ tokens_semantic:
     css: '--nph-focus-halo-info'
     claro: core/info/200
     escuro: core/info/200
-    use: "Focus HALO when the control is of the info type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark. Created on 03-09-2026 by decision of Indiane."
+    use: "Focus HALO when the control is of the info type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark."
   focus/halo-warn:
     css: '--nph-focus-halo-warn'
     claro: core/warn/200
     escuro: core/warn/200
-    use: "Focus HALO when the control is of the warn type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark. Created on 03-09-2026 by decision of Indiane."
+    use: "Focus HALO when the control is of the warn type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark."
   focus/halo-help:
     css: '--nph-focus-halo-help'
     claro: core/help/200
     escuro: core/help/200
-    use: "Focus HALO when the control is of the help type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark. Created on 03-09-2026 by decision of Indiane."
+    use: "Focus HALO when the control is of the help type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark."
   focus/halo-danger:
     css: '--nph-focus-halo-danger'
     claro: core/danger/200
     escuro: core/danger/200
-    use: "Focus HALO when the control is of the danger type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark. Created on 03-09-2026 by decision of Indiane."
+    use: "Focus HALO when the control is of the danger type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark."
   focus/halo-success:
     css: '--nph-focus-halo-success'
     claro: core/success/200
     escuro: core/success/200
-    use: "Focus HALO when the control is of the success type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark. Created on 03-09-2026 by decision of Indiane."
+    use: "Focus HALO when the control is of the success type. Decoration: the border meets the 3:1 minimum. Stays on the light tone of the same hue in both modes, so it does not vanish inside the border in dark."
   focus/halo-error:
     css: '--nph-focus-halo-error'
     claro: focus/halo-danger
     escuro: focus/halo-danger
-    use: "Focus HALO when the field is invalid. Decoration; the border meets the contrast, and in this state it is status/error. Light tone in both modes. Renamed from focus/ring-error on 03-09-2026, for the same reason as focus/border."
+    use: "Focus HALO when the field is invalid. Decoration; the border meets the contrast, and in this state it is status/error. Light tone in both modes. Renamed from focus/ring-error, for the same reason as focus/border."
   sidebar/background:
     css: '--nph-sidebar-background'
     claro: core/neutral/50
@@ -661,7 +663,7 @@ tokens_semantic:
     css: '--nph-status-info-hover'
     claro: core/info/700
     escuro: core/info/300
-    use: "Background of status/info in the hover-active state of the solid nph-button, with status/on-solid on top (decision of 02-10-2026, supersedes B4)."
+    use: "Background of status/info in the hover-active state of the solid nph-button, with status/on-solid on top (supersedes B4)."
   status/info-surface-hover:
     css: '--nph-status-info-surface-hover'
     claro: core/info/100
@@ -670,7 +672,7 @@ tokens_semantic:
     css: '--nph-status-warning-hover'
     claro: core/warn/700
     escuro: core/warn/300
-    use: "Background of status/warning in the hover-active state of the solid nph-button, with status/on-solid on top (decision of 02-10-2026, supersedes B4)."
+    use: "Background of status/warning in the hover-active state of the solid nph-button, with status/on-solid on top (supersedes B4)."
   status/warning-surface-hover:
     css: '--nph-status-warning-surface-hover'
     claro: core/warn/100
@@ -679,7 +681,7 @@ tokens_semantic:
     css: '--nph-status-help-hover'
     claro: core/help/700
     escuro: core/help/300
-    use: "Background of status/help in the hover-active state of the solid nph-button, with status/on-solid on top (decision of 02-10-2026, supersedes B4)."
+    use: "Background of status/help in the hover-active state of the solid nph-button, with status/on-solid on top (supersedes B4)."
   status/help-surface-hover:
     css: '--nph-status-help-surface-hover'
     claro: core/help/100
@@ -688,7 +690,7 @@ tokens_semantic:
     css: '--nph-status-success-hover'
     claro: core/success/700
     escuro: core/success/300
-    use: "Background of status/success in the hover-active state of the solid nph-button, with status/on-solid on top (decision of 02-10-2026, supersedes B4)."
+    use: "Background of status/success in the hover-active state of the solid nph-button, with status/on-solid on top (supersedes B4)."
   status/success-surface-hover:
     css: '--nph-status-success-surface-hover'
     claro: core/success/100
@@ -836,7 +838,7 @@ tokens_theme:
   theme/brand-300:
     css: '--nph-theme-brand-300'
     valor_por_modo: core/<vertical>/300
-    use: "Tone 300 of the active brand. Created on 03-09-2026 for the focus border in dark mode, where the 400 failed the 3:1 minimum in `Gerencial` and `Recursos Humanos`. Do not use for fill or text."
+    use: "Tone 300 of the active brand. Created for the focus border in dark mode, where the 400 failed the 3:1 minimum in `Gerencial` and `Recursos Humanos`. Do not use for fill or text."
   theme/brand-800:
     css: '--nph-theme-brand-800'
     valor_por_modo: core/<vertical>/800
@@ -848,11 +850,11 @@ tokens_theme:
   theme/brand-focus:
     css: '--nph-theme-brand-focus'
     valor_por_modo: "core/<vertical>/500 in six verticals; core/educacao/700 in `Educacao`"
-    use: "Brand tone used in the focus ring. Tone 500 in six verticals; `Educação` uses 700 because its 500 measures 1,92:1 against white and fails the 3:1 minimum of WCAG 2.2 AA criterion 1.4.11. Decision by Indiane on 03-09-2026. Do not use for fill or text."
+    use: "Brand tone used in the focus ring. Tone 500 in six verticals; `Educação` uses 700 because its 500 measures 1,92:1 against white and fails the 3:1 minimum of WCAG 2.2 AA criterion 1.4.11. Do not use for fill or text."
   theme/brand-halo:
     css: '--nph-theme-brand-halo'
     valor_por_modo: "core/<vertical>/100 in `Sistemas` and `Comercial`; core/<vertical>/200 in `Financeiro` and `Igrejas`; core/<vertical>/300 in `Gerencial`, `Educacao` and `Recursos Humanos`"
-    use: "Focus halo tone in light mode, consumed only by focus/halo. In each brand it is the strongest tone at which the focus border still measures at least 3:1 against the halo. `Sistemas` does not reach 3:1 at any tone: 2,92:1 at 100, its best. Decision by Indiane on 08-10-2026. Do not use for fill, border or text."
+    use: "Focus halo tone in light mode, consumed only by focus/halo. In each brand it is the strongest tone at which the focus border still measures at least 3:1 against the halo. `Sistemas` does not reach 3:1 at any tone: 2,92:1 at 100, its best. Do not use for fill, border or text."
   theme/brand-halo-dark:
     css: '--nph-theme-brand-halo-dark'
     valor_por_modo: "core/<vertical>/700 in `Sistemas`, `Comercial` and `Financeiro`; core/<vertical>/500 in `Gerencial` and `Recursos Humanos`; core/igrejas/600 in `Igrejas`; core/educacao/800 in `Educacao`"
@@ -874,8 +876,8 @@ tipografia_regras:
   piso: 12px
   enfase: "<strong> in HTML. There is no emphasis role and label is not used to highlight a word in a paragraph."
   pesos_por_regiao: at most 2
-  css_forma: "The `css` field of each role is a PREFIX, not the final name. Each role emits five custom properties: `-font-family`, `-font-size`, `-line-height`, `-font-weight` and `-letter-spacing`. Example: text/label-md emits --nph-text-label-md-font-size. They are five and not one because `letter-spacing` does not fit the CSS `font` shorthand and because a component often needs a single property. Migrated on 27-08-2026; confirm in the technical review."
-  css_unidade_real: "All five come out in rem since 28-08-2026, when the generator started to follow the `unidade_css` rule above (P62.4, decision by Elvys). Before that they came out in px. The conversion uses a 16px root and applies to every dimension, EXCEPT core/radius and core/shadow-*, which follow `raio_regras.unidade_css: px` and `elevacao_regras.unidade_css: px` by their own rule."
+  css_forma: "The `css` field of each role is a PREFIX, not the final name. Each role emits five custom properties: `-font-family`, `-font-size`, `-line-height`, `-font-weight` and `-letter-spacing`. Example: text/label-md emits --nph-text-label-md-font-size. They are five and not one because `letter-spacing` does not fit the CSS `font` shorthand and because a component often needs a single property (P62.2)."
+  css_unidade_real: "All five come out in rem: the generator follows the `unidade_css` rule above (P62.4). The conversion uses a 16px root and applies to every dimension, EXCEPT core/radius and core/shadow-*, which follow `raio_regras.unidade_css: px` and `elevacao_regras.unidade_css: px` by their own rule."
 
 tokens_typography:
   text/heading-xl:
@@ -1161,7 +1163,7 @@ tokens_radius:
 
 # ---------------------------------------------------------------
 # ELEVATION - in Figma the level is an EFFECT STYLE; in code it is a
-# DTCG token of type `shadow`, generated since 03-09-2026 (PF-15). The shadow
+# DTCG token of type `shadow`, generated by the token build (PF-15). The shadow
 # colors are semantic and become TRANSPARENT in dark mode, where
 # elevation comes from the surface ramp (see section 3 of this file).
 # Components use elevation/*; they NEVER pick shadow/* by hand.
@@ -1232,7 +1234,7 @@ tokens_elevation:
     use: "Maximum level, for the piece that takes the whole screen: command palette, full-focus search. USE at most one per screen. DO NOT stack with another level."
 
   nota_focus_ring:
-    renomeado: 'focus-ring/error became focus-ring/invalid on 03-09-2026, in Figma and in code at the same time. Decision by Indiane.'
+    renomeado: 'focus-ring/error became focus-ring/invalid, in Figma and in code at the same time.'
     motivo: 'The old name flattened into `--nph-focus-ring-error`, the SAME name that tokens_alpha gives to focus/ring-error, already published as the ring COLOR. Two different things with a single name. The style was renamed, not the color: a published custom property, which P02 defines as public API, is not broken to accommodate one that did not exist yet.'
     leitura: 'The shadow is `invalid`; the color it consumes is still `focus/ring-error`. `invalid` is the HTML and ARIA term for the state.'
 
@@ -1255,7 +1257,7 @@ tokens_core_alpha:
 # SHADOW PRIMITIVES - they are not design tokens and no
 # component consumes them. They exist to BUILD the eight elevation
 # styles. Components use the elevation/* style, never these.
-# Documented on 24-08-2026 from what the styles actually bind
+# Documented from what the styles actually bind
 # in Figma - it is not a proposal, it is a reading of the file.
 # ---------------------------------------------------------------
 tokens_core_sombra:
@@ -1321,7 +1323,7 @@ tokens_core_borda:
   core/border-width/default: { valor: 1, css: '--nph-core-border-width-default', alias_de: 'border/width' }
 
 tokens_core_icon:
-  regra: 'NEVER consume directly. Use icon/size-sm, -md and -lg. Read from Figma on 24-08-2026, when migrating the tokens to JSON.'
+  regra: 'NEVER consume directly. Use icon/size-sm, -md and -lg. Read from Figma when migrating the tokens to JSON.'
   core/icon-size/100: { valor: 16, css: '--nph-core-icon-size-100', alias_de: 'icon/size-sm' }
   core/icon-size/200: { valor: 20, css: '--nph-core-icon-size-200', alias_de: 'icon/size-md' }
   core/icon-size/300: { valor: 24, css: '--nph-core-icon-size-300', alias_de: 'icon/size-lg' }
@@ -1334,7 +1336,7 @@ tokens_core_avatar:
   core/avatar-overlap/100: { valor: -8, css: '--nph-core-avatar-overlap-100', alias_de: 'avatar/overlap' }
 
 tokens_core_control:
-  regra: 'NEVER consume directly. Use control/height-compact, -default and -large. Read from Figma on 24-08-2026, when migrating the tokens to JSON.'
+  regra: 'NEVER consume directly. Use control/height-compact, -default and -large. Read from Figma when migrating the tokens to JSON.'
   core/control-height/compact: { valor: 28, css: '--nph-core-control-height-compact', alias_de: 'control/height-compact' }
   core/control-height/default: { valor: 36, css: '--nph-core-control-height-default', alias_de: 'control/height-default' }
   core/control-height/large:   { valor: 44, css: '--nph-core-control-height-large',   alias_de: 'control/height-large' }
@@ -1359,10 +1361,10 @@ tokens_core_layout:
 # PRIMITIVES WITHOUT A CONSUMER - they exist in Figma and NO semantic
 # variable, style or component uses them. They are here so the
 # inventory is complete and verifiable, NOT because they have a defined
-# use. Verified by reverse index on 24-08-2026.
+# use. Verified by reverse index.
 # ---------------------------------------------------------------
 tokens_core_sem_consumidor:
-  estado: 'PENDING DECISION - they either get a defined role or leave the file. Decision by Indiane, not yet taken.'
+  estado: 'PENDING DECISION - they either get a defined role or leave the file. UX decision, not yet taken.'
   regra: 'DO NOT consume any of these and DO NOT invent a use for them. If you need a value that only exists here, stop and ask.'
   nao_gerar_em_json: 'While they are on this list, they must NOT go into the tokens JSON: generating CSS for a primitive without a role spreads debt.'
 
@@ -1461,7 +1463,7 @@ tokens_alpha:
   state/hover-opacity:
     css: '--nph-state-hover-opacity'
     valor: 0.95
-    use: "It was the solid hover of the nph-button (B4, `Registro`). Since 02-10-2026, the button uses color/primary-hover, color/destructive-hover, color/secondary-hover and status/*-hover. DO NOT USE on button hover."
+    use: "It was the solid hover of the nph-button (B4, `Registro`). The button now uses color/primary-hover, color/destructive-hover, color/secondary-hover and status/*-hover. DO NOT USE on button hover."
     nao_use: "Button hover; secondary, outline, ghost, focus, disabled or isolated text."
 
 # ---------------------------------------------------------------
@@ -1602,7 +1604,7 @@ tokens_core_duration:
   '200': { valor: 150, css: '--nph-core-duration-200', use: "State change, and layer exit." }
   '300': { valor: 250, css: '--nph-core-duration-300', use: "Layer that appears, and expansion." }
   '400': { valor: 400, css: '--nph-core-duration-400', use: "Large movement. NEVER in a repeated interaction." }
-  loop:  { valor: 800, css: '--nph-core-duration-loop', use: "Continuous loop of the spinner: 800 ms per turn, infinite repetition. OUTSIDE the transition scale, which ends at 400 and describes movement that starts and ends; a loop repeats. Decision by Indiane on 02-09-2026 (PF-05)." }
+  loop:  { valor: 800, css: '--nph-core-duration-loop', use: "Continuous loop of the spinner: 800 ms per turn, infinite repetition. OUTSIDE the transition scale, which ends at 400 and describes movement that starts and ends; a loop repeats (PF-05)." }
 
 tokens_core_easing:
   standard: { valor: 'cubic-bezier(0.4, 0, 0.2, 1)', css: '--nph-core-easing-standard', use: "Accelerates and decelerates. What changes in place." }
@@ -1611,7 +1613,7 @@ tokens_core_easing:
   linear:   { valor: 'linear', css: '--nph-core-easing-linear', fonte_json: 'cubicBezier [0, 0, 1, 1] - the exact equivalent, because cubicBezier is the DTCG type the system uses for curves (PF-16)', css_gerado: 'cubic-bezier(0, 0, 1, 1)', use: "Constant speed. ONLY progress and spinner. DO NOT USE in an interface transition." }
 
 tokens_motion:
-  regra_do_par: "Each motion role is TWO tokens: -duration and -easing. They go together and NEVER mix between roles - do not use the enter duration with the exit curve. Shape aligned with Figma on 24-08-2026, by decision of Indiane: each token is a variable and a custom property. No value changed. There are SIX roles since 03-09-2026, when the spinner loop came in (PF-05)."
+  regra_do_par: "Each motion role is TWO tokens: -duration and -easing. They go together and NEVER mix between roles - do not use the enter duration with the exit curve. Shape aligned with Figma: each token is a variable and a custom property. The loop role came in with the spinner (PF-05)."
 
   motion/hover-duration:
     css: '--nph-motion-hover-duration'
@@ -1694,7 +1696,7 @@ icone_regras:
   duotone_proibido_fora_da_navegacao: 'OUTSIDE structural navigation, Duotone remains forbidden. DO NOT USE on a button, field, feedback, validation, alert, table or destructive action.'
   duotone_nao_mistura: 'NEVER mix Duotone and Classic inside the same navigation group. The whole group is of a single family.'
   estilos_proibidos: [light, thin, sharp]
-  historico_duotone: 'SUPERSEDED on 24-08-2026, by decision of Indiane. The previous rule said: `Classic. NAO existe Duotone no Nephos: o bars, unico icone de navegacao do nucleo, nao existe em Duotone no acervo, e uma regra cujo unico caso nao pode ser cumprido nao e regra.` (Classic. There is NO Duotone in Nephos: bars, the only navigation icon of the core, does not exist in Duotone in the library, and a rule whose only case cannot be met is not a rule.) Preserved as a record; it is NOT the current rule. See duotone_navegacao.'
+  historico_duotone: 'SUPERSEDED. The previous rule said: `Classic. NAO existe Duotone no Nephos: o bars, unico icone de navegacao do nucleo, nao existe em Duotone no acervo, e uma regra cujo unico caso nao pode ser cumprido nao e regra.` (Classic. There is NO Duotone in Nephos: bars, the only navigation icon of the core, does not exist in Duotone in the library, and a rule whose only case cannot be met is not a rule.) Preserved as a record; it is NOT the current rule. See duotone_navegacao.'
   cor: "Inherits from the context via currentColor. There is NO icon color token."
   caixa: "Always square. The Font Awesome drawing is not square by nature: it is centered and scaled by height."
   espaco_ate_o_texto: space/inline-tight
@@ -1761,12 +1763,10 @@ icones_nucleo:
 
 icones_segunda_leva:
   pendente: false
-  entrou_em: '2026-08-20'
   icones: [pen-to-square, trash-can, eye, eye-slash, arrow-up-from-bracket, download, star, gear, filter, filter-slash, circle-notch]
 
 icones_terceira_leva:
   pendente: false
-  entrou_em: '2026-08-20'
   icones: [minus, ellipsis, arrow-right]
   motivo: 'Each one required by a component already committed in the v1 list: minus by the indeterminate nph-checkbox and by the decrement of the numeric nph-input; ellipsis by nph-pagination; arrow-right as the pair of arrow-left, which was already in the core.'
   trocas: 'circle-notch came in instead of spinner: the classic spinner turns in eight discrete steps and the motion foundation set continuous rotation. filter-slash was added to clear a filter.'
@@ -2005,7 +2005,7 @@ Absolute imperative. They are not preferences.
 3. **NEVER** write a literal color, spacing, font or radius value in component CSS. Only `var(--nph-*)`.
 4. Components consume **only** `tokens_semantic`. **NEVER** consume `tokens_core` directly.
 5. Color is **NEVER** the only indicator. Every state carries an icon and text besides the color.
-6. Visible focus is mandatory on every focusable element and is **NEVER** removed. It is the `focus/ring` ring, through a `focus-ring/*` style, or, where the accepted Figma draws border and halo — as on the `nph-button` and on the `info` trigger of the `nph-label` —, the focus border of `border/width`, flush, with the halo of `focus/ring-width` outside (see `focus-ring/default`).
+6. Visible focus is mandatory on every focusable element and is **NEVER** removed. It is the `focus/ring` ring, through a `focus-ring/*` style, or, where the accepted Figma draws border and halo — as on the `nph-button` and on the `info` trigger of the `nph-label` —, the focus border of `border/width`, flush, with the halo of `focus/ring-width` outside (see `focus-ring/default`). There, the focus border meets **3:1** against the halo, its outside neighbor; the inside of the control does not count (see `focus/border`).
 7. Every surface that carries text meets **4,5:1**; every control boundary meets **3:1** (WCAG 2.1 AA).
 8. **NEVER** create a new token, component, icon or pattern to work around a gap. See §8.
 
@@ -2133,7 +2133,7 @@ The curve says what the piece is. The question is not how much to round.
 |---|---|
 | `layout/gutter` × `space/stack` | The gutter aligns **columns**. `space/stack` separates **items** inside a column. Different things, even with the same value. |
 | `layout/max-app` × `layout/max-reading` | Will it be **read** end to end? `max-reading` (720). Will it be **operated**? `max-app` (1440). |
-| Page margin | Only `layout/margin-compact`, `-default` and `-wide`, which change by breakpoint. There is no space token for this: `space/page-margin` was removed on 20-08-2026 for duplicating the value without responding to the breakpoint. |
+| Page margin | Only `layout/margin-compact`, `-default` and `-wide`, which change by breakpoint. There is no space token for this: `space/page-margin` was removed for duplicating the value without responding to the breakpoint. |
 
 **Margin grows, gutter does not.** 16 · 24 · 48 depending on the screen; gutter always 24.
 
@@ -2315,7 +2315,7 @@ Never do it. Each row is a prevented error.
 | A55 | Create a breakpoint outside the four |
 | A56 | Apply the grid style and then position everything outside it |
 | A57 | Write a literal duration or curve — only `var(--nph-motion-*)` |
-| A58 | Combine duration and curve outside the five roles |
+| A58 | Combine duration and curve outside the motion roles |
 | A59 | Use 180 or 320ms because "it looked better" |
 | A60 | Give the exit the same duration as the entrance, or more |
 | A61 | Use `linear` in a transition that is not progress or spinner |
@@ -2361,7 +2361,7 @@ What Nephos must **not** look like.
 | Consumer interface — long animation, large illustration, informal tone | The user is working, many hours a day |
 | "Gamer" dark theme — absolute black, neon accent, high saturation | Tiring over a long workday and fails on contrast |
 
-> **[Confirmed]** Anti-references approved by Indiane on 19-08-2026.
+> **[Confirmed]** Approved anti-references.
 
 ---
 
@@ -2410,10 +2410,9 @@ Before building or modifying a component, **open its metadata file**.
 | `fichas/<nome-do-componente>.md` | Function, variants, states, invalid combinations, accessibility, tokens, relationships, anti-patterns |
 | `fichas/blocos/<nome>.md` | Composition, when to use, when not, in which layout it appears |
 | Storybook | Rendered states and variants |
-| `Lista de componentes — Nephos v1` (component list), in the vault | Scope: the 75 public components and the 6 waves, closed on 26-08-2026 |
+| `Lista de componentes — Nephos v1` (component list), in the vault | Scope: the public components and the waves |
 
-> **Current decision — reviewed and approved by Elvys on 28/08/2026.** The
-> directory organization is in
+> **Current decision.** The directory organization is in
 > [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md) (P03). The P03
 > directory pattern is already applied in each component of `src/components/`.
 > The corresponding specs are in `fichas/`.
@@ -2424,26 +2423,26 @@ Before building or modifying a component, **open its metadata file**.
 
 | # | What | Who decides |
 |---|---|---|
-| 1 | ~~Identity~~ Resolved on 19-08-2026: personality **institutional, human and efficient**; primary user: development professionals who build and maintain IATec corporate interfaces, with Moses as the main technical consumer;  references with a defined function | Indiane |
-| 2 | ~~Anti-references (§6) — proposal~~ Resolved on 19-08-2026, by decision of Indiane | Indiane |
-| 3 | ~~Typography foundation~~ Resolved on 20-08-2026: 14 roles, base 14px, Noto Sans + IBM Plex Mono | Indiane |
-| 3b | ~~**Responsive typography**~~ Resolved on 20-08-2026: **the scale is fixed in the interface** | Indiane |
-| 3c | ~~**Italic and underline**~~ Resolved on 20-08-2026: **they are a rule, not a role** | Indiane |
-| 3d | ~~Spacing foundation~~ Resolved on 20-08-2026: base 4 with a half-step of 2, 7 semantic intent tokens and 3 control heights | Indiane |
-| 3e | ~~**Responsive spacing and maximum widths**~~ Resolved on 20-08-2026: **`space/*` is fixed**, the page margin is `layout/margin-*`, and the maximum widths are `layout/max-app` and `max-reading` | Indiane |
-| 3f | ~~Radius foundation~~ Resolved on 20-08-2026: 8 steps, 6px default on controls, full shape restricted to markers | Indiane |
-| 3g | ~~**Radius on a partial corner**~~ Resolved on 20-08-2026: **it is a rule, not a token** — see `regras_raio_parcial` | Indiane |
-| 3h | ~~Shadow and elevation foundation~~ Resolved on 20-08-2026: 8 levels, two layers where applicable, transparent shadow in dark, plus the modal scrim | Indiane |
-| 3i | ~~**The modal has no step in the dark ramp**~~ Resolved on 20-08-2026: **`color/dialog` at `surface/600`** | Indiane |
-| 3j | ~~**Inner shadow**~~ Resolved on 20-08-2026: **it does not come in** — a sunken field uses `color/muted` on the background and `color/input` on the border | Indiane |
-| 3k | ~~Grid and layout foundation~~ Resolved on 20-08-2026: 12 columns, 4 breakpoints, two maximum widths and the shell measures | Indiane |
-| 3l | **Shell behavior** — at which breakpoint the bar collapses — is layout anatomy and depends on a real screen or an approved mock | Indiane |
-| 3m | ~~Motion foundation~~ Resolved on 20-08-2026: 4 durations, 4 curves, 5 roles and the reduced motion rule. **The seven foundations are closed** | Indiane |
-| 3n | ~~**Loop duration**~~ **Resolved on 02-09-2026: 800 ms per turn of the spinner**, with the `linear` curve and infinite repetition. It entered the code on 03-09-2026 as `core/duration/loop` and the `motion/loop-*` role. **The indeterminate bar still has no value** — `nph-progress` was deferred | Indiane |
-| 3o | ~~**Icons**~~ Resolved on 20-08-2026: rules, sizes, contract, library and the complete core of **34 icons**, in three batches | Indiane |
-| 4 | ~~Chart colors — they do not exist~~ Resolved on 20-08-2026: four families, 30 semantic tokens, verified under the three vision deficiencies | Indiane |
-| 5 | ~~Alpha — transparencies without a token~~ Resolved on 20-08-2026: 19 alpha primitives in black and white, plus `overlay/scrim`, `overlay/on-media` and `state/disabled-opacity` | Indiane |
-| 6 | ~~Which file is canonical: the CSS or this YAML~~ Decided on 24-08-2026: Figma is the visual source; this `design.md` is the human and agentic contract; JSON will be the versioned technical source of audited values; CSS custom properties will be generated from the JSON. See `docs/decisoes-tecnicas.md` (P17). | Indiane — reviewed and approved by Elvys on 28-08-2026 |
-| 7 | ~~Directory path (§9)~~ Decided on 24-08-2026: pattern recorded in `docs/decisoes-tecnicas.md` (P03), applied from the first component on. | Indiane — reviewed and approved by Elvys on 28-08-2026 |
-| 8 | ~~Dark mode was calculated, not seen~~ Resolved on 18-08-2026: `Cor` page in Figma, light and dark side by side | Indiane |
-| 9 | **Hatching pattern** for a chart printed in black and white. The categorical series separates by hue, not by lightness | Indiane |
+| 1 | ~~Identity~~ Resolved: personality **institutional, human and efficient**; primary user: development professionals who build and maintain IATec corporate interfaces, with Moses as the main technical consumer;  references with a defined function | UX |
+| 2 | ~~Anti-references (§6) — proposal~~ Resolved | UX |
+| 3 | ~~Typography foundation~~ Resolved: 14 roles, base 14px, Noto Sans + IBM Plex Mono | UX |
+| 3b | ~~**Responsive typography**~~ Resolved: **the scale is fixed in the interface** | UX |
+| 3c | ~~**Italic and underline**~~ Resolved: **they are a rule, not a role** | UX |
+| 3d | ~~Spacing foundation~~ Resolved: base 4 with a half-step of 2, 7 semantic intent tokens and 3 control heights | UX |
+| 3e | ~~**Responsive spacing and maximum widths**~~ Resolved: **`space/*` is fixed**, the page margin is `layout/margin-*`, and the maximum widths are `layout/max-app` and `max-reading` | UX |
+| 3f | ~~Radius foundation~~ Resolved: 8 steps, 6px default on controls, full shape restricted to markers | UX |
+| 3g | ~~**Radius on a partial corner**~~ Resolved: **it is a rule, not a token** — see `regras_raio_parcial` | UX |
+| 3h | ~~Shadow and elevation foundation~~ Resolved: 8 levels, two layers where applicable, transparent shadow in dark, plus the modal scrim | UX |
+| 3i | ~~**The modal has no step in the dark ramp**~~ Resolved: **`color/dialog` at `surface/600`** | UX |
+| 3j | ~~**Inner shadow**~~ Resolved: **it does not come in** — a sunken field uses `color/muted` on the background and `color/input` on the border | UX |
+| 3k | ~~Grid and layout foundation~~ Resolved: 12 columns, 4 breakpoints, two maximum widths and the shell measures | UX |
+| 3l | **Shell behavior** — at which breakpoint the bar collapses — is layout anatomy and depends on a real screen or an approved mock | UX |
+| 3m | ~~Motion foundation~~ Resolved: durations, curves, roles and the reduced motion rule. **The seven foundations are closed** | UX |
+| 3n | ~~**Loop duration**~~ **Resolved: 800 ms per turn of the spinner**, with the `linear` curve and infinite repetition. It entered the code as `core/duration/loop` and the `motion/loop-*` role. **The indeterminate bar still has no value** — `nph-progress` was deferred | UX |
+| 3o | ~~**Icons**~~ Resolved: rules, sizes, contract, library and the complete core, in three batches | UX |
+| 4 | ~~Chart colors — they do not exist~~ Resolved: four families of semantic tokens, verified under the three vision deficiencies | UX |
+| 5 | ~~Alpha — transparencies without a token~~ Resolved: 19 alpha primitives in black and white, plus `overlay/scrim`, `overlay/on-media` and `state/disabled-opacity` | UX |
+| 6 | ~~Which file is canonical: the CSS or this YAML~~ Decided: Figma is the visual source; this `design.md` is the human and agentic contract; JSON will be the versioned technical source of audited values; CSS custom properties will be generated from the JSON. See `docs/decisoes-tecnicas.md` (P17). | UX, with engineering review |
+| 7 | ~~Directory path (§9)~~ Decided: pattern recorded in `docs/decisoes-tecnicas.md` (P03), applied from the first component on. | UX, with engineering review |
+| 8 | ~~Dark mode was calculated, not seen~~ Resolved: `Cor` page in Figma, light and dark side by side | UX |
+| 9 | **Hatching pattern** for a chart printed in black and white. The categorical series separates by hue, not by lightness | UX |
