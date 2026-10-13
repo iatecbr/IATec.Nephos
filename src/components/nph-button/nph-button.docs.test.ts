@@ -60,9 +60,9 @@ describe('nph-button Documentation', () => {
     });
   }
 
-  it('en and es have the same shape as pt-BR', () => {
-    const source = shape(translations('pt-BR').buttonDocs);
-    expect(shape(translations('en').buttonDocs)).toEqual(source);
+  it('pt-BR and es have the same shape as en', () => {
+    const source = shape(translations('en').buttonDocs);
+    expect(shape(translations('pt-BR').buttonDocs)).toEqual(source);
     expect(shape(translations('es').buttonDocs)).toEqual(source);
   });
 });
@@ -106,9 +106,9 @@ describe('nph-button Validation: text only from the dictionary', () => {
     });
   }
 
-  it('en and es have the same shape as pt-BR', () => {
-    const source = shape(translations('pt-BR').buttonValidation);
-    expect(shape(translations('en').buttonValidation)).toEqual(source);
+  it('pt-BR and es have the same shape as en', () => {
+    const source = shape(translations('en').buttonValidation);
+    expect(shape(translations('pt-BR').buttonValidation)).toEqual(source);
     expect(shape(translations('es').buttonValidation)).toEqual(source);
   });
 });
