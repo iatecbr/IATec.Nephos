@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=README.md | source-sha256=8390638e2e0effbfe32fb654410f4045cb70a93fb14864454b9b947751764dad | status=revisado -->
+<!-- i18n: lang=pt-BR | source=README.md | source-sha256=92e000e52953000e13f5f6e80b373415ec3f7c62df74b46165b602abf9957d92 | status=revisado -->
 
 # Nephos 5.0
 
@@ -89,9 +89,9 @@ em
 As decisões P01, P02, P03, P17, P19, P20 e P21 estão registradas em
 [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md).
 
-**Status: decisão adotada pela Indiane em 24/08/2026 (P21 em 26/08/2026) —
-revisada e aprovada por Elvys em 28/08/2026.** As regras devem ser seguidas no
-trabalho atual, salvo orientação posterior de Elvys que as substitua.
+**Status: adotadas e revisadas tecnicamente**; a adoção e a revisão de cada uma
+estão registradas em `docs/decisoes-tecnicas.md`. As regras devem ser seguidas
+no trabalho atual, salvo orientação técnica posterior que as substitua.
 
 | | Assunto | Decisão |
 |---|---|---|

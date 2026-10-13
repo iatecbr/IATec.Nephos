@@ -43,7 +43,7 @@ api:
     default: default
     reflects: true
     constraint: >-
-      The default value default is a decision by Indiane on 05-10-2026, through T4: compact stays
+      The default value default comes from P68, through T4: compact stays
       tied to the dense context. large meets the touch target
       of 44 px; compact is never the main target on a touch screen. A field and a
       button side by side use the same size. A value outside the list draws
@@ -82,7 +82,7 @@ api:
     constraint: >-
       Accessible name of the icon-only button, mandatory in it: without label, the icon-only button
       draws nothing and emits console.error in development. With text, it is not
-      used. The name label is a decision by Indiane on 05-10-2026 and supersedes the
+      used. The name label comes from P68 and supersedes the
       aria-label of 02-09-2026.
   disabled:
     type: boolean
@@ -105,16 +105,26 @@ api:
 variants:
   severity:
     axis: appearance
-    choose_when: "By the meaning of the action: danger for what deletes or cannot be undone; primary for the main action."
-    do_not_combine_with: ["another primary solid action in the same block"]
+    choose_when: "By the meaning of the action, never by the color. primary: use for the main action of the block. secondary: use for the alternative action that accompanies the main one, such as Cancel next to Save. danger: use for an action that deletes, revokes or cannot be undone. info: use for an action tied to neutral information, such as a system notice or a contextual tip. warn: use for an action that requires care before proceeding. help: use for an action that opens help or guidance, such as an explanation, a tour or support content. success: use for an action that confirms something succeeded. info, warn, help and success exist only in solid."
+    do_not_combine_with:
+      - "primary: do not use next to another primary solid action in the same block."
+      - "secondary: do not use as the only main action of the block."
+      - "danger: do not use with an icon only: write the text."
+      - "info: do not use for an error, a risk or a confirmation."
+      - "warn: do not use for an error that has already happened; for an action that deletes or cannot be undone, use danger."
+      - "help: do not use to report a system state."
+      - "success: do not use to label a permanent state, such as active: use nph-badge."
   emphasis:
     axis: appearance
     choose_when: "solid for the action with weight; outline when it accompanies the main one and needs to be delimited; light when the outline would weigh too much; ghost for a tertiary action."
     do_not_combine_with: ["outline, light or ghost in info, warn, help or success"]
   size:
     axis: size
-    choose_when: "large on a touch screen and in the main form; compact inside a table, toolbar or filter; default everywhere else."
-    do_not_combine_with: ["compact as the main target on a touch screen", "a size different from the field beside it"]
+    choose_when: "compact (28 px): use inside a table, toolbar or filter. default (36 px): use everywhere else; it is the default. large (44 px): use on a touch screen and in the main form; it meets the 44 px touch target."
+    do_not_combine_with:
+      - "compact: do not use as the main target on a touch screen, or with a different size from the field beside it."
+      - "default: do not use with a different size from the field beside it."
+      - "large: do not use with a different size from the field beside it."
 states:
   default:
     token: "the background and the text of the type and the emphasis, in the tokens block"
@@ -164,7 +174,7 @@ accessibility:
     - "Tab enters and leaves the button."
     - "Enter activates."
     - "Space activates."
-  focus: "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; the open item belongs to Indiane since 02-10-2026."
+  focus: "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; it is an open item."
   contrast: "Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in primary outline and light of the light scheme. The outline border passes 3:1. The focus border of primary has the limit described in `focus`."
   color_alternative: "The text says what happens on click; color is never the only sign of intent, focus or state."
 invalid_combinations:
@@ -189,7 +199,7 @@ anti_patterns:
   - "Painting the button by hand or creating a type, emphasis or size outside the matrix."
 sources:
   design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block"
-  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, decisions by Indiane on 05-10-2026"
+  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68"
   tests: "src/components/nph-button/nph-button.test.ts and nph-button.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the button yet"
   storybook: "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts"
@@ -221,6 +231,18 @@ they are on, and communicates through the type and the emphasis the weight of th
 **By appearance:** `severity` (the Figma type) and `emphasis` (the emphasis).
 
 - `severity` is chosen **strictly** by the meaning of the action, never by the color.
+  `info`, `warn`, `help` and `success` exist only in `solid`.
+
+| `severity` | When to use | When not to use |
+|---|---|---|
+| `primary` | Use for the main action of the block. | Do not use next to another `primary` `solid` action in the same block. |
+| `secondary` | Use for the alternative action that accompanies the main one, such as Cancel next to Save. | Do not use as the only main action of the block. |
+| `danger` | Use for an action that deletes, revokes or cannot be undone. | Do not use with an icon only: write the text. |
+| `info` | Use for an action tied to neutral information, such as a system notice or a contextual tip. | Do not use for an error, a risk or a confirmation. |
+| `warn` | Use for an action that requires care before proceeding. | Do not use for an error that has already happened; for an action that deletes or cannot be undone, use `danger`. |
+| `help` | Use for an action that opens help or guidance, such as an explanation, a tour or support content. | Do not use to report a system state. |
+| `success` | Use for an action that confirms something succeeded. | Do not use to label a permanent state, such as active: use `nph-badge`. |
+
 - `emphasis`: `solid` for the action with weight; `outline` when it accompanies the main one and
   needs to be delimited; `light` when the outline would weigh too much; `ghost` for a tertiary action.
   `outline`, `light` and `ghost` exist **only** in `primary`, `secondary` and `danger`.
@@ -228,6 +250,12 @@ they are on, and communicates through the type and the emphasis the weight of th
 **By size:** `compact` (28), `default` (36, the default) and `large` (44). `large`
 meets the touch target of 44 px. `compact` stays tied to a table, toolbar
 or filter and is never the main target on a touch screen (T4).
+
+| `size` | When to use | When not to use |
+|---|---|---|
+| `compact` (28 px) | Use inside a table, toolbar or filter. | Do not use as the main target on a touch screen, or with a different size from the field beside it. |
+| `default` (36 px) | Use everywhere else; it is the default. | Do not use with a different size from the field beside it. |
+| `large` (44 px) | Use on a touch screen and in the main form; it meets the 44 px touch target. | Do not use with a different size from the field beside it. |
 
 **By density:** `not_applicable`.
 
@@ -250,7 +278,7 @@ target on a touch screen; a size different from the field beside it.
 **Feedback and focus:** focus appears only for keyboard users and **is not removed**. The
 border is the indicator; the halo is the second layer. Known limit: in dark mode,
 `color/primary` falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and
-`Igrejas`, an open item of Indiane since 02-10-2026.
+`Igrejas`, an open item.
 
 **Business rule the piece carries:** `not_applicable`. The button fires the action the
 screen defines.
@@ -340,9 +368,9 @@ universal close action, the icon-only button `xmark` in `secondary` `ghost`, wit
   `space/inline-tight`, `radius/control`, `text/label-md`, `icon/size-*`,
   `state/disabled-opacity`, `focus/*` and the colors `color/*` and `status/*`.
 - **The decision that originated it:** P68, of 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log);
-  the default `size` `default` and the name `label`, decided by Indiane on 05-10-2026;
-  the solid hover on the hover tokens, decided by Indiane on 02-10-2026, which supersedes
-  B4. The frame was accepted on 01-10-2026 and completed on 02-10-2026.
+  the default `size` `default` and the name `label`, in P68;
+  the solid hover on the hover tokens, which supersedes B4. The frame was accepted
+  on 01-10-2026 and completed on 02-10-2026.
 - **Tests:** `src/components/nph-button/nph-button.test.ts` and `nph-button.docs.test.ts`.
 - **Usage evidence:** pending — no approved screen consumes the button yet.
 - **Storybook:** `src/components/nph-button/nph-button.stories.ts` (Validation) and

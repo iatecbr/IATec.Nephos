@@ -3,7 +3,7 @@
  * only where cascade and inheritance exist can you see the value a `var()`
  * resolves to.
  *
- * Consumption contract (decision by Indiane on 05-10-2026): in a part of the
+ * Consumption contract (P67): in a part of the
  * screen with another brand, `data-nph-brand` and `data-nph-color-scheme` go
  * on the SAME element. In that subtree, every brand and semantic token must
  * resolve the same as it would with the same two attributes on the root.

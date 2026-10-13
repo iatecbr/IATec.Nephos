@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 135,
   "owner": "claude-code",
-  "state": "blocked",
+  "state": "done",
   "piece": "nph-button",
   "dependencies": ["DSA-03", "DSA-09"],
   "gates": [
@@ -22,25 +22,18 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories, Storybook documentation, spec and technical decision reviewed by maurocsjr and merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-13/review-and-merge-2026-10-08.md",
+      "result": "passed",
+      "verified_at": "2026-10-08",
+      "verified_by": "claude-code"
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "DSA-09 not merged: the nph-spinner, which the button's loading state uses, exists only in PR #54.",
-      "owner": "maurocsjr",
-      "what_resolves": "Review and merge of PR #54 into v/5.0.0.",
-      "opened_at": "2026-10-05"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-13/documentacao-figma-aceita-2026-10-02.md",
-    "docs/operacao/evidencias/DSA-13/storybook-validacao-2026-10-05.md"
+    "docs/operacao/evidencias/DSA-13/storybook-validacao-2026-10-05.md",
+    "docs/operacao/evidencias/DSA-13/review-and-merge-2026-10-08.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-05.md, first-delivery cut (Batch B)",
@@ -55,9 +48,9 @@
     "excerpt": null,
     "converted_decision": "The nph-button frame (1197:5449) was accepted as the API and behavior specification of the nph-button. COMPONENT_SET 461:13009 (with text) and COMPONENT_SET 498:15671 (icon-only), variants `tipo`, `enfase`, `size` and `state`, with a start icon and an end icon. The acceptance of 01-10-2026 was completed on 02-10-2026 by the solid hover in the hover tokens, which supersedes B4."
   },
-  "git_review": { "branch": "feat/lote-b-badge-button", "commit": null, "pr": "56" },
+  "git_review": { "branch": "feat/lote-b-badge-button", "commit": "d02c7ea988223e0a5f5fe73dfeb8acc58d533a4c", "pr": "56" },
   "context": null,
-  "updated_at": "2026-10-05"
+  "updated_at": "2026-10-08"
 }
 ```
 
@@ -69,13 +62,9 @@ stories and a documentation page in Storybook, in the contract accepted in Figma
 type, emphasis, size and state, an optional icon at the start and at the end, the
 icon-only button and the loading state with the spinner of the `nph-spinner`.
 
-## Why it is blocked
-The loading state uses the `nph-spinner` (DSA-09), which exists only in PR #54.
-The documentation gate passed: the blocker is only a dependency. That is why the
-button code is written on a branch stacked on top of PR #54, and it is not an
-exception to the rule that requires the documentation gate before code. The task
-leaves `blocked` after PR #54 is merged, and only goes to `in-review` inside the
-Batch B PR, with the spec.
+## Dependency
+The loading state uses the `nph-spinner` (DSA-09). Blocker B1 closed when PR #54
+was merged (`d01da7b`, 2026-10-06), before PR #56 brought this task.
 
 ## How it is proved
 **`figma-docs-accepted`** — the `nph-button` frame (`1197:5449`) of the Figma

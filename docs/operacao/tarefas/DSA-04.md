@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 110,
   "owner": "claude-code",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-label",
   "dependencies": ["DSA-07", "DSA-08"],
   "gates": [
@@ -31,10 +31,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories, spec and P62.6 reviewed by maurocsjr and merged into v/5.0.0; rule 6 of design.md goes in through PR #57.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-04/review-and-merge-2026-10-08.md",
+      "result": "passed",
+      "verified_at": "2026-10-08",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -42,7 +42,8 @@
   "evidence": [
     "docs/operacao/evidencias/DSA-04/documentacao-figma-aceita-2026-10-01.md",
     "docs/operacao/evidencias/DSA-04/tokens-conferidos-com-figma-2026-10-05.md",
-    "docs/operacao/evidencias/DSA-04/storybook-validacao-2026-10-06.md"
+    "docs/operacao/evidencias/DSA-04/storybook-validacao-2026-10-06.md",
+    "docs/operacao/evidencias/DSA-04/review-and-merge-2026-10-08.md"
   ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p62",
@@ -56,9 +57,9 @@
     "excerpt": null,
     "converted_decision": "The nph-label frame (1194:1482) and the COMPONENT_SET 374:6 were accepted with info, infoLabel, the trigger focus and the open row. An empty infoLabel omits the trigger (decision of 01-10-2026). On 05-10-2026 Indiane decided that the nph-tooltip (DSA-08) goes into code before this delivery."
   },
-  "git_review": { "branch": "feat/dsa04-nph-label-info", "commit": "3417a76", "pr": "58" },
+  "git_review": { "branch": "feat/dsa04-nph-label-info", "commit": "f21e1a0353cc50b01477f45c864272270e764901", "pr": "58" },
   "context": null,
-  "updated_at": "2026-10-06"
+  "updated_at": "2026-10-08"
 }
 ```
 

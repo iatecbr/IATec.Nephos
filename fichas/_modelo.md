@@ -31,7 +31,7 @@ apply gets `not_applicable`; a field not yet decided gets `pending` — never
 leave it blank, because the agent reads blank as "does not exist" and invents.
 
 **Where to save:** in this folder — `fichas/<name>.md`, **in the repository**. This template is
-also canonical here, in `fichas/_modelo.md`. **Indiane's decision on 31-08-2026 (PI-01):** the
+also canonical here, in `fichas/_modelo.md`. **Decision PI-01:** the
 component specs and the template live in the repository, which is where `AGENTS.md`,
 `CLAUDE.md` and `design.md` already told readers to open them, and where those who consume them are.
 
@@ -55,7 +55,7 @@ what you can see — what matters is missing.
 Both are required. The YAML alone describes the piece and does not teach how to choose it; the
 Markdown alone is not verifiable.
 
-**The API lives in the YAML, and only there.** Indiane's decision on 31-08-2026: property, type,
+**The API lives in the YAML, and only there.** Recorded decision: property, type,
 requiredness, default value and restriction are **values**, and a value is the machine's
 half. **There is no "API" section in Markdown** — the nine sections are nine in every
 spec. The text explains *when to choose the piece*; the YAML says *what it accepts*.
@@ -82,7 +82,7 @@ visual description.
 
 ## 3. The nine sections
 
-> **Foundation does not use this template.** Indiane's decision on 31-08-2026: the eight
+> **Foundation does not use this template.** Recorded decision: the eight
 > foundation specs have **their own shape** — meaning of each token · usage rule ·
 > anti-patterns · what the foundation does not cover · AI hints · sources and decisions.
 > "Variants", "States" and "Relations" do not describe a foundation: color has no hover
@@ -275,7 +275,7 @@ The piece leaves the queue when:
 5. **each variant and each state appears in some verifiable story** — one
    story can cover more than one combination, and no combination is left out. The
    criterion is **traceable coverage**, not the number of files, pages or
-   stories. *Indiane's decision on 09-09-2026; it replaces the previous format
+   stories. *Recorded decision; it replaces the previous format
    rule, which required one story per variant and per state;*
 6. Figma and Storybook do not diverge — or the divergence is recorded with the decision that
    is missing;
@@ -293,7 +293,7 @@ calibrate the format for the next three.
 
 > Version 1.0 of this template, of 20-08-2026, recommended starting with `nph-input`,
 > because it is the densest component and the best test of the template. The reasoning is still
-> sound, but it was **superseded by Indiane's decision on 30-08-2026**: real code evidence
+> sound, but it was **superseded by a later human decision**: real code evidence
 > weighs more than density, at this point in the project. `nph-input` is the fifth
 > spec.
 
@@ -303,6 +303,6 @@ calibrate the format for the next three.
 readiness criterion are **evidence** — they come from `Template de ficha — peças do Nephos.md`,
 version 1.0, of 20-08-2026. The nine sections, the additions of state, density,
 parent and child relation, AI hints and "Sources and decisions" are **a requirement of the yardstick**.
-The filling order is a **human decision** by Indiane, on 30-08-2026. The destination of the
-contrast level is **pending** — PI-05. The destination of the file was decided by
-Indiane on 31-08-2026: repository, in `fichas/`.*
+The filling order is a **human decision**. The destination of the
+contrast level is **pending** — PI-05. The destination of the file is decided:
+repository, in `fichas/`.*

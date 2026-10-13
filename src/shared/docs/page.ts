@@ -245,10 +245,15 @@ function isIdentifier(term: string): boolean {
   return /^[a-z0-9][a-z0-9/_.:-]*$/.test(term.trim());
 }
 
+/**
+ * `termWidth` fixes the width of the first column, so that tables shown one
+ * after the other line up their second column.
+ */
 export function table(
   headers: readonly [string, string],
   rows: readonly TableRow[],
   term: TermColumn = 'code',
+  termWidth?: string,
 ): TemplateResult {
   const termRole = (text: string): string =>
     term === 'code' || (term === 'auto' && isIdentifier(text))
@@ -275,7 +280,7 @@ export function table(
         ${rows.map(
           ([name, description]) => html`
             <tr>
-              <th scope="row" style="${cell} ${termRole(name)}">${name}</th>
+              <th scope="row" style="${cell} ${termRole(name)}${termWidth ? ` width: ${termWidth};` : ''}">${name}</th>
               <td style="${cell} ${textRole('body-sm')}">${description}</td>
             </tr>
           `,
@@ -352,11 +357,6 @@ export function useDontUse(
       ${card('success', use.title, use.items)} ${card('error', dontUse.title, dontUse.items)}
     </div>
   `;
-}
-
-/** Only the error card. Kept for the nph-button page until it migrates to `useDontUse`. */
-export function dontDo(title: string, items: readonly string[]): TemplateResult {
-  return html`<div style="display: flex;">${card('error', title, items)}</div>`;
 }
 
 /** Origin footer. Every displayed rule points to where it came from. */

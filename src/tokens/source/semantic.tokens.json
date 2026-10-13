@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "layer": "semantic",
-      "expectedCount": 278,
-      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04)",
+      "expectedCount": 287,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09",
       "modeSet": {
         "name": "color-scheme",
         "modes": [
@@ -19,6 +19,36 @@
         }
       },
       "note": "Token sem bloco `modes` e invariante entre modos: alias e valor final equivalentes em claro e escuro. Invariante NAO quer dizer fixo - um alias para theme/* continua trocando com data-nph-brand."
+    }
+  },
+  "avatar": {
+    "size-sm": {
+      "$type": "dimension",
+      "$value": "{core.avatar-size.100}"
+    },
+    "size-md": {
+      "$type": "dimension",
+      "$value": "{core.avatar-size.200}"
+    },
+    "size-lg": {
+      "$type": "dimension",
+      "$value": "{core.avatar-size.300}"
+    },
+    "radius-sm": {
+      "$type": "dimension",
+      "$value": "{core.radius.300}"
+    },
+    "radius-md": {
+      "$type": "dimension",
+      "$value": "{core.radius.400}"
+    },
+    "radius-lg": {
+      "$type": "dimension",
+      "$value": "{core.radius.450}"
+    },
+    "overlap": {
+      "$type": "dimension",
+      "$value": "{core.avatar-overlap.100}"
     }
   },
   "border": {
@@ -1250,7 +1280,7 @@
         "com.iatec.nephos": {
           "modes": {
             "light": "{theme.brand-halo}",
-            "dark": "{theme.brand-200}"
+            "dark": "{theme.brand-halo-dark}"
           }
         }
       }
@@ -1651,6 +1681,12 @@
       }
     }
   },
+  "skeleton": {
+    "line-height": {
+      "$type": "dimension",
+      "$value": "{core.line-height.100}"
+    }
+  },
   "space": {
     "container-padding": {
       "$type": "dimension",
@@ -2031,6 +2067,12 @@
           }
         }
       }
+    }
+  },
+  "switch": {
+    "track-width": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.switch-track}"
     }
   },
   "text": {
