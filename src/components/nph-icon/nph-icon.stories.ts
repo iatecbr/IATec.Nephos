@@ -45,7 +45,7 @@ function t(context: GlobalsContext | undefined) {
   return translations(locale).validation;
 }
 
-/** `regular` and `solid` exist for every name in the collection. */
+/** `light` and `solid` exist for every name in the collection. */
 export const Variants: Story = {
   name: 'Variants',
   render: (_args, context: GlobalsContext) => {
@@ -56,8 +56,8 @@ export const Variants: Story = {
         ${demo(
           html`
             ${specimen(
-              html`<nph-icon name="circle-info" variant="regular" size="lg"></nph-icon>`,
-              v.variantsRegular,
+              html`<nph-icon name="circle-info" variant="light" size="lg"></nph-icon>`,
+              v.variantsLight,
             )}
             ${specimen(
               html`<nph-icon name="circle-info" variant="solid" size="lg"></nph-icon>`,

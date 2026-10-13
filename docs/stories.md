@@ -576,7 +576,7 @@ The other gaps, named so they do not look like rules:
 Recorded here because whoever builds a component will run into them. **This
 guide does not pick a side.**
 
-None open. The last one, `variant="solid"` in `nph-icon`, closed: [`../design.md`](../design.md), **P21** and the sheet agree that `regular` is the default and `solid` is available for each core name.
+None open. The last one, `variant="solid"` in `nph-icon`, closed: [`../design.md`](../design.md), **P21** and the sheet agree that `light` is the default and `solid` is available for each core name.
 
 ---
 
