@@ -105,7 +105,7 @@ StyleDictionary.registerTransform({
 });
 
 /**
- * P62.4 — Elvys's decision on 28/08/2026: the generator emits `rem`, and
+ * P62.4: the generator emits `rem`, and
  * `design.md` does not change. Until then every `dimension` came out in `px`,
  * and the contract already promised `rem`; the code was the one in the wrong.
  *

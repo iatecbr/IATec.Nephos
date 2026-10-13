@@ -165,7 +165,7 @@
   ],
   "sources": {
     "design_md": "design.md, in the repository",
-    "decision": "P62.1, P62.2 and P62.3, approved by Elvys on 28-08-2026; P62.6, the information trigger, under review in the PR by maurocsjr",
+    "decision": "P62.1, P62.2 and P62.3, approved in the technical review; P62.6, the information trigger, under technical review",
     "tests": "src/components/nph-label/nph-label.test.ts",
     "usage_evidence": "branch v/3.0.0, PR #10, merge e231eba",
     "storybook": "src/components/nph-label/nph-label.stories.ts",

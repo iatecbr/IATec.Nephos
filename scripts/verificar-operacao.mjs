@@ -7,8 +7,8 @@
  * instead of believing the field.
  *
  * The machine half of a task, context and evidence is a fenced JSON block,
- * the first one in the Markdown file. JSON and not YAML by decision of Indiane
- * on 2026-09-02: adopting a full YAML reader would cost a new dependency, and
+ * the first one in the Markdown file. JSON and not YAML by recorded
+ * decision: adopting a full YAML reader would cost a new dependency, and
  * `JSON.parse` already ships with Node. The spec is the exception: its YAML is
  * read by `spec-lib.mjs`, which covers only a closed subset and brings no
  * dependency. The task stays in JSON.
