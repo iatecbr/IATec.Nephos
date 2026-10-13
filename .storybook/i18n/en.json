@@ -331,6 +331,54 @@
     ],
     "variantsTitle": "Severity and emphasis",
     "variantsCaption": "The severities in the solid and light emphases; in the second row of each emphasis, with an icon.",
+    "severityUseHeader": [
+      "Severity",
+      "When to use"
+    ],
+    "severityUse": [
+      {
+        "value": "primary",
+        "label": "Use for a permanent state or category that needs to stand out, in the brand color."
+      },
+      {
+        "value": "secondary",
+        "label": "Use for a permanent state or category, without emphasis."
+      },
+      {
+        "value": "info",
+        "label": "Use for something the person needs to know about the item."
+      },
+      {
+        "value": "warn",
+        "label": "Use when the item asks for care before proceeding."
+      },
+      {
+        "value": "help",
+        "label": "Use when the item has an explanation or help."
+      },
+      {
+        "value": "danger",
+        "label": "Use for a negative state of the item, such as rejected."
+      },
+      {
+        "value": "success",
+        "label": "Use to confirm an event that has just happened, never for a permanent state."
+      }
+    ],
+    "emphasisUseHeader": [
+      "Emphasis",
+      "When to use"
+    ],
+    "emphasisUse": [
+      {
+        "value": "solid",
+        "label": "Use to give the badge weight."
+      },
+      {
+        "value": "light",
+        "label": "Use to accompany the item without competing for attention."
+      }
+    ],
     "anatomyTitle": "Anatomy",
     "anatomyHeader": [
       "Part",

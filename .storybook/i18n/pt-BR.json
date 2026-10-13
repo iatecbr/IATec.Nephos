@@ -331,6 +331,54 @@
     ],
     "variantsTitle": "Tipo e ênfase",
     "variantsCaption": "Os tipos nas ênfases solid e light; na segunda linha de cada ênfase, com ícone.",
+    "severityUseHeader": [
+      "Tipo",
+      "Quando usar"
+    ],
+    "severityUse": [
+      {
+        "value": "primary",
+        "label": "Estado ou categoria permanente que precisa se destacar, na cor da marca."
+      },
+      {
+        "value": "secondary",
+        "label": "Estado ou categoria permanente, sem destaque."
+      },
+      {
+        "value": "info",
+        "label": "Algo que a pessoa precisa saber sobre o item."
+      },
+      {
+        "value": "warn",
+        "label": "O item pede cuidado antes de seguir."
+      },
+      {
+        "value": "help",
+        "label": "O item tem explicação ou ajuda."
+      },
+      {
+        "value": "danger",
+        "label": "Estado negativo do item, como recusado."
+      },
+      {
+        "value": "success",
+        "label": "Confirma um evento que acabou de acontecer, nunca estado permanente."
+      }
+    ],
+    "emphasisUseHeader": [
+      "Ênfase",
+      "Quando usar"
+    ],
+    "emphasisUse": [
+      {
+        "value": "solid",
+        "label": "Dá peso ao selo."
+      },
+      {
+        "value": "light",
+        "label": "Acompanha o item sem disputar atenção."
+      }
+    ],
     "anatomyTitle": "Anatomia",
     "anatomyHeader": [
       "Parte",

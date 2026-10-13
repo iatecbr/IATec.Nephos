@@ -58,6 +58,8 @@ export const Documentation: Story = {
   name: 'Documentation',
   render: (_args, context: GlobalsContext) => {
     const d = translations(localeOf(context)).badgeDocs;
+    /* Same first-column width in the type and emphasis tables, so "When to use" lines up. */
+    const useTermWidth = `${Math.max(...[...d.severityUse, ...d.emphasisUse].map(({ value }: { value: string }) => value.length))}ch`;
     const [report, contract, request] = d.exampleItems as string[];
     const [draft, finance, rejected] = d.exampleBadges as string[];
 
@@ -125,6 +127,8 @@ export const Documentation: Story = {
               </div>`,
               d.variantsCaption,
             )}
+            ${table(d.severityUseHeader, d.severityUse.map(({ value, label }: { value: string; label: string }) => [value, label] as const), 'code', useTermWidth)}
+            ${table(d.emphasisUseHeader, d.emphasisUse.map(({ value, label }: { value: string; label: string }) => [value, label] as const), 'code', useTermWidth)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,
         )}

@@ -245,10 +245,15 @@ function isIdentifier(term: string): boolean {
   return /^[a-z0-9][a-z0-9/_.:-]*$/.test(term.trim());
 }
 
+/**
+ * `termWidth` fixes the width of the first column, so that tables shown one
+ * after the other line up their second column.
+ */
 export function table(
   headers: readonly [string, string],
   rows: readonly TableRow[],
   term: TermColumn = 'code',
+  termWidth?: string,
 ): TemplateResult {
   const termRole = (text: string): string =>
     term === 'code' || (term === 'auto' && isIdentifier(text))
@@ -275,7 +280,7 @@ export function table(
         ${rows.map(
           ([name, description]) => html`
             <tr>
-              <th scope="row" style="${cell} ${termRole(name)}">${name}</th>
+              <th scope="row" style="${cell} ${termRole(name)}${termWidth ? ` width: ${termWidth};` : ''}">${name}</th>
               <td style="${cell} ${textRole('body-sm')}">${description}</td>
             </tr>
           `,

@@ -331,6 +331,54 @@
     ],
     "variantsTitle": "Tipo y énfasis",
     "variantsCaption": "Los tipos en los énfasis solid y light; en la segunda fila de cada énfasis, con icono.",
+    "severityUseHeader": [
+      "Tipo",
+      "Cuándo usar"
+    ],
+    "severityUse": [
+      {
+        "value": "primary",
+        "label": "Estado o categoría permanente que necesita destacarse, en el color de la marca."
+      },
+      {
+        "value": "secondary",
+        "label": "Estado o categoría permanente, sin destaque."
+      },
+      {
+        "value": "info",
+        "label": "Algo que la persona necesita saber sobre el elemento."
+      },
+      {
+        "value": "warn",
+        "label": "El elemento pide cuidado antes de seguir."
+      },
+      {
+        "value": "help",
+        "label": "El elemento tiene una explicación o ayuda."
+      },
+      {
+        "value": "danger",
+        "label": "Estado negativo del elemento, como rechazado."
+      },
+      {
+        "value": "success",
+        "label": "Confirma un evento que acaba de ocurrir, nunca un estado permanente."
+      }
+    ],
+    "emphasisUseHeader": [
+      "Énfasis",
+      "Cuándo usar"
+    ],
+    "emphasisUse": [
+      {
+        "value": "solid",
+        "label": "Da peso a la insignia."
+      },
+      {
+        "value": "light",
+        "label": "Acompaña el elemento sin competir por la atención."
+      }
+    ],
     "anatomyTitle": "Anatomía",
     "anatomyHeader": [
       "Parte",
