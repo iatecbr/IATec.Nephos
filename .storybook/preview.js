@@ -5,6 +5,8 @@
  * consume `--nph-*` from outside the Shadow DOM: without it,
  * `var(--nph-icon-size-sm)` would resolve empty and no box would have a size.
  * The file is GENERATED — never edit `src/tokens/generated/tokens.css` by hand.
+ * `src/styles/scrollbar.css` comes right after it: it colours the native
+ * scrollbar with the `scrollbar/*` tokens.
  *
  * The Nephos fonts — Noto Sans and IBM Plex Mono — come from `@fontsource`,
  * with no external call. The weights are those of the text roles: 400, 500
@@ -26,6 +28,7 @@ import '@fontsource/noto-sans/latin-500.css';
 import '@fontsource/noto-sans/latin-600.css';
 import '@fontsource/ibm-plex-mono/latin-400.css';
 import '../src/tokens/generated/tokens.css';
+import '../src/styles/scrollbar.css';
 import { LOCALE_GLOBAL, LOCALES, DEFAULT_LOCALE } from './i18n/index.js';
 
 /** The same global name as in `manager.js`. */

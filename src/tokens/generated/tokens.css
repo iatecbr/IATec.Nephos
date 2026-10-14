@@ -216,6 +216,7 @@
   --nph-core-surface-200: #b7bbc1;
   --nph-core-surface-300: #9399a1;
   --nph-core-surface-400: #6f7782;
+  --nph-core-surface-500: #4b5563;
   --nph-core-surface-600: #3c444f;
   --nph-core-surface-700: #2d333b;
   --nph-core-surface-800: #1e2228;
@@ -584,7 +585,7 @@
   --nph-chart-seq-5: var(--nph-core-sistemas-900);
   --nph-chart-track: var(--nph-core-neutral-200);
   --nph-color-accent-foreground: var(--nph-core-neutral-950);
-  --nph-color-accent: var(--nph-core-neutral-100);
+  --nph-color-accent: var(--nph-core-surface-50);
   --nph-color-background: var(--nph-core-base-white);
   --nph-color-border: var(--nph-core-neutral-200);
   --nph-color-card-foreground: var(--nph-core-neutral-950);
@@ -616,6 +617,9 @@
   --nph-color-tooltip-foreground: var(--nph-core-base-white);
   --nph-focus-ring-error: var(--nph-core-danger-200);
   --nph-overlay-scrim: var(--nph-core-scrim-light);
+  --nph-scrollbar-track: var(--nph-core-surface-50);
+  --nph-scrollbar-thumb: var(--nph-core-surface-200);
+  --nph-scrollbar-thumb-hover: var(--nph-core-surface-300);
   --nph-shadow-color-light: var(--nph-core-alpha-black-5);
   --nph-shadow-color-strong: var(--nph-core-alpha-black-25);
   --nph-shadow-color: var(--nph-core-alpha-black-10);
@@ -740,6 +744,9 @@
   --nph-color-tooltip-foreground: var(--nph-core-neutral-100);
   --nph-focus-ring-error: var(--nph-core-danger-400);
   --nph-overlay-scrim: var(--nph-core-scrim-dark);
+  --nph-scrollbar-track: var(--nph-core-surface-800);
+  --nph-scrollbar-thumb: var(--nph-core-surface-500);
+  --nph-scrollbar-thumb-hover: var(--nph-core-surface-400);
   --nph-shadow-color-light: var(--nph-core-alpha-black-0);
   --nph-shadow-color-strong: var(--nph-core-alpha-black-0);
   --nph-shadow-color: var(--nph-core-alpha-black-0);

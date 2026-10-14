@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "layer": "semantic",
-      "expectedCount": 287,
-      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09",
+      "expectedCount": 290,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09; o novo valor claro de color/accent e os 3 tokens scrollbar/* lidos variavel a variavel em 2026-10-14",
       "modeSet": {
         "name": "color-scheme",
         "modes": [
@@ -592,11 +592,11 @@
     },
     "accent": {
       "$type": "color",
-      "$value": "{core.neutral.100}",
+      "$value": "{core.surface.50}",
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "light": "{core.neutral.100}",
+            "light": "{core.surface.50}",
             "dark": "{core.surface.600}"
           }
         }
@@ -1559,6 +1559,44 @@
     "surface": {
       "$type": "dimension",
       "$value": "{core.radius.600}"
+    }
+  },
+  "scrollbar": {
+    "track": {
+      "$type": "color",
+      "$value": "{core.surface.50}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{core.surface.50}",
+            "dark": "{core.surface.800}"
+          }
+        }
+      }
+    },
+    "thumb": {
+      "$type": "color",
+      "$value": "{core.surface.200}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{core.surface.200}",
+            "dark": "{core.surface.500}"
+          }
+        }
+      }
+    },
+    "thumb-hover": {
+      "$type": "color",
+      "$value": "{core.surface.300}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{core.surface.300}",
+            "dark": "{core.surface.400}"
+          }
+        }
+      }
     }
   },
   "shadow": {
