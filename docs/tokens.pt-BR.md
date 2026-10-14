@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=8fcff00b43c2375a3b0193467a3e57828c376adc734e46f90192b1a5412929d5 | status=revisado -->
+<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=ecaa3a31f4fe5135da49f29bf7d7dccdc6398a22fdf9c1e2e2ebf617b6d15d77 | status=revisado -->
 
 # Tokens — fonte, geração e consumo
 
@@ -321,6 +321,15 @@ Só o esquema também vale numa parte da tela: `data-nph-color-scheme="dark"`
 sozinho resolve tudo no escuro. Só a marca, sem o esquema no mesmo elemento,
 não é suportado: os tokens que dependem de marca continuariam com a marca da
 raiz.
+
+### Cor da barra de rolagem nativa
+
+Carregue `src/styles/scrollbar.css` logo depois de
+`src/tokens/generated/tokens.css`. Onde o navegador suporta `scrollbar-color`,
+ela colore a barra de rolagem nativa com `scrollbar/thumb` e `scrollbar/track`,
+na raiz e em cada raiz `[data-nph-color-scheme]`. A rolagem continua nativa: sem
+JavaScript, sem barra personalizada. No hover, o navegador pode aplicar o próprio
+tom; `scrollbar/thumb-hover` não é aplicado.
 
 ## Estrutura do CSS gerado
 
