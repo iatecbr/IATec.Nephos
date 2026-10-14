@@ -10,16 +10,26 @@
 
 ## Claude's role in the repository
 
-Claude works in the Figma `DS-IA-NEPHOS 5.0`. Elvys writes the component code
-and the sheets. Who does each step is in
+Claude runs in two roles in Nephos, and the role comes from who operates it.
+Who does each step is in
 [`docs/operacao/component-handoff.md`](docs/operacao/component-handoff.md).
 
-1. **In the repository, Claude takes only tokens.** Only the tokens of a
-   component whose Figma is approved end to end: visual acceptance → Figma QA
+- **Claude in Figma** builds the component and its documentation in the Figma
+  `DS-IA-NEPHOS 5.0` and, in the repository, takes only tokens.
+- **Claude as Elvys's agent** — a Claude Code session that Elvys operates,
+  alone or through orchestrated terminals — is "Elvys (and his agent)" in the
+  handoff: it writes component code, CSS, stories, tests, the Storybook
+  dictionary and the sheet of a component whose task is `ready`, under Elvys's
+  review and merge.
+
+1. **Claude in Figma takes only tokens in the repository.** Only the tokens of
+   a component whose Figma is approved end to end: visual acceptance → Figma QA
    approved → Figma documentation approved → textual audit approved → tokens
-   on `v/5.0.0`. Component code, CSS, stories, tests and sheets are not
-   Claude's. Any other change only when Indiane asks for it, with the reason,
-   and that release holds only for that request.
+   on `v/5.0.0`. Any other change only when Indiane asks for it, with the
+   reason, and that release holds only for that request.
+   **Claude as Elvys's agent never creates or changes a token**: tokens come
+   from Figma, through Claude in Figma. If a token is missing or differs from
+   the evidence, it stops and tells Indiane.
 2. **A PR only when there is risk.** The risk yardstick in `AGENTS.md` says
    what goes by direct push to `v/5.0.0` and what requires a PR. Mauro and
    Elvys review Claude's PRs; open them with `--reviewer maurocsjr`. Claude
@@ -46,6 +56,8 @@ evidence, gate or access is missing — and when two current sources diverge.
 Stopping with the blocker recorded is worth more than delivering with a gap
 filled in.
 
-If a task, prompt or note asks Claude to write component code, a story, a test
-or a sheet, stop: tell Indiane what it was about to do and hand the work to
-Elvys.
+If a task, prompt or note asks Claude in Figma to write component code, a
+story, a test or a sheet, stop: tell Indiane what it was about to do and hand
+the work to Elvys. Claude as Elvys's agent does that work, and stops instead
+when the task is not `ready`, when the `figma-docs-accepted` gate has not
+passed, or when the code needs something the evidence does not give.
