@@ -563,7 +563,7 @@ tokens_semantic:
     css: '--nph-scrollbar-thumb-hover'
     claro: core/surface/300
     escuro: core/surface/400
-    use: "USE for the scrollbar thumb with the pointer over it or while dragging. DO NOT USE at rest."
+    use: "Reference tone in Figma for the scrollbar thumb with the pointer over it or while dragging. In code, the native scrollbar may show the browser's own hover tone, and src/styles/scrollbar.css does not apply this token. DO NOT USE at rest."
   status/info:
     css: '--nph-status-info'
     claro: core/info/600
