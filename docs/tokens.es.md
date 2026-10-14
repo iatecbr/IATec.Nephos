@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=8fcff00b43c2375a3b0193467a3e57828c376adc734e46f90192b1a5412929d5 | status=revisado -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=ecaa3a31f4fe5135da49f29bf7d7dccdc6398a22fdf9c1e2e2ebf617b6d15d77 | status=revisado -->
 
 # Tokens — fuente, generación y consumo
 
@@ -328,6 +328,16 @@ Solo el esquema también vale en una parte de la pantalla:
 `data-nph-color-scheme="dark"` solo resuelve todo en oscuro. Solo la marca, sin
 el esquema en el mismo elemento, no está soportado: los tokens que dependen de
 la marca seguirían con la marca de la raíz.
+
+### Color de la barra de desplazamiento nativa
+
+Cargue `src/styles/scrollbar.css` justo después de
+`src/tokens/generated/tokens.css`. Donde el navegador soporta `scrollbar-color`,
+colorea la barra de desplazamiento nativa con `scrollbar/thumb` y
+`scrollbar/track`, en la raíz y en cada raíz `[data-nph-color-scheme]`. El
+desplazamiento sigue siendo nativo: sin JavaScript, sin barra personalizada. Al
+pasar el puntero, el navegador puede aplicar su propio tono; `scrollbar/thumb-hover`
+no se aplica.
 
 ## Estructura del CSS generado
 

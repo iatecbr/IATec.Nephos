@@ -7,17 +7,10 @@
  * root: a frame that pins its own scheme gets the thumb and track of that
  * scheme, not those of the page.
  *
- * The hover tone does not show where `scrollbar-color` applies: there the
- * `::-webkit-scrollbar` pseudo-elements are ignored. Elsewhere, the thumb
- * rule only takes effect when `::-webkit-scrollbar` itself is styled, which
- * needs a width that has no approved token. The rule stays so the token has
- * its declared place.
+ * On hover, the browser may apply its own tone; scrollbar/thumb-hover is the
+ * reference tone in Figma and no rule here applies it.
  */
 :root,
 [data-nph-color-scheme] {
   scrollbar-color: var(--nph-scrollbar-thumb) var(--nph-scrollbar-track);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--nph-scrollbar-thumb-hover);
 }
