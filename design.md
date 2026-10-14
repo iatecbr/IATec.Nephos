@@ -952,6 +952,13 @@ tokens_typography:
     valores: { size: 14, line-height: 20, weight: 400, tracking: 0, family: mono }
     use: "Code, identifier, key, hash and path - what is read character by character. DO NOT USE for a number in a table."
 
+tokens_texto_destaque:
+  text/highlight-weight:
+    css: '--nph-text-highlight-weight'
+    alias: core/weight/semibold
+    valor: 600
+    use: "Weight of the highlighted stretch inside a text, such as the searched term in the nph-combobox list. USE only on the stretch that repeats what the person typed; the rest of the text keeps the weight of its role. DO NOT USE for a whole title or label: use the text role."
+
 # ---------------------------------------------------------------
 # SPACING - primitives in core (invisible) and 7 intent tokens
 # in the semantic collection. Components consume ONLY the

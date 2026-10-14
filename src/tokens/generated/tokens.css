@@ -224,6 +224,7 @@
   --nph-core-surface-800: #1e2228;
   --nph-core-surface-900: #0f1114;
   --nph-core-surface-950: #08080a;
+  --nph-core-weight-semibold: 600;
   --nph-core-warn-50: #fdeee7;
   --nph-core-warn-100: #fbdece;
   --nph-core-warn-200: #f7bc9e;
@@ -506,6 +507,7 @@
   --nph-space-stack-tight: var(--nph-core-space-100);
   --nph-space-stack: var(--nph-core-space-400);
   --nph-switch-track-width: var(--nph-core-layout-width-switch-track);
+  --nph-text-highlight-weight: var(--nph-core-weight-semibold);
   --nph-text-heading-xl-font-family: var(--nph-core-font-sans);
   --nph-text-heading-lg-font-family: var(--nph-core-font-sans);
   --nph-text-heading-md-font-family: var(--nph-core-font-sans);
