@@ -326,7 +326,7 @@ raiz.
 
 Carregue `src/styles/scrollbar.css` logo depois de
 `src/tokens/generated/tokens.css`. Onde o navegador suporta `scrollbar-color`,
-ela colore a barra de rolagem nativa com `scrollbar/thumb` e `scrollbar/track`,
+o arquivo colore a barra de rolagem nativa com `scrollbar/thumb` e `scrollbar/track`,
 na raiz e em cada raiz `[data-nph-color-scheme]`. A rolagem continua nativa: sem
 JavaScript, sem barra personalizada. No hover, o navegador pode aplicar o próprio
 tom; `scrollbar/thumb-hover` não é aplicado.
