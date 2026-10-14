@@ -117,6 +117,7 @@
   --nph-core-layout-height-header: 3.5rem;
   --nph-core-layout-height-tooltip: 2.75rem;
   --nph-core-layout-height-separator: 3rem;
+  --nph-core-layout-height-list: 18.5rem;
   --nph-core-layout-width-app: 90rem;
   --nph-core-layout-width-reading: 45rem;
   --nph-core-layout-width-sidebar-collapsed: 4rem;
@@ -146,6 +147,7 @@
   --nph-core-radius-450: 10px;
   --nph-core-radius-600: 14px;
   --nph-core-radius-full: 9999px;
+  --nph-core-radius-off-scale-5: 5px;
   --nph-core-radius-off-scale-7: 7px;
   --nph-core-radius-off-scale-11: 11px;
   --nph-core-radius-off-scale-18: 18px;
@@ -467,6 +469,7 @@
   --nph-layout-sidebar-expanded: var(--nph-core-layout-width-sidebar-expanded);
   --nph-layout-max-tooltip-width: var(--nph-core-layout-width-tooltip);
   --nph-layout-max-tooltip-height: var(--nph-core-layout-height-tooltip);
+  --nph-layout-max-list-height: var(--nph-core-layout-height-list);
   --nph-layout-field-width: var(--nph-core-layout-width-field);
   --nph-layout-input-width: var(--nph-core-layout-width-input);
   --nph-layout-rich-option-width: var(--nph-core-layout-width-rich-option);
@@ -487,6 +490,7 @@
   --nph-overlay-on-media: var(--nph-core-alpha-black-40);
   --nph-radius-container: var(--nph-core-radius-400);
   --nph-radius-control: var(--nph-core-radius-300);
+  --nph-radius-control-inner: var(--nph-core-radius-off-scale-5);
   --nph-radius-full: var(--nph-core-radius-full);
   --nph-radius-inner: var(--nph-core-radius-200);
   --nph-radius-none: var(--nph-core-radius-0);

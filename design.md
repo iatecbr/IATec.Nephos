@@ -1106,7 +1106,7 @@ tokens_skeleton:
     use: "Height of the nph-skeleton line: 16. USE only on the line shape of nph-skeleton. DO NOT USE on another piece."
 
 # ---------------------------------------------------------------
-# RADIUS - primitives in core (invisible) and 8 intent tokens in the
+# RADIUS - primitives in core (invisible) and intent tokens in the
 # semantic collection. Components consume ONLY the semantic ones.
 # ATTENTION: radius is in px, NOT in rem. There are TWO foundations like this -
 # this one and shadow, which declares the same in elevacao_regras.
@@ -1130,6 +1130,7 @@ tokens_core_radius:
   '500':  { valor: 12,   css: '--nph-core-radius-500' }
   '600':  { valor: 14,   css: '--nph-core-radius-600' }
   full:   { valor: 9999, css: '--nph-core-radius-full' }
+  off-scale/5:  { valor: 5,  css: '--nph-core-radius-off-scale-5',  alias_de: 'radius/control-inner' }
   off-scale/7:  { valor: 7,  css: '--nph-core-radius-off-scale-7',  alias_de: 'focus/border-radius-control' }
   off-scale/11: { valor: 11, css: '--nph-core-radius-off-scale-11', alias_de: 'focus/radius-control-with-border' }
   off-scale/18: { valor: 18, css: '--nph-core-radius-off-scale-18', alias_de: 'focus/radius-surface' }
@@ -1155,6 +1156,11 @@ tokens_radius:
     alias: core/radius/300
     valor: 6
     use: "SYSTEM DEFAULT. USE on button, field, select, textarea and anything that is operated. When in doubt, it is this one."
+  radius/control-inner:
+    css: '--nph-radius-control-inner'
+    alias: core/radius/off-scale/5
+    valor: 5
+    use: "Radius of a surface fitted inside a control with a border: radius/control minus border/width. USE on the arrow area of nph-select and nph-combobox, on the corners that touch the border, and on every piece that fills the end of a field. The corners that touch the divider are radius/none."
   radius/container:
     css: '--nph-radius-container'
     alias: core/radius/400
@@ -1370,6 +1376,7 @@ tokens_core_layout:
   core/layout-width/rich-option:       { valor: 320, css: '--nph-core-layout-width-rich-option', alias_de: 'layout/rich-option-width' }
   core/layout-width/separator:         { valor: 240, css: '--nph-core-layout-width-separator', alias_de: 'layout/separator-width' }
   core/layout-height/separator:        { valor: 48, css: '--nph-core-layout-height-separator', alias_de: 'layout/separator-height' }
+  core/layout-height/list:             { valor: 296, css: '--nph-core-layout-height-list', alias_de: 'layout/max-list-height' }
   core/layout-width/switch-track:      { valor: 40, css: '--nph-core-layout-width-switch-track', alias_de: 'switch/track-width' }
 
 # ---------------------------------------------------------------
@@ -1562,6 +1569,11 @@ tokens_layout:
     alias: core/layout-height/tooltip
     valor: 44
     use: "Maximum height of nph-tooltip: at most two lines of text. The text must fit whole, without an ellipsis and without breaking a word. DO NOT USE outside the help balloon."
+  layout/max-list-height:
+    css: '--nph-layout-max-list-height'
+    alias: core/layout-height/list
+    valor: 296
+    use: "Maximum height of the option list of nph-select and nph-combobox: it shows up to 8 options; above it, the list scrolls. DO NOT USE outside an option list."
   layout/field-width:
     css: '--nph-layout-field-width'
     alias: core/layout-width/field

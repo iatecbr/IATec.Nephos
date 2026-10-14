@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "layer": "semantic",
-      "expectedCount": 290,
-      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09; o novo valor claro de color/accent e os 3 tokens scrollbar/* lidos variavel a variavel em 2026-10-14",
+      "expectedCount": 292,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09; o novo valor claro de color/accent e os 3 tokens scrollbar/* lidos variavel a variavel em 2026-10-14; radius/control-inner e layout/max-list-height, do nph-select e do nph-combobox, lidos variavel a variavel em 2026-10-14",
       "modeSet": {
         "name": "color-scheme",
         "modes": [
@@ -1438,6 +1438,10 @@
       "$type": "dimension",
       "$value": "{core.layout-height.tooltip}"
     },
+    "max-list-height": {
+      "$type": "dimension",
+      "$value": "{core.layout-height.list}"
+    },
     "field-width": {
       "$type": "dimension",
       "$value": "{core.layout-width.field}"
@@ -1535,6 +1539,10 @@
     "control": {
       "$type": "dimension",
       "$value": "{core.radius.300}"
+    },
+    "control-inner": {
+      "$type": "dimension",
+      "$value": "{core.radius.off-scale.5}"
     },
     "full": {
       "$type": "dimension",
