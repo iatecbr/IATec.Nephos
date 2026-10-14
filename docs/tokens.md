@@ -319,6 +319,15 @@ The scheme alone also works on a part of the screen:
 alone, without the scheme on the same element, is not supported: the tokens that
 depend on the brand would keep the root brand.
 
+### Native scrollbar colour
+
+Load `src/styles/scrollbar.css` right after `src/tokens/generated/tokens.css`.
+Where the browser supports `scrollbar-color`, it colours the native scrollbar
+with `scrollbar/thumb` and `scrollbar/track`, on the root and on every
+`[data-nph-color-scheme]` root. Scrolling stays native: no JavaScript, no custom
+scrollbar. On hover, the browser may apply its own tone; `scrollbar/thumb-hover`
+is not applied.
+
 ## Structure of the generated CSS
 
 ```css
