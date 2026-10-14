@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=dcdbf410ce3f47c4bac2e7cf689be63af2b8c61c25c9b45039a00c93e7a63474 | status=revisado -->
+<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=8fcff00b43c2375a3b0193467a3e57828c376adc734e46f90192b1a5412929d5 | status=revisado -->
 
 # Tokens — fonte, geração e consumo
 
@@ -364,7 +364,7 @@ O build **falha** — com código 1 e mensagem específica — quando:
 | Item | Situação |
 |---|---|
 | 20 primitivos da **P46** | **Excluídos por decisão registrada** — `core/radius` 700–1000, `core/space` 1200–1500 e os 12 fora de escala. Enquanto estiverem nessa lista, não entram no JSON. |
-| 127 demais primitivos `core` | **Adiados.** Não são alcançáveis a partir da camada `semantic`, o que **não** significa que não tenham consumidor. Seguem adiados sem juízo sobre consumidor. |
+| Demais primitivos `core` | **Adiados.** Não são alcançáveis a partir da camada `semantic`, o que **não** significa que não tenham consumidor. Seguem adiados sem juízo sobre consumidor. |
 | 24 primitivos `core/sombra` | **Migrados em 03/09/2026.** O consumidor que a linha acima já nomeava — os estilos `elevation/*` — passou a existir. |
 | 11 estilos de efeito | **Migrados em 03/09/2026.** Deixaram de ser adiados: viraram tokens `shadow` — 8 de elevação e 3 anéis de foco. |
 | 14 estilos de texto | **Migrados em 27/08/2026.** Deixaram de ser adiados. Não são variáveis do Figma: os valores foram lidos dos estilos de texto e conferidos contra `tokens_typography` do `design.md`, item a item, sem divergência. Cada papel virou cinco tokens em `semantic.text`, e as duas famílias entraram em `core.font`. |

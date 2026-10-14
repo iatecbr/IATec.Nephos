@@ -288,7 +288,7 @@ tokens_semantic:
     nao_use: "Hover of primary, destructive, outline or ghost."
   color/accent:
     css: '--nph-color-accent'
-    claro: core/neutral/100
+    claro: core/surface/50
     escuro: core/surface/600
     use: "Temporary highlight: hover, focused item, active row."
     nao_use: "Permanent block background."
@@ -549,6 +549,21 @@ tokens_semantic:
     claro: core/neutral/300
     escuro: core/neutral/200
     use: "Focus ring inside the sidebar."
+  scrollbar/track:
+    css: '--nph-scrollbar-track'
+    claro: core/surface/50
+    escuro: core/surface/800
+    use: "USE for the scrollbar track (the part the thumb runs along). DO NOT USE as a block or field background."
+  scrollbar/thumb:
+    css: '--nph-scrollbar-thumb'
+    claro: core/surface/200
+    escuro: core/surface/500
+    use: "USE for the scrollbar thumb at rest. DO NOT USE for a border, divider or text. Known exception: the thumb measures 1,66:1 against scrollbar/track in light mode and 2,11:1 in dark mode; over color/popover, 1,93:1 and 1,69:1. All are below the 3:1 of WCAG 1.4.11, accepted for softness. Do not raise the tone and never use opacity to soften it."
+  scrollbar/thumb-hover:
+    css: '--nph-scrollbar-thumb-hover'
+    claro: core/surface/300
+    escuro: core/surface/400
+    use: "USE for the scrollbar thumb with the pointer over it or while dragging. DO NOT USE at rest."
   status/info:
     css: '--nph-status-info'
     claro: core/info/600

@@ -363,7 +363,7 @@ The build **fails** — with exit code 1 and a specific message — when:
 | Item | Status |
 |---|---|
 | 20 primitives from **P46** | **Excluded by recorded decision** — `core/radius` 700–1000, `core/space` 1200–1500 and the 12 off-scale ones. While they are on that list, they do not enter the JSON. |
-| The other 127 `core` primitives | **Deferred.** They are not reachable from the `semantic` layer, which does **not** mean they have no consumer. They remain deferred with no judgement about consumers. |
+| The other `core` primitives | **Deferred.** They are not reachable from the `semantic` layer, which does **not** mean they have no consumer. They remain deferred with no judgement about consumers. |
 | 24 `core/sombra` primitives | **Migrated on 03/09/2026.** The consumer the row above already named — the `elevation/*` styles — now exists. |
 | 11 effect styles | **Migrated on 03/09/2026.** No longer deferred: they became `shadow` tokens — 8 elevation levels and 3 focus rings. |
 | 14 text styles | **Migrated on 27/08/2026.** No longer deferred. They are not Figma variables: the values were read from the text styles and checked against `tokens_typography` in `design.md`, item by item, with no divergence. Each role became five tokens in `semantic.text`, and the two families landed in `core.font`. |
