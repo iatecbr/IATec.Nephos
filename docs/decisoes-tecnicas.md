@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67 and P68. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71 and P72. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -31,12 +31,15 @@ P62.4 subsection for the detail).
 | **P20** | Style Dictionary v5 and theme contract | 24/08/2026 | High | Approved, 28/08/2026 |
 | **P21** | Technical plan of `nph-icon` | 26/08/2026 | Already implemented and merged under risk acceptance | Approved, 28/08/2026. Light amendment: under review in the pull request that brings it. |
 | **P63** | Metadata generated from the spec | 28/09/2026 | Medium. Changing location or format later requires generating again and adjusting whoever reads it; the spec does not change | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** |
-| **P64** | Code language | 28/09/2026 | Medium. Applies to all new code; migrating what exists only swaps names | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** Amendment of 02/10/2026 approved by Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 adopted by Indiane: the language part approved by Mauro in PR #59, merged in `addb034`, and the Storybook naming item in PR #56, merged in `455ead8`. |
+| **P64** | Code language | 28/09/2026 | Medium. Applies to all new code; migrating what exists only swaps names | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** Amendment of 02/10/2026 approved by Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 adopted by Indiane: the language part approved by Mauro in PR #59, merged in `addb034`, and the Storybook naming item in PR #56, merged in `455ead8`. Amendment of 15/10/2026 (American English) adopted by Indiane, reviewed in the pull request that brings it. |
 | **P65** | API and semantics of `nph-tooltip` | 05/10/2026 | Low now. `nph-label` is the first consumer; changing later requires redoing its trigger | Behavior and scope (L11.5) and anatomy (L11.6, L11.7 and the accepted frame) adopted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #51, merged on 05/10/2026 |
 | **P66** | API and semantics of `nph-spinner`, `nph-separator` and `nph-kbd` | 05/10/2026 | Low now. `nph-button` (Batch B) and `nph-rich-option` will be the first consumers | Anatomy and behavior: frames accepted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #54, merged in `d01da7b` |
 | **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Generator approved by `maurocsjr` in PR #55, merged in `7dd370d` |
 | **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics approved by `maurocsjr` in PR #56, merged in `455ead8` |
 | **P69** | API and semantics of `nph-skeleton` | 15/10/2026 | Low now. No piece consumes it yet; `nph-avatar` will share its avatar sizes and radii | Anatomy and behavior: frame accepted by Indiane on 08/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P70** | Package entry points and the Usage section | 15/10/2026 | Medium. Every `Docs` page shows the import line, so changing the path later changes every page and every consumer | Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request that brings it |
+| **P71** | `Docs` page lists read from the Metadata | 15/10/2026 | Low. The lists move from the dictionary to the Metadata; the sheet does not change its format | Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request that brings it |
+| **P72** | Accessibility gate in the tests | 15/10/2026 | Medium. Two new dependencies and a gate on every story; the earlier, the fewer violations to fix | Adopted by Indiane on 15/10/2026 (DSA-30, D3). Reviewed in the pull request that brings it |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -229,6 +232,12 @@ exist.
 **Out of scope.** Public publishing, GitHub Pages, external environment, deploy
 and definitive test configuration. Creating the CI workflow. Interaction and
 accessibility tests will be defined with the first real component.
+
+**Annotation of 15/10/2026.** P70 defines the package entry points and the import
+line of each component. Public publishing stays out of scope.
+
+**Annotation of 15/10/2026.** P72 defines the accessibility tests: the deferral to
+"the first real component" is closed.
 
 **Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
 by Elvys on 28/08/2026.
@@ -679,6 +688,9 @@ commit. Without it, `npm run test:operacao` fails by `V32`.
 **Out of scope.** The Metadata tab in Storybook, the query server
 (MCP) and checking the spec's `api` block against the code.
 
+**Annotation of 15/10/2026.** P71 makes the `Docs` pages read `use_when` and
+`do_not_use_when` from the Metadata. The Metadata tab stays out of scope.
+
 **Status.** Decision adopted by Indiane on 28/09/2026, by delegation —
 reviewed and approved by Mauro on 30/09/2026, in the team chat.
 
@@ -783,12 +795,32 @@ or into `scripts/language-exceptions.json` (documentation), only with the classe
 `prose-text` and `contract-term`, which never cover a technical name. Adopted by
 Indiane on 06/10/2026.
 
+**Amendment of 15/10/2026 — American English.** No rule named the variant, and
+the repository mixed both: `.storybook/i18n/en.json` and parts of `README.md` and
+`docs/tokens.md` are British (`colour`, `behaviour`, `centre`), while `design.md`,
+the specs, this note and every identifier are American (`color/*`, P20).
+
+- The English of this repository is **American English**, in prose as in
+  identifiers. It covers everything this decision puts in English: the code text,
+  the specs, the documentation and the `en.json` dictionary.
+- **Proof:** the cspell spell checker, set to American English (`en-US`), run by
+  an npm script. Its dependency, configuration and script, and the fixes of the
+  British spellings, go through a pull request of their own; a change to
+  `README.md` or `docs/tokens.md` brings its `pt-BR` and `es` pairs.
+- Story IDs do not change: they come from identifiers, which were already
+  American.
+- **Stays out:** the `pt-BR` and `es` translations, and the historical record,
+  which keeps the text of its time.
+
+Adopted by Indiane on 15/10/2026 (DSA-30, D8).
+
 **Status.** Decision adopted by Indiane on 28/09/2026 — reviewed and approved
 by Mauro on 30/09/2026, in the team chat. Amendment of 02/10/2026 approved by
 Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 adopted by
 Indiane: the language of the documentation, comments and messages approved by
 Mauro in PR #59, merged in `addb034`; the Storybook naming item approved by
-Mauro in PR #56, merged in `455ead8`.
+Mauro in PR #56, merged in `455ead8`. Amendment of 15/10/2026 adopted by
+Indiane; reviewed in the pull request that brings it.
 
 ---
 
@@ -1129,9 +1161,143 @@ approval.
 
 ---
 
+## P70 — Package entry points and the Usage section
+
+This decision **narrows the out of scope of P19** without changing it: publishing
+stays out; the import path of a component is defined here.
+
+**Technical conflict.** The `Docs` pages show markup but not how a consumer brings a
+component into a page. `package.json` has the name `nephos`, is `private` and has no
+`exports` field, and P19 leaves publishing out of scope. A Usage section with an import
+line (DSA-30, D2) would name a path that does not resolve.
+
+**Decision.**
+
+- The package is `nephos`, the name `package.json` already has. Each component is
+  imported by its tag: `import 'nephos/nph-<name>';`.
+- `package.json` gets an `exports` field with the pattern `./nph-*`, pointing to a
+  JavaScript build of each component in `dist/`, the build output that `.gitignore`
+  already excludes. The build is not versioned.
+- The import line alone registers the component with its CSS: the build carries what
+  the source imports with `?inline`, so the consumer needs no Vite loader. `nph-label`,
+  whose CSS is global because it has no Shadow DOM (P62.1), is the case the build has
+  to solve without a second import line.
+- `lit` and `@fortawesome/*` stay outside the build: they are already in
+  `dependencies`, so the consumer installs them, and the Font Awesome Pro license stays
+  with whoever installs it. The generated token CSS is still imported on its own, as the
+  `README.md` says.
+- `private` stays `true`.
+- Each component `Docs` page has a **Usage** section right after **API**, the position of
+  section "6. Usage" in the Figma documentation model (`1134:12862`). It shows the markup
+  of the accepted frame and the import line. The page reads the package name from
+  `package.json`; nobody writes it by hand.
+- The visible text in the markup is an attribute, because the components have no slot
+  (P62.3, P65, P66, P68).
+
+**Reason.** A design system read by agents has to say, on the page, how the piece is
+consumed. The import line has to be true on the day it is written, so the entry points
+come before the section.
+
+**Impact.** The JavaScript build, its script and the `exports` field go through a pull
+request of their own, with a test that the import line of each page resolves. The model of
+`docs/stories.md`, §4.10, gets the Usage section after API.
+
+**Out of scope.** Publishing to a registry, the version policy, how a consumer obtains
+the built package, and the CI workflow stay as P19 left them.
+
+**Rite.** This decision touches the out of scope of P19, so it follows the rite of the
+section "How to change one of these decisions": the technical conflict is above, the
+proposal is this section, and the human review is the pull request. The text of P19 does
+not change; only its out of scope gets the annotation.
+
+**Status.** Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request
+that brings it; the merge is the approval.
+
+---
+
+## P71 — `Docs` page lists read from the Metadata
+
+This decision **extends P63** without changing it: P63 already names Storybook as a
+reader of the Metadata.
+
+**Technical conflict.** The "use" and "do not use" lists of the `Docs` pages were
+transcribed from the accepted Figma frames into `.storybook/i18n/*.json`, while the sheet
+is the source of the piece (P63; P64, amendment of 06/10/2026). Four pages differ from
+their sheet: `nph-badge`, `nph-button`, `nph-icon` and `nph-label` (DSA-30, D1).
+
+**Decision.**
+
+- A component `Docs` page reads `use_when` and `do_not_use_when` from
+  `src/shared/metadata/<piece>.json`, the generated copy of the sheet.
+- A test fails when the lists a page shows differ from the Metadata of its sheet.
+- Figma is the source of a piece's lists only at the start. Once the sheet exists and the
+  tests pass, the sheet in this repository is the source: the source of an agentic design
+  system does not depend on a tool.
+- Before a page moves to the Metadata, its sheet is brought level with the accepted Figma
+  frame, without removing any item that Indiane accepted, and the Metadata is generated
+  again.
+
+**Reason.** Two copies of the same list drift apart, and they already did. The sheet is
+the copy that agents read, so it is the one the page shows.
+
+**Open.** The Metadata is in English only (DSA-14), and `docs/stories.md`, §4.8, asks for
+every visible text in the three languages. How the `pt-BR` and `es` pages show the lists
+is not decided by this note; it is a question for Indiane before the code.
+
+**Out of scope.** The Metadata tab in Storybook, as P63 left it. Any other block of the
+page.
+
+**Status.** Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request
+that brings it; the merge is the approval.
+
+---
+
+## P72 — Accessibility gate in the tests
+
+This decision **closes a deferral of P19**: "interaction and accessibility tests will be
+defined with the first real component".
+
+**Technical conflict.** The first real component was `nph-icon` (PR #6), and
+`src/components/` now has nine. Accessibility is proved only by assertions written per
+component; `package.json` has neither `axe-core` nor the Storybook accessibility addon
+(DSA-30, D3).
+
+**Decision.**
+
+- The Storybook accessibility addon (`@storybook/addon-a11y`) runs inside the tests,
+  through the Storybook Vitest integration (`@storybook/addon-vitest`), and a violation
+  fails the run.
+- The rule set is WCAG 2.2 AA.
+- The scope is every story, `Validation` and `Docs`: the `Docs` page is also read by
+  people.
+- The addon panel stays available while a story is written; the panel is not the gate.
+- A known exception is written in the story itself, with the reason, the discarded
+  alternative and the date, as `docs/stories.md`, §2.3, records an exception. Opening an
+  exception is a human decision.
+
+**Reason.** An assertion written per component proves what its author thought of. A rule
+set run on every story catches what nobody thought of, and failing the run is what makes
+it a gate.
+
+**Impact.** The two dependencies, the test configuration and the fixes of the violations
+found go through a pull request of their own. The assertions written per component stay.
+
+**Out of scope.** Interaction tests, which P19 deferred in the same sentence. The CI
+workflow, as P19 left it.
+
+**Rite.** This decision touches the out of scope of P19, so it follows the rite of the
+section "How to change one of these decisions": the technical conflict is above, the
+proposal is this section, and the human review is the pull request. The text of P19 does
+not change; only its out of scope gets the annotation.
+
+**Status.** Adopted by Indiane on 15/10/2026 (DSA-30, D3). Reviewed in the pull request
+that brings it; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68 or P69 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71 or P72 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

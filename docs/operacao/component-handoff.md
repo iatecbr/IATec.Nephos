@@ -84,7 +84,7 @@ The full rules, with source and limit, are in [`../stories.md`](../stories.md),
 2. **The `Docs` page copies the `nph-badge` page.** It is assembled from the
    blocks of `src/shared/docs/page.ts` and follows the order and the sections of
    the Figma documentation frame: `header`, labelled `matrix`, origin `note`,
-   `index`, then When to use (one `useDontUse`), API, the component's own
+   `index`, then When to use (one `useDontUse`), API, Usage, the component's own
    sections (Variants, Sizes, States, others), Anatomy, Accessibility, Examples
    and References. Each block closes with its `source`, except References.
 3. **Coverage, not quantity.** Each variant and each state appears in some

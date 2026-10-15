@@ -335,6 +335,9 @@ story reads it with `translations(locale)`, through the `t(context)` shortcut.
 This also holds for the example content of the `Validation` stories: the text
 of a demonstration label, button or badge comes from the dictionary.
 
+**The exception is the "use" and "do not use" lists of a `Docs` page**: they come
+from the Metadata of the sheet, not from the dictionary (§4.10, **P71**).
+
 **Source:** [`i18n.md`](i18n.md), "Storybook" section;
 `.storybook/i18n/index.js`, lines 1-12;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P64**, Storybook naming
@@ -375,11 +378,11 @@ and "do not use" once, in a single `useDontUse` block, side by side.
 | `matrix` | right after `header`: real instances with columns and rows named by property and value, as in the Figma frame; border without background; the area scrolls by keyboard when it does not fit |
 | `index` | one `#id` link per section, in a named `nav`; no anchor without a section |
 | `section` | `<section id>` with an h2 in `text/heading-md` and a line below; more breathing room before the title than after |
-| `text` and `list` | `text/body-md`, with a limited reading width |
+| `text` and `list` | `text/body-lg`, with a limited reading width (decided by Indiane on 15-10-2026, as [`../design.md`](../design.md), §2b) |
 | `demo` | real instances in an area **without background**, with border only, and a caption below |
 | `table` | with a header; the term in `text/code`, the description in `text/body-sm` |
 | `note` | the exception to the rule becomes a note (`role="note"`), in the `status/*` colors, never a plain paragraph |
-| `useDontUse` | when to use and when not to use side by side, in one block, in the `status/success-*` and `status/error-*` colors |
+| `useDontUse` | when to use and when not to use side by side, in one block, in the `status/success-*` and `status/error-*` colors; the lists are `use_when` and `do_not_use_when` of the Metadata of the sheet, and a test fails the page that differs from it (decided by Indiane on 15-10-2026, **P71**) |
 | `source` | the origin footer, in `text/caption`, with a thin line above |
 
 #### Reference model: the `nph-badge` page
@@ -396,23 +399,27 @@ The order is fixed:
 5. Sections, in this order, each ending with its `source`:
    1. **When to use**: a single `useDontUse` block.
    2. **API**: `table` of properties, with the term in `text/code`.
-   3. **Sections of the component itself**, in this order: **Variants**
+   3. **Usage**: the markup of the accepted frame and the import line,
+      `import 'nephos/nph-<name>';`, with the package name read from
+      `package.json` (**P70**).
+   4. **Sections of the component itself**, in this order: **Variants**
       (`demo` of the real instances, with a caption), **Sizes** and **States**
       (each only if the component has them, `demo` with a caption), then any
       other section that is only the component's own, such as core, color,
       relations and context, or invalid input.
-   4. **Anatomy**: `table` of the parts.
-   5. **Accessibility**: `table` of criteria.
-   6. **Examples**: one `demo` per example, each with its caption.
-   7. **References**: `list`, with no `source`.
+   5. **Anatomy**: `table` of the parts.
+   6. **Accessibility**: `table` of criteria.
+   7. **Examples**: one `demo` per example, each with its caption.
+   8. **References**: `list`, with no `source`.
 
 Each section has a stable English `id`, the same in any language. The page does
 not repeat a block that the model does not have (no anti-patterns section, no
 second "use / do not use").
 
-**Sections of the component itself** come after API and before Anatomy.
-Anatomy, Accessibility, Examples and References stay in the same position on
-every page.
+**Usage** comes right after API, as section "6. Usage" of the Figma
+documentation model (decided by Indiane on 15-10-2026, **P70**). **Sections of
+the component itself** come after Usage and before Anatomy. Anatomy,
+Accessibility, Examples and References stay in the same position on every page.
 
 The blocks use only `--nph-*`. The page carries no process text: review state,
 names of approvers and pending items stay in the operational record.
@@ -420,8 +427,11 @@ names of approvers and pending items stay in the operational record.
 **Source:** `src/shared/docs/page.ts` and `page.test.ts`; the Figma
 documentation model (`1134:12862`, DS-IA-NEPHOS 5.0); the `Documentation`
 story of `nph-badge` (the model) and its `nph-badge.docs.test.ts`.
-**Limit:** the Docs pages of the components with code. `nph-badge`, `nph-button`,
-`nph-icon` and `nph-label` follow the model.
+**Limit:** the Docs pages of the components with code. `nph-badge`, `nph-label`
+and `nph-skeleton` follow the order of the model. `nph-button` lacks Anatomy, and
+`nph-icon` lacks Anatomy and Examples; their accepted frames have both (`1197:5449`
+and `1130:956`, confirmed by Indiane on 15-10-2026). The Usage section, the lists read
+from the Metadata and `text/body-lg` in `text` and `list` are on no page yet.
 
 ---
 
@@ -531,6 +541,12 @@ frame, through the `manager.js` theme, and the page, through the
 `data-nph-color-scheme` that the `preview.js` decorator applies at the root.
 There is no light frame with a dark page, nor the reverse.
 
+**There is no brand selector** (decided by Indiane on 15-10-2026). The page
+resolves `:root`, the `sistemas` brand. A component where the brand matters
+proves the seven brands of **P20**, in light and dark, in a `Validation` story,
+each frame carrying `data-nph-brand` and `data-nph-color-scheme` on the same
+element (§4.6, **P67**).
+
 The frame follows the Solutions identity, with the `#1FBFFF` highlight and the
 `#031A24` ink on top of it. Those hex values live only in `.storybook/manager.js`
 and `.storybook/manager-head.html`. In light mode, the blue appears only as a
@@ -543,7 +559,8 @@ both modes.
 
 **Source:** `.storybook/manager.js`, `.storybook/manager-head.html`,
 `.storybook/preview.js`; [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P20**.
-**Limit:** a Storybook rule; it does not change a component API.
+**Limit:** a Storybook rule; it does not change a component API. No component
+has the brand `Validation` story yet.
 
 ---
 
