@@ -1,0 +1,58 @@
+/**
+ * Internal style of `nph-skeleton`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. No literal design value goes in: the color is
+ * `color/muted`, the measures are `skeleton/line-height` and `avatar/size-*`, and
+ * the radii are `radius/inner`, `radius/control` and `avatar/radius-*`.
+ *
+ * The piece is still, so there is no `animation` and no reduced-motion rule.
+ * The only written quantity is `100%`, a box relation: the line and the block
+ * fill the container width.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: block;
+  flex: none;
+  background-color: var(--nph-color-muted);
+}
+
+/* Fills the width in a block parent or a column flex parent. */
+:host([data-nph-rendered][shape='line']),
+:host([data-nph-rendered][shape='block']) {
+  inline-size: auto;
+}
+
+/* The line takes only its own height; the space between lines is the consumer's. */
+:host([data-nph-rendered][shape='line']) {
+  block-size: var(--nph-skeleton-line-height);
+  border-radius: var(--nph-radius-inner);
+}
+
+/* The block height follows the content that will come in: the consumer gives it. */
+:host([data-nph-rendered][shape='block']) {
+  border-radius: var(--nph-radius-control);
+}
+
+:host([data-nph-rendered][shape='avatar-sm']) {
+  inline-size: var(--nph-avatar-size-sm);
+  block-size: var(--nph-avatar-size-sm);
+  border-radius: var(--nph-avatar-radius-sm);
+}
+
+:host([data-nph-rendered][shape='avatar-md']) {
+  inline-size: var(--nph-avatar-size-md);
+  block-size: var(--nph-avatar-size-md);
+  border-radius: var(--nph-avatar-radius-md);
+}
+
+:host([data-nph-rendered][shape='avatar-lg']) {
+  inline-size: var(--nph-avatar-size-lg);
+  block-size: var(--nph-avatar-size-lg);
+  border-radius: var(--nph-avatar-radius-lg);
+}
