@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 280,
   "owner": "elvys",
-  "state": "ready",
+  "state": "awaiting-decision",
   "piece": "nph-radio",
   "dependencies": [],
   "gates": [
@@ -29,7 +29,38 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D1",
+      "question": "Which background and border does the circle take in each state: unchecked, checked (color/primary? border color/input, color/primary or color/primary-border?), hover (color/input-hover?) and checked with an error?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D2",
+      "question": "Is the focus a ring (focus/ring-default) or border plus halo, as in nph-button? If border plus halo, which radii around a circle (radius/full for both?), and is the error halo focus/halo-error?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D3",
+      "question": "Which tokens give the 16 x 16 circle and the 24 x 24 touch area (icon/size-sm and icon/size-lg, or new tokens)? Is the dot 6 or 8 px?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D4",
+      "question": "Is the space/inline gap to the text measured from the circle or from the 24 x 24 area? With text on two lines, is the circle on the first line or centered? May the text wrap?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D5",
+      "question": "Does the change from unchecked to checked animate with motion/state, or is it instant?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-18/documentacao-figma-aceita-2026-10-01.md"
   ],
@@ -50,7 +81,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-09"
+  "updated_at": "2026-10-14"
 }
 ```
 
@@ -64,6 +95,17 @@ tests and stories, in the contract accepted in Figma.
 In the evidence of the `figma-docs-accepted` gate:
 `docs/operacao/evidencias/DSA-18/documentacao-figma-aceita-2026-10-01.md`. It
 carries the Figma documentation converted to text. There is no need to open Figma.
+
+## Pending decisions
+The evidence gives the anatomy and the token names, but not how the circle is painted in each state, the dot size, the focus shape around a circle, the source of the measures or the motion. Code does not fill these gaps; each answer goes into the evidence of the `figma-docs-accepted` gate, and the task goes back to `ready` when all five are answered. The group model (exclusivity, arrow keys, form value, `change` event) is not a visual decision: it is a technical proposal for the PR, and the evidence says the group is not a component.
+
+| ID | What the evidence gives | What is missing | What the code does with the answer |
+|---|---|---|---|
+| D1 | Border `color/input`; dot `color/primary-foreground`; the border tells the state and the fill tells the choice. | Background and border unchecked, checked, on hover and checked with an error. | Writes the color table per state. |
+| D2 | The focus ring shows around the circle; in `erro-foco`, the error ring goes outside. | Ring or border plus halo, the radii around a circle and the error halo. | Picks the focus tokens and radii. |
+| D3 | Circle 16 × 16; touch area 24 × 24; dot inside the circle. | Tokens for the measures and the dot diameter. | Sets circle, target and dot sizes. |
+| D4 | `space/inline` to the text; the text also selects the option. | Where the gap is measured from, the alignment with two-line text, and wrapping. | Sets gap, vertical alignment and wrapping. |
+| D5 | Nothing about motion. `design.md` cites `motion/state` for selection. | Whether the change animates. | Adds a transition on `motion/state` with reduced motion, or none. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
