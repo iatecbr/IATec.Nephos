@@ -36,6 +36,7 @@ P62.4 subsection for the detail).
 | **P66** | API and semantics of `nph-spinner`, `nph-separator` and `nph-kbd` | 05/10/2026 | Low now. `nph-button` (Batch B) and `nph-rich-option` will be the first consumers | Anatomy and behavior: frames accepted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #54, merged in `d01da7b` |
 | **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Generator approved by `maurocsjr` in PR #55, merged in `7dd370d` |
 | **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics approved by `maurocsjr` in PR #56, merged in `455ead8` |
+| **P69** | API and semantics of `nph-skeleton` | 15/10/2026 | Low now. No piece consumes it yet; `nph-avatar` will share its avatar sizes and radii | Anatomy and behavior: frame accepted by Indiane on 08/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -1083,9 +1084,54 @@ completed on 02/10/2026; API and semantics approved by Mauro in PR #56
 
 ---
 
+## P69 — `nph-skeleton`: API and semantics
+
+**Decision.** `nph-skeleton` is a Web Component with **open Shadow DOM** (P01), CSS
+in its own file imported `?inline`, as in `nph-icon`. It has no slot, event, focus,
+click, color property or `::part`. Anatomy only through semantic tokens. Invalid
+input renders nothing and emits `console.error` only in development, with no visual
+fallback — the same rule as P21, adopted here by its own decision, as in P66.
+
+- `shape`: `line` (default), `block`, `avatar-sm`, `avatar-md` or `avatar-lg`,
+  reflected to the attribute. It is the Figma property `forma`, whose values are
+  `linha`, `bloco`, `avatar sm`, `avatar md` and `avatar lg`. One property, as in
+  the accepted frame: a second `size` property would be valid only for the avatar
+  and meaningless for `line` and `block`.
+- The piece is a rectangle in `color/muted`, with no border, no text and no
+  animation. It is still, so there is no reduced-motion rule.
+- `line` takes `skeleton/line-height` and `radius/inner`; `block` takes
+  `radius/control`; `avatar-*` takes `avatar/size-*` and `avatar/radius-*`, the
+  same pair as `nph-avatar`, with rounded corners and never a circle.
+- The width of `line` and `block` comes from the container: both fill it in a block
+  parent or a column flex parent. The height of `block` follows the content that
+  will come in, so the consumer gives it; without one, the block takes no height.
+- **Line height, literal reading.** The line takes only its own
+  `skeleton/line-height`; the space between lines comes from the consumer. Whether
+  the line should take the whole line box of the text it replaces is an open
+  question of Indiane (D1 of DSA-26), and the answer changes one declaration in the
+  CSS.
+- The host is `aria-hidden="true"` and has no role: the piece is decorative. The
+  loading container, not the piece, carries `aria-busy` while it waits.
+
+**Source.** Frame `nph-skeleton` (`1578:38`, set `1578:37`) of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 08/10/2026, with the Figma UX QA and the
+textual audit approved in round 2. The names `shape`, `avatar-sm`, `avatar-md` and
+`avatar-lg`, the semantics of the host and the invalid input rule are a technical
+proposal of this implementation.
+
+**Out of scope.** Any animation or pulse. A default height for `block`. A `size`
+property. Setting `aria-busy` on the container. The `nph-avatar` piece itself,
+which this one only holds the place of.
+
+**Status.** Anatomy and behavior accepted by Indiane on 08/10/2026. API and
+semantics are reviewed in the pull request that brings them; the merge is the
+approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67 or P68 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68 or P69 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
