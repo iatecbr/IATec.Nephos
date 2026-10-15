@@ -3,7 +3,9 @@
  * all three languages, no leftover placeholder, the `skeletonDocs` and
  * `skeletonValidation` dictionaries with the same shape in pt-BR, en and es
  * (`test:i18n` only reads `.md` pairs), and the two "When to use" lists equal to
- * the ones of the sheet (D1 of DSA-30: page and sheet match, with no item dropped).
+ * the ones of the sheet (option D of D1 in DSA-30: page and sheet match, with no
+ * item dropped). Option A of D1, the page reading the Metadata, is deferred; see the
+ * header of `nph-skeleton.docs.stories.ts`.
  */
 import { afterEach, describe, expect, it } from 'vitest';
 import { render } from 'lit';
@@ -172,11 +174,12 @@ describe('nph-skeleton documentation — order of the model', () => {
       expect(opening).toEqual(['header', 'matrix', 'note', 'index']);
     });
 
-    it(`${locale}: the sections follow the model, with no Usage section and no anti-patterns section`, () => {
+    /* Usage is deferred, not refused: D2 of DSA-30 approves it after API, and a later task adds it
+     * to every Docs page. This test lists today's sections and does not assert the section's absence. */
+    it(`${locale}: the sections follow the model of the current Docs pages, with no anti-patterns section`, () => {
       const target = renderInLocale(locale);
       const sections = [...target.querySelectorAll('section[id]')].map((s) => s.id);
       expect(sections).toEqual(['when-to-use', 'api', 'shapes', 'relations', 'anatomy', 'accessibility', 'examples', 'references']);
-      expect(target.querySelector('#usage')).toBeNull();
       expect(target.querySelector('#anti-patterns')).toBeNull();
     });
 

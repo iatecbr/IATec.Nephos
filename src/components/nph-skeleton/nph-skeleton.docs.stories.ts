@@ -7,6 +7,14 @@
  * the `nph-badge` page: it opens with the labelled matrix of the five shapes, and the two lists of
  * "When to use" are the ones of the sheet.
  *
+ * Deferred answers of DSA-30, not fulfilled here:
+ * - D1, option A: the lists of "When to use" still come from the dictionary, and a test
+ *   (option D) checks that they equal the sheet's. Reading them from the Metadata needs a
+ *   new technical decision (it widens P63) and an answer on how `pt-BR` and `es` read
+ *   lists while the Metadata is English only.
+ * - D2: there is no Usage section yet. It enters every Docs page, after API, in a later
+ *   task that also gives `package.json` the `exports` for the import line.
+ *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the
  * `skeletonDocs` key. The story is SINGLE: it reads `globals.locale` and looks up the translation.
  * Technical identifiers appear literally and are the same in any language.
