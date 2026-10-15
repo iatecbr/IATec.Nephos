@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 220,
   "owner": "elvys",
-  "state": "ready",
+  "state": "awaiting-decision",
   "piece": "nph-avatar",
   "dependencies": [],
   "gates": [
@@ -29,7 +29,32 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D1",
+      "question": "Which nph-icon core name and variant is the person icon of the no-photo avatar? (user or circle-user; light or solid)",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D2",
+      "question": "Which icon size goes in each avatar size? (sm 24, md 32, lg 40 against icon/size-sm 16, icon/size-md 20, icon/size-lg 24)",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D3",
+      "question": "While the photo is loading, does the avatar show the person icon or only the color/muted background?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D4",
+      "question": "Is the frame border border/width thick, and does it stay visible over the photo, as DSA-25 implies for the stack?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-24/documentacao-figma-aceita-2026-10-06.md"
   ],
@@ -50,7 +75,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-09"
+  "updated_at": "2026-10-14"
 }
 ```
 
@@ -64,6 +89,16 @@ tests and stories, in the contract accepted in Figma.
 In the evidence of the `figma-docs-accepted` gate:
 `docs/operacao/evidencias/DSA-24/documentacao-figma-aceita-2026-10-06.md`. It
 carries the Figma documentation converted to text. There is no need to open Figma.
+
+## Pending decisions
+The evidence gives the frame, the sizes, the radii and the colors, but not the icon rules and the border the CSS needs. Code does not fill these gaps; each answer goes into the evidence of the `figma-docs-accepted` gate, and the task goes back to `ready` when all four are answered.
+
+| ID | What the evidence gives | What is missing | What the code does with the answer |
+|---|---|---|---|
+| D1 | A person icon in `color/muted-foreground` when there is no photo. | The `nph-icon` core name (`user` or `circle-user`) and the variant (`light` or `solid`). | Fixes the name and variant of the inner `nph-icon`. |
+| D2 | Avatar sizes `avatar/size-sm`, `-md` and `-lg`. | The icon size in each avatar size. | Sets the size of the inner `nph-icon` per avatar size. |
+| D3 | The `sem foto` type shows when the image does not exist or does not load; the frame is never empty. | What shows while the photo is still loading. | Decides what the loading state renders. |
+| D4 | Frame border in `color/border`; the photo fills the frame. DSA-25 uses this border to separate overlapping avatars. | The border width, and whether it stays visible over the photo. | Sets the border and whether the photo sits inside it. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
