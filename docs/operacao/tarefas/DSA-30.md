@@ -5,13 +5,22 @@
   "phase": "F4",
   "approved_order": 310,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": null,
   "dependencies": [],
   "gates": [
     {
       "id": "decisions-recorded",
       "description": "Indiane answered D1–D8, and each answer is in its canonical source: docs/stories.md, design.md (through Claude in Figma when a token is involved), docs/decisoes-tecnicas.md or the figma-docs-accepted evidence of DSA-03 and DSA-13.",
+      "command": null,
+      "evidence": null,
+      "result": "pending",
+      "verified_at": null,
+      "verified_by": null
+    },
+    {
+      "id": "review-and-merge",
+      "description": "P70, P71, P72, the amendment of P64 and the docs/stories.md rules reviewed by maurocsjr in PR #86 and merged into v/5.0.0.",
       "command": null,
       "evidence": null,
       "result": "pending",
@@ -28,10 +37,17 @@
     "docs/decisoes-tecnicas.md#p63",
     "docs/decisoes-tecnicas.md#p64",
     "docs/decisoes-tecnicas.md#p67",
+    "docs/decisoes-tecnicas.md#p70",
+    "docs/decisoes-tecnicas.md#p71",
+    "docs/decisoes-tecnicas.md#p72",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-15.md, Indiane answered D1–D8 of DSA-30 and accepted the Figma preview 1843:2976"
   ],
   "external_origin": null,
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "docs/dsa-30-decisoes",
+    "commit": "16a8739b84bcdb6c184a2c6f9eb59ca621e6f82b",
+    "pr": "86"
+  },
   "context": null,
   "updated_at": "2026-10-15"
 }
@@ -435,15 +451,23 @@ the identifiers, checked by the cspell spell checker set to American English.
 ## How it is proved
 **`decisions-recorded`** passes when each of D1–D8 has an answer with a date,
 Indiane as the owner and the place where it was recorded: `docs/stories.md`
-(D1, D2, D4, D6, D7), `design.md` through Claude in Figma (D5, D6),
-`docs/decisoes-tecnicas.md` (D1 option A, D2 option C, D3, D4) or the DSA-03 and
-DSA-13 evidence (D7). The task closes with one evidence file per answer in
-`docs/operacao/evidencias/DSA-30/`. The work that follows each answer is a task
-of its own.
+(D1, D2, D4, D6, D7), `design.md` through Claude in Figma (D5; D6 was already
+there, §2b), `docs/decisoes-tecnicas.md` (P71 for D1, P70 for D2, P72 for D3, the
+amendment of 15/10/2026 of P64 for D8) or the DSA-03 and DSA-13 evidence (D7).
+D4 changes no technical decision, so it is recorded only in `docs/stories.md`,
+§6.4. The gate closes with one evidence file,
+`docs/operacao/evidencias/DSA-30/decisions-recorded-<date>.md`, with one section
+per answer, as DSA-31 recorded its answers. The work that follows each answer is
+a task of its own: DSA-32 to DSA-37.
+
+**`review-and-merge`** passes when PR #86 is reviewed by `maurocsjr` and merged
+into `v/5.0.0`.
 
 ## Relations with other tasks
 - DSA-03 and DSA-13 hold the accepted frames that D7 asks about.
 - DSA-14 made the Metadata English-only, which affects D1 option A.
+- DSA-32 (D3), DSA-33 (D6, D7), DSA-34 (D1), DSA-35 (D2), DSA-36 (D4) and
+  DSA-37 (D8) hold the code that follows the answers, and depend on this task.
 - The branch `audit/storybook-impeccable` changes `src/shared/docs/page.ts` and
   `.storybook/i18n/*.json`. Changes that come from D1, D5, D6 and D8 should
   start after that branch is merged, to avoid conflicts.
