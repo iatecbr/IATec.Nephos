@@ -28,7 +28,7 @@
 import React from 'react';
 import { addons, types, useGlobals } from 'storybook/manager-api';
 import { create } from 'storybook/theming';
-import { GLOBALS_UPDATED, SET_CONFIG } from 'storybook/internal/core-events';
+import { GLOBALS_UPDATED, RESULT_WHATS_NEW_DATA, SET_CONFIG } from 'storybook/internal/core-events';
 import { IconButton } from 'storybook/internal/components';
 import { MoonIcon, SunIcon } from '@storybook/icons';
 
@@ -150,6 +150,23 @@ addons.register('nephos/color-scheme', (api) => {
     type: types.TOOL,
     title: 'colorScheme',
     render: ColorSchemeSelector,
+  });
+});
+
+/*
+ * `main.js` turns off the update notices (`core.disableWhatsNewNotifications`),
+ * but the green dot on the Settings button ignores that option: Storybook
+ * (10.5 and 10.6) reads it from `state.disableWhatsNewNotifications`, while the
+ * value lives in `state.whatsNewData`. So, when the notices are off, the post
+ * is marked as read as soon as it arrives, which is what clears the dot.
+ * Remove this block when Storybook reads the option from the right place.
+ */
+addons.register('nephos/whats-new', (api) => {
+  const markRead = () => {
+    if (api.isWhatsNewUnread()) api.whatsNewHasBeenRead();
+  };
+  addons.getChannel().on(RESULT_WHATS_NEW_DATA, ({ data }) => {
+    if (data?.disableWhatsNewNotifications) setTimeout(markRead, 0);
   });
 });
 
