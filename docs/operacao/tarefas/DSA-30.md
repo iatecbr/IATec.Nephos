@@ -330,6 +330,52 @@ the frames. Note: the `figma-docs-accepted` evidence of DSA-03 points to the
 frame `346:4`, which no longer exists; the current `nph-icon` frame is
 `1130:956`.
 
+**The two sections, converted from the accepted frames (read on 2026-10-15).**
+There is no need to open Figma. In both frames, Anatomy is section 3 and
+Examples is section 8 ("Required examples"), and each example is shown in
+light and in dark mode. Visible text is translated from Portuguese.
+
+`nph-button` (`1197:5449`), Anatomy. The demo is one button,
+`tipo=primary`, `enfase=solid`, `size=compact`, labeled "Button".
+1. Container: height `control/height-compact`, `-default` or `-large`; radius
+   `radius/control`; inner space `space/control-padding`.
+2. Text: `text/label-md`, the same in every size; it says what happens on
+   click.
+3. Start icon (optional): `icon/size-sm` when there is text; gap to the text
+   `space/inline-tight`.
+4. End icon (optional): the same rule as the start icon.
+5. Focus ring: shown in the focus state, for keyboard users.
+
+`nph-button` (`1197:5449`), Examples. All `size=default`, `state=default`,
+without icons unless noted.
+- "Save" (`primary`, `solid`) and "Cancel" (`secondary`, `outline`). Caption:
+  "Form actions: primary and secondary."
+- "Delete account" (`danger`, `solid`). Caption: "An action with a
+  consequence, always with text."
+- Icon-only button (`secondary`, `ghost`, icon `plus`). Caption: "A universal
+  action without text, with an accessible name."
+
+`nph-icon` (`1130:956`), Anatomy. The demo is `circle-info`, `light`,
+`icon/size-lg`.
+1. Name: `nome` selects an icon available in the set.
+2. Style: `estilo` takes `light` or `solid`.
+3. Size: the box is square; width and height are bound to the same size token.
+4. Fill: inherits the semantic color of the context; it has no color of its
+   own.
+5. Composition: the parent control provides focus, state, touch target and the
+   accessible name when the icon stands for an action.
+
+`nph-icon` (`1130:956`), Examples.
+- An `nph-input` (`size=default`) with the start icon `magnifying-glass` and
+  the placeholder "Search". Caption: "magnifying-glass in a search field,
+  inside the control, at `icon/size-sm`."
+- `circle-info` (`light`) next to the text "Review the data before sending."
+  Caption: "circle-info next to text: icon and label form one unit, with
+  `space/inline-tight` between them."
+- Icon-only button (`secondary`, `ghost`, icon `magnifying-glass`). Caption:
+  "No visible text: a universal symbol inside a control; the accessible name
+  belongs to the control."
+
 ### D8 — British or American English
 
 **Evidence.**
