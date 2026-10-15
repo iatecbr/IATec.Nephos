@@ -63,6 +63,7 @@ function itemDestination(item, locale) {
   `;
 }
 
+/** The foundations the components consume, and where each one is shown. */
 export const Overview = {
   name: 'Overview',
   render: (_args, context) => {

@@ -259,7 +259,8 @@ function isIdentifier(term: string): boolean {
 
 /**
  * `termWidth` fixes the width of the first column, so that tables shown one
- * after the other line up their second column.
+ * after the other line up their second column. The description is read end to
+ * end, so it stops at the reading width even when the table fills the page.
  */
 export function table(
   headers: readonly [string, string],
@@ -293,7 +294,7 @@ export function table(
           ([name, description]) => html`
             <tr>
               <th scope="row" style="${cell} ${termRole(name)}${termWidth ? ` width: ${termWidth};` : ''}">${name}</th>
-              <td style="${cell} ${textRole('body-sm')}">${description}</td>
+              <td style="${cell} ${textRole('body-sm')}"><div style=${READING}>${description}</div></td>
             </tr>
           `,
         )}

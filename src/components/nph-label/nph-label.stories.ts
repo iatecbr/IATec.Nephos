@@ -49,7 +49,7 @@ type Texts = ReturnType<typeof t>;
 /** Demo frame. Not valid as a precedent for component CSS. */
 function page(content: TemplateResult): TemplateResult {
   return html`<div
-    style="padding:32px;display:flex;flex-direction:column;gap:32px;background:var(--nph-color-background)"
+    style="padding:var(--nph-space-section);display:flex;flex-direction:column;gap:var(--nph-space-section);background:var(--nph-color-background)"
   >
     ${content}
   </div>`;
@@ -86,7 +86,7 @@ const control =
 function frame(scheme: 'light' | 'dark', content: TemplateResult): TemplateResult {
   return html`<div
     data-nph-color-scheme=${scheme}
-    style="padding:24px;border-radius:var(--nph-radius-control);background:var(--nph-color-background);display:flex;flex-direction:column;gap:16px"
+    style="padding:24px;border-radius:var(--nph-radius-control);background:var(--nph-color-background);display:flex;flex-direction:column;gap:var(--nph-space-stack)"
   >
     ${content}
   </div>`;
@@ -157,7 +157,7 @@ export const AssociationWithControl: Story = {
             <input
               id="name-field"
               required
-              style="font-family:var(--nph-text-body-md-font-family);font-size:var(--nph-text-body-md-font-size);height:var(--nph-control-height-default);border:1px solid var(--nph-color-border);border-radius:var(--nph-radius-control);padding-inline:var(--nph-space-control-padding);background:var(--nph-color-background);color:var(--nph-color-foreground)"
+              style="font-family:var(--nph-text-body-md-font-family);font-size:var(--nph-text-body-md-font-size);height:var(--nph-control-height-default);border:var(--nph-border-width) solid var(--nph-color-border);border-radius:var(--nph-radius-control);padding-inline:var(--nph-space-control-padding);background:var(--nph-color-background);color:var(--nph-color-foreground)"
             />
           </div>
           ${caption(v.requiredLegend)}

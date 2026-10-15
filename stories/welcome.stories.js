@@ -87,6 +87,7 @@ function stepDestination(step) {
   `;
 }
 
+/** Where to start: the three steps of the reading, each with its destination. */
 export const Welcome = {
   name: 'Welcome',
   render: (_args, context) => {
