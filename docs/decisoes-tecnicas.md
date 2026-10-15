@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67 and P68. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69 and P70. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -37,6 +37,7 @@ P62.4 subsection for the detail).
 | **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Generator approved by `maurocsjr` in PR #55, merged in `7dd370d` |
 | **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics approved by `maurocsjr` in PR #56, merged in `455ead8` |
 | **P69** | API and semantics of `nph-skeleton` | 15/10/2026 | Low now. No piece consumes it yet; `nph-avatar` will share its avatar sizes and radii | Anatomy and behavior: frame accepted by Indiane on 08/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P70** | Package entry points and the Usage section | 15/10/2026 | Medium. Every `Docs` page shows the import line, so changing the path later changes every page and every consumer | Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request that brings it |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -229,6 +230,9 @@ exist.
 **Out of scope.** Public publishing, GitHub Pages, external environment, deploy
 and definitive test configuration. Creating the CI workflow. Interaction and
 accessibility tests will be defined with the first real component.
+
+**Annotation of 15/10/2026.** P70 defines the package entry points and the import
+line of each component. Public publishing stays out of scope.
 
 **Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
 by Elvys on 28/08/2026.
@@ -1129,9 +1133,63 @@ approval.
 
 ---
 
+## P70 — Package entry points and the Usage section
+
+This decision **narrows the out of scope of P19** without changing it: publishing
+stays out; the import path of a component is defined here.
+
+**Technical conflict.** The `Docs` pages show markup but not how a consumer brings a
+component into a page. `package.json` has the name `nephos`, is `private` and has no
+`exports` field, and P19 leaves publishing out of scope. A Usage section with an import
+line (DSA-30, D2) would name a path that does not resolve.
+
+**Decision.**
+
+- The package is `nephos`, the name `package.json` already has. Each component is
+  imported by its tag: `import 'nephos/nph-<name>';`.
+- `package.json` gets an `exports` field with the pattern `./nph-*`, pointing to a
+  JavaScript build of each component in `dist/`, the build output that `.gitignore`
+  already excludes. The build is not versioned.
+- The import line alone registers the component with its CSS: the build carries what
+  the source imports with `?inline`, so the consumer needs no Vite loader. `nph-label`,
+  whose CSS is global because it has no Shadow DOM (P62.1), is the case the build has
+  to solve without a second import line.
+- `lit` and `@fortawesome/*` stay outside the build: they are already in
+  `dependencies`, so the consumer installs them, and the Font Awesome Pro license stays
+  with whoever installs it. The generated token CSS is still imported on its own, as the
+  `README.md` says.
+- `private` stays `true`.
+- Each component `Docs` page has a **Usage** section right after **API**, the position of
+  section "6. Usage" in the Figma documentation model (`1134:12862`). It shows the markup
+  of the accepted frame and the import line. The page reads the package name from
+  `package.json`; nobody writes it by hand.
+- The visible text in the markup is an attribute, because the components have no slot
+  (P62.3, P65, P66, P68).
+
+**Reason.** A design system read by agents has to say, on the page, how the piece is
+consumed. The import line has to be true on the day it is written, so the entry points
+come before the section.
+
+**Impact.** The JavaScript build, its script and the `exports` field go through a pull
+request of their own, with a test that the import line of each page resolves. The model of
+`docs/stories.md`, §4.10, gets the Usage section after API.
+
+**Out of scope.** Publishing to a registry, the version policy, how a consumer obtains
+the built package, and the CI workflow stay as P19 left them.
+
+**Rite.** This decision touches the out of scope of P19, so it follows the rite of the
+section "How to change one of these decisions": the technical conflict is above, the
+proposal is this section, and the human review is the pull request. The text of P19 does
+not change; only its out of scope gets the annotation.
+
+**Status.** Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request
+that brings it; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68 or P69 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69 or P70 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
