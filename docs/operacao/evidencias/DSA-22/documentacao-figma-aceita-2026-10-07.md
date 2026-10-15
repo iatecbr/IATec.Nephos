@@ -110,6 +110,23 @@ Each in light and dark mode:
 - Do not mark the state by changing only the text color: use `marcado=sim`.
 - Do not put neighboring pieces together without space: use `space/inline`.
 
+## Measures and focus read from the set
+Read from the variables bound in the set `1512:719` on 15-10-2026, to answer the
+task's D1 to D5. These are not new decisions: they are what the accepted set
+already draws.
+
+| Part | Rule |
+|---|---|
+| Track | Radius `radius/control`. Padding on all four sides `space/inline-tight`, so it is the gap between the track border and the inner area. Height `control/height-default`. Border `border/width`, drawn inside. |
+| Inner area | Radius `radius/inner`. Side padding `space/control-padding`, no top or bottom padding. Gap between icon and label `space/inline-tight`. |
+| Icons | `nph-icon` instances in `icon/size-sm`, variant `light`. |
+| Width | The piece hugs its content; there is no width token. Icon only: `border/width` + `space/inline-tight` + `space/control-padding` + `icon/size-sm` + `space/control-padding` + `space/inline-tight` + `border/width`, 50 × 36 px. It is not square. |
+| Focus border | Radius `focus/border-radius-control`, width `border/width`, just outside the track; `color/primary`, or `status/error` when invalid. |
+| Focus halo | Radius `focus/radius-control-with-border`, width `focus/ring-width`, outside the focus border; `focus/halo`, or `focus/halo-error` when invalid. Same pair as `nph-button`. |
+| Icon swap | Default icons follow `marcado`: `xmark` when off, `check` when on, in the start, end and icon-only icon. The board says the icon changes in the instance, so the consumer may give another icon. How the API takes it is a technical proposal for the PR. |
+
+Motion is not drawn in the set or on the board; it stays as the task's D6.
+
 ## Source of the acceptance
 WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-07.md`: visual acceptance, Figma UX QA
 round 2 approved and acceptance of the documentation board. `2026-10-08.md`:
