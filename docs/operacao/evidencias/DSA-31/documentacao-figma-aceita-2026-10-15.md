@@ -85,8 +85,8 @@ The field stays on one line. After the magnifying glass, one line of text in
 `text/body-md`, `color/foreground`, and then the counter: an `nph-badge` with
 `tipo=primary` and `enfase=solid` (background `color/primary`, number in
 `text/label-sm`, `color/primary-foreground`, radius `radius/full`), showing how
-many options are chosen. The open list shows every choice. What the line of
-text says is pending decision D1.
+many options are chosen. The open list shows every choice. The line of text
+says the subject of the field (D1).
 
 ## Accessibility
 
@@ -171,7 +171,17 @@ Each in light and dark mode:
 - Do not fix the width in pixels. Use `layout/multi-combobox-width` or the width
   of the form.
 
+## Decisions answered
+Answered by Indiane on a Figma preview (D1, D3) and on an approval page (D2).
+
+| ID | Question | Answer |
+|---|---|---|
+| D1 | In `conteúdo=contador`, what does the line of text before the counter say? | The subject of the field, as in “Countries”, followed by the counter with how many are chosen. Not the first chosen option, and not the placeholder. |
+| D2 | Who builds the list (`nph-combobox / lista`)? | The `nph-combobox` task, once; the `nph-multi-combobox` reuses it. |
+| D3 | What happens with a long chip label? | One line with an ellipsis at the end; the chip stops before the end of the field and keeps its pill height. The full name is in the list. It does not wrap. |
+
 ## Source of the acceptance
 WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-15.md`: decision on the pill chip
 and on the chip start icon, Figma UX QA approved, acceptance of the chip and of
-the documentation board, and textual audit approved.
+the documentation board, textual audit approved, and the answers to D1, D2 and
+D3.

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 320,
   "owner": "elvys",
-  "state": "awaiting-decision",
+  "state": "blocked",
   "piece": "nph-multi-combobox",
   "dependencies": ["DSA-03", "DSA-12", "DSA-17", "DSA-28", "DSA-29"],
   "gates": [
@@ -28,33 +28,23 @@
       "verified_by": null
     }
   ],
-  "blockers": [],
-  "pending_decisions": [
+  "blockers": [
     {
-      "id": "D1",
-      "question": "In the counter content, what does the line of text before the counter say: the subject of the field, the first chosen option, or the placeholder?",
-      "decider": "indiane",
-      "opened_at": "2026-10-15"
-    },
-    {
-      "id": "D2",
-      "question": "The list is the nph-combobox list, and the nph-combobox has no task yet. Does the nph-combobox task come first, or does this task build the list?",
-      "decider": "indiane",
-      "opened_at": "2026-10-15"
-    },
-    {
-      "id": "D3",
-      "question": "What happens with a long chip label: one line with ellipsis, or wrap?",
-      "decider": "indiane",
+      "id": "B1",
+      "what_blocks": "The list is the nph-combobox list (D2), and the nph-combobox task is not open yet.",
+      "owner": "indiane",
+      "what_resolves": "The nph-combobox task is opened; this task then depends on it.",
       "opened_at": "2026-10-15"
     }
   ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-31/documentacao-figma-aceita-2026-10-15.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-15.md, pill chip and chip start icon decided; documentation accepted and textual audit approved"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-15.md, pill chip and chip start icon decided; documentation accepted and textual audit approved",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-15.md, D1, D2 and D3 answered by Indiane"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -84,22 +74,20 @@ carries the Figma documentation converted to text, including the pill chip
 `ícone início` and `⮑ ícone` properties and the counter. There is no need to
 open Figma.
 
-## Pending decisions
-The evidence gives the field, the chip, the remove button, the counter, the list
-and their tokens in detail, but not the text before the counter, who builds the
-list, or the rule for a long chip label. Code does not fill these gaps; each
-answer goes into the evidence of the `figma-docs-accepted` gate. The field uses
-`nph-checkbox` (DSA-17) in the list, sits inside `nph-field` (DSA-28) and shares
-the option with `nph-select` (DSA-29), so it depends on them; the task goes to
-`ready` when the three are answered and the dependencies are `done`. Keyboard,
-form value, events and the text read by the remove button are technical
-proposals for the PR.
+## Decisions answered
+D1 to D3 are answered; the answers are in the evidence of the
+`figma-docs-accepted` gate, section "Decisions answered". The task is blocked
+only by the list: it comes from the `nph-combobox` task, which is not open yet
+(B1). When that task opens, it enters `dependencies` and this task follows the
+usual rule: `ready` when every dependency is `done`. Keyboard, form value,
+events and the text read by the remove button are technical proposals for the
+PR.
 
-| ID | What the evidence gives | What is missing | What the code does with the answer |
-|---|---|---|---|
-| D1 | `conteúdo=contador`: one line of text in `text/body-md`, `color/foreground`, then an `nph-badge` primary solid with the number chosen. | What the line of text says. | Sets what the field renders before the counter. |
-| D2 | The list is `nph-combobox / lista`, with the option in `marcador=checkbox`. | The `nph-combobox` has no task yet. | Builds the list here, or consumes the one from the `nph-combobox` task. |
-| D3 | The chip label is `text/label-sm`; the chips go down to the next line when space runs out. | The rule for a label longer than the field. | Sets overflow and wrapping of the chip label. |
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | The line of text says the subject of the field, as in “Countries”, and the counter says how many are chosen. | Renders a subject text before the counter; it does not change with each choice. |
+| D2 | The list is built once, in the `nph-combobox` task; this task reuses it. | Does not build its own list; it consumes the `nph-combobox` list. |
+| D3 | A long chip label stays on one line with an ellipsis; the chip stops before the end of the field. The full name is in the list. | Sets one line, `text-overflow: ellipsis` and a maximum chip width inside the field. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, chip,
@@ -114,7 +102,7 @@ CSS, tests, stories and spec pass the proof commands in
 - The field sits inside `nph-field` (DSA-28), which gives the label, the help
   text and the error message.
 - The option (`nph-select / opção`) comes from `nph-select` (DSA-29); the list
-  (`nph-combobox / lista`) comes from `nph-combobox` (D2).
+  (`nph-combobox / lista`) comes from the `nph-combobox` task (D2, B1).
 
 ## What this task does not do
 It does not create a token or change a token value. It does not create a width
