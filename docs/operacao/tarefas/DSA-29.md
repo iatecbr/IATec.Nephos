@@ -5,9 +5,9 @@
   "phase": "F4",
   "approved_order": 300,
   "owner": "elvys",
-  "state": "ready",
+  "state": "awaiting-decision",
   "piece": "nph-select",
-  "dependencies": [],
+  "dependencies": ["DSA-24", "DSA-28"],
   "gates": [
     {
       "id": "figma-docs-accepted",
@@ -29,7 +29,62 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D1",
+      "question": "How far is the list from the trigger: flush (0) or a space/* gap, and which token?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D2",
+      "question": "Does the list animate on open and close (motion/enter and motion/exit), and how: opacity only, or opacity and offset?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D3",
+      "question": "What happens with long text in the trigger value, the option label and the secondary text: one line with ellipsis, wrap, or cut?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D4",
+      "question": "What does the trigger show at the start before a choice when the options have icons (globe, a generic icon or nothing), and when the chosen option has a status dot?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D5",
+      "question": "Does the keyboard-active option look like hover (color/accent)? When an option is selected and also hovered or active, which background wins?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D6",
+      "question": "Which states does the status dot accept (are error, help and neutral in?), and is the dot a full circle (radius/full)?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D7",
+      "question": "Is the divider inside the arrow area width or beside it, and is the arrow area height the trigger height minus the two borders?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D8",
+      "question": "Do you confirm color/accent for the permanent arrow area and color/primary-surface for the selected option, beyond their current use in design.md, and the color/primary check over color/primary-surface if it measures below 3:1?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    },
+    {
+      "id": "D9",
+      "question": "Does layout/max-list-height fit exactly 8 options with the list border outside it, and is it fine that options with an avatar show about 7?",
+      "decider": "indiane",
+      "opened_at": "2026-10-14"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-29/documentacao-figma-aceita-2026-10-14.md"
   ],
@@ -61,6 +116,21 @@ list, a spec, tests and stories, in the contract accepted in Figma.
 In the evidence of the `figma-docs-accepted` gate:
 `docs/operacao/evidencias/DSA-29/documentacao-figma-aceita-2026-10-14.md`. It
 carries the Figma documentation converted to text. There is no need to open Figma.
+
+## Pending decisions
+The evidence gives the trigger, the arrow area, the list, the option and their tokens in detail, but not the gap between trigger and list, the motion, long text, some start combinations, the active option, the status dot set, the arrow area geometry, two token uses and the fit of the list height. Code does not fill these gaps; each answer goes into the evidence of the `figma-docs-accepted` gate. The select uses `nph-avatar` (DSA-24) and sits inside `nph-field` (DSA-28), and its required examples need both, so it depends on them; the task goes back to `ready` when all nine are answered and both are `done`. Positioning, form value, events and keyboard are technical proposals for the PR.
+
+| ID | What the evidence gives | What is missing | What the code does with the answer |
+|---|---|---|---|
+| D1 | The list is a floating layer attached to the trigger, same width. | The gap between trigger and list. | Sets the offset of the list. |
+| D2 | Nothing on motion. `design.md` gives `motion/enter` and `motion/exit` for layers that appear. | Whether the list animates, and how. | Adds the open and close transition with reduced motion, or none. |
+| D3 | Trigger and option text roles; the option takes the list width. | The rule for long text. | Sets overflow and wrapping of the value, label and secondary text. |
+| D4 | The trigger repeats the start of the chosen option; start can be none, icon or avatar; default icon `globe`; options may have a status dot. | The trigger start before a choice, and with a chosen option that has a dot. | Decides what the trigger renders at the start in each case. |
+| D5 | Option states `default`, `hover`, `selecionada`, `disabled`. | The look of the keyboard-active option and which background wins when combined. | Sets the active state and the cascade order. |
+| D6 | Dot colors from `status/*` and `color/muted-foreground`; size `space/inline`. | The closed set of states and the dot shape. | Fixes the accepted values and the dot radius. |
+| D7 | Arrow area width `control/height-*`, fitted into the border, with a divider. | Whether the divider is inside the area width, and the area height. | Sets the arrow area box. |
+| D8 | Arrow area `color/accent`; selected option `color/primary-surface` with a `color/primary` check. | These uses are not in `design.md`, and the check contrast is not measured. | Nothing in the code; the answer widens the `use` in `design.md`, through Claude in Figma. |
+| D9 | The list shows up to 8 options and scrolls above, by `layout/max-list-height`. | Whether the border is inside that height, and the count with avatar options. | Sets the maximum height of the list. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, option,
