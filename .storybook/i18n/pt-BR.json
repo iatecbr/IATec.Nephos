@@ -52,7 +52,14 @@
     "components-nph-label-validation--open": "Aberto",
     "components-nph-tooltip-validation": "Validação",
     "components-nph-tooltip-validation--one-line": "Uma linha",
-    "components-nph-tooltip-validation--two-lines": "Duas linhas"
+    "components-nph-tooltip-validation--two-lines": "Duas linhas",
+    "components-nph-skeleton-docs": "Docs",
+    "components-nph-skeleton-docs--documentation": "Documentação",
+    "components-nph-skeleton-validation": "Validação",
+    "components-nph-skeleton-validation--shapes": "Formas",
+    "components-nph-skeleton-validation--people-list": "Lista de pessoas",
+    "components-nph-skeleton-validation--card": "Cartão",
+    "components-nph-skeleton-validation--paragraph": "Parágrafo"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -921,5 +928,157 @@
   "tooltipValidation": {
     "oneLine": "Explica o que o campo pede.",
     "twoLines": "Use o nome como está no documento, sem abreviar nem trocar a ordem."
+  },
+  "skeletonDocs": {
+    "summary": "Uma forma parada que guarda o lugar de um conteúdo enquanto ele carrega. Repete a forma do que vai entrar — texto, imagem ou pessoa — e não pulsa.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha nph-skeleton, o design.md para os tokens e docs/decisoes-tecnicas.md para a P69. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Quando a forma do conteúdo é conhecida e ele ainda está carregando.",
+      "Escolha a forma igual à do conteúdo: linha para texto, bloco para imagem ou área, avatar para pessoa.",
+      "Repita a forma do conteúdo final, porque a troca não pode mover o layout.",
+      "Use a forma de avatar no tamanho do nph-avatar que vai entrar, porque o tamanho se mantém.",
+      "Anuncie a espera no contêiner, porque a forma não é lida.",
+      "Mantenha a peça parada, porque ela não tem pulso."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Quando a forma do conteúdo não é conhecida: use nph-spinner.",
+      "Quando não há conteúdo, ou como estado vazio: use nph-empty.",
+      "Um tamanho de avatar no lugar de outro: use a forma de avatar do mesmo tamanho."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "shape",
+        "A forma do lugar: line (padrão), block, avatar-sm, avatar-md ou avatar-lg. É a propriedade forma do Figma. Refletida no atributo."
+      ],
+      [
+        "largura e altura",
+        "Não são propriedades: a linha e o bloco esticam até a largura do contêiner, e a altura do bloco acompanha o conteúdo que vai entrar, então quem usa a define."
+      ],
+      [
+        "animação",
+        "Não existe: a peça é parada."
+      ],
+      [
+        "cor",
+        "Não é propriedade: a forma sempre usa color/muted."
+      ]
+    ],
+    "shapesTitle": "Formas",
+    "shapesCaption": "As cinco formas do conjunto: linha, bloco e o avatar nos três tamanhos.",
+    "shapesUseHeader": [
+      "Forma",
+      "Quando usar"
+    ],
+    "shapesUse": [
+      {
+        "value": "line",
+        "label": "O lugar de uma linha de texto. Tem o próprio skeleton/line-height; o espaço entre linhas vem de quem usa."
+      },
+      {
+        "value": "block",
+        "label": "O lugar de uma imagem, gráfico ou área. A largura vem do contêiner e a altura acompanha o conteúdo que vai entrar."
+      },
+      {
+        "value": "avatar-sm",
+        "label": "O lugar de um nph-avatar sm, com avatar/size-sm."
+      },
+      {
+        "value": "avatar-md",
+        "label": "O lugar de um nph-avatar md, com avatar/size-md."
+      },
+      {
+        "value": "avatar-lg",
+        "label": "O lugar de um nph-avatar lg, com avatar/size-lg."
+      }
+    ],
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Monta o lugar de outras peças: avatar e linhas no lugar de uma pessoa, linhas no lugar de um parágrafo, um bloco no lugar de uma imagem.",
+      "A forma de avatar usa avatar/size-* e avatar/radius-*, como o nph-avatar.",
+      "Entre as formas, o espaço é o mesmo do conteúdo que vai entrar.",
+      "Quando o conteúdo chega, ele entra no lugar exato da forma."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Forma",
+        "Um retângulo em color/muted, sem borda, sem texto e sem animação."
+      ],
+      [
+        "Raio",
+        "radius/inner na linha, radius/control no bloco e avatar/radius-* no avatar, com cantos arredondados, nunca um círculo."
+      ],
+      [
+        "Medida",
+        "O avatar em avatar/size-*; a altura da linha em skeleton/line-height. A largura da linha e do bloco vem do contêiner, e a altura do bloco acompanha o conteúdo que vai entrar."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "A forma não carrega informação: o contraste com o fundo é baixo de propósito e não precisa chegar a 3:1. A informação de carregamento vem do contêiner."
+      ],
+      [
+        "Foco visível",
+        "A peça não recebe foco."
+      ],
+      [
+        "Cor não é o único sinal",
+        "A espera é anunciada pelo contêiner, não pela cor da forma."
+      ],
+      [
+        "Alvo de toque",
+        "Não é interativa e não tem alvo de toque."
+      ],
+      [
+        "Nome acessível",
+        "A forma recebe aria-hidden; o contêiner que carrega recebe aria-busy enquanto espera."
+      ],
+      [
+        "Movimento",
+        "A peça é parada: não há pulso para reduzir quando a pessoa prefere menos movimento."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "examplePeople": "Lista de pessoas carregando: um avatar sm e duas linhas por pessoa.",
+    "exampleCard": "Cartão carregando: um bloco no lugar da imagem e linhas no lugar do texto.",
+    "exampleParagraph": "Parágrafo carregando: uma linha por linha de texto.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "ficha nph-skeleton — função, formas, acessibilidade, tokens e anti-padrões.",
+      "docs/decisoes-tecnicas.md — P69 (API e semântica), P01, P02 e P03.",
+      "design.md — color/muted, skeleton/line-height, radius/inner, radius/control, avatar/size-* e avatar/radius-*.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Skeleton, quadro nph-skeleton (1578:38) e conjunto 1578:37.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "ficha nph-skeleton; Figma, quadro nph-skeleton (1578:38)",
+    "sourceApi": "ficha nph-skeleton; docs/decisoes-tecnicas.md › P69",
+    "sourceAnatomy": "Figma, conjunto 1578:37; design.md",
+    "matrixLabel": "Matriz do componente"
+  },
+  "skeletonValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro"
   }
 }
