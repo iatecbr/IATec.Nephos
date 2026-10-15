@@ -31,7 +31,7 @@ Metadata) from the contract in the `figma-docs-accepted` evidence.
 - `npm run test:naming`: exit 1, only on `DSA-16.md` and `DSA-17.md`, which this pass does not touch
 
 ## Result
-The deliverable is complete on the branch. It is not pushed and has no PR.
+The deliverable is complete and open in PR 85, targeting `v/5.0.0`, with review requested from `maurocsjr`.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -40,4 +40,4 @@ None recorded: `review-and-merge` waits for the PR.
 None.
 
 ## Next command
-Elvys reviews the branch; then `gh pr create --base v/5.0.0 --reviewer maurocsjr`.
+Review and merge of PR 85; then close the task with the `review-and-merge` evidence.

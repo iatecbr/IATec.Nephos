@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 240,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-skeleton",
   "dependencies": [],
   "gates": [
@@ -60,7 +60,7 @@
   "git_review": {
     "branch": "claude/dsa-26-nph-skeleton-e574d7",
     "commit": null,
-    "pr": null
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/85"
   },
   "context": "docs/operacao/contextos/DSA-26.md",
   "updated_at": "2026-10-15"
