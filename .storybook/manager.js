@@ -111,22 +111,27 @@ const getColorScheme = (globals) => {
   return URL_COLOR_SCHEME;
 };
 
-/** Single button: shows the current mode and switches to the other. */
+/**
+ * Single button: shows the current mode and switches to the other. The
+ * accessible name starts with the visible text and then says the action, so
+ * whoever says what they see ("Light mode") reaches the button (WCAG 2.5.3).
+ */
 function ColorSchemeSelector() {
   const [globals, updateGlobals] = useGlobals();
   const colorScheme = getColorScheme(globals);
   const t = translations(globals?.[LOCALE_GLOBAL] ?? DEFAULT_LOCALE).colorScheme;
   const action = colorScheme === 'dark' ? t.toLight : t.toDark;
+  const label = colorScheme === 'dark' ? t.dark : t.light;
   return React.createElement(
     IconButton,
     {
       key: 'nephos-color-scheme',
       title: action,
-      'aria-label': action,
+      'aria-label': `${label}. ${action}`,
       onClick: () => updateGlobals({ [COLOR_SCHEME]: colorScheme === 'dark' ? 'light' : 'dark' }),
     },
     React.createElement(colorScheme === 'dark' ? MoonIcon : SunIcon),
-    React.createElement('span', null, colorScheme === 'dark' ? t.dark : t.light),
+    React.createElement('span', null, label),
   );
 }
 

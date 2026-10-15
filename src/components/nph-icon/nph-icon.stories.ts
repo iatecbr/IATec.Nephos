@@ -189,8 +189,9 @@ export const InvalidInput: Story = {
     return html`
       <div style=${body}>
         ${header(v.invalidTitle, v.invalidIntro)}
-        <!-- The table term does not wrap: on a narrow screen the table scrolls, the page does not. -->
-        <div style="overflow-x: auto;">
+        <!-- The table term does not wrap: on a narrow screen the table scrolls, the page does not.
+             The area takes focus and has a name, so the keyboard can scroll it too. -->
+        <div role="region" aria-label=${v.invalidTitle} tabindex="0" style="overflow-x: auto;">
           ${table(v.invalidHeader, [
             [
               'name="rocket" size="sm"',

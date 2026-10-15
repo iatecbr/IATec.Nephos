@@ -91,7 +91,7 @@ export const Documentation: Story = {
     const combination = (required: boolean, info: boolean): string => `required = ${required} · info = ${info}`;
 
     return html`
-      <div style=${body}>
+      <main style=${body}>
         ${header('nph-label', d.summary)}
         ${matrix(d.matrixLabel, [], [
           { label: combination(false, false), cells: [html`<nph-label text=${sample}></nph-label>`] },
@@ -213,7 +213,7 @@ export const Documentation: Story = {
         )}
 
         ${section(SECTIONS.references, d.referencesTitle, list(d.references))}
-      </div>
+      </main>
     `;
   },
 };

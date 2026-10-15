@@ -63,7 +63,7 @@ export const Documentation: Story = {
     const [save, cancel, deleteAccount, close, create] = d.exampleTexts as string[];
 
     return html`
-      <div style=${body}>
+      <main style=${body}>
         ${header('nph-button', d.summary)}
         ${matrix(
           d.matrixLabel,
@@ -206,7 +206,7 @@ export const Documentation: Story = {
         )}
 
         ${section(SECTIONS.references, d.referencesTitle, list(d.references))}
-      </div>
+      </main>
     `;
   },
 };

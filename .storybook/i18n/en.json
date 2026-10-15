@@ -723,7 +723,7 @@
     "sampleText": "Full name",
     "info": "Explains what the field asks for.",
     "infoLabel": "About full name",
-    "descriptionTitle": "Component description",
+    "apiTitle": "API",
     "description": "Use nph-label to give a form control a visible name, on its own or inside an nph-field. The label is just text: it has no state, size or layout. The exception is the information icon, which takes focus. It does not replace the section title, which is heading-sm, body text, or help and error messages, which belong to nph-field.",
     "anatomyTitle": "Anatomy",
     "anatomyHeader": [

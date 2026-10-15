@@ -723,7 +723,7 @@
     "sampleText": "Nombre completo",
     "info": "Explica lo que pide el campo.",
     "infoLabel": "Sobre nombre completo",
-    "descriptionTitle": "Descripción del componente",
+    "apiTitle": "API",
     "description": "Use nph-label para dar un nombre visible a un control de formulario, solo o dentro de un nph-field. La etiqueta es solo un texto: no tiene estado, tamaño ni layout. La excepción es el icono de información, que recibe el foco. No sustituye al título de sección, que es heading-sm, al texto de cuerpo, ni a la ayuda y el mensaje de error, que son del nph-field.",
     "anatomyTitle": "Anatomía",
     "anatomyHeader": [

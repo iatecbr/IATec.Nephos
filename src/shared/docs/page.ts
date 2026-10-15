@@ -45,7 +45,10 @@ export function textRole(name: TextRole): string {
 const READING = 'max-width: var(--nph-layout-max-reading);';
 const BORDER = 'var(--nph-border-width) solid var(--nph-color-border)';
 
-/** Body of the content page: background, color and spacing, by token. */
+/**
+ * Body of the content page: background, color and spacing, by token. It goes
+ * on the page's `<main>`, the landmark that leads the reader past the frame.
+ */
 export const body = `
   color: var(--nph-color-foreground);
   background: var(--nph-color-background);
@@ -139,13 +142,20 @@ export function matrix(
  * `href` stays for semantics and for opening in a new tab.
  */
 /*
- * The section that receives focus from the index shows the Nephos focus ring
- * (`focus/ring`, `focus/ring-width`), which switches with the color mode. It
- * lives in a rule because inline style cannot reach `:focus`.
+ * The section that receives focus from the index, and every link, button,
+ * field and scroll area of the page, show the Nephos focus ring (`focus/ring`,
+ * `focus/ring-width`), which switches with the color mode, instead of the
+ * browser's. It lives in a rule because inline style cannot reach `:focus`.
+ * The rule stops at `main`: the `nph-*` pieces draw their own focus inside the
+ * Shadow DOM.
  */
-const SECTION_FOCUS = html`
+const PAGE_FOCUS = html`
   <style>
-    [data-nph-section]:focus {
+    [data-nph-section]:focus,
+    main a:focus-visible,
+    main button:focus-visible,
+    main input:focus-visible,
+    main [tabindex='0']:focus-visible {
       outline: var(--nph-focus-ring-width) solid var(--nph-focus-ring);
       outline-offset: var(--nph-space-inline-tight);
     }
@@ -163,7 +173,7 @@ function goTo(event: Event, id: string): void {
 
 export function index(label: string, items: readonly IndexItem[]): TemplateResult {
   return html`
-    ${SECTION_FOCUS}
+    ${PAGE_FOCUS}
     <nav
       aria-label=${label}
       style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight); padding-top: var(--nph-space-stack);"
