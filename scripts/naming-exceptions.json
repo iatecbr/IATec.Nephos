@@ -110,5 +110,12 @@
       "dois",
       "três"
     ]
+  },
+  {
+    "file": "src/shared/docs/validation.ts",
+    "class": "contract-path",
+    "names": [
+      "fichas/${}.md"
+    ]
   }
 ]

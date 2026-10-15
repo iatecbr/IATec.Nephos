@@ -924,5 +924,29 @@
   "tooltipValidation": {
     "oneLine": "Explains what the field asks for.",
     "twoLines": "Use the name as it appears on the document, without abbreviating."
+  },
+  "validationPages": {
+    "sheetTitle": "The contract lives in the sheet",
+    "sheetText": "This piece has no reading page in Storybook. Its contract is in {sheet}; these stories prove it.",
+    "claims": {
+      "components-nph-badge-validation--matrix": "Each severity value in both emphasis values, without an icon.",
+      "components-nph-badge-validation--with-icon": "The icon comes before the text, at icon/size-sm, in the text colour.",
+      "components-nph-badge-validation--two-words": "One or two words stay on a single line: the badge does not wrap.",
+      "components-nph-button-validation--matrix": "Each severity and emphasis pair that exists, at the default size. Move the mouse over a button to see hover.",
+      "components-nph-button-validation--sizes": "The three sizes, with text and with an icon only. The text is label-md in all of them.",
+      "components-nph-button-validation--icons": "Start icon, end icon and both together, at icon/size-sm.",
+      "components-nph-button-validation--disabled": "Disabled: the whole button at state/disabled-opacity, out of the Tab order.",
+      "components-nph-button-validation--loading": "Loading: the spinner takes the place of the start icon, and the text stays.",
+      "components-nph-kbd-validation--single-key": "One key per piece, through the text property.",
+      "components-nph-kbd-validation--combination": "A combination joins one piece per key, side by side.",
+      "components-nph-kbd-validation--mac-combination": "The same combination on macOS, with the system symbols. The application picks the set by the person's system; the piece does not detect it.",
+      "components-nph-separator-validation--horizontal": "Between stacked items, the line fills the width.",
+      "components-nph-separator-validation--vertical": "Between side-by-side items, the line fills the height.",
+      "components-nph-spinner-validation--sizes": "sm inside a button or field; md in a content area.",
+      "components-nph-spinner-validation--accessibility": "With text beside it, the spinner is decorative; without text, it has an accessible name.",
+      "components-nph-spinner-validation--invalid-input": "size=\"lg\" does not exist: nothing is drawn, and the area below stays empty on purpose.",
+      "components-nph-tooltip-validation--one-line": "The open bubble with a one-line text, as in the Figma example.",
+      "components-nph-tooltip-validation--two-lines": "The open bubble with a two-line text: in every language it takes exactly two lines."
+    }
   }
 }

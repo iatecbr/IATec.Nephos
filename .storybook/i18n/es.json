@@ -924,5 +924,29 @@
   "tooltipValidation": {
     "oneLine": "Explica lo que pide el campo.",
     "twoLines": "Use el nombre como está en el documento, sin abreviar ni reordenar."
+  },
+  "validationPages": {
+    "sheetTitle": "El contrato está en la ficha",
+    "sheetText": "Esta pieza no tiene página de lectura en Storybook. Su contrato está en {sheet}; estas stories lo comprueban.",
+    "claims": {
+      "components-nph-badge-validation--matrix": "Cada valor de severity en los dos valores de emphasis, sin icono.",
+      "components-nph-badge-validation--with-icon": "El icono va antes del texto, en icon/size-sm, en el color del texto.",
+      "components-nph-badge-validation--two-words": "Una o dos palabras quedan en una sola línea: el badge no se parte.",
+      "components-nph-button-validation--matrix": "Cada par de severity y emphasis que existe, en el tamaño default. Pase el ratón sobre un botón para ver el hover.",
+      "components-nph-button-validation--sizes": "Los tres tamaños, con texto y solo con icono. El texto es label-md en todos.",
+      "components-nph-button-validation--icons": "Icono al inicio, al final y los dos juntos, en icon/size-sm.",
+      "components-nph-button-validation--disabled": "Deshabilitado: todo el botón en state/disabled-opacity, fuera del orden de Tab.",
+      "components-nph-button-validation--loading": "Cargando: el spinner ocupa el lugar del icono inicial, y el texto se mantiene.",
+      "components-nph-kbd-validation--single-key": "Una tecla por pieza, mediante la propiedad text.",
+      "components-nph-kbd-validation--combination": "Una combinación junta una pieza por tecla, una al lado de otra.",
+      "components-nph-kbd-validation--mac-combination": "La misma combinación en macOS, con los símbolos del sistema. La aplicación elige el conjunto según el sistema de la persona; la pieza no lo detecta.",
+      "components-nph-separator-validation--horizontal": "Entre elementos apilados, la línea ocupa el ancho.",
+      "components-nph-separator-validation--vertical": "Entre elementos uno al lado de otro, la línea ocupa la altura.",
+      "components-nph-spinner-validation--sizes": "sm dentro de un botón o campo; md en un área de contenido.",
+      "components-nph-spinner-validation--accessibility": "Con texto al lado, el spinner es decorativo; sin texto, tiene nombre accesible.",
+      "components-nph-spinner-validation--invalid-input": "size=\"lg\" no existe: no se dibuja nada, y el área de abajo queda vacía a propósito.",
+      "components-nph-tooltip-validation--one-line": "El globo abierto con un texto de una línea, como en el ejemplo de Figma.",
+      "components-nph-tooltip-validation--two-lines": "El globo abierto con un texto de dos líneas: en todos los idiomas ocupa exactamente dos líneas."
+    }
   }
 }
