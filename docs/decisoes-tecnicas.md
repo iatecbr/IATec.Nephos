@@ -31,7 +31,7 @@ P62.4 subsection for the detail).
 | **P20** | Style Dictionary v5 and theme contract | 24/08/2026 | High | Approved, 28/08/2026 |
 | **P21** | Technical plan of `nph-icon` | 26/08/2026 | Already implemented and merged under risk acceptance | Approved, 28/08/2026. Light amendment: under review in the pull request that brings it. |
 | **P63** | Metadata generated from the spec | 28/09/2026 | Medium. Changing location or format later requires generating again and adjusting whoever reads it; the spec does not change | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** |
-| **P64** | Code language | 28/09/2026 | Medium. Applies to all new code; migrating what exists only swaps names | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** Amendment of 02/10/2026 approved by Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 adopted by Indiane: the language part approved by Mauro in PR #59, merged in `addb034`, and the Storybook naming item in PR #56, merged in `455ead8`. |
+| **P64** | Code language | 28/09/2026 | Medium. Applies to all new code; migrating what exists only swaps names | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** Amendment of 02/10/2026 approved by Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 adopted by Indiane: the language part approved by Mauro in PR #59, merged in `addb034`, and the Storybook naming item in PR #56, merged in `455ead8`. Amendment of 15/10/2026 (American English) adopted by Indiane, reviewed in the pull request that brings it. |
 | **P65** | API and semantics of `nph-tooltip` | 05/10/2026 | Low now. `nph-label` is the first consumer; changing later requires redoing its trigger | Behavior and scope (L11.5) and anatomy (L11.6, L11.7 and the accepted frame) adopted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #51, merged on 05/10/2026 |
 | **P66** | API and semantics of `nph-spinner`, `nph-separator` and `nph-kbd` | 05/10/2026 | Low now. `nph-button` (Batch B) and `nph-rich-option` will be the first consumers | Anatomy and behavior: frames accepted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #54, merged in `d01da7b` |
 | **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Generator approved by `maurocsjr` in PR #55, merged in `7dd370d` |
@@ -795,12 +795,32 @@ or into `scripts/language-exceptions.json` (documentation), only with the classe
 `prose-text` and `contract-term`, which never cover a technical name. Adopted by
 Indiane on 06/10/2026.
 
+**Amendment of 15/10/2026 — American English.** No rule named the variant, and
+the repository mixed both: `.storybook/i18n/en.json` and parts of `README.md` and
+`docs/tokens.md` are British (`colour`, `behaviour`, `centre`), while `design.md`,
+the specs, this note and every identifier are American (`color/*`, P20).
+
+- The English of this repository is **American English**, in prose as in
+  identifiers. It covers everything this decision puts in English: the code text,
+  the specs, the documentation and the `en.json` dictionary.
+- **Proof:** the cspell spell checker, set to American English (`en-US`), run by
+  an npm script. Its dependency, configuration and script, and the fixes of the
+  British spellings, go through a pull request of their own; a change to
+  `README.md` or `docs/tokens.md` brings its `pt-BR` and `es` pairs.
+- Story IDs do not change: they come from identifiers, which were already
+  American.
+- **Stays out:** the `pt-BR` and `es` translations, and the historical record,
+  which keeps the text of its time.
+
+Adopted by Indiane on 15/10/2026 (DSA-30, D8).
+
 **Status.** Decision adopted by Indiane on 28/09/2026 — reviewed and approved
 by Mauro on 30/09/2026, in the team chat. Amendment of 02/10/2026 approved by
 Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 adopted by
 Indiane: the language of the documentation, comments and messages approved by
 Mauro in PR #59, merged in `addb034`; the Storybook naming item approved by
-Mauro in PR #56, merged in `455ead8`.
+Mauro in PR #56, merged in `455ead8`. Amendment of 15/10/2026 adopted by
+Indiane; reviewed in the pull request that brings it.
 
 ---
 
