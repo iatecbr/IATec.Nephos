@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 240,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-skeleton",
   "dependencies": [],
   "gates": [
@@ -58,12 +58,12 @@
     "converted_decision": "The nph-skeleton frame (1578:38) was accepted as the API and behavior specification of the nph-skeleton. COMPONENT_SET 1578:37. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": {
-    "branch": null,
+    "branch": "claude/dsa-26-nph-skeleton-e574d7",
     "commit": null,
     "pr": null
   },
-  "context": null,
-  "updated_at": "2026-10-14"
+  "context": "docs/operacao/contextos/DSA-26.md",
+  "updated_at": "2026-10-15"
 }
 ```
 
