@@ -141,12 +141,36 @@ against the audit's request. P19 also leaves the import path undefined.
 
 **Answer (Indiane, 2026-10-15): C.** A Usage section with markup and an import
 line, the import line read from `package.json`. The section enters the Figma
-documentation model first, after API. Elvys records the package name in
-`package.json`. Reviewed against research on agentic design systems.
-Already done in Figma: the model `1134:12862` has the section "6. Usage"
-right after "5. Properties" (the API section), and the following sections are
-renumbered up to 11. The 22 component frames get the section once the package
-name is in `package.json`.
+documentation model first, after API. Reviewed against research on agentic
+design systems. The package is `nephos` (the name `package.json` already has),
+and each component is imported with `import 'nephos/nph-<name>';`.
+
+Code work that follows (Elvys):
+- `package.json` gets `exports` with `./nph-*` pointing to a JavaScript build,
+  without `?inline`, so that the import line above resolves.
+- Option C goes beyond P19: the package is `private` and P19 leaves publishing
+  out of scope. Record it in `docs/decisoes-tecnicas.md`, as "How it is proved"
+  already asks.
+
+Already done in Figma (2026-10-15): the model `1134:12862` and the 22 component
+frames have the section "6. Usage" right after "5. Properties" (the API
+section), and the following sections are renumbered up to 11. The visible text
+is an attribute (`text`), because the components have no slot (P62.3, P65,
+P66, P68). There is no need to open Figma; the markup in the frames is:
+- `nph-badge`: `<nph-badge severity="secondary" text="Selo"></nph-badge>`
+- `nph-button`: `<nph-button severity="primary" text="Salvar"></nph-button>`
+- `nph-icon`: `<nph-icon name="magnifying-glass" size="sm"></nph-icon>`
+- `nph-kbd`: `<nph-kbd text="Ctrl"></nph-kbd>`
+- `nph-label`: `<nph-label for="email" text="E-mail"></nph-label>`
+- `nph-separator`: `<nph-separator></nph-separator>`
+- `nph-spinner`: `<nph-spinner size="md" label="Carregando"></nph-spinner>`
+- `nph-tooltip`: opened by `nph-label`, so the frame shows
+  `<nph-label for="cpf" text="CPF" info="Só os números." info-label="Sobre o CPF"></nph-label>`
+  and imports only `nephos/nph-label`.
+- The 14 components without code show the bare tag from the `piece` of their
+  task (for example `<nph-switch></nph-switch>`); their attributes come with
+  the sheet. The `nph-combobox` and `nph-multi-combobox` tag names are
+  provisional. `nph-rich-option` waits for its sheet.
 
 ### D3 — An axe accessibility gate
 
@@ -332,8 +356,8 @@ frame `346:4`, which no longer exists; the current `nph-icon` frame is
 
 **The two sections, converted from the accepted frames (read on 2026-10-15).**
 There is no need to open Figma. In both frames, Anatomy is section 3 and
-Examples is section 8 ("Required examples"), and each example is shown in
-light and in dark mode. Visible text is translated from Portuguese.
+Examples is section 9 ("Required examples"), after the Usage section, and
+each example is shown in light and in dark mode. Visible text is translated from Portuguese.
 
 `nph-button` (`1197:5449`), Anatomy. The demo is one button,
 `tipo=primary`, `enfase=solid`, `size=compact`, labeled "Button".
