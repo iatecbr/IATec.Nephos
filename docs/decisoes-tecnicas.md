@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69 and P70. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70 and P71. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -38,6 +38,7 @@ P62.4 subsection for the detail).
 | **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics approved by `maurocsjr` in PR #56, merged in `455ead8` |
 | **P69** | API and semantics of `nph-skeleton` | 15/10/2026 | Low now. No piece consumes it yet; `nph-avatar` will share its avatar sizes and radii | Anatomy and behavior: frame accepted by Indiane on 08/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P70** | Package entry points and the Usage section | 15/10/2026 | Medium. Every `Docs` page shows the import line, so changing the path later changes every page and every consumer | Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request that brings it |
+| **P71** | `Docs` page lists read from the Metadata | 15/10/2026 | Low. The lists move from the dictionary to the Metadata; the sheet does not change its format | Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request that brings it |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -683,6 +684,9 @@ commit. Without it, `npm run test:operacao` fails by `V32`.
 **Out of scope.** The Metadata tab in Storybook, the query server
 (MCP) and checking the spec's `api` block against the code.
 
+**Annotation of 15/10/2026.** P71 makes the `Docs` pages read `use_when` and
+`do_not_use_when` from the Metadata. The Metadata tab stays out of scope.
+
 **Status.** Decision adopted by Indiane on 28/09/2026, by delegation —
 reviewed and approved by Mauro on 30/09/2026, in the team chat.
 
@@ -1187,9 +1191,46 @@ that brings it; the merge is the approval.
 
 ---
 
+## P71 — `Docs` page lists read from the Metadata
+
+This decision **extends P63** without changing it: P63 already names Storybook as a
+reader of the Metadata.
+
+**Technical conflict.** The "use" and "do not use" lists of the `Docs` pages were
+transcribed from the accepted Figma frames into `.storybook/i18n/*.json`, while the sheet
+is the source of the piece (P63; P64, amendment of 06/10/2026). Four pages differ from
+their sheet: `nph-badge`, `nph-button`, `nph-icon` and `nph-label` (DSA-30, D1).
+
+**Decision.**
+
+- A component `Docs` page reads `use_when` and `do_not_use_when` from
+  `src/shared/metadata/<piece>.json`, the generated copy of the sheet.
+- A test fails when the lists a page shows differ from the Metadata of its sheet.
+- Figma is the source of a piece's lists only at the start. Once the sheet exists and the
+  tests pass, the sheet in this repository is the source: the source of an agentic design
+  system does not depend on a tool.
+- Before a page moves to the Metadata, its sheet is brought level with the accepted Figma
+  frame, without removing any item that Indiane accepted, and the Metadata is generated
+  again.
+
+**Reason.** Two copies of the same list drift apart, and they already did. The sheet is
+the copy that agents read, so it is the one the page shows.
+
+**Open.** The Metadata is in English only (DSA-14), and `docs/stories.md`, §4.8, asks for
+every visible text in the three languages. How the `pt-BR` and `es` pages show the lists
+is not decided by this note; it is a question for Indiane before the code.
+
+**Out of scope.** The Metadata tab in Storybook, as P63 left it. Any other block of the
+page.
+
+**Status.** Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request
+that brings it; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69 or P70 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70 or P71 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
