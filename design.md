@@ -1372,7 +1372,7 @@ tokens_core_control:
 tokens_core_layout:
   regra: 'NEVER consume directly. Use the semantic layout/* tokens and switch/track-width.'
   core/layout-width/app:               { valor: 1440, css: '--nph-core-layout-width-app',               alias_de: 'layout/max-app' }
-  core/layout-width/reading:           { valor: 720,  css: '--nph-core-layout-width-reading',           alias_de: 'layout/max-reading' }
+  core/layout-width/reading:           { valor: 560,  css: '--nph-core-layout-width-reading',           alias_de: 'layout/max-reading' }
   core/layout-width/sidebar-expanded:  { valor: 280,  css: '--nph-core-layout-width-sidebar-expanded',  alias_de: 'layout/sidebar-expanded' }
   core/layout-width/sidebar-collapsed: { valor: 64,   css: '--nph-core-layout-width-sidebar-collapsed', alias_de: 'layout/sidebar-collapsed' }
   core/layout-height/header:           { valor: 56,   css: '--nph-core-layout-height-header',           alias_de: 'layout/header-height' }
@@ -1380,6 +1380,7 @@ tokens_core_layout:
   core/layout-height/tooltip:          { valor: 44, css: '--nph-core-layout-height-tooltip', alias_de: 'layout/max-tooltip-height' }
   core/layout-width/field:             { valor: 320, css: '--nph-core-layout-width-field', alias_de: 'layout/field-width' }
   core/layout-width/input:             { valor: 280, css: '--nph-core-layout-width-input', alias_de: 'layout/input-width' }
+  core/layout-width/multi-combobox:    { valor: 420, css: '--nph-core-layout-width-multi-combobox', alias_de: 'layout/multi-combobox-width' }
   core/layout-width/rich-option:       { valor: 320, css: '--nph-core-layout-width-rich-option', alias_de: 'layout/rich-option-width' }
   core/layout-width/separator:         { valor: 240, css: '--nph-core-layout-width-separator', alias_de: 'layout/separator-width' }
   core/layout-height/separator:        { valor: 48, css: '--nph-core-layout-height-separator', alias_de: 'layout/separator-height' }
@@ -1549,8 +1550,8 @@ tokens_layout:
   layout/max-reading:
     css: '--nph-layout-max-reading'
     alias: core/layout-width/reading
-    valor: 720
-    use: "Maximum width of running text - what is READ end to end. Delivers the 60 to 80 character measure required by typography. DO NOT USE on a table or data panel."
+    valor: 560
+    use: "Maximum width of running text - what is READ end to end. With text/body-lg it delivers about 74 characters per line, inside the 50 to 75 range. DO NOT USE on a table or data panel."
   layout/sidebar-expanded:
     css: '--nph-layout-sidebar-expanded'
     alias: core/layout-width/sidebar-expanded
@@ -1589,6 +1590,11 @@ tokens_layout:
     css: '--nph-layout-input-width'
     alias: core/layout-width/input
     valor: 280
+  layout/multi-combobox-width:
+    css: '--nph-layout-multi-combobox-width'
+    alias: core/layout-width/multi-combobox
+    valor: 420
+    use: "Width of the nph-multi-combobox field. DO NOT USE on nph-select or nph-combobox: they use layout/input-width."
   layout/rich-option-width:
     css: '--nph-layout-rich-option-width'
     alias: core/layout-width/rich-option
@@ -2166,7 +2172,7 @@ The curve says what the piece is. The question is not how much to round.
 | Question | Rule |
 |---|---|
 | `layout/gutter` × `space/stack` | The gutter aligns **columns**. `space/stack` separates **items** inside a column. Different things, even with the same value. |
-| `layout/max-app` × `layout/max-reading` | Will it be **read** end to end? `max-reading` (720). Will it be **operated**? `max-app` (1440). |
+| `layout/max-app` × `layout/max-reading` | Will it be **read** end to end? `max-reading` (560). Will it be **operated**? `max-app` (1440). |
 | Page margin | Only `layout/margin-compact`, `-default` and `-wide`, which change by breakpoint. There is no space token for this: `space/page-margin` was removed for duplicating the value without responding to the breakpoint. |
 
 **Margin grows, gutter does not.** 16 · 24 · 48 depending on the screen; gutter always 24.

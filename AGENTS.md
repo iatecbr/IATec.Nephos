@@ -243,7 +243,8 @@ The technical tokens live in `src/tokens/source/*.tokens.json`, in the layers
 `src/tokens/generated/tokens.css`: **never edit the generated CSS**. The
 implemented components, with stories and tests, are `nph-icon` (PR #6),
 `nph-label` (PR #10), `nph-tooltip` (PR #51), `nph-spinner`, `nph-separator`
-and `nph-kbd` (PR #54), and `nph-badge` and `nph-button` (PR #56); the source
+and `nph-kbd` (PR #54), `nph-badge` and `nph-button` (PR #56), and
+`nph-skeleton` (PR #85); the source
 is `src/components/` on `v/5.0.0`. The component
 sheets are canonical at `fichas/<name>.md`, with the template at
 `fichas/_modelo.md`, since PR #13. **The CI workflow and publication remain

@@ -34,3 +34,11 @@ content does not enter this evidence.
 WORK BRAIN — `03 MEMORIA/diario/2026/2026-09-14.md`, decision of 14-09-2026:
 Indiane approved the Figma documentation of `nph-icon` (`Documentacao — nph-icon`,
 `346:4`).
+
+## Note of 2026-10-15
+
+The frame `346:4` no longer exists in `DS-IA-NEPHOS 5.0`. The current
+documentation frame of `nph-icon` is `1130:956`, confirmed by Indiane on
+2026-10-15 (DSA-30, D7). It has Anatomy (section 3) and Examples (section 9),
+which the `Docs` page does not have yet. The acceptance recorded above does not
+change; this note only points to the current frame.

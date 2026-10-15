@@ -31,36 +31,6 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D1",
-      "question": "Which radius tokens do the track and the inner area use? (radius/control, radius/control-inner or another)",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D2",
-      "question": "Which space/* tokens set the gap between track and inner area, the inner area's side padding and the icon-to-label gap?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D3",
-      "question": "Is the icon-only piece square, at control/height-default wide?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D4",
-      "question": "Which radii do the focus border and the focus halo use? (as in nph-button: focus/border-radius-control and focus/radius-control-with-border?)",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D5",
-      "question": "Are xmark (off) and check (on) fixed icons, or does the consumer choose the icon? In the icon-only piece, which icon is shown?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
       "id": "D6",
       "question": "Does the change between off and on animate? If it does, with motion/state, which design.md cites for toggle?",
       "decider": "indiane",
@@ -83,7 +53,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-14"
+  "updated_at": "2026-10-15"
 }
 ```
 
@@ -99,18 +69,13 @@ In the evidence of the `figma-docs-accepted` gate:
 carries the Figma documentation converted to text. There is no need to open Figma.
 
 ## Pending decisions
-The evidence gives colors, states, focus colors and height, but not the
-measures and icon rules the CSS needs. Code does not fill these gaps; each
-answer goes into the evidence of the `figma-docs-accepted` gate, and the task
-goes back to `ready` when all six are answered.
+D1 to D5 are answered by the accepted set: radii, padding, gaps, width, focus
+radii and the icon swap are in the evidence of the `figma-docs-accepted` gate,
+section "Measures and focus read from the set". One decision remains; the task
+goes back to `ready` when it is answered.
 
 | ID | What the evidence gives | What is missing | What the code does with the answer |
 |---|---|---|---|
-| D1 | Track: background and border. Inner area: background, shadow and outline. | The radius of the track and of the inner area. | Sets `border-radius` of each box. |
-| D2 | Height `control/height-default`; `space/inline` only between neighboring pieces. | The gap between track and inner area, the inner area's side padding and the icon-to-label gap. | Sets the inset of the inner area, its padding and the gap of the content. |
-| D3 | Icon only, the piece is 36 px high and takes `aria-label`. | The width of the icon-only piece. | Sets the inline size of the icon-only piece. |
-| D4 | Focus border `color/primary` and halo `focus/halo` outside the piece; invalid, `status/error` and `focus/halo-error`. | The radius of the focus border and of the halo. | Sets the radius of the focus border and halo, as in `nph-button`. |
-| D5 | Start and end icons: off shows `xmark`, on shows `check`; the icon changes in the instance. | Whether the swap is fixed or the consumer gives the icon, and which icon the icon-only piece shows. | Decides whether the API takes icon names or only turns the icons on and off. |
 | D6 | No mention of motion. `design.md` cites `motion/state` for a toggle. | Whether the off-to-on change animates. | Adds a transition on `motion/state`, with reduced motion, or none. |
 
 ## How it is proved
