@@ -61,50 +61,53 @@
     "toDark": "Switch to dark mode"
   },
   "welcome": {
-    "badge": "IATEC · DESIGN SYSTEM",
     "summary": "A catalogue of components and foundations for building consistent, accessible and verifiable experiences.",
     "howToNavigate": "How to navigate",
     "steps": [
       {
+        "id": "foundations",
         "title": "1. Start with the foundations",
         "text": "Check colour, typography, spacing, radius and icons before deciding how a piece should look.",
         "destination": "Foundations › Overview"
       },
       {
+        "id": "components",
         "title": "2. Look up the component",
         "text": "Each component gathers its states, variants, accessibility and runnable examples.",
         "destination": "Components › nph-icon"
       },
       {
+        "id": "gap",
         "title": "3. Report a gap",
         "text": "If a case is not documented, do not improvise API, token, variant or behaviour.",
         "destination": "Canonical spec sheet and record"
       }
-    ],
-    "statusTitle": "Current state",
-    "statusText": "Tokens are generated from the audited source. nph-icon is implemented and awaits a visual comparison between Figma and Storybook before final acceptance."
+    ]
   },
   "foundations": {
-    "badge": "FOUNDATIONS",
     "title": "The rules that keep the system coherent",
     "summary": "Foundations define the values and constraints that components consume. Storybook shows the result in code; Figma remains the visual source.",
     "items": [
-      [
-        "Colour",
-        "The core, theme and semantic layers, in light and dark modes."
-      ],
-      [
-        "Typography",
-        "Text styles approved in Figma and documented in the contract."
-      ],
-      [
-        "Spacing and radius",
-        "Semantic tokens for composition and controls."
-      ],
-      [
-        "Icons",
-        "A curated core of Font Awesome Pro icons."
-      ]
+      {
+        "id": "color",
+        "title": "Colour",
+        "text": "The core, theme and semantic layers, in light and dark modes."
+      },
+      {
+        "id": "typography",
+        "title": "Typography",
+        "text": "Text styles approved in Figma and documented in the contract."
+      },
+      {
+        "id": "spacing-and-radius",
+        "title": "Spacing and radius",
+        "text": "Semantic tokens for composition and controls."
+      },
+      {
+        "id": "icons",
+        "title": "Icons",
+        "text": "A curated core of Font Awesome Pro icons."
+      }
     ],
     "noticeTitle": "How to use this area",
     "noticeText1": "Check the contract in",

@@ -61,50 +61,53 @@
     "toDark": "Cambiar al modo oscuro"
   },
   "welcome": {
-    "badge": "IATEC · DESIGN SYSTEM",
     "summary": "Catálogo de componentes y fundamentos para construir experiencias consistentes, accesibles y verificables.",
     "howToNavigate": "Cómo navegar",
     "steps": [
       {
+        "id": "foundations",
         "title": "1. Empiece por los fundamentos",
         "text": "Consulte color, tipografía, espacio, radio e iconos antes de decidir la apariencia de una pieza.",
         "destination": "Fundamentos › Visión general"
       },
       {
+        "id": "components",
         "title": "2. Consulte el componente",
         "text": "Cada componente reúne estados, variantes, accesibilidad y ejemplos ejecutables.",
         "destination": "Componentes › nph-icon"
       },
       {
+        "id": "gap",
         "title": "3. Registre una laguna",
         "text": "Si un caso no está documentado, no improvise API, token, variante ni comportamiento.",
         "destination": "Ficha y Registro canónicos"
       }
-    ],
-    "statusTitle": "Estado actual",
-    "statusText": "Los tokens se generan a partir de la fuente auditada. nph-icon está implementado y espera la comparación visual entre Figma y Storybook antes de la aceptación final."
+    ]
   },
   "foundations": {
-    "badge": "FUNDAMENTOS",
     "title": "Las reglas que mantienen coherente al sistema",
     "summary": "Los fundamentos definen los valores y las restricciones que consumen los componentes. Storybook muestra el resultado en código; Figma sigue siendo la fuente visual.",
     "items": [
-      [
-        "Color",
-        "Las capas core, theme y semantic, en los modos claro y oscuro."
-      ],
-      [
-        "Tipografía",
-        "Estilos de texto aprobados en Figma y documentados en el contrato."
-      ],
-      [
-        "Espaciado y radio",
-        "Tokens semánticos para composición y controles."
-      ],
-      [
-        "Iconos",
-        "Núcleo curado de iconos Font Awesome Pro."
-      ]
+      {
+        "id": "color",
+        "title": "Color",
+        "text": "Las capas core, theme y semantic, en los modos claro y oscuro."
+      },
+      {
+        "id": "typography",
+        "title": "Tipografía",
+        "text": "Estilos de texto aprobados en Figma y documentados en el contrato."
+      },
+      {
+        "id": "spacing-and-radius",
+        "title": "Espaciado y radio",
+        "text": "Tokens semánticos para composición y controles."
+      },
+      {
+        "id": "icons",
+        "title": "Iconos",
+        "text": "Núcleo curado de iconos Font Awesome Pro."
+      }
     ],
     "noticeTitle": "Cómo usar esta área",
     "noticeText1": "Consulte el contrato en",

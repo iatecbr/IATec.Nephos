@@ -21,8 +21,10 @@ import type { TemplateResult } from 'lit';
 import '../../components/nph-icon/nph-icon';
 
 type TextRole =
+  | 'heading-xl'
   | 'heading-lg'
   | 'heading-md'
+  | 'heading-xs'
   | 'body-md'
   | 'body-sm'
   | 'label-md'
@@ -147,9 +149,9 @@ export function matrix(
  * `focus/ring-width`), which switches with the color mode, instead of the
  * browser's. It lives in a rule because inline style cannot reach `:focus`.
  * The rule stops at `main`: the `nph-*` pieces draw their own focus inside the
- * Shadow DOM.
+ * Shadow DOM. The index brings it; a page without an index places it itself.
  */
-const PAGE_FOCUS = html`
+export const PAGE_FOCUS = html`
   <style>
     [data-nph-section]:focus,
     main a:focus-visible,
