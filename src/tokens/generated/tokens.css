@@ -126,6 +126,7 @@
   --nph-core-layout-width-field: 20rem;
   --nph-core-layout-width-input: 17.5rem;
   --nph-core-layout-width-rich-option: 20rem;
+  --nph-core-layout-width-multi-combobox: 26.25rem;
   --nph-core-layout-width-separator: 15rem;
   --nph-core-layout-width-switch-track: 2.5rem;
   --nph-core-line-height-100: 1rem;
@@ -473,6 +474,7 @@
   --nph-layout-max-list-height: var(--nph-core-layout-height-list);
   --nph-layout-field-width: var(--nph-core-layout-width-field);
   --nph-layout-input-width: var(--nph-core-layout-width-input);
+  --nph-layout-multi-combobox-width: var(--nph-core-layout-width-multi-combobox);
   --nph-layout-rich-option-width: var(--nph-core-layout-width-rich-option);
   --nph-layout-separator-width: var(--nph-core-layout-width-separator);
   --nph-layout-separator-height: var(--nph-core-layout-height-separator);

@@ -1380,6 +1380,7 @@ tokens_core_layout:
   core/layout-height/tooltip:          { valor: 44, css: '--nph-core-layout-height-tooltip', alias_de: 'layout/max-tooltip-height' }
   core/layout-width/field:             { valor: 320, css: '--nph-core-layout-width-field', alias_de: 'layout/field-width' }
   core/layout-width/input:             { valor: 280, css: '--nph-core-layout-width-input', alias_de: 'layout/input-width' }
+  core/layout-width/multi-combobox:    { valor: 420, css: '--nph-core-layout-width-multi-combobox', alias_de: 'layout/multi-combobox-width' }
   core/layout-width/rich-option:       { valor: 320, css: '--nph-core-layout-width-rich-option', alias_de: 'layout/rich-option-width' }
   core/layout-width/separator:         { valor: 240, css: '--nph-core-layout-width-separator', alias_de: 'layout/separator-width' }
   core/layout-height/separator:        { valor: 48, css: '--nph-core-layout-height-separator', alias_de: 'layout/separator-height' }
@@ -1589,6 +1590,11 @@ tokens_layout:
     css: '--nph-layout-input-width'
     alias: core/layout-width/input
     valor: 280
+  layout/multi-combobox-width:
+    css: '--nph-layout-multi-combobox-width'
+    alias: core/layout-width/multi-combobox
+    valor: 420
+    use: "Width of the nph-multi-combobox field. DO NOT USE on nph-select or nph-combobox: they use layout/input-width."
   layout/rich-option-width:
     css: '--nph-layout-rich-option-width'
     alias: core/layout-width/rich-option
