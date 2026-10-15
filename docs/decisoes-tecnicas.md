@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70 and P71. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71 and P72. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -39,6 +39,7 @@ P62.4 subsection for the detail).
 | **P69** | API and semantics of `nph-skeleton` | 15/10/2026 | Low now. No piece consumes it yet; `nph-avatar` will share its avatar sizes and radii | Anatomy and behavior: frame accepted by Indiane on 08/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P70** | Package entry points and the Usage section | 15/10/2026 | Medium. Every `Docs` page shows the import line, so changing the path later changes every page and every consumer | Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request that brings it |
 | **P71** | `Docs` page lists read from the Metadata | 15/10/2026 | Low. The lists move from the dictionary to the Metadata; the sheet does not change its format | Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request that brings it |
+| **P72** | Accessibility gate in the tests | 15/10/2026 | Medium. Two new dependencies and a gate on every story; the earlier, the fewer violations to fix | Adopted by Indiane on 15/10/2026 (DSA-30, D3). Reviewed in the pull request that brings it |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -234,6 +235,9 @@ accessibility tests will be defined with the first real component.
 
 **Annotation of 15/10/2026.** P70 defines the package entry points and the import
 line of each component. Public publishing stays out of scope.
+
+**Annotation of 15/10/2026.** P72 defines the accessibility tests: the deferral to
+"the first real component" is closed.
 
 **Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
 by Elvys on 28/08/2026.
@@ -1228,9 +1232,52 @@ that brings it; the merge is the approval.
 
 ---
 
+## P72 — Accessibility gate in the tests
+
+This decision **closes a deferral of P19**: "interaction and accessibility tests will be
+defined with the first real component".
+
+**Technical conflict.** The first real component was `nph-icon` (PR #6), and
+`src/components/` now has nine. Accessibility is proved only by assertions written per
+component; `package.json` has neither `axe-core` nor the Storybook accessibility addon
+(DSA-30, D3).
+
+**Decision.**
+
+- The Storybook accessibility addon (`@storybook/addon-a11y`) runs inside the tests,
+  through the Storybook Vitest integration (`@storybook/addon-vitest`), and a violation
+  fails the run.
+- The rule set is WCAG 2.2 AA.
+- The scope is every story, `Validation` and `Docs`: the `Docs` page is also read by
+  people.
+- The addon panel stays available while a story is written; the panel is not the gate.
+- A known exception is written in the story itself, with the reason, the discarded
+  alternative and the date, as `docs/stories.md`, §2.3, records an exception. Opening an
+  exception is a human decision.
+
+**Reason.** An assertion written per component proves what its author thought of. A rule
+set run on every story catches what nobody thought of, and failing the run is what makes
+it a gate.
+
+**Impact.** The two dependencies, the test configuration and the fixes of the violations
+found go through a pull request of their own. The assertions written per component stay.
+
+**Out of scope.** Interaction tests, which P19 deferred in the same sentence. The CI
+workflow, as P19 left it.
+
+**Rite.** This decision touches the out of scope of P19, so it follows the rite of the
+section "How to change one of these decisions": the technical conflict is above, the
+proposal is this section, and the human review is the pull request. The text of P19 does
+not change; only its out of scope gets the annotation.
+
+**Status.** Adopted by Indiane on 15/10/2026 (DSA-30, D3). Reviewed in the pull request
+that brings it; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70 or P71 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71 or P72 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
