@@ -9,6 +9,10 @@
  * `src/components/<nome>/`, in TypeScript. The divergence recorded in P03 ends
  * with `nph-icon`.
  *
+ * The frame carries only what serves the reading: the update notice and the
+ * Storybook onboarding checklist are off. The checklist, besides taking room
+ * from the page, invites publishing the Storybook, and P19 keeps it private.
+ *
  * @type {import('@storybook/web-components-vite').StorybookConfig}
  */
 const config = {
@@ -16,6 +20,13 @@ const config = {
   framework: {
     name: '@storybook/web-components-vite',
     options: {},
+  },
+  core: {
+    disableWhatsNewNotifications: true,
+  },
+  features: {
+    sidebarOnboardingChecklist: false,
+    menuOnboardingChecklist: false,
   },
 };
 

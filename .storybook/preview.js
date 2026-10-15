@@ -78,7 +78,17 @@ const withPageContext = (story, context) => {
 
 /** @type {import('@storybook/web-components').Preview} */
 const preview = {
-  parameters: {},
+  parameters: {
+    options: {
+      /*
+       * Reading order of the sidebar: whoever arrives starts at "Start here".
+       * Inside each component, the reading page comes before the proof.
+       */
+      storySort: {
+        order: ['Start here', 'Foundations', 'Components', ['*', ['Docs', 'Validation']]],
+      },
+    },
+  },
 
   decorators: [withPageContext],
 

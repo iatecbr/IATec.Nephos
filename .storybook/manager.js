@@ -153,8 +153,14 @@ addons.register('nephos/color-scheme', (api) => {
   });
 });
 
+/*
+ * The addon panel starts closed: no story declares `args`, so it would only
+ * show "This story has no controls" and take a third of the page. It still
+ * opens from the menu or with the keyboard shortcut.
+ */
 addons.setConfig({
   theme: THEMES[URL_COLOR_SCHEME],
+  showPanel: false,
   sidebar: {
     showRoots: true,
     renderLabel: (item, api) => {
