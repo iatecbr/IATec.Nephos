@@ -41,3 +41,9 @@ WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-01.md`: acceptance of the docume
 11 components, among them `nph-button`. `2026-10-02.md`: solid hover on the
 hover tokens and its visual acceptance, Figma UX QA with approved independent review
 and approved textual audit.
+
+## Note of 2026-10-15
+
+The accepted frame `1197:5449` has Anatomy (section 3) and Examples (section 9),
+confirmed by Indiane on 2026-10-15 (DSA-30, D7). The `Docs` page of `nph-button`
+does not have them yet. The acceptance recorded above does not change.
