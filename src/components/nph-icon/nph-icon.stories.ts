@@ -51,7 +51,7 @@ export const Variants: Story = {
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`
-      <div style=${body}>
+      <main style=${body}>
         ${header(v.variantsTitle, v.variantsNote)}
         ${demo(
           html`
@@ -66,7 +66,7 @@ export const Variants: Story = {
           `,
           'name="circle-info" size="lg"',
         )}
-      </div>
+      </main>
     `;
   },
 };
@@ -77,7 +77,7 @@ export const Sizes: Story = {
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`
-      <div style=${body}>
+      <main style=${body}>
         ${header(v.sizesTitle, v.sizesSummary)}
         ${demo(
           html`${NPH_ICON_SIZES.map((size) =>
@@ -105,7 +105,7 @@ export const Sizes: Story = {
             )}
           `,
         )}
-      </div>
+      </main>
     `;
   },
 };
@@ -121,7 +121,7 @@ export const ColorInheritance: Story = {
       </span>
     `;
     return html`
-      <div style=${body}>
+      <main style=${body}>
         ${header(v.colorTitle, v.colorNote)}
         ${demo(
           html`
@@ -139,7 +139,7 @@ export const ColorInheritance: Story = {
           `,
           'name="circle-info" size="lg"',
         )}
-      </div>
+      </main>
     `;
   },
 };
@@ -150,7 +150,7 @@ export const Accessibility: Story = {
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`
-      <div style=${body}>
+      <main style=${body}>
         ${header(v.a11yTitle, v.a11ySummary)}
         ${section(
           'decorative',
@@ -176,7 +176,7 @@ export const Accessibility: Story = {
           ),
         )}
         ${section('focus', v.a11yFocusTitle, text(v.a11yFocusNote))}
-      </div>
+      </main>
     `;
   },
 };
@@ -187,7 +187,7 @@ export const InvalidInput: Story = {
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return html`
-      <div style=${body}>
+      <main style=${body}>
         ${header(v.invalidTitle, v.invalidIntro)}
         <!-- The table term does not wrap: on a narrow screen the table scrolls, the page does not.
              The area takes focus and has a name, so the keyboard can scroll it too. -->
@@ -208,7 +208,7 @@ export const InvalidInput: Story = {
             ['name="check"', html`${v.invalidCases[3]} <nph-icon name="check"></nph-icon>`],
           ])}
         </div>
-      </div>
+      </main>
     `;
   },
 };

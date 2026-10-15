@@ -48,11 +48,11 @@ type Texts = ReturnType<typeof t>;
 
 /** Demo frame. Not valid as a precedent for component CSS. */
 function page(content: TemplateResult): TemplateResult {
-  return html`<div
+  return html`<main
     style="padding:var(--nph-space-section);display:flex;flex-direction:column;gap:var(--nph-space-section);background:var(--nph-color-background)"
   >
     ${content}
-  </div>`;
+  </main>`;
 }
 
 function section(title: string, content: TemplateResult): TemplateResult {
