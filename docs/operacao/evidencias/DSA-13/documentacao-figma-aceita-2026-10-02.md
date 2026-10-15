@@ -46,4 +46,4 @@ and approved textual audit.
 
 The accepted frame `1197:5449` has Anatomy (section 3) and Examples (section 9),
 confirmed by Indiane on 2026-10-15 (DSA-30, D7). The `Docs` page of `nph-button`
-does not have them yet. The acceptance recorded above does not change.
+has Examples and does not have Anatomy yet. The acceptance recorded above does not change.

@@ -1,7 +1,7 @@
 ```json
 {
   "id": "DSA-33",
-  "goal": "Set text/body-lg in the text and list blocks of the Docs pages, and add Anatomy and Examples to the nph-button and nph-icon pages from their accepted frames (DSA-30, D6 and D7).",
+  "goal": "Set text/body-lg in the text and list blocks of the Docs pages, and add Anatomy to the nph-button page and Anatomy and Examples to the nph-icon page from their accepted frames (DSA-30, D6 and D7).",
   "phase": "F4",
   "approved_order": 350,
   "owner": "elvys",
@@ -69,7 +69,7 @@
 # DSA-33 — Docs pages: body-lg and the model sections
 
 ## Goal
-The `text` and `list` blocks of `src/shared/docs/page.ts` use `text/body-lg`, and the `nph-button` and `nph-icon` `Docs` pages have Anatomy and Examples in the position of the model.
+The `text` and `list` blocks of `src/shared/docs/page.ts` use `text/body-lg`, the `nph-button` `Docs` page has Anatomy, and the `nph-icon` `Docs` page has Anatomy and Examples, in the position of the model. The existing Examples of `nph-button` are checked against the frame `1197:5449`: its icon-only example uses `plus`, and the page uses `xmark`.
 
 ## How it is proved
 **`review-and-merge`** passes when `page.test.ts` proves the text role of `text` and `list`; the `Docs` tests of `nph-button` and `nph-icon` prove the Anatomy and Examples sections in the model order; the visible text is in the three dictionaries; `npm test`, `npm run typecheck`, `npm run test:i18n`, `npm run test:naming`, `npm run test:operacao`, `npm run build-storybook` and `git diff --check` exit 0; and the pull request is merged into `v/5.0.0`.
