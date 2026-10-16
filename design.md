@@ -390,6 +390,11 @@ tokens_semantic:
     claro: theme/brand-600
     escuro: theme/brand-300
     use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. In light it is the same tone as the primary; in dark it goes up one tone, because the dark primary does not reach 3:1 as an outline in two of the seven brands."
+  color/link:
+    css: '--nph-color-link'
+    claro: theme/brand-600
+    escuro: theme/brand-300
+    use: "Text of an action that reads as a link inside a composition, such as the resend-code action below the nph-input-otp: a ghost nph-button with the label in color/link and underlined. Meets 4.5:1 on color/background in light and dark in the seven brands. Do not use for the label of a regular nph-button, for body text or for a link to another page: those keep their own tokens."
   color/primary-hover:
     css: '--nph-color-primary-hover'
     claro: theme/brand-700

@@ -678,6 +678,7 @@
   --nph-color-primary-surface-hover: var(--nph-theme-brand-100);
   --nph-color-primary-on-surface-hover: var(--nph-theme-brand-700);
   --nph-color-primary-border: var(--nph-theme-brand-600);
+  --nph-color-link: var(--nph-theme-brand-600);
   --nph-color-primary-hover: var(--nph-theme-brand-700);
   --nph-focus-ring: var(--nph-theme-brand-700);
   --nph-focus-border: var(--nph-theme-brand-focus);
@@ -807,6 +808,7 @@
   --nph-color-primary-surface-hover: var(--nph-theme-brand-800);
   --nph-color-primary-on-surface-hover: var(--nph-theme-brand-100);
   --nph-color-primary-border: var(--nph-theme-brand-300);
+  --nph-color-link: var(--nph-theme-brand-300);
   --nph-color-primary-hover: var(--nph-theme-brand-400-hover);
   --nph-focus-ring: var(--nph-theme-brand-400);
   --nph-focus-border: var(--nph-theme-brand-300);
