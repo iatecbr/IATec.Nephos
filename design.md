@@ -1385,6 +1385,8 @@ tokens_core_layout:
   core/layout-width/separator:         { valor: 240, css: '--nph-core-layout-width-separator', alias_de: 'layout/separator-width' }
   core/layout-height/separator:        { valor: 48, css: '--nph-core-layout-height-separator', alias_de: 'layout/separator-height' }
   core/layout-height/list:             { valor: 296, css: '--nph-core-layout-height-list', alias_de: 'layout/max-list-height' }
+  core/layout-height/textarea-min:     { valor: 76, css: '--nph-core-layout-height-textarea-min', alias_de: 'layout/textarea-min-height' }
+  core/layout-height/textarea-max:     { valor: 216, css: '--nph-core-layout-height-textarea-max', alias_de: 'layout/textarea-max-height' }
   core/layout-width/switch-track:      { valor: 40, css: '--nph-core-layout-width-switch-track', alias_de: 'switch/track-width' }
 
 # ---------------------------------------------------------------
@@ -1582,6 +1584,16 @@ tokens_layout:
     alias: core/layout-height/list
     valor: 296
     use: "Maximum height of the option list of nph-select and nph-combobox: it shows up to 8 options; above it, the list scrolls. DO NOT USE outside an option list."
+  layout/textarea-min-height:
+    css: '--nph-layout-textarea-min-height'
+    alias: core/layout-height/textarea-min
+    valor: 76
+    use: "Minimum height of nph-textarea: room for the text lines plus the padding of the field. Empty, the field shows that a long text fits. DO NOT USE outside nph-textarea."
+  layout/textarea-max-height:
+    css: '--nph-layout-textarea-max-height'
+    alias: core/layout-height/textarea-max
+    valor: 216
+    use: "Maximum height of nph-textarea. Above it, the text scrolls inside the field. DO NOT USE outside nph-textarea."
   layout/field-width:
     css: '--nph-layout-field-width'
     alias: core/layout-width/field

@@ -118,6 +118,8 @@
   --nph-core-layout-height-tooltip: 2.75rem;
   --nph-core-layout-height-separator: 3rem;
   --nph-core-layout-height-list: 18.5rem;
+  --nph-core-layout-height-textarea-min: 4.75rem;
+  --nph-core-layout-height-textarea-max: 13.5rem;
   --nph-core-layout-width-app: 90rem;
   --nph-core-layout-width-reading: 35rem;
   --nph-core-layout-width-sidebar-collapsed: 4rem;
@@ -472,6 +474,8 @@
   --nph-layout-max-tooltip-width: var(--nph-core-layout-width-tooltip);
   --nph-layout-max-tooltip-height: var(--nph-core-layout-height-tooltip);
   --nph-layout-max-list-height: var(--nph-core-layout-height-list);
+  --nph-layout-textarea-min-height: var(--nph-core-layout-height-textarea-min);
+  --nph-layout-textarea-max-height: var(--nph-core-layout-height-textarea-max);
   --nph-layout-field-width: var(--nph-core-layout-width-field);
   --nph-layout-input-width: var(--nph-core-layout-width-input);
   --nph-layout-multi-combobox-width: var(--nph-core-layout-width-multi-combobox);
