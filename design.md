@@ -394,7 +394,7 @@ tokens_semantic:
     css: '--nph-color-link'
     claro: theme/brand-600
     escuro: theme/brand-300
-    use: "Text of an action that reads as a link inside a composition, such as the resend-code action below the nph-input-otp: a ghost nph-button with the label in color/link and underlined. Meets 4.5:1 on color/background in light and dark in the seven brands. Do not use for the label of a regular nph-button, for body text or for a link to another page: those keep their own tokens."
+    use: "Text of an action that reads as a link inside a composition, such as the resend-code action below the nph-input-otp: a ghost nph-button with the label in color/link and underlined. Meets 4.5:1 on color/background in light and dark in the seven brands. Do not use for the label of a regular nph-button or for body text: those keep their own tokens."
   color/primary-hover:
     css: '--nph-color-primary-hover'
     claro: theme/brand-700
