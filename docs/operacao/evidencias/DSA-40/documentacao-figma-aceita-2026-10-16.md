@@ -47,8 +47,8 @@ loading, which has its own state, nor the error message, which says what failed.
 The piece has no action: it carries no button and no link.
 
 ## Anatomy
-Shown with `título` "Nenhuma opção encontrada", `descrição` "Confira o que
-digitou ou busque outro termo." and `texto da descrição` on.
+Shown with `título` `Nenhuma opção encontrada`, `descrição` `Confira o que digitou ou busque outro termo.`
+and `texto da descrição` on.
 
 | Part | Rule |
 |---|---|
@@ -64,13 +64,13 @@ between the illustration and that group the gap is `space/section`.
 
 | Scheme | `scheme/is-light` | `scheme/is-dark` | Asset shown |
 |---|---|---|---|
-| light | `1` (true) | `0` (false) | `Ilustracao-empty-nenhuma-opcao-encontrada.png` |
-| dark | `0` (false) | `1` (true) | `Ilustracao-empty-nenhuma-opcao-encontrada-dark.png` |
+| light | `1` (true) | `0` (false) | `assets/illustrations/empty-no-option-found.png` |
+| dark | `0` (false) | `1` (true) | `assets/illustrations/empty-no-option-found-dark.png` |
 
 In Figma both are BOOLEAN variables of the semantic collection; in the
 repository they are `number` tokens, `1` for true and `0` for false, one value
 per scheme (`--nph-scheme-is-light`, `--nph-scheme-is-dark`). The two asset
-files come with the message that sends this task.
+files are the ones the Figma component shows, under English names.
 
 ## Accessibility
 
@@ -89,8 +89,8 @@ contrast); title only (the message stays in the text).
 
 | Figma property | Rule |
 |---|---|
-| `título` | Required text. Says what is missing, such as "Nenhuma opção encontrada". |
-| `descrição` | Text that says what to do, such as "Confira o que digitou ou busque outro termo.". |
+| `título` | Required text. Says what is missing, such as `Nenhuma opção encontrada`. |
+| `descrição` | Text that says what to do, such as `Confira o que digitou ou busque outro termo.`. |
 | `texto da descrição` | Boolean, on by default. Off, only the title remains, when there is nothing to suggest. |
 | Illustration (not a property) | It switches by itself with the color scheme, through `scheme/is-light` and `scheme/is-dark`. It is not chosen by hand. |
 | Action (not a property) | The piece has no button and no link. |
@@ -137,18 +137,18 @@ Each in light and dark mode:
 | Title only | `texto da descrição` off, when there is nothing to suggest. |
 
 ## Do
-- Write the title as what is missing, such as "Nenhuma opção encontrada",
+- Write the title as what is missing, such as `Nenhuma opção encontrada`,
   because the person understands at once why the area is empty.
-- Use the description to say what to do, such as "Confira o que digitou ou
-  busque outro termo.", because the empty state becomes a next step.
+- Use the description to say what to do, such as `Confira o que digitou ou busque outro termo.`,
+  because the empty state becomes a next step.
 - Let the illustration switch with the color scheme, because each version was
   made for its background.
 - Keep `space/section` between the illustration and the texts, because the image
   needs room.
 
 ## Do not
-- Do not write a vague title, such as "Vazio": say what is missing, such as
-  "Nenhuma opção encontrada".
+- Do not write a vague title, such as `Vazio`: say what is missing, such as
+  `Nenhuma opção encontrada`.
 - Do not repeat the title in the description: use the description to say what
   to do, or turn off `texto da descrição`.
 - Do not use the `nph-empty` while the options load: in the `nph-combobox`

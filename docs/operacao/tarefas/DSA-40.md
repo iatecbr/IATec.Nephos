@@ -43,7 +43,7 @@
     "date": "2026-10-16",
     "author": "indiane",
     "excerpt": null,
-    "converted_decision": "The nph-empty board (1463:25260), with its Documentação frame (2003:688), was accepted as the API and behavior specification of the nph-empty. COMPONENT_SET: none, the piece is a single COMPONENT (1463:25238). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
+    "converted_decision": "The nph-empty board (1463:25260), with its `Documentação` frame (2003:688), was accepted as the API and behavior specification of the nph-empty. COMPONENT_SET: none, the piece is a single COMPONENT (1463:25238). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
@@ -65,8 +65,8 @@ There is no need to open Figma.
 
 ## Why it is ready
 It depends on no other task: the piece has no child component, and every token
-it uses is on `v/5.0.0`. The two illustration files come with the message that
-sends this task; they are not tokens.
+it uses is on `v/5.0.0`. The two illustration files are on `v/5.0.0` too, in
+`assets/illustrations/`; they are not tokens.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
@@ -87,4 +87,5 @@ piece that receives the `nph-empty`.
 ## Sources
 - Figma `DS-IA-NEPHOS 5.0`, board `1463:25260`, frame `2003:688`, component `1463:25238`
 - `design.md` — the tokens named in the evidence, `tokens_scheme` included
+- `assets/illustrations/` — `empty-no-option-found.png` and `empty-no-option-found-dark.png`
 - `fichas/_modelo.md`
