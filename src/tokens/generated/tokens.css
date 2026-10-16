@@ -555,6 +555,8 @@
 /* layer 2 - semantic, variants: one block per color scheme. */
 :root,
 [data-nph-color-scheme="light"] {
+  --nph-scheme-is-light: 1;
+  --nph-scheme-is-dark: 0;
   --nph-brand-comercial-foreground: var(--nph-core-base-white);
   --nph-brand-comercial-strong: var(--nph-core-comercial-600);
   --nph-brand-comercial: var(--nph-core-comercial-500);
@@ -682,6 +684,8 @@
   --nph-focus-halo: var(--nph-theme-brand-halo);
 }
 [data-nph-color-scheme="dark"] {
+  --nph-scheme-is-light: 0;
+  --nph-scheme-is-dark: 1;
   --nph-brand-comercial-foreground: var(--nph-core-neutral-950);
   --nph-brand-comercial-strong: var(--nph-core-comercial-500);
   --nph-brand-comercial: var(--nph-core-comercial-400);

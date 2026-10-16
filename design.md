@@ -1112,6 +1112,18 @@ tokens_skeleton:
     valor: 16
     use: "Height of the nph-skeleton line: 16. USE only on the line shape of nph-skeleton. DO NOT USE on another piece."
 
+tokens_scheme:
+  scheme/is-light:
+    css: '--nph-scheme-is-light'
+    claro: 1
+    escuro: 0
+    use: "Color scheme flag, a BOOLEAN variable in Figma: 1 is true, 0 is false. True in light mode. USE to show the asset made for light mode, such as the light illustration of nph-empty. DO NOT USE for color: color comes from the color/* tokens, which already change with the scheme."
+  scheme/is-dark:
+    css: '--nph-scheme-is-dark'
+    claro: 0
+    escuro: 1
+    use: "Color scheme flag, a BOOLEAN variable in Figma: 1 is true, 0 is false. True in dark mode. USE to show the asset made for dark mode, such as the dark illustration of nph-empty. DO NOT USE for color: color comes from the color/* tokens, which already change with the scheme."
+
 # ---------------------------------------------------------------
 # RADIUS - primitives in core (invisible) and intent tokens in the
 # semantic collection. Components consume ONLY the semantic ones.
