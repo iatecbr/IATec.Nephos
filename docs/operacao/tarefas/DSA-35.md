@@ -59,7 +59,7 @@ Indiane answered D1. The task waits for B1.
 
 | ID | Answer | What the code does |
 |---|---|---|
-| D1 | The `nph-skeleton` Docs page shows `<nph-skeleton shape="line"></nph-skeleton>` and `import 'nephos/nph-skeleton';`. The shape is written out, though `line` is the default, because it is the one property of the piece (P69). Claude updates section "6. Usage" of the Figma frame to the same markup. | Shows this markup in the Usage section of the `nph-skeleton` Docs page. It does not show an `aria-busy` container or an avatar shape there. |
+| D1 | The `nph-skeleton` Docs page shows `<nph-skeleton shape="line"></nph-skeleton>` and `import 'nephos/nph-skeleton';`. The shape is written out, though `line` is the default, because it is the one property of the piece (P69). Claude updated section "6. Usage" of the Figma frame to the same markup. | Shows this markup in the Usage section of the `nph-skeleton` Docs page. It does not show an `aria-busy` container or an avatar shape there. |
 
 ## How it is proved
 **`review-and-merge`** passes when an npm script builds `dist/` with `lit` and `@fortawesome/*` outside the build; a test imports each component through `nephos/nph-<name>` and finds it registered with its CSS, `nph-label` included; each `Docs` page shows Usage after API, with the markup of its frame and the package name read from `package.json`; `npm test`, `npm run typecheck`, `npm run test:i18n`, `npm run test:naming`, `npm run test:operacao`, `npm run build-storybook` and `git diff --check` exit 0; and the pull request is merged into `v/5.0.0`.
