@@ -28,7 +28,7 @@
 import React from 'react';
 import { addons, types, useGlobals } from 'storybook/manager-api';
 import { create } from 'storybook/theming';
-import { GLOBALS_UPDATED, SET_CONFIG } from 'storybook/internal/core-events';
+import { GLOBALS_UPDATED, RESULT_WHATS_NEW_DATA, SET_CONFIG } from 'storybook/internal/core-events';
 import { IconButton } from 'storybook/internal/components';
 import { MoonIcon, SunIcon } from '@storybook/icons';
 
@@ -111,22 +111,27 @@ const getColorScheme = (globals) => {
   return URL_COLOR_SCHEME;
 };
 
-/** Single button: shows the current mode and switches to the other. */
+/**
+ * Single button: shows the current mode and switches to the other. The
+ * accessible name starts with the visible text and then says the action, so
+ * whoever says what they see ("Light mode") reaches the button (WCAG 2.5.3).
+ */
 function ColorSchemeSelector() {
   const [globals, updateGlobals] = useGlobals();
   const colorScheme = getColorScheme(globals);
   const t = translations(globals?.[LOCALE_GLOBAL] ?? DEFAULT_LOCALE).colorScheme;
   const action = colorScheme === 'dark' ? t.toLight : t.toDark;
+  const label = colorScheme === 'dark' ? t.dark : t.light;
   return React.createElement(
     IconButton,
     {
       key: 'nephos-color-scheme',
       title: action,
-      'aria-label': action,
+      'aria-label': `${label}. ${action}`,
       onClick: () => updateGlobals({ [COLOR_SCHEME]: colorScheme === 'dark' ? 'light' : 'dark' }),
     },
     React.createElement(colorScheme === 'dark' ? MoonIcon : SunIcon),
-    React.createElement('span', null, colorScheme === 'dark' ? t.dark : t.light),
+    React.createElement('span', null, label),
   );
 }
 
@@ -148,8 +153,31 @@ addons.register('nephos/color-scheme', (api) => {
   });
 });
 
+/*
+ * `main.js` turns off the update notices (`core.disableWhatsNewNotifications`),
+ * but the green dot on the Settings button ignores that option: Storybook
+ * (10.5 and 10.6) reads it from `state.disableWhatsNewNotifications`, while the
+ * value lives in `state.whatsNewData`. So, when the notices are off, the post
+ * is marked as read as soon as it arrives, which is what clears the dot.
+ * Remove this block when Storybook reads the option from the right place.
+ */
+addons.register('nephos/whats-new', (api) => {
+  const markRead = () => {
+    if (api.isWhatsNewUnread()) api.whatsNewHasBeenRead();
+  };
+  addons.getChannel().on(RESULT_WHATS_NEW_DATA, ({ data }) => {
+    if (data?.disableWhatsNewNotifications) setTimeout(markRead, 0);
+  });
+});
+
+/*
+ * The addon panel starts closed: no story declares `args`, so it would only
+ * show "This story has no controls" and take a third of the page. It still
+ * opens from the menu or with the keyboard shortcut.
+ */
 addons.setConfig({
   theme: THEMES[URL_COLOR_SCHEME],
+  showPanel: false,
   sidebar: {
     showRoots: true,
     renderLabel: (item, api) => {

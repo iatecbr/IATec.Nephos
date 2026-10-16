@@ -64,7 +64,7 @@ export const Documentation: Story = {
     const [draft, finance, rejected] = d.exampleBadges as string[];
 
     return html`
-      <div style=${body}>
+      <main style=${body}>
         ${header('nph-badge', d.summary)}
         ${matrix(
           d.matrixLabel,
@@ -174,7 +174,7 @@ export const Documentation: Story = {
         )}
 
         ${section(SECTIONS.references, d.referencesTitle, list(d.references))}
-      </div>
+      </main>
     `;
   },
 };

@@ -45,6 +45,16 @@ describe('nph-button Documentation', () => {
       expect([...sections].sort()).toEqual([...links].sort());
     });
 
+    it(`${locale}: every index link and every section title has text`, () => {
+      const target = renderInLocale(locale);
+      const names = [
+        ...target.querySelectorAll('nav a'),
+        ...target.querySelectorAll('section[id] > h2'),
+      ].map((element) => element.textContent?.trim() ?? '');
+      expect(names.length).toBeGreaterThan(0);
+      expect(names.filter((name) => name === '')).toEqual([]);
+    });
+
     it(`${locale}: no {name} placeholder is left on the page`, () => {
       expect(renderInLocale(locale).textContent ?? '').not.toMatch(/\{\w+\}/);
     });

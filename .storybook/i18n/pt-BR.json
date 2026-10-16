@@ -68,50 +68,53 @@
     "toDark": "Mudar para o modo escuro"
   },
   "welcome": {
-    "badge": "IATEC · DESIGN SYSTEM",
     "summary": "Catálogo de componentes e fundações para construir experiências consistentes, acessíveis e verificáveis.",
     "howToNavigate": "Como navegar",
     "steps": [
       {
+        "id": "foundations",
         "title": "1. Comece pelas fundações",
         "text": "Consulte cor, tipografia, espaço, raio e ícones antes de decidir a aparência de uma peça.",
         "destination": "Fundações › Visão geral"
       },
       {
+        "id": "components",
         "title": "2. Consulte o componente",
         "text": "Cada componente reúne estados, variantes, acessibilidade e exemplos executáveis.",
         "destination": "Componentes › nph-icon"
       },
       {
+        "id": "gap",
         "title": "3. Registre uma lacuna",
         "text": "Se um caso não estiver documentado, não improvise API, token, variante ou comportamento.",
         "destination": "Ficha e Registro canônicos"
       }
-    ],
-    "statusTitle": "Estado atual",
-    "statusText": "Os tokens são gerados a partir da fonte auditada. O nph-icon está implementado e aguarda comparação visual entre Figma e Storybook antes do aceite final."
+    ]
   },
   "foundations": {
-    "badge": "FUNDAÇÕES",
     "title": "Regras que mantêm o sistema coerente",
     "summary": "As fundações definem os valores e as restrições que os componentes consomem. O Storybook mostra o resultado em código; o Figma continua sendo a fonte visual.",
     "items": [
-      [
-        "Cor",
-        "Camadas core, theme e semantic, nos modos claro e escuro."
-      ],
-      [
-        "Tipografia",
-        "Estilos de texto aprovados no Figma e documentados no contrato."
-      ],
-      [
-        "Espaçamento e raio",
-        "Tokens semânticos para composição e controles."
-      ],
-      [
-        "Ícones",
-        "Núcleo curado de ícones Font Awesome Pro."
-      ]
+      {
+        "id": "color",
+        "title": "Cor",
+        "text": "Camadas core, theme e semantic, nos modos claro e escuro."
+      },
+      {
+        "id": "typography",
+        "title": "Tipografia",
+        "text": "Estilos de texto aprovados no Figma e documentados no contrato."
+      },
+      {
+        "id": "spacing-and-radius",
+        "title": "Espaçamento e raio",
+        "text": "Tokens semânticos para composição e controles."
+      },
+      {
+        "id": "icons",
+        "title": "Ícones",
+        "text": "Núcleo curado de ícones Font Awesome Pro."
+      }
     ],
     "noticeTitle": "Como usar esta área",
     "noticeText1": "Consulte o contrato em",
@@ -730,7 +733,7 @@
     "sampleText": "Nome completo",
     "info": "Explica o que o campo pede.",
     "infoLabel": "Sobre nome completo",
-    "descriptionTitle": "Descrição do componente",
+    "apiTitle": "API",
     "description": "Use nph-label para dar nome visível a um controle de formulário, sozinho ou dentro de um nph-field. O rótulo é só um texto: não tem estado, tamanho nem layout. A exceção é o ícone de informação, que recebe foco. Não substitui o título de seção, que é heading-sm, o texto de corpo, nem a ajuda e a mensagem de erro, que são do nph-field.",
     "anatomyTitle": "Anatomia",
     "anatomyHeader": [
@@ -1080,5 +1083,29 @@
   "skeletonValidation": {
     "lightCaption": "Modo claro",
     "darkCaption": "Modo escuro"
+  },
+  "validationPages": {
+    "sheetTitle": "O contrato está na ficha",
+    "sheetText": "Esta peça não tem página de leitura no Storybook. O contrato está em {sheet}; estas stories o comprovam.",
+    "claims": {
+      "components-nph-badge-validation--matrix": "Cada valor de severity nos dois valores de emphasis, sem ícone.",
+      "components-nph-badge-validation--with-icon": "O ícone vem antes do texto, em icon/size-sm, na cor do texto.",
+      "components-nph-badge-validation--two-words": "Uma ou duas palavras ficam numa linha só: o badge não quebra.",
+      "components-nph-button-validation--matrix": "Cada par de severity e emphasis que existe, no tamanho default. Passe o mouse sobre um botão para ver o hover.",
+      "components-nph-button-validation--sizes": "Os três tamanhos, com texto e só com ícone. O texto é label-md em todos.",
+      "components-nph-button-validation--icons": "Ícone no início, no fim e os dois juntos, em icon/size-sm.",
+      "components-nph-button-validation--disabled": "Desabilitado: o botão inteiro em state/disabled-opacity, fora da ordem do Tab.",
+      "components-nph-button-validation--loading": "Carregando: o spinner ocupa o lugar do ícone inicial, e o texto fica.",
+      "components-nph-kbd-validation--single-key": "Uma tecla por peça, pela propriedade text.",
+      "components-nph-kbd-validation--combination": "Uma combinação junta uma peça por tecla, lado a lado.",
+      "components-nph-kbd-validation--mac-combination": "A mesma combinação no macOS, com os símbolos do sistema. A aplicação escolhe o conjunto pelo sistema da pessoa; a peça não detecta o sistema.",
+      "components-nph-separator-validation--horizontal": "Entre itens empilhados, a linha ocupa a largura.",
+      "components-nph-separator-validation--vertical": "Entre itens lado a lado, a linha ocupa a altura.",
+      "components-nph-spinner-validation--sizes": "sm dentro de um botão ou campo; md numa área de conteúdo.",
+      "components-nph-spinner-validation--accessibility": "Com texto ao lado, o spinner é decorativo; sem texto, tem nome acessível.",
+      "components-nph-spinner-validation--invalid-input": "size=\"lg\" não existe: nada é desenhado, e a área abaixo fica vazia de propósito.",
+      "components-nph-tooltip-validation--one-line": "O balão aberto com um texto de uma linha, como no exemplo do Figma.",
+      "components-nph-tooltip-validation--two-lines": "O balão aberto com um texto de duas linhas: em todos os idiomas ele ocupa exatamente duas linhas."
+    }
   }
 }

@@ -21,7 +21,13 @@
  * The `locale` global gives the language of the explanatory texts. It is NOT
  * component API: no `nph-*` knows a language, and the consumer's accessible
  * content — `label`, for example — still arrives already localized by the
- * application. See `docs/i18n.md`.
+ * application. See `docs/i18n.md`. The decorator still writes it to
+ * `<html lang>`, so assistive technology reads the explanatory texts in their
+ * own language (WCAG 3.1.1).
+ *
+ * `color-scheme` follows `data-nph-color-scheme`, on the root and on any frame
+ * that pins its own scheme: native controls, such as an `<input>` or the
+ * search cancel button, are drawn in the mode of the page around them.
  */
 import '@fontsource/noto-sans/latin-400.css';
 import '@fontsource/noto-sans/latin-500.css';
@@ -44,6 +50,12 @@ const PAGE_STYLE = `
   code, kbd, pre {
     font-family: var(--nph-text-code-font-family);
   }
+  [data-nph-color-scheme='light'] {
+    color-scheme: light;
+  }
+  [data-nph-color-scheme='dark'] {
+    color-scheme: dark;
+  }
 `;
 
 function ensureStyle() {
@@ -55,18 +67,30 @@ function ensureStyle() {
 }
 
 /** @type {import('@storybook/web-components').Decorator} */
-const withColorScheme = (story, context) => {
+const withPageContext = (story, context) => {
   ensureStyle();
   const colorScheme = context.globals?.[COLOR_SCHEME] === 'dark' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-nph-color-scheme', colorScheme);
+  const locale = context.globals?.[LOCALE_GLOBAL];
+  document.documentElement.lang = LOCALES.some(({ value }) => value === locale) ? locale : DEFAULT_LOCALE;
   return story();
 };
 
 /** @type {import('@storybook/web-components').Preview} */
 const preview = {
-  parameters: {},
+  parameters: {
+    options: {
+      /*
+       * Reading order of the sidebar: whoever arrives starts at "Start here".
+       * Inside each component, the reading page comes before the proof.
+       */
+      storySort: {
+        order: ['Start here', 'Foundations', 'Components', ['*', ['Docs', 'Validation']]],
+      },
+    },
+  },
 
-  decorators: [withColorScheme],
+  decorators: [withPageContext],
 
   initialGlobals: {
     [LOCALE_GLOBAL]: DEFAULT_LOCALE,

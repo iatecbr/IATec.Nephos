@@ -68,50 +68,53 @@
     "toDark": "Switch to dark mode"
   },
   "welcome": {
-    "badge": "IATEC · DESIGN SYSTEM",
     "summary": "A catalogue of components and foundations for building consistent, accessible and verifiable experiences.",
     "howToNavigate": "How to navigate",
     "steps": [
       {
+        "id": "foundations",
         "title": "1. Start with the foundations",
         "text": "Check colour, typography, spacing, radius and icons before deciding how a piece should look.",
         "destination": "Foundations › Overview"
       },
       {
+        "id": "components",
         "title": "2. Look up the component",
         "text": "Each component gathers its states, variants, accessibility and runnable examples.",
         "destination": "Components › nph-icon"
       },
       {
+        "id": "gap",
         "title": "3. Report a gap",
         "text": "If a case is not documented, do not improvise API, token, variant or behaviour.",
         "destination": "Canonical spec sheet and record"
       }
-    ],
-    "statusTitle": "Current state",
-    "statusText": "Tokens are generated from the audited source. nph-icon is implemented and awaits a visual comparison between Figma and Storybook before final acceptance."
+    ]
   },
   "foundations": {
-    "badge": "FOUNDATIONS",
     "title": "The rules that keep the system coherent",
     "summary": "Foundations define the values and constraints that components consume. Storybook shows the result in code; Figma remains the visual source.",
     "items": [
-      [
-        "Colour",
-        "The core, theme and semantic layers, in light and dark modes."
-      ],
-      [
-        "Typography",
-        "Text styles approved in Figma and documented in the contract."
-      ],
-      [
-        "Spacing and radius",
-        "Semantic tokens for composition and controls."
-      ],
-      [
-        "Icons",
-        "A curated core of Font Awesome Pro icons."
-      ]
+      {
+        "id": "color",
+        "title": "Colour",
+        "text": "The core, theme and semantic layers, in light and dark modes."
+      },
+      {
+        "id": "typography",
+        "title": "Typography",
+        "text": "Text styles approved in Figma and documented in the contract."
+      },
+      {
+        "id": "spacing-and-radius",
+        "title": "Spacing and radius",
+        "text": "Semantic tokens for composition and controls."
+      },
+      {
+        "id": "icons",
+        "title": "Icons",
+        "text": "A curated core of Font Awesome Pro icons."
+      }
     ],
     "noticeTitle": "How to use this area",
     "noticeText1": "Check the contract in",
@@ -730,7 +733,7 @@
     "sampleText": "Full name",
     "info": "Explains what the field asks for.",
     "infoLabel": "About full name",
-    "descriptionTitle": "Component description",
+    "apiTitle": "API",
     "description": "Use nph-label to give a form control a visible name, on its own or inside an nph-field. The label is just text: it has no state, size or layout. The exception is the information icon, which takes focus. It does not replace the section title, which is heading-sm, body text, or help and error messages, which belong to nph-field.",
     "anatomyTitle": "Anatomy",
     "anatomyHeader": [
@@ -1080,5 +1083,29 @@
   "skeletonValidation": {
     "lightCaption": "Light mode",
     "darkCaption": "Dark mode"
+  },
+  "validationPages": {
+    "sheetTitle": "The contract lives in the sheet",
+    "sheetText": "This piece has no reading page in Storybook. Its contract is in {sheet}; these stories prove it.",
+    "claims": {
+      "components-nph-badge-validation--matrix": "Each severity value in both emphasis values, without an icon.",
+      "components-nph-badge-validation--with-icon": "The icon comes before the text, at icon/size-sm, in the text colour.",
+      "components-nph-badge-validation--two-words": "One or two words stay on a single line: the badge does not wrap.",
+      "components-nph-button-validation--matrix": "Each severity and emphasis pair that exists, at the default size. Move the mouse over a button to see hover.",
+      "components-nph-button-validation--sizes": "The three sizes, with text and with an icon only. The text is label-md in all of them.",
+      "components-nph-button-validation--icons": "Start icon, end icon and both together, at icon/size-sm.",
+      "components-nph-button-validation--disabled": "Disabled: the whole button at state/disabled-opacity, out of the Tab order.",
+      "components-nph-button-validation--loading": "Loading: the spinner takes the place of the start icon, and the text stays.",
+      "components-nph-kbd-validation--single-key": "One key per piece, through the text property.",
+      "components-nph-kbd-validation--combination": "A combination joins one piece per key, side by side.",
+      "components-nph-kbd-validation--mac-combination": "The same combination on macOS, with the system symbols. The application picks the set by the person's system; the piece does not detect it.",
+      "components-nph-separator-validation--horizontal": "Between stacked items, the line fills the width.",
+      "components-nph-separator-validation--vertical": "Between side-by-side items, the line fills the height.",
+      "components-nph-spinner-validation--sizes": "sm inside a button or field; md in a content area.",
+      "components-nph-spinner-validation--accessibility": "With text beside it, the spinner is decorative; without text, it has an accessible name.",
+      "components-nph-spinner-validation--invalid-input": "size=\"lg\" does not exist: nothing is drawn, and the area below stays empty on purpose.",
+      "components-nph-tooltip-validation--one-line": "The open bubble with a one-line text, as in the Figma example.",
+      "components-nph-tooltip-validation--two-lines": "The open bubble with a two-line text: in every language it takes exactly two lines."
+    }
   }
 }

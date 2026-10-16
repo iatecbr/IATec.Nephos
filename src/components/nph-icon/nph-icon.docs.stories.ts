@@ -119,7 +119,7 @@ export const Documentation: Story = {
     const coreHeading = format(d.coreTitle, { total: CORE_TOTAL });
 
     return html`
-      <div style=${body}>
+      <main style=${body}>
         ${header('nph-icon', d.summary)}
         ${matrix(
           d.matrixLabel,
@@ -241,7 +241,7 @@ export const Documentation: Story = {
         )}
 
         ${section(SECTIONS.references, d.referencesTitle, list(d.references))}
-      </div>
+      </main>
     `;
   },
 };
@@ -331,7 +331,7 @@ export const IconsOverview: Story = {
     const categories = dictionary.categories;
 
     return html`
-      <div style=${body} data-nph-gallery data-nph-locale=${locale}>
+      <main style=${body} data-nph-gallery data-nph-locale=${locale}>
         ${hidingRule}
         ${header(g.title, `${g.summary1} ${g.summary2} ${g.summary3}.`)}
 
@@ -400,7 +400,7 @@ export const IconsOverview: Story = {
         </div>
 
         <div data-nph-empty hidden>${text(g.empty)}</div>
-      </div>
+      </main>
     `;
   },
 };

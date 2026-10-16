@@ -68,50 +68,53 @@
     "toDark": "Cambiar al modo oscuro"
   },
   "welcome": {
-    "badge": "IATEC · DESIGN SYSTEM",
     "summary": "Catálogo de componentes y fundamentos para construir experiencias consistentes, accesibles y verificables.",
     "howToNavigate": "Cómo navegar",
     "steps": [
       {
+        "id": "foundations",
         "title": "1. Empiece por los fundamentos",
         "text": "Consulte color, tipografía, espacio, radio e iconos antes de decidir la apariencia de una pieza.",
         "destination": "Fundamentos › Visión general"
       },
       {
+        "id": "components",
         "title": "2. Consulte el componente",
         "text": "Cada componente reúne estados, variantes, accesibilidad y ejemplos ejecutables.",
         "destination": "Componentes › nph-icon"
       },
       {
+        "id": "gap",
         "title": "3. Registre una laguna",
         "text": "Si un caso no está documentado, no improvise API, token, variante ni comportamiento.",
         "destination": "Ficha y Registro canónicos"
       }
-    ],
-    "statusTitle": "Estado actual",
-    "statusText": "Los tokens se generan a partir de la fuente auditada. nph-icon está implementado y espera la comparación visual entre Figma y Storybook antes de la aceptación final."
+    ]
   },
   "foundations": {
-    "badge": "FUNDAMENTOS",
     "title": "Las reglas que mantienen coherente al sistema",
     "summary": "Los fundamentos definen los valores y las restricciones que consumen los componentes. Storybook muestra el resultado en código; Figma sigue siendo la fuente visual.",
     "items": [
-      [
-        "Color",
-        "Las capas core, theme y semantic, en los modos claro y oscuro."
-      ],
-      [
-        "Tipografía",
-        "Estilos de texto aprobados en Figma y documentados en el contrato."
-      ],
-      [
-        "Espaciado y radio",
-        "Tokens semánticos para composición y controles."
-      ],
-      [
-        "Iconos",
-        "Núcleo curado de iconos Font Awesome Pro."
-      ]
+      {
+        "id": "color",
+        "title": "Color",
+        "text": "Las capas core, theme y semantic, en los modos claro y oscuro."
+      },
+      {
+        "id": "typography",
+        "title": "Tipografía",
+        "text": "Estilos de texto aprobados en Figma y documentados en el contrato."
+      },
+      {
+        "id": "spacing-and-radius",
+        "title": "Espaciado y radio",
+        "text": "Tokens semánticos para composición y controles."
+      },
+      {
+        "id": "icons",
+        "title": "Iconos",
+        "text": "Núcleo curado de iconos Font Awesome Pro."
+      }
     ],
     "noticeTitle": "Cómo usar esta área",
     "noticeText1": "Consulte el contrato en",
@@ -730,7 +733,7 @@
     "sampleText": "Nombre completo",
     "info": "Explica lo que pide el campo.",
     "infoLabel": "Sobre nombre completo",
-    "descriptionTitle": "Descripción del componente",
+    "apiTitle": "API",
     "description": "Use nph-label para dar un nombre visible a un control de formulario, solo o dentro de un nph-field. La etiqueta es solo un texto: no tiene estado, tamaño ni layout. La excepción es el icono de información, que recibe el foco. No sustituye al título de sección, que es heading-sm, al texto de cuerpo, ni a la ayuda y el mensaje de error, que son del nph-field.",
     "anatomyTitle": "Anatomía",
     "anatomyHeader": [
@@ -1080,5 +1083,29 @@
   "skeletonValidation": {
     "lightCaption": "Modo claro",
     "darkCaption": "Modo oscuro"
+  },
+  "validationPages": {
+    "sheetTitle": "El contrato está en la ficha",
+    "sheetText": "Esta pieza no tiene página de lectura en Storybook. Su contrato está en {sheet}; estas stories lo comprueban.",
+    "claims": {
+      "components-nph-badge-validation--matrix": "Cada valor de severity en los dos valores de emphasis, sin icono.",
+      "components-nph-badge-validation--with-icon": "El icono va antes del texto, en icon/size-sm, en el color del texto.",
+      "components-nph-badge-validation--two-words": "Una o dos palabras quedan en una sola línea: el badge no se parte.",
+      "components-nph-button-validation--matrix": "Cada par de severity y emphasis que existe, en el tamaño default. Pase el ratón sobre un botón para ver el hover.",
+      "components-nph-button-validation--sizes": "Los tres tamaños, con texto y solo con icono. El texto es label-md en todos.",
+      "components-nph-button-validation--icons": "Icono al inicio, al final y los dos juntos, en icon/size-sm.",
+      "components-nph-button-validation--disabled": "Deshabilitado: todo el botón en state/disabled-opacity, fuera del orden de Tab.",
+      "components-nph-button-validation--loading": "Cargando: el spinner ocupa el lugar del icono inicial, y el texto se mantiene.",
+      "components-nph-kbd-validation--single-key": "Una tecla por pieza, mediante la propiedad text.",
+      "components-nph-kbd-validation--combination": "Una combinación junta una pieza por tecla, una al lado de otra.",
+      "components-nph-kbd-validation--mac-combination": "La misma combinación en macOS, con los símbolos del sistema. La aplicación elige el conjunto según el sistema de la persona; la pieza no lo detecta.",
+      "components-nph-separator-validation--horizontal": "Entre elementos apilados, la línea ocupa el ancho.",
+      "components-nph-separator-validation--vertical": "Entre elementos uno al lado de otro, la línea ocupa la altura.",
+      "components-nph-spinner-validation--sizes": "sm dentro de un botón o campo; md en un área de contenido.",
+      "components-nph-spinner-validation--accessibility": "Con texto al lado, el spinner es decorativo; sin texto, tiene nombre accesible.",
+      "components-nph-spinner-validation--invalid-input": "size=\"lg\" no existe: no se dibuja nada, y el área de abajo queda vacía a propósito.",
+      "components-nph-tooltip-validation--one-line": "El globo abierto con un texto de una línea, como en el ejemplo de Figma.",
+      "components-nph-tooltip-validation--two-lines": "El globo abierto con un texto de dos líneas: en todos los idiomas ocupa exactamente dos líneas."
+    }
   }
 }
