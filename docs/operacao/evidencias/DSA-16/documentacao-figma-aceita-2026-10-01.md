@@ -43,7 +43,7 @@ Use `nph-input` when the person needs to type or edit a one-line value. Mask, nu
 | Container | Background `color/background`; when disabled, `color/muted` with `state/disabled-opacity`. |
 | Start icon (optional) | Turned on by a property; the art comes from the `nph-icon` set. |
 | Value or placeholder | What the person typed, or the example before typing. |
-| End icon (optional) | Turned on by a property; the art comes from the `nph-icon` set; clears the value, inside a 24×24 target. |
+| End icon (optional) | Turned on by a property; the art comes from the `nph-icon` set; always clears the value, inside a 24×24 target; shows only when there is a value. |
 | Border and focus | On focus, the border takes the brand color with the halo attached; the border is what guarantees the contrast. |
 
 ## Accessibility
@@ -62,8 +62,8 @@ Use `nph-input` when the person needs to type or edit a one-line value. Mask, nu
 |---|---|
 | `ícone início` | Boolean, default on. Turns on an icon before the value, without creating a variant. |
 | `ícone fim` | Boolean, default on. Turns on the end icon, which clears the value, inside a 24×24 target, without creating a variant. |
-| `⮑ ícone início` | Instance swap, default `magnifying-glass`, style `regular`. Which icon. Only from the `nph-icon` set. |
-| `⮑ ícone fim` | Instance swap, default `xmark`, style `regular`. Which icon. Only from the `nph-icon` set. |
+| `⮑ ícone início` | Instance swap, default `magnifying-glass`, style `light`. Which icon. Only from the `nph-icon` set. |
+| `⮑ ícone fim` | Instance swap, default `xmark`, style `light`. Which icon. Only from the `nph-icon` set. |
 | `texto do valor` | Boolean, default on. Shows the typed value. |
 | `texto do placeholder` | Boolean, default off. Shows the placeholder. |
 | `size` | Variant, default `default`. Values: `default` \| `large`. |
@@ -102,5 +102,43 @@ Each in light and dark mode:
 - Do not use the placeholder as the only label.
 - Do not use it for multi-line text.
 
+## Measures and tokens
+Read from the variables bound in the set `622:18359`. The same in `default`
+and `large`, except the height.
+
+| Part | Token |
+|---|---|
+| Container | Height `control/height-default` or `control/height-large`; width `layout/input-width`; radius `radius/control`; border `border/width`; side padding `space/control-padding`; gap between the parts `space/inline`. |
+| Start icon | `icon/size-sm`, color `color/muted-foreground`. |
+| Value | `text/body-md`, color `color/foreground`. |
+| Placeholder | `text/body-md`, color `color/muted-foreground`. |
+| End target | 24×24: icon `icon/size-sm` with `space/inline-tight` around it; no radius of its own. |
+| End icon | `icon/size-sm`, color `color/muted-foreground`. |
+
+| State | Border | Halo |
+|---|---|---|
+| `default` | `color/input` | — |
+| `hover` | `color/input-hover` | — |
+| `foco` | `focus/border` | `focus/halo`, radius `focus/radius-control`, width `focus/ring-width` |
+| `foco-limpar` | Container keeps `color/input`. Around the end target: `focus/border` with radius `focus/border-radius-control` | `focus/halo` around the end target, radius `focus/radius-control-with-border`, width `focus/ring-width` |
+| `erro` | `status/error` | — |
+| `erro-foco` | `status/error` | `focus/halo-error`, radius `focus/radius-control`, width `focus/ring-width` |
+| `disabled` | `color/input`, background `color/muted`, opacity `state/disabled-opacity` | — |
+
+## Decisions answered
+Answered by Indiane on an approval page (D1, D2, D6) and on a Figma preview
+(D5 combinations). D3, D4, D7, the end target measures of D2 and the error
+border of D5 are what the set already binds; she confirmed the transcription.
+
+| ID | Question | Answer |
+|---|---|---|
+| D1 | Which input types enter v1, and the anatomy of password, number and mask? | v1 accepts `text`, `email`, `tel`, `url` and `search`, with no extra parts. Password, number and mask are out of v1; each gets its own task later. |
+| D2 | Is the end icon only the clear action, when does it show, and which tokens size its target? | It always clears the value. Swapping the icon changes only the art, never the action. It shows only when the field has a value. Target and icon tokens are in "Measures and tokens". |
+| D3 | Start icon size, gap, side padding, value text role and icon color? | See "Measures and tokens": `icon/size-sm`, `space/inline`, `space/control-padding`, `text/body-md` in both sizes, `color/muted-foreground`. |
+| D4 | Focus tokens, the radius around the end target, and the container border in `foco-limpar`? | `focus/border` + `focus/halo`. In `foco-limpar` the border uses `focus/border-radius-control` and the halo `focus/radius-control-with-border` around the end target; the container keeps `color/input`. |
+| D5 | `erro` + `hover`, `erro` + `foco-limpar`, `disabled` + `erro`, and the error border? | The error border is `status/error`. `erro` + `hover`: the border stays `status/error`. `erro` + `foco-limpar`: the container border is `status/error` and the end target takes `focus/border` + `focus/halo`, as in `foco-limpar`. `disabled` + `erro`: disabled wins; border `color/input`, no error look. |
+| D6 | Default and minimum width? | Default `layout/input-width`; the instance may stretch to its container. No minimum width. |
+| D7 | Which style do the start and end icons use? | `light`, as in Figma. `regular` was a transcription error. |
+
 ## Source of the acceptance
-WORK BRAIN — `2026-10-01.md`: acceptance of the documentation of checkbox, field, input and radio, among others. `2026-10-02.md`: Figma UX QA and textual audit approved. `2026-10-09.md`: the piece is ready for code, with every token on `v/5.0.0`.
+WORK BRAIN — `2026-10-01.md`: acceptance of the documentation of checkbox, field, input and radio, among others. `2026-10-02.md`: Figma UX QA and textual audit approved. `2026-10-09.md`: the piece is ready for code, with every token on `v/5.0.0`. `2026-10-16.md`: the answers to D1 to D7.
