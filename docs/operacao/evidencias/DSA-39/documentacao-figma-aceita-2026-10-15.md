@@ -192,7 +192,7 @@ Each in light and dark mode:
 Each line has a wrong-use demonstration in the frame, in light and dark.
 
 ## Source of the acceptance
-WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-15.md`: modernization accepted
-(items 1 to 11), Figma UX QA approved, documentation board accepted, textual
+WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-15.md`: modernization accepted,
+Figma UX QA approved, documentation board accepted, textual
 audit approved, and the token check (nothing to take). WORK BRAIN —
-`03 MEMÓRIA/diario/2026/2026-10-16.md`: Indiane sends the nph-slider to code.
+`03 MEMÓRIA/diario/2026/2026-10-16.md`: the nph-slider is sent to code.
