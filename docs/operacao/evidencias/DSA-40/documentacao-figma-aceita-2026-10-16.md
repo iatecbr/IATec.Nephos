@@ -22,7 +22,7 @@
 
 The documentation of the `nph-empty` board (`1463:25260`) was accepted in Figma,
 in the file `DS-IA-NEPHOS 5.0`, with the Figma UX QA and the textual audit
-approved. The component needed two new tokens, `scheme/is-light` and
+approved. The component needed the new tokens `scheme/is-light` and
 `scheme/is-dark`, which are on `v/5.0.0` with the same values as in Figma.
 
 There is no command output. The acceptance is a human observation, recorded with
