@@ -20,12 +20,13 @@
 
 # DSA-38 — `figma-docs-accepted`
 
-Indiane accepted the documentation of the `nph-textarea` board (`1632:24`,
-documentation `1922:642`) on 15-10-2026, in the file `DS-IA-NEPHOS 5.0`. The
-Figma UX QA was approved on 15-10-2026 and the textual audit on 16-10-2026
-(round 4). The component needed two new tokens, taken to `v/5.0.0` with this
-task: `layout/textarea-min-height` and `layout/textarea-max-height`. Every other
-token it uses was already there.
+The documentation of the `nph-textarea` board (`1632:24`, documentation
+`1922:642`) was accepted in Figma, in the file `DS-IA-NEPHOS 5.0`, with the Figma
+UX QA and the textual audit approved. The component needed two new tokens, taken
+to `v/5.0.0` with this task: `layout/textarea-min-height` and
+`layout/textarea-max-height` (with their primitives
+`core/layout-height/textarea-min` and `core/layout-height/textarea-max`). Every
+other token it uses was already there.
 
 There is no command output. The acceptance is a human observation, recorded with
 the date, the authorship, the board URL and the set.
@@ -143,6 +144,6 @@ Each in light and dark mode:
 
 ## Source of the acceptance
 WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-15.md`: visual acceptance, Figma UX
-QA approved (100/100) and acceptance of the documentation board;
-`03 MEMÓRIA/diario/2026/2026-10-16.md`: gap between the footer actions decided
-(`space/inline`) and textual audit approved (round 4).
+QA approved and acceptance of the documentation board;
+`03 MEMÓRIA/diario/2026/2026-10-16.md`: decision on the gap between the footer
+actions and textual audit approved.
