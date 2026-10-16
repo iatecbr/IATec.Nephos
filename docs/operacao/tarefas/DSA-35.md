@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 370,
   "owner": "elvys",
-  "state": "awaiting-decision",
+  "state": "blocked",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -30,19 +30,13 @@
       "opened_at": "2026-10-15"
     }
   ],
-  "pending_decisions": [
-    {
-      "id": "D1",
-      "question": "Which Usage markup does the nph-skeleton Docs page show? DSA-30, D2, lists the markup of the frames but not that of nph-skeleton.",
-      "decider": "indiane",
-      "opened_at": "2026-10-15"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p70",
     "docs/decisoes-tecnicas.md#p19",
-    "docs/operacao/tarefas/DSA-30.md, D2, answered by Indiane on 2026-10-15"
+    "docs/operacao/tarefas/DSA-30.md, D2, answered by Indiane on 2026-10-15",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane answered D1 of DSA-35"
   ],
   "external_origin": null,
   "git_review": {
@@ -51,7 +45,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-15"
+  "updated_at": "2026-10-16"
 }
 ```
 
@@ -59,6 +53,13 @@
 
 ## Goal
 `import 'nephos/nph-<name>';` resolves to a build in `dist/` that registers the component with its CSS, and every `Docs` page has a Usage section right after API.
+
+## Decisions answered
+Indiane answered D1. The task waits for B1.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | The `nph-skeleton` Docs page shows `<nph-skeleton shape="line"></nph-skeleton>` and `import 'nephos/nph-skeleton';`. The shape is written out, though `line` is the default, because it is the one property of the piece (P69). Claude updates section "6. Usage" of the Figma frame to the same markup. | Shows this markup in the Usage section of the `nph-skeleton` Docs page. It does not show an `aria-busy` container or an avatar shape there. |
 
 ## How it is proved
 **`review-and-merge`** passes when an npm script builds `dist/` with `lit` and `@fortawesome/*` outside the build; a test imports each component through `nephos/nph-<name>` and finds it registered with its CSS, `nph-label` included; each `Docs` page shows Usage after API, with the markup of its frame and the package name read from `package.json`; `npm test`, `npm run typecheck`, `npm run test:i18n`, `npm run test:naming`, `npm run test:operacao`, `npm run build-storybook` and `git diff --check` exit 0; and the pull request is merged into `v/5.0.0`.
