@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 290,
   "owner": "elvys",
-  "state": "awaiting-decision",
+  "state": "ready",
   "piece": "nph-field",
   "dependencies": [],
   "gates": [
@@ -29,61 +29,13 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D1",
-      "question": "What does the information icon of the label show: the help text again, or its own text? What is the accessible name of the icon?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D2",
-      "question": "Does the error line carry an icon? If it does, which nph-icon name, variant and size?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D3",
-      "question": "Which text roles do the help text and the error message use? (proposal: help text/caption, error text/body-md)",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D4",
-      "question": "Which colors do the help text and the error message use? (help color/muted-foreground; error status/error or status/error-foreground?)",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D5",
-      "question": "Which space tokens separate label and control, control and message line, and the error icon and its text? Does the message line keep its height when empty?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D6",
-      "question": "Does the field fill its container, or use layout/field-width? nph-select cites layout/input-width for the same context.",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D7",
-      "question": "In a group of radios or checkboxes, are the options stacked or in a row, and with which gap between them?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D8",
-      "question": "Does the field have a disabled state of its own? The nph-label spec says nph-field applies state/disabled-opacity to the whole control, but the field evidence has no disabled property.",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-28/documentacao-figma-aceita-2026-10-01.md"
   ],
   "decision_refs": [
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane answered D1 to D8 of the nph-field"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -99,7 +51,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-14"
+  "updated_at": "2026-10-16"
 }
 ```
 
@@ -116,19 +68,25 @@ In the evidence of the `figma-docs-accepted` gate:
 `docs/operacao/evidencias/DSA-28/documentacao-figma-aceita-2026-10-01.md`. It
 carries the Figma documentation converted to text. There is no need to open Figma.
 
-## Pending decisions
-The evidence gives the parts of the field (label, control, help text, error message) and the rules of use, but not the content of the information icon, the error icon, the typography and colors of the help and error lines, the spacing, the width, the group layout or the disabled rule. Code does not fill these gaps; each answer goes into the evidence of the `figma-docs-accepted` gate, and the task goes back to `ready` when all eight are answered. How the field names and describes a control inside another shadow root is not a visual decision: it is a technical proposal for the PR, and it sets a contract for the controls of DSA-16, DSA-17, DSA-18 and DSA-29.
+## Decisions answered
+D1 to D8 are answered; the answers and the measures read from Figma are in the
+evidence of the `figma-docs-accepted` gate, sections "Measures and tokens" and
+"Decisions answered". How the field names and describes a control inside another
+shadow root is not a visual decision: it is a technical proposal for the PR, and it
+sets a contract for the controls of DSA-16, DSA-17, DSA-18 and DSA-29.
 
-| ID | What the evidence gives | What is missing | What the code does with the answer |
-|---|---|---|---|
-| D1 | `ícone` shows the information icon in the label. | The text of its tooltip and its accessible name. | Passes `info` and `infoLabel` to `nph-label`, or reuses the help text. |
-| D2 | The error message shows in the message line. | Whether the line has an icon, and which one. | Draws a decorative `nph-icon` before the error text, or none. |
-| D3 | Nothing on typography of the help and error lines. | Their text roles. | Sets the typography of both lines. |
-| D4 | Nothing on the color of the help and error lines. | Their colors. | Sets the color of both lines. |
-| D5 | Nothing on spacing. | The gaps of the stack, and whether the empty message line keeps its height. | Sets the gaps and the minimum height of the message line. |
-| D6 | Do not use the field as a box to gain space. | The width of the field. | Sets the inline size of the field. |
-| D7 | The field names a group of radios or checkboxes. | The group layout and the gap between options. | Sets the layout of the control area in group mode. |
-| D8 | Do not show an error on a disabled field. The `nph-label` spec says the field dims the whole control. | Whether the field has `disabled`. | Adds a `disabled` property, or leaves disabled to the control and corrects the `nph-label` spec. |
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | Own text `info`, opened in `nph-tooltip`; accessible name `infoLabel`. | Passes `info` and `infoLabel` to `nph-label`. |
+| D2 | No icon on the error line. | Renders only the error text. |
+| D3 | Help `text/caption`; error `text/body-md`. | Sets the typography of both lines. |
+| D4 | Help `color/muted-foreground`; error `status/error`. | Sets the color of both lines. |
+| D5 | `space/stack-tight` in the stack, `space/inline-tight` label to icon; the empty line keeps no height. | Sets the gaps and does not render an empty message line. |
+| D6 | Default `layout/field-width`; may stretch to its container; the control fills the field. | Sets the inline size of the field and lets the control fill it. |
+| D7 | Stacked, `space/stack-tight` between options. | Sets the layout of the control area in group mode. |
+| D8 | The field has `disabled`; opacity only on the control; disabled wins over error. | Adds a `disabled` property passed to the control. |
+
+The field also has the counter decided on 15-10-2026; see the evidence.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

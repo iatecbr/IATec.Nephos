@@ -65,6 +65,8 @@ Use `nph-field` when a control needs a name, a required mark, an explanation or 
 | `state` | Variant, default `default`. Values: `default` \| `erro`. `erro` when the value needs correction, always with the message filled in. |
 | `obrigatório` | Variant, default `false`. Values: `false` \| `true`. Shows the asterisk on the label. |
 | `ícone` | Variant, default `false`. Values: `false` \| `true`. Shows the information icon on the label. |
+| `contador` | Boolean, default off. Shows a character counter: on the right of the help line; in the `erro` state, on a line below the message. |
+| `texto do contador` | Text, default `0/500`. The counter text. |
 | `⮑ controle` | Instance swap, default `nph-input`, `size=default`, `state=default`. The control the field wraps; on error, use the control's own `erro` state. |
 
 ## Relations and context
@@ -104,5 +106,33 @@ Each in light and dark mode:
 - Do not use it when the control already has its own visible label, such as `nph-checkbox`.
 - Do not use it as a box to gain space between blocks.
 
+## Measures and tokens
+Read from the variables bound in the set `657:50`.
+
+| Part | Token |
+|---|---|
+| Field | Width `layout/field-width`; it may stretch to its container. Gap between the label row, the control and the message line `space/stack-tight`. |
+| Label row | Gap between the label and the information icon `space/inline-tight`. |
+| Information icon | `circle-info`, style `solid`, `icon/size-sm`, inside a 24×24 target made by `space/inline-tight` on the four sides. |
+| Control | Fills the width of the field. |
+| Help text | `text/caption`, color `color/muted-foreground`. |
+| Error message | `text/body-md`, color `status/error`. No icon. |
+| Counter | `text/caption`, color `color/muted-foreground`. |
+
+## Decisions answered
+Answered by Indiane on an approval page (D1 to D4, the spacing of D5, D8 and
+the counter) and on a Figma preview (the empty line of D5, D6 and D7).
+
+| ID | Question | Answer |
+|---|---|---|
+| D1 | What does the information icon show, and what is its accessible name? | Its own text, `info`, which never repeats the help text. The icon opens the `nph-tooltip` with it. The field passes `info` and `infoLabel` to `nph-label`; `infoLabel` is the name the screen reader announces, such as "More information about Email". Without `infoLabel` the icon does not show. |
+| D2 | Does the error line carry an icon? | No. Only the text, in `status/error`. |
+| D3 | Text roles of the help text and the error message? | Help `text/caption`; error `text/body-md`. |
+| D4 | Colors of the help text and the error message? | Help `color/muted-foreground`; error `status/error`. |
+| D5 | Gaps of the stack, and does the empty message line keep its height? | `space/stack-tight` between the label row, the control and the message line; `space/inline-tight` between the label and the information icon. With no help text and no error, the line is not rendered and keeps no height. |
+| D6 | Does the field fill its container, or use `layout/field-width`? | Default `layout/field-width`; the field may stretch to its container. The control fills the width of the field. |
+| D7 | Group of radios or checkboxes: stacked or in a row, and the gap? | Stacked, with `space/stack-tight` between the options. |
+| D8 | Does the field have a disabled state of its own? | Yes, `disabled`. The field passes it to the control, applies `state/disabled-opacity` only to the control, never to the label or the message line, and hides the error: disabled wins. |
+
 ## Source of the acceptance
-WORK BRAIN — `2026-10-01.md`: acceptance of the documentation of checkbox, field, input and radio, among others. `2026-10-02.md`: Figma UX QA and textual audit approved. `2026-10-09.md`: the piece is ready for code, with every token on `v/5.0.0`.
+WORK BRAIN — `2026-10-01.md`: acceptance of the documentation of checkbox, field, input and radio, among others. `2026-10-02.md`: Figma UX QA and textual audit approved. `2026-10-09.md`: the piece is ready for code, with every token on `v/5.0.0`. `2026-10-15.md`: the counter. `2026-10-16.md`: the answers to D1 to D8.
