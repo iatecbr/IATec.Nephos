@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 350,
   "owner": "elvys",
-  "state": "awaiting-decision",
+  "state": "blocked",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -30,30 +30,12 @@
       "opened_at": "2026-10-15"
     }
   ],
-  "pending_decisions": [
-    {
-      "id": "D1",
-      "question": "Does text/body-lg also apply to the header summary of the Docs page (docs/stories.md, §4.10, keeps text/body-md), or only to the text and list blocks?",
-      "decider": "indiane",
-      "opened_at": "2026-10-15"
-    },
-    {
-      "id": "D2",
-      "question": "The first nph-icon example of the frame 1130:956 shows magnifying-glass inside an nph-input, which has no code yet (DSA-16). Wait for nph-input, show the icon in another control, or leave this example out with a note?",
-      "decider": "indiane",
-      "opened_at": "2026-10-15"
-    },
-    {
-      "id": "D3",
-      "question": "In the accepted frames Anatomy is section 3 and Examples section 9, while docs/stories.md, §4.10, puts Anatomy after the sections of the component itself. Which order do the Docs pages follow?",
-      "decider": "indiane",
-      "opened_at": "2026-10-15"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [],
   "decision_refs": [
     "docs/stories.md, §4.10",
-    "docs/operacao/tarefas/DSA-30.md, D6 and D7, answered by Indiane on 2026-10-15"
+    "docs/operacao/tarefas/DSA-30.md, D6 and D7, answered by Indiane on 2026-10-15",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane answered D1 to D3 of DSA-33"
   ],
   "external_origin": null,
   "git_review": {
@@ -62,7 +44,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-15"
+  "updated_at": "2026-10-16"
 }
 ```
 
@@ -70,6 +52,15 @@
 
 ## Goal
 The `text` and `list` blocks of `src/shared/docs/page.ts` use `text/body-lg`, the `nph-button` `Docs` page has Anatomy, and the `nph-icon` `Docs` page has Anatomy and Examples, in the position of the model. The existing Examples of `nph-button` are checked against the frame `1197:5449`: its icon-only example uses `plus`, and the page uses `xmark`.
+
+## Decisions answered
+Indiane answered D1 to D3. The task waits only for B1.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | The `header` summary stays `text/body-md`; only `text` and `list` take `text/body-lg`. The Figma model `1134:12862` and the frame `1197:5449` use `text/body-md` for the summary. | Changes the role of `text` and `list` only. |
+| D2 | The `nph-icon` page goes out without the `magnifying-glass` example inside `nph-input`, and the page carries no note about it (§4.10: no process text on the page). DSA-16 adds the example when `nph-input` has code. | Adds the other two examples of the frame `1130:956`. |
+| D3 | The Docs pages keep the order of `docs/stories.md`, §4.10, the order of `nph-badge`, `nph-label` and `nph-skeleton`. The frames keep their own order. | Places Anatomy after the sections of the component itself and Examples after Accessibility. Corrects the §4.10 sentence that says the page follows "the order and the sections" of the Figma frame: the page follows its sections, in the §4.10 order. |
 
 ## How it is proved
 **`review-and-merge`** passes when `page.test.ts` proves the text role of `text` and `list`; the `Docs` tests of `nph-button` and `nph-icon` prove the Anatomy and Examples sections in the model order; the visible text is in the three dictionaries; `npm test`, `npm run typecheck`, `npm run test:i18n`, `npm run test:naming`, `npm run test:operacao`, `npm run build-storybook` and `git diff --check` exit 0; and the pull request is merged into `v/5.0.0`.

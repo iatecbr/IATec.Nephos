@@ -35,7 +35,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane answered D1 to D7 of the nph-input"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, Indiane answered D1 to D7 of the nph-input",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-16.md, DSA-33 D2: the nph-icon example inside nph-input comes with this task"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -80,6 +81,14 @@ evidence of the `figma-docs-accepted` gate, sections "Measures and tokens" and
 | D5 | Error border `status/error`. `erro` + `hover` keeps `status/error`. `erro` + `foco-limpar`: container `status/error`, end target with the usual focus. `disabled` + `erro`: disabled wins. | Sets the precedence of the states in the CSS. |
 | D6 | Default `layout/input-width`; it may stretch to its container; no minimum. | Sets the inline size of the host. |
 | D7 | Icons in style `light`. | Uses the `light` variant of the inner icons. |
+
+## The nph-icon example that waits for this task
+DSA-33, D2 (Indiane, 2026-10-16): the `nph-icon` Docs page goes out without its
+first example, because it needs `nph-input`. This task adds it to the Examples
+section of `nph-icon.docs.stories.ts`, from the frame `1130:956`: an `nph-input`
+(`size=default`) with the start icon `magnifying-glass` and the placeholder
+"Search". Caption: "magnifying-glass in a search field, inside the control, at
+`icon/size-sm`." The text goes into the three dictionaries.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
