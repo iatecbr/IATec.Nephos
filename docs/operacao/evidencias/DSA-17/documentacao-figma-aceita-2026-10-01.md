@@ -40,7 +40,7 @@ Use `nph-checkbox` when the person can check more than one option, each independ
 
 | Part | Rule |
 |---|---|
-| Box | 16 × 16, radius `radius/inner`, border `color/input`. |
+| Box | 16 × 16, radius `radius/inner`, border `border/width` in `color/input`. |
 | Mark | The `check` icon (checked) or `minus` (indeterminate), from the `nph-icon` set, in `color/primary-foreground`. |
 | Text | `text/label-md`; it is the name of the control and part of the piece, not an `nph-label`. |
 | Touch area | 24 × 24 around the box. |
@@ -51,7 +51,7 @@ Use `nph-checkbox` when the person can check more than one option, each independ
 | Criterion | Rule |
 |---|---|
 | Contrast | The box border uses `color/input`, the control border color that meets 3:1 against the background (WCAG 1.4.11). |
-| Visible focus | In the `foco` state, the focus ring shows around the box, for keyboard users; on error, the `erro-foco` state keeps the ring. |
+| Visible focus | In the `foco` state, the box border turns `focus/border` and the focus halo shows on the touch area, for keyboard users; on error, the `erro-foco` state keeps the halo, in `focus/halo-error`. |
 | Color is not the only signal | Checked and indeterminate show a mark, `check` or `minus`; the error has the sentence written outside the piece. |
 | Touch target | The touch area is 24 × 24 around the box, which is 16 × 16. |
 | Accessible name | The text is the name of the control. With `mostrar rótulo` off, the piece is only the box and the name comes from `aria-label`. |
