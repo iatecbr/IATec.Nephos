@@ -1334,7 +1334,10 @@ P21, adopted here by its own decision, as in P66 and P68. The names follow P64.
    receive its own echo. It is the **first custom event of the repository**. The native
    `click` does not say the new value without reading the element, and the prefix `nph-`
    avoids a collision with the native `change`. `nph-toggle-group` (DSA-23, planned) will
-   consume it.
+   consume it. A `click()` called on the host toggles the piece and fires the event too, as
+   a click of the person does; a disabled piece neither toggles nor fires, also for
+   `click()`. The event is typed in `HTMLElementEventMap`, so a consumer gets `detail`
+   typed.
 
 4. **Icons.** `icon-start` and `icon-end` take `auto` (default), `none` or a name from the
    `nph-icon` core. `auto` is the pair of the board: `xmark` when off and `check` when on.
@@ -1357,6 +1360,10 @@ P21, adopted here by its own decision, as in P66 and P68. The names follow P64.
 7. **Invalid input.** The piece draws nothing and emits one `console.error` per cause, only
    in development, when: there is no `text` and no `label`; `icon-start` or `icon-end` is
    not `auto`, `none` or a core name; the piece is icon only and `icon-start` is `none`.
+   `icon-end` is validated even when the piece is icon only, although it is ignored in the
+   drawing. An empty string is invalid; removing the attribute leaves the property `null`,
+   and the piece reads `null` as `auto`. The check runs again only when `text`, `label`,
+   `icon-start` or `icon-end` changes, so toggling does not repeat the same error.
 
 8. **Motion.** The off-to-on change animates the background, the border, the icon color,
    the label color and the opacity of the icons on `motion/state-duration` and
