@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 200,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-togglebutton",
   "dependencies": [],
   "gates": [
@@ -29,7 +29,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D7",
+      "question": "The evidence of D6 asks core/duration/100 for reduced motion. The component cannot consume core/* (design.md, rule 4, and A57) and uses --nph-motion-hover-duration, the semantic alias with the same value, 100 ms. Does Indiane approve that substitution, or create a semantic alias for it? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-19"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-22/documentacao-figma-aceita-2026-10-07.md"
   ],
@@ -45,8 +52,8 @@
     "excerpt": null,
     "converted_decision": "The nph-togglebutton board (1512:27498) was accepted as the API and behavior specification of the nph-togglebutton. COMPONENT_SET 1512:719. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "claude/dsa-22-nph-togglebutton-60e852", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-22.md",
   "updated_at": "2026-10-19"
 }
 ```
@@ -71,6 +78,13 @@ section "Measures and focus read from the set". D6 is answered in the section
 | ID | Answer | What the code does |
 |---|---|---|
 | D6 | The off-to-on change animates on `motion/state`: background, border and colors, with the icons cross-fading by opacity. Under reduced motion, `core/duration/100`, and color still changes. | Adds a transition on `motion/state-duration` and `motion/state-easing`, with the reduced-motion rule. |
+
+## Pending decisions
+The evidence gives the whole contract, so the code can start: the task stays in progress. One point remains for Indiane; the code follows the semantic alias meanwhile, and the answer only adjusts one declaration.
+
+| ID | What the evidence gives | What is missing | What the code does with the answer |
+|---|---|---|---|
+| D7 | D6: under reduced motion the change uses `core/duration/100`, and color still changes. | A component cannot consume `core/*` (`design.md`, rule 4, and A57). The semantic alias `motion/hover-duration` has the same value, 100 ms, but pairs with `motion/state-easing`, which touches A58. | Either keeps `--nph-motion-hover-duration`, or consumes the new semantic alias Indiane creates. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
