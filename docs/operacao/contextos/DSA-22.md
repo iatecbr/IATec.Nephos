@@ -19,19 +19,23 @@ Metadata) from the contract in the `figma-docs-accepted` evidence.
 - `docs/decisoes-tecnicas.md` — P68, P69 and P70 to P72
 
 ## Changes
-In progress. See the commits on the branch.
+The component, CSS and tests; the Validation stories, the Docs page and the dictionary;
+the sheet, the Metadata and P73. See the commits on the branch.
 
 ## Commands run
 - `npm ci`, then the baseline proof commands on `v/5.0.0`.
+- `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:operacao`,
+  `build-storybook` and `git diff --check`: exit 0
+- `npm run test:naming`: exit 1, only on `DSA-34.md` and `DSA-39.md`, which this pass does not touch
 
 ## Result
-Not finished.
+The deliverable is complete and open in PR 87, targeting `v/5.0.0`, with review requested from `maurocsjr`.
 
 ## Evidence
-Not applicable yet.
+None recorded: `review-and-merge` waits for the PR.
 
 ## Blocker
 None. D7 (reduced motion token) waits for Indiane and does not block.
 
 ## Next command
-`npm test`
+Review and merge of PR 87; then close the task with the `review-and-merge` evidence.
