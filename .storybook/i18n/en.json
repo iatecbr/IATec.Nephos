@@ -59,7 +59,17 @@
     "components-nph-skeleton-validation--shapes": "Shapes",
     "components-nph-skeleton-validation--people-list": "People list",
     "components-nph-skeleton-validation--card": "Card",
-    "components-nph-skeleton-validation--paragraph": "Paragraph"
+    "components-nph-skeleton-validation--paragraph": "Paragraph",
+    "components-nph-togglebutton-docs": "Docs",
+    "components-nph-togglebutton-docs--documentation": "Documentation",
+    "components-nph-togglebutton-validation": "Validation",
+    "components-nph-togglebutton-validation--matrix": "Matrix",
+    "components-nph-togglebutton-validation--icons": "Icons",
+    "components-nph-togglebutton-validation--icon-only": "Icon only",
+    "components-nph-togglebutton-validation--disabled": "Disabled",
+    "components-nph-togglebutton-validation--invalid": "Invalid",
+    "components-nph-togglebutton-validation--interactive": "Interactive",
+    "components-nph-togglebutton-validation--examples": "Examples"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -1084,6 +1094,233 @@
     "lightCaption": "Light mode",
     "darkCaption": "Dark mode"
   },
+  "togglebuttonDocs": {
+    "summary": "A button that holds a boolean value, on or off, and shows the state in the piece itself: the inner area rises, with a shadow and an outline. It takes text or an icon only, and fires nph-change when the person toggles it.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-togglebutton spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P73. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "In a toolbar, when the option turns on or off with an immediate effect, among other buttons.",
+      "With text, when the option name must be visible.",
+      "Icon only, when the icon is recognized without a caption: give it an accessible name.",
+      "Start and end icons are optional: the raised inner area with an outline still shows the state."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "To fire an action: use nph-button.",
+      "Outside a toolbar, in a setting that turns on or off with an immediate effect: use nph-switch.",
+      "In a form, when the choice goes with the submission: use nph-checkbox.",
+      "To mark the state by changing only the text color: turn pressed on."
+    ],
+    "relationsText": "It does not replace nph-button: nph-button fires an action and nph-togglebutton holds a state. nph-switch (a setting outside a toolbar), nph-checkbox (a choice in a form) and nph-toggle-group (a set of these pieces, separated by space/inline) are planned and do not exist yet.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "pressed",
+        "The on state, the Figma property marcado. false by default. Reflected to the attribute. A click, Enter or Space by the person toggles it and fires nph-change; setting it from code never fires the event."
+      ],
+      [
+        "invalid",
+        "The border of the track becomes status/error, and on focus the halo becomes focus/halo-error. Reflected to the attribute. The error message stays outside the piece. disabled wins over it."
+      ],
+      [
+        "disabled",
+        "Turns the piece off: it leaves the Tab order, does not toggle, does not fire nph-change and stays at state/disabled-opacity. Reflected to the attribute."
+      ],
+      [
+        "text",
+        "The option name, already localized. It is the accessible name and stays on one line. Without it, the piece is icon only and needs label."
+      ],
+      [
+        "label",
+        "Accessible name of the icon-only piece. Required there; with text, it is not used."
+      ],
+      [
+        "icon-start",
+        "auto (default), none or a name from the nph-icon core, before the text, at icon/size-sm. auto is xmark when off and check when on. A name is one fixed icon. Icon only uses this one."
+      ],
+      [
+        "icon-end",
+        "The same values, after the text. Icon only ignores it."
+      ],
+      [
+        "nph-change",
+        "The event fired when the person toggles the piece. It bubbles, crosses the shadow root and is not cancelable. detail.pressed carries the new value."
+      ]
+    ],
+    "statesTitle": "States",
+    "statesHeader": [
+      "State",
+      "What changes"
+    ],
+    "states": [
+      [
+        "unpressed",
+        "The track and the inner area share color/muted; the label and the icon use color/muted-foreground."
+      ],
+      [
+        "pressed",
+        "The inner area rises, with color/background, elevation/subtle and an outline in color/primary-border. The label and the icon use color/foreground, and the icon changes from xmark to check."
+      ],
+      [
+        "hover",
+        "In the unpressed piece, the label and the icon go from color/muted-foreground to color/foreground."
+      ],
+      [
+        "focus",
+        "For keyboard users: a border in color/primary and a halo in focus/halo outside the piece, without changing the size."
+      ],
+      [
+        "invalid",
+        "The border of the track becomes status/error; on focus, the border and the halo are status/error and focus/halo-error. The error message stays outside the piece."
+      ],
+      [
+        "disabled",
+        "The whole piece at state/disabled-opacity, out of the Tab order. It wins over invalid: the error border is not drawn."
+      ]
+    ],
+    "statesCaption": "unpressed, pressed, invalid, disabled and disabled with invalid. Move the mouse over a button to see hover and press Tab to see focus.",
+    "iconsTitle": "Icons",
+    "iconsText": "Each side takes auto, none or a name from the nph-icon core. Icon only draws the icon of icon-start alone.",
+    "iconsCaption": "Each row is off and on: the auto pair, no icon, one fixed icon, start only, end only and icon only.",
+    "iconsHeader": [
+      "Value",
+      "What it draws"
+    ],
+    "icons": [
+      [
+        "auto",
+        "The default. xmark when off and check when on, both rendered and cross-faded by opacity."
+      ],
+      [
+        "none",
+        "No icon on that side. Icon only with icon-start none has nothing to draw: the piece renders nothing."
+      ],
+      [
+        "star",
+        "Any name from the nph-icon core, such as star: one fixed icon, with no swap."
+      ]
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Track",
+        "The outer box: background color/muted, border border/width in color/muted, radius/control, height control/height-default and space/inline-tight of padding on the four sides. When invalid, the border is status/error."
+      ],
+      [
+        "Inner area",
+        "Holds the content: radius/inner, side padding space/control-padding and space/inline-tight between icon and label. When pressed: color/background, elevation/subtle and an outline in color/primary-border at border/width."
+      ],
+      [
+        "Start icon",
+        "Optional, at icon/size-sm. By default xmark when off and check when on."
+      ],
+      [
+        "Label",
+        "The text, in text/label-md: color/muted-foreground when off; color/foreground when pressed or on hover."
+      ],
+      [
+        "End icon",
+        "Optional, with the same values and the same swap as the start icon."
+      ],
+      [
+        "Focus",
+        "A border in color/primary and a halo in focus/halo outside the piece; when invalid, status/error and focus/halo-error."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A native button with type=button and aria-pressed following pressed. Never role switch or aria-checked. aria-invalid is not valid on a button: invalid is shown by the border."
+      ],
+      [
+        "Accessible name",
+        "The visible text. Icon only, label is required and becomes the aria-label of the button; the icons are aria-hidden."
+      ],
+      [
+        "Keyboard",
+        "Tab enters and leaves; Enter and Space toggle."
+      ],
+      [
+        "Visible focus",
+        "Keyboard only: a border and a halo outside the piece, without changing the size."
+      ],
+      [
+        "Contrast",
+        "The off label, color/muted-foreground on color/muted, passes 4.5:1: 5.76:1 in light and 6.61:1 in dark. The outline of the pressed inner area, color/primary-border on the track, passes 3:1 in every brand and in both modes; the lowest value is 3.31:1, in dark gerencial. The error border, status/error on color/background, is 6.88:1 in light and 5.01:1 in dark."
+      ],
+      [
+        "Known limit",
+        "In dark mode, the focus border color/primary is below 3:1 against the page background in gerencial (2.71:1) and rh (2.88:1), and against the halo in every brand (1.76:1 to 2.94:1). In light mode both pass, and the lowest value is 3.33:1 against the halo, in educacao. design.md says only focus/border guarantees 3:1; this piece uses color/primary, as the accepted frame says."
+      ],
+      [
+        "Color is not the only signal",
+        "The pressed state shows in the raised inner area with an outline and in the icon, not only in the text color. The invalid piece changes its border; the error message stays outside."
+      ],
+      [
+        "Touch target",
+        "The whole piece is the target: 36 px high, with or without text. Icon only is 50 by 36 px."
+      ],
+      [
+        "Motion",
+        "The change animates on motion/state-duration and motion/state-easing; under reduced motion it takes motion/hover-duration, and the color still changes."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleOff": "Option off: off, with text.",
+    "exampleOn": "Option on: on, with text and icons.",
+    "exampleIconSet": "Icon set: icon only, side by side, one on.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "showGrid": "Show grid",
+    "wrapText": "Wrap text",
+    "gridView": "Grid view",
+    "listView": "List view",
+    "favorites": "Favorites",
+    "referencesTitle": "References",
+    "references": [
+      "nph-togglebutton spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P73 (API and semantics), P01, P02 and P03.",
+      "design.md — color/muted, border/width, status/error, color/background, elevation/subtle, color/primary-border, text/label-md, color/muted-foreground, color/foreground, color/primary, focus/*, state/disabled-opacity, control/height-default, radius/control, radius/inner, space/inline-tight, space/control-padding, icon/size-sm and motion/*.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — ToggleButton, frame nph-togglebutton (1512:27498) and set 1512:719.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-togglebutton spec sheet; Figma, frame nph-togglebutton (1512:27498)",
+    "sourceApi": "nph-togglebutton spec sheet; docs/decisoes-tecnicas.md › P73",
+    "sourceStates": "Figma, set 1512:719; design.md",
+    "sourceAnatomy": "Figma, set 1512:719; design.md",
+    "sourceAccessibility": "nph-togglebutton spec sheet; nph-togglebutton.test.ts",
+    "matrixLabel": "Component matrix"
+  },
+  "togglebuttonValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "showGrid": "Show grid",
+    "wrapText": "Wrap text",
+    "gridView": "Grid view",
+    "listView": "List view",
+    "favorites": "Favorites",
+    "exampleOff": "Option off",
+    "exampleOn": "Option on",
+    "exampleIconSet": "Icon set",
+    "statusIdle": "Waiting for a click.",
+    "statusChanged": "nph-change fired with detail.pressed = {pressed}."
+  },
   "validationPages": {
     "sheetTitle": "The contract lives in the sheet",
     "sheetText": "This piece has no reading page in Storybook. Its contract is in {sheet}; these stories prove it.",
@@ -1104,6 +1341,13 @@
       "components-nph-spinner-validation--sizes": "sm inside a button or field; md in a content area.",
       "components-nph-spinner-validation--accessibility": "With text beside it, the spinner is decorative; without text, it has an accessible name.",
       "components-nph-spinner-validation--invalid-input": "size=\"lg\" does not exist: nothing is drawn, and the area below stays empty on purpose.",
+      "components-nph-togglebutton-validation--matrix": "Pressed off and on, valid and invalid, with text. Move the mouse over a button to see hover and press Tab to see focus.",
+      "components-nph-togglebutton-validation--icons": "Start and end icons: auto swaps xmark and check with the state, none draws no icon and a core name is one fixed icon.",
+      "components-nph-togglebutton-validation--icon-only": "Icon only: one icon, a label as the accessible name, 50 by 36 px and not square, side by side with one on.",
+      "components-nph-togglebutton-validation--disabled": "Disabled: the whole piece at state/disabled-opacity, out of the Tab order; disabled wins over invalid.",
+      "components-nph-togglebutton-validation--invalid": "Invalid: the track border is status/error, pressed or not, with text or icon only; the message stays outside the piece.",
+      "components-nph-togglebutton-validation--interactive": "A click toggles the piece and fires nph-change with detail.pressed, shown below the button; setting pressed from code does not fire it.",
+      "components-nph-togglebutton-validation--examples": "The three required examples, each in light and dark mode: Option off, Option on and Icon set.",
       "components-nph-tooltip-validation--one-line": "The open bubble with a one-line text, as in the Figma example.",
       "components-nph-tooltip-validation--two-lines": "The open bubble with a two-line text: in every language it takes exactly two lines."
     }
