@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 230,
   "owner": "elvys",
-  "state": "awaiting-decision",
+  "state": "blocked",
   "piece": "nph-avatar-stack",
   "dependencies": ["DSA-24"],
   "gates": [
@@ -28,32 +28,22 @@
       "verified_by": null
     }
   ],
-  "blockers": [],
-  "pending_decisions": [
+  "blockers": [
     {
-      "id": "D1",
-      "question": "Which text role does the +N count use, and does it change with the group size? (text/caption, text/label-sm or text/label-md)",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D2",
-      "question": "Does the +N count overlap the last avatar by avatar/overlap, or sit next to it with a space, and with which token?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D3",
-      "question": "Is the separation between overlapping avatars only the avatar's own border (border/width in color/border), or a wider ring? This is the same answer as DSA-24 D4.",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
+      "id": "B1",
+      "what_blocks": "The stack is made of nph-avatar instances, and DSA-24 (nph-avatar) is not done yet.",
+      "owner": "elvys",
+      "what_resolves": "DSA-24 is merged and done; this task then goes to ready.",
+      "opened_at": "2026-10-19"
     }
   ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-25/documentacao-figma-aceita-2026-10-08.md"
   ],
   "decision_refs": [
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D1 to D3 of the nph-avatar-stack"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -69,7 +59,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-14"
+  "updated_at": "2026-10-19"
 }
 ```
 
@@ -86,14 +76,17 @@ In the evidence of the `figma-docs-accepted` gate:
 `docs/operacao/evidencias/DSA-25/documentacao-figma-aceita-2026-10-08.md`. It
 carries the Figma documentation converted to text. There is no need to open Figma.
 
-## Pending decisions
-The stack is made of `nph-avatar` instances, so it depends on DSA-24 and waits for its pending decisions D1–D4. The three decisions below are the stack's own. Each answer goes into the evidence of the `figma-docs-accepted` gate; the task goes back to `ready` when all three are answered and DSA-24 is `done`.
+## Decisions answered
+D1 to D3 are answered; the answers and the measures read from Figma are in the
+evidence of the `figma-docs-accepted` gate, sections "Measures and tokens" and
+"Decisions answered". The task is `blocked` only by DSA-24 (B1): the stack is
+made of `nph-avatar` instances, so it goes to `ready` when DSA-24 is `done`.
 
-| ID | What the evidence gives | What is missing | What the code does with the answer |
-|---|---|---|---|
-| D1 | The count: background, border, radius, height, minimum width, side padding and text color. | The text role of the "+N" and whether it changes with the size. | Sets the typography of the count. |
-| D2 | `avatar/overlap` between neighbors; the count sits at the end of the group. | Whether the count overlaps the last avatar or sits beside it with a space. | Sets the start margin of the count. |
-| D3 | The `color/border` border separates overlapping avatars; the count uses `border/width`. | Whether the separation is only the avatar's own border or a wider ring. | Either the stack adds nothing, or it draws a ring around each avatar. |
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | The "+N" uses `text/label-sm` in `sm` and `md`, and `text/label-md` in `lg`, in `color/muted-foreground`. | Sets the typography of the count per size. |
+| D2 | The count overlaps the last avatar by `avatar/overlap`, like any neighbor. | Gives the count the same start margin as the avatars. |
+| D3 | Only the avatar's own border, `border/width` in `color/border`, inside. No wider ring. Same answer as DSA-24 D4. | The stack adds no ring; the separation comes from `nph-avatar`. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

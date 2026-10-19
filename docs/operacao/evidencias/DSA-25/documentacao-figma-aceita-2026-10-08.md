@@ -41,8 +41,8 @@ Use it when the screen needs to show who takes part in something, such as owners
 | Part | Rule |
 |---|---|
 | Avatar | An `nph-avatar` instance, with or without a photo, in the group size. Photo, icon, radius and border come from it. |
-| Overlap | The `avatar/overlap` space between neighbors: each avatar goes over the previous one, and the `color/border` border separates them. |
-| Count | Background `color/muted`, border `color/border` at `border/width`, radius `avatar/radius-*` and the "+N" text in `color/muted-foreground`. Height and minimum width in `avatar/size-*`, side padding in `space/inline-tight`; it grows with the number. |
+| Overlap | The `avatar/overlap` space between neighbors: each avatar goes over the previous one, and the avatar's own border, `border/width` in `color/border`, separates them. |
+| Count | Background `color/muted`, border `color/border` at `border/width`, inside, radius `avatar/radius-*` and the "+N" text in `color/muted-foreground`. Height and minimum width in `avatar/size-*`, side padding in `space/inline-tight`; it grows with the number. It overlaps the last avatar by `avatar/overlap`. |
 
 ## Accessibility
 
@@ -97,5 +97,30 @@ Each in light and dark mode:
 - Do not mix sizes in the group: use a single size.
 - Do not go past the 5th avatar: use the "+N" count for whoever does not show.
 
+## Measures and tokens
+Read from the variables bound in the set `1579:45`.
+
+| Size | Avatar | Gap between children | Count height and minimum width | Count radius | "+N" text |
+|---|---|---|---|---|---|
+| `sm` | `nph-avatar` `sm` | `avatar/overlap` | `avatar/size-sm` | `avatar/radius-sm` | `text/label-sm` |
+| `md` | `nph-avatar` `md` | `avatar/overlap` | `avatar/size-md` | `avatar/radius-md` | `text/label-sm` |
+| `lg` | `nph-avatar` `lg` | `avatar/overlap` | `avatar/size-lg` | `avatar/radius-lg` | `text/label-md` |
+
+| Part | Token |
+|---|---|
+| Group | One row; the gap between every child, the count included, is `avatar/overlap`. |
+| Count | Background `color/muted`; border `border/width` in `color/border`, inside; side padding `space/inline-tight`; text color `color/muted-foreground`. |
+| Separation | The border of each `nph-avatar`; the stack draws no ring of its own. |
+
+## Decisions answered
+D1 and D2 are what the set already binds; Indiane confirmed the transcription.
+D3 is the same answer as DSA-24 D4; Indiane confirmed it.
+
+| ID | Question | Answer |
+|---|---|---|
+| D1 | Which text role does the "+N" count use, and does it change with the size? | `text/label-sm` in `sm` and `md`, `text/label-md` in `lg`, in `color/muted-foreground`. |
+| D2 | Does the count overlap the last avatar, or sit beside it with a space? | It overlaps the last avatar by `avatar/overlap`, like any neighbor. |
+| D3 | Is the separation only the avatar's own border, or a wider ring? | Only the avatar's own border, `border/width` in `color/border`, inside. No wider ring. |
+
 ## Source of the acceptance
-WORK BRAIN — `2026-10-08.md`: Figma UX QA approved, acceptance of the visual and the documentation, textual audit approved.
+WORK BRAIN — `2026-10-08.md`: Figma UX QA approved, acceptance of the visual and the documentation, textual audit approved. `2026-10-19.md`: the answers to D1 to D3.
