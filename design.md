@@ -998,7 +998,7 @@ tokens_space:
     css: '--nph-space-inline-tight'
     alias: core/space/100
     valor: 4
-    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it. DO NOT USE between independent elements - there it is space/inline."
+    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it, and the offset between the nph-select trigger and its list. DO NOT USE between independent elements - there it is space/inline."
   space/inline:
     css: '--nph-space-inline'
     alias: core/space/200
