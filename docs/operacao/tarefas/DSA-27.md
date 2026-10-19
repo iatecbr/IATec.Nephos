@@ -70,13 +70,13 @@ carries the Figma documentation converted to text. There is no need to open Figm
 D1 to D4 are answered; the answers are in the evidence of the
 `figma-docs-accepted` gate, section "Decisions answered". D2, D4 and the label
 side of D1 come from the accepted Figma set, read variant by variant; the
-wrapping of D1 and D3 were answered by the design decision of the piece.
+wrapping of D1 and D3 was answasd by Indiane.
 
 | ID | Answer | What the code does |
 |---|---|---|
 | D1 | The label sits after the track, `space/inline` from it. The label wraps to the available width; with two lines, the track sits at the top, aligned with the first line. | Sets the order, the gap, top alignment and wrapping. |
 | D2 | The focus border is the track's own outline, `border/width` in `focus/border`, with `radius/full`. The halo is `focus/ring-width` in `focus/halo`, outside the track, also `radius/full`. With an error and focus, the outline stays `status/error` and the halo is `focus/halo-error`. | Sets the focus outline and halo with `radius/full`. |
-| D3 | The change from off to on, and back, animates: the knob slides by transform, not by layout position, and the track fill and outline change over `motion/state-duration` with `motion/state-easing`. Under `prefers-reduced-motion`, the knob does not slide: it changes side with an opacity transition over `core/duration/100`, and the color still changes. | Adds the transition on `motion/state`, with reduced motion. |
+| D3 | The change from off to on, and back, animates: the knob slides by transform, not by layout position, and the track fill and outline change over `motion/state-duration` with `motion/state-easing`. Under `prefers-reduced-motion`, the knob does not slide: it changes side with an opacity transition over `core/duration/100`; the color change also uses `core/duration/100`, so the color still changes. | Adds the transition on `motion/state`, with reduced motion. |
 | D4 | The outline is `border/width`, drawn inside the track box. On: `color/primary-border` by default, on hover (fill `color/primary-hover`) and disabled. Off: no outline by default, on hover (fill `color/input-hover`) and disabled. Error: `status/error`, on or off. Focus: `focus/border`, on or off. | Sets the outline of the track in each state. |
 
 ## How it is proved
