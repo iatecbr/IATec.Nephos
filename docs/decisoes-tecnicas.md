@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72 and P73. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73 and P74. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -41,6 +41,7 @@ P62.4 subsection for the detail).
 | **P71** | `Docs` page lists read from the Metadata | 15/10/2026 | Low. The lists move from the dictionary to the Metadata; the sheet does not change its format | Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request that brings it |
 | **P72** | Accessibility gate in the tests | 15/10/2026 | Medium. Two new dependencies and a gate on every story; the earlier, the fewer violations to fix | Adopted by Indiane on 15/10/2026 (DSA-30, D3). Reviewed in the pull request that brings it |
 | **P73** | API and semantics of `nph-togglebutton` | 19/10/2026 | Low now. No piece consumes it yet; `nph-toggle-group` (DSA-23) will consume its event, so changing the event name or the state name later requires redoing both | Anatomy and behavior: board accepted by Indiane on 07/10/2026, motion answered on 19/10/2026 (D6). API and semantics reviewed in the pull request that brings them |
+| **P74** | Package `@iatec/nephos`: first release candidate | 19/10/2026 | High and public. The name, the `exports` paths and the `rc` tag are what every consumer writes in a lockfile and in an import line | Approved by Elvys on 19/10/2026. Amends P70, adopted by Indiane on 15/10/2026: her confirmation is requested in the pull request that brings it |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -239,6 +240,9 @@ line of each component. Public publishing stays out of scope.
 
 **Annotation of 15/10/2026.** P72 defines the accessibility tests: the deferral to
 "the first real component" is closed.
+
+**Amended by P74 (19/10/2026).** P74 publishes release candidates of the package to a
+private feed. Public publishing, GitHub Pages and the CI workflow stay out of scope.
 
 **Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
 by Elvys on 28/08/2026.
@@ -1214,6 +1218,10 @@ not change; only its out of scope gets the annotation.
 **Status.** Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request
 that brings it; the merge is the approval.
 
+**Amended by P74 (19/10/2026).** The package name is `@iatec/nephos` (the import line is
+`import '@iatec/nephos/nph-<name>';`), `private` is removed, and `lit` and `@fortawesome/*`
+are peer dependencies. The text above is kept as it was written.
+
 ---
 
 ## P71 — `Docs` page lists read from the Metadata
@@ -1424,9 +1432,106 @@ is the approval.
 
 ---
 
+## P74 — Package `@iatec/nephos`: first release candidate
+
+This decision **amends P19 and P70**. P19 left public publishing and the CI workflow out
+of scope, and P70 fixed the package name as `nephos`, kept `private` as `true` and left
+publishing to a registry, the version policy and how a consumer obtains the package out of
+scope. The scope of P19 on public publishing stays as it was: the feed below is private.
+
+**Technical conflict.** The products that will consume Nephos (Angular, Vue, React and
+Blazor applications) need to install it, and nothing in the repository lets them: the name is
+not scoped, the package is private, `lit` and Font Awesome Pro are `dependencies` that a
+consumer cannot pin, and there is no build, no types and no manifest. P70 promised the entry
+points and a test that the import line resolves; this decision delivers both and the
+publication around them.
+
+**Decision.**
+
+1. **Name, visibility and version.** The package is `@iatec/nephos`. `private` is removed.
+   The version is `5.0.0-rc.1`.
+2. **Where and under which tag.** Release candidates are published to the Azure DevOps
+   Artifacts feed `IATec.Community`
+   (`https://sda-iatec.pkgs.visualstudio.com/_packaging/IATec.Community/npm/registry/`), by an
+   Azure Pipeline that is a separate pull request. `publishConfig` carries the registry and the
+   npm dist-tag `rc`: a release candidate never takes `latest`. Azure Artifacts versions are
+   immutable, so each publish bumps the counter (`rc.2`, `rc.3`, ...); a published version is
+   never replaced.
+3. **Scope of `rc.1`: the 10 components that exist on `v/5.0.0`**: `nph-badge`,
+   `nph-button`, `nph-icon`, `nph-kbd`, `nph-label`, `nph-separator`, `nph-skeleton`,
+   `nph-spinner`, `nph-togglebutton` and `nph-tooltip`. A component that is added later enters
+   by adding its folder: the build and the `exports` pattern take it without a change.
+4. **Custom elements only.** There is no React, Vue, Angular or Blazor wrapper: `AGENTS.md`
+   forbids framework authoring, and a custom element is consumed by all four. The package
+   ships `.d.ts` declarations, with each tag in `HTMLElementTagNameMap`, and a Custom
+   Elements Manifest, `custom-elements.json`, written by `@custom-elements-manifest/analyzer`
+   with its Lit plugin. The consumption guide per framework is `docs/consuming.md`.
+5. **Peers.** `lit` (`^3.3.3`) and `@fortawesome/pro-light-svg-icons` and
+   `@fortawesome/pro-solid-svg-icons` (`^6.7.2`) are `peerDependencies`. They stay in
+   `devDependencies` at the versions the repository uses, so Storybook and the tests run as
+   before. The Font Awesome Pro license stays with whoever installs it (P70): **every
+   consumer, and every CI that installs the package, needs a Font Awesome Pro npm token.**
+6. **Public entry points (`exports`).** `./nph-*` (one per component, `types` and `import`),
+   `./tokens.css`, `./scrollbar.css`, `./custom-elements.json` and `./package.json`.
+   `scrollbar.css` is public because `docs/tokens.md` already tells whoever consumes the
+   tokens to load it right after them. The generated token CSS is copied to `dist/` as it
+   is: no token is created or changed by the build.
+7. **Layout of `dist/`.** `dist/<tag>/<tag>.js` and `dist/<tag>/<tag>.d.ts`, one ES module
+   per component and ESM only; code that several components share and is not a component goes
+   to `dist/shared/`, so no component is defined twice. `dist/tokens.css`,
+   `dist/scrollbar.css` and `dist/custom-elements.json` complete it. `lit` and
+   `@fortawesome/*` are external. The `?inline` CSS is a string inside the module (P70).
+8. **The global CSS of `nph-label`.** `nph-label` has no Shadow DOM (P62.1), so its CSS is a
+   plain `import './nph-label.css'`. The library build turns that import into a module that
+   adopts the stylesheet once on the document, with `document.adoptedStyleSheets`, and falls
+   back to a `<style>` element where constructable stylesheets do not exist. One line,
+   `import '@iatec/nephos/nph-label'`, is enough in Vite, in the Angular CLI and in a bundle
+   served to Blazor. `adoptedStyleSheets` was chosen over a `<style>` element because it is not
+   blocked by a `style-src` Content Security Policy without `unsafe-inline`. The rule is
+   document-wide: a `nph-label` inside the shadow root of another component is not reached.
+   `import.meta.env` is replaced by the build, so a consumer without Vite does not break.
+9. **`sideEffects` is `true`.** Importing a component registers it, and importing
+   `tokens.css` loads it: both are side effects. The value is written down, and not left as
+   the default, because a list that covers only `dist/` makes the bundler of this repository
+   (Storybook included) drop `import '../nph-icon/nph-icon'` and ship components that never
+   register.
+10. **The proof.** `npm run build:lib` writes `dist/`; `npm run test:package` checks that
+    every component folder resolves through `exports` in JavaScript and in declarations, has
+    its tag in `HTMLElementTagNameMap` and in the manifest, that every import line the
+    documentation shows resolves, that importing a component registers every component it
+    renders, and that `dist/` carries no story, test, local path or `import.meta.env`;
+    `npm run pack:check` runs `publint` and `@arethetypeswrong/cli` on the packed tarball.
+    This is the check P70 promised for the import line of each page.
+11. **Files this decision adds** outside the paths P03 lists: `vite.config.lib.ts`,
+    `tsconfig.build.json`, `custom-elements-manifest.config.mjs`, `scripts/build-lib.mjs`
+    and `scripts/test-package.mjs`; three development dependencies, `publint`,
+    `@arethetypeswrong/cli` and `@custom-elements-manifest/analyzer`.
+
+**Reason.** A design system consumed by products has to be installable, typed and
+described. Custom elements keep the one implementation that AGENTS.md allows, and a private
+feed with a release-candidate tag lets the products try it without a version that promises
+stability.
+
+**Known limit.** Font Awesome publishes each icon as a CommonJS file (`faBars.js`), and
+`nph-icon` imports 93 of them for each style. A browser cannot load those through an import map.
+A consumer without a bundler step, as in Blazor, bundles `@iatec/nephos` into one file first.
+Inlining the icon data in the package would remove the step, and would also put Font Awesome
+Pro artwork in a package, which P70 did not allow; that is a decision for a later release.
+
+**Out of scope.** The Azure Pipeline that builds and publishes (a separate pull request). A
+release that takes the `latest` tag, and any public registry. Framework wrappers. The
+Usage section of each `Docs` page (P70, DSA-35), which this decision unblocks. A root entry
+point (`import '@iatec/nephos'`) that registers everything.
+
+**Status.** Approved by Elvys on 19/10/2026. It amends P70, which Indiane adopted on
+15/10/2026: her confirmation is requested in the review of the pull request that brings
+this decision. Reviewed in that pull request; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72 or P73 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73 or P74 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=README.md | source-sha256=92e000e52953000e13f5f6e80b373415ec3f7c62df74b46165b602abf9957d92 | status=revisado -->
+<!-- i18n: lang=pt-BR | source=README.md | source-sha256=146bdfa5b55c0605ba16491f6b532af3dabe1c5aa422657058d3124c42ec935d | status=revisado -->
 
 # Nephos 5.0
 
@@ -22,7 +22,7 @@ de comportamento.
 - Tokens e regras de uso definidos no contrato `design.md`.
 - Documentação de componentes, blocos, layouts e templates.
 - Stories e validação no Storybook.
-- Exemplos de consumo para Vue, Angular e Blazor.
+- Um guia de consumo para Angular, Vue, React e Blazor, em [`docs/consuming.md`](docs/consuming.md).
 
 O Nephos não depende de PrimeNG, shadcn/ui, Radix, Tailwind ou outro
 framework de componentes. O UI kit Obra é uma referência visual e estrutural,
@@ -80,9 +80,27 @@ no elemento raiz e importe o CSS gerado:
 
 Omitir os dois entrega Sistemas no claro.
 
-O workflow de CI e a publicação ainda não existem — a direção deles está no P19,
-em
-[`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md).
+## Usando o pacote
+
+O Nephos é publicado como `@iatec/nephos`. As release candidates (`5.0.0-rc.N`) vão
+para um feed privado do Azure DevOps Artifacts, sob a tag npm `rc`, nunca `latest`;
+**todo consumidor precisa de um token npm do Font Awesome Pro**, porque `lit` e Font
+Awesome Pro são peer dependencies. A instalação, os tokens e a configuração para
+Angular, Vue, React e Blazor estão em [`docs/consuming.md`](docs/consuming.md).
+
+```bash
+npm install @iatec/nephos@rc lit @fortawesome/pro-light-svg-icons @fortawesome/pro-solid-svg-icons
+```
+
+```js
+import '@iatec/nephos/tokens.css';
+import '@iatec/nephos/nph-button';
+```
+
+Para construir e conferir o pacote a partir de um clone: `npm run build:lib`, depois
+`npm run test:package` e `npm run pack:check`. A decisão é a P74, em
+[`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), que existe apenas em inglês.
+O workflow de CI e a pipeline de publicação ainda não existem.
 
 ## Decisões técnicas vigentes
 
