@@ -83,9 +83,9 @@ of `nph-togglebutton` instances, so it goes to `ready` when DSA-22 is `done`.
 
 | ID | Answer | What the code does |
 |---|---|---|
-| D1 | Add six icons to the `nph-icon` core, Font Awesome Pro 6.7.2, `light` style: `align-left`, `align-center`, `align-right` for Alignment, and `bold`, `italic`, `underline` for Formatting. In Figma, the examples still show the `check` and `xmark` placeholders. | Adds the six icons to the closed map of the `nph-icon` core and to its spec; the Alignment and Formatting stories use them. |
-| D2 | At least two buttons, with no maximum in code. Three is only the Figma set limit (`mostrar 3º`). With one button, the group still renders. | Accepts any number of buttons; with fewer than two, it logs a warning to the console and renders anyway. |
-| D3 | In single selection, one button is always checked once a choice is made. A click on the checked button does nothing. The group starts with the value it receives; with no value, none is checked until the first click. | Ignores a click on the checked button in single selection; does not require an initial value. |
+| D1 | Add six core icons, Font Awesome Pro 6.7.2: `align-left`, `align-center`, `align-right` for Alignment, and `bold`, `italic`, `underline` for Formatting. Like every core name, each has the `light` and `solid` variants; the examples use `light`. In Figma, the examples still show the `check` and `xmark` placeholders. | Adds the six names to `design.md`, block `icones_nucleo`, category `acao`, then to the closed map in `nph-icon.icons.ts` and to the `nph-icon` spec, both variants; the Alignment and Formatting stories use them. This task does it. |
+| D2 | At least two buttons, with no maximum in code. Three is only the Figma set limit (`mostrar 3º`). With fewer than two buttons, the group still renders. | Accepts any number of buttons; with fewer than two buttons, it logs a warning to the console and renders anyway. |
+| D3 | In single selection, one button is always checked once a choice is made. A click on the checked button does nothing. The group starts with the value it receives; with no value, none is checked until the first click. | The group coordinates single selection: it ignores a click on the checked button and does not require an initial value. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

@@ -105,9 +105,9 @@ formatting icon.
 
 | ID | Answer |
 |---|---|
-| D1 | Add six icons to the `nph-icon` core, Font Awesome Pro 6.7.2, `light` style: `align-left`, `align-center`, `align-right` for Alignment, and `bold`, `italic`, `underline` for Formatting. |
-| D2 | At least two buttons, with no maximum in code. Three is only the Figma set limit (`mostrar 3º`). With one button, the group logs a warning to the console and renders anyway; a single option uses `nph-togglebutton`. |
-| D3 | In single selection, one button is always checked once a choice is made: a click on the checked button does nothing. The group starts with the value it receives; with no value, none is checked until the first click. |
+| D1 | Add six core icons, Font Awesome Pro 6.7.2: `align-left`, `align-center`, `align-right` for Alignment, and `bold`, `italic`, `underline` for Formatting. They enter `design.md`, block `icones_nucleo`, category `acao`. Like every core name, each has the `light` and `solid` variants; the examples use `light`. |
+| D2 | At least two buttons, with no maximum in code. Three is only the Figma set limit (`mostrar 3º`). With fewer than two buttons, the group logs a warning to the console and renders anyway; a single option uses `nph-togglebutton`. |
+| D3 | The group coordinates single selection, so each button no longer holds this choice alone. In single selection, one button is always checked once a choice is made: a click on the checked button does nothing. The group starts with the value it receives; with no value, none is checked until the first click. |
 
 ## Source of the acceptance
 WORK BRAIN — `2026-10-08.md`: Figma UX QA approved, acceptance of the visual and the documentation, textual audit approved.
