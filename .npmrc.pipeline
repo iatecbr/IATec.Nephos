@@ -1,0 +1,19 @@
+; Template for the Azure DevOps pipeline. It holds ONLY placeholders in the
+; form #{NAME}#, replaced at run time by the replacetokens task; it is not a
+; credential file. The pipeline copies it to .npmrc (ignored by Git) on the
+; agent and removes that copy at the end. Never put a real value here.
+registry=https://registry.npmjs.org/
+@iatec:registry=https://#{NPM_IATEC_HOST_COMMUNITY}#/npm/registry/
+@fortawesome:registry=https://npm.fontawesome.com/
+
+always-auth=true
+
+; begin auth token
+//#{NPM_IATEC_HOST_COMMUNITY}#/npm/registry/:username=#{NPM_Username}#
+//#{NPM_IATEC_HOST_COMMUNITY}#/npm/registry/:_password=#{Base64_Password}#
+//#{NPM_IATEC_HOST_COMMUNITY}#/npm/registry/:email=#{NPM_email}#
+//#{NPM_IATEC_HOST_COMMUNITY}#/npm/:username=#{NPM_Username}#
+//#{NPM_IATEC_HOST_COMMUNITY}#/npm/:_password=#{Base64_Password}#
+//#{NPM_IATEC_HOST_COMMUNITY}#/npm/:email=#{NPM_email}#
+//npm.fontawesome.com/:_authToken=#{FONTAWESOME_NPM_AUTH_TOKEN}#
+; end auth token
