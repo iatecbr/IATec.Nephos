@@ -1,0 +1,25 @@
+{
+  /*
+   * Declarations of the `@iatec/nephos` package (P70, amended by P74).
+   *
+   * Emits only `.d.ts`, from the component sources, to `dist/<name>/<name>.d.ts`:
+   * the layout of the JavaScript that `vite.config.lib.ts` writes. Stories,
+   * tests and demos are not part of the package. `vite/client` stays in `types`
+   * (inherited) so the `?inline` imports type-check; it does not reach the
+   * emitted declarations.
+   */
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+    "rootDir": "src/components"
+  },
+  "include": ["src/components/**/*.ts"],
+  "exclude": [
+    "src/components/**/*.test.ts",
+    "src/components/**/*.stories.ts",
+    "src/components/**/*.demo.ts"
+  ]
+}

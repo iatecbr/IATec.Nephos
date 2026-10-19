@@ -1,14 +1,35 @@
 {
-  "name": "nephos",
-  "version": "3.0.0",
-  "private": true,
-  "description": "Design System Nephos - tokens auditados e o componente nph-icon.",
+  "name": "@iatec/nephos",
+  "version": "5.0.0-rc.1",
+  "description": "Nephos, IATec's Design System: Web Components written in Lit, with the design tokens as CSS custom properties.",
   "license": "Unlicense",
   "type": "module",
+  "exports": {
+    "./nph-*": {
+      "types": "./dist/nph-*/nph-*.d.ts",
+      "import": "./dist/nph-*/nph-*.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./scrollbar.css": "./dist/scrollbar.css",
+    "./custom-elements.json": "./dist/custom-elements.json",
+    "./package.json": "./package.json"
+  },
+  "customElements": "dist/custom-elements.json",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": true,
+  "publishConfig": {
+    "registry": "https://sda-iatec.pkgs.visualstudio.com/_packaging/IATec.Community/npm/registry/",
+    "tag": "rc"
+  },
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build:tokens": "node scripts/build-tokens.mjs",
+    "build:lib": "node scripts/build-lib.mjs",
     "test:tokens": "node scripts/test-invariance.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -16,23 +37,32 @@
     "test:i18n": "node scripts/test-i18n.mjs",
     "test:operacao": "node scripts/verificar-operacao.mjs",
     "test:naming": "node scripts/test-naming.mjs",
-    "i18n:update": "node scripts/test-i18n.mjs --update"
+    "i18n:update": "node scripts/test-i18n.mjs --update",
+    "test:package": "node scripts/test-package.mjs",
+    "pack:check": "publint --strict && attw --pack --profile esm-only --exclude-entrypoints ./tokens.css ./scrollbar.css",
+    "prepublishOnly": "npm run test:package"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@custom-elements-manifest/analyzer": "^0.11.0",
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/noto-sans": "^5.3.0",
+    "@fortawesome/pro-light-svg-icons": "6.7.2",
+    "@fortawesome/pro-solid-svg-icons": "6.7.2",
     "@storybook/web-components-vite": "^10.6.2",
     "@vitest/browser-playwright": "^4.1.11",
+    "lit": "^3.3.3",
     "playwright": "^1.62.1",
+    "publint": "^0.3.25",
     "storybook": "^10.6.2",
     "style-dictionary": "^5.5.2",
     "typescript": "^5.9.3",
     "vite": "^8.2.2",
     "vitest": "^4.1.11"
   },
-  "dependencies": {
-    "@fortawesome/pro-light-svg-icons": "6.7.2",
-    "@fortawesome/pro-solid-svg-icons": "6.7.2",
+  "peerDependencies": {
+    "@fortawesome/pro-light-svg-icons": "^6.7.2",
+    "@fortawesome/pro-solid-svg-icons": "^6.7.2",
     "lit": "^3.3.3"
   }
 }
