@@ -1,20 +1,28 @@
 # Nephos npm release pipeline (Azure DevOps, org `sda-iatec`).
 #
+# Structure follows the reference pipeline of IATec.Nephos.Blocks.Angular
+# (`projects/iatec/nephos-layout/azure-pipelines.yml`): self-hosted Linux pool,
+# NodeTool, `.npmrc.pipeline` copied to `.npmrc` and filled by `replacetokens`,
+# `npmAuthenticate`, publish to the `IATec.Community` feed, `.npmrc` removed
+# at the end. The code review and SonarQube stages of the reference are not
+# used here.
+#
 # The pipeline is created in Azure DevOps from the GitHub repository
 # `iatecbr/IATec.Nephos`; this file is its definition. Human prerequisites
-# (service connection, feed permission, secret variable, environment approval)
-# are listed in `docs/release.md`.
+# (variable group, secret, extension, environment, feed permission) are in
+# `docs/release.md`.
 #
-# It depends on the package configuration from PR 1 (`feat/npm-package-rc1`):
+# It depends on the package configuration from PR #89 (`feat/npm-package-rc1`):
 # name `@iatec/nephos`, the scripts `build:lib`, `test:package` and
-# `pack:check`, and `publishConfig`. Do not merge it before that PR.
+# `pack:check`, `prepublishOnly` and `publishConfig`. Do not merge it before
+# that PR.
 #
-# Secrets: this file holds only references to pipeline variables. The
-# Font Awesome token is the secret variable `FONTAWESOME_NPM_AUTH_TOKEN`,
-# defined in the Azure DevOps UI. No `.npmrc` is ever committed; it is
-# generated at run time on the agent.
+# Secrets: this file holds only references to pipeline variables. Real values
+# live in the variable group `nuget-credentials` and in the secret variable
+# `FONTAWESOME_NPM_AUTH_TOKEN`. `.npmrc.pipeline` holds placeholders only; the
+# real `.npmrc` is generated on the agent and never committed.
 
-# CI trigger: only tags `v5.*` (for example `v5.0.0-rc.1`). No branch builds.
+# Tag builds only (for example `v5.0.0-rc.1`). No branch builds.
 trigger:
   branches:
     exclude:
@@ -23,8 +31,13 @@ trigger:
     include:
       - 'v5.*'
 
-# Pull requests never run this pipeline, so publish cannot run on a PR.
-pr: none
+# Pull requests to the integration branch run Build and Test only. Publish
+# never runs on a PR (see its condition). Keep "Make secrets available to
+# builds of forks" disabled on the pipeline.
+pr:
+  branches:
+    include:
+      - v/5.0.0
 
 parameters:
   # Manual runs only: a tag push publishes without this flag. A manual run
@@ -36,67 +49,65 @@ parameters:
     default: false
 
 variables:
-  # Azure Artifacts feed (org-scoped feed `IATec.Community`).
-  - name: feedUrl
-    value: 'https://sda-iatec.pkgs.visualstudio.com/_packaging/IATec.Community/npm/registry/'
-  - name: packageName
-    value: '@iatec/nephos'
+  # Feed credentials: NPM_IATEC_HOST_COMMUNITY, NPM_Username, Base64_Password
+  # and NPM_email, consumed by `.npmrc.pipeline` through replacetokens.
+  - group: nuget-credentials
   # Node version validated for the repository (24.18).
   - name: nodeVersion
     value: '24.x'
+  - name: packageName
+    value: '@iatec/nephos'
   # dist-tag used for `-rc.N` versions. A prerelease never goes to `latest`.
   - name: prereleaseTag
     value: 'rc'
-  - name: artifactName
+  - name: packArtifactName
     value: 'npm-package'
-
-pool:
-  vmImage: ubuntu-latest
 
 stages:
   # ---------------------------------------------------------------------------
-  # Validate: install, test, build and pack. Never publishes.
+  # Build: install, tokens, library build, package checks, pack.
   # ---------------------------------------------------------------------------
-  - stage: Validate
-    displayName: Validate
+  - stage: Build
+    displayName: Build Stage
     jobs:
-      - job: Validate
-        displayName: Validate and pack
+      - job: BuildJob
+        displayName: Build Job
+        pool:
+          name: IATec-Builds-Agents-Linux
         timeoutInMinutes: 30
         steps:
-          - checkout: self
-            fetchDepth: 1
-
-          - task: UseNode@1
-            displayName: Use Node $(nodeVersion)
+          - task: NodeTool@0
+            displayName: Install Node.js
             inputs:
-              version: $(nodeVersion)
+              versionSpec: $(nodeVersion)
 
-          # Runtime .npmrc: scoped registry for the Azure feed and for
-          # Font Awesome Pro. The quoted heredoc keeps `${FONTAWESOME_NPM_AUTH_TOKEN}`
-          # literal; npm expands it from the environment, so the token is never
-          # written to disk. Secret variables are not exposed to scripts
-          # automatically, so every npm step maps it through `env:`.
-          - bash: |
-              set -euo pipefail
-              cat > "$(Build.SourcesDirectory)/.npmrc" <<'EOF'
-              @iatec:registry=https://sda-iatec.pkgs.visualstudio.com/_packaging/IATec.Community/npm/registry/
-              always-auth=true
-              @fortawesome:registry=https://npm.fontawesome.com/
-              //npm.fontawesome.com/:_authToken=${FONTAWESOME_NPM_AUTH_TOKEN}
-              EOF
-            displayName: Generate .npmrc
-
-          # Adds Azure Artifacts credentials for the feed registry to .npmrc.
-          - task: npmAuthenticate@0
-            displayName: Authenticate to the Azure feed
+          - task: Bash@3
+            displayName: Prepare .npmrc file
             inputs:
-              workingFile: $(Build.SourcesDirectory)/.npmrc
+              targetType: inline
+              workingDirectory: $(Build.SourcesDirectory)
+              script: cp .npmrc.pipeline .npmrc
 
-          - bash: npm ci
+          # Fills the #{NAME}# placeholders from the variable group and the
+          # secret variable. Same settings as the reference pipeline.
+          - task: replacetokens@6
+            displayName: Replace variables in .npmrc
+            inputs:
+              targetFiles: .npmrc
+              encoding: auto
+              writeBOM: true
+              actionOnMissing: warn
+              keepToken: false
+              tokenPrefix: '#{'
+              tokenSuffix: '}#'
+
+          - task: Npm@1
             displayName: Install dependencies
+            inputs:
+              command: ci
+              workingDir: $(Build.SourcesDirectory)
             env:
-              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
+              NPM_CONFIG_USERCONFIG: $(Build.SourcesDirectory)/.npmrc
 
           # Generated tokens must match the source tokens committed in the repo.
           - bash: |
@@ -104,27 +115,7 @@ stages:
               npm run build:tokens
               git diff --exit-code src/tokens/generated/tokens.css
             displayName: Tokens are up to date
-            env:
-              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
-
-          - bash: |
-              set -euo pipefail
-              npm run typecheck
-              npm run test:naming
-              npm run test:operacao
-              npm run test:i18n
-            displayName: Typecheck and repository checks
-            env:
-              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
-
-          # Browser-mode Vitest needs the Chromium build from Playwright.
-          - bash: |
-              set -euo pipefail
-              npx playwright install --with-deps chromium
-              npm test
-            displayName: Component tests (Chromium)
-            env:
-              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
+            workingDirectory: $(Build.SourcesDirectory)
 
           - bash: |
               set -euo pipefail
@@ -132,8 +123,7 @@ stages:
               npm run test:package
               npm run pack:check
             displayName: Build library and check the package
-            env:
-              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
+            workingDirectory: $(Build.SourcesDirectory)
 
           # Version guard. On a tag build the tag must be `v<package.json version>`.
           # It also fails early on a prerelease id this pipeline does not publish.
@@ -158,8 +148,7 @@ stages:
                   echo "Not a tag build; tag/version match not required." ;;
               esac
             displayName: Version guard
-            env:
-              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
+            workingDirectory: $(Build.SourcesDirectory)
 
           # The tarball that Publish ships is exactly the one validated here.
           - bash: |
@@ -168,20 +157,99 @@ stages:
               npm pack --pack-destination "$(Build.ArtifactStagingDirectory)"
               ls -l "$(Build.ArtifactStagingDirectory)"
             displayName: Pack tarball
-            env:
-              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
+            workingDirectory: $(Build.SourcesDirectory)
 
-          - publish: $(Build.ArtifactStagingDirectory)
-            artifact: $(artifactName)
-            displayName: Publish tarball as pipeline artifact
+          - task: PublishPipelineArtifact@1
+            displayName: Publish package artifact
+            inputs:
+              targetPath: $(Build.ArtifactStagingDirectory)
+              artifact: $(packArtifactName)
+
+          # Self-hosted agents keep the workspace: never leave credentials behind.
+          - task: CmdLine@2
+            displayName: Remove .npmrc
+            condition: always()
+            inputs:
+              script: rm -f .npmrc
+              workingDirectory: $(Build.SourcesDirectory)
 
   # ---------------------------------------------------------------------------
-  # Publish: runs only for tag builds, or manual runs with `publish: true`.
+  # Test: repository checks and the browser tests. Runs in parallel with Build.
+  # ---------------------------------------------------------------------------
+  - stage: Test
+    displayName: Test Stage
+    dependsOn: []
+    jobs:
+      - job: TestJob
+        displayName: Test Job
+        pool:
+          name: IATec-Builds-Agents-Linux
+        timeoutInMinutes: 30
+        steps:
+          - task: NodeTool@0
+            displayName: Install Node.js
+            inputs:
+              versionSpec: $(nodeVersion)
+
+          - task: Bash@3
+            displayName: Prepare .npmrc file
+            inputs:
+              targetType: inline
+              workingDirectory: $(Build.SourcesDirectory)
+              script: cp .npmrc.pipeline .npmrc
+
+          - task: replacetokens@6
+            displayName: Replace variables in .npmrc
+            inputs:
+              targetFiles: .npmrc
+              encoding: auto
+              writeBOM: true
+              actionOnMissing: warn
+              keepToken: false
+              tokenPrefix: '#{'
+              tokenSuffix: '}#'
+
+          - task: Npm@1
+            displayName: Install dependencies
+            inputs:
+              command: ci
+              workingDir: $(Build.SourcesDirectory)
+            env:
+              NPM_CONFIG_USERCONFIG: $(Build.SourcesDirectory)/.npmrc
+
+          - bash: |
+              set -euo pipefail
+              npm run typecheck
+              npm run test:naming
+              npm run test:operacao
+              npm run test:i18n
+            displayName: Typecheck and repository checks
+            workingDirectory: $(Build.SourcesDirectory)
+
+          # Browser-mode Vitest needs the Chromium build from Playwright.
+          - bash: |
+              set -euo pipefail
+              npx playwright install --with-deps chromium
+              npm test
+            displayName: Component tests (Chromium)
+            workingDirectory: $(Build.SourcesDirectory)
+
+          - task: CmdLine@2
+            displayName: Remove .npmrc
+            condition: always()
+            inputs:
+              script: rm -f .npmrc
+              workingDirectory: $(Build.SourcesDirectory)
+
+  # ---------------------------------------------------------------------------
+  # Publish: tag builds, or manual runs with `publish: true`. Never on a PR.
   # The `npm-iatec-community` environment carries the human approval.
   # ---------------------------------------------------------------------------
   - stage: Publish
-    displayName: Publish
-    dependsOn: Validate
+    displayName: Publish Stage
+    dependsOn:
+      - Build
+      - Test
     condition: >-
       and(
         succeeded(),
@@ -201,51 +269,64 @@ stages:
         )
       )
     jobs:
-      - deployment: PublishNpm
-        displayName: Publish to Azure Artifacts
+      - deployment: PublishJob
+        displayName: Publish Job
         environment: npm-iatec-community
+        pool:
+          name: IATec-Builds-Agents-Linux
         timeoutInMinutes: 15
-        variables:
-          # The deployment job does not check out the repo; everything runs
-          # in a scratch directory with its own .npmrc.
-          publishDir: $(Agent.TempDirectory)/publish
         strategy:
           runOnce:
             deploy:
               steps:
-                - download: current
-                  artifact: $(artifactName)
-                  displayName: Download tarball
+                # The deployment job needs the repo for `.npmrc.pipeline`
+                # (same commit as the validated build). Artifacts are
+                # downloaded explicitly below.
+                - checkout: self
+                  fetchDepth: 1
+                - download: none
 
-                - task: UseNode@1
-                  displayName: Use Node $(nodeVersion)
+                - task: NodeTool@0
+                  displayName: Install Node.js
                   inputs:
-                    version: $(nodeVersion)
+                    versionSpec: $(nodeVersion)
 
-                # Same runtime .npmrc as Validate, in the scratch directory.
-                # Font Awesome lines are not needed to publish, so only the
-                # Azure feed is configured here.
-                - bash: |
-                    set -euo pipefail
-                    mkdir -p "$(publishDir)"
-                    cat > "$(publishDir)/.npmrc" <<'EOF'
-                    @iatec:registry=https://sda-iatec.pkgs.visualstudio.com/_packaging/IATec.Community/npm/registry/
-                    always-auth=true
-                    EOF
-                  displayName: Generate .npmrc
+                - task: DownloadPipelineArtifact@2
+                  displayName: Download package artifact
+                  inputs:
+                    artifact: $(packArtifactName)
+                    path: $(Pipeline.Workspace)/$(packArtifactName)
+
+                - task: Bash@3
+                  displayName: Prepare .npmrc file
+                  inputs:
+                    targetType: inline
+                    workingDirectory: $(Build.SourcesDirectory)
+                    script: cp .npmrc.pipeline .npmrc
+
+                - task: replacetokens@6
+                  displayName: Replace variables in .npmrc
+                  inputs:
+                    targetFiles: .npmrc
+                    encoding: auto
+                    writeBOM: true
+                    actionOnMissing: warn
+                    keepToken: false
+                    tokenPrefix: '#{'
+                    tokenSuffix: '}#'
 
                 - task: npmAuthenticate@0
-                  displayName: Authenticate to the Azure feed
+                  displayName: Authenticate
                   inputs:
-                    workingFile: $(publishDir)/.npmrc
+                    workingFile: $(Build.SourcesDirectory)/.npmrc
 
                 # Resolve version and dist-tag from the tarball itself, refuse
                 # a prerelease on `latest`, and refuse an already published
                 # version (Azure Artifacts versions are immutable).
                 - bash: |
                     set -euo pipefail
-                    export NPM_CONFIG_USERCONFIG="$(publishDir)/.npmrc"
-                    TARBALL="$(ls "$(Pipeline.Workspace)/$(artifactName)"/*.tgz)"
+                    export NPM_CONFIG_USERCONFIG="$(Build.SourcesDirectory)/.npmrc"
+                    TARBALL="$(ls "$(Pipeline.Workspace)/$(packArtifactName)"/*.tgz)"
                     echo "Tarball: ${TARBALL}"
 
                     VERSION="$(tar -xzOf "${TARBALL}" package/package.json | node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).version")"
@@ -264,13 +345,14 @@ stages:
                     esac
                     echo "Version ${VERSION} -> dist-tag ${TAG}"
 
+                    # The @iatec registry comes from .npmrc (NPM_IATEC_HOST_COMMUNITY).
                     set +e
-                    EXISTING="$(npm view "$(packageName)@${VERSION}" version --registry "$(feedUrl)" 2>"$(publishDir)/view.err")"
+                    EXISTING="$(npm view "$(packageName)@${VERSION}" version 2>"$(Agent.TempDirectory)/view.err")"
                     STATUS=$?
                     set -e
-                    if [ ${STATUS} -ne 0 ] && ! grep -q 'E404' "$(publishDir)/view.err"; then
+                    if [ ${STATUS} -ne 0 ] && ! grep -q 'E404' "$(Agent.TempDirectory)/view.err"; then
                       echo "##vso[task.logissue type=error]Could not query the feed (npm view exit ${STATUS}); see the log, not publishing."
-                      sed 's/_authToken=.*/_authToken=***/' "$(publishDir)/view.err"
+                      sed 's/_authToken=.*/_authToken=***/' "$(Agent.TempDirectory)/view.err"
                       exit 1
                     fi
                     if [ -n "${EXISTING}" ]; then
@@ -281,14 +363,25 @@ stages:
                     echo "##vso[task.setvariable variable=tarball]${TARBALL}"
                     echo "##vso[task.setvariable variable=distTag]${TAG}"
                   displayName: Resolve dist-tag and check the version is new
+                  workingDirectory: $(Build.SourcesDirectory)
 
                 # `--ignore-scripts`: Validate already ran test:package and
                 # pack:check, so the `prepublishOnly` hook (npm run test:package)
-                # must not run here; this job has no repo and no dist/ and
-                # would fail. `--tag` overrides `publishConfig.tag`.
-                - bash: |
-                    set -euo pipefail
-                    export NPM_CONFIG_USERCONFIG="$(publishDir)/.npmrc"
-                    cd "$(publishDir)"
-                    npm publish "$(tarball)" --ignore-scripts --tag "$(distTag)" --registry "$(feedUrl)"
-                  displayName: npm publish
+                # must not run here; this job has no dist/ and would fail.
+                # `--tag` overrides `publishConfig.tag`.
+                - task: Npm@1
+                  displayName: Publish
+                  inputs:
+                    command: custom
+                    customCommand: publish "$(tarball)" --ignore-scripts --tag "$(distTag)"
+                    customRegistry: useNpmrc
+                    workingDir: $(Build.SourcesDirectory)
+                  env:
+                    NPM_CONFIG_USERCONFIG: $(Build.SourcesDirectory)/.npmrc
+
+                - task: CmdLine@2
+                  displayName: Remove .npmrc
+                  condition: always()
+                  inputs:
+                    script: rm -f .npmrc
+                    workingDirectory: $(Build.SourcesDirectory)
