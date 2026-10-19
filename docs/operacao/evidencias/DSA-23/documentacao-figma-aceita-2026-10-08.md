@@ -96,5 +96,18 @@ Each in light and dark mode:
 - Do not join the buttons without space: use `nph-toggle-group`, which already brings `space/inline`.
 - Do not mix buttons with text and icon only in the same group: choose one `texto` value.
 
+## Decisions answered
+Indiane answered D1 to D3 on 19-10-2026, after the frame `1580:61` and the set
+`1580:60` were read. The set does not answer them: the Alignment and Formatting
+examples show the `nph-togglebutton` default icons (`check` on, `xmark` off) as
+placeholders, and the `nph-icon` set `248:143` and core have no alignment or text
+formatting icon.
+
+| ID | Answer |
+|---|---|
+| D1 | Add six icons to the `nph-icon` core, Font Awesome Pro 6.7.2, `light` style: `align-left`, `align-center`, `align-right` for Alignment, and `bold`, `italic`, `underline` for Formatting. |
+| D2 | At least two buttons, with no maximum in code. Three is only the Figma set limit (`mostrar 3º`). With one button, the group logs a warning to the console and renders anyway; a single option uses `nph-togglebutton`. |
+| D3 | In single selection, one button is always checked once a choice is made: a click on the checked button does nothing. The group starts with the value it receives; with no value, none is checked until the first click. |
+
 ## Source of the acceptance
 WORK BRAIN — `2026-10-08.md`: Figma UX QA approved, acceptance of the visual and the documentation, textual audit approved.

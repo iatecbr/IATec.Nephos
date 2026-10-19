@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 210,
   "owner": "elvys",
-  "state": "awaiting-decision",
+  "state": "blocked",
   "piece": "nph-toggle-group",
   "dependencies": ["DSA-22"],
   "gates": [
@@ -28,32 +28,22 @@
       "verified_by": null
     }
   ],
-  "blockers": [],
-  "pending_decisions": [
+  "blockers": [
     {
-      "id": "D1",
-      "question": "Which icons do the required Alignment and Formatting examples use? The nph-icon core has no align-*, bold, italic or underline: name the icons, or approve adding them to the core.",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D2",
-      "question": "Is two or three buttons a code limit? Is a group with one button, or with four or more, invalid input, or only outside the Figma set?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D3",
-      "question": "In single selection, can the checked button be unchecked, leaving none checked, and can the group start with none checked?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
+      "id": "B1",
+      "what_blocks": "The group is made of nph-togglebutton instances, and DSA-22 (nph-togglebutton) is not done yet.",
+      "owner": "elvys",
+      "what_resolves": "DSA-22 is merged and done; this task then goes to ready.",
+      "opened_at": "2026-10-19"
     }
   ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-23/documentacao-figma-aceita-2026-10-08.md"
   ],
   "decision_refs": [
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D1 to D3 of the nph-toggle-group"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -69,7 +59,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-14"
+  "updated_at": "2026-10-19"
 }
 ```
 
@@ -86,14 +76,16 @@ In the evidence of the `figma-docs-accepted` gate:
 `docs/operacao/evidencias/DSA-23/documentacao-figma-aceita-2026-10-08.md`. It
 carries the Figma documentation converted to text. There is no need to open Figma.
 
-## Pending decisions
-The group is made of `nph-togglebutton` instances, so it depends on DSA-22 and inherits its pending decisions D1–D6 (radii, spacing, icon-only width, focus radii, fixed or chosen icon, motion). DSA-22 D5 blocks this group too: the Alignment and Formatting examples are icon-only with their own icons. The three decisions below are the group's own. Each answer goes into the evidence of the `figma-docs-accepted` gate; the task goes back to `ready` when all three are answered and DSA-22 is `done`.
+## Decisions answered
+D1 to D3 are answered in the evidence of the `figma-docs-accepted` gate, section
+"Decisions answered". The task is `blocked` only by DSA-22 (B1): the group is made
+of `nph-togglebutton` instances, so it goes to `ready` when DSA-22 is `done`.
 
-| ID | What the evidence gives | What is missing | What the code does with the answer |
-|---|---|---|---|
-| D1 | Required examples Alignment and Formatting, icon only; no icon names. | The icons. The `nph-icon` core has none for alignment or text formatting. | Fills the stories and the spec; adding icons changes the `nph-icon` core and its spec. |
-| D2 | `mostrar 3º`: the group shows two or three buttons; a single option uses `nph-togglebutton`. | Whether one button, or four or more, is invalid input in code. | Validates the number of buttons, or accepts any number. |
-| D3 | Single selection: checking one unchecks the other. | Whether the checked button can be unchecked and whether the group may start with none checked. | Decides whether a click on the checked button is ignored and what the initial state requires. |
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | Add six icons to the `nph-icon` core, Font Awesome Pro 6.7.2, `light` style: `align-left`, `align-center`, `align-right` for Alignment, and `bold`, `italic`, `underline` for Formatting. In Figma, the examples still show the `check` and `xmark` placeholders. | Adds the six icons to the closed map of the `nph-icon` core and to its spec; the Alignment and Formatting stories use them. |
+| D2 | At least two buttons, with no maximum in code. Three is only the Figma set limit (`mostrar 3º`). With one button, the group still renders. | Accepts any number of buttons; with fewer than two, it logs a warning to the console and renders anyway. |
+| D3 | In single selection, one button is always checked once a choice is made. A click on the checked button does nothing. The group starts with the value it receives; with no value, none is checked until the first click. | Ignores a click on the checked button in single selection; does not require an initial value. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
