@@ -125,9 +125,18 @@ already draws.
 | Focus halo | Radius `focus/radius-control-with-border`, width `focus/ring-width`, outside the focus border; `focus/halo`, or `focus/halo-error` when invalid. Same pair as `nph-button`. |
 | Icon swap | Default icons follow `marcado`: `xmark` when off, `check` when on, in the start, end and icon-only icon. The board says the icon changes in the instance, so the consumer may give another icon. How the API takes it is a technical proposal for the PR. |
 
-Motion is not drawn in the set or on the board; it stays as the task's D6.
+## Motion
+Answered by Indiane on 19-10-2026 (D6), from a clickable preview in light and
+dark mode.
+
+| Part | Rule |
+|---|---|
+| Off to on, and back | Background, border, icon color and label color change over `motion/state-duration` with `motion/state-easing`, always as a pair. |
+| Icon swap | The `xmark` and `check` icons cross-fade by opacity, on the same pair. |
+| Reduced motion | Under `prefers-reduced-motion`, the change uses `core/duration/100`. Color still changes; reducing motion does not remove the feedback. |
+| Not animated | Width, height and position. |
 
 ## Source of the acceptance
 WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-07.md`: visual acceptance, Figma UX QA
 round 2 approved and acceptance of the documentation board. `2026-10-08.md`:
-textual audit approved.
+textual audit approved. `2026-10-19.md`: the answer to D6.

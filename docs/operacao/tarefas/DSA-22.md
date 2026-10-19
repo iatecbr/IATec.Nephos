@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 200,
   "owner": "elvys",
-  "state": "awaiting-decision",
+  "state": "ready",
   "piece": "nph-togglebutton",
   "dependencies": [],
   "gates": [
@@ -29,19 +29,13 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D6",
-      "question": "Does the change between off and on animate? If it does, with motion/state, which design.md cites for toggle?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-22/documentacao-figma-aceita-2026-10-07.md"
   ],
   "decision_refs": [
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D6 of the nph-togglebutton"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -53,7 +47,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-15"
+  "updated_at": "2026-10-19"
 }
 ```
 
@@ -68,15 +62,15 @@ In the evidence of the `figma-docs-accepted` gate:
 `docs/operacao/evidencias/DSA-22/documentacao-figma-aceita-2026-10-07.md`. It
 carries the Figma documentation converted to text. There is no need to open Figma.
 
-## Pending decisions
+## Decisions answered
 D1 to D5 are answered by the accepted set: radii, padding, gaps, width, focus
 radii and the icon swap are in the evidence of the `figma-docs-accepted` gate,
-section "Measures and focus read from the set". One decision remains; the task
-goes back to `ready` when it is answered.
+section "Measures and focus read from the set". D6 is answered in the section
+"Motion" of the same evidence.
 
-| ID | What the evidence gives | What is missing | What the code does with the answer |
-|---|---|---|---|
-| D6 | No mention of motion. `design.md` cites `motion/state` for a toggle. | Whether the off-to-on change animates. | Adds a transition on `motion/state`, with reduced motion, or none. |
+| ID | Answer | What the code does |
+|---|---|---|
+| D6 | The off-to-on change animates on `motion/state`: background, border and colors, with the icons cross-fading by opacity. Under reduced motion, `core/duration/100`, and color still changes. | Adds a transition on `motion/state-duration` and `motion/state-easing`, with the reduced-motion rule. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
