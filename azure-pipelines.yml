@@ -1,0 +1,290 @@
+# Nephos npm release pipeline (Azure DevOps, org `sda-iatec`).
+#
+# The pipeline is created in Azure DevOps from the GitHub repository
+# `iatecbr/IATec.Nephos`; this file is its definition. Human prerequisites
+# (service connection, feed permission, secret variable, environment approval)
+# are listed in `docs/release.md`.
+#
+# It depends on the package configuration from PR 1 (`feat/npm-package-rc1`):
+# name `@iatec/nephos`, the scripts `build:lib`, `test:package` and
+# `pack:check`, and `publishConfig`. Do not merge it before that PR.
+#
+# Secrets: this file holds only references to pipeline variables. The
+# Font Awesome token is the secret variable `FONTAWESOME_NPM_AUTH_TOKEN`,
+# defined in the Azure DevOps UI. No `.npmrc` is ever committed; it is
+# generated at run time on the agent.
+
+# CI trigger: only tags `v5.*` (for example `v5.0.0-rc.1`). No branch builds.
+trigger:
+  branches:
+    exclude:
+      - '*'
+  tags:
+    include:
+      - 'v5.*'
+
+# Pull requests never run this pipeline, so publish cannot run on a PR.
+pr: none
+
+parameters:
+  # Manual runs only: a tag push publishes without this flag. A manual run
+  # publishes only when this is true and the run is on a `v5.*` tag or on the
+  # integration branch `v/5.0.0`.
+  - name: publish
+    displayName: Publish to the feed (manual runs only)
+    type: boolean
+    default: false
+
+variables:
+  # Azure Artifacts feed (org-scoped feed `IATec.Community`).
+  - name: feedUrl
+    value: 'https://sda-iatec.pkgs.visualstudio.com/_packaging/IATec.Community/npm/registry/'
+  - name: packageName
+    value: '@iatec/nephos'
+  # Node version validated for the repository (24.18).
+  - name: nodeVersion
+    value: '24.x'
+  # dist-tag used for `-rc.N` versions. A prerelease never goes to `latest`.
+  - name: prereleaseTag
+    value: 'rc'
+  - name: artifactName
+    value: 'npm-package'
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  # ---------------------------------------------------------------------------
+  # Validate: install, test, build and pack. Never publishes.
+  # ---------------------------------------------------------------------------
+  - stage: Validate
+    displayName: Validate
+    jobs:
+      - job: Validate
+        displayName: Validate and pack
+        timeoutInMinutes: 30
+        steps:
+          - checkout: self
+            fetchDepth: 1
+
+          - task: UseNode@1
+            displayName: Use Node $(nodeVersion)
+            inputs:
+              version: $(nodeVersion)
+
+          # Runtime .npmrc: scoped registry for the Azure feed and for
+          # Font Awesome Pro. The quoted heredoc keeps `${FONTAWESOME_NPM_AUTH_TOKEN}`
+          # literal; npm expands it from the environment, so the token is never
+          # written to disk. Secret variables are not exposed to scripts
+          # automatically, so every npm step maps it through `env:`.
+          - bash: |
+              set -euo pipefail
+              cat > "$(Build.SourcesDirectory)/.npmrc" <<'EOF'
+              @iatec:registry=https://sda-iatec.pkgs.visualstudio.com/_packaging/IATec.Community/npm/registry/
+              always-auth=true
+              @fortawesome:registry=https://npm.fontawesome.com/
+              //npm.fontawesome.com/:_authToken=${FONTAWESOME_NPM_AUTH_TOKEN}
+              EOF
+            displayName: Generate .npmrc
+
+          # Adds Azure Artifacts credentials for the feed registry to .npmrc.
+          - task: npmAuthenticate@0
+            displayName: Authenticate to the Azure feed
+            inputs:
+              workingFile: $(Build.SourcesDirectory)/.npmrc
+
+          - bash: npm ci
+            displayName: Install dependencies
+            env:
+              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
+
+          # Generated tokens must match the source tokens committed in the repo.
+          - bash: |
+              set -euo pipefail
+              npm run build:tokens
+              git diff --exit-code src/tokens/generated/tokens.css
+            displayName: Tokens are up to date
+            env:
+              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
+
+          - bash: |
+              set -euo pipefail
+              npm run typecheck
+              npm run test:naming
+              npm run test:operacao
+              npm run test:i18n
+            displayName: Typecheck and repository checks
+            env:
+              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
+
+          # Browser-mode Vitest needs the Chromium build from Playwright.
+          - bash: |
+              set -euo pipefail
+              npx playwright install --with-deps chromium
+              npm test
+            displayName: Component tests (Chromium)
+            env:
+              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
+
+          - bash: |
+              set -euo pipefail
+              npm run build:lib
+              npm run test:package
+              npm run pack:check
+            displayName: Build library and check the package
+            env:
+              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
+
+          # Version guard. On a tag build the tag must be `v<package.json version>`.
+          # It also fails early on a prerelease id this pipeline does not publish.
+          - bash: |
+              set -euo pipefail
+              VERSION="$(node -p "require('./package.json').version")"
+              echo "package.json version: ${VERSION}"
+              case "${VERSION}" in
+                *-rc.*) ;;
+                *-*)
+                  echo "##vso[task.logissue type=error]Unsupported prerelease '${VERSION}'. Only '-rc.N' prereleases are published."
+                  exit 1 ;;
+              esac
+              case "$(Build.SourceBranch)" in
+                refs/tags/*)
+                  EXPECTED="refs/tags/v${VERSION}"
+                  if [ "$(Build.SourceBranch)" != "${EXPECTED}" ]; then
+                    echo "##vso[task.logissue type=error]Tag $(Build.SourceBranch) does not match package.json version (expected ${EXPECTED}). Bump the version or retag."
+                    exit 1
+                  fi ;;
+                *)
+                  echo "Not a tag build; tag/version match not required." ;;
+              esac
+            displayName: Version guard
+            env:
+              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
+
+          # The tarball that Publish ships is exactly the one validated here.
+          - bash: |
+              set -euo pipefail
+              mkdir -p "$(Build.ArtifactStagingDirectory)"
+              npm pack --pack-destination "$(Build.ArtifactStagingDirectory)"
+              ls -l "$(Build.ArtifactStagingDirectory)"
+            displayName: Pack tarball
+            env:
+              FONTAWESOME_NPM_AUTH_TOKEN: $(FONTAWESOME_NPM_AUTH_TOKEN)
+
+          - publish: $(Build.ArtifactStagingDirectory)
+            artifact: $(artifactName)
+            displayName: Publish tarball as pipeline artifact
+
+  # ---------------------------------------------------------------------------
+  # Publish: runs only for tag builds, or manual runs with `publish: true`.
+  # The `npm-iatec-community` environment carries the human approval.
+  # ---------------------------------------------------------------------------
+  - stage: Publish
+    displayName: Publish
+    dependsOn: Validate
+    condition: >-
+      and(
+        succeeded(),
+        or(
+          and(
+            ne(variables['Build.Reason'], 'Manual'),
+            startsWith(variables['Build.SourceBranch'], 'refs/tags/v5.')
+          ),
+          and(
+            eq(variables['Build.Reason'], 'Manual'),
+            eq('${{ parameters.publish }}', 'True'),
+            or(
+              startsWith(variables['Build.SourceBranch'], 'refs/tags/v5.'),
+              eq(variables['Build.SourceBranch'], 'refs/heads/v/5.0.0')
+            )
+          )
+        )
+      )
+    jobs:
+      - deployment: PublishNpm
+        displayName: Publish to Azure Artifacts
+        environment: npm-iatec-community
+        timeoutInMinutes: 15
+        variables:
+          # The deployment job does not check out the repo; everything runs
+          # in a scratch directory with its own .npmrc.
+          publishDir: $(Agent.TempDirectory)/publish
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: current
+                  artifact: $(artifactName)
+                  displayName: Download tarball
+
+                - task: UseNode@1
+                  displayName: Use Node $(nodeVersion)
+                  inputs:
+                    version: $(nodeVersion)
+
+                # Same runtime .npmrc as Validate, in the scratch directory.
+                # Font Awesome lines are not needed to publish, so only the
+                # Azure feed is configured here.
+                - bash: |
+                    set -euo pipefail
+                    mkdir -p "$(publishDir)"
+                    cat > "$(publishDir)/.npmrc" <<'EOF'
+                    @iatec:registry=https://sda-iatec.pkgs.visualstudio.com/_packaging/IATec.Community/npm/registry/
+                    always-auth=true
+                    EOF
+                  displayName: Generate .npmrc
+
+                - task: npmAuthenticate@0
+                  displayName: Authenticate to the Azure feed
+                  inputs:
+                    workingFile: $(publishDir)/.npmrc
+
+                # Resolve version and dist-tag from the tarball itself, refuse
+                # a prerelease on `latest`, and refuse an already published
+                # version (Azure Artifacts versions are immutable).
+                - bash: |
+                    set -euo pipefail
+                    export NPM_CONFIG_USERCONFIG="$(publishDir)/.npmrc"
+                    TARBALL="$(ls "$(Pipeline.Workspace)/$(artifactName)"/*.tgz)"
+                    echo "Tarball: ${TARBALL}"
+
+                    VERSION="$(tar -xzOf "${TARBALL}" package/package.json | node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).version")"
+                    NAME="$(tar -xzOf "${TARBALL}" package/package.json | node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).name")"
+                    if [ "${NAME}" != "$(packageName)" ]; then
+                      echo "##vso[task.logissue type=error]Tarball package is '${NAME}', expected '$(packageName)'."
+                      exit 1
+                    fi
+
+                    case "${VERSION}" in
+                      *-rc.*) TAG="$(prereleaseTag)" ;;
+                      *-*)
+                        echo "##vso[task.logissue type=error]Unsupported prerelease '${VERSION}'; refusing to publish."
+                        exit 1 ;;
+                      *) TAG="latest" ;;
+                    esac
+                    echo "Version ${VERSION} -> dist-tag ${TAG}"
+
+                    set +e
+                    EXISTING="$(npm view "$(packageName)@${VERSION}" version --registry "$(feedUrl)" 2>"$(publishDir)/view.err")"
+                    STATUS=$?
+                    set -e
+                    if [ ${STATUS} -ne 0 ] && ! grep -q 'E404' "$(publishDir)/view.err"; then
+                      echo "##vso[task.logissue type=error]Could not query the feed (npm view exit ${STATUS}); see the log, not publishing."
+                      sed 's/_authToken=.*/_authToken=***/' "$(publishDir)/view.err"
+                      exit 1
+                    fi
+                    if [ -n "${EXISTING}" ]; then
+                      echo "##vso[task.logissue type=error]$(packageName)@${VERSION} already exists in the feed. Azure Artifacts versions are immutable: bump to the next rc.N, merge, and tag again."
+                      exit 1
+                    fi
+
+                    echo "##vso[task.setvariable variable=tarball]${TARBALL}"
+                    echo "##vso[task.setvariable variable=distTag]${TAG}"
+                  displayName: Resolve dist-tag and check the version is new
+
+                - bash: |
+                    set -euo pipefail
+                    export NPM_CONFIG_USERCONFIG="$(publishDir)/.npmrc"
+                    cd "$(publishDir)"
+                    npm publish "$(tarball)" --tag "$(distTag)" --registry "$(feedUrl)"
+                  displayName: npm publish
