@@ -59,7 +59,17 @@
     "components-nph-skeleton-validation--shapes": "Formas",
     "components-nph-skeleton-validation--people-list": "Lista de pessoas",
     "components-nph-skeleton-validation--card": "Cartão",
-    "components-nph-skeleton-validation--paragraph": "Parágrafo"
+    "components-nph-skeleton-validation--paragraph": "Parágrafo",
+    "components-nph-togglebutton-docs": "Docs",
+    "components-nph-togglebutton-docs--documentation": "Documentação",
+    "components-nph-togglebutton-validation": "Validação",
+    "components-nph-togglebutton-validation--matrix": "Matriz",
+    "components-nph-togglebutton-validation--icons": "Ícones",
+    "components-nph-togglebutton-validation--icon-only": "Só ícone",
+    "components-nph-togglebutton-validation--disabled": "Desabilitado",
+    "components-nph-togglebutton-validation--invalid": "Inválido",
+    "components-nph-togglebutton-validation--interactive": "Interativo",
+    "components-nph-togglebutton-validation--examples": "Exemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -1084,6 +1094,233 @@
     "lightCaption": "Modo claro",
     "darkCaption": "Modo escuro"
   },
+  "togglebuttonDocs": {
+    "summary": "Um botão que guarda um valor booleano, ligado ou desligado, e mostra o estado na própria peça: a área interna se eleva, com sombra e contorno. Aceita texto ou só ícone, e dispara nph-change quando a pessoa o alterna.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha nph-togglebutton, o design.md para os tokens e docs/decisoes-tecnicas.md para a P73. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Numa barra de ferramentas, quando a opção liga ou desliga com efeito imediato, entre outros botões.",
+      "Com texto, quando o nome da opção precisa estar visível.",
+      "Só com ícone, quando o ícone é reconhecido sem legenda: dê a ele um nome acessível.",
+      "Os ícones de início e de fim são opcionais: a área interna elevada, com contorno, já mostra o estado."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para disparar uma ação: use nph-button.",
+      "Fora de uma barra de ferramentas, numa configuração que liga ou desliga com efeito imediato: use nph-switch.",
+      "Num formulário, quando a escolha vai junto com o envio: use nph-checkbox.",
+      "Para marcar o estado mudando só a cor do texto: ligue pressed."
+    ],
+    "relationsText": "Ela não substitui o nph-button: o nph-button dispara uma ação e o nph-togglebutton guarda um estado. nph-switch (uma configuração fora de uma barra de ferramentas), nph-checkbox (uma escolha num formulário) e nph-toggle-group (um conjunto destas peças, separadas por space/inline) são planejados e ainda não existem.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "pressed",
+        "O estado ligado, a propriedade marcado do Figma. false por padrão. Refletida no atributo. Um clique, Enter ou Espaço da pessoa o alterna e dispara nph-change; defini-lo pelo código nunca dispara o evento."
+      ],
+      [
+        "invalid",
+        "A borda da trilha passa a ser status/error e, no foco, o halo passa a ser focus/halo-error. Refletida no atributo. A mensagem de erro fica fora da peça. disabled vence invalid."
+      ],
+      [
+        "disabled",
+        "Desliga a peça: ela sai da ordem do Tab, não alterna, não dispara nph-change e fica em state/disabled-opacity. Refletida no atributo."
+      ],
+      [
+        "text",
+        "O nome da opção, já localizado. É o nome acessível e fica numa linha só. Sem ele, a peça é só ícone e precisa de label."
+      ],
+      [
+        "label",
+        "Nome acessível da peça só com ícone. Obrigatório nela; com text, não é usado."
+      ],
+      [
+        "icon-start",
+        "auto (padrão), none ou um nome do núcleo do nph-icon, antes do texto, em icon/size-sm. auto é xmark desligado e check ligado. Um nome é um ícone fixo. Só ícone usa este."
+      ],
+      [
+        "icon-end",
+        "Os mesmos valores, depois do texto. Só ícone o ignora."
+      ],
+      [
+        "nph-change",
+        "O evento disparado quando a pessoa alterna a peça. Sobe pela árvore, atravessa o shadow root e não é cancelável. detail.pressed traz o novo valor."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "O que muda"
+    ],
+    "states": [
+      [
+        "unpressed",
+        "A trilha e a área interna dividem color/muted; o label e o ícone usam color/muted-foreground."
+      ],
+      [
+        "pressed",
+        "A área interna se eleva, com color/background, elevation/subtle e um contorno em color/primary-border. O label e o ícone usam color/foreground, e o ícone passa de xmark para check."
+      ],
+      [
+        "hover",
+        "Na peça desligada, o label e o ícone passam de color/muted-foreground para color/foreground."
+      ],
+      [
+        "focus",
+        "Para quem usa o teclado: uma borda em color/primary e um halo em focus/halo por fora da peça, sem mudar o tamanho."
+      ],
+      [
+        "invalid",
+        "A borda da trilha passa a ser status/error; no foco, a borda e o halo são status/error e focus/halo-error. A mensagem de erro fica fora da peça."
+      ],
+      [
+        "disabled",
+        "A peça inteira em state/disabled-opacity, fora da ordem do Tab. Vence invalid: a borda de erro não é desenhada."
+      ]
+    ],
+    "statesCaption": "unpressed, pressed, invalid, disabled e disabled com invalid. Passe o mouse sobre um botão para ver o hover e use Tab para ver o foco.",
+    "iconsTitle": "Ícones",
+    "iconsText": "Cada lado aceita auto, none ou um nome do núcleo do nph-icon. Só ícone desenha apenas o ícone de icon-start.",
+    "iconsCaption": "Cada linha é desligado e ligado: o par auto, sem ícone, um ícone fixo, só início, só fim e só ícone.",
+    "iconsHeader": [
+      "Valor",
+      "O que desenha"
+    ],
+    "icons": [
+      [
+        "auto",
+        "O padrão. xmark desligado e check ligado, os dois renderizados e com transição de opacidade."
+      ],
+      [
+        "none",
+        "Nenhum ícone nesse lado. Só ícone com icon-start none não tem o que desenhar: a peça não renderiza nada."
+      ],
+      [
+        "star",
+        "Qualquer nome do núcleo do nph-icon, como star: um ícone fixo, sem troca."
+      ]
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Trilha",
+        "A caixa externa: fundo color/muted, borda border/width em color/muted, radius/control, altura control/height-default e space/inline-tight de preenchimento nos quatro lados. Quando inválida, a borda é status/error."
+      ],
+      [
+        "Área interna",
+        "Guarda o conteúdo: radius/inner, preenchimento lateral space/control-padding e space/inline-tight entre ícone e texto. Quando pressionada: color/background, elevation/subtle e um contorno em color/primary-border com border/width."
+      ],
+      [
+        "Ícone de início",
+        "Opcional, em icon/size-sm. Por padrão xmark desligado e check ligado."
+      ],
+      [
+        "Rótulo",
+        "O texto, em text/label-md: color/muted-foreground desligado; color/foreground pressionado ou no hover."
+      ],
+      [
+        "Ícone de fim",
+        "Opcional, com os mesmos valores e a mesma troca do ícone de início."
+      ],
+      [
+        "Foco",
+        "Uma borda em color/primary e um halo em focus/halo por fora da peça; quando inválida, status/error e focus/halo-error."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "Um botão nativo com type=button e aria-pressed acompanhando pressed. Nunca role switch nem aria-checked. aria-invalid não é válido em um botão: invalid aparece pela borda."
+      ],
+      [
+        "Nome acessível",
+        "O texto visível. Só com ícone, label é obrigatório e vira o aria-label do botão; os ícones recebem aria-hidden."
+      ],
+      [
+        "Teclado",
+        "Tab entra e sai; Enter e Espaço alternam."
+      ],
+      [
+        "Foco visível",
+        "Só pelo teclado: uma borda e um halo por fora da peça, sem mudar o tamanho."
+      ],
+      [
+        "Contraste",
+        "O label desligado, color/muted-foreground sobre color/muted, passa de 4,5:1: 5,76:1 no claro e 6,61:1 no escuro. O contorno da área interna pressionada, color/primary-border sobre a trilha, passa de 3:1 em toda marca e nos dois modos; o menor valor é 3,31:1, no escuro gerencial. A borda de erro, status/error sobre color/background, é 6,88:1 no claro e 5,01:1 no escuro."
+      ],
+      [
+        "Limite conhecido",
+        "No modo escuro, a borda de foco color/primary fica abaixo de 3:1 contra o fundo da página em gerencial (2,71:1) e rh (2,88:1), e contra o halo em toda marca (1,76:1 a 2,94:1). No modo claro os dois passam, e o menor valor é 3,33:1 contra o halo, em educacao. O design.md diz que só focus/border garante 3:1; esta peça usa color/primary, como diz o quadro aceito."
+      ],
+      [
+        "A cor não é o único sinal",
+        "O estado pressionado aparece na área interna elevada com contorno e no ícone, não só na cor do texto. A peça inválida muda a borda; a mensagem de erro fica fora."
+      ],
+      [
+        "Alvo de toque",
+        "A peça inteira é o alvo: 36 px de altura, com ou sem texto. Só ícone tem 50 por 36 px."
+      ],
+      [
+        "Movimento",
+        "A mudança anima em motion/state-duration e motion/state-easing; com movimento reduzido, usa motion/hover-duration, e a cor continua mudando."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleOff": "Opção desligada: desligada, com texto.",
+    "exampleOn": "Opção ligada: ligada, com texto e ícones.",
+    "exampleIconSet": "Conjunto de ícones: só ícone, lado a lado, um ligado.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "showGrid": "Mostrar grade",
+    "wrapText": "Quebrar texto",
+    "gridView": "Visão em grade",
+    "listView": "Visão em lista",
+    "favorites": "Favoritos",
+    "referencesTitle": "Referências",
+    "references": [
+      "ficha nph-togglebutton — função, variantes, estados, acessibilidade, tokens e anti-padrões.",
+      "docs/decisoes-tecnicas.md — P73 (API e semântica), P01, P02 e P03.",
+      "design.md — color/muted, border/width, status/error, color/background, elevation/subtle, color/primary-border, text/label-md, color/muted-foreground, color/foreground, color/primary, focus/*, state/disabled-opacity, control/height-default, radius/control, radius/inner, space/inline-tight, space/control-padding, icon/size-sm e motion/*.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — ToggleButton, quadro nph-togglebutton (1512:27498) e conjunto 1512:719.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "ficha nph-togglebutton; Figma, quadro nph-togglebutton (1512:27498)",
+    "sourceApi": "ficha nph-togglebutton; docs/decisoes-tecnicas.md › P73",
+    "sourceStates": "Figma, conjunto 1512:719; design.md",
+    "sourceAnatomy": "Figma, conjunto 1512:719; design.md",
+    "sourceAccessibility": "ficha nph-togglebutton; nph-togglebutton.test.ts",
+    "matrixLabel": "Matriz do componente"
+  },
+  "togglebuttonValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "showGrid": "Mostrar grade",
+    "wrapText": "Quebrar texto",
+    "gridView": "Visão em grade",
+    "listView": "Visão em lista",
+    "favorites": "Favoritos",
+    "exampleOff": "Opção desligada",
+    "exampleOn": "Opção ligada",
+    "exampleIconSet": "Conjunto de ícones",
+    "statusIdle": "Aguardando um clique.",
+    "statusChanged": "nph-change disparado com detail.pressed = {pressed}."
+  },
   "validationPages": {
     "sheetTitle": "O contrato está na ficha",
     "sheetText": "Esta peça não tem página de leitura no Storybook. O contrato está em {sheet}; estas stories o comprovam.",
@@ -1104,6 +1341,13 @@
       "components-nph-spinner-validation--sizes": "sm dentro de um botão ou campo; md numa área de conteúdo.",
       "components-nph-spinner-validation--accessibility": "Com texto ao lado, o spinner é decorativo; sem texto, tem nome acessível.",
       "components-nph-spinner-validation--invalid-input": "size=\"lg\" não existe: nada é desenhado, e a área abaixo fica vazia de propósito.",
+      "components-nph-togglebutton-validation--matrix": "Pressionado desligado e ligado, válido e inválido, com texto. Passe o mouse sobre um botão para ver o hover e use Tab para ver o foco.",
+      "components-nph-togglebutton-validation--icons": "Ícones de início e de fim: auto alterna xmark e check com o estado, none não desenha ícone e um nome do núcleo é um ícone fixo.",
+      "components-nph-togglebutton-validation--icon-only": "Só ícone: um ícone, um label como nome acessível, 50 por 36 px e não quadrado, lado a lado com um ligado.",
+      "components-nph-togglebutton-validation--disabled": "Desabilitado: a peça inteira em state/disabled-opacity, fora da ordem do Tab; disabled vence invalid.",
+      "components-nph-togglebutton-validation--invalid": "Inválido: a borda da trilha é status/error, pressionado ou não, com texto ou só com ícone; a mensagem fica fora da peça.",
+      "components-nph-togglebutton-validation--interactive": "Um clique alterna a peça e dispara nph-change com detail.pressed, mostrado abaixo do botão; definir pressed pelo código não dispara o evento.",
+      "components-nph-togglebutton-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: Opção desligada, Opção ligada e Conjunto de ícones.",
       "components-nph-tooltip-validation--one-line": "O balão aberto com um texto de uma linha, como no exemplo do Figma.",
       "components-nph-tooltip-validation--two-lines": "O balão aberto com um texto de duas linhas: em todos os idiomas ele ocupa exatamente duas linhas."
     }
