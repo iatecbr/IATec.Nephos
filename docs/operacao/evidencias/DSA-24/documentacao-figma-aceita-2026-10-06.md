@@ -40,9 +40,9 @@ Use it next to a person's name, so the person is recognized faster. It is not a 
 
 | Part | Rule |
 |---|---|
-| Frame | A square with rounded corners, background `color/muted` and border `color/border`. |
+| Frame | A square with rounded corners, background `color/muted` and border `border/width` in `color/border`, drawn inside and visible over the photo. |
 | Photo | The person's image, which fills the frame. |
-| Person icon | Shows when there is no photo, in `color/muted-foreground`. |
+| Person icon | `nph-icon` `user`, style `light`, in `color/muted-foreground`. Shows when there is no photo and while the photo loads. |
 
 Tokens on `v/5.0.0`: `avatar/size-sm`, `avatar/size-md`, `avatar/size-lg` (24, 32 and 40) and `avatar/radius-sm`, `avatar/radius-md`, `avatar/radius-lg`.
 
@@ -94,5 +94,32 @@ Each in light and dark mode:
 - Do not make it a circle: the avatar is a square with rounded corners.
 - Do not leave the frame empty: use `sem foto`.
 
+## Measures and tokens
+Read from the variables bound in the set `1434:29`.
+
+| Size | Frame | Radius | Icon (`sem foto`) |
+|---|---|---|---|
+| `sm` | `avatar/size-sm` | `avatar/radius-sm` | `icon/size-sm` |
+| `md` | `avatar/size-md` | `avatar/radius-md` | `icon/size-md` |
+| `lg` | `avatar/size-lg` | `avatar/radius-lg` | `icon/size-lg` |
+
+| Part | Token |
+|---|---|
+| Frame | Background `color/muted`; border `border/width` in `color/border`, inside; clips its content. |
+| Photo | Fills the whole frame, under the border. |
+| Person icon | `nph-icon` `user`, style `light`, color `color/muted-foreground`, centered. |
+
+## Decisions answered
+D1, D2 and D4 are what the set already binds; Indiane confirmed the
+transcription. D3 follows from the accepted rule that the frame is never empty;
+Indiane confirmed it.
+
+| ID | Question | Answer |
+|---|---|---|
+| D1 | Which `nph-icon` name and variant is the person icon? | `user`, style `light`. |
+| D2 | Which icon size goes in each avatar size? | `sm` takes `icon/size-sm`, `md` takes `icon/size-md`, `lg` takes `icon/size-lg`. |
+| D3 | What shows while the photo is loading? | The person icon, as in `sem foto`. The photo replaces it when it loads; if it fails, the icon stays. |
+| D4 | Border width, and does it stay visible over the photo? | `border/width` in `color/border`, inside the frame, drawn over the photo. It is the separation DSA-25 uses between overlapping avatars. |
+
 ## Source of the acceptance
-WORK BRAIN — `2026-10-06.md`: Figma flow closed for `nph-avatar` (visual acceptance, Figma UX QA, documentation approved by Indiane, textual audit approved).
+WORK BRAIN — `2026-10-06.md`: Figma flow closed for `nph-avatar` (visual acceptance, Figma UX QA, documentation approved by Indiane, textual audit approved). `2026-10-19.md`: the answers to D1 to D4.
