@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 280,
   "owner": "elvys",
-  "state": "awaiting-decision",
+  "state": "ready",
   "piece": "nph-radio",
   "dependencies": [],
   "gates": [
@@ -29,43 +29,13 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D1",
-      "question": "Which background and border does the circle take in each state: unchecked, checked (color/primary? border color/input, color/primary or color/primary-border?), hover (color/input-hover?) and checked with an error?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D2",
-      "question": "Is the focus a ring (focus/ring-default) or border plus halo, as in nph-button? If border plus halo, which radii around a circle (radius/full for both?), and is the error halo focus/halo-error?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D3",
-      "question": "Which tokens give the 16 x 16 circle and the 24 x 24 touch area (icon/size-sm and icon/size-lg, or new tokens)? Is the dot 6 or 8 px?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D4",
-      "question": "Is the space/inline gap to the text measured from the circle or from the 24 x 24 area? With text on two lines, is the circle on the first line or centered? May the text wrap?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D5",
-      "question": "Does the change from unchecked to checked animate with motion/state, or is it instant?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-18/documentacao-figma-aceita-2026-10-01.md"
   ],
   "decision_refs": [
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, D1 to D3 read from the accepted Figma set; D4 and D5 answered by Indiane"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -81,7 +51,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-14"
+  "updated_at": "2026-10-19"
 }
 ```
 
@@ -96,16 +66,22 @@ In the evidence of the `figma-docs-accepted` gate:
 `docs/operacao/evidencias/DSA-18/documentacao-figma-aceita-2026-10-01.md`. It
 carries the Figma documentation converted to text. There is no need to open Figma.
 
-## Pending decisions
-The evidence gives the anatomy and the token names, but not how the circle is painted in each state, the dot size, the focus shape around a circle, the source of the measures or the motion. Code does not fill these gaps; each answer goes into the evidence of the `figma-docs-accepted` gate, and the task goes back to `ready` when all five are answered. The group model (exclusivity, arrow keys, form value, `change` event) is not a visual decision: it is a technical proposal for the PR, and the evidence says the group is not a component.
+## Decisions answered
+D1 to D5 are answered; the answers are in the evidence of the
+`figma-docs-accepted` gate, section "Decisions answered". D1 to D3 and the
+first half of D4 come from the accepted Figma set, read variant by variant;
+the second half of D4 and D5 were answered by the design decision of the piece.
+The group model (exclusivity, arrow keys, form value, `change` event) is not a
+visual decision: it is a technical proposal for the PR, and the evidence says the
+group is not a component.
 
-| ID | What the evidence gives | What is missing | What the code does with the answer |
-|---|---|---|---|
-| D1 | Border `color/input`; dot `color/primary-foreground`; the border tells the state and the fill tells the choice. | Background and border unchecked, checked, on hover and checked with an error. | Writes the color table per state. |
-| D2 | The focus ring shows around the circle; in `erro-foco`, the error ring goes outside. | Ring or border plus halo, the radii around a circle and the error halo. | Picks the focus tokens and radii. |
-| D3 | Circle 16 × 16; touch area 24 × 24; dot inside the circle. | Tokens for the measures and the dot diameter. | Sets circle, target and dot sizes. |
-| D4 | `space/inline` to the text; the text also selects the option. | Where the gap is measured from, the alignment with two-line text, and wrapping. | Sets gap, vertical alignment and wrapping. |
-| D5 | Nothing about motion. `design.md` cites `motion/state` for selection. | Whether the change animates. | Adds a transition on `motion/state` with reduced motion, or none. |
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | Unchecked: fill `color/background`, border `color/input`. Checked: fill `color/primary`, border `color/input`, dot `color/primary-foreground`. Hover: border `color/input-hover`; checked on hover also takes `state/hover-opacity` on the circle. Error: border `status/error`, checked or not; checked keeps the `color/primary` fill. Disabled: `state/disabled-opacity` on the whole piece. | Writes the color table per state. |
+| D2 | Border plus halo: the circle border turns `focus/border` and a 24 × 24 halo in `focus/halo` covers the touch area, with `radius/full` and `focus/ring-width`. With error and focus, the border stays `status/error` and the halo is `focus/halo-error`. | Picks the focus tokens and radii. |
+| D3 | Circle `icon/size-sm` (16), `radius/full`, border `border/width`. The 24 × 24 touch area is the circle plus `space/inline-tight` padding on each side. The dot is 8 × 8: the space left inside the circle after the `space/inline-tight` padding, with no token of its own. | Sets circle, target and dot sizes from tokens. |
+| D4 | `space/inline` is measured from the 24 × 24 area. The text wraps to the available width; with two lines, the circle sits at the top, aligned with the first line. | Sets gap, top alignment and wrapping. |
+| D5 | The change from unchecked to checked, and back, animates fill, border and dot over `motion/state-duration` with `motion/state-easing`. Under `prefers-reduced-motion`, it uses `core/duration/100`, and the color still changes. | Adds the transition on `motion/state`, with reduced motion. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

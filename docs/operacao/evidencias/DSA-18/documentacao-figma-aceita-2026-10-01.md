@@ -40,7 +40,7 @@ Use `nph-radio` when the options exclude each other, such as payment method, emp
 
 | Part | Rule |
 |---|---|
-| Circle | 16 × 16, radius `radius/full`, border `color/input`. |
+| Circle | 16 × 16, radius `radius/full`, border `border/width` in `color/input`. |
 | Dot | Fills the inner space after the `space/inline-tight` padding, in `color/primary-foreground`. |
 | Text | `text/label-md` in `color/foreground`; it is the name of the control. |
 | Touch area | 24 × 24 around the circle. |
@@ -51,7 +51,7 @@ Use `nph-radio` when the options exclude each other, such as payment method, emp
 | Criterion | Rule |
 |---|---|
 | Contrast | Circle outline in `color/input`: 3.23:1 in light and 6.58:1 in dark; the text, 21:1 and 14.73:1. |
-| Visible focus | In the `foco` state, the ring shows around the circle; in `erro-foco`, the error ring goes outside. |
+| Visible focus | In the `foco` state, the circle border turns `focus/border` and the focus halo shows on the touch area; in `erro-foco`, the border stays `status/error` and the halo is `focus/halo-error`. |
 | Color is not the only signal | The border says the state and the fill says the choice; the error has the sentence in `nph-field`. |
 | Touch target | A 24 × 24 click area around the 16 circle; the text next to it also triggers the option. |
 | Accessible name | The text is the name of the control, and the group gets the `nph-field` name. Without visible text, the accessible name is required. |
@@ -99,5 +99,15 @@ Each in light and dark mode:
 - Do not expect the person to uncheck by clicking again: offer "None" or use a checkbox.
 - Do not mix radio and checkbox in the same group.
 
+## Decisions answered
+
+| ID | Question | Answer |
+|---|---|---|
+| D1 | Which background and border does the circle take in each state? | Unchecked: fill `color/background`, border `color/input`. Checked: fill `color/primary`, border `color/input`, dot `color/primary-foreground`. Hover: border `color/input-hover`; checked on hover also takes `state/hover-opacity` on the circle. Error: border `status/error`, checked or not; checked keeps the `color/primary` fill. Disabled: `state/disabled-opacity` on the whole piece, text included. Text `color/foreground` in every state. |
+| D2 | Ring, or border plus halo? Which radii? Which tokens with error and focus? | Border plus halo. On focus, the circle border turns `focus/border` and a halo in `focus/halo` covers the 24 × 24 touch area, with radius `radius/full` and stroke `focus/ring-width`. With error and focus, the border stays `status/error` and the halo is `focus/halo-error`. |
+| D3 | Which tokens give the circle and the touch area? Is the dot 6 or 8? | Circle: `icon/size-sm` for width and height. Touch area: the circle plus `space/inline-tight` padding on each side. Dot: 8 × 8, the space left inside the circle after the `space/inline-tight` padding, with no token of its own. |
+| D4 | Where is `space/inline` measured from? How does the circle align with text on two lines? May the text wrap? | From the edge of the 24 × 24 touch area. The text wraps to the available width; with two lines, the circle sits at the top, aligned with the first line; it does not center on the block of text. |
+| D5 | Does the change from unchecked to checked animate? | Yes. Fill, border and dot change over `motion/state-duration` with `motion/state-easing`, always as a pair, in both directions. Under `prefers-reduced-motion`, the change uses `core/duration/100`; color still changes, so reducing motion does not remove the feedback. Width, height and position do not animate. |
+
 ## Source of the acceptance
-WORK BRAIN — `2026-10-01.md`: acceptance of the documentation of checkbox, field, input and radio, among others. `2026-10-02.md`: Figma UX QA and textual audit approved. `2026-10-09.md`: the piece is ready for code, with every token on `v/5.0.0`.
+WORK BRAIN — `2026-10-01.md`: acceptance of the documentation of checkbox, field, input and radio, among others. `2026-10-02.md`: Figma UX QA and textual audit approved. `2026-10-09.md`: the piece is ready for code, with every token on `v/5.0.0`. `2026-10-19.md`: D1 to D3 read from the accepted set `848:66`; D4 and D5 answered by Indiane.
