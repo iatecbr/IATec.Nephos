@@ -70,7 +70,7 @@ carries the Figma documentation converted to text. There is no need to open Figm
 D1 to D4 are answered; the answers are in the evidence of the
 `figma-docs-accepted` gate, section "Decisions answered". D2, D4 and the label
 side of D1 come from the accepted Figma set, read variant by variant; the
-wrapping of D1 and D3 was answasd by Indiane.
+wrapping of D1 and D3 was answered by Indiane.
 
 | ID | Answer | What the code does |
 |---|---|---|
