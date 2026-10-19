@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 250,
   "owner": "elvys",
-  "state": "awaiting-decision",
+  "state": "ready",
   "piece": "nph-switch",
   "dependencies": [],
   "gates": [
@@ -29,37 +29,13 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D1",
-      "question": "On which side of the track does the label sit, after or before it? When the label wraps to more than one line, is the track centered or aligned to the first line?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D2",
-      "question": "Which radii do the focus border and the focus halo use around the radius/full track? (proposal: radius/full for both)",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D3",
-      "question": "Does the knob slide and the track color change with motion/state, or does the state switch at once? Does it stop under prefers-reduced-motion?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    },
-    {
-      "id": "D4",
-      "question": "Is the track outline (color/primary-border on, status/error with an error) border/width thick and drawn inside the track box? Does it exist on the off track too, and does it change on hover?",
-      "decider": "indiane",
-      "opened_at": "2026-10-14"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-27/documentacao-figma-aceita-2026-10-08.md"
   ],
   "decision_refs": [
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, D2, D4 and the label side of D1 read from the accepted Figma set; the wrap of D1 and D3 answered by Indiane"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -75,7 +51,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-14"
+  "updated_at": "2026-10-19"
 }
 ```
 
@@ -90,15 +66,18 @@ In the evidence of the `figma-docs-accepted` gate:
 `docs/operacao/evidencias/DSA-27/documentacao-figma-aceita-2026-10-08.md`. It
 carries the Figma documentation converted to text. There is no need to open Figma.
 
-## Pending decisions
-The evidence gives the track, knob, label, colors, sizes and focus colors, but not the label side, the focus radii around a round track, the motion and the outline width. Code does not fill these gaps; each answer goes into the evidence of the `figma-docs-accepted` gate, and the task goes back to `ready` when all four are answered.
+## Decisions answered
+D1 to D4 are answered; the answers are in the evidence of the
+`figma-docs-accepted` gate, section "Decisions answered". D2, D4 and the label
+side of D1 come from the accepted Figma set, read variant by variant; the
+wrapping of D1 and D3 were answered by the design decision of the piece.
 
-| ID | What the evidence gives | What is missing | What the code does with the answer |
-|---|---|---|---|
-| D1 | The label sits next to the track, `space/inline` from it. | The side of the label and the track alignment when the label wraps. | Sets the order and the vertical alignment of track and label. |
-| D2 | Focus border `focus/border` on the track and halo `focus/halo` outside; the track is `radius/full`. | The radius of the focus border and halo. The focus radius tokens in use fit `radius/control`, not a round track. | Sets the radius of the focus border and halo. |
-| D3 | The knob position shows the state. | Whether the knob slides and the track color changes over time, and the reduced-motion rule. | Adds a transition on `motion/state` with reduced motion, or none. |
-| D4 | Outline `color/primary-border` on the on track and `status/error` with an error. | The outline width, whether it is drawn inside the track box, whether the off track has one, and its hover color. | Sets the outline of the track in each state. |
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | The label sits after the track, `space/inline` from it. The label wraps to the available width; with two lines, the track sits at the top, aligned with the first line. | Sets the order, the gap, top alignment and wrapping. |
+| D2 | The focus border is the track's own outline, `border/width` in `focus/border`, with `radius/full`. The halo is `focus/ring-width` in `focus/halo`, outside the track, also `radius/full`. With an error and focus, the outline stays `status/error` and the halo is `focus/halo-error`. | Sets the focus outline and halo with `radius/full`. |
+| D3 | The change from off to on, and back, animates: the knob slides and the track fill and outline change over `motion/state-duration` with `motion/state-easing`. Under `prefers-reduced-motion`, it uses `core/duration/100`, and the color still changes. | Adds the transition on `motion/state`, with reduced motion. |
+| D4 | The outline is `border/width`, drawn inside the track box. On: `color/primary-border` by default, on hover (fill `color/primary-hover`) and disabled. Off: no outline by default, on hover (fill `color/input-hover`) and disabled. Error: `status/error`, on or off. Focus: `focus/border`, on or off. | Sets the outline of the track in each state. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

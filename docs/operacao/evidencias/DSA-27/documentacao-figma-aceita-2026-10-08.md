@@ -40,11 +40,11 @@ Use `nph-switch` when the person turns a setting on or off and the effect happen
 
 | Part | Rule |
 |---|---|
-| Track | The rounded base, in `radius/full`, with width `switch/track-width` and height `icon/size-lg`. Off: background `color/input`; on: background `color/primary` with an outline `color/primary-border`; on hover: background `color/input-hover` off and `color/primary-hover` on; with an error: outline `status/error`. |
+| Track | The rounded base, in `radius/full`, with width `switch/track-width` and height `icon/size-lg`. Off: background `color/input`; on: background `color/primary` with an outline `border/width` in `color/primary-border`, drawn inside the track; on hover: background `color/input-hover` off and `color/primary-hover` on; with an error: outline `status/error`. |
 | Knob | The circle in `icon/size-sm`, `space/inline-tight` from the track edge. Off: on the left, in `color/background`; on: on the right, in `color/primary-foreground`. |
 | Label | The text next to it, in `text/label-md` and `color/foreground`, `space/inline` from the track. It is the name of the control and part of the piece. |
 | Touch area | The whole track, `switch/track-width` × `icon/size-lg`; with a label, the whole piece. |
-| Focus | Border `focus/border` on the track and halo `focus/halo` outside it; with an error, border `status/error` and halo `focus/halo-error`. |
+| Focus | The track outline turns `focus/border` and a halo `focus/ring-width` in `focus/halo` shows outside the track, both in `radius/full`; with an error, outline `status/error` and halo `focus/halo-error`. |
 
 ## Accessibility
 
@@ -99,5 +99,14 @@ Each in light and dark mode:
 - Do not paint the track or the knob by hand: use `marcado` and `state`.
 - Do not delete the label text to hide it: use `mostrar rótulo` off.
 
+## Decisions answered
+
+| ID | Question | Answer |
+|---|---|---|
+| D1 | On which side of the track does the label sit? With a label on two lines, how does the track align? | After the track, `space/inline` from it. The label wraps to the available width; with two lines, the track sits at the top, aligned with the first line; it does not center on the block of text. |
+| D2 | Which radii do the focus border and the halo use around the track? | Both `radius/full`. The focus border is the track's own outline, `border/width` in `focus/border`; the halo is `focus/ring-width` in `focus/halo`, outside the track. With an error and focus, the outline stays `status/error` and the halo is `focus/halo-error`. |
+| D3 | Does the change from off to on animate? | Yes. The knob slides and the track fill and outline change over `motion/state-duration` with `motion/state-easing`, in both directions. Under `prefers-reduced-motion`, the change uses `core/duration/100`; color still changes, so reducing motion does not remove the feedback. |
+| D4 | How thick is the outline, where is it drawn, does the off track have one, and does it change on hover? | `border/width`, drawn inside the track box. On: `color/primary-border` by default, on hover (fill `color/primary-hover`) and disabled. Off: no outline by default, on hover (fill `color/input-hover`) and disabled. With an error: `status/error`, on or off. With focus: `focus/border`, on or off. |
+
 ## Source of the acceptance
-WORK BRAIN — `2026-10-08.md`: Figma UX QA approved, acceptance of the visual and the documentation, textual audit approved in round 2.
+WORK BRAIN — `2026-10-08.md`: Figma UX QA approved, acceptance of the visual and the documentation, textual audit approved in round 2. `2026-10-19.md`: D2, D4 and the label side of D1 read from the accepted set `1548:56`; the wrapping of D1 and D3 answered by Indiane.
