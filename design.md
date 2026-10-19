@@ -290,8 +290,8 @@ tokens_semantic:
     css: '--nph-color-accent'
     claro: core/surface/50
     escuro: core/surface/600
-    use: "Temporary highlight: hover, focused item, active row."
-    nao_use: "Permanent block background."
+    use: "Temporary highlight: hover, focused item, active row. Exception: the permanent background of the nph-select arrow area, with the arrow in color/muted-foreground (5.76:1 light, 5.11:1 dark)."
+    nao_use: "Permanent block background, except the nph-select arrow area."
   color/accent-foreground:
     css: '--nph-color-accent-foreground'
     claro: core/neutral/950
@@ -369,7 +369,7 @@ tokens_semantic:
     css: '--nph-color-primary-surface'
     claro: theme/brand-50
     escuro: theme/brand-900
-    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge and the hover of the ghost nph-button. Follows the active brand. USE always with color/primary-on-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted."
+    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button and the selected option of nph-select. Follows the active brand. USE always with color/primary-on-surface. Exception: the selected nph-select option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark). DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted."
   color/primary-on-surface:
     css: '--nph-color-primary-on-surface'
     claro: theme/brand-600

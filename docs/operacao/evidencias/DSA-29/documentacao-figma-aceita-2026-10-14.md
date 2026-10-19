@@ -152,7 +152,27 @@ Each in light and dark mode:
   error, use `state=erro`.
 - Do not use the status dot without a label: write the state in the option text.
 
+## Decisions answered
+Indiane answered D1 to D9 on 19-10-2026, on a Figma preview in light and dark
+mode, after the set `1357:115`, the option `1357:136`, the list `1357:137` and
+the board `1357:160` were read. D1, D6 (shape) and D7 come from the accepted
+Figma and were confirmed. In Figma, the option label is still clipped without an
+ellipsis, and the list border is still counted inside `layout/max-list-height`;
+the answers below prevail.
+
+| ID | Answer |
+|---|---|
+| D1 | The list opens `space/inline-tight` (4 px) below the trigger. |
+| D2 | The list fades in and slides 4 px into place with `motion/enter-duration` and `motion/enter-easing`, and leaves with `motion/exit-duration` and `motion/exit-easing`. With reduced motion, opacity only. |
+| D3 | Trigger value, option label and secondary text stay on one line with an ellipsis at the end. They do not wrap. |
+| D4 | Before a choice, with `início=ícone` the trigger shows the default start icon (`globe`); with `início=avatar`, the empty avatar. When the chosen option has a status dot, the trigger shows only the text: the trigger has no dot. |
+| D5 | The keyboard-active option looks like hover: `color/accent`, text in `color/accent-foreground`. A selected option keeps `color/primary-surface` and the check when it is also hovered or active. |
+| D6 | The dot is a full circle (`radius/full`). It accepts every `status/*` state (info, warning, success, error, help) and the neutral state in `color/muted-foreground`. |
+| D7 | The divider sits beside the arrow area, outside its `control/height-*` width. The arrow area is as tall as the trigger minus its two borders. |
+| D8 | `color/accent` for the permanent arrow area and `color/primary-surface` for the selected option are confirmed, and `design.md` lists both uses. The `color/primary` check on `color/primary-surface` measures 4.78:1 (light) and 6.26:1 (dark); the arrow on `color/accent` measures 5.76:1 and 5.11:1. |
+| D9 | `layout/max-list-height` (296 px) holds 8 options of 36 px plus the `space/inline-tight` padding. The list border is outside that height, so the list measures 298 px and shows 8 whole options. With avatar options (40 px), 7 whole options show and the 8th is half visible. |
 ## Source of the acceptance
 WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-14.md`: visual acceptance of the
 reopening and of `state=aberto`, Figma UX QA approved, acceptance of the
 documentation board and textual audit approved (round 3).
+WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-19.md`: answers to D1 to D9.
