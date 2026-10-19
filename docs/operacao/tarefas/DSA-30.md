@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 310,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": null,
   "dependencies": [],
   "gates": [
@@ -13,24 +13,27 @@
       "id": "decisions-recorded",
       "description": "Indiane answered D1–D8, and each answer is in its canonical source: docs/stories.md, design.md (through Claude in Figma when a token is involved), docs/decisoes-tecnicas.md or the figma-docs-accepted evidence of DSA-03 and DSA-13.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-30/decisions-recorded-2026-10-19.md",
+      "result": "passed",
+      "verified_at": "2026-10-19",
+      "verified_by": "claude-code"
     },
     {
       "id": "review-and-merge",
-      "description": "P70, P71, P72, the amendment of P64 and the docs/stories.md rules reviewed by maurocsjr in PR #86 and merged into v/5.0.0.",
+      "description": "P70, P71, P72, the amendment of P64 and the docs/stories.md rules reviewed and merged by Elvys in PR #86 into v/5.0.0, as component-handoff.md gives him the review of his own pull requests.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-30/review-and-merge-2026-10-19.md",
+      "result": "passed",
+      "verified_at": "2026-10-19",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
-  "evidence": [],
+  "evidence": [
+    "docs/operacao/evidencias/DSA-30/decisions-recorded-2026-10-19.md",
+    "docs/operacao/evidencias/DSA-30/review-and-merge-2026-10-19.md"
+  ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p19",
     "docs/decisoes-tecnicas.md#p20",
@@ -45,11 +48,11 @@
   "external_origin": null,
   "git_review": {
     "branch": "docs/dsa-30-decisoes",
-    "commit": "16a8739b84bcdb6c184a2c6f9eb59ca621e6f82b",
+    "commit": "725cd51e30c3eb94e1314c7776d6aba3bb0f0f75",
     "pr": "86"
   },
   "context": null,
-  "updated_at": "2026-10-15"
+  "updated_at": "2026-10-19"
 }
 ```
 
