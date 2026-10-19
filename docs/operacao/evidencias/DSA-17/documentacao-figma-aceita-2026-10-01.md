@@ -98,5 +98,16 @@ Each in light and dark mode:
 - Do not mix checkbox and radio in the same group.
 - Do not paint the box or the mark by hand.
 
+## Decisions answered
+
+| ID | Question | Answer |
+|---|---|---|
+| D1 | Which size and variant does the mark use inside the 16 × 16 box? | The `check` or `minus` icon, light style, at `icon/size-sm` (16), the size of the box. |
+| D2 | Which colors does the box take in each state? | Fill `color/background`; checked and indeterminate fill `color/primary`. Border `color/input` at rest and when disabled, `color/input-hover` on hover, `status/error` on error, checked or not. Checked or indeterminate on hover also takes `state/hover-opacity`. Disabled takes `state/disabled-opacity` on the whole piece, text included. Text `color/foreground` in every state. |
+| D3 | Ring, or border plus halo? Which radii? Which tokens with error and focus? | Border plus halo. On focus, the box border turns `focus/border` and a halo in `focus/halo` covers the 24 × 24 touch area, with radius `focus/radius-inner` and stroke `focus/ring-width`. With error and focus, the border stays `status/error` and the halo is `focus/halo-error`. |
+| D4 | Which tokens give the 16 × 16 box and the 24 × 24 touch area? | Box: `icon/size-sm` for width and height. Touch area: the box plus `space/inline-tight` padding on each side. |
+| D5 | Where is `space/inline` measured from, and how does the box align with text that wraps? | From the edge of the 24 × 24 touch area. With text that wraps, the box sits at the top, aligned with the first line; it does not center on the block of text. |
+| D6 | Is a link in the text in scope? | No. The text is a plain text property; a link, such as the terms of use, stays outside the piece, next to it or above it. |
+
 ## Source of the acceptance
-WORK BRAIN — `2026-10-01.md`: acceptance of the documentation of checkbox, field, input and radio, among others. `2026-10-02.md`: Figma UX QA and textual audit approved. `2026-10-09.md`: the piece is ready for code, with every token on `v/5.0.0`.
+WORK BRAIN — `2026-10-01.md`: acceptance of the documentation of checkbox, field, input and radio, among others. `2026-10-02.md`: Figma UX QA and textual audit approved. `2026-10-09.md`: the piece is ready for code, with every token on `v/5.0.0`. `2026-10-19.md`: D1 to D4 read from the accepted set `740:18776`; D5 and D6 answered by Indiane.
