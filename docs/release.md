@@ -18,15 +18,18 @@ Artifacts feed. The pipeline definition is
 2. **Publish** (tag builds, or a manual run with `publish: true`): a deployment
    job on the environment `npm-iatec-community`, so the approval configured
    there gates it. It publishes the **tarball validated in stage 1** with
-   `npm publish`. The dist-tag comes from the version: `-rc.N` goes to `rc`, a
+   `npm publish --ignore-scripts` (Validate already ran `test:package` and
+   `pack:check`, and the deployment job has no `dist/` for the `prepublishOnly`
+   hook). The dist-tag comes from the version: `-rc.N` goes to `rc`, a
    stable version goes to `latest`, any other prerelease is refused. It fails
    before publishing if that version already exists in the feed.
 
 Pull requests never run the pipeline (`pr: none`). A manual run publishes only
 from a `v5.*` tag or from `v/5.0.0`.
 
-The pipeline depends on the package configuration from PR `feat/npm-package-rc1`
-(`name`, `version`, `build:lib`, `test:package`, `pack:check`, `publishConfig`).
+The pipeline depends on the package configuration from PR #89
+(`feat/npm-package-rc1`): `name`, `version`, `build:lib`, `test:package`,
+`pack:check`, `prepublishOnly` and `publishConfig`.
 
 ## Prerequisites owned by people (Azure DevOps and GitHub)
 

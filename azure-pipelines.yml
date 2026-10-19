@@ -282,9 +282,13 @@ stages:
                     echo "##vso[task.setvariable variable=distTag]${TAG}"
                   displayName: Resolve dist-tag and check the version is new
 
+                # `--ignore-scripts`: Validate already ran test:package and
+                # pack:check, so the `prepublishOnly` hook (npm run test:package)
+                # must not run here; this job has no repo and no dist/ and
+                # would fail. `--tag` overrides `publishConfig.tag`.
                 - bash: |
                     set -euo pipefail
                     export NPM_CONFIG_USERCONFIG="$(publishDir)/.npmrc"
                     cd "$(publishDir)"
-                    npm publish "$(tarball)" --tag "$(distTag)" --registry "$(feedUrl)"
+                    npm publish "$(tarball)" --ignore-scripts --tag "$(distTag)" --registry "$(feedUrl)"
                   displayName: npm publish
