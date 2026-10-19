@@ -77,11 +77,11 @@ group is not a component.
 
 | ID | Answer | What the code does |
 |---|---|---|
-| D1 | Unchecked: fill `color/background`, border `color/input`. Checked: fill `color/primary`, border `color/input`, dot `color/primary-foreground`. Hover: border `color/input-hover`; checked on hover also takes `state/hover-opacity` on the circle. Error: border `status/error`, checked or not; checked keeps the `color/primary` fill. Disabled: `state/disabled-opacity` on the whole piece. | Writes the color table per state. |
+| D1 | Unchecked: fill `color/background`, border `color/input`. Checked: fill `color/primary`, border `color/input`, dot `color/primary-foreground`. Hover: border `color/input-hover`; checked on hover also takes `state/hover-opacity` on the circle. Error: border `status/error`, checked or not; checked keeps the `color/primary` fill. Disabled: `state/disabled-opacity` on the whole piece, text included. Text `color/foreground` in every state. | Writes the color table per state. |
 | D2 | Border plus halo: the circle border turns `focus/border` and a 24 × 24 halo in `focus/halo` covers the touch area, with `radius/full` and `focus/ring-width`. With error and focus, the border stays `status/error` and the halo is `focus/halo-error`. | Picks the focus tokens and radii. |
 | D3 | Circle `icon/size-sm` (16), `radius/full`, border `border/width`. The 24 × 24 touch area is the circle plus `space/inline-tight` padding on each side. The dot is 8 × 8: the space left inside the circle after the `space/inline-tight` padding, with no token of its own. | Sets circle, target and dot sizes from tokens. |
 | D4 | `space/inline` is measured from the 24 × 24 area. The text wraps to the available width; with two lines, the circle sits at the top, aligned with the first line. | Sets gap, top alignment and wrapping. |
-| D5 | The change from unchecked to checked, and back, animates fill, border and dot over `motion/state-duration` with `motion/state-easing`. Under `prefers-reduced-motion`, it uses `core/duration/100`, and the color still changes. | Adds the transition on `motion/state`, with reduced motion. |
+| D5 | The change from unchecked to checked, and back, animates fill and border over `motion/state-duration` with `motion/state-easing`; the dot fades in and out by opacity, on the same pair. Under `prefers-reduced-motion`, it uses `core/duration/100`, and the color still changes. | Adds the transition on `motion/state`, with reduced motion. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
