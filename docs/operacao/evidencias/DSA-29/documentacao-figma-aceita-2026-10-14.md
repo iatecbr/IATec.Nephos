@@ -166,7 +166,7 @@ the answers below prevail.
 | D2 | The list fades in and slides 4 px into place with `motion/enter-duration` and `motion/enter-easing`, and leaves with `motion/exit-duration` and `motion/exit-easing`. With reduced motion, opacity only. |
 | D3 | Trigger value, option label and secondary text stay on one line with an ellipsis at the end. They do not wrap. |
 | D4 | Before a choice, with `início=ícone` the trigger shows the default start icon (`globe`); with `início=avatar`, the empty avatar. When the chosen option has a status dot, the trigger shows only the text: the trigger has no dot. |
-| D5 | The keyboard-active option looks like hover: `color/accent`, text in `color/accent-foreground`. A selected option keeps `color/primary-surface` and the check when it is also hovered. |
+| D5 | The keyboard-active option looks like hover: `color/accent`, text in `color/accent-foreground`. A selected option keeps `color/primary-surface` and the check when it is also hovered or keyboard-active. |
 | D6 | The dot is a full circle (`radius/full`). It accepts every `status/*` state (info, warning, success, error, help) and the neutral state in `color/muted-foreground`. |
 | D7 | The divider sits beside the arrow area, outside its `control/height-*` width. The arrow area is as tall as the trigger minus its two borders. |
 | D8 | `color/accent` for the permanent arrow area and `color/primary-surface` for the selected option are confirmed, and `design.md` lists both uses. The `color/primary` check on `color/primary-surface` measures 4.78:1 (light) and 6.26:1 (dark); the arrow on `color/accent` measures 5.76:1 and 5.11:1. |
