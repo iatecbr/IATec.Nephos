@@ -611,7 +611,7 @@
   --nph-color-foreground: var(--nph-core-base-black);
   --nph-color-input: var(--nph-core-neutral-400);
   --nph-color-muted-foreground: var(--nph-core-neutral-600);
-  --nph-color-muted: var(--nph-core-neutral-100);
+  --nph-color-muted: var(--nph-core-surface-50);
   --nph-color-popover-foreground: var(--nph-core-neutral-950);
   --nph-color-popover: var(--nph-core-base-white);
   --nph-color-secondary-foreground: var(--nph-core-surface-900);

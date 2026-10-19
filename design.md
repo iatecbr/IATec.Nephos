@@ -299,7 +299,7 @@ tokens_semantic:
     use: "Text on color/accent."
   color/muted:
     css: '--nph-color-muted'
-    claro: core/neutral/100
+    claro: core/surface/50
     escuro: core/surface/700
     use: "Permanent background without emphasis: table header, disabled area. Also the background of the outline secondary nph-button and the hover of the ghost secondary."
     nao_use: "Hover, except that of the ghost secondary nph-button."

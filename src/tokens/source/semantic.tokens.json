@@ -736,11 +736,11 @@
     },
     "muted": {
       "$type": "color",
-      "$value": "{core.neutral.100}",
+      "$value": "{core.surface.50}",
       "$extensions": {
         "com.iatec.nephos": {
           "modes": {
-            "light": "{core.neutral.100}",
+            "light": "{core.surface.50}",
             "dark": "{core.surface.700}"
           }
         }
