@@ -47,6 +47,15 @@
     ]
   },
   {
+    "file": "scripts/test-package.mjs",
+    "class": "contract-path",
+    "names": [
+      "decisoes-tecnicas.md",
+      "docs/operacao",
+      "fichas"
+    ]
+  },
+  {
     "file": "scripts/verificar-operacao.mjs",
     "class": "cli",
     "names": [
