@@ -1,0 +1,221 @@
+{
+  "piece": "nph-togglebutton",
+  "level": "component",
+  "status": "active",
+  "solves": "Gives the person a button that holds a boolean value, on or off, with text or with an icon only, and shows the state in the piece itself.",
+  "use_when": [
+    "In a toolbar, when the option turns on or off with an immediate effect, among other buttons.",
+    "With text, when the option name must be visible.",
+    "Icon only, when the icon is recognized without a caption: give it an accessible name.",
+    "Start and end icons are optional: the raised inner area with an outline still shows the state."
+  ],
+  "do_not_use_when": [
+    "To fire an action: use nph-button.",
+    "Outside a toolbar, in a setting that turns on or off with an immediate effect: use nph-switch.",
+    "In a form, when the choice goes with the submission: use nph-checkbox.",
+    "To mark the state by changing only the text color: turn pressed on."
+  ],
+  "api": {
+    "pressed": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "The Figma property marcado. Reflects because the internal CSS selects the state by it. A click, Enter or Space by the person toggles it and fires nph-change; setting it from code never fires the event. The name and the mapping from marcado are a technical proposal of P73."
+    },
+    "invalid": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "The Figma invalid property. The border becomes status/error and, on focus, the halo becomes focus/halo-error. Reflects because the internal CSS selects the border by it. The error message stays outside the piece, written by whoever uses it. It does not set aria-invalid, which is not valid on a button. disabled wins over it."
+    },
+    "disabled": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "The Figma disabled property. Turns the piece off: it leaves the Tab order, does not toggle, does not fire nph-change and stays at state/disabled-opacity. It is not the only sign: state the reason in text when there is one."
+    },
+    "text": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The option name, already localized by the consuming application. It is the accessible name and stays on one line. Without text, the piece is the icon-only piece, which requires label."
+    },
+    "label": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "Accessible name of the icon-only piece, mandatory in it: it becomes the aria-label of the native button. Without text and without label, the piece draws nothing and emits console.error in development. With text, it is not used."
+    },
+    "icon-start": {
+      "type": "string",
+      "required": false,
+      "default": "auto",
+      "reflects": false,
+      "constraint": "The icon before the text, in icon/size-sm. auto follows pressed: xmark when off and check when on, both rendered and cross-faded by opacity. none turns the icon off. A name from the nph-icon core is one fixed icon, with no swap. The property is iconStart. Icon only uses this one. A value that is not auto, none or a core name draws nothing and emits console.error in development."
+    },
+    "icon-end": {
+      "type": "string",
+      "required": false,
+      "default": "auto",
+      "reflects": false,
+      "constraint": "The icon after the text, with the same values and the same swap as icon-start. The property is iconEnd. Icon only ignores it. A value that is not auto, none or a core name draws nothing and emits console.error in development."
+    }
+  },
+  "variants": {
+    "pressed": {
+      "axis": "appearance",
+      "choose_when": "false for an option that is off: the track and the inner area share the background. true for an option that is on: the inner area is raised, with a shadow and an outline.",
+      "do_not_combine_with": []
+    },
+    "content": {
+      "axis": "appearance",
+      "choose_when": "With text when the option name must be visible. Icon only when the icon is recognized without a caption; it takes label and shows one icon.",
+      "do_not_combine_with": [
+        "icon only with icon-start none: the piece would have nothing to show.",
+        "icon only without label: the screen reader would announce only button."
+      ]
+    }
+  },
+  "states": {
+    "unpressed": {
+      "token": "color/muted",
+      "changes_for_user": "The track and the inner area share the background; the label and the icon use color/muted-foreground."
+    },
+    "pressed": {
+      "token": "color/background for the inner area, elevation/subtle for the shadow and color/primary-border for the outline; the label and the icon use color/foreground",
+      "changes_for_user": "The inner area rises, with a shadow and an outline, and the icon changes from xmark to check."
+    },
+    "hover": {
+      "token": "color/foreground",
+      "changes_for_user": "In the off piece, the label and the icon go from color/muted-foreground to color/foreground."
+    },
+    "focus": {
+      "token": "border border/width in color/primary and halo focus/ring-width in focus/halo; when invalid, status/error and focus/halo-error",
+      "changes_for_user": "For keyboard users, a border and a halo outside the piece mark the focus, without changing the size."
+    },
+    "invalid": {
+      "token": "status/error",
+      "changes_for_user": "The track border becomes status/error; the error message stays outside the piece."
+    },
+    "disabled": {
+      "token": "state/disabled-opacity",
+      "changes_for_user": "The whole piece loses opacity, leaves the Tab order and stops responding."
+    }
+  },
+  "business_rules": [
+    "The piece holds one boolean, pressed. Only a click, Enter or Space by the person toggles it and fires nph-change; setting pressed from code never fires the event.",
+    "nph-change bubbles, crosses the shadow root, is not cancelable and carries detail.pressed with the new value.",
+    "disabled wins over invalid: a disabled piece draws no error border. It is not an error case.",
+    "Icon only shows one icon, from icon-start; icon-end is ignored. The piece is 50 by 36 px, never square, with label as the accessible name.",
+    "The off-to-on change animates background, border and colors on motion/state-duration and motion/state-easing, with the icons cross-fading by opacity. Width, height and position never animate.",
+    "Under reduced motion the change takes motion/hover-duration, and the color still changes."
+  ],
+  "domain_errors": [
+    "invalid: the value of the option is not accepted by the screen. The piece shows the border; the message is written outside it."
+  ],
+  "tokens": {
+    "track_background": "color/muted",
+    "track_border": [
+      "border/width",
+      "color/muted"
+    ],
+    "track_radius": "radius/control",
+    "track_padding": "space/inline-tight",
+    "height": "control/height-default",
+    "inner_radius": "radius/inner",
+    "inner_padding": "space/control-padding",
+    "icon_text_gap": "space/inline-tight",
+    "inner_pressed": [
+      "color/background",
+      "elevation/subtle",
+      "color/primary-border"
+    ],
+    "text": "text/label-md",
+    "text_color": [
+      "color/muted-foreground",
+      "color/foreground"
+    ],
+    "icon": "icon/size-sm",
+    "invalid": "status/error",
+    "disabled": "state/disabled-opacity",
+    "focus": [
+      "border/width",
+      "focus/border-radius-control",
+      "focus/ring-width",
+      "focus/radius-control-with-border",
+      "color/primary",
+      "focus/halo",
+      "status/error",
+      "focus/halo-error"
+    ],
+    "motion": [
+      "motion/state-duration",
+      "motion/state-easing"
+    ],
+    "motion_reduced": "motion/hover-duration"
+  },
+  "ai_hints": [
+    "Use nph-togglebutton for a button that holds on or off in a toolbar; to fire an action, use nph-button.",
+    "Outside a toolbar, for a setting that turns on or off with an immediate effect, use nph-switch; in a form, when the choice goes with the submission, use nph-checkbox.",
+    "Without text, fill in label; the piece shows one icon and has no other name.",
+    "Leave icon-start and icon-end on auto to get xmark when off and check when on; give a core icon name for one fixed icon, or none for no icon.",
+    "Read the new value from detail.pressed of nph-change; do not read it from the host after a click.",
+    "Separate neighboring pieces with space/inline.",
+    "Do not mark the state only by the text color: pressed draws the raised inner area."
+  ],
+  "accessibility": {
+    "semantics": "A native button inside the component, with type=button and aria-pressed following pressed. Never role switch or aria-checked, because the piece is a button that holds a state. aria-invalid is not valid on a button: invalid is shown by the border, and the error message stays outside the piece.",
+    "accessible_name": "The visible text. Icon only, the label, mandatory, as the aria-label of the native button; the icons are aria-hidden.",
+    "keyboard": [
+      "Tab enters and leaves the piece.",
+      "Enter toggles.",
+      "Space toggles."
+    ],
+    "focus": "Keyboard only: a border in color/primary and a halo outside, without changing the size; when invalid, status/error and focus/halo-error. The border is color/primary and not focus/border, which design.md says is the only one that guarantees 3:1 against the halo. Known limit, measured in the test: in dark mode, color/primary is below 3:1 against the page background in gerencial (2.71:1) and rh (2.88:1), and against the halo in every brand (1.76:1 to 2.94:1); in light mode it passes, and the lowest value is 3.33:1 against the halo, in educacao.",
+    "contrast": "The rule is 4.5:1 for the label and the icon on their own background in both schemes, and 3:1 for the outline of the pressed inner area on the track; the test measures both. The off label, color/muted-foreground on color/muted, measures 5.76:1 in light and 6.61:1 in dark. The pressed outline, color/primary-border on the track, passes 3:1 in every brand and in both schemes: the lowest value is 3.31:1, in dark gerencial, and 4.27:1 in light educacao. The error border, status/error on color/background, measures 6.88:1 in light and 5.01:1 in dark. Known limit: the off label uses color/muted-foreground, and design.md marks that token as not for text needed to complete the task; the measured ratio passes 4.5:1 in both schemes.",
+    "color_alternative": "The pressed state shows in the raised inner area with an outline and in the icon, not only in the text color. The invalid piece changes its border; the error message stays outside."
+  },
+  "invalid_combinations": [
+    "disabled with invalid — disabled wins, and the error border is not drawn.",
+    "Icon only without label — the screen reader would announce only button.",
+    "Icon only with icon-start none — there would be nothing to show.",
+    "No text and no label — the piece has no accessible name and draws nothing.",
+    "An icon-start or icon-end that is not auto, none or a core name — the piece draws nothing."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-icon",
+      "nph-button"
+    ],
+    "parents": [
+      "toolbar",
+      "nph-toggle-group (planned, DSA-23)"
+    ],
+    "children": [
+      "nph-icon"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "Using the piece to fire an action.",
+    "Marking the state only by changing the text color.",
+    "Putting neighboring pieces together without space.",
+    "Using the piece outside a toolbar for a setting that turns on or off, where nph-switch is the choice.",
+    "Using the piece in a form, where nph-checkbox is the choice.",
+    "Putting an error message inside the piece."
+  ],
+  "sources": {
+    "design_md": "design.md, color/muted, border/width, status/error, color/background, elevation/subtle, color/primary-border, text/label-md, color/muted-foreground, color/foreground, color/primary, focus/*, state/disabled-opacity, control/height-default, radius/control, radius/inner, space/inline-tight, space/control-padding, icon/size-sm and motion/*",
+    "decision": "P73 — API and semantics of nph-togglebutton, 19-10-2026",
+    "tests": "src/components/nph-togglebutton/nph-togglebutton.test.ts",
+    "usage_evidence": "none in code yet; nph-toggle-group (DSA-23, planned) will be made of this piece and consume nph-change",
+    "storybook": "src/components/nph-togglebutton/nph-togglebutton.stories.ts and nph-togglebutton.docs.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, nph-togglebutton board 1512:27498 and set 1512:719"
+  }
+}

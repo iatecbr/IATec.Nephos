@@ -427,11 +427,12 @@ names of approvers and pending items stay in the operational record.
 **Source:** `src/shared/docs/page.ts` and `page.test.ts`; the Figma
 documentation model (`1134:12862`, DS-IA-NEPHOS 5.0); the `Documentation`
 story of `nph-badge` (the model) and its `nph-badge.docs.test.ts`.
-**Limit:** the Docs pages of the components with code. `nph-badge`, `nph-label`
-and `nph-skeleton` follow the order of the model. `nph-button` lacks Anatomy, and
-`nph-icon` lacks Anatomy and Examples; their accepted frames have both (`1197:5449`
-and `1130:956`, confirmed by Indiane on 15-10-2026). The Usage section, the lists read
-from the Metadata and `text/body-lg` in `text` and `list` are on no page yet.
+**Limit:** the Docs pages of the components with code. `nph-badge`, `nph-label`,
+`nph-skeleton` and `nph-togglebutton` follow the order of the model. `nph-button`
+lacks Anatomy, and `nph-icon` lacks Anatomy and Examples; their accepted frames have
+both (`1197:5449` and `1130:956`, confirmed by Indiane on 15-10-2026). The Usage
+section, the lists read from the Metadata and `text/body-lg` in `text` and `list` are
+on no page yet.
 
 ---
 

@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71 and P72. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72 and P73. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -40,6 +40,7 @@ P62.4 subsection for the detail).
 | **P70** | Package entry points and the Usage section | 15/10/2026 | Medium. Every `Docs` page shows the import line, so changing the path later changes every page and every consumer | Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request that brings it |
 | **P71** | `Docs` page lists read from the Metadata | 15/10/2026 | Low. The lists move from the dictionary to the Metadata; the sheet does not change its format | Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request that brings it |
 | **P72** | Accessibility gate in the tests | 15/10/2026 | Medium. Two new dependencies and a gate on every story; the earlier, the fewer violations to fix | Adopted by Indiane on 15/10/2026 (DSA-30, D3). Reviewed in the pull request that brings it |
+| **P73** | API and semantics of `nph-togglebutton` | 19/10/2026 | Low now. No piece consumes it yet; `nph-toggle-group` (DSA-23) will consume its event, so changing the event name or the state name later requires redoing both | Anatomy and behavior: board accepted by Indiane on 07/10/2026, motion answered on 19/10/2026 (D6). API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -1295,9 +1296,130 @@ that brings it; the merge is the approval.
 
 ---
 
+## P73 — `nph-togglebutton`: API and semantics
+
+**Decision.** `nph-togglebutton` is a Web Component with **open Shadow DOM** (P01), CSS
+in its own file imported `?inline`, as in `nph-icon`. It has no slot, no `::part`, no
+color property and no size property. Anatomy only through semantic tokens. Invalid input
+renders nothing and emits `console.error` only in development, one per cause — the rule of
+P21, adopted here by its own decision, as in P66 and P68. The names follow P64.
+
+1. **Properties.** The Figma property names are in Portuguese and the code API is in
+   English (P64). The mapping below is a technical proposal of this implementation.
+
+   | Figma | API |
+   |---|---|
+   | `marcado` | `pressed`, Boolean, reflected to the attribute |
+   | `invalido` | `invalid`, Boolean, reflected to the attribute |
+   | `desabilitado` | `disabled`, Boolean, reflected to the attribute |
+   | the label text | `text`, String |
+   | `ícone início` and `ícone fim` | `icon-start` and `icon-end`, String |
+   | the accessible name of the icon-only piece | `label`, String |
+
+   `label` becomes the `aria-label` of the native button, as in P68: an `aria-label` on
+   the host would not name the button inside the shadow root. `state` and `texto` are not
+   properties: `state` is the interaction, and `texto` is the presence of `text`.
+
+2. **Semantics: `aria-pressed`.** The piece is a native `<button type="button">` inside
+   the shadow root, with `delegatesFocus` and `aria-pressed` following `pressed`.
+   `role="switch"` and `aria-checked` are not used: the accepted board separates the piece
+   from `nph-switch` and `nph-checkbox`, and says it is a button that holds a state.
+   `aria-pressed` is the semantics of exactly that. The piece is not form-associated: a
+   choice that goes with a submission is `nph-checkbox`, as the board says.
+
+3. **The event `nph-change`.** The piece fires `nph-change` when the person toggles it by
+   click, Enter or Space. The event bubbles, crosses the shadow root (`composed`), is not
+   cancelable, and carries `detail: { pressed: boolean }` with the new value. A change of
+   `pressed` made from code never fires it, so a consumer that sets the property does not
+   receive its own echo. It is the **first custom event of the repository**. The native
+   `click` does not say the new value without reading the element, and the prefix `nph-`
+   avoids a collision with the native `change`. `nph-toggle-group` (DSA-23, planned) will
+   consume it.
+
+4. **Icons.** `icon-start` and `icon-end` take `auto` (default), `none` or a name from the
+   `nph-icon` core. `auto` is the pair of the board: `xmark` when off and `check` when on.
+   Both glyphs are rendered, stacked, and cross-fade by opacity, so the change is the
+   motion of D6 and not a swap of nodes. `none` turns the icon off. A core name is one
+   fixed icon, with no swap. The board says that the icon changes in the instance, so the
+   consumer may give another one; a single property per side covers the board's boolean
+   (on by default) and the consumer's icon, without four properties. The icons are
+   `icon/size-sm` and `aria-hidden`.
+
+5. **`disabled` wins over `invalid`.** The board draws `desabilitado` only with `state`
+   `default` and not invalid. In runtime, `disabled` suppresses the error border: it is
+   listed in the sheet as an invalid combination, and is not a `console.error` case.
+
+6. **Icon only.** With no text, the piece shows one icon, from `icon-start`; `icon-end` is
+   ignored. It requires `label`. It is **50 by 36 px**, as the board measures it from the
+   variables of set `1512:719`, and it is **not square**: the rule of `nph-button`, which
+   makes the icon-only box square, is not copied.
+
+7. **Invalid input.** The piece draws nothing and emits one `console.error` per cause, only
+   in development, when: there is no `text` and no `label`; `icon-start` or `icon-end` is
+   not `auto`, `none` or a core name; the piece is icon only and `icon-start` is `none`.
+
+8. **Motion.** The off-to-on change animates the background, the border, the icon color,
+   the label color and the opacity of the icons on `motion/state-duration` and
+   `motion/state-easing`, always as a pair (D6). Width, height and position never animate.
+   Under `prefers-reduced-motion` the change takes `motion/hover-duration`, and the color
+   still changes.
+
+**Reduced motion and `core/duration/100`.** The evidence of D6 and `movimento_reduzido` in
+`design.md` name `core/duration/100`. Rule 4 of `design.md` forbids a component from
+consuming `core/*`, and the anti-pattern A57 allows only `var(--nph-motion-*)` for a
+duration or a curve. `motion/hover-duration` is the semantic alias of
+`core/duration/100`, with the same value, 100 ms, so the piece uses it and no token is
+created or changed. It touches the anti-pattern A58 (combine duration and curve outside the motion
+roles): the pair rule says each role is two tokens that never mix, and the piece uses the
+duration of the `hover` role with the curve of the `state` role. The two curves have the same value, `cubic-bezier(0.4, 0, 0.2, 1)`.
+**Open question of Indiane**, recorded as D7 of the task DSA-22: approve this
+substitution, or create a semantic alias for it. It does not block the pull request.
+
+**Points for review.**
+
+- **D6 against `movimento_regras.anime_apenas`.** `design.md` lists only opacity and
+  transform as animatable; D6 animates background, border and colors. The accepted
+  evidence prevails, and `design.md` does not change.
+- **`use` of tokens in `design.md` narrower than the accepted board.** `color/muted` (the
+  track), `color/background` (the inner area), `space/inline-tight` (on four sides) and the
+  focus tokens of this piece. `design.md` does not change in this pull request; widening the
+  `use` is a decision of Indiane, through Claude in Figma, as P68 recorded for L-b.
+- **Contrast, measured and known limits.** The component test measures the seven brands in
+  light and dark. The off label is `color/muted-foreground` on `color/muted`, and `design.md`
+  marks that token as not for text needed to complete the task; it measures 5.76:1 in light and
+  6.61:1 in dark, so it passes 4.5:1. The outline of the pressed inner area, `color/primary-border`
+  on the track, passes 3:1 in all 14 brand and scheme pairs: the lowest value is 3.31:1 in dark
+  gerencial, and 4.27:1 in light educacao. The error border, `status/error` on `color/background`,
+  measures 6.88:1 in light and 5.01:1 in dark. The focus border is `color/primary`, and `design.md`
+  says only `focus/border` guarantees 3:1 against the halo. It does not pass 3:1 in two ways: against
+  the page background, only in dark gerencial (2.71:1) and dark rh (2.88:1); against the halo, in all
+  seven brands in dark (1.76:1 to 2.94:1). In light it passes, and the lowest value is 3.33:1 against
+  the halo, in educacao. The piece follows the accepted board, which draws the border in
+  `color/primary`; moving it to `focus/border` is a decision of Indiane, through Claude in Figma.
+
+**Source.** Board `nph-togglebutton` (`1512:27498`, set `1512:719`) of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 07/10/2026, with the Figma UX QA approved on
+07/10/2026 and the textual audit on 08/10/2026; the motion, answered by Indiane on
+19/10/2026 (D6). The names `pressed`, `invalid`, `text`, `label`, `icon-start` and
+`icon-end` and the mapping from the Figma properties, `aria-pressed`, the event
+`nph-change`, the values `auto` and `none`, the cross-fade of the two icons, the rule that
+`disabled` wins and the invalid input rule are a technical proposal of this implementation.
+
+**Out of scope.** Form association and form submission. The Usage section of the page
+(P70, DSA-35). The page lists read from the Metadata (P71, DSA-34). The accessibility gate
+(P72, DSA-32). The brand story (DSA-36). `aria-invalid`, which is not valid on a button. A
+`size` property. A slot. The pieces `nph-switch`, `nph-checkbox` and `nph-toggle-group`,
+which are planned.
+
+**Status.** Anatomy and behavior accepted by Indiane on 07/10/2026; motion answered on
+19/10/2026. API and semantics are reviewed in the pull request that brings them; the merge
+is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71 or P72 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72 or P73 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
