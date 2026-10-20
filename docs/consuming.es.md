@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=672267b2149e9680e36fcd031d571c6dc961a1d6d3ff6e758cc26eb7db11b6a8 | status=rascunho -->
+<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=d68a3c24be6f2f5e00438aa7847c4ece78db04410c1ac9b3654dd501b51ebab9 | status=rascunho -->
 
 # Consumir Nephos
 
@@ -132,11 +132,14 @@ import '@iatec/nephos/nph-togglebutton';
 ```
 
 ```ts
-// cualquier componente standalone, o el NgModule que lo declara
+// Un componente standalone. Antes de Angular 19, `standalone: true` no es el valor por defecto:
+// escríbalo. En un NgModule, ponga `schemas: [CUSTOM_ELEMENTS_SCHEMA]` en el
+// decorador `@NgModule` del módulo que declara el componente.
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 
 @Component({
   selector: 'app-example',
+  standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
     <nph-button text="Save" severity="primary"></nph-button>
@@ -303,32 +306,62 @@ compilación.
    con un `ElementReference`:
 
    ```razor
+   @implements IAsyncDisposable
    @inject IJSRuntime Js
 
    <nph-togglebutton @ref="toggle" text="Bold"></nph-togglebutton>
 
    @code {
        private ElementReference toggle;
+       private DotNetObjectReference<Example>? self;
+       private IJSObjectReference? subscription;
 
        protected override async Task OnAfterRenderAsync(bool firstRender)
        {
            if (firstRender)
            {
-               await Js.InvokeVoidAsync("nephos.listen", toggle, "nph-change",
-                   DotNetObjectReference.Create(this));
+               self = DotNetObjectReference.Create(this);
+               subscription = await Js.InvokeAsync<IJSObjectReference>(
+                   "nephos.listen", toggle, "nph-change", self);
            }
        }
 
        [JSInvokable]
        public void OnPressedChanged(bool pressed) { /* ... */ }
+
+       public async ValueTask DisposeAsync()
+       {
+           if (subscription is not null)
+           {
+               try
+               {
+                   await subscription.InvokeVoidAsync("unsubscribe");
+                   await subscription.DisposeAsync();
+               }
+               catch (JSDisconnectedException)
+               {
+                   // El circuito terminó: no queda ningún listener que eliminar.
+               }
+           }
+           self?.Dispose();
+       }
    }
    ```
+
+   `Example` es el nombre del componente (`Example.razor`). La referencia se guarda en un
+   campo y se libera junto con el componente, y el listener se elimina, así que un
+   componente que sale de la página no deja nada atrás.
 
    ```js
    // wwwroot/js/nephos-interop.js (un script clásico, cargado antes del script de Blazor)
    window.nephos = {
-     listen: (element, type, handler) =>
-       element.addEventListener(type, (e) => handler.invokeMethodAsync('OnPressedChanged', e.detail.pressed)),
+     listen: (element, type, handler) => {
+       const listener = (e) => handler.invokeMethodAsync('OnPressedChanged', e.detail.pressed);
+       element.addEventListener(type, listener);
+       return DotNet.createJSObjectReference({
+         unsubscribe: () => element.removeEventListener(type, listener),
+       });
+     },
    };
    ```
 

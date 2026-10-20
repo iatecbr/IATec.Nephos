@@ -126,11 +126,14 @@ import '@iatec/nephos/nph-togglebutton';
 ```
 
 ```ts
-// any standalone component, or the NgModule that declares it
+// A standalone component. Before Angular 19, `standalone: true` is not the default:
+// write it. In an NgModule, put `schemas: [CUSTOM_ELEMENTS_SCHEMA]` in the
+// `@NgModule` decorator of the module that declares the component instead.
 import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 
 @Component({
   selector: 'app-example',
+  standalone: true,
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
     <nph-button text="Save" severity="primary"></nph-button>
@@ -295,32 +298,62 @@ step turns them into one ES module, once, at build time.
    `ElementReference`:
 
    ```razor
+   @implements IAsyncDisposable
    @inject IJSRuntime Js
 
    <nph-togglebutton @ref="toggle" text="Bold"></nph-togglebutton>
 
    @code {
        private ElementReference toggle;
+       private DotNetObjectReference<Example>? self;
+       private IJSObjectReference? subscription;
 
        protected override async Task OnAfterRenderAsync(bool firstRender)
        {
            if (firstRender)
            {
-               await Js.InvokeVoidAsync("nephos.listen", toggle, "nph-change",
-                   DotNetObjectReference.Create(this));
+               self = DotNetObjectReference.Create(this);
+               subscription = await Js.InvokeAsync<IJSObjectReference>(
+                   "nephos.listen", toggle, "nph-change", self);
            }
        }
 
        [JSInvokable]
        public void OnPressedChanged(bool pressed) { /* ... */ }
+
+       public async ValueTask DisposeAsync()
+       {
+           if (subscription is not null)
+           {
+               try
+               {
+                   await subscription.InvokeVoidAsync("unsubscribe");
+                   await subscription.DisposeAsync();
+               }
+               catch (JSDisconnectedException)
+               {
+                   // The circuit is gone: there is no listener left to remove.
+               }
+           }
+           self?.Dispose();
+       }
    }
    ```
+
+   `Example` is the name of the component (`Example.razor`). The reference is kept in a
+   field and disposed with the component, and the listener is removed, so a component
+   that leaves the page leaves nothing behind.
 
    ```js
    // wwwroot/js/nephos-interop.js (a classic script, loaded before the Blazor script)
    window.nephos = {
-     listen: (element, type, handler) =>
-       element.addEventListener(type, (e) => handler.invokeMethodAsync('OnPressedChanged', e.detail.pressed)),
+     listen: (element, type, handler) => {
+       const listener = (e) => handler.invokeMethodAsync('OnPressedChanged', e.detail.pressed);
+       element.addEventListener(type, listener);
+       return DotNet.createJSObjectReference({
+         unsubscribe: () => element.removeEventListener(type, listener),
+       });
+     },
    };
    ```
 
