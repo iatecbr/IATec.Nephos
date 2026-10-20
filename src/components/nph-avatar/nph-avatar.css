@@ -1,0 +1,80 @@
+/**
+ * Internal style of `nph-avatar`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. No literal design value goes in: the box is
+ * `avatar/size-*`, the corner `avatar/radius-*`, the frame `color/muted`, the icon
+ * `color/muted-foreground` (through `currentColor`), the border `border/width` in
+ * `color/border`. The icon size comes from the inner `nph-icon`, which takes
+ * `icon/size-*` by the same `size`.
+ *
+ * The only written quantities are box relations, not visual decisions: `100%`
+ * (the photo fills the frame), `0` (the border overlay covers the frame) and
+ * `cover` (the photo keeps its proportion and crops).
+ *
+ * The piece is still: no `animation`, no `transition`, no hover, focus or
+ * disabled look of its own.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/*
+ * A square that never shrinks, so a group of avatars sums up exactly. `relative`
+ * is the anchor of the border overlay. `vertical-align` centers it on a text line.
+ */
+:host([data-nph-rendered]) {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  flex: none;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--nph-color-muted);
+  color: var(--nph-color-muted-foreground);
+}
+
+:host([data-nph-rendered][size='sm']) {
+  inline-size: var(--nph-avatar-size-sm);
+  block-size: var(--nph-avatar-size-sm);
+  border-radius: var(--nph-avatar-radius-sm);
+}
+
+:host([data-nph-rendered][size='md']) {
+  inline-size: var(--nph-avatar-size-md);
+  block-size: var(--nph-avatar-size-md);
+  border-radius: var(--nph-avatar-radius-md);
+}
+
+:host([data-nph-rendered][size='lg']) {
+  inline-size: var(--nph-avatar-size-lg);
+  block-size: var(--nph-avatar-size-lg);
+  border-radius: var(--nph-avatar-radius-lg);
+}
+
+/* The photo fills the frame and crops to keep its proportion. It has no border of its own. */
+img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  border: none;
+}
+
+/*
+ * The border is drawn over the photo and inside the frame: an overlay that is
+ * positioned and comes after the content, so it paints above the `<img>`. It takes
+ * the frame corner and lets the pointer through.
+ */
+:host([data-nph-rendered])::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border: var(--nph-border-width) solid var(--nph-color-border);
+  border-radius: inherit;
+  pointer-events: none;
+}
