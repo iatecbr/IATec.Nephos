@@ -69,7 +69,16 @@
     "components-nph-togglebutton-validation--disabled": "Desabilitado",
     "components-nph-togglebutton-validation--invalid": "Inválido",
     "components-nph-togglebutton-validation--interactive": "Interativo",
-    "components-nph-togglebutton-validation--examples": "Exemplos"
+    "components-nph-togglebutton-validation--examples": "Exemplos",
+    "components-nph-avatar-docs": "Docs",
+    "components-nph-avatar-docs--documentation": "Documentação",
+    "components-nph-avatar-validation": "Validação",
+    "components-nph-avatar-validation--sizes": "Tamanhos",
+    "components-nph-avatar-validation--photo": "Foto",
+    "components-nph-avatar-validation--no-photo": "Sem foto",
+    "components-nph-avatar-validation--photo-failed": "Foto com falha",
+    "components-nph-avatar-validation--border": "Borda",
+    "components-nph-avatar-validation--accessibility": "Acessibilidade"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -1321,10 +1330,181 @@
     "statusIdle": "Aguardando um clique.",
     "statusChanged": "nph-change disparado com detail.pressed = {pressed}."
   },
+  "avatarDocs": {
+    "summary": "A imagem de uma pessoa: a foto, ou o ícone de pessoa quando não há. Um quadrado de cantos arredondados, em três tamanhos, com uma borda desenhada por cima da foto. Mostra quem é a pessoa ao lado do nome; não é um botão e não abre nada.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha nph-avatar, o design.md para os tokens e docs/decisoes-tecnicas.md para a P74. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Ao lado do nome de uma pessoa, quando é preciso reconhecê-la numa lista, num campo ou num cabeçalho.",
+      "sm ao lado do texto de corpo, numa lista e no select; md num cabeçalho, num cartão e numa linha de tabela; lg num perfil.",
+      "Sem foto, mantenha o avatar: ele desenha o ícone de pessoa sempre que não há src ou que a imagem não carrega.",
+      "Coloque o nome da pessoa ao lado: o avatar sozinho não identifica ninguém com certeza.",
+      "Use o mesmo tamanho para todos os avatares de uma lista."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Como botão: o avatar não recebe clique nem foco.",
+      "Como ícone de ação: use nph-icon.",
+      "Como círculo: o avatar é um quadrado de cantos arredondados, e não existe propriedade de forma.",
+      "Com o quadro vazio: deixe o src de fora e o ícone de pessoa aparece."
+    ],
+    "relationsText": "Ele fica ao lado do nome da pessoa, separado por space/inline. O nph-select vai recebê-lo no início do gatilho e de cada opção, no tamanho sm, e o nph-avatar-stack vai sobrepor um grupo de avatares; ambos são planejados e ainda não existem. O nph-icon é a peça para um ícone de ação e desenha o ícone de pessoa dentro do avatar; o nph-skeleton é o marcador de uma lista enquanto os dados carregam.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "size",
+        "sm (padrão), md ou lg: o size do Figma. Refletida no atributo. O quadro mede 24, 32 ou 40 px, um quadrado com avatar/radius-*, nunca um círculo. Um valor inválido não renderiza nada e registra um console.error em desenvolvimento."
+      ],
+      [
+        "src",
+        "O endereço da foto. Não existe propriedade tipo no código: ela deriva de src. Com src, a peça é foto; sem ele, sem foto. Vazio ou só espaços conta como ausente. A foto toma o lugar do ícone quando carrega, e um novo src reinicia a espera. Nenhum evento é emitido."
+      ],
+      [
+        "label",
+        "O nome acessível. Com texto, o host recebe role=img e aria-label. Vazio ou só espaços, o avatar é decorativo: aria-hidden=true no host. Sem label é válido e silencioso."
+      ],
+      [
+        "slot · part · event",
+        "Nenhum. O avatar não tem slot, nem ::part, nem evento, nem iniciais, nem associação a formulário."
+      ]
+    ],
+    "fallbackTitle": "Reserva",
+    "fallbackText": "O quadro nunca fica vazio. Sem foto, o ícone de pessoa aparece: nph-icon user, estilo light, no icon/size-* do tamanho do avatar. O tipo do Figma tem foto como padrão, mas no código não existe tipo: ele deriva de src, então <nph-avatar> sem atributo desenha sem foto.",
+    "fallbackCaption": "Uma foto, nenhum src e um src que falha, no tamanho lg. Os dois últimos desenham o mesmo ícone de pessoa.",
+    "fallbackHeader": [
+      "Situação",
+      "O que aparece"
+    ],
+    "fallback": [
+      [
+        "Sem src",
+        "O ícone de pessoa (sem foto). É o padrão do <nph-avatar>."
+      ],
+      [
+        "Foto carregando",
+        "O ícone de pessoa, como em sem foto. A foto toma o lugar dele ao carregar."
+      ],
+      [
+        "Foto carregada",
+        "A foto preenche o quadro e recorta para manter a proporção; o ícone sai. A borda continua por cima da foto."
+      ],
+      [
+        "Foto com falha",
+        "O ícone de pessoa permanece. Nenhum evento e nenhum erro são emitidos. Um novo src reinicia a espera."
+      ],
+      [
+        "src vazio ou só espaços",
+        "O mesmo que sem src: nenhuma imagem é renderizada."
+      ]
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Quadro",
+        "Um quadrado de avatar/size-sm, -md ou -lg (24, 32 e 40 px), com avatar/radius-* e color/muted como fundo. Recorta o conteúdo e nunca encolhe, então um grupo soma exatamente."
+      ],
+      [
+        "Foto",
+        "A imagem de src, com alt vazio: o nome pertence ao host. Preenche o quadro e recorta para manter a proporção. Não tem borda própria."
+      ],
+      [
+        "Ícone de pessoa",
+        "nph-icon user, estilo light, em color/muted-foreground, centralizado, em icon/size-sm, -md ou -lg conforme o tamanho do avatar."
+      ],
+      [
+        "Borda",
+        "border/width em color/border, desenhada pelo avatar por dentro do quadro e por cima da foto, com o canto do quadro. Mantém os avatares sobrepostos separados; não há propriedade para ela."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "Uma imagem no host, ou nada: aria-hidden=true por padrão, role=img com aria-label quando label tem texto. Nunca recebe foco e não é um botão."
+      ],
+      [
+        "Nome acessível",
+        "Com o nome ao lado, deixe label de fora: o avatar fica oculto do leitor de tela. Sozinho, passe label com o nome da pessoa e ele o anuncia. A imagem interna tem alt vazio."
+      ],
+      [
+        "Foco visível",
+        "Não se aplica: o avatar não recebe foco. Dentro de um controle, o foco é do controle."
+      ],
+      [
+        "Contraste",
+        "O ícone de pessoa, color/muted-foreground sobre color/muted, passa em 3:1 no claro e no escuro, em todas as marcas; nph-avatar.test.ts mede à mão até chegar o gate de acessibilidade (P72, DSA-32). A foto é a imagem da pessoa e não é medida."
+      ],
+      [
+        "Cor não é o único sinal",
+        "O avatar não comunica estado."
+      ],
+      [
+        "Alvo de toque",
+        "Não se aplica: o avatar não é interativo. O alvo é o do controle que o contém."
+      ],
+      [
+        "Movimento",
+        "Nenhum: o avatar não tem animação nem transição."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleOwner": "Owner select: o avatar no tamanho sm com o nome ao lado, separado por space/inline. É uma linha montada para esta página, não o select: o nph-select ainda não existe.",
+    "exampleCard": "Card header: o avatar no tamanho md com o nome e uma linha de função, numa linha montada para esta página.",
+    "exampleProfile": "Profile without photo: tamanho lg sem src, então o ícone de pessoa aparece.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "personAna": "Ana Souza",
+    "personBruno": "Bruno Lima",
+    "personCarla": "Carla Mendes",
+    "roleDesign": "Líder de design",
+    "roleEngineer": "Engenheira de produto",
+    "referencesTitle": "Referências",
+    "references": [
+      "ficha nph-avatar — função, propriedades, anatomia, acessibilidade e tokens.",
+      "docs/decisoes-tecnicas.md — P74 (API e semântica), P01, P02 e P03.",
+      "design.md — avatar/size-*, avatar/radius-*, color/muted, color/muted-foreground, color/border, border/width e icon/size-*.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Avatar, quadro nph-avatar (1434:30) e conjunto 1434:29.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "ficha nph-avatar; Figma, quadro nph-avatar (1434:30)",
+    "sourceApi": "ficha nph-avatar; docs/decisoes-tecnicas.md › P74",
+    "sourceFallback": "Figma, quadro nph-avatar (1434:30); docs/decisoes-tecnicas.md › P74",
+    "sourceAnatomy": "Figma, conjunto 1434:29; design.md",
+    "sourceAccessibility": "ficha nph-avatar; nph-avatar.test.ts",
+    "matrixLabel": "Matriz do componente"
+  },
+  "avatarValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "personAna": "Ana Souza",
+    "personBruno": "Bruno Lima",
+    "personCarla": "Carla Mendes"
+  },
   "validationPages": {
     "sheetTitle": "O contrato está na ficha",
     "sheetText": "Esta peça não tem página de leitura no Storybook. O contrato está em {sheet}; estas stories o comprovam.",
     "claims": {
+      "components-nph-avatar-validation--sizes": "Os três tamanhos, com foto e sem foto: um quadrado de 24, 32 e 40 px com canto arredondado, nunca um círculo.",
+      "components-nph-avatar-validation--photo": "Um src válido preenche o quadro e substitui o ícone de pessoa; a borda continua por cima da imagem.",
+      "components-nph-avatar-validation--no-photo": "Sem src, ou com um src vazio, o ícone de pessoa aparece no tamanho de ícone de cada tamanho de avatar.",
+      "components-nph-avatar-validation--photo-failed": "Um src que não carrega mantém o ícone de pessoa, sem evento e sem erro.",
+      "components-nph-avatar-validation--border": "O avatar desenha a própria borda por cima da foto: sobrepostos à mão, com margem negativa num contêiner simples, os vizinhos continuam separados. O grupo em si é o nph-avatar-stack, planejado.",
+      "components-nph-avatar-validation--accessibility": "Com label o avatar é uma imagem nomeada por ela; sem label ele fica oculto do leitor de tela e o nome ao lado fala.",
       "components-nph-badge-validation--matrix": "Cada valor de severity nos dois valores de emphasis, sem ícone.",
       "components-nph-badge-validation--with-icon": "O ícone vem antes do texto, em icon/size-sm, na cor do texto.",
       "components-nph-badge-validation--two-words": "Uma ou duas palavras ficam numa linha só: o badge não quebra.",
