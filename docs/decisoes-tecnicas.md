@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74 and P75. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75 and P76. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -43,6 +43,7 @@ P62.4 subsection for the detail).
 | **P73** | API and semantics of `nph-togglebutton` | 19/10/2026 | Low now. No piece consumes it yet; `nph-toggle-group` (DSA-23) will consume its event, so changing the event name or the state name later requires redoing both | Anatomy and behavior: board accepted by Indiane on 07/10/2026, motion answered on 19/10/2026 (D6). API and semantics reviewed in the pull request that brings them |
 | **P74** | API and semantics of `nph-avatar` | 20/10/2026 | Low now. No piece consumes it yet; `nph-select` (DSA-29) and `nph-avatar-stack` (DSA-25) will, so changing `src`, `label` or `size`, or the border over the photo, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 06/10/2026, D1 to D4 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P75** | Package `@iatec/nephos`: first release candidate | 19/10/2026 | High and public. The name, the `exports` paths and the `rc` tag are what every consumer writes in a lockfile and in an import line | Approved by Elvys on 19/10/2026. Amends P70, adopted by Indiane on 15/10/2026: her confirmation is requested in the pull request that brings it |
+| **P76** | API and semantics of `nph-toggle-group` | 20/10/2026 | Low now. No piece consumes it yet; a toolbar will, so changing `label`, `selection`, `value` or the event `nph-value-change`, or the `value` attribute each button carries, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -1618,9 +1619,140 @@ is the approval.
 
 ---
 
+## P76 — `nph-toggle-group`: API and semantics
+
+**Decision.** `nph-toggle-group` is a Web Component with **open Shadow DOM** (P01), CSS in
+its own file imported `?inline`, as in `nph-icon`. Its shadow root holds only the default
+slot, and the host is the row. It has no `::part`, no color property, no size property and no
+form association. Anatomy only through semantic tokens: the group consumes one,
+`space/inline`. Invalid input renders nothing and emits `console.error` only in development,
+one per cause — the rule of P21, adopted here by its own decision, as in P66, P68, P73 and
+P74. The names follow P64.
+
+1. **Properties.** The Figma frame has two properties, `texto` and `mostrar 3º`, and leaves
+   single and multiple selection to code. The mapping below is a technical proposal of this
+   implementation.
+
+   | Figma | API |
+   |---|---|
+   | the name of the group (`aria-label`) | `label`, String |
+   | single or multiple selection, "behavior, resolved in code" | `selection`, `single` (default) or `multiple` |
+   | the value the group receives (D3) | `value`, a list of strings; the attribute is words separated by spaces |
+   | `texto` | not a property: it is the presence of `text` on each button (P73) |
+   | `mostrar 3º` | not a property: three is only the limit of the Figma set (D2) |
+   | `marcado`, `state`, `desabilitado`, `invalido` | not properties of the group: they stay on each `nph-togglebutton` |
+
+2. **The default slot and the `value` attribute.** The group takes `nph-togglebutton`
+   children. Each child names itself with a `value` **attribute**, which the group reads with
+   `getAttribute('value')`, trimmed: a non-empty word with no space, unique in the group.
+   `nph-togglebutton` does not declare it: it ignores the attribute, it has no `value`
+   property and no type for it, and **P73 is not amended**. The cost is a contract that lives
+   in the group and not in the button; the gain is that a component already merged stays as
+   it is. A child that is not an `nph-togglebutton`, or a button without `value`, is not part
+   of the selection.
+
+3. **`value` and the source of truth.** The group is the source of truth of the selection:
+   in `willUpdate` and when the slot changes, it writes `pressed` on every child from `value`,
+   so a `pressed` attribute in the markup of a child does not survive. With no value, none is
+   checked (D3). Single selection holds zero or one item, and a second one is dropped with a
+   warning. Setting `value` from code moves the checks and never fires the event.
+
+4. **Single selection (D3).** Checking a button unchecks the others, and one button stays
+   checked once a choice is made. A click on the checked button does nothing: the group
+   listens to `click` in the **capture** phase and stops it before it reaches the button, so
+   the button does not toggle, does not flicker, `nph-change` does not fire and no group
+   event fires. Enter and Space on the native button produce the same `click`, and `click()`
+   on the button host too. Cost: that click does not reach a listener of the consumer, as the
+   click on a disabled `nph-togglebutton` does not, in P73. A disabled button is left to its
+   own rule. Multiple selection has no such block: each button toggles on its own.
+
+5. **The event `nph-value-change`.** When the person changes the selection, the group fires
+   `nph-value-change`, with `bubbles`, `composed` and no `cancelable`, and `detail: { value }`,
+   the list of checked values in the order of the buttons. The name is different from
+   `nph-change` because `HTMLElementEventMap['nph-change']` is already typed with `{ pressed }`
+   by `nph-togglebutton`, and one name cannot carry two types; the group also does not stop the
+   `nph-change` of each button, so an ancestor still hears both. A change of `value` from code
+   never fires it.
+
+6. **Semantics.** The host is `role="group"`, set in `willUpdate` as `nph-icon` and
+   `nph-avatar` do, and its name is `label`, which becomes its `aria-label`. A name the consumer
+   puts on the host with `aria-label` or `aria-labelledby` also counts; the second works only on
+   the host, because an id reference does not cross a shadow root. The buttons stay buttons with
+   `aria-pressed`. In single selection the group is **not** a `radiogroup`: P73 fixes
+   `aria-pressed` and rejects `aria-checked`, and the accepted frame separates the piece from the
+   controls that choose. **Known limit:** the screen reader reads the state of each button and
+   does not announce that the choice is exclusive.
+
+7. **Keyboard.** One Tab stop per button, in order, with no arrow keys and no roving tabindex.
+   A disabled button leaves the order. The accepted frame says each button shows its own focus
+   and that the group does not receive focus, and it asks for no arrow keys; a roving tabindex
+   across several groups is the work of a toolbar (WAI-ARIA Authoring Practices, Toolbar). The
+   group has no `tabindex` and no `delegatesFocus`. D5 of the task asks Indiane to confirm.
+
+8. **Box.** `display: inline-flex` with `gap` `space/inline` (8 px), `align-items: stretch`,
+   no wrap, no background, border, outline, opacity or transition. The height comes from each
+   button, `control/height-default`. `space/inline` is wider than the border and the halo of
+   one button (`2 × border/width + focus/ring-width`), so a focused button is not covered by
+   its neighbor.
+
+9. **Invalid input and composition.** Two causes render nothing, take no space, leave
+   `data-nph-rendered` out and emit one `console.error` each, only in development: a
+   `selection` that is not `single` or `multiple`, and no name (no `label`, no `aria-label` and
+   no `aria-labelledby`). Problems in the composition render the group anyway and emit one
+   `console.warn` each, only in development, and the same problem is not repeated while it
+   lasts: fewer than two buttons (D2, there is no maximum), a child that is not an
+   `nph-togglebutton`, a button without `value`, a repeated `value`, a value that matches no
+   button, buttons with text mixed with icon-only buttons (D4), and more than one value in
+   single selection.
+
+10. **Icons (D1).** The Alignment and Formatting examples need `align-left`, `align-center`,
+    `align-right`, `bold`, `italic` and `underline`. They enter the block `icones_nucleo` of
+    `design.md`, category `acao`, and the closed map of `nph-icon`, in `light` and `solid`,
+    Font Awesome Pro 6.7.2. The task does it; no token is created or changed.
+
+**Divergence between sources, resolved.** The Description of the accepted frame says each
+button holds its own state and the group only gathers and spaces the buttons. D3, answered
+later and repeated in the task, says the group coordinates single selection and each button
+no longer holds that choice alone. The code follows D3.
+
+**Points for review.**
+
+- **Reading `value` from an attribute** and not adding a property to `nph-togglebutton`, with
+  the cost above.
+- **The first slot of the repository.** The other pieces have none.
+- **The name `nph-value-change`**, and not `nph-change` with a union type.
+- **`role="group"` on the host**, and the known limit of single selection.
+- **The click blocked in capture** on the checked button, which hides that click from the
+  consumer.
+- **Use and do-not-use lists.** "For a single option, use `nph-togglebutton`, without a
+  group" is listed under "When to use" in the accepted frame; the sheet and the page put it in
+  "When not to use", where a redirection reads as what it is.
+- **Pending decisions D4 and D5**, with Indiane: what the group does when text and icon only
+  are mixed, and arrow keys. The code follows the defaults above meanwhile.
+
+**Source.** Frame `nph-toggle-group` (`1580:61`, set `1580:60`) of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 08/10/2026, with the Figma UX QA and the textual
+audit approved; D1 to D3 answered on 19/10/2026. The names `label`, `selection` and `value`, the
+`value` attribute of each button, the event `nph-value-change`, the semantics of the host, the
+capture rule for the click and the invalid input and composition rules are a technical proposal
+of this implementation.
+
+**Out of scope.** A toolbar and the roving tabindex across groups. `nph-switch` and
+`nph-checkbox`, which are planned. A `size`, `disabled` or `invalid` property on the group, a
+maximum, an orientation, a form association and a color property. Moving `value` into
+`nph-togglebutton`. The Usage section of the page (P70, DSA-35), the page lists read from the
+Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32). The package (P75) takes the
+component by its folder, with no change.
+
+**Status.** Anatomy and behavior accepted by Indiane on 08/10/2026; D1 to D3 answered on
+19/10/2026. API and semantics are reviewed in the pull request that brings them; the merge
+is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74 or P75 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75 or P76 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
