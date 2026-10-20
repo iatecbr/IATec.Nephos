@@ -6,15 +6,16 @@
  * English page, the three required examples in light and dark mode, and the exact
  * set of Validation stories.
  *
- * The equality of the two "When to use" lists with the Metadata (`use_when` and
- * `do_not_use_when`, P71) is not here yet: the Metadata of `nph-avatar` is generated
- * together with the spec sheet, in the next commit, which adds that test.
+ * The two "When to use" lists of the English dictionary equal the `use_when` and
+ * `do_not_use_when` of the generated Metadata, item by item (P71 is deferred to
+ * DSA-34; until then this test keeps page and sheet from diverging).
  */
 import { afterEach, describe, expect, it } from 'vitest';
 import { render } from 'lit';
 import type { TemplateResult } from 'lit';
 
 import '../../tokens/generated/tokens.css';
+import metadata from '../../shared/metadata/nph-avatar.json';
 import { sidebarLabel, translations } from '../../../.storybook/i18n/index.js';
 import { Documentation } from './nph-avatar.docs.stories';
 import * as validation from './nph-avatar.stories';
@@ -165,17 +166,26 @@ describe('nph-avatar Documentation', () => {
     }
   });
 
-  it('the translated "When to use" lists keep the same number of items as en', () => {
+  it('the translated "When to use" lists keep the same number of items as the Metadata', () => {
     for (const locale of ['pt-BR', 'es'] as const) {
-      expect(translations(locale).avatarDocs.whenToUse).toHaveLength(translations('en').avatarDocs.whenToUse.length);
-      expect(translations(locale).avatarDocs.whenNotToUse).toHaveLength(translations('en').avatarDocs.whenNotToUse.length);
+      expect(translations(locale).avatarDocs.whenToUse).toHaveLength(metadata.use_when.length);
+      expect(translations(locale).avatarDocs.whenNotToUse).toHaveLength(metadata.do_not_use_when.length);
     }
+  });
+});
+
+describe('nph-avatar Documentation: the lists of the page are the lists of the sheet', () => {
+  it('"When to use" is the use_when of the sheet, item by item', () => {
+    expect(translations('en').avatarDocs.whenToUse).toEqual(metadata.use_when);
+  });
+
+  it('"When not to use" is the do_not_use_when of the sheet, item by item', () => {
+    expect(translations('en').avatarDocs.whenNotToUse).toEqual(metadata.do_not_use_when);
   });
 
   it('the page renders every item of both lists', () => {
     const text = renderInLocale('en').textContent ?? '';
-    const d = translations('en').avatarDocs;
-    for (const item of [...d.whenToUse, ...d.whenNotToUse]) {
+    for (const item of [...metadata.use_when, ...metadata.do_not_use_when]) {
       expect(text, item).toContain(item);
     }
   });
