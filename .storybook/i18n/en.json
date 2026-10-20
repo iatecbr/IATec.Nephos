@@ -60,6 +60,15 @@
     "components-nph-skeleton-validation--people-list": "People list",
     "components-nph-skeleton-validation--card": "Card",
     "components-nph-skeleton-validation--paragraph": "Paragraph",
+    "components-nph-toggle-group-docs": "Docs",
+    "components-nph-toggle-group-docs--documentation": "Documentation",
+    "components-nph-toggle-group-validation": "Validation",
+    "components-nph-toggle-group-validation--matrix": "Matrix",
+    "components-nph-toggle-group-validation--single-selection": "Single selection",
+    "components-nph-toggle-group-validation--multiple-selection": "Multiple selection",
+    "components-nph-toggle-group-validation--button-states": "Button states",
+    "components-nph-toggle-group-validation--interactive": "Interactive",
+    "components-nph-toggle-group-validation--examples": "Examples",
     "components-nph-togglebutton-docs": "Docs",
     "components-nph-togglebutton-docs--documentation": "Documentation",
     "components-nph-togglebutton-validation": "Validation",
@@ -1330,6 +1339,205 @@
     "statusIdle": "Waiting for a click.",
     "statusChanged": "nph-change fired with detail.pressed = {pressed}."
   },
+  "toggleGroupDocs": {
+    "summary": "A group of nph-togglebutton on the same subject, side by side in a toolbar and separated by space/inline. The group gathers and spaces the buttons and coordinates the selection, single or multiple; it adds no color, border or focus of its own.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-toggle-group spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P76. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "When two or more options on the same subject stay together in the toolbar.",
+      "With text, when the icon alone does not say the option; icon only, when the icon is known and each button has a label.",
+      "Single selection when the options exclude each other, such as alignment; multiple when they add up, such as bold and italic."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "To fire actions: use nph-button.",
+      "For a single option: use nph-togglebutton, without a group.",
+      "To join the buttons without space: nph-toggle-group already brings space/inline.",
+      "To mix buttons with text and icon-only buttons in the same group: choose one.",
+      "Outside a toolbar, in a setting that turns on or off with an immediate effect: use nph-switch.",
+      "In a form, when the choice goes with the submission: use nph-checkbox."
+    ],
+    "relationsText": "The group is made of nph-togglebutton, which keeps its own color, state and focus: the group only gathers the buttons, spaces them with space/inline and coordinates the selection. It sits in a toolbar, next to other buttons. nph-switch and nph-checkbox are planned and do not exist yet. When a button is invalid, the error message stays outside the group.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "label",
+        "The name of the group, the subject: Alignment, Formatting. Required: it becomes the aria-label of the host, which is the group. A name the consumer puts on the host with aria-label or aria-labelledby also counts."
+      ],
+      [
+        "selection",
+        "single (default) or multiple. It is behavior, not appearance: in single, checking a button unchecks the others and one stays checked once a choice is made; in multiple, each button is free."
+      ],
+      [
+        "value",
+        "The checked buttons, by the value of each. The attribute takes words separated by spaces, value=\"bold italic\"; the property is a list of strings. Single holds zero or one. With no value, none is checked. The group writes pressed on every button from it. Setting it from code never fires the event."
+      ],
+      [
+        "value (on each button)",
+        "Each nph-togglebutton in the group names itself with a value attribute. The group reads it and the button ignores it. It must be a word with no space, and unique in the group."
+      ],
+      [
+        "default slot",
+        "The nph-togglebutton buttons: at least two, with no maximum. Text, label, icons, disabled and invalid stay on each button."
+      ],
+      [
+        "nph-value-change",
+        "The event fired when the person changes the selection. It bubbles, crosses the shadow root and is not cancelable. detail.value is the list of checked values, in the order of the buttons. The nph-change of each button is not stopped."
+      ]
+    ],
+    "selectionTitle": "Selection",
+    "selectionText": "The Figma frame leaves single and multiple selection to code: it is behavior, not appearance. The group coordinates it, so each button no longer decides alone.",
+    "selectionCaption": "Single with no value, single with a value, multiple with no value and multiple with two values checked.",
+    "selectionHeader": [
+      "Case",
+      "What happens"
+    ],
+    "selectionRules": [
+      [
+        "single, unchecked button",
+        "Checks it, unchecks the others and fires nph-value-change with one value."
+      ],
+      [
+        "single, checked button",
+        "Nothing: the button stays checked, no event fires and the click does not reach the page. One button is always checked once a choice is made."
+      ],
+      [
+        "single, no value",
+        "None is checked until the first click."
+      ],
+      [
+        "multiple",
+        "Each click checks or unchecks that button; the value gathers the checked ones, in the order of the buttons."
+      ],
+      [
+        "from code",
+        "Setting value moves the checks and never fires the event. The group is the source of truth: a pressed attribute on a button is overwritten."
+      ],
+      [
+        "composition",
+        "With fewer than two buttons the group still renders and logs a warning in development. Mixing buttons with text and icon-only buttons logs a warning too."
+      ]
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Container",
+        "The host, a row with space/inline between the buttons. No background, border, outline or focus of its own. With invalid input, it takes no space."
+      ],
+      [
+        "Button",
+        "An nph-togglebutton, with its own state: pressed, focus, disabled and invalid. 36 px high, control/height-default."
+      ],
+      [
+        "Space",
+        "space/inline (8 px) between neighbors: the buttons are never joined, and the space avoids the wrong touch."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "The host is role=group, named by label. Each button is a native button with aria-pressed (nph-togglebutton). Single selection is not a radio group: the screen reader reads the state of each button and does not announce that the choice is exclusive."
+      ],
+      [
+        "Accessible name",
+        "The group is named with the subject (label). Each icon-only button gets its own label."
+      ],
+      [
+        "Keyboard",
+        "One Tab stop per button, in order; a disabled button is skipped. Enter and Space toggle. There are no arrow keys: a roving tabindex across groups belongs to a toolbar."
+      ],
+      [
+        "Visible focus",
+        "Each button shows its own focus, as nph-togglebutton does. The group does not receive focus."
+      ],
+      [
+        "Contrast",
+        "It comes from nph-togglebutton, on its own background in both modes. The group adds no color."
+      ],
+      [
+        "Color is not the only signal",
+        "The pressed button changes its inner area (background, shadow and outline), not only the text color."
+      ],
+      [
+        "Touch target",
+        "Each button is control/height-default high, and neighbors are space/inline apart."
+      ],
+      [
+        "Known limit",
+        "The focus border of nph-togglebutton, color/primary, is below 3:1 in dark mode in some brands, as the nph-togglebutton page documents. The group does not change it."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleAlignment": "Alignment: icon only, single selection.",
+    "exampleFormatting": "Formatting: icon only, multiple selection.",
+    "exampleView": "View: with text, single selection.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "list": "List",
+    "grid": "Grid",
+    "table": "Table",
+    "left": "Align left",
+    "center": "Align center",
+    "right": "Align right",
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "alignmentGroup": "Alignment",
+    "formattingGroup": "Formatting",
+    "viewGroup": "View",
+    "referencesTitle": "References",
+    "references": [
+      "nph-toggle-group spec sheet — purpose, anatomy, selection, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P76 (API and semantics), P73, P01, P02 and P03.",
+      "design.md — space/inline and control/height-default; the core icons align-left, align-center, align-right, bold, italic and underline.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Toggle Group, frame nph-toggle-group (1580:61) and set 1580:60.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-toggle-group spec sheet; Figma, frame nph-toggle-group (1580:61)",
+    "sourceApi": "nph-toggle-group spec sheet; docs/decisoes-tecnicas.md › P76",
+    "sourceSelection": "nph-toggle-group spec sheet; docs/decisoes-tecnicas.md › P76",
+    "sourceAnatomy": "Figma, set 1580:60; design.md",
+    "sourceAccessibility": "nph-toggle-group spec sheet; nph-toggle-group.test.ts",
+    "matrixLabel": "Component matrix"
+  },
+  "toggleGroupValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "list": "List",
+    "grid": "Grid",
+    "table": "Table",
+    "left": "Align left",
+    "center": "Align center",
+    "right": "Align right",
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "alignmentGroup": "Alignment",
+    "formattingGroup": "Formatting",
+    "viewGroup": "View",
+    "exampleAlignment": "Alignment",
+    "exampleFormatting": "Formatting",
+    "exampleView": "View",
+    "statusIdle": "Waiting for a click.",
+    "statusChanged": "nph-value-change fired with detail.value = {value}.",
+    "statusNone": "(empty)"
+  },
   "avatarDocs": {
     "summary": "The picture of a person: the photo, or the person icon when there is none. A square with rounded corners, in three sizes, with a border drawn over the photo. It shows who the person is next to the name; it is not a button and it opens nothing.",
     "onThisPage": "On this page",
@@ -1521,6 +1729,12 @@
       "components-nph-spinner-validation--sizes": "sm inside a button or field; md in a content area.",
       "components-nph-spinner-validation--accessibility": "With text beside it, the spinner is decorative; without text, it has an accessible name.",
       "components-nph-spinner-validation--invalid-input": "size=\"lg\" does not exist: nothing is drawn, and the area below stays empty on purpose.",
+      "components-nph-toggle-group-validation--matrix": "Two and three buttons, with text and icon only, in a group named by its subject; each button keeps its own state.",
+      "components-nph-toggle-group-validation--single-selection": "Single selection: it starts empty or with a value, checking one unchecks the others, and a click on the checked button does nothing.",
+      "components-nph-toggle-group-validation--multiple-selection": "Multiple selection: each button checks and unchecks on its own, and the value gathers the checked ones.",
+      "components-nph-toggle-group-validation--button-states": "Disabled and invalid stay on each button: the group adds nothing, and the error message stays outside it.",
+      "components-nph-toggle-group-validation--interactive": "A click changes the selection and fires nph-value-change with detail.value, shown below the group; setting value from code does not fire it.",
+      "components-nph-toggle-group-validation--examples": "The three required examples, each in light and dark mode: Alignment, Formatting and View.",
       "components-nph-togglebutton-validation--matrix": "Pressed off and on, valid and invalid, with text. Move the mouse over a button to see hover and press Tab to see focus.",
       "components-nph-togglebutton-validation--icons": "Start and end icons: auto swaps xmark and check with the state, none draws no icon and a core name is one fixed icon.",
       "components-nph-togglebutton-validation--icon-only": "Icon only: one icon, a label as the accessible name, 50 by 36 px and not square, side by side with one on.",
