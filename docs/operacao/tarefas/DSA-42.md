@@ -29,21 +29,15 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D1",
-      "question": "The documentation shows four sides (top by default, bottom, left, right), but the Figma component has no side property. Does Indiane create that property in Figma? It does not block the code: placement is behavior and follows the evidence.",
-      "decider": "indiane",
-      "opened_at": "2026-10-20"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-42/documentacao-figma-aceita-2026-10-20.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane redefined the nph-tooltip: any element, opened on hover and on focus, Esc closes, no touch opening, no hover delay, enter 250 ms and exit 150 ms, four sides with top by default",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, textual audit approved; the balloon stays open while the pointer is over it; help text never moves into the balloon"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, textual audit approved; the balloon stays open while the pointer is over it; help text never moves into the balloon",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, Indiane answered D1: the Figma component gets no side property"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -102,12 +96,11 @@ with the same value as Figma; no token is created or changed.
 tests, stories, both specs and the amended P62.6 and P65 pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
-## Pending decisions
-It does not block the code. The answer only adjusts the Figma set.
+## Decisions answered
 
-| ID | What the evidence gives | What is missing | What the code does meanwhile |
-|---|---|---|---|
-| D1 | Four sides, top by default, flipping when it does not fit. | Whether Figma gains a side property. | Implements the placement as behavior. |
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | The Figma component gets no side property: the balloon has no arrow, so it looks the same on any side, and the side is behavior. | Implements the placement as behavior: top by default, flipping when it does not fit; may also sit bottom, left or right. |
 
 ## Relations with other tasks
 - DSA-08 (done) holds the current component; this task updates it.
