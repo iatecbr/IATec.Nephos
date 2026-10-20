@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 220,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-avatar",
   "dependencies": [],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-24/review-and-merge-2026-10-20.md",
+      "result": "passed",
+      "verified_at": "2026-10-20",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -38,7 +38,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-24/documentacao-figma-aceita-2026-10-06.md"
+    "docs/operacao/evidencias/DSA-24/documentacao-figma-aceita-2026-10-06.md",
+    "docs/operacao/evidencias/DSA-24/review-and-merge-2026-10-20.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -54,10 +55,10 @@
   },
   "git_review": {
     "branch": "claude/dsa-24-nph-avatar-9feadc",
-    "commit": null,
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/90"
+    "commit": "d4bbf089bcb081eb452485c66fbd4c515727c47c",
+    "pr": "90"
   },
-  "context": "docs/operacao/contextos/DSA-24.md",
+  "context": null,
   "updated_at": "2026-10-20"
 }
 ```

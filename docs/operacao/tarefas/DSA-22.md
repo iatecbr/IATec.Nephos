@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 200,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-togglebutton",
   "dependencies": [],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-22/review-and-merge-2026-10-20.md",
+      "result": "passed",
+      "verified_at": "2026-10-20",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -38,7 +38,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-22/documentacao-figma-aceita-2026-10-07.md"
+    "docs/operacao/evidencias/DSA-22/documentacao-figma-aceita-2026-10-07.md",
+    "docs/operacao/evidencias/DSA-22/review-and-merge-2026-10-20.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -52,9 +53,13 @@
     "excerpt": null,
     "converted_decision": "The nph-togglebutton board (1512:27498) was accepted as the API and behavior specification of the nph-togglebutton. COMPONENT_SET 1512:719. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "claude/dsa-22-nph-togglebutton-60e852", "commit": null, "pr": "https://github.com/iatecbr/IATec.Nephos/pull/87" },
-  "context": "docs/operacao/contextos/DSA-22.md",
-  "updated_at": "2026-10-19"
+  "git_review": {
+    "branch": "claude/dsa-22-nph-togglebutton-60e852",
+    "commit": "5dad80e718ce9440eeaee41a93fe0abc5883859e",
+    "pr": "87"
+  },
+  "context": null,
+  "updated_at": "2026-10-20"
 }
 ```
 
