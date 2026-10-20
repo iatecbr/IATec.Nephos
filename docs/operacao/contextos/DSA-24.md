@@ -19,14 +19,17 @@ Metadata) from the contract in the `figma-docs-accepted` evidence.
 - `docs/decisoes-tecnicas.md` — P21, P66, P68, P73
 
 ## Changes
-The task moves to in progress with the pending decision D5. The component, its CSS and
-tests follow in the next commits. See the commits on the branch.
+The component, CSS and tests; the Validation stories, the Docs page and the dictionary;
+the sheet, the Metadata and P74. See the commits on the branch.
 
 ## Commands run
 - `npm ci`, then `npm run test:operacao` before the first commit.
+- `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:operacao`,
+  `build-storybook` and `git diff --check`: exit 0
+- `npm run test:naming`: exit 1, only on `DSA-34.md` and `DSA-39.md`, which this pass does not touch
 
 ## Result
-In progress. Nothing delivered yet beyond the task state.
+The deliverable is complete and open in PR 90, targeting `v/5.0.0`, with review requested from `maurocsjr`.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -35,4 +38,4 @@ None recorded: `review-and-merge` waits for the PR.
 None. D5 (`use` text of the tokens in `design.md`) waits for Indiane and does not block.
 
 ## Next command
-Commit the component, then the stories, the Docs page and the sheet.
+Review and merge of PR 90; then close the task with the `review-and-merge` evidence.

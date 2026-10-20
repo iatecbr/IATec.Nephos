@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 220,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-avatar",
   "dependencies": [],
   "gates": [
@@ -55,7 +55,7 @@
   "git_review": {
     "branch": "claude/dsa-24-nph-avatar-9feadc",
     "commit": null,
-    "pr": null
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/90"
   },
   "context": "docs/operacao/contextos/DSA-24.md",
   "updated_at": "2026-10-20"
