@@ -1710,6 +1710,15 @@ P74. The names follow P64.
     `design.md`, category `acao`, and the closed map of `nph-icon`, in `light` and `solid`,
     Font Awesome Pro 6.7.2. The task does it; no token is created or changed.
 
+11. **The package (P75).** `nph-toggle-group` is the first tag with two parts after the
+    prefix. P75 says a component added later enters by adding its folder, but three checks
+    of the package assumed one part, `nph-[a-z]+`: the filter of the Custom Elements Manifest in
+    `custom-elements-manifest.config.mjs`, and the two expressions of `scripts/test-package.mjs`
+    that read the tag and the imports of a component. They now take
+    `nph-[a-z]+(?:-[a-z]+)*`, so the promise of P75 holds; without it `npm run test:package`
+    fails for the group (the tag is not in the manifest, and its bare import is not found).
+    No other line of those files changes.
+
 **Divergence between sources, resolved.** The Description of the accepted frame says each
 button holds its own state and the group only gathers and spaces the buttons. D3, answered
 later and repeated in the task, says the group coordinates single selection and each button
@@ -1741,8 +1750,7 @@ of this implementation.
 `nph-checkbox`, which are planned. A `size`, `disabled` or `invalid` property on the group, a
 maximum, an orientation, a form association and a color property. Moving `value` into
 `nph-togglebutton`. The Usage section of the page (P70, DSA-35), the page lists read from the
-Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32). The package (P75) takes the
-component by its folder, with no change.
+Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
 
 **Status.** Anatomy and behavior accepted by Indiane on 08/10/2026; D1 to D3 answered on
 19/10/2026. API and semantics are reviewed in the pull request that brings them; the merge
