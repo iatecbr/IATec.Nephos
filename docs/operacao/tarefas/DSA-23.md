@@ -5,9 +5,11 @@
   "phase": "F4",
   "approved_order": 210,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-toggle-group",
-  "dependencies": ["DSA-22"],
+  "dependencies": [
+    "DSA-22"
+  ],
   "gates": [
     {
       "id": "figma-docs-accepted",
@@ -29,7 +31,20 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D4",
+      "question": "The evidence says not to mix buttons with text and icon-only buttons in the same group, but it does not say what the component does when someone does. The code renders the group and warns in the console in development. Does Indiane confirm the warning, or want the group not to render? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-20"
+    },
+    {
+      "id": "D5",
+      "question": "The evidence does not ask for arrow keys inside the group and does not say whether the group is one Tab stop or one per button. The code keeps one Tab stop per button, with no arrow keys; a roving tabindex across groups would belong to a future toolbar. Does Indiane confirm? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-20"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-23/documentacao-figma-aceita-2026-10-08.md"
   ],
@@ -46,11 +61,11 @@
     "converted_decision": "The nph-toggle-group frame (1580:61) was accepted as the API and behavior specification of the nph-toggle-group. COMPONENT_SET 1580:60. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": {
-    "branch": null,
+    "branch": "claude/dsa-23-nph-toggle-group-5f3299",
     "commit": null,
     "pr": null
   },
-  "context": null,
+  "context": "docs/operacao/contextos/DSA-23.md",
   "updated_at": "2026-10-20"
 }
 ```
@@ -83,6 +98,14 @@ is `done`, so B1 is closed and the task is `ready`.
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
 tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
+
+## Pending decisions
+The evidence gives the whole contract, so the code can start. Two points remain for Indiane; the code follows the stated default meanwhile, and the answer only adjusts one rule each.
+
+| ID | What the evidence gives | What is missing | What the code does with the answer |
+|---|---|---|---|
+| D4 | A Do not: do not mix buttons with text and icon only in the same group. | What the component does when someone mixes them. | Warns in the console in development and renders. If the answer is not to render, the group follows the invalid-input rule. |
+| D5 | Each button shows its own focus; the group does not receive focus. | Whether arrow keys move between the buttons, and whether the group is one Tab stop. | One Tab stop per button, no arrow keys. If the answer is a roving tabindex, the group takes it. |
 
 ## What this task does not do
 It does not create a token or change a token value.
