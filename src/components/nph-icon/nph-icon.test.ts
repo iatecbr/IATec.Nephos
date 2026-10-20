@@ -95,11 +95,12 @@ describe('closed core of `icones_nucleo` in design.md', () => {
 describe('alignment and text formatting icons (DSA-23, D1)', () => {
   const NAMES = ['align-left', 'align-center', 'align-right', 'bold', 'italic', 'underline'];
 
-  it('are core names, listed in the `acao` category of design.md', () => {
-    const acao = /\n  acao:\s*\n\s*familia: 'Classic Light'\s*\n\s*icones: \[([^\]]+)\]/.exec(
-      designMd.slice(designMd.indexOf('icones_nucleo:')),
-    );
-    const listed = (acao?.[1] ?? '').split(',').map((name) => name.trim());
+  it('are core names, listed in the action category of design.md (the third list of the block)', () => {
+    const start = designMd.indexOf('icones_nucleo:');
+    const block = designMd.slice(start, designMd.indexOf('icones_segunda_leva:'));
+    const action = [...block.matchAll(/icones:\s*\[([^\]]+)\]/g)][2]?.[1] ?? '';
+    const listed = action.split(',').map((name) => name.trim());
+    expect(listed).toContain('check');
     for (const name of NAMES) {
       expect(NPH_ICON_NAMES as readonly string[], name).toContain(name);
       expect(listed, name).toContain(name);
