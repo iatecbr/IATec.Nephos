@@ -348,6 +348,29 @@ describe('the photo', () => {
     expect(icon(element)).not.toBeNull();
   });
 
+  it('a late event from a picture that is no longer the current one is ignored', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const element = await mount({ src: PHOTO });
+    await settled(element);
+    await vi.waitFor(() => expect(photo(element)?.hidden).toBe(false));
+    const old = photo(element) as HTMLImageElement;
+    element.src = '';
+    await element.updateComplete;
+    expect(photo(element)).toBeNull();
+    element.src = OTHER_PHOTO;
+    await element.updateComplete;
+    await settled(element);
+    await vi.waitFor(() => expect(photo(element)?.hidden).toBe(false));
+    expect(photo(element)).not.toBe(old);
+    /* The picture that was removed can still fire a pending `error` or `load` afterwards. */
+    old.dispatchEvent(new Event('error'));
+    await element.updateComplete;
+    expect((element as unknown as { photo: string }).photo).toBe('loaded');
+    expect(photo(element)?.hidden).toBe(false);
+    expect(icon(element)).toBeNull();
+    expect(error).not.toHaveBeenCalled();
+  });
+
   it('a src with only spaces is no photo: no picture, the icon', async () => {
     const element = await mount({ src: '   ' });
     expect(photo(element)).toBeNull();

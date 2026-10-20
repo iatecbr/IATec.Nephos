@@ -126,7 +126,16 @@ export class NphAvatar extends LitElement {
     }
   }
 
-  private setPhoto(status: PhotoStatus): void {
+  /**
+   * Only the `<img>` that is drawn now, with the address the picture gets now, may set the
+   * status. A picture that was removed (`src` went A, empty, B) can still fire the `load` or
+   * `error` of its pending request, and that late event must not touch the current photo.
+   */
+  private onPhotoEvent(event: Event, status: PhotoStatus): void {
+    const image = event.currentTarget as HTMLImageElement;
+    if (image !== this.renderRoot.querySelector('img') || image.getAttribute('src') !== normalizeSrc(this.src)) {
+      return;
+    }
     this.photo = status;
     this.requestUpdate();
   }
@@ -145,8 +154,8 @@ export class NphAvatar extends LitElement {
         : html`<img
             alt=""
             ?hidden=${this.photo !== 'loaded'}
-            @load=${() => this.setPhoto('loaded')}
-            @error=${() => this.setPhoto('error')}
+            @load=${(event: Event) => this.onPhotoEvent(event, 'loaded')}
+            @error=${(event: Event) => this.onPhotoEvent(event, 'error')}
             src=${src}
           />`;
     return html`${icon}${photo}`;
