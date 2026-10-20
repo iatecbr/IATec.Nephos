@@ -39,6 +39,11 @@ A button that triggers an action with a single icon and no visible text.
 Selection: `nph-icon-button` — properties `tipo`, `enfase`, `size`, `state`,
 `forma` and the icon. In code, it is the `nph-button` without text.
 
+Figma property to code attribute of the `nph-button`: `tipo` → `severity`,
+`enfase` → `emphasis`, `size` → `size`, `state` → `disabled` and `loading`
+(hover and focus are browser states), icon → `icon-start` or `icon-end`.
+`forma` has no attribute yet: this task creates it.
+
 ## Description
 Use it for a universal, recognizable action without text, such as close, search
 or open more options. The icon says the action and the accessible label gives

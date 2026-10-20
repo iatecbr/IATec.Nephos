@@ -20,7 +20,7 @@
     },
     {
       "id": "review-and-merge",
-      "description": "Component, CSS, tests, stories and the nph-button spec pass the proof commands and are merged into v/5.0.0.",
+      "description": "Component, CSS, tests, stories and the nph-button spec pass the proof commands and are merged into v/5.0.0, after DSA-42 is done.",
       "command": null,
       "evidence": null,
       "result": "pending",
@@ -77,6 +77,7 @@ stays the `nph-button` without text: no new tag.
 | Disabled by `--nph-state-disabled-opacity` | Unchanged, in both shapes |
 | No tooltip | Every icon-only button shows an `nph-tooltip` with the action name, on hover and on focus |
 | Spec covers text and icon-only | Spec gains the shape, the tooltip rule and the actions column of a table |
+| Spec: `danger` "Do not use with an icon only: write the text." | Icon only on an action with consequence, such as delete, is allowed only in the actions column of a table, with the tooltip giving the name; elsewhere, write the text |
 
 The attribute name of the shape is part of the code API (English, P64) and is
 chosen in the pull request. The shape changes neither the size nor the touch
@@ -86,9 +87,12 @@ target.
 Every token it uses is on `v/5.0.0` with the same value as Figma
 (`--nph-radius-full` is `9999px`, `--nph-radius-control` is `6px`,
 `--nph-state-disabled-opacity` is `0.5`); no token is created or changed. The
-circular shape can be built now. The tooltip uses the `nph-tooltip` contract of
-DSA-42, which is ready in parallel: how an element attaches the balloon in code
-is defined there.
+circular shape can be built now. The tooltip part starts only after DSA-42 is
+merged: today the `nph-tooltip` never opens on hover and leaves opening and
+positioning to the consumer. Do not build hover or focus opening inside the
+`nph-button`; use the contract DSA-42 delivers, where it is defined how an
+element attaches the balloon in code. The `review-and-merge` gate of this task
+passes only with DSA-42 in `done`.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
@@ -96,7 +100,7 @@ tests, stories and `fichas/nph-button.md` pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## Relations with other tasks
-- DSA-42 (ready) updates the `nph-tooltip` to open on hover and on focus for
+- DSA-42 (ready) must be merged before the tooltip part of this task. It updates the `nph-tooltip` to open on hover and on focus for
   any element; the tooltip of the icon-only button follows that contract.
 - The `nph-button` with text does not change in this task.
 
