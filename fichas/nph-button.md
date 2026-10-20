@@ -162,7 +162,7 @@ tokens:
 ai_hints:
   - "An action that happens on the screen is nph-button. Going to another destination is navigation, not a button."
   - "Choose severity by the meaning of the action, never by the color."
-  - "One main action per block; the others go in outline, light or ghost."
+  - "One main action per block, in primary solid; the action beside it goes in secondary solid. Outline is not the default."
   - "Set size large on a touch screen and the same size as the field beside it."
   - "Without text, fill in label; an action with a consequence always has text."
   - "While the action takes time, use loading instead of turning the button off without explanation."
@@ -335,7 +335,7 @@ in P68: the `use` of some tokens in `design.md` does not cite this usage yet.
 - An action that happens on the screen is `nph-button`. Going to another destination is navigation, not a
   button.
 - Choose `severity` by the meaning of the action, never by the color.
-- One main action per block; the others go in `outline`, `light` or `ghost`.
+- One main action per block, in `primary` `solid`; the action beside it goes in `secondary` `solid`. `outline` is not the default.
 - Set `size` `large` on a touch screen and the same size as the field beside it.
 - Without text, fill in `label`; an action with a consequence always has text.
 - While the action takes time, use `loading` instead of turning the button off without explanation.
@@ -344,7 +344,7 @@ in P68: the `use` of some tokens in `design.md` does not cite this usage yet.
 ## Examples
 
 **Recommended case:** in the footer of a form, "Save" in `primary` `solid` next to
-"Cancel" in `secondary` `outline`, both in `size` `default`.
+"Cancel" in `secondary` `solid`, both in `size` `default`.
 
 **Alternative case:** "Delete account" in `danger` `solid`, always with text; and, for the
 universal close action, the icon-only button `xmark` in `secondary` `ghost`, with `label` "Close".

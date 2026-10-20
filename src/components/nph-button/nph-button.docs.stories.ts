@@ -164,7 +164,7 @@ export const Documentation: Story = {
             ${demo(
               html`<div style=${row}>
                 <nph-button size="default" text=${save} disabled></nph-button>
-                <nph-button size="default" emphasis="outline" severity="secondary" text=${cancel} disabled></nph-button>
+                <nph-button size="default" severity="secondary" text=${cancel} disabled></nph-button>
                 <nph-button size="default" text=${save} loading></nph-button>
                 <nph-button size="default" icon-start="xmark" label=${close} loading></nph-button>
               </div>`,
@@ -192,7 +192,7 @@ export const Documentation: Story = {
             ${demo(
               html`<div style=${row}>
                 <nph-button size="default" text=${save}></nph-button>
-                <nph-button size="default" severity="secondary" emphasis="outline" text=${cancel}></nph-button>
+                <nph-button size="default" severity="secondary" text=${cancel}></nph-button>
               </div>`,
               d.exampleForm,
             )}
