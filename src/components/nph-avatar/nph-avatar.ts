@@ -45,6 +45,11 @@ export function isSize(value: string): value is NphAvatarSize {
 /** Where the photo is: waiting for it, drawn, or failed. */
 type PhotoStatus = 'loading' | 'loaded' | 'error';
 
+/** The address the picture gets: `src` without surrounding spaces, empty when missing. */
+function normalizeSrc(src: string | null | undefined): string {
+  return (src ?? '').trim();
+}
+
 /** Development error; outside a bundler with `import.meta.env`, it stays silent. */
 function devError(message: string): void {
   if (import.meta.env?.DEV) {
@@ -94,7 +99,11 @@ export class NphAvatar extends LitElement {
       this.valid = valid;
       this.toggleAttribute(RENDERED_ATTRIBUTE, valid);
     }
-    if (changed.has('src')) {
+    /* The wait starts over only when the address the picture gets changes: `render` trims
+       `src`, so a change in the surrounding spaces hands the same address to the same
+       `<img>`, no new `load` or `error` comes, and the status must stay. On the first
+       update the previous value is `undefined`, which counts as the empty address. */
+    if (changed.has('src') && normalizeSrc(changed.get('src') as string | undefined) !== normalizeSrc(this.src)) {
       this.photo = 'loading';
     }
     this.applySemantics();
@@ -126,7 +135,7 @@ export class NphAvatar extends LitElement {
     if (!this.valid) {
       return nothing;
     }
-    const src = (this.src ?? '').trim();
+    const src = normalizeSrc(this.src);
     const icon =
       src !== '' && this.photo === 'loaded' ? nothing : html`<nph-icon name="user" size=${this.size}></nph-icon>`;
     /* The listeners come before `src`, so a photo that is already cached is not missed. */

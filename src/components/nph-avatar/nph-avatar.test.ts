@@ -312,6 +312,33 @@ describe('the photo', () => {
     expect(photo(element)?.hidden).toBe(true);
   });
 
+  it('a src that changes only by surrounding spaces keeps the loaded photo shown', async () => {
+    const element = await mount({ src: PHOTO });
+    await vi.waitFor(() => expect(photo(element)?.hidden).toBe(false));
+    const image = photo(element);
+    element.src = `  ${PHOTO}  `;
+    await element.updateComplete;
+    /* The address the picture gets is the same, so no new load comes: the photo must stay. */
+    expect(photo(element)).toBe(image);
+    expect(photo(element)?.hidden).toBe(false);
+    expect(icon(element)).toBeNull();
+  });
+
+  it('a src that changes only by surrounding spaces keeps a failed photo failed', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const element = await mount({ src: BROKEN_PHOTO });
+    await settled(element);
+    /* `complete` can turn true a moment before the `error` event reaches the component. */
+    await vi.waitFor(() => expect((element as unknown as { photo: string }).photo).toBe('error'));
+    await element.updateComplete;
+    element.src = `  ${BROKEN_PHOTO}  `;
+    await element.updateComplete;
+    expect((element as unknown as { photo: string }).photo).toBe('error');
+    expect(photo(element)?.hidden).toBe(true);
+    expect(icon(element)).not.toBeNull();
+    expect(error).not.toHaveBeenCalled();
+  });
+
   it('removing src goes back to the icon and draws no picture at all', async () => {
     const element = await mount({ src: PHOTO });
     await vi.waitFor(() => expect(photo(element)?.hidden).toBe(false));
