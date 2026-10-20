@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 210,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-toggle-group",
   "dependencies": [
     "DSA-22"
@@ -62,8 +62,8 @@
   },
   "git_review": {
     "branch": "claude/dsa-23-nph-toggle-group-5f3299",
-    "commit": null,
-    "pr": null
+    "commit": "484345871ffe9ad237bab17fa9f12ffb1bea4c04",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/92"
   },
   "context": "docs/operacao/contextos/DSA-23.md",
   "updated_at": "2026-10-20"

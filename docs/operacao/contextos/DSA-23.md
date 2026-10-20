@@ -20,15 +20,19 @@ icons of D1.
 - `docs/decisoes-tecnicas.md` — P21, P68, P73, P74, P75
 
 ## Changes
-The task moves to in progress with the pending decisions D4 and D5. The icons, the
-component, its CSS, tests, stories and sheet follow in the next commits. See the commits on
-the branch.
+The six core icons; the component, CSS and tests; the Validation stories, the Docs page and
+the dictionary; the sheet, the Metadata and P76; the widened tag pattern of the package
+checks. See the commits on the branch.
 
 ## Commands run
-- `npm ci`, then `npm run test:operacao` before the first commit.
+- `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:operacao`,
+  `build-storybook` and `git diff --check`: exit 0
+- `npm run build:lib` and `npm run test:package`: exit 0
+- `npm run test:naming`: exit 1, in files this pass does not touch: `scripts/test-package.mjs:180`
+  and the Portuguese prose of `DSA-34.md`, `DSA-39.md`, `DSA-42`, `DSA-43`
 
 ## Result
-In progress. Nothing delivered yet beyond the task state.
+The deliverable is complete and open in PR 92, targeting `v/5.0.0`, with review requested from `maurocsjr`.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -37,4 +41,4 @@ None recorded: `review-and-merge` waits for the PR.
 None. D4 and D5 wait for Indiane and do not block.
 
 ## Next command
-Commit the six icons, then the component, the stories, the Docs page and the sheet.
+Review and merge of PR 92; then close the task with the `review-and-merge` evidence.
