@@ -20,7 +20,7 @@
  * Run with: npm run build:lib && npm run test:package
  */
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { dirname, join, relative } from 'node:path';
+import { dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -127,6 +127,33 @@ for (const name of components) {
   check(manifestTags.has(name), `${name}: not described in custom-elements.json`);
 }
 check(components.length > 0, 'no component folder found');
+/*
+ * Every path the manifest names is a file the package ships, relative to the
+ * package root (`dist/` is in `files`), and no tag name is left as the constant
+ * `TAG`. A manifest that points at `src/` describes files nobody receives.
+ */
+const manifestModules = new Set((manifest?.modules ?? []).map((module) => module.path));
+const manifestReferences = [];
+(function collect(node) {
+  if (Array.isArray(node)) node.forEach(collect);
+  else if (node !== null && typeof node === 'object') {
+    for (const [key, value] of Object.entries(node)) {
+      if (key === 'module' && typeof value === 'string') manifestReferences.push(value);
+      else collect(value);
+    }
+  }
+})(manifest?.modules ?? []);
+for (const path of [...manifestModules, ...manifestReferences]) {
+  check(
+    path.startsWith('dist/') && existsSync(join(root, path)) && (pkg.files ?? []).includes('dist'),
+    `custom-elements.json names ${path}, which is not a file of the package`,
+  );
+}
+for (const reference of manifestReferences) {
+  check(manifestModules.has(reference), `custom-elements.json refers to module ${reference}, which it does not describe`);
+}
+check(!manifestTags.has('TAG'), 'custom-elements.json still has the constant TAG as a tag name');
+
 for (const tag of manifestTags) {
   check(components.includes(tag), `custom-elements.json describes ${tag}, which is not a component folder`);
 }
@@ -147,9 +174,11 @@ const importLine = /import\s+(?:[^'"\n]*?from\s+)?['"]([^'"]+)['"]/g;
 const documentFiles = [
   ...walk(join(root, 'src')),
   ...walk(join(root, '.storybook')),
-  ...walk(join(root, 'docs')).filter(
-    (file) => !file.endsWith('decisoes-tecnicas.md') && !file.includes(`${join(root, 'docs/operacao')}/`),
-  ),
+  ...walk(join(root, 'docs')).filter((file) => {
+    /* Compared as a posix path, so the filter is the same on Windows. */
+    const posixPath = relative(root, file).split(sep).join('/');
+    return posixPath !== 'docs/decisoes-tecnicas.md' && !posixPath.startsWith('docs/operacao/');
+  }),
   ...walk(join(root, 'fichas')),
   join(root, 'README.md'),
   join(root, 'README.pt-BR.md'),

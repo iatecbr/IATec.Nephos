@@ -17,23 +17,35 @@
  */
 import { execFileSync } from 'node:child_process';
 import { copyFileSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist');
-const bin = (name) => join(root, 'node_modules', '.bin', name);
+const require = createRequire(join(root, 'package.json'));
 
-function run(label, command, args) {
+/**
+ * The JavaScript entry of a CLI, read from the `bin` field of its package. It
+ * runs with the same Node that runs this script, so no `node_modules/.bin` shim
+ * (a shell script on Unix, a `.cmd` file on Windows) is executed.
+ */
+function entryOf(packageName, binName) {
+  const manifestPath = require.resolve(`${packageName}/package.json`);
+  const { bin } = require(manifestPath);
+  return join(dirname(manifestPath), typeof bin === 'string' ? bin : bin[binName]);
+}
+
+function run(label, entry, args) {
   console.log(`\n> ${label}`);
-  execFileSync(command, args, { cwd: root, stdio: 'inherit' });
+  execFileSync(process.execPath, [entry, ...args], { cwd: root, stdio: 'inherit' });
 }
 
 rmSync(dist, { recursive: true, force: true });
 mkdirSync(dist, { recursive: true });
 
-run('javascript (vite)', bin('vite'), ['build', '--config', 'vite.config.lib.ts']);
-run('declarations (tsc)', bin('tsc'), ['--project', 'tsconfig.build.json']);
+run('javascript (vite)', entryOf('vite', 'vite'), ['build', '--config', 'vite.config.lib.ts']);
+run('declarations (tsc)', entryOf('typescript', 'tsc'), ['--project', 'tsconfig.build.json']);
 
 /** Declarations are written by `tsc` as the source imports them: no extension. */
 function fixDeclarations(folder) {
@@ -59,6 +71,6 @@ copyFileSync(join(root, 'src/tokens/generated/tokens.css'), join(dist, 'tokens.c
 copyFileSync(join(root, 'src/styles/scrollbar.css'), join(dist, 'scrollbar.css'));
 console.log('dist/tokens.css, dist/scrollbar.css');
 
-run('custom elements manifest', bin('cem'), ['analyze', '--config', 'custom-elements-manifest.config.mjs']);
+run('custom elements manifest', entryOf('@custom-elements-manifest/analyzer', 'cem'), ['analyze', '--config', 'custom-elements-manifest.config.mjs']);
 
 console.log('\nbuild:lib done: dist/');
