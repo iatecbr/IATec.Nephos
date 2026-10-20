@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 350,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -21,15 +21,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "PR #84 (audit/storybook-impeccable) changes src/shared/docs/page.ts, .storybook/ and the dictionaries; starting before its merge means conflicts.",
-      "owner": "elvys",
-      "what_resolves": "PR #84 merged into v/5.0.0.",
-      "opened_at": "2026-10-15"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [],
   "decision_refs": [
@@ -44,7 +36,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-16"
+  "updated_at": "2026-10-20"
 }
 ```
 
@@ -54,7 +46,7 @@
 The `text` and `list` blocks of `src/shared/docs/page.ts` use `text/body-lg`, the `nph-button` `Docs` page has Anatomy, and the `nph-icon` `Docs` page has Anatomy and Examples, in the position of the model. The existing Examples of `nph-button` are checked against the frame `1197:5449`: its icon-only example uses `plus`, and the page uses `xmark`.
 
 ## Decisions answered
-Indiane answered D1 to D3. The task waits only for B1.
+Indiane answered D1 to D3. B1 is closed: PR #84 is merged.
 
 | ID | Answer | What the code does |
 |---|---|---|

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 370,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -21,15 +21,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "PR #84 (audit/storybook-impeccable) changes src/shared/docs/page.ts, .storybook/ and the dictionaries; starting before its merge means conflicts.",
-      "owner": "elvys",
-      "what_resolves": "PR #84 merged into v/5.0.0.",
-      "opened_at": "2026-10-15"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [],
   "decision_refs": [
@@ -45,7 +37,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-16"
+  "updated_at": "2026-10-20"
 }
 ```
 
@@ -55,7 +47,7 @@
 `import 'nephos/nph-<name>';` resolves to a build in `dist/` that registers the component with its CSS, and every `Docs` page has a Usage section right after API.
 
 ## Decisions answered
-Indiane answered D1. The task waits for B1.
+Indiane answered D1. B1 is closed: PR #84 is merged.
 
 | ID | Answer | What the code does |
 |---|---|---|

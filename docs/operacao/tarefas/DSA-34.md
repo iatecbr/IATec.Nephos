@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 360,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -21,15 +21,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "PR #84 (audit/storybook-impeccable) changes src/shared/docs/page.ts, .storybook/ and the dictionaries; starting before its merge means conflicts.",
-      "owner": "elvys",
-      "what_resolves": "PR #84 merged into v/5.0.0.",
-      "opened_at": "2026-10-15"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [],
   "decision_refs": [
@@ -46,7 +38,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-16"
+  "updated_at": "2026-10-20"
 }
 ```
 
@@ -56,7 +48,7 @@
 Every `Docs` page shows the `use_when` and `do_not_use_when` of `src/shared/metadata/<piece>.json`, and a test fails the page that differs.
 
 ## Decisions answered
-Indiane answered D1 and D2. The task waits for B1. B2 is closed: the approved lists are below.
+Indiane answered D1 and D2. B1 is closed: PR #84 is merged. B2 is closed: the approved lists are below.
 
 | ID | Answer | What the code does |
 |---|---|---|

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 230,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": "nph-avatar-stack",
   "dependencies": ["DSA-24"],
   "gates": [
@@ -28,15 +28,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "The stack is made of nph-avatar instances, and DSA-24 (nph-avatar) is not done yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-24 is merged and done; this task then goes to ready.",
-      "opened_at": "2026-10-19"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-25/documentacao-figma-aceita-2026-10-08.md"
@@ -59,7 +51,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-19"
+  "updated_at": "2026-10-20"
 }
 ```
 
@@ -79,8 +71,8 @@ carries the Figma documentation converted to text. There is no need to open Figm
 ## Decisions answered
 D1 to D3 are answered; the answers and the measures read from Figma are in the
 evidence of the `figma-docs-accepted` gate, sections "Measures and tokens" and
-"Decisions answered". The task is `blocked` only by DSA-24 (B1): the stack is
-made of `nph-avatar` instances, so it goes to `ready` when DSA-24 is `done`.
+"Decisions answered". The stack is made of `nph-avatar` instances; DSA-24 is
+`done`, so B1 is closed and the task is `ready`.
 
 | ID | Answer | What the code does |
 |---|---|---|

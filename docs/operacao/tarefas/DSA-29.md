@@ -30,13 +30,6 @@
   ],
   "blockers": [
     {
-      "id": "B1",
-      "what_blocks": "The start avatar is an nph-avatar instance and the required Owner example needs it, and DSA-24 (nph-avatar) is not done yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-24 is merged and done.",
-      "opened_at": "2026-10-19"
-    },
-    {
       "id": "B2",
       "what_blocks": "The select sits inside nph-field, which gives the label, the help text and the error of the required examples, and DSA-28 (nph-field) is not done yet.",
       "owner": "elvys",
@@ -63,7 +56,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-19"
+  "updated_at": "2026-10-20"
 }
 ```
 
@@ -80,8 +73,8 @@ carries the Figma documentation converted to text. There is no need to open Figm
 
 ## Decisions answered
 D1 to D9 are answered in the evidence of the `figma-docs-accepted` gate, section
-"Decisions answered". The task is `blocked` only by its dependencies: B1, DSA-24
-(`nph-avatar`), and B2, DSA-28 (`nph-field`). It goes to `ready` when both are
+"Decisions answered". B1 is closed: DSA-24 (`nph-avatar`) is `done`. The task
+is `blocked` only by B2, DSA-28 (`nph-field`), and goes to `ready` when it is
 `done`. Positioning, form value, events and keyboard are technical proposals for
 the PR.
 

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 340,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -21,15 +21,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "PR #84 (audit/storybook-impeccable) changes src/shared/docs/page.ts, .storybook/ and the dictionaries; starting before its merge means conflicts.",
-      "owner": "elvys",
-      "what_resolves": "PR #84 merged into v/5.0.0.",
-      "opened_at": "2026-10-15"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [],
   "decision_refs": [
@@ -43,7 +35,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-15"
+  "updated_at": "2026-10-20"
 }
 ```
 

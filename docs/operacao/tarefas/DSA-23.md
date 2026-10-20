@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 210,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": "nph-toggle-group",
   "dependencies": ["DSA-22"],
   "gates": [
@@ -28,15 +28,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "The group is made of nph-togglebutton instances, and DSA-22 (nph-togglebutton) is not done yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-22 is merged and done; this task then goes to ready.",
-      "opened_at": "2026-10-19"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-23/documentacao-figma-aceita-2026-10-08.md"
@@ -59,7 +51,7 @@
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-19"
+  "updated_at": "2026-10-20"
 }
 ```
 
@@ -78,8 +70,8 @@ carries the Figma documentation converted to text. There is no need to open Figm
 
 ## Decisions answered
 D1 to D3 are answered in the evidence of the `figma-docs-accepted` gate, section
-"Decisions answered". The task is `blocked` only by DSA-22 (B1): the group is made
-of `nph-togglebutton` instances, so it goes to `ready` when DSA-22 is `done`.
+"Decisions answered". The group is made of `nph-togglebutton` instances; DSA-22
+is `done`, so B1 is closed and the task is `ready`.
 
 | ID | Answer | What the code does |
 |---|---|---|
