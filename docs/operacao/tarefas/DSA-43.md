@@ -77,7 +77,7 @@ stays the `nph-button` without text: no new tag.
 | Disabled by `--nph-state-disabled-opacity` | Unchanged, in both shapes |
 | No tooltip | Every icon-only button shows an `nph-tooltip` with the action name, on hover and on focus |
 | Spec covers text and icon-only | Spec gains the shape, the tooltip rule and the actions column of a table |
-| Spec: `danger` "Do not use with an icon only: write the text." | Icon only on an action with consequence, such as delete, is allowed only in the actions column of a table, with the tooltip giving the name; elsewhere, write the text |
+| Spec forbids icon only on an action with consequence (in the summary, the `danger` row, the `severity` table and the do-not list) | Icon only on an action with consequence, such as delete, is allowed only in the actions column of a table, with the tooltip giving the name; elsewhere, write the text |
 
 The attribute name of the shape is part of the code API (English, P64) and is
 chosen in the pull request. The shape changes neither the size nor the touch
@@ -97,7 +97,8 @@ passes only with DSA-42 in `done`.
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
 tests, stories and `fichas/nph-button.md` pass the proof commands in
-`docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
+`docs/operacao/component-handoff.md` and are merged into `v/5.0.0`, after
+DSA-42 is done.
 
 ## Relations with other tasks
 - DSA-42 (ready) must be merged before the tooltip part of this task. It updates the `nph-tooltip` to open on hover and on focus for
