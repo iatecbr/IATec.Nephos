@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=146bdfa5b55c0605ba16491f6b532af3dabe1c5aa422657058d3124c42ec935d | status=revisado -->
+<!-- i18n: lang=es | source=README.md | source-sha256=4b47dbf26f915d4da454d8da2c2f32460586d824fdac36e77a713f880e161cea | status=revisado -->
 
 # Nephos 5.0
 
@@ -99,7 +99,7 @@ import '@iatec/nephos/nph-button';
 ```
 
 Para construir y comprobar el paquete desde un clon: `npm run build:lib`, luego
-`npm run test:package` y `npm run pack:check`. La decisión es la P74, en
+`npm run test:package` y `npm run pack:check`. La decisión es la P75, en
 [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), que se mantiene solo en
 inglés. El workflow de CI y el pipeline de publicación todavía no existen.
 

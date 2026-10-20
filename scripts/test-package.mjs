@@ -1,5 +1,5 @@
 /**
- * Proof of the `@iatec/nephos` package (P70, amended by P74).
+ * Proof of the `@iatec/nephos` package (P70, amended by P75).
  *
  * Reads `package.json` and the `dist/` that `npm run build:lib` wrote, and
  * checks that what a consumer imports is really there:
@@ -191,7 +191,7 @@ for (const file of documentFiles) {
   const where = relative(root, file);
   for (const match of text.matchAll(importLine)) {
     const specifier = match[1];
-    /* The unscoped name is the one P70 had before P74. */
+    /* The unscoped name is the one P70 had before P75. */
     if (/^nephos(\/|$)/.test(specifier)) {
       check(false, `${where}: import of "${specifier}" uses the old, unscoped package name; use @iatec/nephos`);
     }

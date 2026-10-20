@@ -94,7 +94,7 @@ import '@iatec/nephos/nph-button';
 ```
 
 To build and check the package from a clone: `npm run build:lib`, then
-`npm run test:package` and `npm run pack:check`. The decision is P74, in
+`npm run test:package` and `npm run pack:check`. The decision is P75, in
 [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), which exists in English
 only. The CI workflow and the publishing pipeline do not exist yet.
 

@@ -1,5 +1,5 @@
 /**
- * Library build of the `@iatec/nephos` package (P70, amended by P74).
+ * Library build of the `@iatec/nephos` package (P70, amended by P75).
  *
  * One entry per component, ESM only, written to `dist/<name>/<name>.js`, the
  * same layout `tsc` gives the declarations (`tsconfig.build.json`). A component

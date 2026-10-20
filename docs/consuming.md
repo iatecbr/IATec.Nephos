@@ -3,7 +3,7 @@
 **English** · [Português (BR)](consuming.pt-BR.md) · [Español](consuming.es.md)
 
 How an application installs and uses `@iatec/nephos`, the package of the Nephos
-Web Components. The decision behind it is **P74** in
+Web Components. The decision behind it is **P75** in
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), which exists in English only.
 
 > **Release candidate.** The package is published as `5.0.0-rc.N` under the npm

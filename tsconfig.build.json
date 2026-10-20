@@ -1,6 +1,6 @@
 {
   /*
-   * Declarations of the `@iatec/nephos` package (P70, amended by P74).
+   * Declarations of the `@iatec/nephos` package (P70, amended by P75).
    *
    * Emits only `.d.ts`, from the component sources, to `dist/<name>/<name>.d.ts`:
    * the layout of the JavaScript that `vite.config.lib.ts` writes. Stories,

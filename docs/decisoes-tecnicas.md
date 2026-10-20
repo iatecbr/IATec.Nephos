@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73 and P74. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74 and P75. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -41,7 +41,8 @@ P62.4 subsection for the detail).
 | **P71** | `Docs` page lists read from the Metadata | 15/10/2026 | Low. The lists move from the dictionary to the Metadata; the sheet does not change its format | Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request that brings it |
 | **P72** | Accessibility gate in the tests | 15/10/2026 | Medium. Two new dependencies and a gate on every story; the earlier, the fewer violations to fix | Adopted by Indiane on 15/10/2026 (DSA-30, D3). Reviewed in the pull request that brings it |
 | **P73** | API and semantics of `nph-togglebutton` | 19/10/2026 | Low now. No piece consumes it yet; `nph-toggle-group` (DSA-23) will consume its event, so changing the event name or the state name later requires redoing both | Anatomy and behavior: board accepted by Indiane on 07/10/2026, motion answered on 19/10/2026 (D6). API and semantics reviewed in the pull request that brings them |
-| **P74** | Package `@iatec/nephos`: first release candidate | 19/10/2026 | High and public. The name, the `exports` paths and the `rc` tag are what every consumer writes in a lockfile and in an import line | Approved by Elvys on 19/10/2026. Amends P70, adopted by Indiane on 15/10/2026: her confirmation is requested in the pull request that brings it |
+| **P74** | API and semantics of `nph-avatar` | 20/10/2026 | Low now. No piece consumes it yet; `nph-select` (DSA-29) and `nph-avatar-stack` (DSA-25) will, so changing `src`, `label` or `size`, or the border over the photo, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 06/10/2026, D1 to D4 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P75** | Package `@iatec/nephos`: first release candidate | 19/10/2026 | High and public. The name, the `exports` paths and the `rc` tag are what every consumer writes in a lockfile and in an import line | Approved by Elvys on 19/10/2026. Amends P70, adopted by Indiane on 15/10/2026: her confirmation is requested in the pull request that brings it |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -241,7 +242,7 @@ line of each component. Public publishing stays out of scope.
 **Annotation of 15/10/2026.** P72 defines the accessibility tests: the deferral to
 "the first real component" is closed.
 
-**Amended by P74 (19/10/2026).** P74 publishes release candidates of the package to a
+**Amended by P75 (19/10/2026).** P75 publishes release candidates of the package to a
 private feed. Public publishing, GitHub Pages and the CI workflow stay out of scope.
 
 **Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
@@ -1218,7 +1219,7 @@ not change; only its out of scope gets the annotation.
 **Status.** Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request
 that brings it; the merge is the approval.
 
-**Amended by P74 (19/10/2026).** The package name is `@iatec/nephos` (the import line is
+**Amended by P75 (19/10/2026).** The package name is `@iatec/nephos` (the import line is
 `import '@iatec/nephos/nph-<name>';`), `private` is removed, and `lit` and `@fortawesome/*`
 are peer dependencies. The text above is kept as it was written.
 
@@ -1432,7 +1433,7 @@ is the approval.
 
 ---
 
-## P74 — Package `@iatec/nephos`: first release candidate
+## P75 — Package `@iatec/nephos`: first release candidate
 
 This decision **amends P19 and P70**. P19 left public publishing and the CI workflow out
 of scope, and P70 fixed the package name as `nephos`, kept `private` as `true` and left
@@ -1529,9 +1530,97 @@ this decision. Reviewed in that pull request; the merge is the approval.
 
 ---
 
+## P74 — `nph-avatar`: API and semantics
+
+**Decision.** `nph-avatar` is a Web Component with **open Shadow DOM** (P01), CSS in its
+own file imported `?inline`, as in `nph-icon`. It has no slot, no `::part`, no event, no
+color property and no shape property. Anatomy only through semantic tokens. Invalid input
+renders nothing and emits `console.error` only in development, one per cause — the rule of
+P21, adopted here by its own decision, as in P66, P68 and P73. The names follow P64.
+
+1. **Properties.** The Figma property names are in English for `size` and in Portuguese
+   for `tipo`, and the code API is in English (P64). The mapping below is a technical
+   proposal of this implementation.
+
+   | Figma | API |
+   |---|---|
+   | `size` | `size`, `sm` (default), `md` or `lg`, reflected to the attribute |
+   | the photo of the person | `src`, String |
+   | the accessible name | `label`, String |
+   | `tipo`: `foto` or `sem foto` | not a property: it derives from `src` |
+
+   `size` reflects because the internal CSS selects the box by it. `tipo` derives from
+   `src`: a non-empty `src`, after trim, is `foto`; without it, the piece is `sem foto`.
+   The precedent is P73, where the presence of `text` derives the Figma `texto`. The
+   default is **inverted on purpose**: in Figma the default of `tipo` is `foto`, while in
+   code the absence of `src` is the natural default, so `<nph-avatar>` with no attribute
+   draws `sem foto`. A consumer that passes `src` gets `foto`; swapping the type of one
+   avatar is adding or removing its `src`.
+
+2. **Semantics.** Without `label`, or with a `label` of only whitespace, the host takes
+   `aria-hidden="true"` and no role: the avatar is decorative, as `nph-icon` is, because the
+   person's name is next to it. With a `label` that has text, the host takes `role="img"`
+   and `aria-label`. The name is on the host and not on the inner image, which always has
+   `alt=""`. The avatar is never focusable, has no `tabindex` and is not a button. A missing
+   `label` and a missing `src` are not errors: the empty avatar that `nph-select` (DSA-29,
+   D4) shows before a choice, `<nph-avatar size="sm">` with no attribute, is valid and
+   silent. `nph-avatar-stack` (DSA-25) reads the group's names itself and passes no `label`
+   to its avatars.
+
+3. **Photo lifecycle.** The person icon (`nph-icon` `user`, style `light`, at the
+   `icon/size-*` of the same size, D1 and D2) shows while the photo loads and stays if the
+   photo fails; the photo takes its place on `load` (D3). The `<img>` is rendered only for a
+   non-empty `src` after trim, and a new `src` starts the wait again. The piece emits no
+   event, for the load or for the failure, and no error: a photo that does not load is not a
+   failure of the avatar.
+
+4. **Border.** The border (`border/width` in `color/border`, D4) is drawn by the avatar's
+   own `::after`, inside the frame and over the photo, with the corner of the frame
+   (`border-radius: inherit`) and `pointer-events: none`. The paint order is structural:
+   `:host::after` paints after the shadow content, so it comes above the `<img>`. The test
+   reads the computed style of the pseudo-element and does not read pixels. It is the
+   separation that `nph-avatar-stack` (DSA-25) uses between overlapped avatars: the stack
+   draws no ring. There is no property for it.
+
+5. **Host box.** The host is exactly the avatar size, `avatar/size-sm`, `-md` or `-lg`
+   (24, 32 and 40 px), with `box-sizing: border-box`, `display: inline-flex`, `flex: none`
+   and `vertical-align: middle`, and it clips its content. It adds no height or width, so a
+   consumer can count on it: the 40 px option row with an avatar in DSA-29 D9 and the
+   overlap of `nph-avatar-stack` depend on a box of exactly 24, 32 or 40.
+
+6. **Absences.** No slot, no `::part`, no event, no initials, no `shape` property and no
+   form association. The Figma frame has no initials: the fallback is only the photo and the
+   person icon. The count of a group ("+N") is a piece of `nph-avatar-stack` made with the
+   tokens of the avatar; the avatar has no counting mode.
+
+7. **Invalid input.** An invalid `size` renders nothing, takes no space, leaves
+   `data-nph-rendered` out and emits one `console.error` per cause, only in development. A
+   valid value set afterwards makes the piece draw. No `src` and no `label` is valid and emits
+   nothing.
+
+**Source.** Frame `nph-avatar` (`1434:30`, set `1434:29`) of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 06/10/2026, with the Figma UX QA and the textual
+audit approved; D1 to D4 answered on 19/10/2026. The names `src` and `label`, the derivation
+of `tipo` from `src`, the semantics of the host, the lifecycle of the photo and the invalid
+input rule are a technical proposal of this implementation.
+
+**Out of scope.** `nph-avatar-stack` (DSA-25) and `nph-select` (DSA-29), which are planned.
+Initials. A circle or any other shape. Widening the `use` text in `design.md` for the tokens
+the avatar consumes (`color/muted`, `color/muted-foreground`, `color/border`, `icon/size-*`
+and `avatar/radius-*`, which `nph-skeleton` also consumes): it is the pending decision D5 of
+DSA-24, with Indiane, and the component keeps consuming them either way. The Usage section of
+the page (P70, DSA-35), the page lists read from the Metadata (P71, DSA-34) and the
+accessibility gate (P72, DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 06/10/2026; D1 to D4 answered on
+19/10/2026. API and semantics are reviewed in the pull request that brings them; the merge
+is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73 or P74 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74 or P75 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

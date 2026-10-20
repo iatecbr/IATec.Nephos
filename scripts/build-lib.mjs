@@ -1,5 +1,5 @@
 /**
- * Builds the `@iatec/nephos` package into `dist/` (P70, amended by P74).
+ * Builds the `@iatec/nephos` package into `dist/` (P70, amended by P75).
  *
  * Steps, in order. Any failure stops the build with its exit code:
  *   1. clean `dist/`;

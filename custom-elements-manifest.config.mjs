@@ -1,5 +1,5 @@
 /**
- * Custom Elements Manifest of `@iatec/nephos` (P74): `dist/custom-elements.json`.
+ * Custom Elements Manifest of `@iatec/nephos` (P75): `dist/custom-elements.json`.
  *
  * The analyzer reads the component sources, with its Lit plugin, and describes
  * each element: tag, properties, attributes, events, CSS parts and custom

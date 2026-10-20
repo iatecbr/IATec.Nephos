@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=d68a3c24be6f2f5e00438aa7847c4ece78db04410c1ac9b3654dd501b51ebab9 | status=rascunho -->
+<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=4678cef4b956d587cee35987433afcb6c4e2829495a0d9bbb355342e9a111faf | status=rascunho -->
 
 # Consumir Nephos
 
@@ -8,7 +8,7 @@
 > fuente en inglés, [`consuming.md`](consuming.md), prevalece el inglés.
 
 Cómo una aplicación instala y usa `@iatec/nephos`, el paquete de los Web Components de
-Nephos. La decisión detrás de él es la **P74**, en
+Nephos. La decisión detrás de él es la **P75**, en
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), que existe solo en inglés.
 
 > **Release candidate.** El paquete se publica como `5.0.0-rc.N` bajo la etiqueta npm
