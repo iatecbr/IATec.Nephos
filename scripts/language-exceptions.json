@@ -19,6 +19,14 @@
     "reason": "Keys of the design.md contract, outside the DSA-15 scope; they stay as they are."
   },
   {
+    "file": "docs/consuming.md",
+    "class": "prose-text",
+    "names": [
+      "Sistemas"
+    ],
+    "reason": "Name of the default brand (vertical), a proper name."
+  },
+  {
     "file": "docs/decisoes-tecnicas.md",
     "class": "prose-text",
     "names": [

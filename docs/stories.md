@@ -400,7 +400,7 @@ The order is fixed:
    1. **When to use**: a single `useDontUse` block.
    2. **API**: `table` of properties, with the term in `text/code`.
    3. **Usage**: the markup of the accepted frame and the import line,
-      `import 'nephos/nph-<name>';`, with the package name read from
+      `import '@iatec/nephos/nph-<name>';`, with the package name read from
       `package.json` (**P70**).
    4. **Sections of the component itself**, in this order: **Variants**
       (`demo` of the real instances, with a caption), **Sizes** and **States**

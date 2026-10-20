@@ -18,7 +18,7 @@ validation.
 - Tokens and usage rules defined in the `design.md` contract.
 - Documentation for components, blocks, layouts and templates.
 - Stories and validation in Storybook.
-- Consumption examples for Vue, Angular and Blazor.
+- A consumption guide for Angular, Vue, React and Blazor, in [`docs/consuming.md`](docs/consuming.md).
 
 Nephos does not depend on PrimeNG, shadcn/ui, Radix, Tailwind or any other
 component framework. The Obra UI kit is a visual and structural reference, not a
@@ -76,9 +76,27 @@ the root element and import the generated CSS:
 
 Omitting both gives you Sistemas in light mode.
 
-The CI workflow and publishing do not exist yet — their direction is set by P19,
-in [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), which exists in
-English only.
+## Using the package
+
+Nephos is published as `@iatec/nephos`. Release candidates (`5.0.0-rc.N`) go to a
+private Azure DevOps Artifacts feed under the npm tag `rc`, never `latest`; **every
+consumer needs a Font Awesome Pro npm token**, because `lit` and Font Awesome Pro
+are peer dependencies. Install, tokens, and the Angular, Vue, React and Blazor setups
+are in [`docs/consuming.md`](docs/consuming.md).
+
+```bash
+npm install @iatec/nephos@rc lit @fortawesome/pro-light-svg-icons @fortawesome/pro-solid-svg-icons
+```
+
+```js
+import '@iatec/nephos/tokens.css';
+import '@iatec/nephos/nph-button';
+```
+
+To build and check the package from a clone: `npm run build:lib`, then
+`npm run test:package` and `npm run pack:check`. The decision is P75, in
+[`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), which exists in English
+only. The CI workflow and the publishing pipeline do not exist yet.
 
 ## Technical decisions in force
 

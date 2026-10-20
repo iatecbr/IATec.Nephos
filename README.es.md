@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=92e000e52953000e13f5f6e80b373415ec3f7c62df74b46165b602abf9957d92 | status=revisado -->
+<!-- i18n: lang=es | source=README.md | source-sha256=4b47dbf26f915d4da454d8da2c2f32460586d824fdac36e77a713f880e161cea | status=revisado -->
 
 # Nephos 5.0
 
@@ -23,7 +23,7 @@ comportamiento.
 - Tokens y reglas de uso definidos en el contrato `design.md`.
 - Documentación de componentes, bloques, layouts y templates.
 - Stories y validación en Storybook.
-- Ejemplos de consumo para Vue, Angular y Blazor.
+- Una guía de consumo para Angular, Vue, React y Blazor, en [`docs/consuming.md`](docs/consuming.md).
 
 Nephos no depende de PrimeNG, shadcn/ui, Radix, Tailwind ni de ningún otro
 framework de componentes. El UI kit Obra es una referencia visual y estructural,
@@ -81,9 +81,27 @@ atributos en el elemento raíz e importe el CSS generado:
 
 Omitir ambos entrega Sistemas en claro.
 
-El workflow de CI y la publicación todavía no existen — su dirección está fijada
-por la P19, en [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), que se
-mantiene solo en inglés.
+## Usar el paquete
+
+Nephos se publica como `@iatec/nephos`. Las release candidates (`5.0.0-rc.N`) van a un
+feed privado de Azure DevOps Artifacts, bajo la etiqueta npm `rc`, nunca `latest`;
+**todo consumidor necesita un token npm de Font Awesome Pro**, porque `lit` y Font
+Awesome Pro son peer dependencies. La instalación, los tokens y la configuración para
+Angular, Vue, React y Blazor están en [`docs/consuming.md`](docs/consuming.md).
+
+```bash
+npm install @iatec/nephos@rc lit @fortawesome/pro-light-svg-icons @fortawesome/pro-solid-svg-icons
+```
+
+```js
+import '@iatec/nephos/tokens.css';
+import '@iatec/nephos/nph-button';
+```
+
+Para construir y comprobar el paquete desde un clon: `npm run build:lib`, luego
+`npm run test:package` y `npm run pack:check`. La decisión es la P75, en
+[`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), que se mantiene solo en
+inglés. El workflow de CI y el pipeline de publicación todavía no existen.
 
 ## Decisiones técnicas vigentes
 
