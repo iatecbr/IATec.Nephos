@@ -31,7 +31,7 @@
 function publishedManifest() {
   const entryOf = (path) => {
     const tag = path.split('/').pop()?.replace(/\.ts$/, '') ?? '';
-    return /^nph-[a-z]+$/.test(tag) && path === `src/components/${tag}/${tag}.ts` ? tag : null;
+    return /^nph-[a-z]+(?:-[a-z]+)*$/.test(tag) && path === `src/components/${tag}/${tag}.ts` ? tag : null;
   };
 
   function rewrite(node, published, dropped) {

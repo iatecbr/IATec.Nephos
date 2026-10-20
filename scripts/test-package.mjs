@@ -252,7 +252,7 @@ for (const [key, count] of definitions) {
 const tagOfFile = new Map();
 for (const file of javascript) {
   const text = readFileSync(file, 'utf8');
-  const tag = text.match(/(?:const|var|let)\s+TAG\s*=\s*["'](nph-[a-z]+)["']/)?.[1];
+  const tag = text.match(/(?:const|var|let)\s+TAG\s*=\s*["'](nph-[a-z]+(?:-[a-z]+)*)["']/)?.[1];
   if (tag !== undefined && /customElements\.define\(\s*TAG\s*,/.test(text)) tagOfFile.set(file, tag);
 }
 
@@ -271,7 +271,7 @@ function reachableTags(entry, seen = new Set()) {
 for (const name of components) {
   const source = readFileSync(join(componentsDir, name, `${name}.ts`), 'utf8');
   const expected = new Set([name]);
-  for (const match of source.matchAll(/import\s+['"]\.\.\/(nph-[a-z]+)\/\1['"]/g)) expected.add(match[1]);
+  for (const match of source.matchAll(/import\s+['"]\.\.\/(nph-[a-z]+(?:-[a-z]+)*)\/\1['"]/g)) expected.add(match[1]);
   const entry = join(root, resolveExport(`./${name}`, 'import') ?? `dist/${name}/${name}.js`);
   if (!existsSync(entry)) continue;
   const reached = reachableTags(entry);
