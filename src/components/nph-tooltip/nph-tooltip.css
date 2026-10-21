@@ -5,21 +5,38 @@
  * token custom properties this file consumes. The component exposes no
  * `::part` and declares no custom property of its own.
  *
- * No literal design value goes in here. The box keywords (`inline-block`,
- * `max-content`, `border-box`, `normal`, `manual`) are layout relations, not
- * visual decisions.
+ * No literal design value goes in here. The keywords below (`absolute`,
+ * `fixed`, `auto`, `visible`, `none`, `max-content`, `border-box`, `normal`,
+ * `manual`) are layout relations and resets of the browser's `[popover]` style,
+ * not visual decisions.
  */
 
 /*
- * The host stays in the flow even when closed: it is the `role="status"` live
- * region, which must exist before the text appears. With no child, it takes
- * no space.
+ * The host is the `role="tooltip"` element the described element points to, so it
+ * stays in the accessibility tree. It sits out of the flow and has no size: it is
+ * not a flex item of `nph-label`, which would add a gap after the icon. (Not
+ * `display: contents`: that value has dropped elements from the accessibility tree.)
  */
 :host {
-  display: inline-block;
+  position: absolute;
+  inline-size: 0;
+  block-size: 0;
+  overflow: visible;
 }
 
+/*
+ * The balloon is a `popover`, so it sits in the top layer: no `z-index` and no
+ * clipping by an ancestor. The resets below undo the browser's `[popover]` style:
+ * `margin: auto` (it centers the popover), a border, `overflow: auto` (it would
+ * scroll or cut a long text: the component never cuts) and a background and color
+ * of its own. JavaScript sets `top` and `left`.
+ */
 .bubble {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  border: 0;
+  overflow: visible;
   box-sizing: border-box;
   inline-size: max-content;
   max-inline-size: var(--nph-layout-max-tooltip-width);
@@ -40,4 +57,50 @@
   overflow-wrap: normal;
   word-break: normal;
   hyphens: manual;
+  /* Leaving: the exit role. Only opacity moves (design.md: animate opacity and transform). */
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/* Entering: the enter role. */
+.bubble[data-open] {
+  opacity: 1;
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+/*
+ * The distance to the element is `space/inline`, as a margin on the side that faces
+ * it (physical sides, like `side` itself): the margin box is what JavaScript places, so the border box ends up that far
+ * from the element and the balloon never covers its focus.
+ */
+.bubble[data-side='top'] {
+  margin-bottom: var(--nph-space-inline);
+}
+
+.bubble[data-side='bottom'] {
+  margin-top: var(--nph-space-inline);
+}
+
+.bubble[data-side='left'] {
+  margin-right: var(--nph-space-inline);
+}
+
+.bubble[data-side='right'] {
+  margin-left: var(--nph-space-inline);
+}
+
+/*
+ * Reduced motion: the evidence of the rule (`design.md`, reduced motion) asks for
+ * `core/duration/100`. Components never consume core tokens, so this uses the
+ * semantic alias `motion/hover-duration`, which resolves to the same value
+ * (100 ms). The curve stays: the balloon still appears and still leaves.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .bubble,
+  .bubble[data-open] {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
 }
