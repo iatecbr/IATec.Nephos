@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 430,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-tooltip",
   "dependencies": [],
   "gates": [
@@ -29,11 +29,49 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D2",
+      "question": "The DSA-42 evidence puts the balloon at space/inline from the element; the DSA-43 evidence shows the icon-only button tooltip at space/inline-tight. The code follows the DSA-42 evidence (space/inline). Which distance holds for the icon-only button? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-21"
+    },
+    {
+      "id": "D3",
+      "question": "The evidence says the balloon sits above the element but not whether it is centered on the element or aligned to its start, as it was below the nph-label. The code centers it on the element, also on the info icon of the nph-label. Does Indiane confirm? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-21"
+    },
+    {
+      "id": "D4",
+      "question": "The evidence does not say what the open balloon does on scroll or resize. The code repositions it and keeps it open; the alternative is to close it on scroll. Does Indiane confirm? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-21"
+    },
+    {
+      "id": "D5",
+      "question": "The evidence names only the durations of the balloon motion. The code animates opacity only, with no slide. Does Indiane confirm, or want a slide from the element? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-21"
+    },
+    {
+      "id": "D6",
+      "question": "The evidence does not say what a click on the info icon of the nph-label does now that the balloon opens on hover and focus. The code does nothing on click, keeps the native button and drops aria-expanded and aria-controls. Does Indiane confirm? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-21"
+    },
+    {
+      "id": "D7",
+      "question": "Two limits the evidence does not cover: a disabled element may not receive pointer events, so the balloon may not open over it; and an icon-only button whose accessible name equals the balloon text may be read twice. The code documents both as known limits. Does Indiane accept them? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-21"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-42/documentacao-figma-aceita-2026-10-20.md"
   ],
   "decision_refs": [
+    "docs/decisoes-tecnicas.md#p77",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane redefined the nph-tooltip: any element, opened on hover and on focus, Esc closes, no touch opening, no hover delay, enter 250 ms and exit 150 ms, four sides with top by default",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, textual audit approved; the balloon stays open while the pointer is over it; help text never moves into the balloon",
@@ -48,8 +86,8 @@
     "converted_decision": "The nph-tooltip documentation board (1241:3), inside the frame 1237:5, was accepted as the new API and behavior specification of the nph-tooltip. No COMPONENT_SET: single COMPONENT 1237:3, with the text property `texto`. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-10-20"
+  "context": "docs/operacao/contextos/DSA-42.md",
+  "updated_at": "2026-10-21"
 }
 ```
 
