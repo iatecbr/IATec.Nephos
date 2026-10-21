@@ -634,8 +634,8 @@
   --nph-color-popover-foreground: var(--nph-core-neutral-950);
   --nph-color-popover: var(--nph-core-base-white);
   --nph-color-secondary-foreground: var(--nph-core-surface-900);
-  --nph-color-secondary: var(--nph-core-surface-200);
-  --nph-color-secondary-hover: var(--nph-core-surface-300);
+  --nph-color-secondary: var(--nph-core-surface-100);
+  --nph-color-secondary-hover: var(--nph-core-surface-200);
   --nph-color-destructive-surface: var(--nph-core-danger-50);
   --nph-color-destructive-on-surface: var(--nph-core-danger-600);
   --nph-color-destructive-surface-hover: var(--nph-core-danger-100);
@@ -691,6 +691,7 @@
   --nph-status-help-surface-hover: var(--nph-core-help-100);
   --nph-status-success-surface-hover: var(--nph-core-success-100);
   --nph-color-secondary-on-dialog: var(--nph-color-secondary);
+  --nph-color-secondary-on-dialog-hover: var(--nph-color-secondary-hover);
   --nph-color-primary-foreground: var(--nph-theme-brand-on-600);
   --nph-color-primary: var(--nph-theme-brand-600);
   --nph-color-primary-surface: var(--nph-theme-brand-50);
@@ -760,6 +761,7 @@
   --nph-color-dialog: var(--nph-core-surface-600);
   --nph-color-dialog-separator: var(--nph-core-surface-500);
   --nph-color-secondary-on-dialog: var(--nph-core-surface-800);
+  --nph-color-secondary-on-dialog-hover: var(--nph-core-surface-700);
   --nph-color-foreground: var(--nph-core-neutral-100);
   --nph-color-input: var(--nph-core-surface-300);
   --nph-color-muted-foreground: var(--nph-core-surface-200);

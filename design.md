@@ -271,7 +271,7 @@ tokens_semantic:
     nao_use: "On any other background."
   color/secondary:
     css: '--nph-color-secondary'
-    claro: core/surface/200
+    claro: core/surface/100
     escuro: core/surface/600
     use: "Alternative action that accompanies the primary one. Also the background of the solid nph-badge, which labels a state or category by its meaning."
     nao_use: "Destructive action."
@@ -282,9 +282,9 @@ tokens_semantic:
     use: "Text on color/secondary. On the secondary nph-button and nph-badge, also text, icon and border on color/secondary-light and color/muted, and the text of the ghost secondary nph-button, which has no background."
   color/secondary-hover:
     css: '--nph-color-secondary-hover'
-    claro: core/surface/300
+    claro: core/surface/200
     escuro: core/surface/700
-    use: "Hover surface of a secondary action. Keeps the change visible in both modes."
+    use: "Hover surface of a secondary action. Keeps the change visible in both modes. Contrast with color/secondary-foreground: 9.81:1 in light and 9.36:1 in dark."
     nao_use: "Hover of primary, destructive, outline or ghost."
   color/accent:
     css: '--nph-color-accent'
@@ -376,6 +376,12 @@ tokens_semantic:
     claro: color/secondary
     escuro: core/surface/800
     use: "Background of the solid secondary nph-button inside the nph-dialog. In dark, color/secondary is the same surface/600 as the dialog and the button would disappear; here it goes down to surface/800. In light it repeats color/secondary."
+    nao_use: "Outside the nph-dialog."
+  color/secondary-on-dialog-hover:
+    css: '--nph-color-secondary-on-dialog-hover'
+    claro: color/secondary-hover
+    escuro: core/surface/700
+    use: "Hover-active of the solid secondary nph-button inside the nph-dialog, with color/secondary-foreground on top."
     nao_use: "Outside the nph-dialog."
   color/primary-surface:
     css: '--nph-color-primary-surface'
