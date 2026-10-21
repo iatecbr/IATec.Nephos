@@ -22,7 +22,7 @@
 
 The documentation of the `nph-dialog` board (`1368:27`) was accepted in Figma,
 in the file `DS-IA-NEPHOS 5.0`, with the Figma UX QA and the textual audit
-approved. The component needed 20 tokens
+approved. The component needed 21 tokens
 that were not on `v/5.0.0`; they were taken to `v/5.0.0` with the same values
 as in Figma, together with this task. Every other token it uses was already
 there.
@@ -60,7 +60,7 @@ answer does not use a dialog.
 | 5. Close button (optional) | `nph-icon-button` secondary, ghost, compact. |
 | 6. Header and footer lines (optional) | `nph-separator` in `color/dialog-separator`, softer than `color/border`, which separates long content from the header and the footer. |
 | 7. Content | Swappable through the `conteúdo` property. Its width sets the width of the dialog, up to the ceiling of the size. The default part, `.nph-dialog/conteúdo`, only marks the area for fields, text or another composition. It is the only part that scrolls. |
-| 8. Footer (optional) | Solid secondary `nph-button` in `color/secondary-on-dialog` and the primary or the danger, at `space/inline-loose` from each other. |
+| 8. Footer (optional) | Solid secondary `nph-button` in `color/secondary-on-dialog` (hover in `color/secondary-on-dialog-hover`) and the primary or the danger, at `space/inline-loose` from each other. |
 
 Demonstration in the frame: `tamanho=P` with the highlight icon and both lines,
 `Escolher pasta`.
@@ -117,7 +117,7 @@ shows only the tag, `<nph-dialog></nph-dialog>`, and the import,
 ## Relations and context
 - It always opens over the `overlay/scrim` veil; the veil is not part of the piece.
 - The footer combines the solid secondary `nph-button`, in
-  `color/secondary-on-dialog`, with a primary or a danger. Color, state and
+  `color/secondary-on-dialog` (hover in `color/secondary-on-dialog-hover`), with a primary or a danger. Color, state and
   focus of the buttons belong to the `nph-button`.
 - The close button is the `nph-icon-button` secondary, ghost, compact.
 - The `nph-alert-dialog` builds on the `nph-dialog` without the close button.
@@ -191,6 +191,7 @@ values:
 | `space/overlay-padding` | `core/space/600` (24) | same |
 | `color/dialog-separator` | `core/neutral/100` | `core/surface/500` |
 | `color/secondary-on-dialog` | `color/secondary` | `core/surface/800` |
+| `color/secondary-on-dialog-hover` | `color/secondary-hover` | `core/surface/700` |
 
 The seven `core/layout-*` primitives above are new as well.
 

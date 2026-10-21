@@ -35,7 +35,7 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, nph-dialog visual acceptance, width that hugs the content, Figma UX QA approved, documentation accepted, textual audit approved and the 20 tokens"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, nph-dialog visual acceptance, width that hugs the content, Figma UX QA approved, documentation accepted, textual audit approved and the 20 tokens; the hover token color/secondary-on-dialog-hover was added afterwards"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -65,7 +65,7 @@ There is no need to open Figma.
 
 ## Why it is ready
 It depends on no other task to be built. Every token it uses is on `v/5.0.0`:
-the 20 new tokens (13 semantic and 7 primitives) were taken to the token sources,
+the 21 new tokens (14 semantic and 7 primitives) were taken to the token sources,
 to `tokens.css` and to `design.md` together with this task. The footer uses the
 `nph-button` (DSA-13, done) and the lines use the `nph-separator` (DSA-10, done).
 
