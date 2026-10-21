@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 430,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-tooltip",
   "dependencies": [],
   "gates": [
@@ -85,7 +85,11 @@
     "excerpt": null,
     "converted_decision": "The nph-tooltip documentation board (1241:3), inside the frame 1237:5, was accepted as the new API and behavior specification of the nph-tooltip. No COMPONENT_SET: single COMPONENT 1237:3, with the text property `texto`. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "claude/dsa-42-nph-tooltip-466e67",
+    "commit": "ec88c46869effce2b519be64171fa9e299a45c11",
+    "pr": "94"
+  },
   "context": "docs/operacao/contextos/DSA-42.md",
   "updated_at": "2026-10-21"
 }

@@ -20,20 +20,20 @@ with flip, enter 250 ms and exit 150 ms. Update both sheets, the Metadata and th
 - `src/components/nph-tooltip/` and `src/components/nph-label/`
 
 ## Changes
-The task moves to in progress with the pending decisions D2 to D7. The component, the label, the
-stories, the sheets and P77 follow in the next commits. See the commits on the branch.
+The tooltip, the label, the stories, the Docs page, the sheets, the Metadata and P77 are done and
+in the pull request. See the commits on the branch.
 
 ## Commands run
 - `npm ci`, then `npm run test:operacao` before the first commit.
 
 ## Result
-In progress. Nothing delivered yet beyond the task state.
+In review. The proof commands pass, except the known `test:naming` failures in files this branch does not touch.
 
 ## Evidence
-None recorded: `review-and-merge` waits for the PR.
+None recorded: `review-and-merge` waits for the merge.
 
 ## Blocker
 None. D2 to D7 wait for Indiane and do not block.
 
 ## Next command
-Commit the tooltip component, then the label, the stories, the Docs page and the sheets.
+Wait for the review; after the merge, record the `review-and-merge` evidence and move the task to done.
