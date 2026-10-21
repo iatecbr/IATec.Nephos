@@ -290,8 +290,8 @@ tokens_semantic:
     css: '--nph-color-accent'
     claro: core/surface/50
     escuro: core/surface/600
-    use: "Temporary highlight: hover, focused item, active row. Exception: the permanent background of the nph-select arrow area, with the arrow in color/muted-foreground (5.76:1 light, 5.11:1 dark)."
-    nao_use: "Permanent block background, except the nph-select arrow area."
+    use: "Temporary highlight: hover, focused item, active row. Exception: the permanent background of the nph-select and nph-combobox arrow area, with the arrow in color/muted-foreground (5.76:1 light, 5.11:1 dark)."
+    nao_use: "Permanent block background, except the nph-select and nph-combobox arrow area."
   color/accent-foreground:
     css: '--nph-color-accent-foreground'
     claro: core/neutral/950
@@ -325,7 +325,7 @@ tokens_semantic:
     css: '--nph-color-border'
     claro: core/neutral/200
     escuro: core/surface/400
-    use: "Divider, card outline, table row."
+    use: "Divider, card outline, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox."
     nao_use: "Form field border."
   color/input:
     css: '--nph-color-input'
@@ -393,7 +393,7 @@ tokens_semantic:
     css: '--nph-color-primary-surface'
     claro: theme/brand-50
     escuro: theme/brand-900
-    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and the hover of the nph-dropdown-menu item. Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted."
+    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and nph-combobox and the hover of the nph-dropdown-menu item. Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select and nph-combobox option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted."
   color/primary-on-surface:
     css: '--nph-color-primary-on-surface'
     claro: theme/brand-600

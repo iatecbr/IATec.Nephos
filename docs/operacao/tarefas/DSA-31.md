@@ -7,7 +7,7 @@
   "owner": "elvys",
   "state": "blocked",
   "piece": "nph-multi-combobox",
-  "dependencies": ["DSA-03", "DSA-12", "DSA-17", "DSA-28", "DSA-29"],
+  "dependencies": ["DSA-03", "DSA-12", "DSA-17", "DSA-28", "DSA-29", "DSA-46"],
   "gates": [
     {
       "id": "figma-docs-accepted",
@@ -31,9 +31,9 @@
   "blockers": [
     {
       "id": "B1",
-      "what_blocks": "The list is the nph-combobox list (D2), and the nph-combobox task is not open yet.",
-      "owner": "indiane",
-      "what_resolves": "The nph-combobox task is opened; this task then depends on it.",
+      "what_blocks": "The list is the nph-combobox list (D2), and DSA-46 (nph-combobox) is not done yet.",
+      "owner": "elvys",
+      "what_resolves": "DSA-46 is merged and done; with the other dependencies done, this task goes to ready.",
       "opened_at": "2026-10-15"
     }
   ],
@@ -56,7 +56,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-15"
+  "updated_at": "2026-10-21"
 }
 ```
 
@@ -76,10 +76,9 @@ open Figma.
 
 ## Decisions answered
 D1 to D3 are answered; the answers are in the evidence of the
-`figma-docs-accepted` gate, section "Decisions answered". The task is blocked
-only by the list: it comes from the `nph-combobox` task, which is not open yet
-(B1). When that task opens, it enters `dependencies` and this task follows the
-usual rule: `ready` when every dependency is `done`. Keyboard, form value,
+`figma-docs-accepted` gate, section "Decisions answered". The list comes from the `nph-combobox` task, DSA-46, which is open
+and listed in `dependencies` (B1). This task follows the usual rule: `ready`
+when every dependency is `done`. Keyboard, form value,
 events and the text read by the remove button are technical proposals for the
 PR.
 
@@ -102,7 +101,7 @@ CSS, tests, stories and spec pass the proof commands in
 - The field sits inside `nph-field` (DSA-28), which gives the label, the help
   text and the error message.
 - The option (`nph-select / opção`) comes from `nph-select` (DSA-29); the list
-  (`nph-combobox / lista`) comes from the `nph-combobox` task (D2, B1).
+  (`nph-combobox / lista`) comes from the `nph-combobox` task, DSA-46 (D2, B1).
 
 ## What this task does not do
 It does not create a token or change a token value. It does not create a width

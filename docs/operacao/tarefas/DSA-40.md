@@ -74,7 +74,7 @@ tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## Relations with other tasks
-- The option list of `nph-combobox` (its task is not open yet), in `state=vazio`, shows an
+- The option list of `nph-combobox` (DSA-46), in `state=vazio`, shows an
   `nph-empty` when the search finds no option. In `state=carregando` it does not
   use the `nph-empty`.
 
