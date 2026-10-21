@@ -639,6 +639,196 @@ describe('the buttons of the group', () => {
   });
 });
 
+describe('the value attribute of a child is one word with no whitespace', () => {
+  const NEXT_TASK = (): Promise<void> => new Promise((resolve) => setTimeout(resolve));
+
+  it('a value with inner whitespace never joins the selection: warns once, click keeps the selection and says nothing', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = await mount({
+      selection: 'multiple',
+      value: ['bold'],
+      buttons: [
+        { value: 'bold', label: 'Bold', iconStart: 'bold' },
+        { value: 'bold italic', label: 'Bold italic', iconStart: 'italic' },
+        { value: 'under\tline', label: 'Underline', iconStart: 'underline' },
+      ],
+    });
+    const spaced = buttonsOf(group)[1] as NphTogglebutton;
+    const tabbed = buttonsOf(group)[2] as NphTogglebutton;
+    const seen = listen(group);
+
+    expect(pressedOf(group)).toEqual([true, false, false]);
+    await userEvent.click(inner(spaced));
+    await settle(group);
+    await userEvent.click(inner(tabbed));
+    await settle(group);
+
+    expect(group.value).toEqual(['bold']);
+    expect(pressedOf(group)).toEqual([true, false, false]);
+    expect(seen).toEqual([]);
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(String(warn.mock.calls[0]?.[0])).toContain('[nph-toggle-group]');
+    expect(String(warn.mock.calls[0]?.[0])).toContain('one word');
+  });
+
+  it('a group value that names the spaced value checks nothing for it', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = await mount({
+      selection: 'multiple',
+      value: ['bold', 'italic'],
+      buttons: [
+        { value: 'bold', label: 'Bold', iconStart: 'bold' },
+        { value: 'bold italic', label: 'Bold italic', iconStart: 'italic' },
+        { value: 'italic', label: 'Italic', iconStart: 'italic' },
+      ],
+    });
+    expect(pressedOf(group)).toEqual([true, false, true]);
+  });
+
+  it('a button that stops being valid by a space leaves the selection', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = await mount({ selection: 'multiple', value: ['left', 'right'] });
+    expect(pressedOf(group)).toEqual([true, false, true]);
+    buttonsOf(group)[0]?.setAttribute('value', 'left side');
+    await NEXT_TASK();
+    await settle(group);
+    expect(pressedOf(group)).toEqual([false, false, true]);
+    expect(warn).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('a change of the value attribute of a child alone', () => {
+  const NEXT_TASK = (): Promise<void> => new Promise((resolve) => setTimeout(resolve));
+
+  it('resyncs the group with no other change: the new value takes the check, and no event fires', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = await mount({ value: ['left'] });
+    const seen = listen(group);
+    expect(pressedOf(group)).toEqual([true, false, false]);
+
+    buttonsOf(group)[0]?.setAttribute('value', 'start');
+    await NEXT_TASK();
+    await settle(group);
+    expect(pressedOf(group)).toEqual([false, false, false]);
+
+    buttonsOf(group)[1]?.setAttribute('value', 'start');
+    await NEXT_TASK();
+    await settle(group);
+    expect(group.value).toEqual(['left']);
+    expect(pressedOf(group)).toEqual([false, false, false]);
+    expect(seen).toEqual([]);
+  });
+
+  it('a button that takes the value of the group is checked, and the old one is unchecked', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = await mount({ value: ['left'] });
+    const seen = listen(group);
+
+    buttonsOf(group)[0]?.setAttribute('value', 'start');
+    buttonsOf(group)[1]?.setAttribute('value', 'left');
+    await NEXT_TASK();
+    await settle(group);
+
+    expect(pressedOf(group)).toEqual([false, true, false]);
+    expect(group.value).toEqual(['left']);
+    expect(seen).toEqual([]);
+  });
+
+  it('in single selection the click on the button that now holds the check is still blocked, and another click moves it', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = await mount({ value: ['left'] });
+    buttonsOf(group)[0]?.setAttribute('value', 'start');
+    buttonsOf(group)[1]?.setAttribute('value', 'left');
+    await NEXT_TASK();
+    await settle(group);
+    const seen = listen(group);
+
+    await userEvent.click(inner(buttonsOf(group)[1] as NphTogglebutton));
+    await settle(group);
+    expect(seen).toEqual([]);
+    expect(pressedOf(group)).toEqual([false, true, false]);
+
+    await userEvent.click(inner(buttonsOf(group)[0] as NphTogglebutton));
+    await settle(group);
+    expect(seen).toEqual([['start']]);
+    expect(pressedOf(group)).toEqual([true, false, false]);
+  });
+
+  it('revalidates the composition: a value that duplicates another warns once, a missing one too', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = await mount();
+    expect(warn).not.toHaveBeenCalled();
+
+    buttonsOf(group)[1]?.setAttribute('value', 'left');
+    await NEXT_TASK();
+    expect(warn).toHaveBeenCalledTimes(1);
+
+    buttonsOf(group)[2]?.removeAttribute('value');
+    await NEXT_TASK();
+    expect(warn).toHaveBeenCalledTimes(2);
+
+    buttonsOf(group)[1]?.setAttribute('value', 'center');
+    buttonsOf(group)[2]?.setAttribute('value', 'right');
+    await NEXT_TASK();
+    expect(warn).toHaveBeenCalledTimes(2);
+  });
+
+  it('follows the current set of children: a button added later is observed, a removed one is not', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = await mount({ value: ['justify'] });
+    const added = button({ value: 'other', label: 'Justify', iconStart: 'align-left' });
+    group.append(added);
+    await NEXT_TASK();
+    await settle(group);
+    expect(added.pressed).toBe(false);
+
+    added.setAttribute('value', 'justify');
+    await NEXT_TASK();
+    await settle(group);
+    expect(added.pressed).toBe(true);
+
+    added.remove();
+    added.setAttribute('value', 'other');
+    await NEXT_TASK();
+    expect(added.pressed).toBe(true);
+  });
+
+  it('ignores the value attribute of a descendant that is not a direct button', async () => {
+    const group = await mount({ value: ['left'] });
+    const nested = document.createElement('nph-togglebutton');
+    nested.setAttribute('value', 'left');
+    const wrapper = document.createElement('div');
+    wrapper.append(nested);
+    group.append(wrapper);
+    await NEXT_TASK();
+    await settle(group);
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+
+    nested.setAttribute('value', 'right');
+    wrapper.setAttribute('value', 'x');
+    await NEXT_TASK();
+    expect(warn).not.toHaveBeenCalled();
+    expect(pressedOf(group)).toEqual([true, false, false]);
+  });
+
+  it('stops observing when the group leaves the page and observes again when it returns', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = await mount({ value: ['left'] });
+    const syncSpy = vi.spyOn(group as unknown as { syncButtons: () => void }, 'syncButtons');
+    group.remove();
+    buttonsOf(group)[1]?.setAttribute('value', 'moved');
+    await NEXT_TASK();
+    expect(syncSpy).not.toHaveBeenCalled();
+
+    document.body.append(group);
+    await settle(group);
+    syncSpy.mockClear();
+    buttonsOf(group)[2]?.setAttribute('value', 'moved-again');
+    await NEXT_TASK();
+    expect(syncSpy).toHaveBeenCalled();
+  });
+});
+
 describe('composition warnings: the group still renders (D2, D4)', () => {
   async function warnings(spec: GroupSpec): Promise<{ group: NphToggleGroup; warn: ReturnType<typeof vi.spyOn>; error: ReturnType<typeof vi.spyOn> }> {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);

@@ -1644,18 +1644,26 @@ P74. The names follow P64.
 
 2. **The default slot and the `value` attribute.** The group takes `nph-togglebutton`
    children. Each child names itself with a `value` **attribute**, which the group reads with
-   `getAttribute('value')`, trimmed: a non-empty word with no space, unique in the group.
+   `getAttribute('value')`, trimmed: a non-empty word with no whitespace, unique in the group.
    `nph-togglebutton` does not declare it: it ignores the attribute, it has no `value`
    property and no type for it, and **P73 is not amended**. The cost is a contract that lives
    in the group and not in the button; the gain is that a component already merged stays as
    it is. A child that is not an `nph-togglebutton`, or a button without `value`, is not part
-   of the selection.
+   of the selection, and neither is a button whose `value` has whitespace inside
+   (`"bold italic"`): the attribute of the group reads words separated by spaces, so a value of
+   two words would be emitted as one item and lost when the list is written back with
+   `join(' ')`. Such a button is treated as one with an empty or repeated value: not
+   selectable, with a warning in development.
 
 3. **`value` and the source of truth.** The group is the source of truth of the selection:
    in `willUpdate` and when the slot changes, it writes `pressed` on every child from `value`,
    so a `pressed` attribute in the markup of a child does not survive. With no value, none is
    checked (D3). Single selection holds zero or one item, and a second one is dropped with a
-   warning. Setting `value` from code moves the checks and never fires the event.
+   warning. Setting `value` from code moves the checks and never fires the event. Changing
+   only the `value` attribute of a direct child raises no `slotchange`, so the group also
+   observes that attribute (a `MutationObserver` on the host, filtered to the direct buttons,
+   connected and disconnected with the element); on a change it writes `pressed` again and
+   checks the composition, and it never fires the event.
 
 4. **Single selection (D3).** Checking a button unchecks the others, and one button stays
    checked once a choice is made. A click on the checked button does nothing: the group
@@ -1701,9 +1709,9 @@ P74. The names follow P64.
    no `aria-labelledby`). Problems in the composition render the group anyway and emit one
    `console.warn` each, only in development, and the same problem is not repeated while it
    lasts: fewer than two buttons (D2, there is no maximum), a child that is not an
-   `nph-togglebutton`, a button without `value`, a repeated `value`, a value that matches no
-   button, buttons with text mixed with icon-only buttons (D4), and more than one value in
-   single selection.
+   `nph-togglebutton`, a button without `value`, a button whose `value` has more than one
+   word, a repeated `value`, a value that matches no button, buttons with text mixed with
+   icon-only buttons (D4), and more than one value in single selection.
 
 10. **Icons (D1).** The Alignment and Formatting examples need `align-left`, `align-center`,
     `align-right`, `bold`, `italic` and `underline`. They enter the block `icones_nucleo` of

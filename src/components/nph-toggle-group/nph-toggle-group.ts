@@ -6,8 +6,9 @@
  * the task DSA-23, sheet `fichas/nph-toggle-group.md`, `design.md` and decision P76 —
  * nph-toggle-group: API and semantics:
  * - the default slot takes `nph-togglebutton` children. Each child names itself with
- *   a `value` ATTRIBUTE that the group reads (`getAttribute('value')`): the button
- *   ignores it, has no `value` property, and P73 is not amended;
+ *   a `value` ATTRIBUTE that the group reads (`getAttribute('value')`): one word with no
+ *   whitespace. The button ignores it, has no `value` property, and P73 is not amended.
+ *   A change of that attribute on a direct child is observed and the group settles;
  * - `label`: the name of the group. The host is the `role="group"`, and `label`
  *   becomes its `aria-label`. A name the consumer puts on the host (`aria-label` or
  *   `aria-labelledby`) is also a name;
@@ -26,8 +27,8 @@
  *   per cause (the rule of P21): `selection` outside `single` and `multiple`, and no
  *   name. A problem in the composition renders anyway and emits `console.warn` only
  *   in development (D2): fewer than two buttons, a child that is not an
- *   `nph-togglebutton`, a button without `value`, a repeated `value`, a value that
- *   matches no button, buttons with text mixed with icon-only buttons (D4), and more
+ *   `nph-togglebutton`, a button without `value`, a `value` with more than one word, a
+ *   repeated `value`, a value that matches no button, buttons with text mixed with icon-only buttons (D4), and more
  *   than one value in `single`.
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
@@ -79,9 +80,24 @@ function isButton(element: Element): element is NphTogglebutton {
   return element.localName === BUTTON_TAG;
 }
 
-/** The `value` a button announces to the group: the trimmed attribute, empty when absent. */
-function valueOf(button: Element): string {
+/** The `value` attribute of a button as written, trimmed; empty when absent. */
+function rawValueOf(button: Element): string {
   return (button.getAttribute('value') ?? '').trim();
+}
+
+/** A value with whitespace inside is two words to the `value` attribute of the group. */
+function hasInnerWhitespace(value: string): boolean {
+  return /\s/.test(value);
+}
+
+/**
+ * The `value` a button announces to the group: one word with no whitespace. Empty when the
+ * attribute is absent, blank or holds more than one word, so such a button never joins the
+ * selection (P76, item 2).
+ */
+function valueOf(button: Element): string {
+  const value = rawValueOf(button);
+  return hasInnerWhitespace(value) ? '' : value;
 }
 
 export class NphToggleGroup extends LitElement {
@@ -116,6 +132,8 @@ export class NphToggleGroup extends LitElement {
   private accessibleNameChanged = false;
   /** The composition warnings already shown, so a problem that stays does not repeat. */
   private shownWarnings = new Set<string>();
+  /** Watches the `value` attribute of the direct children, which raises no `slotchange`. */
+  private readonly childValueObserver = new MutationObserver((records) => this.onChildValueMutation(records));
 
   constructor() {
     super();
@@ -135,6 +153,29 @@ export class NphToggleGroup extends LitElement {
     ) {
       this.accessibleNameChanged = true;
       this.requestUpdate();
+    }
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    /* One observer on the host covers the current set of children: the records are
+       filtered to the direct buttons, so a child added or removed later needs no wiring. */
+    this.childValueObserver.observe(this, { attributes: true, attributeFilter: ['value'], subtree: true });
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.childValueObserver.disconnect();
+  }
+
+  /** A direct button got a new `value` attribute: the group settles and checks again. */
+  private onChildValueMutation(records: MutationRecord[]): void {
+    const changed = records.some(
+      (record) => record.target instanceof Element && record.target.parentElement === this && isButton(record.target),
+    );
+    if (changed && this.valid) {
+      this.syncButtons();
+      this.checkComposition();
     }
   }
 
@@ -228,10 +269,14 @@ export class NphToggleGroup extends LitElement {
     if (others.length > 0) {
       warnings.add('only nph-togglebutton is a child of the group; the other elements are not part of the selection.');
     }
-    const values = buttons.map(valueOf);
-    if (values.some((value) => value === '')) {
+    const raw = buttons.map(rawValueOf);
+    if (raw.some((value) => value === '')) {
       warnings.add('every nph-togglebutton needs a value attribute: a button without it never joins the selection.');
     }
+    if (raw.some(hasInnerWhitespace)) {
+      warnings.add('a value attribute is one word with no whitespace: a button with more than one word never joins the selection.');
+    }
+    const values = buttons.map(valueOf);
     const named = values.filter((value) => value !== '');
     if (new Set(named).size !== named.length) {
       warnings.add('two buttons have the same value attribute: the value of the group cannot tell them apart.');
