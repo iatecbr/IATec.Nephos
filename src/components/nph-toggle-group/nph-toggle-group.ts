@@ -161,6 +161,7 @@ export class NphToggleGroup extends LitElement {
     /* One observer on the host covers the current set of children: the records are
        filtered to the direct buttons, so a child added or removed later needs no wiring. */
     this.childValueObserver.observe(this, { attributes: true, attributeFilter: ['value'], subtree: true });
+    this.requestUpdate();
   }
 
   override disconnectedCallback(): void {

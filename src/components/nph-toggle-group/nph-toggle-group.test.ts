@@ -814,14 +814,21 @@ describe('a change of the value attribute of a child alone', () => {
   it('stops observing when the group leaves the page and observes again when it returns', async () => {
     vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const group = await mount({ value: ['left'] });
+    const seen = listen(group);
     const syncSpy = vi.spyOn(group as unknown as { syncButtons: () => void }, 'syncButtons');
     group.remove();
-    buttonsOf(group)[1]?.setAttribute('value', 'moved');
+    buttonsOf(group)[0]?.setAttribute('value', 'start');
+    buttonsOf(group)[1]?.setAttribute('value', 'left');
     await NEXT_TASK();
     expect(syncSpy).not.toHaveBeenCalled();
+    expect(pressedOf(group)).toEqual([true, false, false]);
 
     document.body.append(group);
     await settle(group);
+    expect(pressedOf(group)).toEqual([false, true, false]);
+    expect(group.value).toEqual(['left']);
+    expect(seen).toEqual([]);
+
     syncSpy.mockClear();
     buttonsOf(group)[2]?.setAttribute('value', 'moved-again');
     await NEXT_TASK();
