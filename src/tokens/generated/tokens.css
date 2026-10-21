@@ -120,6 +120,7 @@
   --nph-core-layout-height-list: 18.5rem;
   --nph-core-layout-height-textarea-min: 4.75rem;
   --nph-core-layout-height-textarea-max: 13.5rem;
+  --nph-core-layout-height-dialog-max: 40rem;
   --nph-core-layout-width-app: 90rem;
   --nph-core-layout-width-reading: 35rem;
   --nph-core-layout-width-sidebar-collapsed: 4rem;
@@ -131,6 +132,12 @@
   --nph-core-layout-width-multi-combobox: 26.25rem;
   --nph-core-layout-width-separator: 15rem;
   --nph-core-layout-width-switch-track: 2.5rem;
+  --nph-core-layout-width-dialog-min: 20rem;
+  --nph-core-layout-width-dialog-sm: 25rem;
+  --nph-core-layout-width-dialog-lg: 45rem;
+  --nph-core-layout-width-dialog-content-sm: 22rem;
+  --nph-core-layout-width-dialog-content-md: 32rem;
+  --nph-core-layout-width-dialog-content-lg: 42rem;
   --nph-core-line-height-100: 1rem;
   --nph-core-neutral-50: #f1f1f1;
   --nph-core-neutral-100: #e3e3e3;
@@ -482,6 +489,14 @@
   --nph-layout-rich-option-width: var(--nph-core-layout-width-rich-option);
   --nph-layout-separator-width: var(--nph-core-layout-width-separator);
   --nph-layout-separator-height: var(--nph-core-layout-height-separator);
+  --nph-layout-dialog-min-width: var(--nph-core-layout-width-dialog-min);
+  --nph-layout-dialog-sm: var(--nph-core-layout-width-dialog-sm);
+  --nph-layout-dialog-md: var(--nph-core-layout-width-reading);
+  --nph-layout-dialog-lg: var(--nph-core-layout-width-dialog-lg);
+  --nph-layout-dialog-content-sm: var(--nph-core-layout-width-dialog-content-sm);
+  --nph-layout-dialog-content-md: var(--nph-core-layout-width-dialog-content-md);
+  --nph-layout-dialog-content-lg: var(--nph-core-layout-width-dialog-content-lg);
+  --nph-layout-dialog-max-height: var(--nph-core-layout-height-dialog-max);
   --nph-motion-enter-duration: var(--nph-core-duration-300);
   --nph-motion-enter-easing: var(--nph-core-easing-enter);
   --nph-motion-exit-duration: var(--nph-core-duration-200);
@@ -512,6 +527,9 @@
   --nph-space-section: var(--nph-core-space-700);
   --nph-space-stack-tight: var(--nph-core-space-100);
   --nph-space-stack: var(--nph-core-space-400);
+  --nph-space-stack-snug: var(--nph-core-space-200);
+  --nph-space-inline-loose: var(--nph-core-space-400);
+  --nph-space-overlay-padding: var(--nph-core-space-600);
   --nph-switch-track-width: var(--nph-core-layout-width-switch-track);
   --nph-text-highlight-weight: var(--nph-core-weight-semibold);
   --nph-text-heading-xl-font-family: var(--nph-core-font-sans);
@@ -608,6 +626,7 @@
   --nph-color-destructive-foreground: var(--nph-core-base-white);
   --nph-color-dialog-foreground: var(--nph-core-neutral-950);
   --nph-color-dialog: var(--nph-core-base-white);
+  --nph-color-dialog-separator: var(--nph-core-neutral-100);
   --nph-color-foreground: var(--nph-core-base-black);
   --nph-color-input: var(--nph-core-neutral-400);
   --nph-color-muted-foreground: var(--nph-core-neutral-600);
@@ -671,6 +690,7 @@
   --nph-status-warning-surface-hover: var(--nph-core-warn-100);
   --nph-status-help-surface-hover: var(--nph-core-help-100);
   --nph-status-success-surface-hover: var(--nph-core-success-100);
+  --nph-color-secondary-on-dialog: var(--nph-color-secondary);
   --nph-color-primary-foreground: var(--nph-theme-brand-on-600);
   --nph-color-primary: var(--nph-theme-brand-600);
   --nph-color-primary-surface: var(--nph-theme-brand-50);
@@ -738,6 +758,8 @@
   --nph-color-destructive-foreground: var(--nph-core-neutral-950);
   --nph-color-dialog-foreground: var(--nph-core-neutral-100);
   --nph-color-dialog: var(--nph-core-surface-600);
+  --nph-color-dialog-separator: var(--nph-core-surface-500);
+  --nph-color-secondary-on-dialog: var(--nph-core-surface-800);
   --nph-color-foreground: var(--nph-core-neutral-100);
   --nph-color-input: var(--nph-core-surface-300);
   --nph-color-muted-foreground: var(--nph-core-surface-200);

@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "layer": "semantic",
-      "expectedCount": 299,
-      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09; o novo valor claro de color/accent e os 3 tokens scrollbar/* lidos variavel a variavel em 2026-10-14; radius/control-inner e layout/max-list-height, do nph-select e do nph-combobox, lidos variavel a variavel em 2026-10-14; text/highlight-weight lido em 2026-10-14; layout/multi-combobox-width, do nph-multi-combobox, lido variavel a variavel em 2026-10-15; layout/textarea-min-height e layout/textarea-max-height, do nph-textarea, lidos variavel a variavel em 2026-10-16; scheme/is-light e scheme/is-dark, booleanos do nph-empty, lidos variavel a variavel em 2026-10-16; o novo valor claro de color/muted (core/surface/50), lido em 2026-10-19",
+      "expectedCount": 312,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09; o novo valor claro de color/accent e os 3 tokens scrollbar/* lidos variavel a variavel em 2026-10-14; radius/control-inner e layout/max-list-height, do nph-select e do nph-combobox, lidos variavel a variavel em 2026-10-14; text/highlight-weight lido em 2026-10-14; layout/multi-combobox-width, do nph-multi-combobox, lido variavel a variavel em 2026-10-15; layout/textarea-min-height e layout/textarea-max-height, do nph-textarea, lidos variavel a variavel em 2026-10-16; scheme/is-light e scheme/is-dark, booleanos do nph-empty, lidos variavel a variavel em 2026-10-16; o novo valor claro de color/muted (core/surface/50), lido em 2026-10-19; os 13 tokens do nph-dialog (layout/dialog-min-width, layout/dialog-sm, -md e -lg, layout/dialog-content-sm, -md e -lg, layout/dialog-max-height, space/stack-snug, space/inline-loose, space/overlay-padding, color/dialog-separator e color/secondary-on-dialog) lidos variavel a variavel em 2026-10-21",
       "modeSet": {
         "name": "color-scheme",
         "modes": [
@@ -694,6 +694,30 @@
           "modes": {
             "light": "{core.base.white}",
             "dark": "{core.surface.600}"
+          }
+        }
+      }
+    },
+    "dialog-separator": {
+      "$type": "color",
+      "$value": "{core.neutral.100}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{core.neutral.100}",
+            "dark": "{core.surface.500}"
+          }
+        }
+      }
+    },
+    "secondary-on-dialog": {
+      "$type": "color",
+      "$value": "{color.secondary}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{color.secondary}",
+            "dark": "{core.surface.800}"
           }
         }
       }
@@ -1485,6 +1509,38 @@
     "separator-height": {
       "$type": "dimension",
       "$value": "{core.layout-height.separator}"
+    },
+    "dialog-min-width": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.dialog-min}"
+    },
+    "dialog-sm": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.dialog-sm}"
+    },
+    "dialog-md": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.reading}"
+    },
+    "dialog-lg": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.dialog-lg}"
+    },
+    "dialog-content-sm": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.dialog-content-sm}"
+    },
+    "dialog-content-md": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.dialog-content-md}"
+    },
+    "dialog-content-lg": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.dialog-content-lg}"
+    },
+    "dialog-max-height": {
+      "$type": "dimension",
+      "$value": "{core.layout-height.dialog-max}"
     }
   },
   "motion": {
@@ -1811,6 +1867,18 @@
     "stack": {
       "$type": "dimension",
       "$value": "{core.space.400}"
+    },
+    "stack-snug": {
+      "$type": "dimension",
+      "$value": "{core.space.200}"
+    },
+    "inline-loose": {
+      "$type": "dimension",
+      "$value": "{core.space.400}"
+    },
+    "overlay-padding": {
+      "$type": "dimension",
+      "$value": "{core.space.600}"
     }
   },
   "state": {

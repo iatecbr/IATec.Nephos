@@ -365,6 +365,18 @@ tokens_semantic:
     claro: core/neutral/950
     escuro: core/neutral/100
     use: "Text and icon on color/dialog. 7,68:1 in dark."
+  color/dialog-separator:
+    css: '--nph-color-dialog-separator'
+    claro: core/neutral/100
+    escuro: core/surface/500
+    use: "Line of the nph-dialog header and footer, drawn by the nph-separator. Softer than color/border, to separate long content, such as a list or a table, without weight. Decorative: the content does not depend on it."
+    nao_use: "Outside the nph-dialog. A divider of a page, card or table is color/border."
+  color/secondary-on-dialog:
+    css: '--nph-color-secondary-on-dialog'
+    claro: color/secondary
+    escuro: core/surface/800
+    use: "Background of the solid secondary nph-button inside the nph-dialog. In dark, color/secondary is the same surface/600 as the dialog and the button would disappear; here it goes down to surface/800. In light it repeats color/secondary."
+    nao_use: "Outside the nph-dialog."
   color/primary-surface:
     css: '--nph-color-primary-surface'
     claro: theme/brand-50
@@ -1029,6 +1041,21 @@ tokens_space:
     alias: core/space/400
     valor: 16
     use: "Inner padding of card, panel, popover and dialog - what contains. DO NOT USE on a control."
+  space/stack-snug:
+    css: '--nph-space-stack-snug'
+    alias: core/space/200
+    valor: 8
+    use: "Vertical space between the title and the description of a header, and the extra room before the actions of the nph-dialog. DO NOT USE between fields of a form - there it is space/stack."
+  space/inline-loose:
+    css: '--nph-space-inline-loose'
+    alias: core/space/400
+    valor: 16
+    use: "Space between the footer actions of the nph-dialog and of an alert, side by side or stacked. DO NOT USE inside a regular group of buttons - there it is space/inline."
+  space/overlay-padding:
+    css: '--nph-space-overlay-padding'
+    alias: core/space/600
+    valor: 24
+    use: "Inner padding of the layer that BLOCKS the page: dialog, modal and side panel. USE on the padding of the nph-dialog. DO NOT USE on card, popover or control - those are space/container-padding and space/control-padding."
 
 regras_raio_parcial:
   preferido: 'The container carries the radius and CLIPS (overflow: hidden). The children stay at radius/none and do not need to know they are inside something curved. Applies to table, list, accordion and any stack.'
@@ -1404,6 +1431,13 @@ tokens_core_layout:
   core/layout-height/list:             { valor: 296, css: '--nph-core-layout-height-list', alias_de: 'layout/max-list-height' }
   core/layout-height/textarea-min:     { valor: 76, css: '--nph-core-layout-height-textarea-min', alias_de: 'layout/textarea-min-height' }
   core/layout-height/textarea-max:     { valor: 216, css: '--nph-core-layout-height-textarea-max', alias_de: 'layout/textarea-max-height' }
+  core/layout-width/dialog-min:        { valor: 320, css: '--nph-core-layout-width-dialog-min', alias_de: 'layout/dialog-min-width' }
+  core/layout-width/dialog-sm:         { valor: 400, css: '--nph-core-layout-width-dialog-sm', alias_de: 'layout/dialog-sm' }
+  core/layout-width/dialog-lg:         { valor: 720, css: '--nph-core-layout-width-dialog-lg', alias_de: 'layout/dialog-lg' }
+  core/layout-width/dialog-content-sm: { valor: 352, css: '--nph-core-layout-width-dialog-content-sm', alias_de: 'layout/dialog-content-sm' }
+  core/layout-width/dialog-content-md: { valor: 512, css: '--nph-core-layout-width-dialog-content-md', alias_de: 'layout/dialog-content-md' }
+  core/layout-width/dialog-content-lg: { valor: 672, css: '--nph-core-layout-width-dialog-content-lg', alias_de: 'layout/dialog-content-lg' }
+  core/layout-height/dialog-max:       { valor: 640, css: '--nph-core-layout-height-dialog-max', alias_de: 'layout/dialog-max-height' }
   core/layout-width/switch-track:      { valor: 40, css: '--nph-core-layout-width-switch-track', alias_de: 'switch/track-width' }
 
 # ---------------------------------------------------------------
@@ -1611,6 +1645,46 @@ tokens_layout:
     alias: core/layout-height/textarea-max
     valor: 216
     use: "Maximum height of nph-textarea. Above it, the text scrolls inside the field. DO NOT USE outside nph-textarea."
+  layout/dialog-min-width:
+    css: '--nph-layout-dialog-min-width'
+    alias: core/layout-width/dialog-min
+    valor: 320
+    use: "Minimum width of the nph-dialog. The dialog hugs its content between this value and the ceiling of its size (layout/dialog-sm, -md, -lg)."
+  layout/dialog-sm:
+    css: '--nph-layout-dialog-sm'
+    alias: core/layout-width/dialog-sm
+    valor: 400
+    use: "Width ceiling of the small nph-dialog. The dialog hugs its content up to here. USE for a choice or a short confirmation. DO NOT USE with a form."
+  layout/dialog-md:
+    css: '--nph-layout-dialog-md'
+    alias: core/layout-width/reading
+    valor: 560
+    use: "Width ceiling of the default nph-dialog. The dialog hugs its content up to here. USE for a short form and most dialogs."
+  layout/dialog-lg:
+    css: '--nph-layout-dialog-lg'
+    alias: core/layout-width/dialog-lg
+    valor: 720
+    use: "Width ceiling of the large nph-dialog. The dialog hugs its content up to here. USE with a table, a long list or a two-column form."
+  layout/dialog-content-sm:
+    css: '--nph-layout-dialog-content-sm'
+    alias: core/layout-width/dialog-content-sm
+    valor: 352
+    use: "Width of the default content area of the small nph-dialog: the size ceiling minus the padding on both sides. Swapped content sets its own width, up to this value."
+  layout/dialog-content-md:
+    css: '--nph-layout-dialog-content-md'
+    alias: core/layout-width/dialog-content-md
+    valor: 512
+    use: "Width of the default content area of the default nph-dialog: the size ceiling minus the padding on both sides. Swapped content sets its own width, up to this value."
+  layout/dialog-content-lg:
+    css: '--nph-layout-dialog-content-lg'
+    alias: core/layout-width/dialog-content-lg
+    valor: 672
+    use: "Width of the default content area of the large nph-dialog: the size ceiling minus the padding on both sides. Swapped content sets its own width, up to this value."
+  layout/dialog-max-height:
+    css: '--nph-layout-dialog-max-height'
+    alias: core/layout-height/dialog-max
+    valor: 640
+    use: "Maximum height of the nph-dialog. Above it, only the content scrolls; header and footer stay fixed. DO NOT USE outside the nph-dialog."
   layout/field-width:
     css: '--nph-layout-field-width'
     alias: core/layout-width/field
