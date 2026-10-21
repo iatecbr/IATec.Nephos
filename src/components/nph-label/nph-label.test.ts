@@ -10,8 +10,8 @@
  *
  * The color schemes are switched at the root (`data-nph-color-scheme` on `html`).
  */
-import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
-import { userEvent } from 'vitest/browser';
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { page, userEvent } from 'vitest/browser';
 
 import '@fontsource/noto-sans/latin-400.css';
 import '@fontsource/noto-sans/latin-500.css';
@@ -231,8 +231,11 @@ describe('accessibility', () => {
     expect(labelOf(el).contains(trigger)).toBe(false);
     expect(labelOf(el).nextElementSibling).toBe(trigger);
     expect(trigger.getAttribute('aria-label')).toBe('About full name');
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
-    expect(trigger.getAttribute('aria-controls')).toBe(tooltipOf(el).id);
+    /* The balloon describes the trigger; it is not a toggletip (P77). */
+    expect(trigger.id).not.toBe('');
+    expect(trigger.getAttribute('aria-describedby')).toBe(tooltipOf(el).id);
+    expect(trigger.hasAttribute('aria-expanded')).toBe(false);
+    expect(trigger.hasAttribute('aria-controls')).toBe(false);
   });
 
   it('the trigger does not enter the field name: the <label> text stays only the label', async () => {
@@ -253,17 +256,20 @@ describe('accessibility', () => {
     expect(icon?.getAttribute('aria-hidden')).toBe('true');
   });
 
-  it('the bubble is a live region from mount, closed, with the info text', async () => {
+  it('the balloon is a tooltip from mount, closed, for the trigger, with the info text', async () => {
     const el = await mount(withInfo);
     const tooltip = tooltipOf(el);
-    expect(tooltip.getAttribute('role')).toBe('status');
+    expect(tooltip.getAttribute('role')).toBe('tooltip');
+    expect(tooltip.getAttribute('for')).toBe(triggerOf(el).id);
     expect(tooltip.open).toBe(false);
     expect(tooltip.text).toBe('Explains what the field asks for.');
+    expect(tooltip.hasAttribute('aria-live')).toBe(false);
   });
 
-  it('each label has its own bubble id', async () => {
+  it('each label has its own trigger id and its own balloon id', async () => {
     const a = await mount(withInfo);
     const b = await mount(withInfo);
+    expect(triggerOf(a).id).not.toBe(triggerOf(b).id);
     expect(tooltipOf(a).id).not.toBe(tooltipOf(b).id);
   });
 });
@@ -338,9 +344,9 @@ describe('when the trigger appears', () => {
     expect(spy).not.toHaveBeenCalled();
   });
 
-  it('removing info erases the trigger and closes the bubble', async () => {
+  it('removing info erases the trigger and the balloon', async () => {
     const el = await mount(withInfo);
-    await userEvent.click(triggerOf(el));
+    await userEvent.hover(triggerOf(el));
     el.info = '';
     await el.updateComplete;
     expect(el.querySelector('button, nph-tooltip')).toBeNull();
@@ -435,39 +441,60 @@ describe('trigger focus', () => {
   });
 });
 
-describe('opening and closing the bubble', () => {
-  it('a click opens and closes, and the trigger keeps focus', async () => {
+describe('opening and closing the balloon', () => {
+  const shown = (el: NphLabel): boolean => bubbleOf(el).matches(':popover-open');
+  const gone = async (el: NphLabel): Promise<void> => {
+    await vi.waitFor(() => expect(shown(el)).toBe(false), { timeout: 2000 });
+  };
+
+  it('hovering the trigger opens it', async () => {
     const el = await mount(withInfo);
-    const trigger = triggerOf(el);
-    await userEvent.click(trigger);
+    await userEvent.hover(triggerOf(el));
     await settle(el);
     expect(tooltipOf(el).open).toBe(true);
-    expect(trigger.getAttribute('aria-expanded')).toBe('true');
-    expect(document.activeElement).toBe(trigger);
+    expect(shown(el)).toBe(true);
     expect(bubbleOf(el).textContent).toBe('Explains what the field asks for.');
-    await userEvent.click(trigger);
-    await settle(el);
-    expect(tooltipOf(el).open).toBe(false);
-    expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
-  it('Enter and Space toggle', async () => {
+  it('keyboard focus on the trigger opens it, and the focus stays on the trigger', async () => {
     const el = await mount(withInfo);
-    triggerOf(el).focus();
+    await userEvent.tab();
+    await settle(el);
+    expect(document.activeElement).toBe(triggerOf(el));
+    expect(tooltipOf(el).open).toBe(true);
+    expect(shown(el)).toBe(true);
+  });
+
+  it('a click does not toggle it: the balloon stays as hover and focus left it', async () => {
+    const el = await mount(withInfo);
+    await userEvent.click(triggerOf(el));
+    await settle(el);
+    expect(tooltipOf(el).open).toBe(true);
+    await userEvent.click(triggerOf(el));
+    await settle(el);
+    expect(tooltipOf(el).open).toBe(true);
     await userEvent.keyboard('{Enter}');
     await settle(el);
     expect(tooltipOf(el).open).toBe(true);
-    await userEvent.keyboard(' ');
-    await settle(el);
-    expect(tooltipOf(el).open).toBe(false);
   });
 
-  it('Esc with the bubble open closes it, leaves focus on the trigger and does not propagate', async () => {
+  it('touch does not open it', async () => {
     const el = await mount(withInfo);
+    const trigger = triggerOf(el);
+    trigger.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'touch' }));
+    trigger.dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'touch', bubbles: true }));
+    trigger.focus();
+    await settle(el);
+    expect(tooltipOf(el).open).toBe(false);
+    expect(shown(el)).toBe(false);
+  });
+
+  it('Esc with the balloon open closes it, leaves focus on the trigger and does not propagate', async () => {
+    const el = await mount(withInfo);
+    await userEvent.tab();
+    await settle(el);
     const outer = vi.fn();
     document.body.addEventListener('keydown', outer);
-    await userEvent.click(triggerOf(el));
-    await settle(el);
     await userEvent.keyboard('{Escape}');
     await settle(el);
     expect(tooltipOf(el).open).toBe(false);
@@ -476,32 +503,32 @@ describe('opening and closing the bubble', () => {
     document.body.removeEventListener('keydown', outer);
   });
 
-  it('Esc with the bubble closed is not intercepted', async () => {
+  it('Esc with the balloon closed is not intercepted', async () => {
     const el = await mount(withInfo);
     const outer = vi.fn();
     document.body.addEventListener('keydown', outer);
+    triggerOf(el).dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'touch', bubbles: true }));
     triggerOf(el).focus();
     await userEvent.keyboard('{Escape}');
     expect(outer).toHaveBeenCalledTimes(1);
     document.body.removeEventListener('keydown', outer);
   });
 
-  it('a click outside closes; a click inside the bubble does not close', async () => {
-    const outside = document.createElement('p');
-    outside.textContent = 'outside';
-    document.body.append(outside);
+  it('the pointer leaving the trigger closes it; over the balloon it stays open', async () => {
     const el = await mount(withInfo);
-    await userEvent.click(triggerOf(el));
+    await userEvent.hover(triggerOf(el));
     await settle(el);
-    await userEvent.click(bubbleOf(el));
+    await userEvent.hover(bubbleOf(el));
     await settle(el);
+    await new Promise((resolve) => setTimeout(resolve, 400));
     expect(tooltipOf(el).open).toBe(true);
-    await userEvent.click(outside);
+    await userEvent.unhover(bubbleOf(el));
     await settle(el);
     expect(tooltipOf(el).open).toBe(false);
+    await gone(el);
   });
 
-  it('a click on the label text closes the bubble and moves focus to the field', async () => {
+  it('a click on the label text moves focus to the field and closes the balloon', async () => {
     const field = document.createElement('input');
     field.id = 'name-field';
     document.body.append(field);
@@ -509,12 +536,15 @@ describe('opening and closing the bubble', () => {
       withInfo(e);
       e.for = 'name-field';
     });
-    await userEvent.click(triggerOf(el));
+    await userEvent.tab();
+    await userEvent.tab();
     await settle(el);
+    expect(document.activeElement).toBe(triggerOf(el));
+    expect(tooltipOf(el).open).toBe(true);
     await userEvent.click(labelOf(el));
     await settle(el);
-    expect(tooltipOf(el).open).toBe(false);
     expect(document.activeElement).toBe(field);
+    expect(tooltipOf(el).open).toBe(false);
   });
 
   it('Tab and Shift+Tab out close it', async () => {
@@ -524,58 +554,96 @@ describe('opening and closing the bubble', () => {
     const after = document.createElement('input');
     document.body.append(after);
 
-    await userEvent.click(triggerOf(el));
+    await userEvent.tab();
+    await userEvent.tab();
     await settle(el);
+    expect(document.activeElement).toBe(triggerOf(el));
+    expect(tooltipOf(el).open).toBe(true);
     await userEvent.tab();
     await settle(el);
     expect(document.activeElement).toBe(after);
     expect(tooltipOf(el).open).toBe(false);
 
-    await userEvent.click(triggerOf(el));
+    await userEvent.tab({ shift: true });
     await settle(el);
+    expect(document.activeElement).toBe(triggerOf(el));
+    expect(tooltipOf(el).open).toBe(true);
     await userEvent.tab({ shift: true });
     await settle(el);
     expect(document.activeElement).toBe(before);
     expect(tooltipOf(el).open).toBe(false);
   });
 
-  it('hovering does not open it', async () => {
+  it('disconnecting with the balloon open releases the listeners and the description', async () => {
     const el = await mount(withInfo);
-    await userEvent.hover(triggerOf(el));
+    const trigger = triggerOf(el);
+    await userEvent.hover(trigger);
     await settle(el);
-    expect(tooltipOf(el).open).toBe(false);
-  });
-
-  it('disconnecting with the bubble open releases the document listener', async () => {
     const remove = vi.spyOn(document, 'removeEventListener');
-    const el = await mount(withInfo);
-    await userEvent.click(triggerOf(el));
-    await settle(el);
     el.remove();
-    expect(remove.mock.calls.some(([type, , options]) => type === 'pointerdown' && options === true)).toBe(true);
+    expect(remove.mock.calls.some(([type, , options]) => type === 'keydown' && options === true)).toBe(true);
+    expect(trigger.hasAttribute('aria-describedby')).toBe(false);
   });
 });
 
-describe('bubble position', () => {
-  it('below the label, aligned to the start, at space/inline, without changing the label height', async () => {
-    const el = await mount(withInfo);
-    const before = el.getBoundingClientRect();
-    await userEvent.click(triggerOf(el));
-    await settle(el);
-    const root = el.getBoundingClientRect();
-    const tooltip = tooltipOf(el).getBoundingClientRect();
-    expect(root.height).toBeCloseTo(before.height, 2);
-    expect(tooltip.left).toBeCloseTo(root.left, 1);
-    expect(tooltip.top - root.bottom).toBeCloseTo(px('width', '--nph-space-inline'), 1);
+describe('balloon position', () => {
+  /* The test window is short by default; the balloon above needs room. */
+  beforeAll(async () => {
+    await page.viewport(900, 700);
   });
 
-  it('short label and long explanation: the bubble goes up to the maximum width, in up to two lines', async () => {
+  afterAll(async () => {
+    await page.viewport(414, 896);
+  });
+
+  const lower = (el: NphLabel): void => {
+    el.style.cssText = 'position:fixed;left:300px;top:300px';
+  };
+
+  it('above the label by default, centered on the trigger, at space/inline, without changing the label height', async () => {
+    const el = await mount((e) => {
+      withInfo(e);
+      lower(e);
+    });
+    const before = el.getBoundingClientRect();
+    await userEvent.hover(triggerOf(el));
+    await settle(el);
+    const root = el.getBoundingClientRect();
+    const trigger = triggerOf(el).getBoundingClientRect();
+    const bubble = bubbleOf(el).getBoundingClientRect();
+    expect(root.height).toBeCloseTo(before.height, 2);
+    expect(trigger.top - bubble.bottom).toBeCloseTo(px('width', '--nph-space-inline'), 1);
+    expect(bubble.left + bubble.width / 2).toBeCloseTo(trigger.left + trigger.width / 2, 1);
+  });
+
+  it('the balloon takes no room in the row: the root is the text, the gap and the trigger', async () => {
+    const el = await mount(withInfo);
+    const text = labelOf(el).getBoundingClientRect();
+    const trigger = triggerOf(el).getBoundingClientRect();
+    const root = el.getBoundingClientRect();
+    expect(root.width).toBeCloseTo(text.width + px('width', '--nph-space-inline-tight') + trigger.width, 1);
+    const box = tooltipOf(el).getBoundingClientRect();
+    expect([box.width, box.height]).toEqual([0, 0]);
+  });
+
+  it('flips below the label when it does not fit above', async () => {
+    const el = await mount((e) => {
+      withInfo(e);
+      e.style.cssText = 'position:fixed;left:300px;top:4px';
+    });
+    await userEvent.hover(triggerOf(el));
+    await settle(el);
+    expect(bubbleOf(el).getBoundingClientRect().top).toBeGreaterThan(triggerOf(el).getBoundingClientRect().bottom);
+  });
+
+  it('short label and long explanation: the balloon goes up to the maximum width, in up to two lines', async () => {
     const el = await mount((e) => {
       e.text = 'CPF';
       e.info = 'Use the number printed on the identity card, digits only, without dots or dashes.';
       e.infoLabel = 'About CPF';
+      lower(e);
     });
-    await userEvent.click(triggerOf(el));
+    await userEvent.hover(triggerOf(el));
     await settle(el);
     const bubble = bubbleOf(el).getBoundingClientRect();
     expect(bubble.width).toBeCloseTo(px('width', '--nph-layout-max-tooltip-width'), 1);
@@ -617,7 +685,7 @@ describe('token contract', () => {
     }
   });
 
-  it('every token the trigger and the bubble consume exists in the generated CSS', () => {
+  it('every token the trigger consumes exists in the generated CSS; the balloon tokens are the tooltip\'s', () => {
     for (const token of [
       '--nph-space-inline-tight',
       '--nph-space-inline',
