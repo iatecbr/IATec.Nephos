@@ -198,6 +198,18 @@ import { faTag as lTag } from '@fortawesome/pro-light-svg-icons/faTag';
 import { faTag as sTag } from '@fortawesome/pro-solid-svg-icons/faTag';
 import { faTrophy as lTrophy } from '@fortawesome/pro-light-svg-icons/faTrophy';
 import { faTrophy as sTrophy } from '@fortawesome/pro-solid-svg-icons/faTrophy';
+import { faAlignLeft as lAlignLeft } from '@fortawesome/pro-light-svg-icons/faAlignLeft';
+import { faAlignLeft as sAlignLeft } from '@fortawesome/pro-solid-svg-icons/faAlignLeft';
+import { faAlignCenter as lAlignCenter } from '@fortawesome/pro-light-svg-icons/faAlignCenter';
+import { faAlignCenter as sAlignCenter } from '@fortawesome/pro-solid-svg-icons/faAlignCenter';
+import { faAlignRight as lAlignRight } from '@fortawesome/pro-light-svg-icons/faAlignRight';
+import { faAlignRight as sAlignRight } from '@fortawesome/pro-solid-svg-icons/faAlignRight';
+import { faBold as lBold } from '@fortawesome/pro-light-svg-icons/faBold';
+import { faBold as sBold } from '@fortawesome/pro-solid-svg-icons/faBold';
+import { faItalic as lItalic } from '@fortawesome/pro-light-svg-icons/faItalic';
+import { faItalic as sItalic } from '@fortawesome/pro-solid-svg-icons/faItalic';
+import { faUnderline as lUnderline } from '@fortawesome/pro-light-svg-icons/faUnderline';
+import { faUnderline as sUnderline } from '@fortawesome/pro-solid-svg-icons/faUnderline';
 
 /**
  * The core names (`design.md`, block `icones_nucleo`).
@@ -297,6 +309,12 @@ export const NPH_ICON_NAMES = [
   'suitcase',
   'tag',
   'trophy',
+  'align-left',
+  'align-center',
+  'align-right',
+  'bold',
+  'italic',
+  'underline',
 ] as const;
 
 export type NphIconName = (typeof NPH_ICON_NAMES)[number];
@@ -416,6 +434,12 @@ const GLYPHS = {
   suitcase: glyph(lSuitcase, sSuitcase),
   tag: glyph(lTag, sTag),
   trophy: glyph(lTrophy, sTrophy),
+  'align-left': glyph(lAlignLeft, sAlignLeft),
+  'align-center': glyph(lAlignCenter, sAlignCenter),
+  'align-right': glyph(lAlignRight, sAlignRight),
+  bold: glyph(lBold, sBold),
+  italic: glyph(lItalic, sItalic),
+  underline: glyph(lUnderline, sUnderline),
 } satisfies Readonly<Record<NphIconName, IconGlyph>>;
 
 const NAMES = new Set<string>(NPH_ICON_NAMES);

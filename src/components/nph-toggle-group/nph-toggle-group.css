@@ -1,0 +1,23 @@
+/**
+ * Internal style of `nph-toggle-group`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom property consumed here.
+ *
+ * The group has no background, border, focus or color of its own: it gathers the
+ * `nph-togglebutton` children in a row and spaces them with `space/inline`. Height,
+ * color, state and focus come from each button. No literal design value goes in here.
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* The only child of the shadow root is the slot, so the buttons are flex items of the host. */
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  align-items: stretch;
+  vertical-align: middle;
+  gap: var(--nph-space-inline);
+}
