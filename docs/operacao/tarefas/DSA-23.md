@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 210,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-toggle-group",
   "dependencies": [
     "DSA-22"
@@ -24,10 +24,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-23/review-and-merge-2026-10-21.md",
+      "result": "passed",
+      "verified_at": "2026-10-21",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -46,7 +46,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-23/documentacao-figma-aceita-2026-10-08.md"
+    "docs/operacao/evidencias/DSA-23/documentacao-figma-aceita-2026-10-08.md",
+    "docs/operacao/evidencias/DSA-23/review-and-merge-2026-10-21.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -62,11 +63,11 @@
   },
   "git_review": {
     "branch": "claude/dsa-23-nph-toggle-group-5f3299",
-    "commit": "484345871ffe9ad237bab17fa9f12ffb1bea4c04",
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/92"
+    "commit": "be4f098d5732b2bfbe36f6016cd39cfedebf63a9",
+    "pr": "92"
   },
-  "context": "docs/operacao/contextos/DSA-23.md",
-  "updated_at": "2026-10-20"
+  "context": null,
+  "updated_at": "2026-10-21"
 }
 ```
 
