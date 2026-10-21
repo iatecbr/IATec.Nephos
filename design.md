@@ -332,6 +332,12 @@ tokens_semantic:
     claro: core/neutral/400
     escuro: core/surface/300
     use: "Field border: input, select, textarea, checkbox."
+  color/dropdown-border:
+    css: '--nph-color-dropdown-border'
+    claro: color/border
+    escuro: color/border
+    use: "Outline of the open nph-dropdown-menu. Softer than color/input, so the menu does not weigh on the screen; the elevation/dropdown shadow completes the separation from the background. Decorative: the items are read by their text. USE only on the nph-dropdown-menu outline."
+    nao_use: "Select, combobox, date-picker or toast: those floating layers stay in color/input."
   color/card:
     css: '--nph-color-card'
     claro: core/base/white
@@ -387,7 +393,7 @@ tokens_semantic:
     css: '--nph-color-primary-surface'
     claro: theme/brand-50
     escuro: theme/brand-900
-    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button and the selected option of nph-select. Follows the active brand. USE always with color/primary-on-surface. Exception: the selected nph-select option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark). DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted."
+    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and the hover of the nph-dropdown-menu item. Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted."
   color/primary-on-surface:
     css: '--nph-color-primary-on-surface'
     claro: theme/brand-600
@@ -467,7 +473,7 @@ tokens_semantic:
     css: '--nph-color-accent-subtle'
     claro: core/neutral/50
     escuro: core/surface/700
-    use: "Hover surface of a selectable container: option card, item the person chooses. Do not use for the hover of a menu item, table row or simple list item: those stay in color/accent."
+    use: "Hover surface of a selectable container: option card, item the person chooses. Do not use for the hover of a table row or simple list item: those stay in color/accent. The hover of the nph-dropdown-menu item is color/primary-surface."
   color/tooltip:
     css: '--nph-color-tooltip'
     claro: core/neutral/600
@@ -1187,8 +1193,9 @@ tokens_core_radius:
   '500':  { valor: 12,   css: '--nph-core-radius-500' }
   '600':  { valor: 14,   css: '--nph-core-radius-600' }
   full:   { valor: 9999, css: '--nph-core-radius-full' }
-  off-scale/5:  { valor: 5,  css: '--nph-core-radius-off-scale-5',  alias_de: 'radius/control-inner' }
+  off-scale/5:  { valor: 5,  css: '--nph-core-radius-off-scale-5',  alias_de: 'radius/control-inner, focus/border-radius-inner' }
   off-scale/7:  { valor: 7,  css: '--nph-core-radius-off-scale-7',  alias_de: 'focus/border-radius-control' }
+  off-scale/9:  { valor: 9,  css: '--nph-core-radius-off-scale-9',  alias_de: 'focus/radius-inner-with-border' }
   off-scale/11: { valor: 11, css: '--nph-core-radius-off-scale-11', alias_de: 'focus/radius-control-with-border' }
   off-scale/18: { valor: 18, css: '--nph-core-radius-off-scale-18', alias_de: 'focus/radius-surface' }
 
@@ -1540,6 +1547,16 @@ tokens_alpha:
     alias: core/radius/400
     valor: 8
     use: "Radius of the focus halo around a piece with radius/inner: radius/inner + focus/ring-width."
+  focus/border-radius-inner:
+    css: '--nph-focus-border-radius-inner'
+    alias: core/radius/off-scale/5
+    valor: 5
+    use: "Radius of the 1 px focus border around a piece with radius/inner, such as the nph-dropdown-menu item."
+  focus/radius-inner-with-border:
+    css: '--nph-focus-radius-inner-with-border'
+    alias: core/radius/off-scale/9
+    valor: 9
+    use: "Radius of the focus halo around the focus border of a piece with radius/inner: focus/border-radius-inner + focus/ring-width."
   focus/radius-surface:
     css: '--nph-focus-radius-surface'
     alias: core/radius/off-scale/18
@@ -2376,7 +2393,7 @@ It is not an inversion. Three rules:
 2. **No pure black or white.** The background is `surface/900`, not `#000000`. Text is `neutral/100`, not white. Absolute black with white text causes halation.
 3. **The border lightens much more than symmetry suggests.** `color/border` in light is `neutral/200`; in dark it is **not** `neutral/700` (it would give 2,04:1 and fail) — it is `surface/400`.
 
-**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating.
+**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-dropdown-menu uses `color/dropdown-border` (an alias of `color/border`); there the border is decorative and `elevation/dropdown` separates the menu from the background.
 
 ---
 

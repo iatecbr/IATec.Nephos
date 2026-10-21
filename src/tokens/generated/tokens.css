@@ -159,6 +159,7 @@
   --nph-core-radius-full: 9999px;
   --nph-core-radius-off-scale-5: 5px;
   --nph-core-radius-off-scale-7: 7px;
+  --nph-core-radius-off-scale-9: 9px;
   --nph-core-radius-off-scale-11: 11px;
   --nph-core-radius-off-scale-18: 18px;
   --nph-core-rh-50: #ede9f2;
@@ -458,7 +459,9 @@
   --nph-focus-border-radius-control: var(--nph-core-radius-off-scale-7);
   --nph-focus-radius-control: var(--nph-core-radius-450);
   --nph-focus-radius-control-with-border: var(--nph-core-radius-off-scale-11);
+  --nph-focus-border-radius-inner: var(--nph-core-radius-off-scale-5);
   --nph-focus-radius-inner: var(--nph-core-radius-400);
+  --nph-focus-radius-inner-with-border: var(--nph-core-radius-off-scale-9);
   --nph-focus-radius-surface: var(--nph-core-radius-off-scale-18);
   --nph-focus-ring-width: var(--nph-core-focus-width-default);
   --nph-focus-halo-info: var(--nph-core-info-200);
@@ -562,6 +565,7 @@
   --nph-elevation-raised: 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-100) var(--nph-core-shadow-spread-100) var(--nph-shadow-color), 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-200) var(--nph-core-shadow-spread-0) var(--nph-shadow-color);
   --nph-elevation-spotlight: 0px var(--nph-core-shadow-y-600) var(--nph-core-shadow-blur-700) var(--nph-core-shadow-spread-700) var(--nph-shadow-color-strong);
   --nph-elevation-subtle: 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-100) var(--nph-core-shadow-spread-0) var(--nph-shadow-color-light);
+  --nph-color-dropdown-border: var(--nph-color-border);
   --nph-focus-ring-default: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring);
   --nph-focus-ring-invalid: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring-error);
   --nph-focus-ring-sidebar: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-sidebar-ring);
