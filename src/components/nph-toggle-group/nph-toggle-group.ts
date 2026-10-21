@@ -87,6 +87,10 @@ function valueOf(button: Element): string {
 export class NphToggleGroup extends LitElement {
   static override styles = unsafeCSS(toggleGroupCss);
 
+  static override get observedAttributes(): string[] {
+    return [...super.observedAttributes, 'aria-label', 'aria-labelledby'];
+  }
+
   static override properties = {
     label: { type: String },
     selection: { type: String },
@@ -108,6 +112,8 @@ export class NphToggleGroup extends LitElement {
 
   private valid = false;
   private labelApplied = false;
+  private applyingSemantics = false;
+  private accessibleNameChanged = false;
   /** The composition warnings already shown, so a problem that stays does not repeat. */
   private shownWarnings = new Set<string>();
 
@@ -120,8 +126,32 @@ export class NphToggleGroup extends LitElement {
     this.addEventListener(BUTTON_CHANGE_EVENT, (event) => this.onButtonChange(event));
   }
 
+  override attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
+    super.attributeChangedCallback(name, oldValue, newValue);
+    if (
+      (name === 'aria-label' || name === 'aria-labelledby') &&
+      oldValue !== newValue &&
+      !this.applyingSemantics
+    ) {
+      this.accessibleNameChanged = true;
+      this.requestUpdate();
+    }
+  }
+
   private buttons(): NphTogglebutton[] {
     return [...this.children].filter(isButton);
+  }
+
+  private selectableButtons(): NphTogglebutton[] {
+    const values = new Set<string>();
+    return this.buttons().filter((button) => {
+      const value = valueOf(button);
+      if (value === '' || values.has(value)) {
+        return false;
+      }
+      values.add(value);
+      return true;
+    });
   }
 
   /** The direct child button a click or event came from, if any. */
@@ -139,7 +169,7 @@ export class NphToggleGroup extends LitElement {
       return;
     }
     const button = event.composedPath().map((node) => this.buttonOf(node)).find((found) => found !== undefined);
-    if (button?.pressed && !button.disabled) {
+    if (button !== undefined && this.selectableButtons().includes(button) && button.pressed && !button.disabled) {
       event.stopPropagation();
     }
   }
@@ -148,6 +178,10 @@ export class NphToggleGroup extends LitElement {
   private onButtonChange(event: Event): void {
     const changed = this.buttonOf(event.target);
     if (!this.valid || changed === undefined) {
+      return;
+    }
+    if (!this.selectableButtons().includes(changed)) {
+      this.syncButtons();
       return;
     }
     if (this.selection === 'single') {
@@ -168,17 +202,17 @@ export class NphToggleGroup extends LitElement {
   }
 
   private checkedValues(): string[] {
-    return this.buttons()
+    return this.selectableButtons()
       .filter((button) => button.pressed)
-      .map(valueOf)
-      .filter((value) => value !== '');
+      .map(valueOf);
   }
 
   /** The group is the source of truth: `pressed` of every child follows `value`. */
   private syncButtons(): void {
+    const selectable = new Set(this.selectableButtons());
     for (const button of this.buttons()) {
       const value = valueOf(button);
-      button.pressed = value !== '' && this.value.includes(value);
+      button.pressed = selectable.has(button) && this.value.includes(value);
     }
   }
 
@@ -221,14 +255,19 @@ export class NphToggleGroup extends LitElement {
 
   /** The host is the group: its role and its name come from here, as in `nph-icon`. */
   private applySemantics(): void {
-    this.setAttribute('role', 'group');
-    const label = (this.label ?? '').trim();
-    if (label !== '') {
-      this.setAttribute('aria-label', label);
-      this.labelApplied = true;
-    } else if (this.labelApplied) {
-      this.removeAttribute('aria-label');
-      this.labelApplied = false;
+    this.applyingSemantics = true;
+    try {
+      this.setAttribute('role', 'group');
+      const label = (this.label ?? '').trim();
+      if (label !== '') {
+        this.setAttribute('aria-label', label);
+        this.labelApplied = true;
+      } else if (this.labelApplied) {
+        this.removeAttribute('aria-label');
+        this.labelApplied = false;
+      }
+    } finally {
+      this.applyingSemantics = false;
     }
   }
 
@@ -236,8 +275,14 @@ export class NphToggleGroup extends LitElement {
     this.applySemantics();
 
     /* Only the inputs that decide validity are checked again, so the errors do not repeat. */
-    if (changed.has('label') || changed.has('selection') || !this.hasUpdated) {
-      const selection = (this.selection ?? '').trim();
+    if (
+      changed.has('label') ||
+      changed.has('selection') ||
+      this.accessibleNameChanged ||
+      !this.hasUpdated
+    ) {
+      this.accessibleNameChanged = false;
+      const selection = this.selection ?? '';
       const named = ['aria-label', 'aria-labelledby'].some((name) => (this.getAttribute(name) ?? '').trim() !== '');
       let valid = true;
 

@@ -271,6 +271,34 @@ describe('semantics', () => {
     expect(group.hasAttribute('aria-label')).toBe(false);
   });
 
+  it('revalidates when aria-label or aria-labelledby is added or removed after mount', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const group = await mount({ label: null });
+    expect(group.hasAttribute('data-nph-rendered')).toBe(false);
+
+    group.value = ['left'];
+    await settle(group);
+    expect(group.hasAttribute('data-nph-rendered')).toBe(false);
+
+    group.setAttribute('aria-label', 'Alignment');
+    await settle(group);
+    expect(group.hasAttribute('data-nph-rendered')).toBe(true);
+    expect(pressedOf(group)).toEqual([true, false, false]);
+
+    group.removeAttribute('aria-label');
+    await settle(group);
+    expect(group.hasAttribute('data-nph-rendered')).toBe(false);
+
+    group.setAttribute('aria-labelledby', 'alignment-label');
+    await settle(group);
+    expect(group.hasAttribute('data-nph-rendered')).toBe(true);
+
+    group.removeAttribute('aria-labelledby');
+    await settle(group);
+    expect(group.hasAttribute('data-nph-rendered')).toBe(false);
+    expect(error).toHaveBeenCalledTimes(3);
+  });
+
   it('a name the consumer puts on the host is also a name: aria-label and aria-labelledby', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const named = document.createElement('nph-toggle-group');
@@ -334,6 +362,52 @@ describe('single selection', () => {
     document.body.append(group);
     await settle(group);
     expect(pressedOf(group)).toEqual([false, false, true]);
+  });
+
+  it('ignores clicks on buttons without a non-empty value and restores the current selection', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = await mount({
+      value: ['left'],
+      buttons: [
+        { value: 'left', label: 'Left' },
+        { label: 'Missing value' },
+        { value: '  ', label: 'Empty value' },
+        { value: 'right', label: 'Right' },
+      ],
+    });
+    const missingValue = buttonsOf(group)[1] as NphTogglebutton;
+    const emptyValue = buttonsOf(group)[2] as NphTogglebutton;
+    const seen = listen(group);
+
+    expect(pressedOf(group)).toEqual([true, false, false, false]);
+    await userEvent.click(inner(missingValue));
+    await settle(group);
+    await userEvent.click(inner(emptyValue));
+    await settle(group);
+
+    expect(group.value).toEqual(['left']);
+    expect(pressedOf(group)).toEqual([true, false, false, false]);
+    expect(seen).toEqual([]);
+    expect(warn).toHaveBeenCalledTimes(1);
+  });
+
+  it('ignores duplicate values during initial sync and restores selection after their clicks', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const group = await mount({
+      value: ['a'],
+      buttons: [{ value: 'a', text: 'First' }, { value: 'a', text: 'Duplicate' }, { value: 'b', text: 'B' }],
+    });
+    const duplicate = buttonsOf(group)[1] as NphTogglebutton;
+    const seen = listen(group);
+
+    expect(pressedOf(group)).toEqual([true, false, false]);
+    await userEvent.click(inner(duplicate));
+    await settle(group);
+
+    expect(group.value).toEqual(['a']);
+    expect(pressedOf(group)).toEqual([true, false, false]);
+    expect(seen).toEqual([]);
+    expect(warn).toHaveBeenCalledTimes(1);
   });
 
   it('checking a button unchecks the others and says the new value once', async () => {
@@ -652,6 +726,14 @@ describe('invalid input: it renders nothing and says why, once per cause', () =>
     expect(getComputedStyle(group).display).toBe('none');
     expect(group.getBoundingClientRect().width).toBe(0);
     expect(group.shadowRoot?.querySelector('slot')).toBeNull();
+    expect(error).toHaveBeenCalledTimes(1);
+  });
+
+  it('rejects a selection value padded with whitespace', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const group = await mount({ selection: ' single ' });
+    expect(group.hasAttribute('data-nph-rendered')).toBe(false);
+    expect(getComputedStyle(group).display).toBe('none');
     expect(error).toHaveBeenCalledTimes(1);
   });
 
