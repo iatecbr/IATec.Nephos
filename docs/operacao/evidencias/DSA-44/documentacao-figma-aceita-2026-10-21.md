@@ -22,7 +22,7 @@
 
 The documentation of the `nph-dialog` board (`1368:27`) was accepted in Figma,
 in the file `DS-IA-NEPHOS 5.0`, with the Figma UX QA and the textual audit
-approved, each by two independent reviewers. The component needed 20 tokens
+approved. The component needed 20 tokens
 that were not on `v/5.0.0`; they were taken to `v/5.0.0` with the same values
 as in Figma, together with this task. Every other token it uses was already
 there.
@@ -110,7 +110,9 @@ Demonstrations in the frame, in light and dark: the same dialog with
 `ações=em linha` and `ações=empilhadas`.
 
 ## Usage
-No code example in the documentation. The attributes come with the spec.
+The component has no code yet; the attributes come with the spec. The frame
+shows only the tag, `<nph-dialog></nph-dialog>`, and the import,
+`import 'nephos/nph-dialog';`.
 
 ## Relations and context
 - It always opens over the `overlay/scrim` veil; the veil is not part of the piece.

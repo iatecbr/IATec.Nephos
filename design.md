@@ -369,7 +369,7 @@ tokens_semantic:
     css: '--nph-color-dialog-separator'
     claro: core/neutral/100
     escuro: core/surface/500
-    use: "Line of the nph-dialog header and footer, drawn by the nph-separator. Softer than color/border, to separate long content, such as a list or a table, without weight. Decorative: the content does not depend on it."
+    use: "Line of the nph-dialog header and footer. Softer than color/border, to separate long content, such as a list or a table, without weight. Decorative: the content does not depend on it."
     nao_use: "Outside the nph-dialog. A divider of a page, card or table is color/border."
   color/secondary-on-dialog:
     css: '--nph-color-secondary-on-dialog'
@@ -1055,7 +1055,7 @@ tokens_space:
     css: '--nph-space-overlay-padding'
     alias: core/space/600
     valor: 24
-    use: "Inner padding of the layer that BLOCKS the page: dialog, modal and side panel. USE on the padding of the nph-dialog. DO NOT USE on card, popover or control - those are space/container-padding and space/control-padding."
+    use: "Inner padding of the layer that BLOCKS the page: dialog, modal and side panel. USE on the padding of the nph-dialog. DO NOT USE on card, popover or control - those are space/container-padding."
 
 regras_raio_parcial:
   preferido: 'The container carries the radius and CLIPS (overflow: hidden). The children stay at radius/none and do not need to know they are inside something curved. Applies to table, list, accordion and any stack.'
