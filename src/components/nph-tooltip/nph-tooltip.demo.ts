@@ -26,10 +26,10 @@ export type Scheme = 'light' | 'dark';
 export function inScheme(scheme: Scheme, caption: string, content: TemplateResult): TemplateResult {
   return html`<figure
     data-nph-color-scheme=${scheme}
-    style="margin: 0; display: flex; flex-direction: column; align-items: center; gap: var(--nph-space-inline); padding: calc(var(--nph-space-section) * 2); background: var(--nph-color-background); color: var(--nph-color-foreground); border: var(--nph-border-width) solid var(--nph-color-border); border-radius: var(--nph-radius-control); inline-size: fit-content; max-inline-size: 100%; box-sizing: border-box;"
+    style="margin: 0; display: flex; flex-direction: column; align-items: center; gap: var(--nph-space-inline); padding: calc(var(--nph-space-section) * 2); background: var(--nph-color-background); color: var(--nph-color-foreground); border: var(--nph-border-width) solid var(--nph-color-border); border-radius: var(--nph-radius-control); inline-size: fit-content; min-inline-size: var(--nph-layout-field-width); max-inline-size: 100%; box-sizing: border-box;"
   >
     ${content}
-    <figcaption style="color: var(--nph-color-muted-foreground);">${caption}</figcaption>
+    <figcaption style="margin-block-start: calc(var(--nph-space-section) * 2); color: var(--nph-color-muted-foreground);">${caption}</figcaption>
   </figure>`;
 }
 

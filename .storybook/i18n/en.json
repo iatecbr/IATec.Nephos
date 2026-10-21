@@ -50,9 +50,15 @@
     "components-nph-label-validation--what-the-label-does-not-do": "What the label does not do",
     "components-nph-label-validation--trigger-focus": "Trigger focus",
     "components-nph-label-validation--open": "Open",
+    "components-nph-tooltip-docs": "Docs",
+    "components-nph-tooltip-docs--documentation": "Documentation",
     "components-nph-tooltip-validation": "Validation",
     "components-nph-tooltip-validation--one-line": "One line",
     "components-nph-tooltip-validation--two-lines": "Two lines",
+    "components-nph-tooltip-validation--sides": "Sides",
+    "components-nph-tooltip-validation--flip": "Flip",
+    "components-nph-tooltip-validation--focus-and-escape": "Focus and Esc",
+    "components-nph-tooltip-validation--hover-and-focus": "Hover and focus",
     "components-nph-skeleton-docs": "Docs",
     "components-nph-skeleton-docs--documentation": "Documentation",
     "components-nph-skeleton-validation": "Validation",
@@ -857,7 +863,7 @@
       ],
       [
         "info",
-        "The explanation text, already localized. With info-label, it shows the information icon, which opens nph-tooltip with this text on click, Enter or Space and closes with Esc, a click outside or Tab out."
+        "The explanation text, already localized. With info-label, it shows the information icon, which opens nph-tooltip with this text on hover and on keyboard focus, above the label, and closes with Esc, when the pointer leaves or on blur."
       ],
       [
         "info-label (infoLabel)",
@@ -870,7 +876,7 @@
       "Help and error messages belong to nph-field, not to the label.",
       "The space to the control is space/stack-tight.",
       "The label stays in color/foreground even when the field has an error: the field shows the error.",
-      "The information icon opens nph-tooltip, which shows the info text."
+      "The information icon opens nph-tooltip, which shows the info text above the label."
     ],
     "relationsCaption": "On its own, above the control, with space/stack-tight.",
     "whenToUseTitle": "When to use",
@@ -900,7 +906,7 @@
     "referencesTitle": "References",
     "references": [
       "nph-label spec — purpose, API, accessibility, tokens and anti-patterns.",
-      "docs/decisoes-tecnicas.md — P62 (exception to P01, typography and API, extended by P62.6) and P65 (nph-tooltip).",
+      "docs/decisoes-tecnicas.md — P62 (exception to P01, typography and API, extended by P62.6), P65 (nph-tooltip) and P77, which amends P62.6 and P65.",
       "design.md — color/foreground, status/error, color/muted-foreground, text/label-md, the spacing and the focus.",
       "Figma DS-IA-NEPHOS 5.0 — page NPH — Label, frame nph-label (1194:1482) and component set 374:6.",
       "Storybook — Validation, in the folder next to this one."
@@ -951,14 +957,156 @@
     "disabledTitle": "Disabled is not a label state",
     "disabledCaption": "nph-field will apply state/disabled-opacity to the whole control. The label has no state of its own.",
     "focusTitle": "Trigger focus",
-    "focusCaption": "Click the field and press Tab: focus moves to the information icon. The label text does not take focus.",
+    "focusCaption": "Click the field and press Tab: focus moves to the information icon. The label text does not take focus. The balloon opens with the focus.",
     "tabStartLabel": "Tab starting point",
-    "openTitle": "Open tooltip",
-    "openCaption": "The tooltip opens when the icon is activated and closes with Esc, a click outside or Tab out. Hovering does not open it."
+    "openTitle": "Open balloon",
+    "openCaption": "The balloon opens above the label when the pointer rests on the icon or the icon receives keyboard focus, and closes with Esc, when the pointer leaves or on blur. It does not open on touch."
   },
   "tooltipValidation": {
     "oneLine": "Explains what the field asks for.",
-    "twoLines": "Use the name as it appears on the document, without abbreviating."
+    "twoLines": "Use the name as it appears on the document, without abbreviating.",
+    "target": "Element",
+    "link": "Link",
+    "field": "Field",
+    "delete": "Delete",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "sidesCaption": "Top is the default; the balloon flips to the opposite side when it does not fit, and may also sit bottom, left or right. The distance to the element is space/inline.",
+    "flipCaption": "The element sits at the top of the window: the balloon prefers top, does not fit and sits below.",
+    "focusCaption": "Press Tab to focus the button: the balloon opens and the focus stays on the button. Press Esc to close it.",
+    "hoverCaption": "Put the pointer on each element, or focus it with Tab: the balloon opens at once, on any element. It stays open while the pointer is over it."
+  },
+  "tooltipDocs": {
+    "summary": "A floating text balloon attached to any element of the interface. It shows complementary information, an explanation or context data when the pointer rests on the element and when the element receives keyboard focus.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-tooltip spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P77. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "description": "Use nph-tooltip to give complementary information, an explanation or context data to any element, such as the icon-only button and the information icon of the nph-label. The balloon opens on hover and on focus, with no delay, and closes when the pointer leaves the element and the balloon, on blur or with Esc. It does not replace the help text or the error message, which belong to nph-field, nor the accessible name of the element.",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "To give the action name to every icon-only button.",
+      "For complementary information or context data of any element.",
+      "For one sentence the person reads at once, before filling in."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "To put an action, a link or a field inside the balloon: use nph-popover.",
+      "To repeat in the balloon the help text of the field: that belongs to nph-field.",
+      "To put in the balloon information without which the element cannot be used.",
+      "To cut the text with an ellipsis or let it pass two lines: rewrite until it fits."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "text",
+        "The balloon content, already localized by the application, with no action and no link. The balloon follows the text up to layout/max-tooltip-width and wraps; it fits at most two lines. The text must fit whole: no ellipsis and no broken word."
+      ],
+      [
+        "for",
+        "The id of the element that opens the balloon, in the same root as the tooltip, as in the native label. The tooltip listens on that element and adds its own id to the aria-describedby of the element. Without a matching element, nothing is drawn."
+      ],
+      [
+        "side",
+        "The preferred side: top (default), bottom, left or right. The balloon flips to the opposite side when it does not fit. It is behavior: the Figma component has no side property."
+      ],
+      [
+        "open",
+        "Boolean, reflected to the attribute. The tooltip turns it on and off by itself; the consumer may turn it on to show the balloon open, and the same closing rules apply."
+      ]
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "The balloon opens from any element: the icon-only button carries the action name; the information icon of the nph-label carries the explanation.",
+      "The balloon text comes from the element that opens it; on the nph-label, from the info property.",
+      "Help text and error message stay in nph-field, not in the balloon.",
+      "The balloon sits next to the element, at space/inline, without covering its focus."
+    ],
+    "relationsCaption": "Opened from the information icon of the nph-label, above the label.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "1. Balloon",
+        "Background color/tooltip, corners radius/inner, shadow elevation/dropdown, padding space/inline (left and right) and space/inline-tight (top and bottom); at most layout/max-tooltip-width wide and layout/max-tooltip-height tall. It enters on motion/enter-duration and leaves on motion/exit-duration."
+      ],
+      [
+        "2. Text",
+        "text/body-sm in color/tooltip-foreground."
+      ],
+      [
+        "3. Distance to the element",
+        "space/inline, so the balloon does not cover the focus of the element. Top by default; flips when it does not fit; may also sit bottom, left or right."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "The host is role=tooltip from mount, and the element it describes points to it with aria-describedby. The balloon is rendered always and shown only when open."
+      ],
+      [
+        "Contrast",
+        "The text uses color/tooltip-foreground on color/tooltip: 6.69:1 in light and 7.47:1 in dark, above 4.5:1 (WCAG 1.4.3)."
+      ],
+      [
+        "Visible focus",
+        "The balloon never takes focus: focus stays on the element that opened it, with that element's focus drawing. The balloon stays open while the pointer is over it (WCAG 1.4.13)."
+      ],
+      [
+        "Keyboard",
+        "Keyboard focus on the element opens the balloon; Esc closes it. Hover also opens it."
+      ],
+      [
+        "Touch target",
+        "The balloon is not a touch target and does not open on touch: without hover, essential information never lives only in the balloon. The touch target is the element, at its own size (WCAG 2.5.8)."
+      ],
+      [
+        "Accessible name",
+        "The balloon complements the element's accessible name and does not replace it: on the icon-only button, the action name stays on the button itself."
+      ]
+    ],
+    "examplesTitle": "Required examples",
+    "exampleLabel": "Label with info, balloon open, above the label.",
+    "exampleRequired": "Required field with info, balloon open, above the label: the asterisk stays in the label.",
+    "exampleFocus": "Element in focus, balloon open: focus opens it, Esc closes it.",
+    "exampleSides": "Icon-only button (ghost) with the balloon on each side: top (the default), bottom (when it does not fit above), left and right.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "matrixLabel": "Component matrix",
+    "textShort": "text: short",
+    "textSentence": "text: one sentence",
+    "textTwoLines": "text: two lines",
+    "short": "Required.",
+    "sentence": "Explains what the field asks for.",
+    "twoLines": "Use the name as it appears on the document, without abbreviating.",
+    "target": "Element",
+    "delete": "Delete",
+    "labelText": "Full name",
+    "info": "Explains what the field asks for.",
+    "infoLabel": "About full name",
+    "referencesTitle": "References",
+    "references": [
+      "nph-tooltip spec sheet — purpose, anatomy, API, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P77 (nph-tooltip: any element, hover and focus), which amends P65 and P62.6.",
+      "design.md — color/tooltip, color/tooltip-foreground, layout/max-tooltip-width, layout/max-tooltip-height, radius/inner, elevation/dropdown and the motion roles.",
+      "Figma DS-IA-NEPHOS 5.0 — page NPH — Tooltip, frame 1237:5, board 1241:3 and component 1237:3.",
+      "Storybook — Validation, in the folder next to this one."
+    ],
+    "sourceBoard": "Figma, board nph-tooltip (1241:3)",
+    "sourceApi": "nph-tooltip spec sheet; docs/decisoes-tecnicas.md › P77",
+    "sourceAccessibility": "Figma, board nph-tooltip (1241:3); nph-tooltip.test.ts"
   },
   "skeletonDocs": {
     "summary": "A still shape that holds the place of a content while it loads. It repeats the shape of what will come in — text, image or person — and does not pulse.",
@@ -1742,8 +1890,12 @@
       "components-nph-togglebutton-validation--invalid": "Invalid: the track border is status/error, pressed or not, with text or icon only; the message stays outside the piece.",
       "components-nph-togglebutton-validation--interactive": "A click toggles the piece and fires nph-change with detail.pressed, shown below the button; setting pressed from code does not fire it.",
       "components-nph-togglebutton-validation--examples": "The three required examples, each in light and dark mode: Option off, Option on and Icon set.",
-      "components-nph-tooltip-validation--one-line": "The open bubble with a one-line text, as in the Figma example.",
-      "components-nph-tooltip-validation--two-lines": "The open bubble with a two-line text: in every language it takes exactly two lines."
+      "components-nph-tooltip-validation--one-line": "The open balloon above an element, with a one-line text, as in the Figma example.",
+      "components-nph-tooltip-validation--two-lines": "The open balloon with a two-line text: in every language it takes exactly two lines.",
+      "components-nph-tooltip-validation--sides": "The four sides, top by default, with the action name of an icon-only button, in light and in dark mode.",
+      "components-nph-tooltip-validation--flip": "The balloon flips to the opposite side when it does not fit on the preferred one.",
+      "components-nph-tooltip-validation--focus-and-escape": "Keyboard focus opens the balloon and Esc closes it, with the focus staying on the element.",
+      "components-nph-tooltip-validation--hover-and-focus": "Hover and keyboard focus open the balloon on any element: a button, a link and a field."
     }
   }
 }

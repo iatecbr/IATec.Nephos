@@ -675,6 +675,19 @@ describe('placement', () => {
     window.scrollTo(0, 0);
   });
 
+  it('an element scrolled out of the window takes its balloon with it, and gets it back when it returns', async () => {
+    const holder = document.createElement('div');
+    holder.style.cssText = 'height:3000px;position:relative';
+    document.body.append(holder);
+    const { tooltip } = await mount({ open: true, style: 'position:absolute;left:300px;top:2000px', parent: holder });
+    await shown(tooltip);
+    expect(getComputedStyle(bubbleOf(tooltip)).visibility).toBe('hidden');
+    window.scrollTo(0, 1800);
+    await vi.waitFor(() => expect(getComputedStyle(bubbleOf(tooltip)).visibility).toBe('visible'));
+    window.scrollTo(0, 0);
+    await vi.waitFor(() => expect(getComputedStyle(bubbleOf(tooltip)).visibility).toBe('hidden'));
+  });
+
   it('the distance is larger than the outer reach of the focus, so the balloon never covers it', async () => {
     const reach = px('width', '--nph-border-width') + px('width', '--nph-focus-ring-width');
     expect(px('width', '--nph-space-inline')).toBeGreaterThan(reach);

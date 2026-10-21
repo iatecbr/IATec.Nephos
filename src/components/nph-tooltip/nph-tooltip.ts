@@ -482,6 +482,12 @@ export class NphTooltip extends LitElement {
     if (target === null) return;
     const anchor = target.getBoundingClientRect();
     const view = { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight };
+    /* The element is scrolled out of the window: the balloon goes with it, not stuck to the edge. */
+    const visible = anchor.bottom > 0 && anchor.top < view.height && anchor.right > 0 && anchor.left < view.width;
+    bubble.style.visibility = visible ? '' : 'hidden';
+    if (!visible) {
+      return;
+    }
     /* Measure at the origin first: the size does not depend on where it sits. */
     bubble.style.top = '0px';
     bubble.style.left = '0px';
