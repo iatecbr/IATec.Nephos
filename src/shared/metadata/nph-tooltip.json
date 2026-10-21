@@ -2,13 +2,17 @@
   "piece": "nph-tooltip",
   "level": "component",
   "status": "active",
-  "solves": "Shows a short explanation for the information trigger of an nph-label without moving focus to the bubble.",
+  "solves": "Shows a short balloon of complementary information, an explanation or context data attached to any element, opened on hover and on keyboard focus, without moving focus to the balloon.",
   "use_when": [
-    "The info trigger of an nph-label needs to reveal a short explanation."
+    "To give the action name to every icon-only button.",
+    "For complementary information or context data of any element.",
+    "For one sentence the person reads at once, before filling in."
   ],
   "do_not_use_when": [
-    "The information is helper text or a field error message — that is the responsibility of nph-field.",
-    "The content needs an action, focus or persistent context — use nph-popover."
+    "To put an action, a link or a field inside the balloon: use nph-popover.",
+    "To repeat in the balloon the help text of the field: that belongs to nph-field.",
+    "To put in the balloon information without which the element cannot be used.",
+    "To cut the text with an ellipsis or let it pass two lines: rewrite until it fits."
   ],
   "api": {
     "text": {
@@ -16,29 +20,49 @@
       "required": true,
       "default": "empty",
       "reflects": false,
-      "constraint": "Carries the bubble text, already localized by the consuming application. Empty or whitespace-only does not show the bubble."
+      "constraint": "The balloon content, already localized by the consuming application, with no action and no link. Empty or whitespace-only shows nothing. The balloon follows the text up to layout/max-tooltip-width and wraps; it fits at most two lines and the text must fit whole, with no ellipsis and no broken word."
+    },
+    "for": {
+      "type": "string",
+      "required": true,
+      "default": "unset",
+      "reflects": true,
+      "constraint": "The id of the element that opens the balloon, looked up in the same root as the tooltip, like the native label. The tooltip listens on that element and adds its own id to the aria-describedby of the element. Without it, or with an id that matches no element, the balloon is not drawn and console.error is emitted in development."
+    },
+    "side": {
+      "type": "string",
+      "required": false,
+      "default": "top",
+      "reflects": false,
+      "constraint": "The preferred side: top, bottom, left or right. The balloon flips to the opposite side when it does not fit, and never leaves the window. It is behavior, not appearance: the Figma component has no side property. Any other value draws nothing and emits console.error in development."
     },
     "open": {
       "type": "boolean",
       "required": false,
       "default": false,
       "reflects": true,
-      "constraint": "Shows or hides the bubble. Opening, closing and positioning are the responsibility of the consumer."
-    }
+      "constraint": "The state of the balloon. The tooltip turns it on and off by itself, on hover, on keyboard focus, on leave, on blur and on Esc. The consumer may turn it on to show the balloon open, and the same closing rules apply."
+    },
+    "slots": "none",
+    "events": "none"
   },
   "variants": "not_applicable",
   "states": {
     "closed": {
       "token": "not_applicable",
-      "changes_for_user": "The bubble and its text are not shown."
+      "changes_for_user": "The balloon is not shown. The element is still described by its text."
     },
     "open": {
       "token": "color/tooltip",
-      "changes_for_user": "The explanation is shown by the bubble."
+      "changes_for_user": "The balloon is shown next to the element, at space/inline, entering on motion/enter-duration."
     }
   },
   "business_rules": [
-    "The bubble opens only on trigger activation; it does not open on hover.",
+    "The balloon opens on hover with a mouse or a pen and on keyboard focus, with no delay, on any element; it never opens on touch.",
+    "It closes when the pointer leaves the element and the balloon, on blur and with Esc. While the pointer is over the balloon it stays open.",
+    "It sits on top by default, flips to the opposite side when it does not fit, and may also sit bottom, left or right. While the element is outside the window the balloon is not drawn; it returns with the element.",
+    "It leaves on motion/exit-duration; coming back into the element or the balloon during the exit cancels the closing.",
+    "The balloon never takes focus: focus stays on the element that opened it.",
     "The text fits entirely in up to two lines, without ellipsis, automatic hyphenation or broken words."
   ],
   "domain_errors": [],
@@ -53,31 +77,49 @@
     "padding_horizontal": "space/inline",
     "elevation": "elevation/dropdown",
     "max_width": "layout/max-tooltip-width",
-    "max_height": "layout/max-tooltip-height"
+    "max_height": "layout/max-tooltip-height",
+    "distance_to_element": "space/inline",
+    "enter": [
+      "motion/enter-duration",
+      "motion/enter-easing"
+    ],
+    "exit": [
+      "motion/exit-duration",
+      "motion/exit-easing"
+    ],
+    "reduced_motion": "motion/hover-duration"
   },
   "ai_hints": [
-    "Use nph-tooltip only for the short explanation opened by the info trigger of nph-label.",
-    "Do not add a title, icon, action, arrow or border.",
-    "Do not create a positioning property: the consumer opens and positions it.",
-    "For content that asks for focus or action, choose nph-popover."
+    "Use nph-tooltip to name an icon-only button, or to give complementary context to any element.",
+    "Point it at the element with for, which is the id of the element in the same root; the tooltip does the rest.",
+    "Do not open it from code to explain a field: it opens by itself on hover and on focus, and never on touch.",
+    "Do not put the help text, the error message or essential information in the balloon: they belong to nph-field or to the element.",
+    "Do not add a title, icon, action, link, arrow or border; for content that asks for focus or action, choose nph-popover.",
+    "Choose the side only when the default does not suit; the balloon flips by itself when it does not fit."
   ],
   "accessibility": {
-    "semantics": "The host is a `role=status` live region from mount, open or closed.",
-    "accessible_name": "The text received in text is the content announced by the live region.",
-    "keyboard": [],
-    "focus": "The bubble does not receive focus; focus stays on the trigger.",
-    "contrast": "The text uses color/tooltip-foreground on color/tooltip in both schemes.",
+    "semantics": "The host is a role=tooltip from mount, open or closed, with aria-label mirroring the text so the described element is described before the balloon opens. The element it describes points to it with aria-describedby.",
+    "accessible_name": "The balloon complements the accessible name of the element and does not replace it: on the icon-only button, the action name stays on the button itself.",
+    "keyboard": [
+      "Keyboard focus on the element opens the balloon.",
+      "Esc closes the balloon and does not reach the page; the focus stays on the element."
+    ],
+    "focus": "The balloon never takes focus: focus stays on the element that opened it, with the focus drawing of that element. The balloon stays open while the pointer is over it (WCAG 1.4.13).",
+    "contrast": "The text uses color/tooltip-foreground on color/tooltip: 6.69 to 1 in light and 7.47 to 1 in dark, above 4.5 to 1.",
     "color_alternative": "The explanation is conveyed by the text; color is not the only signal."
   },
   "invalid_combinations": [
-    "Opening on hover — the bubble opens only on trigger activation.",
-    "Adding a title, icon, action, arrow or border — the scope is text only.",
-    "Moving focus to the bubble — focus stays on the trigger.",
-    "Using nph-tooltip for content with action or focus — use nph-popover."
+    "No for, or a for that matches no element in the same root: the balloon is not drawn.",
+    "A side that is not top, bottom, left or right: the balloon is not drawn.",
+    "Adding a title, icon, action, link, arrow or border: the scope is text only.",
+    "Moving focus to the balloon: focus stays on the element.",
+    "Using nph-tooltip for content with action or focus: use nph-popover.",
+    "Relying on the balloon on touch: it never opens there."
   ],
   "relations": {
     "combines_with": [
-      "nph-label"
+      "nph-label",
+      "nph-button"
     ],
     "parents": [
       "nph-label"
@@ -87,17 +129,18 @@
     "appears_in": []
   },
   "anti_patterns": [
-    "Using the bubble as helper text or a field error message.",
-    "Opening the bubble on hover.",
-    "Cutting, truncating or breaking a word to fit in the bubble.",
+    "Using the balloon as helper text or a field error message.",
+    "Putting in the balloon information without which the element cannot be used.",
+    "Cutting, truncating or breaking a word to fit in the balloon.",
+    "Opening the balloon from code on a timer or on a click.",
     "Applying elevation/dropdown in a subtree with a data-nph-color-scheme different from the root: the shadow may use the color of the root scheme."
   ],
   "sources": {
-    "design_md": "design.md, section on color/tooltip, color/tooltip-foreground, layout/max-tooltip-width, layout/max-tooltip-height, radius/inner and tooltip",
-    "decision": "P65 — API and semantics of nph-tooltip, 05-10-2026",
+    "design_md": "design.md, section on color/tooltip, color/tooltip-foreground, layout/max-tooltip-width, layout/max-tooltip-height, radius/inner, elevation/dropdown, space/inline and the motion roles",
+    "decision": "P77 — nph-tooltip: any element, hover and focus, which amends P65 and P62.6",
     "tests": "src/components/nph-tooltip/nph-tooltip.test.ts",
     "usage_evidence": "nph-label, through the info trigger",
-    "storybook": "src/components/nph-tooltip/nph-tooltip.stories.ts",
-    "figma": "DS-IA-NEPHOS 5.0, nph-tooltip frame 1237:5 and component 1237:3"
+    "storybook": "src/components/nph-tooltip/nph-tooltip.stories.ts and nph-tooltip.docs.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, nph-tooltip board 1241:3, frame 1237:5 and component 1237:3"
   }
 }

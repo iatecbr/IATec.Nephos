@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75 and P76. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76 and P77. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -22,7 +22,7 @@ P62.4 subsection for the detail).
 | **P62.1** | `nph-label` without Shadow DOM — exception to P01 | 27/08/2026 | High. It is the only way the native association works; without it the label loses its function | Approved, 28/08/2026 |
 | **P62.4** | Dimensions in `px`, not `rem` | 27/08/2026 | High and old. Applies to the whole system, not just typography | Resolved by his own decision: migrate the generator to `rem` — 28/08/2026. **Implemented on 28/08/2026** |
 | **P62.5** | The radius stays in `px` | 28/08/2026 | Low. Converting later is one line in the generator, but requires changing `raio_regras` in `design.md` | Adopted by Indiane on 28/08/2026. **Reviewed and approved by Mauro on 09/09/2026, in PR #25, merged in `ed7c009`.** Resolves the scope contradiction of P62.4 |
-| **P62.6** | `info` and `infoLabel` in `nph-label`: the information trigger | 06/10/2026 | Medium. `nph-field` will assemble the label with the trigger; changing the API later requires redoing both | Anatomy and behavior: L8 to L11, adopted by Indiane on 08/09/2026 and 01/10/2026. API and semantics approved by `maurocsjr` in PR #58, merged in `455ead8` |
+| **P62.6** | `info` and `infoLabel` in `nph-label`: the information trigger | 06/10/2026 | Medium. `nph-field` will assemble the label with the trigger; changing the API later requires redoing both | Anatomy and behavior: L8 to L11, adopted by Indiane on 08/09/2026 and 01/10/2026. API and semantics approved by `maurocsjr` in PR #58, merged in `455ead8`. **Amended by P77 (21/10/2026)**: how the balloon opens, closes and sits |
 | **P01** | Open Shadow DOM | 24/08/2026 | High. Every component depends on it | Approved, 28/08/2026 |
 | **P02** | Custom properties as public API | 24/08/2026 | High | Approved, 28/08/2026 |
 | **P03** | Directory pattern and TypeScript | 24/08/2026 | Medium | Approved, 28/08/2026 |
@@ -32,7 +32,7 @@ P62.4 subsection for the detail).
 | **P21** | Technical plan of `nph-icon` | 26/08/2026 | Already implemented and merged under risk acceptance | Approved, 28/08/2026. Light amendment: under review in the pull request that brings it. |
 | **P63** | Metadata generated from the spec | 28/09/2026 | Medium. Changing location or format later requires generating again and adjusting whoever reads it; the spec does not change | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** |
 | **P64** | Code language | 28/09/2026 | Medium. Applies to all new code; migrating what exists only swaps names | Adopted by Indiane on 28/09/2026. **Reviewed and approved by Mauro on 30/09/2026, in the team chat.** Amendment of 02/10/2026 approved by Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 adopted by Indiane: the language part approved by Mauro in PR #59, merged in `addb034`, and the Storybook naming item in PR #56, merged in `455ead8`. Amendment of 15/10/2026 (American English) adopted by Indiane, reviewed in the pull request that brings it. |
-| **P65** | API and semantics of `nph-tooltip` | 05/10/2026 | Low now. `nph-label` is the first consumer; changing later requires redoing its trigger | Behavior and scope (L11.5) and anatomy (L11.6, L11.7 and the accepted frame) adopted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #51, merged on 05/10/2026 |
+| **P65** | API and semantics of `nph-tooltip` | 05/10/2026 | Low now. `nph-label` is the first consumer; changing later requires redoing its trigger | Behavior and scope (L11.5) and anatomy (L11.6, L11.7 and the accepted frame) adopted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #51, merged on 05/10/2026. **Amended by P77 (21/10/2026)**: opening, closing, placement and semantics |
 | **P66** | API and semantics of `nph-spinner`, `nph-separator` and `nph-kbd` | 05/10/2026 | Low now. `nph-button` (Batch B) and `nph-rich-option` will be the first consumers | Anatomy and behavior: frames accepted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #54, merged in `d01da7b` |
 | **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Generator approved by `maurocsjr` in PR #55, merged in `7dd370d` |
 | **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics approved by `maurocsjr` in PR #56, merged in `455ead8` |
@@ -44,6 +44,7 @@ P62.4 subsection for the detail).
 | **P74** | API and semantics of `nph-avatar` | 20/10/2026 | Low now. No piece consumes it yet; `nph-select` (DSA-29) and `nph-avatar-stack` (DSA-25) will, so changing `src`, `label` or `size`, or the border over the photo, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 06/10/2026, D1 to D4 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P75** | Package `@iatec/nephos`: first release candidate | 19/10/2026 | High and public. The name, the `exports` paths and the `rc` tag are what every consumer writes in a lockfile and in an import line | Approved by Elvys on 19/10/2026. Amends P70, adopted by Indiane on 15/10/2026: her confirmation is requested in the pull request that brings it |
 | **P76** | API and semantics of `nph-toggle-group` | 20/10/2026 | Low now. No piece consumes it yet; a toolbar will, so changing `label`, `selection`, `value` or the event `nph-value-change`, or the `value` attribute each button carries, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P77** | `nph-tooltip`: any element, opened on hover and on keyboard focus (amends P65 and P62.6) | 21/10/2026 | Medium. `nph-button` (DSA-43) and the value balloon of the slider (DSA-39) will attach the balloon with `for`, so changing `for`, `side` or the rule of opening later requires redoing both | Anatomy and behavior: board accepted by Indiane on 20/10/2026, D1 answered on 20/10/2026; the plan is approved by Elvys on 21/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -571,6 +572,8 @@ the only P62 decision without a recorded review.
 
 ### P62.6 — Information trigger: `info` and `infoLabel`
 
+*Amended by P77 (21/10/2026): the balloon opens on hover and on keyboard focus, above the label, with no click toggle, and the trigger is described by the tooltip instead of controlling it. The paragraphs this changes are marked below; the text is kept as it was written.*
+
 **Conflict with P62.3.** P62.3 fixed three public properties (`required`,
 `for` and `text`). L8 of the decision register (08/09/2026) says that gaining `info`
 is a contract change, and L9 and L11 (01/10/2026) give the trigger focus and a balloon.
@@ -599,11 +602,11 @@ annotation "Amended by P62.6".
 - **Semantics.** The trigger is a native `<button type="button">` **after** the
   `<label>`, outside it: inside, it would enter the accessible name of the control. It carries
   `aria-label` = `infoLabel`, `aria-expanded` and `aria-controls` with the `id` of the
-  `nph-tooltip`, unique per instance. The icon is `circle-info` `solid` `sm`,
+  `nph-tooltip`, unique per instance. *(Superseded by P77: no `aria-expanded` and no `aria-controls`; the `id` is the one of the trigger, and the tooltip describes it with `aria-describedby`.)* The icon is `circle-info` `solid` `sm`,
   decorative. The `nph-tooltip` exists from mount, closed, because the
   `role="status"` region must exist before opening (P65). The open state is
-  internal and is not API.
-- **Open and close.** Click, Enter or Space toggle, through the native behavior
+  internal and is not API. *(Superseded by P77: the host of the tooltip is a `role="tooltip"` and the open state belongs to the tooltip.)*
+- **Open and close.** *(Superseded by P77: the balloon opens on hover and on keyboard focus and closes with Esc, when the pointer leaves or on blur; a click does nothing, and touch never opens it. The `nph-tooltip` does all of it; the label keeps no listener.)* Click, Enter or Space toggle, through the native behavior
   of the button; on opening, the trigger receives `focus()` (in Safari, clicking a
   button does not give it focus, and without focus Esc would not reach it). No hover. They close:
   - **Esc** (L11.5), in a `keydown` listener on the trigger itself, never on the
@@ -628,7 +631,7 @@ annotation "Amended by P62.6".
   `focus/radius-control-with-border`, both outside — the same drawing as the
   focus of `nph-button` in Figma (L9). The balloon sits below the label, aligned
   to the start, at `space/inline`, in `position: absolute`: it does not push the
-  form, as the `use` of `color/tooltip` asks ("does not block the page").
+  form, as the `use` of `color/tooltip` asks ("does not block the page"). *(Superseded by P77: above the label by default, centered on the information icon, placed by the `nph-tooltip` in the top layer, flipping when it does not fit.)*
   The width is that of the text, up to the maximum of `nph-tooltip`.
 - **Literals and why:** `transparent` (trigger without background), `calc(-1 * …)`
   to put border and halo outside, `position` and `inset` of the balloon, and the
@@ -647,7 +650,7 @@ annotation "Amended by P62.6".
   PR #57, which already mentions the `info` trigger; this one goes in after it.
   *Resolved by PR #57:* rule 6 now names the focus border and halo, and cites the
   `info` trigger of the `nph-label`.
-- **L-c — no `z-index`.** There is no layer token. A positioned sibling that
+- **L-c — no `z-index`.** *(Resolved by P77: the balloon is in the top layer and flips when it does not fit.)* There is no layer token. A positioned sibling that
   comes later in the DOM can end up on top of the balloon. The balloon also does not flip
   upward near the edge of the screen.
 
@@ -833,6 +836,8 @@ Indiane; reviewed in the pull request that brings it.
 
 ## P65 — `nph-tooltip`: API and semantics
 
+*Amended by P77 (21/10/2026): the tooltip opens and closes by itself, on hover and on keyboard focus, on any element; it is a `role="tooltip"`; it places itself. The paragraphs this changes are marked below; the text is kept as it was written. `text`, the anatomy and the rule of the text stay.*
+
 **Decision.**
 
 - `nph-tooltip` is a Web Component with **open Shadow DOM** (P01). The CSS
@@ -844,11 +849,11 @@ Indiane; reviewed in the pull request that brings it.
   | `text` | String, default empty. The bubble text, already localized by the consuming application. Empty or only spaces: nothing is shown |
   | `open` | Boolean, default `false`, reflected to the attribute. Shows the bubble |
 
-- **No slot, no event, no positioning and no trigger of its own.** Whoever
+- **No slot, no event, no positioning and no trigger of its own.** *(Superseded by P77: it finds its element by `for`, opens, closes and places itself; `open` stays as the state.)* Whoever
   opens, closes and positions it is the consumer. The first is the `info` trigger of
   `nph-label`, which opens on click, Enter or Space and closes with Esc or a click
   outside; the bubble does not open on hover.
-- **Toggletip semantics.** The host is a `role="status"` live region from
+- **Toggletip semantics.** *(Superseded by P77: the host is a `role="tooltip"`.)* The host is a `role="status"` live region from
   mount, open or closed: the screen reader only announces a change inside
   a region that already existed. The bubble is not focusable; focus stays on the trigger.
 - **Anatomy only through semantic tokens:** background `color/tooltip`; text
@@ -1758,9 +1763,165 @@ is the approval.
 
 ---
 
+## P77 — `nph-tooltip`: any element, opened on hover and on keyboard focus
+
+This decision **amends P65 and P62.6**. P65 fixed a balloon that only the `info` trigger of
+`nph-label` used, that the consumer opened, closed and positioned, and that was a `role="status"`
+live region; P62.6 fixed that trigger as a button that toggled the balloon by click, below the
+label. Indiane redefined the piece on 19/10/2026 and accepted the new board on 20/10/2026
+(DSA-42). The text of P65 and P62.6 is kept as it was written; the paragraphs this decision
+replaces carry a "Superseded by P77" mark.
+
+**Technical conflict.** The new contract (a balloon for **any** element, opened by the pointer
+and by the keyboard focus, closed by the pointer leaving, by blur and by Esc, flipping when it
+does not fit) cannot be met with a component that the consumer opens and positions, nor with a
+live region that announces on activation. The board also leaves open how another element
+attaches the balloon in code ("is defined in the spec"), which DSA-39 (the value balloon of the
+slider) and DSA-43 (the icon-only button) both wait for.
+
+**Decision.**
+
+1. **API: four properties, no event, no slot, no `::part`.**
+
+   | Property | Role |
+   |---|---|
+   | `text` | String, empty by default. The balloon content, already localized. Unchanged from P65 |
+   | `for` | String, reflected. The `id` of the element that opens the balloon, looked up in the **same root** as the tooltip |
+   | `side` | `top` (default), `bottom`, `left` or `right`. The **preferred** side |
+   | `open` | Boolean, reflected, `false` by default. The state. The tooltip turns it on and off; the consumer may turn it on to show the balloon open, and the closing rules still hold |
+
+   **Why `side` is code API and not a Figma property.** The task says the Figma component gets no
+   side property and that the code "implements the placement as behavior" (`DSA-42.md`,
+   decision D1). The balloon has no arrow, so it looks the same on any side, and a Figma variant
+   would draw nothing different. That is what "behavior" means there: the side is not a variant.
+   It does not say the code has no way to ask for one, and the board requires the four sides
+   ("top, bottom, left and right"). Without `side`, `left` and `right` could never be reached,
+   because a flip only goes to the opposite side. So `side` is a preferred side, with the flip as
+   behavior. If a reading of D1 as "no side API at all" prevails, the fallback is automatic
+   placement only (top, then bottom, then the side with more room).
+2. **How an element attaches the balloon: `for`.** The tooltip is a sibling of the element, in the
+   same root, and `for` is the `id` of the element (`<nph-tooltip for="delete" text="Delete">`),
+   like the native `<label for>`. The lookup uses `getRootNode()`, never `document`: inside the
+   shadow root of another component, the element is looked up there. A component that needs the
+   balloon on an element inside its own shadow root renders its own `nph-tooltip` next to it, with
+   `for` pointing at the internal `id`; that is how `nph-label` does it (it has no shadow root, so
+   the root is the document or the shadow root that contains the label), and how DSA-39 and DSA-43
+   are to do it. Wrapping the element in a slot was refused: it breaks flex layouts and the
+   `nph-toggle-group` slot, and a reference from a slotted element to text in the shadow root of
+   the wrapper does not exist in ARIA. An attribute on the element (`tooltip="..."`) was refused:
+   every component would reimplement it, and the board says "any element".
+3. **Opening.** On hover, only with a mouse or a pen, and on keyboard focus, with no delay. Focus
+   opens it only when the element that has the focus matches `:focus-visible` and the last pointer
+   action on the element was not a touch (a tap that focuses a button, or a field, does not open
+   it; the next key press makes the keyboard count again). Touch never opens it: without hover,
+   essential information never lives only in the balloon. A click, Enter or Space on the element
+   does nothing to the balloon.
+4. **Closing.** The balloon has two independent holds: the pointer (over the element or over the
+   balloon) and the focus (visible focus on the element). It is open while either holds and closes
+   when both are gone. Esc, listened to on the document in the capture phase and only while open,
+   closes it, drops both holds and stops the key (`stopPropagation` and `preventDefault`), so the
+   dialog around does not close with it; it stays closed until the pointer and the focus have both
+   left once. With the balloon closed, Esc is not intercepted. There is no hover delay token, and
+   the board asks for none to open. The distance between the element and the balloon is
+   `space/inline`, so the pointer leaves the element before it reaches the balloon: the exit
+   transition is the window. Coming back into the element or the balloon during the exit cancels
+   the closing (WCAG 1.4.13, the balloon stays open while the pointer is over it).
+5. **Placement and layer.** The balloon is a `popover="manual"` in the top layer: it needs no
+   `z-index`, which resolves the limit L-c of P62.6, and no ancestor with `overflow` clips it.
+   JavaScript measures the element and the balloon and places it: top by default, the opposite side
+   when the preferred one does not fit, the side with the most room when neither does, centered on
+   the element on the cross axis and never outside the window. It places again on scroll and on
+   resize while open, and while the element is outside the window the balloon is not drawn: it
+   returns with the element, instead of staying stuck to the edge of the window. CSS anchor positioning is not used: its support is uneven and it does not
+   cross shadow roots. No library is added. The distance is `space/inline`, which is wider than the
+   outer reach of a focus drawing (`border/width` plus `focus/ring-width`), so the balloon never
+   covers the focus of the element.
+6. **Motion.** It enters on `motion/enter-duration` with `motion/enter-easing` and leaves on
+   `motion/exit-duration` with `motion/exit-easing` (the board names the durations; `design.md` makes
+   the pair one role). Only opacity moves. The balloon leaves the top layer when the exit ends. With
+   reduced motion, the duration is that of `motion/hover-duration`, the semantic alias of
+   `core/duration/100`, as in `nph-togglebutton`; the curve stays and the balloon still appears and
+   still leaves.
+7. **Semantics.** The host is a `role="tooltip"` from mount, open or closed (WAI-ARIA 1.2; APG
+   Tooltip pattern), with an `id` (generated when the consumer gives none). The tooltip adds that
+   `id` to the `aria-describedby` of the element, keeping what is there, and removes only its own on
+   disconnect or when `for` changes. The balloon never takes focus and has no focusable child. The
+   `role="status"` live region of P65 is gone: the description is read when the element receives
+   focus. **Finding recorded:** Chromium computes the description of the element from the text
+   inside the shadow root of the referenced host only while the balloon is shown (`display: none`
+   contributes no text), so the host also carries `aria-label` with the same text, which the browser
+   reads in both states. The proof is the description the browser itself computes, read through the
+   accessibility tree, in the tests.
+8. **`nph-label`.** The label keeps its API (`text`, `required`, `for`, `info`, `infoLabel`) and its
+   button, 24 by 24, focus drawing and tokens. It gives the button an `id`, drops `aria-expanded`,
+   `aria-controls`, the open state and every listener, and renders
+   `<nph-tooltip for="<button id>" text="<info>">`. The balloon opens on hover and on focus of the
+   icon, above the label by default. A click on the icon does nothing. Its CSS loses the position
+   of the balloon and the `position: relative` of the root.
+9. **Anatomy and the rule of the text** stay as in P65: `color/tooltip`, `text/body-sm` in
+   `color/tooltip-foreground`, `radius/inner`, `space/inline-tight` vertically and `space/inline`
+   horizontally, `elevation/dropdown`, up to `layout/max-tooltip-width` and
+   `layout/max-tooltip-height`, no border and no arrow, text that fits whole in up to two lines. The
+   Figma component binds `border/width` but draws no stroke; no border is drawn.
+10. **Invalid input** follows P21 and P76: `for` empty or matching no element in the same root (after
+    one more frame, so an element rendered right after the tooltip is found) and a `side` that is not
+    one of the four draw nothing and emit `console.error` only in development, one per cause.
+
+**Breaking changes, and the release candidate.** `@iatec/nephos` is published as `5.0.0-rc.N`, and
+`docs/consuming.md` says that the API can still change between release candidates (P75). So the
+change is made without a compatibility layer and without touching `package.json`; the counter is the
+pipeline's. What a consumer of `rc.1` must know:
+
+- `nph-label` keeps its markup and API; its balloon now opens on hover and on keyboard focus, above
+  the label, a click does not toggle it, and touch never opens it.
+- A bare `<nph-tooltip open text="...">` draws nothing: it needs `for`.
+- The host of `nph-tooltip` is a `role="tooltip"` and takes no room in the flow (it was a
+  `role="status"` inline block). No CSS that positioned it holds.
+- `open` is still a reflected boolean, but the tooltip now sets it.
+
+**Reason.** A tooltip that every consumer opens by hand would be reimplemented in each component that
+needs one; a single behavior, with one way to attach it, is what a design system is for.
+
+**Known limits.**
+
+- **An element whose focus lives in a shadow root** (a custom element with `delegatesFocus`) opens
+  the balloon on hover and on focus, but `aria-describedby` on the host does not reach the
+  focusable element inside. The component that owns the shadow root renders its own tooltip next to
+  the inner element. For the icon-only `nph-button`, whose name stays on its own button, this
+  matters little.
+- **A disabled element** may not receive pointer events, so the balloon may not open over it.
+- **Duplicate reading.** An icon-only button whose accessible name equals the balloon text may be
+  read twice by a screen reader.
+- **No touch.** The information of the balloon is never available on touch, by design.
+- **Esc in capture.** While a balloon is open, the focused element does not see the Esc key.
+- **Left and right are physical** (`left` is always the left of the screen); there is no right-to-left
+  mirroring.
+
+**Source.** Board `nph-tooltip` (`1241:3`, frame `1237:5`, component `1237:3`) of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 20/10/2026, with the textual audit approved; the
+redefinition of 19/10/2026 and D1 of 20/10/2026 are in `docs/operacao/tarefas/DSA-42.md`. The names
+`for` and `side`, the role, the layer, the placement rules, the holds and the touch rule are a
+technical proposal of this implementation, reviewed with the plan on 21/10/2026.
+
+**Out of scope.** A hover delay or a configurable one. A tooltip with an action, a link or focus
+(`nph-popover`). Collisions with the layers of other popovers. A right-to-left mirror. Wrappers or
+an attribute on the element. The Usage section of the page (P70, DSA-35), the page lists read from
+the Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
+
+**Pending for Indiane (DSA-42, D2 to D7), none of them blocks.** The distance of the balloon of the
+icon-only button (`space/inline` here, `space/inline-tight` in the evidence of DSA-43); the
+alignment on the cross axis (centered here); what the open balloon does on scroll and on resize
+(it follows here, and is not drawn while the element is out of the window); the motion shape (opacity only here); what a click on the information icon does
+(nothing here); the limits of a disabled element and of the duplicate reading.
+
+**Status.** Anatomy and behavior accepted by Indiane on 20/10/2026. API and semantics are reviewed
+in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75 or P76 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76 or P77 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

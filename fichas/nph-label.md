@@ -5,7 +5,7 @@ status: active
 title: "nph-label"
 type: component spec
 created: 2026-08-31
-updated: 2026-10-06
+updated: 2026-10-21
 solves: >-
   Names a form control in a visible and accessible way. The label is
   only text, and it carries no layout, text state or error message. It carries the trigger
@@ -84,8 +84,8 @@ states:
     token: "border border/width in focus/border and halo focus/ring-width in focus/halo, around the 24 by 24 target"
     changes_for_user: "Only on the information icon and only from the keyboard: the border and the halo mark the focus, without changing the size."
   open:
-    token: "the nph-tooltip, below the label, at space/inline"
-    changes_for_user: "The balloon shows the explanation; it closes with Esc, click outside or Tab out. Hovering does not open it."
+    token: "the nph-tooltip, above the label, at space/inline"
+    changes_for_user: "The balloon shows the explanation when the pointer rests on the icon or the icon receives keyboard focus; it closes with Esc, when the pointer leaves or on blur. It never opens on touch."
 
 business_rules:
   - "A required field is signaled by the asterisk — and the actual requiredness belongs to the control"
@@ -109,11 +109,11 @@ ai_hints:
   - "The information icon appears with info and info-label together; info-label is the name the screen reader announces."
 
 accessibility:
-  semantics: "Native `<label>` element; the information icon is a native `<button>` after it, outside the `<label>`, with aria-expanded and aria-controls pointing to the nph-tooltip"
+  semantics: "Native `<label>` element; the information icon is a native `<button>` after it, outside the `<label>`, described by the nph-tooltip through aria-describedby"
   accessible_name: "The label is the source of the accessible name of the control. The information icon is named by info-label"
   keyboard:
     - "Tab enters and leaves the information icon; the text does not receive focus."
-    - "Enter and Space open and close the balloon."
+    - "Keyboard focus on the icon opens the balloon; there is no activation that toggles it."
     - "Esc closes the open balloon, and focus stays on the icon."
   focus: "The text does not receive focus. The information icon does, with border focus/border and halo focus/halo outside, only from the keyboard"
   contrast: "Measured in both modes: the text and the asterisk pass at 4.5:1; the icon, in color/muted-foreground, 6.69:1 and 9.81:1; the focus border, in focus/border, 3.68:1 and 8.98:1"
@@ -138,7 +138,7 @@ anti_patterns:
 
 sources:
   design_md: "design.md, in the repository"
-  decision: "P62.1, P62.2 and P62.3, approved in the technical review; P62.6, the information trigger, under technical review"
+  decision: "P62.1, P62.2 and P62.3, approved in the technical review; P62.6, the information trigger, amended by P77 in how the balloon opens, closes and sits"
   tests: "src/components/nph-label/nph-label.test.ts"
   usage_evidence: "branch v/3.0.0, PR #10, merge e231eba"
   storybook: "src/components/nph-label/nph-label.stories.ts"
@@ -204,11 +204,12 @@ balloon.
 **Feedback and focus:** the label text **is not focusable**. Activating the label moves focus
 to the associated control — native `<label>` behavior, which only works because of
 the decision not to use Shadow DOM. The information icon is focusable: with focus, it shows the
-`focus/border` border and the `focus/halo` halo around the 24 × 24 target. Activated by
-click, Enter or Space, it opens the `nph-tooltip` below the label, at `space/inline`; it closes
-with Esc, click outside or Tab out. Closing by Tab is the keyboard reading
-of the "click outside" of L11, confirmed in P62.6. Hovering
-does not open it.
+`focus/border` border and the `focus/halo` halo around the 24 × 24 target. Hovering the icon or
+focusing it from the keyboard opens the `nph-tooltip` above the label, at `space/inline`, with no
+delay; it closes with Esc, when the pointer leaves the icon and the balloon, or on blur, and it
+stays open while the pointer is over it. A click on the icon does nothing more, and the balloon
+never opens on touch: without hover, essential information never lives only in the balloon.
+Opening, closing and placing the balloon belong to `nph-tooltip` (P77).
 
 **Business rule the piece carries:** the asterisk signals a required field. **But the
 asterisk is decorative** — see Accessibility.
@@ -220,7 +221,8 @@ asterisk is decorative** — see Accessibility.
 | Semantics | Native `<label>` element. The information icon is a native `<button>` after it, outside the `<label>`, with `aria-expanded` and `aria-controls` |
 | Association | Through the `for` attribute, pointing to the `id` of the control |
 | Accessible name | **The label is the source of the accessible name of the control.** When there is an associated visible label, the control does **not** receive a duplicate name through `aria-label` |
-| Keyboard and focus | The text does not receive focus. The information icon enters the Tab order; Enter and Space open and close the balloon; Esc closes it. The balloon is a `role="status"` live region and does not receive focus |
+| Keyboard and focus | The text does not receive focus. The information icon enters the Tab order; its focus opens the balloon; Esc closes it. The balloon is a `role="tooltip"` and does not receive focus |
+| Description | The balloon describes the icon: the icon points to the `nph-tooltip` with `aria-describedby`. The icon has no `aria-expanded` and no `aria-controls` |
 | Icon name | `info-label`. Without it, the icon does not appear |
 | Touch target | The information icon has a 24 × 24 target, with the 16 px artwork in the center (WCAG 2.5.8) |
 | Contrast | In both modes. Text and asterisk, measured on 27-08-2026, pass the minimum of 4.5:1. The icon, in `color/muted-foreground`, measured on 08-09-2026 (L8): 6.69:1 and 9.81:1. The focus border, in `focus/border`, measured on 01-10-2026 (frame `1194:1482`): 3.68:1 and 8.98:1 |
@@ -265,7 +267,7 @@ trigger, on 06-10-2026:
 | The space up to the information icon | `space/inline-tight` |
 | The information icon | `circle-info` `solid` in `icon/size-sm`, with `space/inline-tight` around it (24 × 24 target), in `color/muted-foreground` |
 | The icon focus | `border/width` in `focus/border`, radius `focus/border-radius-control`; halo `focus/ring-width` in `focus/halo`, radius `focus/radius-control-with-border` |
-| The space up to the balloon | `space/inline` |
+| The space up to the balloon | `space/inline`, kept by the `nph-tooltip` |
 
 **This piece is the first proof in code of P62.2** — the text roles, each one with
 its properties. Without them, the label would only exist with a literal value.
@@ -273,8 +275,8 @@ its properties. Without them, the label would only exist with a literal value.
 **Usage restrictions:** the `use` of `status/error` was **extended in `design.md` before the
 code**, to cover the asterisk. The label color **does not change** in any situation. The
 limits of the trigger are in P62.6: the `use` of `color/muted-foreground` comes to mention the
-icon through PR #57 (L-a); rule 6 of `design.md` comes to admit border and halo through PR #57 (L-b); and the
-balloon has no `z-index`, because there is no layer token (L-c).
+icon through PR #57 (L-a); rule 6 of `design.md` comes to admit border and halo through PR #57 (L-b); and L-c, the balloon with no
+`z-index`, is resolved by P77: the balloon sits in the top layer.
 
 **AI hints:**
 

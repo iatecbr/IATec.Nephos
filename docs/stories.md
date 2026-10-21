@@ -428,7 +428,7 @@ names of approvers and pending items stay in the operational record.
 documentation model (`1134:12862`, DS-IA-NEPHOS 5.0); the `Documentation`
 story of `nph-badge` (the model) and its `nph-badge.docs.test.ts`.
 **Limit:** the Docs pages of the components with code. `nph-avatar`, `nph-badge`,
-`nph-label`, `nph-skeleton`, `nph-toggle-group` and `nph-togglebutton` follow the order of the model.
+`nph-label`, `nph-skeleton`, `nph-toggle-group`, `nph-togglebutton` and `nph-tooltip` follow the order of the model.
 `nph-button` lacks Anatomy, and `nph-icon` lacks Anatomy and Examples; their accepted
 frames have both (`1197:5449` and `1130:956`, confirmed by Indiane on 15-10-2026). The
 Usage section, the lists read from the Metadata and `text/body-lg` in `text` and `list`
