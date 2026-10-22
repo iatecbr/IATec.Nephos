@@ -104,7 +104,7 @@ export class NphAvatarStack extends LitElement {
   private accessibleNameChanged = false;
   /** The composition warnings already shown, so a problem that stays does not repeat. */
   private shownWarnings = new Set<string>();
-  /** Watches `size` and `label` of the direct children, which raise no `slotchange`. */
+  /** Watches child `size` and `aria-label` changes, which raise no `slotchange`. */
   private readonly childObserver = new MutationObserver((records) => this.onChildMutation(records));
 
   constructor() {
@@ -135,7 +135,7 @@ export class NphAvatarStack extends LitElement {
        filtered to the direct avatars, so a child added or removed later needs no wiring.
        The group's own write of `size` comes back here once; writing it again changes
        nothing. */
-    this.childObserver.observe(this, { attributes: true, attributeFilter: ['size', 'label'], subtree: true });
+    this.childObserver.observe(this, { attributes: true, attributeFilter: ['size', 'label', 'aria-label'], subtree: true });
     this.requestUpdate();
   }
 

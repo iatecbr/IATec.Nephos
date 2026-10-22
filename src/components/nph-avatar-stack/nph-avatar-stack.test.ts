@@ -595,15 +595,27 @@ describe('composition', () => {
     expect(messages[0]).toContain('label of its own');
   });
 
-  it('a warning that stays is not repeated, and a new problem is shown', async () => {
+  it('label property changes after mounting add, clear, and reissue the composition warning', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    const stack = await mount({ avatars: [{}] });
-    expect(warn).toHaveBeenCalledTimes(1);
-    stack.count = 3;
-    stack.size = 'md';
+    const stack = await mount();
+    const first = avatars(stack)[0];
+
+    if (first === undefined) {
+      throw new Error('Expected an avatar.');
+    }
+
+    expect(warn).not.toHaveBeenCalled();
+    first.label = 'Ana';
     await settle(stack);
     expect(warn).toHaveBeenCalledTimes(1);
-    avatars(stack)[0]?.setAttribute('label', 'Ana');
+    expect(first.getAttribute('aria-label')).toBe('Ana');
+
+    first.label = '';
+    await settle(stack);
+    expect(first.hasAttribute('aria-label')).toBe(false);
+    expect(warn).toHaveBeenCalledTimes(1);
+
+    first.label = 'Ana';
     await settle(stack);
     expect(warn).toHaveBeenCalledTimes(2);
   });
