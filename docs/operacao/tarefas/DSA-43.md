@@ -48,7 +48,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-20"
+  "updated_at": "2026-10-22"
 }
 ```
 
@@ -101,7 +101,7 @@ tests, stories and `fichas/nph-button.md` pass the proof commands in
 DSA-42 is done.
 
 ## Relations with other tasks
-- DSA-42 (ready) must be merged before the tooltip part of this task. It updates the `nph-tooltip` to open on hover and on focus for
+- DSA-42 is done (PR #94), so the tooltip part of this task can start. It updated the `nph-tooltip` to open on hover and on focus for
   any element; the tooltip of the icon-only button follows that contract.
 - The `nph-button` with text does not change in this task.
 

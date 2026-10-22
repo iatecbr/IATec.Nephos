@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 430,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-tooltip",
   "dependencies": [],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories, specs and the amended technical decisions P62.6 and P65 pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-42/review-and-merge-2026-10-22.md",
+      "result": "passed",
+      "verified_at": "2026-10-22",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -68,7 +68,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-42/documentacao-figma-aceita-2026-10-20.md"
+    "docs/operacao/evidencias/DSA-42/documentacao-figma-aceita-2026-10-20.md",
+    "docs/operacao/evidencias/DSA-42/review-and-merge-2026-10-22.md"
   ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p77",
@@ -87,11 +88,11 @@
   },
   "git_review": {
     "branch": "claude/dsa-42-nph-tooltip-466e67",
-    "commit": "ec88c46869effce2b519be64171fa9e299a45c11",
+    "commit": "d82d2c3bf2e6983ceab1cb3ac81b608c578a74c8",
     "pr": "94"
   },
-  "context": "docs/operacao/contextos/DSA-42.md",
-  "updated_at": "2026-10-21"
+  "context": null,
+  "updated_at": "2026-10-22"
 }
 ```
 
