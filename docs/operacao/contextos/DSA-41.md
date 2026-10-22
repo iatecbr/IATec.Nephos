@@ -19,15 +19,18 @@ the `figma-docs-accepted` evidence, with its stories, Docs page, sheet, Metadata
 - `src/components/nph-togglebutton/`, `src/components/nph-toggle-group/`, `src/components/nph-tooltip/`
 
 ## Changes
-The task moves to in progress with the pending decisions D1 to D4, and records the follow-up for the
-two examples that wait for the `nph-field`. The component, the stories, the sheet and P85 follow in
-the next commits. See the commits on the branch.
+The task moved to in progress with the pending decisions D1 to D4 and the follow-up for the two
+examples that wait for the `nph-field`. The component, its tests, the Validation stories, the Docs
+page, the dictionary entries, the sheet, the Metadata and P85 are committed. See the commits on the
+branch.
 
 ## Commands run
 - `npm ci`, then `npm run test:operacao` before the first commit.
+- The proofs of `docs/operacao/component-handoff.md`, plus `build:lib` and `test:package`.
 
 ## Result
-In progress. Nothing delivered yet beyond the task state.
+In progress. The branch is ready; the pull request opens after DSA-28 is merged. On the base
+`d00c6ca`, `typecheck`, `npm test` and `build:lib` already fail in `nph-tooltip` alone.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -36,4 +39,4 @@ None recorded: `review-and-merge` waits for the PR.
 None. D1 to D4 wait for Indiane and do not block. The pull request opens after DSA-28 is merged.
 
 ## Next command
-Commit the component, then the stories, the Docs page, the sheet and P85.
+Sync with `v/5.0.0` after DSA-28 is merged, run the proofs again and open the pull request.

@@ -2,7 +2,8 @@
  * Internal style of `nph-input-otp`.
  *
  * Classes and selectors here are NOT public API (P02). The contract is the token
- * custom properties consumed here.
+ * custom properties consumed here. The `--_*` variables are internal to the
+ * shadow root and are not API.
  *
  * No literal design value goes in here. Written box relations: `transparent` (the
  * native input lies over the cells and draws nothing: no text, caret, background or
