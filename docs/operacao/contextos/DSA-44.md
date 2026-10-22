@@ -23,16 +23,22 @@ footer and lines; write its sheet, stories, tests, the Metadata and P87.
 See the commits on the branch.
 
 ## Commands run
-- `npm ci`.
+- `npm ci`; `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`,
+  `test:operacao`, `build-storybook`, `build:lib`, `test:package`, `test:naming`; `git diff --check`.
 
 ## Result
-In progress.
+In progress. The dialog tests pass (one waits for the `nph-button` rule of Q1). The failures left
+were there before this branch: six `nph-tooltip` tests and its `typecheck` errors, which also stop
+`build:lib` and so `test:package`; `test:naming` in `scripts/test-package.mjs` and in the records of
+DSA-34, 39, 42, 43, 45 and 47.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the merge.
 
 ## Blocker
-None. D1, D2, D4 and D5 wait for Indiane and do not block; D3 keeps the highlight icon out.
+The `nph-button` rule of Q1 enters after DSA-47 is merged; the pull request opens after DSA-43 and
+DSA-47. D1, D2, D4 and D5 wait for Indiane and do not block; D3 keeps the highlight icon out.
 
 ## Next command
-`npm test`, then the other proof commands of `component-handoff.md`.
+After DSA-47 merges: sync with `v/5.0.0`, add the rule to `nph-button.css`, turn on its test, run
+the proofs again and open the pull request.

@@ -175,7 +175,8 @@ export function fixtureSrc(name: Example, scheme: Scheme, locale: string, varian
 /*
  * The size of each frame, only from tokens. The width leaves the dialog its ceiling and the
  * edge of the window; the stacked example stays below the `md` breakpoint on purpose. The
- * height is a share of `layout/dialog-max-height`.
+ * height is a share of `layout/dialog-max-height`; stacked actions take the height of the
+ * stacked example.
  */
 const FRAME_WIDTH: Record<NphDialogSize, string> = {
   sm: 'calc(var(--nph-layout-dialog-sm) + 2 * var(--nph-layout-margin-compact))',
@@ -212,7 +213,7 @@ export function framed(
       title=${title}
       src=${fixtureSrc(name, scheme, locale, variant)}
       loading="lazy"
-      style="display: block; inline-size: ${FRAME_WIDTH[setup.size]}; max-inline-size: 100%; block-size: ${FRAME_HEIGHT[name]}; border: var(--nph-border-width) solid var(--nph-color-border); border-radius: var(--nph-radius-control); background: var(--nph-color-background);"
+      style="display: block; inline-size: ${FRAME_WIDTH[setup.size]}; max-inline-size: 100%; block-size: ${setup.actions === 'stacked' ? FRAME_HEIGHT.stacked : FRAME_HEIGHT[name]}; border: var(--nph-border-width) solid var(--nph-color-border); border-radius: var(--nph-radius-control); background: var(--nph-color-background);"
     ></iframe>
     ${caption !== ''
       ? html`<figcaption style="color: var(--nph-color-muted-foreground); font-family: var(--nph-text-caption-font-family); font-size: var(--nph-text-caption-font-size); line-height: var(--nph-text-caption-line-height);">${caption}</figcaption>`
