@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 410,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-empty",
   "dependencies": [],
   "gates": [
@@ -65,9 +65,9 @@
     "converted_decision": "The nph-empty board (1463:25260), with its `Documentação` frame (2003:688), was accepted as the API and behavior specification of the nph-empty. COMPONENT_SET: none, the piece is a single COMPONENT (1463:25238). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": {
-    "branch": null,
-    "commit": null,
-    "pr": null
+    "branch": "claude/dsa-40-nph-empty-6944c2",
+    "commit": "065df9ca1522ad4dc06a183e974acd9e84ae03bd",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/100"
   },
   "context": "docs/operacao/contextos/DSA-40.md",
   "updated_at": "2026-10-22"
