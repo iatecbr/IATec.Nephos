@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 410,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-empty",
   "dependencies": [],
   "gates": [
@@ -29,7 +29,26 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D1",
+      "question": "The two illustration files are 2048 px wide (about 385 KB each) for a drawing of 120 × 87, and the piece downloads both, because the scheme switches them by opacity. Can the illustrations be exported at 2× (240 × 174) or 3× (360 × 261)? The code uses the current files; a new file does not change the code. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D2",
+      "question": "The light illustration is 2048 × 1487 and fits the 120 × 87 box; the dark one is 2048 × 1538, another proportion. In Figma, is the dark one cut (fill) or fitted (fit) in the box, or should it be exported again with the same frame as the light one? The code fits it whole, with object-fit: contain, so it is about 116 px wide. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D3",
+      "question": "The evidence gives the box the width layout/input-width. In a narrower container, does the box shrink to it, or keep its width? The code shrinks it (max-inline-size: 100%), so the text wraps instead of overflowing. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-40/documentacao-figma-aceita-2026-10-16.md"
   ],
@@ -45,9 +64,13 @@
     "excerpt": null,
     "converted_decision": "The nph-empty board (1463:25260), with its `Documentação` frame (2003:688), was accepted as the API and behavior specification of the nph-empty. COMPONENT_SET: none, the piece is a single COMPONENT (1463:25238). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-10-16"
+  "git_review": {
+    "branch": null,
+    "commit": null,
+    "pr": null
+  },
+  "context": "docs/operacao/contextos/DSA-40.md",
+  "updated_at": "2026-10-22"
 }
 ```
 
@@ -77,6 +100,15 @@ tests, stories and spec pass the proof commands in
 - The option list of `nph-combobox` (DSA-46), in `state=vazio`, shows an
   `nph-empty` when the search finds no option. In `state=carregando` it does not
   use the `nph-empty`.
+
+## Pending decisions
+The evidence gives the whole contract, so the code can start. Three points remain for Indiane; the code follows the stated default meanwhile, and the answer only adjusts one file or one rule each.
+
+| ID | What the evidence gives | What is missing | What the code does with the answer |
+|---|---|---|---|
+| D1 | The two illustration files, drawn at 120 × 87. | Files the size of the drawing: the current ones are 2048 px wide. | Uses the current files. A lighter export only replaces the two files. |
+| D2 | The box of 120 × 87, which fits the light file. | Whether the dark file, of another proportion, is cut or fitted. | Fits it whole. If the answer is to cut, one CSS declaration changes; if it is a new export, nothing changes. |
+| D3 | The width `layout/input-width`. | What the box does in a narrower container. | Shrinks to the container. If the answer is to keep the width, one CSS declaration goes. |
 
 ## What this task does not do
 It does not create a token or change a token value: `scheme/is-light` and
