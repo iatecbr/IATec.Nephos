@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76 and P77. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77 and P80. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -45,6 +45,7 @@ P62.4 subsection for the detail).
 | **P75** | Package `@iatec/nephos`: first release candidate | 19/10/2026 | High and public. The name, the `exports` paths and the `rc` tag are what every consumer writes in a lockfile and in an import line | Approved by Elvys on 19/10/2026. Amends P70, adopted by Indiane on 15/10/2026: her confirmation is requested in the pull request that brings it |
 | **P76** | API and semantics of `nph-toggle-group` | 20/10/2026 | Low now. No piece consumes it yet; a toolbar will, so changing `label`, `selection`, `value` or the event `nph-value-change`, or the `value` attribute each button carries, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P77** | `nph-tooltip`: any element, opened on hover and on keyboard focus (amends P65 and P62.6) | 21/10/2026 | Medium. `nph-button` (DSA-43) and the value balloon of the slider (DSA-39) will attach the balloon with `for`, so changing `for`, `side` or the rule of opening later requires redoing both | Anatomy and behavior: board accepted by Indiane on 20/10/2026, D1 answered on 20/10/2026; the plan is approved by Elvys on 21/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P80** | API and semantics of `nph-input`, the reference of the form controls | 22/10/2026 | Medium. `nph-field` (DSA-28), `nph-checkbox`, `nph-radio` and `nph-input-otp` copy its form association, its native events and its name by reference, so changing them later requires redoing those pieces | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D7 answered on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -1927,9 +1928,159 @@ in the pull request that brings them; the merge is the approval.
 
 ---
 
+## P80 — `nph-input`: API and semantics, the reference of the form controls
+
+**Decision.** `nph-input` is a Web Component with **open Shadow DOM** (P01) and
+`delegatesFocus`, CSS in its own file imported `?inline`, as in `nph-icon`. It has no slot, no
+`::part` and no color property. Anatomy only through semantic tokens. It is the **first piece of
+the repository associated with a form**, and this decision also fixes the pattern that
+`nph-checkbox` (DSA-17), `nph-radio` (DSA-18) and `nph-input-otp` (DSA-41) copy, each recording
+only what changes; there is no shared helper yet. What the field writes on the control (`label`,
+`description`, `invalid`, `required`, `disabled`) is the field contract, recorded in P83
+(DSA-28); this decision says how the input takes it. Invalid input renders nothing and emits
+`console.error` only in development, one per cause — the rule of P21, adopted here by its own
+decision, as in P66, P68, P73, P74 and P76. The names follow P64.
+
+1. **Properties.** The Figma set has `size`, `state` and six properties for the icons, the value
+   and the placeholder. The mapping below is a technical proposal of this implementation.
+
+   | Figma | API |
+   |---|---|
+   | `size` | `size`, `default` or `large`, reflected: the internal CSS selects the height by it |
+   | `state` `erro` | `invalid`, Boolean, reflected: error border and `aria-invalid` on the inner field |
+   | `state` `disabled` | `disabled`, Boolean, reflected: native `disabled` on the inner field and the clear button |
+   | `state` `hover`, `foco`, `foco-limpar`, `erro-foco` | not properties: interaction, drawn by the CSS |
+   | `ícone início` + `⮑ ícone início` | `icon-start`: `none` (default) or a core name of `nph-icon`. The Figma default, on with `magnifying-glass`, would put a magnifier in every field |
+   | `ícone fim` + `⮑ ícone fim` | `icon-end`: `none` (default) or a core name; it turns on the clear button, and the name only swaps the art (D2) |
+   | `texto do valor` | `value`, the current value |
+   | `texto do placeholder` | `placeholder` |
+   | the types of D1 | `type`: `text` (default), `email`, `tel`, `url` or `search` |
+   | the accessible name of the clear button | `clear-label`, required with `icon-end` |
+   | the form | `name` (reflected), `required` (reflected), `autocomplete` (WCAG 1.3.5) |
+   | the field contract (P83) | `label` and `description`, text never visible |
+
+2. **Form association.** `static formAssociated = true` and `attachInternals()`. It is what
+   makes the host **labelable**: `<label for>` pointing to the host — what `nph-label for`
+   renders (P62.1) — moves the focus to the inner native `<input>` through `delegatesFocus`,
+   and `host.labels` lists it.
+   - **Value.** `setFormValue(value)` on every change. A disabled host, by its attribute or by a
+     disabled `<fieldset>`, is left out of the form data by the browser.
+   - **`name` reflects.** The form reads the **attribute** of the host: without it, `el.name =
+     'x'` set by code leaves the entry out of the submission (proved in Chromium).
+   - **`value`: the attribute is the default, the property is the current value**, as in the
+     native `<input>`. The property is declared with `attribute: false`; the host observes the
+     `value` attribute by hand and applies it only while the field is not dirty. Typing and
+     setting the property make it dirty; `form.reset()` (`formResetCallback`) clears the flag
+     and goes back to the attribute. `formStateRestoreCallback` puts the value back on history
+     navigation.
+   - **Validity.** The host mirrors the flags **and** the message of the inner field:
+     `setValidity(input.validity, input.validationMessage, input)`. It covers `required` empty
+     and the format of `email` and `url`. The message is the browser's, in the person's
+     language: no `nph-*` knows a language. `invalid` is **not** a constraint and adds no
+     `customError`: the sentence belongs to `nph-field`, and `setValidity` would need one. A
+     form whose messages are written by `nph-field` uses `novalidate` when the browser balloon
+     is not wanted.
+   - **Native surface**, as getters and methods, not reactive properties: `form`, `labels`,
+     `validity`, `validationMessage`, `willValidate`, `checkValidity()` and `reportValidity()`.
+   - **Enter submits.** The inner field has no form owner, so the browser would not submit the
+     form on Enter. The host does what HTML does: it clicks the default button of the form (the
+     first submit button, so the submitter and the validation apply), does nothing when that
+     button is disabled, and calls `requestSubmit()` when there is none. With no form, Enter
+     does nothing.
+
+3. **Accessible name and description.** The focused element is the inner field, and an `id`
+   does not cross the shadow root. The inner field takes, in this order:
+   1. the labels associated with the host (`internals.labels`), as **element references**
+      (`ariaLabelledByElements`). A reference from inside a shadow root to an element of an
+      outer scope is valid. The name follows the text of the label, because it is a reference
+      and not a copy, and the `aria-hidden` asterisk of `nph-label` stays out of it. The host
+      recomputes it after the first frame (the label may render after the input), on focus and
+      when `label` changes. **Proved in Chromium**, by the accessibility tree read through the
+      DevTools protocol in `nph-input.test.ts`: the inner field is a `textbox` named by the
+      label, with or without the asterisk; a label that wraps the host names it too. `nph-input-otp`
+      (DSA-41) can follow the same path;
+   2. `label`, as the `aria-label` of the inner field. It is what `nph-field` writes (P83), since
+      its label is not associated with `for`.
+
+   With no name at all, the field **renders** and warns once in development: the label may
+   arrive after the first render, and there is no event that says so. `description` goes into
+   an internal element referenced by `aria-describedby`, hidden by clipping and not by
+   `display: none`, which the browser does not read (P77).
+
+4. **Events: the native ones, an exception to the reasoning of P73 item 3.** P73 gave
+   `nph-togglebutton` an `nph-change` because its `click` did not say the new value and the
+   prefix avoided the native `change`. These pieces are **form controls**: the consumer reads
+   `event.target.value`, as frameworks do with a native field, and an `nph-*` event would need
+   a typed key in `HTMLElementEventMap` that `nph-change` (P73) and `nph-value-change` (P76)
+   already take with another `detail`. So the input fires `input` and `change` and no event of
+   its own. The `input` of the inner field is `composed` and reaches the host on its own; the
+   `change` is not, so the host fires it again (`bubbles`, not `composed`). Setting `value` from
+   code fires neither. The same rule holds for the form controls of the field contract (P83).
+
+5. **The clear button (D2).** A native `<button type="button">` after the field, named by
+   `clear-label`, with the `nph-icon` of `icon-end`, decorative. It shows only with a value and
+   when the field is enabled, and it stays in the Tab order: the frame draws `foco-limpar`
+   (D2-item of the task, with Indiane). A click, Enter or Space empties the value, moves the
+   focus back to the field — the button disappears, and the focus cannot fall on the page —
+   and fires `input` and `change`, as typing does. `icon-end` without `clear-label` draws the
+   field without the button and one error, as `info` without `info-label` in P62.6. In a
+   `search` field, the cancel button of the browser is hidden, so the one of the piece is the
+   only one.
+
+6. **States (D4, D5).** The container border is `color/input`, `color/input-hover` on hover and
+   `focus/border` with the halo `focus/halo` attached outside, at `focus/radius-control`, while
+   the inner field has the focus. `foco-limpar` is the focus on the clear button, keyboard only:
+   the container keeps its border, and the border (`focus/border-radius-control`) and the halo
+   (`focus/radius-control-with-border`) sit around the 24 × 24 target. `erro` keeps
+   `status/error` on hover and on focus, with the halo `focus/halo-error`; with `erro` and the
+   focus on the clear button, the target takes the usual focus. `disabled` wins over
+   everything: `color/input`, `color/muted` and `state/disabled-opacity` on the whole host,
+   selected by `:host(:disabled)`, which also matches a disabled `<fieldset>`. The field shows
+   its focus on a pointer click too: a text field always shows where the caret is. There is
+   no motion: the evidence does not ask for it (D4-item of the task).
+
+7. **Box (D6).** The host is `inline-flex`, `layout/input-width` wide, with no minimum; the
+   parent stretches it with its own `inline-size`, as `nph-field` will (P83).
+
+8. **Invalid input.** A `type` outside the five (rendering a password as text would be a risk),
+   a `size` outside the two and an icon value outside `none` and the core render nothing, take
+   no space, leave `data-nph-rendered` out, contribute nothing to the form data and emit one
+   `console.error` each, accumulating.
+
+**Points for review.**
+
+- **Form association**, the first of the repository, and the pattern the other controls copy.
+- **The name by element reference**, and not a copy of the text: tools that compute the name
+  from attributes (axe-core of P72, the role queries of Playwright) may not follow it; the proof
+  is the accessibility tree of Chromium. Setting it writes an empty `aria-labelledby` on the
+  inner field; check it when the gate of P72 lands.
+- **Native events** instead of `nph-*`, and the departure from the reasoning of P73 item 3.
+- **Enter submits** by clicking the default button.
+- **`icon-start` and `icon-end` off by default**, unlike the Figma booleans.
+
+**Known limits.** Autofill by browsers and password managers inside a shadow root varies.
+Forced colors and right-to-left are not treated yet.
+
+**Source.** Frame `nph-input` (`1195:532`, set `622:18359`) of the Figma file `DS-IA-NEPHOS
+5.0`, accepted by Indiane on 01/10/2026, with the Figma UX QA and the textual audit approved on
+02/10/2026; D1 to D7 answered on 16/10/2026. The API names, the form association, the name by
+reference, the native events, the Enter rule and the invalid input rules are a technical
+proposal of this implementation, approved in the plan by Elvys on 22/10/2026.
+
+**Out of scope.** Password, number and mask (D1). A read-only state, `maxlength`, `minlength`,
+`pattern` and `inputmode`. A `customError` from `invalid`. An event of its own. Motion. A shared
+helper for the form controls. The Usage section of the page (P70, DSA-35) and the page lists read
+from the Metadata (P71, DSA-34), as on every Docs page.
+
+**Status.** Anatomy and behavior accepted by Indiane on 01/10/2026; D1 to D7 answered on
+16/10/2026. API and semantics are reviewed in the pull request that brings them; the merge is
+the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76 or P77 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77 or P80 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
