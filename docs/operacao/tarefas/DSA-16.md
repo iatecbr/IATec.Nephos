@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 260,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-input",
   "dependencies": [],
   "gates": [
@@ -29,7 +29,38 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D1",
+      "question": "The required Search example has no visible label. Is `label`, an accessible name in text that becomes the `aria-label` of the inner field, acceptable as the name of an nph-input outside nph-field? The code takes it and warns in development when the field has no name at all. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D2",
+      "question": "The evidence draws the `foco-limpar` state, so the clear button takes focus: one more Tab stop in a field with a value. Does Indiane confirm? The code keeps the clear button in the Tab order. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D3",
+      "question": "In `large` (44 px), does the clear target stay 24 by 24? The evidence says the measures are the same in both sizes except the height, and the code keeps 24 by 24. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D4",
+      "question": "The evidence says nothing about motion. Does the color change of the border on hover and on focus use the pair `motion/hover-duration` and `motion/hover-easing`, like the other form controls? The code has no transition. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D5",
+      "question": "Is `readonly` out of v1, or does it get a drawing of its own? The code leaves it out. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-16/documentacao-figma-aceita-2026-10-01.md"
   ],
@@ -47,12 +78,12 @@
     "converted_decision": "The nph-input frame (1195:532) was accepted as the API and behavior specification of the nph-input. COMPONENT_SET 622:18359. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": {
-    "branch": null,
+    "branch": "claude/dsa-16-nph-input-20ff0b",
     "commit": null,
     "pr": null
   },
-  "context": null,
-  "updated_at": "2026-10-16"
+  "context": "docs/operacao/contextos/DSA-16.md",
+  "updated_at": "2026-10-22"
 }
 ```
 
@@ -94,6 +125,17 @@ section of `nph-icon.docs.stories.ts`, from the frame `1130:956`: an `nph-input`
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
 tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
+
+## Pending decisions
+The evidence gives the whole contract, so the code can start. Five points remain for Indiane; the code follows the stated default meanwhile, and none blocks the pull request.
+
+| ID | What the evidence gives | What is missing | What the code does meanwhile |
+|---|---|---|---|
+| D1 | The name comes from the `nph-field` label; the placeholder is not a label. | The name of the Search example, which has no visible label. | `label` becomes the `aria-label` of the inner field; with no name at all, a warning in development. |
+| D2 | The `foco-limpar` state: the clear button takes focus. | Whether one more Tab stop per field with a value is wanted. | The clear button stays in the Tab order. |
+| D3 | The measures are the same in both sizes, except the height. | Whether the clear target grows in `large`. | 24 by 24 in both sizes. |
+| D4 | Nothing about motion. | Whether hover and focus animate the border color. | No transition. |
+| D5 | Seven states, none read-only. | Whether `readonly` enters v1. | Out of v1. |
 
 ## What this task does not do
 It does not create a token or change a token value.
