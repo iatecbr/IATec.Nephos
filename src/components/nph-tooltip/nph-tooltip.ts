@@ -143,8 +143,8 @@ export class NphTooltip extends LitElement {
     super.disconnectedCallback();
     this.rootObserver?.disconnect();
     this.rootObserver = undefined;
-    this.observedRoot = null;
     this.detach();
+    this.observedRoot = null;
     this.hideNow();
     if (this.retryFrame !== undefined) {
       cancelAnimationFrame(this.retryFrame);
@@ -412,8 +412,8 @@ export class NphTooltip extends LitElement {
     this.touched = false;
     if (this.focusedElement?.matches(':focus-visible')) {
       this.hasFocus = true;
+      this.sync();
     }
-    this.sync();
   };
 
   private readonly onTargetFocusIn = (event: FocusEvent): void => {
@@ -563,11 +563,11 @@ export class NphTooltip extends LitElement {
     if (!visible) {
       return;
     }
+    bubble.style.maxWidth = '';
+    bubble.style.maxHeight = '';
     const styleBeforeSizing = getComputedStyle(bubble);
-    const maxWidth =
-      parseFloat(styleBeforeSizing.getPropertyValue('--nph-layout-max-tooltip-width')) || parseFloat(styleBeforeSizing.maxWidth);
-    const maxHeight =
-      parseFloat(styleBeforeSizing.getPropertyValue('--nph-layout-max-tooltip-height')) || parseFloat(styleBeforeSizing.maxHeight);
+    const maxWidth = parseFloat(styleBeforeSizing.maxWidth);
+    const maxHeight = parseFloat(styleBeforeSizing.maxHeight);
     bubble.style.maxWidth = `min(var(--nph-layout-max-tooltip-width), ${view.width}px)`;
     bubble.style.maxHeight = 'none';
     /* Measure at the origin first: the size does not depend on where it sits. */

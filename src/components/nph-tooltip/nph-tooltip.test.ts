@@ -638,6 +638,23 @@ describe('closing', () => {
     expect(tooltip.open).toBe(true);
   });
 
+  it('stays open while the pointer crosses the gap slowly', async () => {
+    const { button, tooltip } = await mount();
+    const target = button.getBoundingClientRect();
+    await moveMouse(target.left + target.width / 2, target.top + target.height / 2);
+    await shown(tooltip);
+
+    const bubble = bubbleOf(tooltip).getBoundingClientRect();
+    await moveMouse(target.left + target.width / 2, (bubble.bottom + target.top) / 2);
+    await new Promise((resolve) => window.setTimeout(resolve, 200));
+    expect(tooltip.open).toBe(true);
+    expect(isShown(tooltip)).toBe(true);
+
+    await moveMouse(bubble.left + bubble.width / 2, bubble.top + bubble.height / 2);
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+  });
+
   it('Esc with the balloon closed is not intercepted', async () => {
     const { button } = await mount();
     const outer = vi.fn();
@@ -653,9 +670,15 @@ describe('closing', () => {
   it('open set by the consumer shows the balloon, and Esc closes it', async () => {
     const { tooltip } = await mount({ open: true });
     await shown(tooltip);
-    await userEvent.keyboard('{Escape}');
+    document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'a', bubbles: true }));
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+
+    const escape = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+    document.body.dispatchEvent(escape);
     await tooltip.updateComplete;
     expect(tooltip.open).toBe(false);
+    expect(escape.defaultPrevented).toBe(true);
     await gone(tooltip);
   });
 
@@ -779,17 +802,28 @@ describe('placement', () => {
   });
 
   it('caps width to a narrow viewport and keeps the complete wrapped text', async () => {
-    await page.viewport(200, 400);
-    const { tooltip } = await mount({ open: true, text: TWO_LINES });
-    await shown(tooltip);
-    const bubble = bubbleOf(tooltip);
-    const box = bubble.getBoundingClientRect();
-    expect(box.width).toBeLessThanOrEqual(document.documentElement.clientWidth);
-    expect(box.right).toBeLessThanOrEqual(document.documentElement.clientWidth);
-    expect(box.height).toBeGreaterThan(MAX_HEIGHT);
-    expect(bubble.style.maxHeight).toBe('none');
-    expect(bubble.textContent).toBe(TWO_LINES);
-    expect(bubble.scrollHeight).toBeLessThanOrEqual(bubble.clientHeight);
+    try {
+      await page.viewport(200, 400);
+      const { button, tooltip } = await mount({
+        open: true,
+        text: TWO_LINES,
+        style: 'position:fixed;left:60px;top:100px;width:40px;height:36px',
+      });
+      await shown(tooltip);
+      const target = button.getBoundingClientRect();
+      expect(target.left).toBeGreaterThanOrEqual(0);
+      expect(target.right).toBeLessThanOrEqual(document.documentElement.clientWidth);
+      const bubble = bubbleOf(tooltip);
+      const box = bubble.getBoundingClientRect();
+      expect(box.width).toBeLessThanOrEqual(document.documentElement.clientWidth);
+      expect(box.right).toBeLessThanOrEqual(document.documentElement.clientWidth);
+      expect(box.height).toBeGreaterThan(MAX_HEIGHT);
+      expect(bubble.style.maxHeight).toBe('none');
+      expect(bubble.textContent).toBe(TWO_LINES);
+      expect(bubble.scrollHeight).toBeLessThanOrEqual(bubble.clientHeight);
+    } finally {
+      await page.viewport(900, 700);
+    }
   });
 
   it('follows the element when the page scrolls while it is open', async () => {
