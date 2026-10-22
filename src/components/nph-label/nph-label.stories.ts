@@ -193,7 +193,7 @@ export const WhatTheLabelDoesNotDo: Story = {
 /**
  * The trigger focus: `focus/border` border and `focus/halo` halo around the
  * 24 x 24 target (L9). It only shows through the keyboard: click the field
- * above and use Tab.
+ * above and use Tab. The balloon opens with the focus.
  */
 export const TriggerFocus: Story = {
   name: 'Trigger focus',
@@ -213,9 +213,9 @@ export const TriggerFocus: Story = {
 };
 
 /**
- * The open bubble: `nph-tooltip` below the label, aligned to the start, at
- * `space/inline` (row `aberto` of the frame). It opens on click, Enter or
- * Space; it closes with Esc, a click outside or Tab out.
+ * The open balloon: `nph-tooltip` above the label, centered on the information
+ * icon, at `space/inline`. It opens on hover and on keyboard focus (never on
+ * touch); it closes with Esc, when the pointer leaves or on blur (P77).
  */
 export const Open: Story = {
   name: 'Open',
@@ -226,7 +226,7 @@ export const Open: Story = {
         v.openTitle,
         html`
           ${caption(v.openCaption)}
-          <div style="padding-block-end:var(--nph-space-section)">${withInfo(v)}</div>
+          <div style="padding-block-start:calc(var(--nph-space-section) * 2)">${withInfo(v)}</div>
         `,
       )}
     `);
@@ -234,7 +234,7 @@ export const Open: Story = {
   play: async ({ canvasElement }) => {
     const trigger = canvasElement.querySelector<HTMLButtonElement>('nph-label .nph-label__info');
     if (trigger) {
-      await userEvent.click(trigger);
+      await userEvent.hover(trigger);
     }
   },
 };

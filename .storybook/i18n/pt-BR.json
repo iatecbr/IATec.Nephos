@@ -50,9 +50,15 @@
     "components-nph-label-validation--what-the-label-does-not-do": "O que o rótulo não faz",
     "components-nph-label-validation--trigger-focus": "Foco do gatilho",
     "components-nph-label-validation--open": "Aberto",
+    "components-nph-tooltip-docs": "Docs",
+    "components-nph-tooltip-docs--documentation": "Documentação",
     "components-nph-tooltip-validation": "Validação",
     "components-nph-tooltip-validation--one-line": "Uma linha",
     "components-nph-tooltip-validation--two-lines": "Duas linhas",
+    "components-nph-tooltip-validation--sides": "Lados",
+    "components-nph-tooltip-validation--flip": "Inversão",
+    "components-nph-tooltip-validation--focus-and-escape": "Foco e Esc",
+    "components-nph-tooltip-validation--hover-and-focus": "Hover e foco",
     "components-nph-skeleton-docs": "Docs",
     "components-nph-skeleton-docs--documentation": "Documentação",
     "components-nph-skeleton-validation": "Validação",
@@ -857,7 +863,7 @@
       ],
       [
         "info",
-        "O texto da explicação, já localizado. Com info-label, mostra o ícone de informação, que abre o nph-tooltip com esse texto por clique, Enter ou Espaço e fecha com Esc, clique fora ou Tab para fora."
+        "O texto da explicação, já localizado. Com info-label, mostra o ícone de informação, que abre o nph-tooltip com esse texto no hover e no foco do teclado, acima do label, e fecha com Esc, quando o ponteiro sai ou no blur."
       ],
       [
         "info-label (infoLabel)",
@@ -870,7 +876,7 @@
       "Ajuda e mensagem de erro são do nph-field, não do rótulo.",
       "O espaço até o controle é space/stack-tight.",
       "O rótulo fica em color/foreground mesmo com o campo em erro: quem mostra o erro é o campo.",
-      "O ícone de informação abre o nph-tooltip, que mostra o texto de info."
+      "O ícone de informação abre o nph-tooltip, que mostra o texto de info acima do label."
     ],
     "relationsCaption": "Sozinho, acima do controle, com space/stack-tight.",
     "whenToUseTitle": "Quando usar",
@@ -900,7 +906,7 @@
     "referencesTitle": "Referências",
     "references": [
       "ficha nph-label — função, API, acessibilidade, tokens e anti-padrões.",
-      "docs/decisoes-tecnicas.md — P62 (exceção à P01, tipografia e API, ampliada pela P62.6) e P65 (nph-tooltip).",
+      "docs/decisoes-tecnicas.md — P62 (exceção à P01, tipografia e API, ampliada pela P62.6), P65 (nph-tooltip) e P77, que emenda a P62.6 e a P65.",
       "design.md — color/foreground, status/error, color/muted-foreground, text/label-md, os espaços e o foco.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Label, quadro nph-label (1194:1482) e conjunto 374:6.",
       "Storybook — Validação, na pasta ao lado."
@@ -951,14 +957,156 @@
     "disabledTitle": "Desabilitado não é estado do rótulo",
     "disabledCaption": "O nph-field aplicará state/disabled-opacity ao controle inteiro. O rótulo não tem estado próprio.",
     "focusTitle": "Foco do gatilho",
-    "focusCaption": "Clique no campo e aperte Tab: o foco vai para o ícone de informação. O texto do rótulo não recebe foco.",
+    "focusCaption": "Clique no campo e aperte Tab: o foco vai para o ícone de informação. O texto do rótulo não recebe foco. O balão abre com o foco.",
     "tabStartLabel": "Ponto de partida do Tab",
     "openTitle": "Balão aberto",
-    "openCaption": "O balão abre pela ativação do ícone e fecha com Esc, clique fora ou Tab para fora. Passar o mouse não abre."
+    "openCaption": "O balão abre acima do label quando o ponteiro repousa no ícone ou o ícone recebe o foco do teclado, e fecha com Esc, quando o ponteiro sai ou no blur. Não abre no toque."
   },
   "tooltipValidation": {
     "oneLine": "Explica o que o campo pede.",
-    "twoLines": "Use o nome como está no documento, sem abreviar nem trocar a ordem."
+    "twoLines": "Use o nome como está no documento, sem abreviar nem trocar a ordem.",
+    "target": "Elemento",
+    "link": "Link",
+    "field": "Campo",
+    "delete": "Excluir",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "sidesCaption": "Em cima é o padrão; o balão inverte para o lado oposto quando não cabe, e também pode ficar embaixo, à esquerda ou à direita. A distância ao elemento é space/inline.",
+    "flipCaption": "O elemento fica no alto da janela: o balão prefere o topo, não cabe e fica embaixo.",
+    "focusCaption": "Aperte Tab para focar o botão: o balão abre e o foco fica no botão. Aperte Esc para fechar.",
+    "hoverCaption": "Ponha o ponteiro sobre cada elemento, ou foque com Tab: o balão abre na hora, em qualquer elemento. Ele fica aberto enquanto o ponteiro está sobre ele."
+  },
+  "tooltipDocs": {
+    "summary": "Um balão de texto flutuante preso a qualquer elemento da interface. Mostra informação complementar, uma explicação ou um dado de contexto quando o ponteiro repousa sobre o elemento e quando o elemento recebe o foco do teclado.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-tooltip, o design.md para os tokens e docs/decisoes-tecnicas.md para a P77. O arquivo DS-IA-NEPHOS 5.0 do Figma é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "description": "Use o nph-tooltip para dar informação complementar, uma explicação ou um dado de contexto a qualquer elemento, como o botão só de ícone e o ícone de informação do nph-label. O balão abre no hover e no foco, sem atraso, e fecha quando o ponteiro sai do elemento e do balão, no blur ou com Esc. Ele não substitui o texto de ajuda nem a mensagem de erro, que são do nph-field, nem o nome acessível do elemento.",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Para dar o nome da ação a todo botão só de ícone.",
+      "Para informação complementar ou dado de contexto de qualquer elemento.",
+      "Para uma frase que a pessoa lê de uma vez, antes de preencher."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para pôr uma ação, um link ou um campo dentro do balão: use o nph-popover.",
+      "Para repetir no balão o texto de ajuda do campo: isso é do nph-field.",
+      "Para pôr no balão a informação sem a qual o elemento não pode ser usado.",
+      "Para cortar o texto com reticências ou deixá-lo passar de duas linhas: reescreva até caber."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "text",
+        "O conteúdo do balão, já localizado pela aplicação, sem ação e sem link. O balão acompanha o texto até layout/max-tooltip-width e quebra a linha; cabe em no máximo duas linhas. O texto deve caber inteiro: sem reticências e sem palavra quebrada."
+      ],
+      [
+        "for",
+        "O id do elemento que abre o balão, na mesma raiz do tooltip, como no label nativo. O tooltip ouve esse elemento e acrescenta o próprio id ao aria-describedby dele. Sem um elemento correspondente, nada é desenhado."
+      ],
+      [
+        "side",
+        "O lado preferido: top (padrão), bottom, left ou right. O balão inverte para o lado oposto quando não cabe. É comportamento: o componente do Figma não tem propriedade de lado."
+      ],
+      [
+        "open",
+        "Booleano, refletido no atributo. O tooltip o liga e desliga sozinho; o consumidor pode ligá-lo para mostrar o balão aberto, e valem as mesmas regras de fechamento."
+      ]
+    ],
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "O balão abre a partir de qualquer elemento: o botão só de ícone leva o nome da ação; o ícone de informação do nph-label leva a explicação.",
+      "O texto do balão vem do elemento que o abre; no nph-label, da propriedade info.",
+      "Texto de ajuda e mensagem de erro ficam no nph-field, não no balão.",
+      "O balão fica ao lado do elemento, a space/inline, sem cobrir o foco dele."
+    ],
+    "relationsCaption": "Aberto a partir do ícone de informação do nph-label, acima do label.",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "1. Balão",
+        "Fundo color/tooltip, cantos radius/inner, sombra elevation/dropdown, padding space/inline (esquerda e direita) e space/inline-tight (topo e base); no máximo layout/max-tooltip-width de largura e layout/max-tooltip-height de altura. Entra em motion/enter-duration e sai em motion/exit-duration."
+      ],
+      [
+        "2. Texto",
+        "text/body-sm em color/tooltip-foreground."
+      ],
+      [
+        "3. Distância ao elemento",
+        "space/inline, para o balão não cobrir o foco do elemento. Em cima por padrão; inverte quando não cabe; também pode ficar embaixo, à esquerda ou à direita."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "O host é role=tooltip desde a montagem, e o elemento que ele descreve aponta para ele com aria-describedby. O balão é sempre renderizado e só aparece quando aberto."
+      ],
+      [
+        "Contraste",
+        "O texto usa color/tooltip-foreground sobre color/tooltip: 6,69:1 no claro e 7,47:1 no escuro, acima de 4,5:1 (WCAG 1.4.3)."
+      ],
+      [
+        "Foco visível",
+        "O balão nunca recebe foco: o foco fica no elemento que o abriu, com o desenho de foco desse elemento. O balão fica aberto enquanto o ponteiro está sobre ele (WCAG 1.4.13)."
+      ],
+      [
+        "Teclado",
+        "O foco do teclado no elemento abre o balão; Esc fecha. O hover também abre."
+      ],
+      [
+        "Alvo de toque",
+        "O balão não é alvo de toque e não abre no toque: sem hover, informação essencial nunca vive só no balão. O alvo de toque é o elemento, no tamanho dele (WCAG 2.5.8)."
+      ],
+      [
+        "Nome acessível",
+        "O balão complementa o nome acessível do elemento e não o substitui: no botão só de ícone, o nome da ação fica no próprio botão."
+      ]
+    ],
+    "examplesTitle": "Exemplos obrigatórios",
+    "exampleLabel": "Label com info, balão aberto, acima do label.",
+    "exampleRequired": "Campo obrigatório com info, balão aberto, acima do label: o asterisco fica no label.",
+    "exampleFocus": "Elemento em foco, balão aberto: o foco abre, o Esc fecha.",
+    "exampleSides": "Botão só de ícone (ghost) com o balão em cada lado: em cima (o padrão), embaixo (quando não cabe em cima), à esquerda e à direita.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "matrixLabel": "Matriz do componente",
+    "textShort": "texto: curto",
+    "textSentence": "texto: uma frase",
+    "textTwoLines": "texto: duas linhas",
+    "short": "Obrigatório.",
+    "sentence": "Explica o que o campo pede.",
+    "twoLines": "Use o nome como está no documento, sem abreviar nem trocar a ordem.",
+    "target": "Elemento",
+    "delete": "Excluir",
+    "labelText": "Nome completo",
+    "info": "Explica o que o campo pede.",
+    "infoLabel": "Sobre o nome completo",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-tooltip — propósito, anatomia, API, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P77 (nph-tooltip: qualquer elemento, hover e foco), que emenda a P65 e a P62.6.",
+      "design.md — color/tooltip, color/tooltip-foreground, layout/max-tooltip-width, layout/max-tooltip-height, radius/inner, elevation/dropdown e os papéis de movimento.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Tooltip, frame 1237:5, board 1241:3 e componente 1237:3.",
+      "Storybook — Validação, na pasta ao lado desta."
+    ],
+    "sourceBoard": "Figma, board nph-tooltip (1241:3)",
+    "sourceApi": "Ficha do nph-tooltip; docs/decisoes-tecnicas.md › P77",
+    "sourceAccessibility": "Figma, board nph-tooltip (1241:3); nph-tooltip.test.ts"
   },
   "skeletonDocs": {
     "summary": "Uma forma parada que guarda o lugar de um conteúdo enquanto ele carrega. Repete a forma do que vai entrar — texto, imagem ou pessoa — e não pulsa.",
@@ -1742,8 +1890,12 @@
       "components-nph-togglebutton-validation--invalid": "Inválido: a borda da trilha é status/error, pressionado ou não, com texto ou só com ícone; a mensagem fica fora da peça.",
       "components-nph-togglebutton-validation--interactive": "Um clique alterna a peça e dispara nph-change com detail.pressed, mostrado abaixo do botão; definir pressed pelo código não dispara o evento.",
       "components-nph-togglebutton-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: Opção desligada, Opção ligada e Conjunto de ícones.",
-      "components-nph-tooltip-validation--one-line": "O balão aberto com um texto de uma linha, como no exemplo do Figma.",
-      "components-nph-tooltip-validation--two-lines": "O balão aberto com um texto de duas linhas: em todos os idiomas ele ocupa exatamente duas linhas."
+      "components-nph-tooltip-validation--one-line": "O balão aberto acima de um elemento, com um texto de uma linha, como no exemplo do Figma.",
+      "components-nph-tooltip-validation--two-lines": "O balão aberto com um texto de duas linhas: em todos os idiomas ele ocupa exatamente duas linhas.",
+      "components-nph-tooltip-validation--sides": "Os quatro lados, em cima por padrão, com o nome da ação de um botão só de ícone, em modo claro e escuro.",
+      "components-nph-tooltip-validation--flip": "O balão inverte para o lado oposto quando não cabe no lado preferido.",
+      "components-nph-tooltip-validation--focus-and-escape": "O foco do teclado abre o balão e o Esc fecha, com o foco ficando no elemento.",
+      "components-nph-tooltip-validation--hover-and-focus": "O hover e o foco do teclado abrem o balão em qualquer elemento: um botão, um link e um campo."
     }
   }
 }

@@ -11,8 +11,9 @@
  * - help and error message belong to `nph-field`. The label carries the help
  *   TRIGGER, not the help (L8): with `info` and `infoLabel`, an information
  *   icon after the text opens `nph-tooltip` with the text of `info`.
- *   The trigger receives focus, with border and halo (L9); it opens on click,
- *   Enter or Space and closes with Esc or a click outside (L11).
+ *   The trigger receives focus, with border and halo (L9). The balloon opens on
+ *   hover and on keyboard focus, above the label, and closes with Esc, when the
+ *   pointer leaves or on blur; `nph-tooltip` does all of it (P77, which amends P62.6).
  *
  * EXCEPTION TO P01 — this is the only Nephos component WITHOUT Shadow DOM.
  * The native association between label and control does not cross the Shadow
@@ -46,9 +47,10 @@
  * component, forbidden by the trilingual plan — no `nph-*` knows a language.
  *
  * The trigger is a native `<button>` AFTER the `<label>`, outside it: inside,
- * it would enter the accessible name of the control. The bubble is a live
- * region `role="status"` that exists before opening (P65), and focus stays on
- * the trigger.
+ * it would enter the accessible name of the control. The balloon is the
+ * `nph-tooltip` next to it, in the same root (`for`), and the trigger is
+ * described by it (`aria-describedby`, put by the tooltip). A click on the
+ * trigger does nothing: the balloon never opens on touch (P77).
  *
  * Besides that, a form that uses `required` needs a visible legend
  * explaining the asterisk convention. That is a screen rule, checked in the
@@ -85,8 +87,6 @@ export class NphLabel extends LitElement {
     for: { type: String, reflect: true },
     info: { type: String },
     infoLabel: { type: String, attribute: 'info-label' },
-    /* Internal: the open bubble. Not API (P62.6). */
-    opened: { state: true },
   };
 
   /** The label text. Arrives already localized by the consuming application. */
@@ -104,10 +104,8 @@ export class NphLabel extends LitElement {
   /** Accessible name of the information trigger. Already localized. */
   declare infoLabel: string;
 
-  declare protected opened: boolean;
-
-  /** `id` of the bubble, for the trigger's `aria-controls`. Unique per instance. */
-  private readonly tooltipId = `${TAG}-info-${++nextId}`;
+  /** `id` of the trigger, which the `nph-tooltip` finds by `for`. Unique per instance. */
+  private readonly triggerId = `${TAG}-info-${++nextId}`;
 
   /** Last cause reported, to report once per cause. */
   private reported = '';
@@ -119,7 +117,6 @@ export class NphLabel extends LitElement {
     this.for = null;
     this.info = '';
     this.infoLabel = '';
-    this.opened = false;
   }
 
   /**
@@ -128,12 +125,6 @@ export class NphLabel extends LitElement {
    */
   protected override createRenderRoot(): HTMLElement {
     return this;
-  }
-
-  override disconnectedCallback(): void {
-    super.disconnectedCallback();
-    this.stopListening();
-    this.opened = false;
   }
 
   private get infoText(): string {
@@ -159,72 +150,11 @@ export class NphLabel extends LitElement {
       } else {
         this.reported = '';
       }
-      if (!this.hasTrigger) {
-        this.opened = false;
-      }
     }
   }
 
-  protected override updated(changed: PropertyValues<this>): void {
+  protected override updated(): void {
     this.toggleAttribute(INFO_ATTRIBUTE, this.hasTrigger);
-    /* `opened` is protected: Lit's typed map only knows the public keys. */
-    if ((changed as Map<PropertyKey, unknown>).has('opened')) {
-      if (this.opened) {
-        this.startListening();
-      } else {
-        this.stopListening();
-      }
-    }
-  }
-
-  private trigger(): HTMLButtonElement | null {
-    return this.querySelector<HTMLButtonElement>('.nph-label__info');
-  }
-
-  private bubble(): HTMLElement | null {
-    return this.querySelector<HTMLElement>('nph-tooltip');
-  }
-
-  /* Click, Enter and Space arrive here through the native button behaviour. */
-  private readonly onActivate = (): void => {
-    this.opened = !this.opened;
-    /* In Safari, clicking a button does not give it focus; without focus, Esc does not arrive. */
-    this.trigger()?.focus();
-  };
-
-  private readonly onKeydown = (event: KeyboardEvent): void => {
-    if (event.key === 'Escape' && this.opened) {
-      this.opened = false;
-      /* The dialog that contains the form does not close along with it. */
-      event.stopPropagation();
-    }
-  };
-
-  /* Tab out: only closes when focus went to another known place. */
-  private readonly onFocusout = (event: FocusEvent): void => {
-    const next = event.relatedTarget;
-    if (this.opened && next instanceof Node && !this.contains(next)) {
-      this.opened = false;
-    }
-  };
-
-  /* A click outside the trigger and the bubble closes it (L11.5). */
-  private readonly onOutsidePointer = (event: PointerEvent): void => {
-    const path = event.composedPath();
-    const trigger = this.trigger();
-    const bubble = this.bubble();
-    if ((trigger && path.includes(trigger)) || (bubble && path.includes(bubble))) {
-      return;
-    }
-    this.opened = false;
-  };
-
-  private startListening(): void {
-    document.addEventListener('pointerdown', this.onOutsidePointer, true);
-  }
-
-  private stopListening(): void {
-    document.removeEventListener('pointerdown', this.onOutsidePointer, true);
   }
 
   protected override render(): TemplateResult {
@@ -238,21 +168,12 @@ export class NphLabel extends LitElement {
     }
     return html`${label}<button
         class="nph-label__info"
+        id=${this.triggerId}
         type="button"
         aria-label=${this.triggerName}
-        aria-expanded=${this.opened ? 'true' : 'false'}
-        aria-controls=${this.tooltipId}
-        @click=${this.onActivate}
-        @keydown=${this.onKeydown}
-        @focusout=${this.onFocusout}
       >
         <nph-icon name="circle-info" variant="solid" size="sm"></nph-icon></button
-      ><nph-tooltip
-        class="nph-label__tooltip"
-        id=${this.tooltipId}
-        .text=${this.infoText}
-        ?open=${this.opened}
-      ></nph-tooltip>`;
+      ><nph-tooltip class="nph-label__tooltip" for=${this.triggerId} .text=${this.infoText}></nph-tooltip>`;
   }
 }
 

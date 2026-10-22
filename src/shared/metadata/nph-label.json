@@ -5,7 +5,7 @@
   "title": "nph-label",
   "type": "component spec",
   "created": "2026-08-31",
-  "updated": "2026-10-06",
+  "updated": "2026-10-21",
   "solves": "Names a form control in a visible and accessible way. The label is only text, and it carries no layout, text state or error message. It carries the trigger of the help, not the help: the information icon opens the nph-tooltip.",
   "use_when": [
     "A form control needs a visible name, on its own or inside an nph-field."
@@ -83,8 +83,8 @@
       "changes_for_user": "Only on the information icon and only from the keyboard: the border and the halo mark the focus, without changing the size."
     },
     "open": {
-      "token": "the nph-tooltip, below the label, at space/inline",
-      "changes_for_user": "The balloon shows the explanation; it closes with Esc, click outside or Tab out. Hovering does not open it."
+      "token": "the nph-tooltip, above the label, at space/inline",
+      "changes_for_user": "The balloon shows the explanation when the pointer rests on the icon or the icon receives keyboard focus; it closes with Esc, when the pointer leaves or on blur. It never opens on touch."
     }
   },
   "business_rules": [
@@ -122,11 +122,11 @@
     "The information icon appears with info and info-label together; info-label is the name the screen reader announces."
   ],
   "accessibility": {
-    "semantics": "Native `<label>` element; the information icon is a native `<button>` after it, outside the `<label>`, with aria-expanded and aria-controls pointing to the nph-tooltip",
+    "semantics": "Native `<label>` element; the information icon is a native `<button>` after it, outside the `<label>`, described by the nph-tooltip through aria-describedby",
     "accessible_name": "The label is the source of the accessible name of the control. The information icon is named by info-label",
     "keyboard": [
       "Tab enters and leaves the information icon; the text does not receive focus.",
-      "Enter and Space open and close the balloon.",
+      "Keyboard focus on the icon opens the balloon; there is no activation that toggles it.",
       "Esc closes the open balloon, and focus stays on the icon."
     ],
     "focus": "The text does not receive focus. The information icon does, with border focus/border and halo focus/halo outside, only from the keyboard",
@@ -165,7 +165,7 @@
   ],
   "sources": {
     "design_md": "design.md, in the repository",
-    "decision": "P62.1, P62.2 and P62.3, approved in the technical review; P62.6, the information trigger, under technical review",
+    "decision": "P62.1, P62.2 and P62.3, approved in the technical review; P62.6, the information trigger, amended by P77 in how the balloon opens, closes and sits",
     "tests": "src/components/nph-label/nph-label.test.ts",
     "usage_evidence": "branch v/3.0.0, PR #10, merge e231eba",
     "storybook": "src/components/nph-label/nph-label.stories.ts",
