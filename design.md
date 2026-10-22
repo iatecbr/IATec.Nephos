@@ -1776,6 +1776,7 @@ tokens_core_duration:
   '300': { valor: 250, css: '--nph-core-duration-300', use: "Layer that appears, and expansion." }
   '400': { valor: 400, css: '--nph-core-duration-400', use: "Large movement. NEVER in a repeated interaction." }
   loop:  { valor: 800, css: '--nph-core-duration-loop', use: "Continuous loop of the spinner: 800 ms per turn, infinite repetition. OUTSIDE the transition scale, which ends at 400 and describes movement that starts and ends; a loop repeats (PF-05)." }
+  delay: { valor: 300, css: '--nph-core-duration-delay', use: "Wait before reacting to the pointer: 300 ms. OUTSIDE the transition scale, because it is not movement; it is still time before it (DSA-48)." }
 
 tokens_core_easing:
   standard: { valor: 'cubic-bezier(0.4, 0, 0.2, 1)', css: '--nph-core-easing-standard', use: "Accelerates and decelerates. What changes in place." }
@@ -1784,7 +1785,13 @@ tokens_core_easing:
   linear:   { valor: 'linear', css: '--nph-core-easing-linear', fonte_json: 'cubicBezier [0, 0, 1, 1] - the exact equivalent, because cubicBezier is the DTCG type the system uses for curves (PF-16)', css_gerado: 'cubic-bezier(0, 0, 1, 1)', use: "Constant speed. ONLY progress and spinner. DO NOT USE in an interface transition." }
 
 tokens_motion:
-  regra_do_par: "Each motion role is TWO tokens: -duration and -easing. They go together and NEVER mix between roles - do not use the enter duration with the exit curve. Shape aligned with Figma: each token is a variable and a custom property. The loop role came in with the spinner (PF-05)."
+  regra_do_par: "Each motion role is TWO tokens: -duration and -easing. They go together and NEVER mix between roles - do not use the enter duration with the exit curve. Shape aligned with Figma: each token is a variable and a custom property. The loop role came in with the spinner (PF-05). The one exception is motion/hover-delay: a wait, not a movement, so it is a single token with no curve (DSA-48)."
+
+  motion/hover-delay:
+    css: '--nph-motion-hover-delay'
+    alias: core/duration/delay
+    valor: 300
+    use: "How long the pointer rests on an element before a help layer, such as the tooltip, opens. Keyboard focus does not wait. A single token: it has no curve, because nothing moves during the wait."
 
   motion/hover-duration:
     css: '--nph-motion-hover-duration'
