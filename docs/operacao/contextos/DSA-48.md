@@ -20,14 +20,14 @@ icon-only button, and the touch exception. Fix the three Copilot findings left i
 - `src/components/nph-tooltip/` and `src/components/nph-label/`
 
 ## Changes
-The task moves to in progress with D2 open for Indiane. The component, the tests, the label, the
-stories, the sheets and the amendment of P77 follow in the next commits.
+The component, the tests, the label, the stories, the dictionaries, both sheets, the Metadata and
+the amendment of P77 are on the branch; PR #98 is open for review. PR #97 fixes the base first.
 
 ## Commands run
-- `npm ci`, then `npm run test:operacao` before the first commit.
+- `npm ci`; the proof commands of `component-handoff.md`, plus `build:lib` and `test:package`.
 
 ## Result
-In progress. Nothing delivered yet beyond the task state.
+Every proof exits 0 except `test:naming`, whose failures are the same as on `v/5.0.0`.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -36,4 +36,4 @@ None recorded: `review-and-merge` waits for the PR.
 None. D2 waits for Indiane and does not block.
 
 ## Next command
-Commit the tooltip component and its tests, then the label, the stories and the sheets.
+After PR #97 merges, sync with `v/5.0.0` and run the proofs again.

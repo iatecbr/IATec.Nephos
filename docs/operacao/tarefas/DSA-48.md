@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 480,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-tooltip",
   "dependencies": [],
   "gates": [
@@ -55,7 +55,11 @@
     "excerpt": null,
     "converted_decision": "The nph-tooltip documentation in frame 1237:5 and the description of component 1237:3 (no COMPONENT_SET: single COMPONENT 1237:3) were updated with six rules on 22-10-2026. The rules, converted to text, are in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "claude/dsa-48-nph-tooltip-ajuste-62075c",
+    "commit": "4f86468a622f6a3e324c1c6803db81903c3f4428",
+    "pr": "98"
+  },
   "context": "docs/operacao/contextos/DSA-48.md",
   "updated_at": "2026-10-22"
 }
