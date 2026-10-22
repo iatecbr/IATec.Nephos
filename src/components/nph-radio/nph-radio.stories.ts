@@ -92,9 +92,9 @@ export const Matrix: Story = {
       inBothModes(context, 'matrix', (label, scheme) =>
         matrix(label, ['checked: false', 'checked: true'], [
           { label: 'state: default', cells: row(scheme, 'default', {}) },
-          { label: 'state: erro (invalid)', cells: row(scheme, 'invalid', { invalid: true }) },
+          { label: 'state: invalid', cells: row(scheme, 'invalid', { invalid: true }) },
           { label: 'state: disabled', cells: row(scheme, 'disabled', { disabled: true }) },
-          { label: 'mostrar rótulo: false', cells: row(scheme, 'no-text', {}, false) },
+          { label: 'text: no', cells: row(scheme, 'no-text', {}, false) },
         ]),
       ),
     );

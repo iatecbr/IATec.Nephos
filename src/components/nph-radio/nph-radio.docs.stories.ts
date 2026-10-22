@@ -92,8 +92,8 @@ export const Documentation: Story = {
           d.matrixLabel,
           ['checked: false', 'checked: true'],
           [
-            { label: 'mostrar rótulo: true', cells: row('docs-matrix', 'text', {}) },
-            { label: 'mostrar rótulo: false', cells: row('docs-matrix', 'no-text', {}, false) },
+            { label: 'text: yes', cells: row('docs-matrix', 'text', {}) },
+            { label: 'text: no', cells: row('docs-matrix', 'no-text', {}, false) },
           ],
         )}
         ${note('info', d.derivedTitle, d.derivedText)}
@@ -136,7 +136,7 @@ export const Documentation: Story = {
                 ['checked: false', 'checked: true'],
                 [
                   { label: 'state: default', cells: row('docs-states', 'default', {}) },
-                  { label: 'state: erro (invalid)', cells: row('docs-states', 'invalid', { invalid: true }) },
+                  { label: 'state: invalid', cells: row('docs-states', 'invalid', { invalid: true }) },
                   { label: 'state: disabled', cells: row('docs-states', 'disabled', { disabled: true }) },
                 ],
               ),

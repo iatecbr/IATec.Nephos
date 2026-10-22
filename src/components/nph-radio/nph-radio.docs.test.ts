@@ -121,8 +121,8 @@ describe('nph-radio Documentation', () => {
         withText: [...tr.querySelectorAll('nph-radio')].map((piece) => piece.getAttribute('text') !== ''),
       }));
       expect(rows).toEqual([
-        { label: 'mostrar rótulo: true', checked: [false, true], withText: [true, true] },
-        { label: 'mostrar rótulo: false', checked: [false, true], withText: [false, false] },
+        { label: 'text: yes', checked: [false, true], withText: [true, true] },
+        { label: 'text: no', checked: [false, true], withText: [false, false] },
       ]);
     });
 
@@ -315,9 +315,9 @@ describe('nph-radio Validation: text only from the dictionary', () => {
     }));
     expect(rows).toEqual([
       { label: 'state: default', checked: [false, true], invalid: false, disabled: false, withText: true },
-      { label: 'state: erro (invalid)', checked: [false, true], invalid: true, disabled: false, withText: true },
+      { label: 'state: invalid', checked: [false, true], invalid: true, disabled: false, withText: true },
       { label: 'state: disabled', checked: [false, true], invalid: false, disabled: true, withText: true },
-      { label: 'mostrar rótulo: false', checked: [false, true], invalid: false, disabled: false, withText: false },
+      { label: 'text: no', checked: [false, true], invalid: false, disabled: false, withText: false },
     ]);
   });
 
