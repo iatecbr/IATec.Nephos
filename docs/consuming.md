@@ -257,6 +257,7 @@ step turns them into one ES module, once, at build time.
    ```js
    // Frontend/nephos-entry.js
    import '@iatec/nephos/nph-button';
+   import '@iatec/nephos/nph-empty';
    import '@iatec/nephos/nph-label';
    import '@iatec/nephos/nph-togglebutton';
    ```
@@ -267,10 +268,16 @@ step turns them into one ES module, once, at build time.
    npx esbuild Frontend/nephos-entry.js --bundle --format=esm --minify --outfile=wwwroot/js/nephos.js
    cp Frontend/node_modules/@iatec/nephos/dist/tokens.css wwwroot/css/nephos-tokens.css
    cp Frontend/node_modules/@iatec/nephos/dist/scrollbar.css wwwroot/css/nephos-scrollbar.css
+   mkdir -p wwwroot/assets
+   cp Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found.png wwwroot/assets/
+   cp Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found-dark.png wwwroot/assets/
    ```
 
-   Run both from an MSBuild target, or from your CI, before `dotnet publish`. The
-   bundle carries `lit` and the icons: it does not need an import map.
+   Run these commands from an MSBuild target, or from your CI, before publishing
+   with `dotnet publish`. `nph-empty` references its illustrations relative to the bundled
+   module, which resolves to `wwwroot/assets/`; esbuild does not copy those
+   package assets for this import pattern. The bundle carries `lit` and the
+   icons: it does not need an import map.
 
 3. Load them once, in `App.razor` (or `wwwroot/index.html` in WebAssembly):
 

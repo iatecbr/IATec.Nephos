@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=4678cef4b956d587cee35987433afcb6c4e2829495a0d9bbb355342e9a111faf | status=rascunho -->
+<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=1b3ebaa296a582202e4512954968f02b38586d0ac7895628f1034c1152367f04 | status=rascunho -->
 
 # Consumir Nephos
 
@@ -265,6 +265,7 @@ compilación.
    ```js
    // Frontend/nephos-entry.js
    import '@iatec/nephos/nph-button';
+   import '@iatec/nephos/nph-empty';
    import '@iatec/nephos/nph-label';
    import '@iatec/nephos/nph-togglebutton';
    ```
@@ -275,10 +276,16 @@ compilación.
    npx esbuild Frontend/nephos-entry.js --bundle --format=esm --minify --outfile=wwwroot/js/nephos.js
    cp Frontend/node_modules/@iatec/nephos/dist/tokens.css wwwroot/css/nephos-tokens.css
    cp Frontend/node_modules/@iatec/nephos/dist/scrollbar.css wwwroot/css/nephos-scrollbar.css
+   mkdir -p wwwroot/assets
+   cp Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found.png wwwroot/assets/
+   cp Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found-dark.png wwwroot/assets/
    ```
 
-   Ejecute ambos desde un target de MSBuild, o desde su CI, antes de `dotnet publish`.
-   El bundle lleva `lit` y los íconos: no necesita import map.
+   Ejecute estos comandos desde un target de MSBuild, o desde su CI, antes de
+   publicar con `dotnet publish`. `nph-empty` referencia las ilustraciones en relación con el
+   módulo empaquetado, que se resuelve en `wwwroot/assets/`; esbuild no copia
+   estos assets del paquete con este patrón de importación. El bundle incluye
+   `lit` y los íconos: no necesita import map.
 
 3. Cárguelos una vez, en `App.razor` (o `wwwroot/index.html` en WebAssembly):
 
