@@ -17,16 +17,24 @@ field contract of P83.
 - `docs/operacao/component-handoff.md`, `docs/stories.md`, `fichas/_modelo.md`
 - `design.md` — the tokens named in the evidence
 - `src/components/nph-togglebutton/` and `src/components/nph-toggle-group/`
-- `docs/decisoes-tecnicas.md` — P21, P73, P76, P77
+- `docs/decisoes-tecnicas.md` — P21, P73, P76, P77; the approved wave rules (P80, P83)
 
 ## Changes
-In progress.
+The component, CSS and tests; the Validation stories, the Docs page and the dictionary; the
+sheet, the Metadata and P82. See the commits on the branch.
 
 ## Commands run
-None yet.
+- `npm run build:tokens`, `test:tokens`, `test:i18n`, `test:operacao`, `build-storybook` and
+  `git diff --check`: exit 0
+- `npm test`: exit 1, only six `nph-tooltip` tests, which fail the same way on `d00c6ca`;
+  the 150 tests of `nph-radio` pass
+- `npm run typecheck` and `build:lib`: exit 2 and 1, only eight errors in `nph-tooltip.ts`,
+  the same on `d00c6ca`; `test:package` fails because `build:lib` does
+- `npm run test:naming`: exit 1, only in files this pass does not touch:
+  `scripts/test-package.mjs:180` and the records of DSA-34, 39, 43, 45 and 47
 
 ## Result
-In progress.
+The branch is ready; the pull request waits for the merge of DSA-28 (P83).
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -35,4 +43,4 @@ None recorded: `review-and-merge` waits for the PR.
 None. D6 and D7 wait for Indiane and do not block.
 
 ## Next command
-`npm test -- src/components/nph-radio`
+Sync with `v/5.0.0` after DSA-28 merges, run the proofs again and open the PR.
