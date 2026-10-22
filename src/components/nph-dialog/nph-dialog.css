@@ -1,0 +1,198 @@
+/**
+ * Internal style of `nph-dialog`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties this file consumes. The `--_*` variables are internal to the shadow
+ * root and are not API. The component exposes no `::part`.
+ *
+ * No literal design value goes in here. The keywords below (`contents`, `fit-content`,
+ * `auto`, `none`, `0`, `100%`, `column`, `column-reverse`, `flex-end`, `stretch`,
+ * `border-box`) are layout relations and resets of the browser's `<dialog>` style, not
+ * visual decisions. One value is literal by rule: the `md` breakpoint in the media query,
+ * because a media query does not accept a custom property (`design.md`, §2f, and P87).
+ *
+ * Two semantic tokens are redefined in the scope of the window, with no new value (P87):
+ * `color/secondary` and its hover take `color/secondary-on-dialog` and its hover, so a
+ * solid secondary `nph-button` stays visible on `color/dialog`; and `color/border`, only
+ * on the dialog's own `nph-separator`, takes `color/dialog-separator`.
+ */
+
+/*
+ * The host has no box of its own: the window lives in the top layer. `contents` keeps
+ * the inheritance of the tokens; the host has no role, so leaving the box costs nothing.
+ */
+:host {
+  display: contents;
+}
+
+:host([size='sm']) {
+  --_ceiling: var(--nph-layout-dialog-sm);
+}
+:host([size='md']) {
+  --_ceiling: var(--nph-layout-dialog-md);
+}
+:host([size='lg']) {
+  --_ceiling: var(--nph-layout-dialog-lg);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/*
+ * The window. The browser's `<dialog>` style is undone: its border, its padding, its own
+ * maximum sizes and its `overflow: auto` (only the content scrolls). `margin: auto` and
+ * `position: fixed` of the modal dialog stay: they center it. The distance to the edge of
+ * a small window is `layout/margin-compact` (D2).
+ */
+.panel {
+  --_edge: var(--nph-layout-margin-compact);
+  --nph-color-secondary: var(--nph-color-secondary-on-dialog);
+  --nph-color-secondary-hover: var(--nph-color-secondary-on-dialog-hover);
+  box-sizing: border-box;
+  inline-size: fit-content;
+  min-inline-size: min(var(--nph-layout-dialog-min-width), 100% - 2 * var(--_edge));
+  max-inline-size: min(var(--_ceiling), 100% - 2 * var(--_edge));
+  max-block-size: min(var(--nph-layout-dialog-max-height), 100% - 2 * var(--_edge));
+  padding: var(--nph-space-overlay-padding);
+  border: 0;
+  border-radius: var(--nph-radius-overlay);
+  overflow: hidden;
+  background-color: var(--nph-color-dialog);
+  box-shadow: var(--nph-elevation-modal);
+  color: var(--nph-color-dialog-foreground);
+  outline: none;
+  /* Leaving: the exit role. Only opacity moves (design.md: animate opacity and transform). */
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/* Only an open `<dialog>` is drawn: the browser hides it closed, and `display` here must not undo that. */
+.panel[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The veil is the backdrop of the modal window: outside the piece, `overlay/scrim`. */
+.panel::backdrop {
+  background-color: var(--nph-overlay-scrim);
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/* Entering: the enter role. */
+.panel[data-open],
+.panel[data-open]::backdrop {
+  opacity: 1;
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+/* ----- header -------------------------------------------------------------- */
+
+/* The title and the close button share the first line; the button never shrinks. */
+.header {
+  display: flex;
+  flex: none;
+  align-items: flex-start;
+  gap: var(--nph-space-inline);
+}
+
+.titles {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--nph-space-stack-snug);
+  min-inline-size: 0;
+}
+
+.heading {
+  margin: 0;
+  color: var(--nph-color-dialog-foreground);
+  font-family: var(--nph-text-heading-md-font-family);
+  font-size: var(--nph-text-heading-md-font-size);
+  font-weight: var(--nph-text-heading-md-font-weight);
+  line-height: var(--nph-text-heading-md-line-height);
+  letter-spacing: var(--nph-text-heading-md-letter-spacing);
+}
+
+.description {
+  margin: 0;
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+.close {
+  flex: none;
+}
+
+/* ----- lines, content and footer ------------------------------------------- */
+
+/*
+ * Each block keeps its distance from the one before it, so a block that is absent takes
+ * no space: `space/stack` between header, line and content; the actions always sit at
+ * `space/stack` plus `space/stack-snug` from what comes before, with or without the line.
+ */
+.line {
+  --nph-color-border: var(--nph-color-dialog-separator);
+  margin-block-start: var(--nph-space-stack);
+}
+
+/* The only part that scrolls, above `layout/dialog-max-height`. */
+.content {
+  flex: 1 1 auto;
+  min-block-size: 0;
+  margin-block-start: var(--nph-space-stack);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Inline: the buttons on the right, side by side, the primary last (its place in the slot). */
+.footer {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--nph-space-inline-loose);
+  margin-block-start: calc(var(--nph-space-stack) + var(--nph-space-stack-snug));
+}
+
+/*
+ * Stacked, below the `md` breakpoint (768, `design.md` `tokens_breakpoint`): one button
+ * per line at full width, the primary on top. A media query does not accept a custom
+ * property, so the breakpoint is written here (P87); `rem` in a media query follows the
+ * browser's default font size, and 48rem is 768 px at 16 px.
+ */
+@media (width < 48rem) {
+  :host([actions='stacked']) .footer {
+    flex-direction: column-reverse;
+    flex-wrap: nowrap;
+    align-items: stretch;
+  }
+
+  :host([actions='stacked']) slot[name='footer']::slotted(*) {
+    inline-size: 100%;
+  }
+}
+
+/*
+ * Reduced motion: the semantic alias `motion/hover-duration` (100 ms), as in
+ * `nph-tooltip` and `nph-togglebutton`. The curve stays: the window still appears and
+ * still leaves.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panel::backdrop,
+  .panel[data-open],
+  .panel[data-open]::backdrop {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+}

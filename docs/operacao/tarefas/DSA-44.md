@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 450,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-dialog",
   "dependencies": [],
   "gates": [
@@ -29,11 +29,43 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D1",
+      "question": "The evidence says ações=empilhadas puts the buttons at full width, the primary on top, below core/breakpoint/md, and to use stacked actions on a narrow screen. Is stacked a choice of the consumer that applies only below md, or does every dialog stack by itself below md? The code reads it as the consumer's choice: actions=stacked stacks only below md, and actions=inline never stacks. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D2",
+      "question": "The evidence gives the minimum width and the width ceilings, but not the space between the dialog and the edge of a small window. The code keeps layout/margin-compact (16) on each side, a token whose documented use is the page margin. Does Indiane confirm, or name the token? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D3",
+      "question": "The highlight icon (.nph-dialog/destaque) is a solid icon in the status color over the status background, for warning, info, success and error. The evidence does not give which icon each status uses, the icon size, the size, shape and radius of its box, or its place (before the title on the same line, or above it). The code does not draw the highlight icon until the answer: the status property stays out of the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D4",
+      "question": "The evidence puts the line at space/stack from the content and the actions at space/stack plus space/stack-snug from what comes before. It does not say whether the line runs edge to edge or inside the padding, the space between the header and its line, or the space between the title and the close button. The code keeps the line inside the padding, space/stack between the header and its line, and space/inline between the title and the close button. Does Indiane confirm? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D5",
+      "question": "The evidence does not say whether a click on the overlay/scrim veil closes the dialog. The code does not close it, so a half-filled form is not lost; Esc and the close button close it. Does Indiane confirm? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-44/documentacao-figma-aceita-2026-10-21.md"
   ],
   "decision_refs": [
+    "docs/decisoes-tecnicas.md#p87",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, nph-dialog visual acceptance, width that hugs the content, Figma UX QA approved, documentation accepted, textual audit approved and the 20 tokens; the hover token color/secondary-on-dialog-hover was added afterwards"
   ],
@@ -46,8 +78,8 @@
     "converted_decision": "The nph-dialog board (1368:27), with its `Documentação` frame (2277:2), was accepted as the API and behavior specification of the nph-dialog. COMPONENT_SET 2268:52262; parts .nph-dialog/destaque 2268:52091 and .nph-dialog/conteúdo 2311:5339. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-10-21"
+  "context": "docs/operacao/contextos/DSA-44.md",
+  "updated_at": "2026-10-22"
 }
 ```
 
