@@ -32,7 +32,7 @@
   "pending_decisions": [
     {
       "id": "D1",
-      "question": "The evidence says ações=empilhadas puts the buttons at full width, the primary on top, below core/breakpoint/md, and to use stacked actions on a narrow screen. Is stacked a choice of the consumer that applies only below md, or does every dialog stack by itself below md? The code reads it as the consumer's choice: actions=stacked stacks only below md, and actions=inline never stacks. It does not block the pull request.",
+      "question": "The evidence says the stacked value of the actions property puts the buttons at full width, the primary on top, below core/breakpoint/md, and to use stacked actions on a narrow screen. Is stacked a choice of the consumer that applies only below md, or does every dialog stack by itself below md? The code reads it as the consumer's choice: actions=stacked stacks only below md, and actions=inline never stacks. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-22"
     },

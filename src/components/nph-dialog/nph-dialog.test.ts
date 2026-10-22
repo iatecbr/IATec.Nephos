@@ -503,7 +503,7 @@ describe('Esc', () => {
 
 describe('close button', () => {
   it('is the icon-only nph-button: secondary, ghost, compact, xmark, named by close-label', async () => {
-    const dialog = await mount({ closeLabel: 'Fechar' });
+    const dialog = await mount({ closeLabel: 'Close dialog' });
     const close = closeButton(dialog) as NphButton;
     expect(close).not.toBeNull();
     expect(close.severity).toBe('secondary');
@@ -511,8 +511,8 @@ describe('close button', () => {
     expect(close.size).toBe('compact');
     expect(close.iconStart).toBe('xmark');
     expect(close.text).toBe('');
-    expect(close.label).toBe('Fechar');
-    expect(close.shadowRoot?.querySelector('button')?.getAttribute('aria-label')).toBe('Fechar');
+    expect(close.label).toBe('Close dialog');
+    expect(close.shadowRoot?.querySelector('button')?.getAttribute('aria-label')).toBe('Close dialog');
   });
 
   it('meets the 24 by 24 target and sits on the line of the title, at the end', async () => {
