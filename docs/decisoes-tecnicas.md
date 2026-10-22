@@ -40,7 +40,7 @@ P62.4 subsection for the detail).
 | **P70** | Package entry points and the Usage section | 15/10/2026 | Medium. Every `Docs` page shows the import line, so changing the path later changes every page and every consumer | Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request that brings it |
 | **P71** | `Docs` page lists read from the Metadata | 15/10/2026 | Low. The lists move from the dictionary to the Metadata; the sheet does not change its format | Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request that brings it |
 | **P72** | Accessibility gate in the tests | 15/10/2026 | Medium. Two new dependencies and a gate on every story; the earlier, the fewer violations to fix | Adopted by Indiane on 15/10/2026 (DSA-30, D3). Reviewed in the pull request that brings it |
-| **P73** | API and semantics of `nph-togglebutton` | 19/10/2026 | Low now. No piece consumes it yet; `nph-toggle-group` (DSA-23) will consume its event, so changing the event name or the state name later requires redoing both | Anatomy and behavior: board accepted by Indiane on 07/10/2026, motion answered on 19/10/2026 (D6). API and semantics reviewed in the pull request that brings them |
+| **P73** | API and semantics of `nph-togglebutton` | 19/10/2026 | Low now. Only `nph-toggle-group` (DSA-23, PR #92) consumes it, and it consumes its event, so changing the event name or the state name later requires redoing both | Anatomy and behavior: board accepted by Indiane on 07/10/2026, motion answered on 19/10/2026 (D6). API and semantics reviewed in the pull request that brings them |
 | **P74** | API and semantics of `nph-avatar` | 20/10/2026 | Low now. No piece consumes it yet; `nph-select` (DSA-29) and `nph-avatar-stack` (DSA-25) will, so changing `src`, `label` or `size`, or the border over the photo, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 06/10/2026, D1 to D4 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P75** | Package `@iatec/nephos`: first release candidate | 19/10/2026 | High and public. The name, the `exports` paths and the `rc` tag are what every consumer writes in a lockfile and in an import line | Approved by Elvys on 19/10/2026. Amends P70, adopted by Indiane on 15/10/2026: her confirmation is requested in the pull request that brings it |
 | **P76** | API and semantics of `nph-toggle-group` | 20/10/2026 | Low now. No piece consumes it yet; a toolbar will, so changing `label`, `selection`, `value` or the event `nph-value-change`, or the `value` attribute each button carries, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
@@ -1343,8 +1343,8 @@ P21, adopted here by its own decision, as in P66 and P68. The names follow P64.
    `pressed` made from code never fires it, so a consumer that sets the property does not
    receive its own echo. It is the **first custom event of the repository**. The native
    `click` does not say the new value without reading the element, and the prefix `nph-`
-   avoids a collision with the native `change`. `nph-toggle-group` (DSA-23, planned) will
-   consume it. A `click()` called on the host toggles the piece and fires the event too, as
+   avoids a collision with the native `change`. `nph-toggle-group` (DSA-23, PR #92)
+   consumes it. A `click()` called on the host toggles the piece and fires the event too, as
    a click of the person does; a disabled piece neither toggles nor fires, also for
    `click()`. The event is typed in `HTMLElementEventMap`, so a consumer gets `detail`
    typed.
@@ -1425,7 +1425,7 @@ substitution, or create a semantic alias for it. It does not block the pull requ
 **Out of scope.** Form association and form submission. The Usage section of the page
 (P70, DSA-35). The page lists read from the Metadata (P71, DSA-34). The accessibility gate
 (P72, DSA-32). The brand story (DSA-36). `aria-invalid`, which is not valid on a button. A
-`size` property. A slot. The pieces `nph-switch`, `nph-checkbox` and `nph-toggle-group`,
+`size` property. A slot. The pieces `nph-switch` and `nph-checkbox`,
 which are planned.
 
 **Status.** Anatomy and behavior accepted by Indiane on 07/10/2026; motion answered on
@@ -1515,7 +1515,7 @@ feed with a release-candidate tag lets the products try it without a version tha
 stability.
 
 **Known limit.** Font Awesome publishes each icon as a CommonJS file (`faBars.js`), and
-`nph-icon` imports 93 of them for each style. A browser cannot load those through an import map.
+`nph-icon` imports one file per approved icon and style. A browser cannot load those through an import map.
 A consumer without a bundler step, as in Blazor, bundles `@iatec/nephos` into one file first.
 Inlining the icon data in the package would remove the step, and would also put Font Awesome
 Pro artwork in a package, which P70 did not allow; that is a decision for a later release.
@@ -1644,18 +1644,26 @@ P74. The names follow P64.
 
 2. **The default slot and the `value` attribute.** The group takes `nph-togglebutton`
    children. Each child names itself with a `value` **attribute**, which the group reads with
-   `getAttribute('value')`, trimmed: a non-empty word with no space, unique in the group.
+   `getAttribute('value')`, trimmed: a non-empty word with no whitespace, unique in the group.
    `nph-togglebutton` does not declare it: it ignores the attribute, it has no `value`
    property and no type for it, and **P73 is not amended**. The cost is a contract that lives
    in the group and not in the button; the gain is that a component already merged stays as
    it is. A child that is not an `nph-togglebutton`, or a button without `value`, is not part
-   of the selection.
+   of the selection, and neither is a button whose `value` has whitespace inside
+   (`"bold italic"`): the attribute of the group reads words separated by spaces, so a value of
+   two words would be emitted as one item and lost when the list is written back with
+   `join(' ')`. Such a button is treated as one with an empty or repeated value: not
+   selectable, with a warning in development.
 
 3. **`value` and the source of truth.** The group is the source of truth of the selection:
    in `willUpdate` and when the slot changes, it writes `pressed` on every child from `value`,
    so a `pressed` attribute in the markup of a child does not survive. With no value, none is
    checked (D3). Single selection holds zero or one item, and a second one is dropped with a
-   warning. Setting `value` from code moves the checks and never fires the event.
+   warning. Setting `value` from code moves the checks and never fires the event. Changing
+   only the `value` attribute of a direct child raises no `slotchange`, so the group also
+   observes that attribute (a `MutationObserver` on the host, filtered to the direct buttons,
+   connected and disconnected with the element); on a change it writes `pressed` again and
+   checks the composition, and it never fires the event.
 
 4. **Single selection (D3).** Checking a button unchecks the others, and one button stays
    checked once a choice is made. A click on the checked button does nothing: the group
@@ -1701,9 +1709,9 @@ P74. The names follow P64.
    no `aria-labelledby`). Problems in the composition render the group anyway and emit one
    `console.warn` each, only in development, and the same problem is not repeated while it
    lasts: fewer than two buttons (D2, there is no maximum), a child that is not an
-   `nph-togglebutton`, a button without `value`, a repeated `value`, a value that matches no
-   button, buttons with text mixed with icon-only buttons (D4), and more than one value in
-   single selection.
+   `nph-togglebutton`, a button without `value`, a button whose `value` has more than one
+   word, a repeated `value`, a value that matches no button, buttons with text mixed with
+   icon-only buttons (D4), and more than one value in single selection.
 
 10. **Icons (D1).** The Alignment and Formatting examples need `align-left`, `align-center`,
     `align-right`, `bold`, `italic` and `underline`. They enter the block `icones_nucleo` of

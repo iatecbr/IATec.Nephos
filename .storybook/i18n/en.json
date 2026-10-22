@@ -1132,7 +1132,7 @@
       "In a form, when the choice goes with the submission: use nph-checkbox.",
       "To mark the state by changing only the text color: turn pressed on."
     ],
-    "relationsText": "It does not replace nph-button: nph-button fires an action and nph-togglebutton holds a state. nph-switch (a setting outside a toolbar), nph-checkbox (a choice in a form) and nph-toggle-group (a set of these pieces, separated by space/inline) are planned and do not exist yet.",
+    "relationsText": "It does not replace nph-button: nph-button fires an action and nph-togglebutton holds a state. nph-toggle-group exists: it is a set of these pieces, separated by space/inline. nph-switch (a setting outside a toolbar) and nph-checkbox (a choice in a form) are planned and do not exist yet.",
     "apiTitle": "API",
     "apiHeader": [
       "Property",

@@ -194,7 +194,7 @@
     ],
     "parents": [
       "toolbar",
-      "nph-toggle-group (planned, DSA-23)"
+      "nph-toggle-group"
     ],
     "children": [
       "nph-icon"
@@ -214,7 +214,7 @@
     "design_md": "design.md, color/muted, border/width, status/error, color/background, elevation/subtle, color/primary-border, text/label-md, color/muted-foreground, color/foreground, color/primary, focus/*, state/disabled-opacity, control/height-default, radius/control, radius/inner, space/inline-tight, space/control-padding, icon/size-sm and motion/*",
     "decision": "P73 — API and semantics of nph-togglebutton, 19-10-2026",
     "tests": "src/components/nph-togglebutton/nph-togglebutton.test.ts",
-    "usage_evidence": "none in code yet; nph-toggle-group (DSA-23, planned) will be made of this piece and consume nph-change",
+    "usage_evidence": "nph-toggle-group (DSA-23, PR #92) is made of this piece and consumes nph-change",
     "storybook": "src/components/nph-togglebutton/nph-togglebutton.stories.ts and nph-togglebutton.docs.stories.ts",
     "figma": "DS-IA-NEPHOS 5.0, nph-togglebutton board 1512:27498 and set 1512:719"
   }
