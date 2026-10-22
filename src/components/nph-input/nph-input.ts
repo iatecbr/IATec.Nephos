@@ -314,7 +314,7 @@ export class NphInput extends LitElement {
   /* --- The person types, clears, submits --------------------------------------- */
 
   private get field(): HTMLInputElement | null {
-    return this.renderRoot.querySelector<HTMLInputElement>('input');
+    return this.renderRoot?.querySelector<HTMLInputElement>('input') ?? null;
   }
 
   private get inactive(): boolean {
@@ -417,7 +417,7 @@ export class NphInput extends LitElement {
       return;
     }
     this.internals.setFormValue(this.current, this.current);
-    if (field.validity.valid) {
+    if (!field.willValidate || field.validity.valid) {
       this.internals.setValidity({});
     } else {
       /* The flags and the message of the inner field: the message is the browser's, in the person's language. */

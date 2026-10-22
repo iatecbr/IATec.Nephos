@@ -143,6 +143,11 @@
   --_border: var(--nph-color-input-hover);
 }
 
+/* `foco-limpar`: keep the resting container border, even when the pointer is over it. */
+.control:has(.clear:focus-visible) {
+  --_border: var(--nph-color-input);
+}
+
 /* `foco`: focus on the inner field. The border takes `focus/border` and the halo is attached outside it. */
 .control:has(.field:focus) {
   --_border: var(--nph-focus-border);

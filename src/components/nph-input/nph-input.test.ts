@@ -290,6 +290,22 @@ describe('value: the attribute is the default, the property is the current value
     expect(element.value).toBe('');
   });
 
+  it('accepts the value property and attribute before connecting', async () => {
+    const property = document.createElement('nph-input') as NphInput;
+    property.value = 'Recife';
+
+    const attribute = document.createElement('nph-input') as NphInput;
+    attribute.setAttribute('value', 'Natal');
+
+    document.body.append(property, attribute);
+    await Promise.all([property.updateComplete, attribute.updateComplete]);
+
+    expect(property.value).toBe('Recife');
+    expect(field(property).value).toBe('Recife');
+    expect(attribute.value).toBe('Natal');
+    expect(field(attribute).value).toBe('Natal');
+  });
+
   it('keeps the host value aligned with native sanitization after assignment, reset and type changes', async () => {
     const holder = await markup('<form><nph-input label="Email" name="email" type="text" value="initial"></nph-input></form>');
     const form = holder.querySelector('form') as HTMLFormElement;
@@ -409,6 +425,32 @@ describe('form association', () => {
     email.value = 'ana@example.com';
     await email.updateComplete;
     expect(email.checkValidity()).toBe(true);
+  });
+
+  it('clears and restores malformed-value validity when disabled by property or fieldset', async () => {
+    const direct = await mount({ label: 'Email', type: 'email', value: 'not an email' });
+    direct.disabled = true;
+    await direct.updateComplete;
+    expect(direct.willValidate).toBe(false);
+    expect(direct.validity.typeMismatch).toBe(false);
+    expect(direct.checkValidity()).toBe(true);
+    direct.disabled = false;
+    await direct.updateComplete;
+    expect(direct.validity.typeMismatch).toBe(true);
+    expect(direct.checkValidity()).toBe(false);
+
+    const holder = await markup('<form><fieldset><nph-input label="Email" type="email" name="email" value="not an email"></nph-input></fieldset></form>');
+    const fieldset = holder.querySelector('fieldset') as HTMLFieldSetElement;
+    const inherited = holder.querySelector('nph-input') as NphInput;
+    fieldset.disabled = true;
+    await inherited.updateComplete;
+    expect(inherited.willValidate).toBe(false);
+    expect(inherited.validity.typeMismatch).toBe(false);
+    expect(inherited.checkValidity()).toBe(true);
+    fieldset.disabled = false;
+    await inherited.updateComplete;
+    expect(inherited.validity.typeMismatch).toBe(true);
+    expect(inherited.checkValidity()).toBe(false);
   });
 
   it('invalid is not a constraint: it adds no customError', async () => {
@@ -896,8 +938,9 @@ describe('states and precedence (D4, D5)', () => {
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
   });
 
-  it('focus on the clear button: the container keeps color/input; border and halo sit around the 24 x 24 target', async () => {
+  it('focus on the clear button under hover: the container keeps color/input; border and halo sit around the 24 x 24 target', async () => {
     const element = await mount({ label: 'Search', iconEnd: 'xmark', clearLabel: 'Clear', value: 'lamp' });
+    await userEvent.hover(container(element));
     field(element).focus();
     await userEvent.tab();
     const button = clearButton(element) as HTMLButtonElement;
