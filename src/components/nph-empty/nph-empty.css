@@ -1,0 +1,86 @@
+/**
+ * Internal style of `nph-empty`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties this file consumes. The component exposes no `::part` and declares
+ * no custom property of its own.
+ *
+ * No literal design value goes in here. The written quantities are box relations:
+ * `100%` (the box never grows past its container, so the content reflows), `1 / 1` (the
+ * two illustrations share one grid cell) and `contain` (the illustration fits its box
+ * without being cut or stretched). The size of the illustration, 120 by 87, is the size
+ * of the asset and not a token (evidence of DSA-40); it is written as the `width` and
+ * `height` attributes of the images, not here (P84).
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/*
+ * The box: a column that centers everything, with its own inner space and the width of a
+ * field. No background and no border: it takes the background of the piece that receives it.
+ */
+:host([data-nph-rendered]) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nph-space-section);
+  box-sizing: border-box;
+  inline-size: var(--nph-layout-input-width);
+  max-inline-size: 100%;
+  padding: var(--nph-space-container-padding);
+  text-align: center;
+}
+
+/* The two illustrations sit in the same cell; only the one of the current scheme shows. */
+.illustration {
+  display: grid;
+}
+
+.illustration img {
+  grid-area: 1 / 1;
+  display: block;
+  object-fit: contain;
+}
+
+/* `scheme/is-light` and `scheme/is-dark` are 1 in their own scheme and 0 in the other. */
+.light {
+  opacity: var(--nph-scheme-is-light);
+}
+
+.dark {
+  opacity: var(--nph-scheme-is-dark);
+}
+
+/* Title and description form one text group. */
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-space-inline-tight);
+  inline-size: 100%;
+}
+
+p {
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+.heading {
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-heading-xs-font-family);
+  font-size: var(--nph-text-heading-xs-font-size);
+  font-weight: var(--nph-text-heading-xs-font-weight);
+  line-height: var(--nph-text-heading-xs-line-height);
+  letter-spacing: var(--nph-text-heading-xs-letter-spacing);
+}
+
+.description {
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+}
