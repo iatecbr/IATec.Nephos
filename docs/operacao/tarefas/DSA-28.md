@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 290,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-field",
   "dependencies": [],
   "gates": [
@@ -29,7 +29,38 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "In the `erro` state, the counter sits 'on a line below the message', but the evidence does not say how that line aligns or the vertical space between the message and the counter. The code puts the counter at the end of its own line, `space/stack-tight` below the message. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D-2",
+      "question": "With help text and counter on the same line, the evidence does not give the minimum space between them or what happens when the help text does not fit. The code keeps `space/inline` between them, wraps the help text to more lines and keeps the counter at the top of the end side. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D-3",
+      "question": "D8 says `disabled` hides the error. It does not say whether the help text comes back to the message line then. The code shows the help text again, as in the default state. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D-4",
+      "question": "The evidence calls the help text 'one line of explanation'. It does not say what the field does with a help text or an error longer than the field width. The code wraps both to more lines, with no ellipsis. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D-5",
+      "question": "`layout/field-width` and `layout/input-width` have no `use:` line in `design.md`, unlike their neighbors. The code consumes `layout/field-width` as D6 says and does not change `design.md`. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-28/documentacao-figma-aceita-2026-10-01.md"
   ],
@@ -46,12 +77,12 @@
     "converted_decision": "The nph-field frame (1194:21863) was accepted as the API and behavior specification of the nph-field. COMPONENT_SET 657:50. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": {
-    "branch": null,
+    "branch": "claude/dsa-28-nph-field-66625a",
     "commit": null,
     "pr": null
   },
-  "context": null,
-  "updated_at": "2026-10-16"
+  "context": "docs/operacao/contextos/DSA-28.md",
+  "updated_at": "2026-10-22"
 }
 ```
 
@@ -92,6 +123,17 @@ The field also has the counter decided on 15-10-2026; see the evidence.
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
 tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
+
+## Pending decisions
+The evidence gives the contract, so the code can start. Five points remain for Indiane; the code follows the stated default meanwhile, and the answer only adjusts one rule each.
+
+| ID | What the evidence gives | What is missing | What the code does meanwhile |
+|---|---|---|---|
+| D-1 | In `erro`, the counter goes on a line below the message. | The alignment of that line and the space above it. | Counter at the end of its own line, `space/stack-tight` below the message. |
+| D-2 | The counter sits on the right of the help line. | The minimum space between help text and counter, and what happens when the help text does not fit. | `space/inline` between them; the help text wraps and the counter stays at the top. |
+| D-3 | `disabled` hides the error (D8). | Whether the help text comes back. | The help text comes back, as in the default state. |
+| D-4 | The help text is one line of explanation. | What happens with a longer help text or error. | Both wrap, with no ellipsis. |
+| D-5 | D6 names `layout/field-width`. | A `use:` line for `layout/field-width` and `layout/input-width` in `design.md`. | Nothing: `design.md` is not changed. |
 
 ## What this task does not do
 It does not create a token or change a token value.
