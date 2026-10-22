@@ -11,12 +11,17 @@
  *
  * The gallery search belongs to THIS page, not to the component API: no
  * attribute, property, event or style of `nph-icon` was created for it.
+ *
+ * The Examples section shows the first example of the frame (`1130:956`): an
+ * `nph-input` with the start icon `magnifying-glass` (DSA-33, D2, delivered with
+ * the `nph-input` in DSA-16).
  */
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, format, translations } from '../../../.storybook/i18n/index.js';
 import './nph-icon';
+import '../nph-input/nph-input';
 import { NPH_ICON_NAMES, NPH_ICON_SIZES } from './nph-icon.icons';
 import {
   CATEGORIES,
@@ -90,6 +95,7 @@ const SECTIONS = {
   color: 'color',
   invalid: 'invalid-input',
   accessibility: 'accessibility',
+  examples: 'examples',
   references: 'references',
 } as const;
 
@@ -144,6 +150,7 @@ export const Documentation: Story = {
           { id: SECTIONS.color, title: d.colorTitle },
           { id: SECTIONS.invalid, title: d.invalidTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
+          { id: SECTIONS.examples, title: d.examplesTitle },
           { id: SECTIONS.references, title: d.referencesTitle },
         ])}
 
@@ -238,6 +245,23 @@ export const Documentation: Story = {
           SECTIONS.accessibility,
           d.accessibilityTitle,
           html`${list(d.accessibility)} ${source(d.sourceLabel, d.sourceAccessibility)}`,
+        )}
+
+        ${section(
+          SECTIONS.examples,
+          d.examplesTitle,
+          html`
+            ${demo(
+              html`<nph-input
+                size="default"
+                icon-start="magnifying-glass"
+                label=${d.searchExampleLabel}
+                placeholder=${d.searchExamplePlaceholder}
+              ></nph-input>`,
+              d.searchExampleCaption,
+            )}
+            ${source(d.sourceLabel, d.sourceExamples)}
+          `,
         )}
 
         ${section(SECTIONS.references, d.referencesTitle, list(d.references))}

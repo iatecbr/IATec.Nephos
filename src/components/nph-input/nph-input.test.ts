@@ -487,10 +487,10 @@ describe('accessible name and description', () => {
     const element = holder.querySelector('nph-input') as NphInput;
     await nextFrame();
     const label = holder.querySelector('nph-label') as HTMLElement & { text: string; updateComplete: Promise<unknown> };
-    label.text = 'Cidade';
+    label.text = 'Town';
     await label.updateComplete;
     const node = await accessibleNodeOf(element);
-    expect(node.name?.value).toBe('Cidade');
+    expect(node.name?.value).toBe('Town');
   });
 
   it('description is the accessible description, in a clipped element, never display none', async () => {
@@ -782,7 +782,7 @@ describe('states and precedence (D4, D5)', () => {
     });
   }
 
-  it('foco: border focus/border and the halo attached outside, focus/halo, focus/radius-control', async () => {
+  it('focus: border focus/border and the halo attached outside, focus/halo, focus/radius-control', async () => {
     const element = await mount();
     field(element).focus();
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
@@ -796,7 +796,7 @@ describe('states and precedence (D4, D5)', () => {
     expect(Number.parseFloat(ring.height)).toBeCloseTo(box.height + 2 * px('--nph-focus-ring-width'), 2);
   });
 
-  it('foco wins over hover', async () => {
+  it('focus wins over hover', async () => {
     const element = await mount();
     field(element).focus();
     await userEvent.hover(container(element));
@@ -809,7 +809,7 @@ describe('states and precedence (D4, D5)', () => {
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
   });
 
-  it('foco-limpar: the container keeps color/input; border and halo sit around the 24 x 24 target', async () => {
+  it('focus on the clear button: the container keeps color/input; border and halo sit around the 24 x 24 target', async () => {
     const element = await mount({ label: 'Search', iconEnd: 'xmark', clearLabel: 'Clear', value: 'lamp' });
     field(element).focus();
     await userEvent.tab();
@@ -838,14 +838,14 @@ describe('states and precedence (D4, D5)', () => {
     expect(getComputedStyle(button, '::before').content).toBe('none');
   });
 
-  it('erro: border status/error, also on hover', async () => {
+  it('error: border status/error, also on hover', async () => {
     const element = await mount({ label: 'Email', invalid: true });
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
     await userEvent.hover(container(element));
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
   });
 
-  it('erro-foco: border status/error, halo focus/halo-error at focus/radius-control', async () => {
+  it('error with focus: border status/error, halo focus/halo-error at focus/radius-control', async () => {
     const element = await mount({ label: 'Email', invalid: true });
     field(element).focus();
     expect(border(element)).toBe(resolved('color', '--nph-status-error'));
@@ -853,7 +853,7 @@ describe('states and precedence (D4, D5)', () => {
     expect(halo(element).borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-focus-radius-control'));
   });
 
-  it('erro + foco-limpar: the container is status/error, the target takes the usual focus', async () => {
+  it('error with focus on the clear button: the container is status/error, the target takes the usual focus', async () => {
     const element = await mount({ label: 'Search', invalid: true, iconEnd: 'xmark', clearLabel: 'Clear', value: 'lamp' });
     field(element).focus();
     await userEvent.tab();
@@ -876,7 +876,7 @@ describe('states and precedence (D4, D5)', () => {
     expect(element.shadowRoot?.activeElement ?? null).toBeNull();
   });
 
-  it('disabled + erro: disabled wins, no error look (D5)', async () => {
+  it('disabled with error: disabled wins, no error look (D5)', async () => {
     const element = await mount({ label: 'Email', disabled: true, invalid: true });
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
     await userEvent.hover(container(element));
