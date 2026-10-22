@@ -27,9 +27,8 @@ request. See the commits on the branch.
 - `npm ci`, then `npm run test:operacao` before the first commit.
 
 ## Result
-In review in PR 96. The proof commands pass, except failures that exist on the base `d00c6ca` without
-this branch: six `nph-tooltip` tests, `typecheck` and `build:lib` on `nph-tooltip.ts`, and
-`test:package` and `test:naming` on files this branch does not touch.
+In review in PR 96, synced with `v/5.0.0` after PR 97. The proof commands pass, except
+`test:naming`, whose findings are all in files this branch does not touch.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the merge.
