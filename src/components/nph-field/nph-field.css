@@ -20,6 +20,8 @@
   inline-size: var(--nph-layout-field-width);
   /* A narrow container does not make the field overflow (P83). */
   max-inline-size: 100%;
+  /* The lines of the field start at the start edge, whatever the container aligns. */
+  text-align: start;
 }
 
 :host([hidden]) {
