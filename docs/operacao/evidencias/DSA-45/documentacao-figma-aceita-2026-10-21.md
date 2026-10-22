@@ -206,6 +206,7 @@ values:
 | `color/dropdown-border` | `color/border` | `color/border` |
 | `focus/border-radius-inner` | `core/radius/off-scale/5` (5) | same |
 | `focus/radius-inner-with-border` | `core/radius/off-scale/9` (9) | same |
+| `dropdown/item-hover-icon-foreground` | `color/primary` | `color/primary` |
 
 The primitive `core/radius/off-scale/9` is new as well.
 
@@ -213,6 +214,21 @@ The hover rule changed with this task: the hover of the `nph-dropdown-menu`
 item is `color/primary-surface`, no longer `color/accent`; `design.md` says so
 in `color/primary-surface` and `color/accent-subtle`.
 
-## Source of the acceptance
+## Solid icon in hover
+Decided by Indiane on 2026-10-21 and applied in Figma to the item set
+`1365:57`, `state` hover. Token read in Figma on 2026-10-21 (`VariableID:2515:3974`,
+semantic collection, alias of `color/primary` in light and dark). The token
+follows the chain component → semantic → core.
+
+| Part | Rest | Hover, `tipo` default | Hover, `tipo` destructive |
+|---|---|---|---|
+| Start icon | light, color of the label | **solid**, `dropdown/item-hover-icon-foreground` | `color/destructive-on-surface` |
+| Submenu arrow | light | **solid**, `dropdown/item-hover-icon-foreground` | `color/destructive-on-surface` |
+| Label | `color/popover-foreground` | unchanged | `color/destructive-on-surface` |
+
+Contrast of `color/primary` on `color/primary-surface`: 4.78:1 in light and
+6.26:1 in dark, above the 3:1 of WCAG 1.4.11 for icons. Light and solid are the
+`variant` property of `nph-icon`; there is no token for the icon style.
+
 WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-21.md`: visual acceptance, Figma UX
 QA approved, documentation accepted and textual audit approved.

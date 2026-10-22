@@ -44,7 +44,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, nph-dropdown-menu modernized: item hover in color/primary-surface, focus border and halo, color/dropdown-border only for the dropdown",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, nph-dropdown-menu visual acceptance, tag, switch and profile header, Figma UX QA approved, documentation accepted, textual audit approved, right-from-bracket icon and the 4 tokens"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, nph-dropdown-menu visual acceptance, tag, switch and profile header, Figma UX QA approved, documentation accepted, textual audit approved, right-from-bracket icon and the 4 tokens",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, solid icon in the active state: in the item hover, type default, start icon and submenu arrow turn solid in dropdown/item-hover-icon-foreground"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -80,7 +81,8 @@ The task goes to `ready` when both are `done` (B1).
 
 Every token it uses is on `v/5.0.0`: the 4 new tokens (3 semantic and 1
 primitive) were taken to the token sources, to `tokens.css` and to `design.md`
-together with this task. The other pieces it uses are done: `nph-button`
+together with this task, and `dropdown/item-hover-icon-foreground` was added on
+2026-10-21 with the solid icon rule. The other pieces it uses are done: `nph-button`
 (DSA-13), `nph-icon` (DSA-03), `nph-badge` (DSA-12), `nph-avatar` (DSA-24),
 `nph-separator` (DSA-10) and `nph-spinner` (DSA-09).
 
@@ -102,6 +104,13 @@ the icon, CSS, tests, stories and spec pass the proof commands in
   component.
 - The hover of the item changed from `color/accent` to `color/primary-surface`.
   `design.md` carries the new rule.
+- Solid icon in the active state (Indiane, 2026-10-21): on the item, `tipo`
+  default, `state` hover, the start icon and the submenu arrow switch from
+  light to solid and use `dropdown/item-hover-icon-foreground` (alias of
+  `color/primary`, 4.78:1 in light and 6.26:1 in dark on
+  `color/primary-surface`). The label keeps `color/popover-foreground`. The
+  destructive item stays in `color/destructive-on-surface`. The evidence,
+  section "Solid icon in hover", carries the rule.
 
 ## What this task does not do
 It does not create a token or change a token value. It does not change Figma.

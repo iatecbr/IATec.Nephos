@@ -130,8 +130,8 @@ states:
     token: "the background and the text of the type and the emphasis, in the tokens block"
     changes_for_user: "Rest. The color communicates the type of the action."
   hover-active:
-    token: "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost"
-    changes_for_user: "The surface changes and confirms that the target responds."
+    token: "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost. The start and end icons switch from light to solid, in the same color as the text of the type"
+    changes_for_user: "The surface changes and the start and end icons turn solid, which confirms that the target responds."
   focus:
     token: "border border/width in the color of the type (focus/border in secondary) and halo focus/ring-width in focus/halo or `focus/halo-<matiz>`"
     changes_for_user: "For keyboard users, a border in the color of the action and a halo outside mark the focus, without changing the size."
@@ -199,7 +199,7 @@ anti_patterns:
   - "Painting the button by hand or creating a type, emphasis or size outside the matrix."
 sources:
   design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block"
-  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68"
+  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; solid icon in hover-active, 21-10-2026"
   tests: "src/components/nph-button/nph-button.test.ts and nph-button.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the button yet"
   storybook: "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts"
@@ -270,7 +270,7 @@ target on a touch screen; a size different from the field beside it.
 | State | Token | What changes for the person |
 |---|---|---|
 | `default` | the background and the text of the type and the emphasis | Rest. The color communicates the type of the action |
-| `hover-active` | `color/*-hover` and `status/*-hover` in `solid`; `*-surface-hover` and `*-on-surface-hover` in `outline` and `light`; the surface of the type in `ghost` | The surface changes and confirms that the target responds |
+| `hover-active` | `color/*-hover` and `status/*-hover` in `solid`; `*-surface-hover` and `*-on-surface-hover` in `outline` and `light`; the surface of the type in `ghost`. The start and end icons switch from `light` to `solid` (the `variant` of `nph-icon`), in the same color as the text of the type | The surface changes and the icons turn solid, which confirms that the target responds |
 | `focus` | border `border/width` in the color of the type (`focus/border` in `secondary`) and halo `focus/ring-width` in `focus/halo` or `focus/halo-<matiz>` | A border in the color of the action and a halo outside mark the focus, without changing the size |
 | `disabled` | `state/disabled-opacity` | The whole button loses opacity, leaves the Tab order and stops responding |
 | `loading` | the spinner inherits the text color | The spinner takes the place of the start icon, the text stays and the click stops counting |
@@ -370,7 +370,10 @@ universal close action, the icon-only button `xmark` in `secondary` `ghost`, wit
 - **The decision that originated it:** P68, of 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log);
   the default `size` `default` and the name `label`, in P68;
   the solid hover on the hover tokens, which supersedes B4. The frame was accepted
-  on 01-10-2026 and completed on 02-10-2026.
+  on 01-10-2026 and completed on 02-10-2026. On 21-10-2026, Indiane decided that
+  an action with an icon in an active state switches the icon from light to
+  solid: in `hover-active`, the start and end icons turn solid, in the same color
+  as the text of the type.
 - **Tests:** `src/components/nph-button/nph-button.test.ts` and `nph-button.docs.test.ts`.
 - **Usage evidence:** pending — no approved screen consumes the button yet.
 - **Storybook:** `src/components/nph-button/nph-button.stories.ts` (Validation) and

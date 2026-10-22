@@ -572,6 +572,7 @@
   --nph-sidebar-primary-foreground: var(--nph-theme-brand-on-600);
   --nph-sidebar-primary: var(--nph-theme-brand-600);
   --nph-status-on-solid: var(--nph-color-background);
+  --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */

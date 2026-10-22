@@ -338,6 +338,11 @@ tokens_semantic:
     escuro: color/border
     use: "Outline of the open nph-dropdown-menu. Softer than color/input, so the menu does not weigh on the screen; the elevation/dropdown shadow completes the separation from the background. Decorative: the items are read by their text. USE only on the nph-dropdown-menu outline."
     nao_use: "Select, combobox, date-picker or toast: those floating layers stay in color/input."
+  dropdown/item-hover-icon-foreground:
+    css: '--nph-dropdown-item-hover-icon-foreground'
+    claro: color/primary
+    escuro: color/primary
+    use: "Start icon and submenu arrow of the nph-dropdown-menu item, type default, in hover; both turn solid. 4,78:1 in light and 6,26:1 in dark on color/primary-surface. USE only on those icons in that state. DO NOT USE on the label, which stays in color/popover-foreground, nor on the destructive item, which stays in color/destructive-on-surface."
   color/card:
     css: '--nph-color-card'
     claro: core/base/white
