@@ -64,6 +64,40 @@
   transition-timing-function: var(--nph-motion-exit-easing);
 }
 
+/*
+ * The hit area reaches across the visual gap to the anchor. The pointer can
+ * take as long as it needs to travel between the anchor and the balloon.
+ */
+.bubble::before {
+  position: absolute;
+  pointer-events: auto;
+  content: '';
+}
+
+.bubble[data-side='top']::before {
+  inset-inline: 0;
+  inset-block-start: 100%;
+  block-size: var(--nph-space-inline);
+}
+
+.bubble[data-side='bottom']::before {
+  inset-inline: 0;
+  inset-block-end: 100%;
+  block-size: var(--nph-space-inline);
+}
+
+.bubble[data-side='left']::before {
+  inset-block: 0;
+  inset-inline-start: 100%;
+  inline-size: var(--nph-space-inline);
+}
+
+.bubble[data-side='right']::before {
+  inset-block: 0;
+  inset-inline-end: 100%;
+  inline-size: var(--nph-space-inline);
+}
+
 /* Entering: the enter role. */
 .bubble[data-open] {
   opacity: 1;

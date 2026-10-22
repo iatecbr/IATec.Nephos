@@ -124,6 +124,10 @@ function touch(type: string, target: HTMLElement): void {
   target.dispatchEvent(new PointerEvent(type, { pointerType: 'touch', bubbles: type !== 'pointerenter' && type !== 'pointerleave' }));
 }
 
+async function moveMouse(x: number, y: number): Promise<void> {
+  await cdp().send('Input.dispatchMouseEvent', { type: 'mouseMoved', x, y });
+}
+
 /**
  * The description the browser itself computes for an element, from its accessibility
  * tree. `toHaveAccessibleDescription` is not used for this: it reads the DOM with a
@@ -250,6 +254,61 @@ describe('how it finds its element (for)', () => {
     expect(button.hasAttribute('aria-describedby')).toBe(false);
   });
 
+  it('reassociates when the target is replaced by a node with the same id', async () => {
+    const { button, tooltip } = await mount();
+    const replacement = document.createElement('button');
+    replacement.id = button.id;
+    replacement.style.cssText = button.style.cssText;
+    button.replaceWith(replacement);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(button.hasAttribute('aria-describedby')).toBe(false);
+    expect(replacement.getAttribute('aria-describedby')).toBe(tooltip.id);
+    await userEvent.hover(replacement);
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+  });
+
+  it('accepts an SVG target and opens on hover', async () => {
+    const target = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    target.id = 'chart';
+    target.setAttribute('width', '100');
+    target.setAttribute('height', '100');
+    target.style.cssText = 'position:fixed;left:300px;top:300px';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', target.id);
+    tooltip.text = ONE_LINE;
+    document.body.append(target, tooltip);
+    await tooltip.updateComplete;
+    expect(target.getAttribute('aria-describedby')).toBe(tooltip.id);
+    target.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' }));
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+    expect(isShown(tooltip)).toBe(true);
+  });
+
+  it('observes the new target after for changes while the balloon is open', async () => {
+    const { tooltip } = await mount({ open: true });
+    await shown(tooltip);
+    const target = document.createElement('button');
+    target.id = 'resized-target';
+    target.style.cssText = 'position:fixed;left:500px;top:300px;width:80px;height:36px';
+    document.body.append(target);
+    tooltip.for = target.id;
+    await tooltip.updateComplete;
+    await vi.waitFor(() => {
+      const box = bubbleOf(tooltip).getBoundingClientRect();
+      const anchor = target.getBoundingClientRect();
+      expect(box.left + box.width / 2).toBeCloseTo(anchor.left + anchor.width / 2, 1);
+    });
+    target.style.width = '160px';
+    await vi.waitFor(() => {
+      const box = bubbleOf(tooltip).getBoundingClientRect();
+      const anchor = target.getBoundingClientRect();
+      expect(box.left + box.width / 2).toBeCloseTo(anchor.left + anchor.width / 2, 1);
+    });
+    expect(tooltip.open).toBe(true);
+  });
+
   it('an element that appears one frame later is found, with no error', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const tooltip = document.createElement('nph-tooltip');
@@ -310,7 +369,11 @@ describe('how it finds its element (for)', () => {
     tooltip.remove();
     const types = removed.mock.calls.map(([type]) => type);
     for (const type of ['pointerenter', 'pointerleave', 'pointerdown', 'focusin', 'focusout']) {
-      expect(types).toContain(type);
+      if (type === 'pointerdown') {
+        expect(documentRemoved.mock.calls.some(([removedType]) => removedType === type)).toBe(true);
+      } else {
+        expect(types).toContain(type);
+      }
     }
     expect(documentRemoved.mock.calls.filter(([type, , options]) => type === 'keydown' && options === true)).toHaveLength(2);
   });
@@ -365,6 +428,24 @@ describe('opening on hover and on keyboard focus', () => {
     expect(isShown(tooltip)).toBe(false);
   });
 
+  it('touching an associated label does not open the focused input', async () => {
+    const label = document.createElement('label');
+    label.htmlFor = 'label-target';
+    label.textContent = 'Field';
+    const input = document.createElement('input');
+    input.id = label.htmlFor;
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', input.id);
+    tooltip.text = ONE_LINE;
+    document.body.append(label, input, tooltip);
+    await tooltip.updateComplete;
+    label.dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'touch', bubbles: true, composed: true }));
+    input.focus();
+    await tooltip.updateComplete;
+    expect(document.activeElement).toBe(input);
+    expect(tooltip.open).toBe(false);
+  });
+
   it('after a touch, the keyboard opens it again', async () => {
     const { button, tooltip } = await mount();
     touch('pointerdown', button);
@@ -372,6 +453,24 @@ describe('opening on hover and on keyboard focus', () => {
     await userEvent.tab();
     await tooltip.updateComplete;
     expect(document.activeElement).toBe(button);
+    expect(tooltip.open).toBe(true);
+  });
+
+  it('typing after touch opens it without moving focus away', async () => {
+    const input = document.createElement('input');
+    input.id = 'typed-after-touch';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', input.id);
+    tooltip.text = ONE_LINE;
+    document.body.append(input, tooltip);
+    await tooltip.updateComplete;
+    input.dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'touch', bubbles: true }));
+    input.focus();
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(false);
+    await userEvent.keyboard('a');
+    await tooltip.updateComplete;
+    expect(document.activeElement).toBe(input);
     expect(tooltip.open).toBe(true);
   });
 
@@ -441,6 +540,25 @@ describe('closing', () => {
     expect(tooltip.open).toBe(true);
     await new Promise((resolve) => setTimeout(resolve, 400));
     expect(isShown(tooltip)).toBe(true);
+  });
+
+  it('keeps a pointer path open across the gap when the crossing takes longer than the exit', async () => {
+    const { button, tooltip } = await mount({ style: 'position:fixed;left:300px;top:300px;width:60px;height:36px' });
+    const anchor = button.getBoundingClientRect();
+    const x = anchor.left + anchor.width / 2;
+    await moveMouse(x, anchor.top + 1);
+    await tooltip.updateComplete;
+    await shown(tooltip);
+    const bubble = bubbleOf(tooltip).getBoundingClientRect();
+    expect(bubble.bottom).toBeLessThan(anchor.top);
+    for (let step = 1; step <= 8; step += 1) {
+      const y = anchor.top + 1 + ((bubble.bottom - 1) - (anchor.top + 1)) * (step / 8);
+      await moveMouse(x, y);
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      await tooltip.updateComplete;
+      expect(isShown(tooltip)).toBe(true);
+    }
+    expect(tooltip.open).toBe(true);
   });
 
   it('blur closes it when the pointer is not over it', async () => {
@@ -660,6 +778,20 @@ describe('placement', () => {
     expect(box.right).toBeLessThanOrEqual(document.documentElement.clientWidth);
   });
 
+  it('caps width to a narrow viewport and keeps the complete wrapped text', async () => {
+    await page.viewport(200, 400);
+    const { tooltip } = await mount({ open: true, text: TWO_LINES });
+    await shown(tooltip);
+    const bubble = bubbleOf(tooltip);
+    const box = bubble.getBoundingClientRect();
+    expect(box.width).toBeLessThanOrEqual(document.documentElement.clientWidth);
+    expect(box.right).toBeLessThanOrEqual(document.documentElement.clientWidth);
+    expect(box.height).toBeGreaterThan(MAX_HEIGHT);
+    expect(bubble.style.maxHeight).toBe('none');
+    expect(bubble.textContent).toBe(TWO_LINES);
+    expect(bubble.scrollHeight).toBeLessThanOrEqual(bubble.clientHeight);
+  });
+
   it('follows the element when the page scrolls while it is open', async () => {
     const holder = document.createElement('div');
     holder.style.cssText = 'height:2000px;position:relative';
@@ -673,6 +805,37 @@ describe('placement', () => {
       expect(button.getBoundingClientRect().top - bubbleOf(tooltip).getBoundingClientRect().bottom).toBeCloseTo(gap, 1);
     });
     window.scrollTo(0, 0);
+  });
+
+  it('follows a focused target through nested shadow roots when an internal ancestor scrolls', async () => {
+    const outerHost = document.createElement('div');
+    document.body.append(outerHost);
+    const outerRoot = outerHost.attachShadow({ mode: 'open' });
+    const scroller = document.createElement('div');
+    scroller.style.cssText = 'position:fixed;left:200px;top:100px;width:300px;height:200px;overflow:auto';
+    const innerHost = document.createElement('div');
+    innerHost.style.cssText = 'position:relative;width:600px;height:600px';
+    scroller.append(innerHost);
+    outerRoot.append(scroller);
+    const innerRoot = innerHost.attachShadow({ mode: 'open' });
+    const target = document.createElement('button');
+    target.id = 'nested-target';
+    target.style.cssText = 'position:absolute;left:50px;top:300px;width:60px;height:36px';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', target.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    innerRoot.append(target, tooltip);
+    await tooltip.updateComplete;
+    target.focus({ preventScroll: true });
+    await shown(tooltip);
+    const initialTop = target.getBoundingClientRect().top;
+    const gap = px('width', '--nph-space-inline');
+    scroller.scrollTop = 50;
+    await vi.waitFor(() => {
+      expect(target.getBoundingClientRect().top).toBeCloseTo(initialTop - 50, 1);
+      expect(target.getBoundingClientRect().top - bubbleOf(tooltip).getBoundingClientRect().bottom).toBeCloseTo(gap, 1);
+    });
   });
 
   it('an element scrolled out of the window takes its balloon with it, and gets it back when it returns', async () => {

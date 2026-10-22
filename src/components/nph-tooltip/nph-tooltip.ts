@@ -96,15 +96,19 @@ export class NphTooltip extends LitElement {
   /** The balloon is shown. Set by the component; the consumer may set it too. */
   declare open: boolean;
 
-  private target: HTMLElement | null = null;
+  private target: Element | null = null;
+  private rootObserver: MutationObserver | undefined;
+  private observedRoot: Node | null = null;
+  private readonly scrollTargets: EventTarget[] = [];
 
   /** Where the pointer and the focus are, physically. */
   private overTarget = false;
   private overBalloon = false;
   private hasFocus = false;
+  private focusedElement: Element | null = null;
   /** Esc was pressed: the balloon stays closed until the pointer and the focus are both gone. */
   private dismissed = false;
-  /** The last pointer interaction on the element was a touch. A key press clears it. */
+  /** The last relevant pointer interaction was a touch. A key press clears it. */
   private touched = false;
 
   private shown = false;
@@ -124,6 +128,7 @@ export class NphTooltip extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
+    this.observeRoot();
     this.setAttribute('role', 'tooltip');
     if (!this.id) {
       this.id = `${TAG}-${++nextId}`;
@@ -136,11 +141,18 @@ export class NphTooltip extends LitElement {
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.rootObserver?.disconnect();
+    this.rootObserver = undefined;
+    this.observedRoot = null;
     this.detach();
     this.hideNow();
     if (this.retryFrame !== undefined) {
       cancelAnimationFrame(this.retryFrame);
       this.retryFrame = undefined;
+    }
+    if (this.frame !== undefined) {
+      cancelAnimationFrame(this.frame);
+      this.frame = undefined;
     }
     this.retried = false;
   }
@@ -201,14 +213,30 @@ export class NphTooltip extends LitElement {
     }
   }
 
-  private lookUp(): HTMLElement | null {
+  private lookUp(): Element | null {
     const id = (this.for ?? '').trim();
     if (id === '') {
       return null;
     }
     const root = this.getRootNode() as Document | ShadowRoot;
     const found = typeof root.getElementById === 'function' ? root.getElementById(id) : null;
-    return found instanceof HTMLElement ? found : null;
+    return found instanceof Element ? found : null;
+  }
+
+  private observeRoot(): void {
+    const root = this.getRootNode();
+    if (root === this.observedRoot) {
+      return;
+    }
+    this.rootObserver?.disconnect();
+    this.observedRoot = root;
+    this.rootObserver = new MutationObserver(() => {
+      if (this.target === null || !this.target.isConnected || this.lookUp() !== this.target) {
+        this.attach();
+        this.syncVisibility();
+      }
+    });
+    this.rootObserver.observe(root, { subtree: true, childList: true, attributes: true, attributeFilter: ['id'] });
   }
 
   private attach(): void {
@@ -225,10 +253,15 @@ export class NphTooltip extends LitElement {
     this.target = next;
     next.addEventListener('pointerenter', this.onTargetEnter);
     next.addEventListener('pointerleave', this.onTargetLeave);
-    next.addEventListener('pointerdown', this.onTargetPointerDown, true);
+    this.observedRoot?.addEventListener('pointerdown', this.onAnyPointerDown, true);
     document.addEventListener('keydown', this.onAnyKeydown, true);
     next.addEventListener('focusin', this.onTargetFocusIn);
     next.addEventListener('focusout', this.onTargetFocusOut);
+    if (this.resizeObserver !== undefined) {
+      this.resizeObserver.observe(next);
+      this.updateScrollTargets();
+      this.onViewportChange();
+    }
     this.describe(true);
     if (this.reported.startsWith('for ')) {
       this.reported = '';
@@ -266,16 +299,38 @@ export class NphTooltip extends LitElement {
     }
     target.removeEventListener('pointerenter', this.onTargetEnter);
     target.removeEventListener('pointerleave', this.onTargetLeave);
-    target.removeEventListener('pointerdown', this.onTargetPointerDown, true);
+    this.observedRoot?.removeEventListener('pointerdown', this.onAnyPointerDown, true);
     document.removeEventListener('keydown', this.onAnyKeydown, true);
     target.removeEventListener('focusin', this.onTargetFocusIn);
     target.removeEventListener('focusout', this.onTargetFocusOut);
+    this.resizeObserver?.unobserve(target);
+    this.clearScrollTargets();
     this.describe(false);
     this.target = null;
     this.overTarget = false;
     this.overBalloon = false;
     this.hasFocus = false;
+    this.focusedElement = null;
     this.dismissed = false;
+  }
+
+  private updateScrollTargets(): void {
+    this.clearScrollTargets();
+    let node: Node | null = this.target;
+    while (node !== null) {
+      if (node instanceof Element || node instanceof ShadowRoot) {
+        node.addEventListener('scroll', this.onViewportChange, true);
+        this.scrollTargets.push(node);
+      }
+      node = node instanceof ShadowRoot ? node.host : node.parentNode;
+    }
+  }
+
+  private clearScrollTargets(): void {
+    for (const target of this.scrollTargets) {
+      target.removeEventListener('scroll', this.onViewportChange, true);
+    }
+    this.scrollTargets.length = 0;
   }
 
   /** Adds or removes this tooltip's id in the `aria-describedby` of the element. */
@@ -338,26 +393,44 @@ export class NphTooltip extends LitElement {
     this.sync();
   };
 
-  /* A tap can focus the element; touch never opens the balloon. */
-  private readonly onTargetPointerDown = (event: PointerEvent): void => {
-    this.touched = event.pointerType === 'touch';
+  /* A tap can focus the element directly or through an associated label. */
+  private readonly onAnyPointerDown = (event: PointerEvent): void => {
+    const target = this.target;
+    if (target === null) {
+      return;
+    }
+    const path = event.composedPath();
+    const onTarget = path.includes(target);
+    const onLabel = path.some(
+      (node) => node instanceof HTMLLabelElement && (node.htmlFor === target.id || node.contains(target)),
+    );
+    this.touched = event.pointerType === 'touch' && (onTarget || onLabel);
   };
 
-  /* The keyboard is back (Tab is pressed on the element that has the focus, not on the next one). */
+  /* The keyboard is back, including when focus remains on a control after touch. */
   private readonly onAnyKeydown = (): void => {
     this.touched = false;
+    if (this.focusedElement?.matches(':focus-visible')) {
+      this.hasFocus = true;
+    }
+    this.sync();
   };
 
   private readonly onTargetFocusIn = (event: FocusEvent): void => {
     const focused = event.composedPath()[0];
+    this.focusedElement = focused instanceof Element ? focused : null;
     const visible = focused instanceof Element && focused.matches(':focus-visible');
-    if (this.touched || !visible) return;
+    if (this.touched || !visible) {
+      this.hasFocus = false;
+      return;
+    }
     this.hasFocus = true;
     this.sync();
   };
 
   private readonly onTargetFocusOut = (): void => {
     this.hasFocus = false;
+    this.focusedElement = null;
     this.sync();
   };
 
@@ -407,6 +480,7 @@ export class NphTooltip extends LitElement {
       window.addEventListener('resize', this.onViewportChange);
       this.resizeObserver = new ResizeObserver(this.onViewportChange);
       if (this.target) this.resizeObserver.observe(this.target);
+      this.updateScrollTargets();
       this.place(bubble);
       /* The first style is opacity 0; the next one starts the enter transition. */
       void bubble.offsetWidth;
@@ -442,6 +516,7 @@ export class NphTooltip extends LitElement {
     document.removeEventListener('keydown', this.onDocumentKeydown, true);
     window.removeEventListener('scroll', this.onViewportChange, true);
     window.removeEventListener('resize', this.onViewportChange);
+    this.clearScrollTargets();
     this.resizeObserver?.disconnect();
     this.resizeObserver = undefined;
     this.shown = false;
@@ -488,9 +563,20 @@ export class NphTooltip extends LitElement {
     if (!visible) {
       return;
     }
+    const styleBeforeSizing = getComputedStyle(bubble);
+    const maxWidth =
+      parseFloat(styleBeforeSizing.getPropertyValue('--nph-layout-max-tooltip-width')) || parseFloat(styleBeforeSizing.maxWidth);
+    const maxHeight =
+      parseFloat(styleBeforeSizing.getPropertyValue('--nph-layout-max-tooltip-height')) || parseFloat(styleBeforeSizing.maxHeight);
+    bubble.style.maxWidth = `min(var(--nph-layout-max-tooltip-width), ${view.width}px)`;
+    bubble.style.maxHeight = 'none';
     /* Measure at the origin first: the size does not depend on where it sits. */
     bubble.style.top = '0px';
     bubble.style.left = '0px';
+    const naturalHeight = bubble.getBoundingClientRect().height;
+    if (view.width >= maxWidth || naturalHeight <= maxHeight) {
+      bubble.style.maxHeight = '';
+    }
     const { width, height } = bubble.getBoundingClientRect();
 
     const room = (side: NphTooltipSide): number => {
