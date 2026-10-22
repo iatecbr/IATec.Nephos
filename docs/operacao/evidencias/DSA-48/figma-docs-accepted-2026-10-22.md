@@ -46,8 +46,9 @@ date, the authorship and the Figma nodes.
 - Top by default, flipping when it does not fit.
 - No action, link or field inside the balloon (description of `1237:3`); at most two lines, no ellipsis.
 
-## Limit
+## Token
 
-The 300 ms delay has no token. No `motion` token in `design.md` names a delay;
-the existing ones are durations. Whether a delay token is created is decision D1
-of the task.
+The 300 ms delay is the token `motion/hover-delay`, created in Figma on 22-10-2026
+after Indiane answered D1: semantic collection, both modes, alias of the primitive
+`core/duration/delay` (300). The tooltip description (`1241:18`) and the
+component description (`1237:3`) name it.

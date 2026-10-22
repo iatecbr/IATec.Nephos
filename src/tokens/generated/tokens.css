@@ -45,6 +45,7 @@
   --nph-core-duration-300: 250ms;
   --nph-core-duration-400: 400ms;
   --nph-core-duration-loop: 800ms;
+  --nph-core-duration-delay: 300ms;
   --nph-core-easing-enter: cubic-bezier(0, 0, 0.2, 1);
   --nph-core-easing-exit: cubic-bezier(0.4, 0, 1, 1);
   --nph-core-easing-linear: cubic-bezier(0, 0, 1, 1);
@@ -506,6 +507,7 @@
   --nph-motion-exit-easing: var(--nph-core-easing-exit);
   --nph-motion-expand-duration: var(--nph-core-duration-300);
   --nph-motion-expand-easing: var(--nph-core-easing-standard);
+  --nph-motion-hover-delay: var(--nph-core-duration-delay);
   --nph-motion-hover-duration: var(--nph-core-duration-100);
   --nph-motion-hover-easing: var(--nph-core-easing-standard);
   --nph-motion-loop-duration: var(--nph-core-duration-loop);

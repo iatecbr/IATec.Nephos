@@ -1,7 +1,7 @@
 ```json
 {
   "id": "DSA-48",
-  "goal": "Adjust the nph-tooltip, its spec and the nph-label balloon to the six rules Indiane approved on 22-10-2026: 300 ms on hover, none on focus, Enter and Space leave the balloon alone, only on focusable elements, the balloon as the accessible name of an icon-only button, and, on touch, no visible name on an icon-only button, as an accepted exception.",
+  "goal": "Adjust the nph-tooltip, its spec and the nph-label balloon to the six rules Indiane approved on 22-10-2026: 300 ms on hover (`motion/hover-delay`), none on focus, Enter and Space leave the balloon alone, only on focusable elements, the balloon as the accessible name of an icon-only button, and, on touch, no visible name on an icon-only button, as an accepted exception.",
   "phase": "F4",
   "approved_order": 480,
   "owner": "elvys",
@@ -29,20 +29,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D1",
-      "question": "No motion token names a delay; the existing ones are durations. Is a delay token created for the 300 ms hover delay, or does the code keep the value as a documented constant? It does not block the task: until the answer, the code uses a named constant of 300 ms.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-48/figma-docs-accepted-2026-10-22.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, Indiane approved: keyboard focus opens, Enter runs the action; 300 ms on hover, none on focus; only on focusable elements; on an icon-only button the balloon is the accessible name of the action",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, Indiane accepted: Enter and Space neither open nor close the balloon; on touch the icon-only button has no visible name, as an exception",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, Indiane answered D1: create the token; the 300 ms became motion/hover-delay",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens"
   ],
   "external_origin": {
@@ -77,7 +71,7 @@ open Figma.
 
 | DSA-42 (on v/5.0.0) | Now (this task) |
 |---|---|
-| Opens on hover with no delay | Opens on hover after 300 ms; keyboard focus still opens at once |
+| Opens on hover with no delay | Opens on hover after `motion/hover-delay` (300 ms); keyboard focus still opens at once |
 | The spec names no rule for Enter and Space; in the code, any key press with visible focus restores the focus hold, and, among keys, only Esc closes | Enter and Space run the action and neither open nor close the balloon; it closes when focus leaves, when the pointer leaves the element and the balloon, or with Esc |
 | Any element opens it | Only an element that receives focus; a disabled button and loose text get no balloon |
 | The balloon is always a description (`aria-describedby`) | On an icon-only button the balloon text is the accessible name of the action, announced once; on other elements it stays a description |
@@ -99,14 +93,20 @@ Indiane confirms whether D7 is closed. D2 to D6 stay open in DSA-42. Rule 3 does
 the `nph-label` has no action of its own.
 
 ## Why it is ready
-DSA-42 is merged into `v/5.0.0`. No token is created or changed; the 300 ms has no
-token yet (D1).
+DSA-42 is merged into `v/5.0.0`. The only new token, `motion/hover-delay`, comes in
+the same pull request as this task, with the same value as Figma.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
 tests, stories, `fichas/nph-tooltip.md`, `fichas/nph-label.md` when affected,
 and the affected technical decisions pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
+
+## Decisions answered
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | Create the token. The 300 ms became `motion/hover-delay` (`--nph-motion-hover-delay`), an alias of `core/duration/delay`; a single token with no curve, because nothing moves during the wait. | Waits `motion/hover-delay` before opening on hover; keyboard focus does not wait. |
 
 ## Relations with other tasks
 - DSA-42 (merged) holds the current component; this task adjusts it.
