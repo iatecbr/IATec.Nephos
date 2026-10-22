@@ -93,7 +93,18 @@
     "components-nph-avatar-validation--no-photo": "Sin foto",
     "components-nph-avatar-validation--photo-failed": "Foto con error",
     "components-nph-avatar-validation--border": "Borde",
-    "components-nph-avatar-validation--accessibility": "Accesibilidad"
+    "components-nph-avatar-validation--accessibility": "Accesibilidad",
+    "components-nph-checkbox-docs": "Docs",
+    "components-nph-checkbox-docs--documentation": "Documentación",
+    "components-nph-checkbox-validation": "Validación",
+    "components-nph-checkbox-validation--matrix": "Matriz",
+    "components-nph-checkbox-validation--text-wrap": "Texto que se ajusta",
+    "components-nph-checkbox-validation--box-alone": "Solo la casilla",
+    "components-nph-checkbox-validation--invalid": "Inválido",
+    "components-nph-checkbox-validation--disabled": "Deshabilitado",
+    "components-nph-checkbox-validation--form": "Formulario",
+    "components-nph-checkbox-validation--interactive": "Interactivo",
+    "components-nph-checkbox-validation--examples": "Ejemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -1851,6 +1862,267 @@
     "personBruno": "Bruno Lima",
     "personCarla": "Carla Mendes"
   },
+  "checkboxDocs": {
+    "summary": "Una casilla con texto propio, para que la persona marque opciones independientes o active y desactive una opción. Es un control de formulario: una casilla marcada envía su valor con el formulario.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-checkbox, design.md para los tokens y docs/decisoes-tecnicas.md para la P81. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Cuando la persona puede marcar más de una opción, cada una independiente.",
+      "Para una única opción, que la persona activa o desactiva.",
+      "Indeterminado solo en el ítem que resume un grupo marcado en parte: no es una respuesta de la persona.",
+      "Solo la casilla únicamente cuando el nombre ya está en el contexto, como en una celda de tabla, siempre con label."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Cuando las opciones se excluyen: usa nph-radio.",
+      "Alrededor de ella, un nph-field solo para darle nombre: la casilla ya trae su propio texto.",
+      "Para mezclar checkbox y radio en el mismo grupo.",
+      "Para poner un enlace en el texto, como los términos de uso: el enlace queda fuera de la pieza.",
+      "Para pintar la casilla o la marca a mano: la pieza toma sus colores de los tokens."
+    ],
+    "relationsText": "Las opciones que se excluyen son nph-radio; no mezcles checkbox y radio en el mismo grupo. Un grupo de casillas se compone con nph-field, que nombra el grupo y lleva el mensaje de error; la casilla sola no necesita nph-field para tener nombre. La marca es un nph-icon. El texto es parte de la pieza, no un nph-label.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "checked",
+        "El estado actual, el marcado true del Figma. No se refleja: el atributo checked es el estado predeterminado, al que vuelve el reset del formulario. Cuando la persona alterna la pieza o el código define checked, el atributo ya no mueve el estado actual."
+      ],
+      [
+        "indeterminate",
+        "Un grupo marcado solo en parte, el marcado indeterminado del Figma. La casilla muestra la marca minus sea cual sea checked. Un clic de la persona lo borra y alterna checked. No se refleja."
+      ],
+      [
+        "text",
+        "El texto plano junto a la casilla, ya localizado: el nombre del control. Sin enlace dentro. Sin texto, la pieza es solo la casilla."
+      ],
+      [
+        "label",
+        "El nombre accesible de la casilla sola; se convierte en el aria-label del checkbox interno. Obligatorio sin texto; con texto, no se usa."
+      ],
+      [
+        "invalid",
+        "El estado de error: borde status/error y aria-invalid. La frase de error queda fuera de la pieza."
+      ],
+      [
+        "disabled",
+        "La pieza entera en state/disabled-opacity, fuera del orden del Tab y fuera de los datos del formulario. Un fieldset deshabilitado tiene el mismo efecto. Gana a invalid."
+      ],
+      [
+        "name",
+        "El nombre de la entrada en los datos del formulario: el atributo del host."
+      ],
+      [
+        "value",
+        "Lo que envía una pieza marcada: el atributo del host, on cuando falta."
+      ],
+      [
+        "form",
+        "Solo lectura: el formulario dueño de la pieza."
+      ],
+      [
+        "input y change",
+        "Eventos nativos, solo cuando la persona alterna la pieza: input atraviesa el shadow root desde el checkbox interno, y el host dispara change, que se propaga. Definir checked o indeterminate por código no dispara nada."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesText": "La propiedad state del Figma es la interacción: en el código, solo invalid y disabled son propiedades. El hover viene del ratón y el foco, del teclado.",
+    "statesCaption": "Texto que se ajusta, con la casilla arriba; solo la casilla, marcada; inválido, con la frase de error fuera de la pieza.",
+    "statesHeader": [
+      "Estado",
+      "Regla"
+    ],
+    "states": [
+      [
+        "default",
+        "Relleno color/background; marcado e indeterminado rellenan con color/primary, con la marca check o minus en color/primary-foreground. Borde color/input."
+      ],
+      [
+        "hover",
+        "Responde la pieza entera, texto incluido. Borde color/input-hover; una casilla marcada o indeterminada también recibe state/hover-opacity."
+      ],
+      [
+        "focus",
+        "Solo con el teclado. El borde de la casilla pasa a focus/border y la franja focus/halo cubre el área táctil de 24 × 24, con el radio focus/radius-inner."
+      ],
+      [
+        "invalid",
+        "Borde status/error, marcada o no. Con foco, el borde sigue en status/error y el halo es focus/halo-error."
+      ],
+      [
+        "disabled",
+        "La pieza entera en state/disabled-opacity, texto incluido, con el borde color/input. Deshabilitado gana a inválido."
+      ],
+      [
+        "texto que se ajusta",
+        "La casilla queda arriba, centrada en la primera línea; space/inline desde el área táctil hasta el texto."
+      ]
+    ],
+    "formTitle": "Formulario",
+    "formText": "nph-checkbox es un control de formulario: el host entra en el formulario de la página, como un checkbox nativo.",
+    "formHeader": [
+      "Caso",
+      "Qué ocurre"
+    ],
+    "formRules": [
+      [
+        "casilla marcada",
+        "Envía name=value; sin el atributo value, el valor es on."
+      ],
+      [
+        "casilla desmarcada",
+        "No envía nada."
+      ],
+      [
+        "casilla indeterminada",
+        "No cambia lo que se envía: decide checked."
+      ],
+      [
+        "casilla deshabilitada",
+        "No envía nada, también dentro de un fieldset deshabilitado."
+      ],
+      [
+        "reset",
+        "Vuelve al atributo checked y borra indeterminate. No se dispara ningún evento."
+      ],
+      [
+        "validación",
+        "No hay required ni validación de restricciones: invalid nunca bloquea el envío. La frase de error es de la página o del nph-field."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Casilla",
+        "icon/size-sm (16 × 16), radius/inner, border/width en color/input."
+      ],
+      [
+        "Marca",
+        "El icono check o minus del nph-icon, light, en icon/size-sm, en color/primary-foreground."
+      ],
+      [
+        "Texto",
+        "text/label-md en color/foreground: el nombre del control y parte de la pieza, no un nph-label."
+      ],
+      [
+        "Área táctil",
+        "24 × 24: la casilla más space/inline-tight en cada lado."
+      ],
+      [
+        "Espacio hasta el texto",
+        "space/inline, desde el borde del área táctil."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Un checkbox nativo dentro de la pieza: rol checkbox, con el estado desmarcado, marcado o mixto."
+      ],
+      [
+        "Nombre accesible",
+        "El texto es el nombre. Sin texto, label se convierte en el aria-label. Un elemento label de fuera, que apunte a la pieza, no nombra el checkbox interno: la pieza trae su propio texto."
+      ],
+      [
+        "Teclado",
+        "Una parada de Tab; Espacio alterna y Enter no. Una pieza deshabilitada se salta."
+      ],
+      [
+        "Foco visible",
+        "focus/border en la casilla y la franja focus/halo en el área táctil; en el error, focus/halo-error."
+      ],
+      [
+        "Contraste",
+        "El borde de la casilla, color/input, alcanza 3:1 frente al fondo (WCAG 1.4.11); la marca alcanza 3:1 sobre color/primary."
+      ],
+      [
+        "El color no es la única señal",
+        "Marcado e indeterminado muestran una marca; el error tiene su frase fuera de la pieza, y aria-invalid."
+      ],
+      [
+        "Objetivo táctil",
+        "24 × 24 alrededor de la casilla de 16 × 16."
+      ],
+      [
+        "Límites conocidos",
+        "El relleno marcado, color/primary, queda por debajo de 3:1 sobre el fondo en el modo oscuro en las marcas gerencial y rh; el borde de la casilla lo alcanza. focus/border queda por debajo de 3:1 frente al halo en el modo claro en la marca sistemas, como registra design.md. Con error y foco, status/error queda por debajo de 3:1 frente a focus/halo-error en el modo oscuro."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "rememberMe": "Recordarme",
+    "selectRow": "Seleccionar fila",
+    "longText": "Enviarme el resumen mensual de mi cuenta y las novedades de los productos que uso",
+    "errorSentence": "Marca la casilla para aceptar los términos.",
+    "consent": "Acepto los términos de uso",
+    "email": "Correo electrónico",
+    "sms": "Mensaje de texto",
+    "push": "Notificaciones push",
+    "all": "Todos los archivos",
+    "contracts": "Contratos",
+    "invoices": "Facturas",
+    "reports": "Informes",
+    "exampleConsent": "Consentimiento: una única opción, que la persona activa o desactiva.",
+    "examplePreferences": "Preferencias: varias opciones independientes, apiladas.",
+    "exampleGroup": "Selección de grupo: el ítem que resume queda indeterminado.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "ficha nph-checkbox — función, anatomía, estados, formulario, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P81 (API, semántica y participación en formularios), P80 (el patrón de formulario), P83 (el contrato del field), P01, P02 y P03.",
+      "design.md — los tokens de la casilla, la marca, el texto y el foco; los iconos del núcleo check y minus.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Checkbox, marco nph-checkbox (1194:1033) y conjunto 740:18776.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "ficha nph-checkbox; Figma, marco nph-checkbox (1194:1033)",
+    "sourceApi": "ficha nph-checkbox; docs/decisoes-tecnicas.md › P81",
+    "sourceStates": "Figma, conjunto 740:18776; design.md",
+    "sourceForm": "docs/decisoes-tecnicas.md › P81 y P80",
+    "sourceAnatomy": "Figma, conjunto 740:18776; design.md",
+    "sourceAccessibility": "ficha nph-checkbox; nph-checkbox.test.ts",
+    "matrixLabel": "Matriz del componente"
+  },
+  "checkboxValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "rememberMe": "Recordarme",
+    "selectRow": "Seleccionar fila",
+    "longText": "Enviarme el resumen mensual de mi cuenta y las novedades de los productos que uso",
+    "errorSentence": "Marca la casilla para aceptar los términos.",
+    "consent": "Acepto los términos de uso",
+    "email": "Correo electrónico",
+    "sms": "Mensaje de texto",
+    "push": "Notificaciones push",
+    "all": "Todos los archivos",
+    "contracts": "Contratos",
+    "invoices": "Facturas",
+    "reports": "Informes",
+    "exampleConsent": "Consentimiento: una única opción, que la persona activa o desactiva.",
+    "examplePreferences": "Preferencias: varias opciones independientes, apiladas.",
+    "exampleGroup": "Selección de grupo: el ítem que resume queda indeterminado.",
+    "selectAll": "Seleccionar todas las filas",
+    "inFieldset": "Dentro de un fieldset deshabilitado",
+    "reset": "Restablecer",
+    "formData": "Datos del formulario: {data}",
+    "statusNone": "(vacío)",
+    "statusIdle": "Esperando un clic.",
+    "statusChanged": "change disparado: checked = {checked}.",
+    "hoverHint": "Pasa el ratón sobre una pieza y pulsa Tab para ver el hover y el foco."
+  },
   "validationPages": {
     "sheetTitle": "El contrato está en la ficha",
     "sheetText": "Esta pieza no tiene página de lectura en Storybook. Su contrato está en {sheet}; estas stories lo comprueban.",
@@ -1895,7 +2167,15 @@
       "components-nph-tooltip-validation--sides": "Los cuatro lados, arriba por defecto, con el nombre de la acción de un botón solo de icono, en modo claro y oscuro.",
       "components-nph-tooltip-validation--flip": "El globo se invierte al lado opuesto cuando no cabe en el lado preferido.",
       "components-nph-tooltip-validation--focus-and-escape": "El foco del teclado abre el globo y Esc lo cierra, con el foco quedándose en el elemento.",
-      "components-nph-tooltip-validation--hover-and-focus": "El hover y el foco del teclado abren el globo en cualquier elemento: un botón, un enlace y un campo."
+      "components-nph-tooltip-validation--hover-and-focus": "El hover y el foco del teclado abren el globo en cualquier elemento: un botón, un enlace y un campo.",
+      "components-nph-checkbox-validation--matrix": "Desmarcado, marcado e indeterminado frente a predeterminado, inválido y deshabilitado, con texto y solo con la casilla.",
+      "components-nph-checkbox-validation--text-wrap": "Texto que se ajusta: la casilla queda arriba, centrada en la primera línea, con space/inline hasta el texto.",
+      "components-nph-checkbox-validation--box-alone": "Solo la casilla, 24 × 24, nombrada por label, para un contexto que ya da el nombre.",
+      "components-nph-checkbox-validation--invalid": "El borde de error en la casilla; la frase de error queda fuera de la pieza.",
+      "components-nph-checkbox-validation--disabled": "La pieza entera en state/disabled-opacity, también dentro de un fieldset deshabilitado; deshabilitado gana a inválido.",
+      "components-nph-checkbox-validation--form": "Una casilla marcada envía name=value con el formulario; el reset vuelve al atributo checked.",
+      "components-nph-checkbox-validation--interactive": "Un clic o Espacio alterna la casilla y dispara input y change; un clic en el indeterminado la marca.",
+      "components-nph-checkbox-validation--examples": "Los tres ejemplos obligatorios del marco: consentimiento, preferencias y selección de grupo."
     }
   }
 }
