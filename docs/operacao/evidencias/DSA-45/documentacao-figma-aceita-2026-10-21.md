@@ -215,12 +215,15 @@ item is `color/primary-surface`, no longer `color/accent`; `design.md` says so
 in `color/primary-surface` and `color/accent-subtle`.
 
 ## Solid icon in hover
-Decided by Indiane on 2026-10-21. In Figma, the icons of the item set `1365:57`,
-`state` hover, use the token; token read on 2026-10-21 (`VariableID:2515:3974`,
-semantic collection, alias of `color/primary` in light and dark). The token
-follows the chain component → semantic → core. Known Figma limit: the icon
-swap property applies to the whole set, so the Figma component keeps the light
-icon in every state; the solid icon in hover is a rule for code and spec.
+Decided by Indiane on 2026-10-21. The rule (hover → solid icon; in the menu
+item, in the color of the token) is for code and spec, and it shows in the
+usage examples (card 25 of board `2478:1910`). Token read in Figma on 2026-10-21
+(`VariableID:2515:3974`, semantic collection, alias of `color/primary` in light
+and dark); it follows the chain component → semantic → core. In the item
+variants `1365:12` and `2311:55666`, `state` hover, the icon color is bound to
+the token and the submenu arrow is solid. Known Figma limit: the start icon is
+a swap property whose default applies to the whole set, so the start icon of
+the Figma component stays light in every state.
 
 | Part | Rest | Hover, `tipo` default | Hover, `tipo` destructive |
 |---|---|---|---|
