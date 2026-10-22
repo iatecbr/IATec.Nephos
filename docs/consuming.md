@@ -175,6 +175,20 @@ them to the Angular build output with an asset glob in `angular.json`:
 "deployUrl": "js/"
 ```
 
+Check that both images exist in the installed package before building, then in the
+browser output after `ng build`:
+
+```bash
+set -e
+test -f node_modules/@iatec/nephos/dist/assets/empty-no-option-found.png
+test -f node_modules/@iatec/nephos/dist/assets/empty-no-option-found-dark.png
+test -f dist/my-app/browser/assets/empty-no-option-found.png
+test -f dist/my-app/browser/assets/empty-no-option-found-dark.png
+```
+
+Replace `dist/my-app/browser` with the browser output directory configured by
+`outputPath` in `angular.json`.
+
 Serve the generated JavaScript and CSS bundles from `<app-base>/js/` and the copied
 images from `<app-base>/assets/`. With this layout, `../assets/` resolves from the
 bundle to the application's own asset directory. For an application published at
@@ -288,9 +302,13 @@ step turns them into one ES module, once, at build time.
    import '@iatec/nephos/nph-togglebutton';
    ```
 
-2. Bundle it into `wwwroot`, and copy the tokens beside it:
+2. Confirm the installed package contains both illustration files, then bundle
+   the components into `wwwroot` and copy the tokens beside them:
 
    ```bash
+   set -e
+   test -f Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found.png
+   test -f Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found-dark.png
    npx esbuild Frontend/nephos-entry.js --bundle --format=esm --minify --outfile=wwwroot/js/nephos.js
    cp Frontend/node_modules/@iatec/nephos/dist/tokens.css wwwroot/css/nephos-tokens.css
    cp Frontend/node_modules/@iatec/nephos/dist/scrollbar.css wwwroot/css/nephos-scrollbar.css
@@ -304,6 +322,16 @@ step turns them into one ES module, once, at build time.
    module, which resolves to `wwwroot/assets/`; esbuild does not copy those
    package assets for this import pattern. The bundle carries `lit` and the
    icons: it does not need an import map.
+
+   Publish to a known output directory and confirm both files are in the
+   published static assets:
+
+   ```bash
+   set -e
+   dotnet publish -c Release -o publish
+   test -f publish/wwwroot/assets/empty-no-option-found.png
+   test -f publish/wwwroot/assets/empty-no-option-found-dark.png
+   ```
 
 3. Load them once, in `App.razor` (or `wwwroot/index.html` in WebAssembly):
 

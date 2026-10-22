@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/consuming.md | source-sha256=2358a635a24a24434968362a5253235e574c1ea10b163d12afa89ace59247cfa | status=rascunho -->
+<!-- i18n: lang=pt-BR | source=docs/consuming.md | source-sha256=fe3a14bbb6bc09f6be2bfe9b1da8b9630ade1ccc16d4a17274c459ba98e4b3a6 | status=rascunho -->
 
 # Consumindo o Nephos
 
@@ -178,6 +178,20 @@ Inclua-os na saída do build do Angular com um glob de assets no `angular.json`:
 "deployUrl": "js/"
 ```
 
+Confira se as duas imagens existem no pacote instalado antes da compilação e
+na saída do navegador depois de `ng build`:
+
+```bash
+set -e
+test -f node_modules/@iatec/nephos/dist/assets/empty-no-option-found.png
+test -f node_modules/@iatec/nephos/dist/assets/empty-no-option-found-dark.png
+test -f dist/my-app/browser/assets/empty-no-option-found.png
+test -f dist/my-app/browser/assets/empty-no-option-found-dark.png
+```
+
+Substitua `dist/my-app/browser` pelo diretório de saída do navegador configurado
+em `outputPath` no `angular.json`.
+
 Sirva os bundles JavaScript e CSS gerados em `<base-da-aplicação>/js/` e as imagens
 copiadas em `<base-da-aplicação>/assets/`. Nesse layout, `../assets/` é resolvido a
 partir do bundle para o diretório de assets da própria aplicação. Se a aplicação for
@@ -292,9 +306,13 @@ compilação.
    import '@iatec/nephos/nph-togglebutton';
    ```
 
-2. Empacote em `wwwroot` e copie os tokens ao lado:
+2. Confirme se o pacote instalado contém os dois arquivos de ilustração e,
+   então, empacote os componentes em `wwwroot` e copie os tokens ao lado:
 
    ```bash
+   set -e
+   test -f Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found.png
+   test -f Frontend/node_modules/@iatec/nephos/dist/assets/empty-no-option-found-dark.png
    npx esbuild Frontend/nephos-entry.js --bundle --format=esm --minify --outfile=wwwroot/js/nephos.js
    cp Frontend/node_modules/@iatec/nephos/dist/tokens.css wwwroot/css/nephos-tokens.css
    cp Frontend/node_modules/@iatec/nephos/dist/scrollbar.css wwwroot/css/nephos-scrollbar.css
@@ -308,6 +326,16 @@ compilação.
    empacotado, que resolve para `wwwroot/assets/`; o esbuild não copia esses
    assets do pacote para esse padrão de importação. O bundle carrega o `lit` e
    os ícones: não precisa de import map.
+
+   Publique em um diretório conhecido e confirme se os dois arquivos estão nos
+   assets publicados:
+
+   ```bash
+   set -e
+   dotnet publish -c Release -o publish
+   test -f publish/wwwroot/assets/empty-no-option-found.png
+   test -f publish/wwwroot/assets/empty-no-option-found-dark.png
+   ```
 
 3. Carregue-os uma vez, em `App.razor` (ou `wwwroot/index.html` no WebAssembly):
 
