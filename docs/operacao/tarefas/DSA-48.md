@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 480,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-tooltip",
   "dependencies": [],
   "gates": [
@@ -29,11 +29,19 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D2",
+      "question": "Rule 3 says a click does not open the balloon, but not what a click during the 300 ms wait does. The code cancels the wait: the balloon does not open until the pointer leaves and enters again, as with the native title; an open balloon does not close on click. The alternative is to let the wait run, since what opens it is the resting pointer. Does Indiane confirm? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-48/figma-docs-accepted-2026-10-22.md"
   ],
   "decision_refs": [
+    "docs/decisoes-tecnicas.md#p77",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, Indiane approved: keyboard focus opens, Enter runs the action; 300 ms on hover, none on focus; only on focusable elements; on an icon-only button the balloon is the accessible name of the action",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, Indiane accepted: Enter and Space neither open nor close the balloon; on touch the icon-only button has no visible name, as an exception",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, Indiane answered D1: create the token; the 300 ms became motion/hover-delay",
@@ -48,7 +56,7 @@
     "converted_decision": "The nph-tooltip documentation in frame 1237:5 and the description of component 1237:3 (no COMPONENT_SET: single COMPONENT 1237:3) were updated with six rules on 22-10-2026. The rules, converted to text, are in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "context": "docs/operacao/contextos/DSA-48.md",
   "updated_at": "2026-10-22"
 }
 ```
