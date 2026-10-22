@@ -46,7 +46,6 @@
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
-import { live } from 'lit/directives/live.js';
 
 import '../nph-icon/nph-icon';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
@@ -313,7 +312,10 @@ export class NphInput extends LitElement {
     return this.disabled || this.formDisabled;
   }
 
-  /** The native `input` event crosses the shadow root on its own; only the value is taken. */
+  /**
+   * The native `input` event crosses the shadow root on its own; only the value is taken.
+   * Every keystroke updates the bound value, so the binding always matches the field.
+   */
   private onInput(event: Event): void {
     const old = this.current;
     this.current = (event.target as HTMLInputElement).value;
@@ -437,7 +439,7 @@ export class NphInput extends LitElement {
       <input
         class="field"
         type=${(this.type ?? '').trim()}
-        .value=${live(this.current)}
+        .value=${this.current}
         placeholder=${placeholder === '' ? nothing : placeholder}
         autocomplete=${autocomplete === '' ? nothing : autocomplete}
         ?required=${this.required}
