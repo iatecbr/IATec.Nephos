@@ -453,6 +453,39 @@ describe('form association', () => {
     expect(inherited.checkValidity()).toBe(false);
   });
 
+  it('re-enabling disabled by property updates the field, clear button and validity', async () => {
+    const element = await mount({
+      label: 'Email',
+      type: 'email',
+      value: 'not an email',
+      disabled: true,
+      iconEnd: 'xmark',
+      clearLabel: 'Clear',
+    });
+
+    expect(field(element).disabled).toBe(true);
+    expect(clearButton(element)).toBeNull();
+
+    element.disabled = false;
+    await element.updateComplete;
+    await element.updateComplete;
+
+    expect(field(element).disabled).toBe(false);
+    expect(clearButton(element)).not.toBeNull();
+    expect(element.validity.typeMismatch).toBe(true);
+    expect(element.checkValidity()).toBe(false);
+
+    const holder = await markup('<form><fieldset disabled><nph-input label="Email" type="email" value="not an email" disabled></nph-input></fieldset></form>');
+    const inherited = holder.querySelector('nph-input') as NphInput;
+    inherited.disabled = false;
+    await inherited.updateComplete;
+    await inherited.updateComplete;
+
+    expect(inherited.disabled).toBe(false);
+    expect(field(inherited).disabled).toBe(true);
+    expect(inherited.willValidate).toBe(false);
+  });
+
   it('invalid is not a constraint: it adds no customError', async () => {
     const element = await mount({ label: 'Email', invalid: true, value: 'x' });
     expect(element.validity.customError).toBe(false);
@@ -620,6 +653,28 @@ describe('accessible name and description', () => {
     await label.updateComplete;
     const node = await accessibleNodeOf(element);
     expect(node.name?.value).toBe('Town');
+  });
+
+  it('updates the name when nph-label recreates its label, without refocusing the field', async () => {
+    const holder = await markup(
+      '<nph-label for="email" text="Email" info="More about email" info-label="More information"></nph-label><nph-input id="email"></nph-input>',
+    );
+    const element = holder.querySelector('nph-input') as NphInput;
+    const labelHost = holder.querySelector('nph-label') as HTMLElement & { info: string; updateComplete: Promise<unknown> };
+    const previousLabel = holder.querySelector('label');
+    const focus = vi.fn();
+
+    await nextFrame();
+    field(element).focus();
+    field(element).addEventListener('focus', focus);
+    labelHost.info = '';
+    await labelHost.updateComplete;
+    await nextFrame();
+
+    expect(holder.querySelector('label')).not.toBe(previousLabel);
+    expect(element.shadowRoot?.activeElement).toBe(field(element));
+    expect(focus).not.toHaveBeenCalled();
+    expect((await accessibleNodeOf(element)).name?.value).toBe('Email');
   });
 
   it('description is the accessible description, in a clipped element, never display none', async () => {

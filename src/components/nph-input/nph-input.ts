@@ -160,6 +160,7 @@ export class NphInput extends LitElement {
   declare clearLabel: string;
 
   private readonly internals: ElementInternals;
+  private readonly labelObserver = new MutationObserver(() => this.syncName());
   private current = '';
   /** Edited by the person or set by code: the `value` attribute no longer applies. */
   private dirty = false;
@@ -189,6 +190,22 @@ export class NphInput extends LitElement {
     this.clearLabel = '';
     this.addEventListener('focusin', () => this.syncName());
     this.addEventListener('input', this.onInput, { capture: true });
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.labelObserver.observe(this.getRootNode(), {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ['for', 'id'],
+    });
+  }
+
+  override disconnectedCallback(): void {
+    this.labelObserver.disconnect();
+    super.disconnectedCallback();
   }
 
   /** The current value. Setting it from code fires nothing. */
@@ -263,6 +280,13 @@ export class NphInput extends LitElement {
   formDisabledCallback(disabled: boolean): void {
     this.formDisabled = disabled;
     this.requestUpdate();
+    if (this.field?.disabled !== this.inactive) {
+      queueMicrotask(() => {
+        if (this.field?.disabled !== this.inactive) {
+          this.requestUpdate();
+        }
+      });
+    }
   }
 
   formStateRestoreCallback(state: string | File | FormData | null): void {
