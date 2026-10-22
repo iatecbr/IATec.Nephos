@@ -46,7 +46,7 @@ api:
     reflects: true
     constraint: >-
       What the checked radio submits, under name. Only the checked radio of a group
-      enters the form.
+      enters the form. The default, on, is also written as the attribute.
   text:
     type: string
     required: false

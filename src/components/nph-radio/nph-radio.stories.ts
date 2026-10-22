@@ -12,7 +12,9 @@
  *
  * Hover and focus are interaction: they show up by moving the mouse over a radio and by
  * navigating with Tab and the arrow keys; the component test measures them. The group
- * wrapper of the frame stands in for `nph-field` (see `nph-radio.demo.ts`). Each page opens
+ * wrapper of the frame stands in for `nph-field` (see `nph-radio.demo.ts`), and the
+ * `nph-button` of the Form story is scenery that asks the form to submit and reset, not a
+ * relation of the piece. Each page opens
  * with what it proves, from the dictionary (`validationPages.claims`). The example text and
  * the captions come from the language dictionary, under the key `radioValidation`
  * (`docs/i18n.md`, "Storybook"); the row and column names of the matrix are the technical

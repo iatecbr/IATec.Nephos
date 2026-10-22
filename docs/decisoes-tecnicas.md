@@ -1997,7 +1997,8 @@ P66, P68, P73, P74 and P76. The names follow P64. The form pattern is the one of
 
 7. **Form (P80).** `setFormValue(checked ? value : null)`: only the checked radio enters the
    `FormData`, as `name=value`. `name` and `value` reflect, because the form reads the attributes of
-   the host; an empty `name` writes no attribute. `checked` does not reflect: the attribute is the
+   the host; an empty `name` writes no attribute, and the default `value`, `on`, is also written as
+   the attribute. `checked` does not reflect: the attribute is the
    initial state and the one `form.reset()` returns to, and a later change of the attribute moves the
    current state only while the piece is not dirty — neither the person nor code changed `checked`
    — the rule of the native radio. `formDisabledCallback` (a disabled fieldset) works as `disabled`;

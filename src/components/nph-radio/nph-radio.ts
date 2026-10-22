@@ -15,7 +15,8 @@
  *   of the attribute moves the current state only while the piece is not dirty (neither the
  *   person nor code changed `checked`), the rule of the native radio;
  * - `name` and `value` reflect, because the form reads the attributes of the host. `value`
- *   is `on` by default. Only the checked radio enters the `FormData`, under `name`;
+ *   is `on` by default, and the default is also written as the attribute. Only the checked
+ *   radio enters the `FormData`, under `name`;
  * - the group is not an element: radios with the same non-empty `name`, in the same root
  *   (`getRootNode()`, never `document`) and with the same form owner, are one group.
  *   Checking one unchecks the others, from the person or from code. A radio without a
@@ -224,6 +225,7 @@ export class NphRadio extends LitElement {
       this.uncheckOthers();
     }
     this.settleNamed(this.connectedRoot, this.connectedName);
+    this.syncGroup();
   }
 
   formDisabledCallback(disabled: boolean): void {

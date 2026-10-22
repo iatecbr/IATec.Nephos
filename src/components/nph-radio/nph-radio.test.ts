@@ -702,6 +702,22 @@ describe('the form', () => {
     expect([...new FormData(form).entries()]).toEqual([['payment', 'card']]);
   });
 
+  it('a radio that moves to a form where it is alone becomes the Tab stop of that group', async () => {
+    const { radios } = await inForm([{ ...SHIFTS[0], checked: true }, SHIFTS[1]!]);
+    const other = document.createElement('form');
+    other.id = 'other';
+    document.body.append(other);
+    radios[1]!.setAttribute('form', 'other');
+    await settle(radios);
+    expect(radios[1]!.form).toBe(other);
+    expect(radios.map((element) => element.getAttribute('tabindex'))).toEqual(['0', '0']);
+  });
+
+  it('the default value is also written as the attribute', async () => {
+    const element = await mount({ text: 'Card', name: 'payment' });
+    expect(element.getAttribute('value')).toBe(NPH_RADIO_DEFAULT_VALUE);
+  });
+
   it('a restored state checks the radio whose value it is', async () => {
     const { radios } = await inForm();
     (radios[2] as unknown as { formStateRestoreCallback(state: unknown): void }).formStateRestoreCallback('night');
