@@ -92,7 +92,11 @@ function iconValue(value: string | null | undefined): string {
 
 /** The first submit button whose form owner is the form, as the default button of HTML. */
 function defaultButton(form: HTMLFormElement): HTMLButtonElement | HTMLInputElement | undefined {
-  for (const element of form.elements) {
+  const tree = form.getRootNode() as ParentNode;
+  for (const element of tree.querySelectorAll<HTMLButtonElement | HTMLInputElement>('button, input')) {
+    if (element.form !== form) {
+      continue;
+    }
     if (element instanceof HTMLButtonElement && element.type === 'submit') {
       return element;
     }
@@ -184,6 +188,7 @@ export class NphInput extends LitElement {
     this.iconEnd = NPH_INPUT_NO_ICON;
     this.clearLabel = '';
     this.addEventListener('focusin', () => this.syncName());
+    this.addEventListener('input', this.onInput, { capture: true });
   }
 
   /** The current value. Setting it from code fires nothing. */
@@ -195,6 +200,8 @@ export class NphInput extends LitElement {
     const old = this.current;
     this.current = next === null || next === undefined ? '' : String(next);
     this.dirty = true;
+    this.syncFieldValue();
+    this.syncFormState();
     this.requestUpdate('value', old);
   }
 
@@ -213,6 +220,8 @@ export class NphInput extends LitElement {
   private applyDefault(): void {
     const old = this.current;
     this.current = this.getAttribute('value') ?? '';
+    this.syncFieldValue();
+    this.syncFormState();
     this.requestUpdate('value', old);
   }
 
@@ -313,18 +322,24 @@ export class NphInput extends LitElement {
   }
 
   /**
-   * The native `input` event crosses the shadow root on its own; only the value is taken.
-   * Every keystroke updates the bound value, so the binding always matches the field.
+   * The native `input` event crosses the shadow root on its own. Capture it at the host
+   * so its value and form state are synchronized before consumer listeners run.
    */
-  private onInput(event: Event): void {
+  private onInput(): void {
+    const field = this.field;
+    if (field === null) {
+      return;
+    }
     const old = this.current;
-    this.current = (event.target as HTMLInputElement).value;
+    this.current = field.value;
     this.dirty = true;
+    this.syncFormState();
     this.requestUpdate('value', old);
   }
 
   /** The native `change` event does not cross the shadow root: the host fires it again. */
   private onChange(): void {
+    this.syncFormState();
     this.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
@@ -334,13 +349,17 @@ export class NphInput extends LitElement {
     if (event.key !== 'Enter' || event.isComposing || form === null) {
       return;
     }
-    event.preventDefault();
-    const submitter = defaultButton(form);
-    if (submitter === undefined) {
-      form.requestSubmit();
-    } else if (!submitter.disabled) {
-      submitter.click();
-    }
+    queueMicrotask(() => {
+      if (event.defaultPrevented) {
+        return;
+      }
+      const submitter = defaultButton(form);
+      if (submitter === undefined) {
+        form.requestSubmit();
+      } else if (!submitter.disabled) {
+        submitter.click();
+      }
+    });
   }
 
   /** The clear button: empty value, focus back on the field, the same events as typing. */
@@ -355,7 +374,9 @@ export class NphInput extends LitElement {
     if (field !== null) {
       field.value = '';
       field.focus();
+      this.current = field.value;
     }
+    this.syncFormState();
     this.requestUpdate('value', old);
     this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
     this.dispatchEvent(new Event('change', { bubbles: true }));
@@ -371,6 +392,24 @@ export class NphInput extends LitElement {
   }
 
   protected override updated(): void {
+    const field = this.field;
+    if (this.valid && field !== null && this.current !== field.value) {
+      const old = this.current;
+      this.current = field.value;
+      this.requestUpdate('value', old);
+    }
+    this.syncFormState();
+  }
+
+  private syncFieldValue(): void {
+    const field = this.field;
+    if (field !== null) {
+      field.value = this.current;
+      this.current = field.value;
+    }
+  }
+
+  private syncFormState(): void {
     const field = this.field;
     if (!this.valid || field === null) {
       this.internals.setFormValue(null);
@@ -446,7 +485,6 @@ export class NphInput extends LitElement {
         ?disabled=${inactive}
         aria-invalid=${this.invalid && !inactive ? 'true' : nothing}
         aria-describedby=${description === '' ? nothing : 'description'}
-        @input=${this.onInput}
         @change=${this.onChange}
         @keydown=${this.onKeydown}
       />
