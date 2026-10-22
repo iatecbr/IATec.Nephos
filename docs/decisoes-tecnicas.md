@@ -1941,8 +1941,8 @@ and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46). The decisions of those pie
 "field contract, P83".
 
 1. **Properties.** The Figma set has the variants `state`, `obrigatório` and `ícone`, the
-   properties `mostrar apoio`, `texto de apoio`, `mensagem de erro`, `contador`, `texto do
-   contador` and the swap `⮑ controle`. A text that is filled in turns its part on: there are no
+   properties `mostrar apoio`, `texto de apoio`, `mensagem de erro`, `contador`,
+   `texto do contador` and the swap `⮑ controle`. A text that is filled in turns its part on: there are no
    booleans to show a part. The mapping below is a technical proposal of this implementation.
 
    | Figma | API |

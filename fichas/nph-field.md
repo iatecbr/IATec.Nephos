@@ -36,7 +36,7 @@ api:
     default: false
     reflects: true
     constraint: >-
-      The Figma obrigatório. Shows the asterisk on the label and writes required on
+      The Figma `obrigatório`. Shows the asterisk on the label and writes required on
       the control, which announces it. In a group of radios, the group carries
       aria-required; a group of checkboxes or switches has only the asterisk.
   info:
@@ -45,7 +45,7 @@ api:
     default: "empty"
     reflects: false
     constraint: >-
-      The Figma ícone. The text of the explanation, passed to the nph-label, which
+      The Figma `ícone`. The text of the explanation, passed to the nph-label, which
       draws the information icon and opens the nph-tooltip with it. It never repeats
       the help text.
   info-label:
@@ -63,7 +63,7 @@ api:
     default: "empty"
     reflects: false
     constraint: >-
-      The Figma mostrar apoio and texto de apoio. The help line, in text/caption.
+      The Figma `mostrar apoio` and `texto de apoio`. The help line, in text/caption.
       Empty, it is not drawn. It leaves the line while the error shows.
   error:
     type: string
@@ -71,7 +71,7 @@ api:
     default: "empty"
     reflects: false
     constraint: >-
-      The Figma mensagem de erro. Filling it in is what makes the field invalid:
+      The Figma `mensagem de erro`. Filling it in is what makes the field invalid:
       there is no state property. The message replaces the help, in text/body-md and
       status/error, with no icon, and the field writes invalid on the control. A
       disabled field hides it.
@@ -81,7 +81,7 @@ api:
     default: "empty"
     reflects: false
     constraint: >-
-      The Figma contador and texto do contador. The counter text, shown as it comes,
+      The Figma `contador` and `texto do contador`. The counter text, shown as it comes,
       such as 12/500: at the end of the help line, or on a line of its own below the
       error. The field counts nothing, and the counter is not part of the
       description of the control.
@@ -101,21 +101,21 @@ api:
     default: "none"
     reflects: false
     constraint: >-
-      The Figma ⮑ controle. One control, such as nph-input, or the options of a group
+      The Figma `⮑ controle`. One control, such as nph-input, or the options of a group
       of checkboxes, radios or switches. An option declares itself with the static
       nphFieldRole of its class, option or radio; anything else is a control.
 variants:
   error:
     axis: state
-    choose_when: "The Figma state erro: when the value needs correction, always with the message filled in. In code, it is the presence of error."
+    choose_when: "The Figma `state` `erro`: when the value needs correction, always with the message filled in. In code, it is the presence of error."
     do_not_combine_with: ["disabled"]
   required:
     axis: appearance
-    choose_when: "The Figma obrigatório: when filling in the field is required."
+    choose_when: "The Figma `obrigatório`: when filling in the field is required."
     do_not_combine_with: []
   info:
     axis: appearance
-    choose_when: "The Figma ícone: when the field needs a short explanation that does not fit in the label or in the help; in code, info with info-label."
+    choose_when: "The Figma `ícone`: when the field needs a short explanation that does not fit in the label or in the help; in code, info with info-label."
     do_not_combine_with: []
 states:
   default:
