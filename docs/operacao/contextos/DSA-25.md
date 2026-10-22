@@ -20,13 +20,16 @@ accessible name for the group. Write the sheet, the Metadata and P78.
 - `src/components/nph-avatar/` and `src/components/nph-toggle-group/`
 
 ## Changes
-In progress on the branch.
+The group, the stories, the Docs page, the sheet, the Metadata and P78 are done and in the pull
+request. See the commits on the branch.
 
 ## Commands run
 - `npm ci`, then `npm run test:operacao` before the first commit.
 
 ## Result
-In progress.
+In review in PR 96. The proof commands pass, except failures that exist on the base `d00c6ca` without
+this branch: six `nph-tooltip` tests, `typecheck` and `build:lib` on `nph-tooltip.ts`, and
+`test:package` and `test:naming` on files this branch does not touch.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the merge.
@@ -35,4 +38,4 @@ None recorded: `review-and-merge` waits for the merge.
 None. D4 waits for Indiane and does not block.
 
 ## Next command
-`npm test` on the new component.
+Wait for the review; after the merge, record the `review-and-merge` evidence and move the task to done.

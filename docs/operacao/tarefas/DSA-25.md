@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 230,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-avatar-stack",
   "dependencies": ["DSA-24"],
   "gates": [
@@ -41,6 +41,7 @@
     "docs/operacao/evidencias/DSA-25/documentacao-figma-aceita-2026-10-08.md"
   ],
   "decision_refs": [
+    "docs/decisoes-tecnicas.md#p78",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D1 to D3 of the nph-avatar-stack"
   ],
@@ -54,8 +55,8 @@
   },
   "git_review": {
     "branch": "claude/dsa-25-nph-avatar-stack-8e424e",
-    "commit": null,
-    "pr": null
+    "commit": "38d4e533a6e923bf3a253891074edfcf0ada8062",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/96"
   },
   "context": "docs/operacao/contextos/DSA-25.md",
   "updated_at": "2026-10-22"
