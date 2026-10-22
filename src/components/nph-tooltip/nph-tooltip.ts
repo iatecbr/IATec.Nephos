@@ -228,6 +228,14 @@ export class NphTooltip extends LitElement {
     if ((target instanceof HTMLElement || target instanceof SVGElement) && target.tabIndex >= 0) {
       return true;
     }
+    if (
+      target instanceof HTMLElement &&
+      target.isContentEditable &&
+      !target.hasAttribute('tabindex') &&
+      !target.parentElement?.isContentEditable
+    ) {
+      return true;
+    }
     return target.shadowRoot?.delegatesFocus === true;
   }
 
@@ -334,17 +342,33 @@ export class NphTooltip extends LitElement {
         }
         this.associate();
       }
-      /* Only the element's own state: a toggle elsewhere in the root costs nothing. */
+      /* Recheck only when the target's state or its ancestry may have changed. */
       const target = this.target;
       const targetStateChanged =
         target !== null &&
-        records.some(
-          (record) =>
-            (record.target === target && record.attributeName !== 'id') ||
-            (record.attributeName === 'disabled' &&
-              record.target instanceof HTMLFieldSetElement &&
-              record.target.contains(target)),
-        );
+        records.some((record) => {
+          if (record.target === target && record.attributeName !== 'id') {
+            return true;
+          }
+          if (
+            record.attributeName === 'disabled' &&
+            record.target instanceof HTMLFieldSetElement &&
+            record.target.contains(target)
+          ) {
+            return true;
+          }
+          if (
+            record.attributeName === 'contenteditable' &&
+            record.target instanceof Element &&
+            record.target.contains(target)
+          ) {
+            return true;
+          }
+          return (
+            record.type === 'childList' &&
+            [...record.addedNodes, ...record.removedNodes].some((node) => node.contains(target))
+          );
+        });
       if (targetStateChanged) {
         this.onTargetStateChange();
       }
@@ -353,7 +377,7 @@ export class NphTooltip extends LitElement {
       subtree: true,
       childList: true,
       attributes: true,
-      attributeFilter: ['id', 'disabled', 'tabindex'],
+      attributeFilter: ['id', 'disabled', 'tabindex', 'contenteditable'],
     });
   }
 
@@ -593,7 +617,7 @@ export class NphTooltip extends LitElement {
     const path = event.composedPath();
     const onTarget = path.includes(target);
     /* A click runs the action and does not open the balloon: it ends the wait (rule 3). */
-    if (onTarget && event.pointerType !== 'touch') {
+    if (onTarget) {
       this.cancelWait();
     }
     const onLabel = path.some(
@@ -665,6 +689,10 @@ export class NphTooltip extends LitElement {
       this.reportUnfocusable();
     }
     if (this.open && this.showable) {
+      if (this.waitTimer !== undefined) {
+        this.cancelWait();
+        this.overTarget = true;
+      }
       this.show(bubble);
     } else if (this.shown) {
       this.hide(bubble);
