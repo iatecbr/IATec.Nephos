@@ -44,7 +44,7 @@
     },
     {
       "id": "D3",
-      "question": "In Figma, ocultar dígito is a property of the cell, not of the set, and the cells are not public in code. The code puts it on the host as masked, applied to every cell, so a code typed in a public place can be hidden. Does Indiane confirm? It does not block the pull request.",
+      "question": "In Figma, the property that hides the character with a dot belongs to the cell, not to the set, and the cells are not public in code. The code puts it on the host as masked, applied to every cell, so a code typed in a public place can be hidden. Does Indiane confirm? It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-22"
     },

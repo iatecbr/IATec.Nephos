@@ -22,7 +22,7 @@ api:
     default: 6
     reflects: true
     constraint: >-
-      The number of cells, the Figma digitos. Any other value draws nothing and emits
+      The number of cells, the Figma property of the set. Any other value draws nothing and emits
       console.error in development. A shorter length cuts the current value.
   size:
     type: "string: default or large"
@@ -39,7 +39,7 @@ api:
     default: false
     reflects: true
     constraint: >-
-      The Figma state erro: every cell takes the border status/error and the inner
+      The error state of the Figma set: every cell takes the border status/error and the inner
       input gets aria-invalid. The error sentence belongs to nph-field. disabled wins.
   disabled:
     type: boolean
@@ -47,7 +47,7 @@ api:
     default: false
     reflects: true
     constraint: >-
-      The Figma state disabled: out of the Tab order, background color/muted and the
+      The disabled state of the Figma set: out of the Tab order, background color/muted and the
       whole field at state/disabled-opacity. A disabled fieldset does the same and
       takes the value out of the form data. It wins over invalid.
   masked:
@@ -56,7 +56,7 @@ api:
     default: false
     reflects: true
     constraint: >-
-      The Figma ocultar dígito, on the host because the cells are not public: every
+      The Figma cell property that hides the character, on the host because the cells are not public: every
       filled cell shows a dot in place of the character. The mask is visual only: the
       input stays a text input and a screen reader reads the code.
   required:
