@@ -84,7 +84,7 @@
     },
     "open": {
       "token": "the nph-tooltip, above the label, at space/inline",
-      "changes_for_user": "The balloon shows the explanation when the pointer rests on the icon or the icon receives keyboard focus; it closes with Esc, when the pointer leaves or on blur. It never opens on touch."
+      "changes_for_user": "The balloon shows the explanation at once when the icon receives keyboard focus, and after motion/hover-delay when the pointer rests on the icon; it closes with Esc, when the pointer leaves or on blur. It never opens on touch."
     }
   },
   "business_rules": [
@@ -126,7 +126,7 @@
     "accessible_name": "The label is the source of the accessible name of the control. The information icon is named by info-label",
     "keyboard": [
       "Tab enters and leaves the information icon; the text does not receive focus.",
-      "Keyboard focus on the icon opens the balloon; there is no activation that toggles it.",
+      "Keyboard focus on the icon opens the balloon at once; Enter and Space neither open nor close it, and there is no activation that toggles it.",
       "Esc closes the open balloon, and focus stays on the icon."
     ],
     "focus": "The text does not receive focus. The information icon does, with border focus/border and halo focus/halo outside, only from the keyboard",
