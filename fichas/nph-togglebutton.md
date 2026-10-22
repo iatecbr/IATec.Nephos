@@ -168,7 +168,7 @@ invalid_combinations:
   - "An icon-start or icon-end that is not auto, none or a core name — the piece draws nothing."
 relations:
   combines_with: [nph-icon, nph-button]
-  parents: ["toolbar", "nph-toggle-group (planned, DSA-23)"]
+  parents: ["toolbar", "nph-toggle-group"]
   children: [nph-icon]
   complements_block: []
   appears_in: []
@@ -183,7 +183,7 @@ sources:
   design_md: "design.md, color/muted, border/width, status/error, color/background, elevation/subtle, color/primary-border, text/label-md, color/muted-foreground, color/foreground, color/primary, focus/*, state/disabled-opacity, control/height-default, radius/control, radius/inner, space/inline-tight, space/control-padding, icon/size-sm and motion/*"
   decision: "P73 — API and semantics of nph-togglebutton, 19-10-2026"
   tests: "src/components/nph-togglebutton/nph-togglebutton.test.ts"
-  usage_evidence: "none in code yet; nph-toggle-group (DSA-23, planned) will be made of this piece and consume nph-change"
+  usage_evidence: "nph-toggle-group (DSA-23, PR #92) is made of this piece and consumes nph-change"
   storybook: "src/components/nph-togglebutton/nph-togglebutton.stories.ts and nph-togglebutton.docs.stories.ts"
   figma: "DS-IA-NEPHOS 5.0, nph-togglebutton board 1512:27498 and set 1512:719"
 ---
@@ -281,13 +281,13 @@ The piece shows the border; the message is written outside it, by whoever uses t
 ## Relations
 
 **Combines with:** `nph-icon`, the start and end icons, and `nph-button`, which fires an
-action in the same toolbar. Three pieces are **planned** and do not exist yet: `nph-switch`
-(a setting outside a toolbar), `nph-checkbox` (a choice in a form) and `nph-toggle-group`
-(DSA-23), which will be made of `nph-togglebutton` instances separated by `space/inline`
-and will consume `nph-change`.
+action in the same toolbar. `nph-toggle-group` (DSA-23, PR #92) exists: it is made of
+`nph-togglebutton` instances separated by `space/inline` and consumes `nph-change`. Two
+pieces are **planned** and do not exist yet: `nph-switch` (a setting outside a toolbar) and
+`nph-checkbox` (a choice in a form).
 
-**What is the parent:** a toolbar. The planned `nph-toggle-group` will be the parent of a
-set of these pieces.
+**What is the parent:** a toolbar. `nph-toggle-group` is the parent of a set of these
+pieces.
 
 **What is the child:** `nph-icon`, through `icon-start` and `icon-end`, in `icon/size-sm`.
 The piece has no slot.
@@ -367,8 +367,8 @@ them pressed, separated by `space/inline`.
 - **The decision that originated it:** P73, of 19-10-2026. The board was accepted by
   Indiane on 07-10-2026; the answer to D6, on motion, of 19-10-2026.
 - **Tests:** `src/components/nph-togglebutton/nph-togglebutton.test.ts`.
-- **Usage evidence:** none in code yet. `nph-toggle-group` (DSA-23, planned) will be made
-  of this piece.
+- **Usage evidence:** `nph-toggle-group` (DSA-23, PR #92) is made of this piece and
+  consumes `nph-change`.
 - **Storybook:** `src/components/nph-togglebutton/nph-togglebutton.stories.ts` (Validation)
   and `nph-togglebutton.docs.stories.ts` (Docs).
 - **Figma:** `nph-togglebutton` board (`1512:27498`) and set `1512:719` in

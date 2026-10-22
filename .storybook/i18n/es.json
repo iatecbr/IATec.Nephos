@@ -1280,7 +1280,7 @@
       "En un formulario, cuando la elección va junto con el envío: use nph-checkbox.",
       "Para marcar el estado cambiando solo el color del texto: encienda pressed."
     ],
-    "relationsText": "No sustituye al nph-button: el nph-button dispara una acción y el nph-togglebutton guarda un estado. nph-switch (un ajuste fuera de una barra de herramientas), nph-checkbox (una elección en un formulario) y nph-toggle-group (un conjunto de estas piezas, separadas por space/inline) están planificados y todavía no existen.",
+    "relationsText": "No sustituye al nph-button: el nph-button dispara una acción y el nph-togglebutton guarda un estado. El nph-toggle-group existe: es un conjunto de estas piezas, separadas por space/inline. nph-switch (un ajuste fuera de una barra de herramientas) y nph-checkbox (una elección en un formulario) están planificados y todavía no existen.",
     "apiTitle": "API",
     "apiHeader": [
       "Propiedad",

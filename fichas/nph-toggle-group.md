@@ -59,8 +59,10 @@ api:
     constraint: >-
       The nph-togglebutton buttons, at least two and with no maximum. Each one names
       itself with a value attribute, which the group reads and the button ignores:
-      a non-empty word with no space, unique in the group. Text, label, icons,
-      disabled and invalid stay on each button.
+      a non-empty word with no whitespace, unique in the group. A button whose value
+      is empty, repeated or has more than one word never joins the selection. A
+      change of the value attribute of a button is picked up by the group. Text,
+      label, icons, disabled and invalid stay on each button.
   nph-value-change:
     type: event
     required: false
@@ -88,6 +90,7 @@ business_rules:
   - "The group is the source of truth of the selection: it writes pressed on every button from value, and the buttons never decide it alone."
   - "In single selection, a click, Enter or Space on the checked button does nothing: it stays checked, no event fires and the click does not reach the page. With no value, none is checked until the first click."
   - "Only a click, Enter or Space by the person fires nph-value-change; setting value from code never fires it."
+  - "Changing only the value attribute of a button is enough: the group observes it, writes pressed again and checks the composition, without firing nph-value-change."
   - "There is no maximum number of buttons. With fewer than two buttons the group still renders and warns in development; for a single option use nph-togglebutton."
   - "disabled and invalid stay on each button; the error message of an invalid button stays outside the group."
 domain_errors:
@@ -118,7 +121,7 @@ accessibility:
 invalid_combinations:
   - "No name — no label, no aria-label and no aria-labelledby: the group draws nothing."
   - "A selection that is not single or multiple — the group draws nothing."
-  - "A button without value, or two buttons with the same value — the button never joins the selection; the group warns in development."
+  - "A button without value, with a value of more than one word, or two buttons with the same value — the button never joins the selection; the group warns in development."
   - "A value that matches no button — nothing is checked for it; the group warns in development."
   - "More than one value in single — only the first is kept; the group warns in development."
   - "Buttons with text mixed with icon-only buttons — the group renders and warns in development."
@@ -219,6 +222,8 @@ so a focused button is not covered by its neighbor.
   is checked until the first click.
 - Only a click, Enter or Space by the person fires `nph-value-change`; setting `value` from
   code never fires it.
+- Changing only the `value` attribute of a button is enough: the group observes it, writes
+  `pressed` again and checks the composition, without firing `nph-value-change`.
 - There is no maximum number of buttons. With fewer than two the group still renders and
   warns in development.
 
@@ -302,7 +307,7 @@ single selection.
 - **Do not use it in a form** — use `nph-checkbox`.
 - **Do not put the error message inside the group** — it stays outside.
 - **Invalid combinations:** no name; a `selection` that is not `single` or `multiple`; a
-  button without `value` or with a repeated one; a `value` that matches no button; more
+  button without `value`, with a `value` of more than one word or with a repeated one; a `value` that matches no button; more
   than one value in `single`; text mixed with icon only; a child that is not an
   `nph-togglebutton`.
 - **Do not create without a decision:** a size, a `disabled` or `invalid` property on the
