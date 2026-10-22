@@ -121,6 +121,9 @@ export class NphAvatarStack extends LitElement {
       oldValue !== newValue &&
       !this.applyingSemantics
     ) {
+      if (name === 'aria-label') {
+        this.labelApplied = false;
+      }
       this.accessibleNameChanged = true;
       this.requestUpdate();
     }
@@ -264,6 +267,9 @@ export class NphAvatarStack extends LitElement {
   }
 
   private onSlotChange(): void {
+    if (!this.valid) {
+      return;
+    }
     this.syncAvatars();
     this.checkComposition();
   }

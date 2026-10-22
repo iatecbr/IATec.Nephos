@@ -526,6 +526,17 @@ describe('semantics and focus', () => {
     expect(stack.getAttribute('aria-label')).toBe('Ana, Bruno and 1 more');
   });
 
+  it('keeps an aria-label added by the consumer before the pending label update', async () => {
+    const stack = await mount({ label: 'Original group' });
+    stack.label = '';
+    stack.setAttribute('aria-label', 'Team');
+    await settle(stack);
+    expect(stack.getAttribute('aria-label')).toBe('Team');
+    expect(stack.getAttribute('role')).toBe('img');
+    expect(stack.hasAttribute('data-nph-rendered')).toBe(true);
+    expect((await axNode(stack)).name).toBe('Team');
+  });
+
   it('never takes focus: focus() changes nothing and there is no tabindex', async () => {
     const stack = await mount({ count: 3 });
     const before = document.activeElement;
@@ -686,6 +697,17 @@ describe('invalid input', () => {
   it('an invalid group does not write its size on the avatars', async () => {
     const { stack } = await invalid({ size: 'xl', avatars: [{ size: 'md' }, {}] });
     expect(avatars(stack).map((child) => child.size)).toEqual(['md', 'sm']);
+  });
+
+  it('does not write an invalid size to avatars after a valid group becomes invalid', async () => {
+    const stack = await mount({ size: 'md', avatars: [{ size: 'lg' }, {}] });
+    expect(avatars(stack).map((child) => child.size)).toEqual(['md', 'md']);
+
+    stack.size = 'xl' as NphAvatarSize;
+    await settle(stack);
+
+    expectNothingDrawn(stack);
+    expect(avatars(stack).map((child) => child.size)).toEqual(['md', 'md']);
   });
 
   it('a valid input set later draws the group, with its semantics', async () => {
