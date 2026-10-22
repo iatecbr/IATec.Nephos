@@ -21,14 +21,18 @@ and add the `nph-input` example to the `nph-icon` Docs page (DSA-33, D2).
 - `docs/decisoes-tecnicas.md` — P01, P02, P21, P62, P63, P71, P72, P73, P76, P77
 
 ## Changes
-The task moves to in progress with the pending decisions D1 to D5. The component, its CSS,
-tests, stories and sheet follow in the next commits. See the commits on the branch.
+The component, CSS and tests; the Validation stories, the Docs page and the dictionary; the
+`nph-input` example on the `nph-icon` Docs page; the sheet, the Metadata and P80. See the commits
+on the branch.
 
 ## Commands run
-- `npm ci`, then `npm run test:operacao` before the first commit.
+- `npm run build:tokens`, `test:tokens`, `test:i18n`, `test:operacao`, `build-storybook` and
+  `git diff --check`: exit 0
+- `npm test`, `typecheck`, `build:lib` and `test:package`: exit 1 or 2, from `nph-tooltip`
+  only, the same at the base commit `d00c6ca`; `test:naming`: exit 1, only the known lines
 
 ## Result
-In progress. Nothing delivered yet beyond the task state.
+The deliverable is complete and open in PR 99, targeting `v/5.0.0`, with review requested from `maurocsjr`.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -37,4 +41,4 @@ None recorded: `review-and-merge` waits for the PR.
 None. D1 to D5 wait for Indiane and do not block.
 
 ## Next command
-Commit the component, then the stories, the Docs page and the sheet.
+Review and merge of PR 99, after the merge of DSA-48; then close the task with the `review-and-merge` evidence.

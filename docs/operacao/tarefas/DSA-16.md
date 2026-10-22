@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 260,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-input",
   "dependencies": [],
   "gates": [
@@ -79,8 +79,8 @@
   },
   "git_review": {
     "branch": "claude/dsa-16-nph-input-20ff0b",
-    "commit": null,
-    "pr": null
+    "commit": "7114c6abd3c2c4305aa05a5561406c89ef251dc7",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/99"
   },
   "context": "docs/operacao/contextos/DSA-16.md",
   "updated_at": "2026-10-22"
