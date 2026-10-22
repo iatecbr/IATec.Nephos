@@ -29,9 +29,8 @@ lines of `vite.config.lib.ts`. See the commits on the branch.
 - The proof commands of `docs/operacao/component-handoff.md`, `npm run build:lib` and `npm run test:package`.
 
 ## Result
-In review, pull request #100. The proof commands pass, except the known failures of `nph-tooltip`
-(typecheck, six tests and the tsc step of build:lib) and the known `test:naming` failures in files
-this branch does not touch.
+In review, pull request #100, synced with `v/5.0.0` at `bc9ae33`. The proof commands pass, except the
+known `test:naming` failures in files this branch does not touch.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the merge.
@@ -40,5 +39,4 @@ None recorded: `review-and-merge` waits for the merge.
 None. D1 to D3 wait for Indiane and do not block.
 
 ## Next command
-Wait for the review; after the DSA-48 fix of `nph-tooltip` merges, sync with `v/5.0.0` and run the
-proofs again. After the merge, record the `review-and-merge` evidence and move the task to done.
+Wait for the review; after the merge, record the `review-and-merge` evidence and move the task to done.
