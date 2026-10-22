@@ -146,7 +146,7 @@
     "design_md": "design.md, avatar/size-*, avatar/radius-*, color/muted, color/muted-foreground, color/border, border/width and icon/size-*",
     "decision": "P74 — API and semantics of nph-avatar, 20-10-2026",
     "tests": "src/components/nph-avatar/nph-avatar.test.ts",
-    "usage_evidence": "none in code yet; nph-select (DSA-29) will take it at the start of the trigger and of the option, and nph-avatar-stack (DSA-25) will overlap a group of them",
+    "usage_evidence": "nph-avatar-stack overlaps a group of them, in src/components/nph-avatar-stack/; nph-select (DSA-29) will take it at the start of the trigger and of the option",
     "storybook": "src/components/nph-avatar/nph-avatar.stories.ts and nph-avatar.docs.stories.ts",
     "figma": "DS-IA-NEPHOS 5.0, nph-avatar frame 1434:30 and set 1434:29"
   }
