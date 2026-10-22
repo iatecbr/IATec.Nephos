@@ -20,14 +20,17 @@ Write its sheet, the Metadata and P79.
 - `src/components/nph-togglebutton/` and `src/components/nph-toggle-group/`
 
 ## Changes
-The task moves to in progress with the pending decisions D5 and D6. The component, the
-stories, the sheet and P79 follow in the next commits. See the commits on the branch.
+`src/components/nph-switch/` (component, CSS, tests, Validation and Docs stories, demo),
+`fichas/nph-switch.md` with its generated Metadata, P79 in `docs/decisoes-tecnicas.md` and
+the `switchDocs` and `switchValidation` dictionaries in the three languages. See the commits
+on the branch.
 
 ## Commands run
-- `npm ci`, then `npm run test:operacao` before the first commit.
+- `npm ci`; the proof commands of `docs/operacao/component-handoff.md`, plus `build:lib`,
+  `test:package` and the Metadata generation.
 
 ## Result
-In progress. Nothing delivered yet beyond the task state.
+The branch is ready. The pull request waits for the merge of DSA-28, which brings P83.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -36,4 +39,4 @@ None recorded: `review-and-merge` waits for the PR.
 None. D5 and D6 wait for Indiane and do not block.
 
 ## Next command
-Commit the switch component, then the stories, the Docs page, the sheet and P79.
+Sync with `v/5.0.0` after the merge of DSA-28, run the proofs again and open the PR.
