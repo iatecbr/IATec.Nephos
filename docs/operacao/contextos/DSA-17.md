@@ -20,13 +20,21 @@ and the field contract of P83.
 - `docs/decisoes-tecnicas.md` — P21, P68, P73, P76
 
 ## Changes
-None yet.
+The component, CSS and tests; the Validation stories, the Docs page and the dictionary; the
+sheet, the Metadata and P81. See the commits on the branch.
 
 ## Commands run
-- `npm ci`: exit 0
+- `npm ci`, `build:tokens`, `test:tokens`, `test:i18n`, `test:operacao`, `build-storybook` and
+  `git diff --check`: exit 0
+- `npm test`: exit 1, only the six `nph-tooltip.test.ts` failures that `v/5.0.0` already has
+  at `d00c6ca`; the 191 tests of this piece pass
+- `npm run typecheck`: exit 2, only the eight errors of `nph-tooltip.ts` that `v/5.0.0` already has
+- `npm run build:lib`: exit 1 on the same errors; with the build carried past them,
+  `npm run test:package` passes
+- `npm run test:naming`: exit 1, only in files this pass does not touch
 
 ## Result
-In progress.
+The branch is ready; the pull request opens after the merge of DSA-28.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -35,4 +43,4 @@ None recorded: `review-and-merge` waits for the PR.
 None. D7 waits for Indiane and does not block.
 
 ## Next command
-`npm test` after the component and its tests.
+Sync with `v/5.0.0` after the merge of DSA-28, run the proofs again and open the pull request.
