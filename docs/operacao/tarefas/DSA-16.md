@@ -79,7 +79,7 @@
   },
   "git_review": {
     "branch": "claude/dsa-16-nph-input-20ff0b",
-    "commit": "7114c6abd3c2c4305aa05a5561406c89ef251dc7",
+    "commit": "78b919864273791bd11989c738080a6618f40e62",
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/99"
   },
   "context": "docs/operacao/contextos/DSA-16.md",

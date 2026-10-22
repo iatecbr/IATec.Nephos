@@ -26,10 +26,11 @@ The component, CSS and tests; the Validation stories, the Docs page and the dict
 on the branch.
 
 ## Commands run
-- `npm run build:tokens`, `test:tokens`, `test:i18n`, `test:operacao`, `build-storybook` and
-  `git diff --check`: exit 0
-- `npm test`, `typecheck`, `build:lib` and `test:package`: exit 1 or 2, from `nph-tooltip`
-  only, the same at the base commit `d00c6ca`; `test:naming`: exit 1, only the known lines
+- After the merge of `v/5.0.0` at `bc9ae33`: `npm run build:tokens`, `test:tokens`, `test`,
+  `typecheck`, `test:i18n`, `test:operacao`, `build-storybook`, `build:lib`, `test:package`
+  and `git diff --check`: exit 0
+- `npm run test:naming`: exit 1, only in files this pass does not touch:
+  `scripts/test-package.mjs:180` and the records of DSA-34, DSA-39, DSA-42, DSA-43, DSA-45 and DSA-47
 
 ## Result
 The deliverable is complete and open in PR 99, targeting `v/5.0.0`, with review requested from `maurocsjr`.
