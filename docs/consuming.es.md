@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=1b3ebaa296a582202e4512954968f02b38586d0ac7895628f1034c1152367f04 | status=rascunho -->
+<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=2358a635a24a24434968362a5253235e574c1ea10b163d12afa89ace59247cfa | status=rascunho -->
 
 # Consumir Nephos
 
@@ -128,6 +128,7 @@ etiquetas `nph-*`, así que el componente que las usa opta por custom elements.
 ```ts
 // src/main.ts: registre los componentes una vez
 import '@iatec/nephos/nph-button';
+import '@iatec/nephos/nph-empty';
 import '@iatec/nephos/nph-togglebutton';
 ```
 
@@ -162,6 +163,33 @@ Cargue los tokens en `angular.json`, en `projects.<app>.architect.build.options`
   "src/styles.css"
 ]
 ```
+
+Al agrupar `nph-empty`, las URL de las imágenes siguen siendo relativas al módulo
+JavaScript generado: `new URL("../assets/empty-no-option-found.png", import.meta.url)`.
+El application builder no copia los PNG del paquete con este patrón de importación.
+Inclúyalos en la salida de compilación de Angular con un glob de assets en
+`angular.json`:
+
+```json
+"assets": [
+  {
+    "glob": "empty-no-option-found*.png",
+    "input": "node_modules/@iatec/nephos/dist/assets",
+    "output": "assets"
+  }
+],
+"baseHref": "/my-app/",
+"deployUrl": "js/"
+```
+
+Sirva los bundles JavaScript y CSS generados en `<base-de-la-aplicación>/js/` y las
+imágenes copiadas en `<base-de-la-aplicación>/assets/`. Con esta estructura,
+`../assets/` se resuelve desde el bundle hasta el directorio de assets de la propia
+aplicación. Si se publica en `/my-app/`, mantenga `baseHref` en `/my-app/` y sirva
+los bundles y las imágenes en `/my-app/js/` y `/my-app/assets/`; no use una URL
+`/assets/` en la raíz del sitio. Si la publicación sirve el bundle en otro lugar,
+copie los PNG a la URL que se obtiene al resolver el `../assets/...` emitido respecto
+a la URL del bundle.
 
 Defina una propiedad desde la plantilla con `[prop]`: `<nph-button [text]="label">`
 define la propiedad, `text="..."` define el atributo. Ambos funcionan.

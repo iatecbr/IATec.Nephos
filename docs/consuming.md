@@ -122,6 +122,7 @@ know the `nph-*` tags, so the component that uses them opts in to custom element
 ```ts
 // src/main.ts: register the components once
 import '@iatec/nephos/nph-button';
+import '@iatec/nephos/nph-empty';
 import '@iatec/nephos/nph-togglebutton';
 ```
 
@@ -156,6 +157,31 @@ Load the tokens in `angular.json`, under `projects.<app>.architect.build.options
   "src/styles.css"
 ]
 ```
+
+When `nph-empty` is bundled, its image URLs remain relative to the emitted JavaScript
+module: `new URL("../assets/empty-no-option-found.png", import.meta.url)`. The
+application builder does not copy these package PNGs for this import pattern. Add
+them to the Angular build output with an asset glob in `angular.json`:
+
+```json
+"assets": [
+  {
+    "glob": "empty-no-option-found*.png",
+    "input": "node_modules/@iatec/nephos/dist/assets",
+    "output": "assets"
+  }
+],
+"baseHref": "/my-app/",
+"deployUrl": "js/"
+```
+
+Serve the generated JavaScript and CSS bundles from `<app-base>/js/` and the copied
+images from `<app-base>/assets/`. With this layout, `../assets/` resolves from the
+bundle to the application's own asset directory. For an application published at
+`/my-app/`, keep `baseHref` at `/my-app/` and serve the bundles and images at
+`/my-app/js/` and `/my-app/assets/`; do not use a site-root `/assets/` URL. If the
+deployment serves the bundle elsewhere, copy the PNGs to the URL obtained by
+resolving its emitted `../assets/...` URL against that bundle URL.
 
 Set a property from the template with `[prop]`: `<nph-button [text]="label">`
 sets the property, `text="..."` sets the attribute. Both work.
