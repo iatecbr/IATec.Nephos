@@ -160,9 +160,13 @@ export class NphAvatarStack extends LitElement {
 
   /** The group has a single size: every child avatar takes the group's. */
   private syncAvatars(): void {
+    const size = this.size;
+    if (!isSize(size)) {
+      return;
+    }
     for (const avatar of this.avatars()) {
-      if (avatar.size !== this.size) {
-        avatar.size = this.size;
+      if (avatar.size !== size) {
+        avatar.size = size;
       }
     }
   }

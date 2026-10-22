@@ -710,6 +710,23 @@ describe('invalid input', () => {
     expect(avatars(stack).map((child) => child.size)).toEqual(['md', 'md']);
   });
 
+  it('does not write a newly invalid size during a pending child mutation', async () => {
+    const stack = await mount({ size: 'md', avatars: [{}, {}] });
+    const children = avatars(stack);
+    const first = children[0];
+    const second = children[1];
+    if (first === undefined || second === undefined) {
+      throw new Error('Expected two avatars.');
+    }
+
+    first.setAttribute('label', 'Ana');
+    stack.setAttribute('size', 'xl');
+    await settle(stack);
+
+    expectNothingDrawn(stack);
+    expect([first.size, second.size]).toEqual(['md', 'md']);
+  });
+
   it('a valid input set later draws the group, with its semantics', async () => {
     const { stack } = await invalid({ label: null });
     stack.label = 'Ana, Bruno, Carla and 3 more';
