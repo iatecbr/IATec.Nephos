@@ -124,8 +124,32 @@ function touch(type: string, target: HTMLElement): void {
   target.dispatchEvent(new PointerEvent(type, { pointerType: 'touch', bubbles: type !== 'pointerenter' && type !== 'pointerleave' }));
 }
 
+/**
+ * CDP takes coordinates of the top page, and the tests run in a frame inside it, moved
+ * and scaled to fit: the point is carried from this window into that page.
+ */
 async function moveMouse(x: number, y: number): Promise<void> {
-  await cdp().send('Input.dispatchMouseEvent', { type: 'mouseMoved', x, y });
+  const frame = window.frameElement?.getBoundingClientRect();
+  const scale = frame ? frame.width / window.innerWidth : 1;
+  await cdp().send('Input.dispatchMouseEvent', {
+    type: 'mouseMoved',
+    x: (frame?.left ?? 0) + x * scale,
+    y: (frame?.top ?? 0) + y * scale,
+  });
+}
+
+/**
+ * The text fits inside the balloon: no line is cut. `scrollHeight` is not used: the
+ * invisible hit area that reaches across the gap to the element overflows on purpose.
+ */
+function textFits(bubble: HTMLElement): void {
+  const range = document.createRange();
+  range.selectNodeContents(textNodeOf(bubble));
+  const text = range.getBoundingClientRect();
+  const box = bubble.getBoundingClientRect();
+  expect(text.top).toBeGreaterThanOrEqual(box.top - 0.5);
+  expect(text.bottom).toBeLessThanOrEqual(box.bottom + 0.5);
+  expect(text.right).toBeLessThanOrEqual(box.right + 0.5);
 }
 
 /**
@@ -291,7 +315,7 @@ describe('how it finds its element (for)', () => {
     await shown(tooltip);
     const target = document.createElement('button');
     target.id = 'resized-target';
-    target.style.cssText = 'position:fixed;left:500px;top:300px;width:80px;height:36px';
+    target.style.cssText = 'position:fixed;left:120px;top:420px;width:80px;height:36px';
     document.body.append(target);
     tooltip.for = target.id;
     await tooltip.updateComplete;
@@ -820,7 +844,7 @@ describe('placement', () => {
       expect(box.height).toBeGreaterThan(MAX_HEIGHT);
       expect(bubble.style.maxHeight).toBe('none');
       expect(bubble.textContent).toBe(TWO_LINES);
-      expect(bubble.scrollHeight).toBeLessThanOrEqual(bubble.clientHeight);
+      textFits(bubble);
     } finally {
       await page.viewport(900, 700);
     }
@@ -1080,7 +1104,7 @@ describe('measure', () => {
     expect(box.width).toBeLessThanOrEqual(MAX_WIDTH);
     expect(box.height).toBeLessThanOrEqual(MAX_HEIGHT);
     expect(lineTops(bubble)).toHaveLength(2);
-    expect(bubble.scrollHeight).toBeLessThanOrEqual(bubble.clientHeight);
+    textFits(bubble);
   });
 
   it('no word of the two-line text was broken', async () => {
