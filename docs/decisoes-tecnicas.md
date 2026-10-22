@@ -2000,7 +2000,8 @@ modal dialog covers the window it opens in, which a page with several examples i
 
 7. **Tokens redefined in the scope of the window, with no new value.** The window redefines
    `--nph-color-secondary` and `--nph-color-secondary-hover` as `color/secondary-on-dialog` and its
-   hover, which reach every `nph-button` in the content and in the footer by inheritance: in dark,
+   hover, which reach by inheritance every element inside the window that reads `color/secondary`
+   — today, the `nph-button` in the content and in the footer: in dark,
    `color/secondary` is the same `surface/600` as `color/dialog`. The `nph-button` keeps no color
    property (P68): the dialog uses the token channel the button already reads. On its own
    `nph-separator` only, the dialog redefines `--nph-color-border` as `color/dialog-separator`: an
