@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 270,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-checkbox",
   "dependencies": [],
   "gates": [
@@ -29,7 +29,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D7",
+      "question": "D2 says that a checked or indeterminate box on hover also takes state/hover-opacity, but not on what. The code applies it to the box only (fill, border and mark), not to the text. Does Indiane confirm, or want it on the whole piece? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-17/documentacao-figma-aceita-2026-10-01.md"
   ],
@@ -50,8 +57,8 @@
     "commit": null,
     "pr": null
   },
-  "context": null,
-  "updated_at": "2026-10-19"
+  "context": "docs/operacao/contextos/DSA-17.md",
+  "updated_at": "2026-10-22"
 }
 ```
 
@@ -80,6 +87,13 @@ the second half of D5 and D6 were answered by the design decision of the piece.
 | D4 | Box `icon/size-sm`; the 24 × 24 touch area is the box plus `space/inline-tight` padding on each side. | Sets the box and target sizes from tokens. |
 | D5 | `space/inline` is measured from the 24 × 24 area. With text that wraps, the box sits at the top, aligned with the first line. | Sets gap and top alignment. |
 | D6 | The text is plain; a link, such as the terms of use, stays outside the piece. | Keeps a plain text property. |
+
+## Pending decisions
+The evidence gives the whole contract, so the code can start. One point remains for Indiane; the code follows the stated default meanwhile, and the answer only adjusts one rule.
+
+| ID | What the evidence gives | What is missing | What the code does with the answer |
+|---|---|---|---|
+| D7 | D2: a checked or indeterminate box on hover also takes `state/hover-opacity`. | On which part the opacity goes. | Applies it to the box only: fill, border and mark. If the answer is the whole piece, one CSS rule moves to the host. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
