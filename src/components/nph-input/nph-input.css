@@ -1,0 +1,196 @@
+/**
+ * Internal style of `nph-input`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the
+ * shadow root and are not API.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`,
+ * `100%`, `50%` and `1` (box and flex relations), `transparent` (the inner field
+ * and the clear button show the container), `calc(-1 * ...)` (focus border and halo
+ * outside, without changing the size), the resets of the native field and button
+ * (`margin`, `padding`, `border`, `font`, `appearance`), and the hiding of the
+ * cancel button the browser draws in a `search` field: the clear button of the
+ * piece is the only one.
+ *
+ * The order of the state rules is the precedence of D5: hover, then focus, then
+ * error, then disabled, which wins over everything.
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* Default width `layout/input-width`; the parent may stretch it, and there is no minimum (D6). */
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  vertical-align: middle;
+  inline-size: var(--nph-layout-input-width);
+  min-inline-size: 0;
+}
+
+/* Disabled, by the attribute or by a disabled `<fieldset>`: the whole piece loses opacity. */
+:host(:disabled) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/* The container: border, radius, height, side padding and the gap between the parts. */
+.control {
+  --_border: var(--nph-color-input);
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  min-inline-size: 0;
+  block-size: var(--nph-control-height-default);
+  padding-block: 0;
+  padding-inline: var(--nph-space-control-padding);
+  border: var(--nph-border-width) solid var(--_border);
+  border-radius: var(--nph-radius-control);
+  background-color: var(--nph-color-background);
+  color: var(--nph-color-muted-foreground);
+}
+
+/* `large` changes only the height. */
+:host([size='large']) .control {
+  block-size: var(--nph-control-height-large);
+}
+
+/* The value: `text/body-md` in `color/foreground`; the placeholder in `color/muted-foreground`. */
+.field {
+  flex: 1;
+  align-self: stretch;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  outline: none;
+  appearance: none;
+}
+
+.field::placeholder {
+  color: var(--nph-color-muted-foreground);
+  opacity: 1;
+}
+
+/* The browser's own cancel button and decoration of a `search` field. */
+.field::-webkit-search-cancel-button,
+.field::-webkit-search-decoration {
+  appearance: none;
+  display: none;
+}
+
+.icon-start,
+.icon-end {
+  flex: none;
+}
+
+/* The clear target: 24 x 24, the icon of `icon/size-sm` with `space/inline-tight` around it, no radius of its own. */
+.clear {
+  position: relative;
+  box-sizing: content-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: var(--nph-space-inline-tight);
+  border: 0;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+}
+
+/*
+ * The description: never visible, but in the accessibility tree. It is clipped, not
+ * `display: none`, which the browser does not read; `inset: 0` keeps it inside the
+ * container, so a long text adds no scroll.
+ */
+.description {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Focus border and halo: drawn outside, without changing the size. */
+.control::after,
+.clear:focus-visible::before,
+.clear:focus-visible::after {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+/* Hover: one step above the resting border. */
+.control:hover {
+  --_border: var(--nph-color-input-hover);
+}
+
+/* `foco`: focus on the inner field. The border takes `focus/border` and the halo is attached outside it. */
+.control:has(.field:focus) {
+  --_border: var(--nph-focus-border);
+}
+
+.control:has(.field:focus)::after {
+  content: '';
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control);
+}
+
+/*
+ * `foco-limpar`: focus on the clear button, keyboard only. The container keeps its
+ * border; the focus border and the halo sit around the 24 x 24 target.
+ */
+.clear:focus-visible::before,
+.clear:focus-visible::after {
+  content: '';
+}
+
+.clear:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+
+.clear:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}
+
+/* `erro`: the border stays `status/error` on hover and on focus; on focus, the halo is the error one. */
+:host([invalid]) .control,
+:host([invalid]) .control:hover,
+:host([invalid]) .control:has(.field:focus) {
+  --_border: var(--nph-status-error);
+}
+
+:host([invalid]) .control:has(.field:focus)::after {
+  border-color: var(--nph-focus-halo-error);
+}
+
+/* Disabled wins: the resting border, the `color/muted` background, no hover and no error look. */
+:host(:disabled) .control,
+:host(:disabled) .control:hover {
+  --_border: var(--nph-color-input);
+
+  background-color: var(--nph-color-muted);
+}
