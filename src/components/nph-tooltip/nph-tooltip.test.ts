@@ -893,6 +893,27 @@ describe('click, Enter and Space run the action and leave the balloon alone', ()
     await hoverOpen(button, tooltip);
   });
 
+  it('a mouse click on an input during the wait does not open it through focus-visible', async () => {
+    const input = document.createElement('input');
+    input.id = 'click-during-wait';
+    input.style.cssText = 'position:fixed;left:300px;top:300px';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', input.id);
+    tooltip.text = ONE_LINE;
+    document.body.append(input, tooltip);
+    await tooltip.updateComplete;
+
+    await userEvent.hover(input);
+    await pause(100);
+    await userEvent.click(input);
+    expect(document.activeElement).toBe(input);
+    expect(input.matches(':focus-visible')).toBe(true);
+    await pause(400);
+
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+  });
+
   it('Enter and Space do not close a balloon that the focus opened', async () => {
     const { tooltip } = await mount();
     await userEvent.tab();
@@ -982,6 +1003,42 @@ describe('only on an element that receives focus', () => {
     button.disabled = true;
     await vi.waitFor(() => expect(tooltip.open).toBe(false));
     await gone(tooltip);
+  });
+
+  it('disabling an ancestor fieldset closes the balloon and keeps its ARIA reference', async () => {
+    const fieldset = document.createElement('fieldset');
+    const legend = document.createElement('legend');
+    const exemptButton = document.createElement('button');
+    exemptButton.id = 'fieldset-legend-target';
+    const button = document.createElement('button');
+    button.id = 'fieldset-target';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    const exemptTooltip = document.createElement('nph-tooltip');
+    exemptTooltip.setAttribute('for', exemptButton.id);
+    exemptTooltip.text = ONE_LINE;
+    exemptTooltip.open = true;
+    legend.append(exemptButton);
+    fieldset.append(button);
+    fieldset.prepend(legend);
+    document.body.append(fieldset, tooltip, exemptTooltip);
+    await Promise.all([tooltip.updateComplete, exemptTooltip.updateComplete]);
+    await shown(tooltip);
+    await shown(exemptTooltip);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+    expect(exemptButton.getAttribute('aria-describedby')).toBe(exemptTooltip.id);
+
+    fieldset.disabled = true;
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+    await exemptTooltip.updateComplete;
+
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+    expect(exemptButton.matches(':disabled')).toBe(false);
+    expect(exemptTooltip.open).toBe(true);
+    expect(isShown(exemptTooltip)).toBe(true);
   });
 
   it('a custom element host with a disabled attribute gets no balloon', async () => {
