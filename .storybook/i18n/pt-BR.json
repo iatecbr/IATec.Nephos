@@ -28,6 +28,16 @@
     "components-nph-input-validation--width": "Largura",
     "components-nph-input-validation--invalid-input": "Entrada inválida",
     "components-nph-input-validation--examples": "Exemplos",
+    "components-nph-textarea-docs": "Docs",
+    "components-nph-textarea-docs--documentation": "Documentação",
+    "components-nph-textarea-validation": "Validação",
+    "components-nph-textarea-validation--matrix": "Matriz",
+    "components-nph-textarea-validation--footer": "Rodapé",
+    "components-nph-textarea-validation--height": "Altura",
+    "components-nph-textarea-validation--form-association": "Associação ao formulário",
+    "components-nph-textarea-validation--in-field": "No nph-field",
+    "components-nph-textarea-validation--width": "Largura",
+    "components-nph-textarea-validation--examples": "Exemplos",
     "components-nph-badge-docs": "Docs",
     "components-nph-badge-docs--documentation": "Documentação",
     "components-nph-badge-validation": "Validação",
@@ -2240,6 +2250,261 @@
     "exampleError": "Erro",
     "errorSentence": "Digite um e-mail com domínio, como nome@exemplo.com."
   },
+  "textareaDocs": {
+    "summary": "O campo de várias linhas para escrever um texto longo, como um comentário, uma mensagem ou uma descrição. Ele cresce com o texto até um máximo e depois rola por dentro; um comentário ou uma mensagem pode ter um rodapé com contador e ações.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-textarea, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P93. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "description": "Use o nph-textarea quando a pessoa escreve mais de uma linha. Ele participa do formulário que o contém, como o nph-input; Enter quebra a linha em vez de enviar o formulário. O rótulo, a ajuda, a mensagem de erro e o contador da linha de apoio ficam no nph-field.",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Quando a pessoa escreve mais de uma linha, como um comentário, uma mensagem ou uma descrição.",
+      "Dentro de um nph-field quando o campo precisa de rótulo, ajuda, mensagem de erro ou contador na linha de apoio.",
+      "Com o rodapé, contador e ações, só em um comentário ou uma mensagem, onde as ações ficam junto do texto.",
+      "Com readonly para mostrar um texto longo que a pessoa lê e copia, mas não edita."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para um valor de uma linha: use nph-input.",
+      "Para escolher entre opções prontas: use nph-select ou nph-combobox.",
+      "Para mostrar a mensagem de erro ou a ajuda: elas são do nph-field.",
+      "Para pôr um contador de rodapé em um formulário comum: use o contador do nph-field.",
+      "Para ligar o rodapé em readonly: não há o que enviar.",
+      "Para bloquear a digitação em um limite: o contador avisa, e o estado de erro diz que o limite passou."
+    ],
+    "relationsText": "O nph-field compõe o rótulo, o campo, a ajuda, a mensagem de erro e o contador da linha de apoio, e escreve label, description, invalid, required e disabled no textarea. As ações do rodapé são instâncias de nph-button do consumidor, ghost e solid, em size=default.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "value",
+        "O valor atual, com as quebras de linha. O atributo value é o valor inicial e o valor de form.reset(); vale só até a pessoa editar o campo. Defini-lo por código não dispara evento."
+      ],
+      [
+        "placeholder",
+        "O convite antes de escrever, já localizado. Não é nome: some quando a pessoa escreve."
+      ],
+      [
+        "name",
+        "O nome da entrada nos dados do formulário. Refletido no atributo, que é o que o formulário lê."
+      ],
+      [
+        "required",
+        "O required nativo: anunciado pelo leitor de tela e conferido pelo formulário. Refletido no atributo."
+      ],
+      [
+        "disabled",
+        "A peça inteira em state/disabled-opacity sobre color/muted, fora da ordem do Tab e dos dados do formulário, e as ações do rodapé desabilitadas. Um fieldset desabilitado também a desabilita. Vence readonly e invalid."
+      ],
+      [
+        "readonly",
+        "O estado leitura: a pessoa lê, seleciona e copia o texto, e não o edita. Fica nos dados do formulário e fora da validação. Sem hover, sem aparência de erro e sem rodapé. Refletido no atributo."
+      ],
+      [
+        "invalid",
+        "O estado erro: a borda vira status/error e o campo recebe aria-invalid. A frase é do nph-field."
+      ],
+      [
+        "label",
+        "O nome acessível em texto, nunca visível, quando não há rótulo associado. Um rótulo associado vence."
+      ],
+      [
+        "description",
+        "A descrição acessível em texto, nunca visível: a ajuda ou a frase de erro que o nph-field escreve."
+      ],
+      [
+        "counter",
+        "O texto do contador do rodapé, mostrado como vem, como 0/280. A peça não conta nada: o consumidor o escreve no input. Ele liga o rodapé."
+      ],
+      [
+        "actions",
+        "O slot nomeado das ações do rodapé, instâncias de nph-button. Um elemento nele liga o rodapé."
+      ],
+      [
+        "input and change",
+        "Os eventos nativos. input dispara quando a pessoa escreve; change quando o valor é confirmado. Leia o valor no host."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "O que muda"
+    ],
+    "states": [
+      [
+        "default",
+        "A borda é color/input, sobre color/background."
+      ],
+      [
+        "hover",
+        "A borda vira color/input-hover."
+      ],
+      [
+        "focus",
+        "A borda vira focus/border, com o halo focus/halo colado por fora, em focus/radius-control."
+      ],
+      [
+        "invalid",
+        "A borda é status/error, também no hover; no foco, o halo é focus/halo-error."
+      ],
+      [
+        "readonly",
+        "A borda de repouso, também no hover, sem aparência de erro e sem rodapé. O foco continua visível."
+      ],
+      [
+        "disabled",
+        "A peça inteira em state/disabled-opacity, sobre color/muted, com a borda color/input, e as ações desabilitadas. Vence readonly e invalid."
+      ]
+    ],
+    "statesCaption": "Valor, invalid, readonly e disabled. Passe o mouse sobre um campo para ver o hover e clique para ver o foco.",
+    "footerTitle": "Rodapé",
+    "footerText": "O rodapé serve só a um comentário ou a uma mensagem, onde as ações ficam junto do texto. Ele aparece quando há contador ou ação, dentro da caixa, space/stack abaixo do texto: o contador no início e as ações no fim, a space/inline uma da outra.",
+    "footerCaption": "Um comentário com o contador e as ações Anexar e Enviar.",
+    "footerHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "footer": [
+      [
+        "counter",
+        "text/caption em color/muted-foreground, nunca na cor de erro. O consumidor escreve o texto, como 0/280, a cada input; um limite avisa e não bloqueia a digitação."
+      ],
+      [
+        "actions",
+        "Instâncias de nph-button no slot actions: ghost, como Anexar, e solid, como Enviar, em size=default. Com a peça desabilitada, elas também ficam, e a peça devolve só o que desabilitou."
+      ]
+    ],
+    "readOnlyTitle": "Sem rodapé em readonly.",
+    "readOnlyText": "Um texto que a pessoa não edita não tem o que enviar: em readonly, o contador e as ações não são desenhados, e um aviso diz isso em desenvolvimento. Em um formulário comum, o contador vai na linha de apoio do nph-field.",
+    "heightTitle": "Altura",
+    "heightText": "Vazio, o campo tem layout/textarea-min-height, que mostra que um texto longo cabe. Ele cresce com o texto e para em layout/textarea-max-height; acima disso, o texto rola por dentro. Não há alça para redimensionar arrastando.",
+    "heightCaption": "Vazio na altura mínima, e um texto longo que para no máximo e rola por dentro.",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Caixa",
+        "Largura layout/input-width, radius/control, border/width, fundo color/background. A borda é o que cumpre 3:1."
+      ],
+      [
+        "Área de rolagem",
+        "O campo nativo: de layout/textarea-min-height a layout/textarea-max-height, recuo space/control-padding nos lados e space/inline em cima e embaixo; acima do máximo, o texto rola por dentro."
+      ],
+      [
+        "Valor ou placeholder",
+        "text/body-md: o valor em color/foreground, o placeholder em color/muted-foreground."
+      ],
+      [
+        "Rodapé",
+        "Opcional, dentro da caixa, space/stack abaixo do texto: o contador no início, as ações no fim."
+      ],
+      [
+        "Halo de foco",
+        "Um anel fora da caixa, em foco e erro-foco. Fica fora do recorte da área de rolagem e não ocupa espaço."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "O textarea nativo, uma caixa de texto de várias linhas, dentro do shadow root. O host é associado ao formulário: participa dos dados, do reset e da validade."
+      ],
+      [
+        "Nome acessível",
+        "Do rótulo associado ao host, nph-label for, um elemento label ou o nph-field; sem ele, de label. O placeholder não é nome."
+      ],
+      [
+        "Descrição",
+        "description é lida quando o campo recebe o foco: a ajuda ou a frase de erro do nph-field. O contador do rodapé não faz parte dela."
+      ],
+      [
+        "Teclado",
+        "Tab entra no campo e depois nas ações do rodapé. Enter quebra a linha; não envia o formulário."
+      ],
+      [
+        "Foco visível",
+        "A borda recebe focus/border com o halo por fora, sem mudar o tamanho, também em readonly."
+      ],
+      [
+        "Contraste",
+        "A borda color/input cumpre 3:1 contra o fundo (WCAG 1.4.11); o halo é decoração."
+      ],
+      [
+        "A cor não é o único sinal",
+        "No erro, a frase fica no nph-field e é lida como descrição; a cor da borda não é o único sinal."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleComment": "Comentário: o rodapé com o contador e as ações.",
+    "exampleForm": "Descrição em um formulário: o contador na linha de apoio do nph-field, rodapé desligado.",
+    "exampleLong": "Texto longo: rola por dentro, sem passar do máximo.",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-textarea — propósito, estados, rodapé, altura, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P93 (API e semântica), P80 (os controles de formulário), P83 (o contrato campo–controle), P01 e P02.",
+      "design.md — layout/textarea-min-height, layout/textarea-max-height, layout/input-width, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, radius/control, border/width, space/control-padding, space/inline, space/stack, text/body-md, text/caption, color/foreground e color/muted-foreground.",
+      "Figma DS-IA-NEPHOS 5.0 — frame nph-textarea (1632:24), documentação 1922:642 e set 1632:22.",
+      "Storybook — Validation, na pasta ao lado."
+    ],
+    "sourceSpec": "Ficha do nph-textarea; Figma, frame nph-textarea (1632:24)",
+    "sourceApi": "Ficha do nph-textarea; docs/decisoes-tecnicas.md › P93",
+    "sourceStates": "Figma, set 1632:22; design.md",
+    "sourceAnatomy": "Figma, documentação 1922:642; design.md",
+    "sourceAccessibility": "Ficha do nph-textarea; nph-textarea.test.ts",
+    "matrixLabel": "Matriz do componente",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "commentLabel": "Comentário",
+    "commentPlaceholder": "Escreva um comentário",
+    "commentValue": "Obrigada pelo resumo, ajudou muito.",
+    "attachText": "Anexar",
+    "sendText": "Enviar",
+    "counterText": "{length}/{limit}",
+    "descriptionLabel": "Descrição",
+    "descriptionHelp": "Diga do que trata o evento.",
+    "descriptionPlaceholder": "Uma descrição curta do evento",
+    "notesLabel": "Observações",
+    "longValue": "A equipe se reuniu na segunda-feira para revisar o plano da nova sala de leitura. O primeiro ponto foi a luz: a sala é voltada para o oeste, então o sol da tarde chega às mesas e às telas. O grupo combinou testar dois tipos de cortina antes de escolher um. O segundo ponto foi o barulho do corredor, que é alto entre as aulas. Uma porta com vedação e um tapete perto da entrada devem reduzi-lo. O terceiro ponto foi o número de lugares, que passa de vinte para trinta e dois. As mesas serão menores, e cada uma terá a sua luminária e uma tomada. O último ponto foi o cronograma: a obra começa em março e termina antes do segundo semestre. Até lá, a sala antiga continua aberta, no mesmo horário. Dúvidas e sugestões podem ser enviadas à coordenação até o fim do mês."
+  },
+  "textareaValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "notesLabel": "Observações",
+    "notesPlaceholder": "Escreva as suas observações",
+    "notesValue": "Trazer o formulário assinado.\nChegar dez minutos antes.",
+    "longValue": "A equipe se reuniu na segunda-feira para revisar o plano da nova sala de leitura. O primeiro ponto foi a luz: a sala é voltada para o oeste, então o sol da tarde chega às mesas e às telas. O grupo combinou testar dois tipos de cortina antes de escolher um. O segundo ponto foi o barulho do corredor, que é alto entre as aulas. Uma porta com vedação e um tapete perto da entrada devem reduzi-lo. O terceiro ponto foi o número de lugares, que passa de vinte para trinta e dois. As mesas serão menores, e cada uma terá a sua luminária e uma tomada. O último ponto foi o cronograma: a obra começa em março e termina antes do segundo semestre. Até lá, a sala antiga continua aberta, no mesmo horário. Dúvidas e sugestões podem ser enviadas à coordenação até o fim do mês.",
+    "commentLabel": "Comentário",
+    "commentPlaceholder": "Escreva um comentário",
+    "commentValue": "Obrigada pelo resumo, ajudou muito.",
+    "attachText": "Anexar",
+    "sendText": "Enviar",
+    "counterText": "{length}/{limit}",
+    "descriptionLabel": "Descrição",
+    "descriptionHelp": "Diga do que trata o evento.",
+    "descriptionPlaceholder": "Uma descrição curta do evento",
+    "descriptionValue": "Uma manhã de palestras sobre leitura e escrita na escola.",
+    "descriptionError": "Use até 280 caracteres.",
+    "statusIdle": "Aguardando um evento.",
+    "submitText": "Enviar",
+    "resetText": "Restaurar",
+    "statusSubmitted": "Enviado: {data}",
+    "statusReset": "O formulário voltou ao atributo value.",
+    "fieldsetDisabled": "Dentro de um fieldset desabilitado",
+    "exampleComment": "Comentário",
+    "exampleForm": "Descrição em um formulário",
+    "exampleLong": "Texto longo"
+  },
   "avatarStackDocs": {
     "summary": "Um grupo de avatares sobrepostos que mostra várias pessoas num espaço curto, com a contagem de quem não aparece. Cada avatar é um nph-avatar; o grupo é lido como uma única imagem, pelo seu nome.",
     "onThisPage": "Nesta página",
@@ -3324,6 +3589,13 @@
       "components-nph-input-validation--width": "A largura padrão é layout/input-width; o campo estica até o pai, sem mínimo (D6).",
       "components-nph-input-validation--invalid-input": "Entrada inválida não desenha nada: um type fora da v1, um size que não existe, um ícone fora do núcleo. icon-end sem clear-label desenha o campo sem o botão.",
       "components-nph-input-validation--examples": "Os três exemplos obrigatórios do frame aceito: Busca, Campo com rótulo e Erro, cada um em modo claro e escuro.",
+      "components-nph-textarea-validation--matrix": "Os estados do set: placeholder e valor, erro, readonly, disabled, e a precedência de disabled sobre readonly e de readonly sobre erro. Passe o mouse para o hover, clique para o foco.",
+      "components-nph-textarea-validation--footer": "O rodapé aparece com contador ou ação, o contador no início e as ações no fim; disabled chega às ações; readonly não desenha rodapé.",
+      "components-nph-textarea-validation--height": "Vazio, o campo tem layout/textarea-min-height; cresce com o texto e para em layout/textarea-max-height, onde o texto rola por dentro.",
+      "components-nph-textarea-validation--form-association": "O host participa do formulário: o envio manda name=value com as quebras de linha, Enter quebra a linha e não envia, o reset restaura o atributo value e um fieldset desabilitado o deixa de fora.",
+      "components-nph-textarea-validation--in-field": "Dentro do nph-field, o campo dá o rótulo, a ajuda, o erro e o contador da linha de apoio, e o rodapé fica desligado.",
+      "components-nph-textarea-validation--width": "A largura é layout/input-width por padrão; estica até o pai, sem mínimo.",
+      "components-nph-textarea-validation--examples": "Os três exemplos obrigatórios do frame, cada um em modo claro e escuro: Comentário, Descrição em um formulário e Texto longo.",
       "components-nph-empty-validation--with-description": "O título diz o que falta e a descrição diz o que fazer, como no board; a ilustração acompanha o esquema de cores.",
       "components-nph-empty-validation--heading-only": "Com a descrição vazia resta só o título, para quando não há o que sugerir.",
       "components-nph-empty-validation--surfaces": "O título e a descrição passam de 4,5:1 sobre color/background e sobre color/popover, no modo claro e no escuro.",
