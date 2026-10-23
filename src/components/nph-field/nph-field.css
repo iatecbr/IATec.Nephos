@@ -73,6 +73,8 @@
 .message__text {
   flex: 1 1 auto;
   min-inline-size: 0;
+  /* A run with no space, such as a URL, breaks inside the width instead of overflowing (D-4). */
+  overflow-wrap: anywhere;
 }
 
 /* Help: `text/caption` in `color/muted-foreground` (D3, D4). */

@@ -881,3 +881,26 @@ describe('review regressions (PR #105, Copilot round 3)', () => {
     expect(control.label).toBe('Email');
   });
 });
+
+describe('review regressions (PR #105, Copilot round 4)', () => {
+  /* No space, hyphen or slash: nothing where the browser would break the line on its own. */
+  const unbroken = 'Identifier'.repeat(12);
+
+  for (const [name, spec] of [
+    ['help', { help: unbroken }],
+    ['help with counter', { help: unbroken, counter: '12/500' }],
+    ['error with counter', { error: unbroken, counter: '512/500' }],
+  ] as const) {
+    it(`an unbroken ${name} stays inside the width of the field`, async () => {
+      const field = await mount(spec);
+      const edge = field.getBoundingClientRect().right + 0.5;
+      const text = textOf(field) as HTMLElement;
+      expect(text.getBoundingClientRect().right).toBeLessThanOrEqual(edge);
+      expect(text.scrollWidth).toBeLessThanOrEqual(text.clientWidth + 1);
+      const counter = counterOf(field);
+      if (counter) {
+        expect(counter.getBoundingClientRect().right).toBeLessThanOrEqual(edge);
+      }
+    });
+  }
+});

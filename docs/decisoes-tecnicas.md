@@ -2353,7 +2353,7 @@ and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46). The decisions of those pie
    are not part of the contract: in error the counter goes on a line of its own below the message,
    at the end, `space/stack-tight` below (D-1); at least `space/inline` from the help text, which
    wraps (D-2); the help comes back when disabled hides the error (D-3); long texts wrap with no
-   ellipsis (D-4). The
+   ellipsis, and a run with no space, such as a URL, breaks inside the width (D-4). The
    host stacks the label row, the control and the line at `space/stack-tight`, takes
    `layout/field-width` and `max-inline-size: 100%`, and the slotted control is stretched with
    `inline-size: auto` (a `::slotted` rule from the outer tree wins over the `:host` width of the
