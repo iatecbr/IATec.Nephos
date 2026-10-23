@@ -24,7 +24,7 @@ The component, CSS and tests; the Validation stories, the Docs page and the dict
 sheet, the Metadata and P81. See the commits on the branch.
 
 ## Commands run
-After the sync with `v/5.0.0` at `e65c07c`:
+After the sync with `v/5.0.0` at `579b2fa`:
 - `npm ci`, `build:tokens`, `test:tokens`, `typecheck`, `test:i18n`, `test:operacao`,
   `build-storybook`, `build:lib`, `test:package` and `git diff --check`: exit 0
 - `npm test`: exit 1, only the failure that `v/5.0.0` already has at
