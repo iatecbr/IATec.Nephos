@@ -12,8 +12,8 @@ step is done, `AGENTS.md` and [`../stories.md`](../stories.md) win.
 |---|---|---|
 | Indiane | Decides the visual of components, blocks and templates; accepts each step in Figma; sends the component to code | — |
 | Claude | Builds the component and its documentation in the Figma `DS-IA-NEPHOS 5.0`; after the end-to-end approval, takes **only the component's tokens** to `v/5.0.0`; when Indiane sends the component, opens its task and writes the Figma documentation as text in the evidence | Component code, story, test or sheet |
-| Elvys (and his agent) | Component code, CSS, stories, test and Storybook dictionary; the sheet `fichas/<piece>.md`; reviews and merges his own pull requests | New tokens or token values |
-| Mauro and Elvys | Review and merge the pull requests Claude opens | Mauro does not review Elvys's pull requests |
+| Elvys (and his agent) | Component code, CSS, stories, test and Storybook dictionary; the sheet `fichas/<piece>.md`; merges the pull requests, his own and the ones Claude opens, after the Copilot review | New tokens or token values |
+| Copilot | Reviews every pull request, again on each new head | Merges no pull request |
 
 ## What "sent to code" guarantees
 
@@ -68,7 +68,8 @@ when to use, required examples, do and do not, with the tokens of each part.
    `npm run test:operacao`, `npm run build-storybook` and `git diff --check`
    exit 0.
 9. **Pull request** from a short branch off `origin/v/5.0.0` to `v/5.0.0`,
-   title and description in Portuguese. Elvys reviews and merges it.
+   title and description in Portuguese. Copilot reviews it, under the pull
+   request rules in `AGENTS.md`; Elvys merges it.
 
 If the Figma documentation and the tokens disagree, or something the code needs
 is not in Figma, stop and ask Indiane. Do not fill the gap.
