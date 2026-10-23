@@ -2431,7 +2431,12 @@ and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46). The decisions of those pie
 visible label is not associated with the control in the accessibility tree, and the two only match
 because the field writes the same text. The stories use the real `nph-input`; the options of a
 group are demonstration elements that take the contract until `nph-checkbox` and `nph-radio` are
-merged.
+merged. The field watches only the `disabled` attribute of the fieldsets around it: when a
+`<legend>` is inserted or removed before the one that holds the field, the "first legend" exception
+changes but the disabled state of the field is not recomputed until its next update, so its
+message and `invalid` may stay stale meanwhile. **Follow-up** for a future task: also observe the
+children of those fieldsets, with a regression test on the real `nph-input` that swaps the first
+legend.
 
 **Out of scope.** Form association of the field, validation and character counting (DSA-38 decides
 how its counter reads the text), a live region for the error, a layout property, a size property and
