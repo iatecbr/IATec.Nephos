@@ -52,7 +52,6 @@
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
-import { live } from 'lit/directives/live.js';
 
 import '../nph-button/nph-button';
 import '../nph-input/nph-input';
@@ -219,6 +218,12 @@ export class NphSlider extends LitElement {
   private active: Index = 0;
   /** The pointer that moves a thumb, from the press to the release. */
   private drag: { pointer: number; index: Index; from: number; undecided: boolean } | null = null;
+  /**
+   * The next render writes the value in the inner fields even when it did not change, to drop
+   * a number typed and not applied: only a reset or a restore asks for it. Any other render
+   * keeps what the person is typing.
+   */
+  private resetFields = false;
   /** After the first frame, a label rendered by another element has had its chance. */
   private settled = false;
   private warned = new Set<string>();
@@ -287,7 +292,9 @@ export class NphSlider extends LitElement {
     const inside = Math.min(Math.max(value, min), max);
     /* Written with the digits of the scale before the comparison: 0.1 * 3 is 0.30000000000000004. */
     const fixed = (number: number): number => Number(number.toFixed(this.precision));
-    const snapped = fixed(min + Math.round((inside - min) / step) * step);
+    /* The number of steps too: (0.25 - 0.1) / 0.1 is 1.4999999999999998, a tie that must round up. */
+    const steps = Math.round(Number(((inside - min) / step).toFixed(9)));
+    const snapped = fixed(min + steps * step);
     return snapped > max ? fixed(snapped - step) : snapped;
   }
 
@@ -384,6 +391,7 @@ export class NphSlider extends LitElement {
 
   formResetCallback(): void {
     this.dirty = false;
+    this.resetFields = true;
     this.applyDefaults();
   }
 
@@ -399,6 +407,8 @@ export class NphSlider extends LitElement {
     if (typeof state !== 'string') {
       return;
     }
+    this.resetFields = true;
+    this.requestUpdate();
     const [first, second] = state.split(' ').map((part) => parse(part));
     if (this.single) {
       this.value = first ?? this.value;
@@ -750,6 +760,13 @@ export class NphSlider extends LitElement {
   }
 
   protected override updated(): void {
+    if (this.resetFields) {
+      this.resetFields = false;
+      this.renderRoot.querySelectorAll<HTMLElement & { value: string }>('nph-input').forEach((field, position) => {
+        const index = (this.single ? 0 : position) as Index;
+        field.value = String(this.values[index]);
+      });
+    }
     this.syncFormState();
     this.syncName();
     this.checkComposition();
@@ -916,7 +933,7 @@ export class NphSlider extends LitElement {
     return html`<nph-input
       class="entry entry--${index === 0 && !this.single ? 'start' : 'end'}"
       size="default"
-      .value=${live(String(this.values[index]))}
+      .value=${String(this.values[index])}
       .label=${name}
       .description=${this.description}
       .invalid=${this.invalid && !inactive}

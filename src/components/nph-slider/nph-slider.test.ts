@@ -1348,4 +1348,36 @@ describe('regressions of the code review', () => {
     expect(holder.querySelector('nph-label label')?.textContent).toContain('*');
     expect(fields(element)[0]?.label).toBe('Volume');
   });
+
+  it('a decimal tie rounds to the upper step: min 0.1, step 0.1, value 0.25 is 0.3', async () => {
+    const element = await mount({ label: 'Ratio', min: 0.1, max: 1, step: 0.1, value: 0.25 });
+    expect(element.value).toBe(0.3);
+    const offStep = await mount({ label: 'Count', min: 0, max: 10, step: 3, value: 10 });
+    expect(offStep.value).toBe(9);
+    const aligned = await mount({ label: 'Ratio', min: 0, max: 0.3, step: 0.1, value: 0.3 });
+    expect(aligned.value).toBe(0.3);
+  });
+
+  it('a number typed and not applied survives a render that is not a reset', async () => {
+    const element = await mount({ label: 'Volume', inputs: true, value: 40 });
+    const field = fields(element)[0] as NphInput;
+    const inner = field.shadowRoot?.querySelector('input') as HTMLInputElement;
+    await userEvent.fill(inner, '70');
+    document.body.append(document.createElement('div'));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await element.updateComplete;
+    element.description = 'Between 0 and 100.';
+    await element.updateComplete;
+    expect(field.value).toBe('70');
+    expect(element.value).toBe(40);
+  });
+
+  it('restore puts the restored value in a field with text not yet applied', async () => {
+    const element = await mount({ label: 'Volume', inputs: true, value: 40 });
+    const field = fields(element)[0] as NphInput;
+    await userEvent.fill(field.shadowRoot?.querySelector('input') as HTMLInputElement, '70');
+    element.formStateRestoreCallback('40');
+    await element.updateComplete;
+    expect(field.value).toBe('40');
+  });
 });
