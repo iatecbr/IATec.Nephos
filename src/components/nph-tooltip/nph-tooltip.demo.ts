@@ -13,6 +13,7 @@ import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 
 import '../nph-button/nph-button';
+import '../nph-icon/nph-icon';
 import './nph-tooltip';
 import type { NphTooltipSide } from './nph-tooltip';
 
@@ -60,7 +61,18 @@ export function iconButton({ text, side, open = false }: BalloonOptions): Templa
     ><nph-tooltip for=${id} text=${text} side=${side ?? 'top'} ?open=${open}></nph-tooltip>`;
 }
 
-/** A native element and its balloon: the tooltip serves any element. */
+/**
+ * A native icon-only button whose balloon is its accessible name (`relation="name"`):
+ * the button has no text, the icon is decorative, and the balloon text is announced
+ * once, as the name. The `nph-button` names itself until it renders its own tooltip.
+ */
+export function namedIconButton({ text, side, open = false }: BalloonOptions): TemplateResult {
+  const id = `nph-tooltip-demo-${++nextId}`;
+  return html`<button id=${id} type="button"><nph-icon name="trash-can" size="md"></nph-icon></button
+    ><nph-tooltip for=${id} text=${text} relation="name" side=${side ?? 'top'} ?open=${open}></nph-tooltip>`;
+}
+
+/** A native element and its balloon: the tooltip serves any element that receives focus. */
 export function anchored(element: (id: string) => TemplateResult, { text, side, open = false }: BalloonOptions): TemplateResult {
   const id = `nph-tooltip-demo-${++nextId}`;
   return html`${element(id)}<nph-tooltip for=${id} text=${text} side=${side ?? 'top'} ?open=${open}></nph-tooltip>`;
