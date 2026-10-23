@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 480,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-tooltip",
   "dependencies": [],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories, specs and the affected technical decisions pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-48/review-and-merge-2026-10-23.md",
+      "result": "passed",
+      "verified_at": "2026-10-23",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -38,7 +38,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-48/figma-docs-accepted-2026-10-22.md"
+    "docs/operacao/evidencias/DSA-48/figma-docs-accepted-2026-10-22.md",
+    "docs/operacao/evidencias/DSA-48/review-and-merge-2026-10-23.md"
   ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p77",
@@ -57,11 +58,11 @@
   },
   "git_review": {
     "branch": "claude/dsa-48-nph-tooltip-ajuste-62075c",
-    "commit": "4f86468a622f6a3e324c1c6803db81903c3f4428",
+    "commit": "bec65200f79f1948eeb2748321575a57d7991760",
     "pr": "98"
   },
-  "context": "docs/operacao/contextos/DSA-48.md",
-  "updated_at": "2026-10-22"
+  "context": null,
+  "updated_at": "2026-10-23"
 }
 ```
 

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 230,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-avatar-stack",
   "dependencies": ["DSA-24"],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-25/review-and-merge-2026-10-23.md",
+      "result": "passed",
+      "verified_at": "2026-10-23",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -38,7 +38,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-25/documentacao-figma-aceita-2026-10-08.md"
+    "docs/operacao/evidencias/DSA-25/documentacao-figma-aceita-2026-10-08.md",
+    "docs/operacao/evidencias/DSA-25/review-and-merge-2026-10-23.md"
   ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p78",
@@ -55,11 +56,11 @@
   },
   "git_review": {
     "branch": "claude/dsa-25-nph-avatar-stack-8e424e",
-    "commit": "38d4e533a6e923bf3a253891074edfcf0ada8062",
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/96"
+    "commit": "85c13569748b2c96188a7c744a7b5cc9cb06ed6b",
+    "pr": "96"
   },
-  "context": "docs/operacao/contextos/DSA-25.md",
-  "updated_at": "2026-10-22"
+  "context": null,
+  "updated_at": "2026-10-23"
 }
 ```
 
