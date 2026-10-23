@@ -2327,6 +2327,10 @@ root cannot be described from outside, so the component that owns that root rend
    because the board makes it required on every icon-only button. The button with text renders no
    tooltip. `side` is not set: the default `top` is the "above the button" of the board, and the
    tooltip flips by itself when it does not fit. Importing `nph-button` registers `nph-tooltip` too.
+   The button keeps one root template for both forms, so switching between text and icon only
+   keeps the native button and its focus. A click on the open balloon is composed and reaches the
+   host without activating the native button, so the capture guard of the host stops it, as it does
+   in `disabled` and `loading`.
 4. **The name, announced once.** With `relation="name"` the tooltip adds its `id` to the
    `aria-labelledby` of the native button, and the browser computes the name from the text it
    mirrors. The native button keeps `aria-label` with the same `label`: `aria-labelledby` wins in

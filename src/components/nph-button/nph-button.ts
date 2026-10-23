@@ -154,12 +154,21 @@ export class NphButton extends LitElement {
     this.addEventListener('click', (event) => this.blockInactive(event), { capture: true });
   }
 
-  /** In disabled or loading, the click does not reach the consumer. */
+  /**
+   * In disabled or loading, the click does not reach the consumer. Neither does a click
+   * on the open balloon: it is composed and reaches the host, but the native button was
+   * not activated (P86).
+   */
   private blockInactive(event: Event): void {
-    if (this.disabled || this.loading) {
+    if (this.disabled || this.loading || this.fromBalloon(event)) {
       event.preventDefault();
       event.stopImmediatePropagation();
     }
+  }
+
+  private fromBalloon(event: Event): boolean {
+    const tooltip = this.shadowRoot?.querySelector('nph-tooltip') ?? null;
+    return tooltip !== null && event.composedPath().includes(tooltip);
   }
 
   protected override willUpdate(_changed: PropertyValues): void {
@@ -249,7 +258,13 @@ export class NphButton extends LitElement {
     }
 
     const label = (this.label ?? '').trim();
-    const button = html`<button
+    /*
+     * One root template for both forms: switching between text and icon only keeps the
+     * native button, and its focus. Every icon-only button carries its balloon (P86).
+     * The `aria-label` stays as a fallback: the `aria-labelledby` the tooltip writes
+     * wins in the name computation, with the same text.
+     */
+    return html`<button
       class="control"
       id=${CONTROL_ID}
       type="button"
@@ -260,15 +275,9 @@ export class NphButton extends LitElement {
       @click=${(event: Event) => this.blockInactive(event)}
     >
       ${content}
-    </button>`;
-    /*
-     * Every icon-only button carries its balloon (P86). The `aria-label` stays as a
-     * fallback: the `aria-labelledby` the tooltip writes wins in the name computation,
-     * with the same text.
-     */
-    return this.iconOnly
-      ? html`${button}<nph-tooltip for=${CONTROL_ID} relation="name" .text=${label}></nph-tooltip>`
-      : button;
+    </button>${this.iconOnly
+      ? html`<nph-tooltip for=${CONTROL_ID} relation="name" .text=${label}></nph-tooltip>`
+      : nothing}`;
   }
 }
 

@@ -679,6 +679,42 @@ describe('tooltip of the icon-only button (P86)', () => {
     expect(clicks).not.toHaveBeenCalled();
   });
 
+  it('a click on the open balloon does not reach the consumer; a click on the button does', async () => {
+    const element = await mount({ severity: 'danger', emphasis: 'ghost', iconStart: 'trash', label: 'Delete' });
+    const capture = vi.fn();
+    const bubble = vi.fn();
+    const outside = vi.fn();
+    element.addEventListener('click', capture, { capture: true });
+    element.addEventListener('click', bubble);
+    document.body.addEventListener('click', outside);
+    await tabInto(element);
+    const tooltip = tooltipOf(element);
+    await tooltip.updateComplete;
+    expect(isShown(tooltip)).toBe(true);
+    const balloon = tooltip.shadowRoot?.querySelector<HTMLElement>('.bubble');
+    await userEvent.click(balloon as HTMLElement);
+    expect([capture, bubble, outside].map((spy) => spy.mock.calls.length)).toEqual([0, 0, 0]);
+    await userEvent.click(control(element));
+    expect([capture, bubble, outside].map((spy) => spy.mock.calls.length)).toEqual([1, 1, 1]);
+    document.body.removeEventListener('click', outside);
+  });
+
+  it('switching between text and icon only keeps the native button and its focus', async () => {
+    const element = await mount({ shape: 'square', iconStart: 'plus', label: 'Add' });
+    await tabInto(element);
+    const first = control(element);
+    element.text = 'Add';
+    await element.updateComplete;
+    expect(control(element)).toBe(first);
+    expect(element.shadowRoot?.activeElement).toBe(first);
+    expect(element.shadowRoot?.querySelector('nph-tooltip')).toBeNull();
+    element.text = '';
+    await element.updateComplete;
+    expect(control(element)).toBe(first);
+    expect(element.shadowRoot?.activeElement).toBe(first);
+    expect(tooltipOf(element).getAttribute('for')).toBe(first.id);
+  });
+
   it('touch never opens it', async () => {
     const element = await mount({ iconStart: 'xmark', label: 'Close' });
     const tooltip = tooltipOf(element);
