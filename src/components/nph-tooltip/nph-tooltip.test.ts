@@ -1026,9 +1026,11 @@ describe('only on an element that receives focus', () => {
     outer.append(inner);
     document.body.append(outer, tooltip);
     await tooltip.updateComplete;
+    expect(tooltip.open).toBe(false);
     expect(isShown(tooltip)).toBe(false);
 
     outer.contentEditable = 'false';
+    tooltip.open = true;
     /* The root observer reacts in a later microtask: wait for it, not only for Lit. */
     await vi.waitFor(() => expect(isShown(tooltip)).toBe(true));
 
@@ -1064,6 +1066,47 @@ describe('only on an element that receives focus', () => {
     expect(isShown(tooltip)).toBe(false);
     expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
     expect(error).not.toHaveBeenCalled();
+  });
+
+  it('a button disabled at mount turns off a consumer-opened balloon and keeps its ARIA reference, with no error', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const button = document.createElement('button');
+    button.id = 'disabled-at-mount-target';
+    button.disabled = true;
+    button.style.cssText = 'position:fixed;left:300px;top:300px';
+
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    document.body.append(button, tooltip);
+    await tooltip.updateComplete;
+
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+    expect(error).not.toHaveBeenCalled();
+  });
+
+  it('pointing for at an inert element turns off an open balloon and moves the ARIA reference', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const { button, tooltip } = await mount({ open: true });
+    await shown(tooltip);
+    const other = document.createElement('button');
+    other.id = 'inert-retarget';
+    other.inert = true;
+    other.style.cssText = 'position:fixed;left:300px;top:300px';
+    document.body.append(other);
+    /* Let the root observer see the new element first: the change of `for` alone associates it. */
+    await pause(0);
+
+    tooltip.setAttribute('for', other.id);
+    await tooltip.updateComplete;
+
+    expect(tooltip.open).toBe(false);
+    await gone(tooltip);
+    expect(other.getAttribute('aria-describedby')).toBe(tooltip.id);
+    expect(button.hasAttribute('aria-describedby')).toBe(false);
   });
 
   it('an inert target gets no consumer-opened balloon and keeps its ARIA reference', async () => {
