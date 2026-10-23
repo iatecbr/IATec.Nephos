@@ -22,11 +22,13 @@ and add the `nph-input` example to the `nph-icon` Docs page (DSA-33, D2).
 
 ## Changes
 The component, CSS and tests; the Validation stories, the Docs page and the dictionary; the
-`nph-input` example on the `nph-icon` Docs page; the sheet, the Metadata and P80. See the commits
-on the branch.
+`nph-input` example on the `nph-icon` Docs page; the sheet, the Metadata and P80. The review fixes of Copilot are merged, with
+two of them adjusted (Enter at the end of the propagation; the fieldset state kept apart). See
+the commits on the branch.
 
 ## Commands run
-- After the merge of `v/5.0.0` at `9dd6e19`, with the Vite cache cleared: `npm run build:tokens`,
+- At `787c9ad`, after the merge of `v/5.0.0` at `9dd6e19` and of the review fixes, with the
+  Vite cache cleared: `npm run build:tokens`,
   `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:operacao`, `build-storybook`, `build:lib`,
   `test:package` and `git diff --check`: exit 0
 - `npm run test:naming`: exit 1, only in files this pass does not touch:
