@@ -262,6 +262,26 @@ describe('nph-field Validation: text only from the dictionary', () => {
     });
   }
 
+  it('ControlContract: switching the language in the same container updates the readout', async () => {
+    const target = document.createElement('div');
+    document.body.append(target);
+    const story = validation.ControlContract as Renderable;
+    render(story.render?.({}, { globals: { locale: 'en' } }) as TemplateResult, target);
+    await ready(target);
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    render(story.render?.({}, { globals: { locale: 'pt-BR' } }) as TemplateResult, target);
+    await ready(target);
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    const v = translations('pt-BR').fieldValidation;
+    const outputs = [...target.querySelectorAll('output')];
+    expect(outputs).toHaveLength(4);
+    outputs.forEach((output, position) => {
+      expect(output.textContent, `output ${position}`).toContain(`label ${v.email}`);
+      const description = position % 2 === 0 ? v.emailHelp : v.emailError;
+      expect(output.textContent, `output ${position}`).toContain(`description ${description}`);
+    });
+  });
+
   it('ControlContract: the readout shows what the field wrote on each control', async () => {
     const target = draw(validation.ControlContract as Renderable, 'en');
     await ready(target);

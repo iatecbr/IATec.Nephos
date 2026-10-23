@@ -2347,14 +2347,18 @@ and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46). The decisions of those pie
 4. **Message line, layout and disabled (D2 to D8).** The help is `text/caption` in
    `color/muted-foreground`; the error is `text/body-md` in `status/error`, with no icon, and
    replaces the help. With no help, no error and no counter the line is not rendered. The counter
-   sits at the end of the help line, at least `space/inline` away, and in error on a line of its own
-   below the message, at the end, `space/stack-tight` below; it never takes the error color. The
+   sits at the end of the help line and never takes the error color. Four points the evidence does
+   not settle follow a **provisional default** until Indiane answers D-1 to D-4 (see below), and
+   are not part of the contract: in error the counter goes on a line of its own below the message,
+   at the end, `space/stack-tight` below (D-1); at least `space/inline` from the help text, which
+   wraps (D-2); the help comes back when disabled hides the error (D-3); long texts wrap with no
+   ellipsis (D-4). The
    host stacks the label row, the control and the line at `space/stack-tight`, takes
    `layout/field-width` and `max-inline-size: 100%`, and the slotted control is stretched with
    `inline-size: auto` (a `::slotted` rule from the outer tree wins over the `:host` width of the
    control). A group stacks its options at `space/stack-tight`. **The field draws no opacity when
    disabled:** D8 asks for `state/disabled-opacity` only on the control, and every control already
-   fades itself; both together would give 0.25. Disabled hides the error and the help comes back.
+   fades itself; both together would give 0.25. Disabled hides the error.
 
 5. **The field–control contract.**
    1. **Events.** Native `input` and `change` on the host, only by an action of the person: setting

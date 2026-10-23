@@ -253,7 +253,8 @@ export const ControlContract: Story = {
     const pair = (content: TemplateResult) =>
       html`<div style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
         ${content}
-        <output ${ref(readout)} style=${captionStyle}></output>
+        <!-- A new callback on every render: the readout follows a change of language. -->
+        <output ${ref((element) => readout(element))} style=${captionStyle}></output>
       </div>`;
     return frame(
       context,
