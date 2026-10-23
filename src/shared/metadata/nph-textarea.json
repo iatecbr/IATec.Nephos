@@ -1,0 +1,236 @@
+{
+  "piece": "nph-textarea",
+  "level": "component",
+  "status": "active",
+  "solves": "Gives the person a multi-line field to write a long text, such as a comment, a message or a description, that grows with the text up to a maximum and takes part in the form that contains it.",
+  "use_when": [
+    "When the person writes more than one line, such as a comment, a message or a description.",
+    "Inside an nph-field when the field needs a label, help, an error message or a support-line counter.",
+    "With the footer, counter and actions, only in a comment or a message, where the actions stay next to the text.",
+    "With readonly to show a long text the person reads and copies, but does not edit."
+  ],
+  "do_not_use_when": [
+    "For a one-line value: use nph-input.",
+    "To pick among ready options: use nph-select or nph-combobox.",
+    "To show the error message or the help: they belong to nph-field.",
+    "To put a footer counter in a common form: use the counter of nph-field.",
+    "To turn the footer on in readonly: there is nothing to send.",
+    "To block typing at a limit: the counter warns, and the error state says the limit was passed."
+  ],
+  "api": {
+    "value": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The current value, with its line breaks. The value attribute is the initial value and the value of form.reset(), as in the native textarea: it applies only while the person has not edited the field and setting the property has not made it dirty. Setting it from code fires no event."
+    },
+    "placeholder": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The invitation before writing, already localized. It is not a name: it disappears when the person writes."
+    },
+    "name": {
+      "type": "string",
+      "required": false,
+      "default": "none",
+      "reflects": true,
+      "constraint": "The name of the entry in the form data. Reflects because the form reads the attribute of the host: without it, the value is left out of the submission."
+    },
+    "required": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": true,
+      "constraint": "The native required of the inner field: announced by the screen reader and checked by the form, with the message of the browser. A form whose messages are written by nph-field uses novalidate when the browser balloon is not wanted."
+    },
+    "disabled": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": true,
+      "constraint": "The whole piece at state/disabled-opacity, on color/muted, out of the Tab order and of the form data, and the footer actions disabled; the piece gives back only the disabled it turned on. A disabled fieldset disables it too. It wins over readonly and invalid."
+    },
+    "readonly": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": true,
+      "constraint": "The Figma leitura (property readOnly). The person reads, selects and copies the text, and does not edit it; the field stays focusable, in the form data and out of validation, as the native one. No hover, no error look and no footer: with a counter or an action, the footer is not drawn and console.warn says why in development."
+    },
+    "invalid": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": true,
+      "constraint": "The error state: the border becomes status/error and the inner field gets aria-invalid. It is not a constraint of the form. The sentence belongs to nph-field; never invalid without it."
+    },
+    "label": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The accessible name in text, never visible, for a field with no associated label, such as a comment box; nph-field writes it. An associated label (nph-label for, or a label element) wins over it."
+    },
+    "description": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The accessible description in text, never visible: the help or the error sentence that nph-field writes. It is read when the field takes focus."
+    },
+    "counter": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The footer counter text, shown as it comes, such as 0/280, already localized. The piece counts nothing and has no maxlength: the consumer writes it on input, and a limit warns without blocking typing. A text that is empty or only spaces turns the counter off. It is not part of the accessible description."
+    },
+    "actions": {
+      "type": "named slot",
+      "required": false,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The footer actions, nph-button instances of the consumer: ghost, such as Attach, and solid, such as Send, in size=default. An element in the slot turns the footer on. There is no other slot."
+    },
+    "input": {
+      "type": "event",
+      "required": false,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The native input event, when the person writes. It bubbles and crosses the shadow root. Read the value from the host."
+    },
+    "change": {
+      "type": "event",
+      "required": false,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The native change event, fired again by the host when the person commits a value. It bubbles. Setting value from code fires neither event."
+    }
+  },
+  "variants": {
+    "footer": {
+      "axis": "appearance",
+      "choose_when": "The footer, with counter and actions, only in a comment or a message, where the actions stay next to the text. In a common form, the counter goes in the support line of nph-field.",
+      "do_not_combine_with": [
+        "readonly: there is nothing to send.",
+        "A counter in the footer and another in the nph-field support line."
+      ]
+    }
+  },
+  "states": {
+    "default": {
+      "token": "color/input",
+      "changes_for_user": "The resting border, on color/background."
+    },
+    "hover": {
+      "token": "color/input-hover",
+      "changes_for_user": "The border goes one step darker under the pointer."
+    },
+    "focus": {
+      "token": "focus/border",
+      "changes_for_user": "The border takes focus/border with the focus/halo attached outside, at focus/radius-control and focus/ring-width."
+    },
+    "error": {
+      "token": "status/error",
+      "changes_for_user": "The border is status/error, also on hover; the sentence is in nph-field."
+    },
+    "error-focus": {
+      "token": "focus/halo-error",
+      "changes_for_user": "The border stays status/error and the halo is focus/halo-error."
+    },
+    "readonly": {
+      "token": "color/input",
+      "changes_for_user": "The resting border, also on hover, with no error look and no footer; the focus stays visible."
+    },
+    "disabled": {
+      "token": "state/disabled-opacity",
+      "changes_for_user": "The whole piece at state/disabled-opacity on color/muted, with the color/input border and the actions disabled; it does not respond and wins over readonly and the error."
+    }
+  },
+  "business_rules": [
+    "The field grows with the text from layout/textarea-min-height and stops at layout/textarea-max-height; above it, the text scrolls inside. There is no resize handle.",
+    "Enter writes a new line; it does not submit the form.",
+    "The footer shows when there is a counter or an action, and never in readonly.",
+    "The piece counts nothing: the consumer writes the counter text on input, and a limit warns without blocking typing.",
+    "Writing fires the native input and change; setting value from code fires nothing.",
+    "disabled wins over readonly, and readonly wins over invalid."
+  ],
+  "domain_errors": [
+    "invalid: the value needs correction, such as a passed limit; nph-field writes the sentence and passes it as description."
+  ],
+  "tokens": {
+    "width": "layout/input-width",
+    "height": "layout/textarea-min-height to layout/textarea-max-height, on the scroll area",
+    "radius": "radius/control",
+    "border": "border/width, in color/input, color/input-hover, focus/border or status/error",
+    "background": "color/background; color/muted when disabled",
+    "padding": "space/control-padding on the sides, space/inline at the top and bottom (D-1)",
+    "value": "text/body-md in color/foreground",
+    "placeholder": "text/body-md in color/muted-foreground",
+    "footer": "space/stack below the text; space/inline between the actions",
+    "counter": "text/caption in color/muted-foreground",
+    "focus": "focus/border, focus/halo, focus/halo-error, focus/ring-width and focus/radius-control",
+    "disabled": "state/disabled-opacity"
+  },
+  "ai_hints": [
+    "Use nph-textarea for a text of more than one line; for a one-line value, use nph-input.",
+    "Put nph-textarea inside nph-field when the field needs a label, help, an error message or a counter; on its own, give it a name with nph-label for or label.",
+    "Turn the footer on only in a comment or a message; in a common form, use the counter of nph-field.",
+    "Write the counter on input yourself; do not expect the piece to count or to stop typing at a limit.",
+    "To say a limit was passed, set the error of nph-field; do not paint the counter.",
+    "Never use the placeholder as the only name.",
+    "Read the value from the host on input or change; do not listen for an nph-* event."
+  ],
+  "accessibility": {
+    "semantics": "The native textarea inside the shadow root, a multi-line text box. The host is form-associated and labelable.",
+    "accessible_name": "From the label associated with the host: nph-label for, a label element or nph-field, referenced by the inner field. Without one, from label. The placeholder is not a name. With no name at all, the field renders and warns in development.",
+    "keyboard": [
+      "Tab enters the field and then the footer actions.",
+      "Enter in the field writes a new line; it does not submit the form."
+    ],
+    "focus": "The field shows the focus border and the halo whenever it has the focus, by pointer or keyboard, also in readonly (D-2).",
+    "contrast": "The color/input border meets 3:1 against the background (WCAG 1.4.11); the halo is decoration.",
+    "color_alternative": "The error is said by the sentence of nph-field, read as the description of the field; the border color is not the only signal."
+  },
+  "invalid_combinations": [
+    "readonly with a counter or an action — the footer is not drawn, with one warning in development.",
+    "invalid without the sentence in nph-field — red with no text.",
+    "A footer counter inside an nph-field that also has a counter — two counters for one text."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-field",
+      "nph-label",
+      "nph-button"
+    ],
+    "parents": [
+      "nph-field",
+      "form"
+    ],
+    "children": [
+      "nph-button"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "Painting the counter in the error color: the error stays on the border and on the nph-field message.",
+    "Turning the footer on in readonly.",
+    "Using the footer counter in a common form.",
+    "Blocking typing at the limit with maxlength.",
+    "Painting the regular field with color/muted: it is the disabled background.",
+    "Using it for a one-line value.",
+    "Using the placeholder as the only label."
+  ],
+  "sources": {
+    "design_md": "design.md, layout/textarea-min-height, layout/textarea-max-height, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, layout/input-width, text/body-md, text/caption and rule 6",
+    "decision": "P93 — API and semantics of nph-textarea, on the form shape of P80 and the field contract of P83",
+    "tests": "src/components/nph-textarea/nph-textarea.test.ts",
+    "usage_evidence": "the Examples section of the nph-textarea Docs page",
+    "storybook": "src/components/nph-textarea/nph-textarea.stories.ts and nph-textarea.docs.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, nph-textarea frame 1632:24, documentation 1922:642 and set 1632:22"
+  }
+}
