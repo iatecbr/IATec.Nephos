@@ -116,6 +116,14 @@
     "components-nph-avatar-stack-validation--photo": "Photo",
     "components-nph-avatar-stack-validation--count-width": "Count width",
     "components-nph-avatar-stack-validation--accessibility": "Accessibility",
+    "components-nph-empty-docs": "Docs",
+    "components-nph-empty-docs--documentation": "Documentation",
+    "components-nph-empty-validation": "Validation",
+    "components-nph-empty-validation--with-description": "With description",
+    "components-nph-empty-validation--heading-only": "Heading only",
+    "components-nph-empty-validation--surfaces": "Surfaces",
+    "components-nph-empty-validation--combobox-list": "Combobox list",
+    "components-nph-empty-validation--invalid-heading": "Invalid heading",
     "components-nph-input-otp-docs": "Docs",
     "components-nph-input-otp-docs--documentation": "Documentation",
     "components-nph-input-otp-validation": "Validation",
@@ -2370,6 +2378,155 @@
     "namedGroup": "Ana Souza, Bruno Lima, Carla Mendes and 3 more",
     "namedGroupCaption": "The screen reader reads the name of the group, and not the avatars or the count."
   },
+  "emptyDocs": {
+    "summary": "The empty state of an area with no content: an illustration, a heading that says what is missing and a description that says what to do.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-empty spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P84. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "purpose": "Use nph-empty when a list, a search or an area has no content to show, such as the nph-combobox list when the search finds no option. It does not replace loading, which has its own state, nor the error message, which says what failed. The piece has no action: it carries no button and no link.",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "When a list or a search has no result: the heading says what is missing and the description suggests another search.",
+      "When an area still has no content: the heading says what is missing.",
+      "When there is nothing to suggest: leave the description empty and show only the heading.",
+      "Write the heading as what is missing, because the person understands at once why the area is empty.",
+      "Use the description to say what to do, because the empty state becomes a next step."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "While the content loads: use the loading state of the piece that receives it, such as state=carregando in the nph-combobox list, or nph-skeleton.",
+      "To say what failed: use the error message of the piece.",
+      "To offer an action: the piece has no button and no link."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "heading",
+        "Required. What is missing, already localized by the application. Without it, or with only spaces, the piece draws nothing. The name is not title, the global HTML attribute, which the browser shows as a native tooltip."
+      ],
+      [
+        "description",
+        "Optional. What the person can do. When it is empty only the heading remains: the presence of the description is the on and off of the board."
+      ]
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "In the nph-combobox, the list in state=vazio uses the nph-empty when the search finds no option.",
+      "While the options load, the list uses state=carregando, not the nph-empty.",
+      "The piece that receives the nph-empty gives the background and the position; the nph-empty gives only its own inner space.",
+      "Space: space/section between the illustration and the texts, space/inline-tight between the heading and the description, and space/container-padding as inner padding."
+    ],
+    "relationsCaption": "In the nph-combobox list in state=vazio (a frame until the nph-combobox exists).",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "1. Box",
+        "A vertical stack that centers everything, with padding space/container-padding on the four sides and width layout/input-width. In a narrower container it shrinks to it. No background and no border."
+      ],
+      [
+        "2. Illustration",
+        "Decorative image, centered, drawn at 120 × 87, the size of the asset and not a token. There is one version per color scheme."
+      ],
+      [
+        "3. Heading",
+        "Says what is missing, in text/heading-xs and color/foreground. Always present. It sits space/section from the illustration."
+      ],
+      [
+        "4. Description (optional)",
+        "Says what the person can do, in text/body-sm and color/muted-foreground. It sits space/inline-tight from the heading."
+      ]
+    ],
+    "schemeHeader": [
+      "Scheme",
+      "Illustration shown"
+    ],
+    "scheme": [
+      [
+        "Light",
+        "scheme/is-light is 1 and scheme/is-dark is 0: the light file, empty-no-option-found.png, shows."
+      ],
+      [
+        "Dark",
+        "scheme/is-light is 0 and scheme/is-dark is 1: the dark file, empty-no-option-found-dark.png, shows."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Contrast",
+        "The heading and the description pass 4.5:1 on color/background and on color/popover, in light and dark (WCAG 1.4.3)."
+      ],
+      [
+        "Visible focus",
+        "Does not apply: the piece takes no focus, because it has no action."
+      ],
+      [
+        "Color is not the only signal",
+        "The message is in the text of the heading. The illustration only reinforces what the text says."
+      ],
+      [
+        "Touch target",
+        "Does not apply: the piece has no clickable part."
+      ],
+      [
+        "Accessible name",
+        "The screen reader reads the heading and the description. The illustration is decorative and stays out of the reading, with aria-hidden and an empty alt."
+      ],
+      [
+        "Announcement",
+        "The piece is not a live region: the piece that receives it announces that the search found nothing."
+      ]
+    ],
+    "examplesTitle": "Required examples",
+    "exampleCombobox": "Search with no result in the nph-combobox list, in state=vazio (a frame until the nph-combobox exists).",
+    "exampleDescription": "With description: what is missing and what to do.",
+    "exampleHeadingOnly": "Heading only, when there is nothing to suggest.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "matrixLabel": "Component matrix",
+    "withDescriptionLabel": "heading and description",
+    "headingOnlyLabel": "heading only",
+    "heading": "No option found",
+    "description": "Check what you typed or search for another term.",
+    "areaHeading": "No document yet",
+    "listLabel": "Options",
+    "referencesTitle": "References",
+    "references": [
+      "nph-empty spec sheet — purpose, anatomy, API, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P84 (nph-empty: API and semantics).",
+      "design.md — space/container-padding, layout/input-width, space/section, space/inline-tight, text/heading-xs, text/body-sm, color/foreground, color/muted-foreground, scheme/is-light and scheme/is-dark.",
+      "Figma DS-IA-NEPHOS 5.0 — page NPH — Empty, board 1463:25260, frame 2003:688 and component 1463:25238.",
+      "Storybook — Validation, in the folder next to this one."
+    ],
+    "sourceBoard": "Figma, board nph-empty (1463:25260)",
+    "sourceApi": "nph-empty spec sheet; docs/decisoes-tecnicas.md › P84",
+    "sourceAccessibility": "Figma, board nph-empty (1463:25260); nph-empty.test.ts"
+  },
+  "emptyValidation": {
+    "heading": "No option found",
+    "description": "Check what you typed or search for another term.",
+    "areaHeading": "No document yet",
+    "listLabel": "Options",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "backgroundCaption": "On color/background.",
+    "popoverCaption": "On color/popover, the surface of a list.",
+    "comboboxCaption": "Frame of the nph-combobox list in state=vazio: the list surface with the nph-empty as its only content. The real list comes with the nph-combobox.",
+    "invalidCaption": "The description is given and the heading is not: nothing is drawn in either mode, and the console shows an error in development."
+  },
   "inputOtpDocs": {
     "summary": "A short code field, one cell per character, to confirm access with a code sent by SMS or e-mail. One native input lies over the cells, so the code is one value with one name; the label, the help and the error come from nph-field.",
     "onThisPage": "On this page",
@@ -2650,7 +2807,12 @@
       "components-nph-input-validation--error-and-disabled": "The precedence of D5: error keeps its border on hover and focus; disabled wins over error.",
       "components-nph-input-validation--width": "The default width is layout/input-width; the field stretches to its parent, with no minimum (D6).",
       "components-nph-input-validation--invalid-input": "Invalid input draws nothing: a type out of v1, a size that does not exist, an icon outside the core. icon-end without clear-label draws the field without the button.",
-      "components-nph-input-validation--examples": "The three required examples of the accepted frame: Search, Field with a label and Error, each in light and dark mode."
+      "components-nph-input-validation--examples": "The three required examples of the accepted frame: Search, Field with a label and Error, each in light and dark mode.",
+      "components-nph-empty-validation--with-description": "The heading says what is missing and the description says what to do, as in the board; the illustration follows the color scheme.",
+      "components-nph-empty-validation--heading-only": "With an empty description only the heading remains, for when there is nothing to suggest.",
+      "components-nph-empty-validation--surfaces": "The heading and the description pass 4.5:1 on color/background and on color/popover, in light and in dark mode.",
+      "components-nph-empty-validation--combobox-list": "The search with no result in the nph-combobox list, in a frame until the nph-combobox exists.",
+      "components-nph-empty-validation--invalid-heading": "Without a heading the piece draws nothing and has no visual fallback."
     }
   }
 }
