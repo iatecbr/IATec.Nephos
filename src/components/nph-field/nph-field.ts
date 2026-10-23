@@ -38,9 +38,14 @@
  *   `disabled` on each option;
  * - inside a field, the field is the source of `label`, `description`, `invalid` and
  *   `required`. `disabled` adds up: the field turns it on while it is disabled and
- *   gives back only what it turned on;
+ *   gives back only what it turned on, even when the control moves to another field;
+ * - a control moved from one field to another belongs to the last field that wrote on
+ *   it: the old field does not clean up what the new one wrote;
  * - a custom element not yet defined receives nothing until it is defined, because its
- *   role is not known before that.
+ *   role is not known before that. An element that does not take the contract receives
+ *   nothing either, and the field warns;
+ * - the default slot takes the element children with no `slot` attribute or an empty
+ *   one, as HTML assigns them.
  *
  * The `nph-label` has no Shadow DOM (P62.1) and its CSS is global, so the field adopts
  * the same stylesheet in its own root. The label is used WITHOUT `for`: a click on its
@@ -115,6 +120,29 @@ function roleOf(element: Element): NphFieldRole | undefined {
   return (NPH_FIELD_ROLES as readonly unknown[]).includes(role) ? (role as NphFieldRole) : 'control';
 }
 
+/**
+ * The field that wrote last on each element, shared by every instance. A control moved
+ * from one field to another is released by the old one only while the old one still owns
+ * it, so the cleanup of the old field never wipes what the new one wrote.
+ */
+const owners = new WeakMap<Element, NphField>();
+
+/**
+ * The elements a field disabled, shared by every instance: a control moved from a disabled
+ * field to an enabled one gets back the `disabled` the old field turned on.
+ */
+const forcedDisabled = new WeakSet<Element>();
+
+/**
+ * The element takes the contract of its role: a custom element whose class gives every
+ * property the field writes. Checked before any write, so a property the field writes never
+ * makes an element look as if it took the contract.
+ */
+function takesContract(element: Element, role: NphFieldRole): boolean {
+  const keys = role === 'control' ? CONTROL_KEYS : OPTION_KEYS;
+  return isCustomElementName(element) && keys.every((key) => key in element);
+}
+
 /** Writes one property only when it changes, so the control does not update for nothing. */
 function assign(element: Element, key: string, value: unknown): void {
   const target = element as unknown as Record<string, unknown>;
@@ -160,8 +188,6 @@ export class NphField extends LitElement {
   private elements: Element[] = [];
   /** The elements the field wrote on, with the role it wrote for, to clean up when they leave. */
   private managed = new Map<Element, NphFieldRole>();
-  /** The elements the field disabled, to give back only those. */
-  private forcedDisabled = new WeakSet<Element>();
   /** The custom elements already waited for, so `whenDefined` is asked once per name. */
   private awaited = new Set<string>();
   /** The composition warnings already shown, so a problem that stays does not repeat. */
@@ -238,11 +264,11 @@ export class NphField extends LitElement {
 
   /**
    * Reads the elements of the default slot — the element children with no `slot`
-   * attribute — before the render, so the role of the wrapper is right on the first
+   * attribute, or an empty one, as the HTML assignment does — before the render, so the role of the wrapper is right on the first
    * one. A custom element not yet defined is waited for once per name.
    */
   private readSlot(): void {
-    this.elements = [...this.children].filter((child) => !child.hasAttribute('slot'));
+    this.elements = [...this.children].filter((child) => (child.getAttribute('slot') ?? '') === '');
     for (const element of this.elements) {
       if (roleOf(element) === undefined && !this.awaited.has(element.localName)) {
         this.awaited.add(element.localName);
@@ -291,7 +317,8 @@ export class NphField extends LitElement {
     const next = new Map<Element, NphFieldRole>();
 
     for (const [element, role] of roles) {
-      if (mode === 'control' ? element === control : role !== 'control') {
+      const managed = mode === 'control' ? element === control : role !== 'control';
+      if (managed && takesContract(element, role)) {
         next.set(element, role);
       }
     }
@@ -308,6 +335,7 @@ export class NphField extends LitElement {
       }
       assign(element, 'invalid', this.invalid);
       this.passDisabled(element);
+      owners.set(element, this);
     }
     this.managed = next;
   }
@@ -318,25 +346,32 @@ export class NphField extends LitElement {
     if (this.disabled) {
       if (target.disabled !== true) {
         target.disabled = true;
-        this.forcedDisabled.add(element);
+        forcedDisabled.add(element);
       }
-    } else if (this.forcedDisabled.has(element)) {
+    } else if (forcedDisabled.has(element)) {
       target.disabled = false;
-      this.forcedDisabled.delete(element);
+      forcedDisabled.delete(element);
     }
   }
 
-  /** An element that left the field, or changed role, loses what the field wrote on it. */
+  /**
+   * An element that left the field, or changed role, loses what the field wrote on it,
+   * unless another field took it in the meantime.
+   */
   private release(element: Element, role: NphFieldRole): void {
+    if (owners.get(element) !== this) {
+      return;
+    }
+    owners.delete(element);
     if (role === 'control') {
       assign(element, 'label', '');
       assign(element, 'description', '');
       assign(element, 'required', false);
     }
     assign(element, 'invalid', false);
-    if (this.forcedDisabled.has(element)) {
+    if (forcedDisabled.has(element)) {
       assign(element, 'disabled', false);
-      this.forcedDisabled.delete(element);
+      forcedDisabled.delete(element);
     }
   }
 
@@ -361,8 +396,7 @@ export class NphField extends LitElement {
       warnings.add('radios are mixed with other options: a group is either radios or checkboxes and switches.');
     }
     for (const [element, role] of roles) {
-      const keys = role === 'control' ? CONTROL_KEYS : OPTION_KEYS;
-      if (!isCustomElementName(element) || keys.some((key) => !(key in element))) {
+      if (!takesContract(element, role)) {
         warnings.add(`<${element.localName}> does not take the field contract (P83): it is not named or described by the field.`);
       }
     }

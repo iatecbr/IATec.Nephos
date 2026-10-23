@@ -781,3 +781,78 @@ describe('the contract with the real nph-input (P80, P83)', () => {
     expect(warn).not.toHaveBeenCalled();
   });
 });
+
+describe('review regressions (PR #105, Copilot round 1)', () => {
+  it('two fields swap their controls in the same turn: each control keeps what its new field wrote', async () => {
+    const one = await mount({ label: 'Email', help: 'Email help', required: true });
+    const two = await mount({ label: 'Phone', error: 'Phone error' });
+    const a = first(one);
+    const b = first(two);
+    one.append(b);
+    two.append(a);
+    await Promise.all([settle(one), settle(two)]);
+    await Promise.all([settle(one), settle(two)]);
+    expect([b.label, b.description, b.required, b.invalid]).toEqual(['Email', 'Email help', true, false]);
+    expect([a.label, a.description, a.required, a.invalid]).toEqual(['Phone', 'Phone error', false, true]);
+  });
+
+  it('a control moved from a disabled field to an enabled one gets its disabled back', async () => {
+    const off = await mount({ label: 'Off', disabled: true });
+    const on = await mount({ label: 'On', children: [] });
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const control = first(off);
+    expect(control.disabled).toBe(true);
+    on.append(control);
+    await Promise.all([settle(off), settle(on)]);
+    expect(control.disabled).toBe(false);
+    expect(control.label).toBe('On');
+  });
+
+  it('a control moved out of a field and into no field is cleaned up by the old field', async () => {
+    const field = await mount({ label: 'Email', error: 'Error' });
+    const control = first(field);
+    document.body.append(control);
+    await settle(field);
+    expect([control.label, control.invalid]).toEqual(['', false]);
+  });
+
+  it('slot="" is the default slot: the control is named, described and focused by the label', async () => {
+    document.body.innerHTML =
+      '<nph-field label="Email" help="Help" required><test-field-control slot=""></test-field-control></nph-field>';
+    const field = document.querySelector('nph-field') as NphField;
+    await settle(field);
+    const control = first(field);
+    expect([control.label, control.description, control.required]).toEqual(['Email', 'Help', true]);
+    await userEvent.click(root(field).querySelector('.nph-label__text') as HTMLElement);
+    expect(document.activeElement).toBe(control);
+  });
+
+  it('slot="" options keep the group semantics', async () => {
+    document.body.innerHTML =
+      '<nph-field label="Plan"><test-field-radio slot=""></test-field-radio><test-field-radio slot=""></test-field-radio></nph-field>';
+    const field = document.querySelector('nph-field') as NphField;
+    await settle(field);
+    expect(wrapperOf(field).getAttribute('role')).toBe('radiogroup');
+  });
+
+  it('a custom element without the contract in a disabled field: it warns, and the field writes nothing on it', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const field = await mount({ disabled: true, error: 'Error', children: ['test-field-other'] });
+    const other = first<HTMLElement & Record<string, unknown>>(field);
+    for (const key of ['label', 'description', 'invalid', 'required', 'disabled']) {
+      expect(Object.prototype.hasOwnProperty.call(other, key), key).toBe(false);
+    }
+    field.help = 'Help';
+    await settle(field);
+    const own = warn.mock.calls.filter(([message]) => /does not take the field contract/.test(String(message)));
+    expect(own).toHaveLength(1);
+  });
+
+  it('a native input receives nothing from the field and warns', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const field = await mount({ required: true, disabled: true, children: ['input'] });
+    const input = first<HTMLInputElement>(field);
+    expect([input.required, input.disabled]).toEqual([false, false]);
+    expect(warn.mock.calls.some(([message]) => /does not take the field contract/.test(String(message)))).toBe(true);
+  });
+});

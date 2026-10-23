@@ -2380,7 +2380,9 @@ and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46). The decisions of those pie
       Inside a field, the field is the source of `label`, `description`, `invalid` and `required`:
       a value set on the control is overwritten, so the field is never red without a text.
       `disabled` adds up: the field turns it on while it is disabled and gives back only what it
-      turned on. `description` is the visible message line, the error when shown and the help
+      turned on, even after the control moves to another field. A control moved between fields
+      belongs to the last field that wrote on it: the old field does not clean up what the new one
+      wrote. The default slot takes the children with no `slot` attribute or an empty one. `description` is the visible message line, the error when shown and the help
       otherwise; the counter is not part of it.
    3. **`static nphFieldRole`:** checkbox and switch are `'option'`; radio is `'radio'`. Input and
       otp need nothing: an absent or unknown value is a control. The field reads it from the class
@@ -2413,7 +2415,9 @@ and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46). The decisions of those pie
    P62.6 keeps the `nph-label` when the help is wrong. A problem in the composition renders and
    emits `console.warn` only in development, one per cause while it lasts (the rule of P76): no
    control, more than one control (only the first is named), a control mixed with options, radios
-   mixed with other options, and an element that does not take the contract.
+   mixed with other options, and an element that does not take the contract. The field checks the
+   contract before it writes and writes nothing on such an element, so its own writes never hide
+   the warning.
 
 **Known limits.** The name and the description reach the control as text, not as a reference: the
 visible label is not associated with the control in the accessibility tree, and the two only match
