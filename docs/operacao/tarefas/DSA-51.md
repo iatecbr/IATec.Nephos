@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 500,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-image",
   "dependencies": [],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-51/review-and-merge-2026-10-23.md",
+      "result": "passed",
+      "verified_at": "2026-10-23",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -44,9 +44,11 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-51/documentacao-figma-aceita-2026-10-23.md"
+    "docs/operacao/evidencias/DSA-51/documentacao-figma-aceita-2026-10-23.md",
+    "docs/operacao/evidencias/DSA-51/review-and-merge-2026-10-23.md"
   ],
   "decision_refs": [
+    "docs/decisoes-tecnicas.md#p90",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-23.md, nph-image visual acceptance, Figma UX QA and textual audit approved; the 33 tokens on v/5.0.0"
   ],
@@ -58,8 +60,8 @@
     "excerpt": null,
     "converted_decision": "The nph-image board (2573:66090), with its `Documentação` frame (2677:465), was accepted as the API and behavior specification of the nph-image. COMPONENT_SET 2573:66089. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "claude/dsa-51-nph-image-bd4e5f", "commit": "87c1d3244d855a70a9e06e12f7280e1bc65d5633", "pr": 106 },
-  "context": "docs/operacao/contextos/DSA-51.md",
+  "git_review": { "branch": "claude/dsa-51-nph-image-bd4e5f", "commit": "ba4e23dcb2b02fd4bf1996e127c2abc3567ad459", "pr": "106" },
+  "context": null,
   "updated_at": "2026-10-23"
 }
 ```
