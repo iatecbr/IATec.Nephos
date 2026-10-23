@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80, P84 and P90. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80, P83, P84 and P90. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -47,6 +47,7 @@ P62.4 subsection for the detail).
 | **P77** | `nph-tooltip`: any element, opened on hover and on keyboard focus (amends P65 and P62.6) | 21/10/2026 | Medium. `nph-button` (DSA-43) and the value balloon of the slider (DSA-39) will attach the balloon with `for`, so changing `for`, `side` or the rule of opening later requires redoing both | Anatomy and behavior: board accepted by Indiane on 20/10/2026, D1 answered on 20/10/2026; the plan is approved by Elvys on 21/10/2026. API and semantics approved by Elvys's merge of PR #94 (`3835337`). **Amended on 22/10/2026 (DSA-48)**: hover delay, keyboard, only focusable elements and `relation`; rules accepted by Indiane on 22/10/2026, the plan approved by Elvys the same day, API and semantics reviewed in the pull request that brings them |
 | **P78** | API and semantics of `nph-avatar-stack` | 22/10/2026 | Low now. No piece consumes it yet; a list of people, a card or a table row will, so changing `count`, `label` or the slot of `nph-avatar` children later requires redoing them | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P80** | API and semantics of `nph-input`, the reference of the form controls | 22/10/2026 | Medium. `nph-field` (DSA-28), `nph-checkbox`, `nph-radio` and `nph-input-otp` copy its form association, its native events and its name by reference, so changing them later requires redoing those pieces | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D7 answered on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P83** | `nph-field`: API, semantics and the field–control contract | 22/10/2026 | Medium. Every form control (DSA-16, DSA-17, DSA-18, DSA-27, DSA-41, and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46) takes the contract, so changing `label`, `description`, `invalid`, `required`, `disabled` or `nphFieldRole` later requires redoing all of them | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D8 answered on 16/10/2026; the plan and the contract approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P84** | API and semantics of `nph-empty`, and the first raster asset of the package | 22/10/2026 | Low now. No piece consumes it yet; `nph-combobox` (DSA-46) will, so changing `heading` or `description` later requires redoing its empty list. The asset delivery (`vite.config.lib.ts`) applies to any later illustration | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P90** | API and semantics of `nph-image` | 23/10/2026 | Low now. No piece consumes it yet; `nph-table` will, for the thumbnail and the expanded item, so changing `size`, `ratio`, `src`, `alt` or `interactive`, or the derived state, later requires redoing it | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 
@@ -2294,6 +2295,166 @@ the approval.
 
 ---
 
+## P83 — `nph-field`: API, semantics and the field–control contract
+
+**Decision.** `nph-field` is a Web Component with **open Shadow DOM** (P01), CSS in its own file
+imported `?inline`, as in `nph-icon`. Its shadow root holds an `nph-label`, a wrapper around the
+default slot and the message line. It has no `::part`, no event of its own, no color or size
+property and no form association. Anatomy only through semantic tokens: `layout/field-width`,
+`space/stack-tight`, `space/inline`, `text/caption`, `text/body-md`, `color/muted-foreground` and
+`status/error`. The names follow P64. This decision also fixes the **field–control contract**: the
+properties every form control that enters the field takes (DSA-16, DSA-17, DSA-18, DSA-27, DSA-41,
+and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46). The decisions of those pieces cite it as
+"field contract, P83".
+
+1. **Properties.** The Figma set has the variants `state`, `obrigatório` and `ícone`, the
+   properties `mostrar apoio`, `texto de apoio`, `mensagem de erro`, `contador`,
+   `texto do contador` and the swap `⮑ controle`. A text that is filled in turns its part on: there are no
+   booleans to show a part. The mapping below is a technical proposal of this implementation.
+
+   | Figma | API |
+   |---|---|
+   | the label text | `label`, String: the text of the `nph-label` and the accessible name of the control |
+   | `obrigatório` | `required`, Boolean, reflected |
+   | `ícone` (D1) | `info` and `infoLabel` (`info-label`), String, passed to the `nph-label` as they are |
+   | `mostrar apoio`, `texto de apoio` | `help`, String |
+   | `mensagem de erro`, `state` `erro` | `error`, String. Filled in, the field is invalid: there is no `state` property |
+   | `contador`, `texto do contador` | `counter`, String, shown as it comes; the field counts nothing |
+   | D8 | `disabled`, Boolean, reflected |
+   | `⮑ controle` | the default slot |
+
+   `required` and `disabled` reflect like the native attributes, so the CSS of the consumer can
+   read the state of the field. A text of spaces counts as empty.
+
+2. **Why the field writes properties on the control.** An id reference (`for`,
+   `aria-labelledby`, `aria-describedby`) does not cross a shadow root, and the slot does not merge
+   trees (P77, item 2). The control is a light DOM child of the field and its focus lives in its own
+   shadow root, so nothing in the shadow root of the field can name or describe it by reference.
+   The field passes the text and the state as properties, and each control applies them to its
+   focusable element, in its own root. **Discarded alternative:** rendering the label and the
+   message line in the light DOM of the field and referencing them with `ariaLabelledByElements`
+   and `ariaDescribedByElements`. It would be a second exception to P01, which P62.1 says needs a
+   decision of its own, and it writes into the light DOM that a framework of the consumer owns.
+
+3. **The `nph-label` inside the shadow root.** The label is an `nph-label` used **without `for`**:
+   the association is the contract of item 5, and P62.1 and `for` still hold for a label used on its
+   own next to a native control. P62.1 discarded delegating the association to `nph-field` because
+   the field did not exist; this decision is that delegation, and P62.1 does not change. The
+   `nph-label` has no Shadow DOM and its CSS is global, so the field adopts the same stylesheet in
+   its root (`nph-label.css?inline`) and writes no selector on the classes of the label (P02). The
+   library build leaves `?inline` imports alone, so no side effect is added. A click on the label
+   text calls `focus()` on the control; a click on the information icon or on its balloon does not.
+
+4. **Message line, layout and disabled (D2 to D8).** The help is `text/caption` in
+   `color/muted-foreground`; the error is `text/body-md` in `status/error`, with no icon, and
+   replaces the help. With no help, no error and no counter the line is not rendered. The counter
+   sits at the end of the help line and never takes the error color. Four points the evidence does
+   not settle follow a **provisional default** until Indiane answers D-1 to D-4 (see below), and
+   are not part of the contract: in error the counter goes on a line of its own below the message,
+   at the end, `space/stack-tight` below (D-1); at least `space/inline` from the help text, which
+   wraps (D-2); the help comes back when disabled hides the error (D-3); long texts wrap with no
+   ellipsis, and a run with no space, such as a URL, breaks inside the width (D-4). The
+   host stacks the label row, the control and the line at `space/stack-tight`, takes
+   `layout/field-width` and `max-inline-size: 100%`, and the slotted control is stretched with
+   `inline-size: auto` (a `::slotted` rule from the outer tree wins over the `:host` width of the
+   control). A group stacks its options at `space/stack-tight`. **The field draws no opacity when
+   disabled:** D8 asks for `state/disabled-opacity` only on the control, and every control already
+   fades itself; both together would give 0.25. Disabled hides the error, and so does a disabled
+   `<fieldset>` around the field, except in its first `<legend>`, as the browser and `nph-input` read
+   it. The field watches the `disabled` attribute of those fieldsets and writes nothing on the control
+   for them: the control reads the fieldset itself.
+
+5. **The field–control contract.**
+   1. **Events.** Native `input` and `change` on the host, only by an action of the person: setting
+      `checked` or `value` from code fires nothing. No new `nph-*` event in the form controls and
+      nothing in `HTMLElementEventMap`. With an inner `<input>` (input, otp, checkbox), the native
+      `input` passes through (it is already composed and is not stopped) and `change` is fired again
+      on the host (`bubbles: true`, not composed). With no inner `<input>` (radio, switch), the host
+      fires `input` (`bubbles`, `composed`) and then `change`. P80 records this as an exception to
+      the reasoning of P73, item 3: these pieces are form controls.
+   2. **Properties the field writes on the control:**
+      - `label`: the accessible name, as text, never visible;
+      - `description`: the control puts it in an inner element hidden by clipping, never by
+        `display: none` (Chromium does not read it; see the `willUpdate` of `nph-tooltip`), referenced
+        by `aria-describedby`. Input and otp take `description`; on the options of a group
+        (checkbox, radio, switch) the field describes the group;
+      - `invalid`;
+      - `required`: the input uses the native `required`; the otp maps it to `aria-required` or
+        ignores it; on the options of a group the field puts `aria-required` on a radio group. A form
+        with `nph-field` that does not want the native validation bubble uses `novalidate`: the
+        error message belongs to the field;
+      - `disabled`: the control draws its own opacity; the field only passes it and draws nothing.
+
+      Inside a field, the field is the source of `label`, `description`, `invalid` and `required`:
+      a value set on the control is overwritten, so the field is never red without a text.
+      `disabled` adds up: the field turns it on while it is disabled and gives back only what it
+      turned on, even after the control moves to another field. A control moved between fields
+      belongs to the last field that wrote on it: the old field does not clean up what the new one
+      wrote. The default slot takes the children with no `slot` attribute or an empty one. `description` is the visible message line, the error when shown and the help
+      otherwise; the counter is not part of it.
+   3. **`static nphFieldRole`:** checkbox and switch are `'option'`; radio is `'radio'`. Input and
+      otp need nothing: an absent or unknown value is a control. The field reads it from the class
+      of the element, so a custom element not yet defined receives nothing until it is defined.
+   4. **Form** (input, checkbox, radio, otp): `formAssociated` and `ElementInternals`. `name`
+      reflects as an attribute: without the attribute on the host, the piece is left out of
+      `FormData`. Checkbox and radio reflect `value`. In input and otp the `value` attribute is the
+      initial value and the property is the current value. `checked` does not reflect: the
+      attribute is the reset default and the property is the current state, with a "dirty" flag.
+      Enter in the input and in the otp submits the form, as the native one does. The switch is not
+      form-associated, and its `checked` reflects.
+   5. **No shared helper.** DSA-16 is the reference implementation and P80 describes the pattern;
+      the other pieces copy it and record only what changes.
+   6. **No accessible name:** input and otp warn and render; checkbox, radio and switch do not
+      render.
+
+6. **A group of options.** When the slot holds options, the wrapper of the slot, inside the shadow
+   root of the field, is a `group` (`radiogroup` when the options are radios), with `aria-label`
+   from `label` and `aria-describedby` pointing to the text of the message line, in the same root.
+   It is not the host, as in `nph-toggle-group` (P76): an `aria-describedby` on the host would not
+   reach the message in the shadow root. `aria-labelledby` to the `nph-label` was discarded: the
+   computed name would take the name of the information icon and the text of its balloon. The
+   wrapper carries `aria-invalid` in error, and `aria-required` only as a `radiogroup` (it is not
+   allowed on `group`). The field writes only `invalid` and `disabled` on each option. Exclusivity,
+   arrow keys and the roving tabindex of radios belong to `nph-radio` (P82). A click on the label of
+   a group moves no focus, as a native `<legend>`.
+
+7. **Invalid input and composition.** `label` empty emits `console.error` only in development and
+   the field **renders anyway**: hiding the control because of a missing translation is worse, as
+   P62.6 keeps the `nph-label` when the help is wrong. A problem in the composition renders and
+   emits `console.warn` only in development, one per cause while it lasts (the rule of P76): no
+   control, more than one control (only the first is named), a control mixed with options, radios
+   mixed with other options, and an element that does not take the contract. The field checks the
+   contract before it writes and writes nothing on such an element, so its own writes never hide
+   the warning.
+
+**Known limits.** The name and the description reach the control as text, not as a reference: the
+visible label is not associated with the control in the accessibility tree, and the two only match
+because the field writes the same text. The stories use the real `nph-input`; the options of a
+group are demonstration elements that take the contract until `nph-checkbox` and `nph-radio` are
+merged. The field watches only the `disabled` attribute of the fieldsets around it: when a
+`<legend>` is inserted or removed before the one that holds the field, the "first legend" exception
+changes but the disabled state of the field is not recomputed until its next update, so its
+message and `invalid` may stay stale meanwhile. **Follow-up** for a future task: also observe the
+children of those fieldsets, with a regression test on the real `nph-input` that swaps the first
+legend.
+
+**Out of scope.** Form association of the field, validation and character counting (DSA-38 decides
+how its counter reads the text), a live region for the error, a layout property, a size property and
+a right-to-left mirror. The Usage section of the page (P70, DSA-35), the page lists read from the
+Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
+
+**Pending for Indiane (DSA-28, D-1 to D-5), none of them blocks.** The alignment of the counter
+line in error and the space above it; the space between the help and the counter and what happens
+when the help does not fit; whether the help comes back when disabled hides the error; long help and
+error texts wrapping; and the missing `use:` line of `layout/field-width` in `design.md`. The code
+follows the default stated in the task.
+
+**Status.** Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D8 answered on
+16/10/2026. The plan and the contract were approved by Elvys on 22/10/2026. API and semantics are
+reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## P84 — `nph-empty`: API and semantics
 
 **Decision.** `nph-empty` is a Web Component with **open Shadow DOM** (P01), CSS in its own
@@ -2526,7 +2687,7 @@ in the pull request that brings them; the merge is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80, P84 or P90 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80, P83, P84 or P90 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

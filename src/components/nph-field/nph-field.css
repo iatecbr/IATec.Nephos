@@ -1,0 +1,109 @@
+/**
+ * Internal style of `nph-field`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The style of the `nph-label` is not here: the field
+ * adopts the stylesheet of the label itself in its root (P83), because that piece has
+ * no Shadow DOM and its CSS is global (P62.1).
+ *
+ * The field has no background, border or focus of its own. It stacks the label row,
+ * the control and the message line at `space/stack-tight` (D5), takes
+ * `layout/field-width` by default and may stretch to its container (D6). It draws no
+ * opacity when disabled: the control fades itself (D8, P83). No literal design value
+ * goes in here.
+ */
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-space-stack-tight);
+  inline-size: var(--nph-layout-field-width);
+  /* A narrow container does not make the field overflow (P83). */
+  max-inline-size: 100%;
+  /* The lines of the field start at the start edge, whatever the container aligns. */
+  text-align: start;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+/* The label row starts at the start edge, at its own width. */
+.label {
+  align-self: flex-start;
+}
+
+/*
+ * The control fills the width of the field (D6). The slotted element is a flex item of
+ * this column and stretches; `inline-size: auto` overrides the width the control gives
+ * its own host, because this rule comes from an outer tree and wins over `:host`.
+ * In a group, the options stack at `space/stack-tight` (D7) and stretch too, so their
+ * text wraps to the width of the field.
+ */
+.control {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--nph-space-stack-tight);
+  min-inline-size: 0;
+}
+
+.control slot::slotted(*) {
+  inline-size: auto;
+  max-inline-size: 100%;
+}
+
+/*
+ * The message line. With help text, the counter sits at the end of the same line, at
+ * least `space/inline` away (D-2); in error, it goes to a line of its own below the
+ * message, at the end (D-1). A long text wraps (D-4).
+ */
+.message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nph-space-inline);
+  min-inline-size: 0;
+}
+
+.message--error {
+  flex-direction: column;
+  gap: var(--nph-space-stack-tight);
+}
+
+.message__text {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  /* A run with no space, such as a URL, breaks inside the width instead of overflowing (D-4). */
+  overflow-wrap: anywhere;
+}
+
+/* Help: `text/caption` in `color/muted-foreground` (D3, D4). */
+.message__text--help,
+.message__counter {
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+  color: var(--nph-color-muted-foreground);
+}
+
+/* Error: `text/body-md` in `status/error`, with no icon (D2 to D4). */
+.message__text--error {
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  color: var(--nph-status-error);
+}
+
+/* The counter never takes the error color, and it keeps to the end of its line. */
+.message__counter {
+  flex: none;
+  margin-inline-start: auto;
+}
+
+.message--error .message__counter {
+  align-self: flex-end;
+}
