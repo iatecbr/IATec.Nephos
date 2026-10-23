@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 500,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-image",
   "dependencies": [],
   "gates": [
@@ -58,7 +58,7 @@
     "excerpt": null,
     "converted_decision": "The nph-image board (2573:66090), with its `Documentação` frame (2677:465), was accepted as the API and behavior specification of the nph-image. COMPONENT_SET 2573:66089. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "claude/dsa-51-nph-image-bd4e5f", "commit": null, "pr": null },
+  "git_review": { "branch": "claude/dsa-51-nph-image-bd4e5f", "commit": "87c1d3244d855a70a9e06e12f7280e1bc65d5633", "pr": 106 },
   "context": "docs/operacao/contextos/DSA-51.md",
   "updated_at": "2026-10-23"
 }

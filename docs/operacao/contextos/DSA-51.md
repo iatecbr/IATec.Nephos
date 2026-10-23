@@ -28,7 +28,8 @@ commits on the branch.
   findings that already exist.
 
 ## Result
-Implemented; the proof commands run before the pull request opens.
+In review in PR 106, synced with `v/5.0.0` after PRs 100 and 104. The proof commands pass, except
+`test:naming`, whose findings are all in files this branch does not touch.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the merge.
@@ -38,5 +39,4 @@ None. D1 (the empty and error illustrations) and D2 (the `design.md` entry of th
 tokens) wait for Indiane and do not block: empty and error draw the frame only until D1.
 
 ## Next command
-Open the pull request to `v/5.0.0`; after the merge, record the `review-and-merge` evidence and
-move the task to done.
+Wait for the review; after the merge, record the `review-and-merge` evidence and move the task to done.
