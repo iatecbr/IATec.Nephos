@@ -53,6 +53,12 @@
       "question": "There is no width token for the textarea. Outside `nph-field`, the code uses `layout/input-width` by default, as `nph-input`, with no minimum; the parent may stretch it. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D-5",
+      "question": "With the piece disabled, the evidence says the footer actions are disabled too and the whole piece takes `state/disabled-opacity`. It does not say whether the actions keep their own disabled opacity inside the faded piece. The code keeps both, so a disabled action reads fainter than the field; `nph-field` avoided that sum for its control (P83). It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
     }
   ],
   "evidence": [
@@ -95,7 +101,7 @@ carries the Figma documentation converted to text. There is no need to open Figm
 ## Pending decisions
 Value, form participation, events, keyboard and the way the counter reads the text
 are technical proposals for the PR (P93). The two height tokens are already on
-`v/5.0.0`. Four points remain for Indiane; the code follows the stated default
+`v/5.0.0`. Five points remain for Indiane; the code follows the stated default
 meanwhile, and the answer only adjusts one rule each.
 
 | ID | What the evidence gives | What is missing | What the code does meanwhile |
@@ -104,6 +110,7 @@ meanwhile, and the answer only adjusts one rule each.
 | D-2 | `leitura` has no hover change and no error. | Focus in `leitura`. | The focus border and halo stay. |
 | D-3 | The footer is `space/stack` below the text; actions `space/inline` apart. | The alignment inside the footer. | Footer inside the box; counter at the start, actions at the end. |
 | D-4 | No width. | The default width outside `nph-field`. | `layout/input-width`, as `nph-input`. |
+| D-5 | `disabled`: the actions are disabled; the piece at `state/disabled-opacity`. | Whether the actions keep their own disabled opacity inside the faded piece. | Both apply, so a disabled action reads fainter than the field. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

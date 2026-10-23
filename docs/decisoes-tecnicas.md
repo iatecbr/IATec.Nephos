@@ -2772,6 +2772,10 @@ size. The names follow P64.
   `layout/textarea-min-height` and scrolls inside: the text is never cut and the field never
   passes the maximum, but it does not grow.
 - **Forced colors and right-to-left are not treated yet**, as in P80.
+- **A disabled action fades twice.** The piece is at `state/disabled-opacity` and each
+  `nph-button` it disables takes its own disabled opacity, so the action reads fainter than the
+  field. P83 avoided that sum in `nph-field`; here the evidence asks for both the faded piece and
+  the disabled actions, and the sum waits for Indiane (D-5 of DSA-38).
 
 **Points for review.**
 
@@ -2779,8 +2783,8 @@ size. The names follow P64.
 - **`counter` as a text**, with no count and no `maxlength`.
 - **The `actions` slot and no `footer` property**, the footer on by its content.
 - **`field-sizing: content`** for the growth, and its limit.
-- **The padding and the width** (D-1, D-4), the focus in `readonly` (D-2) and the arrangement of
-  the footer (D-3), which wait for Indiane.
+- **The padding and the width** (D-1, D-4), the focus in `readonly` (D-2), the arrangement of
+  the footer (D-3) and the opacity of a disabled action (D-5), which wait for Indiane.
 
 **Source.** Frame `nph-textarea` (`1632:24`), documentation `1922:642` and set `1632:22` of the
 Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 16/10/2026, with the Figma UX QA and the
