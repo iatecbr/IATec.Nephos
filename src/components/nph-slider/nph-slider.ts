@@ -52,6 +52,7 @@
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
+import { live } from 'lit/directives/live.js';
 
 import '../nph-button/nph-button';
 import '../nph-input/nph-input';
@@ -195,8 +196,16 @@ export class NphSlider extends LitElement {
   declare invalid: boolean;
 
   private readonly internals: ElementInternals;
-  /* A label added, removed or pointed elsewhere renames the thumbs and the single field. */
-  private readonly labelObserver = new MutationObserver(() => this.requestUpdate());
+  /*
+   * A label added, removed, pointed elsewhere or with a new text renames the thumbs and the
+   * single field. A text change counts only inside a label of the host.
+   */
+  private readonly labelObserver = new MutationObserver((records) => {
+    const labels = [...this.internals.labels];
+    if (records.some((record) => record.type !== 'characterData' || labels.some((label) => label.contains(record.target)))) {
+      this.requestUpdate();
+    }
+  });
   /** The values asked for, by the attribute, by code or by the person; `null` is the default. */
   private asked: { value: number | null; start: number | null; end: number | null } = {
     value: null,
@@ -245,6 +254,7 @@ export class NphSlider extends LitElement {
     this.labelObserver.observe(this.getRootNode(), {
       subtree: true,
       childList: true,
+      characterData: true,
       attributes: true,
       attributeFilter: ['for', 'id'],
     });
@@ -650,6 +660,21 @@ export class NphSlider extends LitElement {
       this.thumb(index)?.focus();
     }
     this.move(this.drag.index, value, false);
+    this.holdBalloon();
+  }
+
+  /**
+   * While a thumb is dragged, its balloon stays open even if the tooltip closed it on its own,
+   * as when the pointer leaves the thumb: the `open` binding does not change, so it is set here.
+   */
+  private holdBalloon(): void {
+    if (this.drag === null) {
+      return;
+    }
+    const tooltip = this.renderRoot.querySelector<HTMLElement & { open: boolean }>(`nph-tooltip[for="${THUMB_IDS[this.drag.index]}"]`);
+    if (tooltip && !tooltip.open) {
+      tooltip.open = true;
+    }
   }
 
   private onPointerUp(event: PointerEvent): void {
@@ -886,7 +911,7 @@ export class NphSlider extends LitElement {
     return html`<nph-input
       class="entry entry--${index === 0 && !this.single ? 'start' : 'end'}"
       size="default"
-      .value=${String(this.values[index])}
+      .value=${live(String(this.values[index]))}
       .label=${name}
       .description=${this.description}
       .invalid=${this.invalid && !inactive}

@@ -1272,4 +1272,72 @@ describe('regressions of the code review', () => {
     expect(events).toEqual(['input', 'change']);
     expect(fields(element)[0]?.shadowRoot?.activeElement).toBe(inner);
   });
+
+  it('a real mouse drag keeps the balloon open, also after the hover balloon opened, and closes it on release', async () => {
+    const holder = document.createElement('div');
+    holder.style.paddingBlockStart = '120px';
+    document.body.append(holder);
+    const element = await mount({ label: 'Volume', value: 50 }, holder);
+    const tooltip = element.shadowRoot?.querySelector('nph-tooltip') as NphTooltip;
+    /* The test page is scaled inside its frame; the mouse of the DevTools protocol uses the top page. */
+    const frame = (window.frameElement as HTMLElement | null)?.getBoundingClientRect() ?? { left: 0, top: 0, width: innerWidth };
+    const scale = frame.width / innerWidth;
+    const box = thumb(element).getBoundingClientRect();
+    const x = frame.left + (box.left + box.width / 2) * scale;
+    const y = frame.top + (box.top + box.height / 2) * scale;
+    const session = cdp();
+    await session.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x, y });
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+    await session.send('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', clickCount: 1 });
+    for (let step = 1; step <= 5; step += 1) {
+      await session.send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: x + step * 10, y: y + 40, button: 'left', buttons: 1 });
+      await nextFrame();
+    }
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    await tooltip.updateComplete;
+    expect(element.value).toBeGreaterThan(50);
+    expect(tooltip.open).toBe(true);
+    await session.send('Input.dispatchMouseEvent', { type: 'mouseReleased', x: x + 50, y: y + 40, button: 'left', clickCount: 1 });
+    await element.updateComplete;
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(false);
+  });
+
+  it('a balloon closed by the tooltip during a drag opens again on the next movement', async () => {
+    const element = await mount({ label: 'Volume', value: 50 });
+    const tooltip = element.shadowRoot?.querySelector('nph-tooltip') as NphTooltip;
+    pointer(element, 'pointerdown', 0.4);
+    await element.updateComplete;
+    tooltip.open = false;
+    await tooltip.updateComplete;
+    pointer(element, 'pointermove', 0.41);
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+    pointer(element, 'pointerup', 0.41);
+  });
+
+  it('reset puts the attribute value back in a field with text not yet applied', async () => {
+    const holder = await markup('<form><nph-slider inputs label="Volume" name="volume" value="40"></nph-slider></form>');
+    const element = holder.querySelector('nph-slider') as NphSlider;
+    const field = fields(element)[0] as NphInput;
+    const inner = field.shadowRoot?.querySelector('input') as HTMLInputElement;
+    await userEvent.fill(inner, '70');
+    (holder.querySelector('form') as HTMLFormElement).reset();
+    await element.updateComplete;
+    await field.updateComplete;
+    expect(field.value).toBe('40');
+    inner.dispatchEvent(new Event('change', { bubbles: true }));
+    expect(element.value).toBe(40);
+  });
+
+  it('a new text in an associated label renames the single field without moving the slider', async () => {
+    const holder = await markup('<nph-label for="v" text="Volume"></nph-label><nph-slider id="v" inputs></nph-slider>');
+    const element = holder.querySelector('nph-slider') as NphSlider;
+    const label = holder.querySelector('nph-label') as HTMLElement & { text: string; updateComplete: Promise<unknown> };
+    label.text = 'Sound';
+    await label.updateComplete;
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await element.updateComplete;
+    expect(fields(element)[0]?.label).toBe('Sound');
+  });
 });
