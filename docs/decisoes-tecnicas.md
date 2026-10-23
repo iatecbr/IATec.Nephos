@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80, P83, P84, P90 and P93. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P86, P90 and P93. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -35,7 +35,7 @@ P62.4 subsection for the detail).
 | **P65** | API and semantics of `nph-tooltip` | 05/10/2026 | Low now. `nph-label` is the first consumer; changing later requires redoing its trigger | Behavior and scope (L11.5) and anatomy (L11.6, L11.7 and the accepted frame) adopted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #51, merged on 05/10/2026. **Amended by P77 (21/10/2026)**: opening, closing, placement and semantics |
 | **P66** | API and semantics of `nph-spinner`, `nph-separator` and `nph-kbd` | 05/10/2026 | Low now. `nph-button` (Batch B) and `nph-rich-option` will be the first consumers | Anatomy and behavior: frames accepted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #54, merged in `d01da7b` |
 | **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Generator approved by `maurocsjr` in PR #55, merged in `7dd370d` |
-| **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics approved by `maurocsjr` in PR #56, merged in `455ead8` |
+| **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics approved by `maurocsjr` in PR #56, merged in `455ead8`. **Amended by P86 (23/10/2026)**: the shape and the tooltip of the icon-only button |
 | **P69** | API and semantics of `nph-skeleton` | 15/10/2026 | Low now. No piece consumes it yet; `nph-avatar` will share its avatar sizes and radii | Anatomy and behavior: frame accepted by Indiane on 08/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P70** | Package entry points and the Usage section | 15/10/2026 | Medium. Every `Docs` page shows the import line, so changing the path later changes every page and every consumer | Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request that brings it |
 | **P71** | `Docs` page lists read from the Metadata | 15/10/2026 | Low. The lists move from the dictionary to the Metadata; the sheet does not change its format | Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request that brings it |
@@ -46,9 +46,11 @@ P62.4 subsection for the detail).
 | **P76** | API and semantics of `nph-toggle-group` | 20/10/2026 | Low now. No piece consumes it yet; a toolbar will, so changing `label`, `selection`, `value` or the event `nph-value-change`, or the `value` attribute each button carries, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P77** | `nph-tooltip`: any element, opened on hover and on keyboard focus (amends P65 and P62.6) | 21/10/2026 | Medium. `nph-button` (DSA-43) and the value balloon of the slider (DSA-39) will attach the balloon with `for`, so changing `for`, `side` or the rule of opening later requires redoing both | Anatomy and behavior: board accepted by Indiane on 20/10/2026, D1 answered on 20/10/2026; the plan is approved by Elvys on 21/10/2026. API and semantics approved by Elvys's merge of PR #94 (`3835337`). **Amended on 22/10/2026 (DSA-48)**: hover delay, keyboard, only focusable elements and `relation`; rules accepted by Indiane on 22/10/2026, the plan approved by Elvys the same day, API and semantics reviewed in the pull request that brings them |
 | **P78** | API and semantics of `nph-avatar-stack` | 22/10/2026 | Low now. No piece consumes it yet; a list of people, a card or a table row will, so changing `count`, `label` or the slot of `nph-avatar` children later requires redoing them | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P79** | API and semantics of `nph-switch` | 22/10/2026 | Low now. No piece consumes it yet; `nph-dropdown-menu` (DSA-45) will, without a label, so changing `checked`, `text`, `label` or the native events later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D4 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P80** | API and semantics of `nph-input`, the reference of the form controls | 22/10/2026 | Medium. `nph-field` (DSA-28), `nph-checkbox`, `nph-radio` and `nph-input-otp` copy its form association, its native events and its name by reference, so changing them later requires redoing those pieces | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D7 answered on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P83** | `nph-field`: API, semantics and the field–control contract | 22/10/2026 | Medium. Every form control (DSA-16, DSA-17, DSA-18, DSA-27, DSA-41, and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46) takes the contract, so changing `label`, `description`, `invalid`, `required`, `disabled` or `nphFieldRole` later requires redoing all of them | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D8 answered on 16/10/2026; the plan and the contract approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P84** | API and semantics of `nph-empty`, and the first raster asset of the package | 22/10/2026 | Low now. No piece consumes it yet; `nph-combobox` (DSA-46) will, so changing `heading` or `description` later requires redoing its empty list. The asset delivery (`vite.config.lib.ts`) applies to any later illustration | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P86** | Icon-only `nph-button`: shape and built-in tooltip (amends P68) | 23/10/2026 | Low now. `nph-dialog` (DSA-44) will use the icon-only button to close, so changing `shape`, or the tooltip the button renders, later requires redoing it | Anatomy and behavior: board `nph-icon-button` accepted by Indiane on 19/10/2026, textual audit approved on 20/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P90** | API and semantics of `nph-image` | 23/10/2026 | Low now. No piece consumes it yet; `nph-table` will, for the thumbnail and the expanded item, so changing `size`, `ratio`, `src`, `alt` or `interactive`, or the derived state, later requires redoing it | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P93** | API and semantics of `nph-textarea` | 23/10/2026 | Low now. No piece consumes it yet; a comment box or a message composer will, so changing `counter`, `readonly` or the `actions` slot later requires redoing them. It copies the form shape of P80 and the field contract of P83 | Anatomy and behavior: frame accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 
@@ -1042,7 +1044,8 @@ its own decision, as in P66. The names follow P64.
     (`white-space: nowrap`), because the height is fixed by the control token.
   - `icon-start` and `icon-end` (properties `iconStart` and `iconEnd`): one core
     name each, in `icon/size-sm` when there is text, and they can coexist (B6).
-  - **Icon only (B5).** With no text and one icon, the button is square, at the
+  - **Icon only (B5).** *(Amended by P86: the icon-only button is square or circular, through
+    `shape`, and renders its own `nph-tooltip`, which names the native button.)* With no text and one icon, the button is square, at the
     control height, with no side padding, and the icon follows the box: `sm` in
     `compact`, `md` in `default` and `lg` in `large` (set `498:15671`). The
     `label` is required and becomes the `aria-label` of the native button; with
@@ -2133,6 +2136,140 @@ approval.
 
 ---
 
+## P79 — `nph-switch`: API and semantics
+
+**Decision.** `nph-switch` is a Web Component with **open Shadow DOM** (P01), CSS in its own
+file imported `?inline`, as in `nph-icon`. It has no slot, no `::part`, no color property, no
+size property and no form association. Anatomy only through semantic tokens. Invalid input
+renders nothing and emits `console.error` only in development — the rule of P21, adopted here
+by its own decision, as in P66, P68, P73 and P76. The names follow P64.
+
+1. **Properties.** The Figma set has the variant `marcado`, the variant `state` and the
+   boolean `mostrar rótulo`. The mapping below is a technical proposal of this implementation.
+
+   | Figma | API |
+   |---|---|
+   | `marcado` | `checked`, Boolean, reflected to the attribute |
+   | `state` `erro` and `erro-foco` | `invalid`, Boolean, reflected to the attribute |
+   | `state` `disabled` | `disabled`, Boolean, reflected to the attribute |
+   | the label text | `text`, String |
+   | `mostrar rótulo` off | the absence of `text`; then `label`, String, is the accessible name |
+
+   `state` `default`, `hover` and `foco` are interaction, not properties. `label` becomes the
+   `aria-label` of the native button, as in P68 and P73: an `aria-label` on the host would not
+   name the button inside the shadow root. With `text`, `label` is not used. `checked`
+   reflects because the piece is not associated with a form, so the attribute is not the
+   default of a reset (contract of the field, P83, item 5.4).
+
+2. **Semantics: `role="switch"`.** The piece is one native `<button type="button">` inside the
+   shadow root, with `delegatesFocus`, `role="switch"` and `aria-checked` following `checked`.
+   The button holds the track and, after it, the label, so the name comes from the content and
+   the whole piece is the touch target the evidence asks for; the track is `aria-hidden`. Space
+   and Enter toggle, as on a native button. This is the opposite of P73, on purpose: the
+   evidence sets the piece apart from `nph-togglebutton` (a button that keeps a state, with
+   `aria-pressed`) and from `nph-checkbox` (a choice that goes with a submission). The piece
+   is not form-associated.
+
+3. **Native events.** When the person toggles the piece by click, Enter or Space, the host
+   fires `input` (`bubbles`, `composed`) and then `change` (`bubbles`, not `composed`), as a
+   native control does; the new value is read from `event.target.checked`. A change of
+   `checked` made from code never fires them. There is no `nph-*` event and nothing in
+   `HTMLElementEventMap`: one key in that map takes one type, and `nph-change` is already typed
+   with `{ pressed }` by `nph-togglebutton`. This follows the contract of the field (P83, item
+   5.1) and the exception to the reasoning of item 3 of P73 recorded in P80, item 4: these pieces
+   are form controls, and the frameworks bind `input` and `change`. The switch has no inner
+   `<input>`, so the host fires both. A `click()` called on the host toggles the piece and fires
+   both events, as the click of a person does; a disabled piece neither toggles nor fires, also
+   for `click()`.
+
+4. **`aria-invalid`.** Unlike P73, the piece sets `aria-invalid="true"` on the native button
+   while `invalid` holds and `disabled` does not: `role="switch"` supports it, because it
+   inherits from `checkbox`. The error sentence stays outside the piece.
+
+5. **`disabled` wins over `invalid`.** The evidence says `disabled` does not exist with an
+   error. In runtime, `disabled` suppresses the error outline and `aria-invalid`: it is listed in
+   the sheet as an invalid combination, and is not a `console.error` case. A disabled
+   `<fieldset>` around the piece disables it as the property does, except inside the first
+   `<legend>` of that fieldset, as the browser does (P83, item 4): the piece reads the fieldset
+   itself, since it is not form-associated, and watches its `disabled` attribute. The property
+   `disabled` does not change; an internal marker on the host carries the state to the CSS.
+
+6. **Inside `nph-field`.** The class declares `static nphFieldRole = 'option'`: in the field,
+   the piece is one option of a `role="group"`, and the field writes `invalid` and `disabled` on
+   it (P83, items 5.3 and 6). The piece brings its own text and does not need the field to have
+   a name; without a name it does not render (P83, item 5.6).
+
+7. **Focus on the track.** On `:focus-visible`, the track outline turns `focus/border`, at
+   `border/width`, and a halo of `focus/ring-width` in `focus/halo` shows outside the track, both
+   `radius/full` (D2); with an error, `status/error` and `focus/halo-error`. The label gets no
+   ring. The outline of the track at rest is a stroke inside it, made with `box-shadow: inset`,
+   so it does not move the knob, which keeps `space/inline-tight` from the outer edge (D4).
+
+8. **Motion.** The knob slides by `transform`, never by layout position, and the track fill and
+   outline change on `motion/state-duration` and `motion/state-easing`, both ways (D3). Two knobs
+   share the place: the off one, in `color/background`, and the on one, in
+   `color/primary-foreground`, which fades in over it while both slide; the off knob stays
+   opaque, so the knob never dims in the middle of the slide. Under `prefers-reduced-motion` the
+   knobs do not slide: the off knob stays on the left and fades out, the on knob stays on the
+   right and fades in, and the colors change on `motion/hover-duration`. The evidence names
+   `core/duration/100`; the piece uses its semantic alias, with the same value, 100 ms, as P73
+   does, with the same touch on A58 (the duration of the `hover` role with the curve of the
+   `state` role, both `cubic-bezier(0.4, 0, 0.2, 1)`). The open question is still D7 of the
+   task DSA-22; this piece follows its answer.
+
+9. **Invalid input.** With no `text` and no `label` (an empty or whitespace string counts as
+   none), the piece draws nothing and emits one `console.error`, only in development. The check
+   runs again only when `text` or `label` changes, so toggling does not repeat the error.
+
+**Points for review.**
+
+- **`use` of tokens in `design.md` narrower than the accepted frame.** `color/input` says
+  "Field border" and is the fill of the off track here; `icon/size-lg` says "DO NOT USE … in a
+  list" and is the height of the track, which `switch/track-width` asks for. `design.md` does
+  not change in this pull request; widening the `use` is a decision of Indiane, through Claude in
+  Figma, as P73 recorded.
+- **D3 against `movimento_regras.anime_apenas`.** The track fill and outline animate, besides
+  transform and opacity. The accepted evidence prevails, as in P73.
+- **Contrast, measured.** The component test measures the seven brands in light and dark. The
+  track edge on the page background: `color/input` 3.23:1 in light and 6.58:1 in dark;
+  `color/primary-border` at least 4.96:1 in light and 4.91:1 in dark. The knob on its track:
+  `color/background` on `color/input` 3.23:1 in light and 6.58:1 in dark; `color/primary-foreground`
+  on `color/primary` at least 4.96:1. The error outline, `status/error` on `color/background`,
+  6.88:1 in light and 5.01:1 in dark. **Known limit, already recorded in `design.md`:**
+  `focus/border` against `focus/halo` is 2.92:1 in `Sistemas`, in light mode; the test pins that list.
+
+**Known limits.** A forced-colors mode is not handled: there the `box-shadow` and the
+backgrounds give way to system colors and the knob may not show; handling it takes system color
+keywords, which no piece uses yet, and is left to a task for every piece. A right-to-left page
+does not mirror the knob: `left` is physical, and the evidence says left is off and right is on.
+The error sentence outside the piece cannot be tied to it by `aria-describedby` across the
+shadow root; inside `nph-field`, the field describes the group. A `<legend>` inserted or removed
+before the one that holds the piece does not recompute its state until the next update, as in
+`nph-field` (P83).
+
+**Source.** Frame `nph-switch` (`1549:2`, set `1548:56`) of the Figma file `DS-IA-NEPHOS 5.0`,
+accepted by Indiane on 08/10/2026, with the Figma UX QA and the textual audit approved; D1 to D4,
+read from the set and answered by Indiane on 19/10/2026, in `docs/operacao/tarefas/DSA-27.md`. The
+names `checked`, `invalid`, `disabled`, `text` and `label`, `role="switch"` on one button, the two
+knobs and `aria-invalid` are a technical proposal of this implementation, reviewed with the plan
+on 22/10/2026.
+
+**Out of scope.** Form association and submission (`nph-checkbox`). A group component. A size.
+What `nph-dropdown-menu` (DSA-45) will need: the piece without a label in a row 20 px high, the
+row forcing the hover of the track, and the piece inside a `menuitem`. The Usage section of the
+page (P70, DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate
+(P72, DSA-32).
+
+**Pending for Indiane (DSA-27, D5 and D6), none of them blocks.** How a one-line label aligns
+with the track (tops aligned here); whether the fill follows the hover while there is an error
+(it does here, and the outline stays `status/error`).
+
+**Status.** Anatomy and behavior accepted by Indiane on 08/10/2026; D1 to D4 answered on
+19/10/2026. API and semantics are reviewed in the pull request that brings them; the merge is the
+approval.
+
+---
+
 ## P80 — `nph-input`: API and semantics, the reference of the form controls
 
 **Decision.** `nph-input` is a Web Component with **open Shadow DOM** (P01) and
@@ -2567,6 +2704,104 @@ in the pull request that brings them; the merge is the approval.
 
 ---
 
+## P86 — Icon-only `nph-button`: shape and built-in tooltip
+
+This decision **amends P68** in the icon-only button (B5). P68 fixed a square icon-only button
+named by `label`, with no tooltip. Indiane accepted the `nph-icon-button` board on 19/10/2026, with
+the textual audit approved on 20/10/2026 (DSA-43): the set has two shapes, and every icon-only
+button carries a tooltip with the action name. In code it stays the `nph-button` without text: no
+new tag. The text of P68 is kept as it was written; its icon-only paragraph carries an "Amended by
+P86" mark.
+
+**Technical conflict.** P68 has one corner for the icon-only button and no tooltip; the accepted
+board adds `forma` (`quadrado`, `circular`) and makes the tooltip required. The rule of the
+tooltip comes from P77 and its amendment of 22/10/2026: an element whose focus lives in a shadow
+root cannot be described from outside, so the component that owns that root renders the tooltip
+(P77 item 2), and on an icon-only button the balloon text is the accessible name, announced once
+(rule 5 of DSA-48).
+
+**Decision.**
+
+1. **`shape`.** A string, reflected to the attribute, `square` (default) or `circular`, the Figma
+   `forma` (`quadrado`, `circular`). The internal CSS selects the corners by it: `radius/control`
+   in `square`, `radius/full` in `circular`. In the circular shape the focus border and halo also
+   take `radius/full`; their width, color and distance do not change. The shape changes neither the
+   size nor the touch target: the box stays 28, 36 or 44 px. An enum, not a boolean `circular`,
+   keeps the one-to-one with the Figma variant and the invalid input rule of the piece.
+2. **Only in the icon-only button.** The set with text has no `forma`. `circular` with text is
+   invalid input, like `outline` in `info`: nothing is drawn and `console.error` is emitted in
+   development, one per cause and accumulating (P68, P21 rule). A value outside the list is too.
+   `square` with text is the default and never fails.
+3. **The tooltip the button renders.** A valid icon-only button renders
+   `<nph-tooltip for="control" relation="name">` next to its native button, in its shadow root; the
+   native button has the `id` `control`, unique in that root. The tooltip text is the `label`: there
+   is no second string that could diverge from the name, and there is no way to turn the tooltip off,
+   because the board makes it required on every icon-only button. The button with text renders no
+   tooltip. `side` is not set: the default `top` is the "above the button" of the board, and the
+   tooltip flips by itself when it does not fit. Importing `nph-button` registers `nph-tooltip` too.
+   The button keeps one root template for both forms, so switching between text and icon only
+   keeps the native button and its focus. A click on the open balloon is composed and reaches the
+   host without activating the native button, so the capture guard of the host stops it, as it does
+   in `disabled` and `loading`. A tooltip rendered after the keyboard focus arrived, as when a button
+   with text becomes icon-only while focused, heard no `focusin`: `nph-tooltip` now takes the focus
+   hold when it attaches, on any path, to an element that already has the focus, with the rule of
+   `focusin`, and only when the last input of the page was the keyboard. The page keeps one record
+   of that last input: a key press (Tab included, not Enter, Space or Esc, which run or dismiss the
+   action) or a pointer press, touch included. A text field matches `:focus-visible` after a click
+   too, so the record decides; both events are composed, so a focus move between two controls of
+   the same shadow root counts, which a `focusin` on the document does not see. The record starts
+   when the module loads, not with the first tooltip, so the first balloon of a page also knows it.
+   The `nph-tooltip` demonstrations that paired an icon-only `nph-button` with a second, outer
+   tooltip now use a native button with one tooltip, so no example shows two balloons.
+4. **The name, announced once.** With `relation="name"` the tooltip adds its `id` to the
+   `aria-labelledby` of the native button, and the browser computes the name from the text it
+   mirrors. The native button keeps `aria-label` with the same `label`: `aria-labelledby` wins in
+   the name computation, and the `aria-label` covers the moment before the tooltip attaches. The
+   tests read the name and the description the browser itself computes: the name is the `label` and
+   there is no description, with the balloon closed and open.
+5. **States.** The tooltip follows P77 and its amendment: keyboard focus opens it at once, the
+   pointer after `motion/hover-delay`, never on touch, Enter and Space leave it alone and Esc closes
+   it. A disabled button gets no balloon, because the native button is `:disabled` and the tooltip
+   gives none to an element without focus; the reference stays, so the disabled button keeps its
+   name. In `loading` the native button stays focusable (`aria-disabled`), so the balloon opens and
+   names an action that is busy; the click still does not reach the consumer.
+6. **Icon only in an action with a consequence.** The board allows it only in the actions column of
+   a table, where the tooltip gives the name; elsewhere, the button has text. This is a usage rule
+   of the sheet, not something the component can check.
+
+**Breaking changes, and the release candidate.** Under P75, without a compatibility layer:
+
+- The icon-only button now renders an `nph-tooltip` in its shadow root and its native button has
+  `aria-labelledby`; the name does not change.
+- `shape` is new and additive; with the default nothing else changes. The button with text does not
+  change.
+
+**Known limits.**
+
+- **Esc inside a dialog.** With keyboard focus on an icon-only button, the balloon is open, and the
+  first Esc closes the balloon, not the dialog around it (P77 item 4). It is pending with Indiane
+  (DSA-43, D2).
+- **No visible name on touch**, by rule 6 of DSA-48: the tooltip never opens there.
+- **The distance of the balloon** is the one of the tooltip, `space/inline`; the DSA-43 evidence
+  shows `space/inline-tight`. It is DSA-42 D2, with Indiane; the button does not override it.
+
+**Source.** Board `nph-icon-button` (`2122:1591`, frame `2128:3953`, set `498:15671`) of the Figma
+file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 19/10/2026, with the Figma QA approved the same day
+and the textual audit approved on 20/10/2026; `docs/operacao/evidencias/DSA-43/`. The name `shape`,
+its values, the invalid input rule, the `id` of the native button, the `aria-label` kept as a
+fallback and the tooltip in `loading` are a technical proposal of this implementation, approved with
+the plan by Elvys on 22/10/2026.
+
+**Out of scope.** A configurable side of the balloon, a way to turn it off and a tooltip text other
+than `label`. The solid icon in `hover-active` (DSA-47). The Anatomy section of the page (DSA-33),
+the Usage section (P70, DSA-35), the page lists read from the Metadata (P71, DSA-34) and the
+accessibility gate (P72, DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 19/10/2026 and 20/10/2026. API and semantics
+are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## P90 — `nph-image`: API and semantics
 
 **Decision.** `nph-image` is a Web Component with **open Shadow DOM** (P01), CSS in its own file
@@ -2804,7 +3039,7 @@ in the pull request that brings them; the merge is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80, P83, P84, P90 or P93 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P86, P90 or P93 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 250,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-switch",
   "dependencies": [],
   "gates": [
@@ -29,11 +29,25 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D5",
+      "question": "The track is icon/size-lg high (24) and the label line is text/label-md (20). The evidence says the track sits at the top, aligned with the first line, but not how a one-line label aligns: tops aligned, or the track centered on the first line. The code aligns the tops (align-items: flex-start), the literal reading. Which one holds? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D6",
+      "question": "The set draws no hover with an error. The outline stays status/error; the code also moves the fill to color/input-hover (off) or color/primary-hover (on) on hover with an error, as without one. Does Indiane confirm? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-27/documentacao-figma-aceita-2026-10-08.md"
   ],
   "decision_refs": [
+    "docs/decisoes-tecnicas.md#p79",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, D2, D4 and the label side of D1 read from the accepted Figma set; the wrap of D1 and D3 answered by Indiane"
   ],
@@ -46,12 +60,12 @@
     "converted_decision": "The nph-switch frame (1549:2) was accepted as the API and behavior specification of the nph-switch. COMPONENT_SET 1548:56. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": {
-    "branch": null,
-    "commit": null,
-    "pr": null
+    "branch": "claude/dsa-27-nph-switch-1ea737",
+    "commit": "c10ba4917f4e49e5c33de5cdd057dec48fb538ff",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/108"
   },
-  "context": null,
-  "updated_at": "2026-10-19"
+  "context": "docs/operacao/contextos/DSA-27.md",
+  "updated_at": "2026-10-23"
 }
 ```
 
