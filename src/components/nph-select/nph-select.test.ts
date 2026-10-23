@@ -668,6 +668,17 @@ describe('keyboard (APG select-only combobox)', () => {
     expect(activeOf(element)).toBe(option(element, 'Sales'));
   });
 
+  it('a navigation key ends the typed search: a Space right after it chooses', async () => {
+    const element = await mount();
+    await focusTrigger(element);
+    await press(element, '{ArrowDown}');
+    await press(element, 's');
+    await press(element, '{ArrowDown}');
+    await press(element, ' ');
+    expect(element.value).toBe('support');
+    expect(element.open).toBe(false);
+  });
+
   it('the active option comes into view of the list, without scrolling the page', async () => {
     const many = Array.from({ length: 15 }, (_, index) => `Option ${String(index + 1).padStart(2, '0')}`);
     const element = await mount('label="Pick"', options(many));
@@ -1111,6 +1122,18 @@ describe('states and precedence', () => {
     expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
     await userEvent.hover(trigger(element));
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+  });
+
+  it('disabling an invalid select that has the keyboard focus drops the error and focus looks', async () => {
+    const element = await mount('label="Department" invalid');
+    await userEvent.tab();
+    expect(halo(element).content).not.toBe('none');
+    element.disabled = true;
+    await element.updateComplete;
+    /* The trigger leaves the tab order, and the browser takes the focus away from it. */
+    expect(element.shadowRoot?.activeElement ?? null).toBeNull();
+    expect(border(element)).toBe(resolved('color', '--nph-color-input'));
+    expect(halo(element).content).toBe('none');
   });
 
   it('disabling an open select closes it', async () => {

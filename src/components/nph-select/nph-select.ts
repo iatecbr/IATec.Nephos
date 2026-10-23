@@ -491,6 +491,14 @@ export class NphSelect extends LitElement implements NphOptionOwner {
     return reachable[next] ?? null;
   }
 
+  private clearTyped(): void {
+    if (this.typedTimer !== undefined) {
+      this.ownerDocument.defaultView?.clearTimeout(this.typedTimer);
+      this.typedTimer = undefined;
+    }
+    this.typed = '';
+  }
+
   /**
    * Typeahead: the typed characters, kept together for a moment, find the next option
    * whose label starts with them. The same character typed again cycles through the
@@ -532,6 +540,10 @@ export class NphSelect extends LitElement implements NphOptionOwner {
     }
     const { key, altKey, ctrlKey, metaKey } = event;
     let handled = true;
+    /* A key that is not a character ends the typed search: a Space after it chooses again. */
+    if (key.length !== 1) {
+      this.clearTyped();
+    }
 
     if (!this.open) {
       if (key === 'Enter' || key === ' ' || key === 'ArrowDown' || key === 'ArrowUp') {

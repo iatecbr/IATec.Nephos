@@ -167,13 +167,21 @@
   border-color: var(--nph-focus-halo-error);
 }
 
-/* Disabled wins: the resting border, the `color/muted` background, no hover and no error look. */
+/*
+ * Disabled wins: the resting border, the `color/muted` background, no hover, no error look
+ * and no focus look, also when the trigger kept the focus it had before it was disabled.
+ */
 :host(:disabled) .trigger,
-:host(:disabled) .trigger:hover {
+:host(:disabled) .trigger:hover,
+:host(:disabled) .trigger:focus-visible {
   --_border: var(--nph-color-input);
 
   background-color: var(--nph-color-muted);
   cursor: default;
+}
+
+:host(:disabled) .trigger::after {
+  content: none;
 }
 
 /*
