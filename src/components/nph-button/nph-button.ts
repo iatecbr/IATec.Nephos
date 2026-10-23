@@ -2,8 +2,9 @@
  * `nph-button` — the button that triggers an action identified by text.
  *
  * Contract accepted in Figma (frame `1197:5449`, sets `461:13009`, with
- * text, and `498:15671`, icon only), decisions B1, B5 and B6 of the `Registro` (vault),
- * solid hover on the hover tokens (02-10-2026, supersedes B4) and P68:
+ * text, and `498:15671`, icon only, the `nph-icon-button` of board `2122:1591`),
+ * decisions B1, B5 and B6 of the `Registro` (vault), solid hover on the hover
+ * tokens (02-10-2026, supersedes B4), P68 and P86, which amends it:
  * - `severity` (the Figma `tipo`): `primary` (default), `secondary`, `info`,
  *   `warn`, `help`, `danger` or `success`. Chosen by the meaning of the action;
  * - `emphasis` (the `enfase`): `solid` (default), `outline`, `light` or `ghost`.
@@ -15,6 +16,14 @@
  * - without text, the button is the "icon only" (B5): a single icon that follows the box
  *   (sm in compact, md in default, lg in large), and `label` is required as the
  *   accessible name (P68);
+ * - `shape` (the `forma`), icon only: `square` (default) on `radius/control` or
+ *   `circular` on `radius/full`; the focus border and halo follow the corners and
+ *   the box keeps its size (P86). With text, `circular` is invalid input;
+ * - the icon-only button renders its own `nph-tooltip` next to the native button, in
+ *   its shadow root, with the `label` as text and `relation="name"`: the balloon is
+ *   the accessible name, announced once (P77 and its amendment of 22-10-2026, P86).
+ *   The tooltip opens on keyboard focus at once and on hover after
+ *   `motion/hover-delay`, and gives no balloon while the button is disabled;
  * - `disabled`: the whole button at `state/disabled-opacity` and out of the Tab order;
  * - `loading` (the `carregando`): the `nph-spinner` replaces the start
  *   icon, the end icon disappears and the text stays. The button remains
@@ -30,6 +39,7 @@ import type { PropertyValues, TemplateResult } from 'lit';
 
 import '../nph-icon/nph-icon';
 import '../nph-spinner/nph-spinner';
+import '../nph-tooltip/nph-tooltip';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
 import type { NphIconSize } from '../nph-icon/nph-icon.icons';
 import buttonCss from './nph-button.css?inline';
@@ -39,6 +49,8 @@ const TAG = 'nph-button';
 /** Internal markers, not API. */
 const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 const ICON_ONLY_ATTRIBUTE = 'data-nph-icon-only';
+/** The `id` of the native button, which the tooltip finds by `for`; unique in the shadow root. */
+const CONTROL_ID = 'control';
 
 export const NPH_BUTTON_SEVERITIES = [
   'primary',
@@ -56,6 +68,10 @@ export type NphButtonEmphasis = (typeof NPH_BUTTON_EMPHASES)[number];
 
 export const NPH_BUTTON_SIZES = ['compact', 'default', 'large'] as const;
 export type NphButtonSize = (typeof NPH_BUTTON_SIZES)[number];
+
+/** The `forma` of the icon-only set (P86): square on `radius/control`, circular on `radius/full`. */
+export const NPH_BUTTON_SHAPES = ['square', 'circular'] as const;
+export type NphButtonShape = (typeof NPH_BUTTON_SHAPES)[number];
 
 /** The severities that exist only in `solid` (B1). */
 const SOLID_ONLY: readonly NphButtonSeverity[] = ['info', 'warn', 'help', 'success'];
@@ -102,6 +118,7 @@ export class NphButton extends LitElement {
     label: { type: String },
     disabled: { type: Boolean, reflect: true },
     loading: { type: Boolean, reflect: true },
+    shape: { type: String, reflect: true },
   };
 
   declare severity: NphButtonSeverity;
@@ -115,6 +132,8 @@ export class NphButton extends LitElement {
   declare label: string;
   declare disabled: boolean;
   declare loading: boolean;
+  /** Corners of the icon-only button: `square` or `circular`. */
+  declare shape: NphButtonShape;
 
   private valid = false;
   private iconOnly = false;
@@ -130,6 +149,7 @@ export class NphButton extends LitElement {
     this.label = '';
     this.disabled = false;
     this.loading = false;
+    this.shape = 'square';
     /* `click()` called on the host itself also stops in disabled and loading. */
     this.addEventListener('click', (event) => this.blockInactive(event), { capture: true });
   }
@@ -146,6 +166,7 @@ export class NphButton extends LitElement {
     const severity = this.severity ?? '';
     const emphasis = this.emphasis ?? '';
     const size = this.size ?? '';
+    const shape = this.shape ?? '';
     const text = (this.text ?? '').trim();
     const start = (this.iconStart ?? '').trim();
     const end = (this.iconEnd ?? '').trim();
@@ -164,6 +185,13 @@ export class NphButton extends LitElement {
     }
     if (!oneOf(NPH_BUTTON_SIZES, size)) {
       devError(`size "${size}" does not exist. Use ${NPH_BUTTON_SIZES.join(', ')}.`);
+      valid = false;
+    }
+    if (!oneOf(NPH_BUTTON_SHAPES, shape)) {
+      devError(`shape "${shape}" does not exist. Use ${NPH_BUTTON_SHAPES.join(', ')}.`);
+      valid = false;
+    } else if (shape === 'circular' && text !== '') {
+      devError('shape "circular" exists only in the icon-only button: with text, the button is square (P86).');
       valid = false;
     }
     if (start !== '' && !isCoreName(start)) {
@@ -220,17 +248,27 @@ export class NphButton extends LitElement {
       content = html`${lead}<span class="text">${text}</span>${tail}`;
     }
 
-    return html`<button
+    const label = (this.label ?? '').trim();
+    const button = html`<button
       class="control"
+      id=${CONTROL_ID}
       type="button"
       ?disabled=${this.disabled}
-      aria-label=${this.iconOnly ? (this.label ?? '').trim() : nothing}
+      aria-label=${this.iconOnly ? label : nothing}
       aria-disabled=${this.loading && !this.disabled ? 'true' : nothing}
       aria-busy=${this.loading ? 'true' : nothing}
       @click=${(event: Event) => this.blockInactive(event)}
     >
       ${content}
     </button>`;
+    /*
+     * Every icon-only button carries its balloon (P86). The `aria-label` stays as a
+     * fallback: the `aria-labelledby` the tooltip writes wins in the name computation,
+     * with the same text.
+     */
+    return this.iconOnly
+      ? html`${button}<nph-tooltip for=${CONTROL_ID} relation="name" .text=${label}></nph-tooltip>`
+      : button;
   }
 }
 
