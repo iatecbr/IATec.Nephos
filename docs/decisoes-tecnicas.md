@@ -2092,11 +2092,21 @@ decision, as in P66, P68, P73, P74 and P76. The names follow P64.
      is not wanted.
    - **Native surface**, as getters and methods, not reactive properties: `form`, `labels`,
      `validity`, `validationMessage`, `willValidate`, `checkValidity()` and `reportValidity()`.
+   - **Value and validity before the events.** The host takes the value of the inner field in a
+     `input` listener of its own, in capture, and writes the form value and the validity before
+     any listener of the consumer runs; setting `value`, a reset and clearing do the same. The
+     value is the one the native field keeps after its sanitizing (a line break, the spaces of
+     an `email`). While the inner field does not validate (disabled), the host clears its
+     validity, and mirrors it again when the field is enabled.
    - **Enter submits.** The inner field has no form owner, so the browser would not submit the
      form on Enter. The host does what HTML does: it clicks the default button of the form (the
-     first submit button, so the submitter and the validation apply), does nothing when that
-     button is disabled, and calls `requestSubmit()` when there is none. With no form, Enter
-     does nothing.
+     first submit button in tree order whose form is this one, `input type="image"` and buttons
+     associated by the `form` attribute included, so the submitter, `formaction` and the
+     validation apply), does nothing when that button is disabled, and calls `requestSubmit()`
+     when there is none. With no form, Enter does nothing. It decides at the **end of the
+     propagation**, as the default action of a native field: a consumer that cancels Enter, in
+     capture or in bubbling, keeps the form. A microtask would decide between two listeners of
+     the same event, too early.
 
 3. **Accessible name and description.** The focused element is the inner field, and an `id`
    does not cross the shadow root. The inner field takes, in this order:
@@ -2104,8 +2114,9 @@ decision, as in P66, P68, P73, P74 and P76. The names follow P64.
       (`ariaLabelledByElements`). A reference from inside a shadow root to an element of an
       outer scope is valid. The name follows the text of the label, because it is a reference
       and not a copy, and the `aria-hidden` asterisk of `nph-label` stays out of it. The host
-      recomputes it after the first frame (the label may render after the input), on focus and
-      when `label` changes. **Proved in Chromium**, by the accessibility tree read through the
+      recomputes it after the first frame (the label may render after the input), on focus, when
+      `label` changes and when a label of its root is added, removed or pointed elsewhere (a
+      `MutationObserver` on the root, filtered to `for` and `id`). **Proved in Chromium**, by the accessibility tree read through the
       DevTools protocol in `nph-input.test.ts`: the inner field is a `textbox` named by the
       label, with or without the asterisk; a label that wraps the host names it too. `nph-input-otp`
       (DSA-41) can follow the same path;
@@ -2165,7 +2176,9 @@ decision, as in P66, P68, P73, P74 and P76. The names follow P64.
   is the accessibility tree of Chromium. Setting it writes an empty `aria-labelledby` on the
   inner field; check it when the gate of P72 lands.
 - **Native events** instead of `nph-*`, and the departure from the reasoning of P73 item 3.
-- **Enter submits** by clicking the default button.
+- **Enter submits** by clicking the default button, decided at the end of the propagation.
+- **One `MutationObserver` per field on its root**, to follow labels that are recreated; it
+  watches the tree and the `for` and `id` attributes, not the text.
 - **`icon-start` and `icon-end` off by default**, unlike the Figma booleans.
 
 **Known limits.** Autofill by browsers and password managers inside a shadow root varies.

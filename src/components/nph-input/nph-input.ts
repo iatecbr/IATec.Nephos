@@ -164,8 +164,11 @@ export class NphInput extends LitElement {
   private current = '';
   /** Edited by the person or set by code: the `value` attribute no longer applies. */
   private dirty = false;
-  /** Disabled through an ancestor `<fieldset>` or the attribute, as the form sees it. */
-  private formDisabled = false;
+  /**
+   * Disabled through an ancestor `<fieldset>`. Kept apart from `disabled`: the attribute is
+   * reflected after `render()`, so the form callback for it would arrive one update late.
+   */
+  private fieldsetDisabled = false;
   private valid = false;
   private clearable = false;
   /** After the first frame, a label rendered by another element has had its chance. */
@@ -197,7 +200,6 @@ export class NphInput extends LitElement {
     this.labelObserver.observe(this.getRootNode(), {
       subtree: true,
       childList: true,
-      characterData: true,
       attributes: true,
       attributeFilter: ['for', 'id'],
     });
@@ -278,15 +280,10 @@ export class NphInput extends LitElement {
   }
 
   formDisabledCallback(disabled: boolean): void {
-    this.formDisabled = disabled;
+    /* Without the attribute, only a fieldset disables the host; with it, look at the ancestors. */
+    this.fieldsetDisabled =
+      disabled && (!this.hasAttribute('disabled') || this.parentElement?.closest('fieldset:disabled') != null);
     this.requestUpdate();
-    if (this.field?.disabled !== this.inactive) {
-      queueMicrotask(() => {
-        if (this.field?.disabled !== this.inactive) {
-          this.requestUpdate();
-        }
-      });
-    }
   }
 
   formStateRestoreCallback(state: string | File | FormData | null): void {
@@ -342,7 +339,7 @@ export class NphInput extends LitElement {
   }
 
   private get inactive(): boolean {
-    return this.disabled || this.formDisabled;
+    return this.disabled || this.fieldsetDisabled;
   }
 
   /**
@@ -367,13 +364,24 @@ export class NphInput extends LitElement {
     this.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
-  /** Enter submits the form, as in a native field: the default button, or the form itself. */
+  /**
+   * Enter submits the form, as in a native field: the default button, or the form itself.
+   * It is decided at the end of the propagation, as the default action of a native field,
+   * so a consumer that cancels Enter anywhere on the path keeps the form: a listener added
+   * now to the window, the last target of the path, still runs for this event. A microtask
+   * would run between two listeners of the same event and decide too early.
+   */
   private onKeydown(event: KeyboardEvent): void {
     const form = this.internals.form;
-    if (event.key !== 'Enter' || event.isComposing || form === null) {
+    const view = this.ownerDocument.defaultView;
+    if (event.key !== 'Enter' || event.isComposing || form === null || view === null) {
       return;
     }
-    queueMicrotask(() => {
+    const decide = (seen: Event): void => {
+      if (seen !== event) {
+        return;
+      }
+      view.removeEventListener('keydown', decide);
       if (event.defaultPrevented) {
         return;
       }
@@ -383,7 +391,10 @@ export class NphInput extends LitElement {
       } else if (!submitter.disabled) {
         submitter.click();
       }
-    });
+    };
+    view.addEventListener('keydown', decide);
+    /* A consumer that stops the propagation also keeps the form; the listener does not linger. */
+    view.setTimeout(() => view.removeEventListener('keydown', decide), 0);
   }
 
   /** The clear button: empty value, focus back on the field, the same events as typing. */
