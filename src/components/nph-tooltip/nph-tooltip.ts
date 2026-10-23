@@ -407,7 +407,7 @@ export class NphTooltip extends LitElement {
       subtree: true,
       childList: true,
       attributes: true,
-      attributeFilter: ['id', 'disabled', 'tabindex', 'contenteditable', 'inert'],
+      attributeFilter: ['id', 'disabled', 'tabindex', 'contenteditable', 'inert', 'slot'],
     });
   }
 

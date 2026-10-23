@@ -1107,6 +1107,36 @@ describe('only on an element that receives focus', () => {
     expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
   });
 
+  it('changing a light-DOM target to an inert slot closes the open balloon and keeps its ARIA reference', async () => {
+    const host = document.createElement('div');
+    const shadow = host.attachShadow({ mode: 'open' });
+    shadow.innerHTML = '<slot name="active"></slot><div inert><slot name="inactive"></slot></div>';
+
+    const button = document.createElement('button');
+    button.id = 'slotted-target';
+    button.slot = 'active';
+    button.textContent = 'Target';
+    button.style.cssText = 'position:fixed;left:300px;top:300px';
+
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    host.append(button);
+    document.body.append(host, tooltip);
+    await tooltip.updateComplete;
+    expect(button.assignedSlot?.name).toBe('active');
+    await shown(tooltip);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+
+    button.slot = 'inactive';
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+
+    expect(button.assignedSlot?.name).toBe('inactive');
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+  });
+
   it('loose text gets no balloon and reports once', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const span = document.createElement('span');
