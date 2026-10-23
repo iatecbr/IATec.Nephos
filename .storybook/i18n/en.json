@@ -59,6 +59,8 @@
     "components-nph-tooltip-validation--flip": "Flip",
     "components-nph-tooltip-validation--focus-and-escape": "Focus and Esc",
     "components-nph-tooltip-validation--hover-and-focus": "Hover and focus",
+    "components-nph-tooltip-validation--accessible-name": "Accessible name",
+    "components-nph-tooltip-validation--focusable-only": "Focusable only",
     "components-nph-skeleton-docs": "Docs",
     "components-nph-skeleton-docs--documentation": "Documentation",
     "components-nph-skeleton-validation": "Validation",
@@ -871,7 +873,7 @@
       ],
       [
         "info",
-        "The explanation text, already localized. With info-label, it shows the information icon, which opens nph-tooltip with this text on hover and on keyboard focus, above the label, and closes with Esc, when the pointer leaves or on blur."
+        "The explanation text, already localized. With info-label, it shows the information icon, which opens nph-tooltip with this text on keyboard focus at once and on hover after motion/hover-delay, above the label, and closes with Esc, when the pointer leaves or on blur."
       ],
       [
         "info-label (infoLabel)",
@@ -968,7 +970,7 @@
     "focusCaption": "Click the field and press Tab: focus moves to the information icon. The label text does not take focus. The balloon opens with the focus.",
     "tabStartLabel": "Tab starting point",
     "openTitle": "Open balloon",
-    "openCaption": "The balloon opens above the label when the pointer rests on the icon or the icon receives keyboard focus, and closes with Esc, when the pointer leaves or on blur. It does not open on touch."
+    "openCaption": "The balloon opens above the label when the pointer rests on the icon for motion/hover-delay, or at once when the icon receives keyboard focus, and closes with Esc, when the pointer leaves or on blur. It does not open on touch."
   },
   "tooltipValidation": {
     "oneLine": "Explains what the field asks for.",
@@ -982,7 +984,10 @@
     "sidesCaption": "Top is the default; the balloon flips to the opposite side when it does not fit, and may also sit bottom, left or right. The distance to the element is space/inline.",
     "flipCaption": "The element sits at the top of the window: the balloon prefers top, does not fit and sits below.",
     "focusCaption": "Press Tab to focus the button: the balloon opens and the focus stays on the button. Press Esc to close it.",
-    "hoverCaption": "Put the pointer on each element, or focus it with Tab: the balloon opens at once, on any element. It stays open while the pointer is over it."
+    "hoverCaption": "Put the pointer on each element and wait a moment, or focus it with Tab: the balloon opens after the wait on hover, at once on focus, on any element that receives focus. It stays open while the pointer is over it.",
+    "disabledTarget": "Disabled element",
+    "nameCaption": "The icon-only button has no text: the balloon text is its accessible name, and a screen reader announces it once, as the name.",
+    "focusableCaption": "Both elements ask for an open balloon. The enabled button gets it; the disabled one gets none, because without focus a keyboard user would never see it."
   },
   "tooltipDocs": {
     "summary": "A floating text balloon attached to any element of the interface. It shows complementary information, an explanation or context data when the pointer rests on the element and when the element receives keyboard focus.",
@@ -990,7 +995,7 @@
     "derivedTitle": "This page is derived.",
     "derivedText": "In case of divergence, the canonical sources prevail: the nph-tooltip spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P77. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
     "sourceLabel": "Source:",
-    "description": "Use nph-tooltip to give complementary information, an explanation or context data to any element, such as the icon-only button and the information icon of the nph-label. The balloon opens on hover and on focus, with no delay, and closes when the pointer leaves the element and the balloon, on blur or with Esc. It does not replace the help text or the error message, which belong to nph-field, nor the accessible name of the element.",
+    "description": "Use nph-tooltip to give complementary information, an explanation or context data to an element that receives focus, such as the icon-only button and the information icon of the nph-label. Keyboard focus opens the balloon at once, and the pointer opens it after resting motion/hover-delay on the element; it closes when the pointer leaves the element and the balloon, on blur or with Esc. On an icon-only button the balloon text is the accessible name of the action; on any other element it does not replace the help text or the error message, which belong to nph-field, nor the accessible name of the element.",
     "whenToUseTitle": "When to use",
     "whenToUse": [
       "To give the action name to every icon-only button.",
@@ -1002,7 +1007,9 @@
       "To put an action, a link or a field inside the balloon: use nph-popover.",
       "To repeat in the balloon the help text of the field: that belongs to nph-field.",
       "To put in the balloon information without which the element cannot be used.",
-      "To cut the text with an ellipsis or let it pass two lines: rewrite until it fits."
+      "To cut the text with an ellipsis or let it pass two lines: rewrite until it fits.",
+      "On a disabled element or on text that does not receive focus: it gets no balloon.",
+      "To name an ambiguous action with an icon-only button: on touch the balloon does not open; use a button with text."
     ],
     "apiTitle": "API",
     "apiHeader": [
@@ -1016,7 +1023,7 @@
       ],
       [
         "for",
-        "The id of the element that opens the balloon, in the same root as the tooltip, as in the native label. The tooltip listens on that element and adds its own id to the aria-describedby of the element. Without a matching element, nothing is drawn."
+        "The id of the element that opens the balloon, in the same root as the tooltip, as in the native label. The element must receive focus: a disabled element or loose text gets no balloon. The tooltip listens on that element and adds its own id to its aria-describedby, or to its aria-labelledby with relation=\"name\". Without a matching element, nothing is drawn."
       ],
       [
         "side",
@@ -1025,6 +1032,10 @@
       [
         "open",
         "Boolean, reflected to the attribute. The tooltip turns it on and off by itself; the consumer may turn it on to show the balloon open, and the same closing rules apply."
+      ],
+      [
+        "relation",
+        "What the balloon is to the element: description (default), added to its aria-describedby, or name, added to its aria-labelledby, for the icon-only button, whose action name is the balloon text, announced once."
       ]
     ],
     "relationsTitle": "Relations and context",
@@ -1062,7 +1073,7 @@
     "accessibility": [
       [
         "Semantics",
-        "The host is role=tooltip from mount, and the element it describes points to it with aria-describedby. The balloon is rendered always and shown only when open."
+        "The host is role=tooltip from mount. The element points to it with aria-describedby, or with aria-labelledby when the balloon is its name. The balloon is rendered always and shown only when open."
       ],
       [
         "Contrast",
@@ -1074,15 +1085,15 @@
       ],
       [
         "Keyboard",
-        "Keyboard focus on the element opens the balloon; Esc closes it. Hover also opens it."
+        "Keyboard focus on the element opens the balloon at once; Enter and Space run the action and neither open nor close it; Esc closes it. The pointer opens it after resting motion/hover-delay on the element."
       ],
       [
         "Touch target",
-        "The balloon is not a touch target and does not open on touch: without hover, essential information never lives only in the balloon. The touch target is the element, at its own size (WCAG 2.5.8)."
+        "The balloon is not a touch target and does not open on touch: without hover, essential information never lives only in the balloon. On touch the icon-only button has no visible name, an accepted exception: the name lives in the accessible name, the icon must be easy to recognize, and an ambiguous action uses a button with text. The touch target is the element, at its own size (WCAG 2.5.8)."
       ],
       [
         "Accessible name",
-        "The balloon complements the element's accessible name and does not replace it: on the icon-only button, the action name stays on the button itself."
+        "On an icon-only button the balloon text is the accessible name of the action (relation=\"name\"), announced once. On any other element the balloon complements the accessible name and does not replace it."
       ]
     ],
     "examplesTitle": "Required examples",
@@ -2085,7 +2096,9 @@
       "components-nph-tooltip-validation--sides": "The four sides, top by default, with the action name of an icon-only button, in light and in dark mode.",
       "components-nph-tooltip-validation--flip": "The balloon flips to the opposite side when it does not fit on the preferred one.",
       "components-nph-tooltip-validation--focus-and-escape": "Keyboard focus opens the balloon and Esc closes it, with the focus staying on the element.",
-      "components-nph-tooltip-validation--hover-and-focus": "Hover and keyboard focus open the balloon on any element: a button, a link and a field."
+      "components-nph-tooltip-validation--hover-and-focus": "Hover after a short wait and keyboard focus at once open the balloon on any element that receives focus: a button, a link and a field.",
+      "components-nph-tooltip-validation--accessible-name": "On an icon-only button the balloon text is the accessible name of the action, announced once.",
+      "components-nph-tooltip-validation--focusable-only": "The balloon goes only on an element that receives focus: a disabled button gets none."
     }
   }
 }
