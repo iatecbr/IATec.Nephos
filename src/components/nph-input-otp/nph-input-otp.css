@@ -65,8 +65,11 @@
   --_size: var(--nph-control-height-large);
 }
 
-/* Hover: the whole field is one target, so every cell answers. Error and disabled keep their border. */
-:host(:hover:not(:disabled):not([invalid])) .cell {
+/*
+ * Hover: the whole field is one target, so every cell answers. Error and disabled keep their
+ * border, and the active cell keeps its focus border.
+ */
+:host(:hover:not(:disabled):not([invalid])) .cell:not([data-active]) {
   border-color: var(--nph-color-input-hover);
 }
 

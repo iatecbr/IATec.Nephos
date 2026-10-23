@@ -2828,7 +2828,9 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
 3. **Characters, typing and paste.** The field keeps only ASCII letters and digits, with the case
    as typed: the board says that the field takes a number or a letter, as behavior. Any other
    character typed is dropped, and the `input` of that keystroke does not reach the consumer,
-   because nothing changed. A paste is cleaned, cut at `length` and **replaces the whole
+   because nothing changed. As in P80, the host takes the value in an `input` listener of its
+   own, registered first and in capture, so the value and the form data are settled before any
+   listener of the consumer runs, in capture or in bubbling. A paste is cleaned, cut at `length` and **replaces the whole
    value**; a paste with no letter or digit changes nothing. The caret is the native one:
    focus puts it on the next empty cell (the browser would select the whole code, and the
    selection is not drawn), a click on a cell puts it on that cell or at the end of the code,
@@ -2841,7 +2843,9 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    `length` is cleaned, cut and reported with `console.warn` in development. A shorter `length`
    cuts the current value.
 
-5. **Form (P80).** `static formAssociated` and `ElementInternals`: `setFormValue` on every change,
+5. **Form (P80).** `static formAssociated` and `ElementInternals`: `setFormValue` at once on every
+   change (typing, paste, setting `value`, reset, restore), and `null` while `length` or `size`
+   is invalid and the field draws nothing,
    `formResetCallback` back to the attribute, `formStateRestoreCallback`, and
    `formDisabledCallback`, read by `:host(:disabled)`. `name` reflects, because the form data
    reads the attribute of the host. There is no validity: neither `required` nor the length
@@ -2854,7 +2858,8 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
 6. **Events.** The native ones, as the contract of the field fixes (P83, and the exception to the
    reasoning of P73 recorded in P80): the `input` of the inner input crosses the shadow root with
    the host as its target, and the host fires `change` (bubbles, not composed) when the person
-   leaves the field or presses Enter with a value different from the one at focus. A paste fires
+   leaves the field or presses Enter with a value different from the one at focus. Setting
+   `value` or a reset moves that value at focus, so they never cause a `change`. A paste fires
    one `input`, with `inputType` `insertFromPaste`. Setting `value` from code fires nothing.
    Nothing enters `HTMLElementEventMap`.
 

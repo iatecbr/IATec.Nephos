@@ -421,6 +421,15 @@ describe('paste', () => {
   });
 });
 
+async function inFormForEvents(): Promise<{ form: HTMLFormElement; element: NphInputOtp }> {
+  document.body.innerHTML = '<form><nph-input-otp label="Code" name="code" value="11"></nph-input-otp></form>';
+  const form = document.querySelector('form');
+  const element = document.querySelector<NphInputOtp>('nph-input-otp');
+  if (!form || !element) throw new Error('no form');
+  await element.updateComplete;
+  return { form, element };
+}
+
 describe('events', () => {
   it('each typed character fires the native input on the host, with the value already cleaned', async () => {
     const element = await mount();
@@ -464,6 +473,31 @@ describe('events', () => {
     await userEvent.keyboard('3{Backspace}');
     await userEvent.tab();
     expect(changes).not.toHaveBeenCalled();
+  });
+
+  it('setting value from code or a reset while the field has focus fires no change on blur', async () => {
+    const { form, element } = await inFormForEvents();
+    const changes = vi.fn();
+    element.addEventListener('change', changes);
+    await tabInto(element);
+    element.value = '482913';
+    await userEvent.tab();
+    expect(changes).not.toHaveBeenCalled();
+    await tabInto(element);
+    await userEvent.keyboard('{Backspace}');
+    form.reset();
+    await element.updateComplete;
+    await userEvent.tab();
+    expect(changes).not.toHaveBeenCalled();
+  });
+
+  it('a capture listener of the consumer reads the new value and never hears a dropped character', async () => {
+    const element = await mount();
+    const seen: string[] = [];
+    element.addEventListener('input', () => seen.push(element.value), { capture: true });
+    await tabInto(element);
+    await userEvent.keyboard('1-2');
+    expect(seen).toEqual(['1', '12']);
   });
 
   it('setting value from code, by property or attribute, fires nothing', async () => {
@@ -554,6 +588,16 @@ describe('states', () => {
       expect(native(element).getAttribute('aria-invalid')).toBe('true');
     });
   }
+
+  it('hover does not take the focus border away from the active cell', async () => {
+    const element = await mount();
+    await tabInto(element);
+    await userEvent.hover(element);
+    const [active, other] = cells(element);
+    if (!active || !other) throw new Error('no cells');
+    expect(getComputedStyle(active).borderTopColor).toBe(resolved('color', '--nph-focus-border'));
+    expect(getComputedStyle(other).borderTopColor).toBe(resolved('color', '--nph-color-input-hover'));
+  });
 
   it('invalid with hover keeps the error border', async () => {
     const element = await mount({ label: 'Code', invalid: true });
@@ -654,6 +698,31 @@ describe('form (P80)', () => {
     await element.updateComplete;
     expect(new FormData(form).get('code')).toBe('4829');
     expect(element.form).toBe(form);
+  });
+
+  it('the form data follows at once: in the input listener of a paste, after setting value and after reset', async () => {
+    const { form, element } = await inForm('<nph-input-otp label="Code" name="code" value="11"></nph-input-otp>');
+    const seen: Array<string | null> = [];
+    element.addEventListener('input', () => seen.push(new FormData(form).get('code') as string | null));
+    await tabInto(element);
+    await paste(element, '482913');
+    expect(seen).toEqual(['482913']);
+    element.value = '7788';
+    expect(new FormData(form).get('code')).toBe('7788');
+    form.reset();
+    expect(new FormData(form).get('code')).toBe('11');
+  });
+
+  it('while length or size is invalid, the field adds nothing to the form data, and comes back when valid', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const { form, element } = await inForm('<nph-input-otp label="Code" name="code" value="1234" length="5"></nph-input-otp>');
+    expect(new FormData(form).has('code')).toBe(false);
+    element.length = 4;
+    await element.updateComplete;
+    expect(new FormData(form).get('code')).toBe('1234');
+    element.size = 'huge';
+    await element.updateComplete;
+    expect(new FormData(form).has('code')).toBe(false);
   });
 
   it('without a name attribute, the field adds nothing to the form data', async () => {

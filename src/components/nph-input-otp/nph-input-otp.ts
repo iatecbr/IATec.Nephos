@@ -173,6 +173,9 @@ export class NphInputOtp extends LitElement {
     this.name = null;
     this.label = '';
     this.description = '';
+    /* Registered first, in capture on the host: the value and the form data are settled
+       before any listener of the consumer runs, as in `nph-input` (P80). */
+    this.addEventListener('input', this.onInput, { capture: true });
   }
 
   /** The code: letters and digits only, up to `length`. Setting it from code fires nothing. */
@@ -183,6 +186,25 @@ export class NphInputOtp extends LitElement {
   set value(next: string) {
     this.dirty = true;
     this.current = this.fit(String(next ?? ''), true);
+    this.settle();
+  }
+
+  /**
+   * A value set by code or by a reset: the form data follows at once, and the value at
+   * focus moves with it, so leaving the field fires no `change` for it.
+   */
+  private settle(): void {
+    this.committed = this.current;
+    this.syncForm();
+  }
+
+  /** The form data, at once: nothing while the input is invalid and the field draws nothing. */
+  private syncForm(): void {
+    if (isLength(this.length) && isSize(this.size ?? '')) {
+      this.internals.setFormValue(this.current, this.current);
+    } else {
+      this.internals.setFormValue(null);
+    }
   }
 
   override connectedCallback(): void {
@@ -211,6 +233,7 @@ export class NphInputOtp extends LitElement {
   private applyDefault(): void {
     const previous = this.current;
     this.current = this.fit(this.getAttribute('value') ?? '', true);
+    this.settle();
     this.requestUpdate('value', previous);
   }
 
@@ -276,7 +299,7 @@ export class NphInputOtp extends LitElement {
     if (changed.has('length') && this.valid && this.current.length > this.length) {
       this.current = this.current.slice(0, this.length);
     }
-    this.internals.setFormValue(this.current);
+    this.syncForm();
   }
 
   protected override firstUpdated(): void {
@@ -319,9 +342,15 @@ export class NphInputOtp extends LitElement {
     }
   }
 
-  /** The person typed, deleted or the browser filled in a code. */
-  private onInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
+  /**
+   * The person typed, deleted, pasted or the browser filled in a code. It runs in capture
+   * on the host, before the listeners of the consumer, and reads the inner input itself.
+   */
+  private readonly onInput = (event: Event): void => {
+    const input = this.input();
+    if (input === null) {
+      return;
+    }
     const raw = input.value;
     const caret = input.selectionStart ?? raw.length;
     const next = this.fit(raw, false);
@@ -331,15 +360,18 @@ export class NphInputOtp extends LitElement {
       input.value = next;
       input.setSelectionRange(caretAfter, caretAfter);
     }
+    this.caret = caretAfter;
+    /* A character that was dropped changes nothing: no listener of the host hears it. */
+    if (next === previous) {
+      event.stopImmediatePropagation();
+      this.requestUpdate();
+      return;
+    }
     this.dirty = true;
     this.current = next;
-    this.caret = caretAfter;
+    this.syncForm();
     this.requestUpdate('value', previous);
-    /* A character that was dropped changes nothing: the consumer hears nothing. */
-    if (next === previous) {
-      event.stopPropagation();
-    }
-  }
+  };
 
   /** A pasted code replaces the whole value, cleaned and cut at `length`. */
   private onPaste(event: ClipboardEvent): void {
@@ -463,7 +495,6 @@ export class NphInputOtp extends LitElement {
         aria-invalid=${this.invalid && !this.inactive ? 'true' : nothing}
         aria-required=${this.required ? 'true' : nothing}
         aria-describedby=${description === '' ? nothing : 'description'}
-        @input=${this.onInput}
         @paste=${this.onPaste}
         @keydown=${this.onKeydown}
         @focus=${this.onFocus}
