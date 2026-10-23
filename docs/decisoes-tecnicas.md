@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80 and P84. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80, P84 and P90. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -48,6 +48,7 @@ P62.4 subsection for the detail).
 | **P78** | API and semantics of `nph-avatar-stack` | 22/10/2026 | Low now. No piece consumes it yet; a list of people, a card or a table row will, so changing `count`, `label` or the slot of `nph-avatar` children later requires redoing them | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P80** | API and semantics of `nph-input`, the reference of the form controls | 22/10/2026 | Medium. `nph-field` (DSA-28), `nph-checkbox`, `nph-radio` and `nph-input-otp` copy its form association, its native events and its name by reference, so changing them later requires redoing those pieces | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D7 answered on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P84** | API and semantics of `nph-empty`, and the first raster asset of the package | 22/10/2026 | Low now. No piece consumes it yet; `nph-combobox` (DSA-46) will, so changing `heading` or `description` later requires redoing its empty list. The asset delivery (`vite.config.lib.ts`) applies to any later illustration | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P90** | API and semantics of `nph-image` | 23/10/2026 | Low now. No piece consumes it yet; `nph-table` will, for the thumbnail and the expanded item, so changing `size`, `ratio`, `src`, `alt` or `interactive`, or the derived state, later requires redoing it | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -2404,9 +2405,128 @@ in the pull request that brings them; the merge is the approval.
 
 ---
 
+## P90 — `nph-image`: API and semantics
+
+**Decision.** `nph-image` is a Web Component with **open Shadow DOM** (P01), CSS in its own file
+imported `?inline`, as in `nph-icon`. The host is the frame. It has no slot, no `::part`, no
+`nph-*` event, no color property and no form association. Anatomy only through semantic tokens.
+Invalid input renders nothing and emits `console.error` only in development, one per cause — the
+rule of P21, adopted here by its own decision, as in P66, P74 and P78. The names follow P64.
+
+1. **Properties.** The Figma properties are `tamanho`, `proporção`, `estado` and `giro`. The
+   mapping below is a technical proposal of this implementation.
+
+   | Figma | API |
+   |---|---|
+   | `tamanho` | `size`: `xs` (default), `sm`, `md`, `lg`, `xl`, `2xl` or `media` (`mídia`), reflected |
+   | `proporção` | `ratio`: `1:1` (default), `4:3` or `16:9`, reflected; only `media` uses it |
+   | `estado` `carregada`, `carregando`, `vazio`, `erro` | not a property: derived from `src` and the load |
+   | `estado` `hover`, `foco`, `desabilitada` | `interactive` and `disabled`, booleans, reflected |
+   | `giro` | not a property: the rotation of the spinner |
+   | the image | `src` |
+   | the accessible name | `alt` |
+
+   The default size is `xs` because it is the default of the Figma property, although the
+   evidence gives it no usage rule. A square size ignores `ratio` with no warning: the evidence
+   says the other sizes are always `1:1`. The ratio values keep the Figma text, which is a valid
+   attribute value.
+
+2. **The content state.** No `src` (after trim) is empty; a `src` is loading until the inner
+   `<img>` fires `load` (loaded) or `error` (error); a new `src` starts the wait again. The state
+   machine and the guard against a late event of an image that is no longer the current one are
+   the ones of `nph-avatar` (P74). The read-only `status` says the state drawn now, and the host
+   repeats the native `load` and `error` of the inner image as plain `Event`s that do not bubble,
+   as the native ones: the evidence gives the text that explains a failure to the parent, so the
+   parent must hear about it. They are native names, not `nph-*` events, as in P80.
+
+3. **Frame and anatomy.** The square sizes are `image/size-*` with `image/radius-sm` (`xs`,
+   `sm`), `image/radius-md` (`md`, `lg`) or `image/radius-lg` (`xl`, `2xl`, `media`); `media` is
+   `image/media-width` wide with the height from `aspect-ratio`, the only literal values written
+   (`1 / 1`, `4 / 3`, `16 / 9`). The frame is `image/background`; the image fills it with
+   `object-fit: cover`. The border, `image/border-width` in `image/border`, is an overlay after
+   the content, as in P74, and is off while loading. The spinner is the `nph-spinner` (P66) in
+   `image/foreground`: it has only `sm` and `md`, so `xs`, `sm` and `md` take `sm` and the larger
+   sizes take `md`.
+
+4. **The clickable image.** The evidence says hover, focus and disabled are applied by the parent
+   when the image is clickable, and that the image only receives focus when it is clickable. With
+   `interactive`, the piece draws an inner native `<button type="button">` that fills the frame,
+   with `delegatesFocus`, as `nph-button` (P68) and `nph-togglebutton` (P73), and gives it the
+   `alt` as `aria-label`; the click is the native `click`. Hover over a loaded image shows the veil
+   `image/overlay` with the `nph-icon` `eye` in `image/on-overlay`; the eye takes
+   `image/icon-size-sm` in `xs` and `sm`, `-md` in `md` and `lg`, and `-lg` in the larger sizes
+   (the grouping of the radii). The veil is drawn only over a loaded image: an eye over an empty frame
+   or a failed image would promise a preview of nothing. Keyboard focus draws the ring
+   `image/focus-border` in `focus/ring-width` as an outline just outside the frame, with its
+   corner: it sits on the surface around the image and never over the photo, so an image of the
+   ring color does not hide it, and an outline takes no space, so the area does not change. The
+   frame therefore does not clip; the image and the veil take its corner themselves. A `click()`
+   called on the host of a clickable, disabled image stops in the capture phase, as in
+   `nph-button`; a plain disabled image lets the click pass to its parent. The eye reads
+   `image/icon-size-*`: the veil bridges them to the `icon/size-*` that `nph-icon` reads, so a
+   local value of an image token reaches the eye. `disabled` puts the whole piece at `state/disabled-opacity` and makes the
+   button natively disabled. Without `interactive` there is no hover or focus look and the piece
+   is never focusable.
+
+5. **Semantics.** Without `interactive`: with an `alt`, the host takes `role="img"` and
+   `aria-label`, in every state; with an empty `alt`, `aria-hidden="true"`. With `interactive`,
+   the host has no role and the button carries the name. The inner `<img>` always has `alt=""`.
+   `interactive` without an `alt` renders and emits one `console.warn` in development, not
+   repeated while it lasts.
+
+6. **Invalid input.** A `size` outside the seven or a `ratio` outside the three renders nothing,
+   takes no space, leaves `data-nph-rendered` out, hides the host and emits one `console.error`
+   per cause, also when the ratio is given to a square size.
+
+**Known limits.**
+
+- **Empty and error look alike.** The empty and error illustrations are image assets that are
+  not in the repository, and the evidence says the code must ask the design owner for them
+  (D1 of DSA-51). Until they arrive, both states draw the frame only, which falls short of the
+  accessibility rule "loading, empty and error change the drawing, not only the color": the
+  parent's text and the `error` event carry the difference. The tokens
+  `image/illustration-light` and `image/illustration-dark` stay unconsumed until then, and the
+  files, once they arrive, follow the asset delivery of P84.
+- **`design.md` has no usage entry for the `image/*` tokens** (D2 of DSA-51); the component
+  consumes them either way.
+- **The loading state of the Validation and Docs pages is held by the demo frame**, which takes
+  the address off the inner image of one piece so the image never arrives; the piece itself is
+  untouched.
+
+**Points for review.**
+
+- **`xs` as the default size**, following Figma, and not `sm` as in P74.
+- **The content state derived from `src`**, with the read-only `status` and the native `load`
+  and `error` repeated on the host.
+- **The clickable image as an inner native button**, opted in with `interactive`, and the veil
+  only over a loaded image.
+- **The sizes of the eye and of the spinner** by size, which the evidence does not map.
+- **An invalid `ratio` renders nothing even on a square size**, which would ignore it.
+- **The focus ring outside the frame**, an outline, and not a stroke over the photo: the change
+  came from the code review of the pull request, where a photo of the ring color hid the ring.
+
+**Source.** Board `nph-image` (`2573:66090`), frame `Documentação` (`2677:465`) and set
+`2573:66089` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 23/10/2026, with the
+Figma UX QA and the textual audit approved. The names `ratio`, `alt`, `interactive` and
+`disabled`, the derived state with `status` and the repeated events, the inner button, the veil
+only over a loaded image, the sizes of the eye and the spinner and the invalid input rules are a
+technical proposal of this implementation, approved with the plan by Elvys on 23/10/2026.
+
+**Out of scope.** The illustrations (D1). A state forced by the parent, such as loading during an
+upload without `src`. A loading timeout: the rule "do not leave loading without an end" belongs
+to the consumer, and the error comes from the native `error`. `srcset`, `sizes`, lazy loading, a
+caption and the preview the eye suggests. `nph-table`. The Usage section of the page (P70,
+DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate (P72,
+DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 23/10/2026. API and semantics are reviewed
+in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80 or P84 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80, P84 or P90 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
