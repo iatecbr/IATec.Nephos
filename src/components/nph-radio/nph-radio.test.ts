@@ -749,20 +749,29 @@ describe('the form', () => {
   it('the restore state of an unchecked radio is explicit: it is not checked again by its attribute', async () => {
     const { radios } = await inForm([{ ...SHIFTS[0], checkedAttribute: true }, SHIFTS[1]!]);
     const restore = (element: NphRadio, state: unknown): void =>
-      (element as unknown as { formStateRestoreCallback(value: unknown): void }).formStateRestoreCallback(state);
+      (element as unknown as { formStateRestoreCallback(value: unknown, mode: string): void }).formStateRestoreCallback(state, 'restore');
     /* The two states the radio writes with setFormValue; the browser hands them back on history navigation. */
     restore(radios[1]!, 'nph-radio:checked');
     restore(radios[0]!, 'nph-radio:unchecked');
     expect(checkedOf(radios)).toEqual([false, true]);
     restore(radios[1]!, 'nph-radio:unchecked');
     expect(checkedOf(radios)).toEqual([false, false]);
+    /* In restore mode, a value is not a restore state. */
+    restore(radios[0]!, radios[0]!.value);
+    expect(checkedOf(radios)).toEqual([false, false]);
   });
 
-  it('a restored state checks the radio whose value it is', async () => {
-    const { radios } = await inForm();
-    (radios[2] as unknown as { formStateRestoreCallback(state: unknown): void }).formStateRestoreCallback('night');
-    (radios[0] as unknown as { formStateRestoreCallback(state: unknown): void }).formStateRestoreCallback(null);
+  it('autocomplete checks the radio whose value it is, compared only with value', async () => {
+    const { radios } = await inForm([SHIFTS[0]!, SHIFTS[1]!, { name: 'shift', value: 'nph-radio:unchecked', text: 'Odd' }]);
+    const fill = (element: NphRadio, state: unknown): void =>
+      (element as unknown as { formStateRestoreCallback(value: unknown, mode: string): void }).formStateRestoreCallback(state, 'autocomplete');
+    fill(radios[1]!, 'afternoon');
+    expect(checkedOf(radios)).toEqual([false, true, false]);
+    /* A value that looks like a restore marker is just a value in autocomplete. */
+    fill(radios[2]!, 'nph-radio:unchecked');
     expect(checkedOf(radios)).toEqual([false, false, true]);
+    fill(radios[0]!, 'nph-radio:checked');
+    expect(radios[0]!.checked).toBe(false);
   });
 });
 

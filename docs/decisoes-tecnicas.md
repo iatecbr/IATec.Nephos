@@ -2373,8 +2373,8 @@ P66, P68, P73, P74 and P76. The names follow P64. The form pattern is the one of
    — the rule of the native radio. `formDisabledCallback` (a disabled fieldset) works as `disabled`;
    `formStateRestoreCallback` brings back an explicit checked or unchecked state, which the radio
    writes as its restore state (`null` would not be restored, and a radio unchecked by the person
-   would come back checked by its attribute); with autocomplete, it checks the radio whose `value`
-   is the one restored. `form`, `labels`,
+   would come back checked by its attribute); in the `autocomplete` mode it compares the state
+   only with `value`, so a value that looks like a restore marker is just a value. `form`, `labels`,
    `validity`, `validationMessage`, `willValidate`, `checkValidity()` and `reportValidity()` are
    exposed, as in P80. There is no `required` and no validity of its own: the field says the group
    is required (P83).

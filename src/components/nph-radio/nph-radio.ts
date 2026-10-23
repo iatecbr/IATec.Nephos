@@ -252,10 +252,13 @@ export class NphRadio extends LitElement {
     this.applyChecked(this.hasAttribute('checked'));
   }
 
-  /** `restore` brings back the state written by `syncInternals`; `autocomplete` brings a value. */
-  formStateRestoreCallback(state: unknown): void {
+  /**
+   * `restore` brings back the state written by `syncInternals`; `autocomplete` brings a value,
+   * compared only with `value`, so a value that looks like a restore marker is just a value.
+   */
+  formStateRestoreCallback(state: unknown, mode: 'restore' | 'autocomplete' = 'restore'): void {
     this.dirty = true;
-    this.applyChecked(state === RESTORE_CHECKED || (state !== RESTORE_UNCHECKED && state !== null && state === this.value));
+    this.applyChecked(mode === 'autocomplete' ? state === this.value : state === RESTORE_CHECKED);
   }
 
   /** Disabled, inside a disabled fieldset, or not drawn: the piece does not respond. */
