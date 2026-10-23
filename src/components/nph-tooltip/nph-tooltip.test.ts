@@ -1046,6 +1046,47 @@ describe('only on an element that receives focus', () => {
     expect(error).not.toHaveBeenCalled();
   });
 
+  it('an inert target gets no consumer-opened balloon and keeps its ARIA reference', async () => {
+    const { button, tooltip } = await mount();
+    button.inert = true;
+    tooltip.open = true;
+    await tooltip.updateComplete;
+
+    expect(isShown(tooltip)).toBe(false);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+  });
+
+  it('an inert flat-tree ancestor closes an open balloon and keeps its ARIA reference', async () => {
+    const host = document.createElement('div');
+    const shadow = host.attachShadow({ mode: 'open' });
+    const ancestor = document.createElement('div');
+    const slot = document.createElement('slot');
+    ancestor.append(slot);
+    shadow.append(ancestor);
+
+    const button = document.createElement('button');
+    button.id = 'slotted-inert-target';
+    button.textContent = 'Target';
+    button.style.cssText = 'position:fixed;left:300px;top:300px';
+    host.append(button);
+
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    document.body.append(host, tooltip);
+    await tooltip.updateComplete;
+    expect(button.assignedSlot).toBe(slot);
+    await shown(tooltip);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+
+    ancestor.inert = true;
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+  });
+
   it('loose text gets no balloon and reports once', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const span = document.createElement('span');
@@ -1124,6 +1165,33 @@ describe('only on an element that receives focus', () => {
     expect(exemptButton.matches(':disabled')).toBe(false);
     expect(exemptTooltip.open).toBe(true);
     expect(isShown(exemptTooltip)).toBe(true);
+  });
+
+  it('inserting a first legend into a disabled fieldset closes the balloon and keeps its ARIA reference', async () => {
+    const fieldset = document.createElement('fieldset');
+    fieldset.disabled = true;
+    const originalLegend = document.createElement('legend');
+    const button = document.createElement('button');
+    button.id = 'replaced-legend-target';
+    originalLegend.append(button);
+    fieldset.append(originalLegend);
+
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    document.body.append(fieldset, tooltip);
+    await tooltip.updateComplete;
+    expect(button.matches(':disabled')).toBe(false);
+    await shown(tooltip);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+
+    fieldset.prepend(document.createElement('legend'));
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+
+    expect(button.matches(':disabled')).toBe(true);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
   });
 
   it('moving an associated target into a disabled fieldset closes the balloon and keeps its ARIA reference', async () => {

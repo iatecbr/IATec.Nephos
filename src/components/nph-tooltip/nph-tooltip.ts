@@ -110,6 +110,13 @@ function devError(message: string): void {
   }
 }
 
+function flatTreeParent(node: Node): Node | null {
+  if (node instanceof ShadowRoot) {
+    return node.host;
+  }
+  return node instanceof Element ? (node.assignedSlot ?? node.parentNode) : node.parentNode;
+}
+
 export class NphTooltip extends LitElement {
   static override styles = unsafeCSS(styles);
 
@@ -141,6 +148,7 @@ export class NphTooltip extends LitElement {
   /** The reference this tooltip wrote on the element: where, under which id, and whether it added it. */
   private reference: { target: Element; attribute: string; id: string; added: boolean } | null = null;
   private rootObserver: MutationObserver | undefined;
+  private inertObserver: MutationObserver | undefined;
   private observedRoot: Node | null = null;
   private readonly scrollTargets: EventTarget[] = [];
 
@@ -189,6 +197,8 @@ export class NphTooltip extends LitElement {
     super.disconnectedCallback();
     this.rootObserver?.disconnect();
     this.rootObserver = undefined;
+    this.inertObserver?.disconnect();
+    this.inertObserver = undefined;
     this.detach();
     this.observedRoot = null;
     this.cancelWait();
@@ -222,7 +232,7 @@ export class NphTooltip extends LitElement {
    */
   private get focusable(): boolean {
     const target = this.target;
-    if (target === null || target.matches(':disabled') || target.hasAttribute('disabled')) {
+    if (target === null || this.isInert(target) || target.matches(':disabled') || target.hasAttribute('disabled')) {
       return false;
     }
     if ((target instanceof HTMLElement || target instanceof SVGElement) && target.tabIndex >= 0) {
@@ -323,7 +333,13 @@ export class NphTooltip extends LitElement {
       return;
     }
     this.rootObserver?.disconnect();
+    this.inertObserver?.disconnect();
     this.observedRoot = root;
+    this.inertObserver = new MutationObserver((records) => {
+      if (records.some((record) => record.attributeName === 'inert')) {
+        this.onTargetStateChange();
+      }
+    });
     this.rootObserver = new MutationObserver((records) => {
       const moved = records.some((record) => record.type === 'childList' || record.attributeName === 'id');
       /*
@@ -364,6 +380,20 @@ export class NphTooltip extends LitElement {
           ) {
             return true;
           }
+          if (
+            record.attributeName === 'inert' &&
+            record.target instanceof Element &&
+            this.isFlatTreeAncestor(record.target, target)
+          ) {
+            return true;
+          }
+          if (
+            record.type === 'childList' &&
+            record.target instanceof HTMLFieldSetElement &&
+            record.target.contains(target)
+          ) {
+            return true;
+          }
           return (
             record.type === 'childList' &&
             [...record.addedNodes, ...record.removedNodes].some((node) => node.contains(target))
@@ -377,8 +407,45 @@ export class NphTooltip extends LitElement {
       subtree: true,
       childList: true,
       attributes: true,
-      attributeFilter: ['id', 'disabled', 'tabindex', 'contenteditable'],
+      attributeFilter: ['id', 'disabled', 'tabindex', 'contenteditable', 'inert'],
     });
+  }
+
+  private isInert(target: Element): boolean {
+    let node: Node | null = target;
+    while (node !== null) {
+      if (node instanceof Element && node.hasAttribute('inert')) {
+        return true;
+      }
+      node = flatTreeParent(node);
+    }
+    return false;
+  }
+
+  private isFlatTreeAncestor(ancestor: Element, target: Element): boolean {
+    let node: Node | null = target;
+    while (node !== null) {
+      if (node === ancestor) {
+        return true;
+      }
+      node = flatTreeParent(node);
+    }
+    return false;
+  }
+
+  private observeInertAncestors(): void {
+    this.inertObserver?.disconnect();
+    const target = this.target;
+    if (target === null || this.inertObserver === undefined) {
+      return;
+    }
+    let node = flatTreeParent(target);
+    while (node !== null) {
+      if (node instanceof Element && !this.observedRoot?.contains(node)) {
+        this.inertObserver.observe(node, { attributes: true, attributeFilter: ['inert'] });
+      }
+      node = flatTreeParent(node);
+    }
   }
 
   private attach(): void {
@@ -393,6 +460,7 @@ export class NphTooltip extends LitElement {
     }
     this.retried = false;
     this.target = next;
+    this.observeInertAncestors();
     next.addEventListener('pointerenter', this.onTargetEnter as EventListener);
     next.addEventListener('pointerleave', this.onTargetLeave as EventListener);
     this.observedRoot?.addEventListener('pointerdown', this.onAnyPointerDown as EventListener, true);
@@ -449,6 +517,7 @@ export class NphTooltip extends LitElement {
     this.clearScrollTargets();
     this.cancelWait();
     this.target = null;
+    this.observeInertAncestors();
     this.associate();
     this.overTarget = false;
     this.overBalloon = false;
@@ -584,6 +653,7 @@ export class NphTooltip extends LitElement {
 
   /** The element was disabled, or left the Tab order: it loses the balloon at once. */
   private onTargetStateChange(): void {
+    this.observeInertAncestors();
     if (this.focusable) {
       this.requestUpdate();
       return;
