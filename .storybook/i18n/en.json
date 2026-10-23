@@ -94,6 +94,14 @@
     "components-nph-avatar-validation--photo-failed": "Photo failed",
     "components-nph-avatar-validation--border": "Border",
     "components-nph-avatar-validation--accessibility": "Accessibility",
+    "components-nph-avatar-stack-docs": "Docs",
+    "components-nph-avatar-stack-docs--documentation": "Documentation",
+    "components-nph-avatar-stack-validation": "Validation",
+    "components-nph-avatar-stack-validation--sizes": "Sizes",
+    "components-nph-avatar-stack-validation--composition": "Composition",
+    "components-nph-avatar-stack-validation--photo": "Photo",
+    "components-nph-avatar-stack-validation--count-width": "Count width",
+    "components-nph-avatar-stack-validation--accessibility": "Accessibility",
     "components-nph-empty-docs": "Docs",
     "components-nph-empty-docs--documentation": "Documentation",
     "components-nph-empty-validation": "Validation",
@@ -1715,7 +1723,7 @@
       "As a circle: the avatar is a square with rounded corners, and there is no shape property.",
       "With an empty frame: leave src out and the person icon shows."
     ],
-    "relationsText": "It goes next to the person's name, set apart by space/inline. nph-select will take it at the start of the trigger and of each option, in size sm, and nph-avatar-stack will overlap a group of avatars; both are planned and do not exist yet. nph-icon is the piece for an action icon and draws the person icon inside the avatar; nph-skeleton is the placeholder for a list while its data loads.",
+    "relationsText": "It goes next to the person's name, set apart by space/inline. nph-avatar-stack overlaps a group of avatars, with the count of who does not show. nph-select will take it at the start of the trigger and of each option, in size sm; it is planned and does not exist yet. nph-icon is the piece for an action icon and draws the person icon inside the avatar; nph-skeleton is the placeholder for a list while its data loads.",
     "apiTitle": "API",
     "apiHeader": [
       "Property",
@@ -1858,6 +1866,183 @@
     "personAna": "Ana Souza",
     "personBruno": "Bruno Lima",
     "personCarla": "Carla Mendes"
+  },
+  "avatarStackDocs": {
+    "summary": "A group of overlapping avatars that shows several people in a short space, with the count of who does not show. Each avatar is an nph-avatar; the group is read as one image, by its name.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-avatar-stack spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P78. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "To show who takes part in something, such as owners, members or participants, without listing everyone.",
+      "Show up to the 5th avatar; whoever does not show enters the count.",
+      "Turn on the count when there are more people than avatars, because the total must show.",
+      "sm in a list and in the select; md in a header, card and table row; lg in a profile.",
+      "Give the group a label with the names and the total, because the avatars are not read."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "For a single person: use nph-avatar.",
+      "As the list of people with their names: the group does not replace it.",
+      "To space avatars without overlap: nph-avatar-stack already brings avatar/overlap.",
+      "To mix sizes in the group: the group has a single size and writes it on every avatar.",
+      "Past the 5th avatar: put whoever does not show in the count."
+    ],
+    "relationsText": "Each avatar is an nph-avatar, with its own photo or the person icon; its border, drawn over the photo, is what keeps the overlapped avatars apart. The overlap is avatar/overlap, which belongs to this piece only. Next to a text, such as the team name, the space is space/inline and is given by whoever uses the group.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "size",
+        "sm (default), md or lg: the Figma size, the same sizes as nph-avatar. Reflected to the attribute. The group writes it on every child avatar, also when a child changes its own. An invalid value renders nothing and logs one console.error in development."
+      ],
+      [
+        "count",
+        "How many people do not show: the Figma mostrar contagem and contagem. A whole number; above zero the group draws +N at the end. Zero or no attribute draws no count. A negative or broken number renders nothing and logs one console.error in development."
+      ],
+      [
+        "label",
+        "The name of the group, already localized, with the names and the total, such as Ana, Bruno, Carla and 3 more. It becomes the aria-label of the host. aria-label or aria-labelledby on the host also count. No name renders nothing and logs one console.error in development."
+      ],
+      [
+        "default slot",
+        "The nph-avatar children, from the 2nd to the 5th, each with its own src. The Figma mostrar 3º, mostrar 4º and mostrar 5º are the number of children, not properties."
+      ],
+      [
+        "part · event",
+        "None. The group has no ::part, no event, no color property and no form association."
+      ]
+    ],
+    "compositionTitle": "Composition and count",
+    "compositionText": "The 1st and the 2nd avatars are always there; the 3rd to the 5th are added as children. Whoever does not show enters the count, at the end of the group, overlapping the last avatar like any neighbor. The count does not check the name: label and count are written together by whoever uses the group.",
+    "compositionCaption": "Two avatars, five avatars, and five avatars with the count, at size md.",
+    "compositionHeader": [
+      "Situation",
+      "What the group does"
+    ],
+    "composition": [
+      [
+        "2 to 5 avatars",
+        "Draws them in a row, each over the previous one by avatar/overlap."
+      ],
+      [
+        "count above zero",
+        "Draws +N after the last avatar, growing with the number."
+      ],
+      [
+        "Fewer than 2 or more than 5 avatars",
+        "Draws all of them and warns in development: for one person, use nph-avatar; past the 5th, use the count."
+      ],
+      [
+        "A child that is not an nph-avatar",
+        "It is not part of the group, and the group warns in development."
+      ],
+      [
+        "An avatar with a label of its own",
+        "The group still reads only its own name, and warns in development: put the names in the label of the group."
+      ]
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Avatar",
+        "An nph-avatar in the size of the group. Photo, person icon, corner and border come from it."
+      ],
+      [
+        "Overlap",
+        "avatar/overlap between neighbors: each avatar goes over the previous one, and the count goes over the last avatar."
+      ],
+      [
+        "Count",
+        "A box of avatar/size-* high and at least as wide, with avatar/radius-*, side padding space/inline-tight, background color/muted and a border/width border in color/border, inside. The +N text is color/muted-foreground, in text/label-sm in sm and md and text/label-md in lg."
+      ],
+      [
+        "Separation",
+        "The border of each nph-avatar. The group draws no ring, background or border of its own."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "The host is one image, role=img, named by label. The avatars and the count are inside a hidden wrapper, so they are not read, even an avatar with a label of its own."
+      ],
+      [
+        "Accessible name",
+        "The names and the total, such as Ana, Bruno, Carla and 3 more, written by whoever uses the group, in its language."
+      ],
+      [
+        "Visible focus",
+        "Not applicable: the group does not receive focus. When the group opens the list of people, the focus belongs to the control around it."
+      ],
+      [
+        "Contrast",
+        "The +N text, color/muted-foreground on color/muted, passes 4.5:1 in light and dark, in every brand; nph-avatar-stack.test.ts measures it by hand until the accessibility gate (P72, DSA-32) arrives."
+      ],
+      [
+        "Color is not the only signal",
+        "Each person shows by photo or person icon, and the total shows as text."
+      ],
+      [
+        "Touch target",
+        "Not applicable: the group is not interactive."
+      ],
+      [
+        "Motion",
+        "None: the group has no animation and no transition."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleOwners": "Task owners: size md, three people, next to the task.",
+    "exampleParticipants": "Meeting participants: size md, five avatars and the count.",
+    "exampleMembers": "Members in the list: size sm, three avatars and the count, before the team name, set apart by space/inline.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "groupTwo": "Ana Souza and Bruno Lima",
+    "groupThree": "Ana Souza, Bruno Lima and Carla Mendes",
+    "groupThreeMore": "Ana Souza, Bruno Lima, Carla Mendes and 3 more",
+    "groupFive": "Ana Souza, Bruno Lima, Carla Mendes, Diego Rocha and Elisa Prado",
+    "groupFiveMore": "Ana Souza, Bruno Lima, Carla Mendes, Diego Rocha, Elisa Prado and 3 more",
+    "taskName": "Review the contract",
+    "ownersLabel": "Owners: Ana Souza, Bruno Lima and Carla Mendes",
+    "meetingName": "Weekly planning",
+    "participantsLabel": "Participants: Ana Souza, Bruno Lima, Carla Mendes, Diego Rocha, Elisa Prado and 4 more",
+    "teamName": "Design team",
+    "membersLabel": "Members: Ana Souza, Bruno Lima, Carla Mendes and 8 more",
+    "referencesTitle": "References",
+    "references": [
+      "nph-avatar-stack spec sheet — purpose, properties, anatomy, accessibility and tokens.",
+      "docs/decisoes-tecnicas.md — P78 (API and semantics), P74 (nph-avatar), P01, P02 and P03.",
+      "design.md — avatar/overlap, avatar/size-*, avatar/radius-*, color/muted, color/muted-foreground, color/border, border/width, space/inline-tight, text/label-sm and text/label-md.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Avatar Stack, frame nph-avatar-stack (1579:46) and set 1579:45.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-avatar-stack spec sheet; Figma, frame nph-avatar-stack (1579:46)",
+    "sourceApi": "nph-avatar-stack spec sheet; docs/decisoes-tecnicas.md › P78",
+    "sourceComposition": "Figma, frame nph-avatar-stack (1579:46); docs/decisoes-tecnicas.md › P78",
+    "sourceAnatomy": "Figma, set 1579:45; DSA-25, D1 to D3; design.md",
+    "sourceAccessibility": "nph-avatar-stack spec sheet; nph-avatar-stack.test.ts",
+    "matrixLabel": "Component matrix"
+  },
+  "avatarStackValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "groupLabel": "{shown} people",
+    "groupMoreLabel": "{shown} people and {more} more",
+    "namedGroup": "Ana Souza, Bruno Lima, Carla Mendes and 3 more",
+    "namedGroupCaption": "The screen reader reads the name of the group, and not the avatars or the count."
   },
   "emptyDocs": {
     "summary": "The empty state of an area with no content: an illustration, a heading that says what is missing and a description that says what to do.",
@@ -2016,8 +2201,13 @@
       "components-nph-avatar-validation--photo": "A valid src fills the frame and replaces the person icon; the border stays over the picture.",
       "components-nph-avatar-validation--no-photo": "Without src, or with an empty one, the person icon shows at the icon size of each avatar size.",
       "components-nph-avatar-validation--photo-failed": "A src that does not load keeps the person icon, with no event and no error.",
-      "components-nph-avatar-validation--border": "The avatar draws its own border over the photo: overlapped by hand, with a negative margin on a plain wrapper, the neighbors stay separated. The group itself is nph-avatar-stack, planned.",
+      "components-nph-avatar-validation--border": "The avatar draws its own border over the photo: overlapped by hand, with a negative margin on a plain wrapper, the neighbors stay separated. The group itself is nph-avatar-stack, which uses the same border.",
       "components-nph-avatar-validation--accessibility": "With label the avatar is an image named by it; without label it is hidden from the screen reader and the name beside it speaks.",
+      "components-nph-avatar-stack-validation--sizes": "The three sizes, without and with the count: the group writes its size on every avatar, overlaps them by avatar/overlap and draws the count in the same size.",
+      "components-nph-avatar-stack-validation--composition": "Two to five avatars, with and without the count: what the Figma mostrar 3º, mostrar 4º, mostrar 5º and mostrar contagem turn on.",
+      "components-nph-avatar-stack-validation--photo": "Photos and no photo in the same group: each avatar keeps its own type, and its border keeps the neighbors apart. The group draws no ring.",
+      "components-nph-avatar-stack-validation--count-width": "The count starts as a square of the avatar size and grows with the number, keeping its height and its text role.",
+      "components-nph-avatar-stack-validation--accessibility": "The group is one image named by label, with the names and the total; the avatars and the count are not read.",
       "components-nph-badge-validation--matrix": "Each severity value in both emphasis values, without an icon.",
       "components-nph-badge-validation--with-icon": "The icon comes before the text, at icon/size-sm, in the text colour.",
       "components-nph-badge-validation--two-words": "One or two words stay on a single line: the badge does not wrap.",

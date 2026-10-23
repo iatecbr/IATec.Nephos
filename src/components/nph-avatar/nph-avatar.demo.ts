@@ -67,8 +67,8 @@ export function inScheme(scheme: Scheme, caption: string, content: TemplateResul
  * Overlap done by hand, to show the avatar's own border as the separation: a plain
  * wrapper, and a negative start margin of `calc(-1 * var(--nph-space-inline))` on
  * every avatar but the first. The margin is the consumer's; the component never
- * sets it. `avatar/overlap` is not used here: it belongs to `nph-avatar-stack`
- * (planned), the piece that owns the overlap of a group.
+ * sets it. `avatar/overlap` is not used here: it belongs to `nph-avatar-stack`,
+ * the piece that owns the overlap of a group.
  */
 export function overlapped(size: NphAvatarSize, sources: readonly string[]): TemplateResult {
   return html`<div style="display: flex; align-items: center;">
