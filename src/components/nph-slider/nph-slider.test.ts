@@ -824,7 +824,7 @@ describe('measures and anatomy', () => {
 });
 
 describe('states and precedence', () => {
-  it('foco: the border takes focus/border and the halo focus/halo, on keyboard focus', async () => {
+  it('focus: the border takes focus/border and the halo focus/halo, on keyboard focus', async () => {
     const element = await mount();
     await userEvent.keyboard('{Tab}');
     const item = thumb(element);
@@ -835,7 +835,7 @@ describe('states and precedence', () => {
     expect(Number.parseFloat(after.borderTopWidth)).toBeCloseTo(px('--nph-focus-ring-width'), 1);
   });
 
-  it('erro: the border is status/error; erro-foco: the halo is focus/halo-error', async () => {
+  it('error: the border is status/error; error with focus: the halo is focus/halo-error', async () => {
     const element = await mount({ label: 'Volume', invalid: true });
     expect(getComputedStyle(thumb(element)).borderTopColor).toBe(color('--nph-status-error'));
     expect(getComputedStyle(thumb(element), '::after').display).toBe('none');
@@ -878,7 +878,7 @@ describe('states and precedence', () => {
     expect(element.value).toBe(50);
   });
 
-  it('invalid passes erro to the inner fields', async () => {
+  it('invalid passes the error state to the inner fields', async () => {
     const element = await mount({ ...RANGE, inputs: true, invalid: true });
     expect(fields(element).map((item) => item.invalid)).toEqual([true, true]);
   });

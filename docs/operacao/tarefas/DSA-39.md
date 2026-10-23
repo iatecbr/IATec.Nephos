@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 400,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-slider",
   "dependencies": ["DSA-03", "DSA-04", "DSA-08", "DSA-13", "DSA-16", "DSA-28"],
   "gates": [
@@ -29,7 +29,38 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D1",
+      "question": "With several parts beside the track, the evidence does not give their order. The code draws `[start field] [minus] [minimum] track [maximum] [plus] [end field]`; in `single`, the only field is at the end. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D2",
+      "question": "In `tipo=intervalo`, the evidence does not say which thumb minus and plus move. The code moves the thumb used or focused last, the start one by default. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D3",
+      "question": "The evidence gives the default width (`layout/input-width`) but not the length of the vertical track. The code uses `layout/input-width` as its height. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D4",
+      "question": "`marcas` shows 'steps under the track'. The evidence does not say whether there is one mark per step or a subset. The code draws one label per step, from `min` to `max`, and the thumb always stops on the step. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D5",
+      "question": "`campo` is an `nph-input` at `space/inline` from the track, with no width of its own in the evidence and no token for it. The code lets the field share the line with the track. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-39/documentacao-figma-aceita-2026-10-15.md"
   ],
@@ -46,8 +77,12 @@
     "excerpt": null,
     "converted_decision": "The nph-slider board (1636:46), with its documentation frame (1925:642), was accepted as the API and behavior specification of the nph-slider. COMPONENT_SET 1636:44. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": {
+    "branch": "claude/dsa-39-nph-slider-0eb846",
+    "commit": null,
+    "pr": null
+  },
+  "context": "docs/operacao/contextos/DSA-39.md",
   "updated_at": "2026-10-23"
 }
 ```
@@ -75,6 +110,19 @@ proposals for the PR.
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
 tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
+
+## Pending decisions
+The evidence gives the contract, so the code can start. Five points remain for
+Indiane; the code follows the stated default meanwhile, and the answer only
+adjusts one rule each. They are recorded in P94.
+
+| ID | What the evidence gives | What is missing | What the code does meanwhile |
+|---|---|---|---|
+| D1 | The parts beside the track sit at `space/inline` from it. | Their order when several are on. | `[start field] [minus] [minimum] track [maximum] [plus] [end field]`. |
+| D2 | Minus and plus move one step. | Which thumb they move in `tipo=intervalo`. | The thumb used last, the start one by default. |
+| D3 | The default width is `layout/input-width`. | The length of the vertical track. | `layout/input-width` as its height. |
+| D4 | `marcas` shows the steps under the track. | One mark per step, or a subset. | One label per step. |
+| D5 | `campo` is an `nph-input` at `space/inline` from the track. | Its width; there is no token for it. | The field shares the line with the track. |
 
 ## Relations with other tasks
 - The value balloon is an `nph-tooltip` (DSA-08).

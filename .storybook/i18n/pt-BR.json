@@ -141,7 +141,17 @@
     "components-nph-field-validation--width": "Largura",
     "components-nph-field-validation--group": "Grupo",
     "components-nph-field-validation--disabled": "Desabilitado",
-    "components-nph-field-validation--control-contract": "Contrato com o controle"
+    "components-nph-field-validation--control-contract": "Contrato com o controle",
+    "components-nph-slider-docs": "Docs",
+    "components-nph-slider-docs--documentation": "Documentação",
+    "components-nph-slider-validation": "Validação",
+    "components-nph-slider-validation--matrix": "Matriz",
+    "components-nph-slider-validation--optional-parts": "Partes opcionais",
+    "components-nph-slider-validation--keyboard-and-events": "Teclado e eventos",
+    "components-nph-slider-validation--form-association": "Associação a formulário",
+    "components-nph-slider-validation--inside-field": "Dentro do nph-field",
+    "components-nph-slider-validation--invalid-input": "Entrada inválida",
+    "components-nph-slider-validation--examples": "Exemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -3033,6 +3043,329 @@
     "disabledInfoCaption": "Desabilitado com o ícone de informação: o ícone continua focável e abre o balão.",
     "contractCaption": "Abaixo de cada campo, o que o campo escreveu no controle: o nome, a descrição (a linha de mensagem visível), invalid, required e disabled."
   },
+  "sliderDocs": {
+    "summary": "O controle que escolhe um valor, ou um intervalo, numa escala contínua de números, arrastando um polegar ou com as setas. Participa do formulário que o contém; a ajuda e a mensagem de erro pertencem ao nph-field.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-slider, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P94. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "description": "Use o nph-slider quando a posição na escala importa mais do que o número exato: volume, brilho, uma faixa de preço. Quando o número exato importa, ligue inputs ou use o nph-input. Ele não mostra progresso: isso é uma barra de progresso, que não é operada.",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "single, para escolher um valor aproximado numa escala, como volume ou brilho.",
+      "range, para filtrar por um intervalo, como preço mínimo e máximo.",
+      "vertical, num painel estreito ou num ajuste que sobe e desce, como volume ou zoom.",
+      "text, fora do nph-field, quando a pessoa precisa ver o número enquanto ajusta.",
+      "limits, quando os extremos da escala não são óbvios para a pessoa.",
+      "marks, quando só alguns valores são válidos, em passos fixos.",
+      "inputs, quando o número exato importa e a pessoa pode querer digitá-lo.",
+      "steppers, quando o ajuste fino é comum ou arrastar é difícil, como numa tela de toque.",
+      "Dentro do nph-field quando o valor quebra uma regra: o field dá a mensagem de erro."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para mostrar progresso: isso é uma barra de progresso, que não é operada.",
+      "range para escolher um único valor: use single.",
+      "vertical num formulário comum: o horizontal segue a leitura.",
+      "text dentro do nph-field: o rótulo sai duas vezes.",
+      "limits junto com marks: as marcas já mostram os extremos.",
+      "marks numa escala contínua: use limits.",
+      "Sozinho quando a pessoa digita números exatos com frequência: ligue inputs ou use o nph-input.",
+      "steppers sem um passo definido: cada clique precisa mover um passo claro."
+    ],
+    "relationsText": "O nph-field dá o rótulo, a ajuda e a mensagem de erro, e escreve label, description, invalid e required no slider; ali, text fica desligado. Sozinho, o nph-label o nomeia com for, ou text desenha o rótulo acima do trilho. O balão de valor é o nph-tooltip, o campo é o nph-input e menos e mais são nph-button só com ícone.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "orientation",
+        "horizontal (padrão) ou vertical. O vertical tem o mínimo embaixo, e nele só existem text e limits. Refletida no atributo."
+      ],
+      [
+        "mode",
+        "single (padrão), um polegar, ou range, dois polegares, início e fim. Refletida no atributo."
+      ],
+      [
+        "min, max e step",
+        "A escala: 0, 100 e 1 por padrão. Todo valor é arredondado ao passo e mantido dentro da escala."
+      ],
+      [
+        "value",
+        "O valor atual, em single. O atributo value é o valor inicial e o valor do form.reset(); vale só até a pessoa mover o slider. Defini-lo por código não dispara evento. O padrão é o meio da escala."
+      ],
+      [
+        "start e end",
+        "O início e o fim, em range, com a mesma regra de value. Cada polegar para no outro. Por padrão, min e max."
+      ],
+      [
+        "name",
+        "O nome da entrada nos dados do formulário: single envia name=value, range duas entradas sob o mesmo nome, início e fim. Refletida no atributo."
+      ],
+      [
+        "text",
+        "O rótulo visível, desenhado por um nph-label com o valor atual ao lado, acima do trilho. Vazio desliga a parte. Desligado dentro do nph-field."
+      ],
+      [
+        "limits",
+        "Liga o mínimo e o máximo nas pontas do trilho."
+      ],
+      [
+        "marks",
+        "Liga um rótulo por passo abaixo do trilho. Só no horizontal."
+      ],
+      [
+        "inputs",
+        "Liga um nph-input com o número: um no fim em single, um em cada ponta em range. Só no horizontal."
+      ],
+      [
+        "steppers",
+        "Liga os botões de menos e mais, que movem um passo. Só no horizontal; exige decrease-label e increase-label."
+      ],
+      [
+        "start-label e end-label",
+        "Em range, o nome acessível de cada polegar e do seu campo, já localizado."
+      ],
+      [
+        "decrease-label e increase-label",
+        "Os nomes acessíveis dos botões de menos e mais, já localizados."
+      ],
+      [
+        "label",
+        "O nome acessível em texto, nunca visível, quando não há rótulo associado. Um rótulo associado vence, e ele vence text."
+      ],
+      [
+        "description",
+        "A descrição acessível em texto, nunca visível: a ajuda ou a frase de erro que o nph-field escreve. Lida como descrição de cada polegar."
+      ],
+      [
+        "required",
+        "Escrito pelo nph-field. Um slider sempre tem valor, então não tem efeito."
+      ],
+      [
+        "disabled",
+        "O slider inteiro em state/disabled-opacity, uma vez só, fora do Tab e dos dados do formulário. Um fieldset desabilitado também o desabilita. Vence invalid."
+      ],
+      [
+        "invalid",
+        "O estado erro: a borda do polegar vira status/error e cada polegar ganha aria-invalid. A frase pertence ao nph-field."
+      ],
+      [
+        "input e change",
+        "Os eventos nativos. input dispara enquanto o valor se move; change quando ele assenta: depois de uma tecla ou de um clique, e ao soltar um arraste. Leia o valor no host."
+      ]
+    ],
+    "variantsTitle": "Variantes",
+    "variantsHeader": [
+      "Variante",
+      "Para que serve"
+    ],
+    "variants": [
+      [
+        "orientation: horizontal",
+        "Uso geral, seguindo a leitura. O mínimo fica à esquerda."
+      ],
+      [
+        "orientation: vertical",
+        "Um painel estreito, ou um ajuste que sobe e desce, como volume ou zoom. O mínimo fica embaixo."
+      ],
+      [
+        "mode: single",
+        "Um valor aproximado na escala, como volume ou brilho."
+      ],
+      [
+        "mode: range",
+        "Um início e um fim, como preço mínimo e máximo. Cada polegar tem nome próprio."
+      ]
+    ],
+    "variantsCaption": "single e range, horizontal e vertical.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "O que muda"
+    ],
+    "states": [
+      [
+        "default",
+        "O polegar sobre color/background, com a borda color/primary-border. O trilho é color/input vazio e color/primary ativo."
+      ],
+      [
+        "hover",
+        "O balão de valor, um nph-tooltip, abre acima do polegar."
+      ],
+      [
+        "foco",
+        "A borda do polegar vira focus/border, com o halo focus/halo por fora, em focus/ring-width. O balão abre."
+      ],
+      [
+        "inválido",
+        "A borda do polegar é status/error; com foco, o halo é focus/halo-error. Os campos internos mostram o erro deles."
+      ],
+      [
+        "desabilitado",
+        "O slider inteiro em state/disabled-opacity, uma vez só; sem balão. O campo e os botões mantêm a aparência de repouso. Vence invalid."
+      ]
+    ],
+    "statesCaption": "Padrão, inválido e desabilitado. Passe o mouse sobre um polegar para ver o balão e aperte Tab para ver o foco.",
+    "partsTitle": "Partes opcionais",
+    "partsText": "Cada parte é ligada por uma propriedade e não cria variante. As partes ao lado do trilho ficam a space/inline dele.",
+    "partsHeader": [
+      "Propriedade",
+      "O que desenha"
+    ],
+    "parts": [
+      [
+        "text",
+        "O nph-label e o valor atual acima do trilho."
+      ],
+      [
+        "limits",
+        "O mínimo e o máximo nas pontas, em text/caption."
+      ],
+      [
+        "marks",
+        "Um rótulo por passo abaixo do trilho, em text/caption. Só no horizontal."
+      ],
+      [
+        "inputs",
+        "Um nph-input com o número; em range, um em cada ponta. Só no horizontal."
+      ],
+      [
+        "steppers",
+        "nph-button só com ícone, secondary e ghost, com minus e plus. Cada clique move um passo. Só no horizontal."
+      ]
+    ],
+    "partsCaption": "limits, marks e steppers.",
+    "invalidTitle": "Entrada inválida",
+    "invalidText": "Uma orientation ou um mode fora dos valores, um min que não fica abaixo de max e um step que não é um número positivo não desenham nada. marks, inputs ou steppers na orientação vertical, e steppers sem os seus dois nomes, não são desenhados; o resto renderiza.",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Raiz",
+        "Uma pilha vertical, space/stack-tight entre a linha de cima, o trilho e as marcas. Largura padrão layout/input-width."
+      ],
+      [
+        "Trilho",
+        "Parte vazia em color/input e parte ativa em color/primary, space/inline-tight de espessura, radius/full. Em range, a parte ativa fica entre os dois polegares."
+      ],
+      [
+        "Polegar",
+        "Um círculo de icon/size-sm, radius/full, color/background, com a borda border/width por dentro em color/primary-border. O alvo de toque é um círculo de control/height-large centrado nele."
+      ],
+      [
+        "Balão de valor",
+        "Um nph-tooltip acima do polegar, com os tokens do tooltip. Em range, acompanha o polegar que tem o estado."
+      ],
+      [
+        "Rótulo e valor",
+        "O nph-label à esquerda e o valor à direita, em text/label-md, color/foreground."
+      ],
+      [
+        "Mínimo, máximo e marcas",
+        "text/caption, color/muted-foreground. As marcas ficam a space/stack-tight abaixo do trilho."
+      ],
+      [
+        "Campo, menos e mais",
+        "nph-input em size=default, e nph-button só com ícone, a space/inline do trilho."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "Cada polegar é um elemento com role=slider, com aria-valuemin, aria-valuemax, aria-valuenow, aria-valuetext e aria-orientation. Em range, um grupo interno reúne os dois polegares. O host é associado a formulário e rotulável."
+      ],
+      [
+        "Nome acessível",
+        "Do rótulo associado ao host: nph-label for, um elemento label ou o nph-field. Sem ele, de label, depois de text. Em range, cada polegar recebe start-label ou end-label; menos e mais recebem decrease-label e increase-label."
+      ],
+      [
+        "Descrição",
+        "description é lida como descrição de cada polegar: a ajuda ou a frase de erro do nph-field."
+      ],
+      [
+        "Teclado",
+        "Tab entra em cada polegar. As setas movem um passo; Page Up e Page Down um décimo da escala; Home e End vão às pontas."
+      ],
+      [
+        "Foco visível",
+        "O polegar recebe focus/border com o halo por fora, sem mudar o tamanho, e o balão abre."
+      ],
+      [
+        "Alvo de toque",
+        "O polegar é desenhado em icon/size-sm, e o alvo dele é um círculo de control/height-large."
+      ],
+      [
+        "Limites conhecidos",
+        "Cores forçadas e direita para a esquerda ainda não são tratadas. O gesto de deslizar de um leitor de tela móvel depende do navegador."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleBrightness": "Brilho: text ligado, fora de um field.",
+    "examplePrice": "Faixa de preço: range com inputs, um campo em cada ponta.",
+    "exampleVolume": "Volume: vertical com limits, o mínimo embaixo.",
+    "exampleField": "Dentro do nph-field: o field dá o rótulo, a ajuda e o erro.",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-slider — propósito, variantes, estados, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P94 (API e semântica), P80 (o padrão de formulário), P83 (o contrato do field), P77 (o balão), P01, P02 e P03.",
+      "design.md — color/input, color/primary, color/primary-border, status/error, focus/*, state/disabled-opacity, icon/size-sm, control/height-large, layout/input-width, space/stack-tight, space/inline, space/inline-tight, radius/full, text/label-md e text/caption.",
+      "Figma DS-IA-NEPHOS 5.0 — board nph-slider (1636:46), frame 1925:642 e set 1636:44.",
+      "Storybook — Validation, na pasta ao lado."
+    ],
+    "sourceSpec": "Ficha do nph-slider; Figma, board nph-slider (1636:46)",
+    "sourceApi": "Ficha do nph-slider; docs/decisoes-tecnicas.md › P94",
+    "sourceStates": "Figma, set 1636:44; design.md",
+    "sourceAnatomy": "Figma, set 1636:44; design.md",
+    "sourceAccessibility": "Ficha do nph-slider; nph-slider.test.ts",
+    "matrixLabel": "Matriz do componente",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "brightnessLabel": "Brilho",
+    "volumeLabel": "Volume",
+    "volumeHelp": "Entre 0 e 100.",
+    "volumeError": "Baixe o volume para 70 ou menos.",
+    "priceLabel": "Preço",
+    "startLabel": "Preço mínimo",
+    "endLabel": "Preço máximo",
+    "ratingLabel": "Nota",
+    "decreaseLabel": "Diminuir volume",
+    "increaseLabel": "Aumentar volume"
+  },
+  "sliderValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "brightnessLabel": "Brilho",
+    "volumeLabel": "Volume",
+    "volumeHelp": "Entre 0 e 100.",
+    "volumeError": "Baixe o volume para 70 ou menos.",
+    "priceLabel": "Preço",
+    "startLabel": "Preço mínimo",
+    "endLabel": "Preço máximo",
+    "ratingLabel": "Nota",
+    "decreaseLabel": "Diminuir volume",
+    "increaseLabel": "Aumentar volume",
+    "statusIdle": "Esperando um evento.",
+    "statusEvent": "{event} disparou; o valor agora é {value}.",
+    "submitText": "Enviar",
+    "resetText": "Redefinir",
+    "statusSubmitted": "Enviado: {data}",
+    "statusReset": "O formulário voltou aos atributos de valor.",
+    "fieldsetDisabled": "Dentro de um fieldset desabilitado",
+    "exampleBrightness": "Brilho",
+    "examplePrice": "Faixa de preço",
+    "exampleVolume": "Volume"
+  },
   "validationPages": {
     "sheetTitle": "O contrato está na ficha",
     "sheetText": "Esta peça não tem página de leitura no Storybook. O contrato está em {sheet}; estas stories o comprovam.",
@@ -3110,7 +3443,14 @@
       "components-nph-field-validation--width": "O campo assume layout/field-width por padrão e estica com o contêiner; o controle o preenche.",
       "components-nph-field-validation--group": "Um grupo de checkboxes e um grupo de radios, empilhados, nomeados e descritos pelo campo.",
       "components-nph-field-validation--disabled": "Desabilitado: o controle esmaece, o rótulo e a linha de mensagem não; o desabilitado vence o erro.",
-      "components-nph-field-validation--control-contract": "O que o campo escreve no controle (P83): o nome, a descrição, invalid, required e disabled."
+      "components-nph-field-validation--control-contract": "O que o campo escreve no controle (P83): o nome, a descrição, invalid, required e disabled.",
+      "components-nph-slider-validation--matrix": "orientation × mode × estado do set: padrão, erro e desabilitado. Passe o mouse sobre um polegar para o balão e aperte Tab para o foco.",
+      "components-nph-slider-validation--optional-parts": "As partes opcionais, cada uma sozinha e juntas: text, limits, marks, inputs e steppers. Na orientação vertical só existem text e limits.",
+      "components-nph-slider-validation--keyboard-and-events": "As setas movem um passo, Page Up e Page Down um décimo, Home e End vão às pontas; um arraste move o polegar mais próximo. input dispara enquanto o valor se move e change quando ele assenta.",
+      "components-nph-slider-validation--form-association": "O host participa do formulário: single envia name=value, range duas entradas sob o mesmo nome, o reset restaura os atributos de valor, e um fieldset desabilitado o deixa de fora.",
+      "components-nph-slider-validation--inside-field": "Dentro do nph-field, o field dá o rótulo, a ajuda e o erro; o slider mostra o estado de erro e lê a frase como descrição.",
+      "components-nph-slider-validation--invalid-input": "Entrada inválida não desenha nada: uma orientation ou um mode que não existem, min que não fica abaixo de max, um step zero. marks na orientação vertical não é desenhado; o resto renderiza.",
+      "components-nph-slider-validation--examples": "Os três exemplos obrigatórios do board aceito: Brilho, Faixa de preço e Volume, cada um em modo claro e escuro."
     }
   }
 }
