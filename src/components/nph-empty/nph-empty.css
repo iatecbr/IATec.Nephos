@@ -22,7 +22,7 @@
  * The box: a column that centers everything, with its own inner space and the width of a
  * field. No background and no border: it takes the background of the piece that receives it.
  */
-:host([data-nph-rendered]) {
+:host([data-nph-rendered]:not([hidden])) {
   display: flex;
   flex-direction: column;
   align-items: center;

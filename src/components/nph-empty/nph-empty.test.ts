@@ -144,6 +144,18 @@ describe('text', () => {
 });
 
 describe('box', () => {
+  it('honors hidden with a valid heading and can be shown again', async () => {
+    const { empty } = await mount({ heading: HEADING });
+    expect(getComputedStyle(empty).display).toBe('flex');
+
+    empty.hidden = true;
+    expect(getComputedStyle(empty).display).toBe('none');
+    expect(empty.getBoundingClientRect().height).toBe(0);
+
+    empty.hidden = false;
+    expect(getComputedStyle(empty).display).toBe('flex');
+  });
+
   it('width layout/input-width, with the padding inside it', async () => {
     const { empty } = await mount({ heading: HEADING });
     const style = getComputedStyle(empty);
