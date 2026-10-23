@@ -476,6 +476,11 @@ export class NphTooltip extends LitElement {
     if (this.reported.startsWith('for ')) {
       this.reported = '';
     }
+    /* Associated with an element that already cannot show it: the same rule as losing focusability. */
+    if (this.open && !this.focusable) {
+      this.reportUnfocusable();
+      this.loseBalloon();
+    }
   }
 
   /** The element is not there (yet): a second look one frame later, then the error. */
@@ -658,6 +663,11 @@ export class NphTooltip extends LitElement {
       this.requestUpdate();
       return;
     }
+    this.loseBalloon();
+  }
+
+  /** The element cannot receive focus: no hold stays and the balloon closes. */
+  private loseBalloon(): void {
     this.cancelWait();
     this.overTarget = false;
     this.hasFocus = false;

@@ -133,5 +133,18 @@
       "Sistemas"
     ],
     "reason": "A quoted Portuguese token description and brand (vertical) names, which are proper names."
+  },
+  {
+    "file": "fichas/nph-empty.md",
+    "class": "contract-term",
+    "names": [
+      "título",
+      "descrição",
+      "texto",
+      "da",
+      "carregando",
+      "vazio"
+    ],
+    "reason": "Figma property names of nph-empty (título, descrição, texto da descrição) and the nph-combobox list states (state=vazio, state=carregando), kept in Portuguese as in Figma (P64); the code API is heading and description."
   }
 ]
