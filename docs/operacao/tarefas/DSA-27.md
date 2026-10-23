@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 250,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-switch",
   "dependencies": [],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-27/review-and-merge-2026-10-23.md",
+      "result": "passed",
+      "verified_at": "2026-10-23",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -44,7 +44,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-27/documentacao-figma-aceita-2026-10-08.md"
+    "docs/operacao/evidencias/DSA-27/documentacao-figma-aceita-2026-10-08.md",
+    "docs/operacao/evidencias/DSA-27/review-and-merge-2026-10-23.md"
   ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p79",
@@ -61,10 +62,10 @@
   },
   "git_review": {
     "branch": "claude/dsa-27-nph-switch-1ea737",
-    "commit": "c10ba4917f4e49e5c33de5cdd057dec48fb538ff",
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/108"
+    "commit": "dacd832cfc195ef8166f03d4e433cba244358970",
+    "pr": "108"
   },
-  "context": "docs/operacao/contextos/DSA-27.md",
+  "context": null,
   "updated_at": "2026-10-23"
 }
 ```
