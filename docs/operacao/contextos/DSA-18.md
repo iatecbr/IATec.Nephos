@@ -32,7 +32,8 @@ After the sync with `v/5.0.0` at `c514ad7`:
   `scripts/test-package.mjs:180` and the records of DSA-34, 39, 42, 43, 45 and 47
 
 ## Result
-The branch is ready; the pull request waits for the merge of DSA-28 (P83).
+The deliverable is complete and open in PR 109, targeting `v/5.0.0`, reviewed by Copilot; the
+merge is Elvys's.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -41,4 +42,4 @@ None recorded: `review-and-merge` waits for the PR.
 None. D6 and D7 wait for Indiane and do not block.
 
 ## Next command
-Sync with `v/5.0.0` after DSA-28 merges, run the proofs again and open the PR.
+Copilot review of PR 109; then close the task with the `review-and-merge` evidence.

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 280,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-radio",
   "dependencies": [],
   "gates": [
@@ -60,11 +60,11 @@
   },
   "git_review": {
     "branch": "claude/dsa-18-nph-radio-266b51",
-    "commit": null,
-    "pr": null
+    "commit": "03766550c32c0b7d17659c96ea196383b26b0534",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/109"
   },
   "context": "docs/operacao/contextos/DSA-18.md",
-  "updated_at": "2026-10-22"
+  "updated_at": "2026-10-23"
 }
 ```
 
