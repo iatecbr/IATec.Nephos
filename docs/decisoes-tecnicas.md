@@ -2328,7 +2328,8 @@ controls of P83, and records here only what differs.
    is the text; without text, `label` becomes the `aria-label` of the input. Unlike P73,
    `aria-invalid` is valid on a checkbox, so `invalid` sets it on the input. **Known limit:** a
    `<label for>` outside, pointing to the host, toggles it but does not name the inner input,
-   because an id does not cross the shadow root.; the piece brings its own text.
+   because an id does not cross the shadow root. The bridge of P80 item 3 (the labels of the
+   host as element references) is not adopted: the piece brings its own text.
 
 3. **Default and current state.** The `checked` attribute is the default state, the one a form
    reset goes back to; the property is the current state. Once the person toggles the piece, or
@@ -2344,7 +2345,8 @@ controls of P83, and records here only what differs.
    A disabled `<fieldset>` disables the piece as its own `disabled` does. State restoration
    brings back the checked state. There is **no `required` and no constraint validation**: the
    evidence has no `obrigatório`, and `invalid` never blocks the submission — the error sentence
-   belongs to the page or to `nph-field`.
+   belongs to the page or to `nph-field`. So the native surface is only the `form` getter: with
+   no constraint, the validity getters of P80 would always say valid.
 
 5. **`disabled` is the host attribute, set at once.** The `disabled` property reads and writes
    the attribute, as the native one, instead of reflecting it during the render. The host then
@@ -2353,8 +2355,8 @@ controls of P83, and records here only what differs.
    it inside the update, and the render it asks for would be lost. `disabled` wins over `invalid`:
    the error border and `aria-invalid` are suppressed, and the combination is not an error.
 
-6. **Events: the native ones.** The contract of the field (P83) and P80 replace, for the form
-   controls, the reasoning of P73 item 3. The native `input` of the inner input is composed and
+6. **Events: the native ones.** As P80 item 4, for the form controls, the native events
+   replace the reasoning of P73 item 3. The native `input` of the inner input is composed and
    crosses the shadow root on its own, unstopped; the native `change` is not composed, so the host
    fires its own `change` after it, which bubbles and is not composed. Both only when the person
    toggles the piece; setting `checked` or `indeterminate` from code fires nothing. The consumer
