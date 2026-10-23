@@ -24,14 +24,12 @@ The component, CSS and tests; the Validation stories, the Docs page and the dict
 sheet, the Metadata and P82. See the commits on the branch.
 
 ## Commands run
-- `npm run build:tokens`, `test:tokens`, `test:i18n`, `test:operacao`, `build-storybook` and
+After the sync with `v/5.0.0` at `9dd6e19`:
+- `npm run build:tokens`, `test:tokens`, `test` (1293 tests), `typecheck`, `test:i18n`,
+  `test:operacao`, `build:lib`, `test:package` (14 components) and `build-storybook`, and
   `git diff --check`: exit 0
-- `npm test`: exit 1, only six `nph-tooltip` tests, which fail the same way on `d00c6ca`;
-  the 150 tests of `nph-radio` pass
-- `npm run typecheck` and `build:lib`: exit 2 and 1, only eight errors in `nph-tooltip.ts`,
-  the same on `d00c6ca`; `test:package` fails because `build:lib` does
 - `npm run test:naming`: exit 1, only in files this pass does not touch:
-  `scripts/test-package.mjs:180` and the records of DSA-34, 39, 43, 45 and 47
+  `scripts/test-package.mjs:180` and the records of DSA-34, 39, 42, 43, 45 and 47
 
 ## Result
 The branch is ready; the pull request waits for the merge of DSA-28 (P83).
