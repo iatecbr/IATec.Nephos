@@ -111,7 +111,8 @@
   "relations": {
     "combines_with": [
       "nph-button",
-      "nph-spinner"
+      "nph-spinner",
+      "nph-input"
     ],
     "parents": [
       "nph-button",
