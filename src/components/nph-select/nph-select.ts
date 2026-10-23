@@ -697,17 +697,20 @@ export class NphSelect extends LitElement implements NphOptionOwner {
     }
   }
 
-  /** Every scrolling ancestor across shadow roots: their scroll does not reach `window` in capture. */
+  /**
+   * Every ancestor in the flat tree, as in `nph-tooltip`: the scroll of an element inside
+   * a shadow root does not reach `window`, so each ancestor and each root listens.
+   */
   private updateScrollTargets(): void {
     this.clearScrollTargets();
     let node: Node | null = this;
     while (node !== null) {
-      const parent: Node | null = node.parentNode instanceof ShadowRoot ? node.parentNode.host : node.parentNode;
-      if (node instanceof ShadowRoot) {
+      if (node instanceof Element || node instanceof ShadowRoot) {
         node.addEventListener('scroll', this.onViewportChange, true);
         this.scrollTargets.push(node);
       }
-      node = parent;
+      /* The flat tree: a slotted node goes through its slot, inside the shadow root around it. */
+      node = node instanceof ShadowRoot ? node.host : ((node as Element).assignedSlot ?? node.parentNode);
     }
   }
 
@@ -800,13 +803,16 @@ export class NphSelect extends LitElement implements NphOptionOwner {
         this.open ? this.activeOption : null;
     }
     const list = this.list;
-    if (list !== null) {
-      if (this.open) {
-        this.show(list);
-        this.revealActive();
-      } else if (changed.has('open') || this.shown) {
-        this.hide(list);
+    if (list === null) {
+      /* Invalid input removed the list: nothing is shown, so a later valid input opens it again. */
+      if (this.shown) {
+        this.hideNow();
       }
+    } else if (this.open) {
+      this.show(list);
+      this.revealActive();
+    } else if (changed.has('open') || this.shown) {
+      this.hide(list);
     }
     this.syncFormState();
   }

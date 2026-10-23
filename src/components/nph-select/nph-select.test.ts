@@ -891,6 +891,48 @@ describe('the list in the top layer', () => {
     expect(activeOf(element)).toBe(option(element, 'Legal'));
   });
 
+  it('follows the trigger when an ancestor inside another shadow root scrolls, also through a slot', async () => {
+    if (customElements.get('test-scroll-frame') === undefined) {
+      customElements.define(
+        'test-scroll-frame',
+        class extends HTMLElement {
+          constructor() {
+            super();
+            this.attachShadow({ mode: 'open' }).innerHTML =
+              '<div class="box" style="block-size: 200px; overflow: auto"><div style="block-size: 900px; padding-block-start: 20px"><slot></slot></div></div>';
+          }
+        },
+      );
+    }
+    const holder = await markup(`<test-scroll-frame><nph-select label="Department">${options()}</nph-select></test-scroll-frame>`);
+    const element = holder.querySelector('nph-select') as NphSelect;
+    const box = holder.querySelector('test-scroll-frame')?.shadowRoot?.querySelector('.box') as HTMLElement;
+    element.open = true;
+    await settle();
+    await wait(400);
+    box.scrollTop = 15;
+    await nextFrame();
+    await nextFrame();
+    const anchor = trigger(element).getBoundingClientRect();
+    const layer = list(element).getBoundingClientRect();
+    expect(layer.top - anchor.bottom).toBeCloseTo(px('--nph-space-inline-tight'), 1);
+  });
+
+  it('an open select made invalid and then valid again opens its list', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const element = await mount();
+    element.open = true;
+    await settle();
+    element.size = 'small';
+    await element.updateComplete;
+    expect(element.open).toBe(false);
+    element.size = 'default';
+    element.open = true;
+    await settle();
+    expect(element.open).toBe(true);
+    expect(list(element).matches(':popover-open')).toBe(true);
+  });
+
   it('removing the select from the page closes the list', async () => {
     const element = await mount();
     element.open = true;
