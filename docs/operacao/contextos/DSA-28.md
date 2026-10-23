@@ -23,21 +23,31 @@ contract that the form controls of DSA-16, DSA-17, DSA-18, DSA-27 and DSA-41 imp
 - `docs/decisoes-tecnicas.md` — P01, P02, P21, P62, P72, P76, P77
 
 ## Changes
-The task moves to in progress with the pending decisions D-1 to D-5. The component, its
-CSS, tests, stories and sheet follow in the next commits. See the commits on the branch.
+`nph-field` (component, CSS, tests with test stubs and with the real `nph-input`), seven
+Validation stories, the Docs page, the dictionaries in the three languages, the sheet and
+its Metadata, and P83 with the field–control contract. The branch was synced with
+`v/5.0.0` four times; the conflicts were only in `docs/decisoes-tecnicas.md` and in the
+dictionaries, resolved keeping the entries of the other tasks. See the commits on the branch.
 
 ## Commands run
-- `npm ci`, then `npm run test:operacao` before the first commit.
+- `npm ci`; `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`,
+  `test:operacao`, `test:naming`, `build-storybook`, `build:lib`, `test:package` and
+  `git diff --check` on the head of the pull request.
 
 ## Result
-In progress. Nothing delivered yet beyond the task state.
+In review in PR #105. The single field uses the real `nph-input`; the options of a group
+are demonstration elements that take the contract of P83.
 
 ## Evidence
-None recorded: `review-and-merge` waits for the PR.
+The proof table is in the description of PR #105. `review-and-merge` waits for the merge.
 
 ## Blocker
-None. D-1 to D-5 wait for Indiane and do not block. The pull request opens after DSA-16
-(`nph-input`) is merged, so the stories use the real control.
+None. D-1 to D-5 wait for Indiane and do not block.
+
+## Follow-up
+When `nph-checkbox` (DSA-17) and `nph-radio` (DSA-18) are merged, swap `demo-field-checkbox`
+and `demo-field-radio` in `nph-field.demo.ts` for the real pieces and remove the note about
+demonstration options from the Docs page and its dictionary entries.
 
 ## Next command
-Commit the component, then the stories, the Docs page and the sheet.
+Wait for the review of PR #105.

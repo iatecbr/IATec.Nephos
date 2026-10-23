@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 290,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-field",
   "dependencies": [],
   "gates": [
@@ -78,11 +78,11 @@
   },
   "git_review": {
     "branch": "claude/dsa-28-nph-field-66625a",
-    "commit": null,
-    "pr": null
+    "commit": "cc0a73102fe4c7e6c03098d491e88ea49fc7473a",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/105"
   },
   "context": "docs/operacao/contextos/DSA-28.md",
-  "updated_at": "2026-10-22"
+  "updated_at": "2026-10-23"
 }
 ```
 
