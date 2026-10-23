@@ -42,6 +42,8 @@
     "components-nph-button-validation--icons": "Icons",
     "components-nph-button-validation--disabled": "Disabled",
     "components-nph-button-validation--loading": "Loading",
+    "components-nph-button-validation--shapes": "Shapes",
+    "components-nph-button-validation--tooltip": "Tooltip",
     "components-nph-spinner-validation": "Validation",
     "components-nph-spinner-validation--sizes": "Sizes",
     "components-nph-spinner-validation--accessibility": "Accessibility",
@@ -142,6 +144,15 @@
     "components-nph-field-validation--group": "Group",
     "components-nph-field-validation--disabled": "Disabled",
     "components-nph-field-validation--control-contract": "Control contract",
+    "components-nph-switch-docs": "Docs",
+    "components-nph-switch-docs--documentation": "Documentation",
+    "components-nph-switch-validation": "Validation",
+    "components-nph-switch-validation--matrix": "Matrix",
+    "components-nph-switch-validation--label": "Label",
+    "components-nph-switch-validation--disabled": "Disabled",
+    "components-nph-switch-validation--invalid": "Invalid",
+    "components-nph-switch-validation--interactive": "Interactive",
+    "components-nph-switch-validation--examples": "Examples",
     "components-nph-slider-docs": "Docs",
     "components-nph-slider-docs--documentation": "Documentation",
     "components-nph-slider-validation": "Validation",
@@ -561,10 +572,10 @@
     "sampleText": "Badge"
   },
   "buttonDocs": {
-    "summary": "Triggers an action identified by text. It varies in severity, emphasis, size and state, with an optional icon at the start or the end. Without text, it is the icon-only button.",
+    "summary": "Triggers an action identified by text. It varies in severity, emphasis, size and state, with an optional icon at the start or the end. Without text, it is the icon-only button, square or circular, with its name in a tooltip.",
     "onThisPage": "On this page",
     "derivedTitle": "This page is derived.",
-    "derivedText": "In case of divergence, the canonical sources prevail: the nph-button spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P68. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-button spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P68 and P86. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
     "sourceLabel": "Source:",
     "whenToUseTitle": "When to use",
     "whenToUse": [
@@ -573,12 +584,13 @@
       "Choose the severity by the meaning of the action, never by colour.",
       "Choose the emphasis by how much the action stands out: solid, outline, light or ghost.",
       "Use size large on touch screens.",
-      "Without text, use the icon-only button and give it an accessible name."
+      "Without text, for a universal action such as close or search: give it a label, which is its accessible name and the text of its tooltip.",
+      "In the actions column of a table, even when the action leads to another screen, such as view details."
     ],
     "whenNotToUseTitle": "When not to use",
     "whenNotToUse": [
       "To show a field error: validation belongs to the field (nph-field).",
-      "Icon only on an action with consequences, such as delete or publish.",
+      "Icon only on an action with consequences, such as delete or publish, outside the actions column of a table: write the text.",
       "To navigate to another destination.",
       "size compact as the main target on a touch screen.",
       "Enlarging the icon to add emphasis.",
@@ -617,7 +629,7 @@
       ],
       [
         "label",
-        "Accessible name of the button without text. Required there; with text, it is not used."
+        "Accessible name of the button without text, and the text of its tooltip. Required there; with text, it is not used."
       ],
       [
         "disabled",
@@ -626,6 +638,10 @@
       [
         "loading",
         "Shows the nph-spinner in place of the start icon; the text stays, focus remains and the click does not reach the consumer. Reflected to the attribute."
+      ],
+      [
+        "shape",
+        "Corners of the icon-only button: square (the default) on radius/control or circular on radius/full. The size and the touch target do not change. With text, only square. Reflected to the attribute."
       ]
     ],
     "variantsTitle": "Severity and emphasis",
@@ -680,7 +696,7 @@
       },
       {
         "value": "danger",
-        "label": "Do not use with an icon only: write the text."
+        "label": "Do not use with an icon only, except in the actions column of a table, where the tooltip gives the name: write the text."
       },
       {
         "value": "info",
@@ -700,7 +716,7 @@
       }
     ],
     "sizesTitle": "Sizes",
-    "sizesText": "The height comes from control/height-compact, -default or -large. The text is text/label-md in all of them. Without text, the button is square and the icon follows the box: sm in compact, md in default and lg in large.",
+    "sizesText": "The height comes from control/height-compact, -default or -large. The text is text/label-md in all of them. Without text, the button is square or circular and the icon follows the box: sm in compact, md in default and lg in large.",
     "sizesCaption": "compact, default and large, with text, with an icon and icon only.",
     "sizeUseHeader": [
       "Size",
@@ -738,6 +754,10 @@
         "label": "Do not use with a different size from the field beside it."
       }
     ],
+    "iconOnlyTitle": "Icon only",
+    "iconOnlyText": "Without text, the button is the icon-only button, the nph-icon-button set in Figma. shape chooses square or circular corners, a choice of context with no fixed rule; the size and the touch target stay. Every icon-only button shows its label in an nph-tooltip: at once on keyboard focus, after motion/hover-delay on hover, never on touch and never while disabled.",
+    "iconOnlyCaption": "square and circular in the three sizes, and circular loading. Hover a button or use Tab to see its tooltip.",
+    "sourceIconOnly": "nph-button spec sheet; Figma, board nph-icon-button (2122:1591) and set 498:15671",
     "statesTitle": "States",
     "statesHeader": [
       "State",
@@ -786,11 +806,15 @@
       ],
       [
         "Touch target",
-        "size large meets the 44 px touch target; compact is not a main target on a touch screen."
+        "size large meets the 44 px touch target; compact is not a main target on a touch screen. The shape does not change the target."
       ],
       [
         "Accessible name",
-        "The text is the name of the button. Without text, the name comes from label, which is required."
+        "The text is the name of the button. Without text, the name comes from label, which is required, and the same text appears in the tooltip, announced once."
+      ],
+      [
+        "Tooltip",
+        "Every icon-only button shows its name in a tooltip, at once on keyboard focus and after a short wait on hover. On touch the tooltip does not open: the icon must be easy to recognize, and an ambiguous action uses a button with text."
       ],
       [
         "Keyboard",
@@ -800,24 +824,29 @@
     "examplesTitle": "Examples",
     "exampleForm": "Form actions: main and secondary.",
     "exampleConsequence": "An action with consequences, always with text.",
-    "exampleIconOnly": "A universal action without text, with an accessible name.",
+    "exampleIconOnly": "Closing a panel: a universal action without text, secondary ghost.",
+    "exampleTable": "Actions of a table row, in compact: secondary ghost, each named by its tooltip.",
+    "exampleCircular": "Circular shape, with its accessible name: primary solid.",
     "exampleTexts": [
       "Save",
       "Cancel",
       "Delete account",
       "Close",
-      "New"
+      "New",
+      "View details",
+      "Edit",
+      "Delete"
     ],
     "referencesTitle": "References",
     "references": [
       "nph-button spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
-      "docs/decisoes-tecnicas.md — P68 (API and semantics), P01, P02, P03 and P66 (nph-spinner).",
-      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colours.",
-      "DS-IA-NEPHOS 5.0 Figma — page NPH — Button, frame nph-button (1197:5449) and sets 461:13009 and 498:15671.",
+      "docs/decisoes-tecnicas.md — P68 and P86 (API and semantics), P77 (nph-tooltip), P01, P02, P03 and P66 (nph-spinner).",
+      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colours.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Button, frame nph-button (1197:5449) and sets 461:13009 and 498:15671; page NPH — Icon Button, board nph-icon-button (2122:1591).",
       "Storybook — Validation, in the folder alongside."
     ],
     "sourceSpec": "nph-button spec sheet; Figma, frame nph-button (1197:5449)",
-    "sourceApi": "nph-button spec sheet; docs/decisoes-tecnicas.md › P68",
+    "sourceApi": "nph-button spec sheet; docs/decisoes-tecnicas.md › P68 and P86",
     "sourceStates": "Figma, sets 461:13009 and 498:15671; design.md",
     "matrixLabel": "Component matrix"
   },
@@ -3043,6 +3072,205 @@
     "disabledInfoCaption": "Disabled with the information icon: the icon stays focusable and opens the balloon.",
     "contractCaption": "Below each field, what the field wrote on its control: the name, the description (the visible message line), invalid, required and disabled."
   },
+  "switchDocs": {
+    "summary": "A switch that turns a setting on or off, with an immediate effect. The position of the knob shows the state: left, off; right, on. The label sits after the track, and the piece fires the native input and change when the person toggles it.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-switch spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P79. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "For a setting that turns on or off, with an immediate effect, outside a toolbar.",
+      "Several settings stack, one nph-switch per line: there is no group component.",
+      "Without text only when the name is already in the context, such as a table cell, always with label."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "In a form, when the choice only counts on submission: use nph-checkbox.",
+      "In a toolbar, among other buttons: use nph-togglebutton.",
+      "To paint the track or the knob by hand: use checked, invalid and disabled.",
+      "To hide the label by deleting its text: leave text empty and give label."
+    ],
+    "relationsText": "In a toolbar, among other buttons, the piece is nph-togglebutton; in a form whose choice only counts on submission, it is nph-checkbox. The piece brings its own text: it does not need nph-field to have a name. Inside nph-field, it is one option of a group.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "checked",
+        "The on state, the Figma property marcado. false by default. Reflected to the attribute. A click, Enter or Space by the person toggles it and fires input and change; setting it from code fires nothing."
+      ],
+      [
+        "text",
+        "The label, already localized, after the track. It is the accessible name and wraps to the available width. Without it (the Figma boolean that shows the label, off), the piece is only the track and needs label."
+      ],
+      [
+        "label",
+        "Accessible name of the piece without text. Required there; with text, it is not used."
+      ],
+      [
+        "invalid",
+        "The track outline becomes status/error, on or off, and on focus the halo becomes focus/halo-error. Reflected to the attribute; it sets aria-invalid. The error sentence stays outside the piece. disabled wins over it."
+      ],
+      [
+        "disabled",
+        "Turns the piece off: it leaves the Tab order, does not toggle, fires nothing and stays at state/disabled-opacity. Reflected to the attribute. A disabled fieldset around it does the same, except inside its first legend."
+      ],
+      [
+        "input, change",
+        "The native events, fired in this order when the person toggles the piece. input bubbles and crosses shadow roots; change bubbles and does not. The new value is read from event.target.checked."
+      ]
+    ],
+    "statesTitle": "States",
+    "statesHeader": [
+      "State",
+      "What changes"
+    ],
+    "states": [
+      [
+        "off",
+        "The track is color/input, with no outline; the knob is color/background, on the left."
+      ],
+      [
+        "on",
+        "The track is color/primary, with an outline in color/primary-border drawn inside it; the knob is color/primary-foreground, on the right."
+      ],
+      [
+        "hover",
+        "Over the whole piece, the fill goes to color/input-hover when off and color/primary-hover when on; the outline stays."
+      ],
+      [
+        "focus",
+        "For keyboard users: the track outline turns focus/border and a halo in focus/halo shows outside the track, both fully rounded, without changing the size."
+      ],
+      [
+        "invalid",
+        "The track outline is status/error, on or off; on focus, the halo is focus/halo-error. The error sentence stays outside the piece."
+      ],
+      [
+        "disabled",
+        "The whole piece at state/disabled-opacity, out of the Tab order; on keeps its outline. It wins over invalid: the error outline is not drawn."
+      ]
+    ],
+    "statesCaption": "off, on, invalid, disabled and disabled with invalid. Move the mouse over a piece to see hover and press Tab to see focus.",
+    "labelTitle": "Label",
+    "labelText": "The label sits after the track, space/inline from it, in text/label-md and color/foreground. It wraps to the available width; with two lines, the track sits at the top, aligned with the first line. Without text the piece is only the track, and label gives it a name.",
+    "labelCaption": "With a label, only the track with label, and a long label on two lines.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Track",
+        "The rounded base, radius/full, switch/track-width by icon/size-lg. Off: color/input, no outline. On: color/primary, with an outline border/width in color/primary-border drawn inside. Hover: color/input-hover or color/primary-hover. Invalid: outline status/error."
+      ],
+      [
+        "Knob",
+        "The circle in icon/size-sm, space/inline-tight from the track edge. Off: on the left, in color/background. On: on the right, in color/primary-foreground. It slides by transform."
+      ],
+      [
+        "Label",
+        "The text after the track, in text/label-md and color/foreground, space/inline from the track. It is the name of the control."
+      ],
+      [
+        "Touch area",
+        "The whole track, switch/track-width by icon/size-lg; with a label, the whole piece."
+      ],
+      [
+        "Focus",
+        "The track outline turns focus/border and a halo focus/ring-width in focus/halo shows outside the track, both radius/full; with an error, status/error and focus/halo-error."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A native button with type=button, role=switch and aria-checked following checked; the track is aria-hidden. invalid sets aria-invalid. The piece is not associated with a form."
+      ],
+      [
+        "Accessible name",
+        "The label text. Without text, label is required and becomes the aria-label of the button."
+      ],
+      [
+        "Keyboard",
+        "Tab enters and leaves; Space and Enter toggle."
+      ],
+      [
+        "Visible focus",
+        "Keyboard only: the focus outline and the halo around the track, without changing the size."
+      ],
+      [
+        "Contrast",
+        "The track edge passes 3:1 on the page background: color/input is 3.23:1 in light and 6.58:1 in dark; color/primary-border is at least 4.96:1 in light and 4.91:1 in dark, in every brand. The knob passes 3:1 on its track: color/background on color/input is 3.23:1 in light and 6.58:1 in dark; color/primary-foreground on color/primary is at least 4.96:1. The error outline, status/error, is 6.88:1 in light and 5.01:1 in dark."
+      ],
+      [
+        "Known limit",
+        "focus/border against focus/halo is below 3:1 only in the default brand in light mode, at 2.92:1, as design.md records; in every other brand and scheme it passes. A forced-colors mode and a right-to-left page are not handled yet. The error sentence outside the piece cannot be tied to it by aria-describedby across the shadow root."
+      ],
+      [
+        "Color is not the only signal",
+        "On and off show in the knob position, not only in the track color. The error has its sentence written outside the piece."
+      ],
+      [
+        "Touch target",
+        "The whole track, 40 by 24 px; with a label, the whole piece."
+      ],
+      [
+        "Motion",
+        "The knob slides and the colors change on motion/state-duration and motion/state-easing. Under reduced motion the knob does not slide: it changes side by opacity, on motion/hover-duration, and the color still changes."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleSingle": "Single setting: one option that turns on or off, with an immediate effect.",
+    "examplePreferences": "Preferences: several settings stacked, one per line.",
+    "exampleUnavailable": "Unavailable setting: disabled, the person cannot change it.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "wifi": "Wi-Fi",
+    "longLabel": "Send me a weekly summary of the activity in every project I follow",
+    "emailNotifications": "Email notifications",
+    "pushNotifications": "Push notifications",
+    "weeklySummary": "Weekly summary",
+    "backup": "Automatic backup",
+    "referencesTitle": "References",
+    "references": [
+      "nph-switch spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P79 (API and semantics), P73, P01, P02 and P03.",
+      "design.md — switch/track-width, icon/size-lg, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity and motion/*.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Switch, frame nph-switch (1549:2) and set 1548:56.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-switch spec sheet; Figma, frame nph-switch (1549:2)",
+    "sourceApi": "nph-switch spec sheet; docs/decisoes-tecnicas.md › P79",
+    "sourceStates": "Figma, set 1548:56; design.md",
+    "sourceAnatomy": "Figma, set 1548:56; design.md",
+    "sourceAccessibility": "nph-switch spec sheet; nph-switch.test.ts",
+    "matrixLabel": "Component matrix"
+  },
+  "switchValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "wifi": "Wi-Fi",
+    "longLabel": "Send me a weekly summary of the activity in every project I follow",
+    "twoLines": "two lines",
+    "emailNotifications": "Email notifications",
+    "pushNotifications": "Push notifications",
+    "weeklySummary": "Weekly summary",
+    "backup": "Automatic backup",
+    "exampleSingle": "Single setting",
+    "examplePreferences": "Preferences",
+    "exampleUnavailable": "Unavailable setting",
+    "statusIdle": "Waiting for a click.",
+    "statusChanged": "input and change fired; checked = {checked}."
+  },
   "sliderDocs": {
     "summary": "The control that picks a value, or a range, on a continuous scale of numbers, by dragging a thumb or with the arrow keys. It takes part in the form that contains it; the help and the error message belong to nph-field.",
     "onThisPage": "On this page",
@@ -3389,6 +3617,8 @@
       "components-nph-button-validation--icons": "Start icon, end icon and both together, at icon/size-sm.",
       "components-nph-button-validation--disabled": "Disabled: the whole button at state/disabled-opacity, out of the Tab order.",
       "components-nph-button-validation--loading": "Loading: the spinner takes the place of the start icon, and the text stays.",
+      "components-nph-button-validation--shapes": "Square and circular corners of the icon-only button, in each size and emphasis: the size stays. Use Tab to see the focus follow the round corners.",
+      "components-nph-button-validation--tooltip": "Every icon-only button shows its label in a tooltip: Tab opens it at once, the pointer after motion/hover-delay. A disabled button gets none; a loading one keeps it.",
       "components-nph-kbd-validation--single-key": "One key per piece, through the text property.",
       "components-nph-kbd-validation--combination": "A combination joins one piece per key, side by side.",
       "components-nph-kbd-validation--mac-combination": "The same combination on macOS, with the system symbols. The application picks the set by the person's system; the piece does not detect it.",
@@ -3444,6 +3674,12 @@
       "components-nph-field-validation--group": "A group of checkboxes and a group of radios, stacked, named and described by the field.",
       "components-nph-field-validation--disabled": "Disabled: the control fades, the label and the message line do not; disabled wins over error.",
       "components-nph-field-validation--control-contract": "What the field writes on its control (P83): the name, the description, invalid, required and disabled.",
+      "components-nph-switch-validation--matrix": "Off and on, valid, invalid and disabled, with a label. Move the mouse over a piece to see hover and press Tab to see focus on the track.",
+      "components-nph-switch-validation--label": "The label after the track; without text, only the track, named by label; a long label wraps to the available width, with the track at the top, aligned with the first line.",
+      "components-nph-switch-validation--disabled": "Disabled: the whole piece at state/disabled-opacity, out of the Tab order, on or off; disabled wins over invalid.",
+      "components-nph-switch-validation--invalid": "Invalid: the track outline is status/error, on or off, with a label or only the track; the error sentence stays outside the piece.",
+      "components-nph-switch-validation--interactive": "A click toggles the piece and fires the native input and change; checked is read from the target and shown below the piece. Setting checked from code fires nothing.",
+      "components-nph-switch-validation--examples": "The three required examples, each in light and dark mode: Single setting, Preferences and Unavailable setting.",
       "components-nph-slider-validation--matrix": "orientation × mode × state of the set: default, error and disabled. Move the mouse over a thumb for the balloon and press Tab for focus.",
       "components-nph-slider-validation--optional-parts": "The optional parts, each on its own and together: text, limits, marks, inputs and steppers. In the vertical orientation only text and limits exist.",
       "components-nph-slider-validation--keyboard-and-events": "The arrows move one step, Page Up and Page Down a tenth, Home and End go to the ends; a drag moves the nearest thumb. input fires while the value moves and change when it settles.",

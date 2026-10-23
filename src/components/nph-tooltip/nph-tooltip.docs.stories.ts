@@ -26,7 +26,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import '../nph-label/nph-label';
 import './nph-tooltip';
-import { anchored, bothModes, iconButton, openOnRender } from './nph-tooltip.demo';
+import { anchored, bothModes, namedIconButton, openOnRender } from './nph-tooltip.demo';
 import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
 
 const meta: Meta = {
@@ -157,7 +157,7 @@ export const Documentation: Story = {
               modes(
                 () => html`<div style="display: flex; flex-wrap: wrap; gap: calc(var(--nph-space-section) * 3); justify-content: center;">
                   ${(['top', 'bottom', 'left', 'right'] as const).map(
-                    (side) => html`<span style="display: inline-flex;">${iconButton({ text: d.delete, side, open: true })}</span>`,
+                    (side) => html`<span style="display: inline-flex;">${namedIconButton({ text: d.delete, side, open: true })}</span>`,
                   )}
                 </div>`,
               ),

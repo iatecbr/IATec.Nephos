@@ -12,7 +12,6 @@
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 
-import '../nph-button/nph-button';
 import '../nph-icon/nph-icon';
 import './nph-tooltip';
 import type { NphTooltipSide } from './nph-tooltip';
@@ -51,20 +50,10 @@ export interface BalloonOptions {
 let nextId = 0;
 
 /**
- * The icon-only ghost button with the balloon that names its action: the example
- * of the accepted board. The button is the element (`for` points at it); the
- * tooltip is its sibling in the same root.
- */
-export function iconButton({ text, side, open = false }: BalloonOptions): TemplateResult {
-  const id = `nph-tooltip-demo-${++nextId}`;
-  return html`<nph-button id=${id} emphasis="ghost" severity="secondary" icon-start="trash-can" label=${text}></nph-button
-    ><nph-tooltip for=${id} text=${text} side=${side ?? 'top'} ?open=${open}></nph-tooltip>`;
-}
-
-/**
  * A native icon-only button whose balloon is its accessible name (`relation="name"`):
  * the button has no text, the icon is decorative, and the balloon text is announced
- * once, as the name. The `nph-button` names itself until it renders its own tooltip.
+ * once, as the name. A native button carries exactly one balloon here, whose side and
+ * state the page sets; the icon-only `nph-button` renders its own tooltip (P86).
  */
 export function namedIconButton({ text, side, open = false }: BalloonOptions): TemplateResult {
   const id = `nph-tooltip-demo-${++nextId}`;

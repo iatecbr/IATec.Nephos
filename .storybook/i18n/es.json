@@ -42,6 +42,8 @@
     "components-nph-button-validation--icons": "Iconos",
     "components-nph-button-validation--disabled": "Deshabilitado",
     "components-nph-button-validation--loading": "Cargando",
+    "components-nph-button-validation--shapes": "Formas",
+    "components-nph-button-validation--tooltip": "Tooltip",
     "components-nph-spinner-validation": "Validación",
     "components-nph-spinner-validation--sizes": "Tamaños",
     "components-nph-spinner-validation--accessibility": "Accesibilidad",
@@ -142,6 +144,15 @@
     "components-nph-field-validation--group": "Grupo",
     "components-nph-field-validation--disabled": "Deshabilitado",
     "components-nph-field-validation--control-contract": "Contrato con el control",
+    "components-nph-switch-docs": "Docs",
+    "components-nph-switch-docs--documentation": "Documentación",
+    "components-nph-switch-validation": "Validación",
+    "components-nph-switch-validation--matrix": "Matriz",
+    "components-nph-switch-validation--label": "Etiqueta",
+    "components-nph-switch-validation--disabled": "Deshabilitado",
+    "components-nph-switch-validation--invalid": "Inválido",
+    "components-nph-switch-validation--interactive": "Interactivo",
+    "components-nph-switch-validation--examples": "Ejemplos",
     "components-nph-slider-docs": "Docs",
     "components-nph-slider-docs--documentation": "Documentación",
     "components-nph-slider-validation": "Validación",
@@ -561,10 +572,10 @@
     "sampleText": "Insignia"
   },
   "buttonDocs": {
-    "summary": "Dispara una acción identificada por texto. Varía en tipo, énfasis, tamaño y estado, con icono opcional al inicio o al final. Sin texto, es el botón solo con icono.",
+    "summary": "Dispara una acción identificada por texto. Varía en tipo, énfasis, tamaño y estado, con icono opcional al inicio o al final. Sin texto, es el botón solo con icono, cuadrado o circular, con el nombre en un tooltip.",
     "onThisPage": "En esta página",
     "derivedTitle": "Esta página es derivada.",
-    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-button, design.md para los tokens y docs/decisoes-tecnicas.md para la P68. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-button, design.md para los tokens y docs/decisoes-tecnicas.md para la P68 y la P86. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
     "sourceLabel": "Fuente:",
     "whenToUseTitle": "Cuándo usar",
     "whenToUse": [
@@ -573,12 +584,13 @@
       "Elija el tipo por el significado de la acción, nunca por el color.",
       "Elija el énfasis por cuánto se destaca la acción: solid, outline, light o ghost.",
       "Use size large en pantallas táctiles.",
-      "Sin texto, use el botón solo con icono y dele un nombre accesible."
+      "Sin texto, para una acción universal como cerrar o buscar: dele un label, que es el nombre accesible y el texto de su tooltip.",
+      "En la columna de acciones de una tabla, incluso cuando la acción lleva a otra pantalla, como ver detalles."
     ],
     "whenNotToUseTitle": "Cuándo no usar",
     "whenNotToUse": [
       "Para mostrar un error de campo: la validación es del campo (nph-field).",
-      "Solo con icono en una acción con consecuencias, como eliminar o publicar.",
+      "Solo con icono en una acción con consecuencias, como eliminar o publicar, fuera de la columna de acciones de una tabla: escriba el texto.",
       "Para navegar a otro destino.",
       "size compact como objetivo principal en una pantalla táctil.",
       "Agrandar el icono para destacar.",
@@ -617,7 +629,7 @@
       ],
       [
         "label",
-        "Nombre accesible del botón sin texto. Obligatorio en él; con texto, no se usa."
+        "Nombre accesible del botón sin texto y texto de su tooltip. Obligatorio en él; con texto, no se usa."
       ],
       [
         "disabled",
@@ -626,6 +638,10 @@
       [
         "loading",
         "Muestra el nph-spinner en lugar del icono de inicio; el texto se queda, el foco continúa y el clic no llega a quien usa. Se refleja en el atributo."
+      ],
+      [
+        "shape",
+        "Esquinas del botón solo con icono: square (el predeterminado) en radius/control o circular en radius/full. El tamaño y el objetivo táctil no cambian. Con texto, solo square. Reflejado en el atributo."
       ]
     ],
     "variantsTitle": "Tipo y énfasis",
@@ -680,7 +696,7 @@
       },
       {
         "value": "danger",
-        "label": "Solo con icono; escriba el texto."
+        "label": "Solo con icono, salvo en la columna de acciones de una tabla, donde el tooltip da el nombre; escriba el texto."
       },
       {
         "value": "info",
@@ -700,7 +716,7 @@
       }
     ],
     "sizesTitle": "Tamaños",
-    "sizesText": "La altura viene de control/height-compact, -default o -large. El texto es text/label-md en todos. Sin texto, el botón es cuadrado y el icono acompaña la caja: sm en compact, md en default y lg en large.",
+    "sizesText": "La altura viene de control/height-compact, -default o -large. El texto es text/label-md en todos. Sin texto, el botón es cuadrado o circular y el icono acompaña la caja: sm en compact, md en default y lg en large.",
     "sizesCaption": "compact, default y large, con texto, con icono y solo con icono.",
     "sizeUseHeader": [
       "Tamaño",
@@ -738,6 +754,10 @@
         "label": "Con un tamaño distinto del campo de al lado."
       }
     ],
+    "iconOnlyTitle": "Solo con icono",
+    "iconOnlyText": "Sin texto, el botón es el botón solo con icono, el conjunto nph-icon-button del Figma. shape elige esquinas cuadradas o circulares, una elección de contexto sin regla fija; el tamaño y el objetivo táctil se mantienen. Todo botón solo con icono muestra su label en un nph-tooltip: al instante con el foco del teclado, después de motion/hover-delay con el puntero, nunca en el toque y nunca deshabilitado.",
+    "iconOnlyCaption": "square y circular en los tres tamaños, y circular cargando. Pase el ratón sobre un botón o use Tab para ver su tooltip.",
+    "sourceIconOnly": "ficha nph-button; Figma, tablero nph-icon-button (2122:1591) y conjunto 498:15671",
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",
@@ -786,11 +806,15 @@
       ],
       [
         "Objetivo táctil",
-        "size large cumple el objetivo táctil de 44 px; compact no es objetivo principal en una pantalla táctil."
+        "size large cumple el objetivo táctil de 44 px; compact no es objetivo principal en una pantalla táctil. La forma no cambia el objetivo."
       ],
       [
         "Nombre accesible",
-        "El texto es el nombre del botón. Sin texto, el nombre viene de label, obligatorio."
+        "El texto es el nombre del botón. Sin texto, el nombre viene de label, obligatorio, y el mismo texto aparece en el tooltip, anunciado una vez."
+      ],
+      [
+        "Tooltip",
+        "Todo botón solo con icono muestra su nombre en un tooltip, al instante con el foco del teclado y tras una breve espera con el puntero. En el toque el tooltip no se abre: el icono debe ser fácil de reconocer, y una acción ambigua usa un botón con texto."
       ],
       [
         "Teclado",
@@ -800,24 +824,29 @@
     "examplesTitle": "Ejemplos",
     "exampleForm": "Acciones de formulario: principal y secundaria.",
     "exampleConsequence": "Acción con consecuencias, siempre con texto.",
-    "exampleIconOnly": "Acción universal sin texto, con nombre accesible.",
+    "exampleIconOnly": "Cerrar un panel: acción universal sin texto, secondary ghost.",
+    "exampleTable": "Acciones de una fila de tabla, en compact: secondary ghost, cada uno nombrado por su tooltip.",
+    "exampleCircular": "Forma circular, con nombre accesible: primary solid.",
     "exampleTexts": [
       "Guardar",
       "Cancelar",
       "Eliminar cuenta",
       "Cerrar",
-      "Nuevo"
+      "Nuevo",
+      "Ver detalles",
+      "Editar",
+      "Eliminar"
     ],
     "referencesTitle": "Referencias",
     "references": [
       "ficha nph-button — función, variantes, estados, accesibilidad, tokens y antipatrones.",
-      "docs/decisoes-tecnicas.md — P68 (API y semántica), P01, P02, P03 y P66 (nph-spinner).",
-      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* y los colores color/* y status/*.",
-      "Figma DS-IA-NEPHOS 5.0 — página NPH — Button, marco nph-button (1197:5449) y conjuntos 461:13009 y 498:15671.",
+      "docs/decisoes-tecnicas.md — P68 y P86 (API y semántica), P77 (nph-tooltip), P01, P02, P03 y P66 (nph-spinner).",
+      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* y los colores color/* y status/*.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Button, marco nph-button (1197:5449) y conjuntos 461:13009 y 498:15671; página NPH — Icon Button, tablero nph-icon-button (2122:1591).",
       "Storybook — Validación, en la carpeta de al lado."
     ],
     "sourceSpec": "ficha nph-button; Figma, marco nph-button (1197:5449)",
-    "sourceApi": "ficha nph-button; docs/decisoes-tecnicas.md › P68",
+    "sourceApi": "ficha nph-button; docs/decisoes-tecnicas.md › P68 y P86",
     "sourceStates": "Figma, conjuntos 461:13009 y 498:15671; design.md",
     "matrixLabel": "Matriz del componente"
   },
@@ -3043,6 +3072,205 @@
     "disabledInfoCaption": "Deshabilitado con el icono de información: el icono sigue enfocable y abre el globo.",
     "contractCaption": "Debajo de cada campo, lo que el campo escribió en su control: el nombre, la descripción (la línea de mensaje visible), invalid, required y disabled."
   },
+  "switchDocs": {
+    "summary": "Un interruptor que enciende o apaga una configuración, con efecto inmediato. La posición de la perilla muestra el estado: a la izquierda, apagado; a la derecha, encendido. La etiqueta va después del riel, y la pieza dispara los nativos input y change cuando la persona la alterna.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-switch, design.md para los tokens y docs/decisoes-tecnicas.md para la P79. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Para una configuración que se enciende o se apaga, con efecto inmediato, fuera de una barra de herramientas.",
+      "Varias configuraciones se apilan, un nph-switch por línea: no hay componente de grupo.",
+      "Sin texto solo cuando el nombre ya está en el contexto, como en una celda de tabla, siempre con label."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "En un formulario, cuando la elección solo cuenta al enviar: use nph-checkbox.",
+      "En una barra de herramientas, entre otros botones: use nph-togglebutton.",
+      "Para pintar el riel o la perilla a mano: use checked, invalid y disabled.",
+      "Para ocultar la etiqueta borrando su texto: deje text vacío y dé label."
+    ],
+    "relationsText": "En una barra de herramientas, entre otros botones, la pieza es nph-togglebutton; en un formulario cuya elección solo cuenta al enviar, es nph-checkbox. La pieza trae su propio texto: no necesita nph-field para tener nombre. Dentro de nph-field, es una opción de un grupo.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "checked",
+        "El estado encendido, la propiedad marcado de Figma. false por defecto. Reflejada en el atributo. Un clic, Enter o Espacio de la persona la alterna y dispara input y change; cambiarla por código no dispara nada."
+      ],
+      [
+        "text",
+        "La etiqueta, ya localizada, después del riel. Es el nombre accesible y se ajusta al ancho disponible. Sin ella (mostrar rótulo apagado en Figma), la pieza es solo el riel y necesita label."
+      ],
+      [
+        "label",
+        "Nombre accesible de la pieza sin texto. Obligatorio en ella; con texto, no se usa."
+      ],
+      [
+        "invalid",
+        "El contorno del riel pasa a status/error, encendido o apagado, y en el foco el halo pasa a focus/halo-error. Reflejada en el atributo; pone aria-invalid. La frase de error queda fuera de la pieza. disabled gana."
+      ],
+      [
+        "disabled",
+        "Apaga la pieza: sale del orden del Tab, no alterna, no dispara nada y queda en state/disabled-opacity. Reflejada en el atributo. Un fieldset deshabilitado alrededor hace lo mismo, salvo dentro de su primer legend."
+      ],
+      [
+        "input, change",
+        "Los eventos nativos, disparados en este orden cuando la persona alterna la pieza. input burbujea y atraviesa shadow roots; change burbujea y no los atraviesa. El nuevo valor se lee de event.target.checked."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "apagado",
+        "El riel es color/input, sin contorno; la perilla es color/background, a la izquierda."
+      ],
+      [
+        "encendido",
+        "El riel es color/primary, con contorno en color/primary-border dibujado por dentro; la perilla es color/primary-foreground, a la derecha."
+      ],
+      [
+        "hover",
+        "Sobre la pieza entera, el relleno pasa a color/input-hover apagado y color/primary-hover encendido; el contorno se mantiene."
+      ],
+      [
+        "foco",
+        "Para quien usa teclado: el contorno del riel pasa a focus/border y un halo en focus/halo aparece fuera del riel, ambos totalmente redondeados, sin cambiar el tamaño."
+      ],
+      [
+        "inválido",
+        "El contorno del riel es status/error, encendido o apagado; en el foco, el halo es focus/halo-error. La frase de error queda fuera de la pieza."
+      ],
+      [
+        "deshabilitado",
+        "La pieza entera en state/disabled-opacity, fuera del orden del Tab; encendida, mantiene el contorno. Gana sobre inválido: el contorno de error no se dibuja."
+      ]
+    ],
+    "statesCaption": "apagado, encendido, inválido, deshabilitado y deshabilitado con inválido. Pase el ratón sobre una pieza para ver el hover y use Tab para ver el foco.",
+    "labelTitle": "Etiqueta",
+    "labelText": "La etiqueta va después del riel, a space/inline de él, en text/label-md y color/foreground. Se ajusta al ancho disponible; con dos líneas, el riel queda arriba, alineado con la primera línea. Sin texto, la pieza es solo el riel, y label le da nombre.",
+    "labelCaption": "Con etiqueta, solo el riel con label y una etiqueta larga en dos líneas.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Riel",
+        "La base redondeada, radius/full, switch/track-width por icon/size-lg. Apagado: color/input, sin contorno. Encendido: color/primary, con contorno border/width en color/primary-border por dentro. Hover: color/input-hover o color/primary-hover. Inválido: contorno status/error."
+      ],
+      [
+        "Perilla",
+        "El círculo en icon/size-sm, a space/inline-tight del borde del riel. Apagado: a la izquierda, en color/background. Encendido: a la derecha, en color/primary-foreground. Se desliza por transform."
+      ],
+      [
+        "Etiqueta",
+        "El texto después del riel, en text/label-md y color/foreground, a space/inline del riel. Es el nombre del control."
+      ],
+      [
+        "Área de toque",
+        "El riel entero, switch/track-width por icon/size-lg; con etiqueta, la pieza entera."
+      ],
+      [
+        "Foco",
+        "El contorno del riel pasa a focus/border y un halo focus/ring-width en focus/halo aparece fuera del riel, ambos radius/full; con error, status/error y focus/halo-error."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Un botón nativo con type=button, role=switch y aria-checked según checked; el riel es aria-hidden. invalid pone aria-invalid. La pieza no está asociada a un formulario."
+      ],
+      [
+        "Nombre accesible",
+        "El texto de la etiqueta. Sin texto, label es obligatorio y pasa a ser el aria-label del botón."
+      ],
+      [
+        "Teclado",
+        "Tab entra y sale; Espacio y Enter alternan."
+      ],
+      [
+        "Foco visible",
+        "Solo con teclado: el contorno de foco y el halo alrededor del riel, sin cambiar el tamaño."
+      ],
+      [
+        "Contraste",
+        "El borde del riel pasa 3:1 sobre el fondo de la página: color/input mide 3,23:1 en claro y 6,58:1 en oscuro; color/primary-border mide al menos 4,96:1 en claro y 4,91:1 en oscuro, en todas las marcas. La perilla pasa 3:1 sobre el riel: color/background sobre color/input mide 3,23:1 en claro y 6,58:1 en oscuro; color/primary-foreground sobre color/primary mide al menos 4,96:1. El contorno de error, status/error, mide 6,88:1 en claro y 5,01:1 en oscuro."
+      ],
+      [
+        "Límite conocido",
+        "focus/border contra focus/halo queda por debajo de 3:1 solo en la marca por defecto en modo claro, con 2,92:1, como registra design.md; en las demás marcas y esquemas pasa. El modo de colores forzados y la página de derecha a izquierda aún no se tratan. La frase de error fuera de la pieza no se vincula a ella por aria-describedby a través del shadow root."
+      ],
+      [
+        "El color no es la única señal",
+        "Encendido y apagado se ven en la posición de la perilla, no solo en el color del riel. El error tiene su frase escrita fuera de la pieza."
+      ],
+      [
+        "Área de toque",
+        "El riel entero, 40 por 24 px; con etiqueta, la pieza entera."
+      ],
+      [
+        "Movimiento",
+        "La perilla se desliza y los colores cambian en motion/state-duration y motion/state-easing. Con movimiento reducido la perilla no se desliza: cambia de lado por opacidad, en motion/hover-duration, y el color sigue cambiando."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleSingle": "Configuración única: una opción que se enciende o se apaga, con efecto inmediato.",
+    "examplePreferences": "Preferencias: varias configuraciones apiladas, una por línea.",
+    "exampleUnavailable": "Configuración no disponible: deshabilitada, la persona no puede cambiarla.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "wifi": "Wi-Fi",
+    "longLabel": "Enviarme un resumen semanal de la actividad en todos los proyectos que sigo",
+    "emailNotifications": "Notificaciones por correo",
+    "pushNotifications": "Notificaciones push",
+    "weeklySummary": "Resumen semanal",
+    "backup": "Copia de seguridad automática",
+    "referencesTitle": "Referencias",
+    "references": [
+      "ficha nph-switch — función, variantes, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P79 (API y semántica), P73, P01, P02 y P03.",
+      "design.md — switch/track-width, icon/size-lg, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity y motion/*.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Switch, marco nph-switch (1549:2) y conjunto 1548:56.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "ficha nph-switch; Figma, marco nph-switch (1549:2)",
+    "sourceApi": "ficha nph-switch; docs/decisoes-tecnicas.md › P79",
+    "sourceStates": "Figma, conjunto 1548:56; design.md",
+    "sourceAnatomy": "Figma, conjunto 1548:56; design.md",
+    "sourceAccessibility": "ficha nph-switch; nph-switch.test.ts",
+    "matrixLabel": "Matriz del componente"
+  },
+  "switchValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "wifi": "Wi-Fi",
+    "longLabel": "Enviarme un resumen semanal de la actividad en todos los proyectos que sigo",
+    "twoLines": "dos líneas",
+    "emailNotifications": "Notificaciones por correo",
+    "pushNotifications": "Notificaciones push",
+    "weeklySummary": "Resumen semanal",
+    "backup": "Copia de seguridad automática",
+    "exampleSingle": "Configuración única",
+    "examplePreferences": "Preferencias",
+    "exampleUnavailable": "Configuración no disponible",
+    "statusIdle": "Esperando un clic.",
+    "statusChanged": "input y change disparados; checked = {checked}."
+  },
   "sliderDocs": {
     "summary": "El control que elige un valor, o un rango, en una escala continua de números, arrastrando un pulgar o con las flechas. Forma parte del formulario que lo contiene; la ayuda y el mensaje de error pertenecen al nph-field.",
     "onThisPage": "En esta página",
@@ -3389,6 +3617,8 @@
       "components-nph-button-validation--icons": "Icono al inicio, al final y los dos juntos, en icon/size-sm.",
       "components-nph-button-validation--disabled": "Deshabilitado: todo el botón en state/disabled-opacity, fuera del orden de Tab.",
       "components-nph-button-validation--loading": "Cargando: el spinner ocupa el lugar del icono inicial, y el texto se mantiene.",
+      "components-nph-button-validation--shapes": "Esquinas cuadradas y circulares del botón solo con icono, en cada tamaño y énfasis: el tamaño se mantiene. Use Tab para ver el foco seguir las esquinas redondas.",
+      "components-nph-button-validation--tooltip": "Todo botón solo con icono muestra su label en un tooltip: Tab lo abre al instante, el puntero tras motion/hover-delay. Deshabilitado no tiene; cargando, lo mantiene.",
       "components-nph-kbd-validation--single-key": "Una tecla por pieza, mediante la propiedad text.",
       "components-nph-kbd-validation--combination": "Una combinación junta una pieza por tecla, una al lado de otra.",
       "components-nph-kbd-validation--mac-combination": "La misma combinación en macOS, con los símbolos del sistema. La aplicación elige el conjunto según el sistema de la persona; la pieza no lo detecta.",
@@ -3444,6 +3674,12 @@
       "components-nph-field-validation--group": "Un grupo de checkboxes y un grupo de radios, apilados, nombrados y descritos por el campo.",
       "components-nph-field-validation--disabled": "Deshabilitado: el control se atenúa, la etiqueta y la línea de mensaje no; deshabilitado gana sobre error.",
       "components-nph-field-validation--control-contract": "Lo que el campo escribe en su control (P83): el nombre, la descripción, invalid, required y disabled.",
+      "components-nph-switch-validation--matrix": "Apagado y encendido, válido, inválido y deshabilitado, con etiqueta. Pase el ratón sobre una pieza para ver el hover y use Tab para ver el foco en el riel.",
+      "components-nph-switch-validation--label": "La etiqueta después del riel; sin texto, solo el riel, nombrado por label; una etiqueta larga se ajusta al ancho disponible, con el riel arriba, alineado con la primera línea.",
+      "components-nph-switch-validation--disabled": "Deshabilitado: la pieza entera en state/disabled-opacity, fuera del orden del Tab, encendida o apagada; disabled gana sobre invalid.",
+      "components-nph-switch-validation--invalid": "Inválido: el contorno del riel es status/error, encendido o apagado, con etiqueta o solo el riel; la frase de error queda fuera de la pieza.",
+      "components-nph-switch-validation--interactive": "Un clic alterna la pieza y dispara los nativos input y change; checked se lee del destino y se muestra debajo de la pieza. Cambiar checked por código no dispara nada.",
+      "components-nph-switch-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: Configuración única, Preferencias y Configuración no disponible.",
       "components-nph-slider-validation--matrix": "orientation × mode × estado del set: predeterminado, error y deshabilitado. Pasa el ratón sobre un pulgar para el globo y pulsa Tab para el foco.",
       "components-nph-slider-validation--optional-parts": "Las partes opcionales, cada una sola y juntas: text, limits, marks, inputs y steppers. En la orientación vertical solo existen text y limits.",
       "components-nph-slider-validation--keyboard-and-events": "Las flechas mueven un paso, Re Pág y Av Pág una décima parte, Inicio y Fin van a los extremos; un arrastre mueve el pulgar más cercano. input se dispara mientras el valor se mueve y change cuando se asienta.",
