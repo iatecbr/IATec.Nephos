@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 420,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-input-otp",
   "dependencies": [],
   "gates": [
@@ -71,9 +71,13 @@
     "excerpt": null,
     "converted_decision": "The nph-input-otp board (1633:122), with its `Documentação` frame, was accepted as the API and behavior specification of the nph-input-otp. COMPONENT_SET 1633:120; cell set nph-input-otp / casa 1633:29. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "claude/dsa-41-nph-input-otp-d795bb",
+    "commit": "ebfbd8b15c320d960cb049f5f721111c98cb8b67",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/110"
+  },
   "context": "docs/operacao/contextos/DSA-41.md",
-  "updated_at": "2026-10-22"
+  "updated_at": "2026-10-23"
 }
 ```
 
