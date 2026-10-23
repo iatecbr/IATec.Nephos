@@ -236,10 +236,13 @@ export class NphField extends LitElement {
     return found?.[0] as HTMLElement | undefined;
   }
 
-  /** Reads the slot again; a custom element not yet defined is waited for once per name. */
+  /**
+   * Reads the elements of the default slot — the element children with no `slot`
+   * attribute — before the render, so the role of the wrapper is right on the first
+   * one. A custom element not yet defined is waited for once per name.
+   */
   private readSlot(): void {
-    const slot = this.renderRoot.querySelector('slot');
-    this.elements = slot?.assignedElements() ?? [];
+    this.elements = [...this.children].filter((child) => !child.hasAttribute('slot'));
     for (const element of this.elements) {
       if (roleOf(element) === undefined && !this.awaited.has(element.localName)) {
         this.awaited.add(element.localName);
@@ -262,6 +265,7 @@ export class NphField extends LitElement {
   }
 
   protected override willUpdate(changed: PropertyValues<this>): void {
+    this.readSlot();
     if (changed.has('label') || !this.hasUpdated) {
       if (this.labelText === '') {
         if (this.reported !== 'label') {
@@ -275,14 +279,8 @@ export class NphField extends LitElement {
   }
 
   protected override updated(): void {
-    const mode = this.mode;
-    this.readSlot();
     this.syncElements();
     this.checkComposition();
-    /* The first render reads the slot after drawing; a group draws its role on the next one. */
-    if (this.mode !== mode) {
-      this.requestUpdate();
-    }
   }
 
   /** Writes the contract on the elements of the slot and cleans up the ones that left. */

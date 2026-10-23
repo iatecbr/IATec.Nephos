@@ -98,7 +98,7 @@ describe('nph-field Documentation', () => {
       for (const field of fields) {
         expect(allowed.has(field.label), field.label).toBe(true);
         const control = field.firstElementChild as NphFieldControl | null;
-        if (control?.localName === 'demo-field-input') {
+        if (control?.localName === 'nph-input') {
           expect(control.label).toBe(field.label);
         }
       }

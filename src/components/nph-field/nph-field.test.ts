@@ -9,8 +9,9 @@
  * the group, the click on the label, the composition warnings, the invalid input and the
  * token contract.
  *
- * The form controls are not on the base yet, so the controls here are test stubs that
- * take the contract of P83, defined in this file. The `nph-label` and `nph-tooltip` are
+ * The contract is proved with test stubs that take it, defined in this file, so every
+ * rule is checked on a control the field does not know; the last block proves the same
+ * contract on the real `nph-input` (P80). The `nph-label` and `nph-tooltip` are
  * the real ones; the opening of the balloon is theirs and is not tested here.
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
@@ -22,6 +23,8 @@ import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import designMd from '../../../design.md?raw';
 import componentCss from './nph-field.css?raw';
+import '../nph-input/nph-input';
+import type { NphInput } from '../nph-input/nph-input';
 import { NPH_FIELD_ROLES, NphField } from './nph-field';
 import type { NphFieldRole } from './nph-field';
 import type { NphLabel } from '../nph-label/nph-label';
@@ -717,5 +720,64 @@ describe('token contract', () => {
     expect(cssWithoutComments).not.toMatch(/--nph-core-|--nph-theme-/);
     expect(cssWithoutComments).not.toMatch(/#[0-9a-fA-F]{3,8}\b|rgba?\(|hsla?\(|\b\d+(\.\d+)?(px|rem|em|ms|s)\b/);
     expect(cssWithoutComments).not.toMatch(/background|border|outline|transition|animation|opacity|padding/);
+  });
+});
+
+describe('the contract with the real nph-input (P80, P83)', () => {
+  async function inputField(spec: FieldSpec = {}): Promise<{ field: NphField; input: NphInput; inner: HTMLInputElement }> {
+    const field = await mount({ ...spec, children: ['nph-input'] });
+    const input = first<NphInput>(field);
+    await input.updateComplete;
+    await settle(field);
+    return { field, input, inner: input.shadowRoot?.querySelector('input') as HTMLInputElement };
+  }
+
+  it('names the inner field with the label and describes it with the visible line', async () => {
+    const { inner, input } = await inputField({ label: 'Email', help: 'Use your work email.', required: true });
+    expect(inner.getAttribute('aria-label')).toBe('Email');
+    const id = inner.getAttribute('aria-describedby') ?? '';
+    expect(input.shadowRoot?.getElementById(id)?.textContent?.trim()).toBe('Use your work email.');
+    expect(inner.required).toBe(true);
+  });
+
+  it('error: invalid and aria-invalid on the inner field, the description is the error', async () => {
+    const { field, input, inner } = await inputField({ help: 'Help', error: 'Enter a valid email.' });
+    expect(input.invalid).toBe(true);
+    expect(inner.getAttribute('aria-invalid')).toBe('true');
+    expect(input.description).toBe('Enter a valid email.');
+    field.error = '';
+    await settle(field);
+    expect(input.invalid).toBe(false);
+    expect(input.description).toBe('Help');
+  });
+
+  it('disabled reaches the inner field and hides the error; the field draws no opacity', async () => {
+    const { field, input, inner } = await inputField({ error: 'Error', disabled: true });
+    expect(input.disabled).toBe(true);
+    expect(inner.disabled).toBe(true);
+    expect(input.invalid).toBe(false);
+    expect(getComputedStyle(field).opacity).toBe('1');
+    expect(getComputedStyle(labelOf(field)).opacity).toBe('1');
+  });
+
+  it('fills the width of the field over layout/input-width', async () => {
+    const { field, input } = await inputField();
+    expect(input.getBoundingClientRect().width).toBeCloseTo(field.getBoundingClientRect().width, 1);
+  });
+
+  it('a click on the label text moves the focus to the inner field', async () => {
+    const { field, input, inner } = await inputField();
+    await userEvent.click(root(field).querySelector('.nph-label__text') as HTMLElement);
+    expect(document.activeElement).toBe(input);
+    expect(input.shadowRoot?.activeElement).toBe(inner);
+  });
+
+  it('logs nothing: the field names the input before it complains about a missing name', async () => {
+    const error = vi.spyOn(console, 'error');
+    const warn = vi.spyOn(console, 'warn');
+    await inputField({ help: 'Help', error: 'Error', counter: '1/5', required: true });
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(error).not.toHaveBeenCalled();
+    expect(warn).not.toHaveBeenCalled();
   });
 });

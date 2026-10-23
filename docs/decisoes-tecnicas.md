@@ -2416,8 +2416,9 @@ and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46). The decisions of those pie
 
 **Known limits.** The name and the description reach the control as text, not as a reference: the
 visible label is not associated with the control in the accessibility tree, and the two only match
-because the field writes the same text. The stories show demonstration controls that take the
-contract until `nph-input`, `nph-checkbox` and `nph-radio` are merged.
+because the field writes the same text. The stories use the real `nph-input`; the options of a
+group are demonstration elements that take the contract until `nph-checkbox` and `nph-radio` are
+merged.
 
 **Out of scope.** Form association of the field, validation and character counting (DSA-38 decides
 how its counter reads the text), a live region for the error, a layout property, a size property and

@@ -9,8 +9,9 @@
  * control. Every story shows the same fields in light and in dark mode, in the same story,
  * through `data-nph-color-scheme` on the frame (P20, P67).
  *
- * The controls are the stand-ins of `nph-field.demo.ts`, which take the field contract
- * of P83, until the form controls are merged. The text of the examples and the captions
+ * The control of a single field is the real `nph-input`; the options of a group are the
+ * stand-ins of `nph-field.demo.ts`, which take the field contract of P83, until
+ * `nph-checkbox` and `nph-radio` are merged. The text of the examples and the captions
  * come from the language dictionary, under the key `fieldValidation` (`docs/i18n.md`,
  * "Storybook"); the row and column names of the matrix are the technical attributes, the
  * same in any language. Each page opens with what it proves, from the dictionary

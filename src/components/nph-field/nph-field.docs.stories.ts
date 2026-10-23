@@ -8,8 +8,9 @@
  * use" are the ones of the sheet. The three required examples of the frame close it, each in light
  * and dark mode.
  *
- * The controls on this page are the stand-ins of `nph-field.demo.ts`, which take the field contract
- * of P83, until the form controls are merged.
+ * The control of a single field is the real `nph-input`; the options of a group are the stand-ins
+ * of `nph-field.demo.ts`, which take the field contract of P83, until `nph-checkbox` and `nph-radio`
+ * are merged.
  *
  * Deferred, not fulfilled here:
  * - the Usage section (P70) enters every Docs page, after API, in DSA-35, which also gives

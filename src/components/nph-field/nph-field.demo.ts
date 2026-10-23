@@ -2,15 +2,15 @@
  * Demonstration frame shared by the `nph-field` Validation and Docs pages.
  *
  * It lives in a file that does not end in `.stories.ts`, so Storybook's glob does not
- * index it. The scenery here — the framed figure and the stand-in controls — is NOT a
+ * index it. The scenery here — the framed figure and the stand-in options — is NOT a
  * precedent for component CSS.
  *
- * STAND-IN CONTROLS. The form controls the field wraps (`nph-input`, DSA-16;
- * `nph-checkbox`, DSA-17; `nph-radio`, DSA-18) are not on the base yet. Until they are,
- * the pages show three demonstration elements that take the field–control contract of
- * P83 and nothing else: `demo-field-input`, `demo-field-checkbox` and `demo-field-radio`.
- * They are scenery: they are not exported by the package, carry no rule of their own and
- * are swapped for the real pieces as each one is merged (follow-up recorded in the task).
+ * The control of a single field is the real `nph-input` (DSA-16, P80). STAND-IN OPTIONS:
+ * `nph-checkbox` (DSA-17) and `nph-radio` (DSA-18) are not on the base yet. Until they are,
+ * the groups show two demonstration elements that take the field–control contract of P83
+ * and nothing else: `demo-field-checkbox` and `demo-field-radio`. They are scenery: they
+ * are not exported by the package, carry no rule of their own and are swapped for the real
+ * pieces as each one is merged (follow-up recorded in the task).
  *
  * The functions take the visible text as arguments: this file holds none, because every
  * visible text comes from the language dictionary of the page that calls it.
@@ -18,111 +18,11 @@
 import { LitElement, css, html, nothing } from 'lit';
 import type { TemplateResult } from 'lit';
 
+import '../nph-input/nph-input';
 import './nph-field';
 import type { NphFieldRole } from './nph-field';
 
 export type Scheme = 'light' | 'dark';
-
-/* The text a screen reader reads and a sighted person does not see: hidden by clipping,
-   never by `display: none`, so the description is read (P83). */
-const clipped = css`
-  .clipped {
-    position: absolute;
-    inline-size: 0;
-    block-size: 0;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-`;
-
-/** Stand-in for `nph-input`: a native input that takes `label`, `description`, `invalid`, `required` and `disabled`. */
-class DemoFieldInput extends LitElement {
-  static override shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
-
-  static override properties = {
-    label: { type: String },
-    description: { type: String },
-    invalid: { type: Boolean, reflect: true },
-    required: { type: Boolean },
-    disabled: { type: Boolean, reflect: true },
-    value: { type: String },
-    placeholder: { type: String },
-  };
-
-  static override styles = [
-    clipped,
-    css`
-      :host {
-        display: inline-block;
-        inline-size: var(--nph-layout-input-width);
-      }
-      :host([disabled]) {
-        opacity: var(--nph-state-disabled-opacity);
-      }
-      input {
-        box-sizing: border-box;
-        inline-size: 100%;
-        block-size: var(--nph-control-height-default);
-        margin: 0;
-        padding-inline: var(--nph-space-control-padding);
-        border: var(--nph-border-width) solid var(--nph-color-input);
-        border-radius: var(--nph-radius-control);
-        background: var(--nph-color-background);
-        color: var(--nph-color-foreground);
-        font-family: var(--nph-text-body-md-font-family);
-        font-size: var(--nph-text-body-md-font-size);
-        line-height: var(--nph-text-body-md-line-height);
-        outline: none;
-      }
-      input::placeholder {
-        color: var(--nph-color-muted-foreground);
-      }
-      input:focus-visible {
-        border-color: var(--nph-focus-border);
-        box-shadow: 0 0 0 var(--nph-focus-ring-width) var(--nph-focus-halo);
-      }
-      :host([invalid]) input {
-        border-color: var(--nph-status-error);
-      }
-      :host([invalid]) input:focus-visible {
-        box-shadow: 0 0 0 var(--nph-focus-ring-width) var(--nph-focus-halo-error);
-      }
-    `,
-  ];
-
-  declare label: string;
-  declare description: string;
-  declare invalid: boolean;
-  declare required: boolean;
-  declare disabled: boolean;
-  declare value: string;
-  declare placeholder: string;
-
-  constructor() {
-    super();
-    this.label = '';
-    this.description = '';
-    this.invalid = false;
-    this.required = false;
-    this.disabled = false;
-    this.value = '';
-    this.placeholder = '';
-  }
-
-  protected override render(): TemplateResult {
-    const invalid = this.invalid && !this.disabled;
-    return html`<input
-        aria-label=${this.label || nothing}
-        aria-describedby=${this.description ? 'description' : nothing}
-        aria-invalid=${invalid ? 'true' : nothing}
-        placeholder=${this.placeholder || nothing}
-        .value=${this.value}
-        ?required=${this.required}
-        ?disabled=${this.disabled}
-      /><span class="clipped" id="description">${this.description}</span>`;
-  }
-}
 
 /** Stand-in for an option of a group: a native checkbox or radio with its own text. */
 class DemoFieldOption extends LitElement {
@@ -210,7 +110,6 @@ class DemoFieldRadio extends DemoFieldOption {
 }
 
 for (const [name, definition] of [
-  ['demo-field-input', DemoFieldInput],
   ['demo-field-checkbox', DemoFieldOption],
   ['demo-field-radio', DemoFieldRadio],
 ] as const) {
@@ -249,14 +148,14 @@ export interface FieldOptions {
   error?: string;
   counter?: string;
   disabled?: boolean;
-  /** The value already typed in the stand-in input. */
+  /** The value already typed in the `nph-input`. */
   value?: string;
   placeholder?: string;
   /** An inline style for the field, such as a width the consumer gives it. */
   style?: string;
 }
 
-/** A field with the stand-in input as its control. */
+/** A field with an `nph-input` as its control. */
 export function field(options: FieldOptions): TemplateResult {
   return html`<nph-field
     label=${options.label}
@@ -268,7 +167,7 @@ export function field(options: FieldOptions): TemplateResult {
     counter=${options.counter ?? nothing}
     ?disabled=${options.disabled ?? false}
     style=${options.style ?? nothing}
-    ><demo-field-input value=${options.value ?? ''} placeholder=${options.placeholder ?? nothing}></demo-field-input
+    ><nph-input value=${options.value ?? nothing} placeholder=${options.placeholder ?? nothing}></nph-input
   ></nph-field>`;
 }
 
