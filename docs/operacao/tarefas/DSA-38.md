@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 390,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-textarea",
   "dependencies": ["DSA-13", "DSA-28"],
   "gates": [
@@ -79,8 +79,8 @@
   },
   "git_review": {
     "branch": "claude/dsa-38-nph-textarea-4ada6c",
-    "commit": null,
-    "pr": null
+    "commit": "74c6ca227a0d972601ba4d63a6fd9f0c363aa8d4",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/111"
   },
   "context": "docs/operacao/contextos/DSA-38.md",
   "updated_at": "2026-10-23"

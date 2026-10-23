@@ -23,20 +23,26 @@ of `nph-input` (P80) and the field–control contract of `nph-field` (P83).
 - `docs/decisoes-tecnicas.md` — P01, P02, P80, P83
 
 ## Changes
-The task moves to in progress with the pending decisions D-1 to D-4. The component, its
-CSS, tests, stories and sheet follow in the next commits. See the commits on the branch.
+`nph-textarea` (component, CSS, tests with the real `nph-field` and `nph-button`), seven
+Validation stories, the Docs page, the dictionaries in the three languages, the sheet and
+its Metadata, and P93. The branch was synced with `v/5.0.0` once; the conflict was only in
+the lists of `docs/decisoes-tecnicas.md`, resolved keeping P79 and P86 of the other tasks.
+See the commits on the branch.
 
 ## Commands run
-- `npm ci`, then `npm run test:operacao` before the first commit.
+- `npm ci`; `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`,
+  `test:operacao`, `test:naming`, `build-storybook`, `build:lib`, `test:package` and
+  `git diff --check` on the head of the pull request.
 
 ## Result
-In progress. Nothing delivered yet beyond the task state.
+In review in PR #111. Checked in Storybook: the three examples, the growth from 76 to
+216 px with the scroll inside, and the footer in every state.
 
 ## Evidence
-None recorded: `review-and-merge` waits for the PR.
+The proof table is in the description of PR #111. `review-and-merge` waits for the merge.
 
 ## Blocker
-None. D-1 to D-4 wait for Indiane and do not block.
+None. D-1 to D-5 wait for Indiane and do not block.
 
 ## Next command
-Commit the component, then the stories, the Docs page and the sheet.
+Wait for the review of PR #111.
