@@ -26,9 +26,9 @@ The component, CSS and tests; the Validation stories, the Docs page and the dict
 on the branch.
 
 ## Commands run
-- After the merge of `v/5.0.0` at `bc9ae33`: `npm run build:tokens`, `test:tokens`, `test`,
-  `typecheck`, `test:i18n`, `test:operacao`, `build-storybook`, `build:lib`, `test:package`
-  and `git diff --check`: exit 0
+- After the merge of `v/5.0.0` at `9dd6e19`, with the Vite cache cleared: `npm run build:tokens`,
+  `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:operacao`, `build-storybook`, `build:lib`,
+  `test:package` and `git diff --check`: exit 0
 - `npm run test:naming`: exit 1, only in files this pass does not touch:
   `scripts/test-package.mjs:180` and the records of DSA-34, DSA-39, DSA-42, DSA-43, DSA-45 and DSA-47
 
