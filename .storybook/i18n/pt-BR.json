@@ -152,7 +152,15 @@
     "components-nph-switch-validation--disabled": "Desabilitado",
     "components-nph-switch-validation--invalid": "Inválido",
     "components-nph-switch-validation--interactive": "Interativo",
-    "components-nph-switch-validation--examples": "Exemplos"
+    "components-nph-switch-validation--examples": "Exemplos",
+    "components-nph-input-otp-docs": "Docs",
+    "components-nph-input-otp-docs--documentation": "Documentação",
+    "components-nph-input-otp-validation": "Validação",
+    "components-nph-input-otp-validation--matrix": "Matriz",
+    "components-nph-input-otp-validation--states": "Estados",
+    "components-nph-input-otp-validation--characters": "Caracteres",
+    "components-nph-input-otp-validation--interactive": "Interativo",
+    "components-nph-input-otp-validation--examples": "Exemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -3261,6 +3269,229 @@
     "statusIdle": "Aguardando um clique.",
     "statusChanged": "input e change disparados; checked = {checked}."
   },
+  "inputOtpDocs": {
+    "summary": "Campo de código curto, uma casa por caractere, para confirmar o acesso com um código enviado por SMS ou e-mail. Um input nativo fica sobre as casas, então o código é um valor com um nome; o rótulo, a ajuda e o erro vêm do nph-field.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-input-otp, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P85. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Para confirmar o acesso com um código enviado por SMS ou e-mail: length 6 ou 4, pelo tamanho do código.",
+      "Em tela de toque, onde o código costuma ser digitado no celular: size large; nas outras telas, size default.",
+      "Quando o código é digitado em lugar público: masked.",
+      "Para um código com letras e números, como A7K2Q9: o campo aceita e a casa não muda."
+    ],
+    "whenNotToUse": [
+      "Para texto livre de uma linha: use nph-input.",
+      "Sem o nph-field: o rótulo, a ajuda e o erro são do nph-field.",
+      "Com casas de tamanhos diferentes: use o mesmo size no campo inteiro.",
+      "Para pintar a ação de reenviar com uma cor solta: o reenviar é um nph-button abaixo do campo, com o rótulo em color/link."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "relationsText": "O nph-field traz o rótulo, a ajuda e o erro, e escreve label, description, invalid e required no campo. A ação de reenviar é um nph-button abaixo do campo, desabilitado durante a contagem: não faz parte do campo. Para texto livre de uma linha, use nph-input.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "length",
+        "6 (padrão) ou 4: o número de casas. Qualquer outro valor não desenha nada."
+      ],
+      [
+        "size",
+        "default (36 px) ou large (44 px), o mesmo em todas as casas. large é para tela de toque."
+      ],
+      [
+        "invalid",
+        "Borda de erro em todas as casas e aria-invalid. A frase de erro é do nph-field. disabled vence."
+      ],
+      [
+        "disabled",
+        "Fora da ordem do Tab, fundo apagado e opacidade menor. Um fieldset desabilitado faz o mesmo."
+      ],
+      [
+        "masked",
+        "Um ponto no lugar de cada caractere, para um código digitado em lugar público. Só visual: o leitor de tela lê o código."
+      ],
+      [
+        "required",
+        "Anunciado como aria-required. Não há validação de restrição."
+      ],
+      [
+        "name",
+        "O nome da entrada nos dados do formulário. Reflete, porque o formulário lê o atributo."
+      ],
+      [
+        "value",
+        "O código: só letras e dígitos, até length. O atributo é o valor inicial e o do reset; a propriedade é o atual. Definir por código não dispara nada."
+      ],
+      [
+        "label",
+        "O nome acessível, em texto, quando nenhum rótulo está associado ao campo. O nph-field o escreve."
+      ],
+      [
+        "description",
+        "A descrição acessível, em texto: a ajuda ou a frase de erro que o nph-field escreve."
+      ],
+      [
+        "input e change",
+        "Eventos nativos. input atravessa o shadow root a cada mudança que a pessoa faz; o host dispara change quando a pessoa sai do campo ou aperta Enter com um valor novo."
+      ]
+    ],
+    "sizeTitle": "Comprimento e tamanho",
+    "sizeText": "length define o número de casas pelo tamanho do código. size define o lado de cada casa: default na maioria das telas, large em tela de toque, onde o código costuma ser digitado no celular. As casas de um campo têm sempre o mesmo tamanho.",
+    "sizeCaption": "Seis casas em default e em large; quatro casas em default.",
+    "statesTitle": "Estados",
+    "statesText": "O estado do campo vale para todas as casas. O hover escurece todas as bordas, porque o campo é um alvo só; o foco marca só a casa ativa, onde entra o próximo caractere.",
+    "statesCaption": "Default, invalid e disabled.",
+    "statesHeader": [
+      "Estado",
+      "O que muda"
+    ],
+    "statesRules": [
+      [
+        "default",
+        "Borda color/input sobre color/background."
+      ],
+      [
+        "hover",
+        "Todas as bordas color/input-hover. Erro e disabled mantêm a borda."
+      ],
+      [
+        "foco",
+        "A casa ativa ganha a focus/border e o focus/halo por fora, sem ocupar espaço."
+      ],
+      [
+        "invalid",
+        "Todas as bordas status/error; com foco, o halo é focus/halo-error."
+      ],
+      [
+        "disabled",
+        "Fundo color/muted e state/disabled-opacity; vence invalid."
+      ]
+    ],
+    "maskedTitle": "Mascarado",
+    "maskedText": "masked mostra um ponto no lugar de cada caractere, para um código digitado em lugar público. Nos outros casos, ver o caractere ajuda a pessoa a conferir. O campo aceita letras e números nos dois casos, e a casa não muda.",
+    "maskedCaption": "Um código com letras e números, e o mesmo código mascarado.",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Campo",
+        "A linha de casas, uma por caractere, a space/inline uma da outra, com o input nativo sobre ela."
+      ],
+      [
+        "Casa",
+        "Um quadrado de control/height-default ou control/height-large, sem preenchimento interno: fundo color/background, borda color/input em border/width, raio radius/control."
+      ],
+      [
+        "Caractere",
+        "text/code em color/foreground: uma letra ou um dígito."
+      ],
+      [
+        "Ponto",
+        "No lugar do caractere com masked, em text/code e color/foreground."
+      ],
+      [
+        "Halo de foco",
+        "Um anel por fora da casa ativa, com a largura focus/ring-width. Não ocupa espaço."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "Um input de texto nativo com autocomplete one-time-code. As casas só desenham e ficam ocultas da tecnologia assistiva: o código é um valor, com um nome."
+      ],
+      [
+        "Nome acessível",
+        "O rótulo do nph-field, escrito em label. Um rótulo associado ao campo o nomeia primeiro. Sem nome, o campo renderiza e avisa em desenvolvimento."
+      ],
+      [
+        "Descrição",
+        "A ajuda ou a frase de erro do nph-field, escrita em description, lida junto com o nome."
+      ],
+      [
+        "Teclado",
+        "Uma parada de Tab para o código inteiro. Digitar preenche a casa ativa; Backspace apaga o caractere antes do cursor; as setas, Home e End movem a casa ativa; Enter envia o formulário."
+      ],
+      [
+        "Foco visível",
+        "A casa ativa mostra a borda de foco e o halo; o espaço entre as casas é maior que o halo."
+      ],
+      [
+        "Contraste",
+        "O caractere e o ponto têm pelo menos 4,5:1, e a borda pelo menos 3:1, nos modos claro e escuro em todas as marcas. Disabled não tem mínimo."
+      ],
+      [
+        "Cor não é o único sinal",
+        "O erro sempre vem com a frase do nph-field; disabled combina opacidade com o fundo apagado."
+      ],
+      [
+        "Alvo de toque",
+        "O campo inteiro é o alvo. Cada casa tem 36 px em default e 44 px em large; em tela de toque, use large."
+      ],
+      [
+        "Limites conhecidos",
+        "masked é só visual: o leitor de tela lê o código. O input usa text/code, 14 px, então o Safari do iOS pode dar zoom no foco. Que o iOS ofereça a este campo um código recebido por SMS ainda precisa ser confirmado em dispositivo."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleEmail": "Código enviado por e-mail, no nph-field: o rótulo, o campo e o texto de apoio.",
+    "exampleWrong": "Código errado: a mensagem de erro do nph-field, e todas as casas no estado de erro.",
+    "exampleTouch": "Tela de toque: size large, seis casas.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "fieldLabel": "Código de verificação",
+    "numericCode": "482913",
+    "shortCode": "4829",
+    "alphanumericCode": "A7K2Q9",
+    "partialCode": "48",
+    "emailHelp": "Enviamos um código de seis caracteres para o seu e-mail.",
+    "wrongError": "O código está errado ou expirou. Confira ou peça um novo.",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-input-otp — propósito, anatomia, estados, acessibilidade, tokens e anti-padrões.",
+      "docs/decisoes-tecnicas.md — P85 (API e semântica), P80 (o padrão de formulário), P83 (o contrato com o nph-field), P01, P02 e P03.",
+      "design.md — color/input, color/input-hover, color/background, color/foreground, color/muted, status/error, focus/border, focus/halo, focus/halo-error, focus/ring-width, border/width, radius/control, control/height-default, control/height-large, space/inline, text/code e state/disabled-opacity.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Input OTP, board nph-input-otp (1633:122), set 1633:120 e set da casa 1633:29.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "Ficha do nph-input-otp; Figma, board nph-input-otp (1633:122)",
+    "sourceApi": "Ficha do nph-input-otp; docs/decisoes-tecnicas.md › P85",
+    "sourceSize": "Figma, set 1633:120; design.md",
+    "sourceStates": "Figma, set da casa 1633:29; ficha do nph-input-otp",
+    "sourceAnatomy": "Figma, set 1633:120 e set da casa 1633:29; design.md",
+    "sourceAccessibility": "Ficha do nph-input-otp; nph-input-otp.test.ts",
+    "matrixLabel": "Matriz do componente"
+  },
+  "inputOtpValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "fieldLabel": "Código de verificação",
+    "numericCode": "482913",
+    "shortCode": "4829",
+    "alphanumericCode": "A7K2Q9",
+    "partialCode": "48",
+    "emailHelp": "Enviamos um código de seis caracteres para o seu e-mail.",
+    "wrongError": "O código está errado ou expirou. Confira ou peça um novo.",
+    "exampleEmail": "Código enviado por e-mail",
+    "exampleWrong": "Código errado",
+    "exampleTouch": "Tela de toque",
+    "statusIdle": "Esperando um código.",
+    "statusInput": "input disparado com value = {value}.",
+    "statusChange": "change disparado com value = {value}."
+  },
   "validationPages": {
     "sheetTitle": "O contrato está na ficha",
     "sheetText": "Esta peça não tem página de leitura no Storybook. O contrato está em {sheet}; estas stories o comprovam.",
@@ -3286,6 +3517,11 @@
       "components-nph-button-validation--loading": "Carregando: o spinner ocupa o lugar do ícone inicial, e o texto fica.",
       "components-nph-button-validation--shapes": "Cantos quadrados e circulares do botão só com ícone, em cada tamanho e ênfase: o tamanho fica. Use Tab para ver o foco acompanhar os cantos redondos.",
       "components-nph-button-validation--tooltip": "Todo botão só com ícone mostra o label num tooltip: Tab abre na hora, o ponteiro depois de motion/hover-delay. Desabilitado não tem; em carregamento, mantém.",
+      "components-nph-input-otp-validation--matrix": "Seis e quatro casas, nos tamanhos default e large: cada casa é um quadrado da altura do controle, a space/inline uma da outra.",
+      "components-nph-input-otp-validation--states": "Default, invalid e disabled em todas as casas, e disabled vencendo invalid; a frase de erro é do nph-field.",
+      "components-nph-input-otp-validation--characters": "Um código numérico, um código com letras e números, um código parcial com casas vazias e masked, com um ponto no lugar de cada caractere.",
+      "components-nph-input-otp-validation--interactive": "Digite ou cole um código: a casa ativa segue o cursor, um código colado substitui o valor, e input e change aparecem abaixo do campo.",
+      "components-nph-input-otp-validation--examples": "Os três exemplos obrigatórios, cada um nos modos claro e escuro: um código enviado por e-mail e um código errado, no nph-field, e a tela de toque, com size large.",
       "components-nph-kbd-validation--single-key": "Uma tecla por peça, pela propriedade text.",
       "components-nph-kbd-validation--combination": "Uma combinação junta uma peça por tecla, lado a lado.",
       "components-nph-kbd-validation--mac-combination": "A mesma combinação no macOS, com os símbolos do sistema. A aplicação escolhe o conjunto pelo sistema da pessoa; a peça não detecta o sistema.",
