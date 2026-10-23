@@ -402,6 +402,10 @@ export class NphInputOtp extends LitElement {
 
   /** A pasted code replaces the whole value, cleaned and cut at `length`. */
   private onPaste(event: ClipboardEvent): void {
+    /* A paste the consumer already canceled is theirs: the field does nothing, as a native input. */
+    if (event.defaultPrevented) {
+      return;
+    }
     const text = event.clipboardData?.getData('text') ?? '';
     const next = this.fit(text, false);
     event.preventDefault();

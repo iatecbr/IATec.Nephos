@@ -422,6 +422,18 @@ describe('paste', () => {
     expect(inputs).not.toHaveBeenCalled();
   });
 
+  it('a paste the consumer cancels in a capture listener changes nothing and fires nothing', async () => {
+    const element = await mount({ label: 'Code', value: '12' });
+    const inputs = vi.fn();
+    element.addEventListener('paste', (event) => event.preventDefault(), { capture: true });
+    element.addEventListener('input', inputs);
+    await tabInto(element);
+    await paste(element, '482913');
+    expect(element.value).toBe('12');
+    expect(native(element).value).toBe('12');
+    expect(inputs).not.toHaveBeenCalled();
+  });
+
   it('a paste fires one input event that reaches the host', async () => {
     const element = await mount();
     const inputs: Event[] = [];
