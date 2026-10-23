@@ -3,10 +3,13 @@
  * hover, keyboard focus, the top layer, placement, transitions, line measure and
  * word breaking only exist where there is layout, a pointer and a loaded font.
  *
- * They prove the contract accepted in Figma (frame `1237:5`, board `1241:3`): the
- * API, how the tooltip finds its element, opening on hover and on keyboard focus
- * and never on touch, closing (leave, blur, Esc), staying open over the balloon,
- * the four sides with flip, the motion, the semantics and the token contract.
+ * They prove the contract accepted in Figma (frame `1237:5`, board `1241:3`) and the
+ * six rules of 22/10/2026 (DSA-48): the API, how the tooltip finds its element,
+ * opening on keyboard focus at once and on hover after `motion/hover-delay`, never on
+ * touch and never on an element without focus, Enter and Space leaving it alone,
+ * closing (leave, blur, Esc), staying open over the balloon, the balloon as the name
+ * of an icon-only button, the four sides with flip, the motion, the semantics and the
+ * token contract.
  * Accessibility assertions are written by hand (P72 moves the addon to DSA-32).
  */
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
@@ -20,7 +23,8 @@ import { render } from 'lit';
 import type { TemplateResult } from 'lit';
 
 import { translations } from '../../../.storybook/i18n/index.js';
-import { NPH_TOOLTIP_SIDES, NphTooltip } from './nph-tooltip';
+import { NPH_TOOLTIP_RELATIONS, NPH_TOOLTIP_SIDES, NphTooltip } from './nph-tooltip';
+import componentSource from './nph-tooltip.ts?raw';
 import type { NphTooltipSide } from './nph-tooltip';
 import { OneLine, TwoLines } from './nph-tooltip.stories';
 
@@ -87,6 +91,21 @@ async function shown(element: NphTooltip): Promise<void> {
   await element.updateComplete;
   expect(isShown(element)).toBe(true);
 }
+
+/** The tooltip turned itself on: hover waits `motion/hover-delay` first. */
+async function opened(element: NphTooltip): Promise<void> {
+  await vi.waitFor(() => expect(element.open).toBe(true), { timeout: 2000 });
+  await element.updateComplete;
+  expect(isShown(element)).toBe(true);
+}
+
+/** Hovers the element and waits out `motion/hover-delay` until the balloon is shown. */
+async function hoverOpen(target: Element, element: NphTooltip): Promise<void> {
+  await userEvent.hover(target);
+  await opened(element);
+}
+
+const pause = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
 /** The balloon has left the top layer: the exit ended. */
 async function gone(element: NphTooltip): Promise<void> {
@@ -158,6 +177,20 @@ function textFits(bubble: HTMLElement): void {
  * library that does not follow the text into a shadow root.
  */
 async function axDescription(element: Element): Promise<string> {
+  return String((await axNode(element))?.description?.value ?? '');
+}
+
+/** The accessible name the browser itself computes, from the same tree. */
+async function axName(element: Element): Promise<string> {
+  return String((await axNode(element))?.name?.value ?? '');
+}
+
+interface AxNode {
+  name?: { value?: unknown };
+  description?: { value?: unknown };
+}
+
+async function axNode(element: Element): Promise<AxNode | undefined> {
   const session = cdp();
   await session.send('Accessibility.enable');
   element.setAttribute('data-ax-probe', '');
@@ -169,7 +202,7 @@ async function axDescription(element: Element): Promise<string> {
     const { nodeIds } = await session.send('DOM.getSearchResults', { searchId, fromIndex: 0, toIndex: 1 });
     await session.send('DOM.discardSearchResults', { searchId });
     const { nodes } = await session.send('Accessibility.getPartialAXTree', { nodeId: nodeIds[0] as number, fetchRelatives: false });
-    return String(nodes[0]?.description?.value ?? '');
+    return nodes[0] as AxNode | undefined;
   } finally {
     element.removeAttribute('data-ax-probe');
   }
@@ -180,31 +213,33 @@ describe('registration and API', () => {
     expect(customElements.get('nph-tooltip')).toBe(NphTooltip);
   });
 
-  it('the public API is exactly text, for, side and open', () => {
+  it('the public API is exactly text, for, side, open and relation', () => {
     const declared = Object.keys(
       Object.fromEntries((NphTooltip as unknown as { elementProperties: Map<string, unknown> }).elementProperties),
     );
-    expect(new Set(declared)).toEqual(new Set(['text', 'for', 'side', 'open']));
+    expect(new Set(declared)).toEqual(new Set(['text', 'for', 'side', 'open', 'relation']));
   });
 
-  it('defaults: empty text, no for, side top, closed', () => {
+  it('defaults: empty text, no for, side top, closed, a description', () => {
     const tooltip = document.createElement('nph-tooltip');
-    expect([tooltip.text, tooltip.for, tooltip.side, tooltip.open]).toEqual(['', null, 'top', false]);
+    expect([tooltip.text, tooltip.for, tooltip.side, tooltip.open, tooltip.relation]).toEqual(['', null, 'top', false, 'description']);
   });
 
-  it('for and open reflect to attributes; text and side do not', async () => {
+  it('for and open reflect to attributes; text, side and relation do not', async () => {
     const { tooltip } = await mount({ open: true, side: 'left' });
     expect(tooltip.hasAttribute('for')).toBe(true);
     expect(tooltip.hasAttribute('open')).toBe(true);
     expect(tooltip.hasAttribute('text')).toBe(false);
     expect(tooltip.hasAttribute('side')).toBe(false);
+    expect(tooltip.hasAttribute('relation')).toBe(false);
     tooltip.open = false;
     await tooltip.updateComplete;
     expect(tooltip.hasAttribute('open')).toBe(false);
   });
 
-  it('exposes only the four sides, top first, and no part, slot or event of its own', async () => {
+  it('exposes only the four sides, top first, the two relations, and no part, slot or event of its own', async () => {
     expect([...NPH_TOOLTIP_SIDES]).toEqual(['top', 'bottom', 'left', 'right']);
+    expect([...NPH_TOOLTIP_RELATIONS]).toEqual(['description', 'name']);
     const { tooltip } = await mount();
     expect(tooltip.shadowRoot?.querySelector('[part]')).toBeNull();
     expect(tooltip.shadowRoot?.querySelector('slot')).toBeNull();
@@ -287,14 +322,13 @@ describe('how it finds its element (for)', () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(button.hasAttribute('aria-describedby')).toBe(false);
     expect(replacement.getAttribute('aria-describedby')).toBe(tooltip.id);
-    await userEvent.hover(replacement);
-    await tooltip.updateComplete;
-    expect(tooltip.open).toBe(true);
+    await hoverOpen(replacement, tooltip);
   });
 
-  it('accepts an SVG target and opens on hover', async () => {
+  it('accepts a focusable SVG target and opens on hover', async () => {
     const target = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     target.id = 'chart';
+    target.setAttribute('tabindex', '0');
     target.setAttribute('width', '100');
     target.setAttribute('height', '100');
     target.style.cssText = 'position:fixed;left:300px;top:300px';
@@ -305,9 +339,7 @@ describe('how it finds its element (for)', () => {
     await tooltip.updateComplete;
     expect(target.getAttribute('aria-describedby')).toBe(tooltip.id);
     target.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' }));
-    await tooltip.updateComplete;
-    expect(tooltip.open).toBe(true);
-    expect(isShown(tooltip)).toBe(true);
+    await opened(tooltip);
   });
 
   it('observes the new target after for changes while the balloon is open', async () => {
@@ -413,12 +445,15 @@ describe('opening on hover and on keyboard focus', () => {
     expect(getComputedStyle(tooltip).position).toBe('absolute');
   });
 
-  it('a mouse hover opens it with no delay', async () => {
+  it('a mouse hover opens it after motion/hover-delay, not before', async () => {
     const { button, tooltip } = await mount();
+    const started = performance.now();
     await userEvent.hover(button);
-    await tooltip.updateComplete;
-    expect(tooltip.open).toBe(true);
-    expect(isShown(tooltip)).toBe(true);
+    await pause(100);
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+    await opened(tooltip);
+    expect(performance.now() - started).toBeGreaterThanOrEqual(290);
     expect(tooltip.hasAttribute('open')).toBe(true);
   });
 
@@ -500,7 +535,7 @@ describe('opening on hover and on keyboard focus', () => {
 
   it('a click or Enter on the element does not toggle the balloon', async () => {
     const { button, tooltip } = await mount();
-    await userEvent.hover(button);
+    await hoverOpen(button, tooltip);
     await userEvent.click(button);
     await tooltip.updateComplete;
     expect(tooltip.open).toBe(true);
@@ -529,8 +564,7 @@ describe('opening on hover and on keyboard focus', () => {
 describe('closing', () => {
   it('the pointer leaving the element closes it after the exit', async () => {
     const { button, tooltip } = await mount();
-    await userEvent.hover(button);
-    await tooltip.updateComplete;
+    await hoverOpen(button, tooltip);
     await userEvent.unhover(button);
     await tooltip.updateComplete;
     expect(tooltip.open).toBe(false);
@@ -539,8 +573,7 @@ describe('closing', () => {
 
   it('it stays open while the pointer is over the balloon (WCAG 1.4.13)', async () => {
     const { button, tooltip } = await mount();
-    await userEvent.hover(button);
-    await tooltip.updateComplete;
+    await hoverOpen(button, tooltip);
     await userEvent.hover(bubbleOf(tooltip));
     await tooltip.updateComplete;
     await new Promise((resolve) => setTimeout(resolve, 400));
@@ -554,8 +587,7 @@ describe('closing', () => {
 
   it('crossing the gap: entering the balloon during the exit cancels the close', async () => {
     const { button, tooltip } = await mount();
-    await userEvent.hover(button);
-    await tooltip.updateComplete;
+    await hoverOpen(button, tooltip);
     await userEvent.unhover(button);
     await tooltip.updateComplete;
     expect(isShown(tooltip)).toBe(true);
@@ -571,8 +603,7 @@ describe('closing', () => {
     const anchor = button.getBoundingClientRect();
     const x = anchor.left + anchor.width / 2;
     await moveMouse(x, anchor.top + 1);
-    await tooltip.updateComplete;
-    await shown(tooltip);
+    await opened(tooltip);
     const bubble = bubbleOf(tooltip).getBoundingClientRect();
     expect(bubble.bottom).toBeLessThan(anchor.top);
     for (let step = 1; step <= 8; step += 1) {
@@ -645,8 +676,7 @@ describe('closing', () => {
 
   it('after Esc it does not come back while the pointer or the focus is still there, and returns on the next visit', async () => {
     const { button, tooltip } = await mount();
-    await userEvent.hover(button);
-    await tooltip.updateComplete;
+    await hoverOpen(button, tooltip);
     await userEvent.keyboard('{Escape}');
     await tooltip.updateComplete;
     expect(tooltip.open).toBe(false);
@@ -666,7 +696,7 @@ describe('closing', () => {
     const { button, tooltip } = await mount();
     const target = button.getBoundingClientRect();
     await moveMouse(target.left + target.width / 2, target.top + target.height / 2);
-    await shown(tooltip);
+    await opened(tooltip);
 
     const bubble = bubbleOf(tooltip).getBoundingClientRect();
     await moveMouse(target.left + target.width / 2, (bubble.bottom + target.top) / 2);
@@ -762,6 +792,613 @@ describe('semantics and focus', () => {
     expect(tooltip.hasAttribute('tabindex')).toBe(false);
     const focusable = tooltip.shadowRoot?.querySelectorAll('a, button, input, select, textarea, [tabindex]');
     expect(focusable?.length ?? 0).toBe(0);
+  });
+});
+
+describe('the wait on hover (motion/hover-delay)', () => {
+  it('the wait is the token the page resolves, read by the script and not written in it', async () => {
+    const { tooltip } = await mount();
+    expect(getComputedStyle(tooltip).getPropertyValue('--nph-motion-hover-delay').trim()).toBe('300ms');
+    expect(componentSource).toContain("'--nph-motion-hover-delay'");
+    expect(componentSource).not.toMatch(/\b300\b/);
+  });
+
+  it('leaving before the wait ends does not open it', async () => {
+    const { button, tooltip } = await mount();
+    await userEvent.hover(button);
+    await pause(100);
+    await userEvent.unhover(button);
+    await pause(400);
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+  });
+
+  it('a pen waits like a mouse', async () => {
+    const { button, tooltip } = await mount();
+    button.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'pen' }));
+    await pause(100);
+    expect(tooltip.open).toBe(false);
+    await opened(tooltip);
+  });
+
+  it('keyboard focus and open set by the consumer do not wait', async () => {
+    const { tooltip } = await mount();
+    await userEvent.tab();
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+    const other = await mount({ open: true });
+    await shown(other.tooltip);
+  });
+
+  it('opening by focus during the hover wait retains the pointer after blur', async () => {
+    const { button, tooltip } = await mount();
+    await userEvent.hover(button);
+    await pause(100);
+    await userEvent.tab();
+    await tooltip.updateComplete;
+    expect(document.activeElement).toBe(button);
+    expect(tooltip.open).toBe(true);
+    button.blur();
+    await pause(400);
+
+    expect(tooltip.open).toBe(true);
+    expect(isShown(tooltip)).toBe(true);
+  });
+
+  it('a touch pointerdown cancels a pending wait after mouse hover', async () => {
+    const { button, tooltip } = await mount();
+    await userEvent.hover(button);
+    await pause(100);
+    touch('pointerdown', button);
+    await pause(400);
+
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+  });
+
+  it('coming back to the element during the exit keeps it, with no new wait', async () => {
+    const { button, tooltip } = await mount();
+    await hoverOpen(button, tooltip);
+    await userEvent.unhover(button);
+    await tooltip.updateComplete;
+    expect(isShown(tooltip)).toBe(true);
+    await userEvent.hover(button);
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+  });
+
+  it('Esc during the wait ends it, is not intercepted, and the next visit waits again', async () => {
+    const { button, tooltip } = await mount();
+    const outer = vi.fn();
+    document.body.addEventListener('keydown', outer);
+    await userEvent.hover(button);
+    await pause(100);
+    await userEvent.keyboard('{Escape}');
+    await pause(400);
+    expect(tooltip.open).toBe(false);
+    expect(outer.mock.calls.filter(([event]) => event.key === 'Escape')).toHaveLength(1);
+    document.body.removeEventListener('keydown', outer);
+    await userEvent.unhover(button);
+    await hoverOpen(button, tooltip);
+  });
+
+  it('removing the tooltip during the wait does not open it later', async () => {
+    const { button, tooltip } = await mount();
+    await userEvent.hover(button);
+    await pause(50);
+    tooltip.remove();
+    await pause(400);
+    expect(tooltip.open).toBe(false);
+  });
+
+  it('without the token it opens at once and reports once', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const { button, tooltip } = await mount();
+    tooltip.style.setProperty('--nph-motion-hover-delay', 'initial');
+    await userEvent.hover(button);
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+    await userEvent.unhover(button);
+    await userEvent.hover(button);
+    expect(error).toHaveBeenCalledTimes(1);
+    expect(String(error.mock.calls[0]?.[0])).toContain('motion/hover-delay');
+  });
+});
+
+describe('click, Enter and Space run the action and leave the balloon alone', () => {
+  it('a click during the wait cancels it, and Enter and Space after it do not open the balloon', async () => {
+    const { button, tooltip } = await mount();
+    await userEvent.click(button);
+    expect(document.activeElement).toBe(button);
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard(' ');
+    await pause(400);
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+    await userEvent.unhover(button);
+    await hoverOpen(button, tooltip);
+  });
+
+  it('a mouse click on an input during the wait does not open it through focus-visible', async () => {
+    const input = document.createElement('input');
+    input.id = 'click-during-wait';
+    input.style.cssText = 'position:fixed;left:300px;top:300px';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', input.id);
+    tooltip.text = ONE_LINE;
+    document.body.append(input, tooltip);
+    await tooltip.updateComplete;
+
+    await userEvent.hover(input);
+    await pause(100);
+    await userEvent.click(input);
+    expect(document.activeElement).toBe(input);
+    expect(input.matches(':focus-visible')).toBe(true);
+    await pause(400);
+
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+  });
+
+  it('Enter and Space do not close a balloon that the focus opened', async () => {
+    const { tooltip } = await mount();
+    await userEvent.tab();
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard(' ');
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+  });
+
+  it('Esc after a touch on an input does not open it, and the key reaches the page', async () => {
+    const input = document.createElement('input');
+    input.id = 'escape-after-touch';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', input.id);
+    tooltip.text = ONE_LINE;
+    document.body.append(input, tooltip);
+    await tooltip.updateComplete;
+    input.dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'touch', bubbles: true }));
+    input.focus();
+    const outer = vi.fn();
+    document.body.addEventListener('keydown', outer);
+    await userEvent.keyboard('{Escape}');
+    await tooltip.updateComplete;
+    document.body.removeEventListener('keydown', outer);
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+    expect(outer.mock.calls.filter(([event]) => event.key === 'Escape')).toHaveLength(1);
+  });
+});
+
+describe('only on an element that receives focus', () => {
+  it('a contenteditable editing host opens when focused by Tab', async () => {
+    const editor = document.createElement('div');
+    editor.id = 'contenteditable-target';
+    editor.contentEditable = 'true';
+    editor.style.cssText = 'position:fixed;left:300px;top:300px';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', editor.id);
+    tooltip.text = ONE_LINE;
+    document.body.append(editor, tooltip);
+    await tooltip.updateComplete;
+
+    await userEvent.tab();
+    await tooltip.updateComplete;
+
+    expect(document.activeElement).toBe(editor);
+    expect(tooltip.open).toBe(true);
+    await shown(tooltip);
+  });
+
+  it('contenteditable focusability follows nested hosts and contenteditable mutations', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const outer = document.createElement('div');
+    outer.contentEditable = 'true';
+    const inner = document.createElement('div');
+    inner.id = 'nested-contenteditable-target';
+    inner.contentEditable = 'true';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', inner.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    outer.append(inner);
+    document.body.append(outer, tooltip);
+    await tooltip.updateComplete;
+    expect(isShown(tooltip)).toBe(false);
+
+    outer.contentEditable = 'false';
+    /* The root observer reacts in a later microtask: wait for it, not only for Lit. */
+    await vi.waitFor(() => expect(isShown(tooltip)).toBe(true));
+
+    inner.tabIndex = -1;
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+
+    inner.tabIndex = 0;
+    tooltip.open = true;
+    await shown(tooltip);
+
+    inner.removeAttribute('tabindex');
+    inner.contentEditable = 'false';
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+
+    tooltip.open = true;
+    await tooltip.updateComplete;
+    expect(isShown(tooltip)).toBe(false);
+    inner.contentEditable = 'true';
+    await vi.waitFor(() => expect(isShown(tooltip)).toBe(true));
+  });
+
+  it('a disabled button gets no balloon, on hover or when the consumer opens it, and no error', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const { button, tooltip } = await mount();
+    button.disabled = true;
+    button.dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'mouse' }));
+    await pause(400);
+    expect(tooltip.open).toBe(false);
+    tooltip.open = true;
+    await tooltip.updateComplete;
+    expect(isShown(tooltip)).toBe(false);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+    expect(error).not.toHaveBeenCalled();
+  });
+
+  it('an inert target gets no consumer-opened balloon and keeps its ARIA reference', async () => {
+    const { button, tooltip } = await mount();
+    button.inert = true;
+    tooltip.open = true;
+    await tooltip.updateComplete;
+
+    expect(isShown(tooltip)).toBe(false);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+  });
+
+  it('an inert ancestor prevents a consumer-opened balloon and keeps its ARIA reference', async () => {
+    const ancestor = document.createElement('div');
+    ancestor.inert = true;
+    const button = document.createElement('button');
+    button.id = 'inert-ancestor-target';
+    button.style.cssText = 'position:fixed;left:300px;top:300px';
+    ancestor.append(button);
+
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    document.body.append(ancestor, tooltip);
+    await tooltip.updateComplete;
+
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+  });
+
+  it('an inert flat-tree ancestor closes an open balloon and keeps its ARIA reference', async () => {
+    const host = document.createElement('div');
+    const shadow = host.attachShadow({ mode: 'open' });
+    const ancestor = document.createElement('div');
+    const slot = document.createElement('slot');
+    ancestor.append(slot);
+    shadow.append(ancestor);
+
+    const button = document.createElement('button');
+    button.id = 'slotted-inert-target';
+    button.textContent = 'Target';
+    button.style.cssText = 'position:fixed;left:300px;top:300px';
+    host.append(button);
+
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    document.body.append(host, tooltip);
+    await tooltip.updateComplete;
+    expect(button.assignedSlot).toBe(slot);
+    await shown(tooltip);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+
+    ancestor.inert = true;
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+  });
+
+  it('changing a light-DOM target to an inert slot closes the open balloon and keeps its ARIA reference', async () => {
+    const host = document.createElement('div');
+    const shadow = host.attachShadow({ mode: 'open' });
+    shadow.innerHTML = '<slot name="active"></slot><div inert><slot name="inactive"></slot></div>';
+
+    const button = document.createElement('button');
+    button.id = 'slotted-target';
+    button.slot = 'active';
+    button.textContent = 'Target';
+    button.style.cssText = 'position:fixed;left:300px;top:300px';
+
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    host.append(button);
+    document.body.append(host, tooltip);
+    await tooltip.updateComplete;
+    expect(button.assignedSlot?.name).toBe('active');
+    await shown(tooltip);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+
+    button.slot = 'inactive';
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+
+    expect(button.assignedSlot?.name).toBe('inactive');
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+  });
+
+  it('loose text gets no balloon and reports once', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const span = document.createElement('span');
+    span.id = 'loose-text';
+    span.textContent = 'Loose text';
+    span.style.cssText = 'position:fixed;left:300px;top:300px';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', span.id);
+    tooltip.text = ONE_LINE;
+    document.body.append(span, tooltip);
+    await tooltip.updateComplete;
+    await userEvent.hover(span);
+    await pause(400);
+    await userEvent.unhover(span);
+    await userEvent.hover(span);
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+    expect(error).toHaveBeenCalledTimes(1);
+    expect(String(error.mock.calls[0]?.[0])).toContain('does not receive focus');
+  });
+
+  it('an SVG without tabindex gets no balloon', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const target = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    target.id = 'plain-chart';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', target.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    document.body.append(target, tooltip);
+    await tooltip.updateComplete;
+    expect(isShown(tooltip)).toBe(false);
+  });
+
+  it('disabling the element while the balloon is open closes it', async () => {
+    const { button, tooltip } = await mount();
+    await userEvent.tab();
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+    button.disabled = true;
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+  });
+
+  it('disabling an ancestor fieldset closes the balloon and keeps its ARIA reference', async () => {
+    const fieldset = document.createElement('fieldset');
+    const legend = document.createElement('legend');
+    const exemptButton = document.createElement('button');
+    exemptButton.id = 'fieldset-legend-target';
+    const button = document.createElement('button');
+    button.id = 'fieldset-target';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    const exemptTooltip = document.createElement('nph-tooltip');
+    exemptTooltip.setAttribute('for', exemptButton.id);
+    exemptTooltip.text = ONE_LINE;
+    exemptTooltip.open = true;
+    legend.append(exemptButton);
+    fieldset.append(button);
+    fieldset.prepend(legend);
+    document.body.append(fieldset, tooltip, exemptTooltip);
+    await Promise.all([tooltip.updateComplete, exemptTooltip.updateComplete]);
+    await shown(tooltip);
+    await shown(exemptTooltip);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+    expect(exemptButton.getAttribute('aria-describedby')).toBe(exemptTooltip.id);
+
+    fieldset.disabled = true;
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+    await exemptTooltip.updateComplete;
+
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+    expect(exemptButton.matches(':disabled')).toBe(false);
+    expect(exemptTooltip.open).toBe(true);
+    expect(isShown(exemptTooltip)).toBe(true);
+  });
+
+  it('inserting a first legend into a disabled fieldset closes the balloon and keeps its ARIA reference', async () => {
+    const fieldset = document.createElement('fieldset');
+    fieldset.disabled = true;
+    const originalLegend = document.createElement('legend');
+    const button = document.createElement('button');
+    button.id = 'replaced-legend-target';
+    originalLegend.append(button);
+    fieldset.append(originalLegend);
+
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    document.body.append(fieldset, tooltip);
+    await tooltip.updateComplete;
+    expect(button.matches(':disabled')).toBe(false);
+    await shown(tooltip);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+
+    fieldset.prepend(document.createElement('legend'));
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+
+    expect(button.matches(':disabled')).toBe(true);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+  });
+
+  it('moving an associated target into a disabled fieldset closes the balloon and keeps its ARIA reference', async () => {
+    const { button, tooltip } = await mount({ open: true });
+    await shown(tooltip);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+
+    const fieldset = document.createElement('fieldset');
+    fieldset.disabled = true;
+    document.body.append(fieldset);
+    fieldset.append(button);
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+
+    expect(button.matches(':disabled')).toBe(true);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+  });
+
+  it('a custom element host with a disabled attribute gets no balloon', async () => {
+    const host = document.createElement('div');
+    host.id = 'disabled-host';
+    host.attachShadow({ mode: 'open', delegatesFocus: true }).innerHTML = '<button disabled>Inside</button>';
+    host.setAttribute('disabled', '');
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', host.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    document.body.append(host, tooltip);
+    await tooltip.updateComplete;
+    expect(isShown(tooltip)).toBe(false);
+  });
+});
+
+describe('the balloon as the name of an icon-only button (relation="name")', () => {
+  async function iconOnly(text = 'Delete'): Promise<Fixture> {
+    const button = document.createElement('button');
+    button.id = `icon-only-${Math.random().toString(36).slice(2)}`;
+    button.innerHTML = '<span aria-hidden="true">×</span>';
+    button.style.cssText = 'position:fixed;left:300px;top:300px';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.relation = 'name';
+    tooltip.text = text;
+    document.body.append(button, tooltip);
+    await tooltip.updateComplete;
+    return { button, tooltip };
+  }
+
+  it('the browser names the button with the balloon text, once, closed and open', async () => {
+    const { button, tooltip } = await iconOnly();
+    expect(button.getAttribute('aria-labelledby')).toBe(tooltip.id);
+    expect(button.hasAttribute('aria-describedby')).toBe(false);
+    expect(await axName(button)).toBe('Delete');
+    expect(await axDescription(button)).toBe('');
+    tooltip.open = true;
+    await shown(tooltip);
+    expect(await axName(button)).toBe('Delete');
+    expect(await axDescription(button)).toBe('');
+    tooltip.text = 'Remove';
+    await tooltip.updateComplete;
+    expect(await axName(button)).toBe('Remove');
+  });
+
+  it('opens on hover after the wait and on focus at once, like a description', async () => {
+    const { button, tooltip } = await iconOnly();
+    await userEvent.tab();
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+    button.blur();
+    await tooltip.updateComplete;
+    await hoverOpen(button, tooltip);
+  });
+
+  it('changing relation moves the reference between the two attributes', async () => {
+    const { button, tooltip } = await mount();
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+    tooltip.relation = 'name';
+    await tooltip.updateComplete;
+    expect(button.hasAttribute('aria-describedby')).toBe(false);
+    expect(button.getAttribute('aria-labelledby')).toBe(tooltip.id);
+    tooltip.relation = 'description';
+    await tooltip.updateComplete;
+    expect(button.hasAttribute('aria-labelledby')).toBe(false);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+  });
+
+  it('keeps the ids the consumer wrote, and never removes a reference it did not add', async () => {
+    const button = document.createElement('button');
+    button.id = 'consumer-labelled';
+    button.setAttribute('aria-labelledby', 'caption my-tip');
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.id = 'my-tip';
+    tooltip.setAttribute('for', button.id);
+    tooltip.relation = 'name';
+    tooltip.text = 'Delete';
+    document.body.append(button, tooltip);
+    await tooltip.updateComplete;
+    expect(button.getAttribute('aria-labelledby')).toBe('caption my-tip');
+    tooltip.remove();
+    expect(button.getAttribute('aria-labelledby')).toBe('caption my-tip');
+  });
+
+  it('a name with no text reports once in development', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const { tooltip } = await iconOnly('   ');
+    tooltip.text = '';
+    await tooltip.updateComplete;
+    expect(error).toHaveBeenCalledTimes(1);
+    expect(String(error.mock.calls[0]?.[0])).toContain('relation="name" needs text');
+  });
+
+  it('an invalid relation draws nothing, writes no reference and reports once', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const { button, tooltip } = await mount({ open: true });
+    await shown(tooltip);
+    (tooltip as unknown as { relation: string }).relation = 'title';
+    await tooltip.updateComplete;
+    expect(button.hasAttribute('aria-describedby')).toBe(false);
+    expect(button.hasAttribute('aria-labelledby')).toBe(false);
+    expect(error).toHaveBeenCalledTimes(1);
+    await gone(tooltip);
+  });
+});
+
+describe('the reference follows the id of the tooltip', () => {
+  it('changing the id after the association moves the reference and keeps the other ids', async () => {
+    const button = document.createElement('button');
+    button.id = 'renamed-target';
+    button.setAttribute('aria-describedby', 'other');
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    document.body.append(button, tooltip);
+    await tooltip.updateComplete;
+    expect(button.getAttribute('aria-describedby')).toBe(`other ${tooltip.id}`);
+    tooltip.id = 'renamed';
+    await vi.waitFor(() => expect(button.getAttribute('aria-describedby')).toBe('other renamed'));
+    expect(await axDescription(button)).toBe(ONE_LINE);
+    tooltip.remove();
+    expect(button.getAttribute('aria-describedby')).toBe('other');
+  });
+
+  it('with relation="name", the id change moves aria-labelledby', async () => {
+    const { button, tooltip } = await mount();
+    tooltip.relation = 'name';
+    await tooltip.updateComplete;
+    tooltip.id = 'renamed-name';
+    await vi.waitFor(() => expect(button.getAttribute('aria-labelledby')).toBe('renamed-name'));
+    tooltip.remove();
+    expect(button.hasAttribute('aria-labelledby')).toBe(false);
+  });
+
+  it('removing the id gives the tooltip a new one, still referenced', async () => {
+    const { button, tooltip } = await mount();
+    tooltip.removeAttribute('id');
+    await vi.waitFor(() => expect(tooltip.id).not.toBe(''));
+    await vi.waitFor(() => expect(button.getAttribute('aria-describedby')).toBe(tooltip.id));
   });
 });
 
@@ -896,6 +1533,34 @@ describe('placement', () => {
     });
   });
 
+  it('follows a slotted element when a container inside the shadow root around its slot scrolls (slot in slot)', async () => {
+    const outer = document.createElement('div');
+    outer.attachShadow({ mode: 'open' }).innerHTML =
+      '<div class="scroller" style="position:fixed;left:100px;top:300px;width:220px;height:120px;overflow:auto"><div style="height:60px"></div><slot></slot><div style="height:600px"></div></div>';
+    const inner = document.createElement('div');
+    inner.attachShadow({ mode: 'open' }).innerHTML = '<slot></slot>';
+    const button = document.createElement('button');
+    button.id = 'slotted-target';
+    button.textContent = 'Target';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    inner.append(button, tooltip);
+    outer.append(inner);
+    document.body.append(outer);
+    await shown(tooltip);
+    /* The first ResizeObserver report places the balloon once more: let it pass before scrolling. */
+    await pause(200);
+    const scroller = outer.shadowRoot?.querySelector<HTMLElement>('.scroller') as HTMLElement;
+    const gapBefore = button.getBoundingClientRect().top - bubbleOf(tooltip).getBoundingClientRect().bottom;
+    scroller.scrollTop = 30;
+    await vi.waitFor(() => {
+      const gapAfter = button.getBoundingClientRect().top - bubbleOf(tooltip).getBoundingClientRect().bottom;
+      expect(gapAfter).toBeCloseTo(gapBefore, 0);
+    });
+  });
+
   it('an element scrolled out of the window takes its balloon with it, and gets it back when it returns', async () => {
     const holder = document.createElement('div');
     holder.style.cssText = 'height:3000px;position:relative';
@@ -931,8 +1596,7 @@ describe('motion', () => {
     const { button, tooltip } = await mount();
     const bubble = bubbleOf(tooltip);
     expect(getComputedStyle(bubble).transitionProperty).toBe('opacity');
-    await userEvent.hover(button);
-    await tooltip.updateComplete;
+    await hoverOpen(button, tooltip);
     const entering = getComputedStyle(bubble);
     expect(entering.transitionDuration).toBe(resolved('transition-duration', '--nph-motion-enter-duration'));
     expect(entering.transitionTimingFunction).toBe(resolved('transition-timing-function', '--nph-motion-enter-easing'));
@@ -948,8 +1612,7 @@ describe('motion', () => {
 
   it('the balloon only leaves the top layer after the exit has run', async () => {
     const { button, tooltip } = await mount();
-    await userEvent.hover(button);
-    await tooltip.updateComplete;
+    await hoverOpen(button, tooltip);
     await userEvent.unhover(button);
     await tooltip.updateComplete;
     expect(isShown(tooltip)).toBe(true);
@@ -969,8 +1632,7 @@ describe('motion', () => {
       expect(matchMedia('(prefers-reduced-motion: reduce)').matches).toBe(true);
       const { button, tooltip } = await mount();
       const bubble = bubbleOf(tooltip);
-      await userEvent.hover(button);
-      await tooltip.updateComplete;
+      await hoverOpen(button, tooltip);
       const duration = resolved('transition-duration', '--nph-motion-hover-duration');
       expect(duration).toBe('0.1s');
       expect(getComputedStyle(bubble).transitionDuration).toBe(duration);
@@ -1014,6 +1676,11 @@ describe('token contract', () => {
         '--nph-text-body-sm-line-height',
       ].sort(),
     );
+  });
+
+  it('the script reads motion/hover-delay, the one token the CSS does not carry, and it exists', () => {
+    expect([...componentSource.matchAll(/'(--nph-[a-z0-9-]+)'/g)].map((match) => match[1])).toEqual(['--nph-motion-hover-delay']);
+    expect(tokensCss).toContain('--nph-motion-hover-delay:');
   });
 
   it('every custom property in the CSS exists in tokens.css', () => {
