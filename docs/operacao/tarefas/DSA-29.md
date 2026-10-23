@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 300,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": "nph-select",
   "dependencies": ["DSA-24", "DSA-28"],
   "gates": [
@@ -28,15 +28,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B2",
-      "what_blocks": "The select sits inside nph-field, which gives the label, the help text and the error of the required examples, and DSA-28 (nph-field) is not done yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-28 is merged and done; with B1 also resolved, this task goes to ready.",
-      "opened_at": "2026-10-19"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-29/documentacao-figma-aceita-2026-10-14.md"
@@ -56,7 +48,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-20"
+  "updated_at": "2026-10-23"
 }
 ```
 
@@ -73,9 +65,10 @@ carries the Figma documentation converted to text. There is no need to open Figm
 
 ## Decisions answered
 D1 to D9 are answered in the evidence of the `figma-docs-accepted` gate, section
-"Decisions answered". B1 is closed: DSA-24 (`nph-avatar`) is `done`. The task
-is `blocked` only by B2, DSA-28 (`nph-field`), and goes to `ready` when it is
-`done`. Positioning, form value, events and keyboard are technical proposals for
+"Decisions answered". Both blockers are closed: B1 when DSA-24 (`nph-avatar`)
+became `done`, and B2 on 2026-10-23, when DSA-28 (`nph-field`) became `done`
+after the merge of PR #105. With every dependency `done`, the task is
+`ready`. Positioning, form value, events and keyboard are technical proposals for
 the PR.
 
 | ID | Answer | What the code does |
