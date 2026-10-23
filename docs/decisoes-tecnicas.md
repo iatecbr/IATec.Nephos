@@ -2448,7 +2448,8 @@ root cannot be described from outside, so the component that owns that root rend
    hold when it attaches, on any path, to an element that already has the focus, with the rule of
    `focusin`, and only when that focus arrived by the keyboard. The page keeps one record of how the
    focus last arrived (a key press or a pointer press, touch included), because a text field matches
-   `:focus-visible` after a click too. The `nph-tooltip` demonstrations that paired an icon-only `nph-button` with a second,
+   `:focus-visible` after a click too; the record starts when the module loads, not with the first
+   tooltip, so the first balloon of a page also knows how the focus arrived. The `nph-tooltip` demonstrations that paired an icon-only `nph-button` with a second,
    outer tooltip now use a native button with one tooltip, so no example shows two balloons.
 4. **The name, announced once.** With `relation="name"` the tooltip adds its `id` to the
    `aria-labelledby` of the native button, and the browser computes the name from the text it

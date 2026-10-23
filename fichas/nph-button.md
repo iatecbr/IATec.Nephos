@@ -222,7 +222,7 @@ anti_patterns:
 sources:
   design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block"
   decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; solid icon in hover-active, 21-10-2026; P86 — shape and tooltip of the icon-only button, which amends P68"
-  tests: "src/components/nph-button/nph-button.test.ts and nph-button.docs.test.ts"
+  tests: "src/components/nph-button/nph-button.test.ts, nph-button.first-tooltip.test.ts and nph-button.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the button yet"
   storybook: "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts"
   figma: "DS-IA-NEPHOS 5.0, nph-button frame 1197:5449 and sets 461:13009 and 498:15671; nph-icon-button board 2122:1591, frame 2128:3953"
@@ -414,7 +414,8 @@ circular icon-only button in `primary` `solid`.
   solid: in `hover-active`, the start and end icons turn solid, in the same color
   as the text of the type. P86 adds the `shape` of the icon-only button and its tooltip, from the
   `nph-icon-button` board accepted in Figma, with the textual audit approved.
-- **Tests:** `src/components/nph-button/nph-button.test.ts` and `nph-button.docs.test.ts`.
+- **Tests:** `src/components/nph-button/nph-button.test.ts`, `nph-button.first-tooltip.test.ts` and
+  `nph-button.docs.test.ts`.
 - **Usage evidence:** pending — no approved screen consumes the button yet.
 - **Storybook:** `src/components/nph-button/nph-button.stories.ts` (Validation) and
   `nph-button.docs.stories.ts` (Docs).

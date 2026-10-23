@@ -159,12 +159,15 @@ const isShown = (tooltip: NphTooltip): boolean =>
 
 const pause = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
-/** Tab from a field placed before the button, so the focus is the keyboard's. */
+/**
+ * Tab from a field placed before the button, so the focus is the keyboard's. A real Tab
+ * key: `userEvent.tab()` moves the focus without a key event in the page.
+ */
 async function tabInto(element: NphButton): Promise<void> {
   const before = document.createElement('input');
   element.before(before);
   before.focus();
-  await userEvent.tab();
+  await userEvent.keyboard('{Tab}');
   expect(element.shadowRoot?.activeElement).toBe(control(element));
 }
 

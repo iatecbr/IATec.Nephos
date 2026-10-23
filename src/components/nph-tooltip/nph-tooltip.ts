@@ -120,6 +120,11 @@ function watchFocusModality(): void {
   document.addEventListener('focusin', () => (focusArrivedByKeyboard = lastInputWasKeyboard), true);
 }
 
+/* From the moment the module loads, not from the first tooltip: the focus may arrive before any. */
+if (typeof document !== 'undefined') {
+  watchFocusModality();
+}
+
 /**
  * Development error, following the `nph-icon` pattern. Outside a bundler that
  * defines `import.meta.env`, optional chaining keeps it silent.

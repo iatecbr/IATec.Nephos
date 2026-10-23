@@ -473,7 +473,8 @@ describe('opening on hover and on keyboard focus', () => {
     button.textContent = 'Target';
     button.style.cssText = 'position:fixed;left:300px;top:300px';
     document.body.append(button);
-    await userEvent.tab();
+    /* A real Tab key: `userEvent.tab()` moves the focus without a key event in the page. */
+    await userEvent.keyboard('{Tab}');
     expect(document.activeElement).toBe(button);
     const tooltip = document.createElement('nph-tooltip');
     tooltip.setAttribute('for', button.id);
