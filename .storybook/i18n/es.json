@@ -143,7 +143,19 @@
     "components-nph-field-validation--width": "Ancho",
     "components-nph-field-validation--group": "Grupo",
     "components-nph-field-validation--disabled": "Deshabilitado",
-    "components-nph-field-validation--control-contract": "Contrato con el control"
+    "components-nph-field-validation--control-contract": "Contrato con el control",
+    "components-nph-select-docs": "Docs",
+    "components-nph-select-docs--documentation": "Documentación",
+    "components-nph-select-validation": "Validación",
+    "components-nph-select-validation--matrix": "Matriz",
+    "components-nph-select-validation--start": "Inicio",
+    "components-nph-select-validation--option": "Opción",
+    "components-nph-select-validation--open": "Abierto",
+    "components-nph-select-validation--list-height": "Altura de la lista",
+    "components-nph-select-validation--text-overflow": "Texto largo",
+    "components-nph-select-validation--form-association": "Asociación al formulario",
+    "components-nph-select-validation--invalid-input": "Entrada inválida",
+    "components-nph-select-validation--examples": "Ejemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -3053,6 +3065,469 @@
     "disabledInfoCaption": "Deshabilitado con el icono de información: el icono sigue enfocable y abre el globo.",
     "contractCaption": "Debajo de cada campo, lo que el campo escribió en su control: el nombre, la descripción (la línea de mensaje visible), invalid, required y disabled."
   },
+  "selectDocs": {
+    "summary": "El campo que abre una lista cerrada de opciones para que la persona elija una. Participa del formulario que lo contiene; la etiqueta, la ayuda y el mensaje de error pertenecen al nph-field.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas del nph-select y del nph-option, el design.md para los tokens y el docs/decisoes-tecnicas.md para la P91. El archivo Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "sourceFrame": "Figma, frame nph-select (1357:160), documentación 1452:448, set 1357:115",
+    "sourceApi": "Ficha del nph-select; docs/decisoes-tecnicas.md › P91",
+    "sourceOption": "Figma, nph-select / opção (1357:136); ficha del nph-option",
+    "sourceDecisions": "Tarea DSA-29, respuestas D1 a D9; docs/decisoes-tecnicas.md › P91",
+    "sourceAccessibility": "Figma, frame nph-select (1357:160); nph-select.test.ts y nph-option.test.ts",
+    "matrixLabel": "size × estado",
+    "description": "Usa el nph-select cuando la persona elige una sola opción de una lista cerrada de 6 a 15 elementos. No sustituye al nph-radio, para 2 a 5 opciones visibles a la vez, ni al nph-combobox, para más de 15 opciones o cuando la persona necesita buscar. Para elegir varias opciones, usa el nph-multi-combobox.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Cuando la persona elige una sola opción de una lista cerrada de 6 a 15 elementos.",
+      "Dentro de un nph-field, que da la etiqueta, el texto de ayuda y el mensaje de error.",
+      "Con start=avatar cuando las opciones son personas, y start=icon cuando un símbolo ayuda a reconocer la opción.",
+      "default en el uso general; large en la pantalla que necesita el objetivo de 44 px, para todos los campos del formulario."
+    ],
+    "whenNotToUse": [
+      "Para 2 a 5 opciones: usa el nph-radio, para que la persona vea todas sin abrir nada.",
+      "Para más de 15 opciones, o cuando la persona necesita buscar: usa el nph-combobox.",
+      "Para elegir varias opciones: usa el nph-multi-combobox.",
+      "Para nombrar el campo solo con el placeholder: la elección lo reemplaza.",
+      "Con la lupa al inicio: la búsqueda pertenece al nph-combobox."
+    ],
+    "relationsText": "Las opciones son hijas nph-option, como las option de un select; la lista es interna. El nph-field compone la etiqueta, el select, la ayuda y el mensaje de error, y escribe label, description, invalid y required en el select. El avatar del inicio es un nph-avatar; el icono del inicio, la flecha y el check son instancias de nph-icon.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "size",
+        "default o large, reflejada. Cambian la altura del disparador y el ancho del área de la flecha."
+      ],
+      [
+        "value",
+        "El valor actual. El atributo value es el valor inicial y el valor de form.reset(). La opción elegida es la primera nph-option con ese valor; el valor se guarda hasta que llega una opción así. Definido por código, no dispara nada."
+      ],
+      [
+        "placeholder",
+        "La invitación antes de la elección, ya localizada, como Selecciona una opción. No es un nombre."
+      ],
+      [
+        "start",
+        "none, icon o avatar. El disparador repite el inicio de la opción elegida; antes de la elección, la propiedad icon o el avatar vacío. El punto de una opción nunca va al disparador."
+      ],
+      [
+        "icon",
+        "Un nombre del núcleo del nph-icon, por defecto globe: el icono del inicio antes de la elección, o cuando la opción elegida no tiene icono. Nunca la lupa."
+      ],
+      [
+        "open",
+        "Booleana, reflejada. La lista está abierta. La pieza la abre y la cierra; el consumidor puede definirla. Abrir y cerrar no disparan eventos."
+      ],
+      [
+        "name, required",
+        "Como en un campo nativo. Sin opción elegida, la entrada queda fuera de los datos del formulario; required sin elección es valueMissing, con el mensaje del navegador."
+      ],
+      [
+        "invalid",
+        "El estado erro: el borde pasa a status/error y el disparador recibe aria-invalid. La frase pertenece al nph-field."
+      ],
+      [
+        "disabled",
+        "Booleana, reflejada. La pieza entera se atenúa, sale del orden del Tab y de los datos del formulario, y la lista no se abre. Un fieldset deshabilitado también la deshabilita."
+      ],
+      [
+        "label, description",
+        "El nombre y la descripción accesibles en texto, nunca visibles, escritos por el nph-field. Una etiqueta asociada gana sobre label."
+      ],
+      [
+        "input, change",
+        "Disparados por el host, en ese orden, cuando la persona elige una opción de valor diferente. El código no dispara ninguno de los dos."
+      ],
+      [
+        "slot",
+        "Las opciones: hijas nph-option."
+      ]
+    ],
+    "invalidTitle": "Una entrada inválida no dibuja nada.",
+    "invalidText": "Un size fuera de default y large, un start fuera de none, icon y avatar, o un icon fuera del núcleo: el select no se renderiza y emite console.error en desarrollo. La lupa se renderiza y avisa: la búsqueda pertenece al nph-combobox.",
+    "sizesTitle": "Tamaños",
+    "sizesText": "default en el uso general; large en la pantalla que necesita el objetivo de 44 px, para todos los campos del formulario. Cambian la altura del disparador y el ancho del área de la flecha: control/height-default o control/height-large.",
+    "sizesCaption": "default y large, con una opción elegida.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "Borde color/input sobre color/background; el área de la flecha en color/accent, después de un divisor color/border."
+      ],
+      [
+        "hover",
+        "El borde pasa a color/input-hover."
+      ],
+      [
+        "foco",
+        "Foco con el teclado: borde focus/border y el focus/halo por fuera, en focus/radius-control."
+      ],
+      [
+        "aberto",
+        "El aspecto de foco con la lista abierta debajo del disparador y la flecha hacia arriba."
+      ],
+      [
+        "erro",
+        "Borde status/error, también en hover; con foco, el halo es focus/halo-error."
+      ],
+      [
+        "disabled",
+        "color/muted, borde color/input y state/disabled-opacity en la pieza entera; gana sobre el error."
+      ]
+    ],
+    "statesCaption": "Placeholder, valor, error y deshabilitado.",
+    "startTitle": "Inicio",
+    "startText": "El start decide el tipo y la opción elegida da el arte: con icon, el icono de la opción elegida, o globe antes de la elección; con avatar, la foto de la persona elegida, o el avatar vacío antes de la elección. Mantén el mismo inicio en todas las opciones de la lista.",
+    "startCaption": "start=icon y start=avatar, antes y después de la elección.",
+    "optionTitle": "Opción",
+    "optionText": "Cada opción es un nph-option: la etiqueta es el texto que contiene, y puede tener un inicio, un texto secundario y el punto de un estado. La lista escribe selected y active en ella; la opción elegida tiene el fondo color/primary-surface y el check, que ganan sobre el aspecto de hover.",
+    "optionCaption": "Los cuatro inicios, activa, seleccionada, el punto en cada estado y deshabilitada.",
+    "optionApiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "optionApi": [
+      [
+        "slot",
+        "La etiqueta, ya localizada: el nombre accesible de la opción y el texto del disparador cuando se elige."
+      ],
+      [
+        "value",
+        "Reflejada. Sin el atributo, el texto de la etiqueta."
+      ],
+      [
+        "secondary",
+        "El texto de ayuda después de la etiqueta. Vacío lo apaga."
+      ],
+      [
+        "start",
+        "none, icon, avatar o dot."
+      ],
+      [
+        "icon, src",
+        "El icono con start=icon, por defecto globe; la foto con start=avatar, vacía para el avatar vacío."
+      ],
+      [
+        "status",
+        "El punto con start=dot: neutral, info, warning, success, error o help. Ausente, el color del texto."
+      ],
+      [
+        "disabled",
+        "Booleana, reflejada. La opción se atenúa y no se puede elegir."
+      ],
+      [
+        "selected, active",
+        "Escritas por la lista, nunca por el consumidor. No se reflejan."
+      ]
+    ],
+    "optionStatesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "optionStates": [
+      [
+        "default",
+        "La etiqueta en color/popover-foreground, sin fondo."
+      ],
+      [
+        "hover o activa",
+        "color/accent con el texto en color/accent-foreground."
+      ],
+      [
+        "seleccionada",
+        "color/primary-surface y el check en color/primary; gana sobre el hover."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity en la opción entera."
+      ]
+    ],
+    "listTitle": "Lista",
+    "listText": "La lista se abre a space/inline-tight debajo del disparador, con su ancho, y se da vuelta hacia arriba cuando no cabe abajo. Aparece con opacidad y se desliza hasta su lugar; con movimiento reducido, solo cambia la opacidad. Muestra 8 opciones enteras dentro de layout/max-list-height y se desplaza por encima de eso. El foco queda en el disparador, que apunta a la opción activa.",
+    "listCaption": "La lista abierta, la opción elegida con el check.",
+    "keyboardHeader": [
+      "Tecla",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Enter, Space, ArrowDown, ArrowUp",
+        "Cerrada: abren la lista en la opción elegida, o en la primera."
+      ],
+      [
+        "Home, End",
+        "Abren en la primera y en la última opción, o van a ellas."
+      ],
+      [
+        "ArrowDown, ArrowUp, PageDown, PageUp",
+        "Abierta: mueven la opción activa, sin dar la vuelta."
+      ],
+      [
+        "Caracteres",
+        "Van a la opción que empieza con el texto escrito; cerrada, abren la lista."
+      ],
+      [
+        "Enter, Space, Alt+ArrowUp",
+        "Abierta: eligen la opción activa y cierran."
+      ],
+      [
+        "Escape",
+        "Cierra sin elegir."
+      ],
+      [
+        "Tab",
+        "Cierra sin elegir; el foco sigue."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Disparador",
+        "Fondo color/background, borde border/width en color/input, radius/control, ancho layout/input-width, altura control/height-*, padding izquierdo space/control-padding, gap space/inline, padding derecho 0."
+      ],
+      [
+        "2. Inicio",
+        "nph-icon icon/size-sm en color/muted-foreground, o nph-avatar sm."
+      ],
+      [
+        "3. Texto",
+        "El valor elegido en text/body-md, color/foreground; el placeholder en color/muted-foreground. Una línea con puntos suspensivos."
+      ],
+      [
+        "4. Divisor",
+        "border/width en color/border, al lado del área de la flecha."
+      ],
+      [
+        "5. Área de la flecha",
+        "color/accent, ancho control/height-* y la altura del disparador menos sus bordes; radius/none a la izquierda y radius/control-inner a la derecha; chevron-down, o chevron-up abierta."
+      ],
+      [
+        "6. Lista",
+        "color/popover, borde color/input, radius/container, padding space/inline-tight, altura máxima layout/max-list-height, elevation/dropdown."
+      ],
+      [
+        "7. Opción",
+        "Padding y gap space/inline, radius/inner, el ancho de la lista; inicio icono, avatar o punto."
+      ],
+      [
+        "8. Check",
+        "nph-icon check, icon/size-sm, color/primary, al final de la opción seleccionada."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Un combobox solo de selección: el disparador tiene el rol combobox y controla un listbox; cada nph-option tiene el rol option y aria-selected."
+      ],
+      [
+        "Nombre accesible",
+        "La etiqueta del nph-field, o label; el placeholder no es un nombre. La description se lee junto: la ayuda o la frase de error."
+      ],
+      [
+        "Teclado y foco",
+        "El foco queda en el disparador y apunta a la opción activa con aria-activedescendant. El foco se ve con el teclado y mientras la lista está abierta."
+      ],
+      [
+        "Contraste",
+        "Texto 4,5:1 y el borde 3:1, en los modos claro y oscuro; la flecha 3:1 sobre color/accent; el check 4,78:1 y 6,26:1 sobre color/primary-surface."
+      ],
+      [
+        "El color no es la única señal",
+        "El error llega como texto en el nph-field; la opción seleccionada tiene el check; el punto acompaña el estado escrito; la flecha se da vuelta hacia arriba cuando la lista se abre."
+      ],
+      [
+        "Partes ocultas",
+        "El inicio, el divisor, la flecha, el punto y el check quedan ocultos para el lector de pantalla."
+      ]
+    ],
+    "examplesTitle": "Ejemplos obligatorios",
+    "exampleDepartment": "Departamento: lista corta, sin inicio.",
+    "exampleOwner": "Responsable: personas con avatar, abierto.",
+    "exampleRequired": "Obligatorio sin elección: el error.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, frame nph-select (1357:160), documentación 1452:448",
+      "fichas/nph-select.md y fichas/nph-option.md",
+      "docs/decisoes-tecnicas.md › P91, P80 y P83",
+      "WAI-ARIA Authoring Practices, combobox solo de selección"
+    ],
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "departmentLabel": "Departamento",
+    "departmentHelp": "El equipo en el que trabaja la persona.",
+    "placeholder": "Selecciona una opción",
+    "departments": [
+      "Finanzas",
+      "Jurídico",
+      "Marketing",
+      "Operaciones",
+      "Personas",
+      "Producto",
+      "Ventas",
+      "Soporte"
+    ],
+    "ownerLabel": "Responsable",
+    "people": [
+      {
+        "name": "Ana Souza",
+        "role": "Diseñadora de producto"
+      },
+      {
+        "name": "Bruno Lima",
+        "role": "Ingeniero"
+      },
+      {
+        "name": "Carla Dias",
+        "role": "Investigadora"
+      },
+      {
+        "name": "Diego Alves",
+        "role": "Gerente de producto"
+      }
+    ],
+    "locationLabel": "Lugar de trabajo",
+    "locations": [
+      "Oficina en casa",
+      "Cliente",
+      "A distancia"
+    ],
+    "statuses": [
+      {
+        "status": "success",
+        "label": "Activo"
+      },
+      {
+        "status": "warning",
+        "label": "Pendiente"
+      },
+      {
+        "status": "error",
+        "label": "Bloqueado"
+      },
+      {
+        "status": "info",
+        "label": "En revisión"
+      },
+      {
+        "status": "help",
+        "label": "En espera"
+      },
+      {
+        "status": "neutral",
+        "label": "Archivado"
+      }
+    ],
+    "errorMessage": "Elige un departamento."
+  },
+  "selectValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "departmentLabel": "Departamento",
+    "departmentHelp": "El equipo en el que trabaja la persona.",
+    "placeholder": "Selecciona una opción",
+    "departments": [
+      "Finanzas",
+      "Jurídico",
+      "Marketing",
+      "Operaciones",
+      "Personas",
+      "Producto",
+      "Ventas",
+      "Soporte"
+    ],
+    "moreDepartments": [
+      "Diseño",
+      "Ingeniería",
+      "Logística",
+      "Investigación"
+    ],
+    "ownerLabel": "Responsable",
+    "people": [
+      {
+        "name": "Ana Souza",
+        "role": "Diseñadora de producto"
+      },
+      {
+        "name": "Bruno Lima",
+        "role": "Ingeniero"
+      },
+      {
+        "name": "Carla Dias",
+        "role": "Investigadora"
+      },
+      {
+        "name": "Diego Alves",
+        "role": "Gerente de producto"
+      }
+    ],
+    "locationLabel": "Lugar de trabajo",
+    "locations": [
+      "Oficina en casa",
+      "Cliente",
+      "A distancia"
+    ],
+    "statusLabel": "Situación",
+    "statuses": [
+      {
+        "status": "success",
+        "label": "Activo"
+      },
+      {
+        "status": "warning",
+        "label": "Pendiente"
+      },
+      {
+        "status": "error",
+        "label": "Bloqueado"
+      },
+      {
+        "status": "info",
+        "label": "En revisión"
+      },
+      {
+        "status": "help",
+        "label": "En espera"
+      },
+      {
+        "status": "neutral",
+        "label": "Archivado"
+      }
+    ],
+    "noStatus": "Sin estado",
+    "longLabel": "Éxito del cliente y relación con socios en América Latina",
+    "longSecondary": "Equipo compartido con las oficinas regionales",
+    "errorMessage": "Elige un departamento.",
+    "submitText": "Enviar",
+    "resetText": "Restablecer",
+    "statusIdle": "Nada enviado todavía.",
+    "statusSubmitted": "Enviado: {data}",
+    "statusReset": "El formulario volvió a sus valores iniciales.",
+    "statusNoEvent": "Ningún evento todavía.",
+    "statusEvent": "{event}: {value}",
+    "fieldsetDisabled": "Fieldset deshabilitado",
+    "exampleDepartment": "Departamento",
+    "exampleOwner": "Responsable",
+    "exampleRequired": "Obligatorio sin elección"
+  },
   "validationPages": {
     "sheetTitle": "El contrato está en la ficha",
     "sheetText": "Esta pieza no tiene página de lectura en Storybook. Su contrato está en {sheet}; estas stories lo comprueban.",
@@ -3132,7 +3607,16 @@
       "components-nph-field-validation--width": "El campo toma layout/field-width por defecto y se estira con su contenedor; el control lo llena.",
       "components-nph-field-validation--group": "Un grupo de checkboxes y un grupo de radios, apilados, nombrados y descritos por el campo.",
       "components-nph-field-validation--disabled": "Deshabilitado: el control se atenúa, la etiqueta y la línea de mensaje no; deshabilitado gana sobre error.",
-      "components-nph-field-validation--control-contract": "Lo que el campo escribe en su control (P83): el nombre, la descripción, invalid, required y disabled."
+      "components-nph-field-validation--control-contract": "Lo que el campo escribe en su control (P83): el nombre, la descripción, invalid, required y disabled.",
+      "components-nph-select-validation--matrix": "size × estado: placeholder, valor, error, deshabilitado y ambos, con el área de la flecha en color/accent. Pasa el mouse para el hover, pulsa Tab para el foco.",
+      "components-nph-select-validation--start": "El inicio del disparador (D4): none, icon y avatar, antes de la elección y con el inicio de la opción elegida; el punto de una opción nunca va al disparador.",
+      "components-nph-select-validation--option": "La opción: los cuatro inicios, el texto secundario, activa con el aspecto de hover, seleccionada con el check ganando sobre la activa, deshabilitada, y el punto en cada estado (D5, D6).",
+      "components-nph-select-validation--open": "La lista abierta: a space/inline-tight debajo del disparador, con su ancho, la flecha hacia arriba y la opción elegida con el check (D1, D2).",
+      "components-nph-select-validation--list-height": "La altura de la lista (D9): 8 opciones enteras dentro de layout/max-list-height; con avatares, 7 opciones enteras y 8 px de la 8.ª; desplazamiento por encima de eso.",
+      "components-nph-select-validation--text-overflow": "Valor del disparador, etiqueta de la opción y texto secundario quedan en una línea con puntos suspensivos (D3).",
+      "components-nph-select-validation--form-association": "El host participa del formulario: el envío manda name=value, el reset restaura el atributo value, una elección dispara input y change, y un fieldset deshabilitado lo deshabilita.",
+      "components-nph-select-validation--invalid-input": "Una entrada inválida no dibuja nada: un size que no existe, un start que no existe y un icon fuera del núcleo.",
+      "components-nph-select-validation--examples": "Los tres ejemplos obligatorios del frame, en el nph-field: Departamento, Responsable (abierto) y Obligatorio sin elección, cada uno en los modos claro y oscuro."
     }
   }
 }

@@ -105,9 +105,13 @@ function oneOf<T extends string>(list: readonly T[], value: string): value is T 
   return (list as readonly string[]).includes(value);
 }
 
-/** An option the person can reach: rendered (valid input) and not disabled. */
+/**
+ * An option the person can reach: not disabled, and rendered (valid input). An option
+ * that has not updated yet has not decided its input: it counts, so an `open` select in
+ * the markup, which updates before its options, still opens.
+ */
 function available(option: NphOption): boolean {
-  return option.hasAttribute(RENDERED_ATTRIBUTE) && !option.disabled;
+  return (option.hasAttribute(RENDERED_ATTRIBUTE) || !option.hasUpdated) && !option.disabled;
 }
 
 /** The browser's message for a required choice with nothing chosen, in the person's language. */

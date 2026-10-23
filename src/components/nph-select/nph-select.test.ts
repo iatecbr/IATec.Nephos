@@ -883,6 +883,14 @@ describe('the list in the top layer', () => {
     expect(getComputedStyle(list(element)).translate).toBe('none');
   });
 
+  it('the open attribute in the markup opens the list, although the select updates before its options', async () => {
+    const element = await mount('label="Department" value="legal" open');
+    await settle();
+    expect(element.open).toBe(true);
+    expect(list(element).matches(':popover-open')).toBe(true);
+    expect(activeOf(element)).toBe(option(element, 'Legal'));
+  });
+
   it('removing the select from the page closes the list', async () => {
     const element = await mount();
     element.open = true;
