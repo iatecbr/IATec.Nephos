@@ -2185,7 +2185,11 @@ by its own decision, as in P66, P68, P73 and P76. The names follow P64.
 
 5. **`disabled` wins over `invalid`.** The evidence says `disabled` does not exist with an
    error. In runtime, `disabled` suppresses the error outline and `aria-invalid`: it is listed in
-   the sheet as an invalid combination, and is not a `console.error` case.
+   the sheet as an invalid combination, and is not a `console.error` case. A disabled
+   `<fieldset>` around the piece disables it as the property does, except inside the first
+   `<legend>` of that fieldset, as the browser does (P83, item 4): the piece reads the fieldset
+   itself, since it is not form-associated, and watches its `disabled` attribute. The property
+   `disabled` does not change; an internal marker on the host carries the state to the CSS.
 
 6. **Inside `nph-field`.** The class declares `static nphFieldRole = 'option'`: in the field,
    the piece is one option of a `role="group"`, and the field writes `invalid` and `disabled` on
@@ -2236,7 +2240,9 @@ backgrounds give way to system colors and the knob may not show; handling it tak
 keywords, which no piece uses yet, and is left to a task for every piece. A right-to-left page
 does not mirror the knob: `left` is physical, and the evidence says left is off and right is on.
 The error sentence outside the piece cannot be tied to it by `aria-describedby` across the
-shadow root; inside `nph-field`, the field describes the group.
+shadow root; inside `nph-field`, the field describes the group. A `<legend>` inserted or removed
+before the one that holds the piece does not recompute its state until the next update, as in
+`nph-field` (P83).
 
 **Source.** Frame `nph-switch` (`1549:2`, set `1548:56`) of the Figma file `DS-IA-NEPHOS 5.0`,
 accepted by Indiane on 08/10/2026, with the Figma UX QA and the textual audit approved; D1 to D4,

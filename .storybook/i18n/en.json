@@ -3086,7 +3086,7 @@
       ],
       [
         "disabled",
-        "Turns the piece off: it leaves the Tab order, does not toggle, fires nothing and stays at state/disabled-opacity. Reflected to the attribute."
+        "Turns the piece off: it leaves the Tab order, does not toggle, fires nothing and stays at state/disabled-opacity. Reflected to the attribute. A disabled fieldset around it does the same, except inside its first legend."
       ],
       [
         "input, change",

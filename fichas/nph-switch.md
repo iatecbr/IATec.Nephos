@@ -63,8 +63,10 @@ api:
     reflects: true
     constraint: >-
       The Figma disabled state. Turns the piece off: it leaves the Tab order, does
-      not toggle, fires nothing and stays at state/disabled-opacity. It is not the
-      only sign: state the reason in text when there is one.
+      not toggle, fires nothing and stays at state/disabled-opacity. A disabled
+      fieldset around the piece does the same, except inside its first legend, and
+      the property does not change. It is not the only sign: state the reason in text
+      when there is one.
 variants:
   checked:
     axis: appearance
@@ -98,6 +100,7 @@ business_rules:
   - "The piece holds one boolean, checked. Only a click, Enter or Space by the person toggles it and fires input and then change; setting checked from code fires nothing."
   - "input bubbles and crosses shadow roots; change bubbles and does not, as on a native control. The new value is read from event.target.checked. There is no nph event."
   - "disabled wins over invalid: a disabled piece draws no error outline and has no aria-invalid. It is not an error case."
+  - "A disabled fieldset around the piece disables it as disabled does, except inside the first legend of that fieldset, as the browser does."
   - "The knob slides by transform, never by layout position, and the track fill and outline change on motion/state-duration and motion/state-easing."
   - "Under reduced motion the knob does not slide: it changes side by opacity on motion/hover-duration, and the color still changes."
   - "Inside nph-field, the piece is one option of a group: nphFieldRole is option, and the field writes invalid and disabled on it."
@@ -221,7 +224,8 @@ the track (the Figma property `mostrar rótulo`).
 
 **Feedback and focus:** focus appears only for keyboard users, on the track, and **is not
 removed**. `disabled` **always wins** over `invalid`: a disabled piece draws no error outline,
-and that is not an error case. The knob slides by transform and the track fill and outline
+and that is not an error case. A disabled `<fieldset>` around the piece disables it the same
+way, except inside its first `<legend>`, as the browser does. The knob slides by transform and the track fill and outline
 change on `motion/state-duration` and `motion/state-easing`, both ways; width, height and
 layout position never animate. Under reduced motion the knob does not slide: it changes side
 by opacity on `motion/hover-duration`, and the color still changes: reducing motion does not

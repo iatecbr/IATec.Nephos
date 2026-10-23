@@ -25,8 +25,8 @@
   vertical-align: middle;
 }
 
-/* Disabled: the whole piece loses opacity, in the resting colors. */
-:host([disabled]) {
+/* Disabled, by the property or by a disabled fieldset: the whole piece loses opacity, in the resting colors. */
+:host([data-nph-inactive]) {
   opacity: var(--nph-state-disabled-opacity);
 }
 
@@ -58,6 +58,7 @@
 
 .text {
   min-inline-size: 0;
+  overflow-wrap: anywhere;
 }
 
 /*
@@ -96,7 +97,7 @@
 }
 
 /* Invalid: error outline, on or off. Disabled wins: the outline stays the resting one. */
-:host([invalid]:not([disabled])) .track {
+:host([invalid]:not([data-nph-inactive])) .track {
   --_outline: var(--nph-status-error);
   --_focus-border: var(--nph-status-error);
   --_focus-halo: var(--nph-focus-halo-error);

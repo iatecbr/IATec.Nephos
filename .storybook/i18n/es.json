@@ -3086,7 +3086,7 @@
       ],
       [
         "disabled",
-        "Apaga la pieza: sale del orden del Tab, no alterna, no dispara nada y queda en state/disabled-opacity. Reflejada en el atributo."
+        "Apaga la pieza: sale del orden del Tab, no alterna, no dispara nada y queda en state/disabled-opacity. Reflejada en el atributo. Un fieldset deshabilitado alrededor hace lo mismo, salvo dentro de su primer legend."
       ],
       [
         "input, change",

@@ -15,7 +15,9 @@
  * - `invalid`: error outline on the track and `aria-invalid` on the inner button. The
  *   error sentence stays outside the piece;
  * - `disabled`: the whole piece at `state/disabled-opacity`, native `disabled` on the
- *   inner button (out of the Tab order). `disabled` wins over `invalid`: the error
+ *   inner button (out of the Tab order). A disabled `<fieldset>` around the piece
+ *   disables it too, except inside its first `<legend>`, as the browser does: the piece
+ *   reads the fieldset itself (P83, item 4). `disabled` wins over `invalid`: the error
  *   outline is suppressed and the combination is not an error;
  * - the native events `input` (bubbles, composed) and then `change` (bubbles), fired only
  *   when the person toggles the piece (click, Enter or Space). Setting `checked` from code
@@ -36,6 +38,9 @@ const TAG = 'nph-switch';
 
 /** Internal marker, not API: present only when the input is valid. */
 const RENDERED_ATTRIBUTE = 'data-nph-rendered';
+
+/** Internal marker, not API: disabled by the property or by a disabled `<fieldset>` around it. */
+const INACTIVE_ATTRIBUTE = 'data-nph-inactive';
 
 /** Development error; outside a bundler with `import.meta.env`, it stays silent. */
 function devError(message: string): void {
@@ -85,9 +90,52 @@ export class NphSwitch extends LitElement {
     this.addEventListener('click', () => this.toggle());
   }
 
+  /** Disabled by its own property or by a disabled `<fieldset>` around it. */
+  private get inactive(): boolean {
+    return this.disabled || this.disabledByFieldset;
+  }
+
+  /**
+   * A disabled `<fieldset>` ancestor disables the controls inside it, except those in its
+   * first `<legend>`, as the browser does and as `nph-field` and `nph-input` read it (P83).
+   */
+  private get disabledByFieldset(): boolean {
+    let ancestor = this.parentElement;
+    while (ancestor !== null) {
+      if (ancestor.localName === 'fieldset' && ancestor.hasAttribute('disabled')) {
+        const firstLegend = [...ancestor.children].find((child) => child.localName === 'legend');
+        if (firstLegend === undefined || !firstLegend.contains(this)) {
+          return true;
+        }
+      }
+      ancestor = ancestor.parentElement;
+    }
+    return false;
+  }
+
+  /** Watches the `disabled` attribute of the fieldsets around the piece, which raises no update. */
+  private readonly fieldsetObserver = new MutationObserver((records) => {
+    if (records.some((record) => record.target instanceof HTMLFieldSetElement && record.target.contains(this))) {
+      this.requestUpdate();
+    }
+  });
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.fieldsetObserver.observe(this.getRootNode(), { attributes: true, attributeFilter: ['disabled'], subtree: true });
+    if (this.hasUpdated) {
+      this.requestUpdate();
+    }
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.fieldsetObserver.disconnect();
+  }
+
   /** In disabled, the click neither toggles nor reaches the consumer. */
   private blockInactive(event: Event): void {
-    if (this.disabled) {
+    if (this.inactive) {
       event.preventDefault();
       event.stopImmediatePropagation();
     }
@@ -95,7 +143,7 @@ export class NphSwitch extends LitElement {
 
   /** A click that reached the host in a valid, enabled piece is the person toggling it. */
   private toggle(): void {
-    if (!this.valid || this.disabled) {
+    if (!this.valid || this.inactive) {
       return;
     }
     this.checked = !this.checked;
@@ -105,6 +153,8 @@ export class NphSwitch extends LitElement {
   }
 
   protected override willUpdate(changed: PropertyValues): void {
+    /* Read on every update: a fieldset around the piece may have changed. */
+    this.toggleAttribute(INACTIVE_ATTRIBUTE, this.inactive);
     /* Only the inputs that decide validity are checked again, so the error does not repeat on a toggle. */
     if (!changed.has('text') && !changed.has('label')) {
       return;
@@ -128,8 +178,8 @@ export class NphSwitch extends LitElement {
       role="switch"
       aria-checked=${this.checked ? 'true' : 'false'}
       aria-label=${text === '' ? (this.label ?? '').trim() : nothing}
-      aria-invalid=${this.invalid && !this.disabled ? 'true' : nothing}
-      ?disabled=${this.disabled}
+      aria-invalid=${this.invalid && !this.inactive ? 'true' : nothing}
+      ?disabled=${this.inactive}
     >
       <span class="track" aria-hidden="true"
         ><span class="knob knob-off"></span><span class="knob knob-on"></span

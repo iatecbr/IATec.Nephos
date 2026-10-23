@@ -302,6 +302,18 @@ describe('measures and anatomy', () => {
     expect([outer.width, outer.height]).toEqual([px('--nph-switch-track-width'), px('--nph-icon-size-lg', 'height')]);
   });
 
+  it('a label with a word longer than the available width breaks inside it, with no overflow', async () => {
+    const box = document.createElement('div');
+    box.style.setProperty('inline-size', 'calc(var(--nph-switch-track-width) * 4)');
+    document.body.append(box);
+    const element = await mount({ text: 'notifications.preferences.weeklySummaryOfEveryProjectIFollow' }, box);
+    const text = part(element, '.text');
+    expect(getComputedStyle(text).overflowWrap).toBe('anywhere');
+    expect(text.getBoundingClientRect().right).toBeLessThanOrEqual(box.getBoundingClientRect().right + 0.5);
+    expect(text.scrollWidth).toBeLessThanOrEqual(text.clientWidth);
+    expect(element.getBoundingClientRect().width).toBeLessThanOrEqual(box.getBoundingClientRect().width);
+  });
+
   it('without text, the piece is only the track', async () => {
     const element = await mount({ label: 'Wi-Fi' });
     expect(element.shadowRoot?.querySelector('.text')).toBeNull();
@@ -918,6 +930,99 @@ describe('inside the real nph-field (P83)', () => {
     for (const type of ['input', 'change']) field.addEventListener(type, () => heard.push(type));
     await userEvent.click(track(switches[0] as NphSwitch));
     expect(heard).toEqual(['input', 'change']);
+  });
+});
+
+describe('inside a disabled fieldset (P83, item 4)', () => {
+  async function inFieldset(markup: (piece: NphSwitch) => HTMLFieldSetElement): Promise<{ fieldset: HTMLFieldSetElement; piece: NphSwitch }> {
+    const piece = document.createElement('nph-switch');
+    piece.text = 'Wi-Fi';
+    const fieldset = markup(piece);
+    document.body.append(fieldset);
+    await piece.updateComplete;
+    return { fieldset, piece };
+  }
+
+  /** The fieldset observer raises the update in a microtask; wait for it and for the render. */
+  async function after(piece: NphSwitch): Promise<void> {
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    await piece.updateComplete;
+  }
+
+  it('a disabled fieldset disables the switch: no focus, no toggle, no event, faded, no aria-invalid', async () => {
+    const { piece } = await inFieldset((element) => {
+      const fieldset = document.createElement('fieldset');
+      fieldset.disabled = true;
+      fieldset.append(element);
+      return fieldset;
+    });
+    piece.invalid = true;
+    await piece.updateComplete;
+    const heard = vi.fn();
+    for (const type of ['click', 'input', 'change']) piece.addEventListener(type, heard);
+    piece.click();
+    control(piece).click();
+    expect(heard).not.toHaveBeenCalled();
+    expect(piece.checked).toBe(false);
+    expect(piece.disabled).toBe(false);
+    expect(control(piece).disabled).toBe(true);
+    expect(control(piece).hasAttribute('aria-invalid')).toBe(false);
+    expect(insetColor(track(piece))).toBe(TRANSPARENT);
+    expect(getComputedStyle(piece).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
+  });
+
+  it('turning the fieldset on and off again follows it, with no update asked by the consumer', async () => {
+    const { fieldset, piece } = await inFieldset((element) => {
+      const outer = document.createElement('fieldset');
+      outer.append(element);
+      return outer;
+    });
+    expect(control(piece).disabled).toBe(false);
+    fieldset.disabled = true;
+    await after(piece);
+    expect(control(piece).disabled).toBe(true);
+    expect(getComputedStyle(piece).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
+    fieldset.disabled = false;
+    await after(piece);
+    expect(control(piece).disabled).toBe(false);
+    await userEvent.click(track(piece));
+    expect(piece.checked).toBe(true);
+  });
+
+  it('inside the first legend of a disabled fieldset, the switch stays enabled, as the browser does', async () => {
+    const { piece } = await inFieldset((element) => {
+      const fieldset = document.createElement('fieldset');
+      const legend = document.createElement('legend');
+      legend.append(element);
+      fieldset.append(legend);
+      fieldset.disabled = true;
+      return fieldset;
+    });
+    expect(control(piece).disabled).toBe(false);
+    piece.click();
+    expect(piece.checked).toBe(true);
+  });
+
+  it('with the real nph-field inside the fieldset, the switches follow the fieldset too', async () => {
+    const fieldset = document.createElement('fieldset');
+    const field = document.createElement('nph-field');
+    field.setAttribute('label', 'Notifications');
+    const piece = document.createElement('nph-switch');
+    piece.text = 'Email';
+    field.append(piece);
+    fieldset.append(field);
+    document.body.append(fieldset);
+    await (field as HTMLElement & { updateComplete: Promise<unknown> }).updateComplete;
+    await piece.updateComplete;
+    expect(control(piece).disabled).toBe(false);
+    fieldset.disabled = true;
+    await after(piece);
+    expect(control(piece).disabled).toBe(true);
+    piece.click();
+    expect(piece.checked).toBe(false);
+    fieldset.disabled = false;
+    await after(piece);
+    expect(control(piece).disabled).toBe(false);
   });
 });
 

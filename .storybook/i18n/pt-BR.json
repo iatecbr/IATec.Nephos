@@ -3086,7 +3086,7 @@
       ],
       [
         "disabled",
-        "Desliga a peça: sai da ordem do Tab, não alterna, não dispara nada e fica em state/disabled-opacity. Refletida no atributo."
+        "Desliga a peça: sai da ordem do Tab, não alterna, não dispara nada e fica em state/disabled-opacity. Refletida no atributo. Um fieldset desabilitado em volta faz o mesmo, menos dentro do primeiro legend."
       ],
       [
         "input, change",
