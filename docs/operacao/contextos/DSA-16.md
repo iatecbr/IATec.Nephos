@@ -27,10 +27,11 @@ two of them adjusted (Enter at the end of the propagation; the fieldset state ke
 the commits on the branch.
 
 ## Commands run
-- At `787c9ad`, after the merge of `v/5.0.0` at `9dd6e19` and of the review fixes, with the
-  Vite cache cleared: `npm run build:tokens`,
-  `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:operacao`, `build-storybook`, `build:lib`,
-  `test:package` and `git diff --check`: exit 0
+- At `eb90429`, after the merge of `v/5.0.0` at `e65c07c`, with the Vite cache cleared:
+  `npm run build:tokens`, `test:tokens`, `typecheck`, `test:i18n`, `test:operacao`,
+  `build-storybook`, `build:lib`, `test:package` and `git diff --check`: exit 0
+- `npm test`: exit 1, one failure of the base in a file this pass does not touch,
+  `src/components/nph-tooltip/nph-tooltip.test.ts:1074`; 1363 tests pass
 - `npm run test:naming`: exit 1, only in files this pass does not touch:
   `scripts/test-package.mjs:180` and the records of DSA-34, DSA-39, DSA-42, DSA-43, DSA-45 and DSA-47
 
@@ -44,4 +45,4 @@ None recorded: `review-and-merge` waits for the PR.
 None. D1 to D5 wait for Indiane and do not block.
 
 ## Next command
-Review and merge of PR 99, after the merge of DSA-48; then close the task with the `review-and-merge` evidence.
+Review and merge of PR 99; then close the task with the `review-and-merge` evidence.
