@@ -272,8 +272,20 @@ export class NphField extends LitElement {
     for (const element of this.elements) {
       if (roleOf(element) === undefined && !this.awaited.has(element.localName)) {
         this.awaited.add(element.localName);
-        void customElements.whenDefined(element.localName).then(() => this.requestUpdate());
+        void customElements.whenDefined(element.localName).then(() => {
+          /* A child in a disconnected field is not upgraded by the definition: upgrade it now. */
+          customElements.upgrade(this);
+          this.requestUpdate();
+        });
       }
+    }
+  }
+
+  /** Back in the page: a child may have been defined or upgraded while the field was out of it. */
+  override connectedCallback(): void {
+    super.connectedCallback();
+    if (this.hasUpdated) {
+      this.requestUpdate();
     }
   }
 

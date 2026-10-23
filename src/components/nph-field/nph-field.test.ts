@@ -856,3 +856,28 @@ describe('review regressions (PR #105, Copilot round 1)', () => {
     expect(warn.mock.calls.some(([message]) => /does not take the field contract/.test(String(message)))).toBe(true);
   });
 });
+
+describe('review regressions (PR #105, Copilot round 3)', () => {
+  it('a lazy control defined while the field is out of the page is written on when the field comes back', async () => {
+    const field = await mount({ label: 'Email', error: 'Error', children: ['test-field-lazy'] });
+    const lazy = first<HTMLElement & Record<string, unknown>>(field);
+    field.remove();
+    customElements.define('test-field-lazy', class extends StubControl {});
+    await customElements.whenDefined('test-field-lazy');
+    await field.updateComplete;
+    document.body.append(field);
+    await settle(field);
+    expect(lazy.label).toBe('Email');
+    expect(lazy.invalid).toBe(true);
+  });
+
+  it('a field moved back into the page syncs its control again', async () => {
+    const field = await mount({ label: 'Email' });
+    const control = first(field);
+    field.remove();
+    control.label = 'Other';
+    document.body.append(field);
+    await settle(field);
+    expect(control.label).toBe('Email');
+  });
+});
