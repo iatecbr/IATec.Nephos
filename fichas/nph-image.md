@@ -107,7 +107,7 @@ states:
     changes_for_user: "Only on a clickable, loaded image: the veil with the eye in image/on-overlay."
   focus:
     token: image/focus-border
-    changes_for_user: "Only on keyboard focus of a clickable image: the ring in focus/ring-width, inside the frame."
+    changes_for_user: "Only on keyboard focus of a clickable image: the ring in focus/ring-width, just outside the frame and never over the photo."
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole piece fades; a clickable one takes no focus and no click."
@@ -241,7 +241,7 @@ turns by itself.
 | Loaded (`carregada`) | `image/border` | The image fills the frame and crops to keep its proportion; the border stays over it |
 | Error (`erro`) | `image/background` | The image did not load: the frame with its border, as empty, until the illustrations arrive |
 | Hover | `image/overlay` | Only on a clickable, loaded image: the veil with the eye in `image/on-overlay` |
-| Focus (`foco`) | `image/focus-border` | Only on keyboard focus of a clickable image: the ring in `focus/ring-width`, inside the frame |
+| Focus (`foco`) | `image/focus-border` | Only on keyboard focus of a clickable image: the ring in `focus/ring-width`, just outside the frame and never over the photo |
 | Disabled (`desabilitada`) | `state/disabled-opacity` | The whole piece fades; a clickable one takes no focus and no click |
 
 **Feedback and focus:** the piece emits no event of its own. The host repeats the native

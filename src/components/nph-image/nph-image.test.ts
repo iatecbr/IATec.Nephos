@@ -241,7 +241,7 @@ describe('measures', () => {
       const style = getComputedStyle(element);
       expect(style.boxSizing).toBe('border-box');
       expect(style.borderTopLeftRadius).toBe(resolved('border-top-left-radius', `--nph-image-radius-${RADIUS[size]}`));
-      expect(style.overflow).toBe('hidden');
+      expect(style.overflow).toBe('visible');
     });
   }
 
@@ -644,47 +644,83 @@ describe('the clickable image', () => {
     expect(veil(failed)).toBeNull();
   });
 
-  it('keyboard focus draws the ring image/focus-border in focus/ring-width, inside the frame, with no veil', async () => {
+  /** Focuses the inner button with the keyboard, so `:focus-visible` matches. */
+  async function keyboardFocus(element: NphImage): Promise<HTMLButtonElement> {
+    await userEvent.tab();
+    await vi.waitFor(() => expect(control(element)?.matches(':focus-visible')).toBe(true));
+    return control(element) as HTMLButtonElement;
+  }
+
+  it('keyboard focus draws the ring image/focus-border in focus/ring-width as an outline just outside the frame, with no veil', async () => {
     const element = await mount({ size: 'xl', src: IMAGE, alt: 'Blue mug', interactive: true });
     await settled(element);
     const before = element.getBoundingClientRect();
-    await userEvent.tab();
-    await vi.waitFor(() => expect(control(element)?.matches(':focus-visible')).toBe(true));
-    const line = getComputedStyle(border(element));
-    expect(line.borderTopStyle).toBe('solid');
-    expect(line.borderTopColor).toBe(resolved('color', '--nph-image-focus-border'));
-    expect(line.borderTopWidth).toBe(resolved('width', '--nph-focus-ring-width'));
-    expect(getComputedStyle(control(element) as HTMLElement).outlineStyle).toBe('none');
+    const button = await keyboardFocus(element);
+    const ring = getComputedStyle(button);
+    expect(ring.outlineStyle).toBe('solid');
+    expect(ring.outlineColor).toBe(resolved('color', '--nph-image-focus-border'));
+    expect(ring.outlineWidth).toBe(resolved('width', '--nph-focus-ring-width'));
+    expect(ring.outlineOffset).toBe('0px');
+    /* The ring takes the frame corner, and the border inside stays the resting one. */
+    expect(ring.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-image-radius-lg'));
+    expect(getComputedStyle(border(element)).borderTopColor).toBe(resolved('color', '--nph-image-border'));
     expect(getComputedStyle(veil(element) as HTMLElement).display).toBe('none');
     expect(element.getBoundingClientRect().toJSON()).toEqual(before.toJSON());
   });
 
-  it('the focus ring passes 3:1 against the frame, in both schemes and every brand', async () => {
+  it('the ring is never painted over the photo: an image of the ring color does not hide it', async () => {
+    /* Regression of the review of PR 106: the ring used to be drawn inside the frame, over the photo. */
+    const ringColor = resolved('color', '--nph-image-focus-border');
+    const sameColor = `data:image/svg+xml;utf8,${encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><rect width="40" height="40" fill="${ringColor}"/></svg>`,
+    )}`;
+    const element = await mount({ size: 'xl', src: sameColor, alt: 'Blue mug', interactive: true });
+    await settled(element);
+    const button = await keyboardFocus(element);
+    /* Nothing clips the outline: the frame does not hide what overflows it, and the outline starts at its edge. */
+    expect(getComputedStyle(element).overflow).toBe('visible');
+    expect(Number.parseFloat(getComputedStyle(button).outlineOffset)).toBeGreaterThanOrEqual(0);
+    /* So the ring lies on the surface around the image, whose contrast is measured below. */
+    const frame = element.getBoundingClientRect();
+    const photo = (image(element) as HTMLImageElement).getBoundingClientRect();
+    expect(photo.toJSON()).toEqual(frame.toJSON());
+  });
+
+  it('the focus ring passes 3:1 against the surface around the image, in both schemes and every brand', async () => {
     for (const scheme of ['light', 'dark'] as const) {
       for (const brand of BRANDS) {
         const part = scope(brand, scheme);
-        const element = await mount({}, part);
-        const frame = getComputedStyle(element).backgroundColor;
         const ring = resolved('color', '--nph-image-focus-border', part);
-        expect(contrast(ring, frame), `${scheme} ${brand}`).toBeGreaterThanOrEqual(3);
+        const surface = resolved('color', '--nph-color-background', part);
+        expect(contrast(ring, surface), `${scheme} ${brand}`).toBeGreaterThanOrEqual(3);
         part.remove();
       }
     }
   });
 
+  it('the image and the veil take the frame corner themselves, as the frame no longer clips', async () => {
+    const element = await mount({ size: 'xl', src: IMAGE, alt: 'Blue mug', interactive: true });
+    await settled(element);
+    const corner = resolved('border-top-left-radius', '--nph-image-radius-lg');
+    expect(getComputedStyle(image(element) as HTMLElement).borderTopLeftRadius).toBe(corner);
+    expect(getComputedStyle(veil(element) as HTMLElement).borderTopLeftRadius).toBe(corner);
+  });
+
   it('the focus ring shows in the loading state too, where the frame has no border', async () => {
     const element = await mount({ src: IMAGE, alt: 'Blue mug', interactive: true });
+    /* Hold the wait, as an image that never arrives: the aborted request is ignored by the guard. */
+    image(element)?.removeAttribute('src');
+    const button = await keyboardFocus(element);
     expect(element.status).toBe('loading');
-    await userEvent.tab();
-    await vi.waitFor(() => expect(control(element)?.matches(':focus-visible')).toBe(true));
-    expect(getComputedStyle(border(element)).borderTopStyle).toBe('solid');
+    expect(getComputedStyle(button).outlineStyle).toBe('solid');
+    expect(getComputedStyle(border(element)).borderTopStyle).toBe('none');
   });
 
   it('a click with the pointer draws no ring: the ring is keyboard focus only', async () => {
     const element = await mount({ src: IMAGE, alt: 'Blue mug', interactive: true });
     await settled(element);
     await userEvent.click(element);
-    expect(getComputedStyle(border(element)).borderTopColor).toBe(resolved('color', '--nph-image-border'));
+    expect(getComputedStyle(control(element) as HTMLElement).outlineStyle).toBe('none');
   });
 
   it('interactive without an alt renders and warns once in development', async () => {
@@ -737,6 +773,39 @@ describe('disabled', () => {
     await userEvent.hover(element);
     expect(getComputedStyle(veil(element) as HTMLElement).display).toBe('none');
     expect(getComputedStyle(button).cursor).toBe('default');
+  });
+
+  it('clickable and disabled: click() called on the host itself reaches no listener', async () => {
+    /* Regression of the review of PR 106: the host click went past the disabled button. */
+    const element = await mount({ src: IMAGE, alt: 'Blue mug', interactive: true, disabled: true });
+    const clicks = vi.fn();
+    const bubbled = vi.fn();
+    element.addEventListener('click', clicks);
+    document.body.addEventListener('click', bubbled);
+    element.click();
+    expect(clicks).not.toHaveBeenCalled();
+    expect(bubbled).not.toHaveBeenCalled();
+    document.body.removeEventListener('click', bubbled);
+  });
+
+  it('enabled again, click() on the host reaches the listener', async () => {
+    const element = await mount({ src: IMAGE, alt: 'Blue mug', interactive: true, disabled: true });
+    element.disabled = false;
+    await element.updateComplete;
+    const clicks = vi.fn();
+    element.addEventListener('click', clicks);
+    element.click();
+    expect(clicks).toHaveBeenCalledTimes(1);
+  });
+
+  it('a plain disabled image does not swallow the click: it passes to the clickable parent', async () => {
+    const card = document.createElement('div');
+    document.body.append(card);
+    const parentClicks = vi.fn();
+    card.addEventListener('click', parentClicks);
+    const element = await mount({ src: IMAGE, disabled: true }, card);
+    element.click();
+    expect(parentClicks).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -897,6 +966,9 @@ describe('token contract', () => {
         '--nph-image-overlay',
         '--nph-image-on-overlay',
         '--nph-image-focus-border',
+        '--nph-image-icon-size-sm',
+        '--nph-image-icon-size-md',
+        '--nph-image-icon-size-lg',
         '--nph-focus-ring-width',
         '--nph-state-disabled-opacity',
       ]),
@@ -906,12 +978,23 @@ describe('token contract', () => {
     }
   });
 
-  it('the eye sizes are the image/icon-size-* tokens: each one resolves to the icon/size-* that nph-icon uses', () => {
-    for (const size of ['sm', 'md', 'lg'] as const) {
-      expect(px(`--nph-image-icon-size-${size}`), size).toBe(px(`--nph-icon-size-${size}`));
-    }
+  it('the eye sizes map each image size to one of the three image/icon-size-* tokens', () => {
     expect(NPH_IMAGE_EYE_SIZE).toEqual({ xs: 'sm', sm: 'sm', md: 'md', lg: 'md', xl: 'lg', '2xl': 'lg', media: 'lg' });
   });
+
+  for (const size of ['sm', 'md', 'lg'] as const) {
+    it(`the eye follows image/icon-size-${size} when it is set on the piece, not icon/size-${size}`, async () => {
+      /* Regression of the review of PR 106: the eye read icon/size-* and ignored the image tokens. */
+      const imageSize = (Object.entries(NPH_IMAGE_EYE_SIZE).find(([, eye]) => eye === size)?.[0] ?? 'md') as NphImage['size'];
+      const element = await mount({ size: imageSize, src: IMAGE, alt: 'Blue mug', interactive: true });
+      element.style.setProperty(`--nph-image-icon-size-${size}`, '2.5rem');
+      await settled(element);
+      await userEvent.hover(element);
+      const eye = veil(element)?.querySelector('nph-icon') as HTMLElement;
+      await vi.waitFor(() => expect(eye.getBoundingClientRect().height).toBe(40));
+      expect(eye.getBoundingClientRect().height).not.toBe(px(`--nph-icon-size-${size}`));
+    });
+  }
 
   it('never consumes a core or theme layer directly', () => {
     expect(cssWithoutComments).not.toMatch(/--nph-core-/);

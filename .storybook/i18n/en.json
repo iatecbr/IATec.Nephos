@@ -2663,7 +2663,7 @@
       ],
       [
         "Focus",
-        "Only on a clickable image, with the keyboard: the ring image/focus-border in focus/ring-width, inside the frame."
+        "Only on a clickable image, with the keyboard: the ring image/focus-border in focus/ring-width, just outside the frame and never over the photo."
       ],
       [
         "Disabled",
@@ -2698,7 +2698,7 @@
       ],
       [
         "Focus ring",
-        "image/focus-border in focus/ring-width, only on keyboard focus of a clickable image, in place of the border."
+        "image/focus-border in focus/ring-width, only on keyboard focus of a clickable image: an outline just outside the frame, with its corner, that takes no space."
       ]
     ],
     "accessibilityTitle": "Accessibility",

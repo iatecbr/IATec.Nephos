@@ -23,12 +23,14 @@
  * - `interactive`: the image is clickable. The piece then draws an inner native
  *   `<button type="button">` that fills the frame, takes the focus (`delegatesFocus`) and
  *   carries the name in `aria-label`; the host has no role. Hover over a loaded image shows
- *   the veil `image/overlay` with the `nph-icon` `eye` in `image/on-overlay`; keyboard
- *   focus draws the ring `image/focus-border` in `focus/ring-width`. The click is the
+ *   the veil `image/overlay` with the `nph-icon` `eye` in `image/on-overlay`, sized by
+ *   `image/icon-size-*`; keyboard focus draws the ring `image/focus-border` in
+ *   `focus/ring-width` just outside the frame, never over the photo. The click is the
  *   native `click` of the button. Without `interactive`, there is no hover or focus look
  *   and the piece is never focusable;
  * - `disabled`: the whole piece at `state/disabled-opacity`; with `interactive`, the inner
- *   button is natively `disabled` (out of the Tab order, no click, no veil);
+ *   button is natively `disabled` (out of the Tab order, no click, no veil), and a
+ *   `click()` called on the host itself stops too;
  * - the spinner is the `nph-spinner` in `image/foreground`, shown only while loading, and
  *   the loading frame has no border. The Figma `giro` is the spinner's own rotation;
  * - empty and error draw the frame only: the illustrations are image assets that are not
@@ -152,6 +154,16 @@ export class NphImage extends LitElement {
     this.alt = '';
     this.interactive = false;
     this.disabled = false;
+    /* `click()` called on the host itself also stops on a clickable, disabled image. */
+    this.addEventListener('click', (event) => this.blockDisabled(event), { capture: true });
+  }
+
+  /** A clickable, disabled image gives no click to the consumer. A plain image lets it pass to its parent. */
+  private blockDisabled(event: Event): void {
+    if (this.interactive && this.disabled) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
   }
 
   /** The state drawn now. Read-only, not reflected: it derives from `src` and the load. */

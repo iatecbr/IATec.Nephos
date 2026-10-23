@@ -2663,7 +2663,7 @@
       ],
       [
         "Foco",
-        "Solo en una imagen clicable, con el teclado: el anillo image/focus-border en focus/ring-width, dentro del marco."
+        "Solo en una imagen clicable, con el teclado: el anillo image/focus-border en focus/ring-width, justo fuera del marco y nunca sobre la foto."
       ],
       [
         "Deshabilitada",
@@ -2698,7 +2698,7 @@
       ],
       [
         "Anillo de foco",
-        "image/focus-border en focus/ring-width, solo en el foco con el teclado de una imagen clicable, en lugar del borde."
+        "image/focus-border en focus/ring-width, solo en el foco con el teclado de una imagen clicable: un contorno justo fuera del marco, con su esquina, que no ocupa espacio."
       ]
     ],
     "accessibilityTitle": "Accesibilidad",

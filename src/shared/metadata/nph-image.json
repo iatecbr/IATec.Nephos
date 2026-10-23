@@ -118,7 +118,7 @@
     },
     "focus": {
       "token": "image/focus-border",
-      "changes_for_user": "Only on keyboard focus of a clickable image: the ring in focus/ring-width, inside the frame."
+      "changes_for_user": "Only on keyboard focus of a clickable image: the ring in focus/ring-width, just outside the frame and never over the photo."
     },
     "disabled": {
       "token": "state/disabled-opacity",

@@ -2663,7 +2663,7 @@
       ],
       [
         "Foco",
-        "Só numa imagem clicável, pelo teclado: o anel image/focus-border em focus/ring-width, dentro da moldura."
+        "Só numa imagem clicável, pelo teclado: o anel image/focus-border em focus/ring-width, logo fora da moldura e nunca sobre a foto."
       ],
       [
         "Desabilitada",
@@ -2698,7 +2698,7 @@
       ],
       [
         "Anel de foco",
-        "image/focus-border em focus/ring-width, só no foco pelo teclado de uma imagem clicável, no lugar da borda."
+        "image/focus-border em focus/ring-width, só no foco pelo teclado de uma imagem clicável: um contorno logo fora da moldura, com o canto dela, que não ocupa espaço."
       ]
     ],
     "accessibilityTitle": "Acessibilidade",

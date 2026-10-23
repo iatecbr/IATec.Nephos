@@ -2455,11 +2455,16 @@ rule of P21, adopted here by its own decision, as in P66, P74 and P78. The names
    `alt` as `aria-label`; the click is the native `click`. Hover over a loaded image shows the veil
    `image/overlay` with the `nph-icon` `eye` in `image/on-overlay`; the eye takes
    `image/icon-size-sm` in `xs` and `sm`, `-md` in `md` and `lg`, and `-lg` in the larger sizes
-   (the grouping of the radii), through the `nph-icon` sizes, whose `icon/size-*` are the values
-   of `image/icon-size-*`. The veil is drawn only over a loaded image: an eye over an empty frame
+   (the grouping of the radii). The veil is drawn only over a loaded image: an eye over an empty frame
    or a failed image would promise a preview of nothing. Keyboard focus draws the ring
-   `image/focus-border` in `focus/ring-width` in place of the border, inside the frame, so the
-   area does not change. `disabled` puts the whole piece at `state/disabled-opacity` and makes the
+   `image/focus-border` in `focus/ring-width` as an outline just outside the frame, with its
+   corner: it sits on the surface around the image and never over the photo, so an image of the
+   ring color does not hide it, and an outline takes no space, so the area does not change. The
+   frame therefore does not clip; the image and the veil take its corner themselves. A `click()`
+   called on the host of a clickable, disabled image stops in the capture phase, as in
+   `nph-button`; a plain disabled image lets the click pass to its parent. The eye reads
+   `image/icon-size-*`: the veil bridges them to the `icon/size-*` that `nph-icon` reads, so a
+   local value of an image token reaches the eye. `disabled` puts the whole piece at `state/disabled-opacity` and makes the
    button natively disabled. Without `interactive` there is no hover or focus look and the piece
    is never focusable.
 
@@ -2497,6 +2502,8 @@ rule of P21, adopted here by its own decision, as in P66, P74 and P78. The names
   only over a loaded image.
 - **The sizes of the eye and of the spinner** by size, which the evidence does not map.
 - **An invalid `ratio` renders nothing even on a square size**, which would ignore it.
+- **The focus ring outside the frame**, an outline, and not a stroke over the photo: the change
+  came from the code review of the pull request, where a photo of the ring color hid the ring.
 
 **Source.** Board `nph-image` (`2573:66090`), frame `Documentação` (`2677:465`) and set
 `2573:66089` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 23/10/2026, with the

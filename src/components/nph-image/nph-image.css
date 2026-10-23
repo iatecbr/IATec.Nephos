@@ -7,12 +7,13 @@
  * frame `image/background`, the spinner `image/foreground` (through `currentColor`), the
  * border `image/border-width` in `image/border`, the veil `image/overlay` with the eye in
  * `image/on-overlay`, the focus ring `focus/ring-width` in `image/focus-border` and the
- * disabled look `state/disabled-opacity`. The spinner and the eye take their size from
- * `nph-spinner` and `nph-icon` (`icon/size-*`, the values of `image/icon-size-*`).
+ * disabled look `state/disabled-opacity`. The spinner takes its size from `nph-spinner`;
+ * the eye takes `image/icon-size-*`, bridged to the `icon/size-*` that `nph-icon` reads.
  *
  * The only written quantities are box relations, not visual decisions: `100%` (the image
  * and the button fill the frame), `0` (the overlays cover the frame), `cover` (the image
- * keeps its proportion and crops) and the three proportions `1 / 1`, `4 / 3` and `16 / 9`
+ * keeps its proportion and crops), the `0` offset of the focus ring, and the three
+ * proportions `1 / 1`, `4 / 3` and `16 / 9`
  * of `media`, which are the Figma `proporção` itself.
  *
  * The piece has no motion of its own: the spinner turns by itself (P66).
@@ -25,7 +26,8 @@
 
 /*
  * A box that never shrinks, so a list of images stays aligned. `relative` is the anchor
- * of the overlays. `vertical-align` centers it on a text line.
+ * of the overlays. `vertical-align` centers it on a text line. It does not clip: the
+ * content takes the frame corner itself, so the focus ring can sit outside the frame.
  */
 :host([data-nph-rendered]) {
   position: relative;
@@ -35,7 +37,6 @@
   box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   background: var(--nph-image-background);
   color: var(--nph-image-foreground);
 }
@@ -97,8 +98,8 @@
 }
 
 /*
- * The clickable image: a native button that fills the frame, with no look of its own.
- * Its ring is drawn by the border overlay, so the browser outline is not used.
+ * The clickable image: a native button that fills the frame, with no look of its own
+ * at rest. The browser outline gives way to the ring of the contract, on keyboard focus.
  */
 .control {
   position: absolute;
@@ -129,6 +130,7 @@ img {
   block-size: 100%;
   object-fit: cover;
   border: none;
+  border-radius: inherit;
 }
 
 /* The veil and the eye: only on hover of a clickable, enabled, loaded image. */
@@ -138,9 +140,14 @@ img {
   display: none;
   align-items: center;
   justify-content: center;
+  border-radius: inherit;
   background: var(--nph-image-overlay);
   color: var(--nph-image-on-overlay);
   pointer-events: none;
+  /* The eye is an `nph-icon`, which reads `icon/size-*`: here they take `image/icon-size-*`. */
+  --nph-icon-size-sm: var(--nph-image-icon-size-sm);
+  --nph-icon-size-md: var(--nph-image-icon-size-md);
+  --nph-icon-size-lg: var(--nph-image-icon-size-lg);
 }
 
 .control:not(:disabled):hover .veil {
@@ -165,7 +172,12 @@ img {
   border-style: none;
 }
 
-/* Keyboard focus: the ring takes the place of the border, inside the frame, so the area stays the same. */
-.control:focus-visible .border {
-  border: var(--nph-focus-ring-width) solid var(--nph-image-focus-border);
+/*
+ * Keyboard focus: the ring is an outline just outside the frame, with its corner. It sits
+ * on the surface around the image, never over the photo, so an image of the ring color does
+ * not hide it; an outline takes no space, so the area stays the same.
+ */
+.control:focus-visible {
+  outline: var(--nph-focus-ring-width) solid var(--nph-image-focus-border);
+  outline-offset: 0;
 }
