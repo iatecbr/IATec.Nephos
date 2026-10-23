@@ -1,0 +1,162 @@
+{
+  "piece": "nph-avatar-stack",
+  "level": "component",
+  "status": "active",
+  "solves": "Shows several people in a short space, as a row of overlapping nph-avatar pieces, with the count of who does not show, read as one image by the name of the group.",
+  "use_when": [
+    "To show who takes part in something, such as owners, members or participants, without listing everyone.",
+    "Show up to the 5th avatar; whoever does not show enters the count.",
+    "Turn on the count when there are more people than avatars, because the total must show.",
+    "sm in a list and in the select; md in a header, card and table row; lg in a profile.",
+    "Give the group a label with the names and the total, because the avatars are not read."
+  ],
+  "do_not_use_when": [
+    "For a single person: use nph-avatar.",
+    "As the list of people with their names: the group does not replace it.",
+    "To space avatars without overlap: nph-avatar-stack already brings avatar/overlap.",
+    "To mix sizes in the group: the group has a single size and writes it on every avatar.",
+    "Past the 5th avatar: put whoever does not show in the count."
+  ],
+  "api": {
+    "size": {
+      "type": "enum",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "required": false,
+      "default": "sm",
+      "reflects": true,
+      "constraint": "The Figma property size, the same sizes as nph-avatar. Reflects because the internal CSS selects the count by it. The group writes it on every child avatar, also when a child changes its own afterwards, so a size on a child does not survive. A value outside the list draws nothing and emits console.error in development."
+    },
+    "count": {
+      "type": "number",
+      "required": false,
+      "default": 0,
+      "reflects": false,
+      "constraint": "How many people do not show, the Figma properties `mostrar contagem` and `contagem`. A whole number from zero up. Above zero, the group draws +N at the end, overlapping the last avatar; zero, or no attribute, draws no count. A negative number, a broken number or text draws nothing and emits console.error in development. The name is a technical proposal of P78."
+    },
+    "label": {
+      "type": "string",
+      "required": true,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The name of the group, already localized, with the names and the total, such as Ana, Bruno, Carla and 3 more. It becomes the aria-label of the host, which is the role img. A name the consumer puts on the host with aria-label or aria-labelledby also counts. Without any name, the group draws nothing and emits console.error in development."
+    },
+    "slot": {
+      "type": "default slot",
+      "required": true,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The nph-avatar children, each with its own src, from the 2nd to the 5th. The Figma properties `mostrar 3º`, `mostrar 4º` and `mostrar 5º` are the number of children, not properties. Fewer than two or more than five avatars, a child that is not an nph-avatar and an avatar with a label of its own render anyway and warn in development."
+    }
+  },
+  "variants": {
+    "size": {
+      "axis": "size",
+      "choose_when": "sm in a list and in the select; md in a header, card and table row; lg in a profile.",
+      "do_not_combine_with": []
+    },
+    "count": {
+      "axis": "content",
+      "choose_when": "With a count when there are more people than avatars; without one when every person shows.",
+      "do_not_combine_with": []
+    }
+  },
+  "states": {
+    "default": {
+      "token": "avatar/overlap",
+      "changes_for_user": "A row of avatars, each over the previous one, and the +N count over the last one. The group has no state of its own: no hover, no focus, no disabled and no animation."
+    }
+  },
+  "business_rules": [
+    "The group has a single size: it writes its size on every child avatar.",
+    "Each avatar goes over the previous one by avatar/overlap, and the count goes over the last avatar.",
+    "The separation between avatars is the border of each nph-avatar; the group draws no ring, background or border of its own.",
+    "The group is read as one image, by its label; the avatars and the count are hidden from the screen reader.",
+    "The group does not check that label and count agree: whoever uses it writes both."
+  ],
+  "domain_errors": [],
+  "tokens": {
+    "overlap": "avatar/overlap",
+    "count_size": [
+      "avatar/size-sm",
+      "avatar/size-md",
+      "avatar/size-lg"
+    ],
+    "count_radius": [
+      "avatar/radius-sm",
+      "avatar/radius-md",
+      "avatar/radius-lg"
+    ],
+    "count_padding": "space/inline-tight",
+    "count_background": "color/muted",
+    "count_border": [
+      "border/width",
+      "color/border"
+    ],
+    "count_text": "color/muted-foreground",
+    "count_typography": [
+      "text/label-sm",
+      "text/label-md"
+    ]
+  },
+  "ai_hints": [
+    "Use nph-avatar-stack to show who takes part without listing everyone; for a single person, use nph-avatar.",
+    "Put from two to five nph-avatar children in the group, each with its own src, and the rest in count.",
+    "Set size on the group, not on the avatars: the group writes it on each one.",
+    "Give the group a label with the names and the total, already localized; leave the avatars without label.",
+    "Keep label and count in agreement: the group does not check them.",
+    "Next to a text, such as the team name, give the space space/inline yourself."
+  ],
+  "accessibility": {
+    "semantics": "The host is one image, role img, named by label. The slot and the count sit in one aria-hidden wrapper, so the avatars and the count are not read, even an avatar with a label of its own. The group is never focusable.",
+    "accessible_name": "The label: the names and the total, such as Ana, Bruno, Carla and 3 more, written by whoever uses the group, in its language. aria-label or aria-labelledby on the host also count.",
+    "keyboard": [],
+    "focus": "The piece does not receive focus and has no tabindex. When the group opens the list of people, the focus belongs to the control around it.",
+    "contrast": "The +N text, color/muted-foreground on color/muted, passes 4.5:1 in light and dark, in every brand; nph-avatar-stack.test.ts measures it by hand until the accessibility gate of P72 arrives.",
+    "color_alternative": "Each person shows by photo or person icon, and the total shows as text."
+  },
+  "invalid_combinations": [
+    "A size outside sm, md and lg — the group draws nothing.",
+    "A count that is not a whole number from zero up — the group draws nothing.",
+    "No name — no label, no aria-label and no aria-labelledby: the group draws nothing.",
+    "Fewer than two or more than five avatars — the group renders and warns in development.",
+    "A child that is not an nph-avatar — it is not part of the group; the group warns in development.",
+    "An avatar with a label of its own — the group still reads only its own name and warns in development."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-avatar"
+    ],
+    "parents": [
+      "list",
+      "header",
+      "card",
+      "table row",
+      "profile"
+    ],
+    "children": [
+      "nph-avatar"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "Spacing avatars without overlap.",
+    "Mixing sizes in the group.",
+    "Going past the 5th avatar.",
+    "Leaving the group without a name with the people and the total.",
+    "Using the group for a single person.",
+    "Using the group in place of the list of people with their names."
+  ],
+  "sources": {
+    "design_md": "design.md, avatar/overlap, avatar/size-*, avatar/radius-*, color/muted, color/muted-foreground, color/border, border/width, space/inline-tight, text/label-sm and text/label-md",
+    "decision": "P78 — API and semantics of nph-avatar-stack",
+    "tests": "src/components/nph-avatar-stack/nph-avatar-stack.test.ts",
+    "usage_evidence": "none in code yet",
+    "storybook": "src/components/nph-avatar-stack/nph-avatar-stack.stories.ts and nph-avatar-stack.docs.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, nph-avatar-stack frame 1579:46 and set 1579:45"
+  }
+}
