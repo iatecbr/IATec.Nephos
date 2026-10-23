@@ -830,6 +830,32 @@ describe('the wait on hover (motion/hover-delay)', () => {
     await shown(other.tooltip);
   });
 
+  it('opening by focus during the hover wait retains the pointer after blur', async () => {
+    const { button, tooltip } = await mount();
+    await userEvent.hover(button);
+    await pause(100);
+    await userEvent.tab();
+    await tooltip.updateComplete;
+    expect(document.activeElement).toBe(button);
+    expect(tooltip.open).toBe(true);
+    button.blur();
+    await pause(400);
+
+    expect(tooltip.open).toBe(true);
+    expect(isShown(tooltip)).toBe(true);
+  });
+
+  it('a touch pointerdown cancels a pending wait after mouse hover', async () => {
+    const { button, tooltip } = await mount();
+    await userEvent.hover(button);
+    await pause(100);
+    touch('pointerdown', button);
+    await pause(400);
+
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+  });
+
   it('coming back to the element during the exit keeps it, with no new wait', async () => {
     const { button, tooltip } = await mount();
     await hoverOpen(button, tooltip);
@@ -893,6 +919,27 @@ describe('click, Enter and Space run the action and leave the balloon alone', ()
     await hoverOpen(button, tooltip);
   });
 
+  it('a mouse click on an input during the wait does not open it through focus-visible', async () => {
+    const input = document.createElement('input');
+    input.id = 'click-during-wait';
+    input.style.cssText = 'position:fixed;left:300px;top:300px';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', input.id);
+    tooltip.text = ONE_LINE;
+    document.body.append(input, tooltip);
+    await tooltip.updateComplete;
+
+    await userEvent.hover(input);
+    await pause(100);
+    await userEvent.click(input);
+    expect(document.activeElement).toBe(input);
+    expect(input.matches(':focus-visible')).toBe(true);
+    await pause(400);
+
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+  });
+
   it('Enter and Space do not close a balloon that the focus opened', async () => {
     const { tooltip } = await mount();
     await userEvent.tab();
@@ -926,6 +973,64 @@ describe('click, Enter and Space run the action and leave the balloon alone', ()
 });
 
 describe('only on an element that receives focus', () => {
+  it('a contenteditable editing host opens when focused by Tab', async () => {
+    const editor = document.createElement('div');
+    editor.id = 'contenteditable-target';
+    editor.contentEditable = 'true';
+    editor.style.cssText = 'position:fixed;left:300px;top:300px';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', editor.id);
+    tooltip.text = ONE_LINE;
+    document.body.append(editor, tooltip);
+    await tooltip.updateComplete;
+
+    await userEvent.tab();
+    await tooltip.updateComplete;
+
+    expect(document.activeElement).toBe(editor);
+    expect(tooltip.open).toBe(true);
+    await shown(tooltip);
+  });
+
+  it('contenteditable focusability follows nested hosts and contenteditable mutations', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const outer = document.createElement('div');
+    outer.contentEditable = 'true';
+    const inner = document.createElement('div');
+    inner.id = 'nested-contenteditable-target';
+    inner.contentEditable = 'true';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', inner.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    outer.append(inner);
+    document.body.append(outer, tooltip);
+    await tooltip.updateComplete;
+    expect(isShown(tooltip)).toBe(false);
+
+    outer.contentEditable = 'false';
+    await shown(tooltip);
+
+    inner.tabIndex = -1;
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+
+    inner.tabIndex = 0;
+    tooltip.open = true;
+    await shown(tooltip);
+
+    inner.removeAttribute('tabindex');
+    inner.contentEditable = 'false';
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+
+    tooltip.open = true;
+    await tooltip.updateComplete;
+    expect(isShown(tooltip)).toBe(false);
+    inner.contentEditable = 'true';
+    await shown(tooltip);
+  });
+
   it('a disabled button gets no balloon, on hover or when the consumer opens it, and no error', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const { button, tooltip } = await mount();
@@ -982,6 +1087,58 @@ describe('only on an element that receives focus', () => {
     button.disabled = true;
     await vi.waitFor(() => expect(tooltip.open).toBe(false));
     await gone(tooltip);
+  });
+
+  it('disabling an ancestor fieldset closes the balloon and keeps its ARIA reference', async () => {
+    const fieldset = document.createElement('fieldset');
+    const legend = document.createElement('legend');
+    const exemptButton = document.createElement('button');
+    exemptButton.id = 'fieldset-legend-target';
+    const button = document.createElement('button');
+    button.id = 'fieldset-target';
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    const exemptTooltip = document.createElement('nph-tooltip');
+    exemptTooltip.setAttribute('for', exemptButton.id);
+    exemptTooltip.text = ONE_LINE;
+    exemptTooltip.open = true;
+    legend.append(exemptButton);
+    fieldset.append(button);
+    fieldset.prepend(legend);
+    document.body.append(fieldset, tooltip, exemptTooltip);
+    await Promise.all([tooltip.updateComplete, exemptTooltip.updateComplete]);
+    await shown(tooltip);
+    await shown(exemptTooltip);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+    expect(exemptButton.getAttribute('aria-describedby')).toBe(exemptTooltip.id);
+
+    fieldset.disabled = true;
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+    await exemptTooltip.updateComplete;
+
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+    expect(exemptButton.matches(':disabled')).toBe(false);
+    expect(exemptTooltip.open).toBe(true);
+    expect(isShown(exemptTooltip)).toBe(true);
+  });
+
+  it('moving an associated target into a disabled fieldset closes the balloon and keeps its ARIA reference', async () => {
+    const { button, tooltip } = await mount({ open: true });
+    await shown(tooltip);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+
+    const fieldset = document.createElement('fieldset');
+    fieldset.disabled = true;
+    document.body.append(fieldset);
+    fieldset.append(button);
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+    await gone(tooltip);
+
+    expect(button.matches(':disabled')).toBe(true);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
   });
 
   it('a custom element host with a disabled attribute gets no balloon', async () => {

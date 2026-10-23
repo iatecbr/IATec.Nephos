@@ -151,8 +151,8 @@ export class NphTooltip extends LitElement {
   private focusedElement: Element | null = null;
   /** Esc was pressed: the balloon stays closed until the pointer and the focus are both gone. */
   private dismissed = false;
-  /** The last relevant pointer interaction was a touch. A key press clears it. */
-  private touched = false;
+  /** A pointer action on the target or its label suppresses focus opening; a key press clears it. */
+  private pointerFocusSuppressed = false;
 
   private shown = false;
   /** The pointer rests on the element: it opens when the wait ends. */
@@ -226,6 +226,14 @@ export class NphTooltip extends LitElement {
       return false;
     }
     if ((target instanceof HTMLElement || target instanceof SVGElement) && target.tabIndex >= 0) {
+      return true;
+    }
+    if (
+      target instanceof HTMLElement &&
+      target.isContentEditable &&
+      !target.hasAttribute('tabindex') &&
+      !target.parentElement?.isContentEditable
+    ) {
       return true;
     }
     return target.shadowRoot?.delegatesFocus === true;
@@ -334,9 +342,34 @@ export class NphTooltip extends LitElement {
         }
         this.associate();
       }
-      /* Only the element's own state: a toggle elsewhere in the root costs nothing. */
+      /* Recheck only when the target's state or its ancestry may have changed. */
       const target = this.target;
-      if (target !== null && records.some((record) => record.target === target && record.attributeName !== 'id')) {
+      const targetStateChanged =
+        target !== null &&
+        records.some((record) => {
+          if (record.target === target && record.attributeName !== 'id') {
+            return true;
+          }
+          if (
+            record.attributeName === 'disabled' &&
+            record.target instanceof HTMLFieldSetElement &&
+            record.target.contains(target)
+          ) {
+            return true;
+          }
+          if (
+            record.attributeName === 'contenteditable' &&
+            record.target instanceof Element &&
+            record.target.contains(target)
+          ) {
+            return true;
+          }
+          return (
+            record.type === 'childList' &&
+            [...record.addedNodes, ...record.removedNodes].some((node) => node.contains(target))
+          );
+        });
+      if (targetStateChanged) {
         this.onTargetStateChange();
       }
     });
@@ -344,7 +377,7 @@ export class NphTooltip extends LitElement {
       subtree: true,
       childList: true,
       attributes: true,
-      attributeFilter: ['id', 'disabled', 'tabindex'],
+      attributeFilter: ['id', 'disabled', 'tabindex', 'contenteditable'],
     });
   }
 
@@ -584,13 +617,13 @@ export class NphTooltip extends LitElement {
     const path = event.composedPath();
     const onTarget = path.includes(target);
     /* A click runs the action and does not open the balloon: it ends the wait (rule 3). */
-    if (onTarget && event.pointerType !== 'touch') {
+    if (onTarget) {
       this.cancelWait();
     }
     const onLabel = path.some(
       (node) => node instanceof HTMLLabelElement && (node.htmlFor === target.id || node.contains(target)),
     );
-    this.touched = event.pointerType === 'touch' && (onTarget || onLabel);
+    this.pointerFocusSuppressed = onTarget || onLabel;
   };
 
   /*
@@ -599,7 +632,7 @@ export class NphTooltip extends LitElement {
    * also ends a wait, without being intercepted: there is no balloon to close yet.
    */
   private readonly onAnyKeydown = (event: KeyboardEvent): void => {
-    this.touched = false;
+    this.pointerFocusSuppressed = false;
     if (event.key === 'Escape' || event.key === 'Esc') {
       this.cancelWait();
     }
@@ -616,7 +649,7 @@ export class NphTooltip extends LitElement {
     const focused = event.composedPath()[0];
     this.focusedElement = focused instanceof Element ? focused : null;
     const visible = focused instanceof Element && focused.matches(':focus-visible');
-    if (this.touched || !visible) {
+    if (this.pointerFocusSuppressed || !visible) {
       this.hasFocus = false;
       return;
     }
@@ -656,6 +689,10 @@ export class NphTooltip extends LitElement {
       this.reportUnfocusable();
     }
     if (this.open && this.showable) {
+      if (this.waitTimer !== undefined) {
+        this.cancelWait();
+        this.overTarget = true;
+      }
       this.show(bubble);
     } else if (this.shown) {
       this.hide(bubble);
