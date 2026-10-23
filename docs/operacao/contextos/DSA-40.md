@@ -36,7 +36,11 @@ known `test:naming` failures in files this branch does not touch.
 None recorded: `review-and-merge` waits for the merge.
 
 ## Blocker
-None. D1 to D3 wait for Indiane and do not block.
+None. D1 to D4 wait for Indiane and do not block. D4 is the follow-up decided by Elvys on
+23/10/2026: an Angular application in a subdirectory is a known limit of P84, and a new task is
+needed for (b) the consumer gives the base of the assets, or (c) the illustrations are embedded in
+the package, once D1 settles the weight of the illustrations. Indiane opens it (the IDs come from
+Jira).
 
 ## Next command
 Wait for the review; after the merge, record the `review-and-merge` evidence and move the task to done.

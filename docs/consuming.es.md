@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=a0770d43b2c02cb6cbbb3620117ba55d683f7e3748a57c96abc3a272d2b8aad7 | status=rascunho -->
+<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=6c2bc27a494f3a77b2b6c1791115fea64d8d3dd8d530eb04f11ccbee303fe2a4 | status=rascunho -->
 
 # Consumir Nephos
 
@@ -197,12 +197,15 @@ en `outputPath` en `angular.json`.
 El builder escribe los bundles en la raíz de la salida del navegador, junto a
 `index.html`, por lo que las imágenes se resuelven a `assets/`, un nivel por encima
 del bundle. En una aplicación servida en la raíz del sitio, eso es `/assets/`, donde
-el glob las copió. En una aplicación servida desde un subdirectorio, como
-`--base-href /my-app/`, la misma URL se resuelve a `/assets/` en la raíz del sitio,
-fuera de la aplicación: las dos imágenes también deben servirse ahí. `deployUrl` no
-cambia esto: solo reescribe las URL de script y de hoja de estilo en `index.html` y
-deja los bundles en la raíz de la salida, de modo que un host estático que sirve esa
-carpeta tal cual deja de encontrarlos.
+el glob las copió.
+
+> **Límite conocido: aplicación en un subdirectorio.** En una aplicación publicada
+> en un subdirectorio, como `--base-href /my-app/`, la misma URL se resuelve a
+> `/assets/` en la raíz del sitio, fuera de la aplicación: copie también allí los dos
+> PNG. `deployUrl` no cambia esto: solo reescribe las URL de script y de hoja de
+> estilo en `index.html` y deja los bundles en la raíz de la salida, de modo que un
+> host estático que sirve esa carpeta tal cual deja de encontrarlos. El límite está
+> registrado en la P84, en `docs/decisoes-tecnicas.md`.
 
 Defina una propiedad desde la plantilla con `[prop]`: `<nph-button [text]="label">`
 define la propiedad, `text="..."` define el atributo. Ambos funcionan.

@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/consuming.md | source-sha256=a0770d43b2c02cb6cbbb3620117ba55d683f7e3748a57c96abc3a272d2b8aad7 | status=rascunho -->
+<!-- i18n: lang=pt-BR | source=docs/consuming.md | source-sha256=6c2bc27a494f3a77b2b6c1791115fea64d8d3dd8d530eb04f11ccbee303fe2a4 | status=rascunho -->
 
 # Consumindo o Nephos
 
@@ -193,13 +193,15 @@ em `outputPath` no `angular.json`.
 
 O builder grava os bundles na raiz da saída do navegador, ao lado do `index.html`, e
 por isso as imagens são resolvidas para `assets/`, um nível acima do bundle. Numa
-aplicação servida na raiz do site, isso é `/assets/`, onde o glob as copiou. Numa
-aplicação servida num subdiretório, como `--base-href /my-app/`, a mesma URL é
-resolvida para `/assets/` na raiz do site, fora da aplicação: as duas imagens
-precisam ser servidas também ali. O `deployUrl` não muda isso: ele só reescreve as
-URLs de script e de folha de estilo no `index.html` e deixa os bundles na raiz da
-saída, de modo que um host estático que serve essa pasta como está deixa de
-encontrá-los.
+aplicação servida na raiz do site, isso é `/assets/`, onde o glob as copiou.
+
+> **Limite conhecido: aplicação em subdiretório.** Numa aplicação publicada num
+> subdiretório, como `--base-href /my-app/`, a mesma URL é resolvida para `/assets/`
+> na raiz do site, fora da aplicação: copie os dois PNG também para lá. O `deployUrl`
+> não muda isso: ele só reescreve as URLs de script e de folha de estilo no
+> `index.html` e deixa os bundles na raiz da saída, de modo que um host estático que
+> serve essa pasta como está deixa de encontrá-los. O limite está registrado na P84,
+> em `docs/decisoes-tecnicas.md`.
 
 Defina uma propriedade no template com `[prop]`: `<nph-button [text]="label">`
 define a propriedade, `text="..."` define o atributo. Os dois funcionam.

@@ -2361,6 +2361,20 @@ ships a raster asset**.
    nothing, takes no space, leaves `data-nph-rendered` out and emits one `console.error` in
    development. An empty `description` is not an error: it is the heading-only case.
 
+**Known limits.**
+
+- **Angular application in a subdirectory.** The Angular application builder (checked with
+  Angular 22 and the installed package) keeps the URL `new URL('../assets/<file>', import.meta.url)`
+  and writes its bundles at the root of the browser output. An application published in a
+  subdirectory, such as `/my-app/`, therefore resolves the illustrations to `/assets/` at the root
+  of the site, outside the application: the consumer copies the two PNG files there. At the root of
+  the site, the asset glob of `docs/consuming.md` is enough; Blazor with esbuild resolves them inside
+  the application (`wwwroot/assets/`). Decided by Elvys on 23/10/2026: the delivery of this decision
+  stays, and the limit is recorded here and in the guide.
+- **Follow-up, after D1.** A new task is needed for (b) or (c) once D1 settles the weight of the
+  illustrations: (b) the consumer gives the base of the assets, or (c) the illustrations are
+  embedded in the package. It is recorded in `pending_decisions` of DSA-40 (D4, decider Indiane).
+
 **Points for review.**
 
 - **`vite.config.lib.ts`**, the first change of the library build since P75, and the first file of
@@ -2380,9 +2394,10 @@ one by hand. Announcing the result of a search. The `nph-combobox` itself (DSA-4
 Storybook pages show its list in a frame. The Usage section of the page (P70, DSA-35), the page
 lists read from the Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
 
-**Pending for Indiane (DSA-40, D1 to D3), none of them blocks.** Lighter illustration files (the
+**Pending for Indiane (DSA-40, D1 to D4), none of them blocks.** Lighter illustration files (the
 current ones are 2048 px wide for a drawing of 120); whether the dark illustration is fitted or cut
-in the 120 × 87 box; whether the box shrinks in a narrower container.
+in the 120 × 87 box; whether the box shrinks in a narrower container; and, after D1, the new task
+for (b) or (c) of the known limit above.
 
 **Status.** Anatomy and behavior accepted by Indiane on 16/10/2026. API and semantics are reviewed
 in the pull request that brings them; the merge is the approval.

@@ -191,11 +191,14 @@ Replace `dist/my-app/browser` with the browser output directory configured by
 The builder writes the bundles at the root of the browser output, next to
 `index.html`, so the images resolve to `assets/` one level above the bundle. For an
 application served at the site root, that is `/assets/`, where the glob copied them.
-For an application served from a subdirectory, such as `--base-href /my-app/`, the
-same URL resolves to the site-root `/assets/`, outside the application: the two
-images must also be served there. `deployUrl` does not change this: it only rewrites
-the script and stylesheet URLs in `index.html` and leaves the bundles at the root of
-the output, so a static host that serves that folder as it is no longer finds them.
+
+> **Known limit: an application in a subdirectory.** For an application published
+> in a subdirectory, such as `--base-href /my-app/`, the same URL resolves to
+> `/assets/` at the root of the site, outside the application: copy the two PNG
+> files there too. `deployUrl` does not change this: it only rewrites the script and
+> stylesheet URLs in `index.html` and leaves the bundles at the root of the output,
+> so a static host that serves that folder as it is no longer finds them. The limit
+> is recorded in P84, in `docs/decisoes-tecnicas.md`.
 
 Set a property from the template with `[prop]`: `<nph-button [text]="label">`
 sets the property, `text="..."` sets the attribute. Both work.
