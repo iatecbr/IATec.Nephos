@@ -2,14 +2,20 @@
  * `nph-tooltip` — the balloon for any element.
  *
  * Contract accepted in Figma (frame `1237:5`, board `1241:3`, component `1237:3`),
- * recorded as text in the evidence of the `figma-docs-accepted` gate of DSA-42, and
- * decision P77 (which amends P65 and P62.6):
- * - a floating text balloon attached to ANY element. It opens on hover and on
- *   keyboard focus, with no delay, and closes when the pointer leaves the element
- *   and the balloon, on blur or with Esc. It stays open while the pointer is over
- *   the balloon (WCAG 1.4.13);
+ * recorded as text in the evidence of the `figma-docs-accepted` gates of DSA-42 and
+ * DSA-48, and decision P77 (which amends P65 and P62.6, amended on 22/10/2026):
+ * - a floating text balloon attached to an element that receives focus. Keyboard
+ *   focus opens it at once; the pointer opens it after resting `motion/hover-delay`
+ *   on the element. It closes when the pointer leaves the element and the balloon,
+ *   on blur or with Esc. It stays open while the pointer is over the balloon
+ *   (WCAG 1.4.13);
+ * - click, Enter and Space run the action of the element: they neither open nor
+ *   close the balloon. A click during the wait cancels it;
+ * - a disabled element, or one that does not receive focus, gets no balloon: without
+ *   focus, a keyboard user never sees it;
  * - it never opens on touch: without hover, essential information never lives only
- *   in the balloon. The touch target is the element, at its own size;
+ *   in the balloon. The touch target is the element, at its own size; the icon-only
+ *   button has no visible name there, an accepted exception;
  * - text only. It has no title, icon, action, link, arrow or border. The text fits
  *   whole in up to two lines: no ellipsis and no broken word. Longer text is a
  *   content error, and the component does not cut it;
@@ -18,23 +24,28 @@
  *   `side` is the code way to ask for a preferred side, not a Figma property;
  * - it enters on `motion/enter-duration` and leaves on `motion/exit-duration`.
  *
- * API — four properties (P77; `text` and `open` come from P65):
+ * API — five properties (P77; `text` and `open` come from P65):
  * - `text`, the balloon text, already localized by the consuming application;
  * - `for`, the `id` of the element that opens it, looked up in the SAME root as the
  *   tooltip (`getRootNode()`), like the native `<label for>`;
  * - `side`, the preferred side: `top` (default), `bottom`, `left` or `right`;
  * - `open`, the state. The tooltip turns it on and off by itself; the consumer may
- *   turn it on to show the balloon open, and the same closing rules apply.
+ *   turn it on to show the balloon open, and the same closing rules apply;
+ * - `relation`, what the balloon is to the element: `description` (default) or
+ *   `name`, for the icon-only button, whose action name is the balloon text.
  *
  * HOW IT ATTACHES — it listens on the element found by `for` and adds its own `id`
- * to the `aria-describedby` of that element (never overwriting what is there). An
- * element whose focus lives inside a shadow root cannot be described from outside:
- * the component that owns that shadow root renders its own tooltip next to the
- * focusable element, in the same root.
+ * to the `aria-describedby` of that element, or to its `aria-labelledby` with
+ * `relation="name"` (never overwriting what is there, and following a change of its
+ * own `id`). An element whose focus lives inside a shadow root cannot be referenced
+ * from outside: the component that owns that shadow root renders its own tooltip
+ * next to the focusable element, in the same root.
  *
  * ACCESSIBILITY — the host is `role="tooltip"` from mount, open or closed, and its
- * `aria-label` mirrors `text`, so the described element has its description before
- * the balloon opens (the browser does not read text that is `display: none`). The balloon is never focusable: focus stays on the element. Two
+ * `aria-label` mirrors `text`, so the element has its description, or its name,
+ * before the balloon opens (the browser does not read text that is `display: none`).
+ * With `relation="name"` the text is announced once, as the name, and never also as
+ * the description. The balloon is never focusable: focus stays on the element. Two
  * independent holds keep it open, the pointer (over the element or the balloon)
  * and the focus (visible focus on the element); it closes when both are gone.
  *
@@ -53,6 +64,32 @@ const TAG = 'nph-tooltip';
 export const NPH_TOOLTIP_SIDES = ['top', 'bottom', 'left', 'right'] as const;
 
 export type NphTooltipSide = (typeof NPH_TOOLTIP_SIDES)[number];
+
+/** What the balloon is to the element: its description (the default) or its name. */
+export const NPH_TOOLTIP_RELATIONS = ['description', 'name'] as const;
+
+export type NphTooltipRelation = (typeof NPH_TOOLTIP_RELATIONS)[number];
+
+const REFERENCE: Record<NphTooltipRelation, string> = {
+  description: 'aria-describedby',
+  name: 'aria-labelledby',
+};
+
+/**
+ * Keys that do not bring the focus hold back: Enter and Space run the action of the
+ * element, Esc dismisses, and Tab moves the focus anyway.
+ */
+const KEYS_WITHOUT_HOLD = new Set(['Enter', ' ', 'Spacebar', 'Escape', 'Esc', 'Tab']);
+
+/** A duration as the browser resolves it (`300ms` or `0.3s`), in milliseconds. */
+function milliseconds(value: string): number | null {
+  const match = /^(-?\d*\.?\d+)(ms|s)$/.exec(value.trim());
+  if (match === null) {
+    return null;
+  }
+  const amount = Number.parseFloat(match[1] as string);
+  return match[2] === 's' ? amount * 1000 : amount;
+}
 
 const OPPOSITE: Record<NphTooltipSide, NphTooltipSide> = {
   top: 'bottom',
@@ -73,6 +110,13 @@ function devError(message: string): void {
   }
 }
 
+function flatTreeParent(node: Node): Node | null {
+  if (node instanceof ShadowRoot) {
+    return node.host;
+  }
+  return node instanceof Element ? (node.assignedSlot ?? node.parentNode) : node.parentNode;
+}
+
 export class NphTooltip extends LitElement {
   static override styles = unsafeCSS(styles);
 
@@ -82,6 +126,7 @@ export class NphTooltip extends LitElement {
     side: { type: String },
     /* `open` reflects so the consumer can style and check the state. */
     open: { type: Boolean, reflect: true },
+    relation: { type: String },
   };
 
   /** The balloon text. Empty or only spaces: nothing is shown. */
@@ -96,8 +141,14 @@ export class NphTooltip extends LitElement {
   /** The balloon is shown. Set by the component; the consumer may set it too. */
   declare open: boolean;
 
+  /** The balloon describes the element (`description`) or names it (`name`). */
+  declare relation: NphTooltipRelation;
+
   private target: Element | null = null;
+  /** The reference this tooltip wrote on the element: where, under which id, and whether it added it. */
+  private reference: { target: Element; attribute: string; id: string; added: boolean } | null = null;
   private rootObserver: MutationObserver | undefined;
+  private inertObserver: MutationObserver | undefined;
   private observedRoot: Node | null = null;
   private readonly scrollTargets: EventTarget[] = [];
 
@@ -108,10 +159,12 @@ export class NphTooltip extends LitElement {
   private focusedElement: Element | null = null;
   /** Esc was pressed: the balloon stays closed until the pointer and the focus are both gone. */
   private dismissed = false;
-  /** The last relevant pointer interaction was a touch. A key press clears it. */
-  private touched = false;
+  /** A pointer action on the target or its label suppresses focus opening; a key press clears it. */
+  private pointerFocusSuppressed = false;
 
   private shown = false;
+  /** The pointer rests on the element: it opens when the wait ends. */
+  private waitTimer: number | undefined;
   private closeTimer: number | undefined;
   private retryFrame: number | undefined;
   private retried = false;
@@ -124,6 +177,7 @@ export class NphTooltip extends LitElement {
     this.for = null;
     this.side = 'top';
     this.open = false;
+    this.relation = 'description';
   }
 
   override connectedCallback(): void {
@@ -143,8 +197,11 @@ export class NphTooltip extends LitElement {
     super.disconnectedCallback();
     this.rootObserver?.disconnect();
     this.rootObserver = undefined;
+    this.inertObserver?.disconnect();
+    this.inertObserver = undefined;
     this.detach();
     this.observedRoot = null;
+    this.cancelWait();
     this.hideNow();
     if (this.retryFrame !== undefined) {
       cancelAnimationFrame(this.retryFrame);
@@ -163,6 +220,45 @@ export class NphTooltip extends LitElement {
 
   private get validSide(): boolean {
     return (NPH_TOOLTIP_SIDES as readonly string[]).includes(this.side);
+  }
+
+  private get validRelation(): boolean {
+    return (NPH_TOOLTIP_RELATIONS as readonly string[]).includes(this.relation);
+  }
+
+  /**
+   * The element receives focus: not disabled (natively, or a custom element with a
+   * `disabled` attribute), and in the Tab order or a host that delegates its focus.
+   */
+  private get focusable(): boolean {
+    const target = this.target;
+    if (target === null || this.isInert(target) || target.matches(':disabled') || target.hasAttribute('disabled')) {
+      return false;
+    }
+    if ((target instanceof HTMLElement || target instanceof SVGElement) && target.tabIndex >= 0) {
+      return true;
+    }
+    if (
+      target instanceof HTMLElement &&
+      target.isContentEditable &&
+      !target.hasAttribute('tabindex') &&
+      !target.parentElement?.isContentEditable
+    ) {
+      return true;
+    }
+    return target.shadowRoot?.delegatesFocus === true;
+  }
+
+  /** Disabled is a passing state of a focusable element; anything else is an assembly error. */
+  private reportUnfocusable(): void {
+    const target = this.target;
+    if (target === null || this.focusable || target.matches(':disabled') || target.hasAttribute('disabled')) {
+      return;
+    }
+    this.report(
+      `unfocusable ${this.for}`,
+      `for "${this.for}" points at an element that does not receive focus; the balloon is not drawn there.`,
+    );
   }
 
   private get bubble(): HTMLElement | null {
@@ -191,6 +287,11 @@ export class NphTooltip extends LitElement {
     } else if (changed.has('side')) {
       this.reported = '';
     }
+    if (changed.has('relation') && !this.validRelation) {
+      this.report(`relation "${this.relation}"`, 'relation must be description or name; the balloon was not drawn.');
+    } else if ((changed.has('relation') || changed.has('text')) && this.relation === 'name' && this.content === '') {
+      this.report('name without text', 'relation="name" needs text: it is the accessible name of the element.');
+    }
   }
 
   protected override updated(changed: PropertyValues<this>): void {
@@ -200,6 +301,9 @@ export class NphTooltip extends LitElement {
     }
     if (changed.has('for') || this.target === null || !this.target.isConnected) {
       this.attach();
+    }
+    if (changed.has('relation')) {
+      this.associate();
     }
     this.syncVisibility();
   }
@@ -229,19 +333,119 @@ export class NphTooltip extends LitElement {
       return;
     }
     this.rootObserver?.disconnect();
+    this.inertObserver?.disconnect();
     this.observedRoot = root;
-    this.rootObserver = new MutationObserver(() => {
+    this.inertObserver = new MutationObserver((records) => {
+      if (records.some((record) => record.attributeName === 'inert')) {
+        this.onTargetStateChange();
+      }
+    });
+    this.rootObserver = new MutationObserver((records) => {
+      const moved = records.some((record) => record.type === 'childList' || record.attributeName === 'id');
       /*
        * Re-attach only when the element came, went or was replaced. With no element
        * before and none now there is nothing to do: the one-frame retry of `attach()`
        * owns that case, and a second look from here would report it too early.
        */
-      if (this.target === null ? this.lookUp() !== null : !this.target.isConnected || this.lookUp() !== this.target) {
+      if (moved && (this.target === null ? this.lookUp() !== null : !this.target.isConnected || this.lookUp() !== this.target)) {
         this.attach();
         this.syncVisibility();
       }
+      if (moved && this.isConnected) {
+        /* Its own `id` changed: the reference on the element follows it. */
+        if (!this.id) {
+          this.id = `${TAG}-${++nextId}`;
+        }
+        this.associate();
+      }
+      /* Recheck only when the target's state or its ancestry may have changed. */
+      const target = this.target;
+      const targetStateChanged =
+        target !== null &&
+        records.some((record) => {
+          if (record.target === target && record.attributeName !== 'id') {
+            return true;
+          }
+          if (
+            record.attributeName === 'disabled' &&
+            record.target instanceof HTMLFieldSetElement &&
+            record.target.contains(target)
+          ) {
+            return true;
+          }
+          if (
+            record.attributeName === 'contenteditable' &&
+            record.target instanceof Element &&
+            record.target.contains(target)
+          ) {
+            return true;
+          }
+          if (
+            record.attributeName === 'inert' &&
+            record.target instanceof Element &&
+            this.isFlatTreeAncestor(record.target, target)
+          ) {
+            return true;
+          }
+          if (
+            record.type === 'childList' &&
+            record.target instanceof HTMLFieldSetElement &&
+            record.target.contains(target)
+          ) {
+            return true;
+          }
+          return (
+            record.type === 'childList' &&
+            [...record.addedNodes, ...record.removedNodes].some((node) => node.contains(target))
+          );
+        });
+      if (targetStateChanged) {
+        this.onTargetStateChange();
+      }
     });
-    this.rootObserver.observe(root, { subtree: true, childList: true, attributes: true, attributeFilter: ['id'] });
+    this.rootObserver.observe(root, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['id', 'disabled', 'tabindex', 'contenteditable', 'inert', 'slot'],
+    });
+  }
+
+  private isInert(target: Element): boolean {
+    let node: Node | null = target;
+    while (node !== null) {
+      if (node instanceof Element && node.hasAttribute('inert')) {
+        return true;
+      }
+      node = flatTreeParent(node);
+    }
+    return false;
+  }
+
+  private isFlatTreeAncestor(ancestor: Element, target: Element): boolean {
+    let node: Node | null = target;
+    while (node !== null) {
+      if (node === ancestor) {
+        return true;
+      }
+      node = flatTreeParent(node);
+    }
+    return false;
+  }
+
+  private observeInertAncestors(): void {
+    this.inertObserver?.disconnect();
+    const target = this.target;
+    if (target === null || this.inertObserver === undefined) {
+      return;
+    }
+    let node = flatTreeParent(target);
+    while (node !== null) {
+      if (node instanceof Element && !this.observedRoot?.contains(node)) {
+        this.inertObserver.observe(node, { attributes: true, attributeFilter: ['inert'] });
+      }
+      node = flatTreeParent(node);
+    }
   }
 
   private attach(): void {
@@ -256,6 +460,7 @@ export class NphTooltip extends LitElement {
     }
     this.retried = false;
     this.target = next;
+    this.observeInertAncestors();
     next.addEventListener('pointerenter', this.onTargetEnter as EventListener);
     next.addEventListener('pointerleave', this.onTargetLeave as EventListener);
     this.observedRoot?.addEventListener('pointerdown', this.onAnyPointerDown as EventListener, true);
@@ -267,7 +472,7 @@ export class NphTooltip extends LitElement {
       this.updateScrollTargets();
       this.onViewportChange();
     }
-    this.describe(true);
+    this.associate();
     if (this.reported.startsWith('for ')) {
       this.reported = '';
     }
@@ -310,8 +515,10 @@ export class NphTooltip extends LitElement {
     target.removeEventListener('focusout', this.onTargetFocusOut as EventListener);
     this.resizeObserver?.unobserve(target);
     this.clearScrollTargets();
-    this.describe(false);
+    this.cancelWait();
     this.target = null;
+    this.observeInertAncestors();
+    this.associate();
     this.overTarget = false;
     this.overBalloon = false;
     this.hasFocus = false;
@@ -327,7 +534,8 @@ export class NphTooltip extends LitElement {
         node.addEventListener('scroll', this.onViewportChange, true);
         this.scrollTargets.push(node);
       }
-      node = node instanceof ShadowRoot ? node.host : node.parentNode;
+      /* The flat tree: a slotted node goes through its slot, inside the shadow root around it. */
+      node = node instanceof ShadowRoot ? node.host : ((node as Element).assignedSlot ?? node.parentNode);
     }
   }
 
@@ -338,26 +546,50 @@ export class NphTooltip extends LitElement {
     this.scrollTargets.length = 0;
   }
 
-  /** Adds or removes this tooltip's id in the `aria-describedby` of the element. */
-  private describe(add: boolean): void {
+  /**
+   * Keeps one reference on the element: this tooltip's current `id` in the attribute
+   * of its relation. A stale one (an old id, the other attribute, the old element) is
+   * removed first, and only if this tooltip added it; the other ids stay.
+   */
+  private associate(): void {
     const target = this.target;
-    if (target === null || !this.id) {
+    const wanted =
+      target !== null && this.id && this.validRelation
+        ? { target, attribute: REFERENCE[this.relation], id: this.id }
+        : null;
+    const current = this.reference;
+    if (
+      current !== null &&
+      wanted !== null &&
+      current.target === wanted.target &&
+      current.attribute === wanted.attribute &&
+      current.id === wanted.id
+    ) {
       return;
     }
-    const ids = (target.getAttribute('aria-describedby') ?? '').split(/\s+/).filter(Boolean);
-    const has = ids.includes(this.id);
-    if (add && !has) {
-      ids.push(this.id);
-    } else if (!add && has) {
-      ids.splice(ids.indexOf(this.id), 1);
-    } else {
+    if (current !== null && current.added) {
+      const ids = (current.target.getAttribute(current.attribute) ?? '').split(/\s+/).filter(Boolean);
+      const at = ids.indexOf(current.id);
+      if (at >= 0) {
+        ids.splice(at, 1);
+        if (ids.length > 0) {
+          current.target.setAttribute(current.attribute, ids.join(' '));
+        } else {
+          current.target.removeAttribute(current.attribute);
+        }
+      }
+    }
+    this.reference = null;
+    if (wanted === null) {
       return;
     }
-    if (ids.length > 0) {
-      target.setAttribute('aria-describedby', ids.join(' '));
-    } else {
-      target.removeAttribute('aria-describedby');
+    const ids = (wanted.target.getAttribute(wanted.attribute) ?? '').split(/\s+/).filter(Boolean);
+    const added = !ids.includes(wanted.id);
+    if (added) {
+      ids.push(wanted.id);
+      wanted.target.setAttribute(wanted.attribute, ids.join(' '));
     }
+    this.reference = { ...wanted, added };
   }
 
   /* ----- holds: the pointer and the focus --------------------------------- */
@@ -368,23 +600,71 @@ export class NphTooltip extends LitElement {
     if (!any) {
       this.dismissed = false;
     }
-    const want = any && !this.dismissed;
+    const want = any && !this.dismissed && this.focusable;
     if (this.open !== want) {
       this.open = want;
     }
   }
 
+  /** How long the pointer rests before the balloon opens: the `motion/hover-delay` token. */
+  private hoverDelay(): number {
+    const delay = milliseconds(getComputedStyle(this).getPropertyValue('--nph-motion-hover-delay'));
+    if (delay === null) {
+      this.report('hover delay', 'motion/hover-delay is not defined (load tokens.css); the balloon opens on hover with no wait.');
+      return 0;
+    }
+    return Math.max(delay, 0);
+  }
+
+  private cancelWait(): void {
+    if (this.waitTimer !== undefined) {
+      clearTimeout(this.waitTimer);
+      this.waitTimer = undefined;
+    }
+  }
+
   private readonly onTargetEnter = (event: PointerEvent): void => {
     if (event.pointerType === 'touch') return;
-    this.overTarget = true;
-    this.sync();
+    this.cancelWait();
+    if (!this.focusable) {
+      this.reportUnfocusable();
+      return;
+    }
+    /* Still on screen (open, or leaving): coming back keeps it, with no new wait. */
+    const delay = this.shown ? 0 : this.hoverDelay();
+    if (delay === 0) {
+      this.overTarget = true;
+      this.sync();
+      return;
+    }
+    this.waitTimer = window.setTimeout(() => {
+      this.waitTimer = undefined;
+      this.overTarget = true;
+      this.sync();
+    }, delay);
   };
 
   private readonly onTargetLeave = (event: PointerEvent): void => {
     if (event.pointerType === 'touch') return;
+    this.cancelWait();
     this.overTarget = false;
     this.sync();
   };
+
+  /** The element was disabled, or left the Tab order: it loses the balloon at once. */
+  private onTargetStateChange(): void {
+    this.observeInertAncestors();
+    if (this.focusable) {
+      this.requestUpdate();
+      return;
+    }
+    this.cancelWait();
+    this.overTarget = false;
+    this.hasFocus = false;
+    if (this.open) {
+      this.open = false;
+    }
+  }
 
   private readonly onBalloonEnter = (event: PointerEvent): void => {
     if (event.pointerType === 'touch') return;
@@ -406,15 +686,29 @@ export class NphTooltip extends LitElement {
     }
     const path = event.composedPath();
     const onTarget = path.includes(target);
+    /* A click runs the action and does not open the balloon: it ends the wait (rule 3). */
+    if (onTarget) {
+      this.cancelWait();
+    }
     const onLabel = path.some(
       (node) => node instanceof HTMLLabelElement && (node.htmlFor === target.id || node.contains(target)),
     );
-    this.touched = event.pointerType === 'touch' && (onTarget || onLabel);
+    this.pointerFocusSuppressed = onTarget || onLabel;
   };
 
-  /* The keyboard is back, including when focus remains on a control after touch. */
-  private readonly onAnyKeydown = (): void => {
-    this.touched = false;
+  /*
+   * The keyboard is back, including when focus remains on a control after touch. Enter,
+   * Space, Esc and Tab do not bring the focus hold back (see `KEYS_WITHOUT_HOLD`); Esc
+   * also ends a wait, without being intercepted: there is no balloon to close yet.
+   */
+  private readonly onAnyKeydown = (event: KeyboardEvent): void => {
+    this.pointerFocusSuppressed = false;
+    if (event.key === 'Escape' || event.key === 'Esc') {
+      this.cancelWait();
+    }
+    if (KEYS_WITHOUT_HOLD.has(event.key)) {
+      return;
+    }
     if (this.focusedElement?.matches(':focus-visible')) {
       this.hasFocus = true;
       this.sync();
@@ -425,7 +719,7 @@ export class NphTooltip extends LitElement {
     const focused = event.composedPath()[0];
     this.focusedElement = focused instanceof Element ? focused : null;
     const visible = focused instanceof Element && focused.matches(':focus-visible');
-    if (this.touched || !visible) {
+    if (this.pointerFocusSuppressed || !visible) {
       this.hasFocus = false;
       return;
     }
@@ -453,7 +747,7 @@ export class NphTooltip extends LitElement {
   /* ----- showing and hiding ------------------------------------------------ */
 
   private get showable(): boolean {
-    return this.content !== '' && this.validSide && this.target !== null;
+    return this.content !== '' && this.validSide && this.validRelation && this.target !== null && this.focusable;
   }
 
   private syncVisibility(): void {
@@ -461,7 +755,14 @@ export class NphTooltip extends LitElement {
     if (bubble === null) {
       return;
     }
+    if (this.open && this.target !== null) {
+      this.reportUnfocusable();
+    }
     if (this.open && this.showable) {
+      if (this.waitTimer !== undefined) {
+        this.cancelWait();
+        this.overTarget = true;
+      }
       this.show(bubble);
     } else if (this.shown) {
       this.hide(bubble);
