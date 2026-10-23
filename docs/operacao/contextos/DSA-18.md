@@ -24,12 +24,10 @@ The component, CSS and tests; the Validation stories, the Docs page and the dict
 sheet, the Metadata and P82. See the commits on the branch.
 
 ## Commands run
-After the sync with `v/5.0.0` at `579b2fa` (P80 merged; P82 cites it as written):
-- `npm run build:tokens`, `test:tokens`, `typecheck`, `test:i18n`, `test:operacao`,
-  `build:lib`, `test:package` (15 components) and `build-storybook`, and `git diff --check`:
-  exit 0
-- `npm test`: exit 1, only `src/components/nph-tooltip/nph-tooltip.test.ts:1074`, a failure of
-  the base that PR 104 fixes; the other 1517 tests pass, the `nph-radio` ones included
+After the sync with `v/5.0.0` at `c514ad7`:
+- `npm run build:tokens`, `test:tokens`, `test` (1608 tests), `typecheck`, `test:i18n`,
+  `test:operacao`, `build:lib`, `test:package` (16 components) and `build-storybook`, and
+  `git diff --check`: exit 0
 - `npm run test:naming`: exit 1, only in files this pass does not touch:
   `scripts/test-package.mjs:180` and the records of DSA-34, 39, 42, 43, 45 and 47
 
