@@ -251,9 +251,14 @@
   --_halo: var(--nph-focus-halo-error);
 }
 
-/* Disabled wins: the resting border, no error look. */
-:host(:disabled) .thumb {
+/* Disabled wins: the resting border, no error look and no halo, even on a thumb that kept the focus. */
+:host(:disabled) .thumb,
+:host(:disabled) .thumb:focus-visible {
   --_border: var(--nph-color-primary-border);
+}
+
+:host(:disabled) .thumb:focus-visible::after {
+  display: none;
 }
 
 /* The marks: `space/stack-tight` below the track, each centered on its step. */

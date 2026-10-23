@@ -3342,7 +3342,7 @@
       ],
       [
         "marks",
-        "Liga um rótulo por passo abaixo do trilho. Só no horizontal."
+        "Liga um rótulo por passo abaixo do trilho, até 100. Só no horizontal."
       ],
       [
         "inputs",

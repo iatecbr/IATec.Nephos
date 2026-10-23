@@ -3342,7 +3342,7 @@
       ],
       [
         "marks",
-        "Activa una etiqueta por paso bajo la pista. Solo en horizontal."
+        "Activa una etiqueta por paso bajo la pista, hasta 100. Solo en horizontal."
       ],
       [
         "inputs",

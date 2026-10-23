@@ -72,6 +72,12 @@ export type NphSliderOrientation = (typeof NPH_SLIDER_ORIENTATIONS)[number];
 export const NPH_SLIDER_MODES = ['single', 'range'] as const;
 export type NphSliderMode = (typeof NPH_SLIDER_MODES)[number];
 
+/**
+ * The most marks the slider draws: past it, a mark per step is no longer readable and the
+ * render would block the page. Above it, `marks` is not drawn and the slider warns (P94).
+ */
+const MAX_MARKS = 100;
+
 /** The `id` of each thumb inside the shadow root: the tooltips point at them. */
 const THUMB_IDS = ['thumb-start', 'thumb-end'] as const;
 
@@ -275,6 +281,11 @@ export class NphSlider extends LitElement {
     return snapped > max ? fixed(snapped - step) : snapped;
   }
 
+  /** How many marks the scale has: one per step, from `min` to the highest value. */
+  private get markCount(): number {
+    return Math.round((this.top - this.min) / this.step) + 1;
+  }
+
   /** The highest value the slider stops on. */
   private get top(): number {
     return this.snap(this.max);
@@ -420,6 +431,9 @@ export class NphSlider extends LitElement {
           devError(`${part} exists only in the horizontal orientation; it was not drawn.`);
         }
       }
+    }
+    if (valid && this.marks && orientation === 'horizontal' && this.markCount > MAX_MARKS) {
+      devError(`marks draws one label per step, at most ${MAX_MARKS}; this scale has ${this.markCount}. The marks were not drawn.`);
     }
     if (valid && this.steppers && orientation === 'horizontal' && (this.trim(this.decreaseLabel) === '' || this.trim(this.increaseLabel) === '')) {
       devError('steppers needs decrease-label and increase-label as the accessible names of the buttons; the buttons were not drawn.');
@@ -688,6 +702,14 @@ export class NphSlider extends LitElement {
     field.value = String(this.values[index]);
   }
 
+  /** Enter applies the typed number: the inner field has no form in this root to submit. */
+  private onFieldKeydown(index: Index, event: KeyboardEvent): void {
+    if (event.key !== 'Enter' || event.isComposing || event.defaultPrevented) {
+      return;
+    }
+    this.onFieldChange(index, event);
+  }
+
   /** The `input` of the inner field is the person typing, not a new value of the slider. */
   private stopFieldInput(event: Event): void {
     event.stopPropagation();
@@ -706,6 +728,15 @@ export class NphSlider extends LitElement {
     this.syncFormState();
     this.syncName();
     this.checkComposition();
+    /*
+     * A thumb may move with the same text, as when `max` changes: an open balloon is placed
+     * again, since the tooltip places itself on its own update.
+     */
+    for (const tooltip of this.renderRoot.querySelectorAll<HTMLElement & { open: boolean; requestUpdate(): void }>('nph-tooltip')) {
+      if (tooltip.open) {
+        tooltip.requestUpdate();
+      }
+    }
   }
 
   private syncFormState(): void {
@@ -718,7 +749,8 @@ export class NphSlider extends LitElement {
       this.internals.setFormValue(String(start), String(start));
       return;
     }
-    const name = this.trim(this.name);
+    /* The name as given, as the form reads the attribute of a native control. */
+    const name = this.name ?? '';
     const data = new FormData();
     if (name !== '') {
       data.append(name, String(start));
@@ -860,6 +892,7 @@ export class NphSlider extends LitElement {
       .invalid=${this.invalid && !inactive}
       ?inert=${inactive}
       @input=${this.stopFieldInput}
+      @keydown=${(event: KeyboardEvent) => this.onFieldKeydown(index, event)}
       @change=${(event: Event) => this.onFieldChange(index, event)}
     ></nph-input>`;
   }
@@ -880,8 +913,7 @@ export class NphSlider extends LitElement {
 
   private renderMarks(): TemplateResult {
     const marks: number[] = [];
-    const count = Math.round((this.top - this.min) / this.step);
-    for (let index = 0; index <= count; index += 1) {
+    for (let index = 0; index < this.markCount; index += 1) {
       marks.push(Number((this.min + index * this.step).toFixed(this.precision)));
     }
     return html`<div class="marks" aria-hidden="true">
@@ -900,7 +932,7 @@ export class NphSlider extends LitElement {
     const steppers =
       horizontal && this.steppers && this.trim(this.decreaseLabel) !== '' && this.trim(this.increaseLabel) !== '';
     const inputs = horizontal && this.inputs;
-    const marks = horizontal && this.marks;
+    const marks = horizontal && this.marks && this.markCount <= MAX_MARKS;
     const [start, end] = this.values;
     const shown = this.single ? this.format(start) : `${this.format(start)} – ${this.format(end)}`;
 

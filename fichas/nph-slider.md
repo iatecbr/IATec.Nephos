@@ -126,8 +126,9 @@ api:
     default: "false"
     reflects: false
     constraint: >-
-      Turns on one label per step under the track, from min to max. Horizontal only: in the
-      vertical one it is not drawn and emits console.error in development.
+      Turns on one label per step under the track, from min to max, at most 100. Horizontal
+      only. In the vertical orientation, or above 100 steps, it is not drawn and emits
+      console.error in development; the step does not change.
   inputs:
     type: boolean
     required: false
@@ -313,6 +314,7 @@ invalid_combinations:
   - "A mode outside single and range — the slider draws nothing."
   - "min not below max, or a step that is not a positive number — the slider draws nothing."
   - "marks, inputs or steppers in the vertical orientation — the part is not drawn."
+  - "marks on a scale of more than 100 steps — the marks are not drawn."
   - "steppers without decrease-label and increase-label — the buttons are not drawn."
   - "limits with marks, and text inside nph-field — the slider renders and warns."
   - "invalid without the sentence in nph-field — red with no text."
@@ -507,7 +509,7 @@ height (D3). There is no motion of its own.
 - **Do not use `vertical` in a common form** — the horizontal one follows the reading.
 - **Invalid combinations:** an `orientation` or a `mode` outside its values; `min` not below
   `max`; a `step` that is not a positive number; `marks`, `inputs` or `steppers` in the
-  vertical orientation; `steppers` without its two names; `invalid` without the sentence in
+  vertical orientation; `marks` on a scale of more than 100 steps; `steppers` without its two names; `invalid` without the sentence in
   `nph-field`.
 - **Do not create without a decision:** a size property, more than two thumbs, a unit or a
   custom number format, a color property or an event of its own.

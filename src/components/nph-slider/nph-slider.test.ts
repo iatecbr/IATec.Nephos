@@ -1202,4 +1202,74 @@ describe('regressions of the code review', () => {
       expect(item.invalid).toBe(true);
     }
   });
+
+  it('marks above the limit are not drawn, with one error, and the slider keeps its step', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const element = await mount({ label: 'Volume', min: 0, max: 100, step: 0.0001, marks: true, value: 50 });
+    expect(element.shadowRoot?.querySelector('.mark')).toBeNull();
+    expect(error).toHaveBeenCalledTimes(1);
+    expect(String(error.mock.calls[0]?.[0])).toContain('at most 100');
+    thumb(element).focus();
+    await userEvent.keyboard('{ArrowRight}');
+    expect(element.value).toBe(50.0001);
+  });
+
+  it('a scale of exactly 100 marks still draws them', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const element = await mount({ label: 'Count', min: 1, max: 100, marks: true });
+    expect(element.shadowRoot?.querySelectorAll('.mark')).toHaveLength(100);
+    expect(error).not.toHaveBeenCalled();
+  });
+
+  it('disabling a focused invalid thumb drops the halo and the error border', async () => {
+    const element = await mount({ label: 'Volume', invalid: true });
+    await userEvent.keyboard('{Tab}');
+    expect(getComputedStyle(thumb(element), '::after').display).toBe('block');
+    element.disabled = true;
+    await element.updateComplete;
+    expect(getComputedStyle(thumb(element)).borderTopColor).toBe(color('--nph-color-primary-border'));
+    expect(getComputedStyle(thumb(element), '::after').display).toBe('none');
+  });
+
+  it('an open balloon follows the thumb when the scale changes and the value does not', async () => {
+    const holder = document.createElement('div');
+    holder.style.paddingBlockStart = '120px';
+    document.body.append(holder);
+    const element = await mount({ label: 'Volume', value: 50 }, holder);
+    const tooltip = element.shadowRoot?.querySelector('nph-tooltip') as NphTooltip;
+    await userEvent.keyboard('{Tab}');
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(true);
+    element.max = 200;
+    await element.updateComplete;
+    await tooltip.updateComplete;
+    await nextFrame();
+    const box = thumb(element).getBoundingClientRect();
+    const balloon = tooltip.shadowRoot?.querySelector<HTMLElement>('[popover]')?.getBoundingClientRect();
+    expect(Math.abs((balloon?.left ?? 0) + (balloon?.width ?? 0) / 2 - (box.left + box.width / 2))).toBeLessThan(1);
+  });
+
+  it('the name is kept as given in both modes, spaces included', async () => {
+    const holder = await markup(
+      '<form><nph-slider label="Volume" name=" volume " value="30"></nph-slider><nph-slider mode="range" label="Price" start-label="Min" end-label="Max" name=" price " start="10" end="90"></nph-slider></form>',
+    );
+    const data = new FormData(holder.querySelector('form') as HTMLFormElement);
+    expect(data.getAll(' volume ')).toEqual(['30']);
+    expect(data.getAll(' price ')).toEqual(['10', '90']);
+  });
+
+  it('Enter in a field applies the typed number, without leaving the field', async () => {
+    const holder = await markup('<form><nph-slider mode="range" inputs label="Price" start-label="Min" end-label="Max" name="price" start="10" end="90"></nph-slider></form>');
+    const element = holder.querySelector('nph-slider') as NphSlider;
+    const events: string[] = [];
+    element.addEventListener('input', () => events.push('input'));
+    element.addEventListener('change', () => events.push('change'));
+    const inner = fields(element)[0]?.shadowRoot?.querySelector('input') as HTMLInputElement;
+    await userEvent.fill(inner, '40');
+    await userEvent.keyboard('{Enter}');
+    expect(element.start).toBe(40);
+    expect(new FormData(holder.querySelector('form') as HTMLFormElement).getAll('price')).toEqual(['40', '90']);
+    expect(events).toEqual(['input', 'change']);
+    expect(fields(element)[0]?.shadowRoot?.activeElement).toBe(inner);
+  });
 });

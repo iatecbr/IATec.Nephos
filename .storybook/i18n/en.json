@@ -3342,7 +3342,7 @@
       ],
       [
         "marks",
-        "Turns on one label per step under the track. Horizontal only."
+        "Turns on one label per step under the track, at most 100. Horizontal only."
       ],
       [
         "inputs",

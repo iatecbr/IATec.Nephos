@@ -2995,8 +2995,8 @@ names follow P64.
    host fires `input` (bubbles, composed) and then `change` (bubbles), as the browser does for a
    range. A key and a click on minus or plus fire both; a drag fires `input` at each new value and
    `change` on release, only when the value changed. The `input` of an inner `nph-input` (the
-   person typing) stops inside the slider; the field applies the number on its `change` (Enter or
-   leaving it), rounded and kept inside the bounds of its thumb, and a text that is not a number
+   person typing) stops inside the slider; the field applies the number on Enter, which the slider
+   handles because the inner field has no form in its root, and on its `change` (leaving it), rounded and kept inside the bounds of its thumb, and a text that is not a number
    goes back to the current value. Setting a value from code fires nothing.
 
 5. **Accessible name and description.** As in P80: the labels associated with the host
@@ -3036,8 +3036,10 @@ names follow P64.
 
 8. **Invalid input.** An `orientation` or a `mode` outside its values, a `min` that is not below
    `max`, and a `step` that is not a positive number render nothing, with one `console.error` per
-   cause. `marks`, `inputs` or `steppers` in the vertical orientation, and `steppers` without its
-   two names, are not drawn, with one error each; the rest renders. `limits` with `marks`, and
+   cause. `marks`, `inputs` or `steppers` in the vertical orientation, `steppers` without its two
+   names, and `marks` on a scale of more than 100 steps, are not drawn, with one error each; the
+   rest renders. The limit of 100 marks keeps the labels readable and the render from blocking
+   the page; it does not change the step. `limits` with `marks`, and
    `text` inside `nph-field`, render and warn once (the Do not list of the evidence).
 
 **What is not decided here and stays as a known limit.** Forced colors and right-to-left, as in

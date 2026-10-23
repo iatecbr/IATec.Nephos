@@ -115,7 +115,7 @@
       "required": false,
       "default": "false",
       "reflects": false,
-      "constraint": "Turns on one label per step under the track, from min to max. Horizontal only: in the vertical one it is not drawn and emits console.error in development."
+      "constraint": "Turns on one label per step under the track, from min to max, at most 100. Horizontal only. In the vertical orientation, or above 100 steps, it is not drawn and emits console.error in development; the step does not change."
     },
     "inputs": {
       "type": "boolean",
@@ -309,6 +309,7 @@
     "A mode outside single and range — the slider draws nothing.",
     "min not below max, or a step that is not a positive number — the slider draws nothing.",
     "marks, inputs or steppers in the vertical orientation — the part is not drawn.",
+    "marks on a scale of more than 100 steps — the marks are not drawn.",
     "steppers without decrease-label and increase-label — the buttons are not drawn.",
     "limits with marks, and text inside nph-field — the slider renders and warns.",
     "invalid without the sentence in nph-field — red with no text."
