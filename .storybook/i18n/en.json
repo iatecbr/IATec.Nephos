@@ -42,6 +42,8 @@
     "components-nph-button-validation--icons": "Icons",
     "components-nph-button-validation--disabled": "Disabled",
     "components-nph-button-validation--loading": "Loading",
+    "components-nph-button-validation--shapes": "Shapes",
+    "components-nph-button-validation--tooltip": "Tooltip",
     "components-nph-spinner-validation": "Validation",
     "components-nph-spinner-validation--sizes": "Sizes",
     "components-nph-spinner-validation--accessibility": "Accessibility",
@@ -562,10 +564,10 @@
     "sampleText": "Badge"
   },
   "buttonDocs": {
-    "summary": "Triggers an action identified by text. It varies in severity, emphasis, size and state, with an optional icon at the start or the end. Without text, it is the icon-only button.",
+    "summary": "Triggers an action identified by text. It varies in severity, emphasis, size and state, with an optional icon at the start or the end. Without text, it is the icon-only button, square or circular, with its name in a tooltip.",
     "onThisPage": "On this page",
     "derivedTitle": "This page is derived.",
-    "derivedText": "In case of divergence, the canonical sources prevail: the nph-button spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P68. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-button spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P68 and P86. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
     "sourceLabel": "Source:",
     "whenToUseTitle": "When to use",
     "whenToUse": [
@@ -574,12 +576,13 @@
       "Choose the severity by the meaning of the action, never by colour.",
       "Choose the emphasis by how much the action stands out: solid, outline, light or ghost.",
       "Use size large on touch screens.",
-      "Without text, use the icon-only button and give it an accessible name."
+      "Without text, for a universal action such as close or search: give it a label, which is its accessible name and the text of its tooltip.",
+      "In the actions column of a table, even when the action leads to another screen, such as view details."
     ],
     "whenNotToUseTitle": "When not to use",
     "whenNotToUse": [
       "To show a field error: validation belongs to the field (nph-field).",
-      "Icon only on an action with consequences, such as delete or publish.",
+      "Icon only on an action with consequences, such as delete or publish, outside the actions column of a table: write the text.",
       "To navigate to another destination.",
       "size compact as the main target on a touch screen.",
       "Enlarging the icon to add emphasis.",
@@ -618,7 +621,7 @@
       ],
       [
         "label",
-        "Accessible name of the button without text. Required there; with text, it is not used."
+        "Accessible name of the button without text, and the text of its tooltip. Required there; with text, it is not used."
       ],
       [
         "disabled",
@@ -627,6 +630,10 @@
       [
         "loading",
         "Shows the nph-spinner in place of the start icon; the text stays, focus remains and the click does not reach the consumer. Reflected to the attribute."
+      ],
+      [
+        "shape",
+        "Corners of the icon-only button: square (the default) on radius/control or circular on radius/full. The size and the touch target do not change. With text, only square. Reflected to the attribute."
       ]
     ],
     "variantsTitle": "Severity and emphasis",
@@ -681,7 +688,7 @@
       },
       {
         "value": "danger",
-        "label": "Do not use with an icon only: write the text."
+        "label": "Do not use with an icon only, except in the actions column of a table, where the tooltip gives the name: write the text."
       },
       {
         "value": "info",
@@ -701,7 +708,7 @@
       }
     ],
     "sizesTitle": "Sizes",
-    "sizesText": "The height comes from control/height-compact, -default or -large. The text is text/label-md in all of them. Without text, the button is square and the icon follows the box: sm in compact, md in default and lg in large.",
+    "sizesText": "The height comes from control/height-compact, -default or -large. The text is text/label-md in all of them. Without text, the button is square or circular and the icon follows the box: sm in compact, md in default and lg in large.",
     "sizesCaption": "compact, default and large, with text, with an icon and icon only.",
     "sizeUseHeader": [
       "Size",
@@ -739,6 +746,10 @@
         "label": "Do not use with a different size from the field beside it."
       }
     ],
+    "iconOnlyTitle": "Icon only",
+    "iconOnlyText": "Without text, the button is the icon-only button, the nph-icon-button set in Figma. shape chooses square or circular corners, a choice of context with no fixed rule; the size and the touch target stay. Every icon-only button shows its label in an nph-tooltip: at once on keyboard focus, after motion/hover-delay on hover, never on touch and never while disabled.",
+    "iconOnlyCaption": "square and circular in the three sizes, and circular loading. Hover a button or use Tab to see its tooltip.",
+    "sourceIconOnly": "nph-button spec sheet; Figma, board nph-icon-button (2122:1591) and set 498:15671",
     "statesTitle": "States",
     "statesHeader": [
       "State",
@@ -787,11 +798,15 @@
       ],
       [
         "Touch target",
-        "size large meets the 44 px touch target; compact is not a main target on a touch screen."
+        "size large meets the 44 px touch target; compact is not a main target on a touch screen. The shape does not change the target."
       ],
       [
         "Accessible name",
-        "The text is the name of the button. Without text, the name comes from label, which is required."
+        "The text is the name of the button. Without text, the name comes from label, which is required, and the same text appears in the tooltip, announced once."
+      ],
+      [
+        "Tooltip",
+        "Every icon-only button shows its name in a tooltip, at once on keyboard focus and after a short wait on hover. On touch the tooltip does not open: the icon must be easy to recognize, and an ambiguous action uses a button with text."
       ],
       [
         "Keyboard",
@@ -801,24 +816,29 @@
     "examplesTitle": "Examples",
     "exampleForm": "Form actions: main and secondary.",
     "exampleConsequence": "An action with consequences, always with text.",
-    "exampleIconOnly": "A universal action without text, with an accessible name.",
+    "exampleIconOnly": "Closing a panel: a universal action without text, secondary ghost.",
+    "exampleTable": "Actions of a table row, in compact: secondary ghost, each named by its tooltip.",
+    "exampleCircular": "Circular shape, with its accessible name: primary solid.",
     "exampleTexts": [
       "Save",
       "Cancel",
       "Delete account",
       "Close",
-      "New"
+      "New",
+      "View details",
+      "Edit",
+      "Delete"
     ],
     "referencesTitle": "References",
     "references": [
       "nph-button spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
-      "docs/decisoes-tecnicas.md — P68 (API and semantics), P01, P02, P03 and P66 (nph-spinner).",
-      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colours.",
-      "DS-IA-NEPHOS 5.0 Figma — page NPH — Button, frame nph-button (1197:5449) and sets 461:13009 and 498:15671.",
+      "docs/decisoes-tecnicas.md — P68 and P86 (API and semantics), P77 (nph-tooltip), P01, P02, P03 and P66 (nph-spinner).",
+      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colours.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Button, frame nph-button (1197:5449) and sets 461:13009 and 498:15671; page NPH — Icon Button, board nph-icon-button (2122:1591).",
       "Storybook — Validation, in the folder alongside."
     ],
     "sourceSpec": "nph-button spec sheet; Figma, frame nph-button (1197:5449)",
-    "sourceApi": "nph-button spec sheet; docs/decisoes-tecnicas.md › P68",
+    "sourceApi": "nph-button spec sheet; docs/decisoes-tecnicas.md › P68 and P86",
     "sourceStates": "Figma, sets 461:13009 and 498:15671; design.md",
     "matrixLabel": "Component matrix"
   },
@@ -3318,6 +3338,8 @@
       "components-nph-button-validation--icons": "Start icon, end icon and both together, at icon/size-sm.",
       "components-nph-button-validation--disabled": "Disabled: the whole button at state/disabled-opacity, out of the Tab order.",
       "components-nph-button-validation--loading": "Loading: the spinner takes the place of the start icon, and the text stays.",
+      "components-nph-button-validation--shapes": "Square and circular corners of the icon-only button, in each size and emphasis: the size stays. Use Tab to see the focus follow the round corners.",
+      "components-nph-button-validation--tooltip": "Every icon-only button shows its label in a tooltip: Tab opens it at once, the pointer after motion/hover-delay. A disabled button gets none; a loading one keeps it.",
       "components-nph-kbd-validation--single-key": "One key per piece, through the text property.",
       "components-nph-kbd-validation--combination": "A combination joins one piece per key, side by side.",
       "components-nph-kbd-validation--mac-combination": "The same combination on macOS, with the system symbols. The application picks the set by the person's system; the piece does not detect it.",

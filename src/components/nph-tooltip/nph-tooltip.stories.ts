@@ -22,7 +22,7 @@ import { translations } from '../../../.storybook/i18n/index.js';
 import { localeOf, validationPage } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
 import './nph-tooltip';
-import { anchored, bothModes, iconButton, namedIconButton } from './nph-tooltip.demo';
+import { anchored, bothModes, namedIconButton } from './nph-tooltip.demo';
 
 const meta: Meta = {
   title: 'Components/nph-tooltip/Validation',
@@ -89,7 +89,7 @@ export const Sides: Story = {
         ${bothModes({ light: v.lightCaption, dark: v.darkCaption }, () =>
           html`<div style="display: flex; flex-wrap: wrap; gap: calc(var(--nph-space-section) * 3); justify-content: center;">
             ${(['top', 'bottom', 'left', 'right'] as const).map(
-              (side) => html`<span style="display: inline-flex;">${iconButton({ text: v.delete, side, open: true })}</span>`,
+              (side) => html`<span style="display: inline-flex;">${namedIconButton({ text: v.delete, side, open: true })}</span>`,
             )}
           </div>`,
         )}`,
@@ -107,7 +107,7 @@ export const Flip: Story = {
       'flip',
       html`${caption(v.flipCaption)}
         <div style="position: fixed; inset-block-start: var(--nph-space-inline); inset-inline-end: var(--nph-space-section);">
-          ${iconButton({ text: v.delete, open: true })}
+          ${namedIconButton({ text: v.delete, open: true })}
         </div>`,
     );
   },
@@ -122,7 +122,7 @@ export const FocusAndEscape: Story = {
       context,
       'focus-and-escape',
       html`${caption(v.focusCaption)}
-        <div style=${room}>${iconButton({ text: v.delete })}</div>`,
+        <div style=${room}>${namedIconButton({ text: v.delete })}</div>`,
     );
   },
   play: async () => {
