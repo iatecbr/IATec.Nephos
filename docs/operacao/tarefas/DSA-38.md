@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 390,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": "nph-textarea",
   "dependencies": ["DSA-13", "DSA-28"],
   "gates": [
@@ -28,15 +28,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "The required example with the counter in the support line needs the nph-field (DSA-28), which is not done yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-28 is done.",
-      "opened_at": "2026-10-16"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-38/documentacao-figma-aceita-2026-10-16.md"
@@ -56,7 +48,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-16"
+  "updated_at": "2026-10-23"
 }
 ```
 
@@ -86,7 +78,8 @@ tests, stories and spec pass the proof commands in
   `size=default`.
 - The field sits inside `nph-field` (DSA-28), which gives the label, the help
   text, the error message and the support-line counter (property `contador`).
-  The required example "Description in a form" needs it, so the task waits for it.
+  The required example "Description in a form" needs it; DSA-28 is `done`, so B1
+  is closed and the task is `ready`.
 
 ## What this task does not do
 It does not create a token or change a token value. It does not bring a handle to
