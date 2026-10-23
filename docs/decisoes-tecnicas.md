@@ -2156,7 +2156,7 @@ by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    `aria-label` of the native button, as in P68 and P73: an `aria-label` on the host would not
    name the button inside the shadow root. With `text`, `label` is not used. `checked`
    reflects because the piece is not associated with a form, so the attribute is not the
-   default of a reset (contract of the field, P83, item 4).
+   default of a reset (contract of the field, P83, item 5.4).
 
 2. **Semantics: `role="switch"`.** The piece is one native `<button type="button">` inside the
    shadow root, with `delegatesFocus`, `role="switch"` and `aria-checked` following `checked`.
@@ -2173,7 +2173,7 @@ by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    `checked` made from code never fires them. There is no `nph-*` event and nothing in
    `HTMLElementEventMap`: one key in that map takes one type, and `nph-change` is already typed
    with `{ pressed }` by `nph-togglebutton`. This follows the contract of the field (P83, item
-   1) and the exception to the reasoning of item 3 of P73 recorded in P80, item 4: these pieces
+   5.1) and the exception to the reasoning of item 3 of P73 recorded in P80, item 4: these pieces
    are form controls, and the frameworks bind `input` and `change`. The switch has no inner
    `<input>`, so the host fires both. A `click()` called on the host toggles the piece and fires
    both events, as the click of a person does; a disabled piece neither toggles nor fires, also
@@ -2189,8 +2189,8 @@ by its own decision, as in P66, P68, P73 and P76. The names follow P64.
 
 6. **Inside `nph-field`.** The class declares `static nphFieldRole = 'option'`: in the field,
    the piece is one option of a `role="group"`, and the field writes `invalid` and `disabled` on
-   it (contract of the field, P83, items 2 and 3). The piece brings its own text and does not
-   need the field to have a name; without a name it does not render (item 6).
+   it (P83, items 5.3 and 6). The piece brings its own text and does not need the field to have
+   a name; without a name it does not render (P83, item 5.6).
 
 7. **Focus on the track.** On `:focus-visible`, the track outline turns `focus/border`, at
    `border/width`, and a halo of `focus/ring-width` in `focus/halo` shows outside the track, both

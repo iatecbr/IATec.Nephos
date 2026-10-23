@@ -22,6 +22,7 @@ import tokensCss from '../../tokens/generated/tokens.css?raw';
 import designMd from '../../../design.md?raw';
 import componentCss from './nph-switch.css?raw';
 import { NphSwitch } from './nph-switch';
+import '../nph-field/nph-field';
 
 type Props = Partial<Pick<NphSwitch, 'checked' | 'invalid' | 'disabled' | 'text' | 'label'>>;
 
@@ -855,6 +856,68 @@ describe('contrast, measured (WCAG 2.2 AA)', () => {
    */
   it('known limit: focus/border against focus/halo is under 3:1 only in the default brand, in light mode', () => {
     expect(below(3, (area) => [resolved('color', '--nph-focus-border', area), resolved('color', '--nph-focus-halo', area)])).toEqual([`light ${DEFAULT_BRAND}`]);
+  });
+});
+
+describe('inside the real nph-field (P83)', () => {
+  async function fieldWith(attributes: Record<string, string>, texts: string[]): Promise<{ field: HTMLElement; switches: NphSwitch[] }> {
+    const field = document.createElement('nph-field');
+    for (const [name, value] of Object.entries(attributes)) field.setAttribute(name, value);
+    const switches = texts.map((text) => {
+      const piece = document.createElement('nph-switch');
+      piece.text = text;
+      field.append(piece);
+      return piece;
+    });
+    document.body.append(field);
+    await (field as HTMLElement & { updateComplete: Promise<unknown> }).updateComplete;
+    await Promise.all(switches.map((piece) => piece.updateComplete));
+    return { field, switches };
+  }
+
+  const wrapper = (field: HTMLElement): HTMLElement => field.shadowRoot?.querySelector('.control') as HTMLElement;
+
+  it('the switches are options of a group named by the field label, and each keeps its own name', async () => {
+    const { field, switches } = await fieldWith({ label: 'Notifications', help: 'Pick the ones you want.' }, ['Email', 'Push']);
+    expect(wrapper(field).getAttribute('role')).toBe('group');
+    expect(wrapper(field).getAttribute('aria-label')).toBe('Notifications');
+    for (const piece of switches) {
+      expect(piece.label).toBe('');
+      expect(control(piece).hasAttribute('aria-label')).toBe(false);
+      expect(piece.hasAttribute('data-nph-rendered')).toBe(true);
+    }
+    await expect.element(page.getByRole('switch', { name: 'Email' })).toBeInTheDocument();
+  });
+
+  it('an error in the field makes every switch invalid; clearing it gives the switches back', async () => {
+    const { field, switches } = await fieldWith({ label: 'Notifications', error: 'Turn one on.' }, ['Email', 'Push']);
+    expect(wrapper(field).getAttribute('aria-invalid')).toBe('true');
+    for (const piece of switches) {
+      expect(piece.invalid).toBe(true);
+      expect(insetColor(track(piece))).toBe(resolved('color', '--nph-status-error'));
+    }
+    field.removeAttribute('error');
+    await (field as HTMLElement & { updateComplete: Promise<unknown> }).updateComplete;
+    await Promise.all(switches.map((piece) => settled(piece)));
+    for (const piece of switches) {
+      expect(piece.invalid).toBe(false);
+    }
+  });
+
+  it('a disabled field passes disabled to each switch, which fades itself; the field draws no opacity', async () => {
+    const { field, switches } = await fieldWith({ label: 'Notifications', disabled: '' }, ['Email']);
+    const [piece] = switches as [NphSwitch];
+    expect(piece.disabled).toBe(true);
+    expect(getComputedStyle(piece).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
+    expect(getComputedStyle(field).opacity).toBe('1');
+  });
+
+  it('toggling a switch inside the field still fires input and change, and the field adds no event', async () => {
+    const { field, switches } = await fieldWith({ label: 'Notifications' }, ['Email']);
+    const heard: string[] = [];
+    for (const type of ['input', 'change']) field.addEventListener(type, () => heard.push(type));
+    await userEvent.click(track(switches[0] as NphSwitch));
+    expect(heard).toEqual(['input', 'change']);
   });
 });
 
