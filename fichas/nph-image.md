@@ -160,7 +160,7 @@ anti_patterns:
   - "Mixing sizes in the same list."
   - "Leaving the area blank instead of showing empty or error."
 sources:
-  design_md: "design.md, overlay/on-media-strong and overlay/on-media-foreground; the image/* tokens are in src/tokens/source/semantic.tokens.json"
+  design_md: "design.md has no entry yet for the image/* tokens, overlay/on-media-strong and overlay/on-media-foreground (pending decision D2); they are in src/tokens/source/semantic.tokens.json"
   decision: "P90 — API and semantics of nph-image, 23-10-2026"
   tests: "src/components/nph-image/nph-image.test.ts"
   usage_evidence: "nph-table (planned) will take it for the thumbnail and the expanded item"
@@ -346,9 +346,9 @@ cover; an upload still without an image, in `lg` with no `src`, so the empty sta
 
 ## Sources and decisions
 
-- **The repository `design.md`:** `overlay/on-media-strong` and
-  `overlay/on-media-foreground`; the `image/*` tokens are in
-  `src/tokens/source/semantic.tokens.json`.
+- **The repository `design.md`:** no entry yet for the `image/*` tokens,
+  `overlay/on-media-strong` and `overlay/on-media-foreground` (a pending decision with the
+  design owner); the tokens are in `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P90. The names `ratio`, `alt`, `interactive` and
   `disabled`, the derivation of the content state from `src`, the clickable image as an
   inner button and the sizes of the eye and the spinner are a technical proposal of this
