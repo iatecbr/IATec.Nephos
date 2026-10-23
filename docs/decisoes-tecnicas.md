@@ -2964,8 +2964,8 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
 
 3. **Characters, typing and paste.** The field keeps only ASCII letters and digits, with the case
    as typed: the board says that the field takes a number or a letter, as behavior. Any other
-   character typed is dropped, and the `input` of that keystroke does not reach the consumer,
-   because nothing changed. As in P80, the host takes the value in an `input` listener of its
+   character typed is refused in `beforeinput`, before the browser replaces a selection with it,
+   so the code is not touched and the `input` of that keystroke does not reach the consumer. As in P80, the host takes the value in an `input` listener of its
    own, registered first and in capture, so the value and the form data are settled before any
    listener of the consumer runs, in capture or in bubbling. A paste is cleaned, cut at `length` and **replaces the whole
    value**; a paste with no letter or digit changes nothing. The caret is the native one:
@@ -2978,13 +2978,15 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    property is the current value. Once the person or the code changes the value, a new `value`
    attribute no longer replaces it. A value set from code with other characters or longer than
    `length` is cleaned, cut and reported with `console.warn` in development. A shorter `length`
-   cuts the current value.
+   cuts the current value, and the value at focus with it, so the cut fires no `change`.
 
 5. **Form (P80).** `static formAssociated` and `ElementInternals`: `setFormValue` at once on every
    change (typing, paste, setting `value`, reset, restore), and `null` while `length` or `size`
    is invalid and the field draws nothing,
    `formResetCallback` back to the attribute, `formStateRestoreCallback`, and
-   `formDisabledCallback`, read by `:host(:disabled)`. `name` reflects, because the form data
+   `formDisabledCallback`, read by `:host(:disabled)`; the inner input reads a disabled
+   `<fieldset>` around the host by itself (except inside its first `<legend>`), as in P80, so
+   enabling the host or the field again always enables the input. `name` reflects, because the form data
    reads the attribute of the host. There is no validity: neither `required` nor the length
    become a constraint, because the evidence has none, and the error sentence belongs to the
    field. **Enter submits the form** by the rule of P80: the default button of the form is
@@ -3024,7 +3026,9 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    check runs again only when `length` or `size` changes.
 
 **Written literals, and why.** `transparent` (the input draws no text, caret, background or
-selection), `absolute`, `inset: 0` and `100%` (the input covers the row of cells), zeros in
+selection), `absolute`, `inset: 0` and `100%` (the input covers the row of cells, and the
+description stays inside the field, so a long text adds no scroll), `:not([hidden])` (an author
+`display` would win over `hidden`), zeros in
 `box-shadow` (the halo is a spread) and `inset(50%)` in `clip-path` (the description is hidden by
 clipping). None is a visual value.
 

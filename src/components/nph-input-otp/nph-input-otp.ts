@@ -153,8 +153,6 @@ export class NphInputOtp extends LitElement {
   private valid = false;
   private focused = false;
   private caret = 0;
-  /** A disabled `<fieldset>` around the host. */
-  private formDisabled = false;
   /** The value when the field took focus, to know whether `change` is due. */
   private committed = '';
   private namelessWarned = false;
@@ -258,8 +256,8 @@ export class NphInputOtp extends LitElement {
     }
   }
 
-  formDisabledCallback(disabled: boolean): void {
-    this.formDisabled = disabled;
+  /** The browser calls it for the host's own `disabled` too: the state is read again on render. */
+  formDisabledCallback(): void {
     this.requestUpdate();
   }
 
@@ -274,7 +272,22 @@ export class NphInputOtp extends LitElement {
   }
 
   private get inactive(): boolean {
-    return this.disabled || this.formDisabled;
+    return this.disabled || this.disabledByFieldset;
+  }
+
+  /** A disabled `<fieldset>` around the host, except inside its first `<legend>` (P80). */
+  private get disabledByFieldset(): boolean {
+    let ancestor = this.parentElement;
+    while (ancestor !== null) {
+      if (ancestor.localName === 'fieldset' && ancestor.hasAttribute('disabled')) {
+        const firstLegend = [...ancestor.children].find((child) => child.localName === 'legend');
+        if (firstLegend === undefined || !firstLegend.contains(this)) {
+          return true;
+        }
+      }
+      ancestor = ancestor.parentElement;
+    }
+    return false;
   }
 
   private input(): HTMLInputElement | null {
@@ -296,8 +309,10 @@ export class NphInputOtp extends LitElement {
       this.valid = valid;
       this.toggleAttribute(RENDERED_ATTRIBUTE, valid);
     }
-    if (changed.has('length') && this.valid && this.current.length > this.length) {
+    if (changed.has('length') && this.valid) {
+      /* The value at focus is cut too, so the cut itself never causes a `change`. */
       this.current = this.current.slice(0, this.length);
+      this.committed = this.committed.slice(0, this.length);
     }
     this.syncForm();
   }
@@ -372,6 +387,17 @@ export class NphInputOtp extends LitElement {
     this.syncForm();
     this.requestUpdate('value', previous);
   };
+
+  /**
+   * A typed character that is not a letter or a digit is refused before the browser
+   * replaces the selection with it, so a selected part of the code is not lost.
+   * Autofill and paste keep their own path.
+   */
+  private onBeforeInput(event: InputEvent): void {
+    if (event.inputType === 'insertText' && event.data !== null && clean(event.data) !== event.data) {
+      event.preventDefault();
+    }
+  }
 
   /** A pasted code replaces the whole value, cleaned and cut at `length`. */
   private onPaste(event: ClipboardEvent): void {
@@ -495,6 +521,7 @@ export class NphInputOtp extends LitElement {
         aria-invalid=${this.invalid && !this.inactive ? 'true' : nothing}
         aria-required=${this.required ? 'true' : nothing}
         aria-describedby=${description === '' ? nothing : 'description'}
+        @beforeinput=${this.onBeforeInput}
         @paste=${this.onPaste}
         @keydown=${this.onKeydown}
         @focus=${this.onFocus}

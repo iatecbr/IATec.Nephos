@@ -19,7 +19,8 @@
   display: none;
 }
 
-:host([data-nph-rendered]) {
+/* `hidden` still hides it: an author `display` would win over the browser's. */
+:host([data-nph-rendered]:not([hidden])) {
   display: inline-flex;
   vertical-align: middle;
 }
@@ -120,10 +121,15 @@
   cursor: default;
 }
 
-/* The description of the field: read by the screen reader, never drawn. */
+/*
+ * The description of the field: read by the screen reader, never drawn. `inset: 0` keeps
+ * it inside the field, so a long text adds no scroll, as in `nph-input`.
+ */
 .description {
   position: absolute;
+  inset: 0;
   overflow: hidden;
   white-space: nowrap;
   clip-path: inset(50%);
+  pointer-events: none;
 }

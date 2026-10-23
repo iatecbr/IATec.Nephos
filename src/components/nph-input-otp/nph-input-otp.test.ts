@@ -301,6 +301,19 @@ describe('measures and anatomy', () => {
     expect([style.justifyContent, style.alignItems]).toEqual(['center', 'center']);
   });
 
+  it('hidden hides the field and takes it out of the Tab order; removing it shows the field again', async () => {
+    const element = await mount();
+    element.hidden = true;
+    expect(getComputedStyle(element).display).toBe('none');
+    const before = document.createElement('input');
+    element.before(before);
+    before.focus();
+    await userEvent.tab();
+    expect(element.shadowRoot?.activeElement).toBeNull();
+    element.hidden = false;
+    expect(getComputedStyle(element).display).toBe('inline-flex');
+  });
+
   it('the host is an inline box that takes no space without a valid input', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const element = await mount();
@@ -491,6 +504,33 @@ describe('events', () => {
     expect(changes).not.toHaveBeenCalled();
   });
 
+  it('a shorter length while the field has focus fires no change on blur', async () => {
+    const element = await mount({ label: 'Code', value: '123456' });
+    const changes = vi.fn();
+    element.addEventListener('change', changes);
+    await tabInto(element);
+    element.length = 4;
+    await element.updateComplete;
+    await userEvent.tab();
+    expect(element.value).toBe('1234');
+    expect(changes).not.toHaveBeenCalled();
+  });
+
+  it('a character that is not a letter or a digit typed over a selection keeps the code', async () => {
+    const element = await mount({ label: 'Code', value: '123456' });
+    const inputs = vi.fn();
+    element.addEventListener('input', inputs);
+    await tabInto(element);
+    native(element).setSelectionRange(2, 3);
+    await userEvent.keyboard('-');
+    expect(element.value).toBe('123456');
+    native(element).setSelectionRange(0, 6);
+    await userEvent.keyboard('-');
+    expect(element.value).toBe('123456');
+    expect(native(element).value).toBe('123456');
+    expect(inputs).not.toHaveBeenCalled();
+  });
+
   it('a capture listener of the consumer reads the new value and never hears a dropped character', async () => {
     const element = await mount();
     const seen: string[] = [];
@@ -642,6 +682,29 @@ describe('states', () => {
     before.focus();
     await userEvent.tab();
     expect(element.shadowRoot?.activeElement).toBeNull();
+  });
+
+  it('enabling it again enables the inner input, directly and through the nph-field', async () => {
+    const element = await mount();
+    element.disabled = true;
+    await element.updateComplete;
+    expect(native(element).disabled).toBe(true);
+    element.disabled = false;
+    await element.updateComplete;
+    expect(native(element).disabled).toBe(false);
+    document.body.innerHTML = '<nph-field label="Code"><nph-input-otp></nph-input-otp></nph-field>';
+    const field = document.querySelector('nph-field') as HTMLElement & { updateComplete: Promise<unknown>; disabled: boolean };
+    const inner = document.querySelector<NphInputOtp>('nph-input-otp');
+    if (!inner) throw new Error('no field');
+    await field.updateComplete;
+    field.disabled = true;
+    await field.updateComplete;
+    await inner.updateComplete;
+    expect(native(inner).disabled).toBe(true);
+    field.disabled = false;
+    await field.updateComplete;
+    await inner.updateComplete;
+    expect(native(inner).disabled).toBe(false);
   });
 
   it('disabled wins over invalid: no error border and no aria-invalid', async () => {
@@ -866,6 +929,16 @@ describe('accessible name and description (P80, P83)', () => {
     expect(getComputedStyle(description as HTMLElement).display).not.toBe('none');
     expect(getComputedStyle(description as HTMLElement).clipPath).toBe('inset(50%)');
     expect(await textboxes()).toEqual([{ name: 'Code', description: 'Check your e-mail' }]);
+  });
+
+  it('a long description stays inside the field and adds no scroll to the page', async () => {
+    const element = await mount({ label: 'Code' });
+    const width = document.documentElement.scrollWidth;
+    element.description = 'x'.repeat(2000);
+    await element.updateComplete;
+    const description = element.shadowRoot?.querySelector<HTMLElement>('#description');
+    expect(description?.getBoundingClientRect().width).toBeLessThanOrEqual(element.getBoundingClientRect().width);
+    expect(document.documentElement.scrollWidth).toBe(width);
   });
 
   it('without description, there is no description element and no aria-describedby', async () => {
