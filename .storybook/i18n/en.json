@@ -3250,6 +3250,7 @@
     "darkCaption": "Dark mode",
     "wifi": "Wi-Fi",
     "longLabel": "Send me a weekly summary of the activity in every project I follow",
+    "twoLines": "two lines",
     "emailNotifications": "Email notifications",
     "pushNotifications": "Push notifications",
     "weeklySummary": "Weekly summary",

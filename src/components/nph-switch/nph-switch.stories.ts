@@ -125,7 +125,7 @@ export const Label: Story = {
         matrix(label, CHECKED_COLUMNS, [
           offAndOn('text', v.wifi),
           { label: 'label', cells: [bare(false), bare(true)] },
-          { label: 'text · two lines', cells: [long(false), long(true)] },
+          { label: `text · ${v.twoLines}`, cells: [long(false), long(true)] },
         ]),
       ),
     );

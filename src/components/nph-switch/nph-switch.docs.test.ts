@@ -310,6 +310,16 @@ describe('nph-switch Validation: text only from the dictionary', () => {
     }
   });
 
+  it('Label: the row names that are not attributes come from the dictionary, in every language', () => {
+    for (const locale of LOCALES) {
+      const target = draw(validation.Label as Renderable, locale);
+      const rows = [...(target.querySelector('[data-nph-matrix]')?.querySelectorAll('tbody th') ?? [])].map((th) => th.textContent?.trim());
+      expect(rows, locale).toEqual(['text', 'label', `text · ${translations(locale).switchValidation.twoLines}`]);
+      target.remove();
+    }
+    expect(translations('pt-BR').switchValidation.twoLines).not.toBe(translations('en').switchValidation.twoLines);
+  });
+
   it('Label: a long label wraps to two lines, with the track at the top', async () => {
     const target = draw(validation.Label as Renderable, 'en');
     const long = [...target.querySelectorAll('nph-switch')].find(
