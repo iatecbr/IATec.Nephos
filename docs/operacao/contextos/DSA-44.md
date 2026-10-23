@@ -27,7 +27,7 @@ See the commits on the branch.
   `test:operacao`, `build-storybook`, `build:lib`, `test:package`, `test:naming`; `git diff --check`.
 
 ## Result
-In progress, synced with `v/5.0.0` at `0c56f6d`, with DSA-43 merged: the close button carries its own
+In progress, synced with `v/5.0.0` at `db77503`, with DSA-43 merged: the close button carries its own
 balloon, which takes the first Esc while it has keyboard focus (tested). Every proof passes except `test:naming`, which
 fails only in files of the base: `scripts/test-package.mjs:180` and the records of DSA-34, 39, 42,
 43, 45 and 47. One dialog test waits for the `nph-button` rule of Q1.
