@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 440,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-button",
   "dependencies": [],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and the nph-button spec pass the proof commands and are merged into v/5.0.0, after DSA-42 is done.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-43/review-and-merge-2026-10-23.md",
+      "result": "passed",
+      "verified_at": "2026-10-23",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -44,7 +44,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-43/documentacao-figma-aceita-2026-10-20.md"
+    "docs/operacao/evidencias/DSA-43/documentacao-figma-aceita-2026-10-20.md",
+    "docs/operacao/evidencias/DSA-43/review-and-merge-2026-10-23.md"
   ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p86",
@@ -62,10 +63,10 @@
   },
   "git_review": {
     "branch": "claude/dsa-43-nph-icon-button-91e130",
-    "commit": "90858559118276b571ad299c67e588076a734e00",
+    "commit": "cbe122faae16c3906d920e4e1d804b5e1629f9ae",
     "pr": "103"
   },
-  "context": "docs/operacao/contextos/DSA-43.md",
+  "context": null,
   "updated_at": "2026-10-23"
 }
 ```
