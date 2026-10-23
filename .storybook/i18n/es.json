@@ -133,7 +133,17 @@
     "components-nph-image-validation--ratios": "Proporciones",
     "components-nph-image-validation--states": "Estados",
     "components-nph-image-validation--interaction": "Interacción",
-    "components-nph-image-validation--accessibility": "Accesibilidad"
+    "components-nph-image-validation--accessibility": "Accesibilidad",
+    "components-nph-field-docs": "Docs",
+    "components-nph-field-docs--documentation": "Documentación",
+    "components-nph-field-validation": "Validación",
+    "components-nph-field-validation--matrix": "Matriz",
+    "components-nph-field-validation--message-line": "Línea de mensaje",
+    "components-nph-field-validation--counter": "Contador",
+    "components-nph-field-validation--width": "Ancho",
+    "components-nph-field-validation--group": "Grupo",
+    "components-nph-field-validation--disabled": "Deshabilitado",
+    "components-nph-field-validation--control-contract": "Contrato con el control"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -2791,6 +2801,258 @@
     "productLamp": "Lámpara de escritorio con pantalla blanca",
     "productCover": "Portada del catálogo de primavera"
   },
+  "fieldDocs": {
+    "summary": "Compone la etiqueta, el control, el texto de ayuda y el mensaje de error de un campo de formulario. Es el campo el que lleva el estado de error.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-field, design.md para los tokens y docs/decisoes-tecnicas.md para la P83. El archivo DS-IA-NEPHOS 5.0 de Figma es la fuente visual. Aquí no se crea ninguna regla.",
+    "standInTitle": "Las opciones de los grupos de esta página son elementos de demostración.",
+    "standInText": "Siguen el contrato del campo de la P83 y hacen las veces de nph-checkbox y nph-radio, que tienen páginas propias. No forman parte del paquete.",
+    "sourceLabel": "Fuente:",
+    "sourceFrame": "Figma, frame nph-field (1194:21863), set 657:50",
+    "sourceApi": "Ficha de nph-field; docs/decisoes-tecnicas.md › P83",
+    "sourceAccessibility": "Figma, frame nph-field (1194:21863); nph-field.test.ts",
+    "description": "Usa nph-field cuando un control necesita un nombre, una marca de obligatorio, una explicación o un mensaje de error, o para nombrar un grupo de radios o checkboxes. Completar el mensaje de error es lo que vuelve inválido el campo. No reemplaza la etiqueta propia de piezas como nph-checkbox.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "label",
+        "El texto de la etiqueta, ya localizado, dibujado por un nph-label. También es el nombre accesible del control: el campo lo pasa al control."
+      ],
+      [
+        "required",
+        "Booleano, reflejado. Muestra el asterisco en la etiqueta y pasa required al control, que lo anuncia."
+      ],
+      [
+        "info, info-label",
+        "El texto de la explicación y el nombre accesible del icono de información, pasados al nph-label. Sin info-label, el icono no aparece."
+      ],
+      [
+        "help",
+        "La línea de ayuda, en text/caption. Vacía, no se dibuja."
+      ],
+      [
+        "error",
+        "El mensaje de error, en text/body-md y status/error, sin icono. Completado, el campo es inválido y el control queda en error; el mensaje reemplaza la ayuda."
+      ],
+      [
+        "counter",
+        "El texto del contador, mostrado tal como llega, como 12/500: al final de la línea de ayuda, o en una línea propia debajo del error. El campo no cuenta nada."
+      ],
+      [
+        "disabled",
+        "Booleano, reflejado. Se pasa al control, que se atenúa a sí mismo; la etiqueta y la línea de mensaje no se atenúan. Deshabilitado gana sobre error."
+      ],
+      [
+        "slot",
+        "El control, o las opciones de un grupo de checkboxes, radios o switches."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "Etiqueta, control y, cuando está completa, la línea de ayuda. Sin ayuda, sin error y sin contador, la línea de mensaje no se dibuja y no guarda altura."
+      ],
+      [
+        "error",
+        "El mensaje de error reemplaza la ayuda; el control muestra su estado de error. La etiqueta no cambia."
+      ],
+      [
+        "counter",
+        "A la derecha de la línea de ayuda; en error, en una línea propia debajo del mensaje."
+      ],
+      [
+        "disabled",
+        "El control se atenúa y no responde; el error se oculta y la ayuda vuelve."
+      ]
+    ],
+    "statesCaption": "Texto de ayuda, error, contador y deshabilitado.",
+    "groupTitle": "Grupo de opciones",
+    "groupText": "En un grupo de radios o checkboxes, nph-field nombra el grupo y lleva el mensaje de error. Las opciones se apilan a space/stack-tight, y cada una mantiene su propio texto como nombre.",
+    "groupCaption": "Un grupo de radios obligatorio y un grupo de checkboxes con texto de ayuda.",
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "El control entra por el slot predeterminado; el predeterminado es nph-input. En error, el campo pone el control en su estado de error.",
+      "En un grupo de radios o checkboxes, nph-field nombra el grupo, como Forma de pago, y lleva el mensaje de error.",
+      "nph-checkbox solo ya trae su propio nombre y no necesita nph-field.",
+      "El mensaje de error pertenece a nph-field; el control solo muestra el estado de error.",
+      "La etiqueta es un nph-label; su icono de información abre un nph-tooltip."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Etiqueta",
+        "nph-label: el nombre del control, con el asterisco y el icono de información cuando están activados; space/inline-tight entre la etiqueta y el icono."
+      ],
+      [
+        "2. Control",
+        "La pieza que recibe el valor. Llena el ancho del campo."
+      ],
+      [
+        "3. Texto de ayuda",
+        "Una línea de explicación, text/caption en color/muted-foreground."
+      ],
+      [
+        "4. Mensaje de error",
+        "text/body-md en status/error, sin icono, en la línea de mensaje del campo."
+      ],
+      [
+        "5. Contador",
+        "text/caption en color/muted-foreground, al final de la línea de mensaje."
+      ],
+      [
+        "Campo",
+        "Ancho layout/field-width; puede estirarse hasta su contenedor. space/stack-tight entre la fila de la etiqueta, el control y la línea de mensaje."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Nombre accesible",
+        "La etiqueta de nph-field es el único nombre del control: el campo la pasa al control, que la pone en su elemento enfocable. No agregues un nph-label suelto al lado."
+      ],
+      [
+        "Descripción",
+        "La línea de mensaje visible, ayuda o error, es la descripción del control. En un grupo, el campo es un group, o un radiogroup, nombrado por la etiqueta y descrito por la línea de mensaje."
+      ],
+      [
+        "Contraste",
+        "La etiqueta usa color/foreground, 21:1 en claro y 14,73:1 en oscuro; el borde del control es color/input, que cumple 3:1."
+      ],
+      [
+        "Foco visible",
+        "El foco se muestra en el control envuelto."
+      ],
+      [
+        "El color no es la única señal",
+        "El estado de error siempre trae el mensaje escrito; el campo nunca queda solo en rojo."
+      ],
+      [
+        "Área táctil",
+        "Hacer clic en la etiqueta del campo lleva el foco al control."
+      ]
+    ],
+    "examplesTitle": "Ejemplos obligatorios",
+    "exampleRequired": "Campo obligatorio completado: el asterisco en la etiqueta.",
+    "exampleError": "Error: la frase que dice qué corregir.",
+    "exampleInfo": "Información: el icono de información y el texto de ayuda.",
+    "matrixLabel": "Matriz del componente",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha de nph-field — propósito, anatomía, API, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P83 (nph-field: API, semántica y el contrato entre campo y control).",
+      "design.md — layout/field-width, space/stack-tight, space/inline-tight, text/caption, text/body-md, color/muted-foreground y status/error.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Field, frame 1194:21863 y set 657:50.",
+      "Storybook — Validación, en la carpeta al lado de esta."
+    ],
+    "name": "Nombre completo",
+    "nameValue": "Maria da Silva",
+    "whenToUse": [
+      "Cuando un control necesita un nombre, una marca de obligatorio, una explicación o un mensaje de error.",
+      "Para nombrar un grupo de radios o checkboxes, como Forma de pago, y llevar su mensaje de error.",
+      "required cuando completar el campo es obligatorio.",
+      "help cuando el valor esperado necesita una explicación.",
+      "error solo con la frase que dice qué corregir."
+    ],
+    "whenNotToUse": [
+      "Para un control que ya trae su propio nombre visible, como nph-checkbox solo.",
+      "Para mostrar un error en un campo deshabilitado: quien no puede editar no puede corregir.",
+      "Para dejar el campo en rojo sin un texto que lo explique.",
+      "Con un nph-label suelto dentro del campo, además de su etiqueta.",
+      "Con el placeholder del control en lugar de la etiqueta: desaparece cuando la persona escribe.",
+      "Como caja para ganar espacio entre bloques."
+    ],
+    "email": "Correo electrónico",
+    "emailValue": "maria.silva@example.com",
+    "emailWrong": "maria.silva@example",
+    "emailHelp": "Usa el correo que más revisas.",
+    "emailError": "Escribe un correo como nombre@example.com.",
+    "emailInfo": "Enviamos el recibo a esta dirección.",
+    "emailInfoLabel": "Más información sobre Correo electrónico",
+    "bio": "Sobre ti",
+    "bioHelp": "Cuéntale al equipo a qué te dedicas.",
+    "counter": "12/500",
+    "notifications": "Notificaciones",
+    "notificationsHelp": "Elige al menos una.",
+    "notificationsOptions": [
+      "Correo electrónico",
+      "Mensaje de texto",
+      "Notificación en la app"
+    ],
+    "payment": "Forma de pago",
+    "paymentOptions": [
+      "Tarjeta de crédito",
+      "Boleto bancario",
+      "Transferencia bancaria"
+    ],
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro"
+  },
+  "fieldValidation": {
+    "email": "Correo electrónico",
+    "emailValue": "maria.silva@example.com",
+    "emailWrong": "maria.silva@example",
+    "emailHelp": "Usa el correo que más revisas.",
+    "emailError": "Escribe un correo como nombre@example.com.",
+    "emailInfo": "Enviamos el recibo a esta dirección.",
+    "emailInfoLabel": "Más información sobre Correo electrónico",
+    "bio": "Sobre ti",
+    "bioHelp": "Cuéntale al equipo a qué te dedicas.",
+    "bioError": "Acorta el texto a 500 caracteres.",
+    "counter": "12/500",
+    "counterOver": "512/500",
+    "notifications": "Notificaciones",
+    "notificationsHelp": "Elige al menos una.",
+    "notificationsOptions": [
+      "Correo electrónico",
+      "Mensaje de texto",
+      "Notificación en la app"
+    ],
+    "payment": "Forma de pago",
+    "paymentError": "Elige una forma de pago.",
+    "paymentOptions": [
+      "Tarjeta de crédito",
+      "Boleto bancario",
+      "Transferencia bancaria"
+    ],
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "longHelp": "Un texto de ayuda más largo pasa a más líneas dentro del ancho del campo, y nada se corta.",
+    "noMessageCaption": "Sin ayuda, sin error, sin contador: la línea de mensaje no se dibuja y no guarda altura.",
+    "helpCaption": "Texto de ayuda: text/caption en color/muted-foreground.",
+    "errorCaption": "Error: el mensaje reemplaza la ayuda, en text/body-md y status/error, sin icono; el control queda en error.",
+    "longCaption": "Un texto de ayuda largo pasa a otra línea, sin puntos suspensivos.",
+    "counterHelpCaption": "Contador al final de la línea de ayuda.",
+    "counterAloneCaption": "Contador sin texto de ayuda: al final de la línea.",
+    "counterErrorCaption": "En error, el contador pasa a una línea propia debajo del mensaje, nunca en el color de error.",
+    "widthDefaultCaption": "Ancho predeterminado: layout/field-width; el control llena el campo.",
+    "widthStretchedCaption": "Estirado por su contenedor: el campo toma el ancho que recibe, y el control lo sigue.",
+    "groupCheckboxCaption": "Grupo de checkboxes: apilados a space/stack-tight, nombrados por la etiqueta del campo.",
+    "groupRadioCaption": "Grupo de radios, obligatorio y en error: el mensaje describe el grupo y cada opción queda en error.",
+    "disabledCaption": "Deshabilitado: el control se atenúa; la etiqueta y el texto de ayuda, no.",
+    "disabledErrorCaption": "Deshabilitado con mensaje de error: gana el deshabilitado, el error se oculta y la ayuda vuelve.",
+    "disabledInfoCaption": "Deshabilitado con el icono de información: el icono sigue enfocable y abre el globo.",
+    "contractCaption": "Debajo de cada campo, lo que el campo escribió en su control: el nombre, la descripción (la línea de mensaje visible), invalid, required y disabled."
+  },
   "validationPages": {
     "sheetTitle": "El contrato está en la ficha",
     "sheetText": "Esta pieza no tiene página de lectura en Storybook. Su contrato está en {sheet}; estas stories lo comprueban.",
@@ -2863,7 +3125,14 @@
       "components-nph-image-validation--ratios": "media acepta 1:1, 4:3 y 16:9 en el mismo ancho, 256 por 256, 192 o 144 px; un tamaño cuadrado ignora la proporción y sigue cuadrado.",
       "components-nph-image-validation--states": "El estado viene del src: vacío sin él, el spinner y ningún borde mientras la imagen carga, la imagen llenando el marco una vez cargada, y el marco de nuevo cuando falla. Vacío y error dibujan solo el marco hasta que lleguen sus ilustraciones.",
       "components-nph-image-validation--interaction": "Una imagen clicable es un botón: pase el ratón por encima para ver el velo y el ojo, pulse Tab para ver el anillo de foco. Deshabilitada atenúa la pieza entera y saca el botón del orden del Tab.",
-      "components-nph-image-validation--accessibility": "Con alt, la imagen se anuncia por su descripción; con alt vacío, queda oculta al lector de pantalla y habla el texto de al lado. Una imagen clicable da el alt a su botón."
+      "components-nph-image-validation--accessibility": "Con alt, la imagen se anuncia por su descripción; con alt vacío, queda oculta al lector de pantalla y habla el texto de al lado. Una imagen clicable da el alt a su botón.",
+      "components-nph-field-validation--matrix": "Error, marca de obligatorio e icono de información, los tres ejes de variante del set, en modo claro y oscuro.",
+      "components-nph-field-validation--message-line": "La línea de mensaje: no se dibuja cuando está vacía; la ayuda en text/caption; el error la reemplaza, sin icono; un texto largo pasa a otra línea.",
+      "components-nph-field-validation--counter": "El contador al final de la línea de ayuda, solo y en una línea propia debajo del error.",
+      "components-nph-field-validation--width": "El campo toma layout/field-width por defecto y se estira con su contenedor; el control lo llena.",
+      "components-nph-field-validation--group": "Un grupo de checkboxes y un grupo de radios, apilados, nombrados y descritos por el campo.",
+      "components-nph-field-validation--disabled": "Deshabilitado: el control se atenúa, la etiqueta y la línea de mensaje no; deshabilitado gana sobre error.",
+      "components-nph-field-validation--control-contract": "Lo que el campo escribe en su control (P83): el nombre, la descripción, invalid, required y disabled."
     }
   }
 }
