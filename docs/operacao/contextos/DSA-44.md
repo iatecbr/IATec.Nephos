@@ -27,10 +27,9 @@ See the commits on the branch.
   `test:operacao`, `build-storybook`, `build:lib`, `test:package`, `test:naming`; `git diff --check`.
 
 ## Result
-In progress. The dialog tests pass (one waits for the `nph-button` rule of Q1). The failures left
-were there before this branch: six `nph-tooltip` tests and its `typecheck` errors, which also stop
-`build:lib` and so `test:package`; `test:naming` in `scripts/test-package.mjs` and in the records of
-DSA-34, 39, 42, 43, 45 and 47.
+In progress, synced with `v/5.0.0` at `9dd6e19`. Every proof passes except `test:naming`, which
+fails only in files of the base: `scripts/test-package.mjs:180` and the records of DSA-34, 39, 42,
+43, 45 and 47. One dialog test waits for the `nph-button` rule of Q1.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the merge.
