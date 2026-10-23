@@ -499,6 +499,29 @@ describe('Esc', () => {
     await closed(dialog);
     expect(dialog.open).toBe(false);
   });
+
+  it('known limit: with keyboard focus on the close button, its own balloon (P86) takes the first Esc', async () => {
+    const dialog = await mount({ content: FORM });
+    await activate();
+    await openIt(dialog);
+    expect(focused()?.id).toBe('name');
+    /* Back to the close button by keyboard: the icon-only button opens its balloon on keyboard focus. */
+    await userEvent.tab({ shift: true });
+    const close = closeButton(dialog) as NphButton;
+    const tooltip = close.shadowRoot?.querySelector('nph-tooltip') as NphTooltip;
+    expect(tooltip).not.toBeNull();
+    await tooltip.updateComplete;
+    expect(inside(focused(), close)).toBe(true);
+    expect(tooltip.open).toBe(true);
+    expect(tooltip.text).toBe('Close');
+    await userEvent.keyboard('{Escape}');
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(false);
+    expect(dialog.open).toBe(true);
+    await userEvent.keyboard('{Escape}');
+    await closed(dialog);
+    expect(dialog.open).toBe(false);
+  });
 });
 
 describe('close button', () => {

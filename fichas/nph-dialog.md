@@ -303,8 +303,8 @@ duration is the one of `motion/hover-duration`.
 - **Known limits.** The browser may refuse to hold a repeated Esc with no new activation by the
   person: the event then comes not cancelable and the dialog closes. The width hugs the content,
   so content whose width is a percentage (a field at `100%`) shrinks to its own size: give the
-  content a width. A tooltip open inside the dialog, such as the one of an icon-only button with
-  keyboard focus, takes the first Esc; the second one closes the dialog. The veil reads
+  content a width. A tooltip open inside the dialog, such as the one the close button shows while it
+  has keyboard focus, takes the first Esc; the second one closes the dialog. The veil reads
   `overlay/scrim` from the scheme around the dialog, in browsers where the backdrop inherits from
   its element.
 

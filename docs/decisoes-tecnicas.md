@@ -2718,9 +2718,8 @@ modal dialog covers the window it opens in, which a page with several examples i
    and `open` changes on one path. **Known limit:** with no new activation by the person since the
    last held request, the browser fires `cancel` not cancelable and closes the window; the dialog
    then fires `nph-close` not cancelable and closes at once. An `nph-tooltip` open inside the dialog
-   takes the first Esc (P77, item 4), also the one of an icon-only button with keyboard focus once
-   DSA-43 gives it its balloon; the second Esc closes the dialog. A click on the veil does not close
-   it (D5).
+   takes the first Esc (P77, item 4), also the balloon the close button carries (P86) while it has
+   keyboard focus; the second Esc closes the dialog. A click on the veil does not close it (D5).
 
 5. **Scroll.** The window is a column: the header and the footer keep their size and only the
    content scrolls above `layout/dialog-max-height`. While any dialog is shown, the root of the page
