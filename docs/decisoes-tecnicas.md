@@ -1955,16 +1955,25 @@ three findings of the last Copilot review of PR #94 that were missed before its 
 3. **Click, Enter, Space, Esc and Tab.** A key press restores the focus hold of an element that
    matches `:focus-visible` (P77 item 3), except Enter and Space, which run the action, Esc, which
    dismisses, and Tab, which moves the focus anyway. So Enter and Space after a focus by click do not
-   open the balloon, and they never close it. A pointer press on the element during the wait cancels
-   it, and a new wait starts only when the pointer leaves and enters again; an open balloon does not
-   close on click. Esc during the wait cancels it too, without being intercepted. Whether a click
+   open the balloon, and they never close it. A pointer press on the element during the wait, touch
+   included, cancels it, and a new wait starts only when the pointer leaves and enters again; an open
+   balloon does not close on click. The focus that a pointer press on the element or its label gives
+   (a text field matches `:focus-visible` on a mouse click) does not open the balloon either; the next
+   key press makes the keyboard count again. If the balloon opens by focus or by `open` while a wait
+   is pending, the wait ends and the pointer hold is taken at once, so a blur does not let the timer
+   open it again. Esc during the wait cancels it too, without being intercepted. Whether a click
    during the wait should cancel it is open with Indiane (DSA-48, D2), with this as the default.
 4. **Only an element that receives focus.** The balloon opens, by hover, focus or `open`, only when
    the element is not disabled (`:disabled`, or a `disabled` attribute on a custom element) and is
-   in the Tab order (`tabIndex >= 0`) or is a host that delegates its focus. An element that does not
+   in the Tab order (`tabIndex >= 0`, or a `contenteditable` element that is the editing root and has
+   no `tabindex`, which the browser tabs to while its `tabIndex` reads `-1`) or is a host that
+   delegates its focus. An element that does not
    receive focus emits `console.error` once in development; a disabled one does not, because it is a
-   passing state. An element disabled while its balloon is open loses it at once; the root
-   observer watches `disabled` and `tabindex` and acts only on the element's own attributes. The
+   passing state. An element disabled while its balloon is open loses it at once. The root observer
+   watches `disabled`, `tabindex` and `contenteditable`, and checks the element again only when the
+   change can touch it: its own attributes, `disabled` on an ancestor `<fieldset>` (the `:disabled`
+   check keeps the exception of the first `<legend>`), `contenteditable` on an ancestor, and a move of
+   the element or of an ancestor in the tree. The
    reference stays on a disabled element: an icon-only button still needs its name.
 5. **The accessible name.** With `relation="name"` the tooltip adds its `id` to the
    `aria-labelledby` of the element, and not to its `aria-describedby`, keeping what is there. The
