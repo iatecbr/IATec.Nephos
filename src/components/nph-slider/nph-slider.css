@@ -1,0 +1,287 @@
+/**
+ * Internal style of `nph-slider`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the shadow
+ * root and are not API.
+ *
+ * No literal design value goes in here. Written box relations: `0`, `50%`, `100%`,
+ * `-50%` (the thumb and the marks centered on their point), `1` (flex), `auto`,
+ * `minmax(0, 1fr)` (the track, and a field, share the rest of the line), `calc` of tokens (the touch
+ * target and the halo, outside, without changing the size). The position of each thumb,
+ * of the active part and of each mark is a percentage of the track, written by the
+ * component: a box relation, not a design value.
+ *
+ * The order of the state rules is the precedence of the evidence: focus, then error,
+ * then disabled, which wins over everything. The track does not change with the state.
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* Default width `layout/input-width`; the parent may stretch it, and there is no minimum. */
+:host([data-nph-rendered]) {
+  display: inline-block;
+  vertical-align: middle;
+  inline-size: var(--nph-layout-input-width);
+  min-inline-size: 0;
+}
+
+/* The vertical one is as narrow as its parts; the track takes `layout/input-width` of height (D3). */
+:host([data-nph-rendered][orientation='vertical']) {
+  inline-size: auto;
+}
+
+/*
+ * Disabled, by the attribute or by a disabled `<fieldset>`: the whole slider loses opacity,
+ * once. The field and the buttons inside are inert, not disabled, so they keep
+ * `state=default` (evidence, the `disabled` row) and do not fade a second time.
+ */
+:host(:disabled) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/* Root: a vertical stack, `space/stack-tight` between the top line, the track and the marks. */
+.slider {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-space-stack-tight);
+  min-inline-size: 0;
+}
+
+:host([orientation='vertical']) .slider {
+  align-items: center;
+}
+
+/* Label and value: the `nph-label` on the left, the value on the right. */
+.top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--nph-space-inline);
+  min-inline-size: 0;
+}
+
+.current {
+  flex: none;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+/*
+ * The line of the track: the parts beside it at `space/inline`, the marks below it at
+ * `space/stack-tight`. The component writes the columns: `auto` for each part,
+ * `minmax(0, 1fr)` for the track and for a field, which share the rest (D5).
+ */
+.row {
+  display: grid;
+  grid-template-rows: auto;
+  align-items: center;
+  column-gap: var(--nph-space-inline);
+  row-gap: var(--nph-space-stack-tight);
+  min-inline-size: 0;
+}
+
+.side,
+.scale {
+  grid-row: 1;
+  min-inline-size: 0;
+}
+
+.side {
+  display: flex;
+  align-items: center;
+}
+
+/* The field keeps its own height and the width of its column. */
+.side nph-input {
+  inline-size: 100%;
+}
+
+:host([orientation='vertical']) .row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nph-space-inline);
+}
+
+/* Minimum and maximum: `text/caption` in `color/muted-foreground`. */
+.limit,
+.mark {
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+  white-space: nowrap;
+}
+
+/*
+ * The track area: as tall as the thumb, so the thumb fits; the pointer presses anywhere
+ * on it. A horizontal slider still lets the page scroll vertically on touch.
+ */
+.track {
+  position: relative;
+  block-size: var(--nph-icon-size-sm);
+  inline-size: 100%;
+  touch-action: pan-y;
+  cursor: pointer;
+}
+
+:host([orientation='vertical']) .track {
+  block-size: var(--nph-layout-input-width);
+  inline-size: var(--nph-icon-size-sm);
+  touch-action: pan-x;
+}
+
+:host(:disabled) .track {
+  cursor: default;
+}
+
+/* The rail is the empty part, `color/input`; the fill is the active part, `color/primary`. */
+.rail,
+.fill {
+  position: absolute;
+  border-radius: var(--nph-radius-full);
+}
+
+.rail {
+  inset-inline: 0;
+  inset-block-start: 50%;
+  block-size: var(--nph-space-inline-tight);
+  transform: translateY(-50%);
+  background-color: var(--nph-color-input);
+}
+
+.fill {
+  inset-block-start: 50%;
+  block-size: var(--nph-space-inline-tight);
+  transform: translateY(-50%);
+  background-color: var(--nph-color-primary);
+}
+
+:host([orientation='vertical']) .rail {
+  inset-block: 0;
+  inset-inline-start: 50%;
+  inset-inline-end: auto;
+  block-size: auto;
+  inline-size: var(--nph-space-inline-tight);
+  transform: translateX(-50%);
+}
+
+:host([orientation='vertical']) .fill {
+  inset-block-start: auto;
+  inset-inline-start: 50%;
+  block-size: auto;
+  inline-size: var(--nph-space-inline-tight);
+  transform: translateX(-50%);
+}
+
+/*
+ * The thumb: a circle of `icon/size-sm`, `color/background`, with the `border/width`
+ * border inside in `color/primary-border`. Its box is the one the balloon sits on.
+ */
+.thumb {
+  --_border: var(--nph-color-primary-border);
+  --_halo: var(--nph-focus-halo);
+
+  position: absolute;
+  inset-block-start: 50%;
+  box-sizing: border-box;
+  inline-size: var(--nph-icon-size-sm);
+  block-size: var(--nph-icon-size-sm);
+  border: var(--nph-border-width) solid var(--_border);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--nph-color-background);
+  transform: translate(-50%, -50%);
+  outline: none;
+  touch-action: none;
+}
+
+:host([orientation='vertical']) .thumb {
+  inset-block-start: auto;
+  inset-inline-start: 50%;
+  transform: translate(-50%, 50%);
+}
+
+/*
+ * The touch target: a circle of `control/height-large`, centered on the thumb. A pseudo-element
+ * is placed from the inside of the border, so the border comes out of the inset.
+ */
+.thumb::before,
+.thumb::after {
+  position: absolute;
+  box-sizing: border-box;
+  border-radius: var(--nph-radius-full);
+  content: '';
+}
+
+.thumb::before {
+  inset: calc((var(--nph-icon-size-sm) - var(--nph-control-height-large)) / 2 - var(--nph-border-width));
+}
+
+/* `foco`: the border takes `focus/border` and the halo `focus/halo` sits around the thumb. */
+.thumb:focus-visible {
+  --_border: var(--nph-focus-border);
+}
+
+.thumb::after {
+  display: none;
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--_halo);
+  pointer-events: none;
+}
+
+.thumb:focus-visible::after {
+  display: block;
+}
+
+/* `erro` and `erro-foco`: the border stays `status/error`; on focus, the halo is the error one. */
+:host([invalid]) .thumb,
+:host([invalid]) .thumb:focus-visible {
+  --_border: var(--nph-status-error);
+  --_halo: var(--nph-focus-halo-error);
+}
+
+/* Disabled wins: the resting border, no error look. */
+:host(:disabled) .thumb {
+  --_border: var(--nph-color-primary-border);
+}
+
+/* The marks: `space/stack-tight` below the track, each centered on its step. */
+.marks-row {
+  grid-row: 2;
+  min-inline-size: 0;
+}
+
+.marks {
+  position: relative;
+  block-size: var(--nph-text-caption-line-height);
+}
+
+.mark {
+  position: absolute;
+  inset-block-start: 0;
+  transform: translateX(-50%);
+}
+
+/*
+ * The description: never visible, but in the accessibility tree. It is clipped, not
+ * `display: none`, which the browser does not read.
+ */
+.description {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
