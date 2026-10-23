@@ -289,6 +289,45 @@ describe('value: the attribute is the default, the property is the current value
     await element.updateComplete;
     expect(element.value).toBe('');
   });
+
+  it('accepts the value property and attribute before connecting', async () => {
+    const property = document.createElement('nph-input') as NphInput;
+    property.value = 'Recife';
+
+    const attribute = document.createElement('nph-input') as NphInput;
+    attribute.setAttribute('value', 'Natal');
+
+    document.body.append(property, attribute);
+    await Promise.all([property.updateComplete, attribute.updateComplete]);
+
+    expect(property.value).toBe('Recife');
+    expect(field(property).value).toBe('Recife');
+    expect(attribute.value).toBe('Natal');
+    expect(field(attribute).value).toBe('Natal');
+  });
+
+  it('keeps the host value aligned with native sanitization after assignment, reset and type changes', async () => {
+    const holder = await markup('<form><nph-input label="Email" name="email" type="text" value="initial"></nph-input></form>');
+    const form = holder.querySelector('form') as HTMLFormElement;
+    const element = holder.querySelector('nph-input') as NphInput;
+
+    element.value = 'a\nb';
+    expect(element.value).toBe('ab');
+    expect(new FormData(form).get('email')).toBe('ab');
+
+    element.type = 'email';
+    element.value = '  ana@example.com  ';
+    await element.updateComplete;
+    await element.updateComplete;
+    expect(element.value).toBe('ana@example.com');
+    expect(field(element).value).toBe('ana@example.com');
+    expect(new FormData(form).get('email')).toBe('ana@example.com');
+
+    element.setAttribute('value', '  reset@example.com  ');
+    form.reset();
+    expect(element.value).toBe('reset@example.com');
+    expect(new FormData(form).get('email')).toBe('reset@example.com');
+  });
 });
 
 describe('form association', () => {
@@ -317,13 +356,19 @@ describe('form association', () => {
   });
 
   it('form.reset() goes back to the value attribute, and fires nothing', async () => {
-    const { form, element } = await inForm('<nph-input label="City" name="city" value="Recife"></nph-input>');
+    const { form, element } = await inForm('<nph-input label="City" name="city" value="Recife" required></nph-input>');
     await userEvent.clear(field(element));
     await userEvent.type(field(element), 'Natal');
     const events = vi.fn();
     element.addEventListener('input', events);
     element.addEventListener('change', events);
+    element.value = '';
+    expect(new FormData(form).get('city')).toBe('');
+    expect(element.checkValidity()).toBe(false);
     form.reset();
+    expect(element.value).toBe('Recife');
+    expect(new FormData(form).get('city')).toBe('Recife');
+    expect(element.checkValidity()).toBe(true);
     await element.updateComplete;
     expect(element.value).toBe('Recife');
     expect(field(element).value).toBe('Recife');
@@ -348,6 +393,30 @@ describe('form association', () => {
     expect(form.checkValidity()).toBe(true);
   });
 
+  it('synchronizes form data and validity before input and change listeners run', async () => {
+    const { form, element } = await inForm('<nph-input label="City" name="city" value="Recife" required></nph-input>');
+    const seen: Array<{ type: string; value: string; formValue: FormDataEntryValue | null; valid: boolean }> = [];
+    const readState = (event: Event) => {
+      seen.push({
+        type: event.type,
+        value: element.value,
+        formValue: new FormData(form).get('city'),
+        valid: element.checkValidity(),
+      });
+    };
+    element.addEventListener('input', readState, { capture: true });
+    element.addEventListener('change', readState);
+
+    field(element).value = '';
+    field(element).dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+    field(element).dispatchEvent(new Event('change', { bubbles: true }));
+
+    expect(seen).toEqual([
+      { type: 'input', value: '', formValue: '', valid: false },
+      { type: 'change', value: '', formValue: '', valid: false },
+    ]);
+  });
+
   it('a malformed email or url is invalid by type, as in the native field', async () => {
     const email = await mount({ label: 'Email', type: 'email', value: 'not an email' });
     expect(email.validity.typeMismatch).toBe(true);
@@ -356,6 +425,65 @@ describe('form association', () => {
     email.value = 'ana@example.com';
     await email.updateComplete;
     expect(email.checkValidity()).toBe(true);
+  });
+
+  it('clears and restores malformed-value validity when disabled by property or fieldset', async () => {
+    const direct = await mount({ label: 'Email', type: 'email', value: 'not an email' });
+    direct.disabled = true;
+    await direct.updateComplete;
+    expect(direct.willValidate).toBe(false);
+    expect(direct.validity.typeMismatch).toBe(false);
+    expect(direct.checkValidity()).toBe(true);
+    direct.disabled = false;
+    await direct.updateComplete;
+    expect(direct.validity.typeMismatch).toBe(true);
+    expect(direct.checkValidity()).toBe(false);
+
+    const holder = await markup('<form><fieldset><nph-input label="Email" type="email" name="email" value="not an email"></nph-input></fieldset></form>');
+    const fieldset = holder.querySelector('fieldset') as HTMLFieldSetElement;
+    const inherited = holder.querySelector('nph-input') as NphInput;
+    fieldset.disabled = true;
+    await inherited.updateComplete;
+    expect(inherited.willValidate).toBe(false);
+    expect(inherited.validity.typeMismatch).toBe(false);
+    expect(inherited.checkValidity()).toBe(true);
+    fieldset.disabled = false;
+    await inherited.updateComplete;
+    expect(inherited.validity.typeMismatch).toBe(true);
+    expect(inherited.checkValidity()).toBe(false);
+  });
+
+  it('re-enabling disabled by property updates the field, clear button and validity', async () => {
+    const element = await mount({
+      label: 'Email',
+      type: 'email',
+      value: 'not an email',
+      disabled: true,
+      iconEnd: 'xmark',
+      clearLabel: 'Clear',
+    });
+
+    expect(field(element).disabled).toBe(true);
+    expect(clearButton(element)).toBeNull();
+
+    element.disabled = false;
+    await element.updateComplete;
+    await element.updateComplete;
+
+    expect(field(element).disabled).toBe(false);
+    expect(clearButton(element)).not.toBeNull();
+    expect(element.validity.typeMismatch).toBe(true);
+    expect(element.checkValidity()).toBe(false);
+
+    const holder = await markup('<form><fieldset disabled><nph-input label="Email" type="email" value="not an email" disabled></nph-input></fieldset></form>');
+    const inherited = holder.querySelector('nph-input') as NphInput;
+    inherited.disabled = false;
+    await inherited.updateComplete;
+    await inherited.updateComplete;
+
+    expect(inherited.disabled).toBe(false);
+    expect(field(inherited).disabled).toBe(true);
+    expect(inherited.willValidate).toBe(false);
   });
 
   it('invalid is not a constraint: it adds no customError', async () => {
@@ -418,6 +546,40 @@ describe('form association', () => {
     field(element).focus();
     await userEvent.keyboard('{Enter}');
     expect(submitted).toHaveBeenCalledTimes(1);
+  });
+
+  it('Enter respects consumer cancellation in capture and bubbling listeners', async () => {
+    for (const capture of [true, false]) {
+      const { form, element } = await inForm('<nph-input label="City" value="Recife"></nph-input><button type="submit">Send</button>');
+      const submitted = vi.fn((event: Event) => event.preventDefault());
+      form.addEventListener('submit', submitted);
+      form.addEventListener('keydown', (event) => event.preventDefault(), { capture });
+      field(element).focus();
+      await userEvent.keyboard('{Enter}');
+      expect(submitted).not.toHaveBeenCalled();
+      form.remove();
+    }
+  });
+
+  it('Enter uses the first image submitter, including one associated by form', async () => {
+    const holder = await markup(
+      '<input type="image" form="search-form" alt="Image submit" formaction="/image" formnovalidate><form id="search-form"><nph-input label="Query" value="term"></nph-input><button type="submit">Send</button></form>',
+    );
+    const form = holder.querySelector('form') as HTMLFormElement;
+    const image = holder.querySelector('input[type="image"]') as HTMLInputElement;
+    const element = holder.querySelector('nph-input') as NphInput;
+    const submitted = vi.fn((event: SubmitEvent) => {
+      event.preventDefault();
+      return event.submitter;
+    });
+    form.addEventListener('submit', submitted);
+    field(element).focus();
+
+    await userEvent.keyboard('{Enter}');
+
+    expect(image.form).toBe(form);
+    expect(submitted).toHaveBeenCalledTimes(1);
+    expect(submitted.mock.results[0]?.value).toBe(image);
   });
 
   it('Enter does not submit when the default button is disabled, nor when the field is required and empty', async () => {
@@ -491,6 +653,28 @@ describe('accessible name and description', () => {
     await label.updateComplete;
     const node = await accessibleNodeOf(element);
     expect(node.name?.value).toBe('Town');
+  });
+
+  it('updates the name when nph-label recreates its label, without refocusing the field', async () => {
+    const holder = await markup(
+      '<nph-label for="email" text="Email" info="More about email" info-label="More information"></nph-label><nph-input id="email"></nph-input>',
+    );
+    const element = holder.querySelector('nph-input') as NphInput;
+    const labelHost = holder.querySelector('nph-label') as HTMLElement & { info: string; updateComplete: Promise<unknown> };
+    const previousLabel = holder.querySelector('label');
+    const focus = vi.fn();
+
+    await nextFrame();
+    field(element).focus();
+    field(element).addEventListener('focus', focus);
+    labelHost.info = '';
+    await labelHost.updateComplete;
+    await nextFrame();
+
+    expect(holder.querySelector('label')).not.toBe(previousLabel);
+    expect(element.shadowRoot?.activeElement).toBe(field(element));
+    expect(focus).not.toHaveBeenCalled();
+    expect((await accessibleNodeOf(element)).name?.value).toBe('Email');
   });
 
   it('description is the accessible description, in a clipped element, never display none', async () => {
@@ -809,8 +993,9 @@ describe('states and precedence (D4, D5)', () => {
     expect(border(element)).toBe(resolved('color', '--nph-focus-border'));
   });
 
-  it('focus on the clear button: the container keeps color/input; border and halo sit around the 24 x 24 target', async () => {
+  it('focus on the clear button under hover: the container keeps color/input; border and halo sit around the 24 x 24 target', async () => {
     const element = await mount({ label: 'Search', iconEnd: 'xmark', clearLabel: 'Clear', value: 'lamp' });
+    await userEvent.hover(container(element));
     field(element).focus();
     await userEvent.tab();
     const button = clearButton(element) as HTMLButtonElement;
