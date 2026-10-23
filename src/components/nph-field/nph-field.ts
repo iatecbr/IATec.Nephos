@@ -13,9 +13,10 @@
  * - `counter`: the counter text (the Figma `contador` and `texto do contador`), shown
  *   as it comes. The field counts nothing; how the text is counted belongs to the
  *   consumer or to the control;
- * - `disabled`: passed to the control. It hides the error (D8). The field draws no
- *   opacity of its own: the control fades itself, and the label and the message line
- *   never fade;
+ * - `disabled`: passed to the control. It hides the error (D8), and so does a disabled
+ *   `<fieldset>` around the field, except in its first `<legend>`, as the browser does.
+ *   The field draws no opacity of its own: the control fades itself, and the label and
+ *   the message line never fade;
  * - a text that is empty turns its part off. With no help, no error and no counter, the
  *   message line is not rendered and keeps no height (D5);
  * - the default slot takes the control (the Figma `⮑ controle`), or the options of a
@@ -224,8 +225,38 @@ export class NphField extends LitElement {
 
   /** The field is invalid when the error is filled in and the field is not disabled (D8). */
   private get invalid(): boolean {
-    return this.errorText !== '' && !this.disabled;
+    return this.errorText !== '' && !this.inactive;
   }
+
+  /** Disabled by its own property or by a disabled `<fieldset>` around it: either way it hides the error (D8). */
+  private get inactive(): boolean {
+    return this.disabled || this.disabledByFieldset;
+  }
+
+  /**
+   * A disabled `<fieldset>` ancestor disables the controls inside it, except those in its
+   * first `<legend>`, as the browser does and as `nph-input` reads it (P80).
+   */
+  private get disabledByFieldset(): boolean {
+    let ancestor = this.parentElement;
+    while (ancestor !== null) {
+      if (ancestor.localName === 'fieldset' && ancestor.hasAttribute('disabled')) {
+        const firstLegend = [...ancestor.children].find((child) => child.localName === 'legend');
+        if (firstLegend === undefined || !firstLegend.contains(this)) {
+          return true;
+        }
+      }
+      ancestor = ancestor.parentElement;
+    }
+    return false;
+  }
+
+  /** Watches the `disabled` attribute of the fieldsets around the field, which raises no update. */
+  private readonly fieldsetObserver = new MutationObserver((records) => {
+    if (records.some((record) => record.target instanceof HTMLFieldSetElement && record.target.contains(this))) {
+      this.requestUpdate();
+    }
+  });
 
   /** The text of the message line: the error when shown, the help otherwise. */
   private get messageText(): string {
@@ -284,9 +315,15 @@ export class NphField extends LitElement {
   /** Back in the page: a child may have been defined or upgraded while the field was out of it. */
   override connectedCallback(): void {
     super.connectedCallback();
+    this.fieldsetObserver.observe(this.getRootNode(), { attributes: true, attributeFilter: ['disabled'], subtree: true });
     if (this.hasUpdated) {
       this.requestUpdate();
     }
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.fieldsetObserver.disconnect();
   }
 
   private onSlotChange(): void {

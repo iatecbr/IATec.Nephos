@@ -93,7 +93,8 @@ api:
     constraint: >-
       Written on the control, which fades itself with state/disabled-opacity; the
       field draws no opacity, and the label and the message line never fade. Disabled
-      wins over error. When the field is enabled again, it gives back only the
+      wins over error. A disabled fieldset around the field hides the error too, except in
+      its first legend, as the browser does. When the field is enabled again, it gives back only the
       disabled it turned on.
   slot:
     type: "default slot"

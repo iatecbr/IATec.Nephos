@@ -904,3 +904,63 @@ describe('review regressions (PR #105, Copilot round 4)', () => {
     });
   }
 });
+
+describe('review regressions (PR #105, Copilot round 5): a disabled fieldset', () => {
+  async function inFieldset(legend = false): Promise<{ fieldset: HTMLFieldSetElement; field: NphField; input: NphInput }> {
+    const fieldset = document.createElement('fieldset');
+    fieldset.disabled = true;
+    const field = document.createElement('nph-field');
+    field.label = 'Email';
+    field.help = 'Help';
+    field.error = 'Error';
+    field.append(document.createElement('nph-input'));
+    if (legend) {
+      const first = document.createElement('legend');
+      first.append(field);
+      fieldset.append(first);
+    } else {
+      fieldset.append(field);
+    }
+    document.body.append(fieldset);
+    await settle(field);
+    const input = first<NphInput>(field);
+    await input.updateComplete;
+    await settle(field);
+    return { fieldset, field, input };
+  }
+
+  it('mounted inside a disabled fieldset: the error is hidden, the input is not invalid and is described by the help', async () => {
+    const { field, input } = await inFieldset();
+    expect(textOf(field)?.textContent).toBe('Help');
+    expect(root(field).textContent).not.toContain('Error');
+    expect(input.invalid).toBe(false);
+    expect(input.description).toBe('Help');
+  });
+
+  it('turning the fieldset on and off shows and hides the error again', async () => {
+    const { fieldset, field, input } = await inFieldset();
+    fieldset.disabled = false;
+    await settle(field);
+    expect(textOf(field)?.textContent).toBe('Error');
+    expect(input.invalid).toBe(true);
+    fieldset.disabled = true;
+    await settle(field);
+    expect(textOf(field)?.textContent).toBe('Help');
+    expect(input.invalid).toBe(false);
+  });
+
+  it('inside the first legend of a disabled fieldset the field is not disabled, as in the browser', async () => {
+    const { field, input } = await inFieldset(true);
+    expect(textOf(field)?.textContent).toBe('Error');
+    expect(input.invalid).toBe(true);
+  });
+
+  it('the field does not write disabled on the control because of the fieldset: the control reads the fieldset itself', async () => {
+    const { input, fieldset, field } = await inFieldset();
+    expect(input.disabled).toBe(false);
+    expect(input.matches(':disabled')).toBe(true);
+    fieldset.disabled = false;
+    await settle(field);
+    expect(input.matches(':disabled')).toBe(false);
+  });
+});

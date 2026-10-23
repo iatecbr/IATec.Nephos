@@ -2359,7 +2359,10 @@ and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46). The decisions of those pie
    `inline-size: auto` (a `::slotted` rule from the outer tree wins over the `:host` width of the
    control). A group stacks its options at `space/stack-tight`. **The field draws no opacity when
    disabled:** D8 asks for `state/disabled-opacity` only on the control, and every control already
-   fades itself; both together would give 0.25. Disabled hides the error.
+   fades itself; both together would give 0.25. Disabled hides the error, and so does a disabled
+   `<fieldset>` around the field, except in its first `<legend>`, as the browser and `nph-input` read
+   it. The field watches the `disabled` attribute of those fieldsets and writes nothing on the control
+   for them: the control reads the fieldset itself.
 
 5. **The field–control contract.**
    1. **Events.** Native `input` and `change` on the host, only by an action of the person: setting
