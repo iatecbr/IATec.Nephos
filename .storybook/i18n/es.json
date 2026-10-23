@@ -59,6 +59,8 @@
     "components-nph-tooltip-validation--flip": "Inversión",
     "components-nph-tooltip-validation--focus-and-escape": "Foco y Esc",
     "components-nph-tooltip-validation--hover-and-focus": "Hover y foco",
+    "components-nph-tooltip-validation--accessible-name": "Nombre accesible",
+    "components-nph-tooltip-validation--focusable-only": "Solo enfocable",
     "components-nph-skeleton-docs": "Docs",
     "components-nph-skeleton-docs--documentation": "Documentación",
     "components-nph-skeleton-validation": "Validación",
@@ -882,7 +884,7 @@
       ],
       [
         "info",
-        "El texto de la explicación, ya localizado. Con info-label, muestra el icono de información, que abre el nph-tooltip con ese texto con el hover y con el foco del teclado, encima del label, y se cierra con Esc, cuando el puntero sale o con el blur."
+        "El texto de la explicación, ya localizado. Con info-label, muestra el icono de información, que abre el nph-tooltip con ese texto con el foco del teclado al instante y con el hover después de motion/hover-delay, encima del label, y se cierra con Esc, cuando el puntero sale o con el blur."
       ],
       [
         "info-label (infoLabel)",
@@ -979,7 +981,7 @@
     "focusCaption": "Haga clic en el campo y pulse Tab: el foco va al icono de información. El texto de la etiqueta no recibe el foco. El globo se abre con el foco.",
     "tabStartLabel": "Punto de partida del Tab",
     "openTitle": "Globo abierto",
-    "openCaption": "El globo se abre encima del label cuando el puntero descansa en el icono o el icono recibe el foco del teclado, y se cierra con Esc, cuando el puntero sale o con el blur. No se abre al tocar."
+    "openCaption": "El globo se abre encima del label cuando el puntero descansa en el icono durante motion/hover-delay, o al instante cuando el icono recibe el foco del teclado, y se cierra con Esc, cuando el puntero sale o con el blur. No se abre al tocar."
   },
   "tooltipValidation": {
     "oneLine": "Explica lo que pide el campo.",
@@ -993,7 +995,10 @@
     "sidesCaption": "Arriba es lo predeterminado; el globo se invierte al lado opuesto cuando no cabe, y también puede quedar abajo, a la izquierda o a la derecha. La distancia al elemento es space/inline.",
     "flipCaption": "El elemento está en lo alto de la ventana: el globo prefiere arriba, no cabe y queda abajo.",
     "focusCaption": "Pulse Tab para enfocar el botón: el globo se abre y el foco se queda en el botón. Pulse Esc para cerrarlo.",
-    "hoverCaption": "Ponga el puntero sobre cada elemento, o enfóquelo con Tab: el globo se abre al instante, en cualquier elemento. Se queda abierto mientras el puntero está sobre él."
+    "hoverCaption": "Ponga el puntero sobre cada elemento y espere un momento, o enfóquelo con Tab: el globo se abre tras la espera con el hover, al instante con el foco, en cualquier elemento que recibe foco. Se queda abierto mientras el puntero está sobre él.",
+    "disabledTarget": "Elemento deshabilitado",
+    "nameCaption": "El botón solo de icono no tiene texto: el texto del globo es su nombre accesible, y el lector de pantalla lo anuncia una vez, como nombre.",
+    "focusableCaption": "Los dos elementos piden el globo abierto. El botón habilitado lo recibe; el deshabilitado no, porque sin foco quien usa el teclado nunca lo vería."
   },
   "tooltipDocs": {
     "summary": "Un globo de texto flotante unido a cualquier elemento de la interfaz. Muestra información complementaria, una explicación o un dato de contexto cuando el puntero descansa sobre el elemento y cuando el elemento recibe el foco del teclado.",
@@ -1001,7 +1006,7 @@
     "derivedTitle": "Esta página es derivada.",
     "derivedText": "En caso de divergencia, valen las fuentes canónicas: la ficha del nph-tooltip, design.md para los tokens y docs/decisoes-tecnicas.md para la P77. El archivo DS-IA-NEPHOS 5.0 de Figma es la fuente visual. Aquí no se crea ninguna regla.",
     "sourceLabel": "Fuente:",
-    "description": "Use nph-tooltip para dar información complementaria, una explicación o un dato de contexto a cualquier elemento, como el botón solo de icono y el icono de información del nph-label. El globo se abre con el hover y con el foco, sin retraso, y se cierra cuando el puntero sale del elemento y del globo, con el blur o con Esc. No sustituye el texto de ayuda ni el mensaje de error, que son del nph-field, ni el nombre accesible del elemento.",
+    "description": "Use nph-tooltip para dar información complementaria, una explicación o un dato de contexto a un elemento que recibe foco, como el botón solo de icono y el icono de información del nph-label. El foco del teclado abre el globo al instante, y el puntero lo abre después de descansar motion/hover-delay sobre el elemento; se cierra cuando el puntero sale del elemento y del globo, con el blur o con Esc. En el botón solo de icono el texto del globo es el nombre accesible de la acción; en cualquier otro elemento no sustituye el texto de ayuda ni el mensaje de error, que son del nph-field, ni el nombre accesible del elemento.",
     "whenToUseTitle": "Cuándo usar",
     "whenToUse": [
       "Para dar el nombre de la acción a todo botón solo de icono.",
@@ -1013,7 +1018,9 @@
       "Para poner una acción, un enlace o un campo dentro del globo: use nph-popover.",
       "Para repetir en el globo el texto de ayuda del campo: eso es del nph-field.",
       "Para poner en el globo información sin la cual el elemento no se puede usar.",
-      "Para cortar el texto con puntos suspensivos o dejar que pase de dos líneas: reescriba hasta que quepa."
+      "Para cortar el texto con puntos suspensivos o dejar que pase de dos líneas: reescriba hasta que quepa.",
+      "En un elemento deshabilitado o en un texto que no recibe foco: no recibe globo.",
+      "Para nombrar una acción ambigua con un botón solo de icono: al tocar el globo no se abre; use un botón con texto."
     ],
     "apiTitle": "API",
     "apiHeader": [
@@ -1027,7 +1034,7 @@
       ],
       [
         "for",
-        "El id del elemento que abre el globo, en la misma raíz del tooltip, como en el label nativo. El tooltip escucha ese elemento y añade su propio id al aria-describedby de él. Sin un elemento correspondiente, no se dibuja nada."
+        "El id del elemento que abre el globo, en la misma raíz del tooltip, como en el label nativo. El elemento debe recibir foco: un elemento deshabilitado o un texto suelto no recibe globo. El tooltip escucha ese elemento y añade su propio id a su aria-describedby, o a su aria-labelledby con relation=\"name\". Sin un elemento correspondiente, no se dibuja nada."
       ],
       [
         "side",
@@ -1036,6 +1043,10 @@
       [
         "open",
         "Booleano, reflejado en el atributo. El tooltip lo enciende y apaga solo; el consumidor puede encenderlo para mostrar el globo abierto, y valen las mismas reglas de cierre."
+      ],
+      [
+        "relation",
+        "Lo que el globo es para el elemento: description (predeterminado), añadido a su aria-describedby, o name, añadido a su aria-labelledby, para el botón solo de icono, cuyo nombre de acción es el texto del globo, anunciado una vez."
       ]
     ],
     "relationsTitle": "Relaciones y contexto",
@@ -1073,7 +1084,7 @@
     "accessibility": [
       [
         "Semántica",
-        "El host es role=tooltip desde el montaje, y el elemento que describe apunta a él con aria-describedby. El globo se renderiza siempre y solo aparece cuando está abierto."
+        "El host es role=tooltip desde el montaje. El elemento apunta a él con aria-describedby, o con aria-labelledby cuando el globo es su nombre. El globo se renderiza siempre y solo aparece cuando está abierto."
       ],
       [
         "Contraste",
@@ -1085,15 +1096,15 @@
       ],
       [
         "Teclado",
-        "El foco del teclado en el elemento abre el globo; Esc lo cierra. El hover también lo abre."
+        "El foco del teclado en el elemento abre el globo al instante; Enter y Espacio ejecutan la acción y no lo abren ni lo cierran; Esc lo cierra. El puntero lo abre después de descansar motion/hover-delay sobre el elemento."
       ],
       [
         "Objetivo táctil",
-        "El globo no es un objetivo táctil y no se abre al tocar: sin hover, la información esencial nunca vive solo en el globo. El objetivo táctil es el elemento, con su propio tamaño (WCAG 2.5.8)."
+        "El globo no es un objetivo táctil y no se abre al tocar: sin hover, la información esencial nunca vive solo en el globo. Al tocar, el botón solo de icono no tiene nombre visible, una excepción aceptada: el nombre vive en el nombre accesible, el icono debe ser fácil de reconocer y una acción ambigua usa un botón con texto. El objetivo táctil es el elemento, con su propio tamaño (WCAG 2.5.8)."
       ],
       [
         "Nombre accesible",
-        "El globo complementa el nombre accesible del elemento y no lo sustituye: en el botón solo de icono, el nombre de la acción se queda en el propio botón."
+        "En el botón solo de icono el texto del globo es el nombre accesible de la acción (relation=\"name\"), anunciado una vez. En cualquier otro elemento el globo complementa el nombre accesible y no lo sustituye."
       ]
     ],
     "examplesTitle": "Ejemplos obligatorios",
@@ -2347,7 +2358,9 @@
       "components-nph-tooltip-validation--sides": "Los cuatro lados, arriba por defecto, con el nombre de la acción de un botón solo de icono, en modo claro y oscuro.",
       "components-nph-tooltip-validation--flip": "El globo se invierte al lado opuesto cuando no cabe en el lado preferido.",
       "components-nph-tooltip-validation--focus-and-escape": "El foco del teclado abre el globo y Esc lo cierra, con el foco quedándose en el elemento.",
-      "components-nph-tooltip-validation--hover-and-focus": "El hover y el foco del teclado abren el globo en cualquier elemento: un botón, un enlace y un campo.",
+      "components-nph-tooltip-validation--hover-and-focus": "El hover tras una espera corta y el foco del teclado al instante abren el globo en cualquier elemento que recibe foco: un botón, un enlace y un campo.",
+      "components-nph-tooltip-validation--accessible-name": "En el botón solo de icono el texto del globo es el nombre accesible de la acción, anunciado una vez.",
+      "components-nph-tooltip-validation--focusable-only": "El globo solo va en un elemento que recibe foco: el botón deshabilitado no recibe ninguno.",
       "components-nph-dialog-validation--short-form": "Formulario corto en md, el tamaño por defecto: título, descripción, área de contenido y acciones, en modo claro y en oscuro.",
       "components-nph-dialog-validation--short-confirmation": "Confirmación corta en sm, sin área de contenido: el texto del encabezado define el ancho, hasta el techo.",
       "components-nph-dialog-validation--wide-content": "Contenido ancho en lg, una lista, con las dos líneas activadas: solo el contenido se desplaza.",

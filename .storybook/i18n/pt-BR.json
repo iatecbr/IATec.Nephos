@@ -59,6 +59,8 @@
     "components-nph-tooltip-validation--flip": "Inversão",
     "components-nph-tooltip-validation--focus-and-escape": "Foco e Esc",
     "components-nph-tooltip-validation--hover-and-focus": "Hover e foco",
+    "components-nph-tooltip-validation--accessible-name": "Nome acessível",
+    "components-nph-tooltip-validation--focusable-only": "Só focável",
     "components-nph-skeleton-docs": "Docs",
     "components-nph-skeleton-docs--documentation": "Documentação",
     "components-nph-skeleton-validation": "Validação",
@@ -882,7 +884,7 @@
       ],
       [
         "info",
-        "O texto da explicação, já localizado. Com info-label, mostra o ícone de informação, que abre o nph-tooltip com esse texto no hover e no foco do teclado, acima do label, e fecha com Esc, quando o ponteiro sai ou no blur."
+        "O texto da explicação, já localizado. Com info-label, mostra o ícone de informação, que abre o nph-tooltip com esse texto no foco do teclado na hora e no hover depois de motion/hover-delay, acima do label, e fecha com Esc, quando o ponteiro sai ou no blur."
       ],
       [
         "info-label (infoLabel)",
@@ -979,7 +981,7 @@
     "focusCaption": "Clique no campo e aperte Tab: o foco vai para o ícone de informação. O texto do rótulo não recebe foco. O balão abre com o foco.",
     "tabStartLabel": "Ponto de partida do Tab",
     "openTitle": "Balão aberto",
-    "openCaption": "O balão abre acima do label quando o ponteiro repousa no ícone ou o ícone recebe o foco do teclado, e fecha com Esc, quando o ponteiro sai ou no blur. Não abre no toque."
+    "openCaption": "O balão abre acima do label quando o ponteiro repousa no ícone por motion/hover-delay, ou na hora quando o ícone recebe o foco do teclado, e fecha com Esc, quando o ponteiro sai ou no blur. Não abre no toque."
   },
   "tooltipValidation": {
     "oneLine": "Explica o que o campo pede.",
@@ -993,7 +995,10 @@
     "sidesCaption": "Em cima é o padrão; o balão inverte para o lado oposto quando não cabe, e também pode ficar embaixo, à esquerda ou à direita. A distância ao elemento é space/inline.",
     "flipCaption": "O elemento fica no alto da janela: o balão prefere o topo, não cabe e fica embaixo.",
     "focusCaption": "Aperte Tab para focar o botão: o balão abre e o foco fica no botão. Aperte Esc para fechar.",
-    "hoverCaption": "Ponha o ponteiro sobre cada elemento, ou foque com Tab: o balão abre na hora, em qualquer elemento. Ele fica aberto enquanto o ponteiro está sobre ele."
+    "hoverCaption": "Ponha o ponteiro sobre cada elemento e espere um instante, ou foque com Tab: o balão abre depois da espera no hover, na hora no foco, em qualquer elemento que recebe foco. Ele fica aberto enquanto o ponteiro está sobre ele.",
+    "disabledTarget": "Elemento desabilitado",
+    "nameCaption": "O botão só de ícone não tem texto: o texto do balão é o nome acessível dele, e o leitor de tela o anuncia uma vez, como nome.",
+    "focusableCaption": "Os dois elementos pedem o balão aberto. O botão habilitado o ganha; o desabilitado não, porque sem foco quem usa teclado nunca o veria."
   },
   "tooltipDocs": {
     "summary": "Um balão de texto flutuante preso a qualquer elemento da interface. Mostra informação complementar, uma explicação ou um dado de contexto quando o ponteiro repousa sobre o elemento e quando o elemento recebe o foco do teclado.",
@@ -1001,7 +1006,7 @@
     "derivedTitle": "Esta página é derivada.",
     "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-tooltip, o design.md para os tokens e docs/decisoes-tecnicas.md para a P77. O arquivo DS-IA-NEPHOS 5.0 do Figma é a fonte visual. Nenhuma regra é criada aqui.",
     "sourceLabel": "Fonte:",
-    "description": "Use o nph-tooltip para dar informação complementar, uma explicação ou um dado de contexto a qualquer elemento, como o botão só de ícone e o ícone de informação do nph-label. O balão abre no hover e no foco, sem atraso, e fecha quando o ponteiro sai do elemento e do balão, no blur ou com Esc. Ele não substitui o texto de ajuda nem a mensagem de erro, que são do nph-field, nem o nome acessível do elemento.",
+    "description": "Use o nph-tooltip para dar informação complementar, uma explicação ou um dado de contexto a um elemento que recebe foco, como o botão só de ícone e o ícone de informação do nph-label. O foco do teclado abre o balão na hora, e o ponteiro o abre depois de repousar motion/hover-delay no elemento; ele fecha quando o ponteiro sai do elemento e do balão, no blur ou com Esc. No botão só de ícone o texto do balão é o nome acessível da ação; em qualquer outro elemento ele não substitui o texto de ajuda nem a mensagem de erro, que são do nph-field, nem o nome acessível do elemento.",
     "whenToUseTitle": "Quando usar",
     "whenToUse": [
       "Para dar o nome da ação a todo botão só de ícone.",
@@ -1013,7 +1018,9 @@
       "Para pôr uma ação, um link ou um campo dentro do balão: use o nph-popover.",
       "Para repetir no balão o texto de ajuda do campo: isso é do nph-field.",
       "Para pôr no balão a informação sem a qual o elemento não pode ser usado.",
-      "Para cortar o texto com reticências ou deixá-lo passar de duas linhas: reescreva até caber."
+      "Para cortar o texto com reticências ou deixá-lo passar de duas linhas: reescreva até caber.",
+      "Em elemento desabilitado ou em texto que não recebe foco: ele não ganha balão.",
+      "Para dar nome a uma ação ambígua com botão só de ícone: no toque o balão não abre; use botão com texto."
     ],
     "apiTitle": "API",
     "apiHeader": [
@@ -1027,7 +1034,7 @@
       ],
       [
         "for",
-        "O id do elemento que abre o balão, na mesma raiz do tooltip, como no label nativo. O tooltip ouve esse elemento e acrescenta o próprio id ao aria-describedby dele. Sem um elemento correspondente, nada é desenhado."
+        "O id do elemento que abre o balão, na mesma raiz do tooltip, como no label nativo. O elemento precisa receber foco: elemento desabilitado ou texto solto não ganha balão. O tooltip ouve esse elemento e acrescenta o próprio id ao aria-describedby dele, ou ao aria-labelledby com relation=\"name\". Sem um elemento correspondente, nada é desenhado."
       ],
       [
         "side",
@@ -1036,6 +1043,10 @@
       [
         "open",
         "Booleano, refletido no atributo. O tooltip o liga e desliga sozinho; o consumidor pode ligá-lo para mostrar o balão aberto, e valem as mesmas regras de fechamento."
+      ],
+      [
+        "relation",
+        "O que o balão é para o elemento: description (padrão), acrescentado ao aria-describedby dele, ou name, acrescentado ao aria-labelledby, para o botão só de ícone, cujo nome da ação é o texto do balão, anunciado uma vez."
       ]
     ],
     "relationsTitle": "Relações e contexto",
@@ -1073,7 +1084,7 @@
     "accessibility": [
       [
         "Semântica",
-        "O host é role=tooltip desde a montagem, e o elemento que ele descreve aponta para ele com aria-describedby. O balão é sempre renderizado e só aparece quando aberto."
+        "O host é role=tooltip desde a montagem. O elemento aponta para ele com aria-describedby, ou com aria-labelledby quando o balão é o nome dele. O balão é sempre renderizado e só aparece quando aberto."
       ],
       [
         "Contraste",
@@ -1085,15 +1096,15 @@
       ],
       [
         "Teclado",
-        "O foco do teclado no elemento abre o balão; Esc fecha. O hover também abre."
+        "O foco do teclado no elemento abre o balão na hora; Enter e Espaço executam a ação e não o abrem nem o fecham; Esc fecha. O ponteiro o abre depois de repousar motion/hover-delay no elemento."
       ],
       [
         "Alvo de toque",
-        "O balão não é alvo de toque e não abre no toque: sem hover, informação essencial nunca vive só no balão. O alvo de toque é o elemento, no tamanho dele (WCAG 2.5.8)."
+        "O balão não é alvo de toque e não abre no toque: sem hover, informação essencial nunca vive só no balão. No toque o botão só de ícone fica sem nome visível, uma exceção aceita: o nome vive no nome acessível, o ícone precisa ser fácil de reconhecer, e uma ação ambígua usa botão com texto. O alvo de toque é o elemento, no tamanho dele (WCAG 2.5.8)."
       ],
       [
         "Nome acessível",
-        "O balão complementa o nome acessível do elemento e não o substitui: no botão só de ícone, o nome da ação fica no próprio botão."
+        "No botão só de ícone o texto do balão é o nome acessível da ação (relation=\"name\"), anunciado uma vez. Em qualquer outro elemento o balão complementa o nome acessível e não o substitui."
       ]
     ],
     "examplesTitle": "Exemplos obrigatórios",
@@ -2347,7 +2358,9 @@
       "components-nph-tooltip-validation--sides": "Os quatro lados, em cima por padrão, com o nome da ação de um botão só de ícone, em modo claro e escuro.",
       "components-nph-tooltip-validation--flip": "O balão inverte para o lado oposto quando não cabe no lado preferido.",
       "components-nph-tooltip-validation--focus-and-escape": "O foco do teclado abre o balão e o Esc fecha, com o foco ficando no elemento.",
-      "components-nph-tooltip-validation--hover-and-focus": "O hover e o foco do teclado abrem o balão em qualquer elemento: um botão, um link e um campo.",
+      "components-nph-tooltip-validation--hover-and-focus": "O hover depois de uma espera curta e o foco do teclado na hora abrem o balão em qualquer elemento que recebe foco: um botão, um link e um campo.",
+      "components-nph-tooltip-validation--accessible-name": "No botão só de ícone o texto do balão é o nome acessível da ação, anunciado uma vez.",
+      "components-nph-tooltip-validation--focusable-only": "O balão só vai em elemento que recebe foco: o botão desabilitado não ganha nenhum.",
       "components-nph-dialog-validation--short-form": "Formulário curto em md, o tamanho padrão: título, descrição, área de conteúdo e ações, no modo claro e no escuro.",
       "components-nph-dialog-validation--short-confirmation": "Confirmação curta em sm, sem área de conteúdo: o texto do cabeçalho define a largura, até o teto.",
       "components-nph-dialog-validation--wide-content": "Conteúdo largo em lg, uma lista, com as duas linhas ligadas: só o conteúdo rola.",
