@@ -115,7 +115,15 @@
     "components-nph-avatar-stack-validation--composition": "Composição",
     "components-nph-avatar-stack-validation--photo": "Foto",
     "components-nph-avatar-stack-validation--count-width": "Largura da contagem",
-    "components-nph-avatar-stack-validation--accessibility": "Acessibilidade"
+    "components-nph-avatar-stack-validation--accessibility": "Acessibilidade",
+    "components-nph-empty-docs": "Docs",
+    "components-nph-empty-docs--documentation": "Documentação",
+    "components-nph-empty-validation": "Validação",
+    "components-nph-empty-validation--with-description": "Com descrição",
+    "components-nph-empty-validation--heading-only": "Só o título",
+    "components-nph-empty-validation--surfaces": "Superfícies",
+    "components-nph-empty-validation--combobox-list": "Lista do combobox",
+    "components-nph-empty-validation--invalid-heading": "Título inválido"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -2362,6 +2370,155 @@
     "namedGroup": "Ana Souza, Bruno Lima, Carla Mendes e mais 3",
     "namedGroupCaption": "O leitor de tela lê o nome do grupo, e não os avatares nem a contagem."
   },
+  "emptyDocs": {
+    "summary": "O estado vazio de uma área sem conteúdo: uma ilustração, um título que diz o que falta e uma descrição que diz o que fazer.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-empty, o design.md para os tokens e docs/decisoes-tecnicas.md para a P84. O arquivo DS-IA-NEPHOS 5.0 do Figma é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "purpose": "Use o nph-empty quando uma lista, uma busca ou uma área não tem conteúdo para mostrar, como a lista do nph-combobox quando a busca não encontra opção. Ele não substitui o carregamento, que tem estado próprio, nem a mensagem de erro, que diz o que falhou. A peça não tem ação: não traz botão nem link.",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Quando uma lista ou uma busca não tem resultado: o título diz o que falta e a descrição sugere outra busca.",
+      "Quando uma área ainda não tem conteúdo: o título diz o que falta.",
+      "Quando não há o que sugerir: deixe a descrição vazia e mostre só o título.",
+      "Escreva o título como o que falta, porque a pessoa entende na hora por que a área está vazia.",
+      "Use a descrição para dizer o que fazer, porque o estado vazio vira um próximo passo."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Enquanto o conteúdo carrega: use o estado de carregamento da peça que o recebe, como state=carregando na lista do nph-combobox, ou o nph-skeleton.",
+      "Para dizer o que falhou: use a mensagem de erro da peça.",
+      "Para oferecer uma ação: a peça não tem botão nem link."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "heading",
+        "Obrigatória. O que falta, já traduzido pela aplicação. Sem ela, ou só com espaços, a peça não desenha nada. O nome não é title, o atributo global do HTML, que o navegador mostra como tooltip nativo."
+      ],
+      [
+        "description",
+        "Opcional. O que a pessoa pode fazer. Vazia, resta só o título: a presença da descrição é o liga e desliga do board."
+      ]
+    ],
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "No nph-combobox, a lista em state=vazio usa o nph-empty quando a busca não encontra opção.",
+      "Enquanto as opções carregam, a lista usa state=carregando, não o nph-empty.",
+      "A peça que recebe o nph-empty dá o fundo e a posição; o nph-empty dá só o próprio espaço interno.",
+      "Espaço: space/section entre a ilustração e os textos, space/inline-tight entre o título e a descrição, e space/container-padding como espaçamento interno."
+    ],
+    "relationsCaption": "Na lista do nph-combobox em state=vazio (uma moldura até o nph-combobox existir).",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "1. Caixa",
+        "Pilha vertical que centraliza tudo, com espaçamento space/container-padding nos quatro lados e largura layout/input-width. Num contêiner mais estreito, encolhe até ele. Sem fundo e sem borda."
+      ],
+      [
+        "2. Ilustração",
+        "Imagem decorativa, centralizada, desenhada em 120 × 87, o tamanho do asset e não um token. Há uma versão por esquema de cores."
+      ],
+      [
+        "3. Título",
+        "Diz o que falta, em text/heading-xs e color/foreground. Sempre presente. Fica a space/section da ilustração."
+      ],
+      [
+        "4. Descrição (opcional)",
+        "Diz o que a pessoa pode fazer, em text/body-sm e color/muted-foreground. Fica a space/inline-tight do título."
+      ]
+    ],
+    "schemeHeader": [
+      "Esquema",
+      "Ilustração mostrada"
+    ],
+    "scheme": [
+      [
+        "Claro",
+        "scheme/is-light vale 1 e scheme/is-dark vale 0: aparece o arquivo claro, empty-no-option-found.png."
+      ],
+      [
+        "Escuro",
+        "scheme/is-light vale 0 e scheme/is-dark vale 1: aparece o arquivo escuro, empty-no-option-found-dark.png."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "O título e a descrição passam de 4,5:1 sobre color/background e sobre color/popover, no claro e no escuro (WCAG 1.4.3)."
+      ],
+      [
+        "Foco visível",
+        "Não se aplica: a peça não recebe foco, porque não tem ação."
+      ],
+      [
+        "Cor não é o único sinal",
+        "A mensagem está no texto do título. A ilustração só reforça o que o texto diz."
+      ],
+      [
+        "Alvo de toque",
+        "Não se aplica: a peça não tem parte clicável."
+      ],
+      [
+        "Nome acessível",
+        "O leitor de tela lê o título e a descrição. A ilustração é decorativa e fica fora da leitura, com aria-hidden e alt vazio."
+      ],
+      [
+        "Anúncio",
+        "A peça não é uma região viva: quem anuncia que a busca não encontrou nada é a peça que a recebe."
+      ]
+    ],
+    "examplesTitle": "Exemplos obrigatórios",
+    "exampleCombobox": "Busca sem resultado na lista do nph-combobox, em state=vazio (uma moldura até o nph-combobox existir).",
+    "exampleDescription": "Com descrição: o que falta e o que fazer.",
+    "exampleHeadingOnly": "Só o título, quando não há o que sugerir.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "matrixLabel": "Matriz do componente",
+    "withDescriptionLabel": "título e descrição",
+    "headingOnlyLabel": "só o título",
+    "heading": "Nenhuma opção encontrada",
+    "description": "Confira o que digitou ou busque outro termo.",
+    "areaHeading": "Nenhum documento ainda",
+    "listLabel": "Opções",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-empty — propósito, anatomia, API, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P84 (nph-empty: API e semântica).",
+      "design.md — space/container-padding, layout/input-width, space/section, space/inline-tight, text/heading-xs, text/body-sm, color/foreground, color/muted-foreground, scheme/is-light e scheme/is-dark.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Empty, board 1463:25260, frame 2003:688 e componente 1463:25238.",
+      "Storybook — Validação, na pasta ao lado desta."
+    ],
+    "sourceBoard": "Figma, board nph-empty (1463:25260)",
+    "sourceApi": "ficha do nph-empty; docs/decisoes-tecnicas.md › P84",
+    "sourceAccessibility": "Figma, board nph-empty (1463:25260); nph-empty.test.ts"
+  },
+  "emptyValidation": {
+    "heading": "Nenhuma opção encontrada",
+    "description": "Confira o que digitou ou busque outro termo.",
+    "areaHeading": "Nenhum documento ainda",
+    "listLabel": "Opções",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "backgroundCaption": "Sobre color/background.",
+    "popoverCaption": "Sobre color/popover, a superfície de uma lista.",
+    "comboboxCaption": "Moldura da lista do nph-combobox em state=vazio: a superfície da lista com o nph-empty como único conteúdo. A lista real vem com o nph-combobox.",
+    "invalidCaption": "A descrição foi dada e o título não: nada é desenhado em nenhum dos modos, e o console mostra um erro em desenvolvimento."
+  },
   "validationPages": {
     "sheetTitle": "O contrato está na ficha",
     "sheetText": "Esta peça não tem página de leitura no Storybook. O contrato está em {sheet}; estas stories o comprovam.",
@@ -2422,7 +2579,12 @@
       "components-nph-input-validation--error-and-disabled": "A precedência da D5: o erro mantém a borda no hover e no foco; desabilitado vence o erro.",
       "components-nph-input-validation--width": "A largura padrão é layout/input-width; o campo estica até o pai, sem mínimo (D6).",
       "components-nph-input-validation--invalid-input": "Entrada inválida não desenha nada: um type fora da v1, um size que não existe, um ícone fora do núcleo. icon-end sem clear-label desenha o campo sem o botão.",
-      "components-nph-input-validation--examples": "Os três exemplos obrigatórios do frame aceito: Busca, Campo com rótulo e Erro, cada um em modo claro e escuro."
+      "components-nph-input-validation--examples": "Os três exemplos obrigatórios do frame aceito: Busca, Campo com rótulo e Erro, cada um em modo claro e escuro.",
+      "components-nph-empty-validation--with-description": "O título diz o que falta e a descrição diz o que fazer, como no board; a ilustração acompanha o esquema de cores.",
+      "components-nph-empty-validation--heading-only": "Com a descrição vazia resta só o título, para quando não há o que sugerir.",
+      "components-nph-empty-validation--surfaces": "O título e a descrição passam de 4,5:1 sobre color/background e sobre color/popover, no modo claro e no escuro.",
+      "components-nph-empty-validation--combobox-list": "A busca sem resultado na lista do nph-combobox, numa moldura até o nph-combobox existir.",
+      "components-nph-empty-validation--invalid-heading": "Sem título a peça não desenha nada e não tem alternativa visual."
     }
   }
 }

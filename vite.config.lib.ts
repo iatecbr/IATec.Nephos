@@ -89,6 +89,13 @@ export default defineConfig({
   plugins: [injectGlobalCss()],
   // The output is a library, never a page: nothing to copy from `public/`.
   publicDir: false,
+  /*
+   * A file a component imports with `?no-inline` (the illustrations of `nph-empty`, P84) is
+   * referenced relative to the module, `new URL('../assets/<file>', import.meta.url)`, so it
+   * resolves wherever the package is installed. With the default base it would be the
+   * absolute `/<file>`, a path of the consumer's site.
+   */
+  base: './',
   build: {
     outDir: 'dist',
     emptyOutDir: false,
@@ -104,6 +111,8 @@ export default defineConfig({
       output: {
         entryFileNames: '[name].js',
         chunkFileNames: 'shared/[name]-[hash].js',
+        // Files that are not code, such as an illustration, go to `dist/assets/` under their own name.
+        assetFileNames: 'assets/[name][extname]',
       },
     },
   },
