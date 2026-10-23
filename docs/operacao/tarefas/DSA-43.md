@@ -87,9 +87,9 @@ target.
 Every token it uses is on `v/5.0.0` with the same value as Figma
 (`--nph-radius-full` is `9999px`, `--nph-radius-control` is `6px`,
 `--nph-state-disabled-opacity` is `0.5`); no token is created or changed. The
-circular shape can be built now. The tooltip part starts only after DSA-42 is
-merged: today the `nph-tooltip` never opens on hover and leaves opening and
-positioning to the consumer. Do not build hover or focus opening inside the
+circular shape can be built now. DSA-42 is done (PR #94), so the tooltip part
+can start: the `nph-tooltip` now opens on hover and on keyboard focus for any
+element. Do not build hover or focus opening inside the
 `nph-button`; use the contract DSA-42 delivers, where it is defined how an
 element attaches the balloon in code. The `review-and-merge` gate of this task
 passes only with DSA-42 in `done`.
