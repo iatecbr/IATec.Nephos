@@ -42,6 +42,8 @@
     "components-nph-button-validation--icons": "Iconos",
     "components-nph-button-validation--disabled": "Deshabilitado",
     "components-nph-button-validation--loading": "Cargando",
+    "components-nph-button-validation--shapes": "Formas",
+    "components-nph-button-validation--tooltip": "Tooltip",
     "components-nph-spinner-validation": "Validación",
     "components-nph-spinner-validation--sizes": "Tamaños",
     "components-nph-spinner-validation--accessibility": "Accesibilidad",
@@ -560,10 +562,10 @@
     "sampleText": "Insignia"
   },
   "buttonDocs": {
-    "summary": "Dispara una acción identificada por texto. Varía en tipo, énfasis, tamaño y estado, con icono opcional al inicio o al final. Sin texto, es el botón solo con icono.",
+    "summary": "Dispara una acción identificada por texto. Varía en tipo, énfasis, tamaño y estado, con icono opcional al inicio o al final. Sin texto, es el botón solo con icono, cuadrado o circular, con el nombre en un tooltip.",
     "onThisPage": "En esta página",
     "derivedTitle": "Esta página es derivada.",
-    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-button, design.md para los tokens y docs/decisoes-tecnicas.md para la P68. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-button, design.md para los tokens y docs/decisoes-tecnicas.md para la P68 y la P86. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
     "sourceLabel": "Fuente:",
     "whenToUseTitle": "Cuándo usar",
     "whenToUse": [
@@ -572,12 +574,13 @@
       "Elija el tipo por el significado de la acción, nunca por el color.",
       "Elija el énfasis por cuánto se destaca la acción: solid, outline, light o ghost.",
       "Use size large en pantallas táctiles.",
-      "Sin texto, use el botón solo con icono y dele un nombre accesible."
+      "Sin texto, para una acción universal como cerrar o buscar: dele un label, que es el nombre accesible y el texto de su tooltip.",
+      "En la columna de acciones de una tabla, incluso cuando la acción lleva a otra pantalla, como ver detalles."
     ],
     "whenNotToUseTitle": "Cuándo no usar",
     "whenNotToUse": [
       "Para mostrar un error de campo: la validación es del campo (nph-field).",
-      "Solo con icono en una acción con consecuencias, como eliminar o publicar.",
+      "Solo con icono en una acción con consecuencias, como eliminar o publicar, fuera de la columna de acciones de una tabla: escriba el texto.",
       "Para navegar a otro destino.",
       "size compact como objetivo principal en una pantalla táctil.",
       "Agrandar el icono para destacar.",
@@ -616,7 +619,7 @@
       ],
       [
         "label",
-        "Nombre accesible del botón sin texto. Obligatorio en él; con texto, no se usa."
+        "Nombre accesible del botón sin texto y texto de su tooltip. Obligatorio en él; con texto, no se usa."
       ],
       [
         "disabled",
@@ -625,6 +628,10 @@
       [
         "loading",
         "Muestra el nph-spinner en lugar del icono de inicio; el texto se queda, el foco continúa y el clic no llega a quien usa. Se refleja en el atributo."
+      ],
+      [
+        "shape",
+        "Esquinas del botón solo con icono: square (el predeterminado) en radius/control o circular en radius/full. El tamaño y el objetivo táctil no cambian. Con texto, solo square. Reflejado en el atributo."
       ]
     ],
     "variantsTitle": "Tipo y énfasis",
@@ -679,7 +686,7 @@
       },
       {
         "value": "danger",
-        "label": "Solo con icono; escriba el texto."
+        "label": "Solo con icono, salvo en la columna de acciones de una tabla, donde el tooltip da el nombre; escriba el texto."
       },
       {
         "value": "info",
@@ -699,7 +706,7 @@
       }
     ],
     "sizesTitle": "Tamaños",
-    "sizesText": "La altura viene de control/height-compact, -default o -large. El texto es text/label-md en todos. Sin texto, el botón es cuadrado y el icono acompaña la caja: sm en compact, md en default y lg en large.",
+    "sizesText": "La altura viene de control/height-compact, -default o -large. El texto es text/label-md en todos. Sin texto, el botón es cuadrado o circular y el icono acompaña la caja: sm en compact, md en default y lg en large.",
     "sizesCaption": "compact, default y large, con texto, con icono y solo con icono.",
     "sizeUseHeader": [
       "Tamaño",
@@ -737,6 +744,10 @@
         "label": "Con un tamaño distinto del campo de al lado."
       }
     ],
+    "iconOnlyTitle": "Solo con icono",
+    "iconOnlyText": "Sin texto, el botón es el botón solo con icono, el conjunto nph-icon-button del Figma. shape elige esquinas cuadradas o circulares, una elección de contexto sin regla fija; el tamaño y el objetivo táctil se mantienen. Todo botón solo con icono muestra su label en un nph-tooltip: al instante con el foco del teclado, después de motion/hover-delay con el puntero, nunca en el toque y nunca deshabilitado.",
+    "iconOnlyCaption": "square y circular en los tres tamaños, y circular cargando. Pase el ratón sobre un botón o use Tab para ver su tooltip.",
+    "sourceIconOnly": "ficha nph-button; Figma, tablero nph-icon-button (2122:1591) y conjunto 498:15671",
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",
@@ -785,11 +796,15 @@
       ],
       [
         "Objetivo táctil",
-        "size large cumple el objetivo táctil de 44 px; compact no es objetivo principal en una pantalla táctil."
+        "size large cumple el objetivo táctil de 44 px; compact no es objetivo principal en una pantalla táctil. La forma no cambia el objetivo."
       ],
       [
         "Nombre accesible",
-        "El texto es el nombre del botón. Sin texto, el nombre viene de label, obligatorio."
+        "El texto es el nombre del botón. Sin texto, el nombre viene de label, obligatorio, y el mismo texto aparece en el tooltip, anunciado una vez."
+      ],
+      [
+        "Tooltip",
+        "Todo botón solo con icono muestra su nombre en un tooltip, al instante con el foco del teclado y tras una breve espera con el puntero. En el toque el tooltip no se abre: el icono debe ser fácil de reconocer, y una acción ambigua usa un botón con texto."
       ],
       [
         "Teclado",
@@ -799,24 +814,29 @@
     "examplesTitle": "Ejemplos",
     "exampleForm": "Acciones de formulario: principal y secundaria.",
     "exampleConsequence": "Acción con consecuencias, siempre con texto.",
-    "exampleIconOnly": "Acción universal sin texto, con nombre accesible.",
+    "exampleIconOnly": "Cerrar un panel: acción universal sin texto, secondary ghost.",
+    "exampleTable": "Acciones de una fila de tabla, en compact: secondary ghost, cada uno nombrado por su tooltip.",
+    "exampleCircular": "Forma circular, con nombre accesible: primary solid.",
     "exampleTexts": [
       "Guardar",
       "Cancelar",
       "Eliminar cuenta",
       "Cerrar",
-      "Nuevo"
+      "Nuevo",
+      "Ver detalles",
+      "Editar",
+      "Eliminar"
     ],
     "referencesTitle": "Referencias",
     "references": [
       "ficha nph-button — función, variantes, estados, accesibilidad, tokens y antipatrones.",
-      "docs/decisoes-tecnicas.md — P68 (API y semántica), P01, P02, P03 y P66 (nph-spinner).",
-      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* y los colores color/* y status/*.",
-      "Figma DS-IA-NEPHOS 5.0 — página NPH — Button, marco nph-button (1197:5449) y conjuntos 461:13009 y 498:15671.",
+      "docs/decisoes-tecnicas.md — P68 y P86 (API y semántica), P77 (nph-tooltip), P01, P02, P03 y P66 (nph-spinner).",
+      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* y los colores color/* y status/*.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Button, marco nph-button (1197:5449) y conjuntos 461:13009 y 498:15671; página NPH — Icon Button, tablero nph-icon-button (2122:1591).",
       "Storybook — Validación, en la carpeta de al lado."
     ],
     "sourceSpec": "ficha nph-button; Figma, marco nph-button (1197:5449)",
-    "sourceApi": "ficha nph-button; docs/decisoes-tecnicas.md › P68",
+    "sourceApi": "ficha nph-button; docs/decisoes-tecnicas.md › P68 y P86",
     "sourceStates": "Figma, conjuntos 461:13009 y 498:15671; design.md",
     "matrixLabel": "Matriz del componente"
   },
@@ -3263,6 +3283,8 @@
       "components-nph-button-validation--icons": "Icono al inicio, al final y los dos juntos, en icon/size-sm.",
       "components-nph-button-validation--disabled": "Deshabilitado: todo el botón en state/disabled-opacity, fuera del orden de Tab.",
       "components-nph-button-validation--loading": "Cargando: el spinner ocupa el lugar del icono inicial, y el texto se mantiene.",
+      "components-nph-button-validation--shapes": "Esquinas cuadradas y circulares del botón solo con icono, en cada tamaño y énfasis: el tamaño se mantiene. Use Tab para ver el foco seguir las esquinas redondas.",
+      "components-nph-button-validation--tooltip": "Todo botón solo con icono muestra su label en un tooltip: Tab lo abre al instante, el puntero tras motion/hover-delay. Deshabilitado no tiene; cargando, lo mantiene.",
       "components-nph-kbd-validation--single-key": "Una tecla por pieza, mediante la propiedad text.",
       "components-nph-kbd-validation--combination": "Una combinación junta una pieza por tecla, una al lado de otra.",
       "components-nph-kbd-validation--mac-combination": "La misma combinación en macOS, con los símbolos del sistema. La aplicación elige el conjunto según el sistema de la persona; la pieza no lo detecta.",
