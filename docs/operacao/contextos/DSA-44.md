@@ -27,9 +27,10 @@ See the commits on the branch.
   `test:operacao`, `build-storybook`, `build:lib`, `test:package`, `test:naming`; `git diff --check`.
 
 ## Result
-In progress, synced with `v/5.0.0` at `9dd6e19`. Every proof passes except `test:naming`, which
-fails only in files of the base: `scripts/test-package.mjs:180` and the records of DSA-34, 39, 42,
-43, 45 and 47. One dialog test waits for the `nph-button` rule of Q1.
+In progress, synced with `v/5.0.0` at `e65c07c`. Every proof passes except two failures of the
+base: `src/components/nph-tooltip/nph-tooltip.test.ts:1074` (a hotfix is on its way) and
+`test:naming` in `scripts/test-package.mjs:180` and the records of DSA-34, 39, 42, 43, 45 and 47.
+One dialog test waits for the `nph-button` rule of Q1.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the merge.
