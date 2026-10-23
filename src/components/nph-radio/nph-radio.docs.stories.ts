@@ -6,7 +6,7 @@
  * spec sheet (`ficha`) and from P82; nothing is decided here. The page follows the order of the
  * `nph-badge` page: it opens with the labelled matrix, and the two lists of "When to use" are the
  * ones of the sheet. The three required examples of the frame close it, each in light and dark
- * mode. The group wrapper of the examples stands in for `nph-field` (see `nph-radio.demo.ts`).
+ * mode. Each group of the examples is an `nph-field` around the radios (P83; see `nph-radio.demo.ts`).
  *
  * Deferred, not fulfilled here:
  * - the Usage section (P70) enters every Docs page, after API, in DSA-35;

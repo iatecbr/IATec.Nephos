@@ -21,6 +21,7 @@ import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import designMd from '../../../design.md?raw';
 import componentCss from './nph-radio.css?raw';
+import '../nph-field/nph-field';
 import { NPH_RADIO_DEFAULT_VALUE, NphRadio } from './nph-radio';
 
 interface RadioSpec {
@@ -723,6 +724,56 @@ describe('the form', () => {
     (radios[2] as unknown as { formStateRestoreCallback(state: unknown): void }).formStateRestoreCallback('night');
     (radios[0] as unknown as { formStateRestoreCallback(state: unknown): void }).formStateRestoreCallback(null);
     expect(checkedOf(radios)).toEqual([false, false, true]);
+  });
+});
+
+describe('inside nph-field (P83)', () => {
+  async function inField(attributes: Record<string, string> = {}): Promise<{ field: HTMLElement; radios: NphRadio[] }> {
+    const field = document.createElement('nph-field');
+    field.setAttribute('label', 'Work shift');
+    for (const [key, value] of Object.entries(attributes)) field.setAttribute(key, value);
+    document.body.append(field);
+    const radios = await mountGroup([{ ...SHIFTS[0], checked: true }, SHIFTS[1]!, SHIFTS[2]!], field);
+    await (field as unknown as { updateComplete: Promise<unknown> }).updateComplete;
+    return { field, radios };
+  }
+
+  const wrapper = (field: HTMLElement): HTMLElement | null => field.shadowRoot?.querySelector<HTMLElement>('[role="radiogroup"]') ?? null;
+
+  it('the field wraps the radios in a radiogroup named by its label, and the radios keep their names', async () => {
+    const { field, radios } = await inField();
+    await vi.waitFor(() => expect(wrapper(field)?.getAttribute('aria-label')).toBe('Work shift'));
+    expect(await ax(radios[1]!)).toMatchObject({ role: 'radio', name: 'Afternoon' });
+  });
+
+  it('the group by name, the Tab stop and the arrow keys work inside the field', async () => {
+    const { field, radios } = await inField();
+    await vi.waitFor(() => expect(wrapper(field)).not.toBeNull());
+    expect(radios.map((element) => element.getAttribute('tabindex'))).toEqual(['0', '-1', '-1']);
+    radios[0]!.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    expect(document.activeElement).toBe(radios[1]);
+    expect(checkedOf(radios)).toEqual([false, true, false]);
+  });
+
+  it('an error on the field makes every radio invalid, and the radiogroup carries aria-invalid', async () => {
+    const { field, radios } = await inField({ error: 'Choose a shift.' });
+    await vi.waitFor(() => expect(radios.every((element) => element.invalid)).toBe(true));
+    await vi.waitFor(() => expect(getComputedStyle(circle(radios[1]!)).borderTopColor).toBe(resolved('color', '--nph-status-error')));
+    expect(wrapper(field)?.getAttribute('aria-invalid')).toBe('true');
+    expect(radios.some((element) => element.hasAttribute('aria-invalid'))).toBe(false);
+    field.removeAttribute('error');
+    await vi.waitFor(() => expect(radios.every((element) => !element.invalid)).toBe(true));
+  });
+
+  it('a disabled field disables the radios, which fade once: the field draws no opacity of its own', async () => {
+    const { field, radios } = await inField({ disabled: '' });
+    await vi.waitFor(() => expect(radios.every((element) => element.disabled)).toBe(true));
+    expect(radios.every((element) => !element.hasAttribute('tabindex'))).toBe(true);
+    expect(getComputedStyle(radios[0]!).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
+    expect(getComputedStyle(field).opacity).toBe('1');
+    field.removeAttribute('disabled');
+    await vi.waitFor(() => expect(radios.map((element) => element.getAttribute('tabindex'))).toEqual(['0', '-1', '-1']));
   });
 });
 

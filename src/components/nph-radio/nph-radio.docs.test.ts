@@ -148,7 +148,7 @@ describe('nph-radio Documentation', () => {
           radios: radios.length,
           checked: radios.filter((piece) => piece.checked).length,
           names: new Set(radios.map((piece) => piece.name)).size,
-          groups: entry.querySelectorAll('[role="radiogroup"]').length,
+          groups: entry.querySelectorAll('nph-field').length,
         };
       });
       expect(shown).toEqual([
@@ -156,6 +156,14 @@ describe('nph-radio Documentation', () => {
         { radios: 6, checked: 0, names: 2, groups: 2 },
         { radios: 6, checked: 2, names: 2, groups: 2 },
       ]);
+      /* Each nph-field wraps its radios in a radiogroup named by its label (P83). */
+      await vi.waitFor(() => {
+        for (const field of examples.querySelectorAll('nph-field')) {
+          const group = field.shadowRoot?.querySelector('[role="radiogroup"]');
+          expect(group, field.outerHTML).toBeTruthy();
+          expect(group?.getAttribute('aria-label')).toBe(field.getAttribute('label'));
+        }
+      });
     });
 
     it(`${locale}: the accessibility section says the host is a radio and the group comes from nph-field`, () => {
@@ -282,8 +290,8 @@ describe('nph-radio Validation: text only from the dictionary', () => {
           const value = piece.getAttribute('text') || piece.getAttribute('label') || '';
           expect(allowed.has(value), `${name} ${locale}: ${piece.outerHTML}`).toBe(true);
         }
-        for (const group of target.querySelectorAll('[role="radiogroup"]')) {
-          expect(allowed.has(group.getAttribute('aria-label') ?? ''), `${name} ${locale}: ${group.getAttribute('aria-label')}`).toBe(true);
+        for (const field of target.querySelectorAll('nph-field')) {
+          expect(allowed.has(field.getAttribute('label') ?? ''), `${name} ${locale}: ${field.getAttribute('label')}`).toBe(true);
         }
         for (const [group, count] of checkedPerName(radios)) {
           expect(count, `${name} ${locale}: ${group}`).toBeLessThanOrEqual(1);

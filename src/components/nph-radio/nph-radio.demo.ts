@@ -2,11 +2,10 @@
  * Demonstration frame shared by the `nph-radio` Validation and Docs pages.
  *
  * It lives in a file that does not end in `.stories.ts`, so Storybook's glob does not
- * index it. The scenery here is NOT a precedent for component CSS. In particular, the
- * group wrapper — a `<div role="radiogroup">` named by the group title, with the options
- * stacked by `space/stack-tight` — stands in for `nph-field`, which names the group, says
- * it is required and carries the error message (P83). The radio itself owns only the
- * exclusivity, the arrow keys and its own Tab stop.
+ * index it. The scenery here is NOT a precedent for component CSS. A group is an
+ * `nph-field` around radios that share a `name`: the field names the group, wraps the
+ * options in its `radiogroup`, stacks them and carries the error message (P83); the radio
+ * owns only the exclusivity, the arrow keys and its own Tab stop (P82).
  *
  * The three examples are the required ones of the accepted frame (`1196:311`): "Payment
  * method" (three options, one checked), "Employment type" (an exclusive choice) and "Work
@@ -17,6 +16,7 @@
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 
+import '../nph-field/nph-field';
 import './nph-radio';
 
 export type Scheme = 'light' | 'dark';
@@ -68,13 +68,10 @@ export function radio(name: string, item: RadioItem, checked = false): TemplateR
   ></nph-radio>`;
 }
 
-/** A group: the stand-in for `nph-field` around the radios that share a name. */
+/** A group: an `nph-field` named by the subject, around the radios that share a name. */
 export function radioGroup(options: GroupOptions): TemplateResult {
   const { title, name, checked, items } = options;
-  return html`<div role="radiogroup" aria-label=${title} style="display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
-    <span style="font: var(--nph-text-label-md-font-weight) var(--nph-text-label-md-font-size) / var(--nph-text-label-md-line-height) var(--nph-text-label-md-font-family);" aria-hidden="true">${title}</span>
-    ${items.map((item) => radio(name, item, item.value === checked))}
-  </div>`;
+  return html`<nph-field label=${title}>${items.map((item) => radio(name, item, item.value === checked))}</nph-field>`;
 }
 
 export interface PaymentText {

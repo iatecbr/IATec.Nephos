@@ -11,8 +11,8 @@
  * `data-nph-color-scheme` on the frame (P20, P67).
  *
  * Hover and focus are interaction: they show up by moving the mouse over a radio and by
- * navigating with Tab and the arrow keys; the component test measures them. The group
- * wrapper of the frame stands in for `nph-field` (see `nph-radio.demo.ts`), and the
+ * navigating with Tab and the arrow keys; the component test measures them. A group is an
+ * `nph-field` around the radios that share a name (P83; see `nph-radio.demo.ts`), and the
  * `nph-button` of the Form story is scenery that asks the form to submit and reset, not a
  * relation of the piece. Each page opens
  * with what it proves, from the dictionary (`validationPages.claims`). The example text and
