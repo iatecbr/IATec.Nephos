@@ -71,7 +71,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The Figma leitura (property readOnly). The person reads, selects and copies
+      The read-only state of Figma (property readOnly). The person reads, selects and copies
       the text, and does not edit it; the field stays focusable, in the form data
       and out of validation, as the native one. No hover, no error look and no
       footer: with a counter or an action, the footer is not drawn and
