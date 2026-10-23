@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 290,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-field",
   "dependencies": [],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-28/review-and-merge-2026-10-23.md",
+      "result": "passed",
+      "verified_at": "2026-10-23",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -62,7 +62,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-28/documentacao-figma-aceita-2026-10-01.md"
+    "docs/operacao/evidencias/DSA-28/documentacao-figma-aceita-2026-10-01.md",
+    "docs/operacao/evidencias/DSA-28/review-and-merge-2026-10-23.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -78,10 +79,10 @@
   },
   "git_review": {
     "branch": "claude/dsa-28-nph-field-66625a",
-    "commit": "cc0a73102fe4c7e6c03098d491e88ea49fc7473a",
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/105"
+    "commit": "a73c09935119db19219e5ec142a11d83fd93da46",
+    "pr": "105"
   },
-  "context": "docs/operacao/contextos/DSA-28.md",
+  "context": null,
   "updated_at": "2026-10-23"
 }
 ```
