@@ -142,6 +142,10 @@ export class NphTextarea extends LitElement {
       attributes: true,
       attributeFilter: ['for', 'id'],
     });
+    /* Back in the page: an action may have been defined while the piece was out of it. */
+    if (this.hasUpdated) {
+      this.requestUpdate();
+    }
   }
 
   override disconnectedCallback(): void {
@@ -321,6 +325,7 @@ export class NphTextarea extends LitElement {
     }
     for (const element of next) {
       owners.set(element, this);
+      this.upgrade(element);
       if (!('disabled' in element)) {
         this.await(element);
         continue;
@@ -339,6 +344,13 @@ export class NphTextarea extends LitElement {
     this.managedActions = next;
   }
 
+  /** A defined action in a piece out of the page is not upgraded by the browser: upgrade it now. */
+  private upgrade(element: Element): void {
+    if (element.localName.includes('-') && customElements.get(element.localName) !== undefined) {
+      customElements.upgrade(element);
+    }
+  }
+
   /** An action not defined yet: synchronize it once its element is defined. */
   private await(element: Element): void {
     const name = element.localName;
@@ -346,7 +358,11 @@ export class NphTextarea extends LitElement {
       return;
     }
     this.awaited.add(name);
-    void customElements.whenDefined(name).then(() => this.requestUpdate());
+    void customElements.whenDefined(name).then(() => {
+      /* A child of a piece out of the page is not upgraded by the definition: upgrade it now. */
+      customElements.upgrade(this);
+      this.requestUpdate();
+    });
   }
 
   /** An action that left the piece gets back what a textarea forced, unless another textarea took it. */

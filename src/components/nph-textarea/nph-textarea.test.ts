@@ -1138,3 +1138,47 @@ describe('review regressions (PR #111, Copilot round 1)', () => {
     expect(send.disabled).toBe(false);
   });
 });
+
+describe('review regressions (PR #111, Copilot round 2)', () => {
+  it('an action defined while a disabled textarea is out of the page is disabled when it upgrades', async () => {
+    const name = `demo-detached-action-${Date.now()}`;
+    const holder = await markup(`<nph-textarea label="Comment" disabled><${name} slot="actions"></${name}></nph-textarea>`);
+    const element = holder.querySelector('nph-textarea') as NphTextarea;
+    const action = element.querySelector(name) as HTMLElement & { disabled?: boolean };
+    element.remove();
+    customElements.define(
+      name,
+      class extends HTMLElement {
+        disabled = false;
+      },
+    );
+    await customElements.whenDefined(name);
+    await element.updateComplete;
+    await element.updateComplete;
+    expect(action.disabled).toBe(true);
+    document.body.append(element);
+    await element.updateComplete;
+    expect(action.disabled).toBe(true);
+  });
+
+  it('an action defined while the textarea is out of the page is synchronized when the textarea comes back', async () => {
+    const name = `demo-returning-action-${Date.now()}`;
+    customElements.define(
+      name,
+      class extends HTMLElement {
+        disabled = false;
+      },
+    );
+    const element = await mount({ label: 'Comment', disabled: true });
+    element.remove();
+    const action = document.createElement('div');
+    action.innerHTML = `<${name} slot="actions"></${name}>`;
+    const child = action.firstElementChild as HTMLElement & { disabled?: boolean };
+    element.append(child);
+    await element.updateComplete;
+    document.body.append(element);
+    await element.updateComplete;
+    await element.updateComplete;
+    expect(child.disabled).toBe(true);
+  });
+});
