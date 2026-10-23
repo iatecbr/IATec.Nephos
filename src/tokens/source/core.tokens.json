@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "layer": "core",
-      "expectedCount": 241,
-      "origin": "Figma DS-IA-NEPHOS 5.0, colecao core, leitura de 2026-08-24; as duas familias de fonte lidas dos estilos de texto do mesmo arquivo em 2026-08-27; os 24 primitivos de sombra e os tres de movimento lidos variavel a variavel em 2026-09-03; os 47 primitivos que resolvem os tokens trazidos na DSA-04 (40 cores e 7 larguras e alturas de layout) lidos variavel a variavel em 2026-10-05; os 5 primitivos de avatar e do trilho do nph-switch (avatar-size 100 a 300, avatar-overlap 100 e layout-width/switch-track) lidos variavel a variavel em 2026-10-08; core/line-height/100, primitivo de skeleton/line-height, lido em 2026-10-09; core/surface/500, primitivo de scrollbar/thumb no modo escuro, lido em 2026-10-14; core/radius/off-scale/5 e core/layout-height/list, primitivos de radius/control-inner e layout/max-list-height, lidos variavel a variavel em 2026-10-14; core/weight/semibold, primitivo de text/highlight-weight, lido em 2026-10-14; core/layout-width/multi-combobox, primitivo de layout/multi-combobox-width, lido variavel a variavel em 2026-10-15; core/layout-height/textarea-min e core/layout-height/textarea-max, primitivos de layout/textarea-min-height e layout/textarea-max-height, lidos variavel a variavel em 2026-10-16; core/layout-width/dialog-min, dialog-sm, dialog-lg, dialog-content-sm, dialog-content-md e dialog-content-lg e core/layout-height/dialog-max, primitivos de layout/dialog-* do nph-dialog, lidos variavel a variavel em 2026-10-21; core/radius/off-scale/9, primitivo de focus/radius-inner-with-border do nph-dropdown-menu, lido variavel a variavel em 2026-10-21; core/duration/delay, primitivo de motion/hover-delay, lido variavel a variavel em 2026-10-22"
+      "expectedCount": 249,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao core, leitura de 2026-08-24; as duas familias de fonte lidas dos estilos de texto do mesmo arquivo em 2026-08-27; os 24 primitivos de sombra e os tres de movimento lidos variavel a variavel em 2026-09-03; os 47 primitivos que resolvem os tokens trazidos na DSA-04 (40 cores e 7 larguras e alturas de layout) lidos variavel a variavel em 2026-10-05; os 5 primitivos de avatar e do trilho do nph-switch (avatar-size 100 a 300, avatar-overlap 100 e layout-width/switch-track) lidos variavel a variavel em 2026-10-08; core/line-height/100, primitivo de skeleton/line-height, lido em 2026-10-09; core/surface/500, primitivo de scrollbar/thumb no modo escuro, lido em 2026-10-14; core/radius/off-scale/5 e core/layout-height/list, primitivos de radius/control-inner e layout/max-list-height, lidos variavel a variavel em 2026-10-14; core/weight/semibold, primitivo de text/highlight-weight, lido em 2026-10-14; core/layout-width/multi-combobox, primitivo de layout/multi-combobox-width, lido variavel a variavel em 2026-10-15; core/layout-height/textarea-min e core/layout-height/textarea-max, primitivos de layout/textarea-min-height e layout/textarea-max-height, lidos variavel a variavel em 2026-10-16; core/layout-width/dialog-min, dialog-sm, dialog-lg, dialog-content-sm, dialog-content-md e dialog-content-lg e core/layout-height/dialog-max, primitivos de layout/dialog-* do nph-dialog, lidos variavel a variavel em 2026-10-21; core/radius/off-scale/9, primitivo de focus/radius-inner-with-border do nph-dropdown-menu, lido variavel a variavel em 2026-10-21; core/duration/delay, primitivo de motion/hover-delay, lido variavel a variavel em 2026-10-22; core/image-size/100 a 600, core/layout-width/media e core/alpha/black-60, primitivos dos tokens image/* e overlay/on-media-strong do nph-image, lidos variavel a variavel em 2026-10-23"
     }
   },
   "core": {
@@ -28,6 +28,10 @@
       "black-5": {
         "$type": "color",
         "$value": "rgba(0, 0, 0, 0.05)"
+      },
+      "black-60": {
+        "$type": "color",
+        "$value": "rgba(0, 0, 0, 0.6)"
       }
     },
     "avatar-overlap": {
@@ -736,6 +740,13 @@
           "value": 672,
           "unit": "px"
         }
+      },
+      "media": {
+        "$type": "dimension",
+        "$value": {
+          "value": 256,
+          "unit": "px"
+        }
       }
     },
     "line-height": {
@@ -1329,6 +1340,50 @@
       "900": {
         "$type": "color",
         "$value": "#2f1202"
+      }
+    },
+    "image-size": {
+      "100": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      },
+      "200": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        }
+      },
+      "300": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        }
+      },
+      "400": {
+        "$type": "dimension",
+        "$value": {
+          "value": 64,
+          "unit": "px"
+        }
+      },
+      "500": {
+        "$type": "dimension",
+        "$value": {
+          "value": 96,
+          "unit": "px"
+        }
+      },
+      "600": {
+        "$type": "dimension",
+        "$value": {
+          "value": 128,
+          "unit": "px"
+        }
       }
     }
   }
