@@ -679,6 +679,15 @@ describe('optional parts', () => {
     ]);
   });
 
+  it('inputs: a field takes one part of the line and the track three (D5)', async () => {
+    const element = await mount({ ...RANGE, inputs: true });
+    const scale = element.shadowRoot?.querySelector('.scale') as HTMLElement;
+    const sides = [...(element.shadowRoot?.querySelectorAll<HTMLElement>('.side') ?? [])];
+    for (const side of sides) {
+      expect(scale.getBoundingClientRect().width).toBeCloseTo(side.getBoundingClientRect().width * 3, 0);
+    }
+  });
+
   it('inputs: the number is applied on change, rounded and kept inside its bounds; text that is not a number goes back', async () => {
     const element = await mount({ ...RANGE, inputs: true, start: 10, end: 90 });
     const [start] = fields(element) as [NphInput];

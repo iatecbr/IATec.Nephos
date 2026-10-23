@@ -3013,9 +3013,10 @@ names follow P64.
 6. **Parts and composition.** The parts beside the track, from left to right:
    `[start field] [minus] [minimum] track [maximum] [plus] [end field]` (D1); in `single`, the
    only field is at the end. They sit at `space/inline` from each other and from the track. A
-   field shares the line with the track (D5): the evidence gives it no width of its own. In the
-   vertical orientation the track takes `layout/input-width` of height (D3), the maximum is at the
-   top and the minimum at the bottom, and only `text` and `limits` exist. Minus and plus are
+   field shares the line with the track, one part for the field and three for the track (D5): the
+   evidence gives it no width of its own. In the vertical orientation the track takes
+   `layout/input-width` of height (D3), the maximum is at the top and the minimum at the bottom,
+   and only `text` and `limits` exist. Minus and plus are
    icon-only `nph-button` (`secondary`, `ghost`, `default`, `minus` and `plus`), named by
    `decrease-label` and `increase-label` and shown in their built-in tooltip (P86), and move by
    one step the thumb used last, the start one by default (D2). `nph-label` has no Shadow DOM

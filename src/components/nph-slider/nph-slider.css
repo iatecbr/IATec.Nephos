@@ -7,7 +7,7 @@
  *
  * No literal design value goes in here. Written box relations: `0`, `50%`, `100%`,
  * `-50%` (the thumb and the marks centered on their point), `1` (flex), `auto`,
- * `minmax(0, 1fr)` (the track, and a field, share the rest of the line), `calc` of tokens (the touch
+ * `minmax(0, 1fr)` and `minmax(0, 3fr)` (a field and the track share the rest of the line, D5), `calc` of tokens (the touch
  * target and the halo, outside, without changing the size). The position of each thumb,
  * of the active part and of each mark is a percentage of the track, written by the
  * component: a box relation, not a design value.
@@ -78,7 +78,7 @@
 /*
  * The line of the track: the parts beside it at `space/inline`, the marks below it at
  * `space/stack-tight`. The component writes the columns: `auto` for each part,
- * `minmax(0, 1fr)` for the track and for a field, which share the rest (D5).
+ * `minmax(0, 3fr)` for the track and `minmax(0, 1fr)` for a field, which share the rest (D5).
  */
 .row {
   display: grid;

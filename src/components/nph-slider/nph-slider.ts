@@ -845,9 +845,9 @@ export class NphSlider extends LitElement {
     if (steppers) after.push(this.renderStepper(1, inactive));
     if (inputs) after.push(field(this.single ? 0 : 1));
 
-    /* A field shares the line with the track (D5): the evidence gives it no width of its own. */
+    /* A field takes one part of the line and the track three (D5): the evidence gives the field no width of its own. */
     const column = (part: TemplateResult): string => (fields.has(part) ? 'minmax(0, 1fr)' : 'auto');
-    const columns = [...before.map(column), 'minmax(0, 1fr)', ...after.map(column)].join(' ');
+    const columns = [...before.map(column), 'minmax(0, 3fr)', ...after.map(column)].join(' ');
     const trackColumn = before.length + 1;
 
     return html`<div class="slider">

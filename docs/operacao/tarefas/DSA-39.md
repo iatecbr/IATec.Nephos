@@ -56,7 +56,7 @@
     },
     {
       "id": "D5",
-      "question": "`campo` is an `nph-input` at `space/inline` from the track, with no width of its own in the evidence and no token for it. The code lets the field share the line with the track. It does not block the pull request.",
+      "question": "`campo` is an `nph-input` at `space/inline` from the track, with no width of its own in the evidence and no token for it. The code lets the field share the line with the track, one part for the field and three for the track. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-23"
     }
@@ -122,7 +122,7 @@ adjusts one rule each. They are recorded in P94.
 | D2 | Minus and plus move one step. | Which thumb they move in `tipo=intervalo`. | The thumb used last, the start one by default. |
 | D3 | The default width is `layout/input-width`. | The length of the vertical track. | `layout/input-width` as its height. |
 | D4 | `marcas` shows the steps under the track. | One mark per step, or a subset. | One label per step. |
-| D5 | `campo` is an `nph-input` at `space/inline` from the track. | Its width; there is no token for it. | The field shares the line with the track. |
+| D5 | `campo` is an `nph-input` at `space/inline` from the track. | Its width; there is no token for it. | The field shares the line with the track: one part for the field, three for the track. |
 
 ## Relations with other tasks
 - The value balloon is an `nph-tooltip` (DSA-08).

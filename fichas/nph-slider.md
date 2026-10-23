@@ -472,8 +472,9 @@ shadow root.
 | Disabled | `state/disabled-opacity` |
 
 **Usage restrictions:** the width may stretch to the parent, with no minimum. A field shares the
-line with the track: the evidence gives it no width of its own (D5). In the vertical orientation
-the track takes `layout/input-width` of height (D3). There is no motion of its own.
+line with the track, one part for the field and three for the track: the evidence gives it no
+width of its own (D5). In the vertical orientation the track takes `layout/input-width` of
+height (D3). There is no motion of its own.
 
 **AI hints:**
 
