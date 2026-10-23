@@ -2444,8 +2444,10 @@ root cannot be described from outside, so the component that owns that root rend
    host without activating the native button, so the capture guard of the host stops it, as it does
    in `disabled` and `loading`. A tooltip rendered after the keyboard focus arrived, as when a button
    with text becomes icon-only while focused, heard no `focusin`: `nph-tooltip` now takes the focus
-   hold when it attaches to an element that already has visible keyboard focus, with the rule of
-   `focusin`. The `nph-tooltip` demonstrations that paired an icon-only `nph-button` with a second,
+   hold when it attaches, on any path, to an element that already has the focus, with the rule of
+   `focusin`, and only when that focus arrived by the keyboard. The page keeps one record of how the
+   focus last arrived (a key press or a pointer press, touch included), because a text field matches
+   `:focus-visible` after a click too. The `nph-tooltip` demonstrations that paired an icon-only `nph-button` with a second,
    outer tooltip now use a native button with one tooltip, so no example shows two balloons.
 4. **The name, announced once.** With `relation="name"` the tooltip adds its `id` to the
    `aria-labelledby` of the native button, and the browser computes the name from the text it

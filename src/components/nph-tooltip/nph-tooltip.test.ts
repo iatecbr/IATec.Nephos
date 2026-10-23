@@ -487,6 +487,54 @@ describe('opening on hover and on keyboard focus', () => {
     await gone(tooltip);
   });
 
+  it('an element inserted and focused by the keyboard before the root observer runs opens it', async () => {
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', 'inserted-and-focused');
+    tooltip.text = ONE_LINE;
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    document.body.append(tooltip);
+    await tooltip.updateComplete;
+    await userEvent.keyboard('{Shift}');
+    const button = document.createElement('button');
+    button.id = 'inserted-and-focused';
+    button.textContent = 'Target';
+    button.style.cssText = 'position:fixed;left:300px;top:300px';
+    /* In one task: the observer has not run when the focus arrives. */
+    document.body.append(button);
+    button.focus();
+    expect(button.matches(':focus-visible')).toBe(true);
+    await vi.waitFor(() => expect(tooltip.open).toBe(true));
+    await shown(tooltip);
+  });
+
+  it('a tooltip mounted after a click or a tap focused a field does not open it', async () => {
+    for (const how of ['click', 'tap'] as const) {
+      const input = document.createElement('input');
+      input.id = `focused-by-${how}`;
+      input.style.cssText = 'position:fixed;left:300px;top:300px';
+      document.body.append(input);
+      if (how === 'click') {
+        await userEvent.click(input);
+      } else {
+        touch('pointerdown', input);
+        input.focus();
+      }
+      expect(document.activeElement).toBe(input);
+      expect(input.matches(':focus-visible')).toBe(true);
+      const tooltip = document.createElement('nph-tooltip');
+      tooltip.setAttribute('for', input.id);
+      tooltip.text = ONE_LINE;
+      document.body.append(tooltip);
+      await tooltip.updateComplete;
+      await pause(50);
+      expect(tooltip.open, how).toBe(false);
+      expect(isShown(tooltip), how).toBe(false);
+      input.blur();
+      input.remove();
+      tooltip.remove();
+    }
+  });
+
   it('a mouse click that focuses the button does not open it by itself (no visible focus)', async () => {
     const { button, tooltip } = await mount();
     button.dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'mouse', bubbles: true }));
