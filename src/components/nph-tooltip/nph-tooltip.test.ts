@@ -1056,6 +1056,26 @@ describe('only on an element that receives focus', () => {
     expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
   });
 
+  it('an inert ancestor prevents a consumer-opened balloon and keeps its ARIA reference', async () => {
+    const ancestor = document.createElement('div');
+    ancestor.inert = true;
+    const button = document.createElement('button');
+    button.id = 'inert-ancestor-target';
+    button.style.cssText = 'position:fixed;left:300px;top:300px';
+    ancestor.append(button);
+
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    tooltip.open = true;
+    document.body.append(ancestor, tooltip);
+    await tooltip.updateComplete;
+
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+    expect(button.getAttribute('aria-describedby')).toBe(tooltip.id);
+  });
+
   it('an inert flat-tree ancestor closes an open balloon and keeps its ARIA reference', async () => {
     const host = document.createElement('div');
     const shadow = host.attachShadow({ mode: 'open' });
