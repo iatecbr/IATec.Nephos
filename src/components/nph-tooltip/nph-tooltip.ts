@@ -231,7 +231,12 @@ export class NphTooltip extends LitElement {
     this.rootObserver?.disconnect();
     this.observedRoot = root;
     this.rootObserver = new MutationObserver(() => {
-      if (this.target === null || !this.target.isConnected || this.lookUp() !== this.target) {
+      /*
+       * Re-attach only when the element came, went or was replaced. With no element
+       * before and none now there is nothing to do: the one-frame retry of `attach()`
+       * owns that case, and a second look from here would report it too early.
+       */
+      if (this.target === null ? this.lookUp() !== null : !this.target.isConnected || this.lookUp() !== this.target) {
         this.attach();
         this.syncVisibility();
       }
@@ -251,12 +256,12 @@ export class NphTooltip extends LitElement {
     }
     this.retried = false;
     this.target = next;
-    next.addEventListener('pointerenter', this.onTargetEnter);
-    next.addEventListener('pointerleave', this.onTargetLeave);
-    this.observedRoot?.addEventListener('pointerdown', this.onAnyPointerDown, true);
+    next.addEventListener('pointerenter', this.onTargetEnter as EventListener);
+    next.addEventListener('pointerleave', this.onTargetLeave as EventListener);
+    this.observedRoot?.addEventListener('pointerdown', this.onAnyPointerDown as EventListener, true);
     document.addEventListener('keydown', this.onAnyKeydown, true);
-    next.addEventListener('focusin', this.onTargetFocusIn);
-    next.addEventListener('focusout', this.onTargetFocusOut);
+    next.addEventListener('focusin', this.onTargetFocusIn as EventListener);
+    next.addEventListener('focusout', this.onTargetFocusOut as EventListener);
     if (this.resizeObserver !== undefined) {
       this.resizeObserver.observe(next);
       this.updateScrollTargets();
@@ -297,12 +302,12 @@ export class NphTooltip extends LitElement {
     if (target === null) {
       return;
     }
-    target.removeEventListener('pointerenter', this.onTargetEnter);
-    target.removeEventListener('pointerleave', this.onTargetLeave);
-    this.observedRoot?.removeEventListener('pointerdown', this.onAnyPointerDown, true);
+    target.removeEventListener('pointerenter', this.onTargetEnter as EventListener);
+    target.removeEventListener('pointerleave', this.onTargetLeave as EventListener);
+    this.observedRoot?.removeEventListener('pointerdown', this.onAnyPointerDown as EventListener, true);
     document.removeEventListener('keydown', this.onAnyKeydown, true);
-    target.removeEventListener('focusin', this.onTargetFocusIn);
-    target.removeEventListener('focusout', this.onTargetFocusOut);
+    target.removeEventListener('focusin', this.onTargetFocusIn as EventListener);
+    target.removeEventListener('focusout', this.onTargetFocusOut as EventListener);
     this.resizeObserver?.unobserve(target);
     this.clearScrollTargets();
     this.describe(false);

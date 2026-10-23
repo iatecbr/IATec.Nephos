@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77 and P85. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78 and P85. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -45,6 +45,7 @@ P62.4 subsection for the detail).
 | **P75** | Package `@iatec/nephos`: first release candidate | 19/10/2026 | High and public. The name, the `exports` paths and the `rc` tag are what every consumer writes in a lockfile and in an import line | Approved by Elvys on 19/10/2026. Amends P70, adopted by Indiane on 15/10/2026: her confirmation is requested in the pull request that brings it |
 | **P76** | API and semantics of `nph-toggle-group` | 20/10/2026 | Low now. No piece consumes it yet; a toolbar will, so changing `label`, `selection`, `value` or the event `nph-value-change`, or the `value` attribute each button carries, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P77** | `nph-tooltip`: any element, opened on hover and on keyboard focus (amends P65 and P62.6) | 21/10/2026 | Medium. `nph-button` (DSA-43) and the value balloon of the slider (DSA-39) will attach the balloon with `for`, so changing `for`, `side` or the rule of opening later requires redoing both | Anatomy and behavior: board accepted by Indiane on 20/10/2026, D1 answered on 20/10/2026; the plan is approved by Elvys on 21/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P78** | API and semantics of `nph-avatar-stack` | 22/10/2026 | Low now. No piece consumes it yet; a list of people, a card or a table row will, so changing `count`, `label` or the slot of `nph-avatar` children later requires redoing them | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P85** | API and semantics of `nph-input-otp` | 22/10/2026 | Low now. No piece consumes it yet; a sign-in or verification screen will, inside `nph-field`, so changing `length`, `masked`, `value` or the native events later requires redoing that screen | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
@@ -1928,6 +1929,115 @@ in the pull request that brings them; the merge is the approval.
 
 ---
 
+## P78 — `nph-avatar-stack`: API and semantics
+
+**Decision.** `nph-avatar-stack` is a Web Component with **open Shadow DOM** (P01), CSS in its
+own file imported `?inline`, as in `nph-icon`. Its shadow root holds one hidden wrapper with the
+default slot and the count, and the host is the row. It has no `::part`, no event, no color
+property and no form association. Anatomy only through semantic tokens. Invalid input renders
+nothing and emits `console.error` only in development, one per cause — the rule of P21, adopted
+here by its own decision, as in P66, P68, P73, P74 and P76. The names follow P64.
+
+1. **Properties.** The Figma properties are `size`, `mostrar 3º`, `mostrar 4º`, `mostrar 5º`,
+   `mostrar contagem` and `contagem`. The mapping below is a technical proposal of this
+   implementation.
+
+   | Figma | API |
+   |---|---|
+   | `size` | `size`, `sm` (default), `md` or `lg`, reflected to the attribute |
+   | `mostrar 3º`, `mostrar 4º`, `mostrar 5º` | not properties: the number of `nph-avatar` children |
+   | `mostrar contagem` and `contagem` | `count`, Number, `0` by default |
+   | the name of the group | `label`, String |
+   | the type of each avatar (photo or no photo) | not a property of the group: the `src` of each avatar (P74) |
+
+   `count` is a number and not the text of the Figma `contagem`: the evidence says the text is
+   always "+N", so the group writes the `+` and the digits, with no thousands separator. Above
+   zero the count is drawn; zero, or a removed attribute (which Lit reads as `null`), draws
+   none. A count that is not a whole number from zero up is invalid input.
+
+2. **The default slot and a single size.** The group takes `nph-avatar` children, each with its
+   own `src`. The group is the source of truth of the size, as `nph-toggle-group` is of `pressed`
+   (P76): in `updated` and on `slotchange` it writes its `size` on every child avatar, so a
+   `size` written on a child does not survive. Changing only the `size` attribute of a child
+   raises no `slotchange`, so the group also observes `size` and `label` on its direct avatars (a
+   `MutationObserver` on the host, connected and disconnected with the element) and writes the
+   size again; its own write comes back once through the observer and writing it again changes
+   nothing. An invalid group writes nothing on its avatars.
+
+3. **Overlap and paint order.** A negative `gap` does not exist in CSS, so every avatar but the
+   first, and the count, takes `margin-inline-start: var(--nph-avatar-overlap)` (-8 px), through
+   `::slotted(nph-avatar:not(:first-child))`. There is no `z-index`: every `nph-avatar` is
+   positioned (it anchors its border overlay, P74), so the next one paints over the previous
+   one, and the count is positioned too, so it paints over the last avatar (D2). The separation
+   is the border of each avatar (D3): the group draws no ring, background or border.
+
+4. **The count.** A box after the slot: `block-size` and `min-inline-size` `avatar/size-*`,
+   `border-radius` `avatar/radius-*`, `padding-inline` `space/inline-tight`, a real border
+   `border/width` in `color/border` inside the box (`box-sizing: border-box`; it has no photo to
+   draw over, so it needs no overlay as the avatar does), background `color/muted`, text
+   `color/muted-foreground`, `text/label-sm` in `sm` and `md` and `text/label-md` in `lg` (D1),
+   through the five properties of each role (P62.2). It grows with the number.
+
+5. **Semantics.** The host is a `role="img"`, set in `willUpdate` as `nph-avatar` does, and its
+   name is `label`, which becomes its `aria-label`; a name the consumer puts on the host with
+   `aria-label` or `aria-labelledby` also counts, as in P76. The group is read as one image with
+   the names and the total ("Ana, Bruno, Carla and 3 more"), written by the consumer in its
+   language: the component composes no sentence. The slot and the count sit in one wrapper with
+   `aria-hidden="true"` and `display: contents`, so the avatars and the count stay out of the
+   accessibility tree and the avatars stay flex items of the host. **Finding recorded:** the role
+   alone does not hide them. In Chromium an `nph-avatar` with a `label` of its own, slotted in a
+   `role="img"` host, is still exposed as an image with its name; with the wrapper it is not. The
+   proof is the node the browser itself computes, read through the accessibility tree, in the
+   tests. The group is never focusable and has no `tabindex`. With invalid input the host takes
+   `aria-hidden="true"` and no role.
+
+6. **Box.** `display: inline-flex`, `align-items: center` and `vertical-align: middle`, with no
+   background, border, outline, opacity or transition. The space to a text next to it,
+   `space/inline`, is given by the consumer.
+
+7. **Invalid input and composition.** Three causes render nothing, take no space, leave
+   `data-nph-rendered` out and emit one `console.error` each, only in development: a `size` that is
+   not `sm`, `md` or `lg`; a `count` that is not a whole number from zero up; and no name (no
+   `label`, no `aria-label` and no `aria-labelledby`). Problems in the composition render the group
+   anyway and emit one `console.warn` each, only in development, not repeated while they last:
+   fewer than two avatars, more than five (all of them are drawn: the group does not hide an
+   avatar or add it to the count), a child that is not an `nph-avatar`, and an avatar with a
+   `label` of its own.
+
+**Known limit.** The group does not check that `label` and `count` agree: whoever uses it writes
+both.
+
+**Points for review.**
+
+- **`count` as a number**, and not the text of the Figma `contagem`.
+- **More than five avatars draws all of them**, with a warning, and does not move the extra ones
+  into the count, which would couple two inputs and leave `label` behind.
+- **No name renders nothing**, as in P76, and not a decorative group as in P74: the count is
+  information only the name carries, and the text next to a group, such as a team name, does not
+  say who or how many.
+- **The `aria-hidden` wrapper** in place of the role alone, with the finding above.
+- **Writing `size` on the children**, which a consumer cannot override inside the group.
+
+**Source.** Frame `nph-avatar-stack` (`1579:46`, set `1579:45`) of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 08/10/2026, with the Figma UX QA and the textual audit
+approved; D1 to D3 answered on 19/10/2026. The names `count` and `label`, the slot of `nph-avatar`
+children, the size written on them, the semantics of the host and its wrapper, and the invalid
+input and composition rules are a technical proposal of this implementation, approved with the
+plan by Elvys on 22/10/2026.
+
+**Out of scope.** A list of people that the group opens, and the control around it. A data
+property with the people, an automatic count, a maximum in code, a property per avatar, a ring
+and a color property. Widening the `use` text in `design.md` for the tokens of the count: it is
+the pending decision D4 of DSA-25, with Indiane, as D5 of DSA-24 is for the avatar, and the
+component consumes them either way. The Usage section of the page (P70, DSA-35), the page lists
+read from the Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 08/10/2026; D1 to D3 answered on
+19/10/2026. API and semantics are reviewed in the pull request that brings them; the merge is the
+approval.
+
+---
+
 ## P85 — `nph-input-otp`: API and semantics
 
 **Decision.** `nph-input-otp` is a Web Component with **open Shadow DOM** (P01) and
@@ -2068,7 +2178,7 @@ the merge is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77 or P85 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78 or P85 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
