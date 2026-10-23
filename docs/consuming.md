@@ -158,10 +158,11 @@ Load the tokens in `angular.json`, under `projects.<app>.architect.build.options
 ]
 ```
 
-When `nph-empty` is bundled, its image URLs remain relative to the emitted JavaScript
+When `nph-empty` is bundled, its images stay relative to the emitted JavaScript
 module: `new URL("../assets/empty-no-option-found.png", import.meta.url)`. The
-application builder does not copy these package PNGs for this import pattern. Add
-them to the Angular build output with an asset glob in `angular.json`:
+application builder keeps that URL as it is and does not copy the package PNGs. Add
+them to the build output with an asset glob in `angular.json`, next to the entries
+already there:
 
 ```json
 "assets": [
@@ -170,9 +171,7 @@ them to the Angular build output with an asset glob in `angular.json`:
     "input": "node_modules/@iatec/nephos/dist/assets",
     "output": "assets"
   }
-],
-"baseHref": "/my-app/",
-"deployUrl": "js/"
+]
 ```
 
 Check that both images exist in the installed package before building, then in the
@@ -189,13 +188,14 @@ test -f dist/my-app/browser/assets/empty-no-option-found-dark.png
 Replace `dist/my-app/browser` with the browser output directory configured by
 `outputPath` in `angular.json`.
 
-Serve the generated JavaScript and CSS bundles from `<app-base>/js/` and the copied
-images from `<app-base>/assets/`. With this layout, `../assets/` resolves from the
-bundle to the application's own asset directory. For an application published at
-`/my-app/`, keep `baseHref` at `/my-app/` and serve the bundles and images at
-`/my-app/js/` and `/my-app/assets/`; do not use a site-root `/assets/` URL. If the
-deployment serves the bundle elsewhere, copy the PNGs to the URL obtained by
-resolving its emitted `../assets/...` URL against that bundle URL.
+The builder writes the bundles at the root of the browser output, next to
+`index.html`, so the images resolve to `assets/` one level above the bundle. For an
+application served at the site root, that is `/assets/`, where the glob copied them.
+For an application served from a subdirectory, such as `--base-href /my-app/`, the
+same URL resolves to the site-root `/assets/`, outside the application: the two
+images must also be served there. `deployUrl` does not change this: it only rewrites
+the script and stylesheet URLs in `index.html` and leaves the bundles at the root of
+the output, so a static host that serves that folder as it is no longer finds them.
 
 Set a property from the template with `[prop]`: `<nph-button [text]="label">`
 sets the property, `text="..."` sets the attribute. Both work.

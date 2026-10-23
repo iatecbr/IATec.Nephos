@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=fe3a14bbb6bc09f6be2bfe9b1da8b9630ade1ccc16d4a17274c459ba98e4b3a6 | status=rascunho -->
+<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=a0770d43b2c02cb6cbbb3620117ba55d683f7e3748a57c96abc3a272d2b8aad7 | status=rascunho -->
 
 # Consumir Nephos
 
@@ -164,11 +164,11 @@ Cargue los tokens en `angular.json`, en `projects.<app>.architect.build.options`
 ]
 ```
 
-Al agrupar `nph-empty`, las URL de las imágenes siguen siendo relativas al módulo
-JavaScript generado: `new URL("../assets/empty-no-option-found.png", import.meta.url)`.
-El application builder no copia los PNG del paquete con este patrón de importación.
-Inclúyalos en la salida de compilación de Angular con un glob de assets en
-`angular.json`:
+Al agrupar `nph-empty`, las imágenes siguen siendo relativas al módulo JavaScript
+generado: `new URL("../assets/empty-no-option-found.png", import.meta.url)`. El
+application builder mantiene esa URL tal cual y no copia los PNG del paquete. Agréguelos
+a la salida del build con un glob de assets en `angular.json`, junto a las entradas
+que ya existen:
 
 ```json
 "assets": [
@@ -177,13 +177,11 @@ Inclúyalos en la salida de compilación de Angular con un glob de assets en
     "input": "node_modules/@iatec/nephos/dist/assets",
     "output": "assets"
   }
-],
-"baseHref": "/my-app/",
-"deployUrl": "js/"
+]
 ```
 
-Compruebe que ambas imágenes existen en el paquete instalado antes de compilar
-y en la salida del navegador después de `ng build`:
+Compruebe que las dos imágenes existen en el paquete instalado antes de compilar y
+en la salida del navegador después de `ng build`:
 
 ```bash
 set -e
@@ -193,17 +191,18 @@ test -f dist/my-app/browser/assets/empty-no-option-found.png
 test -f dist/my-app/browser/assets/empty-no-option-found-dark.png
 ```
 
-Reemplace `dist/my-app/browser` por el directorio de salida del navegador
-configurado en `outputPath` en `angular.json`.
+Reemplace `dist/my-app/browser` por el directorio de salida del navegador configurado
+en `outputPath` en `angular.json`.
 
-Sirva los bundles JavaScript y CSS generados en `<base-de-la-aplicación>/js/` y las
-imágenes copiadas en `<base-de-la-aplicación>/assets/`. Con esta estructura,
-`../assets/` se resuelve desde el bundle hasta el directorio de assets de la propia
-aplicación. Si se publica en `/my-app/`, mantenga `baseHref` en `/my-app/` y sirva
-los bundles y las imágenes en `/my-app/js/` y `/my-app/assets/`; no use una URL
-`/assets/` en la raíz del sitio. Si la publicación sirve el bundle en otro lugar,
-copie los PNG a la URL que se obtiene al resolver el `../assets/...` emitido respecto
-a la URL del bundle.
+El builder escribe los bundles en la raíz de la salida del navegador, junto a
+`index.html`, por lo que las imágenes se resuelven a `assets/`, un nivel por encima
+del bundle. En una aplicación servida en la raíz del sitio, eso es `/assets/`, donde
+el glob las copió. En una aplicación servida desde un subdirectorio, como
+`--base-href /my-app/`, la misma URL se resuelve a `/assets/` en la raíz del sitio,
+fuera de la aplicación: las dos imágenes también deben servirse ahí. `deployUrl` no
+cambia esto: solo reescribe las URL de script y de hoja de estilo en `index.html` y
+deja los bundles en la raíz de la salida, de modo que un host estático que sirve esa
+carpeta tal cual deja de encontrarlos.
 
 Defina una propiedad desde la plantilla con `[prop]`: `<nph-button [text]="label">`
 define la propiedad, `text="..."` define el atributo. Ambos funcionan.

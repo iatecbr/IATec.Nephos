@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/consuming.md | source-sha256=fe3a14bbb6bc09f6be2bfe9b1da8b9630ade1ccc16d4a17274c459ba98e4b3a6 | status=rascunho -->
+<!-- i18n: lang=pt-BR | source=docs/consuming.md | source-sha256=a0770d43b2c02cb6cbbb3620117ba55d683f7e3748a57c96abc3a272d2b8aad7 | status=rascunho -->
 
 # Consumindo o Nephos
 
@@ -161,10 +161,11 @@ Carregue os tokens no `angular.json`, em `projects.<app>.architect.build.options
 ]
 ```
 
-Ao agrupar o `nph-empty`, as URLs das imagens continuam relativas ao módulo
-JavaScript emitido: `new URL("../assets/empty-no-option-found.png", import.meta.url)`.
-O application builder não copia os PNGs do pacote nesse padrão de importação.
-Inclua-os na saída do build do Angular com um glob de assets no `angular.json`:
+Ao agrupar o `nph-empty`, as imagens continuam relativas ao módulo JavaScript
+emitido: `new URL("../assets/empty-no-option-found.png", import.meta.url)`. O
+application builder mantém essa URL como está e não copia os PNGs do pacote. Inclua-os
+na saída do build com um glob de assets no `angular.json`, ao lado das entradas que já
+existem:
 
 ```json
 "assets": [
@@ -173,9 +174,7 @@ Inclua-os na saída do build do Angular com um glob de assets no `angular.json`:
     "input": "node_modules/@iatec/nephos/dist/assets",
     "output": "assets"
   }
-],
-"baseHref": "/my-app/",
-"deployUrl": "js/"
+]
 ```
 
 Confira se as duas imagens existem no pacote instalado antes da compilação e
@@ -192,13 +191,15 @@ test -f dist/my-app/browser/assets/empty-no-option-found-dark.png
 Substitua `dist/my-app/browser` pelo diretório de saída do navegador configurado
 em `outputPath` no `angular.json`.
 
-Sirva os bundles JavaScript e CSS gerados em `<base-da-aplicação>/js/` e as imagens
-copiadas em `<base-da-aplicação>/assets/`. Nesse layout, `../assets/` é resolvido a
-partir do bundle para o diretório de assets da própria aplicação. Se a aplicação for
-publicada em `/my-app/`, mantenha `baseHref` como `/my-app/` e sirva os bundles e as
-imagens em `/my-app/js/` e `/my-app/assets/`; não use uma URL `/assets/` na raiz do
-site. Se a publicação servir o bundle em outro local, copie os PNGs para a URL
-obtida ao resolver o `../assets/...` emitido em relação à URL do bundle.
+O builder grava os bundles na raiz da saída do navegador, ao lado do `index.html`, e
+por isso as imagens são resolvidas para `assets/`, um nível acima do bundle. Numa
+aplicação servida na raiz do site, isso é `/assets/`, onde o glob as copiou. Numa
+aplicação servida num subdiretório, como `--base-href /my-app/`, a mesma URL é
+resolvida para `/assets/` na raiz do site, fora da aplicação: as duas imagens
+precisam ser servidas também ali. O `deployUrl` não muda isso: ele só reescreve as
+URLs de script e de folha de estilo no `index.html` e deixa os bundles na raiz da
+saída, de modo que um host estático que serve essa pasta como está deixa de
+encontrá-los.
 
 Defina uma propriedade no template com `[prop]`: `<nph-button [text]="label">`
 define a propriedade, `text="..."` define o atributo. Os dois funcionam.
