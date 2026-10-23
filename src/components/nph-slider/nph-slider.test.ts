@@ -1340,4 +1340,12 @@ describe('regressions of the code review', () => {
     await element.updateComplete;
     expect(fields(element)[0]?.label).toBe('Sound');
   });
+
+  it('the single field takes the name of a required label without its hidden asterisk', async () => {
+    const holder = await markup('<nph-label for="v" text="Volume" required></nph-label><nph-slider id="v" inputs></nph-slider>');
+    const element = holder.querySelector('nph-slider') as NphSlider;
+    await element.updateComplete;
+    expect(holder.querySelector('nph-label label')?.textContent).toContain('*');
+    expect(fields(element)[0]?.label).toBe('Volume');
+  });
 });

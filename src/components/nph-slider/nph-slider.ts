@@ -893,12 +893,17 @@ export class NphSlider extends LitElement {
     </div>`;
   }
 
-  /** The text of the labels associated with the host, for the field, which sits in another root. */
+  /**
+   * The text of the labels associated with the host, for the field, which sits in another root.
+   * What a label hides from assistive technology, such as the required asterisk of `nph-label`,
+   * stays out of the name.
+   */
   private get labelsText(): string {
     return [...this.internals.labels]
       .map((label) => {
-        const text = (label as Element & { text?: unknown }).text;
-        return this.trim(typeof text === 'string' ? text : label.textContent);
+        const copy = label.cloneNode(true) as Element;
+        copy.querySelectorAll('[aria-hidden="true"]').forEach((hidden) => hidden.remove());
+        return this.trim(copy.textContent);
       })
       .filter((text) => text !== '')
       .join(' ');
