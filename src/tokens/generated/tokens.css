@@ -10,6 +10,7 @@
   --nph-core-alpha-black-25: rgba(0, 0, 0, 0.25);
   --nph-core-alpha-black-40: rgba(0, 0, 0, 0.4);
   --nph-core-alpha-black-5: rgba(0, 0, 0, 0.05);
+  --nph-core-alpha-black-60: rgba(0, 0, 0, 0.6);
   --nph-core-avatar-overlap-100: -0.5rem;
   --nph-core-avatar-size-100: 1.5rem;
   --nph-core-avatar-size-200: 2rem;
@@ -139,6 +140,7 @@
   --nph-core-layout-width-dialog-content-sm: 22rem;
   --nph-core-layout-width-dialog-content-md: 32rem;
   --nph-core-layout-width-dialog-content-lg: 42rem;
+  --nph-core-layout-width-media: 16rem;
   --nph-core-line-height-100: 1rem;
   --nph-core-neutral-50: #f1f1f1;
   --nph-core-neutral-100: #e3e3e3;
@@ -246,6 +248,12 @@
   --nph-core-warn-700: #8c3507;
   --nph-core-warn-800: #5e2305;
   --nph-core-warn-900: #2f1202;
+  --nph-core-image-size-100: 1.5rem;
+  --nph-core-image-size-200: 2rem;
+  --nph-core-image-size-300: 3rem;
+  --nph-core-image-size-400: 4rem;
+  --nph-core-image-size-500: 6rem;
+  --nph-core-image-size-600: 8rem;
 }
 
 /* brand layer - one block per IATec vertical. */
@@ -515,6 +523,8 @@
   --nph-motion-state-duration: var(--nph-core-duration-200);
   --nph-motion-state-easing: var(--nph-core-easing-standard);
   --nph-overlay-on-media: var(--nph-core-alpha-black-40);
+  --nph-overlay-on-media-strong: var(--nph-core-alpha-black-60);
+  --nph-overlay-on-media-foreground: var(--nph-core-base-white);
   --nph-radius-container: var(--nph-core-radius-400);
   --nph-radius-control: var(--nph-core-radius-300);
   --nph-radius-control-inner: var(--nph-core-radius-off-scale-5);
@@ -551,7 +561,24 @@
   --nph-text-label-sm-font-family: var(--nph-core-font-sans);
   --nph-text-caption-font-family: var(--nph-core-font-sans);
   --nph-text-code-font-family: var(--nph-core-font-mono);
+  --nph-image-size-xs: var(--nph-core-image-size-100);
+  --nph-image-size-sm: var(--nph-core-image-size-200);
+  --nph-image-size-md: var(--nph-core-image-size-300);
+  --nph-image-size-lg: var(--nph-core-image-size-400);
+  --nph-image-size-xl: var(--nph-core-image-size-500);
+  --nph-image-size-2xl: var(--nph-core-image-size-600);
+  --nph-image-radius-md: var(--nph-core-radius-300);
+  --nph-image-radius-lg: var(--nph-core-radius-400);
+  --nph-image-media-width: var(--nph-core-layout-width-media);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
+  --nph-image-radius-sm: var(--nph-radius-inner);
+  --nph-image-border-width: var(--nph-border-width);
+  --nph-image-overlay: var(--nph-overlay-on-media-strong);
+  --nph-image-on-overlay: var(--nph-overlay-on-media-foreground);
+  --nph-image-gap: var(--nph-space-inline);
+  --nph-image-icon-size-sm: var(--nph-icon-size-sm);
+  --nph-image-icon-size-md: var(--nph-icon-size-md);
+  --nph-image-icon-size-lg: var(--nph-icon-size-lg);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -574,7 +601,11 @@
   --nph-sidebar-primary-foreground: var(--nph-theme-brand-on-600);
   --nph-sidebar-primary: var(--nph-theme-brand-600);
   --nph-status-on-solid: var(--nph-color-background);
+  --nph-image-background: var(--nph-color-muted);
+  --nph-image-foreground: var(--nph-color-muted-foreground);
+  --nph-image-border: var(--nph-color-border);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
+  --nph-image-focus-border: var(--nph-focus-border);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
@@ -582,6 +613,8 @@
 [data-nph-color-scheme="light"] {
   --nph-scheme-is-light: 1;
   --nph-scheme-is-dark: 0;
+  --nph-image-illustration-light: 1;
+  --nph-image-illustration-dark: 0;
   --nph-brand-comercial-foreground: var(--nph-core-base-white);
   --nph-brand-comercial-strong: var(--nph-core-comercial-600);
   --nph-brand-comercial: var(--nph-core-comercial-500);
@@ -715,6 +748,8 @@
 [data-nph-color-scheme="dark"] {
   --nph-scheme-is-light: 0;
   --nph-scheme-is-dark: 1;
+  --nph-image-illustration-light: 0;
+  --nph-image-illustration-dark: 1;
   --nph-brand-comercial-foreground: var(--nph-core-neutral-950);
   --nph-brand-comercial-strong: var(--nph-core-comercial-500);
   --nph-brand-comercial: var(--nph-core-comercial-400);
