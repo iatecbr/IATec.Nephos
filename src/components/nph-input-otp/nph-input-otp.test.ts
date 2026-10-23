@@ -20,6 +20,7 @@ import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import designMd from '../../../design.md?raw';
 import componentCss from './nph-input-otp.css?raw';
+import '../nph-field/nph-field';
 import { NPH_INPUT_OTP_LENGTHS, NPH_INPUT_OTP_MASK, NPH_INPUT_OTP_SIZES, NphInputOtp } from './nph-input-otp';
 
 type Props = Partial<
@@ -767,6 +768,25 @@ describe('accessible name and description (P80, P83)', () => {
     label.htmlFor = 'otp';
     await vi.waitFor(() => expect(native(element).ariaLabelledByElements).toEqual([label]));
     expect((await textboxes())[0]?.name).toBe('Code sent by SMS');
+  });
+
+  it('inside the nph-field, the field names, describes and marks the code field (P83)', async () => {
+    document.body.innerHTML =
+      '<nph-field label="Verification code" help="Sent to your e-mail" required><nph-input-otp name="code"></nph-input-otp></nph-field>';
+    const field = document.querySelector('nph-field') as HTMLElement & { updateComplete: Promise<unknown>; error: string };
+    const element = document.querySelector<NphInputOtp>('nph-input-otp');
+    if (!element) throw new Error('no field');
+    await field.updateComplete;
+    await element.updateComplete;
+    await nextFrame();
+    expect([element.label, element.description, element.required, element.invalid]).toEqual(['Verification code', 'Sent to your e-mail', true, false]);
+    expect(await textboxes()).toEqual([{ name: 'Verification code', description: 'Sent to your e-mail' }]);
+    field.error = 'The code is wrong';
+    await field.updateComplete;
+    await element.updateComplete;
+    expect(element.invalid).toBe(true);
+    expect(native(element).getAttribute('aria-invalid')).toBe('true');
+    expect((await textboxes())[0]?.description).toBe('The code is wrong');
   });
 
   it('description is the accessible description, clipped and never display: none', async () => {

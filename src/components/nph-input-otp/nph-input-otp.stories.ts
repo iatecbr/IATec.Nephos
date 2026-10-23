@@ -4,7 +4,8 @@
  * They prove the contract accepted in Figma (board `1633:122`, set `1633:120`, cell set
  * `1633:29`) and P85: six and four cells in both sizes; the states default, invalid and
  * disabled, with disabled winning over invalid; numeric, alphanumeric, partial and masked
- * codes; typing, paste and the native events; and the touch-screen example. Every story
+ * codes; typing, paste and the native events; and the three required examples — a code sent
+ * by e-mail and a wrong code, inside the `nph-field`, and the touch screen. Every story
  * shows the same field in light and in dark mode, in the same story, through
  * `data-nph-color-scheme` on the frame (P20, P67).
  *
@@ -14,8 +15,7 @@
  * dictionary (`validationPages.claims`). The accessible names, the codes and the captions
  * come from the language dictionary, under the key `inputOtpValidation` (`docs/i18n.md`,
  * "Storybook"); the row and column names of the matrices are the technical attributes,
- * the same in any language. The two required examples inside the `nph-field` wait for it
- * (DSA-28); the resend action waits for D4 of DSA-41.
+ * the same in any language. The resend action waits for D4 of DSA-41.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -27,7 +27,7 @@ import { localeOf, validationPage, validationTitle } from '../../shared/docs/val
 import type { GlobalsContext } from '../../shared/docs/validation';
 import './nph-input-otp';
 import type { NphInputOtp } from './nph-input-otp';
-import { field, inScheme } from './nph-input-otp.demo';
+import { field, inField, inScheme } from './nph-input-otp.demo';
 import type { Scheme } from './nph-input-otp.demo';
 
 const meta: Meta = {
@@ -168,7 +168,7 @@ export const Interactive: Story = {
   },
 };
 
-/** The touch-screen example of the accepted board, in light and dark mode. */
+/** The three required examples of the accepted board, each in light and dark mode. */
 export const Examples: Story = {
   name: 'Examples',
   render: (_args, context: GlobalsContext) => {
@@ -176,7 +176,16 @@ export const Examples: Story = {
     return validationPage(
       context,
       page('examples'),
-      inBothModes(context, 'examples', () => field({ label: v.fieldLabel, size: 'large' }), v.exampleTouch),
+      html`<div style=${stack}>
+        ${inBothModes(context, 'examples', () => inField({ label: v.fieldLabel, help: v.emailHelp }), v.exampleEmail)}
+        ${inBothModes(
+          context,
+          'examples',
+          () => inField({ label: v.fieldLabel, error: v.wrongError, value: v.numericCode }),
+          v.exampleWrong,
+        )}
+        ${inBothModes(context, 'examples', () => field({ label: v.fieldLabel, size: 'large' }), v.exampleTouch)}
+      </div>`,
     );
   },
 };

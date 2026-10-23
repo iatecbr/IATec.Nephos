@@ -8,9 +8,6 @@
  * the ones of the sheet. The required examples close it, each in light and dark mode.
  *
  * Deferred, not fulfilled here:
- * - the two required examples that sit inside the `nph-field` — the code sent by e-mail and the
- *   wrong code with the error message — wait for the `nph-field` (DSA-28), as the task DSA-41
- *   records, after the precedent of DSA-33 D2;
  * - the resend action, a ghost `nph-button` with the label in `color/link`, waits for D4 of
  *   DSA-41: the `nph-button` has no way to draw that look yet;
  * - the Usage section (P70) enters every Docs page, after API, in DSA-35;
@@ -27,7 +24,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-input-otp';
-import { field, inScheme } from './nph-input-otp.demo';
+import { field, inField, inScheme } from './nph-input-otp.demo';
 import type { Scheme } from './nph-input-otp.demo';
 import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
 
@@ -193,6 +190,8 @@ export const Documentation: Story = {
           SECTIONS.examples,
           d.examplesTitle,
           html`
+            ${demo(bothModes(d, () => inField({ label, help: d.emailHelp })), d.exampleEmail)}
+            ${demo(bothModes(d, () => inField({ label, error: d.wrongError, value: d.numericCode })), d.exampleWrong)}
             ${demo(bothModes(d, () => field({ label, size: 'large' })), d.exampleTouch)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,

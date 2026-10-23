@@ -105,13 +105,12 @@ tests, stories and spec pass the proof commands in
 - The resend button is a ghost `nph-button` (DSA-13, done) used in composition
   below the field; it is not part of this piece.
 
-## Examples that wait for the nph-field
-Elvys decided on 2026-10-22, as Indiane did for the `nph-icon` page in DSA-33 D2:
-this delivery leaves out the two required examples that sit inside the
-`nph-field` ("Code sent by e-mail, in the `nph-field`" and "Wrong code, with the
-error message"), because DSA-28 is not merged yet. A follow-up adds both to the
-Examples section of `nph-input-otp.docs.stories.ts` after DSA-28 is merged. The
-state of this task does not change for it.
+## The examples inside the nph-field
+Elvys decided on 2026-10-22, as Indiane did for the `nph-icon` page in DSA-33 D2,
+that the two required examples inside the `nph-field` ("Code sent by e-mail, in
+the `nph-field`" and "Wrong code, with the error message") could wait for DSA-28.
+DSA-28 was merged in PR #105 before this delivery opened its pull request, so both
+examples are in this delivery, with the real `nph-field`.
 
 ## What this task does not do
 It does not create a token or change a token value. It does not build the resend

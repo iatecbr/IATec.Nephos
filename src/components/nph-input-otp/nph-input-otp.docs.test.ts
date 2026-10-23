@@ -95,7 +95,8 @@ describe('nph-input-otp Documentation', () => {
       const d = translations(locale).inputOtpDocs;
       for (const piece of fields) {
         expect(piece.hasAttribute('data-nph-rendered'), piece.outerHTML).toBe(true);
-        expect(piece.getAttribute('label'), piece.outerHTML).toBe(d.fieldLabel);
+        /* Inside the nph-field, the field writes label as a property (P83). */
+        expect(piece.label, piece.outerHTML).toBe(d.fieldLabel);
         expect(['', d.numericCode, d.shortCode, d.alphanumericCode, d.partialCode], piece.outerHTML).toContain(piece.getAttribute('value'));
       }
       expect(warn).not.toHaveBeenCalled();
@@ -118,16 +119,31 @@ describe('nph-input-otp Documentation', () => {
       ]);
     });
 
-    it(`${locale}: the examples show the touch screen, size large, in light and in dark mode`, () => {
+    it(`${locale}: the three required examples, each in light and in dark mode`, async () => {
       const target = renderInLocale(locale);
+      await ready(target);
+      const d = translations(locale).inputOtpDocs;
       const examples = target.querySelector('section#examples') as HTMLElement;
       const demos = [...examples.querySelectorAll('[data-nph-demo]')];
-      expect(demos).toHaveLength(1);
-      const schemes = [...(demos[0]?.querySelectorAll('[data-nph-color-scheme]') ?? [])].map((el) => el.getAttribute('data-nph-color-scheme'));
-      expect(schemes).toEqual(['light', 'dark']);
-      for (const piece of examples.querySelectorAll('nph-input-otp')) {
-        expect(piece.getAttribute('size')).toBe('large');
+      expect(demos).toHaveLength(3);
+      for (const entry of demos) {
+        const schemes = [...entry.querySelectorAll('[data-nph-color-scheme]')].map((el) => el.getAttribute('data-nph-color-scheme'));
+        expect(schemes).toEqual(['light', 'dark']);
       }
+      const shown = demos.map((entry) => {
+        const field = entry.querySelector('nph-field');
+        const piece = entry.querySelector('nph-input-otp') as NphInputOtp;
+        return {
+          field: field === null ? null : { label: field.getAttribute('label'), help: field.getAttribute('help'), error: field.getAttribute('error') },
+          size: piece.size,
+          invalid: piece.invalid,
+        };
+      });
+      expect(shown).toEqual([
+        { field: { label: d.fieldLabel, help: d.emailHelp, error: '' }, size: 'default', invalid: false },
+        { field: { label: d.fieldLabel, help: '', error: d.wrongError }, size: 'default', invalid: true },
+        { field: null, size: 'large', invalid: false },
+      ]);
     });
 
     it(`${locale}: the states and masked sections show what they name`, () => {
@@ -228,7 +244,8 @@ describe('nph-input-otp Validation: text only from the dictionary', () => {
       for (const locale of LOCALES) {
         const target = draw(story, locale);
         const frames = [...target.querySelectorAll('[data-nph-color-scheme]')];
-        expect(frames.map((el) => el.getAttribute('data-nph-color-scheme')), `${name} ${locale}`).toEqual(['light', 'dark']);
+        const expectedSchemes = name === 'Examples' ? ['light', 'dark', 'light', 'dark', 'light', 'dark'] : ['light', 'dark'];
+        expect(frames.map((el) => el.getAttribute('data-nph-color-scheme')), `${name} ${locale}`).toEqual(expectedSchemes);
         const expected = translations(locale).inputOtpValidation;
         const captions = [...target.querySelectorAll('figcaption')]
           .filter((el) => frames.includes(el.parentElement as Element))
@@ -263,7 +280,8 @@ describe('nph-input-otp Validation: text only from the dictionary', () => {
         expect(fields.length, name).toBeGreaterThan(0);
         for (const piece of fields) {
           expect(piece.hasAttribute('data-nph-rendered'), piece.outerHTML).toBe(true);
-          expect(allowed.has(piece.getAttribute('label') ?? ''), `${name} ${locale}: ${piece.outerHTML}`).toBe(true);
+          /* The name: the label attribute, or the label the nph-field writes as a property (P83). */
+          expect(allowed.has(piece.label), `${name} ${locale}: ${piece.outerHTML}`).toBe(true);
           const value = piece.getAttribute('value') ?? '';
           expect(value === '' || allowed.has(value), `${name} ${locale}: ${piece.outerHTML}`).toBe(true);
         }
@@ -324,13 +342,21 @@ describe('nph-input-otp Validation: text only from the dictionary', () => {
     }
   });
 
-  it('Examples: the touch screen, size large', async () => {
+  it('Examples: a code sent by e-mail and a wrong code, in the nph-field, and the touch screen', async () => {
     const target = draw(validation.Examples as Renderable, 'en');
+    const v = translations('en').inputOtpValidation;
     const fields = await ready(target);
-    expect(fields.length).toBe(2);
-    for (const piece of fields) {
-      expect(piece.size).toBe('large');
-    }
+    expect(fields.length).toBe(6);
+    const wrapped = [...target.querySelectorAll('nph-field')];
+    expect(wrapped.map((field) => [field.getAttribute('help'), field.getAttribute('error')])).toEqual([
+      [v.emailHelp, ''],
+      [v.emailHelp, ''],
+      ['', v.wrongError],
+      ['', v.wrongError],
+    ]);
+    const inError = fields.filter((piece) => piece.closest('nph-field')?.getAttribute('error') === v.wrongError);
+    expect(inError.map((piece) => piece.invalid)).toEqual([true, true]);
+    expect(fields.filter((piece) => piece.size === 'large')).toHaveLength(2);
   });
 
   it('pt-BR and es have the same shape as en', () => {

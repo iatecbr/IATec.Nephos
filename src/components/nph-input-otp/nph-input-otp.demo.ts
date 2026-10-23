@@ -7,12 +7,13 @@
  *
  * The functions take the visible text and the codes as arguments: this file holds
  * none, because every visible text comes from the language dictionary of the page
- * that calls it. The two required examples that sit inside the `nph-field` are not
- * here: they wait for the `nph-field` (DSA-28), as the task DSA-41 records.
+ * that calls it. Two required examples sit inside the real `nph-field` (DSA-28, P83),
+ * which writes the name, the description and the error state on the field.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 
+import '../nph-field/nph-field';
 import './nph-input-otp';
 
 export type Scheme = 'light' | 'dark';
@@ -54,4 +55,20 @@ export function field(options: FieldOptions): TemplateResult {
     ?disabled=${disabled}
     ?masked=${masked}
   ></nph-input-otp>`;
+}
+
+export interface InFieldOptions {
+  /** The label of the `nph-field`: it is also the name of the code field. */
+  label: string;
+  help?: string;
+  error?: string;
+  value?: string;
+}
+
+/** The code field inside the `nph-field`, which writes `label`, `description` and `invalid` on it. */
+export function inField(options: InFieldOptions): TemplateResult {
+  const { label, help = '', error = '', value = '' } = options;
+  return html`<nph-field label=${label} help=${help} error=${error}>
+    <nph-input-otp value=${value}></nph-input-otp>
+  </nph-field>`;
 }

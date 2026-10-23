@@ -29,14 +29,14 @@ branch.
 - The proofs of `docs/operacao/component-handoff.md`, plus `build:lib` and `test:package`.
 
 ## Result
-In progress. The branch is ready; the pull request opens after DSA-28 is merged. On the base
-`d00c6ca`, `typecheck`, `npm test` and `build:lib` already fail in `nph-tooltip` alone.
+In progress. DSA-28 is merged (PR #105); the branch is synced with `v/5.0.0`, the two examples
+inside the `nph-field` are in, and the pull request opens next.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
 
 ## Blocker
-None. D1 to D4 wait for Indiane and do not block. The pull request opens after DSA-28 is merged.
+None. D1 to D4 wait for Indiane and do not block.
 
 ## Next command
-Sync with `v/5.0.0` after DSA-28 is merged, run the proofs again and open the pull request.
+Run the proofs on the final head and open the pull request.

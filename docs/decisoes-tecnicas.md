@@ -2801,8 +2801,9 @@ clipping). None is a visual value.
 **Points for review.**
 
 - **The examples inside the `nph-field`.** Two of the three required examples of the board sit in
-  the `nph-field` (DSA-28), not merged yet. Elvys decided on 22/10/2026, after DSA-33 D2, that
-  this delivery leaves them out and a follow-up adds them after DSA-28 is merged.
+  the `nph-field` (DSA-28). Elvys decided on 22/10/2026, after DSA-33 D2, that they could wait for
+  it; DSA-28 was merged first (PR #105), so both are on the page with the real field, and the test
+  reads the name and the description the field writes from the accessibility tree of Chromium.
 - **The resend action.** The board puts a ghost `nph-button` with the label in `color/link` and
   underlined below the field. The `nph-button` has no color property and no `::part`, and a
   link-looking button is out of its scope (P68): the delivery does not show the resend action,
