@@ -3,7 +3,8 @@
  *
  * It does not prove the contract — that is the role of `Components/nph-button/Validation` and of the
  * tests. The content is transcribed from the frame accepted in Figma (`1197:5449`), from the
- * `ficha` and from P68; nothing is decided here.
+ * `nph-icon-button` board (`2122:1591`) for the button without text, from the `ficha` and
+ * from P68 and P86; nothing is decided here.
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the key
  * `buttonDocs`. The story is SINGLE: it reads `globals.locale` and fetches the translation.
@@ -14,7 +15,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-button';
-import { NPH_BUTTON_EMPHASES, NPH_BUTTON_SEVERITIES, NPH_BUTTON_SIZES } from './nph-button';
+import { NPH_BUTTON_EMPHASES, NPH_BUTTON_SEVERITIES, NPH_BUTTON_SHAPES, NPH_BUTTON_SIZES } from './nph-button';
 import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
 
 const meta: Meta = {
@@ -42,6 +43,7 @@ const SECTIONS = {
   api: 'api',
   variants: 'severity-and-emphasis',
   sizes: 'sizes',
+  iconOnly: 'icon-only',
   states: 'states',
   accessibility: 'accessibility',
   examples: 'examples',
@@ -60,7 +62,7 @@ export const Documentation: Story = {
   name: 'Documentation',
   render: (_args, context: GlobalsContext) => {
     const d = translations(localeOf(context)).buttonDocs;
-    const [save, cancel, deleteAccount, close, create] = d.exampleTexts as string[];
+    const [save, cancel, deleteAccount, close, create, viewDetails, edit, remove] = d.exampleTexts as string[];
 
     return html`
       <main style=${body}>
@@ -83,6 +85,7 @@ export const Documentation: Story = {
           { id: SECTIONS.api, title: d.apiTitle },
           { id: SECTIONS.variants, title: d.variantsTitle },
           { id: SECTIONS.sizes, title: d.sizesTitle },
+          { id: SECTIONS.iconOnly, title: d.iconOnlyTitle },
           { id: SECTIONS.states, title: d.statesTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
           { id: SECTIONS.examples, title: d.examplesTitle },
@@ -157,6 +160,31 @@ export const Documentation: Story = {
         )}
 
         ${section(
+          SECTIONS.iconOnly,
+          d.iconOnlyTitle,
+          html`
+            ${text(d.iconOnlyText)}
+            ${demo(
+              html`<div style=${column}>
+                ${NPH_BUTTON_SHAPES.map(
+                  (shape) => html`<div style=${row}>
+                    ${NPH_BUTTON_SIZES.map(
+                      (size) => html`<nph-button size=${size} shape=${shape} icon-start="plus" label=${create}></nph-button>`,
+                    )}
+                    ${shape === 'circular'
+                      ? html`<nph-button size="default" shape=${shape} icon-start="plus" label=${create} loading></nph-button>`
+                      : ''}
+                    <code>${shape}</code>
+                  </div>`,
+                )}
+              </div>`,
+              d.iconOnlyCaption,
+            )}
+            ${source(d.sourceLabel, d.sourceIconOnly)}
+          `,
+        )}
+
+        ${section(
           SECTIONS.states,
           d.statesTitle,
           html`
@@ -198,10 +226,23 @@ export const Documentation: Story = {
             )}
             ${demo(html`<nph-button size="default" severity="danger" text=${deleteAccount}></nph-button>`, d.exampleConsequence)}
             ${demo(
+              html`<div style=${row}>
+                <nph-button size="compact" severity="secondary" emphasis="ghost" icon-start="eye" label=${viewDetails}></nph-button>
+                <nph-button size="compact" severity="secondary" emphasis="ghost" icon-start="pen" label=${edit}></nph-button>
+                <nph-button size="compact" severity="secondary" emphasis="ghost" icon-start="trash" label=${remove}></nph-button>
+              </div>`,
+              d.exampleTable,
+            )}
+            ${demo(
               html`<nph-button size="default" severity="secondary" emphasis="ghost" icon-start="xmark" label=${close}></nph-button>`,
               d.exampleIconOnly,
             )}
+            ${demo(
+              html`<nph-button size="default" shape="circular" icon-start="plus" label=${create}></nph-button>`,
+              d.exampleCircular,
+            )}
             ${source(d.sourceLabel, d.sourceSpec)}
+            ${source(d.sourceLabel, d.sourceIconOnly)}
           `,
         )}
 
