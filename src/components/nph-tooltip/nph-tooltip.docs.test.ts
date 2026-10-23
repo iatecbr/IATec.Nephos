@@ -206,8 +206,37 @@ describe('nph-tooltip Validation: text only from the dictionary', () => {
   const idOf = (name: string): string =>
     `components-nph-tooltip-validation--${name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
 
-  it('the stories are the six pages of the contract', () => {
-    expect(stories.map(([name]) => name).sort()).toEqual(['Flip', 'FocusAndEscape', 'HoverAndFocus', 'OneLine', 'Sides', 'TwoLines']);
+  it('the stories are the eight pages of the contract', () => {
+    expect(stories.map(([name]) => name).sort()).toEqual([
+      'AccessibleName',
+      'Flip',
+      'FocusAndEscape',
+      'FocusableOnly',
+      'HoverAndFocus',
+      'OneLine',
+      'Sides',
+      'TwoLines',
+    ]);
+  });
+
+  it('AccessibleName: the icon-only button has no text and the balloon is its name', async () => {
+    const target = draw(validation.AccessibleName as Renderable, 'en');
+    const [tooltip] = await ready(target);
+    const button = target.querySelector('button') as HTMLButtonElement;
+    expect(button.textContent?.trim()).toBe('');
+    expect(tooltip?.relation).toBe('name');
+    expect(button.getAttribute('aria-labelledby')).toBe(tooltip?.id);
+    expect(button.hasAttribute('aria-describedby')).toBe(false);
+    target.remove();
+  });
+
+  it('FocusableOnly: the enabled button shows its balloon and the disabled one shows none', async () => {
+    const target = draw(validation.FocusableOnly as Renderable, 'en');
+    const tooltips = await ready(target);
+    const shownOf = (tooltip: Element): boolean =>
+      tooltip.shadowRoot?.querySelector('.bubble')?.matches(':popover-open') ?? false;
+    expect(tooltips.map(shownOf)).toEqual([true, false]);
+    target.remove();
   });
 
   for (const [name, story] of stories) {

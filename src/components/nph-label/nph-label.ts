@@ -12,8 +12,11 @@
  *   TRIGGER, not the help (L8): with `info` and `infoLabel`, an information
  *   icon after the text opens `nph-tooltip` with the text of `info`.
  *   The trigger receives focus, with border and halo (L9). The balloon opens on
- *   hover and on keyboard focus, above the label, and closes with Esc, when the
- *   pointer leaves or on blur; `nph-tooltip` does all of it (P77, which amends P62.6).
+ *   keyboard focus at once and on hover after `motion/hover-delay`, above the
+ *   label, and closes with Esc, when the pointer leaves or on blur; Enter and
+ *   Space leave it alone. `nph-tooltip` does all of it (P77, which amends P62.6,
+ *   and its amendment of 22/10/2026). The balloon describes the trigger: its text
+ *   is an explanation, and the name of the trigger stays `infoLabel`.
  *
  * EXCEPTION TO P01 — this is the only Nephos component WITHOUT Shadow DOM.
  * The native association between label and control does not cross the Shadow
