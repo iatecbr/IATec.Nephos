@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 390,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-textarea",
   "dependencies": ["DSA-13", "DSA-28"],
   "gates": [
@@ -29,7 +29,32 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The evidence does not name the inner padding of the box. The code uses `space/control-padding` on the sides, as `nph-input`, and `space/inline` at the top and bottom: 76 = 3 lines of `text/body-md` (20) + 2 x 8, which is what the `use` of `layout/textarea-min-height` describes. The footer keeps the same `space/inline` to the bottom border. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D-2",
+      "question": "The frame has no `leitura` state with focus. The code keeps the focus border and halo in `readonly`, because the field stays focusable (WCAG 2.4.7). It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence places the footer `space/stack` below the text and the actions `space/inline` apart, but not their alignment. The code puts the footer inside the box, the counter at the start and the actions at the end; a counter alone stays at the start. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D-4",
+      "question": "There is no width token for the textarea. Outside `nph-field`, the code uses `layout/input-width` by default, as `nph-input`, with no minimum; the parent may stretch it. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-38/documentacao-figma-aceita-2026-10-16.md"
   ],
@@ -46,8 +71,12 @@
     "excerpt": null,
     "converted_decision": "The nph-textarea frame (1632:24), documentation 1922:642, was accepted as the API and behavior specification of the nph-textarea. COMPONENT_SET 1632:22. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": {
+    "branch": "claude/dsa-38-nph-textarea-4ada6c",
+    "commit": null,
+    "pr": null
+  },
+  "context": "docs/operacao/contextos/DSA-38.md",
   "updated_at": "2026-10-23"
 }
 ```
@@ -64,9 +93,17 @@ In the evidence of the `figma-docs-accepted` gate:
 carries the Figma documentation converted to text. There is no need to open Figma.
 
 ## Pending decisions
-None. Value, form participation, events, keyboard and the way the counter reads
-the text are technical proposals for the PR. The two height tokens are already on
-`v/5.0.0`.
+Value, form participation, events, keyboard and the way the counter reads the text
+are technical proposals for the PR (P93). The two height tokens are already on
+`v/5.0.0`. Four points remain for Indiane; the code follows the stated default
+meanwhile, and the answer only adjusts one rule each.
+
+| ID | What the evidence gives | What is missing | What the code does meanwhile |
+|---|---|---|---|
+| D-1 | The heights include the padding of the field. | The inner padding of the box. | `space/control-padding` on the sides, `space/inline` at the top and bottom. |
+| D-2 | `leitura` has no hover change and no error. | Focus in `leitura`. | The focus border and halo stay. |
+| D-3 | The footer is `space/stack` below the text; actions `space/inline` apart. | The alignment inside the footer. | Footer inside the box; counter at the start, actions at the end. |
+| D-4 | No width. | The default width outside `nph-field`. | `layout/input-width`, as `nph-input`. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
