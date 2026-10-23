@@ -20,23 +20,25 @@ Write its sheet, the Metadata and P79.
 - `src/components/nph-togglebutton/` and `src/components/nph-toggle-group/`
 
 ## Changes
-`src/components/nph-switch/` (component, CSS, tests, Validation and Docs stories, demo),
-`fichas/nph-switch.md` with its generated Metadata, P79 in `docs/decisoes-tecnicas.md` and
-the `switchDocs` and `switchValidation` dictionaries in the three languages. See the commits
-on the branch.
+`nph-switch` (component, CSS, tests, also inside the real `nph-field`), six Validation
+stories, the Docs page, the dictionaries in the three languages, the sheet and its Metadata,
+and P79. The branch was synced with `v/5.0.0` several times; the conflicts were only in
+`docs/decisoes-tecnicas.md` and in the dictionaries, resolved keeping the entries of the other
+tasks. See the commits on the branch.
 
 ## Commands run
-- `npm ci`; the proof commands of `docs/operacao/component-handoff.md`, plus `build:lib`,
-  `test:package` and the Metadata generation.
+- `npm ci`; `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`,
+  `test:operacao`, `test:naming`, `build-storybook`, `build:lib`, `test:package` and
+  `git diff --check` on the head of the pull request.
 
 ## Result
-The branch is ready. The pull request waits for the merge of DSA-28, which brings P83.
+In review in PR #108.
 
 ## Evidence
-None recorded: `review-and-merge` waits for the PR.
+The proof table is in the description of PR #108. `review-and-merge` waits for the merge.
 
 ## Blocker
 None. D5 and D6 wait for Indiane and do not block.
 
 ## Next command
-Sync with `v/5.0.0` after the merge of DSA-28, run the proofs again and open the PR.
+Answer the review of PR #108; Elvys merges it.

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 250,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-switch",
   "dependencies": [],
   "gates": [
@@ -60,12 +60,12 @@
     "converted_decision": "The nph-switch frame (1549:2) was accepted as the API and behavior specification of the nph-switch. COMPONENT_SET 1548:56. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": {
-    "branch": null,
-    "commit": null,
-    "pr": null
+    "branch": "claude/dsa-27-nph-switch-1ea737",
+    "commit": "c10ba4917f4e49e5c33de5cdd057dec48fb538ff",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/108"
   },
   "context": "docs/operacao/contextos/DSA-27.md",
-  "updated_at": "2026-10-22"
+  "updated_at": "2026-10-23"
 }
 ```
 
