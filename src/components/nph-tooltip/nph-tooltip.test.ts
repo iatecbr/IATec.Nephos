@@ -536,6 +536,60 @@ describe('opening on hover and on keyboard focus', () => {
     }
   });
 
+  it('in one shadow root, a Tab from a clicked field to the button opens a tooltip attached later', async () => {
+    const host = document.createElement('div');
+    const root = host.attachShadow({ mode: 'open' });
+    const input = document.createElement('input');
+    const button = document.createElement('button');
+    button.id = 'shadow-keyboard-target';
+    button.textContent = 'Target';
+    button.style.cssText = 'position:fixed;left:300px;top:300px';
+    root.append(input, button);
+    document.body.append(host);
+    await userEvent.click(input);
+    /* A real Tab key: the focus moves inside the root, where a document `focusin` is not heard. */
+    await userEvent.keyboard('{Tab}');
+    expect(root.activeElement).toBe(button);
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    root.append(tooltip);
+    await tooltip.updateComplete;
+    await vi.waitFor(() => expect(tooltip.open).toBe(true));
+    await shown(tooltip);
+  });
+
+  it('in one shadow root, a tap on a field after a Tab does not open a tooltip attached later', async () => {
+    const host = document.createElement('div');
+    const root = host.attachShadow({ mode: 'open' });
+    const button = document.createElement('button');
+    button.textContent = 'Before';
+    const input = document.createElement('input');
+    input.id = 'shadow-touch-target';
+    input.style.cssText = 'position:fixed;left:300px;top:300px';
+    root.append(button, input);
+    document.body.append(host);
+    button.focus();
+    await userEvent.keyboard('{Tab}');
+    expect(root.activeElement).toBe(input);
+    input.blur();
+    button.focus();
+    expect(root.activeElement).toBe(button);
+    /* The tap moves the focus inside the root: the pointer counts, not the earlier key. A real tap is composed. */
+    input.dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'touch', bubbles: true, composed: true }));
+    input.focus();
+    expect(root.activeElement).toBe(input);
+    expect(input.matches(':focus-visible')).toBe(true);
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', input.id);
+    tooltip.text = ONE_LINE;
+    root.append(tooltip);
+    await tooltip.updateComplete;
+    await pause(50);
+    expect(tooltip.open).toBe(false);
+    expect(isShown(tooltip)).toBe(false);
+  });
+
   it('a mouse click that focuses the button does not open it by itself (no visible focus)', async () => {
     const { button, tooltip } = await mount();
     button.dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'mouse', bubbles: true }));

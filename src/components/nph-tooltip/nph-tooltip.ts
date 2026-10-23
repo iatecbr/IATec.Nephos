@@ -100,14 +100,18 @@ const OPPOSITE: Record<NphTooltipSide, NphTooltipSide> = {
 
 let nextId = 0;
 
+/** Keys that run or dismiss the action: they do not make the keyboard count (P77 item 3). */
+const KEYS_WITHOUT_MODALITY = new Set(['Enter', ' ', 'Spacebar', 'Escape', 'Esc']);
+
 /**
- * How the focus last arrived, for every tooltip of the page: a tooltip that attaches to an
- * element that already has the focus heard neither the `focusin` nor the pointer press, and
- * a text field matches `:focus-visible` after a click too. A key press before the focus
- * makes it the keyboard's; a pointer press, touch included, makes it the pointer's.
+ * The last input of the page, for every tooltip: a tooltip that attaches to an element that
+ * already has the focus heard neither the `focusin` nor the pointer press, and a text field
+ * matches `:focus-visible` after a click too. A key press (Tab included, but not Enter, Space
+ * or Esc) makes the keyboard count; a pointer press, touch included, makes the pointer count.
+ * Both events are composed, so a focus move between two controls of the same shadow root is
+ * seen too, which a `focusin` on the document is not.
  */
 let lastInputWasKeyboard = false;
-let focusArrivedByKeyboard = false;
 let watchingModality = false;
 
 function watchFocusModality(): void {
@@ -115,9 +119,16 @@ function watchFocusModality(): void {
     return;
   }
   watchingModality = true;
-  document.addEventListener('keydown', () => (lastInputWasKeyboard = true), true);
+  document.addEventListener(
+    'keydown',
+    (event) => {
+      if (!KEYS_WITHOUT_MODALITY.has(event.key)) {
+        lastInputWasKeyboard = true;
+      }
+    },
+    true,
+  );
   document.addEventListener('pointerdown', () => (lastInputWasKeyboard = false), true);
-  document.addEventListener('focusin', () => (focusArrivedByKeyboard = lastInputWasKeyboard), true);
 }
 
 /* From the moment the module loads, not from the first tooltip: the focus may arrive before any. */
@@ -783,7 +794,7 @@ export class NphTooltip extends LitElement {
       focused = focused.shadowRoot.activeElement;
     }
     this.focusedElement = focused;
-    if (this.pointerFocusSuppressed || !focusArrivedByKeyboard || !focused.matches(':focus-visible')) {
+    if (this.pointerFocusSuppressed || !lastInputWasKeyboard || !focused.matches(':focus-visible')) {
       return;
     }
     this.hasFocus = true;

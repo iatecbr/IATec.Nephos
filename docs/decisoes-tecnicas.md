@@ -2446,11 +2446,14 @@ root cannot be described from outside, so the component that owns that root rend
    in `disabled` and `loading`. A tooltip rendered after the keyboard focus arrived, as when a button
    with text becomes icon-only while focused, heard no `focusin`: `nph-tooltip` now takes the focus
    hold when it attaches, on any path, to an element that already has the focus, with the rule of
-   `focusin`, and only when that focus arrived by the keyboard. The page keeps one record of how the
-   focus last arrived (a key press or a pointer press, touch included), because a text field matches
-   `:focus-visible` after a click too; the record starts when the module loads, not with the first
-   tooltip, so the first balloon of a page also knows how the focus arrived. The `nph-tooltip` demonstrations that paired an icon-only `nph-button` with a second,
-   outer tooltip now use a native button with one tooltip, so no example shows two balloons.
+   `focusin`, and only when the last input of the page was the keyboard. The page keeps one record
+   of that last input: a key press (Tab included, not Enter, Space or Esc, which run or dismiss the
+   action) or a pointer press, touch included. A text field matches `:focus-visible` after a click
+   too, so the record decides; both events are composed, so a focus move between two controls of
+   the same shadow root counts, which a `focusin` on the document does not see. The record starts
+   when the module loads, not with the first tooltip, so the first balloon of a page also knows it.
+   The `nph-tooltip` demonstrations that paired an icon-only `nph-button` with a second, outer
+   tooltip now use a native button with one tooltip, so no example shows two balloons.
 4. **The name, announced once.** With `relation="name"` the tooltip adds its `id` to the
    `aria-labelledby` of the native button, and the browser computes the name from the text it
    mirrors. The native button keeps `aria-label` with the same `label`: `aria-labelledby` wins in
