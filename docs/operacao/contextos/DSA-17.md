@@ -24,13 +24,9 @@ The component, CSS and tests; the Validation stories, the Docs page and the dict
 sheet, the Metadata and P81. See the commits on the branch.
 
 ## Commands run
-- `npm ci`, `build:tokens`, `test:tokens`, `test:i18n`, `test:operacao`, `build-storybook` and
-  `git diff --check`: exit 0
-- `npm test`: exit 1, only the six `nph-tooltip.test.ts` failures that `v/5.0.0` already has
-  at `d00c6ca`; the 191 tests of this piece pass
-- `npm run typecheck`: exit 2, only the eight errors of `nph-tooltip.ts` that `v/5.0.0` already has
-- `npm run build:lib`: exit 1 on the same errors; with the build carried past them,
-  `npm run test:package` passes
+After the sync with `v/5.0.0` at `9dd6e19`:
+- `npm ci`, `build:tokens`, `test:tokens`, `typecheck`, `test`, `test:i18n`, `test:operacao`,
+  `build-storybook`, `build:lib`, `test:package` and `git diff --check`: exit 0
 - `npm run test:naming`: exit 1, only in files this pass does not touch
 
 ## Result
