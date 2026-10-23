@@ -2982,7 +2982,9 @@ size. The names follow P64.
    `console.warn` in development says why, not repeated while it lasts. When the piece is
    disabled — by its attribute or by a fieldset — it writes `disabled` on each slotted element
    that has the property and gives back only what it turned on, also when the element leaves the
-   slot: the additive rule of P83.
+   slot: the additive rule of P83. As in `nph-field`, the owner and the forced `disabled` are
+   shared by every instance, so an action moved to another textarea belongs to the new one, and a
+   custom element defined after the render is synchronized when it upgrades.
 
 5. **Growth and scroll.** The inner `<textarea>` is the scroll area: `box-sizing: border-box`,
    `min-block-size: layout/textarea-min-height`, `max-block-size: layout/textarea-max-height`,

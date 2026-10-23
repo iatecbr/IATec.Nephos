@@ -1089,3 +1089,52 @@ describe('token contract', () => {
     expect(designMd).toMatch(/layout\/textarea-max-height:[\s\S]{0,400}DO NOT USE outside nph-textarea/);
   });
 });
+
+describe('review regressions (PR #111, Copilot round 1)', () => {
+  it('an action defined after a disabled textarea rendered is disabled when it upgrades', async () => {
+    const name = `demo-late-action-${Date.now()}`;
+    const holder = await markup(`<nph-textarea label="Comment" disabled><${name} slot="actions"></${name}></nph-textarea>`);
+    const element = holder.querySelector('nph-textarea') as NphTextarea;
+    const action = holder.querySelector(name) as HTMLElement & { disabled?: boolean };
+    expect('disabled' in action).toBe(false);
+    customElements.define(
+      name,
+      class extends HTMLElement {
+        disabled = false;
+      },
+    );
+    await customElements.whenDefined(name);
+    await element.updateComplete;
+    await element.updateComplete;
+    expect(action.disabled).toBe(true);
+    element.disabled = false;
+    await element.updateComplete;
+    expect(action.disabled).toBe(false);
+  });
+
+  it('an action moved between two disabled textareas stays disabled when the new one updates first', async () => {
+    const { element: from, send } = await withActions({ label: 'From', disabled: true });
+    const to = await mount({ label: 'To', disabled: true });
+    expect(send.disabled).toBe(true);
+    to.append(send);
+    to.requestUpdate();
+    await to.updateComplete;
+    from.requestUpdate();
+    await from.updateComplete;
+    await nextFrame();
+    await Promise.all([from.updateComplete, to.updateComplete]);
+    expect(send.disabled).toBe(true);
+    to.disabled = false;
+    await to.updateComplete;
+    expect(send.disabled).toBe(false);
+  });
+
+  it('an action moved from a disabled textarea to an enabled one gets its disabled back', async () => {
+    const { element: from, send } = await withActions({ label: 'From', disabled: true });
+    const to = await mount({ label: 'To' });
+    to.append(send);
+    await nextFrame();
+    await Promise.all([from.updateComplete, to.updateComplete]);
+    expect(send.disabled).toBe(false);
+  });
+});

@@ -47,6 +47,20 @@ function devWarn(message: string): void {
   }
 }
 
+/**
+ * The textarea that wrote last on each action, shared by every instance. An action moved
+ * from one textarea to another is released by the old one only while the old one still
+ * owns it, so the cleanup of the old textarea never re-enables an action inside the new one
+ * (the rule of `nph-field`, P83).
+ */
+const owners = new WeakMap<Element, NphTextarea>();
+
+/**
+ * The actions a textarea disabled, shared by every instance: an action moved from a
+ * disabled textarea to an enabled one gets back the `disabled` the old one turned on.
+ */
+const forcedDisabled = new WeakSet<Element>();
+
 export class NphTextarea extends LitElement {
   static override styles = unsafeCSS(textareaCss);
 
@@ -95,10 +109,10 @@ export class NphTextarea extends LitElement {
   private dirty = false;
   /** There is at least one element in the `actions` slot. */
   private hasActions = false;
-  /** The actions the piece disabled, to give back only those. */
-  private readonly forcedDisabled = new WeakSet<Element>();
-  /** The actions the piece wrote on, to give back what it forced when they leave. */
+  /** The actions in the slot at the last update, to release the ones that left. */
   private managedActions = new Set<Element>();
+  /** The custom elements already waited for, so `whenDefined` is asked once per name. */
+  private readonly awaited = new Set<string>();
   /** After the first frame, a label rendered by another element has had its chance. */
   private settled = false;
   private warnedNoName = false;
@@ -292,36 +306,58 @@ export class NphTextarea extends LitElement {
     }
   }
 
-  /** `disabled` adds up on the actions: on while the piece is inactive; given back only where it was turned on. */
+  /**
+   * `disabled` adds up on the actions: on while the piece is inactive; given back only where
+   * a textarea turned it on. A custom element not yet defined has no `disabled` yet: it is
+   * waited for once per name, and synchronized when it upgrades.
+   */
   private syncActions(): void {
     const inactive = this.inactive;
     const next = new Set(this.actions);
     for (const element of this.managedActions) {
       if (!next.has(element)) {
-        this.giveBack(element);
+        this.release(element);
       }
     }
     for (const element of next) {
-      const target = element as unknown as { disabled?: unknown };
+      owners.set(element, this);
       if (!('disabled' in element)) {
+        this.await(element);
         continue;
       }
+      const target = element as unknown as { disabled: unknown };
       if (inactive) {
         if (target.disabled !== true) {
           target.disabled = true;
-          this.forcedDisabled.add(element);
+          forcedDisabled.add(element);
         }
-      } else {
-        this.giveBack(element);
+      } else if (forcedDisabled.has(element)) {
+        target.disabled = false;
+        forcedDisabled.delete(element);
       }
     }
     this.managedActions = next;
   }
 
-  private giveBack(element: Element): void {
-    if (this.forcedDisabled.has(element)) {
+  /** An action not defined yet: synchronize it once its element is defined. */
+  private await(element: Element): void {
+    const name = element.localName;
+    if (!name.includes('-') || customElements.get(name) !== undefined || this.awaited.has(name)) {
+      return;
+    }
+    this.awaited.add(name);
+    void customElements.whenDefined(name).then(() => this.requestUpdate());
+  }
+
+  /** An action that left the piece gets back what a textarea forced, unless another textarea took it. */
+  private release(element: Element): void {
+    if (owners.get(element) !== this) {
+      return;
+    }
+    owners.delete(element);
+    if (forcedDisabled.has(element)) {
       (element as unknown as { disabled: boolean }).disabled = false;
-      this.forcedDisabled.delete(element);
+      forcedDisabled.delete(element);
     }
   }
 
