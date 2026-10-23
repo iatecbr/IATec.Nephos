@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80 and P86. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80, P84 and P86. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -47,6 +47,7 @@ P62.4 subsection for the detail).
 | **P77** | `nph-tooltip`: any element, opened on hover and on keyboard focus (amends P65 and P62.6) | 21/10/2026 | Medium. `nph-button` (DSA-43) and the value balloon of the slider (DSA-39) will attach the balloon with `for`, so changing `for`, `side` or the rule of opening later requires redoing both | Anatomy and behavior: board accepted by Indiane on 20/10/2026, D1 answered on 20/10/2026; the plan is approved by Elvys on 21/10/2026. API and semantics approved by Elvys's merge of PR #94 (`3835337`). **Amended on 22/10/2026 (DSA-48)**: hover delay, keyboard, only focusable elements and `relation`; rules accepted by Indiane on 22/10/2026, the plan approved by Elvys the same day, API and semantics reviewed in the pull request that brings them |
 | **P78** | API and semantics of `nph-avatar-stack` | 22/10/2026 | Low now. No piece consumes it yet; a list of people, a card or a table row will, so changing `count`, `label` or the slot of `nph-avatar` children later requires redoing them | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P80** | API and semantics of `nph-input`, the reference of the form controls | 22/10/2026 | Medium. `nph-field` (DSA-28), `nph-checkbox`, `nph-radio` and `nph-input-otp` copy its form association, its native events and its name by reference, so changing them later requires redoing those pieces | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D7 answered on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P84** | API and semantics of `nph-empty`, and the first raster asset of the package | 22/10/2026 | Low now. No piece consumes it yet; `nph-combobox` (DSA-46) will, so changing `heading` or `description` later requires redoing its empty list. The asset delivery (`vite.config.lib.ts`) applies to any later illustration | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P86** | Icon-only `nph-button`: shape and built-in tooltip (amends P68) | 23/10/2026 | Low now. `nph-dialog` (DSA-44) will use the icon-only button to close, so changing `shape`, or the tooltip the button renders, later requires redoing it | Anatomy and behavior: board `nph-icon-button` accepted by Indiane on 19/10/2026, textual audit approved on 20/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
@@ -2292,6 +2293,117 @@ the approval.
 
 ---
 
+## P84 — `nph-empty`: API and semantics
+
+**Decision.** `nph-empty` is a Web Component with **open Shadow DOM** (P01), CSS in its own
+file imported `?inline`, as in `nph-icon`. It has no slot, event, focus, click, `::part`, color
+property or size property. Anatomy only through semantic tokens. Invalid input renders nothing
+and emits `console.error` only in development, with no visual fallback — the rule of P21, adopted
+here by its own decision, as in P66 and P69. The names follow P64. It is the **first piece that
+ships a raster asset**.
+
+1. **Properties.** The Figma component has three properties and no variant. The mapping below is
+   a technical proposal of this implementation.
+
+   | Figma | API |
+   |---|---|
+   | `título` | `heading`, String, required, not reflected |
+   | `descrição` | `description`, String, optional, not reflected |
+   | `texto da descrição` | not a property: it is the presence of a non-empty `description` |
+   | the illustration | not a property: it follows the color scheme |
+
+   The name is `heading` and not `title`: `title` is a global HTML attribute, which the browser
+   shows as a native tooltip and some screen readers read as a description. `texto da descrição`
+   follows the precedent of `texto` in P73: on and off is the presence of the text, so there is no
+   boolean that could say "on" with an empty text. Both texts are trimmed. Neither reflects: the
+   CSS selects nothing by them.
+
+2. **Semantics.** The host has no role. The heading and the description are `<p>`, not `<h*>`: a
+   heading level inside a shadow root cannot be chosen by the consumer, and inside the
+   `nph-combobox` list a heading would be noise. The piece is not a live region: announcing that a
+   search found nothing belongs to the piece that receives it (DSA-46). The illustration is
+   decorative, with an empty `alt` and `aria-hidden="true"`.
+
+3. **The illustration follows the scheme by opacity.** `scheme/is-light` and `scheme/is-dark` are
+   numbers, 1 in their own scheme and 0 in the other (`design.md`, `tokens_scheme`), and CSS cannot
+   branch on a number. Both images are rendered, stacked in one grid cell, and each takes its flag
+   as `opacity`. It works in every browser, writes no literal value and switches when
+   `data-nph-color-scheme` changes on any ancestor, because custom properties inherit through the
+   shadow root. **Cost:** the browser downloads both files (D1 of DSA-40). Discarded: a container
+   style query (`@container style(...)`), whose support was not verified in every target browser,
+   and reading the scheme in JavaScript, which does not see an attribute change on an ancestor.
+
+4. **The asset ships as a file of the package.** In library mode Vite inlines every imported asset
+   as base64, whatever its size. The two PNG files would become about 1 MB of JavaScript. The
+   component imports them with `?no-inline`, and `vite.config.lib.ts` changes in two lines:
+   `base: './'`, so the emitted URL is `new URL('../assets/<file>', import.meta.url)` and resolves
+   wherever the package is installed (with the default base it would be the absolute `/<file>`, a
+   path of the consumer's site); and `assetFileNames: 'assets/[name][extname]'`, so the files go to
+   `dist/assets/` under their own name. `files: ["dist"]` already ships them and `exports` does not
+   change. Only `nph-empty` reads `import.meta.url`: the JavaScript of every other component is the
+   same, byte for byte, with and without the change. A consumer needs a bundler that resolves
+   `new URL(..., import.meta.url)` (Vite, webpack 5, Rollup) or serves `dist/` as it is.
+
+5. **Box.** A column that centers everything, `gap` `space/section` between the illustration and
+   the text group and `space/inline-tight` between the heading and the description, padding
+   `space/container-padding` on the four sides, `inline-size` `layout/input-width` with
+   `box-sizing: border-box`, no background and no border. `max-inline-size: 100%`: in a narrower
+   container the box shrinks to it and the text wraps (WCAG 1.4.10; D3 of DSA-40 asks Indiane to
+   confirm). The heading is `text/heading-xs` in `color/foreground`, the description `text/body-sm`
+   in `color/muted-foreground`; a word longer than the line breaks instead of overflowing.
+
+6. **Size of the illustration.** 120 × 87 is the size of the asset, not a token (evidence of
+   DSA-40). It is written as the `width` and `height` attributes of the images, not in the CSS,
+   with `object-fit: contain`: the dark file has another proportion (2048 × 1538 against
+   2048 × 1487) and is fitted whole, not cut nor stretched (D2 of DSA-40).
+
+7. **Invalid input.** Without `heading`, with an empty one or with only spaces, the piece draws
+   nothing, takes no space, leaves `data-nph-rendered` out and emits one `console.error` in
+   development. An empty `description` is not an error: it is the heading-only case.
+
+**Known limits.**
+
+- **Angular application in a subdirectory.** The Angular application builder (checked with
+  Angular 22 and the installed package) keeps the URL `new URL('../assets/<file>', import.meta.url)`
+  and writes its bundles at the root of the browser output. An application published in a
+  subdirectory, such as `/my-app/`, therefore resolves the illustrations to `/assets/` at the root
+  of the site, outside the application: the consumer copies the two PNG files there. At the root of
+  the site, the asset glob of `docs/consuming.md` is enough; Blazor with esbuild resolves them inside
+  the application (`wwwroot/assets/`). Decided by Elvys on 23/10/2026: the delivery of this decision
+  stays, and the limit is recorded here and in the guide.
+- **Follow-up, after D1.** A new task is needed for (b) or (c) once D1 settles the weight of the
+  illustrations: (b) the consumer gives the base of the assets, or (c) the illustrations are
+  embedded in the package. It is recorded in `pending_decisions` of DSA-40 (D4, decider Indiane).
+
+**Points for review.**
+
+- **`vite.config.lib.ts`**, the first change of the library build since P75, and the first file of
+  the package that is not code.
+- **Both illustrations downloaded**, until D1 of DSA-40 brings lighter files.
+- **The name `heading`**, shared with `nph-dialog` (DSA-44).
+
+**Source.** Board `nph-empty` (`1463:25260`, frame `2003:688`, component `1463:25238`) of the
+Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 16/10/2026, with the Figma UX QA and the
+textual audit approved; `scheme/is-light`, `scheme/is-dark` and the two files in
+`assets/illustrations/` are on `v/5.0.0`. The names `heading` and `description`, the semantics, the
+switch by opacity, the delivery of the asset and the invalid input rule are a technical proposal of
+this implementation, approved with the plan by Elvys on 22/10/2026.
+
+**Out of scope.** An action, a button or a link. A loading state. Other illustrations, or choosing
+one by hand. Announcing the result of a search. The `nph-combobox` itself (DSA-46): the
+Storybook pages show its list in a frame. The Usage section of the page (P70, DSA-35), the page
+lists read from the Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
+
+**Pending for Indiane (DSA-40, D1 to D4), none of them blocks.** Lighter illustration files (the
+current ones are 2048 px wide for a drawing of 120); whether the dark illustration is fitted or cut
+in the 120 × 87 box; whether the box shrinks in a narrower container; and, after D1, the new task
+for (b) or (c) of the known limit above.
+
+**Status.** Anatomy and behavior accepted by Indiane on 16/10/2026. API and semantics are reviewed
+in the pull request that brings them; the merge is the approval.
+
+---
+
 ## P86 — Icon-only `nph-button`: shape and built-in tooltip
 
 This decision **amends P68** in the icon-only button (B5). P68 fixed a square icon-only button
@@ -2386,7 +2498,7 @@ are reviewed in the pull request that brings them; the merge is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80 or P86 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80, P84 or P86 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
