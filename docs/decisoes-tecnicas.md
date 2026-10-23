@@ -2366,11 +2366,15 @@ P66, P68, P73, P74 and P76. The names follow P64. The form pattern is the one of
 7. **Form (P80).** `setFormValue(checked ? value : null)`: only the checked radio enters the
    `FormData`, as `name=value`. `name` and `value` reflect, because the form reads the attributes of
    the host; an empty `name` writes no attribute, and the default `value`, `on`, is also written as
-   the attribute. `checked` does not reflect: the attribute is the
+   the attribute; removing the `value` attribute gives back `on`, so the property, the events and
+   the form agree. A radio that is not drawn (no accessible name) submits nothing, as in P80. `checked` does not reflect: the attribute is the
    initial state and the one `form.reset()` returns to, and a later change of the attribute moves the
    current state only while the piece is not dirty — neither the person nor code changed `checked`
    — the rule of the native radio. `formDisabledCallback` (a disabled fieldset) works as `disabled`;
-   `formStateRestoreCallback` checks the radio whose `value` is the restored state. `form`, `labels`,
+   `formStateRestoreCallback` brings back an explicit checked or unchecked state, which the radio
+   writes as its restore state (`null` would not be restored, and a radio unchecked by the person
+   would come back checked by its attribute); with autocomplete, it checks the radio whose `value`
+   is the one restored. `form`, `labels`,
    `validity`, `validationMessage`, `willValidate`, `checkValidity()` and `reportValidity()` are
    exposed, as in P80. There is no `required` and no validity of its own: the field says the group
    is required (P83).
@@ -2402,7 +2406,7 @@ P66, P68, P73, P74 and P76. The names follow P64. The form pattern is the one of
     question about this substitution is the open D7 of DSA-22; no new one is opened.
 
 12. **Invalid input and composition.** No accessible name — no `text`, no `label`, no `aria-label`
-    and no `aria-labelledby` — renders nothing, takes no space, leaves `data-nph-rendered` out, takes
+    and no `aria-labelledby`, an empty or blank one counting as none — renders nothing, takes no space, leaves `data-nph-rendered` out, takes
     no Tab stop and emits one `console.error` in development; the check runs again only when one of
     those changes, so checking does not repeat it. Two problems of composition render anyway and emit
     one `console.warn` each, in development, once while they last, read one frame after the radio

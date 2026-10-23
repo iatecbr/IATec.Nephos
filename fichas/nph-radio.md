@@ -46,7 +46,9 @@ api:
     reflects: true
     constraint: >-
       What the checked radio submits, under name. Only the checked radio of a group
-      enters the form. The default, on, is also written as the attribute.
+      enters the form. The default, on, is also written as the attribute, and
+      removing the attribute gives back on. A radio that is not drawn submits
+      nothing.
   text:
     type: string
     required: false
@@ -63,8 +65,9 @@ api:
     reflects: false
     constraint: >-
       The accessible name when there is no text, never visible. Without text,
-      label, aria-label or aria-labelledby on the host, the radio draws nothing
-      and emits console.error in development. With text, label is not used.
+      label, aria-label or aria-labelledby on the host (an empty or blank one
+      counts as none), the radio draws nothing and emits console.error in
+      development. With text, label is not used.
   invalid:
     type: boolean
     required: false

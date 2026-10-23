@@ -719,6 +719,45 @@ describe('the form', () => {
     expect(element.getAttribute('value')).toBe(NPH_RADIO_DEFAULT_VALUE);
   });
 
+  it('removing the value attribute gives back on, in the property, the event and the form', async () => {
+    const { form, radios } = await inForm([{ name: 'agree', value: 'yes', text: 'I agree' }]);
+    const element = radios[0]!;
+    element.removeAttribute('value');
+    await element.updateComplete;
+    expect(element.value).toBe(NPH_RADIO_DEFAULT_VALUE);
+    const values: string[] = [];
+    element.addEventListener('change', (event) => values.push((event.target as NphRadio).value));
+    element.click();
+    expect(values).toEqual([NPH_RADIO_DEFAULT_VALUE]);
+    expect([...new FormData(form).entries()]).toEqual([['agree', NPH_RADIO_DEFAULT_VALUE]]);
+  });
+
+  it('a radio that is not drawn submits nothing, and submits again once it has a name', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const { form, radios } = await inForm([{ name: 'payment', value: 'card', text: 'Card', checked: true }, { name: 'payment', value: 'pix', text: 'Pix' }]);
+    expect([...new FormData(form).entries()]).toEqual([['payment', 'card']]);
+    radios[0]!.text = '';
+    await radios[0]!.updateComplete;
+    expect(radios[0]!.hasAttribute('data-nph-rendered')).toBe(false);
+    expect([...new FormData(form).entries()]).toEqual([]);
+    radios[0]!.text = 'Card';
+    await radios[0]!.updateComplete;
+    expect([...new FormData(form).entries()]).toEqual([['payment', 'card']]);
+    expect(error).toHaveBeenCalledTimes(1);
+  });
+
+  it('the restore state of an unchecked radio is explicit: it is not checked again by its attribute', async () => {
+    const { radios } = await inForm([{ ...SHIFTS[0], checkedAttribute: true }, SHIFTS[1]!]);
+    const restore = (element: NphRadio, state: unknown): void =>
+      (element as unknown as { formStateRestoreCallback(value: unknown): void }).formStateRestoreCallback(state);
+    /* The two states the radio writes with setFormValue; the browser hands them back on history navigation. */
+    restore(radios[1]!, 'nph-radio:checked');
+    restore(radios[0]!, 'nph-radio:unchecked');
+    expect(checkedOf(radios)).toEqual([false, true]);
+    restore(radios[1]!, 'nph-radio:unchecked');
+    expect(checkedOf(radios)).toEqual([false, false]);
+  });
+
   it('a restored state checks the radio whose value it is', async () => {
     const { radios } = await inForm();
     (radios[2] as unknown as { formStateRestoreCallback(state: unknown): void }).formStateRestoreCallback('night');
@@ -1075,6 +1114,19 @@ describe('invalid input: it renders nothing and says why, once', () => {
     const element = await mount({ text: '   ', name: 'payment' });
     expect(element.hasAttribute('data-nph-rendered')).toBe(false);
     expect(error).toHaveBeenCalledTimes(1);
+  });
+
+  it('an empty aria-labelledby, or one of spaces, is no name', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    for (const reference of ['', '   ']) {
+      const element = radio({ name: 'payment' });
+      element.setAttribute('aria-labelledby', reference);
+      document.body.append(element);
+      await element.updateComplete;
+      expect(element.hasAttribute('data-nph-rendered'), JSON.stringify(reference)).toBe(false);
+      expect(element.hasAttribute('tabindex')).toBe(false);
+    }
+    expect(error).toHaveBeenCalledTimes(2);
   });
 
   it('checking it does not repeat the error; a text set later draws it with no new error', async () => {

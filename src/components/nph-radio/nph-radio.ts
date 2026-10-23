@@ -80,6 +80,19 @@ const nameConverter = {
   toAttribute: (value: string | null): string | null => (value === null || value === '' ? null : value),
 };
 
+/** A removed `value` attribute is the default again, so the property and the form agree. */
+const valueConverter = {
+  fromAttribute: (attribute: string | null): string => attribute ?? NPH_RADIO_DEFAULT_VALUE,
+  toAttribute: (value: string): string => value,
+};
+
+/**
+ * The state kept for history restoration. An unchecked radio needs one too: `null` is not
+ * restored, and the radio would come back checked by its attribute.
+ */
+const RESTORE_CHECKED = 'nph-radio:checked';
+const RESTORE_UNCHECKED = 'nph-radio:unchecked';
+
 export class NphRadio extends LitElement {
   static override styles = unsafeCSS(radioCss);
 
@@ -102,7 +115,7 @@ export class NphRadio extends LitElement {
     invalid: { type: Boolean, reflect: true },
     /* Reflect: the form reads the attributes of the host, not the properties. */
     name: { type: String, reflect: true, converter: nameConverter },
-    value: { type: String, reflect: true },
+    value: { type: String, reflect: true, converter: valueConverter },
     text: { type: String },
     label: { type: String },
   };
@@ -239,9 +252,10 @@ export class NphRadio extends LitElement {
     this.applyChecked(this.hasAttribute('checked'));
   }
 
+  /** `restore` brings back the state written by `syncInternals`; `autocomplete` brings a value. */
   formStateRestoreCallback(state: unknown): void {
     this.dirty = true;
-    this.applyChecked(state !== null && state === this.value);
+    this.applyChecked(state === RESTORE_CHECKED || (state !== RESTORE_UNCHECKED && state !== null && state === this.value));
   }
 
   /** Disabled, inside a disabled fieldset, or not drawn: the piece does not respond. */
@@ -324,7 +338,8 @@ export class NphRadio extends LitElement {
     this.internals.ariaChecked = this.checkedState ? 'true' : 'false';
     this.internals.ariaDisabled = this.disabled || this.formDisabled ? 'true' : null;
     const value = this.value ?? NPH_RADIO_DEFAULT_VALUE;
-    this.internals.setFormValue(this.checkedState ? value : null, this.checkedState ? value : null);
+    /* A radio that is not drawn (no accessible name) submits nothing, as in `nph-input`. */
+    this.internals.setFormValue(this.checkedState && this.valid ? value : null, this.checkedState ? RESTORE_CHECKED : RESTORE_UNCHECKED);
   }
 
   /** When the piece does not respond, the click neither checks it nor reaches the consumer. */
@@ -419,7 +434,8 @@ export class NphRadio extends LitElement {
       this.accessibleNameChanged = false;
       const text = (this.text ?? '').trim();
       const label = (this.label ?? '').trim();
-      const ownName = (this.getAttribute('aria-label') ?? '').trim() !== '' || this.hasAttribute('aria-labelledby');
+      const ownName =
+        (this.getAttribute('aria-label') ?? '').trim() !== '' || (this.getAttribute('aria-labelledby') ?? '').trim() !== '';
       const valid = text !== '' || label !== '' || ownName;
       if (!valid) {
         devError('without text, the piece needs a label (or aria-label or aria-labelledby on the host): it is the accessible name of the radio.');
