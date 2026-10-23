@@ -124,6 +124,14 @@
     "components-nph-empty-validation--surfaces": "Superfícies",
     "components-nph-empty-validation--combobox-list": "Lista do combobox",
     "components-nph-empty-validation--invalid-heading": "Título inválido",
+    "components-nph-image-docs": "Docs",
+    "components-nph-image-docs--documentation": "Documentação",
+    "components-nph-image-validation": "Validação",
+    "components-nph-image-validation--sizes": "Tamanhos",
+    "components-nph-image-validation--ratios": "Proporções",
+    "components-nph-image-validation--states": "Estados",
+    "components-nph-image-validation--interaction": "Interação",
+    "components-nph-image-validation--accessibility": "Acessibilidade",
     "components-nph-switch-docs": "Docs",
     "components-nph-switch-docs--documentation": "Documentação",
     "components-nph-switch-validation": "Validação",
@@ -2528,6 +2536,250 @@
     "comboboxCaption": "Moldura da lista do nph-combobox em state=vazio: a superfície da lista com o nph-empty como único conteúdo. A lista real vem com o nph-combobox.",
     "invalidCaption": "A descrição foi dada e o título não: nada é desenhado em nenhum dos modos, e o console mostra um erro em desenvolvimento."
   },
+  "imageDocs": {
+    "summary": "A imagem de um produto, arquivo ou conteúdo numa área de tamanho fixo, com os estados de carregamento, vazio e erro. A área é a mesma com ou sem a imagem. Não é avatar nem ícone.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-image, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P90. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra nasce aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Quando a tela mostra a imagem de um produto, arquivo ou conteúdo numa área de tamanho fixo.",
+      "Escolha o tamanho pelo lugar: sm na tabela, md na lista, lg no item de produto e no upload, xl e 2xl no card lateral e no template de imagem, media no card, na galeria e na capa.",
+      "Escolha o estado pelo que acontece: carregando enquanto a imagem não chegou, vazio quando não há imagem, erro quando ela falhou.",
+      "Em media, escolha 1:1, 4:3 ou 16:9 pelo encaixe do card, da galeria ou da capa.",
+      "Escreva um alt que descreva o conteúdo, ou deixe-o vazio quando o texto ao lado já diz tudo.",
+      "Use um único tamanho por lista, para as linhas ficarem alinhadas."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para uma pessoa: use o nph-avatar.",
+      "Como ícone: para um símbolo, use o nph-icon.",
+      "Como botão de uma ação: use o nph-button.",
+      "Com carregamento que nunca termina: se a imagem não vier, mostre erro.",
+      "Com tamanhos diferentes na mesma lista."
+    ],
+    "relationsText": "Ao lado de texto, o espaço é image/gap, dado pelo contêiner. Numa tabela, lista, card ou galeria, o contêiner define a posição e a imagem mantém a própria área. A miniatura e o item expandido do nph-table vão usá-la; o nph-table está planejado e ainda não existe. O nph-avatar é a peça para uma pessoa, o nph-icon para um símbolo e o nph-button para uma ação. O olho do hover é um nph-icon, e o arco de carregamento é o nph-spinner.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "size",
+        "xs (padrão), sm, md, lg, xl, 2xl ou media: o tamanho do Figma. Refletido no atributo. Os tamanhos quadrados têm 24, 32, 48, 64, 96 e 128 px; media usa a largura de conteúdo, image/media-width. Um valor inválido não renderiza e registra um console.error em desenvolvimento."
+      ],
+      [
+        "ratio",
+        "1:1 (padrão), 4:3 ou 16:9: a proporção do Figma. Refletido no atributo. Só media a usa; os outros tamanhos são sempre quadrados e a ignoram, sem aviso. Um valor inválido não renderiza e registra um console.error em desenvolvimento."
+      ],
+      [
+        "src",
+        "O endereço da imagem. Não há propriedade para o estado do conteúdo: ele vem do src. Sem src a peça está vazia; com ele, carregando até a imagem carregar ou falhar. Vazio ou só espaços conta como nenhum, e um src novo recomeça a espera."
+      ],
+      [
+        "alt",
+        "O nome acessível: a descrição do conteúdo. Com texto, o host recebe role=img e aria-label, em todos os estados. Vazio ou só espaços oculta a imagem do leitor de tela: aria-hidden=true no host."
+      ],
+      [
+        "interactive",
+        "A imagem é clicável. A peça desenha um botão nativo interno que preenche a moldura, recebe o foco e leva o alt como nome; o clique é o click nativo. O hover sobre uma imagem carregada mostra o véu e o olho; o Tab mostra o anel de foco. Sem alt, renderiza e registra um console.warn em desenvolvimento."
+      ],
+      [
+        "disabled",
+        "A peça inteira em state/disabled-opacity. Com interactive, o botão fica desabilitado nativamente: fora da ordem do Tab, sem clique e sem véu."
+      ],
+      [
+        "status",
+        "Somente leitura: empty, loading, loaded ou error, o estado desenhado agora. Não é atributo."
+      ],
+      [
+        "load · error",
+        "O host repete o load e o error nativos da imagem interna, sem propagar, para o pai poder escrever o texto que explica uma falha."
+      ],
+      [
+        "slot · part · event",
+        "Sem slot, sem ::part, sem evento nph-* e sem associação a formulário."
+      ]
+    ],
+    "sizesTitle": "Tamanhos",
+    "sizesText": "Um tamanho por lugar, e um único tamanho por lista. Os tamanhos quadrados mantêm a mesma área com ou sem a imagem; media mantém a largura de conteúdo e tira a altura da proporção.",
+    "sizesCaption": "Os seis tamanhos quadrados, de xs a 2xl, com imagem.",
+    "ratiosCaption": "media em 1:1, 4:3 e 16:9: a mesma largura, três alturas.",
+    "sizesHeader": [
+      "Tamanho",
+      "Medida"
+    ],
+    "sizes": [
+      [
+        "xs",
+        "24 px, image/size-xs, canto image/radius-sm. No set do Figma, sem regra de uso própria."
+      ],
+      [
+        "sm",
+        "32 px, image/size-sm, canto image/radius-sm. A tabela."
+      ],
+      [
+        "md",
+        "48 px, image/size-md, canto image/radius-md. A lista."
+      ],
+      [
+        "lg",
+        "64 px, image/size-lg, canto image/radius-md. O item de produto e o upload."
+      ],
+      [
+        "xl",
+        "96 px, image/size-xl, canto image/radius-lg. O card lateral e o template de imagem."
+      ],
+      [
+        "2xl",
+        "128 px, image/size-2xl, canto image/radius-lg. O card lateral e o template de imagem."
+      ],
+      [
+        "media",
+        "Largura 256 px, image/media-width; altura 256 (1:1), 192 (4:3) ou 144 (16:9); canto image/radius-lg. O card, a galeria e a capa."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesText": "Os estados do conteúdo vêm do src; hover, foco e desabilitada vêm do pai quando a imagem é clicável. Vazio e erro desenham só a moldura até as ilustrações de linha chegarem, então por ora os dois são iguais: o texto que explica o problema é do pai, que ouve o evento error.",
+    "statesCaption": "Vazio, carregando, carregada e erro, no tamanho xl.",
+    "interactionCaption": "Uma imagem clicável e uma clicável desabilitada. Passe o mouse sobre a primeira para ver o véu e o olho, aperte Tab para ver o anel de foco.",
+    "statesHeader": [
+      "Estado",
+      "O que aparece"
+    ],
+    "states": [
+      [
+        "Vazio",
+        "Sem src: a moldura em image/background com a borda. A ilustração entra quando os arquivos chegarem."
+      ],
+      [
+        "Carregando",
+        "O nph-spinner em image/foreground no centro, e a moldura sem borda."
+      ],
+      [
+        "Carregada",
+        "A imagem preenche a moldura e corta para manter a proporção. A borda fica por cima."
+      ],
+      [
+        "Erro",
+        "A imagem não carregou: a moldura com a borda, como no vazio. A ilustração entra quando os arquivos chegarem."
+      ],
+      [
+        "Hover",
+        "Só numa imagem clicável e carregada: o véu image/overlay com o olho em image/on-overlay."
+      ],
+      [
+        "Foco",
+        "Só numa imagem clicável, pelo teclado: o anel image/focus-border em focus/ring-width, logo fora da moldura e nunca sobre a foto."
+      ],
+      [
+        "Desabilitada",
+        "A peça inteira em state/disabled-opacity; a clicável sai da ordem do Tab e não recebe clique."
+      ]
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Moldura",
+        "image/size-* ou image/media-width, com image/radius-sm, -md ou -lg por tamanho, image/background de preenchimento e uma borda de image/border-width em image/border, desenhada por cima da imagem. A moldura em carregamento não tem borda. Mantém a mesma área com ou sem a imagem."
+      ],
+      [
+        "Imagem",
+        "A imagem do src, com alt vazio: o nome é do host. Preenche a moldura e corta para manter a proporção."
+      ],
+      [
+        "Spinner",
+        "O nph-spinner, um arco aberto em image/foreground que gira enquanto a imagem carrega: sm em xs, sm e md; md nos tamanhos maiores."
+      ],
+      [
+        "Ilustração de vazio e erro",
+        "Um desenho de linha cinza por esquema de cor, trocado por image/illustration-light e image/illustration-dark. Os arquivos ainda não estão no repositório."
+      ],
+      [
+        "Véu e ícone do hover",
+        "O véu image/overlay com o nph-icon eye em image/on-overlay, só no hover de uma imagem clicável. O olho usa image/icon-size-sm em xs e sm, -md em md e lg, e -lg em xl, 2xl e media."
+      ],
+      [
+        "Anel de foco",
+        "image/focus-border em focus/ring-width, só no foco pelo teclado de uma imagem clicável: um contorno logo fora da moldura, com o canto dela, que não ocupa espaço."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Nome acessível",
+        "O nome vem do alt, que descreve o conteúdo. Com alt vazio, a imagem fica oculta do leitor de tela (aria-hidden), para quando o texto ao lado já diz tudo."
+      ],
+      [
+        "Semântica",
+        "role=img com aria-label no host quando o alt tem texto. Uma imagem clicável é um botão nativo interno com o nome do alt, e o host não tem papel."
+      ],
+      [
+        "Foco visível",
+        "Só uma imagem clicável recebe foco: o anel image/focus-border em focus/ring-width, pelo teclado. Fora isso, o foco é do controle que a contém."
+      ],
+      [
+        "Contraste",
+        "O spinner, image/foreground sobre image/background, e o anel de foco passam de 3:1 no claro e no escuro, em todas as marcas; o nph-image.test.ts mede."
+      ],
+      [
+        "A cor não é o único sinal",
+        "O carregamento troca o desenho pelo spinner. Vazio e erro vão trocá-lo pelas ilustrações; até elas chegarem, o texto do pai e o evento error levam a diferença."
+      ],
+      [
+        "Área de toque",
+        "Não se aplica à imagem sozinha. Quando é clicável, a área é a da imagem ou a do controle que a contém."
+      ],
+      [
+        "Movimento",
+        "O spinner gira em motion/loop-duration e para com movimento reduzido (P66). A imagem em si não tem animação."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleList": "Item de lista: a imagem no tamanho md com o nome do produto ao lado, separado por image/gap. Não tem alt, porque o nome está logo ali.",
+    "exampleCover": "Capa de card: tamanho media em 16:9, com um alt que descreve a capa e o título embaixo.",
+    "exampleUpload": "Upload ainda sem imagem: tamanho lg sem src, então aparece o estado vazio, com a dica ao lado.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "productMug": "Caneca de cerâmica azul",
+    "productDetail": "Cozinha · 350 ml",
+    "coverAlt": "Peças de cerâmica numa prateleira de madeira",
+    "coverTitle": "Catálogo de primavera",
+    "uploadTitle": "Foto do produto",
+    "uploadHint": "Nenhuma imagem enviada ainda",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-image — propósito, propriedades, anatomia, acessibilidade e tokens.",
+      "docs/decisoes-tecnicas.md — P90 (API e semântica), P66, P01, P02 e P03.",
+      "Tokens — image/*, focus/ring-width e state/disabled-opacity, em src/tokens/source/semantic.tokens.json.",
+      "Figma DS-IA-NEPHOS 5.0 — board nph-image (2573:66090), frame Documentação (2677:465) e set 2573:66089.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "Ficha do nph-image; Figma, frame Documentação (2677:465)",
+    "sourceApi": "Ficha do nph-image; docs/decisoes-tecnicas.md › P90",
+    "sourceSizes": "Figma, set 2573:66089; ficha do nph-image",
+    "sourceStates": "Figma, frame Documentação (2677:465); docs/decisoes-tecnicas.md › P90",
+    "sourceAnatomy": "Figma, set 2573:66089; ficha do nph-image",
+    "sourceAccessibility": "Ficha do nph-image; nph-image.test.ts",
+    "matrixLabel": "Matriz do componente"
+  },
+  "imageValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "productMug": "Caneca de cerâmica azul",
+    "productLamp": "Luminária de mesa com cúpula branca",
+    "productCover": "Capa do catálogo de primavera"
+  },
   "switchDocs": {
     "summary": "Um interruptor que liga ou desliga uma configuração, com efeito imediato. A posição do botão mostra o estado: à esquerda, desligado; à direita, ligado. O rótulo fica depois do trilho, e a peça dispara os nativos input e change quando a pessoa a alterna.",
     "onThisPage": "Nesta página",
@@ -2792,6 +3044,11 @@
       "components-nph-empty-validation--surfaces": "O título e a descrição passam de 4,5:1 sobre color/background e sobre color/popover, no modo claro e no escuro.",
       "components-nph-empty-validation--combobox-list": "A busca sem resultado na lista do nph-combobox, numa moldura até o nph-combobox existir.",
       "components-nph-empty-validation--invalid-heading": "Sem título a peça não desenha nada e não tem alternativa visual.",
+      "components-nph-image-validation--sizes": "Os sete tamanhos, com imagem e sem: quadrados de 24, 32, 48, 64, 96 e 128 px com canto arredondado, e media na largura de conteúdo de 256 px.",
+      "components-nph-image-validation--ratios": "media aceita 1:1, 4:3 e 16:9 na mesma largura, 256 por 256, 192 ou 144 px; um tamanho quadrado ignora a proporção e continua quadrado.",
+      "components-nph-image-validation--states": "O estado vem do src: vazio sem ele, o spinner e nenhuma borda enquanto a imagem carrega, a imagem preenchendo a moldura depois de carregada, e a moldura de novo quando falha. Vazio e erro desenham só a moldura até as ilustrações chegarem.",
+      "components-nph-image-validation--interaction": "Uma imagem clicável é um botão: passe o mouse sobre ela para ver o véu e o olho, aperte Tab para ver o anel de foco. Desabilitada esmaece a peça inteira e tira o botão da ordem do Tab.",
+      "components-nph-image-validation--accessibility": "Com alt, a imagem é anunciada pela descrição; com alt vazio, fica oculta do leitor de tela e o texto ao lado fala. Uma imagem clicável dá o alt ao seu botão.",
       "components-nph-switch-validation--matrix": "Desligado e ligado, válido, inválido e desabilitado, com rótulo. Passe o mouse sobre uma peça para ver o hover e use Tab para ver o foco no trilho.",
       "components-nph-switch-validation--label": "O rótulo depois do trilho; sem texto, só o trilho, nomeado por label; um rótulo longo quebra na largura disponível, com o trilho no topo, alinhado à primeira linha.",
       "components-nph-switch-validation--disabled": "Desabilitado: a peça inteira em state/disabled-opacity, fora da ordem do Tab, ligada ou desligada; disabled vence invalid.",
