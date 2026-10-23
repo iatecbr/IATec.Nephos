@@ -3016,15 +3016,16 @@ names follow P64.
    field shares the line with the track (D5): the evidence gives it no width of its own. In the
    vertical orientation the track takes `layout/input-width` of height (D3), the maximum is at the
    top and the minimum at the bottom, and only `text` and `limits` exist. Minus and plus are
-   icon-only `nph-button` (`secondary`, `ghost`, `default`, `minus` and `plus`) and move by one
-   step the thumb used last, the start one by default (D2). `nph-label` has no Shadow DOM
+   icon-only `nph-button` (`secondary`, `ghost`, `default`, `minus` and `plus`), named by
+   `decrease-label` and `increase-label` and shown in their built-in tooltip (P86), and move by
+   one step the thumb used last, the start one by default (D2). `nph-label` has no Shadow DOM
    (P62.1), so the slider adopts its CSS in its shadow root, as `nph-field` does.
 
 7. **Disabled.** The whole slider at `state/disabled-opacity`, once: the thumbs leave the Tab
    order and take `aria-disabled`, the balloon is not drawn, keys, the pointer and the buttons do
    nothing, and the look of the error goes away. The inner `nph-input` and `nph-button` become
    `inert` and are not disabled, so they keep `state=default`, as the evidence draws them, and do
-   not fade a second time.
+   not fade a second time; an inert button opens no tooltip.
 
 8. **Invalid input.** An `orientation` or a `mode` outside its values, a `min` that is not below
    `max`, and a `step` that is not a positive number render nothing, with one `console.error` per
