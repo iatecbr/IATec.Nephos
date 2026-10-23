@@ -31,9 +31,12 @@ Who does each step is in
    from Figma, through Claude in Figma. If a token is missing or differs from
    the evidence, it stops and tells Indiane.
 2. **A PR only when there is risk.** The risk yardstick in `AGENTS.md` says
-   what goes by direct push to `v/5.0.0` and what requires a PR. Mauro and
-   Elvys review Claude's PRs; open them with `--reviewer maurocsjr`. Claude
-   does not merge its own PR.
+   what goes by direct push to `v/5.0.0` and what requires a PR. Copilot
+   reviews Claude's PRs, with no human reviewer: request it with
+   `gh pr edit <number> --add-reviewer @copilot` when the PR opens and again
+   after each round of fixes, and rerun the proofs on the final head (the
+   pull request rules in `AGENTS.md`). Elvys merges; Claude does not merge
+   its own PR.
 3. **Isolated branch and worktree.** When the task calls for a worktree, no
    execution happens in the main clone.
 4. **Plan before editing.** Claude presents what it intends to change and

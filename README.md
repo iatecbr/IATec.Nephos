@@ -164,8 +164,9 @@ ask for confirmation.
 No component may be implemented in the repository before it is approved in
 Figma.
 
-Every pull request requests a review from Mauro (`maurocsjr`) on GitHub when
-it is opened. Elvys or Mauro review and merge.
+Every pull request is reviewed by Copilot on GitHub, requested when it is
+opened and again after each round of fixes; no human reviewer is requested.
+Elvys merges.
 
 ## First P0 slice
 
