@@ -271,7 +271,7 @@ export const ListHeight: Story = {
     return validationPage(
       context,
       page('list-height'),
-      html`<div style=${stack}>
+      html`<div style=${modesFrame}>
         ${inBothModes(
           context,
           'list-height',

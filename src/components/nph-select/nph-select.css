@@ -7,7 +7,7 @@
  *
  * No literal design value goes in here. Written box relations and resets: `0`,
  * `100%`, `50%`, `1` and `none` (box and flex relations), `ellipsis` and `nowrap`
- * (one line, D3), `calc(-1 * ...)` (focus border and halo outside, without changing
+ * (one line, D3), `start` (the text starts at the start edge in any container), `calc(-1 * ...)` (focus border and halo outside, without changing
  * the size; the slide of the list) and the resets of the browser's `[popover]` style.
  *
  * The order of the state rules is the precedence of the set: hover, then focus (and
@@ -55,6 +55,8 @@
   border-radius: var(--nph-radius-control);
   background-color: var(--nph-color-background);
   color: var(--nph-color-muted-foreground);
+  /* The text starts at the start edge, also inside a centered container. */
+  text-align: start;
   cursor: pointer;
   outline: none;
 }
@@ -183,6 +185,7 @@
  */
 .list {
   position: fixed;
+  text-align: start;
   inset: auto;
   box-sizing: border-box;
   margin: 0;

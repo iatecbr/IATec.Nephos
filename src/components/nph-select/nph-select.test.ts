@@ -948,6 +948,15 @@ describe('measures and anatomy', () => {
     expect(trigger(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-control-height-default'), 1);
   });
 
+  it('the value and the options start at the start edge, also inside a centered container', async () => {
+    const holder = await markup(`<div style="text-align: center"><nph-select label="Department" value="legal" open>${options()}</nph-select></div>`);
+    const element = holder.querySelector('nph-select') as NphSelect;
+    await settle();
+    const value = element.shadowRoot?.querySelector('.value') as HTMLElement;
+    expect(getComputedStyle(value).textAlign).toBe('start');
+    expect(getComputedStyle(option(element, 'Legal')).textAlign).toBe('start');
+  });
+
   it('left padding space/control-padding, gap space/inline, right padding 0', async () => {
     const element = await mount('label="Language" start="icon"');
     const style = getComputedStyle(trigger(element));

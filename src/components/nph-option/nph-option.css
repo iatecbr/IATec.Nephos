@@ -5,8 +5,9 @@
  * custom properties consumed here.
  *
  * No literal design value goes in here. Written box relations: `0`, `1` and `none`
- * (flex relations), `ellipsis` and `nowrap` (one line, D3) and `currentColor` (the
- * dot with no state follows the text, D6).
+ * (flex relations), `ellipsis` and `nowrap` (one line, D3), `start` (the text starts
+ * at the start edge in any container) and `currentColor` (the dot with no state
+ * follows the text, D6).
  *
  * The order of the state rules is the precedence of D5: active (the hover look),
  * then selected, which wins over it. Disabled only adds the opacity.
@@ -32,6 +33,7 @@
   font-weight: var(--nph-text-label-md-font-weight);
   line-height: var(--nph-text-label-md-line-height);
   letter-spacing: var(--nph-text-label-md-letter-spacing);
+  text-align: start;
   cursor: pointer;
 }
 
