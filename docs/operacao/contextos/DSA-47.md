@@ -19,13 +19,15 @@ record P88, which amends P68. The icon-only button keeps its icon `light` until 
 - `src/components/nph-button/` and `src/components/nph-icon/nph-icon.icons.ts`
 
 ## Changes
-The component, its CSS, tests, the `Icons` story, the dictionaries, the spec, the Metadata and P88.
+The component, its CSS, tests, the `Icons` story, the dictionaries, the spec, the Metadata and P88
+are on the branch; PR #113 is open for review.
 
 ## Commands run
 - The proof commands of `component-handoff.md`, plus `build:lib` and `test:package`.
 
 ## Result
-Recorded in the pull request.
+Every proof exits 0 except `test:naming`, which fails only on records and a script line this
+branch does not touch, as on `v/5.0.0`.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the pull request.
@@ -34,4 +36,4 @@ None recorded: `review-and-merge` waits for the pull request.
 None. D1 waits for Indiane and does not block.
 
 ## Next command
-Open the pull request to `v/5.0.0` and move the task to `in-review`.
+After the merge, record `review-and-merge` and move the task to `done`.

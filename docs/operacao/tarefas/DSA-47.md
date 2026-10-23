@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 470,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-button",
   "dependencies": ["DSA-13"],
   "gates": [
@@ -53,7 +53,11 @@
     "excerpt": null,
     "converted_decision": "In hover-active, the start and end icons of the nph-button (COMPONENT_SET 461:13009, page `NPH — Button`) use the solid variant; at rest, focus, disabled and loading they stay light. The use example is card 25 of the board 2478:1910. The rule, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "claude/dsa-47-nph-button-icone-solido-b4494c",
+    "commit": "fc09b80d7af1407fb815e0352087827b7a4e135b",
+    "pr": "113"
+  },
   "context": "docs/operacao/contextos/DSA-47.md",
   "updated_at": "2026-10-23"
 }
