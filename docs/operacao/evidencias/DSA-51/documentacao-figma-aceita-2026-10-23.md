@@ -13,7 +13,7 @@
     "date": "2026-10-23",
     "author": "indiane",
     "excerpt": null,
-    "converted_decision": "The nph-image board (2573:66090), with its `Documentação` frame (2677:465), was accepted as the API and behavior specification of the nph-image. COMPONENT_SET: nph-image (2573:66089), variants `tamanho` (xs, sm, md, lg, xl, 2xl, mídia), `proporção` (1:1, 4:3, 16:9), `estado` (carregada, carregando, vazio, erro, hover, foco, desabilitada) and `giro` (0, 1, 2)."
+    "converted_decision": "The nph-image board (2573:66090), with its `Documentação` frame (2677:465), was accepted as the API and behavior specification of the nph-image. COMPONENT_SET: nph-image (2573:66089), variants `tamanho` (`xs`, `sm`, `md`, `lg`, `xl`, `2xl`, `mídia`), `proporção` (`1:1`, `4:3`, `16:9`), `estado` (`carregada`, `carregando`, `vazio`, `erro`, `hover`, `foco`, `desabilitada`) and `giro` (`0`, `1`, `2`)."
   }
 }
 ```
@@ -168,7 +168,7 @@ The two illustration tokens are booleans in Figma and numbers 1 and 0 in the tok
 sources, as `scheme/is-light` and `scheme/is-dark` already are. The illustrations
 themselves (gray line drawings for loading, empty and error, per scheme and per
 proportion) are image assets, not tokens; they are not part of this task's token
-set, and the code must ask Indiane for the files.
+set, and the code must ask the design owner for the files.
 
 ## Sources
 - Figma `DS-IA-NEPHOS 5.0`, board `2573:66090`, `Documentação` frame `2677:465`,

@@ -76,7 +76,7 @@ tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## Relations with other tasks
-- The thumbnail and the expanded item of the `nph-table` (DSA-49) will use the
+- The thumbnail and the expanded item of the `nph-table` will use the
   `nph-image`.
 - The hover eye is an `nph-icon`.
 - For a person, the `nph-avatar` is the right piece, not the `nph-image`.
@@ -85,7 +85,7 @@ tests, stories and spec pass the proof commands in
 It does not create a token or change a token value. It does not build the
 `nph-table`, `nph-avatar` or any dependent component. It does not change Figma.
 The gray line illustrations of loading, empty and error are image assets that are
-not in the repository; ask Indiane before choosing how to ship them.
+not in the repository; ask the design owner before choosing how to ship them.
 
 ## Sources
 - Figma `DS-IA-NEPHOS 5.0`, board `2573:66090`, `Documentação` frame `2677:465`
