@@ -109,7 +109,7 @@ sources:
   design_md: "design.md, avatar/size-*, avatar/radius-*, color/muted, color/muted-foreground, color/border, border/width and icon/size-*"
   decision: "P74 — API and semantics of nph-avatar, 20-10-2026"
   tests: "src/components/nph-avatar/nph-avatar.test.ts"
-  usage_evidence: "none in code yet; nph-select (DSA-29) will take it at the start of the trigger and of the option, and nph-avatar-stack (DSA-25) will overlap a group of them"
+  usage_evidence: "nph-avatar-stack overlaps a group of them, in src/components/nph-avatar-stack/; nph-select (DSA-29) will take it at the start of the trigger and of the option"
   storybook: "src/components/nph-avatar/nph-avatar.stories.ts and nph-avatar.docs.stories.ts"
   figma: "DS-IA-NEPHOS 5.0, nph-avatar frame 1434:30 and set 1434:29"
 ---
@@ -209,10 +209,10 @@ takes the icon's place. No event is emitted.
 
 **Combines with:** `nph-icon`, which draws the person icon inside the avatar and is the
 piece for an action icon; `nph-skeleton`, whose avatar shape holds the place of the avatar
-in the same size while a list loads. Two pieces are planned and do not exist yet:
-`nph-select` (DSA-29), which will take the avatar at the start of the trigger and of each
-option, in size `sm`, and `nph-avatar-stack` (DSA-25), which will overlap a group of
-avatars.
+in the same size while a list loads; `nph-avatar-stack`, which overlaps a group of
+avatars, writes its size on each one and reads the group's names itself, so its avatars
+carry no `label`. One piece is planned and does not exist yet: `nph-select` (DSA-29), which
+will take the avatar at the start of the trigger and of each option, in size `sm`.
 
 **What is the parent:** a list, a header, a card, a table row or a profile, next to the
 person's name, set apart by `space/inline`.
@@ -286,8 +286,8 @@ shows, and the person's name as `label` when the name is not written beside it.
   `label` and the derivation of `tipo` from `src` are a technical proposal of this
   implementation.
 - **Tests:** `src/components/nph-avatar/nph-avatar.test.ts`.
-- **Usage evidence:** none in code yet. `nph-select` (DSA-29, planned) and
-  `nph-avatar-stack` (DSA-25, planned) will consume it.
+- **Usage evidence:** `nph-avatar-stack` overlaps a group of avatars
+  (`src/components/nph-avatar-stack/`). `nph-select` (DSA-29, planned) will consume it.
 - **Storybook:** `src/components/nph-avatar/nph-avatar.stories.ts` (Validation) and
   `nph-avatar.docs.stories.ts` (Docs).
 - **Figma:** `nph-avatar` frame (`1434:30`) and set `1434:29` in `DS-IA-NEPHOS 5.0`.

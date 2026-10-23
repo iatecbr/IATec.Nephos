@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 230,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-avatar-stack",
   "dependencies": ["DSA-24"],
   "gates": [
@@ -29,11 +29,19 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D4",
+      "question": "The use text in design.md is narrower than the accepted evidence for the tokens of the +N count: text/label-sm (chip and badge), text/label-md (button, field label, menu item), color/muted (table header, disabled area), color/border (divider, card outline), space/inline-tight (inside a unit), avatar/size-* and avatar/radius-* (the avatar). May that text be widened to name the count of nph-avatar-stack? Same class as D5 of DSA-24. The code consumes them as the evidence binds them. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-25/documentacao-figma-aceita-2026-10-08.md"
   ],
   "decision_refs": [
+    "docs/decisoes-tecnicas.md#p78",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D1 to D3 of the nph-avatar-stack"
   ],
@@ -46,12 +54,12 @@
     "converted_decision": "The nph-avatar-stack frame (1579:46) was accepted as the API and behavior specification of the nph-avatar-stack. COMPONENT_SET 1579:45. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": {
-    "branch": null,
-    "commit": null,
-    "pr": null
+    "branch": "claude/dsa-25-nph-avatar-stack-8e424e",
+    "commit": "38d4e533a6e923bf3a253891074edfcf0ada8062",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/96"
   },
-  "context": null,
-  "updated_at": "2026-10-20"
+  "context": "docs/operacao/contextos/DSA-25.md",
+  "updated_at": "2026-10-22"
 }
 ```
 
