@@ -1,0 +1,97 @@
+/**
+ * Internal style of `nph-avatar-stack`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. No literal design value goes in: the overlap is
+ * `avatar/overlap`, and the count takes `avatar/size-*` for its height and minimum
+ * width, `avatar/radius-*` for its corner, `space/inline-tight` on its sides, a
+ * `border/width` border in `color/border`, the `color/muted` background, the
+ * `color/muted-foreground` text and `text/label-sm` or `text/label-md` by size.
+ *
+ * The overlap is a negative start margin and not a `gap`: a gap cannot be negative.
+ * The paint order is the order of the children, with no `z-index`: every avatar is
+ * positioned (`nph-avatar` anchors its border overlay), so the next one paints over
+ * the previous one, and the count is positioned too, so it paints over the last avatar.
+ *
+ * The group has no background, border, ring, focus or motion of its own: the
+ * separation between avatars is the border of each `nph-avatar` (D3).
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* The wrapper takes no box, so the avatars and the count are flex items of the host. */
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+/* The `aria-hidden` wrapper of the slot and the count: it hides, it does not draw. */
+.group {
+  display: contents;
+}
+
+/* Each avatar goes over the previous one. */
+::slotted(nph-avatar:not(:first-child)) {
+  margin-inline-start: var(--nph-avatar-overlap);
+}
+
+/*
+ * The count overlaps the last avatar like any neighbor (D2). Its border is a real
+ * border inside the box: the count has no photo to draw over, so it needs no overlay.
+ * It grows with the number from a square of the avatar size.
+ */
+.count {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  margin-inline-start: var(--nph-avatar-overlap);
+  padding-inline: var(--nph-space-inline-tight);
+  border: var(--nph-border-width) solid var(--nph-color-border);
+  background: var(--nph-color-muted);
+  color: var(--nph-color-muted-foreground);
+  white-space: nowrap;
+}
+
+/* D1: `text/label-sm` in `sm` and `md`. */
+:host([size='sm']) .count,
+:host([size='md']) .count {
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+/* D1: `text/label-md` in `lg`. */
+:host([size='lg']) .count {
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+:host([size='sm']) .count {
+  block-size: var(--nph-avatar-size-sm);
+  min-inline-size: var(--nph-avatar-size-sm);
+  border-radius: var(--nph-avatar-radius-sm);
+}
+
+:host([size='md']) .count {
+  block-size: var(--nph-avatar-size-md);
+  min-inline-size: var(--nph-avatar-size-md);
+  border-radius: var(--nph-avatar-radius-md);
+}
+
+:host([size='lg']) .count {
+  block-size: var(--nph-avatar-size-lg);
+  min-inline-size: var(--nph-avatar-size-lg);
+  border-radius: var(--nph-avatar-radius-lg);
+}
