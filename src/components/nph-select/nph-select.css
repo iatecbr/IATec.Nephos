@@ -1,0 +1,243 @@
+/**
+ * Internal style of `nph-select`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the
+ * shadow root and are not API.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`,
+ * `100%`, `50%`, `1` and `none` (box and flex relations), `ellipsis` and `nowrap`
+ * (one line, D3), `calc(-1 * ...)` (focus border and halo outside, without changing
+ * the size; the slide of the list) and the resets of the browser's `[popover]` style.
+ *
+ * The order of the state rules is the precedence of the set: hover, then focus (and
+ * open, which is focus with the list open), then error, then disabled, which wins
+ * over everything.
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* Width `layout/input-width`; the parent may stretch it. */
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  vertical-align: middle;
+  inline-size: var(--nph-layout-input-width);
+  min-inline-size: 0;
+}
+
+/* Disabled, by the attribute or by a disabled `<fieldset>`: the whole piece loses opacity. */
+:host(:disabled) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/*
+ * The trigger: border, radius, height, left padding and the gap between the parts.
+ * The right padding is 0: the arrow area closes the field.
+ */
+.trigger {
+  --_border: var(--nph-color-input);
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  min-inline-size: 0;
+  block-size: var(--nph-control-height-default);
+  padding-block: 0;
+  padding-inline-start: var(--nph-space-control-padding);
+  padding-inline-end: 0;
+  border: var(--nph-border-width) solid var(--_border);
+  border-radius: var(--nph-radius-control);
+  background-color: var(--nph-color-background);
+  color: var(--nph-color-muted-foreground);
+  cursor: pointer;
+  outline: none;
+}
+
+/* `large` changes the height of the trigger and the width of the arrow area. */
+:host([size='large']) .trigger {
+  block-size: var(--nph-control-height-large);
+}
+
+.start {
+  flex: none;
+}
+
+/* The value in `text/body-md` `color/foreground`, one line with an ellipsis (D3). */
+.value {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* With no choice, the placeholder in `color/muted-foreground`. */
+.placeholder {
+  color: var(--nph-color-muted-foreground);
+}
+
+/*
+ * The arrow area: `color/accent`, `control/height-*` wide, as tall as the trigger
+ * minus its two borders (D7). The divider sits beside it, outside that width.
+ * Radius `radius/none` on the left and `radius/control-inner` on the right.
+ */
+.arrow {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  inline-size: var(--nph-control-height-default);
+  border-inline-start: var(--nph-border-width) solid var(--nph-color-border);
+  border-start-start-radius: var(--nph-radius-none);
+  border-end-start-radius: var(--nph-radius-none);
+  border-start-end-radius: var(--nph-radius-control-inner);
+  border-end-end-radius: var(--nph-radius-control-inner);
+  background-color: var(--nph-color-accent);
+  color: var(--nph-color-muted-foreground);
+}
+
+:host([size='large']) .arrow {
+  inline-size: var(--nph-control-height-large);
+}
+
+/*
+ * The description: never visible, but in the accessibility tree. It is clipped, not
+ * `display: none`, which the browser does not read; `inset: 0` keeps it inside the
+ * trigger, so a long text adds no scroll.
+ */
+.description {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Hover: one step above the resting border. */
+.trigger:hover {
+  --_border: var(--nph-color-input-hover);
+}
+
+/*
+ * `foco`: keyboard focus on the trigger, and `aberto`, which is `foco` with the list
+ * open. The border takes `focus/border` and the halo is attached outside it.
+ */
+.trigger:focus-visible,
+:host([open]) .trigger {
+  --_border: var(--nph-focus-border);
+}
+
+.trigger:focus-visible::after,
+:host([open]) .trigger::after {
+  position: absolute;
+  box-sizing: border-box;
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control);
+  pointer-events: none;
+  content: '';
+}
+
+/* `erro`: the border stays `status/error` on hover and on focus; on focus, the halo is the error one. */
+:host([invalid]) .trigger,
+:host([invalid]) .trigger:hover,
+:host([invalid]) .trigger:focus-visible,
+:host([invalid][open]) .trigger {
+  --_border: var(--nph-status-error);
+}
+
+:host([invalid]) .trigger:focus-visible::after,
+:host([invalid][open]) .trigger::after {
+  border-color: var(--nph-focus-halo-error);
+}
+
+/* Disabled wins: the resting border, the `color/muted` background, no hover and no error look. */
+:host(:disabled) .trigger,
+:host(:disabled) .trigger:hover {
+  --_border: var(--nph-color-input);
+
+  background-color: var(--nph-color-muted);
+  cursor: default;
+}
+
+/*
+ * The list is a `popover`, so it sits in the top layer: no `z-index` and no clipping
+ * by an ancestor. The resets below undo the browser's `[popover]` style: `inset`,
+ * `margin: auto` (it centers the popover), the padding and the color. JavaScript sets
+ * `top`, `left` and the width of the trigger. The border sits outside
+ * `layout/max-list-height` (D9), so the scroll is on an inner box.
+ */
+.list {
+  position: fixed;
+  inset: auto;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: var(--nph-border-width) solid var(--nph-color-input);
+  border-radius: var(--nph-radius-container);
+  background-color: var(--nph-color-popover);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-color-popover-foreground);
+  /* Leaving: the exit role (D2). */
+  opacity: 0;
+  translate: 0 calc(-1 * var(--nph-space-inline-tight));
+  transition-property: opacity, translate;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/* Entering: the enter role, faded in and slid `space/inline-tight` into place (D2). */
+.list[data-open] {
+  opacity: 1;
+  translate: none;
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+/* The distance to the trigger is `space/inline-tight` (D1), as a margin on the side that faces it. */
+.list[data-side='bottom'] {
+  margin-top: var(--nph-space-inline-tight);
+}
+
+/* Turned up: it slides from below, toward the trigger. */
+.list[data-side='top'] {
+  margin-bottom: var(--nph-space-inline-tight);
+  translate: 0 var(--nph-space-inline-tight);
+}
+
+.list[data-side='top'][data-open] {
+  translate: none;
+}
+
+/* The inside: padding `space/inline-tight` and the maximum height `layout/max-list-height` (D9). */
+.scroller {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-block-size: var(--nph-layout-max-list-height);
+  padding: var(--nph-space-inline-tight);
+  overflow-y: auto;
+}
+
+/* Reduced motion: opacity only (D2). */
+@media (prefers-reduced-motion: reduce) {
+  .list,
+  .list[data-side='top'] {
+    translate: none;
+  }
+}
