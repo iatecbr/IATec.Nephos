@@ -29,7 +29,7 @@ lines of `vite.config.lib.ts`. See the commits on the branch.
 - The proof commands of `docs/operacao/component-handoff.md`, `npm run build:lib` and `npm run test:package`.
 
 ## Result
-In review, pull request #100, synced with `v/5.0.0` at `e65c07c`. The proof commands pass, except the
+In review, pull request #100, synced with `v/5.0.0` at `579b2fa`. The proof commands pass, except the
 known `test:naming` failures in files this branch does not touch.
 
 ## Evidence
