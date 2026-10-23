@@ -259,6 +259,25 @@ describe('value: the attribute is the default, the property is the current value
     expect(item.selected).toBe(true);
   });
 
+  it('a chosen option that turns invalid is no longer chosen, and is chosen again when it turns valid', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const holder = await markup(`<form><nph-select label="Department" name="department" value="legal" required>${options()}</nph-select></form>`);
+    const form = holder.querySelector('form') as HTMLFormElement;
+    const element = holder.querySelector('nph-select') as NphSelect;
+    option(element, 'Legal').start = 'bad';
+    await settle(holder);
+    await element.updateComplete;
+    expect(shownText(element)).toBe('');
+    expect(new FormData(form).has('department')).toBe(false);
+    expect(element.validity.valueMissing).toBe(true);
+    expect(element.value).toBe('legal');
+    option(element, 'Legal').start = 'none';
+    await settle(holder);
+    await element.updateComplete;
+    expect(shownText(element)).toBe('Legal');
+    expect(new FormData(form).get('department')).toBe('legal');
+  });
+
   it('a new label text of the chosen option reaches the trigger', async () => {
     const element = await mount('label="Department" value="legal"');
     option(element, 'Legal').textContent = 'Legal affairs';
@@ -933,6 +952,39 @@ describe('the list in the top layer', () => {
     expect(list(element).matches(':popover-open')).toBe(true);
   });
 
+  it('with reduced motion, only the opacity moves, in motion/hover-duration (D2, design.md 2g)', async () => {
+    const session = cdp();
+    await session.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
+    try {
+      const element = await mount();
+      const closed = getComputedStyle(list(element));
+      expect(closed.translate).toBe('none');
+      expect(closed.transitionDuration).toBe(resolved('transition-duration', '--nph-motion-hover-duration'));
+      element.open = true;
+      await settle();
+      const open = getComputedStyle(list(element));
+      expect(open.translate).toBe('none');
+      expect(open.transitionDuration).toBe(resolved('transition-duration', '--nph-motion-hover-duration'));
+    } finally {
+      await session.send('Emulation.setEmulatedMedia', { features: [] });
+    }
+  });
+
+  it('a click on an option during the exit of a closed list chooses nothing', async () => {
+    const element = await mount();
+    const events = vi.fn();
+    element.addEventListener('change', events);
+    element.open = true;
+    await settle();
+    element.open = false;
+    await element.updateComplete;
+    expect(list(element).matches(':popover-open')).toBe(true);
+    option(element, 'Sales').click();
+    await element.updateComplete;
+    expect(element.value).toBe('');
+    expect(events).not.toHaveBeenCalled();
+  });
+
   it('removing the select from the page closes the list', async () => {
     const element = await mount();
     element.open = true;
@@ -1201,6 +1253,7 @@ describe('token contract', () => {
         '--nph-motion-enter-duration',
         '--nph-motion-enter-easing',
         '--nph-layout-max-list-height',
+        '--nph-motion-hover-duration',
       ]),
     );
     for (const name of used) {

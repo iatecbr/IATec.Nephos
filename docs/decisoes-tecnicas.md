@@ -2987,7 +2987,8 @@ here as in P80. The names follow P64.
 
 4. **The value.** The value follows P80: the `value` attribute is the default and the value of
    `form.reset()`, the property is the current value, and a dirty flag stops the attribute from
-   applying. The chosen option is the first `nph-option` whose `value` equals the current value.
+   applying. The chosen option is the first `nph-option` with valid input whose `value` equals
+   the current value; an option with invalid input is never the chosen one.
    The value is kept until such an option arrives, so a framework may render the options after the
    value; with no option of that value, the trigger shows the placeholder and the form data leaves
    the entry out, as a radio group with nothing checked. `<nph-option selected>` is not an
@@ -3028,7 +3029,9 @@ here as in P80. The names follow P64.
    also inside shadow roots — and resize. When it does not fit below and fits above, it turns up,
    `space/inline-tight` above the trigger (D-2 of DSA-29, open). It fades in and slides
    `space/inline-tight` into place with `motion/enter-*`, and leaves with `motion/exit-*`; it leaves
-   the top layer when the exit ends; with reduced motion, only the opacity moves (D2). The
+   the top layer when the exit ends; with reduced motion, only the opacity moves (D2), in
+   `motion/hover-duration` (100 ms, the rule of `design.md` 2g, as in `nph-tooltip`). A click
+   during the exit chooses nothing: the list is already closed. The
    maximum height `layout/max-list-height` is on an inner box that scrolls, with the border outside
    it (D9); the active option scrolls into view without scrolling the page. A press outside the
    select, and the focus leaving it, close the list without choosing. A disabled select, one with

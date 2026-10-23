@@ -205,7 +205,7 @@
     "arrow_area": "color/accent, control/height-* wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in color/muted-foreground",
     "list": "color/popover, border/width in color/input, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height",
     "list_offset": "space/inline-tight",
-    "motion": "motion/enter-duration, motion/enter-easing, motion/exit-duration and motion/exit-easing",
+    "motion": "motion/enter-duration, motion/enter-easing, motion/exit-duration and motion/exit-easing; motion/hover-duration with reduced motion",
     "focus": "focus/border, focus/halo, focus/halo-error, focus/ring-width and focus/radius-control",
     "disabled": "state/disabled-opacity"
   },

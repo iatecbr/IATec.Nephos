@@ -211,7 +211,7 @@ tokens:
   arrow_area: "color/accent, control/height-* wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in color/muted-foreground"
   list: "color/popover, border/width in color/input, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height"
   list_offset: space/inline-tight
-  motion: "motion/enter-duration, motion/enter-easing, motion/exit-duration and motion/exit-easing"
+  motion: "motion/enter-duration, motion/enter-easing, motion/exit-duration and motion/exit-easing; motion/hover-duration with reduced motion"
   focus: "focus/border, focus/halo, focus/halo-error, focus/ring-width and focus/radius-control"
   disabled: state/disabled-opacity
 ai_hints:
@@ -327,7 +327,7 @@ that closes the list leaves no focus ring, as in a native select.
 **The list:** it opens `space/inline-tight` below the trigger (D1), with its width; it turns
 up when it does not fit below and fits above (D-2, open). It fades in and slides
 `space/inline-tight` into place, with `motion/enter-*`, and leaves with `motion/exit-*`; with
-reduced motion, only the opacity changes (D2). It shows 8 whole options of 36 px inside
+reduced motion, only the opacity changes, in `motion/hover-duration` (D2, `design.md` 2g). It shows 8 whole options of 36 px inside
 `layout/max-list-height`, with its border outside that height, and scrolls above that (D9).
 
 **Business rule the piece carries:**
@@ -384,7 +384,7 @@ its options; `nph-icon` and `nph-avatar`, in the start, the arrow and the check;
 | Divider | `border/width` in `color/border`, beside the arrow area (D7) |
 | Arrow area | `color/accent`; `control/height-*` wide, the trigger height minus its two borders; `radius/none` on the left, `radius/control-inner` on the right; the arrow `icon/size-sm` in `color/muted-foreground` |
 | List | `color/popover`; border `border/width` in `color/input`; `radius/container`; `elevation/dropdown`; padding `space/inline-tight`; maximum height `layout/max-list-height`, border outside it (D9); offset `space/inline-tight` (D1) |
-| Motion | `motion/enter-duration`, `motion/enter-easing`, `motion/exit-duration`, `motion/exit-easing`; opacity only with reduced motion (D2) |
+| Motion | `motion/enter-duration`, `motion/enter-easing`, `motion/exit-duration`, `motion/exit-easing`; with reduced motion, opacity only in `motion/hover-duration` (D2, `design.md` 2g) |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width`, `focus/radius-control` |
 | Disabled | `state/disabled-opacity` on `color/muted` |
 

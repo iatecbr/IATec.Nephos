@@ -237,10 +237,18 @@
   overflow-y: auto;
 }
 
-/* Reduced motion: opacity only (D2). */
+/*
+ * Reduced motion: opacity only (D2), and the duration of `design.md` 2g, 100 ms, through
+ * the semantic alias `motion/hover-duration`, as in `nph-tooltip`.
+ */
 @media (prefers-reduced-motion: reduce) {
   .list,
   .list[data-side='top'] {
     translate: none;
+  }
+
+  .list,
+  .list[data-open] {
+    transition-duration: var(--nph-motion-hover-duration);
   }
 }

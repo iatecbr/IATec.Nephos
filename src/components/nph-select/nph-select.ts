@@ -106,12 +106,18 @@ function oneOf<T extends string>(list: readonly T[], value: string): value is T 
 }
 
 /**
- * An option the person can reach: not disabled, and rendered (valid input). An option
- * that has not updated yet has not decided its input: it counts, so an `open` select in
- * the markup, which updates before its options, still opens.
+ * An option that draws: rendered (valid input). An option that has not updated yet has
+ * not decided its input: it counts, so an `open` select in the markup, which updates
+ * before its options, still opens. An option with invalid input is never the chosen one:
+ * the value waits for it to become valid again.
  */
+function drawable(option: NphOption): boolean {
+  return option.hasAttribute(RENDERED_ATTRIBUTE) || !option.hasUpdated;
+}
+
+/** An option the person can reach: it draws and is not disabled. */
 function available(option: NphOption): boolean {
-  return (option.hasAttribute(RENDERED_ATTRIBUTE) || !option.hasUpdated) && !option.disabled;
+  return drawable(option) && !option.disabled;
 }
 
 /** The browser's message for a required choice with nothing chosen, in the person's language. */
@@ -327,7 +333,7 @@ export class NphSelect extends LitElement implements NphOptionOwner {
 
   /** The chosen option: the first one with the current value. */
   private get selectedOption(): NphOption | null {
-    return this.options.find((option) => option.value === this.current) ?? null;
+    return this.options.find((option) => option.value === this.current && drawable(option)) ?? null;
   }
 
   private get availableOptions(): NphOption[] {
@@ -593,9 +599,10 @@ export class NphSelect extends LitElement implements NphOptionOwner {
     return null;
   }
 
+  /** A click during the exit of a closed list chooses nothing: the list is already closed. */
   private onListClick(event: MouseEvent): void {
     const option = this.optionOf(event);
-    if (option !== null) {
+    if (option !== null && this.open) {
       this.choose(option);
     }
   }
