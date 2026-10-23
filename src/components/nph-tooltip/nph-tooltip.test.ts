@@ -467,6 +467,26 @@ describe('opening on hover and on keyboard focus', () => {
     expect(document.activeElement).toBe(button);
   });
 
+  it('attached to an element that already has keyboard focus, it opens at once and closes on blur', async () => {
+    const button = document.createElement('button');
+    button.id = 'focused-before-the-tooltip';
+    button.textContent = 'Target';
+    button.style.cssText = 'position:fixed;left:300px;top:300px';
+    document.body.append(button);
+    await userEvent.tab();
+    expect(document.activeElement).toBe(button);
+    const tooltip = document.createElement('nph-tooltip');
+    tooltip.setAttribute('for', button.id);
+    tooltip.text = ONE_LINE;
+    document.body.append(tooltip);
+    await tooltip.updateComplete;
+    await shown(tooltip);
+    button.blur();
+    await tooltip.updateComplete;
+    expect(tooltip.open).toBe(false);
+    await gone(tooltip);
+  });
+
   it('a mouse click that focuses the button does not open it by itself (no visible focus)', async () => {
     const { button, tooltip } = await mount();
     button.dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'mouse', bubbles: true }));

@@ -301,6 +301,7 @@ export class NphTooltip extends LitElement {
     }
     if (changed.has('for') || this.target === null || !this.target.isConnected) {
       this.attach();
+      this.holdExistingFocus();
     }
     if (changed.has('relation')) {
       this.associate();
@@ -726,6 +727,31 @@ export class NphTooltip extends LitElement {
     this.hasFocus = true;
     this.sync();
   };
+
+  /**
+   * Attached to an element that already has keyboard focus, such as a tooltip rendered
+   * after the focus arrived: there was no `focusin` to hear, so the focus hold is taken
+   * now, with the rule of `onTargetFocusIn`.
+   */
+  private holdExistingFocus(): void {
+    const target = this.target;
+    if (target === null || this.hasFocus) {
+      return;
+    }
+    let focused = (target.getRootNode() as Document | ShadowRoot).activeElement;
+    if (focused === null || !(focused === target || target.contains(focused))) {
+      return;
+    }
+    while (focused.shadowRoot?.activeElement) {
+      focused = focused.shadowRoot.activeElement;
+    }
+    this.focusedElement = focused;
+    if (this.pointerFocusSuppressed || !focused.matches(':focus-visible')) {
+      return;
+    }
+    this.hasFocus = true;
+    this.sync();
+  }
 
   private readonly onTargetFocusOut = (): void => {
     this.hasFocus = false;

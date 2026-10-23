@@ -2330,7 +2330,11 @@ root cannot be described from outside, so the component that owns that root rend
    The button keeps one root template for both forms, so switching between text and icon only
    keeps the native button and its focus. A click on the open balloon is composed and reaches the
    host without activating the native button, so the capture guard of the host stops it, as it does
-   in `disabled` and `loading`.
+   in `disabled` and `loading`. A tooltip rendered after the keyboard focus arrived, as when a button
+   with text becomes icon-only while focused, heard no `focusin`: `nph-tooltip` now takes the focus
+   hold when it attaches to an element that already has visible keyboard focus, with the rule of
+   `focusin`. The `nph-tooltip` demonstrations that paired an icon-only `nph-button` with a second,
+   outer tooltip now use a native button with one tooltip, so no example shows two balloons.
 4. **The name, announced once.** With `relation="name"` the tooltip adds its `id` to the
    `aria-labelledby` of the native button, and the browser computes the name from the text it
    mirrors. The native button keeps `aria-label` with the same `label`: `aria-labelledby` wins in

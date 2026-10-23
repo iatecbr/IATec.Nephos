@@ -712,7 +712,14 @@ describe('tooltip of the icon-only button (P86)', () => {
     await element.updateComplete;
     expect(control(element)).toBe(first);
     expect(element.shadowRoot?.activeElement).toBe(first);
-    expect(tooltipOf(element).getAttribute('for')).toBe(first.id);
+    const tooltip = tooltipOf(element);
+    expect(tooltip.getAttribute('for')).toBe(first.id);
+    /* The new balloon sees the keyboard focus already on the button: it opens, and Esc closes it. */
+    await tooltip.updateComplete;
+    await vi.waitFor(() => expect(isShown(tooltip)).toBe(true));
+    await userEvent.keyboard('{Escape}');
+    expect(tooltip.open).toBe(false);
+    expect(element.shadowRoot?.activeElement).toBe(first);
   });
 
   it('touch never opens it', async () => {
