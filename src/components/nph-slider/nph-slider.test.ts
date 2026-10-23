@@ -1058,3 +1058,148 @@ describe('token contract', () => {
     expect(cssWithoutComments).not.toMatch(/\btransition/);
   });
 });
+
+describe('regressions of the code review', () => {
+  it('a decimal max on the step is reached: min 0, max 0.3, step 0.1', async () => {
+    const element = await mount({ label: 'Ratio', min: 0, max: 0.3, step: 0.1, value: 0.3 });
+    expect(element.value).toBe(0.3);
+    expect(thumb(element).getAttribute('aria-valuemax')).toBe('0.3');
+    element.value = 0;
+    await element.updateComplete;
+    thumb(element).focus();
+    await userEvent.keyboard('{End}');
+    expect(element.value).toBe(0.3);
+    pointer(element, 'pointerdown', 0);
+    pointer(element, 'pointermove', 1);
+    pointer(element, 'pointerup', 1);
+    expect(element.value).toBe(0.3);
+  });
+
+  it('a reversed pair from the attributes keeps the shown ends when a thumb moves', async () => {
+    const holder = await markup('<nph-slider mode="range" label="Price" start-label="Min" end-label="Max" start="80" end="20"></nph-slider>');
+    const element = holder.querySelector('nph-slider') as NphSlider;
+    expect([element.start, element.end]).toEqual([20, 20]);
+    thumb(element, 1).focus();
+    await userEvent.keyboard('{ArrowRight}');
+    expect([element.start, element.end]).toEqual([20, 21]);
+  });
+
+  it('focus() goes to the first thumb, also with steppers and with fields before the track', async () => {
+    const withSteppers = await mount({ label: 'Volume', steppers: true, decreaseLabel: 'Less', increaseLabel: 'More' });
+    withSteppers.focus();
+    expect(withSteppers.shadowRoot?.activeElement).toBe(thumb(withSteppers, 0));
+    const withFields = await mount({ ...RANGE, inputs: true });
+    withFields.focus();
+    expect(withFields.shadowRoot?.activeElement).toBe(thumb(withFields, 0));
+  });
+
+  it('a click on an associated label focuses the first thumb, also with fields before the track', async () => {
+    const holder = await markup('<nph-label for="price" text="Price"></nph-label><nph-slider id="price" mode="range" inputs start-label="Min" end-label="Max"></nph-slider>');
+    const element = holder.querySelector('nph-slider') as NphSlider;
+    (holder.querySelector('nph-label label') as HTMLLabelElement).click();
+    expect(element.shadowRoot?.activeElement).toBe(thumb(element, 0));
+  });
+
+  it('inside nph-field with steppers, a click on the label of the field focuses the thumb', async () => {
+    const holder = await markup('<nph-field label="Volume"><nph-slider steppers decrease-label="Less" increase-label="More"></nph-slider></nph-field>');
+    const element = holder.querySelector('nph-slider') as NphSlider;
+    const field = holder.querySelector('nph-field') as HTMLElement;
+    const label = field.shadowRoot?.querySelector('nph-label label') ?? field.querySelector('nph-label label');
+    (label as HTMLElement).click();
+    expect(element.shadowRoot?.activeElement).toBe(thumb(element));
+  });
+
+  it('a slider on the page takes no focus by itself', async () => {
+    await mount({ label: 'Volume' });
+    await nextFrame();
+    await nextFrame();
+    expect(document.activeElement).toBe(document.body);
+  });
+
+  it('disabling the slider during a drag ends it with no more input and no change', async () => {
+    const element = await mount({ label: 'Volume', value: 50 });
+    const events: string[] = [];
+    element.addEventListener('input', () => events.push('input'));
+    element.addEventListener('change', () => events.push('change'));
+    pointer(element, 'pointerdown', 0.2);
+    element.disabled = true;
+    await element.updateComplete;
+    pointer(element, 'pointermove', 0.8);
+    pointer(element, 'pointerup', 0.8);
+    expect(element.value).toBe(20);
+    expect(events).toEqual(['input']);
+  });
+
+  it('a disabled fieldset during a drag ends it too', async () => {
+    const holder = await markup('<fieldset><nph-slider label="Volume" value="50"></nph-slider></fieldset>');
+    const element = holder.querySelector('nph-slider') as NphSlider;
+    const change = vi.fn();
+    element.addEventListener('change', change);
+    pointer(element, 'pointerdown', 0.2);
+    (holder.querySelector('fieldset') as HTMLFieldSetElement).disabled = true;
+    await element.updateComplete;
+    pointer(element, 'pointermove', 0.8);
+    pointer(element, 'pointerup', 0.8);
+    expect(element.value).toBe(20);
+    expect(change).not.toHaveBeenCalled();
+  });
+
+  for (const [direction, fraction, expected] of [
+    ['right', 0.7, [50, 70]],
+    ['left', 0.3, [30, 50]],
+  ] as const) {
+    it(`two thumbs on the same value separate to the ${direction} by the drag`, async () => {
+      const element = await mount({ ...RANGE, start: 50, end: 50 });
+      pointer(element, 'pointerdown', 0.5);
+      pointer(element, 'pointermove', fraction);
+      pointer(element, 'pointerup', fraction);
+      expect([element.start, element.end]).toEqual([...expected]);
+    });
+  }
+
+  it('a new label renames the thumb while it keeps the focus', async () => {
+    const element = await mount({ label: 'Volume' });
+    thumb(element).focus();
+    element.label = 'Sound';
+    await element.updateComplete;
+    expect((await accessibleNodeOf(thumb(element))).name?.value).toBe('Sound');
+    element.label = '';
+    element.text = 'Brightness';
+    await element.updateComplete;
+    expect((await accessibleNodeOf(thumb(element))).name?.value).toBe('Brightness');
+  });
+
+  it('switching from single to range with an associated label gives the first thumb its start name', async () => {
+    const holder = await markup('<nph-label for="s" text="Price"></nph-label><nph-slider id="s" start-label="Minimum price" end-label="Maximum price"></nph-slider>');
+    const element = holder.querySelector('nph-slider') as NphSlider;
+    await nextFrame();
+    expect((await accessibleNodeOf(thumb(element, 0))).name?.value).toBe('Price');
+    element.mode = 'range';
+    await element.updateComplete;
+    expect((await accessibleNodeOf(thumb(element, 0))).name?.value).toBe('Minimum price');
+    expect((await accessibleNodeOf(track(element))).name?.value).toBe('Price');
+    element.mode = 'single';
+    await element.updateComplete;
+    expect(track(element).hasAttribute('aria-label')).toBe(false);
+    expect((await accessibleNodeOf(thumb(element, 0))).name?.value).toBe('Price');
+  });
+
+  it('single: the field takes the name of an associated label', async () => {
+    const holder = await markup('<nph-label for="v" text="Volume"></nph-label><nph-slider id="v" inputs></nph-slider>');
+    const element = holder.querySelector('nph-slider') as NphSlider;
+    await element.updateComplete;
+    expect(fields(element)[0]?.label).toBe('Volume');
+  });
+
+  it('inside nph-field, the fields take the description with the error sentence', async () => {
+    const holder = await markup(
+      '<nph-field label="Price" error="Choose a lower price."><nph-slider mode="range" inputs start-label="Min" end-label="Max"></nph-slider></nph-field>',
+    );
+    const element = holder.querySelector('nph-slider') as NphSlider;
+    await element.updateComplete;
+    for (const item of fields(element)) {
+      expect(item.description).toContain('Choose a lower price.');
+      expect(item.invalid).toBe(true);
+    }
+  });
+});

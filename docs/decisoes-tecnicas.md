@@ -3008,7 +3008,13 @@ names follow P64.
    slider with no name renders and warns once in development; a `range` without `start-label` and
    `end-label` renders and warns once. The number is written with `Intl.NumberFormat` in the
    `lang` of the closest ancestor, with the digits of `min` and `step`; there is no unit, which
-   belongs to the text of the label.
+   belongs to the text of the label. `focus()` and a click on an associated label reach the first
+   thumb, even when a field or the minus button comes before it: `focus()` is overridden, and the
+   first thumb carries `autofocus`, the focus delegate of `delegatesFocus`, which takes no focus
+   on page load from inside a shadow root. An inner field takes the name of the slider (in
+   `single`, also the text of the associated labels, since it sits in another root) and its
+   `description`. The names are synced after every render, so a new `label`, `text` or mode
+   renames the thumbs at once.
 
 6. **Parts and composition.** The parts beside the track, from left to right:
    `[start field] [minus] [minimum] track [maximum] [plus] [end field]` (D1); in `single`, the

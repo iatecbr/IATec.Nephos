@@ -189,7 +189,8 @@ export class NphSlider extends LitElement {
   declare invalid: boolean;
 
   private readonly internals: ElementInternals;
-  private readonly labelObserver = new MutationObserver(() => this.syncName());
+  /* A label added, removed or pointed elsewhere renames the thumbs and the single field. */
+  private readonly labelObserver = new MutationObserver(() => this.requestUpdate());
   /** The values asked for, by the attribute, by code or by the person; `null` is the default. */
   private asked: { value: number | null; start: number | null; end: number | null } = {
     value: null,
@@ -202,7 +203,7 @@ export class NphSlider extends LitElement {
   /** The thumb the minus and plus buttons move: the last one used. */
   private active: Index = 0;
   /** The pointer that moves a thumb, from the press to the release. */
-  private drag: { pointer: number; index: Index; from: number } | null = null;
+  private drag: { pointer: number; index: Index; from: number; undecided: boolean } | null = null;
   /** After the first frame, a label rendered by another element has had its chance. */
   private settled = false;
   private warned = new Set<string>();
@@ -268,11 +269,10 @@ export class NphSlider extends LitElement {
   private snap(value: number): number {
     const { min, max, step } = this;
     const inside = Math.min(Math.max(value, min), max);
-    let snapped = min + Math.round((inside - min) / step) * step;
-    if (snapped > max) {
-      snapped -= step;
-    }
-    return Number(snapped.toFixed(this.precision));
+    /* Written with the digits of the scale before the comparison: 0.1 * 3 is 0.30000000000000004. */
+    const fixed = (number: number): number => Number(number.toFixed(this.precision));
+    const snapped = fixed(min + Math.round((inside - min) / step) * step);
+    return snapped > max ? fixed(snapped - step) : snapped;
   }
 
   /** The highest value the slider stops on. */
@@ -366,7 +366,11 @@ export class NphSlider extends LitElement {
     this.applyDefaults();
   }
 
-  formDisabledCallback(): void {
+  formDisabledCallback(disabled: boolean): void {
+    /* A drag ends with no `change` when a `<fieldset>` disables the slider under the pointer. */
+    if (disabled) {
+      this.cancelDrag();
+    }
     this.requestUpdate();
   }
 
@@ -474,6 +478,20 @@ export class NphSlider extends LitElement {
     return false;
   }
 
+  /**
+   * `focus()` goes to the first thumb, and not to the first focusable element of the shadow
+   * root, which may be the minus button or the start field. A label click reaches the same
+   * thumb through `autofocus`, the focus delegate of `delegatesFocus`.
+   */
+  override focus(options?: FocusOptions): void {
+    const first = this.thumb(0);
+    if (first !== null && !this.inactive) {
+      first.focus(options);
+    } else {
+      super.focus(options);
+    }
+  }
+
   private thumb(index: Index): HTMLElement | null {
     return this.renderRoot?.querySelector<HTMLElement>(`#${THUMB_IDS[index]}`) ?? null;
   }
@@ -492,6 +510,9 @@ export class NphSlider extends LitElement {
    * when it changes, the host fires `input`; `settle` fires `change` too.
    */
   private move(index: Index, next: number, settle: boolean): void {
+    if (this.inactive) {
+      return;
+    }
     const [low, high] = this.bounds(index);
     const value = Math.min(Math.max(this.snap(next), low), high);
     this.active = index;
@@ -500,7 +521,9 @@ export class NphSlider extends LitElement {
     }
     const key = this.single ? 'value' : index === 0 ? 'start' : 'end';
     const old = this.values[index];
-    this.asked = { ...this.asked, [key]: value };
+    /* In `range`, both ends are kept as they are shown, so a reversed pair asked by the attributes does not come back. */
+    const [start, end] = this.values;
+    this.asked = this.single ? { ...this.asked, value } : { ...this.asked, start, end, [key]: value };
     this.dirty = true;
     this.syncFormState();
     this.requestUpdate(key, old);
@@ -582,10 +605,13 @@ export class NphSlider extends LitElement {
       return;
     }
     const index = this.nearest(value);
+    const [start, end] = this.values;
+    /* Two thumbs on the same value, pressed on it: the first movement chooses the thumb. */
+    const undecided = !this.single && start === end && this.snap(value) === start;
     const track = event.currentTarget as HTMLElement;
     event.preventDefault();
     track.setPointerCapture?.(event.pointerId);
-    this.drag = { pointer: event.pointerId, index, from: this.values[index] };
+    this.drag = { pointer: event.pointerId, index, from: this.values[index], undecided };
     this.thumb(index)?.focus();
     this.move(index, value, false);
     this.requestUpdate();
@@ -595,10 +621,21 @@ export class NphSlider extends LitElement {
     if (this.drag === null || event.pointerId !== this.drag.pointer) {
       return;
     }
-    const value = this.valueAt(event);
-    if (value !== null) {
-      this.move(this.drag.index, value, false);
+    if (this.inactive) {
+      this.cancelDrag();
+      return;
     }
+    const value = this.valueAt(event);
+    if (value === null) {
+      return;
+    }
+    const drag = this.drag;
+    if (drag.undecided && this.snap(value) !== drag.from) {
+      const index: Index = value > drag.from ? 1 : 0;
+      this.drag = { ...drag, index, undecided: false };
+      this.thumb(index)?.focus();
+    }
+    this.move(this.drag.index, value, false);
   }
 
   private onPointerUp(event: PointerEvent): void {
@@ -607,7 +644,7 @@ export class NphSlider extends LitElement {
     }
     const { index, from } = this.drag;
     this.endDrag();
-    if (this.values[index] !== from && this.isConnected) {
+    if (this.values[index] !== from && this.isConnected && !this.inactive) {
       this.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
@@ -616,6 +653,19 @@ export class NphSlider extends LitElement {
     if (this.drag !== null) {
       this.drag = null;
       this.requestUpdate();
+    }
+  }
+
+  /** Ends a drag without settling it, and gives the pointer back. */
+  private cancelDrag(): void {
+    const drag = this.drag;
+    if (drag === null) {
+      return;
+    }
+    this.endDrag();
+    const track = this.renderRoot?.querySelector<HTMLElement>('.track');
+    if (track?.hasPointerCapture?.(drag.pointer)) {
+      track.releasePointerCapture(drag.pointer);
     }
   }
 
@@ -654,6 +704,7 @@ export class NphSlider extends LitElement {
 
   protected override updated(): void {
     this.syncFormState();
+    this.syncName();
     this.checkComposition();
   }
 
@@ -681,9 +732,18 @@ export class NphSlider extends LitElement {
    * associated with the host (P80), or by `label`, or by `text`.
    */
   private syncName(): void {
-    const named = this.single ? this.thumb(0) : (this.renderRoot?.querySelector<HTMLElement>('.track') ?? null);
+    const track = this.renderRoot?.querySelector<HTMLElement>('.track') ?? null;
+    const named = this.single ? this.thumb(0) : track;
     if (named === null) {
       return;
+    }
+    /* What the other mode named goes away: the group in `single`, the first thumb in `range`. */
+    if (this.single) {
+      track?.removeAttribute('aria-label');
+      if (track) track.ariaLabelledByElements = null;
+    } else {
+      const first = this.thumb(0);
+      if (first) first.ariaLabelledByElements = null;
     }
     const labels = [...this.internals.labels] as Element[];
     const text = this.trim(this.label) || this.trim(this.text);
@@ -736,6 +796,7 @@ export class NphSlider extends LitElement {
         class="thumb"
         id=${THUMB_IDS[index]}
         role="slider"
+        ?autofocus=${index === 0}
         style=${this.place(this.percent(value))}
         tabindex=${inactive ? '-1' : '0'}
         aria-valuemin=${String(low)}
@@ -775,13 +836,27 @@ export class NphSlider extends LitElement {
     </div>`;
   }
 
+  /** The text of the labels associated with the host, for the field, which sits in another root. */
+  private get labelsText(): string {
+    return [...this.internals.labels]
+      .map((label) => {
+        const text = (label as Element & { text?: unknown }).text;
+        return this.trim(typeof text === 'string' ? text : label.textContent);
+      })
+      .filter((text) => text !== '')
+      .join(' ');
+  }
+
   private renderField(index: Index, inactive: boolean): TemplateResult {
-    const name = this.single ? this.trim(this.label) || this.trim(this.text) : this.trim(index === 0 ? this.startLabel : this.endLabel);
+    const name = this.single
+      ? this.labelsText || this.trim(this.label) || this.trim(this.text)
+      : this.trim(index === 0 ? this.startLabel : this.endLabel);
     return html`<nph-input
       class="entry entry--${index === 0 && !this.single ? 'start' : 'end'}"
       size="default"
       .value=${String(this.values[index])}
       .label=${name}
+      .description=${this.description}
       .invalid=${this.invalid && !inactive}
       ?inert=${inactive}
       @input=${this.stopFieldInput}
