@@ -32,10 +32,10 @@ branch.
   `git diff --check` on the head of the pull request.
 
 ## Result
-In review in the pull request of the branch `claude/dsa-39-nph-slider-0eb846`.
+In review in PR #112.
 
 ## Evidence
-The proof table is in the description of the pull request. `review-and-merge` waits for the
+The proof table is in the description of PR #112. `review-and-merge` waits for the
 merge.
 
 ## Blocker
@@ -45,4 +45,4 @@ None. D1 to D5 wait for Indiane and do not block.
 None.
 
 ## Next command
-Wait for the review of the pull request.
+Wait for the review of PR #112.

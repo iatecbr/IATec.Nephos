@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 400,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-slider",
   "dependencies": ["DSA-03", "DSA-04", "DSA-08", "DSA-13", "DSA-16", "DSA-28"],
   "gates": [
@@ -79,8 +79,8 @@
   },
   "git_review": {
     "branch": "claude/dsa-39-nph-slider-0eb846",
-    "commit": null,
-    "pr": null
+    "commit": "103e8a909a3e37feeb318eaa8e3a8ca1fd0c8ccb",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/112"
   },
   "context": "docs/operacao/contextos/DSA-39.md",
   "updated_at": "2026-10-23"
