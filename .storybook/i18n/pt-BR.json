@@ -144,6 +144,15 @@
     "components-nph-field-validation--group": "Grupo",
     "components-nph-field-validation--disabled": "Desabilitado",
     "components-nph-field-validation--control-contract": "Contrato com o controle",
+    "components-nph-switch-docs": "Docs",
+    "components-nph-switch-docs--documentation": "Documentação",
+    "components-nph-switch-validation": "Validação",
+    "components-nph-switch-validation--matrix": "Matriz",
+    "components-nph-switch-validation--label": "Rótulo",
+    "components-nph-switch-validation--disabled": "Desabilitado",
+    "components-nph-switch-validation--invalid": "Inválido",
+    "components-nph-switch-validation--interactive": "Interativo",
+    "components-nph-switch-validation--examples": "Exemplos",
     "components-nph-select-docs": "Docs",
     "components-nph-select-docs--documentation": "Documentação",
     "components-nph-select-validation": "Validação",
@@ -3065,6 +3074,205 @@
     "disabledInfoCaption": "Desabilitado com o ícone de informação: o ícone continua focável e abre o balão.",
     "contractCaption": "Abaixo de cada campo, o que o campo escreveu no controle: o nome, a descrição (a linha de mensagem visível), invalid, required e disabled."
   },
+  "switchDocs": {
+    "summary": "Um interruptor que liga ou desliga uma configuração, com efeito imediato. A posição do botão mostra o estado: à esquerda, desligado; à direita, ligado. O rótulo fica depois do trilho, e a peça dispara os nativos input e change quando a pessoa a alterna.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha nph-switch, o design.md para os tokens e docs/decisoes-tecnicas.md para a P79. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Para uma configuração que liga ou desliga, com efeito imediato, fora de uma barra de ferramentas.",
+      "Várias configurações empilham, um nph-switch por linha: não há componente de grupo.",
+      "Sem texto só quando o nome já está no contexto, como numa célula de tabela, sempre com label."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Num formulário, quando a escolha só vale no envio: use nph-checkbox.",
+      "Numa barra de ferramentas, entre outros botões: use nph-togglebutton.",
+      "Para pintar o trilho ou o botão à mão: use checked, invalid e disabled.",
+      "Para esconder o rótulo apagando o texto: deixe text vazio e dê label."
+    ],
+    "relationsText": "Numa barra de ferramentas, entre outros botões, a peça é nph-togglebutton; num formulário cuja escolha só vale no envio, é nph-checkbox. A peça traz o próprio texto: não precisa de nph-field para ter nome. Dentro do nph-field, é uma opção de um grupo.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "checked",
+        "O estado ligado, a propriedade marcado do Figma. false por padrão. Refletida no atributo. Um clique, Enter ou Espaço da pessoa a alterna e dispara input e change; mudá-la por código não dispara nada."
+      ],
+      [
+        "text",
+        "O rótulo, já localizado, depois do trilho. É o nome acessível e quebra na largura disponível. Sem ele (mostrar rótulo desligado no Figma), a peça é só o trilho e precisa de label."
+      ],
+      [
+        "label",
+        "Nome acessível da peça sem texto. Obrigatório nela; com texto, não é usado."
+      ],
+      [
+        "invalid",
+        "O contorno do trilho vira status/error, ligado ou desligado, e no foco o halo vira focus/halo-error. Refletida no atributo; põe aria-invalid. A frase de erro fica fora da peça. disabled vence."
+      ],
+      [
+        "disabled",
+        "Desliga a peça: sai da ordem do Tab, não alterna, não dispara nada e fica em state/disabled-opacity. Refletida no atributo. Um fieldset desabilitado em volta faz o mesmo, menos dentro do primeiro legend."
+      ],
+      [
+        "input, change",
+        "Os eventos nativos, disparados nesta ordem quando a pessoa alterna a peça. input borbulha e atravessa shadow roots; change borbulha e não atravessa. O novo valor é lido de event.target.checked."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "O que muda"
+    ],
+    "states": [
+      [
+        "desligado",
+        "O trilho é color/input, sem contorno; o botão é color/background, à esquerda."
+      ],
+      [
+        "ligado",
+        "O trilho é color/primary, com contorno em color/primary-border desenhado por dentro; o botão é color/primary-foreground, à direita."
+      ],
+      [
+        "hover",
+        "Sobre a peça inteira, o preenchimento vai para color/input-hover desligado e color/primary-hover ligado; o contorno fica."
+      ],
+      [
+        "foco",
+        "Para quem usa teclado: o contorno do trilho vira focus/border e um halo em focus/halo aparece fora do trilho, os dois totalmente arredondados, sem mudar o tamanho."
+      ],
+      [
+        "inválido",
+        "O contorno do trilho é status/error, ligado ou desligado; no foco, o halo é focus/halo-error. A frase de erro fica fora da peça."
+      ],
+      [
+        "desabilitado",
+        "A peça inteira em state/disabled-opacity, fora da ordem do Tab; ligada, mantém o contorno. Vence o inválido: o contorno de erro não é desenhado."
+      ]
+    ],
+    "statesCaption": "desligado, ligado, inválido, desabilitado e desabilitado com inválido. Passe o mouse sobre uma peça para ver o hover e use Tab para ver o foco.",
+    "labelTitle": "Rótulo",
+    "labelText": "O rótulo fica depois do trilho, a space/inline dele, em text/label-md e color/foreground. Quebra na largura disponível; com duas linhas, o trilho fica no topo, alinhado à primeira linha. Sem texto, a peça é só o trilho, e label dá o nome.",
+    "labelCaption": "Com rótulo, só o trilho com label e um rótulo longo em duas linhas.",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Trilho",
+        "A base arredondada, radius/full, switch/track-width por icon/size-lg. Desligado: color/input, sem contorno. Ligado: color/primary, com contorno border/width em color/primary-border por dentro. Hover: color/input-hover ou color/primary-hover. Inválido: contorno status/error."
+      ],
+      [
+        "Botão",
+        "O círculo em icon/size-sm, a space/inline-tight da borda do trilho. Desligado: à esquerda, em color/background. Ligado: à direita, em color/primary-foreground. Desliza por transform."
+      ],
+      [
+        "Rótulo",
+        "O texto depois do trilho, em text/label-md e color/foreground, a space/inline do trilho. É o nome do controle."
+      ],
+      [
+        "Área de toque",
+        "O trilho inteiro, switch/track-width por icon/size-lg; com rótulo, a peça inteira."
+      ],
+      [
+        "Foco",
+        "O contorno do trilho vira focus/border e um halo focus/ring-width em focus/halo aparece fora do trilho, os dois radius/full; com erro, status/error e focus/halo-error."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "Um botão nativo com type=button, role=switch e aria-checked seguindo checked; o trilho é aria-hidden. invalid põe aria-invalid. A peça não é associada a formulário."
+      ],
+      [
+        "Nome acessível",
+        "O texto do rótulo. Sem texto, label é obrigatório e vira o aria-label do botão."
+      ],
+      [
+        "Teclado",
+        "Tab entra e sai; Espaço e Enter alternam."
+      ],
+      [
+        "Foco visível",
+        "Só pelo teclado: o contorno de foco e o halo em volta do trilho, sem mudar o tamanho."
+      ],
+      [
+        "Contraste",
+        "A borda do trilho passa 3:1 sobre o fundo da página: color/input mede 3,23:1 no claro e 6,58:1 no escuro; color/primary-border mede ao menos 4,96:1 no claro e 4,91:1 no escuro, em todas as marcas. O botão passa 3:1 sobre o trilho: color/background sobre color/input mede 3,23:1 no claro e 6,58:1 no escuro; color/primary-foreground sobre color/primary mede ao menos 4,96:1. O contorno de erro, status/error, mede 6,88:1 no claro e 5,01:1 no escuro."
+      ],
+      [
+        "Limite conhecido",
+        "focus/border contra focus/halo fica abaixo de 3:1 só na marca padrão no modo claro, com 2,92:1, como o design.md registra; nas outras marcas e esquemas passa. O modo de cores forçadas e a página da direita para a esquerda ainda não são tratados. A frase de erro fora da peça não se liga a ela por aria-describedby através do shadow root."
+      ],
+      [
+        "A cor não é o único sinal",
+        "Ligado e desligado aparecem na posição do botão, não só na cor do trilho. O erro tem a frase escrita fora da peça."
+      ],
+      [
+        "Alvo de toque",
+        "O trilho inteiro, 40 por 24 px; com rótulo, a peça inteira."
+      ],
+      [
+        "Movimento",
+        "O botão desliza e as cores mudam em motion/state-duration e motion/state-easing. Com movimento reduzido o botão não desliza: troca de lado por opacidade, em motion/hover-duration, e a cor ainda muda."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleSingle": "Configuração única: uma opção que liga ou desliga, com efeito imediato.",
+    "examplePreferences": "Preferências: várias configurações empilhadas, uma por linha.",
+    "exampleUnavailable": "Configuração indisponível: desabilitada, a pessoa não pode mudá-la.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "wifi": "Wi-Fi",
+    "longLabel": "Enviar um resumo semanal da atividade em todos os projetos que eu sigo",
+    "emailNotifications": "Notificações por e-mail",
+    "pushNotifications": "Notificações push",
+    "weeklySummary": "Resumo semanal",
+    "backup": "Backup automático",
+    "referencesTitle": "Referências",
+    "references": [
+      "ficha nph-switch — função, variantes, estados, acessibilidade, tokens e anti-padrões.",
+      "docs/decisoes-tecnicas.md — P79 (API e semântica), P73, P01, P02 e P03.",
+      "design.md — switch/track-width, icon/size-lg, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity e motion/*.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Switch, quadro nph-switch (1549:2) e conjunto 1548:56.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "ficha nph-switch; Figma, quadro nph-switch (1549:2)",
+    "sourceApi": "ficha nph-switch; docs/decisoes-tecnicas.md › P79",
+    "sourceStates": "Figma, conjunto 1548:56; design.md",
+    "sourceAnatomy": "Figma, conjunto 1548:56; design.md",
+    "sourceAccessibility": "ficha nph-switch; nph-switch.test.ts",
+    "matrixLabel": "Matriz do componente"
+  },
+  "switchValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "wifi": "Wi-Fi",
+    "longLabel": "Enviar um resumo semanal da atividade em todos os projetos que eu sigo",
+    "twoLines": "duas linhas",
+    "emailNotifications": "Notificações por e-mail",
+    "pushNotifications": "Notificações push",
+    "weeklySummary": "Resumo semanal",
+    "backup": "Backup automático",
+    "exampleSingle": "Configuração única",
+    "examplePreferences": "Preferências",
+    "exampleUnavailable": "Configuração indisponível",
+    "statusIdle": "Aguardando um clique.",
+    "statusChanged": "input e change disparados; checked = {checked}."
+  },
   "selectDocs": {
     "summary": "O campo que abre uma lista fechada de opções para a pessoa escolher uma. Participa do formulário que o contém; o rótulo, o apoio e a mensagem de erro pertencem ao nph-field.",
     "onThisPage": "Nesta página",
@@ -3608,6 +3816,12 @@
       "components-nph-field-validation--group": "Um grupo de checkboxes e um grupo de radios, empilhados, nomeados e descritos pelo campo.",
       "components-nph-field-validation--disabled": "Desabilitado: o controle esmaece, o rótulo e a linha de mensagem não; o desabilitado vence o erro.",
       "components-nph-field-validation--control-contract": "O que o campo escreve no controle (P83): o nome, a descrição, invalid, required e disabled.",
+      "components-nph-switch-validation--matrix": "Desligado e ligado, válido, inválido e desabilitado, com rótulo. Passe o mouse sobre uma peça para ver o hover e use Tab para ver o foco no trilho.",
+      "components-nph-switch-validation--label": "O rótulo depois do trilho; sem texto, só o trilho, nomeado por label; um rótulo longo quebra na largura disponível, com o trilho no topo, alinhado à primeira linha.",
+      "components-nph-switch-validation--disabled": "Desabilitado: a peça inteira em state/disabled-opacity, fora da ordem do Tab, ligada ou desligada; disabled vence invalid.",
+      "components-nph-switch-validation--invalid": "Inválido: o contorno do trilho é status/error, ligado ou desligado, com rótulo ou só o trilho; a frase de erro fica fora da peça.",
+      "components-nph-switch-validation--interactive": "Um clique alterna a peça e dispara os nativos input e change; checked é lido do alvo e mostrado abaixo da peça. Mudar checked por código não dispara nada.",
+      "components-nph-switch-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: Configuração única, Preferências e Configuração indisponível.",
       "components-nph-select-validation--matrix": "size × estado: placeholder, valor, erro, desabilitado e os dois, com a área da seta em color/accent. Passe o mouse para o hover, aperte Tab para o foco.",
       "components-nph-select-validation--start": "O início do gatilho (D4): none, icon e avatar, antes da escolha e com o início da opção escolhida; o ponto de uma opção nunca vai ao gatilho.",
       "components-nph-select-validation--option": "A opção: os quatro inícios, o texto secundário, ativa com o visual de hover, selecionada com o check vencendo a ativa, desabilitada, e o ponto em cada estado (D5, D6).",
