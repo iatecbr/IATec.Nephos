@@ -1009,7 +1009,8 @@ describe('only on an element that receives focus', () => {
     expect(isShown(tooltip)).toBe(false);
 
     outer.contentEditable = 'false';
-    await shown(tooltip);
+    /* The root observer reacts in a later microtask: wait for it, not only for Lit. */
+    await vi.waitFor(() => expect(isShown(tooltip)).toBe(true));
 
     inner.tabIndex = -1;
     await vi.waitFor(() => expect(tooltip.open).toBe(false));
@@ -1028,7 +1029,7 @@ describe('only on an element that receives focus', () => {
     await tooltip.updateComplete;
     expect(isShown(tooltip)).toBe(false);
     inner.contentEditable = 'true';
-    await shown(tooltip);
+    await vi.waitFor(() => expect(isShown(tooltip)).toBe(true));
   });
 
   it('a disabled button gets no balloon, on hover or when the consumer opens it, and no error', async () => {
