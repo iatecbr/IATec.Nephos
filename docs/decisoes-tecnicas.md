@@ -2843,9 +2843,10 @@ here as in P80. The names follow P64.
    `aria-selected` and `aria-disabled` through `ElementInternals`, so it writes no attribute on its
    own host, and shows `selected` and `active` through `CustomStateSet` (`:state()`). The owning
    list learns that a property of an option changed through the exported symbol
-   `NPH_OPTION_CHANGED`: a list implements a method under that symbol, which is not public API and
-   does not reach the manifest; the text and the attributes of the options reach it through a
-   `MutationObserver`.
+   `NPH_OPTION_CHANGED`: a list implements a method under that symbol. The symbol is an export of
+   the option module, for the lists that own options; the method is marked `@internal`, so it stays
+   out of the manifest and is not API of the select. The text and the attributes of the options
+   reach the list through a `MutationObserver`.
 
 4. **The value.** The value follows P80: the `value` attribute is the default and the value of
    `form.reset()`, the property is the current value, and a dirty flag stops the attribute from

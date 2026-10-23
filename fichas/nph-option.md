@@ -171,7 +171,7 @@ sources:
   tests: "src/components/nph-option/nph-option.test.ts and src/components/nph-select/nph-select.test.ts"
   usage_evidence: "the Option section of the nph-select Docs page"
   storybook: "src/components/nph-select/nph-select.stories.ts (the Option story) and nph-select.docs.stories.ts"
-  figma: "DS-IA-NEPHOS 5.0, nph-select / opção 1357:136, in the nph-select frame 1357:160"
+  figma: "DS-IA-NEPHOS 5.0, option 1357:136 of the nph-select set, in the nph-select frame 1357:160"
 ---
 
 # nph-option

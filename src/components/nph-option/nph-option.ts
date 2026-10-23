@@ -33,8 +33,9 @@
  *   cannot be chosen.
  *
  * The owning list learns that a property of the option changed through
- * `NPH_OPTION_CHANGED`: a symbol, not API, so another list (the `nph-combobox`)
- * takes the same contract without a public method or an event.
+ * `NPH_OPTION_CHANGED`: a symbol the list implements a method under, so another
+ * list (the `nph-combobox`) takes the same contract without a public method or an
+ * event.
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
@@ -62,7 +63,8 @@ export const NPH_OPTION_DEFAULT_ICON = 'globe';
 
 /**
  * The method a list that owns options implements to hear that a property of one of
- * them changed. A symbol, so it is not public API and does not reach the manifest.
+ * them changed. A symbol, so the method is not a public name of the list; the list
+ * marks it `@internal`, which keeps it out of the manifest.
  */
 export const NPH_OPTION_CHANGED = Symbol('nph-option-changed');
 
@@ -123,14 +125,22 @@ export class NphOption extends LitElement {
   constructor() {
     super();
     this.internals = this.attachInternals();
-    this.internals.role = 'option';
-    this.internals.ariaSelected = 'false';
     this.secondary = '';
     this.start = 'none';
     this.icon = NPH_OPTION_DEFAULT_ICON;
     this.src = '';
     this.status = null;
     this.disabled = false;
+  }
+
+  /*
+   * The role and the selected state go to `ElementInternals` here, not in the constructor:
+   * the manifest analyzer reads assignments in the constructor as public fields.
+   */
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.internals.role = 'option';
+    this.internals.ariaSelected = this.isSelected ? 'true' : 'false';
   }
 
   /** The value for the form. Without the attribute, the label text. */

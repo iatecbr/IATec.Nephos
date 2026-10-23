@@ -265,7 +265,10 @@ export class NphSelect extends LitElement implements NphOptionOwner {
     this.requestUpdate('value', old);
   }
 
-  /** An option changed a property: the trigger may show it (`NphOptionOwner`). */
+  /**
+   * An option changed a property: the trigger may show it (`NphOptionOwner`). Not API.
+   * @internal
+   */
   [NPH_OPTION_CHANGED](): void {
     this.optionsChanged();
   }
