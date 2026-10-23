@@ -95,6 +95,10 @@ function nextFrame(): Promise<void> {
   return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
 
+function nextTask(): Promise<void> {
+  return new Promise((resolve) => window.setTimeout(resolve, 0));
+}
+
 function resolved(property: string, token: string, parent: HTMLElement = document.body): string {
   const probe = document.createElement('div');
   probe.style.setProperty(property, `var(${token})`);
@@ -486,6 +490,47 @@ describe('form association', () => {
     expect(inherited.willValidate).toBe(false);
   });
 
+  it('recomputes disabled fieldset inheritance and respects the first legend', async () => {
+    const holder = await markup(
+      '<form><fieldset><nph-input label="Email" type="email" name="email" value="not an email" icon-end="xmark" clear-label="Clear"></nph-input></fieldset></form>',
+    );
+    const fieldset = holder.querySelector('fieldset') as HTMLFieldSetElement;
+    const inherited = holder.querySelector('nph-input') as NphInput;
+    inherited.disabled = true;
+    await inherited.updateComplete;
+
+    fieldset.disabled = true;
+    inherited.disabled = false;
+    await inherited.updateComplete;
+
+    expect(inherited.matches(':disabled')).toBe(true);
+    expect(field(inherited).disabled).toBe(true);
+    expect(clearButton(inherited)).toBeNull();
+    expect(inherited.willValidate).toBe(false);
+    expect(inherited.validity.typeMismatch).toBe(false);
+    expect(inherited.checkValidity()).toBe(true);
+    expect(new FormData(holder.querySelector('form') as HTMLFormElement).has('email')).toBe(false);
+    field(inherited).focus();
+    expect(inherited.shadowRoot?.activeElement).not.toBe(field(inherited));
+
+    const legendHolder = await markup(
+      '<form><fieldset disabled><legend><nph-input label="Email" type="email" name="email" value="not an email" disabled icon-end="xmark" clear-label="Clear"></nph-input></legend></fieldset></form>',
+    );
+    const exempt = legendHolder.querySelector('nph-input') as NphInput;
+    exempt.disabled = false;
+    await exempt.updateComplete;
+
+    expect(exempt.matches(':disabled')).toBe(false);
+    expect(field(exempt).disabled).toBe(false);
+    expect(clearButton(exempt)).not.toBeNull();
+    expect(exempt.willValidate).toBe(true);
+    expect(exempt.validity.typeMismatch).toBe(true);
+    expect(exempt.checkValidity()).toBe(false);
+    expect(new FormData(legendHolder.querySelector('form') as HTMLFormElement).get('email')).toBe('not an email');
+    field(exempt).focus();
+    expect(exempt.shadowRoot?.activeElement).toBe(field(exempt));
+  });
+
   it('invalid is not a constraint: it adds no customError', async () => {
     const element = await mount({ label: 'Email', invalid: true, value: 'x' });
     expect(element.validity.customError).toBe(false);
@@ -535,6 +580,7 @@ describe('form association', () => {
     form.addEventListener('submit', submitted);
     field(element).focus();
     await userEvent.keyboard('{Enter}');
+    await nextTask();
     expect(submitted).toHaveBeenCalledTimes(1);
     expect(submitted.mock.results[0]?.value).toBe(form.querySelector('button'));
   });
@@ -545,6 +591,7 @@ describe('form association', () => {
     form.addEventListener('submit', submitted);
     field(element).focus();
     await userEvent.keyboard('{Enter}');
+    await nextTask();
     expect(submitted).toHaveBeenCalledTimes(1);
   });
 
@@ -556,9 +603,28 @@ describe('form association', () => {
       form.addEventListener('keydown', (event) => event.preventDefault(), { capture });
       field(element).focus();
       await userEvent.keyboard('{Enter}');
+      await nextTask();
       expect(submitted).not.toHaveBeenCalled();
       form.remove();
     }
+  });
+
+  it('Enter submits when an ancestor only stops propagation', async () => {
+    const holder = await markup(
+      '<form><div id="stop"><nph-input label="City" value="Recife"></nph-input></div><button type="submit">Send</button></form>',
+    );
+    const form = holder.querySelector('form') as HTMLFormElement;
+    const boundary = holder.querySelector('#stop') as HTMLElement;
+    const element = holder.querySelector('nph-input') as NphInput;
+    const submitted = vi.fn((event: Event) => event.preventDefault());
+    form.addEventListener('submit', submitted);
+    boundary.addEventListener('keydown', (event) => event.stopPropagation());
+    field(element).focus();
+
+    await userEvent.keyboard('{Enter}');
+    await nextTask();
+
+    expect(submitted).toHaveBeenCalledTimes(1);
   });
 
   it('Enter uses the first image submitter, including one associated by form', async () => {
@@ -576,6 +642,7 @@ describe('form association', () => {
     field(element).focus();
 
     await userEvent.keyboard('{Enter}');
+    await nextTask();
 
     expect(image.form).toBe(form);
     expect(submitted).toHaveBeenCalledTimes(1);
@@ -588,6 +655,7 @@ describe('form association', () => {
     disabled.form.addEventListener('submit', first);
     field(disabled.element).focus();
     await userEvent.keyboard('{Enter}');
+    await nextTask();
     expect(first).not.toHaveBeenCalled();
 
     const required = await inForm('<nph-input label="Town" required></nph-input><button type="submit">Send</button>');
@@ -595,6 +663,7 @@ describe('form association', () => {
     required.form.addEventListener('submit', second);
     field(required.element).focus();
     await userEvent.keyboard('{Enter}');
+    await nextTask();
     expect(second).not.toHaveBeenCalled();
   });
 
@@ -602,6 +671,7 @@ describe('form association', () => {
     const element = await mount({ label: 'City', value: 'Recife' });
     field(element).focus();
     await userEvent.keyboard('{Enter}');
+    await nextTask();
     expect(element.value).toBe('Recife');
   });
 });
