@@ -41,6 +41,7 @@ already-validated items in the same PR, with one commit per item. Commit when
 you reach a state that works, not at the end of the day. A visual change
 includes a verifiable comparison; a code change includes the applicable tests.
 
-Whoever executes prepares the branch, the commits and the pull request. Elvys
-or Mauro review and merge; the review does not transfer to them the drafting
-of the content or product decisions.
+Whoever executes prepares the branch, the commits and the pull request.
+Copilot reviews and Elvys merges, under the pull request rules in
+`AGENTS.md`; neither the review nor the merge transfers the drafting of the
+content or product decisions.

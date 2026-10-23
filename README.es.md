@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=4b47dbf26f915d4da454d8da2c2f32460586d824fdac36e77a713f880e161cea | status=revisado -->
+<!-- i18n: lang=es | source=README.md | source-sha256=19458f8edde9155671c566076ca98146afcbf27e39658393af1a94df9121cc3a | status=revisado -->
 
 # Nephos 5.0
 
@@ -169,8 +169,9 @@ confirmación.
 Ningún componente puede implementarse en el repositorio antes de su aprobación
 en Figma.
 
-Todo pull request pide, al abrirse, la revisión de Mauro (`maurocsjr`) en
-GitHub. Elvys o Mauro revisan y hacen el merge.
+Todo pull request lo revisa Copilot en GitHub, con la solicitud hecha al
+abrirse y de nuevo después de cada ronda de correcciones; no se pide revisor
+humano. Elvys hace el merge.
 
 ## Primer recorte P0
 
