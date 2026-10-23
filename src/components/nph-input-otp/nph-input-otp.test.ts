@@ -583,6 +583,24 @@ describe('value from code', () => {
     expect(element.value).toBe('112');
   });
 
+  it('a shorter length set while the size is invalid cuts the value once the size is valid again', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    document.body.innerHTML = '<form><nph-input-otp label="Code" name="code" value="123456"></nph-input-otp></form>';
+    const form = document.querySelector('form') as HTMLFormElement;
+    const element = document.querySelector<NphInputOtp>('nph-input-otp');
+    if (!element) throw new Error('no field');
+    await element.updateComplete;
+    element.size = 'huge';
+    await element.updateComplete;
+    element.length = 4;
+    await element.updateComplete;
+    element.size = 'default';
+    await element.updateComplete;
+    expect(cells(element).length).toBe(4);
+    expect(element.value).toBe('1234');
+    expect(new FormData(form).get('code')).toBe('1234');
+  });
+
   it('a shorter length cuts the current value', async () => {
     const element = await mount({ label: 'Code', value: '123456' });
     element.length = 4;

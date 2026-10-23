@@ -2978,7 +2978,8 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    property is the current value. Once the person or the code changes the value, a new `value`
    attribute no longer replaces it. A value set from code with other characters or longer than
    `length` is cleaned, cut and reported with `console.warn` in development. A shorter `length`
-   cuts the current value, and the value at focus with it, so the cut fires no `change`.
+   cuts the current value, and the value at focus with it, so the cut fires no `change`; the cut
+   applies whenever `length` is valid, also while `size` is not.
 
 5. **Form (P80).** `static formAssociated` and `ElementInternals`: `setFormValue` at once on every
    change (typing, paste, setting `value`, reset, restore), and `null` while `length` or `size`

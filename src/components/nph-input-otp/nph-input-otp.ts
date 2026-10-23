@@ -309,8 +309,9 @@ export class NphInputOtp extends LitElement {
       this.valid = valid;
       this.toggleAttribute(RENDERED_ATTRIBUTE, valid);
     }
-    if (changed.has('length') && this.valid) {
-      /* The value at focus is cut too, so the cut itself never causes a `change`. */
+    if (isLength(this.length)) {
+      /* Whenever the length is valid, even while the size is not: the value never outgrows the
+         cells. The value at focus is cut too, so the cut itself never causes a `change`. */
       this.current = this.current.slice(0, this.length);
       this.committed = this.committed.slice(0, this.length);
     }
