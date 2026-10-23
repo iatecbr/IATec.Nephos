@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 300,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-select",
   "dependencies": ["DSA-24", "DSA-28"],
   "gates": [
@@ -67,8 +67,8 @@
   },
   "git_review": {
     "branch": "claude/dsa-29-nph-select-84cd97",
-    "commit": null,
-    "pr": null
+    "commit": "1266e423b02dd6236c5527f71f2c55a681b6df95",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/114"
   },
   "context": "docs/operacao/contextos/DSA-29.md",
   "updated_at": "2026-10-23"

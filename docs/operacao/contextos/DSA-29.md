@@ -25,24 +25,29 @@ contract of P83.
   so the option has a folder of its own
 
 ## Changes
-The task moves to in progress with the pending decisions D-1 to D-3. See the
-commits on the branch.
+`nph-select` and `nph-option` (components, CSS, tests), nine Validation stories, the Docs
+page, the dictionaries in the three languages, the two sheets and their Metadata, and P91.
+The branch was synced with `v/5.0.0` twice; the conflicts were only in
+`docs/decisoes-tecnicas.md` and in the dictionaries, resolved keeping the entries of the
+other tasks. See the commits on the branch.
 
 ## Commands run
-- `npm ci`, then `npm run test:operacao` before the first commit.
-- A throwaway spike in Chromium: the message of a disconnected
-  `<select required>`, `ariaActiveDescendantElement` from the shadow root to a
-  slotted option, slotted options in the top layer and `composedPath()` through
-  the popover. All four held; the spike was not committed.
+- `npm ci`; `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`,
+  `test:operacao`, `test:naming`, `build-storybook`, `build:lib`, `test:package` and
+  `git diff --check` on the head of the pull request.
+- A throwaway spike in Chromium: the message of a disconnected `<select required>`,
+  `ariaActiveDescendantElement` from the shadow root to a slotted option, slotted options
+  in the top layer and `composedPath()` through the popover. All four held; the spike was
+  not committed.
 
 ## Result
-In progress.
+In review in PR #114.
 
 ## Evidence
-None recorded: `review-and-merge` waits for the PR.
+The proof table is in the description of PR #114. `review-and-merge` waits for the merge.
 
 ## Blocker
 None. D-1 to D-3 wait for Indiane and do not block.
 
 ## Next command
-Commit the components, then the stories, the Docs page and the sheets.
+Wait for the review of PR #114.
