@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 400,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": "nph-slider",
   "dependencies": ["DSA-03", "DSA-04", "DSA-08", "DSA-13", "DSA-16", "DSA-28"],
   "gates": [
@@ -28,15 +28,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "The optional field is an nph-input (DSA-16) and the error state lives inside the nph-field (DSA-28); neither is done yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-16 and DSA-28 are done.",
-      "opened_at": "2026-10-16"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-39/documentacao-figma-aceita-2026-10-15.md"
@@ -52,11 +44,11 @@
     "date": "2026-10-15",
     "author": "indiane",
     "excerpt": null,
-    "converted_decision": "The nph-slider board (1636:46), with its Documentação frame (1925:642), was accepted as the API and behavior specification of the nph-slider. COMPONENT_SET 1636:44. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
+    "converted_decision": "The nph-slider board (1636:46), with its documentation frame (1925:642), was accepted as the API and behavior specification of the nph-slider. COMPONENT_SET 1636:44. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-16"
+  "updated_at": "2026-10-23"
 }
 ```
 
@@ -72,11 +64,11 @@ In the evidence of the `figma-docs-accepted` gate:
 carries the Figma documentation converted to text, with the tokens of each part
 and of each state. There is no need to open Figma.
 
-## Why it is blocked
+## Why it was blocked
 The optional `campo` is an `nph-input` instance (DSA-16), and the error state is
-shown only inside `nph-field` (DSA-28). Neither task is `done` yet (B1). When
-both are, the task follows the usual rule: `ready` when every dependency is
-`done`. Value, limits, step, keyboard, form value and events are technical
+shown only inside `nph-field` (DSA-28). Both are `done` (DSA-16 after the merge of
+PR #99, DSA-28 after the merge of PR #105), so B1 is closed and the task is
+`ready`. Value, limits, step, keyboard, form value and events are technical
 proposals for the PR.
 
 ## How it is proved
