@@ -169,7 +169,7 @@ describe('registration and API', () => {
     expect([...NPH_IMAGE_RATIOS]).toEqual(['1:1', '4:3', '16:9']);
     expect(NPH_IMAGE_SIZES.every(isSize)).toBe(true);
     expect(NPH_IMAGE_RATIOS.every(isRatio)).toBe(true);
-    expect(['mídia', '3xl', '', 'MD', 'full'].some(isSize)).toBe(false);
+    expect(['medium', '3xl', '', 'MD', 'full'].some(isSize)).toBe(false);
     expect(['1/1', '16/9', '3:2', '', '1:1 '].some(isRatio)).toBe(false);
   });
 
@@ -744,7 +744,7 @@ describe('invalid input', () => {
   it('an unknown size: nothing drawn, 0x0, no rendered mark, hidden and one console.error', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     const element = document.createElement('nph-image');
-    element.setAttribute('size', 'mídia');
+    element.setAttribute('size', 'medium');
     element.src = IMAGE;
     element.alt = 'Blue mug';
     document.body.append(element);

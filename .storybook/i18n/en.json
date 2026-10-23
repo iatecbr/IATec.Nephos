@@ -115,7 +115,15 @@
     "components-nph-avatar-stack-validation--composition": "Composition",
     "components-nph-avatar-stack-validation--photo": "Photo",
     "components-nph-avatar-stack-validation--count-width": "Count width",
-    "components-nph-avatar-stack-validation--accessibility": "Accessibility"
+    "components-nph-avatar-stack-validation--accessibility": "Accessibility",
+    "components-nph-image-docs": "Docs",
+    "components-nph-image-docs--documentation": "Documentation",
+    "components-nph-image-validation": "Validation",
+    "components-nph-image-validation--sizes": "Sizes",
+    "components-nph-image-validation--ratios": "Ratios",
+    "components-nph-image-validation--states": "States",
+    "components-nph-image-validation--interaction": "Interaction",
+    "components-nph-image-validation--accessibility": "Accessibility"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -2362,6 +2370,250 @@
     "namedGroup": "Ana Souza, Bruno Lima, Carla Mendes and 3 more",
     "namedGroupCaption": "The screen reader reads the name of the group, and not the avatars or the count."
   },
+  "imageDocs": {
+    "summary": "The image of a product, file or content in an area of fixed size, with the loading, empty and error states. The area stays the same with or without the image. It is not an avatar and not an icon.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-image spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P90. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "When the screen shows the image of a product, file or content in an area of fixed size.",
+      "Choose the size by the place: sm in the table, md in the list, lg in the product item and in the upload, xl and 2xl in the side card and in the image template, media in the card, in the gallery and in the cover.",
+      "Choose the state by what happens: loading while the image has not arrived, empty when there is no image, error when it failed.",
+      "In media, choose 1:1, 4:3 or 16:9 by the fit of the card, gallery or cover.",
+      "Write an alt that describes the content, or leave it empty when the text next to it already says it all.",
+      "Use a single size per list, so the rows stay aligned."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "For a person: use nph-avatar.",
+      "As an icon: for a symbol use nph-icon.",
+      "As a button for an action: use nph-button.",
+      "With loading that never ends: if the image does not come, show error.",
+      "With different sizes in the same list."
+    ],
+    "relationsText": "Next to text, the space is image/gap, given by the container. In a table, list, card or gallery, the container defines the position and the image keeps its own area. The thumbnail and the expanded item of nph-table will use it; nph-table is planned and does not exist yet. nph-avatar is the piece for a person, nph-icon for a symbol and nph-button for an action. The hover eye is an nph-icon, and the loading arc is the nph-spinner.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "size",
+        "xs (default), sm, md, lg, xl, 2xl or media: the Figma tamanho. Reflected to the attribute. The square sizes are 24, 32, 48, 64, 96 and 128 px; media takes the content width, image/media-width. An invalid value renders nothing and logs one console.error in development."
+      ],
+      [
+        "ratio",
+        "1:1 (default), 4:3 or 16:9: the Figma proporção. Reflected to the attribute. Only media uses it; the other sizes are always square and ignore it, with no warning. An invalid value renders nothing and logs one console.error in development."
+      ],
+      [
+        "src",
+        "The address of the image. There is no property for the content state: it derives from src. Without src the piece is empty; with it, loading until the image loads or fails. Empty or whitespace-only counts as none, and a new src starts the wait again."
+      ],
+      [
+        "alt",
+        "The accessible name: the description of the content. With text, the host takes role=img and aria-label, in every state. Empty or whitespace-only hides the image from the screen reader: aria-hidden=true on the host."
+      ],
+      [
+        "interactive",
+        "The image is clickable. The piece draws an inner native button that fills the frame, takes the focus and carries the alt as its name; the click is the native click. Hover over a loaded image shows the veil and the eye; Tab shows the focus ring. Without an alt it renders and logs one console.warn in development."
+      ],
+      [
+        "disabled",
+        "The whole piece at state/disabled-opacity. With interactive, the button is natively disabled: out of the Tab order, no click and no veil."
+      ],
+      [
+        "status",
+        "Read-only: empty, loading, loaded or error, the state drawn now. Not an attribute."
+      ],
+      [
+        "load · error",
+        "The host repeats the native load and error of the inner image, without bubbling, so the parent can write the text that explains a failure."
+      ],
+      [
+        "slot · part · event",
+        "No slot, no ::part, no nph-* event and no form association."
+      ]
+    ],
+    "sizesTitle": "Sizes",
+    "sizesText": "One size per place, and a single size per list. The square sizes keep the same area with or without the image; media keeps the content width and takes its height from the ratio.",
+    "sizesCaption": "The six square sizes, xs to 2xl, with an image.",
+    "ratiosCaption": "media at 1:1, 4:3 and 16:9: the same width, three heights.",
+    "sizesHeader": [
+      "Size",
+      "Measure"
+    ],
+    "sizes": [
+      [
+        "xs",
+        "24 px, image/size-xs, corner image/radius-sm. In the Figma set, with no usage rule of its own."
+      ],
+      [
+        "sm",
+        "32 px, image/size-sm, corner image/radius-sm. The table."
+      ],
+      [
+        "md",
+        "48 px, image/size-md, corner image/radius-md. The list."
+      ],
+      [
+        "lg",
+        "64 px, image/size-lg, corner image/radius-md. The product item and the upload."
+      ],
+      [
+        "xl",
+        "96 px, image/size-xl, corner image/radius-lg. The side card and the image template."
+      ],
+      [
+        "2xl",
+        "128 px, image/size-2xl, corner image/radius-lg. The side card and the image template."
+      ],
+      [
+        "media",
+        "Width 256 px, image/media-width; height 256 (1:1), 192 (4:3) or 144 (16:9); corner image/radius-lg. The card, the gallery and the cover."
+      ]
+    ],
+    "statesTitle": "States",
+    "statesText": "The content states derive from src; hover, focus and disabled come from the parent when the image is clickable. Empty and error draw the frame only until their line illustrations arrive, so for now the two look alike: the text that explains the problem belongs to the parent, which hears the error event.",
+    "statesCaption": "Empty, loading, loaded and error, at size xl.",
+    "interactionCaption": "A clickable image and a clickable disabled one. Move the mouse over the first for the veil and the eye, press Tab for the focus ring.",
+    "statesHeader": [
+      "State",
+      "What shows"
+    ],
+    "states": [
+      [
+        "Empty",
+        "No src: the frame in image/background with its border. The illustration will come in once its files arrive."
+      ],
+      [
+        "Loading",
+        "The nph-spinner in image/foreground at the center, and the frame without a border."
+      ],
+      [
+        "Loaded",
+        "The image fills the frame and crops to keep its proportion. The border stays over it."
+      ],
+      [
+        "Error",
+        "The image did not load: the frame with its border, as empty. The illustration will come in once its files arrive."
+      ],
+      [
+        "Hover",
+        "Only on a clickable, loaded image: the veil image/overlay with the eye in image/on-overlay."
+      ],
+      [
+        "Focus",
+        "Only on a clickable image, with the keyboard: the ring image/focus-border in focus/ring-width, inside the frame."
+      ],
+      [
+        "Disabled",
+        "The whole piece at state/disabled-opacity; a clickable one leaves the Tab order and takes no click."
+      ]
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Frame",
+        "image/size-* or image/media-width, with image/radius-sm, -md or -lg by size, image/background as fill and a border of image/border-width in image/border, drawn over the image. The loading frame has no border. It keeps the same area with or without the image."
+      ],
+      [
+        "Image",
+        "The image of src, with an empty alt: the name belongs to the host. It fills the frame and crops to keep its proportion."
+      ],
+      [
+        "Spinner",
+        "The nph-spinner, an open arc in image/foreground that turns while the image loads: sm in xs, sm and md; md in the larger sizes."
+      ],
+      [
+        "Empty and error illustration",
+        "A gray line drawing per color scheme, switched by image/illustration-light and image/illustration-dark. Its files are not in the repository yet."
+      ],
+      [
+        "Veil and hover icon",
+        "The veil image/overlay with the nph-icon eye in image/on-overlay, only on hover of a clickable image. The eye takes image/icon-size-sm in xs and sm, -md in md and lg, and -lg in xl, 2xl and media."
+      ],
+      [
+        "Focus ring",
+        "image/focus-border in focus/ring-width, only on keyboard focus of a clickable image, in place of the border."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Accessible name",
+        "The name comes from alt, which describes the content. With an empty alt the image is hidden from the screen reader (aria-hidden), for when the text next to it already says it all."
+      ],
+      [
+        "Semantics",
+        "role=img with aria-label on the host when alt has text. A clickable image is an inner native button named by the alt, and the host has no role."
+      ],
+      [
+        "Visible focus",
+        "Only a clickable image receives focus: the ring image/focus-border in focus/ring-width, with the keyboard. Otherwise the focus belongs to the control that contains it."
+      ],
+      [
+        "Contrast",
+        "The spinner, image/foreground on image/background, and the focus ring pass 3:1 in light and dark, in every brand; nph-image.test.ts measures them."
+      ],
+      [
+        "Color is not the only signal",
+        "Loading changes the drawing to the spinner. Empty and error will change it to their illustrations; until those arrive, the parent's text and the error event carry the difference."
+      ],
+      [
+        "Touch target",
+        "Does not apply to the image alone. When it is clickable, the target is the image area or the control that contains it."
+      ],
+      [
+        "Motion",
+        "The spinner turns at motion/loop-duration and stops with reduced motion (P66). The image itself has no animation."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleList": "List item: the image at size md with the product name next to it, set apart by image/gap. It has no alt, because the name is right there.",
+    "exampleCover": "Card cover: size media at 16:9, with an alt that describes the cover and the title under it.",
+    "exampleUpload": "Upload still without an image: size lg with no src, so the empty state shows, with the hint next to it.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "productMug": "Blue ceramic mug",
+    "productDetail": "Kitchen · 350 ml",
+    "coverAlt": "Ceramic pieces on a wooden shelf",
+    "coverTitle": "Spring catalog",
+    "uploadTitle": "Product photo",
+    "uploadHint": "No image sent yet",
+    "referencesTitle": "References",
+    "references": [
+      "nph-image spec sheet — purpose, properties, anatomy, accessibility and tokens.",
+      "docs/decisoes-tecnicas.md — P90 (API and semantics), P66, P01, P02 and P03.",
+      "Tokens — image/*, focus/ring-width and state/disabled-opacity, in src/tokens/source/semantic.tokens.json.",
+      "DS-IA-NEPHOS 5.0 Figma — board nph-image (2573:66090), frame Documentação (2677:465) and set 2573:66089.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-image spec sheet; Figma, frame Documentação (2677:465)",
+    "sourceApi": "nph-image spec sheet; docs/decisoes-tecnicas.md › P90",
+    "sourceSizes": "Figma, set 2573:66089; nph-image spec sheet",
+    "sourceStates": "Figma, frame Documentação (2677:465); docs/decisoes-tecnicas.md › P90",
+    "sourceAnatomy": "Figma, set 2573:66089; nph-image spec sheet",
+    "sourceAccessibility": "nph-image spec sheet; nph-image.test.ts",
+    "matrixLabel": "Component matrix"
+  },
+  "imageValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "productMug": "Blue ceramic mug",
+    "productLamp": "Desk lamp with a white shade",
+    "productCover": "Cover of the spring catalog"
+  },
   "validationPages": {
     "sheetTitle": "The contract lives in the sheet",
     "sheetText": "This piece has no reading page in Storybook. Its contract is in {sheet}; these stories prove it.",
@@ -2422,7 +2674,12 @@
       "components-nph-input-validation--error-and-disabled": "The precedence of D5: error keeps its border on hover and focus; disabled wins over error.",
       "components-nph-input-validation--width": "The default width is layout/input-width; the field stretches to its parent, with no minimum (D6).",
       "components-nph-input-validation--invalid-input": "Invalid input draws nothing: a type out of v1, a size that does not exist, an icon outside the core. icon-end without clear-label draws the field without the button.",
-      "components-nph-input-validation--examples": "The three required examples of the accepted frame: Search, Field with a label and Error, each in light and dark mode."
+      "components-nph-input-validation--examples": "The three required examples of the accepted frame: Search, Field with a label and Error, each in light and dark mode.",
+      "components-nph-image-validation--sizes": "The seven sizes, with an image and without: squares of 24, 32, 48, 64, 96 and 128 px with a rounded corner, and media on the content width of 256 px.",
+      "components-nph-image-validation--ratios": "media takes 1:1, 4:3 and 16:9 on the same width, 256 by 256, 192 or 144 px; a square size ignores the ratio and stays square.",
+      "components-nph-image-validation--states": "The state derives from src: empty without it, the spinner and no border while the image loads, the image filling the frame once loaded, and the frame again when it fails. Empty and error draw the frame only until their illustrations arrive.",
+      "components-nph-image-validation--interaction": "A clickable image is a button: move the mouse over it for the veil and the eye, press Tab for the focus ring. Disabled fades the whole piece and takes the button out of the Tab order.",
+      "components-nph-image-validation--accessibility": "With alt the image is announced by its description; with an empty alt it is hidden from the screen reader and the text beside it speaks. A clickable image gives the alt to its button."
     }
   }
 }
