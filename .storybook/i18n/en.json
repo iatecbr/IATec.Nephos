@@ -16,6 +16,18 @@
     "components-nph-icon-validation--color-inheritance": "Colour inheritance",
     "components-nph-icon-validation--accessibility": "Accessibility",
     "components-nph-icon-validation--invalid-input": "Invalid input",
+    "components-nph-input-docs": "Docs",
+    "components-nph-input-docs--documentation": "Documentation",
+    "components-nph-input-validation": "Validation",
+    "components-nph-input-validation--matrix": "Matrix",
+    "components-nph-input-validation--types": "Types",
+    "components-nph-input-validation--icons": "Icons",
+    "components-nph-input-validation--clear": "Clear",
+    "components-nph-input-validation--form-association": "Form association",
+    "components-nph-input-validation--error-and-disabled": "Error and disabled",
+    "components-nph-input-validation--width": "Width",
+    "components-nph-input-validation--invalid-input": "Invalid input",
+    "components-nph-input-validation--examples": "Examples",
     "components-nph-badge-docs": "Docs",
     "components-nph-badge-docs--documentation": "Documentation",
     "components-nph-badge-validation": "Validation",
@@ -292,6 +304,11 @@
     "invalidTitle": "Invalid input",
     "invalidText": "A name outside the core, a missing size or one outside the approved list, or a variant that does not exist render no icon and fail development validation. There is no visual fallback and no free size. The error is reported through console.error in development only.",
     "invalidPointer": "The cases are demonstrated under Validation › Invalid input.",
+    "examplesTitle": "Examples",
+    "searchExampleLabel": "Search",
+    "searchExamplePlaceholder": "Search",
+    "searchExampleCaption": "magnifying-glass in a search field, inside the control, at icon/size-sm.",
+    "sourceExamples": "Figma, frame nph-icon (1130:956); nph-input spec sheet",
     "referencesTitle": "References",
     "references": [
       "design.md — contrato_nph_icon, icone_regras, icone_acessibilidade, tokens_icon, icones_nucleo.",
@@ -1879,6 +1896,304 @@
     "personBruno": "Bruno Lima",
     "personCarla": "Carla Mendes"
   },
+  "inputDocs": {
+    "summary": "The one-line field to type or edit a value, such as a name, an email or a search. It takes part in the form that contains it; the label, the help and the error message belong to nph-field.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-input spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P80. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "description": "Use nph-input when the person needs to type or edit a one-line value. Mask, number and password are out of v1. It does not serve multi-line text; label, help and error message stay in nph-field.",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "When the person needs to type or edit a one-line value.",
+      "Inside an nph-field when the field needs a label, help or an error message.",
+      "With a start or end icon turned on by the property, without creating a variant.",
+      "default in general use; large on the screen that needs the 44 px target, for every field of the form and the button next to them."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "For multi-line text: the field holds one line.",
+      "For a password, a number or a masked value: they are out of v1 and get their own task.",
+      "To show the error message or the help: they belong to nph-field.",
+      "To name the field with the placeholder alone: it disappears when the person types.",
+      "To show a value that cannot be edited: there is no read-only state."
+    ],
+    "relationsText": "nph-field composes the label, the field, the help and the error message, and writes label, description, invalid and required on the input. On its own, nph-label names the input with for. The start and end icons come only from the nph-icon core.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "type",
+        "text (default), email, tel, url or search. Password, number and mask are out of v1; any other value draws nothing."
+      ],
+      [
+        "size",
+        "default (control/height-default) or large (control/height-large). Only the height changes. Reflected to the attribute."
+      ],
+      [
+        "value",
+        "The current value. The value attribute is the initial value and the value of form.reset(); it applies only until the person edits the field. Setting it from code fires no event."
+      ],
+      [
+        "placeholder",
+        "The example before typing, already localized. It is not a name: it disappears when the person types."
+      ],
+      [
+        "name",
+        "The name of the entry in the form data. Reflected to the attribute, which is what the form reads."
+      ],
+      [
+        "autocomplete",
+        "The purpose of the value for autofill, such as email or tel (WCAG 1.3.5)."
+      ],
+      [
+        "required",
+        "The native required: announced by the screen reader and checked by the form. Reflected to the attribute."
+      ],
+      [
+        "disabled",
+        "The whole piece at state/disabled-opacity on color/muted, out of the Tab order and of the form data. A disabled fieldset disables it too. It wins over invalid."
+      ],
+      [
+        "invalid",
+        "The erro state: the border becomes status/error and the field gets aria-invalid. The sentence belongs to nph-field."
+      ],
+      [
+        "label",
+        "The accessible name in text, never visible, when no label is associated. An associated label wins over it."
+      ],
+      [
+        "description",
+        "The accessible description in text, never visible: the help or the error sentence that nph-field writes."
+      ],
+      [
+        "icon-start",
+        "none (default) or a name from the nph-icon core, light, at icon/size-sm, before the value. Decorative."
+      ],
+      [
+        "icon-end",
+        "none (default) or a name from the nph-icon core: it turns on the button that always clears the value. The name only swaps the art; xmark in Figma."
+      ],
+      [
+        "clear-label",
+        "The accessible name of the clear button, already localized. Required with icon-end."
+      ],
+      [
+        "input and change",
+        "The native events. input fires when the person types or clears; change when the value is committed or cleared. Read the value from the host."
+      ]
+    ],
+    "sizesTitle": "Sizes",
+    "sizesText": "default serves general use; large is for the screen that needs the 44 px target for the accessibility of its users. A form uses a single size, and a field and a button side by side use the same one.",
+    "sizesCaption": "default and large, with a value: only the height changes.",
+    "statesTitle": "States",
+    "statesHeader": [
+      "State",
+      "What changes"
+    ],
+    "states": [
+      [
+        "default",
+        "The border is color/input, on color/background."
+      ],
+      [
+        "hover",
+        "The border becomes color/input-hover."
+      ],
+      [
+        "focus",
+        "The border becomes focus/border, with the halo focus/halo attached outside, at focus/radius-control."
+      ],
+      [
+        "focus on clear",
+        "The container keeps color/input; the border focus/border and the halo focus/halo sit around the 24 by 24 clear target, keyboard only."
+      ],
+      [
+        "invalid",
+        "The border is status/error, also on hover; on focus, the halo is focus/halo-error. With the focus on the clear button, the target takes the usual focus."
+      ],
+      [
+        "disabled",
+        "The whole piece at state/disabled-opacity, on color/muted, with the color/input border. It wins over invalid."
+      ]
+    ],
+    "statesCaption": "Value, invalid, disabled and disabled with invalid. Move the mouse over a field to see hover, click it to see focus and press Tab to reach the clear button.",
+    "iconsTitle": "Icons",
+    "iconsText": "The start icon and the end icon are turned on by a property and do not create a variant. Both are light, at icon/size-sm, in color/muted-foreground.",
+    "iconsCaption": "A search with magnifying-glass at the start and the xmark that clears at the end.",
+    "iconsHeader": [
+      "Property",
+      "What it draws"
+    ],
+    "icons": [
+      [
+        "icon-start",
+        "A decorative icon before the value, such as magnifying-glass in a search."
+      ],
+      [
+        "icon-end",
+        "The button that always clears the value, inside a 24 by 24 target. It shows only when there is a value, and clear-label is its name."
+      ]
+    ],
+    "typesTitle": "Types",
+    "typesHeader": [
+      "type",
+      "What the field takes"
+    ],
+    "types": [
+      [
+        "text",
+        "Any one-line text. The default."
+      ],
+      [
+        "email",
+        "An email address; the form checks its format."
+      ],
+      [
+        "tel",
+        "A phone number; the keyboard of a touch screen shows digits."
+      ],
+      [
+        "url",
+        "An address on the web; the form checks its format."
+      ],
+      [
+        "search",
+        "A search term; the browser's own clear button is hidden, so the one of the piece is the only one."
+      ]
+    ],
+    "invalidTitle": "Invalid input",
+    "invalidText": "A type outside the five, a size outside the two or an icon outside the core draws nothing. icon-end without clear-label draws the field without the clear button.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Container",
+        "Height control/height-default or control/height-large, width layout/input-width, radius/control, border/width, side padding space/control-padding, gap space/inline, background color/background."
+      ],
+      [
+        "Start icon",
+        "Optional, light, at icon/size-sm, in color/muted-foreground."
+      ],
+      [
+        "Value or placeholder",
+        "text/body-md: the value in color/foreground, the placeholder in color/muted-foreground."
+      ],
+      [
+        "End icon",
+        "Optional: the clear button, 24 by 24, the icon at icon/size-sm with space/inline-tight around it, no radius of its own."
+      ],
+      [
+        "Border and focus",
+        "The border is what meets 3:1; on focus it takes focus/border, with the halo attached."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "The native input of the chosen type, inside the shadow root. The host is form-associated: it takes part in the form data, the reset, the validity and the submission by Enter."
+      ],
+      [
+        "Accessible name",
+        "From the label associated with the host, nph-label for or a label element; without one, from label. The placeholder is not a name."
+      ],
+      [
+        "Description",
+        "description is read when the field takes focus: the help or the error sentence of nph-field."
+      ],
+      [
+        "Keyboard",
+        "Tab enters the field and, with a value, the clear button. Enter submits the form. Enter or Space on the clear button clears and brings the focus back to the field."
+      ],
+      [
+        "Visible focus",
+        "The border takes focus/border with the halo outside, without changing the size."
+      ],
+      [
+        "Contrast",
+        "The color/input border meets 3:1 against the background (WCAG 1.4.11); the halo is decoration."
+      ],
+      [
+        "Color is not the only signal",
+        "On error, the sentence stays in nph-field and is read as the description; the border color is not the only signal."
+      ],
+      [
+        "Touch target",
+        "The target is the field itself; large guarantees 44 px. The clear button has its own 24 by 24 target."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleSearch": "Search: start icon and end icon to clear.",
+    "exampleLabel": "Field with a label: the label, by nph-label for.",
+    "exampleError": "Error: the sentence that says what to fix.",
+    "fieldNoteTitle": "The label and the sentence belong to nph-field.",
+    "fieldNoteText": "nph-field composes them and does not exist in code yet. These examples place nph-label and the sentence by hand, and pass the sentence as description, as nph-field will.",
+    "referencesTitle": "References",
+    "references": [
+      "nph-input spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P80 (API and semantics, the reference of the form controls), P01, P02 and P03.",
+      "design.md — color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, control/height-default, control/height-large, layout/input-width, radius/control, border/width, space/control-padding, space/inline, space/inline-tight, text/body-md, icon/size-sm, color/foreground and color/muted-foreground.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Input, frame nph-input (1195:532) and set 622:18359.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-input spec sheet; Figma, frame nph-input (1195:532)",
+    "sourceApi": "nph-input spec sheet; docs/decisoes-tecnicas.md › P80",
+    "sourceStates": "Figma, set 622:18359; design.md",
+    "sourceAnatomy": "Figma, set 622:18359; design.md",
+    "sourceAccessibility": "nph-input spec sheet; nph-input.test.ts",
+    "matrixLabel": "Component matrix",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "emailLabel": "Email",
+    "emailPlaceholder": "name@example.com",
+    "emailValue": "ana@example.com",
+    "emailWrong": "ana@example",
+    "errorSentence": "Enter an email with a domain, such as name@example.com.",
+    "searchLabel": "Search",
+    "searchPlaceholder": "Search",
+    "searchValue": "desk lamp",
+    "clearLabel": "Clear search"
+  },
+  "inputValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "emailLabel": "Email",
+    "emailPlaceholder": "name@example.com",
+    "emailValue": "ana@example.com",
+    "emailWrong": "ana@example",
+    "nameLabel": "Full name",
+    "nameValue": "Ana Souza",
+    "phoneLabel": "Phone",
+    "phoneValue": "+55 11 98765-4321",
+    "siteLabel": "Website",
+    "siteValue": "https://example.com",
+    "searchLabel": "Search",
+    "searchPlaceholder": "Search",
+    "searchValue": "desk lamp",
+    "clearLabel": "Clear search",
+    "statusIdle": "Waiting for an event.",
+    "statusEvent": "{event} fired; the value is now \"{value}\".",
+    "submitText": "Send",
+    "resetText": "Reset",
+    "statusSubmitted": "Submitted: {data}",
+    "statusReset": "The form went back to the value attribute.",
+    "fieldsetDisabled": "Inside a disabled fieldset",
+    "exampleSearch": "Search",
+    "exampleLabel": "Field with a label",
+    "exampleError": "Error",
+    "errorSentence": "Enter an email with a domain, such as name@example.com."
+  },
   "avatarStackDocs": {
     "summary": "A group of overlapping avatars that shows several people in a short space, with the count of who does not show. Each avatar is an nph-avatar; the group is read as one image, by its name.",
     "onThisPage": "On this page",
@@ -2306,6 +2621,15 @@
       "components-nph-tooltip-validation--hover-and-focus": "Hover after a short wait and keyboard focus at once open the balloon on any element that receives focus: a button, a link and a field.",
       "components-nph-tooltip-validation--accessible-name": "On an icon-only button the balloon text is the accessible name of the action, announced once.",
       "components-nph-tooltip-validation--focusable-only": "The balloon goes only on an element that receives focus: a disabled button gets none.",
+      "components-nph-input-validation--matrix": "size × state of the set: placeholder, value, error, disabled and disabled with error. Move the mouse over a field for hover and click it for focus.",
+      "components-nph-input-validation--types": "The five types of D1, each with a value it accepts. Password, number and mask are out of v1.",
+      "components-nph-input-validation--icons": "Start and end icons, light, at icon/size-sm: none, start, end and both. The end icon only swaps the art; the action is always to clear.",
+      "components-nph-input-validation--clear": "The clear button shows with a value. A click, Enter or Space empties it, brings the focus back to the field and fires input and change.",
+      "components-nph-input-validation--form-association": "The host is labelable and takes part in the form: the label focuses it, submit sends name=value, reset restores the value attribute, and a disabled fieldset leaves it out.",
+      "components-nph-input-validation--error-and-disabled": "The precedence of D5: error keeps its border on hover and focus; disabled wins over error.",
+      "components-nph-input-validation--width": "The default width is layout/input-width; the field stretches to its parent, with no minimum (D6).",
+      "components-nph-input-validation--invalid-input": "Invalid input draws nothing: a type out of v1, a size that does not exist, an icon outside the core. icon-end without clear-label draws the field without the button.",
+      "components-nph-input-validation--examples": "The three required examples of the accepted frame: Search, Field with a label and Error, each in light and dark mode.",
       "components-nph-switch-validation--matrix": "Off and on, valid, invalid and disabled, with a label. Move the mouse over a piece to see hover and press Tab to see focus on the track.",
       "components-nph-switch-validation--label": "The label after the track; without text, only the track, named by label; a long label wraps to the available width, with the track at the top, aligned with the first line.",
       "components-nph-switch-validation--disabled": "Disabled: the whole piece at state/disabled-opacity, out of the Tab order, on or off; disabled wins over invalid.",

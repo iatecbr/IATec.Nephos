@@ -16,6 +16,18 @@
     "components-nph-icon-validation--color-inheritance": "Herança de cor",
     "components-nph-icon-validation--accessibility": "Acessibilidade",
     "components-nph-icon-validation--invalid-input": "Entrada inválida",
+    "components-nph-input-docs": "Docs",
+    "components-nph-input-docs--documentation": "Documentação",
+    "components-nph-input-validation": "Validação",
+    "components-nph-input-validation--matrix": "Matriz",
+    "components-nph-input-validation--types": "Tipos",
+    "components-nph-input-validation--icons": "Ícones",
+    "components-nph-input-validation--clear": "Limpar",
+    "components-nph-input-validation--form-association": "Associação ao formulário",
+    "components-nph-input-validation--error-and-disabled": "Erro e desabilitado",
+    "components-nph-input-validation--width": "Largura",
+    "components-nph-input-validation--invalid-input": "Entrada inválida",
+    "components-nph-input-validation--examples": "Exemplos",
     "components-nph-badge-docs": "Docs",
     "components-nph-badge-docs--documentation": "Documentação",
     "components-nph-badge-validation": "Validação",
@@ -292,6 +304,11 @@
     "invalidTitle": "Entrada inválida",
     "invalidText": "name fora do núcleo, size ausente ou fora da lista aprovada, ou variant inexistente não renderizam ícone e falham na validação de desenvolvimento. Não há fallback visual nem tamanho livre. O erro sai por console.error apenas em desenvolvimento.",
     "invalidPointer": "Os casos estão demonstrados em Validação › Entrada inválida.",
+    "examplesTitle": "Exemplos",
+    "searchExampleLabel": "Buscar",
+    "searchExamplePlaceholder": "Buscar",
+    "searchExampleCaption": "magnifying-glass num campo de busca, dentro do controle, em icon/size-sm.",
+    "sourceExamples": "Figma, frame nph-icon (1130:956); ficha do nph-input",
     "referencesTitle": "Referências",
     "references": [
       "design.md — contrato_nph_icon, icone_regras, icone_acessibilidade, tokens_icon, icones_nucleo.",
@@ -1879,6 +1896,304 @@
     "personBruno": "Bruno Lima",
     "personCarla": "Carla Mendes"
   },
+  "inputDocs": {
+    "summary": "O campo de uma linha para digitar ou editar um valor, como um nome, um e-mail ou uma busca. Ele participa do formulário que o contém; rótulo, ajuda e mensagem de erro são do nph-field.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-input, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P80. O arquivo Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "description": "Use o nph-input quando a pessoa precisa digitar ou editar um valor de uma linha. Máscara, número e senha estão fora da v1. Ele não serve para texto de várias linhas; rótulo, ajuda e mensagem de erro ficam no nph-field.",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Quando a pessoa precisa digitar ou editar um valor de uma linha.",
+      "Dentro de um nph-field quando o campo precisa de rótulo, ajuda ou mensagem de erro.",
+      "Com ícone de início ou de fim ligado pela propriedade, sem criar variante.",
+      "default no uso geral; large na tela que precisa do alvo de 44 px, para todos os campos do formulário e o botão ao lado deles."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para texto de várias linhas: o campo tem uma linha.",
+      "Para senha, número ou valor com máscara: estão fora da v1 e terão tarefa própria.",
+      "Para mostrar a mensagem de erro ou a ajuda: são do nph-field.",
+      "Para nomear o campo só com o placeholder: ele some quando a pessoa digita.",
+      "Para mostrar um valor que não pode ser editado: não há estado somente leitura."
+    ],
+    "relationsText": "O nph-field compõe o rótulo, o campo, a ajuda e a mensagem de erro, e escreve label, description, invalid e required no input. Sozinho, o nph-label dá nome ao input com for. Os ícones de início e de fim vêm só do núcleo do nph-icon.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "type",
+        "text (padrão), email, tel, url ou search. Senha, número e máscara estão fora da v1; qualquer outro valor não desenha nada."
+      ],
+      [
+        "size",
+        "default (control/height-default) ou large (control/height-large). Só a altura muda. Refletida no atributo."
+      ],
+      [
+        "value",
+        "O valor atual. O atributo value é o valor inicial e o valor de form.reset(); vale só até a pessoa editar o campo. Defini-lo por código não dispara evento."
+      ],
+      [
+        "placeholder",
+        "O exemplo antes de digitar, já localizado. Não é nome: some quando a pessoa digita."
+      ],
+      [
+        "name",
+        "O nome da entrada nos dados do formulário. Refletida no atributo, que é o que o formulário lê."
+      ],
+      [
+        "autocomplete",
+        "O propósito do valor para o preenchimento automático, como email ou tel (WCAG 1.3.5)."
+      ],
+      [
+        "required",
+        "O required nativo: anunciado pelo leitor de tela e conferido pelo formulário. Refletida no atributo."
+      ],
+      [
+        "disabled",
+        "A peça inteira em state/disabled-opacity sobre color/muted, fora da ordem do Tab e dos dados do formulário. Um fieldset desabilitado também a desabilita. Vence invalid."
+      ],
+      [
+        "invalid",
+        "O estado erro: a borda vira status/error e o campo ganha aria-invalid. A frase é do nph-field."
+      ],
+      [
+        "label",
+        "O nome acessível em texto, nunca visível, quando não há rótulo associado. Um rótulo associado vence."
+      ],
+      [
+        "description",
+        "A descrição acessível em texto, nunca visível: a ajuda ou a frase de erro que o nph-field escreve."
+      ],
+      [
+        "icon-start",
+        "none (padrão) ou um nome do núcleo do nph-icon, light, em icon/size-sm, antes do valor. Decorativo."
+      ],
+      [
+        "icon-end",
+        "none (padrão) ou um nome do núcleo do nph-icon: liga o botão que sempre limpa o valor. O nome só troca a arte; xmark no Figma."
+      ],
+      [
+        "clear-label",
+        "O nome acessível do botão de limpar, já localizado. Obrigatório com icon-end."
+      ],
+      [
+        "input e change",
+        "Os eventos nativos. input dispara quando a pessoa digita ou limpa; change quando o valor é confirmado ou limpo. Leia o valor no host."
+      ]
+    ],
+    "sizesTitle": "Tamanhos",
+    "sizesText": "default serve ao uso geral; large é para a tela que precisa do alvo de 44 px para a acessibilidade de quem a usa. Um formulário usa um só tamanho, e campo e botão lado a lado usam o mesmo.",
+    "sizesCaption": "default e large, com valor: só a altura muda.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "O que muda"
+    ],
+    "states": [
+      [
+        "default",
+        "A borda é color/input, sobre color/background."
+      ],
+      [
+        "hover",
+        "A borda vira color/input-hover."
+      ],
+      [
+        "foco",
+        "A borda vira focus/border, com o halo focus/halo colado por fora, em focus/radius-control."
+      ],
+      [
+        "foco no limpar",
+        "O contêiner mantém color/input; a borda focus/border e o halo focus/halo ficam em volta do alvo de 24 por 24 do botão de limpar, só pelo teclado."
+      ],
+      [
+        "inválido",
+        "A borda é status/error, também no hover; no foco, o halo é focus/halo-error. Com o foco no botão de limpar, o alvo recebe o foco usual."
+      ],
+      [
+        "desabilitado",
+        "A peça inteira em state/disabled-opacity, sobre color/muted, com a borda color/input. Vence inválido."
+      ]
+    ],
+    "statesCaption": "Valor, inválido, desabilitado e desabilitado com inválido. Passe o mouse sobre um campo para ver o hover, clique para ver o foco e use Tab para chegar ao botão de limpar.",
+    "iconsTitle": "Ícones",
+    "iconsText": "O ícone de início e o de fim são ligados por propriedade e não criam variante. Os dois são light, em icon/size-sm, em color/muted-foreground.",
+    "iconsCaption": "Uma busca com magnifying-glass no início e o xmark que limpa no fim.",
+    "iconsHeader": [
+      "Propriedade",
+      "O que desenha"
+    ],
+    "icons": [
+      [
+        "icon-start",
+        "Um ícone decorativo antes do valor, como magnifying-glass numa busca."
+      ],
+      [
+        "icon-end",
+        "O botão que sempre limpa o valor, num alvo de 24 por 24. Aparece só quando há valor, e clear-label é o nome dele."
+      ]
+    ],
+    "typesTitle": "Tipos",
+    "typesHeader": [
+      "type",
+      "O que o campo recebe"
+    ],
+    "types": [
+      [
+        "text",
+        "Qualquer texto de uma linha. O padrão."
+      ],
+      [
+        "email",
+        "Um endereço de e-mail; o formulário confere o formato."
+      ],
+      [
+        "tel",
+        "Um número de telefone; o teclado de uma tela de toque mostra dígitos."
+      ],
+      [
+        "url",
+        "Um endereço na web; o formulário confere o formato."
+      ],
+      [
+        "search",
+        "Um termo de busca; o botão de limpar do próprio navegador fica escondido, para que o da peça seja o único."
+      ]
+    ],
+    "invalidTitle": "Entrada inválida",
+    "invalidText": "Um type fora dos cinco, um size fora dos dois ou um ícone fora do núcleo não desenha nada. icon-end sem clear-label desenha o campo sem o botão de limpar.",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Contêiner",
+        "Altura control/height-default ou control/height-large, largura layout/input-width, radius/control, border/width, respiro lateral space/control-padding, espaço space/inline, fundo color/background."
+      ],
+      [
+        "Ícone de início",
+        "Opcional, light, em icon/size-sm, em color/muted-foreground."
+      ],
+      [
+        "Valor ou placeholder",
+        "text/body-md: o valor em color/foreground, o placeholder em color/muted-foreground."
+      ],
+      [
+        "Ícone de fim",
+        "Opcional: o botão de limpar, 24 por 24, o ícone em icon/size-sm com space/inline-tight em volta, sem raio próprio."
+      ],
+      [
+        "Borda e foco",
+        "A borda é o que garante 3:1; no foco ela recebe focus/border, com o halo colado."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "O input nativo do tipo escolhido, dentro do shadow root. O host é associado ao formulário: participa dos dados, do reset, da validade e do envio por Enter."
+      ],
+      [
+        "Nome acessível",
+        "Do rótulo associado ao host, nph-label for ou um elemento label; sem ele, de label. O placeholder não é nome."
+      ],
+      [
+        "Descrição",
+        "description é lida quando o campo recebe foco: a ajuda ou a frase de erro do nph-field."
+      ],
+      [
+        "Teclado",
+        "Tab entra no campo e, com valor, no botão de limpar. Enter envia o formulário. Enter ou Espaço no botão de limpar limpa e devolve o foco ao campo."
+      ],
+      [
+        "Foco visível",
+        "A borda recebe focus/border com o halo por fora, sem mudar o tamanho."
+      ],
+      [
+        "Contraste",
+        "A borda color/input garante 3:1 contra o fundo (WCAG 1.4.11); o halo é decoração."
+      ],
+      [
+        "Cor não é o único sinal",
+        "No erro, a frase fica no nph-field e é lida como descrição; a cor da borda não é o único sinal."
+      ],
+      [
+        "Alvo de toque",
+        "O alvo é o próprio campo; large garante 44 px. O botão de limpar tem o próprio alvo de 24 por 24."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleSearch": "Busca: ícone de início e ícone de fim para limpar.",
+    "exampleLabel": "Campo com rótulo: o rótulo, por nph-label for.",
+    "exampleError": "Erro: a frase que diz o que corrigir.",
+    "fieldNoteTitle": "O rótulo e a frase são do nph-field.",
+    "fieldNoteText": "O nph-field os compõe e ainda não existe em código. Estes exemplos põem o nph-label e a frase à mão, e passam a frase como description, como o nph-field fará.",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-input — propósito, variantes, estados, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P80 (API e semântica, a referência dos controles de formulário), P01, P02 e P03.",
+      "design.md — color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, control/height-default, control/height-large, layout/input-width, radius/control, border/width, space/control-padding, space/inline, space/inline-tight, text/body-md, icon/size-sm, color/foreground e color/muted-foreground.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Input, frame nph-input (1195:532) e set 622:18359.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "Ficha do nph-input; Figma, frame nph-input (1195:532)",
+    "sourceApi": "Ficha do nph-input; docs/decisoes-tecnicas.md › P80",
+    "sourceStates": "Figma, set 622:18359; design.md",
+    "sourceAnatomy": "Figma, set 622:18359; design.md",
+    "sourceAccessibility": "Ficha do nph-input; nph-input.test.ts",
+    "matrixLabel": "Matriz do componente",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "nome@exemplo.com",
+    "emailValue": "ana@exemplo.com",
+    "emailWrong": "ana@exemplo",
+    "errorSentence": "Digite um e-mail com domínio, como nome@exemplo.com.",
+    "searchLabel": "Buscar",
+    "searchPlaceholder": "Buscar",
+    "searchValue": "luminária de mesa",
+    "clearLabel": "Limpar busca"
+  },
+  "inputValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "nome@exemplo.com",
+    "emailValue": "ana@exemplo.com",
+    "emailWrong": "ana@exemplo",
+    "nameLabel": "Nome completo",
+    "nameValue": "Ana Souza",
+    "phoneLabel": "Telefone",
+    "phoneValue": "+55 11 98765-4321",
+    "siteLabel": "Site",
+    "siteValue": "https://exemplo.com",
+    "searchLabel": "Buscar",
+    "searchPlaceholder": "Buscar",
+    "searchValue": "luminária de mesa",
+    "clearLabel": "Limpar busca",
+    "statusIdle": "Aguardando um evento.",
+    "statusEvent": "{event} disparado; o valor agora é \"{value}\".",
+    "submitText": "Enviar",
+    "resetText": "Redefinir",
+    "statusSubmitted": "Enviado: {data}",
+    "statusReset": "O formulário voltou ao atributo value.",
+    "fieldsetDisabled": "Dentro de um fieldset desabilitado",
+    "exampleSearch": "Busca",
+    "exampleLabel": "Campo com rótulo",
+    "exampleError": "Erro",
+    "errorSentence": "Digite um e-mail com domínio, como nome@exemplo.com."
+  },
   "avatarStackDocs": {
     "summary": "Um grupo de avatares sobrepostos que mostra várias pessoas num espaço curto, com a contagem de quem não aparece. Cada avatar é um nph-avatar; o grupo é lido como uma única imagem, pelo seu nome.",
     "onThisPage": "Nesta página",
@@ -2306,6 +2621,15 @@
       "components-nph-tooltip-validation--hover-and-focus": "O hover depois de uma espera curta e o foco do teclado na hora abrem o balão em qualquer elemento que recebe foco: um botão, um link e um campo.",
       "components-nph-tooltip-validation--accessible-name": "No botão só de ícone o texto do balão é o nome acessível da ação, anunciado uma vez.",
       "components-nph-tooltip-validation--focusable-only": "O balão só vai em elemento que recebe foco: o botão desabilitado não ganha nenhum.",
+      "components-nph-input-validation--matrix": "size × state do set: placeholder, valor, erro, desabilitado e desabilitado com erro. Passe o mouse sobre um campo para o hover e clique para o foco.",
+      "components-nph-input-validation--types": "Os cinco tipos da D1, cada um com um valor que aceita. Senha, número e máscara estão fora da v1.",
+      "components-nph-input-validation--icons": "Ícones de início e de fim, light, em icon/size-sm: nenhum, início, fim e os dois. O ícone de fim só troca a arte; a ação é sempre limpar.",
+      "components-nph-input-validation--clear": "O botão de limpar aparece com valor. Clique, Enter ou Espaço o esvaziam, devolvem o foco ao campo e disparam input e change.",
+      "components-nph-input-validation--form-association": "O host é rotulável e participa do formulário: o rótulo o foca, enviar manda name=value, redefinir restaura o atributo value, e um fieldset desabilitado o deixa de fora.",
+      "components-nph-input-validation--error-and-disabled": "A precedência da D5: o erro mantém a borda no hover e no foco; desabilitado vence o erro.",
+      "components-nph-input-validation--width": "A largura padrão é layout/input-width; o campo estica até o pai, sem mínimo (D6).",
+      "components-nph-input-validation--invalid-input": "Entrada inválida não desenha nada: um type fora da v1, um size que não existe, um ícone fora do núcleo. icon-end sem clear-label desenha o campo sem o botão.",
+      "components-nph-input-validation--examples": "Os três exemplos obrigatórios do frame aceito: Busca, Campo com rótulo e Erro, cada um em modo claro e escuro.",
       "components-nph-switch-validation--matrix": "Desligado e ligado, válido, inválido e desabilitado, com rótulo. Passe o mouse sobre uma peça para ver o hover e use Tab para ver o foco no trilho.",
       "components-nph-switch-validation--label": "O rótulo depois do trilho; sem texto, só o trilho, nomeado por label; um rótulo longo quebra na largura disponível, com o trilho no topo, alinhado à primeira linha.",
       "components-nph-switch-validation--disabled": "Desabilitado: a peça inteira em state/disabled-opacity, fora da ordem do Tab, ligada ou desligada; disabled vence invalid.",
