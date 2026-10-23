@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 440,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-button",
   "dependencies": [],
   "gates": [
@@ -60,7 +60,11 @@
     "excerpt": null,
     "converted_decision": "The nph-icon-button documentation board (2122:1591) was accepted as the specification of the icon-only nph-button. COMPONENT_SET 498:15671, with the properties tipo, enfase, size, state, forma and the icon. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "claude/dsa-43-nph-icon-button-91e130",
+    "commit": "90858559118276b571ad299c67e588076a734e00",
+    "pr": "103"
+  },
   "context": "docs/operacao/contextos/DSA-43.md",
   "updated_at": "2026-10-23"
 }

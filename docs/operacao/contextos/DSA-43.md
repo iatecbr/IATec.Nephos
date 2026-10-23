@@ -21,13 +21,15 @@ amends P68, and move the task `piece` to `nph-button`, the tag and spec of the c
 - `src/components/nph-button/`, `src/components/nph-tooltip/` and the merged diff of DSA-48
 
 ## Changes
-The component, its CSS, tests, stories, the dictionaries, the spec, the Metadata and P86.
+The component, its CSS, tests, stories, the dictionaries, the spec, the Metadata and P86 are on
+the branch; PR #103 is open for review.
 
 ## Commands run
 - `npm ci`; the proof commands of `component-handoff.md`, plus `build:lib` and `test:package`.
 
 ## Result
-Recorded in the pull request.
+Every proof exits 0 except two that fail the same way on `v/5.0.0` (`e65c07c`): one `nph-tooltip`
+test (an inert ancestor and a consumer-opened balloon) and `test:naming`.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the pull request.
@@ -36,4 +38,4 @@ None recorded: `review-and-merge` waits for the pull request.
 None. D1 and D2 wait for Indiane and do not block.
 
 ## Next command
-Open the pull request to `v/5.0.0` and move the task to `in-review`.
+After the merge, record `review-and-merge` and move the task to `done`.
