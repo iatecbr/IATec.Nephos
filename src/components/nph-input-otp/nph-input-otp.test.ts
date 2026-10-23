@@ -177,7 +177,8 @@ describe('registration and API', () => {
     const element = await mount();
     expect([element.length, element.size, element.value]).toEqual([6, 'default', '']);
     expect([element.invalid, element.disabled, element.masked, element.required]).toEqual([false, false, false, false]);
-    expect([element.name, element.description]).toEqual(['', '']);
+    expect([element.name, element.description]).toEqual([null, '']);
+    expect(element.hasAttribute('name')).toBe(false);
   });
 
   it('length, size, the booleans and name reflect; value, label and description do not', async () => {
@@ -696,7 +697,18 @@ describe('form (P80)', () => {
     });
     await tabInto(element);
     await userEvent.keyboard('12{Enter}');
-    expect(order).toEqual(['change', 'submit Verify']);
+    await vi.waitFor(() => expect(order).toEqual(['change', 'submit Verify']));
+  });
+
+  it('a consumer that cancels Enter keeps the form, as with a native field (P80)', async () => {
+    const { form, element } = await inForm('<nph-input-otp label="Code" name="code"></nph-input-otp><button type="submit">Verify</button>');
+    const submits = vi.fn((event: Event) => event.preventDefault());
+    form.addEventListener('submit', submits);
+    element.addEventListener('keydown', (event) => event.preventDefault());
+    await tabInto(element);
+    await userEvent.keyboard('{Enter}');
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    expect(submits).not.toHaveBeenCalled();
   });
 
   it('Enter submits a form with no submit button, and does nothing with a disabled one', async () => {
@@ -705,9 +717,10 @@ describe('form (P80)', () => {
     form.addEventListener('submit', submits);
     await tabInto(element);
     await userEvent.keyboard('{Enter}');
-    expect(submits).toHaveBeenCalledTimes(1);
+    await vi.waitFor(() => expect(submits).toHaveBeenCalledTimes(1));
     form.insertAdjacentHTML('beforeend', '<button type="submit" disabled>Verify</button>');
     await userEvent.keyboard('{Enter}');
+    await new Promise((resolve) => setTimeout(resolve, 20));
     expect(submits).toHaveBeenCalledTimes(1);
   });
 
@@ -743,6 +756,17 @@ describe('accessible name and description (P80, P83)', () => {
     await nextFrame();
     expect(native(element).hasAttribute('aria-label')).toBe(false);
     expect((await textboxes())[0]?.name).toBe('Code sent by e-mail');
+  });
+
+  it('a label added later, or pointed at the field later, names it (P80)', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const element = await fromHtml('<nph-input-otp id="otp"></nph-input-otp>');
+    const label = document.createElement('label');
+    label.textContent = 'Code sent by SMS';
+    document.body.prepend(label);
+    label.htmlFor = 'otp';
+    await vi.waitFor(() => expect(native(element).ariaLabelledByElements).toEqual([label]));
+    expect((await textboxes())[0]?.name).toBe('Code sent by SMS');
   });
 
   it('description is the accessible description, clipped and never display: none', async () => {

@@ -85,12 +85,21 @@ function clean(value: string): string {
   return value.replace(NOT_ALLOWED, '');
 }
 
-/** A native control that submits its form when clicked. */
-function isSubmitter(element: Element): element is HTMLButtonElement | HTMLInputElement {
-  if (element instanceof HTMLButtonElement) {
-    return element.type === 'submit';
+/** The first submit button whose form owner is the form, as the default button of HTML (P80). */
+function defaultButton(form: HTMLFormElement): HTMLButtonElement | HTMLInputElement | undefined {
+  const tree = form.getRootNode() as ParentNode;
+  for (const element of tree.querySelectorAll<HTMLButtonElement | HTMLInputElement>('button, input')) {
+    if (element.form !== form) {
+      continue;
+    }
+    if (element instanceof HTMLButtonElement && element.type === 'submit') {
+      return element;
+    }
+    if (element instanceof HTMLInputElement && (element.type === 'submit' || element.type === 'image')) {
+      return element;
+    }
   }
-  return element instanceof HTMLInputElement && (element.type === 'submit' || element.type === 'image');
+  return undefined;
 }
 
 export class NphInputOtp extends LitElement {
@@ -131,7 +140,7 @@ export class NphInputOtp extends LitElement {
   /** Announced as `aria-required`; no constraint validation. */
   declare required: boolean;
   /** The name of the entry in the form data. */
-  declare name: string;
+  declare name: string | null;
   /** Accessible name, as text, when no label is associated with the host. */
   declare label: string;
   /** Accessible description, as text: the help or the error sentence of the field. */
@@ -149,6 +158,8 @@ export class NphInputOtp extends LitElement {
   /** The value when the field took focus, to know whether `change` is due. */
   private committed = '';
   private namelessWarned = false;
+  /** Follows labels of the root that are added, removed or pointed elsewhere (P80). */
+  private readonly labelObserver = new MutationObserver(() => this.applyName(false));
 
   constructor() {
     super();
@@ -159,7 +170,7 @@ export class NphInputOtp extends LitElement {
     this.disabled = false;
     this.masked = false;
     this.required = false;
-    this.name = '';
+    this.name = null;
     this.label = '';
     this.description = '';
   }
@@ -172,6 +183,21 @@ export class NphInputOtp extends LitElement {
   set value(next: string) {
     this.dirty = true;
     this.current = this.fit(String(next ?? ''), true);
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    this.labelObserver.observe(this.getRootNode(), {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['for', 'id'],
+    });
+  }
+
+  override disconnectedCallback(): void {
+    this.labelObserver.disconnect();
+    super.disconnectedCallback();
   }
 
   override attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
@@ -330,23 +356,32 @@ export class NphInputOtp extends LitElement {
     input.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true, inputType: 'insertFromPaste', data: text }));
   }
 
+  /**
+   * Enter submits the form, as in a native field: the default button, or the form itself.
+   * It is decided at the end of the propagation, as the default action of a native field
+   * (P80), so a consumer that cancels Enter anywhere on the path keeps the form.
+   */
   private onKeydown(event: KeyboardEvent): void {
     if (event.key !== 'Enter' || event.isComposing) {
       return;
     }
     this.commit();
     const form = this.internals.form;
-    if (form === null) {
+    const view = this.ownerDocument.defaultView;
+    if (form === null || view === null) {
       return;
     }
-    event.preventDefault();
-    /* As a native input: the first submit button of the form, or the form itself without one. */
-    const submitter = [...form.elements].find(isSubmitter);
-    if (submitter === undefined) {
-      form.requestSubmit();
-    } else if (!submitter.disabled) {
-      submitter.click();
-    }
+    view.setTimeout(() => {
+      if (event.defaultPrevented) {
+        return;
+      }
+      const submitter = defaultButton(form);
+      if (submitter === undefined) {
+        form.requestSubmit();
+      } else if (!submitter.disabled) {
+        submitter.click();
+      }
+    }, 0);
   }
 
   /** The value differs from the one at focus: the host fires `change`, as a native input does. */

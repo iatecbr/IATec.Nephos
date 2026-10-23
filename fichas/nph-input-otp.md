@@ -70,7 +70,7 @@ api:
   name:
     type: string
     required: false
-    default: "empty"
+    default: "none"
     reflects: true
     constraint: >-
       The name of the entry in the form data. It reflects, because the form reads the
@@ -158,7 +158,7 @@ business_rules:
   - "The field takes only ASCII letters and digits; any other character typed is dropped and fires nothing."
   - "A pasted code is cleaned and replaces the whole value, cut at length; a paste with no letter or digit changes nothing."
   - "Focus puts the caret on the next empty cell; a click on a cell puts the caret on it, or at the end of the code."
-  - "Enter submits the form that owns the field, through its first submit button, or the form itself with none; a disabled submit button stops it."
+  - "Enter submits the form that owns the field, through its default button, or the form itself with none; a disabled default button stops it, and a consumer that cancels Enter keeps the form."
   - "Setting value from code never fires input or change."
   - "The value attribute is the initial value and the reset value; once the person or the code changes the value, a new value attribute does not replace it."
 domain_errors:

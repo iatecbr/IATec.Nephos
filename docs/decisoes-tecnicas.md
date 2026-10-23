@@ -2355,8 +2355,10 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    `formDisabledCallback`, read by `:host(:disabled)`. `name` reflects, because the form data
    reads the attribute of the host. There is no validity: neither `required` nor the length
    become a constraint, because the evidence has none, and the error sentence belongs to the
-   field. **Enter submits the form**, as a native input does: the first submit button of the form
-   is clicked, or `requestSubmit()` runs when there is none; a disabled submit button stops it.
+   field. **Enter submits the form** by the rule of P80: the default button of the form is
+   clicked, or `requestSubmit()` runs when there is none; a disabled default button stops it; and
+   it is decided at the end of the propagation, so a consumer that cancels Enter keeps the form.
+   `name` is `null` by default, as in P80, so the host carries no empty `name` attribute.
 
 6. **Events.** The native ones, as the contract of the field fixes (P83, and the exception to the
    reasoning of P73 recorded in P80): the `input` of the inner input crosses the shadow root with
@@ -2367,7 +2369,10 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
 
 7. **Name and description.** A label associated with the host names the inner input first,
    through `ariaLabelledByElements` from `internals.labels`; without one, `label` becomes the
-   `aria-label` of the input. `description` goes into an inner element hidden by clipping
+   `aria-label` of the input. As in P80, the host looks for the name again after the first frame,
+   on focus, when `label` changes and when a label of its root is added, removed or pointed
+   elsewhere (a `MutationObserver` on the root, filtered to `for` and `id`). `description` goes
+   into an inner element hidden by clipping
    (`clip-path`), never by `display: none`, referenced by `aria-describedby`. The test reads both
    from the real accessibility tree of Chromium. With no name, the field renders and warns once
    in development: the label may arrive after the first draw.
