@@ -138,6 +138,26 @@ describe('nph-icon documentation — order of the Figma frame', () => {
       expect(opening).toEqual(['header', 'matrix', 'note', 'index']);
     });
 
+    it(`${locale}: Examples shows the search field of the frame, an nph-input with magnifying-glass, before References (DSA-33, D2)`, async () => {
+      const target = renderInLocale(locale);
+      const d = translations(locale).docs;
+      const sections = [...target.querySelectorAll('section[id]')].map((s) => s.id);
+      expect(sections.slice(-3)).toEqual(['accessibility', 'examples', 'references']);
+      const examples = target.querySelector('section#examples') as HTMLElement;
+      expect(examples.querySelector('h2')?.textContent?.trim()).toBe(d.examplesTitle);
+      const inputs = [...examples.querySelectorAll('nph-input')] as Array<HTMLElement & { updateComplete: Promise<unknown> }>;
+      expect(inputs).toHaveLength(1);
+      const input = inputs[0] as HTMLElement & { updateComplete: Promise<unknown> };
+      await input.updateComplete;
+      expect(input.getAttribute('size')).toBe('default');
+      expect(input.getAttribute('icon-start')).toBe('magnifying-glass');
+      expect(input.getAttribute('placeholder')).toBe(d.searchExamplePlaceholder);
+      expect(input.getAttribute('label')).toBe(d.searchExampleLabel);
+      expect(input.hasAttribute('data-nph-rendered')).toBe(true);
+      expect(input.shadowRoot?.querySelector('nph-icon')?.getAttribute('size')).toBe('sm');
+      expect(examples.textContent ?? '').toContain(d.searchExampleCaption);
+    });
+
     it(`${locale}: no anti-patterns section, and one side-by-side use and do-not-use block`, () => {
       const target = renderInLocale(locale);
       expect(target.querySelector('#anti-patterns')).toBeNull();

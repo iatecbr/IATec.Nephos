@@ -101,7 +101,7 @@ invalid_combinations:
   - "Duotone outside structural navigation"
 
 relations:
-  combines_with: [nph-button, nph-spinner]
+  combines_with: [nph-button, nph-spinner, nph-input]
   parents: [nph-button, "the controls that contain it"]
   children: []
   complements_block: [pending]
@@ -211,7 +211,8 @@ error, so whoever is developing sees all the causes, not just the first.
 
 ## Relations
 
-**Combines with:** `nph-button` and `nph-spinner`.
+**Combines with:** `nph-button`, `nph-spinner` and `nph-input`, whose start icon and clear button
+draw an icon of this core.
 
 **What is the parent — where this icon appears inside:** the controls that contain it.
 `nph-button` is the first, and `nph-spinner` uses the `circle-notch` artwork from this core.

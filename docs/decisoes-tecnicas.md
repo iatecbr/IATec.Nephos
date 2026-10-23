@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78 and P85. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80 and P85. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -44,8 +44,9 @@ P62.4 subsection for the detail).
 | **P74** | API and semantics of `nph-avatar` | 20/10/2026 | Low now. No piece consumes it yet; `nph-select` (DSA-29) and `nph-avatar-stack` (DSA-25) will, so changing `src`, `label` or `size`, or the border over the photo, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 06/10/2026, D1 to D4 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P75** | Package `@iatec/nephos`: first release candidate | 19/10/2026 | High and public. The name, the `exports` paths and the `rc` tag are what every consumer writes in a lockfile and in an import line | Approved by Elvys on 19/10/2026. Amends P70, adopted by Indiane on 15/10/2026: her confirmation is requested in the pull request that brings it |
 | **P76** | API and semantics of `nph-toggle-group` | 20/10/2026 | Low now. No piece consumes it yet; a toolbar will, so changing `label`, `selection`, `value` or the event `nph-value-change`, or the `value` attribute each button carries, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
-| **P77** | `nph-tooltip`: any element, opened on hover and on keyboard focus (amends P65 and P62.6) | 21/10/2026 | Medium. `nph-button` (DSA-43) and the value balloon of the slider (DSA-39) will attach the balloon with `for`, so changing `for`, `side` or the rule of opening later requires redoing both | Anatomy and behavior: board accepted by Indiane on 20/10/2026, D1 answered on 20/10/2026; the plan is approved by Elvys on 21/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P77** | `nph-tooltip`: any element, opened on hover and on keyboard focus (amends P65 and P62.6) | 21/10/2026 | Medium. `nph-button` (DSA-43) and the value balloon of the slider (DSA-39) will attach the balloon with `for`, so changing `for`, `side` or the rule of opening later requires redoing both | Anatomy and behavior: board accepted by Indiane on 20/10/2026, D1 answered on 20/10/2026; the plan is approved by Elvys on 21/10/2026. API and semantics approved by Elvys's merge of PR #94 (`3835337`). **Amended on 22/10/2026 (DSA-48)**: hover delay, keyboard, only focusable elements and `relation`; rules accepted by Indiane on 22/10/2026, the plan approved by Elvys the same day, API and semantics reviewed in the pull request that brings them |
 | **P78** | API and semantics of `nph-avatar-stack` | 22/10/2026 | Low now. No piece consumes it yet; a list of people, a card or a table row will, so changing `count`, `label` or the slot of `nph-avatar` children later requires redoing them | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P80** | API and semantics of `nph-input`, the reference of the form controls | 22/10/2026 | Medium. `nph-field` (DSA-28), `nph-checkbox`, `nph-radio` and `nph-input-otp` copy its form association, its native events and its name by reference, so changing them later requires redoing those pieces | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D7 answered on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P85** | API and semantics of `nph-input-otp` | 22/10/2026 | Low now. No piece consumes it yet; a sign-in or verification screen will, inside `nph-field`, so changing `length`, `masked`, `value` or the native events later requires redoing that screen | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
@@ -1791,7 +1792,7 @@ slider) and DSA-43 (the icon-only button) both wait for.
 
 **Decision.**
 
-1. **API: four properties, no event, no slot, no `::part`.**
+1. **API: four properties, no event, no slot, no `::part`.** *(Superseded by the amendment of 22/10/2026, DSA-48: a fifth property, `relation`, says whether the balloon describes or names the element.)*
 
    | Property | Role |
    |---|---|
@@ -1820,7 +1821,7 @@ slider) and DSA-43 (the icon-only button) both wait for.
    `nph-toggle-group` slot, and a reference from a slotted element to text in the shadow root of
    the wrapper does not exist in ARIA. An attribute on the element (`tooltip="..."`) was refused:
    every component would reimplement it, and the board says "any element".
-3. **Opening.** On hover, only with a mouse or a pen, and on keyboard focus, with no delay. Focus
+3. **Opening.** *(Superseded by the amendment of 22/10/2026, DSA-48: the pointer waits `motion/hover-delay`, focus does not; only an element that receives focus opens it; Enter and Space do not bring the focus hold back.)* On hover, only with a mouse or a pen, and on keyboard focus, with no delay. Focus
    opens it only when the element that has the focus matches `:focus-visible` and the last pointer
    action on the element was not a touch (a tap that focuses a button, or a field, does not open
    it; the next key press makes the keyboard count again). Touch never opens it: without hover,
@@ -1832,7 +1833,7 @@ slider) and DSA-43 (the icon-only button) both wait for.
    closes it, drops both holds and stops the key (`stopPropagation` and `preventDefault`), so the
    dialog around does not close with it; it stays closed until the pointer and the focus have both
    left once. With the balloon closed, Esc is not intercepted. There is no hover delay token, and
-   the board asks for none to open. The distance between the element and the balloon is
+   the board asks for none to open. *(Superseded by the amendment of 22/10/2026, DSA-48: the token `motion/hover-delay` exists and the pointer waits it.)* The distance between the element and the balloon is
    `space/inline`, so the pointer leaves the element before it reaches the balloon: the exit
    transition is the window. Coming back into the element or the balloon during the exit cancels
    the closing (WCAG 1.4.13, the balloon stays open while the pointer is over it).
@@ -1852,7 +1853,7 @@ slider) and DSA-43 (the icon-only button) both wait for.
    reduced motion, the duration is that of `motion/hover-duration`, the semantic alias of
    `core/duration/100`, as in `nph-togglebutton`; the curve stays and the balloon still appears and
    still leaves.
-7. **Semantics.** The host is a `role="tooltip"` from mount, open or closed (WAI-ARIA 1.2; APG
+7. **Semantics.** *(Superseded by the amendment of 22/10/2026, DSA-48: with `relation="name"` the `id` goes to the `aria-labelledby` of the element instead, and the reference follows a change of the tooltip `id`.)* The host is a `role="tooltip"` from mount, open or closed (WAI-ARIA 1.2; APG
    Tooltip pattern), with an `id` (generated when the consumer gives none). The tooltip adds that
    `id` to the `aria-describedby` of the element, keeping what is there, and removes only its own on
    disconnect or when `for` changes. The balloon never takes focus and has no focusable child. The
@@ -1900,8 +1901,9 @@ needs one; a single behavior, with one way to attach it, is what a design system
   the inner element. For the icon-only `nph-button`, whose name stays on its own button, this
   matters little.
 - **A disabled element** may not receive pointer events, so the balloon may not open over it.
+  *(Superseded by the amendment of 22/10/2026, DSA-48: a disabled element gets no balloon, by rule.)*
 - **Duplicate reading.** An icon-only button whose accessible name equals the balloon text may be
-  read twice by a screen reader.
+  read twice by a screen reader. *(Superseded by the amendment of 22/10/2026, DSA-48: `relation="name"` makes the balloon the name, read once.)*
 - **No touch.** The information of the balloon is never available on touch, by design.
 - **Esc in capture.** While a balloon is open, the focused element does not see the Esc key.
 - **Left and right are physical** (`left` is always the left of the screen); there is no right-to-left
@@ -1913,7 +1915,7 @@ redefinition of 19/10/2026 and D1 of 20/10/2026 are in `docs/operacao/tarefas/DS
 `for` and `side`, the role, the layer, the placement rules, the holds and the touch rule are a
 technical proposal of this implementation, reviewed with the plan on 21/10/2026.
 
-**Out of scope.** A hover delay or a configurable one. A tooltip with an action, a link or focus
+**Out of scope.** A hover delay or a configurable one. *(Superseded by the amendment of 22/10/2026, DSA-48: the hover delay is in, from the token; a configurable one stays out.)* A tooltip with an action, a link or focus
 (`nph-popover`). Collisions with the layers of other popovers. A right-to-left mirror. Wrappers or
 an attribute on the element. The Usage section of the page (P70, DSA-35), the page lists read from
 the Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
@@ -1926,6 +1928,96 @@ alignment on the cross axis (centered here); what the open balloon does on scrol
 
 **Status.** Anatomy and behavior accepted by Indiane on 20/10/2026. API and semantics are reviewed
 in the pull request that brings them; the merge is the approval.
+
+### Amendment of 22/10/2026 — DSA-48: hover delay, keyboard, focusable elements and the accessible name
+
+**Technical conflict.** On 22/10/2026 Indiane approved six rules for the balloon, after a benchmark
+of tooltip patterns, and the Figma documentation (frame `1237:5`, component `1237:3`) shows them
+(`docs/operacao/evidencias/DSA-48/figma-docs-accepted-2026-10-22.md`): keyboard focus opens at once;
+the pointer opens after 300 ms; click, Enter and Space run the action and neither open nor close the
+balloon; the balloon goes only on an element that receives focus; on an icon-only button the balloon
+text is the accessible name of the action, announced once; on touch the icon-only button has no
+visible name, an accepted exception. Items 1, 3, 4 and 7 above, and two known limits, cannot hold
+them. The 300 ms became the token `motion/hover-delay` (DSA-48, D1). The amendment also fixes the
+three findings of the last Copilot review of PR #94 that were missed before its merge.
+
+**Decision.**
+
+1. **API: five properties.** `relation` joins `text`, `for`, `side` and `open`: `description`, the
+   default, or `name`. It is not reflected. The default keeps the behavior of every current
+   consumer. Any other value draws nothing, writes no reference and emits `console.error` in
+   development, like an invalid `side`; `name` with empty text emits one too.
+2. **The wait.** A mouse or a pen opens the balloon after resting `motion/hover-delay` on the
+   element. The component reads the token from the computed style of its host, in JavaScript, when
+   the pointer enters: the value is the token, never a number in the code. Without the token
+   (`tokens.css` not loaded) it opens with no wait and emits `console.error` once in development.
+   Leaving before the wait ends opens nothing. Keyboard focus and `open` set by the consumer do not
+   wait. While the balloon is still on screen (open, or leaving), coming back into the element keeps
+   it, with no new wait. With reduced motion the wait stays: it is not movement.
+3. **Click, Enter, Space, Esc and Tab.** A key press restores the focus hold of an element that
+   matches `:focus-visible` (P77 item 3), except Enter and Space, which run the action, Esc, which
+   dismisses, and Tab, which moves the focus anyway. So Enter and Space after a focus by click do not
+   open the balloon, and they never close it. A pointer press on the element during the wait, touch
+   included, cancels it, and a new wait starts only when the pointer leaves and enters again; an open
+   balloon does not close on click. The focus that a pointer press on the element or its label gives
+   (a text field matches `:focus-visible` on a mouse click) does not open the balloon either; the next
+   key press makes the keyboard count again. If the balloon opens by focus or by `open` while a wait
+   is pending, the wait ends and the pointer hold is taken at once, so a blur does not let the timer
+   open it again. Esc during the wait cancels it too, without being intercepted. Whether a click
+   during the wait should cancel it is open with Indiane (DSA-48, D2), with this as the default.
+4. **Only an element that receives focus.** The balloon opens, by hover, focus or `open`, only when
+   the element is not disabled (`:disabled`, or a `disabled` attribute on a custom element) and is
+   in the Tab order (`tabIndex >= 0`, or a `contenteditable` element that is the editing root and has
+   no `tabindex`, which the browser tabs to while its `tabIndex` reads `-1`) or is a host that
+   delegates its focus. An element that does not
+   receive focus emits `console.error` once in development; a disabled one does not, because it is a
+   passing state. An element disabled while its balloon is open loses it at once. The root observer
+   watches `disabled`, `tabindex` and `contenteditable`, and checks the element again only when the
+   change can touch it: its own attributes, `disabled` on an ancestor `<fieldset>` (the `:disabled`
+   check keeps the exception of the first `<legend>`), `contenteditable` on an ancestor, and a move of
+   the element or of an ancestor in the tree. The
+   reference stays on a disabled element: an icon-only button still needs its name.
+5. **The accessible name.** With `relation="name"` the tooltip adds its `id` to the
+   `aria-labelledby` of the element, and not to its `aria-describedby`, keeping what is there. The
+   host already mirrors the text in `aria-label` (item 7), which the name computation reads through
+   `aria-labelledby` with the balloon closed or open; the tests read the name and the description the
+   browser itself computes. A reference the consumer wrote is never removed. The `info` icon of
+   `nph-label` keeps the description: its balloon is an explanation, and its name is `infoLabel`.
+6. **The three findings of PR #94.** (a) The tooltip keeps the `id`, the attribute and the element it
+   wrote, and moves the reference when its own `id` changes (the root observer already sees that
+   attribute); a removed `id` is generated again. (b) The scroll targets are collected through the
+   flat tree: a slotted node goes through its `assignedSlot`, so a scroller inside the shadow root
+   around a slot is followed; Chromium does not deliver that scroll to `window`. (c) Esc no longer
+   restores the focus hold, so Esc after a touch on an input does not open the balloon, and the key
+   reaches the page.
+
+**Breaking changes, and the release candidate.** Under P75, without a compatibility layer:
+
+- The pointer opens the balloon after 300 ms, not at once.
+- An element that does not receive focus (a `<span>`, an `<svg>` without `tabindex`) or a disabled
+  one gets no balloon; it used to.
+- Enter and Space after a focus by click no longer open the balloon.
+- `relation` is new and additive; with the default nothing else changes. `nph-label` keeps its API
+  and semantics. The icon-only `nph-button` (DSA-43) renders its own tooltip with `relation="name"`
+  next to its inner `<button>`.
+
+**Known limits, updated.** The disabled element and the duplicate reading leave the list: they are
+rules now. A host with a closed shadow root is not seen as focusable from outside and gets no
+balloon; the component that owns it renders the tooltip inside, as item 2 already asks. The other
+limits stay.
+
+**Pending for Indiane.** DSA-42 D2 to D6 are unchanged; this amendment answers none of them. Rules 4
+and 5 remove the two cases behind DSA-42 D7, and Indiane confirms whether D7 closes. DSA-48 D2 asks
+whether a click during the wait cancels it.
+
+**Source.** `docs/operacao/tarefas/DSA-48.md` and its `figma-docs-accepted` evidence; the last
+Copilot review of PR #94 on `d82d2c3`, recorded in
+`docs/operacao/evidencias/DSA-42/review-and-merge-2026-10-22.md`. The property name `relation`, the
+reading of the token in JavaScript, the keys excluded from the focus hold and the click during the
+wait are a technical proposal of this implementation, approved with the plan on 22/10/2026.
+
+**Status.** Rules accepted by Indiane on 22/10/2026. The API and semantics of the amendment are
+reviewed in the pull request that brings them; the merge is the approval.
 
 ---
 
@@ -2035,6 +2127,169 @@ read from the Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
 **Status.** Anatomy and behavior accepted by Indiane on 08/10/2026; D1 to D3 answered on
 19/10/2026. API and semantics are reviewed in the pull request that brings them; the merge is the
 approval.
+
+---
+
+## P80 — `nph-input`: API and semantics, the reference of the form controls
+
+**Decision.** `nph-input` is a Web Component with **open Shadow DOM** (P01) and
+`delegatesFocus`, CSS in its own file imported `?inline`, as in `nph-icon`. It has no slot, no
+`::part` and no color property. Anatomy only through semantic tokens. It is the **first piece of
+the repository associated with a form**, and this decision also fixes the pattern that
+`nph-checkbox` (DSA-17), `nph-radio` (DSA-18) and `nph-input-otp` (DSA-41) copy, each recording
+only what changes; there is no shared helper yet. What the field writes on the control (`label`,
+`description`, `invalid`, `required`, `disabled`) is the field contract, recorded in P83
+(DSA-28); this decision says how the input takes it. Invalid input renders nothing and emits
+`console.error` only in development, one per cause — the rule of P21, adopted here by its own
+decision, as in P66, P68, P73, P74 and P76. The names follow P64.
+
+1. **Properties.** The Figma set has `size`, `state` and six properties for the icons, the value
+   and the placeholder. The mapping below is a technical proposal of this implementation.
+
+   | Figma | API |
+   |---|---|
+   | `size` | `size`, `default` or `large`, reflected: the internal CSS selects the height by it |
+   | `state` `erro` | `invalid`, Boolean, reflected: error border and `aria-invalid` on the inner field |
+   | `state` `disabled` | `disabled`, Boolean, reflected: native `disabled` on the inner field and the clear button |
+   | `state` `hover`, `foco`, `foco-limpar`, `erro-foco` | not properties: interaction, drawn by the CSS |
+   | `ícone início` + `⮑ ícone início` | `icon-start`: `none` (default) or a core name of `nph-icon`. The Figma default, on with `magnifying-glass`, would put a magnifier in every field |
+   | `ícone fim` + `⮑ ícone fim` | `icon-end`: `none` (default) or a core name; it turns on the clear button, and the name only swaps the art (D2) |
+   | `texto do valor` | `value`, the current value |
+   | `texto do placeholder` | `placeholder` |
+   | the types of D1 | `type`: `text` (default), `email`, `tel`, `url` or `search` |
+   | the accessible name of the clear button | `clear-label`, required with `icon-end` |
+   | the form | `name` (reflected), `required` (reflected), `autocomplete` (WCAG 1.3.5) |
+   | the field contract (P83) | `label` and `description`, text never visible |
+
+2. **Form association.** `static formAssociated = true` and `attachInternals()`. It is what
+   makes the host **labelable**: `<label for>` pointing to the host — what `nph-label for`
+   renders (P62.1) — moves the focus to the inner native `<input>` through `delegatesFocus`,
+   and `host.labels` lists it.
+   - **Value.** `setFormValue(value)` on every change. A disabled host, by its attribute or by a
+     disabled `<fieldset>`, is left out of the form data by the browser.
+   - **`name` reflects.** The form reads the **attribute** of the host: without it, `el.name =
+     'x'` set by code leaves the entry out of the submission (proved in Chromium).
+   - **`value`: the attribute is the default, the property is the current value**, as in the
+     native `<input>`. The property is declared with `attribute: false`; the host observes the
+     `value` attribute by hand and applies it only while the field is not dirty. Typing and
+     setting the property make it dirty; `form.reset()` (`formResetCallback`) clears the flag
+     and goes back to the attribute. `formStateRestoreCallback` puts the value back on history
+     navigation.
+   - **Validity.** The host mirrors the flags **and** the message of the inner field:
+     `setValidity(input.validity, input.validationMessage, input)`. It covers `required` empty
+     and the format of `email` and `url`. The message is the browser's, in the person's
+     language: no `nph-*` knows a language. `invalid` is **not** a constraint and adds no
+     `customError`: the sentence belongs to `nph-field`, and `setValidity` would need one. A
+     form whose messages are written by `nph-field` uses `novalidate` when the browser balloon
+     is not wanted.
+   - **Native surface**, as getters and methods, not reactive properties: `form`, `labels`,
+     `validity`, `validationMessage`, `willValidate`, `checkValidity()` and `reportValidity()`.
+   - **Value and validity before the events.** The host takes the value of the inner field in a
+     `input` listener of its own, in capture, and writes the form value and the validity before
+     any listener of the consumer runs; setting `value`, a reset and clearing do the same. The
+     value is the one the native field keeps after its sanitizing (a line break, the spaces of
+     an `email`). While the inner field does not validate (disabled), the host clears its
+     validity, and mirrors it again when the field is enabled.
+   - **Enter submits.** The inner field has no form owner, so the browser would not submit the
+     form on Enter. The host does what HTML does: it clicks the default button of the form (the
+     first submit button in tree order whose form is this one, `input type="image"` and buttons
+     associated by the `form` attribute included, so the submitter, `formaction` and the
+     validation apply), does nothing when that button is disabled, and calls `requestSubmit()`
+     when there is none. With no form, Enter does nothing. It decides at the **end of the
+     propagation**, as the default action of a native field: a consumer that cancels Enter, in
+     capture or in bubbling, keeps the form. A microtask would decide between two listeners of
+     the same event, too early.
+
+3. **Accessible name and description.** The focused element is the inner field, and an `id`
+   does not cross the shadow root. The inner field takes, in this order:
+   1. the labels associated with the host (`internals.labels`), as **element references**
+      (`ariaLabelledByElements`). A reference from inside a shadow root to an element of an
+      outer scope is valid. The name follows the text of the label, because it is a reference
+      and not a copy, and the `aria-hidden` asterisk of `nph-label` stays out of it. The host
+      recomputes it after the first frame (the label may render after the input), on focus, when
+      `label` changes and when a label of its root is added, removed or pointed elsewhere (a
+      `MutationObserver` on the root, filtered to `for` and `id`). **Proved in Chromium**, by the accessibility tree read through the
+      DevTools protocol in `nph-input.test.ts`: the inner field is a `textbox` named by the
+      label, with or without the asterisk; a label that wraps the host names it too. `nph-input-otp`
+      (DSA-41) can follow the same path;
+   2. `label`, as the `aria-label` of the inner field. It is what `nph-field` writes (P83), since
+      its label is not associated with `for`.
+
+   With no name at all, the field **renders** and warns once in development: the label may
+   arrive after the first render, and there is no event that says so. `description` goes into
+   an internal element referenced by `aria-describedby`, hidden by clipping and not by
+   `display: none`, which the browser does not read (P77).
+
+4. **Events: the native ones, an exception to the reasoning of P73 item 3.** P73 gave
+   `nph-togglebutton` an `nph-change` because its `click` did not say the new value and the
+   prefix avoided the native `change`. These pieces are **form controls**: the consumer reads
+   `event.target.value`, as frameworks do with a native field, and an `nph-*` event would need
+   a typed key in `HTMLElementEventMap` that `nph-change` (P73) and `nph-value-change` (P76)
+   already take with another `detail`. So the input fires `input` and `change` and no event of
+   its own. The `input` of the inner field is `composed` and reaches the host on its own; the
+   `change` is not, so the host fires it again (`bubbles`, not `composed`). Setting `value` from
+   code fires neither. The same rule holds for the form controls of the field contract (P83).
+
+5. **The clear button (D2).** A native `<button type="button">` after the field, named by
+   `clear-label`, with the `nph-icon` of `icon-end`, decorative. It shows only with a value and
+   when the field is enabled, and it stays in the Tab order: the frame draws `foco-limpar`
+   (D2-item of the task, with Indiane). A click, Enter or Space empties the value, moves the
+   focus back to the field — the button disappears, and the focus cannot fall on the page —
+   and fires `input` and `change`, as typing does. `icon-end` without `clear-label` draws the
+   field without the button and one error, as `info` without `info-label` in P62.6. In a
+   `search` field, the cancel button of the browser is hidden, so the one of the piece is the
+   only one.
+
+6. **States (D4, D5).** The container border is `color/input`, `color/input-hover` on hover and
+   `focus/border` with the halo `focus/halo` attached outside, at `focus/radius-control`, while
+   the inner field has the focus. `foco-limpar` is the focus on the clear button, keyboard only:
+   the container keeps its border, and the border (`focus/border-radius-control`) and the halo
+   (`focus/radius-control-with-border`) sit around the 24 × 24 target. `erro` keeps
+   `status/error` on hover and on focus, with the halo `focus/halo-error`; with `erro` and the
+   focus on the clear button, the target takes the usual focus. `disabled` wins over
+   everything: `color/input`, `color/muted` and `state/disabled-opacity` on the whole host,
+   selected by `:host(:disabled)`, which also matches a disabled `<fieldset>`. The field shows
+   its focus on a pointer click too: a text field always shows where the caret is. There is
+   no motion: the evidence does not ask for it (D4-item of the task).
+
+7. **Box (D6).** The host is `inline-flex`, `layout/input-width` wide, with no minimum; the
+   parent stretches it with its own `inline-size`, as `nph-field` will (P83).
+
+8. **Invalid input.** A `type` outside the five (rendering a password as text would be a risk),
+   a `size` outside the two and an icon value outside `none` and the core render nothing, take
+   no space, leave `data-nph-rendered` out, contribute nothing to the form data and emit one
+   `console.error` each, accumulating.
+
+**Points for review.**
+
+- **Form association**, the first of the repository, and the pattern the other controls copy.
+- **The name by element reference**, and not a copy of the text: tools that compute the name
+  from attributes (axe-core of P72, the role queries of Playwright) may not follow it; the proof
+  is the accessibility tree of Chromium. Setting it writes an empty `aria-labelledby` on the
+  inner field; check it when the gate of P72 lands.
+- **Native events** instead of `nph-*`, and the departure from the reasoning of P73 item 3.
+- **Enter submits** by clicking the default button, decided at the end of the propagation.
+- **One `MutationObserver` per field on its root**, to follow labels that are recreated; it
+  watches the tree and the `for` and `id` attributes, not the text.
+- **`icon-start` and `icon-end` off by default**, unlike the Figma booleans.
+
+**Known limits.** Autofill by browsers and password managers inside a shadow root varies.
+Forced colors and right-to-left are not treated yet.
+
+**Source.** Frame `nph-input` (`1195:532`, set `622:18359`) of the Figma file `DS-IA-NEPHOS
+5.0`, accepted by Indiane on 01/10/2026, with the Figma UX QA and the textual audit approved on
+02/10/2026; D1 to D7 answered on 16/10/2026. The API names, the form association, the name by
+reference, the native events, the Enter rule and the invalid input rules are a technical
+proposal of this implementation, approved in the plan by Elvys on 22/10/2026.
+
+**Out of scope.** Password, number and mask (D1). A read-only state, `maxlength`, `minlength`,
+`pattern` and `inputmode`. A `customError` from `invalid`. An event of its own. Motion. A shared
+helper for the form controls. The Usage section of the page (P70, DSA-35) and the page lists read
+from the Metadata (P71, DSA-34), as on every Docs page.
+
+**Status.** Anatomy and behavior accepted by Indiane on 01/10/2026; D1 to D7 answered on
+16/10/2026. API and semantics are reviewed in the pull request that brings them; the merge is
+the approval.
 
 ---
 
@@ -2178,7 +2433,7 @@ the merge is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78 or P85 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P80 or P85 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

@@ -85,7 +85,7 @@ states:
     changes_for_user: "Only on the information icon and only from the keyboard: the border and the halo mark the focus, without changing the size."
   open:
     token: "the nph-tooltip, above the label, at space/inline"
-    changes_for_user: "The balloon shows the explanation when the pointer rests on the icon or the icon receives keyboard focus; it closes with Esc, when the pointer leaves or on blur. It never opens on touch."
+    changes_for_user: "The balloon shows the explanation at once when the icon receives keyboard focus, and after motion/hover-delay when the pointer rests on the icon; it closes with Esc, when the pointer leaves or on blur. It never opens on touch."
 
 business_rules:
   - "A required field is signaled by the asterisk — and the actual requiredness belongs to the control"
@@ -113,7 +113,7 @@ accessibility:
   accessible_name: "The label is the source of the accessible name of the control. The information icon is named by info-label"
   keyboard:
     - "Tab enters and leaves the information icon; the text does not receive focus."
-    - "Keyboard focus on the icon opens the balloon; there is no activation that toggles it."
+    - "Keyboard focus on the icon opens the balloon at once; Enter and Space neither open nor close it, and there is no activation that toggles it."
     - "Esc closes the open balloon, and focus stays on the icon."
   focus: "The text does not receive focus. The information icon does, with border focus/border and halo focus/halo outside, only from the keyboard"
   contrast: "Measured in both modes: the text and the asterisk pass at 4.5:1; the icon, in color/muted-foreground, 6.69:1 and 9.81:1; the focus border, in focus/border, 3.68:1 and 8.98:1"
@@ -204,12 +204,14 @@ balloon.
 **Feedback and focus:** the label text **is not focusable**. Activating the label moves focus
 to the associated control — native `<label>` behavior, which only works because of
 the decision not to use Shadow DOM. The information icon is focusable: with focus, it shows the
-`focus/border` border and the `focus/halo` halo around the 24 × 24 target. Hovering the icon or
-focusing it from the keyboard opens the `nph-tooltip` above the label, at `space/inline`, with no
-delay; it closes with Esc, when the pointer leaves the icon and the balloon, or on blur, and it
-stays open while the pointer is over it. A click on the icon does nothing more, and the balloon
-never opens on touch: without hover, essential information never lives only in the balloon.
-Opening, closing and placing the balloon belong to `nph-tooltip` (P77).
+`focus/border` border and the `focus/halo` halo around the 24 × 24 target. Focusing the icon from
+the keyboard opens the `nph-tooltip` above the label, at `space/inline`, at once; resting the
+pointer on the icon opens it after `motion/hover-delay`. It closes with Esc, when the pointer leaves
+the icon and the balloon, or on blur, and it stays open while the pointer is over it. A click,
+Enter or Space on the icon does nothing more, and the balloon never opens on touch: without hover,
+essential information never lives only in the balloon. The balloon is a description of the icon,
+not its name: the explanation is not an action name, and the name stays `info-label`. Opening,
+closing and placing the balloon belong to `nph-tooltip` (P77).
 
 **Business rule the piece carries:** the asterisk signals a required field. **But the
 asterisk is decorative** — see Accessibility.
@@ -218,10 +220,10 @@ asterisk is decorative** — see Accessibility.
 
 | Criterion | Rule |
 |---|---|
-| Semantics | Native `<label>` element. The information icon is a native `<button>` after it, outside the `<label>`, with `aria-expanded` and `aria-controls` |
+| Semantics | Native `<label>` element. The information icon is a native `<button>` after it, outside the `<label>` |
 | Association | Through the `for` attribute, pointing to the `id` of the control |
 | Accessible name | **The label is the source of the accessible name of the control.** When there is an associated visible label, the control does **not** receive a duplicate name through `aria-label` |
-| Keyboard and focus | The text does not receive focus. The information icon enters the Tab order; its focus opens the balloon; Esc closes it. The balloon is a `role="tooltip"` and does not receive focus |
+| Keyboard and focus | The text does not receive focus. The information icon enters the Tab order; its focus opens the balloon at once, and hover after `motion/hover-delay`; Enter and Space neither open nor close it; Esc closes it. The balloon is a `role="tooltip"` and does not receive focus |
 | Description | The balloon describes the icon: the icon points to the `nph-tooltip` with `aria-describedby`. The icon has no `aria-expanded` and no `aria-controls` |
 | Icon name | `info-label`. Without it, the icon does not appear |
 | Touch target | The information icon has a 24 × 24 target, with the 16 px artwork in the center (WCAG 2.5.8) |

@@ -97,6 +97,13 @@ async function settle(el: NphLabel): Promise<void> {
   await tooltipOf(el).updateComplete;
 }
 
+/** Hovers the trigger and waits out `motion/hover-delay`, which the balloon keeps before opening. */
+async function hoverOpen(el: NphLabel): Promise<void> {
+  await userEvent.hover(triggerOf(el));
+  await vi.waitFor(() => expect(tooltipOf(el).open).toBe(true), { timeout: 2000 });
+  await settle(el);
+}
+
 describe('registration', () => {
   it('defines the tag once and exports the class', () => {
     expect(REGISTERED).toBe(NphLabel);
@@ -447,9 +454,12 @@ describe('opening and closing the balloon', () => {
     await vi.waitFor(() => expect(shown(el)).toBe(false), { timeout: 2000 });
   };
 
-  it('hovering the trigger opens it', async () => {
+  it('hovering the trigger opens it after motion/hover-delay, not before', async () => {
     const el = await mount(withInfo);
     await userEvent.hover(triggerOf(el));
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    expect(tooltipOf(el).open).toBe(false);
+    await vi.waitFor(() => expect(tooltipOf(el).open).toBe(true), { timeout: 2000 });
     await settle(el);
     expect(tooltipOf(el).open).toBe(true);
     expect(shown(el)).toBe(true);
@@ -467,6 +477,7 @@ describe('opening and closing the balloon', () => {
 
   it('a click does not toggle it: the balloon stays as hover and focus left it', async () => {
     const el = await mount(withInfo);
+    await hoverOpen(el);
     await userEvent.click(triggerOf(el));
     await settle(el);
     expect(tooltipOf(el).open).toBe(true);
@@ -476,6 +487,17 @@ describe('opening and closing the balloon', () => {
     await userEvent.keyboard('{Enter}');
     await settle(el);
     expect(tooltipOf(el).open).toBe(true);
+  });
+
+  it('a click before the wait ends, then Enter and Space, do not open it', async () => {
+    const el = await mount(withInfo);
+    await userEvent.click(triggerOf(el));
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard(' ');
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    await settle(el);
+    expect(document.activeElement).toBe(triggerOf(el));
+    expect(tooltipOf(el).open).toBe(false);
   });
 
   it('touch does not open it', async () => {
@@ -510,14 +532,15 @@ describe('opening and closing the balloon', () => {
     triggerOf(el).dispatchEvent(new PointerEvent('pointerdown', { pointerType: 'touch', bubbles: true }));
     triggerOf(el).focus();
     await userEvent.keyboard('{Escape}');
+    await settle(el);
     expect(outer).toHaveBeenCalledTimes(1);
+    expect(tooltipOf(el).open).toBe(false);
     document.body.removeEventListener('keydown', outer);
   });
 
   it('the pointer leaving the trigger closes it; over the balloon it stays open', async () => {
     const el = await mount(withInfo);
-    await userEvent.hover(triggerOf(el));
-    await settle(el);
+    await hoverOpen(el);
     await userEvent.hover(bubbleOf(el));
     await settle(el);
     await new Promise((resolve) => setTimeout(resolve, 400));
@@ -577,8 +600,7 @@ describe('opening and closing the balloon', () => {
   it('disconnecting with the balloon open releases the listeners and the description', async () => {
     const el = await mount(withInfo);
     const trigger = triggerOf(el);
-    await userEvent.hover(trigger);
-    await settle(el);
+    await hoverOpen(el);
     const remove = vi.spyOn(document, 'removeEventListener');
     el.remove();
     expect(remove.mock.calls.some(([type, , options]) => type === 'keydown' && options === true)).toBe(true);
@@ -606,8 +628,7 @@ describe('balloon position', () => {
       lower(e);
     });
     const before = el.getBoundingClientRect();
-    await userEvent.hover(triggerOf(el));
-    await settle(el);
+    await hoverOpen(el);
     const root = el.getBoundingClientRect();
     const trigger = triggerOf(el).getBoundingClientRect();
     const bubble = bubbleOf(el).getBoundingClientRect();
@@ -631,8 +652,7 @@ describe('balloon position', () => {
       withInfo(e);
       e.style.cssText = 'position:fixed;left:300px;top:4px';
     });
-    await userEvent.hover(triggerOf(el));
-    await settle(el);
+    await hoverOpen(el);
     expect(bubbleOf(el).getBoundingClientRect().top).toBeGreaterThan(triggerOf(el).getBoundingClientRect().bottom);
   });
 
@@ -643,8 +663,7 @@ describe('balloon position', () => {
       e.infoLabel = 'About CPF';
       lower(e);
     });
-    await userEvent.hover(triggerOf(el));
-    await settle(el);
+    await hoverOpen(el);
     const bubble = bubbleOf(el).getBoundingClientRect();
     expect(bubble.width).toBeCloseTo(px('width', '--nph-layout-max-tooltip-width'), 1);
     expect(bubble.width).toBeGreaterThan(el.getBoundingClientRect().width);
