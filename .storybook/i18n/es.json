@@ -164,7 +164,15 @@
     "components-nph-select-validation--text-overflow": "Texto largo",
     "components-nph-select-validation--form-association": "Asociación al formulario",
     "components-nph-select-validation--invalid-input": "Entrada inválida",
-    "components-nph-select-validation--examples": "Ejemplos"
+    "components-nph-select-validation--examples": "Ejemplos",
+    "components-nph-input-otp-docs": "Docs",
+    "components-nph-input-otp-docs--documentation": "Documentación",
+    "components-nph-input-otp-validation": "Validación",
+    "components-nph-input-otp-validation--matrix": "Matriz",
+    "components-nph-input-otp-validation--states": "Estados",
+    "components-nph-input-otp-validation--characters": "Caracteres",
+    "components-nph-input-otp-validation--interactive": "Interactivo",
+    "components-nph-input-otp-validation--examples": "Ejemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -3736,6 +3744,229 @@
     "exampleOwner": "Responsable",
     "exampleRequired": "Obligatorio sin elección"
   },
+  "inputOtpDocs": {
+    "summary": "Campo de código corto, una casilla por carácter, para confirmar el acceso con un código enviado por SMS o correo. Un input nativo queda sobre las casillas, así que el código es un valor con un nombre; la etiqueta, la ayuda y el error vienen del nph-field.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-input-otp, design.md para los tokens y docs/decisoes-tecnicas.md para la P85. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Para confirmar el acceso con un código enviado por SMS o correo: length 6 o 4, según la longitud del código.",
+      "En pantalla táctil, donde el código suele escribirse en el teléfono: size large; en las demás pantallas, size default.",
+      "Cuando el código se escribe en un lugar público: masked.",
+      "Para un código con letras y números, como A7K2Q9: el campo lo acepta y la casilla no cambia."
+    ],
+    "whenNotToUse": [
+      "Para texto libre de una línea: use nph-input.",
+      "Sin el nph-field: la etiqueta, la ayuda y el error son del nph-field.",
+      "Con casillas de tamaños distintos: use el mismo size en todo el campo.",
+      "Para pintar la acción de reenviar con un color suelto: el reenvío es un nph-button debajo del campo, con la etiqueta en color/link."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "relationsText": "El nph-field lleva la etiqueta, la ayuda y el error, y escribe label, description, invalid y required en el campo. La acción de reenviar es un nph-button debajo del campo, deshabilitado durante la cuenta atrás: no forma parte del campo. Para texto libre de una línea, use nph-input.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "length",
+        "6 (por defecto) o 4: el número de casillas. Cualquier otro valor no dibuja nada."
+      ],
+      [
+        "size",
+        "default (36 px) o large (44 px), el mismo en todas las casillas. large es para pantalla táctil."
+      ],
+      [
+        "invalid",
+        "Borde de error en todas las casillas y aria-invalid. La frase de error es del nph-field. disabled gana."
+      ],
+      [
+        "disabled",
+        "Fuera del orden del Tab, fondo apagado y opacidad menor. Un fieldset deshabilitado hace lo mismo."
+      ],
+      [
+        "masked",
+        "Un punto en lugar de cada carácter, para un código escrito en un lugar público. Solo visual: el lector de pantalla lee el código."
+      ],
+      [
+        "required",
+        "Anunciado como aria-required. No hay validación de restricción."
+      ],
+      [
+        "name",
+        "El nombre de la entrada en los datos del formulario. Se refleja, porque el formulario lee el atributo."
+      ],
+      [
+        "value",
+        "El código: solo letras y dígitos, hasta length. El atributo es el valor inicial y el del reset; la propiedad es el actual. Definirlo por código no dispara nada."
+      ],
+      [
+        "label",
+        "El nombre accesible, en texto, cuando ninguna etiqueta está asociada al campo. El nph-field lo escribe."
+      ],
+      [
+        "description",
+        "La descripción accesible, en texto: la ayuda o la frase de error que escribe el nph-field."
+      ],
+      [
+        "input y change",
+        "Eventos nativos. input atraviesa el shadow root con cada cambio que hace la persona; el host dispara change cuando la persona sale del campo o pulsa Enter con un valor nuevo."
+      ]
+    ],
+    "sizeTitle": "Longitud y tamaño",
+    "sizeText": "length define el número de casillas según la longitud del código. size define el lado de cada casilla: default en la mayoría de las pantallas, large en pantalla táctil, donde el código suele escribirse en el teléfono. Las casillas de un campo comparten siempre el tamaño.",
+    "sizeCaption": "Seis casillas en default y en large; cuatro casillas en default.",
+    "statesTitle": "Estados",
+    "statesText": "El estado del campo vale para todas las casillas. El hover oscurece todos los bordes, porque el campo es un solo objetivo; el foco marca solo la casilla activa, donde entra el siguiente carácter.",
+    "statesCaption": "Default, invalid y disabled.",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "statesRules": [
+      [
+        "default",
+        "Borde color/input sobre color/background."
+      ],
+      [
+        "hover",
+        "Todos los bordes color/input-hover. Error y disabled mantienen su borde."
+      ],
+      [
+        "foco",
+        "La casilla activa toma el focus/border y el focus/halo por fuera, sin ocupar espacio."
+      ],
+      [
+        "invalid",
+        "Todos los bordes status/error; con foco, el halo es focus/halo-error."
+      ],
+      [
+        "disabled",
+        "Fondo color/muted y state/disabled-opacity; gana a invalid."
+      ]
+    ],
+    "maskedTitle": "Enmascarado",
+    "maskedText": "masked muestra un punto en lugar de cada carácter, para un código escrito en un lugar público. En los demás casos, ver el carácter ayuda a la persona a comprobarlo. El campo acepta letras y números en ambos casos, y la casilla no cambia.",
+    "maskedCaption": "Un código con letras y números, y el mismo código enmascarado.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Campo",
+        "La fila de casillas, una por carácter, a space/inline una de otra, con el input nativo encima."
+      ],
+      [
+        "Casilla",
+        "Un cuadrado de control/height-default o control/height-large, sin relleno interno: fondo color/background, borde color/input en border/width, radio radius/control."
+      ],
+      [
+        "Carácter",
+        "text/code en color/foreground: una letra o un dígito."
+      ],
+      [
+        "Punto",
+        "En lugar del carácter con masked, en text/code y color/foreground."
+      ],
+      [
+        "Halo de foco",
+        "Un anillo por fuera de la casilla activa, con el ancho focus/ring-width. No ocupa espacio."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Un input de texto nativo con autocomplete one-time-code. Las casillas solo dibujan y quedan ocultas a la tecnología de apoyo: el código es un valor, con un nombre."
+      ],
+      [
+        "Nombre accesible",
+        "La etiqueta del nph-field, escrita en label. Una etiqueta asociada al campo lo nombra primero. Sin nombre, el campo se dibuja y avisa en desarrollo."
+      ],
+      [
+        "Descripción",
+        "La ayuda o la frase de error del nph-field, escrita en description, leída junto con el nombre."
+      ],
+      [
+        "Teclado",
+        "Una parada de Tab para todo el código. Escribir llena la casilla activa; Backspace borra el carácter antes del cursor; las flechas, Home y End mueven la casilla activa; Enter envía el formulario."
+      ],
+      [
+        "Foco visible",
+        "La casilla activa muestra el borde de foco y el halo; el espacio entre casillas es mayor que el halo."
+      ],
+      [
+        "Contraste",
+        "El carácter y el punto tienen al menos 4,5:1, y el borde al menos 3:1, en modo claro y oscuro en todas las marcas. Disabled no tiene mínimo."
+      ],
+      [
+        "El color no es la única señal",
+        "El error siempre viene con la frase del nph-field; disabled combina opacidad con el fondo apagado."
+      ],
+      [
+        "Objetivo táctil",
+        "Todo el campo es el objetivo. Cada casilla mide 36 px en default y 44 px en large; en pantalla táctil, use large."
+      ],
+      [
+        "Límites conocidos",
+        "masked es solo visual: el lector de pantalla lee el código. El input usa text/code, 14 px, así que Safari de iOS puede hacer zoom al enfocar. Que iOS ofrezca a este campo un código recibido por SMS queda por confirmar en un dispositivo."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleEmail": "Código enviado por correo, en el nph-field: la etiqueta, el campo y el texto de ayuda.",
+    "exampleWrong": "Código incorrecto: el mensaje de error del nph-field, y todas las casillas en estado de error.",
+    "exampleTouch": "Pantalla táctil: size large, seis casillas.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "fieldLabel": "Código de verificación",
+    "numericCode": "482913",
+    "shortCode": "4829",
+    "alphanumericCode": "A7K2Q9",
+    "partialCode": "48",
+    "emailHelp": "Enviamos un código de seis caracteres a su correo.",
+    "wrongError": "El código es incorrecto o ha caducado. Revíselo o pida uno nuevo.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-input-otp — propósito, anatomía, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P85 (API y semántica), P80 (el patrón de formulario), P83 (el contrato con el nph-field), P01, P02 y P03.",
+      "design.md — color/input, color/input-hover, color/background, color/foreground, color/muted, status/error, focus/border, focus/halo, focus/halo-error, focus/ring-width, border/width, radius/control, control/height-default, control/height-large, space/inline, text/code y state/disabled-opacity.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Input OTP, board nph-input-otp (1633:122), set 1633:120 y set de la casilla 1633:29.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha del nph-input-otp; Figma, board nph-input-otp (1633:122)",
+    "sourceApi": "Ficha del nph-input-otp; docs/decisoes-tecnicas.md › P85",
+    "sourceSize": "Figma, set 1633:120; design.md",
+    "sourceStates": "Figma, set de la casilla 1633:29; ficha del nph-input-otp",
+    "sourceAnatomy": "Figma, set 1633:120 y set de la casilla 1633:29; design.md",
+    "sourceAccessibility": "Ficha del nph-input-otp; nph-input-otp.test.ts",
+    "matrixLabel": "Matriz del componente"
+  },
+  "inputOtpValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "fieldLabel": "Código de verificación",
+    "numericCode": "482913",
+    "shortCode": "4829",
+    "alphanumericCode": "A7K2Q9",
+    "partialCode": "48",
+    "emailHelp": "Enviamos un código de seis caracteres a su correo.",
+    "wrongError": "El código es incorrecto o ha caducado. Revíselo o pida uno nuevo.",
+    "exampleEmail": "Código enviado por correo",
+    "exampleWrong": "Código incorrecto",
+    "exampleTouch": "Pantalla táctil",
+    "statusIdle": "Esperando un código.",
+    "statusInput": "input disparado con value = {value}.",
+    "statusChange": "change disparado con value = {value}."
+  },
   "validationPages": {
     "sheetTitle": "El contrato está en la ficha",
     "sheetText": "Esta pieza no tiene página de lectura en Storybook. Su contrato está en {sheet}; estas stories lo comprueban.",
@@ -3761,6 +3992,11 @@
       "components-nph-button-validation--loading": "Cargando: el spinner ocupa el lugar del icono inicial, y el texto se mantiene.",
       "components-nph-button-validation--shapes": "Esquinas cuadradas y circulares del botón solo con icono, en cada tamaño y énfasis: el tamaño se mantiene. Use Tab para ver el foco seguir las esquinas redondas.",
       "components-nph-button-validation--tooltip": "Todo botón solo con icono muestra su label en un tooltip: Tab lo abre al instante, el puntero tras motion/hover-delay. Deshabilitado no tiene; cargando, lo mantiene.",
+      "components-nph-input-otp-validation--matrix": "Seis y cuatro casillas, en los tamaños default y large: cada casilla es un cuadrado de la altura del control, a space/inline una de otra.",
+      "components-nph-input-otp-validation--states": "Default, invalid y disabled en todas las casillas, y disabled ganando a invalid; la frase de error es del nph-field.",
+      "components-nph-input-otp-validation--characters": "Un código numérico, un código con letras y números, un código parcial con casillas vacías y masked, con un punto en lugar de cada carácter.",
+      "components-nph-input-otp-validation--interactive": "Escriba o pegue un código: la casilla activa sigue al cursor, un código pegado reemplaza el valor, e input y change aparecen debajo del campo.",
+      "components-nph-input-otp-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: un código enviado por correo y un código incorrecto, en el nph-field, y la pantalla táctil, con size large.",
       "components-nph-kbd-validation--single-key": "Una tecla por pieza, mediante la propiedad text.",
       "components-nph-kbd-validation--combination": "Una combinación junta una pieza por tecla, una al lado de otra.",
       "components-nph-kbd-validation--mac-combination": "La misma combinación en macOS, con los símbolos del sistema. La aplicación elige el conjunto según el sistema de la persona; la pieza no lo detecta.",

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 470,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-button",
   "dependencies": ["DSA-13"],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-47/review-and-merge-2026-10-24.md",
+      "result": "passed",
+      "verified_at": "2026-10-24",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -38,7 +38,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-47/figma-docs-accepted-2026-10-21.md"
+    "docs/operacao/evidencias/DSA-47/figma-docs-accepted-2026-10-21.md",
+    "docs/operacao/evidencias/DSA-47/review-and-merge-2026-10-24.md"
   ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p88",
@@ -55,11 +56,11 @@
   },
   "git_review": {
     "branch": "claude/dsa-47-nph-button-icone-solido-b4494c",
-    "commit": "fc09b80d7af1407fb815e0352087827b7a4e135b",
+    "commit": "bb47fea7a0dc968f0931330f4ececbad90869393",
     "pr": "113"
   },
-  "context": "docs/operacao/contextos/DSA-47.md",
-  "updated_at": "2026-10-23"
+  "context": null,
+  "updated_at": "2026-10-24"
 }
 ```
 
