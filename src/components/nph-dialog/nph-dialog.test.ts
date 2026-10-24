@@ -388,6 +388,23 @@ describe('opening and closing', () => {
     expect(document.documentElement.style.overflowY).toBe('hidden');
   });
 
+  it('when the browser refuses to show it, nothing is held, and a later update tries again', async () => {
+    const dialog = await mount({ content: FORM });
+    const panel = panelOf(dialog);
+    vi.spyOn(panel, 'showModal').mockImplementationOnce(() => {
+      throw new DOMException('refused', 'InvalidStateError');
+    });
+    dialog.open = true;
+    await settle(dialog);
+    expect(panel.open).toBe(false);
+    expect(document.documentElement.style.overflowY).toBe('');
+    expect(document.activeElement?.id).toBe('trigger');
+    dialog.requestUpdate();
+    await settle(dialog);
+    expect(panel.matches(':modal')).toBe(true);
+    expect(document.documentElement.style.overflowY).toBe('hidden');
+  });
+
   it('a dialog over another opens and warns once (do not open a dialog over another)', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const first = await mount({ content: FORM, open: true });
@@ -505,6 +522,21 @@ describe('focus', () => {
     });
     await openIt(dialog);
     expect(focused()?.id).toBe('after');
+  });
+
+  it('a control in the first legend of a disabled fieldset stays enabled, as the browser has it, and takes its autofocus', async () => {
+    const dialog = await mount({
+      content:
+        '<fieldset disabled><legend><input id="in-legend" type="checkbox" aria-label="Agree" autofocus></legend><input id="off" aria-label="Off"></fieldset><input id="later" aria-label="Later">',
+    });
+    await openIt(dialog);
+    expect(focused()?.id).toBe('in-legend');
+  });
+
+  it('a piece that hands the focus to a part turned off, such as a loading nph-button, gives way to the next field', async () => {
+    const dialog = await mount({ content: '<nph-button loading text="Saving"></nph-button><input id="enabled-after" aria-label="Name">' });
+    await openIt(dialog);
+    expect(focused()?.id).toBe('enabled-after');
   });
 
   it('finds the fields of a form in an open shadow root that does not delegate the focus', async () => {

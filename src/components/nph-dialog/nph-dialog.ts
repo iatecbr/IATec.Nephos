@@ -216,16 +216,20 @@ function focusables(roots: readonly Element[]): HTMLElement[] {
 
 /**
  * `element` is turned off, or sits inside something turned off, up to `stop`: native
- * `:disabled`, `aria-disabled="true"` (a part a piece keeps focusable, such as the thumb
- * of a disabled `nph-slider`) or `disabled` on a custom element.
+ * `:disabled` on the element itself (the browser already applies the rule of a disabled
+ * `<fieldset>`, which spares its first `<legend>`), `aria-disabled="true"` (a part a piece
+ * keeps focusable, such as the thumb of a disabled `nph-slider` or the native button of a
+ * loading `nph-button`) or `disabled` on a custom element.
  */
 function turnedOff(element: Element, stop: Node): boolean {
+  if (element.matches(':disabled')) {
+    return true;
+  }
   let current: Node | null = element;
   while (current !== null && current !== stop) {
     if (
       current instanceof Element &&
-      (current.matches(':disabled') ||
-        current.getAttribute('aria-disabled') === 'true' ||
+      (current.getAttribute('aria-disabled') === 'true' ||
         (current.localName.includes('-') && current.hasAttribute('disabled')))
     ) {
       return true;
@@ -422,7 +426,9 @@ export class NphDialog extends LitElement {
         try {
           panel.showModal();
         } catch {
-          /* Not connected to a document that can show it: nothing to do. */
+          /* The browser refused to show it: nothing opened, so nothing is held. A later update tries again. */
+          this.leaveNow();
+          return;
         }
       }
       this.moveFocusIn(panel);
@@ -498,7 +504,9 @@ export class NphDialog extends LitElement {
       (candidate) => !turnedOff(candidate, this),
     );
     for (const candidate of order) {
-      if (tryFocus(candidate)) {
+      /* A piece may hand the focus to a part that is turned off, such as a loading `nph-button`. */
+      const active = tryFocus(candidate) ? deepActiveElement() : null;
+      if (active !== null && !turnedOff(active, this)) {
         return;
       }
     }

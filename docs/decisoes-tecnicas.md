@@ -2854,9 +2854,11 @@ modal dialog covers the window it opens in, which a page with several examples i
    roots and from a slot to what it shows, so the field of a form component that does not delegate
    the focus counts; a negative `tabindex` on a shadow host takes out everything it draws, as
    sequential navigation does. Each candidate is focused and kept only if the focus really
-   lands in it, so a disabled or hidden element is skipped; so is what a piece keeps focusable
+   lands in it, so a disabled or hidden element is skipped, with the browser's own rule of a
+   disabled `<fieldset>`, which spares its first `<legend>`; so is what a piece keeps focusable
    while turned off (`aria-disabled="true"`, or inside a disabled piece, such as the thumb of a
-   disabled `nph-slider`). A piece that has not drawn yet, when
+   disabled `nph-slider`), also when a piece hands the focus to such a part, as a loading
+   `nph-button` does. A piece that has not drawn yet, when
    the dialog is connected already open, cannot take it: once the pieces draw, the rule runs again
    if the focus is still on the exact element the rule put it on, so a move by the person is kept,
    even between two parts of one piece. On close, the focus goes back to the
@@ -2883,7 +2885,8 @@ modal dialog covers the window it opens in, which a page with several examples i
    does not scroll (`overflow: hidden`, with a counter shared by every dialog), because the inert
    page still scrolls under the wheel over the veil; the width of the scrollbar that disappears is
    given back as padding, measured at run time, and the values the root had are restored at the
-   end, each axis with its priority. **This writes to the document**: it is the one global side effect of the piece.
+   end, each axis with its priority. If the browser refuses to show the window, nothing is held:
+   the lock is released and a later update tries again. **This writes to the document**: it is the one global side effect of the piece.
 
 6. **Width.** The window hugs its content (`fit-content`), from `layout/dialog-min-width` up to the
    ceiling of `size`, and never past the window less `layout/margin-compact` on each side (D2); the
