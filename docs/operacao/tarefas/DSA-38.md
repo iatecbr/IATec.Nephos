@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 390,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-textarea",
   "dependencies": ["DSA-13", "DSA-28"],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-38/review-and-merge-2026-10-24.md",
+      "result": "passed",
+      "verified_at": "2026-10-24",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -62,7 +62,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-38/documentacao-figma-aceita-2026-10-16.md"
+    "docs/operacao/evidencias/DSA-38/documentacao-figma-aceita-2026-10-16.md",
+    "docs/operacao/evidencias/DSA-38/review-and-merge-2026-10-24.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -79,11 +80,11 @@
   },
   "git_review": {
     "branch": "claude/dsa-38-nph-textarea-4ada6c",
-    "commit": "74c6ca227a0d972601ba4d63a6fd9f0c363aa8d4",
+    "commit": "f4e98c64f06e7cfd274c8a55ce6db37b729c6aa9",
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/111"
   },
-  "context": "docs/operacao/contextos/DSA-38.md",
-  "updated_at": "2026-10-23"
+  "context": null,
+  "updated_at": "2026-10-24"
 }
 ```
 
