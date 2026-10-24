@@ -162,7 +162,15 @@
     "components-nph-switch-validation--disabled": "Disabled",
     "components-nph-switch-validation--invalid": "Invalid",
     "components-nph-switch-validation--interactive": "Interactive",
-    "components-nph-switch-validation--examples": "Examples"
+    "components-nph-switch-validation--examples": "Examples",
+    "components-nph-input-otp-docs": "Docs",
+    "components-nph-input-otp-docs--documentation": "Documentation",
+    "components-nph-input-otp-validation": "Validation",
+    "components-nph-input-otp-validation--matrix": "Matrix",
+    "components-nph-input-otp-validation--states": "States",
+    "components-nph-input-otp-validation--characters": "Characters",
+    "components-nph-input-otp-validation--interactive": "Interactive",
+    "components-nph-input-otp-validation--examples": "Examples"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -3526,6 +3534,229 @@
     "statusIdle": "Waiting for a click.",
     "statusChanged": "input and change fired; checked = {checked}."
   },
+  "inputOtpDocs": {
+    "summary": "A short code field, one cell per character, to confirm access with a code sent by SMS or e-mail. One native input lies over the cells, so the code is one value with one name; the label, the help and the error come from nph-field.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-input-otp spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P85. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "To confirm access with a code sent by SMS or e-mail: length 6 or 4, by the length of the code.",
+      "On a touch screen, where the code is usually typed on the phone: size large; on other screens, size default.",
+      "When the code is typed in a public place: masked.",
+      "For a code with letters and numbers, such as A7K2Q9: the field takes it and the cell does not change."
+    ],
+    "whenNotToUse": [
+      "For free one-line text: use nph-input.",
+      "Without nph-field: the label, the help and the error belong to nph-field.",
+      "With cells of different sizes: use the same size in the whole field.",
+      "To paint the resend action with a loose color: the resend is an nph-button below the field, with the label in color/link."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "relationsText": "nph-field carries the label, the help and the error, and writes label, description, invalid and required on the field. The resend action is an nph-button below the field, disabled during the countdown: it is not part of the field. For free one-line text, use nph-input.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "length",
+        "6 (default) or 4: the number of cells. Any other value draws nothing."
+      ],
+      [
+        "size",
+        "default (36 px) or large (44 px), the same in every cell. large is for a touch screen."
+      ],
+      [
+        "invalid",
+        "Error border on every cell and aria-invalid. The error sentence belongs to nph-field. disabled wins."
+      ],
+      [
+        "disabled",
+        "Out of the Tab order, muted background and lower opacity. A disabled fieldset does the same."
+      ],
+      [
+        "masked",
+        "A dot in place of each character, for a code typed in a public place. Visual only: a screen reader reads the code."
+      ],
+      [
+        "required",
+        "Announced as aria-required. There is no constraint validation."
+      ],
+      [
+        "name",
+        "The name of the entry in the form data. It reflects, because the form reads the attribute."
+      ],
+      [
+        "value",
+        "The code: letters and digits only, up to length. The attribute is the initial and reset value; the property is the current one. Setting it from code fires nothing."
+      ],
+      [
+        "label",
+        "The accessible name, as text, when no label is associated with the field. nph-field writes it."
+      ],
+      [
+        "description",
+        "The accessible description, as text: the help or the error sentence that nph-field writes."
+      ],
+      [
+        "input and change",
+        "Native events. input crosses the shadow root once per change the person makes; the host fires change when the person leaves the field or presses Enter with a new value."
+      ]
+    ],
+    "sizeTitle": "Length and size",
+    "sizeText": "length sets the number of cells by the length of the code. size sets the side of every cell: default on most screens, large on a touch screen, where the code is usually typed on the phone. The cells of one field always share the size.",
+    "sizeCaption": "Six cells in default and in large; four cells in default.",
+    "statesTitle": "States",
+    "statesText": "The state of the field applies to every cell. Hover darkens every border, because the field is one target; focus marks only the active cell, where the next character goes.",
+    "statesCaption": "Default, invalid and disabled.",
+    "statesHeader": [
+      "State",
+      "What changes"
+    ],
+    "statesRules": [
+      [
+        "default",
+        "Border color/input on color/background."
+      ],
+      [
+        "hover",
+        "Every border color/input-hover. Error and disabled keep their border."
+      ],
+      [
+        "focus",
+        "The active cell takes the focus/border and the focus/halo outside it, out of the layout."
+      ],
+      [
+        "invalid",
+        "Every border status/error; with focus, the halo is focus/halo-error."
+      ],
+      [
+        "disabled",
+        "Background color/muted and state/disabled-opacity; it wins over invalid."
+      ]
+    ],
+    "maskedTitle": "Masked",
+    "maskedText": "masked shows a dot in place of each character, for a code typed in a public place. Elsewhere, seeing the character helps the person check it. The field takes letters and numbers in both cases, and the cell does not change.",
+    "maskedCaption": "A code with letters and numbers, and the same code masked.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Field",
+        "The row of cells, one per character, space/inline apart, with the native input laid over it."
+      ],
+      [
+        "Cell",
+        "A square of control/height-default or control/height-large, with no inner padding: background color/background, border color/input at border/width, radius radius/control."
+      ],
+      [
+        "Character",
+        "text/code in color/foreground: a letter or a digit."
+      ],
+      [
+        "Dot",
+        "In place of the character when masked, in text/code and color/foreground."
+      ],
+      [
+        "Focus halo",
+        "A ring outside the active cell, focus/ring-width wide. It takes no space."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "One native text input with autocomplete one-time-code. The cells only draw and are hidden from assistive technology: the code is one value, with one name."
+      ],
+      [
+        "Accessible name",
+        "The label of nph-field, written as label. A label associated with the field names it first. With no name, the field renders and warns in development."
+      ],
+      [
+        "Description",
+        "The help or the error sentence of nph-field, written as description, read with the name."
+      ],
+      [
+        "Keyboard",
+        "One Tab stop for the whole code. Typing fills the active cell; Backspace removes the character before the caret; the arrows, Home and End move the active cell; Enter submits the form."
+      ],
+      [
+        "Visible focus",
+        "The active cell shows the focus border and the halo; the space between cells is wider than the halo."
+      ],
+      [
+        "Contrast",
+        "The character and the dot are at least 4.5:1, and the border at least 3:1, in light and dark in every brand. Disabled has no minimum."
+      ],
+      [
+        "Color is not the only signal",
+        "The error always comes with the sentence of nph-field; disabled combines opacity with the muted background."
+      ],
+      [
+        "Touch target",
+        "The whole field is the target. Each cell is 36 px in default and 44 px in large; on a touch screen, use large."
+      ],
+      [
+        "Known limits",
+        "masked is visual only: a screen reader reads the code. The input uses text/code, 14 px, so iOS Safari may zoom on focus. That iOS offers a code received by SMS to this field is to be confirmed on a device."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleEmail": "Code sent by e-mail, in the nph-field: label, the field and the help text.",
+    "exampleWrong": "Wrong code: the error message of the nph-field, and every cell in the error state.",
+    "exampleTouch": "Touch screen: size large, six cells.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "fieldLabel": "Verification code",
+    "numericCode": "482913",
+    "shortCode": "4829",
+    "alphanumericCode": "A7K2Q9",
+    "partialCode": "48",
+    "emailHelp": "We sent a six-character code to your e-mail.",
+    "wrongError": "The code is wrong or has expired. Check it or ask for a new one.",
+    "referencesTitle": "References",
+    "references": [
+      "nph-input-otp spec sheet — purpose, anatomy, states, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P85 (API and semantics), P80 (the form pattern), P83 (the contract with nph-field), P01, P02 and P03.",
+      "design.md — color/input, color/input-hover, color/background, color/foreground, color/muted, status/error, focus/border, focus/halo, focus/halo-error, focus/ring-width, border/width, radius/control, control/height-default, control/height-large, space/inline, text/code and state/disabled-opacity.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Input OTP, board nph-input-otp (1633:122), set 1633:120 and cell set 1633:29.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-input-otp spec sheet; Figma, board nph-input-otp (1633:122)",
+    "sourceApi": "nph-input-otp spec sheet; docs/decisoes-tecnicas.md › P85",
+    "sourceSize": "Figma, set 1633:120; design.md",
+    "sourceStates": "Figma, cell set 1633:29; nph-input-otp spec sheet",
+    "sourceAnatomy": "Figma, set 1633:120 and cell set 1633:29; design.md",
+    "sourceAccessibility": "nph-input-otp spec sheet; nph-input-otp.test.ts",
+    "matrixLabel": "Component matrix"
+  },
+  "inputOtpValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "fieldLabel": "Verification code",
+    "numericCode": "482913",
+    "shortCode": "4829",
+    "alphanumericCode": "A7K2Q9",
+    "partialCode": "48",
+    "emailHelp": "We sent a six-character code to your e-mail.",
+    "wrongError": "The code is wrong or has expired. Check it or ask for a new one.",
+    "exampleEmail": "Code sent by e-mail",
+    "exampleWrong": "Wrong code",
+    "exampleTouch": "Touch screen",
+    "statusIdle": "Waiting for a code.",
+    "statusInput": "input fired with value = {value}.",
+    "statusChange": "change fired with value = {value}."
+  },
   "validationPages": {
     "sheetTitle": "The contract lives in the sheet",
     "sheetText": "This piece has no reading page in Storybook. Its contract is in {sheet}; these stories prove it.",
@@ -3551,6 +3782,11 @@
       "components-nph-button-validation--loading": "Loading: the spinner takes the place of the start icon, and the text stays.",
       "components-nph-button-validation--shapes": "Square and circular corners of the icon-only button, in each size and emphasis: the size stays. Use Tab to see the focus follow the round corners.",
       "components-nph-button-validation--tooltip": "Every icon-only button shows its label in a tooltip: Tab opens it at once, the pointer after motion/hover-delay. A disabled button gets none; a loading one keeps it.",
+      "components-nph-input-otp-validation--matrix": "Six and four cells, in the default and large sizes: every cell is a square of the control height, space/inline apart.",
+      "components-nph-input-otp-validation--states": "Default, invalid and disabled on every cell, and disabled winning over invalid; the error sentence belongs to nph-field.",
+      "components-nph-input-otp-validation--characters": "A numeric code, a code with letters and numbers, a partial code with empty cells, and masked, with a dot in place of each character.",
+      "components-nph-input-otp-validation--interactive": "Type or paste a code: the active cell follows the caret, a pasted code replaces the value, and input and change are shown below the field.",
+      "components-nph-input-otp-validation--examples": "The three required examples, each in light and dark mode: a code sent by e-mail and a wrong code, in the nph-field, and the touch screen, with size large.",
       "components-nph-kbd-validation--single-key": "One key per piece, through the text property.",
       "components-nph-kbd-validation--combination": "A combination joins one piece per key, side by side.",
       "components-nph-kbd-validation--mac-combination": "The same combination on macOS, with the system symbols. The application picks the set by the person's system; the piece does not detect it.",
