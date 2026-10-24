@@ -41,5 +41,5 @@ None for the pull request. D1, D2, D4 and D5 wait for Indiane and do not block; 
 highlight icon out.
 
 ## Next command
-Copilot review of pull request 115; with the gate open, comment "Pronto para merge" and wait for
+Copilot review of pull request 115; with the gate open, comment that it is ready to merge and wait for
 Elvys's merge.
