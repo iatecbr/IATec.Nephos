@@ -3121,8 +3121,8 @@
     "onThisPage": "Nesta página",
     "derivedTitle": "Esta página é derivada.",
     "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-field, o design.md para os tokens e docs/decisoes-tecnicas.md para a P83. O arquivo DS-IA-NEPHOS 5.0 do Figma é a fonte visual. Nenhuma regra é criada aqui.",
-    "standInTitle": "As opções dos grupos desta página são elementos de demonstração.",
-    "standInText": "Elas seguem o contrato do campo da P83 e fazem as vezes de nph-checkbox e nph-radio, que têm páginas próprias. Não fazem parte do pacote.",
+    "standInTitle": "As opções do grupo de rádios desta página são elementos de demonstração.",
+    "standInText": "Elas seguem o contrato do campo da P83 e fazem as vezes de nph-radio até ele chegar à base. Não fazem parte do pacote. As caixas de seleção são o nph-checkbox real.",
     "sourceLabel": "Fonte:",
     "sourceFrame": "Figma, frame nph-field (1194:21863), set 657:50",
     "sourceApi": "Ficha do nph-field; docs/decisoes-tecnicas.md › P83",
@@ -4597,7 +4597,7 @@
       "Para pôr um link no texto, como os termos de uso: o link fica fora da peça.",
       "Para pintar a caixa ou a marca à mão: a peça tira as cores dos tokens."
     ],
-    "relationsText": "Opções que se excluem são nph-radio; não misture checkbox e radio no mesmo grupo. Um grupo de caixas é composto com nph-field, que nomeia o grupo e leva a mensagem de erro; a caixa sozinha não precisa de nph-field para ter nome. A marca é um nph-icon. O texto é parte da peça, não um nph-label.",
+    "relationsText": "Opções que se excluem são nph-radio; não misture checkbox e radio no mesmo grupo. Um grupo de caixas é composto com nph-field, que nomeia o grupo e leva a mensagem de erro; a caixa sozinha não precisa de nph-field para ter nome. A marca é um nph-icon. O texto é parte da peça, não um nph-label. O nph-radio está planejado e ainda não existe.",
     "apiTitle": "API",
     "apiHeader": [
       "Propriedade",

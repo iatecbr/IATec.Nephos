@@ -304,7 +304,8 @@ by `nph-field`.
 
 **Combines with:** `nph-icon`, the `check` and `minus` marks; `nph-radio`, for options that
 exclude each other, never in the same group; `nph-field`, which names a group of boxes and
-carries the error message. The text is part of the piece, not an `nph-label`.
+carries the error message. The text is part of the piece, not an `nph-label`. `nph-radio` is
+**planned** and does not exist yet.
 
 **What is the parent:** a form; `nph-field`, for a group of boxes, stacked with
 `space/stack-tight`.

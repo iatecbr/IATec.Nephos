@@ -3121,8 +3121,8 @@
     "onThisPage": "En esta página",
     "derivedTitle": "Esta página es derivada.",
     "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-field, design.md para los tokens y docs/decisoes-tecnicas.md para la P83. El archivo DS-IA-NEPHOS 5.0 de Figma es la fuente visual. Aquí no se crea ninguna regla.",
-    "standInTitle": "Las opciones de los grupos de esta página son elementos de demostración.",
-    "standInText": "Siguen el contrato del campo de la P83 y hacen las veces de nph-checkbox y nph-radio, que tienen páginas propias. No forman parte del paquete.",
+    "standInTitle": "Las opciones del grupo de radios de esta página son elementos de demostración.",
+    "standInText": "Siguen el contrato del campo de la P83 y hacen las veces de nph-radio hasta que llegue a la base. No forman parte del paquete. Las casillas son el nph-checkbox real.",
     "sourceLabel": "Fuente:",
     "sourceFrame": "Figma, frame nph-field (1194:21863), set 657:50",
     "sourceApi": "Ficha de nph-field; docs/decisoes-tecnicas.md › P83",
@@ -4597,7 +4597,7 @@
       "Para poner un enlace en el texto, como los términos de uso: el enlace queda fuera de la pieza.",
       "Para pintar la casilla o la marca a mano: la pieza toma sus colores de los tokens."
     ],
-    "relationsText": "Las opciones que se excluyen son nph-radio; no mezcles checkbox y radio en el mismo grupo. Un grupo de casillas se compone con nph-field, que nombra el grupo y lleva el mensaje de error; la casilla sola no necesita nph-field para tener nombre. La marca es un nph-icon. El texto es parte de la pieza, no un nph-label.",
+    "relationsText": "Las opciones que se excluyen son nph-radio; no mezcles checkbox y radio en el mismo grupo. Un grupo de casillas se compone con nph-field, que nombra el grupo y lleva el mensaje de error; la casilla sola no necesita nph-field para tener nombre. La marca es un nph-icon. El texto es parte de la pieza, no un nph-label. nph-radio está planificado y todavía no existe.",
     "apiTitle": "API",
     "apiHeader": [
       "Propiedad",

@@ -3121,8 +3121,8 @@
     "onThisPage": "On this page",
     "derivedTitle": "This page is derived.",
     "derivedText": "In case of divergence, the canonical sources prevail: the nph-field spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P83. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
-    "standInTitle": "The options of the groups on this page are demonstration elements.",
-    "standInText": "They take the field contract of P83 and stand in for nph-checkbox and nph-radio, which have their own pages. They are not part of the package.",
+    "standInTitle": "The options of the radio group on this page are demonstration elements.",
+    "standInText": "They take the field contract of P83 and stand in for nph-radio until it is on the base. They are not part of the package. The checkboxes are the real nph-checkbox.",
     "sourceLabel": "Source:",
     "sourceFrame": "Figma, frame nph-field (1194:21863), set 657:50",
     "sourceApi": "nph-field spec sheet; docs/decisoes-tecnicas.md › P83",
@@ -4597,7 +4597,7 @@
       "To put a link in the text, such as the terms of use: the link stays outside the piece.",
       "To paint the box or the mark by hand: the piece takes its colors from tokens."
     ],
-    "relationsText": "Options that exclude each other are nph-radio; do not mix checkbox and radio in the same group. A group of boxes is composed with nph-field, which names the group and carries the error message; the box alone does not need nph-field to have a name. The mark is an nph-icon. The text is part of the piece, not an nph-label.",
+    "relationsText": "Options that exclude each other are nph-radio; do not mix checkbox and radio in the same group. A group of boxes is composed with nph-field, which names the group and carries the error message; the box alone does not need nph-field to have a name. The mark is an nph-icon. The text is part of the piece, not an nph-label. nph-radio is planned and does not exist yet.",
     "apiTitle": "API",
     "apiHeader": [
       "Property",

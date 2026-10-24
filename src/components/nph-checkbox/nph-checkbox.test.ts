@@ -908,6 +908,75 @@ describe('form participation', () => {
   });
 });
 
+describe('inside nph-field (the field contract, P83)', () => {
+  async function inField(attributes: string, boxes = 3): Promise<{ field: HTMLElement & { updateComplete: Promise<unknown> }; pieces: NphCheckbox[] }> {
+    await import('../nph-field/nph-field');
+    const items = Array.from({ length: boxes }, (_, index) => `<nph-checkbox text="Option ${index + 1}"></nph-checkbox>`).join('');
+    const holder = await parse(`<nph-field label="Notifications" ${attributes}>${items}</nph-field>`);
+    const field = holder.querySelector('nph-field') as HTMLElement & { updateComplete: Promise<unknown> };
+    await field.updateComplete;
+    const pieces = [...holder.querySelectorAll('nph-checkbox')] as NphCheckbox[];
+    await Promise.all(pieces.map((piece) => piece.updateComplete));
+    return { field, pieces };
+  }
+
+  it('the field wraps the boxes in a group named by its label, and writes no label on a box', async () => {
+    const { field, pieces } = await inField('');
+    const group = field.shadowRoot?.querySelector('[role="group"]');
+    expect(group?.getAttribute('aria-label')).toBe('Notifications');
+    for (const piece of pieces) {
+      expect(piece.label).toBe('');
+      expect(textOf(piece)).not.toBeNull();
+    }
+  });
+
+  it('an error on the field makes every box invalid, with aria-invalid; clearing it gives the state back', async () => {
+    const { field, pieces } = await inField('error="Choose at least one channel."');
+    for (const piece of pieces) {
+      expect(piece.invalid).toBe(true);
+      expect(input(piece).getAttribute('aria-invalid')).toBe('true');
+    }
+    field.removeAttribute('error');
+    await field.updateComplete;
+    await Promise.all(pieces.map((piece) => piece.updateComplete));
+    expect(pieces.map((piece) => piece.invalid)).toEqual([false, false, false]);
+  });
+
+  it('a disabled field disables every box, which draws its own opacity, and enabling it gives them back', async () => {
+    const { field, pieces } = await inField('disabled');
+    for (const piece of pieces) {
+      expect(piece.matches(':disabled')).toBe(true);
+      expect(input(piece).disabled).toBe(true);
+      expect(getComputedStyle(piece).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
+    }
+    expect(getComputedStyle(field).opacity).toBe('1');
+    field.removeAttribute('disabled');
+    await field.updateComplete;
+    await Promise.all(pieces.map((piece) => piece.updateComplete));
+    expect(pieces.map((piece) => piece.disabled)).toEqual([false, false, false]);
+  });
+
+  it('a box the consumer disabled stays disabled after the field is enabled again', async () => {
+    const { field, pieces } = await inField('');
+    const own = pieces[1] as NphCheckbox;
+    own.disabled = true;
+    field.setAttribute('disabled', '');
+    await field.updateComplete;
+    field.removeAttribute('disabled');
+    await field.updateComplete;
+    expect(own.disabled).toBe(true);
+    expect(pieces[0]?.disabled).toBe(false);
+  });
+
+  it('the boxes still toggle and submit inside the field', async () => {
+    await import('../nph-field/nph-field');
+    const holder = await parse('<form><nph-field label="Channels"><nph-checkbox name="channel" value="email" text="Email"></nph-checkbox></nph-field></form>');
+    const piece = holder.querySelector('nph-checkbox') as NphCheckbox;
+    await userEvent.click(box(piece));
+    expect(new FormData(holder.querySelector('form') as HTMLFormElement).get('channel')).toBe('email');
+  });
+});
+
 describe('invalid input', () => {
   const cases: ReadonlyArray<readonly [string, Props]> = [
     ['no text and no label', {}],
