@@ -22,6 +22,7 @@ import tokensCss from '../../tokens/generated/tokens.css?raw';
 import designMd from '../../../design.md?raw';
 import componentCss from './nph-dialog.css?raw';
 import '../nph-tooltip/nph-tooltip';
+import '../nph-slider/nph-slider';
 import { NPH_DIALOG_ACTIONS, NPH_DIALOG_CLOSE_EVENT, NPH_DIALOG_SIZES, NphDialog } from './nph-dialog';
 import type { NphDialogCloseDetail } from './nph-dialog';
 import type { NphButton } from '../nph-button/nph-button';
@@ -194,6 +195,16 @@ class TestShadowForm extends HTMLElement {
   }
 }
 customElements.define('test-shadow-form', TestShadowForm);
+
+/** Two fields behind one host that delegates the focus. */
+class TestDelegatingPair extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open', delegatesFocus: true }).innerHTML =
+      '<input id="pair-first" aria-label="First"><input id="pair-second" aria-label="Second">';
+  }
+}
+customElements.define('test-delegating-pair', TestDelegatingPair);
 
 /** The two footer buttons of `ACTIONS`, Cancel then Save, as the consumer wrote them. */
 function actionRects(dialog: NphDialog): [DOMRect, DOMRect] {
@@ -449,6 +460,21 @@ describe('focus', () => {
     expect(focused()?.id).toBe('other');
   });
 
+  it('a move by the person between two parts of one piece, before the pieces draw, is kept', async () => {
+    const dialog = document.createElement('nph-dialog');
+    dialog.heading = 'Edit profile';
+    dialog.closeLabel = 'Close';
+    dialog.innerHTML = '<test-delegating-pair></test-delegating-pair><nph-button slot="footer" text="Save" autofocus></nph-button>';
+    dialog.open = true;
+    document.body.append(dialog);
+    await dialog.updateComplete;
+    expect(focused()?.id).toBe('pair-first');
+    (dialog.querySelector('test-delegating-pair')?.shadowRoot?.getElementById('pair-second') as HTMLInputElement).focus();
+    await settle(dialog);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(focused()?.id).toBe('pair-second');
+  });
+
   it('connected already open, with no content and no footer, the focus waits for the close button to draw', async () => {
     const dialog = document.createElement('nph-dialog');
     dialog.heading = 'Edit profile';
@@ -471,6 +497,14 @@ describe('focus', () => {
     });
     await openIt(other);
     expect(focused()?.id).toBe('kept');
+  });
+
+  it('skips what is turned off: a disabled nph-slider, whose thumb keeps autofocus, gives way to the next field', async () => {
+    const dialog = await mount({
+      content: '<nph-slider label="Volume" disabled></nph-slider><input id="after" aria-label="After"><button aria-disabled="true">Off</button>',
+    });
+    await openIt(dialog);
+    expect(focused()?.id).toBe('after');
   });
 
   it('finds the fields of a form in an open shadow root that does not delegate the focus', async () => {

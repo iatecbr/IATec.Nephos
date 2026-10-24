@@ -2854,9 +2854,12 @@ modal dialog covers the window it opens in, which a page with several examples i
    roots and from a slot to what it shows, so the field of a form component that does not delegate
    the focus counts; a negative `tabindex` on a shadow host takes out everything it draws, as
    sequential navigation does. Each candidate is focused and kept only if the focus really
-   lands in it, so a disabled or hidden element is skipped. A piece that has not drawn yet, when
+   lands in it, so a disabled or hidden element is skipped; so is what a piece keeps focusable
+   while turned off (`aria-disabled="true"`, or inside a disabled piece, such as the thumb of a
+   disabled `nph-slider`). A piece that has not drawn yet, when
    the dialog is connected already open, cannot take it: once the pieces draw, the rule runs again
-   if the focus is still where the rule put it, so a move by the person is kept. On close, the focus goes back to the
+   if the focus is still on the exact element the rule put it on, so a move by the person is kept,
+   even between two parts of one piece. On close, the focus goes back to the
    element that had it, looked up inside shadow roots and given back by the component, not by the
    browser. No Tab trap is written: the inert page already keeps Tab in the dialog and the browser
    interface.

@@ -214,6 +214,27 @@ function focusables(roots: readonly Element[]): HTMLElement[] {
   return found;
 }
 
+/**
+ * `element` is turned off, or sits inside something turned off, up to `stop`: native
+ * `:disabled`, `aria-disabled="true"` (a part a piece keeps focusable, such as the thumb
+ * of a disabled `nph-slider`) or `disabled` on a custom element.
+ */
+function turnedOff(element: Element, stop: Node): boolean {
+  let current: Node | null = element;
+  while (current !== null && current !== stop) {
+    if (
+      current instanceof Element &&
+      (current.matches(':disabled') ||
+        current.getAttribute('aria-disabled') === 'true' ||
+        (current.localName.includes('-') && current.hasAttribute('disabled')))
+    ) {
+      return true;
+    }
+    current = current.parentNode ?? (current instanceof ShadowRoot ? current.host : null);
+  }
+  return false;
+}
+
 /** Focuses `element` and says whether the focus really landed in it. */
 function tryFocus(element: HTMLElement): boolean {
   element.focus();
@@ -268,7 +289,7 @@ export class NphDialog extends LitElement {
   private shown = false;
   private closeTimer: number | undefined;
   private openings = 0;
-  private chosenFocus: Element | null = null;
+  private initialFocus: Element | null = null;
   /* A text node edited in place fires no `slotchange`: its edits are watched here. */
   private readonly textWatch = new MutationObserver(() => {
     this.syncRegions();
@@ -440,7 +461,7 @@ export class NphDialog extends LitElement {
       return;
     }
     this.shown = false;
-    this.chosenFocus = null;
+    this.initialFocus = null;
     shownDialogs.delete(this);
     unlockScroll();
     const panel = this.panel;
@@ -459,11 +480,12 @@ export class NphDialog extends LitElement {
 
   /** The focus rule of P87: autofocus, content, footer, close button, the window. */
   private moveFocusIn(panel: HTMLDialogElement): void {
-    this.chosenFocus = this.focusByRule(panel);
+    this.focusByRule(panel);
+    this.initialFocus = deepActiveElement();
   }
 
-  /** Focuses the first candidate that takes it and returns it. */
-  private focusByRule(panel: HTMLDialogElement): Element {
+  /** Focuses the first candidate that takes it, or the window. */
+  private focusByRule(panel: HTMLDialogElement): void {
     const assigned = (selector: string): Element[] =>
       this.renderRoot.querySelector<HTMLSlotElement>(selector)?.assignedElements({ flatten: true }) ?? [];
     const content = assigned('slot:not([name])');
@@ -472,14 +494,15 @@ export class NphDialog extends LitElement {
       .flatMap((root) => [...composed(root)])
       .filter((element): element is HTMLElement => element instanceof HTMLElement && element.hasAttribute('autofocus'));
     const close = this.renderRoot.querySelector<HTMLElement>('.close');
-    const order = [...autofocus, ...focusables(content), ...focusables(footer), ...(close ? [close] : [])];
+    const order = [...autofocus, ...focusables(content), ...focusables(footer), ...(close ? [close] : [])].filter(
+      (candidate) => !turnedOff(candidate, this),
+    );
     for (const candidate of order) {
       if (tryFocus(candidate)) {
-        return candidate;
+        return;
       }
     }
     panel.focus();
-    return panel;
   }
 
   /**
@@ -495,9 +518,8 @@ export class NphDialog extends LitElement {
       .map((piece) => (piece as Partial<{ updateComplete: Promise<unknown> }>).updateComplete)
       .filter((done): done is Promise<unknown> => done !== undefined);
     await Promise.all(pending);
-    const chosen = this.chosenFocus;
-    const active = deepActiveElement();
-    const kept = chosen === panel ? active === panel : chosen !== null && within(active, chosen);
+    /* The exact element, not the piece: a move between two parts of one piece is the person's too. */
+    const kept = this.initialFocus !== null && deepActiveElement() === this.initialFocus;
     if (this.shown && opening === this.openings && kept) {
       this.moveFocusIn(panel);
     }
