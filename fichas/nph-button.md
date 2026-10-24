@@ -149,8 +149,8 @@ states:
     token: "the background and the text of the type and the emphasis, in the tokens block"
     changes_for_user: "Rest. The color communicates the type of the action."
   hover-active:
-    token: "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost. The start and end icons switch from light to solid, in the same color as the text of the type"
-    changes_for_user: "The surface changes and the start and end icons turn solid, which confirms that the target responds."
+    token: "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost. In the button with text, the start and end icons switch from light to solid, in the same color as the text of the type (P88); the icon-only button keeps its icon light"
+    changes_for_user: "The surface changes and, in the button with text, the start and end icons turn solid, which confirms that the target responds."
   focus:
     token: "border border/width in the color of the type (focus/border in secondary) and halo focus/ring-width in focus/halo or `focus/halo-<matiz>`; in the circular shape both follow radius/full"
     changes_for_user: "For keyboard users, a border in the color of the action and a halo outside mark the focus, without changing the size."
@@ -221,7 +221,7 @@ anti_patterns:
   - "Painting the button by hand or creating a type, emphasis or size outside the matrix."
 sources:
   design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block"
-  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; solid icon in hover-active, 21-10-2026; P86 — shape and tooltip of the icon-only button, which amends P68"
+  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active of the button with text, 21-10-2026, which amends P68"
   tests: "src/components/nph-button/nph-button.test.ts, nph-button.first-tooltip.test.ts and nph-button.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the button yet"
   storybook: "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts"
@@ -304,7 +304,7 @@ target on a touch screen; a size different from the field beside it.
 | State | Token | What changes for the person |
 |---|---|---|
 | `default` | the background and the text of the type and the emphasis | Rest. The color communicates the type of the action |
-| `hover-active` | `color/*-hover` and `status/*-hover` in `solid`; `*-surface-hover` and `*-on-surface-hover` in `outline` and `light`; the surface of the type in `ghost`. The start and end icons switch from `light` to `solid` (the `variant` of `nph-icon`), in the same color as the text of the type | The surface changes and the icons turn solid, which confirms that the target responds |
+| `hover-active` | `color/*-hover` and `status/*-hover` in `solid`; `*-surface-hover` and `*-on-surface-hover` in `outline` and `light`; the surface of the type in `ghost`. In the button with text, the start and end icons switch from `light` to `solid` (the `variant` of `nph-icon`), in the same color as the text of the type (P88); the icon-only button keeps its icon `light` | The surface changes and, in the button with text, the icons turn solid, which confirms that the target responds |
 | `focus` | border `border/width` in the color of the type (`focus/border` in `secondary`) and halo `focus/ring-width` in `focus/halo` or `focus/halo-<matiz>`; in the circular shape both follow `radius/full` | A border in the color of the action and a halo outside mark the focus, without changing the size |
 | `disabled` | `state/disabled-opacity` | The whole button loses opacity, leaves the Tab order and stops responding |
 | `loading` | the spinner inherits the text color | The spinner takes the place of the start icon, the text stays and the click stops counting |
@@ -411,8 +411,9 @@ circular icon-only button in `primary` `solid`.
   the solid hover on the hover tokens, which supersedes B4. The frame was accepted
   on 01-10-2026 and completed on 02-10-2026. On 21-10-2026, Indiane decided that
   an action with an icon in an active state switches the icon from light to
-  solid: in `hover-active`, the start and end icons turn solid, in the same color
-  as the text of the type. P86 adds the `shape` of the icon-only button and its tooltip, from the
+  solid: in `hover-active`, the start and end icons of the button with text turn
+  solid, in the same color as the text of the type (P88, which amends P68); the
+  icon-only button keeps its icon `light` until Indiane decides it. P86 adds the `shape` of the icon-only button and its tooltip, from the
   `nph-icon-button` board accepted in Figma, with the textual audit approved.
 - **Tests:** `src/components/nph-button/nph-button.test.ts`, `nph-button.first-tooltip.test.ts` and
   `nph-button.docs.test.ts`.

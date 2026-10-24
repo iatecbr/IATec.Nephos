@@ -2,7 +2,8 @@
  * Tests of `nph-button` (P68, amended by P86), in a real browser (P21, item 5):
  * resolved color, real hover, keyboard focus and measurements only exist where there
  * is layout. P86 adds the shape of the icon-only button and its built-in tooltip,
- * whose name the browser itself computes, read through the accessibility tree.
+ * whose name the browser itself computes, read through the accessibility tree. P88 adds
+ * the solid icon in hover-active, in the button with text.
  *
  * Color schemes are switched at the root (`data-nph-color-scheme` on `html`).
  * In a part of the screen with another brand and another scheme, `status/on-solid` and
@@ -17,6 +18,7 @@ import tokensCss from '../../tokens/generated/tokens.css?raw';
 import componentCss from './nph-button.css?raw';
 import { NPH_BUTTON_EMPHASES, NPH_BUTTON_SEVERITIES, NPH_BUTTON_SHAPES, NPH_BUTTON_SIZES, NphButton } from './nph-button';
 import type { NphButtonEmphasis, NphButtonSeverity, NphButtonShape, NphButtonSize } from './nph-button';
+import type { NphIcon } from '../nph-icon/nph-icon';
 import type { NphTooltip } from '../nph-tooltip/nph-tooltip';
 
 type Props = Partial<
@@ -207,6 +209,20 @@ async function axDescription(element: Element): Promise<string> {
   return String((await axNode(element))?.description?.value ?? '');
 }
 
+/**
+ * The icons the button draws, after they render: with text, each icon is a light and
+ * solid pair and the CSS hides the one of the other state (P88).
+ */
+async function visibleIcons(button: HTMLButtonElement): Promise<NphIcon[]> {
+  const icons = [...button.querySelectorAll('nph-icon')];
+  await Promise.all(icons.map((icon) => icon.updateComplete));
+  return icons.filter((icon) => getComputedStyle(icon).display !== 'none');
+}
+
+async function visibleVariants(button: HTMLButtonElement): Promise<string[]> {
+  return (await visibleIcons(button)).map((icon) => icon.getAttribute('variant') ?? 'light');
+}
+
 /** Outline stroke color, taken from the `inset` `box-shadow`. */
 function insetColor(button: HTMLButtonElement): string {
   const shadow = getComputedStyle(button).boxShadow;
@@ -288,9 +304,10 @@ describe('sizes and anatomy', () => {
       expect(style.fontSize).toBe(resolved('font-size', '--nph-text-label-md-font-size'));
       expect(style.fontWeight).toBe(resolved('font-weight', '--nph-text-label-md-font-weight'));
       expect(style.whiteSpace).toBe('nowrap');
-      const icons = [...button.querySelectorAll('nph-icon')];
+      const icons = await visibleIcons(button);
       expect(icons.map((icon) => icon.getAttribute('size'))).toEqual(['sm', 'sm']);
-      expect([...button.children].map((node) => node.tagName.toLowerCase())).toEqual(['nph-icon', 'span', 'nph-icon']);
+      const drawn = [...button.children].filter((node) => getComputedStyle(node).display !== 'none');
+      expect(drawn.map((node) => node.tagName.toLowerCase())).toEqual(['nph-icon', 'span', 'nph-icon']);
     });
 
     it(`${size}: icon only is square and the icon follows the box`, async () => {
@@ -451,6 +468,101 @@ describe('loading', () => {
     const element = await mount({ severity: 'danger', emphasis: 'light', text: 'Delete', loading: true });
     const spinner = control(element).querySelector('nph-spinner');
     expect(spinner && getComputedStyle(spinner).color).toBe(resolved('color', '--nph-color-destructive-on-surface'));
+  });
+});
+
+describe('solid icon in hover-active (P88)', () => {
+  const ICONS = { text: 'Save', iconStart: 'plus', iconEnd: 'chevron-down' } as const;
+
+  it('at rest, the start and end icons are light', async () => {
+    const element = await mount(ICONS);
+    expect(await visibleVariants(control(element))).toEqual(['light', 'light']);
+  });
+
+  it('on hover, they turn solid, with the same names and size sm', async () => {
+    const element = await mount(ICONS);
+    const button = control(element);
+    await userEvent.hover(button);
+    const icons = await visibleIcons(button);
+    expect(icons.map((icon) => icon.getAttribute('variant'))).toEqual(['solid', 'solid']);
+    expect(icons.map((icon) => icon.getAttribute('name'))).toEqual(['plus', 'chevron-down']);
+    expect(icons.map((icon) => icon.getAttribute('size'))).toEqual(['sm', 'sm']);
+    await userEvent.unhover(button);
+    expect(await visibleVariants(button)).toEqual(['light', 'light']);
+  });
+
+  it('while pressed with the keyboard, they turn solid', async () => {
+    const element = await mount(ICONS);
+    await tabInto(element);
+    await userEvent.keyboard('{Space>}');
+    try {
+      expect(control(element).matches(':active')).toBe(true);
+      expect(await visibleVariants(control(element))).toEqual(['solid', 'solid']);
+    } finally {
+      await userEvent.keyboard('{/Space}');
+    }
+  });
+
+  it('keyboard focus without hover keeps them light', async () => {
+    const element = await mount(ICONS);
+    await tabInto(element);
+    expect(control(element).matches(':focus-visible')).toBe(true);
+    expect(await visibleVariants(control(element))).toEqual(['light', 'light']);
+  });
+
+  it('disabled, on hover, keeps them light', async () => {
+    const element = await mount({ ...ICONS, disabled: true });
+    await userEvent.hover(element, { force: true });
+    expect(await visibleVariants(control(element))).toEqual(['light', 'light']);
+  });
+
+  it('loading, on hover, draws no icon', async () => {
+    const element = await mount({ ...ICONS, loading: true });
+    await userEvent.hover(control(element));
+    expect(control(element).querySelector('nph-icon')).toBeNull();
+  });
+
+  it('icon only, on hover, keeps its single icon light (D1)', async () => {
+    const element = await mount({ iconStart: 'plus', label: 'Add' });
+    const button = control(element);
+    await userEvent.hover(button);
+    expect(button.querySelectorAll('nph-icon')).toHaveLength(1);
+    expect(await visibleVariants(button)).toEqual(['light']);
+  });
+
+  for (const [severity, emphasis] of [
+    ['primary', 'solid'],
+    ['info', 'solid'],
+    ['primary', 'light'],
+    ['danger', 'outline'],
+  ] as const) {
+    it(`${severity} ${emphasis}: the solid icon has the hover text color of the pair`, async () => {
+      const pair = PAIRS.find(([s, e]) => s === severity && e === emphasis)?.[2];
+      if (!pair) throw new Error('no pair');
+      const element = await mount({ severity, emphasis, ...ICONS });
+      const button = control(element);
+      await userEvent.hover(button);
+      const expected = resolved('color', pair.fgHover ?? pair.fg);
+      expect((await visibleIcons(button)).map((icon) => getComputedStyle(icon).color)).toEqual([expected, expected]);
+    });
+  }
+
+  it('the width stays and the name stays the text', async () => {
+    const element = await mount(ICONS);
+    const button = control(element);
+    await visibleIcons(button);
+    const rest = button.getBoundingClientRect().width;
+    await userEvent.hover(button);
+    await visibleIcons(button);
+    expect(button.getBoundingClientRect().width).toBe(rest);
+    expect(await axName(button)).toBe('Save');
+  });
+
+  it('all four icons are decorative', async () => {
+    const element = await mount(ICONS);
+    const icons = [...control(element).querySelectorAll('nph-icon')];
+    await Promise.all(icons.map((icon) => icon.updateComplete));
+    expect(icons.map((icon) => icon.getAttribute('aria-hidden'))).toEqual(['true', 'true', 'true', 'true']);
   });
 });
 

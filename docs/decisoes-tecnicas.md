@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P86, P90 and P94. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P86, P88, P90 and P94. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -35,7 +35,7 @@ P62.4 subsection for the detail).
 | **P65** | API and semantics of `nph-tooltip` | 05/10/2026 | Low now. `nph-label` is the first consumer; changing later requires redoing its trigger | Behavior and scope (L11.5) and anatomy (L11.6, L11.7 and the accepted frame) adopted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #51, merged on 05/10/2026. **Amended by P77 (21/10/2026)**: opening, closing, placement and semantics |
 | **P66** | API and semantics of `nph-spinner`, `nph-separator` and `nph-kbd` | 05/10/2026 | Low now. `nph-button` (Batch B) and `nph-rich-option` will be the first consumers | Anatomy and behavior: frames accepted by Indiane on 01/10/2026. API and semantics approved by `maurocsjr` in PR #54, merged in `d01da7b` |
 | **P67** | Dependent invariants redeclared in each scheme root | 05/10/2026 | Medium. Changes where the generator emits 14 tokens and fixes how a part of the screen switches brand | Consumption decided by Indiane on 05/10/2026. Generator approved by `maurocsjr` in PR #55, merged in `7dd370d` |
-| **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics approved by `maurocsjr` in PR #56, merged in `455ead8`. **Amended by P86 (23/10/2026)**: the shape and the tooltip of the icon-only button |
+| **P68** | API and semantics of `nph-badge` and `nph-button` | 05/10/2026 | Low now. No piece consumes either of them yet | Anatomy and behavior: frames accepted by Indiane on 01/10/2026, completed on 02/10/2026. API and semantics approved by `maurocsjr` in PR #56, merged in `455ead8`. **Amended by P86 (23/10/2026)**: the shape and the tooltip of the icon-only button. **Amended by P88 (23/10/2026)**: the solid icon in `hover-active` of the button with text |
 | **P69** | API and semantics of `nph-skeleton` | 15/10/2026 | Low now. No piece consumes it yet; `nph-avatar` will share its avatar sizes and radii | Anatomy and behavior: frame accepted by Indiane on 08/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P70** | Package entry points and the Usage section | 15/10/2026 | Medium. Every `Docs` page shows the import line, so changing the path later changes every page and every consumer | Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request that brings it |
 | **P71** | `Docs` page lists read from the Metadata | 15/10/2026 | Low. The lists move from the dictionary to the Metadata; the sheet does not change its format | Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request that brings it |
@@ -51,6 +51,7 @@ P62.4 subsection for the detail).
 | **P83** | `nph-field`: API, semantics and the field–control contract | 22/10/2026 | Medium. Every form control (DSA-16, DSA-17, DSA-18, DSA-27, DSA-41, and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46) takes the contract, so changing `label`, `description`, `invalid`, `required`, `disabled` or `nphFieldRole` later requires redoing all of them | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D8 answered on 16/10/2026; the plan and the contract approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P84** | API and semantics of `nph-empty`, and the first raster asset of the package | 22/10/2026 | Low now. No piece consumes it yet; `nph-combobox` (DSA-46) will, so changing `heading` or `description` later requires redoing its empty list. The asset delivery (`vite.config.lib.ts`) applies to any later illustration | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P86** | Icon-only `nph-button`: shape and built-in tooltip (amends P68) | 23/10/2026 | Low now. `nph-dialog` (DSA-44) will use the icon-only button to close, so changing `shape`, or the tooltip the button renders, later requires redoing it | Anatomy and behavior: board `nph-icon-button` accepted by Indiane on 19/10/2026, textual audit approved on 20/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P88** | `nph-button`: solid icon in `hover-active` (amends P68) | 23/10/2026 | Low. Visual only: no API, event or token changes, and the accessible name stays | Rule decided by Indiane on 21/10/2026 and shown in Figma (`461:13009`); the plan is approved by Elvys on 22/10/2026. Reviewed in the pull request that brings it |
 | **P90** | API and semantics of `nph-image` | 23/10/2026 | Low now. No piece consumes it yet; `nph-table` will, for the thumbnail and the expanded item, so changing `size`, `ratio`, `src`, `alt` or `interactive`, or the derived state, later requires redoing it | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P94** | API and semantics of `nph-slider` | 23/10/2026 | Low now. No piece consumes it yet; a filter panel will, so changing `mode`, `value`, `start`, `end`, the two form entries of `range` or the ARIA thumbs later requires redoing it | Anatomy and behavior: board accepted by Indiane on 15/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 
@@ -1065,7 +1066,8 @@ its own decision, as in P66. The names follow P64.
     in `secondary`, `focus/border`. The halo is `focus/halo` in `primary` and in
     `secondary`, and `focus/halo-<hue>` in the others. The same in every
     emphasis.
-  - **Hover** (`hover-active`) on the hover tokens of each pair: `color/*-hover`
+  - **Hover** (`hover-active`) *(Amended by P88: in the button with text, the start and end
+    icons also switch from `light` to `solid`.)* on the hover tokens of each pair: `color/*-hover`
     and `status/*-hover` in solid, by the decision of 02/10/2026, which
     supersedes B4; `*-surface-hover` and `*-on-surface-hover` in `outline` and in
     `light`; the surface of the type in `ghost`.
@@ -2799,6 +2801,50 @@ accessibility gate (P72, DSA-32).
 
 **Status.** Anatomy and behavior accepted by Indiane on 19/10/2026 and 20/10/2026. API and semantics
 are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
+## P88 — `nph-button`: solid icon in `hover-active`
+
+This decision **amends P68** in the `hover-active` state of the button with text. P68 changes only
+the surface, the text and the outline on hover; the icons stay in the `light` variant of
+`nph-icon` in every state. On 21/10/2026 Indiane decided that an action with an icon in an active
+state switches the icon from `light` to `solid`, and showed it in the set `461:13009` of Figma
+(DSA-47, `docs/operacao/evidencias/DSA-47/`). The text of P68 is kept as it was written; its
+**Hover** bullet carries an "Amended by P88" mark.
+
+**Decision.**
+
+1. **When.** In `hover-active`, the same condition that changes the background:
+   `.control:not(:disabled):not([aria-disabled='true']):is(:hover, :active)`. At rest, in focus
+   without hover, in `disabled` and in `loading` the icons stay `light`; in `loading` the spinner
+   takes the place of the start icon and the end icon is not drawn, as in P68.
+2. **What.** `icon-start` and `icon-end` draw the `solid` variant of the same core name, at
+   `icon/size-sm`. The color does not change: the icon keeps the text color of the pair, including
+   its hover color. No token is created or changed.
+3. **How.** With text, each icon renders as a pair, a `light` one and a `solid` one, and the
+   internal CSS hides the one of the other state with the hover selector above and its exact
+   complement. The swap follows the background by construction, with no state in the component
+   and no new property; the button keeps its width, because a hidden item takes no flex gap.
+4. **Only in the button with text.** The icon-only set `498:15671` keeps its icon `light` in every
+   state, so the icon-only button renders a single icon, as in P86. Whether it also swaps is DSA-47
+   D1, with Indiane; the answer only changes which branch renders the pair.
+5. **Accessibility.** Every icon stays decorative (`aria-hidden`), so the name is the text, at rest
+   and on hover. The swap is not a sign of state on its own: the surface already changes.
+
+**Breaking changes.** None. The public API, the events and the tokens do not change; the shadow root
+of the button with text now holds two `nph-icon` for each icon, which is internal (P02).
+
+**Source.** The rule of Indiane of 21/10/2026, converted to text in
+`docs/operacao/evidencias/DSA-47/figma-docs-accepted-2026-10-21.md`, set `461:13009` and card 25 of
+the board `2478:1910` of the Figma file `DS-IA-NEPHOS 5.0`. The pair of icons hidden by CSS is a
+technical proposal of this implementation, approved with the plan by Elvys on 22/10/2026.
+
+**Out of scope.** The icon-only button (D1). The icon of other pieces with an active state, which
+each task brings with its own evidence.
+
+**Status.** Rule accepted by Indiane on 21/10/2026. Reviewed in the pull request that brings it; the
+merge is the approval.
 
 ---
 

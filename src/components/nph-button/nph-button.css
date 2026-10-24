@@ -84,6 +84,12 @@
   box-shadow: var(--_outline-hover, var(--_outline, none));
 }
 
+/* hover-active, with text: the solid twin replaces the light icon (21-10-2026, P88). */
+.control:not(:disabled):not([aria-disabled='true']):is(:hover, :active) .icon-rest,
+.control:is(:disabled, [aria-disabled='true'], :not(:hover, :active)) .icon-active {
+  display: none;
+}
+
 /* Focus: tight border and halo on the outside, keyboard only. */
 .control:focus-visible::before,
 .control:focus-visible::after {
