@@ -28,6 +28,16 @@
     "components-nph-input-validation--width": "Ancho",
     "components-nph-input-validation--invalid-input": "Entrada inválida",
     "components-nph-input-validation--examples": "Ejemplos",
+    "components-nph-textarea-docs": "Docs",
+    "components-nph-textarea-docs--documentation": "Documentación",
+    "components-nph-textarea-validation": "Validación",
+    "components-nph-textarea-validation--matrix": "Matriz",
+    "components-nph-textarea-validation--footer": "Pie",
+    "components-nph-textarea-validation--height": "Altura",
+    "components-nph-textarea-validation--form-association": "Asociación al formulario",
+    "components-nph-textarea-validation--in-field": "En el nph-field",
+    "components-nph-textarea-validation--width": "Ancho",
+    "components-nph-textarea-validation--examples": "Ejemplos",
     "components-nph-badge-docs": "Docs",
     "components-nph-badge-docs--documentation": "Documentación",
     "components-nph-badge-validation": "Validación",
@@ -2258,6 +2268,261 @@
     "exampleError": "Error",
     "errorSentence": "Escriba un correo con dominio, como nombre@ejemplo.com."
   },
+  "textareaDocs": {
+    "summary": "El campo de varias líneas para escribir un texto largo, como un comentario, un mensaje o una descripción. Crece con el texto hasta un máximo y luego se desplaza por dentro; un comentario o un mensaje puede llevar un pie con contador y acciones.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-textarea, el design.md para los tokens y el docs/decisoes-tecnicas.md para la P93. El archivo Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "description": "Usa el nph-textarea cuando la persona escribe más de una línea. Participa del formulario que lo contiene, como el nph-input; Enter escribe una línea nueva en vez de enviar el formulario. La etiqueta, la ayuda, el mensaje de error y el contador de la línea de apoyo quedan en el nph-field.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Cuando la persona escribe más de una línea, como un comentario, un mensaje o una descripción.",
+      "Dentro de un nph-field cuando el campo necesita etiqueta, ayuda, mensaje de error o contador en la línea de apoyo.",
+      "Con el pie, contador y acciones, solo en un comentario o un mensaje, donde las acciones quedan junto al texto.",
+      "Con readonly para mostrar un texto largo que la persona lee y copia, pero no edita."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para un valor de una línea: usa nph-input.",
+      "Para elegir entre opciones listas: usa nph-select o nph-combobox.",
+      "Para mostrar el mensaje de error o la ayuda: son del nph-field.",
+      "Para poner un contador de pie en un formulario común: usa el contador del nph-field.",
+      "Para encender el pie en readonly: no hay nada que enviar.",
+      "Para bloquear la escritura en un límite: el contador avisa, y el estado de error dice que el límite se pasó."
+    ],
+    "relationsText": "El nph-field compone la etiqueta, el campo, la ayuda, el mensaje de error y el contador de la línea de apoyo, y escribe label, description, invalid, required y disabled en el textarea. Las acciones del pie son instancias de nph-button del consumidor, ghost y solid, en size=default.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "value",
+        "El valor actual, con sus saltos de línea. El atributo value es el valor inicial y el valor de form.reset(); vale solo hasta que la persona edita el campo. Definirlo por código no dispara ningún evento."
+      ],
+      [
+        "placeholder",
+        "La invitación antes de escribir, ya localizada. No es un nombre: desaparece cuando la persona escribe."
+      ],
+      [
+        "name",
+        "El nombre de la entrada en los datos del formulario. Reflejado en el atributo, que es lo que lee el formulario."
+      ],
+      [
+        "required",
+        "El required nativo: lo anuncia el lector de pantalla y lo comprueba el formulario. Reflejado en el atributo."
+      ],
+      [
+        "disabled",
+        "Toda la pieza en state/disabled-opacity sobre color/muted, fuera del orden de Tab y de los datos del formulario, y las acciones del pie deshabilitadas. Un fieldset deshabilitado también la deshabilita. Gana sobre readonly e invalid."
+      ],
+      [
+        "readonly",
+        "El estado leitura: la persona lee, selecciona y copia el texto, y no lo edita. Queda en los datos del formulario y fuera de la validación. Sin hover, sin aspecto de error y sin pie. Reflejado en el atributo."
+      ],
+      [
+        "invalid",
+        "El estado erro: el borde pasa a status/error y el campo recibe aria-invalid. La frase es del nph-field."
+      ],
+      [
+        "label",
+        "El nombre accesible en texto, nunca visible, cuando no hay etiqueta asociada. Una etiqueta asociada gana."
+      ],
+      [
+        "description",
+        "La descripción accesible en texto, nunca visible: la ayuda o la frase de error que escribe el nph-field."
+      ],
+      [
+        "counter",
+        "El texto del contador del pie, mostrado tal como llega, como 0/280. La pieza no cuenta nada: el consumidor lo escribe en input. Enciende el pie."
+      ],
+      [
+        "actions",
+        "El slot con nombre de las acciones del pie, instancias de nph-button. Un elemento en él enciende el pie."
+      ],
+      [
+        "input and change",
+        "Los eventos nativos. input se dispara cuando la persona escribe; change cuando el valor se confirma. Lee el valor en el host."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "El borde es color/input, sobre color/background."
+      ],
+      [
+        "hover",
+        "El borde pasa a color/input-hover."
+      ],
+      [
+        "focus",
+        "El borde pasa a focus/border, con el halo focus/halo pegado por fuera, en focus/radius-control."
+      ],
+      [
+        "invalid",
+        "El borde es status/error, también en hover; con el foco, el halo es focus/halo-error."
+      ],
+      [
+        "readonly",
+        "El borde en reposo, también en hover, sin aspecto de error y sin pie. El foco sigue visible."
+      ],
+      [
+        "disabled",
+        "Toda la pieza en state/disabled-opacity, sobre color/muted, con el borde color/input, y las acciones deshabilitadas. Gana sobre readonly e invalid."
+      ]
+    ],
+    "statesCaption": "Valor, invalid, readonly y disabled. Pasa el ratón sobre un campo para ver el hover y haz clic para ver el foco.",
+    "footerTitle": "Pie",
+    "footerText": "El pie sirve solo a un comentario o a un mensaje, donde las acciones quedan junto al texto. Aparece cuando hay contador o acción, dentro de la caja, space/stack debajo del texto: el contador al inicio y las acciones al final, a space/inline una de otra.",
+    "footerCaption": "Un comentario con el contador y las acciones Adjuntar y Enviar.",
+    "footerHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "footer": [
+      [
+        "counter",
+        "text/caption en color/muted-foreground, nunca en el color de error. El consumidor escribe el texto, como 0/280, en cada input; un límite avisa y no bloquea la escritura."
+      ],
+      [
+        "actions",
+        "Instancias de nph-button en el slot actions: ghost, como Adjuntar, y solid, como Enviar, en size=default. Con la pieza deshabilitada, también quedan deshabilitadas, y la pieza devuelve solo lo que deshabilitó."
+      ]
+    ],
+    "readOnlyTitle": "Sin pie en readonly.",
+    "readOnlyText": "Un texto que la persona no edita no tiene nada que enviar: en readonly, el contador y las acciones no se dibujan, y un aviso lo dice en desarrollo. En un formulario común, el contador va en la línea de apoyo del nph-field.",
+    "heightTitle": "Altura",
+    "heightText": "Vacío, el campo tiene layout/textarea-min-height, que muestra que cabe un texto largo. Crece con el texto y se detiene en layout/textarea-max-height; por encima, el texto se desplaza por dentro. No hay tirador para redimensionar arrastrando.",
+    "heightCaption": "Vacío en la altura mínima, y un texto largo que se detiene en el máximo y se desplaza por dentro.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Caja",
+        "Ancho layout/input-width, radius/control, border/width, fondo color/background. El borde es lo que cumple 3:1."
+      ],
+      [
+        "Área de desplazamiento",
+        "El campo nativo: de layout/textarea-min-height a layout/textarea-max-height, relleno space/control-padding a los lados y space/inline arriba y abajo; por encima del máximo, el texto se desplaza por dentro."
+      ],
+      [
+        "Valor o placeholder",
+        "text/body-md: el valor en color/foreground, el placeholder en color/muted-foreground."
+      ],
+      [
+        "Pie",
+        "Opcional, dentro de la caja, space/stack debajo del texto: el contador al inicio, las acciones al final."
+      ],
+      [
+        "Halo de foco",
+        "Un anillo fuera de la caja, en foco y erro-foco. Queda fuera del recorte del área de desplazamiento y no ocupa espacio."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "El textarea nativo, un cuadro de texto de varias líneas, dentro del shadow root. El host está asociado al formulario: participa de los datos, del reset y de la validez."
+      ],
+      [
+        "Nombre accesible",
+        "De la etiqueta asociada al host, nph-label for, un elemento label o el nph-field; sin ella, de label. El placeholder no es un nombre."
+      ],
+      [
+        "Descripción",
+        "description se lee cuando el campo recibe el foco: la ayuda o la frase de error del nph-field. El contador del pie no forma parte de ella."
+      ],
+      [
+        "Teclado",
+        "Tab entra en el campo y luego en las acciones del pie. Enter escribe una línea nueva; no envía el formulario."
+      ],
+      [
+        "Foco visible",
+        "El borde toma focus/border con el halo por fuera, sin cambiar el tamaño, también en readonly."
+      ],
+      [
+        "Contraste",
+        "El borde color/input cumple 3:1 contra el fondo (WCAG 1.4.11); el halo es decoración."
+      ],
+      [
+        "El color no es la única señal",
+        "En el error, la frase queda en el nph-field y se lee como descripción; el color del borde no es la única señal."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleComment": "Comentario: el pie con el contador y las acciones.",
+    "exampleForm": "Descripción en un formulario: el contador en la línea de apoyo del nph-field, pie apagado.",
+    "exampleLong": "Texto largo: se desplaza por dentro, sin pasar del máximo.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-textarea — propósito, estados, pie, altura, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P93 (API y semántica), P80 (los controles de formulario), P83 (el contrato campo–control), P01 y P02.",
+      "design.md — layout/textarea-min-height, layout/textarea-max-height, layout/input-width, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, radius/control, border/width, space/control-padding, space/inline, space/stack, text/body-md, text/caption, color/foreground y color/muted-foreground.",
+      "Figma DS-IA-NEPHOS 5.0 — frame nph-textarea (1632:24), documentación 1922:642 y set 1632:22.",
+      "Storybook — Validation, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha del nph-textarea; Figma, frame nph-textarea (1632:24)",
+    "sourceApi": "Ficha del nph-textarea; docs/decisoes-tecnicas.md › P93",
+    "sourceStates": "Figma, set 1632:22; design.md",
+    "sourceAnatomy": "Figma, documentación 1922:642; design.md",
+    "sourceAccessibility": "Ficha del nph-textarea; nph-textarea.test.ts",
+    "matrixLabel": "Matriz del componente",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "commentLabel": "Comentario",
+    "commentPlaceholder": "Escribe un comentario",
+    "commentValue": "Gracias por el resumen, ayudó mucho.",
+    "attachText": "Adjuntar",
+    "sendText": "Enviar",
+    "counterText": "{length}/{limit}",
+    "descriptionLabel": "Descripción",
+    "descriptionHelp": "Di de qué trata el evento.",
+    "descriptionPlaceholder": "Una descripción corta del evento",
+    "notesLabel": "Notas",
+    "longValue": "El equipo se reunió el lunes para revisar el plan de la nueva sala de lectura. El primer punto fue la luz: la sala da al oeste, así que el sol de la tarde llega a las mesas y a las pantallas. El grupo acordó probar dos tipos de cortina antes de elegir uno. El segundo punto fue el ruido del pasillo, que es fuerte entre clases. Una puerta con burlete y una alfombra cerca de la entrada deberían reducirlo. El tercer punto fue el número de asientos, que pasa de veinte a treinta y dos. Las mesas serán más pequeñas, y cada una tendrá su lámpara y un enchufe. El último punto fue el calendario: la obra empieza en marzo y termina antes del segundo semestre. Hasta entonces, la sala antigua sigue abierta, con el mismo horario. Las dudas y sugerencias se pueden enviar a la coordinación hasta fin de mes."
+  },
+  "textareaValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "notesLabel": "Notas",
+    "notesPlaceholder": "Escribe tus notas",
+    "notesValue": "Traer el formulario firmado.\nLlegar diez minutos antes.",
+    "longValue": "El equipo se reunió el lunes para revisar el plan de la nueva sala de lectura. El primer punto fue la luz: la sala da al oeste, así que el sol de la tarde llega a las mesas y a las pantallas. El grupo acordó probar dos tipos de cortina antes de elegir uno. El segundo punto fue el ruido del pasillo, que es fuerte entre clases. Una puerta con burlete y una alfombra cerca de la entrada deberían reducirlo. El tercer punto fue el número de asientos, que pasa de veinte a treinta y dos. Las mesas serán más pequeñas, y cada una tendrá su lámpara y un enchufe. El último punto fue el calendario: la obra empieza en marzo y termina antes del segundo semestre. Hasta entonces, la sala antigua sigue abierta, con el mismo horario. Las dudas y sugerencias se pueden enviar a la coordinación hasta fin de mes.",
+    "commentLabel": "Comentario",
+    "commentPlaceholder": "Escribe un comentario",
+    "commentValue": "Gracias por el resumen, ayudó mucho.",
+    "attachText": "Adjuntar",
+    "sendText": "Enviar",
+    "counterText": "{length}/{limit}",
+    "descriptionLabel": "Descripción",
+    "descriptionHelp": "Di de qué trata el evento.",
+    "descriptionPlaceholder": "Una descripción corta del evento",
+    "descriptionValue": "Una mañana de charlas sobre lectura y escritura en la escuela.",
+    "descriptionError": "Usa hasta 280 caracteres.",
+    "statusIdle": "Esperando un evento.",
+    "submitText": "Enviar",
+    "resetText": "Restablecer",
+    "statusSubmitted": "Enviado: {data}",
+    "statusReset": "El formulario volvió al atributo value.",
+    "fieldsetDisabled": "Dentro de un fieldset deshabilitado",
+    "exampleComment": "Comentario",
+    "exampleForm": "Descripción en un formulario",
+    "exampleLong": "Texto largo"
+  },
   "avatarStackDocs": {
     "summary": "Un grupo de avatares superpuestos que muestra a varias personas en poco espacio, con el conteo de quien no aparece. Cada avatar es un nph-avatar; el grupo se lee como una sola imagen, por su nombre.",
     "onThisPage": "En esta página",
@@ -3893,6 +4158,13 @@
       "components-nph-input-validation--width": "El ancho predeterminado es layout/input-width; el campo se estira hasta su padre, sin mínimo (D6).",
       "components-nph-input-validation--invalid-input": "La entrada inválida no dibuja nada: un type fuera de la v1, un size que no existe, un ícono fuera del núcleo. icon-end sin clear-label dibuja el campo sin el botón.",
       "components-nph-input-validation--examples": "Los tres ejemplos obligatorios del frame aceptado: Búsqueda, Campo con etiqueta y Error, cada uno en modo claro y oscuro.",
+      "components-nph-textarea-validation--matrix": "Los estados del set: placeholder y valor, error, readonly, disabled, y la precedencia de disabled sobre readonly y de readonly sobre el error. Pasa el ratón para el hover, haz clic para el foco.",
+      "components-nph-textarea-validation--footer": "El pie aparece con contador o acción, el contador al inicio y las acciones al final; disabled llega a las acciones; readonly no dibuja pie.",
+      "components-nph-textarea-validation--height": "Vacío, el campo tiene layout/textarea-min-height; crece con el texto y se detiene en layout/textarea-max-height, donde el texto se desplaza por dentro.",
+      "components-nph-textarea-validation--form-association": "El host participa del formulario: el envío manda name=value con sus saltos de línea, Enter escribe una línea y no envía, el reset restaura el atributo value y un fieldset deshabilitado lo deja fuera.",
+      "components-nph-textarea-validation--in-field": "Dentro del nph-field, el campo da la etiqueta, la ayuda, el error y el contador de la línea de apoyo, y el pie queda apagado.",
+      "components-nph-textarea-validation--width": "El ancho es layout/input-width por defecto; se estira hasta el padre, sin mínimo.",
+      "components-nph-textarea-validation--examples": "Los tres ejemplos obligatorios del frame, cada uno en modo claro y oscuro: Comentario, Descripción en un formulario y Texto largo.",
       "components-nph-empty-validation--with-description": "El título dice lo que falta y la descripción dice qué hacer, como en el board; la ilustración sigue el esquema de colores.",
       "components-nph-empty-validation--heading-only": "Con la descripción vacía queda solo el título, para cuando no hay nada que sugerir.",
       "components-nph-empty-validation--surfaces": "El título y la descripción superan 4,5:1 sobre color/background y sobre color/popover, en modo claro y oscuro.",
