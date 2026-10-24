@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 420,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-input-otp",
   "dependencies": [],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-41/review-and-merge-2026-10-24.md",
+      "result": "passed",
+      "verified_at": "2026-10-24",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -56,7 +56,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-41/documentacao-figma-aceita-2026-10-16.md"
+    "docs/operacao/evidencias/DSA-41/documentacao-figma-aceita-2026-10-16.md",
+    "docs/operacao/evidencias/DSA-41/review-and-merge-2026-10-24.md"
   ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p85",
@@ -73,11 +74,11 @@
   },
   "git_review": {
     "branch": "claude/dsa-41-nph-input-otp-d795bb",
-    "commit": "ebfbd8b15c320d960cb049f5f721111c98cb8b67",
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/110"
+    "commit": "33630024ca2335914a6a1188edbc9f8724e7749c",
+    "pr": "110"
   },
-  "context": "docs/operacao/contextos/DSA-41.md",
-  "updated_at": "2026-10-23"
+  "context": null,
+  "updated_at": "2026-10-24"
 }
 ```
 
