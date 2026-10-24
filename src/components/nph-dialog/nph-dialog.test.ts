@@ -459,6 +459,20 @@ describe('focus', () => {
     await vi.waitFor(() => expect(inside(focused(), closeButton(dialog) as Element)).toBe(true));
   });
 
+  it('a shadow host with a negative tabindex is skipped with everything it draws; an ordinary ancestor keeps its children', async () => {
+    const dialog = await mount({ content: `<nph-button tabindex="-1" text="Skip"></nph-button>${FORM}` });
+    await openIt(dialog);
+    expect(focused()?.id).toBe('name');
+    dialog.open = false;
+    await closed(dialog);
+    const other = await mount({
+      heading: 'Second',
+      content: '<nph-button tabindex="-1" text="Skip"></nph-button><div tabindex="-1"><input id="kept" aria-label="Kept"></div>',
+    });
+    await openIt(other);
+    expect(focused()?.id).toBe('kept');
+  });
+
   it('finds the fields of a form in an open shadow root that does not delegate the focus', async () => {
     const dialog = await mount({ content: '<test-shadow-form></test-shadow-form>', footer: ACTIONS });
     await openIt(dialog);
@@ -753,6 +767,23 @@ describe('scroll', () => {
     const [cancel] = actionRects(dialog);
     expect(cancel.bottom).toBeLessThanOrEqual(box.bottom);
     expect(cancel.top).toBeGreaterThanOrEqual(box.top);
+  });
+
+  it('in that short window, the content keeps a usable row (D6) and its fields can be reached and edited', async () => {
+    await page.viewport(NARROW.width, 220);
+    const dialog = await mount({ actions: 'stacked', content: FORM, footer: ACTIONS });
+    const panel = await openIt(dialog);
+    expect(contentBox(dialog).height).toBeGreaterThanOrEqual(tokenPx('--nph-control-height-large') - 0.5);
+    const email = dialog.querySelector('#email') as HTMLInputElement;
+    email.focus();
+    await userEvent.keyboard('ana@example.com');
+    expect(email.value).toBe('ana@example.com');
+    const area = (part(dialog, '.content') as HTMLElement).getBoundingClientRect();
+    const field = email.getBoundingClientRect();
+    expect(field.top).toBeGreaterThanOrEqual(area.top - 0.5);
+    expect(field.bottom).toBeLessThanOrEqual(area.bottom + 0.5);
+    expect(field.top).toBeGreaterThanOrEqual(panel.getBoundingClientRect().top - 0.5);
+    expect(field.bottom).toBeLessThanOrEqual(panel.getBoundingClientRect().bottom + 0.5);
   });
 
   it('in a short window, the height also stops at the window, less the edge', async () => {

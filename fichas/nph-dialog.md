@@ -214,7 +214,7 @@ anti_patterns:
   - "Turning off the close button when the footer offers no way out."
 sources:
   design_md: "design.md, color/dialog, color/dialog-foreground, color/dialog-separator, color/secondary-on-dialog, color/secondary-on-dialog-hover, overlay/scrim, elevation/modal, radius/overlay, space/overlay-padding, space/stack, space/stack-snug, space/inline-loose, layout/dialog-*, the motion roles and the md breakpoint of tokens_breakpoint"
-  decision: "P87 — nph-dialog: API and semantics, 22-10-2026; D1 to D5 of DSA-44 pending with Indiane"
+  decision: "P87 — nph-dialog: API and semantics, 22-10-2026; D1 to D6 of DSA-44 pending with Indiane"
   tests: "src/components/nph-dialog/nph-dialog.test.ts and nph-dialog.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the dialog yet"
   storybook: "src/components/nph-dialog/nph-dialog.stories.ts and nph-dialog.docs.stories.ts, with the examples in nph-dialog.fixtures.stories.ts"
@@ -395,7 +395,7 @@ sets the width; a wide content in `lg`, a list, with both lines on, where only t
 - **The repository `design.md`:** the dialog colors, `overlay/scrim`, `elevation/modal`,
   `radius/overlay`, the spaces, the `layout/dialog-*` widths, the motion roles and the `md`
   breakpoint.
-- **The decision that originated it:** P87, of 22-10-2026. D1 to D5 of DSA-44 are pending with
+- **The decision that originated it:** P87, of 22-10-2026. D1 to D6 of DSA-44 are pending with
   Indiane; the highlight icon waits for D3.
 - **Tests:** `src/components/nph-dialog/nph-dialog.test.ts` and `nph-dialog.docs.test.ts`.
 - **Usage evidence:** pending — no approved screen consumes the dialog yet.

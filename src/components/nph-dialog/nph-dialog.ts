@@ -183,23 +183,34 @@ function* composed(root: Element): Generator<Element> {
   }
 }
 
-/** The elements of `roots` and what they draw that may take focus, in composed order. */
+/**
+ * The elements of `roots` and what they draw that may take focus, in composed order. A
+ * negative `tabindex` takes the element out; on a shadow host it takes out everything the
+ * host draws, slots included, as sequential navigation does. An ordinary ancestor with it
+ * keeps its children.
+ */
 function focusables(roots: readonly Element[]): HTMLElement[] {
   const found: HTMLElement[] = [];
-  for (const root of roots) {
-    for (const element of composed(root)) {
-      if (!(element instanceof HTMLElement)) {
-        continue;
-      }
-      const tabindex = element.getAttribute('tabindex');
-      if (tabindex !== null && Number.parseInt(tabindex, 10) < 0) {
-        continue;
-      }
-      if (element.matches(FOCUSABLE) || element.shadowRoot?.delegatesFocus === true) {
-        found.push(element);
-      }
+  const visit = (element: Element): void => {
+    const tabindex = element.getAttribute('tabindex');
+    const skipped = tabindex !== null && Number.parseInt(tabindex, 10) < 0;
+    if (skipped && element.shadowRoot !== null) {
+      return;
     }
-  }
+    if (
+      !skipped &&
+      element instanceof HTMLElement &&
+      (element.matches(FOCUSABLE) || element.shadowRoot?.delegatesFocus === true)
+    ) {
+      found.push(element);
+    }
+    const children =
+      element instanceof HTMLSlotElement
+        ? element.assignedElements({ flatten: true })
+        : [...(element.shadowRoot ?? element).children];
+    children.forEach(visit);
+  };
+  roots.forEach(visit);
   return found;
 }
 

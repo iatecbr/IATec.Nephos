@@ -156,12 +156,14 @@
  * The only part that scrolls, above `layout/dialog-max-height`. A scroll area clips what
  * is drawn outside its box, and the controls draw their focus border and halo outside
  * theirs: the area gets that room on every side, inside the window padding, and gives it
- * back in negative margins, so the measures of the content do not change.
+ * back in negative margins, so the measures of the content do not change. In a window
+ * too short for everything, the content keeps at least one control row
+ * (`control/height-large`, D6) and the window scrolls as a whole.
  */
 .content {
   --_focus-room: calc(var(--nph-border-width) + var(--nph-focus-ring-width));
   flex: 1 1 auto;
-  min-block-size: 0;
+  min-block-size: var(--nph-control-height-large);
   margin-block: calc(var(--nph-space-stack) - var(--_focus-room)) calc(-1 * var(--_focus-room));
   margin-inline: calc(-1 * var(--_focus-room));
   padding: var(--_focus-room);

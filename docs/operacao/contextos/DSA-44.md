@@ -37,7 +37,7 @@ of DSA-34, 39, 42, 43, 45 and 47.
 None recorded: `review-and-merge` waits for the merge.
 
 ## Blocker
-None for the pull request. D1, D2, D4 and D5 wait for Indiane and do not block; D3 keeps the
+None for the pull request. D1, D2, D4, D5 and D6 wait for Indiane and do not block; D3 keeps the
 highlight icon out.
 
 ## Next command

@@ -59,6 +59,12 @@
       "question": "The evidence does not say whether a click on the overlay/scrim veil closes the dialog. The code does not close it, so a half-filled form is not lost; Esc and the close button close it. Does Indiane confirm? It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D6",
+      "question": "The evidence does not give a minimum height for the content in a window too short for the header, the content and the stacked actions. The code keeps at least one control row, control/height-large (44), and the whole window scrolls. Does Indiane confirm, or does she want another floor? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-24"
     }
   ],
   "evidence": [

@@ -2852,7 +2852,8 @@ modal dialog covers the window it opens in, which a page with several examples i
    window itself (`tabindex="-1"`). The close button comes after the content so that an Enter does
    not close the dialog by accident. The search follows what the person sees: into open shadow
    roots and from a slot to what it shows, so the field of a form component that does not delegate
-   the focus counts. Each candidate is focused and kept only if the focus really
+   the focus counts; a negative `tabindex` on a shadow host takes out everything it draws, as
+   sequential navigation does. Each candidate is focused and kept only if the focus really
    lands in it, so a disabled or hidden element is skipped. A piece that has not drawn yet, when
    the dialog is connected already open, cannot take it: once the pieces draw, the rule runs again
    if the focus is still where the rule put it, so a move by the person is kept. On close, the focus goes back to the
@@ -2873,7 +2874,8 @@ modal dialog covers the window it opens in, which a page with several examples i
    its box, so it keeps around the content the room of the focus border and halo the controls draw
    outside theirs, and gives it back in negative margins: the measures do not change. When the
    header, the footer and the padding alone do not fit, as in a short window with the actions
-   stacked, the window itself scrolls, so no action is out of reach. While any
+   stacked, the content keeps at least one control row (`control/height-large`, D6) and the window
+   itself scrolls, so no field and no action is out of reach. While any
    dialog is shown, the root of the page
    does not scroll (`overflow: hidden`, with a counter shared by every dialog), because the inert
    page still scrolls under the wheel over the veil; the width of the scrollbar that disappears is
@@ -2936,11 +2938,12 @@ by Elvys with the plan on 22/10/2026.
 dialog, a drawer or a side panel. The Usage section of the page (P70, DSA-35), the page lists read
 from the Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
 
-**Pending for Indiane (DSA-44, D1 to D5).** Whether `stacked` is the consumer's choice or what every
+**Pending for Indiane (DSA-44, D1 to D6).** Whether `stacked` is the consumer's choice or what every
 dialog does below `md` (D1); the margin to the edge of a small window (D2); the icon, the size, the
 box and the place of the highlight icon (D3, which keeps `status` out); the extent of the lines and
-the spaces around them and next to the close button (D4); whether a click on the veil closes (D5).
-Only D3 holds a part back.
+the spaces around them and next to the close button (D4); whether a click on the veil closes (D5);
+the minimum height of the content in a window too short for everything (D6). Only D3 holds a part
+back.
 
 **Status.** Anatomy and behavior accepted by Indiane on 21/10/2026; the plan approved by Elvys on
 22/10/2026. API and semantics are reviewed in the pull request that brings them; the merge is the
