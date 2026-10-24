@@ -768,7 +768,7 @@
       ],
       [
         "hover-active",
-        "La superficie pasa al token de hover del tipo y del énfasis."
+        "La superficie pasa al token de hover del tipo y del énfasis, y en el botón con texto los iconos de inicio y de fin pasan a solid."
       ],
       [
         "focus",
@@ -3512,7 +3512,7 @@
       "components-nph-badge-validation--two-words": "Una o dos palabras quedan en una sola línea: el badge no se parte.",
       "components-nph-button-validation--matrix": "Cada par de severity y emphasis que existe, en el tamaño default. Pase el ratón sobre un botón para ver el hover.",
       "components-nph-button-validation--sizes": "Los tres tamaños, con texto y solo con icono. El texto es label-md en todos.",
-      "components-nph-button-validation--icons": "Icono al inicio, al final y los dos juntos, en icon/size-sm.",
+      "components-nph-button-validation--icons": "Icono al inicio, al final y los dos juntos, en icon/size-sm. Pase el ratón sobre un botón: los iconos pasan a solid.",
       "components-nph-button-validation--disabled": "Deshabilitado: todo el botón en state/disabled-opacity, fuera del orden de Tab.",
       "components-nph-button-validation--loading": "Cargando: el spinner ocupa el lugar del icono inicial, y el texto se mantiene.",
       "components-nph-button-validation--shapes": "Esquinas cuadradas y circulares del botón solo con icono, en cada tamaño y énfasis: el tamaño se mantiene. Use Tab para ver el foco seguir las esquinas redondas.",

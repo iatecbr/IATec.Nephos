@@ -12,7 +12,8 @@
  * - `size`: `compact`, `default` (default, via T4) or `large`;
  * - `text`: says what happens on click. It is the accessible name;
  * - `icon-start` and `icon-end`: one `nph-icon` core name each, at
- *   `icon/size-sm` with text. They can coexist (B6);
+ *   `icon/size-sm` with text. They can coexist (B6). With text, they draw the
+ *   `light` variant and switch to `solid` in hover-active (21-10-2026, P88);
  * - without text, the button is the "icon only" (B5): a single icon that follows the box
  *   (sm in compact, md in default, lg in large), and `label` is required as the
  *   accessible name (P68);
@@ -233,6 +234,15 @@ export class NphButton extends LitElement {
     return html`<nph-icon class="icon" name=${name} size=${size}></nph-icon>`;
   }
 
+  /*
+   * With text, each icon renders as a light and solid pair; the CSS shows one by the
+   * hover-active state, the same condition as the background (P88).
+   */
+  private glyphPair(name: string): TemplateResult {
+    return html`<nph-icon class="icon icon-rest" name=${name} size="sm"></nph-icon>
+      <nph-icon class="icon icon-active" name=${name} variant="solid" size="sm"></nph-icon>`;
+  }
+
   private spinner(size: 'sm' | 'md'): TemplateResult {
     return html`<nph-spinner class="icon" size=${size}></nph-spinner>`;
   }
@@ -252,8 +262,8 @@ export class NphButton extends LitElement {
         ? this.spinner(ICON_ONLY_SPINNER_SIZE[size])
         : this.glyph(start || end, ICON_ONLY_ICON_SIZE[size]);
     } else {
-      const lead = this.loading ? this.spinner('sm') : start !== '' ? this.glyph(start, 'sm') : nothing;
-      const tail = !this.loading && end !== '' ? this.glyph(end, 'sm') : nothing;
+      const lead = this.loading ? this.spinner('sm') : start !== '' ? this.glyphPair(start) : nothing;
+      const tail = !this.loading && end !== '' ? this.glyphPair(end) : nothing;
       content = html`${lead}<span class="text">${text}</span>${tail}`;
     }
 
