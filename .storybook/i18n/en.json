@@ -163,6 +163,16 @@
     "components-nph-switch-validation--invalid": "Invalid",
     "components-nph-switch-validation--interactive": "Interactive",
     "components-nph-switch-validation--examples": "Examples",
+    "components-nph-slider-docs": "Docs",
+    "components-nph-slider-docs--documentation": "Documentation",
+    "components-nph-slider-validation": "Validation",
+    "components-nph-slider-validation--matrix": "Matrix",
+    "components-nph-slider-validation--optional-parts": "Optional parts",
+    "components-nph-slider-validation--keyboard-and-events": "Keyboard and events",
+    "components-nph-slider-validation--form-association": "Form association",
+    "components-nph-slider-validation--inside-field": "Inside nph-field",
+    "components-nph-slider-validation--invalid-input": "Invalid input",
+    "components-nph-slider-validation--examples": "Examples",
     "components-nph-select-docs": "Docs",
     "components-nph-select-docs--documentation": "Documentation",
     "components-nph-select-validation": "Validation",
@@ -3557,6 +3567,329 @@
     "statusIdle": "Waiting for a click.",
     "statusChanged": "input and change fired; checked = {checked}."
   },
+  "sliderDocs": {
+    "summary": "The control that picks a value, or a range, on a continuous scale of numbers, by dragging a thumb or with the arrow keys. It takes part in the form that contains it; the help and the error message belong to nph-field.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-slider spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P94. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "description": "Use nph-slider when the position on the scale matters more than the exact number: volume, brightness, a price range. When the exact number matters, turn on inputs or use nph-input. It does not show progress: that is a progress bar, which is not operated.",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "single, to pick an approximate value on a scale, such as volume or brightness.",
+      "range, to filter by a range, such as a minimum and a maximum price.",
+      "vertical, in a narrow panel or for a setting that goes up and down, such as volume or zoom.",
+      "text, outside nph-field, when the person needs to see the number while adjusting.",
+      "limits, when the ends of the scale are not obvious to the person.",
+      "marks, when only some values are valid, in fixed steps.",
+      "inputs, when the exact number matters and the person may want to type it.",
+      "steppers, when fine adjustment is common or dragging is hard, as on a touch screen.",
+      "Inside nph-field when the value breaks a rule: the field gives the error message."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "To show progress: that is a progress bar, which is not operated.",
+      "range to pick a single value: use single.",
+      "vertical in a common form: the horizontal one follows the reading.",
+      "text inside nph-field: the label comes out twice.",
+      "limits together with marks: the marks already show the ends.",
+      "marks on a continuous scale: use limits.",
+      "Alone when the person often types exact numbers: turn on inputs or use nph-input.",
+      "steppers without a defined step: each click needs to move one clear step."
+    ],
+    "relationsText": "nph-field gives the label, the help and the error message, and writes label, description, invalid and required on the slider; text stays off there. On its own, nph-label names it with for, or text draws the label above the track. The value balloon is nph-tooltip, the field is nph-input and minus and plus are icon-only nph-button.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "orientation",
+        "horizontal (default) or vertical. The vertical one has the minimum at the bottom, and only text and limits exist in it. Reflected to the attribute."
+      ],
+      [
+        "mode",
+        "single (default), one thumb, or range, two thumbs, start and end. Reflected to the attribute."
+      ],
+      [
+        "min, max and step",
+        "The scale: 0, 100 and 1 by default. Every value is rounded to the step and kept inside the scale."
+      ],
+      [
+        "value",
+        "The current value, in single. The value attribute is the initial value and the value of form.reset(); it applies only until the person moves the slider. Setting it from code fires no event. Its default is the middle of the scale."
+      ],
+      [
+        "start and end",
+        "The start and the end, in range, with the same rule as value. Each thumb stops at the other. By default, min and max."
+      ],
+      [
+        "name",
+        "The name of the entry in the form data: single submits name=value, range two entries under the same name, start and end. Reflected to the attribute."
+      ],
+      [
+        "text",
+        "The visible label, drawn by an nph-label with the current value beside it, above the track. Empty turns the part off. Off inside nph-field."
+      ],
+      [
+        "limits",
+        "Turns on the minimum and the maximum at the ends of the track."
+      ],
+      [
+        "marks",
+        "Turns on one label per step under the track, at most 100. Horizontal only."
+      ],
+      [
+        "inputs",
+        "Turns on an nph-input with the number: one at the end in single, one at each end in range. Horizontal only."
+      ],
+      [
+        "steppers",
+        "Turns on the minus and plus buttons, which move one step. Horizontal only; requires decrease-label and increase-label."
+      ],
+      [
+        "start-label and end-label",
+        "In range, the accessible name of each thumb and of its field, already localized."
+      ],
+      [
+        "decrease-label and increase-label",
+        "The accessible names of the minus and plus buttons, already localized."
+      ],
+      [
+        "label",
+        "The accessible name in text, never visible, when no label is associated. An associated label wins over it, and it wins over text."
+      ],
+      [
+        "description",
+        "The accessible description in text, never visible: the help or the error sentence that nph-field writes. Read as the description of each thumb."
+      ],
+      [
+        "required",
+        "Written by nph-field. A slider always has a value, so it has no effect."
+      ],
+      [
+        "disabled",
+        "The whole slider at state/disabled-opacity, once, out of the Tab order and of the form data. A disabled fieldset disables it too. It wins over invalid."
+      ],
+      [
+        "invalid",
+        "The erro state: the thumb border becomes status/error and each thumb gets aria-invalid. The sentence belongs to nph-field."
+      ],
+      [
+        "input and change",
+        "The native events. input fires while the value moves; change when it settles: after a key or a click, and on the release of a drag. Read the value from the host."
+      ]
+    ],
+    "variantsTitle": "Variants",
+    "variantsHeader": [
+      "Variant",
+      "What it is for"
+    ],
+    "variants": [
+      [
+        "orientation: horizontal",
+        "General use, following the reading. The minimum is on the left."
+      ],
+      [
+        "orientation: vertical",
+        "A narrow panel, or a setting that goes up and down, such as volume or zoom. The minimum is at the bottom."
+      ],
+      [
+        "mode: single",
+        "One approximate value on the scale, such as volume or brightness."
+      ],
+      [
+        "mode: range",
+        "A start and an end, such as a minimum and a maximum price. Each thumb has a name of its own."
+      ]
+    ],
+    "variantsCaption": "single and range, horizontal and vertical.",
+    "statesTitle": "States",
+    "statesHeader": [
+      "State",
+      "What changes"
+    ],
+    "states": [
+      [
+        "default",
+        "The thumb on color/background, with the color/primary-border border. The track is color/input empty and color/primary active."
+      ],
+      [
+        "hover",
+        "The value balloon, an nph-tooltip, opens above the thumb."
+      ],
+      [
+        "focus",
+        "The thumb border becomes focus/border, with the halo focus/halo outside, at focus/ring-width. The balloon opens."
+      ],
+      [
+        "invalid",
+        "The thumb border is status/error; with focus, the halo is focus/halo-error. The inner fields show their error."
+      ],
+      [
+        "disabled",
+        "The whole slider at state/disabled-opacity, once; no balloon. The field and the buttons keep their resting look. It wins over invalid."
+      ]
+    ],
+    "statesCaption": "Default, invalid and disabled. Move the mouse over a thumb to see the balloon, and press Tab to see focus.",
+    "partsTitle": "Optional parts",
+    "partsText": "Each part is turned on by a property and does not create a variant. The parts beside the track sit at space/inline from it.",
+    "partsHeader": [
+      "Property",
+      "What it draws"
+    ],
+    "parts": [
+      [
+        "text",
+        "The nph-label and the current value above the track."
+      ],
+      [
+        "limits",
+        "The minimum and the maximum at the ends, in text/caption."
+      ],
+      [
+        "marks",
+        "One label per step under the track, in text/caption. Horizontal only."
+      ],
+      [
+        "inputs",
+        "An nph-input with the number; in range, one at each end. Horizontal only."
+      ],
+      [
+        "steppers",
+        "Icon-only nph-button, secondary and ghost, with minus and plus. Each click moves one step. Horizontal only."
+      ]
+    ],
+    "partsCaption": "limits, marks and steppers.",
+    "invalidTitle": "Invalid input",
+    "invalidText": "An orientation or a mode outside its values, a min that is not below max and a step that is not a positive number draw nothing. marks, inputs or steppers in the vertical orientation, and steppers without its two names, are not drawn; the rest renders.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Root",
+        "A vertical stack, space/stack-tight between the top line, the track and the marks. Default width layout/input-width."
+      ],
+      [
+        "Track",
+        "Empty part in color/input and active part in color/primary, space/inline-tight thick, radius/full. In range, the active part sits between the two thumbs."
+      ],
+      [
+        "Thumb",
+        "A circle of icon/size-sm, radius/full, color/background, with the border/width border inside in color/primary-border. Its touch target is a circle of control/height-large centered on it."
+      ],
+      [
+        "Value balloon",
+        "An nph-tooltip above the thumb, with the tooltip tokens. In range, it follows the thumb that has the state."
+      ],
+      [
+        "Label and value",
+        "The nph-label on the left and the value on the right, in text/label-md, color/foreground."
+      ],
+      [
+        "Minimum, maximum and marks",
+        "text/caption, color/muted-foreground. The marks sit space/stack-tight below the track."
+      ],
+      [
+        "Field, minus and plus",
+        "nph-input in size=default, and icon-only nph-button, space/inline from the track."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "Each thumb is an element with role=slider, with aria-valuemin, aria-valuemax, aria-valuenow, aria-valuetext and aria-orientation. In range, an inner group holds the two thumbs. The host is form-associated and labelable."
+      ],
+      [
+        "Accessible name",
+        "From the label associated with the host: nph-label for, a label element or nph-field. Without one, from label, then from text. In range, each thumb takes start-label or end-label; minus and plus take decrease-label and increase-label."
+      ],
+      [
+        "Description",
+        "description is read as the description of each thumb: the help or the error sentence of nph-field."
+      ],
+      [
+        "Keyboard",
+        "Tab enters each thumb. The arrows move one step; Page Up and Page Down a tenth of the scale; Home and End go to the ends."
+      ],
+      [
+        "Visible focus",
+        "The thumb takes focus/border with the halo outside, without changing the size, and the balloon opens."
+      ],
+      [
+        "Touch target",
+        "The thumb is drawn at icon/size-sm, and its target is a circle of control/height-large."
+      ],
+      [
+        "Known limits",
+        "Forced colors and right-to-left are not treated yet. The swipe gesture of a mobile screen reader depends on the browser."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleBrightness": "Brightness: text on, outside a field.",
+    "examplePrice": "Price range: range with inputs, one field at each end.",
+    "exampleVolume": "Volume: vertical with limits, the minimum at the bottom.",
+    "exampleField": "Inside nph-field: the field gives the label, the help and the error.",
+    "referencesTitle": "References",
+    "references": [
+      "nph-slider spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P94 (API and semantics), P80 (the form pattern), P83 (the field contract), P77 (the balloon), P01, P02 and P03.",
+      "design.md — color/input, color/primary, color/primary-border, status/error, focus/*, state/disabled-opacity, icon/size-sm, control/height-large, layout/input-width, space/stack-tight, space/inline, space/inline-tight, radius/full, text/label-md and text/caption.",
+      "DS-IA-NEPHOS 5.0 Figma — board nph-slider (1636:46), frame 1925:642 and set 1636:44.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-slider spec sheet; Figma, board nph-slider (1636:46)",
+    "sourceApi": "nph-slider spec sheet; docs/decisoes-tecnicas.md › P94",
+    "sourceStates": "Figma, set 1636:44; design.md",
+    "sourceAnatomy": "Figma, set 1636:44; design.md",
+    "sourceAccessibility": "nph-slider spec sheet; nph-slider.test.ts",
+    "matrixLabel": "Component matrix",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "brightnessLabel": "Brightness",
+    "volumeLabel": "Volume",
+    "volumeHelp": "Between 0 and 100.",
+    "volumeError": "Lower the volume to 70 or less.",
+    "priceLabel": "Price",
+    "startLabel": "Minimum price",
+    "endLabel": "Maximum price",
+    "ratingLabel": "Rating",
+    "decreaseLabel": "Decrease volume",
+    "increaseLabel": "Increase volume"
+  },
+  "sliderValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "brightnessLabel": "Brightness",
+    "volumeLabel": "Volume",
+    "volumeHelp": "Between 0 and 100.",
+    "volumeError": "Lower the volume to 70 or less.",
+    "priceLabel": "Price",
+    "startLabel": "Minimum price",
+    "endLabel": "Maximum price",
+    "ratingLabel": "Rating",
+    "decreaseLabel": "Decrease volume",
+    "increaseLabel": "Increase volume",
+    "statusIdle": "Waiting for an event.",
+    "statusEvent": "{event} fired; the value is now {value}.",
+    "submitText": "Send",
+    "resetText": "Reset",
+    "statusSubmitted": "Submitted: {data}",
+    "statusReset": "The form went back to the value attributes.",
+    "fieldsetDisabled": "Inside a disabled fieldset",
+    "exampleBrightness": "Brightness",
+    "examplePrice": "Price range",
+    "exampleVolume": "Volume"
+  },
   "selectDocs": {
     "summary": "The field that opens a closed list of options for the person to pick one. It takes part in the form that contains it; the label, the help and the error message belong to nph-field.",
     "onThisPage": "On this page",
@@ -4592,6 +4925,13 @@
       "components-nph-switch-validation--invalid": "Invalid: the track outline is status/error, on or off, with a label or only the track; the error sentence stays outside the piece.",
       "components-nph-switch-validation--interactive": "A click toggles the piece and fires the native input and change; checked is read from the target and shown below the piece. Setting checked from code fires nothing.",
       "components-nph-switch-validation--examples": "The three required examples, each in light and dark mode: Single setting, Preferences and Unavailable setting.",
+      "components-nph-slider-validation--matrix": "orientation × mode × state of the set: default, error and disabled. Move the mouse over a thumb for the balloon and press Tab for focus.",
+      "components-nph-slider-validation--optional-parts": "The optional parts, each on its own and together: text, limits, marks, inputs and steppers. In the vertical orientation only text and limits exist.",
+      "components-nph-slider-validation--keyboard-and-events": "The arrows move one step, Page Up and Page Down a tenth, Home and End go to the ends; a drag moves the nearest thumb. input fires while the value moves and change when it settles.",
+      "components-nph-slider-validation--form-association": "The host takes part in the form: single submits name=value, range two entries under the same name, reset restores the value attributes, and a disabled fieldset leaves it out.",
+      "components-nph-slider-validation--inside-field": "Inside nph-field, the field gives the label, the help and the error; the slider shows the error state and reads the sentence as its description.",
+      "components-nph-slider-validation--invalid-input": "Invalid input draws nothing: an orientation or a mode that does not exist, min not below max, a step of zero. marks in the vertical orientation is not drawn; the rest renders.",
+      "components-nph-slider-validation--examples": "The three required examples of the accepted board: Brightness, Price range and Volume, each in light and dark mode.",
       "components-nph-select-validation--matrix": "size × state: placeholder, value, error, disabled and both, with the arrow area in color/accent. Move the mouse for hover, press Tab for focus.",
       "components-nph-select-validation--start": "The start of the trigger (D4): none, icon and avatar, before a choice and with the start of the chosen option; the dot of an option never goes to the trigger.",
       "components-nph-select-validation--option": "The option: the four starts, the secondary text, active with the hover look, selected with the check winning over active, disabled, and the dot in every state (D5, D6).",

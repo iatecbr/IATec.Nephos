@@ -163,6 +163,16 @@
     "components-nph-switch-validation--invalid": "Inválido",
     "components-nph-switch-validation--interactive": "Interactivo",
     "components-nph-switch-validation--examples": "Ejemplos",
+    "components-nph-slider-docs": "Docs",
+    "components-nph-slider-docs--documentation": "Documentación",
+    "components-nph-slider-validation": "Validación",
+    "components-nph-slider-validation--matrix": "Matriz",
+    "components-nph-slider-validation--optional-parts": "Partes opcionales",
+    "components-nph-slider-validation--keyboard-and-events": "Teclado y eventos",
+    "components-nph-slider-validation--form-association": "Asociación al formulario",
+    "components-nph-slider-validation--inside-field": "Dentro del nph-field",
+    "components-nph-slider-validation--invalid-input": "Entrada inválida",
+    "components-nph-slider-validation--examples": "Ejemplos",
     "components-nph-select-docs": "Docs",
     "components-nph-select-docs--documentation": "Documentación",
     "components-nph-select-validation": "Validación",
@@ -3557,6 +3567,329 @@
     "statusIdle": "Esperando un clic.",
     "statusChanged": "input y change disparados; checked = {checked}."
   },
+  "sliderDocs": {
+    "summary": "El control que elige un valor, o un rango, en una escala continua de números, arrastrando un pulgar o con las flechas. Forma parte del formulario que lo contiene; la ayuda y el mensaje de error pertenecen al nph-field.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-slider, design.md para los tokens y docs/decisoes-tecnicas.md para la P94. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "description": "Usa el nph-slider cuando la posición en la escala importa más que el número exacto: volumen, brillo, un rango de precios. Cuando el número exacto importa, activa inputs o usa el nph-input. No muestra progreso: eso es una barra de progreso, que no se opera.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "single, para elegir un valor aproximado en una escala, como volumen o brillo.",
+      "range, para filtrar por un rango, como precio mínimo y máximo.",
+      "vertical, en un panel estrecho o en un ajuste que sube y baja, como volumen o zoom.",
+      "text, fuera del nph-field, cuando la persona necesita ver el número mientras ajusta.",
+      "limits, cuando los extremos de la escala no son obvios para la persona.",
+      "marks, cuando solo algunos valores son válidos, en pasos fijos.",
+      "inputs, cuando el número exacto importa y la persona puede querer escribirlo.",
+      "steppers, cuando el ajuste fino es común o arrastrar es difícil, como en una pantalla táctil.",
+      "Dentro del nph-field cuando el valor rompe una regla: el field da el mensaje de error."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para mostrar progreso: eso es una barra de progreso, que no se opera.",
+      "range para elegir un solo valor: usa single.",
+      "vertical en un formulario común: el horizontal sigue la lectura.",
+      "text dentro del nph-field: la etiqueta sale dos veces.",
+      "limits junto con marks: las marcas ya muestran los extremos.",
+      "marks en una escala continua: usa limits.",
+      "Solo cuando la persona escribe números exactos a menudo: activa inputs o usa el nph-input.",
+      "steppers sin un paso definido: cada clic necesita mover un paso claro."
+    ],
+    "relationsText": "El nph-field da la etiqueta, la ayuda y el mensaje de error, y escribe label, description, invalid y required en el slider; allí, text queda desactivado. Solo, el nph-label lo nombra con for, o text dibuja la etiqueta sobre la pista. El globo de valor es el nph-tooltip, el campo es el nph-input y menos y más son nph-button solo con icono.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "orientation",
+        "horizontal (predeterminado) o vertical. El vertical tiene el mínimo abajo, y en él solo existen text y limits. Reflejada en el atributo."
+      ],
+      [
+        "mode",
+        "single (predeterminado), un pulgar, o range, dos pulgares, inicio y fin. Reflejada en el atributo."
+      ],
+      [
+        "min, max y step",
+        "La escala: 0, 100 y 1 por defecto. Todo valor se redondea al paso y se mantiene dentro de la escala."
+      ],
+      [
+        "value",
+        "El valor actual, en single. El atributo value es el valor inicial y el valor de form.reset(); vale solo hasta que la persona mueve el slider. Definirlo por código no dispara eventos. Por defecto, el medio de la escala."
+      ],
+      [
+        "start y end",
+        "El inicio y el fin, en range, con la misma regla que value. Cada pulgar se detiene en el otro. Por defecto, min y max."
+      ],
+      [
+        "name",
+        "El nombre de la entrada en los datos del formulario: single envía name=value, range dos entradas con el mismo nombre, inicio y fin. Reflejada en el atributo."
+      ],
+      [
+        "text",
+        "La etiqueta visible, dibujada por un nph-label con el valor actual al lado, sobre la pista. Vacía desactiva la parte. Desactivada dentro del nph-field."
+      ],
+      [
+        "limits",
+        "Activa el mínimo y el máximo en los extremos de la pista."
+      ],
+      [
+        "marks",
+        "Activa una etiqueta por paso bajo la pista, hasta 100. Solo en horizontal."
+      ],
+      [
+        "inputs",
+        "Activa un nph-input con el número: uno al final en single, uno en cada extremo en range. Solo en horizontal."
+      ],
+      [
+        "steppers",
+        "Activa los botones de menos y más, que mueven un paso. Solo en horizontal; exige decrease-label e increase-label."
+      ],
+      [
+        "start-label y end-label",
+        "En range, el nombre accesible de cada pulgar y de su campo, ya localizado."
+      ],
+      [
+        "decrease-label y increase-label",
+        "Los nombres accesibles de los botones de menos y más, ya localizados."
+      ],
+      [
+        "label",
+        "El nombre accesible en texto, nunca visible, cuando no hay etiqueta asociada. Una etiqueta asociada gana, y él gana a text."
+      ],
+      [
+        "description",
+        "La descripción accesible en texto, nunca visible: la ayuda o la frase de error que escribe el nph-field. Se lee como descripción de cada pulgar."
+      ],
+      [
+        "required",
+        "Lo escribe el nph-field. Un slider siempre tiene valor, así que no tiene efecto."
+      ],
+      [
+        "disabled",
+        "Todo el slider en state/disabled-opacity, una sola vez, fuera del Tab y de los datos del formulario. Un fieldset deshabilitado también lo deshabilita. Gana a invalid."
+      ],
+      [
+        "invalid",
+        "El estado erro: el borde del pulgar pasa a status/error y cada pulgar recibe aria-invalid. La frase pertenece al nph-field."
+      ],
+      [
+        "input y change",
+        "Los eventos nativos. input se dispara mientras el valor se mueve; change cuando se asienta: tras una tecla o un clic, y al soltar un arrastre. Lee el valor en el host."
+      ]
+    ],
+    "variantsTitle": "Variantes",
+    "variantsHeader": [
+      "Variante",
+      "Para qué sirve"
+    ],
+    "variants": [
+      [
+        "orientation: horizontal",
+        "Uso general, siguiendo la lectura. El mínimo queda a la izquierda."
+      ],
+      [
+        "orientation: vertical",
+        "Un panel estrecho, o un ajuste que sube y baja, como volumen o zoom. El mínimo queda abajo."
+      ],
+      [
+        "mode: single",
+        "Un valor aproximado en la escala, como volumen o brillo."
+      ],
+      [
+        "mode: range",
+        "Un inicio y un fin, como precio mínimo y máximo. Cada pulgar tiene nombre propio."
+      ]
+    ],
+    "variantsCaption": "single y range, horizontal y vertical.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "El pulgar sobre color/background, con el borde color/primary-border. La pista es color/input vacía y color/primary activa."
+      ],
+      [
+        "hover",
+        "El globo de valor, un nph-tooltip, se abre sobre el pulgar."
+      ],
+      [
+        "foco",
+        "El borde del pulgar pasa a focus/border, con el halo focus/halo por fuera, en focus/ring-width. El globo se abre."
+      ],
+      [
+        "inválido",
+        "El borde del pulgar es status/error; con foco, el halo es focus/halo-error. Los campos internos muestran su error."
+      ],
+      [
+        "deshabilitado",
+        "Todo el slider en state/disabled-opacity, una sola vez; sin globo. El campo y los botones mantienen su aspecto en reposo. Gana a invalid."
+      ]
+    ],
+    "statesCaption": "Predeterminado, inválido y deshabilitado. Pasa el ratón sobre un pulgar para ver el globo y pulsa Tab para ver el foco.",
+    "partsTitle": "Partes opcionales",
+    "partsText": "Cada parte se activa con una propiedad y no crea variante. Las partes junto a la pista quedan a space/inline de ella.",
+    "partsHeader": [
+      "Propiedad",
+      "Qué dibuja"
+    ],
+    "parts": [
+      [
+        "text",
+        "El nph-label y el valor actual sobre la pista."
+      ],
+      [
+        "limits",
+        "El mínimo y el máximo en los extremos, en text/caption."
+      ],
+      [
+        "marks",
+        "Una etiqueta por paso bajo la pista, en text/caption. Solo en horizontal."
+      ],
+      [
+        "inputs",
+        "Un nph-input con el número; en range, uno en cada extremo. Solo en horizontal."
+      ],
+      [
+        "steppers",
+        "nph-button solo con icono, secondary y ghost, con minus y plus. Cada clic mueve un paso. Solo en horizontal."
+      ]
+    ],
+    "partsCaption": "limits, marks y steppers.",
+    "invalidTitle": "Entrada inválida",
+    "invalidText": "Una orientation o un mode fuera de sus valores, un min que no queda por debajo de max y un step que no es un número positivo no dibujan nada. marks, inputs o steppers en la orientación vertical, y steppers sin sus dos nombres, no se dibujan; el resto se renderiza.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Raíz",
+        "Una pila vertical, space/stack-tight entre la línea de arriba, la pista y las marcas. Ancho predeterminado layout/input-width."
+      ],
+      [
+        "Pista",
+        "Parte vacía en color/input y parte activa en color/primary, space/inline-tight de grosor, radius/full. En range, la parte activa queda entre los dos pulgares."
+      ],
+      [
+        "Pulgar",
+        "Un círculo de icon/size-sm, radius/full, color/background, con el borde border/width por dentro en color/primary-border. Su área táctil es un círculo de control/height-large centrado en él."
+      ],
+      [
+        "Globo de valor",
+        "Un nph-tooltip sobre el pulgar, con los tokens del tooltip. En range, sigue al pulgar que tiene el estado."
+      ],
+      [
+        "Etiqueta y valor",
+        "El nph-label a la izquierda y el valor a la derecha, en text/label-md, color/foreground."
+      ],
+      [
+        "Mínimo, máximo y marcas",
+        "text/caption, color/muted-foreground. Las marcas quedan a space/stack-tight bajo la pista."
+      ],
+      [
+        "Campo, menos y más",
+        "nph-input en size=default, y nph-button solo con icono, a space/inline de la pista."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Cada pulgar es un elemento con role=slider, con aria-valuemin, aria-valuemax, aria-valuenow, aria-valuetext y aria-orientation. En range, un grupo interno reúne los dos pulgares. El host está asociado al formulario y es etiquetable."
+      ],
+      [
+        "Nombre accesible",
+        "De la etiqueta asociada al host: nph-label for, un elemento label o el nph-field. Sin ella, de label, después de text. En range, cada pulgar recibe start-label o end-label; menos y más reciben decrease-label e increase-label."
+      ],
+      [
+        "Descripción",
+        "description se lee como descripción de cada pulgar: la ayuda o la frase de error del nph-field."
+      ],
+      [
+        "Teclado",
+        "Tab entra en cada pulgar. Las flechas mueven un paso; Re Pág y Av Pág una décima parte de la escala; Inicio y Fin van a los extremos."
+      ],
+      [
+        "Foco visible",
+        "El pulgar recibe focus/border con el halo por fuera, sin cambiar el tamaño, y el globo se abre."
+      ],
+      [
+        "Área táctil",
+        "El pulgar se dibuja en icon/size-sm, y su área es un círculo de control/height-large."
+      ],
+      [
+        "Límites conocidos",
+        "Los colores forzados y de derecha a izquierda aún no se tratan. El gesto de deslizar de un lector de pantalla móvil depende del navegador."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleBrightness": "Brillo: text activado, fuera de un field.",
+    "examplePrice": "Rango de precios: range con inputs, un campo en cada extremo.",
+    "exampleVolume": "Volumen: vertical con limits, el mínimo abajo.",
+    "exampleField": "Dentro del nph-field: el field da la etiqueta, la ayuda y el error.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-slider — propósito, variantes, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P94 (API y semántica), P80 (el patrón de formulario), P83 (el contrato del field), P77 (el globo), P01, P02 y P03.",
+      "design.md — color/input, color/primary, color/primary-border, status/error, focus/*, state/disabled-opacity, icon/size-sm, control/height-large, layout/input-width, space/stack-tight, space/inline, space/inline-tight, radius/full, text/label-md y text/caption.",
+      "Figma DS-IA-NEPHOS 5.0 — board nph-slider (1636:46), frame 1925:642 y set 1636:44.",
+      "Storybook — Validation, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha del nph-slider; Figma, board nph-slider (1636:46)",
+    "sourceApi": "Ficha del nph-slider; docs/decisoes-tecnicas.md › P94",
+    "sourceStates": "Figma, set 1636:44; design.md",
+    "sourceAnatomy": "Figma, set 1636:44; design.md",
+    "sourceAccessibility": "Ficha del nph-slider; nph-slider.test.ts",
+    "matrixLabel": "Matriz del componente",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "brightnessLabel": "Brillo",
+    "volumeLabel": "Volumen",
+    "volumeHelp": "Entre 0 y 100.",
+    "volumeError": "Baja el volumen a 70 o menos.",
+    "priceLabel": "Precio",
+    "startLabel": "Precio mínimo",
+    "endLabel": "Precio máximo",
+    "ratingLabel": "Puntuación",
+    "decreaseLabel": "Bajar volumen",
+    "increaseLabel": "Subir volumen"
+  },
+  "sliderValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "brightnessLabel": "Brillo",
+    "volumeLabel": "Volumen",
+    "volumeHelp": "Entre 0 y 100.",
+    "volumeError": "Baja el volumen a 70 o menos.",
+    "priceLabel": "Precio",
+    "startLabel": "Precio mínimo",
+    "endLabel": "Precio máximo",
+    "ratingLabel": "Puntuación",
+    "decreaseLabel": "Bajar volumen",
+    "increaseLabel": "Subir volumen",
+    "statusIdle": "Esperando un evento.",
+    "statusEvent": "{event} se disparó; el valor ahora es {value}.",
+    "submitText": "Enviar",
+    "resetText": "Restablecer",
+    "statusSubmitted": "Enviado: {data}",
+    "statusReset": "El formulario volvió a los atributos de valor.",
+    "fieldsetDisabled": "Dentro de un fieldset deshabilitado",
+    "exampleBrightness": "Brillo",
+    "examplePrice": "Rango de precios",
+    "exampleVolume": "Volumen"
+  },
   "selectDocs": {
     "summary": "El campo que abre una lista cerrada de opciones para que la persona elija una. Participa del formulario que lo contiene; la etiqueta, la ayuda y el mensaje de error pertenecen al nph-field.",
     "onThisPage": "En esta página",
@@ -4592,6 +4925,13 @@
       "components-nph-switch-validation--invalid": "Inválido: el contorno del riel es status/error, encendido o apagado, con etiqueta o solo el riel; la frase de error queda fuera de la pieza.",
       "components-nph-switch-validation--interactive": "Un clic alterna la pieza y dispara los nativos input y change; checked se lee del destino y se muestra debajo de la pieza. Cambiar checked por código no dispara nada.",
       "components-nph-switch-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: Configuración única, Preferencias y Configuración no disponible.",
+      "components-nph-slider-validation--matrix": "orientation × mode × estado del set: predeterminado, error y deshabilitado. Pasa el ratón sobre un pulgar para el globo y pulsa Tab para el foco.",
+      "components-nph-slider-validation--optional-parts": "Las partes opcionales, cada una sola y juntas: text, limits, marks, inputs y steppers. En la orientación vertical solo existen text y limits.",
+      "components-nph-slider-validation--keyboard-and-events": "Las flechas mueven un paso, Re Pág y Av Pág una décima parte, Inicio y Fin van a los extremos; un arrastre mueve el pulgar más cercano. input se dispara mientras el valor se mueve y change cuando se asienta.",
+      "components-nph-slider-validation--form-association": "El host forma parte del formulario: single envía name=value, range dos entradas con el mismo nombre, el reset restaura los atributos de valor, y un fieldset deshabilitado lo deja fuera.",
+      "components-nph-slider-validation--inside-field": "Dentro del nph-field, el field da la etiqueta, la ayuda y el error; el slider muestra el estado de error y lee la frase como descripción.",
+      "components-nph-slider-validation--invalid-input": "La entrada inválida no dibuja nada: una orientation o un mode que no existen, min que no queda por debajo de max, un step de cero. marks en la orientación vertical no se dibuja; el resto se renderiza.",
+      "components-nph-slider-validation--examples": "Los tres ejemplos obligatorios del board aceptado: Brillo, Rango de precios y Volumen, cada uno en modo claro y oscuro.",
       "components-nph-select-validation--matrix": "size × estado: placeholder, valor, error, deshabilitado y ambos, con el área de la flecha en color/accent. Pasa el mouse para el hover, pulsa Tab para el foco.",
       "components-nph-select-validation--start": "El inicio del disparador (D4): none, icon y avatar, antes de la elección y con el inicio de la opción elegida; el punto de una opción nunca va al disparador.",
       "components-nph-select-validation--option": "La opción: los cuatro inicios, el texto secundario, activa con el aspecto de hover, seleccionada con el check ganando sobre la activa, deshabilitada, y el punto en cada estado (D5, D6).",
