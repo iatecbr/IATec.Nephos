@@ -534,6 +534,16 @@ describe('paste', () => {
     expect(element.value).toBe('12345');
   });
 
+  it('a paste with no letter or digit keeps the caret where it was', async () => {
+    const element = await mount({ label: 'Code', value: '1234' });
+    await tabInto(element);
+    await paste(element, '— —', 2);
+    expect(element.value).toBe('1234');
+    expect(native(element).selectionStart).toBe(2);
+    await userEvent.keyboard('{Backspace}');
+    expect(element.value).toBe('134');
+  });
+
   it('a paste listener that moves the focus sends the paste where the focus went, as in a native input', async () => {
     const element = await mount({ label: 'Code', value: '12' });
     const other = document.createElement('input');

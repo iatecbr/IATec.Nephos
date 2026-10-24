@@ -411,7 +411,13 @@ export class NphInputOtp extends LitElement {
     }
     if (event.inputType === 'insertFromPaste') {
       /* The whole text: the browser cuts what it inserts at `maxlength`. */
-      this.pasted = event.data ?? event.dataTransfer?.getData('text/plain') ?? null;
+      const text = event.data ?? event.dataTransfer?.getData('text/plain') ?? null;
+      /* A paste with no letter or digit is refused before the browser inserts it, so the caret and the selection stay. */
+      if (text !== null && this.fit(text, false) === '') {
+        event.preventDefault();
+        return;
+      }
+      this.pasted = text;
     }
   }
 
