@@ -98,7 +98,9 @@ describe('nph-tooltip Documentation', () => {
         expect((tooltip.text ?? '').trim(), tooltip.outerHTML).not.toBe('');
         const anchor = (tooltip.getRootNode() as Document | ShadowRoot).getElementById(tooltip.getAttribute('for') ?? '');
         expect(anchor, tooltip.outerHTML).not.toBeNull();
-        expect(anchor?.getAttribute('aria-describedby')).toContain(tooltip.id);
+        /* A balloon that names an icon-only button is referenced as its name, the others as a description. */
+        const reference = tooltip.relation === 'name' ? 'aria-labelledby' : 'aria-describedby';
+        expect(anchor?.getAttribute(reference)).toContain(tooltip.id);
       }
     });
 

@@ -79,12 +79,25 @@ Before analyzing, proposing, editing or implementing:
 - A new technical decision is reviewed in the pull request that brings it. The
   merge is the approval: after it, the decision is not left "awaiting review",
   and no review is requested on an already closed pull request.
-- Mauro and Elvys review and merge the pull requests Claude opens; Claude
-  does not merge its own pull request. Elvys reviews and merges his own pull
-  requests; Mauro does not review them.
-- When Claude opens a pull request, it requests Mauro's review on GitHub in
-  the same step: `gh pr edit <number> --add-reviewer maurocsjr`. Another
-  reviewer, only when Indiane indicates one.
+- Copilot (`copilot-pull-request-reviewer`) reviews every pull request; no
+  human reviewer is requested. Elvys merges the pull requests, his own and
+  the ones Claude opens; Claude does not merge its own pull request.
+- Whoever opens a pull request requests the Copilot review in the same step:
+  `gh pr edit <number> --add-reviewer @copilot`.
+- Every review thread gets a reply. A defect is fixed with a regression
+  test; a finding that is not actionable gets the reason; a finding that
+  needs Indiane's decision becomes a pending decision, and the reply says
+  so. A thread is resolved only when the fix is already in the pull request,
+  or when the reply closes the matter.
+- After fixing the comments of a round, push and request a new Copilot
+  review of the new head with the same command. The pull request is ready
+  for the merge only when the last Copilot review is of the current head and
+  no actionable thread is open.
+- After any new commit, Copilot's included, every proof the change requires
+  runs again on the final head before the merge. The base broke twice for
+  lack of this: Copilot commits that entered after the last proof of PR #94
+  (`d82d2c3`) and of PR #98 (`4905d5c`) were merged without a rerun and
+  needed the hotfixes #97 and #104.
 - This convention holds until a versioned instruction replaces it. The default
   branch setting on GitHub does not change this integration target.
 

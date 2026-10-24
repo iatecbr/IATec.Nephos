@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 470,
   "owner": "elvys",
-  "state": "ready",
+  "state": "done",
   "piece": "nph-button",
   "dependencies": ["DSA-13"],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-47/review-and-merge-2026-10-24.md",
+      "result": "passed",
+      "verified_at": "2026-10-24",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -38,9 +38,11 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-47/figma-docs-accepted-2026-10-21.md"
+    "docs/operacao/evidencias/DSA-47/figma-docs-accepted-2026-10-21.md",
+    "docs/operacao/evidencias/DSA-47/review-and-merge-2026-10-24.md"
   ],
   "decision_refs": [
+    "docs/decisoes-tecnicas.md#p88",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, Indiane: an action with an icon in the active state (hover/active) swaps the icon to solid; the rule goes to the components",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens"
   ],
@@ -52,9 +54,13 @@
     "excerpt": null,
     "converted_decision": "In hover-active, the start and end icons of the nph-button (COMPONENT_SET 461:13009, page `NPH — Button`) use the solid variant; at rest, focus, disabled and loading they stay light. The use example is card 25 of the board 2478:1910. The rule, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "claude/dsa-47-nph-button-icone-solido-b4494c",
+    "commit": "bb47fea7a0dc968f0931330f4ececbad90869393",
+    "pr": "113"
+  },
   "context": null,
-  "updated_at": "2026-10-21"
+  "updated_at": "2026-10-24"
 }
 ```
 

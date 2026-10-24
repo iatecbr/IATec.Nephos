@@ -92,7 +92,7 @@ Azure Artifacts versions are **immutable**: a published version can never be
 replaced, so every attempt needs a new `rc.N`.
 
 1. Open a PR to `v/5.0.0` that bumps `version` in `package.json` to
-   `5.0.0-rc.N`. Mauro and Elvys review it.
+   `5.0.0-rc.N`. Copilot reviews it and Elvys merges it.
 2. After the merge, tag the **merge commit** and push the tag:
 
    ```bash

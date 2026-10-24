@@ -68,6 +68,11 @@
   padding-inline: 0;
 }
 
+/* Circular shape (P86): only the corners change; the box keeps its size. */
+:host([data-nph-icon-only][shape='circular']) .control {
+  border-radius: var(--nph-radius-full);
+}
+
 .icon {
   flex: none;
 }
@@ -77,6 +82,12 @@
   background-color: var(--_bg-hover, var(--_bg));
   color: var(--_fg-hover, var(--_fg));
   box-shadow: var(--_outline-hover, var(--_outline, none));
+}
+
+/* hover-active, with text: the solid twin replaces the light icon (21-10-2026, P88). */
+.control:not(:disabled):not([aria-disabled='true']):is(:hover, :active) .icon-rest,
+.control:is(:disabled, [aria-disabled='true'], :not(:hover, :active)) .icon-active {
+  display: none;
 }
 
 /* Focus: tight border and halo on the outside, keyboard only. */
@@ -98,6 +109,12 @@
   inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
   border: var(--nph-focus-ring-width) solid var(--_focus-halo);
   border-radius: var(--nph-focus-radius-control-with-border);
+}
+
+/* In the circular shape, the focus border and halo follow the round corners. */
+:host([data-nph-icon-only][shape='circular']) .control:focus-visible::before,
+:host([data-nph-icon-only][shape='circular']) .control:focus-visible::after {
+  border-radius: var(--nph-radius-full);
 }
 
 /* Focus color per severity (the same in all emphases). */

@@ -28,6 +28,16 @@
     "components-nph-input-validation--width": "Ancho",
     "components-nph-input-validation--invalid-input": "Entrada inválida",
     "components-nph-input-validation--examples": "Ejemplos",
+    "components-nph-textarea-docs": "Docs",
+    "components-nph-textarea-docs--documentation": "Documentación",
+    "components-nph-textarea-validation": "Validación",
+    "components-nph-textarea-validation--matrix": "Matriz",
+    "components-nph-textarea-validation--footer": "Pie",
+    "components-nph-textarea-validation--height": "Altura",
+    "components-nph-textarea-validation--form-association": "Asociación al formulario",
+    "components-nph-textarea-validation--in-field": "En el nph-field",
+    "components-nph-textarea-validation--width": "Ancho",
+    "components-nph-textarea-validation--examples": "Ejemplos",
     "components-nph-badge-docs": "Docs",
     "components-nph-badge-docs--documentation": "Documentación",
     "components-nph-badge-validation": "Validación",
@@ -42,6 +52,8 @@
     "components-nph-button-validation--icons": "Iconos",
     "components-nph-button-validation--disabled": "Deshabilitado",
     "components-nph-button-validation--loading": "Cargando",
+    "components-nph-button-validation--shapes": "Formas",
+    "components-nph-button-validation--tooltip": "Tooltip",
     "components-nph-spinner-validation": "Validación",
     "components-nph-spinner-validation--sizes": "Tamaños",
     "components-nph-spinner-validation--accessibility": "Accesibilidad",
@@ -124,6 +136,63 @@
     "components-nph-empty-validation--surfaces": "Superficies",
     "components-nph-empty-validation--combobox-list": "Lista del combobox",
     "components-nph-empty-validation--invalid-heading": "Título inválido",
+    "components-nph-image-docs": "Docs",
+    "components-nph-image-docs--documentation": "Documentación",
+    "components-nph-image-validation": "Validación",
+    "components-nph-image-validation--sizes": "Tamaños",
+    "components-nph-image-validation--ratios": "Proporciones",
+    "components-nph-image-validation--states": "Estados",
+    "components-nph-image-validation--interaction": "Interacción",
+    "components-nph-image-validation--accessibility": "Accesibilidad",
+    "components-nph-field-docs": "Docs",
+    "components-nph-field-docs--documentation": "Documentación",
+    "components-nph-field-validation": "Validación",
+    "components-nph-field-validation--matrix": "Matriz",
+    "components-nph-field-validation--message-line": "Línea de mensaje",
+    "components-nph-field-validation--counter": "Contador",
+    "components-nph-field-validation--width": "Ancho",
+    "components-nph-field-validation--group": "Grupo",
+    "components-nph-field-validation--disabled": "Deshabilitado",
+    "components-nph-field-validation--control-contract": "Contrato con el control",
+    "components-nph-switch-docs": "Docs",
+    "components-nph-switch-docs--documentation": "Documentación",
+    "components-nph-switch-validation": "Validación",
+    "components-nph-switch-validation--matrix": "Matriz",
+    "components-nph-switch-validation--label": "Etiqueta",
+    "components-nph-switch-validation--disabled": "Deshabilitado",
+    "components-nph-switch-validation--invalid": "Inválido",
+    "components-nph-switch-validation--interactive": "Interactivo",
+    "components-nph-switch-validation--examples": "Ejemplos",
+    "components-nph-slider-docs": "Docs",
+    "components-nph-slider-docs--documentation": "Documentación",
+    "components-nph-slider-validation": "Validación",
+    "components-nph-slider-validation--matrix": "Matriz",
+    "components-nph-slider-validation--optional-parts": "Partes opcionales",
+    "components-nph-slider-validation--keyboard-and-events": "Teclado y eventos",
+    "components-nph-slider-validation--form-association": "Asociación al formulario",
+    "components-nph-slider-validation--inside-field": "Dentro del nph-field",
+    "components-nph-slider-validation--invalid-input": "Entrada inválida",
+    "components-nph-slider-validation--examples": "Ejemplos",
+    "components-nph-select-docs": "Docs",
+    "components-nph-select-docs--documentation": "Documentación",
+    "components-nph-select-validation": "Validación",
+    "components-nph-select-validation--matrix": "Matriz",
+    "components-nph-select-validation--start": "Inicio",
+    "components-nph-select-validation--option": "Opción",
+    "components-nph-select-validation--open": "Abierto",
+    "components-nph-select-validation--list-height": "Altura de la lista",
+    "components-nph-select-validation--text-overflow": "Texto largo",
+    "components-nph-select-validation--form-association": "Asociación al formulario",
+    "components-nph-select-validation--invalid-input": "Entrada inválida",
+    "components-nph-select-validation--examples": "Ejemplos",
+    "components-nph-input-otp-docs": "Docs",
+    "components-nph-input-otp-docs--documentation": "Documentación",
+    "components-nph-input-otp-validation": "Validación",
+    "components-nph-input-otp-validation--matrix": "Matriz",
+    "components-nph-input-otp-validation--states": "Estados",
+    "components-nph-input-otp-validation--characters": "Caracteres",
+    "components-nph-input-otp-validation--interactive": "Interactivo",
+    "components-nph-input-otp-validation--examples": "Ejemplos",
     "components-nph-checkbox-docs": "Docs",
     "components-nph-checkbox-docs--documentation": "Documentación",
     "components-nph-checkbox-validation": "Validación",
@@ -544,10 +613,10 @@
     "sampleText": "Insignia"
   },
   "buttonDocs": {
-    "summary": "Dispara una acción identificada por texto. Varía en tipo, énfasis, tamaño y estado, con icono opcional al inicio o al final. Sin texto, es el botón solo con icono.",
+    "summary": "Dispara una acción identificada por texto. Varía en tipo, énfasis, tamaño y estado, con icono opcional al inicio o al final. Sin texto, es el botón solo con icono, cuadrado o circular, con el nombre en un tooltip.",
     "onThisPage": "En esta página",
     "derivedTitle": "Esta página es derivada.",
-    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-button, design.md para los tokens y docs/decisoes-tecnicas.md para la P68. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-button, design.md para los tokens y docs/decisoes-tecnicas.md para la P68 y la P86. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
     "sourceLabel": "Fuente:",
     "whenToUseTitle": "Cuándo usar",
     "whenToUse": [
@@ -556,12 +625,13 @@
       "Elija el tipo por el significado de la acción, nunca por el color.",
       "Elija el énfasis por cuánto se destaca la acción: solid, outline, light o ghost.",
       "Use size large en pantallas táctiles.",
-      "Sin texto, use el botón solo con icono y dele un nombre accesible."
+      "Sin texto, para una acción universal como cerrar o buscar: dele un label, que es el nombre accesible y el texto de su tooltip.",
+      "En la columna de acciones de una tabla, incluso cuando la acción lleva a otra pantalla, como ver detalles."
     ],
     "whenNotToUseTitle": "Cuándo no usar",
     "whenNotToUse": [
       "Para mostrar un error de campo: la validación es del campo (nph-field).",
-      "Solo con icono en una acción con consecuencias, como eliminar o publicar.",
+      "Solo con icono en una acción con consecuencias, como eliminar o publicar, fuera de la columna de acciones de una tabla: escriba el texto.",
       "Para navegar a otro destino.",
       "size compact como objetivo principal en una pantalla táctil.",
       "Agrandar el icono para destacar.",
@@ -600,7 +670,7 @@
       ],
       [
         "label",
-        "Nombre accesible del botón sin texto. Obligatorio en él; con texto, no se usa."
+        "Nombre accesible del botón sin texto y texto de su tooltip. Obligatorio en él; con texto, no se usa."
       ],
       [
         "disabled",
@@ -609,6 +679,10 @@
       [
         "loading",
         "Muestra el nph-spinner en lugar del icono de inicio; el texto se queda, el foco continúa y el clic no llega a quien usa. Se refleja en el atributo."
+      ],
+      [
+        "shape",
+        "Esquinas del botón solo con icono: square (el predeterminado) en radius/control o circular en radius/full. El tamaño y el objetivo táctil no cambian. Con texto, solo square. Reflejado en el atributo."
       ]
     ],
     "variantsTitle": "Tipo y énfasis",
@@ -663,7 +737,7 @@
       },
       {
         "value": "danger",
-        "label": "Solo con icono; escriba el texto."
+        "label": "Solo con icono, salvo en la columna de acciones de una tabla, donde el tooltip da el nombre; escriba el texto."
       },
       {
         "value": "info",
@@ -683,7 +757,7 @@
       }
     ],
     "sizesTitle": "Tamaños",
-    "sizesText": "La altura viene de control/height-compact, -default o -large. El texto es text/label-md en todos. Sin texto, el botón es cuadrado y el icono acompaña la caja: sm en compact, md en default y lg en large.",
+    "sizesText": "La altura viene de control/height-compact, -default o -large. El texto es text/label-md en todos. Sin texto, el botón es cuadrado o circular y el icono acompaña la caja: sm en compact, md en default y lg en large.",
     "sizesCaption": "compact, default y large, con texto, con icono y solo con icono.",
     "sizeUseHeader": [
       "Tamaño",
@@ -721,6 +795,10 @@
         "label": "Con un tamaño distinto del campo de al lado."
       }
     ],
+    "iconOnlyTitle": "Solo con icono",
+    "iconOnlyText": "Sin texto, el botón es el botón solo con icono, el conjunto nph-icon-button del Figma. shape elige esquinas cuadradas o circulares, una elección de contexto sin regla fija; el tamaño y el objetivo táctil se mantienen. Todo botón solo con icono muestra su label en un nph-tooltip: al instante con el foco del teclado, después de motion/hover-delay con el puntero, nunca en el toque y nunca deshabilitado.",
+    "iconOnlyCaption": "square y circular en los tres tamaños, y circular cargando. Pase el ratón sobre un botón o use Tab para ver su tooltip.",
+    "sourceIconOnly": "ficha nph-button; Figma, tablero nph-icon-button (2122:1591) y conjunto 498:15671",
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",
@@ -733,7 +811,7 @@
       ],
       [
         "hover-active",
-        "La superficie pasa al token de hover del tipo y del énfasis."
+        "La superficie pasa al token de hover del tipo y del énfasis, y en el botón con texto los iconos de inicio y de fin pasan a solid."
       ],
       [
         "focus",
@@ -769,11 +847,15 @@
       ],
       [
         "Objetivo táctil",
-        "size large cumple el objetivo táctil de 44 px; compact no es objetivo principal en una pantalla táctil."
+        "size large cumple el objetivo táctil de 44 px; compact no es objetivo principal en una pantalla táctil. La forma no cambia el objetivo."
       ],
       [
         "Nombre accesible",
-        "El texto es el nombre del botón. Sin texto, el nombre viene de label, obligatorio."
+        "El texto es el nombre del botón. Sin texto, el nombre viene de label, obligatorio, y el mismo texto aparece en el tooltip, anunciado una vez."
+      ],
+      [
+        "Tooltip",
+        "Todo botón solo con icono muestra su nombre en un tooltip, al instante con el foco del teclado y tras una breve espera con el puntero. En el toque el tooltip no se abre: el icono debe ser fácil de reconocer, y una acción ambigua usa un botón con texto."
       ],
       [
         "Teclado",
@@ -783,24 +865,29 @@
     "examplesTitle": "Ejemplos",
     "exampleForm": "Acciones de formulario: principal y secundaria.",
     "exampleConsequence": "Acción con consecuencias, siempre con texto.",
-    "exampleIconOnly": "Acción universal sin texto, con nombre accesible.",
+    "exampleIconOnly": "Cerrar un panel: acción universal sin texto, secondary ghost.",
+    "exampleTable": "Acciones de una fila de tabla, en compact: secondary ghost, cada uno nombrado por su tooltip.",
+    "exampleCircular": "Forma circular, con nombre accesible: primary solid.",
     "exampleTexts": [
       "Guardar",
       "Cancelar",
       "Eliminar cuenta",
       "Cerrar",
-      "Nuevo"
+      "Nuevo",
+      "Ver detalles",
+      "Editar",
+      "Eliminar"
     ],
     "referencesTitle": "Referencias",
     "references": [
       "ficha nph-button — función, variantes, estados, accesibilidad, tokens y antipatrones.",
-      "docs/decisoes-tecnicas.md — P68 (API y semántica), P01, P02, P03 y P66 (nph-spinner).",
-      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, text/label-md, icon/size-*, state/disabled-opacity, focus/* y los colores color/* y status/*.",
-      "Figma DS-IA-NEPHOS 5.0 — página NPH — Button, marco nph-button (1197:5449) y conjuntos 461:13009 y 498:15671.",
+      "docs/decisoes-tecnicas.md — P68 y P86 (API y semántica), P77 (nph-tooltip), P01, P02, P03 y P66 (nph-spinner).",
+      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* y los colores color/* y status/*.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Button, marco nph-button (1197:5449) y conjuntos 461:13009 y 498:15671; página NPH — Icon Button, tablero nph-icon-button (2122:1591).",
       "Storybook — Validación, en la carpeta de al lado."
     ],
     "sourceSpec": "ficha nph-button; Figma, marco nph-button (1197:5449)",
-    "sourceApi": "ficha nph-button; docs/decisoes-tecnicas.md › P68",
+    "sourceApi": "ficha nph-button; docs/decisoes-tecnicas.md › P68 y P86",
     "sourceStates": "Figma, conjuntos 461:13009 y 498:15671; design.md",
     "matrixLabel": "Matriz del componente"
   },
@@ -2204,6 +2291,261 @@
     "exampleError": "Error",
     "errorSentence": "Escriba un correo con dominio, como nombre@ejemplo.com."
   },
+  "textareaDocs": {
+    "summary": "El campo de varias líneas para escribir un texto largo, como un comentario, un mensaje o una descripción. Crece con el texto hasta un máximo y luego se desplaza por dentro; un comentario o un mensaje puede llevar un pie con contador y acciones.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-textarea, el design.md para los tokens y el docs/decisoes-tecnicas.md para la P93. El archivo Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "description": "Usa el nph-textarea cuando la persona escribe más de una línea. Participa del formulario que lo contiene, como el nph-input; Enter escribe una línea nueva en vez de enviar el formulario. La etiqueta, la ayuda, el mensaje de error y el contador de la línea de apoyo quedan en el nph-field.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Cuando la persona escribe más de una línea, como un comentario, un mensaje o una descripción.",
+      "Dentro de un nph-field cuando el campo necesita etiqueta, ayuda, mensaje de error o contador en la línea de apoyo.",
+      "Con el pie, contador y acciones, solo en un comentario o un mensaje, donde las acciones quedan junto al texto.",
+      "Con readonly para mostrar un texto largo que la persona lee y copia, pero no edita."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para un valor de una línea: usa nph-input.",
+      "Para elegir entre opciones listas: usa nph-select o nph-combobox.",
+      "Para mostrar el mensaje de error o la ayuda: son del nph-field.",
+      "Para poner un contador de pie en un formulario común: usa el contador del nph-field.",
+      "Para encender el pie en readonly: no hay nada que enviar.",
+      "Para bloquear la escritura en un límite: el contador avisa, y el estado de error dice que el límite se pasó."
+    ],
+    "relationsText": "El nph-field compone la etiqueta, el campo, la ayuda, el mensaje de error y el contador de la línea de apoyo, y escribe label, description, invalid, required y disabled en el textarea. Las acciones del pie son instancias de nph-button del consumidor, ghost y solid, en size=default.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "value",
+        "El valor actual, con sus saltos de línea. El atributo value es el valor inicial y el valor de form.reset(); vale solo hasta que la persona edita el campo. Definirlo por código no dispara ningún evento."
+      ],
+      [
+        "placeholder",
+        "La invitación antes de escribir, ya localizada. No es un nombre: desaparece cuando la persona escribe."
+      ],
+      [
+        "name",
+        "El nombre de la entrada en los datos del formulario. Reflejado en el atributo, que es lo que lee el formulario."
+      ],
+      [
+        "required",
+        "El required nativo: lo anuncia el lector de pantalla y lo comprueba el formulario. Reflejado en el atributo."
+      ],
+      [
+        "disabled",
+        "Toda la pieza en state/disabled-opacity sobre color/muted, fuera del orden de Tab y de los datos del formulario, y las acciones del pie deshabilitadas. Un fieldset deshabilitado también la deshabilita. Gana sobre readonly e invalid."
+      ],
+      [
+        "readonly",
+        "El estado leitura: la persona lee, selecciona y copia el texto, y no lo edita. Queda en los datos del formulario y fuera de la validación. Sin hover, sin aspecto de error y sin pie. Reflejado en el atributo."
+      ],
+      [
+        "invalid",
+        "El estado erro: el borde pasa a status/error y el campo recibe aria-invalid. La frase es del nph-field."
+      ],
+      [
+        "label",
+        "El nombre accesible en texto, nunca visible, cuando no hay etiqueta asociada. Una etiqueta asociada gana."
+      ],
+      [
+        "description",
+        "La descripción accesible en texto, nunca visible: la ayuda o la frase de error que escribe el nph-field."
+      ],
+      [
+        "counter",
+        "El texto del contador del pie, mostrado tal como llega, como 0/280. La pieza no cuenta nada: el consumidor lo escribe en input. Enciende el pie."
+      ],
+      [
+        "actions",
+        "El slot con nombre de las acciones del pie, instancias de nph-button. Un elemento en él enciende el pie."
+      ],
+      [
+        "input and change",
+        "Los eventos nativos. input se dispara cuando la persona escribe; change cuando el valor se confirma. Lee el valor en el host."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "El borde es color/input, sobre color/background."
+      ],
+      [
+        "hover",
+        "El borde pasa a color/input-hover."
+      ],
+      [
+        "focus",
+        "El borde pasa a focus/border, con el halo focus/halo pegado por fuera, en focus/radius-control."
+      ],
+      [
+        "invalid",
+        "El borde es status/error, también en hover; con el foco, el halo es focus/halo-error."
+      ],
+      [
+        "readonly",
+        "El borde en reposo, también en hover, sin aspecto de error y sin pie. El foco sigue visible."
+      ],
+      [
+        "disabled",
+        "Toda la pieza en state/disabled-opacity, sobre color/muted, con el borde color/input, y las acciones deshabilitadas. Gana sobre readonly e invalid."
+      ]
+    ],
+    "statesCaption": "Valor, invalid, readonly y disabled. Pasa el ratón sobre un campo para ver el hover y haz clic para ver el foco.",
+    "footerTitle": "Pie",
+    "footerText": "El pie sirve solo a un comentario o a un mensaje, donde las acciones quedan junto al texto. Aparece cuando hay contador o acción, dentro de la caja, space/stack debajo del texto: el contador al inicio y las acciones al final, a space/inline una de otra.",
+    "footerCaption": "Un comentario con el contador y las acciones Adjuntar y Enviar.",
+    "footerHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "footer": [
+      [
+        "counter",
+        "text/caption en color/muted-foreground, nunca en el color de error. El consumidor escribe el texto, como 0/280, en cada input; un límite avisa y no bloquea la escritura."
+      ],
+      [
+        "actions",
+        "Instancias de nph-button en el slot actions: ghost, como Adjuntar, y solid, como Enviar, en size=default. Con la pieza deshabilitada, también quedan deshabilitadas, y la pieza devuelve solo lo que deshabilitó."
+      ]
+    ],
+    "readOnlyTitle": "Sin pie en readonly.",
+    "readOnlyText": "Un texto que la persona no edita no tiene nada que enviar: en readonly, el contador y las acciones no se dibujan, y un aviso lo dice en desarrollo. En un formulario común, el contador va en la línea de apoyo del nph-field.",
+    "heightTitle": "Altura",
+    "heightText": "Vacío, el campo tiene layout/textarea-min-height, que muestra que cabe un texto largo. Crece con el texto y se detiene en layout/textarea-max-height; por encima, el texto se desplaza por dentro. No hay tirador para redimensionar arrastrando.",
+    "heightCaption": "Vacío en la altura mínima, y un texto largo que se detiene en el máximo y se desplaza por dentro.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Caja",
+        "Ancho layout/input-width, radius/control, border/width, fondo color/background. El borde es lo que cumple 3:1."
+      ],
+      [
+        "Área de desplazamiento",
+        "El campo nativo: de layout/textarea-min-height a layout/textarea-max-height, relleno space/control-padding a los lados y space/inline arriba y abajo; por encima del máximo, el texto se desplaza por dentro."
+      ],
+      [
+        "Valor o placeholder",
+        "text/body-md: el valor en color/foreground, el placeholder en color/muted-foreground."
+      ],
+      [
+        "Pie",
+        "Opcional, dentro de la caja, space/stack debajo del texto: el contador al inicio, las acciones al final."
+      ],
+      [
+        "Halo de foco",
+        "Un anillo fuera de la caja, en foco y erro-foco. Queda fuera del recorte del área de desplazamiento y no ocupa espacio."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "El textarea nativo, un cuadro de texto de varias líneas, dentro del shadow root. El host está asociado al formulario: participa de los datos, del reset y de la validez."
+      ],
+      [
+        "Nombre accesible",
+        "De la etiqueta asociada al host, nph-label for, un elemento label o el nph-field; sin ella, de label. El placeholder no es un nombre."
+      ],
+      [
+        "Descripción",
+        "description se lee cuando el campo recibe el foco: la ayuda o la frase de error del nph-field. El contador del pie no forma parte de ella."
+      ],
+      [
+        "Teclado",
+        "Tab entra en el campo y luego en las acciones del pie. Enter escribe una línea nueva; no envía el formulario."
+      ],
+      [
+        "Foco visible",
+        "El borde toma focus/border con el halo por fuera, sin cambiar el tamaño, también en readonly."
+      ],
+      [
+        "Contraste",
+        "El borde color/input cumple 3:1 contra el fondo (WCAG 1.4.11); el halo es decoración."
+      ],
+      [
+        "El color no es la única señal",
+        "En el error, la frase queda en el nph-field y se lee como descripción; el color del borde no es la única señal."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleComment": "Comentario: el pie con el contador y las acciones.",
+    "exampleForm": "Descripción en un formulario: el contador en la línea de apoyo del nph-field, pie apagado.",
+    "exampleLong": "Texto largo: se desplaza por dentro, sin pasar del máximo.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-textarea — propósito, estados, pie, altura, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P93 (API y semántica), P80 (los controles de formulario), P83 (el contrato campo–control), P01 y P02.",
+      "design.md — layout/textarea-min-height, layout/textarea-max-height, layout/input-width, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, radius/control, border/width, space/control-padding, space/inline, space/stack, text/body-md, text/caption, color/foreground y color/muted-foreground.",
+      "Figma DS-IA-NEPHOS 5.0 — frame nph-textarea (1632:24), documentación 1922:642 y set 1632:22.",
+      "Storybook — Validation, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha del nph-textarea; Figma, frame nph-textarea (1632:24)",
+    "sourceApi": "Ficha del nph-textarea; docs/decisoes-tecnicas.md › P93",
+    "sourceStates": "Figma, set 1632:22; design.md",
+    "sourceAnatomy": "Figma, documentación 1922:642; design.md",
+    "sourceAccessibility": "Ficha del nph-textarea; nph-textarea.test.ts",
+    "matrixLabel": "Matriz del componente",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "commentLabel": "Comentario",
+    "commentPlaceholder": "Escribe un comentario",
+    "commentValue": "Gracias por el resumen, ayudó mucho.",
+    "attachText": "Adjuntar",
+    "sendText": "Enviar",
+    "counterText": "{length}/{limit}",
+    "descriptionLabel": "Descripción",
+    "descriptionHelp": "Di de qué trata el evento.",
+    "descriptionPlaceholder": "Una descripción corta del evento",
+    "notesLabel": "Notas",
+    "longValue": "El equipo se reunió el lunes para revisar el plan de la nueva sala de lectura. El primer punto fue la luz: la sala da al oeste, así que el sol de la tarde llega a las mesas y a las pantallas. El grupo acordó probar dos tipos de cortina antes de elegir uno. El segundo punto fue el ruido del pasillo, que es fuerte entre clases. Una puerta con burlete y una alfombra cerca de la entrada deberían reducirlo. El tercer punto fue el número de asientos, que pasa de veinte a treinta y dos. Las mesas serán más pequeñas, y cada una tendrá su lámpara y un enchufe. El último punto fue el calendario: la obra empieza en marzo y termina antes del segundo semestre. Hasta entonces, la sala antigua sigue abierta, con el mismo horario. Las dudas y sugerencias se pueden enviar a la coordinación hasta fin de mes."
+  },
+  "textareaValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "notesLabel": "Notas",
+    "notesPlaceholder": "Escribe tus notas",
+    "notesValue": "Traer el formulario firmado.\nLlegar diez minutos antes.",
+    "longValue": "El equipo se reunió el lunes para revisar el plan de la nueva sala de lectura. El primer punto fue la luz: la sala da al oeste, así que el sol de la tarde llega a las mesas y a las pantallas. El grupo acordó probar dos tipos de cortina antes de elegir uno. El segundo punto fue el ruido del pasillo, que es fuerte entre clases. Una puerta con burlete y una alfombra cerca de la entrada deberían reducirlo. El tercer punto fue el número de asientos, que pasa de veinte a treinta y dos. Las mesas serán más pequeñas, y cada una tendrá su lámpara y un enchufe. El último punto fue el calendario: la obra empieza en marzo y termina antes del segundo semestre. Hasta entonces, la sala antigua sigue abierta, con el mismo horario. Las dudas y sugerencias se pueden enviar a la coordinación hasta fin de mes.",
+    "commentLabel": "Comentario",
+    "commentPlaceholder": "Escribe un comentario",
+    "commentValue": "Gracias por el resumen, ayudó mucho.",
+    "attachText": "Adjuntar",
+    "sendText": "Enviar",
+    "counterText": "{length}/{limit}",
+    "descriptionLabel": "Descripción",
+    "descriptionHelp": "Di de qué trata el evento.",
+    "descriptionPlaceholder": "Una descripción corta del evento",
+    "descriptionValue": "Una mañana de charlas sobre lectura y escritura en la escuela.",
+    "descriptionError": "Usa hasta 280 caracteres.",
+    "statusIdle": "Esperando un evento.",
+    "submitText": "Enviar",
+    "resetText": "Restablecer",
+    "statusSubmitted": "Enviado: {data}",
+    "statusReset": "El formulario volvió al atributo value.",
+    "fieldsetDisabled": "Dentro de un fieldset deshabilitado",
+    "exampleComment": "Comentario",
+    "exampleForm": "Descripción en un formulario",
+    "exampleLong": "Texto largo"
+  },
   "avatarStackDocs": {
     "summary": "Un grupo de avatares superpuestos que muestra a varias personas en poco espacio, con el conteo de quien no aparece. Cada avatar es un nph-avatar; el grupo se lee como una sola imagen, por su nombre.",
     "onThisPage": "En esta página",
@@ -2530,6 +2872,1710 @@
     "comboboxCaption": "Marco de la lista del nph-combobox en state=vazio: la superficie de la lista con el nph-empty como único contenido. La lista real llega con el nph-combobox.",
     "invalidCaption": "La descripción está y el título no: no se dibuja nada en ninguno de los modos, y la consola muestra un error en desarrollo."
   },
+  "imageDocs": {
+    "summary": "La imagen de un producto, archivo o contenido en un área de tamaño fijo, con los estados de carga, vacío y error. El área es la misma con o sin la imagen. No es un avatar ni un icono.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-image, el design.md para los tokens y el docs/decisoes-tecnicas.md para la P90. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Ninguna regla nace aquí.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Cuando la pantalla muestra la imagen de un producto, archivo o contenido en un área de tamaño fijo.",
+      "Elija el tamaño por el lugar: sm en la tabla, md en la lista, lg en el ítem de producto y en la carga de archivos, xl y 2xl en la tarjeta lateral y en la plantilla de imagen, media en la tarjeta, en la galería y en la portada.",
+      "Elija el estado por lo que ocurre: cargando mientras la imagen no ha llegado, vacío cuando no hay imagen, error cuando falló.",
+      "En media, elija 1:1, 4:3 o 16:9 por el encaje de la tarjeta, la galería o la portada.",
+      "Escriba un alt que describa el contenido, o déjelo vacío cuando el texto de al lado ya lo dice todo.",
+      "Use un único tamaño por lista, para que las filas queden alineadas."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para una persona: use el nph-avatar.",
+      "Como icono: para un símbolo, use el nph-icon.",
+      "Como botón de una acción: use el nph-button.",
+      "Con una carga que nunca termina: si la imagen no llega, muestre error.",
+      "Con tamaños distintos en la misma lista."
+    ],
+    "relationsText": "Junto a un texto, el espacio es image/gap, dado por el contenedor. En una tabla, lista, tarjeta o galería, el contenedor define la posición y la imagen mantiene su propia área. La miniatura y el ítem expandido del nph-table la usarán; el nph-table está planificado y aún no existe. El nph-avatar es la pieza para una persona, el nph-icon para un símbolo y el nph-button para una acción. El ojo del hover es un nph-icon, y el arco de carga es el nph-spinner.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "size",
+        "xs (predeterminado), sm, md, lg, xl, 2xl o media: el tamaño de Figma. Reflejado en el atributo. Los tamaños cuadrados miden 24, 32, 48, 64, 96 y 128 px; media usa el ancho de contenido, image/media-width. Un valor inválido no renderiza y registra un console.error en desarrollo."
+      ],
+      [
+        "ratio",
+        "1:1 (predeterminado), 4:3 o 16:9: la proporción de Figma. Reflejado en el atributo. Solo media la usa; los demás tamaños son siempre cuadrados y la ignoran, sin aviso. Un valor inválido no renderiza y registra un console.error en desarrollo."
+      ],
+      [
+        "src",
+        "La dirección de la imagen. No hay propiedad para el estado del contenido: viene del src. Sin src la pieza está vacía; con él, cargando hasta que la imagen cargue o falle. Vacío o solo espacios cuenta como ninguno, y un src nuevo reinicia la espera."
+      ],
+      [
+        "alt",
+        "El nombre accesible: la descripción del contenido. Con texto, el host recibe role=img y aria-label, en todos los estados. Vacío o solo espacios oculta la imagen al lector de pantalla: aria-hidden=true en el host."
+      ],
+      [
+        "interactive",
+        "La imagen es clicable. La pieza dibuja un botón nativo interno que llena el marco, recibe el foco y lleva el alt como nombre; el clic es el click nativo. El hover sobre una imagen cargada muestra el velo y el ojo; el Tab muestra el anillo de foco. Sin alt, renderiza y registra un console.warn en desarrollo."
+      ],
+      [
+        "disabled",
+        "La pieza entera en state/disabled-opacity. Con interactive, el botón queda deshabilitado de forma nativa: fuera del orden del Tab, sin clic y sin velo."
+      ],
+      [
+        "status",
+        "Solo lectura: empty, loading, loaded o error, el estado dibujado ahora. No es un atributo."
+      ],
+      [
+        "load · error",
+        "El host repite el load y el error nativos de la imagen interna, sin propagarse, para que el padre pueda escribir el texto que explica un fallo."
+      ],
+      [
+        "slot · part · event",
+        "Sin slot, sin ::part, sin evento nph-* y sin asociación a formulario."
+      ]
+    ],
+    "sizesTitle": "Tamaños",
+    "sizesText": "Un tamaño por lugar, y un único tamaño por lista. Los tamaños cuadrados mantienen la misma área con o sin la imagen; media mantiene el ancho de contenido y toma la altura de la proporción.",
+    "sizesCaption": "Los seis tamaños cuadrados, de xs a 2xl, con imagen.",
+    "ratiosCaption": "media en 1:1, 4:3 y 16:9: el mismo ancho, tres alturas.",
+    "sizesHeader": [
+      "Tamaño",
+      "Medida"
+    ],
+    "sizes": [
+      [
+        "xs",
+        "24 px, image/size-xs, esquina image/radius-sm. En el set de Figma, sin regla de uso propia."
+      ],
+      [
+        "sm",
+        "32 px, image/size-sm, esquina image/radius-sm. La tabla."
+      ],
+      [
+        "md",
+        "48 px, image/size-md, esquina image/radius-md. La lista."
+      ],
+      [
+        "lg",
+        "64 px, image/size-lg, esquina image/radius-md. El ítem de producto y la carga de archivos."
+      ],
+      [
+        "xl",
+        "96 px, image/size-xl, esquina image/radius-lg. La tarjeta lateral y la plantilla de imagen."
+      ],
+      [
+        "2xl",
+        "128 px, image/size-2xl, esquina image/radius-lg. La tarjeta lateral y la plantilla de imagen."
+      ],
+      [
+        "media",
+        "Ancho 256 px, image/media-width; altura 256 (1:1), 192 (4:3) o 144 (16:9); esquina image/radius-lg. La tarjeta, la galería y la portada."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesText": "Los estados del contenido vienen del src; hover, foco y deshabilitada vienen del padre cuando la imagen es clicable. Vacío y error dibujan solo el marco hasta que lleguen sus ilustraciones de línea, así que por ahora los dos se ven iguales: el texto que explica el problema es del padre, que escucha el evento error.",
+    "statesCaption": "Vacío, cargando, cargada y error, en el tamaño xl.",
+    "interactionCaption": "Una imagen clicable y una clicable deshabilitada. Pase el ratón por encima de la primera para ver el velo y el ojo, pulse Tab para ver el anillo de foco.",
+    "statesHeader": [
+      "Estado",
+      "Qué se ve"
+    ],
+    "states": [
+      [
+        "Vacío",
+        "Sin src: el marco en image/background con su borde. La ilustración entrará cuando lleguen sus archivos."
+      ],
+      [
+        "Cargando",
+        "El nph-spinner en image/foreground en el centro, y el marco sin borde."
+      ],
+      [
+        "Cargada",
+        "La imagen llena el marco y se recorta para mantener su proporción. El borde queda por encima."
+      ],
+      [
+        "Error",
+        "La imagen no cargó: el marco con su borde, como en vacío. La ilustración entrará cuando lleguen sus archivos."
+      ],
+      [
+        "Hover",
+        "Solo en una imagen clicable y cargada: el velo image/overlay con el ojo en image/on-overlay."
+      ],
+      [
+        "Foco",
+        "Solo en una imagen clicable, con el teclado: el anillo image/focus-border en focus/ring-width, justo fuera del marco y nunca sobre la foto."
+      ],
+      [
+        "Deshabilitada",
+        "La pieza entera en state/disabled-opacity; la clicable sale del orden del Tab y no recibe clic."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Marco",
+        "image/size-* o image/media-width, con image/radius-sm, -md o -lg por tamaño, image/background de relleno y un borde de image/border-width en image/border, dibujado sobre la imagen. El marco en carga no tiene borde. Mantiene la misma área con o sin la imagen."
+      ],
+      [
+        "Imagen",
+        "La imagen del src, con alt vacío: el nombre es del host. Llena el marco y se recorta para mantener su proporción."
+      ],
+      [
+        "Spinner",
+        "El nph-spinner, un arco abierto en image/foreground que gira mientras la imagen carga: sm en xs, sm y md; md en los tamaños mayores."
+      ],
+      [
+        "Ilustración de vacío y error",
+        "Un dibujo de línea gris por esquema de color, cambiado por image/illustration-light e image/illustration-dark. Sus archivos aún no están en el repositorio."
+      ],
+      [
+        "Velo e icono del hover",
+        "El velo image/overlay con el nph-icon eye en image/on-overlay, solo en el hover de una imagen clicable. El ojo usa image/icon-size-sm en xs y sm, -md en md y lg, y -lg en xl, 2xl y media."
+      ],
+      [
+        "Anillo de foco",
+        "image/focus-border en focus/ring-width, solo en el foco con el teclado de una imagen clicable: un contorno justo fuera del marco, con su esquina, que no ocupa espacio."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Nombre accesible",
+        "El nombre viene del alt, que describe el contenido. Con alt vacío, la imagen queda oculta al lector de pantalla (aria-hidden), para cuando el texto de al lado ya lo dice todo."
+      ],
+      [
+        "Semántica",
+        "role=img con aria-label en el host cuando el alt tiene texto. Una imagen clicable es un botón nativo interno con el nombre del alt, y el host no tiene rol."
+      ],
+      [
+        "Foco visible",
+        "Solo una imagen clicable recibe foco: el anillo image/focus-border en focus/ring-width, con el teclado. Si no, el foco es del control que la contiene."
+      ],
+      [
+        "Contraste",
+        "El spinner, image/foreground sobre image/background, y el anillo de foco superan 3:1 en claro y oscuro, en todas las marcas; nph-image.test.ts los mide."
+      ],
+      [
+        "El color no es la única señal",
+        "La carga cambia el dibujo por el spinner. Vacío y error lo cambiarán por sus ilustraciones; hasta que lleguen, el texto del padre y el evento error llevan la diferencia."
+      ],
+      [
+        "Área táctil",
+        "No se aplica a la imagen sola. Cuando es clicable, el área es la de la imagen o la del control que la contiene."
+      ],
+      [
+        "Movimiento",
+        "El spinner gira en motion/loop-duration y se detiene con movimiento reducido (P66). La imagen en sí no tiene animación."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleList": "Ítem de lista: la imagen en tamaño md con el nombre del producto al lado, separado por image/gap. No tiene alt, porque el nombre está justo ahí.",
+    "exampleCover": "Portada de tarjeta: tamaño media en 16:9, con un alt que describe la portada y el título debajo.",
+    "exampleUpload": "Carga de archivo aún sin imagen: tamaño lg sin src, así que aparece el estado vacío, con la indicación al lado.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "productMug": "Taza de cerámica azul",
+    "productDetail": "Cocina · 350 ml",
+    "coverAlt": "Piezas de cerámica en un estante de madera",
+    "coverTitle": "Catálogo de primavera",
+    "uploadTitle": "Foto del producto",
+    "uploadHint": "Aún no se envió ninguna imagen",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-image — propósito, propiedades, anatomía, accesibilidad y tokens.",
+      "docs/decisoes-tecnicas.md — P90 (API y semántica), P66, P01, P02 y P03.",
+      "Tokens — image/*, focus/ring-width y state/disabled-opacity, en src/tokens/source/semantic.tokens.json.",
+      "Figma DS-IA-NEPHOS 5.0 — board nph-image (2573:66090), frame Documentação (2677:465) y set 2573:66089.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha del nph-image; Figma, frame Documentação (2677:465)",
+    "sourceApi": "Ficha del nph-image; docs/decisoes-tecnicas.md › P90",
+    "sourceSizes": "Figma, set 2573:66089; ficha del nph-image",
+    "sourceStates": "Figma, frame Documentação (2677:465); docs/decisoes-tecnicas.md › P90",
+    "sourceAnatomy": "Figma, set 2573:66089; ficha del nph-image",
+    "sourceAccessibility": "Ficha del nph-image; nph-image.test.ts",
+    "matrixLabel": "Matriz del componente"
+  },
+  "imageValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "productMug": "Taza de cerámica azul",
+    "productLamp": "Lámpara de escritorio con pantalla blanca",
+    "productCover": "Portada del catálogo de primavera"
+  },
+  "fieldDocs": {
+    "summary": "Compone la etiqueta, el control, el texto de ayuda y el mensaje de error de un campo de formulario. Es el campo el que lleva el estado de error.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-field, design.md para los tokens y docs/decisoes-tecnicas.md para la P83. El archivo DS-IA-NEPHOS 5.0 de Figma es la fuente visual. Aquí no se crea ninguna regla.",
+    "standInTitle": "Las opciones de los grupos de esta página son elementos de demostración.",
+    "standInText": "Siguen el contrato del campo de la P83 y hacen las veces de nph-checkbox y nph-radio, que tienen páginas propias. No forman parte del paquete.",
+    "sourceLabel": "Fuente:",
+    "sourceFrame": "Figma, frame nph-field (1194:21863), set 657:50",
+    "sourceApi": "Ficha de nph-field; docs/decisoes-tecnicas.md › P83",
+    "sourceAccessibility": "Figma, frame nph-field (1194:21863); nph-field.test.ts",
+    "description": "Usa nph-field cuando un control necesita un nombre, una marca de obligatorio, una explicación o un mensaje de error, o para nombrar un grupo de radios o checkboxes. Completar el mensaje de error es lo que vuelve inválido el campo. No reemplaza la etiqueta propia de piezas como nph-checkbox.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "label",
+        "El texto de la etiqueta, ya localizado, dibujado por un nph-label. También es el nombre accesible del control: el campo lo pasa al control."
+      ],
+      [
+        "required",
+        "Booleano, reflejado. Muestra el asterisco en la etiqueta y pasa required al control, que lo anuncia."
+      ],
+      [
+        "info, info-label",
+        "El texto de la explicación y el nombre accesible del icono de información, pasados al nph-label. Sin info-label, el icono no aparece."
+      ],
+      [
+        "help",
+        "La línea de ayuda, en text/caption. Vacía, no se dibuja."
+      ],
+      [
+        "error",
+        "El mensaje de error, en text/body-md y status/error, sin icono. Completado, el campo es inválido y el control queda en error; el mensaje reemplaza la ayuda."
+      ],
+      [
+        "counter",
+        "El texto del contador, mostrado tal como llega, como 12/500: al final de la línea de ayuda, o en una línea propia debajo del error. El campo no cuenta nada."
+      ],
+      [
+        "disabled",
+        "Booleano, reflejado. Se pasa al control, que se atenúa a sí mismo; la etiqueta y la línea de mensaje no se atenúan. Deshabilitado gana sobre error."
+      ],
+      [
+        "slot",
+        "El control, o las opciones de un grupo de checkboxes, radios o switches."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "Etiqueta, control y, cuando está completa, la línea de ayuda. Sin ayuda, sin error y sin contador, la línea de mensaje no se dibuja y no guarda altura."
+      ],
+      [
+        "error",
+        "El mensaje de error reemplaza la ayuda; el control muestra su estado de error. La etiqueta no cambia."
+      ],
+      [
+        "counter",
+        "A la derecha de la línea de ayuda; en error, en una línea propia debajo del mensaje."
+      ],
+      [
+        "disabled",
+        "El control se atenúa y no responde; el error se oculta y la ayuda vuelve."
+      ]
+    ],
+    "statesCaption": "Texto de ayuda, error, contador y deshabilitado.",
+    "groupTitle": "Grupo de opciones",
+    "groupText": "En un grupo de radios o checkboxes, nph-field nombra el grupo y lleva el mensaje de error. Las opciones se apilan a space/stack-tight, y cada una mantiene su propio texto como nombre.",
+    "groupCaption": "Un grupo de radios obligatorio y un grupo de checkboxes con texto de ayuda.",
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "El control entra por el slot predeterminado; el predeterminado es nph-input. En error, el campo pone el control en su estado de error.",
+      "En un grupo de radios o checkboxes, nph-field nombra el grupo, como Forma de pago, y lleva el mensaje de error.",
+      "nph-checkbox solo ya trae su propio nombre y no necesita nph-field.",
+      "El mensaje de error pertenece a nph-field; el control solo muestra el estado de error.",
+      "La etiqueta es un nph-label; su icono de información abre un nph-tooltip."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Etiqueta",
+        "nph-label: el nombre del control, con el asterisco y el icono de información cuando están activados; space/inline-tight entre la etiqueta y el icono."
+      ],
+      [
+        "2. Control",
+        "La pieza que recibe el valor. Llena el ancho del campo."
+      ],
+      [
+        "3. Texto de ayuda",
+        "Una línea de explicación, text/caption en color/muted-foreground."
+      ],
+      [
+        "4. Mensaje de error",
+        "text/body-md en status/error, sin icono, en la línea de mensaje del campo."
+      ],
+      [
+        "5. Contador",
+        "text/caption en color/muted-foreground, al final de la línea de mensaje."
+      ],
+      [
+        "Campo",
+        "Ancho layout/field-width; puede estirarse hasta su contenedor. space/stack-tight entre la fila de la etiqueta, el control y la línea de mensaje."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Nombre accesible",
+        "La etiqueta de nph-field es el único nombre del control: el campo la pasa al control, que la pone en su elemento enfocable. No agregues un nph-label suelto al lado."
+      ],
+      [
+        "Descripción",
+        "La línea de mensaje visible, ayuda o error, es la descripción del control. En un grupo, el campo es un group, o un radiogroup, nombrado por la etiqueta y descrito por la línea de mensaje."
+      ],
+      [
+        "Contraste",
+        "La etiqueta usa color/foreground, 21:1 en claro y 14,73:1 en oscuro; el borde del control es color/input, que cumple 3:1."
+      ],
+      [
+        "Foco visible",
+        "El foco se muestra en el control envuelto."
+      ],
+      [
+        "El color no es la única señal",
+        "El estado de error siempre trae el mensaje escrito; el campo nunca queda solo en rojo."
+      ],
+      [
+        "Área táctil",
+        "Hacer clic en la etiqueta del campo lleva el foco al control."
+      ]
+    ],
+    "examplesTitle": "Ejemplos obligatorios",
+    "exampleRequired": "Campo obligatorio completado: el asterisco en la etiqueta.",
+    "exampleError": "Error: la frase que dice qué corregir.",
+    "exampleInfo": "Información: el icono de información y el texto de ayuda.",
+    "matrixLabel": "Matriz del componente",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha de nph-field — propósito, anatomía, API, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P83 (nph-field: API, semántica y el contrato entre campo y control).",
+      "design.md — layout/field-width, space/stack-tight, space/inline-tight, text/caption, text/body-md, color/muted-foreground y status/error.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Field, frame 1194:21863 y set 657:50.",
+      "Storybook — Validación, en la carpeta al lado de esta."
+    ],
+    "name": "Nombre completo",
+    "nameValue": "Maria da Silva",
+    "whenToUse": [
+      "Cuando un control necesita un nombre, una marca de obligatorio, una explicación o un mensaje de error.",
+      "Para nombrar un grupo de radios o checkboxes, como Forma de pago, y llevar su mensaje de error.",
+      "required cuando completar el campo es obligatorio.",
+      "help cuando el valor esperado necesita una explicación.",
+      "error solo con la frase que dice qué corregir."
+    ],
+    "whenNotToUse": [
+      "Para un control que ya trae su propio nombre visible, como nph-checkbox solo.",
+      "Para mostrar un error en un campo deshabilitado: quien no puede editar no puede corregir.",
+      "Para dejar el campo en rojo sin un texto que lo explique.",
+      "Con un nph-label suelto dentro del campo, además de su etiqueta.",
+      "Con el placeholder del control en lugar de la etiqueta: desaparece cuando la persona escribe.",
+      "Como caja para ganar espacio entre bloques."
+    ],
+    "email": "Correo electrónico",
+    "emailValue": "maria.silva@example.com",
+    "emailWrong": "maria.silva@example",
+    "emailHelp": "Usa el correo que más revisas.",
+    "emailError": "Escribe un correo como nombre@example.com.",
+    "emailInfo": "Enviamos el recibo a esta dirección.",
+    "emailInfoLabel": "Más información sobre Correo electrónico",
+    "bio": "Sobre ti",
+    "bioHelp": "Cuéntale al equipo a qué te dedicas.",
+    "counter": "12/500",
+    "notifications": "Notificaciones",
+    "notificationsHelp": "Elige al menos una.",
+    "notificationsOptions": [
+      "Correo electrónico",
+      "Mensaje de texto",
+      "Notificación en la app"
+    ],
+    "payment": "Forma de pago",
+    "paymentOptions": [
+      "Tarjeta de crédito",
+      "Boleto bancario",
+      "Transferencia bancaria"
+    ],
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro"
+  },
+  "fieldValidation": {
+    "email": "Correo electrónico",
+    "emailValue": "maria.silva@example.com",
+    "emailWrong": "maria.silva@example",
+    "emailHelp": "Usa el correo que más revisas.",
+    "emailError": "Escribe un correo como nombre@example.com.",
+    "emailInfo": "Enviamos el recibo a esta dirección.",
+    "emailInfoLabel": "Más información sobre Correo electrónico",
+    "bio": "Sobre ti",
+    "bioHelp": "Cuéntale al equipo a qué te dedicas.",
+    "bioError": "Acorta el texto a 500 caracteres.",
+    "counter": "12/500",
+    "counterOver": "512/500",
+    "notifications": "Notificaciones",
+    "notificationsHelp": "Elige al menos una.",
+    "notificationsOptions": [
+      "Correo electrónico",
+      "Mensaje de texto",
+      "Notificación en la app"
+    ],
+    "payment": "Forma de pago",
+    "paymentError": "Elige una forma de pago.",
+    "paymentOptions": [
+      "Tarjeta de crédito",
+      "Boleto bancario",
+      "Transferencia bancaria"
+    ],
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "longHelp": "Un texto de ayuda más largo pasa a más líneas dentro del ancho del campo, y nada se corta.",
+    "noMessageCaption": "Sin ayuda, sin error, sin contador: la línea de mensaje no se dibuja y no guarda altura.",
+    "helpCaption": "Texto de ayuda: text/caption en color/muted-foreground.",
+    "errorCaption": "Error: el mensaje reemplaza la ayuda, en text/body-md y status/error, sin icono; el control queda en error.",
+    "longCaption": "Un texto de ayuda largo pasa a otra línea, sin puntos suspensivos.",
+    "counterHelpCaption": "Contador al final de la línea de ayuda.",
+    "counterAloneCaption": "Contador sin texto de ayuda: al final de la línea.",
+    "counterErrorCaption": "En error, el contador pasa a una línea propia debajo del mensaje, nunca en el color de error.",
+    "widthDefaultCaption": "Ancho predeterminado: layout/field-width; el control llena el campo.",
+    "widthStretchedCaption": "Estirado por su contenedor: el campo toma el ancho que recibe, y el control lo sigue.",
+    "groupCheckboxCaption": "Grupo de checkboxes: apilados a space/stack-tight, nombrados por la etiqueta del campo.",
+    "groupRadioCaption": "Grupo de radios, obligatorio y en error: el mensaje describe el grupo y cada opción queda en error.",
+    "disabledCaption": "Deshabilitado: el control se atenúa; la etiqueta y el texto de ayuda, no.",
+    "disabledErrorCaption": "Deshabilitado con mensaje de error: gana el deshabilitado, el error se oculta y la ayuda vuelve.",
+    "disabledInfoCaption": "Deshabilitado con el icono de información: el icono sigue enfocable y abre el globo.",
+    "contractCaption": "Debajo de cada campo, lo que el campo escribió en su control: el nombre, la descripción (la línea de mensaje visible), invalid, required y disabled."
+  },
+  "switchDocs": {
+    "summary": "Un interruptor que enciende o apaga una configuración, con efecto inmediato. La posición de la perilla muestra el estado: a la izquierda, apagado; a la derecha, encendido. La etiqueta va después del riel, y la pieza dispara los nativos input y change cuando la persona la alterna.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-switch, design.md para los tokens y docs/decisoes-tecnicas.md para la P79. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Para una configuración que se enciende o se apaga, con efecto inmediato, fuera de una barra de herramientas.",
+      "Varias configuraciones se apilan, un nph-switch por línea: no hay componente de grupo.",
+      "Sin texto solo cuando el nombre ya está en el contexto, como en una celda de tabla, siempre con label."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "En un formulario, cuando la elección solo cuenta al enviar: use nph-checkbox.",
+      "En una barra de herramientas, entre otros botones: use nph-togglebutton.",
+      "Para pintar el riel o la perilla a mano: use checked, invalid y disabled.",
+      "Para ocultar la etiqueta borrando su texto: deje text vacío y dé label."
+    ],
+    "relationsText": "En una barra de herramientas, entre otros botones, la pieza es nph-togglebutton; en un formulario cuya elección solo cuenta al enviar, es nph-checkbox. La pieza trae su propio texto: no necesita nph-field para tener nombre. Dentro de nph-field, es una opción de un grupo.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "checked",
+        "El estado encendido, la propiedad marcado de Figma. false por defecto. Reflejada en el atributo. Un clic, Enter o Espacio de la persona la alterna y dispara input y change; cambiarla por código no dispara nada."
+      ],
+      [
+        "text",
+        "La etiqueta, ya localizada, después del riel. Es el nombre accesible y se ajusta al ancho disponible. Sin ella (mostrar rótulo apagado en Figma), la pieza es solo el riel y necesita label."
+      ],
+      [
+        "label",
+        "Nombre accesible de la pieza sin texto. Obligatorio en ella; con texto, no se usa."
+      ],
+      [
+        "invalid",
+        "El contorno del riel pasa a status/error, encendido o apagado, y en el foco el halo pasa a focus/halo-error. Reflejada en el atributo; pone aria-invalid. La frase de error queda fuera de la pieza. disabled gana."
+      ],
+      [
+        "disabled",
+        "Apaga la pieza: sale del orden del Tab, no alterna, no dispara nada y queda en state/disabled-opacity. Reflejada en el atributo. Un fieldset deshabilitado alrededor hace lo mismo, salvo dentro de su primer legend."
+      ],
+      [
+        "input, change",
+        "Los eventos nativos, disparados en este orden cuando la persona alterna la pieza. input burbujea y atraviesa shadow roots; change burbujea y no los atraviesa. El nuevo valor se lee de event.target.checked."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "apagado",
+        "El riel es color/input, sin contorno; la perilla es color/background, a la izquierda."
+      ],
+      [
+        "encendido",
+        "El riel es color/primary, con contorno en color/primary-border dibujado por dentro; la perilla es color/primary-foreground, a la derecha."
+      ],
+      [
+        "hover",
+        "Sobre la pieza entera, el relleno pasa a color/input-hover apagado y color/primary-hover encendido; el contorno se mantiene."
+      ],
+      [
+        "foco",
+        "Para quien usa teclado: el contorno del riel pasa a focus/border y un halo en focus/halo aparece fuera del riel, ambos totalmente redondeados, sin cambiar el tamaño."
+      ],
+      [
+        "inválido",
+        "El contorno del riel es status/error, encendido o apagado; en el foco, el halo es focus/halo-error. La frase de error queda fuera de la pieza."
+      ],
+      [
+        "deshabilitado",
+        "La pieza entera en state/disabled-opacity, fuera del orden del Tab; encendida, mantiene el contorno. Gana sobre inválido: el contorno de error no se dibuja."
+      ]
+    ],
+    "statesCaption": "apagado, encendido, inválido, deshabilitado y deshabilitado con inválido. Pase el ratón sobre una pieza para ver el hover y use Tab para ver el foco.",
+    "labelTitle": "Etiqueta",
+    "labelText": "La etiqueta va después del riel, a space/inline de él, en text/label-md y color/foreground. Se ajusta al ancho disponible; con dos líneas, el riel queda arriba, alineado con la primera línea. Sin texto, la pieza es solo el riel, y label le da nombre.",
+    "labelCaption": "Con etiqueta, solo el riel con label y una etiqueta larga en dos líneas.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Riel",
+        "La base redondeada, radius/full, switch/track-width por icon/size-lg. Apagado: color/input, sin contorno. Encendido: color/primary, con contorno border/width en color/primary-border por dentro. Hover: color/input-hover o color/primary-hover. Inválido: contorno status/error."
+      ],
+      [
+        "Perilla",
+        "El círculo en icon/size-sm, a space/inline-tight del borde del riel. Apagado: a la izquierda, en color/background. Encendido: a la derecha, en color/primary-foreground. Se desliza por transform."
+      ],
+      [
+        "Etiqueta",
+        "El texto después del riel, en text/label-md y color/foreground, a space/inline del riel. Es el nombre del control."
+      ],
+      [
+        "Área de toque",
+        "El riel entero, switch/track-width por icon/size-lg; con etiqueta, la pieza entera."
+      ],
+      [
+        "Foco",
+        "El contorno del riel pasa a focus/border y un halo focus/ring-width en focus/halo aparece fuera del riel, ambos radius/full; con error, status/error y focus/halo-error."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Un botón nativo con type=button, role=switch y aria-checked según checked; el riel es aria-hidden. invalid pone aria-invalid. La pieza no está asociada a un formulario."
+      ],
+      [
+        "Nombre accesible",
+        "El texto de la etiqueta. Sin texto, label es obligatorio y pasa a ser el aria-label del botón."
+      ],
+      [
+        "Teclado",
+        "Tab entra y sale; Espacio y Enter alternan."
+      ],
+      [
+        "Foco visible",
+        "Solo con teclado: el contorno de foco y el halo alrededor del riel, sin cambiar el tamaño."
+      ],
+      [
+        "Contraste",
+        "El borde del riel pasa 3:1 sobre el fondo de la página: color/input mide 3,23:1 en claro y 6,58:1 en oscuro; color/primary-border mide al menos 4,96:1 en claro y 4,91:1 en oscuro, en todas las marcas. La perilla pasa 3:1 sobre el riel: color/background sobre color/input mide 3,23:1 en claro y 6,58:1 en oscuro; color/primary-foreground sobre color/primary mide al menos 4,96:1. El contorno de error, status/error, mide 6,88:1 en claro y 5,01:1 en oscuro."
+      ],
+      [
+        "Límite conocido",
+        "focus/border contra focus/halo queda por debajo de 3:1 solo en la marca por defecto en modo claro, con 2,92:1, como registra design.md; en las demás marcas y esquemas pasa. El modo de colores forzados y la página de derecha a izquierda aún no se tratan. La frase de error fuera de la pieza no se vincula a ella por aria-describedby a través del shadow root."
+      ],
+      [
+        "El color no es la única señal",
+        "Encendido y apagado se ven en la posición de la perilla, no solo en el color del riel. El error tiene su frase escrita fuera de la pieza."
+      ],
+      [
+        "Área de toque",
+        "El riel entero, 40 por 24 px; con etiqueta, la pieza entera."
+      ],
+      [
+        "Movimiento",
+        "La perilla se desliza y los colores cambian en motion/state-duration y motion/state-easing. Con movimiento reducido la perilla no se desliza: cambia de lado por opacidad, en motion/hover-duration, y el color sigue cambiando."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleSingle": "Configuración única: una opción que se enciende o se apaga, con efecto inmediato.",
+    "examplePreferences": "Preferencias: varias configuraciones apiladas, una por línea.",
+    "exampleUnavailable": "Configuración no disponible: deshabilitada, la persona no puede cambiarla.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "wifi": "Wi-Fi",
+    "longLabel": "Enviarme un resumen semanal de la actividad en todos los proyectos que sigo",
+    "emailNotifications": "Notificaciones por correo",
+    "pushNotifications": "Notificaciones push",
+    "weeklySummary": "Resumen semanal",
+    "backup": "Copia de seguridad automática",
+    "referencesTitle": "Referencias",
+    "references": [
+      "ficha nph-switch — función, variantes, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P79 (API y semántica), P73, P01, P02 y P03.",
+      "design.md — switch/track-width, icon/size-lg, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity y motion/*.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Switch, marco nph-switch (1549:2) y conjunto 1548:56.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "ficha nph-switch; Figma, marco nph-switch (1549:2)",
+    "sourceApi": "ficha nph-switch; docs/decisoes-tecnicas.md › P79",
+    "sourceStates": "Figma, conjunto 1548:56; design.md",
+    "sourceAnatomy": "Figma, conjunto 1548:56; design.md",
+    "sourceAccessibility": "ficha nph-switch; nph-switch.test.ts",
+    "matrixLabel": "Matriz del componente"
+  },
+  "switchValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "wifi": "Wi-Fi",
+    "longLabel": "Enviarme un resumen semanal de la actividad en todos los proyectos que sigo",
+    "twoLines": "dos líneas",
+    "emailNotifications": "Notificaciones por correo",
+    "pushNotifications": "Notificaciones push",
+    "weeklySummary": "Resumen semanal",
+    "backup": "Copia de seguridad automática",
+    "exampleSingle": "Configuración única",
+    "examplePreferences": "Preferencias",
+    "exampleUnavailable": "Configuración no disponible",
+    "statusIdle": "Esperando un clic.",
+    "statusChanged": "input y change disparados; checked = {checked}."
+  },
+  "sliderDocs": {
+    "summary": "El control que elige un valor, o un rango, en una escala continua de números, arrastrando un pulgar o con las flechas. Forma parte del formulario que lo contiene; la ayuda y el mensaje de error pertenecen al nph-field.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-slider, design.md para los tokens y docs/decisoes-tecnicas.md para la P94. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "description": "Usa el nph-slider cuando la posición en la escala importa más que el número exacto: volumen, brillo, un rango de precios. Cuando el número exacto importa, activa inputs o usa el nph-input. No muestra progreso: eso es una barra de progreso, que no se opera.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "single, para elegir un valor aproximado en una escala, como volumen o brillo.",
+      "range, para filtrar por un rango, como precio mínimo y máximo.",
+      "vertical, en un panel estrecho o en un ajuste que sube y baja, como volumen o zoom.",
+      "text, fuera del nph-field, cuando la persona necesita ver el número mientras ajusta.",
+      "limits, cuando los extremos de la escala no son obvios para la persona.",
+      "marks, cuando solo algunos valores son válidos, en pasos fijos.",
+      "inputs, cuando el número exacto importa y la persona puede querer escribirlo.",
+      "steppers, cuando el ajuste fino es común o arrastrar es difícil, como en una pantalla táctil.",
+      "Dentro del nph-field cuando el valor rompe una regla: el field da el mensaje de error."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para mostrar progreso: eso es una barra de progreso, que no se opera.",
+      "range para elegir un solo valor: usa single.",
+      "vertical en un formulario común: el horizontal sigue la lectura.",
+      "text dentro del nph-field: la etiqueta sale dos veces.",
+      "limits junto con marks: las marcas ya muestran los extremos.",
+      "marks en una escala continua: usa limits.",
+      "Solo cuando la persona escribe números exactos a menudo: activa inputs o usa el nph-input.",
+      "steppers sin un paso definido: cada clic necesita mover un paso claro."
+    ],
+    "relationsText": "El nph-field da la etiqueta, la ayuda y el mensaje de error, y escribe label, description, invalid y required en el slider; allí, text queda desactivado. Solo, el nph-label lo nombra con for, o text dibuja la etiqueta sobre la pista. El globo de valor es el nph-tooltip, el campo es el nph-input y menos y más son nph-button solo con icono.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "orientation",
+        "horizontal (predeterminado) o vertical. El vertical tiene el mínimo abajo, y en él solo existen text y limits. Reflejada en el atributo."
+      ],
+      [
+        "mode",
+        "single (predeterminado), un pulgar, o range, dos pulgares, inicio y fin. Reflejada en el atributo."
+      ],
+      [
+        "min, max y step",
+        "La escala: 0, 100 y 1 por defecto. Todo valor se redondea al paso y se mantiene dentro de la escala."
+      ],
+      [
+        "value",
+        "El valor actual, en single. El atributo value es el valor inicial y el valor de form.reset(); vale solo hasta que la persona mueve el slider. Definirlo por código no dispara eventos. Por defecto, el medio de la escala."
+      ],
+      [
+        "start y end",
+        "El inicio y el fin, en range, con la misma regla que value. Cada pulgar se detiene en el otro. Por defecto, min y max."
+      ],
+      [
+        "name",
+        "El nombre de la entrada en los datos del formulario: single envía name=value, range dos entradas con el mismo nombre, inicio y fin. Reflejada en el atributo."
+      ],
+      [
+        "text",
+        "La etiqueta visible, dibujada por un nph-label con el valor actual al lado, sobre la pista. Vacía desactiva la parte. Desactivada dentro del nph-field."
+      ],
+      [
+        "limits",
+        "Activa el mínimo y el máximo en los extremos de la pista."
+      ],
+      [
+        "marks",
+        "Activa una etiqueta por paso bajo la pista, hasta 100. Solo en horizontal."
+      ],
+      [
+        "inputs",
+        "Activa un nph-input con el número: uno al final en single, uno en cada extremo en range. Solo en horizontal."
+      ],
+      [
+        "steppers",
+        "Activa los botones de menos y más, que mueven un paso. Solo en horizontal; exige decrease-label e increase-label."
+      ],
+      [
+        "start-label y end-label",
+        "En range, el nombre accesible de cada pulgar y de su campo, ya localizado."
+      ],
+      [
+        "decrease-label y increase-label",
+        "Los nombres accesibles de los botones de menos y más, ya localizados."
+      ],
+      [
+        "label",
+        "El nombre accesible en texto, nunca visible, cuando no hay etiqueta asociada. Una etiqueta asociada gana, y él gana a text."
+      ],
+      [
+        "description",
+        "La descripción accesible en texto, nunca visible: la ayuda o la frase de error que escribe el nph-field. Se lee como descripción de cada pulgar."
+      ],
+      [
+        "required",
+        "Lo escribe el nph-field. Un slider siempre tiene valor, así que no tiene efecto."
+      ],
+      [
+        "disabled",
+        "Todo el slider en state/disabled-opacity, una sola vez, fuera del Tab y de los datos del formulario. Un fieldset deshabilitado también lo deshabilita. Gana a invalid."
+      ],
+      [
+        "invalid",
+        "El estado erro: el borde del pulgar pasa a status/error y cada pulgar recibe aria-invalid. La frase pertenece al nph-field."
+      ],
+      [
+        "input y change",
+        "Los eventos nativos. input se dispara mientras el valor se mueve; change cuando se asienta: tras una tecla o un clic, y al soltar un arrastre. Lee el valor en el host."
+      ]
+    ],
+    "variantsTitle": "Variantes",
+    "variantsHeader": [
+      "Variante",
+      "Para qué sirve"
+    ],
+    "variants": [
+      [
+        "orientation: horizontal",
+        "Uso general, siguiendo la lectura. El mínimo queda a la izquierda."
+      ],
+      [
+        "orientation: vertical",
+        "Un panel estrecho, o un ajuste que sube y baja, como volumen o zoom. El mínimo queda abajo."
+      ],
+      [
+        "mode: single",
+        "Un valor aproximado en la escala, como volumen o brillo."
+      ],
+      [
+        "mode: range",
+        "Un inicio y un fin, como precio mínimo y máximo. Cada pulgar tiene nombre propio."
+      ]
+    ],
+    "variantsCaption": "single y range, horizontal y vertical.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "El pulgar sobre color/background, con el borde color/primary-border. La pista es color/input vacía y color/primary activa."
+      ],
+      [
+        "hover",
+        "El globo de valor, un nph-tooltip, se abre sobre el pulgar."
+      ],
+      [
+        "foco",
+        "El borde del pulgar pasa a focus/border, con el halo focus/halo por fuera, en focus/ring-width. El globo se abre."
+      ],
+      [
+        "inválido",
+        "El borde del pulgar es status/error; con foco, el halo es focus/halo-error. Los campos internos muestran su error."
+      ],
+      [
+        "deshabilitado",
+        "Todo el slider en state/disabled-opacity, una sola vez; sin globo. El campo y los botones mantienen su aspecto en reposo. Gana a invalid."
+      ]
+    ],
+    "statesCaption": "Predeterminado, inválido y deshabilitado. Pasa el ratón sobre un pulgar para ver el globo y pulsa Tab para ver el foco.",
+    "partsTitle": "Partes opcionales",
+    "partsText": "Cada parte se activa con una propiedad y no crea variante. Las partes junto a la pista quedan a space/inline de ella.",
+    "partsHeader": [
+      "Propiedad",
+      "Qué dibuja"
+    ],
+    "parts": [
+      [
+        "text",
+        "El nph-label y el valor actual sobre la pista."
+      ],
+      [
+        "limits",
+        "El mínimo y el máximo en los extremos, en text/caption."
+      ],
+      [
+        "marks",
+        "Una etiqueta por paso bajo la pista, en text/caption. Solo en horizontal."
+      ],
+      [
+        "inputs",
+        "Un nph-input con el número; en range, uno en cada extremo. Solo en horizontal."
+      ],
+      [
+        "steppers",
+        "nph-button solo con icono, secondary y ghost, con minus y plus. Cada clic mueve un paso. Solo en horizontal."
+      ]
+    ],
+    "partsCaption": "limits, marks y steppers.",
+    "invalidTitle": "Entrada inválida",
+    "invalidText": "Una orientation o un mode fuera de sus valores, un min que no queda por debajo de max y un step que no es un número positivo no dibujan nada. marks, inputs o steppers en la orientación vertical, y steppers sin sus dos nombres, no se dibujan; el resto se renderiza.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Raíz",
+        "Una pila vertical, space/stack-tight entre la línea de arriba, la pista y las marcas. Ancho predeterminado layout/input-width."
+      ],
+      [
+        "Pista",
+        "Parte vacía en color/input y parte activa en color/primary, space/inline-tight de grosor, radius/full. En range, la parte activa queda entre los dos pulgares."
+      ],
+      [
+        "Pulgar",
+        "Un círculo de icon/size-sm, radius/full, color/background, con el borde border/width por dentro en color/primary-border. Su área táctil es un círculo de control/height-large centrado en él."
+      ],
+      [
+        "Globo de valor",
+        "Un nph-tooltip sobre el pulgar, con los tokens del tooltip. En range, sigue al pulgar que tiene el estado."
+      ],
+      [
+        "Etiqueta y valor",
+        "El nph-label a la izquierda y el valor a la derecha, en text/label-md, color/foreground."
+      ],
+      [
+        "Mínimo, máximo y marcas",
+        "text/caption, color/muted-foreground. Las marcas quedan a space/stack-tight bajo la pista."
+      ],
+      [
+        "Campo, menos y más",
+        "nph-input en size=default, y nph-button solo con icono, a space/inline de la pista."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Cada pulgar es un elemento con role=slider, con aria-valuemin, aria-valuemax, aria-valuenow, aria-valuetext y aria-orientation. En range, un grupo interno reúne los dos pulgares. El host está asociado al formulario y es etiquetable."
+      ],
+      [
+        "Nombre accesible",
+        "De la etiqueta asociada al host: nph-label for, un elemento label o el nph-field. Sin ella, de label, después de text. En range, cada pulgar recibe start-label o end-label; menos y más reciben decrease-label e increase-label."
+      ],
+      [
+        "Descripción",
+        "description se lee como descripción de cada pulgar: la ayuda o la frase de error del nph-field."
+      ],
+      [
+        "Teclado",
+        "Tab entra en cada pulgar. Las flechas mueven un paso; Re Pág y Av Pág una décima parte de la escala; Inicio y Fin van a los extremos."
+      ],
+      [
+        "Foco visible",
+        "El pulgar recibe focus/border con el halo por fuera, sin cambiar el tamaño, y el globo se abre."
+      ],
+      [
+        "Área táctil",
+        "El pulgar se dibuja en icon/size-sm, y su área es un círculo de control/height-large."
+      ],
+      [
+        "Límites conocidos",
+        "Los colores forzados y de derecha a izquierda aún no se tratan. El gesto de deslizar de un lector de pantalla móvil depende del navegador."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleBrightness": "Brillo: text activado, fuera de un field.",
+    "examplePrice": "Rango de precios: range con inputs, un campo en cada extremo.",
+    "exampleVolume": "Volumen: vertical con limits, el mínimo abajo.",
+    "exampleField": "Dentro del nph-field: el field da la etiqueta, la ayuda y el error.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-slider — propósito, variantes, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P94 (API y semántica), P80 (el patrón de formulario), P83 (el contrato del field), P77 (el globo), P01, P02 y P03.",
+      "design.md — color/input, color/primary, color/primary-border, status/error, focus/*, state/disabled-opacity, icon/size-sm, control/height-large, layout/input-width, space/stack-tight, space/inline, space/inline-tight, radius/full, text/label-md y text/caption.",
+      "Figma DS-IA-NEPHOS 5.0 — board nph-slider (1636:46), frame 1925:642 y set 1636:44.",
+      "Storybook — Validation, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha del nph-slider; Figma, board nph-slider (1636:46)",
+    "sourceApi": "Ficha del nph-slider; docs/decisoes-tecnicas.md › P94",
+    "sourceStates": "Figma, set 1636:44; design.md",
+    "sourceAnatomy": "Figma, set 1636:44; design.md",
+    "sourceAccessibility": "Ficha del nph-slider; nph-slider.test.ts",
+    "matrixLabel": "Matriz del componente",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "brightnessLabel": "Brillo",
+    "volumeLabel": "Volumen",
+    "volumeHelp": "Entre 0 y 100.",
+    "volumeError": "Baja el volumen a 70 o menos.",
+    "priceLabel": "Precio",
+    "startLabel": "Precio mínimo",
+    "endLabel": "Precio máximo",
+    "ratingLabel": "Puntuación",
+    "decreaseLabel": "Bajar volumen",
+    "increaseLabel": "Subir volumen"
+  },
+  "sliderValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "brightnessLabel": "Brillo",
+    "volumeLabel": "Volumen",
+    "volumeHelp": "Entre 0 y 100.",
+    "volumeError": "Baja el volumen a 70 o menos.",
+    "priceLabel": "Precio",
+    "startLabel": "Precio mínimo",
+    "endLabel": "Precio máximo",
+    "ratingLabel": "Puntuación",
+    "decreaseLabel": "Bajar volumen",
+    "increaseLabel": "Subir volumen",
+    "statusIdle": "Esperando un evento.",
+    "statusEvent": "{event} se disparó; el valor ahora es {value}.",
+    "submitText": "Enviar",
+    "resetText": "Restablecer",
+    "statusSubmitted": "Enviado: {data}",
+    "statusReset": "El formulario volvió a los atributos de valor.",
+    "fieldsetDisabled": "Dentro de un fieldset deshabilitado",
+    "exampleBrightness": "Brillo",
+    "examplePrice": "Rango de precios",
+    "exampleVolume": "Volumen"
+  },
+  "selectDocs": {
+    "summary": "El campo que abre una lista cerrada de opciones para que la persona elija una. Participa del formulario que lo contiene; la etiqueta, la ayuda y el mensaje de error pertenecen al nph-field.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas del nph-select y del nph-option, el design.md para los tokens y el docs/decisoes-tecnicas.md para la P91. El archivo Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "sourceFrame": "Figma, frame nph-select (1357:160), documentación 1452:448, set 1357:115",
+    "sourceApi": "Ficha del nph-select; docs/decisoes-tecnicas.md › P91",
+    "sourceOption": "Figma, nph-select / opção (1357:136); ficha del nph-option",
+    "sourceDecisions": "Tarea DSA-29, respuestas D1 a D9; docs/decisoes-tecnicas.md › P91",
+    "sourceAccessibility": "Figma, frame nph-select (1357:160); nph-select.test.ts y nph-option.test.ts",
+    "matrixLabel": "size × estado",
+    "description": "Usa el nph-select cuando la persona elige una sola opción de una lista cerrada de 6 a 15 elementos. No sustituye al nph-radio, para 2 a 5 opciones visibles a la vez, ni al nph-combobox, para más de 15 opciones o cuando la persona necesita buscar. Para elegir varias opciones, usa el nph-multi-combobox.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Cuando la persona elige una sola opción de una lista cerrada de 6 a 15 elementos.",
+      "Dentro de un nph-field, que da la etiqueta, el texto de ayuda y el mensaje de error.",
+      "Con start=avatar cuando las opciones son personas, y start=icon cuando un símbolo ayuda a reconocer la opción.",
+      "default en el uso general; large en la pantalla que necesita el objetivo de 44 px, para todos los campos del formulario."
+    ],
+    "whenNotToUse": [
+      "Para 2 a 5 opciones: usa el nph-radio, para que la persona vea todas sin abrir nada.",
+      "Para más de 15 opciones, o cuando la persona necesita buscar: usa el nph-combobox.",
+      "Para elegir varias opciones: usa el nph-multi-combobox.",
+      "Para nombrar el campo solo con el placeholder: la elección lo reemplaza.",
+      "Con la lupa al inicio: la búsqueda pertenece al nph-combobox."
+    ],
+    "relationsText": "Las opciones son hijas nph-option, como las option de un select; la lista es interna. El nph-field compone la etiqueta, el select, la ayuda y el mensaje de error, y escribe label, description, invalid y required en el select. El avatar del inicio es un nph-avatar; el icono del inicio, la flecha y el check son instancias de nph-icon.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "size",
+        "default o large, reflejada. Cambian la altura del disparador y el ancho del área de la flecha."
+      ],
+      [
+        "value",
+        "El valor actual. El atributo value es el valor inicial y el valor de form.reset(). La opción elegida es la primera nph-option con ese valor; el valor se guarda hasta que llega una opción así. Definido por código, no dispara nada."
+      ],
+      [
+        "placeholder",
+        "La invitación antes de la elección, ya localizada, como Selecciona una opción. No es un nombre."
+      ],
+      [
+        "start",
+        "none, icon o avatar. El disparador repite el inicio de la opción elegida; antes de la elección, la propiedad icon o el avatar vacío. El punto de una opción nunca va al disparador."
+      ],
+      [
+        "icon",
+        "Un nombre del núcleo del nph-icon, por defecto globe: el icono del inicio antes de la elección, o cuando la opción elegida no tiene icono. Nunca la lupa."
+      ],
+      [
+        "open",
+        "Booleana, reflejada. La lista está abierta. La pieza la abre y la cierra; el consumidor puede definirla. Abrir y cerrar no disparan eventos."
+      ],
+      [
+        "name, required",
+        "Como en un campo nativo. Sin opción elegida, la entrada queda fuera de los datos del formulario; required sin elección es valueMissing, con el mensaje del navegador."
+      ],
+      [
+        "invalid",
+        "El estado erro: el borde pasa a status/error y el disparador recibe aria-invalid. La frase pertenece al nph-field."
+      ],
+      [
+        "disabled",
+        "Booleana, reflejada. La pieza entera se atenúa, sale del orden del Tab y de los datos del formulario, y la lista no se abre. Un fieldset deshabilitado también la deshabilita."
+      ],
+      [
+        "label, description",
+        "El nombre y la descripción accesibles en texto, nunca visibles, escritos por el nph-field. Una etiqueta asociada gana sobre label."
+      ],
+      [
+        "input, change",
+        "Disparados por el host, en ese orden, cuando la persona elige una opción de valor diferente. El código no dispara ninguno de los dos."
+      ],
+      [
+        "slot",
+        "Las opciones: hijas nph-option."
+      ]
+    ],
+    "invalidTitle": "Una entrada inválida no dibuja nada.",
+    "invalidText": "Un size fuera de default y large, un start fuera de none, icon y avatar, o un icon fuera del núcleo: el select no se renderiza y emite console.error en desarrollo. La lupa se renderiza y avisa: la búsqueda pertenece al nph-combobox.",
+    "sizesTitle": "Tamaños",
+    "sizesText": "default en el uso general; large en la pantalla que necesita el objetivo de 44 px, para todos los campos del formulario. Cambian la altura del disparador y el ancho del área de la flecha: control/height-default o control/height-large.",
+    "sizesCaption": "default y large, con una opción elegida.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "Borde color/input sobre color/background; el área de la flecha en color/accent, después de un divisor color/border."
+      ],
+      [
+        "hover",
+        "El borde pasa a color/input-hover."
+      ],
+      [
+        "foco",
+        "Foco con el teclado: borde focus/border y el focus/halo por fuera, en focus/radius-control."
+      ],
+      [
+        "aberto",
+        "El aspecto de foco con la lista abierta debajo del disparador y la flecha hacia arriba."
+      ],
+      [
+        "erro",
+        "Borde status/error, también en hover; con foco, el halo es focus/halo-error."
+      ],
+      [
+        "disabled",
+        "color/muted, borde color/input y state/disabled-opacity en la pieza entera; gana sobre el error."
+      ]
+    ],
+    "statesCaption": "Placeholder, valor, error y deshabilitado.",
+    "startTitle": "Inicio",
+    "startText": "El start decide el tipo y la opción elegida da el arte: con icon, el icono de la opción elegida, o globe antes de la elección; con avatar, la foto de la persona elegida, o el avatar vacío antes de la elección. Mantén el mismo inicio en todas las opciones de la lista.",
+    "startCaption": "start=icon y start=avatar, antes y después de la elección.",
+    "optionTitle": "Opción",
+    "optionText": "Cada opción es un nph-option: la etiqueta es el texto que contiene, y puede tener un inicio, un texto secundario y el punto de un estado. La lista escribe selected y active en ella; la opción elegida tiene el fondo color/primary-surface y el check, que ganan sobre el aspecto de hover.",
+    "optionCaption": "Los cuatro inicios, activa, seleccionada, el punto en cada estado y deshabilitada.",
+    "optionApiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "optionApi": [
+      [
+        "slot",
+        "La etiqueta, ya localizada: el nombre accesible de la opción y el texto del disparador cuando se elige."
+      ],
+      [
+        "value",
+        "Reflejada. Sin el atributo, el texto de la etiqueta."
+      ],
+      [
+        "secondary",
+        "El texto de ayuda después de la etiqueta. Vacío lo apaga."
+      ],
+      [
+        "start",
+        "none, icon, avatar o dot."
+      ],
+      [
+        "icon, src",
+        "El icono con start=icon, por defecto globe; la foto con start=avatar, vacía para el avatar vacío."
+      ],
+      [
+        "status",
+        "El punto con start=dot: neutral, info, warning, success, error o help. Ausente, el color del texto."
+      ],
+      [
+        "disabled",
+        "Booleana, reflejada. La opción se atenúa y no se puede elegir."
+      ],
+      [
+        "selected, active",
+        "Escritas por la lista, nunca por el consumidor. No se reflejan."
+      ]
+    ],
+    "optionStatesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "optionStates": [
+      [
+        "default",
+        "La etiqueta en color/popover-foreground, sin fondo."
+      ],
+      [
+        "hover o activa",
+        "color/accent con el texto en color/accent-foreground."
+      ],
+      [
+        "seleccionada",
+        "color/primary-surface y el check en color/primary; gana sobre el hover."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity en la opción entera."
+      ]
+    ],
+    "listTitle": "Lista",
+    "listText": "La lista se abre a space/inline-tight debajo del disparador, con su ancho, y se da vuelta hacia arriba cuando no cabe abajo. Aparece con opacidad y se desliza hasta su lugar; con movimiento reducido, solo cambia la opacidad. Muestra 8 opciones enteras dentro de layout/max-list-height y se desplaza por encima de eso. El foco queda en el disparador, que apunta a la opción activa.",
+    "listCaption": "La lista abierta, la opción elegida con el check.",
+    "keyboardHeader": [
+      "Tecla",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Enter, Space, ArrowDown, ArrowUp",
+        "Cerrada: abren la lista en la opción elegida, o en la primera."
+      ],
+      [
+        "Home, End",
+        "Abren en la primera y en la última opción, o van a ellas."
+      ],
+      [
+        "ArrowDown, ArrowUp, PageDown, PageUp",
+        "Abierta: mueven la opción activa, sin dar la vuelta."
+      ],
+      [
+        "Caracteres",
+        "Van a la opción que empieza con el texto escrito; cerrada, abren la lista."
+      ],
+      [
+        "Enter, Space, Alt+ArrowUp",
+        "Abierta: eligen la opción activa y cierran."
+      ],
+      [
+        "Escape",
+        "Cierra sin elegir."
+      ],
+      [
+        "Tab",
+        "Cierra sin elegir; el foco sigue."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Disparador",
+        "Fondo color/background, borde border/width en color/input, radius/control, ancho layout/input-width, altura control/height-*, padding izquierdo space/control-padding, gap space/inline, padding derecho 0."
+      ],
+      [
+        "2. Inicio",
+        "nph-icon icon/size-sm en color/muted-foreground, o nph-avatar sm."
+      ],
+      [
+        "3. Texto",
+        "El valor elegido en text/body-md, color/foreground; el placeholder en color/muted-foreground. Una línea con puntos suspensivos."
+      ],
+      [
+        "4. Divisor",
+        "border/width en color/border, al lado del área de la flecha."
+      ],
+      [
+        "5. Área de la flecha",
+        "color/accent, ancho control/height-* y la altura del disparador menos sus bordes; radius/none a la izquierda y radius/control-inner a la derecha; chevron-down, o chevron-up abierta."
+      ],
+      [
+        "6. Lista",
+        "color/popover, borde color/input, radius/container, padding space/inline-tight, altura máxima layout/max-list-height, elevation/dropdown."
+      ],
+      [
+        "7. Opción",
+        "Padding y gap space/inline, radius/inner, el ancho de la lista; inicio icono, avatar o punto."
+      ],
+      [
+        "8. Check",
+        "nph-icon check, icon/size-sm, color/primary, al final de la opción seleccionada."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Un combobox solo de selección: el disparador tiene el rol combobox y controla un listbox; cada nph-option tiene el rol option y aria-selected."
+      ],
+      [
+        "Nombre accesible",
+        "La etiqueta del nph-field, o label; el placeholder no es un nombre. La description se lee junto: la ayuda o la frase de error."
+      ],
+      [
+        "Teclado y foco",
+        "El foco queda en el disparador y apunta a la opción activa con aria-activedescendant. El foco se ve con el teclado y mientras la lista está abierta."
+      ],
+      [
+        "Contraste",
+        "Texto 4,5:1 y el borde 3:1, en los modos claro y oscuro; la flecha 3:1 sobre color/accent; el check 4,78:1 y 6,26:1 sobre color/primary-surface."
+      ],
+      [
+        "El color no es la única señal",
+        "El error llega como texto en el nph-field; la opción seleccionada tiene el check; el punto acompaña el estado escrito; la flecha se da vuelta hacia arriba cuando la lista se abre."
+      ],
+      [
+        "Partes ocultas",
+        "El inicio, el divisor, la flecha, el punto y el check quedan ocultos para el lector de pantalla."
+      ]
+    ],
+    "examplesTitle": "Ejemplos obligatorios",
+    "exampleDepartment": "Departamento: lista corta, sin inicio.",
+    "exampleOwner": "Responsable: personas con avatar, abierto.",
+    "exampleRequired": "Obligatorio sin elección: el error.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, frame nph-select (1357:160), documentación 1452:448",
+      "fichas/nph-select.md y fichas/nph-option.md",
+      "docs/decisoes-tecnicas.md › P91, P80 y P83",
+      "WAI-ARIA Authoring Practices, combobox solo de selección"
+    ],
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "departmentLabel": "Departamento",
+    "departmentHelp": "El equipo en el que trabaja la persona.",
+    "placeholder": "Selecciona una opción",
+    "departments": [
+      "Finanzas",
+      "Jurídico",
+      "Marketing",
+      "Operaciones",
+      "Personas",
+      "Producto",
+      "Ventas",
+      "Soporte"
+    ],
+    "ownerLabel": "Responsable",
+    "people": [
+      {
+        "name": "Ana Souza",
+        "role": "Diseñadora de producto"
+      },
+      {
+        "name": "Bruno Lima",
+        "role": "Ingeniero"
+      },
+      {
+        "name": "Carla Dias",
+        "role": "Investigadora"
+      },
+      {
+        "name": "Diego Alves",
+        "role": "Gerente de producto"
+      }
+    ],
+    "locationLabel": "Lugar de trabajo",
+    "locations": [
+      "Oficina en casa",
+      "Cliente",
+      "A distancia"
+    ],
+    "statuses": [
+      {
+        "status": "success",
+        "label": "Activo"
+      },
+      {
+        "status": "warning",
+        "label": "Pendiente"
+      },
+      {
+        "status": "error",
+        "label": "Bloqueado"
+      },
+      {
+        "status": "info",
+        "label": "En revisión"
+      },
+      {
+        "status": "help",
+        "label": "En espera"
+      },
+      {
+        "status": "neutral",
+        "label": "Archivado"
+      }
+    ],
+    "errorMessage": "Elige un departamento."
+  },
+  "selectValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "departmentLabel": "Departamento",
+    "departmentHelp": "El equipo en el que trabaja la persona.",
+    "placeholder": "Selecciona una opción",
+    "departments": [
+      "Finanzas",
+      "Jurídico",
+      "Marketing",
+      "Operaciones",
+      "Personas",
+      "Producto",
+      "Ventas",
+      "Soporte"
+    ],
+    "moreDepartments": [
+      "Diseño",
+      "Ingeniería",
+      "Logística",
+      "Investigación"
+    ],
+    "ownerLabel": "Responsable",
+    "people": [
+      {
+        "name": "Ana Souza",
+        "role": "Diseñadora de producto"
+      },
+      {
+        "name": "Bruno Lima",
+        "role": "Ingeniero"
+      },
+      {
+        "name": "Carla Dias",
+        "role": "Investigadora"
+      },
+      {
+        "name": "Diego Alves",
+        "role": "Gerente de producto"
+      }
+    ],
+    "locationLabel": "Lugar de trabajo",
+    "locations": [
+      "Oficina en casa",
+      "Cliente",
+      "A distancia"
+    ],
+    "statusLabel": "Situación",
+    "statuses": [
+      {
+        "status": "success",
+        "label": "Activo"
+      },
+      {
+        "status": "warning",
+        "label": "Pendiente"
+      },
+      {
+        "status": "error",
+        "label": "Bloqueado"
+      },
+      {
+        "status": "info",
+        "label": "En revisión"
+      },
+      {
+        "status": "help",
+        "label": "En espera"
+      },
+      {
+        "status": "neutral",
+        "label": "Archivado"
+      }
+    ],
+    "noStatus": "Sin estado",
+    "longLabel": "Éxito del cliente y relación con socios en América Latina",
+    "longSecondary": "Equipo compartido con las oficinas regionales",
+    "errorMessage": "Elige un departamento.",
+    "submitText": "Enviar",
+    "resetText": "Restablecer",
+    "statusIdle": "Nada enviado todavía.",
+    "statusSubmitted": "Enviado: {data}",
+    "statusReset": "El formulario volvió a sus valores iniciales.",
+    "statusNoEvent": "Ningún evento todavía.",
+    "statusEvent": "{event}: {value}",
+    "fieldsetDisabled": "Fieldset deshabilitado",
+    "exampleDepartment": "Departamento",
+    "exampleOwner": "Responsable",
+    "exampleRequired": "Obligatorio sin elección"
+  },
+  "inputOtpDocs": {
+    "summary": "Campo de código corto, una casilla por carácter, para confirmar el acceso con un código enviado por SMS o correo. Un input nativo queda sobre las casillas, así que el código es un valor con un nombre; la etiqueta, la ayuda y el error vienen del nph-field.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-input-otp, design.md para los tokens y docs/decisoes-tecnicas.md para la P85. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Para confirmar el acceso con un código enviado por SMS o correo: length 6 o 4, según la longitud del código.",
+      "En pantalla táctil, donde el código suele escribirse en el teléfono: size large; en las demás pantallas, size default.",
+      "Cuando el código se escribe en un lugar público: masked.",
+      "Para un código con letras y números, como A7K2Q9: el campo lo acepta y la casilla no cambia."
+    ],
+    "whenNotToUse": [
+      "Para texto libre de una línea: use nph-input.",
+      "Sin el nph-field: la etiqueta, la ayuda y el error son del nph-field.",
+      "Con casillas de tamaños distintos: use el mismo size en todo el campo.",
+      "Para pintar la acción de reenviar con un color suelto: el reenvío es un nph-button debajo del campo, con la etiqueta en color/link."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "relationsText": "El nph-field lleva la etiqueta, la ayuda y el error, y escribe label, description, invalid y required en el campo. La acción de reenviar es un nph-button debajo del campo, deshabilitado durante la cuenta atrás: no forma parte del campo. Para texto libre de una línea, use nph-input.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "length",
+        "6 (por defecto) o 4: el número de casillas. Cualquier otro valor no dibuja nada."
+      ],
+      [
+        "size",
+        "default (36 px) o large (44 px), el mismo en todas las casillas. large es para pantalla táctil."
+      ],
+      [
+        "invalid",
+        "Borde de error en todas las casillas y aria-invalid. La frase de error es del nph-field. disabled gana."
+      ],
+      [
+        "disabled",
+        "Fuera del orden del Tab, fondo apagado y opacidad menor. Un fieldset deshabilitado hace lo mismo."
+      ],
+      [
+        "masked",
+        "Un punto en lugar de cada carácter, para un código escrito en un lugar público. Solo visual: el lector de pantalla lee el código."
+      ],
+      [
+        "required",
+        "Anunciado como aria-required. No hay validación de restricción."
+      ],
+      [
+        "name",
+        "El nombre de la entrada en los datos del formulario. Se refleja, porque el formulario lee el atributo."
+      ],
+      [
+        "value",
+        "El código: solo letras y dígitos, hasta length. El atributo es el valor inicial y el del reset; la propiedad es el actual. Definirlo por código no dispara nada."
+      ],
+      [
+        "label",
+        "El nombre accesible, en texto, cuando ninguna etiqueta está asociada al campo. El nph-field lo escribe."
+      ],
+      [
+        "description",
+        "La descripción accesible, en texto: la ayuda o la frase de error que escribe el nph-field."
+      ],
+      [
+        "input y change",
+        "Eventos nativos. input atraviesa el shadow root con cada cambio que hace la persona; el host dispara change cuando la persona sale del campo o pulsa Enter con un valor nuevo."
+      ]
+    ],
+    "sizeTitle": "Longitud y tamaño",
+    "sizeText": "length define el número de casillas según la longitud del código. size define el lado de cada casilla: default en la mayoría de las pantallas, large en pantalla táctil, donde el código suele escribirse en el teléfono. Las casillas de un campo comparten siempre el tamaño.",
+    "sizeCaption": "Seis casillas en default y en large; cuatro casillas en default.",
+    "statesTitle": "Estados",
+    "statesText": "El estado del campo vale para todas las casillas. El hover oscurece todos los bordes, porque el campo es un solo objetivo; el foco marca solo la casilla activa, donde entra el siguiente carácter.",
+    "statesCaption": "Default, invalid y disabled.",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "statesRules": [
+      [
+        "default",
+        "Borde color/input sobre color/background."
+      ],
+      [
+        "hover",
+        "Todos los bordes color/input-hover. Error y disabled mantienen su borde."
+      ],
+      [
+        "foco",
+        "La casilla activa toma el focus/border y el focus/halo por fuera, sin ocupar espacio."
+      ],
+      [
+        "invalid",
+        "Todos los bordes status/error; con foco, el halo es focus/halo-error."
+      ],
+      [
+        "disabled",
+        "Fondo color/muted y state/disabled-opacity; gana a invalid."
+      ]
+    ],
+    "maskedTitle": "Enmascarado",
+    "maskedText": "masked muestra un punto en lugar de cada carácter, para un código escrito en un lugar público. En los demás casos, ver el carácter ayuda a la persona a comprobarlo. El campo acepta letras y números en ambos casos, y la casilla no cambia.",
+    "maskedCaption": "Un código con letras y números, y el mismo código enmascarado.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Campo",
+        "La fila de casillas, una por carácter, a space/inline una de otra, con el input nativo encima."
+      ],
+      [
+        "Casilla",
+        "Un cuadrado de control/height-default o control/height-large, sin relleno interno: fondo color/background, borde color/input en border/width, radio radius/control."
+      ],
+      [
+        "Carácter",
+        "text/code en color/foreground: una letra o un dígito."
+      ],
+      [
+        "Punto",
+        "En lugar del carácter con masked, en text/code y color/foreground."
+      ],
+      [
+        "Halo de foco",
+        "Un anillo por fuera de la casilla activa, con el ancho focus/ring-width. No ocupa espacio."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Un input de texto nativo con autocomplete one-time-code. Las casillas solo dibujan y quedan ocultas a la tecnología de apoyo: el código es un valor, con un nombre."
+      ],
+      [
+        "Nombre accesible",
+        "La etiqueta del nph-field, escrita en label. Una etiqueta asociada al campo lo nombra primero. Sin nombre, el campo se dibuja y avisa en desarrollo."
+      ],
+      [
+        "Descripción",
+        "La ayuda o la frase de error del nph-field, escrita en description, leída junto con el nombre."
+      ],
+      [
+        "Teclado",
+        "Una parada de Tab para todo el código. Escribir llena la casilla activa; Backspace borra el carácter antes del cursor; las flechas, Home y End mueven la casilla activa; Enter envía el formulario."
+      ],
+      [
+        "Foco visible",
+        "La casilla activa muestra el borde de foco y el halo; el espacio entre casillas es mayor que el halo."
+      ],
+      [
+        "Contraste",
+        "El carácter y el punto tienen al menos 4,5:1, y el borde al menos 3:1, en modo claro y oscuro en todas las marcas. Disabled no tiene mínimo."
+      ],
+      [
+        "El color no es la única señal",
+        "El error siempre viene con la frase del nph-field; disabled combina opacidad con el fondo apagado."
+      ],
+      [
+        "Objetivo táctil",
+        "Todo el campo es el objetivo. Cada casilla mide 36 px en default y 44 px en large; en pantalla táctil, use large."
+      ],
+      [
+        "Límites conocidos",
+        "masked es solo visual: el lector de pantalla lee el código. El input usa text/code, 14 px, así que Safari de iOS puede hacer zoom al enfocar. Que iOS ofrezca a este campo un código recibido por SMS queda por confirmar en un dispositivo."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleEmail": "Código enviado por correo, en el nph-field: la etiqueta, el campo y el texto de ayuda.",
+    "exampleWrong": "Código incorrecto: el mensaje de error del nph-field, y todas las casillas en estado de error.",
+    "exampleTouch": "Pantalla táctil: size large, seis casillas.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "fieldLabel": "Código de verificación",
+    "numericCode": "482913",
+    "shortCode": "4829",
+    "alphanumericCode": "A7K2Q9",
+    "partialCode": "48",
+    "emailHelp": "Enviamos un código de seis caracteres a su correo.",
+    "wrongError": "El código es incorrecto o ha caducado. Revíselo o pida uno nuevo.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-input-otp — propósito, anatomía, estados, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P85 (API y semántica), P80 (el patrón de formulario), P83 (el contrato con el nph-field), P01, P02 y P03.",
+      "design.md — color/input, color/input-hover, color/background, color/foreground, color/muted, status/error, focus/border, focus/halo, focus/halo-error, focus/ring-width, border/width, radius/control, control/height-default, control/height-large, space/inline, text/code y state/disabled-opacity.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Input OTP, board nph-input-otp (1633:122), set 1633:120 y set de la casilla 1633:29.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha del nph-input-otp; Figma, board nph-input-otp (1633:122)",
+    "sourceApi": "Ficha del nph-input-otp; docs/decisoes-tecnicas.md › P85",
+    "sourceSize": "Figma, set 1633:120; design.md",
+    "sourceStates": "Figma, set de la casilla 1633:29; ficha del nph-input-otp",
+    "sourceAnatomy": "Figma, set 1633:120 y set de la casilla 1633:29; design.md",
+    "sourceAccessibility": "Ficha del nph-input-otp; nph-input-otp.test.ts",
+    "matrixLabel": "Matriz del componente"
+  },
+  "inputOtpValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "fieldLabel": "Código de verificación",
+    "numericCode": "482913",
+    "shortCode": "4829",
+    "alphanumericCode": "A7K2Q9",
+    "partialCode": "48",
+    "emailHelp": "Enviamos un código de seis caracteres a su correo.",
+    "wrongError": "El código es incorrecto o ha caducado. Revíselo o pida uno nuevo.",
+    "exampleEmail": "Código enviado por correo",
+    "exampleWrong": "Código incorrecto",
+    "exampleTouch": "Pantalla táctil",
+    "statusIdle": "Esperando un código.",
+    "statusInput": "input disparado con value = {value}.",
+    "statusChange": "change disparado con value = {value}."
+  },
   "checkboxDocs": {
     "summary": "Una casilla con texto propio, para que la persona marque opciones independientes o active y desactive una opción. Es un control de formulario: una casilla marcada envía su valor con el formulario.",
     "onThisPage": "En esta página",
@@ -2811,9 +4857,16 @@
       "components-nph-badge-validation--two-words": "Una o dos palabras quedan en una sola línea: el badge no se parte.",
       "components-nph-button-validation--matrix": "Cada par de severity y emphasis que existe, en el tamaño default. Pase el ratón sobre un botón para ver el hover.",
       "components-nph-button-validation--sizes": "Los tres tamaños, con texto y solo con icono. El texto es label-md en todos.",
-      "components-nph-button-validation--icons": "Icono al inicio, al final y los dos juntos, en icon/size-sm.",
+      "components-nph-button-validation--icons": "Icono al inicio, al final y los dos juntos, en icon/size-sm. Pase el ratón sobre un botón: los iconos pasan a solid.",
       "components-nph-button-validation--disabled": "Deshabilitado: todo el botón en state/disabled-opacity, fuera del orden de Tab.",
       "components-nph-button-validation--loading": "Cargando: el spinner ocupa el lugar del icono inicial, y el texto se mantiene.",
+      "components-nph-button-validation--shapes": "Esquinas cuadradas y circulares del botón solo con icono, en cada tamaño y énfasis: el tamaño se mantiene. Use Tab para ver el foco seguir las esquinas redondas.",
+      "components-nph-button-validation--tooltip": "Todo botón solo con icono muestra su label en un tooltip: Tab lo abre al instante, el puntero tras motion/hover-delay. Deshabilitado no tiene; cargando, lo mantiene.",
+      "components-nph-input-otp-validation--matrix": "Seis y cuatro casillas, en los tamaños default y large: cada casilla es un cuadrado de la altura del control, a space/inline una de otra.",
+      "components-nph-input-otp-validation--states": "Default, invalid y disabled en todas las casillas, y disabled ganando a invalid; la frase de error es del nph-field.",
+      "components-nph-input-otp-validation--characters": "Un código numérico, un código con letras y números, un código parcial con casillas vacías y masked, con un punto en lugar de cada carácter.",
+      "components-nph-input-otp-validation--interactive": "Escriba o pegue un código: la casilla activa sigue al cursor, un código pegado reemplaza el valor, e input y change aparecen debajo del campo.",
+      "components-nph-input-otp-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: un código enviado por correo y un código incorrecto, en el nph-field, y la pantalla táctil, con size large.",
       "components-nph-kbd-validation--single-key": "Una tecla por pieza, mediante la propiedad text.",
       "components-nph-kbd-validation--combination": "Una combinación junta una pieza por tecla, una al lado de otra.",
       "components-nph-kbd-validation--mac-combination": "La misma combinación en macOS, con los símbolos del sistema. La aplicación elige el conjunto según el sistema de la persona; la pieza no lo detecta.",
@@ -2852,11 +4905,52 @@
       "components-nph-input-validation--width": "El ancho predeterminado es layout/input-width; el campo se estira hasta su padre, sin mínimo (D6).",
       "components-nph-input-validation--invalid-input": "La entrada inválida no dibuja nada: un type fuera de la v1, un size que no existe, un ícono fuera del núcleo. icon-end sin clear-label dibuja el campo sin el botón.",
       "components-nph-input-validation--examples": "Los tres ejemplos obligatorios del frame aceptado: Búsqueda, Campo con etiqueta y Error, cada uno en modo claro y oscuro.",
+      "components-nph-textarea-validation--matrix": "Los estados del set: placeholder y valor, error, readonly, disabled, y la precedencia de disabled sobre readonly y de readonly sobre el error. Pasa el ratón para el hover, haz clic para el foco.",
+      "components-nph-textarea-validation--footer": "El pie aparece con contador o acción, el contador al inicio y las acciones al final; disabled llega a las acciones; readonly no dibuja pie.",
+      "components-nph-textarea-validation--height": "Vacío, el campo tiene layout/textarea-min-height; crece con el texto y se detiene en layout/textarea-max-height, donde el texto se desplaza por dentro.",
+      "components-nph-textarea-validation--form-association": "El host participa del formulario: el envío manda name=value con sus saltos de línea, Enter escribe una línea y no envía, el reset restaura el atributo value y un fieldset deshabilitado lo deja fuera.",
+      "components-nph-textarea-validation--in-field": "Dentro del nph-field, el campo da la etiqueta, la ayuda, el error y el contador de la línea de apoyo, y el pie queda apagado.",
+      "components-nph-textarea-validation--width": "El ancho es layout/input-width por defecto; se estira hasta el padre, sin mínimo.",
+      "components-nph-textarea-validation--examples": "Los tres ejemplos obligatorios del frame, cada uno en modo claro y oscuro: Comentario, Descripción en un formulario y Texto largo.",
       "components-nph-empty-validation--with-description": "El título dice lo que falta y la descripción dice qué hacer, como en el board; la ilustración sigue el esquema de colores.",
       "components-nph-empty-validation--heading-only": "Con la descripción vacía queda solo el título, para cuando no hay nada que sugerir.",
       "components-nph-empty-validation--surfaces": "El título y la descripción superan 4,5:1 sobre color/background y sobre color/popover, en modo claro y oscuro.",
       "components-nph-empty-validation--combobox-list": "La búsqueda sin resultado en la lista del nph-combobox, en un marco hasta que exista el nph-combobox.",
       "components-nph-empty-validation--invalid-heading": "Sin título la pieza no dibuja nada y no tiene alternativa visual.",
+      "components-nph-image-validation--sizes": "Los siete tamaños, con imagen y sin ella: cuadrados de 24, 32, 48, 64, 96 y 128 px con esquina redondeada, y media en el ancho de contenido de 256 px.",
+      "components-nph-image-validation--ratios": "media acepta 1:1, 4:3 y 16:9 en el mismo ancho, 256 por 256, 192 o 144 px; un tamaño cuadrado ignora la proporción y sigue cuadrado.",
+      "components-nph-image-validation--states": "El estado viene del src: vacío sin él, el spinner y ningún borde mientras la imagen carga, la imagen llenando el marco una vez cargada, y el marco de nuevo cuando falla. Vacío y error dibujan solo el marco hasta que lleguen sus ilustraciones.",
+      "components-nph-image-validation--interaction": "Una imagen clicable es un botón: pase el ratón por encima para ver el velo y el ojo, pulse Tab para ver el anillo de foco. Deshabilitada atenúa la pieza entera y saca el botón del orden del Tab.",
+      "components-nph-image-validation--accessibility": "Con alt, la imagen se anuncia por su descripción; con alt vacío, queda oculta al lector de pantalla y habla el texto de al lado. Una imagen clicable da el alt a su botón.",
+      "components-nph-field-validation--matrix": "Error, marca de obligatorio e icono de información, los tres ejes de variante del set, en modo claro y oscuro.",
+      "components-nph-field-validation--message-line": "La línea de mensaje: no se dibuja cuando está vacía; la ayuda en text/caption; el error la reemplaza, sin icono; un texto largo pasa a otra línea.",
+      "components-nph-field-validation--counter": "El contador al final de la línea de ayuda, solo y en una línea propia debajo del error.",
+      "components-nph-field-validation--width": "El campo toma layout/field-width por defecto y se estira con su contenedor; el control lo llena.",
+      "components-nph-field-validation--group": "Un grupo de checkboxes y un grupo de radios, apilados, nombrados y descritos por el campo.",
+      "components-nph-field-validation--disabled": "Deshabilitado: el control se atenúa, la etiqueta y la línea de mensaje no; deshabilitado gana sobre error.",
+      "components-nph-field-validation--control-contract": "Lo que el campo escribe en su control (P83): el nombre, la descripción, invalid, required y disabled.",
+      "components-nph-switch-validation--matrix": "Apagado y encendido, válido, inválido y deshabilitado, con etiqueta. Pase el ratón sobre una pieza para ver el hover y use Tab para ver el foco en el riel.",
+      "components-nph-switch-validation--label": "La etiqueta después del riel; sin texto, solo el riel, nombrado por label; una etiqueta larga se ajusta al ancho disponible, con el riel arriba, alineado con la primera línea.",
+      "components-nph-switch-validation--disabled": "Deshabilitado: la pieza entera en state/disabled-opacity, fuera del orden del Tab, encendida o apagada; disabled gana sobre invalid.",
+      "components-nph-switch-validation--invalid": "Inválido: el contorno del riel es status/error, encendido o apagado, con etiqueta o solo el riel; la frase de error queda fuera de la pieza.",
+      "components-nph-switch-validation--interactive": "Un clic alterna la pieza y dispara los nativos input y change; checked se lee del destino y se muestra debajo de la pieza. Cambiar checked por código no dispara nada.",
+      "components-nph-switch-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: Configuración única, Preferencias y Configuración no disponible.",
+      "components-nph-slider-validation--matrix": "orientation × mode × estado del set: predeterminado, error y deshabilitado. Pasa el ratón sobre un pulgar para el globo y pulsa Tab para el foco.",
+      "components-nph-slider-validation--optional-parts": "Las partes opcionales, cada una sola y juntas: text, limits, marks, inputs y steppers. En la orientación vertical solo existen text y limits.",
+      "components-nph-slider-validation--keyboard-and-events": "Las flechas mueven un paso, Re Pág y Av Pág una décima parte, Inicio y Fin van a los extremos; un arrastre mueve el pulgar más cercano. input se dispara mientras el valor se mueve y change cuando se asienta.",
+      "components-nph-slider-validation--form-association": "El host forma parte del formulario: single envía name=value, range dos entradas con el mismo nombre, el reset restaura los atributos de valor, y un fieldset deshabilitado lo deja fuera.",
+      "components-nph-slider-validation--inside-field": "Dentro del nph-field, el field da la etiqueta, la ayuda y el error; el slider muestra el estado de error y lee la frase como descripción.",
+      "components-nph-slider-validation--invalid-input": "La entrada inválida no dibuja nada: una orientation o un mode que no existen, min que no queda por debajo de max, un step de cero. marks en la orientación vertical no se dibuja; el resto se renderiza.",
+      "components-nph-slider-validation--examples": "Los tres ejemplos obligatorios del board aceptado: Brillo, Rango de precios y Volumen, cada uno en modo claro y oscuro.",
+      "components-nph-select-validation--matrix": "size × estado: placeholder, valor, error, deshabilitado y ambos, con el área de la flecha en color/accent. Pasa el mouse para el hover, pulsa Tab para el foco.",
+      "components-nph-select-validation--start": "El inicio del disparador (D4): none, icon y avatar, antes de la elección y con el inicio de la opción elegida; el punto de una opción nunca va al disparador.",
+      "components-nph-select-validation--option": "La opción: los cuatro inicios, el texto secundario, activa con el aspecto de hover, seleccionada con el check ganando sobre la activa, deshabilitada, y el punto en cada estado (D5, D6).",
+      "components-nph-select-validation--open": "La lista abierta: a space/inline-tight debajo del disparador, con su ancho, la flecha hacia arriba y la opción elegida con el check (D1, D2).",
+      "components-nph-select-validation--list-height": "La altura de la lista (D9): 8 opciones enteras dentro de layout/max-list-height; con avatares, 7 opciones enteras y 8 px de la 8.ª; desplazamiento por encima de eso.",
+      "components-nph-select-validation--text-overflow": "Valor del disparador, etiqueta de la opción y texto secundario quedan en una línea con puntos suspensivos (D3).",
+      "components-nph-select-validation--form-association": "El host participa del formulario: el envío manda name=value, el reset restaura el atributo value, una elección dispara input y change, y un fieldset deshabilitado lo deshabilita.",
+      "components-nph-select-validation--invalid-input": "Una entrada inválida no dibuja nada: un size que no existe, un start que no existe y un icon fuera del núcleo.",
+      "components-nph-select-validation--examples": "Los tres ejemplos obligatorios del frame, en el nph-field: Departamento, Responsable (abierto) y Obligatorio sin elección, cada uno en los modos claro y oscuro.",
       "components-nph-checkbox-validation--matrix": "Desmarcado, marcado e indeterminado frente a predeterminado, inválido y deshabilitado, con texto y solo con la casilla.",
       "components-nph-checkbox-validation--text-wrap": "Texto que se ajusta: la casilla queda arriba, centrada en la primera línea, con space/inline hasta el texto.",
       "components-nph-checkbox-validation--box-alone": "Solo la casilla, 24 × 24, nombrada por label, para un contexto que ya da el nombre.",

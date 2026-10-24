@@ -100,6 +100,42 @@ const OPPOSITE: Record<NphTooltipSide, NphTooltipSide> = {
 
 let nextId = 0;
 
+/** Keys that run or dismiss the action: they do not make the keyboard count (P77 item 3). */
+const KEYS_WITHOUT_MODALITY = new Set(['Enter', ' ', 'Spacebar', 'Escape', 'Esc']);
+
+/**
+ * The last input of the page, for every tooltip: a tooltip that attaches to an element that
+ * already has the focus heard neither the `focusin` nor the pointer press, and a text field
+ * matches `:focus-visible` after a click too. A key press (Tab included, but not Enter, Space
+ * or Esc) makes the keyboard count; a pointer press, touch included, makes the pointer count.
+ * Both events are composed, so a focus move between two controls of the same shadow root is
+ * seen too, which a `focusin` on the document is not.
+ */
+let lastInputWasKeyboard = false;
+let watchingModality = false;
+
+function watchFocusModality(): void {
+  if (watchingModality) {
+    return;
+  }
+  watchingModality = true;
+  document.addEventListener(
+    'keydown',
+    (event) => {
+      if (!KEYS_WITHOUT_MODALITY.has(event.key)) {
+        lastInputWasKeyboard = true;
+      }
+    },
+    true,
+  );
+  document.addEventListener('pointerdown', () => (lastInputWasKeyboard = false), true);
+}
+
+/* From the moment the module loads, not from the first tooltip: the focus may arrive before any. */
+if (typeof document !== 'undefined') {
+  watchFocusModality();
+}
+
 /**
  * Development error, following the `nph-icon` pattern. Outside a bundler that
  * defines `import.meta.env`, optional chaining keeps it silent.
@@ -182,6 +218,7 @@ export class NphTooltip extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
+    watchFocusModality();
     this.observeRoot();
     this.setAttribute('role', 'tooltip');
     if (!this.id) {
@@ -476,6 +513,12 @@ export class NphTooltip extends LitElement {
     if (this.reported.startsWith('for ')) {
       this.reported = '';
     }
+    /* Associated with an element that already cannot show it: the same rule as losing focusability. */
+    if (this.open && !this.focusable) {
+      this.reportUnfocusable();
+      this.loseBalloon();
+    }
+    this.holdExistingFocus();
   }
 
   /** The element is not there (yet): a second look one frame later, then the error. */
@@ -658,6 +701,11 @@ export class NphTooltip extends LitElement {
       this.requestUpdate();
       return;
     }
+    this.loseBalloon();
+  }
+
+  /** The element cannot receive focus: no hold stays and the balloon closes. */
+  private loseBalloon(): void {
     this.cancelWait();
     this.overTarget = false;
     this.hasFocus = false;
@@ -726,6 +774,32 @@ export class NphTooltip extends LitElement {
     this.hasFocus = true;
     this.sync();
   };
+
+  /**
+   * Attached, on any path, to an element that already has the focus, such as a tooltip
+   * rendered after the focus arrived or an element inserted and focused before the root
+   * observer ran: there was no `focusin` to hear, so the focus hold is taken now, with the
+   * rule of `onTargetFocusIn`, and only when the focus arrived by the keyboard.
+   */
+  private holdExistingFocus(): void {
+    const target = this.target;
+    if (target === null || this.hasFocus) {
+      return;
+    }
+    let focused = (target.getRootNode() as Document | ShadowRoot).activeElement;
+    if (focused === null || !(focused === target || target.contains(focused))) {
+      return;
+    }
+    while (focused.shadowRoot?.activeElement) {
+      focused = focused.shadowRoot.activeElement;
+    }
+    this.focusedElement = focused;
+    if (this.pointerFocusSuppressed || !lastInputWasKeyboard || !focused.matches(':focus-visible')) {
+      return;
+    }
+    this.hasFocus = true;
+    this.sync();
+  }
 
   private readonly onTargetFocusOut = (): void => {
     this.hasFocus = false;
