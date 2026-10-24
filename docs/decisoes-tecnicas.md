@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P86, P88, P90 and P94. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P85, P86, P88, P90 and P94. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -53,6 +53,7 @@ P62.4 subsection for the detail).
 | **P86** | Icon-only `nph-button`: shape and built-in tooltip (amends P68) | 23/10/2026 | Low now. `nph-dialog` (DSA-44) will use the icon-only button to close, so changing `shape`, or the tooltip the button renders, later requires redoing it | Anatomy and behavior: board `nph-icon-button` accepted by Indiane on 19/10/2026, textual audit approved on 20/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P88** | `nph-button`: solid icon in `hover-active` (amends P68) | 23/10/2026 | Low. Visual only: no API, event or token changes, and the accessible name stays | Rule decided by Indiane on 21/10/2026 and shown in Figma (`461:13009`); the plan is approved by Elvys on 22/10/2026. Reviewed in the pull request that brings it |
 | **P90** | API and semantics of `nph-image` | 23/10/2026 | Low now. No piece consumes it yet; `nph-table` will, for the thumbnail and the expanded item, so changing `size`, `ratio`, `src`, `alt` or `interactive`, or the derived state, later requires redoing it | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P85** | API and semantics of `nph-input-otp` | 22/10/2026 | Low now. No piece consumes it yet; a sign-in or verification screen will, inside `nph-field`, so changing `length`, `masked`, `value` or the native events later requires redoing that screen | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P94** | API and semantics of `nph-slider` | 23/10/2026 | Low now. No piece consumes it yet; a filter panel will, so changing `mode`, `value`, `start`, `end`, the two form entries of `range` or the ARIA thumbs later requires redoing it | Anatomy and behavior: board accepted by Indiane on 15/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
@@ -2967,6 +2968,160 @@ in the pull request that brings them; the merge is the approval.
 
 ---
 
+## P85 — `nph-input-otp`: API and semantics
+
+**Decision.** `nph-input-otp` is a Web Component with **open Shadow DOM** (P01) and
+`delegatesFocus`, CSS in its own file imported `?inline`, as in `nph-icon`. It has no slot, no
+`::part`, no color property and no own event. Anatomy only through semantic tokens. It is
+**associated with forms** in the pattern of P80 (`nph-input`), and it follows the contract with
+the field of P83 (`nph-field`); this decision lists only what is its own. Invalid input renders
+nothing and emits `console.error` only in development, one per cause — the rule of P21, adopted
+here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
+
+1. **One native input, cells that only draw.** The shadow root holds one native
+   `<input type="text">`, transparent and laid over the row of cells, with
+   `autocomplete="one-time-code"`, `maxlength` equal to `length`, `inputmode="text"` and
+   `autocapitalize`, `autocorrect` and `spellcheck` off. The cells are `aria-hidden` and draw the
+   characters of `value`. The board says that the name comes from the field and that "the digit
+   is only the value": one input gives one name, one value and one Tab stop, and leaves paste
+   and the code the browser offers to the input itself. One input per cell was discarded: it
+   gives one name per cell, a code offered by the browser lands only in the first cell, and
+   paste and Backspace across cells become code of the piece.
+
+2. **Properties.** The Figma property names are in Portuguese and the code API is in English
+   (P64). The mapping below is a technical proposal of this implementation; `length` and
+   `masked` follow the names of PrimeNG `InputOtp`, the source of names already used in P68.
+
+   | Figma | API |
+   |---|---|
+   | `digitos` (6 or 4) | `length`, Number, 6 (default) or 4, reflected |
+   | `size` | `size`, `default` (default) or `large`, reflected |
+   | `state=erro` | `invalid`, Boolean, reflected; `aria-invalid` on the input |
+   | `state=disabled` | `disabled`, Boolean, reflected; a disabled `<fieldset>` does the same |
+   | `ocultar dígito` (on the cell) | `masked`, Boolean, reflected, on the host |
+   | `dígito` and `mostrar dígito` (on the cell) | not API: the character comes from `value`, and a cell is empty while the code does not reach it |
+   | the code | `value`, String |
+   | the name and the description from the field | `label` and `description`, String (P83) |
+   | the obligation from the field | `required`, Boolean, reflected; `aria-required` on the input, with no constraint validation |
+   | the form entry | `name`, String, reflected |
+
+   `masked` sits on the host because the cells are not public in code: without it, a code typed
+   in a public place, which the board shows, could not be hidden (D3 of DSA-41 asks Indiane to
+   confirm). `form` and `labels` are read-only getters, as in P80.
+
+3. **Characters, typing and paste.** The field keeps only ASCII letters and digits, with the case
+   as typed: the board says that the field takes a number or a letter, as behavior. Any other
+   character typed is refused in `beforeinput`, before the browser replaces a selection with it,
+   so the code is not touched and the `input` of that keystroke does not reach the consumer. As in P80, the host takes the value in an `input` listener of its
+   own, registered first and in capture, so the value and the form data are settled before any
+   listener of the consumer runs, in capture or in bubbling. A paste is cleaned, cut at `length` and **replaces the whole
+   value**; a paste with no letter or digit changes nothing. The caret is the native one:
+   focus puts it on the next empty cell (the browser would select the whole code, and the
+   selection is not drawn), a click on a cell puts it on that cell or at the end of the code,
+   and the arrows, Home, End and Backspace are the native ones. The **active cell** is the one
+   at the caret, the last one when the code is full; it is the only cell with the focus look.
+
+4. **Value.** The `value` attribute is the initial value and the value of `form.reset()`; the
+   property is the current value. Once the person or the code changes the value, a new `value`
+   attribute no longer replaces it. A value set from code with other characters or longer than
+   `length` is cleaned, cut and reported with `console.warn` in development. A shorter `length`
+   cuts the current value, and the value at focus with it, so the cut fires no `change`; the cut
+   applies whenever `length` is valid, also while `size` is not.
+
+5. **Form (P80).** `static formAssociated` and `ElementInternals`: `setFormValue` at once on every
+   change (typing, paste, setting `value`, reset, restore), and `null` while `length` or `size`
+   is invalid and the field draws nothing,
+   `formResetCallback` back to the attribute, `formStateRestoreCallback`, and
+   `formDisabledCallback`, read by `:host(:disabled)`; the inner input reads a disabled
+   `<fieldset>` around the host by itself (except inside its first `<legend>`), as in P80, so
+   enabling the host or the field again always enables the input. `name` reflects, because the form data
+   reads the attribute of the host. There is no validity: neither `required` nor the length
+   become a constraint, because the evidence has none, and the error sentence belongs to the
+   field. **Enter submits the form** by the rule of P80: the default button of the form is
+   clicked, or `requestSubmit()` runs when there is none; a disabled default button stops it; and
+   it is decided at the end of the propagation, so a consumer that cancels Enter keeps the form.
+   `name` is `null` by default, as in P80, so the host carries no empty `name` attribute.
+
+6. **Events.** The native ones, as the contract of the field fixes (P83, and the exception to the
+   reasoning of P73 recorded in P80): the `input` of the inner input crosses the shadow root with
+   the host as its target, and the host fires `change` (bubbles, not composed) when the person
+   leaves the field or presses Enter with a value different from the one at focus. Setting
+   `value` or a reset moves that value at focus, so they never cause a `change`. A paste fires
+   one `input`, with `inputType` `insertFromPaste`. Setting `value` from code fires nothing.
+   Nothing enters `HTMLElementEventMap`.
+
+7. **Name and description.** A label associated with the host names the inner input first,
+   through `ariaLabelledByElements` from `internals.labels`; without one, `label` becomes the
+   `aria-label` of the input. As in P80, the host looks for the name again after the first frame,
+   on focus, when `label` changes and when a label of its root is added, removed or pointed
+   elsewhere (a `MutationObserver` on the root, filtered to `for` and `id`). `description` goes
+   into an inner element hidden by clipping
+   (`clip-path`), never by `display: none`, referenced by `aria-describedby`. The test reads both
+   from the real accessibility tree of Chromium. With no name, the field renders and warns once
+   in development: the label may arrive after the first draw.
+
+8. **States.** Hover paints every cell border `color/input-hover`, because the field is one
+   target; the active cell takes `focus/border` and a `box-shadow` halo of `focus/ring-width` in
+   `focus/halo`, outside the cell and out of the layout, whose outer radius equals
+   `focus/radius-control`; `invalid` paints every border `status/error`, and the active cell's
+   halo `focus/halo-error`; `disabled` takes `color/muted` and `state/disabled-opacity` on the
+   whole field and wins over `invalid`, with no `aria-invalid`. The board does not name the hover
+   border, the halo width, the opacity token or which of disabled and error wins: the piece
+   follows `nph-input` (DSA-16, D3 to D5), and D1 of DSA-41 asks Indiane to confirm.
+
+9. **Invalid input.** The piece draws nothing and emits one `console.error` per cause, only in
+   development, when `length` is not 4 or 6 and when `size` is not `default` or `large`. The
+   check runs again only when `length` or `size` changes.
+
+**Written literals, and why.** `transparent` (the input draws no text, caret, background or
+selection), `absolute`, `inset: 0` and `100%` (the input covers the row of cells, and the
+description stays inside the field, so a long text adds no scroll), `:not([hidden])` (an author
+`display` would win over `hidden`), zeros in
+`box-shadow` (the halo is a spread) and `inset(50%)` in `clip-path` (the description is hidden by
+clipping). None is a visual value.
+
+**Known limits.**
+
+- **`masked` is visual only.** The input stays `type="text"`, so a screen reader reads the code.
+  `type="password"` was discarded: password managers would offer to save the code.
+- **iOS zoom.** The input uses `text/code`, 14 px, and iOS Safari zooms a field under 16 px on
+  focus. No token was created or bent to avoid it.
+- **`one-time-code` in a shadow root.** That iOS offers a code received by SMS to an input inside
+  a shadow root is **to be confirmed on a device**, not a guarantee. The WebOTP API is out.
+- **Forced colors and right-to-left** are not treated, as in the other form pieces.
+
+**Points for review.**
+
+- **The examples inside the `nph-field`.** Two of the three required examples of the board sit in
+  the `nph-field` (DSA-28). Elvys decided on 22/10/2026, after DSA-33 D2, that they could wait for
+  it; DSA-28 was merged first (PR #105), so both are on the page with the real field, and the test
+  reads the name and the description the field writes from the accessibility tree of Chromium.
+- **The resend action.** The board puts a ghost `nph-button` with the label in `color/link` and
+  underlined below the field. The `nph-button` has no color property and no `::part`, and a
+  link-looking button is out of its scope (P68): the delivery does not show the resend action,
+  and D4 of DSA-41 asks Indiane how that look reaches the `nph-button`.
+- **Only digits.** The board makes letters and numbers behavior, so a phone shows the text
+  keyboard. D2 of DSA-41 asks Indiane whether a field restricted to digits, with the numeric
+  keyboard, is wanted.
+
+**Source.** Board `nph-input-otp` (`1633:122`, set `1633:120`, cell set `1633:29`) of the Figma
+file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 16/10/2026, with the Figma UX QA and the textual
+audit approved. The single input, the names `length`, `size`, `invalid`, `disabled`, `masked`,
+`required`, `name`, `value`, `label` and `description`, the character rule, the paste rule, the
+caret rule, the form behavior and the invalid input rule are a technical proposal of this
+implementation, reviewed with the plan on 22/10/2026.
+
+**Out of scope.** A field restricted to digits, a separator between groups of cells, `readonly`,
+a placeholder, constraint validation, the WebOTP API, the resend action, the Usage section of the
+page (P70, DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate
+(P72, DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 16/10/2026; D1 to D4 of DSA-41 are open
+with her and do not block. API and semantics are reviewed in the pull request that brings them;
+the merge is the approval.
+
+---
+
 ## P94 — `nph-slider`: API and semantics
 
 **Decision.** `nph-slider` is a Web Component with **open Shadow DOM** (P01) and
@@ -3122,7 +3277,7 @@ in the pull request that brings them; the merge is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P86, P90 or P94 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P85, P86, P90 or P94 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
