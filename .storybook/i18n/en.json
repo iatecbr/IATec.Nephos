@@ -772,7 +772,7 @@
       ],
       [
         "hover-active",
-        "The surface changes to the hover token of the severity and emphasis."
+        "The surface changes to the hover token of the severity and emphasis, and in the button with text the start and end icons turn solid."
       ],
       [
         "focus",
@@ -3756,7 +3756,7 @@
       "components-nph-badge-validation--two-words": "One or two words stay on a single line: the badge does not wrap.",
       "components-nph-button-validation--matrix": "Each severity and emphasis pair that exists, at the default size. Move the mouse over a button to see hover.",
       "components-nph-button-validation--sizes": "The three sizes, with text and with an icon only. The text is label-md in all of them.",
-      "components-nph-button-validation--icons": "Start icon, end icon and both together, at icon/size-sm.",
+      "components-nph-button-validation--icons": "Start icon, end icon and both together, at icon/size-sm. Move the mouse over a button: the icons turn solid.",
       "components-nph-button-validation--disabled": "Disabled: the whole button at state/disabled-opacity, out of the Tab order.",
       "components-nph-button-validation--loading": "Loading: the spinner takes the place of the start icon, and the text stays.",
       "components-nph-button-validation--shapes": "Square and circular corners of the icon-only button, in each size and emphasis: the size stays. Use Tab to see the focus follow the round corners.",
