@@ -163,6 +163,18 @@
     "components-nph-switch-validation--invalid": "Invalid",
     "components-nph-switch-validation--interactive": "Interactive",
     "components-nph-switch-validation--examples": "Examples",
+    "components-nph-select-docs": "Docs",
+    "components-nph-select-docs--documentation": "Documentation",
+    "components-nph-select-validation": "Validation",
+    "components-nph-select-validation--matrix": "Matrix",
+    "components-nph-select-validation--start": "Start",
+    "components-nph-select-validation--option": "Option",
+    "components-nph-select-validation--open": "Open",
+    "components-nph-select-validation--list-height": "List height",
+    "components-nph-select-validation--text-overflow": "Text overflow",
+    "components-nph-select-validation--form-association": "Form association",
+    "components-nph-select-validation--invalid-input": "Invalid input",
+    "components-nph-select-validation--examples": "Examples",
     "components-nph-input-otp-docs": "Docs",
     "components-nph-input-otp-docs--documentation": "Documentation",
     "components-nph-input-otp-validation": "Validation",
@@ -3545,6 +3557,469 @@
     "statusIdle": "Waiting for a click.",
     "statusChanged": "input and change fired; checked = {checked}."
   },
+  "selectDocs": {
+    "summary": "The field that opens a closed list of options for the person to pick one. It takes part in the form that contains it; the label, the help and the error message belong to nph-field.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-select and nph-option spec sheets, design.md for the tokens and docs/decisoes-tecnicas.md for P91. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "sourceFrame": "Figma, frame nph-select (1357:160), documentation 1452:448, set 1357:115",
+    "sourceApi": "nph-select spec sheet; docs/decisoes-tecnicas.md › P91",
+    "sourceOption": "Figma, nph-select / opção (1357:136); nph-option spec sheet",
+    "sourceDecisions": "Task DSA-29, answers D1 to D9; docs/decisoes-tecnicas.md › P91",
+    "sourceAccessibility": "Figma, frame nph-select (1357:160); nph-select.test.ts and nph-option.test.ts",
+    "matrixLabel": "size × state",
+    "description": "Use nph-select when the person picks a single option from a closed list of 6 to 15 items. It does not replace nph-radio, for 2 to 5 options visible at once, nor nph-combobox, for more than 15 options or when the person needs to search. To pick several options, use nph-multi-combobox.",
+    "whenToUseTitle": "When to use",
+    "whenNotToUseTitle": "When not to use",
+    "whenToUse": [
+      "When the person picks a single option from a closed list of 6 to 15 items.",
+      "Inside an nph-field, which gives the label, the help text and the error message.",
+      "With start=avatar when the options are people, and start=icon when a symbol helps recognize the option.",
+      "default in general use; large on the screen that needs the 44 px target, for every field of the form."
+    ],
+    "whenNotToUse": [
+      "For 2 to 5 options: use nph-radio, so the person sees all of them without opening anything.",
+      "For more than 15 options, or when the person needs to search: use nph-combobox.",
+      "To pick several options: use nph-multi-combobox.",
+      "To name the field with the placeholder alone: it is replaced by the choice.",
+      "With the magnifying glass at the start: search belongs to nph-combobox."
+    ],
+    "relationsText": "The options are nph-option children, as option children of a select; the list is internal. nph-field composes the label, the select, the help and the error message, and writes label, description, invalid and required on the select. The start avatar is an nph-avatar; the start icon, the arrow and the check are nph-icon instances.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "size",
+        "default or large, reflected. The height of the trigger and the width of the arrow area change."
+      ],
+      [
+        "value",
+        "The current value. The value attribute is the initial value and the value of form.reset(). The chosen option is the first nph-option with that value; the value is kept until such an option arrives. Setting it from code fires nothing."
+      ],
+      [
+        "placeholder",
+        "The invitation before a choice, already localized, such as Select an option. It is not a name."
+      ],
+      [
+        "start",
+        "none, icon or avatar. The trigger repeats the start of the chosen option; before a choice, the icon property or the empty avatar. The dot of an option never goes to the trigger."
+      ],
+      [
+        "icon",
+        "A core name of nph-icon, default globe: the start icon before a choice, or when the chosen option has no icon. Not the magnifying glass."
+      ],
+      [
+        "open",
+        "Boolean, reflected. The list is open. The piece opens and closes it; the consumer may set it. Opening and closing fire no event."
+      ],
+      [
+        "name, required",
+        "As in a native field. With no chosen option, the entry is left out of the form data; required with no choice is valueMissing, with the message of the browser."
+      ],
+      [
+        "invalid",
+        "The erro state: the border becomes status/error and the trigger gets aria-invalid. The sentence belongs to nph-field."
+      ],
+      [
+        "disabled",
+        "Boolean, reflected. The whole piece fades, leaves the Tab order and the form data, and the list does not open. A disabled fieldset disables it too."
+      ],
+      [
+        "label, description",
+        "The accessible name and description in text, never visible, written by nph-field. An associated label wins over label."
+      ],
+      [
+        "input, change",
+        "Fired by the host, in this order, when the person chooses an option of a different value. Code fires neither."
+      ],
+      [
+        "slot",
+        "The options: nph-option children."
+      ]
+    ],
+    "invalidTitle": "Invalid input draws nothing.",
+    "invalidText": "A size outside default and large, a start outside none, icon and avatar, or an icon outside the core: the select does not render and emits console.error in development. The magnifying glass renders and warns: search belongs to nph-combobox.",
+    "sizesTitle": "Sizes",
+    "sizesText": "default in general use; large on the screen that needs the 44 px target, for every field of the form. The height of the trigger and the width of the arrow area change: control/height-default or control/height-large.",
+    "sizesCaption": "default and large, with a chosen option.",
+    "statesTitle": "States",
+    "statesHeader": [
+      "State",
+      "What changes"
+    ],
+    "states": [
+      [
+        "default",
+        "Border color/input on color/background; the arrow area in color/accent, after a color/border divider."
+      ],
+      [
+        "hover",
+        "The border becomes color/input-hover."
+      ],
+      [
+        "foco",
+        "Keyboard focus: border focus/border and the focus/halo outside, at focus/radius-control."
+      ],
+      [
+        "aberto",
+        "The focus look with the list open below the trigger and the arrow up."
+      ],
+      [
+        "erro",
+        "Border status/error, also on hover; with focus, the halo is focus/halo-error."
+      ],
+      [
+        "disabled",
+        "color/muted, border color/input and state/disabled-opacity on the whole piece; it wins over the error."
+      ]
+    ],
+    "statesCaption": "Placeholder, value, error and disabled.",
+    "startTitle": "Start",
+    "startText": "start decides the kind and the chosen option gives the art: with icon, the icon of the chosen option, or globe before a choice; with avatar, the photo of the chosen person, or the empty avatar before a choice. Keep the same start on every option of the list.",
+    "startCaption": "start=icon and start=avatar, before and after a choice.",
+    "optionTitle": "Option",
+    "optionText": "Each option is an nph-option: its label is the text it holds, and it may have a start, a secondary text and the dot of a state. The list writes selected and active on it; the selected option has the color/primary-surface background and the check, which win over the hover look.",
+    "optionCaption": "The four starts, active, selected, the dot in every state and disabled.",
+    "optionApiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "optionApi": [
+      [
+        "slot",
+        "The label, already localized: the accessible name of the option and the text of the trigger when it is chosen."
+      ],
+      [
+        "value",
+        "Reflected. Without the attribute, the label text."
+      ],
+      [
+        "secondary",
+        "The helper text after the label. Empty turns it off."
+      ],
+      [
+        "start",
+        "none, icon, avatar or dot."
+      ],
+      [
+        "icon, src",
+        "The icon with start=icon, default globe; the photo with start=avatar, empty for the empty avatar."
+      ],
+      [
+        "status",
+        "The dot with start=dot: neutral, info, warning, success, error or help. Absent, the text color."
+      ],
+      [
+        "disabled",
+        "Boolean, reflected. The option fades and cannot be chosen."
+      ],
+      [
+        "selected, active",
+        "Written by the list, never by the consumer. Not reflected."
+      ]
+    ],
+    "optionStatesHeader": [
+      "State",
+      "What changes"
+    ],
+    "optionStates": [
+      [
+        "default",
+        "The label in color/popover-foreground, with no background."
+      ],
+      [
+        "hover or active",
+        "color/accent with the text in color/accent-foreground."
+      ],
+      [
+        "selected",
+        "color/primary-surface and the check in color/primary; it wins over hover."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity on the whole option."
+      ]
+    ],
+    "listTitle": "List",
+    "listText": "The list opens space/inline-tight below the trigger, with its width, and turns up when it does not fit below. It fades in and slides into place; with reduced motion, only the opacity changes. It shows 8 whole options inside layout/max-list-height and scrolls above that. The focus stays on the trigger, which points to the active option.",
+    "listCaption": "The open list, the chosen option with the check.",
+    "keyboardHeader": [
+      "Key",
+      "What it does"
+    ],
+    "keyboard": [
+      [
+        "Enter, Space, ArrowDown, ArrowUp",
+        "Closed: open the list on the chosen option, or on the first one."
+      ],
+      [
+        "Home, End",
+        "Open on, or move to, the first and the last option."
+      ],
+      [
+        "ArrowDown, ArrowUp, PageDown, PageUp",
+        "Open: move the active option, without wrapping."
+      ],
+      [
+        "Characters",
+        "Move to the option that starts with the typed text; closed, they open the list."
+      ],
+      [
+        "Enter, Space, Alt+ArrowUp",
+        "Open: choose the active option and close."
+      ],
+      [
+        "Escape",
+        "Close without choosing."
+      ],
+      [
+        "Tab",
+        "Close without choosing; the focus moves on."
+      ]
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "1. Trigger",
+        "Background color/background, border border/width in color/input, radius/control, width layout/input-width, height control/height-*, left padding space/control-padding, gap space/inline, right padding 0."
+      ],
+      [
+        "2. Start",
+        "nph-icon icon/size-sm in color/muted-foreground, or nph-avatar sm."
+      ],
+      [
+        "3. Text",
+        "The chosen value in text/body-md, color/foreground; the placeholder in color/muted-foreground. One line with an ellipsis."
+      ],
+      [
+        "4. Divider",
+        "border/width in color/border, beside the arrow area."
+      ],
+      [
+        "5. Arrow area",
+        "color/accent, control/height-* wide and the trigger height minus its borders; radius/none on the left and radius/control-inner on the right; chevron-down, or chevron-up open."
+      ],
+      [
+        "6. List",
+        "color/popover, border color/input, radius/container, padding space/inline-tight, maximum height layout/max-list-height, elevation/dropdown."
+      ],
+      [
+        "7. Option",
+        "Padding and gap space/inline, radius/inner, the width of the list; start icon, avatar or dot."
+      ],
+      [
+        "8. Check",
+        "nph-icon check, icon/size-sm, color/primary, at the end of the selected option."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A select-only combobox: the trigger has role combobox and controls a listbox; each nph-option has role option and aria-selected."
+      ],
+      [
+        "Accessible name",
+        "The label of nph-field, or label; the placeholder is not a name. description is read with it: the help or the error sentence."
+      ],
+      [
+        "Keyboard and focus",
+        "The focus stays on the trigger and points to the active option with aria-activedescendant. The focus shows for the keyboard and while the list is open."
+      ],
+      [
+        "Contrast",
+        "Text 4.5:1 and the border 3:1, in light and dark mode; the arrow 3:1 on color/accent; the check 4.78:1 and 6.26:1 on color/primary-surface."
+      ],
+      [
+        "Color is not the only signal",
+        "The error comes as text in nph-field; the selected option has the check; the dot goes with the written state; the arrow turns up when the list opens."
+      ],
+      [
+        "Hidden parts",
+        "The start, the divider, the arrow, the dot and the check are hidden from the screen reader."
+      ]
+    ],
+    "examplesTitle": "Required examples",
+    "exampleDepartment": "Department: a short list, no start.",
+    "exampleOwner": "Owner: people with avatar, open.",
+    "exampleRequired": "Required with no choice: the error.",
+    "referencesTitle": "References",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, frame nph-select (1357:160), documentation 1452:448",
+      "fichas/nph-select.md and fichas/nph-option.md",
+      "docs/decisoes-tecnicas.md › P91, P80 and P83",
+      "WAI-ARIA Authoring Practices, select-only combobox"
+    ],
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "departmentLabel": "Department",
+    "departmentHelp": "The team the person works in.",
+    "placeholder": "Select an option",
+    "departments": [
+      "Finance",
+      "Legal",
+      "Marketing",
+      "Operations",
+      "People",
+      "Product",
+      "Sales",
+      "Support"
+    ],
+    "ownerLabel": "Owner",
+    "people": [
+      {
+        "name": "Ana Souza",
+        "role": "Product designer"
+      },
+      {
+        "name": "Bruno Lima",
+        "role": "Engineer"
+      },
+      {
+        "name": "Carla Dias",
+        "role": "Researcher"
+      },
+      {
+        "name": "Diego Alves",
+        "role": "Product manager"
+      }
+    ],
+    "locationLabel": "Work location",
+    "locations": [
+      "Home office",
+      "Client site",
+      "Remote"
+    ],
+    "statuses": [
+      {
+        "status": "success",
+        "label": "Active"
+      },
+      {
+        "status": "warning",
+        "label": "Pending"
+      },
+      {
+        "status": "error",
+        "label": "Blocked"
+      },
+      {
+        "status": "info",
+        "label": "In review"
+      },
+      {
+        "status": "help",
+        "label": "On hold"
+      },
+      {
+        "status": "neutral",
+        "label": "Archived"
+      }
+    ],
+    "errorMessage": "Choose a department."
+  },
+  "selectValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "departmentLabel": "Department",
+    "departmentHelp": "The team the person works in.",
+    "placeholder": "Select an option",
+    "departments": [
+      "Finance",
+      "Legal",
+      "Marketing",
+      "Operations",
+      "People",
+      "Product",
+      "Sales",
+      "Support"
+    ],
+    "moreDepartments": [
+      "Design",
+      "Engineering",
+      "Logistics",
+      "Research"
+    ],
+    "ownerLabel": "Owner",
+    "people": [
+      {
+        "name": "Ana Souza",
+        "role": "Product designer"
+      },
+      {
+        "name": "Bruno Lima",
+        "role": "Engineer"
+      },
+      {
+        "name": "Carla Dias",
+        "role": "Researcher"
+      },
+      {
+        "name": "Diego Alves",
+        "role": "Product manager"
+      }
+    ],
+    "locationLabel": "Work location",
+    "locations": [
+      "Home office",
+      "Client site",
+      "Remote"
+    ],
+    "statusLabel": "Status",
+    "statuses": [
+      {
+        "status": "success",
+        "label": "Active"
+      },
+      {
+        "status": "warning",
+        "label": "Pending"
+      },
+      {
+        "status": "error",
+        "label": "Blocked"
+      },
+      {
+        "status": "info",
+        "label": "In review"
+      },
+      {
+        "status": "help",
+        "label": "On hold"
+      },
+      {
+        "status": "neutral",
+        "label": "Archived"
+      }
+    ],
+    "noStatus": "No state",
+    "longLabel": "Customer success and partner relations for Latin America",
+    "longSecondary": "Shared team with the regional offices",
+    "errorMessage": "Choose a department.",
+    "submitText": "Send",
+    "resetText": "Reset",
+    "statusIdle": "Nothing sent yet.",
+    "statusSubmitted": "Sent: {data}",
+    "statusReset": "The form went back to its initial values.",
+    "statusNoEvent": "No event yet.",
+    "statusEvent": "{event}: {value}",
+    "fieldsetDisabled": "Disabled fieldset",
+    "exampleDepartment": "Department",
+    "exampleOwner": "Owner",
+    "exampleRequired": "Required with no choice"
+  },
   "inputOtpDocs": {
     "summary": "A short code field, one cell per character, to confirm access with a code sent by SMS or e-mail. One native input lies over the cells, so the code is one value with one name; the label, the help and the error come from nph-field.",
     "onThisPage": "On this page",
@@ -4117,6 +4592,15 @@
       "components-nph-switch-validation--invalid": "Invalid: the track outline is status/error, on or off, with a label or only the track; the error sentence stays outside the piece.",
       "components-nph-switch-validation--interactive": "A click toggles the piece and fires the native input and change; checked is read from the target and shown below the piece. Setting checked from code fires nothing.",
       "components-nph-switch-validation--examples": "The three required examples, each in light and dark mode: Single setting, Preferences and Unavailable setting.",
+      "components-nph-select-validation--matrix": "size × state: placeholder, value, error, disabled and both, with the arrow area in color/accent. Move the mouse for hover, press Tab for focus.",
+      "components-nph-select-validation--start": "The start of the trigger (D4): none, icon and avatar, before a choice and with the start of the chosen option; the dot of an option never goes to the trigger.",
+      "components-nph-select-validation--option": "The option: the four starts, the secondary text, active with the hover look, selected with the check winning over active, disabled, and the dot in every state (D5, D6).",
+      "components-nph-select-validation--open": "The open list: space/inline-tight below the trigger, with its width, the arrow up and the chosen option with the check (D1, D2).",
+      "components-nph-select-validation--list-height": "The height of the list (D9): 8 whole options inside layout/max-list-height; with avatars, 7 whole options and 8 px of the 8th; scroll above that.",
+      "components-nph-select-validation--text-overflow": "Trigger value, option label and secondary text stay on one line with an ellipsis (D3).",
+      "components-nph-select-validation--form-association": "The host takes part in the form: submit sends name=value, reset restores the value attribute, a choice fires input and change, and a disabled fieldset disables it.",
+      "components-nph-select-validation--invalid-input": "Invalid input draws nothing: a size that does not exist, a start that does not exist and an icon outside the core.",
+      "components-nph-select-validation--examples": "The three required examples of the frame, in nph-field: Department, Owner (open) and Required with no choice, each in light and dark mode.",
       "components-nph-dialog-validation--short-form": "Short form in md, the default size: title, description, content area and actions, in light and in dark mode.",
       "components-nph-dialog-validation--short-confirmation": "Short confirmation in sm, with no content area: the header text sets the width, up to the ceiling.",
       "components-nph-dialog-validation--wide-content": "Wide content in lg, a list, with both lines on: only the content scrolls.",
