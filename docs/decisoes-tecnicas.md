@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P86, P88, P90, P85, P93 and P91. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P85, P86, P88, P90, P91, P93 and P94. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -56,6 +56,7 @@ P62.4 subsection for the detail).
 | **P85** | API and semantics of `nph-input-otp` | 22/10/2026 | Low now. No piece consumes it yet; a sign-in or verification screen will, inside `nph-field`, so changing `length`, `masked`, `value` or the native events later requires redoing that screen | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P93** | API and semantics of `nph-textarea` | 23/10/2026 | Low now. No piece consumes it yet; a comment box or a message composer will, so changing `counter`, `readonly` or the `actions` slot later requires redoing them. It copies the form shape of P80 and the field contract of P83 | Anatomy and behavior: frame accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P91** | API and semantics of `nph-select` and `nph-option` | 23/10/2026 | Medium. `nph-combobox` (DSA-46) and `nph-multi-combobox` (DSA-31) reuse `nph-option` and its owner symbol, so changing the option API, `NPH_OPTION_CHANGED` or the keyboard later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 14/10/2026, D1 to D9 answered on 19/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P94** | API and semantics of `nph-slider` | 23/10/2026 | Low now. No piece consumes it yet; a filter panel will, so changing `mode`, `value`, `start`, `end`, the two form entries of `range` or the ARIA thumbs later requires redoing it | Anatomy and behavior: board accepted by Indiane on 15/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -3405,9 +3406,162 @@ in the pull request that brings them; the merge is the approval.
 
 ---
 
+## P94 — `nph-slider`: API and semantics
+
+**Decision.** `nph-slider` is a Web Component with **open Shadow DOM** (P01) and
+`delegatesFocus`, CSS in its own file imported `?inline`, as in `nph-icon`. It has no slot, no
+`::part`, no `nph-*` event and no color property. Anatomy only through semantic tokens. It is a
+form control: it takes the form pattern of P80 and the field contract of P83, recording here only
+what changes. Invalid input renders nothing and emits `console.error` only in development, one
+per cause — the rule of P21, adopted here by its own decision, as in P66, P68, P80 and P90. The
+names follow P64.
+
+1. **Properties.** The Figma set has `orientacao`, `tipo` and `state`, and five Booleans for the
+   optional parts. The mapping below is a technical proposal of this implementation.
+
+   | Figma | API |
+   |---|---|
+   | `orientacao` | `orientation`: `horizontal` (default) or `vertical`, reflected: the internal CSS selects the parts by it |
+   | `tipo` `simples`, `intervalo` | `mode`: `single` (default) or `range`, reflected. Not `type`, which in a form control is the native type |
+   | `state` `erro` | `invalid`, Boolean, reflected: the `status/error` border and `aria-invalid` on each thumb |
+   | `state` `disabled` | `disabled`, Boolean, reflected |
+   | `state` `hover`, `foco`, `erro-foco` | not properties: interaction, drawn by the CSS and by the balloon |
+   | `rótulo e valor` | `text`: the visible text of the `nph-label`, with the current value beside it. Empty turns the part off |
+   | `mínimo e máximo` | `limits`, Boolean |
+   | `marcas` | `marks`, Boolean: one label per step, from `min` to `max` (D4) |
+   | `campo` | `inputs`, Boolean: one `nph-input` in `single`, one at each end in `range` |
+   | `menos e mais` | `steppers`, Boolean, with `decrease-label` and `increase-label` as the accessible names of the buttons |
+   | the value, the limits and the step (not properties in Figma) | `value` (`single`), `start` and `end` (`range`); `min` (0), `max` (100) and `step` (1) |
+   | the name of each thumb in `intervalo` | `start-label` and `end-label` |
+   | the field contract (P83) | `label`, `description`, `invalid`, `required` and `disabled` |
+   | the form | `name`, reflected |
+
+   `text` is a separate property from `label` because `label` is, in every form control, the
+   accessible name in text that is never visible (P80, P83); the visible label of the slider is a
+   part of its anatomy, off inside `nph-field`.
+
+2. **Each thumb is an element of its own with `role="slider"`.** The value balloon is an
+   `nph-tooltip` (evidence), and the tooltip attaches only to an element that receives focus and
+   sits by the box of that element (P77). A native `<input type="range">` receives focus as the
+   whole track, so its balloon would sit in the middle of the track and never follow the value; a
+   native range the size of the thumb, moved to the value, would lose the hover of the tooltip.
+   The thumb is the focusable element, the balloon sits above it, and a new value re-renders the
+   tooltip, which places the balloon again. The keyboard, the pointer and the ARIA values are the
+   piece's own, after the slider pattern of the WAI-ARIA Authoring Practices:
+   - each thumb has `aria-valuemin`, `aria-valuemax`, `aria-valuenow`, `aria-valuetext` (the
+     number as the balloon shows it) and `aria-orientation`. In `range`, each thumb stops at the
+     other, and its `aria-valuemin` or `aria-valuemax` is the value of the other thumb;
+   - the arrows move one `step` (Right and Up raise); Page Up and Page Down move a tenth of the
+     scale, rounded to the step and never less than one step; Home and End go to the bounds;
+   - a press on the track or on a thumb moves the thumb (the nearest one, in `range`) to that
+     point, focuses it and follows the drag, with the pointer captured by the track. The track
+     lets the page scroll across it on touch;
+   - every value is rounded to the step and kept inside the scale, as the native range does; the
+     highest value is the last step at or below `max`;
+   - the balloon opens by the rules of the tooltip (hover and keyboard focus) and stays open while
+     a thumb is dragged; the slider turns it on and off only for the drag. It is not drawn when the
+     slider is disabled.
+
+   The touch target is a circle of `control/height-large` around the drawn thumb, a
+   pseudo-element; the focus halo is another, outside the border.
+
+3. **Values and form.** As in P80, the `value`, `start` and `end` attributes are the defaults and
+   the values of `form.reset()`; the properties are the current values; the attributes apply
+   only while the person has not moved the slider and setting a property has not made it dirty.
+   The default of `value` is the middle of the scale, as the native range; `start` and `end`
+   start at the ends. `single` contributes `name=value`; `range` contributes two entries under
+   the same name, start and end, through a `FormData`, and its restore state is the text
+   `"start end"`. A slider always has a value, so it has no validity and blocks no submission;
+   `required` exists only because `nph-field` writes it (P83), has no effect and does not become
+   `aria-required`, which `slider` does not support. A disabled `<fieldset>` disables it, except
+   in its first `<legend>`, as P80 reads it.
+
+4. **Events.** The native `input` and `change`, with no inner native control behind them: the
+   host fires `input` (bubbles, composed) and then `change` (bubbles), as the browser does for a
+   range. A key and a click on minus or plus fire both; a drag fires `input` at each new value and
+   `change` on release, only when the value changed. The `input` of an inner `nph-input` (the
+   person typing) stops inside the slider; the field applies the number on Enter, which the slider
+   handles because the inner field has no form in its root, and on its `change` (leaving it), rounded and kept inside the bounds of its thumb, and a text that is not a number
+   goes back to the current value. Setting a value from code fires nothing.
+
+5. **Accessible name and description.** As in P80: the labels associated with the host
+   (`nph-label for`, a `label`, or `nph-field`), referenced through `ariaLabelledByElements`; then
+   `label`; then `text`. In `single` the name goes on the thumb. In `range` it goes on an inner
+   group (`role="group"`) around the two thumbs, and each thumb takes `start-label` or
+   `end-label`. `description` is read as the description of each thumb, from a clipped span the
+   thumbs reference; the balloon adds itself to the same description, repeating the value. A
+   slider with no name renders and warns once in development; a `range` without `start-label` and
+   `end-label` renders and warns once. The number is written with `Intl.NumberFormat` in the
+   `lang` of the closest ancestor, with the digits of `min` and `step`; there is no unit, which
+   belongs to the text of the label. `focus()` and a click on an associated label reach the first
+   thumb, even when a field or the minus button comes before it: `focus()` is overridden, and the
+   first thumb carries `autofocus`, the focus delegate of `delegatesFocus`, which takes no focus
+   on page load from inside a shadow root. An inner field takes the name of the slider (in
+   `single`, also the text of the associated labels, since it sits in another root) and its
+   `description`. The names are synced after every render, so a new `label`, `text` or mode
+   renames the thumbs at once.
+
+6. **Parts and composition.** The parts beside the track, from left to right:
+   `[start field] [minus] [minimum] track [maximum] [plus] [end field]` (D1); in `single`, the
+   only field is at the end. They sit at `space/inline` from each other and from the track. A
+   field shares the line with the track, one part for the field and three for the track (D5): the
+   evidence gives it no width of its own. In the vertical orientation the track takes
+   `layout/input-width` of height (D3), the maximum is at the top and the minimum at the bottom,
+   and only `text` and `limits` exist. Minus and plus are
+   icon-only `nph-button` (`secondary`, `ghost`, `default`, `minus` and `plus`), named by
+   `decrease-label` and `increase-label` and shown in their built-in tooltip (P86), and move by
+   one step the thumb used last, the start one by default (D2). `nph-label` has no Shadow DOM
+   (P62.1), so the slider adopts its CSS in its shadow root, as `nph-field` does.
+
+7. **Disabled.** The whole slider at `state/disabled-opacity`, once: the thumbs leave the Tab
+   order and take `aria-disabled`, the balloon is not drawn, keys, the pointer and the buttons do
+   nothing, and the look of the error goes away. The inner `nph-input` and `nph-button` become
+   `inert` and are not disabled, so they keep `state=default`, as the evidence draws them, and do
+   not fade a second time; an inert button opens no tooltip.
+
+8. **Invalid input.** An `orientation` or a `mode` outside its values, a `min` that is not below
+   `max`, and a `step` that is not a positive number render nothing, with one `console.error` per
+   cause. `marks`, `inputs` or `steppers` in the vertical orientation, `steppers` without its two
+   names, and `marks` on a scale of more than 100 steps, are not drawn, with one error each; the
+   rest renders. The limit of 100 marks keeps the labels readable and the render from blocking
+   the page; it does not change the step. `limits` with `marks`, and
+   `text` inside `nph-field`, render and warn once (the Do not list of the evidence).
+
+**What is not decided here and stays as a known limit.** Forced colors and right-to-left, as in
+every piece. Moving the value by the swipe gesture of a mobile screen reader depends on the
+browser sending the arrow keys to an ARIA `slider`. A unit or a custom format for the number, a
+vertical length of its own and a width of its own for the field are not in v1.
+
+**Points for review.**
+- **The thumbs as ARIA sliders, not native ranges**, so the balloon can follow the value (item
+  2).
+- **`mode` and `text`**, and not `type` and a second meaning for `label` (item 1).
+- **Two entries under the same name in `range`** (item 3).
+- **The balloon repeats the value in the description**, already given by `aria-valuetext`
+  (item 5).
+- **The inner field and buttons inert, not disabled, when the slider is disabled** (item 7).
+- **D1 to D5** are defaults of this implementation, provisional until Indiane answers them: the
+  order of the side parts, the thumb that minus and plus move in `range`, the vertical length,
+  one mark per step and the width of the field.
+
+**Source.** Board `nph-slider` (`1636:46`), frame `Documentação` (`1925:642`) and set `1636:44`
+of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 15/10/2026, with the Figma UX QA and
+the textual audit approved. The names, the ARIA thumbs, the form entries, the events, the
+precedence of the name, the inert inner parts and the invalid input rules are a technical
+proposal of this implementation, approved with the plan by Elvys on 23/10/2026.
+
+**Out of scope.** A progress bar, which is not operated. A size property. A tooltip of its own.
+More than two thumbs. The Usage section of the page (P70, DSA-35), the page lists read from the
+Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 15/10/2026. API and semantics are reviewed
+in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P86, P90, P85, P93 or P91 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P85, P86, P90, P91, P93 or P94 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
