@@ -173,6 +173,18 @@
     "components-nph-slider-validation--inside-field": "Dentro do nph-field",
     "components-nph-slider-validation--invalid-input": "Entrada inválida",
     "components-nph-slider-validation--examples": "Exemplos",
+    "components-nph-select-docs": "Docs",
+    "components-nph-select-docs--documentation": "Documentação",
+    "components-nph-select-validation": "Validação",
+    "components-nph-select-validation--matrix": "Matriz",
+    "components-nph-select-validation--start": "Início",
+    "components-nph-select-validation--option": "Opção",
+    "components-nph-select-validation--open": "Aberto",
+    "components-nph-select-validation--list-height": "Altura da lista",
+    "components-nph-select-validation--text-overflow": "Texto longo",
+    "components-nph-select-validation--form-association": "Associação ao formulário",
+    "components-nph-select-validation--invalid-input": "Entrada inválida",
+    "components-nph-select-validation--examples": "Exemplos",
     "components-nph-input-otp-docs": "Docs",
     "components-nph-input-otp-docs--documentation": "Documentação",
     "components-nph-input-otp-validation": "Validação",
@@ -3867,6 +3879,469 @@
     "examplePrice": "Faixa de preço",
     "exampleVolume": "Volume"
   },
+  "selectDocs": {
+    "summary": "O campo que abre uma lista fechada de opções para a pessoa escolher uma. Participa do formulário que o contém; o rótulo, o apoio e a mensagem de erro pertencem ao nph-field.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: as fichas do nph-select e do nph-option, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P91. O arquivo Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "sourceFrame": "Figma, frame nph-select (1357:160), documentação 1452:448, set 1357:115",
+    "sourceApi": "Ficha do nph-select; docs/decisoes-tecnicas.md › P91",
+    "sourceOption": "Figma, nph-select / opção (1357:136); ficha do nph-option",
+    "sourceDecisions": "Tarefa DSA-29, respostas D1 a D9; docs/decisoes-tecnicas.md › P91",
+    "sourceAccessibility": "Figma, frame nph-select (1357:160); nph-select.test.ts e nph-option.test.ts",
+    "matrixLabel": "size × estado",
+    "description": "Use o nph-select quando a pessoa escolhe uma única opção de uma lista fechada de 6 a 15 itens. Ele não substitui o nph-radio, para 2 a 5 opções visíveis de uma vez, nem o nph-combobox, para mais de 15 opções ou quando a pessoa precisa buscar. Para escolher várias opções, use o nph-multi-combobox.",
+    "whenToUseTitle": "Quando usar",
+    "whenNotToUseTitle": "Quando não usar",
+    "whenToUse": [
+      "Quando a pessoa escolhe uma única opção de uma lista fechada de 6 a 15 itens.",
+      "Dentro de um nph-field, que dá o rótulo, o texto de apoio e a mensagem de erro.",
+      "Com start=avatar quando as opções são pessoas, e start=icon quando um símbolo ajuda a reconhecer a opção.",
+      "default no uso geral; large na tela que precisa do alvo de 44 px, para todos os campos do formulário."
+    ],
+    "whenNotToUse": [
+      "Para 2 a 5 opções: use o nph-radio, para a pessoa ver todas sem abrir nada.",
+      "Para mais de 15 opções, ou quando a pessoa precisa buscar: use o nph-combobox.",
+      "Para escolher várias opções: use o nph-multi-combobox.",
+      "Para nomear o campo só com o placeholder: a escolha o substitui.",
+      "Com a lupa no início: a busca pertence ao nph-combobox."
+    ],
+    "relationsText": "As opções são filhas nph-option, como as option de um select; a lista é interna. O nph-field compõe o rótulo, o select, o apoio e a mensagem de erro, e escreve label, description, invalid e required no select. O avatar do início é um nph-avatar; o ícone do início, a seta e o check são instâncias de nph-icon.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "size",
+        "default ou large, refletida. Mudam a altura do gatilho e a largura da área da seta."
+      ],
+      [
+        "value",
+        "O valor atual. O atributo value é o valor inicial e o valor de form.reset(). A opção escolhida é a primeira nph-option com esse valor; o valor fica guardado até chegar uma opção assim. Definido por código, não dispara nada."
+      ],
+      [
+        "placeholder",
+        "O convite antes da escolha, já localizado, como Selecione uma opção. Não é um nome."
+      ],
+      [
+        "start",
+        "none, icon ou avatar. O gatilho repete o início da opção escolhida; antes da escolha, a propriedade icon ou o avatar vazio. O ponto de uma opção nunca vai ao gatilho."
+      ],
+      [
+        "icon",
+        "Um nome do núcleo do nph-icon, padrão globe: o ícone do início antes da escolha, ou quando a opção escolhida não tem ícone. Nunca a lupa."
+      ],
+      [
+        "open",
+        "Booleana, refletida. A lista está aberta. A peça abre e fecha; o consumidor pode definir. Abrir e fechar não disparam evento."
+      ],
+      [
+        "name, required",
+        "Como num campo nativo. Sem opção escolhida, a entrada fica fora dos dados do formulário; required sem escolha é valueMissing, com a mensagem do navegador."
+      ],
+      [
+        "invalid",
+        "O estado erro: a borda vira status/error e o gatilho recebe aria-invalid. A frase pertence ao nph-field."
+      ],
+      [
+        "disabled",
+        "Booleana, refletida. A peça inteira esmaece, sai da ordem do Tab e dos dados do formulário, e a lista não abre. Um fieldset desabilitado também a desabilita."
+      ],
+      [
+        "label, description",
+        "O nome e a descrição acessíveis em texto, nunca visíveis, escritos pelo nph-field. Um rótulo associado vence o label."
+      ],
+      [
+        "input, change",
+        "Disparados pelo host, nessa ordem, quando a pessoa escolhe uma opção de valor diferente. Código não dispara nenhum dos dois."
+      ],
+      [
+        "slot",
+        "As opções: filhas nph-option."
+      ]
+    ],
+    "invalidTitle": "Entrada inválida não desenha nada.",
+    "invalidText": "Um size fora de default e large, um start fora de none, icon e avatar, ou um icon fora do núcleo: o select não renderiza e emite console.error em desenvolvimento. A lupa renderiza e avisa: a busca pertence ao nph-combobox.",
+    "sizesTitle": "Tamanhos",
+    "sizesText": "default no uso geral; large na tela que precisa do alvo de 44 px, para todos os campos do formulário. Mudam a altura do gatilho e a largura da área da seta: control/height-default ou control/height-large.",
+    "sizesCaption": "default e large, com uma opção escolhida.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "O que muda"
+    ],
+    "states": [
+      [
+        "default",
+        "Borda color/input sobre color/background; a área da seta em color/accent, depois de um divisor color/border."
+      ],
+      [
+        "hover",
+        "A borda vira color/input-hover."
+      ],
+      [
+        "foco",
+        "Foco pelo teclado: borda focus/border e o focus/halo por fora, em focus/radius-control."
+      ],
+      [
+        "aberto",
+        "O visual de foco com a lista aberta abaixo do gatilho e a seta para cima."
+      ],
+      [
+        "erro",
+        "Borda status/error, também no hover; com foco, o halo é focus/halo-error."
+      ],
+      [
+        "disabled",
+        "color/muted, borda color/input e state/disabled-opacity na peça inteira; vence o erro."
+      ]
+    ],
+    "statesCaption": "Placeholder, valor, erro e desabilitado.",
+    "startTitle": "Início",
+    "startText": "O start decide o tipo e a opção escolhida dá a arte: com icon, o ícone da opção escolhida, ou globe antes da escolha; com avatar, a foto da pessoa escolhida, ou o avatar vazio antes da escolha. Mantenha o mesmo início em todas as opções da lista.",
+    "startCaption": "start=icon e start=avatar, antes e depois da escolha.",
+    "optionTitle": "Opção",
+    "optionText": "Cada opção é um nph-option: o rótulo é o texto que ele contém, e ele pode ter um início, um texto secundário e o ponto de um estado. A lista escreve selected e active nele; a opção escolhida tem o fundo color/primary-surface e o check, que vencem o visual de hover.",
+    "optionCaption": "Os quatro inícios, ativa, selecionada, o ponto em cada estado e desabilitada.",
+    "optionApiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "optionApi": [
+      [
+        "slot",
+        "O rótulo, já localizado: o nome acessível da opção e o texto do gatilho quando ela é escolhida."
+      ],
+      [
+        "value",
+        "Refletida. Sem o atributo, o texto do rótulo."
+      ],
+      [
+        "secondary",
+        "O texto de apoio depois do rótulo. Vazio o desliga."
+      ],
+      [
+        "start",
+        "none, icon, avatar ou dot."
+      ],
+      [
+        "icon, src",
+        "O ícone com start=icon, padrão globe; a foto com start=avatar, vazia para o avatar vazio."
+      ],
+      [
+        "status",
+        "O ponto com start=dot: neutral, info, warning, success, error ou help. Ausente, a cor do texto."
+      ],
+      [
+        "disabled",
+        "Booleana, refletida. A opção esmaece e não pode ser escolhida."
+      ],
+      [
+        "selected, active",
+        "Escritas pela lista, nunca pelo consumidor. Não refletem."
+      ]
+    ],
+    "optionStatesHeader": [
+      "Estado",
+      "O que muda"
+    ],
+    "optionStates": [
+      [
+        "default",
+        "O rótulo em color/popover-foreground, sem fundo."
+      ],
+      [
+        "hover ou ativa",
+        "color/accent com o texto em color/accent-foreground."
+      ],
+      [
+        "selecionada",
+        "color/primary-surface e o check em color/primary; vence o hover."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity na opção inteira."
+      ]
+    ],
+    "listTitle": "Lista",
+    "listText": "A lista abre a space/inline-tight abaixo do gatilho, com a largura dele, e vira para cima quando não cabe embaixo. Ela aparece com opacidade e desliza até o lugar; com movimento reduzido, só a opacidade muda. Mostra 8 opções inteiras dentro de layout/max-list-height e rola acima disso. O foco fica no gatilho, que aponta para a opção ativa.",
+    "listCaption": "A lista aberta, a opção escolhida com o check.",
+    "keyboardHeader": [
+      "Tecla",
+      "O que faz"
+    ],
+    "keyboard": [
+      [
+        "Enter, Space, ArrowDown, ArrowUp",
+        "Fechada: abrem a lista na opção escolhida, ou na primeira."
+      ],
+      [
+        "Home, End",
+        "Abrem na primeira e na última opção, ou vão até elas."
+      ],
+      [
+        "ArrowDown, ArrowUp, PageDown, PageUp",
+        "Aberta: movem a opção ativa, sem dar a volta."
+      ],
+      [
+        "Caracteres",
+        "Vão à opção que começa com o texto digitado; fechada, abrem a lista."
+      ],
+      [
+        "Enter, Space, Alt+ArrowUp",
+        "Aberta: escolhem a opção ativa e fecham."
+      ],
+      [
+        "Escape",
+        "Fecha sem escolher."
+      ],
+      [
+        "Tab",
+        "Fecha sem escolher; o foco segue."
+      ]
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "1. Gatilho",
+        "Fundo color/background, borda border/width em color/input, radius/control, largura layout/input-width, altura control/height-*, padding esquerdo space/control-padding, gap space/inline, padding direito 0."
+      ],
+      [
+        "2. Início",
+        "nph-icon icon/size-sm em color/muted-foreground, ou nph-avatar sm."
+      ],
+      [
+        "3. Texto",
+        "O valor escolhido em text/body-md, color/foreground; o placeholder em color/muted-foreground. Uma linha com reticências."
+      ],
+      [
+        "4. Divisor",
+        "border/width em color/border, ao lado da área da seta."
+      ],
+      [
+        "5. Área da seta",
+        "color/accent, largura control/height-* e a altura do gatilho menos as bordas; radius/none à esquerda e radius/control-inner à direita; chevron-down, ou chevron-up aberta."
+      ],
+      [
+        "6. Lista",
+        "color/popover, borda color/input, radius/container, padding space/inline-tight, altura máxima layout/max-list-height, elevation/dropdown."
+      ],
+      [
+        "7. Opção",
+        "Padding e gap space/inline, radius/inner, a largura da lista; início ícone, avatar ou ponto."
+      ],
+      [
+        "8. Check",
+        "nph-icon check, icon/size-sm, color/primary, no fim da opção selecionada."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "Um combobox só de seleção: o gatilho tem o papel combobox e controla um listbox; cada nph-option tem o papel option e aria-selected."
+      ],
+      [
+        "Nome acessível",
+        "O rótulo do nph-field, ou label; o placeholder não é nome. A description é lida junto: o apoio ou a frase de erro."
+      ],
+      [
+        "Teclado e foco",
+        "O foco fica no gatilho e aponta para a opção ativa com aria-activedescendant. O foco aparece pelo teclado e enquanto a lista está aberta."
+      ],
+      [
+        "Contraste",
+        "Texto 4,5:1 e a borda 3:1, nos modos claro e escuro; a seta 3:1 sobre color/accent; o check 4,78:1 e 6,26:1 sobre color/primary-surface."
+      ],
+      [
+        "A cor não é o único sinal",
+        "O erro vem em texto no nph-field; a opção selecionada tem o check; o ponto acompanha o estado escrito; a seta vira para cima quando a lista abre."
+      ],
+      [
+        "Partes ocultas",
+        "O início, o divisor, a seta, o ponto e o check ficam ocultos do leitor de tela."
+      ]
+    ],
+    "examplesTitle": "Exemplos obrigatórios",
+    "exampleDepartment": "Departamento: lista curta, sem início.",
+    "exampleOwner": "Responsável: pessoas com avatar, aberto.",
+    "exampleRequired": "Obrigatório sem escolha: o erro.",
+    "referencesTitle": "Referências",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, frame nph-select (1357:160), documentação 1452:448",
+      "fichas/nph-select.md e fichas/nph-option.md",
+      "docs/decisoes-tecnicas.md › P91, P80 e P83",
+      "WAI-ARIA Authoring Practices, combobox só de seleção"
+    ],
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "departmentLabel": "Departamento",
+    "departmentHelp": "A equipe em que a pessoa trabalha.",
+    "placeholder": "Selecione uma opção",
+    "departments": [
+      "Finanças",
+      "Jurídico",
+      "Marketing",
+      "Operações",
+      "Pessoas",
+      "Produto",
+      "Vendas",
+      "Suporte"
+    ],
+    "ownerLabel": "Responsável",
+    "people": [
+      {
+        "name": "Ana Souza",
+        "role": "Designer de produto"
+      },
+      {
+        "name": "Bruno Lima",
+        "role": "Engenheiro"
+      },
+      {
+        "name": "Carla Dias",
+        "role": "Pesquisadora"
+      },
+      {
+        "name": "Diego Alves",
+        "role": "Gerente de produto"
+      }
+    ],
+    "locationLabel": "Local de trabalho",
+    "locations": [
+      "Escritório em casa",
+      "Cliente",
+      "Remoto"
+    ],
+    "statuses": [
+      {
+        "status": "success",
+        "label": "Ativo"
+      },
+      {
+        "status": "warning",
+        "label": "Pendente"
+      },
+      {
+        "status": "error",
+        "label": "Bloqueado"
+      },
+      {
+        "status": "info",
+        "label": "Em análise"
+      },
+      {
+        "status": "help",
+        "label": "Em espera"
+      },
+      {
+        "status": "neutral",
+        "label": "Arquivado"
+      }
+    ],
+    "errorMessage": "Escolha um departamento."
+  },
+  "selectValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "departmentLabel": "Departamento",
+    "departmentHelp": "A equipe em que a pessoa trabalha.",
+    "placeholder": "Selecione uma opção",
+    "departments": [
+      "Finanças",
+      "Jurídico",
+      "Marketing",
+      "Operações",
+      "Pessoas",
+      "Produto",
+      "Vendas",
+      "Suporte"
+    ],
+    "moreDepartments": [
+      "Design",
+      "Engenharia",
+      "Logística",
+      "Pesquisa"
+    ],
+    "ownerLabel": "Responsável",
+    "people": [
+      {
+        "name": "Ana Souza",
+        "role": "Designer de produto"
+      },
+      {
+        "name": "Bruno Lima",
+        "role": "Engenheiro"
+      },
+      {
+        "name": "Carla Dias",
+        "role": "Pesquisadora"
+      },
+      {
+        "name": "Diego Alves",
+        "role": "Gerente de produto"
+      }
+    ],
+    "locationLabel": "Local de trabalho",
+    "locations": [
+      "Escritório em casa",
+      "Cliente",
+      "Remoto"
+    ],
+    "statusLabel": "Situação",
+    "statuses": [
+      {
+        "status": "success",
+        "label": "Ativo"
+      },
+      {
+        "status": "warning",
+        "label": "Pendente"
+      },
+      {
+        "status": "error",
+        "label": "Bloqueado"
+      },
+      {
+        "status": "info",
+        "label": "Em análise"
+      },
+      {
+        "status": "help",
+        "label": "Em espera"
+      },
+      {
+        "status": "neutral",
+        "label": "Arquivado"
+      }
+    ],
+    "noStatus": "Sem estado",
+    "longLabel": "Sucesso do cliente e relação com parceiros na América Latina",
+    "longSecondary": "Equipe compartilhada com os escritórios regionais",
+    "errorMessage": "Escolha um departamento.",
+    "submitText": "Enviar",
+    "resetText": "Restaurar",
+    "statusIdle": "Nada enviado ainda.",
+    "statusSubmitted": "Enviado: {data}",
+    "statusReset": "O formulário voltou aos valores iniciais.",
+    "statusNoEvent": "Nenhum evento ainda.",
+    "statusEvent": "{event}: {value}",
+    "fieldsetDisabled": "Fieldset desabilitado",
+    "exampleDepartment": "Departamento",
+    "exampleOwner": "Responsável",
+    "exampleRequired": "Obrigatório sem escolha"
+  },
   "inputOtpDocs": {
     "summary": "Campo de código curto, uma casa por caractere, para confirmar o acesso com um código enviado por SMS ou e-mail. Um input nativo fica sobre as casas, então o código é um valor com um nome; o rótulo, a ajuda e o erro vêm do nph-field.",
     "onThisPage": "Nesta página",
@@ -4194,7 +4669,16 @@
       "components-nph-slider-validation--form-association": "O host participa do formulário: single envia name=value, range duas entradas sob o mesmo nome, o reset restaura os atributos de valor, e um fieldset desabilitado o deixa de fora.",
       "components-nph-slider-validation--inside-field": "Dentro do nph-field, o field dá o rótulo, a ajuda e o erro; o slider mostra o estado de erro e lê a frase como descrição.",
       "components-nph-slider-validation--invalid-input": "Entrada inválida não desenha nada: uma orientation ou um mode que não existem, min que não fica abaixo de max, um step zero. marks na orientação vertical não é desenhado; o resto renderiza.",
-      "components-nph-slider-validation--examples": "Os três exemplos obrigatórios do board aceito: Brilho, Faixa de preço e Volume, cada um em modo claro e escuro."
+      "components-nph-slider-validation--examples": "Os três exemplos obrigatórios do board aceito: Brilho, Faixa de preço e Volume, cada um em modo claro e escuro.",
+      "components-nph-select-validation--matrix": "size × estado: placeholder, valor, erro, desabilitado e os dois, com a área da seta em color/accent. Passe o mouse para o hover, aperte Tab para o foco.",
+      "components-nph-select-validation--start": "O início do gatilho (D4): none, icon e avatar, antes da escolha e com o início da opção escolhida; o ponto de uma opção nunca vai ao gatilho.",
+      "components-nph-select-validation--option": "A opção: os quatro inícios, o texto secundário, ativa com o visual de hover, selecionada com o check vencendo a ativa, desabilitada, e o ponto em cada estado (D5, D6).",
+      "components-nph-select-validation--open": "A lista aberta: a space/inline-tight abaixo do gatilho, com a largura dele, a seta para cima e a opção escolhida com o check (D1, D2).",
+      "components-nph-select-validation--list-height": "A altura da lista (D9): 8 opções inteiras dentro de layout/max-list-height; com avatares, 7 opções inteiras e 8 px da 8ª; rolagem acima disso.",
+      "components-nph-select-validation--text-overflow": "Valor do gatilho, rótulo da opção e texto secundário ficam numa linha com reticências (D3).",
+      "components-nph-select-validation--form-association": "O host participa do formulário: o envio manda name=value, o reset restaura o atributo value, uma escolha dispara input e change, e um fieldset desabilitado o desabilita.",
+      "components-nph-select-validation--invalid-input": "Entrada inválida não desenha nada: um size que não existe, um start que não existe e um icon fora do núcleo.",
+      "components-nph-select-validation--examples": "Os três exemplos obrigatórios do frame, no nph-field: Departamento, Responsável (aberto) e Obrigatório sem escolha, cada um nos modos claro e escuro."
     }
   }
 }

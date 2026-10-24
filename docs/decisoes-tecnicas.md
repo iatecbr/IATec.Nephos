@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P85, P86, P88, P90, P93 and P94. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P85, P86, P88, P90, P91, P93 and P94. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -55,6 +55,7 @@ P62.4 subsection for the detail).
 | **P90** | API and semantics of `nph-image` | 23/10/2026 | Low now. No piece consumes it yet; `nph-table` will, for the thumbnail and the expanded item, so changing `size`, `ratio`, `src`, `alt` or `interactive`, or the derived state, later requires redoing it | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P85** | API and semantics of `nph-input-otp` | 22/10/2026 | Low now. No piece consumes it yet; a sign-in or verification screen will, inside `nph-field`, so changing `length`, `masked`, `value` or the native events later requires redoing that screen | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P93** | API and semantics of `nph-textarea` | 23/10/2026 | Low now. No piece consumes it yet; a comment box or a message composer will, so changing `counter`, `readonly` or the `actions` slot later requires redoing them. It copies the form shape of P80 and the field contract of P83 | Anatomy and behavior: frame accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P91** | API and semantics of `nph-select` and `nph-option` | 23/10/2026 | Medium. `nph-combobox` (DSA-46) and `nph-multi-combobox` (DSA-31) reuse `nph-option` and its owner symbol, so changing the option API, `NPH_OPTION_CHANGED` or the keyboard later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 14/10/2026, D1 to D9 answered on 19/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P94** | API and semantics of `nph-slider` | 23/10/2026 | Low now. No piece consumes it yet; a filter panel will, so changing `mode`, `value`, `start`, `end`, the two form entries of `range` or the ARIA thumbs later requires redoing it | Anatomy and behavior: board accepted by Indiane on 15/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
@@ -3237,6 +3238,170 @@ motion. The count of characters, which belongs to the consumer. The Usage sectio
 (P72, DSA-32).
 
 **Status.** Anatomy and behavior accepted by Indiane on 16/10/2026. API and semantics are reviewed
+
+---
+
+## P91 — `nph-select` and `nph-option`: API and semantics
+
+**Decision.** `nph-select` is a Web Component with **open Shadow DOM** (P01), CSS in its own file
+imported `?inline`, form-associated in the pattern of `nph-input` (P80) and a control of the field
+contract (P83). Its options are `nph-option`, a second Web Component with open Shadow DOM, children
+of the select in the light DOM, as `<option>` is a child of `<select>`. Neither has a `::part`, an
+`nph-*` event or a color property. Anatomy only through semantic tokens. Invalid input renders
+nothing and emits `console.error` only in development, one per cause — the rule of P21, adopted
+here as in P80. The names follow P64.
+
+1. **Two tags, two folders.** The option is shared: the list of `nph-combobox` (DSA-46) and of
+   `nph-multi-combobox` (DSA-31) reuse it. It lives in `src/components/nph-option/`, with its own
+   sheet (`fichas/nph-option.md`) and its own package entry, because the build
+   (`vite.config.lib.ts`), the manifest and `test:package` take one definition per folder, and
+   P03 makes the tag the folder name. The public `@iatec/nephos/nph-option` entry is forced by
+   that packaging, not a choice of API: the option never stands alone, and importing
+   `nph-select` registers it. It has no Docs page of its own; its reading page is the one of
+   `nph-select`, and its Validation is the `Option` story there.
+
+2. **Properties of the select.** The Figma properties are `size`, `state`, `início`, `conteúdo`
+   and `ícone início`.
+
+   | Figma | API |
+   |---|---|
+   | `size` | `size`: `default` (default) or `large`, reflected |
+   | `state` `erro` | `invalid`, boolean, reflected (P83) |
+   | `state` `disabled` | `disabled`, boolean, reflected; a disabled `<fieldset>` disables it too |
+   | `state` `hover`, `foco`, `aberto`, `erro-foco` | not properties: CSS and `open` |
+   | `aberto` | `open`, boolean, reflected |
+   | `início` | `start`: `none` (default), `icon` or `avatar` |
+   | `ícone início` | `icon`: a core name of `nph-icon`, default `globe` |
+   | `conteúdo` | not a property: the placeholder with no choice, the chosen option with one |
+   | the placeholder text | `placeholder` |
+   | the value | `value` (P80) |
+   | the form | `name` (reflected) and `required` (reflected) |
+   | the field contract (P83) | `label` and `description`, text never visible |
+
+3. **Properties of the option.** The Figma properties of `nph-select / opção` are `state`,
+   `início`, `marcador`, `ícone`, `rótulo`, `texto secundário` and `secundário`.
+
+   | Figma | API |
+   |---|---|
+   | `rótulo` | the text of the default slot |
+   | `texto secundário` and `secundário` | `secondary`; empty turns it off |
+   | `início` | `start`: `none` (default), `icon`, `avatar` or `dot` |
+   | `ícone` | `icon`: a core name, default `globe`, with `start="icon"` |
+   | the photo of the avatar | `src`, with `start="avatar"`; empty is the empty avatar |
+   | the color of the dot | `status`: `neutral`, `info`, `warning`, `success`, `error` or `help`; absent, the text color (D6) |
+   | `state` `disabled` | `disabled`, boolean, reflected |
+   | `state` `selecionada` | `selected`, written by the owning list, not reflected |
+   | `state` `hover` | `active`, written by the owning list, not reflected: the option the pointer or the keyboard is on (D5) |
+   | the value | `value`, reflected; without the attribute, the label text with its white space collapsed, as in `<option>` |
+   | `marcador` | always `marca` here; `checkbox` belongs to `nph-multi-combobox` (DSA-31) |
+
+   `start` is explicit and not derived from `icon`, `src` or `status`: the empty avatar and the
+   dot with no state have no attribute that would reveal them. The option takes the role `option`,
+   `aria-selected` and `aria-disabled` through `ElementInternals`, so it writes no attribute on its
+   own host, and shows `selected` and `active` through `CustomStateSet` (`:state()`). The owning
+   list learns that a property of an option changed through the exported symbol
+   `NPH_OPTION_CHANGED`: a list implements a method under that symbol. The symbol is an export of
+   the option module, for the lists that own options; the method is marked `@internal`, so it stays
+   out of the manifest and is not API of the select. The text and the attributes of the options
+   reach the list through a `MutationObserver`.
+
+4. **The value.** The value follows P80: the `value` attribute is the default and the value of
+   `form.reset()`, the property is the current value, and a dirty flag stops the attribute from
+   applying. The chosen option is the first `nph-option` with valid input whose `value` equals
+   the current value; an option with invalid input is never the chosen one.
+   The value is kept until such an option arrives, so a framework may render the options after the
+   value; with no option of that value, the trigger shows the placeholder and the form data leaves
+   the entry out, as a radio group with nothing checked. `<nph-option selected>` is not an
+   attribute and not the default of the reset: the default is the `value` attribute of the select.
+   `required` with no choice, or with a chosen option of empty value, is `valueMissing`, as in the
+   native select. Its message is the browser's, read from a `<select required>` that is never
+   connected, so the piece does not know the language (P80). The anchor of the validity is the
+   trigger. Enter does not submit the form: in a select-only combobox, Enter opens and chooses, as
+   in the native `<select>`.
+
+5. **Events.** The piece has no inner `<input>`, so the host fires `input` (`bubbles`, `composed`)
+   and then `change` (`bubbles`) — P83, item 1 — only when the person chooses an option of a
+   different value. The form data and the validity are up to date when they run. Choosing the
+   option already chosen, Escape, Tab, a click outside, `value` and `open` set from code fire
+   nothing. Opening and closing fire no event, as the `open` of the tooltip (P65, P77).
+
+6. **The trigger and the keyboard.** The trigger is a `div` with role `combobox`, `tabindex="0"`,
+   `aria-haspopup="listbox"`, `aria-expanded` and `aria-controls`, in the shadow root, with
+   `delegatesFocus`: the select-only combobox pattern of the APG. The focus never leaves it; the
+   active option is pointed to by `ariaActiveDescendantElement`, an element reference from the
+   shadow root to an option of the outer light DOM, which is valid as the `ariaLabelledByElements`
+   of P80. The keys are those of the APG: closed, Enter, Space, ArrowDown, ArrowUp and Alt+ArrowDown
+   open on the chosen option, or on the first; Home and End open on the first and the last; a
+   printable character opens on the option that starts with it. Open, the arrows move without
+   wrapping; Home, End, PageUp and PageDown (ten options) jump; typing within 500 ms builds one
+   search, and the same character typed again cycles through the options that start with it;
+   Enter, Space and Alt+ArrowUp choose and close; Escape closes without choosing and stops there,
+   so a dialog around the select stays open. **Tab closes without choosing**, and the focus moves
+   on: the APG suggests that Tab chooses the active option, but a Tab that only passes through
+   must not change the value or fire `change`. Disabled options and options with invalid input
+   are skipped and cannot be chosen. The focus look shows on `:focus-visible` and while the list is
+   open: a select has no caret to show where the focus is, as the input has.
+
+7. **The list.** The list is internal: a `popover="manual"` in the shadow root, with role
+   `listbox` and the slot of the options, in the top layer as the balloon of `nph-tooltip` (P77),
+   with no `z-index` and no clipping by an ancestor. JavaScript places it `space/inline-tight`
+   below the trigger (D1), with the width of the trigger, and follows the trigger on scroll —
+   also inside shadow roots — and resize. When it does not fit below and fits above, it turns up,
+   `space/inline-tight` above the trigger (D-2 of DSA-29, open). It fades in and slides
+   `space/inline-tight` into place with `motion/enter-*`, and leaves with `motion/exit-*`; it leaves
+   the top layer when the exit ends; with reduced motion, only the opacity moves (D2), in
+   `motion/hover-duration` (100 ms, the rule of `design.md` 2g, as in `nph-tooltip`). A click
+   during the exit chooses nothing: the list is already closed. The
+   maximum height `layout/max-list-height` is on an inner box that scrolls, with the border outside
+   it (D9); the active option scrolls into view without scrolling the page. A press outside the
+   select, and the focus leaving it, close the list without choosing. A disabled select, one with
+   invalid input or one with no option to choose does not open, also when `open` is set.
+
+8. **Name and description.** As P80: the labels associated with the host name the trigger and the
+   list by element reference; without one, `label` is their `aria-label`; with no name at all, the
+   select renders and warns once in development, after the first frame. `description` sits in a
+   clipped element referenced by `aria-describedby`. `static nphFieldRole` is absent: the select is
+   a single control (P83).
+
+9. **Invalid input.** On the select: a `size` outside the two, a `start` outside the three or an
+   `icon` outside the core renders nothing, takes no space, leaves `data-nph-rendered` out,
+   contributes nothing to the form and emits one `console.error` per cause. The magnifying glass
+   as `icon` renders and emits one `console.warn` in development: search belongs to
+   `nph-combobox`. On the option: a `start` outside the four, a `status` outside the six or an
+   `icon` outside the core renders nothing and emits one `console.error` per cause.
+
+**Known limits.**
+
+- **The list does not shrink.** When it fits neither below nor above, it takes the side with
+  more room and is held inside the window, over the trigger if needed.
+- **An option outside a select** draws its looks but has no list around it; only the Validation
+  and Docs pages do that, to show the option states side by side.
+- **Forced colors and right-to-left** are not treated yet, as in P80.
+
+**Points for review.**
+
+- **The option as a second tag in a folder of its own**, forced by the packaging.
+- **The symbol `NPH_OPTION_CHANGED`** as the contract between an option and its list, for
+  `nph-combobox` and `nph-multi-combobox` to take.
+- **Tab closes without choosing**, against the APG suggestion.
+- **No choice leaves the entry out of the form data.**
+- **The message of `valueMissing` from a disconnected native select.**
+- **The list turns up near the bottom of the window** (D-2 of DSA-29, open with Indiane).
+
+**Source.** Frame `nph-select` (`1357:160`), documentation `1452:448`, set `1357:115`, option
+`1357:136` and list `1357:137` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on
+14/10/2026, with the Figma UX QA and the textual audit approved, and D1 to D9 answered on
+19/10/2026. The names `start`, `icon`, `open`, `secondary`, `status`, `selected` and `active`, the
+second tag, the owner symbol, the value model, the events, the keyboard, the turned-up list and
+the invalid input rules are a technical proposal of this implementation, approved with the plan
+by Elvys on 23/10/2026.
+
+**Out of scope.** Search, groups and multiple choice (`nph-combobox`, DSA-46;
+`nph-multi-combobox`, DSA-31). The checkbox marker of the option. A width property: the width is
+`layout/input-width`. The Usage section of the page (P70, DSA-35), the page lists read from the
+Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 14/10/2026. API and semantics are reviewed
 in the pull request that brings them; the merge is the approval.
 
 ---
@@ -3396,7 +3561,7 @@ in the pull request that brings them; the merge is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P85, P86, P90, P93 or P94 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P85, P86, P90, P91, P93 or P94 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
