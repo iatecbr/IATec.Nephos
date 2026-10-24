@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 400,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-slider",
   "dependencies": ["DSA-03", "DSA-04", "DSA-08", "DSA-13", "DSA-16", "DSA-28"],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-39/review-and-merge-2026-10-24.md",
+      "result": "passed",
+      "verified_at": "2026-10-24",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -62,7 +62,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-39/documentacao-figma-aceita-2026-10-15.md"
+    "docs/operacao/evidencias/DSA-39/documentacao-figma-aceita-2026-10-15.md",
+    "docs/operacao/evidencias/DSA-39/review-and-merge-2026-10-24.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -79,11 +80,11 @@
   },
   "git_review": {
     "branch": "claude/dsa-39-nph-slider-0eb846",
-    "commit": "103e8a909a3e37feeb318eaa8e3a8ca1fd0c8ccb",
+    "commit": "477e86e8c2f978391f61d1722431476d35a02960",
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/112"
   },
-  "context": "docs/operacao/contextos/DSA-39.md",
-  "updated_at": "2026-10-23"
+  "context": null,
+  "updated_at": "2026-10-24"
 }
 ```
 
