@@ -3014,10 +3014,12 @@ here by its own decision, as in P66, P68, P73 and P76. The names follow P64.
    so the code is not touched and the `input` of that keystroke does not reach the consumer. As in P80, the host takes the value in an `input` listener of its
    own, registered first and in capture, so the value and the form data are settled before any
    listener of the consumer runs, in capture or in bubbling. A paste is cleaned, cut at `length` and **replaces the whole
-   value**; a paste with no letter or digit changes nothing. The field stops the native paste at
-   once, so `defaultPrevented` is already `true` for the consumer's listeners, and applies the
-   replacement at the end of the propagation, as Enter: a consumer that cancels the paste
-   anywhere on the path, in capture or in bubbling, keeps the value. The caret is the native one:
+   value**; a paste with no letter or digit changes nothing. The paste is the browser's own: the
+   field does not touch the `paste` event, keeps the whole text from the `beforeinput`
+   (`insertFromPaste`, Input Events) and replaces the value in its `input` listener. So a paste
+   canceled by any means, in capture or in bubbling (`preventDefault()`, `onpaste` returning
+   `false`, `returnValue`, or the `beforeinput` canceled), leaves the field alone, and a listener
+   that moves the focus sends the paste there, as in a native input. The caret is the native one:
    focus puts it on the next empty cell (the browser would select the whole code, and the
    selection is not drawn), a click on a cell puts it on that cell or at the end of the code,
    and the arrows, Home, End and Backspace are the native ones. The **active cell** is the one

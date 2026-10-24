@@ -132,12 +132,20 @@ async function tabInto(element: NphInputOtp): Promise<void> {
   await element.updateComplete;
 }
 
-/** Pastes text on the inner input, as the clipboard would, and waits for the end of the propagation. */
+/**
+ * Pastes text on the field as a person would: the real clipboard and Ctrl/Cmd+V. The text is
+ * copied from a text area first, so the focus leaves the field and comes back to it.
+ */
 async function paste(element: NphInputOtp, text: string): Promise<void> {
-  const data = new DataTransfer();
-  data.setData('text', text);
-  native(element).dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true, composed: true }));
-  await new Promise((resolve) => setTimeout(resolve));
+  const area = document.createElement('textarea');
+  area.value = text;
+  document.body.append(area);
+  area.focus();
+  area.select();
+  await userEvent.copy();
+  area.remove();
+  native(element).focus();
+  await userEvent.paste();
   await element.updateComplete;
 }
 
@@ -462,6 +470,72 @@ describe('paste', () => {
     expect(native(element).value).toBe('11');
     expect(new FormData(form).get('code')).toBe('11');
     expect(inputs).not.toHaveBeenCalled();
+  });
+
+  it('a paste canceled as the browser allows, by onpaste or returnValue, changes nothing and fires nothing', async () => {
+    const { form, element } = await inFormForEvents();
+    const inputs = vi.fn();
+    element.addEventListener('input', inputs);
+    await tabInto(element);
+    form.onpaste = () => false;
+    await paste(element, '482913');
+    form.onpaste = null;
+    element.addEventListener('paste', (event) => {
+      event.returnValue = false;
+    });
+    await paste(element, '482913');
+    expect(element.value).toBe('11');
+    expect(native(element).value).toBe('11');
+    expect(inputs).not.toHaveBeenCalled();
+  });
+
+  it('a paste whose beforeinput the consumer cancels in bubbling changes nothing and fires nothing', async () => {
+    const element = await mount({ label: 'Code', value: '12' });
+    const inputs = vi.fn();
+    const cancel = vi.fn((event: Event) => event.preventDefault());
+    element.addEventListener('beforeinput', cancel);
+    element.addEventListener('input', inputs);
+    await tabInto(element);
+    await paste(element, '482913');
+    expect(cancel).toHaveBeenCalledOnce();
+    expect(element.value).toBe('12');
+    expect(native(element).value).toBe('12');
+    expect(inputs).not.toHaveBeenCalled();
+  });
+
+  it('a reset in a paste listener happens before the paste, as in a native input', async () => {
+    const { form, element } = await inFormForEvents();
+    await tabInto(element);
+    element.addEventListener('paste', () => form.reset(), { once: true });
+    await paste(element, '482913');
+    expect(element.value).toBe('482913');
+    expect(new FormData(form).get('code')).toBe('482913');
+  });
+
+  it('a paste on a full field still replaces the whole value', async () => {
+    const element = await mount({ label: 'Code', value: '999999' });
+    await tabInto(element);
+    await paste(element, '12-34-56');
+    expect(element.value).toBe('123456');
+    expect(native(element).value).toBe('123456');
+  });
+
+  it('a paste listener that moves the focus sends the paste where the focus went, as in a native input', async () => {
+    const element = await mount({ label: 'Code', value: '12' });
+    const other = document.createElement('input');
+    document.body.append(other);
+    const inputs = vi.fn();
+    const changes = vi.fn();
+    element.addEventListener('input', inputs);
+    element.addEventListener('change', changes);
+    await tabInto(element);
+    element.addEventListener('paste', () => other.focus(), { once: true });
+    await paste(element, '482913');
+    expect(other.value).toBe('482913');
+    expect(element.value).toBe('12');
+    expect(native(element).value).toBe('12');
+    expect(inputs).not.toHaveBeenCalled();
+    expect(changes).not.toHaveBeenCalled();
   });
 
   it('a paste fires one input event that reaches the host', async () => {
