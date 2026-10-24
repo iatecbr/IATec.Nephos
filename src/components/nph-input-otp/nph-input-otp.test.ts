@@ -132,11 +132,12 @@ async function tabInto(element: NphInputOtp): Promise<void> {
   await element.updateComplete;
 }
 
-/** Pastes text on the inner input, as the clipboard would. */
+/** Pastes text on the inner input, as the clipboard would, and waits for the end of the propagation. */
 async function paste(element: NphInputOtp, text: string): Promise<void> {
   const data = new DataTransfer();
   data.setData('text', text);
   native(element).dispatchEvent(new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true, composed: true }));
+  await new Promise((resolve) => setTimeout(resolve));
   await element.updateComplete;
 }
 
@@ -431,6 +432,35 @@ describe('paste', () => {
     await paste(element, '482913');
     expect(element.value).toBe('12');
     expect(native(element).value).toBe('12');
+    expect(inputs).not.toHaveBeenCalled();
+  });
+
+  it('a paste the consumer cancels in a bubbling listener on the host changes nothing and fires nothing', async () => {
+    const element = await mount({ label: 'Code', value: '12' });
+    const inputs = vi.fn();
+    const cancel = vi.fn((event: Event) => event.preventDefault());
+    element.addEventListener('paste', cancel);
+    element.addEventListener('input', inputs);
+    await tabInto(element);
+    await paste(element, '482913');
+    expect(cancel).toHaveBeenCalledOnce();
+    expect(element.value).toBe('12');
+    expect(native(element).value).toBe('12');
+    expect(inputs).not.toHaveBeenCalled();
+  });
+
+  it('a paste the consumer cancels in a bubbling listener on the form changes nothing and fires nothing', async () => {
+    const { form, element } = await inFormForEvents();
+    const inputs = vi.fn();
+    const cancel = vi.fn((event: Event) => event.preventDefault());
+    form.addEventListener('paste', cancel);
+    element.addEventListener('input', inputs);
+    await tabInto(element);
+    await paste(element, '482913');
+    expect(cancel).toHaveBeenCalledOnce();
+    expect(element.value).toBe('11');
+    expect(native(element).value).toBe('11');
+    expect(new FormData(form).get('code')).toBe('11');
     expect(inputs).not.toHaveBeenCalled();
   });
 

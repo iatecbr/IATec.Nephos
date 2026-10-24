@@ -400,23 +400,42 @@ export class NphInputOtp extends LitElement {
     }
   }
 
-  /** A pasted code replaces the whole value, cleaned and cut at `length`. */
+  /**
+   * A pasted code replaces the whole value, cleaned and cut at `length`. The native paste is
+   * stopped at once; the replacement is decided at the end of the propagation, as Enter (P80),
+   * so a consumer that cancels the paste anywhere on the path keeps the value.
+   */
   private onPaste(event: ClipboardEvent): void {
     /* A paste the consumer already canceled is theirs: the field does nothing, as a native input. */
     if (event.defaultPrevented) {
       return;
     }
+    /* The text and the target are read now: after the dispatch, both are gone. */
     const text = event.clipboardData?.getData('text') ?? '';
-    const next = this.fit(text, false);
-    event.preventDefault();
-    if (next === '' || next === this.current) {
-      return;
-    }
-    /* The native paste is stopped; the input event it would fire goes through `onInput`. */
     const input = event.target as HTMLInputElement;
-    input.value = next;
-    input.setSelectionRange(next.length, next.length);
-    input.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true, inputType: 'insertFromPaste', data: text }));
+    /* A cancel by a listener after the field's own is told apart through the event itself. */
+    const cancel = event.preventDefault.bind(event);
+    let canceled = false;
+    Object.defineProperty(event, 'preventDefault', {
+      value: () => {
+        canceled = true;
+        cancel();
+      },
+    });
+    cancel();
+    setTimeout(() => {
+      if (canceled || !this.isConnected || this.inactive) {
+        return;
+      }
+      const next = this.fit(text, false);
+      if (next === '' || next === this.current) {
+        return;
+      }
+      /* The input event the native paste would fire goes through `onInput`. */
+      input.value = next;
+      input.setSelectionRange(next.length, next.length);
+      input.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true, inputType: 'insertFromPaste', data: text }));
+    });
   }
 
   /**
