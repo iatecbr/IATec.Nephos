@@ -1,0 +1,204 @@
+{
+  "piece": "nph-option",
+  "level": "component",
+  "status": "active",
+  "solves": "Gives a list the person picks from one option with its label and, when needed, a start, a helper text and the selected look, shared by the lists of nph-select and nph-combobox.",
+  "use_when": [
+    "As a child of nph-select, one per option of the list.",
+    "With start=dot when each option has a state, written in the label.",
+    "With secondary when a helper text tells options with similar labels apart."
+  ],
+  "do_not_use_when": [
+    "On its own, outside the list that owns it: it has no role there.",
+    "With a checkbox marker: multiple choice belongs to nph-multi-combobox.",
+    "Mixing options with and without a start in the same list: use one start.",
+    "With the status dot and no state written in the label."
+  ],
+  "api": {
+    "slot": {
+      "type": "string",
+      "required": true,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The label: the text of the option, already localized. It is the accessible name of the option and the text the trigger shows when it is chosen."
+    },
+    "value": {
+      "type": "string",
+      "required": false,
+      "default": "the label text",
+      "reflects": true,
+      "constraint": "The value the option gives the form. Without the attribute, the label text with its white space collapsed, as in the native option."
+    },
+    "secondary": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The helper text after the label, already localized. Empty turns it off."
+    },
+    "start": {
+      "type": "enum",
+      "values": [
+        "none",
+        "icon",
+        "avatar",
+        "dot"
+      ],
+      "required": false,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The start of the option. The same start for every option of a list. Any other value draws nothing and emits console.error in development."
+    },
+    "icon": {
+      "type": "string",
+      "required": false,
+      "default": "globe",
+      "reflects": false,
+      "constraint": "A core name of nph-icon, drawn with start=icon at icon/size-md. Any name outside the core draws nothing and emits console.error in development."
+    },
+    "src": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The photo of the avatar, with start=avatar. Empty shows the empty avatar."
+    },
+    "status": {
+      "type": "enum",
+      "values": [
+        "neutral",
+        "info",
+        "warning",
+        "success",
+        "error",
+        "help"
+      ],
+      "required": false,
+      "default": "none",
+      "reflects": false,
+      "constraint": "The color of the dot, with start=dot: status/* or, for neutral, color/muted-foreground. Absent, the dot follows the text color (D6). Any other value draws nothing and emits console.error in development."
+    },
+    "disabled": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": true,
+      "constraint": "The option cannot be chosen and the keyboard skips it; the whole option at state/disabled-opacity."
+    },
+    "selected": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": false,
+      "constraint": "Written by the list that owns the option, never by the consumer: the chosen option. The list chooses by its own value. There is no selected attribute."
+    },
+    "active": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": false,
+      "constraint": "Written by the list that owns the option, never by the consumer: the option the pointer or the keyboard is on."
+    }
+  },
+  "variants": {
+    "start": {
+      "axis": "appearance",
+      "choose_when": "icon when a symbol helps recognize the option; avatar when the options are people; dot when each option has a state; none in every other case.",
+      "do_not_combine_with": [
+        "Options with and without a start in the same list.",
+        "A checkbox marker, which belongs to nph-multi-combobox."
+      ]
+    }
+  },
+  "states": {
+    "default": {
+      "token": "color/popover-foreground",
+      "changes_for_user": "The label in color/popover-foreground on the list background, with no background of its own."
+    },
+    "active": {
+      "token": "color/accent",
+      "changes_for_user": "The option the pointer or the keyboard is on: color/accent, with the text in color/accent-foreground (D5)."
+    },
+    "selected": {
+      "token": "color/primary-surface",
+      "changes_for_user": "The chosen option: color/primary-surface and the check in color/primary. It wins over active (D5)."
+    },
+    "disabled": {
+      "token": "state/disabled-opacity",
+      "changes_for_user": "The whole option at state/disabled-opacity; it cannot be chosen."
+    }
+  },
+  "business_rules": [
+    "The option never chooses itself: the list that owns it writes selected and active.",
+    "Without the value attribute, the value is the label text.",
+    "The selected background wins over the active one."
+  ],
+  "domain_errors": [],
+  "tokens": {
+    "padding": "space/inline",
+    "gap": "space/inline",
+    "radius": "radius/inner",
+    "label": "text/label-md in color/popover-foreground; color/accent-foreground when active",
+    "secondary": "text/label-md in color/muted-foreground, space/inline-tight after the label",
+    "icon": "nph-icon icon/size-md",
+    "avatar": "nph-avatar sm",
+    "dot": "space/inline square, radius/full, in an icon/size-md box; status/* or color/muted-foreground",
+    "active": "color/accent with color/accent-foreground",
+    "selected": "color/primary-surface with the check, icon/size-sm in color/primary",
+    "disabled": "state/disabled-opacity"
+  },
+  "ai_hints": [
+    "Write nph-option only as a child of the list that owns it, such as nph-select.",
+    "Give every option of a list the same start.",
+    "With start=dot, write the state in the label: the color only reinforces it.",
+    "Set value when the label is translated or may change; the form reads the value.",
+    "Never set selected or active by hand: set the value of the list."
+  ],
+  "accessibility": {
+    "semantics": "Role option through ElementInternals, with aria-selected and aria-disabled; it writes no ARIA attribute on its own host.",
+    "accessible_name": "The label text and the secondary text. The start, the dot and the check are hidden from the screen reader.",
+    "keyboard": [
+      "not_applicable: the option never takes the focus; the list that owns it handles the keyboard."
+    ],
+    "focus": "not_applicable: the focus stays on the trigger of the list, which points to the active option with aria-activedescendant.",
+    "contrast": "The label meets 4.5:1 on color/popover, color/accent and color/primary-surface, in light and dark mode; the check on color/primary-surface measures 4.78:1 and 6.26:1 (D8).",
+    "color_alternative": "The selected option has the check besides the background; the dot goes with the written state."
+  },
+  "invalid_combinations": [
+    "A start outside none, icon, avatar and dot — the option draws nothing.",
+    "A status outside the six — the option draws nothing.",
+    "An icon outside the core names — the option draws nothing.",
+    "An option on its own, outside a list — it has no role there."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-select",
+      "nph-icon",
+      "nph-avatar"
+    ],
+    "parents": [
+      "nph-select"
+    ],
+    "children": [
+      "nph-icon",
+      "nph-avatar"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "Using the option on its own, outside a list.",
+    "Putting a checkbox on the option.",
+    "Mixing options with and without a start in the same list.",
+    "Using the status dot without a written state.",
+    "Setting selected or active by hand."
+  ],
+  "sources": {
+    "design_md": "design.md, color/popover-foreground, color/accent, color/accent-foreground, color/primary-surface, color/primary, color/muted-foreground, status/*, text/label-md, radius/inner, radius/full, icon/size-md and state/disabled-opacity",
+    "decision": "P91 — API and semantics of nph-select and nph-option",
+    "tests": "src/components/nph-option/nph-option.test.ts and src/components/nph-select/nph-select.test.ts",
+    "usage_evidence": "the Option section of the nph-select Docs page",
+    "storybook": "src/components/nph-select/nph-select.stories.ts (the Option story) and nph-select.docs.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, option 1357:136 of the nph-select set, in the nph-select frame 1357:160"
+  }
+}
