@@ -1,0 +1,135 @@
+/**
+ * Internal style of `nph-input-otp`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the
+ * shadow root and are not API.
+ *
+ * No literal design value goes in here. Written box relations: `transparent` (the
+ * native input lies over the cells and draws nothing: no text, caret, background or
+ * selection of its own), `absolute` with `inset: 0` and `100%` (the input covers the row of cells,
+ * so a click anywhere reaches it), zeros in `box-shadow` (the focus halo is a spread
+ * outside the cell, out of the layout), and `inset(50%)` in `clip-path` (the
+ * description is hidden by clipping, never by `display: none`, which the browser does
+ * not read).
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `hidden` still hides it: an author `display` would win over the browser's. */
+:host([data-nph-rendered]:not([hidden])) {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* Disabled, by the attribute or by a disabled fieldset: the whole field loses opacity. */
+:host(:disabled) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+.field {
+  position: relative;
+  display: inline-flex;
+  font-family: var(--nph-text-code-font-family);
+  font-size: var(--nph-text-code-font-size);
+  font-weight: var(--nph-text-code-font-weight);
+  line-height: var(--nph-text-code-line-height);
+  letter-spacing: var(--nph-text-code-letter-spacing);
+}
+
+/* The row of cells, `space/inline` apart. */
+.cells {
+  display: inline-flex;
+  gap: var(--nph-space-inline);
+}
+
+/* The cell: square, with no inner padding, the character in the middle. */
+.cell {
+  --_size: var(--nph-control-height-default);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--_size);
+  block-size: var(--_size);
+  border: var(--nph-border-width) solid var(--nph-color-input);
+  border-radius: var(--nph-radius-control);
+  background-color: var(--nph-color-background);
+  color: var(--nph-color-foreground);
+}
+
+:host([size='large']) .cell {
+  --_size: var(--nph-control-height-large);
+}
+
+/*
+ * Hover: the whole field is one target, so every cell answers. Error and disabled keep their
+ * border, and the active cell keeps its focus border.
+ */
+:host(:hover:not(:disabled):not([invalid])) .cell:not([data-active]) {
+  border-color: var(--nph-color-input-hover);
+}
+
+/* Error: every cell takes the error border. Disabled wins: the border stays the resting one. */
+:host([invalid]:not(:disabled)) .cell {
+  border-color: var(--nph-status-error);
+}
+
+/* The active cell, where the caret is: focus border and a halo outside, out of the layout. */
+.cell[data-active] {
+  border-color: var(--nph-focus-border);
+  box-shadow: 0 0 0 var(--nph-focus-ring-width) var(--nph-focus-halo);
+}
+
+:host([invalid]) .cell[data-active] {
+  border-color: var(--nph-status-error);
+  box-shadow: 0 0 0 var(--nph-focus-ring-width) var(--nph-focus-halo-error);
+}
+
+:host(:disabled) .cell {
+  background-color: var(--nph-color-muted);
+}
+
+/* The native input: over the cells, the same size, drawing nothing of its own. */
+.native {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: transparent;
+  caret-color: transparent;
+  font: inherit;
+  outline: none;
+  cursor: text;
+}
+
+.native::selection {
+  background: transparent;
+  color: transparent;
+}
+
+.native:disabled {
+  cursor: default;
+}
+
+/*
+ * The description of the field: read by the screen reader, never drawn. `inset: 0` keeps
+ * it inside the field, so a long text adds no scroll, as in `nph-input`.
+ */
+.description {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  pointer-events: none;
+}
