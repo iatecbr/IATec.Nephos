@@ -27,7 +27,7 @@ See the commits on the branch.
   `test:operacao`, `build-storybook`, `build:lib`, `test:package`, `test:naming`; `git diff --check`.
 
 ## Result
-In review in pull request 115, synced with `v/5.0.0` at `1d14864`, with DSA-41, DSA-43 and DSA-47 merged.
+In review in pull request 115, synced with `v/5.0.0` at `e2f7841`, with DSA-38, DSA-41, DSA-43 and DSA-47 merged.
 The rule of Q1 is in `nph-button.css` (`:host(:not([data-nph-icon-only])) .control { flex: 1 }`),
 with scope tests in the button, and the stacked test of the dialog is on. Every proof passes except
 `test:naming`, which fails only in files of the base: `scripts/test-package.mjs:180` and the records
