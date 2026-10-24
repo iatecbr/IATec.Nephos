@@ -5,8 +5,8 @@
   "phase": "F4",
   "approved_order": 440,
   "owner": "elvys",
-  "state": "ready",
-  "piece": "nph-icon-button",
+  "state": "done",
+  "piece": "nph-button",
   "dependencies": [],
   "gates": [
     {
@@ -22,18 +22,33 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and the nph-button spec pass the proof commands and are merged into v/5.0.0, after DSA-42 is done.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-43/review-and-merge-2026-10-23.md",
+      "result": "passed",
+      "verified_at": "2026-10-23",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D1",
+      "question": "The evidence lists three demonstrations of what not to do: icon only on an action with a consequence (danger), an icon-only button without a tooltip (which the code does not let exist) and two buttons told apart only by color (info and warn). Do they go on the Docs page as negative examples, or stay only in the spec? Until the answer, they stay only in the spec. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D2",
+      "question": "With keyboard focus on an icon-only button the balloon opens at once (DSA-48, rule 1), so inside a dialog the first Esc closes the balloon and not the dialog (P77 item 4); the second Esc closes the dialog. The code keeps it and records it as a known limit of P86. Does Indiane accept it? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    }
+  ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-43/documentacao-figma-aceita-2026-10-20.md"
+    "docs/operacao/evidencias/DSA-43/documentacao-figma-aceita-2026-10-20.md",
+    "docs/operacao/evidencias/DSA-43/review-and-merge-2026-10-23.md"
   ],
   "decision_refs": [
+    "docs/decisoes-tecnicas.md#p86",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane wants square and circular shapes, disabled follows the Nephos opacity, outline stays, and every icon-only button carries a tooltip; visual, QA and documentation accepted",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, icon only is allowed in the actions column of a table; the Figma set is named nph-icon-button; textual audit approved"
@@ -46,9 +61,13 @@
     "excerpt": null,
     "converted_decision": "The nph-icon-button documentation board (2122:1591) was accepted as the specification of the icon-only nph-button. COMPONENT_SET 498:15671, with the properties tipo, enfase, size, state, forma and the icon. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "claude/dsa-43-nph-icon-button-91e130",
+    "commit": "cbe122faae16c3906d920e4e1d804b5e1629f9ae",
+    "pr": "103"
+  },
   "context": null,
-  "updated_at": "2026-10-22"
+  "updated_at": "2026-10-23"
 }
 ```
 
@@ -79,8 +98,9 @@ stays the `nph-button` without text: no new tag.
 | Spec covers text and icon-only | Spec gains the shape, the tooltip rule and the actions column of a table |
 | Spec forbids icon only on an action with consequence (in the summary, the `danger` row, the `severity` table and the do-not list) | Icon only on an action with consequence, such as delete, is allowed only in the actions column of a table, with the tooltip giving the name; elsewhere, write the text |
 
-The attribute name of the shape is part of the code API (English, P64) and is
-chosen in the pull request. The shape changes neither the size nor the touch
+The attribute name of the shape is part of the code API (English, P64): it is
+`shape`, `square` or `circular` (P86). The task `piece` is `nph-button`, the tag
+and the spec of the code; `nph-icon-button` is the name of the Figma set. The shape changes neither the size nor the touch
 target.
 
 ## Why it is ready

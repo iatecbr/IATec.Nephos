@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 390,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "done",
   "piece": "nph-textarea",
   "dependencies": ["DSA-13", "DSA-28"],
   "gates": [
@@ -22,24 +22,48 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-38/review-and-merge-2026-10-24.md",
+      "result": "passed",
+      "verified_at": "2026-10-24",
+      "verified_by": "claude-code"
     }
   ],
-  "blockers": [
+  "blockers": [],
+  "pending_decisions": [
     {
-      "id": "B1",
-      "what_blocks": "The required example with the counter in the support line needs the nph-field (DSA-28), which is not done yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-28 is done.",
-      "opened_at": "2026-10-16"
+      "id": "D-1",
+      "question": "The evidence does not name the inner padding of the box. The code uses `space/control-padding` on the sides, as `nph-input`, and `space/inline` at the top and bottom: 76 = 3 lines of `text/body-md` (20) + 2 x 8, which is what the `use` of `layout/textarea-min-height` describes. The footer keeps the same `space/inline` to the bottom border. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D-2",
+      "question": "The frame has no `leitura` state with focus. The code keeps the focus border and halo in `readonly`, because the field stays focusable (WCAG 2.4.7). It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence places the footer `space/stack` below the text and the actions `space/inline` apart, but not their alignment. The code puts the footer inside the box, the counter at the start and the actions at the end; a counter alone stays at the start. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D-4",
+      "question": "There is no width token for the textarea. Outside `nph-field`, the code uses `layout/input-width` by default, as `nph-input`, with no minimum; the parent may stretch it. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D-5",
+      "question": "With the piece disabled, the evidence says the footer actions are disabled too and the whole piece takes `state/disabled-opacity`. It does not say whether the actions keep their own disabled opacity inside the faded piece. The code keeps both, so a disabled action reads fainter than the field; `nph-field` avoided that sum for its control (P83). It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
     }
   ],
-  "pending_decisions": [],
   "evidence": [
-    "docs/operacao/evidencias/DSA-38/documentacao-figma-aceita-2026-10-16.md"
+    "docs/operacao/evidencias/DSA-38/documentacao-figma-aceita-2026-10-16.md",
+    "docs/operacao/evidencias/DSA-38/review-and-merge-2026-10-24.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -54,9 +78,13 @@
     "excerpt": null,
     "converted_decision": "The nph-textarea frame (1632:24), documentation 1922:642, was accepted as the API and behavior specification of the nph-textarea. COMPONENT_SET 1632:22. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "claude/dsa-38-nph-textarea-4ada6c",
+    "commit": "f4e98c64f06e7cfd274c8a55ce6db37b729c6aa9",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/111"
+  },
   "context": null,
-  "updated_at": "2026-10-16"
+  "updated_at": "2026-10-24"
 }
 ```
 
@@ -72,9 +100,18 @@ In the evidence of the `figma-docs-accepted` gate:
 carries the Figma documentation converted to text. There is no need to open Figma.
 
 ## Pending decisions
-None. Value, form participation, events, keyboard and the way the counter reads
-the text are technical proposals for the PR. The two height tokens are already on
-`v/5.0.0`.
+Value, form participation, events, keyboard and the way the counter reads the text
+are technical proposals for the PR (P93). The two height tokens are already on
+`v/5.0.0`. Five points remain for Indiane; the code follows the stated default
+meanwhile, and the answer only adjusts one rule each.
+
+| ID | What the evidence gives | What is missing | What the code does meanwhile |
+|---|---|---|---|
+| D-1 | The heights include the padding of the field. | The inner padding of the box. | `space/control-padding` on the sides, `space/inline` at the top and bottom. |
+| D-2 | `leitura` has no hover change and no error. | Focus in `leitura`. | The focus border and halo stay. |
+| D-3 | The footer is `space/stack` below the text; actions `space/inline` apart. | The alignment inside the footer. | Footer inside the box; counter at the start, actions at the end. |
+| D-4 | No width. | The default width outside `nph-field`. | `layout/input-width`, as `nph-input`. |
+| D-5 | `disabled`: the actions are disabled; the piece at `state/disabled-opacity`. | Whether the actions keep their own disabled opacity inside the faded piece. | Both apply, so a disabled action reads fainter than the field. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
@@ -86,7 +123,8 @@ tests, stories and spec pass the proof commands in
   `size=default`.
 - The field sits inside `nph-field` (DSA-28), which gives the label, the help
   text, the error message and the support-line counter (property `contador`).
-  The required example "Description in a form" needs it, so the task waits for it.
+  The required example "Description in a form" needs it; DSA-28 is `done`, so B1
+  is closed and the task is `ready`.
 
 ## What this task does not do
 It does not create a token or change a token value. It does not bring a handle to

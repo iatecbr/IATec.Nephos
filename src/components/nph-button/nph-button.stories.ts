@@ -3,8 +3,10 @@
  *
  * They prove the matrix accepted in Figma (frame `1197:5449`, sets `461:13009` and
  * `498:15671`): the severity and emphasis pairs (B1), the three sizes, the start
- * and end icons, the icon only and the disabled and loading states. Hover and focus
- * are interaction states: they show up by moving the mouse and navigating with Tab.
+ * and end icons, the icon only and the disabled and loading states. They also prove
+ * P86: the square and circular shapes of the icon-only button and its tooltip. Hover
+ * and focus are interaction states: they show up by moving the mouse and navigating
+ * with Tab.
  * Each page opens with what it proves, and the matrices name their rows and
  * columns by attribute, as on the Docs page; a pair that does not exist leaves its
  * cell empty. The example text of the buttons comes from the language dictionary,
@@ -24,7 +26,7 @@ import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
 import './nph-button';
-import { NPH_BUTTON_EMPHASES, NPH_BUTTON_SEVERITIES, NPH_BUTTON_SIZES } from './nph-button';
+import { NPH_BUTTON_EMPHASES, NPH_BUTTON_SEVERITIES, NPH_BUTTON_SHAPES, NPH_BUTTON_SIZES } from './nph-button';
 import type { NphButtonEmphasis, NphButtonSeverity } from './nph-button';
 
 const meta: Meta = {
@@ -109,7 +111,7 @@ export const Sizes: Story = {
   },
 };
 
-/** Start icon, end icon and both together (B6), at icon/size-sm. */
+/** Start icon, end icon and both together (B6), at icon/size-sm; on hover, the icons turn solid (P88). */
 export const Icons: Story = {
   name: 'Icons',
   render: (_args, context: GlobalsContext) => {
@@ -163,4 +165,50 @@ export const Loading: Story = {
         </div>
       </div>`,
     ),
+};
+
+/** Square and circular icon-only buttons in each size and pair (P86): the size stays; Tab shows the focus. */
+export const Shapes: Story = {
+  name: 'Shapes',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return validationPage(
+      context,
+      page('shapes'),
+      html`<div style=${stack}>
+        ${NPH_BUTTON_SHAPES.map(
+          (shape) => html`<div style=${row}>
+            ${NPH_BUTTON_SIZES.map(
+              (size) => html`<nph-button size=${size} shape=${shape} icon-start="plus" label=${v.add}></nph-button>`,
+            )}
+            <code>shape: ${shape}</code>
+          </div>`,
+        )}
+        ${pairMatrix(
+          context,
+          'shapes',
+          (severity, emphasis) =>
+            html`<nph-button severity=${severity} emphasis=${emphasis} size="default" shape="circular" icon-start="plus" label=${v.add}></nph-button>`,
+        )}
+      </div>`,
+    );
+  },
+};
+
+/** The tooltip of the icon-only button (P86): Tab opens it at once, the pointer after the wait; disabled has none. */
+export const Tooltip: Story = {
+  name: 'Tooltip',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return validationPage(
+      context,
+      page('tooltip'),
+      html`<div style=${row}>
+        <nph-button size="default" severity="secondary" emphasis="ghost" icon-start="xmark" label=${v.close}></nph-button>
+        <nph-button size="default" shape="circular" icon-start="plus" label=${v.add}></nph-button>
+        <nph-button size="default" icon-start="plus" label=${v.add} loading></nph-button>
+        <nph-button size="default" icon-start="plus" label=${v.add} disabled></nph-button>
+      </div>`,
+    );
+  },
 };

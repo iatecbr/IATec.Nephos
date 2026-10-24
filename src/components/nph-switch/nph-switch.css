@@ -1,0 +1,211 @@
+/**
+ * Internal style of `nph-switch`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the
+ * shadow root and are not API.
+ *
+ * No literal design value goes in here. Written box relations: `transparent` (the off
+ * track has no outline and the inner button has no surface), `0` and `none` (reset of
+ * the native button and the resting position of the knob), the integer factors in
+ * `calc()` (the knob travel and the halo outside the track) and `inset` with zeros in
+ * `box-shadow` (the outline is a stroke inside the track, as in `nph-togglebutton`).
+ * `left` and `top` are physical on purpose: the evidence places the off knob on the left
+ * and the on knob on the right (P79, RTL is a known limit).
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  max-inline-size: 100%;
+  vertical-align: middle;
+}
+
+/* Disabled, by the property or by a disabled fieldset: the whole piece loses opacity, in the resting colors. */
+:host([data-nph-inactive]) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/*
+ * The native button is the whole piece: the track and, after it, the label. The whole
+ * piece is the touch target. The track sits at the top, aligned with the first line of a
+ * label that wraps (D1).
+ */
+.control {
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nph-space-inline);
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  text-align: start;
+  outline: none;
+}
+
+.text {
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+}
+
+/*
+ * The track: switch/track-width by icon/size-lg, fully rounded. Off it is color/input with
+ * no outline; on it is color/primary with a color/primary-border outline drawn inside (D4).
+ */
+.track {
+  --_fill: var(--nph-color-input);
+  --_outline: transparent;
+  --_focus-border: var(--nph-focus-border);
+  --_focus-halo: var(--nph-focus-halo);
+  --_travel: calc(var(--nph-switch-track-width) - var(--nph-icon-size-sm) - 2 * var(--nph-space-inline-tight));
+
+  position: relative;
+  box-sizing: border-box;
+  flex: none;
+  inline-size: var(--nph-switch-track-width);
+  block-size: var(--nph-icon-size-lg);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--_fill);
+  box-shadow: inset 0 0 0 var(--nph-border-width) var(--_outline);
+}
+
+:host([checked]) .track {
+  --_fill: var(--nph-color-primary);
+  --_outline: var(--nph-color-primary-border);
+}
+
+/* Hover (only when the piece responds), over the whole piece: the fill goes one step up. */
+.control:not(:disabled):hover .track {
+  --_fill: var(--nph-color-input-hover);
+}
+
+:host([checked]) .control:not(:disabled):hover .track {
+  --_fill: var(--nph-color-primary-hover);
+}
+
+/* Invalid: error outline, on or off. Disabled wins: the outline stays the resting one. */
+:host([invalid]:not([data-nph-inactive])) .track {
+  --_outline: var(--nph-status-error);
+  --_focus-border: var(--nph-status-error);
+  --_focus-halo: var(--nph-focus-halo-error);
+}
+
+/*
+ * The knob: a circle in icon/size-sm, space/inline-tight from the track edge. Two knobs
+ * share the place: the off one in color/background and the on one in
+ * color/primary-foreground, which fades in over it.
+ */
+.knob {
+  position: absolute;
+  top: var(--nph-space-inline-tight);
+  left: var(--nph-space-inline-tight);
+  box-sizing: border-box;
+  inline-size: var(--nph-icon-size-sm);
+  block-size: var(--nph-icon-size-sm);
+  border-radius: var(--nph-radius-full);
+  transform: none;
+}
+
+.knob-off {
+  background-color: var(--nph-color-background);
+}
+
+.knob-on {
+  background-color: var(--nph-color-primary-foreground);
+  opacity: 0;
+}
+
+/* On: the knob goes right, by transform, never by layout position (D3). */
+:host([checked]) .knob {
+  transform: translateX(var(--_travel));
+}
+
+:host([checked]) .knob-on {
+  opacity: 1;
+}
+
+/*
+ * Focus: keyboard only, on the track. The track outline turns focus/border and a halo
+ * focus/ring-width in focus/halo shows outside it, both fully rounded (D2). With an
+ * error, status/error and focus/halo-error. The label gets no ring.
+ */
+.control:focus-visible .track::before,
+.control:focus-visible .track::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  border-radius: var(--nph-radius-full);
+  pointer-events: none;
+}
+
+.control:focus-visible .track::before {
+  inset: 0;
+  border: var(--nph-border-width) solid var(--_focus-border);
+}
+
+.control:focus-visible .track::after {
+  inset: calc(-1 * var(--nph-focus-ring-width));
+  border: var(--nph-focus-ring-width) solid var(--_focus-halo);
+}
+
+/*
+ * Motion: the change between off and on, both ways, always as the PAIR
+ * `motion/state-duration` and `motion/state-easing` (D3). The knob slides by transform;
+ * the on knob fades in over the off one, which stays opaque, so the knob never dims.
+ */
+.track {
+  transition-property: background-color, box-shadow;
+  transition-duration: var(--nph-motion-state-duration);
+  transition-timing-function: var(--nph-motion-state-easing);
+}
+
+.knob {
+  transition-property: transform, opacity;
+  transition-duration: var(--nph-motion-state-duration);
+  transition-timing-function: var(--nph-motion-state-easing);
+}
+
+/*
+ * Reduced motion: the knob does not slide; it changes side by opacity. The off knob stays
+ * on the left and fades out, the on knob stays on the right and fades in. The evidence
+ * (D3) asks for `core/duration/100`. Components never consume core tokens, so this uses
+ * the semantic alias `motion/hover-duration`, the same value (100 ms), as P73 does. The
+ * easing stays, and the colors still change: reducing motion does not remove the feedback.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+
+  .knob {
+    transition-property: opacity;
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+
+  .knob-off,
+  :host([checked]) .knob-off {
+    transform: none;
+  }
+
+  .knob-on,
+  :host([checked]) .knob-on {
+    transform: translateX(var(--_travel));
+  }
+
+  :host([checked]) .knob-off {
+    opacity: 0;
+  }
+}

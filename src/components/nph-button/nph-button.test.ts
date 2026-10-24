@@ -1,23 +1,28 @@
 /**
- * Tests of `nph-button` (P68), in a real browser (P21, item 5): resolved color,
- * real hover, keyboard focus and measurements only exist where there is layout.
+ * Tests of `nph-button` (P68, amended by P86), in a real browser (P21, item 5):
+ * resolved color, real hover, keyboard focus and measurements only exist where there
+ * is layout. P86 adds the shape of the icon-only button and its built-in tooltip,
+ * whose name the browser itself computes, read through the accessibility tree. P88 adds
+ * the solid icon in hover-active, in the button with text.
  *
  * Color schemes are switched at the root (`data-nph-color-scheme` on `html`).
  * In a part of the screen with another brand and another scheme, `status/on-solid` and
  * `focus/halo` resolve the local value (P67).
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
-import { userEvent } from 'vitest/browser';
+import { cdp, userEvent } from 'vitest/browser';
 
 import '@fontsource/noto-sans/latin-500.css';
 import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import componentCss from './nph-button.css?raw';
-import { NPH_BUTTON_EMPHASES, NPH_BUTTON_SEVERITIES, NPH_BUTTON_SIZES, NphButton } from './nph-button';
-import type { NphButtonEmphasis, NphButtonSeverity, NphButtonSize } from './nph-button';
+import { NPH_BUTTON_EMPHASES, NPH_BUTTON_SEVERITIES, NPH_BUTTON_SHAPES, NPH_BUTTON_SIZES, NphButton } from './nph-button';
+import type { NphButtonEmphasis, NphButtonSeverity, NphButtonShape, NphButtonSize } from './nph-button';
+import type { NphIcon } from '../nph-icon/nph-icon';
+import type { NphTooltip } from '../nph-tooltip/nph-tooltip';
 
 type Props = Partial<
-  Pick<NphButton, 'severity' | 'emphasis' | 'size' | 'text' | 'iconStart' | 'iconEnd' | 'label' | 'disabled' | 'loading'>
+  Pick<NphButton, 'severity' | 'emphasis' | 'size' | 'text' | 'iconStart' | 'iconEnd' | 'label' | 'disabled' | 'loading' | 'shape'>
 >;
 
 /** Tokens of each pair, read variant by variant in `461:13009`. */
@@ -144,6 +149,80 @@ function resolvedIn(parent: HTMLElement, property: string, token: string): strin
   return value;
 }
 
+/** The balloon the icon-only button renders next to its native button. */
+function tooltipOf(element: NphButton): NphTooltip {
+  const tooltip = element.shadowRoot?.querySelector('nph-tooltip');
+  if (!tooltip) throw new Error('no nph-tooltip');
+  return tooltip;
+}
+
+const isShown = (tooltip: NphTooltip): boolean =>
+  tooltip.shadowRoot?.querySelector('.bubble')?.matches(':popover-open') ?? false;
+
+const pause = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Tab from a field placed before the button, so the focus is the keyboard's. A real Tab
+ * key: `userEvent.tab()` moves the focus without a key event in the page.
+ */
+async function tabInto(element: NphButton): Promise<void> {
+  const before = document.createElement('input');
+  element.before(before);
+  before.focus();
+  await userEvent.keyboard('{Tab}');
+  expect(element.shadowRoot?.activeElement).toBe(control(element));
+}
+
+interface AxNode {
+  name?: { value?: unknown };
+  description?: { value?: unknown };
+}
+
+/**
+ * The name and the description the browser itself computes, from its accessibility
+ * tree, as in the tests of `nph-tooltip`: a DOM library does not follow the
+ * `aria-labelledby` into the shadow root of the tooltip.
+ */
+async function axNode(element: Element): Promise<AxNode | undefined> {
+  const session = cdp();
+  await session.send('Accessibility.enable');
+  element.setAttribute('data-ax-probe', '');
+  try {
+    /* The tests run in a frame: look the element up through the DOM domain, piercing into it. */
+    await session.send('DOM.getDocument', { depth: -1, pierce: true });
+    const { searchId, resultCount } = await session.send('DOM.performSearch', { query: '[data-ax-probe]' });
+    expect(resultCount).toBe(1);
+    const { nodeIds } = await session.send('DOM.getSearchResults', { searchId, fromIndex: 0, toIndex: 1 });
+    await session.send('DOM.discardSearchResults', { searchId });
+    const { nodes } = await session.send('Accessibility.getPartialAXTree', { nodeId: nodeIds[0] as number, fetchRelatives: false });
+    return nodes[0] as AxNode | undefined;
+  } finally {
+    element.removeAttribute('data-ax-probe');
+  }
+}
+
+async function axName(element: Element): Promise<string> {
+  return String((await axNode(element))?.name?.value ?? '');
+}
+
+async function axDescription(element: Element): Promise<string> {
+  return String((await axNode(element))?.description?.value ?? '');
+}
+
+/**
+ * The icons the button draws, after they render: with text, each icon is a light and
+ * solid pair and the CSS hides the one of the other state (P88).
+ */
+async function visibleIcons(button: HTMLButtonElement): Promise<NphIcon[]> {
+  const icons = [...button.querySelectorAll('nph-icon')];
+  await Promise.all(icons.map((icon) => icon.updateComplete));
+  return icons.filter((icon) => getComputedStyle(icon).display !== 'none');
+}
+
+async function visibleVariants(button: HTMLButtonElement): Promise<string[]> {
+  return (await visibleIcons(button)).map((icon) => icon.getAttribute('variant') ?? 'light');
+}
+
 /** Outline stroke color, taken from the `inset` `box-shadow`. */
 function insetColor(button: HTMLButtonElement): string {
   const shadow = getComputedStyle(button).boxShadow;
@@ -155,9 +234,9 @@ describe('registration and API', () => {
     expect(customElements.get('nph-button')).toBe(NphButton);
   });
 
-  it('the public API is exactly the one in P68', () => {
+  it('the public API is exactly the one in P68 and P86', () => {
     const declared = [...(NphButton as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    expect(declared).toEqual(['severity', 'emphasis', 'size', 'text', 'iconStart', 'iconEnd', 'label', 'disabled', 'loading']);
+    expect(declared).toEqual(['severity', 'emphasis', 'size', 'text', 'iconStart', 'iconEnd', 'label', 'disabled', 'loading', 'shape']);
   });
 
   it('the defaults are primary, solid and default (size default by decision of 05-10-2026)', async () => {
@@ -166,12 +245,15 @@ describe('registration and API', () => {
     expect(getComputedStyle(control(element)).height).toBe(resolved('height', '--nph-control-height-default'));
     expect(element.disabled).toBe(false);
     expect(element.loading).toBe(false);
+    expect(element.shape).toBe('square');
+    expect(element.getAttribute('shape')).toBe('square');
   });
 
   it('the values are the Figma ones, nothing more', () => {
     expect([...NPH_BUTTON_SEVERITIES]).toEqual(['primary', 'secondary', 'info', 'warn', 'help', 'danger', 'success']);
     expect([...NPH_BUTTON_EMPHASES]).toEqual(['solid', 'outline', 'light', 'ghost']);
     expect([...NPH_BUTTON_SIZES]).toEqual(['compact', 'default', 'large']);
+    expect([...NPH_BUTTON_SHAPES]).toEqual(['square', 'circular']);
   });
 
   it('the icon attributes are icon-start and icon-end', async () => {
@@ -222,9 +304,10 @@ describe('sizes and anatomy', () => {
       expect(style.fontSize).toBe(resolved('font-size', '--nph-text-label-md-font-size'));
       expect(style.fontWeight).toBe(resolved('font-weight', '--nph-text-label-md-font-weight'));
       expect(style.whiteSpace).toBe('nowrap');
-      const icons = [...button.querySelectorAll('nph-icon')];
+      const icons = await visibleIcons(button);
       expect(icons.map((icon) => icon.getAttribute('size'))).toEqual(['sm', 'sm']);
-      expect([...button.children].map((node) => node.tagName.toLowerCase())).toEqual(['nph-icon', 'span', 'nph-icon']);
+      const drawn = [...button.children].filter((node) => getComputedStyle(node).display !== 'none');
+      expect(drawn.map((node) => node.tagName.toLowerCase())).toEqual(['nph-icon', 'span', 'nph-icon']);
     });
 
     it(`${size}: icon only is square and the icon follows the box`, async () => {
@@ -388,6 +471,101 @@ describe('loading', () => {
   });
 });
 
+describe('solid icon in hover-active (P88)', () => {
+  const ICONS = { text: 'Save', iconStart: 'plus', iconEnd: 'chevron-down' } as const;
+
+  it('at rest, the start and end icons are light', async () => {
+    const element = await mount(ICONS);
+    expect(await visibleVariants(control(element))).toEqual(['light', 'light']);
+  });
+
+  it('on hover, they turn solid, with the same names and size sm', async () => {
+    const element = await mount(ICONS);
+    const button = control(element);
+    await userEvent.hover(button);
+    const icons = await visibleIcons(button);
+    expect(icons.map((icon) => icon.getAttribute('variant'))).toEqual(['solid', 'solid']);
+    expect(icons.map((icon) => icon.getAttribute('name'))).toEqual(['plus', 'chevron-down']);
+    expect(icons.map((icon) => icon.getAttribute('size'))).toEqual(['sm', 'sm']);
+    await userEvent.unhover(button);
+    expect(await visibleVariants(button)).toEqual(['light', 'light']);
+  });
+
+  it('while pressed with the keyboard, they turn solid', async () => {
+    const element = await mount(ICONS);
+    await tabInto(element);
+    await userEvent.keyboard('{Space>}');
+    try {
+      expect(control(element).matches(':active')).toBe(true);
+      expect(await visibleVariants(control(element))).toEqual(['solid', 'solid']);
+    } finally {
+      await userEvent.keyboard('{/Space}');
+    }
+  });
+
+  it('keyboard focus without hover keeps them light', async () => {
+    const element = await mount(ICONS);
+    await tabInto(element);
+    expect(control(element).matches(':focus-visible')).toBe(true);
+    expect(await visibleVariants(control(element))).toEqual(['light', 'light']);
+  });
+
+  it('disabled, on hover, keeps them light', async () => {
+    const element = await mount({ ...ICONS, disabled: true });
+    await userEvent.hover(element, { force: true });
+    expect(await visibleVariants(control(element))).toEqual(['light', 'light']);
+  });
+
+  it('loading, on hover, draws no icon', async () => {
+    const element = await mount({ ...ICONS, loading: true });
+    await userEvent.hover(control(element));
+    expect(control(element).querySelector('nph-icon')).toBeNull();
+  });
+
+  it('icon only, on hover, keeps its single icon light (D1)', async () => {
+    const element = await mount({ iconStart: 'plus', label: 'Add' });
+    const button = control(element);
+    await userEvent.hover(button);
+    expect(button.querySelectorAll('nph-icon')).toHaveLength(1);
+    expect(await visibleVariants(button)).toEqual(['light']);
+  });
+
+  for (const [severity, emphasis] of [
+    ['primary', 'solid'],
+    ['info', 'solid'],
+    ['primary', 'light'],
+    ['danger', 'outline'],
+  ] as const) {
+    it(`${severity} ${emphasis}: the solid icon has the hover text color of the pair`, async () => {
+      const pair = PAIRS.find(([s, e]) => s === severity && e === emphasis)?.[2];
+      if (!pair) throw new Error('no pair');
+      const element = await mount({ severity, emphasis, ...ICONS });
+      const button = control(element);
+      await userEvent.hover(button);
+      const expected = resolved('color', pair.fgHover ?? pair.fg);
+      expect((await visibleIcons(button)).map((icon) => getComputedStyle(icon).color)).toEqual([expected, expected]);
+    });
+  }
+
+  it('the width stays and the name stays the text', async () => {
+    const element = await mount(ICONS);
+    const button = control(element);
+    await visibleIcons(button);
+    const rest = button.getBoundingClientRect().width;
+    await userEvent.hover(button);
+    await visibleIcons(button);
+    expect(button.getBoundingClientRect().width).toBe(rest);
+    expect(await axName(button)).toBe('Save');
+  });
+
+  it('all four icons are decorative', async () => {
+    const element = await mount(ICONS);
+    const icons = [...control(element).querySelectorAll('nph-icon')];
+    await Promise.all(icons.map((icon) => icon.updateComplete));
+    expect(icons.map((icon) => icon.getAttribute('aria-hidden'))).toEqual(['true', 'true', 'true', 'true']);
+  });
+});
+
 describe('accessible name', () => {
   it('with text, the name is the text and there is no aria-label', async () => {
     const element = await mount({ text: 'Save', label: 'ignored' });
@@ -432,6 +610,8 @@ describe('mount and invalid input', () => {
     ['icon outside the core', { text: 'Save', iconStart: 'not-a-core-name' }, 1],
     ['icon only without label', { iconStart: 'plus' }, 1],
     ['two icons without text', { iconStart: 'plus', iconEnd: 'xmark', label: 'More' }, 1],
+    ['shape outside the list', { shape: 'round' as NphButtonShape, iconStart: 'plus', label: 'Add' }, 1],
+    ['circular with text (P86)', { shape: 'circular', text: 'Save' }, 1],
     ['accumulates the causes', { severity: 'neutral' as NphButtonSeverity, size: 'small' as NphButtonSize, iconStart: 'not-a-core-name', text: 'Save' }, 3],
   ];
   for (const [name, props, count] of cases) {
@@ -443,6 +623,227 @@ describe('mount and invalid input', () => {
       expect(element.getBoundingClientRect().width).toBe(0);
     });
   }
+});
+
+describe('shape of the icon-only button (P86)', () => {
+  for (const size of NPH_BUTTON_SIZES) {
+    it(`${size}: square on radius/control and circular on radius/full, at the same size`, async () => {
+      const height = Number.parseFloat(resolved('height', HEIGHT[size]));
+      const square = await mount({ size, iconStart: 'plus', label: 'Add' });
+      const circular = await mount({ size, iconStart: 'plus', label: 'Add', shape: 'circular' });
+      expect(getComputedStyle(control(square)).borderTopLeftRadius).toBe(
+        resolved('border-top-left-radius', '--nph-radius-control'),
+      );
+      expect(getComputedStyle(control(circular)).borderTopLeftRadius).toBe(
+        resolved('border-top-left-radius', '--nph-radius-full'),
+      );
+      for (const element of [square, circular]) {
+        const box = control(element).getBoundingClientRect();
+        expect([box.width, box.height]).toEqual([height, height]);
+      }
+      expect(circular.getAttribute('shape')).toBe('circular');
+    });
+  }
+
+  it('circular: Tab draws the focus border and halo on radius/full, outside the box', async () => {
+    const element = await mount({ size: 'default', iconStart: 'plus', label: 'Add', shape: 'circular' });
+    await tabInto(element);
+    const button = control(element);
+    const border = getComputedStyle(button, '::before');
+    const halo = getComputedStyle(button, '::after');
+    const full = resolved('border-top-left-radius', '--nph-radius-full');
+    expect([border.borderTopLeftRadius, halo.borderTopLeftRadius]).toEqual([full, full]);
+    expect(border.borderTopColor).toBe(resolved('color', '--nph-color-primary'));
+    expect(halo.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
+    const box = button.getBoundingClientRect();
+    const borderWidth = Number.parseFloat(resolved('width', '--nph-border-width'));
+    const ringWidth = Number.parseFloat(resolved('width', '--nph-focus-ring-width'));
+    expect(Number.parseFloat(halo.width)).toBeCloseTo(box.width + 2 * (borderWidth + ringWidth), 2);
+  });
+
+  it('circular outline: the inside border follows the corners at rest and on hover', async () => {
+    const element = await mount({ emphasis: 'outline', iconStart: 'plus', label: 'Add', shape: 'circular' });
+    const button = control(element);
+    const full = resolved('border-top-left-radius', '--nph-radius-full');
+    expect(insetColor(button)).toBe(resolved('color', '--nph-color-primary-on-surface'));
+    await userEvent.hover(button);
+    expect(getComputedStyle(button).borderTopLeftRadius).toBe(full);
+    expect(insetColor(button)).toBe(resolved('color', '--nph-color-primary-on-surface-hover'));
+  });
+
+  it('circular disabled stays at state/disabled-opacity', async () => {
+    const element = await mount({ iconStart: 'plus', label: 'Add', shape: 'circular', disabled: true });
+    expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
+    expect(getComputedStyle(control(element)).borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-radius-full'));
+  });
+
+  it('circular loading: the spinner takes the icon place, centered, and the corners stay round', async () => {
+    const element = await mount({ iconStart: 'plus', label: 'Add', shape: 'circular', loading: true });
+    const button = control(element);
+    const spinner = button.querySelector('nph-spinner');
+    expect([...button.children].map((node) => node.tagName.toLowerCase())).toEqual(['nph-spinner']);
+    expect(getComputedStyle(button).borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-radius-full'));
+    const box = button.getBoundingClientRect();
+    const glyph = (spinner as Element).getBoundingClientRect();
+    expect(glyph.left + glyph.width / 2).toBeCloseTo(box.left + box.width / 2, 0);
+    expect(glyph.top + glyph.height / 2).toBeCloseTo(box.top + box.height / 2, 0);
+  });
+
+  it('the shape does not touch the button with text', async () => {
+    const element = await mount({ text: 'Save', shape: 'square' });
+    expect(getComputedStyle(control(element)).borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-radius-control'));
+  });
+});
+
+describe('tooltip of the icon-only button (P86)', () => {
+  it('renders one nph-tooltip next to the native button, with the label as its text and as the name', async () => {
+    const element = await mount({ iconStart: 'xmark', label: 'Close' });
+    const tooltips = element.shadowRoot?.querySelectorAll('nph-tooltip') ?? [];
+    expect(tooltips.length).toBe(1);
+    const tooltip = tooltipOf(element);
+    expect(tooltip.getAttribute('for')).toBe(control(element).id);
+    expect([tooltip.text, tooltip.relation]).toEqual(['Close', 'name']);
+    expect(control(element).getAttribute('aria-labelledby')?.split(' ')).toContain(tooltip.id);
+    expect(control(element).hasAttribute('aria-describedby')).toBe(false);
+  });
+
+  it('the button with text has no tooltip', async () => {
+    const element = await mount({ text: 'Save', iconStart: 'plus' });
+    expect(element.shadowRoot?.querySelector('nph-tooltip')).toBeNull();
+    expect(control(element).hasAttribute('aria-labelledby')).toBe(false);
+  });
+
+  it('the browser announces the label once, as the name, closed and open', async () => {
+    const element = await mount({ severity: 'secondary', emphasis: 'ghost', iconStart: 'xmark', label: 'Close' });
+    expect(await axName(control(element))).toBe('Close');
+    expect(await axDescription(control(element))).toBe('');
+    await tabInto(element);
+    expect(tooltipOf(element).open).toBe(true);
+    expect(await axName(control(element))).toBe('Close');
+    expect(await axDescription(control(element))).toBe('');
+  });
+
+  it('a new label changes the balloon and the name', async () => {
+    const element = await mount({ iconStart: 'xmark', label: 'Close' });
+    element.label = 'Close panel';
+    await element.updateComplete;
+    await tooltipOf(element).updateComplete;
+    expect(tooltipOf(element).text).toBe('Close panel');
+    expect(await axName(control(element))).toBe('Close panel');
+  });
+
+  it('keyboard focus opens it at once; Esc closes it and the focus stays', async () => {
+    const element = await mount({ iconStart: 'xmark', label: 'Close' });
+    await tabInto(element);
+    const tooltip = tooltipOf(element);
+    await tooltip.updateComplete;
+    expect([tooltip.open, isShown(tooltip)]).toEqual([true, true]);
+    await userEvent.keyboard('{Escape}');
+    expect(tooltip.open).toBe(false);
+    expect(element.shadowRoot?.activeElement).toBe(control(element));
+  });
+
+  it('the pointer opens it only after motion/hover-delay', async () => {
+    const element = await mount({ iconStart: 'xmark', label: 'Close' });
+    const tooltip = tooltipOf(element);
+    await userEvent.hover(control(element));
+    expect(tooltip.open).toBe(false);
+    await vi.waitFor(() => expect(tooltip.open).toBe(true), { timeout: 2000 });
+    await tooltip.updateComplete;
+    expect(isShown(tooltip)).toBe(true);
+  });
+
+  it('Enter and Space fire click and leave the open balloon alone', async () => {
+    const element = await mount({ iconStart: 'xmark', label: 'Close' });
+    const clicks = vi.fn();
+    element.addEventListener('click', clicks);
+    await tabInto(element);
+    const tooltip = tooltipOf(element);
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard(' ');
+    expect(clicks).toHaveBeenCalledTimes(2);
+    expect(tooltip.open).toBe(true);
+  });
+
+  it('disabled: no balloon on hover, and the name stays', async () => {
+    const element = await mount({ iconStart: 'xmark', label: 'Close', disabled: true });
+    const tooltip = tooltipOf(element);
+    await userEvent.hover(element, { force: true });
+    await pause(Number.parseFloat(resolved('transition-duration', '--nph-motion-hover-delay')) * 1000 + 200);
+    expect(tooltip.open).toBe(false);
+    expect(await axName(control(element))).toBe('Close');
+  });
+
+  it('an open balloon closes when the button is disabled', async () => {
+    const element = await mount({ iconStart: 'xmark', label: 'Close' });
+    await tabInto(element);
+    const tooltip = tooltipOf(element);
+    expect(tooltip.open).toBe(true);
+    element.disabled = true;
+    await element.updateComplete;
+    await vi.waitFor(() => expect(tooltip.open).toBe(false));
+  });
+
+  it('loading: still focusable, the balloon opens and the click stays blocked', async () => {
+    const element = await mount({ iconStart: 'xmark', label: 'Close', loading: true });
+    const clicks = vi.fn();
+    element.addEventListener('click', clicks);
+    await tabInto(element);
+    expect(tooltipOf(element).open).toBe(true);
+    await userEvent.keyboard('{Enter}');
+    expect(clicks).not.toHaveBeenCalled();
+  });
+
+  it('a click on the open balloon does not reach the consumer; a click on the button does', async () => {
+    const element = await mount({ severity: 'danger', emphasis: 'ghost', iconStart: 'trash', label: 'Delete' });
+    const capture = vi.fn();
+    const bubble = vi.fn();
+    const outside = vi.fn();
+    element.addEventListener('click', capture, { capture: true });
+    element.addEventListener('click', bubble);
+    document.body.addEventListener('click', outside);
+    await tabInto(element);
+    const tooltip = tooltipOf(element);
+    await tooltip.updateComplete;
+    expect(isShown(tooltip)).toBe(true);
+    const balloon = tooltip.shadowRoot?.querySelector<HTMLElement>('.bubble');
+    await userEvent.click(balloon as HTMLElement);
+    expect([capture, bubble, outside].map((spy) => spy.mock.calls.length)).toEqual([0, 0, 0]);
+    await userEvent.click(control(element));
+    expect([capture, bubble, outside].map((spy) => spy.mock.calls.length)).toEqual([1, 1, 1]);
+    document.body.removeEventListener('click', outside);
+  });
+
+  it('switching between text and icon only keeps the native button and its focus', async () => {
+    const element = await mount({ shape: 'square', iconStart: 'plus', label: 'Add' });
+    await tabInto(element);
+    const first = control(element);
+    element.text = 'Add';
+    await element.updateComplete;
+    expect(control(element)).toBe(first);
+    expect(element.shadowRoot?.activeElement).toBe(first);
+    expect(element.shadowRoot?.querySelector('nph-tooltip')).toBeNull();
+    element.text = '';
+    await element.updateComplete;
+    expect(control(element)).toBe(first);
+    expect(element.shadowRoot?.activeElement).toBe(first);
+    const tooltip = tooltipOf(element);
+    expect(tooltip.getAttribute('for')).toBe(first.id);
+    /* The new balloon sees the keyboard focus already on the button: it opens, and Esc closes it. */
+    await tooltip.updateComplete;
+    await vi.waitFor(() => expect(isShown(tooltip)).toBe(true));
+    await userEvent.keyboard('{Escape}');
+    expect(tooltip.open).toBe(false);
+    expect(element.shadowRoot?.activeElement).toBe(first);
+  });
+
+  it('touch never opens it', async () => {
+    const element = await mount({ iconStart: 'xmark', label: 'Close' });
+    const tooltip = tooltipOf(element);
+    control(element).dispatchEvent(new PointerEvent('pointerenter', { pointerType: 'touch' }));
+    await pause(Number.parseFloat(resolved('transition-duration', '--nph-motion-hover-delay')) * 1000 + 200);
+    expect(tooltip.open).toBe(false);
+  });
 });
 
 describe('what the button does not have', () => {
