@@ -866,12 +866,8 @@ describe('actions', () => {
     expect(cancel.width).toBeCloseTo(footer.width, 0);
   });
 
-  /*
-   * The inner native button of nph-button fills its host only with the rule of Q1 in
-   * `nph-button.css`, which enters this branch after DSA-47 is merged (P87). Turn this on
-   * with that rule.
-   */
-  it.skip('stacked, the button itself fills the line: the inner control has the width of the footer (Q1)', async () => {
+  /* The inner native button of nph-button fills its host by the rule of Q1 in `nph-button.css` (P87). */
+  it('stacked, the button itself fills the line: the inner control has the width of the footer (Q1)', async () => {
     await page.viewport(NARROW.width, NARROW.height);
     const dialog = await mount({ actions: 'stacked', content: FORM, footer: ACTIONS });
     await openIt(dialog);
