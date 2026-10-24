@@ -167,6 +167,34 @@ function tokenPx(token: string): number {
   return px(resolved('inline-size', token));
 }
 
+/** The box of the content itself: the scroll area less the focus room around it. */
+function contentBox(dialog: NphDialog): DOMRect {
+  const area = part(dialog, '.content') as HTMLElement;
+  const box = area.getBoundingClientRect();
+  const style = getComputedStyle(area);
+  const top = px(style.paddingTop);
+  const right = px(style.paddingRight);
+  const bottom = px(style.paddingBottom);
+  const left = px(style.paddingLeft);
+  return new DOMRect(box.left + left, box.top + top, box.width - left - right, box.height - top - bottom);
+}
+
+/** A form with its fields in an open shadow root that does not delegate the focus. */
+class TestShadowForm extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' }).innerHTML =
+      '<input id="inner-first" aria-label="First"><input id="inner-auto" aria-label="Second"><slot></slot>';
+  }
+
+  connectedCallback(): void {
+    if (this.hasAttribute('data-autofocus')) {
+      this.shadowRoot?.getElementById('inner-auto')?.setAttribute('autofocus', '');
+    }
+  }
+}
+customElements.define('test-shadow-form', TestShadowForm);
+
 /** The two footer buttons of `ACTIONS`, Cancel then Save, as the consumer wrote them. */
 function actionRects(dialog: NphDialog): [DOMRect, DOMRect] {
   const [cancel, save] = [...dialog.querySelectorAll('nph-button[slot="footer"]')];
@@ -332,7 +360,21 @@ describe('opening and closing', () => {
     expect(document.documentElement.style.overflow).toBe('');
     document.body.append(dialog);
     await settle(dialog);
+    /* The `close` of the removal is queued: let it arrive before looking. */
+    await new Promise((resolve) => setTimeout(resolve, 50));
     expect(panelOf(dialog).matches(':modal')).toBe(true);
+    expect(dialog.open).toBe(true);
+  });
+
+  it('removed and put back in the same turn, the late close of the removal does not close it', async () => {
+    const dialog = await mount({ content: FORM, open: true });
+    await settle(dialog);
+    dialog.remove();
+    document.body.append(dialog);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(panelOf(dialog).matches(':modal')).toBe(true);
+    expect(dialog.open).toBe(true);
+    expect(document.documentElement.style.overflowY).toBe('hidden');
   });
 
   it('a dialog over another opens and warns once (do not open a dialog over another)', async () => {
@@ -379,6 +421,36 @@ describe('focus', () => {
     const dialog = await mount();
     await openIt(dialog);
     expect(inside(focused(), closeButton(dialog) as Element)).toBe(true);
+  });
+
+  it('connected already open, with no content and no footer, the focus waits for the close button to draw', async () => {
+    const dialog = document.createElement('nph-dialog');
+    dialog.heading = 'Edit profile';
+    dialog.closeLabel = 'Close';
+    dialog.open = true;
+    document.body.append(dialog);
+    await settle(dialog);
+    await vi.waitFor(() => expect(inside(focused(), closeButton(dialog) as Element)).toBe(true));
+  });
+
+  it('finds the fields of a form in an open shadow root that does not delegate the focus', async () => {
+    const dialog = await mount({ content: '<test-shadow-form></test-shadow-form>', footer: ACTIONS });
+    await openIt(dialog);
+    expect(focused()?.id).toBe('inner-first');
+  });
+
+  it('finds autofocus inside an open shadow root, and inside what a slot shows', async () => {
+    const dialog = await mount({ content: '<test-shadow-form data-autofocus></test-shadow-form>', footer: ACTIONS });
+    await openIt(dialog);
+    expect(focused()?.id).toBe('inner-auto');
+    dialog.open = false;
+    await closed(dialog);
+    const slotted = await mount({
+      heading: 'Second',
+      content: '<test-shadow-form><input id="through-slot" aria-label="Slotted" autofocus></test-shadow-form>',
+    });
+    await openIt(slotted);
+    expect(focused()?.id).toBe('through-slot');
   });
 
   it('with nothing focusable at all, goes to the window itself', async () => {
@@ -662,6 +734,19 @@ describe('scroll', () => {
     document.documentElement.style.overflow = '';
   });
 
+  it('restores each axis the root had, with its priority, when only one was set', async () => {
+    const root = document.documentElement;
+    root.style.setProperty('overflow-x', 'hidden', 'important');
+    const dialog = await mount({ content: FORM });
+    await openIt(dialog);
+    expect(getComputedStyle(root).overflowY).toBe('hidden');
+    dialog.open = false;
+    await closed(dialog);
+    expect([root.style.getPropertyValue('overflow-x'), root.style.getPropertyPriority('overflow-x')]).toEqual(['hidden', 'important']);
+    expect(root.style.getPropertyValue('overflow-y')).toBe('');
+    root.style.removeProperty('overflow-x');
+  });
+
   it('two open dialogs share the lock: the page is released only when both closed', async () => {
     vi.spyOn(console, 'warn').mockImplementation(() => {});
     const first = await mount({ content: FORM, open: true });
@@ -768,7 +853,7 @@ describe('window, header and spaces', () => {
     const dialog = await mount({ content: FORM, footer: ACTIONS });
     await openIt(dialog);
     const header = part(dialog, '.header')?.getBoundingClientRect() as DOMRect;
-    const content = part(dialog, '.content')?.getBoundingClientRect() as DOMRect;
+    const content = contentBox(dialog);
     const footer = part(dialog, '.footer')?.getBoundingClientRect() as DOMRect;
     const stack = tokenPx('--nph-space-stack');
     const snug = tokenPx('--nph-space-stack-snug');
@@ -776,12 +861,31 @@ describe('window, header and spaces', () => {
     expect(footer.top - content.bottom).toBeCloseTo(stack + snug, 0);
   });
 
+  it('the content sits inside the window padding, and the area that scrolls leaves room for the focus around it', async () => {
+    const dialog = await mount({ content: '<input id="wide" aria-label="Wide" style="display: block; inline-size: 100%; box-sizing: border-box;">' });
+    const panel = await openIt(dialog);
+    const padding = px(getComputedStyle(panel).paddingLeft);
+    const box = panel.getBoundingClientRect();
+    const input = (dialog.querySelector('#wide') as HTMLElement).getBoundingClientRect();
+    expect(input.left - box.left).toBeCloseTo(padding, 0);
+    expect(box.right - input.right).toBeCloseTo(padding, 0);
+    const room = tokenPx('--nph-border-width') + tokenPx('--nph-focus-ring-width');
+    const area = part(dialog, '.content') as HTMLElement;
+    const clip = area.getBoundingClientRect();
+    expect(input.left - clip.left).toBeGreaterThanOrEqual(room - 0.5);
+    expect(clip.right - input.right).toBeGreaterThanOrEqual(room - 0.5);
+    expect(input.top - clip.top).toBeGreaterThanOrEqual(room - 0.5);
+    expect(clip.bottom - input.bottom).toBeGreaterThanOrEqual(room - 0.5);
+    expect(area.scrollHeight).toBe(area.clientHeight);
+    expect(area.scrollWidth).toBe(area.clientWidth);
+  });
+
   it('with the lines on, each line sits at space/stack from the content and the actions keep their distance', async () => {
     const dialog = await mount({ content: FORM, footer: ACTIONS, headerSeparator: true, footerSeparator: true });
     await openIt(dialog);
     const header = part(dialog, '.header')?.getBoundingClientRect() as DOMRect;
     const top = part(dialog, '.line-header')?.getBoundingClientRect() as DOMRect;
-    const content = part(dialog, '.content')?.getBoundingClientRect() as DOMRect;
+    const content = contentBox(dialog);
     const bottom = part(dialog, '.line-footer')?.getBoundingClientRect() as DOMRect;
     const footer = part(dialog, '.footer')?.getBoundingClientRect() as DOMRect;
     const stack = tokenPx('--nph-space-stack');

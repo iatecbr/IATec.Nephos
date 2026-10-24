@@ -2847,8 +2847,12 @@ modal dialog covers the window it opens in, which a page with several examples i
 3. **Focus.** On open: the first element with `autofocus` in the content or the footer; otherwise
    the first focusable element of the content, then of the footer, then the close button, then the
    window itself (`tabindex="-1"`). The close button comes after the content so that an Enter does
-   not close the dialog by accident. Each candidate is focused and kept only if the focus really
-   lands in it, so a disabled or hidden element is skipped. On close, the focus goes back to the
+   not close the dialog by accident. The search follows what the person sees: into open shadow
+   roots and from a slot to what it shows, so the field of a form component that does not delegate
+   the focus counts. Each candidate is focused and kept only if the focus really
+   lands in it, so a disabled or hidden element is skipped. A piece that has not drawn yet, when
+   the dialog is connected already open, cannot take it: once the pieces draw, the rule runs again
+   if the focus fell to the window. On close, the focus goes back to the
    element that had it, looked up inside shadow roots and given back by the component, not by the
    browser. No Tab trap is written: the inert page already keeps Tab in the dialog and the browser
    interface.
@@ -2862,11 +2866,14 @@ modal dialog covers the window it opens in, which a page with several examples i
    keyboard focus; the second Esc closes the dialog. A click on the veil does not close it (D5).
 
 5. **Scroll.** The window is a column: the header and the footer keep their size and only the
-   content scrolls above `layout/dialog-max-height`. While any dialog is shown, the root of the page
+   content scrolls above `layout/dialog-max-height`. The scroll area clips what is drawn outside
+   its box, so it keeps around the content the room of the focus border and halo the controls draw
+   outside theirs, and gives it back in negative margins: the measures do not change. While any
+   dialog is shown, the root of the page
    does not scroll (`overflow: hidden`, with a counter shared by every dialog), because the inert
    page still scrolls under the wheel over the veil; the width of the scrollbar that disappears is
    given back as padding, measured at run time, and the values the root had are restored at the
-   end. **This writes to the document**: it is the one global side effect of the piece.
+   end, each axis with its priority. **This writes to the document**: it is the one global side effect of the piece.
 
 6. **Width.** The window hugs its content (`fit-content`), from `layout/dialog-min-width` up to the
    ceiling of `size`, and never past the window less `layout/margin-compact` on each side (D2); the

@@ -34,7 +34,8 @@
  *
  * FOCUS — on open, it goes to the first element with `autofocus` in the content or the
  * footer; otherwise to the first focusable element of the content, then of the footer,
- * then to the close button, then to the window itself. On close, it goes back to the
+ * then to the close button, then to the window itself, looking into open shadow roots and
+ * slots as the person sees them. On close, it goes back to the
  * element that had it. The page stays inert while the dialog is open, so Tab never
  * reaches it; no Tab trap is written in JavaScript.
  *
@@ -102,7 +103,10 @@ const shownDialogs = new Set<NphDialog>();
  * time, so the page does not shift. The values the root had are restored at the end.
  */
 let locks = 0;
-let savedRootStyle: { overflow: string; paddingInlineEnd: string } | null = null;
+
+/** Each axis on its own: the `overflow` shorthand reads empty when only one axis is set. */
+const LOCKED_PROPERTIES = ['overflow-x', 'overflow-y', 'padding-inline-end'] as const;
+let savedRootStyle: { property: string; value: string; priority: string }[] | null = null;
 
 function lockScroll(): void {
   locks += 1;
@@ -111,12 +115,17 @@ function lockScroll(): void {
   }
   const root = document.documentElement;
   const scrollbar = window.innerWidth - root.clientWidth;
-  savedRootStyle = { overflow: root.style.overflow, paddingInlineEnd: root.style.paddingInlineEnd };
+  savedRootStyle = LOCKED_PROPERTIES.map((property) => ({
+    property,
+    value: root.style.getPropertyValue(property),
+    priority: root.style.getPropertyPriority(property),
+  }));
   if (scrollbar > 0) {
     const padding = parseFloat(getComputedStyle(root).paddingInlineEnd) || 0;
-    root.style.paddingInlineEnd = `${padding + scrollbar}px`;
+    root.style.setProperty('padding-inline-end', `${padding + scrollbar}px`);
   }
-  root.style.overflow = 'hidden';
+  root.style.setProperty('overflow-x', 'hidden');
+  root.style.setProperty('overflow-y', 'hidden');
 }
 
 function unlockScroll(): void {
@@ -128,8 +137,13 @@ function unlockScroll(): void {
     return;
   }
   const root = document.documentElement;
-  root.style.overflow = savedRootStyle.overflow;
-  root.style.paddingInlineEnd = savedRootStyle.paddingInlineEnd;
+  for (const { property, value, priority } of savedRootStyle) {
+    if (value === '') {
+      root.style.removeProperty(property);
+    } else {
+      root.style.setProperty(property, value, priority);
+    }
+  }
   savedRootStyle = null;
 }
 
@@ -154,11 +168,26 @@ function within(node: Node | null, ancestor: Node): boolean {
   return false;
 }
 
-/** The elements of `roots` and their descendants that may take focus, in tree order. */
+/**
+ * `root` and what it draws, in the composed order the person sees: into open shadow
+ * roots, and from a slot to what is assigned to it (or its fallback).
+ */
+function* composed(root: Element): Generator<Element> {
+  yield root;
+  const children =
+    root instanceof HTMLSlotElement
+      ? root.assignedElements({ flatten: true })
+      : [...(root.shadowRoot ?? root).children];
+  for (const child of children) {
+    yield* composed(child);
+  }
+}
+
+/** The elements of `roots` and what they draw that may take focus, in composed order. */
 function focusables(roots: readonly Element[]): HTMLElement[] {
   const found: HTMLElement[] = [];
   for (const root of roots) {
-    for (const element of [root, ...root.querySelectorAll('*')]) {
+    for (const element of composed(root)) {
       if (!(element instanceof HTMLElement)) {
         continue;
       }
@@ -227,6 +256,7 @@ export class NphDialog extends LitElement {
   private closeShown = false;
   private shown = false;
   private closeTimer: number | undefined;
+  private openings = 0;
   private returnFocus: Element | null = null;
   private reported: readonly string[] = [];
 
@@ -357,6 +387,7 @@ export class NphDialog extends LitElement {
         }
       }
       this.moveFocusIn(panel);
+      void this.refocusWhenDrawn(panel, ++this.openings);
       /* The first style is opacity 0; the next one starts the enter transition. */
       void panel.offsetWidth;
     }
@@ -414,7 +445,7 @@ export class NphDialog extends LitElement {
     const content = assigned('slot:not([name])');
     const footer = assigned('slot[name="footer"]');
     const autofocus = [...content, ...footer]
-      .flatMap((root) => [root, ...root.querySelectorAll('[autofocus]')])
+      .flatMap((root) => [...composed(root)])
       .filter((element): element is HTMLElement => element instanceof HTMLElement && element.hasAttribute('autofocus'));
     const close = this.renderRoot.querySelector<HTMLElement>('.close');
     const order = [...autofocus, ...focusables(content), ...focusables(footer), ...(close ? [close] : [])];
@@ -424,6 +455,23 @@ export class NphDialog extends LitElement {
       }
     }
     panel.focus();
+  }
+
+  /**
+   * A piece that has not drawn yet — the close button, or a control in the content, when
+   * the dialog is connected already open — cannot take the focus. Once they draw, the
+   * rule runs again, only for the same opening and only if the focus fell to the window.
+   */
+  private async refocusWhenDrawn(panel: HTMLDialogElement, opening: number): Promise<void> {
+    const slots = [...this.renderRoot.querySelectorAll<HTMLSlotElement>('slot')];
+    const pieces = [...slots.flatMap((slot) => [...composed(slot)]), ...this.renderRoot.querySelectorAll('.close')];
+    const pending = pieces
+      .map((piece) => (piece as Partial<{ updateComplete: Promise<unknown> }>).updateComplete)
+      .filter((done): done is Promise<unknown> => done !== undefined);
+    await Promise.all(pending);
+    if (this.shown && opening === this.openings && deepActiveElement() === panel) {
+      this.moveFocusIn(panel);
+    }
   }
 
   /** Tells the consumer; returns whether the close may go on. */
@@ -457,9 +505,13 @@ export class NphDialog extends LitElement {
     }
   };
 
-  /* The window closed by a path other than `open` (the browser): the state follows. */
+  /*
+   * The window closed by a path other than `open` (the browser): the state follows. The
+   * event is queued, so it may arrive after the window opened again — removed and put
+   * back in the same turn — and then it is old news.
+   */
   private readonly onNativeClose = (): void => {
-    if (this.shown) {
+    if (this.shown && this.panel?.open !== true) {
       this.open = false;
       this.leaveNow();
     }
