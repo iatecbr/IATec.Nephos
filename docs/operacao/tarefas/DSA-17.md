@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 270,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-checkbox",
   "dependencies": [],
   "gates": [
@@ -53,12 +53,12 @@
     "converted_decision": "The nph-checkbox frame (1194:1033) was accepted as the API and behavior specification of the nph-checkbox. COMPONENT_SET 740:18776. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": {
-    "branch": null,
-    "commit": null,
-    "pr": null
+    "branch": "claude/dsa-17-nph-checkbox-4f2a40",
+    "commit": "2c4687c561ec044e581ce2205fa67d8eca432107",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/117"
   },
   "context": "docs/operacao/contextos/DSA-17.md",
-  "updated_at": "2026-10-22"
+  "updated_at": "2026-10-24"
 }
 ```
 

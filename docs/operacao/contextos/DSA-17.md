@@ -24,15 +24,13 @@ The component, CSS and tests; the Validation stories, the Docs page and the dict
 sheet, the Metadata and P81. See the commits on the branch.
 
 ## Commands run
-After the sync with `v/5.0.0` at `c55c2f0`:
-- `npm ci`, `build:tokens`, `test:tokens`, `typecheck`, `test:i18n`, `test:operacao`,
+After the merge of `v/5.0.0` at `191fe6e`, with the real `nph-field`:
+- `npm ci`, `build:tokens`, `test:tokens`, `typecheck`, `test`, `test:i18n`, `test:operacao`,
   `build-storybook`, `build:lib`, `test:package` and `git diff --check`: exit 0
-- `npm test`: exit 1, only the failure that `v/5.0.0` already has at
-  `src/components/nph-tooltip/nph-tooltip.test.ts:1074`; the tests of this piece pass
 - `npm run test:naming`: exit 1, only in files this pass does not touch
 
 ## Result
-The branch is ready; the pull request opens after the merge of DSA-28.
+The deliverable is complete and open in PR 117, targeting `v/5.0.0`, with the review of Copilot.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -41,4 +39,4 @@ None recorded: `review-and-merge` waits for the PR.
 None. D7 waits for Indiane and does not block.
 
 ## Next command
-Sync with `v/5.0.0` after the merge of DSA-28, run the proofs again and open the pull request.
+The Copilot review cycle of PR 117; then the merge, by Elvys, and the closing of the task.
