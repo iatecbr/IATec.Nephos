@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 450,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-dialog",
   "dependencies": [],
   "gates": [
@@ -77,9 +77,13 @@
     "excerpt": null,
     "converted_decision": "The nph-dialog board (1368:27), with its `Documentação` frame (2277:2), was accepted as the API and behavior specification of the nph-dialog. COMPONENT_SET 2268:52262; parts .nph-dialog/destaque 2268:52091 and .nph-dialog/conteúdo 2311:5339. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": {
+    "branch": "claude/dsa-44-nph-dialog-07ca69",
+    "commit": "ff1fc04840e70f6e15ae29862dbf61b7f11cd60f",
+    "pr": "115"
+  },
   "context": "docs/operacao/contextos/DSA-44.md",
-  "updated_at": "2026-10-22"
+  "updated_at": "2026-10-24"
 }
 ```
 
