@@ -378,7 +378,8 @@ export class NphInputOtp extends LitElement {
     const next = this.fit(raw, false);
     const caretAfter = Math.min(this.fit(raw.slice(0, caret), false).length, next.length);
     const previous = this.current;
-    if (input.value !== next) {
+    /* After a paste the caret goes to the end even when the browser's insertion, cut at `maxlength`, already gave the code. */
+    if (input.value !== next || fromPaste !== null) {
       input.value = next;
       input.setSelectionRange(caretAfter, caretAfter);
     }

@@ -136,7 +136,7 @@ async function tabInto(element: NphInputOtp): Promise<void> {
  * Pastes text on the field as a person would: the real clipboard and Ctrl/Cmd+V. The text is
  * copied from a text area first, so the focus leaves the field and comes back to it.
  */
-async function paste(element: NphInputOtp, text: string): Promise<void> {
+async function paste(element: NphInputOtp, text: string, caret?: number): Promise<void> {
   const area = document.createElement('textarea');
   area.value = text;
   document.body.append(area);
@@ -145,6 +145,9 @@ async function paste(element: NphInputOtp, text: string): Promise<void> {
   await userEvent.copy();
   area.remove();
   native(element).focus();
+  if (caret !== undefined) {
+    native(element).setSelectionRange(caret, caret);
+  }
   await userEvent.paste();
   await element.updateComplete;
 }
@@ -518,6 +521,17 @@ describe('paste', () => {
     await paste(element, '12-34-56');
     expect(element.value).toBe('123456');
     expect(native(element).value).toBe('123456');
+  });
+
+  it('after a paste the caret is at the end, even when the cut insertion already gave the code', async () => {
+    const element = await mount({ label: 'Code', value: '3456' });
+    await tabInto(element);
+    await paste(element, '123456', 0);
+    expect(element.value).toBe('123456');
+    expect(native(element).selectionStart).toBe(6);
+    expect(activeIndex(element)).toBe(5);
+    await userEvent.keyboard('{Backspace}');
+    expect(element.value).toBe('12345');
   });
 
   it('a paste listener that moves the focus sends the paste where the focus went, as in a native input', async () => {
