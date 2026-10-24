@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 300,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "in-review",
   "piece": "nph-select",
   "dependencies": ["DSA-24", "DSA-28"],
   "gates": [
@@ -28,16 +28,27 @@
       "verified_by": null
     }
   ],
-  "blockers": [
+  "blockers": [],
+  "pending_decisions": [
     {
-      "id": "B2",
-      "what_blocks": "The select sits inside nph-field, which gives the label, the help text and the error of the required examples, and DSA-28 (nph-field) is not done yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-28 is merged and done; with B1 also resolved, this task goes to ready.",
-      "opened_at": "2026-10-19"
+      "id": "D-1",
+      "question": "The evidence gives the background and the border of the disabled trigger, but not the arrow area. The code keeps `color/accent` on it, under the opacity of the whole piece. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence says the list opens below the trigger (D1). It does not say what happens near the bottom of the window. The code turns the list up, `space/inline-tight` above the trigger, when it does not fit below and fits above. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence does not draw an option that is both selected and disabled. The code keeps `color/primary-surface` and the check, under the opacity of the disabled option. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-23"
     }
   ],
-  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-29/documentacao-figma-aceita-2026-10-14.md"
   ],
@@ -54,9 +65,13 @@
     "excerpt": null,
     "converted_decision": "The nph-select frame (1357:160), documentation 1452:448, was accepted as the API and behavior specification of the nph-select. COMPONENT_SET 1357:115; option 1357:136; list 1357:137. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-10-20"
+  "git_review": {
+    "branch": "claude/dsa-29-nph-select-84cd97",
+    "commit": "1266e423b02dd6236c5527f71f2c55a681b6df95",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/114"
+  },
+  "context": "docs/operacao/contextos/DSA-29.md",
+  "updated_at": "2026-10-23"
 }
 ```
 
@@ -73,9 +88,10 @@ carries the Figma documentation converted to text. There is no need to open Figm
 
 ## Decisions answered
 D1 to D9 are answered in the evidence of the `figma-docs-accepted` gate, section
-"Decisions answered". B1 is closed: DSA-24 (`nph-avatar`) is `done`. The task
-is `blocked` only by B2, DSA-28 (`nph-field`), and goes to `ready` when it is
-`done`. Positioning, form value, events and keyboard are technical proposals for
+"Decisions answered". Both blockers are closed: B1 when DSA-24 (`nph-avatar`)
+became `done`, and B2 on 2026-10-23, when DSA-28 (`nph-field`) became `done`
+after the merge of PR #105. With every dependency `done`, the task is
+`ready`. Positioning, form value, events and keyboard are technical proposals for
 the PR.
 
 | ID | Answer | What the code does |
@@ -94,6 +110,17 @@ the PR.
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, option,
 list, CSS, tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
+
+## Pending decisions
+The evidence gives the contract, so the code can start. Three points remain for
+Indiane; the code follows the stated default meanwhile, and each answer only
+adjusts one rule.
+
+| ID | What the evidence gives | What is missing | What the code does meanwhile |
+|---|---|---|---|
+| D-1 | The disabled trigger: `color/muted` background, `color/input` border, opacity on the piece. | The arrow area when disabled. | Keeps `color/accent`, under the opacity of the piece. |
+| D-2 | The list opens below the trigger (D1). | What happens near the bottom of the window. | Turns up, `space/inline-tight` above the trigger, when it does not fit below and fits above. |
+| D-3 | The option states `selecionada` and `disabled`, apart. | An option that is both. | Keeps `color/primary-surface` and the check, under the opacity of the disabled option. |
 
 ## Relations with other tasks
 - The start avatar is an `nph-avatar` instance (DSA-24). The start icon, the

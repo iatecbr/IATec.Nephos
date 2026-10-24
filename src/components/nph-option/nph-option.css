@@ -1,0 +1,131 @@
+/**
+ * Internal style of `nph-option`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here.
+ *
+ * No literal design value goes in here. Written box relations: `0`, `1` and `none`
+ * (flex relations), `ellipsis` and `nowrap` (one line, D3), `start` (the text starts
+ * at the start edge in any container) and `currentColor` (the dot with no state
+ * follows the text, D6).
+ *
+ * The order of the state rules is the precedence of D5: active (the hover look),
+ * then selected, which wins over it. Disabled only adds the opacity.
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* The option: padding and gap `space/inline`, radius `radius/inner`, the width of the list. */
+:host([data-nph-rendered]) {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  min-inline-size: 0;
+  padding: var(--nph-space-inline);
+  border-radius: var(--nph-radius-inner);
+  color: var(--nph-color-popover-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  text-align: start;
+  cursor: pointer;
+}
+
+.start,
+.check {
+  flex: none;
+}
+
+/* The dot: `space/inline` square, full circle (D6), centered in an `icon/size-md` box. */
+.dot-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--nph-icon-size-md);
+  block-size: var(--nph-icon-size-md);
+}
+
+.dot {
+  inline-size: var(--nph-space-inline);
+  block-size: var(--nph-space-inline);
+  border-radius: var(--nph-radius-full);
+  background-color: currentColor;
+}
+
+.dot[data-status='neutral'] {
+  background-color: var(--nph-color-muted-foreground);
+}
+
+.dot[data-status='info'] {
+  background-color: var(--nph-status-info);
+}
+
+.dot[data-status='warning'] {
+  background-color: var(--nph-status-warning);
+}
+
+.dot[data-status='success'] {
+  background-color: var(--nph-status-success);
+}
+
+.dot[data-status='error'] {
+  background-color: var(--nph-status-error);
+}
+
+.dot[data-status='help'] {
+  background-color: var(--nph-status-help);
+}
+
+/* Label and secondary text: one line each, with an ellipsis at the end (D3). */
+.text {
+  display: flex;
+  flex: 1;
+  gap: var(--nph-space-inline-tight);
+  min-inline-size: 0;
+}
+
+.label,
+.secondary {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.label {
+  flex: 0 1 auto;
+}
+
+.secondary {
+  flex: 0 1 auto;
+  color: var(--nph-color-muted-foreground);
+}
+
+/* The check of the selected option: `color/primary`. */
+.check {
+  color: var(--nph-color-primary);
+}
+
+/* Active, by the pointer or by the keyboard: the hover look (D5). */
+:host(:state(active)) {
+  background-color: var(--nph-color-accent);
+  color: var(--nph-color-accent-foreground);
+}
+
+/* Selected: `color/primary-surface`, which wins over active (D5). The text keeps its rest color. */
+:host(:state(selected)) {
+  background-color: var(--nph-color-primary-surface);
+  color: var(--nph-color-popover-foreground);
+}
+
+/* Disabled: the whole option loses opacity. The list never makes it active. */
+:host([disabled]) {
+  opacity: var(--nph-state-disabled-opacity);
+  cursor: default;
+}
