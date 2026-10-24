@@ -41,7 +41,9 @@
 
 /*
  * The window. The browser's `<dialog>` style is undone: its border, its padding, its own
- * maximum sizes and its `overflow: auto` (only the content scrolls). `margin: auto` and
+ * maximum sizes. Only the content scrolls; the window scrolls as a whole only when the
+ * header, the footer and the padding alone do not fit, as in a short window with the
+ * actions stacked, so no action is out of reach. `margin: auto` and
  * `position: fixed` of the modal dialog stay: they center it. The distance to the edge of
  * a small window is `layout/margin-compact` (D2).
  */
@@ -57,7 +59,9 @@
   padding: var(--nph-space-overlay-padding);
   border: 0;
   border-radius: var(--nph-radius-overlay);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background-color: var(--nph-color-dialog);
   box-shadow: var(--nph-elevation-modal);
   color: var(--nph-color-dialog-foreground);
@@ -108,6 +112,8 @@
   flex-direction: column;
   gap: var(--nph-space-stack-snug);
   min-inline-size: 0;
+  /* A long string with no space, such as a record id, breaks instead of being cut. */
+  overflow-wrap: anywhere;
 }
 
 .heading {

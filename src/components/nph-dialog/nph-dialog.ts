@@ -257,6 +257,11 @@ export class NphDialog extends LitElement {
   private shown = false;
   private closeTimer: number | undefined;
   private openings = 0;
+  private chosenFocus: Element | null = null;
+  /* A text node edited in place fires no `slotchange`: its edits are watched here. */
+  private readonly textWatch = new MutationObserver(() => {
+    this.syncRegions();
+  });
   private returnFocus: Element | null = null;
   private reported: readonly string[] = [];
 
@@ -275,6 +280,7 @@ export class NphDialog extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
+    this.textWatch.observe(this, { characterData: true, subtree: true });
     if (this.hasUpdated) {
       /* Moved in the DOM: show again if it was open. */
       this.requestUpdate();
@@ -283,6 +289,7 @@ export class NphDialog extends LitElement {
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.textWatch.disconnect();
     this.leaveNow();
   }
 
@@ -422,6 +429,7 @@ export class NphDialog extends LitElement {
       return;
     }
     this.shown = false;
+    this.chosenFocus = null;
     shownDialogs.delete(this);
     unlockScroll();
     const panel = this.panel;
@@ -440,6 +448,11 @@ export class NphDialog extends LitElement {
 
   /** The focus rule of P87: autofocus, content, footer, close button, the window. */
   private moveFocusIn(panel: HTMLDialogElement): void {
+    this.chosenFocus = this.focusByRule(panel);
+  }
+
+  /** Focuses the first candidate that takes it and returns it. */
+  private focusByRule(panel: HTMLDialogElement): Element {
     const assigned = (selector: string): Element[] =>
       this.renderRoot.querySelector<HTMLSlotElement>(selector)?.assignedElements({ flatten: true }) ?? [];
     const content = assigned('slot:not([name])');
@@ -451,16 +464,18 @@ export class NphDialog extends LitElement {
     const order = [...autofocus, ...focusables(content), ...focusables(footer), ...(close ? [close] : [])];
     for (const candidate of order) {
       if (tryFocus(candidate)) {
-        return;
+        return candidate;
       }
     }
     panel.focus();
+    return panel;
   }
 
   /**
-   * A piece that has not drawn yet — the close button, or a control in the content, when
-   * the dialog is connected already open — cannot take the focus. Once they draw, the
-   * rule runs again, only for the same opening and only if the focus fell to the window.
+   * A piece that has not drawn yet — the close button, or a control with `autofocus`,
+   * when the dialog is connected already open — cannot take the focus. Once they draw,
+   * the rule runs again, only for the same opening and only if the focus is still where
+   * the rule put it: a move by the person is kept.
    */
   private async refocusWhenDrawn(panel: HTMLDialogElement, opening: number): Promise<void> {
     const slots = [...this.renderRoot.querySelectorAll<HTMLSlotElement>('slot')];
@@ -469,7 +484,10 @@ export class NphDialog extends LitElement {
       .map((piece) => (piece as Partial<{ updateComplete: Promise<unknown> }>).updateComplete)
       .filter((done): done is Promise<unknown> => done !== undefined);
     await Promise.all(pending);
-    if (this.shown && opening === this.openings && deepActiveElement() === panel) {
+    const chosen = this.chosenFocus;
+    const active = deepActiveElement();
+    const kept = chosen === panel ? active === panel : chosen !== null && within(active, chosen);
+    if (this.shown && opening === this.openings && kept) {
       this.moveFocusIn(panel);
     }
   }

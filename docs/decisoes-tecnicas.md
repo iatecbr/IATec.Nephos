@@ -2853,7 +2853,7 @@ modal dialog covers the window it opens in, which a page with several examples i
    the focus counts. Each candidate is focused and kept only if the focus really
    lands in it, so a disabled or hidden element is skipped. A piece that has not drawn yet, when
    the dialog is connected already open, cannot take it: once the pieces draw, the rule runs again
-   if the focus fell to the window. On close, the focus goes back to the
+   if the focus is still where the rule put it, so a move by the person is kept. On close, the focus goes back to the
    element that had it, looked up inside shadow roots and given back by the component, not by the
    browser. No Tab trap is written: the inert page already keeps Tab in the dialog and the browser
    interface.
@@ -2869,7 +2869,9 @@ modal dialog covers the window it opens in, which a page with several examples i
 5. **Scroll.** The window is a column: the header and the footer keep their size and only the
    content scrolls above `layout/dialog-max-height`. The scroll area clips what is drawn outside
    its box, so it keeps around the content the room of the focus border and halo the controls draw
-   outside theirs, and gives it back in negative margins: the measures do not change. While any
+   outside theirs, and gives it back in negative margins: the measures do not change. When the
+   header, the footer and the padding alone do not fit, as in a short window with the actions
+   stacked, the window itself scrolls, so no action is out of reach. While any
    dialog is shown, the root of the page
    does not scroll (`overflow: hidden`, with a counter shared by every dialog), because the inert
    page still scrolls under the wheel over the veil; the width of the scrollbar that disappears is

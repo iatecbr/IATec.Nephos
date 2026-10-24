@@ -423,6 +423,32 @@ describe('focus', () => {
     expect(inside(focused(), closeButton(dialog) as Element)).toBe(true);
   });
 
+  it('connected already open, an autofocus button of the footer that draws late still takes the focus from the field', async () => {
+    const dialog = document.createElement('nph-dialog');
+    dialog.heading = 'Edit profile';
+    dialog.closeLabel = 'Close';
+    dialog.innerHTML = '<input id="field" aria-label="Name"><nph-button slot="footer" text="Save" autofocus></nph-button>';
+    dialog.open = true;
+    document.body.append(dialog);
+    await settle(dialog);
+    await vi.waitFor(() => expect(inside(focused(), dialog.querySelector('nph-button[autofocus]') as Element)).toBe(true));
+  });
+
+  it('a move of the focus by the person before the pieces draw is kept', async () => {
+    const dialog = document.createElement('nph-dialog');
+    dialog.heading = 'Edit profile';
+    dialog.closeLabel = 'Close';
+    dialog.innerHTML = '<input id="field" aria-label="Name"><input id="other" aria-label="Other"><nph-button slot="footer" text="Save" autofocus></nph-button>';
+    dialog.open = true;
+    document.body.append(dialog);
+    await dialog.updateComplete;
+    expect(focused()?.id).toBe('field');
+    (dialog.querySelector('#other') as HTMLInputElement).focus();
+    await settle(dialog);
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(focused()?.id).toBe('other');
+  });
+
   it('connected already open, with no content and no footer, the focus waits for the close button to draw', async () => {
     const dialog = document.createElement('nph-dialog');
     dialog.heading = 'Edit profile';
@@ -708,11 +734,25 @@ describe('scroll', () => {
     expect(panel.getBoundingClientRect().height).toBeCloseTo(tokenPx('--nph-layout-dialog-max-height'), 0);
     expect(content.scrollHeight).toBeGreaterThan(content.clientHeight);
     expect(getComputedStyle(content).overflowY).toBe('auto');
-    expect(getComputedStyle(panel).overflow).toBe('hidden');
+    expect(panel.scrollHeight).toBe(panel.clientHeight);
     const footer = part(dialog, '.footer')?.getBoundingClientRect() as DOMRect;
     expect(footer.bottom).toBeLessThanOrEqual(panel.getBoundingClientRect().bottom);
     content.scrollTop = 400;
     expect(part(dialog, '.header')?.getBoundingClientRect().top).toBeGreaterThanOrEqual(panel.getBoundingClientRect().top);
+  });
+
+  it('in a window too short for the header and the stacked actions, the window scrolls and every action is reachable', async () => {
+    await page.viewport(NARROW.width, 220);
+    const dialog = await mount({ actions: 'stacked', content: FORM, footer: ACTIONS });
+    const panel = await openIt(dialog);
+    expect(panel.scrollHeight).toBeGreaterThan(panel.clientHeight);
+    /* Scrollable by the person (wheel and touch), not only by code. */
+    expect(getComputedStyle(panel).overflowY).toBe('auto');
+    panel.scrollTop = panel.scrollHeight;
+    const box = panel.getBoundingClientRect();
+    const [cancel] = actionRects(dialog);
+    expect(cancel.bottom).toBeLessThanOrEqual(box.bottom);
+    expect(cancel.top).toBeGreaterThanOrEqual(box.top);
   });
 
   it('in a short window, the height also stops at the window, less the edge', async () => {
@@ -761,6 +801,21 @@ describe('scroll', () => {
 });
 
 describe('width', () => {
+  it('a long title or description with no space breaks inside the titles, clear of the close button', async () => {
+    await page.viewport(NARROW.width, NARROW.height);
+    const id = 'REC-8F3A9C2E7B1D4F6A0C5E9B2D7F1A3C8E6B4D0F2A';
+    const dialog = await mount({ heading: id, description: id, content: FORM });
+    await openIt(dialog);
+    const titles = part(dialog, '.titles') as HTMLElement;
+    const close = (closeButton(dialog) as Element).getBoundingClientRect();
+    for (const selector of ['.heading', '.description']) {
+      const text = part(dialog, selector) as HTMLElement;
+      expect(text.scrollWidth, selector).toBeLessThanOrEqual(text.clientWidth);
+      expect(text.getBoundingClientRect().right, selector).toBeLessThanOrEqual(close.left);
+    }
+    expect(titles.getBoundingClientRect().right).toBeLessThanOrEqual(close.left);
+  });
+
   it('hugs the content: a small content keeps layout/dialog-min-width', async () => {
     const dialog = await mount({ heading: 'Hi', description: '', hideClose: true, content: '<span>Ok</span>' });
     const panel = await openIt(dialog);
@@ -936,6 +991,16 @@ describe('window, header and spaces', () => {
   it('a content of only spaces is no content', async () => {
     const dialog = await mount({ content: '   ' });
     expect(part(dialog, '.content')?.hidden).toBe(true);
+  });
+
+  it('a text of only spaces edited in place into words shows the content area', async () => {
+    const dialog = await mount({ content: '   ' });
+    expect(part(dialog, '.content')?.hidden).toBe(true);
+    const text = [...dialog.childNodes].find((node) => node.nodeType === Node.TEXT_NODE) as Text;
+    text.data = 'Are you sure?';
+    await vi.waitFor(() => expect(part(dialog, '.content')?.hidden).toBe(false));
+    text.data = '  ';
+    await vi.waitFor(() => expect(part(dialog, '.content')?.hidden).toBe(true));
   });
 });
 
