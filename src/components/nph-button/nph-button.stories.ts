@@ -111,7 +111,7 @@ export const Sizes: Story = {
   },
 };
 
-/** Start icon, end icon and both together (B6), at icon/size-sm. */
+/** Start icon, end icon and both together (B6), at icon/size-sm; on hover, the icons turn solid (P88). */
 export const Icons: Story = {
   name: 'Icons',
   render: (_args, context: GlobalsContext) => {
