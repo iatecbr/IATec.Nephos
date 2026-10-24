@@ -89,14 +89,45 @@ states, the characters, typing and pasting (`48a-2` becomes `48a2`, with the act
 marked), the three examples with the real `nph-field` and the Docs page, with no warning
 in the console.
 
-## Still open
+## Resolved after the merge
 
-The round 5 finding of Copilot has no decision. When a consumer cancels the `paste` in a
-bubbling listener (a listener without capture on the host or on the form), the field has
-already replaced the code and fired `input`: `onPaste`
-(`src/components/nph-input-otp/nph-input-otp.ts`) only sees a cancel made before it, in
-capture. Elvys decides between a small PR with the fix and recording it in P85 as a known
-limit.
+The round 5 finding of Copilot, open when PR #110 was merged, is resolved by
+[PR #116](https://github.com/iatecbr/IATec.Nephos/pull/116). When a consumer canceled the
+`paste` in a bubbling listener (a listener without capture on the host or on the form), the
+field had already replaced the code and fired `input`. Elvys chose a small PR with the fix.
+
+The field no longer touches the `paste` event: it keeps the whole pasted text in
+`beforeinput` (`insertFromPaste`) and replaces the value in its own `input` listener. The
+browser fires those only when no one canceled the paste, by any means (`preventDefault()` in
+capture or in bubbling, `onpaste` returning `false`, `returnValue`, or a canceled
+`beforeinput`). A paste with no letter or digit is refused in `beforeinput`, so the caret
+stays, and after a paste the caret goes to the end. The tests paste for real (clipboard and
+Ctrl/Cmd+V), and P85, item 3, records the rule.
+
+How the review went: Copilot reviewed; no human code review; merged by Elvys.
+
+| Round | Reviewed head | Findings | Answer |
+|---|---|---|---|
+| 1 | `a20a8a0` | 3 threads | Fixed in `5c28b1b`, replacing the deferred approach, each with a regression test |
+| 2 | `9f2657b` | 1 thread | Fixed in `cdae903`, with a regression test |
+| 3 | `a0b3bc4` | 1 thread | Fixed in `f769f4c`, with a regression test |
+| 4 | `f989c65` | No open issue; approval recommended | — |
+
+All 5 threads were answered and resolved. The final head, `0a62f44`, only merges
+`v/5.0.0` at `191fe6e` over `f989c65`, with no conflict; the round 4 review covers it. Run
+on `0a62f44` after `npm ci`, the proof commands of this evidence exited with `0` (2659
+tests; `test:package` with 1052 checks and 23 components), and `npm run test:naming`
+exited with `1` only on files outside the PR.
+
+| PR | Merge | PR head | Merged by |
+|---|---|---|---|
+| [#116](https://github.com/iatecbr/IATec.Nephos/pull/116) | `106adec` (2026-10-24T23:15:15Z) | `0a62f44` | `elvysmarcos` |
+
+`git merge-base --is-ancestor 0a62f44687e3cefe45fbc15bde71cef31959cd09 origin/v/5.0.0`
+exits with `0`, checked against `origin/v/5.0.0` at
+`106adec18d52255295ea2d770400725582460c30`.
+
+## Still open
 
 D1 to D4 stay in the task's `pending_decisions`, with Indiane, unchanged. None changes a
 token or blocks the task:
