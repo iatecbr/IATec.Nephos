@@ -1,7 +1,7 @@
 # Technical decisions — Nephos
 
 This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P86, P87, P88, P90 and P85. If this file and any other document in the
+P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P86, P87, P88, P90, P85 and P93. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -55,6 +55,7 @@ P62.4 subsection for the detail).
 | **P88** | `nph-button`: solid icon in `hover-active` (amends P68) | 23/10/2026 | Low. Visual only: no API, event or token changes, and the accessible name stays | Rule decided by Indiane on 21/10/2026 and shown in Figma (`461:13009`); the plan is approved by Elvys on 22/10/2026. Reviewed in the pull request that brings it |
 | **P90** | API and semantics of `nph-image` | 23/10/2026 | Low now. No piece consumes it yet; `nph-table` will, for the thumbnail and the expanded item, so changing `size`, `ratio`, `src`, `alt` or `interactive`, or the derived state, later requires redoing it | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P85** | API and semantics of `nph-input-otp` | 22/10/2026 | Low now. No piece consumes it yet; a sign-in or verification screen will, inside `nph-field`, so changing `length`, `masked`, `value` or the native events later requires redoing that screen | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P93** | API and semantics of `nph-textarea` | 23/10/2026 | Low now. No piece consumes it yet; a comment box or a message composer will, so changing `counter`, `readonly` or the `actions` slot later requires redoing them. It copies the form shape of P80 and the field contract of P83 | Anatomy and behavior: frame accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -3260,9 +3261,127 @@ the merge is the approval.
 
 ---
 
+## P93 — `nph-textarea`: API and semantics
+
+**Decision.** `nph-textarea` is a Web Component with **open Shadow DOM** (P01) and
+`delegatesFocus`, CSS in its own file imported `?inline`, as in `nph-input`. It is a form
+control: it copies the form shape of P80 and takes the field–control contract of P83. Anatomy
+only through semantic tokens. It has no `::part`, no `nph-*` event, no color property and no
+size. The names follow P64.
+
+1. **Properties.** The Figma properties are `state`, `texto do valor`, `texto do placeholder`,
+   `rodapé` and `texto do contador`. The mapping below is a technical proposal of this
+   implementation.
+
+   | Figma | API |
+   |---|---|
+   | `state` `default`, `hover`, `foco`, `erro-foco` | not a property: the resting look, the pointer and the focus |
+   | `state` `erro` | `invalid`, reflected |
+   | `state` `disabled` | `disabled`, reflected |
+   | `state` `leitura` | `readOnly` (attribute `readonly`), reflected |
+   | `texto do valor` | `value` |
+   | `texto do placeholder` | `placeholder` |
+   | `rodapé` | not a property: on when there is a `counter` or an element in the `actions` slot |
+   | `texto do contador` | `counter` |
+   | the footer actions | the named slot `actions` |
+
+   The form side is `name` (reflected) and `required` (reflected), and the field contract is
+   `label` and `description`, as in P80.
+
+2. **The form shape of P80, with two divergences.** Value (the `value` attribute as the
+   default, the property as the current value, the dirty flag), form association, reset,
+   history restore, disabled `<fieldset>` with its first legend, validity mirrored from the inner
+   field, name by reference to the associated labels or `label`, `description` in a clipped
+   element, the native `input` and the `change` fired again by the host, and no event when code
+   sets `value` — all as P80 describes them, with no shared helper (P83, item 5). The value keeps
+   its line breaks. The two divergences:
+   1. **Enter writes a new line.** It does not submit the form, so the Enter rule of P80 item 2
+      does not apply, and the piece has no `keydown` of its own.
+   2. **`readonly` exists.** P80 left a read-only state out of `nph-input`; the evidence gives
+      `state=leitura` here. `readonly` is the native one of the inner `<textarea>`: the field is
+      focusable and selectable, stays in the form data and is out of validation, as the native
+      one. It draws no hover, no error look and no `aria-invalid`, because the evidence says
+      `leitura` "does not change on hover and has no error". The precedence is `disabled` over
+      `readonly` over `invalid`.
+
+3. **The counter is text.** `counter` is shown as it comes, such as `0/280`, as the `counter` of
+   `nph-field` (P83): the piece counts nothing and does not know the format or the language of
+   the count. The consumer writes it on `input`. There is no native `maxlength`, which would
+   block typing; the evidence says a passed limit is warned with `state=erro` and the field
+   message, "without blocking the typing". A text that is empty or only spaces turns it off. It
+   is not part of the accessible description, as the support-line counter of P83. Discarded: a
+   soft `maxlength` with a generated `{length}/{max}`, which invents a format and a language in
+   the piece.
+
+4. **The footer.** The actions are instances the consumer chooses (`nph-button`, `ghost` and
+   `solid`, `size=default`), so they enter through the named slot `actions`, the only slot of the
+   piece. There is no `footer` property: the footer is drawn when there is a counter or an action,
+   inside the box, `space/stack` below the text — the bottom padding of the field is part of that
+   distance — with the counter at the start and the actions at the end, `space/inline` apart. In
+   `readonly`, the footer is not drawn even with content (the "Do not" of the evidence), and one
+   `console.warn` in development says why, not repeated while it lasts. When the piece is
+   disabled — by its attribute or by a fieldset — it writes `disabled` on each slotted element
+   that has the property and gives back only what it turned on, also when the element leaves the
+   slot: the additive rule of P83. As in `nph-field`, the owner and the forced `disabled` are
+   shared by every instance, so an action moved to another textarea belongs to the new one, and a
+   custom element defined after the render is synchronized when it upgrades.
+
+5. **Growth and scroll.** The inner `<textarea>` is the scroll area: `box-sizing: border-box`,
+   `min-block-size: layout/textarea-min-height`, `max-block-size: layout/textarea-max-height`,
+   `overflow-y: auto` and `resize: none` (no handle). It grows with the text through
+   `field-sizing: content`. The box draws the border and does not clip, so the focus halo, drawn
+   on `.control::after` as in `nph-input`, stays outside the clipping, as the evidence asks.
+   Discarded for v1: measuring `scrollHeight` in JavaScript on every `input`.
+
+6. **Measures the evidence does not give.** The padding is `space/control-padding` on the sides,
+   as `nph-input`, and `space/inline` at the top and bottom: 76 = 3 × 20 (`text/body-md`) + 2 × 8,
+   which is what the `use` of `layout/textarea-min-height` describes, "room for the text lines
+   plus the padding of the field". The default width is `layout/input-width`, with no minimum; the
+   parent stretches it, as `nph-field` does. These are D-1 and D-4 of DSA-38.
+
+7. **No invalid input that draws nothing.** The piece has no enumerated property, so the P21
+   rule has no case here and there is no `data-nph-rendered`. A field with no accessible name and
+   a footer in `readonly` render and warn once each in development.
+
+**Known limits.**
+
+- **`field-sizing` is recent.** A browser without it keeps the field at
+  `layout/textarea-min-height` and scrolls inside: the text is never cut and the field never
+  passes the maximum, but it does not grow.
+- **Forced colors and right-to-left are not treated yet**, as in P80.
+- **A disabled action fades twice.** The piece is at `state/disabled-opacity` and each
+  `nph-button` it disables takes its own disabled opacity, so the action reads fainter than the
+  field. P83 avoided that sum in `nph-field`; here the evidence asks for both the faded piece and
+  the disabled actions, and the sum waits for Indiane (D-5 of DSA-38).
+
+**Points for review.**
+
+- **The two divergences from P80**: Enter writes a line, and `readonly` exists.
+- **`counter` as a text**, with no count and no `maxlength`.
+- **The `actions` slot and no `footer` property**, the footer on by its content.
+- **`field-sizing: content`** for the growth, and its limit.
+- **The padding and the width** (D-1, D-4), the focus in `readonly` (D-2), the arrangement of
+  the footer (D-3) and the opacity of a disabled action (D-5), which wait for Indiane.
+
+**Source.** Frame `nph-textarea` (`1632:24`), documentation `1922:642` and set `1632:22` of the
+Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 16/10/2026, with the Figma UX QA and the
+textual audit approved. The mapping of the properties, the `actions` slot, `counter` as a text,
+the readonly rules, the growth through `field-sizing` and the padding are a technical proposal of
+this implementation, approved with the plan by Elvys on 23/10/2026.
+
+**Out of scope.** A resize handle, `rows`, `maxlength`, `minlength`, `autocomplete`, a size and
+motion. The count of characters, which belongs to the consumer. The Usage section of the page
+(P70, DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate
+(P72, DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 16/10/2026. API and semantics are reviewed
+in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P86, P87, P90 or P85 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P86, P87, P90, P85 or P93 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

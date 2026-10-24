@@ -1,0 +1,191 @@
+/**
+ * Internal style of `nph-textarea`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the shadow
+ * root and are not API.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `100%`,
+ * `50%` and `1` (box and flex relations), `transparent` (the inner field shows the
+ * container), `auto` (the scroll), `calc(-1 * ...)` (focus border and halo outside,
+ * without changing the size), the difference of two space tokens (the distance from the
+ * text to the footer), and the resets of the native field (`margin`, `border`, `font`,
+ * `appearance`, `resize`).
+ *
+ * The order of the state rules is the precedence: hover, then focus, then error, then
+ * read-only, then disabled, which wins over everything.
+ */
+
+/* Default width `layout/input-width`, as `nph-input`; the parent may stretch it, and there is no minimum (P93). */
+:host {
+  display: inline-flex;
+  vertical-align: top;
+  inline-size: var(--nph-layout-input-width);
+  min-inline-size: 0;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+/* Disabled, by the attribute or by a disabled `<fieldset>`: the whole piece loses opacity. */
+:host(:disabled) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/* The field: border, radius and background. It does not clip, so the halo stays outside. */
+.control {
+  --_border: var(--nph-color-input);
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+  border: var(--nph-border-width) solid var(--_border);
+  border-radius: var(--nph-radius-control);
+  background-color: var(--nph-color-background);
+  color: var(--nph-color-muted-foreground);
+}
+
+/*
+ * The scroll area is the native field itself. It grows with the text from
+ * `layout/textarea-min-height` and stops at `layout/textarea-max-height`; above that, the
+ * text scrolls inside. The heights include the padding of the field (`design.md`).
+ * The value is `text/body-md` in `color/foreground`; the placeholder in
+ * `color/muted-foreground`.
+ */
+.field {
+  box-sizing: border-box;
+  display: block;
+  inline-size: 100%;
+  min-block-size: var(--nph-layout-textarea-min-height);
+  max-block-size: var(--nph-layout-textarea-max-height);
+  margin: 0;
+  padding-block: var(--nph-space-inline);
+  padding-inline: var(--nph-space-control-padding);
+  border: 0;
+  border-radius: var(--nph-radius-control);
+  background-color: transparent;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  overflow-y: auto;
+  field-sizing: content;
+  resize: none;
+  outline: none;
+  appearance: none;
+}
+
+.field::placeholder {
+  color: var(--nph-color-muted-foreground);
+  opacity: 1;
+}
+
+/*
+ * The footer: the counter at the start, the actions at the end, `space/inline` apart. It
+ * sits `space/stack` below the text: the bottom padding of the field is part of that
+ * distance.
+ */
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  margin-block-start: calc(var(--nph-space-stack) - var(--nph-space-inline));
+  padding-block-end: var(--nph-space-inline);
+  padding-inline: var(--nph-space-control-padding);
+}
+
+.footer[hidden] {
+  display: none;
+}
+
+/* The counter: `text/caption` in `color/muted-foreground`, never in the error color. */
+.counter {
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+  color: var(--nph-color-muted-foreground);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  margin-inline-start: auto;
+}
+
+/*
+ * The description: never visible, but in the accessibility tree. It is clipped, not
+ * `display: none`, which the browser does not read; `inset: 0` keeps it inside the
+ * container, so a long text adds no scroll.
+ */
+.description {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Hover: one step above the resting border. */
+.control:hover {
+  --_border: var(--nph-color-input-hover);
+}
+
+/* `foco`: focus on the inner field. The border takes `focus/border` and the halo is attached outside it. */
+.control:has(.field:focus) {
+  --_border: var(--nph-focus-border);
+}
+
+.control:has(.field:focus)::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control);
+  pointer-events: none;
+}
+
+/* `erro`: the border stays `status/error` on hover and on focus; on focus, the halo is the error one. */
+:host([invalid]) .control,
+:host([invalid]) .control:hover,
+:host([invalid]) .control:has(.field:focus) {
+  --_border: var(--nph-status-error);
+}
+
+:host([invalid]) .control:has(.field:focus)::after {
+  border-color: var(--nph-focus-halo-error);
+}
+
+/* `leitura`: the resting border, also under the pointer, and no error look. The focus stays visible. */
+:host([readonly]) .control,
+:host([readonly]) .control:hover {
+  --_border: var(--nph-color-input);
+}
+
+:host([readonly]) .control:has(.field:focus) {
+  --_border: var(--nph-focus-border);
+}
+
+:host([readonly]) .control:has(.field:focus)::after {
+  border-color: var(--nph-focus-halo);
+}
+
+/* Disabled wins: the resting border, the `color/muted` background, no hover and no error look. */
+:host(:disabled) .control,
+:host(:disabled) .control:hover {
+  --_border: var(--nph-color-input);
+
+  background-color: var(--nph-color-muted);
+}
