@@ -593,6 +593,36 @@ describe('toggle and events', () => {
     expect(input(element).checked).toBe(false);
   });
 
+  it('a listener of the consumer in capture on the host already reads the new state, even if it stops the event', async () => {
+    const holder = await parse('<form><nph-checkbox name="news" text="News"></nph-checkbox></form>');
+    const form = holder.querySelector('form') as HTMLFormElement;
+    const element = form.querySelector('nph-checkbox') as NphCheckbox;
+    const seen: Array<[boolean, string | null]> = [];
+    element.addEventListener(
+      'input',
+      (event) => {
+        seen.push([element.checked, new FormData(form).get('news') as string | null]);
+        event.stopPropagation();
+      },
+      { capture: true },
+    );
+    await userEvent.click(box(element));
+    expect(seen).toEqual([[true, 'on']]);
+    expect(element.checked).toBe(true);
+    expect(input(element).checked).toBe(true);
+  });
+
+  it('a click already canceled in capture is not forwarded: no toggle and no event', async () => {
+    const element = await mount();
+    const events = record(element);
+    element.addEventListener('click', (event) => event.preventDefault(), { capture: true, once: true });
+    element.click();
+    expect(element.checked).toBe(false);
+    expect(events).toHaveLength(0);
+    element.click();
+    expect(element.checked).toBe(true);
+  });
+
   it('a <label for> outside toggles the host once', async () => {
     const holder = await parse('<label for="terms">Terms</label><nph-checkbox id="terms" text="I agree"></nph-checkbox>');
     const element = holder.querySelector('nph-checkbox') as NphCheckbox;
@@ -776,6 +806,21 @@ describe('disabled', () => {
     expect(input(element).disabled).toBe(true);
   });
 
+  it('enabled again, a click right after toggles, before the render', async () => {
+    const element = await mount({ text: 'Remember me', disabled: true });
+    element.disabled = false;
+    element.click();
+    expect(element.checked).toBe(true);
+  });
+
+  it('a fieldset enabled again lets a click right after toggle, before the render', async () => {
+    const holder = await parse('<fieldset disabled><nph-checkbox text="News"></nph-checkbox></fieldset>');
+    const element = holder.querySelector('nph-checkbox') as NphCheckbox;
+    (holder.querySelector('fieldset') as HTMLFieldSetElement).disabled = false;
+    element.click();
+    expect(element.checked).toBe(true);
+  });
+
   it('enabling it again brings back the toggle', async () => {
     const element = await mount({ text: 'Remember me', disabled: true });
     element.disabled = false;
@@ -895,6 +940,18 @@ describe('form participation', () => {
     const { form, element } = await inForm('<nph-checkbox name="news" invalid text="News"></nph-checkbox>');
     expect(form.checkValidity()).toBe(true);
     expect(element.hasAttribute('required')).toBe(false);
+  });
+
+  it('a checked piece that loses its text and has no label draws nothing and submits nothing, until it is valid again', async () => {
+    const { form, element } = await inForm('<nph-checkbox name="news" checked text="News"></nph-checkbox>');
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    element.text = '';
+    await element.updateComplete;
+    expect(element.hasAttribute('data-nph-rendered')).toBe(false);
+    expect(new FormData(form).has('news')).toBe(false);
+    element.label = 'News';
+    await element.updateComplete;
+    expect(new FormData(form).get('news')).toBe('on');
   });
 
   it('state restoration brings back the checked state', async () => {

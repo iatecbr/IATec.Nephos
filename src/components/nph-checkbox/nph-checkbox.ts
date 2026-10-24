@@ -115,6 +115,11 @@ export class NphCheckbox extends LitElement {
     /* In disabled, a click neither toggles nor reaches the consumer, as on a native disabled control. */
     this.addEventListener('click', (event) => this.blockInactive(event), { capture: true });
     this.addEventListener('click', (event) => this.forwardHostClick(event));
+    /*
+     * The `input` of the inner input is heard on the host, in capture and first: the state moves
+     * before any listener the consumer puts on the host runs, even one that stops the event.
+     */
+    this.addEventListener('input', (event) => this.onInput(event), { capture: true });
   }
 
   /** The current state. Setting it from code makes the piece dirty and fires no event. */
@@ -163,6 +168,7 @@ export class NphCheckbox extends LitElement {
     if (name === 'checked' && !this.dirty) {
       this.moveChecked(value !== null, false);
     } else if (name === 'disabled') {
+      this.syncInactive();
       this.requestUpdate('disabled', old !== null);
     } else if (name === 'name' || name === 'value') {
       this.syncFormValue();
@@ -178,6 +184,7 @@ export class NphCheckbox extends LitElement {
   /** A disabled `<fieldset>` disables the piece as its own `disabled` does; the callback hears both. */
   formDisabledCallback(disabled: boolean): void {
     this.formDisabled = disabled;
+    this.syncInactive();
     this.requestUpdate();
   }
 
@@ -205,9 +212,22 @@ export class NphCheckbox extends LitElement {
     this.requestUpdate('checked', previous);
   }
 
-  /** A checked piece submits `name=value`; unchecked, nothing. The state is kept for restoration. */
+  /**
+   * A checked piece submits `name=value`; unchecked, nothing. A piece that draws nothing (no text
+   * and no label) submits nothing either: the person can neither see nor uncheck it. The state is
+   * kept for restoration.
+   */
   private syncFormValue(): void {
-    this.internals.setFormValue(this.checkedState ? this.value : null, this.checkedState ? 'checked' : 'unchecked');
+    const submits = this.checkedState && this.valid;
+    this.internals.setFormValue(submits ? this.value : null, this.checkedState ? 'checked' : 'unchecked');
+  }
+
+  /** The inner input is enabled or disabled at once, so a click right after sees the new state. */
+  private syncInactive(): void {
+    const input = this.input;
+    if (input !== null) {
+      input.disabled = this.inactive;
+    }
   }
 
   private get inactive(): boolean {
@@ -229,19 +249,23 @@ export class NphCheckbox extends LitElement {
   /**
    * `click()` called on the host, or a click from a `<label for>` outside, toggles the piece as
    * on a native checkbox. A click that comes from inside the shadow root has already toggled the
-   * inner input and is not forwarded.
+   * inner input and is not forwarded; a click already canceled is not forwarded either.
    */
   private forwardHostClick(event: Event): void {
-    if (event.composedPath()[0] !== this || this.inactive || !this.valid) {
+    if (event.composedPath()[0] !== this || event.defaultPrevented || this.inactive || !this.valid) {
       return;
     }
     this.input?.click();
   }
 
-  /** The native `input` of the inner input: the state moves before the event reaches the host. */
+  /** The native `input` of the inner input. On the host the target is retargeted, so the inner input is read. */
   private onInput(event: Event): void {
+    const input = this.input;
+    if (input === null || event.composedPath()[0] !== input) {
+      return;
+    }
     this.indeterminate = false;
-    this.moveChecked((event.target as HTMLInputElement).checked, true);
+    this.moveChecked(input.checked, true);
   }
 
   /** The native `change` does not cross the shadow root: the host fires its own. */
@@ -261,6 +285,7 @@ export class NphCheckbox extends LitElement {
       devError('without text, the piece needs a label: it is the accessible name of the box alone.');
     }
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);
+    this.syncFormValue();
   }
 
   protected override render(): TemplateResult | typeof nothing {
@@ -282,7 +307,6 @@ export class NphCheckbox extends LitElement {
           ?disabled=${this.inactive}
           aria-label=${text === '' ? label : nothing}
           aria-invalid=${showsError ? 'true' : nothing}
-          @input=${this.onInput}
           @change=${this.onChange}
         />
         <span class="box" aria-hidden="true"
