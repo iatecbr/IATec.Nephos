@@ -153,6 +153,8 @@ export class NphInputOtp extends LitElement {
   private valid = false;
   private focused = false;
   private caret = 0;
+  /** The whole pasted text, from the `beforeinput` of a paste to its `input`. */
+  private pasted: string | null = null;
   /** The value when the field took focus, to know whether `change` is due. */
   private committed = '';
   private namelessWarned = false;
@@ -367,12 +369,17 @@ export class NphInputOtp extends LitElement {
     if (input === null) {
       return;
     }
-    const raw = input.value;
-    const caret = input.selectionStart ?? raw.length;
+    const pasted = (event as InputEvent).inputType === 'insertFromPaste' ? this.pasted : null;
+    this.pasted = null;
+    /* A paste replaces the whole value with the cleaned text; one with no letter or digit changes nothing. */
+    const fromPaste = pasted === null ? null : this.fit(pasted, false) || this.current;
+    const raw = fromPaste ?? input.value;
+    const caret = fromPaste === null ? (input.selectionStart ?? raw.length) : raw.length;
     const next = this.fit(raw, false);
     const caretAfter = Math.min(this.fit(raw.slice(0, caret), false).length, next.length);
     const previous = this.current;
-    if (raw !== next) {
+    /* After a paste the caret goes to the end even when the browser's insertion, cut at `maxlength`, already gave the code. */
+    if (input.value !== next || fromPaste !== null) {
       input.value = next;
       input.setSelectionRange(caretAfter, caretAfter);
     }
@@ -392,31 +399,26 @@ export class NphInputOtp extends LitElement {
   /**
    * A typed character that is not a letter or a digit is refused before the browser
    * replaces the selection with it, so a selected part of the code is not lost.
-   * Autofill and paste keep their own path.
+   *
+   * A paste is the browser's own: the field only keeps the pasted text, and `onInput`
+   * replaces the whole value with it. The browser fires `input` only when no one canceled
+   * the paste or its `beforeinput`, by any means, so a canceled paste leaves the field alone,
+   * as a native input. Autofill keeps its own path.
    */
   private onBeforeInput(event: InputEvent): void {
     if (event.inputType === 'insertText' && event.data !== null && clean(event.data) !== event.data) {
       event.preventDefault();
     }
-  }
-
-  /** A pasted code replaces the whole value, cleaned and cut at `length`. */
-  private onPaste(event: ClipboardEvent): void {
-    /* A paste the consumer already canceled is theirs: the field does nothing, as a native input. */
-    if (event.defaultPrevented) {
-      return;
+    if (event.inputType === 'insertFromPaste') {
+      /* The whole text: the browser cuts what it inserts at `maxlength`. */
+      const text = event.data ?? event.dataTransfer?.getData('text/plain') ?? null;
+      /* A paste with no letter or digit is refused before the browser inserts it, so the caret and the selection stay. */
+      if (text !== null && this.fit(text, false) === '') {
+        event.preventDefault();
+        return;
+      }
+      this.pasted = text;
     }
-    const text = event.clipboardData?.getData('text') ?? '';
-    const next = this.fit(text, false);
-    event.preventDefault();
-    if (next === '' || next === this.current) {
-      return;
-    }
-    /* The native paste is stopped; the input event it would fire goes through `onInput`. */
-    const input = event.target as HTMLInputElement;
-    input.value = next;
-    input.setSelectionRange(next.length, next.length);
-    input.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true, inputType: 'insertFromPaste', data: text }));
   }
 
   /**
@@ -527,7 +529,6 @@ export class NphInputOtp extends LitElement {
         aria-required=${this.required ? 'true' : nothing}
         aria-describedby=${description === '' ? nothing : 'description'}
         @beforeinput=${this.onBeforeInput}
-        @paste=${this.onPaste}
         @keydown=${this.onKeydown}
         @focus=${this.onFocus}
         @blur=${this.onBlur}
