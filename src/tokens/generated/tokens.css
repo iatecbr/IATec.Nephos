@@ -639,7 +639,7 @@
   --nph-table-border: var(--nph-color-border);
   --nph-table-status-success-icon: var(--nph-status-success);
   --nph-table-rating-foreground: var(--nph-brand-educacao);
-  --nph-table-sticky-divider-color: var(--nph-shadow-color-light);
+  --nph-table-sticky-divider-color: var(--nph-color-border);
   --nph-table-scrollbar-thumb: var(--nph-scrollbar-thumb);
   --nph-table-scrollbar-track: var(--nph-scrollbar-track);
   --nph-table-status-error-icon: var(--nph-status-error);

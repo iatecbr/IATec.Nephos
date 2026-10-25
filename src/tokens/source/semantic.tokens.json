@@ -2452,7 +2452,7 @@
     },
     "sticky-divider-color": {
       "$type": "color",
-      "$value": "{shadow.color-light}"
+      "$value": "{color.border}"
     },
     "sticky-divider-width": {
       "$type": "dimension",

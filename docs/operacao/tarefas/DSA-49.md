@@ -39,27 +39,15 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D1",
-      "question": "In Figma, table/sticky-divider-color points to shadow/color-light in both modes, which resolves to black at 0% in dark: the line under the fixed header disappears in dark. Is that the intended result, or should dark point to another color, such as color/border? The token came to the repository with the Figma alias as it is. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-25"
-    },
-    {
-      "id": "D2",
-      "question": "The ⋮ of the actions opens the nph-dropdown-menu, whose task (DSA-45) is blocked. May the nph-table ship the ⋮ as the nph-icon-button it is, and wire the menu when DSA-45 is done, as the nph-dialog did with the icon-only button? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-25"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-49/documentacao-figma-aceita-2026-10-23.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, nph-table visual acceptance, focus ring at 2 px, rating star kept with the WCAG 1.4.11 exception, link in dark on theme/brand-200, header in dark on color/muted, thumbnail on image/size-sm, selection left to the nph-data-table, Figma UX QA approved and documentation accepted",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-23.md, textual audit approved; underlined cell link, actions with Edit and ⋮ as icons, generic photo in thumbnail and expanded item; approved_order 490"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-23.md, textual audit approved; underlined cell link, actions with Edit and ⋮ as icons, generic photo in thumbnail and expanded item; approved_order 490",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-25.md, fixed-header line on color/border in both modes (Figma and tokens); the table ships the ⋮ as the nph-icon-button and wires the nph-dropdown-menu when DSA-45 is done"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -111,8 +99,8 @@ tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## Relations with other tasks
-- The ⋮ opens the `nph-dropdown-menu` (DSA-45, blocked). Whether the table ships
-  the ⋮ before the menu exists is the open decision D2.
+- The ⋮ opens the `nph-dropdown-menu` (DSA-45, blocked). The table ships the ⋮ as
+  the `nph-icon-button` and wires the menu when DSA-45 is done.
 - Sorting, selection, filtering and pagination belong to the `nph-data-table`,
   which has no task yet. The checkbox, the radio and the switch are not part of
   the `nph-table`.

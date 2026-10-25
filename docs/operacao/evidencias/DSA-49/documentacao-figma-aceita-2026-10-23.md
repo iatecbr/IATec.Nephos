@@ -240,7 +240,7 @@ are the resolved values with the default brand (`Sistemas`).
 | `table/thumbnail-size-large` | `image/size-lg` (64) | same | photo of the expanded item |
 | `table/thumbnail-radius` | `radius/inner` (4) | same | thumbnail corner |
 | `table/focus-ring-width` | `core/focus-width/sm` (2) | same | focus ring of the scroll area and the truncated-text cell |
-| `table/sticky-divider-color` | `shadow/color-light` (black at 5%) | `shadow/color-light` (black at 0%) | line under the fixed header |
+| `table/sticky-divider-color` | `color/border` (`#c7c7c7`) | `color/border` (`#6f7782`) | line under the fixed header |
 | `table/sticky-divider-width` | `core/shadow-y/100` (1) | same | line under the fixed header |
 | `table/sticky-divider-spread` | `core/shadow-spread/0` (0) | same | line under the fixed header |
 | `table/sticky-divider-blur` | `core/shadow-blur/0` (0) | same | line under the fixed header |
