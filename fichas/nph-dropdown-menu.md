@@ -147,7 +147,7 @@ ai_hints:
   - "Use the switch to turn something on or off without closing the menu; never in an action that navigates."
   - "Write the tag with one word; a longer text goes in description."
 accessibility:
-  semantics: "The panel is a popover in the top layer. Inside it, an element with role=menu holds the items; a group with a label is a role=group named by the label. A common item is menuitem; a single choice is menuitemradio; a multiple choice and a switch are menuitemcheckbox; aria-checked follows checked. The profile header sits outside the menu: it is informative text. The inner nph-checkbox and nph-switch are inert: the item carries the role, the state and the focus."
+  semantics: "The panel is a popover in the top layer. Inside it, an element with role=menu holds the items; every group is a role=group, named by its label when it has one, because the separator is hidden from the accessibility tree. A common item is menuitem; a single choice is menuitemradio; a multiple choice and a switch are menuitemcheckbox; aria-checked follows checked. The profile header sits outside the menu: it is informative text. The inner nph-checkbox and nph-switch are inert: the item carries the role, the state and the focus."
   accessible_name: "The menu: label, or the trigger. The item: its text, through aria-labelledby; aria-describedby lists the description, the tag, the counter and the shortcut, in that order. Icons, avatar, box, switch, arrow and check are not read."
   keyboard:
     - "On the trigger, Enter, Space and the down arrow open the menu on the first item; the up arrow on the last."
@@ -290,7 +290,7 @@ destructive item hovers in `color/destructive-surface` and keeps its light icon 
 
 | Criterion | Rule |
 |---|---|
-| Semantics | A popover panel with a `role=menu` inside; a named group is a `role=group`. Items are `menuitem`, `menuitemradio` (single choice) or `menuitemcheckbox` (multiple choice and switch), with `aria-checked`. The profile header sits outside the menu. The inner `nph-checkbox` and `nph-switch` are `inert` |
+| Semantics | A popover panel with a `role=menu` inside; every group is a `role=group`, named by its label when it has one. Items are `menuitem`, `menuitemradio` (single choice) or `menuitemcheckbox` (multiple choice and switch), with `aria-checked`. The profile header sits outside the menu. The inner `nph-checkbox` and `nph-switch` are `inert` |
 | Accessible name | The menu: `label`, or the trigger. The item: its `text`; the description, the tag, the counter and the shortcut describe it, in that order. Support icons are not read |
 | Keyboard | The menu button pattern of the APG: on the trigger, Enter, Space and ↓ open on the first item, ↑ on the last; in the menu, ↑ ↓ with wrap, Home, End, a typed character, Enter and Space activate, Esc closes and gives the focus back, Tab closes |
 | Focus | The `color/primary` border carries the focus, 5.37:1 in light and 4.59:1 in dark; the halo is decorative |

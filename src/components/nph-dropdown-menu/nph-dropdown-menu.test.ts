@@ -294,6 +294,21 @@ describe('invalid input', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
   });
 
+  it('for set right after append, before the first update, still finds the trigger', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const trigger = document.createElement('button');
+    trigger.id = 'after-append';
+    document.body.append(trigger);
+    const menu = document.createElement('nph-dropdown-menu');
+    menu.items = ITEMS;
+    document.body.append(menu);
+    menu.setAttribute('for', 'after-append');
+    await settle(menu);
+    expect(menu.hasAttribute('data-nph-rendered')).toBe(true);
+    expect(trigger.getAttribute('aria-haspopup')).toBe('menu');
+    expect(error).not.toHaveBeenCalled();
+  });
+
   it('looks the trigger up in its own root, never in the document', async () => {
     const outside = document.createElement('button');
     outside.id = 'actions';
@@ -840,6 +855,26 @@ describe('roles and names the browser computes', () => {
     expect(described).toEqual(['Change the name', 'F2']);
   });
 
+  it('two sets with no label, split by a separator, are two groups', async () => {
+    const { menu } = await mount([
+      { value: 'list', text: 'List', selection: 'single', checked: true },
+      { value: 'grid', text: 'Grid', selection: 'single' },
+      { type: 'separator' },
+      { value: 'name', text: 'Name', selection: 'single', checked: true },
+      { value: 'date', text: 'Date', selection: 'single' },
+    ]);
+    menu.open = true;
+    await settle(menu);
+    const groups = [...(menu.shadowRoot?.querySelectorAll<HTMLElement>('[role="menu"] > [role="group"]') ?? [])];
+    expect(groups.map((group) => [...group.querySelectorAll('[role="menuitemradio"]')].length)).toEqual([2, 2]);
+    expect((await axNode(groups[0] as HTMLElement)).role).toBe('group');
+    expect([...(menu.shadowRoot?.querySelector('[role="menu"]')?.children ?? [])].map((child) => child.getAttribute('role') ?? child.tagName.toLowerCase())).toEqual([
+      'group',
+      'nph-separator',
+      'group',
+    ]);
+  });
+
   it('a group with a label is a named group; the header sits outside the menu', async () => {
     const { menu } = await mount([{ type: 'label', text: 'View' }, ...ITEMS], { header: { name: 'Ana Souza', status: 'Online' } });
     menu.open = true;
@@ -1089,6 +1124,58 @@ describe('anatomy, measures and colors', () => {
     } finally {
       document.documentElement.style.fontSize = '';
     }
+  });
+
+  it('a new trigger while open: the panel follows the scroll of its ancestors, also inside a shadow root', async () => {
+    const { menu } = await mount();
+    /* The new trigger is slotted into a scroller inside a shadow root: its scroll never reaches window. */
+    const host = document.createElement('div');
+    const root = host.attachShadow({ mode: 'open' });
+    const scroller = document.createElement('div');
+    scroller.style.cssText = 'height: 200px; overflow: auto;';
+    const inner = document.createElement('div');
+    inner.style.cssText = 'height: 1000px; padding-top: 50px;';
+    inner.append(document.createElement('slot'));
+    scroller.append(inner);
+    root.append(scroller);
+    const other = document.createElement('button');
+    other.id = 'other';
+    other.textContent = 'Other';
+    host.append(other);
+    document.body.prepend(host);
+    menu.open = true;
+    await settle(menu);
+    menu.setAttribute('for', 'other');
+    await settle(menu);
+    await settle(menu);
+    scroller.scrollTop = 30;
+    await settle(menu);
+    await settle(menu);
+    const gap = px('--nph-space-inline-tight');
+    await vi.waitFor(() => expect(getComputedStyle(panel(menu)).translate).toBe('none'));
+    expect(panel(menu).getBoundingClientRect().top - other.getBoundingClientRect().bottom).toBeCloseTo(gap, 0);
+  });
+
+  it('toggling an item near the end of a scrolled menu keeps the scroll position', async () => {
+    const many: NphDropdownMenuEntry[] = [
+      ...Array.from({ length: 59 }, (_, index) => ({ value: `v${index}`, text: `Item ${index}` })),
+      { value: 'last', text: 'Last', selection: 'multiple' as const },
+    ];
+    const { menu, trigger } = await mount(many);
+    trigger.focus();
+    await userEvent.keyboard('{Enter}');
+    await settle(menu);
+    await userEvent.keyboard('{End}');
+    await settle(menu);
+    const before = panel(menu).scrollTop;
+    expect(before).toBeGreaterThan(0);
+    await userEvent.keyboard(' ');
+    await settle(menu);
+    expect(menu.open).toBe(true);
+    expect(panel(menu).scrollTop).toBeCloseTo(before, 0);
+    const box = panel(menu).getBoundingClientRect();
+    const item = itemOf(menu, 'last').getBoundingClientRect();
+    expect(item.bottom).toBeLessThanOrEqual(box.bottom + 1);
   });
 
   it('a menu taller than the room scrolls inside, and only then', async () => {

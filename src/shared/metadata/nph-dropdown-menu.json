@@ -208,7 +208,7 @@
     "Write the tag with one word; a longer text goes in description."
   ],
   "accessibility": {
-    "semantics": "The panel is a popover in the top layer. Inside it, an element with role=menu holds the items; a group with a label is a role=group named by the label. A common item is menuitem; a single choice is menuitemradio; a multiple choice and a switch are menuitemcheckbox; aria-checked follows checked. The profile header sits outside the menu: it is informative text. The inner nph-checkbox and nph-switch are inert: the item carries the role, the state and the focus.",
+    "semantics": "The panel is a popover in the top layer. Inside it, an element with role=menu holds the items; every group is a role=group, named by its label when it has one, because the separator is hidden from the accessibility tree. A common item is menuitem; a single choice is menuitemradio; a multiple choice and a switch are menuitemcheckbox; aria-checked follows checked. The profile header sits outside the menu: it is informative text. The inner nph-checkbox and nph-switch are inert: the item carries the role, the state and the focus.",
     "accessible_name": "The menu: label, or the trigger. The item: its text, through aria-labelledby; aria-describedby lists the description, the tag, the counter and the shortcut, in that order. Icons, avatar, box, switch, arrow and check are not read.",
     "keyboard": [
       "On the trigger, Enter, Space and the down arrow open the menu on the first item; the up arrow on the last.",

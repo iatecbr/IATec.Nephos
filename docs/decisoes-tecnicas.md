@@ -4064,7 +4064,8 @@ custom element definition per folder (`vite.config.lib.ts`, `scripts/test-packag
    label, or after a separator with no label, form a group with no name. A group with no item is
    dropped and its separator goes to the next group. Single choice is exclusive inside its group.
 4. **Semantics.** The panel is a `popover="manual"` (top layer, as P77 and P91). Inside, a
-   `role="menu"`; a named group is a `role="group"` labelled by its label; the profile header sits
+   `role="menu"`; every group is a `role="group"`, labelled by its label when it has one (the
+   `nph-separator` is hidden from the accessibility tree, so the group carries the split); the profile header sits
    outside the menu, as informative text. A common item is `menuitem`, a single choice
    `menuitemradio`, a multiple choice and a switch `menuitemcheckbox`, with `aria-checked`. The name
    of an item is its text (`aria-labelledby`); `aria-describedby` lists the description, the tag,
@@ -4086,7 +4087,8 @@ custom element definition per folder (`vite.config.lib.ts`, `scripts/test-packag
    opens nothing, by click or by key; a press on it still closes an open menu.
 6. **Placement and motion.** `space/inline-tight` below the trigger (D-1, as the list of
    `nph-select`), aligned to its start edge; it turns up when it does not fit below and fits above,
-   never leaves the window and follows the trigger on scroll and resize. `layout/input-width` is the
+   never leaves the window and follows the trigger on scroll and resize, also a trigger set by `for` while
+   open. `layout/input-width` is the
    preferred width: a narrower window, or a larger font, holds the panel inside it. Only a menu taller
    than the room scrolls inside. `open` set before the trigger exists waits for the lookup. Opening fades in and slides `space/inline-tight` on `motion/enter-*`,
    closing on `motion/exit-*`, as the list of `nph-select` (D-2); under reduced motion, opacity only

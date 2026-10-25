@@ -326,6 +326,13 @@ export class NphDropdownMenu extends LitElement {
       this.wroteHaspopup = true;
     }
     found.setAttribute('aria-expanded', String(this.open));
+    /* A new trigger while open: the panel follows its size and the scroll of its ancestors. */
+    if (this.shown) {
+      this.resizeObserver?.disconnect();
+      this.resizeObserver?.observe(found);
+      this.updateScrollTargets();
+      this.onViewportChange();
+    }
     this.requestUpdate();
   }
 
@@ -644,7 +651,8 @@ export class NphDropdownMenu extends LitElement {
   }
 
   protected override willUpdate(changed: PropertyValues): void {
-    if (changed.has('for') && this.isConnected && changed.get('for') !== undefined) {
+    /* Also on the first update: `for` may be set after the menu was connected. */
+    if (changed.has('for') && this.isConnected) {
       this.attach();
     }
     const causes: string[] = [];
@@ -831,6 +839,8 @@ export class NphDropdownMenu extends LitElement {
     if (!visible) {
       return;
     }
+    /* Measuring drops the scroll limits; the scroll position comes back after it. */
+    const scrollTop = panel.scrollTop;
     panel.style.maxHeight = '';
     panel.style.overflowY = '';
     /* `layout/input-width` is the preferred width; a narrower window, or a larger font, holds it. */
@@ -848,6 +858,7 @@ export class NphDropdownMenu extends LitElement {
       /* Only a menu taller than the room scrolls: a scrolling box clips the focus halo (P92). */
       panel.style.maxHeight = `${Math.max(room, 0)}px`;
       panel.style.overflowY = 'auto';
+      panel.scrollTop = scrollTop;
       shownHeight = panel.getBoundingClientRect().height;
     }
     const rtl = getComputedStyle(trigger).direction === 'rtl';
@@ -951,8 +962,9 @@ export class NphDropdownMenu extends LitElement {
   private renderGroup(group: Group, position: number): TemplateResult {
     const items = group.rows.map((row) => this.renderItem(row));
     const separator = group.separated ? html`<nph-separator class="separator"></nph-separator>` : nothing;
+    /* A group with no label is still a group: the separator is hidden from the accessibility tree. */
     if (group.label === '') {
-      return html`${separator}${items}`;
+      return html`${separator}<div class="group" role="group">${items}</div>`;
     }
     const labelId = `${this.uid}-group-${position}`;
     return html`${separator}<div class="group" role="group" aria-labelledby=${labelId}>
