@@ -204,6 +204,17 @@
     "components-nph-dialog-validation--focus-and-escape": "Focus and Esc",
     "components-nph-dialog-fixtures": "Fixtures",
     "components-nph-dialog-fixtures--example": "Example",
+    "components-nph-checkbox-docs": "Docs",
+    "components-nph-checkbox-docs--documentation": "Documentation",
+    "components-nph-checkbox-validation": "Validation",
+    "components-nph-checkbox-validation--matrix": "Matrix",
+    "components-nph-checkbox-validation--text-wrap": "Text wrap",
+    "components-nph-checkbox-validation--box-alone": "Box alone",
+    "components-nph-checkbox-validation--invalid": "Invalid",
+    "components-nph-checkbox-validation--disabled": "Disabled",
+    "components-nph-checkbox-validation--form": "Form",
+    "components-nph-checkbox-validation--interactive": "Interactive",
+    "components-nph-checkbox-validation--examples": "Examples",
     "components-nph-radio-docs": "Docs",
     "components-nph-radio-docs--documentation": "Documentation",
     "components-nph-radio-validation": "Validation",
@@ -3129,8 +3140,8 @@
     "onThisPage": "On this page",
     "derivedTitle": "This page is derived.",
     "derivedText": "In case of divergence, the canonical sources prevail: the nph-field spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P83. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
-    "standInTitle": "The options of the groups on this page are demonstration elements.",
-    "standInText": "They take the field contract of P83 and stand in for nph-checkbox and nph-radio, which have their own pages. They are not part of the package.",
+    "standInTitle": "The options of the radio group on this page are demonstration elements.",
+    "standInText": "They take the field contract of P83 and stand in for nph-radio until it is on the base. They are not part of the package. The checkboxes are the real nph-checkbox.",
     "sourceLabel": "Source:",
     "sourceFrame": "Figma, frame nph-field (1194:21863), set 657:50",
     "sourceApi": "nph-field spec sheet; docs/decisoes-tecnicas.md › P83",
@@ -4835,6 +4846,267 @@
     "loadingCaption": "The primary in loading while the action finishes, next to the solid secondary in color/secondary-on-dialog.",
     "focusCaption": "Press the button to open the dialog: the focus goes to the first field. Tab stays in the dialog; Esc or the close button close it, and the focus goes back to the button."
   },
+  "checkboxDocs": {
+    "summary": "A box with its own text, for the person to check independent options or turn one option on or off. It is a form control: a checked box submits its value with the form.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-checkbox spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P81. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "When the person can check more than one option, each independent.",
+      "For a single option, which the person turns on or off.",
+      "Indeterminate only on the item that summarizes a group checked in part: it is not an answer from the person.",
+      "The box alone only when the name is already in the context, such as a table cell, always with label."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "When the options exclude each other: use nph-radio.",
+      "Around it, an nph-field only to give it a name: the box already brings its own text.",
+      "To mix checkbox and radio in the same group.",
+      "To put a link in the text, such as the terms of use: the link stays outside the piece.",
+      "To paint the box or the mark by hand: the piece takes its colors from tokens."
+    ],
+    "relationsText": "Options that exclude each other are nph-radio; do not mix checkbox and radio in the same group. A group of boxes is composed with nph-field, which names the group and carries the error message; the box alone does not need nph-field to have a name. The mark is an nph-icon. The text is part of the piece, not an nph-label. nph-radio is planned and does not exist yet.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "checked",
+        "The current state, the Figma marcado true. It does not reflect: the checked attribute is the default state, the one a form reset goes back to. Once the person toggles the piece or code sets checked, the attribute no longer moves the current state."
+      ],
+      [
+        "indeterminate",
+        "A group checked only in part, the Figma marcado indeterminado. The box shows the minus mark whatever checked is. A click of the person clears it and toggles checked. It does not reflect."
+      ],
+      [
+        "text",
+        "The plain text next to the box, already localized: the name of the control. No link inside it. Without text, the piece is only the box."
+      ],
+      [
+        "label",
+        "The accessible name of the box alone; it becomes the aria-label of the inner checkbox. Required without text; with text, it is not used."
+      ],
+      [
+        "invalid",
+        "The error state: status/error border and aria-invalid. The error sentence stays outside the piece."
+      ],
+      [
+        "disabled",
+        "The whole piece at state/disabled-opacity, out of the Tab order and out of the form data. A disabled fieldset has the same effect. It wins over invalid."
+      ],
+      [
+        "name",
+        "The name of the entry in the form data: the attribute of the host."
+      ],
+      [
+        "value",
+        "What a checked piece submits: the attribute of the host, on when it is absent."
+      ],
+      [
+        "form",
+        "Read only: the form that owns the piece."
+      ],
+      [
+        "input and change",
+        "Native events, only when the person toggles the piece: input crosses the shadow root from the inner checkbox, and the host fires change, which bubbles. Setting checked or indeterminate from code fires nothing."
+      ]
+    ],
+    "statesTitle": "States",
+    "statesText": "The Figma state property is the interaction: in code, only invalid and disabled are properties. Hover comes from the mouse and focus from the keyboard.",
+    "statesCaption": "Text that wraps, with the box at the top; the box alone, checked; invalid, with the error sentence outside the piece.",
+    "statesHeader": [
+      "State",
+      "Rule"
+    ],
+    "states": [
+      [
+        "default",
+        "Fill color/background; checked and indeterminate fill color/primary, with the check or minus mark in color/primary-foreground. Border color/input."
+      ],
+      [
+        "hover",
+        "The whole piece responds, text included. Border color/input-hover; a checked or indeterminate box also takes state/hover-opacity."
+      ],
+      [
+        "focus",
+        "Keyboard only. The box border turns focus/border and the focus/halo band covers the 24 × 24 touch area, with the radius focus/radius-inner."
+      ],
+      [
+        "invalid",
+        "Border status/error, checked or not. With focus, the border stays status/error and the halo is focus/halo-error."
+      ],
+      [
+        "disabled",
+        "The whole piece at state/disabled-opacity, text included, with the border color/input. Disabled wins over invalid."
+      ],
+      [
+        "text that wraps",
+        "The box sits at the top, centered on the first line; space/inline from the touch area to the text."
+      ]
+    ],
+    "formTitle": "Form",
+    "formText": "nph-checkbox is a form control: the host joins the form of the page, as a native checkbox does.",
+    "formHeader": [
+      "Case",
+      "What happens"
+    ],
+    "formRules": [
+      [
+        "checked",
+        "Submits name=value; without the value attribute, the value is on."
+      ],
+      [
+        "unchecked",
+        "Submits nothing."
+      ],
+      [
+        "indeterminate",
+        "Does not change what is submitted: checked decides."
+      ],
+      [
+        "disabled",
+        "Submits nothing, also inside a disabled fieldset."
+      ],
+      [
+        "reset",
+        "Goes back to the checked attribute and clears indeterminate. No event fires."
+      ],
+      [
+        "validation",
+        "There is no required and no constraint validation: invalid never blocks the submission. The error sentence belongs to the page or to nph-field."
+      ]
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Box",
+        "icon/size-sm (16 × 16), radius/inner, border/width in color/input."
+      ],
+      [
+        "Mark",
+        "The check or minus icon of nph-icon, light, at icon/size-sm, in color/primary-foreground."
+      ],
+      [
+        "Text",
+        "text/label-md in color/foreground: the name of the control and part of the piece, not an nph-label."
+      ],
+      [
+        "Touch area",
+        "24 × 24: the box plus space/inline-tight on each side."
+      ],
+      [
+        "Space to the text",
+        "space/inline, from the edge of the touch area."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A native checkbox inside the piece: role checkbox, with the state unchecked, checked or mixed."
+      ],
+      [
+        "Accessible name",
+        "The text is the name. Without text, label becomes the aria-label. A label element outside, pointing to the piece, does not name the inner checkbox: the piece brings its own text."
+      ],
+      [
+        "Keyboard",
+        "One Tab stop; Space toggles and Enter does not. A disabled piece is skipped."
+      ],
+      [
+        "Visible focus",
+        "focus/border on the box and the focus/halo band on the touch area; on error, focus/halo-error."
+      ],
+      [
+        "Contrast",
+        "The box border, color/input, meets 3:1 against the background (WCAG 1.4.11); the mark meets 3:1 on color/primary."
+      ],
+      [
+        "Color is not the only signal",
+        "Checked and indeterminate show a mark; the error has its sentence outside the piece, and aria-invalid."
+      ],
+      [
+        "Touch target",
+        "24 × 24 around the 16 × 16 box."
+      ],
+      [
+        "Known limits",
+        "The checked fill, color/primary, is below 3:1 on the background in dark mode in the gerencial and rh brands; the box border meets it. focus/border is below 3:1 against the halo in light mode in the sistemas brand, as design.md records. With error and focus, status/error is below 3:1 against focus/halo-error in dark mode."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "rememberMe": "Remember me",
+    "selectRow": "Select row",
+    "longText": "Send me the monthly summary of my account and the news about the products I use",
+    "errorSentence": "Check the box to accept the terms.",
+    "consent": "I agree to the terms of use",
+    "email": "Email",
+    "sms": "Text message",
+    "push": "Push notifications",
+    "all": "All files",
+    "contracts": "Contracts",
+    "invoices": "Invoices",
+    "reports": "Reports",
+    "exampleConsent": "Consent: a single option, which the person turns on or off.",
+    "examplePreferences": "Preferences: several independent options, stacked.",
+    "exampleGroup": "Group selection: the summarizing item is indeterminate.",
+    "referencesTitle": "References",
+    "references": [
+      "nph-checkbox spec sheet — purpose, anatomy, states, form, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P81 (API, semantics and form participation), P80 (the form pattern), P83 (the field contract), P01, P02 and P03.",
+      "design.md — the tokens of the box, the mark, the text and the focus; the core icons check and minus.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Checkbox, frame nph-checkbox (1194:1033) and set 740:18776.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-checkbox spec sheet; Figma, frame nph-checkbox (1194:1033)",
+    "sourceApi": "nph-checkbox spec sheet; docs/decisoes-tecnicas.md › P81",
+    "sourceStates": "Figma, set 740:18776; design.md",
+    "sourceForm": "docs/decisoes-tecnicas.md › P81 and P80",
+    "sourceAnatomy": "Figma, set 740:18776; design.md",
+    "sourceAccessibility": "nph-checkbox spec sheet; nph-checkbox.test.ts",
+    "matrixLabel": "Component matrix"
+  },
+  "checkboxValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "rememberMe": "Remember me",
+    "selectRow": "Select row",
+    "longText": "Send me the monthly summary of my account and the news about the products I use",
+    "errorSentence": "Check the box to accept the terms.",
+    "consent": "I agree to the terms of use",
+    "email": "Email",
+    "sms": "Text message",
+    "push": "Push notifications",
+    "all": "All files",
+    "contracts": "Contracts",
+    "invoices": "Invoices",
+    "reports": "Reports",
+    "exampleConsent": "Consent: a single option, which the person turns on or off.",
+    "examplePreferences": "Preferences: several independent options, stacked.",
+    "exampleGroup": "Group selection: the summarizing item is indeterminate.",
+    "selectAll": "Select all rows",
+    "inFieldset": "Inside a disabled fieldset",
+    "reset": "Reset",
+    "formData": "Form data: {data}",
+    "statusNone": "(empty)",
+    "statusIdle": "Waiting for a click.",
+    "statusChanged": "change fired: checked = {checked}.",
+    "hoverHint": "Move the mouse over a piece and press Tab to see hover and focus."
+  },
   "radioDocs": {
     "summary": "The circle the person checks to choose one option in a group: checking one unchecks the others. The group is several nph-radio with the same name, inside an nph-field that names it.",
     "onThisPage": "On this page",
@@ -5236,6 +5508,14 @@
       "components-nph-dialog-validation--stacked-actions": "Stacked actions below the md breakpoint: one button per line, the primary on top.",
       "components-nph-dialog-validation--loading-action": "The primary in loading while the action finishes, next to the solid secondary of the dialog.",
       "components-nph-dialog-validation--focus-and-escape": "Opening moves the focus into the dialog; Esc or the close button close it and the focus goes back to the button that opened it.",
+      "components-nph-checkbox-validation--matrix": "Unchecked, checked and indeterminate against default, invalid and disabled, with text and as the box alone.",
+      "components-nph-checkbox-validation--text-wrap": "Text that wraps: the box sits at the top, centered on the first line, with space/inline to the text.",
+      "components-nph-checkbox-validation--box-alone": "The box alone, 24 × 24, named by label, for a context that already gives the name.",
+      "components-nph-checkbox-validation--invalid": "The error border on the box; the error sentence stays outside the piece.",
+      "components-nph-checkbox-validation--disabled": "The whole piece at state/disabled-opacity, also inside a disabled fieldset; disabled wins over invalid.",
+      "components-nph-checkbox-validation--form": "A checked box submits name=value with the form; reset goes back to the checked attribute.",
+      "components-nph-checkbox-validation--interactive": "A click or Space toggles the box and fires input and change; a click on indeterminate checks it.",
+      "components-nph-checkbox-validation--examples": "The three required examples of the frame: consent, preferences and group selection.",
       "components-nph-radio-validation--matrix": "Unchecked and checked, in the default, error and disabled states, and with the text off: the circle, the fill, the border and the dot of each one.",
       "components-nph-radio-validation--two-lines": "The text wraps to the available width; the circle stays at the top, centered on the first line, and does not center on the block of text.",
       "components-nph-radio-validation--interactive": "One Tab stop for the group; the arrow keys move and check, skipping the disabled radio; the person checking a radio fires change, shown below the group.",

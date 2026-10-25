@@ -5,12 +5,12 @@
  * index it. The scenery here — the framed figure and the stand-in options — is NOT a
  * precedent for component CSS.
  *
- * The control of a single field is the real `nph-input` (DSA-16, P80). STAND-IN OPTIONS:
- * `nph-checkbox` (DSA-17) and `nph-radio` (DSA-18) are not on the base yet. Until they are,
- * the groups show two demonstration elements that take the field–control contract of P83
- * and nothing else: `demo-field-checkbox` and `demo-field-radio`. They are scenery: they
- * are not exported by the package, carry no rule of their own and are swapped for the real
- * pieces as each one is merged (follow-up recorded in the task).
+ * The control of a single field is the real `nph-input` (DSA-16, P80), and the options of a
+ * group of checkboxes are the real `nph-checkbox` (DSA-17, P81). STAND-IN OPTION: `nph-radio`
+ * (DSA-18) is not on the base yet. Until it is, the group of radios shows a demonstration
+ * element that takes the field–control contract of P83 and nothing else: `demo-field-radio`.
+ * It is scenery: it is not exported by the package, carries no rule of its own and is swapped
+ * for the real piece when it is merged (follow-up recorded in the task).
  *
  * The functions take the visible text as arguments: this file holds none, because every
  * visible text comes from the language dictionary of the page that calls it.
@@ -18,13 +18,14 @@
 import { LitElement, css, html, nothing } from 'lit';
 import type { TemplateResult } from 'lit';
 
+import '../nph-checkbox/nph-checkbox';
 import '../nph-input/nph-input';
 import './nph-field';
 import type { NphFieldRole } from './nph-field';
 
 export type Scheme = 'light' | 'dark';
 
-/** Stand-in for an option of a group: a native checkbox or radio with its own text. */
+/** Stand-in for an option of a group: a native radio with its own text. The base class is not registered. */
 class DemoFieldOption extends LitElement {
   static nphFieldRole: NphFieldRole = 'option';
   static type: 'checkbox' | 'radio' = 'checkbox';
@@ -109,13 +110,8 @@ class DemoFieldRadio extends DemoFieldOption {
   static override type: 'checkbox' | 'radio' = 'radio';
 }
 
-for (const [name, definition] of [
-  ['demo-field-checkbox', DemoFieldOption],
-  ['demo-field-radio', DemoFieldRadio],
-] as const) {
-  if (customElements.get(name) === undefined) {
-    customElements.define(name, definition);
-  }
+if (customElements.get('demo-field-radio') === undefined) {
+  customElements.define('demo-field-radio', DemoFieldRadio);
 }
 
 /**
@@ -179,12 +175,12 @@ export interface GroupOptions extends FieldOptions {
   checked?: readonly number[];
 }
 
-/** A field naming a group of stand-in checkboxes or radios, stacked (D7). */
+/** A field naming a group of checkboxes, or of stand-in radios, stacked (D7). */
 export function group(options: GroupOptions): TemplateResult {
   const option = (text: string, position: number) =>
     options.kind === 'radio'
       ? html`<demo-field-radio text=${text} .checked=${options.checked?.includes(position) ?? false}></demo-field-radio>`
-      : html`<demo-field-checkbox text=${text} .checked=${options.checked?.includes(position) ?? false}></demo-field-checkbox>`;
+      : html`<nph-checkbox text=${text} .checked=${options.checked?.includes(position) ?? false}></nph-checkbox>`;
   return html`<nph-field
     label=${options.label}
     ?required=${options.required ?? false}
