@@ -1,0 +1,306 @@
+/**
+ * Internal style of `nph-dropdown-menu`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `1`,
+ * `auto` and `none` (box and flex relations, and the resets of the browser's `[popover]`
+ * style), `ellipsis` and `nowrap` (the label and the description on one line),
+ * `calc(-1 * ...)` (the focus border and the halo outside the item, without changing its
+ * size; the slide of the panel) and `z-index: 1` (the focused item paints its halo over
+ * its neighbors). The heights of the row come from its content, as in the evidence:
+ * `icon/size-md` plus `space/inline` above and below is 36, the compact padding gives 28,
+ * and the 24 touch area of the `nph-checkbox` gives 40.
+ */
+
+/* The host takes no room in the flow: the panel lives in the top layer. */
+:host {
+  position: absolute;
+  inline-size: 0;
+  block-size: 0;
+  overflow: visible;
+}
+
+/*
+ * The panel is a `popover`, so it sits in the top layer: no `z-index` and no clipping by
+ * an ancestor. The resets undo the browser's `[popover]` style: `inset`, `margin: auto`,
+ * the padding, the color and the overflow. JavaScript sets `top` and `left`, and the
+ * maximum height and the scroll only when the menu is taller than the room (P92).
+ */
+.panel {
+  position: fixed;
+  inset: auto;
+  box-sizing: border-box;
+  inline-size: var(--nph-layout-input-width);
+  margin: 0;
+  padding: var(--nph-space-inline-tight);
+  overflow: visible;
+  border: var(--nph-border-width) solid var(--nph-color-dropdown-border);
+  border-radius: var(--nph-radius-container);
+  background-color: var(--nph-color-popover);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-color-popover-foreground);
+  text-align: start;
+  /* Leaving: the exit role, as the list of `nph-select` (D-2). */
+  opacity: 0;
+  translate: 0 calc(-1 * var(--nph-space-inline-tight));
+  transition-property: opacity, translate;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/* Entering: the enter role, faded in and slid `space/inline-tight` into place (D-2). */
+.panel[data-open] {
+  opacity: 1;
+  translate: none;
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+/* The distance to the trigger is `space/inline-tight` (D-1), as a margin on the side that faces it. */
+.panel[data-side='bottom'] {
+  margin-top: var(--nph-space-inline-tight);
+}
+
+/* Turned up: it slides from below, toward the trigger. */
+.panel[data-side='top'] {
+  margin-bottom: var(--nph-space-inline-tight);
+  translate: 0 var(--nph-space-inline-tight);
+}
+
+.panel[data-side='top'][data-open] {
+  translate: none;
+}
+
+/* The separator: the `nph-separator` line, `space/inline-tight` above and below. */
+.separator {
+  display: block;
+  margin-block: var(--nph-space-inline-tight);
+}
+
+/* Profile header: avatar md, name and status; `space/inline` around and between (Anatomy 2). */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  padding: var(--nph-space-inline);
+}
+
+.header-avatar {
+  flex: none;
+}
+
+.header-texts {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.header-name,
+.text,
+.description {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.header-name,
+.text {
+  color: var(--nph-color-popover-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+.header-status,
+.description,
+.shortcut {
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+}
+
+/* Group label: `text/label-sm` in `color/muted-foreground`; `space/inline` on the sides, `space/inline-tight` above and below. */
+.group-label {
+  padding-block: var(--nph-space-inline-tight);
+  padding-inline: var(--nph-space-inline);
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+/* The item: padding and gap `space/inline`, `radius/inner`, no background at rest. */
+.item {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  padding: var(--nph-space-inline);
+  border-radius: var(--nph-radius-inner);
+  color: var(--nph-color-popover-foreground);
+  outline: none;
+  cursor: default;
+}
+
+/* Compact: `space/inline-tight` on top and bottom. */
+:host([size='compact']) .item {
+  padding-block: var(--nph-space-inline-tight);
+}
+
+.icon,
+.avatar,
+.checkbox {
+  flex: none;
+}
+
+.texts {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+/* The end: shortcut, counter, tag, switch, arrow, check or spinner. */
+.end {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--nph-space-inline);
+}
+
+.end:empty {
+  display: none;
+}
+
+/* Tag and switch sit in a slot of `icon/size-md`, so the row keeps its height (D-4). */
+.slot {
+  display: inline-flex;
+  align-items: center;
+  block-size: var(--nph-icon-size-md);
+  overflow: visible;
+}
+
+/* Counter: a pill in `color/primary-hover`, height `icon/size-md`, `space/inline` on the sides. */
+.count {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  block-size: var(--nph-icon-size-md);
+  padding-inline: var(--nph-space-inline);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--nph-color-primary-hover);
+  color: var(--nph-color-primary-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+/* The solid twin of an icon shows only on hover. */
+.glyph-hover {
+  display: none;
+}
+
+/* Single choice, checked: `text/label-md` in `color/primary-hover`, on the text and the icon (D-5). */
+.item[data-selection='single'][data-checked] .text {
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+.item[data-selection='single'][data-checked],
+.item[data-selection='single'][data-checked] .text {
+  color: var(--nph-color-primary-hover);
+}
+
+/* Destructive: text, icon and shortcut in `color/destructive-on-surface`. */
+.item[data-severity='destructive'],
+.item[data-severity='destructive'] .text,
+.item[data-severity='destructive'] .shortcut {
+  color: var(--nph-color-destructive-on-surface);
+}
+
+/*
+ * Hover, only when the item responds: `color/primary-surface`, the label unchanged; the
+ * start icon and the submenu arrow turn solid in `dropdown/item-hover-icon-foreground`
+ * (rule of 21-10-2026). Destructive: `color/destructive-surface`, with no solid swap.
+ */
+.item:not([aria-disabled]):hover {
+  background-color: var(--nph-color-primary-surface);
+}
+
+.item[data-severity='destructive']:not([aria-disabled]):hover {
+  background-color: var(--nph-color-destructive-surface);
+}
+
+.item[data-severity='default']:not([aria-disabled]):hover .glyph-rest {
+  display: none;
+}
+
+.item[data-severity='default']:not([aria-disabled]):hover .glyph-hover {
+  display: inline-flex;
+  color: var(--nph-dropdown-item-hover-icon-foreground);
+}
+
+/* Disabled: `state/disabled-opacity` on the whole item. */
+.item[data-disabled] {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/*
+ * Focus, keyboard only: two layers outside the item box. The border `border/width` in
+ * `color/primary`, radius `focus/border-radius-inner`; the halo `focus/ring-width` in
+ * `focus/halo`, radius `focus/radius-inner-with-border`.
+ */
+.item:focus-visible {
+  z-index: 1;
+}
+
+.item:focus-visible::before,
+.item:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.item:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-color-primary);
+  border-radius: var(--nph-focus-border-radius-inner);
+}
+
+.item:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-inner-with-border);
+}
+
+/*
+ * Reduced motion: opacity only, and the duration of `design.md` 2g, 100 ms, through the
+ * semantic alias `motion/hover-duration`, as in `nph-tooltip` and `nph-select`.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panel[data-side='top'] {
+    translate: none;
+  }
+
+  .panel,
+  .panel[data-open] {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+}
