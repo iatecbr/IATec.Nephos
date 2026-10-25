@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 270,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-checkbox",
   "dependencies": [],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-17/review-and-merge-2026-10-24.md",
+      "result": "passed",
+      "verified_at": "2026-10-24",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -38,7 +38,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-17/documentacao-figma-aceita-2026-10-01.md"
+    "docs/operacao/evidencias/DSA-17/documentacao-figma-aceita-2026-10-01.md",
+    "docs/operacao/evidencias/DSA-17/review-and-merge-2026-10-24.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -54,10 +55,10 @@
   },
   "git_review": {
     "branch": "claude/dsa-17-nph-checkbox-4f2a40",
-    "commit": "2c4687c561ec044e581ce2205fa67d8eca432107",
+    "commit": "ad9a552fa93203624c92a758824d77e565e4b13e",
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/117"
   },
-  "context": "docs/operacao/contextos/DSA-17.md",
+  "context": null,
   "updated_at": "2026-10-24"
 }
 ```
