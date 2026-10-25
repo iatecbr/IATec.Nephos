@@ -29,44 +29,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D2",
-      "question": "The DSA-42 evidence puts the balloon at space/inline from the element; the DSA-43 evidence shows the icon-only button tooltip at space/inline-tight. The code follows the DSA-42 evidence (space/inline). Which distance holds for the icon-only button? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-21"
-    },
-    {
-      "id": "D3",
-      "question": "The evidence says the balloon sits above the element but not whether it is centered on the element or aligned to its start, as it was below the nph-label. The code centers it on the element, also on the info icon of the nph-label. Does Indiane confirm? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-21"
-    },
-    {
-      "id": "D4",
-      "question": "The evidence does not say what the open balloon does on scroll or resize. The code repositions it and keeps it open; the alternative is to close it on scroll. Does Indiane confirm? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-21"
-    },
-    {
-      "id": "D5",
-      "question": "The evidence names only the durations of the balloon motion. The code animates opacity only, with no slide. Does Indiane confirm, or want a slide from the element? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-21"
-    },
-    {
-      "id": "D6",
-      "question": "The evidence does not say what a click on the info icon of the nph-label does now that the balloon opens on hover and focus. The code does nothing on click, keeps the native button and drops aria-expanded and aria-controls. Does Indiane confirm? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-21"
-    },
-    {
-      "id": "D7",
-      "question": "Two limits the evidence does not cover: a disabled element may not receive pointer events, so the balloon may not open over it; and an icon-only button whose accessible name equals the balloon text may be read twice. The code documents both as known limits. Does Indiane accept them? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-21"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-42/documentacao-figma-aceita-2026-10-20.md",
     "docs/operacao/evidencias/DSA-42/review-and-merge-2026-10-22.md"
@@ -76,7 +39,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane redefined the nph-tooltip: any element, opened on hover and on focus, Esc closes, no touch opening, no hover delay, enter 250 ms and exit 150 ms, four sides with top by default",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, textual audit approved; the balloon stays open while the pointer is over it; help text never moves into the balloon",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, Indiane answered D1: the Figma component gets no side property"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, Indiane answered D1: the Figma component gets no side property",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-25.md, Indiane answered D2 to D7 by approving the behavior the code already has"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -144,6 +108,12 @@ tests, stories, both specs and the amended P62.6 and P65 pass the proof commands
 | ID | Answer | What the code does |
 |---|---|---|
 | D1 | The Figma component gets no side property: the balloon has no arrow, so it looks the same on any side, and the side is behavior. | Implements the placement as behavior: top by default, flipping when it does not fit; may also sit bottom, left or right. |
+| D2 | One distance for every element, the icon-only button included: `space/inline`. | Keeps `space/inline` between the balloon and the element. |
+| D3 | The balloon is centered on the element, also on the info icon of the `nph-label`. | Centers the balloon on the element. |
+| D4 | On scroll or resize the open balloon follows the element and stays open; Esc or loss of focus closes it. | Repositions the balloon and keeps it open. |
+| D5 | The balloon animates opacity only, with no slide, on `motion/enter-duration` and `motion/exit-duration`. | Animates opacity only. |
+| D6 | A click on the info icon of the `nph-label` does nothing. | Keeps the native button, with no `aria-expanded` and no `aria-controls`. |
+| D7 | Closed with no change in Figma: a disabled element and loose text are already out of the contract, and the icon-only button name is announced once. | Does not open the balloon on a disabled element; the balloon of an icon-only button is not announced again. |
 
 ## Relations with other tasks
 - DSA-08 (done) holds the current component; this task updates it.
