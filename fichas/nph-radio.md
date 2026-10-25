@@ -306,6 +306,12 @@ changes. Width, height and position never animate. The focus shows only for the 
 - The piece owns the `tabindex` of the host: a `tabindex` the consumer writes is replaced.
 - The arrow keys are physical; there is no right-to-left mirroring, and `forced-colors` is
   not treated.
+- A change of `value` on a checked radio reaches the form data on the next update of the
+  piece, not in the same call.
+- A radio hidden by `visibility: hidden` still counts as shown for the Tab stop and the arrow
+  keys; `display: none` and the `hidden` attribute are handled.
+- A `keydown` the consumer cancels is still handled by the radio.
+- These last three have a follow-up recorded in P82.
 
 ## Relations
 

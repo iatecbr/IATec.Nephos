@@ -2586,6 +2586,19 @@ P66, P68, P73, P74 and P76. The names follow P64. The form pattern is the one of
   comes from `nph-field`.
 - `invalid` is not announced on the radio.
 - The arrow keys are physical: no right-to-left mirroring. `forced-colors` is not treated.
+- **Found by the last Copilot review of the pull request, recorded here by Elvys's decision of
+  24/10/2026, with a follow-up task:**
+  - a change of `value` on a checked radio reaches the form data on the next update of the piece,
+    not in the same call: reading `FormData` in the same handler, before `updateComplete`, gives the
+    old value;
+  - a radio hidden by `visibility: hidden`, on itself or on an ancestor, still counts as shown: it
+    may hold the Tab stop of its group, and the arrow keys may check it without moving the focus to
+    it (`display: none` and the `hidden` attribute are handled);
+  - the radio does not check `defaultPrevented`: a `keydown` the consumer cancels in the capture
+    phase still moves the focus, checks the radio and fires `input` and `change`.
+
+  **Follow-up:** sync the form value in the `value` setter, use `checkVisibility` with the
+  visibility option, and return early on a cancelled `keydown`, each with its regression test.
 
 **Source.** Frame `nph-radio` (`1196:311`, set `848:66`) of the Figma file `DS-IA-NEPHOS 5.0`,
 accepted by Indiane on 01/10/2026, with the Figma UX QA and the textual audit approved on 02/10/2026;
