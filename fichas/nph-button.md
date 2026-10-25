@@ -291,6 +291,10 @@ in `large`. Its `shape` is `square` (the default, on `radius/control`) or `circu
 `radius/full`), a choice of context with no fixed rule; the shape changes neither the size nor the
 touch target, and the focus border and halo follow the corners. With text, the button is square.
 
+**Stretched:** a button with text whose host the parent widens, as the stacked footer of
+`nph-dialog` does (P87), fills it with its native button, the content centered. The icon-only button
+keeps its square box.
+
 **Tooltip:** every icon-only button renders its own `nph-tooltip` next to the native button, with the
 `label` as its text. It opens at once on keyboard focus and after `motion/hover-delay` on hover, never
 on touch, and a disabled button gets none; in `loading` the button keeps the focus and the tooltip. The

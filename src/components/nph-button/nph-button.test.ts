@@ -319,6 +319,38 @@ describe('sizes and anatomy', () => {
       expect(control(element).querySelector('nph-icon')?.getAttribute('size')).toBe(expected);
     });
   }
+
+  it('with text, at its own width: the native button keeps the width of its content', async () => {
+    const element = await mount({ text: 'Save', iconStart: 'plus' });
+    const button = control(element);
+    const content = [...button.children]
+      .filter((node) => getComputedStyle(node).display !== 'none')
+      .reduce((sum, node) => sum + node.getBoundingClientRect().width, 0);
+    const style = getComputedStyle(button);
+    const chrome =
+      Number.parseFloat(style.paddingLeft) + Number.parseFloat(style.paddingRight) + Number.parseFloat(style.columnGap);
+    expect(button.getBoundingClientRect().width).toBeCloseTo(content + chrome, 0);
+    expect(element.getBoundingClientRect().width).toBeCloseTo(button.getBoundingClientRect().width, 0);
+  });
+
+  it('with text, in a host the parent widens: the native button fills the host (P87)', async () => {
+    const element = await mount({ text: 'Save', iconStart: 'plus' });
+    element.style.inlineSize = '320px';
+    const host = element.getBoundingClientRect();
+    const box = control(element).getBoundingClientRect();
+    expect(host.width).toBe(320);
+    expect([box.left, box.width]).toEqual([host.left, host.width]);
+  });
+
+  for (const shape of ['square', 'circular'] as const) {
+    it(`icon only (${shape}), in a host the parent widens: the native button keeps its square box`, async () => {
+      const element = await mount({ iconStart: 'plus', label: 'Add', shape });
+      element.style.inlineSize = '320px';
+      const box = control(element).getBoundingClientRect();
+      const height = Number.parseFloat(resolved('height', HEIGHT.default));
+      expect([box.width, box.height]).toEqual([height, height]);
+    });
+  }
 });
 
 describe('focus', () => {
