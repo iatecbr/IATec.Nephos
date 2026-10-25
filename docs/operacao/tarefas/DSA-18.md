@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 280,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-radio",
   "dependencies": [],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-18/review-and-merge-2026-10-24.md",
+      "result": "passed",
+      "verified_at": "2026-10-24",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -44,7 +44,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-18/documentacao-figma-aceita-2026-10-01.md"
+    "docs/operacao/evidencias/DSA-18/documentacao-figma-aceita-2026-10-01.md",
+    "docs/operacao/evidencias/DSA-18/review-and-merge-2026-10-24.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -60,11 +61,11 @@
   },
   "git_review": {
     "branch": "claude/dsa-18-nph-radio-266b51",
-    "commit": "03766550c32c0b7d17659c96ea196383b26b0534",
+    "commit": "8ec3211afff35c94179d7690d067cbdbb7e5cd95",
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/109"
   },
-  "context": "docs/operacao/contextos/DSA-18.md",
-  "updated_at": "2026-10-23"
+  "context": null,
+  "updated_at": "2026-10-24"
 }
 ```
 
