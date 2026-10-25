@@ -214,7 +214,17 @@
     "components-nph-checkbox-validation--disabled": "Disabled",
     "components-nph-checkbox-validation--form": "Form",
     "components-nph-checkbox-validation--interactive": "Interactive",
-    "components-nph-checkbox-validation--examples": "Examples"
+    "components-nph-checkbox-validation--examples": "Examples",
+    "components-nph-dropdown-menu-docs": "Docs",
+    "components-nph-dropdown-menu-docs--documentation": "Documentation",
+    "components-nph-dropdown-menu-validation": "Validation",
+    "components-nph-dropdown-menu-validation--variants": "Variants",
+    "components-nph-dropdown-menu-validation--options": "Options",
+    "components-nph-dropdown-menu-validation--states": "States",
+    "components-nph-dropdown-menu-validation--sizes": "Sizes",
+    "components-nph-dropdown-menu-validation--header": "Header",
+    "components-nph-dropdown-menu-validation--interactive": "Interactive",
+    "components-nph-dropdown-menu-validation--examples": "Examples"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -5099,6 +5109,314 @@
     "statusChanged": "change fired: checked = {checked}.",
     "hoverHint": "Move the mouse over a piece and press Tab to see hover and focus."
   },
+  "dropdownMenuDocs": {
+    "summary": "A floating menu of secondary actions that opens attached to a button. The person chooses an action and the menu closes; a multiple choice and a switch keep it open.",
+    "matrixLabel": "nph-dropdown-menu: severity by selection",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-dropdown-menu spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P92. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "onThisPage": "On this page",
+    "sourceLabel": "Source:",
+    "sourceSpec": "fichas/nph-dropdown-menu.md; Figma board 1365:118.",
+    "sourceApi": "P92 in docs/decisoes-tecnicas.md; fichas/nph-dropdown-menu.md.",
+    "sourceStates": "Figma item set 1365:57; design.md, color/primary-surface and dropdown/item-hover-icon-foreground.",
+    "sourceAnatomy": "Figma board 1365:118, Anatomy; design.md.",
+    "sourceAccessibility": "Figma board 1365:118, Accessibility; P92.",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "For the secondary actions of a screen or of an item, such as rename, duplicate, move or sign out.",
+      "Single choice when only one option holds at a time, such as the view mode; multiple choice when several hold together, such as filters.",
+      "A tag to flag something new or a plan; a switch to turn something on or off without closing the menu; the profile header in the account menu.",
+      "Compact for a long, dense list; default in the other cases."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "For the main navigation of the screen: the menu gathers secondary actions.",
+      "To hold a form value: use nph-select, nph-checkbox or nph-switch in the form.",
+      "For a switch in an action that navigates or closes the menu: use a common item.",
+      "For a destructive item on a common action: use the default type."
+    ],
+    "relationsText": "The menu opens from an nph-button, which stays outside the component and is named by for. The tag is an nph-badge, the avatar an nph-avatar, the separator an nph-separator, the box of a multiple choice an nph-checkbox and the switch an nph-switch; the color of each comes from the piece itself. The item is part of the menu: it is data of items, not a tag of its own.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "for",
+        "The id of the element that opens the menu, in the same root as the menu: the nph-button outside the component. The menu writes aria-haspopup and aria-expanded on it."
+      ],
+      [
+        "open",
+        "The state, reflected. The menu opens and closes by itself; set it to show the menu open, with no focus move. It fires no event."
+      ],
+      [
+        "items",
+        "The entries, in order: items, group labels and separators. Property only."
+      ],
+      [
+        "header",
+        "The profile header: name, status and the photo of the avatar; null hides it. Property only."
+      ],
+      [
+        "size",
+        "default or compact, for the whole menu: the size of the item in Figma. Reflected."
+      ],
+      [
+        "label",
+        "The accessible name of the menu. Empty: the trigger names it."
+      ],
+      [
+        "nph-item-select",
+        "The event the person fires by activating an item, with detail.value and detail.checked, null on a common item. It bubbles."
+      ]
+    ],
+    "entryText": "Each entry of items is an item, a group label or a separator:",
+    "entryHeader": [
+      "Field",
+      "Rule"
+    ],
+    "entry": [
+      [
+        "value",
+        "Required. What nph-item-select reports."
+      ],
+      [
+        "text",
+        "Required. The label, on one line, cut with an ellipsis; the accessible name."
+      ],
+      [
+        "description",
+        "Text below the label, in text/caption."
+      ],
+      [
+        "icon",
+        "The start icon, a core name of nph-icon; it turns solid on hover."
+      ],
+      [
+        "avatar",
+        "The photo of an nph-avatar at the start; an empty string draws the person icon."
+      ],
+      [
+        "severity",
+        "default or destructive."
+      ],
+      [
+        "selection",
+        "none, single or multiple."
+      ],
+      [
+        "switch",
+        "The nph-switch at the end, without a label."
+      ],
+      [
+        "checked",
+        "The state of a choice or a switch."
+      ],
+      [
+        "shortcut",
+        "Plain text at the end, in text/caption."
+      ],
+      [
+        "count",
+        "The number of the counter."
+      ],
+      [
+        "tag",
+        "One word in an nph-badge."
+      ],
+      [
+        "submenu",
+        "The arrow at the end; the nested menu is out of scope."
+      ],
+      [
+        "disabled, loading",
+        "The two states that take the focus and do not activate."
+      ],
+      [
+        "type: label",
+        "Names the group that follows it."
+      ],
+      [
+        "type: separator",
+        "Closes a group."
+      ]
+    ],
+    "variantsTitle": "Variants",
+    "variantsText": "The item varies by severity and by selection. Destructive is only for the action that deletes or ends. Single choice shows the check at the end of the checked item; multiple choice shows the box at the start.",
+    "variantsCaption": "A common item, single choice, multiple choice and a destructive item.",
+    "sizesTitle": "Sizes",
+    "sizesText": "default is the size for every menu; compact serves a long, dense list. The size is set on the whole menu.",
+    "sizesCaption": "size default, with rows of 36, and size compact, with rows of 28.",
+    "statesTitle": "States",
+    "statesHeader": [
+      "State",
+      "Rule"
+    ],
+    "states": [
+      [
+        "Hover",
+        "color/primary-surface (destructive: color/destructive-surface). The start icon and the submenu arrow turn solid in dropdown/item-hover-icon-foreground; the label keeps its color."
+      ],
+      [
+        "Focus",
+        "By keyboard: a border of border/width in color/primary and a halo in focus/halo, outside the row."
+      ],
+      [
+        "Disabled",
+        "state/disabled-opacity on the whole row; it takes the focus and does not activate."
+      ],
+      [
+        "Loading",
+        "The nph-spinner takes the end of the row; the item is busy and does not activate."
+      ]
+    ],
+    "statesCaption": "At rest, disabled and loading. Move the mouse over an item for hover.",
+    "optionsTitle": "Item options",
+    "optionsText": "Each option turns on in the entry: start icon or avatar, description, shortcut, counter, tag, switch and submenu arrow. The switch and the multiple choice keep the menu open.",
+    "optionsCaption": "Shortcut, description, counter, tag, switch, submenu arrow and avatar.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "1. Menu",
+        "Panel in color/popover with a border of border/width in color/dropdown-border, radius/container, elevation/dropdown, width layout/input-width and padding space/inline-tight."
+      ],
+      [
+        "2. Profile header",
+        "Optional: avatar md, name in text/body-md and status in text/caption, with space/inline around and between; a separator below."
+      ],
+      [
+        "3. Group label",
+        "text/label-sm in color/muted-foreground, space/inline on the sides and space/inline-tight above and below."
+      ],
+      [
+        "4. Item",
+        "Padding and gap space/inline, radius/inner, no background at rest; label in text/body-md and color/popover-foreground."
+      ],
+      [
+        "5. Separator",
+        "The nph-separator line between groups, with space/inline-tight above and below."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A menu with menuitem, menuitemradio and menuitemcheckbox items and named groups. The inner checkbox and switch are inert: the item carries the role and the state."
+      ],
+      [
+        "Accessible name",
+        "The item text. The description, the tag, the counter and the shortcut describe it. Support icons are not read."
+      ],
+      [
+        "Keyboard",
+        "On the trigger, Enter, Space and the down arrow open on the first item. In the menu, the arrows move, Home and End go to the ends, a letter finds an item, Enter and Space activate, Esc closes and Tab moves on."
+      ],
+      [
+        "Visible focus",
+        "The color/primary border carries the focus; the halo is decorative."
+      ],
+      [
+        "Color is not the only signal",
+        "The destructive item has the icon of the action; single choice shows the check; multiple choice the box; the switch the knob position; the tag carries text."
+      ],
+      [
+        "Touch target",
+        "The whole row of the item, above 24 by 24."
+      ],
+      [
+        "Known limits",
+        "On item hover, the box and the track do not take their own hover. aria-expanded on an nph-button does not reach its inner button. The nested menu is out of scope."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleAccount": "Account menu, with the profile header, a group and the destructive Sign out.",
+    "exampleView": "Single choice with a counter: the check at the end of the checked item.",
+    "exampleOptions": "Tag, switch and a destructive item.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, nph-dropdown-menu board 1365:118.",
+      "fichas/nph-dropdown-menu.md, the spec sheet.",
+      "docs/decisoes-tecnicas.md, P92 — API and semantics of nph-dropdown-menu.",
+      "design.md, color/dropdown-border, color/primary-surface and dropdown/item-hover-icon-foreground.",
+      "WAI-ARIA Authoring Practices, Menu Button pattern."
+    ],
+    "trigger": "Actions",
+    "accountTrigger": "Account",
+    "viewTrigger": "View",
+    "rename": "Rename",
+    "duplicate": "Duplicate",
+    "shortcutDuplicate": "Ctrl+D",
+    "export": "Export",
+    "exportDescription": "As a PDF file",
+    "unread": "Unread",
+    "share": "Share",
+    "newTag": "New",
+    "sync": "Sync",
+    "move": "Move to",
+    "assign": "Assign to",
+    "print": "Print",
+    "archive": "Archive",
+    "archived": "Archived",
+    "shared": "Shared with me",
+    "list": "List",
+    "grid": "Grid",
+    "delete": "Delete",
+    "viewGroup": "View mode",
+    "name": "Ana Lima",
+    "status": "ana.lima@example.com",
+    "accountGroup": "My account",
+    "profile": "Profile",
+    "settings": "Settings",
+    "signOut": "Sign out"
+  },
+  "dropdownMenuValidation": {
+    "trigger": "Actions",
+    "accountTrigger": "Account",
+    "viewTrigger": "View",
+    "rename": "Rename",
+    "duplicate": "Duplicate",
+    "shortcutDuplicate": "Ctrl+D",
+    "export": "Export",
+    "exportDescription": "As a PDF file",
+    "unread": "Unread",
+    "share": "Share",
+    "newTag": "New",
+    "sync": "Sync",
+    "move": "Move to",
+    "assign": "Assign to",
+    "print": "Print",
+    "archive": "Archive",
+    "archived": "Archived",
+    "shared": "Shared with me",
+    "list": "List",
+    "grid": "Grid",
+    "delete": "Delete",
+    "viewGroup": "View mode",
+    "name": "Ana Lima",
+    "status": "ana.lima@example.com",
+    "accountGroup": "My account",
+    "profile": "Profile",
+    "settings": "Settings",
+    "signOut": "Sign out",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "statusIdle": "No item activated yet.",
+    "statusChosen": "Activated {value}; checked: {checked}.",
+    "exampleAccount": "Account menu",
+    "exampleView": "Single choice with a counter",
+    "exampleOptions": "Tag, switch and destructive"
+  },
   "validationPages": {
     "sheetTitle": "The contract lives in the sheet",
     "sheetText": "This piece has no reading page in Storybook. Its contract is in {sheet}; these stories prove it.",
@@ -5226,7 +5544,14 @@
       "components-nph-checkbox-validation--disabled": "The whole piece at state/disabled-opacity, also inside a disabled fieldset; disabled wins over invalid.",
       "components-nph-checkbox-validation--form": "A checked box submits name=value with the form; reset goes back to the checked attribute.",
       "components-nph-checkbox-validation--interactive": "A click or Space toggles the box and fires input and change; a click on indeterminate checks it.",
-      "components-nph-checkbox-validation--examples": "The three required examples of the frame: consent, preferences and group selection."
+      "components-nph-checkbox-validation--examples": "The three required examples of the frame: consent, preferences and group selection.",
+      "components-nph-dropdown-menu-validation--variants": "A common item, single choice with the check, multiple choice with the box and a destructive item, open in light and dark. Move the mouse over an item to see hover and the solid icon; use the arrows to see focus.",
+      "components-nph-dropdown-menu-validation--options": "Every item option: start icon, description, shortcut, counter, tag, switch, submenu arrow and avatar, in a row that keeps its height.",
+      "components-nph-dropdown-menu-validation--states": "A disabled item at state/disabled-opacity and a loading item with the spinner at the end; neither activates. Hover and focus come from the mouse and the keyboard.",
+      "components-nph-dropdown-menu-validation--sizes": "size default, with rows of 36, and size compact, with rows of 28, for the whole menu.",
+      "components-nph-dropdown-menu-validation--header": "The profile header above the items, with a separator below it, a group label and the destructive Sign out.",
+      "components-nph-dropdown-menu-validation--interactive": "The trigger opens the menu; activating an item fires nph-item-select, whose value and checked show below the trigger. A switch keeps the menu open.",
+      "components-nph-dropdown-menu-validation--examples": "The three required examples, each in light and dark mode: the account menu, single choice with a counter, and tag, switch and destructive."
     }
   }
 }
