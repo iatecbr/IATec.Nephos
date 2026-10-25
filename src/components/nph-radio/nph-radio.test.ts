@@ -442,6 +442,19 @@ describe('the group', () => {
     expect([c.checked, a.checked, b.checked]).toEqual([true, false, false]);
   });
 
+  it('checked radios that connect in one batch inside a form: the last one wins, and the form sends it', async () => {
+    const form = document.createElement('form');
+    document.body.append(form);
+    const box = document.createElement('div');
+    const a = radio({ name: 'shift', value: 'morning', text: 'Morning', checked: true });
+    const b = radio({ name: 'shift', value: 'night', text: 'Night', checked: true });
+    box.append(a, b);
+    form.append(box);
+    await settle([a, b]);
+    expect([a.checked, b.checked]).toEqual([false, true]);
+    expect([...new FormData(form).entries()]).toEqual([['shift', 'night']]);
+  });
+
   it('a change of name moves the radio to another group', async () => {
     const radios = await mountGroup([{ ...SHIFTS[0], checked: true }, SHIFTS[1]!]);
     const moving = await mount({ text: 'Card', name: 'payment', checked: true });
@@ -643,6 +656,20 @@ describe('keyboard (APG Radio Group)', () => {
       expect(checkedOf(radios), hide).toEqual([false, true, false]);
       document.body.replaceChildren();
     }
+  });
+
+  it('the hidden attribute hides the radio, and the keyboard skips it', async () => {
+    const radios = await mountGroup([SHIFTS[0]!, SHIFTS[1]!, SHIFTS[2]!]);
+    radios[1]!.hidden = true;
+    expect(getComputedStyle(radios[1]!).display).toBe('none');
+    radios[0]!.checked = true;
+    expect(radios.map((element) => element.getAttribute('tabindex'))).toEqual(['0', '-1', '-1']);
+    radios[0]!.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    expect(document.activeElement).toBe(radios[2]);
+    expect(checkedOf(radios)).toEqual([false, false, true]);
+    radios[1]!.hidden = false;
+    expect(getComputedStyle(radios[1]!).display).toBe('inline-flex');
   });
 
   it('a hidden first radio does not hold the Tab stop of a group with none checked', async () => {

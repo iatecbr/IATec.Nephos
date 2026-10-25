@@ -272,8 +272,9 @@ export class NphRadio extends LitElement {
   }
 
   formAssociatedCallback(): void {
+    /* As on connection: radios of the same batch that have not registered yet keep their check. */
     if (this.checkedState) {
-      this.uncheckOthers();
+      this.uncheckOthers(true);
     }
     this.settleNamed(this.connectedRoot, this.connectedName);
     this.syncGroup();

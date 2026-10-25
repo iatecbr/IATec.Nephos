@@ -28,6 +28,11 @@
   outline: none;
 }
 
+/* The `hidden` attribute still hides the piece: the rule above would override the browser's. */
+:host([hidden]) {
+  display: none;
+}
+
 /* Disabled, or inside a disabled fieldset: the whole piece loses opacity, text included (D1). */
 :host(:disabled) {
   opacity: var(--nph-state-disabled-opacity);
