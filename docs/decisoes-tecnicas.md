@@ -4076,7 +4076,8 @@ custom element definition per folder (`vite.config.lib.ts`, `scripts/test-packag
 5. **Keyboard and pointer.** The menu button pattern of the APG. On the trigger, a click toggles;
    Enter and Space (as its click) and ↓ open on the first item, ↑ on the last. In the menu, the
    focus moves between the items (each `tabindex="-1"`): ↓ and ↑ with wrap, Home, End, and a typed
-   character to the next item that starts with it. Enter and Space activate. A common item and a
+   character to the next item that starts with it. Enter and Space activate, Space also right after a
+   typed character. A common item and a
    single choice close the menu and give the focus back to the trigger; a multiple choice and a
    switch keep it open. A disabled or loading item takes the focus and does not activate (APG). Esc,
    listened to on the document in the capture phase only while open, closes, gives the focus back
@@ -4089,7 +4090,7 @@ custom element definition per folder (`vite.config.lib.ts`, `scripts/test-packag
 6. **Placement and motion.** `space/inline-tight` below the trigger (D-1, as the list of
    `nph-select`), aligned to its start edge; it turns up when it does not fit below and fits above,
    never leaves the window and follows the trigger on scroll and resize, also a trigger set by `for` while
-   open. `layout/input-width` is the
+   open, and its own size: content that changes while open places it again. `layout/input-width` is the
    preferred width: a narrower window, or a larger font, holds the panel inside it. Only a menu taller
    than the room scrolls inside. `open` set before the trigger exists waits for the lookup. Opening fades in and slides `space/inline-tight` on `motion/enter-*`,
    closing on `motion/exit-*`, as the list of `nph-select` (D-2); under reduced motion, opacity only

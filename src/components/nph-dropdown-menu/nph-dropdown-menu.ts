@@ -330,6 +330,8 @@ export class NphDropdownMenu extends LitElement {
     if (this.shown) {
       this.resizeObserver?.disconnect();
       this.resizeObserver?.observe(found);
+      const panel = this.panel;
+      if (panel) this.resizeObserver?.observe(panel);
       this.updateScrollTargets();
       this.onViewportChange();
     }
@@ -519,7 +521,9 @@ export class NphDropdownMenu extends LitElement {
       this.focusItem('first');
     } else if (key === 'End') {
       this.focusItem('last');
-    } else if (key === 'Enter' || (key === ' ' && this.typed === '')) {
+    } else if (key === 'Enter' || key === ' ') {
+      /* Space always activates, also right after a typed search. */
+      this.clearTyped();
       const element = elements[current];
       if (element) {
         this.activate(element);
@@ -734,12 +738,16 @@ export class NphDropdownMenu extends LitElement {
       window.addEventListener('resize', this.onViewportChange);
       this.resizeObserver = new ResizeObserver(() => this.onViewportChange());
       if (this.trigger) this.resizeObserver.observe(this.trigger);
+      /* The panel too: inner pieces that render after the first measure make it grow. */
+      this.resizeObserver.observe(panel);
       this.updateScrollTargets();
       this.place(panel);
       /* The first style is the closed one; the next one starts the enter transition. */
       void panel.offsetWidth;
     } else {
       this.place(panel);
+      /* New content may still be rendering its inner pieces: measure again on the next frame. */
+      this.onViewportChange();
     }
     panel.setAttribute('data-open', '');
   }

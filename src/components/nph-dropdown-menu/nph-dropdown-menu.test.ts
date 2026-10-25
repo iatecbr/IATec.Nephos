@@ -668,6 +668,17 @@ describe('keyboard in the menu', () => {
     expect(active(menu)).toBe(itemOf(menu, 'delete'));
   });
 
+  it('Space right after a typed character activates the item it reached', async () => {
+    const { menu } = await opened([
+      { value: 'rename', text: 'Rename' },
+      { value: 'sync', text: 'Sync', switch: true },
+    ]);
+    const seen = events(menu);
+    await userEvent.keyboard('s ');
+    expect(active(menu)).toBe(itemOf(menu, 'sync'));
+    expect(seen).toEqual([{ value: 'sync', checked: true }]);
+  });
+
   it('a disabled or loading item takes the focus', async () => {
     const { menu } = await opened([
       { value: 'a', text: 'A' },
@@ -1015,6 +1026,28 @@ describe('anatomy, measures and colors', () => {
     expect(anchor.top - box.bottom).toBeCloseTo(px('--nph-space-inline-tight'), 0);
     expect(panel(menu).getAttribute('data-side')).toBe('top');
   });
+
+  for (const change of ['header', 'items'] as const) {
+    it(`a ${change} change while open near the bottom of the window places the panel again, above the trigger`, async () => {
+      const { menu, trigger } = await mount([{ value: 'a', text: 'A' }]);
+      trigger.style.position = 'fixed';
+      trigger.style.bottom = '0px';
+      menu.open = true;
+      await settle(menu);
+      if (change === 'header') {
+        menu.header = { name: 'Ana Lima', status: 'ana.lima@example.com' };
+      } else {
+        menu.items = Array.from({ length: 6 }, (_, index) => ({ value: `m${index}`, text: `Option ${index}`, selection: 'multiple' as const }));
+      }
+      await settle(menu);
+      await settle(menu);
+      await vi.waitFor(() => expect(getComputedStyle(panel(menu)).translate).toBe('none'));
+      const anchor = trigger.getBoundingClientRect();
+      const box = panel(menu).getBoundingClientRect();
+      expect(box.top).toBeGreaterThanOrEqual(0);
+      expect(anchor.top - box.bottom).toBeCloseTo(px('--nph-space-inline-tight'), 0);
+    });
+  }
 
   it('rows of 36 in default, 28 in compact and 40 with multiple choice, from their content', async () => {
     const menu = await openMenu([
