@@ -1,7 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20,
-P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P85, P86, P87, P88, P90, P91, P93 and P94. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P83, P84, P85, P86, P87, P88, P90, P91, P93 and P94. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -48,6 +47,7 @@ P62.4 subsection for the detail).
 | **P78** | API and semantics of `nph-avatar-stack` | 22/10/2026 | Low now. No piece consumes it yet; a list of people, a card or a table row will, so changing `count`, `label` or the slot of `nph-avatar` children later requires redoing them | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P79** | API and semantics of `nph-switch` | 22/10/2026 | Low now. No piece consumes it yet; `nph-dropdown-menu` (DSA-45) will, without a label, so changing `checked`, `text`, `label` or the native events later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D4 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P80** | API and semantics of `nph-input`, the reference of the form controls | 22/10/2026 | Medium. `nph-field` (DSA-28), `nph-checkbox`, `nph-radio` and `nph-input-otp` copy its form association, its native events and its name by reference, so changing them later requires redoing those pieces | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D7 answered on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P81** | API, semantics and form participation of `nph-checkbox` | 22/10/2026 | Low now. `nph-field` (DSA-28) holds it as an option of a group, and a form will submit it, so changing `checked`, `name`, `value`, the native events or `nphFieldRole` later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D6 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P83** | `nph-field`: API, semantics and the field–control contract | 22/10/2026 | Medium. Every form control (DSA-16, DSA-17, DSA-18, DSA-27, DSA-41, and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46) takes the contract, so changing `label`, `description`, `invalid`, `required`, `disabled` or `nphFieldRole` later requires redoing all of them | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D8 answered on 16/10/2026; the plan and the contract approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P84** | API and semantics of `nph-empty`, and the first raster asset of the package | 22/10/2026 | Low now. No piece consumes it yet; `nph-combobox` (DSA-46) will, so changing `heading` or `description` later requires redoing its empty list. The asset delivery (`vite.config.lib.ts`) applies to any later illustration | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P86** | Icon-only `nph-button`: shape and built-in tooltip (amends P68) | 23/10/2026 | Low now. `nph-dialog` (DSA-44) will use the icon-only button to close, so changing `shape`, or the tooltip the button renders, later requires redoing it | Anatomy and behavior: board `nph-icon-button` accepted by Indiane on 19/10/2026, textual audit approved on 20/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
@@ -2439,6 +2439,139 @@ the approval.
 
 ---
 
+## P81 — `nph-checkbox`: API, semantics and form participation
+
+**Decision.** `nph-checkbox` is a Web Component with **open Shadow DOM** (P01), CSS in its own
+file imported `?inline`, as in `nph-icon`. It has no slot, no `::part`, no color property and no
+size property. Anatomy only through semantic tokens. Invalid input renders nothing and emits
+`console.error` only in development — the rule of P21, adopted here by its own decision, as in
+P68 and P73. The names follow P64. It is a form control: it follows the form pattern of P80
+(`nph-input`, the reference implementation) and the contract between `nph-field` and its
+controls of P83, and records here only what differs.
+
+1. **Properties.** The Figma property names are in Portuguese and the code API is in English
+   (P64). The mapping below is a technical proposal of this implementation.
+
+   | Figma | API |
+   |---|---|
+   | `marcado` = `true` | `checked`, Boolean, not reflected |
+   | `marcado` = `indeterminado` | `indeterminate`, Boolean, not reflected |
+   | `state` = `erro` | `invalid`, Boolean, reflected |
+   | `state` = `disabled` | `disabled`, Boolean, the host attribute |
+   | the text | `text`, String |
+   | `mostrar rótulo` off: the accessible name | `label`, String |
+   | — | `name` and `value`, String, the host attributes; `form`, read only |
+
+   `state` values `hover`, `foco` and `erro-foco` are the interaction, not properties.
+   `mostrar rótulo` is the presence of `text`, as `texto` is in P73. `indeterminate` shows the
+   `minus` mark whatever `checked` is, as on the native checkbox, and a click of the person
+   clears it and toggles `checked`: the evidence says it "is not an answer from the person".
+
+2. **Semantics: a native checkbox inside.** The piece is an `<input type="checkbox">` inside a
+   `<label>` with the drawn box and the text, in the shadow root, with `delegatesFocus`, as the
+   native button of P73. The browser gives the role, the `mixed` state, Space, `:focus-visible`
+   and the click on the text. The input lies, invisible, over the 24 × 24 touch area. The name
+   is the text; without text, `label` becomes the `aria-label` of the input. Unlike P73,
+   `aria-invalid` is valid on a checkbox, so `invalid` sets it on the input. **Known limit:** a
+   `<label for>` outside, pointing to the host, toggles it but does not name the inner input,
+   because an id does not cross the shadow root. The bridge of P80 item 3 (the labels of the
+   host as element references) is not adopted: the piece brings its own text.
+
+3. **Default and current state.** The `checked` attribute is the default state, the one a form
+   reset goes back to; the property is the current state. Once the person toggles the piece, or
+   code sets `checked`, the piece is dirty and a later change of the attribute no longer moves
+   the current state, as the dirty checkedness of the native checkbox (P80). The state, the inner
+   input and the form data move at once, before any listener runs and before the render.
+
+4. **Form participation.** `formAssociated` and `ElementInternals`, as P80. A checked piece
+   submits `name=value`; unchecked, nothing; `indeterminate` does not change what is submitted.
+   `name` and `value` are the host attributes, read and written by their accessors: the form
+   reads the attribute, and `value` is `on` when it is absent, as on the native checkbox.
+   `form.reset()` goes back to the `checked` attribute, clears `indeterminate` and fires nothing.
+   A disabled `<fieldset>` disables the piece as its own `disabled` does. State restoration
+   brings back the checked state. There is **no `required` and no constraint validation**: the
+   evidence has no `obrigatório`, and `invalid` never blocks the submission — the error sentence
+   belongs to the page or to `nph-field`. So the native surface is only the `form` getter: with
+   no constraint, the validity getters of P80 would always say valid.
+
+5. **`disabled` is the host attribute, set at once.** The `disabled` property reads and writes
+   the attribute, as the native one, instead of reflecting it during the render. The host then
+   matches `:disabled` at once, and `formDisabledCallback`, which the browser calls for the own
+   attribute and for a fieldset, runs outside an update. A reflection during the render would call
+   it inside the update, and the render it asks for would be lost. `disabled` wins over `invalid`:
+   the error border and `aria-invalid` are suppressed, and the combination is not an error.
+
+6. **Events: the native ones.** As P80 item 4, for the form controls, the native events
+   replace the reasoning of P73 item 3. The native `input` of the inner input is composed and
+   crosses the shadow root on its own, unstopped; the native `change` is not composed, so the host
+   fires its own `change` after it, which bubbles and is not composed. Both only when the person
+   toggles the piece; setting `checked` or `indeterminate` from code fires nothing. The consumer
+   reads `event.target.checked`. Nothing goes into `HTMLElementEventMap`. `click()` on the host
+   dispatches one cancelable `click` on the host and, when nothing cancels it, toggles the piece
+   and fires `input` and `change`, as on the native checkbox. The click of a `<label for>` outside
+   toggles the piece with no second `click`; known limit: a cancellation made later, by an
+   ancestor in bubbling, comes after that toggle. When an ancestor stops the `input` before it
+   reaches the host, the host takes the state from the inner input on `change`.
+
+7. **Inside `nph-field`.** `static nphFieldRole = 'option'`: in the field, the piece is an
+   option of a group. The field names and describes the group in its own shadow root and writes
+   `invalid` and `disabled` on each box (P83); `disabled` keeps the opacity of the piece, and the
+   field draws none.
+
+8. **Measures and focus.** The box is `icon/size-sm`, with `radius/inner` and `border/width`
+   (D4); the touch area is the box plus `space/inline-tight` on each side, 24 × 24; the text is
+   `space/inline` from the touch area (D5) and is lowered by a `calc()` of tokens so its first
+   line is centered on the touch area. The focus is the box border in `focus/border` and a band of
+   `focus/ring-width` in `focus/halo` outside it, which fills exactly the touch area, with the
+   radius `focus/radius-inner` (`radius/inner` plus `focus/ring-width`); unlike P73, there is no
+   extra border outside. The border follows the precedence error, focus, hover, rest (D2, D3).
+   Following D2 to the letter, the border of a checked box stays `color/input`.
+
+9. **Motion.** The evidence says nothing about it; `design.md` gives the checkbox the state role.
+   The fill, the border and the opacity of the marks animate on `motion/state-duration` and
+   `motion/state-easing`, as a pair. Width, height and position never animate. Under
+   `prefers-reduced-motion` the change takes `motion/hover-duration`, the semantic alias of
+   `core/duration/100`, the same substitution P73 records, open as D7 of DSA-22.
+
+**Points for review.**
+
+- **D7 of DSA-17, open for Indiane.** D2 says that a checked or indeterminate box on hover also
+  takes `state/hover-opacity`, but not on what. The piece applies it to the box only; it does not
+  block the pull request.
+- **`use` of tokens in `design.md` narrower than the accepted frame.** `color/primary` (the
+  fill of the box), `space/inline-tight` (on four sides), `state/hover-opacity` (the hover of the
+  box; its `use` says it was the solid hover of `nph-button`) and `icon/size-sm` (the measure of
+  the box). `design.md` does not change in this pull request; widening the `use` is a decision
+  of Indiane, through Claude in Figma, as P68 and P73 recorded.
+- **Contrast, measured, and known limits.** The component test measures the seven brands in light
+  and dark. The box border, `color/input`, measures 3.23:1 in light and 6.58:1 in dark against the
+  background; the mark, `color/primary-foreground` on `color/primary`, is at least 4.96:1, also
+  under `state/hover-opacity`; the text is 21:1 in light and 14.73:1 in dark; the error border is
+  6.88:1 in light and 5.01:1 in dark. Under 3:1, fixed in the test as exactly the measured pairs:
+  the checked fill against the background in dark gerencial (2.71:1) and dark rh (2.88:1), where
+  the box border keeps the box visible; `focus/border` against the halo in light `sistemas`
+  (2.92:1), as `design.md` already records; and `status/error` against `focus/halo-error` in dark,
+  in every brand (1.96:1), which `design.md` does not record.
+
+**Source.** Frame `nph-checkbox` (`1194:1033`, set `740:18776`) of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 01/10/2026, with the Figma UX QA and the textual audit
+approved on 02/10/2026; D1 to D6 answered on 19/10/2026. The mapping from the Figma properties,
+the native input inside a label, the default and current state, the form participation, the
+`disabled` accessor and the motion are a technical proposal of this implementation; the native
+events and `nphFieldRole` follow the rules of the wave approved by Elvys on 22/10/2026.
+
+**Out of scope.** `required` and constraint validation. A link or rich content in the text (D6).
+A size, a slot, a `::part`. Group logic: the item that summarizes a group is kept in step by the
+page. The Usage section of the page (P70, DSA-35). The page lists read from the Metadata (P71,
+DSA-34). The accessibility gate (P72, DSA-32). The brand story (DSA-36). Forced colors and right
+to left, a known limit shared by the form controls.
+
+**Status.** Anatomy and behavior accepted by Indiane on 01/10/2026; D1 to D6 answered on
+19/10/2026. API and semantics are reviewed in the pull request that brings them; the merge is
+the approval.
+
+---
+
 ## P83 — `nph-field`: API, semantics and the field–control contract
 
 **Decision.** `nph-field` is a Web Component with **open Shadow DOM** (P01), CSS in its own file
@@ -3716,7 +3849,7 @@ in the pull request that brings them; the merge is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P83, P84, P85, P86, P87, P90, P91, P93 or P94 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P83, P84, P85, P86, P87, P90, P91, P93 or P94 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

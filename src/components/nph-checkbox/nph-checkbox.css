@@ -1,0 +1,179 @@
+/**
+ * Internal style of `nph-checkbox`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here.
+ *
+ * No literal design value goes in here. Written box relations: `0` and `100%` (the native
+ * input lies, invisible, over the touch area), `minmax(0, 1fr)` (one grid track for the
+ * marks), `calc()` of tokens (the halo outside the box border, and the text lowered to center
+ * its first line on the box) and `none` (no halo out of focus).
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  max-inline-size: 100%;
+  vertical-align: top;
+}
+
+/* Disabled, by its own attribute or by a disabled fieldset: the whole piece, text included. */
+:host(:disabled) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/*
+ * The whole piece is the click area: the touch area and the text, with `space/inline`
+ * measured from the edge of the 24 × 24 touch area (D5). The box sits at the top.
+ */
+.control {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--nph-space-inline);
+  min-inline-size: 0;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+/* The touch area: the box plus `space/inline-tight` on each side (D4). */
+.target {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  padding: var(--nph-space-inline-tight);
+}
+
+/* The native input gives role, state, keyboard and focus; it is invisible over the touch area. */
+.native {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  opacity: 0;
+  appearance: none;
+}
+
+/* The box: `icon/size-sm`, `radius/inner`, `border/width` (Anatomy, D4). */
+.box {
+  --_halo: var(--nph-focus-halo);
+
+  position: relative;
+  box-sizing: border-box;
+  display: inline-grid;
+  /* One track inside the border: the marks are as large as the box and overflow it equally on each side. */
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  place-items: center;
+  flex: none;
+  inline-size: var(--nph-icon-size-sm);
+  block-size: var(--nph-icon-size-sm);
+  border: var(--nph-border-width) solid var(--nph-color-input);
+  border-radius: var(--nph-radius-inner);
+  background-color: var(--nph-color-background);
+  color: var(--nph-color-primary-foreground);
+}
+
+/* Both marks share one cell; opacity shows only the active one (D1). */
+.mark {
+  grid-area: 1 / 1;
+  opacity: 0;
+}
+
+/* Checked and indeterminate: the box is filled with `color/primary` (D2). */
+.native:is(:checked, :indeterminate) + .box {
+  background-color: var(--nph-color-primary);
+}
+
+.native:checked:not(:indeterminate) + .box .mark-check,
+.native:indeterminate + .box .mark-minus {
+  opacity: 1;
+}
+
+/*
+ * Border, by precedence: error > focus > hover > rest (D2, D3). The three selectors below
+ * are written with growing specificity and in this order, so each one wins over the ones
+ * before it.
+ */
+:host(:not(:disabled)) .control:hover .box {
+  border-color: var(--nph-color-input-hover);
+}
+
+/* Hover on a checked or indeterminate box also takes `state/hover-opacity`, on the box (D2, D7). */
+:host(:not(:disabled)) .control:hover .native:is(:checked, :indeterminate) + .box {
+  opacity: var(--nph-state-hover-opacity);
+}
+
+:host(:not(:disabled)) .control .native:focus-visible + .box {
+  border-color: var(--nph-focus-border);
+}
+
+:host([invalid]:not(:disabled)) .control .native + .box {
+  --_halo: var(--nph-focus-halo-error);
+
+  border-color: var(--nph-status-error);
+}
+
+/*
+ * Focus: the halo, keyboard only (D3). An absolute box starts at the padding edge, so the
+ * offset adds the box border: the band of `focus/ring-width` lands just outside the border
+ * and fills the 24 × 24 touch area, with the radius `focus/radius-inner`.
+ */
+.box::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  box-sizing: border-box;
+  display: none;
+  border: var(--nph-focus-ring-width) solid var(--_halo);
+  border-radius: var(--nph-focus-radius-inner);
+  pointer-events: none;
+}
+
+.native:focus-visible + .box::after {
+  display: block;
+}
+
+/* The text wraps; it is lowered so its first line is centered on the touch area (D5). */
+.text {
+  min-inline-size: 0;
+  padding-block-start: calc(
+    (var(--nph-icon-size-sm) + 2 * var(--nph-space-inline-tight) - var(--nph-text-label-md-line-height)) / 2
+  );
+}
+
+/*
+ * Motion: the change between unchecked, checked and indeterminate, always as the PAIR
+ * `motion/state-duration` and `motion/state-easing` (`design.md`: a state change that stays,
+ * such as a checkbox). Width, height and position are never animated.
+ */
+.box {
+  transition-property: background-color, border-color, opacity;
+  transition-duration: var(--nph-motion-state-duration);
+  transition-timing-function: var(--nph-motion-state-easing);
+}
+
+.mark {
+  transition-property: opacity;
+  transition-duration: var(--nph-motion-state-duration);
+  transition-timing-function: var(--nph-motion-state-easing);
+}
+
+/*
+ * Reduced motion: `movimento_reduzido` in `design.md` asks for `core/duration/100`. Components
+ * never consume core tokens, so this uses the semantic alias `motion/hover-duration`, which
+ * resolves to the same value (100 ms), as P73 does. The colors still change.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .box,
+  .mark {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+}
