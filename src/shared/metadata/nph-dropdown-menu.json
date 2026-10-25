@@ -216,7 +216,7 @@
       "A typed character goes to the next item that starts with it.",
       "Enter and Space activate the item.",
       "Esc closes the menu and gives the focus back to the trigger, and does not reach a dialog around it.",
-      "Tab closes the menu and lets the focus move on."
+      "Tab and Shift+Tab close the menu and move on from the trigger, wherever the menu sits in the DOM."
     ],
     "focus": "The focus moves to the items. Keyboard only, a border of border/width in color/primary and a halo in focus/halo show outside the row; the border carries the focus (5.37:1 in light and 4.59:1 in dark), the halo is decorative. Opened by a mouse click, the first item takes the focus without showing it.",
     "contrast": "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The solid icon in dropdown/item-hover-icon-foreground on color/primary-surface measures 4.78:1 in light and 6.26:1 in dark. The menu border, the separator and the halo are decorative.",

@@ -481,6 +481,52 @@ describe('opening and closing', () => {
     expect(document.activeElement).toBe(next);
   });
 
+  /** before · [menu] · trigger · between · [menu] · after, with the menu on one side of the trigger. */
+  async function layout(menuFirst: boolean): Promise<Record<'before' | 'trigger' | 'between' | 'after', HTMLButtonElement> & { menu: NphDropdownMenu }> {
+    const make = (id: string): HTMLButtonElement => {
+      const button = document.createElement('button');
+      button.id = id;
+      button.textContent = id;
+      return button;
+    };
+    const [before, trigger, between, after] = ['before', 'trigger', 'between', 'after'].map(make) as HTMLButtonElement[];
+    const menu = document.createElement('nph-dropdown-menu');
+    menu.setAttribute('for', 'trigger');
+    menu.items = ITEMS;
+    if (menuFirst) {
+      document.body.append(before as Node, menu, trigger as Node, between as Node, after as Node);
+    } else {
+      document.body.append(before as Node, trigger as Node, between as Node, menu, after as Node);
+    }
+    await settle(menu);
+    return { before, trigger, between, after, menu } as never;
+  }
+
+  for (const menuFirst of [false, true]) {
+    const where = menuFirst ? 'before the trigger' : 'after a control next to the trigger';
+    it(`with the menu ${where}, Tab moves on from the trigger`, async () => {
+      const { trigger, between, menu } = await layout(menuFirst);
+      trigger.focus();
+      await userEvent.keyboard('{Enter}');
+      await settle(menu);
+      await userEvent.tab();
+      await settle(menu);
+      expect(menu.open).toBe(false);
+      expect(document.activeElement).toBe(between);
+    });
+
+    it(`with the menu ${where}, Shift+Tab moves back from the trigger`, async () => {
+      const { trigger, before, menu } = await layout(menuFirst);
+      trigger.focus();
+      await userEvent.keyboard('{Enter}');
+      await settle(menu);
+      await userEvent.tab({ shift: true });
+      await settle(menu);
+      expect(menu.open).toBe(false);
+      expect(document.activeElement).toBe(before);
+    });
+  }
+
   it('open set by the consumer shows the panel and does not move the focus', async () => {
     const { menu, trigger } = await mount();
     trigger.focus();

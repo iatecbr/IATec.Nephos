@@ -155,7 +155,7 @@ accessibility:
     - "A typed character goes to the next item that starts with it."
     - "Enter and Space activate the item."
     - "Esc closes the menu and gives the focus back to the trigger, and does not reach a dialog around it."
-    - "Tab closes the menu and lets the focus move on."
+    - "Tab and Shift+Tab close the menu and move on from the trigger, wherever the menu sits in the DOM."
   focus: "The focus moves to the items. Keyboard only, a border of border/width in color/primary and a halo in focus/halo show outside the row; the border carries the focus (5.37:1 in light and 4.59:1 in dark), the halo is decorative. Opened by a mouse click, the first item takes the focus without showing it."
   contrast: "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The solid icon in dropdown/item-hover-icon-foreground on color/primary-surface measures 4.78:1 in light and 6.26:1 in dark. The menu border, the separator and the halo are decorative."
   color_alternative: "The destructive item is recognized by the icon of the action and by the text. Single choice shows the check; multiple choice shows the checked box; the switch shows the knob position; the tag carries text."
@@ -292,7 +292,7 @@ destructive item hovers in `color/destructive-surface` and keeps its light icon 
 |---|---|
 | Semantics | A popover panel with a `role=menu` inside; every group is a `role=group`, named by its label when it has one. Items are `menuitem`, `menuitemradio` (single choice) or `menuitemcheckbox` (multiple choice and switch), with `aria-checked`. The profile header sits outside the menu. The inner `nph-checkbox` and `nph-switch` are `inert` |
 | Accessible name | The menu: `label`, or the trigger. The item: its `text`; the description, the tag, the counter and the shortcut describe it, in that order. Support icons are not read |
-| Keyboard | The menu button pattern of the APG: on the trigger, Enter, Space and ↓ open on the first item, ↑ on the last; in the menu, ↑ ↓ with wrap, Home, End, a typed character, Enter and Space activate, Esc closes and gives the focus back, Tab closes |
+| Keyboard | The menu button pattern of the APG: on the trigger, Enter, Space and ↓ open on the first item, ↑ on the last; in the menu, ↑ ↓ with wrap, Home, End, a typed character, Enter and Space activate, Esc closes and gives the focus back, Tab and Shift+Tab close and move on from the trigger |
 | Focus | The `color/primary` border carries the focus, 5.37:1 in light and 4.59:1 in dark; the halo is decorative |
 | Contrast | The item text passes AA on `color/popover` and on `color/primary-surface`. The solid icon on hover measures 4.78:1 in light and 6.26:1 in dark |
 | Alternative to color | The destructive item has the icon of the action; single choice shows the check; multiple choice the checked box; the switch the knob position; the tag carries text |

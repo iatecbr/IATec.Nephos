@@ -4081,7 +4081,8 @@ custom element definition per folder (`vite.config.lib.ts`, `scripts/test-packag
    switch keep it open. A disabled or loading item takes the focus and does not activate (APG). Esc,
    listened to on the document in the capture phase only while open, closes, gives the focus back
    when it was in the menu and stops the key, so a dialog around does not close with it (P77 item
-   4). Tab closes and lets the focus move on. A press outside the menu and its trigger closes it
+   4). Tab and Shift+Tab close the menu and move on from the trigger, wherever the menu sits in the DOM:
+   the focus goes back to the trigger before the default action. A press outside the menu and its trigger closes it
    without moving the focus; a press on the trigger while open closes it, and does not open it again.
    Hover only paints (D-6). A trigger that is disabled, `aria-disabled` or an `nph-button` in `loading`
    opens nothing, by click or by key; a press on it still closes an open menu.

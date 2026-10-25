@@ -525,8 +525,11 @@ export class NphDropdownMenu extends LitElement {
         this.activate(element);
       }
     } else if (key === 'Tab') {
-      /* Tab closes, and the focus moves on. */
-      this.close(false);
+      /*
+       * Tab closes, and the focus moves on from the trigger, wherever the menu sits in the
+       * DOM: the focus goes back to the trigger before the default action runs.
+       */
+      this.close(true);
       handled = false;
     } else if (key.length === 1 && !altKey && !ctrlKey && !metaKey) {
       this.focusItem(this.typeahead(key, current) ?? elements[current] ?? null);
