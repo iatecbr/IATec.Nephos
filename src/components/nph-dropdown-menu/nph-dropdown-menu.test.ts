@@ -171,6 +171,20 @@ describe('groups', () => {
     ]);
   });
 
+  it('an empty group is dropped and its separator goes to the next group', () => {
+    const groups = groupsOf([
+      { value: 'a', text: 'A' },
+      { type: 'separator' },
+      { type: 'label', text: 'Empty' },
+      { type: 'separator' },
+      { value: 'b', text: 'B' },
+    ]);
+    expect(groups.map((group) => [group.label, group.separated])).toEqual([
+      ['', false],
+      ['', true],
+    ]);
+  });
+
   it('a separator before the first group draws nothing', () => {
     expect(groupsOf([{ type: 'separator' }, { value: 'a', text: 'A' }])[0]?.separated).toBe(false);
   });
@@ -634,6 +648,43 @@ describe('activation and the event', () => {
     expect(itemOf(menu, 'archived').getAttribute('aria-checked')).toBe('true');
     expect((itemOf(menu, 'archived').querySelector('nph-checkbox') as HTMLElement & { checked: boolean }).checked).toBe(true);
     expect(itemOf(menu, 'sync').querySelector('nph-switch')?.hasAttribute('checked')).toBe(false);
+  });
+
+  it('a click on the inert box or track hovers and activates the item, and no event of the inner piece escapes', async () => {
+    const { menu, trigger } = await mount([
+      { value: 'archived', text: 'Archived', selection: 'multiple' },
+      { value: 'sync', text: 'Sync', switch: true },
+    ]);
+    const seen = events(menu);
+    const escaped: string[] = [];
+    for (const type of ['input', 'change']) document.addEventListener(type, () => escaped.push(type));
+    await userEvent.click(trigger);
+    await settle(menu);
+    const checkbox = itemOf(menu, 'archived').querySelector('nph-checkbox') as HTMLElement;
+    const toggle = itemOf(menu, 'sync').querySelector('nph-switch') as HTMLElement;
+    await userEvent.hover(checkbox, { force: true });
+    expect(getComputedStyle(itemOf(menu, 'archived')).backgroundColor).toBe(resolved('background-color', '--nph-color-primary-surface'));
+    await userEvent.click(checkbox, { force: true });
+    await userEvent.click(toggle, { force: true });
+    expect(seen).toEqual([
+      { value: 'archived', checked: true },
+      { value: 'sync', checked: true },
+    ]);
+    expect(escaped).toEqual([]);
+  });
+
+  it('a single choice already checked fires again, with checked true, and closes', async () => {
+    const { menu, trigger } = await mount([
+      { value: 'list', text: 'List', selection: 'single', checked: true },
+      { value: 'grid', text: 'Grid', selection: 'single' },
+    ]);
+    const seen = events(menu);
+    await userEvent.click(trigger);
+    await settle(menu);
+    await userEvent.click(itemOf(menu, 'list'));
+    await settle(menu);
+    expect(seen).toEqual([{ value: 'list', checked: true }]);
+    expect(menu.open).toBe(false);
   });
 
   it('a disabled or loading item does not activate', async () => {

@@ -200,7 +200,18 @@ export function groupsOf(entries: readonly NphDropdownMenuEntry[], valid: (entry
     }
     current.rows.push({ entry, index, group: groups.length - 1 });
   });
-  return groups.filter((group) => group.rows.length > 0);
+  /* An empty group is dropped; the separator before it goes to the next group that is drawn. */
+  const drawn: Group[] = [];
+  let carried = false;
+  for (const group of groups) {
+    if (group.rows.length === 0) {
+      carried = carried || group.separated;
+      continue;
+    }
+    drawn.push({ ...group, separated: drawn.length > 0 && (group.separated || carried) });
+    carried = false;
+  }
+  return drawn;
 }
 
 export class NphDropdownMenu extends LitElement {
