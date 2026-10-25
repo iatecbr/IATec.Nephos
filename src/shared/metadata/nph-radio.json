@@ -156,7 +156,7 @@
       "Tab enters the group on the checked radio or, with none checked, on the first one that responds; the next Tab leaves the group.",
       "Arrow down and arrow right move to the next radio and check it, wrapping; arrow up and arrow left, to the previous one.",
       "Space checks the focused radio.",
-      "A disabled radio is out of the Tab order and the arrow keys skip it."
+      "A disabled radio is out of the Tab order and the arrow keys skip it; so is a radio hidden by display: none, on itself or on an ancestor."
     ],
     "focus": "Keyboard only: the circle border turns focus/border and a focus/halo halo covers the 24 by 24 touch area, fully round. With error, the border stays status/error and the halo is focus/halo-error. A mouse click does not show it.",
     "contrast": "The circle outline in color/input: 3.23:1 in light and 6.58:1 in dark; the text, 21:1 and 14.73:1. The test measures the dot on the checked fill and the error border in every brand and scheme. Known limit: in light mode of the default brand, focus/border measures 2.92:1 against the halo, as design.md records.",

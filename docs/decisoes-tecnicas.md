@@ -2479,6 +2479,9 @@ P66, P68, P73, P74 and P76. The names follow P64. The form pattern is the one of
    as in P77) and with the same form owner, are one group, in tree order. A detached tree is a root
    too, as for the native radio, so markup parsed with two checked radios keeps the last one.
    Checking one unchecks the others, from the person or from code; the others do not become dirty.
+   A change of `name`, by the property or the attribute, settles both groups at once, on the page or
+   not, and a checked radio unchecks its new group, so the radio renamed last wins whatever the order
+   of its attributes.
    A radio that arrives checked unchecks the group it joins. A radio without a name is a group of
    one. `nph-field` gives the group its role (`radiogroup`), name, description, `aria-required` and
    error, and reads `static nphFieldRole = 'radio'` (P83); the radio owns the exclusivity, the arrow
@@ -2493,7 +2496,9 @@ P66, P68, P73, P74 and P76. The names follow P64. The form pattern is the one of
 5. **Keyboard (WAI-ARIA APG, Radio Group).** One Tab stop per group: the checked radio that
    responds or, with none checked, the first one that responds. Arrow down and arrow right move the
    focus to the next radio that responds, arrow up and arrow left to the previous one, wrapping; the
-   arrow also checks it and fires the events. Space checks the focused radio. Arrows and Space
+   arrow also checks it and fires the events. Space checks the focused radio. A radio hidden by
+   `display: none`, on itself or on an ancestor, takes no Tab stop and the arrows skip it; code can
+   still check it. A change of visibility alone is picked up the next time the group settles. Arrows and Space
    prevent the page scroll; Enter does nothing; a key with Alt, Ctrl or Meta is left alone. Every
    radio settles the `tabindex` of its whole group when it connects, leaves (the group it left),
    changes `checked`, `disabled`, `name` or form owner, or becomes drawn. A `tabindex` the consumer

@@ -390,6 +390,35 @@ describe('the group', () => {
     expect(checkedOf(radios)).toEqual([false, true, false]);
   });
 
+  it('two checked in the markup with checked before name: the last one still wins', async () => {
+    const box = document.createElement('div');
+    box.innerHTML = `
+      <nph-radio checked name="shift" text="Morning"></nph-radio>
+      <nph-radio checked name="shift" text="Afternoon"></nph-radio>
+      <nph-radio name="shift" text="Night"></nph-radio>`;
+    document.body.append(box);
+    const radios = [...box.querySelectorAll('nph-radio')];
+    await settle(radios);
+    expect(checkedOf(radios)).toEqual([false, true, false]);
+  });
+
+  it('a change of name off the page settles the group at once, and the radio renamed last wins', async () => {
+    const box = document.createElement('div');
+    const a = radio({ name: 'shift', text: 'Morning', checked: true });
+    const b = radio({ name: 'payment', text: 'Card', checked: true });
+    box.append(a, b);
+    b.name = 'shift';
+    expect([a.checked, b.checked]).toEqual([false, true]);
+    b.setAttribute('name', 'payment');
+    a.checked = true;
+    expect([a.checked, b.checked]).toEqual([true, true]);
+    a.setAttribute('name', 'payment');
+    expect([a.checked, b.checked]).toEqual([true, false]);
+    document.body.append(box);
+    await settle([a, b]);
+    expect([a.checked, b.checked]).toEqual([true, false]);
+  });
+
   it('a checked radio that arrives unchecks the group it joins', async () => {
     const radios = await mountGroup([{ ...SHIFTS[0], checked: true }, SHIFTS[1]!]);
     const arriving = radio({ ...SHIFTS[2], checkedAttribute: true });
@@ -573,6 +602,41 @@ describe('keyboard (APG Radio Group)', () => {
     radios[0]!.focus();
     await userEvent.keyboard(' {ArrowDown}{ArrowUp}{ArrowLeft}{ArrowRight}');
     expect(prevented).toEqual([' ', 'ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight']);
+  });
+
+  it('a hidden radio, by itself or by an ancestor, is skipped by the arrow keys and takes no Tab stop', async () => {
+    for (const hide of ['self', 'ancestor'] as const) {
+      const radios = await mountGroup([SHIFTS[0]!, SHIFTS[1]!, SHIFTS[2]!]);
+      const middle = radios[1]!;
+      if (hide === 'self') {
+        middle.style.display = 'none';
+      } else {
+        const wrapper = document.createElement('div');
+        wrapper.style.display = 'none';
+        middle.before(wrapper);
+        wrapper.append(middle);
+      }
+      radios[0]!.checked = true;
+      radios[0]!.checked = false;
+      expect(radios.map((element) => element.getAttribute('tabindex')), hide).toEqual(['0', '-1', '-1']);
+      radios[0]!.focus();
+      await userEvent.keyboard('{ArrowDown}');
+      expect(document.activeElement, hide).toBe(radios[2]);
+      expect(checkedOf(radios), hide).toEqual([false, false, true]);
+      /* Code can still check the hidden radio. */
+      middle.checked = true;
+      expect(checkedOf(radios), hide).toEqual([false, true, false]);
+      document.body.replaceChildren();
+    }
+  });
+
+  it('a hidden first radio does not hold the Tab stop of a group with none checked', async () => {
+    const radios = radio({ ...SHIFTS[0] });
+    radios.style.display = 'none';
+    document.body.append(radios);
+    const rest = await mountGroup([SHIFTS[1]!, SHIFTS[2]!]);
+    await radios.updateComplete;
+    expect([radios, ...rest].map((element) => element.getAttribute('tabindex'))).toEqual(['-1', '0', '-1']);
   });
 
   it('a disabled radio leaves the Tab order', async () => {

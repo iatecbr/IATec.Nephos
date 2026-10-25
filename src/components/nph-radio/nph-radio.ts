@@ -19,12 +19,13 @@
  *   radio enters the `FormData`, under `name`;
  * - the group is not an element: radios with the same non-empty `name`, in the same root
  *   (`getRootNode()`, never `document`) and with the same form owner, are one group.
- *   Checking one unchecks the others, from the person or from code. A radio without a
- *   name is a group of one;
+ *   Checking one unchecks the others, from the person or from code, and a change of name
+ *   settles the groups at once, on the page or not. A radio without a name is a group of one;
  * - keyboard (WAI-ARIA APG, Radio Group): one Tab stop per group, on the checked radio or,
  *   with none checked, on the first one that responds. The arrow keys move the focus to the
  *   next or previous radio that responds, wrapping, and check it; Space checks the focused
- *   one. The piece owns the `tabindex` of the host;
+ *   one. A radio hidden by `display: none`, on itself or on an ancestor, takes no Tab stop
+ *   and the arrows skip it. The piece owns the `tabindex` of the host;
  * - a click on the piece (circle or text), `click()` or a `<label for>` checks it. A click
  *   on the checked radio changes nothing and fires nothing, but the `click` still bubbles;
  * - events: when the person checks it, the host fires the native `input` (bubbles,
@@ -114,7 +115,8 @@ export class NphRadio extends LitElement {
     /* Reflects: the internal CSS reads it. */
     invalid: { type: Boolean, reflect: true },
     /* Reflect: the form reads the attributes of the host, not the properties. */
-    name: { type: String, reflect: true, converter: nameConverter },
+    /* The accessor is written by hand: a change of name settles the groups at once, also off the page. */
+    name: { type: String, reflect: true, converter: nameConverter, noAccessor: true },
     value: { type: String, reflect: true, converter: valueConverter },
     text: { type: String },
     label: { type: String },
@@ -122,8 +124,6 @@ export class NphRadio extends LitElement {
 
   declare disabled: boolean;
   declare invalid: boolean;
-  /** The group and the key in the `FormData`. Empty: a group of one, not submitted. */
-  declare name: string;
   /** What the checked radio submits. */
   declare value: string;
   /** The visible text, already localized; it is also the accessible name. */
@@ -142,6 +142,7 @@ export class NphRadio extends LitElement {
   /** The root and name the piece had when connected, to settle that group when it leaves. */
   private connectedRoot: Document | ShadowRoot | null = null;
   private connectedName = '';
+  private nameValue = '';
   /** The composition warnings already shown, so a problem that stays does not repeat. */
   private shownWarnings = new Set<string>();
   private compositionFrame = 0;
@@ -171,6 +172,35 @@ export class NphRadio extends LitElement {
   set checked(value: boolean) {
     this.dirty = true;
     this.applyChecked(Boolean(value));
+  }
+
+  /** The group and the key in the `FormData`. Empty: a group of one, not submitted. */
+  get name(): string {
+    return this.nameValue;
+  }
+
+  /**
+   * A change of name settles both groups at once, in the root the radio is in, on the page or
+   * not: a checked radio unchecks its new group, as the native radio does, so the radio whose
+   * name changed last wins, whatever the order of its attributes.
+   */
+  set name(value: string) {
+    const old = this.nameValue;
+    const next = value ?? '';
+    if (old === next) {
+      return;
+    }
+    this.nameValue = next;
+    this.requestUpdate('name', old);
+    if (this.checkedState) {
+      this.uncheckOthers();
+    }
+    this.settleNamed(this.getRootNode(), old);
+    this.syncGroup();
+    if (this.isConnected) {
+      this.connectedName = next;
+      this.scheduleCompositionCheck();
+    }
   }
 
   /** The form that owns the piece, as on a native control. */
@@ -266,6 +296,15 @@ export class NphRadio extends LitElement {
     return this.disabled || this.formDisabled || !this.valid;
   }
 
+  /**
+   * The keyboard reaches the radio: it responds and it is shown. A radio hidden by
+   * `display: none`, on itself or on an ancestor, takes no Tab stop and the arrow keys skip
+   * it; code can still check it.
+   */
+  private get reachable(): boolean {
+    return !this.inactive && this.checkVisibility();
+  }
+
   /** Sets the state, unchecks the group when it turns on, and settles the form and the focus. */
   private applyChecked(value: boolean): void {
     const old = this.checkedState;
@@ -310,11 +349,11 @@ export class NphRadio extends LitElement {
   }
 
   /** Settles every radio named `name` in `root`, after one of them left or changed group. */
-  private settleNamed(root: Document | ShadowRoot | null, name: string): void {
-    if (root === null || name === '') {
+  private settleNamed(root: Node | null, name: string): void {
+    if (root === null || root === this || name === '' || !('querySelectorAll' in root)) {
       return;
     }
-    for (const element of root.querySelectorAll(TAG)) {
+    for (const element of (root as ParentNode).querySelectorAll(TAG)) {
       if (element instanceof NphRadio && element !== this && element.name === name) {
         element.syncGroup();
         element.scheduleCompositionCheck();
@@ -325,7 +364,7 @@ export class NphRadio extends LitElement {
   /** One Tab stop per group: the checked radio that responds, or the first one that responds. */
   private syncGroup(): void {
     const members = this.group();
-    const responsive = members.filter((radio) => !radio.inactive);
+    const responsive = members.filter((radio) => radio.reachable);
     const stop = responsive.find((radio) => radio.checkedState) ?? responsive[0];
     for (const radio of members) {
       if (radio.inactive) {
@@ -378,7 +417,7 @@ export class NphRadio extends LitElement {
       return;
     }
     event.preventDefault();
-    const responsive = this.group().filter((radio) => !radio.inactive);
+    const responsive = this.group().filter((radio) => radio.reachable);
     const index = responsive.indexOf(this);
     const next = responsive[(index + step + responsive.length) % responsive.length];
     if (next === undefined) {
@@ -419,18 +458,6 @@ export class NphRadio extends LitElement {
   }
 
   protected override willUpdate(changed: PropertyValues): void {
-    if (changed.has('name')) {
-      const previous = (changed.get('name') as string | undefined) ?? '';
-      if (this.isConnected) {
-        if (this.checkedState) {
-          this.uncheckOthers();
-        }
-        this.settleNamed(this.connectedRoot, previous);
-        this.connectedName = this.name ?? '';
-        this.scheduleCompositionCheck();
-      }
-    }
-
     /* Only the inputs that decide the name are checked again, so the error does not repeat on a check. */
     const decisive = this.accessibleNameChanged || changed.has('text') || changed.has('label');
     if (decisive) {
