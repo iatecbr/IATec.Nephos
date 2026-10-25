@@ -115,7 +115,8 @@
     "After an activation, the menu replaces items with a new list that carries the new checked; the objects of the consumer are never changed.",
     "A common item and a single choice close the menu and give the focus back to the trigger; a multiple choice and a switch keep it open. A submenu item activates as a common item: the nested menu is out of scope.",
     "A disabled or loading item takes the focus but does not activate. In loading, the spinner takes the end of the item, in place of shortcut, counter, tag, switch, arrow and check.",
-    "The menu opens space/inline-tight below the trigger, aligned to its start edge, turns up when it does not fit below and fits above, never leaves the window and follows the trigger on scroll and resize. Only a menu taller than the room scrolls inside.",
+    "The menu opens space/inline-tight below the trigger, aligned to its start edge, turns up when it does not fit below and fits above, never leaves the window and follows the trigger on scroll and resize. layout/input-width is the preferred width; a narrower window, or a larger font, holds the panel inside it. Only a menu taller than the room scrolls inside.",
+    "A trigger that is disabled, aria-disabled or an nph-button in loading opens nothing, by click or by key.",
     "Opening fades in and slides space/inline-tight on motion/enter-duration and motion/enter-easing; closing on motion/exit-duration and motion/exit-easing. Under reduced motion, opacity only, on motion/hover-duration."
   ],
   "domain_errors": [],

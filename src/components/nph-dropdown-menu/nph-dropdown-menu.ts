@@ -208,7 +208,9 @@ export function groupsOf(entries: readonly NphDropdownMenuEntry[], valid: (entry
       carried = carried || group.separated;
       continue;
     }
-    drawn.push({ ...group, separated: drawn.length > 0 && (group.separated || carried) });
+    /* The rows point at the group as it is drawn, so single choice finds its peers. */
+    const position = drawn.length;
+    drawn.push({ ...group, separated: position > 0 && (group.separated || carried), rows: group.rows.map((row) => ({ ...row, group: position })) });
     carried = false;
   }
   return drawn;
@@ -342,8 +344,20 @@ export class NphDropdownMenu extends LitElement {
     this.trigger = null;
   }
 
+  /** A disabled or busy trigger opens nothing: `disabled`, `aria-disabled`, or the `loading` of `nph-button`. */
+  private get triggerInactive(): boolean {
+    const trigger = this.trigger;
+    return (
+      trigger === null ||
+      trigger.matches(':disabled') ||
+      trigger.hasAttribute('disabled') ||
+      trigger.hasAttribute('loading') ||
+      trigger.getAttribute('aria-disabled') === 'true'
+    );
+  }
+
   private readonly onTriggerClick = (): void => {
-    if (!this.valid) {
+    if (!this.valid || (!this.open && this.triggerInactive)) {
       return;
     }
     if (this.open) {
@@ -354,7 +368,7 @@ export class NphDropdownMenu extends LitElement {
   };
 
   private readonly onTriggerKeydown = (event: KeyboardEvent): void => {
-    if (!this.valid || event.isComposing) {
+    if (!this.valid || event.isComposing || this.triggerInactive) {
       return;
     }
     /* Enter and Space reach the trigger as a click; the arrows open the menu here. */
@@ -418,7 +432,8 @@ export class NphDropdownMenu extends LitElement {
   }
 
   private readonly onDocumentKeydown = (event: KeyboardEvent): void => {
-    if (event.key !== 'Escape' && event.key !== 'Esc') {
+    /* During the exit the menu is already closed: a second Esc reaches the page. */
+    if ((event.key !== 'Escape' && event.key !== 'Esc') || !this.open) {
       return;
     }
     /* Esc closes the menu only, not a dialog around it (P77 item 4). */
@@ -654,7 +669,8 @@ export class NphDropdownMenu extends LitElement {
       this.report([...causes, ...entryCauses]);
     }
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);
-    if (!this.valid && this.open) {
+    /* While the trigger is still being looked up, `open` waits for it. */
+    if (!this.valid && !waiting && this.open) {
       this.open = false;
     }
   }
@@ -817,6 +833,8 @@ export class NphDropdownMenu extends LitElement {
     }
     panel.style.maxHeight = '';
     panel.style.overflowY = '';
+    /* `layout/input-width` is the preferred width; a narrower window, or a larger font, holds it. */
+    panel.style.maxWidth = `${view.width}px`;
     panel.style.top = '0px';
     panel.style.left = '0px';
     const { width, height } = panel.getBoundingClientRect();

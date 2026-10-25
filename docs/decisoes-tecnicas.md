@@ -3900,11 +3900,13 @@ custom element definition per folder (`vite.config.lib.ts`, `scripts/test-packag
    when it was in the menu and stops the key, so a dialog around does not close with it (P77 item
    4). Tab closes and lets the focus move on. A press outside the menu and its trigger closes it
    without moving the focus; a press on the trigger while open closes it, and does not open it again.
-   Hover only paints (D-6).
+   Hover only paints (D-6). A trigger that is disabled, `aria-disabled` or an `nph-button` in `loading`
+   opens nothing, by click or by key; a press on it still closes an open menu.
 6. **Placement and motion.** `space/inline-tight` below the trigger (D-1, as the list of
    `nph-select`), aligned to its start edge; it turns up when it does not fit below and fits above,
-   never leaves the window and follows the trigger on scroll and resize. Only a menu taller than the
-   room scrolls inside. Opening fades in and slides `space/inline-tight` on `motion/enter-*`,
+   never leaves the window and follows the trigger on scroll and resize. `layout/input-width` is the
+   preferred width: a narrower window, or a larger font, holds the panel inside it. Only a menu taller
+   than the room scrolls inside. `open` set before the trigger exists waits for the lookup. Opening fades in and slides `space/inline-tight` on `motion/enter-*`,
    closing on `motion/exit-*`, as the list of `nph-select` (D-2); under reduced motion, opacity only
    on `motion/hover-duration`.
 7. **Solid icon on hover.** On the hover of a `default` item, the start icon and the submenu arrow

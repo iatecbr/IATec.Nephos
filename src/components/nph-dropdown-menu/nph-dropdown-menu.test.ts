@@ -276,6 +276,24 @@ describe('invalid input', () => {
     expect(error).not.toHaveBeenCalled();
   });
 
+  it('open set before the trigger exists waits for it, and the menu opens when it is found', async () => {
+    const menu = document.createElement('nph-dropdown-menu');
+    menu.setAttribute('for', 'later');
+    menu.items = ITEMS;
+    menu.open = true;
+    document.body.append(menu);
+    await menu.updateComplete;
+    expect(menu.open).toBe(true);
+    const trigger = document.createElement('button');
+    trigger.id = 'later';
+    document.body.append(trigger);
+    await settle(menu);
+    await settle(menu);
+    expect(menu.open).toBe(true);
+    expect(shown(menu)).toBe(true);
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+  });
+
   it('looks the trigger up in its own root, never in the document', async () => {
     const outside = document.createElement('button');
     outside.id = 'actions';
@@ -391,6 +409,19 @@ describe('opening and closing', () => {
     expect(outer).not.toHaveBeenCalled();
   });
 
+  it('a second Esc during the exit reaches the page', async () => {
+    const { menu, trigger } = await mount();
+    trigger.focus();
+    await userEvent.keyboard('{Enter}');
+    await settle(menu);
+    const outer = vi.fn();
+    document.addEventListener('keydown', outer);
+    await userEvent.keyboard('{Escape}{Escape}');
+    document.removeEventListener('keydown', outer);
+    expect(menu.open).toBe(false);
+    expect(outer).toHaveBeenCalledTimes(1);
+  });
+
   it('with the menu closed, Esc is not intercepted', async () => {
     await mount();
     const outer = vi.fn();
@@ -469,6 +500,38 @@ describe('opening and closing', () => {
     await settle(menu);
     expect(document.activeElement).toBe(button);
     expect(button.shadowRoot?.activeElement?.tagName).toBe('BUTTON');
+  });
+});
+
+describe('an inactive trigger', () => {
+  it('an nph-button in loading opens nothing, by click, Enter, Space or the arrows', async () => {
+    const button = document.createElement('nph-button');
+    button.id = 'busy';
+    button.setAttribute('text', 'More');
+    button.setAttribute('loading', '');
+    const menu = document.createElement('nph-dropdown-menu');
+    menu.setAttribute('for', 'busy');
+    menu.items = ITEMS;
+    document.body.append(button, menu);
+    await settle(menu);
+    button.focus();
+    for (const key of ['{Enter}', ' ', '{ArrowDown}', '{ArrowUp}']) {
+      await userEvent.keyboard(key);
+      await settle(menu);
+      expect(menu.open, key).toBe(false);
+    }
+    await userEvent.click(button, { force: true });
+    await settle(menu);
+    expect(menu.open).toBe(false);
+  });
+
+  it('a trigger with aria-disabled opens nothing by the arrows', async () => {
+    const { menu, trigger } = await mount();
+    trigger.setAttribute('aria-disabled', 'true');
+    trigger.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    await settle(menu);
+    expect(menu.open).toBe(false);
   });
 });
 
@@ -624,6 +687,29 @@ describe('activation and the event', () => {
     ]);
     expect(menu.items).not.toBe(entries);
     expect(original).toEqual({ value: 'list', text: 'List', selection: 'single', checked: true });
+  });
+
+  it('after an empty group, single choice still moves inside its own group only', async () => {
+    const { menu, trigger } = await mount([
+      { type: 'label', text: 'Empty' },
+      { type: 'separator' },
+      { type: 'label', text: 'View' },
+      { value: 'list', text: 'List', selection: 'single', checked: true },
+      { value: 'grid', text: 'Grid', selection: 'single' },
+      { type: 'separator' },
+      { type: 'label', text: 'Sort' },
+      { value: 'name', text: 'Name', selection: 'single', checked: true },
+    ]);
+    await userEvent.click(trigger);
+    await settle(menu);
+    await userEvent.click(itemOf(menu, 'grid'));
+    await settle(menu);
+    const state = menu.items.filter((entry) => 'value' in entry).map((entry) => [(entry as { value: string }).value, (entry as { checked?: boolean }).checked]);
+    expect(state).toEqual([
+      ['list', false],
+      ['grid', true],
+      ['name', true],
+    ]);
   });
 
   it('multiple choice and a switch toggle and keep the menu open, with the focus on the item', async () => {
@@ -987,6 +1073,22 @@ describe('anatomy, measures and colors', () => {
     const separator = menu.shadowRoot?.querySelector('[role="menu"] nph-separator') as HTMLElement;
     expect(Number.parseFloat(getComputedStyle(separator).marginTop)).toBeCloseTo(px('--nph-space-inline-tight'), 1);
     expect(Number.parseFloat(getComputedStyle(separator).marginBottom)).toBeCloseTo(px('--nph-space-inline-tight'), 1);
+  });
+
+  it('with a larger font, the panel never gets wider than the window', async () => {
+    document.documentElement.style.fontSize = '64px';
+    try {
+      const { menu } = await mount();
+      menu.open = true;
+      await settle(menu);
+      await vi.waitFor(() => expect(getComputedStyle(panel(menu)).translate).toBe('none'));
+      const box = panel(menu).getBoundingClientRect();
+      expect(px('--nph-layout-input-width')).toBeGreaterThan(document.documentElement.clientWidth);
+      expect(box.left).toBeGreaterThanOrEqual(0);
+      expect(box.right).toBeLessThanOrEqual(document.documentElement.clientWidth + 1);
+    } finally {
+      document.documentElement.style.fontSize = '';
+    }
   });
 
   it('a menu taller than the room scrolls inside, and only then', async () => {
