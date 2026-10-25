@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 460,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": "nph-dropdown-menu",
   "dependencies": ["DSA-17", "DSA-27"],
   "gates": [
@@ -28,15 +28,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "The item uses the nph-checkbox in multiple choice and the nph-switch in the switch option, and DSA-17 (nph-checkbox) and DSA-27 (nph-switch) are not done yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-17 and DSA-27 are merged and done; then this task goes to ready.",
-      "opened_at": "2026-10-21"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-45/documentacao-figma-aceita-2026-10-21.md"
@@ -57,7 +49,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-21"
+  "updated_at": "2026-10-24"
 }
 ```
 
@@ -74,10 +66,11 @@ In the evidence of the `figma-docs-accepted` gate:
 carries the Figma documentation converted to text, with the tokens of each part.
 There is no need to open Figma.
 
-## Why it is blocked
+## Why it is ready
 The item uses the `nph-checkbox` (DSA-17) in multiple choice and the
-`nph-switch` (DSA-27) in the switch option. Both tasks are `ready`, not `done`.
-The task goes to `ready` when both are `done` (B1).
+`nph-switch` (DSA-27) in the switch option. B1 is closed: DSA-27 became `done`
+after the merge of PR #108, and DSA-17 on 2026-10-24, after the merge of
+PR #117. With every dependency `done`, the task is `ready`.
 
 Every token it uses is on `v/5.0.0`: the 4 new tokens (3 semantic and 1
 primitive) were taken to the token sources, to `tokens.css` and to `design.md`
