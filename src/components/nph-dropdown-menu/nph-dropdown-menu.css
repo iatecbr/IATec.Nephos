@@ -97,7 +97,9 @@
   min-inline-size: 0;
 }
 
+/* One line each, cut with an ellipsis: a long name, label, description or e-mail never leaves the panel. */
 .header-name,
+.header-status,
 .text,
 .description {
   overflow: hidden;

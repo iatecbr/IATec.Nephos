@@ -1149,6 +1149,14 @@ describe('anatomy, measures and colors', () => {
     expect(header.nextElementSibling?.tagName.toLowerCase()).toBe('nph-separator');
   });
 
+  it('a long status in the header is cut with an ellipsis and stays inside the panel', async () => {
+    const menu = await openMenu(ITEMS, { header: { name: 'Ana Lima', status: 'a.very.long.account.address.without.spaces.at.all@example-company.com' } });
+    const status = menu.shadowRoot?.querySelector('.header-status') as HTMLElement;
+    expect(getComputedStyle(status).textOverflow).toBe('ellipsis');
+    expect(status.scrollWidth).toBeGreaterThan(status.clientWidth);
+    expect(status.getBoundingClientRect().right).toBeLessThanOrEqual(panel(menu).getBoundingClientRect().right);
+  });
+
   it('the separator: nph-separator with space/inline-tight above and below', async () => {
     const menu = await openMenu();
     const separator = menu.shadowRoot?.querySelector('[role="menu"] nph-separator') as HTMLElement;
