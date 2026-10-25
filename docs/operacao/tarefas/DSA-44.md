@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 450,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-dialog",
   "dependencies": [],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-44/review-and-merge-2026-10-24.md",
+      "result": "passed",
+      "verified_at": "2026-10-24",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -68,7 +68,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-44/documentacao-figma-aceita-2026-10-21.md"
+    "docs/operacao/evidencias/DSA-44/documentacao-figma-aceita-2026-10-21.md",
+    "docs/operacao/evidencias/DSA-44/review-and-merge-2026-10-24.md"
   ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p87",
@@ -85,10 +86,10 @@
   },
   "git_review": {
     "branch": "claude/dsa-44-nph-dialog-07ca69",
-    "commit": "ff1fc04840e70f6e15ae29862dbf61b7f11cd60f",
+    "commit": "ffbecfdb1a20ddd5a54ffa73e9fef5dd5d8634aa",
     "pr": "115"
   },
-  "context": "docs/operacao/contextos/DSA-44.md",
+  "context": null,
   "updated_at": "2026-10-24"
 }
 ```
