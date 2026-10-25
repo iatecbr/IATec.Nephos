@@ -88,7 +88,7 @@ carries the Figma documentation converted to text, with the tokens of each part.
 There is no need to open Figma.
 
 ## Why it is ready
-Every piece it composes is done, and every token it uses is on `v/5.0.0`: the 36
+Every piece it composes is done, and every token it uses is on `v/5.0.0`: the
 `table/*` tokens and the core primitives `core/surface/25`, `core/space/800` and
 `core/focus-width/sm` were taken to the token sources together with this task.
 

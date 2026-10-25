@@ -22,9 +22,9 @@
 
 The documentation of the `nph-table` (frame `2584:66651`) was accepted in Figma,
 in the file `DS-IA-NEPHOS 5.0`, with the Figma UX QA and the textual audit
-approved. The component needed 36 semantic tokens and 3 core primitives that
-were not on `v/5.0.0`; they were taken to `v/5.0.0` with the same aliases as in
-Figma, together with this task. Every other token it uses was already there.
+approved. The component needed semantic tokens and core primitives that were not
+on `v/5.0.0`; they were taken to `v/5.0.0` with the same aliases as in Figma,
+together with this task. Every other token it uses was already there.
 
 There is no command output. The acceptance is a human observation, recorded in
 the json block above with the board URL and the component.
@@ -244,6 +244,13 @@ are the resolved values with the default brand (`Sistemas`).
 | `table/sticky-divider-width` | `core/shadow-y/100` (1) | same | line under the fixed header |
 | `table/sticky-divider-spread` | `core/shadow-spread/0` (0) | same | line under the fixed header |
 | `table/sticky-divider-blur` | `core/shadow-blur/0` (0) | same | line under the fixed header |
+| `table/caption-action-gap` | `space/inline` (8) | same | gap between the caption and its main action (caption with action) |
+| `table/max-width` | `layout/max-app` (1440) | same | width of the wide table inside the horizontal scroll area |
+| `table/scrollbar-radius` | `radius/full` (9999) | same | corner radius of the scrollbar thumb and track |
+| `table/scrollbar-thumb` | `scrollbar/thumb` (`#b7bbc1`) | `scrollbar/thumb` (`#4b5563`) | scrollbar thumb color |
+| `table/scrollbar-track` | `scrollbar/track` (`#edeeef`) | `scrollbar/track` (`#1e2228`) | scrollbar track background |
+| `table/scrollbar-width` | `space/inline-tight` (4) | same | width of the vertical scrollbar and height of the horizontal one |
+| `table/status-error-icon` | `status/error` (`#b01e1e`) | `status/error` (`#e35151`) | error status icon color |
 
 New core primitives taken with this task: `core/surface/25` (`#fafafa`),
 `core/space/800` (40) and `core/focus-width/sm` (2). `focus/ring-width` (4) stays

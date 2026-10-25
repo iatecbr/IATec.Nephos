@@ -597,6 +597,10 @@
   --nph-table-thumbnail-size: var(--nph-image-size-sm);
   --nph-table-thumbnail-size-large: var(--nph-image-size-lg);
   --nph-table-thumbnail-radius: var(--nph-radius-inner);
+  --nph-table-caption-action-gap: var(--nph-space-inline);
+  --nph-table-max-width: var(--nph-layout-max-app);
+  --nph-table-scrollbar-radius: var(--nph-radius-full);
+  --nph-table-scrollbar-width: var(--nph-space-inline-tight);
   --nph-image-radius-sm: var(--nph-radius-inner);
   --nph-image-border-width: var(--nph-border-width);
   --nph-image-overlay: var(--nph-overlay-on-media-strong);
@@ -636,6 +640,9 @@
   --nph-table-status-success-icon: var(--nph-status-success);
   --nph-table-rating-foreground: var(--nph-brand-educacao);
   --nph-table-sticky-divider-color: var(--nph-shadow-color-light);
+  --nph-table-scrollbar-thumb: var(--nph-scrollbar-thumb);
+  --nph-table-scrollbar-track: var(--nph-scrollbar-track);
+  --nph-table-status-error-icon: var(--nph-status-error);
   --nph-image-background: var(--nph-color-muted);
   --nph-image-foreground: var(--nph-color-muted-foreground);
   --nph-image-border: var(--nph-color-border);
