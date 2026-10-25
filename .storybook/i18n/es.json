@@ -193,6 +193,17 @@
     "components-nph-input-otp-validation--characters": "Caracteres",
     "components-nph-input-otp-validation--interactive": "Interactivo",
     "components-nph-input-otp-validation--examples": "Ejemplos",
+    "components-nph-dialog-docs": "Docs",
+    "components-nph-dialog-docs--documentation": "Documentación",
+    "components-nph-dialog-validation": "Validación",
+    "components-nph-dialog-validation--short-form": "Formulario corto",
+    "components-nph-dialog-validation--short-confirmation": "Confirmación corta",
+    "components-nph-dialog-validation--wide-content": "Contenido ancho",
+    "components-nph-dialog-validation--stacked-actions": "Acciones apiladas",
+    "components-nph-dialog-validation--loading-action": "Acción cargando",
+    "components-nph-dialog-validation--focus-and-escape": "Foco y Esc",
+    "components-nph-dialog-fixtures": "Ejemplos aislados",
+    "components-nph-dialog-fixtures--example": "Ejemplo",
     "components-nph-radio-docs": "Docs",
     "components-nph-radio-docs--documentation": "Documentación",
     "components-nph-radio-validation": "Validación",
@@ -4573,6 +4584,257 @@
     "statusInput": "input disparado con value = {value}.",
     "statusChange": "change disparado con value = {value}."
   },
+  "dialogDocs": {
+    "summary": "Ventana modal que bloquea la página hasta que la persona termina o cancela una tarea corta, siempre sobre el velo overlay/scrim.",
+    "matrixLabel": "nph-dialog por tamaño y por acciones",
+    "frameTitle": "Ejemplo de nph-dialog",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, valen las fuentes canónicas: la ficha del nph-dialog, design.md para los tokens y docs/decisoes-tecnicas.md para la P87. El archivo DS-IA-NEPHOS 5.0 de Figma es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "description": "Use nph-dialog para una tarea corta que necesita toda la atención de la persona antes de seguir: editar un registro, completar un formulario corto, elegir una opción. Para confirmar una acción destructiva, como eliminar o descartar, use nph-alert-dialog. Un flujo largo va a una página, y un aviso que no pide respuesta no usa diálogo.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Una tarea corta que necesita respuesta antes de seguir: editar un registro, completar un formulario corto, elegir una opción.",
+      "Elija el tamaño por el contenido, como techo del ancho: sm para una elección o una confirmación corta sin acción destructiva, md para un formulario corto, lg para una tabla, una lista larga o un formulario en dos columnas.",
+      "Active las líneas con contenido largo, como una lista o una tabla.",
+      "Use acciones apiladas en pantalla estrecha."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para confirmar una acción destructiva, como eliminar o descartar: use nph-alert-dialog.",
+      "Para un flujo largo: va a una página.",
+      "Para un aviso que no pide respuesta: use un mensaje en la propia página.",
+      "Para abrir un diálogo sobre otro: termine o cierre el primero."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "heading",
+        "El título, ya localizado por la aplicación: la tarea o la pregunta. Da nombre al diálogo para el lector de pantalla. Obligatorio: sin él, no se dibuja nada."
+      ],
+      [
+        "description",
+        "La frase de apoyo debajo del título, que completa el nombre. Vacía: sin descripción."
+      ],
+      [
+        "size",
+        "sm, md (por defecto) o lg: el techo del ancho. El diálogo abraza su contenido desde layout/dialog-min-width hasta el techo."
+      ],
+      [
+        "actions",
+        "inline (por defecto) o stacked. stacked pone los botones del pie uno por línea, el primario arriba, por debajo del breakpoint md."
+      ],
+      [
+        "hide-close",
+        "Desactiva el botón cerrar. Desactívelo solo cuando el pie ya ofrece la salida; Esc sigue cerrando el diálogo."
+      ],
+      [
+        "close-label",
+        "El nombre accesible del botón cerrar, ya localizado. Obligatorio mientras el botón aparece."
+      ],
+      [
+        "header-separator",
+        "La línea entre el encabezado y el contenido, para contenido largo."
+      ],
+      [
+        "footer-separator",
+        "La línea entre el contenido y el pie, para contenido largo. Se dibuja solo cuando el pie tiene botones."
+      ],
+      [
+        "open",
+        "Booleano, reflejado. El único medio de abrir y cerrar el diálogo; vuelve a false solo cuando la persona lo cierra."
+      ],
+      [
+        "slot",
+        "El área de contenido: campos, texto, una lista. Su ancho define el ancho del diálogo. Vacía, el área no se dibuja. Es la única parte que se desplaza."
+      ],
+      [
+        "slot footer",
+        "Las acciones nph-button: el secundario sólido primero, el primario o el danger al final. Vacío, el pie no se dibuja."
+      ],
+      [
+        "nph-close",
+        "Se dispara antes de que el diálogo se cierre cuando la persona lo pide, con Esc o con el botón cerrar (detail.source). Burbujea, atraviesa el shadow root y se puede cancelar para mantener el diálogo abierto."
+      ]
+    ],
+    "variantsTitle": "Variantes",
+    "variantsText": "actions define cómo quedan los botones del pie. inline los pone a la derecha, lado a lado, el primario al final. stacked los pone uno por línea a ancho completo, el primario arriba, por debajo del breakpoint md; desde él, quedan en línea.",
+    "variantsCaption": "El mismo diálogo con actions inline y stacked, en una ventana más estrecha que el breakpoint md.",
+    "sizesTitle": "Tamaños",
+    "sizesHeader": [
+      "Tamaño",
+      "Cuándo usar"
+    ],
+    "sizes": [
+      [
+        "sm",
+        "Techo layout/dialog-sm (400). Una elección o una confirmación corta, sin acción destructiva."
+      ],
+      [
+        "md",
+        "Techo layout/dialog-md (560), el por defecto. Un formulario corto."
+      ],
+      [
+        "lg",
+        "Techo layout/dialog-lg (720). Una tabla, una lista larga o un formulario en dos columnas."
+      ]
+    ],
+    "sizesCaption": "El mismo contenido ancho en cada tamaño: el diálogo se detiene en el techo de su tamaño.",
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "Siempre se abre sobre el velo overlay/scrim; el velo no es parte de la pieza.",
+      "El pie combina el nph-button secundario sólido, en color/secondary-on-dialog, con un primario o un danger. Color, estado y foco de los botones son del nph-button.",
+      "El botón cerrar es el nph-button secundario, ghost, compact, solo con icono.",
+      "Las líneas son nph-separator en color/dialog-separator, más suave que color/border.",
+      "El nph-alert-dialog se apoya en el nph-dialog sin el botón cerrar.",
+      "La carga viene del estado loading del nph-button del pie."
+    ],
+    "relationsCaption": "El primario en loading mientras publica, junto al secundario sólido.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Ventana",
+        "Fondo color/dialog, radio radius/overlay, sombra elevation/modal y padding space/overlay-padding. La altura llega hasta layout/dialog-max-height. El ancho abraza el contenido, desde layout/dialog-min-width hasta el techo del tamaño."
+      ],
+      [
+        "2. Título",
+        "text/heading-md en color/dialog-foreground. Es el nombre del diálogo en pantalla."
+      ],
+      [
+        "3. Descripción",
+        "text/body-md en color/muted-foreground, a space/stack-snug del título. Opcional."
+      ],
+      [
+        "4. Botón cerrar",
+        "nph-button secundario, ghost, compact, al final de la línea del título. Opcional."
+      ],
+      [
+        "5. Líneas del encabezado y del pie",
+        "nph-separator en color/dialog-separator, que separa el contenido largo del encabezado y del pie. Opcional."
+      ],
+      [
+        "6. Contenido",
+        "El área para campos, texto u otra composición. Su ancho define el ancho del diálogo. Es la única parte que se desplaza."
+      ],
+      [
+        "7. Pie",
+        "nph-button secundario sólido y el primario o el danger, a space/inline-loose uno del otro, a space/stack más space/stack-snug de lo que viene antes. Opcional."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Un dialog nativo abierto como modal (role=dialog, aria-modal), en el top layer; el resto de la página queda inerte mientras está abierto."
+      ],
+      [
+        "Nombre accesible",
+        "El heading da nombre al diálogo (aria-labelledby) y la descripción lo completa (aria-describedby). El botón cerrar lleva close-label como nombre."
+      ],
+      [
+        "Teclado",
+        "Tab y Shift+Tab quedan en el diálogo. Esc pide cerrarlo; un tooltip abierto dentro de él se lleva el primer Esc."
+      ],
+      [
+        "Foco visible",
+        "Al abrir, el foco va al primer elemento con autofocus, si no al primer campo del contenido, luego al pie, luego al botón cerrar. Al cerrar, vuelve al elemento que lo tenía."
+      ],
+      [
+        "Contraste",
+        "Título, descripción y texto de los botones superan 4,5:1 sobre el fondo en los dos modos."
+      ],
+      [
+        "Área táctil",
+        "El botón cerrar en compact cumple el mínimo de 24 por 24; los botones del pie quedan en default."
+      ],
+      [
+        "El color no es la única señal",
+        "El título dice el asunto y los botones dicen las acciones; el color solo refuerza."
+      ]
+    ],
+    "examplesTitle": "Ejemplos obligatorios",
+    "exampleForm": "Formulario corto en md, el tamaño por defecto: título, descripción, área de contenido y acciones.",
+    "exampleConfirmation": "Confirmación corta en sm, sin acción destructiva: sin área de contenido.",
+    "exampleWide": "Contenido ancho en lg, una lista, con las dos líneas activadas.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, board del nph-dialog 1368:27, frame 2277:2 y set 2268:52262.",
+      "La ficha del nph-dialog, en fichas/nph-dialog.md.",
+      "P87, en docs/decisoes-tecnicas.md.",
+      "design.md: color/dialog, overlay/scrim, elevation/modal y los anchos layout/dialog-*.",
+      "WAI-ARIA Authoring Practices: Dialog (Modal) Pattern."
+    ],
+    "sourceBoard": "Board del nph-dialog 1368:27 (DS-IA-NEPHOS 5.0) y la ficha del nph-dialog.",
+    "sourceApi": "P87 y la ficha del nph-dialog.",
+    "sourceAccessibility": "Accesibilidad del board 1368:27 y P87."
+  },
+  "dialogValidation": {
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "send": "Enviar",
+    "import": "Importar",
+    "publish": "Publicar",
+    "editProfileHeading": "Editar perfil",
+    "editProfileDescription": "Cambie cómo su nombre y su correo aparecen para el equipo.",
+    "nameLabel": "Nombre",
+    "nameValue": "Ana Souza",
+    "emailLabel": "Correo",
+    "emailValue": "ana.souza@example.com",
+    "sendHeading": "¿Enviar para aprobación?",
+    "sendDescription": "El gestor recibe la solicitud y puede aprobarla o devolverla.",
+    "importHeading": "Importar contactos",
+    "importDescription": "Estos contactos se agregan a la lista. Revíselos antes de importar.",
+    "contacts": [
+      "Ana Souza",
+      "Bruno Lima",
+      "Carla Mendes",
+      "Daniel Rocha",
+      "Elisa Prado",
+      "Fábio Nunes",
+      "Gabriela Torres",
+      "Heitor Campos",
+      "Isabela Duarte",
+      "João Martins",
+      "Larissa Pinto",
+      "Marcos Teixeira",
+      "Natália Freitas",
+      "Otávio Ramos",
+      "Paula Moreira",
+      "Rafael Costa",
+      "Sofia Almeida",
+      "Tiago Barbosa",
+      "Vitória Lopes",
+      "William Castro"
+    ],
+    "publishHeading": "¿Publicar ahora?",
+    "publishDescription": "Todos los que tienen acceso verán la nueva versión.",
+    "openDialog": "Abrir el diálogo",
+    "frameTitle": "Ejemplo de nph-dialog",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "shortFormCaption": "Formulario corto en md, el tamaño por defecto: título, descripción, área de contenido y acciones. El ancho abraza los campos.",
+    "shortConfirmationCaption": "Confirmación corta en sm, sin acción destructiva y sin área de contenido: el texto del encabezado define el ancho, hasta el techo.",
+    "wideContentCaption": "Contenido ancho en lg, una lista, con las dos líneas activadas: solo la lista se desplaza; el encabezado y el pie quedan.",
+    "stackedCaption": "Acciones apiladas: en una ventana más estrecha que el breakpoint md, un botón por línea a ancho completo, el primario arriba.",
+    "loadingCaption": "El primario en loading mientras la acción termina, junto al secundario sólido en color/secondary-on-dialog.",
+    "focusCaption": "Pulse el botón para abrir el diálogo: el foco va al primer campo. El Tab queda en el diálogo; Esc o el botón cerrar lo cierran, y el foco vuelve al botón."
+  },
   "radioDocs": {
     "summary": "El círculo que la persona marca para elegir una opción en un grupo: marcar una desmarca las demás. El grupo son varios nph-radio con el mismo name, dentro de un nph-field que lo nombra.",
     "onThisPage": "En esta página",
@@ -4968,6 +5230,12 @@
       "components-nph-select-validation--form-association": "El host participa del formulario: el envío manda name=value, el reset restaura el atributo value, una elección dispara input y change, y un fieldset deshabilitado lo deshabilita.",
       "components-nph-select-validation--invalid-input": "Una entrada inválida no dibuja nada: un size que no existe, un start que no existe y un icon fuera del núcleo.",
       "components-nph-select-validation--examples": "Los tres ejemplos obligatorios del frame, en el nph-field: Departamento, Responsable (abierto) y Obligatorio sin elección, cada uno en los modos claro y oscuro.",
+      "components-nph-dialog-validation--short-form": "Formulario corto en md, el tamaño por defecto: título, descripción, área de contenido y acciones, en modo claro y en oscuro.",
+      "components-nph-dialog-validation--short-confirmation": "Confirmación corta en sm, sin área de contenido: el texto del encabezado define el ancho, hasta el techo.",
+      "components-nph-dialog-validation--wide-content": "Contenido ancho en lg, una lista, con las dos líneas activadas: solo el contenido se desplaza.",
+      "components-nph-dialog-validation--stacked-actions": "Acciones apiladas por debajo del breakpoint md: un botón por línea, el primario arriba.",
+      "components-nph-dialog-validation--loading-action": "El primario en loading mientras la acción termina, junto al secundario sólido del diálogo.",
+      "components-nph-dialog-validation--focus-and-escape": "Abrir mueve el foco dentro del diálogo; Esc o el botón cerrar lo cierran y el foco vuelve al botón que lo abrió.",
       "components-nph-radio-validation--matrix": "Desmarcado y marcado, en los estados predeterminado, error y deshabilitado, y con el texto apagado: el círculo, el relleno, el borde y el punto de cada uno.",
       "components-nph-radio-validation--two-lines": "El texto se ajusta al ancho disponible; el círculo queda arriba, centrado en la primera línea, y no se centra en el bloque de texto.",
       "components-nph-radio-validation--interactive": "Una parada de Tab para el grupo; las flechas mueven y marcan, saltando el radio deshabilitado; marcar un radio dispara change, que se muestra debajo del grupo.",

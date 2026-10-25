@@ -62,6 +62,14 @@
   outline: none;
 }
 
+/*
+ * With text, the native button fills a host the parent widens, as the stacked footer of
+ * `nph-dialog` does (P87); at its own width nothing changes.
+ */
+:host(:not([data-nph-icon-only])) .control {
+  flex: 1;
+}
+
 /* Icon only: square box at the control height, without side padding. */
 :host([data-nph-icon-only]) .control {
   inline-size: var(--_height);

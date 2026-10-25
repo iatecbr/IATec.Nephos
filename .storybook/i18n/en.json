@@ -193,6 +193,17 @@
     "components-nph-input-otp-validation--characters": "Characters",
     "components-nph-input-otp-validation--interactive": "Interactive",
     "components-nph-input-otp-validation--examples": "Examples",
+    "components-nph-dialog-docs": "Docs",
+    "components-nph-dialog-docs--documentation": "Documentation",
+    "components-nph-dialog-validation": "Validation",
+    "components-nph-dialog-validation--short-form": "Short form",
+    "components-nph-dialog-validation--short-confirmation": "Short confirmation",
+    "components-nph-dialog-validation--wide-content": "Wide content",
+    "components-nph-dialog-validation--stacked-actions": "Stacked actions",
+    "components-nph-dialog-validation--loading-action": "Loading action",
+    "components-nph-dialog-validation--focus-and-escape": "Focus and Esc",
+    "components-nph-dialog-fixtures": "Fixtures",
+    "components-nph-dialog-fixtures--example": "Example",
     "components-nph-radio-docs": "Docs",
     "components-nph-radio-docs--documentation": "Documentation",
     "components-nph-radio-validation": "Validation",
@@ -4573,6 +4584,257 @@
     "statusInput": "input fired with value = {value}.",
     "statusChange": "change fired with value = {value}."
   },
+  "dialogDocs": {
+    "summary": "Modal window that blocks the page until the person finishes or cancels a short task, always over the overlay/scrim veil.",
+    "matrixLabel": "nph-dialog by size and by actions",
+    "frameTitle": "Example of nph-dialog",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-dialog spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P87. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "description": "Use nph-dialog for a short task that needs the full attention of the person before going on: edit a record, fill in a short form, choose an option. To confirm a destructive action, such as deleting or discarding, use nph-alert-dialog. A long flow goes to a page, and a notice that asks for no answer does not use a dialog.",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "A short task that needs an answer before going on: edit a record, fill in a short form, choose an option.",
+      "Choose the size by the content, as the width ceiling: sm for a choice or a short confirmation without a destructive action, md for a short form, lg for a table, a long list or a two-column form.",
+      "Turn on the lines with long content, such as a list or a table.",
+      "Use stacked actions on a narrow screen."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "To confirm a destructive action, such as deleting or discarding: use nph-alert-dialog.",
+      "For a long flow: it goes to a page.",
+      "For a notice that asks for no answer: use a message on the page itself.",
+      "To open a dialog over another: finish or close the first one."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "heading",
+        "The title, already localized by the application: the task or the question. It names the dialog for the screen reader. Required: without it, nothing is drawn."
+      ],
+      [
+        "description",
+        "The support sentence below the title, which completes the name. Empty: no description."
+      ],
+      [
+        "size",
+        "sm, md (default) or lg: the width ceiling. The dialog hugs its content from layout/dialog-min-width up to the ceiling."
+      ],
+      [
+        "actions",
+        "inline (default) or stacked. stacked puts the footer buttons one per line, the primary on top, below the md breakpoint."
+      ],
+      [
+        "hide-close",
+        "Turns off the close button. Turn it off only when the footer already offers the way out; Esc still closes the dialog."
+      ],
+      [
+        "close-label",
+        "The accessible name of the close button, already localized. Required while the button is shown."
+      ],
+      [
+        "header-separator",
+        "The line between the header and the content, for long content."
+      ],
+      [
+        "footer-separator",
+        "The line between the content and the footer, for long content. Drawn only when the footer has buttons."
+      ],
+      [
+        "open",
+        "Boolean, reflected. The only way to open and close the dialog; it turns false by itself when the person closes it."
+      ],
+      [
+        "slot",
+        "The content area: fields, text, a list. Its width sets the width of the dialog. Empty, the area is not drawn. It is the only part that scrolls."
+      ],
+      [
+        "slot footer",
+        "The nph-button actions: the solid secondary first, the primary or the danger last. Empty, the footer is not drawn."
+      ],
+      [
+        "nph-close",
+        "Fired before the dialog closes when the person asks, with Esc or the close button (detail.source). It bubbles, crosses the shadow root and can be canceled to keep the dialog open."
+      ]
+    ],
+    "variantsTitle": "Variants",
+    "variantsText": "actions sets how the footer buttons sit. inline puts them on the right, side by side, the primary last. stacked puts them one per line at full width, the primary on top, below the md breakpoint; at or above it, they stay inline.",
+    "variantsCaption": "The same dialog with actions inline and stacked, in a window narrower than the md breakpoint.",
+    "sizesTitle": "Sizes",
+    "sizesHeader": [
+      "Size",
+      "When to use"
+    ],
+    "sizes": [
+      [
+        "sm",
+        "Ceiling layout/dialog-sm (400). A choice or a short confirmation, without a destructive action."
+      ],
+      [
+        "md",
+        "Ceiling layout/dialog-md (560), the default. A short form."
+      ],
+      [
+        "lg",
+        "Ceiling layout/dialog-lg (720). A table, a long list or a two-column form."
+      ]
+    ],
+    "sizesCaption": "The same wide content in each size: the dialog stops at the ceiling of its size.",
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "It always opens over the overlay/scrim veil; the veil is not part of the piece.",
+      "The footer combines the solid secondary nph-button, in color/secondary-on-dialog, with a primary or a danger. Color, state and focus of the buttons belong to nph-button.",
+      "The close button is the nph-button secondary, ghost, compact, with an icon only.",
+      "The lines are nph-separator in color/dialog-separator, softer than color/border.",
+      "The nph-alert-dialog builds on the nph-dialog without the close button.",
+      "Loading comes from the loading state of the nph-button in the footer."
+    ],
+    "relationsCaption": "The primary in loading while it publishes, next to the solid secondary.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "1. Window",
+        "Background color/dialog, radius radius/overlay, shadow elevation/modal and padding space/overlay-padding. The height goes up to layout/dialog-max-height. The width hugs the content, from layout/dialog-min-width up to the ceiling of the size."
+      ],
+      [
+        "2. Title",
+        "text/heading-md in color/dialog-foreground. It is the name of the dialog on screen."
+      ],
+      [
+        "3. Description",
+        "text/body-md in color/muted-foreground, at space/stack-snug from the title. Optional."
+      ],
+      [
+        "4. Close button",
+        "nph-button secondary, ghost, compact, at the end of the line of the title. Optional."
+      ],
+      [
+        "5. Header and footer lines",
+        "nph-separator in color/dialog-separator, which separates long content from the header and the footer. Optional."
+      ],
+      [
+        "6. Content",
+        "The area for fields, text or another composition. Its width sets the width of the dialog. It is the only part that scrolls."
+      ],
+      [
+        "7. Footer",
+        "Solid secondary nph-button and the primary or the danger, at space/inline-loose from each other, at space/stack plus space/stack-snug from what comes before. Optional."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A native dialog opened as modal (role=dialog, aria-modal), in the top layer; the rest of the page is inert while it is open."
+      ],
+      [
+        "Accessible name",
+        "The heading names the dialog (aria-labelledby) and the description completes it (aria-describedby). The close button carries close-label as its name."
+      ],
+      [
+        "Keyboard",
+        "Tab and Shift+Tab stay in the dialog. Esc asks to close it; a tooltip open inside it takes the first Esc."
+      ],
+      [
+        "Visible focus",
+        "On open, the focus goes to the first element with autofocus, otherwise to the first field of the content, then to the footer, then to the close button. On close, it goes back to the element that had it."
+      ],
+      [
+        "Contrast",
+        "Title, description and button text pass 4.5:1 on the background in both modes."
+      ],
+      [
+        "Touch target",
+        "The close button in compact meets the minimum of 24 by 24; the footer buttons stay in default."
+      ],
+      [
+        "Color is not the only signal",
+        "The title says the subject and the buttons say the actions; color only reinforces."
+      ]
+    ],
+    "examplesTitle": "Required examples",
+    "exampleForm": "Short form in md, the default size: title, description, content area and actions.",
+    "exampleConfirmation": "Short confirmation in sm, without a destructive action: no content area.",
+    "exampleWide": "Wide content in lg, a list, with both lines on.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, nph-dialog board 1368:27, frame 2277:2 and set 2268:52262.",
+      "The nph-dialog spec sheet, in fichas/nph-dialog.md.",
+      "P87, in docs/decisoes-tecnicas.md.",
+      "design.md: color/dialog, overlay/scrim, elevation/modal and the layout/dialog-* widths.",
+      "WAI-ARIA Authoring Practices: Dialog (Modal) Pattern."
+    ],
+    "sourceBoard": "nph-dialog board 1368:27 (DS-IA-NEPHOS 5.0) and the nph-dialog spec sheet.",
+    "sourceApi": "P87 and the nph-dialog spec sheet.",
+    "sourceAccessibility": "Accessibility of the board 1368:27 and P87."
+  },
+  "dialogValidation": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "save": "Save",
+    "send": "Send",
+    "import": "Import",
+    "publish": "Publish",
+    "editProfileHeading": "Edit profile",
+    "editProfileDescription": "Change how your name and email appear to the team.",
+    "nameLabel": "Name",
+    "nameValue": "Ana Souza",
+    "emailLabel": "Email",
+    "emailValue": "ana.souza@example.com",
+    "sendHeading": "Send for approval?",
+    "sendDescription": "The manager receives the request and can approve it or send it back.",
+    "importHeading": "Import contacts",
+    "importDescription": "These contacts will be added to the list. Review them before importing.",
+    "contacts": [
+      "Ana Souza",
+      "Bruno Lima",
+      "Carla Mendes",
+      "Daniel Rocha",
+      "Elisa Prado",
+      "Fábio Nunes",
+      "Gabriela Torres",
+      "Heitor Campos",
+      "Isabela Duarte",
+      "João Martins",
+      "Larissa Pinto",
+      "Marcos Teixeira",
+      "Natália Freitas",
+      "Otávio Ramos",
+      "Paula Moreira",
+      "Rafael Costa",
+      "Sofia Almeida",
+      "Tiago Barbosa",
+      "Vitória Lopes",
+      "William Castro"
+    ],
+    "publishHeading": "Publish now?",
+    "publishDescription": "Everyone with access will see the new version.",
+    "openDialog": "Open the dialog",
+    "frameTitle": "Example of nph-dialog",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "shortFormCaption": "Short form in md, the default size: title, description, content area and actions. The width hugs the fields.",
+    "shortConfirmationCaption": "Short confirmation in sm, without a destructive action and with no content area: the header text sets the width, up to the ceiling.",
+    "wideContentCaption": "Wide content in lg, a list, with both lines on: only the list scrolls; the header and the footer stay.",
+    "stackedCaption": "Stacked actions: in a window narrower than the md breakpoint, one button per line at full width, the primary on top.",
+    "loadingCaption": "The primary in loading while the action finishes, next to the solid secondary in color/secondary-on-dialog.",
+    "focusCaption": "Press the button to open the dialog: the focus goes to the first field. Tab stays in the dialog; Esc or the close button close it, and the focus goes back to the button."
+  },
   "radioDocs": {
     "summary": "The circle the person checks to choose one option in a group: checking one unchecks the others. The group is several nph-radio with the same name, inside an nph-field that names it.",
     "onThisPage": "On this page",
@@ -4968,6 +5230,12 @@
       "components-nph-select-validation--form-association": "The host takes part in the form: submit sends name=value, reset restores the value attribute, a choice fires input and change, and a disabled fieldset disables it.",
       "components-nph-select-validation--invalid-input": "Invalid input draws nothing: a size that does not exist, a start that does not exist and an icon outside the core.",
       "components-nph-select-validation--examples": "The three required examples of the frame, in nph-field: Department, Owner (open) and Required with no choice, each in light and dark mode.",
+      "components-nph-dialog-validation--short-form": "Short form in md, the default size: title, description, content area and actions, in light and in dark mode.",
+      "components-nph-dialog-validation--short-confirmation": "Short confirmation in sm, with no content area: the header text sets the width, up to the ceiling.",
+      "components-nph-dialog-validation--wide-content": "Wide content in lg, a list, with both lines on: only the content scrolls.",
+      "components-nph-dialog-validation--stacked-actions": "Stacked actions below the md breakpoint: one button per line, the primary on top.",
+      "components-nph-dialog-validation--loading-action": "The primary in loading while the action finishes, next to the solid secondary of the dialog.",
+      "components-nph-dialog-validation--focus-and-escape": "Opening moves the focus into the dialog; Esc or the close button close it and the focus goes back to the button that opened it.",
       "components-nph-radio-validation--matrix": "Unchecked and checked, in the default, error and disabled states, and with the text off: the circle, the fill, the border and the dot of each one.",
       "components-nph-radio-validation--two-lines": "The text wraps to the available width; the circle stays at the top, centered on the first line, and does not center on the block of text.",
       "components-nph-radio-validation--interactive": "One Tab stop for the group; the arrow keys move and check, skipping the disabled radio; the person checking a radio fires change, shown below the group.",
