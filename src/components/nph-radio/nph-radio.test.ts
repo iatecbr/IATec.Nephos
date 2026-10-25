@@ -427,6 +427,21 @@ describe('the group', () => {
     expect([...checkedOf(radios), arriving.checked]).toEqual([false, false, true]);
   });
 
+  it('checked radios that connect in one batch: the last one to connect wins', async () => {
+    const box = document.createElement('div');
+    const a = radio({ name: 'shift', text: 'Morning', checked: true });
+    const b = radio({ name: 'shift', text: 'Night', checked: true });
+    box.append(a, b);
+    document.body.append(box);
+    await settle([a, b]);
+    expect([a.checked, b.checked]).toEqual([false, true]);
+    /* A checked radio that arrives later still unchecks the registered ones. */
+    const c = radio({ name: 'shift', text: 'Afternoon', checked: true });
+    box.prepend(c);
+    await c.updateComplete;
+    expect([c.checked, a.checked, b.checked]).toEqual([true, false, false]);
+  });
+
   it('a change of name moves the radio to another group', async () => {
     const radios = await mountGroup([{ ...SHIFTS[0], checked: true }, SHIFTS[1]!]);
     const moving = await mount({ text: 'Card', name: 'payment', checked: true });

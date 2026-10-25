@@ -143,6 +143,8 @@ export class NphRadio extends LitElement {
   private connectedRoot: Document | ShadowRoot | null = null;
   private connectedName = '';
   private nameValue = '';
+  /** True from the end of `connectedCallback` until the radio leaves the page. */
+  private registered = false;
   /** The composition warnings already shown, so a problem that stays does not repeat. */
   private shownWarnings = new Set<string>();
   private compositionFrame = 0;
@@ -237,16 +239,22 @@ export class NphRadio extends LitElement {
     super.connectedCallback();
     this.connectedRoot = this.getRootNode() as Document | ShadowRoot;
     this.connectedName = this.name ?? '';
-    /* A checked radio that arrives unchecks the group it joins, as the native one does. */
+    /*
+     * A checked radio that arrives unchecks the group it joins, as the native one does. Only
+     * the radios already registered lose the check: radios that connect in the same batch
+     * have not had their turn yet, so the last checked radio to connect wins.
+     */
     if (this.checkedState) {
-      this.uncheckOthers();
+      this.uncheckOthers(true);
     }
+    this.registered = true;
     this.syncGroup();
     this.scheduleCompositionCheck();
   }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.registered = false;
     cancelAnimationFrame(this.compositionFrame);
     this.settleNamed(this.connectedRoot, this.connectedName);
     this.connectedRoot = null;
@@ -321,9 +329,9 @@ export class NphRadio extends LitElement {
   }
 
   /** The other radios of the group lose the check; they do not become dirty, as in the native radio. */
-  private uncheckOthers(): void {
+  private uncheckOthers(onlyRegistered = false): void {
     for (const radio of this.group()) {
-      if (radio !== this && radio.checkedState) {
+      if (radio !== this && radio.checkedState && (!onlyRegistered || radio.registered)) {
         radio.checkedState = false;
         radio.requestUpdate('checked', true);
         radio.syncInternals();

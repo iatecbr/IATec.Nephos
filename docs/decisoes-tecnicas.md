@@ -2482,7 +2482,8 @@ P66, P68, P73, P74 and P76. The names follow P64. The form pattern is the one of
    A change of `name`, by the property or the attribute, settles both groups at once, on the page or
    not, and a checked radio unchecks its new group, so the radio renamed last wins whatever the order
    of its attributes.
-   A radio that arrives checked unchecks the group it joins. A radio without a name is a group of
+   A radio that arrives checked unchecks the radios of the group already on the page; radios that
+   connect in the same batch have not had their turn yet, so the last checked radio to connect wins. A radio without a name is a group of
    one. `nph-field` gives the group its role (`radiogroup`), name, description, `aria-required` and
    error, and reads `static nphFieldRole = 'radio'` (P83); the radio owns the exclusivity, the arrow
    keys and its Tab stop, so it works outside a field too (`nph-rich-option`).
