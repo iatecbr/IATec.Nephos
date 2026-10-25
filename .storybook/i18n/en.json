@@ -214,7 +214,15 @@
     "components-nph-checkbox-validation--disabled": "Disabled",
     "components-nph-checkbox-validation--form": "Form",
     "components-nph-checkbox-validation--interactive": "Interactive",
-    "components-nph-checkbox-validation--examples": "Examples"
+    "components-nph-checkbox-validation--examples": "Examples",
+    "components-nph-radio-docs": "Docs",
+    "components-nph-radio-docs--documentation": "Documentation",
+    "components-nph-radio-validation": "Validation",
+    "components-nph-radio-validation--matrix": "Matrix",
+    "components-nph-radio-validation--two-lines": "Two lines",
+    "components-nph-radio-validation--interactive": "Interactive",
+    "components-nph-radio-validation--form": "Form",
+    "components-nph-radio-validation--examples": "Examples"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -5099,6 +5107,287 @@
     "statusChanged": "change fired: checked = {checked}.",
     "hoverHint": "Move the mouse over a piece and press Tab to see hover and focus."
   },
+  "radioDocs": {
+    "summary": "The circle the person checks to choose one option in a group: checking one unchecks the others. The group is several nph-radio with the same name, inside an nph-field that names it.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-radio spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P82. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "When the options exclude each other: payment method, employment type, work shift.",
+      "When the group is small and fits the screen, with two to five options.",
+      "When every option must stay visible at the same time, so the person compares before choosing.",
+      "Always in a group of two or more, with one option checked when there is a reasonable default."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "When the person can check more than one option: use nph-checkbox.",
+      "For a single option, alone: either options are missing, or the piece is nph-checkbox.",
+      "With more than five options: use nph-select.",
+      "When the person needs to uncheck by clicking again: offer a None option, or use nph-checkbox.",
+      "To mix radios and checkboxes in the same group."
+    ],
+    "relationsText": "Above, nph-field names the group, such as Payment method, says it is required and carries the error message: the radio never shows a sentence of its own. Beside, the other radios of the same group, with the same name. Inside, nothing: the dot is a shape. nph-rich-option may use the radio with the text off, when the card is an exclusive choice.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "checked",
+        "The current state, the Figma marcado. It does not reflect. The checked attribute is the initial state and the one form.reset() returns to. Setting it from code unchecks the group and fires no event."
+      ],
+      [
+        "name",
+        "The group and the key in the form. Radios with the same name, in the same root and the same form, are one group. Reflects. Without a name, a radio is a group of one."
+      ],
+      [
+        "value",
+        "What the checked radio submits; on by default. Reflects."
+      ],
+      [
+        "text",
+        "The visible text, already localized; it is also the accessible name. Without it, the piece is only the 24 × 24 circle: the Figma mostrar rótulo off."
+      ],
+      [
+        "label",
+        "The accessible name when there is no text, never visible. Required then; aria-label or aria-labelledby on the host also count."
+      ],
+      [
+        "invalid",
+        "The error border, checked or not. Visual only: the error sentence and its announcement belong to nph-field."
+      ],
+      [
+        "disabled",
+        "The whole piece at state/disabled-opacity, out of the Tab order and the arrow keys. A disabled fieldset around it does the same. It wins over invalid."
+      ],
+      [
+        "input, change",
+        "The native events, fired on the host when the person checks the radio: input, which bubbles and crosses the shadow root, then change, which bubbles. Read event.target.value. A change from code never fires them."
+      ]
+    ],
+    "statesTitle": "States",
+    "statesText": "The border says the state; the fill says the choice. Hover and focus are interaction: move the mouse over a radio, or reach it with Tab.",
+    "statesCaption": "Unchecked and checked, at rest, with error and disabled.",
+    "statesHeader": [
+      "State",
+      "What changes"
+    ],
+    "states": [
+      [
+        "default",
+        "Unchecked: color/background fill and color/input border. Checked: color/primary fill, the same border, and the color/primary-foreground dot."
+      ],
+      [
+        "hover",
+        "The border is color/input-hover; checked, the circle also takes state/hover-opacity."
+      ],
+      [
+        "focus",
+        "Keyboard only. The border is focus/border and a focus/halo halo covers the 24 × 24 touch area, fully round."
+      ],
+      [
+        "erro",
+        "The border is status/error, checked or not; the checked fill stays color/primary."
+      ],
+      [
+        "erro + focus",
+        "The border stays status/error and the halo is focus/halo-error."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity on the whole piece, text included. It does not combine with error: disabled wins."
+      ]
+    ],
+    "groupTitle": "Group and keyboard",
+    "groupText": "The group is not an element: radios with the same name, in the same root and the same form, are one group. nph-field gives it the role, the name and the error; the radio owns the exclusivity, the arrow keys and its own Tab stop.",
+    "groupHeader": [
+      "Case",
+      "What happens"
+    ],
+    "groupRules": [
+      [
+        "click, Space",
+        "Checks the radio, unchecks the others and fires input and change once. A click on the text checks it too."
+      ],
+      [
+        "checked radio",
+        "A click on it changes nothing and fires no event; the click still bubbles. The person never unchecks by clicking again."
+      ],
+      [
+        "Tab",
+        "One stop per group: the checked radio or, with none checked, the first one that responds."
+      ],
+      [
+        "arrow keys",
+        "Down and right go to the next radio, up and left to the previous one, wrapping; the arrow moves the focus and checks. A disabled radio is skipped."
+      ],
+      [
+        "from code",
+        "Setting checked unchecks the group and fires nothing. Two checked in the markup: the last one wins."
+      ],
+      [
+        "composition",
+        "Without a name, or alone in its group, a radio still renders and warns in development: a radio never shows alone."
+      ]
+    ],
+    "formTitle": "Form",
+    "formText": "The radio is form-associated, like nph-input: it takes part in the form around it without a native input of its own.",
+    "formHeader": [
+      "Case",
+      "What happens"
+    ],
+    "formRules": [
+      [
+        "submission",
+        "Only the checked radio enters the form, as name=value. With none checked, the group sends nothing."
+      ],
+      [
+        "reset",
+        "Each radio returns to its checked attribute. Changing the attribute later moves the state only while nobody changed it."
+      ],
+      [
+        "fieldset disabled",
+        "The radios inside are disabled: out of Tab, with no click and at state/disabled-opacity."
+      ],
+      [
+        "required",
+        "There is no required on the radio: nph-field says the group is required."
+      ]
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Circle",
+        "icon/size-sm (16), radius/full, border border/width in color/input, color/background fill."
+      ],
+      [
+        "Dot",
+        "8 × 8: the space left inside the circle after space/inline-tight, measured from its outer edge, in color/primary-foreground. No token of its own."
+      ],
+      [
+        "Touch area",
+        "24 × 24: the circle plus space/inline-tight on each side."
+      ],
+      [
+        "Text",
+        "text/label-md in color/foreground; it is the name of the control. It wraps, and the circle stays with the first line."
+      ],
+      [
+        "Space to the text",
+        "space/inline, from the edge of the touch area."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "The host is role=radio, with aria-checked and aria-disabled, through ElementInternals. The group, role=radiogroup, comes from nph-field."
+      ],
+      [
+        "Accessible name",
+        "The text is the name of the control. Without text, label is the name. The group gets the name of nph-field."
+      ],
+      [
+        "Keyboard",
+        "One Tab stop per group; the arrow keys move and check; Space checks."
+      ],
+      [
+        "Visible focus",
+        "Border focus/border and the focus/halo halo on the touch area; with error, status/error and focus/halo-error."
+      ],
+      [
+        "Contrast",
+        "The circle outline in color/input: 3.23:1 in light and 6.58:1 in dark; the text, 21:1 and 14.73:1."
+      ],
+      [
+        "Color is not the only signal",
+        "The fill and the dot say the choice; the error has its sentence in nph-field."
+      ],
+      [
+        "Touch target",
+        "A 24 × 24 area around the 16 circle; the text also checks the option."
+      ],
+      [
+        "Known limits",
+        "Outside a radiogroup, the screen reader does not announce the group name or the position. invalid is not announced on the radio: aria-invalid belongs to the group. In light Sistemas, focus/border measures 2.92:1 against the halo."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplePayment": "Payment method: three options, one checked.",
+    "exampleEmployment": "Employment type: an exclusive choice.",
+    "exampleShift": "Work shift: a small group, all visible.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "paymentGroup": "Payment method",
+    "card": "Credit card",
+    "pix": "Pix",
+    "bankSlip": "Bank slip",
+    "employmentGroup": "Employment type",
+    "employee": "Employee",
+    "contractor": "Contractor",
+    "intern": "Intern",
+    "shiftGroup": "Work shift",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "night": "Night",
+    "referencesTitle": "References",
+    "references": [
+      "nph-radio spec sheet — purpose, anatomy, group, form, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P82 (API and semantics), P80 (the form pattern), P83 (the field contract), P01, P02 and P03.",
+      "design.md — color/input, color/primary, focus/border, focus/halo, radius/full, icon/size-sm, space/inline-tight and motion/state.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Radio, frame nph-radio (1196:311) and set 848:66.",
+      "WAI-ARIA Authoring Practices — Radio Group pattern.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-radio spec sheet; Figma, frame nph-radio (1196:311)",
+    "sourceApi": "nph-radio spec sheet; docs/decisoes-tecnicas.md › P82",
+    "sourceStates": "Figma, set 848:66; DSA-18, D1 and D2",
+    "sourceGroup": "nph-radio spec sheet; docs/decisoes-tecnicas.md › P82",
+    "sourceForm": "docs/decisoes-tecnicas.md › P82 and P80",
+    "sourceAnatomy": "Figma, set 848:66; DSA-18, D3 and D4; design.md",
+    "sourceAccessibility": "nph-radio spec sheet; nph-radio.test.ts",
+    "matrixLabel": "Component matrix"
+  },
+  "radioValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "paymentGroup": "Payment method",
+    "card": "Credit card",
+    "pix": "Pix",
+    "bankSlip": "Bank slip",
+    "employmentGroup": "Employment type",
+    "employee": "Employee",
+    "contractor": "Contractor",
+    "intern": "Intern",
+    "shiftGroup": "Work shift",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "night": "Night",
+    "wrapGroup": "Delivery",
+    "wrapShort": "Pick up at the store",
+    "wrapLong": "Deliver to the registered address, on a business day, between 8 a.m. and 6 p.m.",
+    "statusIdle": "Waiting for a choice.",
+    "statusChanged": "change fired: {name} = {value}.",
+    "formSubmit": "Submit",
+    "formReset": "Reset",
+    "formIdle": "Submit the form to see what it receives.",
+    "formSent": "The form receives: {data}.",
+    "formEmpty": "(nothing)",
+    "examplePayment": "Payment method",
+    "exampleEmployment": "Employment type",
+    "exampleShift": "Work shift"
+  },
   "validationPages": {
     "sheetTitle": "The contract lives in the sheet",
     "sheetText": "This piece has no reading page in Storybook. Its contract is in {sheet}; these stories prove it.",
@@ -5226,7 +5515,12 @@
       "components-nph-checkbox-validation--disabled": "The whole piece at state/disabled-opacity, also inside a disabled fieldset; disabled wins over invalid.",
       "components-nph-checkbox-validation--form": "A checked box submits name=value with the form; reset goes back to the checked attribute.",
       "components-nph-checkbox-validation--interactive": "A click or Space toggles the box and fires input and change; a click on indeterminate checks it.",
-      "components-nph-checkbox-validation--examples": "The three required examples of the frame: consent, preferences and group selection."
+      "components-nph-checkbox-validation--examples": "The three required examples of the frame: consent, preferences and group selection.",
+      "components-nph-radio-validation--matrix": "Unchecked and checked, in the default, error and disabled states, and with the text off: the circle, the fill, the border and the dot of each one.",
+      "components-nph-radio-validation--two-lines": "The text wraps to the available width; the circle stays at the top, centered on the first line, and does not center on the block of text.",
+      "components-nph-radio-validation--interactive": "One Tab stop for the group; the arrow keys move and check, skipping the disabled radio; the person checking a radio fires change, shown below the group.",
+      "components-nph-radio-validation--form": "The form receives only the checked radio, under its name; reset returns to the radio checked at the start.",
+      "components-nph-radio-validation--examples": "The three required examples, each in light and dark mode: Payment method, Employment type and Work shift."
     }
   }
 }

@@ -214,7 +214,15 @@
     "components-nph-checkbox-validation--disabled": "Deshabilitado",
     "components-nph-checkbox-validation--form": "Formulario",
     "components-nph-checkbox-validation--interactive": "Interactivo",
-    "components-nph-checkbox-validation--examples": "Ejemplos"
+    "components-nph-checkbox-validation--examples": "Ejemplos",
+    "components-nph-radio-docs": "Docs",
+    "components-nph-radio-docs--documentation": "Documentación",
+    "components-nph-radio-validation": "Validación",
+    "components-nph-radio-validation--matrix": "Matriz",
+    "components-nph-radio-validation--two-lines": "Dos líneas",
+    "components-nph-radio-validation--interactive": "Interactivo",
+    "components-nph-radio-validation--form": "Formulario",
+    "components-nph-radio-validation--examples": "Ejemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -5099,6 +5107,287 @@
     "statusChanged": "change disparado: checked = {checked}.",
     "hoverHint": "Pasa el ratón sobre una pieza y pulsa Tab para ver el hover y el foco."
   },
+  "radioDocs": {
+    "summary": "El círculo que la persona marca para elegir una opción en un grupo: marcar una desmarca las demás. El grupo son varios nph-radio con el mismo name, dentro de un nph-field que lo nombra.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-radio, design.md para los tokens y docs/decisoes-tecnicas.md para la P82. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Cuando las opciones se excluyen: forma de pago, tipo de contratación, turno de trabajo.",
+      "Cuando el grupo es pequeño y cabe en la pantalla, con dos a cinco opciones.",
+      "Cuando todas las opciones deben quedar visibles al mismo tiempo, para que la persona compare antes de elegir.",
+      "Siempre en un grupo de dos o más, con una opción marcada cuando hay un valor predeterminado razonable."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Cuando la persona puede marcar más de una opción: use nph-checkbox.",
+      "Para una opción sola: o faltan opciones, o la pieza es nph-checkbox.",
+      "Con más de cinco opciones: use nph-select.",
+      "Cuando la persona necesita desmarcar haciendo clic de nuevo: ofrezca una opción Ninguno, o use nph-checkbox.",
+      "Para mezclar radios y checkboxes en el mismo grupo."
+    ],
+    "relationsText": "Arriba, el nph-field nombra el grupo, como Forma de pago, dice que es obligatorio y lleva el mensaje de error: el radio nunca muestra una frase propia. Al lado, los otros radios del mismo grupo, con el mismo name. Dentro, nada: el punto es una forma. El nph-rich-option puede usar el radio con el texto apagado, cuando la tarjeta es una elección exclusiva.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "checked",
+        "El estado actual, el marcado de Figma. No se refleja. El atributo checked es el estado inicial y al que vuelve form.reset(). Definirlo por código desmarca el grupo y no dispara ningún evento."
+      ],
+      [
+        "name",
+        "El grupo y la clave en el formulario. Los radios con el mismo name, en la misma raíz y el mismo formulario, son un grupo. Se refleja. Sin name, el radio es un grupo de uno."
+      ],
+      [
+        "value",
+        "Lo que envía el radio marcado; on por defecto. Se refleja."
+      ],
+      [
+        "text",
+        "El texto visible, ya localizado; también es el nombre accesible. Sin él, la pieza es solo el círculo de 24 × 24: el mostrar rótulo apagado de Figma."
+      ],
+      [
+        "label",
+        "El nombre accesible cuando no hay texto, nunca visible. Obligatorio en ese caso; aria-label o aria-labelledby en el host también cuentan."
+      ],
+      [
+        "invalid",
+        "El borde de error, marcado o no. Solo visual: la frase de error y su anuncio son del nph-field."
+      ],
+      [
+        "disabled",
+        "Toda la pieza en state/disabled-opacity, fuera del orden de Tab y de las flechas. Un fieldset deshabilitado alrededor hace lo mismo. Gana sobre invalid."
+      ],
+      [
+        "input, change",
+        "Los eventos nativos, disparados en el host cuando la persona marca el radio: input, que burbujea y atraviesa el shadow root, y luego change, que burbujea. Lea event.target.value. Un cambio por código nunca los dispara."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesText": "El borde dice el estado; el relleno dice la elección. Hover y foco son interacción: pase el mouse sobre un radio, o llegue a él con Tab.",
+    "statesCaption": "Desmarcado y marcado, en reposo, con error y deshabilitado.",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "Desmarcado: relleno color/background y borde color/input. Marcado: relleno color/primary, el mismo borde y el punto en color/primary-foreground."
+      ],
+      [
+        "hover",
+        "El borde es color/input-hover; marcado, el círculo también toma state/hover-opacity."
+      ],
+      [
+        "foco",
+        "Solo con el teclado. El borde es focus/border y un halo focus/halo cubre el área táctil de 24 × 24, totalmente redondo."
+      ],
+      [
+        "erro",
+        "El borde es status/error, marcado o no; el relleno marcado sigue en color/primary."
+      ],
+      [
+        "erro + foco",
+        "El borde sigue en status/error y el halo es focus/halo-error."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity en toda la pieza, texto incluido. No se combina con error: gana el deshabilitado."
+      ]
+    ],
+    "groupTitle": "Grupo y teclado",
+    "groupText": "El grupo no es un elemento: los radios con el mismo name, en la misma raíz y el mismo formulario, son un grupo. El nph-field le da el rol, el nombre y el error; el radio es dueño de la exclusividad, las flechas y su propia parada de Tab.",
+    "groupHeader": [
+      "Caso",
+      "Qué ocurre"
+    ],
+    "groupRules": [
+      [
+        "clic, Espacio",
+        "Marca el radio, desmarca los demás y dispara input y change una vez. Un clic en el texto también lo marca."
+      ],
+      [
+        "radio marcado",
+        "Un clic en él no cambia nada y no dispara ningún evento; el clic sigue burbujeando. La persona nunca desmarca haciendo clic de nuevo."
+      ],
+      [
+        "Tab",
+        "Una parada por grupo: el radio marcado o, sin ninguno marcado, el primero que responde."
+      ],
+      [
+        "flechas",
+        "Abajo y derecha van al radio siguiente, arriba e izquierda al anterior, dando la vuelta; la flecha mueve el foco y marca. Un radio deshabilitado se salta."
+      ],
+      [
+        "por código",
+        "Definir checked desmarca el grupo y no dispara nada. Dos marcados en el markup: gana el último."
+      ],
+      [
+        "composición",
+        "Sin name, o solo en su grupo, el radio se renderiza y avisa en desarrollo: un radio nunca aparece solo."
+      ]
+    ],
+    "formTitle": "Formulario",
+    "formText": "El radio está asociado a formulario, como el nph-input: participa en el formulario que lo rodea sin un input nativo propio.",
+    "formHeader": [
+      "Caso",
+      "Qué ocurre"
+    ],
+    "formRules": [
+      [
+        "envío",
+        "Solo el radio marcado entra en el formulario, como name=value. Sin ninguno marcado, el grupo no envía nada."
+      ],
+      [
+        "reset",
+        "Cada radio vuelve a su atributo checked. Cambiar el atributo después solo mueve el estado mientras nadie lo haya cambiado."
+      ],
+      [
+        "fieldset deshabilitado",
+        "Los radios de dentro quedan deshabilitados: fuera del Tab, sin clic y en state/disabled-opacity."
+      ],
+      [
+        "required",
+        "No hay required en el radio: el nph-field dice que el grupo es obligatorio."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Círculo",
+        "icon/size-sm (16), radius/full, borde border/width en color/input, relleno color/background."
+      ],
+      [
+        "Punto",
+        "8 × 8: el espacio que queda dentro del círculo después de space/inline-tight, medido desde el borde exterior, en color/primary-foreground. Sin token propio."
+      ],
+      [
+        "Área táctil",
+        "24 × 24: el círculo más space/inline-tight a cada lado."
+      ],
+      [
+        "Texto",
+        "text/label-md en color/foreground; es el nombre del control. Se ajusta, y el círculo queda con la primera línea."
+      ],
+      [
+        "Espacio hasta el texto",
+        "space/inline, desde el borde del área táctil."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "El host es role=radio, con aria-checked y aria-disabled, por ElementInternals. El grupo, role=radiogroup, viene del nph-field."
+      ],
+      [
+        "Nombre accesible",
+        "El texto es el nombre del control. Sin texto, el label es el nombre. El grupo recibe el nombre del nph-field."
+      ],
+      [
+        "Teclado",
+        "Una parada de Tab por grupo; las flechas mueven y marcan; Espacio marca."
+      ],
+      [
+        "Foco visible",
+        "Borde focus/border y el halo focus/halo en el área táctil; con error, status/error y focus/halo-error."
+      ],
+      [
+        "Contraste",
+        "El contorno del círculo en color/input: 3,23:1 en claro y 6,58:1 en oscuro; el texto, 21:1 y 14,73:1."
+      ],
+      [
+        "El color no es la única señal",
+        "El relleno y el punto dicen la elección; el error tiene su frase en el nph-field."
+      ],
+      [
+        "Área táctil",
+        "Un área de 24 × 24 alrededor del círculo de 16; el texto también marca la opción."
+      ],
+      [
+        "Límites conocidos",
+        "Fuera de un radiogroup, el lector de pantalla no anuncia el nombre del grupo ni la posición. El invalid no se anuncia en el radio: el aria-invalid es del grupo. En Sistemas claro, focus/border mide 2,92:1 contra el halo."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "examplePayment": "Forma de pago: tres opciones, una marcada.",
+    "exampleEmployment": "Tipo de contratación: una elección exclusiva.",
+    "exampleShift": "Turno de trabajo: un grupo pequeño, todo visible.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "paymentGroup": "Forma de pago",
+    "card": "Tarjeta de crédito",
+    "pix": "Pix",
+    "bankSlip": "Boleto bancario",
+    "employmentGroup": "Tipo de contratación",
+    "employee": "Empleado",
+    "contractor": "Contratista",
+    "intern": "Pasante",
+    "shiftGroup": "Turno de trabajo",
+    "morning": "Mañana",
+    "afternoon": "Tarde",
+    "night": "Noche",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha nph-radio — propósito, anatomía, grupo, formulario, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P82 (API y semántica), P80 (el patrón de formulario), P83 (el contrato del field), P01, P02 y P03.",
+      "design.md — color/input, color/primary, focus/border, focus/halo, radius/full, icon/size-sm, space/inline-tight y motion/state.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Radio, frame nph-radio (1196:311) y set 848:66.",
+      "WAI-ARIA Authoring Practices — patrón Radio Group.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "ficha nph-radio; Figma, frame nph-radio (1196:311)",
+    "sourceApi": "ficha nph-radio; docs/decisoes-tecnicas.md › P82",
+    "sourceStates": "Figma, set 848:66; DSA-18, D1 y D2",
+    "sourceGroup": "ficha nph-radio; docs/decisoes-tecnicas.md › P82",
+    "sourceForm": "docs/decisoes-tecnicas.md › P82 y P80",
+    "sourceAnatomy": "Figma, set 848:66; DSA-18, D3 y D4; design.md",
+    "sourceAccessibility": "ficha nph-radio; nph-radio.test.ts",
+    "matrixLabel": "Matriz del componente"
+  },
+  "radioValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "paymentGroup": "Forma de pago",
+    "card": "Tarjeta de crédito",
+    "pix": "Pix",
+    "bankSlip": "Boleto bancario",
+    "employmentGroup": "Tipo de contratación",
+    "employee": "Empleado",
+    "contractor": "Contratista",
+    "intern": "Pasante",
+    "shiftGroup": "Turno de trabajo",
+    "morning": "Mañana",
+    "afternoon": "Tarde",
+    "night": "Noche",
+    "wrapGroup": "Entrega",
+    "wrapShort": "Retirar en la tienda",
+    "wrapLong": "Entregar en la dirección registrada, en día hábil, entre las 8 y las 18 h",
+    "statusIdle": "Esperando una elección.",
+    "statusChanged": "change disparado: {name} = {value}.",
+    "formSubmit": "Enviar",
+    "formReset": "Restablecer",
+    "formIdle": "Envíe el formulario para ver lo que recibe.",
+    "formSent": "El formulario recibe: {data}.",
+    "formEmpty": "(nada)",
+    "examplePayment": "Forma de pago",
+    "exampleEmployment": "Tipo de contratación",
+    "exampleShift": "Turno de trabajo"
+  },
   "validationPages": {
     "sheetTitle": "El contrato está en la ficha",
     "sheetText": "Esta pieza no tiene página de lectura en Storybook. Su contrato está en {sheet}; estas stories lo comprueban.",
@@ -5226,7 +5515,12 @@
       "components-nph-checkbox-validation--disabled": "La pieza entera en state/disabled-opacity, también dentro de un fieldset deshabilitado; deshabilitado gana a inválido.",
       "components-nph-checkbox-validation--form": "Una casilla marcada envía name=value con el formulario; el reset vuelve al atributo checked.",
       "components-nph-checkbox-validation--interactive": "Un clic o Espacio alterna la casilla y dispara input y change; un clic en el indeterminado la marca.",
-      "components-nph-checkbox-validation--examples": "Los tres ejemplos obligatorios del marco: consentimiento, preferencias y selección de grupo."
+      "components-nph-checkbox-validation--examples": "Los tres ejemplos obligatorios del marco: consentimiento, preferencias y selección de grupo.",
+      "components-nph-radio-validation--matrix": "Desmarcado y marcado, en los estados predeterminado, error y deshabilitado, y con el texto apagado: el círculo, el relleno, el borde y el punto de cada uno.",
+      "components-nph-radio-validation--two-lines": "El texto se ajusta al ancho disponible; el círculo queda arriba, centrado en la primera línea, y no se centra en el bloque de texto.",
+      "components-nph-radio-validation--interactive": "Una parada de Tab para el grupo; las flechas mueven y marcan, saltando el radio deshabilitado; marcar un radio dispara change, que se muestra debajo del grupo.",
+      "components-nph-radio-validation--form": "El formulario recibe solo el radio marcado, bajo su name; el reset vuelve al radio marcado al inicio.",
+      "components-nph-radio-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: Forma de pago, Tipo de contratación y Turno de trabajo."
     }
   }
 }
