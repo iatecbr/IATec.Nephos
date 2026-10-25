@@ -38,7 +38,7 @@
     },
     {
       "id": "D-2",
-      "question": "The evidence does not give the motion of opening and closing. The code fades the menu in on `motion/enter-*` and out on `motion/exit-*`, opacity only, as nph-tooltip (P77). It does not block the pull request.",
+      "question": "The evidence does not give the motion of opening and closing. The code fades the menu in on `motion/enter-*` and out on `motion/exit-*`, sliding `space/inline-tight`, as the list of nph-select (DSA-29, D2). It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-24"
     },
@@ -141,7 +141,7 @@ adjusts one rule.
 | ID | What the evidence gives | What is missing | What the code does meanwhile |
 |---|---|---|---|
 | D-1 | The menu opens attached to a button. | The distance between the trigger and the menu. | `space/inline-tight`, as the list of `nph-select`. |
-| D-2 | Opening and closing belong to code. | The motion. | Opacity on `motion/enter-*` and `motion/exit-*`, as `nph-tooltip`. |
+| D-2 | Opening and closing belong to code. | The motion. | Fade and a slide of `space/inline-tight` on `motion/enter-*` and `motion/exit-*`, as the list of `nph-select`. |
 | D-3 | On item hover, the box and the track take their own hover. | A way to force the hover of `nph-checkbox` and `nph-switch` from outside. | Ships without it, as a known limit; a follow-up task gives the two pieces an API. |
 | D-4 | The switch sits in a 20 px slot. | The switch track is 24 high and has no size. | Slot at `icon/size-md`, track centered and overflowing it. |
 | D-5 | Single choice highlights text and icon in `color/primary-hover`. | Whether it is every item of the group or the checked one. | The checked item only, with the check. |
