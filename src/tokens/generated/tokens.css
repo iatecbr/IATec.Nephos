@@ -71,6 +71,7 @@
   --nph-core-financeiro-800: #1f2f1d;
   --nph-core-financeiro-900: #0f170f;
   --nph-core-focus-width-default: 0.25rem;
+  --nph-core-focus-width-sm: 0.125rem;
   --nph-core-font-sans: 'Noto Sans', sans-serif;
   --nph-core-font-mono: 'IBM Plex Mono', monospace;
   --nph-core-gerencial-50: #e6ebf0;
@@ -217,6 +218,7 @@
   --nph-core-space-400: 1rem;
   --nph-core-space-600: 1.5rem;
   --nph-core-space-700: 2rem;
+  --nph-core-space-800: 2.5rem;
   --nph-core-space-900: 3rem;
   --nph-core-success-50: #e8f6ed;
   --nph-core-success-100: #d0eddb;
@@ -227,6 +229,7 @@
   --nph-core-success-700: #0d622c;
   --nph-core-success-800: #09411e;
   --nph-core-success-900: #04210f;
+  --nph-core-surface-25: #fafafa;
   --nph-core-surface-50: #edeeef;
   --nph-core-surface-100: #dbdde0;
   --nph-core-surface-200: #b7bbc1;
@@ -546,6 +549,11 @@
   --nph-space-inline-loose: var(--nph-core-space-400);
   --nph-space-overlay-padding: var(--nph-core-space-600);
   --nph-switch-track-width: var(--nph-core-layout-width-switch-track);
+  --nph-table-row-height: var(--nph-core-space-800);
+  --nph-table-focus-ring-width: var(--nph-core-focus-width-sm);
+  --nph-table-sticky-divider-width: var(--nph-core-shadow-y-100);
+  --nph-table-sticky-divider-spread: var(--nph-core-shadow-spread-0);
+  --nph-table-sticky-divider-blur: var(--nph-core-shadow-blur-0);
   --nph-text-highlight-weight: var(--nph-core-weight-semibold);
   --nph-text-heading-xl-font-family: var(--nph-core-font-sans);
   --nph-text-heading-lg-font-family: var(--nph-core-font-sans);
@@ -571,6 +579,24 @@
   --nph-image-radius-lg: var(--nph-core-radius-400);
   --nph-image-media-width: var(--nph-core-layout-width-media);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
+  --nph-table-border-width: var(--nph-border-width);
+  --nph-table-radius: var(--nph-radius-container);
+  --nph-table-row-height-large: var(--nph-control-height-large);
+  --nph-table-cell-padding-block: var(--nph-space-inline);
+  --nph-table-cell-padding-inline: var(--nph-space-control-padding);
+  --nph-table-action-cell-padding-block: var(--nph-space-control-padding);
+  --nph-table-container-padding: var(--nph-space-container-padding);
+  --nph-table-cell-gap: var(--nph-space-inline);
+  --nph-table-cell-gap-tight: var(--nph-space-inline-tight);
+  --nph-table-stack-gap: var(--nph-space-stack-tight);
+  --nph-table-empty-padding: var(--nph-space-section);
+  --nph-table-caption-max-width: var(--nph-layout-max-reading);
+  --nph-table-body-max-height: var(--nph-layout-max-list-height);
+  --nph-table-expand-indent: var(--nph-control-height-compact);
+  --nph-table-icon-size: var(--nph-icon-size-sm);
+  --nph-table-thumbnail-size: var(--nph-image-size-sm);
+  --nph-table-thumbnail-size-large: var(--nph-image-size-lg);
+  --nph-table-thumbnail-radius: var(--nph-radius-inner);
   --nph-image-radius-sm: var(--nph-radius-inner);
   --nph-image-border-width: var(--nph-border-width);
   --nph-image-overlay: var(--nph-overlay-on-media-strong);
@@ -601,10 +627,20 @@
   --nph-sidebar-primary-foreground: var(--nph-theme-brand-on-600);
   --nph-sidebar-primary: var(--nph-theme-brand-600);
   --nph-status-on-solid: var(--nph-color-background);
+  --nph-table-background: var(--nph-color-background);
+  --nph-table-foreground: var(--nph-color-foreground);
+  --nph-table-muted-foreground: var(--nph-color-muted-foreground);
+  --nph-table-caption-foreground: var(--nph-color-muted-foreground);
+  --nph-table-muted-background: var(--nph-color-muted);
+  --nph-table-border: var(--nph-color-border);
+  --nph-table-status-success-icon: var(--nph-status-success);
+  --nph-table-rating-foreground: var(--nph-brand-educacao);
+  --nph-table-sticky-divider-color: var(--nph-shadow-color-light);
   --nph-image-background: var(--nph-color-muted);
   --nph-image-foreground: var(--nph-color-muted-foreground);
   --nph-image-border: var(--nph-color-border);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
+  --nph-table-row-hover-background: var(--nph-color-primary-surface);
   --nph-image-focus-border: var(--nph-focus-border);
 }
 
@@ -730,6 +766,8 @@
   --nph-status-warning-surface-hover: var(--nph-core-warn-100);
   --nph-status-help-surface-hover: var(--nph-core-help-100);
   --nph-status-success-surface-hover: var(--nph-core-success-100);
+  --nph-table-header-background: var(--nph-core-surface-25);
+  --nph-table-row-striped-background: var(--nph-core-surface-25);
   --nph-color-secondary-on-dialog: var(--nph-color-secondary);
   --nph-color-secondary-on-dialog-hover: var(--nph-color-secondary-hover);
   --nph-color-primary-foreground: var(--nph-theme-brand-on-600);
@@ -744,6 +782,7 @@
   --nph-focus-ring: var(--nph-theme-brand-700);
   --nph-focus-border: var(--nph-theme-brand-focus);
   --nph-focus-halo: var(--nph-theme-brand-halo);
+  --nph-table-link-foreground: var(--nph-color-link);
 }
 [data-nph-color-scheme="dark"] {
   --nph-scheme-is-light: 0;
@@ -867,6 +906,7 @@
   --nph-status-warning-surface-hover: var(--nph-core-warn-800);
   --nph-status-help-surface-hover: var(--nph-core-help-800);
   --nph-status-success-surface-hover: var(--nph-core-success-800);
+  --nph-table-row-striped-background: var(--nph-core-surface-800);
   --nph-color-primary-foreground: var(--nph-theme-brand-on-400);
   --nph-color-primary: var(--nph-theme-brand-400);
   --nph-color-primary-surface: var(--nph-theme-brand-900);
@@ -879,4 +919,6 @@
   --nph-focus-ring: var(--nph-theme-brand-400);
   --nph-focus-border: var(--nph-theme-brand-300);
   --nph-focus-halo: var(--nph-theme-brand-halo-dark);
+  --nph-table-header-background: var(--nph-color-muted);
+  --nph-table-link-foreground: var(--nph-theme-brand-200);
 }
