@@ -110,7 +110,7 @@ export class NphCheckbox extends LitElement {
   private dirty = false;
   private formDisabled = false;
   private valid = false;
-  /* Set while `click()` dispatches its own event, so the host does not activate it twice. */
+  /* Set while a `click()` dispatches its event and activates the piece: no second activation, no reentry. */
   private ownClick = false;
   /* Set when the host heard the `input` of the inner input for the current toggle. */
   private heardInput = false;
@@ -262,18 +262,17 @@ export class NphCheckbox extends LitElement {
    * disabled or invalid piece does nothing.
    */
   override click(): void {
-    if (this.inactive || !this.valid) {
+    /* While a `click()` is in progress, through its activation, another call does nothing, as the native one. */
+    if (this.ownClick || this.inactive || !this.valid) {
       return;
     }
     this.ownClick = true;
-    let proceed: boolean;
     try {
-      proceed = this.dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true, cancelable: true }));
+      if (this.dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true, cancelable: true }))) {
+        this.activate();
+      }
     } finally {
       this.ownClick = false;
-    }
-    if (proceed) {
-      this.activate();
     }
   }
 

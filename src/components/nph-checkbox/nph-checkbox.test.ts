@@ -646,6 +646,22 @@ describe('toggle and events', () => {
     expect(element.checked).toBe(true);
   });
 
+  for (const type of ['click', 'input', 'change'] as const) {
+    it(`click() called again from a ${type} listener during a click() does nothing: one toggle, no recursion`, async () => {
+      const element = await mount();
+      let calls = 0;
+      element.addEventListener(type, () => {
+        calls += 1;
+        if (calls < 50) element.click();
+      });
+      const events = record(element);
+      element.click();
+      expect(element.checked).toBe(true);
+      expect(calls).toBe(1);
+      expect(events.map((event) => event.type)).toEqual(['input', 'change']);
+    });
+  }
+
   it('click() canceled in bubbling by an ancestor neither toggles nor fires input or change', async () => {
     const element = await mount();
     const events = record(element);
