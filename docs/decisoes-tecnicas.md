@@ -2505,9 +2505,12 @@ controls of P83, and records here only what differs.
    crosses the shadow root on its own, unstopped; the native `change` is not composed, so the host
    fires its own `change` after it, which bubbles and is not composed. Both only when the person
    toggles the piece; setting `checked` or `indeterminate` from code fires nothing. The consumer
-   reads `event.target.checked`. Nothing goes into `HTMLElementEventMap`. A `click()` called on
-   the host, or the click of a `<label for>` outside, toggles the piece through the inner input,
-   once; a click from inside the shadow root is not forwarded again.
+   reads `event.target.checked`. Nothing goes into `HTMLElementEventMap`. `click()` on the host
+   dispatches one cancelable `click` on the host and, when nothing cancels it, toggles the piece
+   and fires `input` and `change`, as on the native checkbox. The click of a `<label for>` outside
+   toggles the piece with no second `click`; known limit: a cancellation made later, by an
+   ancestor in bubbling, comes after that toggle. When an ancestor stops the `input` before it
+   reaches the host, the host takes the state from the inner input on `change`.
 
 7. **Inside `nph-field`.** `static nphFieldRole = 'option'`: in the field, the piece is an
    option of a group. The field names and describes the group in its own shadow root and writes

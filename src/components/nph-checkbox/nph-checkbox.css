@@ -5,9 +5,9 @@
  * custom properties consumed here.
  *
  * No literal design value goes in here. Written box relations: `0` and `100%` (the native
- * input lies, invisible, over the touch area), `calc()` of tokens (the halo outside the box
- * border, and the text lowered to center its first line on the box) and `none` (no halo out
- * of focus).
+ * input lies, invisible, over the touch area), `minmax(0, 1fr)` (one grid track for the
+ * marks), `calc()` of tokens (the halo outside the box border, and the text lowered to center
+ * its first line on the box) and `none` (no halo out of focus).
  */
 
 /* With invalid input, it takes no space: no visual fallback. */
@@ -69,6 +69,8 @@
   position: relative;
   box-sizing: border-box;
   display: inline-grid;
+  /* One track inside the border: the marks are as large as the box and overflow it equally on each side. */
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
   place-items: center;
   flex: none;
   inline-size: var(--nph-icon-size-sm);

@@ -123,7 +123,7 @@ states:
     token: state/disabled-opacity
     changes_for_user: "The whole piece loses opacity, leaves the Tab order, stops responding and is not submitted."
 business_rules:
-  - "Only a click on the box or on the text, or Space, by the person toggles the piece; Enter does not. The native input event crosses the shadow root and the host fires change, which bubbles and is not composed. Setting checked or indeterminate from code fires nothing."
+  - "Only a click on the box or on the text, or Space, by the person toggles the piece; Enter does not. The native input event crosses the shadow root and the host fires change, which bubbles and is not composed. Setting checked or indeterminate from code fires nothing. click() on the host dispatches one cancelable click and toggles only when nothing cancels it."
   - "The checked attribute is the default state and the property is the current state, with the dirty flag of the native checkbox. A form reset goes back to the attribute, clears indeterminate and fires nothing."
   - "A checked piece submits name=value with the form; unchecked, nothing. indeterminate does not change what is submitted. A disabled piece, also inside a disabled fieldset, submits nothing."
   - "There is no required and no constraint validation: invalid never blocks the submission."

@@ -159,7 +159,7 @@ describe('registration and API', () => {
 
   it('the reactive API is exactly the one in P81', () => {
     const declared = Object.keys(Object.fromEntries((NphCheckbox as unknown as { elementProperties: Map<string, unknown> }).elementProperties));
-    expect(new Set(declared)).toEqual(new Set(['checked', 'indeterminate', 'invalid', 'disabled', 'text', 'label']));
+    expect(new Set(declared)).toEqual(new Set(['checked', 'indeterminate', 'invalid', 'disabled', 'text', 'label', 'name', 'value']));
   });
 
   it('name, value and form are accessors on the host, as on the native checkbox', () => {
@@ -284,6 +284,17 @@ describe('measures and anatomy', () => {
     expect(firstLineCenter).toBeCloseTo(area.top + area.height / 2, 3);
     /* The piece stays inside its container. */
     expect(element.getBoundingClientRect().width).toBeLessThanOrEqual(holder.getBoundingClientRect().width);
+  });
+
+  it('the marks are centered on the box', async () => {
+    const element = await mount({ text: 'Remember me', checked: true });
+    const center = (rect: DOMRect): [number, number] => [rect.left + rect.width / 2, rect.top + rect.height / 2];
+    const [boxX, boxY] = center(box(element).getBoundingClientRect());
+    for (const mark of marks(element)) {
+      const [x, y] = center(mark.getBoundingClientRect());
+      expect(x).toBeCloseTo(boxX, 3);
+      expect(y).toBeCloseTo(boxY, 3);
+    }
   });
 
   it('the marks are nph-icon check and minus in icon/size-sm, light, decorative', async () => {
@@ -623,6 +634,68 @@ describe('toggle and events', () => {
     expect(element.checked).toBe(true);
   });
 
+  it('click() on the host dispatches exactly one click, on the host and on an ancestor', async () => {
+    const element = await mount();
+    const onHost = record(element, ['click']);
+    const onBody: Event[] = [];
+    document.body.addEventListener('click', (event) => onBody.push(event));
+    element.click();
+    expect(onHost).toHaveLength(1);
+    expect(onBody).toHaveLength(1);
+    expect(onHost[0]?.cancelable).toBe(true);
+    expect(element.checked).toBe(true);
+  });
+
+  it('click() canceled in bubbling by an ancestor neither toggles nor fires input or change', async () => {
+    const element = await mount();
+    const events = record(element);
+    const cancel = (event: Event): void => {
+      if (event.composedPath()[0] === element) event.preventDefault();
+    };
+    document.body.addEventListener('click', cancel);
+    element.click();
+    expect(element.checked).toBe(false);
+    expect(events).toHaveLength(0);
+    document.body.removeEventListener('click', cancel);
+    element.click();
+    expect(element.checked).toBe(true);
+    expect(events.map((event) => event.type)).toEqual(['input', 'change']);
+  });
+
+  it('when an ancestor stops input in capture, change still carries the new state', async () => {
+    const holder = await parse('<form><nph-checkbox name="news" text="News"></nph-checkbox></form>');
+    const form = holder.querySelector('form') as HTMLFormElement;
+    const element = form.querySelector('nph-checkbox') as NphCheckbox;
+    form.addEventListener('input', (event) => event.stopPropagation(), { capture: true });
+    const seen: Array<[boolean, boolean, string | null]> = [];
+    form.addEventListener('change', () => seen.push([element.checked, element.indeterminate, new FormData(form).get('news') as string | null]));
+    element.indeterminate = true;
+    await element.updateComplete;
+    await userEvent.click(box(element));
+    expect(seen).toEqual([[true, false, 'on']]);
+  });
+
+  it('a change made by a consumer in an input listener is kept when change arrives', async () => {
+    const element = await mount();
+    element.addEventListener('input', () => {
+      element.checked = false;
+    });
+    const seen: boolean[] = [];
+    element.addEventListener('change', () => seen.push(element.checked));
+    await userEvent.click(box(element));
+    expect(seen).toEqual([false]);
+    expect(input(element).checked).toBe(false);
+  });
+
+  it('a <label for> outside dispatches a single click on the host', async () => {
+    const holder = await parse('<label for="single">Terms</label><nph-checkbox id="single" text="I agree"></nph-checkbox>');
+    const element = holder.querySelector('nph-checkbox') as NphCheckbox;
+    const clicks = record(element, ['click']);
+    await userEvent.click(holder.querySelector('label') as HTMLElement);
+    expect(clicks).toHaveLength(1);
+    expect(element.checked).toBe(true);
+  });
+
   it('a <label for> outside toggles the host once', async () => {
     const holder = await parse('<label for="terms">Terms</label><nph-checkbox id="terms" text="I agree"></nph-checkbox>');
     const element = holder.querySelector('nph-checkbox') as NphCheckbox;
@@ -952,6 +1025,23 @@ describe('form participation', () => {
     element.label = 'News';
     await element.updateComplete;
     expect(new FormData(form).get('news')).toBe('on');
+  });
+
+  it('name, value and checked set before the element is defined are taken at the upgrade', async () => {
+    const tag = 'late-nph-checkbox';
+    const holder = await parse('<form></form>');
+    const form = holder.querySelector('form') as HTMLFormElement;
+    const late = document.createElement(tag) as unknown as Record<string, unknown> & HTMLElement;
+    late.text = 'News';
+    late.name = 'news';
+    late.value = 'weekly';
+    late.checked = true;
+    form.append(late);
+    customElements.define(tag, class extends NphCheckbox {});
+    await (late as unknown as NphCheckbox).updateComplete;
+    expect(late.getAttribute('name')).toBe('news');
+    expect(late.getAttribute('value')).toBe('weekly');
+    expect(new FormData(form).get('news')).toBe('weekly');
   });
 
   it('state restoration brings back the checked state', async () => {

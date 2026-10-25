@@ -83,6 +83,12 @@ export class NphCheckbox extends LitElement {
     disabled: { type: Boolean, attribute: false, noAccessor: true },
     text: { type: String },
     label: { type: String },
+    /*
+     * `name` and `value` are the host attributes, with their own accessors. They are declared so
+     * that a value set before the element is defined is taken back at the first update.
+     */
+    name: { type: String, attribute: false, noAccessor: true },
+    value: { type: String, attribute: false, noAccessor: true },
   };
 
   /* The attributes the piece reads by hand: the default state, `disabled` and the two form attributes. */
@@ -104,6 +110,10 @@ export class NphCheckbox extends LitElement {
   private dirty = false;
   private formDisabled = false;
   private valid = false;
+  /* Set while `click()` dispatches its own event, so the host does not activate it twice. */
+  private ownClick = false;
+  /* Set when the host heard the `input` of the inner input for the current toggle. */
+  private heardInput = false;
 
   constructor() {
     super();
@@ -114,7 +124,7 @@ export class NphCheckbox extends LitElement {
     this.label = '';
     /* In disabled, a click neither toggles nor reaches the consumer, as on a native disabled control. */
     this.addEventListener('click', (event) => this.blockInactive(event), { capture: true });
-    this.addEventListener('click', (event) => this.forwardHostClick(event));
+    this.addEventListener('click', (event) => this.activateFromOutside(event));
     /*
      * The `input` of the inner input is heard on the host, in capture and first: the state moves
      * before any listener the consumer puts on the host runs, even one that stops the event.
@@ -247,15 +257,49 @@ export class NphCheckbox extends LitElement {
   }
 
   /**
-   * `click()` called on the host, or a click from a `<label for>` outside, toggles the piece as
-   * on a native checkbox. A click that comes from inside the shadow root has already toggled the
-   * inner input and is not forwarded; a click already canceled is not forwarded either.
+   * `click()` on the host, as on a native checkbox: one `click` event, dispatched on the host and
+   * cancelable; when nothing cancels it, the piece toggles and fires `input` and `change`. A
+   * disabled or invalid piece does nothing.
    */
-  private forwardHostClick(event: Event): void {
-    if (event.composedPath()[0] !== this || event.defaultPrevented || this.inactive || !this.valid) {
+  override click(): void {
+    if (this.inactive || !this.valid) {
       return;
     }
-    this.input?.click();
+    this.ownClick = true;
+    let proceed: boolean;
+    try {
+      proceed = this.dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true, cancelable: true }));
+    } finally {
+      this.ownClick = false;
+    }
+    if (proceed) {
+      this.activate();
+    }
+  }
+
+  /**
+   * A click dispatched on the host by someone else, such as a `<label for>` outside: the piece
+   * toggles without a second `click`. A click that comes from inside the shadow root has already
+   * toggled the inner input, and a click already canceled does nothing. Known limit: a
+   * cancellation made later, by an ancestor in bubbling, comes after the toggle.
+   */
+  private activateFromOutside(event: Event): void {
+    if (this.ownClick || event.composedPath()[0] !== this || event.defaultPrevented || this.inactive || !this.valid) {
+      return;
+    }
+    this.activate();
+  }
+
+  /** The activation of a native checkbox: it toggles, clears the partial state, then `input` and `change`. */
+  private activate(): void {
+    const input = this.input;
+    if (input === null) {
+      return;
+    }
+    input.checked = !input.checked;
+    input.indeterminate = false;
+    input.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+    input.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   /** The native `input` of the inner input. On the host the target is retargeted, so the inner input is read. */
@@ -264,12 +308,23 @@ export class NphCheckbox extends LitElement {
     if (input === null || event.composedPath()[0] !== input) {
       return;
     }
+    this.heardInput = true;
     this.indeterminate = false;
     this.moveChecked(input.checked, true);
   }
 
-  /** The native `change` does not cross the shadow root: the host fires its own. */
+  /**
+   * The native `change` does not cross the shadow root: the host fires its own. When an ancestor
+   * stopped the `input` before it reached the host, the state is taken from the inner input here;
+   * when the host heard it, what consumers changed since then is kept.
+   */
   private onChange(): void {
+    const input = this.input;
+    if (!this.heardInput && input !== null) {
+      this.indeterminate = false;
+      this.moveChecked(input.checked, true);
+    }
+    this.heardInput = false;
     this.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
