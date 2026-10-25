@@ -126,6 +126,8 @@ import { faPen as lPen } from '@fortawesome/pro-light-svg-icons/faPen';
 import { faPen as sPen } from '@fortawesome/pro-solid-svg-icons/faPen';
 import { faPrint as lPrint } from '@fortawesome/pro-light-svg-icons/faPrint';
 import { faPrint as sPrint } from '@fortawesome/pro-solid-svg-icons/faPrint';
+import { faRightFromBracket as lRightFromBracket } from '@fortawesome/pro-light-svg-icons/faRightFromBracket';
+import { faRightFromBracket as sRightFromBracket } from '@fortawesome/pro-solid-svg-icons/faRightFromBracket';
 import { faRightToBracket as lRightToBracket } from '@fortawesome/pro-light-svg-icons/faRightToBracket';
 import { faRightToBracket as sRightToBracket } from '@fortawesome/pro-solid-svg-icons/faRightToBracket';
 import { faRotateRight as lRotateRight } from '@fortawesome/pro-light-svg-icons/faRotateRight';
@@ -273,6 +275,7 @@ export const NPH_ICON_NAMES = [
   'paperclip',
   'pen',
   'print',
+  'right-from-bracket',
   'right-to-bracket',
   'rotate-right',
   'share',
@@ -398,6 +401,7 @@ const GLYPHS = {
   paperclip: glyph(lPaperclip, sPaperclip),
   pen: glyph(lPen, sPen),
   print: glyph(lPrint, sPrint),
+  'right-from-bracket': glyph(lRightFromBracket, sRightFromBracket),
   'right-to-bracket': glyph(lRightToBracket, sRightToBracket),
   'rotate-right': glyph(lRotateRight, sRotateRight),
   share: glyph(lShare, sShare),
