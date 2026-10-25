@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 460,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-dropdown-menu",
   "dependencies": ["DSA-17", "DSA-27"],
   "gates": [
@@ -86,8 +86,8 @@
   },
   "git_review": {
     "branch": "claude/dsa-45-nph-dropdown-menu-6256e3",
-    "commit": null,
-    "pr": null
+    "commit": "680d6bc78c0766dd23e490deeddd75631937fe6a",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/118"
   },
   "context": "docs/operacao/contextos/DSA-45.md",
   "updated_at": "2026-10-24"

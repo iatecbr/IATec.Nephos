@@ -25,14 +25,30 @@ contract in the `figma-docs-accepted` evidence.
   so the items are data of the menu and not tags of their own
 
 ## Changes
-The task moves to in progress with the pending decisions D-1 to D-6. See the
-commits on the branch.
+- `nph-icon`: `right-from-bracket`, light and solid, in the glyph map, the list
+  of names, the catalog demo and the action icon list of `design.md`.
+- `nph-dropdown-menu`: component, CSS, tests, the shared demo frame, seven
+  Validation stories, the Docs page, the dictionary in the three languages, the
+  sheet, the Metadata and P92.
+- D-2 now states what the code does: the motion of the `nph-select` list.
+- Defects found and fixed before the PR, each with a regression test: a trigger
+  rendered right after the menu was not found (the guard compared `null` with
+  `null`); an empty group swallowed the separator of the next group; a click on
+  the trigger to close reopened the menu (the `focusout` now ignores a move to
+  the trigger).
 
 ## Commands run
 - `npm ci`, then `npm run test:operacao` before the first commit.
+- The full proof sequence, one at a time, on `680d6bc`: build:tokens,
+  test:tokens, test (3148/3148), typecheck, test:i18n, test:operacao,
+  build-storybook, build:lib, test:package (1191 checks, 26 components) and
+  `git diff --check` exit 0; test:naming exits 1 with the known findings of the
+  base only.
+- A look at the static Storybook, light and dark: the examples, the item options
+  with the solid hover and the Docs matrix.
 
 ## Result
-In progress.
+In review: PR #118, reviewed by Copilot; Elvys merges.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -41,4 +57,4 @@ None recorded: `review-and-merge` waits for the PR.
 None. D-1 to D-6 wait for Indiane and do not block.
 
 ## Next command
-Commit the icon, then the component, the sheet, the stories and the Docs page.
+Answer the Copilot review of PR #118 and run the proofs again after each commit.
