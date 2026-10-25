@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P83, P84, P85, P86, P88, P90, P91, P93 and P94. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P83, P84, P85, P86, P87, P88, P90, P91, P93 and P94. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -51,6 +51,7 @@ P62.4 subsection for the detail).
 | **P83** | `nph-field`: API, semantics and the field–control contract | 22/10/2026 | Medium. Every form control (DSA-16, DSA-17, DSA-18, DSA-27, DSA-41, and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46) takes the contract, so changing `label`, `description`, `invalid`, `required`, `disabled` or `nphFieldRole` later requires redoing all of them | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D8 answered on 16/10/2026; the plan and the contract approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P84** | API and semantics of `nph-empty`, and the first raster asset of the package | 22/10/2026 | Low now. No piece consumes it yet; `nph-combobox` (DSA-46) will, so changing `heading` or `description` later requires redoing its empty list. The asset delivery (`vite.config.lib.ts`) applies to any later illustration | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P86** | Icon-only `nph-button`: shape and built-in tooltip (amends P68) | 23/10/2026 | Low now. `nph-dialog` (DSA-44) will use the icon-only button to close, so changing `shape`, or the tooltip the button renders, later requires redoing it | Anatomy and behavior: board `nph-icon-button` accepted by Indiane on 19/10/2026, textual audit approved on 20/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P87** | API and semantics of `nph-dialog` | 22/10/2026 | Low now. No piece consumes it yet; `nph-alert-dialog` will build on it, so changing `heading`, `open`, the slots or the event `nph-close` later requires redoing both. The tokens redefined in the window and the breakpoint literal are the first of their kind | Anatomy and behavior: board accepted by Indiane on 21/10/2026; the plan approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P88** | `nph-button`: solid icon in `hover-active` (amends P68) | 23/10/2026 | Low. Visual only: no API, event or token changes, and the accessible name stays | Rule decided by Indiane on 21/10/2026 and shown in Figma (`461:13009`); the plan is approved by Elvys on 22/10/2026. Reviewed in the pull request that brings it |
 | **P90** | API and semantics of `nph-image` | 23/10/2026 | Low now. No piece consumes it yet; `nph-table` will, for the thumbnail and the expanded item, so changing `size`, `ratio`, `src`, `alt` or `interactive`, or the derived state, later requires redoing it | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P85** | API and semantics of `nph-input-otp` | 22/10/2026 | Low now. No piece consumes it yet; a sign-in or verification screen will, inside `nph-field`, so changing `length`, `masked`, `value` or the native events later requires redoing that screen | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
@@ -2940,6 +2941,155 @@ are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
 
+## P87 — `nph-dialog`: API and semantics
+
+**Technical conflict.** The board of `nph-dialog` (DSA-44) fixes the anatomy, the sizes, the
+spaces and the tokens, and leaves to code what it calls code rules: where the focus goes on open
+and on close, the scroll, the veil outside the piece and the name of each property. Four points
+also touch rules of other decisions: the solid secondary `nph-button` must paint
+`color/secondary-on-dialog`, and the button has no color property (P68); the lines are
+`nph-separator` in `color/dialog-separator`, and the separator keeps `color/border` (P66); the
+stacked actions change below the `md` breakpoint, and no component has used a breakpoint yet; and a
+modal dialog covers the window it opens in, which a page with several examples in both modes
+(`docs/stories.md`, §4.6) cannot show at once.
+
+**Decision.**
+
+1. **API: nine properties, two slots and one event, no `::part`.**
+
+   | Name | Role |
+   |---|---|
+   | `heading` | String, required. The title, the `h2` of the header and the accessible name. Not `title`: it is a global HTML attribute and would show the browser's own balloon over the dialog |
+   | `description` | String. The support sentence below the title, the accessible description. Empty: none |
+   | `size` | `sm`, `md` (default) or `lg`, reflected. The width ceiling (the Figma P, M and G) |
+   | `actions` | `inline` (default) or `stacked`, reflected. `stacked` stacks only below the `md` breakpoint |
+   | `hide-close` | Boolean, reflected. Turns off the close button, on by default; the name is inverted because an HTML boolean attribute cannot turn off a default `true` |
+   | `close-label` | String. The accessible name of the close button, already localized; required while it is shown |
+   | `header-separator`, `footer-separator` | Booleans, reflected. The lines; the footer one is drawn only with a footer |
+   | `open` | Boolean, reflected. The state and the only way to open and close the dialog, as `open` of `nph-tooltip` (P77). No `show()` or `close()` method |
+   | default slot | The content area. Empty, it is not drawn (the Figma "show content" off) |
+   | slot `footer` | The `nph-button` actions, in the order the consumer writes them. Empty, the footer is not drawn |
+   | `nph-close` | Bubbles, `composed`, **cancelable**, `detail: { source: 'escape' \| 'close-button' }`. Fired before the dialog closes when the person asks. `preventDefault()` keeps it open. Setting `open` never fires it (as P76) |
+
+   Invalid input does not render and emits `console.error` in development, one per cause while it
+   lasts (P21): an empty `heading`, a `size` or an `actions` outside the lists. An empty
+   `close-label` with the button on draws the dialog without the button and says why. A dialog
+   opened over another opens and emits `console.warn` ("finish or close the first one").
+
+2. **Layer: the native `<dialog>` with `showModal()`.** It gives the top layer (no `z-index`, no
+   clipping), the inert page and `role="dialog"` with `aria-modal`. The veil `overlay/scrim` is its
+   `::backdrop`: outside the piece, as the board asks. No library is added.
+
+3. **Focus.** On open: the first element with `autofocus` in the content or the footer; otherwise
+   the first focusable element of the content, then of the footer, then the close button, then the
+   window itself (`tabindex="-1"`). The close button comes after the content so that an Enter does
+   not close the dialog by accident. The search follows what the person sees: into open shadow
+   roots and from a slot to what it shows, so the field of a form component that does not delegate
+   the focus counts; a negative `tabindex` on a shadow host takes out everything it draws, as
+   sequential navigation does. Each candidate is focused and kept only if the focus really
+   lands in it, so a disabled or hidden element is skipped, with the browser's own rule of a
+   disabled `<fieldset>`, which spares its first `<legend>`; so is what a piece keeps focusable
+   while turned off (`aria-disabled="true"`, or inside a disabled piece, such as the thumb of a
+   disabled `nph-slider`), also when a piece hands the focus to such a part, as a loading
+   `nph-button` does. A piece that has not drawn yet, when
+   the dialog is connected already open, cannot take it: once the pieces draw, the rule runs again
+   if the focus is still on the exact element the rule put it on, so a move by the person is kept,
+   even between two parts of one piece. On close, the focus goes back to the
+   element that had it, looked up inside shadow roots and given back by the component, not by the
+   browser. No Tab trap is written: the inert page already keeps Tab in the dialog and the browser
+   interface.
+
+4. **Esc.** It is the browser's close request, the `cancel` event of the `<dialog>`. The dialog
+   always holds it, fires `nph-close` and closes unless the event is canceled, so the exit animates
+   and `open` changes on one path. **Known limit:** with no new activation by the person since the
+   last held request, the browser fires `cancel` not cancelable and closes the window; the dialog
+   then fires `nph-close` not cancelable and closes at once. An `nph-tooltip` open inside the dialog
+   takes the first Esc (P77, item 4), also the balloon the close button carries (P86) while it has
+   keyboard focus; the second Esc closes the dialog. A click on the veil does not close it (D5).
+
+5. **Scroll.** The window is a column: the header and the footer keep their size and only the
+   content scrolls above `layout/dialog-max-height`. The scroll area clips what is drawn outside
+   its box, so it keeps around the content the room of the focus border and halo the controls draw
+   outside theirs, and gives it back in negative margins: the measures do not change. When the
+   header, the footer and the padding alone do not fit, as in a short window with the actions
+   stacked, the content keeps at least one control row (`control/height-large`, D6) and the window
+   itself scrolls, so no field and no action is out of reach. While any
+   dialog is shown, the root of the page
+   does not scroll (`overflow: hidden`, with a counter shared by every dialog), because the inert
+   page still scrolls under the wheel over the veil; the width of the scrollbar that disappears is
+   given back as padding, measured at run time, and the values the root had are restored at the
+   end, each axis with its priority. If the browser refuses to show the window, nothing is held:
+   the lock is released and a later update tries again. **This writes to the document**: it is the one global side effect of the piece.
+
+6. **Width.** The window hugs its content (`fit-content`), from `layout/dialog-min-width` up to the
+   ceiling of `size`, and never past the window less `layout/margin-compact` on each side (D2); the
+   height also stops there. `layout/dialog-content-sm`, `-md` and `-lg` are not consumed: they are
+   the width of the default content part in Figma, as `layout/separator-width` is the length of the
+   master in P66. **Known limit:** content whose width is a percentage shrinks to its own size.
+
+7. **Tokens redefined in the scope of the window, with no new value.** The window redefines
+   `--nph-color-secondary` and `--nph-color-secondary-hover` as `color/secondary-on-dialog` and its
+   hover, which reach by inheritance every element inside the window that reads `color/secondary`
+   — today, the `nph-button` in the content and in the footer: in dark,
+   `color/secondary` is the same `surface/600` as `color/dialog`. The `nph-button` keeps no color
+   property (P68): the dialog uses the token channel the button already reads. On its own
+   `nph-separator` only, the dialog redefines `--nph-color-border` as `color/dialog-separator`: an
+   exception, scoped to the dialog, to the sentence of P66 "the color does not change"; the text of
+   P66 does not change. No token is created and no value changes.
+
+8. **Breakpoint.** `design.md` (§2f) makes the breakpoints build values, the only Nephos values that
+   do not reach a component as `var()`: a media query does not accept a custom property. The `md`
+   breakpoint (768) is written in the CSS as `@media (width < 48rem)`, with a comment pointing to
+   `tokens_breakpoint`. `rem` in a media query follows the browser's default font size, not the
+   root of the page: 48rem is 768 px at the usual 16 px and grows with a larger default font. The
+   evidence names it `core/breakpoint/md`, which does not exist as a token, by that rule.
+
+9. **Stacked actions.** Below the breakpoint, `actions="stacked"` turns the footer into a column in
+   reverse order, so the primary, written last, sits on top; the visual order then differs from the
+   Tab order, which keeps the order of the markup. Each button fills the line: the host stretches,
+   and the native button inside it fills the host by a rule of `nph-button.css`
+   (`:host(:not([data-nph-icon-only])) .control { flex: 1 }`), authorized by Elvys and brought by
+   this decision after DSA-47.
+
+10. **Motion.** The window and the veil enter on `motion/enter-*` and leave on `motion/exit-*`, the
+    roles `design.md` gives to the dialog; only opacity moves. With reduced motion, the duration is
+    `motion/hover-duration`, as P77.
+
+11. **Stories in frames.** Each example is the real dialog, open, in a story hidden from the sidebar
+    (`Components/nph-dialog/Fixtures`, without the `dev` tag). The Validation and Docs pages embed it
+    in an `<iframe>`, one per mode, with the mode and the language in the address: each frame is a
+    window of its own, with its own veil and breakpoint. `docs/stories.md`, §4.6 still holds: light
+    and dark in the same story. A non-modal "preview" attribute was refused: it would be API invented
+    for the page, and not the modal dialog.
+
+**Reason.** The native modal dialog already does what the board asks of code — the top layer, the
+inert page, the close request and the backdrop — and what is left (focus, scroll, events) is small
+and testable. Redefining the token in the scope of the window keeps P68 and P66 as they are for every
+other use.
+
+**Source.** Board `nph-dialog` (`1368:27`, frame `2277:2`, set `2268:52262`) of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 21/10/2026, with the textual audit approved, in
+`docs/operacao/evidencias/DSA-44/`. The names, the focus rule, the event, the lock, the breakpoint
+literal, the remapped tokens and the frames are a technical proposal of this implementation, approved
+by Elvys with the plan on 22/10/2026.
+
+**Out of scope.** The highlight icon (`status`), until D3. The `nph-alert-dialog`. A non-modal
+dialog, a drawer or a side panel. The Usage section of the page (P70, DSA-35), the page lists read
+from the Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
+
+**Pending for Indiane (DSA-44, D1 to D6).** Whether `stacked` is the consumer's choice or what every
+dialog does below `md` (D1); the margin to the edge of a small window (D2); the icon, the size, the
+box and the place of the highlight icon (D3, which keeps `status` out); the extent of the lines and
+the spaces around them and next to the close button (D4); whether a click on the veil closes (D5);
+the minimum height of the content in a window too short for everything (D6). Only D3 holds a part
+back.
+
+**Status.** Anatomy and behavior accepted by Indiane on 21/10/2026; the plan approved by Elvys on
+22/10/2026. API and semantics are reviewed in the pull request that brings them; the merge is the
+approval.
+
+---
+
 ## P88 — `nph-button`: solid icon in `hover-active`
 
 This decision **amends P68** in the `hover-active` state of the button with text. P68 changes only
@@ -3699,7 +3849,7 @@ in the pull request that brings them; the merge is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P83, P84, P85, P86, P90, P91, P93 or P94 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P83, P84, P85, P86, P87, P90, P91, P93 or P94 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
