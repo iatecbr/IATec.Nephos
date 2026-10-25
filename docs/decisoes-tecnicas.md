@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93 and P94. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93 and P94. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -48,6 +48,7 @@ P62.4 subsection for the detail).
 | **P79** | API and semantics of `nph-switch` | 22/10/2026 | Low now. No piece consumes it yet; `nph-dropdown-menu` (DSA-45) will, without a label, so changing `checked`, `text`, `label` or the native events later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D4 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P80** | API and semantics of `nph-input`, the reference of the form controls | 22/10/2026 | Medium. `nph-field` (DSA-28), `nph-checkbox`, `nph-radio` and `nph-input-otp` copy its form association, its native events and its name by reference, so changing them later requires redoing those pieces | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D7 answered on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P81** | API, semantics and form participation of `nph-checkbox` | 22/10/2026 | Low now. `nph-field` (DSA-28) holds it as an option of a group, and a form will submit it, so changing `checked`, `name`, `value`, the native events or `nphFieldRole` later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D6 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P82** | API and semantics of `nph-radio` | 22/10/2026 | Low now. No piece consumes it yet; `nph-field` (DSA-28) wraps it in a `radiogroup` and `nph-rich-option` will use the circle alone, so changing `name`, `checked`, the native events or the host as the control later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D5 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P83** | `nph-field`: API, semantics and the field–control contract | 22/10/2026 | Medium. Every form control (DSA-16, DSA-17, DSA-18, DSA-27, DSA-41, and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46) takes the contract, so changing `label`, `description`, `invalid`, `required`, `disabled` or `nphFieldRole` later requires redoing all of them | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D8 answered on 16/10/2026; the plan and the contract approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P84** | API and semantics of `nph-empty`, and the first raster asset of the package | 22/10/2026 | Low now. No piece consumes it yet; `nph-combobox` (DSA-46) will, so changing `heading` or `description` later requires redoing its empty list. The asset delivery (`vite.config.lib.ts`) applies to any later illustration | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P86** | Icon-only `nph-button`: shape and built-in tooltip (amends P68) | 23/10/2026 | Low now. `nph-dialog` (DSA-44) will use the icon-only button to close, so changing `shape`, or the tooltip the button renders, later requires redoing it | Anatomy and behavior: board `nph-icon-button` accepted by Indiane on 19/10/2026, textual audit approved on 20/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
@@ -2573,6 +2574,187 @@ the approval.
 
 ---
 
+## P82 — `nph-radio`: API and semantics
+
+**Decision.** `nph-radio` is a Web Component with **open Shadow DOM** (P01), CSS in its own file
+imported `?inline`, as in `nph-icon`. It has no slot, no `::part`, no color property and no size
+property. Anatomy only through semantic tokens. Invalid input renders nothing and emits
+`console.error` only in development — the rule of P21, adopted here by its own decision, as in
+P66, P68, P73, P74 and P76. The names follow P64. The form pattern is the one of **P80**
+(`nph-input`, the reference of the form controls), and the contract with `nph-field` is
+**P83**; this decision lists only the API of the radio and what differs from them.
+
+1. **Properties.** The Figma property names are in Portuguese and the code API is in English
+   (P64). The mapping below is a technical proposal of this implementation.
+
+   | Figma | API |
+   |---|---|
+   | `marcado` | `checked`, Boolean, **not** reflected; the `checked` attribute is the initial state |
+   | `state` `erro` | `invalid`, Boolean, reflected |
+   | `state` `disabled` | `disabled`, Boolean, reflected |
+   | the text | `text`, String |
+   | `mostrar rótulo` off | no `text`; the accessible name is `label`, String |
+   | the group and the form | `name` and `value`, String, reflected; `value` is `on` by default |
+
+   `state` `hover`, `foco` and `erro-foco` are interaction, not properties. There is no
+   indeterminate and no size: the circle is always `icon/size-sm`.
+
+2. **The host is the control.** The radio is form-associated (`static formAssociated = true`,
+   `ElementInternals`), its role is `radio`, with `aria-checked` and `aria-disabled`, set through
+   the internals, and the host takes the focus itself, with a `tabindex` the piece owns. There is
+   **no inner `<input>`**, unlike `nph-input` and `nph-checkbox`: an input inside a shadow root is
+   in another tree than the other radios, so native exclusivity and the native arrow keys would not
+   reach them, and it would not join the form outside. Since the code coordinates the group anyway,
+   one focusable element is simpler than an inner input kept in sync with the host. A `<label for>`
+   pointing at the radio checks it, because a form-associated element is labelable.
+
+3. **The group is not an element.** The accepted frame says the group is several radios inside an
+   `nph-field`, and DSA-18 leaves exclusivity, arrow keys, the form value and the event to code.
+   Radios with the same non-empty `name`, in the **same root** (`getRootNode()`, never `document`,
+   as in P77) and with the same form owner, are one group, in tree order. A detached tree is a root
+   too, as for the native radio, so markup parsed with two checked radios keeps the last one.
+   Checking one unchecks the others, from the person or from code; the others do not become dirty.
+   A change of `name`, by the property or the attribute, settles both groups at once, on the page or
+   not, and a checked radio unchecks its new group, so the radio renamed last wins whatever the order
+   of its attributes.
+   A radio that arrives checked unchecks the radios of the group already on the page; radios that
+   connect in the same batch have not had their turn yet, so the last checked radio to connect wins.
+   The association with a form follows the same rule. A radio without a name is a group of
+   one. `nph-field` gives the group its role (`radiogroup`), name, description, `aria-required` and
+   error, and reads `static nphFieldRole = 'radio'` (P83); the radio owns the exclusivity, the arrow
+   keys and its Tab stop, so it works outside a field too (`nph-rich-option`).
+
+4. **The person checks it.** A click on the piece — the circle or the text — `click()`, Space or a
+   `<label for>` checks an unchecked radio. A click on the checked radio changes nothing and fires
+   no event, and the `click` still bubbles: there is no inner button to stop, so the capture block
+   of P76 is not copied. Only a radio that does not respond (disabled, inside a disabled fieldset,
+   or not drawn) stops the click in the capture phase, as in P73.
+
+5. **Keyboard (WAI-ARIA APG, Radio Group).** One Tab stop per group: the checked radio that
+   responds or, with none checked, the first one that responds. Arrow down and arrow right move the
+   focus to the next radio that responds, arrow up and arrow left to the previous one, wrapping; the
+   arrow also checks it and fires the events. Space checks the focused radio. A radio hidden by
+   the `hidden` attribute or by `display: none`, on itself or on an ancestor, takes no Tab stop and the arrows skip it; code can
+   still check it. A change of visibility alone is picked up the next time the group settles. Arrows and Space
+   prevent the page scroll; Enter does nothing; a key with Alt, Ctrl or Meta is left alone. Every
+   radio settles the `tabindex` of its whole group when it connects, leaves (the group it left),
+   changes `checked`, `disabled`, `name` or form owner, or becomes drawn. A `tabindex` the consumer
+   writes is replaced.
+
+6. **Events: the native `input` and `change`.** When the person checks a radio, the host fires
+   `input` (bubbles, composed) and then `change` (bubbles, not composed), as the native radio does;
+   none is cancelable, and the state is already set when they fire. Setting `checked` from code never
+   fires them. There is no `nph-*` event and no entry in `HTMLElementEventMap`. This follows the
+   exception P80 records to the reasoning of P73, item 3: these pieces are form controls, and the
+   frameworks of the consumers bind `input` and `change`.
+
+7. **Form (P80).** `setFormValue(checked ? value : null)`: only the checked radio enters the
+   `FormData`, as `name=value`. `name` and `value` reflect, because the form reads the attributes of
+   the host; an empty `name` writes no attribute, and the default `value`, `on`, is also written as
+   the attribute; removing the `value` attribute gives back `on`, so the property, the events and
+   the form agree. A radio that is not drawn (no accessible name) submits nothing, as in P80. `checked` does not reflect: the attribute is the
+   initial state and the one `form.reset()` returns to, and a later change of the attribute moves the
+   current state only while the piece is not dirty — neither the person nor code changed `checked`
+   — the rule of the native radio. `formDisabledCallback` (a disabled fieldset) works as `disabled`;
+   `formStateRestoreCallback` brings back an explicit checked or unchecked state, which the radio
+   writes as its restore state (`null` would not be restored, and a radio unchecked by the person
+   would come back checked by its attribute); in the `autocomplete` mode it compares the state
+   only with `value`, so a value that looks like a restore marker is just a value. `form`, `labels`,
+   `validity`, `validationMessage`, `willValidate`, `checkValidity()` and `reportValidity()` are
+   exposed, as in P80. There is no `required` and no validity of its own: the field says the group
+   is required (P83).
+
+8. **Accessible name.** `internals.ariaLabel` is the text or, without text, `label`; an
+   `aria-label` or `aria-labelledby` the consumer puts on the host also counts and wins. The proof is
+   the name, the role and the state the browser itself computes, read through the accessibility
+   tree, in the tests.
+
+9. **`invalid` is visual only.** `aria-invalid` is not supported on the `radio` role (WAI-ARIA 1.2);
+   it goes on the `radiogroup` of `nph-field`, with the error message. `disabled` wins over
+   `invalid`: the error border is suppressed, and the combination is not an error (D7, open with
+   Indiane).
+
+10. **Drawing (D1 to D5).** The circle is `icon/size-sm` with `border/width` and `radius/full`; the
+    touch area is the circle plus `space/inline-tight` on each side, 24 × 24; the dot is
+    `calc(icon/size-sm - 2 × space/inline-tight)`, 8, because D3 measures the padding from the outer
+    edge of the circle, border included. `space/inline` separates the touch area from the text, which
+    is `text/label-md` and wraps; the circle stays at the top and its center is on the center of the
+    first line, through a top offset computed from the tokens (D6, open with Indiane). Focus is the
+    border `focus/border` and a `focus/halo` halo of `focus/ring-width` on the circle, which covers the
+    touch area exactly; with error, `status/error` and `focus/halo-error`. The disabled opacity goes
+    on the whole piece, text included; the field passes `disabled` and does not draw it again (P83).
+
+11. **Motion.** Fill and border change on `motion/state-duration` and `motion/state-easing`, and the
+    dot fades by opacity on the same pair; width, height and position never animate. Under
+    `prefers-reduced-motion` the duration is `motion/hover-duration`, the semantic alias of
+    `core/duration/100`, as in `nph-togglebutton`; the curve stays and the colors still change. The
+    question about this substitution is the open D7 of DSA-22; no new one is opened.
+
+12. **Invalid input and composition.** No accessible name — no `text`, no `label`, no `aria-label`
+    and no `aria-labelledby`, an empty or blank one counting as none — renders nothing, takes no space, leaves `data-nph-rendered` out, takes
+    no Tab stop and emits one `console.error` in development; the check runs again only when one of
+    those changes, so checking does not repeat it. Two problems of composition render anyway and emit
+    one `console.warn` each, in development, once while they last, read one frame after the radio
+    connects so radios parsed together are found: a radio without `name`, and a group of one. There is
+    no maximum: "more than five, use `nph-select`" is a usage rule, not an error.
+
+**Points for review.**
+
+- **The host as the control**, with no inner input, while `nph-input` and `nph-checkbox` keep a
+  native one.
+- **The tabindex owned by the piece**, which replaces one the consumer writes.
+- **The `use` of tokens in `design.md` narrower than the accepted frame:** `radius/full` ("NEVER on a
+  regular button, field or card"), `state/hover-opacity` (written for the button), `color/input` (it
+  names checkbox, not radio) and `icon/size-sm` as the size of a box. The accepted evidence prevails,
+  and `design.md` does not change; widening the `use` is a decision of Indiane, through Claude in
+  Figma, as P68 and P73 recorded.
+- **Contrast, measured.** The circle outline, `color/input` on `color/background`, and the text pass
+  3:1 and 4.5:1 in both schemes. The dot, `color/primary-foreground` on `color/primary`, and the error
+  border, `status/error` on `color/background`, pass 3:1 in all 14 brand and scheme pairs. The focus
+  border, `focus/border`, is below 3:1 against the halo only in light Sistemas (2.92:1), the known
+  limit `design.md` records; the test pins that list.
+
+**Known limits.**
+
+- Outside a `radiogroup`, the screen reader does not announce the group name or the position: that
+  comes from `nph-field`.
+- `invalid` is not announced on the radio.
+- The arrow keys are physical: no right-to-left mirroring. `forced-colors` is not treated.
+- **Found by the last Copilot review of the pull request, recorded here by Elvys's decision of
+  24/10/2026, with a follow-up task:**
+  - a change of `value` on a checked radio reaches the form data on the next update of the piece,
+    not in the same call: reading `FormData` in the same handler, before `updateComplete`, gives the
+    old value;
+  - a radio hidden by `visibility: hidden`, on itself or on an ancestor, still counts as shown: it
+    may hold the Tab stop of its group, and the arrow keys may check it without moving the focus to
+    it (`display: none` and the `hidden` attribute are handled);
+  - the radio does not check `defaultPrevented`: a `keydown` the consumer cancels in the capture
+    phase still moves the focus, checks the radio and fires `input` and `change`.
+
+  **Follow-up:** sync the form value in the `value` setter, use `checkVisibility` with the
+  visibility option, and return early on a cancelled `keydown`, each with its regression test.
+
+**Source.** Frame `nph-radio` (`1196:311`, set `848:66`) of the Figma file `DS-IA-NEPHOS 5.0`,
+accepted by Indiane on 01/10/2026, with the Figma UX QA and the textual audit approved on 02/10/2026;
+D1 to D3 read from the accepted set and D4 and D5 answered on 19/10/2026. The host as the control,
+the group by name and root, the keyboard, the events, the form semantics, `nphFieldRole`, the
+invalid input and the composition warnings are a technical proposal of this implementation,
+approved with the plan by Elvys on 22/10/2026.
+
+**Out of scope.** `required` and validity of the group (P83: the field says it). An indeterminate
+state, a size, a slot, a `::part` and a color property. A right-to-left mirror and `forced-colors`.
+The Usage section of the page (P70, DSA-35), the page lists read from the Metadata (P71, DSA-34) and
+the accessibility gate (P72, DSA-32).
+
+**Pending for Indiane (DSA-18, D6 and D7), none of them blocks.** Whether the circle aligns with the
+first line by its center (here) or by the top edge; and what the piece does with `invalid` and
+`disabled` together (disabled wins, here).
+
+**Status.** Anatomy and behavior accepted by Indiane on 01/10/2026; D1 to D5 answered on 19/10/2026.
+API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## P83 — `nph-field`: API, semantics and the field–control contract
 
 **Decision.** `nph-field` is a Web Component with **open Shadow DOM** (P01), CSS in its own file
@@ -3960,7 +4142,7 @@ the pull request that brings them; the merge is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P83, P84, P85, P86, P87, P90, P91, P92, P93 or P94 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93 or P94 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

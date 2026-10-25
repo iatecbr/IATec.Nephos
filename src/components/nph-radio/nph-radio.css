@@ -1,0 +1,159 @@
+/**
+ * Internal style of `nph-radio`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here.
+ *
+ * No literal design value goes in here. Written box relations: `none` (the host draws no
+ * outline: the focus is the border and the halo of the circle), `calc(...)` (the size of
+ * the dot and the offset of the first line, both from tokens) and the zeros of
+ * `box-shadow` (the halo is a spread, with no offset or blur).
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/*
+ * The piece hugs its content and wraps its text to the available width (D4). The circle
+ * sits at the top, with the first line of text, and does not center on the block of text.
+ */
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--nph-space-inline);
+  max-inline-size: 100%;
+  vertical-align: top;
+  outline: none;
+}
+
+/* The `hidden` attribute still hides the piece: the rule above would override the browser's. */
+:host([hidden]) {
+  display: none;
+}
+
+/* Disabled, or inside a disabled fieldset: the whole piece loses opacity, text included (D1). */
+:host(:disabled) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/* The 24 × 24 touch area: the circle plus `space/inline-tight` on each side (D3). */
+.target {
+  display: inline-flex;
+  flex: none;
+  padding: var(--nph-space-inline-tight);
+}
+
+/* The circle: `icon/size-sm`, fully round, border `color/input` on `color/background` (D1, D3). */
+.circle {
+  --_border: var(--nph-color-input);
+  --_halo: var(--nph-focus-halo);
+
+  box-sizing: border-box;
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--nph-icon-size-sm);
+  block-size: var(--nph-icon-size-sm);
+  border: var(--nph-border-width) solid var(--_border);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--nph-color-background);
+}
+
+/*
+ * The dot: the space left inside the circle after `space/inline-tight`, measured from the
+ * outer edge of the circle, border included (D3): 16 − 2 × 4 = 8. It has no token.
+ */
+.dot {
+  inline-size: calc(var(--nph-icon-size-sm) - 2 * var(--nph-space-inline-tight));
+  block-size: calc(var(--nph-icon-size-sm) - 2 * var(--nph-space-inline-tight));
+  border-radius: var(--nph-radius-full);
+  background-color: var(--nph-color-primary-foreground);
+  opacity: 0;
+}
+
+/* Checked: `color/primary` fill, the border stays `color/input`, the dot shows (D1). */
+.circle.checked {
+  background-color: var(--nph-color-primary);
+}
+
+.circle.checked .dot {
+  opacity: 1;
+}
+
+/* Hover, only when the piece responds: the border goes one step up; checked also takes the hover opacity (D1). */
+:host(:hover:not(:disabled)) .circle {
+  --_border: var(--nph-color-input-hover);
+}
+
+:host(:hover:not(:disabled)) .circle.checked {
+  opacity: var(--nph-state-hover-opacity);
+}
+
+/* Error: the border is `status/error`, checked or not; the checked fill stays. Disabled wins (D1, D7). */
+:host([invalid]:not(:disabled)) .circle {
+  --_border: var(--nph-status-error);
+  --_halo: var(--nph-focus-halo-error);
+}
+
+/*
+ * Focus, keyboard only: the border turns `focus/border` and the halo covers the touch area
+ * (16 + 2 × `focus/ring-width` = 24), fully round. With error, the border stays
+ * `status/error` and the halo is `focus/halo-error` (D2).
+ */
+:host(:focus-visible) .circle {
+  box-shadow: 0 0 0 var(--nph-focus-ring-width) var(--_halo);
+}
+
+:host(:focus-visible:not([invalid])) .circle {
+  --_border: var(--nph-focus-border);
+}
+
+/*
+ * The text: `text/label-md` in `color/foreground` in every state. Its first line is
+ * centered on the circle: the touch area is taller than the line, and the text moves
+ * down by half of the difference, computed from the tokens (D4, D6).
+ */
+.text {
+  min-inline-size: 0;
+  padding-block-start: calc(
+    (var(--nph-icon-size-sm) + 2 * var(--nph-space-inline-tight) - var(--nph-text-label-md-line-height)) / 2
+  );
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  overflow-wrap: anywhere;
+}
+
+/*
+ * Motion: the change between unchecked and checked animates the fill and the border, and
+ * the dot fades in and out, always as the PAIR `motion/state-duration` and
+ * `motion/state-easing` (D5). Width, height and position never animate.
+ */
+.circle {
+  transition-property: background-color, border-color, opacity;
+  transition-duration: var(--nph-motion-state-duration);
+  transition-timing-function: var(--nph-motion-state-easing);
+}
+
+.dot {
+  transition-property: opacity;
+  transition-duration: var(--nph-motion-state-duration);
+  transition-timing-function: var(--nph-motion-state-easing);
+}
+
+/*
+ * Reduced motion: the evidence (D5) asks for `core/duration/100`. Components never
+ * consume core tokens, so this uses the semantic alias `motion/hover-duration`, which
+ * resolves to the same value (100 ms), as `nph-togglebutton` does. The easing stays, and
+ * the colors still change: reducing motion shortens the change, it does not remove it.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .circle,
+  .dot {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+}

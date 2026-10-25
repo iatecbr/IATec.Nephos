@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 280,
   "owner": "elvys",
-  "state": "ready",
+  "state": "done",
   "piece": "nph-radio",
   "dependencies": [],
   "gates": [
@@ -22,16 +22,30 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-18/review-and-merge-2026-10-24.md",
+      "result": "passed",
+      "verified_at": "2026-10-24",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D6",
+      "question": "D4 says the circle sits at the top, aligned with the first line of a wrapping text, but not whether the top edges align or the centers do. The code centers the circle on the first line: the 24 x 24 target is 4 px taller than the line of text/label-md, so the text moves down by half of that, computed from tokens. Does Indiane confirm, or want the top edges aligned? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    },
+    {
+      "id": "D7",
+      "question": "The evidence says error and disabled do not combine, but not what the piece does when both are set. The code lets disabled win: the error border is suppressed, the piece takes state/disabled-opacity, and it is not a console error. Does Indiane confirm? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-22"
+    }
+  ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-18/documentacao-figma-aceita-2026-10-01.md"
+    "docs/operacao/evidencias/DSA-18/documentacao-figma-aceita-2026-10-01.md",
+    "docs/operacao/evidencias/DSA-18/review-and-merge-2026-10-24.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -46,12 +60,12 @@
     "converted_decision": "The nph-radio frame (1196:311) was accepted as the API and behavior specification of the nph-radio. COMPONENT_SET 848:66. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": {
-    "branch": null,
-    "commit": null,
-    "pr": null
+    "branch": "claude/dsa-18-nph-radio-266b51",
+    "commit": "8ec3211afff35c94179d7690d067cbdbb7e5cd95",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/109"
   },
   "context": null,
-  "updated_at": "2026-10-19"
+  "updated_at": "2026-10-24"
 }
 ```
 
@@ -82,6 +96,14 @@ group is not a component.
 | D3 | Circle `icon/size-sm` (16), `radius/full`, border `border/width`. The 24 × 24 touch area is the circle plus `space/inline-tight` padding on each side. The dot is 8 × 8: the space left inside the circle after the `space/inline-tight` padding, with no token of its own. | Sets circle, target and dot sizes from tokens. |
 | D4 | `space/inline` is measured from the 24 × 24 area. The text wraps to the available width; with two lines, the circle sits at the top, aligned with the first line. | Sets gap, top alignment and wrapping. |
 | D5 | The change from unchecked to checked, and back, animates fill and border over `motion/state-duration` with `motion/state-easing`; the dot fades in and out by opacity, on the same pair. Under `prefers-reduced-motion`, it uses `core/duration/100`, and the color still changes. | Adds the transition on `motion/state`, with reduced motion. |
+
+## Pending decisions
+The evidence gives the whole contract, so the code can start. Two points remain for Indiane; the code follows the stated default meanwhile, and the answer only adjusts one rule each. The reduced-motion duration is not a new item: it is the open D7 of DSA-22, which this piece follows as `nph-togglebutton` does.
+
+| ID | What the evidence gives | What is missing | What the code does with the answer |
+|---|---|---|---|
+| D6 | D4: with two lines, the circle sits at the top, aligned with the first line. | Whether the top edges or the centers align. | Centers the circle on the first line. If the answer is the top edges, the text loses its top offset. |
+| D7 | Error and disabled do not combine. | What the piece does when both are set. | Disabled wins: no error border, and no console error. If the answer differs, only that CSS rule changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,
