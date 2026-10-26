@@ -38,7 +38,8 @@
     "docs/decisoes-tecnicas.md#p88",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, Indiane: an action with an icon in the active state (hover/active) swaps the icon to solid; the rule goes to the components",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-26.md, Indiane answered D1: the icon-only button also swaps to solid in hover-active"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-26.md, Indiane answered D1: the icon-only button also swaps to solid in hover-active",
+    "docs/operacao/tarefas/DSA-52.md, the code, spec and P88 change for the icon-only button that D1 asks for"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -86,7 +87,7 @@ Indiane answered D1 on 2026-10-26.
 
 | ID | Answer | What the code does |
 |---|---|---|
-| D1 | Option 1: the icon-only button (`data-nph-icon-only`; Figma set `nph-icon-button` 498:15671) also swaps its icon to `solid` in hover-active, the same rule as the button with text. At rest, in focus without hover, `disabled` and `loading` the icon stays `light`. Preview in Figma: `2722:5358`, page `Rascunho`. | The code must apply the swap to the icon-only button too, so the rule that applied only to the button with text stops being a limit. This change to the code is still to be made; this task is already merged without it. |
+| D1 | Yes: the icon-only button (`data-nph-icon-only`, the nph-icon-button contract of DSA-43) also swaps its icon to `solid` in hover-active, the same rule as the button with text. At rest, in focus without hover, `disabled` and `loading` the icon stays `light`. | This task is already merged and does not change. The code, the spec and P88 for the icon-only button are the task `DSA-52`. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed: the rule decided by Indiane, converted to
