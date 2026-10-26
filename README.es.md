@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=README.md | source-sha256=19458f8edde9155671c566076ca98146afcbf27e39658393af1a94df9121cc3a | status=revisado -->
+<!-- i18n: lang=es | source=README.md | source-sha256=a3ff6a40e23801e1dd7aa75237732d868e89e22bb64d2199cac01dab1a5e0740 | status=revisado -->
 
 # Nephos 5.0
 
@@ -48,6 +48,9 @@ Para generar la versión estática en `storybook-static/`:
 ```bash
 npm run build-storybook
 ```
+
+El Azure Pipeline también genera esta carpeta y la publica como el artefacto
+privado de pipeline `storybook`; consulte [`docs/release.md`](docs/release.md).
 
 ## Tokens
 
@@ -101,7 +104,8 @@ import '@iatec/nephos/nph-button';
 Para construir y comprobar el paquete desde un clon: `npm run build:lib`, luego
 `npm run test:package` y `npm run pack:check`. La decisión es la P75, en
 [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), que se mantiene solo en
-inglés. El workflow de CI y el pipeline de publicación todavía no existen.
+inglés. El Azure Pipeline que publica las release candidates está definido en
+[`azure-pipelines.yml`](azure-pipelines.yml); consulte [`docs/release.md`](docs/release.md).
 
 ## Decisiones técnicas vigentes
 
@@ -133,8 +137,7 @@ fueron consolidados por la P19.
 
 ### Qué sigue fuera de alcance
 
-Siguen fuera del repositorio: el workflow de CI, la publicación pública y el
-deploy. También quedan fuera los 20 primitivos de la P46 y, aplazados para una
+Siguen fuera del repositorio: la publicación pública y el deploy. También quedan fuera los 20 primitivos de la P46 y, aplazados para una
 ronda futura, los demás primitivos — aplazado no significa sin consumidor. Los 11
 estilos de efecto dejaron de estar aplazados el 03-09-2026 — los ocho niveles de
 elevación y los tres anillos de foco.

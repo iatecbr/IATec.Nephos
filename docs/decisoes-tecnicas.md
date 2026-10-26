@@ -264,6 +264,16 @@ line of each component. Public publishing stays out of scope.
 **Amended by P75 (19/10/2026).** P75 publishes release candidates of the package to a
 private feed. Public publishing, GitHub Pages and the CI workflow stay out of scope.
 
+**Annotation of 26/10/2026.** At Elvys's request, the Azure Pipeline that publishes the
+package (`azure-pipelines.yml`, `docs/release.md`) also runs `npm run build-storybook` in its
+Build stage, on pull requests to `v/5.0.0`, on release tags and on manual runs, and publishes
+`storybook-static/` as the private pipeline artifact `storybook`. This is the private CI
+artifact the decision foresees; the decision itself does not change. The team hosts the
+folder; public publishing, GitHub Pages, an external environment and deploy stay out of
+scope. The static build carries Font Awesome Pro artwork, so making it reachable outside
+IATec is a license decision for Indiane (`PO-001`). Reviewed in the pull request that brings
+it; the merge is the approval.
+
 **Status.** Decision adopted by Indiane on 24/08/2026 — reviewed and approved
 by Elvys on 28/08/2026.
 
@@ -1548,6 +1558,10 @@ Pro artwork in a package, which P70 did not allow; that is a decision for a late
 release that takes the `latest` tag, and any public registry. Framework wrappers. The
 Usage section of each `Docs` page (P70, DSA-35), which this decision unblocks. A root entry
 point (`import '@iatec/nephos'`) that registers everything.
+
+**Annotation of 26/10/2026.** The Azure Pipeline also publishes the static Storybook as the
+private pipeline artifact `storybook` (see the annotation of the same date in P19). The
+package, the feed and the `rc` tag do not change.
 
 **Status.** Approved by Elvys on 19/10/2026. It amends P70, which Indiane adopted on
 15/10/2026: her confirmation is requested in the review of the pull request that brings
