@@ -1021,6 +1021,26 @@ describe('the clear button', () => {
     expect(row(element, 'None').selected).toBe(false);
   });
 
+  it('the state saved after clearing, with an option of empty value, restores no choice and fires nothing', async () => {
+    const save = vi.spyOn(ElementInternals.prototype, 'setFormValue');
+    const form = document.createElement('form');
+    document.body.append(form);
+    const element = await mount('label="Country" name="country" clearable clear-label="Clear" value="peru"', [{ value: '', text: 'None' }, ...countries()], form);
+    await userEvent.click(clearButton(element) as HTMLButtonElement);
+    await settle();
+    const state = save.mock.calls.at(-1)?.[1] as FormData;
+    element.value = 'chile';
+    await settle();
+    const fired = vi.fn();
+    element.addEventListener('input', fired);
+    element.addEventListener('change', fired);
+    element.formStateRestoreCallback(state);
+    await settle();
+    expect(field(element).value).toBe('');
+    expect(new FormData(form).has('country')).toBe(false);
+    expect(fired).not.toHaveBeenCalled();
+  });
+
   it('clearing the option of empty value fires input and change: the choice went away', async () => {
     const element = await mount('label="Country" clearable clear-label="Clear" value=""', [{ value: '', text: 'None' }, ...countries()]);
     expect(field(element).value).toBe('None');

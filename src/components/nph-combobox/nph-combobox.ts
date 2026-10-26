@@ -456,8 +456,19 @@ export class NphCombobox extends LitElement {
     this.requestUpdate();
   }
 
+  /**
+   * The saved state is the value and, after the clear button, the mark of no choice: the two
+   * are the same `''` when the list has an option of empty value. Restoring fires nothing.
+   */
   formStateRestoreCallback(state: string | File | FormData | null): void {
-    if (typeof state === 'string') {
+    if (state instanceof FormData) {
+      this.value = String(state.get('value') ?? '');
+      if (state.has('none')) {
+        this.noChoice = true;
+        this.syncFormState();
+        this.requestUpdate();
+      }
+    } else if (typeof state === 'string') {
       this.value = state;
     }
   }
@@ -1168,7 +1179,12 @@ export class NphCombobox extends LitElement {
       this.internals.setValidity({});
       return;
     }
-    this.internals.setFormValue(selected === null ? null : selected.value, this.current);
+    const state = new FormData();
+    state.set('value', this.current);
+    if (this.noChoice) {
+      state.set('none', '');
+    }
+    this.internals.setFormValue(selected === null ? null : selected.value, state);
     const missing = this.required && (selected === null || selected.value === '');
     if (missing) {
       this.internals.setValidity({ valueMissing: true }, valueMissingMessage(), this.field ?? undefined);
