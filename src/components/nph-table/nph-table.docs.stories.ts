@@ -76,8 +76,13 @@ const SECTIONS = {
 } as const;
 
 /* Demo frame. Not a precedent for component CSS. */
-const stack = 'display: flex; flex-direction: column; gap: var(--nph-space-section);';
-const modes = 'display: flex; flex-direction: column; gap: var(--nph-space-stack);';
+const stack = 'display: flex; flex-direction: column; gap: var(--nph-space-section); inline-size: 100%;';
+const modes = 'display: flex; flex-direction: column; gap: var(--nph-space-stack); inline-size: 100%;';
+
+/** The demonstration takes the width of the page, as a table does in use. */
+function full(content: TemplateResult): TemplateResult {
+  return html`<div style="inline-size: 100%;">${content}</div>`;
+}
 
 /** The same example in light and in dark mode, one under the other. */
 function bothModes(d: Record<string, unknown>, s: Sample, content: (sample: Sample) => TemplateResult): TemplateResult {
@@ -150,7 +155,7 @@ export const Documentation: Story = {
           d.statesTitle,
           html`
             ${text(d.statesText)}
-            ${demo(basicTable(s, { striped: true, grid: true, framed: true }), d.statesCaption)}
+            ${demo(full(basicTable(s, { striped: true, grid: true, framed: true })), d.statesCaption)}
             ${table(d.statesHeader, d.states.map(pair), 'text')} ${source(d.sourceLabel, d.sourceStates)}
           `,
         )}
@@ -170,9 +175,9 @@ export const Documentation: Story = {
           d.rowsTitle,
           html`
             ${text(d.rowsText)}
-            ${demo(orderTable(s, ['open', 'closed']), d.rowsCaption)}
-            ${demo(treeTable(s, true), d.treeCaption)}
-            ${demo(groupTable(s), d.groupsCaption)}
+            ${demo(full(orderTable(s, ['open', 'closed'])), d.rowsCaption)}
+            ${demo(full(treeTable(s, true)), d.treeCaption)}
+            ${demo(full(groupTable(s)), d.groupsCaption)}
             ${source(d.sourceLabel, d.sourceRows)}
           `,
         )}

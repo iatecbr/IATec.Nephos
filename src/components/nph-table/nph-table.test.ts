@@ -878,6 +878,17 @@ describe('expanding row', () => {
     expect(table(element).querySelector('thead td.chevron-column')).not.toBeNull();
   });
 
+  it('the chevron column is only as wide as the chevron and its sides; the first data column starts after it', async () => {
+    const element = await mount({ rows });
+    const td = bodyRows(element)[0]?.cells[0] as HTMLTableCellElement;
+    const button = innerButton(td.querySelector('.chevron'));
+    await vi.waitFor(() => expect(button.getBoundingClientRect().width).toBeGreaterThan(0));
+    const expected = button.getBoundingClientRect().width + 2 * px('--nph-table-cell-padding-inline');
+    expect(td.getBoundingClientRect().width).toBeCloseTo(expected, 0);
+    const first = cellsOf(bodyRows(element)[0] as HTMLTableRowElement)[0] as HTMLElement;
+    expect(first.getBoundingClientRect().left).toBeCloseTo(td.getBoundingClientRect().right, 0);
+  });
+
   it('the chevron is an icon-only nph-button secondary ghost compact, closed to the right, named by toggleLabel', async () => {
     const element = await mount({ rows });
     const chevron = root(element).querySelector('.chevron') as HTMLElement;

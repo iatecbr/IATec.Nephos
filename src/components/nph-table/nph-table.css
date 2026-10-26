@@ -172,6 +172,11 @@ td {
   padding-inline: var(--nph-table-container-padding);
 }
 
+/* The chevron column holds the chevron only: it takes no share of the table width. */
+.chevron-column {
+  inline-size: 0;
+}
+
 td.action {
   padding-block: var(--nph-table-action-cell-padding-block);
 }
