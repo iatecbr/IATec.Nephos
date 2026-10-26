@@ -232,7 +232,7 @@ invalid_combinations:
   - "A size outside default and large — the table draws nothing."
   - "No column, a column without key or header, a repeated key, an align outside start and end — the table draws nothing."
   - "A row without key or with a repeated key, with both detail and children, with children at the third level, a row that opens without toggleLabel, a detail without name — the row is left out."
-  - "A cell type outside the list, a composite cell without its required text, a badge severity or a status outside the list, an icon outside the core — the cell is drawn blank."
+  - "A cell type outside the list, a composite cell without its required text, a badge severity or a status outside the list, an icon outside the core, a link href with a protocol other than http, https, mailto or tel — the cell is drawn blank."
 relations:
   combines_with: [nph-avatar, nph-badge, nph-button, nph-icon, nph-image, nph-skeleton, nph-tooltip, nph-empty]
   parents: ["page", "card", "panel", "dialog"]
@@ -316,7 +316,7 @@ no-value dash; a composite cell takes a `type`:
 | `selo` | `badge` | `text`, `severity` | `nph-badge` light |
 | `ícone e texto` | `icon-text` | `icon`, `text` | `nph-icon` of the core at `table/icon-size` |
 | `miniatura` | `thumbnail` | `src`, `alt`, `text` | `nph-image` sm |
-| `link` | `link` | `text`, `href` | Underlined, in `table/link-foreground` |
+| `link` | `link` | `text`, `href` | Underlined, in `table/link-foreground`; `href` is an `http`, `https`, `mailto` or `tel` address, a path or a fragment |
 | `texto cortado` | `truncated` | `text` | Focusable cell with an `nph-tooltip` |
 | `sem valor` | `null` | — | The dash, read as `no-value-label` |
 | `status` | `status` | `status` (`success`, `error`), `text` | `circle-check` or `circle-xmark` in `table/status-*-icon`, with the name |
@@ -324,7 +324,7 @@ no-value dash; a composite cell takes a `type`:
 | `ações` | `actions` | `editLabel`, `moreLabel` | Edit and more, icon-only `nph-button` secondary ghost |
 | `ações mistas` | `mixed-actions` | `text`, `moreLabel` | Written Edit and more, `nph-button` secondary light compact |
 | `avaliação` | `rating` | `text` | One solid `star` in `table/rating-foreground` and the score |
-| `carregando` | `loading` | — | `nph-skeleton` line |
+| `carregando` | `loading` | — | `nph-skeleton` line; the cell is `aria-busy` |
 | `categoria` | — | — | Not yet: pending decision D1 |
 
 **The row:** `detail` (`name`, `description`, `src`, `alt`, `values` with `label` and

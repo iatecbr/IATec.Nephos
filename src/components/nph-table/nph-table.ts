@@ -216,6 +216,22 @@ function trimmed(value: unknown): string {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+/** The protocols a link of a cell may take; a relative path and a fragment resolve to the page's. */
+export const NPH_TABLE_LINK_PROTOCOLS = ['http:', 'https:', 'mailto:', 'tel:'] as const;
+
+/**
+ * Whether an address may be the `href` of a link cell. It is parsed as the browser would — tabs
+ * and line breaks inside the scheme are dropped — so `java\nscript:` is caught as `javascript:`.
+ */
+export function isSafeHref(href: string): boolean {
+  try {
+    const url = new URL(href, document.baseURI);
+    return (NPH_TABLE_LINK_PROTOCOLS as readonly string[]).includes(url.protocol);
+  } catch {
+    return false;
+  }
+}
+
 /** A cell after the check: the content to draw, or `invalid` for a blank cell. */
 type CheckedCell = { readonly kind: 'text'; readonly text: string } | { readonly kind: 'no-value' } | { readonly kind: 'invalid' } | NphTableCellContent;
 
@@ -505,6 +521,9 @@ export class NphTable extends LitElement {
         return cell;
       case 'link':
         if (missing('text', cell.text) || missing('href', cell.href)) return this.invalidCell(row, column, 'a link cell needs text and href');
+        if (!isSafeHref(trimmed(cell.href))) {
+          return this.invalidCell(row, column, `the href "${cell.href}" is not an http, https, mailto or tel address, a path or a fragment`);
+        }
         return cell;
       case 'status':
         if (!oneOf(NPH_TABLE_STATUSES, cell.status)) {
@@ -774,7 +793,8 @@ export class NphTable extends LitElement {
     if (kind === 'truncated') {
       return html`<td class=${classes} id=${id} tabindex="0">${inner}</td>`;
     }
-    return html`<td class=${classes}>${inner}</td>`;
+    /* A loading cell says so to assistive technology: the skeleton itself is decorative (P69). */
+    return html`<td class=${classes} aria-busy=${kind === 'loading' ? 'true' : nothing}>${inner}</td>`;
   }
 
   private renderContent(cell: CheckedCell, column: NphTableColumn, drawn: DrawnRow, id: string): TemplateResult | typeof nothing {

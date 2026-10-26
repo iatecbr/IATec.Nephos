@@ -282,7 +282,7 @@
     "A size outside default and large — the table draws nothing.",
     "No column, a column without key or header, a repeated key, an align outside start and end — the table draws nothing.",
     "A row without key or with a repeated key, with both detail and children, with children at the third level, a row that opens without toggleLabel, a detail without name — the row is left out.",
-    "A cell type outside the list, a composite cell without its required text, a badge severity or a status outside the list, an icon outside the core — the cell is drawn blank."
+    "A cell type outside the list, a composite cell without its required text, a badge severity or a status outside the list, an icon outside the core, a link href with a protocol other than http, https, mailto or tel — the cell is drawn blank."
   ],
   "relations": {
     "combines_with": [

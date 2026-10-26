@@ -4224,14 +4224,14 @@ and P90. The names follow P64.
    | `selo` | `badge` | `nph-badge` light, with `severity` |
    | `ícone e texto` | `icon-text` | `nph-icon` of the core |
    | `miniatura` | `thumbnail` | `nph-image` sm |
-   | `link` | `link` | `<a>` underlined in `table/link-foreground` |
+   | `link` | `link` | `<a>` underlined in `table/link-foreground`; only an `http`, `https`, `mailto` or `tel` address, a path or a fragment |
    | `texto cortado` | `truncated` | the focusable cell and an `nph-tooltip` (below) |
    | `status` | `status` | `circle-check` or `circle-xmark` in `table/status-*-icon`, with the name |
    | `botão` | `button` | `nph-button` secondary light compact |
    | `ações` | `actions` | Edit (`pen-to-square`) and more (`ellipsis-vertical`), icon-only `nph-button` secondary ghost default |
    | `ações mistas` | `mixed-actions` | written Edit and more, `nph-button` secondary light compact |
    | `avaliação` | `rating` | one solid `star` in `table/rating-foreground` and the score |
-   | `carregando` | `loading` | `nph-skeleton` line |
+   | `carregando` | `loading` | `nph-skeleton` line; the cell carries `aria-busy="true"` while it loads |
 
    The names of the icon-only buttons and of the chevron come per row from the data
    (`editLabel`, `moreLabel`, `toggleLabel`), already localized: the piece does not know the
@@ -4300,8 +4300,9 @@ and P90. The names follow P64.
    repeated one, with both `detail` and `children`, with children at the third level, a row that
    opens without `toggleLabel`, a detail without `name` or with a badge severity outside the list
    is left out. A cell with a `type` outside the list or without the fields it needs (text, `href`,
-   `action`, the button names), with a badge severity, a status or an icon outside the lists, is
-   drawn blank. No row and no `empty-heading` draws the body blank. Each cause is reported once per
+   `action`, the button names), with a badge severity, a status or an icon outside the lists, or a
+   link whose `href`, parsed as the browser parses it, takes another protocol (`javascript:`,
+   `data:`), is drawn blank. No row and no `empty-heading` draws the body blank. Each cause is reported once per
    instance. A no-value cell without `no-value-label` and a truncated cell in a column without
    `width` render and warn once in development.
 

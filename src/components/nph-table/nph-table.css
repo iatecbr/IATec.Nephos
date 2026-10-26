@@ -347,6 +347,11 @@ td.truncated:focus-visible {
   gap: var(--nph-table-cell-gap);
 }
 
+/* A skeleton in the tree cell takes the room left by the chevron: alone it has no width. */
+.tree > nph-skeleton {
+  flex: 1;
+}
+
 .tree-spacer {
   flex: none;
   inline-size: var(--nph-table-expand-indent);

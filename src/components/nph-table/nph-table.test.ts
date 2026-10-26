@@ -1211,6 +1211,40 @@ describe('regressions of the review of PR 119', () => {
   });
 });
 
+describe('regressions of the second review of PR 119', () => {
+  for (const href of ['javascript:alert(document.domain)', 'java\nscript:alert(1)', ' JavaScript:alert(1)', 'data:text/html,<p>x</p>', 'vbscript:msgbox(1)']) {
+    it(`a link cell with the href ${JSON.stringify(href)} is drawn blank and reported`, async () => {
+      const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const element = await mount({ columns: [{ key: 'c', header: 'C' }], rows: [{ key: 'a', cells: { c: { type: 'link', text: 'Receipt', href } } }] });
+      expect(root(element).querySelector('a')).toBeNull();
+      expect(error.mock.calls.filter(([message]) => String(message).includes('is not an http'))).toHaveLength(1);
+    });
+  }
+
+  for (const href of ['https://example.com/r', 'http://example.com', 'mailto:ana@example.com', 'tel:+5511999999999', '/receipts/1', 'receipts/1', '#receipt', '?page=2']) {
+    it(`a link cell with the href ${JSON.stringify(href)} renders`, async () => {
+      const element = await mount({ columns: [{ key: 'c', header: 'C' }], rows: [{ key: 'a', cells: { c: { type: 'link', text: 'Receipt', href } } }] });
+      expect(root(element).querySelector('a')?.getAttribute('href')).toBe(href);
+    });
+  }
+
+  it('a loading cell in the first column of a tree shows its skeleton with a width', async () => {
+    const element = await mount({ rows: [{ key: 'a', cells: { unit: { type: 'loading' }, amount: 1 }, toggleLabel: 'Open A', children: [] }] });
+    const skeleton = root(element).querySelector('.tree nph-skeleton') as HTMLElement;
+    await vi.waitFor(() => expect(skeleton.getBoundingClientRect().width).toBeGreaterThan(0));
+  });
+
+  it('a loading cell is busy, and stops being busy when the value arrives', async () => {
+    const element = await mount({ rows: [{ key: 'a', cells: { unit: 'A', amount: { type: 'loading' } } }] });
+    const td = cellsOf(bodyRows(element)[0] as HTMLTableRowElement)[1] as HTMLElement;
+    expect(td.getAttribute('aria-busy')).toBe('true');
+    expect(cellsOf(bodyRows(element)[0] as HTMLTableRowElement)[0]?.hasAttribute('aria-busy')).toBe(false);
+    element.rows = [{ key: 'a', cells: { unit: 'A', amount: 10 } }];
+    await element.updateComplete;
+    expect(cellsOf(bodyRows(element)[0] as HTMLTableRowElement)[1]?.hasAttribute('aria-busy')).toBe(false);
+  });
+});
+
 describe('color schemes', () => {
   it('in dark mode the header is color/muted through table/header-background, and the stripe core/surface/800', async () => {
     const frame = document.createElement('div');
