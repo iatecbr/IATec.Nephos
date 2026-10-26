@@ -532,6 +532,28 @@ describe('the search and its highlight', () => {
     expect(activeOf(element)).toBe(row(element, 'Brazil'));
   });
 
+  it('filter none: a search whose results leave out the chosen option keeps the choice in the form and the field', async () => {
+    const form = document.createElement('form');
+    document.body.append(form);
+    const holder = document.createElement('button');
+    document.body.append(holder);
+    const element = await mount('label="Country" name="country" filter="none" value="peru"', countries(), form);
+    element.addEventListener('nph-search', (event) => {
+      element.options = countries().filter((entry) => 'text' in entry && entry.text.toLowerCase().includes(event.detail.query.toLowerCase()));
+    });
+    /* The person selects the chosen text and types over it. */
+    await focus(element);
+    field(element).select();
+    await press(element, 'Bra');
+    expect(texts(element)).toEqual(['Brazil']);
+    expect(row(element, 'Brazil').selected).toBe(false);
+    expect(new FormData(form).get('country')).toBe('peru');
+    holder.focus();
+    await settle();
+    expect(field(element).value).toBe('Peru');
+    expect(element.value).toBe('peru');
+  });
+
   it('filter none keeps every option: the consumer filters, and the highlight stays', async () => {
     const element = await mount('label="Country" filter="none"');
     await type(element, 'raz');
@@ -983,6 +1005,32 @@ describe('the clear button', () => {
     await settle();
     expect(field(element).value).toBe('Peru');
     expect(element.query).toBe('');
+  });
+
+  it('clearing leaves no choice, also with an option of empty value in the list', async () => {
+    const form = document.createElement('form');
+    document.body.append(form);
+    const element = await mount('label="Country" name="country" clearable clear-label="Clear" value="peru"', [{ value: '', text: 'None' }, ...countries()], form);
+    await userEvent.click(clearButton(element) as HTMLButtonElement);
+    await settle();
+    expect(field(element).value).toBe('');
+    expect(clearButton(element)).toBeNull();
+    expect(new FormData(form).has('country')).toBe(false);
+    element.open = true;
+    await settle();
+    expect(row(element, 'None').selected).toBe(false);
+  });
+
+  it('clearing the option of empty value fires input and change: the choice went away', async () => {
+    const element = await mount('label="Country" clearable clear-label="Clear" value=""', [{ value: '', text: 'None' }, ...countries()]);
+    expect(field(element).value).toBe('None');
+    const fired: string[] = [];
+    element.addEventListener('input', () => fired.push('input'));
+    element.addEventListener('change', () => fired.push('change'));
+    await userEvent.click(clearButton(element) as HTMLButtonElement);
+    await settle();
+    expect(fired).toEqual(['input', 'change']);
+    expect(field(element).value).toBe('');
   });
 
   it('the clear target is icon/size-sm with space/inline-tight around it', async () => {

@@ -4222,7 +4222,10 @@ cause — the rule of P21, as in P80. The names follow P64.
    chosen option is the first option with that value; the value is kept until such an option
    arrives. The text of the field is the text of the chosen option; the typed text is never the
    value — leaving the field without choosing gives it the chosen text again — except through the
-   create row. `required` with no choice is `valueMissing`, with the message of a disconnected
+   create row. With `filter="none"`, `options` holds the results of a search: when they leave
+   the chosen option out, the choice stays in the form and in the field, without entering the
+   results. The clear button leaves no choice, also when the list has an option of empty value;
+   clearing that option fires `input` and `change`, because the choice went away. `required` with no choice is `valueMissing`, with the message of a disconnected
    native select (P91). Enter with the list closed submits the form, as `nph-input` (P80); with
    the list open, it chooses.
 

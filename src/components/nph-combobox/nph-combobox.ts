@@ -309,6 +309,10 @@ export class NphCombobox extends LitElement {
   /** After the first frame, a label rendered by another element has had its chance. */
   private settled = false;
   private warnedNoName = false;
+  /** The clear button left no choice, even with an option of empty value in the list. */
+  private noChoice = false;
+  /** The last option seen with the current value: a search answered by the consumer may leave it out. */
+  private chosen: NphComboboxOption | null = null;
 
   constructor() {
     super();
@@ -365,6 +369,7 @@ export class NphCombobox extends LitElement {
     this.current = next === null || next === undefined ? '' : String(next);
     this.dirty = true;
     this.typed = null;
+    this.noChoice = false;
     this.syncFormState();
     /* The typed text may go away with the value unchanged: the field shows the chosen text again. */
     this.requestUpdate();
@@ -405,6 +410,7 @@ export class NphCombobox extends LitElement {
     const old = this.current;
     this.current = this.getAttribute('value') ?? '';
     this.typed = null;
+    this.noChoice = false;
     this.syncFormState();
     /* The typed text may go away with the value unchanged: the field shows the chosen text again. */
     this.requestUpdate();
@@ -496,7 +502,19 @@ export class NphCombobox extends LitElement {
 
   /** The chosen option: the first one with the current value. */
   private get selectedOption(): NphComboboxOption | null {
-    return this.allOptions.find((option) => option.value === this.current) ?? null;
+    if (this.noChoice) {
+      return null;
+    }
+    const found = this.allOptions.find((option) => option.value === this.current) ?? null;
+    if (found !== null) {
+      this.chosen = found;
+      return found;
+    }
+    /*
+     * With `filter="none"`, `options` holds the results of a search, which may leave the chosen
+     * option out: the choice stays, in the form and in the field, without entering the results.
+     */
+    return this.filter === 'none' && this.chosen !== null && this.chosen.value === this.current ? this.chosen : null;
   }
 
   /** The groups the list shows: filtered by the typed text, unless the consumer filters. */
@@ -675,13 +693,17 @@ export class NphCombobox extends LitElement {
   }
 
   /** The value changes by the person: `input` and then `change`, with the form data up to date. */
-  private commit(next: string): void {
+  private commit(next: string, none = false): void {
     const old = this.current;
+    const had = this.selectedOption !== null;
     this.current = next;
+    this.noChoice = none;
     this.dirty = true;
     this.syncFormState();
+    this.requestUpdate();
     this.requestUpdate('value', old);
-    if (this.current !== old) {
+    /* A change of the value, or of having a choice at all (an option of empty value cleared). */
+    if (this.current !== old || had !== (this.selectedOption !== null)) {
       this.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
       this.dispatchEvent(new Event('change', { bubbles: true }));
     }
@@ -727,7 +749,7 @@ export class NphCombobox extends LitElement {
       field.value = '';
       field.focus();
     }
-    this.commit('');
+    this.commit('', true);
   }
 
   /** The row at a step from the active one, among those the person can reach. Never wraps. */

@@ -49,7 +49,9 @@ api:
       The current value: the value of the chosen option. The value attribute is the
       initial value and the value of form.reset(), as in nph-input (P80). The chosen
       option is the first option with that value; the value is kept until such an
-      option arrives. Setting it from code fires no event.
+      option arrives. With filter=none, a search whose results leave the chosen option
+      out keeps the choice. The clear button leaves no choice, also with an option of
+      empty value. Setting it from code fires no event.
   query:
     type: string
     required: false
