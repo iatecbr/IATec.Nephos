@@ -222,7 +222,20 @@
     "components-nph-radio-validation--two-lines": "Dos líneas",
     "components-nph-radio-validation--interactive": "Interactivo",
     "components-nph-radio-validation--form": "Formulario",
-    "components-nph-radio-validation--examples": "Ejemplos"
+    "components-nph-radio-validation--examples": "Ejemplos",
+    "components-nph-table-docs": "Docs",
+    "components-nph-table-docs--documentation": "Documentación",
+    "components-nph-table-validation": "Validación",
+    "components-nph-table-validation--sizes": "Tamaños",
+    "components-nph-table-validation--frame": "Marco",
+    "components-nph-table-validation--sticky-header": "Encabezado fijo",
+    "components-nph-table-validation--row-states": "Franja, cuadrícula y hover",
+    "components-nph-table-validation--caption": "Leyenda y nombre",
+    "components-nph-table-validation--cell-contents": "Contenidos de la celda",
+    "components-nph-table-validation--expanding-row": "Fila que se expande",
+    "components-nph-table-validation--tree": "Árbol",
+    "components-nph-table-validation--two-level-header": "Encabezado de dos niveles",
+    "components-nph-table-validation--empty-body": "Cuerpo vacío"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -5388,6 +5401,453 @@
     "exampleEmployment": "Tipo de contratación",
     "exampleShift": "Turno de trabajo"
   },
+  "tableDocs": {
+    "summary": "La tabla para leer y comparar datos en filas y columnas, con leyenda, encabezado, celdas y pie. Una fila puede abrir un detalle o subniveles. No ordena, no selecciona, no filtra ni pagina: eso es el nph-data-table.",
+    "matrixLabel": "nph-table por tamaño y marco",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-table, design.md para los tokens y docs/decisoes-tecnicas.md para la P97. El archivo de Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "sourceSpec": "fichas/nph-table.md; frame de Figma 2584:66651",
+    "sourceApi": "P97, ítems 1 a 6",
+    "sourceVariants": "fichas/nph-table.md, Variants; P97, ítem 2",
+    "sourceStates": "fichas/nph-table.md, States; P97, ítem 2",
+    "sourceCells": "fichas/nph-table.md, Variants; P97, ítem 4",
+    "sourceRows": "fichas/nph-table.md, Variants; P97, ítem 5",
+    "sourceAnatomy": "fichas/nph-table.md, Tokens; frame de Figma 2584:66651",
+    "sourceAccessibility": "fichas/nph-table.md, Accessibility; P97, ítem 6",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Para leer y comparar datos en filas y columnas, como un extracto, un informe o una lista de artículos.",
+      "framed para una tabla sola en la página; sin el marco dentro de una tarjeta o panel, que ya tienen borde.",
+      "Un encabezado fijo cuando la lista es larga dentro de un panel; desplazamiento horizontal cuando las columnas no caben.",
+      "Un encabezado de dos niveles para agrupar columnas del mismo asunto, como accesos por canal.",
+      "Una fila que se expande para el detalle que no cabe en la fila, como un pedido y sus artículos. Se abre solo por el chevron.",
+      "Un árbol, hasta tres niveles, para una jerarquía, como unidad y subunidad.",
+      "El tamaño large en una pantalla táctil o para una lectura más holgada; default en los demás casos."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para ordenar, seleccionar, filtrar o paginar: eso es el nph-data-table.",
+      "Para maquetar la página: la tabla contiene datos.",
+      "Con una celda vacía cuando falta el dato: use el guion sin valor.",
+      "Con números alineados al inicio: alinéelos al final.",
+      "Con una acción escrita como enlace: use el botón en la celda."
+    ],
+    "relationsText": "La celda compuesta recibe otras piezas, y cada una mantiene sus propias reglas: nph-avatar md, nph-badge light, nph-icon, el nph-button solo con icono en el chevron, en las acciones y en el más, el nph-button secondary light compact, nph-image, nph-skeleton y nph-tooltip. El más abrirá el nph-dropdown-menu cuando exista; hasta entonces, dispara nph-row-action. Sin filas, el cuerpo lleva el nph-empty. Ordenar, seleccionar, filtrar y paginar son del nph-data-table.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "size",
+        "default (predeterminado) o large: el size de Figma. Reflejado. Default usa la fila table/row-height y los lados table/cell-padding-inline; large usa table/row-height-large y table/container-padding."
+      ],
+      [
+        "framed",
+        "Booleano, reflejado: el marco de Figma. El borde table/border en table/border-width con la esquina table/radius, para una tabla sola en la página."
+      ],
+      [
+        "sticky-header",
+        "Booleano, reflejado: el encabezado fijo de Figma. El cuerpo se desplaza hasta table/body-max-height y el encabezado queda, con la línea table/sticky-divider-*."
+      ],
+      [
+        "striped · grid",
+        "Booleanos, reflejados: la franja en filas de datos alternas y la línea vertical entre columnas, para toda la tabla."
+      ],
+      [
+        "caption · description · total",
+        "La leyenda sobre la tabla, su descripción y su total en un nph-badge secondary. El título de la leyenda es el nombre accesible de la tabla; la descripción la describe."
+      ],
+      [
+        "label",
+        "El nombre accesible de una tabla sin leyenda. Sin ninguno de los dos, la tabla se dibuja y avisa una vez en desarrollo."
+      ],
+      [
+        "no-value-label",
+        "El texto que el lector de pantalla lee en el guion sin valor, ya localizado, como sin valor."
+      ],
+      [
+        "empty-heading · empty-description",
+        "El título y la descripción del nph-empty que ocupa el cuerpo cuando no hay filas."
+      ],
+      [
+        "columns",
+        "Una lista de { key, header, align?, group?, width? }. align es start (texto, predeterminado) o end (números); group pone un título sobre columnas vecinas; width es el ancho del contenido de la columna."
+      ],
+      [
+        "rows",
+        "Una lista de { key, cells, detail?, children?, open?, loading?, toggleLabel? }. cells asocia una clave de columna a un texto, al guion sin valor (null o vacío) o a una celda compuesta con type. Abrir una fila cambia rows por una lista nueva."
+      ],
+      [
+        "footer",
+        "Un valor por clave de columna, como el total, dibujado con el fondo y la tipografía del encabezado."
+      ],
+      [
+        "slot action",
+        "La acción principal de la leyenda, a su lado, a table/caption-action-gap."
+      ],
+      [
+        "nph-row-action · nph-row-toggle",
+        "{ row, action } cuando la persona activa un botón de una celda; { row, open } cuando la persona abre o cierra una fila. Burbujean, no son composed, y el código nunca los dispara."
+      ],
+      [
+        "part",
+        "Ningún ::part y ninguna propiedad de color."
+      ]
+    ],
+    "variantsTitle": "Variantes",
+    "variantsText": "La tabla se elige por tamaño, marco y encabezado fijo. Use el marco en una tabla sola en la página y déjelo fuera dentro de una tarjeta o panel, que ya tienen borde. El encabezado fijo sirve para una lista larga dentro de un panel.",
+    "variantsCaption": "Default sin marco, large con marco y una tabla con marco y encabezado fijo.",
+    "variantsHeader": [
+      "Variante",
+      "Regla"
+    ],
+    "variants": [
+      [
+        "size: default",
+        "Fila table/row-height (40 px), lados table/cell-padding-inline (12 px)."
+      ],
+      [
+        "size: large",
+        "Fila table/row-height-large (44 px), lados table/container-padding (16 px). Para tacto o una lectura más holgada."
+      ],
+      [
+        "framed",
+        "Borde table/border en table/border-width, esquina table/radius, sobre table/background."
+      ],
+      [
+        "sticky-header",
+        "El cuerpo se desplaza hasta table/body-max-height (296 px); la línea bajo el encabezado es table/sticky-divider-color en table/sticky-divider-width."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesText": "La franja alterna las filas de datos; el hover pinta la fila entera bajo el puntero; la cuadrícula dibuja la línea vertical entre columnas. El anillo de foco está en el área de desplazamiento y en el texto cortado; el chevron, los botones y el más usan el foco de su propia pieza.",
+    "statesCaption": "Franja y cuadrícula. Pase el ratón sobre una fila para el hover.",
+    "statesHeader": [
+      "Estado",
+      "Qué se ve"
+    ],
+    "states": [
+      [
+        "Hover",
+        "La fila entera en table/row-hover-background."
+      ],
+      [
+        "Franja",
+        "Filas de datos alternas en table/row-striped-background; un elemento expandido no cuenta."
+      ],
+      [
+        "Cuadrícula",
+        "La línea vertical entre columnas, en table/border."
+      ],
+      [
+        "Foco",
+        "El anillo focus/border en table/focus-ring-width, en el área de desplazamiento que desborda y en el texto cortado."
+      ]
+    ],
+    "cellsTitle": "Contenidos de la celda",
+    "cellsText": "Una cadena o un número es texto. Un valor que falta es el guion sin valor. Una celda compuesta usa uno de los contenidos de abajo; los textos y los nombres de los botones llegan ya localizados.",
+    "cellsCaption": "Las celdas compuestas, fila por fila.",
+    "cellsHeader": [
+      "Contenido",
+      "Regla"
+    ],
+    "cells": [
+      [
+        "text",
+        "El texto, y la segunda línea en table/muted-foreground con secondary."
+      ],
+      [
+        "person",
+        "nph-avatar md con el nombre y la segunda línea."
+      ],
+      [
+        "badge",
+        "nph-badge light, con la severidad del significado."
+      ],
+      [
+        "icon-text",
+        "Un nph-icon del núcleo en table/icon-size, con el texto."
+      ],
+      [
+        "thumbnail",
+        "nph-image sm: table/thumbnail-size con la esquina table/thumbnail-radius sobre table/muted-background."
+      ],
+      [
+        "link",
+        "Subrayado, en table/link-foreground. Lleva a otro lugar; una acción es un botón."
+      ],
+      [
+        "truncated",
+        "Cortado al ancho de la columna, con el texto entero en un nph-tooltip y el foco en la celda."
+      ],
+      [
+        "status",
+        "El icono circle-check o circle-xmark en table/status-success-icon o table/status-error-icon, con su nombre."
+      ],
+      [
+        "button",
+        "nph-button secondary light compact; la celda usa table/action-cell-padding-block."
+      ],
+      [
+        "actions",
+        "Editar y más como nph-button solo con icono secondary ghost, 36 por 36, a table/cell-gap-tight, con nombre por fila."
+      ],
+      [
+        "mixed-actions",
+        "Un Editar escrito y el más como nph-button secondary light compact, de 28 de alto."
+      ],
+      [
+        "rating",
+        "Una estrella en table/rating-foreground y la nota como número."
+      ],
+      [
+        "loading",
+        "Una línea de nph-skeleton en lugar del contenido."
+      ],
+      [
+        "null",
+        "El guion sin valor, leído como no-value-label."
+      ]
+    ],
+    "rowsTitle": "Fila que se expande, árbol y encabezado de dos niveles",
+    "rowsText": "Una fila con detail abre el elemento expandido debajo; una fila con children abre el siguiente nivel del árbol, hasta tres. Las dos se abren solo por el chevron, que apunta a la derecha cerrado y hacia abajo abierto. Un encabezado de dos niveles agrupa columnas del mismo asunto bajo un título.",
+    "rowsCaption": "Un pedido abierto con su artículo y su foto.",
+    "treeCaption": "Una jerarquía en tres niveles.",
+    "groupsCaption": "Dos columnas agrupadas bajo un título.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Leyenda",
+        "Opcional. Título con descripción y total en un nph-badge secondary, hasta table/caption-max-width, a table/stack-gap de la tabla."
+      ],
+      [
+        "2. Encabezado",
+        "Título de la columna en text/heading-xs sobre table/header-background."
+      ],
+      [
+        "3. Celda",
+        "Dato como texto en table/foreground; texto al inicio, números al final."
+      ],
+      [
+        "4. Celda compuesta",
+        "Contenido hecho de otras piezas, a table/cell-gap."
+      ],
+      [
+        "5. Pie",
+        "Total o subtotal de la columna, con el fondo y la tipografía del encabezado."
+      ],
+      [
+        "6. Marco y área de desplazamiento",
+        "Marco opcional table/border, table/border-width, table/radius; el cuerpo se desplaza hasta table/body-max-height."
+      ],
+      [
+        "7. Chevron",
+        "nph-button solo con icono ghost compact que abre la fila o el nivel."
+      ],
+      [
+        "8. Elemento expandido",
+        "Foto en table/thumbnail-size-large, nombre, descripción, valores con la etiqueta encima e insignia."
+      ],
+      [
+        "9. Cuerpo vacío",
+        "nph-empty en lugar de las filas, con el encabezado visible, a table/empty-padding arriba y abajo."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Una tabla nativa, con encabezados de columna, el encabezado de grupo sobre sus columnas y el pie."
+      ],
+      [
+        "Nombre accesible",
+        "El título de la leyenda da nombre a la tabla y la descripción la describe; sin leyenda, label. Los botones solo con icono y el chevron llevan un nombre por fila, como Editar Ana Souza."
+      ],
+      [
+        "Sin valor",
+        "El guion se lee como no-value-label, como sin valor."
+      ],
+      [
+        "Teclado y foco",
+        "El área de desplazamiento recibe el foco solo cuando desborda, para que el teclado la desplace; el texto cortado recibe el foco y abre su tooltip. El anillo es focus/border en table/focus-ring-width."
+      ],
+      [
+        "Abierto y nivel",
+        "El chevron lleva aria-expanded en el host del botón, y las filas del árbol llevan aria-level."
+      ],
+      [
+        "El color no es la única señal",
+        "El estado tiene forma y nombre, la insignia siempre tiene texto, el enlace está subrayado y Eliminar va escrito en el menú."
+      ],
+      [
+        "Contraste",
+        "Texto y enlace pasan AA sobre fondo, franja, encabezado y hover. Excepción: la estrella de la valoración queda por debajo de 3:1 en claro; la nota sigue como número."
+      ],
+      [
+        "Área táctil",
+        "El chevron y el más de las acciones mixtas miden 28 por 28; Editar y más de las acciones miden 36 por 36. En una pantalla táctil, use size large."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleGrouped": "Artículos agrupados por categoría: las filas de grupo y el total en el pie. Hasta que se defina el contenido categoría, los grupos son el primer nivel del árbol.",
+    "exampleOrder": "Pedido abierto: la fila que se expande con el artículo y su foto.",
+    "exampleCaption": "Tabla con leyenda: leyenda, total y el área de desplazamiento que recibe el foco. Pulse Tab.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "fichas/nph-table.md — la ficha canónica.",
+      "docs/decisoes-tecnicas.md — P97, API y semántica.",
+      "design.md — los roles de tipografía y los iconos del núcleo.",
+      "Figma DS-IA-NEPHOS 5.0 — board 1370:113, frame 2584:66651."
+    ]
+  },
+  "tableValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "hoverNote": "Pase el ratón sobre una fila: la fila entera toma el fondo de hover.",
+    "focusNote": "Pulse Tab: el área de desplazamiento de la tabla estrecha recibe el anillo de foco.",
+    "sample": {
+      "caption": "Pagos",
+      "description": "Por unidad, en octubre",
+      "total": "4 unidades",
+      "label": "Pagos por unidad",
+      "noValue": "sin valor",
+      "export": "Exportar",
+      "unit": "Unidad",
+      "amount": "Importe",
+      "person": "Responsable",
+      "situation": "Situación",
+      "status": "Estado",
+      "type": "Tipo",
+      "rating": "Valoración",
+      "document": "Documento",
+      "product": "Producto",
+      "note": "Observación",
+      "action": "Acción",
+      "actions": "Acciones",
+      "mixedActions": "Acciones mixtas",
+      "loading": "Cargando",
+      "accesses": "Accesos por canal",
+      "web": "Web",
+      "app": "App",
+      "units": [
+        "Norte",
+        "Sur",
+        "Este",
+        "Oeste"
+      ],
+      "amounts": [
+        "1.200,00",
+        "800,00",
+        "50,00"
+      ],
+      "totalLabel": "Total",
+      "totalAmount": "2.050,00",
+      "people": [
+        "Ana Souza",
+        "Bruno Lima",
+        "Carla Dias"
+      ],
+      "roles": [
+        "Finanzas",
+        "Compras",
+        "Ventas"
+      ],
+      "paid": "Pagado",
+      "late": "Atrasado",
+      "failed": "Falló",
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "ratings": [
+        "4,8",
+        "3,9",
+        "4,2"
+      ],
+      "receipt": "Recibo",
+      "products": [
+        "Taza azul",
+        "Lámpara de escritorio",
+        "Cuaderno"
+      ],
+      "longNote": "Mantenimiento mensual del aire acondicionado del edificio norte",
+      "shortNote": "Entregado",
+      "pay": "Pagar",
+      "edit": "Editar",
+      "editOf": "Editar {name}",
+      "moreOf": "Más acciones de {name}",
+      "detailsOf": "Detalles de {name}",
+      "levelsOf": "Unidades de {name}",
+      "unitNumber": "Unidad {number}",
+      "orders": [
+        "Pedido 1024",
+        "Pedido 1025",
+        "Pedido 1026"
+      ],
+      "orderDescription": "Cerámica, 300 ml",
+      "quantity": "Cantidad",
+      "price": "Precio",
+      "inStock": "En stock",
+      "regions": [
+        "Región Sur",
+        "Porto Alegre",
+        "Centro",
+        "Curitiba",
+        "Región Norte"
+      ],
+      "channels": [
+        "640",
+        "560",
+        "1.200"
+      ],
+      "emptyHeading": "No se encontró ningún pago",
+      "emptyDescription": "Cambie los filtros para ver otros pagos.",
+      "groupCaption": "Artículos del pedido por categoría",
+      "categories": [
+        "Cocina",
+        "Oficina"
+      ],
+      "categoryItems": [
+        [
+          "Taza azul",
+          "Juego de platos"
+        ],
+        [
+          "Cuaderno",
+          "Lámpara de escritorio"
+        ]
+      ],
+      "categoryAmounts": [
+        [
+          "60,00",
+          "90,00"
+        ],
+        [
+          "25,00",
+          "150,00"
+        ]
+      ],
+      "categoryTotals": [
+        "150,00",
+        "175,00"
+      ],
+      "categoryTotal": "325,00",
+      "itemsOf": "Artículos de {name}",
+      "orderCaption": "Pedidos abiertos"
+    }
+  },
   "validationPages": {
     "sheetTitle": "El contrato está en la ficha",
     "sheetText": "Esta pieza no tiene página de lectura en Storybook. Su contrato está en {sheet}; estas stories lo comprueban.",
@@ -5520,7 +5980,17 @@
       "components-nph-radio-validation--two-lines": "El texto se ajusta al ancho disponible; el círculo queda arriba, centrado en la primera línea, y no se centra en el bloque de texto.",
       "components-nph-radio-validation--interactive": "Una parada de Tab para el grupo; las flechas mueven y marcan, saltando el radio deshabilitado; marcar un radio dispara change, que se muestra debajo del grupo.",
       "components-nph-radio-validation--form": "El formulario recibe solo el radio marcado, bajo su name; el reset vuelve al radio marcado al inicio.",
-      "components-nph-radio-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: Forma de pago, Tipo de contratación y Turno de trabajo."
+      "components-nph-radio-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: Forma de pago, Tipo de contratación y Turno de trabajo.",
+      "components-nph-table-validation--sizes": "Los dos tamaños: default con la fila de 40 px y los lados de la celda en 12 px; large con la fila de 44 px y los lados en 16 px.",
+      "components-nph-table-validation--frame": "Sin marco y con él: el borde, la esquina y la última fila, que deja el divisor al marco.",
+      "components-nph-table-validation--sticky-header": "El encabezado fijo: el cuerpo se desplaza hasta su altura máxima y el encabezado queda, con la línea debajo.",
+      "components-nph-table-validation--row-states": "La franja en filas alternas, la cuadrícula entre las columnas y el hover en la fila entera bajo el puntero.",
+      "components-nph-table-validation--caption": "La leyenda con descripción, total y acción da nombre a la tabla; sin leyenda, el label da el nombre; una tabla que no cabe se vuelve un área de desplazamiento enfocable.",
+      "components-nph-table-validation--cell-contents": "Cada celda compuesta con la pieza que usa: persona, insignia, icono y texto, estado, valoración, enlace, miniatura, texto cortado, botón, acciones, acciones mixtas, cargando y el guion sin valor.",
+      "components-nph-table-validation--expanding-row": "La fila que se expande: cerrada, abierta con el elemento expandido y cargando, cada una abierta solo por el chevron.",
+      "components-nph-table-validation--tree": "El árbol en tres niveles: cada nivel sangra, y una fila sin hijos guarda el espacio del chevron para que el texto se alinee.",
+      "components-nph-table-validation--two-level-header": "El encabezado de dos niveles: el título del grupo sobre las columnas que agrupa, con la misma pieza de encabezado.",
+      "components-nph-table-validation--empty-body": "Sin filas, el cuerpo lleva el nph-empty y el encabezado sigue visible."
     }
   }
 }
