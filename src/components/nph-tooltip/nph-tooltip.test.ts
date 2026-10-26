@@ -112,6 +112,17 @@ async function gone(element: NphTooltip): Promise<void> {
   await vi.waitFor(() => expect(isShown(element)).toBe(false), { timeout: 2000 });
 }
 
+/** An exit long enough for the next action to land inside it, however slow the runner. */
+const WIDE_EXIT = 1000;
+
+/**
+ * Tests that act during the exit get a wide window: `motion/exit-duration` alone (150 ms)
+ * is shorter than a few round trips to the browser on a slow runner.
+ */
+function widenExit(element: NphTooltip): void {
+  element.style.setProperty('--nph-motion-exit-duration', `${WIDE_EXIT}ms`);
+}
+
 /** The value the browser gives a token, in the same property. */
 function resolved(property: string, token: string): string {
   const probe = document.createElement('div');
@@ -710,6 +721,7 @@ describe('closing', () => {
 
   it('crossing the gap: entering the balloon during the exit cancels the close', async () => {
     const { button, tooltip } = await mount();
+    widenExit(tooltip);
     await hoverOpen(button, tooltip);
     await userEvent.unhover(button);
     await tooltip.updateComplete;
@@ -717,7 +729,7 @@ describe('closing', () => {
     await userEvent.hover(bubbleOf(tooltip));
     await tooltip.updateComplete;
     expect(tooltip.open).toBe(true);
-    await new Promise((resolve) => setTimeout(resolve, 400));
+    await pause(WIDE_EXIT + 200);
     expect(isShown(tooltip)).toBe(true);
   });
 
@@ -810,9 +822,9 @@ describe('closing', () => {
     await userEvent.unhover(button);
     button.blur();
     await tooltip.updateComplete;
-    await userEvent.hover(button);
-    await tooltip.updateComplete;
-    expect(tooltip.open).toBe(true);
+    /* The next visit starts after the exit, so it waits `motion/hover-delay` like any other. */
+    await gone(tooltip);
+    await hoverOpen(button, tooltip);
   });
 
   it('stays open while the pointer crosses the gap slowly', async () => {
@@ -981,6 +993,7 @@ describe('the wait on hover (motion/hover-delay)', () => {
 
   it('coming back to the element during the exit keeps it, with no new wait', async () => {
     const { button, tooltip } = await mount();
+    widenExit(tooltip);
     await hoverOpen(button, tooltip);
     await userEvent.unhover(button);
     await tooltip.updateComplete;
