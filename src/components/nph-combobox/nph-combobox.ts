@@ -755,6 +755,10 @@ export class NphCombobox extends LitElement {
       return;
     }
     this.setTyped(field.value);
+    /* A consumer that filters may answer `nph-search` at once, with new options. */
+    if (this.refreshEntries()) {
+      this.syncFormState();
+    }
     this.activeRow = this.availableRows[0] ?? null;
     if (this.query === '' && !this.open) {
       this.requestUpdate();

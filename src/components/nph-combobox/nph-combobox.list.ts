@@ -86,41 +86,45 @@ export function entryProblems(entry: unknown): string[] {
 }
 
 /**
- * The text folded for the search, with the place of each folded character in the original
- * text: no accent (the marks of the canonical decomposition) and lower case.
+ * The text folded for the search, with the original character of each folded unit: no accent
+ * (the marks of the canonical decomposition) and lower case. `start` and `end` give, for each
+ * UTF-16 unit of the key, where its original character begins and ends, so a match that ends
+ * inside a decomposed character (a Hangul syllable) takes the whole character.
  */
-function folded(text: string): { key: string; at: number[] } {
+function folded(text: string): { key: string; start: number[]; end: number[] } {
   let key = '';
-  const at: number[] = [];
+  const start: number[] = [];
+  const end: number[] = [];
   let index = 0;
   for (const character of text) {
     const bare = character.normalize('NFD').replace(/\p{M}/gu, '').toLocaleLowerCase();
     /* One place per UTF-16 unit of the key, as `indexOf` counts: an emoji or a flag takes two. */
     for (let unit = 0; unit < bare.length; unit += 1) {
       key += bare[unit];
-      at.push(index);
+      start.push(index);
+      end.push(index + character.length);
     }
     index += character.length;
   }
-  at.push(index);
-  return { key, at };
+  return { key, start, end };
 }
 
 /**
  * The first stretch of `text` that matches `query`, with no difference of case or accent, as
- * `[start, end]` in the original text. `null` when it does not contain it or the query is empty.
+ * `[start, end]` in the original text, whole characters only. `null` when it does not contain it
+ * or the query is empty.
  */
 export function matchRange(text: string, query: string): readonly [number, number] | null {
   const needle = folded(query.trim()).key;
   if (needle === '') {
     return null;
   }
-  const { key, at } = folded(text);
+  const { key, start, end } = folded(text);
   const found = key.indexOf(needle);
   if (found === -1) {
     return null;
   }
-  return [at[found] ?? 0, at[found + needle.length] ?? text.length];
+  return [start[found] ?? 0, end[found + needle.length - 1] ?? text.length];
 }
 
 /** Whether the text contains the query, with no difference of case or accent. An empty query matches. */

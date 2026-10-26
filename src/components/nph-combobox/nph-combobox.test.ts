@@ -183,6 +183,9 @@ describe('the list module (shared with nph-multi-combobox)', () => {
     /* An emoji or a flag before the name takes two UTF-16 units: the highlight still lands on the match. */
     expect(matchRange('\u{1F600} Brazil', 'Bra')).toEqual([3, 6]);
     expect(matchRange('\u{1F1E7}\u{1F1F7} Brasil', 'bra')).toEqual([5, 8]);
+    /* A match that ends inside a decomposed Hangul syllable takes the whole syllable. */
+    expect(matchRange('\uAC01', '\uAC00')).toEqual([0, 1]);
+    expect(matchRange('\uAC00\uB099', '\uAC00\uB098')).toEqual([0, 2]);
   });
 
   it('a label opens a group and a separator closes one, as in nph-dropdown-menu', () => {
@@ -512,6 +515,18 @@ describe('the search and its highlight', () => {
     element.query = '';
     await settle();
     expect(texts(element)).toHaveLength(COUNTRIES.length);
+  });
+
+  it('filter none: options given at once inside nph-search open the list on the first match', async () => {
+    const element = await mount('label="Country" filter="none"', []);
+    element.addEventListener('nph-search', (event) => {
+      element.options = countries().filter((entry) => 'text' in entry && entry.text.toLowerCase().includes(event.detail.query.toLowerCase()));
+    });
+    /* One keystroke: no render runs between the answer and the opening. */
+    await type(element, 'z');
+    expect(element.open).toBe(true);
+    expect(texts(element)).toEqual(['Brazil', 'Venezuela']);
+    expect(activeOf(element)).toBe(row(element, 'Brazil'));
   });
 
   it('filter none keeps every option: the consumer filters, and the highlight stays', async () => {
