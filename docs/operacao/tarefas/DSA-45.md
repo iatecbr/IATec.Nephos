@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 460,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "in-review",
   "piece": "nph-dropdown-menu",
   "dependencies": ["DSA-17", "DSA-27"],
   "gates": [
@@ -28,16 +28,45 @@
       "verified_by": null
     }
   ],
-  "blockers": [
+  "blockers": [],
+  "pending_decisions": [
     {
-      "id": "B1",
-      "what_blocks": "The item uses the nph-checkbox in multiple choice and the nph-switch in the switch option, and DSA-17 (nph-checkbox) and DSA-27 (nph-switch) are not done yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-17 and DSA-27 are merged and done; then this task goes to ready.",
-      "opened_at": "2026-10-21"
+      "id": "D-1",
+      "question": "The evidence does not give the distance between the trigger and the open menu. The code uses `space/inline-tight`, as the list of nph-select (DSA-29, D1). It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-24"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence does not give the motion of opening and closing. The code fades the menu in on `motion/enter-*` and out on `motion/exit-*`, sliding `space/inline-tight`, as the list of nph-select (DSA-29, D2). It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-24"
+    },
+    {
+      "id": "D-3",
+      "question": "On item hover, the evidence asks the nph-checkbox box and the nph-switch track to take their own hover (unchecked: `color/input-hover`, for 3:1 on `color/primary-surface`). Both pieces hover only through `:hover` inside their own shadow root and have no way to force it. The code ships without the forced hover, as a known limit, with a follow-up task for an API in the two pieces. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-24"
+    },
+    {
+      "id": "D-4",
+      "question": "The nph-switch track is `icon/size-lg` high and has no size; the evidence puts it in a 20 px slot. The code keeps the slot at `icon/size-md`, with the track centered and overflowing it, so the row keeps its height. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-24"
+    },
+    {
+      "id": "D-5",
+      "question": "The evidence says single choice highlights text and icon in `color/primary-hover` with `text/label-md`. The code reads it as the checked item only, which also shows the check; an unchecked item of the group stays as the common item. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-24"
+    },
+    {
+      "id": "D-6",
+      "question": "The evidence does not say whether the pointer over an item moves the keyboard focus. The code keeps hover as paint only; the focus moves by keyboard. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-24"
     }
   ],
-  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-45/documentacao-figma-aceita-2026-10-21.md"
   ],
@@ -55,9 +84,13 @@
     "excerpt": null,
     "converted_decision": "The nph-dropdown-menu board (1365:118), with its `Documentação` frame (2365:3685), was accepted as the API and behavior specification of the nph-dropdown-menu. Menu 1365:63; item COMPONENT_SET 1365:57; parts 1365:58 (group label), 1365:60 (separator) and 2359:47364 (profile header). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-10-21"
+  "git_review": {
+    "branch": "claude/dsa-45-nph-dropdown-menu-6256e3",
+    "commit": "680d6bc78c0766dd23e490deeddd75631937fe6a",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/118"
+  },
+  "context": "docs/operacao/contextos/DSA-45.md",
+  "updated_at": "2026-10-24"
 }
 ```
 
@@ -74,10 +107,11 @@ In the evidence of the `figma-docs-accepted` gate:
 carries the Figma documentation converted to text, with the tokens of each part.
 There is no need to open Figma.
 
-## Why it is blocked
+## Why it is ready
 The item uses the `nph-checkbox` (DSA-17) in multiple choice and the
-`nph-switch` (DSA-27) in the switch option. Both tasks are `ready`, not `done`.
-The task goes to `ready` when both are `done` (B1).
+`nph-switch` (DSA-27) in the switch option. B1 is closed: DSA-27 became `done`
+after the merge of PR #108, and DSA-17 on 2026-10-24, after the merge of
+PR #117. With every dependency `done`, the task is `ready`.
 
 Every token it uses is on `v/5.0.0`: the 4 new tokens (3 semantic and 1
 primitive) were taken to the token sources, to `tokens.css` and to `design.md`
@@ -98,6 +132,20 @@ else the name goes.
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — menu, item, parts,
 the icon, CSS, tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
+
+## Pending decisions
+The evidence gives the contract, so the code can start. Six points remain for
+Indiane; the code follows the stated default meanwhile, and each answer only
+adjusts one rule.
+
+| ID | What the evidence gives | What is missing | What the code does meanwhile |
+|---|---|---|---|
+| D-1 | The menu opens attached to a button. | The distance between the trigger and the menu. | `space/inline-tight`, as the list of `nph-select`. |
+| D-2 | Opening and closing belong to code. | The motion. | Fade and a slide of `space/inline-tight` on `motion/enter-*` and `motion/exit-*`, as the list of `nph-select`. |
+| D-3 | On item hover, the box and the track take their own hover. | A way to force the hover of `nph-checkbox` and `nph-switch` from outside. | Ships without it, as a known limit; a follow-up task gives the two pieces an API. |
+| D-4 | The switch sits in a 20 px slot. | The switch track is 24 high and has no size. | Slot at `icon/size-md`, track centered and overflowing it. |
+| D-5 | Single choice highlights text and icon in `color/primary-hover`. | Whether it is every item of the group or the checked one. | The checked item only, with the check. |
+| D-6 | Hover paints the item. | Whether the pointer moves the keyboard focus. | Hover paints only; the focus moves by keyboard. |
 
 ## Relations with other tasks
 - The menu opens from an `nph-button` (DSA-13, done), which stays outside the

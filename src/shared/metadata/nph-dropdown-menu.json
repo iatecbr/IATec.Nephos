@@ -1,0 +1,276 @@
+{
+  "piece": "nph-dropdown-menu",
+  "level": "component",
+  "status": "active",
+  "solves": "Gathers the secondary actions of a screen or of an item in a floating menu that opens attached to a button, so they take no fixed space, and closes when the person chooses an action.",
+  "use_when": [
+    "For the secondary actions of a screen or of an item, such as rename, duplicate, move or sign out.",
+    "Single choice when only one option holds at a time, such as the view mode; multiple choice when several hold together, such as filters.",
+    "A tag to flag something new or a plan; a switch to turn something on or off without closing the menu; the profile header in the account menu.",
+    "Compact for a long, dense list; default in the other cases."
+  ],
+  "do_not_use_when": [
+    "For the main navigation of the screen: the menu gathers secondary actions.",
+    "To hold a form value: use nph-select, nph-checkbox or nph-switch in the form.",
+    "For a switch in an action that navigates or closes the menu: use a common item.",
+    "For a destructive item on a common action: use the default type."
+  ],
+  "api": {
+    "for": {
+      "type": "string",
+      "required": true,
+      "default": "empty",
+      "reflects": true,
+      "constraint": "The id of the element that opens the menu, looked up in the same root as the menu, like the native label for and nph-tooltip (P77). The button stays outside the component; the menu writes aria-haspopup=menu and aria-expanded on it. Empty or matching no element in the same root after one frame: the menu draws nothing and emits console.error in development. A trigger that changes its id after the lookup is not followed."
+    },
+    "open": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "The state. The menu turns it on and off by itself; the consumer may set it to show the menu open, with no focus move. Opening and closing fire no event."
+    },
+    "items": {
+      "type": "array",
+      "required": true,
+      "default": "empty list",
+      "reflects": false,
+      "constraint": "Property only. The entries, in order: an item (type absent or item), a label (type label, with text) that names the group after it, and a separator (type separator) that closes a group. The fields of an item are in the business rules. Without a valid item, the menu draws nothing and emits console.error in development."
+    },
+    "header": {
+      "type": "object",
+      "required": false,
+      "default": "null",
+      "reflects": false,
+      "constraint": "Property only. The profile header, with name, status and src (the photo of the nph-avatar); null hides it. With a name, it shows above the items with a separator below. It only informs: it has no action."
+    },
+    "size": {
+      "type": "enum",
+      "values": [
+        "default",
+        "compact"
+      ],
+      "required": false,
+      "default": "default",
+      "reflects": true,
+      "constraint": "The size of the item in Figma, set on the whole menu: a dense list is dense as a whole. Reflects because the internal CSS selects the rows by it. Any other value draws nothing and emits console.error in development."
+    },
+    "label": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "Accessible name of the menu. Empty: the menu is named by its trigger."
+    }
+  },
+  "variants": {
+    "severity": {
+      "axis": "appearance",
+      "choose_when": "default for every action. destructive only for the action that deletes or ends, such as Delete or Sign out: the text, the icon and the shortcut take color/destructive-on-surface.",
+      "do_not_combine_with": [
+        "destructive on a common action: the risk warning loses its meaning."
+      ]
+    },
+    "selection": {
+      "axis": "appearance",
+      "choose_when": "none for an action. single when only one option of the group holds at a time: the checked one shows the check at the end and its text and icon in color/primary-hover. multiple when several hold together: the nph-checkbox box comes at the start.",
+      "do_not_combine_with": [
+        "switch: a switch is not a choice.",
+        "submenu: a submenu item is neither a choice nor a switch."
+      ]
+    },
+    "size": {
+      "axis": "density",
+      "choose_when": "compact (28 px rows) for a long, dense list; default (36 px rows) in the other cases.",
+      "do_not_combine_with": []
+    }
+  },
+  "states": {
+    "rest": {
+      "token": "no background; text in color/popover-foreground",
+      "changes_for_user": "The row is quiet; the start icon is light."
+    },
+    "hover": {
+      "token": "color/primary-surface (destructive: color/destructive-surface); icon in dropdown/item-hover-icon-foreground",
+      "changes_for_user": "The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color."
+    },
+    "focus": {
+      "token": "border border/width in color/primary, radius focus/border-radius-inner; halo focus/ring-width in focus/halo, radius focus/radius-inner-with-border",
+      "changes_for_user": "For keyboard users, a border and a halo outside the row mark the focused item."
+    },
+    "disabled": {
+      "token": "state/disabled-opacity",
+      "changes_for_user": "The whole row loses opacity; it takes the focus but does not activate."
+    },
+    "loading": {
+      "token": "nph-spinner sm at the end",
+      "changes_for_user": "The spinner takes the end of the row; the item is busy and does not activate."
+    }
+  },
+  "business_rules": [
+    "An item has value and text, both required, and optionally description, icon, avatar, severity, selection, switch, checked, shortcut, count, tag, submenu, disabled and loading. An invalid entry is left out, with one console.error per cause in development.",
+    "A label entry opens a group and names it; a separator entry closes the group. Items before the first label, or after a separator with no label, form a group with no name. A group with no item is dropped, and its separator goes to the next group.",
+    "Single choice is exclusive inside its group.",
+    "When the person activates an item, the menu fires nph-item-select, which bubbles, with detail value and checked: the new state of a single choice, a multiple choice or a switch, and null on a common item. A single choice already checked fires again with checked true. Changing items or open from code fires nothing.",
+    "After an activation, the menu replaces items with a new list that carries the new checked; the objects of the consumer are never changed.",
+    "A common item and a single choice close the menu and give the focus back to the trigger; a multiple choice and a switch keep it open. A submenu item activates as a common item: the nested menu is out of scope.",
+    "A disabled or loading item takes the focus but does not activate. In loading, the spinner takes the end of the item, in place of shortcut, counter, tag, switch, arrow and check.",
+    "The menu opens space/inline-tight below the trigger, aligned to its start edge, turns up when it does not fit below and fits above, never leaves the window and follows the trigger on scroll and resize. layout/input-width is the preferred width; a narrower window, or a larger font, holds the panel inside it. Only a menu taller than the room scrolls inside.",
+    "A trigger that is disabled, aria-disabled or an nph-button in loading opens nothing, by click or by key.",
+    "Opening fades in and slides space/inline-tight on motion/enter-duration and motion/enter-easing; closing on motion/exit-duration and motion/exit-easing. Under reduced motion, opacity only, on motion/hover-duration."
+  ],
+  "domain_errors": [],
+  "tokens": {
+    "panel": [
+      "color/popover",
+      "color/popover-foreground",
+      "layout/input-width",
+      "radius/container",
+      "elevation/dropdown"
+    ],
+    "panel_border": [
+      "border/width",
+      "color/dropdown-border"
+    ],
+    "panel_padding": "space/inline-tight",
+    "trigger_distance": "space/inline-tight",
+    "header": [
+      "space/inline",
+      "text/body-md",
+      "text/caption",
+      "color/muted-foreground"
+    ],
+    "group_label": [
+      "text/label-sm",
+      "color/muted-foreground",
+      "space/inline",
+      "space/inline-tight"
+    ],
+    "separator": "space/inline-tight",
+    "item": [
+      "space/inline",
+      "radius/inner",
+      "text/body-md",
+      "color/popover-foreground"
+    ],
+    "item_compact": "space/inline-tight",
+    "icon": "icon/size-md",
+    "description": [
+      "text/caption",
+      "color/muted-foreground"
+    ],
+    "shortcut": [
+      "text/caption",
+      "color/muted-foreground"
+    ],
+    "counter": [
+      "color/primary-hover",
+      "color/primary-foreground",
+      "radius/full",
+      "icon/size-md",
+      "space/inline",
+      "text/label-sm"
+    ],
+    "single_choice": [
+      "text/label-md",
+      "color/primary-hover"
+    ],
+    "destructive": "color/destructive-on-surface",
+    "hover": [
+      "color/primary-surface",
+      "color/destructive-surface",
+      "dropdown/item-hover-icon-foreground"
+    ],
+    "focus": [
+      "border/width",
+      "color/primary",
+      "focus/border-radius-inner",
+      "focus/ring-width",
+      "focus/halo",
+      "focus/radius-inner-with-border"
+    ],
+    "disabled": "state/disabled-opacity",
+    "motion": [
+      "motion/enter-duration",
+      "motion/enter-easing",
+      "motion/exit-duration",
+      "motion/exit-easing"
+    ],
+    "motion_reduced": "motion/hover-duration"
+  },
+  "ai_hints": [
+    "Use nph-dropdown-menu for secondary actions that open from a button; the button is an nph-button outside the component, named by for.",
+    "Fill items with data: items, labels and separators. The item is not a tag of its own.",
+    "Listen to nph-item-select on the menu and read detail.value and detail.checked.",
+    "Group similar items under a label and separate the groups with a separator.",
+    "Use destructive only for the action that deletes or ends, with an icon that carries the meaning, such as trash or right-from-bracket.",
+    "Use the switch to turn something on or off without closing the menu; never in an action that navigates.",
+    "Write the tag with one word; a longer text goes in description."
+  ],
+  "accessibility": {
+    "semantics": "The panel is a popover in the top layer. Inside it, an element with role=menu holds the items; every group is a role=group, named by its label when it has one, because the separator is hidden from the accessibility tree. A common item is menuitem; a single choice is menuitemradio; a multiple choice and a switch are menuitemcheckbox; aria-checked follows checked. The profile header sits outside the menu: it is informative text. The inner nph-checkbox and nph-switch are inert: the item carries the role, the state and the focus.",
+    "accessible_name": "The menu: label, or the trigger. The item: its text, through aria-labelledby; aria-describedby lists the description, the tag, the counter and the shortcut, in that order. Icons, avatar, box, switch, arrow and check are not read.",
+    "keyboard": [
+      "On the trigger, Enter, Space and the down arrow open the menu on the first item; the up arrow on the last.",
+      "In the menu, the down and up arrows move, with wrap; Home and End go to the ends.",
+      "A typed character goes to the next item that starts with it.",
+      "Enter and Space activate the item.",
+      "Esc closes the menu and gives the focus back to the trigger, and does not reach a dialog around it.",
+      "Tab and Shift+Tab close the menu and move on from the trigger, wherever the menu sits in the DOM."
+    ],
+    "focus": "The focus moves to the items. Keyboard only, a border of border/width in color/primary and a halo in focus/halo show outside the row; the border carries the focus (5.37:1 in light and 4.59:1 in dark), the halo is decorative. Opened by a mouse click, the first item takes the focus without showing it.",
+    "contrast": "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The solid icon in dropdown/item-hover-icon-foreground on color/primary-surface measures 4.78:1 in light and 6.26:1 in dark. The menu border, the separator and the halo are decorative.",
+    "color_alternative": "The destructive item is recognized by the icon of the action and by the text. Single choice shows the check; multiple choice shows the checked box; the switch shows the knob position; the tag carries text."
+  },
+  "invalid_combinations": [
+    "switch with a selection other than none — a switch is not a choice; the item is left out.",
+    "submenu with switch or a selection — a submenu item is neither a choice nor a switch; the item is left out.",
+    "An item without value or text — it has no name or nothing to report; the item is left out.",
+    "for empty or matching nothing — the menu has no trigger and draws nothing."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-button",
+      "nph-icon",
+      "nph-avatar",
+      "nph-badge",
+      "nph-checkbox",
+      "nph-switch",
+      "nph-separator",
+      "nph-spinner"
+    ],
+    "parents": [
+      "a toolbar",
+      "a page header",
+      "a table row",
+      "a card"
+    ],
+    "children": [
+      "nph-icon",
+      "nph-avatar",
+      "nph-badge",
+      "nph-checkbox",
+      "nph-switch",
+      "nph-separator",
+      "nph-spinner"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "Using the menu as the main navigation of the screen.",
+    "Using it to hold a form value.",
+    "Putting a switch in an action that navigates or closes the menu.",
+    "Marking a common action as destructive.",
+    "Putting a long sentence in the tag.",
+    "Drawing the trigger inside the menu: it is an nph-button outside, named by for."
+  ],
+  "sources": {
+    "design_md": "design.md, color/popover, color/popover-foreground, color/dropdown-border, color/primary-surface, color/destructive-surface, color/destructive-on-surface, color/primary-hover, color/primary-foreground, color/muted-foreground, dropdown/item-hover-icon-foreground, layout/input-width, radius/container, radius/inner, radius/full, elevation/dropdown, space/inline, space/inline-tight, icon/size-md, text/body-md, text/caption, text/label-sm, text/label-md, focus/*, state/disabled-opacity and motion/*",
+    "decision": "P92 — API and semantics of nph-dropdown-menu, 24-10-2026",
+    "tests": "src/components/nph-dropdown-menu/nph-dropdown-menu.test.ts",
+    "usage_evidence": "no screen consumes it yet",
+    "storybook": "src/components/nph-dropdown-menu/nph-dropdown-menu.stories.ts and nph-dropdown-menu.docs.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, nph-dropdown-menu board 1365:118, menu 1365:63, item set 1365:57 and parts 1365:58, 1365:60 and 2359:47364"
+  }
+}

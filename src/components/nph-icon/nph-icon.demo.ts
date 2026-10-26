@@ -88,6 +88,7 @@ export const CATEGORIES: readonly CoreCategory[] = [
     'pen-to-square',
     'plus',
     'print',
+    'right-from-bracket',
     'right-to-bracket',
     'rotate-right',
     'share',
