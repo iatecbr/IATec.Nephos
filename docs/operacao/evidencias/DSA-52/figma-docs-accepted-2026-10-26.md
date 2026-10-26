@@ -47,11 +47,11 @@ date, the authorship and the set.
 
 ## What Figma shows, and its limit
 
-The preview frame `2722:5358` showed the two options in light and dark. The set
+The preview frame `2722:5358` showed the proposal in light and dark. The set
 `498:15671` keeps `light` in every state, because the default of an instance-swap
 property is the same for the whole set; this is a limit of Figma, not a different
 decision. The code is the place where the swap is implemented.
 
 ## Source of the decision
 
-WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-26.md`: D1 of DSA-47 answered, option 1.
+WORK BRAIN — `03 MEMÓRIA/diario/2026/2026-10-26.md`: D1 of DSA-47 answered yes: the icon-only button also swaps to solid in hover-active.
