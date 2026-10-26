@@ -68,28 +68,41 @@ converted to text. There is no need to open Figma.
 - **Code:** in `src/components/nph-button/nph-button.ts`, the icon-only branch renders a
   single `light` icon with `glyph`. Render the `light` and `solid` pair, as `glyphPair`
   does for the button with text, and show one by the same hover-active condition in
-  `nph-button.css`. How to do it is the implementer's choice; the visible result counts.
+  `nph-button.css`. Keep the icon-only size per `size` (`ICON_ONLY_ICON_SIZE`); `glyphPair`
+  fixes `sm`. How to do it is the implementer's choice; the visible result counts.
 - **When:** hover-active only. At rest, in focus without hover and `disabled` the icon
   stays `light`; in `loading` the spinner takes the icon's place.
 - **Tests:** the test "icon only, on hover, keeps its single icon light (D1)" in
   `nph-button.test.ts` states the opposite of the new rule: invert it, do not only add
   one. Cover the variant per state for the icon-only button, as DSA-47 did for the button
   with text. The stories show an icon-only button in hover with the solid icon.
-- **Comments:** update the JSDoc in `nph-button.ts` and the comment in `nph-button.css`
-  that say the swap is only "with text".
+- **Comments:** update every comment that says the swap is only "with text": the JSDoc in
+  `nph-button.ts`, the comment in `nph-button.css`, and in `nph-button.test.ts` the header
+  (lines 5–6, "P88 adds the solid icon in hover-active, in the button with text") and the
+  docstring of `visibleIcons` (lines 213–214, "with text, each icon is a light and solid
+  pair").
 - **Storybook dictionary:** `.storybook/i18n/en.json`, `pt-BR.json` and `es.json`, the
   `hover-active` text ("in the button with text the start and end icons turn solid"), and
   the description of the `Icons` story if it says the same.
 - **Spec:** `fichas/nph-button.md` says the icon-only button keeps its icon light in three
-  places: the `hover-active` state (around line 152), the states table (around line 311)
-  and the history (around line 420). Change all three to the new rule. Then regenerate the
+  places: the `hover-active` state (around line 152, including its `changes_for_user` on
+  line 153), the states table (around line 311, including its third column) and the history
+  (around line 420). Change all three to the new rule. The `decision` field (around line
+  224) names P88 as "of the button with text"; fix it too. Then regenerate the
   Metadata with `node scripts/verificar-operacao.mjs --gerar-metadata`; do not edit
   `src/shared/metadata/nph-button.json` by hand.
 - **Decision record:** P88 in `docs/decisoes-tecnicas.md` names only the button with text
   (item 4, "Only in the button with text", and "Out of scope"). Cover the icon-only button,
   either editing P88 or adding a new decision that amends it; both are accepted in this
-  repository. The amendment notes of P68 (the table line and the `Hover` item) say "in the
+  repository. In P88, item 3 ("With text, each icon renders as a pair") and "Breaking
+  changes" ("the shadow root of the button with text") also say it. If you add a new
+  decision, add it to the index and to the list of single-source decisions at the top of the
+  file. The amendment notes of P68 (the table line and the `Hover` item) say "in the
   button with text" and follow the same choice.
+- **Sweep before you finish:** grep `src/components/nph-button/`, `fichas/nph-button.md`,
+  `docs/decisoes-tecnicas.md`, `.storybook/i18n/` and `src/shared/metadata/` for "with text"
+  and "keeps its icon light" next to the icon swap, and fix any statement the new rule makes
+  false. The lists above are the known places, not the only ones.
 - **No new token.** The swap is a variant of `nph-icon`.
 
 ## How it is proved

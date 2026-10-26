@@ -87,7 +87,7 @@ Indiane answered D1 on 2026-10-26.
 
 | ID | Answer | What the code does |
 |---|---|---|
-| D1 | Yes: the icon-only button (`data-nph-icon-only`, the nph-icon-button contract of DSA-43) also swaps its icon to `solid` in hover-active, the same rule as the button with text. At rest, in focus without hover, `disabled` and `loading` the icon stays `light`. | This task is already merged and does not change. The code, the spec and P88 for the icon-only button are the task `DSA-52`. |
+| D1 | Yes: the icon-only button (`data-nph-icon-only`, the nph-icon-button contract of DSA-43) also swaps its icon to `solid` in hover-active, the same rule as the button with text. At rest, in focus without hover and `disabled` the icon stays `light`; in `loading` the spinner takes its place. | This task is already merged and does not change. The code, the spec and P88 for the icon-only button are the task `DSA-52`. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed: the rule decided by Indiane, converted to
