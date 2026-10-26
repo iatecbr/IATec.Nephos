@@ -297,7 +297,7 @@ destructive item hovers in `color/destructive-surface` and keeps its light icon 
 | Contrast | The item text passes AA on `color/popover` and on `color/primary-surface`. The solid icon on hover measures 4.78:1 in light and 6.26:1 in dark |
 | Alternative to color | The destructive item has the icon of the action; single choice shows the check; multiple choice the checked box; the switch the knob position; the tag carries text |
 | Touch target | The whole row, above 24 by 24 in every size |
-| Known limits | On item hover, the inner box and track do not take their own hover (D-3). `aria-haspopup` and `aria-expanded` on an `nph-button` do not reach its inner button. A nested menu is out of scope. A forced-colors mode is not handled. When the panel scrolls, the halo of a focused item is cut by 1 px on the sides |
+| Known limits | On item hover, the inner box and track do not take their own hover (D-3). `aria-haspopup` and `aria-expanded` on an `nph-button` do not reach its inner button. A nested menu is out of scope. A forced-colors mode is not handled. When the panel scrolls, the halo of a focused item is cut by 1 px on the sides. An `nph-button` that goes into `loading` while the menu is open does not close it by a press. A trigger clipped by a scrolling ancestor, still inside the window, keeps the menu drawn |
 
 ## Relations
 

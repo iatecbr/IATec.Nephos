@@ -4086,7 +4086,8 @@ custom element definition per folder (`vite.config.lib.ts`, `scripts/test-packag
    the focus goes back to the trigger before the default action. A press outside the menu and its trigger closes it
    without moving the focus; a press on the trigger while open closes it, and does not open it again.
    Hover only paints (D-6). A trigger that is disabled, `aria-disabled` or an `nph-button` in `loading`
-   opens nothing, by click or by key; a press on it still closes an open menu.
+   opens nothing, by click or by key; a press on it still closes an open menu, except on an `nph-button`
+   that went into `loading` while the menu was open (see the known limits).
 6. **Placement and motion.** `space/inline-tight` below the trigger (D-1, as the list of
    `nph-select`), aligned to its start edge; it turns up when it does not fit below and fits above,
    never leaves the window and follows the trigger on scroll and resize, also a trigger set by `for` while
@@ -4120,6 +4121,13 @@ custom element definition per folder (`vite.config.lib.ts`, `scripts/test-packag
 - **Opened by a mouse click, the first item has the focus but does not show it.** That is the
   `:focus-visible` behavior of Chromium, which the tests prove; other engines may differ.
 - **Forced colors and right-to-left** are not treated yet, as in P80.
+- **An `nph-button` that goes into `loading` while the menu is open** does not close it by a press:
+  the button blocks its own click before the menu hears it. Esc, Tab and a press outside still close
+  it. Follow-up: close on the `pointerdown` of an inactive trigger (last Copilot round of PR #118).
+- **A trigger clipped by a scrolling ancestor**, while its box is still inside the window, keeps the
+  menu drawn next to it: the visibility check reads the window only. Follow-up: hide or close the
+  panel when the trigger has no visible intersection with its clipping ancestors (last Copilot round
+  of PR #118).
 
 **Points for review.**
 
