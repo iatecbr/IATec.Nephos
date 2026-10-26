@@ -7,6 +7,10 @@
 # at the end. The code review and SonarQube stages of the reference are not
 # used here.
 #
+# Build also builds the static Storybook and publishes it as the private
+# pipeline artifact `storybook` (P19, annotation of 26/10/2026), for the team
+# to host. The pipeline does not host it anywhere.
+#
 # The pipeline is created in Azure DevOps from the GitHub repository
 # `iatecbr/IATec.Nephos`; this file is its definition. Human prerequisites
 # (variable group, secret, extension, environment, feed permission) are in
@@ -62,10 +66,12 @@ variables:
     value: 'rc'
   - name: packArtifactName
     value: 'npm-package'
+  - name: storybookArtifactName
+    value: 'storybook'
 
 stages:
   # ---------------------------------------------------------------------------
-  # Build: install, tokens, library build, package checks, pack.
+  # Build: install, tokens, library build, package checks, Storybook, pack.
   # ---------------------------------------------------------------------------
   - stage: Build
     displayName: Build Stage
@@ -124,6 +130,23 @@ stages:
               npm run pack:check
             displayName: Build library and check the package
             workingDirectory: $(Build.SourcesDirectory)
+
+          # Static Storybook (P19: private CI artifact). It runs before the
+          # pack, so a broken Storybook fails Build and Publish never starts.
+          # The workspace survives between runs on self-hosted agents, so the
+          # output folder is emptied first.
+          - bash: |
+              set -euo pipefail
+              rm -rf storybook-static
+              npm run build-storybook
+            displayName: Build Storybook
+            workingDirectory: $(Build.SourcesDirectory)
+
+          - task: PublishPipelineArtifact@1
+            displayName: Publish Storybook artifact
+            inputs:
+              targetPath: $(Build.SourcesDirectory)/storybook-static
+              artifact: $(storybookArtifactName)
 
           # Version guard. On a tag build the tag must be `v<package.json version>`.
           # It also fails early on a prerelease id this pipeline does not publish.

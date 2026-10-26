@@ -44,6 +44,9 @@ To build the static version into `storybook-static/`:
 npm run build-storybook
 ```
 
+The Azure Pipeline also builds this folder and publishes it as the private
+pipeline artifact `storybook`; see [`docs/release.md`](docs/release.md).
+
 ## Tokens
 
 The values audited in Figma live in `src/tokens/source/*.tokens.json`. The CSS is
@@ -96,7 +99,8 @@ import '@iatec/nephos/nph-button';
 To build and check the package from a clone: `npm run build:lib`, then
 `npm run test:package` and `npm run pack:check`. The decision is P75, in
 [`docs/decisoes-tecnicas.md`](docs/decisoes-tecnicas.md), which exists in English
-only. The CI workflow and the publishing pipeline do not exist yet.
+only. The Azure Pipeline that publishes release candidates is defined in
+[`azure-pipelines.yml`](azure-pipelines.yml); see [`docs/release.md`](docs/release.md).
 
 ## Technical decisions in force
 
@@ -127,7 +131,7 @@ confirmed by P19.
 
 ### What remains out of scope
 
-Still outside the repository: the CI workflow, public publishing and deployment.
+Still outside the repository: public publishing and deployment.
 Also out: the 20 primitives from P46 and, deferred to a future round, the
 remaining primitives — deferred does not mean unused. All 11 effect styles stopped
 being deferred on 03-09-2026 — the eight elevation levels and the three focus
