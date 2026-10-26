@@ -4637,9 +4637,10 @@ rule of P21, as in P80. The names follow P64.
    PageDown move ten; **Enter checks or unchecks the active option and keeps the list open**, the
    typed text is cleared and the option stays active; Alt+ArrowUp and Escape close; Tab closes
    without choosing. A click on an option checks or unchecks it and keeps the list open. The remove
-   buttons are native buttons in the Tab order, before the text; pressed from the keyboard, the
-   focus goes to the remove button now in its place, or to the text after the last; pressed by the
-   pointer, the focus stays on the text.
+   buttons are native buttons in the Tab order, before the text; pressed from the keyboard (a click
+   with no pointer count, `detail` 0), the focus goes to the remove button now in its place, or to
+   the text after the last; pressed by the pointer, the focus goes to the text. With the list open,
+   the active option is brought into view once the rows have drawn.
 
 9. **The focus of the host goes to the text.** With `delegatesFocus`, the focus delegate of the
    shadow root is its first focusable element, the first remove button. `focus()` is overridden to

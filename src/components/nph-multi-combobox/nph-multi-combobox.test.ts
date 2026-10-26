@@ -966,6 +966,38 @@ describe('keyboard (APG editable combobox, several choices)', () => {
     expect(element.shadowRoot?.activeElement).toBe(field(element));
   });
 
+  it('a pointer click on a remove button that has the keyboard focus sends the focus to the text (Copilot, round 2)', async () => {
+    const element = await mount(BASE, countries(), ['peru', 'chile']);
+    const before = document.createElement('button');
+    element.parentElement?.prepend(before);
+    before.focus();
+    await press(element, '{Tab}');
+    expect(element.shadowRoot?.activeElement).toBe(removeButtons(element)[0]);
+    await userEvent.click(removeButtons(element)[0] as HTMLButtonElement);
+    await settle();
+    expect(element.value).toEqual(['chile']);
+    expect(element.shadowRoot?.activeElement).toBe(field(element));
+    await userEvent.keyboard('ar');
+    await settle();
+    expect(element.query).toBe('ar');
+  });
+
+  it('after a choice clears a filter, the active option is in the view of the list (Copilot, round 2)', async () => {
+    const labels = Array.from({ length: 30 }, (_, index) => `Country ${String(index + 1).padStart(2, '0')}`);
+    const element = await mount(BASE, countries(labels));
+    await type(element, 'Country 30');
+    await press(element, '{Enter}');
+    expect(element.value).toEqual(['country 30']);
+    expect(element.query).toBe('');
+    await nextFrame();
+    await nextFrame();
+    const scroller = (element.shadowRoot?.querySelector('.scroller') as HTMLElement).getBoundingClientRect();
+    const active = (activeOf(element) as HTMLElement).getBoundingClientRect();
+    expect(activeOf(element)).toBe(row(element, 'Country 30'));
+    expect(active.top).toBeGreaterThanOrEqual(scroller.top - 0.5);
+    expect(active.bottom).toBeLessThanOrEqual(scroller.bottom + 0.5);
+  });
+
   it('Home and End stay in the text', async () => {
     const element = await mount();
     await type(element, 'ar');

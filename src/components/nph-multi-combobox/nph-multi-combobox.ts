@@ -649,7 +649,8 @@ export class NphMultiCombobox extends LitElement {
     }
     const button = event.currentTarget as HTMLButtonElement;
     const index = this.removeButtons.indexOf(button);
-    const fromKeyboard = this.renderRoot instanceof ShadowRoot && this.renderRoot.activeElement === button;
+    /* The click the keyboard makes on a button (Enter, Space) has no pointer count: `detail` is 0. */
+    const fromKeyboard = event instanceof MouseEvent && event.detail === 0;
     this.commit(this.current.filter((value) => value !== option.value));
     await this.updateComplete;
     const next = fromKeyboard ? this.removeButtons[index] : undefined;
@@ -1011,6 +1012,22 @@ export class NphMultiCombobox extends LitElement {
     list.style.top = `${y - parseFloat(style.marginTop)}px`;
   }
 
+  /**
+   * The rows are drawn by their own `nph-option` (and its `nph-checkbox`) after this update, so
+   * the active one is measured once they are: after a choice clears a filter, the whole list comes
+   * back and the active option may sit far below.
+   */
+  private async revealWhenDrawn(): Promise<void> {
+    type Drawn = HTMLElement & { updateComplete?: Promise<unknown> };
+    const rows = [...this.renderRoot.querySelectorAll<Drawn>('nph-option')];
+    await Promise.all(rows.map((row) => row.updateComplete));
+    const boxes = rows.flatMap((row) => [...(row.shadowRoot?.querySelectorAll<Drawn>('nph-checkbox') ?? [])]);
+    await Promise.all(boxes.map((box) => box.updateComplete));
+    if (this.open) {
+      this.revealActive();
+    }
+  }
+
   /** The active option comes into the view of the list, without scrolling the page. */
   private revealActive(): void {
     const scroller = this.scroller;
@@ -1055,7 +1072,7 @@ export class NphMultiCombobox extends LitElement {
       }
     } else if (this.open) {
       this.show(list);
-      this.revealActive();
+      void this.revealWhenDrawn();
     } else if (changed.has('open') || this.shown) {
       this.hide(list);
     }
