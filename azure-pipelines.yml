@@ -249,10 +249,13 @@ stages:
             displayName: Typecheck and repository checks
             workingDirectory: $(Build.SourcesDirectory)
 
-          # Browser-mode Vitest needs the Chromium build from Playwright.
+          # Browser-mode Vitest needs the Chromium build from Playwright. Only
+          # the browser is downloaded: `--with-deps` installs system packages
+          # through sudo, which the agents do not allow (run 609156). The
+          # system libraries Chromium needs must already be on the agent.
           - bash: |
               set -euo pipefail
-              npx playwright install --with-deps chromium
+              npx playwright install chromium
               npm test
             displayName: Component tests (Chromium)
             workingDirectory: $(Build.SourcesDirectory)
