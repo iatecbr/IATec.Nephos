@@ -1,0 +1,364 @@
+/**
+ * Internal style of `nph-table`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties consumed here. No literal design value goes in: the row is `table/row-height`
+ * (`-large`), the cell sides `table/cell-padding-inline` (`table/container-padding` at
+ * large), above and below `table/cell-padding-block` (`table/action-cell-padding-block`
+ * with a button); text in `table/foreground` on `table/background`, the second line in
+ * `table/muted-foreground`, the header and the footer on `table/header-background`; the
+ * divider, the frame and the grid `table/border-width` in `table/border`, the corner
+ * `table/radius`; hover `table/row-hover-background`, stripe `table/row-striped-background`;
+ * the gaps `table/cell-gap`, `table/cell-gap-tight` and `table/stack-gap`; the line under
+ * the fixed header `table/sticky-divider-*`; the focus ring `focus/border` in
+ * `table/focus-ring-width`; the scrollbar `table/scrollbar-*`; the icons `table/icon-size`,
+ * bridged to the `icon/size-sm` that `nph-icon` reads. The thumbnail and the photo of the
+ * expanded item take `table/thumbnail-size`, `-size-large`, `-radius` and
+ * `table/muted-background` through `nph-image` `sm` and `lg`, whose tokens are the same
+ * aliases (P97). The typography roles are `text/heading-xs` (header and footer, the
+ * evidence), `text/body-md` (cell, `design.md`) and, until D2 of DSA-49, `text/heading-sm`
+ * and `text/body-sm` for the caption title and the second line.
+ *
+ * The only written quantities are box relations, not visual decisions: `0` (no offset, no
+ * spacing between cells, the overlay of the clipped text), `100%` (the table fills the
+ * scroll area), `1` (the fixed header paints over the positioned pieces of the body), the
+ * multipliers `-1` (the ring drawn inside the cell) and `2` (the third level of the tree),
+ * `50%` (the clip that hides the text read in the no-value dash), and `tabular-nums` (the
+ * figures of a number column, `design.md`). Motion: none.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: block;
+  max-inline-size: var(--nph-table-max-width);
+  color: var(--nph-table-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+/* Caption: title with its total, description under it, the main action at the end. */
+.caption {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--nph-table-caption-action-gap);
+  margin-block-end: var(--nph-table-stack-gap);
+}
+
+.caption-text {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+  max-inline-size: var(--nph-table-caption-max-width);
+}
+
+.caption-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-table-cell-gap);
+}
+
+.title {
+  color: var(--nph-table-foreground);
+  font-family: var(--nph-text-heading-sm-font-family);
+  font-size: var(--nph-text-heading-sm-font-size);
+  font-weight: var(--nph-text-heading-sm-font-weight);
+  line-height: var(--nph-text-heading-sm-line-height);
+  letter-spacing: var(--nph-text-heading-sm-letter-spacing);
+}
+
+.description {
+  margin: 0;
+  color: var(--nph-table-caption-foreground);
+}
+
+/* Scroll area: it scrolls in both directions when the table does not fit. */
+.scroll {
+  overflow: auto;
+  background: var(--nph-table-background);
+}
+
+:host([framed]) .scroll {
+  border: var(--nph-table-border-width) solid var(--nph-table-border);
+  border-radius: var(--nph-table-radius);
+}
+
+:host([sticky-header]) .scroll {
+  max-block-size: var(--nph-table-body-max-height);
+}
+
+.scroll:focus-visible {
+  outline: var(--nph-table-focus-ring-width) solid var(--nph-focus-border);
+  outline-offset: 0;
+}
+
+/*
+ * The scrollbar: the thin track of the table, where the browser lets it be drawn. Where it
+ * does not (`::-webkit-scrollbar` unsupported), only the colors, as `src/styles/scrollbar.css`.
+ */
+@supports selector(::-webkit-scrollbar) {
+  .scroll {
+    scrollbar-color: auto;
+    scrollbar-width: auto;
+  }
+
+  .scroll::-webkit-scrollbar {
+    width: var(--nph-table-scrollbar-width);
+    height: var(--nph-table-scrollbar-width);
+  }
+
+  .scroll::-webkit-scrollbar-track {
+    background: var(--nph-table-scrollbar-track);
+    border-radius: var(--nph-table-scrollbar-radius);
+  }
+
+  .scroll::-webkit-scrollbar-thumb {
+    background: var(--nph-table-scrollbar-thumb);
+    border-radius: var(--nph-table-scrollbar-radius);
+  }
+
+  .scroll::-webkit-scrollbar-corner {
+    background: var(--nph-table-scrollbar-track);
+  }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  .scroll {
+    scrollbar-color: var(--nph-table-scrollbar-thumb) var(--nph-table-scrollbar-track);
+  }
+}
+
+/* The table. Separate borders, so the fixed header keeps its line (P97). */
+table {
+  inline-size: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th,
+td {
+  box-sizing: border-box;
+  block-size: var(--nph-table-row-height);
+  padding-block: var(--nph-table-cell-padding-block);
+  padding-inline: var(--nph-table-cell-padding-inline);
+  border-block-end: var(--nph-table-border-width) solid var(--nph-table-border);
+  background: var(--nph-table-background);
+  text-align: start;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+:host([size='large']) th,
+:host([size='large']) td {
+  block-size: var(--nph-table-row-height-large);
+  padding-inline: var(--nph-table-container-padding);
+}
+
+td.action {
+  padding-block: var(--nph-table-action-cell-padding-block);
+}
+
+/* Header and footer: the background and the typography of the header. */
+thead th,
+thead td,
+tfoot td {
+  background: var(--nph-table-header-background);
+  font-family: var(--nph-text-heading-xs-font-family);
+  font-size: var(--nph-text-heading-xs-font-size);
+  font-weight: var(--nph-text-heading-xs-font-weight);
+  line-height: var(--nph-text-heading-xs-line-height);
+  letter-spacing: var(--nph-text-heading-xs-letter-spacing);
+}
+
+/* Numbers align to the end, with the header and the footer of the column. */
+.end {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+/* With the frame, the last line of the table is the frame itself. */
+:host([framed]) table > :last-child > tr:last-child > * {
+  border-block-end: 0;
+}
+
+/* Grid: the vertical line between the columns of the body. */
+:host([grid]) tbody tr.row > td + td {
+  border-inline-start: var(--nph-table-border-width) solid var(--nph-table-border);
+}
+
+/* Stripe on every other row of data, hover on the whole row under the pointer. */
+:host([striped]) tbody tr.row.striped > td {
+  background: var(--nph-table-row-striped-background);
+}
+
+:host([data-nph-rendered]) tbody tr.row:hover > td {
+  background: var(--nph-table-row-hover-background);
+}
+
+/* Fixed header: it stays while the body scrolls, with the line under it. */
+:host([sticky-header]) thead {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+}
+
+:host([sticky-header]) thead th,
+:host([sticky-header]) thead td {
+  border-block-end: 0;
+  box-shadow: 0 var(--nph-table-sticky-divider-width) var(--nph-table-sticky-divider-blur) var(--nph-table-sticky-divider-spread)
+    var(--nph-table-sticky-divider-color);
+}
+
+/* The pieces of a composite cell, side by side. */
+.pieces {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nph-table-cell-gap);
+  vertical-align: middle;
+}
+
+.pieces.tight {
+  gap: var(--nph-table-cell-gap-tight);
+}
+
+.lines {
+  display: inline-flex;
+  flex-direction: column;
+  vertical-align: middle;
+}
+
+.secondary,
+dt {
+  color: var(--nph-table-muted-foreground);
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+}
+
+/* Icons inside the cell: `table/icon-size`, in the color the cell gives. */
+.pieces > nph-icon,
+.status,
+.rating {
+  --nph-icon-size-sm: var(--nph-table-icon-size);
+}
+
+.status,
+.rating {
+  display: inline-flex;
+}
+
+.status.success {
+  color: var(--nph-table-status-success-icon);
+}
+
+.status.error {
+  color: var(--nph-table-status-error-icon);
+}
+
+.rating {
+  color: var(--nph-table-rating-foreground);
+}
+
+.link {
+  color: var(--nph-table-link-foreground);
+  text-decoration: underline;
+}
+
+.link:focus-visible,
+td.truncated:focus-visible {
+  outline: var(--nph-table-focus-ring-width) solid var(--nph-focus-border);
+}
+
+td.truncated:focus-visible {
+  outline-offset: calc(-1 * var(--nph-table-focus-ring-width));
+}
+
+/* Truncated text: cut at the column width, the whole text in the tooltip and in the name. */
+.cut {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The no-value dash; the text read in it is clipped, never `display: none`. */
+.no-value {
+  position: relative;
+}
+
+.hidden {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Tree: each level indents the chevron and the gap; without children, the space of the chevron stays. */
+.tree {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-table-cell-gap);
+}
+
+.tree-spacer {
+  flex: none;
+  inline-size: var(--nph-table-expand-indent);
+}
+
+tr.level-2 .tree {
+  padding-inline-start: calc(var(--nph-table-expand-indent) + var(--nph-table-cell-gap));
+}
+
+tr.level-3 .tree {
+  padding-inline-start: calc(2 * (var(--nph-table-expand-indent) + var(--nph-table-cell-gap)));
+}
+
+/* Expanded item: photo, name and description, values with the label on top, badge. */
+tr.detail > td {
+  white-space: normal;
+}
+
+.item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-table-cell-gap);
+}
+
+.name {
+  color: var(--nph-table-foreground);
+}
+
+.values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--nph-table-cell-gap);
+  margin: 0;
+}
+
+.value {
+  display: flex;
+  flex-direction: column;
+}
+
+dd {
+  margin: 0;
+}
+
+/* Empty body: the nph-empty in place of the rows, with the header visible. */
+tr.empty > td {
+  padding-block: var(--nph-table-empty-padding);
+  white-space: normal;
+}
