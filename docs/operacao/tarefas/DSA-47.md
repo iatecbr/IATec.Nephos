@@ -29,14 +29,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D1",
-      "question": "The rule was applied in Figma to the nph-button with text (461:13009). The icon-only set (498:15671) keeps its icon light in every state. Does the icon-only button also swap to solid in hover-active? It does not block the task: until the answer, the code applies the swap only when the button has text.",
-      "decider": "indiane",
-      "opened_at": "2026-10-21"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-47/figma-docs-accepted-2026-10-21.md",
     "docs/operacao/evidencias/DSA-47/review-and-merge-2026-10-24.md"
@@ -44,7 +37,8 @@
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p88",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, Indiane: an action with an icon in the active state (hover/active) swaps the icon to solid; the rule goes to the components",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-26.md, Indiane answered D1: the icon-only button also swaps to solid in hover-active"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -60,7 +54,7 @@
     "pr": "113"
   },
   "context": null,
-  "updated_at": "2026-10-24"
+  "updated_at": "2026-10-26"
 }
 ```
 
@@ -87,10 +81,12 @@ icons fill in.
 - How to swap the variant (CSS, two icons, or state in the component) is the
   implementer's choice; the visible result is what counts.
 
-## Pending decisions
-| ID | What the evidence gives | What is missing | What the code does with the answer |
-|---|---|---|---|
-| D1 | The swap in the button with text (461:13009). | Whether the icon-only button (498:15671, `data-nph-icon-only`) also swaps. | Until the answer, the swap applies only when the button has text; the answer turns it on or keeps it off for the icon only. |
+## Decisions answered
+Indiane answered D1 on 2026-10-26.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D1 | Option 1: the icon-only button (`data-nph-icon-only`; Figma set `nph-icon-button` 498:15671) also swaps its icon to `solid` in hover-active, the same rule as the button with text. At rest, in focus without hover, `disabled` and `loading` the icon stays `light`. Preview in Figma: `2722:5358`, page `Rascunho`. | The code applies the swap to the icon-only button too. The rule that applied only to the button with text stops being a limit. This change to the code is still to be made; this task is already merged without it. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed: the rule decided by Indiane, converted to
