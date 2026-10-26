@@ -50,8 +50,8 @@
     "file": "scripts/test-package.mjs",
     "class": "contract-path",
     "names": [
-      "decisoes-tecnicas.md",
-      "docs/operacao",
+      "docs/decisoes-tecnicas.md",
+      "docs/operacao/",
       "fichas"
     ]
   },
