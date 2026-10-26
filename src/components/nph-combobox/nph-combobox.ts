@@ -71,6 +71,7 @@ import '../nph-icon/nph-icon';
 import '../nph-spinner/nph-spinner';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
 import { NPH_OPTION_DEFAULT_ICON } from '../nph-option/nph-option';
+import type { NphOptionStart, NphOptionStatus } from '../nph-option/nph-option';
 import comboboxCss from './nph-combobox.css?inline';
 import {
   comboboxListStyles,
@@ -83,9 +84,7 @@ import {
   renderOption,
   trimmed,
 } from './nph-combobox.list';
-import type { NphComboboxEntry, NphComboboxGroup, NphComboboxOption } from './nph-combobox.list';
-
-export type { NphComboboxEntry, NphComboboxLabel, NphComboboxOption, NphComboboxSeparator } from './nph-combobox.list';
+import type { NphComboboxGroup } from './nph-combobox.list';
 
 const TAG = 'nph-combobox';
 
@@ -103,6 +102,41 @@ export type NphComboboxStart = (typeof NPH_COMBOBOX_STARTS)[number];
 /** Who filters the list: the combobox (`contains`) or the consumer (`none`). */
 export const NPH_COMBOBOX_FILTERS = ['contains', 'none'] as const;
 export type NphComboboxFilter = (typeof NPH_COMBOBOX_FILTERS)[number];
+
+/* The entries of `options`; the list module (`nph-combobox.list.ts`) takes them too. */
+
+/** One option of the list. */
+export interface NphComboboxOption {
+  type?: 'option';
+  /** The value the option gives the form. */
+  value: string;
+  /** The label, already localized by the consuming application. */
+  text: string;
+  /** The helper text after the label (the option `secondary`). */
+  secondary?: string;
+  /** The start of the option: `none` (default), `icon`, `avatar` or `dot` (P91). */
+  start?: NphOptionStart;
+  /** A core name of `nph-icon`, with `start: 'icon'`. Absent: `globe`. */
+  icon?: string;
+  /** The photo of the avatar, with `start: 'avatar'`. Absent or empty: the empty avatar. */
+  src?: string;
+  /** The color of the dot, with `start: 'dot'`. */
+  status?: NphOptionStatus;
+  disabled?: boolean;
+}
+
+/** The name of the group that follows it. */
+export interface NphComboboxLabel {
+  type: 'label';
+  text: string;
+}
+
+/** The line that closes a group. */
+export interface NphComboboxSeparator {
+  type: 'separator';
+}
+
+export type NphComboboxEntry = NphComboboxOption | NphComboboxLabel | NphComboboxSeparator;
 
 /** `nph-search`: the text the person typed. */
 export interface NphComboboxSearchDetail {

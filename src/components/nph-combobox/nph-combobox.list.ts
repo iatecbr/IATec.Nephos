@@ -5,8 +5,8 @@
  * the styles exported here, so the input, the listbox and the options share one root.
  *
  * What it gives:
- * - the entries of the list, the `options` of the field: an option, a group label and a
- *   separator, as the entries of `nph-dropdown-menu` (P92);
+ * - the entries of the list, the `options` of the field, typed in `nph-combobox.ts`: an
+ *   option, a group label and a separator, as the entries of `nph-dropdown-menu` (P92);
  * - the search: a text matches when it contains the typed text, with no difference of case
  *   or accent; the first match is the highlighted stretch;
  * - the groups: a label names the options that follow it, and a separator closes a group;
@@ -24,44 +24,11 @@ import '../nph-option/nph-option';
 import '../nph-separator/nph-separator';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
 import { NPH_OPTION_STARTS, NPH_OPTION_STATUSES } from '../nph-option/nph-option';
-import type { NphOptionStart, NphOptionStatus } from '../nph-option/nph-option';
+import type { NphComboboxEntry, NphComboboxOption } from './nph-combobox';
 import listCss from './nph-combobox.list.css?inline';
 
 /** The style of the list: the layer, the inside, the groups, the highlight, the states and the footer. */
 export const comboboxListStyles = unsafeCSS(listCss);
-
-/** One option of the list. */
-export interface NphComboboxOption {
-  type?: 'option';
-  /** The value the option gives the form. */
-  value: string;
-  /** The label, already localized by the consuming application. */
-  text: string;
-  /** The helper text after the label (the option `secondary`). */
-  secondary?: string;
-  /** The start of the option: `none` (default), `icon`, `avatar` or `dot` (P91). */
-  start?: NphOptionStart;
-  /** A core name of `nph-icon`, with `start: 'icon'`. Absent: `globe`. */
-  icon?: string;
-  /** The photo of the avatar, with `start: 'avatar'`. Absent or empty: the empty avatar. */
-  src?: string;
-  /** The color of the dot, with `start: 'dot'`. */
-  status?: NphOptionStatus;
-  disabled?: boolean;
-}
-
-/** The name of the group that follows it. */
-export interface NphComboboxLabel {
-  type: 'label';
-  text: string;
-}
-
-/** The line that closes a group. */
-export interface NphComboboxSeparator {
-  type: 'separator';
-}
-
-export type NphComboboxEntry = NphComboboxOption | NphComboboxLabel | NphComboboxSeparator;
 
 /** A group of the list: its label (empty for none), whether a line opens it, and its options. */
 export interface NphComboboxGroup {
