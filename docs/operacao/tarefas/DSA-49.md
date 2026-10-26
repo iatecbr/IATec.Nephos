@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 490,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-table",
   "dependencies": [
     "DSA-03",
@@ -39,7 +39,56 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D1",
+      "question": "The evidence lists the `categoria` content of the composite cell but does not describe it: no piece, text or token. What is the category cell, or the category row of the example \"Items grouped by category\"? Until the answer, nph-table has no category content, and the example shows the group rows as level 1 of the tree, open, with the total in the footer. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D2",
+      "question": "The evidence names the typography of the header only. The code uses text/heading-sm for the caption title, text/body-md for the caption description and the cell, and text/body-sm for the second line of the cell and the labels of the expanded item. The evidence also says the caption text is in table/caption-foreground: the code draws the title in table/foreground and the description in table/caption-foreground. Are these the roles? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D3",
+      "question": "The thumbnail without a photo should hide the photo and show the `image` icon over table/muted-background, but `image` is not in the nph-icon core, and the empty nph-image draws the frame only (D1 of DSA-51). Until then, the thumbnail without a photo is the empty frame of nph-image. Which glyph enters the core? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D4",
+      "question": "The icon-only Edit of the `ações` content uses `pen-to-square` from the core action icons. Is it `pen-to-square` or `pen`? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D5",
+      "question": "The `status` content uses `circle-check` for success and `circle-xmark` for error, the two status tokens of the table (table/status-success-icon and table/status-error-icon). Are these the glyphs, and are success and error the only statuses? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D6",
+      "question": "The `avaliação` content draws one `star`, in the solid style, in table/rating-foreground, and the score as a number beside it. Is it one star, and solid (the general rule is light)? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D7",
+      "question": "The total of the caption is an nph-badge secondary. The code uses the default emphasis (solid); the `selo` content of the cell is light. Which emphasis does the total use? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D8",
+      "question": "design.md has no usage entry for the table/* tokens. May the entries be added, as the other component tokens have? The code consumes them as the evidence binds them. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-49/documentacao-figma-aceita-2026-10-23.md"
   ],
@@ -57,9 +106,9 @@
     "excerpt": null,
     "converted_decision": "The nph-table board, with its `Documentação` frame (2584:66651), was accepted as the API and behavior specification of the nph-table. COMPONENT_SET 1370:113; parts 1370:19, 1370:20, 2425:1032, 2425:1033, 2425:1046, 2571:66334, 2571:66335 and 2571:66336. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-10-25"
+  "git_review": { "branch": "claude/dsa-49-nph-table-8d2ed2", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-49.md",
+  "updated_at": "2026-10-26"
 }
 ```
 
