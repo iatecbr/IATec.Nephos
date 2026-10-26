@@ -4111,6 +4111,10 @@
         "Boolean, reflected. The option fades and cannot be chosen."
       ],
       [
+        "marker",
+        "check (default) or checkbox, reflected. nph-select always uses check; checkbox is the multiple choice of nph-multi-combobox (P96)."
+      ],
+      [
         "selected, active",
         "Written by the list, never by the consumer. Not reflected."
       ]

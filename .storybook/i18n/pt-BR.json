@@ -4111,6 +4111,10 @@
         "Booleana, refletida. A opção esmaece e não pode ser escolhida."
       ],
       [
+        "marker",
+        "check (padrão) ou checkbox, refletido. O nph-select usa sempre check; checkbox é a escolha múltipla do nph-multi-combobox (P96)."
+      ],
+      [
         "selected, active",
         "Escritas pela lista, nunca pelo consumidor. Não refletem."
       ]
