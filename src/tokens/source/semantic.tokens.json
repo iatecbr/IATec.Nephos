@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "layer": "semantic",
-      "expectedCount": 343,
-      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09; o novo valor claro de color/accent e os 3 tokens scrollbar/* lidos variavel a variavel em 2026-10-14; radius/control-inner e layout/max-list-height, do nph-select e do nph-combobox, lidos variavel a variavel em 2026-10-14; text/highlight-weight lido em 2026-10-14; layout/multi-combobox-width, do nph-multi-combobox, lido variavel a variavel em 2026-10-15; layout/textarea-min-height e layout/textarea-max-height, do nph-textarea, lidos variavel a variavel em 2026-10-16; scheme/is-light e scheme/is-dark, booleanos do nph-empty, lidos variavel a variavel em 2026-10-16; o novo valor claro de color/muted (core/surface/50), lido em 2026-10-19; os 13 tokens do nph-dialog (layout/dialog-min-width, layout/dialog-sm, -md e -lg, layout/dialog-content-sm, -md e -lg, layout/dialog-max-height, space/stack-snug, space/inline-loose, space/overlay-padding, color/dialog-separator e color/secondary-on-dialog) lidos variavel a variavel em 2026-10-21; color/secondary-on-dialog-hover e os novos valores claros de color/secondary (core/surface/100) e color/secondary-hover (core/surface/200), lidos variavel a variavel em 2026-10-21; os 3 tokens do nph-dropdown-menu (color/dropdown-border, focus/border-radius-inner e focus/radius-inner-with-border) lidos variavel a variavel em 2026-10-21; dropdown/item-hover-icon-foreground, cor do icone solid do item do nph-dropdown-menu em hover (tipo default), lido variavel a variavel em 2026-10-21; motion/hover-delay, a espera do cursor do nph-tooltip (DSA-48), lido em 2026-10-22; os 23 tokens do nph-image (image/size-xs a 2xl, radius-sm a lg, background, foreground, border, border-width, focus-border, overlay, on-overlay, gap, media-width, icon-size-sm a lg, illustration-light e illustration-dark) e overlay/on-media-strong e overlay/on-media-foreground, lidos variavel a variavel em 2026-10-23 (DSA-51)",
+      "expectedCount": 420,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09; o novo valor claro de color/accent e os 3 tokens scrollbar/* lidos variavel a variavel em 2026-10-14; radius/control-inner e layout/max-list-height, do nph-select e do nph-combobox, lidos variavel a variavel em 2026-10-14; text/highlight-weight lido em 2026-10-14; layout/multi-combobox-width, do nph-multi-combobox, lido variavel a variavel em 2026-10-15; layout/textarea-min-height e layout/textarea-max-height, do nph-textarea, lidos variavel a variavel em 2026-10-16; scheme/is-light e scheme/is-dark, booleanos do nph-empty, lidos variavel a variavel em 2026-10-16; o novo valor claro de color/muted (core/surface/50), lido em 2026-10-19; os 13 tokens do nph-dialog (layout/dialog-min-width, layout/dialog-sm, -md e -lg, layout/dialog-content-sm, -md e -lg, layout/dialog-max-height, space/stack-snug, space/inline-loose, space/overlay-padding, color/dialog-separator e color/secondary-on-dialog) lidos variavel a variavel em 2026-10-21; color/secondary-on-dialog-hover e os novos valores claros de color/secondary (core/surface/100) e color/secondary-hover (core/surface/200), lidos variavel a variavel em 2026-10-21; os 3 tokens do nph-dropdown-menu (color/dropdown-border, focus/border-radius-inner e focus/radius-inner-with-border) lidos variavel a variavel em 2026-10-21; dropdown/item-hover-icon-foreground, cor do icone solid do item do nph-dropdown-menu em hover (tipo default), lido variavel a variavel em 2026-10-21; motion/hover-delay, a espera do cursor do nph-tooltip (DSA-48), lido em 2026-10-22; os 23 tokens do nph-image (image/size-xs a 2xl, radius-sm a lg, background, foreground, border, border-width, focus-border, overlay, on-overlay, gap, media-width, icon-size-sm a lg, illustration-light e illustration-dark) e overlay/on-media-strong e overlay/on-media-foreground, lidos variavel a variavel em 2026-10-23 (DSA-51); os 43 tokens do nph-table (table/*, todos alias de semantico, de theme ou de core: caption-action-gap, max-width, scrollbar-radius, scrollbar-thumb, scrollbar-track, scrollbar-width, status-error-icon adicionados em 2026-10-25), lidos variavel a variavel em 2026-10-25 (DSA-49); os tokens sidebar/* do nph-sidebar-item, do nph-sidebar-subitem e do nph-sidebar-rail-button (sidebar/item-*, sidebar/group-*, sidebar/flyout-*, sidebar/rail-*, sidebar/panel-background, sidebar/panel-border, sidebar/panel-radius, sidebar/panel-spacing, sidebar/separator, sidebar/section-gap e sidebar/search-*) e os raios de foco focus/border-radius-sidebar-item, focus/radius-sidebar-item, focus/border-radius-container e focus/radius-container, lidos variavel a variavel em 2026-10-26 (DSA-53)",
       "modeSet": {
         "name": "color-scheme",
         "modes": [
@@ -1327,6 +1327,22 @@
       "$type": "dimension",
       "$value": "{core.radius.off-scale.18}"
     },
+    "border-radius-sidebar-item": {
+      "$type": "dimension",
+      "$value": "{core.radius.off-scale.13}"
+    },
+    "radius-sidebar-item": {
+      "$type": "dimension",
+      "$value": "{core.radius.off-scale.17}"
+    },
+    "border-radius-container": {
+      "$type": "dimension",
+      "$value": "{core.radius.off-scale.9}"
+    },
+    "radius-container": {
+      "$type": "dimension",
+      "$value": "{core.radius.off-scale.13}"
+    },
     "ring-width": {
       "$type": "dimension",
       "$value": "{core.focus-width.default}"
@@ -1889,6 +1905,158 @@
           }
         }
       }
+    },
+    "item-foreground": {
+      "$type": "color",
+      "$value": "{core.surface.700}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{core.surface.700}",
+            "dark": "{core.surface.100}"
+          }
+        }
+      }
+    },
+    "item-foreground-active": {
+      "$type": "color",
+      "$value": "{color.primary-hover}"
+    },
+    "item-foreground-open": {
+      "$type": "color",
+      "$value": "{color.primary-hover}"
+    },
+    "item-background-hover": {
+      "$type": "color",
+      "$value": "{color.primary-surface}"
+    },
+    "item-background-active": {
+      "$type": "color",
+      "$value": "{color.primary-surface}"
+    },
+    "item-badge-background": {
+      "$type": "color",
+      "$value": "{color.primary-hover}"
+    },
+    "item-badge-foreground": {
+      "$type": "color",
+      "$value": "{color.primary-foreground}"
+    },
+    "group-line": {
+      "$type": "color",
+      "$value": "{color.primary-surface}"
+    },
+    "group-label": {
+      "$type": "color",
+      "$value": "{core.surface.700}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{core.surface.700}",
+            "dark": "{core.surface.100}"
+          }
+        }
+      }
+    },
+    "flyout-background": {
+      "$type": "color",
+      "$value": "{color.background}"
+    },
+    "flyout-border": {
+      "$type": "color",
+      "$value": "{color.primary-surface-hover}"
+    },
+    "flyout-title": {
+      "$type": "color",
+      "$value": "{color.primary-hover}"
+    },
+    "flyout-foreground": {
+      "$type": "color",
+      "$value": "{color.foreground}"
+    },
+    "flyout-option-hover": {
+      "$type": "color",
+      "$value": "{color.primary-surface}"
+    },
+    "rail-background-hover": {
+      "$type": "color",
+      "$value": "{color.primary-surface}"
+    },
+    "rail-background-active": {
+      "$type": "color",
+      "$value": "{color.primary-hover}"
+    },
+    "rail-foreground-active": {
+      "$type": "color",
+      "$value": "{color.primary-surface-hover}"
+    },
+    "item-height": {
+      "$type": "dimension",
+      "$value": "{core.space.800}"
+    },
+    "item-padding": {
+      "$type": "dimension",
+      "$value": "{core.space.off-scale.10}"
+    },
+    "item-radius": {
+      "$type": "dimension",
+      "$value": "{core.radius.500}"
+    },
+    "rail-button-size": {
+      "$type": "dimension",
+      "$value": "{core.space.800}"
+    },
+    "panel-background": {
+      "$type": "color",
+      "$value": "{color.primary-surface-hover}"
+    },
+    "panel-border": {
+      "$type": "color",
+      "$value": "{theme.brand-200}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{theme.brand-200}",
+            "dark": "{theme.brand-700}"
+          }
+        }
+      }
+    },
+    "separator": {
+      "$type": "color",
+      "$value": "{color.primary-surface}"
+    },
+    "panel-radius": {
+      "$type": "dimension",
+      "$value": "{core.radius.900}"
+    },
+    "rail-radius": {
+      "$type": "dimension",
+      "$value": "{core.radius.off-scale.18}"
+    },
+    "panel-spacing": {
+      "$type": "dimension",
+      "$value": "{core.space.600}"
+    },
+    "section-gap": {
+      "$type": "dimension",
+      "$value": "{space.stack}"
+    },
+    "search-background": {
+      "$type": "color",
+      "$value": "{color.primary-surface}"
+    },
+    "search-border": {
+      "$type": "color",
+      "$value": "{theme.brand-200}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{theme.brand-200}",
+            "dark": "{theme.brand-700}"
+          }
+        }
+      }
     }
   },
   "skeleton": {
@@ -2295,6 +2463,204 @@
     "track-width": {
       "$type": "dimension",
       "$value": "{core.layout-width.switch-track}"
+    }
+  },
+  "table": {
+    "background": {
+      "$type": "color",
+      "$value": "{color.background}"
+    },
+    "foreground": {
+      "$type": "color",
+      "$value": "{color.foreground}"
+    },
+    "muted-foreground": {
+      "$type": "color",
+      "$value": "{color.muted-foreground}"
+    },
+    "caption-foreground": {
+      "$type": "color",
+      "$value": "{color.muted-foreground}"
+    },
+    "muted-background": {
+      "$type": "color",
+      "$value": "{color.muted}"
+    },
+    "header-background": {
+      "$type": "color",
+      "$value": "{core.surface.25}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{core.surface.25}",
+            "dark": "{color.muted}"
+          }
+        }
+      }
+    },
+    "row-striped-background": {
+      "$type": "color",
+      "$value": "{core.surface.25}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{core.surface.25}",
+            "dark": "{core.surface.800}"
+          }
+        }
+      }
+    },
+    "row-hover-background": {
+      "$type": "color",
+      "$value": "{color.primary-surface}"
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.border}"
+    },
+    "border-width": {
+      "$type": "dimension",
+      "$value": "{border.width}"
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.container}"
+    },
+    "link-foreground": {
+      "$type": "color",
+      "$value": "{color.link}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{color.link}",
+            "dark": "{theme.brand-200}"
+          }
+        }
+      }
+    },
+    "status-success-icon": {
+      "$type": "color",
+      "$value": "{status.success}"
+    },
+    "rating-foreground": {
+      "$type": "color",
+      "$value": "{brand.educacao}"
+    },
+    "row-height": {
+      "$type": "dimension",
+      "$value": "{core.space.800}"
+    },
+    "row-height-large": {
+      "$type": "dimension",
+      "$value": "{control.height-large}"
+    },
+    "cell-padding-block": {
+      "$type": "dimension",
+      "$value": "{space.inline}"
+    },
+    "cell-padding-inline": {
+      "$type": "dimension",
+      "$value": "{space.control-padding}"
+    },
+    "action-cell-padding-block": {
+      "$type": "dimension",
+      "$value": "{space.control-padding}"
+    },
+    "container-padding": {
+      "$type": "dimension",
+      "$value": "{space.container-padding}"
+    },
+    "cell-gap": {
+      "$type": "dimension",
+      "$value": "{space.inline}"
+    },
+    "cell-gap-tight": {
+      "$type": "dimension",
+      "$value": "{space.inline-tight}"
+    },
+    "stack-gap": {
+      "$type": "dimension",
+      "$value": "{space.stack-tight}"
+    },
+    "empty-padding": {
+      "$type": "dimension",
+      "$value": "{space.section}"
+    },
+    "caption-max-width": {
+      "$type": "dimension",
+      "$value": "{layout.max-reading}"
+    },
+    "body-max-height": {
+      "$type": "dimension",
+      "$value": "{layout.max-list-height}"
+    },
+    "expand-indent": {
+      "$type": "dimension",
+      "$value": "{control.height-compact}"
+    },
+    "icon-size": {
+      "$type": "dimension",
+      "$value": "{icon.size-sm}"
+    },
+    "thumbnail-size": {
+      "$type": "dimension",
+      "$value": "{image.size-sm}"
+    },
+    "thumbnail-size-large": {
+      "$type": "dimension",
+      "$value": "{image.size-lg}"
+    },
+    "thumbnail-radius": {
+      "$type": "dimension",
+      "$value": "{radius.inner}"
+    },
+    "focus-ring-width": {
+      "$type": "dimension",
+      "$value": "{core.focus-width.sm}"
+    },
+    "sticky-divider-color": {
+      "$type": "color",
+      "$value": "{color.border}"
+    },
+    "sticky-divider-width": {
+      "$type": "dimension",
+      "$value": "{core.shadow-y.100}"
+    },
+    "sticky-divider-spread": {
+      "$type": "dimension",
+      "$value": "{core.shadow-spread.0}"
+    },
+    "sticky-divider-blur": {
+      "$type": "dimension",
+      "$value": "{core.shadow-blur.0}"
+    },
+    "caption-action-gap": {
+      "$type": "dimension",
+      "$value": "{space.inline}"
+    },
+    "max-width": {
+      "$type": "dimension",
+      "$value": "{layout.max-app}"
+    },
+    "scrollbar-radius": {
+      "$type": "dimension",
+      "$value": "{radius.full}"
+    },
+    "scrollbar-thumb": {
+      "$type": "color",
+      "$value": "{scrollbar.thumb}"
+    },
+    "scrollbar-track": {
+      "$type": "color",
+      "$value": "{scrollbar.track}"
+    },
+    "scrollbar-width": {
+      "$type": "dimension",
+      "$value": "{space.inline-tight}"
+    },
+    "status-error-icon": {
+      "$type": "color",
+      "$value": "{status.error}"
     }
   },
   "text": {
