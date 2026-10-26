@@ -4646,7 +4646,9 @@ rule of P21, as in P80. The names follow P64.
    focus the text, which is what `nph-field` calls on a click of its label, and a click on a label
    associated with the host is sent to the text by a listener on that label (the activation of a
    label runs the focusing steps, not `focus()`). A click inside the field, in a label that wraps
-   it, keeps its own target. `autofocus` on the text would make it the focus delegate, but it also
+   it, keeps its own target, and so does a click on a link or another control inside the label, as
+   on a native label. The listener is released when the field leaves the page or the label stops
+   being associated, and set again when the field comes back. `autofocus` on the text would make it the focus delegate, but it also
    takes the focus of the page on load: not used.
 
 10. **The list and the layer** are those of P95: a `popover="manual"` in the shadow root,

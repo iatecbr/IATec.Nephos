@@ -683,6 +683,44 @@ describe('accessible name, description and focus', () => {
     expect(document.activeElement).toBe(element);
   });
 
+  it('a link inside the associated label keeps its own action and takes no focus to the field (Copilot, round 1)', async () => {
+    const holder = document.createElement('div');
+    holder.innerHTML = '<label for="places">Places <a href="#help">Help</a></label><nph-multi-combobox id="places" remove-label="Remove"></nph-multi-combobox>';
+    const element = holder.querySelector('nph-multi-combobox') as NphMultiCombobox;
+    element.options = countries();
+    document.body.append(holder);
+    await settle(holder);
+    let prevented: boolean | null = null;
+    const record = (event: Event): void => {
+      prevented = event.defaultPrevented;
+      event.preventDefault();
+    };
+    document.addEventListener('click', record);
+    (holder.querySelector('a') as HTMLAnchorElement).click();
+    document.removeEventListener('click', record);
+    expect(prevented).toBe(false);
+    expect(element.shadowRoot?.activeElement ?? null).toBeNull();
+  });
+
+  it('the label listener is released when the field leaves the page and heard again when it comes back (Copilot, round 1)', async () => {
+    const holder = document.createElement('div');
+    holder.innerHTML = '<label for="places">Places</label><nph-multi-combobox id="places" remove-label="Remove"></nph-multi-combobox>';
+    const element = holder.querySelector('nph-multi-combobox') as NphMultiCombobox;
+    element.options = countries();
+    element.defaultValue = ['peru'];
+    document.body.append(holder);
+    await settle(holder);
+    const label = holder.querySelector('label') as HTMLLabelElement;
+    const released = vi.spyOn(label, 'removeEventListener');
+    element.remove();
+    expect(released).toHaveBeenCalledWith('click', expect.any(Function));
+    holder.append(element);
+    await settle(holder);
+    await userEvent.click(label);
+    await settle(holder);
+    expect(element.shadowRoot?.activeElement).toBe(field(element));
+  });
+
   it('a label that wraps the field keeps the click on a remove button', async () => {
     const holder = document.createElement('div');
     holder.innerHTML = '<label>Places <nph-multi-combobox remove-label="Remove"></nph-multi-combobox></label>';
@@ -973,6 +1011,27 @@ describe('events', () => {
     await type(element, 'per');
     field(element).dispatchEvent(new Event('change', { bubbles: true }));
     expect(fired).not.toHaveBeenCalled();
+  });
+
+  it('query set before the element is upgraded is kept and filters the list (Copilot, round 1)', async () => {
+    const tag = 'nph-multi-combobox-late-query';
+    const element = document.createElement(tag) as NphMultiCombobox;
+    element.setAttribute('label', 'Countries');
+    (element as unknown as { query: string }).query = 'br';
+    (element as unknown as { options: NphComboboxEntry[] }).options = countries();
+    document.body.append(element);
+    customElements.define(tag, class extends NphMultiCombobox {});
+    await settle();
+    await (element as NphMultiCombobox).updateComplete;
+    expect(element.query).toBe('br');
+    expect(field(element).value).toBe('br');
+    element.open = true;
+    await element.updateComplete;
+    expect(texts(element)).toEqual(['Brazil']);
+    element.query = 'chi';
+    await element.updateComplete;
+    expect(field(element).value).toBe('chi');
+    expect(texts(element)).toEqual(['Chile']);
   });
 
   it('setting value, defaultValue, query or open from code fires nothing', async () => {

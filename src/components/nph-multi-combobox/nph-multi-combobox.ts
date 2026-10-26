@@ -85,6 +85,9 @@ export type NphMultiComboboxSize = (typeof NPH_MULTI_COMBOBOX_SIZES)[number];
 /** The icon of a chip whose option has none: the default instance of the Figma `⮑ ícone` (D-3). */
 export const NPH_MULTI_COMBOBOX_CHIP_ICON = 'tag';
 
+/** Interactive content inside a label: a click on it keeps its own action (HTML, the label element). */
+const INTERACTIVE = 'a[href], button, input, select, textarea, details, summary, iframe, embed, [tabindex], [contenteditable=""], [contenteditable="true"]';
+
 /** How many options Page Up and Page Down move, as in `nph-combobox`. */
 const PAGE_STEP = 10;
 
@@ -167,6 +170,8 @@ export class NphMultiCombobox extends LitElement {
     /* The value and its default are lists: properties only, with their own accessors. */
     value: { attribute: false, noAccessor: true },
     defaultValue: { attribute: false, noAccessor: true },
+    /* `query` has its own accessor too; declared so a value set before the upgrade is kept. */
+    query: { attribute: false, noAccessor: true },
     placeholder: { type: String },
     /* `counter` reflects: the internal CSS keeps the field on one line by it. */
     counter: { type: Boolean, reflect: true },
@@ -241,8 +246,8 @@ export class NphMultiCombobox extends LitElement {
   /** After the first frame, a label rendered by another element has had its chance. */
   private settled = false;
   private warnedNoName = false;
-  /** The labels that already send their click to the text field. */
-  private readonly labelsHeard = new WeakSet<Element>();
+  /** The labels that send their click to the text field; released on disconnect. */
+  private readonly labelsHeard = new Set<Element>();
 
   constructor() {
     super();
@@ -275,10 +280,13 @@ export class NphMultiCombobox extends LitElement {
       attributes: true,
       attributeFilter: ['for', 'id'],
     });
+    /* Back in the page: the labels are heard again. */
+    this.syncName();
   }
 
   override disconnectedCallback(): void {
     this.labelObserver.disconnect();
+    this.releaseLabels([]);
     this.hideNow();
     this.open = false;
     super.disconnectedCallback();
@@ -307,11 +315,27 @@ export class NphMultiCombobox extends LitElement {
     if (event.defaultPrevented || ![...this.internals.labels].includes(label) || event.composedPath().includes(this)) {
       return;
     }
+    /* A link, a button or another control inside the label keeps its own action, as on a native label. */
+    const path = event.composedPath();
+    const inside = path.slice(0, Math.max(path.indexOf(label), 0));
+    if (inside.some((target) => target instanceof Element && target.matches(INTERACTIVE))) {
+      return;
+    }
     event.preventDefault();
     if (!this.inactive) {
       this.focus();
     }
   };
+
+  /** Stops hearing every label outside `keep`. */
+  private releaseLabels(keep: readonly Element[]): void {
+    for (const label of [...this.labelsHeard]) {
+      if (!keep.includes(label)) {
+        label.removeEventListener('click', this.onLabelClick);
+        this.labelsHeard.delete(label);
+      }
+    }
+  }
 
   /** The chosen values, in the order the person chose them. Setting them from code fires nothing. */
   get value(): string[] {
@@ -1084,7 +1108,9 @@ export class NphMultiCombobox extends LitElement {
       return;
     }
     const labels = [...this.internals.labels] as Element[];
-    for (const label of labels) {
+    /* Only the labels of the host now, and only while it is in the page. */
+    this.releaseLabels(this.isConnected ? labels : []);
+    for (const label of this.isConnected ? labels : []) {
       if (!this.labelsHeard.has(label)) {
         this.labelsHeard.add(label);
         label.addEventListener('click', this.onLabelClick);
