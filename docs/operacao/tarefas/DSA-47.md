@@ -86,7 +86,7 @@ Indiane answered D1 on 2026-10-26.
 
 | ID | Answer | What the code does |
 |---|---|---|
-| D1 | Option 1: the icon-only button (`data-nph-icon-only`; Figma set `nph-icon-button` 498:15671) also swaps its icon to `solid` in hover-active, the same rule as the button with text. At rest, in focus without hover, `disabled` and `loading` the icon stays `light`. Preview in Figma: `2722:5358`, page `Rascunho`. | The code applies the swap to the icon-only button too. The rule that applied only to the button with text stops being a limit. This change to the code is still to be made; this task is already merged without it. |
+| D1 | Option 1: the icon-only button (`data-nph-icon-only`; Figma set `nph-icon-button` 498:15671) also swaps its icon to `solid` in hover-active, the same rule as the button with text. At rest, in focus without hover, `disabled` and `loading` the icon stays `light`. Preview in Figma: `2722:5358`, page `Rascunho`. | The code must apply the swap to the icon-only button too, so the rule that applied only to the button with text stops being a limit. This change to the code is still to be made; this task is already merged without it. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed: the rule decided by Indiane, converted to
