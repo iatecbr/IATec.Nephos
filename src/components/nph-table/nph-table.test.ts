@@ -1266,6 +1266,40 @@ describe('regression of the third review of PR 119', () => {
   });
 });
 
+describe('regression of the fourth review of PR 119', () => {
+  it('a rejected row adds no chevron column and no tree indent to the valid rows', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const element = await mount({
+      rows: [
+        { key: 'bad', cells: { unit: 'Bad' }, toggleLabel: 'Bad', detail: { name: 'Bad' }, children: [] },
+        { key: 'good', cells: { unit: 'Good', amount: 1 } },
+      ],
+    });
+    expect(bodyRows(element).map((row) => cellsOf(row)[0]?.textContent?.trim())).toEqual(['Good']);
+    expect(root(element).querySelector('.chevron-column')).toBeNull();
+    expect(root(element).querySelector('.tree')).toBeNull();
+    expect(bodyRows(element)[0]?.hasAttribute('aria-level')).toBe(false);
+  });
+
+  it('the valid descendants of a closed level still shape the table, and those of a rejected row do not', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const element = await mount({
+      rows: [
+        {
+          key: 'closed',
+          cells: { unit: 'Closed', amount: 1 },
+          toggleLabel: 'Open closed',
+          children: [{ key: 'child', cells: { unit: 'Child', amount: 1 }, toggleLabel: 'Details of child', detail: { name: 'Item' } }],
+        },
+        { key: 'rejected', cells: { unit: 'Rejected' }, children: [{ key: 'orphan', cells: { unit: 'Orphan' }, toggleLabel: 'X', detail: { name: 'X' } }] },
+      ],
+    });
+    /* The closed level holds a row with detail: the chevron column is there before it opens. */
+    expect(root(element).querySelector('thead .chevron-column')).not.toBeNull();
+    expect(bodyRows(element).map((row) => cellsOf(row)[0]?.textContent?.trim())).toEqual(['Closed']);
+  });
+});
+
 describe('color schemes', () => {
   it('in dark mode the header is color/muted through table/header-background, and the stripe core/surface/800', async () => {
     const frame = document.createElement('div');

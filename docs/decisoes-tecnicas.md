@@ -4300,7 +4300,8 @@ and P90. The names follow P64.
    `data-nph-rendered` out and emits one `console.error` per cause. A row without `key` or with a
    repeated one, with both `detail` and `children`, with children at the third level, a row that
    opens without `toggleLabel`, a detail without `name` or with a badge severity outside the list
-   is left out. A cell with a `type` outside the list or without the fields it needs (text, `href`,
+   is left out, with its descendants, and shapes nothing: the chevron column and the tree come
+   from the valid rows only, closed levels included. A cell with a `type` outside the list or without the fields it needs (text, `href`,
    `action`, the button names), with a badge severity, a status or an icon outside the lists, or a
    link whose `href`, parsed as the browser parses it, takes another protocol (`javascript:`,
    `data:`), is drawn blank. No row and no `empty-heading` draws the body blank. Each cause is reported once per

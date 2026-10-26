@@ -422,29 +422,24 @@ export class NphTable extends LitElement {
   private checkRows(): readonly DrawnRow[] {
     const rows = Array.isArray(this.rows) ? this.rows : [];
     const keys = new Set<string>();
-    const all: NphTableRow[] = [];
-    const collect = (list: readonly NphTableRow[], level: number): void => {
-      for (const row of list) {
-        all.push(row);
-        if (Array.isArray(row?.children) && level < NPH_TABLE_MAX_LEVEL) collect(row.children, level + 1);
-      }
-    };
-    collect(rows, 1);
-    this.hasDetailColumn = all.some((row) => row?.detail !== undefined && row?.detail !== null);
-    this.isTree = all.some((row) => Array.isArray(row?.children));
-
-    const drawn: DrawnRow[] = [];
-    const walk = (list: readonly NphTableRow[], level: number): void => {
+    /* Every valid row, open or closed, in order: the closed ones too, so opening a level does
+       not change the shape of the table. A row left out takes its descendants with it. */
+    const valid: Array<{ drawn: DrawnRow; visible: boolean }> = [];
+    const walk = (list: readonly NphTableRow[], level: number, visible: boolean): void => {
       for (const row of list) {
         const checked = this.checkRow(row, level, keys);
         if (checked === null) continue;
-        drawn.push(checked);
-        if (checked.hasChildren && checked.open) walk(row.children ?? [], level + 1);
+        valid.push({ drawn: checked, visible });
+        if (checked.hasChildren) walk(row.children ?? [], level + 1, visible && checked.open);
       }
     };
-    walk(rows, 1);
-    return drawn;
+    walk(rows, 1, true);
+    /* The chevron column and the tree come from the valid rows only: a rejected row changes nothing. */
+    this.hasDetailColumn = valid.some(({ drawn }) => drawn.row.detail !== undefined && drawn.row.detail !== null);
+    this.isTree = valid.some(({ drawn }) => drawn.hasChildren);
+    return valid.filter(({ visible }) => visible).map(({ drawn }) => drawn);
   }
+
 
   private checkRow(row: NphTableRow, level: number, keys: Set<string>): DrawnRow | null {
     const key = trimmed(row?.key);
