@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 460,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-dropdown-menu",
   "dependencies": ["DSA-17", "DSA-27"],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Menu, item, parts, the right-from-bracket icon in nph-icon, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-45/review-and-merge-2026-10-26.md",
+      "result": "passed",
+      "verified_at": "2026-10-26",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -68,7 +68,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-45/documentacao-figma-aceita-2026-10-21.md"
+    "docs/operacao/evidencias/DSA-45/documentacao-figma-aceita-2026-10-21.md",
+    "docs/operacao/evidencias/DSA-45/review-and-merge-2026-10-26.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -86,11 +87,11 @@
   },
   "git_review": {
     "branch": "claude/dsa-45-nph-dropdown-menu-6256e3",
-    "commit": "680d6bc78c0766dd23e490deeddd75631937fe6a",
+    "commit": "4c4ff5a887c26f2257573082fb874d1ee7617475",
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/118"
   },
-  "context": "docs/operacao/contextos/DSA-45.md",
-  "updated_at": "2026-10-24"
+  "context": null,
+  "updated_at": "2026-10-26"
 }
 ```
 
