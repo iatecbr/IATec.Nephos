@@ -185,6 +185,15 @@
     "components-nph-select-validation--form-association": "Asociación al formulario",
     "components-nph-select-validation--invalid-input": "Entrada inválida",
     "components-nph-select-validation--examples": "Ejemplos",
+    "components-nph-combobox-docs": "Docs",
+    "components-nph-combobox-docs--documentation": "Documentación",
+    "components-nph-combobox-validation": "Validación",
+    "components-nph-combobox-validation--matrix": "Matriz",
+    "components-nph-combobox-validation--start": "Inicio",
+    "components-nph-combobox-validation--list-states": "Estados de la lista",
+    "components-nph-combobox-validation--form-association": "Asociación al formulario",
+    "components-nph-combobox-validation--invalid-input": "Entrada inválida",
+    "components-nph-combobox-validation--examples": "Ejemplos",
     "components-nph-input-otp-docs": "Docs",
     "components-nph-input-otp-docs--documentation": "Documentación",
     "components-nph-input-otp-validation": "Validación",
@@ -5706,6 +5715,566 @@
     "exampleView": "Elección única con contador",
     "exampleOptions": "Etiqueta, interruptor y destructivo"
   },
+  "comboboxDocs": {
+    "summary": "El campo donde la persona escribe para filtrar una lista de opciones y elige una. Forma parte del formulario que lo contiene; la etiqueta, la ayuda y el mensaje de error son del nph-field.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-combobox, design.md para los tokens y docs/decisoes-tecnicas.md para la P95. El archivo DS-IA-NEPHOS 5.0 en Figma es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "sourceFrame": "Figma, tablero nph-combobox (1359:142), documentación 1766:2400, conjunto 1359:115",
+    "sourceApi": "Ficha del nph-combobox; docs/decisoes-tecnicas.md › P95",
+    "sourceDecisions": "Tarea DSA-46, decisiones pendientes D-1 a D-5; docs/decisoes-tecnicas.md › P95",
+    "sourceAccessibility": "Figma, tablero nph-combobox (1359:142); nph-combobox.test.ts",
+    "matrixLabel": "size × estado",
+    "description": "Use nph-combobox cuando la lista es larga y buscar por el nombre es más rápido que desplazarse. La opción elegida se muestra como texto en el campo, con un botón para borrarla. No reemplaza al nph-select, para listas cortas sin búsqueda, ni al nph-multi-combobox, para varias opciones. Acepta texto fuera de la lista solo cuando la lista ofrece la fila crear.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Cuando la lista es larga y la persona sabe el nombre de lo que busca: escribir la filtra.",
+      "Dentro de un nph-field, que da la etiqueta, el texto de ayuda y el mensaje de error.",
+      "Con el punto de estado cuando cada opción tiene un estado, escrito en el texto de la opción.",
+      "Con creatable solo cuando la lista acepta elementos nuevos; con el pie de atajos en pantallas muy usadas con el teclado.",
+      "default en la mayoría de los formularios; large cuando el formulario usa campos altos."
+    ],
+    "whenNotToUse": [
+      "Para una lista corta que cabe en la pantalla sin búsqueda: use nph-select.",
+      "Para elegir varias opciones: use nph-multi-combobox.",
+      "Para ofrecer crear en una lista cerrada: deje creatable apagado, y la lista muestra el nph-empty.",
+      "Para cambiar el color del área de la flecha: para un error, use invalid por medio del nph-field.",
+      "Para usar el punto de estado sin un estado escrito."
+    ],
+    "relationsText": "Las opciones son datos, en options; el combobox dibuja cada una como un nph-option, la opción compartida con el nph-select. El nph-field compone la etiqueta, el combobox, la ayuda y el mensaje de error, y escribe label, description, invalid y required en él. La lista vacía muestra un nph-empty; la lista en espera, un nph-spinner; los grupos usan la etiqueta de grupo y el separador del nph-dropdown-menu; el pie de atajos usa teclas nph-kbd.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "options",
+        "Las entradas de la lista, como datos: opciones, etiquetas de grupo y separadores. Una entrada inválida queda fuera."
+      ],
+      [
+        "size",
+        "default o large, reflejado. Cambian la altura del campo y el ancho del área de la flecha."
+      ],
+      [
+        "value",
+        "El valor actual: el valor de la opción elegida. El atributo value es el valor inicial y el valor de form.reset(). El valor se guarda hasta que llega una opción con él. Definido por código, no dispara nada."
+      ],
+      [
+        "query",
+        "El texto escrito. Definido por código, lo escribe en el campo y filtra la lista, sin disparar nada."
+      ],
+      [
+        "placeholder",
+        "La invitación antes de una elección, ya traducida, como Busque un país. No es un nombre."
+      ],
+      [
+        "start",
+        "search, icon o avatar. search dibuja la lupa; icon y avatar repiten el inicio de la opción elegida, o la propiedad icon y el avatar vacío antes de una elección."
+      ],
+      [
+        "icon",
+        "Un nombre del núcleo de nph-icon, por defecto globe: el ícono de inicio con start=icon."
+      ],
+      [
+        "clearable, clear-label",
+        "El botón borrar y su nombre accesible. Borra la opción elegida y el texto escrito."
+      ],
+      [
+        "filter",
+        "contains, la lista mantiene las opciones cuyo texto contiene lo escrito, sin distinguir mayúsculas ni acentos; none, el consumidor filtra options por su cuenta."
+      ],
+      [
+        "loading, loading-label",
+        "La lista en espera: el nph-spinner y su nombre accesible."
+      ],
+      [
+        "creatable, create-label",
+        "La fila crear, que ofrece el texto escrito como elemento nuevo, y las palabras antes del texto."
+      ],
+      [
+        "empty-heading, empty-description",
+        "Los textos del nph-empty cuando nada coincide."
+      ],
+      [
+        "open",
+        "Booleano, reflejado. La lista está abierta. Abrir y cerrar no disparan evento."
+      ],
+      [
+        "name, required",
+        "Como en un campo nativo. Sin opción elegida, la entrada queda fuera de los datos del formulario; required sin elección es valueMissing, con el mensaje del navegador."
+      ],
+      [
+        "invalid",
+        "El estado erro: el borde pasa a status/error y el campo recibe aria-invalid. La frase es del nph-field."
+      ],
+      [
+        "disabled",
+        "Booleano, reflejado. Toda la pieza se atenúa, sale del orden del Tab y de los datos del formulario, y la lista no se abre."
+      ],
+      [
+        "label, description",
+        "El nombre y la descripción accesibles en texto, nunca visibles, escritos por el nph-field."
+      ],
+      [
+        "input, change",
+        "Disparados por el host, en este orden, cuando la persona cambia el valor: una elección, el botón borrar o la fila crear."
+      ],
+      [
+        "nph-search",
+        "detail.query: el texto escrito cambió. El consumidor que filtra busca con él."
+      ],
+      [
+        "nph-create",
+        "detail.text: la persona eligió la fila crear. El valor pasa a ser el texto; el consumidor agrega la opción."
+      ],
+      [
+        "slot shortcuts",
+        "El pie de atajos: teclas nph-kbd y sus palabras."
+      ]
+    ],
+    "entryHeader": [
+      "Entrada",
+      "Regla"
+    ],
+    "entries": [
+      [
+        "value, text",
+        "El valor para el formulario y la etiqueta, ya traducida. Ambos obligatorios en una opción."
+      ],
+      [
+        "secondary",
+        "El texto de ayuda después de la etiqueta."
+      ],
+      [
+        "start, icon, src, status",
+        "El inicio del nph-option: none, icon, avatar o dot, con su ícono, foto o estado."
+      ],
+      [
+        "disabled",
+        "La opción no se puede elegir."
+      ],
+      [
+        "type: label",
+        "El nombre del grupo que la sigue."
+      ],
+      [
+        "type: separator",
+        "La línea que cierra un grupo."
+      ]
+    ],
+    "invalidTitle": "Una entrada inválida no dibuja nada.",
+    "invalidText": "Un size fuera de default y large, un start fuera de search, icon y avatar, un icon fuera del núcleo o un filter fuera de contains y none: el combobox no se renderiza y emite console.error en desarrollo. clearable sin clear-label, creatable sin create-label y loading sin loading-label emiten un error cada uno.",
+    "sizesTitle": "Tamaños",
+    "sizesText": "default en la mayoría de los formularios; large cuando el formulario usa campos altos. Cambian la altura del campo y el ancho del área de la flecha: control/height-default o control/height-large.",
+    "sizesCaption": "default y large, con una opción elegida.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "Borde color/input sobre color/background; el área de la flecha en color/accent, después de un divisor color/border."
+      ],
+      [
+        "hover",
+        "El borde pasa a color/input-hover."
+      ],
+      [
+        "foco",
+        "Foco en el texto: borde focus/border y el focus/halo por fuera."
+      ],
+      [
+        "aberto",
+        "El aspecto de foco con la lista abierta debajo del campo y la flecha hacia arriba."
+      ],
+      [
+        "foco-limpar",
+        "Foco en el botón borrar: el anillo sigue solo al botón."
+      ],
+      [
+        "erro",
+        "Borde status/error, también en hover; con foco, el halo es focus/halo-error."
+      ],
+      [
+        "disabled",
+        "color/muted, borde color/input y state/disabled-opacity en toda la pieza; gana sobre el error."
+      ]
+    ],
+    "statesCaption": "Placeholder, valor con el botón borrar, error y deshabilitado.",
+    "startTitle": "Inicio",
+    "startText": "search dibuja la lupa, decorativa. icon y avatar repiten el inicio de la opción elegida: el avatar ayuda a reconocer a la persona.",
+    "startCaption": "start=search, start=icon y start=avatar.",
+    "listTitle": "Lista",
+    "listText": "La lista se abre space/inline-tight debajo del campo, con su ancho, y se da vuelta hacia arriba cuando no cabe debajo. Muestra las opciones dentro de layout/max-list-height y se desplaza por encima de eso. El foco queda en el texto, que apunta a la opción activa.",
+    "listStatesHeader": [
+      "Estado",
+      "Qué muestra"
+    ],
+    "listStates": [
+      [
+        "resultados",
+        "Las opciones que coinciden, como nph-option."
+      ],
+      [
+        "busca",
+        "El tramo escrito en text/highlight-weight; el resto del texto en color/muted-foreground."
+      ],
+      [
+        "status",
+        "Opciones con el punto de estado y la etiqueta escrita."
+      ],
+      [
+        "grupos",
+        "Resultados bajo etiquetas de grupo, con el separador entre grupos."
+      ],
+      [
+        "carregando",
+        "El nph-spinner mientras la búsqueda responde."
+      ],
+      [
+        "criar",
+        "La fila crear después de los resultados, con el texto escrito."
+      ],
+      [
+        "vazio",
+        "El nph-empty cuando nada coincide en una lista cerrada."
+      ],
+      [
+        "atalhos",
+        "El pie opcional con las teclas, como nph-kbd."
+      ]
+    ],
+    "searchCaption": "busca: el tramo escrito resaltado.",
+    "statusCaption": "status: el punto con el estado escrito.",
+    "groupsCaption": "grupos: etiquetas de grupo y el separador.",
+    "emptyCaption": "vazio: el nph-empty.",
+    "keyboardHeader": [
+      "Tecla",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Caracteres",
+        "Escriben en el campo, abren la lista, la filtran y activan la primera coincidencia."
+      ],
+      [
+        "ArrowDown, ArrowUp",
+        "Cerrada: abren en la opción elegida, o en la primera o la última. Abierta: mueven la opción activa, sin dar la vuelta."
+      ],
+      [
+        "Alt+ArrowDown",
+        "Abre la lista sin moverse."
+      ],
+      [
+        "PageDown, PageUp",
+        "Abierta: mueven diez opciones."
+      ],
+      [
+        "Enter, Alt+ArrowUp",
+        "Abierta: eligen la opción activa y cierran. Cerrada, Enter envía el formulario."
+      ],
+      [
+        "Escape",
+        "Abierta: cierra sin elegir. Cerrada: borra el texto escrito."
+      ],
+      [
+        "Tab",
+        "Cierra sin elegir; el foco sigue adelante."
+      ],
+      [
+        "Home, End",
+        "Mueven el cursor en el texto."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Inicio",
+        "La lupa o un nph-icon icon/size-sm en color/muted-foreground, o un nph-avatar sm."
+      ],
+      [
+        "2. Texto",
+        "El placeholder, el texto escrito o la opción elegida, en text/body-md; el placeholder en color/muted-foreground."
+      ],
+      [
+        "3. Borrar",
+        "Botón con el nph-icon xmark icon/size-sm y space/inline-tight alrededor."
+      ],
+      [
+        "4. Divisor",
+        "border/width en color/border, justo antes del área de la flecha, space/inline después del contenido."
+      ],
+      [
+        "5. Área de la flecha",
+        "color/accent, con control/height-* de ancho y la altura del campo menos sus bordes; radius/none a la izquierda y radius/control-inner a la derecha; chevron-down, o chevron-up abierta."
+      ],
+      [
+        "6. Lista",
+        "color/popover, borde color/input, radius/container, padding space/inline-tight, altura máxima layout/max-list-height, elevation/dropdown."
+      ],
+      [
+        "7. Anillo de foco",
+        "focus/border y focus/halo en el campo, o alrededor del botón borrar."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Un combobox editable con autocompletado de lista: el texto tiene el rol combobox y controla una listbox; cada nph-option tiene el rol option y aria-selected."
+      ],
+      [
+        "Nombre accesible",
+        "La etiqueta del nph-field, o label; el placeholder no es un nombre. description se lee junto: la ayuda o la frase de error. El botón borrar tiene aria-label."
+      ],
+      [
+        "Teclado y foco",
+        "El foco queda en el texto y apunta a la opción activa con aria-activedescendant."
+      ],
+      [
+        "Contraste",
+        "Texto 4,5:1 y el borde 3:1, en modo claro y oscuro; la flecha 3:1 sobre color/accent; el resto del texto fuera del resaltado en color/muted-foreground supera 4,5:1."
+      ],
+      [
+        "El color no es la única señal",
+        "El error llega como texto en el nph-field; el punto acompaña el estado escrito; el resaltado cambia el peso; la flecha gira hacia arriba cuando la lista se abre."
+      ],
+      [
+        "Región viva",
+        "Las listas en espera y vacía están en una región de estado: la persona oye que la búsqueda no encontró nada."
+      ],
+      [
+        "Partes ocultas",
+        "La lupa, el divisor, la flecha y el punto quedan ocultos para el lector de pantalla."
+      ]
+    ],
+    "examplesTitle": "Ejemplos obligatorios",
+    "exampleChosen": "Opción elegida, en reposo: el valor en el campo, con el botón borrar.",
+    "exampleSearch": "Búsqueda con el tramo escrito resaltado: la lista busca.",
+    "exampleLoading": "Búsqueda esperando la respuesta: la lista carregando.",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, tablero nph-combobox (1359:142), documentación 1766:2400",
+      "fichas/nph-combobox.md",
+      "docs/decisoes-tecnicas.md › P95, P91, P80 y P83",
+      "WAI-ARIA Authoring Practices, combobox editable con autocompletado de lista"
+    ],
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "countryLabel": "País",
+    "countryHelp": "Dónde vive la persona.",
+    "placeholder": "Busque un país",
+    "clearLabel": "Borrar el país",
+    "countries": [
+      "Argentina",
+      "Brasil",
+      "Canadá",
+      "Chile",
+      "Colombia",
+      "México",
+      "Paraguay",
+      "Perú",
+      "Uruguay",
+      "Venezuela"
+    ],
+    "searchQuery": "ra",
+    "emptyQuery": "Narnia",
+    "createQuery": "Bolivia",
+    "loadingLabel": "Buscando",
+    "createLabel": "Crear",
+    "emptyHeading": "No se encontró ningún país",
+    "emptyDescription": "Revise la ortografía o pruebe otro nombre.",
+    "ownerLabel": "Responsable",
+    "people": [
+      {
+        "name": "Ana Souza",
+        "role": "Diseñadora de producto"
+      },
+      {
+        "name": "Bruno Lima",
+        "role": "Ingeniero"
+      },
+      {
+        "name": "Carla Dias",
+        "role": "Investigadora"
+      },
+      {
+        "name": "Diego Alves",
+        "role": "Gerente de producto"
+      }
+    ],
+    "statusLabel": "Estado",
+    "statuses": [
+      {
+        "status": "success",
+        "label": "Activo"
+      },
+      {
+        "status": "warning",
+        "label": "Pendiente"
+      },
+      {
+        "status": "error",
+        "label": "Bloqueado"
+      },
+      {
+        "status": "info",
+        "label": "En revisión"
+      },
+      {
+        "status": "help",
+        "label": "En espera"
+      },
+      {
+        "status": "neutral",
+        "label": "Archivado"
+      }
+    ],
+    "regions": [
+      {
+        "name": "América del Sur",
+        "countries": [
+          "Argentina",
+          "Brasil",
+          "Chile",
+          "Perú"
+        ]
+      },
+      {
+        "name": "América del Norte",
+        "countries": [
+          "Canadá",
+          "México",
+          "Estados Unidos"
+        ]
+      }
+    ]
+  },
+  "comboboxValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "countryLabel": "País",
+    "countryHelp": "Dónde vive la persona.",
+    "placeholder": "Busque un país",
+    "clearLabel": "Borrar el país",
+    "countries": [
+      "Argentina",
+      "Brasil",
+      "Canadá",
+      "Chile",
+      "Colombia",
+      "México",
+      "Paraguay",
+      "Perú",
+      "Uruguay",
+      "Venezuela"
+    ],
+    "searchQuery": "ra",
+    "emptyQuery": "Narnia",
+    "createQuery": "Bolivia",
+    "loadingLabel": "Buscando",
+    "createLabel": "Crear",
+    "emptyHeading": "No se encontró ningún país",
+    "emptyDescription": "Revise la ortografía o pruebe otro nombre.",
+    "ownerLabel": "Responsable",
+    "people": [
+      {
+        "name": "Ana Souza",
+        "role": "Diseñadora de producto"
+      },
+      {
+        "name": "Bruno Lima",
+        "role": "Ingeniero"
+      },
+      {
+        "name": "Carla Dias",
+        "role": "Investigadora"
+      },
+      {
+        "name": "Diego Alves",
+        "role": "Gerente de producto"
+      }
+    ],
+    "statusLabel": "Estado",
+    "statuses": [
+      {
+        "status": "success",
+        "label": "Activo"
+      },
+      {
+        "status": "warning",
+        "label": "Pendiente"
+      },
+      {
+        "status": "error",
+        "label": "Bloqueado"
+      },
+      {
+        "status": "info",
+        "label": "En revisión"
+      },
+      {
+        "status": "help",
+        "label": "En espera"
+      },
+      {
+        "status": "neutral",
+        "label": "Archivado"
+      }
+    ],
+    "regions": [
+      {
+        "name": "América del Sur",
+        "countries": [
+          "Argentina",
+          "Brasil",
+          "Chile",
+          "Perú"
+        ]
+      },
+      {
+        "name": "América del Norte",
+        "countries": [
+          "Canadá",
+          "México",
+          "Estados Unidos"
+        ]
+      }
+    ],
+    "locationLabel": "Lugar de trabajo",
+    "locations": [
+      "Oficina en casa",
+      "Cliente",
+      "Remoto"
+    ],
+    "shortcutMove": "para moverse",
+    "shortcutChoose": "para elegir",
+    "shortcutClose": "para cerrar",
+    "submitText": "Enviar",
+    "resetText": "Restablecer",
+    "statusIdle": "Nada enviado todavía.",
+    "statusSubmitted": "Enviado: {data}",
+    "statusReset": "El formulario volvió a sus valores iniciales.",
+    "statusNoEvent": "Ningún evento todavía.",
+    "statusEvent": "{event}: {value}",
+    "fieldsetDisabled": "Fieldset deshabilitado",
+    "exampleChosen": "Opción elegida, en reposo",
+    "exampleSearch": "Búsqueda con el tramo escrito resaltado",
+    "exampleLoading": "Búsqueda esperando la respuesta"
+  },
   "validationPages": {
     "sheetTitle": "El contrato está en la ficha",
     "sheetText": "Esta pieza no tiene página de lectura en Storybook. Su contrato está en {sheet}; estas stories lo comprueban.",
@@ -5845,7 +6414,13 @@
       "components-nph-dropdown-menu-validation--sizes": "size default, con filas de 36, y size compact, con filas de 28, para todo el menú.",
       "components-nph-dropdown-menu-validation--header": "El encabezado de perfil sobre los ítems, con un separador debajo, un rótulo de grupo y el Salir destructivo.",
       "components-nph-dropdown-menu-validation--interactive": "El disparador abre el menú; activar un ítem dispara nph-item-select, cuyos value y checked aparecen debajo del disparador. Un interruptor mantiene el menú abierto.",
-      "components-nph-dropdown-menu-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: el menú de la cuenta, elección única con contador, y etiqueta, interruptor y destructivo."
+      "components-nph-dropdown-menu-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: el menú de la cuenta, elección única con contador, y etiqueta, interruptor y destructivo.",
+      "components-nph-combobox-validation--matrix": "size × estado: placeholder, valor, valor con el botón borrar, error, deshabilitado y ambos, con el divisor y el área de la flecha en color/accent. Pase el mouse para el hover, presione Tab para el foco y otra vez para el botón borrar.",
+      "components-nph-combobox-validation--start": "El inicio del campo: la lupa, un ícono y un avatar, antes de una elección y con el inicio de la opción elegida.",
+      "components-nph-combobox-validation--list-states": "Los siete estados de la lista, abierta: resultados, búsqueda con el tramo escrito resaltado, estado, grupos, cargando, crear y vacía; y el pie de atajos (D-1 a D-3).",
+      "components-nph-combobox-validation--form-association": "El host forma parte del formulario: enviar manda name=value, restablecer vuelve al atributo value, una elección dispara input y change, y un fieldset deshabilitado lo deshabilita.",
+      "components-nph-combobox-validation--invalid-input": "Una entrada inválida no dibuja nada: un size, un start y un filter que no existen, y un icon fuera del núcleo.",
+      "components-nph-combobox-validation--examples": "Los tres ejemplos obligatorios del tablero, en el nph-field: opción elegida en reposo, búsqueda con el tramo escrito resaltado y búsqueda esperando la respuesta, cada uno en modo claro y oscuro."
     }
   }
 }

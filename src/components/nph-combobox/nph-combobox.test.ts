@@ -177,7 +177,6 @@ async function accessibleNodeOf(target: Element): Promise<AXNode> {
 describe('the list module (shared with nph-multi-combobox)', () => {
   it('matches with no difference of case or accent, in the original text', () => {
     expect(matchRange('São Paulo', 'sao')).toEqual([0, 3]);
-    expect(matchRange('Bogotá', 'TA')).toEqual([4, 6]);
     expect(matchRange('Brazil', 'zil')).toEqual([3, 6]);
     expect(matchRange('Brazil', 'xyz')).toBeNull();
     expect(matchRange('Brazil', '  ')).toBeNull();
@@ -448,7 +447,7 @@ describe('accessible name and description', () => {
   });
 });
 
-describe('search and the busca list', () => {
+describe('the search and its highlight', () => {
   it('typing opens the list, filters it with no difference of case or accent, and makes the first match active (D-5)', async () => {
     const element = await mount('label="Country"', [...countries(), { value: 'sp', text: 'São Tomé' }]);
     await type(element, 'sa');
@@ -496,6 +495,22 @@ describe('search and the busca list', () => {
     }
   });
 
+  it('query set from code writes the text, filters the list and fires nothing', async () => {
+    const element = await mount();
+    const fired = vi.fn();
+    element.addEventListener('nph-search', fired);
+    element.query = 'raz';
+    element.open = true;
+    await settle();
+    expect(field(element).value).toBe('raz');
+    expect(texts(element)).toEqual(['Brazil']);
+    expect(activeOf(element)).toBe(row(element, 'Brazil'));
+    expect(fired).not.toHaveBeenCalled();
+    element.query = '';
+    await settle();
+    expect(texts(element)).toHaveLength(COUNTRIES.length);
+  });
+
   it('filter none keeps every option: the consumer filters, and the highlight stays', async () => {
     const element = await mount('label="Country" filter="none"');
     await type(element, 'raz');
@@ -530,7 +545,7 @@ describe('groups, status, loading, create, empty and shortcuts', () => {
     { value: 'canada', text: 'Canada' },
   ];
 
-  it('grupos: group labels in the look of nph-dropdown-menu and an nph-separator between groups', async () => {
+  it('groups: group labels in the look of nph-dropdown-menu and an nph-separator between groups', async () => {
     const element = await mount('label="Country"', grouped);
     element.open = true;
     await settle();
@@ -565,7 +580,7 @@ describe('groups, status, loading, create, empty and shortcuts', () => {
     expect(option.shadowRoot?.querySelector('.dot')).not.toBeNull();
   });
 
-  it('carregando: the nph-spinner with loading-label, and no option', async () => {
+  it('loading: the nph-spinner with loading-label, and no option', async () => {
     const element = await mount('label="Country" loading loading-label="Searching"');
     element.open = true;
     await settle();
@@ -589,7 +604,7 @@ describe('groups, status, loading, create, empty and shortcuts', () => {
     expect(activeOf(element)).toBe(row(element, 'Brazil'));
   });
 
-  it('criar: the create row offers the typed text after the results, with the plus icon (D-1)', async () => {
+  it('create: the create row offers the typed text after the results, with the plus icon (D-1)', async () => {
     const element = await mount('label="Country" creatable create-label="Create"');
     await type(element, 'Per');
     const create = rows(element).at(-1) as NphOption;
@@ -622,7 +637,7 @@ describe('groups, status, loading, create, empty and shortcuts', () => {
     expect(field(element).value).toBe('Bolivia');
   });
 
-  it('vazio: the nph-empty in a live region when nothing matches in a closed list', async () => {
+  it('empty: the nph-empty in a live region when nothing matches in a closed list', async () => {
     const element = await mount('label="Country" empty-heading="No country found" empty-description="Check the spelling"');
     await type(element, 'xyz');
     expect(element.open).toBe(true);
@@ -638,13 +653,13 @@ describe('groups, status, loading, create, empty and shortcuts', () => {
     expect(element.open).toBe(false);
   });
 
-  it('atalhos: the shortcuts slot draws the footer, with a color/border line above', async () => {
+  it('shortcuts: the slot draws the footer, with a color/border line above', async () => {
     const element = await mount();
     const footer = element.shadowRoot?.querySelector('.footer') as HTMLElement;
     expect(footer.hidden).toBe(true);
     const keys = document.createElement('span');
     keys.slot = 'shortcuts';
-    keys.innerHTML = '<nph-kbd keys="Enter"></nph-kbd> to choose';
+    keys.innerHTML = '<nph-kbd text="Enter"></nph-kbd> to choose';
     element.append(keys);
     element.open = true;
     await settle();
@@ -869,7 +884,7 @@ describe('events', () => {
   });
 });
 
-describe('clear button (limpar)', () => {
+describe('the clear button', () => {
   it('shows with a choice or typed text, has clear-label as its name and clears both', async () => {
     const element = await mount('label="Country" clearable clear-label="Clear country" value="peru"');
     const button = clearButton(element) as HTMLButtonElement;

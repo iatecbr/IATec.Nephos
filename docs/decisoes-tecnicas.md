@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93 and P94. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94 and P95. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -60,6 +60,7 @@ P62.4 subsection for the detail).
 | **P91** | API and semantics of `nph-select` and `nph-option` | 23/10/2026 | Medium. `nph-combobox` (DSA-46) and `nph-multi-combobox` (DSA-31) reuse `nph-option` and its owner symbol, so changing the option API, `NPH_OPTION_CHANGED` or the keyboard later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 14/10/2026, D1 to D9 answered on 19/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P94** | API and semantics of `nph-slider` | 23/10/2026 | Low now. No piece consumes it yet; a filter panel will, so changing `mode`, `value`, `start`, `end`, the two form entries of `range` or the ARIA thumbs later requires redoing it | Anatomy and behavior: board accepted by Indiane on 15/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P92** | API and semantics of `nph-dropdown-menu` | 24/10/2026 | Low now. No screen consumes it yet; an account menu or a toolbar will, so changing `for`, `items`, the entry fields or the event `nph-item-select` later requires redoing them | Anatomy and behavior: board accepted by Indiane on 21/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P95** | API and semantics of `nph-combobox` and its list | 26/10/2026 | Medium. `nph-multi-combobox` (DSA-31) takes the list module, so changing the entries of `options`, the search, the groups, the highlight or the events `nph-search` and `nph-create` later requires redoing both. The options as data depart from the light-DOM options of P91 | Anatomy and behavior: board accepted by Indiane on 14/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -4152,9 +4153,161 @@ the pull request that brings them; the merge is the approval.
 
 ---
 
+## P95 — `nph-combobox`: API and semantics
+
+**Technical conflict.** The accepted board (`1359:142`) gives the field, the clear button, the
+divider, the arrow area, the seven states of the list and the shortcuts footer, and leaves
+filtering, keyboard, form value, events, the positioning of the list and the text of the clear
+button to code. Two points of it cannot be met with the option model of P91, where the options are
+`nph-option` children of the owner in the light DOM:
+
+- the `busca` list draws the typed stretch of each option in `text/highlight-weight` and the rest
+  in `color/muted-foreground`. The label of `nph-option` is the text of its slot, owned by the
+  consumer; a substring of it can only be styled by changing the consumer's DOM or the option, and
+  the CSS Custom Highlight API does not take `font-weight`;
+- the `carregando`, `criar` and `vazio` lists and the groups are states of a search the consumer
+  usually answers from a server, as a list it replaces.
+
+**Decision.** `nph-combobox` is a Web Component with **open Shadow DOM** (P01), CSS in its own
+file imported `?inline`, form-associated in the pattern of `nph-input` (P80) and a control of the
+field contract (P83). It has no `::part` and no color property. Anatomy only through semantic
+tokens. Invalid input renders nothing and emits `console.error` only in development, one per
+cause — the rule of P21, as in P80. The names follow P64.
+
+1. **The options are data; each is drawn as an `nph-option`.** `options` takes the entries, as
+   the `items` of `nph-dropdown-menu` (P92): an option `{ value, text, secondary, start, icon, src,
+   status, disabled }`, a group label `{ type: 'label', text }` and a separator
+   `{ type: 'separator' }`. The combobox draws each option as an `nph-option` in its own shadow
+   root, with the typed stretch in a `match` span and the rest in `rest` spans as the slotted label;
+   both spans live in the combobox's tree, so its CSS reaches them. The option is reused, not
+   copied: start, dot, secondary text, the selected and the active looks are its own. An invalid
+   entry is left out, with one error per cause; its `start`, `icon` and `status` follow
+   `nph-option`.
+
+2. **The list is a module another field takes.** `nph-combobox.list.ts` (with
+   `nph-combobox.list.css`) exports the entry types, the search, the groups, the highlight, the
+   drawing of an option, a group and the create row, and the style of the list, in the precedent
+   of `nph-icon.icons.ts`. `nph-multi-combobox` (DSA-31, D2) imports it; the library build puts
+   the shared code in `dist/shared/`. It is not a tag: the field that owns the list draws it.
+
+3. **Properties.**
+
+   | Figma | API |
+   |---|---|
+   | `size` | `size`: `default` (default) or `large`, reflected |
+   | `state` `erro` | `invalid`, boolean, reflected (P83) |
+   | `state` `disabled` | `disabled`, boolean, reflected; a disabled `<fieldset>` disables it too |
+   | `state` `hover`, `foco`, `aberto`, `erro-foco`, `foco-limpar` | not properties: CSS and `open` |
+   | `aberto` | `open`, boolean, reflected |
+   | `início` | `start`: `search` (default, the magnifying glass), `icon` or `avatar` |
+   | `ícone início` | `icon`: a core name of `nph-icon`, default `globe` |
+   | `conteúdo` | not a property: the placeholder, the chosen option or the typed text (`query`) |
+   | `valor` | the text of the chosen option; `value` is its value (P80, P91) |
+   | `limpar` | `clearable`, with `clear-label` as the accessible name of the button |
+   | list `resultados`, `busca`, `status`, `grupos` | `options` and the typed text |
+   | list `carregando` | `loading`, with `loading-label` as the name of the `nph-spinner` |
+   | list `criar` | `creatable`, with `create-label`, the words before the typed text |
+   | list `vazio` | `empty-heading` and `empty-description`, the texts of the `nph-empty` |
+   | list `atalhos` | the `shortcuts` slot |
+   | the search | `filter`: `contains` (default) or `none`, the consumer filters |
+   | the form | `name` (reflected), `required`, `placeholder`, `label` and `description` |
+
+   `query` is the typed text; setting it from code writes it in the field and filters the list,
+   and fires nothing. `clearable` without `clear-label`, `creatable` without `create-label` and
+   `loading` without `loading-label` each emit one error, and the button and the row are not
+   drawn.
+
+4. **The value.** As P91: the `value` attribute is the default and the value of `form.reset()`,
+   the property is the current value, and a dirty flag stops the attribute from applying. The
+   chosen option is the first option with that value; the value is kept until such an option
+   arrives. The text of the field is the text of the chosen option; the typed text is never the
+   value — leaving the field without choosing gives it the chosen text again — except through the
+   create row. `required` with no choice is `valueMissing`, with the message of a disconnected
+   native select (P91). Enter with the list closed submits the form, as `nph-input` (P80); with
+   the list open, it chooses.
+
+5. **The search.** `contains` keeps the options whose text contains the typed text with no
+   difference of case or accent (the canonical decomposition without its marks, lower case); the
+   first match is the highlighted stretch, mapped back to the original text. A group with no match
+   goes away with its label; its line goes to the next group drawn. `none` keeps every option, so
+   the consumer that searches a server filters `options` itself; the highlight shows in both.
+
+6. **Events.** The host fires `input` (`bubbles`, `composed`) and then `change` (`bubbles`) only
+   when the person changes the value: a choice of a different option, the clear button or the
+   create row (P83, item 1). Typing does not change the value, so the native `input` of the inner
+   field stops in the shadow root, and `nph-search` (`bubbles`, `composed`, `detail: { query }`)
+   says the typed text changed, also when leaving the field clears it. `nph-create`
+   (`bubbles`, `composed`, `detail: { text }`) fires when the person chooses the create row,
+   before `input` and `change`; the value becomes the text, and the consumer adds the option.
+   Setting `value`, `query` or `open` from code fires nothing; opening and closing fire nothing.
+   Both keys are new in `HTMLElementEventMap` and collide with none (P76).
+
+7. **The field and the keyboard.** The inner field is an `<input type="text" role="combobox">`
+   with `aria-autocomplete="list"`, `aria-expanded` and `aria-controls`: the editable combobox
+   with list autocomplete of the APG, with `delegatesFocus`. The focus never leaves it; the
+   active option is pointed to by `aria-activedescendant` with an id, because the options live
+   in the same shadow root. Typing opens the list, filters it and makes the first match active
+   (D-5). Closed: ArrowDown and ArrowUp open on the chosen option, or on the first or the last;
+   Alt+ArrowDown opens without moving; Escape clears the typed text (D-4). Open: the arrows move
+   without wrapping; PageUp and PageDown move ten; Enter and Alt+ArrowUp choose and close; Escape
+   closes and stops there, so a dialog around stays open; Tab closes without choosing (P91). Home
+   and End stay in the text. A click on the field opens; on the arrow area, it opens and closes.
+
+8. **The list.** The layer of P91 §7: a `popover="manual"` in the shadow root, `space/inline-tight`
+   below the field, with its width, turned up when it does not fit below and fits above, following
+   the field on scroll and resize, with the motion of P91. The maximum height
+   `layout/max-list-height` is on the inner box that scrolls. The group label takes the look of the
+   `nph-dropdown-menu` group label and the separator is the `nph-separator`, as in P92. The waiting
+   and the empty lists sit in a `role="status"` region, so the person hears that the search found
+   nothing (the announcement P84 leaves to the piece that receives the `nph-empty`). With nothing to
+   show — no option, no spinner and no `empty-heading` — the list does not open.
+
+9. **Name and description.** As P80 and P91: the labels associated with the host name the field and
+   the listbox; without one, `label`; with no name at all, the combobox renders and warns once in
+   development. `description` sits in a clipped element referenced by `aria-describedby`.
+   `static nphFieldRole` is absent: a single control (P83).
+
+**Pending decisions (Indiane), with the default the code follows.** D-1 the create row: an
+`nph-option` with the `plus` icon, `create-label` and the typed text in quotes, highlighted. D-2 the
+shortcuts footer: a slot the consumer fills, a `color/border` line above and `space/inline` around.
+D-3 the rest of the text on the active option keeps `color/muted-foreground`. D-4 Escape with the list
+closed clears the typed text. D-5 the first match is active while the person types.
+
+**Known limits.**
+
+- **The list does not shrink**, as in P91.
+- **The waiting and the empty boxes** take `space/inline` around the `nph-spinner` and the
+  `nph-empty`; the evidence does not draw them.
+- **Forced colors and right-to-left** are not treated yet, as in P80.
+
+**Points for review.**
+
+- **The options as data**, against the light-DOM options of P91. The combobox does **not** implement
+  `NPH_OPTION_CHANGED`: it owns the data, and the parent of each option is its own listbox, so the
+  symbol P91 left "for `nph-combobox` to take" has no use here.
+- **The list as a module**, not as a tag.
+- **The events `nph-search` and `nph-create`**, and the native `input` stopped in the shadow root.
+- **`query` settable from code.**
+- **Enter submits the form with the list closed**, as `nph-input`, unlike `nph-select`.
+
+**Source.** Board `nph-combobox` (`1359:142`), documentation `1766:2400`, set `1359:115`, list
+`1359:141` and option `1357:136` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on
+14/10/2026, with the Figma UX QA and the textual audit approved. The data model, the list module, the
+names, the search, the events, the keyboard and the invalid input rules are a technical proposal of
+this implementation, approved with the plan by Elvys on 23/10/2026.
+
+**Out of scope.** Several options (`nph-multi-combobox`, DSA-31). A width property: the width is
+`layout/input-width`. A new token. The Usage section of the page (P70, DSA-35), the page lists read
+from the Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 14/10/2026. API and semantics are reviewed in
+the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93 or P94 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94 or P95 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

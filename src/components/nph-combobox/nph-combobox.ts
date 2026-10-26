@@ -36,7 +36,8 @@
  * - `open`: the list is open. Reflects. Opening and closing fire no event;
  * - `name`, `required`, `invalid`, `disabled`, `label` and `description`: as in
  *   `nph-select` (P83, P91);
- * - `query`: the text the person typed, read only;
+ * - `query`: the typed text. Setting it from code writes it in the field and filters the
+ *   list, and fires nothing;
  * - events: the host fires `input` (bubbles, composed) and then `change` (bubbles) only
  *   when the person changes the value: a choice, the clear button or the create row. The
  *   native `input` of the inner field stops in the shadow root, because typing does not
@@ -332,9 +333,22 @@ export class NphCombobox extends LitElement {
     this.requestUpdate('value', old);
   }
 
-  /** The text the person typed; empty while the field shows the chosen option. */
+  /**
+   * The typed text; empty while the field shows the chosen option. Setting it from code
+   * writes the text in the field and filters the list, as if typed, and fires nothing.
+   */
   get query(): string {
     return this.typed ?? '';
+  }
+
+  set query(next: string) {
+    const text = next === null || next === undefined ? '' : String(next);
+    const old = this.query;
+    this.typed = text === '' ? null : text;
+    if (this.query !== old) {
+      this.activeRow = null;
+      this.requestUpdate('query', old);
+    }
   }
 
   static override get observedAttributes(): string[] {
@@ -520,8 +534,8 @@ export class NphCombobox extends LitElement {
     if (this.activeRow !== null && !reachable.includes(this.activeRow)) {
       this.activeRow = null;
     }
-    /* New results while the person types: the first match is active again (D-5). */
-    if (this.open && this.query !== '' && this.activeRow === null && (changed.has('options') || changed.has('loading'))) {
+    /* New results, or a new query, while the list is open: the first match is active again (D-5). */
+    if (this.open && this.query !== '' && this.activeRow === null && (changed.has('options') || changed.has('loading') || changed.has('query'))) {
       this.activeRow = reachable[0] ?? null;
     }
     if (!this.open) {
