@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94 and P95. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95 and P97. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -60,6 +60,7 @@ P62.4 subsection for the detail).
 | **P91** | API and semantics of `nph-select` and `nph-option` | 23/10/2026 | Medium. `nph-combobox` (DSA-46) and `nph-multi-combobox` (DSA-31) reuse `nph-option` and its owner symbol, so changing the option API, `NPH_OPTION_CHANGED` or the keyboard later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 14/10/2026, D1 to D9 answered on 19/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P94** | API and semantics of `nph-slider` | 23/10/2026 | Low now. No piece consumes it yet; a filter panel will, so changing `mode`, `value`, `start`, `end`, the two form entries of `range` or the ARIA thumbs later requires redoing it | Anatomy and behavior: board accepted by Indiane on 15/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P92** | API and semantics of `nph-dropdown-menu` | 24/10/2026 | Low now. No screen consumes it yet; an account menu or a toolbar will, so changing `for`, `items`, the entry fields or the event `nph-item-select` later requires redoing them | Anatomy and behavior: board accepted by Indiane on 21/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P97** | API and semantics of `nph-table` | 26/10/2026 | Low now. No piece consumes it yet; a report or a statement screen will, and `nph-data-table` may build on it, so changing `columns`, `rows`, the cell types or the events later requires redoing them | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 26/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P95** | API and semantics of `nph-combobox` and its list | 26/10/2026 | Medium. `nph-multi-combobox` (DSA-31) takes the list module, so changing the entries of `options`, the search, the groups, the highlight or the events `nph-search` and `nph-create` later requires redoing both. The options as data depart from the light-DOM options of P91 | Anatomy and behavior: board accepted by Indiane on 14/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
@@ -4153,6 +4154,225 @@ the pull request that brings them; the merge is the approval.
 
 ---
 
+## P97 — `nph-table`: API and semantics
+
+**Decision.** `nph-table` is a Web Component with **open Shadow DOM** (P01), CSS in its own file
+imported `?inline`. Its data comes by property and it draws a native `<table>` in its own shadow
+root. It has no `::part` and no color property. Anatomy only through semantic tokens. Invalid
+input renders nothing, or leaves out the part that is invalid, and emits `console.error` only in
+development, one per cause — the rule of P21, adopted here by its own decision, as in P66, P74
+and P90. The names follow P64.
+
+1. **One tag, data by property.** The Figma parts — header, cell, composite cell, footer, empty
+   body, chevron, tree cell and expanded item — are inner parts, not tags. The build, the
+   manifest and `test:package` take one definition per component folder (P91, item 1), and a
+   tag per part would make each one a public piece. So the table takes `columns`, `rows` and
+   `footer` as properties (`attribute: false`) and draws `thead`, `tbody` and `tfoot` with `th`
+   and `scope` in its shadow root: the native table semantics, and every reference between parts
+   (`aria-labelledby`, `aria-describedby`, `aria-controls`, the `for` of the tooltip) in one
+   root. In plain HTML the consumer fills them by JavaScript, as `.value` on many controls; Lit,
+   Vue, Angular and React 19 pass properties. The alternatives were a table of the consumer in
+   the light DOM, styled from outside — a second exception to P01, which P62.1 says is not a
+   precedent — and child tags per part, which change `test:package` and the list of pieces.
+
+2. **Properties.** The Figma properties of the set are `size`, `moldura`, `cabeçalho fixo` and
+   `foco`; of the cell, `conteúdo`, `estado`, `grade` and `alinhamento`; and the caption options
+   `legenda`, `descrição` and `total`.
+
+   | Figma | API |
+   |---|---|
+   | `size` | `size`: `default` (default) or `large`, reflected |
+   | `moldura` | `framed`, boolean, reflected |
+   | `cabeçalho fixo` | `sticky-header` (`stickyHeader`), boolean, reflected |
+   | `foco` | not a property: the `:focus-visible` of the scroll area |
+   | `estado` `faixa` | `striped`, boolean, reflected, on the table |
+   | `estado` `hover` | not a property: the `:hover` of the row |
+   | `grade` | `grid`, boolean, reflected, on the table |
+   | `alinhamento` | `align` of the column: `start` (default) or `end` |
+   | `legenda`, `texto da legenda` | `caption` |
+   | `descrição`, `texto da descrição` | `description` |
+   | `total` | `total` |
+   | `conteúdo` | the `type` of a composite cell (item 4) |
+   | the name of a table without a caption | `label` |
+   | what the dash is read as | `no-value-label` (`noValueLabel`) |
+   | the empty body | `empty-heading` and `empty-description`, passed to the `nph-empty` |
+   | the main action of the caption | the slot `action`, at `table/caption-action-gap` |
+
+   The stripe and the grid are of the whole table: in Figma they are states of the cell, but a
+   table with the stripe on some rows only, or the grid on some cells only, has no case in the
+   evidence. The stripe counts only the rows of data, by a class the render sets; an expanded item
+   does not shift it. `align` takes the logical `start` and `end`, which match `text-align` and the
+   reading direction, and not `left` and `right`.
+
+3. **Columns and the two-level header.** A column is `{ key, header, align?, group?, width? }`.
+   `key` is unique and finds the cell in each row and the value in `footer`. `end` aligns the
+   column, its header and its footer to the end, with tabular figures (`design.md`: a number in a
+   table is `tnum`). Neighbor columns with the same `group` get the group title above them, a
+   `th` with `scope="colgroup"` over a `colgroup` of those columns, in the same header piece; the
+   other columns take both header rows. `width` is the content width of the column, a CSS length
+   given in use (the evidence: the column width is set in use).
+
+4. **Cells.** A row is `{ key, cells, detail?, children?, open?, loading?, toggleLabel? }`, and
+   `cells` maps a column key to a cell. A string or a number is text. `null`, `undefined` or an
+   empty string is the no-value dash, `—`, hidden from the screen reader, with `no-value-label`
+   read in its place: the piece never leaves a cell empty. An object with `type` is a composite
+   cell:
+
+   | `conteúdo` | `type` | Piece |
+   |---|---|---|
+   | `duas linhas` | `text` with `secondary` | the second line in `table/muted-foreground` |
+   | `pessoa` | `person` | `nph-avatar` md, decorative, with the name beside it |
+   | `selo` | `badge` | `nph-badge` light, with `severity` |
+   | `ícone e texto` | `icon-text` | `nph-icon` of the core |
+   | `miniatura` | `thumbnail` | `nph-image` sm |
+   | `link` | `link` | `<a>` underlined in `table/link-foreground`; only an `http`, `https`, `mailto` or `tel` address, a path or a fragment |
+   | `texto cortado` | `truncated` | the focusable cell and an `nph-tooltip` (below) |
+   | `status` | `status` | `circle-check` or `circle-xmark` in `table/status-*-icon`, with the name |
+   | `botão` | `button` | `nph-button` secondary light compact |
+   | `ações` | `actions` | Edit (`pen-to-square`) and more (`ellipsis-vertical`), icon-only `nph-button` secondary ghost default |
+   | `ações mistas` | `mixed-actions` | written Edit and more, `nph-button` secondary light compact |
+   | `avaliação` | `rating` | one solid `star` in `table/rating-foreground` and the score |
+   | `carregando` | `loading` | `nph-skeleton` line; the cell carries `aria-busy="true"` while it loads |
+
+   The names of the icon-only buttons and of the chevron come per row from the data
+   (`editLabel`, `moreLabel`, `toggleLabel`), already localized: the piece does not know the
+   language. The icons of the cell take `table/icon-size`, bridged to the `icon/size-sm` that
+   `nph-icon` reads. The thumbnail and the photo of the expanded item take
+   `table/thumbnail-size`, `table/thumbnail-size-large`, `table/thumbnail-radius` and
+   `table/muted-background` **through** `nph-image` `sm` and `lg`: their tokens are the same
+   aliases (`image/size-sm`, `image/size-lg`, `radius/inner`, `color/muted`), so the table does
+   not consume those four directly, and the border of the photo is a rule of `nph-image` itself
+   (P90). The truncated text is cut with an ellipsis at the column `width`; the cell takes
+   `tabindex="0"` and an `nph-tooltip` with the whole text and `relation="name"` (P77). The text in
+   the DOM is already the whole text, so the name does not change and is read once. The `secondary`
+   of the icon-only actions is a reading of the evidence, which says only ghost and light compact.
+
+5. **Expanding row and tree.** A row with `detail` (`name`, `description`, `src`, `alt`,
+   `values` with `label` and `value`, `badge`) opens the expanded item in a row under it, a cell
+   that spans the table: the photo `nph-image` lg, the name, the description, each value with its
+   label on top (`dl`), and an `nph-badge` light. When any row has a `detail`, a first column holds
+   the chevron (the part `corpo`); its header is an empty cell (the part `cabeçalho`) and a row
+   without detail keeps it empty (the part `recuo`). A row with `children` opens the next level of
+   a tree, up to three levels; its chevron sits in the first cell, each level indents by
+   `table/expand-indent` plus `table/cell-gap`, and a row without children keeps the space of the
+   chevron, so the text aligns. The chevron is the icon-only `nph-button` secondary ghost compact,
+   `chevron-right` when closed and `chevron-down` when open, named by `toggleLabel`; `loading` on
+   the row makes it the `loading` button, whose click does not reach the table. `open` on the row
+   is the state. A click on the chevron replaces `rows` with a new list in which only that row has
+   the new `open` — the object of the consumer is not changed — and fires `nph-row-toggle`, so
+   `rows` is always the state, as the `items` of `nph-dropdown-menu` (P92).
+   The rows are drawn keyed by `key`, and the cells by the column `key`, so a row or a cell keeps
+   its elements, and the focus on its buttons, when rows or columns come in or leave before it, as
+   when the children of a level arrive.
+
+6. **Name, focus and scroll.** The caption, when there is one, sits above the table at
+   `table/stack-gap`, with the title, the description up to `table/caption-max-width`, the total
+   as an `nph-badge` secondary and the slot `action`. The caption title names the table
+   (`aria-labelledby`) and the description describes it (`aria-describedby`): "the caption is the
+   title of the table". A native `<caption>` was discarded: it would sit inside the scroll area and
+   the frame, and the name would add the description and the total. Without a caption, `label` is
+   `aria-label`; with neither, the table renders and warns once in development, as P80 does for a
+   name that can arrive later. The table sits in a scroll area that scrolls both ways, up to
+   `table/max-width`; with `sticky-header` it stops at `table/body-max-height`. While it overflows,
+   measured with a `ResizeObserver`, the area takes `tabindex="0"`, `role="region"` and the name
+   of the table, so the keyboard can scroll it; when it fits, it is not a stop of the Tab order. The
+   scroll area and the truncated text take the ring `focus/border` in `table/focus-ring-width`
+   (the evidence); the chevron, the buttons and the more keep the focus of their own piece. The
+   scrollbar takes `table/scrollbar-*` through `::-webkit-scrollbar`, and only the colors where
+   that is not supported, as `src/styles/scrollbar.css`.
+
+7. **Fixed header and borders.** The table uses `border-collapse: separate` with no spacing, and
+   draws the row divider on the cells: with collapsed borders the line of a sticky header does not
+   stay. With `sticky-header`, the `thead` sticks to the top of the scroll area over the body
+   (`z-index: 1`), and its cells draw the line `table/sticky-divider-*` as a `box-shadow` in place
+   of their divider. A cell boundary at a fractional pixel leaves a seam between two cell
+   backgrounds; every cell after the first casts its own background a hairline
+   (`table/border-width`) to its inline start, so a row reads as one band in both schemes.
+
+8. **Events.** `nph-row-action` (`{ row, action }`) when the person activates a button of a cell:
+   `action` is the one of a `button` cell, or `edit` and `more` of the actions. `nph-row-toggle`
+   (`{ row, open }`) when the person opens or closes a row. Both bubble, are not composed, are
+   declared in `HTMLElementEventMap` with keys of their own (no other piece declares them), and
+   code never fires them. The link navigates as a link. The more fires `nph-row-action` with `more`;
+   wiring the `nph-dropdown-menu` (P92), merged while this decision was in review, is a follow-up.
+
+9. **Invalid input.** A `size` outside the two, no column, a column without `key` or `header`, a
+   repeated `key` or an `align` outside the two renders nothing, takes no space, leaves
+   `data-nph-rendered` out and emits one `console.error` per cause. A row without `key` or with a
+   repeated one, with both `detail` and `children`, with children at the third level, a row that
+   opens without `toggleLabel`, a detail without `name` or with a badge severity outside the list
+   is left out, with its descendants, and shapes nothing: the chevron column and the tree come
+   from the valid rows only, closed levels included. A cell with a `type` outside the list or without the fields it needs (text, `href`,
+   `action`, the button names), with a badge severity, a status or an icon outside the lists, or a
+   link whose `href`, parsed as the browser parses it, takes another protocol (`javascript:`,
+   `data:`), is drawn blank. No row and no `empty-heading` draws the body blank. Each cause is reported once per
+   instance. A no-value cell without `no-value-label` and a truncated cell in a column without
+   `width` render and warn once in development.
+
+**Known limits.**
+
+- **The open state of the chevron is on the host of its `nph-button`.** `aria-expanded` and
+  `aria-controls` are written on the `nph-button` element, but the focus is on its inner native
+  button, which `nph-button` does not let carry them (the same limit as the trigger of
+  `nph-dropdown-menu`, P92). A screen reader may not announce open or closed until `nph-button`
+  passes them on; the chevron icon and the row that appears carry the change. Follow-up in
+  `nph-button`.
+- **`aria-level` on a row outside a `treegrid`.** ARIA 1.2 gives `aria-level` to a row inside a
+  `treegrid`; the table is not an interactive grid (the evidence: it reads, it does not operate),
+  so the level is written on the `<tr>` and its support by screen readers varies.
+- **The category content** of the cell is listed in the evidence but not described (D1 of
+  DSA-49): there is no `category` type yet. The required example of items grouped by category
+  shows the groups as the first level of the tree, open, with the total in the footer.
+- **Typography the evidence does not name** (D2): the caption title takes `text/heading-sm`, the
+  description `text/body-md` in `table/caption-foreground`, the second line and the labels of the
+  expanded item `text/body-sm`. The header and the footer are `text/heading-xs` (the evidence) and
+  the cell `text/body-md` (`design.md`).
+- **The thumbnail without a photo** shows the empty frame of `nph-image`, not the `image` icon,
+  which is not in the core (D3).
+- **Glyphs and emphasis** chosen until the design owner answers: `pen-to-square` for Edit (D4),
+  `circle-check` and `circle-xmark` for the status (D5), one solid star (D6), the total in the
+  default `solid` emphasis (D7).
+- **`design.md` has no usage entry for the `table/*` tokens** (D8); the component consumes them
+  either way.
+- **The fixed header** stops the scroll area, header included, at `table/body-max-height`.
+- **A truncated cell in the first column of a number tree.** In a tree whose first column has
+  `align: 'end'`, a `truncated` cell keeps its text next to the chevron when the cell has room
+  to spare: the rule that sends the value to the end takes the last child of the tree cell,
+  which there is the tooltip and not the text. Found in the sixth Copilot review of the pull
+  request; the fix (the margin on the second child) is a follow-up.
+- **Forced colors and right-to-left** are not treated yet, as in P80.
+
+**Points for review.**
+
+- **Data by property and one tag**, forced by the packaging.
+- **`striped` and `grid` on the table**, not per cell.
+- **`start` and `end`** in place of the Figma `esquerda` and `direita`.
+- **`secondary` as the severity** of the ghost and light buttons of the actions and of the chevron.
+- **The slot `action`**, the first slot of the wave, justified by `table/caption-action-gap`.
+- **The scroll area as a region only while it overflows.**
+- **`aria-level` on a row outside a `treegrid`**, and `aria-expanded` on the host of the chevron.
+- **`rows` replaced on open**, so the state lives in the data.
+- **The hairline cover against the seam between cell backgrounds.**
+
+**Source.** Board `nph-table` (`1370:113`), frame `Documentação` (`2584:66651`) and the parts
+`1370:19`, `1370:20`, `2425:1032`, `2425:1033`, `2425:1046`, `2571:66334`, `2571:66335` and
+`2571:66336` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 23/10/2026, with the
+Figma UX QA and the textual audit approved; the fixed-header line on `color/border` decided on
+25/10/2026. The data by property, the names, the cell types, the events, the caption as the name,
+the scroll region, the open state in `rows` and the invalid input rules are a technical proposal
+of this implementation, approved with the plan by Elvys on 26/10/2026.
+
+**Out of scope.** Sorting, selection, filtering and pagination (`nph-data-table`). The menu of the
+more (a follow-up with the `nph-dropdown-menu`, P92). The category content (D1). An interactive grid (`treegrid` with
+arrow keys). Virtual scrolling. A free slot in the cell. The Usage section of the page (P70,
+DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate (P72,
+DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 23/10/2026. API and semantics are reviewed
+in the pull request that brings them; the merge is the approval.
+
+---
+
 ## P95 — `nph-combobox`: API and semantics
 
 **Technical conflict.** The accepted board (`1359:142`) gives the field, the clear button, the
@@ -4310,7 +4530,7 @@ the pull request that brings them; the merge is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94 or P95 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95 or P97 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

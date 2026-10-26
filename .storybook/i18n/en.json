@@ -241,7 +241,20 @@
     "components-nph-dropdown-menu-validation--sizes": "Sizes",
     "components-nph-dropdown-menu-validation--header": "Header",
     "components-nph-dropdown-menu-validation--interactive": "Interactive",
-    "components-nph-dropdown-menu-validation--examples": "Examples"
+    "components-nph-dropdown-menu-validation--examples": "Examples",
+    "components-nph-table-docs": "Docs",
+    "components-nph-table-docs--documentation": "Documentation",
+    "components-nph-table-validation": "Validation",
+    "components-nph-table-validation--sizes": "Sizes",
+    "components-nph-table-validation--frame": "Frame",
+    "components-nph-table-validation--sticky-header": "Fixed header",
+    "components-nph-table-validation--row-states": "Stripe, grid and hover",
+    "components-nph-table-validation--caption": "Caption and name",
+    "components-nph-table-validation--cell-contents": "Cell contents",
+    "components-nph-table-validation--expanding-row": "Expanding row",
+    "components-nph-table-validation--tree": "Tree",
+    "components-nph-table-validation--two-level-header": "Two-level header",
+    "components-nph-table-validation--empty-body": "Empty body"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -6275,6 +6288,453 @@
     "exampleSearch": "Search with the typed stretch highlighted",
     "exampleLoading": "Search waiting for the answer"
   },
+  "tableDocs": {
+    "summary": "The table to read and compare data in rows and columns, with caption, header, cells and footer. A row can open a detail or sub-levels. It does not sort, select, filter or paginate: that is the nph-data-table.",
+    "matrixLabel": "nph-table by size and frame",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-table spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P97. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "sourceSpec": "fichas/nph-table.md; Figma frame 2584:66651",
+    "sourceApi": "P97, items 1 to 6",
+    "sourceVariants": "fichas/nph-table.md, Variants; P97, item 2",
+    "sourceStates": "fichas/nph-table.md, States; P97, item 2",
+    "sourceCells": "fichas/nph-table.md, Variants; P97, item 4",
+    "sourceRows": "fichas/nph-table.md, Variants; P97, item 5",
+    "sourceAnatomy": "fichas/nph-table.md, Tokens; Figma frame 2584:66651",
+    "sourceAccessibility": "fichas/nph-table.md, Accessibility; P97, item 6",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "To read and compare data in rows and columns, such as a statement, a report or a list of items.",
+      "framed for a table standing alone on the page; without the frame inside a card or panel, which already have a border.",
+      "A fixed header when the list is long inside a panel; horizontal scroll when the columns do not fit.",
+      "A two-level header to group columns of the same subject, such as accesses by channel.",
+      "An expanding row for the detail that does not fit in the row, such as an order and its items. It opens only through the chevron.",
+      "A tree, up to three levels, for a hierarchy, such as unit and sub-unit.",
+      "Size large on a touch screen or for a more relaxed reading; default otherwise."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "To sort, select, filter or paginate: that is the nph-data-table.",
+      "To lay out the page: the table holds data.",
+      "With an empty cell when data is missing: use the no-value dash.",
+      "With numbers aligned to the start: align them to the end.",
+      "With an action written as a link: use the button in the cell."
+    ],
+    "relationsText": "The composite cell receives other pieces, and each keeps its own rules: nph-avatar md, nph-badge light, nph-icon, the icon-only nph-button in the chevron, the actions and the more, the nph-button secondary light compact, nph-image, nph-skeleton and nph-tooltip. The more fires nph-row-action; opening the nph-dropdown-menu from it is a follow-up. With no row, the body holds the nph-empty. Sorting, selection, filtering and pagination belong to the nph-data-table.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "size",
+        "default (default) or large: the Figma size. Reflected. Default takes the row table/row-height and the sides table/cell-padding-inline; large takes table/row-height-large and table/container-padding."
+      ],
+      [
+        "framed",
+        "Boolean, reflected: the Figma moldura. The border table/border in table/border-width with the corner table/radius, for a table standing alone on the page."
+      ],
+      [
+        "sticky-header",
+        "Boolean, reflected: the Figma cabeçalho fixo. The body scrolls up to table/body-max-height and the header stays, with the line table/sticky-divider-*."
+      ],
+      [
+        "striped · grid",
+        "Booleans, reflected: the stripe on every other row of data and the vertical line between columns, for the whole table."
+      ],
+      [
+        "caption · description · total",
+        "The caption above the table, its description and its total in an nph-badge secondary. The caption title is the accessible name of the table; the description describes it."
+      ],
+      [
+        "label",
+        "The accessible name of a table without a caption. Without either, the table renders and warns once in development."
+      ],
+      [
+        "no-value-label",
+        "The text the screen reader reads in the no-value dash, already localized, such as sem valor."
+      ],
+      [
+        "empty-heading · empty-description",
+        "The heading and the description of the nph-empty that fills the body when there is no row."
+      ],
+      [
+        "columns",
+        "A list of { key, header, align?, group?, width? }. align is start (text, default) or end (numbers); group puts a title above neighbor columns; width is the content width of the column."
+      ],
+      [
+        "rows",
+        "A list of { key, cells, detail?, children?, open?, loading?, toggleLabel? }. cells maps a column key to text, to the no-value dash (null or empty) or to a composite cell with type. Opening a row replaces rows with a new list."
+      ],
+      [
+        "footer",
+        "A value per column key, such as the total, drawn with the header background and typography."
+      ],
+      [
+        "slot action",
+        "The main action of the caption, beside it at table/caption-action-gap."
+      ],
+      [
+        "nph-row-action · nph-row-toggle",
+        "{ row, action } when the person activates a button of a cell; { row, open } when the person opens or closes a row. They bubble, are not composed, and code never fires them."
+      ],
+      [
+        "part",
+        "No ::part and no color property."
+      ]
+    ],
+    "variantsTitle": "Variants",
+    "variantsText": "The table is chosen by size, frame and fixed header. Use the frame for a table standing alone on the page and leave it out inside a card or panel, which already have a border. The fixed header serves a long list inside a panel.",
+    "variantsCaption": "Default without the frame, large with the frame, and a framed table with the fixed header.",
+    "variantsHeader": [
+      "Variant",
+      "Rule"
+    ],
+    "variants": [
+      [
+        "size: default",
+        "Row table/row-height (40 px), sides table/cell-padding-inline (12 px)."
+      ],
+      [
+        "size: large",
+        "Row table/row-height-large (44 px), sides table/container-padding (16 px). For touch or a more relaxed reading."
+      ],
+      [
+        "framed",
+        "Border table/border in table/border-width, corner table/radius, over table/background."
+      ],
+      [
+        "sticky-header",
+        "The body scrolls up to table/body-max-height (296 px); the line under the header is table/sticky-divider-color in table/sticky-divider-width."
+      ]
+    ],
+    "statesTitle": "States",
+    "statesText": "The stripe alternates the rows of data; the hover paints the whole row under the pointer; the grid draws the vertical line between columns. The focus ring is on the scroll area and on the truncated text; the chevron, the buttons and the more use the focus of their own piece.",
+    "statesCaption": "Stripe and grid. Move the mouse over a row for the hover.",
+    "statesHeader": [
+      "State",
+      "What shows"
+    ],
+    "states": [
+      [
+        "Hover",
+        "The whole row in table/row-hover-background."
+      ],
+      [
+        "Stripe",
+        "Every other row of data in table/row-striped-background; an expanded item does not count."
+      ],
+      [
+        "Grid",
+        "The vertical line between columns, in table/border."
+      ],
+      [
+        "Focus",
+        "The ring focus/border in table/focus-ring-width, on the scroll area that overflows and on the truncated text."
+      ]
+    ],
+    "cellsTitle": "Cell contents",
+    "cellsText": "A string or a number is text. A missing value is the no-value dash. A composite cell takes one of the contents below; the texts and the names of the buttons come already localized.",
+    "cellsCaption": "The composite cells, row by row.",
+    "cellsHeader": [
+      "Content",
+      "Rule"
+    ],
+    "cells": [
+      [
+        "text",
+        "The text, and the second line in table/muted-foreground with secondary."
+      ],
+      [
+        "person",
+        "nph-avatar md with the name and the second line."
+      ],
+      [
+        "badge",
+        "nph-badge light, with the severity of the meaning."
+      ],
+      [
+        "icon-text",
+        "An nph-icon of the core at table/icon-size, with the text."
+      ],
+      [
+        "thumbnail",
+        "nph-image sm: table/thumbnail-size with the table/thumbnail-radius corner over table/muted-background."
+      ],
+      [
+        "link",
+        "Underlined, in table/link-foreground. It goes to another place; an action is a button."
+      ],
+      [
+        "truncated",
+        "Cut at the column width, with the whole text in an nph-tooltip and the focus on the cell."
+      ],
+      [
+        "status",
+        "The circle-check or circle-xmark icon in table/status-success-icon or table/status-error-icon, with its name."
+      ],
+      [
+        "button",
+        "nph-button secondary light compact; the cell takes table/action-cell-padding-block."
+      ],
+      [
+        "actions",
+        "Edit and more as icon-only nph-button secondary ghost, 36 by 36, at table/cell-gap-tight, named per row."
+      ],
+      [
+        "mixed-actions",
+        "A written Edit and the more as nph-button secondary light compact, 28 high."
+      ],
+      [
+        "rating",
+        "One star in table/rating-foreground and the score as a number."
+      ],
+      [
+        "loading",
+        "An nph-skeleton line in place of the content."
+      ],
+      [
+        "null",
+        "The no-value dash, read as no-value-label."
+      ]
+    ],
+    "rowsTitle": "Expanding row, tree and two-level header",
+    "rowsText": "A row with detail opens the expanded item under it; a row with children opens the next level of the tree, up to three. Both open only through the chevron, which points right when closed and down when open. A two-level header groups columns of the same subject under a title.",
+    "rowsCaption": "An order open with its item and its photo.",
+    "treeCaption": "A hierarchy in three levels.",
+    "groupsCaption": "Two columns grouped under a title.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "1. Caption",
+        "Optional. Title with description and total in an nph-badge secondary, up to table/caption-max-width, at table/stack-gap from the table."
+      ],
+      [
+        "2. Header",
+        "Column title in text/heading-xs over table/header-background."
+      ],
+      [
+        "3. Cell",
+        "Data as text in table/foreground; text to the start, numbers to the end."
+      ],
+      [
+        "4. Composite cell",
+        "Content built from other pieces, at table/cell-gap."
+      ],
+      [
+        "5. Footer",
+        "Total or subtotal of the column, with the background and typography of the header."
+      ],
+      [
+        "6. Frame and scroll area",
+        "Optional frame table/border, table/border-width, table/radius; the body scrolls up to table/body-max-height."
+      ],
+      [
+        "7. Chevron",
+        "Icon-only nph-button ghost compact that opens the row or the level."
+      ],
+      [
+        "8. Expanded item",
+        "Photo at table/thumbnail-size-large, name, description, values with a label on top, and badge."
+      ],
+      [
+        "9. Empty body",
+        "nph-empty in place of the rows, with the header visible, at table/empty-padding above and below."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A native table, with column headers, the group header over its columns and the footer."
+      ],
+      [
+        "Accessible name",
+        "The caption title names the table and the description describes it; without a caption, label. The icon-only buttons and the chevron carry a name per row, such as Edit Ana Souza."
+      ],
+      [
+        "No value",
+        "The dash is read as no-value-label, such as sem valor."
+      ],
+      [
+        "Keyboard and focus",
+        "The scroll area takes the focus only when it overflows, so the keyboard can scroll it; the truncated text takes the focus and opens its tooltip. The ring is focus/border in table/focus-ring-width."
+      ],
+      [
+        "Open and level",
+        "The chevron carries aria-expanded on the button host, and the tree rows carry aria-level."
+      ],
+      [
+        "Color is not the only signal",
+        "The status has a shape and a name, the badge always has text, the link is underlined, and Delete is written in the menu."
+      ],
+      [
+        "Contrast",
+        "Text and link pass AA over background, stripe, header and hover. Exception: the rating star is below 3:1 in light; the score stays as a number."
+      ],
+      [
+        "Touch target",
+        "The chevron and the more of the mixed actions are 28 by 28; Edit and more of the actions are 36 by 36. On a touch screen, use size large."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleGrouped": "Items grouped by category: the group rows and the total in the footer. Until the category content is defined, the groups are the first level of the tree.",
+    "exampleOrder": "Open order: the expanding row with the item and its photo.",
+    "exampleCaption": "Table with caption: caption, total and the scroll area that takes the focus. Press Tab.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "fichas/nph-table.md — the canonical sheet.",
+      "docs/decisoes-tecnicas.md — P97, API and semantics.",
+      "design.md — the typography roles and the core icons.",
+      "Figma DS-IA-NEPHOS 5.0 — board 1370:113, frame 2584:66651."
+    ]
+  },
+  "tableValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "hoverNote": "Move the mouse over a row: the whole row takes the hover background.",
+    "focusNote": "Press Tab: the scroll area of the narrow table takes the focus ring.",
+    "sample": {
+      "caption": "Payments",
+      "description": "By unit, in October",
+      "total": "4 units",
+      "label": "Payments by unit",
+      "noValue": "no value",
+      "export": "Export",
+      "unit": "Unit",
+      "amount": "Amount",
+      "person": "Responsible",
+      "situation": "Situation",
+      "status": "Status",
+      "type": "Type",
+      "rating": "Rating",
+      "document": "Document",
+      "product": "Product",
+      "note": "Note",
+      "action": "Action",
+      "actions": "Actions",
+      "mixedActions": "Mixed actions",
+      "loading": "Loading",
+      "accesses": "Accesses by channel",
+      "web": "Web",
+      "app": "App",
+      "units": [
+        "North",
+        "South",
+        "East",
+        "West"
+      ],
+      "amounts": [
+        "1,200.00",
+        "800.00",
+        "50.00"
+      ],
+      "totalLabel": "Total",
+      "totalAmount": "2,050.00",
+      "people": [
+        "Ana Souza",
+        "Bruno Lima",
+        "Carla Dias"
+      ],
+      "roles": [
+        "Finance",
+        "Purchasing",
+        "Sales"
+      ],
+      "paid": "Paid",
+      "late": "Late",
+      "failed": "Failed",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "ratings": [
+        "4.8",
+        "3.9",
+        "4.2"
+      ],
+      "receipt": "Receipt",
+      "products": [
+        "Blue mug",
+        "Desk lamp",
+        "Notebook"
+      ],
+      "longNote": "Monthly maintenance of the air conditioning in the north building",
+      "shortNote": "Delivered",
+      "pay": "Pay",
+      "edit": "Edit",
+      "editOf": "Edit {name}",
+      "moreOf": "More actions of {name}",
+      "detailsOf": "Details of {name}",
+      "levelsOf": "Units of {name}",
+      "unitNumber": "Unit {number}",
+      "orders": [
+        "Order 1024",
+        "Order 1025",
+        "Order 1026"
+      ],
+      "orderDescription": "Ceramic, 300 ml",
+      "quantity": "Quantity",
+      "price": "Price",
+      "inStock": "In stock",
+      "regions": [
+        "South region",
+        "Porto Alegre",
+        "Centro",
+        "Curitiba",
+        "North region"
+      ],
+      "channels": [
+        "640",
+        "560",
+        "1,200"
+      ],
+      "emptyHeading": "No payment found",
+      "emptyDescription": "Change the filters to see other payments.",
+      "groupCaption": "Items of the order by category",
+      "categories": [
+        "Kitchen",
+        "Office"
+      ],
+      "categoryItems": [
+        [
+          "Blue mug",
+          "Plate set"
+        ],
+        [
+          "Notebook",
+          "Desk lamp"
+        ]
+      ],
+      "categoryAmounts": [
+        [
+          "60.00",
+          "90.00"
+        ],
+        [
+          "25.00",
+          "150.00"
+        ]
+      ],
+      "categoryTotals": [
+        "150.00",
+        "175.00"
+      ],
+      "categoryTotal": "325.00",
+      "itemsOf": "Items of {name}",
+      "orderCaption": "Open orders"
+    }
+  },
   "validationPages": {
     "sheetTitle": "The contract lives in the sheet",
     "sheetText": "This piece has no reading page in Storybook. Its contract is in {sheet}; these stories prove it.",
@@ -6420,7 +6880,17 @@
       "components-nph-combobox-validation--list-states": "The seven states of the list, open: results, search with the typed stretch highlighted, status, groups, loading, create and empty; and the shortcuts footer (D-1 to D-3).",
       "components-nph-combobox-validation--form-association": "The host takes part in the form: submit sends name=value, reset restores the value attribute, a choice fires input and change, and a disabled fieldset disables it.",
       "components-nph-combobox-validation--invalid-input": "Invalid input draws nothing: a size, a start and a filter that do not exist, and an icon outside the core.",
-      "components-nph-combobox-validation--examples": "The three required examples of the board, in nph-field: chosen option at rest, search with the typed stretch highlighted and search waiting for the answer, each in light and dark mode."
+      "components-nph-combobox-validation--examples": "The three required examples of the board, in nph-field: chosen option at rest, search with the typed stretch highlighted and search waiting for the answer, each in light and dark mode.",
+      "components-nph-table-validation--sizes": "The two sizes: default with the 40 px row and the cell sides at 12 px; large with the 44 px row and the sides at 16 px.",
+      "components-nph-table-validation--frame": "Without the frame and with it: the border, the corner and the last row that leaves its divider to the frame.",
+      "components-nph-table-validation--sticky-header": "The fixed header: the body scrolls up to its maximum height and the header stays, with the line under it.",
+      "components-nph-table-validation--row-states": "The stripe on every other row, the grid between the columns, and the hover on the whole row under the pointer.",
+      "components-nph-table-validation--caption": "The caption with description, total and action names the table; without a caption, the label names it; a table that does not fit becomes a focusable scroll area.",
+      "components-nph-table-validation--cell-contents": "Every composite cell with the piece it takes: person, badge, icon and text, status, rating, link, thumbnail, truncated text, button, actions, mixed actions, loading and the no-value dash.",
+      "components-nph-table-validation--expanding-row": "The expanding row: closed, open with the expanded item, and loading, each opened only through its chevron.",
+      "components-nph-table-validation--tree": "The tree in three levels: each level indents, and a row without children keeps the space of the chevron so the text aligns.",
+      "components-nph-table-validation--two-level-header": "The two-level header: the group title above the columns it groups, with the same header piece.",
+      "components-nph-table-validation--empty-body": "With no row, the body holds the nph-empty and the header stays visible."
     }
   }
 }

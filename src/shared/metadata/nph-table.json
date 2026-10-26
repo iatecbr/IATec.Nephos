@@ -1,0 +1,332 @@
+{
+  "piece": "nph-table",
+  "level": "component",
+  "status": "active",
+  "solves": "Shows data that the person reads and compares in rows and columns, with caption, header, cells and footer, and lets a row open its detail or the next level of a hierarchy.",
+  "use_when": [
+    "To read and compare data in rows and columns, such as a statement, a report or a list of items.",
+    "framed for a table standing alone on the page; without the frame inside a card or panel, which already have a border.",
+    "A fixed header when the list is long inside a panel; horizontal scroll when the columns do not fit.",
+    "A two-level header to group columns of the same subject, such as accesses by channel.",
+    "An expanding row for the detail that does not fit in the row, such as an order and its items. It opens only through the chevron.",
+    "A tree, up to three levels, for a hierarchy, such as unit and sub-unit.",
+    "Size large on a touch screen or for a more relaxed reading; default otherwise."
+  ],
+  "do_not_use_when": [
+    "To sort, select, filter or paginate: that is the nph-data-table.",
+    "To lay out the page: the table holds data.",
+    "With an empty cell when data is missing: use the no-value dash.",
+    "With numbers aligned to the start: align them to the end.",
+    "With an action written as a link: use the button in the cell."
+  ],
+  "api": {
+    "size": {
+      "type": "enum",
+      "values": [
+        "default",
+        "large"
+      ],
+      "required": false,
+      "default": "default",
+      "reflects": true,
+      "constraint": "The Figma property `size`. Default takes the row table/row-height and the cell sides table/cell-padding-inline; large takes table/row-height-large and table/container-padding, for touch or a more relaxed reading. Reflects because the internal CSS reads it. A value outside the list draws nothing and emits console.error in development."
+    },
+    "framed": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "The Figma property `moldura`. The border table/border in table/border-width with the corner table/radius, for a table standing alone on the page; the last row leaves its divider to the frame."
+    },
+    "sticky-header": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "The Figma property `cabeçalho fixo`. The scroll area stops at table/body-max-height and the header stays while the body scrolls, with the line table/sticky-divider-* under it."
+    },
+    "striped": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "The Figma `estado` `faixa`, for the whole table: every other row of data in table/row-striped-background. An expanded item does not count. On the host is a technical proposal of P97."
+    },
+    "grid": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "The Figma property `grade`, for the whole table: the vertical line between the columns of the body, in table/border. On the host is a technical proposal of P97."
+    },
+    "caption": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The Figma `legenda` and `texto da legenda`: the title above the table, already localized. It is the accessible name of the table (aria-labelledby). Empty, there is no caption."
+    },
+    "description": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The Figma `descrição` and `texto da descrição`, under the caption title, in table/caption-foreground. It describes the table (aria-describedby). Only with a caption."
+    },
+    "total": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The Figma `total`: the text of an nph-badge secondary beside the caption title. Only with a caption."
+    },
+    "label": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The accessible name of a table without a caption. With neither, the table renders and emits console.warn once in development."
+    },
+    "no-value-label": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "What the screen reader reads in the no-value dash, already localized, such as sem valor. Empty while a cell has no value, the dash is read as a dash and the table emits console.warn once in development."
+    },
+    "empty-heading": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The heading of the nph-empty that fills the body when rows is empty. Required then: without it the body stays blank and the table emits console.error in development."
+    },
+    "empty-description": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The description of the nph-empty of the empty body."
+    },
+    "columns": {
+      "type": "array",
+      "required": true,
+      "default": "empty list",
+      "reflects": false,
+      "constraint": "Property only. Each column is key, header, align, group and width. key is unique and header names the column; align is start (default, text) or end (numbers, with tabular figures), and the header and the footer follow it; group puts a title above neighbor columns of the same group; width is the content width of the column, set in use. An empty list, a column without key or header, a repeated key or an align outside the two draws nothing and emits console.error in development, one per cause."
+    },
+    "rows": {
+      "type": "array",
+      "required": true,
+      "default": "empty list",
+      "reflects": false,
+      "constraint": "Property only. Each row is key, cells, detail, children, open, loading and toggleLabel. cells maps a column key to a cell; detail opens the expanded item; children makes the next level of the tree, up to three; open says whether it starts open; loading spins the chevron; toggleLabel names the chevron. Opening a row replaces rows with a new list where that row has the new open. An invalid row is left out and emits console.error in development."
+    },
+    "footer": {
+      "type": "object",
+      "required": false,
+      "default": "null",
+      "reflects": false,
+      "constraint": "Property only. A value per column key, such as the total, drawn with the background and the typography of the header. Without a value for any column, there is no footer."
+    }
+  },
+  "variants": {
+    "default": {
+      "axis": "size",
+      "choose_when": "Otherwise: a screen with a pointer and a dense reading.",
+      "do_not_combine_with": []
+    },
+    "large": {
+      "axis": "size",
+      "choose_when": "On a touch screen or for a more relaxed reading.",
+      "do_not_combine_with": []
+    },
+    "framed": {
+      "axis": "appearance",
+      "choose_when": "A table standing alone on the page. Without it inside a card or panel, which already have a border.",
+      "do_not_combine_with": []
+    },
+    "sticky-header": {
+      "axis": "appearance",
+      "choose_when": "A long list inside a panel: the body scrolls and the column titles stay.",
+      "do_not_combine_with": []
+    }
+  },
+  "states": {
+    "hover": {
+      "token": "table/row-hover-background",
+      "changes_for_user": "The whole row under the pointer takes the hover background."
+    },
+    "striped": {
+      "token": "table/row-striped-background",
+      "changes_for_user": "Every other row of data takes the stripe background."
+    },
+    "grid": {
+      "token": "table/border",
+      "changes_for_user": "A vertical line separates the columns of the body."
+    },
+    "focus": {
+      "token": "focus/border",
+      "changes_for_user": "The scroll area that overflows and the truncated text take the ring in table/focus-ring-width with the keyboard."
+    },
+    "open": {
+      "token": "table/expand-indent",
+      "changes_for_user": "The chevron points down and the expanded item or the next level of the tree shows under the row."
+    },
+    "loading": {
+      "token": "table/foreground",
+      "changes_for_user": "A cell shows an nph-skeleton line in place of its content; a row that loads spins its chevron."
+    },
+    "empty": {
+      "token": "table/empty-padding",
+      "changes_for_user": "With no row, the body holds the nph-empty and the header stays visible."
+    }
+  },
+  "business_rules": [
+    "Text aligns to the start and numbers to the end, with the header and the footer of the column.",
+    "A missing value is the no-value dash, read as no-value-label; the cell is never left empty.",
+    "A truncated text carries a tooltip and the focus on the cell, and needs the column width.",
+    "With two actions or more, the frequent one stays visible and the rest go in the more, with Delete last.",
+    "The expanding row and the tree open only through the chevron; the tree goes down to three levels.",
+    "The caption names the table; without it, label does.",
+    "Sorting, selection, filtering and pagination belong to the nph-data-table."
+  ],
+  "domain_errors": [],
+  "tokens": {
+    "surface": [
+      "table/background",
+      "table/header-background",
+      "table/row-striped-background",
+      "table/row-hover-background",
+      "table/muted-background"
+    ],
+    "text": [
+      "table/foreground",
+      "table/muted-foreground",
+      "table/caption-foreground",
+      "table/link-foreground"
+    ],
+    "border": [
+      "table/border",
+      "table/border-width",
+      "table/radius"
+    ],
+    "status": [
+      "table/status-success-icon",
+      "table/status-error-icon",
+      "table/rating-foreground"
+    ],
+    "size": [
+      "table/row-height",
+      "table/row-height-large",
+      "table/icon-size",
+      "table/thumbnail-size",
+      "table/thumbnail-size-large",
+      "table/thumbnail-radius",
+      "table/max-width",
+      "table/caption-max-width",
+      "table/body-max-height"
+    ],
+    "space": [
+      "table/cell-padding-block",
+      "table/cell-padding-inline",
+      "table/action-cell-padding-block",
+      "table/container-padding",
+      "table/cell-gap",
+      "table/cell-gap-tight",
+      "table/stack-gap",
+      "table/empty-padding",
+      "table/expand-indent",
+      "table/caption-action-gap"
+    ],
+    "focus": [
+      "focus/border",
+      "table/focus-ring-width"
+    ],
+    "sticky": [
+      "table/sticky-divider-color",
+      "table/sticky-divider-width",
+      "table/sticky-divider-spread",
+      "table/sticky-divider-blur"
+    ],
+    "scrollbar": [
+      "table/scrollbar-width",
+      "table/scrollbar-radius",
+      "table/scrollbar-thumb",
+      "table/scrollbar-track"
+    ]
+  },
+  "ai_hints": [
+    "Use nph-table to read and compare data; to sort, select, filter or paginate, use the nph-data-table.",
+    "Pass columns and rows as properties; give each row a unique key, which the events carry back.",
+    "Align a number column with align end; give a column a width when it carries truncated text.",
+    "Leave a missing value as null and set no-value-label to the text the screen reader reads, such as sem valor.",
+    "Give the table a caption, or a label when there is no caption.",
+    "Use the actions cell for Edit and more, the mixed-actions cell for a written Edit and more, and the button cell for one action; never a link for an action.",
+    "Listen to nph-row-action for the buttons of the cells and nph-row-toggle for the chevron; load children or detail on open and pass rows again.",
+    "Use framed for a table standing alone on the page, and sticky-header for a long list inside a panel."
+  ],
+  "accessibility": {
+    "semantics": "A native table in the shadow root: column headers with scope col, the group header with scope colgroup over its colgroup, the body and the footer. The tree rows carry aria-level.",
+    "accessible_name": "The caption title (aria-labelledby), with the description as aria-describedby; without a caption, label. The icon-only buttons and the chevron carry a name per row, from the data.",
+    "keyboard": [
+      "Tab reaches the scroll area when it overflows, and the arrows scroll it",
+      "Tab reaches the truncated text, which opens its tooltip",
+      "Tab reaches the links and the buttons of the cells and the chevron; Enter and Space activate the buttons"
+    ],
+    "focus": "The scroll area that overflows and the truncated text take the ring focus/border in table/focus-ring-width with the keyboard. The chevron, the buttons and the more use the focus of their own piece.",
+    "contrast": "Text and link pass AA over background, stripe, header and hover, in light and dark; the status icons pass 3:1. Exception accepted in the evidence: the rating star in table/rating-foreground is below 3:1 in light, and the score stays as a number beside it.",
+    "color_alternative": "The status has a shape and a name besides the color, the badge always has text, the link is underlined, and the no-value dash is read as text."
+  },
+  "invalid_combinations": [
+    "A size outside default and large — the table draws nothing.",
+    "No column, a column without key or header, a repeated key, an align outside start and end — the table draws nothing.",
+    "A row without key or with a repeated key, with both detail and children, with children at the third level, a row that opens without toggleLabel, a detail without name — the row is left out.",
+    "A cell type outside the list, a composite cell without its required text, a badge severity or a status outside the list, an icon outside the core, a link href with a protocol other than http, https, mailto or tel — the cell is drawn blank."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-avatar",
+      "nph-badge",
+      "nph-button",
+      "nph-icon",
+      "nph-image",
+      "nph-skeleton",
+      "nph-tooltip",
+      "nph-empty"
+    ],
+    "parents": [
+      "page",
+      "card",
+      "panel",
+      "dialog"
+    ],
+    "children": [
+      "nph-avatar",
+      "nph-badge",
+      "nph-button",
+      "nph-icon",
+      "nph-image",
+      "nph-skeleton",
+      "nph-tooltip",
+      "nph-empty"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "Leaving a cell empty when data is missing.",
+    "Aligning numbers to the start.",
+    "Writing an action as a link.",
+    "Truncating text without the tooltip and the focus.",
+    "Using the table to lay out the page, or to sort, select, filter or paginate."
+  ],
+  "sources": {
+    "design_md": "design.md has no entry yet for the table/* tokens (pending decision D8 of DSA-49); they are in src/tokens/source/semantic.tokens.json",
+    "decision": "P97 — API and semantics of nph-table, 26-10-2026",
+    "tests": "src/components/nph-table/nph-table.test.ts",
+    "usage_evidence": "none yet",
+    "storybook": "src/components/nph-table/nph-table.stories.ts and nph-table.docs.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, nph-table set 1370:113, documentation frame 2584:66651"
+  }
+}
