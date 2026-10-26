@@ -37,6 +37,7 @@
   cursor: pointer;
 }
 
+.box,
 .start,
 .check {
   flex: none;
@@ -118,8 +119,11 @@
   color: var(--nph-color-accent-foreground);
 }
 
-/* Selected: `color/primary-surface`, which wins over active (D5). The text keeps its rest color. */
-:host(:state(selected)) {
+/*
+ * Selected: `color/primary-surface`, which wins over active (D5). The text keeps its rest color.
+ * With the `checkbox` marker, the checked box says it, without the selected background (P96).
+ */
+:host(:not([marker='checkbox']):state(selected)) {
   background-color: var(--nph-color-primary-surface);
   color: var(--nph-color-popover-foreground);
 }

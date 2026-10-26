@@ -13,8 +13,10 @@ import '@fontsource/noto-sans/latin-500.css';
 import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import componentCss from './nph-option.css?raw';
+import type { NphCheckbox } from '../nph-checkbox/nph-checkbox';
 import {
   NPH_OPTION_CHANGED,
+  NPH_OPTION_MARKERS,
   NPH_OPTION_STARTS,
   NPH_OPTION_STATUSES,
   NphOption,
@@ -72,6 +74,9 @@ describe('registration and API', () => {
     expect(element.disabled).toBe(false);
     expect(element.selected).toBe(false);
     expect(element.active).toBe(false);
+    expect(element.marker).toBe('check');
+    expect(element.getAttribute('marker')).toBe('check');
+    expect(NPH_OPTION_MARKERS).toEqual(['check', 'checkbox']);
     expect(NPH_OPTION_STARTS).toEqual(['none', 'icon', 'avatar', 'dot']);
     expect(NPH_OPTION_STATUSES).toEqual(['neutral', 'info', 'warning', 'success', 'error', 'help']);
   });
@@ -109,7 +114,8 @@ describe('registration and API', () => {
     const element = await mount('<nph-option secondary="Team">Finance</nph-option>');
     expect(element.shadowRoot?.querySelectorAll('[part]').length).toBe(0);
     const declared = [...(NphOption as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    for (const name of ['color', 'variant', 'marker', 'checkbox', 'label']) {
+    /* `marker` exists since P96 (the `checkbox` marker of `nph-multi-combobox`). */
+    for (const name of ['color', 'variant', 'checkbox', 'label']) {
       expect(declared).not.toContain(name);
     }
   });
@@ -258,6 +264,67 @@ describe('states and precedence (D5)', () => {
   });
 });
 
+describe('the checkbox marker (P91 amended by P96)', () => {
+  it('draws an inert nph-checkbox at the start, named by the label and hidden from the screen reader', async () => {
+    const element = await mount('<nph-option marker="checkbox" start="icon" icon="tag">Finance</nph-option>');
+    const box = part(element, 'nph-checkbox.box') as NphCheckbox;
+    expect(box).not.toBeNull();
+    await box.updateComplete;
+    expect(box.hasAttribute('inert')).toBe(true);
+    expect(box.getAttribute('aria-hidden')).toBe('true');
+    expect(box.label).toBe('Finance');
+    expect(box.checked).toBe(false);
+    expect(box.hasAttribute('data-nph-rendered')).toBe(true);
+    /* The box comes before the start of the option. */
+    const start = part(element, '.start') as HTMLElement;
+    expect(box.compareDocumentPosition(start) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(Math.round(element.getBoundingClientRect().height)).toBe(40);
+  });
+
+  for (const scheme of ['light', 'dark'] as const) {
+    it(`${scheme}: selected checks the box, with no selected background and no check; active keeps the hover look`, async () => {
+      document.documentElement.setAttribute('data-nph-color-scheme', scheme);
+      const element = await mount('<nph-option marker="checkbox">Finance</nph-option>');
+      element.selected = true;
+      await element.updateComplete;
+      const box = part(element, 'nph-checkbox.box') as NphCheckbox;
+      expect(box.checked).toBe(true);
+      expect(part(element, '.check')).toBeNull();
+      expect(getComputedStyle(element).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+      expect(getComputedStyle(element).color).toBe(resolved('color', '--nph-color-popover-foreground'));
+      element.active = true;
+      expect(getComputedStyle(element).backgroundColor).toBe(resolved('background-color', '--nph-color-accent'));
+      element.selected = false;
+      await element.updateComplete;
+      expect(box.checked).toBe(false);
+    });
+  }
+
+  it('the option keeps the role and the selected state through ElementInternals', async () => {
+    const element = await mount('<nph-option marker="checkbox">Finance</nph-option>');
+    element.selected = true;
+    await element.updateComplete;
+    expect(element.matches(':state(selected)')).toBe(true);
+    expect(element.hasAttribute('aria-selected')).toBe(false);
+  });
+
+  it('a new label text names the box again', async () => {
+    const element = await mount('<nph-option marker="checkbox">Finance</nph-option>');
+    element.textContent = 'Legal';
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    await element.updateComplete;
+    expect((part(element, 'nph-checkbox.box') as NphCheckbox).label).toBe('Legal');
+  });
+
+  it('the check marker draws no box', async () => {
+    const element = await mount('<nph-option>Finance</nph-option>');
+    element.selected = true;
+    await element.updateComplete;
+    expect(part(element, 'nph-checkbox')).toBeNull();
+    expect(part(element, '.check')).not.toBeNull();
+  });
+});
+
 describe('owner contract', () => {
   it('a change of a property tells the owning list, through the symbol', async () => {
     const owner = document.createElement('div') as HTMLDivElement & { [NPH_OPTION_CHANGED]: (option: NphOption) => void };
@@ -286,7 +353,8 @@ describe('invalid input', () => {
     ['a start that does not exist', 'start="checkbox"', 1],
     ['a status that does not exist', 'start="dot" status="danger"', 1],
     ['an icon outside the core', 'start="icon" icon="not-a-core-name"', 1],
-    ['accumulates the causes', 'start="x" status="y" icon="z"', 3],
+    ['a marker that does not exist', 'marker="radio"', 1],
+    ['accumulates the causes', 'start="x" status="y" icon="z" marker="w"', 4],
   ];
   for (const [name, attributes, count] of cases) {
     it(`${name}: nothing and ${count} error(s) in development`, async () => {

@@ -57,7 +57,7 @@ P62.4 subsection for the detail).
 | **P90** | API and semantics of `nph-image` | 23/10/2026 | Low now. No piece consumes it yet; `nph-table` will, for the thumbnail and the expanded item, so changing `size`, `ratio`, `src`, `alt` or `interactive`, or the derived state, later requires redoing it | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P85** | API and semantics of `nph-input-otp` | 22/10/2026 | Low now. No piece consumes it yet; a sign-in or verification screen will, inside `nph-field`, so changing `length`, `masked`, `value` or the native events later requires redoing that screen | Anatomy and behavior: board accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P93** | API and semantics of `nph-textarea` | 23/10/2026 | Low now. No piece consumes it yet; a comment box or a message composer will, so changing `counter`, `readonly` or the `actions` slot later requires redoing them. It copies the form shape of P80 and the field contract of P83 | Anatomy and behavior: frame accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
-| **P91** | API and semantics of `nph-select` and `nph-option` | 23/10/2026 | Medium. `nph-combobox` (DSA-46) and `nph-multi-combobox` (DSA-31) reuse `nph-option` and its owner symbol, so changing the option API, `NPH_OPTION_CHANGED` or the keyboard later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 14/10/2026, D1 to D9 answered on 19/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P91** | API and semantics of `nph-select` and `nph-option` | 23/10/2026 | Medium. `nph-combobox` (DSA-46) and `nph-multi-combobox` (DSA-31) reuse `nph-option` and its owner symbol, so changing the option API, `NPH_OPTION_CHANGED` or the keyboard later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 14/10/2026, D1 to D9 answered on 19/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them. **Amended by P96 (26/10/2026)**: the `marker` of the option, `check` or `checkbox` |
 | **P94** | API and semantics of `nph-slider` | 23/10/2026 | Low now. No piece consumes it yet; a filter panel will, so changing `mode`, `value`, `start`, `end`, the two form entries of `range` or the ARIA thumbs later requires redoing it | Anatomy and behavior: board accepted by Indiane on 15/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P92** | API and semantics of `nph-dropdown-menu` | 24/10/2026 | Low now. No screen consumes it yet; an account menu or a toolbar will, so changing `for`, `items`, the entry fields or the event `nph-item-select` later requires redoing them | Anatomy and behavior: board accepted by Indiane on 21/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P97** | API and semantics of `nph-table` | 26/10/2026 | Low now. No piece consumes it yet; a report or a statement screen will, and `nph-data-table` may build on it, so changing `columns`, `rows`, the cell types or the events later requires redoing them | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 26/10/2026. API and semantics reviewed in the pull request that brings them |
@@ -3780,7 +3780,7 @@ here as in P80. The names follow P64.
    | `state` `selecionada` | `selected`, written by the owning list, not reflected |
    | `state` `hover` | `active`, written by the owning list, not reflected: the option the pointer or the keyboard is on (D5) |
    | the value | `value`, reflected; without the attribute, the label text with its white space collapsed, as in `<option>` |
-   | `marcador` | always `marca` here; `checkbox` belongs to `nph-multi-combobox` (DSA-31) |
+   | `marcador` | always `marca` here; `checkbox` belongs to `nph-multi-combobox` (DSA-31) *(Amended by P96: `marker`, `check` by default or `checkbox`, reflected; the multi-combobox sets `checkbox` on its options)* |
 
    `start` is explicit and not derived from `icon`, `src` or `status`: the empty avatar and the
    dot with no state have no attribute that would reveal them. The option takes the role `option`,
@@ -3884,7 +3884,7 @@ the invalid input rules are a technical proposal of this implementation, approve
 by Elvys on 23/10/2026.
 
 **Out of scope.** Search, groups and multiple choice (`nph-combobox`, DSA-46;
-`nph-multi-combobox`, DSA-31). The checkbox marker of the option. A width property: the width is
+`nph-multi-combobox`, DSA-31). The checkbox marker of the option *(brought by P96)*. A width property: the width is
 `layout/input-width`. The Usage section of the page (P70, DSA-35), the page lists read from the
 Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
 
