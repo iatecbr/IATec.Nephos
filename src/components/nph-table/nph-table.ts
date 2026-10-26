@@ -42,6 +42,7 @@
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
+import { repeat } from 'lit/directives/repeat.js';
 
 import '../nph-avatar/nph-avatar';
 import '../nph-badge/nph-badge';
@@ -307,6 +308,13 @@ export class NphTable extends LitElement {
     this.footer = null;
   }
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+    /* A table moved to another place measures its scroll area again: the observer was
+       disconnected when it left, and only an update installs it. */
+    if (this.hasUpdated) this.requestUpdate();
+  }
+
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.resizeObserver?.disconnect();
@@ -336,6 +344,7 @@ export class NphTable extends LitElement {
     if (!sizeValid) {
       this.error(`size "${size}" does not exist. Use ${NPH_TABLE_SIZES.map((value) => `"${value}"`).join(', ')}.`);
     }
+    const wasValid = this.valid;
     this.valid = sizeValid && this.validColumns.length > 0;
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);
     if (!this.valid) {
@@ -343,7 +352,9 @@ export class NphTable extends LitElement {
       return;
     }
 
-    if (changed.has('rows') || changed.has('columns')) {
+    /* The rows are checked again when they change, and when the table becomes valid again:
+       while it was invalid, no row was kept. */
+    if (changed.has('rows') || changed.has('columns') || !wasValid) {
       this.drawnRows = this.checkRows();
     }
     if (trimmed(this.caption) === '' && trimmed(this.label) === '') {
@@ -560,7 +571,8 @@ export class NphTable extends LitElement {
     const replace = (list: readonly NphTableRow[]): readonly NphTableRow[] =>
       list.map((row) => {
         if (row === target) return { ...row, open };
-        if (Array.isArray(row.children)) {
+        /* An entry that is not a row was left out when drawn, and stays as it is. */
+        if (row !== null && typeof row === 'object' && Array.isArray(row.children)) {
           const children = replace(row.children);
           return children === row.children ? row : { ...row, children };
         }
@@ -699,17 +711,22 @@ export class NphTable extends LitElement {
         </tr>
       </tbody>`;
     }
-    let dataIndex = 0;
     return html`<tbody>
-      ${this.drawnRows.map((drawn, position) => {
-        const striped = dataIndex % 2 === 1;
-        dataIndex += 1;
-        const detailId = `detail-${position}`;
-        const detailOpen = drawn.row.detail !== undefined && drawn.row.detail !== null && drawn.open;
-        return html`${this.renderRow(drawn, position, striped, detailId)}${detailOpen
-          ? this.renderDetail(drawn.row.detail as NphTableDetail, detailId)
-          : nothing}`;
-      })}
+      ${repeat(
+        this.drawnRows,
+        /* Keyed by the row, so a row keeps its elements — and the focus on its buttons — when
+           rows come in or leave before it. */
+        (drawn) => drawn.row.key.trim(),
+        (drawn, position) => {
+          /* The stripe counts the rows of data only: an expanded item is not one of them. */
+          const striped = position % 2 === 1;
+          const detailId = `detail-${position}`;
+          const detailOpen = drawn.row.detail !== undefined && drawn.row.detail !== null && drawn.open;
+          return html`${this.renderRow(drawn, position, striped, detailId)}${detailOpen
+            ? this.renderDetail(drawn.row.detail as NphTableDetail, detailId)
+            : nothing}`;
+        },
+      )}
     </tbody>`;
   }
 

@@ -4260,6 +4260,8 @@ and P90. The names follow P64.
    is the state. A click on the chevron replaces `rows` with a new list in which only that row has
    the new `open` — the object of the consumer is not changed — and fires `nph-row-toggle`, so
    `rows` is always the state, as the `items` of `nph-dropdown-menu` (P92).
+   The rows are drawn keyed by `key`, so a row keeps its elements, and the focus on its chevron,
+   when rows come in or leave before it, as when the children of a level arrive.
 
 6. **Name, focus and scroll.** The caption, when there is one, sits above the table at
    `table/stack-gap`, with the title, the description up to `table/caption-max-width`, the total

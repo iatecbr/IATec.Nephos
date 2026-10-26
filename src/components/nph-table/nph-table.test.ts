@@ -1154,6 +1154,63 @@ describe('invalid input', () => {
   }
 });
 
+describe('regressions of the review of PR 119', () => {
+  it('a row keeps its elements, and the focus on its chevron, when a row comes in before it', async () => {
+    const tree: NphTableRow[] = [
+      { key: 'south', cells: { unit: 'South', amount: 1 }, toggleLabel: 'Units of South', children: [] },
+      { key: 'north', cells: { unit: 'North', amount: 2 } },
+    ];
+    const element = await mount({ rows: tree });
+    const south = bodyRows(element)[0] as HTMLTableRowElement;
+    const chevron = south.querySelector('.chevron') as HTMLElement;
+    innerButton(chevron).focus();
+    element.rows = [{ key: 'east', cells: { unit: 'East', amount: 3 } }, ...tree];
+    await element.updateComplete;
+    expect(bodyRows(element)[1]).toBe(south);
+    expect(cellsOf(south)[0]?.textContent?.trim()).toBe('South');
+    expect(root(element).activeElement).toBe(chevron);
+    const received: NphTableRowToggleDetail[] = [];
+    element.addEventListener('nph-row-toggle', (event) => received.push(event.detail));
+    innerButton(chevron).click();
+    expect(received).toEqual([{ row: 'south', open: true }]);
+  });
+
+  it('a table moved into a narrower box becomes a focusable region there', async () => {
+    const wide: NphTableColumn[] = Array.from({ length: 8 }, (_, index) => ({ key: `c${index}`, header: `Column number ${index}` }));
+    const rows: NphTableRow[] = [{ key: 'a', cells: Object.fromEntries(wide.map((column) => [column.key, 'Some long value'])) }];
+    const roomy = document.createElement('div');
+    roomy.style.inlineSize = '200rem';
+    document.body.append(roomy);
+    const element = await mount({ columns: wide, rows }, roomy);
+    expect(scrollArea(element).hasAttribute('tabindex')).toBe(false);
+    const narrow = document.createElement('div');
+    narrow.style.inlineSize = '20rem';
+    document.body.append(narrow);
+    narrow.append(element);
+    await vi.waitFor(() => expect(scrollArea(element).getAttribute('tabindex')).toBe('0'));
+  });
+
+  it('a size that becomes valid draws the rows again', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const element = await mount({ size: 'small' as never });
+    expect(root(element).querySelector('table')).toBeNull();
+    element.size = 'default';
+    await element.updateComplete;
+    expect(bodyRows(element)).toHaveLength(ROWS.length);
+  });
+
+  it('an entry that is not a row does not break the chevron of the others', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const element = await mount({
+      rows: [null as unknown as NphTableRow, { key: 'a', cells: { unit: 'A', amount: 1 }, toggleLabel: 'Details of A', detail: { name: 'Item A' } }],
+    });
+    innerButton(root(element).querySelector('.chevron')).click();
+    await element.updateComplete;
+    expect(root(element).querySelector('tr.detail')).not.toBeNull();
+    expect(element.rows[0]).toBeNull();
+  });
+});
+
 describe('color schemes', () => {
   it('in dark mode the header is color/muted through table/header-background, and the stripe core/surface/800', async () => {
     const frame = document.createElement('div');
