@@ -470,8 +470,9 @@ export class NphTable extends LitElement {
       this.error(`the row "${key}" opens and has no toggleLabel: the chevron needs its accessible name. The row is left out.`);
       return null;
     }
-    if (hasDetail && row.detail?.badge !== undefined && row.detail.badge.severity !== undefined && !oneOf(NPH_BADGE_SEVERITIES, row.detail.badge.severity)) {
-      this.error(`the badge severity "${String(row.detail.badge.severity)}" of the detail of the row "${key}" does not exist. The row is left out.`);
+    const badge = hasDetail ? row.detail?.badge : undefined;
+    if (badge !== undefined && badge !== null && badge.severity !== undefined && !oneOf(NPH_BADGE_SEVERITIES, badge.severity)) {
+      this.error(`the badge severity "${String(badge.severity)}" of the detail of the row "${key}" does not exist. The row is left out.`);
       return null;
     }
     const cells = this.validColumns.map((column) => this.checkCell(row.cells?.[column.key], key, column));

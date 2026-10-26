@@ -1300,6 +1300,36 @@ describe('regression of the fourth review of PR 119', () => {
   });
 });
 
+describe('regressions of the fifth review of PR 119', () => {
+  it('a number first column of a tree aligns its values to the end, with the chevron at the indent', async () => {
+    const element = await mount({
+      columns: [{ key: 'amount', header: 'Amount', align: 'end', width: '20rem' }],
+      rows: [{ key: 'a', cells: { amount: 10 }, toggleLabel: 'Open A', children: [] }, { key: 'b', cells: { amount: 20 } }],
+    });
+    for (const row of bodyRows(element)) {
+      const td = cellsOf(row)[0] as HTMLElement;
+      const text = td.querySelector('.text') as HTMLElement;
+      const edge = td.getBoundingClientRect().right - parseFloat(getComputedStyle(td).paddingRight);
+      expect(text.getBoundingClientRect().right).toBeCloseTo(edge, 0);
+    }
+    const chevron = cellsOf(bodyRows(element)[0] as HTMLTableRowElement)[0]?.querySelector('.chevron') as HTMLElement;
+    const td = cellsOf(bodyRows(element)[0] as HTMLTableRowElement)[0] as HTMLElement;
+    expect(chevron.getBoundingClientRect().left).toBeCloseTo(td.getBoundingClientRect().left + parseFloat(getComputedStyle(td).paddingLeft), 0);
+  });
+
+  it('a detail with a null badge is a detail without a badge, and the other rows draw', async () => {
+    const element = await mount({
+      rows: [
+        { key: 'a', cells: { unit: 'A', amount: 1 }, toggleLabel: 'Details of A', open: true, detail: { name: 'Item A', badge: null as never } },
+        { key: 'b', cells: { unit: 'B', amount: 2 } },
+      ],
+    });
+    expect(bodyRows(element)).toHaveLength(2);
+    expect(root(element).querySelector('tr.detail .name')?.textContent).toBe('Item A');
+    expect(root(element).querySelector('tr.detail nph-badge')).toBeNull();
+  });
+});
+
 describe('color schemes', () => {
   it('in dark mode the header is color/muted through table/header-background, and the stripe core/surface/800', async () => {
     const frame = document.createElement('div');

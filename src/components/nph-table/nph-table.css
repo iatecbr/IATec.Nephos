@@ -352,6 +352,11 @@ td.truncated:focus-visible {
   flex: 1;
 }
 
+/* A number column in the tree: the chevron stays at the indent and the value goes to the end. */
+td.end > .tree > :last-child {
+  margin-inline-start: auto;
+}
+
 .tree-spacer {
   flex: none;
   inline-size: var(--nph-table-expand-indent);
