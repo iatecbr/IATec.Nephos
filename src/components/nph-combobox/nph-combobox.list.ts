@@ -23,7 +23,7 @@ import type { TemplateResult } from 'lit';
 import '../nph-option/nph-option';
 import '../nph-separator/nph-separator';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
-import { NPH_OPTION_STARTS, NPH_OPTION_STATUSES } from '../nph-option/nph-option';
+import { NPH_OPTION_DEFAULT_ICON, NPH_OPTION_STARTS, NPH_OPTION_STATUSES } from '../nph-option/nph-option';
 import type { NphComboboxEntry, NphComboboxOption } from './nph-combobox';
 import listCss from './nph-combobox.list.css?inline';
 
@@ -95,8 +95,9 @@ function folded(text: string): { key: string; at: number[] } {
   let index = 0;
   for (const character of text) {
     const bare = character.normalize('NFD').replace(/\p{M}/gu, '').toLocaleLowerCase();
-    for (const unit of bare) {
-      key += unit;
+    /* One place per UTF-16 unit of the key, as `indexOf` counts: an emoji or a flag takes two. */
+    for (let unit = 0; unit < bare.length; unit += 1) {
+      key += bare[unit];
       at.push(index);
     }
     index += character.length;
@@ -207,7 +208,7 @@ export function renderOption(option: NphComboboxOption, state: NphComboboxRowSta
   return html`<nph-option
     id=${state.id}
     start=${start}
-    icon=${option.icon === undefined ? nothing : trimmed(option.icon)}
+    icon=${trimmed(option.icon) === '' ? NPH_OPTION_DEFAULT_ICON : trimmed(option.icon)}
     src=${start === 'avatar' ? trimmed(option.src) : nothing}
     status=${option.status === undefined ? nothing : option.status}
     secondary=${secondary === '' ? nothing : secondary}

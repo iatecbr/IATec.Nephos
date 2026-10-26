@@ -304,6 +304,8 @@ export class NphCombobox extends LitElement {
   private hasShortcuts = false;
   /** The valid entries, kept until `options` changes. */
   private entries: NphComboboxEntry[] = [];
+  /** The `options` the entries were read from. */
+  private entriesSource: unknown = undefined;
   /** After the first frame, a label rendered by another element has had its chance. */
   private settled = false;
   private warnedNoName = false;
@@ -364,6 +366,8 @@ export class NphCombobox extends LitElement {
     this.dirty = true;
     this.typed = null;
     this.syncFormState();
+    /* The typed text may go away with the value unchanged: the field shows the chosen text again. */
+    this.requestUpdate();
     this.requestUpdate('value', old);
   }
 
@@ -402,6 +406,8 @@ export class NphCombobox extends LitElement {
     this.current = this.getAttribute('value') ?? '';
     this.typed = null;
     this.syncFormState();
+    /* The typed text may go away with the value unchanged: the field shows the chosen text again. */
+    this.requestUpdate();
     this.requestUpdate('value', old);
   }
 
@@ -467,6 +473,21 @@ export class NphCombobox extends LitElement {
       }
     }
     return kept;
+  }
+
+  /**
+   * Reads the entries again when `options` is another list than the one read, also before the
+   * update a new list asks for: a consumer may replace `options` inside `nph-create`, and the
+   * form data must know the new option when `input` and `change` run. Each list is read once,
+   * so its diagnostics do not repeat.
+   */
+  private refreshEntries(): boolean {
+    if (this.entriesSource === this.options && this.hasUpdated) {
+      return false;
+    }
+    this.entriesSource = this.options;
+    this.entries = this.readEntries();
+    return true;
   }
 
   private get allOptions(): NphComboboxOption[] {
@@ -546,8 +567,7 @@ export class NphCombobox extends LitElement {
       this.valid = valid;
       this.toggleAttribute(RENDERED_ATTRIBUTE, valid);
     }
-    if (changed.has('options') || !this.hasUpdated) {
-      this.entries = this.readEntries();
+    if (this.refreshEntries()) {
       this.syncFormState();
     }
     if (this.valid && changed.has('clearable') && this.clearable && trimmed(this.clearLabel) === '') {
@@ -647,6 +667,7 @@ export class NphCombobox extends LitElement {
     const before = this.query;
     this.typed = next;
     if (this.query !== before) {
+      this.requestUpdate();
       this.dispatchEvent(
         new CustomEvent<NphComboboxSearchDetail>('nph-search', { detail: { query: this.query }, bubbles: true, composed: true }),
       );
@@ -689,6 +710,7 @@ export class NphCombobox extends LitElement {
     }
     this.closeList();
     this.dispatchEvent(new CustomEvent<NphComboboxCreateDetail>('nph-create', { detail: { text }, bubbles: true, composed: true }));
+    this.refreshEntries();
     this.setTyped(null);
     this.commit(text);
     this.field?.focus();

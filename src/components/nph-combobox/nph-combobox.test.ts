@@ -180,6 +180,9 @@ describe('the list module (shared with nph-multi-combobox)', () => {
     expect(matchRange('Brazil', 'zil')).toEqual([3, 6]);
     expect(matchRange('Brazil', 'xyz')).toBeNull();
     expect(matchRange('Brazil', '  ')).toBeNull();
+    /* An emoji or a flag before the name takes two UTF-16 units: the highlight still lands on the match. */
+    expect(matchRange('\u{1F600} Brazil', 'Bra')).toEqual([3, 6]);
+    expect(matchRange('\u{1F1E7}\u{1F1F7} Brasil', 'bra')).toEqual([5, 8]);
   });
 
   it('a label opens a group and a separator closes one, as in nph-dropdown-menu', () => {
@@ -614,6 +617,24 @@ describe('groups, status, loading, create, empty and shortcuts', () => {
     expect(texts(element)[0]).toBe('Peru');
   });
 
+  it('an option added inside nph-create is in the form data and the validity when change runs', async () => {
+    const form = document.createElement('form');
+    document.body.append(form);
+    const element = await mount('label="Country" name="country" required creatable create-label="Create"', countries(), form);
+    element.addEventListener('nph-create', (event) => {
+      element.options = [...element.options, { value: event.detail.text, text: event.detail.text }];
+    });
+    let seen: { data: FormDataEntryValue | null; valid: boolean } | null = null;
+    element.addEventListener('change', () => {
+      seen = { data: new FormData(form).get('country'), valid: element.validity.valid };
+    });
+    const error = vi.spyOn(console, 'error');
+    await type(element, 'Bolivia');
+    await press(element, '{Enter}');
+    expect(seen).toEqual({ data: 'Bolivia', valid: true });
+    expect(error).not.toHaveBeenCalled();
+  });
+
   it('the create row is hidden when an option already says the typed text', async () => {
     const element = await mount('label="Country" creatable create-label="Create"');
     await type(element, 'peru');
@@ -667,6 +688,21 @@ describe('groups, status, loading, create, empty and shortcuts', () => {
     await settle();
     expect(footer.hidden).toBe(false);
     expect(getComputedStyle(footer).borderTopColor).toBe(resolved('color', '--nph-color-border'));
+  });
+});
+
+describe('the rows Lit reuses', () => {
+  it('an option with no icon keeps the default icon when it takes the row of one that had an icon', async () => {
+    const element = await mount('label="Folder"', [
+      { value: 'a', text: 'Alpha', start: 'icon', icon: 'folder' },
+      { value: 'b', text: 'Beta', start: 'icon' },
+    ]);
+    element.open = true;
+    await settle();
+    await type(element, 'Bet');
+    const option = row(element, 'Beta');
+    expect(option.icon).toBe('globe');
+    expect(option.hasAttribute('data-nph-rendered')).toBe(true);
   });
 });
 
@@ -901,6 +937,34 @@ describe('the clear button', () => {
     expect(clearButton(element)).toBeNull();
     await type(element, 'Ar');
     expect(clearButton(element)).not.toBeNull();
+  });
+
+  it('clearing a search with no choice redraws the field, the button and the list', async () => {
+    const element = await mount('label="Country" clearable clear-label="Clear"');
+    await type(element, 'Ar');
+    expect(clearButton(element)).not.toBeNull();
+    await userEvent.click(clearButton(element) as HTMLButtonElement);
+    await settle();
+    expect(field(element).value).toBe('');
+    expect(clearButton(element)).toBeNull();
+    if (element.open) {
+      expect(texts(element)).toHaveLength(COUNTRIES.length);
+    }
+  });
+
+  it('setting the same value, or a reset to the same default, drops the typed text and shows the chosen text', async () => {
+    const form = document.createElement('form');
+    document.body.append(form);
+    const element = await mount('label="Country" name="country" value="peru"', countries(), form);
+    await type(element, 'Bra');
+    element.value = element.value;
+    await settle();
+    expect(field(element).value).toBe('Peru');
+    await type(element, 'Chi');
+    form.reset();
+    await settle();
+    expect(field(element).value).toBe('Peru');
+    expect(element.query).toBe('');
   });
 
   it('the clear target is icon/size-sm with space/inline-tight around it', async () => {
