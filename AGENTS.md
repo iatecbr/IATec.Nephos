@@ -247,9 +247,9 @@ of the tokens and CSS custom properties as the generated format (P17);
 `@storybook/web-components-vite` kept (P19); Style Dictionary v5 as the
 generator, with `data-nph-brand` and `data-nph-color-scheme` as the public
 theme contract (P20); and the technical plan for `nph-icon`, with the
-component contract and the validation base (P21). When the CI workflow is
-created, it will run the build on pull requests and make a private artifact
-available (P19).
+component contract and the validation base (P21). The Azure Pipeline
+(`azure-pipelines.yml`, `docs/release.md`) runs the Storybook build on pull
+requests and publishes it as the private pipeline artifact `storybook` (P19).
 
 The technical tokens live in `src/tokens/source/*.tokens.json`, in the layers
 `core`, `theme` and `semantic`, with the generated CSS in
@@ -261,8 +261,10 @@ and `nph-kbd` (PR #54), `nph-badge` and `nph-button` (PR #56),
 (PR #90) and `nph-toggle-group` (PR #92); the source
 is `src/components/` on `v/5.0.0`. The component
 sheets are canonical at `fichas/<name>.md`, with the template at
-`fichas/_modelo.md`, since PR #13. **The CI workflow and publication remain
-nonexistent.** The note records, in each decision, what was left out of scope.
+`fichas/_modelo.md`, since PR #13. **Public publishing remains out of
+scope**: the Azure Pipeline publishes the package only to a private feed (P75)
+and the Storybook only as a private artifact (P19). The note records, in each
+decision, what was left out of scope.
 P17 also fixes the canonical source by responsibility: Figma is the visual
 source, `design.md` is the human and agentic contract, the JSON is the
 technical source of audited values and the CSS is generated from the JSON,

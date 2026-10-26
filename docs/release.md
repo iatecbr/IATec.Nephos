@@ -14,9 +14,11 @@ The structure follows the reference pipeline of `IATec.Nephos.Blocks.Angular`
 and SonarQube stages. It runs on the self-hosted pool `IATec-Builds-Agents-Linux`.
 
 1. **Build**: installs dependencies, checks the generated tokens are committed,
-   runs `build:lib`, `test:package` and `pack:check`. On a tag build it asserts
-   that the tag is `v<package.json version>`. It ends with `npm pack` and
-   publishes the tarball as the pipeline artifact `npm-package`.
+   runs `build:lib`, `test:package` and `pack:check`, then `build-storybook`,
+   and publishes `storybook-static/` as the pipeline artifact `storybook` (see
+   [The Storybook artifact](#the-storybook-artifact)). On a tag build it
+   asserts that the tag is `v<package.json version>`. It ends with `npm pack`
+   and publishes the tarball as the pipeline artifact `npm-package`.
 2. **Test** (in parallel with Build): typecheck, `test:naming`,
    `test:operacao`, `test:i18n` and the browser tests (Playwright Chromium).
 3. **Publish** (tag builds, or a manual run with `publish: true`; never on a
@@ -31,6 +33,35 @@ and SonarQube stages. It runs on the self-hosted pool `IATec-Builds-Agents-Linux
 
 Pull requests to `v/5.0.0` run Build and Test only. A manual run publishes only
 from a `v5.*` tag or from `v/5.0.0`.
+
+Publish depends on Build succeeding, and Build runs the Storybook build before
+`npm pack`. A broken Storybook therefore fails Build, and no version reaches the
+feed from that run.
+
+## The Storybook artifact
+
+Every run of Build (a `v5.*` tag, a pull request to `v/5.0.0` or a manual run)
+builds the static Storybook with `npm run build-storybook` and publishes the
+folder `storybook-static/` as the pipeline artifact **`storybook`**. A run that
+publishes a version therefore always carries the Storybook of the same commit.
+This is the private CI artifact that P19 foresees; the pipeline does not host
+it anywhere.
+
+To get it:
+
+- In Azure DevOps, open the run, then **Summary**, then the published
+  artifacts, and download `storybook`; or
+- with the Azure CLI: `az pipelines runs artifact download --run-id <id>
+  --artifact-name storybook --path <folder>`.
+
+The folder is a static site: serve it with any static file server (opening
+`index.html` from disk does not load the stories). To get one without a new
+tag, use **Run pipeline** on `v/5.0.0` and leave `publish` false.
+
+Keep it internal. Public publishing stays out of scope (P19), and the static
+build carries Font Awesome Pro artwork (the icon gallery of `nph-icon`), so
+hosting it where people outside IATec can reach it is a license decision for
+Indiane (`PO-001`), not a hosting choice.
 
 The pipeline depends on the package configuration from PR #89
 (`feat/npm-package-rc1`): `name`, `version`, `build:lib`, `test:package`,
