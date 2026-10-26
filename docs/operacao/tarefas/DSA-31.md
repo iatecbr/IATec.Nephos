@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 320,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-multi-combobox",
   "dependencies": ["DSA-03", "DSA-12", "DSA-17", "DSA-28", "DSA-29", "DSA-46"],
   "gates": [
@@ -29,7 +29,32 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The evidence says each list option uses `marcador=checkbox` with an `nph-checkbox` instance, but not where the box sits in the option. The code puts it at the start of the option, before the option's own start, as the multiple choice of `nph-dropdown-menu` (P92). It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence draws `conteúdo=contador` with the subject and the counter, but not the field in counter mode with nothing chosen. The code shows the placeholder then, as `conteúdo=placeholder`, and the subject and the counter from the first choice on. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence says the chip start icon repeats the icon of the option in the list, with `tag` as the default instance, but not what a chip shows for an option with no icon. The code shows `tag` for it. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D-4",
+      "question": "The evidence does not say where the typed text sits in `conteúdo=contador`. The code keeps the text field after the counter, on the same line, so the person still searches the list. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-31/documentacao-figma-aceita-2026-10-15.md"
   ],
@@ -46,8 +71,12 @@
     "excerpt": null,
     "converted_decision": "The nph-multi-combobox frame (1467:25660) was accepted as the API and behavior specification of the nph-multi-combobox. COMPONENT_SET 1467:25652; chip 1467:24879; the nph-combobox list 1359:141 with the nph-select option 1357:136. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": {
+    "branch": "claude/dsa-31-nph-multi-combobox-4b7aff",
+    "commit": null,
+    "pr": null
+  },
+  "context": "docs/operacao/contextos/DSA-31.md",
   "updated_at": "2026-10-26"
 }
 ```
@@ -78,6 +107,18 @@ PR.
 | D1 | The line of text says the subject of the field, as in “Countries”, and the counter says how many are chosen. | Renders a subject text before the counter; it does not change with each choice. |
 | D2 | The list is built once, in the `nph-combobox` task; this task reuses it. | Does not build its own list; it consumes the `nph-combobox` list. |
 | D3 | A long chip label stays on one line with an ellipsis; the chip stops before the end of the field. The full name is in the list. | Sets one line, `text-overflow: ellipsis` and a maximum chip width inside the field. |
+
+## Pending decisions
+The evidence gives the contract, so the code can start. Four points remain for
+Indiane; the code follows the stated default meanwhile, and each answer only
+adjusts one rule.
+
+| ID | What the evidence gives | What is missing | What the code does meanwhile |
+|---|---|---|---|
+| D-1 | Each option uses `marcador=checkbox`, with an `nph-checkbox`. | Where the box sits in the option. | At the start, before the option's own start, as `nph-dropdown-menu`. |
+| D-2 | `conteúdo=contador` shows the subject and the counter. | The counter mode with nothing chosen. | The placeholder, as `conteúdo=placeholder`. |
+| D-3 | The chip icon repeats the option icon; the default instance is `tag`. | A chip for an option with no icon. | `tag`. |
+| D-4 | `conteúdo=contador` stays on one line. | Where the typed text sits. | The text field after the counter, on the same line. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, chip,
