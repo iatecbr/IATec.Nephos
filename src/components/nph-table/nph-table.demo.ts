@@ -187,7 +187,7 @@ export function orderTable(s: Sample, states: ReadonlyArray<'closed' | 'open' | 
 
 /** A hierarchy in three levels: region, city, district; `open` opens every level. */
 export function treeRows(s: Sample, open: boolean): NphTableRow[] {
-  const [south, porto, centro, curitiba, north] = s.regions;
+  const [south, porto, district, curitiba, north] = s.regions;
   return [
     {
       key: 'south',
@@ -200,7 +200,7 @@ export function treeRows(s: Sample, open: boolean): NphTableRow[] {
           cells: { unit: porto ?? '', amount: s.amounts[1] ?? null },
           toggleLabel: format(s.levelsOf, { name: porto ?? '' }),
           open,
-          children: [{ key: 'centro', cells: { unit: centro ?? '', amount: s.amounts[1] ?? null } }],
+          children: [{ key: 'district', cells: { unit: district ?? '', amount: s.amounts[1] ?? null } }],
         },
         { key: 'curitiba', cells: { unit: curitiba ?? '', amount: s.amounts[2] ?? null } },
       ],

@@ -966,7 +966,7 @@ describe('tree', () => {
           key: 'porto',
           cells: { unit: 'Porto Alegre', amount: 20 },
           toggleLabel: 'Units of Porto Alegre',
-          children: [{ key: 'centro', cells: { unit: 'Centro', amount: 20 } }],
+          children: [{ key: 'downtown', cells: { unit: 'Downtown', amount: 20 } }],
         },
         { key: 'curitiba', cells: { unit: 'Curitiba', amount: 10 } },
       ],
@@ -1001,7 +1001,7 @@ describe('tree', () => {
     expect(rows.map((row) => [cellsOf(row)[0]?.textContent?.trim(), row.getAttribute('aria-level')])).toEqual([
       ['South region', '1'],
       ['Porto Alegre', '2'],
-      ['Centro', '3'],
+      ['Downtown', '3'],
       ['Curitiba', '2'],
       ['North region', '1'],
     ]);

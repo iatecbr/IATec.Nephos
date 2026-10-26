@@ -27,7 +27,7 @@ api:
     default: default
     reflects: true
     constraint: >-
-      The Figma property size. Default takes the row table/row-height and the cell sides
+      The Figma property `size`. Default takes the row table/row-height and the cell sides
       table/cell-padding-inline; large takes table/row-height-large and
       table/container-padding, for touch or a more relaxed reading. Reflects because the
       internal CSS reads it. A value outside the list draws nothing and emits console.error
@@ -38,7 +38,7 @@ api:
     default: false
     reflects: true
     constraint: >-
-      The Figma property moldura. The border table/border in table/border-width with the
+      The Figma property `moldura`. The border table/border in table/border-width with the
       corner table/radius, for a table standing alone on the page; the last row leaves its
       divider to the frame.
   sticky-header:
@@ -47,7 +47,7 @@ api:
     default: false
     reflects: true
     constraint: >-
-      The Figma property cabeçalho fixo. The scroll area stops at table/body-max-height and
+      The Figma property `cabeçalho fixo`. The scroll area stops at table/body-max-height and
       the header stays while the body scrolls, with the line table/sticky-divider-* under it.
   striped:
     type: boolean
@@ -55,7 +55,7 @@ api:
     default: false
     reflects: true
     constraint: >-
-      The Figma estado faixa, for the whole table: every other row of data in
+      The Figma `estado` `faixa`, for the whole table: every other row of data in
       table/row-striped-background. An expanded item does not count. On the host is a
       technical proposal of P97.
   grid:
@@ -64,7 +64,7 @@ api:
     default: false
     reflects: true
     constraint: >-
-      The Figma property grade, for the whole table: the vertical line between the columns of
+      The Figma property `grade`, for the whole table: the vertical line between the columns of
       the body, in table/border. On the host is a technical proposal of P97.
   caption:
     type: string
@@ -72,7 +72,7 @@ api:
     default: "empty"
     reflects: false
     constraint: >-
-      The Figma legenda and texto da legenda: the title above the table, already localized.
+      The Figma `legenda` and `texto da legenda`: the title above the table, already localized.
       It is the accessible name of the table (aria-labelledby). Empty, there is no caption.
   description:
     type: string
@@ -80,7 +80,7 @@ api:
     default: "empty"
     reflects: false
     constraint: >-
-      The Figma descrição and texto da descrição, under the caption title, in
+      The Figma `descrição` and `texto da descrição`, under the caption title, in
       table/caption-foreground. It describes the table (aria-describedby). Only with a caption.
   total:
     type: string
@@ -88,7 +88,7 @@ api:
     default: "empty"
     reflects: false
     constraint: >-
-      The Figma total: the text of an nph-badge secondary beside the caption title. Only with
+      The Figma `total`: the text of an nph-badge secondary beside the caption title. Only with
       a caption.
   label:
     type: string
