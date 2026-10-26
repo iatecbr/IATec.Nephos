@@ -505,7 +505,7 @@ with no choice. `nph-field` writes the sentence and passes it to the combobox as
 | Alternative to color | The error is said by the sentence of `nph-field`; the dot goes with the written state; the highlight changes the weight; the arrow turns up when the list opens |
 | Hidden parts | The start, the divider, the arrow, the dot and the check are hidden from the screen reader |
 | Touch target | The whole field opens the list, arrow area included; the clear button has its own area, `icon/size-sm` with `space/inline-tight` around it |
-| Known limits | Forced colors and right-to-left are not treated yet. The list does not shrink when neither side fits |
+| Known limits | Forced colors and right-to-left are not treated yet. The list does not shrink when neither side fits. In a label written decomposed (a base letter and a combining mark), the mark may stay outside the highlight (P95) |
 
 ## Relations
 

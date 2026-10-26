@@ -4499,6 +4499,12 @@ closed clears the typed text. D-5 the first match is active while the person typ
 **Known limits.**
 
 - **The list does not shrink**, as in P91.
+- **A label written decomposed**, a base letter followed by a combining mark (`Cafe` and U+0301
+  instead of `Café`), can leave the mark outside the highlight: the match ends at the base letter,
+  so the base and its accent take different weight and color. The precomposed form, the one
+  applications usually send, is not affected. Follow-up: extend the end of the match over the
+  combining marks that follow it, with a regression on decomposed text (Copilot, round 6 of
+  PR #120).
 - **The waiting and the empty boxes** take `space/inline` around the `nph-spinner` and the
   `nph-empty`; the evidence does not draw them.
 - **Forced colors and right-to-left** are not treated yet, as in P80.
