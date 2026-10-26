@@ -1245,6 +1245,27 @@ describe('regressions of the second review of PR 119', () => {
   });
 });
 
+describe('regression of the third review of PR 119', () => {
+  it('a focused button keeps its column, and its action, when a column comes in before it', async () => {
+    const pay: NphTableColumn = { key: 'pay', header: 'Pay' };
+    const refund: NphTableColumn = { key: 'refund', header: 'Refund' };
+    const element = await mount({
+      columns: [pay, refund],
+      rows: [{ key: 'ana', cells: { pay: { type: 'button', text: 'Pay', action: 'pay' }, refund: { type: 'button', text: 'Refund', action: 'refund' }, note: 'x' } }],
+    });
+    const button = cellsOf(bodyRows(element)[0] as HTMLTableRowElement)[0]?.querySelector('nph-button') as HTMLElement;
+    innerButton(button).focus();
+    element.columns = [{ key: 'note', header: 'Note' }, pay, refund];
+    await element.updateComplete;
+    expect(root(element).activeElement).toBe(button);
+    expect(button.getAttribute('text')).toBe('Pay');
+    const received: string[] = [];
+    element.addEventListener('nph-row-action', (event) => received.push(event.detail.action));
+    innerButton(button).click();
+    expect(received).toEqual(['pay']);
+  });
+});
+
 describe('color schemes', () => {
   it('in dark mode the header is color/muted through table/header-background, and the stripe core/surface/800', async () => {
     const frame = document.createElement('div');

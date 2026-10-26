@@ -771,11 +771,16 @@ export class NphTable extends LitElement {
       ${this.hasDetailColumn
         ? html`<td class="chevron-column">${hasDetail ? this.renderChevron(drawn, drawn.open ? detailId : nothing) : nothing}</td>`
         : nothing}
-      ${this.validColumns.map((column, index) => {
-        const cell = drawn.cells[index] as CheckedCell;
-        const tree = this.isTree && index === 0;
-        return this.renderCell(cell, column, drawn, `cell-${position}-${index}`, tree);
-      })}
+      ${repeat(
+        this.validColumns,
+        /* Keyed by the column, so a focused button keeps its column, and its action, when columns change. */
+        (column) => column.key.trim(),
+        (column, index) => {
+          const cell = drawn.cells[index] as CheckedCell;
+          const tree = this.isTree && index === 0;
+          return this.renderCell(cell, column, drawn, `cell-${position}-${index}`, tree);
+        },
+      )}
     </tr>`;
   }
 
