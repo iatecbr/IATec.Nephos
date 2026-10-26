@@ -82,7 +82,7 @@ api:
     default: "false"
     reflects: true
     constraint: >-
-      The Figma conteúdo=contador: the field stays on one line and shows subject and an
+      The Figma `conteúdo=contador`: the field stays on one line and shows subject and an
       nph-badge with how many options are chosen, instead of the chips. With nothing
       chosen, the placeholder (D-2). The typed text sits after the counter (D-4).
   subject:
@@ -100,7 +100,7 @@ api:
     default: "false"
     reflects: false
     constraint: >-
-      The Figma ícone início of the chip: each chip shows, before its label, the icon of
+      The Figma `ícone início` of the chip: each chip shows, before its label, the icon of
       its option (an option with start icon, with its icon or globe), or tag for an
       option with no icon (D-3).
   remove-label:
@@ -118,7 +118,7 @@ api:
     default: "empty"
     reflects: false
     constraint: >-
-      The title of the nph-empty when nothing matches (the vazio list). Empty: with
+      The title of the nph-empty when nothing matches (the `vazio` list). Empty: with
       nothing to show, the list does not open.
   empty-description:
     type: string

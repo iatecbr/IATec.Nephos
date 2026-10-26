@@ -136,8 +136,8 @@ export const Documentation: Story = {
           ['size: default', 'size: large'],
           [
             { label: 'placeholder', cells: [piece({}), piece({ size: 'large' })] },
-            { label: 'itens', cells: [piece({ values: 2 }), piece({ size: 'large', values: 2 })] },
-            { label: 'contador', cells: [piece({ values: 5, counter: true }), piece({ size: 'large', values: 5, counter: true })] },
+            { label: 'items', cells: [piece({ values: 2 }), piece({ size: 'large', values: 2 })] },
+            { label: 'counter', cells: [piece({ values: 5, counter: true }), piece({ size: 'large', values: 5, counter: true })] },
             { label: 'invalid', cells: [piece({ values: 2, invalid: true }), piece({ size: 'large', values: 2, invalid: true })] },
             { label: 'disabled', cells: [piece({ values: 2, disabled: true }), piece({ size: 'large', values: 2, disabled: true })] },
           ],

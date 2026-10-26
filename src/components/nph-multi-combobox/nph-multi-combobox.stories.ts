@@ -142,9 +142,9 @@ export const Matrix: Story = {
       ></nph-multi-combobox>`;
     const rows: Array<[string, Cell]> = [
       ['placeholder', {}],
-      ['itens', { values: 2 }],
-      ['várias linhas', { values: 7 }],
-      ['contador', { values: 7, counter: true }],
+      ['items', { values: 2 }],
+      ['several lines', { values: 7 }],
+      ['counter', { values: 7, counter: true }],
       ['invalid', { values: 2, invalid: true }],
       ['disabled', { values: 2, disabled: true }],
       ['disabled · invalid', { values: 2, disabled: true, invalid: true }],
@@ -212,10 +212,10 @@ export const ListStates: Story = {
         open
       ></nph-multi-combobox>`;
     const states: Array<[string, () => TemplateResult]> = [
-      ['resultados', () => open(countries(context), ['c2', 'c4'])],
-      ['busca', () => open(countries(context), ['c2'], v.searchQuery)],
-      ['grupos', () => open(regions(context), ['r1-1'])],
-      ['vazio', () => open(countries(context), [], v.emptyQuery)],
+      ['results', () => open(countries(context), ['c2', 'c4'])],
+      ['search', () => open(countries(context), ['c2'], v.searchQuery)],
+      ['groups', () => open(regions(context), ['r1-1'])],
+      ['empty', () => open(countries(context), [], v.emptyQuery)],
     ];
     return validationPage(
       context,

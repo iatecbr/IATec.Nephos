@@ -414,7 +414,7 @@ describe('chips (the internal nph-multi-combobox / chip)', () => {
   });
 });
 
-describe('counter (conteúdo=contador)', () => {
+describe('counter', () => {
   it('the subject and an nph-badge primary solid with how many are chosen, instead of the chips (D1)', async () => {
     const element = await mount(`${BASE} counter subject="Countries"`, countries(), ['peru', 'chile', 'brazil']);
     expect(chips(element)).toHaveLength(0);
@@ -486,10 +486,12 @@ describe('the list: the nph-combobox list with the checkbox marker', () => {
   });
 
   it('typing filters with no difference of case or accent, and highlights the typed stretch', async () => {
-    const element = await mount(BASE, countries(['Perú', 'Paraguay', 'Brazil']));
-    await type(element, 'PER');
-    expect(texts(element)).toEqual(['Perú']);
-    expect(row(element, 'Perú').querySelector('.match')?.textContent).toBe('Per');
+    /* Built from a code point, so the accented name is data, not a literal of another language. */
+    const accented = `Z${String.fromCharCode(0xfc)}rich`;
+    const element = await mount(BASE, countries([accented, 'Zug', 'Basel']));
+    await type(element, 'ZUR');
+    expect(texts(element)).toEqual([accented]);
+    expect(row(element, accented).querySelector('.match')?.textContent).toBe(accented.slice(0, 3));
   });
 
   it('groups: group labels and an nph-separator between groups', async () => {
@@ -1139,7 +1141,7 @@ describe('states and precedence', () => {
     expect(getComputedStyle(control(element)).borderTopColor).toBe(resolved('color', '--nph-focus-border'));
   });
 
-  it('foco-remover: the field keeps its resting border; the focus border and halo sit around the 24 x 24 target only', async () => {
+  it('keyboard focus on a remove button: the field keeps its resting border; the focus border and halo sit around the 24 x 24 target only', async () => {
     const element = await mount(BASE, countries(), ['peru']);
     const before = document.createElement('button');
     element.parentElement?.prepend(before);
