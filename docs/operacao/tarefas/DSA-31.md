@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 320,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-multi-combobox",
   "dependencies": ["DSA-03", "DSA-12", "DSA-17", "DSA-28", "DSA-29", "DSA-46"],
   "gates": [
@@ -73,8 +73,8 @@
   },
   "git_review": {
     "branch": "claude/dsa-31-nph-multi-combobox-4b7aff",
-    "commit": null,
-    "pr": null
+    "commit": "c515c229b01cf6b41ee60e3a583abfc28fbd4606",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/125"
   },
   "context": "docs/operacao/contextos/DSA-31.md",
   "updated_at": "2026-10-26"

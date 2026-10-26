@@ -25,21 +25,25 @@ P95.
 - `docs/decisoes-tecnicas.md` — P01, P02, P03, P21, P80, P83, P91, P92, P95
 
 ## Changes
-The task moves to in progress with the pending decisions D-1 to D-4. See the
-commits on the branch.
+`nph-multi-combobox` and its chip (component, CSS, tests), the `checkbox` marker of
+`nph-option` (amendment of P91), six Validation stories, the Docs page, the dictionaries
+in the three languages, the sheet and its Metadata, and P96. See the commits on the
+branch.
 
 ## Commands run
 - `npm ci`, then `node scripts/verificar-operacao.mjs` before the commit.
+- `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`,
+  `test:operacao`, `test:naming`, `build-storybook`, `build:lib`, `test:package` and
+  `git diff --check` on the head of the pull request.
 
 ## Result
-In progress.
+In review in PR #125.
 
 ## Evidence
-None recorded: `review-and-merge` waits for the PR.
+The proof table is in the description of PR #125. `review-and-merge` waits for the merge.
 
 ## Blocker
 None. D-1 to D-4 wait for Indiane and do not block.
 
 ## Next command
-Commit the `checkbox` marker of the option, then the component, the stories,
-the Docs page and the sheet.
+Wait for the review of PR #125.
