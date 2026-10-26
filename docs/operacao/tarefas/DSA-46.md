@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 315,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": "nph-combobox",
   "dependencies": ["DSA-03", "DSA-09", "DSA-11", "DSA-24", "DSA-28", "DSA-29", "DSA-40", "DSA-45"],
   "gates": [
@@ -28,15 +28,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "The combobox sits inside nph-field (DSA-28), reuses the nph-select option (DSA-29), shows the nph-empty in the empty list (DSA-40) and takes the group label and the separator of the nph-dropdown-menu in the list of groups (DSA-45). None of the four is done yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-28, DSA-29, DSA-40 and DSA-45 are merged and done; then this task goes to ready.",
-      "opened_at": "2026-10-21"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-46/documentacao-figma-aceita-2026-10-14.md"
@@ -56,7 +48,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-21"
+  "updated_at": "2026-10-26"
 }
 ```
 
@@ -79,10 +71,12 @@ No question is open. The 14-10-2026 decisions are in the evidence, section
 value, events, the positioning of the list and the text read by the clear button
 are technical proposals for the PR. The tag name is provisional.
 
-## Why it is blocked
-It depends on four tasks that are not done: `nph-field` (DSA-28), the option
-shared with `nph-select` (DSA-29), the `nph-empty` (DSA-40) and the
-`nph-dropdown-menu` (DSA-45). It goes to `ready` when every dependency is `done`.
+## Why it was blocked
+B1 waited for four tasks: `nph-field` (DSA-28), the option shared with
+`nph-select` (DSA-29), the `nph-empty` (DSA-40) and the `nph-dropdown-menu`
+(DSA-45). It closed on 2026-10-26, when DSA-45 became `done` after the merge of
+PR #118; DSA-28 (PR #105), DSA-29 (PR #114) and DSA-40 (PR #100) were already
+`done`. With every dependency `done`, the task is `ready`.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, list,
