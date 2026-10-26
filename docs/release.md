@@ -22,11 +22,13 @@ and SonarQube stages. It runs on the self-hosted pool `IATec-Builds-Agents-Linux
 2. **Test** (in parallel with Build): typecheck, `test:naming`,
    `test:operacao`, `test:i18n` and the browser tests (Playwright Chromium).
 3. **Publish** (tag builds, or a manual run with `publish: true`; never on a
-   pull request): a deployment job on the environment `npm-iatec-community`, so
-   the approval configured there gates it. It publishes the **tarball validated
-   in Build** with `npm publish --ignore-scripts` (Build already ran
-   `test:package` and `pack:check`, and the deployment job has no `dist/` for
-   the `prepublishOnly` hook). The dist-tag comes from the version: `-rc.N`
+   pull request): a plain job, with no Azure DevOps environment and no
+   approval step, so pushing a `v5.*` tag is the release decision. Its
+   credentials come from the variable group `nuget-credentials`, like the other
+   stages. It publishes the **tarball validated in Build** with
+   `npm publish --ignore-scripts` (Build already ran `test:package` and
+   `pack:check`, and the Publish job has no `dist/` for the `prepublishOnly`
+   hook). The dist-tag comes from the version: `-rc.N`
    goes to `rc`, a stable version goes to `latest`, any other prerelease is
    refused. It fails before publishing if that version already exists in the
    feed.
@@ -80,7 +82,7 @@ reference pipeline.
 | Placeholder | Source |
 |---|---|
 | `NPM_IATEC_HOST_COMMUNITY`, `NPM_Username`, `Base64_Password`, `NPM_email` | Variable group `nuget-credentials` (the same variables the reference pipeline uses) |
-| `FONTAWESOME_NPM_AUTH_TOKEN` | Secret variable on this pipeline |
+| `FONTAWESOME_NPM_AUTH_TOKEN` | Secret variable in the variable group `nuget-credentials` (a secret variable on the pipeline also works) |
 
 `NPM_IATEC_HOST_COMMUNITY` is the feed host and path without scheme, for
 example `sda-iatec.pkgs.visualstudio.com/_packaging/IATec.Community`, so that
@@ -104,18 +106,18 @@ pipeline file.
    `npx playwright install --with-deps chromium` (it installs system packages).
 3. **Extension** "Replace Tokens" (task `replacetokens@6`) installed in the
    organization, as in the reference pipeline.
-4. **Variable group** `nuget-credentials` available to the pipeline and holding
-   `NPM_IATEC_HOST_COMMUNITY`, `NPM_Username`, `Base64_Password` and
-   `NPM_email`.
-5. **Secret variable** `FONTAWESOME_NPM_AUTH_TOKEN` on the pipeline, marked
-   secret (Pipeline, Edit, Variables). The value is the Font Awesome Pro npm
-   token (P19, item 6). It never enters the repository.
+4. **Variable group** `nuget-credentials` (Pipelines, Library) available to
+   the pipeline and holding `NPM_IATEC_HOST_COMMUNITY`, `NPM_Username`,
+   `Base64_Password` and `NPM_email`.
+5. **Secret variable** `FONTAWESOME_NPM_AUTH_TOKEN` in the same variable group,
+   marked secret (a secret variable on the pipeline, Pipeline, Edit,
+   Variables, also works). The value is the Font Awesome Pro npm token
+   (P19, item 6). It never enters the repository. Without it `npm ci` fails
+   with 401 in every stage.
 6. **Feed permission.** On the org-scoped feed `IATec.Community`, give
    `Project Collection Build Service (sda-iatec)` (and the project build
    service of the project that owns the pipeline) the role **Contributor**,
    which includes Feed Publisher. Without it `npm publish` fails with 403.
-7. **Environment** `npm-iatec-community` (Pipelines, Environments), with an
-   **Approvals** check naming the people who may release.
 
 ## Releasing a new rc
 
@@ -132,12 +134,12 @@ replaced, so every attempt needs a new `rc.N`.
    git push origin v5.0.0-rc.N
    ```
 
-3. The pipeline starts on the tag. Wait for Validate to pass.
-4. Approve the Publish stage on the environment `npm-iatec-community`.
-5. Check the version in the feed (`npm view @iatec/nephos@5.0.0-rc.N --registry
+3. The pipeline starts on the tag. Build and Test run, and Publish follows
+   without an approval step when both pass.
+4. Check the version in the feed (`npm view @iatec/nephos@5.0.0-rc.N --registry
    <feed>`, with a feed token) and install it in a scratch project.
 
-If Validate fails on the version guard, the tag does not match
+If Build fails on the version guard, the tag does not match
 `package.json`: fix the version through a PR and tag again with the right name.
 If Publish says the version already exists, bump to the next `rc.N`.
 

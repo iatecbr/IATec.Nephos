@@ -43,6 +43,60 @@
     "reason": "Command output pasted as it was printed at the time."
   },
   {
+    "file": "docs/operacao/evidencias/DSA-42/documentacao-figma-aceita-2026-10-20.md",
+    "class": "prose-text",
+    "names": [
+      "Excluir"
+    ],
+    "reason": "Portuguese label of a Figma example, quoted as it appears in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/evidencias/DSA-43/documentacao-figma-aceita-2026-10-20.md",
+    "class": "prose-text",
+    "names": [
+      "Fechar"
+    ],
+    "reason": "Portuguese label of a Figma example, quoted as it appears in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/evidencias/DSA-45/documentacao-figma-aceita-2026-10-21.md",
+    "class": "contract-term",
+    "names": [
+      "nenhuma",
+      "única",
+      "múltipla",
+      "padrão",
+      "compacto",
+      "foco",
+      "carregando",
+      "rótulo",
+      "de",
+      "grupo",
+      "cabeçalho",
+      "perfil",
+      "Excluir",
+      "Sair",
+      "Novo"
+    ],
+    "reason": "Figma property, variant and part names of nph-dropdown-menu (seleção nenhuma/única/múltipla, tamanho padrão/compacto, state foco/carregando, rótulo de grupo, cabeçalho de perfil) and the labels of its examples (Excluir, Sair, Novo), quoted as they are in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/evidencias/DSA-47/figma-docs-accepted-2026-10-21.md",
+    "class": "prose-text",
+    "names": [
+      "Ações"
+    ],
+    "reason": "Portuguese label of a Figma example, quoted as it appears in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/evidencias/DSA-53/documentacao-figma-aceita-2026-10-26.md",
+    "class": "prose-text",
+    "names": [
+      "Documentação"
+    ],
+    "reason": "Name of the Figma frame, quoted as it is in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
     "file": "docs/operacao/evidencias/F5-T01/fichas-na-branch-padrao-2026-09-08.md",
     "class": "contract-term",
     "names": [
@@ -95,6 +149,44 @@
       "decisões"
     ],
     "reason": "Title of a vault note quoted as a source."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-34.md",
+    "class": "prose-text",
+    "names": [
+      "ação",
+      "bloco",
+      "sobre",
+      "pela",
+      "ênfase",
+      "Marcar",
+      "estado"
+    ],
+    "reason": "Approved pt-BR text of two new Storybook dictionary entries, quoted as the task gives it for .storybook/i18n/pt-BR.json."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-43.md",
+    "class": "contract-term",
+    "names": [
+      "tipo"
+    ],
+    "reason": "Figma property name of nph-icon-button, quoted in the converted decision as it is in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-45.md",
+    "class": "prose-text",
+    "names": [
+      "Sair"
+    ],
+    "reason": "Portuguese label of a Figma example, quoted as it appears in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-53.md",
+    "class": "prose-text",
+    "names": [
+      "Documentação"
+    ],
+    "reason": "Name of the Figma frame, quoted as it is in the accepted board (P64: Figma is in Portuguese)."
   },
   {
     "file": "docs/operacao/tarefas/F4-T04.md",
