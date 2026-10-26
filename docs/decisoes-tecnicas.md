@@ -4334,6 +4334,11 @@ and P90. The names follow P64.
 - **`design.md` has no usage entry for the `table/*` tokens** (D8); the component consumes them
   either way.
 - **The fixed header** stops the scroll area, header included, at `table/body-max-height`.
+- **A truncated cell in the first column of a number tree.** In a tree whose first column has
+  `align: 'end'`, a `truncated` cell keeps its text next to the chevron when the cell has room
+  to spare: the rule that sends the value to the end takes the last child of the tree cell,
+  which there is the tooltip and not the text. Found in the sixth Copilot review of the pull
+  request; the fix (the margin on the second child) is a follow-up.
 - **Forced colors and right-to-left** are not treated yet, as in P80.
 
 **Points for review.**
