@@ -385,9 +385,8 @@ where that row has the new `open`.
 **Combines with:** `nph-avatar` md, `nph-badge` light, `nph-icon`, the icon-only
 `nph-button` (the chevron, the actions and the more), the `nph-button` secondary light
 compact, `nph-image` (the thumbnail and the photo of the expanded item), `nph-skeleton`,
-`nph-tooltip` and `nph-empty`. Each keeps its own rules. The more will open the
-`nph-dropdown-menu`, with Delete last in destructive, once that piece exists; until then it
-fires `nph-row-action`. Sorting, selection, filtering and pagination belong to the
+`nph-tooltip` and `nph-empty`. Each keeps its own rules. The more fires `nph-row-action`;
+opening the `nph-dropdown-menu` from it, with Delete last in destructive, is a follow-up. Sorting, selection, filtering and pagination belong to the
 `nph-data-table`.
 
 **What is the parent:** a page, a card, a panel or a dialog.

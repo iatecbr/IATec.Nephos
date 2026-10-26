@@ -223,6 +223,16 @@
     "components-nph-radio-validation--interactive": "Interativo",
     "components-nph-radio-validation--form": "Formulário",
     "components-nph-radio-validation--examples": "Exemplos",
+    "components-nph-dropdown-menu-docs": "Docs",
+    "components-nph-dropdown-menu-docs--documentation": "Documentação",
+    "components-nph-dropdown-menu-validation": "Validação",
+    "components-nph-dropdown-menu-validation--variants": "Variantes",
+    "components-nph-dropdown-menu-validation--options": "Opções",
+    "components-nph-dropdown-menu-validation--states": "Estados",
+    "components-nph-dropdown-menu-validation--sizes": "Tamanhos",
+    "components-nph-dropdown-menu-validation--header": "Cabeçalho",
+    "components-nph-dropdown-menu-validation--interactive": "Interativo",
+    "components-nph-dropdown-menu-validation--examples": "Exemplos",
     "components-nph-table-docs": "Docs",
     "components-nph-table-docs--documentation": "Documentação",
     "components-nph-table-validation": "Validação",
@@ -5401,6 +5411,314 @@
     "exampleEmployment": "Tipo de contratação",
     "exampleShift": "Turno de trabalho"
   },
+  "dropdownMenuDocs": {
+    "summary": "Menu flutuante de ações secundárias que abre preso a um botão. A pessoa escolhe uma ação e o menu fecha; a escolha múltipla e o interruptor o mantêm aberto.",
+    "matrixLabel": "nph-dropdown-menu: severity por selection",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-dropdown-menu, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P92. O arquivo do Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "onThisPage": "Nesta página",
+    "sourceLabel": "Fonte:",
+    "sourceSpec": "fichas/nph-dropdown-menu.md; quadro 1365:118 do Figma.",
+    "sourceApi": "P92 em docs/decisoes-tecnicas.md; fichas/nph-dropdown-menu.md.",
+    "sourceStates": "Conjunto do item 1365:57 do Figma; design.md, color/primary-surface e dropdown/item-hover-icon-foreground.",
+    "sourceAnatomy": "Quadro 1365:118 do Figma, Anatomia; design.md.",
+    "sourceAccessibility": "Quadro 1365:118 do Figma, Acessibilidade; P92.",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Para as ações secundárias de uma tela ou de um item, como renomear, duplicar, mover ou sair.",
+      "Escolha única quando só uma opção vale por vez, como o modo de visualização; escolha múltipla quando várias valem juntas, como filtros.",
+      "Etiqueta para marcar algo novo ou um plano; interruptor para ligar ou desligar algo sem fechar o menu; cabeçalho de perfil no menu da conta.",
+      "Compacto para uma lista longa e densa; padrão nos demais casos."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para a navegação principal da tela: o menu reúne ações secundárias.",
+      "Para guardar um valor de formulário: use nph-select, nph-checkbox ou nph-switch no formulário.",
+      "Para um interruptor numa ação que navega ou fecha o menu: use um item comum.",
+      "Para um item destrutivo numa ação comum: use o tipo default."
+    ],
+    "relationsText": "O menu abre a partir de um nph-button, que fica fora do componente e é nomeado por for. A etiqueta é um nph-badge, o avatar um nph-avatar, o separador um nph-separator, a caixa da escolha múltipla um nph-checkbox e o interruptor um nph-switch; a cor de cada um vem da própria peça. O item é parte do menu: é dado de items, não uma tag própria.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "for",
+        "O id do elemento que abre o menu, na mesma raiz do menu: o nph-button fora do componente. O menu escreve aria-haspopup e aria-expanded nele."
+      ],
+      [
+        "open",
+        "O estado, refletido. O menu abre e fecha sozinho; ligue-o para mostrar o menu aberto, sem mover o foco. Não dispara evento."
+      ],
+      [
+        "items",
+        "As entradas, em ordem: itens, rótulos de grupo e separadores. Só propriedade."
+      ],
+      [
+        "header",
+        "O cabeçalho de perfil: nome, status e a foto do avatar; null o esconde. Só propriedade."
+      ],
+      [
+        "size",
+        "default ou compact, para o menu inteiro: o tamanho do item no Figma. Refletido."
+      ],
+      [
+        "label",
+        "O nome acessível do menu. Vazio: o gatilho o nomeia."
+      ],
+      [
+        "nph-item-select",
+        "O evento que a pessoa dispara ao ativar um item, com detail.value e detail.checked, null num item comum. Borbulha."
+      ]
+    ],
+    "entryText": "Cada entrada de items é um item, um rótulo de grupo ou um separador:",
+    "entryHeader": [
+      "Campo",
+      "Regra"
+    ],
+    "entry": [
+      [
+        "value",
+        "Obrigatório. O que o nph-item-select informa."
+      ],
+      [
+        "text",
+        "Obrigatório. O rótulo, numa linha, cortado com reticências; o nome acessível."
+      ],
+      [
+        "description",
+        "Texto abaixo do rótulo, em text/caption."
+      ],
+      [
+        "icon",
+        "O ícone de início, um nome do núcleo do nph-icon; fica sólido no hover."
+      ],
+      [
+        "avatar",
+        "A foto de um nph-avatar no início; uma string vazia desenha o ícone de pessoa."
+      ],
+      [
+        "severity",
+        "default ou destructive."
+      ],
+      [
+        "selection",
+        "none, single ou multiple."
+      ],
+      [
+        "switch",
+        "O nph-switch no fim, sem rótulo."
+      ],
+      [
+        "checked",
+        "O estado de uma escolha ou de um interruptor."
+      ],
+      [
+        "shortcut",
+        "Texto simples no fim, em text/caption."
+      ],
+      [
+        "count",
+        "O número do contador."
+      ],
+      [
+        "tag",
+        "Uma palavra num nph-badge."
+      ],
+      [
+        "submenu",
+        "A seta no fim; o menu aninhado fica fora de escopo."
+      ],
+      [
+        "disabled, loading",
+        "Os dois estados que recebem o foco e não ativam."
+      ],
+      [
+        "type: label",
+        "Nomeia o grupo que vem depois."
+      ],
+      [
+        "type: separator",
+        "Fecha um grupo."
+      ]
+    ],
+    "variantsTitle": "Variantes",
+    "variantsText": "O item varia por severity e por selection. Destrutivo é só para a ação que apaga ou encerra. A escolha única mostra o check no fim do item marcado; a escolha múltipla mostra a caixa no início.",
+    "variantsCaption": "Um item comum, escolha única, escolha múltipla e um item destrutivo.",
+    "sizesTitle": "Tamanhos",
+    "sizesText": "default é o tamanho de todo menu; compact serve a uma lista longa e densa. O tamanho vale para o menu inteiro.",
+    "sizesCaption": "size default, com linhas de 36, e size compact, com linhas de 28.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Regra"
+    ],
+    "states": [
+      [
+        "Hover",
+        "color/primary-surface (destrutivo: color/destructive-surface). O ícone de início e a seta do submenu ficam sólidos em dropdown/item-hover-icon-foreground; o rótulo mantém a cor."
+      ],
+      [
+        "Foco",
+        "Pelo teclado: uma borda de border/width em color/primary e um halo em focus/halo, fora da linha."
+      ],
+      [
+        "Desabilitado",
+        "state/disabled-opacity na linha inteira; recebe o foco e não ativa."
+      ],
+      [
+        "Carregando",
+        "O nph-spinner ocupa o fim da linha; o item está ocupado e não ativa."
+      ]
+    ],
+    "statesCaption": "Em repouso, desabilitado e carregando. Passe o mouse sobre um item para ver o hover.",
+    "optionsTitle": "Opções do item",
+    "optionsText": "Cada opção liga na entrada: ícone de início ou avatar, descrição, atalho, contador, etiqueta, interruptor e seta de submenu. O interruptor e a escolha múltipla mantêm o menu aberto.",
+    "optionsCaption": "Atalho, descrição, contador, etiqueta, interruptor, seta de submenu e avatar.",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "1. Menu",
+        "Painel em color/popover com borda de border/width em color/dropdown-border, radius/container, elevation/dropdown, largura layout/input-width e padding space/inline-tight."
+      ],
+      [
+        "2. Cabeçalho de perfil",
+        "Opcional: avatar md, nome em text/body-md e status em text/caption, com space/inline em volta e entre eles; um separador abaixo."
+      ],
+      [
+        "3. Rótulo de grupo",
+        "text/label-sm em color/muted-foreground, space/inline nas laterais e space/inline-tight em cima e embaixo."
+      ],
+      [
+        "4. Item",
+        "Padding e gap space/inline, radius/inner, sem fundo em repouso; rótulo em text/body-md e color/popover-foreground."
+      ],
+      [
+        "5. Separador",
+        "A linha do nph-separator entre grupos, com space/inline-tight em cima e embaixo."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "Um menu com itens menuitem, menuitemradio e menuitemcheckbox e grupos nomeados. A caixa e o interruptor internos são inert: o item carrega o papel e o estado."
+      ],
+      [
+        "Nome acessível",
+        "O texto do item. A descrição, a etiqueta, o contador e o atalho o descrevem. Ícones de apoio não são lidos."
+      ],
+      [
+        "Teclado",
+        "No gatilho, Enter, Espaço e a seta para baixo abrem no primeiro item. No menu, as setas movem, Home e End vão às pontas, uma letra acha um item, Enter e Espaço ativam, Esc fecha e Tab segue."
+      ],
+      [
+        "Foco visível",
+        "A borda color/primary carrega o foco; o halo é decorativo."
+      ],
+      [
+        "A cor não é o único sinal",
+        "O item destrutivo tem o ícone da ação; a escolha única mostra o check; a múltipla, a caixa; o interruptor, a posição do botão; a etiqueta traz texto."
+      ],
+      [
+        "Área de toque",
+        "A linha inteira do item, acima de 24 por 24."
+      ],
+      [
+        "Limites conhecidos",
+        "No hover do item, a caixa e o trilho não tomam o próprio hover. O aria-expanded num nph-button não chega ao botão interno. O menu aninhado fica fora de escopo."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "exampleAccount": "Menu da conta, com o cabeçalho de perfil, um grupo e o Sair destrutivo.",
+    "exampleView": "Escolha única com contador: o check no fim do item marcado.",
+    "exampleOptions": "Etiqueta, interruptor e um item destrutivo.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, quadro do nph-dropdown-menu 1365:118.",
+      "fichas/nph-dropdown-menu.md, a ficha.",
+      "docs/decisoes-tecnicas.md, P92 — API e semântica do nph-dropdown-menu.",
+      "design.md, color/dropdown-border, color/primary-surface e dropdown/item-hover-icon-foreground.",
+      "WAI-ARIA Authoring Practices, padrão Menu Button."
+    ],
+    "trigger": "Ações",
+    "accountTrigger": "Conta",
+    "viewTrigger": "Visualização",
+    "rename": "Renomear",
+    "duplicate": "Duplicar",
+    "shortcutDuplicate": "Ctrl+D",
+    "export": "Exportar",
+    "exportDescription": "Como arquivo PDF",
+    "unread": "Não lidas",
+    "share": "Compartilhar",
+    "newTag": "Novo",
+    "sync": "Sincronizar",
+    "move": "Mover para",
+    "assign": "Atribuir a",
+    "print": "Imprimir",
+    "archive": "Arquivar",
+    "archived": "Arquivados",
+    "shared": "Compartilhados comigo",
+    "list": "Lista",
+    "grid": "Grade",
+    "delete": "Excluir",
+    "viewGroup": "Modo de visualização",
+    "name": "Ana Lima",
+    "status": "ana.lima@example.com",
+    "accountGroup": "Minha conta",
+    "profile": "Perfil",
+    "settings": "Configurações",
+    "signOut": "Sair"
+  },
+  "dropdownMenuValidation": {
+    "trigger": "Ações",
+    "accountTrigger": "Conta",
+    "viewTrigger": "Visualização",
+    "rename": "Renomear",
+    "duplicate": "Duplicar",
+    "shortcutDuplicate": "Ctrl+D",
+    "export": "Exportar",
+    "exportDescription": "Como arquivo PDF",
+    "unread": "Não lidas",
+    "share": "Compartilhar",
+    "newTag": "Novo",
+    "sync": "Sincronizar",
+    "move": "Mover para",
+    "assign": "Atribuir a",
+    "print": "Imprimir",
+    "archive": "Arquivar",
+    "archived": "Arquivados",
+    "shared": "Compartilhados comigo",
+    "list": "Lista",
+    "grid": "Grade",
+    "delete": "Excluir",
+    "viewGroup": "Modo de visualização",
+    "name": "Ana Lima",
+    "status": "ana.lima@example.com",
+    "accountGroup": "Minha conta",
+    "profile": "Perfil",
+    "settings": "Configurações",
+    "signOut": "Sair",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "statusIdle": "Nenhum item ativado ainda.",
+    "statusChosen": "Ativado {value}; checked: {checked}.",
+    "exampleAccount": "Menu da conta",
+    "exampleView": "Escolha única com contador",
+    "exampleOptions": "Etiqueta, interruptor e destrutivo"
+  },
   "tableDocs": {
     "summary": "A tabela para ler e comparar dados em linhas e colunas, com legenda, cabeçalho, células e rodapé. Uma linha pode abrir um detalhe ou subníveis. Ela não ordena, não seleciona, não filtra nem pagina: isso é o nph-data-table.",
     "matrixLabel": "nph-table por tamanho e moldura",
@@ -5434,7 +5752,7 @@
       "Com números alinhados ao início: alinhe-os ao fim.",
       "Com uma ação escrita como link: use o botão na célula."
     ],
-    "relationsText": "A célula composta recebe outras peças, e cada uma mantém as próprias regras: nph-avatar md, nph-badge light, nph-icon, o nph-button só com ícone no chevron, nas ações e no mais, o nph-button secondary light compact, nph-image, nph-skeleton e nph-tooltip. O mais vai abrir o nph-dropdown-menu quando ele existir; até lá, dispara nph-row-action. Sem linha, o corpo leva o nph-empty. Ordenar, selecionar, filtrar e paginar são do nph-data-table.",
+    "relationsText": "A célula composta recebe outras peças, e cada uma mantém as próprias regras: nph-avatar md, nph-badge light, nph-icon, o nph-button só com ícone no chevron, nas ações e no mais, o nph-button secondary light compact, nph-image, nph-skeleton e nph-tooltip. O mais dispara nph-row-action; abrir o nph-dropdown-menu a partir dele é um seguimento. Sem linha, o corpo leva o nph-empty. Ordenar, selecionar, filtrar e paginar são do nph-data-table.",
     "apiTitle": "API",
     "apiHeader": [
       "Propriedade",
@@ -5981,6 +6299,13 @@
       "components-nph-radio-validation--interactive": "Uma parada de Tab para o grupo; as setas movem e marcam, pulando o rádio desabilitado; a pessoa marcar um rádio dispara change, mostrado abaixo do grupo.",
       "components-nph-radio-validation--form": "O formulário recebe só o rádio marcado, sob o seu name; o reset volta ao rádio marcado no início.",
       "components-nph-radio-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: Forma de pagamento, Tipo de contratação e Turno de trabalho.",
+      "components-nph-dropdown-menu-validation--variants": "Um item comum, escolha única com o check, escolha múltipla com a caixa e um item destrutivo, abertos no claro e no escuro. Passe o mouse sobre um item para ver o hover e o ícone sólido; use as setas para ver o foco.",
+      "components-nph-dropdown-menu-validation--options": "Todas as opções do item: ícone de início, descrição, atalho, contador, etiqueta, interruptor, seta de submenu e avatar, numa linha que mantém a altura.",
+      "components-nph-dropdown-menu-validation--states": "Um item desabilitado em state/disabled-opacity e um item carregando com o spinner no fim; nenhum dos dois ativa. O hover e o foco vêm do mouse e do teclado.",
+      "components-nph-dropdown-menu-validation--sizes": "size default, com linhas de 36, e size compact, com linhas de 28, para o menu inteiro.",
+      "components-nph-dropdown-menu-validation--header": "O cabeçalho de perfil acima dos itens, com um separador abaixo, um rótulo de grupo e o Sair destrutivo.",
+      "components-nph-dropdown-menu-validation--interactive": "O gatilho abre o menu; ativar um item dispara o nph-item-select, cujos value e checked aparecem abaixo do gatilho. Um interruptor mantém o menu aberto.",
+      "components-nph-dropdown-menu-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: o menu da conta, escolha única com contador, e etiqueta, interruptor e destrutivo.",
       "components-nph-table-validation--sizes": "Os dois tamanhos: default com a linha de 40 px e os lados da célula em 12 px; large com a linha de 44 px e os lados em 16 px.",
       "components-nph-table-validation--frame": "Sem moldura e com ela: a borda, o canto e a última linha, que deixa o divisor para a moldura.",
       "components-nph-table-validation--sticky-header": "O cabeçalho fixo: o corpo rola até a altura máxima e o cabeçalho fica, com a linha embaixo.",

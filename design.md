@@ -1929,7 +1929,7 @@ icones_nucleo:
     nota: 'ellipsis (horizontal) means OMITTED ITEMS - pagination, breadcrumb. Do not confuse with ellipsis-vertical, which means MORE ACTIONS ON THIS ROW and lives in action.'
   acao:
     familia: 'Classic Light'
-    icones: [align-center, align-left, align-right, arrow-down-arrow-up, arrow-up-arrow-down, arrow-up-from-bracket, bold, check, circle-half-stroke, cloud-arrow-up, download, ellipsis-vertical, filter, filter-slash, gear, grid-2, grip-vertical, italic, link, list, magnifying-glass, minus, paper-plane, paperclip, pen, pen-to-square, plus, print, right-to-bracket, rotate-right, share, share-from-square, thumbs-down, thumbs-up, thumbtack, thumbtack-slash, trash, trash-can, underline, user-circle-minus, user-circle-plus, user-minus, xmark]
+    icones: [align-center, align-left, align-right, arrow-down-arrow-up, arrow-up-arrow-down, arrow-up-from-bracket, bold, check, circle-half-stroke, cloud-arrow-up, download, ellipsis-vertical, filter, filter-slash, gear, grid-2, grip-vertical, italic, link, list, magnifying-glass, minus, paper-plane, paperclip, pen, pen-to-square, plus, print, right-from-bracket, right-to-bracket, rotate-right, share, share-from-square, thumbs-down, thumbs-up, thumbtack, thumbtack-slash, trash, trash-can, underline, user-circle-minus, user-circle-plus, user-minus, xmark]
   estado_e_comunicacao:
     familia: 'Classic Light'
     icones: [alarm-clock, badge-check, bell, circle-check, circle-info, circle-notch, circle-question, circle-xmark, heart, lock, question, star, triangle-exclamation]

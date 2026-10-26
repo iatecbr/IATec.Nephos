@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P93, P94 and P97. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94 and P97. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -59,6 +59,7 @@ P62.4 subsection for the detail).
 | **P93** | API and semantics of `nph-textarea` | 23/10/2026 | Low now. No piece consumes it yet; a comment box or a message composer will, so changing `counter`, `readonly` or the `actions` slot later requires redoing them. It copies the form shape of P80 and the field contract of P83 | Anatomy and behavior: frame accepted by Indiane on 16/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P91** | API and semantics of `nph-select` and `nph-option` | 23/10/2026 | Medium. `nph-combobox` (DSA-46) and `nph-multi-combobox` (DSA-31) reuse `nph-option` and its owner symbol, so changing the option API, `NPH_OPTION_CHANGED` or the keyboard later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 14/10/2026, D1 to D9 answered on 19/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P94** | API and semantics of `nph-slider` | 23/10/2026 | Low now. No piece consumes it yet; a filter panel will, so changing `mode`, `value`, `start`, `end`, the two form entries of `range` or the ARIA thumbs later requires redoing it | Anatomy and behavior: board accepted by Indiane on 15/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P92** | API and semantics of `nph-dropdown-menu` | 24/10/2026 | Low now. No screen consumes it yet; an account menu or a toolbar will, so changing `for`, `items`, the entry fields or the event `nph-item-select` later requires redoing them | Anatomy and behavior: board accepted by Indiane on 21/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P97** | API and semantics of `nph-table` | 26/10/2026 | Low now. No piece consumes it yet; a report or a statement screen will, and `nph-data-table` may build on it, so changing `columns`, `rows`, the cell types or the events later requires redoing them | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 26/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
@@ -4030,6 +4031,128 @@ in the pull request that brings them; the merge is the approval.
 
 ---
 
+## P92 — `nph-dropdown-menu`: API and semantics
+
+**Technical conflict.** The accepted board (`1365:118`) gives the menu, the item and its parts,
+with their tokens, and leaves "opening, closing and keyboard" to code. The item, the group label,
+the separator and the profile header are parts of one Figma component; the package takes one
+custom element definition per folder (`vite.config.lib.ts`, `scripts/test-package.mjs`, P91).
+
+**Decision.**
+
+1. **One tag; the item is data.** The menu is the only element. Its items, group labels and
+   separators are entries of `items`, and the profile header is `header`; everything is drawn in
+   the shadow root of the menu, so every ARIA reference stays in one root. Unlike `nph-option`,
+   which three lists share (P91), the item is used only by this menu (evidence, Relations), so it
+   gets no folder, no package entry and no tag of its own.
+2. **API: six properties, one event.**
+
+   | Property | Role |
+   |---|---|
+   | `for` | String, reflected. The `id` of the element that opens the menu, looked up in the **same root**, as `nph-tooltip` (P77). The menu writes `aria-haspopup="menu"` (only when absent) and `aria-expanded` on it |
+   | `open` | Boolean, reflected. The state; the menu turns it on and off, and the consumer may set it |
+   | `items` | Property only. The entries: an item (`value`, `text`, and optionally `description`, `icon`, `avatar`, `severity`, `selection`, `switch`, `checked`, `shortcut`, `count`, `tag`, `submenu`, `disabled`, `loading`), a `label` and a `separator` |
+   | `header` | Property only. `{ name, status, src }` or `null` (the Figma `cabeçalho`) |
+   | `size` | `default` or `compact`, reflected. The Figma `tamanho` of the item, set on the whole menu: a dense list is dense as a whole, and the evidence has no case of mixed sizes |
+   | `label` | The accessible name of the menu; empty, the trigger names it |
+
+   The event `nph-item-select` bubbles and is not composed, with `detail: { value, checked }`:
+   `checked` is the new state of a single choice, a multiple choice or a switch, and `null` on a
+   common item. It fires only when the person activates an item, also on a single choice that was
+   already checked. After an activation, the menu replaces `items` with a new list carrying the new
+   `checked`; the objects of the consumer are never changed.
+3. **Groups.** A `label` opens a group and names it; a `separator` closes it; items before the first
+   label, or after a separator with no label, form a group with no name. A group with no item is
+   dropped and its separator goes to the next group. Single choice is exclusive inside its group.
+4. **Semantics.** The panel is a `popover="manual"` (top layer, as P77 and P91). Inside, a
+   `role="menu"`; every group is a `role="group"`, labelled by its label when it has one (the
+   `nph-separator` is hidden from the accessibility tree, so the group carries the split); the profile header sits
+   outside the menu, as informative text. A common item is `menuitem`, a single choice
+   `menuitemradio`, a multiple choice and a switch `menuitemcheckbox`, with `aria-checked`. The name
+   of an item is its text (`aria-labelledby`); `aria-describedby` lists the description, the tag,
+   the counter and the shortcut, in that order. The inner `nph-checkbox` and `nph-switch` are
+   `inert`: the item carries role, state and focus, so there is no interactive element inside
+   another, and a press on the box or the track activates the item. They never take `disabled`:
+   the item already paints `state/disabled-opacity` on the row.
+5. **Keyboard and pointer.** The menu button pattern of the APG. On the trigger, a click toggles;
+   Enter and Space (as its click) and ↓ open on the first item, ↑ on the last. In the menu, the
+   focus moves between the items (each `tabindex="-1"`): ↓ and ↑ with wrap, Home, End, and a typed
+   character to the next item that starts with it. Enter and Space activate, Space also right after a
+   typed character. A common item and a
+   single choice close the menu and give the focus back to the trigger; a multiple choice and a
+   switch keep it open. A disabled or loading item takes the focus and does not activate (APG). Esc,
+   listened to on the document in the capture phase only while open, closes, gives the focus back
+   when it was in the menu and stops the key, so a dialog around does not close with it (P77 item
+   4). Tab and Shift+Tab close the menu and move on from the trigger, wherever the menu sits in the DOM:
+   the focus goes back to the trigger before the default action. A press outside the menu and its trigger closes it
+   without moving the focus; a press on the trigger while open closes it, and does not open it again.
+   Hover only paints (D-6). A trigger that is disabled, `aria-disabled` or an `nph-button` in `loading`
+   opens nothing, by click or by key; a press on it still closes an open menu, except on an `nph-button`
+   that went into `loading` while the menu was open (see the known limits).
+6. **Placement and motion.** `space/inline-tight` below the trigger (D-1, as the list of
+   `nph-select`), aligned to its start edge; it turns up when it does not fit below and fits above,
+   never leaves the window and follows the trigger on scroll and resize, also a trigger set by `for` while
+   open, and its own size: content that changes while open places it again. `layout/input-width` is the
+   preferred width: a narrower window, or a larger font, holds the panel inside it. Only a menu taller
+   than the room scrolls inside. `open` set before the trigger exists waits for the lookup. Opening fades in and slides `space/inline-tight` on `motion/enter-*`,
+   closing on `motion/exit-*`, as the list of `nph-select` (D-2); under reduced motion, opacity only
+   on `motion/hover-duration`.
+7. **Solid icon on hover.** On the hover of a `default` item, the start icon and the submenu arrow
+   swap to their solid twin in `dropdown/item-hover-icon-foreground` (rule of 21/10/2026); two
+   `nph-icon` per place, the CSS shows one, as P88. The destructive item keeps its light icon in
+   `color/destructive-on-surface`.
+8. **Loading.** The `nph-spinner` sm takes the end of the item, in place of shortcut, counter, tag,
+   switch, arrow and check; the item is `aria-busy`.
+9. **Invalid input** follows P21: `for` empty or matching no element in the same root after one
+   frame, no valid item, and a `size` outside the two draw nothing and emit `console.error` in
+   development. An invalid entry (no `value`, no `text`, an unknown `severity` or `selection`, a
+   switch with a selection, a submenu with a switch or a selection) is left out, one error per cause.
+
+**Known limits.**
+
+- **The inner box and track do not take their own hover** on item hover (D-3): `nph-checkbox` and
+  `nph-switch` hover only through `:hover` in their own shadow root. A follow-up task gives them a
+  way.
+- **`aria-haspopup` and `aria-expanded` on an `nph-button`** sit on its host and do not reach its
+  inner `<button>`, which has the focus. With a native `<button>` as the trigger they work.
+- **A trigger that changes its `id`, or moves, after the lookup** is not followed; setting `for`
+  again looks it up.
+- **The focus halo is cut by 1 px on the sides when the panel scrolls**: the border and the halo
+  reach 5 px outside the row and the panel padding is 4. The halo is decorative.
+- **Opened by a mouse click, the first item has the focus but does not show it.** That is the
+  `:focus-visible` behavior of Chromium, which the tests prove; other engines may differ.
+- **Forced colors and right-to-left** are not treated yet, as in P80.
+- **An `nph-button` that goes into `loading` while the menu is open** does not close it by a press:
+  the button blocks its own click before the menu hears it. Esc, Tab and a press outside still close
+  it. Follow-up: close on the `pointerdown` of an inactive trigger (last Copilot round of PR #118).
+- **A trigger clipped by a scrolling ancestor**, while its box is still inside the window, keeps the
+  menu drawn next to it: the visibility check reads the window only. Follow-up: hide or close the
+  panel when the trigger has no visible intersection with its clipping ancestors (last Copilot round
+  of PR #118).
+
+**Points for review.**
+
+- **The item as data**, not as a tag.
+- **`size` on the menu**, not on the item.
+- **The event `nph-item-select`**, and that it fires again on a checked single choice.
+- **`inert` on the inner pieces.**
+
+**Source.** Board `nph-dropdown-menu` (`1365:118`), documentation `2365:3685`, menu `1365:63`, item
+set `1365:57` and parts `1365:58`, `1365:60` and `2359:47364` of the Figma file `DS-IA-NEPHOS 5.0`,
+accepted by Indiane on 21/10/2026 with the Figma UX QA and the textual audit approved, and the solid
+icon rule of the same day. The names, the data model, the event, the keyboard, the placement and the
+invalid input rules are a technical proposal of this implementation, approved with the plan by Elvys
+on 23/10/2026.
+
+**Out of scope.** A nested menu (the submenu item draws the arrow and activates as a common item). An
+item with a link. A context menu. The Usage section of the page (P70, DSA-35), the page lists read
+from the Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 21/10/2026. API and semantics are reviewed in
+the pull request that brings them; the merge is the approval.
+
+---
+
 ## P97 — `nph-table`: API and semantics
 
 **Decision.** `nph-table` is a Web Component with **open Shadow DOM** (P01), CSS in its own file
@@ -4136,7 +4259,7 @@ and P90. The names follow P64.
    the row makes it the `loading` button, whose click does not reach the table. `open` on the row
    is the state. A click on the chevron replaces `rows` with a new list in which only that row has
    the new `open` — the object of the consumer is not changed — and fires `nph-row-toggle`, so
-   `rows` is always the state, as the `items` of `nph-dropdown-menu` (DSA-45).
+   `rows` is always the state, as the `items` of `nph-dropdown-menu` (P92).
 
 6. **Name, focus and scroll.** The caption, when there is one, sits above the table at
    `table/stack-gap`, with the title, the description up to `table/caption-max-width`, the total
@@ -4166,8 +4289,8 @@ and P90. The names follow P64.
    `action` is the one of a `button` cell, or `edit` and `more` of the actions. `nph-row-toggle`
    (`{ row, open }`) when the person opens or closes a row. Both bubble, are not composed, are
    declared in `HTMLElementEventMap` with keys of their own (no other piece declares them), and
-   code never fires them. The link navigates as a link. The more fires `nph-row-action` until
-   `nph-dropdown-menu` (DSA-45) is done; wiring the menu is a follow-up.
+   code never fires them. The link navigates as a link. The more fires `nph-row-action` with `more`;
+   wiring the `nph-dropdown-menu` (P92), merged while this decision was in review, is a follow-up.
 
 9. **Invalid input.** A `size` outside the two, no column, a column without `key` or `header`, a
    repeated `key` or an `align` outside the two renders nothing, takes no space, leaves
@@ -4185,7 +4308,7 @@ and P90. The names follow P64.
 - **The open state of the chevron is on the host of its `nph-button`.** `aria-expanded` and
   `aria-controls` are written on the `nph-button` element, but the focus is on its inner native
   button, which `nph-button` does not let carry them (the same limit as the trigger of
-  `nph-dropdown-menu`, DSA-45). A screen reader may not announce open or closed until `nph-button`
+  `nph-dropdown-menu`, P92). A screen reader may not announce open or closed until `nph-button`
   passes them on; the chevron icon and the row that appears carry the change. Follow-up in
   `nph-button`.
 - **`aria-level` on a row outside a `treegrid`.** ARIA 1.2 gives `aria-level` to a row inside a
@@ -4229,7 +4352,7 @@ the scroll region, the open state in `rows` and the invalid input rules are a te
 of this implementation, approved with the plan by Elvys on 26/10/2026.
 
 **Out of scope.** Sorting, selection, filtering and pagination (`nph-data-table`). The menu of the
-more (follow-up after DSA-45). The category content (D1). An interactive grid (`treegrid` with
+more (a follow-up with the `nph-dropdown-menu`, P92). The category content (D1). An interactive grid (`treegrid` with
 arrow keys). Virtual scrolling. A free slot in the cell. The Usage section of the page (P70,
 DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate (P72,
 DSA-32).
@@ -4241,7 +4364,7 @@ in the pull request that brings them; the merge is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P93, P94 or P97 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94 or P97 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
