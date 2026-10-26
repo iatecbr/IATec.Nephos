@@ -102,8 +102,11 @@ pipeline file.
    requests run Build and Test.
 2. **Pool.** The pipeline must be authorized to use the agent pool
    `IATec-Builds-Agents-Linux`. The agents need outbound access to
-   `npm.fontawesome.com` and to the feed, and permission to run
-   `npx playwright install --with-deps chromium` (it installs system packages).
+   `npm.fontawesome.com` and to the feed. Test runs
+   `npx playwright install chromium`, which downloads only the browser, without
+   `--with-deps`: the agents have no passwordless sudo. The system libraries
+   Chromium needs must already be installed on the agent (once, as root:
+   `npx playwright install-deps chromium`).
 3. **Extension** "Replace Tokens" (task `replacetokens@6`) installed in the
    organization, as in the reference pipeline.
 4. **Variable group** `nuget-credentials` (Pipelines, Library) available to
