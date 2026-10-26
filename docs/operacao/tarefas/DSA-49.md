@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 490,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-table",
   "dependencies": [
     "DSA-03",
@@ -93,6 +93,7 @@
     "docs/operacao/evidencias/DSA-49/documentacao-figma-aceita-2026-10-23.md"
   ],
   "decision_refs": [
+    "docs/decisoes-tecnicas.md#p97",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-22.md, nph-table visual acceptance, focus ring at 2 px, rating star kept with the WCAG 1.4.11 exception, link in dark on theme/brand-200, header in dark on color/muted, thumbnail on image/size-sm, selection left to the nph-data-table, Figma UX QA approved and documentation accepted",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-23.md, textual audit approved; underlined cell link, actions with Edit and ⋮ as icons, generic photo in thumbnail and expanded item; approved_order 490",
@@ -106,7 +107,7 @@
     "excerpt": null,
     "converted_decision": "The nph-table board, with its `Documentação` frame (2584:66651), was accepted as the API and behavior specification of the nph-table. COMPONENT_SET 1370:113; parts 1370:19, 1370:20, 2425:1032, 2425:1033, 2425:1046, 2571:66334, 2571:66335 and 2571:66336. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "claude/dsa-49-nph-table-8d2ed2", "commit": null, "pr": null },
+  "git_review": { "branch": "claude/dsa-49-nph-table-8d2ed2", "commit": "dc7a255", "pr": "119" },
   "context": "docs/operacao/contextos/DSA-49.md",
   "updated_at": "2026-10-26"
 }
