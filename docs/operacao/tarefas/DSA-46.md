@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 315,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "done",
   "piece": "nph-combobox",
   "dependencies": ["DSA-03", "DSA-09", "DSA-11", "DSA-24", "DSA-28", "DSA-29", "DSA-40", "DSA-45"],
   "gates": [
@@ -22,24 +22,48 @@
       "id": "review-and-merge",
       "description": "Component, list, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-46/review-and-merge-2026-10-26.md",
+      "result": "passed",
+      "verified_at": "2026-10-26",
+      "verified_by": "claude-code"
     }
   ],
-  "blockers": [
+  "blockers": [],
+  "pending_decisions": [
     {
-      "id": "B1",
-      "what_blocks": "The combobox sits inside nph-field (DSA-28), reuses the nph-select option (DSA-29), shows the nph-empty in the empty list (DSA-40) and takes the group label and the separator of the nph-dropdown-menu in the list of groups (DSA-45). None of the four is done yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-28, DSA-29, DSA-40 and DSA-45 are merged and done; then this task goes to ready.",
-      "opened_at": "2026-10-21"
+      "id": "D-1",
+      "question": "The evidence names the create row of the `criar` list, which offers the typed text as a new item, but does not draw it. The code draws it as an `nph-option` with the `plus` start icon and the text `create-label` followed by the typed text in quotes, the typed text in `text/highlight-weight`. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence says the `atalhos` footer shows the keys as `nph-kbd`, but not which keys, which words or the box of the footer. The code gives the footer a `shortcuts` slot the consumer fills, with a `color/border` line above it and `space/inline` around it. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence gives the `busca` list the rest of the text in `color/muted-foreground`, on the popover background. It does not say the color of that rest on the active option (`color/accent`). The code keeps `color/muted-foreground` there too. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D-4",
+      "question": "The evidence does not say what Escape does with the list closed. The code clears the typed text, as the APG suggests; with no typed text, Escape passes on. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D-5",
+      "question": "The evidence does not say which option is active while the person types. The code makes the first available match active, so Enter chooses it (automatic selection of the APG). It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
     }
   ],
-  "pending_decisions": [],
   "evidence": [
-    "docs/operacao/evidencias/DSA-46/documentacao-figma-aceita-2026-10-14.md"
+    "docs/operacao/evidencias/DSA-46/documentacao-figma-aceita-2026-10-14.md",
+    "docs/operacao/evidencias/DSA-46/review-and-merge-2026-10-26.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -54,9 +78,9 @@
     "excerpt": null,
     "converted_decision": "The nph-combobox board (1359:142), with its `Documentação` frame (1766:2400), was accepted as the API and behavior specification of the nph-combobox. COMPONENT_SET 1359:115; list 1359:141; option 1357:136. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "claude/dsa-46-nph-combobox-43fc0a", "commit": "9638f0d39b2cc4af3d0ae0ea1df02424f80f360b", "pr": "120" },
   "context": null,
-  "updated_at": "2026-10-21"
+  "updated_at": "2026-10-26"
 }
 ```
 
@@ -79,10 +103,25 @@ No question is open. The 14-10-2026 decisions are in the evidence, section
 value, events, the positioning of the list and the text read by the clear button
 are technical proposals for the PR. The tag name is provisional.
 
-## Why it is blocked
-It depends on four tasks that are not done: `nph-field` (DSA-28), the option
-shared with `nph-select` (DSA-29), the `nph-empty` (DSA-40) and the
-`nph-dropdown-menu` (DSA-45). It goes to `ready` when every dependency is `done`.
+## Why it was blocked
+B1 waited for four tasks: `nph-field` (DSA-28), the option shared with
+`nph-select` (DSA-29), the `nph-empty` (DSA-40) and the `nph-dropdown-menu`
+(DSA-45). It closed on 2026-10-26, when DSA-45 became `done` after the merge of
+PR #118; DSA-28 (PR #105), DSA-29 (PR #114) and DSA-40 (PR #100) were already
+`done`. With every dependency `done`, the task is `ready`.
+
+## Pending decisions
+The evidence gives the contract, so the code can start. Five points remain for
+Indiane; the code follows the stated default meanwhile, and each answer only
+adjusts one rule.
+
+| ID | What the evidence gives | What is missing | What the code does meanwhile |
+|---|---|---|---|
+| D-1 | The `criar` list offers the typed text as a new item. | The drawing of the create row. | An `nph-option` with the `plus` icon, `create-label` and the typed text in quotes, highlighted. |
+| D-2 | The `atalhos` footer shows the keys as `nph-kbd`. | Which keys, which words, the box of the footer. | A `shortcuts` slot the consumer fills, a `color/border` line above, `space/inline` around. |
+| D-3 | The rest of the text in `color/muted-foreground` in the `busca` list. | That color on the active option. | `color/muted-foreground` there too. |
+| D-4 | Escape closes the open list. | Escape with the list closed. | Clears the typed text; with none, passes on. |
+| D-5 | Typing filters the list. | Which option is active while typing. | The first available match, so Enter chooses it. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, list,

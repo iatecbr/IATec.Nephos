@@ -1,0 +1,251 @@
+/**
+ * Internal style of the `nph-combobox` field. The list has its own file,
+ * `nph-combobox.list.css`, shared with the fields that take it.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the
+ * shadow root and are not API.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`,
+ * `100%`, `50%`, `1` and `none` (box and flex relations), `ellipsis` (one line),
+ * `transparent` (the inner field and the clear button show the container),
+ * `calc(-1 * ...)` (focus border and halo outside, without changing the size), the
+ * resets of the native field and button (`margin`, `padding`, `border`, `font`,
+ * `appearance`) and the hiding of the cancel button the browser draws in a search
+ * field: the clear button of the piece is the only one.
+ *
+ * The order of the state rules is the precedence of the set: hover, then focus (and
+ * open, which is focus with the list open), then error, then disabled, which wins
+ * over everything.
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* Width `layout/input-width`, as `nph-select`; the parent may stretch it. */
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  vertical-align: middle;
+  inline-size: var(--nph-layout-input-width);
+  min-inline-size: 0;
+}
+
+/* Disabled, by the attribute or by a disabled `<fieldset>`: the whole piece loses opacity. */
+:host(:disabled) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/*
+ * The field: the box of `nph-select` — border, radius, height, left padding and the gap
+ * between the parts, which also keeps `space/inline` between the content and the divider.
+ * The right padding is 0: the arrow area closes the field.
+ */
+.control {
+  --_border: var(--nph-color-input);
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  min-inline-size: 0;
+  block-size: var(--nph-control-height-default);
+  padding-block: 0;
+  padding-inline-start: var(--nph-space-control-padding);
+  padding-inline-end: 0;
+  border: var(--nph-border-width) solid var(--_border);
+  border-radius: var(--nph-radius-control);
+  background-color: var(--nph-color-background);
+  color: var(--nph-color-muted-foreground);
+  cursor: text;
+}
+
+/* `large` changes the height of the field and the width of the arrow area. */
+:host([size='large']) .control {
+  block-size: var(--nph-control-height-large);
+}
+
+.start {
+  flex: none;
+}
+
+/* The text: `text/body-md` in `color/foreground`; the placeholder in `color/muted-foreground`. */
+.field {
+  flex: 1;
+  align-self: stretch;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  text-overflow: ellipsis;
+  outline: none;
+  appearance: none;
+}
+
+.field::placeholder {
+  color: var(--nph-color-muted-foreground);
+  opacity: 1;
+}
+
+.field::-webkit-search-cancel-button,
+.field::-webkit-search-decoration {
+  appearance: none;
+  display: none;
+}
+
+/* The clear target, as in `nph-input`: the icon of `icon/size-sm` with `space/inline-tight` around it. */
+.clear {
+  position: relative;
+  box-sizing: content-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: var(--nph-space-inline-tight);
+  border: 0;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+}
+
+/*
+ * The arrow area: `color/accent`, `control/height-*` wide, as tall as the field minus its
+ * two borders. The divider, `color/border`, sits right before it, with no space between
+ * them. Radius `radius/none` on the left and `radius/control-inner` on the right.
+ */
+.arrow {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  inline-size: var(--nph-control-height-default);
+  border-inline-start: var(--nph-border-width) solid var(--nph-color-border);
+  border-start-start-radius: var(--nph-radius-none);
+  border-end-start-radius: var(--nph-radius-none);
+  border-start-end-radius: var(--nph-radius-control-inner);
+  border-end-end-radius: var(--nph-radius-control-inner);
+  background-color: var(--nph-color-accent);
+  color: var(--nph-color-muted-foreground);
+  cursor: pointer;
+}
+
+:host([size='large']) .arrow {
+  inline-size: var(--nph-control-height-large);
+}
+
+/*
+ * The description: never visible, but in the accessibility tree. It is clipped, not
+ * `display: none`, which the browser does not read; `inset: 0` keeps it inside the
+ * field, so a long text adds no scroll.
+ */
+.description {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Focus border and halo: drawn outside, without changing the size. */
+.control::after,
+.clear:focus-visible::before,
+.clear:focus-visible::after {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+/* Hover: one step above the resting border. */
+.control:hover {
+  --_border: var(--nph-color-input-hover);
+}
+
+/* `foco-limpar`: keep the resting border, even when the pointer is over it. */
+.control:has(.clear:focus-visible) {
+  --_border: var(--nph-color-input);
+}
+
+/*
+ * `foco`: the focus on the text, and `aberto`, which is `foco` with the list open. The
+ * border takes `focus/border` and the halo is attached outside it.
+ */
+.control:has(.field:focus),
+:host([open]) .control {
+  --_border: var(--nph-focus-border);
+}
+
+.control:has(.field:focus)::after,
+:host([open]) .control::after {
+  content: '';
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control);
+}
+
+/* `foco-limpar`: the focus border and the halo sit around the clear target only. */
+.clear:focus-visible::before,
+.clear:focus-visible::after {
+  content: '';
+}
+
+.clear:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+
+.clear:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}
+
+/* `erro`: the border stays `status/error` on hover and on focus; on focus, the halo is the error one. */
+:host([invalid]) .control,
+:host([invalid]) .control:hover,
+:host([invalid]) .control:has(.field:focus),
+:host([invalid][open]) .control {
+  --_border: var(--nph-status-error);
+}
+
+:host([invalid]) .control:has(.field:focus)::after,
+:host([invalid][open]) .control::after {
+  border-color: var(--nph-focus-halo-error);
+}
+
+/*
+ * Disabled wins: the resting border, the `color/muted` background, no hover, no error look
+ * and no focus look.
+ */
+:host(:disabled) .control,
+:host(:disabled) .control:hover,
+:host(:disabled) .control:has(.field:focus) {
+  --_border: var(--nph-color-input);
+
+  background-color: var(--nph-color-muted);
+  cursor: default;
+}
+
+:host(:disabled) .arrow {
+  cursor: default;
+}
+
+:host(:disabled) .control::after {
+  content: none;
+}
