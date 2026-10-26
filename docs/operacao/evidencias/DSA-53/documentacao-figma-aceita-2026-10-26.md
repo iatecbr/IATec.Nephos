@@ -20,7 +20,7 @@
 
 # DSA-53 — `figma-docs-accepted`
 
-The documentation of the `nph-sidebar-item`, `nph-sidebar-subitem` and `nph-sidebar-rail-button` (frame `2723:460`) was accepted in Figma, in the file `DS-IA-NEPHOS 5.0`, with the Figma UX QA and the textual audit approved. The component needed semantic tokens that were put on `v/5.0.0` together with this task. Every other token it uses was already there. Three tokens depend on core primitives not yet available.
+The documentation of the `nph-sidebar-item`, `nph-sidebar-subitem` and `nph-sidebar-rail-button` (frame `2723:460`) was accepted in Figma, in the file `DS-IA-NEPHOS 5.0`, with the Figma UX QA and the textual audit approved. The pieces needed `sidebar/*` tokens and focus radii, which were put on `v/5.0.0` together with this task, with the core primitives they point to. Every other token they use was already there.
 
 There is no command output. The acceptance is a human observation, recorded in the json block above with the board URL and the components.
 
@@ -86,7 +86,7 @@ Demonstrations in the frame, in light and dark: type link, counter, group-closed
 
 ## Usage
 
-The component has no code yet; the attributes come with the spec. The frame shows only the tag, `<nph-sidebar-item></nph-sidebar-item>`, and the import, `import '@iatec/nephos/nph-sidebar-item';`.
+The component has no code yet; the attributes come with the spec. The frame shows only the tag, `<nph-sidebar-item></nph-sidebar-item>`, and the import, `import 'nephos/nph-sidebar-item';`.
 
 ## Relations and context
 
@@ -143,22 +143,33 @@ Demonstrations in the frame, in light and dark: item used as action button; grou
 
 ## Tokens used
 
-- sidebar/item-foreground (core/surface/700 light, core/surface/100 dark)
-- sidebar/item-foreground-active (color/primary-hover)
-- sidebar/item-foreground-open (color/primary-hover)
-- sidebar/item-background-hover (color/primary-surface)
-- sidebar/item-badge-background (color/primary-hover)
-- sidebar/item-badge-foreground (status/on-solid)
-- sidebar/group-label (core/surface/700 light, core/surface/100 dark)
-- sidebar/rail-background-hover (color/primary-surface)
-- sidebar/rail-background-active (color/primary-hover)
-- sidebar/rail-foreground-active (theme/brand-200)
-- sidebar/item-height (core/space/800)
-- sidebar/item-padding (core/space/100)
-- sidebar/item-radius (radius/container)
-- sidebar/rail-button-size (core/space/800)
-- sidebar/panel-background (color/primary-surface-hover)
-- sidebar/panel-spacing (core/space/600)
-- focus/halo
-- focus/border (color/primary)
-- state/disabled-opacity
+- sidebar/item-foreground (core/surface/700 light, core/surface/100 dark) — label and icon at rest
+- sidebar/item-foreground-active (color/primary-hover) — label and icon when active
+- sidebar/item-foreground-open (color/primary-hover) — label and icon in group open
+- sidebar/item-background-hover (color/primary-surface) — background on hover of item and subitem
+- sidebar/item-badge-background (color/primary-hover) — counter background
+- sidebar/item-badge-foreground (color/primary-foreground) — counter number
+- sidebar/rail-background-hover (color/primary-surface) — rail button background on hover
+- sidebar/rail-background-active (color/primary-hover) — rail button background when active
+- sidebar/rail-foreground-active (color/primary-surface-hover) — rail button icon when active
+- sidebar/panel-background (color/primary-surface-hover) — counter outline when active
+- sidebar/item-height (core/space/800) — item height
+- sidebar/item-padding (core/space/off-scale/10) — padding around the item; sides of the subitem
+- sidebar/item-radius (core/radius/500) — item and subitem radius
+- sidebar/rail-button-size (core/space/800) — rail button width and height
+- focus/border-radius-sidebar-item (core/radius/off-scale/13) — focus border radius of item and subitem
+- focus/radius-sidebar-item (core/radius/off-scale/17) — focus halo radius of item and subitem
+- focus/border-radius-container (core/radius/off-scale/9) — focus border radius of the rail button
+- focus/radius-container (core/radius/off-scale/13) — focus halo radius of the rail button
+- color/primary (theme/brand-600 light, theme/brand-400 dark) — focus border; the pieces do not use focus/border
+- border/width — focus border width
+- focus/halo (theme/brand-halo light, theme/brand-halo-dark dark) — focus halo
+- focus/ring-width — focus halo width
+- space/control-padding (core/space/300) — between icon and label
+- space/inline (core/space/200) — on the subitem, between label and arrow and top and bottom; sides of the counter
+- icon/size-md (core/icon-size/200) — icon; counter height
+- icon/size-sm (core/icon-size/100) — arrow
+- control/height-default — subitem height
+- radius/container (core/radius/400) — rail button radius
+- radius/full — counter pill
+- state/disabled-opacity — disabled

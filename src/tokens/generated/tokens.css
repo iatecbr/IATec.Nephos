@@ -159,12 +159,16 @@
   --nph-core-radius-300: 6px;
   --nph-core-radius-400: 8px;
   --nph-core-radius-450: 10px;
+  --nph-core-radius-500: 12px;
   --nph-core-radius-600: 14px;
+  --nph-core-radius-900: 24px;
   --nph-core-radius-full: 9999px;
   --nph-core-radius-off-scale-5: 5px;
   --nph-core-radius-off-scale-7: 7px;
   --nph-core-radius-off-scale-9: 9px;
   --nph-core-radius-off-scale-11: 11px;
+  --nph-core-radius-off-scale-13: 13px;
+  --nph-core-radius-off-scale-17: 17px;
   --nph-core-radius-off-scale-18: 18px;
   --nph-core-rh-50: #ede9f2;
   --nph-core-rh-100: #dbd2e5;
@@ -220,6 +224,7 @@
   --nph-core-space-700: 2rem;
   --nph-core-space-800: 2.5rem;
   --nph-core-space-900: 3rem;
+  --nph-core-space-off-scale-10: 0.625rem;
   --nph-core-success-50: #e8f6ed;
   --nph-core-success-100: #d0eddb;
   --nph-core-success-200: #a2dab7;
@@ -475,6 +480,10 @@
   --nph-focus-radius-inner: var(--nph-core-radius-400);
   --nph-focus-radius-inner-with-border: var(--nph-core-radius-off-scale-9);
   --nph-focus-radius-surface: var(--nph-core-radius-off-scale-18);
+  --nph-focus-border-radius-sidebar-item: var(--nph-core-radius-off-scale-13);
+  --nph-focus-radius-sidebar-item: var(--nph-core-radius-off-scale-17);
+  --nph-focus-border-radius-container: var(--nph-core-radius-off-scale-9);
+  --nph-focus-radius-container: var(--nph-core-radius-off-scale-13);
   --nph-focus-ring-width: var(--nph-core-focus-width-default);
   --nph-focus-halo-info: var(--nph-core-info-200);
   --nph-focus-halo-warn: var(--nph-core-warn-200);
@@ -538,10 +547,11 @@
   --nph-radius-subtle: var(--nph-core-radius-100);
   --nph-radius-surface: var(--nph-core-radius-600);
   --nph-sidebar-item-height: var(--nph-core-space-800);
-  --nph-sidebar-item-padding: var(--nph-core-space-100);
+  --nph-sidebar-item-padding: var(--nph-core-space-off-scale-10);
+  --nph-sidebar-item-radius: var(--nph-core-radius-500);
   --nph-sidebar-rail-button-size: var(--nph-core-space-800);
-  --nph-sidebar-panel-radius: var(--nph-core-radius-600);
-  --nph-sidebar-rail-radius: var(--nph-core-radius-400);
+  --nph-sidebar-panel-radius: var(--nph-core-radius-900);
+  --nph-sidebar-rail-radius: var(--nph-core-radius-off-scale-18);
   --nph-sidebar-panel-spacing: var(--nph-core-space-600);
   --nph-skeleton-line-height: var(--nph-core-line-height-100);
   --nph-space-container-padding: var(--nph-core-space-400);
@@ -585,7 +595,6 @@
   --nph-image-radius-lg: var(--nph-core-radius-400);
   --nph-image-media-width: var(--nph-core-layout-width-media);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
-  --nph-sidebar-item-radius: var(--nph-radius-container);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-table-border-width: var(--nph-border-width);
   --nph-table-radius: var(--nph-radius-container);
@@ -639,9 +648,7 @@
   --nph-sidebar-primary-foreground: var(--nph-theme-brand-on-600);
   --nph-sidebar-primary: var(--nph-theme-brand-600);
   --nph-sidebar-flyout-background: var(--nph-color-background);
-  --nph-sidebar-flyout-border: var(--nph-theme-brand-200);
   --nph-sidebar-flyout-foreground: var(--nph-color-foreground);
-  --nph-sidebar-rail-foreground-active: var(--nph-theme-brand-200);
   --nph-status-on-solid: var(--nph-color-background);
   --nph-table-background: var(--nph-color-background);
   --nph-table-foreground: var(--nph-color-foreground);
@@ -664,12 +671,14 @@
   --nph-sidebar-item-background-hover: var(--nph-color-primary-surface);
   --nph-sidebar-item-background-active: var(--nph-color-primary-surface);
   --nph-sidebar-item-badge-background: var(--nph-color-primary-hover);
-  --nph-sidebar-item-badge-foreground: var(--nph-status-on-solid);
+  --nph-sidebar-item-badge-foreground: var(--nph-color-primary-foreground);
   --nph-sidebar-group-line: var(--nph-color-primary-surface);
+  --nph-sidebar-flyout-border: var(--nph-color-primary-surface-hover);
   --nph-sidebar-flyout-title: var(--nph-color-primary-hover);
   --nph-sidebar-flyout-option-hover: var(--nph-color-primary-surface);
   --nph-sidebar-rail-background-hover: var(--nph-color-primary-surface);
   --nph-sidebar-rail-background-active: var(--nph-color-primary-hover);
+  --nph-sidebar-rail-foreground-active: var(--nph-color-primary-surface-hover);
   --nph-sidebar-panel-background: var(--nph-color-primary-surface-hover);
   --nph-sidebar-separator: var(--nph-color-primary-surface);
   --nph-sidebar-search-background: var(--nph-color-primary-surface);
@@ -773,7 +782,6 @@
   --nph-sidebar-ring: var(--nph-core-neutral-300);
   --nph-sidebar-item-foreground: var(--nph-core-surface-700);
   --nph-sidebar-group-label: var(--nph-core-surface-700);
-  --nph-sidebar-panel-border: var(--nph-core-sistemas-200);
   --nph-status-error-border: var(--nph-core-danger-200);
   --nph-status-error-foreground: var(--nph-core-danger-800);
   --nph-status-error-surface: var(--nph-core-danger-50);
@@ -818,6 +826,7 @@
   --nph-focus-ring: var(--nph-theme-brand-700);
   --nph-focus-border: var(--nph-theme-brand-focus);
   --nph-focus-halo: var(--nph-theme-brand-halo);
+  --nph-sidebar-panel-border: var(--nph-theme-brand-200);
   --nph-sidebar-search-border: var(--nph-theme-brand-200);
   --nph-table-link-foreground: var(--nph-color-link);
 }
@@ -917,7 +926,6 @@
   --nph-sidebar-ring: var(--nph-core-neutral-200);
   --nph-sidebar-item-foreground: var(--nph-core-surface-100);
   --nph-sidebar-group-label: var(--nph-core-surface-100);
-  --nph-sidebar-panel-border: var(--nph-core-sistemas-700);
   --nph-status-error-border: var(--nph-core-danger-400);
   --nph-status-error-foreground: var(--nph-core-danger-100);
   --nph-status-error-surface: var(--nph-core-danger-900);
@@ -959,6 +967,7 @@
   --nph-focus-ring: var(--nph-theme-brand-400);
   --nph-focus-border: var(--nph-theme-brand-300);
   --nph-focus-halo: var(--nph-theme-brand-halo-dark);
+  --nph-sidebar-panel-border: var(--nph-theme-brand-700);
   --nph-sidebar-search-border: var(--nph-theme-brand-700);
   --nph-table-header-background: var(--nph-color-muted);
   --nph-table-link-foreground: var(--nph-theme-brand-200);
