@@ -186,6 +186,9 @@ describe('the list module (shared with nph-multi-combobox)', () => {
     /* A match that ends inside a decomposed Hangul syllable takes the whole syllable. */
     expect(matchRange('\uAC01', '\uAC00')).toEqual([0, 1]);
     expect(matchRange('\uAC00\uB099', '\uAC00\uB098')).toEqual([0, 2]);
+    /* The final sigma and the sigma are one letter, in both directions. */
+    expect(matchRange('\u039D\u0399\u039A\u039F\u03A3', '\u03BD\u03AF\u03BA\u03BF\u03C2')).toEqual([0, 5]);
+    expect(matchRange('\u03BD\u03AF\u03BA\u03BF\u03C2', '\u039D\u0399\u039A\u039F\u03A3')).toEqual([0, 5]);
   });
 
   it('a label opens a group and a separator closes one, as in nph-dropdown-menu', () => {
@@ -1016,6 +1019,15 @@ describe('start of the field', () => {
     element.value = 'a';
     await settle();
     expect(start()).toBe('folder');
+  });
+
+  it('icon: a chosen icon option with no icon shows globe in the field, as in its row', async () => {
+    const element = await mount('label="Folder" start="icon" icon="folder"', [{ value: 'a', text: 'Archive', start: 'icon' }]);
+    const start = (): string => (element.shadowRoot?.querySelector('.start') as HTMLElement & { name: string }).name;
+    expect(start()).toBe('folder');
+    element.value = 'a';
+    await settle();
+    expect(start()).toBe('globe');
   });
 
   it('avatar: the empty avatar before a choice, the photo of the chosen option after', async () => {

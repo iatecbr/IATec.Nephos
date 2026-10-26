@@ -1197,7 +1197,8 @@ export class NphCombobox extends LitElement {
   private startArt(selected: NphComboboxOption | null): TemplateResult {
     const start = (this.start ?? '').trim();
     if (start === 'icon') {
-      const own = selected !== null && selected.start === 'icon' ? trimmed(selected.icon) : '';
+      /* An icon option with no icon shows `globe` in the list, so the field shows it too. */
+      const own = selected !== null && selected.start === 'icon' ? trimmed(selected.icon) || NPH_OPTION_DEFAULT_ICON : '';
       const name = own !== '' && isCoreName(own) ? own : (this.icon ?? '').trim();
       return html`<nph-icon class="start" name=${name} size="sm" aria-hidden="true"></nph-icon>`;
     }

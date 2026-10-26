@@ -87,7 +87,7 @@ export function entryProblems(entry: unknown): string[] {
 
 /**
  * The text folded for the search, with the original character of each folded unit: no accent
- * (the marks of the canonical decomposition) and lower case. `start` and `end` give, for each
+ * (the marks of the canonical decomposition) and lower case, with one sigma. `start` and `end` give, for each
  * UTF-16 unit of the key, where its original character begins and ends, so a match that ends
  * inside a decomposed character (a Hangul syllable) takes the whole character.
  */
@@ -97,7 +97,8 @@ function folded(text: string): { key: string; start: number[]; end: number[] } {
   const end: number[] = [];
   let index = 0;
   for (const character of text) {
-    const bare = character.normalize('NFD').replace(/\p{M}/gu, '').toLocaleLowerCase();
+    /* The final sigma folds to the sigma, so the lower case of a capital word still matches. */
+    const bare = character.normalize('NFD').replace(/\p{M}/gu, '').toLocaleLowerCase().replace(/\u03C2/g, '\u03C3');
     /* One place per UTF-16 unit of the key, as `indexOf` counts: an emoji or a flag takes two. */
     for (let unit = 0; unit < bare.length; unit += 1) {
       key += bare[unit];
