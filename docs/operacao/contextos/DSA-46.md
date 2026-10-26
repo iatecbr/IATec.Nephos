@@ -25,20 +25,24 @@ contract of P83 and the option and the layer of P91.
 - `vite.config.lib.ts` — code shared by entries goes to `dist/shared/`
 
 ## Changes
-The task moves to in progress with the pending decisions D-1 to D-5. See the
-commits on the branch.
+`nph-combobox` and its list module (component, CSS, tests), six Validation stories, the
+Docs page, the dictionaries in the three languages, the sheet and its Metadata, and P95.
+See the commits on the branch.
 
 ## Commands run
 - `npm ci`, then `node scripts/verificar-operacao.mjs` before the first commit.
+- `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`,
+  `test:operacao`, `test:naming`, `build-storybook`, `build:lib`, `test:package` and
+  `git diff --check` on the head of the pull request.
 
 ## Result
-In progress.
+In review in PR #120.
 
 ## Evidence
-None recorded: `review-and-merge` waits for the PR.
+The proof table is in the description of PR #120. `review-and-merge` waits for the merge.
 
 ## Blocker
 None. D-1 to D-5 wait for Indiane and do not block.
 
 ## Next command
-Commit the component and its list, then the stories, the Docs page and the sheet.
+Wait for the review of PR #120.

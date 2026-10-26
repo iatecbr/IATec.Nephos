@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 315,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-combobox",
   "dependencies": ["DSA-03", "DSA-09", "DSA-11", "DSA-24", "DSA-28", "DSA-29", "DSA-40", "DSA-45"],
   "gates": [
@@ -79,8 +79,8 @@
   },
   "git_review": {
     "branch": "claude/dsa-46-nph-combobox-43fc0a",
-    "commit": null,
-    "pr": null
+    "commit": "991d338b42ef245e6206ca85b4ef2ec9c918df07",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/120"
   },
   "context": "docs/operacao/contextos/DSA-46.md",
   "updated_at": "2026-10-26"
