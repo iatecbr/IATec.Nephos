@@ -1,0 +1,154 @@
+/**
+ * Internal style of the `nph-combobox` list (`nph-combobox.list.ts`), shared with the
+ * fields that take the list (P95).
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties consumed here.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `1` and
+ * `none` (box and flex relations), `start` (the text starts at the start edge in any
+ * container), `calc(-1 * ...)` (the slide of the list), `center` (the waiting and the empty
+ * states sit in the middle of the list) and the resets of the browser's `[popover]` style.
+ */
+
+/*
+ * The list is a `popover`, so it sits in the top layer: no `z-index` and no clipping by an
+ * ancestor, as the `nph-select` list (P91). The resets undo the browser's `[popover]` style:
+ * `inset`, `margin: auto` (it centers the popover), the padding and the color. JavaScript
+ * sets `top`, `left` and the width of the field. The border sits outside
+ * `layout/max-list-height`, so the scroll is on an inner box.
+ */
+.list {
+  position: fixed;
+  text-align: start;
+  inset: auto;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: var(--nph-border-width) solid var(--nph-color-input);
+  border-radius: var(--nph-radius-container);
+  background-color: var(--nph-color-popover);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-color-popover-foreground);
+  /* Leaving: the exit role, as the `nph-select` list. */
+  opacity: 0;
+  translate: 0 calc(-1 * var(--nph-space-inline-tight));
+  transition-property: opacity, translate;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/* Entering: the enter role, faded in and slid `space/inline-tight` into place. */
+.list[data-open] {
+  opacity: 1;
+  translate: none;
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+/* The distance to the field is `space/inline-tight`, as a margin on the side that faces it. */
+.list[data-side='bottom'] {
+  margin-top: var(--nph-space-inline-tight);
+}
+
+/* Turned up: it slides from below, toward the field. */
+.list[data-side='top'] {
+  margin-bottom: var(--nph-space-inline-tight);
+  translate: 0 var(--nph-space-inline-tight);
+}
+
+.list[data-side='top'][data-open] {
+  translate: none;
+}
+
+/* The inside: padding `space/inline-tight` and the maximum height `layout/max-list-height`. */
+.scroller {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-block-size: var(--nph-layout-max-list-height);
+  padding: var(--nph-space-inline-tight);
+  overflow-y: auto;
+}
+
+.listbox,
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Group label: the look of the `nph-dropdown-menu` group label, `text/label-sm` in `color/muted-foreground`. */
+.group-label {
+  padding-block: var(--nph-space-inline-tight);
+  padding-inline: var(--nph-space-inline);
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+/* The separator: the `nph-separator` line, `space/inline-tight` above and below, as in `nph-dropdown-menu`. */
+.separator {
+  display: block;
+  margin-block: var(--nph-space-inline-tight);
+}
+
+/* The `busca` list: the typed stretch in `text/highlight-weight`; the rest in `color/muted-foreground` (D-3). */
+.match {
+  font-weight: var(--nph-text-highlight-weight);
+}
+
+.rest {
+  color: var(--nph-color-muted-foreground);
+}
+
+/* The `carregando` and `vazio` lists: the spinner and the `nph-empty` in the middle of the list. */
+.status {
+  display: flex;
+  justify-content: center;
+  padding: var(--nph-space-inline);
+  color: var(--nph-color-muted-foreground);
+}
+
+.status:empty {
+  display: none;
+}
+
+/* The `atalhos` footer: a `color/border` line above, `space/inline` around (D-2). */
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  padding: var(--nph-space-inline);
+  border-top: var(--nph-border-width) solid var(--nph-color-border);
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+.footer[hidden] {
+  display: none;
+}
+
+/*
+ * Reduced motion: opacity only, and the duration of `design.md` 2g, 100 ms, through the
+ * semantic alias `motion/hover-duration`, as in `nph-select`.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .list,
+  .list[data-side='top'] {
+    translate: none;
+  }
+
+  .list,
+  .list[data-open] {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+}
