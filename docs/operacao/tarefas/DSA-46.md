@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 315,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-combobox",
   "dependencies": ["DSA-03", "DSA-09", "DSA-11", "DSA-24", "DSA-28", "DSA-29", "DSA-40", "DSA-45"],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, list, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-46/review-and-merge-2026-10-26.md",
+      "result": "passed",
+      "verified_at": "2026-10-26",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -62,7 +62,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-46/documentacao-figma-aceita-2026-10-14.md"
+    "docs/operacao/evidencias/DSA-46/documentacao-figma-aceita-2026-10-14.md",
+    "docs/operacao/evidencias/DSA-46/review-and-merge-2026-10-26.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -77,12 +78,8 @@
     "excerpt": null,
     "converted_decision": "The nph-combobox board (1359:142), with its `Documentação` frame (1766:2400), was accepted as the API and behavior specification of the nph-combobox. COMPONENT_SET 1359:115; list 1359:141; option 1357:136. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": {
-    "branch": "claude/dsa-46-nph-combobox-43fc0a",
-    "commit": "991d338b42ef245e6206ca85b4ef2ec9c918df07",
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/120"
-  },
-  "context": "docs/operacao/contextos/DSA-46.md",
+  "git_review": { "branch": "claude/dsa-46-nph-combobox-43fc0a", "commit": "9638f0d39b2cc4af3d0ae0ea1df02424f80f360b", "pr": "120" },
+  "context": null,
   "updated_at": "2026-10-26"
 }
 ```
