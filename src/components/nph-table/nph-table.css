@@ -22,7 +22,8 @@
  * The only written quantities are box relations, not visual decisions: `0` (no offset, no
  * spacing between cells, the overlay of the clipped text), `100%` (the table fills the
  * scroll area), `1` (the fixed header paints over the positioned pieces of the body), the
- * multipliers `-1` (the ring drawn inside the cell) and `2` (the third level of the tree),
+ * multipliers `-1` (the ring drawn inside the cell, the seam cover cast to the inline start) and
+ * `2` (the third level of the tree),
  * `50%` (the clip that hides the text read in the no-value dash), and `tabular-nums` (the
  * figures of a number column, `design.md`). Motion: none.
  */
@@ -156,6 +157,15 @@ td {
   white-space: nowrap;
 }
 
+/*
+ * A cell boundary at a fractional pixel leaves a thin seam between two cell backgrounds, where
+ * the scroll area shows through. Every cell after the first casts its own background over that
+ * pixel, a hairline wide (`table/border-width`), so a row reads as one band.
+ */
+:is(th, td) + :is(th, td) {
+  box-shadow: calc(-1 * var(--nph-table-border-width)) 0 0 0 var(--nph-table-background);
+}
+
 :host([size='large']) th,
 :host([size='large']) td {
   block-size: var(--nph-table-row-height-large);
@@ -179,6 +189,11 @@ tfoot td {
 }
 
 /* Numbers align to the end, with the header and the footer of the column. */
+thead :is(th, td) + :is(th, td),
+tfoot td + td {
+  box-shadow: calc(-1 * var(--nph-table-border-width)) 0 0 0 var(--nph-table-header-background);
+}
+
 .end {
   text-align: end;
   font-variant-numeric: tabular-nums;
@@ -199,8 +214,16 @@ tfoot td {
   background: var(--nph-table-row-striped-background);
 }
 
+:host([striped]) tbody tr.row.striped > td + td {
+  box-shadow: calc(-1 * var(--nph-table-border-width)) 0 0 0 var(--nph-table-row-striped-background);
+}
+
 :host([data-nph-rendered]) tbody tr.row:hover > td {
   background: var(--nph-table-row-hover-background);
+}
+
+:host([data-nph-rendered]) tbody tr.row:hover > td + td {
+  box-shadow: calc(-1 * var(--nph-table-border-width)) 0 0 0 var(--nph-table-row-hover-background);
 }
 
 /* Fixed header: it stays while the body scrolls, with the line under it. */
@@ -215,6 +238,13 @@ tfoot td {
   border-block-end: 0;
   box-shadow: 0 var(--nph-table-sticky-divider-width) var(--nph-table-sticky-divider-blur) var(--nph-table-sticky-divider-spread)
     var(--nph-table-sticky-divider-color);
+}
+
+:host([sticky-header]) thead :is(th, td) + :is(th, td) {
+  box-shadow:
+    0 var(--nph-table-sticky-divider-width) var(--nph-table-sticky-divider-blur) var(--nph-table-sticky-divider-spread)
+      var(--nph-table-sticky-divider-color),
+    calc(-1 * var(--nph-table-border-width)) 0 0 0 var(--nph-table-header-background);
 }
 
 /* The pieces of a composite cell, side by side. */
