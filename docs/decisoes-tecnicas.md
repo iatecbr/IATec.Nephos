@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95 and P97. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96 and P97. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -62,6 +62,7 @@ P62.4 subsection for the detail).
 | **P92** | API and semantics of `nph-dropdown-menu` | 24/10/2026 | Low now. No screen consumes it yet; an account menu or a toolbar will, so changing `for`, `items`, the entry fields or the event `nph-item-select` later requires redoing them | Anatomy and behavior: board accepted by Indiane on 21/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P97** | API and semantics of `nph-table` | 26/10/2026 | Low now. No piece consumes it yet; a report or a statement screen will, and `nph-data-table` may build on it, so changing `columns`, `rows`, the cell types or the events later requires redoing them | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 26/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P95** | API and semantics of `nph-combobox` and its list | 26/10/2026 | Medium. `nph-multi-combobox` (DSA-31) takes the list module, so changing the entries of `options`, the search, the groups, the highlight or the events `nph-search` and `nph-create` later requires redoing both. The options as data depart from the light-DOM options of P91 | Anatomy and behavior: board accepted by Indiane on 14/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P96** | API and semantics of `nph-multi-combobox`; the `checkbox` marker of `nph-option` (amends P91) | 26/10/2026 | Low now. No piece consumes the field yet; the marker defaults to `check`, so `nph-select` and `nph-combobox` do not change | Anatomy and behavior: board accepted by Indiane on 15/10/2026, D1 to D3 answered; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -4548,9 +4549,163 @@ the pull request that brings them; the merge is the approval.
 
 ---
 
+## P96 — `nph-multi-combobox`: API and semantics
+
+**Technical conflict.** The accepted board (`1467:25660`) gives the field, the chip with its states,
+the counter and the list, and leaves keyboard, form value, events and the text read by the remove
+button to code. Three points need a decision of their own:
+
+- the value is a list, and the form patterns of P80, P91 and P95 hold a single value, with the
+  `value` attribute as the default;
+- the list is the `nph-combobox` list (D2), with each option in `marcador=checkbox`, which P91 left
+  to this task: `nph-option` has only the check;
+- the remove buttons come before the text field in the shadow root, so the focus delegate of the
+  host is the first remove button, not the text.
+
+**Decision.** `nph-multi-combobox` is a Web Component with **open Shadow DOM** (P01), CSS in its
+own file imported `?inline`, form-associated in the pattern of `nph-input` (P80) and a control of
+the field contract (P83). It has no `::part`, no slot and no color property. Anatomy only through
+semantic tokens. Invalid input renders nothing and emits `console.error` only in development — the
+rule of P21, as in P80. The names follow P64.
+
+1. **The list is the `nph-combobox` list (P95, D2).** The field takes `nph-combobox.list.ts` and
+   its style: the entries of `options`, the search, the groups, the highlight and the empty state.
+   It does not take `filter`, `loading`, `creatable` or the `shortcuts` slot: the board draws the
+   `resultados`, `grupos` and `vazio` lists only, and the field accepts no text outside the list.
+
+2. **The `checkbox` marker (amends P91).** `nph-option` gets `marker`, reflected: `check` (default,
+   nothing changes for `nph-select` and `nph-combobox`) or `checkbox`. With `checkbox`, an
+   `nph-checkbox` sits at the start of the option, before its own start (D-1, as the multiple choice
+   of `nph-dropdown-menu`, P92), checked while the option is selected; the option takes no selected
+   background and no check (evidence, Relations). The box is `inert` and hidden from the screen
+   reader, named by the label text so that it renders (P81): the option keeps the role and
+   `aria-selected`. A `marker` outside the two is invalid input of the option. The list module
+   passes an optional `marker` per row.
+
+3. **The chip is internal.** Each chosen option is a chip drawn in the shadow root of the field,
+   not a tag and not a piece (evidence: "not a public piece"): a pill in `color/primary-surface`,
+   the label in `text/label-sm` on one line with an ellipsis and a maximum width of the field (D3),
+   and a native `<button>` that removes the option, a 24 × 24 target named by `remove-label` and
+   the text of the option ("Remove Brazil"). With `chip-icon`, the chip shows the icon of its option
+   (an option with `start: 'icon'`, its icon or `globe`, as the list draws it), or `tag` for an
+   option with no icon (D-3). The chips follow the order of the choice and wrap; the field grows.
+
+4. **Properties.**
+
+   | Figma | API |
+   |---|---|
+   | `size` | `size`: `default` (default) or `large`, reflected; only the minimum height changes |
+   | `state` `erro` | `invalid`, boolean, reflected (P83) |
+   | `state` `disabled` | `disabled`, boolean, reflected; a disabled `<fieldset>` disables it too |
+   | `state` `hover`, `foco`, `erro-foco` | not properties: CSS and `open` |
+   | `conteúdo` `placeholder`, `itens`, `digitando`, `várias linhas` | not properties: derived from the value and the typed text (`query`) |
+   | `conteúdo` `contador` | `counter`, boolean, reflected, with `subject`, the subject of the field (D1) |
+   | chip `ícone início` and `⮑ ícone` | `chip-icon`, boolean, on the field |
+   | the text read by the remove button | `remove-label`, the word before the option |
+   | list `vazio` | `empty-heading` and `empty-description`, the texts of the `nph-empty` |
+   | the form | `name` (reflected), `required`, `placeholder`, `label` and `description` |
+
+   Chips without `remove-label` draw no remove button, and `counter` without `subject` draws the
+   counter alone, each with one error. A `size` outside the two draws nothing.
+
+5. **The value is a list.** `value` is a property only: the chosen values, strings, each once, in
+   the order the person chose them; reading it gives a copy. `defaultValue` is a property only and
+   takes the role of the `value` attribute of P80: while the person has not changed the choice and
+   code has not set `value`, setting it moves `value` too; after that, only `form.reset()` goes back
+   to it. This is the first piece with a list as its value, and a list has no good attribute form
+   (a separator would forbid values that contain it). A value with no option is kept until its
+   option arrives (P91), with no chip and out of the form data.
+
+6. **The form.** The form value is a `FormData` with one entry `name=value` per chosen option that
+   has an option, as `<select multiple>`. A `FormData` form value is submitted with its own keys, not
+   with the `name` of the host, so each entry takes the current `name`, and a change of `name` writes
+   the value again; with no `name`, nothing is submitted. The saved state is the whole list of values,
+   restored without events. `required` with nothing chosen is `valueMissing`, with the message of a
+   disconnected native select (P91). Enter with the list closed submits the form (P80).
+
+7. **Events.** The host fires `input` (`bubbles`, `composed`) and then `change` (`bubbles`) only when
+   the person changes the choice: an option checked or unchecked in the list, or a chip removed (P83,
+   item 1). Typing does not change the value, so the native `input` of the inner field stops in the
+   shadow root. No `nph-*` event: with no search answered by the consumer, `nph-search` has no use.
+   Setting `value`, `defaultValue`, `query` or `open` from code fires nothing.
+
+8. **The field and the keyboard.** The inner field is an `<input type="text" role="combobox">` with
+   `aria-autocomplete="list"`, `aria-expanded` and `aria-controls`; the listbox has
+   `aria-multiselectable="true"`. Typing opens the list, filters it and makes the first match
+   active. Closed: ArrowDown and ArrowUp open on the first or the last option; Alt+ArrowDown opens
+   without moving; Escape clears the typed text. Open: the arrows move without wrapping; PageUp and
+   PageDown move ten; **Enter checks or unchecks the active option and keeps the list open**, the
+   typed text is cleared and the option stays active; Alt+ArrowUp and Escape close; Tab closes
+   without choosing. A click on an option checks or unchecks it and keeps the list open. The remove
+   buttons are native buttons in the Tab order, before the text; pressed from the keyboard, the
+   focus goes to the remove button now in its place, or to the text after the last; pressed by the
+   pointer, the focus stays on the text.
+
+9. **The focus of the host goes to the text.** With `delegatesFocus`, the focus delegate of the
+   shadow root is its first focusable element, the first remove button. `focus()` is overridden to
+   focus the text, which is what `nph-field` calls on a click of its label, and a click on a label
+   associated with the host is sent to the text by a listener on that label (the activation of a
+   label runs the focusing steps, not `focus()`). A click inside the field, in a label that wraps
+   it, keeps its own target. `autofocus` on the text would make it the focus delegate, but it also
+   takes the focus of the page on load: not used.
+
+10. **The list and the layer** are those of P95: a `popover="manual"` in the shadow root,
+    `space/inline-tight` below the field, with its width, turned up when it does not fit below,
+    following the field on scroll, on resize and when the chips make it grow. The inner box that
+    scrolls takes `tabindex="-1"`, so a long list is not a Tab stop of its own (a scroller with no
+    focusable child is keyboard-focusable in Chromium).
+
+11. **Name and description.** As P80 and P95: the labels associated with the host name the text and
+    the listbox; without one, `label`; with no name at all, the field renders and warns once in
+    development. `description` sits in a clipped element referenced by `aria-describedby`.
+    `static nphFieldRole` is absent: a single control (P83).
+
+**Pending decisions (Indiane), with the default the code follows.** D-1 the checkbox at the start
+of the option, before its own start. D-2 the counter mode with nothing chosen shows the
+placeholder. D-3 a chip for an option with no icon shows `tag`. D-4 in the counter mode, the text
+field sits after the counter, on the same line.
+
+**Known limits.**
+
+- **The list does not shrink**, as in P91.
+- **The remove buttons are Tab stops**, one per chip, before the text: a field with many chips
+  takes many presses of Tab to cross. The evidence asks for the button to take the focus.
+- **In the counter mode the chips are not drawn**: an option is removed by unchecking it in the
+  list.
+- **The text cursor** takes the native caret in `color/foreground`; its width and height in the
+  evidence (`border/width` by `icon/size-sm`) are not styleable.
+- **Forced colors and right-to-left** are not treated yet, as in P80.
+
+**Points for review.**
+
+- **`value` and `defaultValue` as lists**, properties only, against the `value` attribute of P80.
+- **The `checkbox` marker** as an amendment of P91, and the optional `marker` of the list module.
+- **The chip as markup**, not a tag.
+- **Enter keeps the list open**, unlike `nph-combobox`, where it chooses and closes.
+- **`focus()` overridden and the label listener**, to keep the focus delegate on the text.
+- **No Backspace that removes the last chip**: the evidence says the remove button is the way to
+  remove an option without opening the list.
+
+**Source.** Board `nph-multi-combobox` (`1467:25660`), set `1467:25652`, chip `1467:24879`, the
+`nph-combobox` list `1359:141` and option `1357:136` of the Figma file `DS-IA-NEPHOS 5.0`,
+accepted by Indiane on 15/10/2026, with the Figma UX QA and the textual audit approved; D1 to D3
+answered by Indiane. The list value, the marker of the option, the names, the events, the keyboard,
+the focus of the host and the invalid input rules are a technical proposal of this implementation,
+with the plan approved by Elvys on 23/10/2026.
+
+**Out of scope.** Free text and a create row (`nph-input`). A search answered by the consumer
+(`filter`, `loading`). A width property: the width is `layout/multi-combobox-width`. An avatar in
+the chip. A new token. The Usage section of the page (P70, DSA-35), the page lists read from the
+Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 15/10/2026. API and semantics are reviewed in
+the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95 or P97 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96 or P97 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

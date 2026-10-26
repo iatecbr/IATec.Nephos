@@ -254,7 +254,16 @@
     "components-nph-table-validation--expanding-row": "Fila que se expande",
     "components-nph-table-validation--tree": "Árbol",
     "components-nph-table-validation--two-level-header": "Encabezado de dos niveles",
-    "components-nph-table-validation--empty-body": "Cuerpo vacío"
+    "components-nph-table-validation--empty-body": "Cuerpo vacío",
+    "components-nph-multi-combobox-docs": "Docs",
+    "components-nph-multi-combobox-docs--documentation": "Documentación",
+    "components-nph-multi-combobox-validation": "Validación",
+    "components-nph-multi-combobox-validation--matrix": "Matriz",
+    "components-nph-multi-combobox-validation--chip": "Chip",
+    "components-nph-multi-combobox-validation--list-states": "Estados de la lista",
+    "components-nph-multi-combobox-validation--form-association": "Asociación al formulario",
+    "components-nph-multi-combobox-validation--invalid-input": "Entrada inválida",
+    "components-nph-multi-combobox-validation--examples": "Ejemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -6890,7 +6899,472 @@
       "components-nph-table-validation--expanding-row": "La fila que se expande: cerrada, abierta con el elemento expandido y cargando, cada una abierta solo por el chevron.",
       "components-nph-table-validation--tree": "El árbol en tres niveles: cada nivel sangra, y una fila sin hijos guarda el espacio del chevron para que el texto se alinee.",
       "components-nph-table-validation--two-level-header": "El encabezado de dos niveles: el título del grupo sobre las columnas que agrupa, con la misma pieza de encabezado.",
-      "components-nph-table-validation--empty-body": "Sin filas, el cuerpo lleva el nph-empty y el encabezado sigue visible."
+      "components-nph-table-validation--empty-body": "Sin filas, el cuerpo lleva el nph-empty y el encabezado sigue visible.",
+      "components-nph-multi-combobox-validation--matrix": "size × estado: placeholder, chips en una línea, chips en varias líneas, el contador, error, deshabilitado y ambos. Pase el mouse para el hover, presione Tab para cada botón quitar y para el texto.",
+      "components-nph-multi-combobox-validation--chip": "El chip: la píldora en color/primary-surface, el ícono de inicio de cada tipo y tag para una opción sin ícono (D-3), el chip deshabilitado y una etiqueta larga en una línea con puntos suspensivos (D3).",
+      "components-nph-multi-combobox-validation--list-states": "La lista del nph-combobox con cada opción en el marcador checkbox, marcada cuando se elige y sin el fondo de seleccionada: resultados, búsqueda con el tramo escrito resaltado, grupos y vacío (D-1).",
+      "components-nph-multi-combobox-validation--form-association": "El host participa del formulario: enviar manda una entrada por opción elegida, restablecer vuelve a los valores predeterminados, un cambio dispara input y change, y un fieldset deshabilitado lo deshabilita.",
+      "components-nph-multi-combobox-validation--invalid-input": "Un size que no existe no dibuja nada; los chips sin remove-label quedan sin botón quitar, y un contador sin subject sale solo, cada uno con un error.",
+      "components-nph-multi-combobox-validation--examples": "Los tres ejemplos obligatorios del tablero, en nph-field: dos opciones elegidas en reposo, en foco con texto escrito y la lista abierta, y muchas opciones en varias líneas, cada uno en modo claro y oscuro."
     }
+  },
+  "multiComboboxDocs": {
+    "summary": "El campo donde la persona busca en una lista cerrada y elige varias opciones, mostradas como chips dentro del campo. Participa del formulario que lo contiene; la etiqueta, la ayuda y el mensaje de error son del nph-field.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-multi-combobox, design.md para los tokens y docs/decisoes-tecnicas.md para la P96. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "sourceFrame": "Figma, tablero nph-multi-combobox (1467:25660), conjunto 1467:25652, chip 1467:24879",
+    "sourceApi": "Ficha del nph-multi-combobox; docs/decisoes-tecnicas.md › P96",
+    "sourceDecisions": "Tarea DSA-31, decisiones D1 a D3 y decisiones pendientes D-1 a D-4; docs/decisoes-tecnicas.md › P96",
+    "sourceAccessibility": "Figma, tablero nph-multi-combobox (1467:25660); nph-multi-combobox.test.ts",
+    "matrixLabel": "size × estado",
+    "description": "Use el nph-multi-combobox cuando la persona elige más de una opción de una lista conocida y necesita ver lo que ya eligió sin abrir la lista. Cada elección se vuelve un chip con un botón para quitarla. No reemplaza al nph-select ni al nph-combobox, que se quedan con una sola opción, y no acepta texto fuera de la lista.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Cuando la persona elige varias opciones de una lista cerrada, como personas, equipos o etiquetas.",
+      "Cuando ver lo que ya se eligió, en el propio campo, ayuda a revisar y a quitar.",
+      "Dentro de un nph-field, que da la etiqueta, el texto de ayuda y el mensaje de error.",
+      "Con counter cuando el campo necesita quedar en una línea, como en un filtro, una tabla o una barra de herramientas; la lista abierta muestra todas las elecciones.",
+      "Con chip-icon cuando las opciones son de tipos distintos, como etiqueta y equipo.",
+      "default en la mayoría de los formularios; large cuando el formulario usa campos altos."
+    ],
+    "whenNotToUse": [
+      "Para elegir una sola opción: use nph-select o nph-combobox.",
+      "Para texto libre u opciones que no están en la lista: use nph-input.",
+      "Con counter cuando la persona necesita revisar cada elección: deje que los chips pasen a varias líneas.",
+      "Para poner un avatar en el chip: marque el tipo de la opción con chip-icon.",
+      "Con un ancho fijo en píxeles: use layout/multi-combobox-width o el ancho del formulario."
+    ],
+    "relationsText": "La lista es la lista del nph-combobox: las mismas entradas, búsqueda, grupos y resaltado. Cada opción es un nph-option con el marcador checkbox, un nph-checkbox inerte marcado cuando la opción está elegida. El contador es un nph-badge. El nph-field compone la etiqueta, el campo, la ayuda y el mensaje de error, y escribe label, description, invalid y required en él.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "options",
+        "Las entradas de la lista, como datos, como en el nph-combobox: opciones, etiquetas de grupo y separadores. Una entrada inválida queda fuera."
+      ],
+      [
+        "size",
+        "default o large, reflejado. Solo cambia la altura mínima."
+      ],
+      [
+        "value",
+        "Los valores elegidos, una lista, en el orden en que la persona los eligió. Un valor sin opción se guarda hasta que llega su opción. Definirlo por código no dispara nada."
+      ],
+      [
+        "defaultValue",
+        "Los valores del form.reset(). Mientras la elección no cambia, definirlo mueve value también."
+      ],
+      [
+        "query",
+        "El texto escrito. Definirlo por código lo escribe en el campo y filtra la lista, y no dispara nada."
+      ],
+      [
+        "placeholder",
+        "La invitación mientras no hay nada elegido, ya traducida, como Buscar países. No es un nombre."
+      ],
+      [
+        "counter, subject",
+        "El modo contador: el campo queda en una línea con el asunto, como Países, y un nph-badge con cuántas se eligieron."
+      ],
+      [
+        "chip-icon",
+        "Cada chip muestra el ícono de su opción, o tag para una opción sin ícono."
+      ],
+      [
+        "remove-label",
+        "La palabra que el botón quitar dice antes de la opción, como Quitar: el botón lee Quitar Brasil."
+      ],
+      [
+        "empty-heading, empty-description",
+        "Los textos del nph-empty cuando nada coincide."
+      ],
+      [
+        "open",
+        "Booleano, reflejado. La lista está abierta. Abrir y cerrar no disparan evento."
+      ],
+      [
+        "name, required",
+        "Una entrada name=valor por opción elegida, como un select multiple; required sin elección es valueMissing, con el mensaje del navegador."
+      ],
+      [
+        "invalid",
+        "El estado erro: el borde pasa a status/error y el campo recibe aria-invalid. La frase es del nph-field."
+      ],
+      [
+        "disabled",
+        "Booleano, reflejado. Toda la pieza se atenúa, sale del orden del Tab y de los datos del formulario, los chips pierden el botón quitar y la lista no abre."
+      ],
+      [
+        "label, description",
+        "El nombre y la descripción accesibles en texto, nunca visibles, escritos por el nph-field."
+      ],
+      [
+        "input, change",
+        "Disparados por el host, en este orden, cuando la persona cambia la elección: una opción marcada o desmarcada, o un chip quitado."
+      ]
+    ],
+    "entryHeader": [
+      "Entrada",
+      "Regla"
+    ],
+    "entries": [
+      [
+        "value, text",
+        "El valor para el formulario y la etiqueta, ya traducida. Ambos obligatorios en una opción."
+      ],
+      [
+        "secondary",
+        "El texto de ayuda después de la etiqueta."
+      ],
+      [
+        "start, icon, src, status",
+        "El inicio del nph-option: none, icon, avatar o dot. El ícono también va al chip con chip-icon."
+      ],
+      [
+        "disabled",
+        "La opción no se puede marcar."
+      ],
+      [
+        "type: label",
+        "El nombre del grupo que la sigue."
+      ],
+      [
+        "type: separator",
+        "La línea que cierra un grupo."
+      ]
+    ],
+    "invalidTitle": "La entrada inválida no dibuja nada.",
+    "invalidText": "Un size fuera de default y large: el campo no se renderiza y emite console.error en desarrollo. Los chips sin remove-label quedan sin botón quitar, y counter sin subject dibuja el contador solo, cada uno con un error.",
+    "sizesTitle": "Tamaños",
+    "sizesText": "default en la mayoría de los formularios; large cuando el formulario usa campos altos. Solo cambia la altura mínima: control/height-default o control/height-large. El campo crece cuando los chips pasan a otra línea.",
+    "sizesCaption": "default y large, con dos opciones elegidas.",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "default",
+        "Borde color/input sobre color/background; la lupa y la flecha en color/muted-foreground."
+      ],
+      [
+        "hover",
+        "El borde pasa a color/input-hover."
+      ],
+      [
+        "foco",
+        "Foco en el texto, y la lista abierta: borde focus/border y el focus/halo por fuera."
+      ],
+      [
+        "foco-remover",
+        "Foco en un botón quitar: el anillo sigue solo el objetivo de 24 × 24."
+      ],
+      [
+        "erro",
+        "Borde status/error, también en hover; con foco, el halo es focus/halo-error."
+      ],
+      [
+        "disabled",
+        "color/muted, borde color/input y state/disabled-opacity en toda la pieza; los chips en color/muted sin botón quitar. Gana al error."
+      ]
+    ],
+    "statesCaption": "Placeholder, chips, error y deshabilitado.",
+    "chipTitle": "Chip",
+    "chipText": "Cada opción elegida es un chip: una píldora en color/primary-surface, radius/full, con la etiqueta en text/label-sm y color/primary-on-surface y el botón quitar al final. Una etiqueta larga queda en una línea con puntos suspensivos, y el chip se detiene antes del final del campo (D3). El chip es interno: no es una pieza propia.",
+    "chipHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "chipStates": [
+      [
+        "default",
+        "color/primary-surface, la etiqueta en color/primary-on-surface, el botón quitar."
+      ],
+      [
+        "foco-remover",
+        "El anillo de foco solo alrededor del botón quitar."
+      ],
+      [
+        "disabled",
+        "color/muted, la etiqueta y el ícono en color/muted-foreground, sin botón quitar."
+      ]
+    ],
+    "chipCaption": "Sin y con chip-icon: el ícono de cada tipo, y tag para una opción sin ícono.",
+    "counterTitle": "Contador",
+    "counterText": "Con counter, el campo queda en una línea: después de la lupa, el asunto en text/body-md, como Países, y un nph-badge primary solid con cuántas opciones se eligieron. El asunto no cambia con cada elección (D1). La lista abierta muestra todas las elecciones.",
+    "counterCaption": "counter con cinco opciones elegidas.",
+    "listTitle": "Lista",
+    "listText": "La lista es la lista del nph-combobox. Abre space/inline-tight debajo del campo, con su ancho, y gira hacia arriba cuando no cabe abajo. Cada opción muestra un checkbox, marcado cuando la opción está elegida, sin el fondo de seleccionada. La lista queda abierta mientras la persona marca y desmarca; el foco queda en el texto, que apunta a la opción activa.",
+    "listStatesHeader": [
+      "Estado",
+      "Qué muestra"
+    ],
+    "listStates": [
+      [
+        "resultados",
+        "Las opciones que coinciden, cada una con su checkbox."
+      ],
+      [
+        "grupos",
+        "Resultados bajo etiquetas de grupo, con el separador entre grupos."
+      ],
+      [
+        "vazio",
+        "El nph-empty cuando nada coincide."
+      ]
+    ],
+    "searchCaption": "El tramo escrito resaltado, dos opciones marcadas.",
+    "groupsCaption": "Etiquetas de grupo y el separador.",
+    "emptyCaption": "El nph-empty.",
+    "keyboardHeader": [
+      "Tecla",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Caracteres",
+        "Escriben en el campo, abren la lista, la filtran y activan la primera coincidencia."
+      ],
+      [
+        "ArrowDown, ArrowUp",
+        "Cerrada: abre en la primera o la última opción. Abierta: mueve la opción activa, sin dar la vuelta."
+      ],
+      [
+        "Enter",
+        "Abierta: marca o desmarca la opción activa y mantiene la lista abierta. Cerrada: envía el formulario."
+      ],
+      [
+        "Escape",
+        "Cierra la lista; con la lista cerrada, borra el texto escrito."
+      ],
+      [
+        "Tab",
+        "Cierra la lista sin elegir y sigue. Antes del texto, el Tab pasa por cada botón quitar; Enter o Espacio quita la opción."
+      ]
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Campo",
+        "color/background, borde border/width en color/input, radius/control, ancho layout/multi-combobox-width, altura mínima control/height-default o control/height-large, padding space/control-padding a los lados y space/inline-tight arriba y abajo, gap space/inline."
+      ],
+      [
+        "1. Lupa",
+        "nph-icon magnifying-glass, icon/size-sm, color/muted-foreground. Decorativa."
+      ],
+      [
+        "2. Chips",
+        "Una opción elegida por chip, space/inline-tight entre ellos en ambas direcciones; bajan a la línea siguiente cuando falta espacio."
+      ],
+      [
+        "3. Quitar",
+        "nph-icon xmark, icon/size-sm, en el color del texto del chip, con space/inline-tight alrededor: un objetivo de 24 × 24."
+      ],
+      [
+        "4. Texto escrito o placeholder",
+        "text/body-md en color/foreground después de los chips; el placeholder en color/muted-foreground solo sin elección."
+      ],
+      [
+        "5. Flecha",
+        "nph-icon chevron-down, icon/size-sm, color/muted-foreground. Dice que hay una lista para abrir."
+      ],
+      [
+        "6. Lista",
+        "La lista del nph-combobox, con las opciones en el marcador checkbox."
+      ],
+      [
+        "7. Anillo de foco",
+        "Solo cuando el texto o un botón quitar tiene el foco."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "El campo de texto tiene el rol combobox y controla un listbox con aria-multiselectable; cada opción tiene aria-selected. El host está asociado al formulario."
+      ],
+      [
+        "Nombre accesible",
+        "Viene del nph-field, o de una etiqueta asociada. Cada botón quitar se nombra con remove-label y la opción que quita."
+      ],
+      [
+        "Foco",
+        "El foco queda en el texto; la opción activa se apunta con aria-activedescendant. Un clic en la etiqueta va al texto, no a un botón quitar."
+      ],
+      [
+        "Partes ocultas",
+        "La lupa, la flecha, el ícono del chip, el ícono de quitar y la caja de la opción quedan ocultos del lector de pantalla."
+      ],
+      [
+        "Objetivo táctil",
+        "Todo el campo abre la lista; cada botón quitar tiene su propia área de 24 × 24."
+      ],
+      [
+        "El color no es la única señal",
+        "El error llega con el mensaje del nph-field; una opción elegida está marcada; el campo deshabilitado también pierde los botones quitar."
+      ]
+    ],
+    "examplesTitle": "Ejemplos obligatorios",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, tablero nph-multi-combobox (1467:25660), conjunto 1467:25652, chip 1467:24879",
+      "fichas/nph-multi-combobox.md",
+      "docs/decisoes-tecnicas.md › P96, P95, P91, P80 y P83",
+      "WAI-ARIA Authoring Practices, combobox editable con autocompletado de lista y un listbox de varias elecciones"
+    ],
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "countriesLabel": "Países",
+    "countriesHelp": "Elija todos los países donde trabaja el equipo.",
+    "placeholder": "Buscar países",
+    "removeLabel": "Quitar",
+    "subject": "Países",
+    "countries": [
+      "Argentina",
+      "Brasil",
+      "Canadá",
+      "Chile",
+      "Colombia",
+      "México",
+      "Paraguay",
+      "Perú",
+      "Uruguay",
+      "Venezuela"
+    ],
+    "kinds": [
+      {
+        "text": "Equipo de diseño",
+        "icon": "user"
+      },
+      {
+        "text": "Proyecto del sitio",
+        "icon": "folder"
+      },
+      {
+        "text": "Cliente principal",
+        "icon": "suitcase"
+      },
+      {
+        "text": "Urgente",
+        "icon": ""
+      }
+    ],
+    "tagsLabel": "Etiquetas",
+    "regions": [
+      {
+        "name": "América del Sur",
+        "countries": [
+          "Argentina",
+          "Brasil",
+          "Chile",
+          "Perú"
+        ]
+      },
+      {
+        "name": "América del Norte",
+        "countries": [
+          "Canadá",
+          "México",
+          "Estados Unidos"
+        ]
+      }
+    ],
+    "searchQuery": "ra",
+    "emptyQuery": "Narnia",
+    "emptyHeading": "No se encontró ningún país",
+    "emptyDescription": "Revise la ortografía o pruebe otro nombre.",
+    "exampleResting": "Dos opciones elegidas, en reposo",
+    "exampleTyping": "En foco, con texto escrito y la lista abierta",
+    "exampleMany": "Muchas opciones"
+  },
+  "multiComboboxValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "countriesLabel": "Países",
+    "countriesHelp": "Elija todos los países donde trabaja el equipo.",
+    "placeholder": "Buscar países",
+    "removeLabel": "Quitar",
+    "subject": "Países",
+    "countries": [
+      "Argentina",
+      "Brasil",
+      "Canadá",
+      "Chile",
+      "Colombia",
+      "México",
+      "Paraguay",
+      "Perú",
+      "Uruguay",
+      "Venezuela"
+    ],
+    "kinds": [
+      {
+        "text": "Equipo de diseño",
+        "icon": "user"
+      },
+      {
+        "text": "Proyecto del sitio",
+        "icon": "folder"
+      },
+      {
+        "text": "Cliente principal",
+        "icon": "suitcase"
+      },
+      {
+        "text": "Urgente",
+        "icon": ""
+      }
+    ],
+    "tagsLabel": "Etiquetas",
+    "regions": [
+      {
+        "name": "América del Sur",
+        "countries": [
+          "Argentina",
+          "Brasil",
+          "Chile",
+          "Perú"
+        ]
+      },
+      {
+        "name": "América del Norte",
+        "countries": [
+          "Canadá",
+          "México",
+          "Estados Unidos"
+        ]
+      }
+    ],
+    "searchQuery": "ra",
+    "emptyQuery": "Narnia",
+    "emptyHeading": "No se encontró ningún país",
+    "emptyDescription": "Revise la ortografía o pruebe otro nombre.",
+    "exampleResting": "Dos opciones elegidas, en reposo",
+    "exampleTyping": "En foco, con texto escrito y la lista abierta",
+    "exampleMany": "Muchas opciones",
+    "longCountry": "Reino Unido de Gran Bretaña e Irlanda del Norte",
+    "submitText": "Enviar",
+    "resetText": "Restablecer",
+    "statusIdle": "Nada enviado todavía.",
+    "statusSubmitted": "Enviado: {data}",
+    "statusReset": "El formulario volvió a sus valores iniciales.",
+    "statusNoEvent": "Ningún evento todavía.",
+    "statusEvent": "{event}: {value}",
+    "fieldsetDisabled": "Fieldset deshabilitado"
   }
 }

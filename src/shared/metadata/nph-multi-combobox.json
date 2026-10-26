@@ -1,0 +1,334 @@
+{
+  "piece": "nph-multi-combobox",
+  "level": "component",
+  "status": "active",
+  "solves": "Gives the person a field where they search a closed list and pick several options, shown as chips inside the field, and takes part in the form that contains it.",
+  "use_when": [
+    "When the person picks several options from a closed list, such as people, teams or tags.",
+    "When seeing what is already chosen, in the field itself, helps to check and to remove.",
+    "Inside an nph-field, which gives the label, the help text and the error message.",
+    "With counter when the field needs to stay on one line, as in a filter, a table or a toolbar; the open list shows every choice.",
+    "With chip-icon when the options are of different kinds, such as tag and team.",
+    "default in most forms; large when the form uses tall fields."
+  ],
+  "do_not_use_when": [
+    "To pick a single option: use nph-select or nph-combobox.",
+    "For free text or options that are not in the list: use nph-input.",
+    "With counter when the person needs to check each choice: let the chips go to several lines.",
+    "To put an avatar in the chip: mark the kind of the option with chip-icon.",
+    "With a fixed width in pixels: use layout/multi-combobox-width or the width of the form."
+  ],
+  "api": {
+    "options": {
+      "type": "array",
+      "required": true,
+      "default": "empty list",
+      "reflects": false,
+      "constraint": "Property only. The entries of the list, as in nph-combobox: an option (type absent or option) with value and text, and optionally secondary, start, icon, src, status and disabled, drawn as an nph-option with the checkbox marker; a label (type label, with text) that names the group after it; and a separator (type separator) that closes a group. An invalid entry is left out, with one console.error per cause in development."
+    },
+    "size": {
+      "type": "enum",
+      "values": [
+        "default",
+        "large"
+      ],
+      "required": false,
+      "default": "default",
+      "reflects": true,
+      "constraint": "The minimum height of the field: control/height-default or control/height-large. Any other value draws nothing and emits console.error in development."
+    },
+    "value": {
+      "type": "array",
+      "required": false,
+      "default": "empty list",
+      "reflects": false,
+      "constraint": "Property only. The chosen values, in the order the person chose them, each once. The chips follow it. A value with no option in the list is kept until such an option arrives, with no chip and out of the form data. Setting it from code fires no event."
+    },
+    "defaultValue": {
+      "type": "array",
+      "required": false,
+      "default": "empty list",
+      "reflects": false,
+      "constraint": "Property only. The values of form.reset(). While the person has not changed the choice and code has not set value, setting it moves value too, as the value attribute of nph-input (P80)."
+    },
+    "query": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "Property only. The typed text. Setting it from code writes it in the field and filters the list, and fires no event. It is never a value: leaving the field and a choice clear it."
+    },
+    "placeholder": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The invitation while nothing is chosen, already localized, such as \"Search countries\". It hides with the first choice. It is not a name."
+    },
+    "counter": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": true,
+      "constraint": "The Figma conteúdo=contador: the field stays on one line and shows subject and an nph-badge with how many options are chosen, instead of the chips. With nothing chosen, the placeholder (D-2). The typed text sits after the counter (D-4)."
+    },
+    "subject": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The subject of the field in counter mode, already localized, such as \"Countries\" (D1). It does not change with each choice. Required with counter; without it, the counter is drawn alone and console.error is emitted in development."
+    },
+    "chip-icon": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": false,
+      "constraint": "The Figma ícone início of the chip: each chip shows, before its label, the icon of its option (an option with start icon, with its icon or globe), or tag for an option with no icon (D-3)."
+    },
+    "remove-label": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The word the remove button of each chip says before the option, already localized, such as \"Remove\": the button reads \"Remove Brazil\". Without it, the chips have no remove button and console.error is emitted in development."
+    },
+    "empty-heading": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The title of the nph-empty when nothing matches (the vazio list). Empty: with nothing to show, the list does not open."
+    },
+    "empty-description": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The description of the nph-empty when nothing matches."
+    },
+    "open": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": true,
+      "constraint": "The list is open. The piece opens and closes it; the consumer may set it. Opening and closing fire no event. A disabled field, or one with nothing to show, does not open."
+    },
+    "name": {
+      "type": "string",
+      "required": false,
+      "default": "none",
+      "reflects": true,
+      "constraint": "The name of the entries in the form data: one name=value per chosen option, as a select multiple. Reflects because the form reads the attribute of the host. With no name, nothing is submitted."
+    },
+    "required": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": true,
+      "constraint": "With nothing chosen, the piece is valueMissing, with the message of the browser. nph-field writes it."
+    },
+    "disabled": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": true,
+      "constraint": "The whole piece at state/disabled-opacity, on color/muted, out of the Tab order and of the form data; the chips take their disabled look and lose the remove button, and the list does not open. A disabled fieldset disables it too. It wins over invalid."
+    },
+    "invalid": {
+      "type": "boolean",
+      "required": false,
+      "default": "false",
+      "reflects": true,
+      "constraint": "The error state: the border becomes status/error and the field gets aria-invalid. It is not a constraint of the form. The sentence belongs to nph-field."
+    },
+    "label": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The accessible name in text, never visible, for a field with no associated label; nph-field writes it. An associated label wins over it."
+    },
+    "description": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The accessible description in text, never visible: the help or the error sentence that nph-field writes."
+    },
+    "input": {
+      "type": "event",
+      "required": false,
+      "default": "none",
+      "reflects": false,
+      "constraint": "Fired by the host when the person changes the choice: an option checked or unchecked in the list, or a chip removed. It bubbles and crosses shadow roots. Typing does not fire it: the native input of the inner field stays in the shadow root."
+    },
+    "change": {
+      "type": "event",
+      "required": false,
+      "default": "none",
+      "reflects": false,
+      "constraint": "Fired by the host right after input. It bubbles. Setting value, defaultValue, query or open from code fires neither event."
+    }
+  },
+  "variants": {
+    "size": {
+      "axis": "size",
+      "choose_when": "default in most forms; large when the form uses tall fields. One size per form.",
+      "do_not_combine_with": [
+        "default and large fields in the same form."
+      ]
+    },
+    "counter": {
+      "axis": "density",
+      "choose_when": "The chips in most forms; counter when the field must stay on one line, as in a filter, a table or a toolbar.",
+      "do_not_combine_with": [
+        "counter where the person needs to check each choice."
+      ]
+    },
+    "chip-icon": {
+      "axis": "appearance",
+      "choose_when": "Off in general; on when the options are of different kinds and the icon helps recognize the kind.",
+      "do_not_combine_with": [
+        "An icon only to decorate."
+      ]
+    }
+  },
+  "states": {
+    "default": {
+      "token": "color/input",
+      "changes_for_user": "The resting border, on color/background, with the magnifying glass and the arrow in color/muted-foreground."
+    },
+    "hover": {
+      "token": "color/input-hover",
+      "changes_for_user": "The border goes one step darker under the pointer."
+    },
+    "focus": {
+      "token": "focus/border",
+      "changes_for_user": "Focus on the text, and the list open: the border takes focus/border with the focus/halo attached outside."
+    },
+    "focus-remove": {
+      "token": "focus/border",
+      "changes_for_user": "Keyboard focus on a remove button: the ring follows only the button; the field keeps its resting border."
+    },
+    "error": {
+      "token": "status/error",
+      "changes_for_user": "The border is status/error, also on hover; the sentence is in nph-field."
+    },
+    "error-focus": {
+      "token": "focus/halo-error",
+      "changes_for_user": "The border stays status/error and the halo is focus/halo-error."
+    },
+    "disabled": {
+      "token": "state/disabled-opacity",
+      "changes_for_user": "The whole piece at state/disabled-opacity on color/muted, with the color/input border; the chips in color/muted, with no remove button; it does not open and wins over the error."
+    }
+  },
+  "business_rules": [
+    "Typing opens the list, filters it and makes the first match active.",
+    "The person checks or unchecks an option by a click on it or by Enter on the active option; the list stays open, the typed text is cleared and the option stays active.",
+    "A chip is removed by its remove button, the only way to remove an option without opening the list.",
+    "A change of the choice by the person fires input and then change; Escape, Tab, a click outside and code fire nothing.",
+    "The chips follow the order of the choice; they stay on one line while they fit, then go down and the field grows.",
+    "Tab closes the list without choosing, and the focus moves on.",
+    "Enter with the list closed submits the form; with the list open, it checks or unchecks.",
+    "Escape closes the open list; with the list closed, it clears the typed text.",
+    "Disabled options are skipped by the keyboard and cannot be checked.",
+    "disabled wins over invalid."
+  ],
+  "domain_errors": [
+    "invalid: the choice needs correction, such as a required field with nothing chosen; nph-field writes the sentence and passes it as description."
+  ],
+  "tokens": {
+    "height": "minimum control/height-default or control/height-large; it grows with the lines of chips",
+    "width": "layout/multi-combobox-width",
+    "radius": "radius/control",
+    "border": "border/width, in color/input, color/input-hover, focus/border or status/error",
+    "background": "color/background; color/muted when disabled",
+    "padding": "space/control-padding on the sides, space/inline-tight above and below",
+    "gap": "space/inline between the parts; space/inline-tight between the chips and the text, in both directions",
+    "icons": "nph-icon magnifying-glass and chevron-down, icon/size-sm in color/muted-foreground",
+    "text": "text/body-md in color/foreground, the caret in color/foreground; the placeholder in color/muted-foreground",
+    "chip": "color/primary-surface, radius/full, horizontal padding space/inline, gap space/inline-tight; the label text/label-sm in color/primary-on-surface, one line with an ellipsis",
+    "chip_icon": "nph-icon icon/size-sm in the chip text color",
+    "remove": "nph-icon xmark icon/size-sm with space/inline-tight around it, a 24 × 24 target",
+    "chip_disabled": "color/muted, the label and the icon in color/muted-foreground, vertical padding space/inline-tight",
+    "counter": "the subject in text/body-md and color/foreground; nph-badge primary solid",
+    "list": "the nph-combobox list: color/popover, border/width in color/input, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height, offset space/inline-tight",
+    "option": "nph-option with the checkbox marker: the checked nph-checkbox, no selected background",
+    "focus": "focus/border, focus/halo, focus/halo-error, focus/ring-width, focus/radius-control and, on the remove button, focus/border-radius-control and focus/radius-control-with-border",
+    "disabled": "state/disabled-opacity"
+  },
+  "ai_hints": [
+    "Use nph-multi-combobox for several choices from a closed list; for one, nph-select or nph-combobox.",
+    "Put nph-multi-combobox inside nph-field, which gives the label, the help text and the error message.",
+    "Give the options as data in options, never as children; set value and defaultValue as lists of option values.",
+    "Always set remove-label, the localized word of the remove button.",
+    "Use counter with subject when the field must stay on one line; otherwise let the chips wrap.",
+    "Let the field take the width of the form; do not fix it in pixels.",
+    "Read the values from the host on input or change, or from the form data under its name.",
+    "Never use the placeholder as the only name."
+  ],
+  "accessibility": {
+    "semantics": "An editable combobox with list autocomplete (APG) and a list of several choices: the inner text field has role combobox, aria-autocomplete list, aria-expanded and aria-controls; the list has role listbox with aria-multiselectable, the groups role group named by their label, and each nph-option role option with aria-selected. The chips are a list of items with a native remove button each. The host is form-associated and labelable.",
+    "accessible_name": "From the label associated with the host, which the field and the list reference. Without one, from label. The placeholder is not a name. Each remove button is named by remove-label and the option it removes. With no name at all, the field renders and warns in development.",
+    "keyboard": [
+      "Characters write in the field, open the list, filter it and make the first match active.",
+      "Closed: ArrowDown and ArrowUp open on the first or the last option; Alt+ArrowDown opens without moving; Enter submits the form; Escape clears the typed text.",
+      "Open: ArrowDown and ArrowUp move without wrapping; PageDown and PageUp move ten options; Enter checks or unchecks the active option and keeps the list open; Alt+ArrowUp and Escape close without choosing; Tab closes without choosing and the focus moves on.",
+      "Tab reaches each remove button, before the text field; Enter or Space removes the option, and the focus goes to the remove button now in its place, or to the text field.",
+      "Home and End move the cursor in the text."
+    ],
+    "focus": "The focus stays on the text while the list is open; the active option is pointed to by aria-activedescendant, in the same shadow root. Focus on the host, and a click on an associated label, go to the text field. The field shows the focus border and the halo while the text has the focus and while the list is open; each remove button has its own ring.",
+    "contrast": "The text, the placeholder, the chip label and the remove button meet the minimum contrast and the border 3:1, in light and dark mode. The disabled state is exempt.",
+    "color_alternative": "The error is said by the sentence of nph-field; a chosen option is checked in the list; the disabled state also fades and loses the remove buttons."
+  },
+  "invalid_combinations": [
+    "A size outside default and large — the field draws nothing.",
+    "Chips without remove-label — no remove button.",
+    "counter without subject — the counter alone.",
+    "invalid without the sentence in nph-field — red with no text."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-field",
+      "nph-option",
+      "nph-checkbox",
+      "nph-badge",
+      "nph-empty",
+      "nph-separator",
+      "nph-icon"
+    ],
+    "parents": [
+      "nph-field",
+      "form"
+    ],
+    "children": [
+      "nph-option",
+      "nph-badge",
+      "nph-empty",
+      "nph-separator",
+      "nph-icon"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "Using it to pick a single option.",
+    "Using it for free text or options outside the list.",
+    "Cutting the chips with a fixed height.",
+    "Putting an avatar in the chip.",
+    "Using the counter when the person needs to check each choice.",
+    "Turning chip-icon on only to decorate.",
+    "Fixing the width in pixels.",
+    "Writing the options as nph-option children of the field."
+  ],
+  "sources": {
+    "design_md": "design.md, layout/multi-combobox-width, color/input, color/input-hover, color/background, color/primary-surface, color/primary-on-surface, color/muted, color/muted-foreground, color/foreground, status/error, focus/*, state/disabled-opacity, control/height-*, space/control-padding, space/inline, space/inline-tight, radius/control, radius/full, text/body-md and text/label-sm",
+    "decision": "P96 — API and semantics of nph-multi-combobox; the form pattern is P80, the field contract is P83, the option is P91 with the marker of P96, the list is P95",
+    "tests": "src/components/nph-multi-combobox/nph-multi-combobox.test.ts",
+    "usage_evidence": "the Examples section of the nph-multi-combobox Docs page",
+    "storybook": "src/components/nph-multi-combobox/nph-multi-combobox.stories.ts and nph-multi-combobox.docs.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, nph-multi-combobox board 1467:25660, set 1467:25652, chip 1467:24879, the nph-combobox list 1359:141 and option 1357:136"
+  }
+}
