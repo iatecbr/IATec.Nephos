@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 490,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-table",
   "dependencies": [
     "DSA-03",
@@ -32,10 +32,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-49/review-and-merge-2026-10-26.md",
+      "result": "passed",
+      "verified_at": "2026-10-26",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -90,7 +90,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-49/documentacao-figma-aceita-2026-10-23.md"
+    "docs/operacao/evidencias/DSA-49/documentacao-figma-aceita-2026-10-23.md",
+    "docs/operacao/evidencias/DSA-49/review-and-merge-2026-10-26.md"
   ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p97",
@@ -107,8 +108,8 @@
     "excerpt": null,
     "converted_decision": "The nph-table board, with its `Documentação` frame (2584:66651), was accepted as the API and behavior specification of the nph-table. COMPONENT_SET 1370:113; parts 1370:19, 1370:20, 2425:1032, 2425:1033, 2425:1046, 2571:66334, 2571:66335 and 2571:66336. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "claude/dsa-49-nph-table-8d2ed2", "commit": "dc7a255", "pr": "119" },
-  "context": "docs/operacao/contextos/DSA-49.md",
+  "git_review": { "branch": "claude/dsa-49-nph-table-8d2ed2", "commit": "72fb0c28c7b37c70ef3bdfcdc9a31817a5c22f27", "pr": "119" },
+  "context": null,
   "updated_at": "2026-10-26"
 }
 ```
