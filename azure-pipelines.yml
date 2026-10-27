@@ -2,7 +2,7 @@
 #
 # Structure follows the reference pipeline of IATec.Nephos.Blocks.Angular
 # (`projects/iatec/nephos-layout/azure-pipelines.yml`): self-hosted Linux pool,
-# NodeTool, `.npmrc.pipeline` copied to `.npmrc` and filled by `replacetokens`,
+# UseNode, `.npmrc.pipeline` copied to `.npmrc` and filled by `replacetokens`,
 # `npmAuthenticate`, publish to the `IATec.Community` feed, `.npmrc` removed
 # at the end. The code review and SonarQube stages of the reference are not
 # used here.
@@ -82,10 +82,10 @@ stages:
           name: IATec-Builds-Agents-Linux
         timeoutInMinutes: 30
         steps:
-          - task: NodeTool@0
+          - task: UseNode@1
             displayName: Install Node.js
             inputs:
-              versionSpec: $(nodeVersion)
+              version: $(nodeVersion)
 
           - task: Bash@3
             displayName: Prepare .npmrc file
@@ -209,10 +209,10 @@ stages:
           name: IATec-Builds-Agents-Linux
         timeoutInMinutes: 30
         steps:
-          - task: NodeTool@0
+          - task: UseNode@1
             displayName: Install Node.js
             inputs:
-              versionSpec: $(nodeVersion)
+              version: $(nodeVersion)
 
           - task: Bash@3
             displayName: Prepare .npmrc file
@@ -308,10 +308,10 @@ stages:
           - checkout: self
             fetchDepth: 1
 
-          - task: NodeTool@0
+          - task: UseNode@1
             displayName: Install Node.js
             inputs:
-              versionSpec: $(nodeVersion)
+              version: $(nodeVersion)
 
           - task: DownloadPipelineArtifact@2
             displayName: Download package artifact
