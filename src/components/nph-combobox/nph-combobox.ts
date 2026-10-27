@@ -1247,7 +1247,12 @@ export class NphCombobox extends LitElement {
     return html`<nph-icon class="start" name=${SEARCH_ICON} size="sm" aria-hidden="true"></nph-icon>`;
   }
 
-  /** The inside of the list: the spinner, the groups and the create row, or the empty state. */
+  /**
+   * The inside of the list: the spinner, the groups and the create row, or the empty state.
+   * The listbox is the box that scrolls: a scrolling box with no role is a region the keyboard
+   * cannot reach (WCAG 2.1.1), while the listbox popup of a combobox is reached through it
+   * (DSA-32, P72). So the status sits beside it, not inside it, and it is hidden with no row.
+   */
   private renderInside(selected: NphComboboxOption | null): TemplateResult {
     const rows: Row[] = [];
     const id = (row: Row): string => {
@@ -1285,7 +1290,7 @@ export class NphCombobox extends LitElement {
       }
     }
     this.renderedRows = rows;
-    return html`<div class="listbox" id="listbox" role="listbox">${groups}${create}</div>
+    return html`<div class="scroller listbox" id="listbox" role="listbox" ?hidden=${rows.length === 0}>${groups}${create}</div>
       <div class="status" role="status">${status}</div>`;
   }
 
@@ -1338,7 +1343,7 @@ export class NphCombobox extends LitElement {
         @click=${this.onListClick}
         @pointermove=${this.onListPointer}
       >
-        <div class="scroller">${this.renderInside(selected)}</div>
+        ${this.renderInside(selected)}
         <div class="footer" ?hidden=${!this.hasShortcuts}><slot name="shortcuts" @slotchange=${this.onShortcutsChange}></slot></div>
       </div>`;
   }

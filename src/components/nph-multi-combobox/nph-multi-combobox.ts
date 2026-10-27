@@ -1223,7 +1223,7 @@ export class NphMultiCombobox extends LitElement {
       status = html`<nph-empty heading=${trimmed(this.emptyHeading)} description=${description === '' ? nothing : description}></nph-empty>`;
     }
     this.renderedRows = rows;
-    return html`<div class="listbox" id="listbox" role="listbox" aria-multiselectable="true">${groups}</div>
+    return html`<div class="scroller listbox" id="listbox" role="listbox" aria-multiselectable="true" tabindex="-1" ?hidden=${rows.length === 0}>${groups}</div>
       <div class="status" role="status">${status}</div>`;
   }
 
@@ -1268,7 +1268,7 @@ export class NphMultiCombobox extends LitElement {
         ${description === '' ? nothing : html`<span class="description" id="description">${description}</span>`}
       </div>
       <div class="list" popover="manual" @mousedown=${this.onListMousedown} @click=${this.onListClick} @pointermove=${this.onListPointer}>
-        <div class="scroller" tabindex="-1">${this.renderInside()}</div>
+        ${this.renderInside()}
       </div>`;
   }
 }

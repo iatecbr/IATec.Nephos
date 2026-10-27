@@ -192,9 +192,10 @@ describe('registration and API', () => {
     expect(trigger(element).getAttribute('role')).toBe('combobox');
     expect(trigger(element).getAttribute('aria-haspopup')).toBe('listbox');
     expect(trigger(element).getAttribute('aria-expanded')).toBe('false');
-    expect(trigger(element).getAttribute('aria-controls')).toBe(list(element).id);
-    expect(list(element).getAttribute('role')).toBe('listbox');
+    expect(trigger(element).getAttribute('aria-controls')).toBe(scroller(element).id);
+    expect(scroller(element).getAttribute('role')).toBe('listbox');
     expect(list(element).getAttribute('popover')).toBe('manual');
+    expect(list(element).hasAttribute('role')).toBe(false);
   });
 
   it('has no part and no slot besides the one of the options', async () => {
@@ -1296,5 +1297,16 @@ describe('token contract', () => {
 
   it('reduced motion keeps only the opacity (D2)', () => {
     expect(cssWithoutComments).toMatch(/@media \(prefers-reduced-motion: reduce\)\s*\{[\s\S]*translate: none/);
+  });
+});
+
+describe('accessibility gate regressions (DSA-32, P72)', () => {
+  it('the box that scrolls is the listbox the trigger controls, so it is not a region the keyboard cannot reach', async () => {
+    const element = await mount();
+    const box = scroller(element);
+    expect(getComputedStyle(box).overflowY).toBe('auto');
+    expect(box.getAttribute('role')).toBe('listbox');
+    expect(trigger(element).getAttribute('aria-controls')).toBe(box.id);
+    expect(element.shadowRoot?.querySelectorAll('[role="listbox"]')).toHaveLength(1);
   });
 });

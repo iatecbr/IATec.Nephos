@@ -1442,3 +1442,27 @@ describe('accessibility gate regressions (DSA-32, P72)', () => {
     expect(element.shadowRoot?.querySelector('.chips')?.getAttribute('aria-disabled')).toBe('true');
   });
 });
+
+describe('accessibility gate regressions (DSA-32, P72)', () => {
+  it('the box that scrolls is the listbox the field controls, so it is not a region the keyboard cannot reach', async () => {
+    const element = await mount(BASE);
+    element.open = true;
+    await settle();
+    const box = listbox(element);
+    expect(box.classList.contains('scroller')).toBe(true);
+    expect(getComputedStyle(box).overflowY).toBe('auto');
+    expect(box.getAttribute('role')).toBe('listbox');
+    expect(field(element).getAttribute('aria-controls')).toBe(box.id);
+  });
+
+  it('the status sits beside the listbox, never inside it, and the empty listbox is hidden', async () => {
+    const element = await mount(`${BASE} empty-heading="Nothing found"`, []);
+    element.open = true;
+    await settle();
+    const status = element.shadowRoot?.querySelector('[role="status"]') as HTMLElement;
+    expect(status.closest('[role="listbox"]')).toBeNull();
+    expect(status.parentElement).toBe(list(element));
+    expect(listbox(element).hidden).toBe(true);
+    expect(getComputedStyle(listbox(element)).display).toBe('none');
+  });
+});

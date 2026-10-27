@@ -175,12 +175,29 @@ describe('the link, its name and the balloon', () => {
     expect(control(rail).getAttribute('aria-current')).toBe('page');
   });
 
-  it('the counter is read as text, as the description of the link', async () => {
+  it('the counter is read as text, in the name after the label (WCAG 2.5.3, DSA-32)', async () => {
     const rail = await mount({ counter: 7 });
     expect(counter(rail)?.textContent).toBe('7');
     const node = await axNode(control(rail));
+    expect(node.name).toBe('Inbox 7');
+    expect(node.description).toBe('');
+  });
+
+  it('the balloon is named once: its id is in aria-labelledby once, with or without a counter', async () => {
+    const rail = await mount({ counter: 7 });
+    expect(control(rail).getAttribute('aria-labelledby')).toBe('name counter');
+    rail.counter = null;
+    await rail.updateComplete;
+    await (balloon(rail) as NphTooltip).updateComplete;
+    expect(control(rail).getAttribute('aria-labelledby')).toBe('name');
+    const node = await axNode(control(rail));
     expect(node.name).toBe('Inbox');
-    expect(node.description).toBe('7');
+  });
+
+  it('disabled, with no balloon, the name still holds the counter', async () => {
+    const rail = await mount({ disabled: true, counter: 3 });
+    const node = await axNode(control(rail));
+    expect(node.name).toBe('Inbox 3');
   });
 
   it('the click is the native click; a click on the balloon stops at the host', async () => {

@@ -4820,7 +4820,7 @@ P64.
    does not follow it (evidence, Properties). On the rail button the balloon is always on, with the
    `label`, `relation="name"` and the `aria-label` as a fallback, as the icon-only `nph-button`
    (P86); there is no property to turn it off (evidence, Do not). Its counter is the description of
-   the link, through `aria-describedby`.
+   the link, through `aria-describedby` (amended on 27/10/2026, below: the counter is in the name).
 
 8. **The subitem.** A link with `label`, `href`, `active`, `disabled` and `tooltip`, and
    `options`, reflected, which draws `chevron-right` at `icon/size-sm`. The arrow is visual only and
@@ -4854,6 +4854,14 @@ Elvys on 23/10/2026.
 subitems, the flyout and the keyboard between lines. What the list of options of a subitem opens
 (D-4). A new token. The Usage section of the page (P70, DSA-35), the page lists read from the
 Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
+
+**Amended on 27/10/2026 (DSA-32).** Item 7: the counter of the rail button is no longer the
+description. The accessibility gate (P72) found the visible number outside the name
+(`label-content-name-mismatch`, WCAG 2.5.3), and Elvys decided that the counter goes in the name.
+`aria-labelledby` reads the balloon, whose `id` is fixed, and then the counter; the balloon finds
+its own `id` already there and adds nothing, so the label is still announced once. Disabled, with
+no balloon, the `aria-label` holds the label and the counter. Reviewed in the pull request that
+brings it; the merge is the approval.
 
 **Status.** Anatomy and behavior accepted by Indiane on 26/10/2026. D-1 to D-4 wait for Indiane.
 API and semantics are reviewed in the pull request that brings them; the merge is the approval.
