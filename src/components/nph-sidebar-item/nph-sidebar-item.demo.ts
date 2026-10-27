@@ -18,6 +18,7 @@ import type { TemplateResult } from 'lit';
 import '../nph-sidebar-rail-button/nph-sidebar-rail-button';
 import '../nph-sidebar-subitem/nph-sidebar-subitem';
 import './nph-sidebar-item';
+import type { NphSidebarItemToggleDetail } from './nph-sidebar-item';
 
 export type Scheme = 'light' | 'dark';
 
@@ -86,20 +87,39 @@ export function mainMenu(text: MenuText): TemplateResult {
   )}`);
 }
 
+/**
+ * The scenery's stand-in for `nph-sidebar`: the subitems show while the group is open and
+ * leave the page, and the Tab order, when the person closes it (`nph-toggle`).
+ */
+function followGroup(event: CustomEvent<NphSidebarItemToggleDetail>): void {
+  const subitems = (event.currentTarget as HTMLElement).nextElementSibling as HTMLElement | null;
+  if (subitems !== null) {
+    subitems.style.display = event.detail.expanded ? 'flex' : 'none';
+  }
+}
+
 /** A group open, with its subitems right below it. */
 export function openGroup(text: MenuText): TemplateResult {
   const [home] = text.pages;
   return panel(html`<nph-sidebar-item label=${home?.label ?? ''} icon=${home?.icon ?? ''} href="#page-1"></nph-sidebar-item>
-    <nph-sidebar-item type="group" label=${text.group.label} icon=${text.group.icon} expanded></nph-sidebar-item>
-    ${text.subitems.map(
-      (label, index) =>
-        html`<nph-sidebar-subitem
-          label=${label}
-          href=${`#sub-${index + 1}`}
-          ?active=${index === 0}
-          ?options=${index === text.subitems.length - 1}
-        ></nph-sidebar-subitem>`,
-    )}`);
+    <nph-sidebar-item
+      type="group"
+      label=${text.group.label}
+      icon=${text.group.icon}
+      expanded
+      @nph-toggle=${followGroup}
+    ></nph-sidebar-item>
+    <div data-subitems style="display: flex; flex-direction: column; gap: var(--nph-space-inline-tight);">
+      ${text.subitems.map(
+        (label, index) =>
+          html`<nph-sidebar-subitem
+            label=${label}
+            href=${`#sub-${index + 1}`}
+            ?active=${index === 0}
+            ?options=${index === text.subitems.length - 1}
+          ></nph-sidebar-subitem>`,
+      )}
+    </div>`);
 }
 
 /** The collapsed menu: one rail button per page, the name in the balloon. */

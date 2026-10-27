@@ -10,6 +10,7 @@
  * `nph-sidebar-item.docs.stories.ts`.
  */
 import { afterEach, describe, expect, it } from 'vitest';
+import { userEvent } from 'vitest/browser';
 import { render } from 'lit';
 import type { TemplateResult } from 'lit';
 
@@ -183,6 +184,44 @@ describe('nph-sidebar-item Documentation', () => {
       });
     }
   });
+});
+
+describe('the open group example follows the group, as nph-sidebar will', () => {
+  const cases: Array<[string, Renderable, string]> = [
+    ['Docs', Documentation as unknown as Renderable, 'section#required-examples'],
+    ['Validation', validation.Examples as unknown as Renderable, 'main'],
+  ];
+
+  for (const [page, story, scope] of cases) {
+    it(`${page}: closing the group hides its subitems and takes them out of the Tab order; opening shows them again`, async () => {
+      const target = draw(story, 'en');
+      await ready(target);
+      const group = target.querySelector<NphSidebarItem>(`${scope} nph-sidebar-item[type="group"]`) as NphSidebarItem;
+      const subitems = group.nextElementSibling as HTMLElement;
+      const button = group.shadowRoot?.querySelector('.control') as HTMLElement;
+      const first = subitems.querySelector('nph-sidebar-subitem') as HTMLElement;
+      expect(subitems.querySelectorAll('nph-sidebar-subitem')).toHaveLength(3);
+      expect(first.getClientRects().length).toBeGreaterThan(0);
+
+      await userEvent.click(button);
+      await group.updateComplete;
+      expect(group.expanded).toBe(false);
+      expect(button.getAttribute('aria-expanded')).toBe('false');
+      expect(first.getClientRects()).toHaveLength(0);
+      button.focus();
+      await userEvent.keyboard('{Tab}');
+      expect(subitems.contains(document.activeElement)).toBe(false);
+
+      button.focus();
+      await userEvent.keyboard('{Enter}');
+      await group.updateComplete;
+      expect(group.expanded).toBe(true);
+      expect(first.getClientRects().length).toBeGreaterThan(0);
+      await userEvent.keyboard('{Tab}');
+      expect(document.activeElement).toBe(first);
+      target.remove();
+    });
+  }
 });
 
 describe('nph-sidebar-item Documentation: the lists of the page are the lists of the sheets', () => {
