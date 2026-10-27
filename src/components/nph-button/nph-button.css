@@ -92,7 +92,7 @@
   box-shadow: var(--_outline-hover, var(--_outline, none));
 }
 
-/* hover-active, with text: the solid twin replaces the light icon (21-10-2026, P88). */
+/* hover-active, with text and icon only: the solid twin replaces the light icon (P88). */
 .control:not(:disabled):not([aria-disabled='true']):is(:hover, :active) .icon-rest,
 .control:is(:disabled, [aria-disabled='true'], :not(:hover, :active)) .icon-active {
   display: none;
