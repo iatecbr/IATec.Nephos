@@ -20,19 +20,24 @@ dictionary, the sheet, the Metadata and P88 to the same rule.
 - `docs/decisoes-tecnicas.md` — P68, P86 and P88
 
 ## Changes
-The task moves to in progress. See the commits on the branch.
+The icon-only button renders its icon as a light and solid pair; the tests, the `Icons`
+story, the dictionaries in the three languages, the sheet, its Metadata and the
+amendment of P88. See the commits on the branch.
 
 ## Commands run
 - `npm ci`, then `node scripts/verificar-operacao.mjs` before the commit.
+- `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`,
+  `test:operacao`, `test:naming`, `build-storybook`, `build:lib`, `test:package` and
+  `git diff --check` on the head of the pull request.
 
 ## Result
-In progress.
+In review in PR #129.
 
 ## Evidence
-None recorded: `review-and-merge` waits for the PR.
+The proof table is in the description of PR #129. `review-and-merge` waits for the merge.
 
 ## Blocker
 None.
 
 ## Next command
-Commit the component, the tests and the stories.
+Wait for the review of PR #129.
