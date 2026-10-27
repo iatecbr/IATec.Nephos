@@ -192,7 +192,11 @@ const FRAME_HEIGHT: Record<Example, string> = {
   publishing: 'calc(var(--nph-layout-dialog-max-height) * 0.45)',
 };
 
-/** One example in a mode, in a window of its own, with a caption below. */
+/**
+ * One example in a mode, in a window of its own, with a caption below. The mode is pinned on
+ * the window, not on the figure: the caption sits on the page and is read in the page's mode.
+ * Pinned on the figure, a dark caption landed on a light page (P72 gate, `color-contrast`).
+ */
 export function framed(
   name: Example,
   scheme: Scheme,
@@ -203,13 +207,13 @@ export function framed(
 ): TemplateResult {
   const setup = setupOf(name, variant);
   return html`<figure
-    data-nph-color-scheme=${scheme}
     data-nph-dialog-example=${name}
     data-nph-dialog-size=${setup.size}
     data-nph-dialog-actions=${setup.actions}
     style="margin: 0; display: flex; flex-direction: column; gap: var(--nph-space-inline); max-inline-size: 100%;"
   >
     <iframe
+      data-nph-color-scheme=${scheme}
       title=${title}
       src=${fixtureSrc(name, scheme, locale, variant)}
       loading="lazy"

@@ -1420,3 +1420,25 @@ describe('token contract', () => {
     expect(listCss).toContain('.list');
   });
 });
+
+describe('accessibility gate regressions (DSA-32, P72)', () => {
+  it('the chips of a disabled piece say they are inactive, so their text is exempt from the contrast rule', async () => {
+    const element = await mount(BASE, countries(), ['peru']);
+    const list = element.shadowRoot?.querySelector('.chips') as HTMLElement;
+    expect(list.hasAttribute('aria-disabled')).toBe(false);
+    element.disabled = true;
+    await element.updateComplete;
+    expect(element.shadowRoot?.querySelector('.chips')?.getAttribute('aria-disabled')).toBe('true');
+    element.disabled = false;
+    await element.updateComplete;
+    expect(element.shadowRoot?.querySelector('.chips')?.hasAttribute('aria-disabled')).toBe(false);
+  });
+
+  it('a disabled fieldset marks the chips inactive too', async () => {
+    const fieldset = document.createElement('fieldset');
+    fieldset.disabled = true;
+    document.body.append(fieldset);
+    const element = await mount(BASE, countries(), ['peru'], fieldset);
+    expect(element.shadowRoot?.querySelector('.chips')?.getAttribute('aria-disabled')).toBe('true');
+  });
+});

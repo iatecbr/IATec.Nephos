@@ -1192,7 +1192,8 @@ export class NphMultiCombobox extends LitElement {
         <nph-badge class="count" severity="primary" emphasis="solid" text=${String(chosen.length)}></nph-badge>`;
     }
     const removable = this.removable;
-    return html`<span class="chips" role="list">${chosen.map((option) => this.renderChip(option, removable))}</span>`;
+    /* aria-disabled: the chips of a disabled piece are the text of an inactive component (WCAG 1.4.3), and the P72 gate reads that from the attribute. */
+    return html`<span class="chips" role="list" aria-disabled=${this.inactive ? 'true' : nothing}>${chosen.map((option) => this.renderChip(option, removable))}</span>`;
   }
 
   /** The inside of the list: the groups, or the empty state. */

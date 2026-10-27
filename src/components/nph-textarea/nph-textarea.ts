@@ -462,6 +462,7 @@ export class NphTextarea extends LitElement {
     const placeholder = this.placeholder ?? '';
     const counter = this.counterText;
     const footer = this.footerContent && !this.readOnly;
+    /* aria-disabled on the footer: the counter of a disabled piece is the text of an inactive component (WCAG 1.4.3), and the P72 gate reads that from the attribute. */
 
     return html`<div class="control">
       <textarea
@@ -475,7 +476,7 @@ export class NphTextarea extends LitElement {
         aria-describedby=${description === '' ? nothing : 'description'}
         @change=${this.onChange}
       ></textarea>
-      <div class="footer" ?hidden=${!footer}>
+      <div class="footer" ?hidden=${!footer} aria-disabled=${inactive ? 'true' : nothing}>
         ${counter === '' ? nothing : html`<span class="counter">${counter}</span>`}
         <div class="actions"><slot name="actions" @slotchange=${this.onActionsChange}></slot></div>
       </div>
