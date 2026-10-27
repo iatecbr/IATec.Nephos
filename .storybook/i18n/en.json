@@ -263,7 +263,16 @@
     "components-nph-multi-combobox-validation--list-states": "List states",
     "components-nph-multi-combobox-validation--form-association": "Form association",
     "components-nph-multi-combobox-validation--invalid-input": "Invalid input",
-    "components-nph-multi-combobox-validation--examples": "Examples"
+    "components-nph-multi-combobox-validation--examples": "Examples",
+    "components-nph-sidebar-item-docs": "Docs",
+    "components-nph-sidebar-item-docs--documentation": "Documentation",
+    "components-nph-sidebar-item-validation": "Validation",
+    "components-nph-sidebar-item-validation--matrix": "Matrix",
+    "components-nph-sidebar-item-validation--subitem": "Subitem",
+    "components-nph-sidebar-item-validation--rail-button": "Rail button",
+    "components-nph-sidebar-item-validation--tooltip-and-more-actions": "Tooltip and more actions",
+    "components-nph-sidebar-item-validation--invalid-input": "Invalid input",
+    "components-nph-sidebar-item-validation--examples": "Examples"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -6909,7 +6918,13 @@
       "components-nph-multi-combobox-validation--list-states": "The nph-combobox list with each option in the checkbox marker, checked when chosen and without the selected background: results, search with the typed stretch highlighted, groups and empty (D-1).",
       "components-nph-multi-combobox-validation--form-association": "The host takes part in the form: submit sends one entry per chosen option, reset restores the default values, a change fires input and change, and a disabled fieldset disables it.",
       "components-nph-multi-combobox-validation--invalid-input": "A size that does not exist draws nothing; chips without remove-label have no remove button, and a counter without subject is drawn alone, each with one error.",
-      "components-nph-multi-combobox-validation--examples": "The three required examples of the board, in nph-field: two options chosen at rest, in focus with typed text and the list open, and many options on several lines, each in light and dark mode."
+      "components-nph-multi-combobox-validation--examples": "The three required examples of the board, in nph-field: two options chosen at rest, in focus with typed text and the list open, and many options on several lines, each in light and dark mode.",
+      "components-nph-sidebar-item-validation--matrix": "type × state of the item: link, counter, group closed and open, at rest, active and disabled. Active does not exist in a group. Move the mouse for hover and press Tab for the focus.",
+      "components-nph-sidebar-item-validation--subitem": "The subitem with options no and yes, at rest, active and disabled: label only, and the arrow to the right with options (D-4).",
+      "components-nph-sidebar-item-validation--rail-button": "The rail button with the counter off and on, at rest, active and disabled: the counter on the top end corner (D-1), with an outline when active (D-2).",
+      "components-nph-sidebar-item-validation--tooltip-and-more-actions": "The balloon with the full name of a cut label, on hover and focus; more actions at the end of the line, on hover and focus, opening its menu; the balloon of the rail button, always on.",
+      "components-nph-sidebar-item-validation--invalid-input": "Invalid input draws nothing: an active group, a counter with text, a subitem without href and a rail button without label, each with one error.",
+      "components-nph-sidebar-item-validation--examples": "The three required examples of the board: main menu with current page and counter, group open with subitems, and collapsed menu with rail buttons, each in light and dark mode."
     }
   },
   "multiComboboxDocs": {
@@ -7370,5 +7385,384 @@
     "statusNoEvent": "No event yet.",
     "statusEvent": "{event}: {value}",
     "fieldsetDisabled": "Disabled fieldset"
+  },
+  "sidebarItemDocs": {
+    "summary": "The line of the lateral menu that leads the person to a page or opens a group of pages. It comes as the first-level item, the second-level subitem and the rail button, which plays the role of the item when the menu is collapsed.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button spec sheets, design.md for the tokens and docs/decisoes-tecnicas.md for P98. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "sourceFrame": "Figma, board nph-sidebar-item (1366:2), documentation 2723:460, sets 2251:51271, 2251:51312 and 2251:51328",
+    "sourceApi": "nph-sidebar-item spec sheet; docs/decisoes-tecnicas.md › P98",
+    "sourceSubitem": "nph-sidebar-subitem spec sheet; docs/decisoes-tecnicas.md › P98",
+    "sourceRail": "nph-sidebar-rail-button spec sheet; task DSA-53, pending decisions D-1 and D-2; docs/decisoes-tecnicas.md › P98",
+    "sourceAccessibility": "Figma, documentation 2723:460; nph-sidebar-item.test.ts, nph-sidebar-subitem.test.ts and nph-sidebar-rail-button.test.ts",
+    "matrixLabel": "type × state",
+    "description": "Use nph-sidebar-item inside nph-sidebar to move between the areas of the product. The item is the first-level line; the subitem is the second-level line, inside a group; the rail button shows only the icon when the menu is collapsed. It does not replace nph-panel-menu, which organizes the navigation inside the content, nor nph-dropdown-menu, which opens actions and choices.",
+    "whenToUseTitle": "When to use",
+    "whenNotToUseTitle": "When not to use",
+    "whenToUse": [
+      "With type link, to lead to a product page.",
+      "With counter, when the page has something to look at, such as new messages or tasks.",
+      "With type group, to gather pages of the same subject under an item that opens and closes.",
+      "With tooltip, when the label can be cut, to show the full name.",
+      "With more actions, as a shortcut of the item actions for mouse and keyboard, always with the same actions on the destination page.",
+      "Disabled, when the page exists but the person has no access now."
+    ],
+    "whenNotToUse": [
+      "As an action button, such as save or delete: use nph-button.",
+      "As a group for one page only: use type link.",
+      "To choose an option or open actions in a menu: use nph-dropdown-menu.",
+      "To organize the navigation inside the content: use nph-panel-menu.",
+      "With text in the counter: the counter shows a number only; for a short label, use nph-badge.",
+      "With more actions as the only path to an action: on touch it does not appear."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "type",
+        "link (default) leads to a page; group opens and closes the subitems below it. The Figma counter type is a link with counter; group-closed and group-open are group with expanded."
+      ],
+      [
+        "label",
+        "The text of the line, already localized: one line, with an ellipsis when it does not fit. It is the accessible name."
+      ],
+      [
+        "icon",
+        "A core name of nph-icon, at icon/size-md: light at rest, solid when active or in an open group."
+      ],
+      [
+        "href",
+        "The page the link leads to. Required in a link that is not disabled; a group has none."
+      ],
+      [
+        "active",
+        "The current page: aria-current=\"page\", its color, the solid icon and text/label-md. Only one item is active, and never a group."
+      ],
+      [
+        "expanded",
+        "The group is open: aria-expanded, the arrow up, its color, the solid icon and text/label-md. Only in a group."
+      ],
+      [
+        "counter",
+        "A whole number from zero up, read as text inside the name of the link. Only in a link."
+      ],
+      [
+        "disabled",
+        "The page exists, but the person has no access now: state/disabled-opacity, out of the Tab order, no balloon and no more actions."
+      ],
+      [
+        "tooltip",
+        "The text of the nph-tooltip with the full name, on hover and focus. It does not follow label; empty turns it off."
+      ],
+      [
+        "actions, actions-label",
+        "The entries of the nph-dropdown-menu of more actions, and the accessible name of its button. With actions and no actions-label, the item does not render."
+      ],
+      [
+        "nph-toggle",
+        "Fired when the person opens or closes a group, with detail.expanded. It bubbles and crosses shadow roots. Setting expanded from code fires nothing."
+      ],
+      [
+        "nph-item-select",
+        "The action the person chose in the menu of more actions, fired again on the host with the detail of nph-dropdown-menu. It bubbles."
+      ]
+    ],
+    "invalidTitle": "Invalid input draws nothing.",
+    "invalidText": "A type outside link and group, an icon outside the core, a link without href, a group with href, counter or active, a counter that is not a whole number and actions without actions-label: the item does not render and emits console.error in development, once per cause.",
+    "typesTitle": "Types",
+    "typesCaption": "link, counter, group closed and group open.",
+    "typesHeader": [
+      "Type",
+      "When to use"
+    ],
+    "types": [
+      [
+        "link",
+        "Leads to a product page."
+      ],
+      [
+        "counter",
+        "A link to a page with something to look at, such as new messages or tasks."
+      ],
+      [
+        "group-closed",
+        "Gathers pages of the same subject; the arrow down says it opens."
+      ],
+      [
+        "group-open",
+        "The subitems show right below it; the arrow up says it closes."
+      ]
+    ],
+    "statesTitle": "States",
+    "statesCaption": "At rest, active and disabled. Move the mouse for hover and press Tab for the focus.",
+    "statesHeader": [
+      "State",
+      "What changes"
+    ],
+    "states": [
+      [
+        "rest",
+        "No background: the line shows the panel. Label and icon in sidebar/item-foreground, the label in text/body-md."
+      ],
+      [
+        "hover",
+        "sidebar/item-background-hover on the whole line."
+      ],
+      [
+        "active",
+        "No background: the label and the icon in sidebar/item-foreground-active, the solid icon and text/label-md. It does not exist in a group."
+      ],
+      [
+        "focus",
+        "Border border/width in color/primary and halo focus/ring-width in focus/halo around the whole line, keyboard only."
+      ],
+      [
+        "disabled",
+        "The whole line at state/disabled-opacity, no hover, out of the Tab order."
+      ]
+    ],
+    "subitemTitle": "Subitem",
+    "subitemText": "nph-sidebar-subitem is the second-level line, inside an open group: the label only, at control/height-default, with space/inline top and bottom and sidebar/item-padding on the sides. With options, the arrow to the right says it leads to a list of options; the subitem stays a link (D-4).",
+    "subitemCaption": "Active, at rest, and with options.",
+    "subitemApi": [
+      [
+        "label",
+        "The text of the line, already localized, one line with an ellipsis. It is the accessible name."
+      ],
+      [
+        "href",
+        "The page the subitem leads to. Required unless disabled."
+      ],
+      [
+        "active",
+        "The current page: aria-current=\"page\", sidebar/item-foreground-active and text/label-md."
+      ],
+      [
+        "options",
+        "The arrow chevron-right at icon/size-sm, visual only."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity, out of the Tab order, no balloon."
+      ],
+      [
+        "tooltip",
+        "The text of the nph-tooltip with the full name, on hover and focus."
+      ]
+    ],
+    "railTitle": "Rail button",
+    "railText": "nph-sidebar-rail-button plays the role of the item when nph-sidebar is collapsed: a square of sidebar/rail-button-size with the icon only. The label is its name and the text of the balloon, which is always on. The counter sits on the top end corner (D-1) and, when active, gains an outline in sidebar/panel-background (D-2).",
+    "railCaption": "At rest, active, with the counter, active with the counter, and disabled.",
+    "railApi": [
+      [
+        "label",
+        "The name of the page, required: the aria-label of the link and the text of the balloon."
+      ],
+      [
+        "icon",
+        "A core name of nph-icon, at icon/size-md: light at rest, solid when active."
+      ],
+      [
+        "href",
+        "The page it leads to. Required unless disabled."
+      ],
+      [
+        "active",
+        "The current page: aria-current=\"page\", sidebar/rail-background-active and the icon in sidebar/rail-foreground-active."
+      ],
+      [
+        "counter",
+        "A whole number from zero up, read as the description of the link."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity, out of the Tab order, no balloon."
+      ]
+    ],
+    "moreActionsTitle": "Tooltip and more actions",
+    "moreActionsText": "tooltip turns on the nph-tooltip with the full name, on hover and focus: turn it on when the label can be cut. More actions is the icon-only nph-button, ghost and compact, with ellipsis-vertical, at the end of the line, on hover and focus; it opens an nph-dropdown-menu with the actions. It serves mouse and keyboard only: on touch it does not appear, so the same actions are on the destination page.",
+    "moreActionsCaption": "A cut label with its balloon, and an item with more actions. Move the mouse over them, or press Tab.",
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "The pieces live inside nph-sidebar, which decides the expanded or collapsed mode, the width and the switch of the item for the rail button. The item fills the width it receives.",
+      "A group opens its subitems right below it. A subitem with the right arrow says it leads to a list of options.",
+      "The balloon is nph-tooltip, more actions is nph-button with nph-dropdown-menu, and the counter uses the primary palette. Each piece keeps its own state and focus.",
+      "Space: space/control-padding between icon and label and sidebar/item-padding around the item; on the subitem, space/inline between label and arrow and top and bottom, and sidebar/item-padding on the sides."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "1. Icon",
+        "nph-icon at icon/size-md, in the color of the label; solid when active or in an open group."
+      ],
+      [
+        "2. Label",
+        "One line in text/body-md, text/label-md when active or in an open group, with an ellipsis when it does not fit."
+      ],
+      [
+        "3. Counter",
+        "A pill with the number in text/label-sm, in sidebar/item-badge-background and sidebar/item-badge-foreground, icon/size-md high, space/inline on the sides, radius/full. Only on a link and on the rail button."
+      ],
+      [
+        "4. Arrow",
+        "icon/size-sm: down in a closed group, up in an open group, right on a subitem with options."
+      ],
+      [
+        "5. More actions",
+        "The icon-only nph-button, ghost and compact, with ellipsis-vertical, at the end, on hover and focus."
+      ],
+      [
+        "6. Tooltip",
+        "nph-tooltip with the full name, on hover and focus."
+      ],
+      [
+        "7. Background",
+        "sidebar/item-background-hover on hover; none at rest and when active. On the rail button, sidebar/rail-background-hover on hover and sidebar/rail-background-active when active."
+      ],
+      [
+        "8. Focus",
+        "Border color/primary and halo focus/halo around the line, in focus/border-radius-sidebar-item and focus/radius-sidebar-item; on the rail button, focus/border-radius-container and focus/radius-container."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "The item and the subitem are links, with aria-current=\"page\" on the current page; a group is a button with aria-expanded. Disabled, the link has no href, keeps role link and gains aria-disabled."
+      ],
+      [
+        "Accessible name",
+        "From the label. The counter number is read as text, inside the name of the link. On the rail button, the label is the aria-label and the balloon repeats it as the name; the counter is the description. The icon and the arrow are hidden from the screen reader. More actions has its own name, actions-label."
+      ],
+      [
+        "Keyboard",
+        "Tab reaches the line and then, when there is one, the more actions button. Enter follows the link; Enter and Space open and close a group."
+      ],
+      [
+        "Visible focus",
+        "Border color/primary and halo focus/halo around the whole line, as in nph-button. The border passes 3:1 against sidebar/panel-background."
+      ],
+      [
+        "Contrast",
+        "Label, number and icon pass 4.5:1 and 3:1 against the line background, in both modes; the number against sidebar/item-badge-background. Disabled is exempt."
+      ],
+      [
+        "Color is not the only signal",
+        "Active also switches the icon to solid and the label to text/label-md. An open group shows the arrow up. On the rail button, active also gains its background."
+      ],
+      [
+        "Touch target",
+        "The whole line: sidebar/item-height on the item, control/height-default on the subitem, sidebar/rail-button-size on the rail button. More actions is small and serves mouse and keyboard only."
+      ]
+    ],
+    "examplesTitle": "Required examples",
+    "referencesTitle": "References",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, board nph-sidebar-item (1366:2), documentation 2723:460, sets 2251:51271, 2251:51312 and 2251:51328",
+      "fichas/nph-sidebar-item.md, fichas/nph-sidebar-subitem.md and fichas/nph-sidebar-rail-button.md",
+      "docs/decisoes-tecnicas.md › P98, P86, P77 and P92",
+      "WAI-ARIA Authoring Practices, disclosure navigation menu"
+    ],
+    "pages": [
+      {
+        "label": "Home",
+        "icon": "house"
+      },
+      {
+        "label": "Inbox",
+        "icon": "inbox"
+      },
+      {
+        "label": "Calendar",
+        "icon": "calendar-days"
+      },
+      {
+        "label": "Files",
+        "icon": "folder"
+      },
+      {
+        "label": "Settings",
+        "icon": "gear"
+      }
+    ],
+    "group": {
+      "label": "Reports",
+      "icon": "clipboard"
+    },
+    "subitems": [
+      "Monthly",
+      "Quarterly",
+      "Annual"
+    ],
+    "actions": [
+      "Rename",
+      "Pin to top",
+      "Remove from menu"
+    ],
+    "actionsLabel": "More actions",
+    "longLabel": "Purchase requests waiting for approval",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "exampleMain": "Main menu with current page and counter",
+    "exampleGroup": "Group open with subitems",
+    "exampleCollapsed": "Collapsed menu with rail buttons"
+  },
+  "sidebarItemValidation": {
+    "pages": [
+      {
+        "label": "Home",
+        "icon": "house"
+      },
+      {
+        "label": "Inbox",
+        "icon": "inbox"
+      },
+      {
+        "label": "Calendar",
+        "icon": "calendar-days"
+      },
+      {
+        "label": "Files",
+        "icon": "folder"
+      },
+      {
+        "label": "Settings",
+        "icon": "gear"
+      }
+    ],
+    "group": {
+      "label": "Reports",
+      "icon": "clipboard"
+    },
+    "subitems": [
+      "Monthly",
+      "Quarterly",
+      "Annual"
+    ],
+    "actions": [
+      "Rename",
+      "Pin to top",
+      "Remove from menu"
+    ],
+    "actionsLabel": "More actions",
+    "longLabel": "Purchase requests waiting for approval",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "exampleMain": "Main menu with current page and counter",
+    "exampleGroup": "Group open with subitems",
+    "exampleCollapsed": "Collapsed menu with rail buttons"
   }
 }

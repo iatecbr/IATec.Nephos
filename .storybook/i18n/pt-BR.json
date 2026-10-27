@@ -263,7 +263,16 @@
     "components-nph-multi-combobox-validation--list-states": "Estados da lista",
     "components-nph-multi-combobox-validation--form-association": "Associação ao formulário",
     "components-nph-multi-combobox-validation--invalid-input": "Entrada inválida",
-    "components-nph-multi-combobox-validation--examples": "Exemplos"
+    "components-nph-multi-combobox-validation--examples": "Exemplos",
+    "components-nph-sidebar-item-docs": "Docs",
+    "components-nph-sidebar-item-docs--documentation": "Documentação",
+    "components-nph-sidebar-item-validation": "Validação",
+    "components-nph-sidebar-item-validation--matrix": "Matriz",
+    "components-nph-sidebar-item-validation--subitem": "Subitem",
+    "components-nph-sidebar-item-validation--rail-button": "Botão do trilho",
+    "components-nph-sidebar-item-validation--tooltip-and-more-actions": "Tooltip e mais ações",
+    "components-nph-sidebar-item-validation--invalid-input": "Entrada inválida",
+    "components-nph-sidebar-item-validation--examples": "Exemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -6909,7 +6918,13 @@
       "components-nph-multi-combobox-validation--list-states": "A lista do nph-combobox com cada opção no marcador checkbox, marcada quando escolhida e sem o fundo de selecionada: resultados, busca com o trecho digitado em destaque, grupos e vazio (D-1).",
       "components-nph-multi-combobox-validation--form-association": "O host participa do formulário: enviar manda uma entrada por opção escolhida, restaurar volta aos valores padrão, uma mudança dispara input e change, e um fieldset desabilitado o desabilita.",
       "components-nph-multi-combobox-validation--invalid-input": "Um size que não existe não desenha nada; chips sem remove-label ficam sem botão remover, e um contador sem subject sai sozinho, cada um com um erro.",
-      "components-nph-multi-combobox-validation--examples": "Os três exemplos obrigatórios do quadro, no nph-field: duas opções escolhidas em repouso, em foco com texto digitado e a lista aberta, e muitas opções em várias linhas, cada um no modo claro e no escuro."
+      "components-nph-multi-combobox-validation--examples": "Os três exemplos obrigatórios do quadro, no nph-field: duas opções escolhidas em repouso, em foco com texto digitado e a lista aberta, e muitas opções em várias linhas, cada um no modo claro e no escuro.",
+      "components-nph-sidebar-item-validation--matrix": "type × state do item: link, contador, grupo fechado e aberto, em repouso, ativo e desabilitado. Ativo não existe no grupo. Passe o mouse para o hover e aperte Tab para o foco.",
+      "components-nph-sidebar-item-validation--subitem": "O subitem com opções não e sim, em repouso, ativo e desabilitado: só o rótulo, e a seta à direita com opções (D-4).",
+      "components-nph-sidebar-item-validation--rail-button": "O botão do trilho com o contador desligado e ligado, em repouso, ativo e desabilitado: o contador no canto superior do fim (D-1), com contorno quando ativo (D-2).",
+      "components-nph-sidebar-item-validation--tooltip-and-more-actions": "O balão com o nome completo de um rótulo cortado, no hover e no foco; mais ações no fim da linha, no hover e no foco, abrindo o seu menu; o balão do botão do trilho, sempre ligado.",
+      "components-nph-sidebar-item-validation--invalid-input": "Entrada inválida não desenha nada: um grupo ativo, um contador com texto, um subitem sem href e um botão do trilho sem label, cada um com um erro.",
+      "components-nph-sidebar-item-validation--examples": "Os três exemplos obrigatórios do quadro: menu principal com página atual e contador, grupo aberto com subitens e menu recolhido com botões do trilho, cada um no modo claro e no escuro."
     }
   },
   "multiComboboxDocs": {
@@ -7370,5 +7385,384 @@
     "statusNoEvent": "Nenhum evento ainda.",
     "statusEvent": "{event}: {value}",
     "fieldsetDisabled": "Fieldset desabilitado"
+  },
+  "sidebarItemDocs": {
+    "summary": "A linha do menu lateral que leva a pessoa a uma página ou abre um grupo de páginas. Vem como item de primeiro nível, subitem de segundo nível e botão do trilho, que faz o papel do item quando o menu está recolhido.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: as fichas do nph-sidebar-item, do nph-sidebar-subitem e do nph-sidebar-rail-button, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P98. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "sourceFrame": "Figma, quadro nph-sidebar-item (1366:2), documentação 2723:460, conjuntos 2251:51271, 2251:51312 e 2251:51328",
+    "sourceApi": "Ficha do nph-sidebar-item; docs/decisoes-tecnicas.md › P98",
+    "sourceSubitem": "Ficha do nph-sidebar-subitem; docs/decisoes-tecnicas.md › P98",
+    "sourceRail": "Ficha do nph-sidebar-rail-button; tarefa DSA-53, decisões pendentes D-1 e D-2; docs/decisoes-tecnicas.md › P98",
+    "sourceAccessibility": "Figma, documentação 2723:460; nph-sidebar-item.test.ts, nph-sidebar-subitem.test.ts e nph-sidebar-rail-button.test.ts",
+    "matrixLabel": "type × state",
+    "description": "Use o nph-sidebar-item dentro do nph-sidebar para navegar entre as áreas do produto. O item é a linha de primeiro nível; o subitem é a linha de segundo nível, dentro de um grupo; o botão do trilho mostra só o ícone quando o menu está recolhido. Não substitui o nph-panel-menu, que organiza a navegação dentro do conteúdo, nem o nph-dropdown-menu, que abre ações e escolhas.",
+    "whenToUseTitle": "Quando usar",
+    "whenNotToUseTitle": "Quando não usar",
+    "whenToUse": [
+      "Com type link, para levar a uma página do produto.",
+      "Com counter, quando a página tem algo para ver, como mensagens ou tarefas novas.",
+      "Com type group, para reunir páginas do mesmo assunto num item que abre e fecha.",
+      "Com tooltip, quando o rótulo pode ser cortado, para mostrar o nome completo.",
+      "Com mais ações, como atalho das ações do item para mouse e teclado, sempre com as mesmas ações na página de destino.",
+      "Desabilitado, quando a página existe mas a pessoa não tem acesso agora."
+    ],
+    "whenNotToUse": [
+      "Como botão de ação, como salvar ou excluir: use nph-button.",
+      "Como grupo de uma página só: use type link.",
+      "Para escolher uma opção ou abrir ações num menu: use nph-dropdown-menu.",
+      "Para organizar a navegação dentro do conteúdo: use nph-panel-menu.",
+      "Com texto no contador: o contador mostra só número; para um rótulo curto, use nph-badge.",
+      "Com mais ações como único caminho para uma ação: no toque ele não aparece."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "type",
+        "link (padrão) leva a uma página; group abre e fecha os subitens abaixo dele. O tipo counter do Figma é um link com counter; group-closed e group-open são group com expanded."
+      ],
+      [
+        "label",
+        "O texto da linha, já traduzido: uma linha, com reticências quando não cabe. É o nome acessível."
+      ],
+      [
+        "icon",
+        "Um nome do núcleo do nph-icon, em icon/size-md: light em repouso, solid quando ativo ou no grupo aberto."
+      ],
+      [
+        "href",
+        "A página a que o link leva. Obrigatório no link que não está desabilitado; o grupo não tem."
+      ],
+      [
+        "active",
+        "A página atual: aria-current=\"page\", a sua cor, o ícone solid e text/label-md. Só um item fica ativo, e nunca um grupo."
+      ],
+      [
+        "expanded",
+        "O grupo está aberto: aria-expanded, a seta para cima, a sua cor, o ícone solid e text/label-md. Só no grupo."
+      ],
+      [
+        "counter",
+        "Um número inteiro a partir de zero, lido como texto dentro do nome do link. Só no link."
+      ],
+      [
+        "disabled",
+        "A página existe, mas a pessoa não tem acesso agora: state/disabled-opacity, fora da ordem do Tab, sem balão e sem mais ações."
+      ],
+      [
+        "tooltip",
+        "O texto do nph-tooltip com o nome completo, no hover e no foco. Não acompanha o label; vazio desliga."
+      ],
+      [
+        "actions, actions-label",
+        "As entradas do nph-dropdown-menu de mais ações, e o nome acessível do seu botão. Com actions e sem actions-label, o item não renderiza."
+      ],
+      [
+        "nph-toggle",
+        "Disparado quando a pessoa abre ou fecha um grupo, com detail.expanded. Borbulha e atravessa shadow roots. Mudar expanded por código não dispara nada."
+      ],
+      [
+        "nph-item-select",
+        "A ação que a pessoa escolheu no menu de mais ações, disparada de novo no host com o detail do nph-dropdown-menu. Borbulha."
+      ]
+    ],
+    "invalidTitle": "Entrada inválida não desenha nada.",
+    "invalidText": "Um type fora de link e group, um ícone fora do núcleo, um link sem href, um grupo com href, counter ou active, um counter que não é número inteiro e actions sem actions-label: o item não renderiza e emite console.error em desenvolvimento, uma vez por causa.",
+    "typesTitle": "Tipos",
+    "typesCaption": "link, contador, grupo fechado e grupo aberto.",
+    "typesHeader": [
+      "Tipo",
+      "Quando usar"
+    ],
+    "types": [
+      [
+        "link",
+        "Leva a uma página do produto."
+      ],
+      [
+        "counter",
+        "Um link para uma página com algo para ver, como mensagens ou tarefas novas."
+      ],
+      [
+        "group-closed",
+        "Reúne páginas do mesmo assunto; a seta para baixo diz que ele abre."
+      ],
+      [
+        "group-open",
+        "Os subitens aparecem logo abaixo dele; a seta para cima diz que ele fecha."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesCaption": "Em repouso, ativo e desabilitado. Passe o mouse para o hover e aperte Tab para o foco.",
+    "statesHeader": [
+      "Estado",
+      "O que muda"
+    ],
+    "states": [
+      [
+        "rest",
+        "Sem fundo: a linha mostra o painel. Rótulo e ícone em sidebar/item-foreground, o rótulo em text/body-md."
+      ],
+      [
+        "hover",
+        "sidebar/item-background-hover na linha inteira."
+      ],
+      [
+        "active",
+        "Sem fundo: o rótulo e o ícone em sidebar/item-foreground-active, o ícone solid e text/label-md. Não existe no grupo."
+      ],
+      [
+        "focus",
+        "Borda border/width em color/primary e halo focus/ring-width em focus/halo em volta da linha inteira, só pelo teclado."
+      ],
+      [
+        "disabled",
+        "A linha inteira em state/disabled-opacity, sem hover, fora da ordem do Tab."
+      ]
+    ],
+    "subitemTitle": "Subitem",
+    "subitemText": "O nph-sidebar-subitem é a linha de segundo nível, dentro de um grupo aberto: só o rótulo, em control/height-default, com space/inline em cima e embaixo e sidebar/item-padding nos lados. Com options, a seta à direita diz que ele leva a uma lista de opções; o subitem continua um link (D-4).",
+    "subitemCaption": "Ativo, em repouso e com opções.",
+    "subitemApi": [
+      [
+        "label",
+        "O texto da linha, já traduzido, uma linha com reticências. É o nome acessível."
+      ],
+      [
+        "href",
+        "A página a que o subitem leva. Obrigatório, salvo desabilitado."
+      ],
+      [
+        "active",
+        "A página atual: aria-current=\"page\", sidebar/item-foreground-active e text/label-md."
+      ],
+      [
+        "options",
+        "A seta chevron-right em icon/size-sm, só visual."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity, fora da ordem do Tab, sem balão."
+      ],
+      [
+        "tooltip",
+        "O texto do nph-tooltip com o nome completo, no hover e no foco."
+      ]
+    ],
+    "railTitle": "Botão do trilho",
+    "railText": "O nph-sidebar-rail-button faz o papel do item quando o nph-sidebar está recolhido: um quadrado de sidebar/rail-button-size só com o ícone. O label é o seu nome e o texto do balão, que fica sempre ligado. O contador fica no canto superior do fim (D-1) e, quando ativo, ganha contorno em sidebar/panel-background (D-2).",
+    "railCaption": "Em repouso, ativo, com o contador, ativo com o contador e desabilitado.",
+    "railApi": [
+      [
+        "label",
+        "O nome da página, obrigatório: o aria-label do link e o texto do balão."
+      ],
+      [
+        "icon",
+        "Um nome do núcleo do nph-icon, em icon/size-md: light em repouso, solid quando ativo."
+      ],
+      [
+        "href",
+        "A página a que ele leva. Obrigatório, salvo desabilitado."
+      ],
+      [
+        "active",
+        "A página atual: aria-current=\"page\", sidebar/rail-background-active e o ícone em sidebar/rail-foreground-active."
+      ],
+      [
+        "counter",
+        "Um número inteiro a partir de zero, lido como a descrição do link."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity, fora da ordem do Tab, sem balão."
+      ]
+    ],
+    "moreActionsTitle": "Tooltip e mais ações",
+    "moreActionsText": "O tooltip liga o nph-tooltip com o nome completo, no hover e no foco: ligue quando o rótulo pode ser cortado. Mais ações é o nph-button só com ícone, ghost e compacto, com ellipsis-vertical, no fim da linha, no hover e no foco; ele abre um nph-dropdown-menu com as ações. Serve só ao mouse e ao teclado: no toque não aparece, por isso as mesmas ações ficam na página de destino.",
+    "moreActionsCaption": "Um rótulo cortado com o seu balão, e um item com mais ações. Passe o mouse sobre eles, ou aperte Tab.",
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "As peças vivem dentro do nph-sidebar, que decide o modo expandido ou recolhido, a largura e a troca do item pelo botão do trilho. O item ocupa a largura que recebe.",
+      "O grupo abre os seus subitens logo abaixo dele. O subitem com a seta à direita diz que leva a uma lista de opções.",
+      "O balão é o nph-tooltip, mais ações é o nph-button com o nph-dropdown-menu, e o contador usa a paleta primária. Cada peça guarda o seu estado e o seu foco.",
+      "Espaço: space/control-padding entre ícone e rótulo e sidebar/item-padding em volta do item; no subitem, space/inline entre rótulo e seta e em cima e embaixo, e sidebar/item-padding nos lados."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "1. Ícone",
+        "nph-icon em icon/size-md, na cor do rótulo; solid quando ativo ou no grupo aberto."
+      ],
+      [
+        "2. Rótulo",
+        "Uma linha em text/body-md, text/label-md quando ativo ou no grupo aberto, com reticências quando não cabe."
+      ],
+      [
+        "3. Contador",
+        "Uma pílula com o número em text/label-sm, em sidebar/item-badge-background e sidebar/item-badge-foreground, com altura icon/size-md, space/inline nos lados, radius/full. Só no link e no botão do trilho."
+      ],
+      [
+        "4. Seta",
+        "icon/size-sm: para baixo no grupo fechado, para cima no grupo aberto, à direita no subitem com opções."
+      ],
+      [
+        "5. Mais ações",
+        "O nph-button só com ícone, ghost e compacto, com ellipsis-vertical, no fim, no hover e no foco."
+      ],
+      [
+        "6. Tooltip",
+        "nph-tooltip com o nome completo, no hover e no foco."
+      ],
+      [
+        "7. Fundo",
+        "sidebar/item-background-hover no hover; nenhum em repouso e quando ativo. No botão do trilho, sidebar/rail-background-hover no hover e sidebar/rail-background-active quando ativo."
+      ],
+      [
+        "8. Foco",
+        "Borda color/primary e halo focus/halo em volta da linha, em focus/border-radius-sidebar-item e focus/radius-sidebar-item; no botão do trilho, focus/border-radius-container e focus/radius-container."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "O item e o subitem são links, com aria-current=\"page\" na página atual; o grupo é um botão com aria-expanded. Desabilitado, o link fica sem href, mantém role link e ganha aria-disabled."
+      ],
+      [
+        "Nome acessível",
+        "Vem do rótulo. O número do contador é lido como texto, dentro do nome do link. No botão do trilho, o label é o aria-label e o balão o repete como nome; o contador é a descrição. O ícone e a seta ficam escondidos do leitor de tela. Mais ações tem nome próprio, actions-label."
+      ],
+      [
+        "Teclado",
+        "O Tab chega à linha e depois, quando há, ao botão de mais ações. Enter segue o link; Enter e Espaço abrem e fecham o grupo."
+      ],
+      [
+        "Foco visível",
+        "Borda color/primary e halo focus/halo em volta da linha inteira, como no nph-button. A borda passa 3:1 contra sidebar/panel-background."
+      ],
+      [
+        "Contraste",
+        "Rótulo, número e ícone passam 4.5:1 e 3:1 contra o fundo da linha, nos dois modos; o número contra sidebar/item-badge-background. Desabilitado é isento."
+      ],
+      [
+        "A cor não é o único sinal",
+        "Ativo também troca o ícone para solid e o rótulo para text/label-md. O grupo aberto mostra a seta para cima. No botão do trilho, ativo também ganha o seu fundo."
+      ],
+      [
+        "Área de toque",
+        "A linha inteira: sidebar/item-height no item, control/height-default no subitem, sidebar/rail-button-size no botão do trilho. Mais ações é pequeno e serve só ao mouse e ao teclado."
+      ]
+    ],
+    "examplesTitle": "Exemplos obrigatórios",
+    "referencesTitle": "Referências",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, quadro nph-sidebar-item (1366:2), documentação 2723:460, conjuntos 2251:51271, 2251:51312 e 2251:51328",
+      "fichas/nph-sidebar-item.md, fichas/nph-sidebar-subitem.md e fichas/nph-sidebar-rail-button.md",
+      "docs/decisoes-tecnicas.md › P98, P86, P77 e P92",
+      "WAI-ARIA Authoring Practices, menu de navegação em divulgação (disclosure)"
+    ],
+    "pages": [
+      {
+        "label": "Início",
+        "icon": "house"
+      },
+      {
+        "label": "Caixa de entrada",
+        "icon": "inbox"
+      },
+      {
+        "label": "Agenda",
+        "icon": "calendar-days"
+      },
+      {
+        "label": "Arquivos",
+        "icon": "folder"
+      },
+      {
+        "label": "Configurações",
+        "icon": "gear"
+      }
+    ],
+    "group": {
+      "label": "Relatórios",
+      "icon": "clipboard"
+    },
+    "subitems": [
+      "Mensal",
+      "Trimestral",
+      "Anual"
+    ],
+    "actions": [
+      "Renomear",
+      "Fixar no topo",
+      "Remover do menu"
+    ],
+    "actionsLabel": "Mais ações",
+    "longLabel": "Pedidos de compra aguardando aprovação",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "exampleMain": "Menu principal com página atual e contador",
+    "exampleGroup": "Grupo aberto com subitens",
+    "exampleCollapsed": "Menu recolhido com botões do trilho"
+  },
+  "sidebarItemValidation": {
+    "pages": [
+      {
+        "label": "Início",
+        "icon": "house"
+      },
+      {
+        "label": "Caixa de entrada",
+        "icon": "inbox"
+      },
+      {
+        "label": "Agenda",
+        "icon": "calendar-days"
+      },
+      {
+        "label": "Arquivos",
+        "icon": "folder"
+      },
+      {
+        "label": "Configurações",
+        "icon": "gear"
+      }
+    ],
+    "group": {
+      "label": "Relatórios",
+      "icon": "clipboard"
+    },
+    "subitems": [
+      "Mensal",
+      "Trimestral",
+      "Anual"
+    ],
+    "actions": [
+      "Renomear",
+      "Fixar no topo",
+      "Remover do menu"
+    ],
+    "actionsLabel": "Mais ações",
+    "longLabel": "Pedidos de compra aguardando aprovação",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "exampleMain": "Menu principal com página atual e contador",
+    "exampleGroup": "Grupo aberto com subitens",
+    "exampleCollapsed": "Menu recolhido com botões do trilho"
   }
 }

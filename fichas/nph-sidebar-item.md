@@ -1,0 +1,424 @@
+---
+piece: nph-sidebar-item
+level: component
+status: active
+solves: >-
+  Leads the person to a page, or opens a group of pages, in a first-level line of the
+  lateral menu, with the current page marked and, when needed, a counter, the full name in
+  a balloon and a shortcut to the actions of the item.
+use_when:
+  - "With type link, to lead to a product page."
+  - "With counter, when the page has something to look at, such as new messages or tasks."
+  - "With type group, to gather pages of the same subject under an item that opens and closes."
+  - "With tooltip, when the label can be cut, to show the full name."
+  - "With more actions, as a shortcut of the item actions for mouse and keyboard, always with the same actions on the destination page."
+  - "Disabled, when the page exists but the person has no access now."
+do_not_use_when:
+  - "As an action button, such as save or delete: use nph-button."
+  - "As a group for one page only: use type link."
+  - "To choose an option or open actions in a menu: use nph-dropdown-menu."
+  - "To organize the navigation inside the content: use nph-panel-menu."
+  - "With text in the counter: the counter shows a number only; for a short label, use nph-badge."
+  - "With more actions as the only path to an action: on touch it does not appear."
+api:
+  type:
+    type: enum
+    values: [link, group]
+    required: false
+    default: link
+    reflects: true
+    constraint: >-
+      link leads to a page through href; group opens and closes the subitems below it,
+      through expanded. The Figma counter type is a link with counter; group-closed and
+      group-open are group with expanded off and on. Reflects because the CSS reads it. Any
+      other value draws nothing and emits console.error in development.
+  label:
+    type: string
+    required: true
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The text of the line, already localized: one line, with an ellipsis when it does not
+      fit. It is the accessible name. Empty is a mount: nothing is drawn and no error is
+      emitted.
+  icon:
+    type: string
+    required: true
+    default: "empty"
+    reflects: false
+    constraint: >-
+      A core name of nph-icon, drawn at icon/size-md: light at rest, solid when active or in
+      an open group. Empty or outside the core draws nothing and emits console.error in
+      development.
+  href:
+    type: string
+    required: true
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The page the link leads to. Required in a link that is not disabled; a group has none.
+      A link without href, or a group with href, draws nothing and emits console.error in
+      development.
+  active:
+    type: boolean
+    required: false
+    default: "false"
+    reflects: true
+    constraint: >-
+      The current page: the link takes aria-current="page". Only one item of the menu is
+      active. It does not exist in a group: an active group draws nothing and emits
+      console.error in development.
+  expanded:
+    type: boolean
+    required: false
+    default: "false"
+    reflects: true
+    constraint: >-
+      The group is open: aria-expanded, the arrow up and the solid icon. Only in a group. The
+      person toggles it with a click, Enter or Space.
+  counter:
+    type: number
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      A whole number from zero up, the pending items of the page, in a pill after the
+      label. Only in a link. A number that is not whole, a negative one or text draws
+      nothing and emits console.error in development.
+  disabled:
+    type: boolean
+    required: false
+    default: "false"
+    reflects: true
+    constraint: >-
+      The page exists, but the person has no access now: the line at
+      state/disabled-opacity, out of the Tab order, with no click, no balloon and no more
+      actions. A disabled link needs no href.
+  tooltip:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The text of the nph-tooltip with the full name, on hover and focus, already
+      localized. It does not follow label: whoever uses it edits both. Empty turns it off.
+  actions:
+    type: array
+    required: false
+    default: "empty list"
+    reflects: false
+    constraint: >-
+      The entries of the nph-dropdown-menu that more actions opens, as data (property
+      only), in the shape of the items of nph-dropdown-menu. Empty turns more actions off.
+  actions-label:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The accessible name of the more actions button, already localized. Required with
+      actions: without it, the item draws nothing and emits console.error in development.
+  nph-toggle:
+    type: event
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      Fired when the person opens or closes a group, with detail.expanded, the new state.
+      It bubbles, crosses shadow roots and is not cancelable. Setting expanded from code
+      fires nothing.
+  nph-item-select:
+    type: event
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      The action the person chose in the menu of more actions, fired again on the host
+      with the detail of nph-dropdown-menu (value and checked). It bubbles.
+variants:
+  type:
+    axis: appearance
+    choose_when: "link to lead to a page; link with counter when the page has something to look at; group to gather pages of the same subject."
+    do_not_combine_with:
+      - "group with href, counter or active."
+  tooltip:
+    axis: appearance
+    choose_when: "When the label can be cut: the balloon shows the full name."
+    do_not_combine_with:
+      - "disabled: a disabled line has no balloon."
+  more-actions:
+    axis: appearance
+    choose_when: "When the item has actions of its own, also offered on the destination page."
+    do_not_combine_with:
+      - "disabled: a disabled line has no more actions."
+states:
+  rest:
+    token: sidebar/item-foreground
+    changes_for_user: "No background: the line shows the panel. The label in text/body-md and the light icon in sidebar/item-foreground."
+  hover:
+    token: sidebar/item-background-hover
+    changes_for_user: "The whole line in sidebar/item-background-hover, the more actions button included; the colors of rest."
+  active:
+    token: sidebar/item-foreground-active
+    changes_for_user: "The current page: no background, the label and the solid icon in sidebar/item-foreground-active, the label in text/label-md."
+  open:
+    token: sidebar/item-foreground-open
+    changes_for_user: "The open group: the label and the solid icon in sidebar/item-foreground-open, the label in text/label-md and the arrow up."
+  focus:
+    token: color/primary
+    changes_for_user: "Keyboard focus: border border/width in color/primary and halo focus/ring-width in focus/halo around the whole line, outside it."
+  disabled:
+    token: state/disabled-opacity
+    changes_for_user: "The whole line at state/disabled-opacity, with no hover; it cannot be reached by Tab."
+business_rules:
+  - "Only the current page is active, and a group is never active."
+  - "The group toggles expanded by itself on a click, Enter or Space, and fires nph-toggle; the menu shows or hides the subitems."
+  - "The counter shows a whole number only, read inside the name of the link."
+  - "More actions appears on hover and focus, for mouse and keyboard only; on touch it does not appear."
+  - "A click on more actions, on its menu or on the balloon is not a click on the line: it stops at the host."
+domain_errors: []
+tokens:
+  height: sidebar/item-height
+  padding: sidebar/item-padding
+  gap: space/control-padding
+  radius: sidebar/item-radius
+  label: "text/body-md in sidebar/item-foreground; text/label-md when active or in an open group"
+  icon: "nph-icon icon/size-md, light; solid when active or in an open group"
+  arrow: "nph-icon icon/size-sm: chevron-down closed, chevron-up open"
+  hover: sidebar/item-background-hover
+  active: sidebar/item-foreground-active
+  open: sidebar/item-foreground-open
+  counter: "text/label-sm in sidebar/item-badge-foreground on sidebar/item-badge-background, icon/size-md high, space/inline on the sides, radius/full"
+  more_actions: "nph-button icon-only, ghost and compact, with ellipsis-vertical, sidebar/item-padding from the end"
+  focus: "border border/width in color/primary, focus/border-radius-sidebar-item; halo focus/ring-width in focus/halo, focus/radius-sidebar-item"
+  disabled: state/disabled-opacity
+ai_hints:
+  - "Use nph-sidebar-item for a line of the lateral menu; for an action, use nph-button."
+  - "Mark only the current page as active; mark the group of the current page open, never active."
+  - "Use type group only when it holds two or more pages; a single page is a link."
+  - "Turn on tooltip when the label can be cut, with the full name."
+  - "Give more actions only actions that the destination page also offers."
+  - "In the collapsed menu, use nph-sidebar-rail-button; inside an open group, use nph-sidebar-subitem."
+accessibility:
+  semantics: "A link with aria-current=page on the current page; a group is a button with aria-expanded. Disabled, the link has no href, keeps role link and gains aria-disabled."
+  accessible_name: "The label; the counter number is read as text inside the name of the link. The icon and the arrow are hidden from the screen reader. The more actions button is named by actions-label, and the balloon is the description of the line."
+  keyboard:
+    - "Tab: reaches the line and then, when there is one, the more actions button; Shift+Tab comes back."
+    - "Enter: follows the link."
+    - "Enter and Space: open and close a group."
+  focus: "Border color/primary and halo focus/halo around the whole line, keyboard only, as in nph-button."
+  contrast: "Label, number and icon pass 4.5:1 and 3:1 against the line background, sidebar/panel-background at rest and focus and sidebar/item-background-hover on hover, and the number against sidebar/item-badge-background, in both modes; the focus border passes 3:1 against sidebar/panel-background. Disabled is exempt."
+  color_alternative: "Active also switches the icon to solid and the label to text/label-md; an open group shows the arrow up; the counter carries the number as text."
+invalid_combinations:
+  - "A type outside link and group — the item draws nothing."
+  - "An icon empty or outside the core — the item draws nothing."
+  - "A link without href, unless disabled — it leads nowhere."
+  - "A group with href, counter or active — a group opens subitems and is never the current page."
+  - "A counter that is not a whole number from zero up — the counter shows a number only."
+  - "actions without actions-label — the button would have no name."
+relations:
+  combines_with: [nph-sidebar-subitem, nph-sidebar-rail-button, nph-icon, nph-button, nph-dropdown-menu, nph-tooltip]
+  parents: [nph-sidebar]
+  children: [nph-icon, nph-button, nph-dropdown-menu, nph-tooltip]
+  complements_block: []
+  appears_in: []
+anti_patterns:
+  - "Using the item as an action button, such as save or delete."
+  - "Using a group for one page only."
+  - "Marking two items as active."
+  - "Leaving a long label without tooltip."
+  - "Relying on more actions as the only path to an action."
+  - "Writing text in the counter."
+  - "Using the item to choose an option or open actions in a menu."
+sources:
+  design_md: "design.md, color/primary, focus/halo, focus/ring-width, border/width, space/control-padding, space/inline, icon/size-md, icon/size-sm, radius/full, text/body-md, text/label-md, text/label-sm and state/disabled-opacity; the sidebar/* tokens and the focus radii are in src/tokens/source/semantic.tokens.json"
+  decision: "P98 — API and semantics of nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button"
+  tests: "src/components/nph-sidebar-item/nph-sidebar-item.test.ts and nph-sidebar-item.docs.test.ts"
+  usage_evidence: "the required examples of the nph-sidebar-item Docs page; nph-sidebar is not built yet"
+  storybook: "src/components/nph-sidebar-item/nph-sidebar-item.stories.ts and nph-sidebar-item.docs.stories.ts"
+  figma: "DS-IA-NEPHOS 5.0, board nph-sidebar-item 1366:2, documentation 2723:460, set 2251:51271"
+---
+
+# nph-sidebar-item
+
+## Function
+
+**The problem it solves:** leads the person to a page, or opens a group of pages, in a
+first-level line of the lateral menu. It marks the current page and, when needed, shows a
+counter, the full name in a balloon and a shortcut to the actions of the item. It lives
+inside `nph-sidebar`; the second level is `nph-sidebar-subitem`, and the collapsed menu
+uses `nph-sidebar-rail-button`.
+
+**When to use:**
+
+- With `type="link"`, to lead to a product page.
+- With `counter`, when the page has something to look at, such as new messages or tasks.
+- With `type="group"`, to gather pages of the same subject under an item that opens and
+  closes.
+- With `tooltip`, when the label can be cut, to show the full name.
+- With more actions, as a shortcut of the item actions for mouse and keyboard, always with
+  the same actions on the destination page.
+- Disabled, when the page exists but the person has no access now.
+
+**When NOT to use:**
+
+- **As an action button**, such as save or delete — use `nph-button`.
+- **As a group for one page only** — use `type="link"`.
+- **To choose an option or open actions in a menu** — use `nph-dropdown-menu`.
+- **To organize the navigation inside the content** — use `nph-panel-menu`.
+- **With text in the counter** — the counter shows a number only; for a short label, use
+  `nph-badge`.
+- **With more actions as the only path to an action** — on touch it does not appear.
+
+## Variants
+
+**By appearance:** the type — `link`, a link with `counter`, or `group`, closed or open —
+and two optional parts, the balloon (`tooltip`) and more actions (`actions`).
+
+**By size:** `not_applicable`: the item fills the width that `nph-sidebar` gives it, at
+`sidebar/item-height`.
+
+**By density:** `not_applicable`.
+
+| Figma `type` | Code | Choose when |
+|---|---|---|
+| `link` | `type="link"` and `href` | Leading to a product page |
+| `counter` | `type="link"`, `href` and `counter` | The page has something to look at |
+| `group-closed` | `type="group"` | Gathering pages of the same subject |
+| `group-open` | `type="group"` and `expanded` | The subitems show right below it |
+
+**Do not combine with:** a group with `href`, `counter` or `active`; `tooltip` or more
+actions on a disabled line.
+
+## States
+
+| State | Token | What changes for the person |
+|---|---|---|
+| `rest` | `sidebar/item-foreground` | No background: the line shows the panel. Label in `text/body-md`, light icon |
+| `hover` | `sidebar/item-background-hover` | The whole line, the more actions button included; the colors of rest |
+| `active` | `sidebar/item-foreground-active` | No background; the label and the solid icon in its color, the label in `text/label-md` |
+| open group | `sidebar/item-foreground-open` | The label and the solid icon in its color, `text/label-md` and the arrow up |
+| `focus` | `color/primary`, `focus/halo` | Border `border/width` and halo `focus/ring-width` around the whole line, keyboard only |
+| `disabled` | `state/disabled-opacity` | The whole line fades, with no hover, out of the Tab order |
+
+**Feedback and focus:** keyboard focus draws the border and the halo outside the line, in
+`focus/border-radius-sidebar-item` and `focus/radius-sidebar-item`. A mouse click draws no
+ring. More actions shows on hover and focus.
+
+**Business rule the piece carries:**
+
+- Only the current page is active, and a group is never active.
+- The group toggles `expanded` by itself on a click, Enter or Space, and fires `nph-toggle`
+  with `detail.expanded`; `nph-sidebar` shows or hides the subitems. Setting `expanded`
+  from code fires nothing.
+- The counter shows a whole number only, read inside the name of the link.
+- More actions appears on hover and focus, for mouse and keyboard only; on touch it does
+  not appear. The action chosen in its menu is fired on the host as `nph-item-select`.
+- A click on more actions, on its menu or on the balloon is not a click on the line: it
+  stops at the host.
+
+**Domain error states:** `not_applicable`.
+
+## Accessibility
+
+| Criterion | Rule |
+|---|---|
+| Semantics | A link with `aria-current="page"` on the current page; a group is a `button` with `aria-expanded`. Disabled, the link has no `href`, keeps `role="link"` and gains `aria-disabled` |
+| Accessible name | The label; the counter number is read as text inside the name of the link. The icon and the arrow are hidden. More actions is named by `actions-label`; the balloon is the description of the line |
+| Keyboard | Tab reaches the line and then the more actions button; Enter follows the link; Enter and Space open and close a group |
+| Focus | Border `color/primary` and halo `focus/halo` around the whole line, keyboard only, as in `nph-button` |
+| Contrast | Label, number and icon pass 4.5:1 and 3:1 against `sidebar/panel-background` and `sidebar/item-background-hover`, and the number against `sidebar/item-badge-background`, in both modes. Disabled is exempt |
+| Alternative to color | Active also switches the icon to solid and the label to `text/label-md`; an open group shows the arrow up |
+| Touch target | The whole line, `sidebar/item-height`. More actions is small and serves mouse and keyboard only |
+| Known limits | Forced colors and right-to-left are not treated yet |
+
+## Relations
+
+**Combines with:** `nph-sidebar-subitem`, the second level of an open group;
+`nph-sidebar-rail-button`, which takes its place in the collapsed menu; `nph-icon`,
+`nph-button`, `nph-dropdown-menu` and `nph-tooltip`, its inner pieces.
+
+**What is the parent:** `nph-sidebar`, which decides the expanded or collapsed mode, the
+width and the switch of the item for the rail button. It is not built yet.
+
+**What is the child:** `nph-icon`, the icon and the arrow; `nph-button` and
+`nph-dropdown-menu`, more actions; `nph-tooltip`, the balloon.
+
+**Which block this piece complements:** none yet.
+
+**Appears in layouts:** none yet.
+
+## Tokens, intent and AI hints
+
+| Part | Token |
+|---|---|
+| Line | Height `sidebar/item-height`, padding `sidebar/item-padding`, gap `space/control-padding`, radius `sidebar/item-radius` |
+| Label | `text/body-md` in `sidebar/item-foreground`; `text/label-md` when active or open; one line with an ellipsis |
+| Icon | `nph-icon` `icon/size-md`, light; solid when active or open |
+| Arrow | `nph-icon` `icon/size-sm`, `chevron-down` closed and `chevron-up` open |
+| Hover | `sidebar/item-background-hover` |
+| Active and open | `sidebar/item-foreground-active`, `sidebar/item-foreground-open` |
+| Counter | `text/label-sm` in `sidebar/item-badge-foreground` on `sidebar/item-badge-background`, `icon/size-md` high, `space/inline` on the sides, `radius/full` |
+| More actions | `nph-button` icon-only, ghost and compact, `ellipsis-vertical`, `sidebar/item-padding` from the end |
+| Focus | Border `border/width` in `color/primary`, `focus/border-radius-sidebar-item`; halo `focus/ring-width` in `focus/halo`, `focus/radius-sidebar-item` |
+| Disabled | `state/disabled-opacity` |
+
+**Usage restrictions:** the item has no background at rest and when active: the panel of
+`nph-sidebar` shows through. `sidebar/item-background-active` and `focus-ring/sidebar` are
+not used by this piece.
+
+**AI hints:**
+
+- Use `nph-sidebar-item` for a line of the lateral menu; for an action, use `nph-button`.
+- Mark only the current page as active; mark the group of the current page open, never
+  active.
+- Use `type="group"` only when it holds two or more pages; a single page is a link.
+- Turn on `tooltip` when the label can be cut, with the full name.
+- Give more actions only actions that the destination page also offers.
+- In the collapsed menu, use `nph-sidebar-rail-button`; inside an open group, use
+  `nph-sidebar-subitem`.
+
+## Examples
+
+**Recommended case:** the main menu, one item per product area, the current page active and
+the inbox with its counter.
+
+**Alternative case:** a group of reports, open, with its subitems right below it; or the
+collapsed menu, with one `nph-sidebar-rail-button` per page.
+
+## Anti-patterns
+
+- **Do not use the item as an action button**, such as save or delete — use `nph-button`.
+- **Do not use a group for one page only** — use `type="link"`.
+- **Do not mark two items as active** — only the current page is active.
+- **Do not leave a long label without `tooltip`** — the name is cut and there is no way to
+  read it.
+- **Do not rely on more actions as the only path** — on touch it does not appear.
+- **Do not write text in the counter** — use `nph-badge` for a short label.
+- **Do not use the item to choose an option or open actions in a menu** — use
+  `nph-dropdown-menu`.
+- **Invalid combinations:** a `type` outside the two; an `icon` empty or outside the core; a
+  link without `href`; a group with `href`, `counter` or `active`; a `counter` that is not a
+  whole number; `actions` without `actions-label`.
+- **Do not create without a decision:** a background for the active item, a slot, a color
+  property, an indent of its own or a keyboard navigation between items, which belongs to
+  `nph-sidebar`.
+
+## Sources and decisions
+
+- **The repository `design.md`:** `color/primary`, `focus/halo`, `focus/ring-width`,
+  `border/width`, `space/control-padding`, `space/inline`, `icon/size-md`, `icon/size-sm`,
+  `radius/full`, `text/body-md`, `text/label-md`, `text/label-sm` and
+  `state/disabled-opacity`. The `sidebar/*` tokens and the focus radii are in
+  `src/tokens/source/semantic.tokens.json`.
+- **The decision that originated it:** P98, the API and semantics of `nph-sidebar-item`,
+  `nph-sidebar-subitem` and `nph-sidebar-rail-button`.
+- **Pending decisions:** D-1 to D-4 of the task DSA-53; D-3, the severity of more actions,
+  belongs to this piece.
+- **Tests:** `src/components/nph-sidebar-item/nph-sidebar-item.test.ts` and
+  `nph-sidebar-item.docs.test.ts`.
+- **Usage evidence:** the required examples of the `nph-sidebar-item` Docs page.
+- **Storybook:** `src/components/nph-sidebar-item/nph-sidebar-item.stories.ts` and
+  `nph-sidebar-item.docs.stories.ts`.
+- **Figma:** `DS-IA-NEPHOS 5.0`, board `nph-sidebar-item` (`1366:2`), documentation
+  `2723:460`, set `2251:51271`.
