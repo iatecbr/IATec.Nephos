@@ -61,6 +61,10 @@ Example in the frame: type tabela, position meio.
 
 Demonstrations in the frame, in light and dark: current page with highlighted background and bold number; keyboard focus on the current page; keyboard focus on the arrow; arrow without destination, disabled and without tooltip; hover on the arrow, where the tooltip shows the action name ("Próxima página"); keyboard focus on the arrow, where the tooltip also appears ("Página anterior"); in the bar, the tooltip centered above the next arrow.
 
+## First and last arrow icon
+
+The first and last arrows use `arrow-left-to-line`, an arrow with a bar, from Font Awesome Pro 6, Classic Light and Classic Solid (https://fontawesome.com/icons/arrow-left-to-line?f=classic&s=light). It is not yet in the nph-icon core: it comes in with this task, light and solid, through the same Font Awesome packages as the other icons (`@fortawesome/pro-light-svg-icons/faArrowLeftToLine` and `@fortawesome/pro-solid-svg-icons/faArrowLeftToLine`). In Figma it is in the nph-icon set `248:143`, `2962:7` light and `2962:12` solid. The last arrow uses the same icon rotated 180°. In Figma the whole nph-icon-button instance is rotated; in code, rotate only the icon, not the button, its focus ring or its tooltip. The double chevron (`chevrons-left`) is not used here.
+
 ## Properties, variants and states
 
 | Field | Rule |
@@ -68,7 +72,7 @@ Demonstrations in the frame, in light and dark: current page with highlighted ba
 | tipo | numerada: numbers with Anterior and Próxima written. simples: arrows and "Página 5 de 10". com extremos: numbers with first, previous, next and last. intervalo: arrows and "101–125 de 250". compacta: arrows and "5 de 10". tabela: items per page, range and bar with first and last. |
 | posição | início: first page is current, first and previous disabled. meio: arrows active and ellipsis on both sides of the current page. fim: last page is current, next and last disabled. |
 | nph-pagination/página | Number piece. atual: não or sim. estado: padrão, hover or foco. The current one uses pagination/item-background-active; hover uses pagination/item-background-hover. |
-| arrows | Not a piece of their own: they are nph-icon-button, type secondary and emphasis outline. state: default, focus or disabled; hover uses pagination/item-background-hover. The last one uses the icon of the first, rotated. |
+| arrows | Not a piece of their own: they are nph-icon-button, type secondary and emphasis outline. state: default, focus or disabled; hover uses pagination/item-background-hover. First and last use the icon arrow-left-to-line, an arrow with a bar; in the last one it is rotated. |
 | nph-pagination/reticências | Piece without properties. Marks the pages that are not shown and takes no click. |
 | nph-pagination/ir para a página | Optional piece with the nph-input field, in pagination/page-input-width, to type the page. Sits beside the bar with first and last. |
 | number and text | Not properties: change the page number and the position text in the instance, from the list total. |
