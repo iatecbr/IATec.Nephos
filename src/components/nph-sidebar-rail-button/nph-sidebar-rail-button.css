@@ -1,0 +1,105 @@
+/**
+ * Internal style of `nph-sidebar-rail-button`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here.
+ *
+ * No literal design value goes in here. Written box relations (P98): `transparent` (no
+ * background at rest), `0` in `inset` (the counter on the top end corner, D-1) and
+ * `calc(-1 * ...)` (focus border and halo outside, without changing the size).
+ */
+
+/* With no label and no icon, or with invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+/* Disabled: the whole button loses opacity, in the resting colors. */
+:host([disabled]) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+.control {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--nph-sidebar-rail-button-size);
+  block-size: var(--nph-sidebar-rail-button-size);
+  margin: 0;
+  padding: 0;
+  border-radius: var(--nph-radius-container);
+  background-color: transparent;
+  color: var(--nph-sidebar-item-foreground);
+  text-decoration: none;
+  outline: none;
+}
+
+:host(:not([disabled])) .control:hover {
+  background-color: var(--nph-sidebar-rail-background-hover);
+}
+
+/* Active: the background, the icon color and the solid icon. Wins over hover. */
+:host([active]) .control,
+:host([active]:not([disabled])) .control:hover {
+  background-color: var(--nph-sidebar-rail-background-active);
+  color: var(--nph-sidebar-rail-foreground-active);
+}
+
+.icon {
+  flex: none;
+}
+
+/* The counter: a pill with the number, on the top end corner (D-1). */
+.counter {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--nph-icon-size-md);
+  block-size: var(--nph-icon-size-md);
+  padding-inline: var(--nph-space-inline);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--nph-sidebar-item-badge-background);
+  color: var(--nph-sidebar-item-badge-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+/* Active: the counter gains an outline in the panel color, apart from the active background (D-2). */
+:host([active]) .counter {
+  outline: var(--nph-border-width) solid var(--nph-sidebar-panel-background);
+}
+
+/* Focus: border and halo around the button, outside, keyboard only. */
+.control:focus-visible::before,
+.control:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.control:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-color-primary);
+  border-radius: var(--nph-focus-border-radius-container);
+}
+
+.control:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-container);
+}

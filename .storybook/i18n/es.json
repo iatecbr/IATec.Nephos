@@ -263,7 +263,16 @@
     "components-nph-multi-combobox-validation--list-states": "Estados de la lista",
     "components-nph-multi-combobox-validation--form-association": "Asociación al formulario",
     "components-nph-multi-combobox-validation--invalid-input": "Entrada inválida",
-    "components-nph-multi-combobox-validation--examples": "Ejemplos"
+    "components-nph-multi-combobox-validation--examples": "Ejemplos",
+    "components-nph-sidebar-item-docs": "Docs",
+    "components-nph-sidebar-item-docs--documentation": "Documentación",
+    "components-nph-sidebar-item-validation": "Validación",
+    "components-nph-sidebar-item-validation--matrix": "Matriz",
+    "components-nph-sidebar-item-validation--subitem": "Subítem",
+    "components-nph-sidebar-item-validation--rail-button": "Botón del riel",
+    "components-nph-sidebar-item-validation--tooltip-and-more-actions": "Tooltip y más acciones",
+    "components-nph-sidebar-item-validation--invalid-input": "Entrada no válida",
+    "components-nph-sidebar-item-validation--examples": "Ejemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -6909,7 +6918,13 @@
       "components-nph-multi-combobox-validation--list-states": "La lista del nph-combobox con cada opción en el marcador checkbox, marcada cuando se elige y sin el fondo de seleccionada: resultados, búsqueda con el tramo escrito resaltado, grupos y vacío (D-1).",
       "components-nph-multi-combobox-validation--form-association": "El host participa del formulario: enviar manda una entrada por opción elegida, restablecer vuelve a los valores predeterminados, un cambio dispara input y change, y un fieldset deshabilitado lo deshabilita.",
       "components-nph-multi-combobox-validation--invalid-input": "Un size que no existe no dibuja nada; los chips sin remove-label quedan sin botón quitar, y un contador sin subject sale solo, cada uno con un error.",
-      "components-nph-multi-combobox-validation--examples": "Los tres ejemplos obligatorios del tablero, en nph-field: dos opciones elegidas en reposo, en foco con texto escrito y la lista abierta, y muchas opciones en varias líneas, cada uno en modo claro y oscuro."
+      "components-nph-multi-combobox-validation--examples": "Los tres ejemplos obligatorios del tablero, en nph-field: dos opciones elegidas en reposo, en foco con texto escrito y la lista abierta, y muchas opciones en varias líneas, cada uno en modo claro y oscuro.",
+      "components-nph-sidebar-item-validation--matrix": "type × state del ítem: enlace, contador, grupo cerrado y abierto, en reposo, activo y deshabilitado. Activo no existe en el grupo. Pase el mouse para el hover y presione Tab para el foco.",
+      "components-nph-sidebar-item-validation--subitem": "El subítem con opciones no y sí, en reposo, activo y deshabilitado: solo la etiqueta, y la flecha a la derecha con opciones (D-4).",
+      "components-nph-sidebar-item-validation--rail-button": "El botón del riel con el contador apagado y encendido, en reposo, activo y deshabilitado: el contador en la esquina superior del final (D-1), con contorno cuando está activo (D-2).",
+      "components-nph-sidebar-item-validation--tooltip-and-more-actions": "El globo con el nombre completo de una etiqueta cortada, en hover y en foco; más acciones al final de la línea, en hover y en foco, abriendo su menú; el globo del botón del riel, siempre encendido.",
+      "components-nph-sidebar-item-validation--invalid-input": "La entrada no válida no dibuja nada: un grupo activo, un contador con texto, un subítem sin href y un botón del riel sin label, cada uno con un error.",
+      "components-nph-sidebar-item-validation--examples": "Los tres ejemplos obligatorios del tablero: menú principal con página actual y contador, grupo abierto con subítems y menú contraído con botones del riel, cada uno en modo claro y oscuro."
     }
   },
   "multiComboboxDocs": {
@@ -7370,5 +7385,384 @@
     "statusNoEvent": "Ningún evento todavía.",
     "statusEvent": "{event}: {value}",
     "fieldsetDisabled": "Fieldset deshabilitado"
+  },
+  "sidebarItemDocs": {
+    "summary": "La línea del menú lateral que lleva a la persona a una página o abre un grupo de páginas. Viene como ítem de primer nivel, subítem de segundo nivel y botón del riel, que hace el papel del ítem cuando el menú está contraído.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: las fichas del nph-sidebar-item, del nph-sidebar-subitem y del nph-sidebar-rail-button, design.md para los tokens y docs/decisoes-tecnicas.md para la P98. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "sourceFrame": "Figma, tablero nph-sidebar-item (1366:2), documentación 2723:460, conjuntos 2251:51271, 2251:51312 y 2251:51328",
+    "sourceApi": "Ficha del nph-sidebar-item; docs/decisoes-tecnicas.md › P98",
+    "sourceSubitem": "Ficha del nph-sidebar-subitem; docs/decisoes-tecnicas.md › P98",
+    "sourceRail": "Ficha del nph-sidebar-rail-button; tarea DSA-53, decisiones pendientes D-1 y D-2; docs/decisoes-tecnicas.md › P98",
+    "sourceAccessibility": "Figma, documentación 2723:460; nph-sidebar-item.test.ts, nph-sidebar-subitem.test.ts y nph-sidebar-rail-button.test.ts",
+    "matrixLabel": "type × state",
+    "description": "Use nph-sidebar-item dentro de nph-sidebar para navegar entre las áreas del producto. El ítem es la línea de primer nivel; el subítem es la línea de segundo nivel, dentro de un grupo; el botón del riel muestra solo el ícono cuando el menú está contraído. No reemplaza a nph-panel-menu, que organiza la navegación dentro del contenido, ni a nph-dropdown-menu, que abre acciones y opciones.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Con type link, para llevar a una página del producto.",
+      "Con counter, cuando la página tiene algo para ver, como mensajes o tareas nuevas.",
+      "Con type group, para reunir páginas del mismo tema en un ítem que abre y cierra.",
+      "Con tooltip, cuando la etiqueta puede cortarse, para mostrar el nombre completo.",
+      "Con más acciones, como atajo de las acciones del ítem para mouse y teclado, siempre con las mismas acciones en la página de destino.",
+      "Deshabilitado, cuando la página existe pero la persona no tiene acceso ahora."
+    ],
+    "whenNotToUse": [
+      "Como botón de acción, como guardar o eliminar: use nph-button.",
+      "Como grupo de una sola página: use type link.",
+      "Para elegir una opción o abrir acciones en un menú: use nph-dropdown-menu.",
+      "Para organizar la navegación dentro del contenido: use nph-panel-menu.",
+      "Con texto en el contador: el contador muestra solo un número; para una etiqueta corta, use nph-badge.",
+      "Con más acciones como único camino a una acción: en el táctil no aparece."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "type",
+        "link (predeterminado) lleva a una página; group abre y cierra los subítems debajo de él. El tipo counter de Figma es un link con counter; group-closed y group-open son group con expanded."
+      ],
+      [
+        "label",
+        "El texto de la línea, ya traducido: una línea, con puntos suspensivos cuando no cabe. Es el nombre accesible."
+      ],
+      [
+        "icon",
+        "Un nombre del núcleo de nph-icon, en icon/size-md: light en reposo, solid cuando está activo o en el grupo abierto."
+      ],
+      [
+        "href",
+        "La página a la que lleva el enlace. Obligatorio en el enlace que no está deshabilitado; el grupo no tiene."
+      ],
+      [
+        "active",
+        "La página actual: aria-current=\"page\", su color, el ícono solid y text/label-md. Solo un ítem está activo, y nunca un grupo."
+      ],
+      [
+        "expanded",
+        "El grupo está abierto: aria-expanded, la flecha hacia arriba, su color, el ícono solid y text/label-md. Solo en el grupo."
+      ],
+      [
+        "counter",
+        "Un número entero desde cero, leído como texto dentro del nombre del enlace. Solo en el enlace."
+      ],
+      [
+        "disabled",
+        "La página existe, pero la persona no tiene acceso ahora: state/disabled-opacity, fuera del orden del Tab, sin globo y sin más acciones."
+      ],
+      [
+        "tooltip",
+        "El texto del nph-tooltip con el nombre completo, en hover y en foco. No sigue al label; vacío lo apaga."
+      ],
+      [
+        "actions, actions-label",
+        "Las entradas del nph-dropdown-menu de más acciones, y el nombre accesible de su botón. Con actions y sin actions-label, el ítem no se renderiza."
+      ],
+      [
+        "nph-toggle",
+        "Se dispara cuando la persona abre o cierra un grupo, con detail.expanded. Burbujea y atraviesa shadow roots. Cambiar expanded por código no dispara nada."
+      ],
+      [
+        "nph-item-select",
+        "La acción que la persona eligió en el menú de más acciones, disparada de nuevo en el host con el detail de nph-dropdown-menu. Burbujea."
+      ]
+    ],
+    "invalidTitle": "La entrada no válida no dibuja nada.",
+    "invalidText": "Un type fuera de link y group, un ícono fuera del núcleo, un enlace sin href, un grupo con href, counter o active, un counter que no es número entero y actions sin actions-label: el ítem no se renderiza y emite console.error en desarrollo, una vez por causa.",
+    "typesTitle": "Tipos",
+    "typesCaption": "link, contador, grupo cerrado y grupo abierto.",
+    "typesHeader": [
+      "Tipo",
+      "Cuándo usar"
+    ],
+    "types": [
+      [
+        "link",
+        "Lleva a una página del producto."
+      ],
+      [
+        "counter",
+        "Un enlace a una página con algo para ver, como mensajes o tareas nuevas."
+      ],
+      [
+        "group-closed",
+        "Reúne páginas del mismo tema; la flecha hacia abajo dice que se abre."
+      ],
+      [
+        "group-open",
+        "Los subítems aparecen justo debajo de él; la flecha hacia arriba dice que se cierra."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesCaption": "En reposo, activo y deshabilitado. Pase el mouse para el hover y presione Tab para el foco.",
+    "statesHeader": [
+      "Estado",
+      "Qué cambia"
+    ],
+    "states": [
+      [
+        "rest",
+        "Sin fondo: la línea muestra el panel. Etiqueta e ícono en sidebar/item-foreground, la etiqueta en text/body-md."
+      ],
+      [
+        "hover",
+        "sidebar/item-background-hover en toda la línea."
+      ],
+      [
+        "active",
+        "Sin fondo: la etiqueta y el ícono en sidebar/item-foreground-active, el ícono solid y text/label-md. No existe en el grupo."
+      ],
+      [
+        "focus",
+        "Borde border/width en color/primary y halo focus/ring-width en focus/halo alrededor de toda la línea, solo con el teclado."
+      ],
+      [
+        "disabled",
+        "Toda la línea en state/disabled-opacity, sin hover, fuera del orden del Tab."
+      ]
+    ],
+    "subitemTitle": "Subítem",
+    "subitemText": "nph-sidebar-subitem es la línea de segundo nivel, dentro de un grupo abierto: solo la etiqueta, en control/height-default, con space/inline arriba y abajo y sidebar/item-padding a los lados. Con options, la flecha a la derecha dice que lleva a una lista de opciones; el subítem sigue siendo un enlace (D-4).",
+    "subitemCaption": "Activo, en reposo y con opciones.",
+    "subitemApi": [
+      [
+        "label",
+        "El texto de la línea, ya traducido, una línea con puntos suspensivos. Es el nombre accesible."
+      ],
+      [
+        "href",
+        "La página a la que lleva el subítem. Obligatorio, salvo deshabilitado."
+      ],
+      [
+        "active",
+        "La página actual: aria-current=\"page\", sidebar/item-foreground-active y text/label-md."
+      ],
+      [
+        "options",
+        "La flecha chevron-right en icon/size-sm, solo visual."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity, fuera del orden del Tab, sin globo."
+      ],
+      [
+        "tooltip",
+        "El texto del nph-tooltip con el nombre completo, en hover y en foco."
+      ]
+    ],
+    "railTitle": "Botón del riel",
+    "railText": "nph-sidebar-rail-button hace el papel del ítem cuando nph-sidebar está contraído: un cuadrado de sidebar/rail-button-size solo con el ícono. El label es su nombre y el texto del globo, que siempre está encendido. El contador queda en la esquina superior del final (D-1) y, cuando está activo, gana un contorno en sidebar/panel-background (D-2).",
+    "railCaption": "En reposo, activo, con el contador, activo con el contador y deshabilitado.",
+    "railApi": [
+      [
+        "label",
+        "El nombre de la página, obligatorio: el aria-label del enlace y el texto del globo."
+      ],
+      [
+        "icon",
+        "Un nombre del núcleo de nph-icon, en icon/size-md: light en reposo, solid cuando está activo."
+      ],
+      [
+        "href",
+        "La página a la que lleva. Obligatorio, salvo deshabilitado."
+      ],
+      [
+        "active",
+        "La página actual: aria-current=\"page\", sidebar/rail-background-active y el ícono en sidebar/rail-foreground-active."
+      ],
+      [
+        "counter",
+        "Un número entero desde cero, leído como la descripción del enlace."
+      ],
+      [
+        "disabled",
+        "state/disabled-opacity, fuera del orden del Tab, sin globo."
+      ]
+    ],
+    "moreActionsTitle": "Tooltip y más acciones",
+    "moreActionsText": "tooltip enciende el nph-tooltip con el nombre completo, en hover y en foco: enciéndalo cuando la etiqueta puede cortarse. Más acciones es el nph-button solo con ícono, ghost y compacto, con ellipsis-vertical, al final de la línea, en hover y en foco; abre un nph-dropdown-menu con las acciones. Sirve solo al mouse y al teclado: en el táctil no aparece, por eso las mismas acciones están en la página de destino.",
+    "moreActionsCaption": "Una etiqueta cortada con su globo, y un ítem con más acciones. Pase el mouse sobre ellos, o presione Tab.",
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "Las piezas viven dentro de nph-sidebar, que decide el modo expandido o contraído, el ancho y el cambio del ítem por el botón del riel. El ítem ocupa el ancho que recibe.",
+      "El grupo abre sus subítems justo debajo de él. El subítem con la flecha a la derecha dice que lleva a una lista de opciones.",
+      "El globo es nph-tooltip, más acciones es nph-button con nph-dropdown-menu, y el contador usa la paleta primaria. Cada pieza guarda su estado y su foco.",
+      "Espacio: space/control-padding entre ícono y etiqueta y sidebar/item-padding alrededor del ítem; en el subítem, space/inline entre etiqueta y flecha y arriba y abajo, y sidebar/item-padding a los lados."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Ícono",
+        "nph-icon en icon/size-md, en el color de la etiqueta; solid cuando está activo o en el grupo abierto."
+      ],
+      [
+        "2. Etiqueta",
+        "Una línea en text/body-md, text/label-md cuando está activo o en el grupo abierto, con puntos suspensivos cuando no cabe."
+      ],
+      [
+        "3. Contador",
+        "Una píldora con el número en text/label-sm, en sidebar/item-badge-background y sidebar/item-badge-foreground, de altura icon/size-md, space/inline a los lados, radius/full. Solo en el enlace y en el botón del riel."
+      ],
+      [
+        "4. Flecha",
+        "icon/size-sm: hacia abajo en el grupo cerrado, hacia arriba en el grupo abierto, a la derecha en el subítem con opciones."
+      ],
+      [
+        "5. Más acciones",
+        "El nph-button solo con ícono, ghost y compacto, con ellipsis-vertical, al final, en hover y en foco."
+      ],
+      [
+        "6. Tooltip",
+        "nph-tooltip con el nombre completo, en hover y en foco."
+      ],
+      [
+        "7. Fondo",
+        "sidebar/item-background-hover en hover; ninguno en reposo y cuando está activo. En el botón del riel, sidebar/rail-background-hover en hover y sidebar/rail-background-active cuando está activo."
+      ],
+      [
+        "8. Foco",
+        "Borde color/primary y halo focus/halo alrededor de la línea, en focus/border-radius-sidebar-item y focus/radius-sidebar-item; en el botón del riel, focus/border-radius-container y focus/radius-container."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "El ítem y el subítem son enlaces, con aria-current=\"page\" en la página actual; el grupo es un botón con aria-expanded. Deshabilitado, el enlace queda sin href, mantiene role link y gana aria-disabled."
+      ],
+      [
+        "Nombre accesible",
+        "Viene de la etiqueta. El número del contador se lee como texto, dentro del nombre del enlace. En el botón del riel, el label es el aria-label y el globo lo repite como nombre; el contador es la descripción. El ícono y la flecha quedan ocultos para el lector de pantalla. Más acciones tiene nombre propio, actions-label."
+      ],
+      [
+        "Teclado",
+        "El Tab llega a la línea y después, cuando lo hay, al botón de más acciones. Enter sigue el enlace; Enter y Espacio abren y cierran el grupo."
+      ],
+      [
+        "Foco visible",
+        "Borde color/primary y halo focus/halo alrededor de toda la línea, como en nph-button. El borde pasa 3:1 contra sidebar/panel-background."
+      ],
+      [
+        "Contraste",
+        "Etiqueta, número e ícono pasan 4.5:1 y 3:1 contra el fondo de la línea, en los dos modos; el número contra sidebar/item-badge-background. Deshabilitado está exento."
+      ],
+      [
+        "El color no es la única señal",
+        "Activo también cambia el ícono a solid y la etiqueta a text/label-md. El grupo abierto muestra la flecha hacia arriba. En el botón del riel, activo también gana su fondo."
+      ],
+      [
+        "Área táctil",
+        "Toda la línea: sidebar/item-height en el ítem, control/height-default en el subítem, sidebar/rail-button-size en el botón del riel. Más acciones es pequeño y sirve solo al mouse y al teclado."
+      ]
+    ],
+    "examplesTitle": "Ejemplos obligatorios",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, tablero nph-sidebar-item (1366:2), documentación 2723:460, conjuntos 2251:51271, 2251:51312 y 2251:51328",
+      "fichas/nph-sidebar-item.md, fichas/nph-sidebar-subitem.md y fichas/nph-sidebar-rail-button.md",
+      "docs/decisoes-tecnicas.md › P98, P86, P77 y P92",
+      "WAI-ARIA Authoring Practices, menú de navegación por divulgación (disclosure)"
+    ],
+    "pages": [
+      {
+        "label": "Inicio",
+        "icon": "house"
+      },
+      {
+        "label": "Bandeja de entrada",
+        "icon": "inbox"
+      },
+      {
+        "label": "Agenda",
+        "icon": "calendar-days"
+      },
+      {
+        "label": "Archivos",
+        "icon": "folder"
+      },
+      {
+        "label": "Configuración",
+        "icon": "gear"
+      }
+    ],
+    "group": {
+      "label": "Informes",
+      "icon": "clipboard"
+    },
+    "subitems": [
+      "Mensual",
+      "Trimestral",
+      "Anual"
+    ],
+    "actions": [
+      "Renombrar",
+      "Fijar arriba",
+      "Quitar del menú"
+    ],
+    "actionsLabel": "Más acciones",
+    "longLabel": "Solicitudes de compra pendientes de aprobación",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "exampleMain": "Menú principal con página actual y contador",
+    "exampleGroup": "Grupo abierto con subítems",
+    "exampleCollapsed": "Menú contraído con botones del riel"
+  },
+  "sidebarItemValidation": {
+    "pages": [
+      {
+        "label": "Inicio",
+        "icon": "house"
+      },
+      {
+        "label": "Bandeja de entrada",
+        "icon": "inbox"
+      },
+      {
+        "label": "Agenda",
+        "icon": "calendar-days"
+      },
+      {
+        "label": "Archivos",
+        "icon": "folder"
+      },
+      {
+        "label": "Configuración",
+        "icon": "gear"
+      }
+    ],
+    "group": {
+      "label": "Informes",
+      "icon": "clipboard"
+    },
+    "subitems": [
+      "Mensual",
+      "Trimestral",
+      "Anual"
+    ],
+    "actions": [
+      "Renombrar",
+      "Fijar arriba",
+      "Quitar del menú"
+    ],
+    "actionsLabel": "Más acciones",
+    "longLabel": "Solicitudes de compra pendientes de aprobación",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "exampleMain": "Menú principal con página actual y contador",
+    "exampleGroup": "Grupo abierto con subítems",
+    "exampleCollapsed": "Menú contraído con botones del riel"
   }
 }

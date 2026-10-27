@@ -1,0 +1,167 @@
+/**
+ * Internal style of `nph-sidebar-item`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the shadow root
+ * and are not API.
+ *
+ * No literal design value goes in here. Written box relations (P98): `transparent` (no
+ * background at rest and when active: the line shows the sidebar panel), `nowrap` and
+ * `ellipsis` (one line), `calc(-1 * ...)` (focus border and halo outside, without changing
+ * the size), `50%` (the more actions button centered on the line), `0` and `1` in
+ * `opacity` (the button hidden and shown, still in the Tab order) and `auto` (the counter
+ * and the arrow go to the end).
+ */
+
+/* With no label or with invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* The item fills the width it receives from nph-sidebar. */
+:host([data-nph-rendered]) {
+  display: block;
+  position: relative;
+  --_fg: var(--nph-sidebar-item-foreground);
+}
+
+/* Active and open group: their color, the solid icon and text/label-md. */
+:host([active]) {
+  --_fg: var(--nph-sidebar-item-foreground-active);
+}
+:host([type='group'][expanded]) {
+  --_fg: var(--nph-sidebar-item-foreground-open);
+}
+
+/* Disabled: the whole line loses opacity, in the resting colors. */
+:host([disabled]) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+.control {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-space-control-padding);
+  inline-size: 100%;
+  block-size: var(--nph-sidebar-item-height);
+  margin: 0;
+  padding: var(--nph-sidebar-item-padding);
+  border: none;
+  border-radius: var(--nph-sidebar-item-radius);
+  background-color: transparent;
+  color: var(--_fg);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  text-align: start;
+  text-decoration: none;
+  white-space: nowrap;
+  outline: none;
+}
+
+:host([active]) .control,
+:host([type='group'][expanded]) .control {
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+/* Hover on the whole line, the more actions button included; never when disabled. */
+:host(:hover:not([disabled])) .control {
+  background-color: var(--nph-sidebar-item-background-hover);
+}
+
+.icon,
+.arrow {
+  flex: none;
+}
+
+.label {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The counter: a pill with the number, after the label. */
+.counter {
+  flex: none;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--nph-icon-size-md);
+  block-size: var(--nph-icon-size-md);
+  padding-inline: var(--nph-space-inline);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--nph-sidebar-item-badge-background);
+  color: var(--nph-sidebar-item-badge-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+/* Focus: border and halo around the whole line, outside, keyboard only. */
+.control:focus-visible::before,
+.control:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.control:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-color-primary);
+  border-radius: var(--nph-focus-border-radius-sidebar-item);
+}
+
+.control:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-sidebar-item);
+}
+
+/*
+ * More actions: at the end of the line, over it, never inside the link. Hidden at rest
+ * but still in the Tab order, so Tab and Shift+Tab reach it; shown on hover and focus.
+ */
+.actions {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: var(--nph-sidebar-item-padding);
+  transform: translateY(-50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+:host(:hover) .actions,
+:host(:focus-within) .actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* While the button shows, the content leaves room for it. */
+@media (hover: hover) {
+  :host(:hover) .control:has(~ .actions),
+  :host(:focus-within) .control:has(~ .actions) {
+    padding-inline-end: calc(
+      var(--nph-sidebar-item-padding) + var(--nph-control-height-compact) + var(--nph-space-control-padding)
+    );
+  }
+}
+
+/* On touch, the button does not appear: the same actions are on the destination page. */
+@media (hover: none) {
+  .actions {
+    display: none;
+  }
+}

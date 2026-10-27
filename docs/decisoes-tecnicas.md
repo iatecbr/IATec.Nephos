@@ -4706,9 +4706,119 @@ the pull request that brings them; the merge is the approval.
 
 ---
 
+## P98 — `nph-sidebar-item`, `nph-sidebar-subitem` and `nph-sidebar-rail-button`: API and semantics
+
+**Technical conflict.** The accepted board (`1366:2`, documentation `2723:460`) gives three sets —
+the first-level item (`2251:51271`), the second-level subitem (`2251:51312`) and the rail button
+(`2251:51328`) — and leaves destination, current page and group opening to code. Four points need
+a decision of their own:
+
+- the task places the three pieces in `src/components/nph-sidebar-item/`, but the build
+  (`vite.config.lib.ts`), the manifest and `test:package` take one definition per folder, and P03
+  makes the tag the folder name (P91, item 1; P97, item 1);
+- the Figma `type` mixes what the line is (a link or a group) with an optional part (the counter);
+- more actions opens a menu from a button that lives in the shadow root of the item, which a menu
+  outside it cannot reference by `for` (P77, "How it attaches");
+- the item contains a link and a button that are siblings, and the clicks of the button, of its
+  menu and of the balloon reach the host as composed clicks.
+
+**Decision.** The three pieces are Web Components with **open Shadow DOM** (P01) and
+`delegatesFocus`, CSS in their own file imported `?inline`. They have no `::part`, no slot and no
+color property. Anatomy only through semantic tokens. Invalid input renders nothing and emits
+`console.error` only in development, one per cause — the rule of P21, as in P68. A piece with no
+label (and, on the rail button, no icon) is a mount: nothing, no error (P66). The names follow
+P64.
+
+1. **Three tags, three folders.** `nph-sidebar-item`, `nph-sidebar-subitem` and
+   `nph-sidebar-rail-button` each have their folder, package entry and sheet, as `nph-option`
+   (P91, item 1). The location the task gives is superseded by that packaging; the task text stays
+   as recorded. The reading page and the Validation stories of the three live in the folder of
+   `nph-sidebar-item`, as the `Option` story lives in `nph-select`.
+
+2. **The item.** `type` is `link` (default) or `group`, reflected. A link is an `<a href>`; the
+   current page is `active`, reflected, with `aria-current="page"`. `counter` is a whole number
+   from zero up, in a pill after the label and read inside the name of the link; it exists only on
+   a link, so the Figma `counter` type is a link with `counter`. A group is a native
+   `<button type="button">` with `aria-expanded`, following `expanded`, reflected; the Figma
+   `group-closed` and `group-open` are `group` with `expanded` off and on. A group has no `href`, no
+   `counter` and is never `active` (evidence, Properties): each of those is invalid input. `icon`
+   is a core name of `nph-icon` at `icon/size-md`, `light` at rest and `solid` when active or in an
+   open group (AGENTS.md, Font Awesome rule); `label` is the visible text and the name.
+
+3. **The event `nph-toggle`.** A click, Enter or Space on a group toggles `expanded` and fires
+   `nph-toggle` on the host, bubbling, crossing the shadow root (`composed`), not cancelable, with
+   `detail: { expanded }`. Setting `expanded` from code fires nothing, as `nph-change` of P73 and
+   `nph-row-toggle` of P97. `nph-sidebar` shows or hides the subitems; the item does not own them.
+   A link fires nothing of its own: the click is the native `click`.
+
+4. **More actions.** `actions` (property only) takes the entries of `nph-dropdown-menu` (P92) and
+   `actions-label` names the button; `actions` without `actions-label` is invalid input. The
+   button is the icon-only `nph-button` ghost and compact with `ellipsis-vertical` (P86), with the
+   default severity of `nph-button` (D-3), a sibling of the link, never inside it, at the end of
+   the line. It is hidden by opacity at rest and shown on hover and on focus within the item, so
+   Tab and Shift+Tab reach it; under `hover: none` it is not drawn (evidence: mouse and keyboard
+   only). The `nph-dropdown-menu` lives in the shadow root of the item, `for` the button; its
+   `nph-item-select`, which does not leave the shadow root, is fired again on the host with the same
+   `detail`, bubbling. A disabled item has no more actions.
+
+5. **Clicks that are not a click on the line.** A click whose path holds the more actions button,
+   its menu or the balloon stops at the host in the bubble phase (`stopImmediatePropagation`), after
+   their own handlers, as the balloon of `nph-button` (P86). A disabled piece lets no click through,
+   `click()` on the host included, in the capture phase.
+
+6. **Disabled.** The line at `state/disabled-opacity`, out of the Tab order, with no balloon. A
+   disabled link is an `<a>` without `href`, with `role="link"` and `aria-disabled="true"`, so the
+   screen reader still finds a link; a disabled group is the native disabled button. A disabled
+   link needs no `href`.
+
+7. **The balloon.** On the item and the subitem, `tooltip` is the text of an `nph-tooltip`
+   `for` the line, with `relation="description"`: the name stays the label, and the balloon text
+   does not follow it (evidence, Properties). On the rail button the balloon is always on, with the
+   `label`, `relation="name"` and the `aria-label` as a fallback, as the icon-only `nph-button`
+   (P86); there is no property to turn it off (evidence, Do not). Its counter is the description of
+   the link, through `aria-describedby`.
+
+8. **The subitem.** A link with `label`, `href`, `active`, `disabled` and `tooltip`, and
+   `options`, reflected, which draws `chevron-right` at `icon/size-sm`. The arrow is visual only and
+   the subitem stays a link (D-4). No icon, no counter and no more actions.
+
+9. **The rail button.** A link with `label`, `icon`, `href`, `active`, `disabled` and `counter`, a
+   square of `sidebar/rail-button-size` in `radius/container`. The counter sits on the top end
+   corner, inside the button (D-1); active, it gains an outline `border/width` in
+   `sidebar/panel-background` (D-2).
+
+10. **Tokens.** The tokens of the evidence, each in its part: the item in `sidebar/item-height`,
+    `sidebar/item-padding`, `space/control-padding` and `sidebar/item-radius`; the subitem in
+    `control/height-default`, `space/inline` and `sidebar/item-padding`; the color of rest, hover
+    and the rail button at rest in `sidebar/item-foreground` (the evidence measures the contrast of
+    that color against the hover backgrounds). The focus is border `border/width` in
+    `color/primary` and halo `focus/ring-width` in `focus/halo`, outside the box, as `nph-button`,
+    in `focus/border-radius-sidebar-item` and `focus/radius-sidebar-item`, or
+    `focus/border-radius-container` and `focus/radius-container` on the rail button. The pieces do
+    not use `sidebar/item-background-active`, `sidebar/rail-radius`, `focus/border` or
+    `focus-ring/sidebar`: the evidence gives the active item no background, the rail button
+    `radius/container`, and the focus border and halo.
+
+**Source.** Board `nph-sidebar-item` (`1366:2`), documentation `2723:460`, sets `2251:51271`,
+`2251:51312` and `2251:51328` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on
+26/10/2026, with the Figma UX QA and the textual audit approved. The three folders, the split of
+`type` and `counter`, the event, the more actions menu, the click rule, the disabled link and the
+invalid input rules are a technical proposal of this implementation, with the plan approved by
+Elvys on 23/10/2026.
+
+**Out of scope.** `nph-sidebar`: the panel, the expanded and collapsed modes, the indent of the
+subitems, the flyout and the keyboard between lines. What the list of options of a subitem opens
+(D-4). A new token. The Usage section of the page (P70, DSA-35), the page lists read from the
+Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 26/10/2026. D-1 to D-4 wait for Indiane.
+API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96 or P97 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97 or P98 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
