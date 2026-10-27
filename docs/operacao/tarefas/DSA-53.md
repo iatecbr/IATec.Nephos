@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 520,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-sidebar-item",
   "dependencies": [
     "DSA-03",
@@ -35,7 +35,32 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The evidence gives the rail button a counter, but not where it sits on the button. The code puts it on the top end corner, over the button. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence says the counter of the active rail button gains an outline in sidebar/panel-background, but not its width. The code uses border/width. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence makes more actions an nph-icon-button ghost and compact, but does not name its severity. The code keeps the default of nph-button, primary. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    },
+    {
+      "id": "D-4",
+      "question": "The evidence says a subitem with options=yes shows the arrow to the right and leads to a list of options, but not what opens that list. The code keeps it a link, like the subitem without options, and the arrow is visual only. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-26"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-53/documentacao-figma-aceita-2026-10-26.md"
   ],
@@ -52,8 +77,12 @@
     "excerpt": null,
     "converted_decision": "The nph-sidebar-item board, with its Documentação frame (2723:460), was accepted as the API and behavior specification of nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button. Components: nph-sidebar-item (2251:51271), nph-sidebar-subitem (2251:51312), nph-sidebar-rail-button (2251:51328). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": {
+    "branch": "claude/dsa-53-nph-sidebar-item",
+    "commit": null,
+    "pr": null
+  },
+  "context": "docs/operacao/contextos/DSA-53.md",
   "updated_at": "2026-10-26"
 }
 ```
