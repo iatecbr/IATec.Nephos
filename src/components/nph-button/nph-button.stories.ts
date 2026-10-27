@@ -111,7 +111,7 @@ export const Sizes: Story = {
   },
 };
 
-/** Start icon, end icon and both together (B6), at icon/size-sm; on hover, the icons turn solid (P88). */
+/** Start icon, end icon and both together (B6), at icon/size-sm, and the icon only; on hover, the icons turn solid (P88). */
 export const Icons: Story = {
   name: 'Icons',
   render: (_args, context: GlobalsContext) => {
@@ -123,6 +123,7 @@ export const Icons: Story = {
         <nph-button size="default" text=${v.add} icon-start="plus"></nph-button>
         <nph-button size="default" emphasis="outline" text=${v.options} icon-end="chevron-down"></nph-button>
         <nph-button size="default" emphasis="light" text=${v.filter} icon-start="filter" icon-end="chevron-down"></nph-button>
+        <nph-button size="default" icon-start="plus" label=${v.add}></nph-button>
       </div>`,
     );
   },

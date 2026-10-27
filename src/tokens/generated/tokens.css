@@ -142,6 +142,7 @@
   --nph-core-layout-width-dialog-content-md: 32rem;
   --nph-core-layout-width-dialog-content-lg: 42rem;
   --nph-core-layout-width-media: 16rem;
+  --nph-core-layout-width-page-size-select: 5.5rem;
   --nph-core-line-height-100: 1rem;
   --nph-core-neutral-50: #f1f1f1;
   --nph-core-neutral-100: #e3e3e3;
@@ -224,6 +225,7 @@
   --nph-core-space-700: 2rem;
   --nph-core-space-800: 2.5rem;
   --nph-core-space-900: 3rem;
+  --nph-core-space-1000: 4rem;
   --nph-core-space-off-scale-10: 0.625rem;
   --nph-core-success-50: #e8f6ed;
   --nph-core-success-100: #d0eddb;
@@ -444,6 +446,10 @@
   --nph-text-label-md-line-height: 1.25rem;
   --nph-text-label-md-font-weight: 500;
   --nph-text-label-md-letter-spacing: 0;
+  --nph-text-label-md-strong-font-size: 0.875rem;
+  --nph-text-label-md-strong-line-height: 1.25rem;
+  --nph-text-label-md-strong-font-weight: 600;
+  --nph-text-label-md-strong-letter-spacing: 0;
   --nph-text-label-sm-font-size: 0.75rem;
   --nph-text-label-sm-line-height: 1rem;
   --nph-text-label-sm-font-weight: 500;
@@ -582,6 +588,7 @@
   --nph-text-body-sm-font-family: var(--nph-core-font-sans);
   --nph-text-label-lg-font-family: var(--nph-core-font-sans);
   --nph-text-label-md-font-family: var(--nph-core-font-sans);
+  --nph-text-label-md-strong-font-family: var(--nph-core-font-sans);
   --nph-text-label-sm-font-family: var(--nph-core-font-sans);
   --nph-text-caption-font-family: var(--nph-core-font-sans);
   --nph-text-code-font-family: var(--nph-core-font-mono);
@@ -594,6 +601,9 @@
   --nph-image-radius-md: var(--nph-core-radius-300);
   --nph-image-radius-lg: var(--nph-core-radius-400);
   --nph-image-media-width: var(--nph-core-layout-width-media);
+  --nph-pagination-page-size-width: var(--nph-core-layout-width-page-size-select);
+  --nph-pagination-page-input-width: var(--nph-core-space-1000);
+  --nph-pagination-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-table-border-width: var(--nph-border-width);
@@ -626,6 +636,16 @@
   --nph-image-icon-size-sm: var(--nph-icon-size-sm);
   --nph-image-icon-size-md: var(--nph-icon-size-md);
   --nph-image-icon-size-lg: var(--nph-icon-size-lg);
+  --nph-pagination-border-width: var(--nph-border-width);
+  --nph-pagination-radius: var(--nph-radius-container);
+  --nph-pagination-padding-x: var(--nph-space-control-padding);
+  --nph-pagination-padding-y: var(--nph-space-inline);
+  --nph-pagination-item-gap: var(--nph-space-inline);
+  --nph-pagination-group-gap: var(--nph-space-inline-loose);
+  --nph-pagination-control-gap: var(--nph-space-inline);
+  --nph-pagination-item-size: var(--nph-control-height-default);
+  --nph-pagination-item-radius: var(--nph-radius-control);
+  --nph-pagination-arrow-border-width: var(--nph-border-width);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -665,6 +685,11 @@
   --nph-image-background: var(--nph-color-muted);
   --nph-image-foreground: var(--nph-color-muted-foreground);
   --nph-image-border: var(--nph-color-border);
+  --nph-pagination-border: var(--nph-color-border);
+  --nph-pagination-item-background-hover: var(--nph-color-accent);
+  --nph-pagination-text-foreground: var(--nph-color-foreground);
+  --nph-pagination-arrow-background: var(--nph-color-background);
+  --nph-pagination-arrow-border: var(--nph-color-input);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);
@@ -684,6 +709,7 @@
   --nph-sidebar-search-background: var(--nph-color-primary-surface);
   --nph-table-row-hover-background: var(--nph-color-primary-surface);
   --nph-image-focus-border: var(--nph-focus-border);
+  --nph-pagination-item-background-active: var(--nph-color-primary-surface-hover);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
