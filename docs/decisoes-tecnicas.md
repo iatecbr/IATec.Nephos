@@ -1336,6 +1336,14 @@ section "How to change one of these decisions": the technical conflict is above,
 proposal is this section, and the human review is the pull request. The text of P19 does
 not change; only its out of scope gets the annotation.
 
+**Annotation of 27/10/2026.** DSA-32 puts the gate in place: `@storybook/addon-a11y` and
+`@storybook/addon-vitest` at the version of `storybook`, the stories as the `storybook`
+project of `vitest.config.ts`, and `parameters.a11y` in `.storybook/preview.js` with
+`test: 'error'` and the axe tags `wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa` and `wcag22aa`.
+Each story is read once, in the initial globals (light mode, default language), after
+`.storybook/settle.js` lets the transitions inside the shadow roots end. The decision itself
+does not change.
+
 **Status.** Adopted by Indiane on 15/10/2026 (DSA-30, D3). Reviewed in the pull request
 that brings it; the merge is the approval.
 

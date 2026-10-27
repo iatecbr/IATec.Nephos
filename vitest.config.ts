@@ -10,13 +10,9 @@
  * the Storybook Vitest integration and runs the accessibility gate on each one
  * (P72); its rule set is in `.storybook/preview.js`.
  */
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vitest/config';
-
-const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** A new object per project: Vitest writes the project name into each instance. */
 const browser = () => ({
@@ -38,7 +34,7 @@ export default defineConfig({
         },
       },
       {
-        plugins: [storybookTest({ configDir: path.join(dirname, '.storybook') })],
+        plugins: [storybookTest({ configDir: '.storybook' })],
         test: {
           name: 'storybook',
           browser: browser(),
