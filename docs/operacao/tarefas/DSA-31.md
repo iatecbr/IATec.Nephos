@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 320,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-multi-combobox",
   "dependencies": ["DSA-03", "DSA-12", "DSA-17", "DSA-28", "DSA-29", "DSA-46"],
   "gates": [
@@ -22,10 +22,10 @@
       "id": "review-and-merge",
       "description": "Component, chip, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-31/review-and-merge-2026-10-26.md",
+      "result": "passed",
+      "verified_at": "2026-10-26",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -56,7 +56,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-31/documentacao-figma-aceita-2026-10-15.md"
+    "docs/operacao/evidencias/DSA-31/documentacao-figma-aceita-2026-10-15.md",
+    "docs/operacao/evidencias/DSA-31/review-and-merge-2026-10-26.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
@@ -71,12 +72,8 @@
     "excerpt": null,
     "converted_decision": "The nph-multi-combobox frame (1467:25660) was accepted as the API and behavior specification of the nph-multi-combobox. COMPONENT_SET 1467:25652; chip 1467:24879; the nph-combobox list 1359:141 with the nph-select option 1357:136. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": {
-    "branch": "claude/dsa-31-nph-multi-combobox-4b7aff",
-    "commit": "c515c229b01cf6b41ee60e3a583abfc28fbd4606",
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/125"
-  },
-  "context": "docs/operacao/contextos/DSA-31.md",
+  "git_review": { "branch": "claude/dsa-31-nph-multi-combobox-4b7aff", "commit": "3f633ba3aedce3f8ce9c49bf935a44b38d10f319", "pr": "125" },
+  "context": null,
   "updated_at": "2026-10-26"
 }
 ```
