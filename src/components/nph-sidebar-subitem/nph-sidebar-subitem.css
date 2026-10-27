@@ -1,0 +1,100 @@
+/**
+ * Internal style of `nph-sidebar-subitem`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the shadow root
+ * and are not API.
+ *
+ * No literal design value goes in here. Written box relations (P98): `transparent` (no
+ * background at rest and when active), `nowrap` and `ellipsis` (one line) and
+ * `calc(-1 * ...)` (focus border and halo outside, without changing the size).
+ */
+
+/* With no label or with invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* The subitem fills the width it receives. */
+:host([data-nph-rendered]) {
+  display: block;
+  --_fg: var(--nph-sidebar-item-foreground);
+}
+
+:host([active]) {
+  --_fg: var(--nph-sidebar-item-foreground-active);
+}
+
+/* Disabled: the whole line loses opacity, in the resting colors. */
+:host([disabled]) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+.control {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  inline-size: 100%;
+  block-size: var(--nph-control-height-default);
+  margin: 0;
+  padding-block: var(--nph-space-inline);
+  padding-inline: var(--nph-sidebar-item-padding);
+  border-radius: var(--nph-sidebar-item-radius);
+  background-color: transparent;
+  color: var(--_fg);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  text-decoration: none;
+  white-space: nowrap;
+  outline: none;
+}
+
+/* Active: its color and text/label-md. */
+:host([active]) .control {
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+:host(:not([disabled])) .control:hover {
+  background-color: var(--nph-sidebar-item-background-hover);
+}
+
+.label {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.arrow {
+  flex: none;
+}
+
+/* Focus: border and halo around the whole line, outside, keyboard only. */
+.control:focus-visible::before,
+.control:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.control:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-color-primary);
+  border-radius: var(--nph-focus-border-radius-sidebar-item);
+}
+
+.control:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-sidebar-item);
+}
