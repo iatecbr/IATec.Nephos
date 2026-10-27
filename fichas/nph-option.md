@@ -4,15 +4,15 @@ level: component
 status: active
 solves: >-
   Gives a list the person picks from one option with its label and, when needed, a
-  start, a helper text and the selected look, shared by the lists of nph-select and
-  nph-combobox.
+  start, a helper text and the selected look, shared by the lists of nph-select,
+  nph-combobox and nph-multi-combobox.
 use_when:
   - "As a child of nph-select, one per option of the list."
   - "With start=dot when each option has a state, written in the label."
   - "With secondary when a helper text tells options with similar labels apart."
 do_not_use_when:
   - "On its own, outside the list that owns it: it has no role there."
-  - "With a checkbox marker: multiple choice belongs to nph-multi-combobox."
+  - "With marker=checkbox outside nph-multi-combobox: the box is its multiple choice."
   - "Mixing options with and without a start in the same list: use one start."
   - "With the status dot and no state written in the label."
 api:
@@ -73,6 +73,18 @@ api:
       The color of the dot, with start=dot: status/* or, for neutral,
       color/muted-foreground. Absent, the dot follows the text color (D6). Any other
       value draws nothing and emits console.error in development.
+  marker:
+    type: enum
+    values: [check, checkbox]
+    required: false
+    default: check
+    reflects: true
+    constraint: >-
+      check is the single choice: the selected option takes the selected background and
+      the check. checkbox is the multiple choice of nph-multi-combobox: an inert
+      nph-checkbox at the start, checked while selected, with no selected background and
+      no check (P96). Any other value draws nothing and emits console.error in
+      development.
   disabled:
     type: boolean
     required: false
@@ -103,7 +115,11 @@ variants:
     choose_when: "icon when a symbol helps recognize the option; avatar when the options are people; dot when each option has a state; none in every other case."
     do_not_combine_with:
       - "Options with and without a start in the same list."
-      - "A checkbox marker, which belongs to nph-multi-combobox."
+  marker:
+    axis: appearance
+    choose_when: "check in a list of one choice (nph-select, nph-combobox); checkbox in the list of several choices of nph-multi-combobox, which sets it."
+    do_not_combine_with:
+      - "checkbox in a list of one choice."
 states:
   default:
     token: color/popover-foreground
@@ -113,7 +129,7 @@ states:
     changes_for_user: "The option the pointer or the keyboard is on: color/accent, with the text in color/accent-foreground (D5)."
   selected:
     token: color/primary-surface
-    changes_for_user: "The chosen option: color/primary-surface and the check in color/primary. It wins over active (D5)."
+    changes_for_user: "The chosen option: color/primary-surface and the check in color/primary. It wins over active (D5). With marker=checkbox, the checked box instead, with no background (P96)."
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole option at state/disabled-opacity; it cannot be chosen."
@@ -121,6 +137,7 @@ business_rules:
   - "The option never chooses itself: the list that owns it writes selected and active."
   - "Without the value attribute, the value is the label text."
   - "The selected background wins over the active one."
+  - "With marker=checkbox, the checked box says the choice, without the selected background."
 domain_errors: []
 tokens:
   padding: space/inline
@@ -133,6 +150,7 @@ tokens:
   dot: "space/inline square, radius/full, in an icon/size-md box; status/* or color/muted-foreground"
   active: "color/accent with color/accent-foreground"
   selected: "color/primary-surface with the check, icon/size-sm in color/primary"
+  checkbox: "nph-checkbox, inert, at the start of the option (marker=checkbox)"
   disabled: state/disabled-opacity
 ai_hints:
   - "Write nph-option only as a child of the list that owns it, such as nph-select."
@@ -142,7 +160,7 @@ ai_hints:
   - "Never set selected or active by hand: set the value of the list."
 accessibility:
   semantics: "Role option through ElementInternals, with aria-selected and aria-disabled; it writes no ARIA attribute on its own host."
-  accessible_name: "The label text and the secondary text. The start, the dot and the check are hidden from the screen reader."
+  accessible_name: "The label text and the secondary text. The start, the dot, the check and the box of marker=checkbox are hidden from the screen reader."
   keyboard:
     - "not_applicable: the option never takes the focus; the list that owns it handles the keyboard."
   focus: "not_applicable: the focus stays on the trigger of the list, which points to the active option with aria-activedescendant."
@@ -152,22 +170,23 @@ invalid_combinations:
   - "A start outside none, icon, avatar and dot — the option draws nothing."
   - "A status outside the six — the option draws nothing."
   - "An icon outside the core names — the option draws nothing."
+  - "A marker outside check and checkbox — the option draws nothing."
   - "An option on its own, outside a list — it has no role there."
 relations:
-  combines_with: [nph-select, nph-icon, nph-avatar]
-  parents: [nph-select]
-  children: [nph-icon, nph-avatar]
+  combines_with: [nph-select, nph-combobox, nph-multi-combobox, nph-icon, nph-avatar, nph-checkbox]
+  parents: [nph-select, nph-combobox, nph-multi-combobox]
+  children: [nph-icon, nph-avatar, nph-checkbox]
   complements_block: []
   appears_in: []
 anti_patterns:
   - "Using the option on its own, outside a list."
-  - "Putting a checkbox on the option."
+  - "Putting marker=checkbox on the option of a list of one choice."
   - "Mixing options with and without a start in the same list."
   - "Using the status dot without a written state."
   - "Setting selected or active by hand."
 sources:
   design_md: "design.md, color/popover-foreground, color/accent, color/accent-foreground, color/primary-surface, color/primary, color/muted-foreground, status/*, text/label-md, radius/inner, radius/full, icon/size-md and state/disabled-opacity"
-  decision: "P91 — API and semantics of nph-select and nph-option"
+  decision: "P91 — API and semantics of nph-select and nph-option; P96 amends it with marker"
   tests: "src/components/nph-option/nph-option.test.ts and src/components/nph-select/nph-select.test.ts"
   usage_evidence: "the Option section of the nph-select Docs page"
   storybook: "src/components/nph-select/nph-select.stories.ts (the Option story) and nph-select.docs.stories.ts"
@@ -180,8 +199,8 @@ sources:
 
 **The problem it solves:** gives a list the person picks from one option with its label and,
 when needed, a start, a helper text and the selected look. It is shared: the list of
-`nph-select` uses it, and the list of `nph-combobox` reuses it. It never stands alone; its
-reading page is the one of `nph-select`.
+`nph-select` uses it, and the lists of `nph-combobox` and `nph-multi-combobox` reuse it. It
+never stands alone; its reading page is the one of `nph-select`.
 
 **When to use:**
 
@@ -192,7 +211,8 @@ reading page is the one of `nph-select`.
 **When NOT to use:**
 
 - **On its own, outside the list that owns it** — it has no role there.
-- **With a checkbox marker** — multiple choice belongs to `nph-multi-combobox`.
+- **With `marker="checkbox"` outside `nph-multi-combobox`** — the box is its multiple
+  choice.
 - **Mixing options with and without a start in the same list** — use one start.
 - **With the status dot and no state written in the label.**
 
@@ -206,6 +226,10 @@ turned on by `secondary`.
 
 **By density:** `not_applicable`.
 
+**Marker:** `check`, the single choice, or `checkbox`, the multiple choice
+of `nph-multi-combobox`, which sets it on its options (P96). With `checkbox`, the option
+measures 40 px, the touch area of the `nph-checkbox`.
+
 | Variant | Choose when |
 |---|---|
 | `start="none"` | General use |
@@ -213,8 +237,8 @@ turned on by `secondary`.
 | `start="avatar"` | The options are people |
 | `start="dot"` | Each option has a state, written in the label |
 
-**Do not combine with:** options with and without a start in the same list; a checkbox
-marker.
+**Do not combine with:** options with and without a start in the same list;
+`marker="checkbox"` in a list of one choice.
 
 ## States
 
@@ -222,7 +246,7 @@ marker.
 |---|---|---|
 | `default` | `color/popover-foreground` | The label on the list background, with no background of its own |
 | `hover` / active | `color/accent`, `color/accent-foreground` | The option the pointer or the keyboard is on (D5) |
-| `selecionada` | `color/primary-surface`, `color/primary` | The chosen option, with the check; it wins over active (D5) |
+| `selecionada` | `color/primary-surface`, `color/primary` | The chosen option, with the check; it wins over active (D5). With `marker="checkbox"`, the checked box instead, with no background (P96) |
 | `disabled` | `state/disabled-opacity` | The whole option fades; it cannot be chosen. Selected and disabled keeps the selected look (D-3, open) |
 
 **Feedback and focus:** the option never takes the focus; the list that owns it writes
@@ -233,6 +257,7 @@ marker.
 - The option never chooses itself: the list that owns it writes `selected` and `active`.
 - Without the `value` attribute, the value is the label text.
 - The selected background wins over the active one.
+- With `marker="checkbox"`, the checked box says the choice, without the selected background.
 
 **Domain error states:** `not_applicable`.
 
@@ -241,7 +266,7 @@ marker.
 | Criterion | Rule |
 |---|---|
 | Semantics | Role `option` through `ElementInternals`, with `aria-selected` and `aria-disabled`; it writes no ARIA attribute on its own host |
-| Accessible name | The label text and the secondary text. The start, the dot and the check are hidden from the screen reader |
+| Accessible name | The label text and the secondary text. The start, the dot, the check and the box of `marker="checkbox"` are hidden from the screen reader; the box is also `inert` |
 | Keyboard | `not_applicable`: the list that owns the option handles the keyboard |
 | Focus | `not_applicable`: the focus stays on the trigger of the list, which points to the active option with `aria-activedescendant` |
 | Contrast | The label meets 4.5:1 on `color/popover`, `color/accent` and `color/primary-surface`; the check on `color/primary-surface` measures 4.78:1 and 6.26:1 (D8) |
@@ -250,13 +275,14 @@ marker.
 
 ## Relations
 
-**Combines with:** `nph-select`, the list that owns it; `nph-icon` and `nph-avatar`, in the
-start and the check.
+**Combines with:** `nph-select`, `nph-combobox` and `nph-multi-combobox`, the lists that own
+it; `nph-icon` and `nph-avatar`, in the start and the check; `nph-checkbox`, the box of
+`marker="checkbox"`.
 
-**What is the parent:** `nph-select`; later, `nph-combobox`. A list that owns options learns
+**What is the parent:** `nph-select`, `nph-combobox` and `nph-multi-combobox`. A list that owns options learns
 that a property of an option changed through the `NPH_OPTION_CHANGED` symbol (P91).
 
-**What is the child:** `nph-icon` and `nph-avatar`.
+**What is the child:** `nph-icon`, `nph-avatar` and `nph-checkbox`.
 
 **Which block this piece complements:** none yet.
 
@@ -274,6 +300,7 @@ that a property of an option changed through the `NPH_OPTION_CHANGED` symbol (P9
 | Dot | `space/inline` square, `radius/full`, in an `icon/size-md` box; `status/*`, `color/muted-foreground` for neutral, or the text color (D6) |
 | Active | `color/accent`, `color/accent-foreground` |
 | Selected | `color/primary-surface`; the check `icon/size-sm` in `color/primary` |
+| Box | `nph-checkbox`, inert, at the start, with `marker="checkbox"` |
 | Disabled | `state/disabled-opacity` |
 
 **Usage restrictions:** `color/primary-surface` is the selected background only. The option
@@ -297,13 +324,14 @@ has no motion.
 ## Anti-patterns
 
 - **Do not use the option on its own, outside a list.**
-- **Do not put a checkbox on the option** — it belongs to `nph-multi-combobox`.
+- **Do not put `marker="checkbox"` on the option of a list of one choice** — the box is the
+  multiple choice of `nph-multi-combobox`.
 - **Do not mix options with and without a start in the same list.**
 - **Do not use the status dot without a written state.**
 - **Do not set `selected` or `active` by hand.**
 - **Invalid combinations:** a `start` outside the four; a `status` outside the six; an `icon`
-  outside the core.
-- **Do not create without a decision:** a checkbox marker, groups, a color property, an event
+  outside the core; a `marker` outside the two.
+- **Do not create without a decision:** groups, a color property, an event
   of its own or a `selected` attribute as the default of the list.
 
 ## Sources and decisions
@@ -313,7 +341,7 @@ has no motion.
   `color/muted-foreground`, `status/*`, `text/label-md`, `radius/inner`, `radius/full`,
   `icon/size-md` and `state/disabled-opacity`.
 - **The decision that originated it:** P91, the API and semantics of `nph-select` and
-  `nph-option`.
+  `nph-option`; P96 amends it with `marker`.
 - **Tests:** `src/components/nph-option/nph-option.test.ts` and
   `src/components/nph-select/nph-select.test.ts`.
 - **Usage evidence:** the Option section of the `nph-select` Docs page.

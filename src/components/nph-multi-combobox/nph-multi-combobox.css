@@ -1,0 +1,310 @@
+/**
+ * Internal style of the `nph-multi-combobox` field and its chips. The list is the
+ * `nph-combobox` list, with its own file, `nph-combobox.list.css` (P95).
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The `--_*` variables are internal to the
+ * shadow root and are not API.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`,
+ * `100%`, `50%`, `1` and `none` (box and flex relations), `wrap` and `nowrap` (the
+ * chips go down to more lines; the counter stays on one), `ellipsis` (one line, D3),
+ * `transparent` (the inner field and the remove button show what is behind them),
+ * `calc(-1 * ...)` (focus border and halo outside, without changing the size) and the
+ * resets of the native field and button (`margin`, `padding`, `border`, `font`,
+ * `appearance`).
+ *
+ * The order of the state rules is the precedence of the set: hover, then focus (and
+ * open, which is focus with the list open), then error, then disabled, which wins
+ * over everything.
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* Default width `layout/multi-combobox-width`; the consumer stretches it to the form. */
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  vertical-align: middle;
+  inline-size: var(--nph-layout-multi-combobox-width);
+  min-inline-size: 0;
+}
+
+/* Disabled, by the attribute or by a disabled `<fieldset>`: the whole piece loses opacity. */
+:host(:disabled) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/*
+ * The field: border, radius, the minimum height of the size, the paddings and the gap
+ * between its parts. The height is a minimum: the field grows when the chips go to
+ * another line.
+ */
+.control {
+  --_border: var(--nph-color-input);
+
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  min-inline-size: 0;
+  min-block-size: var(--nph-control-height-default);
+  padding-block: var(--nph-space-inline-tight);
+  padding-inline: var(--nph-space-control-padding);
+  border: var(--nph-border-width) solid var(--_border);
+  border-radius: var(--nph-radius-control);
+  background-color: var(--nph-color-background);
+  color: var(--nph-color-muted-foreground);
+  cursor: text;
+}
+
+/* `large` changes only the minimum height. */
+:host([size='large']) .control {
+  min-block-size: var(--nph-control-height-large);
+}
+
+/* The magnifying glass and the arrow: `icon/size-sm` in `color/muted-foreground`. */
+.search,
+.arrow {
+  flex: none;
+}
+
+.arrow {
+  cursor: pointer;
+}
+
+/*
+ * The chips and the typed text: on the same line while they fit, then down to the next
+ * one, with `space/inline-tight` between them in both directions.
+ */
+.content {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-space-inline-tight);
+  min-inline-size: 0;
+}
+
+.chips {
+  display: contents;
+}
+
+/* The counter mode stays on one line: the subject, the counter and the typed text. */
+:host([counter]) .content {
+  flex-wrap: nowrap;
+}
+
+/* The subject of the counter (D1): `text/body-md` in `color/foreground`, one line. */
+.subject {
+  min-inline-size: 0;
+  overflow: hidden;
+  color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.count {
+  flex: none;
+}
+
+/*
+ * The typed text: `text/body-md` in `color/foreground`, with the caret in the same color; the
+ * placeholder in `color/muted-foreground`. Its width follows its text (the `size` the field
+ * sets), and it takes the rest of the line.
+ */
+.field {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: var(--nph-color-foreground);
+  caret-color: var(--nph-color-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+  text-overflow: ellipsis;
+  outline: none;
+  appearance: none;
+}
+
+.field::placeholder {
+  color: var(--nph-color-muted-foreground);
+  opacity: 1;
+}
+
+/*
+ * The chip: a pill in `color/primary-surface`, `radius/full`, horizontal padding
+ * `space/inline` and gap `space/inline-tight`. It stops before the end of the field (D3).
+ */
+.chip {
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--nph-space-inline-tight);
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  padding-inline: var(--nph-space-inline);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--nph-color-primary-surface);
+  color: var(--nph-color-primary-on-surface);
+}
+
+.chip-icon {
+  flex: none;
+}
+
+/* The label of the chip: `text/label-sm`, one line with an ellipsis at the end (D3). */
+.chip-label {
+  min-inline-size: 0;
+  overflow: hidden;
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The remove target: 24 x 24, the icon of `icon/size-sm` with `space/inline-tight` around it. */
+.remove {
+  position: relative;
+  box-sizing: content-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: var(--nph-space-inline-tight);
+  border: 0;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+}
+
+/*
+ * The description: never visible, but in the accessibility tree. It is clipped, not
+ * `display: none`, which the browser does not read; `inset: 0` keeps it inside the
+ * field, so a long text adds no scroll.
+ */
+.description {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Focus border and halo: drawn outside, without changing the size. */
+.control::after,
+.remove:focus-visible::before,
+.remove:focus-visible::after {
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+/* Hover: one step above the resting border. */
+.control:hover {
+  --_border: var(--nph-color-input-hover);
+}
+
+/* `foco-remover`: keep the resting border of the field, even when the pointer is over it. */
+.control:has(.remove:focus-visible) {
+  --_border: var(--nph-color-input);
+}
+
+/*
+ * `foco`: the focus on the text, and the list open, which is `foco` with the list. The
+ * border takes `focus/border` and the halo is attached outside it.
+ */
+.control:has(.field:focus),
+:host([open]) .control {
+  --_border: var(--nph-focus-border);
+}
+
+.control:has(.field:focus)::after,
+:host([open]) .control::after {
+  content: '';
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control);
+}
+
+/* `foco-remover`: the focus border and the halo sit around the 24 x 24 target only. */
+.remove:focus-visible::before,
+.remove:focus-visible::after {
+  content: '';
+}
+
+.remove:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+
+.remove:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}
+
+/* `erro`: the border stays `status/error` on hover and on focus; on focus, the halo is the error one. */
+:host([invalid]) .control,
+:host([invalid]) .control:hover,
+:host([invalid]) .control:has(.field:focus),
+:host([invalid][open]) .control {
+  --_border: var(--nph-status-error);
+}
+
+:host([invalid]) .control:has(.field:focus)::after,
+:host([invalid][open]) .control::after {
+  border-color: var(--nph-focus-halo-error);
+}
+
+/*
+ * Disabled wins: the resting border, the `color/muted` background, no hover, no error look
+ * and no focus look. The chips take their `disabled` look: `color/muted`, the label and the
+ * icon in `color/muted-foreground`, vertical padding `space/inline-tight`, no remove button.
+ */
+:host(:disabled) .control,
+:host(:disabled) .control:hover,
+:host(:disabled) .control:has(.field:focus) {
+  --_border: var(--nph-color-input);
+
+  background-color: var(--nph-color-muted);
+  cursor: default;
+}
+
+:host(:disabled) .arrow {
+  cursor: default;
+}
+
+:host(:disabled) .control::after {
+  content: none;
+}
+
+:host(:disabled) .chip {
+  padding-block: var(--nph-space-inline-tight);
+  background-color: var(--nph-color-muted);
+  color: var(--nph-color-muted-foreground);
+}

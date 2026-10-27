@@ -16,6 +16,13 @@
  *   `warning`, `success`, `error` or `help`. Absent, the dot follows the text color
  *   (D6);
  * - `disabled`: the option cannot be chosen; the whole option loses opacity;
+ * - `marker`: `check` (default) or `checkbox` (the Figma `marcador`, `marca` or
+ *   `checkbox`). Reflects. `check` is the single choice: the selected option takes the
+ *   `color/primary-surface` background and the check. `checkbox` is the multiple choice
+ *   of `nph-multi-combobox` (amendment of P91 in P96): an `nph-checkbox` at the start,
+ *   checked while selected, and no selected background and no check. The box is `inert`
+ *   and hidden from the screen reader, as in `nph-dropdown-menu` (P92): the option
+ *   carries the role and the state;
  * - `value`: the value the option gives the form. Reflects. Without the attribute,
  *   it is the label text with its white space collapsed, as in `<option>`;
  * - `selected` and `active`: written by the list that owns the option, not by the
@@ -29,7 +36,7 @@
  *   the pointer and the keyboard;
  * - invalid input does not render and emits `console.error` only in development, one
  *   per cause and accumulating (P21 rule): a `start` outside the four, a `status`
- *   outside the six and an `icon` outside the core. An option that does not render
+ *   outside the six, an `icon` outside the core and a `marker` outside the two. An option that does not render
  *   cannot be chosen.
  *
  * The owning list learns that a property of the option changed through
@@ -41,6 +48,7 @@ import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
 
 import '../nph-avatar/nph-avatar';
+import '../nph-checkbox/nph-checkbox';
 import '../nph-icon/nph-icon';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
 import optionCss from './nph-option.css?inline';
@@ -57,6 +65,10 @@ export type NphOptionStart = (typeof NPH_OPTION_STARTS)[number];
 /** The states of the dot (D6): every `status/*` and the neutral state. */
 export const NPH_OPTION_STATUSES = ['neutral', 'info', 'warning', 'success', 'error', 'help'] as const;
 export type NphOptionStatus = (typeof NPH_OPTION_STATUSES)[number];
+
+/** The two markers of the option (the Figma `marcador`): single and multiple choice. */
+export const NPH_OPTION_MARKERS = ['check', 'checkbox'] as const;
+export type NphOptionMarker = (typeof NPH_OPTION_MARKERS)[number];
 
 /** The default start icon (D4). */
 export const NPH_OPTION_DEFAULT_ICON = 'globe';
@@ -102,6 +114,8 @@ export class NphOption extends LitElement {
     icon: { type: String },
     src: { type: String },
     status: { type: String },
+    /* `marker` reflects: the internal CSS selects the selected look by it. */
+    marker: { type: String, reflect: true },
     /* `disabled` reflects: the internal CSS and the consumer's selectors read it. */
     disabled: { type: Boolean, reflect: true },
   };
@@ -115,6 +129,8 @@ export class NphOption extends LitElement {
   declare src: string;
   /** The color of the dot, with `start="dot"`. Absent, the text color. */
   declare status: string | null;
+  /** `check` (default) or `checkbox`: the single or the multiple choice. */
+  declare marker: string;
   declare disabled: boolean;
 
   private readonly internals: ElementInternals;
@@ -130,6 +146,7 @@ export class NphOption extends LitElement {
     this.icon = NPH_OPTION_DEFAULT_ICON;
     this.src = '';
     this.status = null;
+    this.marker = 'check';
     this.disabled = false;
   }
 
@@ -196,13 +213,14 @@ export class NphOption extends LitElement {
     if (changed.has('disabled')) {
       this.internals.ariaDisabled = this.disabled ? 'true' : null;
     }
-    const decisive = ['start', 'icon', 'status'].some((name) => changed.has(name));
+    const decisive = ['start', 'icon', 'status', 'marker'].some((name) => changed.has(name));
     if (!decisive) {
       return;
     }
     const start = (this.start ?? '').trim();
     const icon = (this.icon ?? '').trim();
     const status = this.status === null || this.status === undefined ? null : this.status.trim();
+    const marker = (this.marker ?? '').trim();
     let valid = true;
 
     if (!oneOf(NPH_OPTION_STARTS, start)) {
@@ -215,6 +233,10 @@ export class NphOption extends LitElement {
     }
     if (status !== null && !oneOf(NPH_OPTION_STATUSES, status)) {
       devError(`status "${status}" does not exist. Use ${NPH_OPTION_STATUSES.join(', ')}.`);
+      valid = false;
+    }
+    if (!oneOf(NPH_OPTION_MARKERS, marker)) {
+      devError(`marker "${marker}" does not exist. Use ${NPH_OPTION_MARKERS.join(' or ')}.`);
       valid = false;
     }
 
@@ -247,17 +269,28 @@ export class NphOption extends LitElement {
     }
   }
 
+  /** The box of the `checkbox` marker, named by the label text so the checkbox renders. */
+  private box(): TemplateResult {
+    return html`<nph-checkbox class="box" inert aria-hidden="true" label=${collapsedText(this)} .checked=${this.isSelected}></nph-checkbox>`;
+  }
+
   protected override render(): TemplateResult | typeof nothing {
     if (!this.valid) {
       return nothing;
     }
     const secondary = (this.secondary ?? '').trim();
-    return html`${this.startArt()}
+    const checkbox = (this.marker ?? '').trim() === 'checkbox';
+    return html`${checkbox ? this.box() : nothing}${this.startArt()}
       <span class="text">
-        <span class="label"><slot></slot></span>
+        <span class="label"><slot @slotchange=${checkbox ? this.onSlotchange : nothing}></slot></span>
         ${secondary === '' ? nothing : html`<span class="secondary">${secondary}</span>`}
       </span>
-      ${this.isSelected ? html`<nph-icon class="check" name="check" size="sm" aria-hidden="true"></nph-icon>` : nothing}`;
+      ${this.isSelected && !checkbox ? html`<nph-icon class="check" name="check" size="sm" aria-hidden="true"></nph-icon>` : nothing}`;
+  }
+
+  /** The label text names the box: a new text draws it again. */
+  private onSlotchange(): void {
+    this.requestUpdate();
   }
 }
 

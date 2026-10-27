@@ -204,6 +204,8 @@ export interface NphComboboxRowState {
   readonly query: string;
   readonly selected: boolean;
   readonly active: boolean;
+  /** The marker of the option: `check` (default) or `checkbox`, the multiple choice of `nph-multi-combobox` (P96). */
+  readonly marker?: 'check' | 'checkbox';
 }
 
 /** One option row: an `nph-option` (P91), with the typed stretch highlighted in its label. */
@@ -217,6 +219,7 @@ export function renderOption(option: NphComboboxOption, state: NphComboboxRowSta
     src=${start === 'avatar' ? trimmed(option.src) : nothing}
     status=${option.status === undefined ? nothing : option.status}
     secondary=${secondary === '' ? nothing : secondary}
+    marker=${state.marker ?? 'check'}
     ?disabled=${option.disabled === true}
     .selected=${state.selected}
     .active=${state.active}
