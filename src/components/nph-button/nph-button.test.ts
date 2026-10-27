@@ -3,7 +3,7 @@
  * resolved color, real hover, keyboard focus and measurements only exist where there
  * is layout. P86 adds the shape of the icon-only button and its built-in tooltip,
  * whose name the browser itself computes, read through the accessibility tree. P88 adds
- * the solid icon in hover-active, in the button with text.
+ * the solid icon in hover-active, with text and, since its amendment, in the icon only.
  *
  * Color schemes are switched at the root (`data-nph-color-scheme` on `html`).
  * In a part of the screen with another brand and another scheme, `status/on-solid` and
@@ -210,8 +210,8 @@ async function axDescription(element: Element): Promise<string> {
 }
 
 /**
- * The icons the button draws, after they render: with text, each icon is a light and
- * solid pair and the CSS hides the one of the other state (P88).
+ * The icons the button draws, after they render: each icon is a light and solid pair,
+ * with text and in the icon only, and the CSS hides the one of the other state (P88).
  */
 async function visibleIcons(button: HTMLButtonElement): Promise<NphIcon[]> {
   const icons = [...button.querySelectorAll('nph-icon')];
@@ -316,7 +316,8 @@ describe('sizes and anatomy', () => {
       const height = Number.parseFloat(resolved('height', HEIGHT[size]));
       expect([box.width, box.height]).toEqual([height, height]);
       const expected = { compact: 'sm', default: 'md', large: 'lg' }[size];
-      expect(control(element).querySelector('nph-icon')?.getAttribute('size')).toBe(expected);
+      const icons = [...control(element).querySelectorAll('nph-icon')];
+      expect(icons.map((icon) => icon.getAttribute('size'))).toEqual([expected, expected]);
     });
   }
 
@@ -554,14 +555,6 @@ describe('solid icon in hover-active (P88)', () => {
     expect(control(element).querySelector('nph-icon')).toBeNull();
   });
 
-  it('icon only, on hover, keeps its single icon light (D1)', async () => {
-    const element = await mount({ iconStart: 'plus', label: 'Add' });
-    const button = control(element);
-    await userEvent.hover(button);
-    expect(button.querySelectorAll('nph-icon')).toHaveLength(1);
-    expect(await visibleVariants(button)).toEqual(['light']);
-  });
-
   for (const [severity, emphasis] of [
     ['primary', 'solid'],
     ['info', 'solid'],
@@ -598,6 +591,99 @@ describe('solid icon in hover-active (P88)', () => {
   });
 });
 
+describe('solid icon in hover-active, icon only (P88, amendment of 27/10/2026)', () => {
+  const ICON_ONLY = { iconStart: 'plus', label: 'Add' } as const;
+
+  it('at rest, the single icon is light', async () => {
+    const element = await mount(ICON_ONLY);
+    expect(await visibleVariants(control(element))).toEqual(['light']);
+  });
+
+  for (const size of NPH_BUTTON_SIZES) {
+    it(`${size}: on hover, it turns solid, with the same name and the size of the box`, async () => {
+      const element = await mount({ ...ICON_ONLY, size });
+      const button = control(element);
+      await userEvent.hover(button);
+      const icons = await visibleIcons(button);
+      expect(icons.map((icon) => icon.getAttribute('variant'))).toEqual(['solid']);
+      expect(icons.map((icon) => icon.getAttribute('name'))).toEqual(['plus']);
+      expect(icons.map((icon) => icon.getAttribute('size'))).toEqual([{ compact: 'sm', default: 'md', large: 'lg' }[size]]);
+      await userEvent.unhover(button);
+      expect(await visibleVariants(button)).toEqual(['light']);
+    });
+  }
+
+  it('the end icon swaps too, and so does the circular shape', async () => {
+    const element = await mount({ iconEnd: 'xmark', label: 'Close', shape: 'circular' });
+    const button = control(element);
+    expect(await visibleVariants(button)).toEqual(['light']);
+    await userEvent.hover(button);
+    const icons = await visibleIcons(button);
+    expect(icons.map((icon) => [icon.getAttribute('name'), icon.getAttribute('variant')])).toEqual([['xmark', 'solid']]);
+  });
+
+  it('while pressed with the keyboard, it turns solid', async () => {
+    const element = await mount(ICON_ONLY);
+    await tabInto(element);
+    await userEvent.keyboard('{Space>}');
+    try {
+      expect(control(element).matches(':active')).toBe(true);
+      expect(await visibleVariants(control(element))).toEqual(['solid']);
+    } finally {
+      await userEvent.keyboard('{/Space}');
+    }
+  });
+
+  it('keyboard focus without hover keeps it light', async () => {
+    const element = await mount(ICON_ONLY);
+    await tabInto(element);
+    expect(control(element).matches(':focus-visible')).toBe(true);
+    expect(await visibleVariants(control(element))).toEqual(['light']);
+  });
+
+  it('disabled, on hover, keeps it light', async () => {
+    const element = await mount({ ...ICON_ONLY, disabled: true });
+    await userEvent.hover(element, { force: true });
+    expect(await visibleVariants(control(element))).toEqual(['light']);
+  });
+
+  it('loading, on hover, draws the spinner and no icon', async () => {
+    const element = await mount({ ...ICON_ONLY, loading: true });
+    await userEvent.hover(control(element));
+    expect(control(element).querySelector('nph-icon')).toBeNull();
+    expect(control(element).querySelector('nph-spinner')).not.toBeNull();
+  });
+
+  for (const [severity, emphasis] of [
+    ['primary', 'solid'],
+    ['info', 'solid'],
+    ['primary', 'light'],
+    ['danger', 'outline'],
+  ] as const) {
+    it(`${severity} ${emphasis}: the solid icon has the hover text color of the pair`, async () => {
+      const pair = PAIRS.find(([s, e]) => s === severity && e === emphasis)?.[2];
+      if (!pair) throw new Error('no pair');
+      const element = await mount({ severity, emphasis, ...ICON_ONLY });
+      const button = control(element);
+      await userEvent.hover(button);
+      const expected = resolved('color', pair.fgHover ?? pair.fg);
+      expect((await visibleIcons(button)).map((icon) => getComputedStyle(icon).color)).toEqual([expected]);
+    });
+  }
+
+  it('the box stays square and the name stays the label', async () => {
+    const element = await mount(ICON_ONLY);
+    const button = control(element);
+    await visibleIcons(button);
+    const rest = button.getBoundingClientRect();
+    await userEvent.hover(button);
+    await visibleIcons(button);
+    const hover = button.getBoundingClientRect();
+    expect([hover.width, hover.height]).toEqual([rest.width, rest.height]);
+    expect(await axName(button)).toBe('Add');
+  });
+});
+
 describe('accessible name', () => {
   it('with text, the name is the text and there is no aria-label', async () => {
     const element = await mount({ text: 'Save', label: 'ignored' });
@@ -608,7 +694,9 @@ describe('accessible name', () => {
   it('icon only: aria-label comes from label and the icon is decorative', async () => {
     const element = await mount({ iconEnd: 'xmark', label: 'Close' });
     expect(control(element).getAttribute('aria-label')).toBe('Close');
-    expect(control(element).querySelector('nph-icon')?.getAttribute('aria-hidden')).toBe('true');
+    const icons = [...control(element).querySelectorAll('nph-icon')];
+    await Promise.all(icons.map((icon) => icon.updateComplete));
+    expect(icons.map((icon) => icon.getAttribute('aria-hidden'))).toEqual(['true', 'true']);
   });
 });
 
