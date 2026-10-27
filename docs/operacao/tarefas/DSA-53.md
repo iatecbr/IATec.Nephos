@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 520,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-sidebar-item",
   "dependencies": [
     "DSA-03",
@@ -28,10 +28,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-53/review-and-merge-2026-10-26.md",
+      "result": "passed",
+      "verified_at": "2026-10-26",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -62,7 +62,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-53/documentacao-figma-aceita-2026-10-26.md"
+    "docs/operacao/evidencias/DSA-53/documentacao-figma-aceita-2026-10-26.md",
+    "docs/operacao/evidencias/DSA-53/review-and-merge-2026-10-26.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -77,12 +78,8 @@
     "excerpt": null,
     "converted_decision": "The nph-sidebar-item board, with its Documentação frame (2723:460), was accepted as the API and behavior specification of nph-sidebar-item, nph-sidebar-subitem and nph-sidebar-rail-button. Components: nph-sidebar-item (2251:51271), nph-sidebar-subitem (2251:51312), nph-sidebar-rail-button (2251:51328). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": {
-    "branch": "claude/dsa-53-nph-sidebar-item",
-    "commit": "61e36ecdc30d74a83d854a48f456a85c4f180bea",
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/128"
-  },
-  "context": "docs/operacao/contextos/DSA-53.md",
+  "git_review": { "branch": "claude/dsa-53-nph-sidebar-item", "commit": "41cdc12ab8e877352cd08d96dab47b08058a59a2", "pr": "128" },
+  "context": null,
   "updated_at": "2026-10-26"
 }
 ```
