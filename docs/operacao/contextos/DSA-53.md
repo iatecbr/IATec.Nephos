@@ -22,20 +22,25 @@ P86, the `nph-tooltip` of P77 and the `nph-dropdown-menu` of P92.
 - `docs/decisoes-tecnicas.md` — P01, P02, P03, P21, P72, P73, P77, P86, P91, P92, P97
 
 ## Changes
-The task moves to in progress with the pending decisions D-1 to D-4. See the
-commits on the branch.
+`nph-sidebar-item`, `nph-sidebar-subitem` and `nph-sidebar-rail-button`
+(components, CSS, tests), six Validation stories, the Docs page, the dictionaries in
+the three languages, the three sheets and their Metadata, and P98. See the commits on
+the branch.
 
 ## Commands run
 - `npm ci`, then `node scripts/verificar-operacao.mjs` before the commit.
+- `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`,
+  `test:operacao`, `test:naming`, `build-storybook`, `build:lib`, `test:package` and
+  `git diff --check` on the head of the pull request.
 
 ## Result
-In progress.
+In review in PR #128.
 
 ## Evidence
-None recorded: `review-and-merge` waits for the PR.
+The proof table is in the description of PR #128. `review-and-merge` waits for the merge.
 
 ## Blocker
 None. D-1 to D-4 wait for Indiane and do not block.
 
 ## Next command
-Commit the three components, the stories, the Docs page and the sheets.
+Wait for the review of PR #128.

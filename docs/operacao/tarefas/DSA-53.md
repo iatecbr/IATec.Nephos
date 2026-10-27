@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 520,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-sidebar-item",
   "dependencies": [
     "DSA-03",
@@ -79,8 +79,8 @@
   },
   "git_review": {
     "branch": "claude/dsa-53-nph-sidebar-item",
-    "commit": null,
-    "pr": null
+    "commit": "61e36ecdc30d74a83d854a48f456a85c4f180bea",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/128"
   },
   "context": "docs/operacao/contextos/DSA-53.md",
   "updated_at": "2026-10-26"
