@@ -880,7 +880,7 @@
       ],
       [
         "hover-active",
-        "A superfície muda para o token de hover do tipo e da ênfase, e no botão com texto os ícones de início e de fim ficam solid."
+        "A superfície muda para o token de hover do tipo e da ênfase, e os ícones ficam solid: os de início e de fim do botão com texto e o ícone do botão só com ícone."
       ],
       [
         "focus",
@@ -6777,7 +6777,7 @@
       "components-nph-badge-validation--two-words": "Uma ou duas palavras ficam numa linha só: o badge não quebra.",
       "components-nph-button-validation--matrix": "Cada par de severity e emphasis que existe, no tamanho default. Passe o mouse sobre um botão para ver o hover.",
       "components-nph-button-validation--sizes": "Os três tamanhos, com texto e só com ícone. O texto é label-md em todos.",
-      "components-nph-button-validation--icons": "Ícone no início, no fim e os dois juntos, em icon/size-sm. Passe o mouse sobre um botão: os ícones ficam solid.",
+      "components-nph-button-validation--icons": "Ícone no início, no fim e os dois juntos, em icon/size-sm, e um botão só com ícone. Passe o mouse sobre um botão: os ícones ficam solid.",
       "components-nph-button-validation--disabled": "Desabilitado: o botão inteiro em state/disabled-opacity, fora da ordem do Tab.",
       "components-nph-button-validation--loading": "Carregando: o spinner ocupa o lugar do ícone inicial, e o texto fica.",
       "components-nph-button-validation--shapes": "Cantos quadrados e circulares do botão só com ícone, em cada tamanho e ênfase: o tamanho fica. Use Tab para ver o foco acompanhar os cantos redondos.",
