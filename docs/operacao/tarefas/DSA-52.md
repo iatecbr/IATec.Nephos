@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 510,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-button",
   "dependencies": ["DSA-47", "DSA-43"],
   "gates": [
@@ -46,9 +46,9 @@
     "excerpt": null,
     "converted_decision": "Decision D1 of DSA-47, answered by Indiane on 26-10-2026 on the preview frame `2722:5358` (page `Rascunho`): the icon-only button, COMPONENT_SET 498:15671, also swaps its icon from light to solid in hover-active, like the nph-button with text (COMPONENT_SET 461:13009). The rule, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-10-26"
+  "git_review": { "branch": "claude/dsa-52-nph-button-so-icone-solido", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-52.md",
+  "updated_at": "2026-10-27"
 }
 ```
 
