@@ -4378,7 +4378,10 @@ and P90. The names follow P64.
   `nph-button`.
 - **`aria-level` on a row outside a `treegrid`.** ARIA 1.2 gives `aria-level` to a row inside a
   `treegrid`; the table is not an interactive grid (the evidence: it reads, it does not operate),
-  so the level is written on the `<tr>` and its support by screen readers varies.
+  so the level is written on the `<tr>` and its support by screen readers varies. The
+  accessibility gate (P72) flags it; the stories that draw a tree carry an exception decided by
+  Elvys on 27/10/2026 (DSA-32), and the move to `role="treegrid"` with the APG keyboard is
+  DSA-55.
 - **The category content** of the cell is listed in the evidence but not described (D1 of
   DSA-49): there is no `category` type yet. The required example of items grouped by category
   shows the groups as the first level of the tree, open, with the total in the footer.

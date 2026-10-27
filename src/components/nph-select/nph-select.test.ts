@@ -396,7 +396,7 @@ describe('accessible name and description', () => {
     expect(node.name?.value).toBe('Department');
     element.open = true;
     await settle();
-    const listNode = await accessibleNodeOf(list(element));
+    const listNode = await accessibleNodeOf(scroller(element));
     expect(listNode.name?.value).toBe('Department');
   });
 
@@ -1308,5 +1308,11 @@ describe('accessibility gate regressions (DSA-32, P72)', () => {
     expect(box.getAttribute('role')).toBe('listbox');
     expect(trigger(element).getAttribute('aria-controls')).toBe(box.id);
     expect(element.shadowRoot?.querySelectorAll('[role="listbox"]')).toHaveLength(1);
+  });
+
+  it('the listbox carries the name, and the popover with no role carries none', async () => {
+    const element = await mount();
+    expect(scroller(element).getAttribute('aria-label')).toBe('Department');
+    expect(list(element).hasAttribute('aria-label')).toBe(false);
   });
 });

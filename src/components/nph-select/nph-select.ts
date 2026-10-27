@@ -858,13 +858,14 @@ export class NphSelect extends LitElement implements NphOptionOwner {
   }
 
   /**
-   * The trigger and the list are named by the labels associated with the host (the
+   * The trigger and the listbox are named by the labels associated with the host (the
    * reference to an element of an outer scope is valid from inside the shadow root),
-   * or by `label`.
+   * or by `label`. The listbox is the scroller: the popover around it has no role, so
+   * it takes no name (DSA-32).
    */
   private syncName(): void {
     const trigger = this.trigger;
-    const list = this.list;
+    const list = this.scroller;
     if (trigger === null || list === null) {
       return;
     }
