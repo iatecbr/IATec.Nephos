@@ -32,7 +32,7 @@ test that fails a page without it.
 - the proofs in sequence, from `build:tokens` to `git diff --check`, all exit 0
 
 ## Result
-The task is in progress on the branch `claude/amazing-euclid-045eac`.
+The task is in review in pull request #140, on the branch `claude/amazing-euclid-045eac`.
 
 ## Evidence
 None yet. `review-and-merge` waits for the pull request.
@@ -41,4 +41,4 @@ None yet. `review-and-merge` waits for the pull request.
 None.
 
 ## Next command
-`gh pr create --base v/5.0.0`
+`gh pr view 140 --json reviews`

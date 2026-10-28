@@ -34,7 +34,7 @@
   "git_review": {
     "branch": "claude/amazing-euclid-045eac",
     "commit": null,
-    "pr": null
+    "pr": 140
   },
   "context": "docs/operacao/contextos/DSA-35.md",
   "updated_at": "2026-10-28"
