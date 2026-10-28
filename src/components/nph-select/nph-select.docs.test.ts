@@ -236,8 +236,9 @@ describe('nph-select Validation: text only from the dictionary', () => {
   const idOf = (name: string): string =>
     `components-nph-select-validation--${name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
 
-  it('the stories are the nine pages of the contract', () => {
+  it('the stories are the ten pages of the contract', () => {
     expect(stories.map(([name]) => name).sort()).toEqual([
+      'Brands',
       'Examples',
       'FormAssociation',
       'InvalidInput',
@@ -282,10 +283,26 @@ describe('nph-select Validation: text only from the dictionary', () => {
         }
         const schemes = new Set([...target.querySelectorAll('[data-nph-color-scheme]')].map((el) => el.getAttribute('data-nph-color-scheme')));
         expect([...schemes].sort(), name).toEqual(['dark', 'light']);
-        expect(target.querySelector('[data-nph-brand]'), name).toBeNull();
         expect(target.textContent ?? '', `${name} ${locale}`).not.toMatch(/\{\w+\}/);
         target.remove();
       }
     });
   }
+
+  it('only the Brands story carries data-nph-brand: the other pages follow the root brand, the frame only sets the mode', () => {
+    for (const [name, story] of stories) {
+      const target = draw(story, 'en');
+      if (name === 'Brands') {
+        const branded = [...target.querySelectorAll('[data-nph-brand]')];
+        expect(branded, name).toHaveLength(14);
+        for (const frame of branded) {
+          expect(frame.hasAttribute('data-nph-color-scheme'), name).toBe(true);
+          expect(frame.hasAttribute('data-nph-brand-frame'), name).toBe(true);
+        }
+      } else {
+        expect(target.querySelector('[data-nph-brand]'), name).toBeNull();
+      }
+      target.remove();
+    }
+  });
 });

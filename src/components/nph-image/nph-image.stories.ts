@@ -19,12 +19,16 @@
  * row and column names of the matrices are the technical attributes, the same in any
  * language. The images are data URIs of an abstract picture, defined in `nph-image.demo.ts`,
  * which also holds the loading state on the page.
+ *
+ * The `Brands` page proves the seven brands of P20 in light and dark, each frame with `data-nph-brand`
+ * and `data-nph-color-scheme` on the same element (DSA-36).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { translations } from '../../../.storybook/i18n/index.js';
+import { brandFrames } from '../../shared/docs/brands';
 import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
@@ -209,6 +213,23 @@ export const Accessibility: Story = {
             ],
           },
         ]),
+      ),
+    );
+  },
+};
+
+/** The seven brands in light and dark (DSA-36): the clickable image takes the focus border of the frame's brand on Tab. */
+export const Brands: Story = {
+  name: 'Brands',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return validationPage(
+      context,
+      page('brands'),
+      brandFrames(
+        validationTitle(context, 'nph-image', page('brands').storyId),
+        () => html`<nph-image size="lg" src=${IMAGE_A} alt=${v.productMug} interactive></nph-image>
+          <nph-image size="md" src=${IMAGE_B} alt=${v.productLamp} interactive></nph-image>`,
       ),
     );
   },

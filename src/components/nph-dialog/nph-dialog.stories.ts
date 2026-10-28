@@ -12,6 +12,11 @@
  * modal dialog covers the window it opens in. The focus story opens the dialog over this
  * page itself, in the mode of the Storybook selector. Every visible text comes from the
  * language dictionary, under the `dialogValidation` key.
+ *
+ * The `Brands` page proves the seven brands of P20 in light and dark, each frame with `data-nph-brand`
+ * and `data-nph-color-scheme` on the same element (DSA-36). A closed dialog sits in each frame, next to
+ * a button that opens it: the top layer keeps the inheritance of custom properties, so the open dialog
+ * resolves its tokens with the brand of the frame it lives in.
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -19,7 +24,8 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { userEvent } from 'storybook/test';
 
 import { translations } from '../../../.storybook/i18n/index.js';
-import { localeOf, validationPage } from '../../shared/docs/validation';
+import { brandFrames } from '../../shared/docs/brands';
+import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
 import '../nph-button/nph-button';
 import './nph-dialog';
@@ -115,5 +121,25 @@ export const FocusAndEscape: Story = {
   play: async ({ canvasElement }) => {
     const trigger = canvasElement.querySelector('[data-nph-dialog-trigger]');
     if (trigger) await userEvent.click(trigger);
+  },
+};
+
+/** The seven brands in light and dark (DSA-36): the button opens the dialog of its own frame, which follows the brand of the frame; the focus ring of the scroll region shows on Tab. */
+export const Brands: Story = {
+  name: 'Brands',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    const open = (event: Event): void => {
+      const dialog = (event.currentTarget as Element).parentElement?.querySelector('nph-dialog') as NphDialog | null;
+      if (dialog) dialog.open = true;
+    };
+    return frame(
+      context,
+      'brands',
+      brandFrames(
+        validationTitle(context, 'nph-dialog', 'components-nph-dialog-validation--brands'),
+        () => html`<nph-button text=${v.openDialog} @click=${open}></nph-button>${example('import-contacts', v, {}, false)}`,
+      ),
+    );
   },
 };

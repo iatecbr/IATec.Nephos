@@ -218,8 +218,8 @@ describe('nph-pagination Validation: text only from the dictionary', () => {
   const idOf = (name: string): string =>
     `components-nph-pagination-validation--${name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
 
-  it('the stories are the four pages of the contract', () => {
-    expect(stories.map(([name]) => name).sort()).toEqual(['Examples', 'GoToPage', 'InvalidInput', 'Matrix']);
+  it('the stories are the five pages of the contract', () => {
+    expect(stories.map(([name]) => name).sort()).toEqual(['Brands', 'Examples', 'GoToPage', 'InvalidInput', 'Matrix']);
   });
 
   for (const [name, story] of stories) {
@@ -246,6 +246,11 @@ describe('nph-pagination Validation: text only from the dictionary', () => {
             expect(allowed.has(value), `${name} ${locale}: ${value}`).toBe(true);
           }
         }
+        // The shape of the brand frames is proved in src/shared/tokens/brand-validation.test.ts.
+        if (name === 'Brands') {
+          target.remove();
+          continue;
+        }
         const schemes = [...target.querySelectorAll('figure[data-nph-color-scheme]')].map((figure) => figure.getAttribute('data-nph-color-scheme'));
         expect(schemes.filter((scheme) => scheme === 'light').length).toBeGreaterThan(0);
         expect(schemes.filter((scheme) => scheme === 'light')).toHaveLength(schemes.filter((scheme) => scheme === 'dark').length);
@@ -253,6 +258,23 @@ describe('nph-pagination Validation: text only from the dictionary', () => {
       }
     });
   }
+
+  it('only the Brands story carries data-nph-brand: the other pages follow the root brand, the frame only sets the mode', () => {
+    for (const [name, story] of stories) {
+      const target = draw(story, 'en');
+      if (name === 'Brands') {
+        const branded = [...target.querySelectorAll('[data-nph-brand]')];
+        expect(branded, name).toHaveLength(14);
+        for (const frame of branded) {
+          expect(frame.hasAttribute('data-nph-color-scheme'), name).toBe(true);
+          expect(frame.hasAttribute('data-nph-brand-frame'), name).toBe(true);
+        }
+      } else {
+        expect(target.querySelector('[data-nph-brand]'), name).toBeNull();
+      }
+      target.remove();
+    }
+  });
 
   it('Matrix draws every type at the start, in the middle and at the end, in both modes', async () => {
     const target = draw(validation.Matrix as unknown as Renderable, 'en');

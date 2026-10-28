@@ -260,8 +260,8 @@ describe('nph-multi-combobox Validation: text only from the dictionary', () => {
   const idOf = (name: string): string =>
     `components-nph-multi-combobox-validation--${name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
 
-  it('the stories are the six pages of the contract', () => {
-    expect(stories.map(([name]) => name).sort()).toEqual(['Chip', 'Examples', 'FormAssociation', 'InvalidInput', 'ListStates', 'Matrix']);
+  it('the stories are the seven pages of the contract', () => {
+    expect(stories.map(([name]) => name).sort()).toEqual(['Brands', 'Chip', 'Examples', 'FormAssociation', 'InvalidInput', 'ListStates', 'Matrix']);
   });
 
   for (const [name, story] of stories) {
@@ -294,14 +294,33 @@ describe('nph-multi-combobox Validation: text only from the dictionary', () => {
         for (const text of shownTexts(target)) {
           expect(allowed.has(text), `${name} ${locale}: ${text}`).toBe(true);
         }
-        const schemes = new Set([...target.querySelectorAll('[data-nph-color-scheme]')].map((el) => el.getAttribute('data-nph-color-scheme')));
-        expect([...schemes].sort(), name).toEqual(['dark', 'light']);
-        expect(target.querySelector('[data-nph-brand]'), name).toBeNull();
+        /* The shape of the brand frames is proved in src/shared/tokens/brand-validation.test.ts. */
+        if (name !== 'Brands') {
+          const schemes = new Set([...target.querySelectorAll('[data-nph-color-scheme]')].map((el) => el.getAttribute('data-nph-color-scheme')));
+          expect([...schemes].sort(), name).toEqual(['dark', 'light']);
+        }
         expect(target.textContent ?? '', `${name} ${locale}`).not.toMatch(/\{\w+\}/);
         target.remove();
       }
     });
   }
+
+  it('only the Brands story carries data-nph-brand: the other pages follow the root brand, the frame only sets the mode', () => {
+    for (const [name, story] of stories) {
+      const target = draw(story, 'en');
+      if (name === 'Brands') {
+        const branded = [...target.querySelectorAll('[data-nph-brand]')];
+        expect(branded, name).toHaveLength(14);
+        for (const frame of branded) {
+          expect(frame.hasAttribute('data-nph-color-scheme'), frame.outerHTML.slice(0, 120)).toBe(true);
+          expect(frame.hasAttribute('data-nph-brand-frame'), frame.outerHTML.slice(0, 120)).toBe(true);
+        }
+      } else {
+        expect(target.querySelector('[data-nph-brand]'), name).toBeNull();
+      }
+      target.remove();
+    }
+  });
 
   it('ListStates draws the list open, with checked options, the highlight, the groups and the empty state', async () => {
     const target = draw(validation.ListStates as unknown as Renderable, 'en');

@@ -18,15 +18,20 @@
  * (`validationPages.claims`). Every visible text comes from the language dictionary, under the
  * key `tableValidation` (`docs/i18n.md`, "Storybook"); the tables are built in
  * `nph-table.demo.ts`.
+ *
+ * The `Brands` page proves the seven brands of P20 in light and dark, each frame with `data-nph-brand`
+ * and `data-nph-color-scheme` on the same element (DSA-36).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { translations } from '../../../.storybook/i18n/index.js';
+import { brandFrames } from '../../shared/docs/brands';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
 import './nph-table';
+import type { NphTableColumn, NphTableRow } from './nph-table';
 import {
   actionsTable,
   basicTable,
@@ -159,4 +164,27 @@ export const TwoLevelHeader: Story = {
 export const EmptyBody: Story = {
   name: 'Empty body',
   render: (_args, context: GlobalsContext) => inBothModes(context, 'empty-body', (s) => emptyTable(s)),
+};
+
+/** The seven brands in light and dark (DSA-36): the link of a cell and the focus ring on Tab follow the brand of the frame. */
+export const Brands: Story = {
+  name: 'Brands',
+  render: (_args, context: GlobalsContext) => {
+    const s: Sample = t(context).sample;
+    const columns: NphTableColumn[] = [
+      { key: 'unit', header: s.unit },
+      { key: 'document', header: s.document },
+    ];
+    return validationPage(
+      context,
+      page('brands'),
+      brandFrames(validationTitle(context, 'nph-table', page('brands').storyId), ({ id }) => {
+        const rows: NphTableRow[] = s.units.slice(0, 2).map((unit, index) => ({
+          key: `unit-${index}`,
+          cells: { unit, document: { type: 'link', text: s.receipt, href: `#receipt-${id}-${index}` } },
+        }));
+        return html`<nph-table label=${s.label} no-value-label=${s.noValue} .columns=${columns} .rows=${rows}></nph-table>`;
+      }),
+    );
+  },
 };

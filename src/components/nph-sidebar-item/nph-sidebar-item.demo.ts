@@ -91,7 +91,7 @@ export function mainMenu(text: MenuText): TemplateResult {
  * The scenery's stand-in for `nph-sidebar`: the subitems show while the group is open and
  * leave the page, and the Tab order, when the person closes it (`nph-toggle`).
  */
-function followGroup(event: CustomEvent<NphSidebarItemToggleDetail>): void {
+export function followGroup(event: CustomEvent<NphSidebarItemToggleDetail>): void {
   const subitems = (event.currentTarget as HTMLElement).nextElementSibling as HTMLElement | null;
   if (subitems !== null) {
     subitems.style.display = event.detail.expanded ? 'flex' : 'none';

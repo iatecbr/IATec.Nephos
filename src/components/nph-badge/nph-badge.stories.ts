@@ -11,12 +11,16 @@
  * The color scheme comes from the global Storybook selector, applied at the root.
  * In a part of the screen with another brand and another scheme, on the same
  * element, `status/on-solid` resolves the local value (P67).
+ *
+ * The `Brands` page proves the seven brands of P20 in light and dark, each frame carrying
+ * `data-nph-brand` and `data-nph-color-scheme` on the same element (DSA-36).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { translations } from '../../../.storybook/i18n/index.js';
+import { brandFrames } from '../../shared/docs/brands';
 import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
@@ -84,6 +88,24 @@ export const TwoWords: Story = {
         <nph-badge severity="success" text=${approved} icon="circle-check"></nph-badge>
         <nph-badge severity="warn" emphasis="light" text=${signature}></nph-badge>
       </div>`,
+    );
+  },
+};
+
+/** The seven brands in light and dark (DSA-36): primary follows the brand of the frame in both emphases. */
+export const Brands: Story = {
+  name: 'Brands',
+  render: (_args, context: GlobalsContext) => {
+    const text = t(context).sample;
+    return validationPage(
+      context,
+      page('brands'),
+      brandFrames(
+        validationTitle(context, 'nph-badge', page('brands').storyId),
+        () => html`${NPH_BADGE_EMPHASES.map(
+          (emphasis) => html`<nph-badge severity="primary" emphasis=${emphasis} text=${text}></nph-badge>`,
+        )}`,
+      ),
     );
   },
 };

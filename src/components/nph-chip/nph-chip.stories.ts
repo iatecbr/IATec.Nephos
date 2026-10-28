@@ -17,14 +17,18 @@
  * (`validationPages.claims`). The text the piece receives and the captions come from the
  * language dictionary, under the key `chipValidation` (`docs/i18n.md`, "Storybook"); the row
  * and column names of the matrices are the technical attributes, the same in any language.
+ *
+ * The `Brands` page proves the seven brands of P20 in light and dark, each frame carrying
+ * `data-nph-brand` and `data-nph-color-scheme` on the same element (DSA-36).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { translations } from '../../../.storybook/i18n/index.js';
+import { brandFrames } from '../../shared/docs/brands';
 import { matrix } from '../../shared/docs/page';
-import { localeOf, validationPage } from '../../shared/docs/validation';
+import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
 import { NPH_CHIP_SEVERITIES, NPH_CHIP_SIZES } from './nph-chip';
 import { appliedFilters, chip, chosenValues, inScheme, quickFilters } from './nph-chip.demo';
@@ -237,6 +241,25 @@ export const Examples: Story = {
         ${inBothModes(context, () => chosenValues(text), v.exampleField)}
         ${inBothModes(context, () => quickFilters(text), v.exampleQuick)}
       </div>`,
+    );
+  },
+};
+
+/** The seven brands in light and dark (DSA-36): the removable chip, the selectable one, the selected one and its counter. */
+export const Brands: Story = {
+  name: 'Brands',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    const [pending, approved] = v.quick as string[];
+    return validationPage(
+      context,
+      page('brands'),
+      brandFrames(
+        validationTitle(context, 'nph-chip', page('brands').storyId),
+        () => html`${chip(v.removeLabel, v.plain)}${chip(v.removeLabel, pending as string, { type: 'selectable' })}
+        ${chip(v.removeLabel, approved as string, { type: 'selectable', selected: true })}
+        ${chip(v.removeLabel, pending as string, { type: 'selectable', selected: true, counter: 12 })}`,
+      ),
     );
   },
 };

@@ -19,12 +19,16 @@
  * the captions come from the language dictionary, under the key `radioValidation`
  * (`docs/i18n.md`, "Storybook"); the row and column names of the matrix are the technical
  * attributes, the same in any language.
+ *
+ * The `Brands` page proves the seven brands of P20 in light and dark, each frame carrying
+ * `data-nph-brand` and `data-nph-color-scheme` on the same element (DSA-36).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { format, translations } from '../../../.storybook/i18n/index.js';
+import { brandFrames } from '../../shared/docs/brands';
 import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
@@ -218,6 +222,23 @@ export const Examples: Story = {
         ${inBothModes(context, 'examples', (_label, scheme) => employment(v, `example-employment-${scheme}`), v.exampleEmployment)}
         ${inBothModes(context, 'examples', (_label, scheme) => shift(v, `example-shift-${scheme}`), v.exampleShift)}
       </div>`,
+    );
+  },
+};
+
+/** The seven brands in light and dark (DSA-36): the checked radio takes the primary of the frame. */
+export const Brands: Story = {
+  name: 'Brands',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return validationPage(
+      context,
+      page('brands'),
+      brandFrames(validationTitle(context, 'nph-radio', page('brands').storyId), ({ id }) => {
+        /* One group per frame: the name carries the frame, so the fourteen groups stay apart. */
+        const name = `brands-${id}`;
+        return html`${radio(name, { value: 'card', text: v.card })}${radio(name, { value: 'pix', text: v.pix }, true)}`;
+      }),
     );
   },
 };

@@ -277,8 +277,8 @@ describe('nph-sidebar-item Validation: text only from the dictionary', () => {
   const idOf = (name: string): string =>
     `components-nph-sidebar-item-validation--${name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
 
-  it('the stories are the six pages of the contract', () => {
-    expect(stories.map(([name]) => name).sort()).toEqual(['Examples', 'InvalidInput', 'Matrix', 'RailButton', 'Subitem', 'TooltipAndMoreActions']);
+  it('the stories are the seven pages of the contract', () => {
+    expect(stories.map(([name]) => name).sort()).toEqual(['Brands', 'Examples', 'InvalidInput', 'Matrix', 'RailButton', 'Subitem', 'TooltipAndMoreActions']);
   });
 
   for (const [name, story] of stories) {
@@ -307,6 +307,11 @@ describe('nph-sidebar-item Validation: text only from the dictionary', () => {
             }
           }
         }
+        // The shape of the brand frames is proved in src/shared/tokens/brand-validation.test.ts.
+        if (name === 'Brands') {
+          target.remove();
+          continue;
+        }
         const schemes = [...target.querySelectorAll('figure[data-nph-color-scheme]')].map((figure) => figure.getAttribute('data-nph-color-scheme'));
         expect(schemes.filter((scheme) => scheme === 'light').length).toBeGreaterThan(0);
         expect(schemes.filter((scheme) => scheme === 'light')).toHaveLength(schemes.filter((scheme) => scheme === 'dark').length);
@@ -314,6 +319,44 @@ describe('nph-sidebar-item Validation: text only from the dictionary', () => {
       }
     });
   }
+
+  it('Brands: closing a group hides its subitem, and the Tab order with it; opening shows it again', async () => {
+    const target = draw(validation.Brands as unknown as Renderable, 'en');
+    const groups = [...target.querySelectorAll<NphSidebarItem>('nph-sidebar-item[type="group"]')];
+    expect(groups).toHaveLength(14);
+    for (const group of groups) {
+      await group.updateComplete;
+      const subitems = group.nextElementSibling as HTMLElement;
+      expect(subitems.querySelector('nph-sidebar-subitem')).not.toBeNull();
+      const control = group.shadowRoot?.querySelector('.control') as HTMLElement;
+      await userEvent.click(control);
+      await group.updateComplete;
+      expect(group.expanded).toBe(false);
+      expect(getComputedStyle(subitems).display).toBe('none');
+      await userEvent.click(control);
+      await group.updateComplete;
+      expect(group.expanded).toBe(true);
+      expect(getComputedStyle(subitems).display).toBe('flex');
+    }
+    target.remove();
+  });
+
+  it('only the Brands story carries data-nph-brand: the other pages follow the root brand, the frame only sets the mode', () => {
+    for (const [name, story] of stories) {
+      const target = draw(story, 'en');
+      if (name === 'Brands') {
+        const branded = [...target.querySelectorAll('[data-nph-brand]')];
+        expect(branded, name).toHaveLength(14);
+        for (const frame of branded) {
+          expect(frame.hasAttribute('data-nph-color-scheme'), name).toBe(true);
+          expect(frame.hasAttribute('data-nph-brand-frame'), name).toBe(true);
+        }
+      } else {
+        expect(target.querySelector('[data-nph-brand]'), name).toBeNull();
+      }
+      target.remove();
+    }
+  });
 
   it('InvalidInput draws nothing in each of its cells', async () => {
     const target = draw(validation.InvalidInput as unknown as Renderable, 'en');
