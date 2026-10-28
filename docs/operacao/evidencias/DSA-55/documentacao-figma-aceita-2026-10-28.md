@@ -2,7 +2,7 @@
 {
   "task": "DSA-55",
   "gate": "figma-docs-accepted",
-  "date": "2026-10-27",
+  "date": "2026-10-28",
   "owner": "indiane",
   "command": null,
   "exit_code": null,
@@ -10,17 +10,17 @@
   "external_origin": {
     "classification": "internal-allowed",
     "url_or_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=2944-6528",
-    "date": "2026-10-27",
+    "date": "2026-10-28",
     "author": "indiane",
     "excerpt": null,
-    "converted_decision": "The nph-toolbar board, with its Documentação frame (2944:6528), was accepted as the API and behavior specification of nph-toolbar. COMPONENT_SET: nph-toolbar (2105:426), 12 variants (tipo × tamanho). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
+    "converted_decision": "The nph-toolbar board, with its Documentação frame (2944:6528), was accepted as the API and behavior specification of nph-toolbar. COMPONENT_SET: nph-toolbar (2105:426), 15 variants (tipo × tamanho), with the tipo filtros aplicados accepted again on 2026-10-28 (the nph-chip as an applied filter, in a strip below the bar). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   }
 }
 ```
 
 # DSA-55 — `figma-docs-accepted`
 
-The documentation of the `nph-toolbar` (frame `2944:6528`) was accepted in Figma, in the file `DS-IA-NEPHOS 5.0`, with the Figma UX QA and the textual audit approved. The component needed 14 `toolbar/*` tokens, all put on `v/5.0.0` together with this task. Each one is an alias of an existing semantic token; no core primitive was added. Every other token it uses was already there.
+The documentation of the `nph-toolbar` (frame `2944:6528`) was accepted in Figma, in the file `DS-IA-NEPHOS 5.0`, with the Figma UX QA and the textual audit approved. On 2026-10-28 it was accepted again, with the new tipo filtros aplicados (matrix `2943:375` and the same Documentação frame); no token was added for it. The component needed 14 `toolbar/*` tokens, all put on `v/5.0.0` together with this task. Each one is an alias of an existing semantic token; no core primitive was added. Every other token it uses was already there.
 
 There is no command output. The acceptance is a human observation, recorded in the json block above with the board URL and the component set.
 
@@ -30,24 +30,38 @@ The rest of this file is the Figma documentation converted to text, so that whoe
 
 A bar that gathers, in a single line, the actions that apply to one area of the screen: the checked items, the page or the content being edited.
 
-Selection: choose the type by the situation (em massa, página, ferramentas or flutuante). Choose the size by the density of the screen (compacto, padrão or grande). The booleans turn on the checkbox, the center and the way to clear the selection.
+Selection: choose the type by the situation (em massa, página, ferramentas, flutuante or filtros aplicados). Choose the size by the density of the screen (compacto, padrão or grande). The booleans turn on the checkbox, the center and the way to clear the selection.
 
 ## Description
 
-Use it when several actions apply to the same set, such as a table, a list or an editor. The bar splits the actions into three zones: start, center and end, and each zone takes Nephos pieces. It does not replace nph-dropdown-menu, which holds the actions that do not fit, nor the pagination, which is a sibling piece and stays outside the bar.
+Use it when several actions apply to the same set, such as a table, a list or an editor. The bar splits the actions into three zones: start, center and end, and each zone takes Nephos pieces. It does not replace nph-dropdown-menu, which holds the actions that do not fit, nor the pagination, which is a sibling piece and stays outside the bar. The applied filters are not actions: they go in a strip of their own below the page bar, with one nph-chip per filter.
 
 ## Anatomy
 
-Examples in the frame: tipo em massa, tamanho padrão ("2 de 6 selecionados", Limpar seleção, Exportar, Excluir); tipo página, tamanho padrão (Buscar pessoas, Filtrar, Nova pessoa).
+Examples in the frame: tipo em massa, tamanho padrão ("2 de 6 selecionados", Limpar seleção, Exportar, Excluir); tipo página, tamanho padrão (Buscar pessoas, Filtrar, Nova pessoa). The tipo filtros aplicados has no anatomy picture in the frame; its structure is in the rows of Bar below and in the section "Applied filters strip".
 
 | Part | Rule |
 |---|---|
-| 1. Bar | Container. Background toolbar/background, border toolbar/border in toolbar/border-width, radius toolbar/radius, inner space toolbar/padding. Em massa: background toolbar/bulk-background, no border, sides in toolbar/bulk-padding-x. Flutuante: background toolbar/floating-background, border toolbar/floating-border, radius toolbar/floating-radius and shadow elevation/dropdown. |
+| 1. Bar | Container. Background toolbar/background, border toolbar/border in toolbar/border-width, radius toolbar/radius, inner space toolbar/padding. Em massa: background toolbar/bulk-background, no border, sides in toolbar/bulk-padding-x. Flutuante: background toolbar/floating-background, border toolbar/floating-border, radius toolbar/floating-radius and shadow elevation/dropdown. Filtros aplicados: strip below the page bar, with no background and no border; it wraps to a new line when the items do not fit; space between the items in toolbar/gap and start padding in toolbar/padding. |
 | 2. Start | Em massa: nph-checkbox indeterminate (optional) and the count in text/label-md, color toolbar/bulk-count-foreground. Página: search with nph-input and filter. Ferramentas: groups of nph-icon-button. Flutuante: count in toolbar/floating-count-foreground. |
 | 3. Center (optional) | nph-toggle-group to choose the view or turn on a mode. Shown by the centro boolean. |
 | 4. End | Actions on the right, in nph-button and nph-icon-button ghost. The main action is primary solid. The destructive action is danger ghost, in a group of its own. Mais (more) and Fechar (close) come last. |
 | 5. Divider | Vertical nph-separator between groups of actions. Never opens or closes the bar. |
 | Space | toolbar/gap between the items and between the zones. |
+
+## Applied filters strip
+
+The tipo filtros aplicados is a strip that goes below the bar of the tipo página, not inside it. It is shown in the matrix and in the Documentação frame in the three sizes.
+
+| Part | Rule |
+|---|---|
+| Strip | Horizontal, 720 px wide in the frame, no background and no border. The items wrap to a new line when they do not fit. Space between the items and between the lines: toolbar/gap. Start padding: toolbar/padding. |
+| Filter chip | One nph-chip per applied filter: tipo removível, cor padrão, conteúdo texto, with the label "Filter: value" (examples in the frame: "Situação: Aprovado" and "Unidade: Central"). The X takes that filter away. |
+| Clear all | nph-button secondary ghost, text "Limpar filtros", after the last chip; it takes away all the filters. |
+
+Heights follow the bar: 28 px in compacto, 36 px in padrão and 44 px in grande. The chip is compacto in the compacto strip and padrão in the other two, because nph-chip has only these two sizes; in the grande strip the chip stays at 36 px and the button is 44 px. The strip creates no token: it uses toolbar/gap and toolbar/padding. The tokens of the chip belong to nph-chip (DSA-57).
+
+Example in the frame, in light and dark: two chips ("Situação: Aprovado", "Unidade: Central") and "Limpar filtros" at the end, in padrão.
 
 ## Accessibility
 
@@ -56,8 +70,8 @@ Examples in the frame: tipo em massa, tamanho padrão ("2 de 6 selecionados", Li
 | Contrast | Text and icon over the bar background pass 4.5:1 (text) and 3:1 (icon), in light and dark. In the em massa bar, the hover of the actions uses toolbar/bulk-action-background-hover so it stays visible over the highlighted background. |
 | Visible focus | Each piece shows its own focus, with border and halo. The bar draws no focus of its own. |
 | Color is not the only signal | The destructive action has a label or a trash icon besides the red. The checked item in the center changes its background and its icon becomes solid. |
-| Touch target | The actions are 28 px in compacto, 36 px in padrão and 44 px in grande; the checkbox is 24 px. The center (nph-toggle-group) follows the bar: 28, 36 and 44 px. The search (nph-input) also follows the bar: 28, 36 and 44 px. On a touch screen, use grande. |
-| Accessible name | The bar carries role "toolbar" and an aria-label with the name of the area, such as "Ações da tabela". An icon-only button carries an aria-label with the action and a tooltip with the same name. The divider carries aria-hidden. |
+| Touch target | The actions are 28 px in compacto, 36 px in padrão and 44 px in grande; the checkbox is 24 px. The center (nph-toggle-group) follows the bar: 28, 36 and 44 px. The search (nph-input) also follows the bar: 28, 36 and 44 px. In the applied filters strip, the X of each nph-chip is at least 24 px (WCAG 2.5.8). On a touch screen, use grande. |
+| Accessible name | The bar carries role "toolbar" and an aria-label with the name of the area, such as "Ações da tabela". An icon-only button carries an aria-label with the action and a tooltip with the same name. The divider carries aria-hidden. In the applied filters strip, the X of each nph-chip carries an aria-label with the filter, such as "Remover filtro: Situação: Aprovado", and the removal is announced by a screen reader in a status region (WCAG 4.1.3). |
 
 Demonstrations in the frame, in light and dark: Exportar under the pointer, with the em massa bar's own hover background and a solid icon; focus on the download button, with the border and halo of the piece itself; tamanho grande, actions of 44 px for touch screens.
 
@@ -65,7 +79,7 @@ Demonstrations in the frame, in light and dark: Exportar under the pointer, with
 
 | Field | Rule |
 |---|---|
-| tipo | em massa: there are checked items. página: top of a list or table, with search, filter and create. ferramentas: actions of content being edited. flutuante: selection over the content, near it. Default: em massa. |
+| tipo | em massa: there are checked items. página: top of a list or table, with search, filter and create. ferramentas: actions of content being edited. flutuante: selection over the content, near it. filtros aplicados: strip below the page bar, with one removable nph-chip per applied filter and the button Limpar filtros. Default: em massa. |
 | tamanho | compacto, padrão and grande. Changes the height of the pieces. Default: padrão. |
 | contagem | Text "N de M selecionados", in the em massa and flutuante types. |
 | caixa de seleção | Turns on the indeterminate checkbox at the start of the em massa bar. Turn it off when the table already has the checkbox in its header. |
@@ -74,7 +88,7 @@ Demonstrations in the frame, in light and dark: Exportar under the pointer, with
 | states | The bar has no state of its own: hover, focus, disabled and loading belong to the pieces. The icon of the ghost buttons becomes solid on hover and when checked. |
 | what is not a property | An action that does not fit goes to Mais, which opens nph-dropdown-menu. On a narrow screen, first the text of the buttons goes away; then the actions at the back go to Mais. The order does not change. There is no vertical bar. |
 
-Figma component properties of the set `2105:426`: `tipo` (em massa, página, ferramentas, flutuante), `tamanho` (compacto, padrão, grande), text `contagem` ("2 de 6 selecionados"), booleans `centro` (off), `caixa de seleção` (on), `limpar em texto` (on) and `limpar em ícone` (off). The set's default variant is tipo=em massa, tamanho=padrão.
+Figma component properties of the set `2105:426`: `tipo` (em massa, página, ferramentas, flutuante), `tamanho` (compacto, padrão, grande), text `contagem` ("2 de 6 selecionados"), booleans `centro` (off), `caixa de seleção` (on), `limpar em texto` (on) and `limpar em ícone` (off). The set has 15 variants: tipo (em massa, página, ferramentas, flutuante, filtros aplicados) × tamanho. The set's default variant is tipo=em massa, tamanho=padrão. The booleans and the text do not apply to the tipo filtros aplicados.
 
 Demonstrations in the frame, in light and dark: caixa de seleção off, because the table already has the checkbox in its header; limpar em ícone, only the X, for a narrow bar; centro on, nph-toggle-group in the middle; tipo flutuante, tamanho compacto; and four página bars, one per state: hover on Filtrar, focus on download, Nova pessoa disabled (no action available) and Nova pessoa loading (while the action runs).
 
@@ -85,7 +99,7 @@ The component has no code yet; the attributes come with the spec. The frame show
 ## Relations and context
 
 - Sits at the top of the area it controls: above the table, the list or the editor. The flutuante one sits over the content, near the selection, or pinned to the foot of the area.
-- Pieces inside it: nph-checkbox, nph-input, nph-button, nph-icon-button, nph-toggle-group and nph-separator. Each piece controls its own color, state and focus; the bar controls background, border, radius and space.
+- Pieces inside it: nph-checkbox, nph-input, nph-button, nph-icon-button, nph-toggle-group, nph-chip and nph-separator. Each piece controls its own color, state and focus; the bar controls background, border, radius and space.
 - Mais opens nph-dropdown-menu, where the text of the action always shows.
 - Pagination is a sibling piece: it stays outside the bar.
 - Space between items and between zones: toolbar/gap. Inner space: toolbar/padding.
@@ -98,9 +112,10 @@ Demonstrations in the frame, in light and dark: top of the list, with search and
 - Página: top of a list or table, to search, filter and create.
 - Ferramentas: content being edited, with actions that apply to it.
 - Flutuante: the selection is in a large area and the top bar goes out of view.
+- Filtros aplicados: the person filtered the list and needs to see each filter and take them away one by one or all at once.
 - Size: compacto on a dense screen used with a mouse; padrão in general; grande on a touch screen.
 
-Demonstrations in the frame, in light and dark: one per type (em massa, página, ferramentas, flutuante).
+Demonstrations in the frame, in light and dark: one per type (em massa, página, filtros aplicados, ferramentas, flutuante).
 
 ## Mandatory examples
 
@@ -113,7 +128,7 @@ Dark mode: the same three examples.
 - Use only one main action, at the end, in primary solid — it needs to stand out from the others.
 - Separate the destructive action with the divider and use danger ghost — it avoids a click by mistake.
 - Show the count in the em massa bar — the person confirms how many items they will act on.
-- Send what does not fit to Mais — the bar does not wrap.
+- Send what does not fit to Mais — the bar does not wrap; only the applied filters strip wraps.
 
 Demonstrations in the frame, in light and dark: one main action, at the end; trash in a group of its own, after the divider, and Mais last.
 

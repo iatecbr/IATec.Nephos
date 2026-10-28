@@ -67,7 +67,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 ## Why it is ready
 The 62 `chip/*` tokens came with this task and are on `v/5.0.0`, with the four core primitives they need. The pieces inside the chip are done: nph-icon (DSA-03), nph-badge (DSA-12), nph-avatar (DSA-24) and nph-tooltip (DSA-48), which shows the whole label when it is cut.
 
-The accepted documentation places the applied filters of nph-toolbar in a line below the bar, with "Limpar filtros" after the last chip. That is input for the D-1 of DSA-55; this task does not change DSA-55.
+The accepted documentation places the applied filters of nph-toolbar in a line below the bar, with "Limpar filtros" after the last chip. That closes the D-1 that DSA-55 had about where the chip goes in the bar; the nph-toolbar documentation was accepted again on 2026-10-28 with that strip, and DSA-55 now depends on this task. This task does not change DSA-55.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
