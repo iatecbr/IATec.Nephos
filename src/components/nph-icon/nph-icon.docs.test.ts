@@ -158,6 +158,54 @@ describe('nph-icon documentation — order of the Figma frame', () => {
       expect(examples.textContent ?? '').toContain(d.searchExampleCaption);
     });
 
+    it(`${locale}: Examples shows the three examples of the frame, in its order (DSA-33)`, async () => {
+      const target = renderInLocale(locale);
+      const d = translations(locale).docs;
+      const examples = target.querySelector('section#examples') as HTMLElement;
+      const demos = [...examples.querySelectorAll('[data-nph-demo]')];
+      expect(demos.map((demo) => demo.querySelector('figcaption')?.textContent?.trim())).toEqual([
+        d.searchExampleCaption,
+        d.infoExampleCaption,
+        d.buttonExampleCaption,
+      ]);
+
+      const icon = demos[1]?.querySelector('nph-icon');
+      expect(icon?.getAttribute('name')).toBe('circle-info');
+      expect(icon?.hasAttribute('label')).toBe(false);
+      expect(demos[1]?.textContent ?? '').toContain(d.infoExampleText);
+
+      const button = demos[2]?.querySelector('nph-button') as (HTMLElement & { updateComplete: Promise<unknown> }) | null;
+      await button?.updateComplete;
+      expect(button?.getAttribute('severity')).toBe('secondary');
+      expect(button?.getAttribute('emphasis')).toBe('ghost');
+      expect(button?.getAttribute('icon-start')).toBe('magnifying-glass');
+      expect(button?.getAttribute('label')).toBe(d.searchExampleLabel);
+      expect(button?.hasAttribute('data-nph-rendered')).toBe(true);
+    });
+
+    it(`${locale}: Anatomy sits after the sections of the component and before Accessibility (DSA-33, D3)`, () => {
+      const target = renderInLocale(locale);
+      const d = translations(locale).docs;
+      const sections = [...target.querySelectorAll('section[id]')].map((s) => s.id);
+      expect(sections).toEqual([
+        'when-to-use',
+        'api',
+        'core',
+        'size',
+        'color',
+        'invalid-input',
+        'anatomy',
+        'accessibility',
+        'examples',
+        'references',
+      ]);
+      const anatomy = target.querySelector('section#anatomy') as HTMLElement;
+      expect(anatomy.querySelector('h2')?.textContent?.trim()).toBe(d.anatomyTitle);
+      const parts = [...anatomy.querySelectorAll('tbody th')].map((th) => th.textContent?.trim());
+      expect(parts).toEqual(d.anatomy.map(([part]: [string, string]) => part));
+      expect(parts).toHaveLength(5);
+    });
+
     it(`${locale}: no anti-patterns section, and one side-by-side use and do-not-use block`, () => {
       const target = renderInLocale(locale);
       expect(target.querySelector('#anti-patterns')).toBeNull();

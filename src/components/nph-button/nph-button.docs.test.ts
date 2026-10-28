@@ -70,6 +70,35 @@ describe('nph-button Documentation', () => {
     });
   }
 
+  for (const locale of LOCALES) {
+    it(`${locale}: Anatomy sits after the sections of the component, in the order of the model (DSA-33, D3)`, () => {
+      const target = renderInLocale(locale);
+      const d = translations(locale).buttonDocs;
+      const sections = [...target.querySelectorAll('section[id]')].map((s) => s.id);
+      expect(sections.slice(-5)).toEqual(['states', 'anatomy', 'accessibility', 'examples', 'references']);
+      const anatomy = target.querySelector('section#anatomy') as HTMLElement;
+      expect(anatomy.querySelector('h2')?.textContent?.trim()).toBe(d.anatomyTitle);
+      const parts = [...anatomy.querySelectorAll('tbody th')].map((th) => th.textContent?.trim());
+      expect(parts).toEqual(d.anatomy.map(([part]: [string, string]) => part));
+      expect(parts).toHaveLength(5);
+    });
+
+    it(`${locale}: the icon-only example of the frame uses plus, not xmark (DSA-33)`, () => {
+      const target = renderInLocale(locale);
+      const d = translations(locale).buttonDocs;
+      const examples = target.querySelector('section#examples') as HTMLElement;
+      const figure = [...examples.querySelectorAll('[data-nph-demo]')].find((demo) =>
+        demo.querySelector('figcaption')?.textContent?.includes(d.exampleIconOnly),
+      );
+      const button = figure?.querySelector('nph-button');
+      expect(button?.getAttribute('icon-start')).toBe('plus');
+      expect(button?.getAttribute('severity')).toBe('secondary');
+      expect(button?.getAttribute('emphasis')).toBe('ghost');
+      expect(button?.getAttribute('label')).toBeTruthy();
+      expect(examples.querySelector('nph-button[icon-start="xmark"]')).toBeNull();
+    });
+  }
+
   it('pt-BR and es have the same shape as en', () => {
     const source = shape(translations('en').buttonDocs);
     expect(shape(translations('pt-BR').buttonDocs)).toEqual(source);

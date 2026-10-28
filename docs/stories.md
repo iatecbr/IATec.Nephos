@@ -368,9 +368,11 @@ export function source(label, origin) { /* ... */ }
 
 A component's reading page is assembled from the blocks of
 `src/shared/docs/page.ts`, so that all of them read the same way. The page
-follows the order and the sections of the Figma documentation frame: the
-component with its labelled matrix first, no anti-patterns section, and "use"
-and "do not use" once, in a single `useDontUse` block, side by side.
+follows the sections of the Figma documentation frame, in the order of the
+model below; the frames keep their own order (decided by Indiane on 16-10-2026,
+DSA-33, D3): the component with its labelled matrix first, no anti-patterns
+section, and "use" and "do not use" once, in a single `useDontUse` block, side
+by side.
 
 | Block | Rule |
 |---|---|
@@ -429,10 +431,9 @@ documentation model (`1134:12862`, DS-IA-NEPHOS 5.0); the `Documentation`
 story of `nph-badge` (the model) and its `nph-badge.docs.test.ts`.
 **Limit:** the Docs pages of the components with code. `nph-avatar`, `nph-avatar-stack`, `nph-badge`,
 `nph-label`, `nph-skeleton`, `nph-toggle-group`, `nph-togglebutton` and `nph-tooltip` follow the order of the model.
-`nph-button` lacks Anatomy, and `nph-icon` lacks Anatomy and Examples; their accepted
-frames have both (`1197:5449` and `1130:956`, confirmed by Indiane on 15-10-2026). The
-Usage section, the lists read from the Metadata and `text/body-lg` in `text` and `list`
-are on no page yet.
+`nph-button` and `nph-icon` have the Anatomy and Examples of their accepted frames
+(`1197:5449` and `1130:956`, confirmed by Indiane on 15-10-2026; DSA-33). The Usage
+section and the lists read from the Metadata are on no page yet.
 
 ---
 

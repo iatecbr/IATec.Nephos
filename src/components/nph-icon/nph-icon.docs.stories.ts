@@ -12,15 +12,18 @@
  * The gallery search belongs to THIS page, not to the component API: no
  * attribute, property, event or style of `nph-icon` was created for it.
  *
- * The Examples section shows the first example of the frame (`1130:956`): an
- * `nph-input` with the start icon `magnifying-glass` (DSA-33, D2, delivered with
- * the `nph-input` in DSA-16).
+ * Anatomy and Examples come from the accepted frame (`1130:956`), in the order
+ * of `docs/stories.md`, §4.10 (DSA-33). Examples shows the three examples of the
+ * frame: an `nph-input` with the start icon `magnifying-glass` (D2, delivered with
+ * the `nph-input` in DSA-16), `circle-info` next to text and an icon-only
+ * `nph-button`.
  */
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, format, translations } from '../../../.storybook/i18n/index.js';
 import './nph-icon';
+import '../nph-button/nph-button';
 import '../nph-input/nph-input';
 import { NPH_ICON_NAMES, NPH_ICON_SIZES } from './nph-icon.icons';
 import {
@@ -82,6 +85,9 @@ const hidingRule = html`
   </style>
 `;
 
+/* Icon and text as one unit: the gap belongs to the container, not to `nph-icon`. */
+const withText = 'display: inline-flex; align-items: center; gap: var(--nph-space-inline-tight);';
+
 /* Icons of one category in the matrix: cells of equal width, as many as fit in the row. */
 const matrixRow =
   'display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: var(--nph-space-stack); padding-block-end: var(--nph-space-stack);';
@@ -94,6 +100,7 @@ const SECTIONS = {
   size: 'size',
   color: 'color',
   invalid: 'invalid-input',
+  anatomy: 'anatomy',
   accessibility: 'accessibility',
   examples: 'examples',
   references: 'references',
@@ -149,6 +156,7 @@ export const Documentation: Story = {
           { id: SECTIONS.size, title: d.sizeTitle },
           { id: SECTIONS.color, title: d.colorTitle },
           { id: SECTIONS.invalid, title: d.invalidTitle },
+          { id: SECTIONS.anatomy, title: d.anatomyTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
           { id: SECTIONS.examples, title: d.examplesTitle },
           { id: SECTIONS.references, title: d.referencesTitle },
@@ -242,6 +250,13 @@ export const Documentation: Story = {
         )}
 
         ${section(
+          SECTIONS.anatomy,
+          d.anatomyTitle,
+          html`${table(d.anatomyHeader, d.anatomy.map(([part, rule]: [string, string]) => [part, rule] as const), 'text')}
+          ${source(d.sourceLabel, d.sourceAnatomy)}`,
+        )}
+
+        ${section(
           SECTIONS.accessibility,
           d.accessibilityTitle,
           html`${list(d.accessibility)} ${source(d.sourceLabel, d.sourceAccessibility)}`,
@@ -259,6 +274,20 @@ export const Documentation: Story = {
                 placeholder=${d.searchExamplePlaceholder}
               ></nph-input>`,
               d.searchExampleCaption,
+            )}
+            ${demo(
+              html`<span style=${withText}><nph-icon name="circle-info" size="sm"></nph-icon>${d.infoExampleText}</span>`,
+              d.infoExampleCaption,
+            )}
+            ${demo(
+              html`<nph-button
+                size="default"
+                severity="secondary"
+                emphasis="ghost"
+                icon-start="magnifying-glass"
+                label=${d.searchExampleLabel}
+              ></nph-button>`,
+              d.buttonExampleCaption,
             )}
             ${source(d.sourceLabel, d.sourceExamples)}
           `,
