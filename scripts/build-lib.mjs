@@ -9,7 +9,7 @@
  *      extension, and the stylesheet import (`import './nph-label.css'`) is
  *      dropped, because it says nothing about a type;
  *   4. the two public stylesheets, copied as they are: the generated tokens
- *      and the native scrollbar colour. Nothing about a token is changed here;
+ *      and the native scrollbar color. Nothing about a token is changed here;
  *   5. the Custom Elements Manifest (`custom-elements-manifest.config.mjs`).
  *
  * Run with: npm run build:lib

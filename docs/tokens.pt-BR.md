@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=ecaa3a31f4fe5135da49f29bf7d7dccdc6398a22fdf9c1e2e2ebf617b6d15d77 | status=revisado -->
+<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=2fb6f2ce5d473c9d2f4a658b9b70c1237cdbf35f266199c452cdcbbb06d74b37 | status=revisado -->
 
 # Tokens — fonte, geração e consumo
 

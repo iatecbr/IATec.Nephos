@@ -37,7 +37,7 @@ duplicate values. Values originate in Figma `DS-IA-NEPHOS 5.0`.
 | **Figma `DS-IA-NEPHOS 5.0`** | Visual source. Defines and validates values, modes, aliases and intent. |
 | **`design.md`** | Human and agent-facing contract: usage, accessibility, naming, anti-patterns. **Not the generation file.** |
 | **`src/tokens/source/*.tokens.json`** | Versioned technical source of audited values. **This is what you edit.** |
-| **`src/tokens/generated/tokens.css`** | Generated artefact. **NEVER edit by hand.** |
+| **`src/tokens/generated/tokens.css`** | Generated artifact. **NEVER edit by hand.** |
 
 ## Files
 
@@ -46,7 +46,7 @@ src/tokens/
   source/
     core.tokens.json       primitives
     theme.tokens.json      brand variables, seven modes
-    semantic.tokens.json   semantic tokens, two colour schemes
+    semantic.tokens.json   semantic tokens, two color schemes
   generated/
     tokens.css             declarations — GENERATED
 scripts/
@@ -105,7 +105,7 @@ the invariant ones — invariance is not a property of the type.
 
 ## Update of 25-08-2026 — Button tokens
 
-The three tokens below were approved in Figma and synchronised into the
+The three tokens below were approved in Figma and synchronized into the
 technical source:
 
 | Token | DTCG type | Light | Dark |
@@ -158,7 +158,7 @@ The unit caveat **is gone**: dimensions used to come out in `px`, and from
 ## Update of 28-08-2026 — dimensions in `rem`
 
 The generator emitted `px` for every `dimension`, while `design.md` already
-promised `unidade_css: rem, root 16px`. **Decision P62.4:** the contract does not change; the code starts honouring it.
+promised `unidade_css: rem, root 16px`. **Decision P62.4:** the contract does not change; the code starts honoring it.
 
 The `nephos/dimension/rem` transform divides the value by **16** and emits
 `rem`. A zero value comes out as `0`, with no unit.
@@ -204,7 +204,7 @@ was not in `TIPOS_TRATADOS`. No new dependency was added.
 
 In Figma, every layer of the `elevation/*` styles **binds its geometry to
 variables** — `core/shadow-y`, `core/shadow-blur` and `core/shadow-spread` — and
-only the colour comes from a semantic token. Porting the style with the numbers
+only the color comes from a semantic token. Porting the style with the numbers
 written by hand would be a poorer translation than what the file holds. The 24
 primitives leave the deferred list because the consumer the scope table already
 named now exists.
@@ -259,7 +259,7 @@ All 11 styles landed — but the three focus rings only after a name change.
 
 | Token | CSS name | What it is |
 |---|---|---|
-| `focus/ring-error` | `--nph-focus-ring-error` | the ring's **colour**, published since the base migration |
+| `focus/ring-error` | `--nph-focus-ring-error` | the ring's **color**, published since the base migration |
 | `focus-ring/error` | `--nph-focus-ring-error` | the ring's **shadow** |
 
 The collision comes from the naming convention: `/` becomes `-`, and
@@ -268,9 +268,9 @@ does not show up in Figma, because there styles and variables are separate
 namespaces. What found it was the new validation — the build failed, with the
 name and the count.
 
-**Decision: rename the style, not the colour.** The
+**Decision: rename the style, not the color.** The
 style `focus-ring/error` is now **`focus-ring/invalid`**, in Figma and in code at
-the same time. The published colour did not change.
+the same time. The published color did not change.
 
 Three reasons. You do not break an already published custom property — which P02
 defines as public API — to accommodate one that did not exist yet. Renaming in
@@ -279,7 +279,7 @@ without the silent drift that would appear if only the code changed. And
 `invalid` is the HTML and ARIA term for this state, consistent with `design.md`,
 which describes the case as "campo que falhou a validacao".
 
-The result reads by itself: the shadow is `invalid`, and the colour it uses is
+The result reads by itself: the shadow is `invalid`, and the color it uses is
 still `error`.
 
 ```css
@@ -288,7 +288,7 @@ still `error`.
 
 ## Consumption — two independent attributes
 
-Brand and colour scheme are **independent dimensions**: a product can be in
+Brand and color scheme are **independent dimensions**: a product can be in
 Educação + dark without anything being re-authored.
 
 ```html
@@ -319,10 +319,10 @@ The scheme alone also works on a part of the screen:
 alone, without the scheme on the same element, is not supported: the tokens that
 depend on the brand would keep the root brand.
 
-### Native scrollbar colour
+### Native scrollbar color
 
 Load `src/styles/scrollbar.css` right after `src/tokens/generated/tokens.css`.
-Where the browser supports `scrollbar-color`, it colours the native scrollbar
+Where the browser supports `scrollbar-color`, it colors the native scrollbar
 with `scrollbar/thumb` and `scrollbar/track`, on the root and on every
 `[data-nph-color-scheme]` root. Scrolling stays native: no JavaScript, no custom
 scrollbar. On hover, the browser may apply its own tone; `scrollbar/thumb-hover`
@@ -372,14 +372,14 @@ The build **fails** — with exit code 1 and a specific message — when:
 | Item | Status |
 |---|---|
 | 20 primitives from **P46** | **Excluded by recorded decision** — `core/radius` 700–1000, `core/space` 1200–1500 and the 12 off-scale ones. While they are on that list, they do not enter the JSON. |
-| The other `core` primitives | **Deferred.** They are not reachable from the `semantic` layer, which does **not** mean they have no consumer. They remain deferred with no judgement about consumers. |
+| The other `core` primitives | **Deferred.** They are not reachable from the `semantic` layer, which does **not** mean they have no consumer. They remain deferred with no judgment about consumers. |
 | 24 `core/sombra` primitives | **Migrated on 03/09/2026.** The consumer the row above already named — the `elevation/*` styles — now exists. |
 | 11 effect styles | **Migrated on 03/09/2026.** No longer deferred: they became `shadow` tokens — 8 elevation levels and 3 focus rings. |
 | 14 text styles | **Migrated on 27/08/2026.** No longer deferred. They are not Figma variables: the values were read from the text styles and checked against `tokens_typography` in `design.md`, item by item, with no divergence. Each role became five tokens in `semantic.text`, and the two families landed in `core.font`. |
 
 ## Known tool limitation
 
-Style Dictionary 5.5.2 serialises `duration` in the structured DTCG form
+Style Dictionary 5.5.2 serializes `duration` in the structured DTCG form
 (`{ value, unit }`) as `[object Object]`. The source **stays structured**, as
 DTCG requires; conversion to `250ms` happens only on output, through the
 `nephos/duration/css` transform registered in `scripts/build-tokens.mjs`.

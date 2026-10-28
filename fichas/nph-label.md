@@ -13,7 +13,7 @@ solves: >-
 use_when:
   - "A form control needs a visible name, on its own or inside an nph-field."
 do_not_use_when:
-  - "It is a sentence with a verb and a full stop — that is `text/body-md`."
+  - "It is a sentence with a verb and a period — that is `text/body-md`."
   - "It opens a section or group — that is `text/heading-sm`."
   - "It is emphasis inside a paragraph — that is `<strong>`."
 
@@ -102,7 +102,7 @@ tokens:
   tooltip_gap: space/inline
 
 ai_hints:
-  - "A field label is `nph-label`; a sentence with a verb and a full stop is not."
+  - "A field label is `nph-label`; a sentence with a verb and a period is not."
   - "The label does not change on error. The field and the message change."
   - "Do not look for a layout property: the position belongs to `nph-field`."
   - "`required=true` alone does not communicate requiredness to a screen reader."
@@ -169,7 +169,7 @@ on its own or inside an `nph-field`.
 
 **When NOT to use:**
 
-- **A sentence with a verb and a full stop** — that is `text/body-md`.
+- **A sentence with a verb and a period** — that is `text/body-md`.
 - **Opening a section or group** — that is `text/heading-sm`.
 - **Giving emphasis inside a paragraph** — that is `<strong>`, not a label.
 
@@ -282,7 +282,7 @@ icon through PR #57 (L-a); rule 6 of `design.md` comes to admit border and halo 
 
 **AI hints:**
 
-- **A field label is `nph-label`.** A sentence with a verb and a full stop is not — it is `body-md`.
+- **A field label is `nph-label`.** A sentence with a verb and a period is not — it is `body-md`.
 - **The label does not change on error.** The field and the message change. If you are
   looking for how to make the label red, the answer is: you don't.
 - **Do not look for a layout property.** The label position belongs to `nph-field`.

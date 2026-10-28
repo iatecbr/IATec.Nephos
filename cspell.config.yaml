@@ -1,0 +1,413 @@
+# Spell check of the English text of the repository, in American English
+# (P64, amendment of 15/10/2026). Run with: npm run test:spelling
+version: '0.2'
+language: en-US
+useGitignore: true
+
+# What P64 puts in English: the code text of scripts/, src/, stories/ and .storybook/, the specs
+# and the documentation (the groups of scripts/language-lib.mjs). Only text files are read; a
+# credential file never is.
+files:
+  - 'src/**/*.{ts,js,css,json}'
+  - 'stories/**/*.{ts,js}'
+  - '.storybook/**/*.{js,json,html}'
+  - 'scripts/**/*.{mjs,json}'
+  - 'fichas/**/*.md'
+  - 'docs/**/*.md'
+  - 'assets/**/*.md'
+  - '{README,AGENTS,CLAUDE,GOVERNANCA,contributing,design}.md'
+
+ignorePaths:
+  - '.npmrc*'
+  # The pt-BR and es translations stay out (P64, amendment of 15/10/2026).
+  - '**/*.pt-BR.md'
+  - '**/*.es.md'
+  - .storybook/i18n/pt-BR.json
+  - .storybook/i18n/es.json
+  # The historical record keeps the text of its time (P64, amendment of 15/10/2026).
+  - docs/operacao/evidencias/**
+  - docs/operacao/contextos/**
+  # Done tasks that cite the British text of their time: DSA-30 D8 is the evidence of it, and
+  # DSA-15 records the language migration as it was written.
+  - docs/operacao/tarefas/DSA-15.md
+  - docs/operacao/tarefas/DSA-30.md
+  # Generated: the source (the token JSON, the sheet) is what is checked.
+  - src/tokens/generated/**
+  - src/shared/metadata/**
+  # The token source changes only through Claude in Figma (CLAUDE.md, rule 1); its keys, modes
+  # and brands are contract, and its descriptions are the Figma reading of their date.
+  - src/tokens/source/**
+  # Portuguese by design: the test fixtures and the Portuguese vocabulary of the language proof
+  # (npm run test:naming). Its exception files stay in, but for the names they list (overrides).
+  - scripts/fixtures/**
+  - scripts/naming-vocabulary.json
+
+# The British spellings, flagged with their American form: the en-US dictionary alone accepts some
+# of them (centre, catalogue, artefact, grey). labelled and cancelled pass: en-US accepts them.
+flagWords:
+  - artefact->artifact
+  - artefacts->artifacts
+  - behaviour->behavior
+  - behaviours->behaviors
+  - behavioural->behavioral
+  - catalogue->catalog
+  - catalogues->catalogs
+  - centre->center
+  - centres->centers
+  - centred->centered
+  - centring->centering
+  - colour->color
+  - colours->colors
+  - coloured->colored
+  - colouring->coloring
+  - customisation->customization
+  - customise->customize
+  - customised->customized
+  - grey->gray
+  - greyed->grayed
+  - greys->grays
+  - honour->honor
+  - honoured->honored
+  - honouring->honoring
+  - judgement->judgment
+  - licence->license
+  - normalise->normalize
+  - normalised->normalized
+  - normalises->normalizes
+  - serialise->serialize
+  - serialises->serializes
+  - synchronise->synchronize
+  - synchronised->synchronized
+
+ignoreRegExpList:
+  - Urls
+  - Email
+  - SHA
+  # A path or a token name with a slash (docs/operacao/tarefas/, color/foreground) is a name. Known
+  # limit: a word joined to another by a slash is not checked; token names are American (P20).
+  - '/[\p{L}\w.-]*\/[\p{L}\w./*-]+/gu'
+  - '/data:[\w/+.-]+;base64,[\w+/=]+/g'
+  # A file name (verificar-operacao.mjs), a reverse domain (com.iatec.nephos), a host
+  # (figma.com) and a command-line flag (--gerar-metadata) are names. A member access in code
+  # (this.value) is code text and stays in.
+  - '/[\p{L}\p{N}_-]+(?:\.[\p{L}\p{N}_-]+)*\.(?:mjs|cjs|js|ts|json|md|css|ya?ml|html|svg|png|txt)\b/gu'
+  - '/\b(?:com|org)\.[\w-]+(?:\.[\w-]+)*/g'
+  - '/\b[\w-]+(?:\.[\w-]+)*\.(?:com|org)\b/g'
+  - '/(?<![\p{L}\p{N}_-])--[a-z][\w-]*/giu'
+  # Public names and ARIA attributes, already American contract: nph-togglebutton, data-nph-brand,
+  # aria-labelledby. A custom property (--nph-color-foreground) is caught by the flag pattern.
+  - '/\b(?:data-)?nph-[\w-]+/g'
+  - '/\baria-[a-z]+/g'
+  # In a code comment, a span between backticks is code or a quotation. A template literal in
+  # code is text and stays in, also after a block comment closed on the same line, the closing
+  # line of a multiline comment included.
+  - '/(?<=^\s*(?:\*(?!\/)|\/\/|\/\*)(?:(?!\*\/).)*)`[^`\n]*`/gm'
+
+languageSettings:
+  - languageId: markdown
+    # A span between backticks and a fenced block are code or a quotation (P64: a cited term goes
+    # between backticks). A json or yaml block is the data of a task or a spec and stays in.
+    ignoreRegExpList:
+      # The whole run of backticks or tildes is the fence, a closing fence may be longer, and the
+      # look-behind skips the closing fence of a json or yaml block, which is not an opening.
+      - '/^[ \t]*(`{3,}|~{3,})(?![`~])(?![ \t]*(?:json|ya?ml)\b)(?<!^[ \t]*(?:`{3,}|~{3,})[ \t]*(?:json|ya?ml)\b[^\n]*\n(?:(?![ \t]*(?:`{3,}|~{3,}))[^\n]*\n)*[ \t]*(?:`{3,}|~{3,}))[\s\S]*?^[ \t]*\1[`~]*[ \t]*$/gm'
+      - '/`[^`\n]*`/g'
+
+overrides:
+  # The exception files of npm run test:naming list Portuguese names on purpose; their reason is
+  # English text and stays in.
+  - filename: 'scripts/{naming,language}-exceptions.json'
+    ignoreRegExpList:
+      - '/"names":\s*\[[^\]]*\]/g'
+  # design.md is a YAML contract and GOVERNANCA.md opens with YAML: the keys and the values without
+  # a space, a flow-list item included, are contract and stay in Portuguese (DSA-15); the text is
+  # the values with a space.
+  - filename: '{design,GOVERNANCA}.md'
+    # Each pattern stays on a YAML key line or inside a flow list or map, and respects quotes: a
+    # comma or a colon inside a quoted value is text. A flow list or map is the value of a key; a
+    # bracket or a brace inside a quoted value is text. Known limit: a flow list or map nested in
+    # another flow collection is checked.
+    ignoreRegExpList:
+      - '/^\s*-?\s*[''"]?[\p{L}\w-]+[''"]?\s*:(?=\s|$)/gmu'
+      - '/(?<=^\s*-?\s*[''"]?[\p{L}\w-]+[''"]?\s*:\s*\{(?:(?:[^{}''"\n,]|''[^''\n]*''|"[^"\n]*")*,)*\s*)[\p{L}\w-]+(?=\s*:)/gmu'
+      - '/(?<=^\s*-?\s*[''"]?[\p{L}\w-]+[''"]?\s*:\s+)[\p{L}\w/.-]+\s*$/gmu'
+      - '/(?<=^\s*-?\s*[''"]?[\p{L}\w-]+[''"]?\s*:\s*\[\s*(?:(?:[^\]''"\n,]*|''[^''\n]*''|"[^"\n]*")\s*,\s*)*)(?:[\p{L}\w/.-]+|''[\p{L}\w/.-]+''|"[\p{L}\w/.-]+")(?=\s*[,\]])/gmu'
+
+dictionaryDefinitions:
+  # People, places, products and standards.
+  - name: nephos-names
+    words:
+      - Alegre
+      - Almeida
+      - Alves
+      - Barbosa
+      - Blazor
+      - Centro
+      - DTCG
+      - Duarte
+      - Elvys
+      - Elvys's
+      - Español
+      - Freitas
+      - Fábio
+      - Heitor
+      - IATec
+      - IATec's
+      - Indiane
+      - Indiane's
+      - João
+      - Larissa
+      - maurocsjr
+      - Mendes
+      - Moreira
+      - Natália
+      - Nephos
+      - Nephos's
+      - Noto
+      - Nunes
+      - Obra
+      - Olinda
+      - Otávio
+      - Português
+      - Qube
+      - Recursos
+      - Humanos
+      - Souza
+      - Teixeira
+      - Tiago
+      - Tomé
+      - Vitória
+      - WCAG
+      - xmark
+  # HTML, ARIA, SVG and MathML names, and the technical words of the code and its tests.
+  - name: nephos-technical
+    words:
+      - activedescendant
+      - animatable
+      - animatemotion
+      - animatetransform
+      - autodocs
+      - autofocus
+      - autolinks
+      - browsable
+      - checkedness
+      - commandfor
+      - contenteditable
+      - declaredly
+      - describedby
+      - dont
+      - exportparts
+      - fedropshadow
+      - fieldset
+      - fieldsets
+      - focusability
+      - focusable
+      - focusables
+      - formaction
+      - formnovalidate
+      - grayscale
+      - gridcells
+      - haspopup
+      - hotfixes
+      - idents
+      - inlines
+      - inputmode
+      - interestfor
+      - itemref
+      - labelable
+      - labelledby
+      - maxlength
+      - menuitemcheckbox
+      - menuitemradio
+      - mfrac
+      - microtask
+      - mpath
+      - mroot
+      - mrow
+      - msgbox
+      - msqrt
+      - msub
+      - msubsup
+      - msup
+      - mtable
+      - mtext
+      - nodetype
+      - novalidate
+      - nums
+      - passwordless
+      - popovertarget
+      - precomposed
+      - reassociates
+      - renderable
+      - requiredness
+      - retarget
+      - retargeted
+      - rgba
+      - rowspan
+      - scroller
+      - selectedcontent
+      - showable
+      - spacebar
+      - styleable
+      - stylesheet
+      - subfolders
+      - tabindex
+      - textareas
+      - textboxes
+      - togglebutton
+      - toggletip
+      - treegrid
+      - undrawn
+      - unhover
+      - unfocusable
+      - wikilinks
+  # Portuguese that the English text cites as a name: the directories and states of the verifier
+  # contract (P64, amendment of 02/10/2026), the words of the design.md contract keys (DSA-15), the Figma names of properties, layers and brands, the
+  # names of the vault notes, the language names that scripts/language-lib.mjs builds from code
+  # points, and the Portuguese sample text of tests and demos. Portuguese running text is caught by
+  # npm run test:naming, not here.
+  - name: nephos-portuguese
+    words:
+      - contextos
+      - evidencias
+      - ficha
+      - fichas
+      - tarefas
+      - rascunho
+      - operacao
+      - revisado
+      - acessibilidade
+      - caixa
+      - espaco
+      - largura
+      - contrato
+      - icone
+      - icones
+      - navegacao
+      - nucleo
+      - regras
+      - segunda
+      - unidade
+      - ações
+      - atual
+      - excluir
+      - fechar
+      - filtrar
+      - grupo
+      - mais
+      - padrão
+      - paginação
+      - perfil
+      - pessoas
+      - primeira
+      - próxima
+      - selecionados
+      - seleção
+      - tabela
+      - última
+      - ícone
+      - aberto
+      - abreviar
+      - agentico
+      - alternativas
+      - ativas
+      - atalhos
+      - ação
+      - bloco
+      - boleto
+      - botaoprimario
+      - busca
+      - buscar
+      - cabeçalho
+      - cadastro
+      - carregando
+      - compacto
+      - completo
+      - componente
+      - concluido
+      - contagem
+      - criar
+      - degrau
+      - decisão
+      - decisões
+      - descrição
+      - destacar
+      - destino
+      - documentação
+      - documento
+      - dois
+      - educacao
+      - educação
+      - elevação
+      - erro
+      - estado
+      - está
+      - eventos
+      - espa
+      - exemplo
+      - explica
+      - falhou
+      - fixo
+      - foco
+      - fonte
+      - foto
+      - gerencial
+      - grupos
+      - indeterminado
+      - interação
+      - legenda
+      - leitura
+      - limpar
+      - marcado
+      - marcar
+      - matiz
+      - modoescuro
+      - moldura
+      - mostrar
+      - movimento
+      - nada
+      - nesta
+      - opção
+      - ordem
+      - pede
+      - pela
+      - portugu
+      - posição
+      - proporção
+      - página
+      - raiz
+      - regra
+      - resultados
+      - rótulo
+      - sair
+      - salvando
+      - sistemas
+      - sobre
+      - sombra
+      - tamanho
+      - termo
+      - texto
+      - tipo
+      - três
+      - título
+      - usar
+      - validacao
+      - vazio
+      - ênfase
+      - aguardando
+      - aplicados
+      - aprovado
+      - aprovados
+      - conteúdo
+      - filtro
+      - filtros
+      - outubro
+      - pendentes
+      - período
+      - removível
+      - situação
+
+dictionaries:
+  - nephos-names
+  - nephos-technical
+  - nephos-portuguese
