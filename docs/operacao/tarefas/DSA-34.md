@@ -28,6 +28,12 @@
       "question": "The nph-button list approved on 2026-10-16 predates P86 and DSA-52, which on 2026-10-23 and 2026-10-27 rewrote the icon-only items of the frame and the sheet and added the actions column of a table. The sheet took the approved list with the later frame text in use_when item 7 and do_not_use_when item 2, and the actions column item as use_when item 8, all already translated (Q1, below). Confirm this list or give the one to keep. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-28"
+    },
+    {
+      "id": "D-2",
+      "question": "Item 3 of the nph-label use_when, approved on 2026-10-16 from the frame, reads \"info=true to show the information icon after the text.\" In code, info is the text of the help, and the icon appears only with info-label too (P62.6, since 2026-10-06): following the item leaves the icon hidden (Copilot review of PR #138). The sheet keeps the approved text, because this task does not reword an item. Give the text to keep. It does not block the pull request: the API table of the same page explains info and info-label.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
     }
   ],
   "evidence": [],
