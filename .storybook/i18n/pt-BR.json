@@ -279,7 +279,16 @@
     "components-nph-pagination-validation--matrix": "Matriz",
     "components-nph-pagination-validation--go-to-page": "Ir para a página",
     "components-nph-pagination-validation--invalid-input": "Entrada inválida",
-    "components-nph-pagination-validation--examples": "Exemplos"
+    "components-nph-pagination-validation--examples": "Exemplos",
+    "components-nph-chip-docs": "Docs",
+    "components-nph-chip-docs--documentation": "Documentação",
+    "components-nph-chip-validation": "Validação",
+    "components-nph-chip-validation--removable": "Removível",
+    "components-nph-chip-validation--severities": "Severidades",
+    "components-nph-chip-validation--selectable": "Selecionável",
+    "components-nph-chip-validation--long-text": "Texto longo",
+    "components-nph-chip-validation--invalid-input": "Entrada inválida",
+    "components-nph-chip-validation--examples": "Exemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -6995,7 +7004,13 @@
       "components-nph-pagination-validation--matrix": "type × posição: os seis tipos no início, no meio e no fim de uma lista de dez páginas. A seta sem destino fica desabilitada, no lugar; a página atual tem fundo e negrito. Passe o mouse para o hover e o balão, e aperte Tab para o foco.",
       "components-nph-pagination-validation--go-to-page": "Ir para a página ao lado da barra com primeira e última: digite uma página e aperte Enter. Além do fim, vai para a última página.",
       "components-nph-pagination-validation--invalid-input": "Entrada inválida não desenha nada: um tipo que não existe, sem contagem de páginas, ir para a página fora de edges e uma seta sem rótulo, cada um com um erro.",
-      "components-nph-pagination-validation--examples": "Os três exemplos obrigatórios do quadro: rodapé de tabela de dados no meio da lista, resultado de busca na primeira página e cabeçalho de card na última página, cada um no modo claro e no escuro."
+      "components-nph-pagination-validation--examples": "Os três exemplos obrigatórios do quadro: rodapé de tabela de dados no meio da lista, resultado de busca na primeira página e cabeçalho de card na última página, cada um no modo claro e no escuro.",
+      "components-nph-chip-validation--removable": "O chip removível por conteúdo, tamanho e estado: texto, ícone e avatar, em compact e default, em repouso, marcado, somente leitura, inválido e desabilitado. Hover, foco e ativo são estados de interação: passe o mouse sobre o X e aperte Tab para vê-los; os testes do componente os medem.",
+      "components-nph-chip-validation--severities": "As cores de status, que existem só em um chip removível com texto: success, warning, error, info e help, nos dois tamanhos, em repouso e desabilitado. O rótulo diz o status em palavras, e o X fica na cor do texto principal.",
+      "components-nph-chip-validation--selectable": "O chip selecionável por conteúdo, tamanho e estado: texto, ícone e contador, em compact e default, em repouso, desabilitado, selecionado e selecionado desabilitado. O chip selecionado mostra o X. Hover, foco e ativo são estados de interação: passe o mouse sobre o chip e aperte Tab para vê-los.",
+      "components-nph-chip-validation--long-text": "Um rótulo mais largo que o chip é cortado com reticências, nos dois tipos e nos dois tamanhos. O texto inteiro aparece em um balão no hover e no foco do teclado: passe o mouse sobre o chip e aperte Tab para vê-lo.",
+      "components-nph-chip-validation--invalid-input": "Entrada inválida não desenha nada: um tipo ou uma severidade que não existe, um ícone fora do núcleo, dois conteúdos ao mesmo tempo, um contador em chip removível, um avatar em chip selecionável, um estado em severidade de status e um X sem remove-label, cada um com um erro.",
+      "components-nph-chip-validation--examples": "Os três exemplos obrigatórios da documentação: filtros aplicados na linha da barra de ferramentas, valores escolhidos em um campo com um inválido, e filtros rápidos que a pessoa marca e desmarca, cada um em modo claro e escuro."
     }
   },
   "multiComboboxDocs": {
@@ -8198,5 +8213,353 @@
     "exampleTable": "Rodapé de tabela de dados, no meio da lista",
     "exampleSearch": "Resultado de busca, na primeira página",
     "exampleCard": "Cabeçalho de card, na última página"
+  },
+  "chipDocs": {
+    "summary": "A peça pequena e arredondada que mostra um filtro aplicado, um valor escolhido em um campo ou um filtro rápido que a pessoa marca e desmarca.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-chip, o design.md para os tokens e os ícones, e a P100 para a API. Cinco decisões esperam a responsável pelo design (D-1 a D-5 da DSA-57) e aparecem aqui no padrão: o contador desenhado como uma pílula própria, o avatar no tamanho sm, o rótulo cortado focável com seu balão, o X do chip inválido com o par de erro, e a ordem ícone, texto, contador e X.",
+    "sourceLabel": "Fonte:",
+    "sourceFrame": "Figma, página NPH — Chip, documentação 3077:2240, conjunto 3076:1439, quadro 3077:807",
+    "sourceApi": "ficha do nph-chip; docs/decisoes-tecnicas.md › P100",
+    "sourceUsage": "Figma, documentação 3077:2240; docs/decisoes-tecnicas.md › P70",
+    "sourceStates": "Figma, documentação 3077:2240, tokens de cada estado; tarefa DSA-57, decisão pendente D-4",
+    "sourceContent": "Figma, documentação 3077:2240; tarefa DSA-57, decisões pendentes D-1, D-2 e D-5",
+    "sourceLongText": "Figma, documentação 3077:2240; tarefa DSA-57, decisão pendente D-3",
+    "sourceAccessibility": "Figma, documentação 3077:2240; nph-chip.test.ts",
+    "matrixLabel": "tipo, severidade, conteúdo e estado",
+    "description": "Use o nph-chip para os filtros aplicados na nph-toolbar, para os valores escolhidos dentro de um campo e para filtros rápidos que a pessoa marca e desmarca. Ele não substitui o nph-badge, que mostra um status do sistema sem ação, nem o nph-button, que executa uma ação.",
+    "whenToUseTitle": "Quando usar",
+    "whenNotToUseTitle": "Quando não usar",
+    "whenToUse": [
+      "Com o tipo removable, para um filtro já aplicado ou um valor escolhido que a pessoa pode tirar.",
+      "Com o tipo selectable, para um filtro rápido que a pessoa marca e desmarca; vários podem ficar marcados.",
+      "Com uma severidade de status, quando o valor do filtro é um status; o rótulo diz qual.",
+      "Com um ícone, para reconhecer o tipo do filtro; com um avatar, quando o valor é uma pessoa; com um contador, para mostrar quantos itens a opção tem antes do clique.",
+      "Com o tamanho compact na barra de ferramentas, na tabela e no campo; com o tamanho default em um chip selecionável dentro de um formulário."
+    ],
+    "whenNotToUse": [
+      "Para um status do sistema sem ação: use o nph-badge.",
+      "Para executar uma ação, como excluir os selecionados: use o nph-button.",
+      "Em uma linha de chips que rola para o lado: deixe os chips quebrarem de linha."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "type",
+        "removable (padrão) ou selectable: o tipo do Figma. Em removable o X tira o valor e o corpo não tem ação; em selectable o chip inteiro é um botão de alternância."
+      ],
+      [
+        "severity",
+        "default, success, warning, error, info ou help: a cor do Figma. Uma cor de status existe só em um chip removível com conteúdo de texto."
+      ],
+      [
+        "size",
+        "compact (padrão) ou default: o tamanho do Figma. A área do X é a mesma nos dois."
+      ],
+      [
+        "text",
+        "O rótulo, já localizado, em uma linha. Cortado com reticências na largura máxima, com o texto inteiro em um balão. Sem texto, a peça não desenha nada e não emite erro."
+      ],
+      [
+        "icon",
+        "Um nome do núcleo do nph-icon, antes do texto. No máximo um entre icon, avatar e counter."
+      ],
+      [
+        "avatar, avatar-src",
+        "Desenha um nph-avatar antes do texto, só em removable. avatar-src é a foto; sem ela, o avatar desenha o ícone de pessoa."
+      ],
+      [
+        "counter",
+        "Um número inteiro de zero em diante, depois do texto, só em selectable."
+      ],
+      [
+        "remove-label",
+        "A palavra que o X diz antes do texto, como Remover filtro, para o X ler Remover filtro Situação: Aguardando. Obrigatório enquanto o X aparece em um chip removível."
+      ],
+      [
+        "selected",
+        "O chip selecionável marcado, que mostra o X como marca: o clique pertence ao chip inteiro. Mudar pelo código não dispara nada."
+      ],
+      [
+        "marked, readonly, invalid",
+        "Os estados removíveis marcado, somente leitura e inválido, na severidade padrão e um de cada vez. Somente leitura não tem X."
+      ],
+      [
+        "disabled",
+        "O chip inteiro com opacidade reduzida, fora da ordem do Tab, sem clique e sem balão. Vale mais que os outros estados, sem erro."
+      ],
+      [
+        "nph-remove",
+        "Disparado só quando a pessoa aperta o X de um chip removível, com detail text; sobe pela árvore e é composto. O chip não se remove sozinho."
+      ],
+      [
+        "nph-selected-change",
+        "Disparado só quando a pessoa alterna um chip selecionável, com detail selected, depois de selected mudar; sobe pela árvore e é composto."
+      ]
+    ],
+    "invalidTitle": "Entrada inválida não desenha nada.",
+    "invalidText": "Um tipo, uma severidade ou um tamanho fora das listas, um ícone fora do núcleo, mais de um entre icon, avatar e counter, um contador em chip removível, um avatar ou uma severidade de status em chip selecionável, um estado em severidade de status ou em chip selecionável, uma severidade de status com ícone ou avatar, e um chip removível com X e sem remove-label emitem, cada um, um console.error em desenvolvimento. Um chip sem texto não desenha nada e não emite erro.",
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "typesTitle": "Tipos",
+    "typesCaption": "removable e selectable, na severidade e no tamanho padrão.",
+    "typesHeader": [
+      "Tipo",
+      "O que faz"
+    ],
+    "types": [
+      [
+        "removable",
+        "Um filtro aplicado ou um valor escolhido que a pessoa pode tirar. O X tira o valor e dispara nph-remove; o corpo não tem ação."
+      ],
+      [
+        "selectable",
+        "Um filtro rápido que a pessoa marca e desmarca com um clique. O chip inteiro é um botão de alternância com aria-pressed e dispara nph-selected-change."
+      ]
+    ],
+    "severitiesTitle": "Severidades",
+    "severitiesText": "A severidade padrão é a cor do chip. As cores de status valem para um chip removível com texto: o valor do filtro é um status, e o rótulo diz qual. Cada cor tem borda, fundo e rótulo próprios; o X fica na cor do texto principal.",
+    "severitiesCaption": "default, success, warning, error, info e help.",
+    "severitiesHeader": [
+      "Severidade",
+      "Regra"
+    ],
+    "severities": [
+      [
+        "default",
+        "chip/background, borda chip/border, rótulo chip/foreground."
+      ],
+      [
+        "success, warning, error, info, help",
+        "chip/<status>-background, borda chip/<status>-border e rótulo chip/<status>-foreground, com <status> igual à severidade."
+      ]
+    ],
+    "sizesTitle": "Tamanhos",
+    "sizesText": "Compact na barra de ferramentas, na tabela e no campo; default em um chip selecionável dentro de um formulário. O X tem a mesma área, chip/remove-size, nos dois.",
+    "sizesCaption": "compact (chip/height-compact) e default (chip/height-default).",
+    "statesTitle": "Estados",
+    "statesText": "marked, readonly e invalid são atributos de um chip removível, um de cada vez, na severidade padrão. selected pertence a um chip selecionável. disabled vale mais que os outros. Hover, foco e ativo são estados de interação: passe o mouse sobre o X ou o chip e aperte Tab para vê-los.",
+    "statesCaption": "Removível: padrão, marcado, somente leitura, inválido e desabilitado. Selecionável: padrão, selecionado e desabilitado.",
+    "statesHeader": [
+      "Tipo e estado",
+      "O que muda"
+    ],
+    "states": [
+      [
+        "removable, padrão e readonly",
+        "chip/background, borda chip/border, rótulo chip/foreground. Somente leitura não tem X."
+      ],
+      [
+        "removable, marked",
+        "chip/background-hover; o anel de foco (focus/border e focus/halo) em volta do chip inteiro: o último chip do campo, pronto para sair."
+      ],
+      [
+        "removable, X em hover e ativo",
+        "O X em chip/remove-background-hover; em uma cor de status, chip/<status>-remove-background-hover."
+      ],
+      [
+        "removable, X em foco",
+        "Borda focus/border e halo focus/halo em volta do X; em uma cor de status, chip/<status>-focus-border e chip/<status>-focus-halo."
+      ],
+      [
+        "removable, invalid",
+        "chip/invalid-background, borda chip/invalid-border, texto chip/invalid-foreground; o X usa o par de erro no hover e no foco (D-4)."
+      ],
+      [
+        "selectable, padrão",
+        "chip/background, borda chip/border, rótulo chip/foreground, contador chip/counter-background."
+      ],
+      [
+        "selectable, hover e ativo",
+        "chip/background-hover e o contador em chip/counter-background-hover, para a pílula não sumir."
+      ],
+      [
+        "selectable, foco",
+        "Borda focus/border e halo focus/halo em volta do chip inteiro."
+      ],
+      [
+        "selectable, selected",
+        "chip/background-selected, rótulo chip/foreground-selected, sem borda e com o X como marca. No hover, chip/background-selected-hover."
+      ],
+      [
+        "disabled",
+        "chip/background-disabled, sem borda, em state/disabled-opacity; fora da ordem do Tab, sem clique e sem balão. O chip selecionado mantém o fundo cheio."
+      ]
+    ],
+    "contentTitle": "Conteúdo",
+    "contentText": "O conteúdo do Figma não é uma propriedade. Um ícone ajuda a reconhecer o tipo do filtro; um avatar, quando o valor é uma pessoa (só removível); um contador, para mostrar quantos itens a opção tem antes do clique (só selecionável). No máximo um deles, na ordem ícone, texto, contador e X (D-5).",
+    "contentCaption": "Texto, ícone e avatar em um chip removível; texto, ícone e contador em um selecionável.",
+    "contentHeader": [
+      "Conteúdo",
+      "Regra"
+    ],
+    "content": [
+      [
+        "icon",
+        "nph-icon em icon/size-sm, antes do texto, decorativo. Espaço inicial chip/padding-start-icon."
+      ],
+      [
+        "avatar",
+        "nph-avatar no tamanho sm (D-2), antes do texto, decorativo. Espaço inicial chip/padding-start-avatar."
+      ],
+      [
+        "counter",
+        "Uma pílula própria depois do texto, em chip/counter-background, com o número em chip/counter-foreground e text/label-sm (D-1). Espaço final chip/padding-end-counter."
+      ]
+    ],
+    "longTextTitle": "Texto longo",
+    "longTextText": "O rótulo tem uma linha. Ele é cortado com reticências em chip/max-width, e o texto inteiro aparece em um balão no hover e no foco do teclado. Para dar um alvo ao balão, o próprio rótulo cortado recebe o foco (D-3); um rótulo que não é cortado não recebe foco e não tem balão, e um chip desabilitado também não tem.",
+    "longTextCaption": "Um rótulo longo em um chip removível e em um selecionável.",
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Na nph-toolbar, os filtros aplicados ficam em uma linha abaixo da barra, e Limpar filtros (nph-button secondary, ghost, compact) vem depois do último chip.",
+      "Dentro de um campo, cada valor escolhido vira um chip removível; o campo controla a borda, o foco do grupo e a mensagem de erro.",
+      "Usa nph-icon, nph-avatar e nph-tooltip por dentro. O contador é desenhado pelo próprio chip (D-1).",
+      "O nph-badge mostra um status sem ação; o chip sempre tem uma ação: remover ou alternar.",
+      "Espaço entre chips: space/inline. Quando não há espaço, os chips quebram para a linha seguinte."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "1. Contêiner",
+        "chip/background, raio chip/radius, altura chip/height-compact ou chip/height-default, largura máxima chip/max-width. Uma borda chip/border-width por dentro, na cor da severidade; nenhuma no chip selecionado e no desabilitado; chip/invalid-border no inválido."
+      ],
+      [
+        "2. Ícone ou avatar",
+        "Opcional, antes do texto. Decorativo: o clique pertence ao chip."
+      ],
+      [
+        "3. Rótulo",
+        "Texto em text/label-md, cor chip/foreground, uma linha, cortado com reticências na largura máxima."
+      ],
+      [
+        "4. Contador",
+        "Opcional, só selecionável: uma pílula com chip/counter-background e chip/counter-foreground, e chip/counter-padding-y e chip/counter-padding-x por dentro."
+      ],
+      [
+        "5. Remover",
+        "O botão X, com área chip/remove-size e raio chip/remove-radius. Fundo chip/remove-background-hover no hover, no foco e no ativo."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "Texto e X passam de 4,5:1 sobre o fundo do chip em todos os estados, no claro e no escuro. A borda marca o limite do chip contra a página; ela não precisa de 3:1, porque o texto já identifica a peça."
+      ],
+      [
+        "Foco visível",
+        "Borda focus/border com halo focus/halo em volta do chip, no selecionável, ou em volta do X, no removível. Em um chip de status, o anel do X segue a cor do status."
+      ],
+      [
+        "Cor",
+        "A cor nunca é o único sinal: o chip selecionado mostra o X e o fundo cheio; o status vem escrito no rótulo; o chip inválido tem borda vermelha e uma mensagem abaixo do campo."
+      ],
+      [
+        "Área de toque",
+        "O X tem a área chip/remove-size nos dois tamanhos."
+      ],
+      [
+        "Nome acessível",
+        "O X é um botão nativo nomeado por remove-label e pelo texto, como Remover filtro Situação: Aguardando. Ícone e avatar ficam ocultos do leitor de tela. Um chip selecionável é um botão de alternância com aria-pressed."
+      ],
+      [
+        "Teclado",
+        "Tab chega ao X de um chip removível e ao chip selecionável inteiro, e pula o desabilitado; Enter e Espaço apertam o X ou alternam o chip. Um rótulo cortado também recebe o foco, para o balão abrir."
+      ],
+      [
+        "Desabilitado e somente leitura",
+        "Desabilitado não recebe foco nem clique. Somente leitura mostra o valor sem o X. Marcado é o último chip do campo, pronto para sair."
+      ]
+    ],
+    "doTitle": "Faça",
+    "dontTitle": "Não faça",
+    "do": [
+      "Use removable para um filtro aplicado: o X mostra como desfazer.",
+      "Mostre o X no chip selecionado: o estado não depende só da cor.",
+      "Escreva um rótulo curto, como Campo: valor: a pessoa entende o filtro sem abrir nada.",
+      "Deixe os chips quebrarem de linha: todos ficam visíveis e na ordem de leitura."
+    ],
+    "dont": [
+      "Não use um chip para um status do sistema sem ação: use o nph-badge.",
+      "Não use um chip para executar uma ação: use o nph-button.",
+      "Não ponha a linha de chips em uma rolagem horizontal: deixe quebrar."
+    ],
+    "examplesTitle": "Exemplos obrigatórios",
+    "referencesTitle": "Referências",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, página NPH — Chip, documentação 3077:2240, conjunto 3076:1439, quadro 3077:807",
+      "fichas/nph-chip.md",
+      "docs/decisoes-tecnicas.md › P100",
+      "Tarefa DSA-57, decisões pendentes D-1 a D-5"
+    ],
+    "removeLabel": "Remover filtro",
+    "plain": "Situação: Aguardando",
+    "filters": {
+      "period": "Período: Outubro",
+      "status": "Situação: Atrasado",
+      "person": "Ana Souza",
+      "clear": "Limpar filtros"
+    },
+    "field": [
+      "ana@iatec.com",
+      "bruno@iatec.com",
+      "carla@iatec"
+    ],
+    "quick": [
+      "Pendentes",
+      "Aprovados",
+      "Atrasados"
+    ],
+    "long": "Departamento: Financeiro, Jurídico, Pessoas, Suprimentos e Atendimento ao Cliente",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "exampleFilters": "Filtros aplicados na barra de ferramentas",
+    "exampleField": "Valores escolhidos em um campo, um inválido",
+    "exampleQuick": "Filtros rápidos"
+  },
+  "chipValidation": {
+    "removeLabel": "Remover filtro",
+    "plain": "Situação: Aguardando",
+    "filters": {
+      "period": "Período: Outubro",
+      "status": "Situação: Atrasado",
+      "person": "Ana Souza",
+      "clear": "Limpar filtros"
+    },
+    "field": [
+      "ana@iatec.com",
+      "bruno@iatec.com",
+      "carla@iatec"
+    ],
+    "quick": [
+      "Pendentes",
+      "Aprovados",
+      "Atrasados"
+    ],
+    "long": "Departamento: Financeiro, Jurídico, Pessoas, Suprimentos e Atendimento ao Cliente",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "exampleFilters": "Filtros aplicados na barra de ferramentas",
+    "exampleField": "Valores escolhidos em um campo, um inválido",
+    "exampleQuick": "Filtros rápidos"
   }
 }
