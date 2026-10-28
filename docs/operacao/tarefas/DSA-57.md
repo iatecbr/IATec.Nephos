@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 560,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-chip",
   "dependencies": [
     "DSA-03",
@@ -27,10 +27,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-57/review-and-merge-2026-10-28.md",
+      "result": "passed",
+      "verified_at": "2026-10-28",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -67,7 +67,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-57/documentacao-figma-aceita-2026-10-28.md"
+    "docs/operacao/evidencias/DSA-57/documentacao-figma-aceita-2026-10-28.md",
+    "docs/operacao/evidencias/DSA-57/review-and-merge-2026-10-28.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -81,12 +82,8 @@
     "excerpt": null,
     "converted_decision": "The nph-chip board, with its Documentação frame (3077:2240), was accepted as the API and behavior specification of nph-chip. Component set: nph-chip (3076:1439), tipo × cor × conteúdo × tamanho × estado, 152 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": {
-    "branch": "claude/dsa-57-nph-chip",
-    "commit": "2e88a4f8c28fec78e63130da97366bb7005d5225",
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/134"
-  },
-  "context": "docs/operacao/contextos/DSA-57.md",
+  "git_review": { "branch": "claude/dsa-57-nph-chip", "commit": "53b18ed3753b06474530eb6993413d0283a3c7d2", "pr": "134" },
+  "context": null,
   "updated_at": "2026-10-28"
 }
 ```
