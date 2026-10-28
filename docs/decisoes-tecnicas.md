@@ -4398,7 +4398,10 @@ and P90. The names follow P64.
   so the level is written on the `<tr>` and its support by screen readers varies. The
   accessibility gate (P72) flags it; the stories that draw a tree carry an exception decided by
   Elvys on 27/10/2026 (DSA-32), and the move to `role="treegrid"` with the APG keyboard is
-  DSA-56.
+  DSA-56. *Annotation of 28/10/2026:* P101 (DSA-56) makes the table that draws a tree a
+  `treegrid`, so `aria-level` is on a row of a `treegrid`, and the exception is gone from the
+  stories. In the tree, the row also carries `aria-expanded`; the next limit stays for the
+  expanding row of a flat table.
 - **The category content** of the cell is listed in the evidence but not described (D1 of
   DSA-49): there is no `category` type yet. The required example of items grouped by category
   shows the groups as the first level of the tree, open, with the total in the footer.
@@ -4443,7 +4446,7 @@ of this implementation, approved with the plan by Elvys on 26/10/2026.
 
 **Out of scope.** Sorting, selection, filtering and pagination (`nph-data-table`). The menu of the
 more (a follow-up with the `nph-dropdown-menu`, P92). The category content (D1). An interactive grid (`treegrid` with
-arrow keys). Virtual scrolling. A free slot in the cell. The Usage section of the page (P70,
+arrow keys) — *annotation of 28/10/2026:* P101 brings it for the tree only. Virtual scrolling. A free slot in the cell. The Usage section of the page (P70,
 DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate (P72,
 DSA-32).
 
@@ -5012,9 +5015,95 @@ API and semantics are reviewed in the pull request that brings them; the merge i
 
 ---
 
+## P101 — `nph-table`: the tree as a treegrid
+
+**Technical conflict.** P97 writes `aria-level` on the rows of a tree, and ARIA 1.2 gives
+`aria-level` to a row only inside a `treegrid`. The table is a native `table`, so the
+accessibility gate (P72) flags the rule `aria-conditional-attr`, and the stories that draw a
+tree carried the exception `TREE_LEVEL_EXCEPTION`, decided by Elvys on 27/10/2026 (DSA-32)
+until this task. P97 left an interactive grid out of scope; this decision brings it for the
+tree only, and the flat table does not change.
+
+**Decision.**
+
+1. **When.** The table is a `treegrid` when it draws a tree: when one valid row, open or
+   closed, has `children`. The other tables — with or without an expanding row — stay a native
+   `table`, as P97 describes them.
+
+2. **Roles and states.** `role="treegrid"` goes on the `<table>` of the shadow root; the rows,
+   the column headers and the cells take their roles from the table (`row`, `columnheader`,
+   `gridcell`). Each row of data carries `aria-level`, `aria-posinset` and `aria-setsize`,
+   counted among the valid rows of its level under the same parent (a row left out does not
+   count), and a row that opens — by `children` or by `detail` — carries `aria-expanded` on
+   the `<tr>`. The open expanded item is a row of the level under its row, the only one there.
+   The row carries the open state of the tree; the chevron keeps its `aria-expanded` on the
+   host of its `nph-button`, as P97 describes.
+
+3. **Focus.** One row of the body is the Tab stop (`tabindex="0"`): the last row the focus was
+   in, while it is drawn, and the first row otherwise; the other rows and every cell take
+   `tabindex="-1"`. The links, the buttons, the chevron and the truncated text of the row that
+   is the Tab stop keep the Tab order, and those of the other rows take `tabindex="-1"` (on the
+   host of an `nph-button`, which takes its inner button out of the Tab order). So Tab goes from
+   the row to its own widgets and then leaves the table, as the APG treegrid says. The focused
+   row and cell take the ring `focus/border` in `table/focus-ring-width`, drawn inside, as the
+   truncated text does.
+
+4. **Keys** (the APG treegrid, rows first). On a row: Right Arrow opens a closed row, and on
+   an open row or a leaf goes to its first cell; Left Arrow closes an open row, and on a closed
+   row or a leaf goes to its parent row; Down Arrow and Up Arrow go to the next and the previous
+   row; Home and End, with or without Control, go to the first and the last row; Enter opens and
+   closes the row. On a cell: Right Arrow and Left Arrow go to the next and the previous cell,
+   and Left Arrow on the first cell goes back to the row; Down Arrow and Up Arrow go to the cell
+   of the same column in the next and the previous row, or to that row when it has no such cell,
+   as the expanded item; Home and End go to the first and the last cell of the row; Control+Home
+   and Control+End go to the cell of the same column in the first and the last row. A key pressed
+   inside a button or a link stays with it. Opening and closing from the keyboard replace `rows`
+   and fire `nph-row-toggle`, as the chevron does; a row that loads does not open, as its click
+   does not.
+
+5. **What the flat table keeps.** A table without a tree has no role besides the native ones,
+   no roving Tab stop, no arrow key, no `aria-level` and no state on the row: every link and
+   button stays in the Tab order, and the chevron of an expanding row carries the open state on
+   the host of its `nph-button`, with the known limit of P97.
+
+**Reason.** The level of a row is part of reading a hierarchy, and ARIA gives it to a row only
+in a `treegrid`. A `treegrid` is an interactive grid, so it owes the person its keyboard: one
+Tab stop and the arrows, so that a long tree is not a long run of Tab stops. The flat table has
+no hierarchy to read, and a grid there would add a keyboard the evidence does not ask for.
+
+**Known limits.**
+
+- **The focus when the focused row leaves.** When the consumer replaces `rows` and the row
+  that holds the focus is not drawn any more, the focus leaves with it, as with any element that
+  leaves the page; the Tab stop goes to the first row.
+- **No Page Up and Page Down** and no selection: the APG makes both optional, and selection is
+  of `nph-data-table`.
+- **Forced colors and right-to-left** are not treated yet, as in P97: Right Arrow opens in both
+  reading directions.
+
+**Points for review.**
+
+- **The treegrid on the tree only**, so the flat table does not change.
+- **Rows first**, the default of the APG treegrid.
+- **`aria-posinset` and `aria-setsize`** written by the piece, counting the valid rows only.
+- **The expanded item as a row of the level under its row** when it is inside a tree.
+
+**Source.** The WAI-ARIA Authoring Practices treegrid pattern, ARIA 1.2 (`aria-level`,
+`aria-posinset`, `aria-setsize` and `aria-expanded` on a row of a `treegrid`), P72 and P97. The
+roles, the focus and the keys are a technical proposal of this implementation (DSA-56), from the
+decision of Elvys on 27/10/2026 to move the tree to a treegrid.
+
+**Out of scope.** The flat table, the look of the rows, the tokens, sorting, selection and
+filtering (`nph-data-table`).
+
+**Status.** API and semantics are reviewed in the pull request that brings them; the merge is the
+approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98 or P99 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99 or P101 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

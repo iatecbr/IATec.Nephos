@@ -338,8 +338,9 @@ describe('nph-table Validation: text only from the dictionary', () => {
     expect(element?.shadowRoot?.querySelectorAll('tr.detail')).toHaveLength(1);
   });
 
-  it('Tree: three levels open', async () => {
+  it('Tree: three levels open, in a treegrid (P101)', async () => {
     const [element] = await drawn(draw(validation.Tree as Renderable, 'en').querySelector('[data-nph-color-scheme="light"]') as HTMLElement);
+    expect(element?.shadowRoot?.querySelector('table')?.getAttribute('role')).toBe('treegrid');
     const levels = [...(element?.shadowRoot?.querySelectorAll('tbody tr.row') ?? [])].map((row) => row.getAttribute('aria-level'));
     expect(levels).toEqual(['1', '2', '3', '2', '1']);
   });
