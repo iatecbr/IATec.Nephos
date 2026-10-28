@@ -71,7 +71,7 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-27.md, nph-toolbar visual acceptance, Figma UX QA and textual audit approved, documentation accepted; keyboard rule moved from Figma to this task; nph-chip enters the toolbar as an applied filter; approved_order 540",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-toolbar documentation accepted again with the tipo filtros aplicados: the applied filters go in a strip below the page bar, option A of the preview, with one nph-chip per filter and Limpar filtros after the last one; no new token"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-toolbar documentation accepted again with the tipo filtros aplicados: the applied filters go in a strip below the page bar, option A of the preview, with one nph-chip per filter and Limpar filtros after the last one, shown from the first chip; no new token"
   ],
   "external_origin": {
     "classification": "internal-allowed",
