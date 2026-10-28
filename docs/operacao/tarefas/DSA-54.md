@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 530,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-pagination",
   "dependencies": [
     "DSA-03",
@@ -86,8 +86,8 @@
   },
   "git_review": {
     "branch": "claude/dsa-54-nph-pagination-4a7569",
-    "commit": null,
-    "pr": null
+    "commit": "8b4a0497e8e2636cb18ece2d934185fa97cc1dd5",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/131"
   },
   "context": "docs/operacao/contextos/DSA-54.md",
   "updated_at": "2026-10-28"
