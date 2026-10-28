@@ -5098,6 +5098,10 @@ a mount: nothing, no error (P68). The names follow P64.
    `tabindex="0"`, as the truncated cell of `nph-table` (P97), so the balloon has a target, and the
    focus draws the ring around the whole chip; in the selectable chip the balloon points at the chip
    button. A label that is not cut takes no focus and has no balloon, and a disabled chip has none.
+   On the selectable chip the balloon is the name, with `relation="name"` as the truncated cell of
+   `nph-table`, and the button is named by the balloon and then the counter, so the text is not read
+   a second time as a description. The cut label of a removable chip is a generic element, which
+   ARIA does not let be named, so there the balloon stays its description.
 
 9. **States are attributes, one at a time.** `marked` (the last chip of a field, ready to leave),
    `readonly` and `invalid` belong to a removable chip in the default severity and exclude each other;

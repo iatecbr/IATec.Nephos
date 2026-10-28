@@ -53,6 +53,9 @@ const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 /** The `id` of the element the tooltip of a cut label points at, found by `for`. */
 const LABEL_ID = 'label';
 const CONTROL_ID = 'control';
+/** The `id` of the balloon and of the counter, which name the selectable chip whose label is cut. */
+const BALLOON_ID = 'balloon';
+const COUNTER_ID = 'counter';
 
 /** The two types of the Figma `tipo`. */
 export const NPH_CHIP_TYPES = ['removable', 'selectable'] as const;
@@ -353,6 +356,10 @@ export class NphChip extends LitElement {
   }
 
   protected override updated(): void {
+    /* An update while disconnected records nothing: the label is observed again on reconnection. */
+    if (this.resizeObserver === undefined) {
+      return;
+    }
     const label = this.renderRoot.querySelector('.label');
     if (label === this.observed) {
       return;
@@ -415,17 +422,25 @@ export class NphChip extends LitElement {
 
   private renderSelectable(text: string, balloon: boolean): TemplateResult {
     /* The space between label and counter keeps the name "Pending 12", not "Pending12". */
-    const counter = this.hasCounter ? html` <span class="counter">${this.counter}</span>` : nothing;
+    const counter = this.hasCounter ? html` <span class="counter" id=${COUNTER_ID}>${this.counter}</span>` : nothing;
+    /*
+     * With a cut label, the balloon is the name, as the truncated cell of nph-table (P97): the
+     * text is not read again as a description. The counter stays in the name after it.
+     */
+    const labelledby = balloon ? (this.hasCounter ? `${BALLOON_ID} ${COUNTER_ID}` : BALLOON_ID) : nothing;
     const mark = this.selected ? html`<nph-icon class="mark" name=${NPH_CHIP_REMOVE_ICON} size="sm"></nph-icon>` : nothing;
     return html`<button
         class=${this.chipClasses(this.selected)}
         id=${CONTROL_ID}
         type="button"
         aria-pressed=${this.selected ? 'true' : 'false'}
+        aria-labelledby=${labelledby}
         ?disabled=${this.disabled}
       >
         ${this.lead()}<span class="label">${text}</span>${counter}${mark}
-      </button>${balloon ? html`<nph-tooltip for=${CONTROL_ID} .text=${text}></nph-tooltip>` : nothing}`;
+      </button>${balloon
+        ? html`<nph-tooltip id=${BALLOON_ID} for=${CONTROL_ID} relation="name" .text=${text}></nph-tooltip>`
+        : nothing}`;
   }
 
   protected override render(): TemplateResult | typeof nothing {

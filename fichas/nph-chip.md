@@ -369,7 +369,8 @@ In a status color, the ring of the X follows the status.
   click belongs to the whole chip.
 - A label that does not fit is cut with an ellipsis and shows the whole text in an
   `nph-tooltip` on hover and on keyboard focus. The cut label takes the focus (`tabindex` 0) so
-  the balloon has a target; a label that is not cut takes no focus (D-3).
+  the balloon has a target; a label that is not cut takes no focus (D-3). On a selectable chip
+  the balloon is the name, followed by the counter, so the text is not read twice.
 - A chip with no text draws nothing and emits no error.
 - `disabled` wins over the other states, with no error.
 

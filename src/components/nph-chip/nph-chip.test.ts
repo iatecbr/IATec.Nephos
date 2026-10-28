@@ -481,11 +481,33 @@ describe('nph-chip — long text', () => {
     expect(getComputedStyle(chip(element), '::before').content).not.toBe('none');
   });
 
-  it('selectable: the balloon points at the chip button', async () => {
+  it('selectable: the balloon points at the chip button and is its name, not a second description', async () => {
     const element = await mount({ ...SELECTABLE, text: LONG });
     await frames(element);
-    expect(part(element, 'nph-tooltip').getAttribute('for')).toBe(part(element, 'button.chip').id);
+    const button = part(element, 'button.chip');
+    const tooltip = part(element, 'nph-tooltip');
+    expect(tooltip.getAttribute('for')).toBe(button.id);
+    expect(tooltip.getAttribute('relation')).toBe('name');
+    expect(tooltip.getAttribute('aria-label')).toBe(LONG);
+    expect(button.getAttribute('aria-labelledby')).toBe(tooltip.id);
+    expect(button.hasAttribute('aria-describedby')).toBe(false);
     expect(label(element).hasAttribute('tabindex')).toBe(false);
+  });
+
+  it('selectable with a counter: the name is the balloon and then the number', async () => {
+    const element = await mount({ ...SELECTABLE, text: LONG, counter: 12 });
+    await frames(element);
+    const button = part(element, 'button.chip');
+    const ids = (button.getAttribute('aria-labelledby') ?? '').split(' ');
+    expect(ids).toEqual([part(element, 'nph-tooltip').id, part(element, '.counter').id]);
+    expect(element.shadowRoot?.getElementById(ids[1] ?? '')?.textContent).toBe('12');
+    expect(button.hasAttribute('aria-describedby')).toBe(false);
+  });
+
+  it('a selectable label that fits is named by its content', async () => {
+    const element = await mount({ ...SELECTABLE, counter: 12 });
+    await frames(element);
+    expect(part(element, 'button.chip').hasAttribute('aria-labelledby')).toBe(false);
   });
 
   it('a label that fits has no balloon and takes no focus', async () => {
@@ -515,6 +537,18 @@ describe('nph-chip — long text', () => {
     element.style.maxInlineSize = `${width('--nph-chip-remove-size') * 3}px`;
     await vi.waitFor(() => expect(hasPart(element, 'nph-tooltip')).toBe(true));
     expect(label(element).getAttribute('tabindex')).toBe('0');
+  });
+
+  it('a chip changed while disconnected observes its label again once reinserted', async () => {
+    const element = await mount();
+    await frames(element);
+    element.remove();
+    element.text = 'Status: Approved';
+    await element.updateComplete;
+    document.body.append(element);
+    await frames(element);
+    element.style.maxInlineSize = `${width('--nph-chip-remove-size') * 3}px`;
+    await vi.waitFor(() => expect(hasPart(element, 'nph-tooltip')).toBe(true));
   });
 
   it('a disabled chip has no balloon', async () => {
