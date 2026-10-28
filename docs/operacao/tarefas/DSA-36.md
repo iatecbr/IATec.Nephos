@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 380,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -32,12 +32,12 @@
   ],
   "external_origin": null,
   "git_review": {
-    "branch": null,
+    "branch": "claude/dsa-36-brand-validation-337397",
     "commit": null,
     "pr": null
   },
-  "context": null,
-  "updated_at": "2026-10-20"
+  "context": "docs/operacao/contextos/DSA-36.md",
+  "updated_at": "2026-10-28"
 }
 ```
 
