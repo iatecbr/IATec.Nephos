@@ -1427,4 +1427,16 @@ describe('accessibility gate regressions (DSA-32, P72)', () => {
     expect(listbox(element).hidden).toBe(true);
     expect(getComputedStyle(listbox(element)).display).toBe('none');
   });
+
+  it('a long empty description scrolls inside layout/max-list-height, as the rows do', async () => {
+    const LONG = 'Check the spelling, try a shorter name or a different alphabet. '.repeat(40);
+    const element = await mount('label="Country" empty-heading="No country found"');
+    element.emptyDescription = LONG;
+    await type(element, 'xyz');
+    await settle();
+    const status = element.shadowRoot?.querySelector('[role="status"]') as HTMLElement;
+    expect(status.getBoundingClientRect().height).toBeLessThanOrEqual(px('--nph-layout-max-list-height') + 0.5);
+    expect(status.scrollHeight).toBeGreaterThan(status.clientHeight);
+    expect(getComputedStyle(status).overflowY).toBe('auto');
+  });
 });

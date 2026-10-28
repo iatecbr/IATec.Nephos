@@ -114,11 +114,19 @@
 
 /* The `carregando` and `vazio` lists: the spinner and the `nph-empty` in the middle of the list. */
 /* The status sits beside the listbox; its margin is the `space/inline-tight` the scroller gave it. */
+/*
+ * Beside the listbox, never inside it (DSA-32), the status keeps the bound the scroller gives
+ * the rows: a long empty description, or enlarged text, scrolls inside
+ * `layout/max-list-height` and does not push the list past the window.
+ */
 .status {
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
+  max-block-size: var(--nph-layout-max-list-height);
   margin: var(--nph-space-inline-tight);
   padding: var(--nph-space-inline);
+  overflow-y: auto;
   color: var(--nph-color-muted-foreground);
 }
 

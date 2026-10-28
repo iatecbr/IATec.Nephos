@@ -4575,6 +4575,11 @@ closed clears the typed text. D-5 the first match is active while the person typ
 - **The waiting and the empty boxes** take `space/inline` around the `nph-spinner` and the
   `nph-empty`; the evidence does not draw them.
 - **Forced colors and right-to-left** are not treated yet, as in P80.
+- **A long empty or waiting message scrolls inside `layout/max-list-height`** beside the listbox,
+  not in it (DSA-32): only options go in a listbox. The keyboard reaches that scroll where the browser
+  makes a scroll box with nothing focusable a Tab stop (Chromium and Firefox); Safari does not, and
+  the field does not move it with the arrows. The same holds in `nph-multi-combobox`, which shares the
+  list (P96).
 
 **Points for review.**
 
