@@ -6331,7 +6331,7 @@
     "sourceCells": "fichas/nph-table.md, Variants; P97, item 4",
     "sourceRows": "fichas/nph-table.md, Variants; P97, item 5",
     "sourceAnatomy": "fichas/nph-table.md, Tokens; frame do Figma 2584:66651",
-    "sourceAccessibility": "fichas/nph-table.md, Accessibility; P97, item 6",
+    "sourceAccessibility": "fichas/nph-table.md, Accessibility; P97, item 6; P101",
     "whenToUseTitle": "Quando usar",
     "whenToUse": [
       "Para ler e comparar dados em linhas e colunas, como um extrato, um relatório ou uma lista de itens.",
@@ -6440,7 +6440,7 @@
       ]
     ],
     "statesTitle": "Estados",
-    "statesText": "A faixa alterna as linhas de dados; o hover pinta a linha inteira sob o ponteiro; a grade desenha a linha vertical entre colunas. O anel de foco fica na área de rolagem e no texto cortado; o chevron, os botões e o mais usam o foco da própria peça.",
+    "statesText": "A faixa alterna as linhas de dados; o hover pinta a linha inteira sob o ponteiro; a grade desenha a linha vertical entre colunas. O anel de foco fica na área de rolagem, no texto cortado e, na árvore, na linha e na célula; o chevron, os botões e o mais usam o foco da própria peça.",
     "statesCaption": "Faixa e grade. Passe o mouse sobre uma linha para o hover.",
     "statesHeader": [
       "Estado",
@@ -6530,7 +6530,7 @@
       ]
     ],
     "rowsTitle": "Linha que expande, árvore e cabeçalho de dois níveis",
-    "rowsText": "Uma linha com detail abre o item expandido embaixo dela; uma linha com children abre o próximo nível da árvore, até três. As duas abrem só pelo chevron, que aponta para a direita fechado e para baixo aberto. Um cabeçalho de dois níveis agrupa colunas do mesmo assunto sob um título.",
+    "rowsText": "Uma linha com detail abre o item expandido embaixo dela; uma linha com children abre o próximo nível da árvore, até três. As duas abrem só pelo chevron, que aponta para a direita fechado e para baixo aberto; na árvore, as setas e o Enter na linha também a abrem e fecham. Um cabeçalho de dois níveis agrupa colunas do mesmo assunto sob um título.",
     "rowsCaption": "Um pedido aberto com seu item e sua foto.",
     "treeCaption": "Uma hierarquia em três níveis.",
     "groupsCaption": "Duas colunas agrupadas sob um título.",
@@ -6585,7 +6585,7 @@
     "accessibility": [
       [
         "Semântica",
-        "Uma tabela nativa, com cabeçalhos de coluna, o cabeçalho de grupo sobre suas colunas e o rodapé."
+        "Uma tabela nativa, com cabeçalhos de coluna, o cabeçalho de grupo sobre suas colunas e o rodapé. Uma tabela com árvore é um treegrid."
       ],
       [
         "Nome acessível",
@@ -6597,11 +6597,11 @@
       ],
       [
         "Teclado e foco",
-        "A área de rolagem recebe o foco só quando transborda, para o teclado rolá-la; o texto cortado recebe o foco e abre o tooltip. O anel é focus/border em table/focus-ring-width."
+        "A área de rolagem recebe o foco só quando transborda, para o teclado rolá-la; o texto cortado recebe o foco e abre o tooltip. O anel é focus/border em table/focus-ring-width. Na árvore, uma linha é a parada do Tab: o Tab segue para os botões e links dessa linha, as setas andam entre linhas e células e abrem e fecham uma linha, Home e End vão à primeira e à última."
       ],
       [
         "Aberto e nível",
-        "O chevron leva aria-expanded no host do botão, e as linhas da árvore levam aria-level."
+        "Na árvore, cada linha leva aria-level, sua posição entre as irmãs e, quando abre, aria-expanded. O chevron de uma linha que expande leva aria-expanded no host do botão."
       ],
       [
         "A cor não é o único sinal",
@@ -6917,7 +6917,7 @@
       "components-nph-table-validation--caption": "A legenda com descrição, total e ação dá nome à tabela; sem legenda, o label dá o nome; uma tabela que não cabe vira uma área de rolagem focável.",
       "components-nph-table-validation--cell-contents": "Cada célula composta com a peça que ela usa: pessoa, selo, ícone e texto, status, avaliação, link, miniatura, texto cortado, botão, ações, ações mistas, carregando e o traço sem valor.",
       "components-nph-table-validation--expanding-row": "A linha que expande: fechada, aberta com o item expandido e carregando, cada uma aberta só pelo chevron.",
-      "components-nph-table-validation--tree": "A árvore em três níveis: cada nível recua, e uma linha sem filhos guarda o espaço do chevron para o texto alinhar.",
+      "components-nph-table-validation--tree": "A árvore em três níveis: cada nível recua, e uma linha sem filhos guarda o espaço do chevron para o texto alinhar. É um treegrid: as setas andam entre linhas e células e abrem e fecham um nível.",
       "components-nph-table-validation--two-level-header": "O cabeçalho de dois níveis: o título do grupo acima das colunas que ele agrupa, com a mesma peça de cabeçalho.",
       "components-nph-table-validation--empty-body": "Sem linha, o corpo leva o nph-empty e o cabeçalho continua visível.",
       "components-nph-multi-combobox-validation--matrix": "size × estado: placeholder, chips numa linha, chips em várias linhas, o contador, erro, desabilitado e os dois. Passe o mouse para o hover, aperte Tab para cada botão remover e para o texto.",

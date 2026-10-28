@@ -36,7 +36,6 @@ import {
   openOrder,
   orderTable,
   peopleTable,
-  TREE_LEVEL_EXCEPTION,
   treeTable,
   wideCaptionTable,
 } from './nph-table.demo';
@@ -94,10 +93,9 @@ function bothModes(d: Record<string, unknown>, s: Sample, content: (sample: Samp
   return html`<div style=${modes}>${schemes.map(([scheme, caption]) => inScheme(scheme, caption, content(s)))}</div>`;
 }
 
-/** Reading page, built with the blocks of `src/shared/docs/page.ts`. Its tree examples carry `TREE_LEVEL_EXCEPTION`. */
+/** Reading page, built with the blocks of `src/shared/docs/page.ts`. */
 export const Documentation: Story = {
   name: 'Documentation',
-  parameters: TREE_LEVEL_EXCEPTION,
   render: (_args, context: GlobalsContext) => {
     const locale = localeOf(context);
     const d = translations(locale).tableDocs;

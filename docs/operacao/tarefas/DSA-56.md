@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 550,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-table",
   "dependencies": ["DSA-49", "DSA-32"],
   "gates": [
@@ -25,11 +25,16 @@
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p97, known limit: aria-level on a row outside a treegrid",
     "docs/decisoes-tecnicas.md#p72",
+    "docs/decisoes-tecnicas.md#p101",
     "Elvys, 27-10-2026, DSA-32: exception in the stories plus a task to move the tree to treegrid"
   ],
   "external_origin": null,
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": {
+    "branch": "claude/dsa-56-nph-table-treegrid-acc4d6",
+    "commit": "550383b79681c60e114b1fe4bb5c46c29aea334c",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/135"
+  },
+  "context": "docs/operacao/contextos/DSA-56.md",
   "updated_at": "2026-10-28"
 }
 ```

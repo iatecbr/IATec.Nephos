@@ -11,8 +11,9 @@
  * `table/radius`; hover `table/row-hover-background`, stripe `table/row-striped-background`;
  * the gaps `table/cell-gap`, `table/cell-gap-tight` and `table/stack-gap`; the line under
  * the fixed header `table/sticky-divider-*`; the focus ring `focus/border` in
- * `table/focus-ring-width`; the scrollbar `table/scrollbar-*`; the icons `table/icon-size`,
- * bridged to the `icon/size-sm` that `nph-icon` reads. The thumbnail and the photo of the
+ * `table/focus-ring-width`, also on the row and the cell of the treegrid (P101); the
+ * scrollbar `table/scrollbar-*`; the icons `table/icon-size`, bridged to the `icon/size-sm`
+ * that `nph-icon` reads. The thumbnail and the photo of the
  * expanded item take `table/thumbnail-size`, `-size-large`, `-radius` and
  * `table/muted-background` through `nph-image` `sm` and `lg`, whose tokens are the same
  * aliases (P97). The typography roles are `text/heading-xs` (header and footer, the
@@ -315,6 +316,13 @@ td.truncated:focus-visible {
 }
 
 td.truncated:focus-visible {
+  outline-offset: calc(-1 * var(--nph-table-focus-ring-width));
+}
+
+/* The treegrid (P101): the row and the cell the arrows reach take the same ring, drawn inside. */
+tr[data-tree-row]:focus-visible,
+tr[data-tree-row] > td:focus-visible {
+  outline: var(--nph-table-focus-ring-width) solid var(--nph-focus-border);
   outline-offset: calc(-1 * var(--nph-table-focus-ring-width));
 }
 

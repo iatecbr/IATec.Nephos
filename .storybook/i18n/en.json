@@ -6331,7 +6331,7 @@
     "sourceCells": "fichas/nph-table.md, Variants; P97, item 4",
     "sourceRows": "fichas/nph-table.md, Variants; P97, item 5",
     "sourceAnatomy": "fichas/nph-table.md, Tokens; Figma frame 2584:66651",
-    "sourceAccessibility": "fichas/nph-table.md, Accessibility; P97, item 6",
+    "sourceAccessibility": "fichas/nph-table.md, Accessibility; P97, item 6; P101",
     "whenToUseTitle": "When to use",
     "whenToUse": [
       "To read and compare data in rows and columns, such as a statement, a report or a list of items.",
@@ -6440,7 +6440,7 @@
       ]
     ],
     "statesTitle": "States",
-    "statesText": "The stripe alternates the rows of data; the hover paints the whole row under the pointer; the grid draws the vertical line between columns. The focus ring is on the scroll area and on the truncated text; the chevron, the buttons and the more use the focus of their own piece.",
+    "statesText": "The stripe alternates the rows of data; the hover paints the whole row under the pointer; the grid draws the vertical line between columns. The focus ring is on the scroll area, on the truncated text and, in the tree, on the row and the cell; the chevron, the buttons and the more use the focus of their own piece.",
     "statesCaption": "Stripe and grid. Move the mouse over a row for the hover.",
     "statesHeader": [
       "State",
@@ -6530,7 +6530,7 @@
       ]
     ],
     "rowsTitle": "Expanding row, tree and two-level header",
-    "rowsText": "A row with detail opens the expanded item under it; a row with children opens the next level of the tree, up to three. Both open only through the chevron, which points right when closed and down when open. A two-level header groups columns of the same subject under a title.",
+    "rowsText": "A row with detail opens the expanded item under it; a row with children opens the next level of the tree, up to three. Both open only through the chevron, which points right when closed and down when open; in the tree, the arrows and Enter on the row open and close it too. A two-level header groups columns of the same subject under a title.",
     "rowsCaption": "An order open with its item and its photo.",
     "treeCaption": "A hierarchy in three levels.",
     "groupsCaption": "Two columns grouped under a title.",
@@ -6585,7 +6585,7 @@
     "accessibility": [
       [
         "Semantics",
-        "A native table, with column headers, the group header over its columns and the footer."
+        "A native table, with column headers, the group header over its columns and the footer. A table with a tree is a treegrid."
       ],
       [
         "Accessible name",
@@ -6597,11 +6597,11 @@
       ],
       [
         "Keyboard and focus",
-        "The scroll area takes the focus only when it overflows, so the keyboard can scroll it; the truncated text takes the focus and opens its tooltip. The ring is focus/border in table/focus-ring-width."
+        "The scroll area takes the focus only when it overflows, so the keyboard can scroll it; the truncated text takes the focus and opens its tooltip. The ring is focus/border in table/focus-ring-width. In the tree, one row is the Tab stop: Tab goes on to the buttons and links of that row, the arrows move between rows and cells and open and close a row, Home and End go to the first and the last."
       ],
       [
         "Open and level",
-        "The chevron carries aria-expanded on the button host, and the tree rows carry aria-level."
+        "In the tree, each row carries aria-level, its position among its siblings and, when it opens, aria-expanded. The chevron of an expanding row carries aria-expanded on the button host."
       ],
       [
         "Color is not the only signal",
@@ -6917,7 +6917,7 @@
       "components-nph-table-validation--caption": "The caption with description, total and action names the table; without a caption, the label names it; a table that does not fit becomes a focusable scroll area.",
       "components-nph-table-validation--cell-contents": "Every composite cell with the piece it takes: person, badge, icon and text, status, rating, link, thumbnail, truncated text, button, actions, mixed actions, loading and the no-value dash.",
       "components-nph-table-validation--expanding-row": "The expanding row: closed, open with the expanded item, and loading, each opened only through its chevron.",
-      "components-nph-table-validation--tree": "The tree in three levels: each level indents, and a row without children keeps the space of the chevron so the text aligns.",
+      "components-nph-table-validation--tree": "The tree in three levels: each level indents, and a row without children keeps the space of the chevron so the text aligns. It is a treegrid: the arrows move between rows and cells, and open and close a level.",
       "components-nph-table-validation--two-level-header": "The two-level header: the group title above the columns it groups, with the same header piece.",
       "components-nph-table-validation--empty-body": "With no row, the body holds the nph-empty and the header stays visible.",
       "components-nph-multi-combobox-validation--matrix": "size × state: placeholder, chips on one line, chips on several lines, the counter, error, disabled and both. Move the mouse for hover, press Tab for each remove button and for the text.",
