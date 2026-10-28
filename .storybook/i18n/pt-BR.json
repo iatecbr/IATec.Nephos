@@ -439,7 +439,7 @@
       "O que faz"
     ],
     "usageMarkup": "<nph-icon name=\"magnifying-glass\" size=\"sm\"></nph-icon>",
-    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageTag": "A tag da peça. Ela não tem slot: toda propriedade chega por atributo.",
     "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
     "sourceUsage": "Figma, quadro nph-icon (1130:956); docs/decisoes-tecnicas.md › P70",
     "coreTitle": "Núcleo de {total} ícones",
@@ -1490,7 +1490,7 @@
       "O que faz"
     ],
     "usageMarkup": "<nph-skeleton shape=\"line\"></nph-skeleton>",
-    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageTag": "A tag da peça. Ela não tem slot: toda propriedade chega por atributo.",
     "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
     "sourceUsage": "Figma, quadro nph-skeleton (1578:38); docs/decisoes-tecnicas.md › P70",
     "shapesTitle": "Formas",
