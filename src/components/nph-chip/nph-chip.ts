@@ -394,7 +394,8 @@ export class NphChip extends LitElement {
 
   private renderRemovable(text: string, balloon: boolean): TemplateResult {
     const remove = this.hasRemove;
-    return html`<span class=${this.chipClasses(remove)}
+    /* The inactive state is said to assistive technology: WCAG 1.4.3 exempts its text (P72). */
+    return html`<span class=${this.chipClasses(remove)} aria-disabled=${this.disabled ? 'true' : nothing}
         >${this.lead()}<span class="label" id=${LABEL_ID} tabindex=${balloon ? '0' : nothing}>${text}</span>${remove
           ? html`<button
               class="remove"

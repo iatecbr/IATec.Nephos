@@ -15,7 +15,7 @@ import { userEvent } from 'vitest/browser';
 import '@fontsource/noto-sans/latin-500.css';
 import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
-import evidence from '../../../docs/operacao/evidencias/DSA-57/documentacao-figma-aceita-2026-10-28.md?raw';
+import semanticTokens from '../../tokens/source/semantic.tokens.json';
 import componentCss from './nph-chip.css?raw';
 import {
   NPH_CHIP_REMOVE_EVENT,
@@ -258,7 +258,7 @@ describe('nph-chip — removable', () => {
   it('the X fires nph-remove with the text, and the chip stays: the consumer removes it', async () => {
     const element = await mount();
     const received: NphChipRemoveDetail[] = [];
-    document.addEventListener(NPH_CHIP_REMOVE_EVENT, (event) => received.push(event.detail), { once: true });
+    element.addEventListener(NPH_CHIP_REMOVE_EVENT, (event) => received.push(event.detail), { once: true });
     await userEvent.click(removeButton(element));
     expect(received).toEqual([{ text: 'Status: Waiting' }]);
     expect(element.isConnected).toBe(true);
@@ -293,6 +293,10 @@ describe('nph-chip — removable', () => {
     expect(element.selected).toBe(false);
   });
 
+  it('an enabled chip does not say it is inactive', async () => {
+    expect(chip(await mount()).hasAttribute('aria-disabled')).toBe(false);
+  });
+
   it('read only shows the value without the X', async () => {
     const element = await mount({ ...REMOVABLE, readonly: true });
     expect(hasPart(element, 'button.remove')).toBe(false);
@@ -304,6 +308,7 @@ describe('nph-chip — removable', () => {
     const listener = vi.fn();
     element.addEventListener(NPH_CHIP_REMOVE_EVENT, listener);
     expect(removeButton(element).disabled).toBe(true);
+    expect(chip(element).getAttribute('aria-disabled')).toBe('true');
     element.click();
     removeButton(element).click();
     expect(listener).not.toHaveBeenCalled();
@@ -710,14 +715,17 @@ describe('nph-chip — focus rings', () => {
 });
 
 describe('nph-chip — token contract', () => {
-  const evidenceTokens = [...new Set([...evidence.matchAll(/\bchip\/[a-z-]+/g)].map((match) => match[0]))];
+  /* The `chip` group of the semantic source: the tokens that came with the accepted documentation. */
+  const chipTokens = Object.keys((semanticTokens as unknown as Record<string, Record<string, unknown>>).chip ?? {}).map(
+    (name) => `chip/${name}`,
+  );
 
-  it('the evidence names the 62 chip tokens', () => {
-    expect(evidenceTokens).toHaveLength(62);
+  it('the source has the 62 chip tokens of the evidence', () => {
+    expect(chipTokens).toHaveLength(62);
   });
 
-  it('every chip token of the evidence exists in the generated CSS and is consumed here', () => {
-    for (const token of evidenceTokens) {
+  it('every chip token exists in the generated CSS and is consumed here', () => {
+    for (const token of chipTokens) {
       const property = `--nph-${token.replace('/', '-')}`;
       expect(tokensCss, property).toContain(`${property}:`);
       expect(componentCss, property).toContain(`var(${property})`);
