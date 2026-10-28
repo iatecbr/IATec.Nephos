@@ -123,6 +123,18 @@ function widenExit(element: NphTooltip): void {
   element.style.setProperty('--nph-motion-exit-duration', `${WIDE_EXIT}ms`);
 }
 
+/** A hover wait long enough for the next action to land inside it, however slow the runner. */
+const WIDE_WAIT = 1000;
+
+/**
+ * Tests that act during the hover wait get a wide window: `motion/hover-delay` alone (300 ms)
+ * is shorter than a few round trips to the browser on a slow runner. Set it before the hover:
+ * the tooltip reads the delay when the pointer enters.
+ */
+function widenWait(element: NphTooltip): void {
+  element.style.setProperty('--nph-motion-hover-delay', `${WIDE_WAIT}ms`);
+}
+
 /** The value the browser gives a token, in the same property. */
 function resolved(property: string, token: string): string {
   const probe = document.createElement('div');
@@ -982,10 +994,11 @@ describe('the wait on hover (motion/hover-delay)', () => {
 
   it('a touch pointerdown cancels a pending wait after mouse hover', async () => {
     const { button, tooltip } = await mount();
+    widenWait(tooltip);
     await userEvent.hover(button);
     await pause(100);
     touch('pointerdown', button);
-    await pause(400);
+    await pause(WIDE_WAIT + 200);
 
     expect(tooltip.open).toBe(false);
     expect(isShown(tooltip)).toBe(false);
@@ -1007,10 +1020,11 @@ describe('the wait on hover (motion/hover-delay)', () => {
     const { button, tooltip } = await mount();
     const outer = vi.fn();
     document.body.addEventListener('keydown', outer);
+    widenWait(tooltip);
     await userEvent.hover(button);
     await pause(100);
     await userEvent.keyboard('{Escape}');
-    await pause(400);
+    await pause(WIDE_WAIT + 200);
     expect(tooltip.open).toBe(false);
     expect(outer.mock.calls.filter(([event]) => event.key === 'Escape')).toHaveLength(1);
     document.body.removeEventListener('keydown', outer);
@@ -1020,10 +1034,11 @@ describe('the wait on hover (motion/hover-delay)', () => {
 
   it('removing the tooltip during the wait does not open it later', async () => {
     const { button, tooltip } = await mount();
+    widenWait(tooltip);
     await userEvent.hover(button);
     await pause(50);
     tooltip.remove();
-    await pause(400);
+    await pause(WIDE_WAIT + 200);
     expect(tooltip.open).toBe(false);
   });
 
@@ -1063,6 +1078,7 @@ describe('click, Enter and Space run the action and leave the balloon alone', ()
     tooltip.setAttribute('for', input.id);
     tooltip.text = ONE_LINE;
     document.body.append(input, tooltip);
+    widenWait(tooltip);
     await tooltip.updateComplete;
 
     await userEvent.hover(input);
@@ -1070,7 +1086,8 @@ describe('click, Enter and Space run the action and leave the balloon alone', ()
     await userEvent.click(input);
     expect(document.activeElement).toBe(input);
     expect(input.matches(':focus-visible')).toBe(true);
-    await pause(400);
+    /* Past the end of the wait: a wait the click did not cancel would have opened it by now. */
+    await pause(WIDE_WAIT + 200);
 
     expect(tooltip.open).toBe(false);
     expect(isShown(tooltip)).toBe(false);
