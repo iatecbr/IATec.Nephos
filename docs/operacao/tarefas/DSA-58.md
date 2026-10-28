@@ -15,6 +15,7 @@
     "DSA-27",
     "DSA-29",
     "DSA-40",
+    "DSA-43",
     "DSA-45",
     "DSA-49",
     "DSA-54",
@@ -45,7 +46,7 @@
   "blockers": [
     {
       "id": "B1",
-      "what_blocks": "The toolbar and the bulk action bar of the nph-data-table are the nph-toolbar (DSA-55), which is blocked; its applied filters use the nph-chip (DSA-57), which is not done yet.",
+      "what_blocks": "The toolbar and the bulk action bar of the nph-data-table are the nph-toolbar (DSA-55), which is blocked; its applied filters use the nph-chip (DSA-57), which is not done yet. The hover of the ghost ⋮ also waits for the nph-icon-button hover token that DSA-55 lists as its B3.",
       "owner": "elvys",
       "what_resolves": "DSA-55 (nph-toolbar) and DSA-57 (nph-chip) are done on v/5.0.0.",
       "opened_at": "2026-10-28"
