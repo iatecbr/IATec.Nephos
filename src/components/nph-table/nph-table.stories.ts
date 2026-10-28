@@ -6,11 +6,12 @@
  * hover of the row; the caption that names the table, with description, total and action,
  * the label of a table without a caption and the scroll area that becomes a focusable region
  * when the table does not fit; every composite cell with the piece it takes and the no-value
- * dash; the expanding row closed, open and loading; the tree in three levels; the two-level
- * header; and the empty body with the header visible. Every story shows the same tables in
- * light and in dark mode, in the same story, through `data-nph-color-scheme` on the frame
- * (P20, P67). The three required examples of the frame — items grouped by category, an open
- * order and a table with caption — are on the Docs page, each in light and dark mode.
+ * dash; the expanding row closed, open and loading; the tree in three levels, a treegrid with
+ * the APG keyboard (P101); the two-level header; and the empty body with the header visible.
+ * Every story shows the same tables in light and in dark mode, in the same story, through
+ * `data-nph-color-scheme` on the frame (P20, P67). The three required examples of the frame —
+ * items grouped by category, an open order and a table with caption — are on the Docs page,
+ * each in light and dark mode.
  *
  * Hover and focus are interaction states: they show up by moving the mouse over a row and by
  * pressing Tab. Each page opens with what it proves, from the dictionary
@@ -36,7 +37,6 @@ import {
   manyRows,
   orderTable,
   peopleTable,
-  TREE_LEVEL_EXCEPTION,
   treeTable,
   wideCaptionTable,
 } from './nph-table.demo';
@@ -143,10 +143,9 @@ export const ExpandingRow: Story = {
   render: (_args, context: GlobalsContext) => inBothModes(context, 'expanding-row', (s) => orderTable(s, ['closed', 'open', 'loading'])),
 };
 
-/** The tree in three levels, every level open. Carries the `aria-level` exception of `TREE_LEVEL_EXCEPTION`. */
+/** The tree in three levels, every level open: a treegrid with the APG keyboard (P101). */
 export const Tree: Story = {
   name: 'Tree',
-  parameters: TREE_LEVEL_EXCEPTION,
   render: (_args, context: GlobalsContext) => inBothModes(context, 'tree', (s) => treeTable(s, true)),
 };
 

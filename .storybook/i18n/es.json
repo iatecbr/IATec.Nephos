@@ -6340,7 +6340,7 @@
     "sourceCells": "fichas/nph-table.md, Variants; P97, ítem 4",
     "sourceRows": "fichas/nph-table.md, Variants; P97, ítem 5",
     "sourceAnatomy": "fichas/nph-table.md, Tokens; frame de Figma 2584:66651",
-    "sourceAccessibility": "fichas/nph-table.md, Accessibility; P97, ítem 6",
+    "sourceAccessibility": "fichas/nph-table.md, Accessibility; P97, ítem 6; P101",
     "whenToUseTitle": "Cuándo usar",
     "whenToUse": [
       "Para leer y comparar datos en filas y columnas, como un extracto, un informe o una lista de artículos.",
@@ -6449,7 +6449,7 @@
       ]
     ],
     "statesTitle": "Estados",
-    "statesText": "La franja alterna las filas de datos; el hover pinta la fila entera bajo el puntero; la cuadrícula dibuja la línea vertical entre columnas. El anillo de foco está en el área de desplazamiento y en el texto cortado; el chevron, los botones y el más usan el foco de su propia pieza.",
+    "statesText": "La franja alterna las filas de datos; el hover pinta la fila entera bajo el puntero; la cuadrícula dibuja la línea vertical entre columnas. El anillo de foco está en el área de desplazamiento, en el texto cortado y, en el árbol, en la fila y la celda; el chevron, los botones y el más usan el foco de su propia pieza.",
     "statesCaption": "Franja y cuadrícula. Pase el ratón sobre una fila para el hover.",
     "statesHeader": [
       "Estado",
@@ -6539,7 +6539,7 @@
       ]
     ],
     "rowsTitle": "Fila que se expande, árbol y encabezado de dos niveles",
-    "rowsText": "Una fila con detail abre el elemento expandido debajo; una fila con children abre el siguiente nivel del árbol, hasta tres. Las dos se abren solo por el chevron, que apunta a la derecha cerrado y hacia abajo abierto. Un encabezado de dos niveles agrupa columnas del mismo asunto bajo un título.",
+    "rowsText": "Una fila con detail abre el elemento expandido debajo; una fila con children abre el siguiente nivel del árbol, hasta tres. Las dos se abren solo por el chevron, que apunta a la derecha cerrado y hacia abajo abierto; en el árbol, las flechas y Enter en la fila también la abren y cierran. Un encabezado de dos niveles agrupa columnas del mismo asunto bajo un título.",
     "rowsCaption": "Un pedido abierto con su artículo y su foto.",
     "treeCaption": "Una jerarquía en tres niveles.",
     "groupsCaption": "Dos columnas agrupadas bajo un título.",
@@ -6594,7 +6594,7 @@
     "accessibility": [
       [
         "Semántica",
-        "Una tabla nativa, con encabezados de columna, el encabezado de grupo sobre sus columnas y el pie."
+        "Una tabla nativa, con encabezados de columna, el encabezado de grupo sobre sus columnas y el pie. Una tabla con árbol es un treegrid."
       ],
       [
         "Nombre accesible",
@@ -6606,11 +6606,11 @@
       ],
       [
         "Teclado y foco",
-        "El área de desplazamiento recibe el foco solo cuando desborda, para que el teclado la desplace; el texto cortado recibe el foco y abre su tooltip. El anillo es focus/border en table/focus-ring-width."
+        "El área de desplazamiento recibe el foco solo cuando desborda, para que el teclado la desplace; el texto cortado recibe el foco y abre su tooltip. El anillo es focus/border en table/focus-ring-width. En el árbol, una fila es la parada del Tab: el Tab sigue a los botones y enlaces de esa fila, las flechas se mueven entre filas y celdas y abren y cierran una fila, Home y End van a la primera y a la última."
       ],
       [
         "Abierto y nivel",
-        "El chevron lleva aria-expanded en el host del botón, y las filas del árbol llevan aria-level."
+        "En el árbol, cada fila lleva aria-level, su posición entre sus hermanas y, cuando se abre, aria-expanded. El chevron de una fila que se expande lleva aria-expanded en el host del botón."
       ],
       [
         "El color no es la única señal",
@@ -6926,7 +6926,7 @@
       "components-nph-table-validation--caption": "La leyenda con descripción, total y acción da nombre a la tabla; sin leyenda, el label da el nombre; una tabla que no cabe se vuelve un área de desplazamiento enfocable.",
       "components-nph-table-validation--cell-contents": "Cada celda compuesta con la pieza que usa: persona, insignia, icono y texto, estado, valoración, enlace, miniatura, texto cortado, botón, acciones, acciones mixtas, cargando y el guion sin valor.",
       "components-nph-table-validation--expanding-row": "La fila que se expande: cerrada, abierta con el elemento expandido y cargando, cada una abierta solo por el chevron.",
-      "components-nph-table-validation--tree": "El árbol en tres niveles: cada nivel sangra, y una fila sin hijos guarda el espacio del chevron para que el texto se alinee.",
+      "components-nph-table-validation--tree": "El árbol en tres niveles: cada nivel sangra, y una fila sin hijos guarda el espacio del chevron para que el texto se alinee. Es un treegrid: las flechas se mueven entre filas y celdas y abren y cierran un nivel.",
       "components-nph-table-validation--two-level-header": "El encabezado de dos niveles: el título del grupo sobre las columnas que agrupa, con la misma pieza de encabezado.",
       "components-nph-table-validation--empty-body": "Sin filas, el cuerpo lleva el nph-empty y el encabezado sigue visible.",
       "components-nph-multi-combobox-validation--matrix": "size × estado: placeholder, chips en una línea, chips en varias líneas, el contador, error, deshabilitado y ambos. Pase el mouse para el hover, presione Tab para cada botón quitar y para el texto.",

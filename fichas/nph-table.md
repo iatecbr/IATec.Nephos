@@ -183,7 +183,7 @@ states:
     changes_for_user: "A vertical line separates the columns of the body."
   focus:
     token: focus/border
-    changes_for_user: "The scroll area that overflows and the truncated text take the ring in table/focus-ring-width with the keyboard."
+    changes_for_user: "The scroll area that overflows and the truncated text take the ring in table/focus-ring-width with the keyboard; in the tree, so do the focused row and cell."
   open:
     token: table/expand-indent
     changes_for_user: "The chevron points down and the expanded item or the next level of the tree shows under the row."
@@ -198,7 +198,7 @@ business_rules:
   - "A missing value is the no-value dash, read as no-value-label; the cell is never left empty."
   - "A truncated text carries a tooltip and the focus on the cell, and needs the column width."
   - "With two actions or more, the frequent one stays visible and the rest go in the more, with Delete last."
-  - "The expanding row and the tree open only through the chevron; the tree goes down to three levels."
+  - "The expanding row and the tree open only through the chevron, never by a click on the row; in the tree, the keyboard on the row opens and closes it too (P101). The tree goes down to three levels."
   - "The caption names the table; without it, label does."
   - "Sorting, selection, filtering and pagination belong to the nph-data-table."
 domain_errors: []
@@ -222,10 +222,10 @@ ai_hints:
   - "Listen to nph-row-action for the buttons of the cells and nph-row-toggle for the chevron; load children or detail on open and pass rows again."
   - "Use framed for a table standing alone on the page, and sticky-header for a long list inside a panel."
 accessibility:
-  semantics: "A native table in the shadow root: column headers with scope col, the group header with scope colgroup over its colgroup, the body and the footer. The tree rows carry aria-level."
+  semantics: "A native table in the shadow root: column headers with scope col, the group header with scope colgroup over its colgroup, the body and the footer. A table that draws a tree is a treegrid (P101): its cells are gridcells, each row carries aria-level, aria-posinset and aria-setsize, and a row that opens carries aria-expanded. The flat table stays a native table."
   accessible_name: "The caption title (aria-labelledby), with the description as aria-describedby; without a caption, label. The icon-only buttons and the chevron carry a name per row, from the data."
-  keyboard: ["Tab reaches the scroll area when it overflows, and the arrows scroll it", "Tab reaches the truncated text, which opens its tooltip", "Tab reaches the links and the buttons of the cells and the chevron; Enter and Space activate the buttons"]
-  focus: "The scroll area that overflows and the truncated text take the ring focus/border in table/focus-ring-width with the keyboard. The chevron, the buttons and the more use the focus of their own piece."
+  keyboard: ["Tab reaches the scroll area when it overflows, and the arrows scroll it", "Tab reaches the truncated text, which opens its tooltip", "Tab reaches the links and the buttons of the cells and the chevron; Enter and Space activate the buttons", "In the tree, Tab reaches one row and then the links, the buttons and the truncated text of that row only, and leaves the table", "In the tree, on a row: Right opens a closed row or goes to its first cell, Left closes an open row or goes to its parent, Down and Up go to the next and the previous row, the footer last, Home and End to the first and the last, Enter opens and closes", "In the tree, on a cell: Right and Left move along the row, Left on the first cell goes back to the row, Down and Up keep the column, Home and End go to the first and the last cell, Ctrl+Home and Ctrl+End to that column in the first and the last row"]
+  focus: "The scroll area that overflows and the truncated text take the ring focus/border in table/focus-ring-width with the keyboard, and so do the focused row and cell of the tree. The chevron, the buttons and the more use the focus of their own piece."
   contrast: "Text and link pass AA over background, stripe, header and hover, in light and dark; the status icons pass 3:1. Exception accepted in the evidence: the rating star in table/rating-foreground is below 3:1 in light, and the score stays as a number beside it."
   color_alternative: "The status has a shape and a name besides the color, the badge always has text, the link is underlined, and the no-value dash is read as text."
 invalid_combinations:
@@ -247,7 +247,7 @@ anti_patterns:
   - "Using the table to lay out the page, or to sort, select, filter or paginate."
 sources:
   design_md: "design.md has no entry yet for the table/* tokens (pending decision D8 of DSA-49); they are in src/tokens/source/semantic.tokens.json"
-  decision: "P97 — API and semantics of nph-table, 26-10-2026"
+  decision: "P97 — API and semantics of nph-table, 26-10-2026; P101 — the tree as a treegrid, 28-10-2026"
   tests: "src/components/nph-table/nph-table.test.ts"
   usage_evidence: "none yet"
   storybook: "src/components/nph-table/nph-table.stories.ts and nph-table.docs.stories.ts"
@@ -344,7 +344,7 @@ level.
 | Hover | `table/row-hover-background` | The whole row under the pointer |
 | Stripe (`faixa`) | `table/row-striped-background` | Every other row of data; an expanded item does not count |
 | Grid (`grade`) | `table/border` | The vertical line between the columns of the body |
-| Focus (`foco`) | `focus/border` | The ring in `table/focus-ring-width` on the scroll area that overflows and on the truncated text |
+| Focus (`foco`) | `focus/border` | The ring in `table/focus-ring-width` on the scroll area that overflows and on the truncated text; in the tree, on the focused row and cell |
 | Open (`aberto`) | `table/expand-indent` | The chevron points down; the expanded item or the next level shows under the row |
 | Loading (`carregando`) | `table/foreground` | An `nph-skeleton` line in the cell; the chevron spins in a row that loads |
 | Empty body | `table/empty-padding` | The `nph-empty` in place of the rows, with the header visible |
@@ -360,8 +360,9 @@ where that row has the new `open`.
 - Text aligns to the start and numbers to the end, with the header and the footer.
 - A missing value is the no-value dash; the cell is never left empty.
 - A truncated text carries a tooltip and the focus on the cell, and needs the column width.
-- The expanding row and the tree open only through the chevron; the tree goes down to three
-  levels.
+- The expanding row and the tree open only through the chevron, never by a click on the row;
+  in the tree, the keyboard on the row opens and closes it too (P101). The tree goes down to
+  three levels.
 - The caption names the table; without it, `label` does.
 
 **Domain error states:** none. The empty body is the state of a list with no row.
@@ -374,7 +375,8 @@ where that row has the new `open`.
 | Accessible name | The caption title names the table and the description describes it; without a caption, `label`. The icon-only buttons and the chevron carry a name per row, from the data, such as `Editar Ana Souza` |
 | No value | The dash is hidden and the `no-value-label` is read in its place, such as `sem valor` |
 | Keyboard and focus | The scroll area takes the focus only when it overflows, so the keyboard can scroll it; the truncated text takes the focus and opens its tooltip. The ring is `focus/border` in `table/focus-ring-width`. The chevron, the buttons and the more use the focus of their own piece |
-| Open and level | The chevron carries `aria-expanded` and `aria-controls` on the host of its `nph-button`, and the tree rows carry `aria-level` (known limits, P97) |
+| Tree | A table that draws a tree is a `treegrid` (P101): its cells are gridcells, each row carries `aria-level`, `aria-posinset` and `aria-setsize`, and a row that opens carries `aria-expanded`. One row is the Tab stop: Tab goes on to the links, the buttons and the truncated text of that row only, then leaves the table. On a row, Right opens a closed row or goes to its first cell, Left closes an open row or goes to its parent, Down and Up go to the next and the previous row, the footer last, Home and End to the first and the last, and Enter opens and closes. In the tree, the tooltip of a truncated cell opens on hover only in the row that is the Tab stop (known limit, P101). On a cell, Right and Left move along the row (Left on the first cell goes back to the row), Down and Up keep the column, Home and End go to the first and the last cell, and Ctrl+Home and Ctrl+End to that column in the first and the last row |
+| Open | The chevron of an expanding row carries `aria-expanded` and `aria-controls` on the host of its `nph-button` (known limit, P97); in the tree, the row carries the open state and the chevron does not (P101) |
 | Contrast | Text and link pass AA over background, stripe, header and hover, in light and dark; the status icons pass 3:1. Accepted exception: the rating star is below 3:1 in light, and the score stays as a number |
 | Alternative to color | The status has a shape and a name, the badge always has text, the link is underlined, and Delete is written in the menu |
 | Touch target | The chevron and the more of the mixed actions are 28 by 28; Edit and more of the actions are 36 by 36. On a touch screen, use `large` |
@@ -467,7 +469,7 @@ expanding row with the item and its photo.
 - **The repository `design.md`:** no entry yet for the `table/*` tokens (a pending decision
   with the design owner); the tokens are in `src/tokens/source/semantic.tokens.json`. The
   typography roles of the header and of the cell are the ones `design.md` names for a table.
-- **The decision that originated it:** P97. The data by property, the names of the API, the
+- **The decision that originated it:** P97, and P101 for the tree as a treegrid. The data by property, the names of the API, the
   stripe and the grid on the host, the slot `action`, the scroll area that becomes a region
   only when it overflows and the events are a technical proposal of this implementation.
 - **Tests:** `src/components/nph-table/nph-table.test.ts`.
