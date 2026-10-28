@@ -45,6 +45,7 @@ const SECTIONS = {
   sizes: 'sizes',
   iconOnly: 'icon-only',
   states: 'states',
+  anatomy: 'anatomy',
   accessibility: 'accessibility',
   examples: 'examples',
   references: 'references',
@@ -87,6 +88,7 @@ export const Documentation: Story = {
           { id: SECTIONS.sizes, title: d.sizesTitle },
           { id: SECTIONS.iconOnly, title: d.iconOnlyTitle },
           { id: SECTIONS.states, title: d.statesTitle },
+          { id: SECTIONS.anatomy, title: d.anatomyTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
           { id: SECTIONS.examples, title: d.examplesTitle },
           { id: SECTIONS.references, title: d.referencesTitle },
@@ -203,6 +205,13 @@ export const Documentation: Story = {
         )}
 
         ${section(
+          SECTIONS.anatomy,
+          d.anatomyTitle,
+          html`${table(d.anatomyHeader, d.anatomy.map(([part, rule]: [string, string]) => [part, rule] as const), 'text')}
+          ${source(d.sourceLabel, d.sourceAnatomy)}`,
+        )}
+
+        ${section(
           SECTIONS.accessibility,
           d.accessibilityTitle,
           html`${table(
@@ -234,7 +243,7 @@ export const Documentation: Story = {
               d.exampleTable,
             )}
             ${demo(
-              html`<nph-button size="default" severity="secondary" emphasis="ghost" icon-start="xmark" label=${close}></nph-button>`,
+              html`<nph-button size="default" severity="secondary" emphasis="ghost" icon-start="plus" label=${create}></nph-button>`,
               d.exampleIconOnly,
             )}
             ${demo(

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 350,
   "owner": "elvys",
-  "state": "ready",
+  "state": "done",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -15,15 +15,17 @@
       "id": "review-and-merge",
       "description": "page.ts, the nph-button and nph-icon Docs pages, their tests and the dictionaries pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-33/review-and-merge-2026-10-28.md",
+      "result": "passed",
+      "verified_at": "2026-10-28",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
-  "evidence": [],
+  "evidence": [
+    "docs/operacao/evidencias/DSA-33/review-and-merge-2026-10-28.md"
+  ],
   "decision_refs": [
     "docs/stories.md, §4.10",
     "docs/operacao/tarefas/DSA-30.md, D6 and D7, answered by Indiane on 2026-10-15",
@@ -31,12 +33,12 @@
   ],
   "external_origin": null,
   "git_review": {
-    "branch": null,
-    "commit": null,
-    "pr": null
+    "branch": "claude/dsa-33-docs-body-lg-2e2a78",
+    "commit": "56d35cb00f91d0dda151a38c5e02086a8f2f6f6b",
+    "pr": "137"
   },
   "context": null,
-  "updated_at": "2026-10-20"
+  "updated_at": "2026-10-28"
 }
 ```
 
