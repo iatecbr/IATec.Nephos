@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 530,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-pagination",
   "dependencies": [
     "DSA-03",
@@ -36,7 +36,38 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The evidence says the numbers and the arrows are nph-button and nph-icon-button, type secondary and emphasis outline, and it also gives them their own paint tokens (pagination/arrow-background on color/background, pagination/arrow-border on color/input, pagination/item-background-hover on color/accent, pagination/text-foreground on color/foreground) that no severity and emphasis of nph-button paints: its secondary outline is color/muted with a secondary-foreground border, and nph-button has no color property. The two cannot both be followed. The code draws its own native buttons with the pagination tokens, with the focus of the secondary nph-button and the tooltip of the icon-only button, so that every pagination token is consumed. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence gives the current page text/label-md-strong, but no text role for the other numbers, the position text and the labels of items per page and go to page. The code uses text/label-md, the role of the nph-button text. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence names the icon of the first and last arrows, arrow-left-to-line, but not the icon of the previous and next arrows. The code uses chevron-left and chevron-right, and in the numbered type the icon sits beside the written Previous and Next. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    },
+    {
+      "id": "D-4",
+      "question": "The evidence lists the parts of the simple, compact and range types (arrows and the position text) but not their order. The code puts the previous arrow, the position text and the next arrow, in this order, inside the bar; in the table type the order is the anatomy one: items per page, range, bar. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    },
+    {
+      "id": "D-5",
+      "question": "The evidence gives the bar an outline but does not say whether the items per page, the range and go to page sit inside it. The code draws the outline only around the arrows, the numbers and the position text between the arrows; the other groups sit beside it, at pagination/group-gap. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-54/documentacao-figma-aceita-2026-10-27.md"
   ],
@@ -53,9 +84,13 @@
     "excerpt": null,
     "converted_decision": "The nph-pagination board, with its Documentação frame (1640:196), was accepted as the API and behavior specification of nph-pagination. Components: nph-pagination (1640:194), nph-pagination/página (2888:87682), nph-pagination/reticências (2888:87798), nph-pagination/ir para a página (2888:87805). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-10-27"
+  "git_review": {
+    "branch": "claude/dsa-54-nph-pagination-4a7569",
+    "commit": null,
+    "pr": null
+  },
+  "context": "docs/operacao/contextos/DSA-54.md",
+  "updated_at": "2026-10-28"
 }
 ```
 
