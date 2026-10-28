@@ -3,7 +3,7 @@
 **English** · [Português (BR)](README.pt-BR.md) · [Español](README.es.md)
 
 Nephos is IATec's Design System. It connects foundations defined in Figma, Web
-Components written in Lit, browsable documentation, and visual and behavioural
+Components written in Lit, browsable documentation, and visual and behavioral
 validation.
 
 > **Under construction.** Whatever is already available for use — components,
@@ -65,7 +65,7 @@ Format, modes, validations and scope are detailed in
 
 ### Consuming the themes
 
-Brand and colour scheme are **independent dimensions**. Put both attributes on
+Brand and color scheme are **independent dimensions**. Put both attributes on
 the root element and import the generated CSS:
 
 ```html
@@ -114,10 +114,10 @@ followed in current work, unless later technical guidance replaces them.
 | | Subject | Decision |
 |---|---|---|
 | **P01** | Component encapsulation | Open Shadow DOM |
-| **P02** | Customisation and CSS surface | CSS custom properties as the public API; `::part` for internal parts; internal classes are not API |
+| **P02** | Customization and CSS surface | CSS custom properties as the public API; `::part` for internal parts; internal classes are not API |
 | **P03** | Project layout | `src/components/<nome>/` holding implementation, CSS, story and test together; `src/tokens/` with `source` and `generated`; `src/styles/`; `src/shared/`; `docs/` |
 | **P17** | Token format and consumption | JSON as the versioned source format; CSS custom properties as the generated format |
-| **P19** | Storybook, tests and publishing | Keep `@storybook/web-components-vite`; build on CI for pull requests, as a private artefact |
+| **P19** | Storybook, tests and publishing | Keep `@storybook/web-components-vite`; build on CI for pull requests, as a private artifact |
 | **P20** | Generation tool and theme contract | Style Dictionary v5; `data-nph-brand` and `data-nph-color-scheme` (`light`/`dark`); `com.iatec.nephos` namespace |
 | **P21** | Technical plan for the first component | The `nph-icon` contract; strict TypeScript; stories next to the component; Vitest in browser mode |
 
@@ -162,7 +162,7 @@ ask for confirmation.
 3. Create or complete its spec sheet, covering variants, states, accessibility,
    relationships and anti-patterns.
 4. Implement the Web Component in Lit in this repository.
-5. Create stories for variants and states, and validate behaviour, keyboard,
+5. Create stories for variants and states, and validate behavior, keyboard,
    focus and accessibility.
 
 No component may be implemented in the repository before it is approved in
@@ -202,6 +202,6 @@ This repository publishes its usage documentation in English, Portuguese (BR)
 and Spanish. English is the source; see [`docs/i18n.md`](docs/i18n.md) for the
 convention.
 
-## Licence
+## License
 
 Unlicense. See `LICENSE`.

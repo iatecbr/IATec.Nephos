@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=6c2bc27a494f3a77b2b6c1791115fea64d8d3dd8d530eb04f11ccbee303fe2a4 | status=rascunho -->
+<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=0c012b170cc1c2e9d1edc124be91534915c66abcabc24f37612cf5fb7f3f4378 | status=rascunho -->
 
 # Consumir Nephos
 

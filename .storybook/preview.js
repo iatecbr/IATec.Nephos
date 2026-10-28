@@ -5,7 +5,7 @@
  * consume `--nph-*` from outside the Shadow DOM: without it,
  * `var(--nph-icon-size-sm)` would resolve empty and no box would have a size.
  * The file is GENERATED — never edit `src/tokens/generated/tokens.css` by hand.
- * `src/styles/scrollbar.css` comes right after it: it colours the native
+ * `src/styles/scrollbar.css` comes right after it: it colors the native
  * scrollbar with the `scrollbar/*` tokens.
  *
  * The Nephos fonts — Noto Sans and IBM Plex Mono — come from `@fontsource`,

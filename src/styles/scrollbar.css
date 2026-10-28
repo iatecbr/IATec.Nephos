@@ -1,6 +1,6 @@
 /*
- * Colour of the native scrollbar, by token. Native scrolling is the default:
- * no JavaScript, no custom scrollbar. The tokens only colour it.
+ * Color of the native scrollbar, by token. Native scrolling is the default:
+ * no JavaScript, no custom scrollbar. The tokens only color it.
  *
  * `scrollbar-color` is inherited, and a `var()` resolves where it is
  * declared. That is why the rule repeats on every `[data-nph-color-scheme]`

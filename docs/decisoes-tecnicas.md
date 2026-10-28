@@ -852,6 +852,16 @@ the specs, this note and every identifier are American (`color/*`, P20).
 
 Adopted by Indiane on 15/10/2026 (DSA-30, D8).
 
+**Implemented in DSA-37.** `npm run test:spelling` runs cspell with
+`cspell.config.yaml`: `en-US` over the files this decision puts in English, with
+each exclusion and its reason in the file — the translations, the historical record,
+the generated files, the token source and the Portuguese-by-design data of the
+language proof. A span between backticks and a fenced block are code and stay out.
+The British forms are `flagWords`, since the `en-US` dictionary alone accepts some
+of them (`centre`, `catalogue`, `artefact`). `full stop` is two valid words, which no
+spell checker catches: it became "period" once. `labelled` and `cancelled` pass, as
+the `en-US` dictionary accepts them.
+
 **Status.** Decision adopted by Indiane on 28/09/2026 — reviewed and approved
 by Mauro on 30/09/2026, in the team chat. Amendment of 02/10/2026 approved by
 Mauro in PR #49, merged on 05/10/2026. Amendment of 06/10/2026 adopted by

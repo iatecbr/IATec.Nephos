@@ -61,7 +61,7 @@ them in this order as `use_when` and `do_not_use_when`.
 
 Where a sheet item and a frame item said the same thing, they became one, with
 the frame text, which `.storybook/i18n/*.json` already translates. Spelling
-is American English (DSA-30, D8), so "colour" becomes "color".
+is American English (DSA-30, D8), so `colour` becomes `color`.
 
 Two `nph-button` items come only from the sheet and have no dictionary entry
 yet. Their approved `pt-BR` text is given; the `es` entry follows it.
@@ -130,7 +130,7 @@ other about the four emphases.
 4. "Keep the label in color/foreground, even when the field has an error."
 
 `do_not_use_when`
-1. "Using it for a sentence with a verb and a full stop: that is body text."
+1. "Using it for a sentence with a verb and a period: that is body text."
 2. "Using it as a section or group title: that is heading-sm."
 3. "Using it for emphasis inside a paragraph: that is <strong>."
 4. "Putting help or an error message in the label: they belong to nph-field."

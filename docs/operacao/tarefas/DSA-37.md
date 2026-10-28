@@ -30,12 +30,12 @@
   ],
   "external_origin": null,
   "git_review": {
-    "branch": null,
+    "branch": "claude/dsa-37-en-us",
     "commit": null,
     "pr": null
   },
   "context": null,
-  "updated_at": "2026-10-20"
+  "updated_at": "2026-10-28"
 }
 ```
 

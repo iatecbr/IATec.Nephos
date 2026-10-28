@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=README.md | source-sha256=a3ff6a40e23801e1dd7aa75237732d868e89e22bb64d2199cac01dab1a5e0740 | status=revisado -->
+<!-- i18n: lang=pt-BR | source=README.md | source-sha256=a16c6fcf02ba5ada8d053e3abe32b9105ef2cf06854950dd7d705c6f88332fb6 | status=revisado -->
 
 # Nephos 5.0
 

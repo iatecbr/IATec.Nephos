@@ -600,7 +600,7 @@ The other gaps, named so they do not look like rules:
 | How the Figma × Storybook comparison is measured | The step exists in the gate, but **no artifact in this repository** records a measurement. Without verifiable practice, it does not become a rule |
 | Template for a technical plan | There is only one, **P21**, for `nph-icon`. One case is not a template |
 | PR size, screenshot, preview link | `contributing.md` asks for a small PR **with no number**, and does not address screenshots or previews. **P19** foresees Storybook as a private CI artifact, and **CI does not exist** |
-| The complete battery of validations | The commands are in `package.json` — `build:tokens`, `test:tokens`, `typecheck`, `test`, `test:i18n`, `test:naming`, `build-storybook` and `test:operacao`. The obligation to run all of them, and in what order, **has no source in this repository** |
+| The complete battery of validations | The commands are in `package.json` — `build:tokens`, `test:tokens`, `typecheck`, `test`, `test:i18n`, `test:naming`, `test:spelling`, `build-storybook` and `test:operacao`. The obligation to run all of them, and in what order, **has no source in this repository** |
 | `meta.ts` and `metadata.ts` | **Forbidden.** Verifier rule `V27` rejects both names inside `src/components/`. The sheet is the source; the Metadata derives from it, generated in `src/shared/metadata/` by `node scripts/verificar-operacao.mjs --gerar-metadata` (P63) |
 
 ---

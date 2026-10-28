@@ -23,7 +23,7 @@ native scrollbar stylesheet.
 |---|---|
 | `@iatec/nephos/nph-<name>` | The component, registered. One line is enough: the component brings its own CSS, and the components it renders. |
 | `@iatec/nephos/tokens.css` | The design tokens, as CSS custom properties. |
-| `@iatec/nephos/scrollbar.css` | The colour of the native scrollbar. Load it right after `tokens.css`. |
+| `@iatec/nephos/scrollbar.css` | The color of the native scrollbar. Load it right after `tokens.css`. |
 | `@iatec/nephos/custom-elements.json` | The manifest that editors and documentation tools read. |
 
 Available in `5.0.0-rc.1`: `nph-badge`, `nph-button`, `nph-icon`, `nph-kbd`,
@@ -64,7 +64,7 @@ application owns their versions. The ranges are `lit ^3.3.3` and
 release candidate has its own version (`rc.1`, `rc.2`, ...): a published version
 is never replaced, so pin the one you tested.
 
-## Tokens, brand and colour scheme
+## Tokens, brand and color scheme
 
 Components read `--nph-*` custom properties from outside their Shadow DOM, so the
 tokens have to be loaded once, for the whole page:
@@ -74,7 +74,7 @@ import '@iatec/nephos/tokens.css';
 import '@iatec/nephos/scrollbar.css';
 ```
 
-Brand and colour scheme are two independent attributes on the root element:
+Brand and color scheme are two independent attributes on the root element:
 
 ```html
 <html data-nph-brand="educacao" data-nph-color-scheme="dark">
