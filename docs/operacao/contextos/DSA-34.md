@@ -23,10 +23,19 @@ and add a test that fails a page whose lists differ from the Metadata.
 - `.storybook/i18n/*.json`
 
 ## Changes
-None yet.
+- The sheets of `nph-badge`, `nph-button`, `nph-icon` and `nph-label` take the approved lists (D2); `nph-button` with
+  the later frame text of P86 and DSA-52 (Q1, D-1); the Metadata is generated again.
+- `src/shared/docs/sheet-lists.ts`: the `useDontUse` block of every `Docs` page reads the Metadata, with the `pt-BR`
+  and `es` translation of each item from the dictionary (D1).
+- `src/shared/docs/sheet-lists.test.ts`: fails a page whose lists differ from the Metadata, an item without a
+  translation and a list whose number of items differs.
+- P71 annotation, `docs/stories.md` §4.8 and §4.10, `docs/i18n.md` and the rules in `.storybook/i18n/index.js`.
 
 ## Commands run
 - `git merge --ff-only origin/v/5.0.0`
+- `npm ci`
+- `node scripts/verificar-operacao.mjs --gerar-metadata`
+- `npx vitest run --project unit src/shared/docs/sheet-lists.test.ts`, with three induced violations that fail it
 
 ## Result
 The task is in progress on the branch `claude/dsa-34-docs-metadata-96729a`.
@@ -38,4 +47,4 @@ None yet. `review-and-merge` waits for the pull request.
 None.
 
 ## Next command
-`npm ci`
+`npm run build:tokens`, then the other proof commands in sequence

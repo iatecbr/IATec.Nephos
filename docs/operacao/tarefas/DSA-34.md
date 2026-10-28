@@ -22,7 +22,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The nph-button list approved on 2026-10-16 predates P86 and DSA-52, which on 2026-10-23 and 2026-10-27 rewrote the icon-only items of the frame and the sheet and added the actions column of a table. The sheet took the approved list with the later frame text in use_when item 7 and do_not_use_when item 2, and the actions column item as use_when item 8, all already translated (Q1, below). Confirm this list or give the one to keep. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    }
+  ],
   "evidence": [],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p71",
@@ -89,6 +96,18 @@ yet. Their approved `pt-BR` text is given; the `es` entry follows it.
 
 Items 2 and 5 of `use_when` stay apart: one is about the main action, the
 other about the four emphases.
+
+**Q1, applied on 2026-10-28.** This list predates P86 (2026-10-23) and DSA-52
+(2026-10-27), which rewrote two of its items in the accepted frame and the sheet
+and added one. Writing it as it stands would undo a later accepted text and drop
+an item, and the sheet as it stands would drop frame items Indiane accepted. The
+sheet takes the list above, in its order, with three changes, each in a text the
+frame already has and the dictionaries already translate:
+- `use_when` item 7 becomes "Without text, for a universal action such as close or search: give it a label, which is its accessible name and the text of its tooltip."
+- `use_when` gains item 8, "In the actions column of a table, even when the action leads to another screen, such as view details."
+- `do_not_use_when` item 2 becomes "Icon only on an action with consequences, such as delete or publish, outside the actions column of a table: write the text."
+
+Indiane confirms the result in D-1.
 
 ### nph-badge
 

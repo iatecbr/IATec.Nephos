@@ -1307,6 +1307,18 @@ is not decided by this note; it is a question for Indiane before the code.
 **Out of scope.** The Metadata tab in Storybook, as P63 left it. Any other block of the
 page.
 
+**Annotation of 28/10/2026 (DSA-34).** Indiane answered the open question on 16/10/2026
+(DSA-34, D1): the English lists come from the Metadata, and the `pt-BR` and `es` pages take
+the translation of each item from `.storybook/i18n/pt-BR.json` and `es.json`. The dictionary
+keeps the translations in `whenToUse` and `whenNotToUse` of the page key, at the position of
+each item in the Metadata, and `en.json` keeps the Metadata lists themselves, so that the three
+dictionaries keep the same shape. The block is `sheetUseDontUse`, in
+`src/shared/docs/sheet-lists.ts`. `src/shared/docs/sheet-lists.test.ts` finds every `Docs` page
+by file name and fails a page whose lists differ from the Metadata, an item without a
+translation and a dictionary list whose number of items differs from the Metadata. Before the
+move, the sheets of `nph-badge`, `nph-button`, `nph-icon` and `nph-label` took the lists Indiane
+approved on 16/10/2026 (DSA-34, D2); the other pages already showed the lists of their sheets.
+
 **Status.** Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request
 that brings it; the merge is the approval.
 
