@@ -220,6 +220,7 @@ read the documentation for that version.
 | `playwright` | ^1.62.1 |
 | `typescript` | ^5.9.3 |
 | `@fontsource/noto-sans` and `@fontsource/ibm-plex-mono` | ^5.3.0 |
+| `cspell` | ^10.4.0 |
 
 Validated environment: Node 24.18.0 and npm 11.16.0. The package manager is
 **npm**. When this table and `package.json` diverge, `package.json` wins — and

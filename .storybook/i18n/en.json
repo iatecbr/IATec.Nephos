@@ -13,7 +13,7 @@
     "components-nph-icon-validation": "Validation",
     "components-nph-icon-validation--variants": "Variants",
     "components-nph-icon-validation--sizes": "Sizes",
-    "components-nph-icon-validation--color-inheritance": "Colour inheritance",
+    "components-nph-icon-validation--color-inheritance": "Color inheritance",
     "components-nph-icon-validation--accessibility": "Accessibility",
     "components-nph-icon-validation--invalid-input": "Invalid input",
     "components-nph-input-docs": "Docs",
@@ -288,13 +288,13 @@
     "toDark": "Switch to dark mode"
   },
   "welcome": {
-    "summary": "A catalogue of components and foundations for building consistent, accessible and verifiable experiences.",
+    "summary": "A catalog of components and foundations for building consistent, accessible and verifiable experiences.",
     "howToNavigate": "How to navigate",
     "steps": [
       {
         "id": "foundations",
         "title": "1. Start with the foundations",
-        "text": "Check colour, typography, spacing, radius and icons before deciding how a piece should look.",
+        "text": "Check color, typography, spacing, radius and icons before deciding how a piece should look.",
         "destination": "Foundations › Overview"
       },
       {
@@ -306,7 +306,7 @@
       {
         "id": "gap",
         "title": "3. Report a gap",
-        "text": "If a case is not documented, do not improvise API, token, variant or behaviour.",
+        "text": "If a case is not documented, do not improvise API, token, variant or behavior.",
         "destination": "Canonical spec sheet and record"
       }
     ]
@@ -317,7 +317,7 @@
     "items": [
       {
         "id": "color",
-        "title": "Colour",
+        "title": "Color",
         "text": "The core, theme and semantic layers, in light and dark modes."
       },
       {
@@ -359,7 +359,7 @@
     "empty": "No core icon matches this search. If the icon you need is not here, it is a gap: ask before adding it."
   },
   "docs": {
-    "summary": "Provides an icon from the Nephos core with consistent size, family and accessibility, without introducing colour or artwork outside the approved set.",
+    "summary": "Provides an icon from the Nephos core with consistent size, family and accessibility, without introducing color or artwork outside the approved set.",
     "onThisPage": "On this page",
     "apiHeader": [
       "Property",
@@ -391,7 +391,7 @@
       "The Font Awesome Pro package, files or secret in versioned material.",
       "A visual variant created just to fill a matrix.",
       "Duotone outside structural navigation, or Duotone and Classic mixed in the same group.",
-      "Colour defined as a property: the icon inherits currentColor from the context."
+      "Color defined as a property: the icon inherits currentColor from the context."
     ],
     "apiTitle": "Approved public API",
     "api": [
@@ -420,16 +420,16 @@
         "Takes no focus, click or touch; the surrounding control defines the interaction."
       ],
       [
-        "Colour and customisation",
-        "Exposes no colour property and no initial ::part; inherits currentColor from the context."
+        "Color and customization",
+        "Exposes no color property and no initial ::part; inherits currentColor from the context."
       ]
     ],
     "coreTitle": "A core of {total} icons",
-    "coreText": "The set is Font Awesome Pro and Classic is the default family. The full catalogue, with search, is under Icons Overview, in this same folder.",
+    "coreText": "The set is Font Awesome Pro and Classic is the default family. The full catalog, with search, is under Icons Overview, in this same folder.",
     "coreCount": "{count} icons",
     "coreRule": "light and solid exist for every name in the core; light is the default, and solid comes in when the context needs more visual presence. Never invent artwork outside the collection. Thin and Sharp are forbidden. Duotone is allowed only in structural navigation, without mixing families within one group, and has no artwork available yet.",
     "sizeTitle": "Size",
-    "sizeText": "Size is not a visual variant: it comes from a semantic token, and free values do not exist. The box is always square; the artwork is centred and scaled by height.",
+    "sizeText": "Size is not a visual variant: it comes from a semantic token, and free values do not exist. The box is always square; the artwork is centered and scaled by height.",
     "sizeTable": [
       [
         "icon/size-sm",
@@ -444,17 +444,17 @@
         "Section heading, empty state, and an icon that carries meaning on its own. Do not use in dense screens or in lists."
       ]
     ],
-    "sizeOverflow": "eye, eye-slash and star are 18 wide by nature, above the 16 of the box: the box normalises height and alignment, not width. The artwork overflows centred, without clipping and without rescaling.",
-    "colorTitle": "Colour",
-    "colorText": "Colour is inherited from the context through currentColor. There is no icon colour token, and colour is not a property of the component. The gap to the text is space/inline-tight and belongs to the container that composes icon and text, not to the icon.",
+    "sizeOverflow": "eye, eye-slash and star are 18 wide by nature, above the 16 of the box: the box normalizes height and alignment, not width. The artwork overflows centered, without clipping and without rescaling.",
+    "colorTitle": "Color",
+    "colorText": "Color is inherited from the context through currentColor. There is no icon color token, and color is not a property of the component. The gap to the text is space/inline-tight and belongs to the container that composes icon and text, not to the icon.",
     "accessibilityTitle": "Accessibility",
     "accessibility": [
       "With visible text beside it, the icon is decorative and takes aria-hidden — otherwise the screen reader reads it twice.",
       "With no visible text, aria-label is required.",
       "A meaningful icon requires 3:1 contrast (WCAG 1.4.11).",
       "The icon is not the touch target: the target is the surrounding control, with control/height-large on touch screens.",
-      "An isolated icon takes no focus; the surrounding control defines keyboard behaviour.",
-      "Icon and colour are never the only signal of state or action."
+      "An isolated icon takes no focus; the surrounding control defines keyboard behavior.",
+      "Icon and color are never the only signal of state or action."
     ],
     "invalidTitle": "Invalid input",
     "invalidText": "A name outside the core, a missing size or one outside the approved list, or a variant that does not exist render no icon and fail development validation. There is no visual fallback and no free size. The error is reported through console.error in development only.",
@@ -492,9 +492,9 @@
     "sizesOverflowTitle": "Approved overflow",
     "sizesEye": "eye — 18 wide by nature",
     "sizesCircleCheck": "circle-check — width equal to height",
-    "sizesNote": "The box normalises height and alignment, not width: eye, eye-slash and star overflow centred, without clipping and without rescaling.",
-    "colorTitle": "Colour inheritance",
-    "colorNote": "None of the icons below was painted. They all inherit the colour of the context.",
+    "sizesNote": "The box normalizes height and alignment, not width: eye, eye-slash and star overflow centered, without clipping and without rescaling.",
+    "colorTitle": "Color inheritance",
+    "colorNote": "None of the icons below was painted. They all inherit the color of the context.",
     "a11yTitle": "Accessibility",
     "a11ySummary": "Decorative beside text; named when it stands alone.",
     "a11yDecorativeTitle": "With text beside it — decorative",
@@ -539,7 +539,7 @@
       "A badge without text, with only an icon.",
       "Two status badges on the same item.",
       "A sentence inside the badge: supporting text stays outside the component.",
-      "Painting the background or the text by hand: the colour comes from the severity and the emphasis."
+      "Painting the background or the text by hand: the color comes from the severity and the emphasis."
     ],
     "apiTitle": "API",
     "apiHeader": [
@@ -622,11 +622,11 @@
     "anatomy": [
       [
         "Container",
-        "radius/full; space/inline-tight on top and bottom and space/control-padding on the sides. The background colour comes from the severity and the emphasis."
+        "radius/full; space/inline-tight on top and bottom and space/control-padding on the sides. The background color comes from the severity and the emphasis."
       ],
       [
         "Icon (optional)",
-        "Before the text, at icon/size-sm, in the text colour, space/inline-tight away from it. Artwork from nph-icon."
+        "Before the text, at icon/size-sm, in the text color, space/inline-tight away from it. Artwork from nph-icon."
       ],
       [
         "Text",
@@ -648,8 +648,8 @@
         "The badge takes no click and no focus. For an action, use nph-button."
       ],
       [
-        "Colour is not the only signal",
-        "Every badge has text: colour is never the only signal, and the icon only reinforces the word."
+        "Color is not the only signal",
+        "Every badge has text: color is never the only signal, and the icon only reinforces the word."
       ],
       [
         "Touch target",
@@ -678,7 +678,7 @@
     "references": [
       "nph-badge spec sheet — purpose, variants, accessibility, tokens and anti-patterns.",
       "docs/decisoes-tecnicas.md — P68 (API and semantics), P01, P02 and P03.",
-      "design.md — the color/* and status/* colours, text/label-sm, radius/full and the spacing.",
+      "design.md — the color/* and status/* colors, text/label-sm, radius/full and the spacing.",
       "DS-IA-NEPHOS 5.0 Figma — page NPH — Badge, frame nph-badge (1196:1100) and set 878:30.",
       "Storybook — Validation, in the folder alongside."
     ],
@@ -698,7 +698,7 @@
     "whenToUse": [
       "To start an action identified by text, such as save or send.",
       "Write in the text what happens on click.",
-      "Choose the severity by the meaning of the action, never by colour.",
+      "Choose the severity by the meaning of the action, never by color.",
       "Choose the emphasis by how much the action stands out: solid, outline, light or ghost.",
       "Use size large on touch screens.",
       "Without text, for a universal action such as close or search: give it a label, which is its accessible name and the text of its tooltip.",
@@ -711,7 +711,7 @@
       "To navigate to another destination.",
       "size compact as the main target on a touch screen.",
       "Enlarging the icon to add emphasis.",
-      "Using colour as the only signal of intent, focus or state.",
+      "Using color as the only signal of intent, focus or state.",
       "Creating a severity, emphasis or size outside the matrix, or painting the button by hand."
     ],
     "apiTitle": "API",
@@ -883,7 +883,7 @@
     "states": [
       [
         "default",
-        "Rest. The colour conveys the severity of the action."
+        "Rest. The color conveys the severity of the action."
       ],
       [
         "hover-active",
@@ -891,7 +891,7 @@
       ],
       [
         "focus",
-        "For keyboard users: a border in the severity colour and a halo outside it, without changing the size. In secondary, the border is focus/border."
+        "For keyboard users: a border in the severity color and a halo outside it, without changing the size. In secondary, the border is focus/border."
       ],
       [
         "disabled",
@@ -918,8 +918,8 @@
         "On focus, the border and the halo appear for keyboard users."
       ],
       [
-        "Colour is not the only signal",
-        "Colour is never the only signal of intent, focus or state: the text says what happens on click."
+        "Color is not the only signal",
+        "Color is never the only signal of intent, focus or state: the text says what happens on click."
       ],
       [
         "Touch target",
@@ -958,7 +958,7 @@
     "references": [
       "nph-button spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
       "docs/decisoes-tecnicas.md — P68 and P86 (API and semantics), P77 (nph-tooltip), P01, P02, P03 and P66 (nph-spinner).",
-      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colours.",
+      "design.md — control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors.",
       "DS-IA-NEPHOS 5.0 Figma — page NPH — Button, frame nph-button (1197:5449) and sets 461:13009 and 498:15671; page NPH — Icon Button, board nph-icon-button (2122:1591).",
       "Storybook — Validation, in the folder alongside."
     ],
@@ -1016,12 +1016,12 @@
         "The label text does not take focus: focus shows on the control it names. The information icon is a trigger and, when focused, shows the focus/border border and the focus/halo halo around the target (state=focus)."
       ],
       [
-        "colour is not the only cue",
+        "color is not the only cue",
         "Required is marked by the asterisk, explained in a visible legend on the form. The label does not use color/destructive, which mixes up required and error."
       ],
       [
         "touch target",
-        "The information icon has a 24×24 target, with the 16 px art in the centre (WCAG 2.5.8). Clicking the label text moves focus to the control it names."
+        "The information icon has a 24×24 target, with the 16 px art in the center (WCAG 2.5.8). Clicking the label text moves focus to the control it names."
       ],
       [
         "accessible name",
@@ -1105,7 +1105,7 @@
     ],
     "requiredLegend": "* Required fields",
     "dont": [
-      "Using it for a sentence with a verb and a full stop: that is body text.",
+      "Using it for a sentence with a verb and a period: that is body text.",
       "Using it as a section or group title: that is heading-sm.",
       "Using it for emphasis inside a paragraph: that is <strong>.",
       "Putting help or an error message in the label: they belong to nph-field.",
@@ -6780,7 +6780,7 @@
       "components-nph-avatar-stack-validation--count-width": "The count starts as a square of the avatar size and grows with the number, keeping its height and its text role.",
       "components-nph-avatar-stack-validation--accessibility": "The group is one image named by label, with the names and the total; the avatars and the count are not read.",
       "components-nph-badge-validation--matrix": "Each severity value in both emphasis values, without an icon.",
-      "components-nph-badge-validation--with-icon": "The icon comes before the text, at icon/size-sm, in the text colour.",
+      "components-nph-badge-validation--with-icon": "The icon comes before the text, at icon/size-sm, in the text color.",
       "components-nph-badge-validation--two-words": "One or two words stay on a single line: the badge does not wrap.",
       "components-nph-button-validation--matrix": "Each severity and emphasis pair that exists, at the default size. Move the mouse over a button to see hover.",
       "components-nph-button-validation--sizes": "The three sizes, with text and with an icon only. The text is label-md in all of them.",
