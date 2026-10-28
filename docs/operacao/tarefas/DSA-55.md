@@ -18,16 +18,17 @@
     "DSA-43",
     "DSA-45",
     "DSA-48",
-    "DSA-52"
+    "DSA-52",
+    "DSA-57"
   ],
   "gates": [
     {
       "id": "figma-docs-accepted",
       "description": "The nph-toolbar documentation in Figma was accepted by the design owner, with the Figma UX QA and the textual audit approved, and its tokens are on v/5.0.0.",
       "command": null,
-      "evidence": "docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-27.md",
+      "evidence": "docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-28.md",
       "result": "passed",
-      "verified_at": "2026-10-27",
+      "verified_at": "2026-10-28",
       "verified_by": "indiane"
     },
     {
@@ -63,32 +64,26 @@
       "opened_at": "2026-10-27"
     }
   ],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "Indiane decided that nph-chip enters the toolbar as an applied filter. The accepted documentation has no place for it yet, and nph-chip is still in Figma. Where in the bar do the applied filters go? Until it is decided, build what the accepted documentation shows.",
-      "decider": "indiane",
-      "opened_at": "2026-10-27"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
-    "docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-27.md"
+    "docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-28.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-27.md, nph-toolbar visual acceptance, Figma UX QA and textual audit approved, documentation accepted; keyboard rule moved from Figma to this task; nph-chip enters the toolbar as an applied filter; approved_order 540"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-27.md, nph-toolbar visual acceptance, Figma UX QA and textual audit approved, documentation accepted; keyboard rule moved from Figma to this task; nph-chip enters the toolbar as an applied filter; approved_order 540",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-toolbar documentation accepted again with the tipo filtros aplicados: the applied filters go in a strip below the page bar, option A of the preview, with one nph-chip per filter and Limpar filtros after the last one, shown from the first chip; after a chip is removed the focus goes to the next chip, else the previous, else the button that opens the filters; no new token"
   ],
   "external_origin": {
     "classification": "internal-allowed",
     "url_or_id": "https://www.figma.com/design/UuhW1qPkdkdQ6IAjOsxOua/DS-IA-NEPHOS-5.0?node-id=2944-6528",
-    "date": "2026-10-27",
+    "date": "2026-10-28",
     "author": "indiane",
     "excerpt": null,
-    "converted_decision": "The nph-toolbar board, with its Documentação frame (2944:6528), was accepted as the API and behavior specification of nph-toolbar. Component set: nph-toolbar (2105:426), tipo × tamanho, 12 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
+    "converted_decision": "The nph-toolbar board, with its Documentação frame (2944:6528), was accepted as the API and behavior specification of nph-toolbar, and accepted again on 2026-10-28 with the tipo filtros aplicados. Component set: nph-toolbar (2105:426), tipo × tamanho, 15 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-27"
+  "updated_at": "2026-10-28"
 }
 ```
 
@@ -98,18 +93,18 @@
 The `nph-toolbar` exists in `src/components/nph-toolbar/`, with a spec, tests and stories, in the contract accepted in Figma.
 
 ## Where the contract is
-In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-27.md`. It carries the Figma documentation converted to text, with the tokens of each part. There is no need to open Figma.
+In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-28.md`. It carries the Figma documentation converted to text, with the tokens of each part. There is no need to open Figma.
 
 **Keyboard.** By decision of Indiane, the keyboard rule left the Figma accessibility table and comes in this task: follow the W3C ARIA Authoring Practices toolbar pattern (https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/). This is the future toolbar that the D5 of DSA-23 points to.
 
 ## Why it is blocked
-The 14 `toolbar/*` tokens came with this task and are on `v/5.0.0`. Each one is an alias of a semantic token; no core primitive was added. Three pieces the bar holds changed in Figma on 2026-10-27 and are not in the code yet: nph-input compact (B1), the size and states of nph-togglebutton and nph-toggle-group (B2), and the ghost hover of nph-button and nph-icon-button (B3). DSA-52, the solid icon on hover, is still in review. The task becomes `ready` when the three blockers close and DSA-52 is `done`.
+The applied filters decided on 2026-10-28 go in a strip below the page bar (tipo `filtros aplicados`, with one nph-chip per filter and "Limpar filtros" after the last one); that closes the earlier question about where the chip goes, and it makes nph-chip (DSA-57) a dependency. The 14 `toolbar/*` tokens came with this task and are on `v/5.0.0`; the strip needs no new token. Each one is an alias of a semantic token; no core primitive was added. Three pieces the bar holds changed in Figma on 2026-10-27 and are not in the code yet: nph-input compact (B1), the size and states of nph-togglebutton and nph-toggle-group (B2), and the ghost hover of nph-button and nph-icon-button (B3). DSA-52, the solid icon on hover, is `done`. The task becomes `ready` when the three blockers close and nph-chip (DSA-57) is `done`, because the applied filters strip uses it.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## What this task does not do
-It does not create a token or change a token value. It does not change nph-input, nph-togglebutton, nph-toggle-group, nph-button or nph-icon-button. It does not build nph-pagination, which is a sibling piece, nor nph-data-table, which places the bar above the table. It does not add a vertical bar. It does not change Figma.
+It does not create a token or change a token value. It does not change nph-input, nph-togglebutton, nph-toggle-group, nph-button or nph-icon-button. It does not build nph-chip, which is DSA-57, nor nph-pagination, which is a sibling piece, nor nph-data-table, which places the bar above the table. It does not add a vertical bar. It does not change Figma.
 
 ## Sources
 - Figma `DS-IA-NEPHOS 5.0`, page `⏳NPH — Toolbar` (`1626:44`), Documentação frame `2944:6528`

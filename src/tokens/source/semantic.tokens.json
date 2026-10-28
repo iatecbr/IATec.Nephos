@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "layer": "semantic",
-      "expectedCount": 458,
-      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09; o novo valor claro de color/accent e os 3 tokens scrollbar/* lidos variavel a variavel em 2026-10-14; radius/control-inner e layout/max-list-height, do nph-select e do nph-combobox, lidos variavel a variavel em 2026-10-14; text/highlight-weight lido em 2026-10-14; layout/multi-combobox-width, do nph-multi-combobox, lido variavel a variavel em 2026-10-15; layout/textarea-min-height e layout/textarea-max-height, do nph-textarea, lidos variavel a variavel em 2026-10-16; scheme/is-light e scheme/is-dark, booleanos do nph-empty, lidos variavel a variavel em 2026-10-16; o novo valor claro de color/muted (core/surface/50), lido em 2026-10-19; os 13 tokens do nph-dialog (layout/dialog-min-width, layout/dialog-sm, -md e -lg, layout/dialog-content-sm, -md e -lg, layout/dialog-max-height, space/stack-snug, space/inline-loose, space/overlay-padding, color/dialog-separator e color/secondary-on-dialog) lidos variavel a variavel em 2026-10-21; color/secondary-on-dialog-hover e os novos valores claros de color/secondary (core/surface/100) e color/secondary-hover (core/surface/200), lidos variavel a variavel em 2026-10-21; os 3 tokens do nph-dropdown-menu (color/dropdown-border, focus/border-radius-inner e focus/radius-inner-with-border) lidos variavel a variavel em 2026-10-21; dropdown/item-hover-icon-foreground, cor do icone solid do item do nph-dropdown-menu em hover (tipo default), lido variavel a variavel em 2026-10-21; motion/hover-delay, a espera do cursor do nph-tooltip (DSA-48), lido em 2026-10-22; os 23 tokens do nph-image (image/size-xs a 2xl, radius-sm a lg, background, foreground, border, border-width, focus-border, overlay, on-overlay, gap, media-width, icon-size-sm a lg, illustration-light e illustration-dark) e overlay/on-media-strong e overlay/on-media-foreground, lidos variavel a variavel em 2026-10-23 (DSA-51); os 43 tokens do nph-table (table/*, todos alias de semantico, de theme ou de core: caption-action-gap, max-width, scrollbar-radius, scrollbar-thumb, scrollbar-track, scrollbar-width, status-error-icon adicionados em 2026-10-25), lidos variavel a variavel em 2026-10-25 (DSA-49); os tokens sidebar/* do nph-sidebar-item, do nph-sidebar-subitem e do nph-sidebar-rail-button (sidebar/item-*, sidebar/group-*, sidebar/flyout-*, sidebar/rail-*, sidebar/panel-background, sidebar/panel-border, sidebar/panel-radius, sidebar/panel-spacing, sidebar/separator, sidebar/section-gap e sidebar/search-*) e os raios de foco focus/border-radius-sidebar-item, focus/radius-sidebar-item, focus/border-radius-container e focus/radius-container, lidos variavel a variavel em 2026-10-26 (DSA-53); os 19 tokens pagination/* do nph-pagination, todos alias de semantico ou de core, e o papel de texto text/label-md-strong (label-md com peso 600, numero da pagina atual), lidos variavel a variavel em 2026-10-27 (DSA-54); os 14 tokens toolbar/* do nph-toolbar, todos alias de semantico, lidos variavel a variavel em 2026-10-27 (DSA-55)",
+      "expectedCount": 520,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09; o novo valor claro de color/accent e os 3 tokens scrollbar/* lidos variavel a variavel em 2026-10-14; radius/control-inner e layout/max-list-height, do nph-select e do nph-combobox, lidos variavel a variavel em 2026-10-14; text/highlight-weight lido em 2026-10-14; layout/multi-combobox-width, do nph-multi-combobox, lido variavel a variavel em 2026-10-15; layout/textarea-min-height e layout/textarea-max-height, do nph-textarea, lidos variavel a variavel em 2026-10-16; scheme/is-light e scheme/is-dark, booleanos do nph-empty, lidos variavel a variavel em 2026-10-16; o novo valor claro de color/muted (core/surface/50), lido em 2026-10-19; os 13 tokens do nph-dialog (layout/dialog-min-width, layout/dialog-sm, -md e -lg, layout/dialog-content-sm, -md e -lg, layout/dialog-max-height, space/stack-snug, space/inline-loose, space/overlay-padding, color/dialog-separator e color/secondary-on-dialog) lidos variavel a variavel em 2026-10-21; color/secondary-on-dialog-hover e os novos valores claros de color/secondary (core/surface/100) e color/secondary-hover (core/surface/200), lidos variavel a variavel em 2026-10-21; os 3 tokens do nph-dropdown-menu (color/dropdown-border, focus/border-radius-inner e focus/radius-inner-with-border) lidos variavel a variavel em 2026-10-21; dropdown/item-hover-icon-foreground, cor do icone solid do item do nph-dropdown-menu em hover (tipo default), lido variavel a variavel em 2026-10-21; motion/hover-delay, a espera do cursor do nph-tooltip (DSA-48), lido em 2026-10-22; os 23 tokens do nph-image (image/size-xs a 2xl, radius-sm a lg, background, foreground, border, border-width, focus-border, overlay, on-overlay, gap, media-width, icon-size-sm a lg, illustration-light e illustration-dark) e overlay/on-media-strong e overlay/on-media-foreground, lidos variavel a variavel em 2026-10-23 (DSA-51); os 43 tokens do nph-table (table/*, todos alias de semantico, de theme ou de core: caption-action-gap, max-width, scrollbar-radius, scrollbar-thumb, scrollbar-track, scrollbar-width, status-error-icon adicionados em 2026-10-25), lidos variavel a variavel em 2026-10-25 (DSA-49); os tokens sidebar/* do nph-sidebar-item, do nph-sidebar-subitem e do nph-sidebar-rail-button (sidebar/item-*, sidebar/group-*, sidebar/flyout-*, sidebar/rail-*, sidebar/panel-background, sidebar/panel-border, sidebar/panel-radius, sidebar/panel-spacing, sidebar/separator, sidebar/section-gap e sidebar/search-*) e os raios de foco focus/border-radius-sidebar-item, focus/radius-sidebar-item, focus/border-radius-container e focus/radius-container, lidos variavel a variavel em 2026-10-26 (DSA-53); os 19 tokens pagination/* do nph-pagination, todos alias de semantico ou de core, e o papel de texto text/label-md-strong (label-md com peso 600, numero da pagina atual), lidos variavel a variavel em 2026-10-27 (DSA-54); os 14 tokens toolbar/* do nph-toolbar, todos alias de semantico, lidos variavel a variavel em 2026-10-27 (DSA-55); os 62 tokens chip/* do nph-chip, alias de semantico, de theme ou de core (background-hover, remove-background-hover, counter-background, counter-background-hover e border trocam de tom entre claro e escuro), lidos variavel a variavel em 2026-10-28 (DSA-57)",
       "modeSet": {
         "name": "color-scheme",
         "modes": [
@@ -3378,6 +3378,296 @@
     "floating-radius": {
       "$type": "dimension",
       "$value": "{radius.container}"
+    }
+  },
+  "chip": {
+    "counter-background": {
+      "$type": "color",
+      "$value": "{theme.brand-200}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{theme.brand-200}",
+            "dark": "{theme.brand-700}"
+          }
+        }
+      }
+    },
+    "counter-background-hover": {
+      "$type": "color",
+      "$value": "{theme.brand-300}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{theme.brand-300}",
+            "dark": "{theme.brand-900}"
+          }
+        }
+      }
+    },
+    "counter-background-disabled": {
+      "$type": "color",
+      "$value": "{color.secondary-light}"
+    },
+    "counter-foreground": {
+      "$type": "color",
+      "$value": "{color.secondary-foreground}"
+    },
+    "remove-background-hover": {
+      "$type": "color",
+      "$value": "{theme.brand-200}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{theme.brand-200}",
+            "dark": "{theme.brand-700}"
+          }
+        }
+      }
+    },
+    "background": {
+      "$type": "color",
+      "$value": "{color.primary-surface-hover}"
+    },
+    "background-hover": {
+      "$type": "color",
+      "$value": "{theme.brand-200}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{theme.brand-200}",
+            "dark": "{theme.brand-700}"
+          }
+        }
+      }
+    },
+    "background-selected": {
+      "$type": "color",
+      "$value": "{color.primary}"
+    },
+    "background-selected-hover": {
+      "$type": "color",
+      "$value": "{color.primary-hover}"
+    },
+    "background-disabled": {
+      "$type": "color",
+      "$value": "{color.secondary-light}"
+    },
+    "foreground": {
+      "$type": "color",
+      "$value": "{color.foreground}"
+    },
+    "foreground-selected": {
+      "$type": "color",
+      "$value": "{color.primary-foreground}"
+    },
+    "invalid-background": {
+      "$type": "color",
+      "$value": "{status.error-surface}"
+    },
+    "invalid-foreground": {
+      "$type": "color",
+      "$value": "{status.error-foreground}"
+    },
+    "invalid-border": {
+      "$type": "color",
+      "$value": "{status.error-border}"
+    },
+    "success-border": {
+      "$type": "color",
+      "$value": "{status.success-border}"
+    },
+    "warning-border": {
+      "$type": "color",
+      "$value": "{status.warning-border}"
+    },
+    "error-border": {
+      "$type": "color",
+      "$value": "{status.error-border}"
+    },
+    "info-border": {
+      "$type": "color",
+      "$value": "{status.info-border}"
+    },
+    "help-border": {
+      "$type": "color",
+      "$value": "{status.help-border}"
+    },
+    "success-background": {
+      "$type": "color",
+      "$value": "{status.success-surface}"
+    },
+    "success-foreground": {
+      "$type": "color",
+      "$value": "{status.success-foreground}"
+    },
+    "success-remove-background-hover": {
+      "$type": "color",
+      "$value": "{status.success-surface-hover}"
+    },
+    "warning-background": {
+      "$type": "color",
+      "$value": "{status.warning-surface}"
+    },
+    "warning-foreground": {
+      "$type": "color",
+      "$value": "{status.warning-foreground}"
+    },
+    "warning-remove-background-hover": {
+      "$type": "color",
+      "$value": "{status.warning-surface-hover}"
+    },
+    "error-background": {
+      "$type": "color",
+      "$value": "{status.error-surface}"
+    },
+    "error-foreground": {
+      "$type": "color",
+      "$value": "{status.error-foreground}"
+    },
+    "error-remove-background-hover": {
+      "$type": "color",
+      "$value": "{color.destructive-surface-hover}"
+    },
+    "info-background": {
+      "$type": "color",
+      "$value": "{status.info-surface}"
+    },
+    "info-foreground": {
+      "$type": "color",
+      "$value": "{status.info-foreground}"
+    },
+    "info-remove-background-hover": {
+      "$type": "color",
+      "$value": "{status.info-surface-hover}"
+    },
+    "help-background": {
+      "$type": "color",
+      "$value": "{status.help-surface}"
+    },
+    "help-foreground": {
+      "$type": "color",
+      "$value": "{status.help-foreground}"
+    },
+    "help-remove-background-hover": {
+      "$type": "color",
+      "$value": "{status.help-surface-hover}"
+    },
+    "height-compact": {
+      "$type": "dimension",
+      "$value": "{control.height-compact}"
+    },
+    "height-default": {
+      "$type": "dimension",
+      "$value": "{control.height-default}"
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{radius.full}"
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": "{space.inline-tight}"
+    },
+    "padding-x": {
+      "$type": "dimension",
+      "$value": "{space.control-padding}"
+    },
+    "padding-start-icon": {
+      "$type": "dimension",
+      "$value": "{space.inline}"
+    },
+    "padding-start-avatar": {
+      "$type": "dimension",
+      "$value": "{space.inline-tight}"
+    },
+    "padding-end-remove": {
+      "$type": "dimension",
+      "$value": "{space.inline-tight}"
+    },
+    "padding-end-remove-default": {
+      "$type": "dimension",
+      "$value": "{space.inline}"
+    },
+    "padding-end-counter": {
+      "$type": "dimension",
+      "$value": "{space.inline-tight}"
+    },
+    "remove-size": {
+      "$type": "dimension",
+      "$value": "{core.size.600}"
+    },
+    "remove-radius": {
+      "$type": "dimension",
+      "$value": "{radius.full}"
+    },
+    "max-width": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.chip}"
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{theme.brand-200}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{theme.brand-200}",
+            "dark": "{theme.brand-400}"
+          }
+        }
+      }
+    },
+    "border-width": {
+      "$type": "dimension",
+      "$value": "{border.width}"
+    },
+    "success-focus-border": {
+      "$type": "color",
+      "$value": "{status.success}"
+    },
+    "success-focus-halo": {
+      "$type": "color",
+      "$value": "{focus.halo-success}"
+    },
+    "warning-focus-border": {
+      "$type": "color",
+      "$value": "{status.warning}"
+    },
+    "warning-focus-halo": {
+      "$type": "color",
+      "$value": "{focus.halo-warn}"
+    },
+    "error-focus-border": {
+      "$type": "color",
+      "$value": "{status.error}"
+    },
+    "error-focus-halo": {
+      "$type": "color",
+      "$value": "{focus.halo-danger}"
+    },
+    "info-focus-border": {
+      "$type": "color",
+      "$value": "{status.info}"
+    },
+    "info-focus-halo": {
+      "$type": "color",
+      "$value": "{focus.halo-info}"
+    },
+    "help-focus-border": {
+      "$type": "color",
+      "$value": "{status.help}"
+    },
+    "help-focus-halo": {
+      "$type": "color",
+      "$value": "{focus.halo-help}"
+    },
+    "counter-padding-y": {
+      "$type": "dimension",
+      "$value": "{core.space.50}"
+    },
+    "counter-padding-x": {
+      "$type": "dimension",
+      "$value": "{core.space.off-scale.6}"
     }
   }
 }

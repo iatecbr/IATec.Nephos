@@ -143,6 +143,7 @@
   --nph-core-layout-width-dialog-content-lg: 42rem;
   --nph-core-layout-width-media: 16rem;
   --nph-core-layout-width-page-size-select: 5.5rem;
+  --nph-core-layout-width-chip: 14rem;
   --nph-core-line-height-100: 1rem;
   --nph-core-neutral-50: #f1f1f1;
   --nph-core-neutral-100: #e3e3e3;
@@ -217,6 +218,8 @@
   --nph-core-sistemas-700: #234e94;
   --nph-core-sistemas-800: #183462;
   --nph-core-sistemas-900: #0c1a31;
+  --nph-core-size-600: 1.5rem;
+  --nph-core-space-50: 0.125rem;
   --nph-core-space-100: 0.25rem;
   --nph-core-space-200: 0.5rem;
   --nph-core-space-300: 0.75rem;
@@ -226,6 +229,7 @@
   --nph-core-space-800: 2.5rem;
   --nph-core-space-900: 3rem;
   --nph-core-space-1000: 4rem;
+  --nph-core-space-off-scale-6: 0.375rem;
   --nph-core-space-off-scale-10: 0.625rem;
   --nph-core-success-50: #e8f6ed;
   --nph-core-success-100: #d0eddb;
@@ -604,6 +608,10 @@
   --nph-pagination-page-size-width: var(--nph-core-layout-width-page-size-select);
   --nph-pagination-page-input-width: var(--nph-core-space-1000);
   --nph-pagination-disabled-opacity: var(--nph-state-disabled-opacity);
+  --nph-chip-remove-size: var(--nph-core-size-600);
+  --nph-chip-max-width: var(--nph-core-layout-width-chip);
+  --nph-chip-counter-padding-y: var(--nph-core-space-50);
+  --nph-chip-counter-padding-x: var(--nph-core-space-off-scale-6);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-table-border-width: var(--nph-border-width);
@@ -652,6 +660,23 @@
   --nph-toolbar-gap: var(--nph-space-inline);
   --nph-toolbar-bulk-padding-x: var(--nph-space-control-padding);
   --nph-toolbar-floating-radius: var(--nph-radius-container);
+  --nph-chip-height-compact: var(--nph-control-height-compact);
+  --nph-chip-height-default: var(--nph-control-height-default);
+  --nph-chip-radius: var(--nph-radius-full);
+  --nph-chip-gap: var(--nph-space-inline-tight);
+  --nph-chip-padding-x: var(--nph-space-control-padding);
+  --nph-chip-padding-start-icon: var(--nph-space-inline);
+  --nph-chip-padding-start-avatar: var(--nph-space-inline-tight);
+  --nph-chip-padding-end-remove: var(--nph-space-inline-tight);
+  --nph-chip-padding-end-remove-default: var(--nph-space-inline);
+  --nph-chip-padding-end-counter: var(--nph-space-inline-tight);
+  --nph-chip-remove-radius: var(--nph-radius-full);
+  --nph-chip-border-width: var(--nph-border-width);
+  --nph-chip-success-focus-halo: var(--nph-focus-halo-success);
+  --nph-chip-warning-focus-halo: var(--nph-focus-halo-warn);
+  --nph-chip-error-focus-halo: var(--nph-focus-halo-danger);
+  --nph-chip-info-focus-halo: var(--nph-focus-halo-info);
+  --nph-chip-help-focus-halo: var(--nph-focus-halo-help);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -701,6 +726,38 @@
   --nph-toolbar-floating-background: var(--nph-color-popover);
   --nph-toolbar-floating-border: var(--nph-color-input);
   --nph-toolbar-floating-count-foreground: var(--nph-color-popover-foreground);
+  --nph-chip-counter-background-disabled: var(--nph-color-secondary-light);
+  --nph-chip-counter-foreground: var(--nph-color-secondary-foreground);
+  --nph-chip-background-disabled: var(--nph-color-secondary-light);
+  --nph-chip-foreground: var(--nph-color-foreground);
+  --nph-chip-invalid-background: var(--nph-status-error-surface);
+  --nph-chip-invalid-foreground: var(--nph-status-error-foreground);
+  --nph-chip-invalid-border: var(--nph-status-error-border);
+  --nph-chip-success-border: var(--nph-status-success-border);
+  --nph-chip-warning-border: var(--nph-status-warning-border);
+  --nph-chip-error-border: var(--nph-status-error-border);
+  --nph-chip-info-border: var(--nph-status-info-border);
+  --nph-chip-help-border: var(--nph-status-help-border);
+  --nph-chip-success-background: var(--nph-status-success-surface);
+  --nph-chip-success-foreground: var(--nph-status-success-foreground);
+  --nph-chip-success-remove-background-hover: var(--nph-status-success-surface-hover);
+  --nph-chip-warning-background: var(--nph-status-warning-surface);
+  --nph-chip-warning-foreground: var(--nph-status-warning-foreground);
+  --nph-chip-warning-remove-background-hover: var(--nph-status-warning-surface-hover);
+  --nph-chip-error-background: var(--nph-status-error-surface);
+  --nph-chip-error-foreground: var(--nph-status-error-foreground);
+  --nph-chip-error-remove-background-hover: var(--nph-color-destructive-surface-hover);
+  --nph-chip-info-background: var(--nph-status-info-surface);
+  --nph-chip-info-foreground: var(--nph-status-info-foreground);
+  --nph-chip-info-remove-background-hover: var(--nph-status-info-surface-hover);
+  --nph-chip-help-background: var(--nph-status-help-surface);
+  --nph-chip-help-foreground: var(--nph-status-help-foreground);
+  --nph-chip-help-remove-background-hover: var(--nph-status-help-surface-hover);
+  --nph-chip-success-focus-border: var(--nph-status-success);
+  --nph-chip-warning-focus-border: var(--nph-status-warning);
+  --nph-chip-error-focus-border: var(--nph-status-error);
+  --nph-chip-info-focus-border: var(--nph-status-info);
+  --nph-chip-help-focus-border: var(--nph-status-help);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);
@@ -724,6 +781,10 @@
   --nph-toolbar-bulk-background: var(--nph-color-primary-surface);
   --nph-toolbar-bulk-count-foreground: var(--nph-color-primary-on-surface);
   --nph-toolbar-bulk-action-background-hover: var(--nph-color-primary-surface-hover);
+  --nph-chip-background: var(--nph-color-primary-surface-hover);
+  --nph-chip-background-selected: var(--nph-color-primary);
+  --nph-chip-background-selected-hover: var(--nph-color-primary-hover);
+  --nph-chip-foreground-selected: var(--nph-color-primary-foreground);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
@@ -868,6 +929,11 @@
   --nph-focus-halo: var(--nph-theme-brand-halo);
   --nph-sidebar-panel-border: var(--nph-theme-brand-200);
   --nph-sidebar-search-border: var(--nph-theme-brand-200);
+  --nph-chip-counter-background: var(--nph-theme-brand-200);
+  --nph-chip-counter-background-hover: var(--nph-theme-brand-300);
+  --nph-chip-remove-background-hover: var(--nph-theme-brand-200);
+  --nph-chip-background-hover: var(--nph-theme-brand-200);
+  --nph-chip-border: var(--nph-theme-brand-200);
   --nph-table-link-foreground: var(--nph-color-link);
 }
 [data-nph-color-scheme="dark"] {
@@ -1011,4 +1077,9 @@
   --nph-sidebar-search-border: var(--nph-theme-brand-700);
   --nph-table-header-background: var(--nph-color-muted);
   --nph-table-link-foreground: var(--nph-theme-brand-200);
+  --nph-chip-counter-background: var(--nph-theme-brand-700);
+  --nph-chip-counter-background-hover: var(--nph-theme-brand-900);
+  --nph-chip-remove-background-hover: var(--nph-theme-brand-700);
+  --nph-chip-background-hover: var(--nph-theme-brand-700);
+  --nph-chip-border: var(--nph-theme-brand-400);
 }
