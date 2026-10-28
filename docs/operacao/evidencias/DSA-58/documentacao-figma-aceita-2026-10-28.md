@@ -63,7 +63,7 @@ Measures read from the component set and the pieces:
 - Selected row: background data-table/row-selected-background and a mark on the left edge, data-table/row-selected-indicator, in data-table/row-selected-indicator-width (2 px).
 - Sort icon: data-table/sort-icon-foreground; in the sorted column, data-table/sort-icon-active-foreground.
 - Unchecked selection box border: data-table/checkbox-border.
-- Pagination: label in data-table/page-size-label-foreground, text of the caption style; nph-select data-table/page-size-width (88 px); data-table/pagination-gap between label, select and nph-pagination.
+- Pagination: label in data-table/page-size-label-foreground, text style text/body-md; nph-select data-table/page-size-width (88 px); data-table/pagination-gap between label, select and nph-pagination.
 - Empty by search: nph-empty in the body, with the searched term and "Limpar filtro", data-table/empty-gap between them.
 - Inherited from nph-table: table/border, table/border-width, table/radius, table/header-background, table/row-hover-background, table/row-striped-background, table/foreground, table/caption-foreground, table/cell-padding-inline, table/cell-gap, table/cell-gap-tight, table/container-padding, table/empty-padding, table/body-max-height, table/caption-max-width, table/focus-ring-width and the sticky divider (table/sticky-divider-color, -width, -spread, -blur).
 

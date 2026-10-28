@@ -82,7 +82,7 @@ The `nph-data-table` exists in `src/components/nph-data-table/`, with a spec, te
 In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA-58/documentacao-figma-aceita-2026-10-28.md`. It carries the Figma documentation converted to text, with the tokens of each part and of each state. There is no need to open Figma.
 
 ## Why it is blocked
-The 13 `data-table/*` tokens came with this task and are on `v/5.0.0`; no core primitive was needed. The table itself builds on nph-table (DSA-49, DSA-56), and the pieces inside are done: nph-icon, nph-badge, nph-checkbox, nph-skeleton, nph-switch, nph-select, nph-empty, nph-dropdown-menu and nph-pagination.
+The 13 `data-table/*` tokens came with this task and are on `v/5.0.0`; no core primitive was needed. The table itself builds on nph-table (DSA-49, DSA-56), and the pieces inside are done: nph-icon, nph-badge, nph-checkbox, nph-skeleton, nph-switch, nph-select, nph-empty, nph-dropdown-menu, nph-icon-button and nph-pagination. The search field, an nph-input, comes inside the nph-toolbar.
 
 The toolbar above the table and the bulk action bar are the nph-toolbar (DSA-55), which is blocked, and its applied filters use the nph-chip (DSA-57), which is not done. When both are done, this task goes to `ready`.
 
