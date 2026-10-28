@@ -26,7 +26,7 @@ import { localeOf, validationPage } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
 import './nph-dropdown-menu';
 import type { NphDropdownMenuItemSelectDetail } from './nph-dropdown-menu';
-import { accountMenu, inScheme, menuWith, optionsMenu, viewMenu } from './nph-dropdown-menu.demo';
+import { SUPPLEMENTARY_TEXT_EXCEPTION, accountMenu, inScheme, menuWith, optionsMenu, viewMenu } from './nph-dropdown-menu.demo';
 import type { Scheme } from './nph-dropdown-menu.demo';
 
 const meta: Meta = {
@@ -95,9 +95,13 @@ export const Variants: Story = {
   },
 };
 
-/** Every item option: start icon, avatar, description, shortcut, counter, tag, switch and submenu arrow. */
+/**
+ * Every item option: start icon, avatar, description, shortcut, counter, tag, switch and submenu arrow.
+ * Carries the supplementary text exception of `SUPPLEMENTARY_TEXT_EXCEPTION`.
+ */
 export const Options: Story = {
   name: 'Options',
+  parameters: SUPPLEMENTARY_TEXT_EXCEPTION,
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return validationPage(
@@ -147,9 +151,10 @@ export const States: Story = {
   },
 };
 
-/** The two sizes, side by side: default rows of 36 and compact rows of 28. */
+/** The two sizes, side by side: default rows of 36 and compact rows of 28. Carries `SUPPLEMENTARY_TEXT_EXCEPTION`. */
 export const Sizes: Story = {
   name: 'Sizes',
+  parameters: SUPPLEMENTARY_TEXT_EXCEPTION,
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     const items = [
@@ -209,9 +214,10 @@ export const Interactive: Story = {
   },
 };
 
-/** The three required examples, each in light and dark mode. */
+/** The three required examples, each in light and dark mode. Carries `SUPPLEMENTARY_TEXT_EXCEPTION`. */
 export const Examples: Story = {
   name: 'Examples',
+  parameters: SUPPLEMENTARY_TEXT_EXCEPTION,
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return validationPage(

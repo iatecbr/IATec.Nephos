@@ -763,6 +763,12 @@ export class NphTable extends LitElement {
   private renderRow(drawn: DrawnRow, position: number, striped: boolean, detailId: string): TemplateResult {
     const hasDetail = drawn.row.detail !== undefined && drawn.row.detail !== null;
     const classes = ['row', striped ? 'striped' : '', this.isTree ? `level-${drawn.level}` : ''].filter(Boolean).join(' ');
+    /*
+     * Accessibility exception (P72): `aria-level` on a row outside a `treegrid` (known limit,
+     * P97). The stories that draw a tree leave the axe rule `aria-conditional-attr` out, with
+     * the reason; the discarded alternative, `role="treegrid"` with the APG keyboard, is
+     * DSA-56. Decided by Elvys on 27-10-2026.
+     */
     return html`<tr class=${classes} aria-level=${this.isTree ? drawn.level : nothing}>
       ${this.hasDetailColumn
         ? html`<td class="chevron-column">${hasDetail ? this.renderChevron(drawn, drawn.open ? detailId : nothing) : nothing}</td>`

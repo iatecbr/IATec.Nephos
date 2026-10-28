@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 330,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -31,12 +31,12 @@
   ],
   "external_origin": null,
   "git_review": {
-    "branch": null,
+    "branch": "claude/dsa-32-a11y-gate-7539cc",
     "commit": null,
-    "pr": null
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/130"
   },
   "context": null,
-  "updated_at": "2026-10-20"
+  "updated_at": "2026-10-28"
 }
 ```
 

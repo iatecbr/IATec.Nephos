@@ -25,6 +25,11 @@
  * plugin timing warning is off too: it reports the speed of the CI agent, not
  * a defect.
  *
+ * The accessibility addon runs inside `npm test`, through the Storybook Vitest
+ * integration, and a violation fails the run (P72). Its panel stays available
+ * while a story is written; the panel is not the gate. The rule set lives in
+ * `preview.js`.
+ *
  * @type {import('@storybook/web-components-vite').StorybookConfig}
  */
 const config = {
@@ -44,6 +49,7 @@ const config = {
     },
   }),
   stories: ['../stories/**/*.stories.js', '../src/components/**/*.stories.ts'],
+  addons: ['@storybook/addon-a11y', '@storybook/addon-vitest'],
   framework: {
     name: '@storybook/web-components-vite',
     options: {},

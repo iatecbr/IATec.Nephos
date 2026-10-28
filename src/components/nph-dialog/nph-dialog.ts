@@ -30,7 +30,10 @@
  *
  * LAYER — the window is a native `<dialog>` opened with `showModal()`: it lives in the
  * top layer (no `z-index`, no clipping), the rest of the page is inert, and the veil
- * `overlay/scrim` is its `::backdrop`, outside the piece. Only the content scrolls.
+ * `overlay/scrim` is its `::backdrop`, outside the piece. Only the content scrolls. While
+ * the content scrolls and holds nothing that takes focus, it is a region named by the title
+ * with `tabindex="0"`, so the keyboard reaches the scroll (WCAG 2.1.1; Elvys, 28-10-2026,
+ * DSA-32). It is not a candidate of the focus rule on open: Tab reaches it.
  *
  * FOCUS — on open, it goes to the first element with `autofocus` in the content or the
  * footer; otherwise to the first focusable element of the content, then of the footer,
@@ -239,6 +242,28 @@ function turnedOff(element: Element, stop: Node): boolean {
   return false;
 }
 
+/**
+ * Whether Tab can land on `element` now, read without moving the focus: not turned off, drawn
+ * (a hidden field, `display: none` or `visibility: hidden` are not) and outside an `inert`
+ * subtree, also across shadow roots.
+ */
+function takesTab(element: HTMLElement, stop: Node): boolean {
+  if (turnedOff(element, stop) || !element.checkVisibility({ visibilityProperty: true })) {
+    return false;
+  }
+  let current: Node | null = element;
+  while (current !== null && current !== stop) {
+    if (current instanceof HTMLElement && current.inert) {
+      return false;
+    }
+    current = current.parentNode ?? (current instanceof ShadowRoot ? current.host : null);
+  }
+  return true;
+}
+
+/** The attributes that may turn a control of the content on or off for Tab. */
+const FOCUS_ATTRIBUTES = ['disabled', 'hidden', 'inert', 'tabindex', 'type', 'style', 'class', 'aria-disabled', 'contenteditable', 'href', 'controls'];
+
 /** Focuses `element` and says whether the focus really landed in it. */
 function tryFocus(element: HTMLElement): boolean {
   element.focus();
@@ -294,9 +319,17 @@ export class NphDialog extends LitElement {
   private closeTimer: number | undefined;
   private openings = 0;
   private initialFocus: Element | null = null;
-  /* A text node edited in place fires no `slotchange`: its edits are watched here. */
+  /*
+   * A text node edited in place fires no `slotchange`: its edits are watched here. So are a
+   * control added, removed, disabled or hidden deep in the content, which may leave a scroll
+   * with nothing to reach it and change no size (DSA-32).
+   */
   private readonly textWatch = new MutationObserver(() => {
     this.syncRegions();
+  });
+  /* The content area and what it holds: a change of size may start or end the scroll. */
+  private readonly sizeWatch = new ResizeObserver(() => {
+    this.syncScroll();
   });
   private returnFocus: Element | null = null;
   private reported: readonly string[] = [];
@@ -316,7 +349,13 @@ export class NphDialog extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    this.textWatch.observe(this, { characterData: true, subtree: true });
+    this.textWatch.observe(this, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+      /* Only what changes whether Tab lands on a control, not a value that moves. */
+      attributeFilter: FOCUS_ATTRIBUTES,
+    });
     if (this.hasUpdated) {
       /* Moved in the DOM: show again if it was open. */
       this.requestUpdate();
@@ -326,6 +365,7 @@ export class NphDialog extends LitElement {
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.textWatch.disconnect();
+    this.sizeWatch.disconnect();
     this.leaveNow();
   }
 
@@ -401,6 +441,47 @@ export class NphDialog extends LitElement {
     if (content) content.hidden = !hasContent;
     if (footer) footer.hidden = !hasFooter;
     if (footerLine) footerLine.hidden = !hasFooter;
+    this.watchSizes();
+    this.syncScroll();
+  }
+
+  /** Watches the size of the content area and of each element it holds. */
+  private watchSizes(): void {
+    this.sizeWatch.disconnect();
+    const content = this.renderRoot.querySelector<HTMLElement>('.content');
+    if (content === null) {
+      return;
+    }
+    this.sizeWatch.observe(content);
+    for (const element of this.renderRoot.querySelector<HTMLSlotElement>('slot:not([name])')?.assignedElements({ flatten: true }) ?? []) {
+      this.sizeWatch.observe(element);
+    }
+  }
+
+  /**
+   * A content area that scrolls with nothing focusable inside is out of reach of the
+   * keyboard (WCAG 2.1.1). While that lasts, it is a region named by the title and takes
+   * the focus with `tabindex="0"`; the arrows then scroll it. With a control inside, the
+   * control takes the focus and the browser scrolls to it, so the area stays out of the Tab
+   * order. Set on the element directly: the template does not bind these attributes.
+   */
+  private syncScroll(): void {
+    const content = this.renderRoot.querySelector<HTMLElement>('.content');
+    if (content === null) {
+      return;
+    }
+    const held = this.renderRoot.querySelector<HTMLSlotElement>('slot:not([name])')?.assignedElements({ flatten: true }) ?? [];
+    const scrolls = !content.hidden && content.scrollHeight > content.clientHeight;
+    const reachable = scrolls && !focusables(held).some((element) => takesTab(element, this));
+    if (reachable) {
+      content.setAttribute('tabindex', '0');
+      content.setAttribute('role', 'region');
+      content.setAttribute('aria-labelledby', 'heading');
+    } else {
+      content.removeAttribute('tabindex');
+      content.removeAttribute('role');
+      content.removeAttribute('aria-labelledby');
+    }
   }
 
   private readonly onSlotChange = (): void => {

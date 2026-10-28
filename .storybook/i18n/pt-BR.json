@@ -7588,7 +7588,7 @@
       ],
       [
         "counter",
-        "Um número inteiro a partir de zero, lido como a descrição do link."
+        "Um número inteiro a partir de zero, lido no nome do link, depois do rótulo."
       ],
       [
         "disabled",
@@ -7656,7 +7656,7 @@
       ],
       [
         "Nome acessível",
-        "Vem do rótulo. O número do contador é lido como texto, dentro do nome do link. No botão do trilho, o label é o aria-label e o balão o repete como nome; o contador é a descrição. O ícone e a seta ficam escondidos do leitor de tela. Mais ações tem nome próprio, actions-label."
+        "Vem do rótulo. O número do contador é lido como texto, dentro do nome do link. No botão do trilho, o texto do balão e o contador formam o nome, por aria-labelledby, e o nome traz o número que se vê (WCAG 2.5.3). O ícone e a seta ficam escondidos do leitor de tela. Mais ações tem nome próprio, actions-label."
       ],
       [
         "Teclado",

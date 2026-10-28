@@ -7588,7 +7588,7 @@
       ],
       [
         "counter",
-        "A whole number from zero up, read as the description of the link."
+        "A whole number from zero up, read in the name of the link, after the label."
       ],
       [
         "disabled",
@@ -7656,7 +7656,7 @@
       ],
       [
         "Accessible name",
-        "From the label. The counter number is read as text, inside the name of the link. On the rail button, the label is the aria-label and the balloon repeats it as the name; the counter is the description. The icon and the arrow are hidden from the screen reader. More actions has its own name, actions-label."
+        "From the label. The counter number is read as text, inside the name of the link. On the rail button, the balloon text and the counter make the name, through aria-labelledby, so the name holds the number one sees (WCAG 2.5.3). The icon and the arrow are hidden from the screen reader. More actions has its own name, actions-label."
       ],
       [
         "Keyboard",

@@ -28,6 +28,15 @@
  * `color-scheme` follows `data-nph-color-scheme`, on the root and on any frame
  * that pins its own scheme: native controls, such as an `<input>` or the
  * search cancel button, are drawn in the mode of the page around them.
+ *
+ * `a11y` is the accessibility gate (P72). Every story, `Validation` and
+ * `Docs`, runs axe with the WCAG 2.2 AA rule set — the A and AA tags of WCAG
+ * 2.0, 2.1 and 2.2 — and `test: 'error'` makes a violation fail `npm test`.
+ * The gate runs each story once, in the initial globals (light mode, default
+ * language). An exception is written in the story itself, with the reason, the
+ * discarded alternative and the date (`docs/stories.md`, §2.3), and opening
+ * one is a human decision. `settleBeforeCheck` (`settle.js`) makes the gate
+ * read each story only once its transitions have ended.
  */
 import '@fontsource/noto-sans/latin-400.css';
 import '@fontsource/noto-sans/latin-500.css';
@@ -36,9 +45,13 @@ import '@fontsource/ibm-plex-mono/latin-400.css';
 import '../src/tokens/generated/tokens.css';
 import '../src/styles/scrollbar.css';
 import { LOCALE_GLOBAL, LOCALES, DEFAULT_LOCALE } from './i18n/index.js';
+import { settleBeforeCheck } from './settle.js';
 
 /** The same global name as in `manager.js`. */
 const COLOR_SCHEME = 'colorScheme';
+
+/** The axe tags of WCAG 2.2 AA. axe-core has no `wcag22a` tag. */
+const WCAG_22_AA = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
 /** Page font, background and color, always by token. Injected once. */
 const PAGE_STYLE = `
@@ -79,6 +92,10 @@ const withPageContext = (story, context) => {
 /** @type {import('@storybook/web-components').Preview} */
 const preview = {
   parameters: {
+    a11y: {
+      test: 'error',
+      options: { runOnly: { type: 'tag', values: WCAG_22_AA } },
+    },
     options: {
       /*
        * Reading order of the sidebar: whoever arrives starts at "Start here".
@@ -91,6 +108,8 @@ const preview = {
   },
 
   decorators: [withPageContext],
+
+  afterEach: settleBeforeCheck,
 
   initialGlobals: {
     [LOCALE_GLOBAL]: DEFAULT_LOCALE,

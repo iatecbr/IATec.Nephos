@@ -7588,7 +7588,7 @@
       ],
       [
         "counter",
-        "Un número entero desde cero, leído como la descripción del enlace."
+        "Un número entero desde cero, leído en el nombre del enlace, después de la etiqueta."
       ],
       [
         "disabled",
@@ -7656,7 +7656,7 @@
       ],
       [
         "Nombre accesible",
-        "Viene de la etiqueta. El número del contador se lee como texto, dentro del nombre del enlace. En el botón del riel, el label es el aria-label y el globo lo repite como nombre; el contador es la descripción. El ícono y la flecha quedan ocultos para el lector de pantalla. Más acciones tiene nombre propio, actions-label."
+        "Viene de la etiqueta. El número del contador se lee como texto, dentro del nombre del enlace. En el botón del riel, el texto del globo y el contador forman el nombre, por aria-labelledby, y el nombre trae el número que se ve (WCAG 2.5.3). El ícono y la flecha quedan ocultos para el lector de pantalla. Más acciones tiene nombre propio, actions-label."
       ],
       [
         "Teclado",

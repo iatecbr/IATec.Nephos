@@ -1420,3 +1420,61 @@ describe('token contract', () => {
     expect(listCss).toContain('.list');
   });
 });
+
+describe('accessibility gate regressions (DSA-32, P72)', () => {
+  it('the chips of a disabled piece say they are inactive, so their text is exempt from the contrast rule', async () => {
+    const element = await mount(BASE, countries(), ['peru']);
+    const list = element.shadowRoot?.querySelector('.chips') as HTMLElement;
+    expect(list.hasAttribute('aria-disabled')).toBe(false);
+    element.disabled = true;
+    await element.updateComplete;
+    expect(element.shadowRoot?.querySelector('.chips')?.getAttribute('aria-disabled')).toBe('true');
+    element.disabled = false;
+    await element.updateComplete;
+    expect(element.shadowRoot?.querySelector('.chips')?.hasAttribute('aria-disabled')).toBe(false);
+  });
+
+  it('a disabled fieldset marks the chips inactive too', async () => {
+    const fieldset = document.createElement('fieldset');
+    fieldset.disabled = true;
+    document.body.append(fieldset);
+    const element = await mount(BASE, countries(), ['peru'], fieldset);
+    expect(element.shadowRoot?.querySelector('.chips')?.getAttribute('aria-disabled')).toBe('true');
+  });
+});
+
+describe('accessibility gate regressions (DSA-32, P72)', () => {
+  it('the box that scrolls is the listbox the field controls, so it is not a region the keyboard cannot reach', async () => {
+    const element = await mount(BASE);
+    element.open = true;
+    await settle();
+    const box = listbox(element);
+    expect(box.classList.contains('scroller')).toBe(true);
+    expect(getComputedStyle(box).overflowY).toBe('auto');
+    expect(box.getAttribute('role')).toBe('listbox');
+    expect(field(element).getAttribute('aria-controls')).toBe(box.id);
+  });
+
+  it('the status sits beside the listbox, never inside it, and the empty listbox is hidden', async () => {
+    const element = await mount(`${BASE} empty-heading="Nothing found"`, []);
+    element.open = true;
+    await settle();
+    const status = element.shadowRoot?.querySelector('[role="status"]') as HTMLElement;
+    expect(status.closest('[role="listbox"]')).toBeNull();
+    expect(status.parentElement).toBe(list(element));
+    expect(listbox(element).hidden).toBe(true);
+    expect(getComputedStyle(listbox(element)).display).toBe('none');
+  });
+
+  it('a long empty description scrolls inside layout/max-list-height, as the rows do', async () => {
+    const LONG = 'Check the spelling, try a shorter name or a different alphabet. '.repeat(40);
+    const element = await mount(`${BASE} empty-heading="Nothing found"`, []);
+    element.emptyDescription = LONG;
+    element.open = true;
+    await settle();
+    const status = element.shadowRoot?.querySelector('[role="status"]') as HTMLElement;
+    expect(status.getBoundingClientRect().height).toBeLessThanOrEqual(px('--nph-layout-max-list-height') + 0.5);
+    expect(status.scrollHeight).toBeGreaterThan(status.clientHeight);
+    expect(getComputedStyle(status).overflowY).toBe('auto');
+  });
+});

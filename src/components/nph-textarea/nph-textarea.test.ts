@@ -1182,3 +1182,24 @@ describe('review regressions (PR #111, Copilot round 2)', () => {
     expect(child.disabled).toBe(true);
   });
 });
+
+describe('accessibility gate regressions (DSA-32, P72)', () => {
+  it('the footer of a disabled piece says it is inactive, so its counter is exempt from the contrast rule', async () => {
+    const element = await mount({ label: 'Comment', counter: '40/280' });
+    const footer = element.shadowRoot?.querySelector('.footer') as HTMLElement;
+    expect(footer.hasAttribute('aria-disabled')).toBe(false);
+    element.disabled = true;
+    await element.updateComplete;
+    expect(footer.getAttribute('aria-disabled')).toBe('true');
+    element.disabled = false;
+    await element.updateComplete;
+    expect(footer.hasAttribute('aria-disabled')).toBe(false);
+  });
+
+  it('a disabled fieldset marks the footer inactive too', async () => {
+    const holder = await markup('<fieldset disabled><nph-textarea label="Comment" counter="40/280"></nph-textarea></fieldset>');
+    const element = holder.querySelector('nph-textarea') as NphTextarea;
+    await element.updateComplete;
+    expect(element.shadowRoot?.querySelector('.footer')?.getAttribute('aria-disabled')).toBe('true');
+  });
+});

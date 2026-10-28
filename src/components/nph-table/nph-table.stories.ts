@@ -36,6 +36,7 @@ import {
   manyRows,
   orderTable,
   peopleTable,
+  TREE_LEVEL_EXCEPTION,
   treeTable,
   wideCaptionTable,
 } from './nph-table.demo';
@@ -142,9 +143,10 @@ export const ExpandingRow: Story = {
   render: (_args, context: GlobalsContext) => inBothModes(context, 'expanding-row', (s) => orderTable(s, ['closed', 'open', 'loading'])),
 };
 
-/** The tree in three levels, every level open. */
+/** The tree in three levels, every level open. Carries the `aria-level` exception of `TREE_LEVEL_EXCEPTION`. */
 export const Tree: Story = {
   name: 'Tree',
+  parameters: TREE_LEVEL_EXCEPTION,
   render: (_args, context: GlobalsContext) => inBothModes(context, 'tree', (s) => treeTable(s, true)),
 };
 

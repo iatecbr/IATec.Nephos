@@ -39,7 +39,10 @@
  *   only when the person chooses an option of a different value. Setting `value`
  *   from code fires nothing (P83, item 1);
  * - keyboard: the select-only combobox pattern of the APG. The focus stays on the
- *   trigger; the active option is pointed to by `aria-activedescendant`. Enter opens
+ *   trigger; the active option is pointed to by `aria-activedescendant`. The listbox is
+ *   the box that scrolls, not the popover around it: a scrolling box with no role is a
+ *   region the keyboard cannot reach (WCAG 2.1.1), while the listbox popup of a
+ *   combobox is reached through it (DSA-32, P72). Enter opens
  *   and chooses: it does not submit the form. Tab closes the list without choosing;
  * - no slot besides the options, no `::part`, no color property, no width property:
  *   the width is `layout/input-width`;
@@ -855,13 +858,14 @@ export class NphSelect extends LitElement implements NphOptionOwner {
   }
 
   /**
-   * The trigger and the list are named by the labels associated with the host (the
+   * The trigger and the listbox are named by the labels associated with the host (the
    * reference to an element of an outer scope is valid from inside the shadow root),
-   * or by `label`.
+   * or by `label`. The listbox is the scroller: the popover around it has no role, so
+   * it takes no name (DSA-32).
    */
   private syncName(): void {
     const trigger = this.trigger;
-    const list = this.list;
+    const list = this.scroller;
     if (trigger === null || list === null) {
       return;
     }
@@ -921,7 +925,7 @@ export class NphSelect extends LitElement implements NphOptionOwner {
         tabindex=${inactive ? nothing : '0'}
         aria-haspopup="listbox"
         aria-expanded=${this.open ? 'true' : 'false'}
-        aria-controls="list"
+        aria-controls="listbox"
         aria-required=${this.required ? 'true' : nothing}
         aria-invalid=${this.invalid && !inactive ? 'true' : nothing}
         aria-disabled=${inactive ? 'true' : nothing}
@@ -940,14 +944,12 @@ export class NphSelect extends LitElement implements NphOptionOwner {
       </div>
       <div
         class="list"
-        id="list"
-        role="listbox"
         popover="manual"
         @mousedown=${this.onListMousedown}
         @click=${this.onListClick}
         @pointermove=${this.onListPointer}
       >
-        <div class="scroller"><slot @slotchange=${this.optionsChanged}></slot></div>
+        <div class="scroller" id="listbox" role="listbox"><slot @slotchange=${this.optionsChanged}></slot></div>
       </div>`;
   }
 }
