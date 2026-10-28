@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 530,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-pagination",
   "dependencies": [
     "DSA-03",
@@ -29,10 +29,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-54/review-and-merge-2026-10-28.md",
+      "result": "passed",
+      "verified_at": "2026-10-28",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -69,7 +69,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-54/documentacao-figma-aceita-2026-10-27.md"
+    "docs/operacao/evidencias/DSA-54/documentacao-figma-aceita-2026-10-27.md",
+    "docs/operacao/evidencias/DSA-54/review-and-merge-2026-10-28.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -84,12 +85,8 @@
     "excerpt": null,
     "converted_decision": "The nph-pagination board, with its Documentação frame (1640:196), was accepted as the API and behavior specification of nph-pagination. Components: nph-pagination (1640:194), nph-pagination/página (2888:87682), nph-pagination/reticências (2888:87798), nph-pagination/ir para a página (2888:87805). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": {
-    "branch": "claude/dsa-54-nph-pagination-4a7569",
-    "commit": "8b4a0497e8e2636cb18ece2d934185fa97cc1dd5",
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/131"
-  },
-  "context": "docs/operacao/contextos/DSA-54.md",
+  "git_review": { "branch": "claude/dsa-54-nph-pagination-4a7569", "commit": "41b9cec6ec691f53a1d263e6117345dbdf78a182", "pr": "131" },
+  "context": null,
   "updated_at": "2026-10-28"
 }
 ```
