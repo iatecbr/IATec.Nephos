@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 370,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -32,12 +32,12 @@
   ],
   "external_origin": null,
   "git_review": {
-    "branch": null,
+    "branch": "claude/amazing-euclid-045eac",
     "commit": null,
     "pr": null
   },
-  "context": null,
-  "updated_at": "2026-10-20"
+  "context": "docs/operacao/contextos/DSA-35.md",
+  "updated_at": "2026-10-28"
 }
 ```
 
