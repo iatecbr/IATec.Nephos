@@ -4,15 +4,19 @@
   "status": "active",
   "solves": "Labels the state or category of an item with one or two words, so the person recognizes the item without reading the detail.",
   "use_when": [
-    "Labeling the state of an item, such as that of a document or a request.",
-    "Labeling the category of an item.",
-    "Reinforcing the word with a core icon, when the icon helps recognize the state."
+    "To label the status or the category of an item.",
+    "Choose the severity by meaning. A permanent status uses secondary or primary; success confirms an event that has just happened.",
+    "Write one or two words.",
+    "Turn the icon on only to reinforce the word.",
+    "Give one status per item."
   ],
   "do_not_use_when": [
-    "The piece would need to receive click or focus — use nph-button.",
-    "The word does not exist and only the icon would be left — without text there is no badge.",
-    "The text is a sentence — the supporting text stays outside the piece, next to the badge.",
-    "The item already has a status badge — one state per item."
+    "As a button: the badge takes no click and no focus. Use nph-button.",
+    "success as a permanent badge: use secondary or primary.",
+    "A badge without text, with only an icon.",
+    "Two status badges on the same item.",
+    "A sentence inside the badge: supporting text stays outside the component.",
+    "Painting the background or the text by hand: the color comes from the severity and the emphasis."
   ],
   "api": {
     "severity": {

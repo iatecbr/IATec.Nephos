@@ -728,6 +728,7 @@
     "whenToUseTitle": "Quando usar",
     "whenToUse": [
       "Para iniciar uma ação identificada por texto, como salvar ou enviar.",
+      "Destacar a ação principal do bloco sobre as alternativas, pela ênfase.",
       "Escreva no texto o que acontece ao clicar.",
       "Escolha o tipo pelo significado da ação, nunca pela cor.",
       "Escolha a ênfase pelo quanto a ação se destaca: solid, outline, light ou ghost.",
@@ -740,6 +741,7 @@
       "Para mostrar erro de campo: a validação é do campo (nph-field).",
       "Só com ícone em ação com consequência, como excluir ou publicar, fora da coluna de ações de uma tabela: escreva o texto.",
       "Para navegar para outro destino.",
+      "Marcar um estado: use nph-badge.",
       "size compact como alvo principal em tela de toque.",
       "Aumentar o ícone para dar destaque.",
       "Usar a cor como único sinal de intenção, foco ou estado.",
@@ -1152,7 +1154,6 @@
       "Para dar nome visível a um controle de formulário, sozinho ou dentro de um nph-field.",
       "required=true quando o preenchimento é obrigatório, com o asterisco explicado numa legenda do formulário.",
       "info=true para mostrar o ícone de informação depois do texto.",
-      "Explicar o asterisco numa legenda visível do formulário.",
       "Manter o rótulo em color/foreground, mesmo com o campo em erro."
     ],
     "examplesTitle": "Exemplos obrigatórios",
@@ -1163,7 +1164,7 @@
       "Asterisco explicado numa legenda."
     ],
     "requiredLegend": "* Campos obrigatórios",
-    "dont": [
+    "whenNotToUse": [
       "Usar para frase com verbo e ponto final: isso é texto de corpo.",
       "Usar como título de seção ou de grupo: isso é heading-sm.",
       "Usar para ênfase dentro de parágrafo: isso é <strong>.",

@@ -728,6 +728,7 @@
     "whenToUseTitle": "When to use",
     "whenToUse": [
       "To start an action identified by text, such as save or send.",
+      "Highlighting the main action of a block over the alternatives, through emphasis.",
       "Write in the text what happens on click.",
       "Choose the severity by the meaning of the action, never by color.",
       "Choose the emphasis by how much the action stands out: solid, outline, light or ghost.",
@@ -740,6 +741,7 @@
       "To show a field error: validation belongs to the field (nph-field).",
       "Icon only on an action with consequences, such as delete or publish, outside the actions column of a table: write the text.",
       "To navigate to another destination.",
+      "Labeling a state: use nph-badge.",
       "size compact as the main target on a touch screen.",
       "Enlarging the icon to add emphasis.",
       "Using color as the only signal of intent, focus or state.",
@@ -1152,7 +1154,6 @@
       "To give a form control a visible name, on its own or inside an nph-field.",
       "required=true when filling in the field is mandatory, with the asterisk explained in a legend on the form.",
       "info=true to show the information icon after the text.",
-      "Explain the asterisk in a visible legend on the form.",
       "Keep the label in color/foreground, even when the field has an error."
     ],
     "examplesTitle": "Required examples",
@@ -1163,7 +1164,7 @@
       "Asterisk explained in a legend."
     ],
     "requiredLegend": "* Required fields",
-    "dont": [
+    "whenNotToUse": [
       "Using it for a sentence with a verb and a period: that is body text.",
       "Using it as a section or group title: that is heading-sm.",
       "Using it for emphasis inside a paragraph: that is <strong>.",

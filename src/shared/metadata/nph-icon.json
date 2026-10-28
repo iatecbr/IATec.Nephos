@@ -5,15 +5,19 @@
   "title": "nph-icon",
   "type": "component spec",
   "created": "2026-08-31",
-  "updated": "2026-09-14",
+  "updated": "2026-10-28",
   "solves": "Provides an icon from the Nephos core with consistent size, family and accessibility, without introducing color or artwork outside the approved collection.",
   "use_when": [
-    "A control or content needs an icon that exists in the core.",
+    "A control or piece of content needs an icon that exists in the Nephos core.",
     "The icon reinforces a label, state or direction without replacing the textual information."
   ],
   "do_not_use_when": [
-    "The action has a consequence or is domain-specific — use a text label alongside.",
-    "The icon you need does not exist in the core: record the gap and ask."
+    "The action is domain-specific or has consequences: use a text label alongside the icon.",
+    "The requested icon does not exist in the core: report the gap and wait for a decision.",
+    "The Font Awesome Pro package, files or secret in versioned material.",
+    "A visual variant created just to fill a matrix.",
+    "Duotone outside structural navigation, or Duotone and Classic mixed in the same group.",
+    "Color defined as a property: the icon inherits currentColor from the context."
   ],
   "api": {
     "name": {

@@ -116,7 +116,7 @@ export const Documentation: Story = {
           d.whenToUseTitle,
           html`
             ${text(d.description)}
-            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.dont })}
+            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.whenNotToUse })}
             ${source(d.sourceLabel, d.sourceFrame)}
           `,
         )}
