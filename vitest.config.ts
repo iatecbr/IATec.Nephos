@@ -32,18 +32,24 @@ const browser = () => ({
  * answered.
  */
 const TOP_LEVEL_IMPORT = /(\.test\.ts|\.stories\.ts|setup-file-with-project-annotations\.js)\?/;
+/** The repository has no Node type definitions; this is the part used here. */
+const node = (
+  globalThis as unknown as {
+    process: { env: Record<string, string | undefined>; stderr: { write(text: string): void } };
+  }
+).process;
 const requestLog = (project: string): Plugin[] =>
-  process.env.NEPHOS_TEST_DIAGNOSTICS
+  node.env.NEPHOS_TEST_DIAGNOSTICS
     ? [
         {
           name: 'nephos:request-log',
           configureServer(server) {
             server.middlewares.use((req, res, next) => {
               const start = Date.now();
-              const url = req.url ?? '';
+              const url = (req as { url?: string }).url ?? '';
               let finished = false;
               const log = (outcome: string) =>
-                process.stderr.write(
+                node.stderr.write(
                   `[nephos-diag] ${new Date().toISOString()} ${project} ${outcome} ${Date.now() - start}ms ${url}\n`,
                 );
               res.on('finish', () => {
