@@ -994,10 +994,11 @@ describe('the wait on hover (motion/hover-delay)', () => {
 
   it('a touch pointerdown cancels a pending wait after mouse hover', async () => {
     const { button, tooltip } = await mount();
+    widenWait(tooltip);
     await userEvent.hover(button);
     await pause(100);
     touch('pointerdown', button);
-    await pause(400);
+    await pause(WIDE_WAIT + 200);
 
     expect(tooltip.open).toBe(false);
     expect(isShown(tooltip)).toBe(false);
@@ -1019,10 +1020,11 @@ describe('the wait on hover (motion/hover-delay)', () => {
     const { button, tooltip } = await mount();
     const outer = vi.fn();
     document.body.addEventListener('keydown', outer);
+    widenWait(tooltip);
     await userEvent.hover(button);
     await pause(100);
     await userEvent.keyboard('{Escape}');
-    await pause(400);
+    await pause(WIDE_WAIT + 200);
     expect(tooltip.open).toBe(false);
     expect(outer.mock.calls.filter(([event]) => event.key === 'Escape')).toHaveLength(1);
     document.body.removeEventListener('keydown', outer);
@@ -1032,10 +1034,11 @@ describe('the wait on hover (motion/hover-delay)', () => {
 
   it('removing the tooltip during the wait does not open it later', async () => {
     const { button, tooltip } = await mount();
+    widenWait(tooltip);
     await userEvent.hover(button);
     await pause(50);
     tooltip.remove();
-    await pause(400);
+    await pause(WIDE_WAIT + 200);
     expect(tooltip.open).toBe(false);
   });
 
