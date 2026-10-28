@@ -856,7 +856,10 @@ Adopted by Indiane on 15/10/2026 (DSA-30, D8).
 `cspell.config.yaml`: `en-US` over the files this decision puts in English, with
 each exclusion and its reason in the file — the translations, the historical record,
 the generated files, the token source and the Portuguese-by-design data of the
-language proof. A span between backticks and a fenced block are code and stay out.
+language proof. A span between backticks, in Markdown or in a code comment, and a
+fenced block other than `json` or `yaml` are code and stay out; a template literal,
+the data block of a task and a `design.md` list item with a space stay in, and
+`scripts/test-spelling.mjs` proves the configuration with probes before the run.
 The British forms are `flagWords`, since the `en-US` dictionary alone accepts some
 of them (`centre`, `catalogue`, `artefact`). `full stop` is two valid words, which no
 spell checker catches: it became "period" once. `labelled` and `cancelled` pass, as

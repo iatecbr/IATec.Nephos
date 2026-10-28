@@ -37,7 +37,7 @@
     "test:i18n": "node scripts/test-i18n.mjs",
     "test:operacao": "node scripts/verificar-operacao.mjs",
     "test:naming": "node scripts/test-naming.mjs",
-    "test:spelling": "cspell --no-progress",
+    "test:spelling": "node scripts/test-spelling.mjs",
     "i18n:update": "node scripts/test-i18n.mjs --update",
     "test:package": "node scripts/test-package.mjs",
     "pack:check": "publint --strict && attw --pack --profile esm-only --exclude-entrypoints ./tokens.css ./scrollbar.css",

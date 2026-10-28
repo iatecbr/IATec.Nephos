@@ -96,24 +96,28 @@ ignoreRegExpList:
   - '/\baria-[a-z]+/g'
   # A snake_case name is a key of the design.md contract (icone_regras, movimento_reduzido).
   - '/[\p{L}\p{N}]+(?:_[\p{L}\p{N}]+)+/gu'
-  # A one-line span between backticks is code or a quotation, in code comments as in Markdown.
-  - '/`[^`\n]*`/g'
+  # In a code comment, a span between backticks is code or a quotation. A template literal in
+  # code is text and stays in.
+  - '/(?<=^\s*(?:\*|\/\/|\/\*).*)`[^`\n]*`/gm'
 
 languageSettings:
   - languageId: markdown
-    # A fenced block is code, not prose.
+    # A span between backticks and a fenced block are code or a quotation (P64: a cited term goes
+    # between backticks). A json or yaml block is the data of a task or a spec and stays in.
     ignoreRegExpList:
-      - '/^\s*(`{3,}|~{3,})[\s\S]*?^\s*\1\s*$/gm'
+      - '/^\s*(`{3,}|~{3,})(?!\s*(?:json|ya?ml)\b)[\s\S]*?^\s*\1\s*$/gm'
+      - '/`[^`\n]*`/g'
 
 overrides:
   # design.md is a YAML contract and GOVERNANCA.md opens with YAML: the keys and the values without
-  # a space are contract and stay in Portuguese (DSA-15); the text is the values with a space.
+  # a space, a flow-list item included, are contract and stay in Portuguese (DSA-15); the text is
+  # the values with a space.
   - filename: '{design,GOVERNANCA}.md'
     ignoreRegExpList:
       - '/^\s*-?\s*[''"]?[\p{L}\w-]+[''"]?\s*:(?=\s|$)/gmu'
       - '/(?<=[{,]\s*)[\p{L}\w-]+(?=\s*:)/gu'
       - '/(?<=:\s+)[\p{L}\w/.-]+\s*$/gmu'
-      - '/\[[^\]\n]*\]/g'
+      - '/(?<=[\[,]\s*)[\p{L}\w/.''"-]+(?=\s*[,\]])/gu'
 
 dictionaryDefinitions:
   # People, places, products and standards.
@@ -139,6 +143,7 @@ dictionaryDefinitions:
       - Indiane's
       - João
       - Larissa
+      - maurocsjr
       - Mendes
       - Moreira
       - Natália
@@ -151,6 +156,8 @@ dictionaryDefinitions:
       - Otávio
       - Português
       - Qube
+      - Recursos
+      - Humanos
       - Souza
       - Teixeira
       - Tiago
@@ -238,8 +245,9 @@ dictionaryDefinitions:
       - unfocusable
       - wikilinks
   # Portuguese that the English text cites as a name: the directories and states of the verifier
-  # contract (P64, amendment of 02/10/2026), the Figma names of properties, layers and brands, and
-  # the Portuguese sample text of tests and demos. Portuguese running text is caught by
+  # contract (P64, amendment of 02/10/2026), the Figma names of properties, layers and brands, the
+  # names of the vault notes, the language names that scripts/language-lib.mjs builds from code
+  # points, and the Portuguese sample text of tests and demos. Portuguese running text is caught by
   # npm run test:naming, not here.
   - name: nephos-portuguese
     words:
@@ -249,11 +257,13 @@ dictionaryDefinitions:
       - fichas
       - tarefas
       - rascunho
+      - operacao
       - revisado
       - aberto
       - abreviar
       - agentico
       - alternativas
+      - ativas
       - atalhos
       - ação
       - bloco
@@ -264,12 +274,15 @@ dictionaryDefinitions:
       - cabeçalho
       - cadastro
       - carregando
+      - compacto
       - completo
       - componente
       - concluido
       - contagem
       - criar
       - degrau
+      - decisão
+      - decisões
       - descrição
       - destacar
       - destino
@@ -283,6 +296,8 @@ dictionaryDefinitions:
       - estado
       - está
       - eventos
+      - espa
+      - exemplo
       - explica
       - falhou
       - fixo
@@ -309,6 +324,7 @@ dictionaryDefinitions:
       - ordem
       - pede
       - pela
+      - portugu
       - posição
       - proporção
       - página
