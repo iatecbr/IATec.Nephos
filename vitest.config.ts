@@ -23,6 +23,18 @@ const browser = () => ({
   instances: [{ browser: 'chromium' as const }],
 });
 
+/**
+ * Browser pages per project. Without a cap, Vitest opens up to
+ * `min(12, cores - 1)` pages in each project, so the two projects load up to
+ * 24 pages at once. On the shared Azure agents (several agents per machine),
+ * that load made a test file fail to import now and then, with "Failed to
+ * fetch dynamically imported module", in a different file each run (builds
+ * 610794, 611183 and 611621). The Vite optimizer did not reload in those runs,
+ * so `optimizeDeps` is not the cause, and `retry` does not repeat a file that
+ * failed to import.
+ */
+const maxWorkers = 4;
+
 export default defineConfig({
   test: {
     projects: [
@@ -30,6 +42,7 @@ export default defineConfig({
         test: {
           name: 'unit',
           include: ['src/**/*.test.ts'],
+          maxWorkers,
           browser: browser(),
         },
       },
@@ -37,6 +50,7 @@ export default defineConfig({
         plugins: [storybookTest({ configDir: '.storybook' })],
         test: {
           name: 'storybook',
+          maxWorkers,
           browser: browser(),
         },
       },

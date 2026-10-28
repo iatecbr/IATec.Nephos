@@ -257,8 +257,11 @@ stages:
           # the browser is downloaded: `--with-deps` installs system packages
           # through sudo, which the agents do not allow (run 609156). The
           # system libraries Chromium needs must already be on the agent.
+          # The core count is logged because Vitest sizes its browser pages
+          # from it; `vitest.config.ts` caps them per project.
           - bash: |
               set -euo pipefail
+              echo "CPU cores seen by Node: $(node -p 'require("os").availableParallelism()')"
               npx playwright install chromium
               npm test
             displayName: Component tests (Chromium)
