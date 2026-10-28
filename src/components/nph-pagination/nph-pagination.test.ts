@@ -283,6 +283,20 @@ describe('the six types', () => {
     expect(slots(pagination)).toEqual(['1', '…', '4', '5', '6', '…', '10']);
   });
 
+  it('inside the shadow root of another component, the numbers still follow the language of the page', async () => {
+    const holder = document.createElement('div');
+    holder.lang = 'pt-BR';
+    document.body.append(holder);
+    const outer = document.createElement('div');
+    holder.append(outer);
+    const shadow = outer.attachShadow({ mode: 'open' });
+    const pagination = document.createElement('nph-pagination');
+    Object.assign(pagination, { ...LABELS, type: 'range', totalItems: 12500, pageSize: 1000, page: 2, positionText: '{start}–{end} de {total}' });
+    shadow.append(pagination);
+    await settle(pagination);
+    expect(position(pagination)).toBe('1.001–2.000 de 12.500');
+  });
+
   it('the numbers follow the language of the page', async () => {
     const holder = document.createElement('div');
     holder.lang = 'pt-BR';
@@ -525,6 +539,15 @@ describe('accessibility: roles and names the browser computes', () => {
     const node = await axNode(nav(pagination) as HTMLElement);
     expect(node.role).toBe('navigation');
     expect(node.name).toBe('Pagination');
+  });
+
+  it('page-label fills its markers with the page each number leads to, not the current one', async () => {
+    const pagination = await mount({ page: 5, pageCount: null, totalItems: 250, pageSize: 25, pageLabel: 'Page {page}, items {start}–{end} of {total}' });
+    const six = pages(pagination).find((button) => button.textContent?.trim() === '6') as HTMLButtonElement;
+    expect(six.getAttribute('aria-label')).toBe('Page 6, items 126–150 of 250');
+    expect(current(pagination)?.getAttribute('aria-label')).toBe('Page 5, items 101–125 of 250');
+    const last = pages(pagination).at(-1) as HTMLButtonElement;
+    expect(last.getAttribute('aria-label')).toBe('Page 10, items 226–250 of 250');
   });
 
   it('each number is a button named by page-label; the current one carries aria-current="page"', async () => {

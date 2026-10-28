@@ -316,9 +316,26 @@ export class NphPagination extends LitElement {
     }
   }
 
+  /**
+   * The language of the page: the nearest `lang`, crossing the shadow roots the piece lives
+   * in, so a bar inside another component still reads the language of the document.
+   */
+  private language(): string | undefined {
+    let node: Element | null = this;
+    while (node !== null) {
+      const found: Element | null = node.closest('[lang]');
+      if (found !== null) {
+        return found.getAttribute('lang') || undefined;
+      }
+      const root = node.getRootNode();
+      node = root instanceof ShadowRoot ? root.host : null;
+    }
+    return undefined;
+  }
+
   /** A number as the person reads it, in the language of the page. */
   private format(value: number): string {
-    const lang = this.closest('[lang]')?.getAttribute('lang') || undefined;
+    const lang = this.language();
     try {
       return new Intl.NumberFormat(lang).format(value);
     } catch {
@@ -326,13 +343,13 @@ export class NphPagination extends LitElement {
     }
   }
 
-  /** The values of the markers, for the page drawn. */
-  private markers(): Record<string, string> {
-    const values: Record<string, string> = { page: this.format(this.shown), count: this.format(this.count) };
+  /** The values of the markers for a page: the page drawn, or the page a number leads to. */
+  private markers(page: number = this.shown): Record<string, string> {
+    const values: Record<string, string> = { page: this.format(page), count: this.format(this.count) };
     if (whole(this.totalItems) && positive(this.pageSize)) {
-      const start = (this.shown - 1) * this.pageSize + 1;
+      const start = (page - 1) * this.pageSize + 1;
       values.start = this.format(start);
-      values.end = this.format(Math.min(this.shown * this.pageSize, this.totalItems));
+      values.end = this.format(Math.min(page * this.pageSize, this.totalItems));
       values.total = this.format(this.totalItems);
     }
     return values;
@@ -446,7 +463,7 @@ export class NphPagination extends LitElement {
           ? html`<button
               class="page"
               type="button"
-              aria-label=${name === '' ? nothing : this.fill(name, { ...this.markers(), page: this.format(slot) })}
+              aria-label=${name === '' ? nothing : this.fill(name, this.markers(slot))}
               aria-current=${slot === this.shown ? 'page' : nothing}
               @click=${() => this.go(slot)}
             >

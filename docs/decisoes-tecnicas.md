@@ -4910,8 +4910,10 @@ is a mount: nothing, no error (P66). The names follow P64.
    `go-to-label`. `page-label` and `position-text` are templates with the markers `{page}`,
    `{count}`, `{start}`, `{end}` and `{total}`, the convention of the Storybook dictionaries
    (`.storybook/i18n/index.js`, `format`); the piece fills them with the numbers written by
-   `Intl.NumberFormat` in the language of the nearest `lang`, as `nph-slider` (P94). So the
-   consumer gives the text once and the piece rewrites it when the person moves. A missing arrow
+   `Intl.NumberFormat` in the language of the nearest `lang`, as `nph-slider` (P94), looked up
+   across the shadow roots the bar lives in. In `page-label`, the markers describe the page each
+   number leads to, not the current one. So the consumer gives the text once and the piece
+   rewrites it when the person moves. A missing arrow
    label, position text, field label or `page-sizes` is invalid input; a missing `label` or
    `page-label` renders and warns once. In `numbered`, `previous-label` and `next-label` are the
    written text of the arrows, with the chevron (D-3), and there is no balloon.
