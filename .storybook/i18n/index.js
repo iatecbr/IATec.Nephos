@@ -33,6 +33,11 @@
  * - A number enters through a `{nome}` marker, filled in by `format()`. The
  *   marker is the same in all three languages; only the surrounding text is
  *   translated.
+ * - `whenToUse` and `whenNotToUse` of a `Docs` page key follow the Metadata of
+ *   the sheet, item by item (P71): the page shows the Metadata in English and
+ *   these lists in `pt-BR` and `es`; `en.json` keeps the Metadata lists. When the
+ *   sheet changes an item, the three dictionaries change in the same commit
+ *   (`src/shared/docs/sheet-lists.test.ts`).
  */
 import en from './en.json';
 import ptBR from './pt-BR.json';

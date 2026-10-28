@@ -336,7 +336,9 @@ This also holds for the example content of the `Validation` stories: the text
 of a demonstration label, button or badge comes from the dictionary.
 
 **The exception is the "use" and "do not use" lists of a `Docs` page**: they come
-from the Metadata of the sheet, not from the dictionary (§4.10, **P71**).
+from the Metadata of the sheet, not from the dictionary (§4.10, **P71**). The
+dictionary keeps only the `pt-BR` and `es` translation of each item, at its
+position in the Metadata, and `en.json` the Metadata lists themselves (DSA-34, D1).
 
 **Source:** [`i18n.md`](i18n.md), "Storybook" section;
 `.storybook/i18n/index.js`, lines 1-12;
@@ -384,7 +386,7 @@ by side.
 | `demo` | real instances in an area **without background**, with border only, and a caption below |
 | `table` | with a header; the term in `text/code`, the description in `text/body-sm` |
 | `note` | the exception to the rule becomes a note (`role="note"`), in the `status/*` colors, never a plain paragraph |
-| `useDontUse` | when to use and when not to use side by side, in one block, in the `status/success-*` and `status/error-*` colors; the lists are `use_when` and `do_not_use_when` of the Metadata of the sheet, and a test fails the page that differs from it (decided by Indiane on 15-10-2026, **P71**) |
+| `useDontUse` | when to use and when not to use side by side, in one block, in the `status/success-*` and `status/error-*` colors; the lists are `use_when` and `do_not_use_when` of the Metadata of the sheet, through `sheetUseDontUse` of `src/shared/docs/sheet-lists.ts`, with the `pt-BR` and `es` translation of each item from the dictionary, and `sheet-lists.test.ts` fails the page that differs from it (decided by Indiane on 15-10-2026, **P71**; DSA-34, D1) |
 | `source` | the origin footer, in `text/caption`, with a thin line above |
 
 #### Reference model: the `nph-badge` page
@@ -433,7 +435,7 @@ story of `nph-badge` (the model) and its `nph-badge.docs.test.ts`.
 `nph-label`, `nph-skeleton`, `nph-toggle-group`, `nph-togglebutton` and `nph-tooltip` follow the order of the model.
 `nph-button` and `nph-icon` have the Anatomy and Examples of their accepted frames
 (`1197:5449` and `1130:956`, confirmed by Indiane on 15-10-2026; DSA-33). The Usage
-section and the lists read from the Metadata are on no page yet.
+section is on no page yet. Every page reads its lists from the Metadata (DSA-34).
 
 ---
 

@@ -10,9 +10,7 @@
  *
  * Deferred, not fulfilled here:
  * - the Usage section (P70) enters every Docs page, after API, in DSA-35, which also gives
- *   `package.json` the `exports` for the import line;
- * - the "When to use" lists still come from the dictionary, and a test checks that they equal the
- *   sheet's; reading them from the Metadata is P71, in DSA-34.
+ *   `package.json` the `exports` for the import line.
  *
  * Default inversion, said on the page: the Figma `tipo` defaults to `foto`; in code there is no
  * `tipo`, it derives from `src`, so `<nph-avatar>` with no attribute draws `sem foto`.
@@ -29,7 +27,9 @@ import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook
 import './nph-avatar';
 import { BROKEN_PHOTO, PHOTO_A, cardHeader, inScheme, ownerSelect, profileWithoutPhoto } from './nph-avatar.demo';
 import type { Scheme } from './nph-avatar.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
+import metadata from '../../shared/metadata/nph-avatar.json';
 
 const meta: Meta = {
   title: 'Components/nph-avatar/Docs',
@@ -113,7 +113,7 @@ export const Documentation: Story = {
           SECTIONS.whenToUse,
           d.whenToUseTitle,
           html`
-            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.whenNotToUse })}
+            ${sheetUseDontUse(metadata, localeOf(context), d)}
             ${text(d.relationsText)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,

@@ -11,8 +11,6 @@
  *
  * Deferred, not fulfilled here:
  * - the Usage section (P70) enters every Docs page, after API, in DSA-35;
- * - the "When to use" lists still come from the dictionary, and a test checks that they equal the
- *   sheet's; reading them from the Metadata is P71, in DSA-34;
  * - `text/body-lg` in `text` and `list` (DSA-33).
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the
@@ -28,7 +26,9 @@ import './nph-dropdown-menu';
 import { NPH_DROPDOWN_MENU_SELECTIONS, NPH_DROPDOWN_MENU_SEVERITIES } from './nph-dropdown-menu';
 import type { NphDropdownMenuSelection, NphDropdownMenuSeverity } from './nph-dropdown-menu';
 import { accountMenu, bothModes, menuWith, optionsMenu, viewMenu } from './nph-dropdown-menu.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
+import metadata from '../../shared/metadata/nph-dropdown-menu.json';
 
 const meta: Meta = {
   title: 'Components/nph-dropdown-menu/Docs',
@@ -113,7 +113,7 @@ export const Documentation: Story = {
           SECTIONS.whenToUse,
           d.whenToUseTitle,
           html`
-            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.whenNotToUse })}
+            ${sheetUseDontUse(metadata, localeOf(context), d)}
             ${text(d.relationsText)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,

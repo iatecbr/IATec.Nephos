@@ -7,8 +7,8 @@
  * Validation stories.
  *
  * The two "When to use" lists of the English dictionary equal the `use_when` and
- * `do_not_use_when` of the generated Metadata, item by item (P71 is deferred to DSA-34;
- * until then this test keeps page and sheet from diverging).
+ * `do_not_use_when` of the generated Metadata, item by item. The page reads them from
+ * the Metadata (P71), and `src/shared/docs/sheet-lists.test.ts` checks every page.
  */
 import { afterEach, describe, expect, it } from 'vitest';
 import { render } from 'lit';

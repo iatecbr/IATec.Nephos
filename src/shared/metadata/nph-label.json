@@ -5,15 +5,21 @@
   "title": "nph-label",
   "type": "component spec",
   "created": "2026-08-31",
-  "updated": "2026-10-21",
+  "updated": "2026-10-28",
   "solves": "Names a form control in a visible and accessible way. The label is only text, and it carries no layout, text state or error message. It carries the trigger of the help, not the help: the information icon opens the nph-tooltip.",
   "use_when": [
-    "A form control needs a visible name, on its own or inside an nph-field."
+    "To give a form control a visible name, on its own or inside an nph-field.",
+    "required=true when filling in the field is mandatory, with the asterisk explained in a legend on the form.",
+    "info=true to show the information icon after the text.",
+    "Keep the label in color/foreground, even when the field has an error."
   ],
   "do_not_use_when": [
-    "It is a sentence with a verb and a period — that is `text/body-md`.",
-    "It opens a section or group — that is `text/heading-sm`.",
-    "It is emphasis inside a paragraph — that is `<strong>`."
+    "Using it for a sentence with a verb and a period: that is body text.",
+    "Using it as a section or group title: that is heading-sm.",
+    "Using it for emphasis inside a paragraph: that is <strong>.",
+    "Putting help or an error message in the label: they belong to nph-field.",
+    "Using the field's example text instead of the label.",
+    "Painting the label or the asterisk with color/destructive: it mixes up required and error."
   ],
   "api": {
     "text": {

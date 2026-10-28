@@ -16,7 +16,9 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-button';
 import { NPH_BUTTON_EMPHASES, NPH_BUTTON_SEVERITIES, NPH_BUTTON_SHAPES, NPH_BUTTON_SIZES } from './nph-button';
-import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
+import metadata from '../../shared/metadata/nph-button.json';
 
 const meta: Meta = {
   title: 'Components/nph-button/Docs',
@@ -98,7 +100,7 @@ export const Documentation: Story = {
           SECTIONS.whenToUse,
           d.whenToUseTitle,
           html`
-            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.whenNotToUse })}
+            ${sheetUseDontUse(metadata, localeOf(context), d)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,
         )}
