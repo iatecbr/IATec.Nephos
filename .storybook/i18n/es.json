@@ -272,7 +272,14 @@
     "components-nph-sidebar-item-validation--rail-button": "Botón del riel",
     "components-nph-sidebar-item-validation--tooltip-and-more-actions": "Tooltip y más acciones",
     "components-nph-sidebar-item-validation--invalid-input": "Entrada no válida",
-    "components-nph-sidebar-item-validation--examples": "Ejemplos"
+    "components-nph-sidebar-item-validation--examples": "Ejemplos",
+    "components-nph-pagination-docs": "Docs",
+    "components-nph-pagination-docs--documentation": "Documentación",
+    "components-nph-pagination-validation": "Validación",
+    "components-nph-pagination-validation--matrix": "Matriz",
+    "components-nph-pagination-validation--go-to-page": "Ir a la página",
+    "components-nph-pagination-validation--invalid-input": "Entrada no válida",
+    "components-nph-pagination-validation--examples": "Ejemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -6924,7 +6931,11 @@
       "components-nph-sidebar-item-validation--rail-button": "El botón del riel con el contador apagado y encendido, en reposo, activo y deshabilitado: el contador en la esquina superior del final (D-1), con contorno cuando está activo (D-2).",
       "components-nph-sidebar-item-validation--tooltip-and-more-actions": "El globo con el nombre completo de una etiqueta cortada, en hover y en foco; más acciones al final de la línea, en hover y en foco, abriendo su menú; el globo del botón del riel, siempre encendido.",
       "components-nph-sidebar-item-validation--invalid-input": "La entrada no válida no dibuja nada: un grupo activo, un contador con texto, un subítem sin href y un botón del riel sin label, cada uno con un error.",
-      "components-nph-sidebar-item-validation--examples": "Los tres ejemplos obligatorios del tablero: menú principal con página actual y contador, grupo abierto con subítems y menú contraído con botones del riel, cada uno en modo claro y oscuro."
+      "components-nph-sidebar-item-validation--examples": "Los tres ejemplos obligatorios del tablero: menú principal con página actual y contador, grupo abierto con subítems y menú contraído con botones del riel, cada uno en modo claro y oscuro.",
+      "components-nph-pagination-validation--matrix": "type × posición: los seis tipos al inicio, en el medio y al final de una lista de diez páginas. La flecha sin destino queda deshabilitada, en su lugar; la página actual tiene fondo y negrita. Pase el mouse para el hover y el globo, y presione Tab para el foco.",
+      "components-nph-pagination-validation--go-to-page": "Ir a la página junto a la barra con primera y última: escriba una página y presione Enter. Más allá del final, va a la última página.",
+      "components-nph-pagination-validation--invalid-input": "La entrada no válida no dibuja nada: un tipo que no existe, sin conteo de páginas, ir a la página fuera de edges y una flecha sin su rótulo, cada uno con un error.",
+      "components-nph-pagination-validation--examples": "Los tres ejemplos obligatorios del tablero: pie de tabla de datos en el medio de la lista, resultado de búsqueda en la primera página y encabezado de tarjeta en la última página, cada uno en modo claro y oscuro."
     }
   },
   "multiComboboxDocs": {
@@ -7764,5 +7775,368 @@
     "exampleMain": "Menú principal con página actual y contador",
     "exampleGroup": "Grupo abierto con subítems",
     "exampleCollapsed": "Menú contraído con botones del riel"
+  },
+  "paginationDocs": {
+    "summary": "La barra que lleva a la persona de una página a otra en una lista larga y muestra dónde está en la lista.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-pagination, design.md para los tokens y los íconos, y la P99 para la API. Cinco decisiones esperan a la responsable del diseño (D-1 a D-5 de DSA-54) y aparecen aquí con su valor predeterminado.",
+    "sourceLabel": "Fuente:",
+    "sourceFrame": "Figma, página NPH — Pagination, documentación 1640:196, conjunto 1640:194",
+    "sourceApi": "ficha de nph-pagination; docs/decisoes-tecnicas.md › P99",
+    "sourceStates": "Figma, página 2888:87682 y puntos suspensivos 2888:87798; tarea DSA-54, decisiones pendientes D-1 y D-2",
+    "sourceFields": "Figma, ir a la página 2888:87805; fichas de nph-select y nph-input",
+    "sourceAccessibility": "Figma, documentación 1640:196; nph-pagination.test.ts",
+    "matrixLabel": "type × posición",
+    "description": "Use nph-pagination debajo de una lista o tabla que no cabe en una pantalla. Divide el resultado; no reemplaza el filtro ni la búsqueda. Cargar más y el desplazamiento infinito no forman parte de esta pieza.",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Con type numbered, debajo de una lista común o de un resultado de búsqueda, cuando la persona salta entre páginas cercanas.",
+      "Con type simple o compact, en un espacio estrecho: compact cabe en un encabezado de tarjeta, un panel lateral y un teléfono.",
+      "Con type edges, con ir a la página, en una lista larga, cuando la persona necesita llegar al inicio, al final o a una página dada.",
+      "Con type range, cuando el total de elementos importa más que el número de página.",
+      "Con type table, en el pie de una tabla de datos con muchos registros."
+    ],
+    "whenNotToUse": [
+      "Para filtrar o buscar en la lista: la paginación divide el resultado, no reemplaza el filtro ni la búsqueda.",
+      "Para cargar más o desplazarse sin fin: no forman parte de esta pieza.",
+      "Para pasar entre los pasos de un flujo: la paginación pasa entre páginas de la misma lista."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "type",
+        "numbered (predeterminado), simple, edges, range, compact o table: el tipo de Figma. La posición de Figma no es una propiedad: sale de page y del conteo de páginas."
+      ],
+      [
+        "page",
+        "La página actual, un número entero desde 1, reflejado. La pieza lo cambia cuando la persona se mueve. Por encima del conteo, dibuja la última página, con un aviso."
+      ],
+      [
+        "page-count",
+        "El número de páginas. O total-items y page-size lo dan; con ambos, vale el conteo derivado."
+      ],
+      [
+        "total-items, page-size",
+        "El total de elementos y los elementos por página. Obligatorios en range y table, que muestran el intervalo de elementos."
+      ],
+      [
+        "page-sizes",
+        "Las opciones de elementos por página, solo en table, que contienen page-size. Como atributo, una lista JSON."
+      ],
+      [
+        "go-to-page",
+        "Activa ir a la página junto a la barra, solo en edges, con go-to-label."
+      ],
+      [
+        "label",
+        "El nombre de la navegación, como Paginación."
+      ],
+      [
+        "page-label",
+        "El nombre de cada número, con el marcador de la página entre llaves, como Página 5."
+      ],
+      [
+        "first-label, previous-label, next-label, last-label",
+        "Los nombres de las flechas y el texto de sus globos. En numbered, previous-label y next-label son el texto escrito de los botones."
+      ],
+      [
+        "position-text",
+        "El texto de posición, con los marcadores de página, conteo, inicio, fin y total entre llaves, llenados con los números en el idioma de la página."
+      ],
+      [
+        "page-size-label, go-to-label",
+        "Los rótulos visibles de elementos por página y de ir a la página, que también nombran sus campos."
+      ],
+      [
+        "nph-page-change",
+        "Se dispara solo cuando la persona se mueve, con detail page y pageSize; burbujea y es composed. Cambiar page por código no dispara nada."
+      ]
+    ],
+    "invalidTitle": "La entrada no válida no dibuja nada.",
+    "invalidText": "Un type fuera de los seis, una página o conteo que no es entero, sin conteo de páginas, range o table sin total-items y page-size, page-sizes fuera de table o sin page-size, ir a la página fuera de edges, y una flecha o un texto de posición sin su texto emiten, cada uno, un console.error en desarrollo. Sin label o sin page-label, la pieza dibuja y avisa una vez.",
+    "typesTitle": "Tipos",
+    "typesCaption": "numbered, simple, edges, range, compact y table, en el medio de la lista.",
+    "typesHeader": [
+      "Tipo",
+      "Lo que muestra la barra"
+    ],
+    "types": [
+      [
+        "numbered",
+        "Números, con Anterior y Siguiente escritos."
+      ],
+      [
+        "simple",
+        "Flechas y el texto de posición con la palabra página."
+      ],
+      [
+        "edges",
+        "Números con primera, anterior, siguiente y última."
+      ],
+      [
+        "range",
+        "Flechas y el intervalo de elementos."
+      ],
+      [
+        "compact",
+        "Flechas y el texto de posición corto."
+      ],
+      [
+        "table",
+        "Elementos por página, el intervalo y la barra con primera y última."
+      ]
+    ],
+    "positionTitle": "Posición en la lista",
+    "positionText": "La posición no es una propiedad: sale de page y del conteo de páginas. Al inicio, primera y anterior quedan deshabilitadas; en el medio, todas las flechas están activas y hay puntos suspensivos a ambos lados de la página actual; al final, siguiente y última quedan deshabilitadas. La primera y la última página se muestran siempre, y por encima de siete páginas los números mantienen siete posiciones, para que la barra mantenga su ancho.",
+    "positionCaption": "Inicio, medio y final de una lista de diez páginas.",
+    "statesTitle": "Página y flechas",
+    "statesText": "Los números y las flechas son botones nativos pintados con los tokens de la paginación, con el foco del nph-button secondary y, en las flechas solo con ícono, el globo del botón solo con ícono (D-1). La primera y la última flecha usan arrow-left-to-line; la última gira solo su ícono. Anterior y siguiente usan los chevrons (D-3).",
+    "statesCaption": "Al inicio: la página actual, y primera y anterior deshabilitadas. Pase el mouse para el hover y el globo, y presione Tab para el foco.",
+    "statesHeader": [
+      "Parte y estado",
+      "Lo que cambia"
+    ],
+    "states": [
+      [
+        "page, rest",
+        "Sin fondo, el número en pagination/text-foreground y text/label-md (D-2)."
+      ],
+      [
+        "page, hover",
+        "pagination/item-background-hover."
+      ],
+      [
+        "page, current",
+        "pagination/item-background-active y el número en text/label-md-strong, con aria-current=\"page\"."
+      ],
+      [
+        "arrow, rest",
+        "pagination/arrow-background con un trazo pagination/arrow-border por dentro; el ícono light."
+      ],
+      [
+        "arrow, hover",
+        "pagination/item-background-hover; el ícono solid; el globo después de la espera."
+      ],
+      [
+        "arrow, disabled",
+        "pagination/disabled-opacity, en su lugar, fuera del orden del Tab, sin hover y sin globo."
+      ],
+      [
+        "focus",
+        "Borde focus/border y halo focus/halo por fuera del botón, solo con teclado; en la flecha, el globo se abre al instante."
+      ]
+    ],
+    "fieldsTitle": "Elementos por página e ir a la página",
+    "fieldsText": "En table, elementos por página es un nph-select en pagination/page-size-width con su rótulo visible: cambiarlo mantiene el primer elemento en pantalla. En edges, ir a la página es un nph-input en pagination/page-input-width junto a la barra: Enter va a la página escrita, y más allá del final, a la última.",
+    "fieldsCaption": "Elementos por página en table, e ir a la página en edges.",
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "Se ubica justo debajo de nph-data-table o de la lista que pagina. La tabla controla los datos; la paginación solo cambia la página.",
+      "Usa nph-icon en las flechas y en los puntos suspensivos, nph-tooltip en los globos, nph-select en elementos por página y nph-input en ir a la página.",
+      "Espacio entre los números y entre las flechas: pagination/item-gap. Entre grupos: pagination/group-gap. Entre un rótulo y su campo: pagination/control-gap."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Barra",
+        "Contorno pagination/border en pagination/border-width, radio pagination/radius, relleno pagination/padding-x y pagination/padding-y (D-5)."
+      ],
+      [
+        "2. Flechas",
+        "Anterior y siguiente; primera y última en edges y table. pagination/arrow-background, trazo pagination/arrow-border, radio pagination/item-radius."
+      ],
+      [
+        "3. Página",
+        "Un número en pagination/item-size, radio pagination/item-radius, texto pagination/text-foreground. La actual tiene pagination/item-background-active."
+      ],
+      [
+        "4. Puntos suspensivos",
+        "Marcan las páginas que no se muestran. No reciben clic."
+      ],
+      [
+        "5. Texto de posición",
+        "Página 5 de 10, 5 de 10 o 101–125 de 250, en simple, compact, range y table (D-4)."
+      ],
+      [
+        "6. Elementos por página",
+        "Un rótulo y un nph-select en pagination/page-size-width, solo en table."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "Una navegación nombrada por label. Cada número y cada flecha es un botón nativo; la página actual lleva aria-current=\"page\". Los puntos suspensivos quedan ocultos y no reciben clic."
+      ],
+      [
+        "Nombre accesible",
+        "Cada número se nombra con page-label. Las flechas solo con ícono se nombran con el texto del globo, anunciado una vez; en numbered, el texto escrito nombra la flecha."
+      ],
+      [
+        "Teclado",
+        "Tab recorre las flechas, los números y los campos en orden de lectura, saltando la flecha deshabilitada; Enter y Espacio mueven. Llegar a la primera o a la última página por una flecha lleva el foco a la página actual."
+      ],
+      [
+        "Contraste",
+        "Número, texto e ícono en pagination/text-foreground pasan 4,5:1 en ambos modos, también sobre los fondos activo y de hover; el borde de la flecha pasa 3:1."
+      ],
+      [
+        "El color no es la única señal",
+        "La página actual también tiene el número en negrita. La flecha sin destino queda deshabilitada y no muestra globo."
+      ],
+      [
+        "Área táctil",
+        "Número y flecha tienen pagination/item-size de ancho y alto. En una pantalla estrecha, use compact en lugar de encoger los botones."
+      ]
+    ],
+    "doTitle": "Haga",
+    "dontTitle": "No haga",
+    "do": [
+      "Muestre la primera y la última página en numbered: la persona entiende el tamaño de la lista.",
+      "Deshabilite la flecha sin destino en lugar de ocultarla: la barra mantiene su ancho.",
+      "Use en elementos por página el mismo valor que usa la tabla: el intervalo coincide con las filas en pantalla."
+    ],
+    "dont": [
+      "No oculte la flecha sin destino: la barra salta.",
+      "No marque la página actual solo con el color del número: el color solo no es una señal."
+    ],
+    "examplesTitle": "Ejemplos obligatorios",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, página NPH — Pagination, documentación 1640:196, conjunto 1640:194",
+      "fichas/nph-pagination.md",
+      "docs/decisoes-tecnicas.md › P99",
+      "Tarea DSA-54, decisiones pendientes D-1 a D-5"
+    ],
+    "labels": {
+      "label": "Paginación",
+      "page": "Página {page}",
+      "first": "Primera página",
+      "previous": "Página anterior",
+      "next": "Página siguiente",
+      "last": "Última página",
+      "previousText": "Anterior",
+      "nextText": "Siguiente",
+      "pageOf": "Página {page} de {count}",
+      "short": "{page} de {count}",
+      "range": "{start}–{end} de {total}",
+      "pageSize": "Elementos por página",
+      "goTo": "Ir a la página"
+    },
+    "table": {
+      "label": "Colaboradores",
+      "columns": [
+        "Nombre",
+        "Departamento"
+      ],
+      "rows": [
+        [
+          "Ana Souza",
+          "Finanzas"
+        ],
+        [
+          "Bruno Lima",
+          "Jurídico"
+        ],
+        [
+          "Carla Dias",
+          "Personas"
+        ]
+      ]
+    },
+    "search": {
+      "title": "Resultados para presupuesto",
+      "results": [
+        "Borrador del presupuesto 2027",
+        "Acta de la revisión del presupuesto",
+        "Política de presupuesto de viajes"
+      ]
+    },
+    "card": {
+      "title": "Actividad reciente",
+      "items": [
+        "Informe aprobado",
+        "Factura enviada",
+        "Contrato firmado"
+      ]
+    },
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "exampleTable": "Pie de tabla de datos, en el medio de la lista",
+    "exampleSearch": "Resultado de búsqueda, en la primera página",
+    "exampleCard": "Encabezado de tarjeta, en la última página"
+  },
+  "paginationValidation": {
+    "labels": {
+      "label": "Paginación",
+      "page": "Página {page}",
+      "first": "Primera página",
+      "previous": "Página anterior",
+      "next": "Página siguiente",
+      "last": "Última página",
+      "previousText": "Anterior",
+      "nextText": "Siguiente",
+      "pageOf": "Página {page} de {count}",
+      "short": "{page} de {count}",
+      "range": "{start}–{end} de {total}",
+      "pageSize": "Elementos por página",
+      "goTo": "Ir a la página"
+    },
+    "table": {
+      "label": "Colaboradores",
+      "columns": [
+        "Nombre",
+        "Departamento"
+      ],
+      "rows": [
+        [
+          "Ana Souza",
+          "Finanzas"
+        ],
+        [
+          "Bruno Lima",
+          "Jurídico"
+        ],
+        [
+          "Carla Dias",
+          "Personas"
+        ]
+      ]
+    },
+    "search": {
+      "title": "Resultados para presupuesto",
+      "results": [
+        "Borrador del presupuesto 2027",
+        "Acta de la revisión del presupuesto",
+        "Política de presupuesto de viajes"
+      ]
+    },
+    "card": {
+      "title": "Actividad reciente",
+      "items": [
+        "Informe aprobado",
+        "Factura enviada",
+        "Contrato firmado"
+      ]
+    },
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "exampleTable": "Pie de tabla de datos, en el medio de la lista",
+    "exampleSearch": "Resultado de búsqueda, en la primera página",
+    "exampleCard": "Encabezado de tarjeta, en la última página"
   }
 }

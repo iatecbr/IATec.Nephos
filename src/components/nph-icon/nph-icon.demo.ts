@@ -39,6 +39,7 @@ export const CATEGORIES: readonly CoreCategory[] = [
     'angle-left',
     'arrow-down-to-line',
     'arrow-left',
+    'arrow-left-to-line',
     'arrow-right',
     'arrow-up',
     'caret-up',
