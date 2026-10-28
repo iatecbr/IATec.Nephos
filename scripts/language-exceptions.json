@@ -97,6 +97,36 @@
     "reason": "Name of the Figma frame, quoted as it is in the accepted board (P64: Figma is in Portuguese)."
   },
   {
+    "file": "docs/operacao/evidencias/DSA-54/documentacao-figma-aceita-2026-10-27.md",
+    "class": "contract-term",
+    "names": [
+      "Documentação",
+      "Paginação",
+      "Página",
+      "Primeira",
+      "Próxima",
+      "Última",
+      "Compacta",
+      "compacta",
+      "tabela",
+      "tipo",
+      "posição",
+      "início",
+      "meio",
+      "fim",
+      "atual",
+      "não",
+      "padrão",
+      "foco",
+      "estado",
+      "com",
+      "de",
+      "para",
+      "página"
+    ],
+    "reason": "Figma property and value names of nph-pagination (tipo, posição, atual, estado, padrão, foco), the Documentação frame and the Portuguese labels of the accepted board (Paginação, Página N, Primeira, Próxima and Última página, ir para a página), quoted as they are in Figma (P64: Figma is in Portuguese); the code API is in English."
+  },
+  {
     "file": "docs/operacao/evidencias/F5-T01/fichas-na-branch-padrao-2026-09-08.md",
     "class": "contract-term",
     "names": [
@@ -187,6 +217,16 @@
       "Documentação"
     ],
     "reason": "Name of the Figma frame, quoted as it is in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-54.md",
+    "class": "prose-text",
+    "names": [
+      "Documentação",
+      "para",
+      "página"
+    ],
+    "reason": "Name of the Figma frame and of the component nph-pagination/ir para a página, quoted as they are in the accepted board (P64: Figma is in Portuguese)."
   },
   {
     "file": "docs/operacao/tarefas/F4-T04.md",

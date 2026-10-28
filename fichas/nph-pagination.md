@@ -1,0 +1,457 @@
+---
+piece: nph-pagination
+level: component
+status: active
+solves: >-
+  Takes the person from one page to another in a long list and shows where in the list
+  they are.
+use_when:
+  - "With type numbered, below a common list or search result, when the person jumps between nearby pages."
+  - "With type simple or compact, in a narrow space: compact fits a card header, a side panel and a phone."
+  - "With type edges, with go to page, in a long list, when the person needs to reach the start, the end or a given page."
+  - "With type range, when the total of items matters more than the page number."
+  - "With type table, in the footer of a data table with many records."
+do_not_use_when:
+  - "To filter or search the list: pagination splits the result, it does not replace the filter or the search."
+  - "To load more or scroll without end: they are not part of this piece."
+  - "To move between the steps of a flow: pagination moves between pages of the same list."
+api:
+  type:
+    type: enum
+    values: [numbered, simple, edges, range, compact, table]
+    required: false
+    default: "numbered"
+    reflects: true
+    constraint: >-
+      The Figma `tipo`. numbered: numbers with Previous and Next written. simple: arrows and
+      the position text. edges: numbers with first, previous, next and last. range: arrows
+      and the range of items. compact: arrows and the short position text. table: items per
+      page, the range and the bar with first and last. Outside the list, the piece draws
+      nothing and emits console.error in development.
+  page:
+    type: number
+    required: false
+    default: "1"
+    reflects: true
+    constraint: >-
+      The current page, a whole number from 1. The piece changes it when the person moves.
+      Above the count, the last page is drawn and one warning is emitted in development:
+      a filter that shrinks the list does not take the bar away.
+  page-count:
+    type: number
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      The number of pages, a whole number from 0. Required unless total-items and page-size
+      give the count; with both, the derived count is drawn and one warning is emitted when
+      they differ. A count of zero draws nothing, with no error.
+  total-items:
+    type: number
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      The total of items of the list, a whole number from 0. Required in range and table,
+      which show the range of items.
+  page-size:
+    type: number
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      The items per page, a whole number from 1. Required in range and table. In table,
+      the person changes it through items per page, and the first item on screen stays on
+      screen.
+  page-sizes:
+    type: array
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The options of items per page, whole numbers from 1, and only in table, where it is
+      required and holds page-size. As an attribute, a JSON list.
+  go-to-page:
+    type: boolean
+    required: false
+    default: "false"
+    reflects: true
+    constraint: >-
+      Turns on go to page: an nph-input in pagination/page-input-width beside the bar. Only
+      in edges, the bar with first and last; it needs go-to-label.
+  label:
+    type: string
+    required: true
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The name of the navigation, already localized, such as Pagination. Without it, the
+      piece renders and warns once in development.
+  page-label:
+    type: string
+    required: true
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The name of each number, with the {page} marker, such as Page {page}. Without it, the
+      number is named by the number itself and the piece warns once in development.
+  first-label:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The name and the balloon text of the first arrow. Required in edges and table.
+  previous-label:
+    type: string
+    required: true
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The name and the balloon text of the previous arrow. In numbered, the written text of
+      the button, with no balloon.
+  next-label:
+    type: string
+    required: true
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The name and the balloon text of the next arrow. In numbered, the written text of the
+      button, with no balloon.
+  last-label:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The name and the balloon text of the last arrow. Required in edges and table.
+  position-text:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The position text, already localized, with the {page}, {count}, {start}, {end} and
+      {total} markers, filled with the numbers in the language of the page. Required in
+      simple, compact, range and table.
+  page-size-label:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The visible label of items per page, which is also the name of its nph-select.
+      Required in table.
+  go-to-label:
+    type: string
+    required: false
+    default: "empty"
+    reflects: false
+    constraint: >-
+      The visible label of go to page, which is also the name of its nph-input. Required
+      with go-to-page.
+  nph-page-change:
+    type: event
+    required: false
+    default: "none"
+    reflects: false
+    constraint: >-
+      Fired on the host (bubbles, composed) only when the person moves: a number, an arrow,
+      go to page or items per page, with detail { page, pageSize }. Setting page from code
+      fires nothing. The input and change of the inner fields do not leave the piece.
+variants:
+  numbered:
+    axis: appearance
+    choose_when: "A common list or search result, when the person jumps between nearby pages."
+    do_not_combine_with: [go-to-page, page-sizes]
+  simple:
+    axis: appearance
+    choose_when: "A narrow space where the word page fits."
+    do_not_combine_with: [go-to-page, page-sizes]
+  edges:
+    axis: appearance
+    choose_when: "A long list, when the person needs the start, the end or a given page; the only type with go to page."
+    do_not_combine_with: [page-sizes]
+  range:
+    axis: appearance
+    choose_when: "When the total of items matters more than the page number."
+    do_not_combine_with: [go-to-page, page-sizes]
+  compact:
+    axis: density
+    choose_when: "A card header, a side panel or a phone."
+    do_not_combine_with: [go-to-page, page-sizes]
+  table:
+    axis: appearance
+    choose_when: "The footer of a data table with many records."
+    do_not_combine_with: [go-to-page]
+states:
+  page-rest:
+    token: pagination/text-foreground
+    changes_for_user: "A number with no background, in text/label-md (D-2)."
+  page-hover:
+    token: pagination/item-background-hover
+    changes_for_user: "The number gains the hover background."
+  page-current:
+    token: pagination/item-background-active
+    changes_for_user: "The current page: background and the number in text/label-md-strong, with aria-current=page."
+  arrow-rest:
+    token: pagination/arrow-background
+    changes_for_user: "The arrow on pagination/arrow-background with a pagination/arrow-border stroke inside; the icon light."
+  arrow-hover:
+    token: pagination/item-background-hover
+    changes_for_user: "The arrow gains the hover background and the icon goes solid; the balloon opens after the wait."
+  arrow-disabled:
+    token: pagination/disabled-opacity
+    changes_for_user: "The arrow without a destination stays in place at pagination/disabled-opacity, out of the Tab order, with no hover and no balloon."
+  focus:
+    token: focus/border
+    changes_for_user: "Keyboard focus on a number or an arrow: border border/width in focus/border and halo focus/ring-width in focus/halo, outside the button; on an arrow, the balloon opens at once."
+business_rules:
+  - "The first and the last page are always shown; above seven pages, the numbers keep seven slots, with an ellipsis for each run of hidden pages."
+  - "The arrow without a destination is disabled, never hidden: the bar keeps its width."
+  - "Reaching the first or last page by an arrow moves the focus to the current page, or to the opposite arrow where there are no numbers."
+  - "Changing the items per page keeps the first item on screen."
+  - "Go to page takes a whole number; past the end it goes to the last page, and text that is not a number is ignored. The field empties after it."
+domain_errors: []
+tokens:
+  bar: "border pagination/border-width in pagination/border, radius pagination/radius, padding pagination/padding-x and pagination/padding-y, gap pagination/item-gap"
+  groups: "pagination/group-gap between groups, pagination/control-gap between a label and its field"
+  page: "pagination/item-size square, radius pagination/item-radius, text pagination/text-foreground in text/label-md (D-2)"
+  page-hover: pagination/item-background-hover
+  page-current: "pagination/item-background-active and text/label-md-strong"
+  arrow: "pagination/item-size square, radius pagination/item-radius, background pagination/arrow-background, stroke pagination/arrow-border-width in pagination/arrow-border, icon/size-md; hover pagination/item-background-hover"
+  written-arrow: "in numbered, space/control-padding on the sides and space/inline-tight between icon and text, as the nph-button with text"
+  disabled: pagination/disabled-opacity
+  items-per-page: "nph-select in pagination/page-size-width"
+  go-to-page: "nph-input in pagination/page-input-width"
+  focus: "border border/width in focus/border, focus/border-radius-control; halo focus/ring-width in focus/halo, focus/radius-control-with-border"
+ai_hints:
+  - "Use nph-pagination below a list or table that does not fit on one screen; to filter or search, use the filter or the search."
+  - "Choose compact in a card header, a side panel or a phone, instead of shrinking the buttons."
+  - "Choose table in the footer of a data table, with page-size equal to the rows the table shows."
+  - "Choose range when the total of items matters more than the page number."
+  - "Give every text already localized: label, page-label and the arrow labels are the names the screen reader reads."
+  - "Listen to nph-page-change to load the page; do not listen to click."
+accessibility:
+  semantics: "A navigation landmark (nav) named by label. Each number and each arrow is a native button; the current page carries aria-current=page. The ellipsis is hidden from the screen reader."
+  accessible_name: "Each number is named by page-label; the icon-only arrows are named by their balloon text (first-label, previous-label, next-label, last-label), through aria-labelledby, announced once; in numbered, the written text names the arrow. Items per page and go to page are named by their visible labels."
+  keyboard:
+    - "Tab: walks the arrows, the numbers and the fields in reading order; a disabled arrow is skipped."
+    - "Enter or Space: moves to the page of the number or the arrow."
+    - "Esc: closes the balloon."
+    - "In go to page, Enter goes to the typed page."
+  focus: "Border focus/border and halo focus/halo outside the number or the arrow, keyboard only; the balloon of an arrow opens with it."
+  contrast: "The number, the text and the icon in pagination/text-foreground pass 4.5:1 in both modes, also over pagination/item-background-active and pagination/item-background-hover; the arrow border in pagination/arrow-border passes 3:1; the focus border passes 3:1 against the halo and the current page background."
+  color_alternative: "The current page also has the number in bold (text/label-md-strong) and aria-current; the disabled arrow also leaves the Tab order."
+invalid_combinations:
+  - "A type outside the six — the piece draws nothing."
+  - "A page, page-count, total-items or page-size that is not a whole number in range — the count cannot be drawn."
+  - "No page count: no page-count, and no total-items with page-size."
+  - "range or table without total-items and page-size — the range of items cannot be written."
+  - "table without page-sizes, with page-sizes that do not hold page-size, or without page-size-label; page-sizes outside table."
+  - "go-to-page outside edges, or without go-to-label."
+  - "No previous-label or next-label; edges or table without first-label or last-label — the arrows would have no name."
+  - "simple, compact, range or table without position-text."
+relations:
+  combines_with: [nph-icon, nph-tooltip, nph-select, nph-option, nph-input, nph-table]
+  parents: [nph-data-table]
+  children: [nph-icon, nph-tooltip, nph-select, nph-option, nph-input]
+  complements_block: []
+  appears_in: []
+anti_patterns:
+  - "Hiding the arrow without a destination: the bar jumps. Use the disabled arrow."
+  - "Marking the current page only by the color of the number: color alone is not a signal."
+  - "Using a different items per page from the table: the range would not match the rows on screen."
+  - "Shrinking the buttons on a narrow screen instead of using compact."
+  - "Using pagination to filter, to search, to load more or to scroll without end."
+sources:
+  design_md: "design.md, the core icon list (arrow-left-to-line, chevron-left, chevron-right, ellipsis), text/label-md and text/label-md-strong; the pagination/* tokens are in src/tokens/source/semantic.tokens.json"
+  decision: "P99 — API and semantics of nph-pagination"
+  tests: "src/components/nph-pagination/nph-pagination.test.ts and nph-pagination.docs.test.ts"
+  usage_evidence: "the required examples of the nph-pagination Docs page and of the Examples story"
+  storybook: "src/components/nph-pagination/nph-pagination.stories.ts and nph-pagination.docs.stories.ts"
+  figma: "DS-IA-NEPHOS 5.0, page NPH — Pagination, documentation 1640:196, set 1640:194, page 2888:87682, ellipsis 2888:87798, go to page 2888:87805"
+---
+
+# nph-pagination
+
+## Function
+
+**The problem it solves:** takes the person from one page to another in a long list and
+shows where in the list they are. It sits right below the list or table it paginates: the
+table controls the data, the pagination only changes the page.
+
+**When to use:**
+
+- With type `numbered`, below a common list or search result, when the person jumps between
+  nearby pages.
+- With type `simple` or `compact`, in a narrow space: `compact` fits a card header, a side
+  panel and a phone.
+- With type `edges`, with go to page, in a long list, when the person needs to reach the
+  start, the end or a given page.
+- With type `range`, when the total of items matters more than the page number.
+- With type `table`, in the footer of a data table with many records.
+
+**When NOT to use:**
+
+- **To filter or search the list** — pagination splits the result; it does not replace the
+  filter or the search.
+- **To load more or scroll without end** — they are not part of this piece.
+- **To move between the steps of a flow** — pagination moves between pages of the same list.
+
+## Variants
+
+**By appearance:** the six types, by what the bar shows.
+
+**By size:** `not_applicable`: numbers and arrows are `pagination/item-size`.
+
+**By density:** `compact` is the type for a narrow space.
+
+| Figma `tipo` | Code | What the bar shows | Choose when |
+|---|---|---|---|
+| `numerada` | `numbered` | Numbers, with Previous and Next written | Nearby pages of a common list |
+| `simples` | `simple` | Arrows and "Page 5 of 10" | A narrow space with the word page |
+| `com extremos` | `edges` | Numbers with first, previous, next and last; go to page beside it | A long list |
+| `intervalo` | `range` | Arrows and "101–125 of 250" | The total of items matters more |
+| `compacta` | `compact` | Arrows and "5 of 10" | A card header, a side panel, a phone |
+| `tabela` | `table` | Items per page, the range and the bar with first and last | The footer of a data table |
+
+The Figma `posição` (`início`, `meio`, `fim`) is not a property: it comes from `page` and the page
+count. At the start, first and previous are disabled; in the middle, every arrow is active
+and an ellipsis sits on both sides of the current page; at the end, next and last are
+disabled.
+
+**Do not combine with:** go to page outside `edges`; items per page outside `table`.
+
+## States
+
+| Part · state | Token | What changes for the person |
+|---|---|---|
+| Number · rest | `pagination/text-foreground` | No background, `text/label-md` (D-2) |
+| Number · hover | `pagination/item-background-hover` | The hover background |
+| Number · current | `pagination/item-background-active`, `text/label-md-strong` | Background and bold, `aria-current="page"` |
+| Arrow · rest | `pagination/arrow-background`, `pagination/arrow-border` | The stroke inside; the icon light |
+| Arrow · hover | `pagination/item-background-hover` | The hover background; the icon solid; the balloon after the wait |
+| Arrow · disabled | `pagination/disabled-opacity` | Faded, in place, out of the Tab order, with no hover and no balloon |
+| Focus | `focus/border`, `focus/halo` | Border and halo outside the button, keyboard only; the balloon of an arrow opens at once |
+
+**Feedback and focus:** keyboard focus draws the border `border/width` in `focus/border` and the
+halo `focus/ring-width` in `focus/halo`, outside the button, in `focus/border-radius-control`
+and `focus/radius-control-with-border`, as the secondary `nph-button`.
+
+**Business rule the piece carries:**
+
+- The first and the last page are always shown; above seven pages, the numbers keep seven
+  slots, with an ellipsis for each run of hidden pages, so the bar keeps its width.
+- The arrow without a destination is disabled, never hidden.
+- Reaching the first or last page by an arrow moves the focus to the current page, or to the
+  opposite arrow where there are no numbers.
+- Changing the items per page keeps the first item on screen.
+- Go to page takes a whole number; past the end it goes to the last page, and text that is
+  not a number is ignored. The field empties after it.
+
+**Domain error states:** `not_applicable`.
+
+## Accessibility
+
+| Criterion | Rule |
+|---|---|
+| Semantics | A `nav` landmark named by `label`. Each number and arrow is a native button; the current page carries `aria-current="page"`. The ellipsis is `aria-hidden` and takes no click |
+| Accessible name | Each number is named by `page-label` ("Page 5"). The icon-only arrows are named by their balloon text, through `aria-labelledby`, announced once (as the icon-only `nph-button`); in `numbered`, the written text names the arrow. Items per page and go to page are named by their visible labels |
+| Keyboard | Tab walks the arrows, the numbers and the fields in reading order, skipping a disabled arrow; Enter and Space move; Esc closes the balloon; Enter in go to page goes to the typed page |
+| Focus | Border `focus/border` and halo `focus/halo` outside the button, keyboard only |
+| Contrast | Number, text and icon in `pagination/text-foreground` pass 4.5:1 in both modes, also over `pagination/item-background-active` and `pagination/item-background-hover`; the arrow border in `pagination/arrow-border` passes 3:1 |
+| Alternative to color | The current page also has the number in bold and `aria-current`; the disabled arrow also leaves the Tab order |
+| Touch target | Number and arrow are `pagination/item-size` wide and high; the ellipsis takes no click. On a narrow screen, use `compact` instead of shrinking the buttons |
+| Known limits | Forced colors and right-to-left are not treated yet |
+
+## Relations
+
+**Combines with:** `nph-icon` (the arrows and the ellipsis), `nph-tooltip` (the balloon of each
+icon-only arrow), `nph-select` with `nph-option` (items per page), `nph-input` (go to page) and
+`nph-table`, which it sits below.
+
+**What is the parent:** the `nph-data-table`, which places the bar below the table. It is not
+built yet; today the consumer places the bar below an `nph-table` or a list.
+
+**What is the child:** `nph-icon`, `nph-tooltip`, `nph-select`, `nph-option` and `nph-input`.
+
+**Which block this piece complements:** none yet.
+
+**Appears in layouts:** none yet.
+
+## Tokens, intent and AI hints
+
+| Part | Token |
+|---|---|
+| Bar | Border `pagination/border-width` in `pagination/border`, radius `pagination/radius`, padding `pagination/padding-x` and `pagination/padding-y`, gap `pagination/item-gap` |
+| Groups | `pagination/group-gap` between groups; `pagination/control-gap` between a label and its field |
+| Number | `pagination/item-size` square, radius `pagination/item-radius`, `pagination/text-foreground` in `text/label-md` (D-2); hover `pagination/item-background-hover`; current `pagination/item-background-active` and `text/label-md-strong` |
+| Arrow | `pagination/item-size` square, radius `pagination/item-radius`, `pagination/arrow-background`, stroke `pagination/arrow-border-width` in `pagination/arrow-border`, icon `icon/size-md`; hover `pagination/item-background-hover`. In `numbered`, `space/control-padding` on the sides and `space/inline-tight` between icon and text |
+| Disabled | `pagination/disabled-opacity` |
+| Items per page | `nph-select` in `pagination/page-size-width` |
+| Go to page | `nph-input` in `pagination/page-input-width` |
+| Focus | Border `border/width` in `focus/border`, `focus/border-radius-control`; halo `focus/ring-width` in `focus/halo`, `focus/radius-control-with-border` |
+
+**Usage restrictions:** the numbers and the arrows are native buttons painted with the
+`pagination/*` tokens, not `nph-button`: the evidence calls them `nph-button` and
+`nph-icon-button`, which have no color property, and gives them their own paint tokens
+(pending decision D-1 of DSA-54, P99). First and last use `arrow-left-to-line`; the last one
+turns only its icon half a turn. Previous and next use `chevron-left` and `chevron-right`
+(D-3).
+
+**AI hints:**
+
+- Use `nph-pagination` below a list or table that does not fit on one screen; to filter or
+  search, use the filter or the search.
+- Choose `compact` in a card header, a side panel or a phone, instead of shrinking the buttons.
+- Choose `table` in the footer of a data table, with `page-size` equal to the rows the table
+  shows.
+- Choose `range` when the total of items matters more than the page number.
+- Give every text already localized: `label`, `page-label` and the arrow labels are the names
+  the screen reader reads.
+- Listen to `nph-page-change` to load the page; do not listen to `click`.
+
+## Examples
+
+**Recommended case:** the footer of a data table, type `table`, in the middle of the list, with
+the items per page the table uses.
+
+**Alternative case:** a search result on the first page, type `numbered`; a card header on the
+last page, type `compact`.
+
+## Anti-patterns
+
+- **Do not hide the arrow without a destination** — the bar jumps. Use the disabled arrow.
+- **Do not mark the current page only by the color of the number** — color alone is not a
+  signal; the current page has background and bold.
+- **Do not use an items per page different from the table** — the range would not match the
+  rows on screen.
+- **Do not shrink the buttons on a narrow screen** — use `compact`.
+- **Do not use pagination to filter, to search, to load more or to scroll without end.**
+- **Invalid combinations:** a `type` outside the six; a page or count that is not a whole
+  number in range; no page count; `range` or `table` without `total-items` and `page-size`;
+  `table` without `page-sizes` holding `page-size`, or without `page-size-label`;
+  `page-sizes` outside `table`; `go-to-page` outside `edges` or without `go-to-label`; an
+  arrow without its label; a type with position text without `position-text`.
+- **Do not create without a decision:** load more, infinite scroll, a size, a slot, a color
+  property or a `::part`.
+
+## Sources and decisions
+
+- **The repository `design.md`:** `icones_nucleo` › `direcao_e_revelacao`
+  (`arrow-left-to-line`, `chevron-left`, `chevron-right`, `ellipsis`), `text/label-md` and
+  `text/label-md-strong`. The `pagination/*` tokens are in
+  `src/tokens/source/semantic.tokens.json`.
+- **The decision that originated it:** P99.
+- **Pending decisions:** D-1 to D-5 of the task DSA-54: the native buttons instead of
+  `nph-button`, the text role of the numbers and the texts, the previous and next icons, the
+  order of the simple, compact and range types, and where the outline of the bar ends.
+- **Tests:** `src/components/nph-pagination/nph-pagination.test.ts` and
+  `nph-pagination.docs.test.ts`.
+- **Usage evidence:** the required examples of the `nph-pagination` Docs page and of the
+  Examples story.
+- **Storybook:** `src/components/nph-pagination/nph-pagination.stories.ts` and
+  `nph-pagination.docs.stories.ts`.
+- **Figma:** `DS-IA-NEPHOS 5.0`, page `NPH — Pagination`, documentation `1640:196`, set
+  `1640:194`, page `2888:87682`, ellipsis `2888:87798`, go to page `2888:87805`.

@@ -272,7 +272,14 @@
     "components-nph-sidebar-item-validation--rail-button": "Rail button",
     "components-nph-sidebar-item-validation--tooltip-and-more-actions": "Tooltip and more actions",
     "components-nph-sidebar-item-validation--invalid-input": "Invalid input",
-    "components-nph-sidebar-item-validation--examples": "Examples"
+    "components-nph-sidebar-item-validation--examples": "Examples",
+    "components-nph-pagination-docs": "Docs",
+    "components-nph-pagination-docs--documentation": "Documentation",
+    "components-nph-pagination-validation": "Validation",
+    "components-nph-pagination-validation--matrix": "Matrix",
+    "components-nph-pagination-validation--go-to-page": "Go to page",
+    "components-nph-pagination-validation--invalid-input": "Invalid input",
+    "components-nph-pagination-validation--examples": "Examples"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -6924,7 +6931,11 @@
       "components-nph-sidebar-item-validation--rail-button": "The rail button with the counter off and on, at rest, active and disabled: the counter on the top end corner (D-1), with an outline when active (D-2).",
       "components-nph-sidebar-item-validation--tooltip-and-more-actions": "The balloon with the full name of a cut label, on hover and focus; more actions at the end of the line, on hover and focus, opening its menu; the balloon of the rail button, always on.",
       "components-nph-sidebar-item-validation--invalid-input": "Invalid input draws nothing: an active group, a counter with text, a subitem without href and a rail button without label, each with one error.",
-      "components-nph-sidebar-item-validation--examples": "The three required examples of the board: main menu with current page and counter, group open with subitems, and collapsed menu with rail buttons, each in light and dark mode."
+      "components-nph-sidebar-item-validation--examples": "The three required examples of the board: main menu with current page and counter, group open with subitems, and collapsed menu with rail buttons, each in light and dark mode.",
+      "components-nph-pagination-validation--matrix": "type × position: the six types at the start, in the middle and at the end of a list of ten pages. The arrow without a destination is disabled, in place; the current page has background and bold. Move the mouse for hover and the balloon, and press Tab for the focus.",
+      "components-nph-pagination-validation--go-to-page": "Go to page beside the bar with first and last: type a page and press Enter. Past the end it goes to the last page.",
+      "components-nph-pagination-validation--invalid-input": "Invalid input draws nothing: a type that does not exist, no page count, go to page outside edges and an arrow without its label, each with one error.",
+      "components-nph-pagination-validation--examples": "The three required examples of the board: data table footer in the middle of the list, search result on the first page and card header on the last page, each in light and dark mode."
     }
   },
   "multiComboboxDocs": {
@@ -7764,5 +7775,368 @@
     "exampleMain": "Main menu with current page and counter",
     "exampleGroup": "Group open with subitems",
     "exampleCollapsed": "Collapsed menu with rail buttons"
+  },
+  "paginationDocs": {
+    "summary": "The bar that takes the person from one page to another in a long list and shows where in the list they are.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-pagination spec sheet, design.md for the tokens and icons, and P99 for the API. Five decisions wait for the design owner (D-1 to D-5 of DSA-54) and show here in their default.",
+    "sourceLabel": "Source:",
+    "sourceFrame": "Figma, page NPH — Pagination, documentation 1640:196, set 1640:194",
+    "sourceApi": "nph-pagination spec sheet; docs/decisoes-tecnicas.md › P99",
+    "sourceStates": "Figma, page 2888:87682 and ellipsis 2888:87798; task DSA-54, pending decisions D-1 and D-2",
+    "sourceFields": "Figma, go to page 2888:87805; nph-select and nph-input spec sheets",
+    "sourceAccessibility": "Figma, documentation 1640:196; nph-pagination.test.ts",
+    "matrixLabel": "type × position",
+    "description": "Use nph-pagination below a list or table that does not fit on one screen. It splits the result; it does not replace the filter or the search. Load more and infinite scroll are not part of this piece.",
+    "whenToUseTitle": "When to use",
+    "whenNotToUseTitle": "When not to use",
+    "whenToUse": [
+      "With type numbered, below a common list or search result, when the person jumps between nearby pages.",
+      "With type simple or compact, in a narrow space: compact fits a card header, a side panel and a phone.",
+      "With type edges, with go to page, in a long list, when the person needs to reach the start, the end or a given page.",
+      "With type range, when the total of items matters more than the page number.",
+      "With type table, in the footer of a data table with many records."
+    ],
+    "whenNotToUse": [
+      "To filter or search the list: pagination splits the result, it does not replace the filter or the search.",
+      "To load more or scroll without end: they are not part of this piece.",
+      "To move between the steps of a flow: pagination moves between pages of the same list."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "type",
+        "numbered (default), simple, edges, range, compact or table: the Figma tipo. The Figma posição is not a property: it comes from page and the page count."
+      ],
+      [
+        "page",
+        "The current page, a whole number from 1, reflected. The piece changes it when the person moves. Above the count, the last page is drawn, with one warning."
+      ],
+      [
+        "page-count",
+        "The number of pages. Or total-items and page-size give it; with both, the derived count is drawn."
+      ],
+      [
+        "total-items, page-size",
+        "The total of items and the items per page. Required in range and table, which show the range of items."
+      ],
+      [
+        "page-sizes",
+        "The options of items per page, only in table, holding page-size. As an attribute, a JSON list."
+      ],
+      [
+        "go-to-page",
+        "Turns on go to page beside the bar, only in edges, with go-to-label."
+      ],
+      [
+        "label",
+        "The name of the navigation, such as Pagination."
+      ],
+      [
+        "page-label",
+        "The name of each number, with the page marker in braces, such as Page 5."
+      ],
+      [
+        "first-label, previous-label, next-label, last-label",
+        "The names of the arrows and the text of their balloons. In numbered, previous-label and next-label are the written text of the buttons."
+      ],
+      [
+        "position-text",
+        "The position text, with the page, count, start, end and total markers in braces, filled with the numbers in the language of the page."
+      ],
+      [
+        "page-size-label, go-to-label",
+        "The visible labels of items per page and go to page, which also name their fields."
+      ],
+      [
+        "nph-page-change",
+        "Fired only when the person moves, with detail page and pageSize; bubbles and is composed. Setting page from code fires nothing."
+      ]
+    ],
+    "invalidTitle": "Invalid input draws nothing.",
+    "invalidText": "A type outside the six, a page or count that is not a whole number, no page count, range or table without total-items and page-size, page-sizes outside table or without page-size, go to page outside edges, and an arrow or a position text without its text each emit one console.error in development. With no label or no page-label, the piece draws and warns once.",
+    "typesTitle": "Types",
+    "typesCaption": "numbered, simple, edges, range, compact and table, in the middle of the list.",
+    "typesHeader": [
+      "Type",
+      "What the bar shows"
+    ],
+    "types": [
+      [
+        "numbered",
+        "Numbers, with Previous and Next written."
+      ],
+      [
+        "simple",
+        "Arrows and the position text with the word page."
+      ],
+      [
+        "edges",
+        "Numbers with first, previous, next and last."
+      ],
+      [
+        "range",
+        "Arrows and the range of items."
+      ],
+      [
+        "compact",
+        "Arrows and the short position text."
+      ],
+      [
+        "table",
+        "Items per page, the range and the bar with first and last."
+      ]
+    ],
+    "positionTitle": "Position in the list",
+    "positionText": "The position is not a property: it comes from page and the page count. At the start, first and previous are disabled; in the middle, every arrow is active and an ellipsis sits on both sides of the current page; at the end, next and last are disabled. The first and the last page are always shown, and above seven pages the numbers keep seven slots, so the bar keeps its width.",
+    "positionCaption": "Start, middle and end of a list of ten pages.",
+    "statesTitle": "Page and arrows",
+    "statesText": "The numbers and the arrows are native buttons painted with the pagination tokens, with the focus of the secondary nph-button and, on the icon-only arrows, the balloon of the icon-only button (D-1). The first and last arrows use arrow-left-to-line; the last one turns only its icon. Previous and next use the chevrons (D-3).",
+    "statesCaption": "At the start: the current page, and first and previous disabled. Move the mouse for hover and the balloon, and press Tab for the focus.",
+    "statesHeader": [
+      "Part and state",
+      "What changes"
+    ],
+    "states": [
+      [
+        "page, rest",
+        "No background, the number in pagination/text-foreground and text/label-md (D-2)."
+      ],
+      [
+        "page, hover",
+        "pagination/item-background-hover."
+      ],
+      [
+        "page, current",
+        "pagination/item-background-active and the number in text/label-md-strong, with aria-current=\"page\"."
+      ],
+      [
+        "arrow, rest",
+        "pagination/arrow-background with a pagination/arrow-border stroke inside; the icon light."
+      ],
+      [
+        "arrow, hover",
+        "pagination/item-background-hover; the icon solid; the balloon after the wait."
+      ],
+      [
+        "arrow, disabled",
+        "pagination/disabled-opacity, in place, out of the Tab order, with no hover and no balloon."
+      ],
+      [
+        "focus",
+        "Border focus/border and halo focus/halo outside the button, keyboard only; on an arrow, the balloon opens at once."
+      ]
+    ],
+    "fieldsTitle": "Items per page and go to page",
+    "fieldsText": "In table, items per page is an nph-select in pagination/page-size-width with its visible label: changing it keeps the first item on screen. In edges, go to page is an nph-input in pagination/page-input-width beside the bar: Enter goes to the typed page, past the end to the last one.",
+    "fieldsCaption": "Items per page in table, and go to page in edges.",
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "Sits right below the nph-data-table or the list it paginates. The table controls the data; pagination only changes the page.",
+      "Uses nph-icon for the arrows and the ellipsis, nph-tooltip for the balloons, nph-select for items per page and nph-input for go to page.",
+      "Space between the numbers and between the arrows: pagination/item-gap. Between groups: pagination/group-gap. Between a label and its field: pagination/control-gap."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "1. Bar",
+        "Outline pagination/border in pagination/border-width, radius pagination/radius, padding pagination/padding-x and pagination/padding-y (D-5)."
+      ],
+      [
+        "2. Arrows",
+        "Previous and next; first and last in edges and table. pagination/arrow-background, stroke pagination/arrow-border, radius pagination/item-radius."
+      ],
+      [
+        "3. Page",
+        "A number in pagination/item-size, radius pagination/item-radius, text pagination/text-foreground. The current one has pagination/item-background-active."
+      ],
+      [
+        "4. Ellipsis",
+        "Marks the pages that are not shown. Takes no click."
+      ],
+      [
+        "5. Position text",
+        "Page 5 of 10, 5 of 10 or 101–125 of 250, in simple, compact, range and table (D-4)."
+      ],
+      [
+        "6. Items per page",
+        "A label and an nph-select in pagination/page-size-width, only in table."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "A navigation named by label. Each number and arrow is a native button; the current page carries aria-current=\"page\". The ellipsis is hidden and takes no click."
+      ],
+      [
+        "Accessible name",
+        "Each number is named by page-label. The icon-only arrows are named by their balloon text, announced once; in numbered, the written text names the arrow."
+      ],
+      [
+        "Keyboard",
+        "Tab walks the arrows, the numbers and the fields in reading order, skipping a disabled arrow; Enter and Space move. Reaching the first or last page by an arrow moves the focus to the current page."
+      ],
+      [
+        "Contrast",
+        "Number, text and icon in pagination/text-foreground pass 4.5:1 in both modes, also over the active and hover backgrounds; the arrow border passes 3:1."
+      ],
+      [
+        "Color is not the only signal",
+        "The current page also has the number in bold. The arrow without a destination is disabled and shows no balloon."
+      ],
+      [
+        "Touch target",
+        "Number and arrow are pagination/item-size wide and high. On a narrow screen, use compact instead of shrinking the buttons."
+      ]
+    ],
+    "doTitle": "Do",
+    "dontTitle": "Do not",
+    "do": [
+      "Show the first and the last page in numbered: the person understands the size of the list.",
+      "Disable the arrow without a destination instead of hiding it: the bar keeps its width.",
+      "Use in items per page the same value the table uses: the range matches the rows on screen."
+    ],
+    "dont": [
+      "Do not hide the arrow without a destination: the bar jumps.",
+      "Do not mark the current page only with the color of the number: color alone is not a signal."
+    ],
+    "examplesTitle": "Required examples",
+    "referencesTitle": "References",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, page NPH — Pagination, documentation 1640:196, set 1640:194",
+      "fichas/nph-pagination.md",
+      "docs/decisoes-tecnicas.md › P99",
+      "Task DSA-54, pending decisions D-1 to D-5"
+    ],
+    "labels": {
+      "label": "Pagination",
+      "page": "Page {page}",
+      "first": "First page",
+      "previous": "Previous page",
+      "next": "Next page",
+      "last": "Last page",
+      "previousText": "Previous",
+      "nextText": "Next",
+      "pageOf": "Page {page} of {count}",
+      "short": "{page} of {count}",
+      "range": "{start}–{end} of {total}",
+      "pageSize": "Items per page",
+      "goTo": "Go to page"
+    },
+    "table": {
+      "label": "Employees",
+      "columns": [
+        "Name",
+        "Department"
+      ],
+      "rows": [
+        [
+          "Ana Souza",
+          "Finance"
+        ],
+        [
+          "Bruno Lima",
+          "Legal"
+        ],
+        [
+          "Carla Dias",
+          "People"
+        ]
+      ]
+    },
+    "search": {
+      "title": "Results for budget",
+      "results": [
+        "Budget 2027 draft",
+        "Budget review meeting notes",
+        "Travel budget policy"
+      ]
+    },
+    "card": {
+      "title": "Recent activity",
+      "items": [
+        "Report approved",
+        "Invoice sent",
+        "Contract signed"
+      ]
+    },
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "exampleTable": "Data table footer, in the middle of the list",
+    "exampleSearch": "Search result, on the first page",
+    "exampleCard": "Card header, on the last page"
+  },
+  "paginationValidation": {
+    "labels": {
+      "label": "Pagination",
+      "page": "Page {page}",
+      "first": "First page",
+      "previous": "Previous page",
+      "next": "Next page",
+      "last": "Last page",
+      "previousText": "Previous",
+      "nextText": "Next",
+      "pageOf": "Page {page} of {count}",
+      "short": "{page} of {count}",
+      "range": "{start}–{end} of {total}",
+      "pageSize": "Items per page",
+      "goTo": "Go to page"
+    },
+    "table": {
+      "label": "Employees",
+      "columns": [
+        "Name",
+        "Department"
+      ],
+      "rows": [
+        [
+          "Ana Souza",
+          "Finance"
+        ],
+        [
+          "Bruno Lima",
+          "Legal"
+        ],
+        [
+          "Carla Dias",
+          "People"
+        ]
+      ]
+    },
+    "search": {
+      "title": "Results for budget",
+      "results": [
+        "Budget 2027 draft",
+        "Budget review meeting notes",
+        "Travel budget policy"
+      ]
+    },
+    "card": {
+      "title": "Recent activity",
+      "items": [
+        "Report approved",
+        "Invoice sent",
+        "Contract signed"
+      ]
+    },
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "exampleTable": "Data table footer, in the middle of the list",
+    "exampleSearch": "Search result, on the first page",
+    "exampleCard": "Card header, on the last page"
   }
 }
