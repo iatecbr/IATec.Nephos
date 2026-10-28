@@ -3206,7 +3206,8 @@ modal dialog covers the window it opens in, which a page with several examples i
    even between two parts of one piece. On close, the focus goes back to the
    element that had it, looked up inside shadow roots and given back by the component, not by the
    browser. No Tab trap is written: the inert page already keeps Tab in the dialog and the browser
-   interface.
+   interface. The content area that scrolls with nothing focusable inside (item 5) is not a
+   candidate on open: Tab reaches it after the opening rule ran (amended on 28/10/2026, DSA-32).
 
 4. **Esc.** It is the browser's close request, the `cancel` event of the `<dialog>`. The dialog
    always holds it, fires `nph-close` and closes unless the event is canceled, so the exit animates
@@ -3229,6 +3230,16 @@ modal dialog covers the window it opens in, which a page with several examples i
    given back as padding, measured at run time, and the values the root had are restored at the
    end, each axis with its priority. If the browser refuses to show the window, nothing is held:
    the lock is released and a later update tries again. **This writes to the document**: it is the one global side effect of the piece.
+   **Amended on 28/10/2026 (DSA-32, Elvys):** while the content scrolls and holds nothing that
+   takes focus — text only, such as a list of names — the keyboard could not reach the scroll
+   (WCAG 2.1.1). While that lasts, the content area is a region named by the title
+   (`role="region"`, `aria-labelledby` on the heading) with `tabindex="0"`, and draws the focus
+   ring inside the focus room it already keeps; the arrows and Page Down then scroll it. It
+   follows the size of the content and of what it holds, so it leaves the Tab order when the
+   scroll ends or a control comes in. With a control inside, the control takes the focus and the
+   browser scrolls to it, so the area stays out of the Tab order. Alternative discarded: an
+   exception of the gate rule `scrollable-region-focusable`, which would have left the scroll out
+   of reach.
 
 6. **Width.** The window hugs its content (`fit-content`), from `layout/dialog-min-width` up to the
    ceiling of `size`, and never past the window less `layout/margin-compact` on each side (D2); the

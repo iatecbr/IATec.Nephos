@@ -1389,3 +1389,64 @@ describe('token contract', () => {
     expect(designMd).toMatch(/modal_exige_veu: overlay\/scrim/);
   });
 });
+
+describe('content that scrolls with nothing focusable (DSA-32, P87)', () => {
+  const LONG_TEXT = `<div style="block-size: 1600px;">Long content</div>`;
+  const LONG_FORM = `<div style="block-size: 1600px;"><input id="far" aria-label="Far field" /></div>`;
+  /* The size watch reports after layout, past the next animation frame: two frames. */
+  const frame = (): Promise<void> =>
+    new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+
+  it('is a region named by the title, in the Tab order, so the keyboard reaches the scroll', async () => {
+    const dialog = await mount({ content: LONG_TEXT, footer: ACTIONS });
+    await openIt(dialog);
+    await frame();
+    const content = part(dialog, '.content') as HTMLElement;
+    expect(content.getAttribute('tabindex')).toBe('0');
+    expect(content.getAttribute('role')).toBe('region');
+    expect(content.getAttribute('aria-labelledby')).toBe('heading');
+    content.focus();
+    expect(dialog.shadowRoot?.activeElement).toBe(content);
+    await userEvent.keyboard('{PageDown}');
+    await expect.poll(() => content.scrollTop).toBeGreaterThan(0);
+  });
+
+  it('is not a candidate of the focus rule on open: the first action still takes the focus', async () => {
+    const dialog = await mount({ content: LONG_TEXT, footer: ACTIONS });
+    await openIt(dialog);
+    await frame();
+    const content = part(dialog, '.content') as HTMLElement;
+    expect(content.getAttribute('tabindex')).toBe('0');
+    expect(dialog.shadowRoot?.activeElement).not.toBe(content);
+  });
+
+  it('with a control inside, or with no scroll, stays out of the Tab order and has no role', async () => {
+    const withControl = await mount({ content: LONG_FORM, footer: ACTIONS });
+    await openIt(withControl);
+    await frame();
+    const scrolling = part(withControl, '.content') as HTMLElement;
+    expect(scrolling.scrollHeight).toBeGreaterThan(scrolling.clientHeight);
+    expect(scrolling.hasAttribute('tabindex')).toBe(false);
+    expect(scrolling.hasAttribute('role')).toBe(false);
+    document.body.replaceChildren();
+
+    const short = await mount({ content: '<p>Short content</p>', footer: ACTIONS });
+    await openIt(short);
+    await frame();
+    const still = part(short, '.content') as HTMLElement;
+    expect(still.hasAttribute('tabindex')).toBe(false);
+    expect(still.hasAttribute('aria-labelledby')).toBe(false);
+  });
+
+  it('follows the content: it leaves the Tab order once the content no longer scrolls', async () => {
+    const dialog = await mount({ content: LONG_TEXT, footer: ACTIONS });
+    await openIt(dialog);
+    await frame();
+    const content = part(dialog, '.content') as HTMLElement;
+    expect(content.getAttribute('tabindex')).toBe('0');
+    (dialog.querySelector('div') as HTMLElement).style.blockSize = '10px';
+    await frame();
+    await frame();
+    expect(content.hasAttribute('tabindex')).toBe(false);
+  });
+});

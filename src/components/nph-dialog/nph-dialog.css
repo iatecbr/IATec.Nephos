@@ -171,6 +171,16 @@
   overscroll-behavior: contain;
 }
 
+/*
+ * The content that scrolls with nothing focusable inside takes the focus (DSA-32, P87): its
+ * ring is drawn inside the room the area keeps for the focus of the controls, so the scroll
+ * does not clip it and the measures do not change.
+ */
+.content:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 var(--nph-focus-ring-width) var(--nph-focus-ring);
+}
+
 /* Inline: the buttons on the right, side by side, the primary last (its place in the slot). */
 .footer {
   display: flex;

@@ -150,6 +150,7 @@ business_rules:
   - "On open, the focus goes to the first element with autofocus in the content or the footer; otherwise to the first focusable element of the content, then of the footer, then to the close button, then to the window itself. On close, it goes back to the element that had it."
   - "Esc and the close button ask to close: the dialog fires nph-close and closes unless the event is canceled. A click on the veil does not close it."
   - "Above layout/dialog-max-height only the content scrolls; the header and the footer stay."
+  - "While the content scrolls and holds nothing focusable, it is a region named by the title in the Tab order, so the keyboard reaches the scroll; it is not a candidate of the focus rule on open."
   - "The width hugs the content between layout/dialog-min-width and the ceiling of the size; without the content area, the header text sets the width up to the ceiling."
 domain_errors: []
 tokens:
@@ -190,7 +191,8 @@ accessibility:
     - "Tab and Shift+Tab move between the elements of the dialog and never reach the page."
     - "Esc asks to close the dialog; a tooltip open inside it takes the first Esc."
     - "Enter and Space activate the buttons, as in nph-button."
-  focus: "On open, the focus moves into the dialog by the rule of the business rules; on close, it goes back to the element that had it. The visible focus is the one of nph-button and of each element of the content."
+    - "A content area that scrolls with nothing focusable inside takes the focus with Tab; the arrows and Page Down scroll it."
+  focus: "On open, the focus moves into the dialog by the rule of the business rules; on close, it goes back to the element that had it. The visible focus is the one of nph-button and of each element of the content; the content area that takes the focus draws focus/ring inside its own box."
   contrast: "Title and description pass 4.5:1 on color/dialog in both modes; the text of the footer buttons passes on their own background, the secondary on color/secondary-on-dialog."
   color_alternative: "The title says the subject and the buttons say the actions; color only reinforces."
 invalid_combinations:
@@ -279,6 +281,8 @@ duration is the one of `motion/hover-duration`.
 **Business rule the piece carries:**
 
 - Above `layout/dialog-max-height`, only the content scrolls; the header and the footer stay.
+  While it scrolls with nothing focusable inside, it takes the focus with Tab, so the keyboard
+  reaches the scroll (P87, amended on 28/10/2026).
 - The width hugs the content. Without the content area, the header text sets the width, up to the
   ceiling. In a window smaller than the dialog, it keeps `layout/margin-compact` from each edge.
 - Esc and the close button ask to close: the dialog fires `nph-close` and closes unless the event
@@ -314,7 +318,7 @@ duration is the one of `motion/hover-duration`.
 |---|---|
 | Semantics | A native `dialog` opened as modal (`role="dialog"`, `aria-modal`), in the top layer; the page is inert |
 | Accessible name | The `heading` names it (`aria-labelledby`) and the `description` completes it (`aria-describedby`). The close button is named by `close-label` |
-| Keyboard | Tab and Shift+Tab stay in the dialog. Esc asks to close it |
+| Keyboard | Tab and Shift+Tab stay in the dialog. Esc asks to close it. A content area that scrolls with nothing focusable inside is a region named by the title and takes the focus with Tab; the arrows scroll it |
 | Visible focus | On open, the focus goes to the first element with `autofocus`; otherwise to the first focusable element of the content, then of the footer, then to the close button, then to the window. On close, it goes back to the element that had it. The focus drawing is the one of `nph-button` and of each element |
 | Contrast | Title and description pass 4.5:1 on `color/dialog` in both modes |
 | Touch target | The close button, in `compact`, meets the minimum of 24 by 24; the footer buttons stay in `default` |
