@@ -256,15 +256,15 @@
 /*
  * Focus: a border of `border/width` and, outside it, a halo of `focus/ring-width`, both
  * round. Around the X of a removable chip; around the whole chip in the selectable one, in
- * marked and when the cut label has the focus. A disabled chip draws no marked ring:
- * disabled wins (P100).
+ * marked and when the cut label has the focus. A disabled chip draws no ring, even when it
+ * was disabled while focused: disabled wins (P100).
  */
-.remove:focus-visible::before,
-.remove:focus-visible::after,
-.chip:focus-visible::before,
-.chip:focus-visible::after,
-.chip:has(.label:focus-visible)::before,
-.chip:has(.label:focus-visible)::after,
+:host(:not([disabled])) .remove:focus-visible::before,
+:host(:not([disabled])) .remove:focus-visible::after,
+:host(:not([disabled])) .chip:focus-visible::before,
+:host(:not([disabled])) .chip:focus-visible::after,
+:host(:not([disabled])) .chip:has(.label:focus-visible)::before,
+:host(:not([disabled])) .chip:has(.label:focus-visible)::after,
 :host([marked]:not([disabled])) .chip::before,
 :host([marked]:not([disabled])) .chip::after {
   content: '';
@@ -273,18 +273,18 @@
   pointer-events: none;
 }
 
-.remove:focus-visible::before,
-.chip:focus-visible::before,
-.chip:has(.label:focus-visible)::before,
+:host(:not([disabled])) .remove:focus-visible::before,
+:host(:not([disabled])) .chip:focus-visible::before,
+:host(:not([disabled])) .chip:has(.label:focus-visible)::before,
 :host([marked]:not([disabled])) .chip::before {
   inset: calc(-1 * var(--nph-border-width));
   border: var(--nph-border-width) solid var(--_focus-border);
   border-radius: var(--nph-chip-radius);
 }
 
-.remove:focus-visible::after,
-.chip:focus-visible::after,
-.chip:has(.label:focus-visible)::after,
+:host(:not([disabled])) .remove:focus-visible::after,
+:host(:not([disabled])) .chip:focus-visible::after,
+:host(:not([disabled])) .chip:has(.label:focus-visible)::after,
 :host([marked]:not([disabled])) .chip::after {
   inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
   border: var(--nph-focus-ring-width) solid var(--_focus-halo);

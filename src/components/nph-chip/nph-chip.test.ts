@@ -551,6 +551,33 @@ describe('nph-chip — long text', () => {
     await vi.waitFor(() => expect(hasPart(element, 'nph-tooltip')).toBe(true));
   });
 
+  it('a new text in a label of the same size is measured again', async () => {
+    const element = await mount();
+    await frames(element);
+    element.style.maxInlineSize = `${element.getBoundingClientRect().width}px`;
+    await frames(element);
+    expect(hasPart(element, 'nph-tooltip')).toBe(false);
+    const before = label(element).getBoundingClientRect().width;
+    element.text = LONG;
+    await frames(element);
+    expect(label(element).getBoundingClientRect().width).toBeCloseTo(before, 1);
+    await vi.waitFor(() => expect(hasPart(element, 'nph-tooltip')).toBe(true));
+  });
+
+  /* The label loses its tabindex and the browser takes the focus away; the CSS also draws no ring on a disabled host. */
+  it('disabled while the cut label has the focus: the focus leaves and no ring is drawn', async () => {
+    const element = await mount({ ...REMOVABLE, text: LONG });
+    await frames(element);
+    await userEvent.tab();
+    expect(element.shadowRoot?.activeElement).toBe(label(element));
+    expect(getComputedStyle(chip(element), '::before').content).not.toBe('none');
+    element.disabled = true;
+    await element.updateComplete;
+    expect(element.shadowRoot?.activeElement ?? null).toBeNull();
+    expect(getComputedStyle(chip(element), '::before').content).toBe('none');
+    expect(getComputedStyle(chip(element), '::after').content).toBe('none');
+  });
+
   it('a disabled chip has no balloon', async () => {
     const element = await mount({ ...REMOVABLE, text: LONG, disabled: true });
     await frames(element);

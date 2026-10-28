@@ -362,6 +362,8 @@ export class NphChip extends LitElement {
     }
     const label = this.renderRoot.querySelector('.label');
     if (label === this.observed) {
+      /* A new text in a label of the same size moves no observer: measure it here. */
+      this.measure();
       return;
     }
     if (this.observed !== null) {
