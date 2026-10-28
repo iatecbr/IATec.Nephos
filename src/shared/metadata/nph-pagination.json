@@ -29,7 +29,7 @@
       "required": false,
       "default": "numbered",
       "reflects": true,
-      "constraint": "The Figma tipo. numbered: numbers with Previous and Next written. simple: arrows and the position text. edges: numbers with first, previous, next and last. range: arrows and the range of items. compact: arrows and the short position text. table: items per page, the range and the bar with first and last. Outside the list, the piece draws nothing and emits console.error in development."
+      "constraint": "The Figma `tipo`. numbered: numbers with Previous and Next written. simple: arrows and the position text. edges: numbers with first, previous, next and last. range: arrows and the range of items. compact: arrows and the short position text. table: items per page, the range and the bar with first and last. Outside the list, the piece draws nothing and emits console.error in development."
     },
     "page": {
       "type": "number",
@@ -304,7 +304,7 @@
     "Using pagination to filter, to search, to load more or to scroll without end."
   ],
   "sources": {
-    "design_md": "design.md, icones_nucleo › direcao_e_revelacao (arrow-left-to-line, chevron-left, chevron-right, ellipsis), text/label-md and text/label-md-strong; the pagination/* tokens are in src/tokens/source/semantic.tokens.json",
+    "design_md": "design.md, the core icon list (arrow-left-to-line, chevron-left, chevron-right, ellipsis), text/label-md and text/label-md-strong; the pagination/* tokens are in src/tokens/source/semantic.tokens.json",
     "decision": "P99 — API and semantics of nph-pagination",
     "tests": "src/components/nph-pagination/nph-pagination.test.ts and nph-pagination.docs.test.ts",
     "usage_evidence": "the required examples of the nph-pagination Docs page and of the Examples story",
