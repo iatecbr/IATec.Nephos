@@ -42,6 +42,40 @@ const PROBES = [
     text: 'console.error(`Invalid colour: ${value}`);\n',
     expect: ['colour'],
   },
+  {
+    name: 'snake_case identifier in code',
+    path: 'src/probe.ts',
+    text: "const DEFAULT_COLOUR = 'red';\nfunction normalise_value(value) { return value; }\n",
+    expect: ['colour', 'normalise'],
+  },
+  {
+    name: 'member access in code',
+    path: 'src/probe.ts',
+    text: 'this.colour = value.normaliseText();\n',
+    expect: ['colour', 'normalise'],
+  },
+  {
+    name: 'file name, reverse domain and host',
+    path: 'docs/probe.md',
+    text: 'Run verificar-operacao.mjs, read com.iatec.nephos and open figma.com.\n',
+  },
+  {
+    name: 'member of a member in code',
+    path: 'src/probe.ts',
+    text: 'const name = this.colour.app;\n',
+    expect: ['colour'],
+  },
+  {
+    name: 'public names, ARIA attributes, custom properties and token names in code',
+    path: 'src/probe.ts',
+    text: "el.setAttribute('aria-labelledby', 'nph-togglebutton');\nel.style.color = 'var(--nph-color-foreground)'; // color/foreground\n",
+  },
+  {
+    name: 'reason of a language exception',
+    path: 'scripts/language-exceptions.json',
+    text: '[{ "file": "README.md", "class": "prose-text", "names": ["Sistemas"], "reason": "The colour of a brand." }]\n',
+    expect: ['colour'],
+  },
   { name: 'citation in a code comment', path: 'src/probe.ts', text: '/** The British `colour` is cited. */\n' },
   {
     name: 'json block, as the data of a task',
@@ -54,6 +88,18 @@ const PROBES = [
     path: 'docs/probe.md',
     text: '```json\n{ "goal": "A goal." }\n```\n\nThe colour.\n\n```json\n{ "goal": "The centre." }\n```\n',
     expect: ['colour', 'centre'],
+  },
+  {
+    name: 'json block fenced by four backticks, then a code block',
+    path: 'docs/probe.md',
+    text: '````json\n{ "goal": "The colour." }\n````\n\nThe centre.\n\n```sh\necho text\n```\n',
+    expect: ['colour', 'centre'],
+  },
+  {
+    name: 'prose after a code block closed by a longer fence',
+    path: 'docs/probe.md',
+    text: '```sh\necho text\n````\n\nThe colour.\n\n```sh\necho more\n```\n',
+    expect: ['colour'],
   },
   {
     name: 'code block after a json block',
