@@ -3235,8 +3235,9 @@ modal dialog covers the window it opens in, which a page with several examples i
    (WCAG 2.1.1). While that lasts, the content area is a region named by the title
    (`role="region"`, `aria-labelledby` on the heading) with `tabindex="0"`, and draws the focus
    ring inside the focus room it already keeps; the arrows and Page Down then scroll it. It
-   follows the size of the content and of what it holds, so it leaves the Tab order when the
-   scroll ends or a control comes in. With a control inside, the control takes the focus and the
+   follows the size of the content and of what it holds, and a control added, removed, disabled
+   or hidden, so it leaves the Tab order when the scroll ends or a reachable control comes in. A
+   hidden field, or a control that is hidden, inert or turned off, does not count as reachable. With a control inside, the control takes the focus and the
    browser scrolls to it, so the area stays out of the Tab order. Alternative discarded: an
    exception of the gate rule `scrollable-region-focusable`, which would have left the scroll out
    of reach.

@@ -1438,6 +1438,37 @@ describe('content that scrolls with nothing focusable (DSA-32, P87)', () => {
     expect(still.hasAttribute('aria-labelledby')).toBe(false);
   });
 
+  it('a hidden field, or a control in an inert or hidden part, does not reach the scroll: the area takes the focus', async () => {
+    const dialog = await mount({
+      content: `<div style="block-size: 1600px;">Long content<input type="hidden" name="id" value="7" /><div inert><button>Inert</button></div><button style="visibility: hidden">Hidden</button></div>`,
+      footer: ACTIONS,
+    });
+    await openIt(dialog);
+    await frame();
+    expect((part(dialog, '.content') as HTMLElement).getAttribute('tabindex')).toBe('0');
+  });
+
+  it('the last control disabled or removed, with no change of size, gives the area the focus', async () => {
+    const dialog = await mount({
+      content: `<div style="block-size: 1600px;">Long content <input id="only" aria-label="Only field" /></div>`,
+      footer: ACTIONS,
+    });
+    await openIt(dialog);
+    await frame();
+    const content = part(dialog, '.content') as HTMLElement;
+    expect(content.hasAttribute('tabindex')).toBe(false);
+    const only = dialog.querySelector('#only') as HTMLInputElement;
+    only.disabled = true;
+    await frame();
+    expect(content.getAttribute('tabindex')).toBe('0');
+    only.disabled = false;
+    await frame();
+    expect(content.hasAttribute('tabindex')).toBe(false);
+    only.remove();
+    await frame();
+    expect(content.getAttribute('tabindex')).toBe('0');
+  });
+
   it('follows the content: it leaves the Tab order once the content no longer scrolls', async () => {
     const dialog = await mount({ content: LONG_TEXT, footer: ACTIONS });
     await openIt(dialog);

@@ -242,6 +242,28 @@ function turnedOff(element: Element, stop: Node): boolean {
   return false;
 }
 
+/**
+ * Whether Tab can land on `element` now, read without moving the focus: not turned off, drawn
+ * (a hidden field, `display: none` or `visibility: hidden` are not) and outside an `inert`
+ * subtree, also across shadow roots.
+ */
+function takesTab(element: HTMLElement, stop: Node): boolean {
+  if (turnedOff(element, stop) || !element.checkVisibility({ visibilityProperty: true })) {
+    return false;
+  }
+  let current: Node | null = element;
+  while (current !== null && current !== stop) {
+    if (current instanceof HTMLElement && current.inert) {
+      return false;
+    }
+    current = current.parentNode ?? (current instanceof ShadowRoot ? current.host : null);
+  }
+  return true;
+}
+
+/** The attributes that may turn a control of the content on or off for Tab. */
+const FOCUS_ATTRIBUTES = ['disabled', 'hidden', 'inert', 'tabindex', 'type', 'style', 'class', 'aria-disabled', 'contenteditable', 'href', 'controls'];
+
 /** Focuses `element` and says whether the focus really landed in it. */
 function tryFocus(element: HTMLElement): boolean {
   element.focus();
@@ -297,7 +319,11 @@ export class NphDialog extends LitElement {
   private closeTimer: number | undefined;
   private openings = 0;
   private initialFocus: Element | null = null;
-  /* A text node edited in place fires no `slotchange`: its edits are watched here. */
+  /*
+   * A text node edited in place fires no `slotchange`: its edits are watched here. So are a
+   * control added, removed, disabled or hidden deep in the content, which may leave a scroll
+   * with nothing to reach it and change no size (DSA-32).
+   */
   private readonly textWatch = new MutationObserver(() => {
     this.syncRegions();
   });
@@ -323,7 +349,13 @@ export class NphDialog extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    this.textWatch.observe(this, { characterData: true, subtree: true });
+    this.textWatch.observe(this, {
+      characterData: true,
+      childList: true,
+      subtree: true,
+      /* Only what changes whether Tab lands on a control, not a value that moves. */
+      attributeFilter: FOCUS_ATTRIBUTES,
+    });
     if (this.hasUpdated) {
       /* Moved in the DOM: show again if it was open. */
       this.requestUpdate();
@@ -440,7 +472,7 @@ export class NphDialog extends LitElement {
     }
     const held = this.renderRoot.querySelector<HTMLSlotElement>('slot:not([name])')?.assignedElements({ flatten: true }) ?? [];
     const scrolls = !content.hidden && content.scrollHeight > content.clientHeight;
-    const reachable = scrolls && !focusables(held).some((element) => !turnedOff(element, this));
+    const reachable = scrolls && !focusables(held).some((element) => takesTab(element, this));
     if (reachable) {
       content.setAttribute('tabindex', '0');
       content.setAttribute('role', 'region');
