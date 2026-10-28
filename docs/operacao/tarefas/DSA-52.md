@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 510,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-button",
   "dependencies": ["DSA-47", "DSA-43"],
   "gates": [
@@ -22,16 +22,17 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories, dictionary, spec, Metadata and P88 pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-52/review-and-merge-2026-10-28.md",
+      "result": "passed",
+      "verified_at": "2026-10-28",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
   "evidence": [
-    "docs/operacao/evidencias/DSA-52/figma-docs-accepted-2026-10-26.md"
+    "docs/operacao/evidencias/DSA-52/figma-docs-accepted-2026-10-26.md",
+    "docs/operacao/evidencias/DSA-52/review-and-merge-2026-10-28.md"
   ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p88",
@@ -46,9 +47,9 @@
     "excerpt": null,
     "converted_decision": "Decision D1 of DSA-47, answered by Indiane on 26-10-2026 on the preview frame `2722:5358` (page `Rascunho`): the icon-only button, COMPONENT_SET 498:15671, also swaps its icon from light to solid in hover-active, like the nph-button with text (COMPONENT_SET 461:13009). The rule, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "claude/dsa-52-nph-button-so-icone-solido", "commit": "ec7bebaa9ea6339e5d9840feecdddf536d5724f9", "pr": "https://github.com/iatecbr/IATec.Nephos/pull/129" },
-  "context": "docs/operacao/contextos/DSA-52.md",
-  "updated_at": "2026-10-27"
+  "git_review": { "branch": "claude/dsa-52-nph-button-so-icone-solido", "commit": "ef01a1946506fa91dd3e2028d8884e6658a6a4bb", "pr": "https://github.com/iatecbr/IATec.Nephos/pull/129" },
+  "context": null,
+  "updated_at": "2026-10-28"
 }
 ```
 
