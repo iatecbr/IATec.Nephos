@@ -23,20 +23,23 @@ Metadata), from the contract in the `figma-docs-accepted` evidence, with `nph-ic
 - `docs/decisoes-tecnicas.md` — P01, P02, P03, P21, P73, P77, P96, P97, P98, P99
 
 ## Changes
-The task moves to in progress with the pending decisions D-1 to D-5. See the
+`nph-chip` (component, CSS, tests), six Validation stories, the Docs page, the
+dictionaries in the three languages, the sheet and its Metadata, and P100. See the
 commits on the branch.
 
 ## Commands run
-- `node scripts/verificar-operacao.mjs` before the commit.
+- `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`,
+  `test:operacao`, `test:naming`, `build-storybook`, `build:lib`, `test:package` and
+  `git diff --check` on the head of the pull request.
 
 ## Result
-In progress.
+In review in PR #134.
 
 ## Evidence
-None recorded: `review-and-merge` waits for the PR.
+The proof table is in the description of PR #134. `review-and-merge` waits for the merge.
 
 ## Blocker
 None. D-1 to D-5 wait for Indiane and do not block.
 
 ## Next command
-Commit the component, the stories, the Docs page and the sheet.
+Wait for the review of PR #134.

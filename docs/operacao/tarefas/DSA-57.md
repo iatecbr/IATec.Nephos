@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 560,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-chip",
   "dependencies": [
     "DSA-03",
@@ -83,8 +83,8 @@
   },
   "git_review": {
     "branch": "claude/dsa-57-nph-chip",
-    "commit": null,
-    "pr": null
+    "commit": "2e88a4f8c28fec78e63130da97366bb7005d5225",
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/134"
   },
   "context": "docs/operacao/contextos/DSA-57.md",
   "updated_at": "2026-10-28"
