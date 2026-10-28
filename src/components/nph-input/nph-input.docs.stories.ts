@@ -6,7 +6,8 @@
  * spec sheet (`ficha`) and from P80; nothing is decided here. The page follows the order of the
  * `nph-badge` page: it opens with the labelled matrix, and the two lists of "When to use" are the
  * ones of the sheet. The set has one variant axis, `size`, so there is no Variants section: Sizes
- * and States come first, then the sections of the piece itself, Icons and Types. The three
+ * and States come first, then the sections of the piece itself, Icons and Types. Sizes shows the
+ * `compact` search in light and dark mode, as section 5 of the frame (DSA-59). The three
  * required examples of the frame close it, each in light and dark mode; the error sentence sits
  * outside the piece, where `nph-field` (DSA-28) will write it.
  *
@@ -63,6 +64,9 @@ const SECTIONS = {
   references: 'references',
 } as const;
 
+/** The three sizes of the set, in the order of the matrix. */
+const SIZES = ['compact', 'default', 'large'];
+
 /* Demo frame. Not a precedent for component CSS. */
 const column = 'display: flex; flex-direction: column; align-items: flex-start; gap: var(--nph-space-stack-tight);';
 const modes = 'display: flex; flex-wrap: wrap; gap: var(--nph-space-stack);';
@@ -98,12 +102,12 @@ export const Documentation: Story = {
         ${header('nph-input', d.summary)}
         ${matrix(
           d.matrixLabel,
-          ['size: default', 'size: large'],
+          SIZES.map((size) => `size: ${size}`),
           [
-            { label: 'placeholder', cells: [piece({}), piece({ size: 'large' })] },
-            { label: 'value', cells: [piece({ value: true }), piece({ size: 'large', value: true })] },
-            { label: 'invalid', cells: [piece({ value: true, invalid: true }), piece({ size: 'large', value: true, invalid: true })] },
-            { label: 'disabled', cells: [piece({ value: true, disabled: true }), piece({ size: 'large', value: true, disabled: true })] },
+            { label: 'placeholder', cells: SIZES.map((size) => piece({ size })) },
+            { label: 'value', cells: SIZES.map((size) => piece({ size, value: true })) },
+            { label: 'invalid', cells: SIZES.map((size) => piece({ size, value: true, invalid: true })) },
+            { label: 'disabled', cells: SIZES.map((size) => piece({ size, value: true, disabled: true })) },
           ],
         )}
         ${note('info', d.derivedTitle, d.derivedText)}
@@ -150,7 +154,8 @@ export const Documentation: Story = {
           d.sizesTitle,
           html`
             ${text(d.sizesText)}
-            ${demo(html`<div style=${column}>${piece({ value: true })} ${piece({ size: 'large', value: true })}</div>`, d.sizesCaption)}
+            ${demo(html`<div style=${column}>${SIZES.map((size) => piece({ size, value: true }))}</div>`, d.sizesCaption)}
+            ${demo(bothModes(d, () => search({ ...searchText, value: d.searchValue, size: 'compact' })), d.compactCaption)}
             ${source(d.sourceLabel, d.sourceStates)}
           `,
         )}

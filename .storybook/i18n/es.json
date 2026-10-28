@@ -2231,7 +2231,8 @@
       "Cuando la persona necesita escribir o editar un valor de una línea.",
       "Dentro de un nph-field cuando el campo necesita etiqueta, ayuda o mensaje de error.",
       "Con ícono de inicio o de fin activado por la propiedad, sin crear variante.",
-      "default en el uso general; large en la pantalla que necesita el objetivo de 44 px, para todos los campos del formulario y el botón junto a ellos."
+      "default en el uso general; large en la pantalla que necesita el objetivo de 44 px, para todos los campos del formulario y el botón junto a ellos.",
+      "compact para la búsqueda del nph-toolbar compacto y para la tabla compacta, con mouse y teclado."
     ],
     "whenNotToUseTitle": "Cuándo no usar",
     "whenNotToUse": [
@@ -2239,7 +2240,8 @@
       "Para contraseña, número o valor con máscara: están fuera de la v1 y tendrán tarea propia.",
       "Para mostrar el mensaje de error o la ayuda: son del nph-field.",
       "Para nombrar el campo solo con el placeholder: desaparece cuando la persona escribe.",
-      "Para mostrar un valor que no se puede editar: no hay estado de solo lectura."
+      "Para mostrar un valor que no se puede editar: no hay estado de solo lectura.",
+      "En compact en una pantalla táctil: su objetivo de 28 px es solo para mouse y teclado."
     ],
     "relationsText": "El nph-field compone la etiqueta, el campo, la ayuda y el mensaje de error, y escribe label, description, invalid y required en el input. Solo, el nph-label nombra el input con for. Los íconos de inicio y de fin vienen solo del núcleo del nph-icon.",
     "apiTitle": "API",
@@ -2254,7 +2256,7 @@
       ],
       [
         "size",
-        "default (control/height-default) o large (control/height-large). Solo cambia la altura. Reflejada en el atributo."
+        "compact (input/height-compact), default (control/height-default) o large (control/height-large). large cambia solo la altura; compact cambia también el relleno del final, a input/clear-padding-end. Reflejada en el atributo."
       ],
       [
         "value",
@@ -2319,8 +2321,9 @@
     "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
     "sourceUsage": "ficha de nph-input; docs/decisoes-tecnicas.md › P70",
     "sizesTitle": "Tamaños",
-    "sizesText": "default sirve para el uso general; large es para la pantalla que necesita el objetivo de 44 px para la accesibilidad de quien la usa. Un formulario usa un solo tamaño, y un campo y un botón lado a lado usan el mismo.",
-    "sizesCaption": "default y large, con valor: solo cambia la altura.",
+    "sizesText": "default sirve para el uso general; large es para la pantalla que necesita el objetivo de 44 px para la accesibilidad de quien la usa; compact es para la búsqueda del nph-toolbar compacto y para la tabla compacta, con mouse y teclado, nunca en una pantalla táctil. Un formulario usa un solo tamaño, y un campo y un botón lado a lado usan el mismo.",
+    "sizesCaption": "compact, default y large, con valor: large cambia solo la altura; compact cambia también el relleno del final.",
+    "compactCaption": "La búsqueda compact, con valor. Pulse Tab hasta el botón de borrar: su anillo de foco pasa del campo y no se recorta.",
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",
@@ -2341,7 +2344,7 @@
       ],
       [
         "foco en borrar",
-        "El contenedor mantiene color/input; el borde focus/border y el halo focus/halo rodean el objetivo de 24 por 24 del botón de borrar, solo con el teclado."
+        "El contenedor mantiene color/input; el borde focus/border y el halo focus/halo rodean el objetivo de 24 por 24 del botón de borrar, solo con el teclado. En compact el anillo pasa del campo mientras el botón tiene el foco; no se recorta."
       ],
       [
         "inválido",
@@ -2398,7 +2401,7 @@
       ]
     ],
     "invalidTitle": "Entrada inválida",
-    "invalidText": "Un type fuera de los cinco, un size fuera de los dos o un ícono fuera del núcleo no dibuja nada. icon-end sin clear-label dibuja el campo sin el botón de borrar.",
+    "invalidText": "Un type fuera de los cinco, un size fuera de los tres o un ícono fuera del núcleo no dibuja nada. icon-end sin clear-label dibuja el campo sin el botón de borrar.",
     "anatomyTitle": "Anatomía",
     "anatomyHeader": [
       "Parte",
@@ -2407,7 +2410,7 @@
     "anatomy": [
       [
         "Contenedor",
-        "Altura control/height-default o control/height-large, ancho layout/input-width, radius/control, border/width, relleno lateral space/control-padding, espacio space/inline, fondo color/background."
+        "Altura control/height-default, control/height-large o input/height-compact, ancho layout/input-width, radius/control, border/width, relleno lateral space/control-padding, con el del final en input/clear-padding-end en compact, espacio space/inline, fondo color/background."
       ],
       [
         "Ícono de inicio",
@@ -2462,7 +2465,7 @@
       ],
       [
         "Objetivo táctil",
-        "El objetivo es el propio campo; large garantiza 44 px. El botón de borrar tiene su propio objetivo de 24 por 24."
+        "El objetivo es el propio campo; large garantiza 44 px, y compact, de 28 px, es solo para mouse y teclado. El botón de borrar tiene su propio objetivo de 24 por 24 en los tres tamaños."
       ]
     ],
     "examplesTitle": "Ejemplos",
@@ -2474,8 +2477,8 @@
     "referencesTitle": "Referencias",
     "references": [
       "Ficha del nph-input — propósito, variantes, estados, accesibilidad, tokens y antipatrones.",
-      "docs/decisoes-tecnicas.md — P80 (API y semántica, la referencia de los controles de formulario), P01, P02 y P03.",
-      "design.md — color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, control/height-default, control/height-large, layout/input-width, radius/control, border/width, space/control-padding, space/inline, space/inline-tight, text/body-md, icon/size-sm, color/foreground y color/muted-foreground.",
+      "docs/decisoes-tecnicas.md — P80 (API y semántica, la referencia de los controles de formulario) y su enmienda del 28/10/2026, el tamaño compact, P01, P02 y P03.",
+      "design.md — color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, control/height-default, control/height-large, layout/input-width, radius/control, border/width, space/control-padding, space/inline, space/inline-tight, text/body-md, icon/size-sm, color/foreground y color/muted-foreground. input/height-compact e input/clear-padding-end están en src/tokens/source/semantic.tokens.json.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Input, frame nph-input (1195:532) y set 622:18359.",
       "Storybook — Validación, en la carpeta de al lado."
     ],
@@ -7117,7 +7120,7 @@
       "components-nph-tooltip-validation--hover-and-focus": "El hover tras una espera corta y el foco del teclado al instante abren el globo en cualquier elemento que recibe foco: un botón, un enlace y un campo.",
       "components-nph-tooltip-validation--accessible-name": "En el botón solo de icono el texto del globo es el nombre accesible de la acción, anunciado una vez.",
       "components-nph-tooltip-validation--focusable-only": "El globo solo va en un elemento que recibe foco: el botón deshabilitado no recibe ninguno.",
-      "components-nph-input-validation--matrix": "size × state del set: placeholder, valor, error, deshabilitado y deshabilitado con error. Pase el mouse sobre un campo para el hover y haga clic para el foco.",
+      "components-nph-input-validation--matrix": "size × state del set, en compact, default y large: placeholder, valor, valor con el botón de borrar, error, deshabilitado y deshabilitado con error. Pase el mouse sobre un campo para el hover, haga clic para el foco y pulse Tab hasta el botón de borrar para su foco.",
       "components-nph-input-validation--types": "Los cinco tipos de la D1, cada uno con un valor que acepta. Contraseña, número y máscara están fuera de la v1.",
       "components-nph-input-validation--icons": "Íconos de inicio y de fin, light, en icon/size-sm: ninguno, inicio, fin y los dos. El ícono de fin solo cambia el arte; la acción es siempre borrar.",
       "components-nph-input-validation--clear": "El botón de borrar aparece con valor. Clic, Enter o Espacio lo vacían, devuelven el foco al campo y disparan input y change.",

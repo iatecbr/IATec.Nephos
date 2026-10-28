@@ -46,7 +46,7 @@ P62.4 subsection for the detail).
 | **P77** | `nph-tooltip`: any element, opened on hover and on keyboard focus (amends P65 and P62.6) | 21/10/2026 | Medium. `nph-button` (DSA-43) and the value balloon of the slider (DSA-39) will attach the balloon with `for`, so changing `for`, `side` or the rule of opening later requires redoing both | Anatomy and behavior: board accepted by Indiane on 20/10/2026, D1 answered on 20/10/2026; the plan is approved by Elvys on 21/10/2026. API and semantics approved by Elvys's merge of PR #94 (`3835337`). **Amended on 22/10/2026 (DSA-48)**: hover delay, keyboard, only focusable elements and `relation`; rules accepted by Indiane on 22/10/2026, the plan approved by Elvys the same day, API and semantics reviewed in the pull request that brings them |
 | **P78** | API and semantics of `nph-avatar-stack` | 22/10/2026 | Low now. No piece consumes it yet; a list of people, a card or a table row will, so changing `count`, `label` or the slot of `nph-avatar` children later requires redoing them | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P79** | API and semantics of `nph-switch` | 22/10/2026 | Low now. No piece consumes it yet; `nph-dropdown-menu` (DSA-45) will, without a label, so changing `checked`, `text`, `label` or the native events later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D4 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
-| **P80** | API and semantics of `nph-input`, the reference of the form controls | 22/10/2026 | Medium. `nph-field` (DSA-28), `nph-checkbox`, `nph-radio` and `nph-input-otp` copy its form association, its native events and its name by reference, so changing them later requires redoing those pieces | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D7 answered on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P80** | API and semantics of `nph-input`, the reference of the form controls | 22/10/2026 | Medium. `nph-field` (DSA-28), `nph-checkbox`, `nph-radio` and `nph-input-otp` copy its form association, its native events and its name by reference, so changing them later requires redoing those pieces | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D7 answered on 16/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them. **Amended on 28/10/2026 (DSA-59)**: the size `compact` |
 | **P81** | API, semantics and form participation of `nph-checkbox` | 22/10/2026 | Low now. `nph-field` (DSA-28) holds it as an option of a group, and a form will submit it, so changing `checked`, `name`, `value`, the native events or `nphFieldRole` later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D6 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P82** | API and semantics of `nph-radio` | 22/10/2026 | Low now. No piece consumes it yet; `nph-field` (DSA-28) wraps it in a `radiogroup` and `nph-rich-option` will use the circle alone, so changing `name`, `checked`, the native events or the host as the control later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D5 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P83** | `nph-field`: API, semantics and the field–control contract | 22/10/2026 | Medium. Every form control (DSA-16, DSA-17, DSA-18, DSA-27, DSA-41, and later DSA-29, DSA-31, DSA-38, DSA-39 and DSA-46) takes the contract, so changing `label`, `description`, `invalid`, `required`, `disabled` or `nphFieldRole` later requires redoing all of them | Anatomy and behavior: frame accepted by Indiane on 01/10/2026, D1 to D8 answered on 16/10/2026; the plan and the contract approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
@@ -2367,7 +2367,7 @@ decision, as in P66, P68, P73, P74 and P76. The names follow P64.
 
    | Figma | API |
    |---|---|
-   | `size` | `size`, `default` or `large`, reflected: the internal CSS selects the height by it |
+   | `size` | `size`, `default` or `large`, reflected: the internal CSS selects the height by it. *(Amended on 28/10/2026, DSA-59: `compact` too.)* |
    | `state` `erro` | `invalid`, Boolean, reflected: error border and `aria-invalid` on the inner field |
    | `state` `disabled` | `disabled`, Boolean, reflected: native `disabled` on the inner field and the clear button |
    | `state` `hover`, `foco`, `foco-limpar`, `erro-foco` | not properties: interaction, drawn by the CSS |
@@ -2469,13 +2469,14 @@ decision, as in P66, P68, P73, P74 and P76. The names follow P64.
    everything: `color/input`, `color/muted` and `state/disabled-opacity` on the whole host,
    selected by `:host(:disabled)`, which also matches a disabled `<fieldset>`. The field shows
    its focus on a pointer click too: a text field always shows where the caret is. There is
-   no motion: the evidence does not ask for it (D4-item of the task).
+   no motion: the evidence does not ask for it (D4-item of the task). *(Amended on 28/10/2026,
+   DSA-59: in `compact`, the `foco-limpar` ring goes past the field.)*
 
 7. **Box (D6).** The host is `inline-flex`, `layout/input-width` wide, with no minimum; the
    parent stretches it with its own `inline-size`, as `nph-field` will (P83).
 
 8. **Invalid input.** A `type` outside the five (rendering a password as text would be a risk),
-   a `size` outside the two and an icon value outside `none` and the core render nothing, take
+   a `size` outside the two *(three since the amendment of 28/10/2026, DSA-59)* and an icon value outside `none` and the core render nothing, take
    no space, leave `data-nph-rendered` out, contribute nothing to the form data and emit one
    `console.error` each, accumulating.
 
@@ -2509,6 +2510,55 @@ from the Metadata (P71, DSA-34), as on every Docs page.
 **Status.** Anatomy and behavior accepted by Indiane on 01/10/2026; D1 to D7 answered on
 16/10/2026. API and semantics are reviewed in the pull request that brings them; the merge is
 the approval.
+
+### Amendment of 28/10/2026 — DSA-59: the size `compact`
+
+**Technical conflict.** Item 1 gives `size` two values, `default` and `large`, the sizes of the
+set accepted on 01/10/2026. On 28/10/2026 Indiane accepted a third size in the same set,
+`compact` (variants `2978:9` to `2978:47`): a 28 px field for the search of the compact
+`nph-toolbar` and for the compact table, with two new tokens, `input/height-compact` and
+`input/clear-padding-end`
+(`docs/operacao/evidencias/DSA-59/documentacao-figma-aceita-2026-10-28.md`).
+
+**Decision.**
+
+1. **API.** `size` is `compact`, `default` or `large`, reflected as before; the default stays
+   `default`. Any other value still draws nothing and emits one `console.error` in development
+   (item 8). The value is compared as written, without trimming spaces, because the internal CSS
+   selects the measures by the exact reflected attribute: `" compact "` or `"large "` is invalid
+   input, as in `nph-button`, and no longer renders with the measures of `default`.
+2. **Measures.** `compact` changes two things: the height, `input/height-compact`, and the end
+   padding, `input/clear-padding-end`, in every state, with or without the clear button. The
+   start padding, the gap, the radius, the border, the text role, the icons and the 24 × 24 clear
+   target are the ones of the other sizes. The 5 px end padding keeps the target inside the 28 px
+   height and draws the X 12 px from the end border, the distance of the start icon from the
+   start border.
+3. **States.** The seven states of item 6, with the same tokens as `default`.
+4. **The focus ring of the clear button.** In `compact` the `foco-limpar` ring (the 26 px border
+   and the 34 px halo around the 24 px target, the same ring as in the other sizes) does not fit
+   inside the 28 px field: the halo goes 3 px past its top and its bottom and reaches its end
+   edge. By decision of Indiane on 28/10/2026 (option 1 of the preview), it stays as it is and
+   goes past the field only while the button has focus: it is neither clipped nor shrunk. The
+   piece clips nothing on its host or its container, and a wrapper of the consumer, in the
+   toolbar or the table, must not clip it either. WCAG 2.4.13 accepts a focus indicator drawn
+   outside the component, and WCAG 2.4.11 does not fail a partly covered one at level AA.
+5. **Accessibility.** The target is the field itself, 28 px high: `compact` is for mouse and
+   keyboard, not for touch (`design.md`, A30), and `large` keeps the 44 px target. The clear
+   button keeps its own 24 × 24 target (WCAG 2.5.8).
+
+**Breaking changes.** One. A `size` with spaces around it, such as `"large "`, was accepted
+before, after a trim, and drew the measures of `default`, because the CSS did not match it. Now it
+is invalid input (item 1): the field draws nothing, leaves the form data and emits one
+`console.error` in development. Migration: remove the spaces from the value. Otherwise `size` only
+gains a value, `default` and `large` do not change, and the exported `NPH_INPUT_SIZES` and
+`NphInputSize` gain `compact`.
+
+**Source.** The evidence above, set `622:18359` and frame `1211:690` of the Figma file
+`DS-IA-NEPHOS 5.0`. Selecting the measures by the reflected `size`, as for `large`, is the
+technique of item 1, unchanged.
+
+**Status.** Size accepted by Indiane on 28/10/2026. Reviewed in the pull request that brings it;
+the merge is the approval.
 
 ---
 

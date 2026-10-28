@@ -77,25 +77,33 @@ function inBothModes(context: GlobalsContext | undefined, storyId: string, conte
   </div>`;
 }
 
-const SIZE_COLUMNS = ['size: default', 'size: large'];
+const SIZES = ['compact', 'default', 'large'];
+const SIZE_COLUMNS = SIZES.map((size) => `size: ${size}`);
 
-/** `size` × `state`: placeholder and value, error, disabled and both. Move the mouse for hover, click for focus. */
+/**
+ * `size` × `state`: placeholder and value, the clear button, error, disabled and both. Move the
+ * mouse for hover, click for focus, press Tab to the clear button for `foco-limpar`.
+ */
 export const Matrix: Story = {
   name: 'Matrix',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
-    const cell = (size: string, state: { value?: boolean; invalid?: boolean; disabled?: boolean }): TemplateResult =>
+    type State = { value?: boolean; clear?: boolean; invalid?: boolean; disabled?: boolean };
+    const cell = (size: string, state: State): TemplateResult =>
       html`<nph-input
         size=${size}
         label=${v.emailLabel}
         placeholder=${v.emailPlaceholder}
         value=${state.value ? v.emailValue : ''}
+        icon-end=${state.clear ? 'xmark' : 'none'}
+        clear-label=${state.clear ? v.clearLabel : ''}
         ?invalid=${state.invalid ?? false}
         ?disabled=${state.disabled ?? false}
       ></nph-input>`;
-    const rows: Array<[string, { value?: boolean; invalid?: boolean; disabled?: boolean }]> = [
+    const rows: Array<[string, State]> = [
       ['placeholder', {}],
       ['value', { value: true }],
+      ['value · icon-end: xmark', { value: true, clear: true }],
       ['invalid', { value: true, invalid: true }],
       ['disabled', { value: true, disabled: true }],
       ['disabled · invalid', { value: true, disabled: true, invalid: true }],
@@ -107,7 +115,7 @@ export const Matrix: Story = {
         matrix(
           label,
           SIZE_COLUMNS,
-          rows.map(([name, state]) => ({ label: name, cells: [cell('default', state), cell('large', state)] })),
+          rows.map(([name, state]) => ({ label: name, cells: SIZES.map((size) => cell(size, state)) })),
         ),
       ),
     );

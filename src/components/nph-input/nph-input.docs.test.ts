@@ -14,6 +14,7 @@ import type { TemplateResult } from 'lit';
 import '../../tokens/generated/tokens.css';
 import { sidebarLabel, translations } from '../../../.storybook/i18n/index.js';
 import metadata from '../../shared/metadata/nph-input.json';
+import designMd from '../../../design.md?raw';
 import { Documentation } from './nph-input.docs.stories';
 import * as validation from './nph-input.stories';
 import type { NphInput } from './nph-input';
@@ -97,19 +98,34 @@ describe('nph-input Documentation', () => {
       }
     });
 
-    it(`${locale}: the matrix shows size default and large, with placeholder, value, invalid and disabled`, () => {
+    it(`${locale}: the matrix shows size compact, default and large, with placeholder, value, invalid and disabled`, () => {
       const target = renderInLocale(locale);
       const matrix = target.querySelector('[data-nph-matrix]') as HTMLElement;
       const columns = [...matrix.querySelectorAll('thead th')].map((th) => th.textContent?.trim());
-      expect(columns).toEqual(['size: default', 'size: large']);
+      expect(columns).toEqual(['size: compact', 'size: default', 'size: large']);
       const rows = [...matrix.querySelectorAll('tbody tr')].map((tr) => ({
         label: tr.querySelector('th')?.textContent?.trim(),
         sizes: [...tr.querySelectorAll('nph-input')].map((piece) => piece.getAttribute('size')),
       }));
       expect(rows.map((row) => row.label)).toEqual(['placeholder', 'value', 'invalid', 'disabled']);
       for (const row of rows) {
-        expect(row.sizes).toEqual(['default', 'large']);
+        expect(row.sizes).toEqual(['compact', 'default', 'large']);
       }
+    });
+
+    it(`${locale}: Sizes shows the three sizes and the compact search in light and in dark mode`, () => {
+      const target = renderInLocale(locale);
+      const d = translations(locale).inputDocs;
+      const sizes = target.querySelector('section#sizes') as HTMLElement;
+      const compact = [...sizes.querySelectorAll('[data-nph-color-scheme] nph-input')];
+      expect([...sizes.querySelectorAll('[data-nph-color-scheme]')].map((el) => el.getAttribute('data-nph-color-scheme'))).toEqual(['light', 'dark']);
+      expect(compact.map((piece) => [piece.getAttribute('size'), piece.getAttribute('icon-end')])).toEqual([
+        ['compact', 'xmark'],
+        ['compact', 'xmark'],
+      ]);
+      const plain = [...sizes.querySelectorAll('nph-input')].filter((piece) => !compact.includes(piece));
+      expect(plain.map((piece) => piece.getAttribute('size'))).toEqual(['compact', 'default', 'large']);
+      expect(sizes.textContent ?? '').toContain(d.compactCaption);
     });
 
     it(`${locale}: the three required examples, each in light and in dark mode`, () => {
@@ -179,6 +195,20 @@ describe('nph-input Documentation: the lists of the page are the lists of the sh
     for (const locale of ['pt-BR', 'es'] as const) {
       expect(translations(locale).inputDocs.whenToUse).toHaveLength(metadata.use_when.length);
       expect(translations(locale).inputDocs.whenNotToUse).toHaveLength(metadata.do_not_use_when.length);
+    }
+  });
+
+  it('the design.md reference names only tokens that design.md defines', () => {
+    for (const locale of LOCALES) {
+      const reference = translations(locale).inputDocs.references.find((item: string) => item.startsWith('design.md')) as string;
+      const sentence = reference.slice(0, reference.indexOf('.', reference.indexOf('color/muted-foreground')));
+      const tokens = [...sentence.matchAll(/\b([a-z-]+\/[a-z-]+)\b/g)].map((match) => match[1] ?? '');
+      expect(tokens.length, locale).toBeGreaterThan(10);
+      for (const token of tokens) {
+        expect(designMd, `${locale}: ${token}`).toContain(`${token}:`);
+      }
+      /* The two input tokens are not in design.md: the reference points to the token source. */
+      expect(reference.slice(sentence.length), locale).toMatch(/input\/height-compact[\s\S]*input\/clear-padding-end[\s\S]*src\/tokens\/source\/semantic\.tokens\.json/);
     }
   });
 
