@@ -140,6 +140,12 @@ const PROBES = [
     expect: ['colour'],
   },
   {
+    name: 'design.md brace inside a quoted value',
+    path: 'design.md',
+    text: 'x:\n  use: "Choose {colour: red} for the text."\n  note: \'A {centre: top} rule.\'\n',
+    expect: ['colour', 'centre'],
+  },
+  {
     name: 'design.md keys and values without a space',
     path: 'design.md',
     text:
