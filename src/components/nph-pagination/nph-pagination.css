@@ -9,7 +9,7 @@
  * no background at rest), `nowrap` (a number and the position text stay on one line),
  * `calc(-1 * ...)` (focus border and halo outside, without changing the size), `inset` with
  * zeros in `box-shadow` (the border of the arrow is a stroke on the inside, as in the outline
- * `nph-button`) and `0.5turn` (the last arrow is the first one turned half a turn, evidence,
+ * `nph-button`), `1 / 1` (the number and its hidden width copy share one grid cell) and `0.5turn` (the last arrow is the first one turned half a turn, evidence,
  * "First and last arrow icon").
  */
 
@@ -87,6 +87,27 @@
   outline: none;
 }
 
+/*
+ * A number and an ellipsis stack their content over a hidden copy of the widest number, so
+ * every slot keeps one width at any page (P99, item 4).
+ */
+.page,
+.ellipsis {
+  display: inline-grid;
+  place-items: center;
+  padding-inline: var(--nph-space-inline-tight);
+  font-variant-numeric: tabular-nums;
+}
+
+.page > *,
+.ellipsis > * {
+  grid-area: 1 / 1;
+}
+
+.sizer {
+  visibility: hidden;
+}
+
 .page {
   background-color: transparent;
 }
@@ -142,10 +163,8 @@
 }
 
 .ellipsis {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  inline-size: var(--nph-pagination-item-size);
+  box-sizing: border-box;
+  min-inline-size: var(--nph-pagination-item-size);
   block-size: var(--nph-pagination-item-size);
 }
 

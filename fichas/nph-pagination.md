@@ -216,7 +216,7 @@ domain_errors: []
 tokens:
   bar: "border pagination/border-width in pagination/border, radius pagination/radius, padding pagination/padding-x and pagination/padding-y, gap pagination/item-gap"
   groups: "pagination/group-gap between groups, pagination/control-gap between a label and its field"
-  page: "pagination/item-size square, radius pagination/item-radius, text pagination/text-foreground in text/label-md (D-2)"
+  page: "at least pagination/item-size, radius pagination/item-radius, space/inline-tight on the sides, text pagination/text-foreground in text/label-md (D-2), tabular figures; every number and ellipsis reserves the width of the widest number"
   page-hover: pagination/item-background-hover
   page-current: "pagination/item-background-active and text/label-md-strong"
   arrow: "pagination/item-size square, radius pagination/item-radius, background pagination/arrow-background, stroke pagination/arrow-border-width in pagination/arrow-border, icon/size-md; hover pagination/item-background-hover"
@@ -386,7 +386,7 @@ built yet; today the consumer places the bar below an `nph-table` or a list.
 |---|---|
 | Bar | Border `pagination/border-width` in `pagination/border`, radius `pagination/radius`, padding `pagination/padding-x` and `pagination/padding-y`, gap `pagination/item-gap` |
 | Groups | `pagination/group-gap` between groups; `pagination/control-gap` between a label and its field |
-| Number | `pagination/item-size` square, radius `pagination/item-radius`, `pagination/text-foreground` in `text/label-md` (D-2); hover `pagination/item-background-hover`; current `pagination/item-background-active` and `text/label-md-strong` |
+| Number | At least `pagination/item-size`, radius `pagination/item-radius`, `space/inline-tight` on the sides, `pagination/text-foreground` in `text/label-md` (D-2), tabular figures; every number and ellipsis reserves the width of the widest number; hover `pagination/item-background-hover`; current `pagination/item-background-active` and `text/label-md-strong` |
 | Arrow | `pagination/item-size` square, radius `pagination/item-radius`, `pagination/arrow-background`, stroke `pagination/arrow-border-width` in `pagination/arrow-border`, icon `icon/size-md`; hover `pagination/item-background-hover`. In `numbered`, `space/control-padding` on the sides and `space/inline-tight` between icon and text |
 | Disabled | `pagination/disabled-opacity` |
 | Items per page | `nph-select` in `pagination/page-size-width` |

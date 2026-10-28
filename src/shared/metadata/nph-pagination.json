@@ -233,7 +233,7 @@
   "tokens": {
     "bar": "border pagination/border-width in pagination/border, radius pagination/radius, padding pagination/padding-x and pagination/padding-y, gap pagination/item-gap",
     "groups": "pagination/group-gap between groups, pagination/control-gap between a label and its field",
-    "page": "pagination/item-size square, radius pagination/item-radius, text pagination/text-foreground in text/label-md (D-2)",
+    "page": "at least pagination/item-size, radius pagination/item-radius, space/inline-tight on the sides, text pagination/text-foreground in text/label-md (D-2), tabular figures; every number and ellipsis reserves the width of the widest number",
     "page-hover": "pagination/item-background-hover",
     "page-current": "pagination/item-background-active and text/label-md-strong",
     "arrow": "pagination/item-size square, radius pagination/item-radius, background pagination/arrow-background, stroke pagination/arrow-border-width in pagination/arrow-border, icon/size-md; hover pagination/item-background-hover",

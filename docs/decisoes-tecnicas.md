@@ -4901,8 +4901,9 @@ is a mount: nothing, no error (P66). The names follow P64.
 
 4. **The window of numbers.** Up to seven pages, every number. Above that, always seven slots: the
    first and the last page, the current page with one neighbor on each side, and an ellipsis for
-   each run of hidden pages — `1 2 3 4 5 … 10`, `1 … 4 5 6 … 10`, `1 … 6 7 8 9 10` — so the bar
-   keeps its width. The ellipsis is the `ellipsis` icon in a box of `pagination/item-size`,
+   each run of hidden pages — `1 2 3 4 5 … 10`, `1 … 4 5 6 … 10`, `1 … 6 7 8 9 10`. Every number
+   and every ellipsis reserves the width of the widest number, the count, through a hidden copy
+   stacked under it, with tabular figures, so the bar keeps its width at any page of any list. The ellipsis is the `ellipsis` icon in a box of `pagination/item-size`,
    `aria-hidden`, with no click.
 
 5. **Text by template.** Every text comes already localized: `label`, `page-label`, `first-label`,

@@ -70,12 +70,14 @@ const bar = (pagination: NphPagination): HTMLElement => root(pagination).querySe
 const pages = (pagination: NphPagination): HTMLButtonElement[] => [...root(pagination).querySelectorAll<HTMLButtonElement>('.page')];
 const current = (pagination: NphPagination): HTMLButtonElement | null => root(pagination).querySelector('.page[aria-current="page"]');
 const arrow = (pagination: NphPagination, which: string): HTMLButtonElement | null => root(pagination).querySelector(`#${which}`);
+/** The number a page button shows, without the hidden copy that reserves the width. */
+const digits = (element: Element | null): string => element?.querySelector('.digits')?.textContent?.trim() ?? '';
 const position = (pagination: NphPagination): string =>
   [...root(pagination).querySelectorAll('.position')].map((element) => element.textContent?.trim() ?? '').join(' | ');
 /** The numbers and the ellipses, in order, as the person reads them. */
 const slots = (pagination: NphPagination): string[] =>
   [...root(pagination).querySelectorAll('.page, .ellipsis')].map((element) =>
-    element.classList.contains('ellipsis') ? '…' : (element.textContent?.trim() ?? ''),
+    element.classList.contains('ellipsis') ? '…' : digits(element),
   );
 
 function resolved(property: string, token: string): string {
@@ -217,6 +219,30 @@ describe('the window of numbers', () => {
     expect(Math.abs(middle - start)).toBeLessThanOrEqual(1);
   });
 
+  it('with a large count, every slot keeps one width: the bar does not move from the start to the end', async () => {
+    const pagination = await mount({ page: 1, pageCount: 1000000 });
+    const widths = async (page: number) => {
+      pagination.page = page;
+      await settle(pagination);
+      const slotWidths = [...root(pagination).querySelectorAll('.page, .ellipsis')].map((element) => element.getBoundingClientRect().width);
+      return { bar: bar(pagination).getBoundingClientRect().width, slots: new Set(slotWidths.map((width) => Math.round(width))) };
+    };
+    const start = await widths(1);
+    const middle = await widths(500000);
+    const end = await widths(1000000);
+    expect(Math.abs(middle.bar - start.bar)).toBeLessThanOrEqual(1);
+    expect(Math.abs(end.bar - start.bar)).toBeLessThanOrEqual(1);
+    expect(start.slots.size).toBeLessThanOrEqual(2);
+    expect((root(pagination).querySelector('.sizer') as HTMLElement).textContent).toBe('1,000,000');
+  });
+
+  it('the hidden copy that reserves the width is not part of the name', async () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const pagination = await mount({ page: 5, pageLabel: '' });
+    const six = pages(pagination).find((button) => digits(button) === '6') as HTMLButtonElement;
+    expect((await axNode(six)).name).toBe('6');
+  });
+
   it('the ellipsis takes no click and is hidden from the screen reader', async () => {
     const pagination = await mount({ page: 5 });
     const ellipsis = root(pagination).querySelector('.ellipsis') as HTMLElement;
@@ -252,7 +278,7 @@ describe('the six types', () => {
 
   it('edges: numbers with first, previous, next and last', async () => {
     const pagination = await mount({ type: 'edges', page: 5 });
-    const order = [...bar(pagination).querySelectorAll('button')].map((button) => button.id || button.textContent?.trim());
+    const order = [...bar(pagination).querySelectorAll('button')].map((button) => button.id || digits(button));
     expect(order).toEqual(['first', 'previous', '1', '4', '5', '6', '10', 'next', 'last']);
   });
 
@@ -325,7 +351,7 @@ async function table(props: Partial<NphPagination> = {}): Promise<NphPagination>
 describe('position in the list', () => {
   it('start: the first page is current, first and previous disabled', async () => {
     const pagination = await mount({ type: 'edges', page: 1 });
-    expect(current(pagination)?.textContent?.trim()).toBe('1');
+    expect(digits(current(pagination))).toBe('1');
     expect(arrow(pagination, 'first')?.disabled).toBe(true);
     expect(arrow(pagination, 'previous')?.disabled).toBe(true);
     expect(arrow(pagination, 'next')?.disabled).toBe(false);
@@ -342,7 +368,7 @@ describe('position in the list', () => {
 
   it('end: the last page is current, next and last disabled — and the arrows are still there', async () => {
     const pagination = await mount({ type: 'edges', page: 10 });
-    expect(current(pagination)?.textContent?.trim()).toBe('10');
+    expect(digits(current(pagination))).toBe('10');
     expect(arrow(pagination, 'next')?.disabled).toBe(true);
     expect(arrow(pagination, 'last')?.disabled).toBe(true);
   });
@@ -359,11 +385,11 @@ describe('moving', () => {
   it('a number moves to that page and fires nph-page-change once', async () => {
     const pagination = await mount({ page: 5 });
     const seen = listen(pagination);
-    await userEvent.click(pages(pagination).find((button) => button.textContent?.trim() === '6') as HTMLElement);
+    await userEvent.click(pages(pagination).find((button) => digits(button) === '6') as HTMLElement);
     await settle(pagination);
     expect(pagination.page).toBe(6);
     expect(seen).toEqual([{ page: 6, pageSize: null }]);
-    expect(current(pagination)?.textContent?.trim()).toBe('6');
+    expect(digits(current(pagination))).toBe('6');
   });
 
   it('the current page does not fire again', async () => {
@@ -404,7 +430,7 @@ describe('moving', () => {
     pagination.page = 8;
     await settle(pagination);
     expect(seen).toEqual([]);
-    expect(current(pagination)?.textContent?.trim()).toBe('8');
+    expect(digits(current(pagination))).toBe('8');
   });
 
   it('a disabled arrow lets no click through', async () => {
@@ -543,7 +569,7 @@ describe('accessibility: roles and names the browser computes', () => {
 
   it('page-label fills its markers with the page each number leads to, not the current one', async () => {
     const pagination = await mount({ page: 5, pageCount: null, totalItems: 250, pageSize: 25, pageLabel: 'Page {page}, items {start}–{end} of {total}' });
-    const six = pages(pagination).find((button) => button.textContent?.trim() === '6') as HTMLButtonElement;
+    const six = pages(pagination).find((button) => digits(button) === '6') as HTMLButtonElement;
     expect(six.getAttribute('aria-label')).toBe('Page 6, items 126–150 of 250');
     expect(current(pagination)?.getAttribute('aria-label')).toBe('Page 5, items 101–125 of 250');
     const last = pages(pagination).at(-1) as HTMLButtonElement;
@@ -646,7 +672,7 @@ describe('the first and last icon', () => {
 describe('colors and measures', () => {
   it('a number: pagination/item-size, pagination/item-radius, pagination/text-foreground, no background, text/label-md', async () => {
     const pagination = await mount({ page: 5 });
-    const four = pages(pagination).find((button) => button.textContent?.trim() === '4') as HTMLElement;
+    const four = pages(pagination).find((button) => digits(button) === '4') as HTMLElement;
     const style = getComputedStyle(four);
     const box = four.getBoundingClientRect();
     expect(box.width).toBeCloseTo(px('--nph-pagination-item-size'), 0);
@@ -659,7 +685,7 @@ describe('colors and measures', () => {
 
   it('on hover: pagination/item-background-hover', async () => {
     const pagination = await mount({ page: 5 });
-    const four = pages(pagination).find((button) => button.textContent?.trim() === '4') as HTMLElement;
+    const four = pages(pagination).find((button) => digits(button) === '4') as HTMLElement;
     await userEvent.hover(four);
     expect(getComputedStyle(four).backgroundColor).toBe(resolved('background-color', '--nph-pagination-item-background-hover'));
   });
@@ -749,7 +775,7 @@ describe('focus', () => {
 
   it('a mouse click gives no focus ring', async () => {
     const pagination = await mount({ page: 5 });
-    const four = pages(pagination).find((button) => button.textContent?.trim() === '4') as HTMLElement;
+    const four = pages(pagination).find((button) => digits(button) === '4') as HTMLElement;
     await userEvent.click(four);
     expect(getComputedStyle(root(pagination).activeElement as HTMLElement, '::before').content).toBe('none');
   });
@@ -763,7 +789,7 @@ describe('focus', () => {
     for (let step = 0; step < 5; step += 1) {
       await userEvent.keyboard('{Tab}');
       const focused = root(pagination).activeElement as HTMLElement;
-      visited.push(focused.id || focused.textContent?.trim() || '');
+      visited.push(focused.id || digits(focused));
     }
     expect(visited).toEqual(['1', '2', '3', 'next', 'last']);
   });
@@ -834,7 +860,7 @@ describe('renders and warns once', () => {
     const seen = listen(pagination);
     pagination.pageCount = 3;
     await settle(pagination);
-    expect(current(pagination)?.textContent?.trim()).toBe('3');
+    expect(digits(current(pagination))).toBe('3');
     expect(arrow(pagination, 'next')?.disabled).toBe(true);
     expect(seen).toEqual([]);
     pagination.pageCount = 2;

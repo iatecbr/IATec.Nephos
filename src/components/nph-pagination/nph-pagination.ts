@@ -455,6 +455,11 @@ export class NphPagination extends LitElement {
 
   private numbers(): TemplateResult {
     const name = this.trim(this.pageLabel);
+    /*
+     * Every slot reserves the width of the widest number, the count, so the bar keeps its width
+     * as the person moves, whatever the size of the list.
+     */
+    const sizer = html`<span class="sizer" aria-hidden="true">${this.format(this.count)}</span>`;
     return html`${repeat(
       pageSlots(this.shown, this.count),
       (slot) => slot,
@@ -467,9 +472,9 @@ export class NphPagination extends LitElement {
               aria-current=${slot === this.shown ? 'page' : nothing}
               @click=${() => this.go(slot)}
             >
-              ${this.format(slot)}
+              <span class="digits">${this.format(slot)}</span>${sizer}
             </button>`
-          : html`<span class="ellipsis" aria-hidden="true"><nph-icon name="ellipsis" size="md"></nph-icon></span>`,
+          : html`<span class="ellipsis" aria-hidden="true"><nph-icon name="ellipsis" size="md"></nph-icon>${sizer}</span>`,
     )}`;
   }
 
