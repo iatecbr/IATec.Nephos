@@ -405,11 +405,11 @@ describe('nph-chip — measures', () => {
 
   it('the border is drawn inside: same box with and without it', async () => {
     const bordered = await mount({ ...SELECTABLE });
-    const borderless = await mount({ ...SELECTABLE, selected: false, disabled: true });
+    const withoutBorder = await mount({ ...SELECTABLE, selected: false, disabled: true });
     expect(borderColor(chip(bordered))).not.toBe('none');
-    expect(borderColor(chip(borderless))).toBe('none');
+    expect(borderColor(chip(withoutBorder))).toBe('none');
     expect(getComputedStyle(chip(bordered)).borderTopStyle).toBe('none');
-    expect(chip(bordered).getBoundingClientRect().width).toBeCloseTo(chip(borderless).getBoundingClientRect().width, 1);
+    expect(chip(bordered).getBoundingClientRect().width).toBeCloseTo(chip(withoutBorder).getBoundingClientRect().width, 1);
     expect(getComputedStyle(chip(bordered)).boxShadow).toContain(`${width('--nph-chip-border-width')}px`);
   });
 
