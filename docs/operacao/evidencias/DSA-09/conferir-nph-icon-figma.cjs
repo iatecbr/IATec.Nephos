@@ -4,6 +4,8 @@
  * Fonte Figma: conjunto `nph-icon` (`248:143`) do arquivo `DS-IA-NEPHOS 5.0`,
  * lido em 05-10-2026 pela propriedade `nome` (93 opcoes) e `estilo`
  * (`regular`, `solid`). A lista esta copiada abaixo, na ordem do Figma.
+ * `arrow-left-to-line` (`2962:7` light, `2962:12` solid) entrou no conjunto
+ * com a DSA-54, em 27-10-2026, e fecha a lista.
  *
  * Confere:
  * - os nomes do mapa `src/components/nph-icon/nph-icon.icons.ts` (entradas
@@ -29,7 +31,7 @@ const FIGMA_NAMES = [
   'suitcase', 'tag', 'thumbs-down', 'thumbs-up', 'thumbtack', 'trash', 'trophy', 'user-minus',
   'user-circle-plus', 'user-circle-minus', 'thumbtack-slash', 'arrow-down-arrow-up',
   'circle-chevron-down', 'chevrons-down', 'angle-left', 'circle-chevron-left', 'chevrons-left',
-  'triple-chevrons-left', 'square-chevron-left',
+  'triple-chevrons-left', 'square-chevron-left', 'arrow-left-to-line',
 ];
 const FIGMA_STYLES = ['regular', 'solid'];
 

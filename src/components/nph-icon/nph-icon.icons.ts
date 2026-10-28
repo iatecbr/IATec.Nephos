@@ -86,6 +86,8 @@ import { faAngleLeft as lAngleLeft } from '@fortawesome/pro-light-svg-icons/faAn
 import { faAngleLeft as sAngleLeft } from '@fortawesome/pro-solid-svg-icons/faAngleLeft';
 import { faArrowDownToLine as lArrowDownToLine } from '@fortawesome/pro-light-svg-icons/faArrowDownToLine';
 import { faArrowDownToLine as sArrowDownToLine } from '@fortawesome/pro-solid-svg-icons/faArrowDownToLine';
+import { faArrowLeftToLine as lArrowLeftToLine } from '@fortawesome/pro-light-svg-icons/faArrowLeftToLine';
+import { faArrowLeftToLine as sArrowLeftToLine } from '@fortawesome/pro-solid-svg-icons/faArrowLeftToLine';
 import { faArrowUp as lArrowUp } from '@fortawesome/pro-light-svg-icons/faArrowUp';
 import { faArrowUp as sArrowUp } from '@fortawesome/pro-solid-svg-icons/faArrowUp';
 import { faCaretUp as lCaretUp } from '@fortawesome/pro-light-svg-icons/faCaretUp';
@@ -255,6 +257,7 @@ export const NPH_ICON_NAMES = [
   'house',
   'angle-left',
   'arrow-down-to-line',
+  'arrow-left-to-line',
   'arrow-up',
   'caret-up',
   'chevrons-down',
@@ -381,6 +384,7 @@ const GLYPHS = {
   house: glyph(lHouse, sHouse),
   'angle-left': glyph(lAngleLeft, sAngleLeft),
   'arrow-down-to-line': glyph(lArrowDownToLine, sArrowDownToLine),
+  'arrow-left-to-line': glyph(lArrowLeftToLine, sArrowLeftToLine),
   'arrow-up': glyph(lArrowUp, sArrowUp),
   'caret-up': glyph(lCaretUp, sCaretUp),
   'chevrons-down': glyph(lChevronsDown, sChevronsDown),
