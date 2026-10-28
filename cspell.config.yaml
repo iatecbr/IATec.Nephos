@@ -122,11 +122,13 @@ overrides:
   # a space, a flow-list item included, are contract and stay in Portuguese (DSA-15); the text is
   # the values with a space.
   - filename: '{design,GOVERNANCA}.md'
+    # Each pattern stays on a YAML key line or inside a flow list or map, and respects quotes: a
+    # comma or a colon inside a quoted value is text.
     ignoreRegExpList:
       - '/^\s*-?\s*[''"]?[\p{L}\w-]+[''"]?\s*:(?=\s|$)/gmu'
-      - '/(?<=[{,]\s*)[\p{L}\w-]+(?=\s*:)/gu'
-      - '/(?<=:\s+)[\p{L}\w/.-]+\s*$/gmu'
-      - '/(?<=[\[,]\s*)[\p{L}\w/.''"-]+(?=\s*[,\]])/gu'
+      - '/(?<=\{(?:(?:[^{}''"\n,]|''[^''\n]*''|"[^"\n]*")*,)*\s*)[\p{L}\w-]+(?=\s*:)/gu'
+      - '/(?<=^\s*-?\s*[''"]?[\p{L}\w-]+[''"]?\s*:\s+)[\p{L}\w/.-]+\s*$/gmu'
+      - '/(?<=:\s*\[\s*(?:(?:[^\]''"\n,]*|''[^''\n]*''|"[^"\n]*")\s*,\s*)*)(?:[\p{L}\w/.-]+|''[\p{L}\w/.-]+''|"[\p{L}\w/.-]+")(?=\s*[,\]])/gu'
 
 dictionaryDefinitions:
   # People, places, products and standards.

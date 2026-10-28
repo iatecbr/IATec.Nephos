@@ -113,9 +113,20 @@ const PROBES = [
     expect: ['centre'],
   },
   {
+    name: 'design.md commas and colons inside quoted values',
+    path: 'design.md',
+    text:
+      "x:\n  use: 'Choose size, colour, and alignment.'\n  use_em: ['title, centre, button']\n" +
+      "  other_em: ['behaviour, layout and spacing']\n  note: \"Reads, as: judgement\"\n" +
+      "  grade: { use: 'a, catalogue: b', size: 16 }\n",
+    expect: ['colour', 'centre', 'behaviour', 'judgement', 'catalogue'],
+  },
+  {
     name: 'design.md keys and values without a space',
     path: 'design.md',
-    text: 'movimento:\n  deslize: opacidade\n  linear_so_em: [progresso, girador]\n',
+    text:
+      'movimento:\n  deslize: opacidade\n  linear_so_em: [progresso, girador]\n' +
+      "  lista: [progresso, 'girador', \"opacidade\"]\n  grade: { margem: 16, estilo_figma: grid/compact }\n",
   },
 ];
 /* cspell:enable */
