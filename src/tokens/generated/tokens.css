@@ -612,6 +612,10 @@
   --nph-chip-max-width: var(--nph-core-layout-width-chip);
   --nph-chip-counter-padding-y: var(--nph-core-space-50);
   --nph-chip-counter-padding-x: var(--nph-core-space-off-scale-6);
+  --nph-data-table-row-selected-indicator-width: var(--nph-core-focus-width-sm);
+  --nph-data-table-selection-column-width: var(--nph-core-space-900);
+  --nph-data-table-action-column-width: var(--nph-core-space-900);
+  --nph-data-table-page-size-width: var(--nph-core-layout-width-page-size-select);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-table-border-width: var(--nph-border-width);
@@ -677,6 +681,9 @@
   --nph-chip-error-focus-halo: var(--nph-focus-halo-danger);
   --nph-chip-info-focus-halo: var(--nph-focus-halo-info);
   --nph-chip-help-focus-halo: var(--nph-focus-halo-help);
+  --nph-data-table-stack-gap: var(--nph-space-stack-snug);
+  --nph-data-table-pagination-gap: var(--nph-space-inline);
+  --nph-data-table-empty-gap: var(--nph-space-stack);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -758,6 +765,10 @@
   --nph-chip-error-focus-border: var(--nph-status-error);
   --nph-chip-info-focus-border: var(--nph-status-info);
   --nph-chip-help-focus-border: var(--nph-status-help);
+  --nph-data-table-sort-icon-foreground: var(--nph-color-muted-foreground);
+  --nph-data-table-sort-icon-active-foreground: var(--nph-color-foreground);
+  --nph-data-table-checkbox-border: var(--nph-color-input-hover);
+  --nph-data-table-page-size-label-foreground: var(--nph-color-foreground);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);
@@ -785,6 +796,8 @@
   --nph-chip-background-selected: var(--nph-color-primary);
   --nph-chip-background-selected-hover: var(--nph-color-primary-hover);
   --nph-chip-foreground-selected: var(--nph-color-primary-foreground);
+  --nph-data-table-row-selected-background: var(--nph-color-primary-surface);
+  --nph-data-table-row-selected-indicator: var(--nph-color-primary);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
