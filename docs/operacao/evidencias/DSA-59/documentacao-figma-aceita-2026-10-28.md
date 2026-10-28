@@ -81,7 +81,7 @@ Every state uses the same tokens as the size `default`; only the height and the 
 
 In `foco-limpar` the ring around the clear button has a border `focus/border` of `border/width` (1 px, 26 × 26 px, radius `focus/border-radius-control`) and a halo `focus/halo` of `focus/ring-width` (4 px, 34 × 34 px, radius `focus/radius-control-with-border`), the same ring as in default and large. The two sizes are derived from the 24 px target and the focus widths; they are not tokens.
 
-In the compact size the ring does not fit inside 28 px: the border touches the top and bottom edges of the field, and the halo goes 3 px past the top, the bottom and the end of the field. By decision of Indiane on 2026-10-28 (option 1 of the preview), it stays as it is: the ring goes past the field only while the clear button has focus. Do not clip it and do not shrink it. The container of the field must not cut what is drawn outside it (no `overflow: hidden` on the field or on its wrapper in the toolbar and in the table).
+In the compact size the ring does not fit inside 28 px: the border touches the top and bottom edges of the field, and the halo goes 3 px past the top and the bottom of the field and reaches its end edge. By decision of Indiane on 2026-10-28 (option 1 of the preview), it stays as it is: the ring goes past the field only while the clear button has focus. Do not clip it and do not shrink it. The container of the field must not cut what is drawn outside it (no `overflow: hidden` on the field or on its wrapper in the toolbar and in the table).
 
 Basis: WCAG 2.4.13 accepts a focus indicator drawn outside the component, and WCAG 2.4.11 does not fail a partly covered indicator at level AA.
 
