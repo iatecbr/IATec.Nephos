@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 360,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -15,10 +15,10 @@
       "id": "review-and-merge",
       "description": "The sheets, the generated Metadata, the Docs pages, the equality test and the dictionaries pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-34/review-and-merge-2026-10-28.md",
+      "result": "passed",
+      "verified_at": "2026-10-28",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -36,7 +36,9 @@
       "opened_at": "2026-10-28"
     }
   ],
-  "evidence": [],
+  "evidence": [
+    "docs/operacao/evidencias/DSA-34/review-and-merge-2026-10-28.md"
+  ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p71",
     "docs/decisoes-tecnicas.md#p63",
@@ -47,10 +49,10 @@
   "external_origin": null,
   "git_review": {
     "branch": "claude/dsa-34-docs-metadata-96729a",
-    "commit": null,
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/138"
+    "commit": "8bd5b70a933cb7c6eb4ac1893ef595e1f3966586",
+    "pr": "138"
   },
-  "context": "docs/operacao/contextos/DSA-34.md",
+  "context": null,
   "updated_at": "2026-10-28"
 }
 ```
