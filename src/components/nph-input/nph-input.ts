@@ -294,7 +294,8 @@ export class NphInput extends LitElement {
       return;
     }
     const type = (this.type ?? '').trim();
-    const size = (this.size ?? '').trim();
+    /* Not trimmed: the internal CSS selects the measures by the exact reflected attribute. */
+    const size = this.size ?? '';
     const start = iconValue(this.iconStart);
     const end = iconValue(this.iconEnd);
     let valid = true;

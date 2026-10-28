@@ -2492,7 +2492,9 @@ set accepted on 01/10/2026. On 28/10/2026 Indiane accepted a third size in the s
 
 1. **API.** `size` is `compact`, `default` or `large`, reflected as before; the default stays
    `default`. Any other value still draws nothing and emits one `console.error` in development
-   (item 8).
+   (item 8). The value is compared as written, without trimming spaces, because the internal CSS
+   selects the measures by the exact reflected attribute: `" compact "` or `"large "` is invalid
+   input, as in `nph-button`, and no longer renders with the measures of `default`.
 2. **Measures.** `compact` changes two things: the height, `input/height-compact`, and the end
    padding, `input/clear-padding-end`, in every state, with or without the clear button. The
    start padding, the gap, the radius, the border, the text role, the icons and the 24 × 24 clear

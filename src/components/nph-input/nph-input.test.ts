@@ -1213,6 +1213,8 @@ describe('invalid input', () => {
     ['a type out of v1', { label: 'Pin', type: 'password' }, 1],
     ['the number type', { label: 'Age', type: 'number' }, 1],
     ['a size that does not exist', { label: 'Email', size: 'small' }, 1],
+    ['compact with spaces: the CSS selects by the exact attribute', { label: 'Email', size: ' compact ' }, 1],
+    ['large with spaces: the CSS selects by the exact attribute', { label: 'Email', size: 'large ' }, 1],
     ['icon-start outside none and the core', { label: 'Email', iconStart: 'not-a-core-name' }, 1],
     ['icon-end outside none and the core', { label: 'Email', iconEnd: 'not-a-core-name', clearLabel: 'Clear' }, 1],
     ['an empty icon value', { label: 'Email', iconStart: '' }, 1],
