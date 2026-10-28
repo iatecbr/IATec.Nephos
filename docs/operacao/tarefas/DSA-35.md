@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 370,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "done",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -15,15 +15,17 @@
       "id": "review-and-merge",
       "description": "The build, its script, the exports field, the Usage sections and their tests pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-35/review-and-merge-2026-10-28.md",
+      "result": "passed",
+      "verified_at": "2026-10-28",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
-  "evidence": [],
+  "evidence": [
+    "docs/operacao/evidencias/DSA-35/review-and-merge-2026-10-28.md"
+  ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p70",
     "docs/decisoes-tecnicas.md#p19",
@@ -33,10 +35,10 @@
   "external_origin": null,
   "git_review": {
     "branch": "claude/amazing-euclid-045eac",
-    "commit": null,
-    "pr": 140
+    "commit": "d35f59424f780d79894a61f51f216b927e8435ce",
+    "pr": "140"
   },
-  "context": "docs/operacao/contextos/DSA-35.md",
+  "context": null,
   "updated_at": "2026-10-28"
 }
 ```
