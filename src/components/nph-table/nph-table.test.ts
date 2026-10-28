@@ -1392,10 +1392,10 @@ describe('treegrid (P101)', () => {
   it('a focused button keeps its focus when the table becomes a tree and when it stops being one (review 1 of PR 135)', async () => {
     const flat: NphTableRow[] = [
       { key: 'south', cells: { unit: 'South region', amount: 30 } },
-      { key: 'north', cells: { unit: 'North region', amount: 5, act: { type: 'button', text: 'Report', action: 'report' } } },
+      { key: 'north', cells: { unit: 'North region', amount: 5, act: { type: 'actions', editLabel: 'Edit north', moreLabel: 'More of north' } } },
     ];
     const element = await mount({ columns, rows: flat });
-    const button = bodyRows(element)[1]?.querySelector('nph-button') as HTMLElement;
+    const [button, more] = [...(bodyRows(element)[1]?.querySelectorAll('nph-button') ?? [])] as HTMLElement[];
     innerButton(button).focus();
     expect(root(element).activeElement).toBe(button);
     element.rows = [{ ...(flat[0] as NphTableRow), toggleLabel: 'Units of the South region', children: [] }, flat[1] as NphTableRow];
@@ -1403,10 +1403,15 @@ describe('treegrid (P101)', () => {
     expect(table(element).getAttribute('role')).toBe('treegrid');
     expect(bodyRows(element)[1]?.querySelector('nph-button')).toBe(button);
     expect(root(element).activeElement).toBe(button);
+    /* The row the focus is in is the Tab stop of the tree, so Tab goes on to its second action (review 2 of PR 135). */
+    expect(bodyRows(element).map((row) => row.getAttribute('tabindex'))).toEqual(['-1', '0']);
+    expect([button?.hasAttribute('tabindex'), more?.hasAttribute('tabindex')]).toEqual([false, false]);
+    await userEvent.keyboard('{Tab}');
+    expect(root(element).activeElement).toBe(more);
     element.rows = flat;
     await element.updateComplete;
     expect(table(element).hasAttribute('role')).toBe(false);
-    expect(root(element).activeElement).toBe(button);
+    expect(root(element).activeElement).toBe(more);
   });
 
   it('a truncated cell reached by the arrows opens its tooltip (review 1 of PR 135)', async () => {

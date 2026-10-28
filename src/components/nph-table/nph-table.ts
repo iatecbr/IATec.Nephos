@@ -668,15 +668,32 @@ export class NphTable extends LitElement {
     capture: true,
   };
 
-  /** The row of the tree that holds the focus moves the Tab stop to itself. */
+  /**
+   * The row that holds the focus moves the Tab stop of the tree to itself. The flat table keeps
+   * the row too, with no render, so a table that becomes a tree keeps the Tab stop on the row
+   * the focus is in.
+   */
   private onFocusIn(event: FocusEvent): void {
-    if (!this.isTree) return;
-    const row = (event.target as Element | null)?.closest?.('tr[data-tree-row]');
-    const id = row?.getAttribute('data-tree-row') ?? '';
+    const row = (event.target as Element | null)?.closest?.('tr');
+    const id = row instanceof HTMLTableRowElement ? this.rowId(row) : '';
     if (id !== '' && id !== this.activeRow) {
       this.activeRow = id;
-      this.requestUpdate();
+      if (this.isTree) this.requestUpdate();
     }
+  }
+
+  /** The Tab stop id of a row: `row <key>`, `detail <key>` or the footer; empty for a header row. */
+  private rowId(row: HTMLTableRowElement): string {
+    const tree = row.getAttribute('data-tree-row');
+    if (tree !== null) return tree;
+    if (row.parentElement?.tagName === 'TFOOT') return this.hasFooter() ? FOOTER_ROW : '';
+    if (row.parentElement?.tagName !== 'TBODY') return '';
+    /* In the flat table the rows of data are the drawn rows, in order, and a detail row follows its row. */
+    const data = [...row.parentElement.querySelectorAll(':scope > tr.row')];
+    const owner = row.classList.contains('detail') ? row.previousElementSibling : row;
+    const drawn = this.drawnRows[data.indexOf(owner as Element)];
+    if (drawn === undefined) return '';
+    return `${row.classList.contains('detail') ? 'detail' : 'row'} ${drawn.row.key.trim()}`;
   }
 
   /**

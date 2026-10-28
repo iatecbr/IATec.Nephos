@@ -5046,7 +5046,8 @@ tree only, and the flat table does not change.
    buttons, when the table becomes a tree or stops being one.
 
 3. **Focus.** One row of the body is the Tab stop (`tabindex="0"`): the last row the focus was
-   in, while it is drawn, and the first row otherwise; the other rows and every cell take
+   in, while it is drawn — also while the table was flat, so a table that becomes a tree keeps
+   the Tab stop on the row the focus is in — and the first row otherwise; the other rows and every cell take
    `tabindex="-1"`. The links, the buttons, the chevron and the truncated text of the row that
    is the Tab stop keep the Tab order, and those of the other rows take `tabindex="-1"` (on the
    host of an `nph-button`, which takes its inner button out of the Tab order). So Tab goes from
