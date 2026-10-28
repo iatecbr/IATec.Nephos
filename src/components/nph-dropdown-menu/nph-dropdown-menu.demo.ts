@@ -141,3 +141,18 @@ export function optionsMenu(t: OptionsTexts, open = true): TemplateResult {
     ],
   });
 }
+
+/**
+ * Accessibility exception (P72, `docs/stories.md` §2.3): the gate leaves out the axe rule
+ * `label-content-name-mismatch` in the stories that show a supplementary text — the shortcut,
+ * the counter, the description and the tag. Reason: the name of an item is its text
+ * (`aria-labelledby`), and those four texts describe it (`aria-describedby`, P92). Understanding
+ * WCAG 2.5.3 counts such text as supplementary, not part of the label, so "Duplicate" does not have
+ * to be named "Duplicate Ctrl+D"; axe compares the name with the whole visible text of the item
+ * and cannot tell the two apart. Alternative discarded: putting the four texts in the name, which
+ * would make every item read its shortcut, counter, description and tag as its name. Decided by
+ * Elvys on 27-10-2026.
+ */
+export const SUPPLEMENTARY_TEXT_EXCEPTION = {
+  a11y: { options: { rules: { 'label-content-name-mismatch': { enabled: false } } } },
+};

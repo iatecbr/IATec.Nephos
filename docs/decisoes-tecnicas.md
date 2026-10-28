@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96 and P97. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98 and P99. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -1336,6 +1336,14 @@ workflow, as P19 left it.
 section "How to change one of these decisions": the technical conflict is above, the
 proposal is this section, and the human review is the pull request. The text of P19 does
 not change; only its out of scope gets the annotation.
+
+**Annotation of 27/10/2026.** DSA-32 puts the gate in place: `@storybook/addon-a11y` and
+`@storybook/addon-vitest` at the version of `storybook`, the stories as the `storybook`
+project of `vitest.config.ts`, and `parameters.a11y` in `.storybook/preview.js` with
+`test: 'error'` and the axe tags `wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa` and `wcag22aa`.
+Each story is read once, in the initial globals (light mode, default language), after
+`.storybook/settle.js` lets the transitions inside the shadow roots end. The decision itself
+does not change.
 
 **Status.** Adopted by Indiane on 15/10/2026 (DSA-30, D3). Reviewed in the pull request
 that brings it; the merge is the approval.
@@ -3198,7 +3206,8 @@ modal dialog covers the window it opens in, which a page with several examples i
    even between two parts of one piece. On close, the focus goes back to the
    element that had it, looked up inside shadow roots and given back by the component, not by the
    browser. No Tab trap is written: the inert page already keeps Tab in the dialog and the browser
-   interface.
+   interface. The content area that scrolls with nothing focusable inside (item 5) is not a
+   candidate on open: Tab reaches it after the opening rule ran (amended on 28/10/2026, DSA-32).
 
 4. **Esc.** It is the browser's close request, the `cancel` event of the `<dialog>`. The dialog
    always holds it, fires `nph-close` and closes unless the event is canceled, so the exit animates
@@ -3221,6 +3230,17 @@ modal dialog covers the window it opens in, which a page with several examples i
    given back as padding, measured at run time, and the values the root had are restored at the
    end, each axis with its priority. If the browser refuses to show the window, nothing is held:
    the lock is released and a later update tries again. **This writes to the document**: it is the one global side effect of the piece.
+   **Amended on 28/10/2026 (DSA-32, Elvys):** while the content scrolls and holds nothing that
+   takes focus — text only, such as a list of names — the keyboard could not reach the scroll
+   (WCAG 2.1.1). While that lasts, the content area is a region named by the title
+   (`role="region"`, `aria-labelledby` on the heading) with `tabindex="0"`, and draws the focus
+   ring inside the focus room it already keeps; the arrows and Page Down then scroll it. It
+   follows the size of the content and of what it holds, and a control added, removed, disabled
+   or hidden, so it leaves the Tab order when the scroll ends or a reachable control comes in. A
+   hidden field, or a control that is hidden, inert or turned off, does not count as reachable. With a control inside, the control takes the focus and the
+   browser scrolls to it, so the area stays out of the Tab order. Alternative discarded: an
+   exception of the gate rule `scrollable-region-focusable`, which would have left the scroll out
+   of reach.
 
 6. **Width.** The window hugs its content (`fit-content`), from `layout/dialog-min-width` up to the
    ceiling of `size`, and never past the window less `layout/margin-compact` on each side (D2); the
@@ -4181,6 +4201,11 @@ custom element definition per folder (`vite.config.lib.ts`, `scripts/test-packag
   menu drawn next to it: the visibility check reads the window only. Follow-up: hide or close the
   panel when the trigger has no visible intersection with its clipping ancestors (last Copilot round
   of PR #118).
+- **The accessibility gate (P72) leaves out `label-content-name-mismatch`** in the stories that show
+  a shortcut, a counter, a description or a tag: axe wants the visible text of the item inside its
+  name, and Understanding WCAG 2.5.3 counts those four as supplementary text, outside the label.
+  The exception is recorded in `nph-dropdown-menu.demo.ts`; decided by Elvys on 27/10/2026
+  (DSA-32).
 
 **Points for review.**
 
@@ -4370,7 +4395,10 @@ and P90. The names follow P64.
   `nph-button`.
 - **`aria-level` on a row outside a `treegrid`.** ARIA 1.2 gives `aria-level` to a row inside a
   `treegrid`; the table is not an interactive grid (the evidence: it reads, it does not operate),
-  so the level is written on the `<tr>` and its support by screen readers varies.
+  so the level is written on the `<tr>` and its support by screen readers varies. The
+  accessibility gate (P72) flags it; the stories that draw a tree carry an exception decided by
+  Elvys on 27/10/2026 (DSA-32), and the move to `role="treegrid"` with the APG keyboard is
+  DSA-56.
 - **The category content** of the cell is listed in the evidence but not described (D1 of
   DSA-49): there is no `category` type yet. The required example of items grouped by category
   shows the groups as the first level of the tree, open, with the total in the footer.
@@ -4559,6 +4587,11 @@ closed clears the typed text. D-5 the first match is active while the person typ
 - **The waiting and the empty boxes** take `space/inline` around the `nph-spinner` and the
   `nph-empty`; the evidence does not draw them.
 - **Forced colors and right-to-left** are not treated yet, as in P80.
+- **A long empty or waiting message scrolls inside `layout/max-list-height`** beside the listbox,
+  not in it (DSA-32): only options go in a listbox. The keyboard reaches that scroll where the browser
+  makes a scroll box with nothing focusable a Tab stop (Chromium and Firefox); Safari does not, and
+  the field does not move it with the arrows. The same holds in `nph-multi-combobox`, which shares the
+  list (P96).
 
 **Points for review.**
 
@@ -4812,7 +4845,7 @@ P64.
    does not follow it (evidence, Properties). On the rail button the balloon is always on, with the
    `label`, `relation="name"` and the `aria-label` as a fallback, as the icon-only `nph-button`
    (P86); there is no property to turn it off (evidence, Do not). Its counter is the description of
-   the link, through `aria-describedby`.
+   the link, through `aria-describedby` (amended on 27/10/2026, below: the counter is in the name).
 
 8. **The subitem.** A link with `label`, `href`, `active`, `disabled` and `tooltip`, and
    `options`, reflected, which draws `chevron-right` at `icon/size-sm`. The arrow is visual only and
@@ -4847,14 +4880,141 @@ subitems, the flyout and the keyboard between lines. What the list of options of
 (D-4). A new token. The Usage section of the page (P70, DSA-35), the page lists read from the
 Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
 
+**Amended on 27/10/2026 (DSA-32).** Item 7: the counter of the rail button is no longer the
+description. The accessibility gate (P72) found the visible number outside the name
+(`label-content-name-mismatch`, WCAG 2.5.3), and Elvys decided that the counter goes in the name.
+`aria-labelledby` reads the balloon, whose `id` is fixed, and then the counter; the balloon finds
+its own `id` already there and adds nothing, so the label is still announced once. Disabled, with
+no balloon, the `aria-label` holds the label and the counter. Reviewed in the pull request that
+brings it; the merge is the approval.
+
 **Status.** Anatomy and behavior accepted by Indiane on 26/10/2026. D-1 to D-4 wait for Indiane.
+API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
+## P99 — `nph-pagination`: API and semantics
+
+**Technical conflict.** The accepted documentation (`1640:196`, set `1640:194`) gives six types,
+three positions in the list, the page, ellipsis and go to page pieces, and leaves the page
+number, the position text and the list total to code. Five points need a decision of their own:
+
+- the evidence calls the numbers and the arrows `nph-button` and `nph-icon-button`, secondary and
+  outline, and it also gives them their own paint tokens — `pagination/arrow-background` on
+  `color/background`, `pagination/arrow-border` on `color/input`,
+  `pagination/item-background-hover` on `color/accent` and `pagination/text-foreground` on
+  `color/foreground` — that no severity and emphasis of `nph-button` paints (its secondary outline
+  is `color/muted` with a `secondary-foreground` border), and `nph-button` has no color property
+  and no `::part` (P68). The two statements cannot both be followed;
+- the Figma `posição` is the result of the current page and the count, not a choice;
+- the position text and the names carry numbers that change when the person moves, in the
+  language of the consuming application;
+- above a few pages, the numbers must hide some pages without the bar changing width;
+- the arrow the person used may lose its destination and be disabled while it has the focus.
+
+**Decision.** `nph-pagination` is a Web Component with **open Shadow DOM** (P01) and
+`delegatesFocus`, CSS in its own file imported `?inline`. It has no `::part`, no slot and no color
+property. Anatomy only through semantic tokens. Invalid input renders nothing and emits
+`console.error` only in development, one per cause — the rule of P21, as in P68. A count of zero
+is a mount: nothing, no error (P66). The names follow P64.
+
+1. **One tag.** The Figma page, ellipsis and go to page pieces are inner parts, not tags (P91,
+   item 1; P97, item 1). The host draws a `nav` named by `label`.
+
+2. **Native buttons painted with the pagination tokens (D-1).** Each number and each arrow is a
+   native `<button type="button">` drawn by the piece with the `pagination/*` tokens, so every
+   token created for this piece is consumed. They copy from `nph-button` what does not depend on
+   color: the focus of the secondary severity (border `border/width` in `focus/border`, halo
+   `focus/ring-width` in `focus/halo`, outside the box, keyboard only), the icon light at rest and
+   solid in hover-active (P88), and, on the icon-only arrows, the `nph-tooltip` next to the button
+   in the shadow root with `relation="name"` and the `aria-label` as a fallback (P86). Indiane
+   decides D-1; if the numbers and arrows become `nph-button`, `nph-button` needs a paint hook
+   first, which is a change of P68.
+
+3. **Type and position.** `type` is `numbered` (default), `simple`, `edges`, `range`, `compact` or
+   `table`, reflected. `page` is the current page, a whole number from 1, reflected. The count is
+   `page-count`, or comes from `total-items` and `page-size`; `range` and `table` show the range of
+   items, so they require both, and the derived count wins over a different `page-count`, with one
+   warning. The position is not a property: at the first page, first and previous are disabled; at
+   the last, next and last. A disabled arrow stays in place (evidence, Do). `page` above the count
+   draws the last page and warns once, so a filter that shrinks the list does not take the bar away
+   (as the transient value of `nph-select`, P91); it fires nothing.
+
+4. **The window of numbers.** Up to seven pages, every number. Above that, always seven slots: the
+   first and the last page, the current page with one neighbor on each side, and an ellipsis for
+   each run of hidden pages — `1 2 3 4 5 … 10`, `1 … 4 5 6 … 10`, `1 … 6 7 8 9 10`. Every number
+   and every ellipsis reserves the width of the widest number, the count, through a hidden copy
+   stacked under it, with tabular figures, so the bar keeps its width at any page of any list. The ellipsis is the `ellipsis` icon in a box of `pagination/item-size`,
+   `aria-hidden`, with no click.
+
+5. **Text by template.** Every text comes already localized: `label`, `page-label`, `first-label`,
+   `previous-label`, `next-label`, `last-label`, `position-text`, `page-size-label` and
+   `go-to-label`. `page-label` and `position-text` are templates with the markers `{page}`,
+   `{count}`, `{start}`, `{end}` and `{total}`, the convention of the Storybook dictionaries
+   (`.storybook/i18n/index.js`, `format`); the piece fills them with the numbers written by
+   `Intl.NumberFormat` in the language of the nearest `lang`, as `nph-slider` (P94), looked up
+   across the shadow roots the bar lives in. In `page-label`, the markers describe the page each
+   number leads to, not the current one. So the consumer gives the text once and the piece
+   rewrites it when the person moves. A missing arrow
+   label, position text, field label or `page-sizes` is invalid input; a missing `label` or
+   `page-label` renders and warns once. In `numbered`, `previous-label` and `next-label` are the
+   written text of the arrows, with the chevron (D-3), and there is no balloon.
+
+6. **The event `nph-page-change`.** A number, an arrow, go to page or items per page sets `page`
+   (and `page-size`) and fires `nph-page-change` on the host, bubbling, crossing the shadow root
+   (`composed`), not cancelable, with `detail: { page, pageSize }` (`pageSize` is `null` when the
+   count comes from `page-count` alone). Setting `page` from code fires nothing, as `nph-toggle`
+   of P98. The composed `input` of the inner `nph-select` and `nph-input` stops at their element,
+   and their `change` does not leave the shadow root: the bar has one event.
+
+7. **Focus stays in the bar.** When the arrow that had the focus loses its destination and is
+   disabled, the focus moves to the current page, or to the opposite arrow where there are no
+   numbers, so the keyboard does not fall back to the start of the document.
+
+8. **Items per page and go to page.** In `table`, `page-sizes` lists the options of an
+   `nph-select` in `pagination/page-size-width`, with a native `<label for>` from
+   `page-size-label`; it must hold `page-size`. Changing it keeps the first item on screen
+   (item 101 at 25 per page is on page 3 at 50). In `edges`, `go-to-page` turns on an `nph-input`
+   in `pagination/page-input-width` beside the bar, with a native `<label for>` from
+   `go-to-label` (evidence: "beside the bar with first and last"). Its `change` (Enter or blur)
+   takes a whole number, limited to the count; text that is not a number is ignored, and the field
+   empties after it, with no error state, which would need the sentence of `nph-field`.
+
+9. **Layout (D-4, D-5).** The outline of the bar wraps the arrows and the numbers, or the position
+   text between the arrows in `simple`, `range` and `compact`. In `table`, items per page and the
+   range sit before the bar; go to page sits after it; the groups at `pagination/group-gap`, a
+   label and its field at `pagination/control-gap`. The last arrow is the first one with only its
+   icon turned half a turn, not the button, its focus or its balloon.
+
+10. **Tokens.** The tokens of the evidence, each in its part: the bar in `pagination/border`,
+    `pagination/border-width`, `pagination/radius`, `pagination/padding-x`, `pagination/padding-y`
+    and `pagination/item-gap`; numbers and arrows in `pagination/item-size` and
+    `pagination/item-radius`; the text in `pagination/text-foreground` and `text/label-md` (D-2);
+    hover in `pagination/item-background-hover`; the current page in
+    `pagination/item-background-active` and `text/label-md-strong`; the arrow in
+    `pagination/arrow-background` with an inner stroke `pagination/arrow-border-width` in
+    `pagination/arrow-border`; disabled in `pagination/disabled-opacity`. The written arrows of
+    `numbered` take `space/control-padding` and `space/inline-tight` from `nph-button` with text.
+
+**Source.** Documentation `1640:196`, set `1640:194`, page `2888:87682`, ellipsis `2888:87798` and
+go to page `2888:87805` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 27/10/2026,
+with the Figma UX QA and the textual audit approved. The native buttons, the templates, the window
+of numbers, the event, the focus rule, the fields and the invalid input rules are a technical
+proposal of this implementation, with the plan approved by Elvys on 23/10/2026.
+
+**Out of scope.** `nph-data-table`, which places the bar below the table. Load more and infinite
+scroll. A size, forced colors and right-to-left. A new token. The Usage section of the page (P70,
+DSA-35), the page lists read from the Metadata (P71, DSA-34) and the accessibility gate (P72,
+DSA-32).
+
+**Status.** Anatomy and behavior accepted by Indiane on 27/10/2026. D-1 to D-5 wait for Indiane.
 API and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97 or P98 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98 or P99 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

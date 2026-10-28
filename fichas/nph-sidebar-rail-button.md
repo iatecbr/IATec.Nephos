@@ -53,8 +53,8 @@ api:
     default: "none"
     reflects: false
     constraint: >-
-      A whole number from zero up, in a pill on the top end corner (D-1), read as the
-      description of the link. When active, the pill gains an outline in
+      A whole number from zero up, in a pill on the top end corner (D-1), read in the
+      name of the link, after the label (WCAG 2.5.3; Elvys, 27-10-2026). When active, the pill gains an outline in
       sidebar/panel-background (D-2). Anything else draws nothing and emits console.error
       in development.
   disabled:
@@ -106,7 +106,7 @@ ai_hints:
   - "Use the same icon as the item it replaces."
 accessibility:
   semantics: "A link with aria-current=page on the current page. Disabled, the link has no href, keeps role link and gains aria-disabled."
-  accessible_name: "The label, as the aria-label of the link; the balloon repeats it as the name, through aria-labelledby, with the same text. The counter number is the description. The icon is hidden from the screen reader."
+  accessible_name: "The label and then the counter number: aria-labelledby reads the balloon, whose text is the label, and the counter, so the name holds the number one sees (WCAG 2.5.3; Elvys, 27-10-2026). The aria-label is the label, the fallback; disabled, with no balloon, it holds the label and the counter. The icon is hidden from the screen reader."
   keyboard:
     - "Tab: reaches the button and opens the balloon."
     - "Enter: follows the link."
@@ -201,7 +201,7 @@ reading page is the one of `nph-sidebar-item`.
 | Criterion | Rule |
 |---|---|
 | Semantics | A link with `aria-current="page"` on the current page. Disabled, the link has no `href`, keeps `role="link"` and gains `aria-disabled` |
-| Accessible name | The label, as the `aria-label`; the balloon repeats it as the name, through `aria-labelledby`, with the same text (as the icon-only `nph-button`). The counter number is the description. The icon is hidden |
+| Accessible name | The label and then the counter number: `aria-labelledby` reads the balloon, whose text is the label (as the icon-only `nph-button`), and the counter, so the name holds the number one sees (WCAG 2.5.3; Elvys, 27-10-2026, DSA-32). The `aria-label` is the label, the fallback; disabled, with no balloon, it holds the label and the counter. The icon is hidden |
 | Keyboard | Tab reaches the button and opens the balloon; Enter follows the link; Esc closes the balloon |
 | Focus | Border `color/primary` and halo `focus/halo` around the button, keyboard only |
 | Contrast | The icon passes 3:1 against `sidebar/panel-background`, `sidebar/rail-background-hover` and `sidebar/rail-background-active`, and the number 4.5:1 against `sidebar/item-badge-background`, in both modes. Disabled is exempt |

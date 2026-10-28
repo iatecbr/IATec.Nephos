@@ -501,6 +501,22 @@ refused property.
 `nph-label.test.ts`, *"what the label does NOT have"* group.
 **Limit:** two components.
 
+### 5.6 Every story passes the accessibility gate
+
+`npm test` renders every story, `Validation` and `Docs`, and runs axe on it with
+the WCAG 2.2 AA rule set; a violation fails the run. The gate reads the story
+once its transitions have ended, in the initial globals: light mode and the
+default language. A story that shows an inactive state says so to assistive
+technology, with `aria-disabled` or the native `disabled`: WCAG 1.4.3 exempts
+the text of an inactive component, and the gate reads that exemption from the
+markup. An exception is written in the story, as §2.3 records one, and opening
+it is a human decision.
+
+**Source:** `.storybook/preview.js`, `.storybook/settle.js`, `vitest.config.ts`;
+[`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P72**.
+**Limit:** one mode and one language per story; a frame that pins the other mode
+is read in that mode.
+
 ---
 
 ## 6. Storybook and repository

@@ -16,7 +16,8 @@
  * - `active`: the current page, with `aria-current="page"`, `sidebar/rail-background-active`
  *   and the icon in `sidebar/rail-foreground-active`;
  * - `counter`: a whole number of pending items, in a pill on the top end corner (D-1). It is
- *   read as text, as the description of the link. Active, the pill gains an outline in
+ *   read as text, in the name of the link after the label: the name holds the text one sees
+ *   on the button (WCAG 2.5.3; Elvys, 27-10-2026, DSA-32). Active, the pill gains an outline in
  *   `sidebar/panel-background` (D-2);
  * - `disabled`: the button at `state/disabled-opacity`, out of the Tab order, with no balloon;
  * - no event of its own: the click is the native `click`, which crosses the shadow root. The
@@ -38,8 +39,10 @@ const TAG = 'nph-sidebar-rail-button';
 const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 /** The `id` of the link, which the tooltip finds by `for`. */
 const CONTROL_ID = 'control';
-/** The `id` of the counter, the description of the link. */
+/** The `id` of the counter, the second part of the name of the link. */
 const COUNTER_ID = 'counter';
+/** The `id` of the balloon, the first part of the name of the link. */
+const TOOLTIP_ID = 'name';
 
 /** Development error; outside a bundler with `import.meta.env`, it stays silent. */
 function devError(message: string): void {
@@ -154,9 +157,14 @@ export class NphSidebarRailButton extends LitElement {
       ></nph-icon
       >${hasCounter ? html`<span class="counter" id=${COUNTER_ID}>${this.counter}</span>` : nothing}`;
     /*
-     * The `aria-label` names the link; the balloon repeats the name through the
-     * `aria-labelledby` it writes, with the same text (P86). The counter is the description.
+     * The name is the label and then the counter, the text one sees on the button (WCAG
+     * 2.5.3; Elvys, 27-10-2026, DSA-32). With the balloon, `aria-labelledby` reads its
+     * text and the counter; the balloon finds its own id already there and adds nothing,
+     * so the label is announced once (P86). Disabled, with no balloon, `aria-label` says
+     * the same. The alternative discarded: the counter as the description, which left a
+     * visible number out of the name.
      */
+    const name = hasCounter ? `${label} ${this.counter}` : label;
     const control = this.disabled
       ? /* Without href the link leaves the Tab order; the role keeps it a link for the screen reader. */
         html`<a
@@ -164,8 +172,7 @@ export class NphSidebarRailButton extends LitElement {
           id=${CONTROL_ID}
           role="link"
           aria-disabled="true"
-          aria-label=${label}
-          aria-describedby=${hasCounter ? COUNTER_ID : nothing}
+          aria-label=${name}
           >${content}</a
         >`
       : html`<a
@@ -173,13 +180,13 @@ export class NphSidebarRailButton extends LitElement {
           id=${CONTROL_ID}
           href=${this.href.trim()}
           aria-label=${label}
+          aria-labelledby=${hasCounter ? `${TOOLTIP_ID} ${COUNTER_ID}` : TOOLTIP_ID}
           aria-current=${this.active ? 'page' : nothing}
-          aria-describedby=${hasCounter ? COUNTER_ID : nothing}
           >${content}</a
         >`;
     const balloon = this.disabled
       ? nothing
-      : html`<nph-tooltip for=${CONTROL_ID} relation="name" .text=${label}></nph-tooltip>`;
+      : html`<nph-tooltip id=${TOOLTIP_ID} for=${CONTROL_ID} relation="name" .text=${label}></nph-tooltip>`;
     return html`${control}${balloon}`;
   }
 }

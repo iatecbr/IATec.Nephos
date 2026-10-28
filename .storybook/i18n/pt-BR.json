@@ -272,7 +272,14 @@
     "components-nph-sidebar-item-validation--rail-button": "Botão do trilho",
     "components-nph-sidebar-item-validation--tooltip-and-more-actions": "Tooltip e mais ações",
     "components-nph-sidebar-item-validation--invalid-input": "Entrada inválida",
-    "components-nph-sidebar-item-validation--examples": "Exemplos"
+    "components-nph-sidebar-item-validation--examples": "Exemplos",
+    "components-nph-pagination-docs": "Docs",
+    "components-nph-pagination-docs--documentation": "Documentação",
+    "components-nph-pagination-validation": "Validação",
+    "components-nph-pagination-validation--matrix": "Matriz",
+    "components-nph-pagination-validation--go-to-page": "Ir para a página",
+    "components-nph-pagination-validation--invalid-input": "Entrada inválida",
+    "components-nph-pagination-validation--examples": "Exemplos"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -6924,7 +6931,11 @@
       "components-nph-sidebar-item-validation--rail-button": "O botão do trilho com o contador desligado e ligado, em repouso, ativo e desabilitado: o contador no canto superior do fim (D-1), com contorno quando ativo (D-2).",
       "components-nph-sidebar-item-validation--tooltip-and-more-actions": "O balão com o nome completo de um rótulo cortado, no hover e no foco; mais ações no fim da linha, no hover e no foco, abrindo o seu menu; o balão do botão do trilho, sempre ligado.",
       "components-nph-sidebar-item-validation--invalid-input": "Entrada inválida não desenha nada: um grupo ativo, um contador com texto, um subitem sem href e um botão do trilho sem label, cada um com um erro.",
-      "components-nph-sidebar-item-validation--examples": "Os três exemplos obrigatórios do quadro: menu principal com página atual e contador, grupo aberto com subitens e menu recolhido com botões do trilho, cada um no modo claro e no escuro."
+      "components-nph-sidebar-item-validation--examples": "Os três exemplos obrigatórios do quadro: menu principal com página atual e contador, grupo aberto com subitens e menu recolhido com botões do trilho, cada um no modo claro e no escuro.",
+      "components-nph-pagination-validation--matrix": "type × posição: os seis tipos no início, no meio e no fim de uma lista de dez páginas. A seta sem destino fica desabilitada, no lugar; a página atual tem fundo e negrito. Passe o mouse para o hover e o balão, e aperte Tab para o foco.",
+      "components-nph-pagination-validation--go-to-page": "Ir para a página ao lado da barra com primeira e última: digite uma página e aperte Enter. Além do fim, vai para a última página.",
+      "components-nph-pagination-validation--invalid-input": "Entrada inválida não desenha nada: um tipo que não existe, sem contagem de páginas, ir para a página fora de edges e uma seta sem rótulo, cada um com um erro.",
+      "components-nph-pagination-validation--examples": "Os três exemplos obrigatórios do quadro: rodapé de tabela de dados no meio da lista, resultado de busca na primeira página e cabeçalho de card na última página, cada um no modo claro e no escuro."
     }
   },
   "multiComboboxDocs": {
@@ -7577,7 +7588,7 @@
       ],
       [
         "counter",
-        "Um número inteiro a partir de zero, lido como a descrição do link."
+        "Um número inteiro a partir de zero, lido no nome do link, depois do rótulo."
       ],
       [
         "disabled",
@@ -7645,7 +7656,7 @@
       ],
       [
         "Nome acessível",
-        "Vem do rótulo. O número do contador é lido como texto, dentro do nome do link. No botão do trilho, o label é o aria-label e o balão o repete como nome; o contador é a descrição. O ícone e a seta ficam escondidos do leitor de tela. Mais ações tem nome próprio, actions-label."
+        "Vem do rótulo. O número do contador é lido como texto, dentro do nome do link. No botão do trilho, o texto do balão e o contador formam o nome, por aria-labelledby, e o nome traz o número que se vê (WCAG 2.5.3). O ícone e a seta ficam escondidos do leitor de tela. Mais ações tem nome próprio, actions-label."
       ],
       [
         "Teclado",
@@ -7764,5 +7775,368 @@
     "exampleMain": "Menu principal com página atual e contador",
     "exampleGroup": "Grupo aberto com subitens",
     "exampleCollapsed": "Menu recolhido com botões do trilho"
+  },
+  "paginationDocs": {
+    "summary": "A barra que leva a pessoa de uma página a outra numa lista longa e mostra onde ela está na lista.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-pagination, o design.md para os tokens e os ícones, e a P99 para a API. Cinco decisões esperam a responsável pelo design (D-1 a D-5 da DSA-54) e aparecem aqui no padrão.",
+    "sourceLabel": "Fonte:",
+    "sourceFrame": "Figma, página NPH — Pagination, documentação 1640:196, conjunto 1640:194",
+    "sourceApi": "ficha do nph-pagination; docs/decisoes-tecnicas.md › P99",
+    "sourceStates": "Figma, página 2888:87682 e reticências 2888:87798; tarefa DSA-54, decisões pendentes D-1 e D-2",
+    "sourceFields": "Figma, ir para a página 2888:87805; fichas do nph-select e do nph-input",
+    "sourceAccessibility": "Figma, documentação 1640:196; nph-pagination.test.ts",
+    "matrixLabel": "type × posição",
+    "description": "Use o nph-pagination abaixo de uma lista ou tabela que não cabe numa tela. Ele divide o resultado; não substitui o filtro nem a busca. Carregar mais e rolagem infinita não fazem parte desta peça.",
+    "whenToUseTitle": "Quando usar",
+    "whenNotToUseTitle": "Quando não usar",
+    "whenToUse": [
+      "Com type numbered, abaixo de uma lista comum ou de um resultado de busca, quando a pessoa pula entre páginas próximas.",
+      "Com type simple ou compact, em espaço estreito: compact cabe num cabeçalho de card, num painel lateral e no celular.",
+      "Com type edges, com ir para a página, numa lista longa, quando a pessoa precisa chegar ao início, ao fim ou a uma página dada.",
+      "Com type range, quando o total de itens importa mais que o número da página.",
+      "Com type table, no rodapé de uma tabela de dados com muitos registros."
+    ],
+    "whenNotToUse": [
+      "Para filtrar ou buscar na lista: a paginação divide o resultado, não substitui o filtro nem a busca.",
+      "Para carregar mais ou rolar sem fim: não fazem parte desta peça.",
+      "Para passar entre as etapas de um fluxo: a paginação passa entre páginas da mesma lista."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "type",
+        "numbered (padrão), simple, edges, range, compact ou table: o tipo do Figma. A posição do Figma não é propriedade: sai de page e da contagem de páginas."
+      ],
+      [
+        "page",
+        "A página atual, um número inteiro a partir de 1, refletido. A peça o muda quando a pessoa se move. Acima da contagem, desenha a última página, com um aviso."
+      ],
+      [
+        "page-count",
+        "O número de páginas. Ou total-items e page-size o dão; com os dois, vale a contagem derivada."
+      ],
+      [
+        "total-items, page-size",
+        "O total de itens e os itens por página. Obrigatórios em range e table, que mostram o intervalo de itens."
+      ],
+      [
+        "page-sizes",
+        "As opções de itens por página, só em table, contendo page-size. Como atributo, uma lista JSON."
+      ],
+      [
+        "go-to-page",
+        "Liga ir para a página ao lado da barra, só em edges, com go-to-label."
+      ],
+      [
+        "label",
+        "O nome da navegação, como Paginação."
+      ],
+      [
+        "page-label",
+        "O nome de cada número, com o marcador da página entre chaves, como Página 5."
+      ],
+      [
+        "first-label, previous-label, next-label, last-label",
+        "Os nomes das setas e o texto dos seus balões. Em numbered, previous-label e next-label são o texto escrito dos botões."
+      ],
+      [
+        "position-text",
+        "O texto de posição, com os marcadores de página, contagem, início, fim e total entre chaves, preenchidos com os números no idioma da página."
+      ],
+      [
+        "page-size-label, go-to-label",
+        "Os rótulos visíveis de itens por página e de ir para a página, que também nomeiam os campos."
+      ],
+      [
+        "nph-page-change",
+        "Disparado só quando a pessoa se move, com detail page e pageSize; borbulha e é composed. Mudar page por código não dispara nada."
+      ]
+    ],
+    "invalidTitle": "Entrada inválida não desenha nada.",
+    "invalidText": "Um type fora dos seis, uma página ou contagem que não é inteira, sem contagem de páginas, range ou table sem total-items e page-size, page-sizes fora de table ou sem page-size, ir para a página fora de edges, e uma seta ou um texto de posição sem o seu texto emitem, cada um, um console.error em desenvolvimento. Sem label ou sem page-label, a peça desenha e avisa uma vez.",
+    "typesTitle": "Tipos",
+    "typesCaption": "numbered, simple, edges, range, compact e table, no meio da lista.",
+    "typesHeader": [
+      "Tipo",
+      "O que a barra mostra"
+    ],
+    "types": [
+      [
+        "numbered",
+        "Números, com Anterior e Próxima escritos."
+      ],
+      [
+        "simple",
+        "Setas e o texto de posição com a palavra página."
+      ],
+      [
+        "edges",
+        "Números com primeira, anterior, próxima e última."
+      ],
+      [
+        "range",
+        "Setas e o intervalo de itens."
+      ],
+      [
+        "compact",
+        "Setas e o texto de posição curto."
+      ],
+      [
+        "table",
+        "Itens por página, o intervalo e a barra com primeira e última."
+      ]
+    ],
+    "positionTitle": "Posição na lista",
+    "positionText": "A posição não é propriedade: sai de page e da contagem de páginas. No início, primeira e anterior ficam desabilitadas; no meio, todas as setas ficam ativas e há reticências dos dois lados da página atual; no fim, próxima e última ficam desabilitadas. A primeira e a última página aparecem sempre, e acima de sete páginas os números mantêm sete posições, para a barra manter a largura.",
+    "positionCaption": "Início, meio e fim de uma lista de dez páginas.",
+    "statesTitle": "Página e setas",
+    "statesText": "Os números e as setas são botões nativos pintados com os tokens da paginação, com o foco do nph-button secondary e, nas setas só com ícone, o balão do botão só com ícone (D-1). A primeira e a última seta usam arrow-left-to-line; a última gira só o ícone. Anterior e próxima usam os chevrons (D-3).",
+    "statesCaption": "No início: a página atual, e primeira e anterior desabilitadas. Passe o mouse para o hover e o balão, e aperte Tab para o foco.",
+    "statesHeader": [
+      "Parte e estado",
+      "O que muda"
+    ],
+    "states": [
+      [
+        "page, rest",
+        "Sem fundo, o número em pagination/text-foreground e text/label-md (D-2)."
+      ],
+      [
+        "page, hover",
+        "pagination/item-background-hover."
+      ],
+      [
+        "page, current",
+        "pagination/item-background-active e o número em text/label-md-strong, com aria-current=\"page\"."
+      ],
+      [
+        "arrow, rest",
+        "pagination/arrow-background com traço pagination/arrow-border por dentro; o ícone light."
+      ],
+      [
+        "arrow, hover",
+        "pagination/item-background-hover; o ícone solid; o balão depois da espera."
+      ],
+      [
+        "arrow, disabled",
+        "pagination/disabled-opacity, no lugar, fora da ordem do Tab, sem hover e sem balão."
+      ],
+      [
+        "focus",
+        "Borda focus/border e halo focus/halo por fora do botão, só no teclado; na seta, o balão abre na hora."
+      ]
+    ],
+    "fieldsTitle": "Itens por página e ir para a página",
+    "fieldsText": "Em table, itens por página é um nph-select em pagination/page-size-width com o rótulo visível: trocar mantém o primeiro item na tela. Em edges, ir para a página é um nph-input em pagination/page-input-width ao lado da barra: Enter vai para a página digitada, e além do fim, para a última.",
+    "fieldsCaption": "Itens por página em table, e ir para a página em edges.",
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Fica logo abaixo do nph-data-table ou da lista que pagina. A tabela controla os dados; a paginação só muda a página.",
+      "Usa o nph-icon nas setas e nas reticências, o nph-tooltip nos balões, o nph-select em itens por página e o nph-input em ir para a página.",
+      "Espaço entre os números e entre as setas: pagination/item-gap. Entre grupos: pagination/group-gap. Entre um rótulo e o seu campo: pagination/control-gap."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "1. Barra",
+        "Contorno pagination/border em pagination/border-width, raio pagination/radius, espaçamento pagination/padding-x e pagination/padding-y (D-5)."
+      ],
+      [
+        "2. Setas",
+        "Anterior e próxima; primeira e última em edges e table. pagination/arrow-background, traço pagination/arrow-border, raio pagination/item-radius."
+      ],
+      [
+        "3. Página",
+        "Um número em pagination/item-size, raio pagination/item-radius, texto pagination/text-foreground. A atual tem pagination/item-background-active."
+      ],
+      [
+        "4. Reticências",
+        "Marcam as páginas que não aparecem. Não recebem clique."
+      ],
+      [
+        "5. Texto de posição",
+        "Página 5 de 10, 5 de 10 ou 101–125 de 250, em simple, compact, range e table (D-4)."
+      ],
+      [
+        "6. Itens por página",
+        "Um rótulo e um nph-select em pagination/page-size-width, só em table."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "Uma navegação nomeada por label. Cada número e cada seta é um botão nativo; a página atual leva aria-current=\"page\". As reticências ficam ocultas e não recebem clique."
+      ],
+      [
+        "Nome acessível",
+        "Cada número é nomeado por page-label. As setas só com ícone são nomeadas pelo texto do balão, anunciado uma vez; em numbered, o texto escrito nomeia a seta."
+      ],
+      [
+        "Teclado",
+        "Tab percorre as setas, os números e os campos na ordem de leitura, pulando a seta desabilitada; Enter e Espaço movem. Chegar à primeira ou à última página por uma seta leva o foco à página atual."
+      ],
+      [
+        "Contraste",
+        "Número, texto e ícone em pagination/text-foreground passam 4,5:1 nos dois modos, também sobre os fundos ativo e de hover; a borda da seta passa 3:1."
+      ],
+      [
+        "Cor não é o único sinal",
+        "A página atual também tem o número em negrito. A seta sem destino fica desabilitada e não mostra balão."
+      ],
+      [
+        "Área de toque",
+        "Número e seta têm pagination/item-size de largura e altura. Em tela estreita, use compact em vez de encolher os botões."
+      ]
+    ],
+    "doTitle": "Faça",
+    "dontTitle": "Não faça",
+    "do": [
+      "Mostre a primeira e a última página em numbered: a pessoa entende o tamanho da lista.",
+      "Desabilite a seta sem destino em vez de escondê-la: a barra mantém a largura.",
+      "Use em itens por página o mesmo valor que a tabela usa: o intervalo bate com as linhas na tela."
+    ],
+    "dont": [
+      "Não esconda a seta sem destino: a barra pula.",
+      "Não marque a página atual só com a cor do número: cor sozinha não é sinal."
+    ],
+    "examplesTitle": "Exemplos obrigatórios",
+    "referencesTitle": "Referências",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, página NPH — Pagination, documentação 1640:196, conjunto 1640:194",
+      "fichas/nph-pagination.md",
+      "docs/decisoes-tecnicas.md › P99",
+      "Tarefa DSA-54, decisões pendentes D-1 a D-5"
+    ],
+    "labels": {
+      "label": "Paginação",
+      "page": "Página {page}",
+      "first": "Primeira página",
+      "previous": "Página anterior",
+      "next": "Próxima página",
+      "last": "Última página",
+      "previousText": "Anterior",
+      "nextText": "Próxima",
+      "pageOf": "Página {page} de {count}",
+      "short": "{page} de {count}",
+      "range": "{start}–{end} de {total}",
+      "pageSize": "Itens por página",
+      "goTo": "Ir para a página"
+    },
+    "table": {
+      "label": "Colaboradores",
+      "columns": [
+        "Nome",
+        "Departamento"
+      ],
+      "rows": [
+        [
+          "Ana Souza",
+          "Financeiro"
+        ],
+        [
+          "Bruno Lima",
+          "Jurídico"
+        ],
+        [
+          "Carla Dias",
+          "Pessoas"
+        ]
+      ]
+    },
+    "search": {
+      "title": "Resultados para orçamento",
+      "results": [
+        "Rascunho do orçamento 2027",
+        "Ata da revisão do orçamento",
+        "Política de orçamento de viagens"
+      ]
+    },
+    "card": {
+      "title": "Atividade recente",
+      "items": [
+        "Relatório aprovado",
+        "Fatura enviada",
+        "Contrato assinado"
+      ]
+    },
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "exampleTable": "Rodapé de tabela de dados, no meio da lista",
+    "exampleSearch": "Resultado de busca, na primeira página",
+    "exampleCard": "Cabeçalho de card, na última página"
+  },
+  "paginationValidation": {
+    "labels": {
+      "label": "Paginação",
+      "page": "Página {page}",
+      "first": "Primeira página",
+      "previous": "Página anterior",
+      "next": "Próxima página",
+      "last": "Última página",
+      "previousText": "Anterior",
+      "nextText": "Próxima",
+      "pageOf": "Página {page} de {count}",
+      "short": "{page} de {count}",
+      "range": "{start}–{end} de {total}",
+      "pageSize": "Itens por página",
+      "goTo": "Ir para a página"
+    },
+    "table": {
+      "label": "Colaboradores",
+      "columns": [
+        "Nome",
+        "Departamento"
+      ],
+      "rows": [
+        [
+          "Ana Souza",
+          "Financeiro"
+        ],
+        [
+          "Bruno Lima",
+          "Jurídico"
+        ],
+        [
+          "Carla Dias",
+          "Pessoas"
+        ]
+      ]
+    },
+    "search": {
+      "title": "Resultados para orçamento",
+      "results": [
+        "Rascunho do orçamento 2027",
+        "Ata da revisão do orçamento",
+        "Política de orçamento de viagens"
+      ]
+    },
+    "card": {
+      "title": "Atividade recente",
+      "items": [
+        "Relatório aprovado",
+        "Fatura enviada",
+        "Contrato assinado"
+      ]
+    },
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "exampleTable": "Rodapé de tabela de dados, no meio da lista",
+    "exampleSearch": "Resultado de busca, na primeira página",
+    "exampleCard": "Cabeçalho de card, na última página"
   }
 }

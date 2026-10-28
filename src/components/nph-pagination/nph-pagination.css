@@ -1,0 +1,194 @@
+/**
+ * Internal style of `nph-pagination`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties consumed here: the `pagination/*` tokens of the evidence, `text/label-md-strong`
+ * for the current page, and the focus of the secondary `nph-button` (P99, D-1).
+ *
+ * No literal design value goes in here. Written box relations: `transparent` (a number has
+ * no background at rest), `nowrap` (a number and the position text stay on one line),
+ * `calc(-1 * ...)` (focus border and halo outside, without changing the size), `inset` with
+ * zeros in `box-shadow` (the border of the arrow is a stroke on the inside, as in the outline
+ * `nph-button`), `1 / 1` (the number and its hidden width copy share one grid cell) and `0.5turn` (the last arrow is the first one turned half a turn, evidence,
+ * "First and last arrow icon").
+ */
+
+/* With invalid input or no page, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: block;
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-pagination-group-gap);
+  color: var(--nph-pagination-text-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+/* The bar: the outline around the arrows and the numbers or the position text (D-5). */
+.bar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nph-pagination-item-gap);
+  padding-block: var(--nph-pagination-padding-y);
+  padding-inline: var(--nph-pagination-padding-x);
+  border: var(--nph-pagination-border-width) solid var(--nph-pagination-border);
+  border-radius: var(--nph-pagination-radius);
+}
+
+/* Items per page and go to page: the label and its field. */
+.field {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nph-pagination-control-gap);
+}
+
+.text,
+.position {
+  white-space: nowrap;
+}
+
+#page-size {
+  inline-size: var(--nph-pagination-page-size-width);
+}
+
+#go-to {
+  inline-size: var(--nph-pagination-page-input-width);
+}
+
+/* Numbers and arrows: square at pagination/item-size; a written arrow grows with its text. */
+.page,
+.arrow {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--nph-pagination-item-size);
+  block-size: var(--nph-pagination-item-size);
+  margin: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  border: none;
+  border-radius: var(--nph-pagination-item-radius);
+  color: var(--nph-pagination-text-foreground);
+  font: inherit;
+  white-space: nowrap;
+  outline: none;
+}
+
+/*
+ * A number and an ellipsis stack their content over a hidden copy of the widest number, so
+ * every slot keeps one width at any page (P99, item 4).
+ */
+.page,
+.ellipsis {
+  display: inline-grid;
+  place-items: center;
+  padding-inline: var(--nph-space-inline-tight);
+  font-variant-numeric: tabular-nums;
+}
+
+.page > *,
+.ellipsis > * {
+  grid-area: 1 / 1;
+}
+
+.sizer {
+  visibility: hidden;
+}
+
+.page {
+  background-color: transparent;
+}
+
+.page:hover {
+  background-color: var(--nph-pagination-item-background-hover);
+}
+
+/* The current page: background and bold, so color is not the only signal. */
+.page[aria-current='page'],
+.page[aria-current='page']:hover {
+  background-color: var(--nph-pagination-item-background-active);
+  font-family: var(--nph-text-label-md-strong-font-family);
+  font-size: var(--nph-text-label-md-strong-font-size);
+  font-weight: var(--nph-text-label-md-strong-font-weight);
+  line-height: var(--nph-text-label-md-strong-line-height);
+  letter-spacing: var(--nph-text-label-md-strong-letter-spacing);
+}
+
+.arrow {
+  background-color: var(--nph-pagination-arrow-background);
+  box-shadow: inset 0 0 0 var(--nph-pagination-arrow-border-width) var(--nph-pagination-arrow-border);
+}
+
+/* The written arrow of numbered: icon and text, as the nph-button with text. */
+:host([type='numbered']) .arrow {
+  gap: var(--nph-space-inline-tight);
+  padding-inline: var(--nph-space-control-padding);
+}
+
+.arrow:not(:disabled):is(:hover, :active) {
+  background-color: var(--nph-pagination-item-background-hover);
+}
+
+/* The arrow without a destination: disabled, in the resting colors. */
+.arrow:disabled {
+  opacity: var(--nph-pagination-disabled-opacity);
+}
+
+.glyph {
+  display: inline-flex;
+}
+
+/* hover-active: the solid twin replaces the light icon, as in nph-button (P88). */
+.arrow:not(:disabled):is(:hover, :active) .icon-rest,
+.arrow:is(:disabled, :not(:hover, :active)) .icon-active {
+  display: none;
+}
+
+/* The last arrow is the first one turned: only the icon turns, not the button or its focus. */
+.last .glyph {
+  transform: rotate(0.5turn);
+}
+
+.ellipsis {
+  box-sizing: border-box;
+  min-inline-size: var(--nph-pagination-item-size);
+  block-size: var(--nph-pagination-item-size);
+}
+
+/* Focus: tight border and halo outside, keyboard only, as the secondary nph-button. */
+.page:focus-visible::before,
+.page:focus-visible::after,
+.arrow:focus-visible::before,
+.arrow:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.page:focus-visible::before,
+.arrow:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+
+.page:focus-visible::after,
+.arrow:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}

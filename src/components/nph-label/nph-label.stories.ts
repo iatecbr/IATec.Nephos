@@ -169,7 +169,10 @@ export const AssociationWithControl: Story = {
 
 /**
  * What the label does NOT do. Error and disabled do not change the label: the
- * field shows both, and later `nph-field`.
+ * field shows both, and later `nph-field`. The disabled sample stands for the
+ * label of a disabled field, so its wrapper says so with `aria-disabled`: WCAG
+ * 1.4.3 exempts the text of an inactive component, and the accessibility gate
+ * (P72) reads that exemption from the attribute.
  */
 export const WhatTheLabelDoesNotDo: Story = {
   name: 'What the label does not do',
@@ -181,7 +184,7 @@ export const WhatTheLabelDoesNotDo: Story = {
         v.disabledTitle,
         html`
           ${caption(v.disabledCaption)}
-          <div style="opacity:var(--nph-state-disabled-opacity)">
+          <div aria-disabled="true" style="opacity:var(--nph-state-disabled-opacity)">
             <nph-label text=${v.sampleText} required></nph-label>
           </div>
         `,
