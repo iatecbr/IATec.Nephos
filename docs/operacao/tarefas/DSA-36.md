@@ -22,7 +22,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D2",
+      "question": "In the dark scheme, `color/primary-hover` resolves to `theme/brand-400-hover`, which is a darker shade in `gerencial`, `educacao`, `igrejas` and `rh`. Painted as text, it fails 4.5:1: the active item and the open group of `nph-sidebar-item` on `sidebar/panel-background` (`gerencial` 1.47, `educacao` 1.00, `igrejas` 1.86, `rh` 1.56) and the checked item of `nph-dropdown-menu` on the popover (`gerencial` 1.01, `educacao` 1.46, `igrejas` 1.38, `rh` 1.10); `sistemas`, `comercial` and `financeiro` pass above 5:1. Which token changes in Figma? Meanwhile the `Brands` stories of the two pieces carry a `color-contrast` exception, decided by Elvys on 2026-10-28, which leaves when the token is fixed.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    }
+  ],
   "evidence": [],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p20",
@@ -52,6 +59,13 @@ Indiane answered D1. B1 is closed: PR #84 is merged.
 | ID | Answer | What the code does |
 |---|---|---|
 | D1 | The brand matters for every component whose code consumes a token that resolves differently across the seven brands, directly or through another token. Today that is `nph-button` (primary color and focus), `nph-badge` (primary color) and `nph-label` (focus only). `nph-icon`, `nph-kbd`, `nph-separator`, `nph-skeleton`, `nph-spinner` and `nph-tooltip` look the same in the seven brands and stay out. A test fails when a component consumes such a token and has no brand `Validation` story. | Adds the brand `Validation` story to `nph-button`, `nph-badge` and `nph-label`. Adds the test, which finds the brand-dependent tokens from `src/tokens/generated/tokens.css`, so a new component joins the list when its code consumes one. |
+
+## Pending decisions
+D1 holds. The pieces on the list come out of the test; the pull request records them.
+
+| ID | What the evidence gives | What is missing | What the code does meanwhile |
+|---|---|---|---|
+| D2 | In the dark scheme, `color/primary-hover` as text fails 4.5:1 in `gerencial`, `educacao`, `igrejas` and `rh`: `nph-sidebar-item` active and open labels (1.00 to 1.86) and the checked item of `nph-dropdown-menu` (1.01 to 1.46). | Which token changes in Figma. | The two `Brands` stories carry a `color-contrast` exception, decided by Elvys on 2026-10-28; it leaves when the token is fixed. |
 
 ## How it is proved
 **`review-and-merge`** passes when each component on the list decided in D1 has the brand `Validation` story; a test fails a component that consumes a brand-dependent token and has no such story; the visible text comes from the three dictionaries; `npm test`, `npm run typecheck`, `npm run test:i18n`, `npm run test:naming`, `npm run test:operacao`, `npm run build-storybook` and `git diff --check` exit 0; and the pull request is merged into `v/5.0.0`.
