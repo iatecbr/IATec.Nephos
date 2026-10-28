@@ -4,8 +4,8 @@
  * and `inputValidation` dictionaries with the same shape in pt-BR, en and es
  * (`test:i18n` only reads `.md` pairs), no text of another language on the English page,
  * every instance named, and the two "When to use" lists equal to the ones of the sheet
- * (page and sheet match, with no item dropped). Reading the lists from the Metadata is
- * P71 (DSA-34), deferred; see the header of `nph-input.docs.stories.ts`.
+ * (page and sheet match, with no item dropped). The page reads the lists from the
+ * Metadata (P71), and `src/shared/docs/sheet-lists.test.ts` checks every page.
  */
 import { afterEach, describe, expect, it } from 'vitest';
 import { render } from 'lit';

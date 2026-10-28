@@ -9,9 +9,7 @@
  * frame close it, each in light and dark mode.
  *
  * Deferred, not fulfilled here:
- * - the Usage section (P70) enters every Docs page, after API, in DSA-35;
- * - the "When to use" lists still come from the dictionary, and a test checks that they equal the
- *   sheet's; reading them from the Metadata is P71, in DSA-34.
+ * - the Usage section (P70) enters every Docs page, after API, in DSA-35.
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the
  * `avatarStackDocs` key. The story is SINGLE: it reads `globals.locale` and looks up the
@@ -25,7 +23,9 @@ import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook
 import './nph-avatar-stack';
 import { inScheme, meetingParticipants, membersInList, stack, taskOwners } from './nph-avatar-stack.demo';
 import type { Scheme } from './nph-avatar-stack.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
+import metadata from '../../shared/metadata/nph-avatar-stack.json';
 
 const meta: Meta = {
   title: 'Components/nph-avatar-stack/Docs',
@@ -104,7 +104,7 @@ export const Documentation: Story = {
           SECTIONS.whenToUse,
           d.whenToUseTitle,
           html`
-            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.whenNotToUse })}
+            ${sheetUseDontUse(metadata, localeOf(context), d)}
             ${text(d.relationsText)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,

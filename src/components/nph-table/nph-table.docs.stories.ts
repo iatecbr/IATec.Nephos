@@ -10,8 +10,6 @@
  *
  * Deferred, not fulfilled here:
  * - the Usage section (P70) enters every Docs page, after API, in DSA-35;
- * - the "When to use" lists still come from the dictionary, and a test checks that they equal the
- *   sheet's; reading them from the Metadata is P71, in DSA-34;
  * - the category content of the cell (D1 of DSA-49): until it is defined, the example of items
  *   grouped by category shows the groups as the first level of the tree, and the page says so.
  *
@@ -40,7 +38,9 @@ import {
   wideCaptionTable,
 } from './nph-table.demo';
 import type { Sample, Scheme } from './nph-table.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
+import metadata from '../../shared/metadata/nph-table.json';
 
 const meta: Meta = {
   title: 'Components/nph-table/Docs',
@@ -127,7 +127,7 @@ export const Documentation: Story = {
           SECTIONS.whenToUse,
           d.whenToUseTitle,
           html`
-            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.whenNotToUse })}
+            ${sheetUseDontUse(metadata, locale, d)}
             ${text(d.relationsText)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,
