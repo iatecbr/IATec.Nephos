@@ -20,19 +20,25 @@ accepted frames `1197:5449` and `1130:956`, in the order of `docs/stories.md`, ย
 - `fichas/nph-button.md` and `fichas/nph-icon.md`
 
 ## Changes
-None yet.
+`page.ts` sets `text/body-lg` in `text` and `list`; the `nph-button` Docs page gains Anatomy and the
+`plus` icon-only example of the frame; the `nph-icon` Docs page gains Anatomy and the other two
+examples of the frame; the ยง4.10 sentence of D3 is corrected; tests and the three dictionaries.
 
 ## Commands run
-- `git merge --ff-only origin/v/5.0.0`
+- `git merge --ff-only origin/v/5.0.0`; Wait for the Copilot review of the pull request.
+- `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:naming`,
+  `test:spelling`, `test:operacao`, `build-storybook`, `build:lib`, `test:package` and
+  `git diff --check` on the head of the pull request.
 
 ## Result
-The task is in progress on the branch `claude/dsa-33-docs-body-lg-2e2a78`.
+In review in pull request #137, from the branch `claude/dsa-33-docs-body-lg-2e2a78`.
 
 ## Evidence
-None yet. `review-and-merge` waits for the pull request.
+The proof table is in the description of the pull request. `review-and-merge` waits for the
+merge.
 
 ## Blocker
 None.
 
 ## Next command
-`npm ci`
+Wait for the Copilot review of the pull request.
