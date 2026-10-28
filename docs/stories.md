@@ -302,7 +302,8 @@ component is not duplicated per mode.
 
 **Source:** `nph-label.stories.ts`, `frame()` function and header;
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P20**.
-**Limit:** one component. Only `nph-label` has a mode story. The frame beats
+**Limit:** `nph-label` has a mode story; each piece where the brand matters
+shows both schemes in its `Brands` story (§6.4). The frame beats
 Storybook's global mode (§6.4) for every semantic token: the invariants that
 depend on brand or scheme are also redeclared at each scheme root (**P67**). A
 frame with another brand carries `data-nph-brand` and `data-nph-color-scheme`
@@ -568,6 +569,22 @@ proves the seven brands of **P20**, in light and dark, in a `Validation` story,
 each frame carrying `data-nph-brand` and `data-nph-color-scheme` on the same
 element (§4.6, **P67**).
 
+The brand matters for every component whose code consumes a token that
+resolves differently across the seven brands, directly or through another
+token (DSA-36, D1, answered by Indiane). Nobody writes that list:
+`src/shared/tokens/brand-validation.test.ts` reads, in the browser, the value
+each `--nph-*` of the generated CSS resolves to under each brand and scheme,
+keeps the names whose value changes with the brand, and fails a piece whose CSS
+or TypeScript consumes one of them without a `Brands` story in its `Validation`
+file. The story is built with `brandFrames`, from `src/shared/docs/brands.ts`:
+the brands in rows, the schemes in columns, the piece inside every frame. A
+piece with no `Validation` file of its own, such as `nph-option`, is proved in
+the file of the piece that owns it. Hover and focus are not forced: they show
+up by moving the mouse and navigating with Tab through the frames. A brand that
+fails the accessibility gate is a token limit, not a story defect: the story
+keeps the state, and the exception is written as §5.6 says
+(`BRAND_CONTRAST_EXCEPTION`, DSA-36, D2).
+
 The frame follows the Solutions identity, with the `#1FBFFF` highlight and the
 `#031A24` ink on top of it. Those hex values live only in `.storybook/manager.js`
 and `.storybook/manager-head.html`. In light mode, the blue appears only as a
@@ -579,9 +596,11 @@ pass the contrast check. The page continues with only `--nph-*`.
 both modes.
 
 **Source:** `.storybook/manager.js`, `.storybook/manager-head.html`,
-`.storybook/preview.js`; [`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P20**.
-**Limit:** a Storybook rule; it does not change a component API. No component
-has the brand `Validation` story yet.
+`.storybook/preview.js`; `src/shared/docs/brands.ts` and
+`src/shared/tokens/brand-validation.test.ts`;
+[`decisoes-tecnicas.md`](decisoes-tecnicas.md), **P20**.
+**Limit:** a Storybook rule; it does not change a component API. The list of
+pieces with the `Brands` story comes out of the test, not out of this guide.
 
 ---
 
