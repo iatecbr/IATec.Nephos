@@ -50,6 +50,17 @@ const PROBES = [
     expect: ['centre', 'colour'],
   },
   {
+    name: 'prose and a second json block after a json block',
+    path: 'docs/probe.md',
+    text: '```json\n{ "goal": "A goal." }\n```\n\nThe colour.\n\n```json\n{ "goal": "The centre." }\n```\n',
+    expect: ['colour', 'centre'],
+  },
+  {
+    name: 'code block after a json block',
+    path: 'docs/probe.md',
+    text: '```json\n{ "goal": "A goal." }\n```\n\nThe text.\n\n```sh\necho behaviour\n```\n',
+  },
+  {
     name: 'design.md list item with a space',
     path: 'design.md',
     text: 'regras:\n  use_em: [a centre phrase, cor]\n',

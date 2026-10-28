@@ -105,7 +105,8 @@ languageSettings:
     # A span between backticks and a fenced block are code or a quotation (P64: a cited term goes
     # between backticks). A json or yaml block is the data of a task or a spec and stays in.
     ignoreRegExpList:
-      - '/^\s*(`{3,}|~{3,})(?!\s*(?:json|ya?ml)\b)[\s\S]*?^\s*\1\s*$/gm'
+      # The look-behind skips the closing fence of a json or yaml block, which is not an opening.
+      - '/^[ \t]*(`{3,}|~{3,})(?![ \t]*(?:json|ya?ml)\b)(?<!^[ \t]*(?:`{3,}|~{3,})[ \t]*(?:json|ya?ml)\b[^\n]*\n(?:(?![ \t]*(?:`{3,}|~{3,}))[^\n]*\n)*[ \t]*(?:`{3,}|~{3,}))[\s\S]*?^[ \t]*\1[ \t]*$/gm'
       - '/`[^`\n]*`/g'
 
 overrides:
