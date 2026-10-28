@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98 and P99. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99 and P100. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -5012,9 +5012,143 @@ API and semantics are reviewed in the pull request that brings them; the merge i
 
 ---
 
+## P100 — `nph-chip`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `3077:2240`, set `3076:1439`, board
+`3077:807`) gives one set with the Figma properties `tipo`, `cor`, `conteúdo`, `tamanho` and `estado`,
+and leaves the code API to the code. Six points need a decision of their own:
+
+- the evidence draws the counter as an `nph-badge`, `secondary` and `light`, and it also gives the
+  counter its own paint and space tokens — `chip/counter-background`,
+  `chip/counter-background-hover`, `chip/counter-background-disabled`, `chip/counter-foreground`,
+  `chip/counter-padding-y` and `chip/counter-padding-x` — that `nph-badge` does not paint: it has no
+  color property and no `::part` (P68). The two statements cannot both be followed;
+- the evidence says a cut label shows the whole text in a tooltip on hover and on focus, but the body
+  of a removable chip has no action, and `nph-tooltip` draws only on an element that takes focus
+  (P77);
+- the evidence says the X has an `aria-label` with the action and the label, but the word of the
+  action is text in the language of the consuming application;
+- the Figma `conteúdo` and `estado` are not independent: the set has the combinations it draws and no
+  others, and the code has to say what happens to the rest;
+- the piece has two events of the person, one for each type, and `nph-change` is already typed by
+  `nph-togglebutton` with another detail;
+- the evidence leaves four details open: the size of the avatar, the order of the counter and the X on
+  the selected chip, the hover and focus of the X of the invalid chip, and the target of the tooltip
+  on a removable chip.
+
+**Decision.** `nph-chip` is a Web Component with **open Shadow DOM** (P01) and `delegatesFocus`,
+CSS in its own file imported `?inline`. It has no slot, no `::part`, no color property and no form
+association. Anatomy only through semantic tokens. Invalid input renders nothing and emits
+`console.error` only in development, one per cause — the rule of P21, as in P68. A chip with no text is
+a mount: nothing, no error (P68). The names follow P64.
+
+1. **One tag, the Figma properties as attributes.** `type` is `removable` (default) or
+   `selectable`, the Figma `tipo`; `severity` is `default`, `success`, `warning`, `error`, `info` or
+   `help`, the Figma `cor`; `size` is `compact` (default) or `default`, the Figma `tamanho`. All three
+   reflect, because the internal CSS selects on them. The name is `severity`, not `color` or `status`:
+   every status color of the library is a `severity` (`nph-badge`, `nph-button`). Each exported list
+   (`NPH_CHIP_TYPES`, `NPH_CHIP_SEVERITIES`, `NPH_CHIP_SIZES`) is the closed list of the check.
+
+2. **The content is not a property.** The Figma `conteúdo` becomes `icon` (a core name of
+   `nph-icon`), `avatar` with `avatar-src` (the photo; without it, the avatar draws the person icon)
+   and `counter` (a whole number from zero up), at most one of them. Icon and avatar are decorative,
+   in `icon/size-sm` and `avatar/size-sm`. The avatar is removable only and the counter selectable
+   only, as the set. `text` is the label, already localized, in one line, with an ellipsis at
+   `chip/max-width`.
+
+3. **The counter is a pill of its own (D-1).** The chip draws the counter itself, a pill with
+   `chip/counter-background` (`chip/counter-background-hover` on hover and active of the chip,
+   `chip/counter-background-disabled` when disabled), the number in `chip/counter-foreground` and the
+   text role `text/label-sm` of the badge text, `chip/counter-padding-y` and `chip/counter-padding-x`
+   inside and `radius/full`, so every token created for this piece is consumed. It is the precedent of
+   P99, which painted its numbers and arrows with its own tokens, and of P98, which drew the counter
+   of `nph-sidebar-item`. Indiane decides D-1; if the counter becomes an `nph-badge`, `nph-badge` needs
+   a paint hook first, which is a change of P68.
+
+4. **The avatar is `sm` (D-2).** The evidence does not give the size of the `nph-avatar` before the
+   text. `sm` fits the compact height and is the one the code uses in both sizes.
+
+5. **Removable: the X.** The body of a removable chip has no action. The X is a native
+   `<button type="button">` with a target of `chip/remove-size` in both sizes and an `aria-label` made
+   of `remove-label` and the text, so it reads "Remove filter Status: Waiting", the same word before the
+   text as `nph-multi-combobox` (P96, "Remove Brazil"). `remove-label` is required while the X shows;
+   without it the piece draws nothing and says so once. `readonly` shows the value with no X and needs
+   no `remove-label`. The chip does not remove itself: the X fires `nph-remove` and the consumer takes
+   the value away.
+
+6. **Selectable: the whole chip is the toggle.** A selectable chip is one native `<button>` with
+   `aria-pressed`, named by its text and, with a counter, the number ("Pending 12"; a space separates
+   them). `selected` reflects and the selected chip shows the X as a mark only, an icon with no button
+   of its own: the click belongs to the whole chip, and a nested button would be an interactive element
+   inside another. The order is icon, text, counter and X (D-5), and the end padding is the one of the
+   X, `chip/padding-end-remove` or `chip/padding-end-remove-default`.
+
+7. **Events, named for what changed.** `nph-remove` fires on the host (`bubbles`, `composed`) when the
+   person presses the X, with `detail: { text }`. `nph-selected-change` fires on the host (`bubbles`,
+   `composed`) when the person toggles a selectable chip, after `selected` changed, with
+   `detail: { selected }`. Neither is `nph-change`: `HTMLElementEventMap['nph-change']` is already typed
+   with `{ pressed }` by `nph-togglebutton` (P73), and one name cannot carry two types — the same
+   reason as `nph-value-change` of P76. Both fire only for the person: setting `selected`, or any
+   other property, from code fires nothing (as `nph-toggle` of P98). The click on the X is stopped
+   there, so it is not a click on the chip.
+
+8. **The cut label has a balloon (D-3).** The piece measures the label (`ResizeObserver` and the load
+   of the font) and, only when its text is wider than its box, shows the whole text in an
+   `nph-tooltip` on hover and on keyboard focus (P77). In the removable chip the label itself takes
+   `tabindex="0"`, as the truncated cell of `nph-table` (P97), so the balloon has a target, and the
+   focus draws the ring around the whole chip; in the selectable chip the balloon points at the chip
+   button. A label that is not cut takes no focus and has no balloon, and a disabled chip has none.
+
+9. **States are attributes, one at a time.** `marked` (the last chip of a field, ready to leave),
+   `readonly` and `invalid` belong to a removable chip in the default severity and exclude each other;
+   `selected` and `counter` belong to a selectable chip, which has the default severity only. A status
+   severity exists only on a removable chip with text, with no icon and no avatar. The invalid X takes
+   the error pair, `chip/error-remove-background-hover` for hover and active and `chip/error-focus-border`
+   with `chip/error-focus-halo` for the focus ring (D-4), to match the red border. Hover, focus and
+   active are interaction states, not attributes.
+
+10. **A combination the set does not have does not render (P21).** The chip draws only what the
+    Figma set draws. A type, severity or size outside the lists, an icon outside the core, more than
+    one content, `avatar-src` without `avatar`, a counter that is not a whole number from zero up, a
+    counter or `selected` on a removable chip, an avatar, a status severity or a state on a selectable
+    chip, more than one state, a status severity with a state, an icon or an avatar, and a removable
+    chip with an X and no `remove-label` each draw nothing and emit one `console.error` in development.
+
+11. **`disabled` wins over the rest (P73).** The whole chip takes `state/disabled-opacity`, with
+    `chip/background-disabled` and no border; the native button is disabled, so the chip leaves the
+    Tab order, and a click on the host, on `click()` or on the X fires nothing and shows no balloon.
+    The selected chip keeps its full background. It is no error to combine it with another state.
+
+12. **Tokens.** The tokens of the evidence, each in its part: the container in `chip/background`,
+    `chip/radius`, `chip/height-compact`, `chip/height-default`, `chip/max-width`, `chip/gap` and
+    `chip/border-width` in `chip/border`, drawn inside so it never makes the chip wider or taller; the
+    padding in `chip/padding-x`, `chip/padding-start-icon`, `chip/padding-start-avatar`,
+    `chip/padding-end-remove`, `chip/padding-end-remove-default` and `chip/padding-end-counter`; the
+    label in `text/label-md` and `chip/foreground`; each status in `chip/<status>-background`,
+    `chip/<status>-border`, `chip/<status>-foreground`, `chip/<status>-remove-background-hover`,
+    `chip/<status>-focus-border` and `chip/<status>-focus-halo`; `marked` in
+    `chip/background-hover`; the selected chip in `chip/background-selected`,
+    `chip/background-selected-hover` and `chip/foreground-selected`; the X in `chip/remove-size`,
+    `chip/remove-radius` and `chip/remove-background-hover`. Focus is the border `border/width` and the
+    halo `focus/ring-width`, round as `chip/radius`, around the X or the whole chip.
+
+**Source.** Documentation `3077:2240`, set `3076:1439`, board `3077:807` and page `1626:40` of the
+Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 28/10/2026, with the Figma UX QA and the textual
+audit approved. The attributes, the names of the events, the cut label, the combinations that do not
+render and the invalid input rules are a technical proposal of this implementation.
+
+**Out of scope.** The field that holds chips: the chips of `nph-multi-combobox` stay internal (P96).
+`nph-toolbar` and its line of applied filters (DSA-55). A horizontal scroll of the line, which the
+evidence forbids. A size, forced colors and right-to-left. A new token.
+
+**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-5 wait for Indiane. API
+and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98 or P99 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99 or P100 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
