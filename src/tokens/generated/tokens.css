@@ -646,6 +646,12 @@
   --nph-pagination-item-size: var(--nph-control-height-default);
   --nph-pagination-item-radius: var(--nph-radius-control);
   --nph-pagination-arrow-border-width: var(--nph-border-width);
+  --nph-toolbar-border-width: var(--nph-border-width);
+  --nph-toolbar-radius: var(--nph-radius-control);
+  --nph-toolbar-padding: var(--nph-space-inline);
+  --nph-toolbar-gap: var(--nph-space-inline);
+  --nph-toolbar-bulk-padding-x: var(--nph-space-control-padding);
+  --nph-toolbar-floating-radius: var(--nph-radius-container);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -690,6 +696,11 @@
   --nph-pagination-text-foreground: var(--nph-color-foreground);
   --nph-pagination-arrow-background: var(--nph-color-background);
   --nph-pagination-arrow-border: var(--nph-color-input);
+  --nph-toolbar-background: var(--nph-color-background);
+  --nph-toolbar-border: var(--nph-color-border);
+  --nph-toolbar-floating-background: var(--nph-color-popover);
+  --nph-toolbar-floating-border: var(--nph-color-input);
+  --nph-toolbar-floating-count-foreground: var(--nph-color-popover-foreground);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);
@@ -710,6 +721,9 @@
   --nph-table-row-hover-background: var(--nph-color-primary-surface);
   --nph-image-focus-border: var(--nph-focus-border);
   --nph-pagination-item-background-active: var(--nph-color-primary-surface-hover);
+  --nph-toolbar-bulk-background: var(--nph-color-primary-surface);
+  --nph-toolbar-bulk-count-foreground: var(--nph-color-primary-on-surface);
+  --nph-toolbar-bulk-action-background-hover: var(--nph-color-primary-surface-hover);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
