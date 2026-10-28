@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 580,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-input",
   "dependencies": [
     "DSA-16"
@@ -48,8 +48,8 @@
     "excerpt": null,
     "converted_decision": "The nph-input board (1195:532), with its Documentação frame (1211:690), was accepted with the size compact as the API and behavior specification of that size. Component set: nph-input (622:18359), size × state, 21 variants. The compact size, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "claude/strange-goldberg-ae2bb1", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-59.md",
   "updated_at": "2026-10-28"
 }
 ```
