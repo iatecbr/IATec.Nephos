@@ -205,6 +205,7 @@ dictionaryDefinitions:
       - formaction
       - formnovalidate
       - grayscale
+      - gridcells
       - haspopup
       - hotfixes
       - idents
@@ -254,6 +255,7 @@ dictionaryDefinitions:
       - textboxes
       - togglebutton
       - toggletip
+      - treegrid
       - undrawn
       - unhover
       - unfocusable
