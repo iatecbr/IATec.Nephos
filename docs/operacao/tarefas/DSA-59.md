@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 580,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-input",
   "dependencies": [
     "DSA-16"
@@ -24,10 +24,10 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-59/review-and-merge-2026-10-28.md",
+      "result": "passed",
+      "verified_at": "2026-10-28",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -40,7 +40,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-59/documentacao-figma-aceita-2026-10-28.md"
+    "docs/operacao/evidencias/DSA-59/documentacao-figma-aceita-2026-10-28.md",
+    "docs/operacao/evidencias/DSA-59/review-and-merge-2026-10-28.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -55,8 +56,8 @@
     "excerpt": null,
     "converted_decision": "The nph-input board (1195:532), with its Documentação frame (1211:690), was accepted with the size compact as the API and behavior specification of that size. Component set: nph-input (622:18359), size × state, 21 variants. The compact size, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "claude/strange-goldberg-ae2bb1", "commit": null, "pr": "https://github.com/iatecbr/IATec.Nephos/pull/139" },
-  "context": "docs/operacao/contextos/DSA-59.md",
+  "git_review": { "branch": "claude/strange-goldberg-ae2bb1", "commit": "db15bee9c44738ffee1a276098c16563a6f19a7d", "pr": "139" },
+  "context": null,
   "updated_at": "2026-10-28"
 }
 ```
