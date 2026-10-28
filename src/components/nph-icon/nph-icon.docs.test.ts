@@ -198,6 +198,7 @@ describe('nph-icon documentation — order of the Figma frame', () => {
       expect(sections).toEqual([
         'when-to-use',
         'api',
+        'usage',
         'core',
         'size',
         'color',

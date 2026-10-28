@@ -1273,6 +1273,26 @@ that brings it; the merge is the approval.
 `import '@iatec/nephos/nph-<name>';`), `private` is removed, and `lit` and `@fortawesome/*`
 are peer dependencies. The text above is kept as it was written.
 
+**Annotation of 28/10/2026 (DSA-35).** Every component `Docs` page has the Usage section right
+after API, built with the `usage` block of `src/shared/docs/page.ts`: a table whose first row
+is the markup, kept in `usageMarkup` of the page key of the three dictionaries so that its
+visible text is translated, and whose next rows are the import lines, written by `importLine`
+with the name read from `package.json`. The page's own component comes first; a component that
+the markup shows and that no other line registers gets a line of its own (`nph-input` under
+`nph-field`, `nph-option` under `nph-select`, the `nph-button` that opens `nph-dropdown-menu`),
+and one that the page's component already imports does not (`nph-avatar` under
+`nph-avatar-stack`). Data that only a property takes, such as `items` or `columns`, is not
+written as an attribute: the text of the row says where it comes from.
+`src/shared/docs/usage.test.ts` finds every `Docs` page by file name and fails a page without
+the section after API, with a markup that differs between languages or that makes a component
+report an error, or with a missing or redundant import line. The promise that the import line
+alone registers the component with its CSS, `nph-label` included, is proved in a browser:
+`npm run test:package` ends by importing each component through `@iatec/nephos/nph-<name>`,
+resolved by `exports` into `dist/` (`vitest.package.config.ts` and
+`scripts/test-package.browser.test.mjs`, two files outside the paths P03 lists, as P75,
+item 11). It runs after `npm run build:lib` and never from `npm test`, because `dist/` is not
+versioned, so the Build stage of `azure-pipelines.yml` installs Chromium before it.
+
 ---
 
 ## P71 — `Docs` page lists read from the Metadata

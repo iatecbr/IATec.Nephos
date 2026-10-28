@@ -8,8 +8,6 @@
  * ones of the sheet. The four required examples of the board close it, each in light and dark mode.
  *
  * Deferred, not fulfilled here:
- * - the Usage section (P70) enters every Docs page, after API, in DSA-35, which also gives
- *   `package.json` the `exports` for the import line;
  * - `text/body-lg` in `text` and `list` (DSA-33).
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the `tooltipDocs` key.
@@ -25,7 +23,7 @@ import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook
 import '../nph-label/nph-label';
 import './nph-tooltip';
 import { anchored, bothModes, namedIconButton, openOnRender } from './nph-tooltip.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-tooltip.json';
 
@@ -52,6 +50,7 @@ function localeOf(context: GlobalsContext | undefined): string {
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   relations: 'relations-and-context',
   anatomy: 'anatomy',
   accessibility: 'accessibility',
@@ -101,6 +100,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.relations, title: d.relationsTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
@@ -122,6 +122,13 @@ export const Documentation: Story = {
           SECTIONS.api,
           d.apiTitle,
           html`${table(d.apiHeader, d.api.map(pair))} ${source(d.sourceLabel, d.sourceApi)}`,
+        )}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-tooltip'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
         ${section(

@@ -16,7 +16,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-button';
 import { NPH_BUTTON_EMPHASES, NPH_BUTTON_SEVERITIES, NPH_BUTTON_SHAPES, NPH_BUTTON_SIZES } from './nph-button';
-import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-button.json';
 
@@ -43,6 +43,7 @@ function localeOf(context: GlobalsContext | undefined): string {
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   variants: 'severity-and-emphasis',
   sizes: 'sizes',
   iconOnly: 'icon-only',
@@ -86,6 +87,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.variants, title: d.variantsTitle },
           { id: SECTIONS.sizes, title: d.sizesTitle },
           { id: SECTIONS.iconOnly, title: d.iconOnlyTitle },
@@ -110,6 +112,13 @@ export const Documentation: Story = {
           d.apiTitle,
           html`${table(d.apiHeader, d.api.map(([term, rule]: [string, string]) => [term, rule] as const))}
           ${source(d.sourceLabel, d.sourceApi)}`,
+        )}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-button'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
         ${section(

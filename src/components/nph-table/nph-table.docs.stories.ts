@@ -9,7 +9,6 @@
  * it, each in light and dark mode.
  *
  * Deferred, not fulfilled here:
- * - the Usage section (P70) enters every Docs page, after API, in DSA-35;
  * - the category content of the cell (D1 of DSA-49): until it is defined, the example of items
  *   grouped by category shows the groups as the first level of the tree, and the page says so.
  *
@@ -38,7 +37,7 @@ import {
   wideCaptionTable,
 } from './nph-table.demo';
 import type { Sample, Scheme } from './nph-table.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-table.json';
 
@@ -65,6 +64,7 @@ function localeOf(context: GlobalsContext | undefined): string {
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   variants: 'variants',
   states: 'states',
   cells: 'cell-contents',
@@ -113,6 +113,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.variants, title: d.variantsTitle },
           { id: SECTIONS.states, title: d.statesTitle },
           { id: SECTIONS.cells, title: d.cellsTitle },
@@ -134,6 +135,13 @@ export const Documentation: Story = {
         )}
 
         ${section(SECTIONS.api, d.apiTitle, html`${table(d.apiHeader, d.api.map(pair))} ${source(d.sourceLabel, d.sourceApi)}`)}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-table'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
+        )}
 
         ${section(
           SECTIONS.variants,

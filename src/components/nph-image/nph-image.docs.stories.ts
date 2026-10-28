@@ -9,7 +9,6 @@
  * it, each in light and dark mode.
  *
  * Deferred, not fulfilled here:
- * - the Usage section (P70) enters every Docs page, after API, in DSA-35;
  * - the empty and error illustrations: the frame draws them once the files arrive (D1 of
  *   DSA-51); until then the two states show the frame only, and the page says so.
  *
@@ -26,7 +25,7 @@ import './nph-image';
 import { NPH_IMAGE_RATIOS, NPH_IMAGE_SIZES } from './nph-image';
 import { BROKEN_IMAGE, IMAGE_A, IMAGE_WIDE, cardCover, inScheme, listItem, stalled, uploadEmpty } from './nph-image.demo';
 import type { Scheme } from './nph-image.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-image.json';
 
@@ -53,6 +52,7 @@ function localeOf(context: GlobalsContext | undefined): string {
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   sizes: 'sizes',
   states: 'states',
   anatomy: 'anatomy',
@@ -101,6 +101,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.sizes, title: d.sizesTitle },
           { id: SECTIONS.states, title: d.statesTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
@@ -123,6 +124,13 @@ export const Documentation: Story = {
           SECTIONS.api,
           d.apiTitle,
           html`${table(d.apiHeader, d.api.map(pair))} ${source(d.sourceLabel, d.sourceApi)}`,
+        )}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-image'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
         ${section(

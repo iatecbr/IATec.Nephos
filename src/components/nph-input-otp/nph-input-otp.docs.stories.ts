@@ -9,8 +9,7 @@
  *
  * Deferred, not fulfilled here:
  * - the resend action, a ghost `nph-button` with the label in `color/link`, waits for D4 of
- *   DSA-41: the `nph-button` has no way to draw that look yet;
- * - the Usage section (P70) enters every Docs page, after API, in DSA-35.
+ *   DSA-41: the `nph-button` has no way to draw that look yet.
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the
  * `inputOtpDocs` key. The story is SINGLE: it reads `globals.locale` and looks up the
@@ -24,7 +23,7 @@ import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook
 import './nph-input-otp';
 import { field, inField, inScheme } from './nph-input-otp.demo';
 import type { Scheme } from './nph-input-otp.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-input-otp.json';
 
@@ -51,6 +50,7 @@ function localeOf(context: GlobalsContext | undefined): string {
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   size: 'length-and-size',
   states: 'states',
   masked: 'masked',
@@ -102,6 +102,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.size, title: d.sizeTitle },
           { id: SECTIONS.states, title: d.statesTitle },
           { id: SECTIONS.masked, title: d.maskedTitle },
@@ -125,6 +126,13 @@ export const Documentation: Story = {
           SECTIONS.api,
           d.apiTitle,
           html`${table(d.apiHeader, d.api.map(pair))} ${source(d.sourceLabel, d.sourceApi)}`,
+        )}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-input-otp'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
         ${section(

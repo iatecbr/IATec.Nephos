@@ -22,6 +22,7 @@
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 
+import pkg from '../../../package.json';
 import '../../components/nph-icon/nph-icon';
 
 type TextRole =
@@ -254,9 +255,10 @@ export function demo(content: TemplateResult, caption: string): TemplateResult {
  * How the first column appears: `code` always in text/code; `text` always
  * in text/body-sm; `auto` uses text/code only when the term is an identifier
  * (lowercase, no accent or space: `name`, `icon/size-sm`) and text in the
- * rest (`Slots e eventos`, `Interação`).
+ * rest (`Slots e eventos`, `Interação`); `markup` is text/code that keeps its
+ * line breaks and indentation and wraps instead of widening the page.
  */
-export type TermColumn = 'code' | 'text' | 'auto';
+export type TermColumn = 'code' | 'text' | 'auto' | 'markup';
 
 function isIdentifier(term: string): boolean {
   return /^[a-z0-9][a-z0-9/_.:-]*$/.test(term.trim());
@@ -274,9 +276,11 @@ export function table(
   termWidth?: string,
 ): TemplateResult {
   const termRole = (text: string): string =>
-    term === 'code' || (term === 'auto' && isIdentifier(text))
-      ? `${textRole('code')} white-space: nowrap;`
-      : `${textRole('body-sm')} font-weight: var(--nph-text-label-md-font-weight);`;
+    term === 'markup'
+      ? `${textRole('code')} white-space: pre-wrap; overflow-wrap: anywhere;`
+      : term === 'code' || (term === 'auto' && isIdentifier(text))
+        ? `${textRole('code')} white-space: nowrap;`
+        : `${textRole('body-sm')} font-weight: var(--nph-text-label-md-font-weight);`;
   const cell = `padding: var(--nph-space-stack) var(--nph-space-inline); border-bottom: ${BORDER}; vertical-align: top; text-align: left;`;
   return html`
     <table style="border-collapse: collapse; width: 100%;">
@@ -306,6 +310,26 @@ export function table(
       </tbody>
     </table>
   `;
+}
+
+/** The import line of a component, with the package name read from `package.json` (P70). */
+export function importLine(tag: string): string {
+  return `import '${pkg.name}/${tag}';`;
+}
+
+/**
+ * The Usage block of a component `Docs` page, right after API (P70; `docs/stories.md`,
+ * §4.10): the markup first, then one import line per component that the markup needs and
+ * that no other component in it already registers, the page's own component first.
+ */
+export function usage(
+  headers: readonly [string, string],
+  markup: string,
+  markupText: string,
+  imports: readonly string[],
+  importText: string,
+): TemplateResult {
+  return table(headers, [[markup, markupText], ...imports.map((tag) => [importLine(tag), importText] as const)], 'markup');
 }
 
 type NoteKind = 'info' | 'warning';

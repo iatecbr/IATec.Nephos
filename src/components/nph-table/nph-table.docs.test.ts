@@ -380,13 +380,13 @@ describe('nph-table documentation — order of the model', () => {
       expect(opening).toEqual(['header', 'matrix', 'note', 'index']);
     });
 
-    /* Usage is deferred, not refused: P70 puts it after API on every Docs page, in DSA-35. */
     it(`${locale}: the sections follow the model of the current Docs pages, with no anti-patterns section`, () => {
       const target = renderInLocale(locale);
       const sections = [...target.querySelectorAll('section[id]')].map((s) => s.id);
       expect(sections).toEqual([
         'when-to-use',
         'api',
+        'usage',
         'variants',
         'states',
         'cell-contents',

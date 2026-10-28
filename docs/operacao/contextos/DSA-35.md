@@ -21,11 +21,15 @@ test that fails a page without it.
 - `src/shared/docs/page.ts`, `sheet-lists.ts` and the `*.docs.stories.ts` pages
 
 ## Changes
-None yet.
+- `vitest.package.config.ts` and `scripts/test-package.browser.test.mjs`: Chromium imports every component through `@iatec/nephos/nph-<name>` and finds it registered with its CSS; `scripts/test-package.mjs` runs it last, and the Build stage of `azure-pipelines.yml` installs Chromium first.
+- `src/shared/docs/page.ts`: the `usage` and `importLine` blocks; the 29 `Docs` pages show Usage after API, with `usageMarkup` and the other keys in the three dictionaries.
+- `src/shared/docs/usage.test.ts` and the section order of 15 page tests.
+- `docs/stories.md` §4.10, the annotation of 28/10/2026 to P70, and Q1 to Q6 in the task.
 
 ## Commands run
 - `git merge --ff-only origin/v/5.0.0`
 - `npm ci`
+- the proofs in sequence, from `build:tokens` to `git diff --check`, all exit 0
 
 ## Result
 The task is in progress on the branch `claude/amazing-euclid-045eac`.
@@ -37,4 +41,4 @@ None yet. `review-and-merge` waits for the pull request.
 None.
 
 ## Next command
-`npm run build:lib`
+`gh pr create --base v/5.0.0`

@@ -14,8 +14,6 @@
  * of the Storybook selector; the examples show both.
  *
  * Deferred, not fulfilled here:
- * - the Usage section (P70) enters every Docs page, after API, in DSA-35, which also gives
- *   `package.json` the `exports` for the import line;
  * - `text/body-lg` in `text` and `list` (DSA-33).
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the `dialogDocs` key.
@@ -31,7 +29,7 @@ import type { GlobalsContext } from '../../shared/docs/validation';
 import { NPH_DIALOG_ACTIONS, NPH_DIALOG_SIZES } from './nph-dialog';
 import { bothModes, framed } from './nph-dialog.demo';
 import type { Scheme } from './nph-dialog.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-dialog.json';
 
@@ -50,6 +48,7 @@ type Story = StoryObj;
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   variants: 'variants',
   sizes: 'sizes',
   relations: 'relations-and-context',
@@ -91,6 +90,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.variants, title: d.variantsTitle },
           { id: SECTIONS.sizes, title: d.sizesTitle },
           { id: SECTIONS.relations, title: d.relationsTitle },
@@ -114,6 +114,13 @@ export const Documentation: Story = {
           SECTIONS.api,
           d.apiTitle,
           html`${table(d.apiHeader, d.api.map(pair))} ${source(d.sourceLabel, d.sourceApi)}`,
+        )}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-dialog'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
         ${section(

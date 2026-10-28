@@ -17,9 +17,15 @@
  *     defines each custom element once;
  *   - the tokens in `dist/tokens.css` are byte for byte the generated ones.
  *
+ * When these checks pass, a real Chromium imports each component through the package,
+ * `import '@iatec/nephos/nph-<name>'`, and finds it registered with its CSS, `nph-label`
+ * included (`vitest.package.config.ts` and `scripts/test-package.browser.test.mjs`; DSA-35).
+ *
  * Run with: npm run build:lib && npm run test:package
  */
+import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -286,5 +292,23 @@ if (failures.length > 0) {
   process.exit(1);
 }
 console.log(
-  `test:package passed: ${checks} checks, ${components.length} components, ${documentedLines} documented import lines resolve.`,
+  `test:package: ${checks} checks passed, ${components.length} components, ${documentedLines} documented import lines resolve.`,
 );
+
+/*
+ * 6. In a browser, the import line registers the component with its CSS. Vitest runs with the
+ * same Node that runs this script, from the `bin` of its package, so no `node_modules/.bin`
+ * shim is executed (the same way as `scripts/build-lib.mjs`).
+ */
+const require = createRequire(join(root, 'package.json'));
+const vitestManifest = require.resolve('vitest/package.json');
+const vitestBin = require(vitestManifest).bin;
+const vitest = join(dirname(vitestManifest), typeof vitestBin === 'string' ? vitestBin : vitestBin.vitest);
+console.log('\n> import in a browser (vitest.package.config.ts)');
+try {
+  execFileSync(process.execPath, [vitest, 'run', '--config', 'vitest.package.config.ts'], { cwd: root, stdio: 'inherit' });
+} catch (error) {
+  console.error('test:package FAILED: importing a component through the package does not register it with its CSS');
+  process.exit(typeof error.status === 'number' && error.status !== 0 ? error.status : 1);
+}
+console.log('test:package passed.');

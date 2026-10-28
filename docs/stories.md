@@ -387,6 +387,7 @@ by side.
 | `table` | with a header; the term in `text/code`, the description in `text/body-sm` |
 | `note` | the exception to the rule becomes a note (`role="note"`), in the `status/*` colors, never a plain paragraph |
 | `useDontUse` | when to use and when not to use side by side, in one block, in the `status/success-*` and `status/error-*` colors; the lists are `use_when` and `do_not_use_when` of the Metadata of the sheet, through `sheetUseDontUse` of `src/shared/docs/sheet-lists.ts`, with the `pt-BR` and `es` translation of each item from the dictionary, and `sheet-lists.test.ts` fails the page that differs from it (decided by Indiane on 15-10-2026, **P71**; DSA-34, D1) |
+| `usage` | right after API: a `table` whose first row is the markup, from `usageMarkup` of the dictionary, with its line breaks, and whose next rows are the import lines, `import '@iatec/nephos/nph-<name>';`, with the package name read from `package.json` by `importLine`; the page's own component first, then each component of the markup that no other line registers; `usage.test.ts` fails the page without it (**P70**; DSA-35) |
 | `source` | the origin footer, in `text/caption`, with a thin line above |
 
 #### Reference model: the `nph-badge` page
@@ -403,9 +404,9 @@ The order is fixed:
 5. Sections, in this order, each ending with its `source`:
    1. **When to use**: a single `useDontUse` block.
    2. **API**: `table` of properties, with the term in `text/code`.
-   3. **Usage**: the markup of the accepted frame and the import line,
-      `import '@iatec/nephos/nph-<name>';`, with the package name read from
-      `package.json` (**P70**).
+   3. **Usage**: the `usage` block, with the markup of the accepted frame and the
+      import line, `import '@iatec/nephos/nph-<name>';`, with the package name read
+      from `package.json` (**P70**).
    4. **Sections of the component itself**, in this order: **Variants**
       (`demo` of the real instances, with a caption), **Sizes** and **States**
       (each only if the component has them, `demo` with a caption), then any
@@ -434,8 +435,8 @@ story of `nph-badge` (the model) and its `nph-badge.docs.test.ts`.
 **Limit:** the Docs pages of the components with code. `nph-avatar`, `nph-avatar-stack`, `nph-badge`,
 `nph-label`, `nph-skeleton`, `nph-toggle-group`, `nph-togglebutton` and `nph-tooltip` follow the order of the model.
 `nph-button` and `nph-icon` have the Anatomy and Examples of their accepted frames
-(`1197:5449` and `1130:956`, confirmed by Indiane on 15-10-2026; DSA-33). The Usage
-section is on no page yet. Every page reads its lists from the Metadata (DSA-34).
+(`1197:5449` and `1130:956`, confirmed by Indiane on 15-10-2026; DSA-33). Every page has
+the Usage section after API (DSA-35). Every page reads its lists from the Metadata (DSA-34).
 
 ---
 

@@ -12,8 +12,6 @@
  * and dark mode, inside `nph-field`.
  *
  * Deferred, not fulfilled here, as on every Docs page:
- * - the Usage section (P70) enters every Docs page, after API, in DSA-35, which also gives
- *   `package.json` the `exports` for the import line;
  * - `text/body-lg` in `text` and `list` (DSA-33).
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the
@@ -29,7 +27,7 @@ import { PHOTO_A, PHOTO_B, PHOTO_C } from '../nph-avatar/nph-avatar.demo';
 import './nph-combobox';
 import type { NphComboboxEntry } from './nph-combobox';
 import { bothModes, chosen, entriesOf, search, waiting } from './nph-combobox.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-combobox.json';
 
@@ -56,6 +54,7 @@ function localeOf(context: GlobalsContext | undefined): string {
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   sizes: 'sizes',
   states: 'states',
   start: 'start',
@@ -157,6 +156,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.sizes, title: d.sizesTitle },
           { id: SECTIONS.states, title: d.statesTitle },
           { id: SECTIONS.start, title: d.startTitle },
@@ -183,6 +183,13 @@ export const Documentation: Story = {
           d.apiTitle,
           html`${table(d.apiHeader, d.api.map(pair))} ${table(d.entryHeader, d.entries.map(pair))}
           ${note('warning', d.invalidTitle, d.invalidText)} ${source(d.sourceLabel, d.sourceApi)}`,
+        )}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-combobox'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
         ${section(

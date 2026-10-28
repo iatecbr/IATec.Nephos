@@ -10,7 +10,6 @@
  * open next to its `nph-button`, as the board shows it.
  *
  * Deferred, not fulfilled here:
- * - the Usage section (P70) enters every Docs page, after API, in DSA-35;
  * - `text/body-lg` in `text` and `list` (DSA-33).
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the
@@ -26,7 +25,7 @@ import './nph-dropdown-menu';
 import { NPH_DROPDOWN_MENU_SELECTIONS, NPH_DROPDOWN_MENU_SEVERITIES } from './nph-dropdown-menu';
 import type { NphDropdownMenuSelection, NphDropdownMenuSeverity } from './nph-dropdown-menu';
 import { accountMenu, bothModes, menuWith, optionsMenu, viewMenu } from './nph-dropdown-menu.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-dropdown-menu.json';
 
@@ -53,6 +52,7 @@ function localeOf(context: GlobalsContext | undefined): string {
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   variants: 'variants',
   sizes: 'sizes',
   states: 'states',
@@ -99,6 +99,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.variants, title: d.variantsTitle },
           { id: SECTIONS.sizes, title: d.sizesTitle },
           { id: SECTIONS.states, title: d.statesTitle },
@@ -128,6 +129,13 @@ export const Documentation: Story = {
             ${table(d.entryHeader, d.entry.map(pair))}
             ${source(d.sourceLabel, d.sourceApi)}
           `,
+        )}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-dropdown-menu', 'nph-button'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
         ${section(

@@ -17,18 +17,17 @@
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the `chipDocs` key.
  * The story is SINGLE: it reads `globals.locale` and looks up the translation. Technical
  * identifiers appear literally and are the same in any language. The package name of the import
- * line is read from `package.json` (P70).
+ * line is read from `package.json` by the `usage` block (P70).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
-import pkg from '../../../package.json';
 import { NPH_CHIP_SEVERITIES, NPH_CHIP_SIZES } from './nph-chip';
 import { appliedFilters, bothModes, chip, chosenValues, LINE, quickFilters } from './nph-chip.demo';
 import type { ExampleText } from './nph-chip.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, usage, useDontUse } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-chip.json';
 
@@ -160,14 +159,7 @@ export const Documentation: Story = {
         ${section(
           SECTIONS.usage,
           d.usageTitle,
-          html`${table(
-              d.usageHeader,
-              [
-                ['<nph-chip></nph-chip>', d.usageTag],
-                [`import '${pkg.name}/nph-chip';`, d.usageImport],
-              ],
-              'code',
-            )}
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-chip'], d.usageImport)}
             ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
