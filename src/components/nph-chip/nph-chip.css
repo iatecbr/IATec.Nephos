@@ -1,0 +1,313 @@
+/**
+ * Internal style of `nph-chip`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties consumed here. The `--_*` variables are internal to the shadow root: they hold
+ * the token of the type, severity and state, and are not API.
+ *
+ * No literal design value goes in here. Written box relations: `transparent` (the X shows the
+ * chip until hover), `nowrap` and `ellipsis` (one line, cut at the maximum width), `100%` (the
+ * chip fills the host, which carries the maximum width), `calc(-1 * ...)` (focus border and
+ * halo outside, without changing the size) and `inset` with zeros in `box-shadow` (the border
+ * is drawn inside and never makes the chip wider or taller).
+ */
+
+/* With invalid input or no text, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: inline-flex;
+  vertical-align: middle;
+  max-inline-size: var(--nph-chip-max-width);
+}
+
+/* Disabled: the whole chip loses opacity. */
+:host([disabled]) {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/*
+ * The container. In the selectable chip it is the native button; in the removable one, a
+ * span with the X inside. Default severity at rest.
+ */
+.chip {
+  --_bg: var(--nph-chip-background);
+  --_fg: var(--nph-chip-foreground);
+  --_icon: var(--nph-chip-foreground);
+  --_border: var(--nph-chip-border);
+  --_remove-hover: var(--nph-chip-remove-background-hover);
+  --_focus-border: var(--nph-focus-border);
+  --_focus-halo: var(--nph-focus-halo);
+  --_counter-bg: var(--nph-chip-counter-background);
+
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nph-chip-gap);
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  block-size: var(--nph-chip-height-compact);
+  margin: 0;
+  padding-block: 0;
+  padding-inline: var(--nph-chip-padding-x);
+  border: none;
+  border-radius: var(--nph-chip-radius);
+  background-color: var(--_bg);
+  box-shadow: inset 0 0 0 var(--nph-chip-border-width) var(--_border);
+  color: var(--_icon);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  text-align: start;
+  white-space: nowrap;
+  outline: none;
+}
+
+:host([size='default']) .chip {
+  block-size: var(--nph-chip-height-default);
+}
+
+/* Start padding: an icon or an avatar sits closer to the edge than the text. */
+.chip.start-icon {
+  padding-inline-start: var(--nph-chip-padding-start-icon);
+}
+
+.chip.start-avatar {
+  padding-inline-start: var(--nph-chip-padding-start-avatar);
+}
+
+/* End padding: the X (compact or default) or the counter. */
+.chip.end-remove {
+  padding-inline-end: var(--nph-chip-padding-end-remove);
+}
+
+:host([size='default']) .chip.end-remove {
+  padding-inline-end: var(--nph-chip-padding-end-remove-default);
+}
+
+.chip.end-counter {
+  padding-inline-end: var(--nph-chip-padding-end-counter);
+}
+
+.lead,
+.mark {
+  flex: none;
+}
+
+/* The label: one line, cut with an ellipsis. In a status chip only the label takes the color. */
+.label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--_fg);
+  outline: none;
+}
+
+/* Counter: a pill after the label (D-1), in the badge text role. */
+.counter {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  padding-block: var(--nph-chip-counter-padding-y);
+  padding-inline: var(--nph-chip-counter-padding-x);
+  border-radius: var(--nph-radius-full);
+  background-color: var(--_counter-bg);
+  color: var(--nph-chip-counter-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+/* The X: a target of `chip/remove-size` in both sizes. */
+.remove {
+  position: relative;
+  box-sizing: border-box;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--nph-chip-remove-size);
+  block-size: var(--nph-chip-remove-size);
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--nph-chip-remove-radius);
+  background-color: transparent;
+  color: inherit;
+  outline: none;
+}
+
+.remove:not(:disabled):hover,
+.remove:not(:disabled):active,
+.remove:focus-visible {
+  background-color: var(--_remove-hover);
+}
+
+/* Status severity of a removable chip: border, background and label in the color; the X stays foreground. */
+:host([severity='success']) .chip {
+  --_bg: var(--nph-chip-success-background);
+  --_fg: var(--nph-chip-success-foreground);
+  --_border: var(--nph-chip-success-border);
+  --_remove-hover: var(--nph-chip-success-remove-background-hover);
+  --_focus-border: var(--nph-chip-success-focus-border);
+  --_focus-halo: var(--nph-chip-success-focus-halo);
+}
+
+:host([severity='warning']) .chip {
+  --_bg: var(--nph-chip-warning-background);
+  --_fg: var(--nph-chip-warning-foreground);
+  --_border: var(--nph-chip-warning-border);
+  --_remove-hover: var(--nph-chip-warning-remove-background-hover);
+  --_focus-border: var(--nph-chip-warning-focus-border);
+  --_focus-halo: var(--nph-chip-warning-focus-halo);
+}
+
+:host([severity='error']) .chip {
+  --_bg: var(--nph-chip-error-background);
+  --_fg: var(--nph-chip-error-foreground);
+  --_border: var(--nph-chip-error-border);
+  --_remove-hover: var(--nph-chip-error-remove-background-hover);
+  --_focus-border: var(--nph-chip-error-focus-border);
+  --_focus-halo: var(--nph-chip-error-focus-halo);
+}
+
+:host([severity='info']) .chip {
+  --_bg: var(--nph-chip-info-background);
+  --_fg: var(--nph-chip-info-foreground);
+  --_border: var(--nph-chip-info-border);
+  --_remove-hover: var(--nph-chip-info-remove-background-hover);
+  --_focus-border: var(--nph-chip-info-focus-border);
+  --_focus-halo: var(--nph-chip-info-focus-halo);
+}
+
+:host([severity='help']) .chip {
+  --_bg: var(--nph-chip-help-background);
+  --_fg: var(--nph-chip-help-foreground);
+  --_border: var(--nph-chip-help-border);
+  --_remove-hover: var(--nph-chip-help-remove-background-hover);
+  --_focus-border: var(--nph-chip-help-focus-border);
+  --_focus-halo: var(--nph-chip-help-focus-halo);
+}
+
+/* Marked: the last chip of a field, ready to leave. Hover background and the ring on the whole chip. */
+:host([marked]) .chip {
+  --_bg: var(--nph-chip-background-hover);
+}
+
+/* Invalid: its own background, border and text; the X uses the error pair (D-4). */
+:host([invalid]) .chip {
+  --_bg: var(--nph-chip-invalid-background);
+  --_fg: var(--nph-chip-invalid-foreground);
+  --_icon: var(--nph-chip-invalid-foreground);
+  --_border: var(--nph-chip-invalid-border);
+  --_remove-hover: var(--nph-chip-error-remove-background-hover);
+  --_focus-border: var(--nph-chip-error-focus-border);
+  --_focus-halo: var(--nph-chip-error-focus-halo);
+}
+
+/* Selectable: hover and active of the whole chip; the counter keeps a background of its own. */
+:host([type='selectable']) .chip:not(:disabled):hover,
+:host([type='selectable']) .chip:not(:disabled):active {
+  --_bg: var(--nph-chip-background-hover);
+  --_counter-bg: var(--nph-chip-counter-background-hover);
+}
+
+/* Selected: full background, no border, the X shown. The counter stays at rest. */
+:host([selected]) .chip {
+  --_bg: var(--nph-chip-background-selected);
+  --_fg: var(--nph-chip-foreground-selected);
+  --_icon: var(--nph-chip-foreground-selected);
+  --_counter-bg: var(--nph-chip-counter-background);
+  box-shadow: none;
+}
+
+:host([selected]) .chip:not(:disabled):hover,
+:host([selected]) .chip:not(:disabled):active {
+  --_bg: var(--nph-chip-background-selected-hover);
+  --_counter-bg: var(--nph-chip-counter-background);
+}
+
+/*
+ * Disabled: no border, the disabled background and the default text, in any severity.
+ * The selected chip keeps its full background.
+ */
+:host([disabled]) .chip {
+  --_bg: var(--nph-chip-background-disabled);
+  --_fg: var(--nph-chip-foreground);
+  --_icon: var(--nph-chip-foreground);
+  --_counter-bg: var(--nph-chip-counter-background-disabled);
+  box-shadow: none;
+}
+
+:host([disabled][selected]) .chip {
+  --_bg: var(--nph-chip-background-selected);
+  --_fg: var(--nph-chip-foreground-selected);
+  --_icon: var(--nph-chip-foreground-selected);
+  --_counter-bg: var(--nph-chip-counter-background);
+}
+
+/*
+ * Focus: a border of `border/width` and, outside it, a halo of `focus/ring-width`, both
+ * round. Around the X of a removable chip; around the whole chip in the selectable one, in
+ * marked and when the cut label has the focus. A disabled chip draws no ring, even when it
+ * was disabled while focused: disabled wins (P100).
+ */
+:host(:not([disabled])) .remove:focus-visible::before,
+:host(:not([disabled])) .remove:focus-visible::after,
+:host(:not([disabled])) .chip:focus-visible::before,
+:host(:not([disabled])) .chip:focus-visible::after,
+:host(:not([disabled])) .chip:has(.label:focus-visible)::before,
+:host(:not([disabled])) .chip:has(.label:focus-visible)::after,
+:host([marked]:not([disabled])) .chip::before,
+:host([marked]:not([disabled])) .chip::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+:host(:not([disabled])) .remove:focus-visible::before,
+:host(:not([disabled])) .chip:focus-visible::before,
+:host(:not([disabled])) .chip:has(.label:focus-visible)::before,
+:host([marked]:not([disabled])) .chip::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--_focus-border);
+  border-radius: var(--nph-chip-radius);
+}
+
+:host(:not([disabled])) .remove:focus-visible::after,
+:host(:not([disabled])) .chip:focus-visible::after,
+:host(:not([disabled])) .chip:has(.label:focus-visible)::after,
+:host([marked]:not([disabled])) .chip::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--_focus-halo);
+  border-radius: var(--nph-chip-radius);
+}
+
+/*
+ * Motion: the change of state, always as the PAIR `motion/state-duration` and
+ * `motion/state-easing`. Width, height and position are never animated.
+ */
+.chip,
+.counter,
+.remove {
+  transition-property: background-color, color, box-shadow;
+  transition-duration: var(--nph-motion-state-duration);
+  transition-timing-function: var(--nph-motion-state-easing);
+}
+
+/* Reduced motion shortens the change, it does not remove the feedback (as nph-togglebutton). */
+@media (prefers-reduced-motion: reduce) {
+  .chip,
+  .counter,
+  .remove {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+}
