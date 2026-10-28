@@ -389,6 +389,18 @@ dictionaryDefinitions:
       - validacao
       - vazio
       - ênfase
+      - aguardando
+      - aplicados
+      - aprovado
+      - aprovados
+      - conteúdo
+      - filtro
+      - filtros
+      - outubro
+      - pendentes
+      - período
+      - removível
+      - situação
 
 dictionaries:
   - nephos-names
