@@ -8,7 +8,7 @@ import type { TemplateResult } from 'lit';
 
 import '../../tokens/generated/tokens.css';
 import { DEFAULT_LOCALE, LOCALES, translations } from '../../../.storybook/i18n/index.js';
-import { demo, matrix, source, index, note, section, table, useDontUse } from './page';
+import { demo, header, list, matrix, source, index, note, section, table, text, useDontUse } from './page';
 
 afterEach(() => {
   document.body.replaceChildren();
@@ -128,6 +128,31 @@ describe('content page blocks', () => {
     expect(family(cells[0] as HTMLElement)).toContain('IBM Plex Mono');
     expect(family(cells[1] as HTMLElement)).not.toContain('IBM Plex Mono');
     expect(family(cells[2] as HTMLElement)).not.toContain('IBM Plex Mono');
+  });
+
+  /** The font size and line height that a text role resolves to, read from a probe. */
+  async function roleOf(name: 'body-lg' | 'body-md'): Promise<[string, string]> {
+    const probe = await mount(
+      html`<span style="font-size: var(--nph-text-${name}-font-size); line-height: var(--nph-text-${name}-line-height);">x</span>`,
+    );
+    const style = getComputedStyle(probe.querySelector('span') as HTMLElement);
+    return [style.fontSize, style.lineHeight];
+  }
+
+  function sizeOf(element: Element | null): [string, string] {
+    const style = getComputedStyle(element as HTMLElement);
+    return [style.fontSize, style.lineHeight];
+  }
+
+  it('text and list are text/body-lg, and the header summary stays text/body-md (DSA-33, D1)', async () => {
+    const lg = await roleOf('body-lg');
+    const md = await roleOf('body-md');
+    expect(lg).not.toEqual(md);
+
+    const target = await mount(html`${header('Title', 'Summary')} ${text('Paragraph')} ${list(['one', 'two'])}`);
+    expect(sizeOf(target.querySelector('header p'))).toEqual(md);
+    expect(sizeOf(target.querySelector(':scope > p'))).toEqual(lg);
+    expect(sizeOf(target.querySelector('ul'))).toEqual(lg);
   });
 
   it('source sits in a footer with a rule above', async () => {

@@ -468,10 +468,41 @@
     "invalidTitle": "Entrada inválida",
     "invalidText": "name fora do núcleo, size ausente ou fora da lista aprovada, ou variant inexistente não renderizam ícone e falham na validação de desenvolvimento. Não há fallback visual nem tamanho livre. O erro sai por console.error apenas em desenvolvimento.",
     "invalidPointer": "Os casos estão demonstrados em Validação › Entrada inválida.",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Nome",
+        "name escolhe um ícone do núcleo Nephos."
+      ],
+      [
+        "Estilo",
+        "variant recebe light ou solid."
+      ],
+      [
+        "Tamanho",
+        "A caixa é quadrada: largura e altura vêm do mesmo token de tamanho, icon/size-*."
+      ],
+      [
+        "Preenchimento",
+        "Herda a cor semântica do contexto e não tem cor própria."
+      ],
+      [
+        "Composição",
+        "O controle pai dá o foco, o estado, a área de toque e o nome acessível quando o ícone representa uma ação."
+      ]
+    ],
+    "sourceAnatomy": "Figma, frame nph-icon (1130:956); ficha do nph-icon",
     "examplesTitle": "Exemplos",
     "searchExampleLabel": "Buscar",
     "searchExamplePlaceholder": "Buscar",
     "searchExampleCaption": "magnifying-glass num campo de busca, dentro do controle, em icon/size-sm.",
+    "infoExampleText": "Revise os dados antes de enviar.",
+    "infoExampleCaption": "circle-info ao lado do texto: ícone e rótulo formam uma unidade, com space/inline-tight entre eles.",
+    "buttonExampleCaption": "Sem texto visível: um símbolo universal dentro de um controle; o nome acessível é do controle.",
     "sourceExamples": "Figma, frame nph-icon (1130:956); ficha do nph-input",
     "referencesTitle": "Referências",
     "references": [
@@ -912,6 +943,34 @@
       ]
     ],
     "statesCaption": "disabled e loading.",
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Contêiner",
+        "control/height-compact, -default ou -large; radius/control; space/control-padding por dentro."
+      ],
+      [
+        "Texto",
+        "text/label-md, o mesmo em todos os tamanhos. Diz o que acontece no clique."
+      ],
+      [
+        "Ícone inicial (opcional)",
+        "icon/size-sm quando há texto, a space/inline-tight dele."
+      ],
+      [
+        "Ícone final (opcional)",
+        "A mesma regra do ícone inicial."
+      ],
+      [
+        "Anel de foco",
+        "Aparece no estado de foco, para quem usa o teclado."
+      ]
+    ],
+    "sourceAnatomy": "Figma, quadro nph-button (1197:5449); ficha nph-button; design.md",
     "accessibilityTitle": "Acessibilidade",
     "accessibilityHeader": [
       "Critério",
@@ -950,7 +1009,7 @@
     "examplesTitle": "Exemplos",
     "exampleForm": "Ações de formulário: principal e secundária.",
     "exampleConsequence": "Ação com consequência, sempre com texto.",
-    "exampleIconOnly": "Fechar um painel: ação universal sem texto, secondary ghost.",
+    "exampleIconOnly": "Uma ação universal sem texto, com nome acessível.",
     "exampleTable": "Ações de uma linha de tabela, em compact: secondary ghost, cada um nomeado pelo tooltip.",
     "exampleCircular": "Forma circular, com nome acessível: primary solid.",
     "exampleTexts": [

@@ -468,10 +468,41 @@
     "invalidTitle": "Invalid input",
     "invalidText": "A name outside the core, a missing size or one outside the approved list, or a variant that does not exist render no icon and fail development validation. There is no visual fallback and no free size. The error is reported through console.error in development only.",
     "invalidPointer": "The cases are demonstrated under Validation › Invalid input.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Name",
+        "name selects an icon from the Nephos core."
+      ],
+      [
+        "Style",
+        "variant takes light or solid."
+      ],
+      [
+        "Size",
+        "The box is square: width and height come from the same size token, icon/size-*."
+      ],
+      [
+        "Fill",
+        "It inherits the semantic color of the context and has no color of its own."
+      ],
+      [
+        "Composition",
+        "The parent control provides focus, state, touch target and the accessible name when the icon stands for an action."
+      ]
+    ],
+    "sourceAnatomy": "Figma, frame nph-icon (1130:956); nph-icon spec sheet",
     "examplesTitle": "Examples",
     "searchExampleLabel": "Search",
     "searchExamplePlaceholder": "Search",
     "searchExampleCaption": "magnifying-glass in a search field, inside the control, at icon/size-sm.",
+    "infoExampleText": "Review the data before sending.",
+    "infoExampleCaption": "circle-info next to text: icon and label form one unit, with space/inline-tight between them.",
+    "buttonExampleCaption": "No visible text: a universal symbol inside a control; the accessible name belongs to the control.",
     "sourceExamples": "Figma, frame nph-icon (1130:956); nph-input spec sheet",
     "referencesTitle": "References",
     "references": [
@@ -912,6 +943,34 @@
       ]
     ],
     "statesCaption": "disabled and loading.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Container",
+        "control/height-compact, -default or -large; radius/control; space/control-padding inside."
+      ],
+      [
+        "Text",
+        "text/label-md, the same in every size. It says what happens on click."
+      ],
+      [
+        "Start icon (optional)",
+        "icon/size-sm when there is text, space/inline-tight away from it."
+      ],
+      [
+        "End icon (optional)",
+        "The same rule as the start icon."
+      ],
+      [
+        "Focus ring",
+        "Shown in the focus state, for keyboard users."
+      ]
+    ],
+    "sourceAnatomy": "Figma, frame nph-button (1197:5449); nph-button spec sheet; design.md",
     "accessibilityTitle": "Accessibility",
     "accessibilityHeader": [
       "Criterion",
@@ -950,7 +1009,7 @@
     "examplesTitle": "Examples",
     "exampleForm": "Form actions: main and secondary.",
     "exampleConsequence": "An action with consequences, always with text.",
-    "exampleIconOnly": "Closing a panel: a universal action without text, secondary ghost.",
+    "exampleIconOnly": "A universal action without text, with an accessible name.",
     "exampleTable": "Actions of a table row, in compact: secondary ghost, each named by its tooltip.",
     "exampleCircular": "Circular shape, with its accessible name: primary solid.",
     "exampleTexts": [

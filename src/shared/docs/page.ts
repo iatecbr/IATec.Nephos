@@ -2,11 +2,15 @@
  * Blocks of the Nephos Storybook content page.
  *
  * Every component reading page builds its text with these blocks, so that the
- * pages read the same way, in the order of the Figma documentation frame: the
- * component with its labelled matrix right after the header, then section
- * title with a rule, text at reading width,
- * demo in its own area, table with a header, exception as a note and source
- * in the footer. See `docs/stories.md`, §4.10.
+ * pages read the same way, with the sections of the Figma documentation frame
+ * in the order of `docs/stories.md`, §4.10: the component with its labelled
+ * matrix right after the header, then section title with a rule, text at
+ * reading width, demo in its own area, table with a header, exception as a
+ * note and source in the footer.
+ *
+ * The header summary is `text/body-md`; the `text` and `list` blocks, read end
+ * to end, are `text/body-lg` (design.md, §2b: a documentation paragraph is
+ * `lg`).
  *
  * Only `--nph-*`: no hex, no literal color value. The page h1 uses
  * `text/heading-lg` and the section title `text/heading-md` (design.md: the
@@ -25,6 +29,7 @@ type TextRole =
   | 'heading-lg'
   | 'heading-md'
   | 'heading-xs'
+  | 'body-lg'
   | 'body-md'
   | 'body-sm'
   | 'label-md'
@@ -221,12 +226,12 @@ export function section(id: string, title: string, content: TemplateResult): Tem
 }
 
 export function text(content: TemplateResult | string): TemplateResult {
-  return html`<p style="margin: 0; ${textRole('body-md')} ${READING}">${content}</p>`;
+  return html`<p style="margin: 0; ${textRole('body-lg')} ${READING}">${content}</p>`;
 }
 
 export function list(items: readonly string[]): TemplateResult {
   return html`
-    <ul style="margin: 0; padding-left: var(--nph-space-container-padding); ${textRole('body-md')} ${READING} display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
+    <ul style="margin: 0; padding-left: var(--nph-space-container-padding); ${textRole('body-lg')} ${READING} display: flex; flex-direction: column; gap: var(--nph-space-stack-tight);">
       ${items.map((item) => html`<li>${item}</li>`)}
     </ul>
   `;
