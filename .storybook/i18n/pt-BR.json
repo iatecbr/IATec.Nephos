@@ -4281,7 +4281,7 @@
       "O que faz"
     ],
     "usageMarkup": "<nph-select label=\"País\" placeholder=\"Selecione um país\">\n  <nph-option value=\"br\">Brasil</nph-option>\n  <nph-option value=\"pt\">Portugal</nph-option>\n</nph-select>",
-    "usageTag": "O select com as opções como filhos nph-option, importados à parte.",
+    "usageTag": "O select com as opções como filhos nph-option, que o próprio select registra.",
     "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
     "sourceUsage": "ficha do nph-select; docs/decisoes-tecnicas.md › P70",
     "invalidTitle": "Entrada inválida não desenha nada.",
@@ -8184,7 +8184,7 @@
       "Marcação e importação",
       "O que faz"
     ],
-    "usageMarkup": "<nph-pagination page-count=\"10\" label=\"Paginação\" page-label=\"Página\" previous-label=\"Página anterior\" next-label=\"Próxima página\"></nph-pagination>",
+    "usageMarkup": "<nph-pagination page-count=\"10\" label=\"Paginação\" page-label=\"Página {page}\" previous-label=\"Página anterior\" next-label=\"Próxima página\"></nph-pagination>",
     "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
     "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
     "sourceUsage": "ficha do nph-pagination; docs/decisoes-tecnicas.md › P70",

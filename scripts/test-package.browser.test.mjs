@@ -6,8 +6,10 @@
  * For each component folder, `import '@iatec/nephos/nph-<name>'`, resolved by the `exports`
  * field into `dist/`:
  *   - defines the tag, with the class that the entry exports;
- *   - gives the element its stylesheet: in the shadow root for a component with Shadow DOM,
- *     and, for `nph-label`, which has none (P62.1), on the document, with no second import line.
+ *   - gives the element its own stylesheet, `src/components/<name>/<name>.css` rule by rule: in
+ *     the shadow root for a component with Shadow DOM, and, for `nph-label`, which has none
+ *     (P62.1), on the document, with no second import line. Any sheet would not do: `nph-field`
+ *     also adopts the CSS of `nph-label`, so losing its own would go unnoticed.
  *
  * `nph-label` goes first: `nph-field` and `nph-slider` import it, so only before them can the
  * test see that the document had no `nph-label` rule until its own import line ran.
@@ -16,9 +18,32 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 import entries, { packageName } from 'virtual:nephos-entries';
 
+/** The source CSS of each component, read as text: the reference the build must carry. */
+const sources = import.meta.glob('../src/components/*/*.css', { query: '?raw', import: 'default', eager: true });
+
 afterEach(() => {
   document.body.replaceChildren();
 });
+
+/** The rules of a CSS text, as this browser writes them back. */
+function rulesOf(text) {
+  const sheet = new CSSStyleSheet();
+  sheet.replaceSync(text);
+  return [...sheet.cssRules].map((rule) => rule.cssText);
+}
+
+/** Whether one of the sheets holds every rule of the source CSS, in its order. */
+function carries(sheets, expected) {
+  return sheets.some((sheet) => {
+    const rules = [...sheet.cssRules].map((rule) => rule.cssText);
+    let from = 0;
+    return expected.every((rule) => {
+      const at = rules.indexOf(rule, from);
+      from = at + 1;
+      return at !== -1;
+    });
+  });
+}
 
 /** The rules of a set of stylesheets that name the tag in their selector. */
 function rulesFor(sheets, tag) {
@@ -48,13 +73,16 @@ describe(`import '${packageName}/nph-<name>'`, () => {
       document.body.append(element);
       await element.updateComplete;
 
+      const source = sources[`../src/components/${name}/${name}.css`];
+      expect(source, `src/components/${name}/${name}.css`).toBeDefined();
+      const expected = rulesOf(source);
+      expect(expected.length, `${name}: its source CSS has no rule`).toBeGreaterThan(0);
       if (name === 'nph-label') {
         expect(element.shadowRoot).toBeNull();
-        expect(rulesFor(document.adoptedStyleSheets, name).length, 'nph-label rules on the document').toBeGreaterThan(0);
+        expect(carries(document.adoptedStyleSheets, expected), 'the CSS of nph-label on the document').toBe(true);
       } else {
         const sheets = element.shadowRoot?.adoptedStyleSheets ?? [];
-        expect(sheets.length, `${name} has no stylesheet in its shadow root`).toBeGreaterThan(0);
-        expect(sheets.some((sheet) => sheet.cssRules.length > 0), `${name}: its stylesheet is empty`).toBe(true);
+        expect(carries(sheets, expected), `${name}: its shadow root does not carry its own CSS`).toBe(true);
       }
     });
   }

@@ -4281,7 +4281,7 @@
       "What it does"
     ],
     "usageMarkup": "<nph-select label=\"Country\" placeholder=\"Select a country\">\n  <nph-option value=\"br\">Brazil</nph-option>\n  <nph-option value=\"pt\">Portugal</nph-option>\n</nph-select>",
-    "usageTag": "The select with its options as nph-option children, which are imported on their own.",
+    "usageTag": "The select with its options as nph-option children, which the select registers itself.",
     "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
     "sourceUsage": "nph-select spec sheet; docs/decisoes-tecnicas.md › P70",
     "invalidTitle": "Invalid input draws nothing.",
@@ -8184,7 +8184,7 @@
       "Markup and import",
       "What it does"
     ],
-    "usageMarkup": "<nph-pagination page-count=\"10\" label=\"Pagination\" page-label=\"Page\" previous-label=\"Previous page\" next-label=\"Next page\"></nph-pagination>",
+    "usageMarkup": "<nph-pagination page-count=\"10\" label=\"Pagination\" page-label=\"Page {page}\" previous-label=\"Previous page\" next-label=\"Next page\"></nph-pagination>",
     "usageTag": "The tag of the piece. It has no slot: the text and every other content come as attributes.",
     "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
     "sourceUsage": "nph-pagination spec sheet; docs/decisoes-tecnicas.md › P70",

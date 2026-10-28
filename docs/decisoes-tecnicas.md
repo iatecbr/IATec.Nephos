@@ -1279,9 +1279,9 @@ is the markup, kept in `usageMarkup` of the page key of the three dictionaries s
 visible text is translated, and whose next rows are the import lines, written by `importLine`
 with the name read from `package.json`. The page's own component comes first; a component that
 the markup shows and that no other line registers gets a line of its own (`nph-input` under
-`nph-field`, `nph-option` under `nph-select`, the `nph-button` that opens `nph-dropdown-menu`),
-and one that the page's component already imports does not (`nph-avatar` under
-`nph-avatar-stack`). Data that only a property takes, such as `items` or `columns`, is not
+`nph-field`, the `nph-button` that opens `nph-dropdown-menu`), and one that the page's component
+already imports, bare or for its values, does not (`nph-avatar` under `nph-avatar-stack`,
+`nph-option` under `nph-select`). Data that only a property takes, such as `items` or `columns`, is not
 written as an attribute: the text of the row says where it comes from.
 `src/shared/docs/usage.test.ts` finds every `Docs` page by file name and fails a page without
 the section after API, with a markup that differs between languages or that makes a component

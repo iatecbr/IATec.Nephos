@@ -44,12 +44,18 @@ const modules = import.meta.glob<string>(
 
 const COMPONENT = /^nph-[a-z]+(?:-[a-z]+)*$/;
 
-/** The component tags that each component imports, read from its modules. */
+/**
+ * The component tags that each component imports, read from its modules: a bare import
+ * (`import '../nph-icon/nph-icon'`) and an import of values (`import { NphOption } from
+ * '../nph-option/nph-option'`) both run the module that registers the tag; `import type` does not.
+ */
+const IMPORTS_A_COMPONENT =
+  /import\s+(?!type\b)(?:[^'";]*?\s+from\s+)?['"]\.\.\/(nph-[a-z]+(?:-[a-z]+)*)\/\1['"]/g;
 const directImports = new Map<string, Set<string>>();
 for (const [path, text] of Object.entries(modules)) {
   const folder = path.split('/').at(-2) as string;
   const found = directImports.get(folder) ?? new Set<string>();
-  for (const [, tag] of text.matchAll(/import\s+['"]\.\.\/(nph-[a-z]+(?:-[a-z]+)*)\/\1['"]/g)) found.add(tag as string);
+  for (const [, tag] of text.matchAll(IMPORTS_A_COMPONENT)) found.add(tag as string);
   directImports.set(folder, found);
 }
 const components = new Set(directImports.keys());
@@ -102,6 +108,41 @@ function structureOf(markup: string): string[] {
 /** The term of each row of the Usage table: the markup, then the import lines. */
 function usageRows(target: HTMLElement): string[] {
   return [...target.querySelectorAll('section#usage tbody th')].map((th) => th.textContent ?? '');
+}
+
+/** Two animation frames: what a component deferred to the next frame has run. */
+function nextFrames(): Promise<void> {
+  return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+}
+
+/**
+ * What the components of a markup report while it renders connected to the document: every
+ * `console.error` and `console.warn`, until the update and two frames later, since some checks
+ * wait for the siblings parsed after the piece, such as the group of a radio.
+ */
+async function reportsOf(markup: string): Promise<string[]> {
+  /* What earlier tests rendered may still have checks waiting for a frame: let them run first. */
+  document.body.replaceChildren();
+  await nextFrames();
+  const reported: string[] = [];
+  const report = (...args: unknown[]) => {
+    reported.push(args.map(String).join(' '));
+  };
+  const error = vi.spyOn(console, 'error').mockImplementation(report);
+  const warn = vi.spyOn(console, 'warn').mockImplementation(report);
+  try {
+    const host = document.createElement('div');
+    host.innerHTML = markup;
+    document.body.append(host);
+    const elements = [...host.querySelectorAll('*')] as Array<Element & { updateComplete?: Promise<unknown> }>;
+    await Promise.all(elements.map((element) => element.updateComplete));
+    await nextFrames();
+  } finally {
+    error.mockRestore();
+    warn.mockRestore();
+    document.body.replaceChildren();
+  }
+  return reported;
 }
 
 const IMPORT_LINE = /^import '([^']+)';$/;
@@ -195,23 +236,7 @@ describe('Docs pages: the Usage section', () => {
 
     it(`${piece}: the markup renders without a component error, in the three languages`, async () => {
       for (const { value: locale } of LOCALES) {
-        const reported: string[] = [];
-        const report = (...args: unknown[]) => {
-          reported.push(args.map(String).join(' '));
-        };
-        const error = vi.spyOn(console, 'error').mockImplementation(report);
-        const warn = vi.spyOn(console, 'warn').mockImplementation(report);
-        try {
-          const host = document.createElement('div');
-          host.innerHTML = dictionaryOf(piece, locale).usageMarkup;
-          document.body.append(host);
-          const elements = [...host.querySelectorAll('*')] as Array<Element & { updateComplete?: Promise<unknown> }>;
-          await Promise.all(elements.map((element) => element.updateComplete));
-        } finally {
-          error.mockRestore();
-          warn.mockRestore();
-          document.body.replaceChildren();
-        }
+        const reported = await reportsOf(dictionaryOf(piece, locale).usageMarkup);
         const property = DATA_BY_PROPERTY[piece];
         if (property === undefined) {
           expect(reported, locale).toEqual([]);
@@ -223,6 +248,23 @@ describe('Docs pages: the Usage section', () => {
       }
     });
   }
+
+  it('the render check sees a warning given a frame later: a radio alone is reported', async () => {
+    const reported = await reportsOf('<nph-radio name="plan" value="monthly" text="Monthly"></nph-radio>');
+    expect(reported.some((message) => message.includes('[nph-radio]')), reported.join(' | ')).toBe(true);
+  });
+
+  it('a component that another imports for its values counts as registered by it (nph-option under nph-select)', () => {
+    expect(registers('nph-select').has('nph-option')).toBe(true);
+    expect(directImports.get('nph-select')?.has('nph-option')).toBe(true);
+  });
+
+  it('nph-pagination names each page number: page-label carries {page} in the three languages', () => {
+    for (const { value: locale } of LOCALES) {
+      const [pagination] = elementsOf(dictionaryOf('nph-pagination', locale).usageMarkup);
+      expect(pagination?.getAttribute('page-label'), locale).toContain('{page}');
+    }
+  });
 
   it('nph-skeleton shows the markup and the import line of D1 of DSA-35', () => {
     const entry = pieces.find(({ piece }) => piece === 'nph-skeleton');

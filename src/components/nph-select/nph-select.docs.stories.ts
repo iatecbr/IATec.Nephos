@@ -175,7 +175,7 @@ export const Documentation: Story = {
         ${section(
           SECTIONS.usage,
           d.usageTitle,
-          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-select', 'nph-option'], d.usageImport)}
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-select'], d.usageImport)}
             ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
