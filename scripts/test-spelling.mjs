@@ -84,6 +84,12 @@ const PROBES = [
     expect: ['colour'],
   },
   {
+    name: 'template literal on the closing line of a multiline comment',
+    path: 'src/probe.ts',
+    text: '/**\n * Validation.\n */ console.error(`Invalid colour: ${value}`);\n',
+    expect: ['colour'],
+  },
+  {
     name: 'json block, as the data of a task',
     path: 'docs/probe.md',
     text: '```json\n{\n  "goal": "Make the centre of the box the colour."\n}\n```\n',
@@ -126,6 +132,12 @@ const PROBES = [
       "  other_em: ['behaviour, layout and spacing']\n  note: \"Reads, as: judgement\"\n" +
       "  grade: { use: 'a, catalogue: b', size: 16 }\n",
     expect: ['colour', 'centre', 'behaviour', 'judgement', 'catalogue'],
+  },
+  {
+    name: 'design.md bracket inside a quoted value',
+    path: 'design.md',
+    text: 'x:\n  use: "Choose: [size, colour, alignment]."\n',
+    expect: ['colour'],
   },
   {
     name: 'design.md keys and values without a space',
