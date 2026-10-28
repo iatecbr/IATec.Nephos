@@ -37,7 +37,7 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-27.md, nph-input compact size visual acceptance; it closes B1 of DSA-55",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-27.md, nph-input compact size visual acceptance",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, Figma UX QA and textual audit approved; the clear button focus ring in the compact size stays as it is and goes past the field only on focus (option 1 of the preview); documentation accepted; approved_order 580"
   ],
   "external_origin": {
