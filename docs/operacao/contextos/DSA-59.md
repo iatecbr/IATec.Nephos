@@ -19,10 +19,13 @@ contract converted to text in the evidence of the `figma-docs-accepted` gate.
 - `src/tokens/source/semantic.tokens.json`: `input/height-compact` and `input/clear-padding-end`
 
 ## Changes
-None yet.
+- `nph-input`: `size` takes `compact`, with `input/height-compact` and `input/clear-padding-end`.
+- Tests, Validation and Docs stories, the three dictionaries, the sheet and its Metadata.
+- P80, amendment of 28/10/2026.
 
 ## Commands run
 - `git merge --ff-only origin/v/5.0.0`
+- `npm ci`, `npm run build:tokens`, `npm run test:tokens` and `npm test` on the base: green
 
 ## Result
 The task is in progress on the branch `claude/strange-goldberg-ae2bb1`.
@@ -34,4 +37,4 @@ None yet. `review-and-merge` waits for the pull request.
 None.
 
 ## Next command
-`npm ci`
+The proof commands, in sequence.

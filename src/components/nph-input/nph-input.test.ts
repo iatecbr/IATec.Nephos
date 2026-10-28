@@ -188,7 +188,7 @@ describe('registration and API', () => {
 
   it('the types and sizes are the ones of D1 and of the set', () => {
     expect([...NPH_INPUT_TYPES]).toEqual(['text', 'email', 'tel', 'url', 'search']);
-    expect([...NPH_INPUT_SIZES]).toEqual(['default', 'large']);
+    expect([...NPH_INPUT_SIZES]).toEqual(['compact', 'default', 'large']);
     expect(NPH_INPUT_NO_ICON).toBe('none');
   });
 
@@ -945,6 +945,45 @@ describe('measures and anatomy', () => {
     expect(getComputedStyle(field(large)).fontSize).toBe(getComputedStyle(field(regular)).fontSize);
   });
 
+  it('compact changes the height and the end padding, in every state, with or without the clear button', async () => {
+    const regular = await mount({ label: 'Search', iconStart: 'magnifying-glass' });
+    const compact = await mount({ label: 'Search', iconStart: 'magnifying-glass', size: 'compact' });
+    const clearable = await mount({ label: 'Search', iconStart: 'magnifying-glass', iconEnd: 'xmark', clearLabel: 'Clear', value: 'a', size: 'compact' });
+    const invalid = await mount({ label: 'Search', invalid: true, size: 'compact' });
+    const disabled = await mount({ label: 'Search', disabled: true, size: 'compact' });
+    expect(px('--nph-input-height-compact')).toBe(28);
+    expect(px('--nph-input-clear-padding-end')).toBe(5);
+    const a = getComputedStyle(container(regular));
+    for (const element of [compact, clearable, invalid, disabled]) {
+      expect(container(element).getBoundingClientRect().height).toBeCloseTo(px('--nph-input-height-compact'), 2);
+      const b = getComputedStyle(container(element));
+      expect(b.paddingInlineEnd).toBe(resolved('padding-left', '--nph-input-clear-padding-end'));
+      for (const property of ['paddingInlineStart', 'columnGap', 'borderTopLeftRadius', 'borderTopWidth'] as const) {
+        expect(b[property]).toBe(a[property]);
+      }
+      expect(getComputedStyle(field(element)).fontSize).toBe(getComputedStyle(field(regular)).fontSize);
+    }
+    field(compact).focus();
+    expect(getComputedStyle(container(compact)).paddingInlineEnd).toBe(resolved('padding-left', '--nph-input-clear-padding-end'));
+  });
+
+  it('compact: the 24 x 24 clear target fits inside the field, and the X sits as far from the end border as the start icon from the start', async () => {
+    const element = await mount({ label: 'Search', iconStart: 'magnifying-glass', iconEnd: 'xmark', clearLabel: 'Clear', value: 'a', size: 'compact' });
+    const frame = container(element).getBoundingClientRect();
+    const rim = px('--nph-border-width');
+    const button = (clearButton(element) as HTMLButtonElement).getBoundingClientRect();
+    expect(button.width).toBeCloseTo(24, 2);
+    expect(button.height).toBeCloseTo(24, 2);
+    expect(button.top).toBeGreaterThanOrEqual(frame.top + rim - 0.01);
+    expect(button.bottom).toBeLessThanOrEqual(frame.bottom - rim + 0.01);
+    const [start, end] = [...(element.shadowRoot?.querySelectorAll<HTMLElement>('nph-icon') ?? [])].map((icon) => icon.getBoundingClientRect());
+    /* The icon boxes: the start one at space/control-padding, the X at the end padding plus the target padding. */
+    expect((start as DOMRect).left - (frame.left + rim)).toBeCloseTo(px('--nph-space-control-padding'), 2);
+    expect(frame.right - rim - (end as DOMRect).right).toBeCloseTo(px('--nph-input-clear-padding-end') + px('--nph-space-inline-tight'), 2);
+    /* The xmark glyph leaves 3 px empty inside its 16 px box, so the drawn X ends 12 px from the end border. */
+    expect(px('--nph-input-clear-padding-end') + px('--nph-space-inline-tight') + 3).toBe(px('--nph-space-control-padding'));
+  });
+
   it('the value is text/body-md in color/foreground; the placeholder is color/muted-foreground', async () => {
     const element = await mount({ label: 'Search', placeholder: 'Search' });
     const style = getComputedStyle(field(element));
@@ -1083,6 +1122,28 @@ describe('states and precedence (D4, D5)', () => {
     const box = button.getBoundingClientRect();
     expect(Number.parseFloat(before.width)).toBeCloseTo(box.width + 2 * px('--nph-border-width'), 2);
     expect(Number.parseFloat(after.width)).toBeCloseTo(box.width + 2 * (px('--nph-border-width') + px('--nph-focus-ring-width')), 2);
+  });
+
+  it('compact: the clear focus ring is the same and goes past the field; nothing clips it (P80, amendment of 28/10/2026)', async () => {
+    const element = await mount({ label: 'Search', iconEnd: 'xmark', clearLabel: 'Clear', value: 'lamp', size: 'compact' });
+    field(element).focus();
+    await userEvent.tab();
+    const button = clearButton(element) as HTMLButtonElement;
+    expect(element.shadowRoot?.activeElement).toBe(button);
+    const before = getComputedStyle(button, '::before');
+    const after = getComputedStyle(button, '::after');
+    expect(Number.parseFloat(before.height)).toBeCloseTo(26, 2);
+    expect(Number.parseFloat(after.height)).toBeCloseTo(34, 2);
+    expect(after.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-focus-radius-control-with-border'));
+    const frame = container(element).getBoundingClientRect();
+    const box = button.getBoundingClientRect();
+    const reach = px('--nph-border-width') + px('--nph-focus-ring-width');
+    expect(frame.top - (box.top - reach)).toBeCloseTo(3, 2);
+    expect(box.bottom + reach - frame.bottom).toBeCloseTo(3, 2);
+    for (const part of [element, container(element), button]) {
+      const style = getComputedStyle(part);
+      expect([style.overflowX, style.overflowY, style.clipPath]).toEqual(['visible', 'visible', 'none']);
+    }
   });
 
   it('a mouse click on the clear button draws no focus ring around it', async () => {
@@ -1244,6 +1305,8 @@ describe('token contract', () => {
         '--nph-space-inline',
         '--nph-control-height-default',
         '--nph-control-height-large',
+        '--nph-input-height-compact',
+        '--nph-input-clear-padding-end',
         '--nph-space-control-padding',
         '--nph-border-width',
         '--nph-radius-control',

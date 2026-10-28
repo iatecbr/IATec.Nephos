@@ -31,7 +31,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D1",
+      "question": "The evidence sets the end padding of the compact size to `input/clear-padding-end` (5 px) in every state. The code follows it literally, so a compact field with no clear button, or with the button hidden because there is no value, has its value and placeholder 5 px from the end border, while default and large keep 12 px. Is that intended, or should a compact field without the clear button keep `space/control-padding`? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-59/documentacao-figma-aceita-2026-10-28.md"
   ],

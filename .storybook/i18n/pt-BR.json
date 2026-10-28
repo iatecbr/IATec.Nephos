@@ -2140,7 +2140,8 @@
       "Quando a pessoa precisa digitar ou editar um valor de uma linha.",
       "Dentro de um nph-field quando o campo precisa de rótulo, ajuda ou mensagem de erro.",
       "Com ícone de início ou de fim ligado pela propriedade, sem criar variante.",
-      "default no uso geral; large na tela que precisa do alvo de 44 px, para todos os campos do formulário e o botão ao lado deles."
+      "default no uso geral; large na tela que precisa do alvo de 44 px, para todos os campos do formulário e o botão ao lado deles.",
+      "compact para a busca do nph-toolbar compacto e para a tabela compacta, com mouse e teclado."
     ],
     "whenNotToUseTitle": "Quando não usar",
     "whenNotToUse": [
@@ -2148,7 +2149,8 @@
       "Para senha, número ou valor com máscara: estão fora da v1 e terão tarefa própria.",
       "Para mostrar a mensagem de erro ou a ajuda: são do nph-field.",
       "Para nomear o campo só com o placeholder: ele some quando a pessoa digita.",
-      "Para mostrar um valor que não pode ser editado: não há estado somente leitura."
+      "Para mostrar um valor que não pode ser editado: não há estado somente leitura.",
+      "Em compact numa tela de toque: o alvo de 28 px é só para mouse e teclado."
     ],
     "relationsText": "O nph-field compõe o rótulo, o campo, a ajuda e a mensagem de erro, e escreve label, description, invalid e required no input. Sozinho, o nph-label dá nome ao input com for. Os ícones de início e de fim vêm só do núcleo do nph-icon.",
     "apiTitle": "API",
@@ -2163,7 +2165,7 @@
       ],
       [
         "size",
-        "default (control/height-default) ou large (control/height-large). Só a altura muda. Refletida no atributo."
+        "compact (input/height-compact), default (control/height-default) ou large (control/height-large). large muda só a altura; compact muda também o respiro do fim, para input/clear-padding-end. Refletida no atributo."
       ],
       [
         "value",
@@ -2219,8 +2221,9 @@
       ]
     ],
     "sizesTitle": "Tamanhos",
-    "sizesText": "default serve ao uso geral; large é para a tela que precisa do alvo de 44 px para a acessibilidade de quem a usa. Um formulário usa um só tamanho, e campo e botão lado a lado usam o mesmo.",
-    "sizesCaption": "default e large, com valor: só a altura muda.",
+    "sizesText": "default serve ao uso geral; large é para a tela que precisa do alvo de 44 px para a acessibilidade de quem a usa; compact é para a busca do nph-toolbar compacto e para a tabela compacta, com mouse e teclado, nunca numa tela de toque. Um formulário usa um só tamanho, e campo e botão lado a lado usam o mesmo.",
+    "sizesCaption": "compact, default e large, com valor: large muda só a altura; compact muda também o respiro do fim.",
+    "compactCaption": "A busca compact, com valor. Tecle Tab até o botão de limpar: o anel de foco passa do campo e não é cortado.",
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",
@@ -2241,7 +2244,7 @@
       ],
       [
         "foco no limpar",
-        "O contêiner mantém color/input; a borda focus/border e o halo focus/halo ficam em volta do alvo de 24 por 24 do botão de limpar, só pelo teclado."
+        "O contêiner mantém color/input; a borda focus/border e o halo focus/halo ficam em volta do alvo de 24 por 24 do botão de limpar, só pelo teclado. No compact o anel passa do campo enquanto o botão tem o foco; ele não é cortado."
       ],
       [
         "inválido",
@@ -2298,7 +2301,7 @@
       ]
     ],
     "invalidTitle": "Entrada inválida",
-    "invalidText": "Um type fora dos cinco, um size fora dos dois ou um ícone fora do núcleo não desenha nada. icon-end sem clear-label desenha o campo sem o botão de limpar.",
+    "invalidText": "Um type fora dos cinco, um size fora dos três ou um ícone fora do núcleo não desenha nada. icon-end sem clear-label desenha o campo sem o botão de limpar.",
     "anatomyTitle": "Anatomia",
     "anatomyHeader": [
       "Parte",
@@ -2307,7 +2310,7 @@
     "anatomy": [
       [
         "Contêiner",
-        "Altura control/height-default ou control/height-large, largura layout/input-width, radius/control, border/width, respiro lateral space/control-padding, espaço space/inline, fundo color/background."
+        "Altura control/height-default, control/height-large ou input/height-compact, largura layout/input-width, radius/control, border/width, respiro lateral space/control-padding, com o do fim em input/clear-padding-end no compact, espaço space/inline, fundo color/background."
       ],
       [
         "Ícone de início",
@@ -2362,7 +2365,7 @@
       ],
       [
         "Alvo de toque",
-        "O alvo é o próprio campo; large garante 44 px. O botão de limpar tem o próprio alvo de 24 por 24."
+        "O alvo é o próprio campo; large garante 44 px, e compact, de 28 px, é só para mouse e teclado. O botão de limpar tem o próprio alvo de 24 por 24 nos três tamanhos."
       ]
     ],
     "examplesTitle": "Exemplos",
@@ -2374,8 +2377,8 @@
     "referencesTitle": "Referências",
     "references": [
       "Ficha do nph-input — propósito, variantes, estados, acessibilidade, tokens e antipadrões.",
-      "docs/decisoes-tecnicas.md — P80 (API e semântica, a referência dos controles de formulário), P01, P02 e P03.",
-      "design.md — color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, control/height-default, control/height-large, layout/input-width, radius/control, border/width, space/control-padding, space/inline, space/inline-tight, text/body-md, icon/size-sm, color/foreground e color/muted-foreground.",
+      "docs/decisoes-tecnicas.md — P80 (API e semântica, a referência dos controles de formulário) e a emenda de 28/10/2026, o tamanho compact, P01, P02 e P03.",
+      "design.md — color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, control/height-default, control/height-large, input/height-compact, input/clear-padding-end, layout/input-width, radius/control, border/width, space/control-padding, space/inline, space/inline-tight, text/body-md, icon/size-sm, color/foreground e color/muted-foreground.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Input, frame nph-input (1195:532) e set 622:18359.",
       "Storybook — Validação, na pasta ao lado."
     ],
@@ -6882,7 +6885,7 @@
       "components-nph-tooltip-validation--hover-and-focus": "O hover depois de uma espera curta e o foco do teclado na hora abrem o balão em qualquer elemento que recebe foco: um botão, um link e um campo.",
       "components-nph-tooltip-validation--accessible-name": "No botão só de ícone o texto do balão é o nome acessível da ação, anunciado uma vez.",
       "components-nph-tooltip-validation--focusable-only": "O balão só vai em elemento que recebe foco: o botão desabilitado não ganha nenhum.",
-      "components-nph-input-validation--matrix": "size × state do set: placeholder, valor, erro, desabilitado e desabilitado com erro. Passe o mouse sobre um campo para o hover e clique para o foco.",
+      "components-nph-input-validation--matrix": "size × state do set, em compact, default e large: placeholder, valor, valor com o botão de limpar, erro, desabilitado e desabilitado com erro. Passe o mouse sobre um campo para o hover, clique para o foco e tecle Tab até o botão de limpar para o foco dele.",
       "components-nph-input-validation--types": "Os cinco tipos da D1, cada um com um valor que aceita. Senha, número e máscara estão fora da v1.",
       "components-nph-input-validation--icons": "Ícones de início e de fim, light, em icon/size-sm: nenhum, início, fim e os dois. O ícone de fim só troca a arte; a ação é sempre limpar.",
       "components-nph-input-validation--clear": "O botão de limpar aparece com valor. Clique, Enter ou Espaço o esvaziam, devolvem o foco ao campo e disparam input e change.",

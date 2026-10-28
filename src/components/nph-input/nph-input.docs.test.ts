@@ -97,19 +97,34 @@ describe('nph-input Documentation', () => {
       }
     });
 
-    it(`${locale}: the matrix shows size default and large, with placeholder, value, invalid and disabled`, () => {
+    it(`${locale}: the matrix shows size compact, default and large, with placeholder, value, invalid and disabled`, () => {
       const target = renderInLocale(locale);
       const matrix = target.querySelector('[data-nph-matrix]') as HTMLElement;
       const columns = [...matrix.querySelectorAll('thead th')].map((th) => th.textContent?.trim());
-      expect(columns).toEqual(['size: default', 'size: large']);
+      expect(columns).toEqual(['size: compact', 'size: default', 'size: large']);
       const rows = [...matrix.querySelectorAll('tbody tr')].map((tr) => ({
         label: tr.querySelector('th')?.textContent?.trim(),
         sizes: [...tr.querySelectorAll('nph-input')].map((piece) => piece.getAttribute('size')),
       }));
       expect(rows.map((row) => row.label)).toEqual(['placeholder', 'value', 'invalid', 'disabled']);
       for (const row of rows) {
-        expect(row.sizes).toEqual(['default', 'large']);
+        expect(row.sizes).toEqual(['compact', 'default', 'large']);
       }
+    });
+
+    it(`${locale}: Sizes shows the three sizes and the compact search in light and in dark mode`, () => {
+      const target = renderInLocale(locale);
+      const d = translations(locale).inputDocs;
+      const sizes = target.querySelector('section#sizes') as HTMLElement;
+      const compact = [...sizes.querySelectorAll('[data-nph-color-scheme] nph-input')];
+      expect([...sizes.querySelectorAll('[data-nph-color-scheme]')].map((el) => el.getAttribute('data-nph-color-scheme'))).toEqual(['light', 'dark']);
+      expect(compact.map((piece) => [piece.getAttribute('size'), piece.getAttribute('icon-end')])).toEqual([
+        ['compact', 'xmark'],
+        ['compact', 'xmark'],
+      ]);
+      const plain = [...sizes.querySelectorAll('nph-input')].filter((piece) => !compact.includes(piece));
+      expect(plain.map((piece) => piece.getAttribute('size'))).toEqual(['compact', 'default', 'large']);
+      expect(sizes.textContent ?? '').toContain(d.compactCaption);
     });
 
     it(`${locale}: the three required examples, each in light and in dark mode`, () => {
