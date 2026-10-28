@@ -52,8 +52,9 @@ import {
   table,
   text,
   textRole,
-  useDontUse,
 } from '../../shared/docs/page';
+import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
+import metadata from '../../shared/metadata/nph-icon.json';
 
 const meta: Meta = {
   title: 'Components/nph-icon/Docs',
@@ -170,10 +171,7 @@ export const Documentation: Story = {
           SECTIONS.whenToUse,
           d.whenToUseTitle,
           html`
-            ${useDontUse(
-              { title: d.whenToUseTitle, items: d.whenToUse },
-              { title: d.whenNotToUseTitle, items: d.whenNotToUse },
-            )}
+            ${sheetUseDontUse(metadata, localeOf(context), d)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,
         )}

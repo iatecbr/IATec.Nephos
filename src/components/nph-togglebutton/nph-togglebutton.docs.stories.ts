@@ -11,8 +11,6 @@
  * Deferred, not fulfilled here:
  * - the Usage section (P70) enters every Docs page, after API, in DSA-35, which also gives
  *   `package.json` the `exports` for the import line;
- * - the "When to use" lists still come from the dictionary, and a test checks that they equal the
- *   sheet's; reading them from the Metadata is P71, in DSA-34;
  * - `text/body-lg` in `text` and `list` (DSA-33).
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the
@@ -27,7 +25,9 @@ import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook
 import './nph-togglebutton';
 import { iconSet, inScheme, optionOff, optionOn } from './nph-togglebutton.demo';
 import type { Scheme } from './nph-togglebutton.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
+import metadata from '../../shared/metadata/nph-togglebutton.json';
 
 const meta: Meta = {
   title: 'Components/nph-togglebutton/Docs',
@@ -132,7 +132,7 @@ export const Documentation: Story = {
           SECTIONS.whenToUse,
           d.whenToUseTitle,
           html`
-            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.whenNotToUse })}
+            ${sheetUseDontUse(metadata, localeOf(context), d)}
             ${text(d.relationsText)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,

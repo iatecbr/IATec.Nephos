@@ -16,8 +16,6 @@
  * Deferred, not fulfilled here:
  * - the Usage section (P70) enters every Docs page, after API, in DSA-35, which also gives
  *   `package.json` the `exports` for the import line;
- * - the "When to use" lists still come from the dictionary, and a test checks that they equal the
- *   sheet's; reading them from the Metadata is P71, in DSA-34;
  * - `text/body-lg` in `text` and `list` (DSA-33).
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the `dialogDocs` key.
@@ -33,7 +31,9 @@ import type { GlobalsContext } from '../../shared/docs/validation';
 import { NPH_DIALOG_ACTIONS, NPH_DIALOG_SIZES } from './nph-dialog';
 import { bothModes, framed } from './nph-dialog.demo';
 import type { Scheme } from './nph-dialog.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
+import metadata from '../../shared/metadata/nph-dialog.json';
 
 const meta: Meta = {
   title: 'Components/nph-dialog/Docs',
@@ -105,7 +105,7 @@ export const Documentation: Story = {
           d.whenToUseTitle,
           html`
             ${text(d.description)}
-            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.whenNotToUse })}
+            ${sheetUseDontUse(metadata, locale, d)}
             ${source(d.sourceLabel, d.sourceBoard)}
           `,
         )}

@@ -10,8 +10,6 @@
  *
  * Deferred, not fulfilled here:
  * - the Usage section (P70) enters every Docs page, after API, in DSA-35;
- * - the "When to use" lists still come from the dictionary, and a test checks that they equal the
- *   sheet's; reading them from the Metadata is P71, in DSA-34;
  * - `text/body-lg` in `text` and `list` (DSA-33).
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the `emptyDocs` key.
@@ -24,7 +22,9 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import { bothModes, comboboxList, empty } from './nph-empty.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
+import metadata from '../../shared/metadata/nph-empty.json';
 
 const meta: Meta = {
   title: 'Components/nph-empty/Docs',
@@ -95,7 +95,7 @@ export const Documentation: Story = {
           d.whenToUseTitle,
           html`
             ${text(d.purpose)}
-            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.whenNotToUse })}
+            ${sheetUseDontUse(metadata, localeOf(context), d)}
             ${source(d.sourceLabel, d.sourceBoard)}
           `,
         )}

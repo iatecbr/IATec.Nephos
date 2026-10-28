@@ -10,8 +10,6 @@
  *
  * Deferred, not fulfilled here:
  * - the Usage section (P70) enters every Docs page, after API, in DSA-35;
- * - the "When to use" lists still come from the dictionary, and a test checks that they equal the
- *   sheet's; reading them from the Metadata is P71, in DSA-34;
  * - the empty and error illustrations: the frame draws them once the files arrive (D1 of
  *   DSA-51); until then the two states show the frame only, and the page says so.
  *
@@ -28,7 +26,9 @@ import './nph-image';
 import { NPH_IMAGE_RATIOS, NPH_IMAGE_SIZES } from './nph-image';
 import { BROKEN_IMAGE, IMAGE_A, IMAGE_WIDE, cardCover, inScheme, listItem, stalled, uploadEmpty } from './nph-image.demo';
 import type { Scheme } from './nph-image.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
+import metadata from '../../shared/metadata/nph-image.json';
 
 const meta: Meta = {
   title: 'Components/nph-image/Docs',
@@ -113,7 +113,7 @@ export const Documentation: Story = {
           SECTIONS.whenToUse,
           d.whenToUseTitle,
           html`
-            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.whenNotToUse })}
+            ${sheetUseDontUse(metadata, localeOf(context), d)}
             ${text(d.relationsText)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,

@@ -9,6 +9,10 @@
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the
  * `badgeDocs` key. The story is SINGLE: it reads `globals.locale` and looks up the translation.
  * Technical identifiers appear literally and are the same in any language.
+ *
+ * The two "When to use" lists are `use_when` and `do_not_use_when` of the Metadata of the sheet,
+ * `src/shared/metadata/nph-badge.json`; `pt-BR` and `es` show the translation of each item from the
+ * dictionary (P71; `src/shared/docs/sheet-lists.ts`).
  */
 import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
@@ -16,7 +20,9 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-badge';
 import { NPH_BADGE_EMPHASES, NPH_BADGE_SEVERITIES } from './nph-badge';
-import { body, demo, header, index, list, matrix, note, section, source, table, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table } from '../../shared/docs/page';
+import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
+import metadata from '../../shared/metadata/nph-badge.json';
 
 const meta: Meta = {
   title: 'Components/nph-badge/Docs',
@@ -91,7 +97,7 @@ export const Documentation: Story = {
           SECTIONS.whenToUse,
           d.whenToUseTitle,
           html`
-            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.whenNotToUse })}
+            ${sheetUseDontUse(metadata, localeOf(context), d)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,
         )}

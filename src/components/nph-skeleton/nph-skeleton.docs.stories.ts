@@ -28,7 +28,9 @@ import './nph-skeleton';
 import { NPH_SKELETON_SHAPES } from './nph-skeleton';
 import { cardLoading, inScheme, paragraphLoading, peopleList } from './nph-skeleton.demo';
 import type { Scheme } from './nph-skeleton.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, useDontUse } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table } from '../../shared/docs/page';
+import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
+import metadata from '../../shared/metadata/nph-skeleton.json';
 
 const meta: Meta = {
   title: 'Components/nph-skeleton/Docs',
@@ -112,7 +114,7 @@ export const Documentation: Story = {
           SECTIONS.whenToUse,
           d.whenToUseTitle,
           html`
-            ${useDontUse({ title: d.whenToUseTitle, items: d.whenToUse }, { title: d.whenNotToUseTitle, items: d.whenNotToUse })}
+            ${sheetUseDontUse(metadata, localeOf(context), d)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,
         )}

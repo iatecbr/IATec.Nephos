@@ -6,15 +6,23 @@ solves: >-
   Gives the person a clear target to start an action on the screen they are on, and
   communicates through the type and the emphasis the weight of that action.
 use_when:
-  - "Starting an action identified by text, such as save or send."
+  - "To start an action identified by text, such as save or send."
   - "Highlighting the main action of a block over the alternatives, through emphasis."
-  - "A universal action without text, such as close or search, with an accessible name and its tooltip."
+  - "Write in the text what happens on click."
+  - "Choose the severity by the meaning of the action, never by color."
+  - "Choose the emphasis by how much the action stands out: solid, outline, light or ghost."
+  - "Use size large on touch screens."
+  - "Without text, for a universal action such as close or search: give it a label, which is its accessible name and the text of its tooltip."
   - "In the actions column of a table, even when the action leads to another screen, such as view details."
 do_not_use_when:
-  - "The person goes to another destination — that is navigation, not action."
-  - "Showing a field error — validation belongs to the field, in nph-field."
-  - "An action with a consequence, such as delete or publish, with an icon only outside the actions column of a table — write the text."
-  - "Labeling a state — use nph-badge."
+  - "To show a field error: validation belongs to the field (nph-field)."
+  - "Icon only on an action with consequences, such as delete or publish, outside the actions column of a table: write the text."
+  - "To navigate to another destination."
+  - "Labeling a state: use nph-badge."
+  - "size compact as the main target on a touch screen."
+  - "Enlarging the icon to add emphasis."
+  - "Using color as the only signal of intent, focus or state."
+  - "Creating a severity, emphasis or size outside the matrix, or painting the button by hand."
 api:
   severity:
     type: enum

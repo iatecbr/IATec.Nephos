@@ -4,9 +4,9 @@
  * matrix, the three required examples in light and dark mode inside `nph-field`, the chip and
  * the counter sections, the list with checkboxes, the `multiComboboxDocs` and
  * `multiComboboxValidation` dictionaries with the same shape in pt-BR, en and es (`test:i18n`
- * only reads `.md` pairs), no text of another language on the English page, and the two
- * "When to use" lists equal to the ones of the sheet. Reading the lists from the Metadata is
- * P71 (DSA-34), deferred; see the header of `nph-multi-combobox.docs.stories.ts`.
+ * only reads `.md` pairs), no text of another language on the English page, and the two "When
+ * to use" lists equal to the ones of the sheet. The page reads the lists from the Metadata
+ * (P71), and `src/shared/docs/sheet-lists.test.ts` checks every page.
  */
 import { afterEach, describe, expect, it } from 'vitest';
 import { render } from 'lit';
