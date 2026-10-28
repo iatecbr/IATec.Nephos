@@ -28,6 +28,11 @@
  *   `detail` opens an expanded item under the row; `children` makes a tree of up to three
  *   levels. Both open through the chevron, an icon-only `nph-button` with `toggleLabel` as
  *   its name, and `open` says whether it starts open;
+ * - a table that draws a tree is a `treegrid` (P101): each row carries `aria-level`,
+ *   `aria-posinset`, `aria-setsize` and, when it opens, `aria-expanded`; one row is the Tab
+ *   stop, Tab goes on to the buttons and links of that row only, and the arrows, Home, End
+ *   and Enter follow the APG treegrid, rows first. The flat table stays a native table, with
+ *   every button and link in the Tab order and no arrow key;
  * - events: `nph-row-action` (`{ row, action }`) when the person activates a button of a
  *   cell, and `nph-row-toggle` (`{ row, open }`) when the person opens or closes a row.
  *   Both bubble and are not composed, and code never fires them. Opening replaces `rows`
@@ -242,7 +247,13 @@ interface DrawnRow {
   readonly cells: readonly CheckedCell[];
   readonly hasChildren: boolean;
   readonly open: boolean;
+  /** Its place among the valid rows of its level under the same parent, from 1, and how many they are. */
+  position: number;
+  setSize: number;
 }
+
+/** The keys the tree moves the focus with (P101). */
+const TREE_KEYS = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End', 'Enter'] as const;
 
 export class NphTable extends LitElement {
   static override styles = unsafeCSS(tableCss);
@@ -304,6 +315,10 @@ export class NphTable extends LitElement {
   /** The scroll area overflows: it becomes a focusable, named region. */
   private scrollable = false;
   private resizeObserver: ResizeObserver | null = null;
+  /** The row of the tree the focus was last in: `row <key>` or `detail <key>`. */
+  private activeRow = '';
+  /** The row of the tree that is the Tab stop of this render, from `tabStop()`. */
+  private stop = '';
 
   constructor() {
     super();
@@ -426,12 +441,16 @@ export class NphTable extends LitElement {
        not change the shape of the table. A row left out takes its descendants with it. */
     const valid: Array<{ drawn: DrawnRow; visible: boolean }> = [];
     const walk = (list: readonly NphTableRow[], level: number, visible: boolean): void => {
+      const siblings: DrawnRow[] = [];
       for (const row of list) {
         const checked = this.checkRow(row, level, keys);
         if (checked === null) continue;
+        siblings.push(checked);
+        checked.position = siblings.length;
         valid.push({ drawn: checked, visible });
         if (checked.hasChildren) walk(row.children ?? [], level + 1, visible && checked.open);
       }
+      for (const sibling of siblings) sibling.setSize = siblings.length;
     };
     walk(rows, 1, true);
     /* The chevron column and the tree come from the valid rows only: a rejected row changes nothing. */
@@ -476,7 +495,7 @@ export class NphTable extends LitElement {
       return null;
     }
     const cells = this.validColumns.map((column) => this.checkCell(row.cells?.[column.key], key, column));
-    return { row, level, cells, hasChildren, open: Boolean(row.open) };
+    return { row, level, cells, hasChildren, open: Boolean(row.open), position: 1, setSize: 1 };
   }
 
   private checkCell(cell: NphTableCell, row: string, column: NphTableColumn): CheckedCell {
@@ -611,8 +630,148 @@ export class NphTable extends LitElement {
     );
   }
 
+  /**
+   * The Tab stop of the treegrid: the last row the focus was in, while it is drawn; otherwise
+   * the first row. A detail row counts while its row is open.
+   */
+  private tabStop(): string {
+    const drawn = (id: string) =>
+      this.drawnRows.some((row) => {
+        const key = row.row.key.trim();
+        return id === `row ${key}` || (id === `detail ${key}` && row.open && row.row.detail !== undefined && row.row.detail !== null);
+      });
+    if (this.activeRow !== '' && drawn(this.activeRow)) return this.activeRow;
+    const first = this.drawnRows[0];
+    return first === undefined ? '' : `row ${first.row.key.trim()}`;
+  }
+
+  /** The rows the arrows walk through, in order: the rows of data and the open detail rows. */
+  private treeRows(): HTMLTableRowElement[] {
+    return [...this.renderRoot.querySelectorAll<HTMLTableRowElement>('tbody > tr.row, tbody > tr.detail')];
+  }
+
+  /** The row of the tree that holds the focus moves the Tab stop to itself. */
+  private onFocusIn(event: FocusEvent): void {
+    if (!this.isTree) return;
+    const row = (event.target as Element | null)?.closest?.('tbody > tr.row, tbody > tr.detail');
+    const id = row?.getAttribute('data-tree-row') ?? '';
+    if (id !== '' && id !== this.activeRow) {
+      this.activeRow = id;
+      this.requestUpdate();
+    }
+  }
+
+  /**
+   * The keyboard of the APG treegrid, rows first (P101). Only a key pressed on a row or on a
+   * cell is taken: a key pressed inside a button or a link stays with it.
+   */
+  private onKeyDown(event: KeyboardEvent): void {
+    if (!this.isTree || !(TREE_KEYS as readonly string[]).includes(event.key) || event.altKey || event.shiftKey || event.metaKey) return;
+    const target = event.composedPath()[0];
+    if (!(target instanceof HTMLElement)) return;
+    const rows = this.treeRows();
+    const isRow = target instanceof HTMLTableRowElement && rows.includes(target);
+    const row = isRow ? target : target instanceof HTMLTableCellElement && target.parentElement instanceof HTMLTableRowElement ? target.parentElement : null;
+    if (row === null || !rows.includes(row)) return;
+    const handled = isRow ? this.rowKey(event, row, rows) : this.cellKey(event, target as HTMLTableCellElement, row, rows);
+    if (handled) event.preventDefault();
+  }
+
+  private cells(row: HTMLTableRowElement): HTMLTableCellElement[] {
+    return [...row.querySelectorAll<HTMLTableCellElement>(':scope > td')];
+  }
+
+  /** The drawn row of a `tr` of data, or `undefined` for a detail row. */
+  private drawnOf(row: HTMLTableRowElement): DrawnRow | undefined {
+    if (!row.classList.contains('row')) return undefined;
+    const id = row.getAttribute('data-tree-row');
+    return this.drawnRows.find((drawn) => `row ${drawn.row.key.trim()}` === id);
+  }
+
+  /** Opens or closes a row from the keyboard, as its chevron does; a loading row does not, as its click does not. */
+  private toggleFromKey(row: HTMLTableRowElement): boolean {
+    const drawn = this.drawnOf(row);
+    if (drawn === undefined || !row.hasAttribute('aria-expanded')) return false;
+    if (!drawn.row.loading) this.toggle(drawn.row);
+    return true;
+  }
+
+  private parentOf(row: HTMLTableRowElement, rows: readonly HTMLTableRowElement[]): HTMLTableRowElement | undefined {
+    const level = Number(row.getAttribute('aria-level'));
+    for (let index = rows.indexOf(row) - 1; index >= 0; index -= 1) {
+      const candidate = rows[index] as HTMLTableRowElement;
+      if (Number(candidate.getAttribute('aria-level')) === level - 1) return candidate;
+    }
+    return undefined;
+  }
+
+  private rowKey(event: KeyboardEvent, row: HTMLTableRowElement, rows: readonly HTMLTableRowElement[]): boolean {
+    const index = rows.indexOf(row);
+    const expanded = row.getAttribute('aria-expanded');
+    switch (event.key) {
+      case 'ArrowRight':
+        if (expanded === 'false') return this.toggleFromKey(row);
+        this.cells(row)[0]?.focus();
+        return true;
+      case 'ArrowLeft':
+        if (expanded === 'true') return this.toggleFromKey(row);
+        this.parentOf(row, rows)?.focus();
+        return true;
+      case 'ArrowDown':
+        rows[index + 1]?.focus();
+        return true;
+      case 'ArrowUp':
+        rows[index - 1]?.focus();
+        return true;
+      case 'Home':
+        rows[0]?.focus();
+        return true;
+      case 'End':
+        rows[rows.length - 1]?.focus();
+        return true;
+      default:
+        return event.ctrlKey ? false : this.toggleFromKey(row);
+    }
+  }
+
+  private cellKey(event: KeyboardEvent, cell: HTMLTableCellElement, row: HTMLTableRowElement, rows: readonly HTMLTableRowElement[]): boolean {
+    const cells = this.cells(row);
+    const column = cells.indexOf(cell);
+    /* The cell of the same column in another row; a row without it, as a detail row, takes the focus itself. */
+    const sameColumn = (other: HTMLTableRowElement | undefined): void => {
+      if (other === undefined) return;
+      (this.cells(other)[column] ?? other).focus();
+    };
+    const index = rows.indexOf(row);
+    switch (event.key) {
+      case 'ArrowRight':
+        cells[column + 1]?.focus();
+        return true;
+      case 'ArrowLeft':
+        (column === 0 ? row : cells[column - 1])?.focus();
+        return true;
+      case 'ArrowDown':
+        sameColumn(rows[index + 1]);
+        return true;
+      case 'ArrowUp':
+        sameColumn(rows[index - 1]);
+        return true;
+      case 'Home':
+        if (event.ctrlKey) sameColumn(rows[0]);
+        else cells[0]?.focus();
+        return true;
+      case 'End':
+        if (event.ctrlKey) sameColumn(rows[rows.length - 1]);
+        else cells[cells.length - 1]?.focus();
+        return true;
+      default:
+        return false;
+    }
+  }
+
   protected override render(): TemplateResult | typeof nothing {
     if (!this.valid) return nothing;
+    this.stop = this.isTree ? this.tabStop() : '';
     const caption = trimmed(this.caption);
     const description = trimmed(this.description);
     const label = trimmed(this.label);
@@ -627,7 +786,14 @@ export class NphTable extends LitElement {
         aria-labelledby=${this.scrollable ? named.labelledby : nothing}
         aria-label=${this.scrollable ? named.label : nothing}
       >
-        <table aria-labelledby=${named.labelledby} aria-label=${named.label} aria-describedby=${describedby}>
+        <table
+          role=${this.isTree ? 'treegrid' : nothing}
+          aria-labelledby=${named.labelledby}
+          aria-label=${named.label}
+          aria-describedby=${describedby}
+          @keydown=${this.onKeyDown}
+          @focusin=${this.onFocusIn}
+        >
           ${this.renderColumnGroups()} ${this.renderHead()} ${this.renderBody()} ${this.renderFoot()}
         </table>
       </div>
@@ -738,7 +904,7 @@ export class NphTable extends LitElement {
           const detailId = `detail-${position}`;
           const detailOpen = drawn.row.detail !== undefined && drawn.row.detail !== null && drawn.open;
           return html`${this.renderRow(drawn, position, striped, detailId)}${detailOpen
-            ? this.renderDetail(drawn.row.detail as NphTableDetail, detailId)
+            ? this.renderDetail(drawn, detailId)
             : nothing}`;
         },
       )}
@@ -756,6 +922,7 @@ export class NphTable extends LitElement {
       aria-expanded=${drawn.open ? 'true' : 'false'}
       aria-controls=${controls}
       ?loading=${Boolean(drawn.row.loading)}
+      tabindex=${this.outOfTab(drawn)}
       @click=${() => this.toggle(drawn.row)}
     ></nph-button>`;
   }
@@ -763,15 +930,30 @@ export class NphTable extends LitElement {
   private renderRow(drawn: DrawnRow, position: number, striped: boolean, detailId: string): TemplateResult {
     const hasDetail = drawn.row.detail !== undefined && drawn.row.detail !== null;
     const classes = ['row', striped ? 'striped' : '', this.isTree ? `level-${drawn.level}` : ''].filter(Boolean).join(' ');
-    /*
-     * Accessibility exception (P72): `aria-level` on a row outside a `treegrid` (known limit,
-     * P97). The stories that draw a tree leave the axe rule `aria-conditional-attr` out, with
-     * the reason; the discarded alternative, `role="treegrid"` with the APG keyboard, is
-     * DSA-56. Decided by Elvys on 27-10-2026.
-     */
-    return html`<tr class=${classes} aria-level=${this.isTree ? drawn.level : nothing}>
-      ${this.hasDetailColumn
-        ? html`<td class="chevron-column">${hasDetail ? this.renderChevron(drawn, drawn.open ? detailId : nothing) : nothing}</td>`
+    if (!this.isTree) {
+      return html`<tr class=${classes}>${this.renderCells(drawn, position, detailId)}</tr>`;
+    }
+    /* A row of the treegrid (P101): its level, its place among its siblings, its open state and the roving Tab stop. */
+    const id = `row ${drawn.row.key.trim()}`;
+    return html`<tr
+      class=${classes}
+      data-tree-row=${id}
+      tabindex=${this.stop === id ? '0' : '-1'}
+      aria-level=${drawn.level}
+      aria-posinset=${drawn.position}
+      aria-setsize=${drawn.setSize}
+      aria-expanded=${drawn.hasChildren || hasDetail ? String(drawn.open) : nothing}
+    >
+      ${this.renderCells(drawn, position, detailId)}
+    </tr>`;
+  }
+
+  private renderCells(drawn: DrawnRow, position: number, detailId: string): TemplateResult {
+    const hasDetail = drawn.row.detail !== undefined && drawn.row.detail !== null;
+    return html`${this.hasDetailColumn
+        ? html`<td class="chevron-column" tabindex=${this.isTree ? '-1' : nothing}>
+            ${hasDetail ? this.renderChevron(drawn, drawn.open ? detailId : nothing) : nothing}
+          </td>`
         : nothing}
       ${repeat(
         this.validColumns,
@@ -782,8 +964,16 @@ export class NphTable extends LitElement {
           const tree = this.isTree && index === 0;
           return this.renderCell(cell, column, drawn, `cell-${position}-${index}`, tree);
         },
-      )}
-    </tr>`;
+      )}`;
+  }
+
+  /**
+   * In the treegrid, the buttons, the links and the truncated text of a row leave the Tab order
+   * while the row is not the Tab stop, so Tab goes from the row to its own widgets and then out
+   * (P101). In the flat table they keep the Tab order.
+   */
+  private outOfTab(drawn: DrawnRow): '-1' | typeof nothing {
+    return this.isTree && this.stop !== `row ${drawn.row.key.trim()}` ? '-1' : nothing;
   }
 
   private renderCell(cell: CheckedCell, column: NphTableColumn, drawn: DrawnRow, id: string, tree: boolean): TemplateResult {
@@ -798,14 +988,16 @@ export class NphTable extends LitElement {
         </div>`
       : content;
     if (kind === 'truncated') {
-      return html`<td class=${classes} id=${id} tabindex="0">${inner}</td>`;
+      return html`<td class=${classes} id=${id} tabindex=${this.outOfTab(drawn) === nothing ? '0' : '-1'}>${inner}</td>`;
     }
-    /* A loading cell says so to assistive technology: the skeleton itself is decorative (P69). */
-    return html`<td class=${classes} aria-busy=${kind === 'loading' ? 'true' : nothing}>${inner}</td>`;
+    /* A loading cell says so to assistive technology: the skeleton itself is decorative (P69). In
+       the treegrid every cell takes the focus from the arrows. */
+    return html`<td class=${classes} tabindex=${this.isTree ? '-1' : nothing} aria-busy=${kind === 'loading' ? 'true' : nothing}>${inner}</td>`;
   }
 
   private renderContent(cell: CheckedCell, column: NphTableColumn, drawn: DrawnRow, id: string): TemplateResult | typeof nothing {
     const row = drawn.row;
+    const tab = this.outOfTab(drawn);
     if ('kind' in cell) {
       if (cell.kind === 'text') return html`<span class="text">${cell.text}</span>`;
       if (cell.kind === 'invalid') return nothing;
@@ -830,7 +1022,7 @@ export class NphTable extends LitElement {
         </span>`;
       }
       case 'link':
-        return html`<a class="link" href=${trimmed(cell.href)}>${cell.text}</a>`;
+        return html`<a class="link" href=${trimmed(cell.href)} tabindex=${tab}>${cell.text}</a>`;
       case 'truncated':
         return html`<span class="cut" style=${this.widthStyle(column) === nothing ? nothing : `max-inline-size: ${trimmed(column.width)}`}>${cell.text}</span>
           <nph-tooltip for=${id} relation="name" text=${cell.text}></nph-tooltip>`;
@@ -839,16 +1031,31 @@ export class NphTable extends LitElement {
           <span class=${`status ${cell.status}`}><nph-icon name=${NPH_TABLE_STATUS_ICON[cell.status]} size="sm"></nph-icon></span><span class="text">${cell.text}</span>
         </span>`;
       case 'button':
-        return html`<nph-button severity="secondary" emphasis="light" size="compact" text=${cell.text} @click=${() => this.act(row, cell.action.trim())}></nph-button>`;
+        return html`<nph-button
+          severity="secondary"
+          emphasis="light"
+          size="compact"
+          text=${cell.text}
+          tabindex=${tab}
+          @click=${() => this.act(row, cell.action.trim())}
+        ></nph-button>`;
       case 'actions':
         return html`<span class="pieces tight">
-          <nph-button severity="secondary" emphasis="ghost" icon-start=${NPH_TABLE_ICONS.edit} label=${cell.editLabel} @click=${() => this.act(row, 'edit')}></nph-button>
-          <nph-button severity="secondary" emphasis="ghost" icon-start=${NPH_TABLE_ICONS.more} label=${cell.moreLabel} @click=${() => this.act(row, 'more')}></nph-button>
+          <nph-button severity="secondary" emphasis="ghost" icon-start=${NPH_TABLE_ICONS.edit} label=${cell.editLabel} tabindex=${tab} @click=${() => this.act(row, 'edit')}></nph-button>
+          <nph-button severity="secondary" emphasis="ghost" icon-start=${NPH_TABLE_ICONS.more} label=${cell.moreLabel} tabindex=${tab} @click=${() => this.act(row, 'more')}></nph-button>
         </span>`;
       case 'mixed-actions':
         return html`<span class="pieces">
-          <nph-button severity="secondary" emphasis="light" size="compact" text=${cell.text} @click=${() => this.act(row, 'edit')}></nph-button>
-          <nph-button severity="secondary" emphasis="light" size="compact" icon-start=${NPH_TABLE_ICONS.more} label=${cell.moreLabel} @click=${() => this.act(row, 'more')}></nph-button>
+          <nph-button severity="secondary" emphasis="light" size="compact" text=${cell.text} tabindex=${tab} @click=${() => this.act(row, 'edit')}></nph-button>
+          <nph-button
+            severity="secondary"
+            emphasis="light"
+            size="compact"
+            icon-start=${NPH_TABLE_ICONS.more}
+            label=${cell.moreLabel}
+            tabindex=${tab}
+            @click=${() => this.act(row, 'more')}
+          ></nph-button>
         </span>`;
       case 'rating':
         return html`<span class="pieces"><span class="rating"><nph-icon name=${NPH_TABLE_ICONS.rating} variant="solid" size="sm"></nph-icon></span><span class="text">${cell.text}</span></span>`;
@@ -865,12 +1072,23 @@ export class NphTable extends LitElement {
       : html`<span class="lines"><span class="text">${text}</span><span class="secondary">${second}</span></span>`;
   }
 
-  private renderDetail(detail: NphTableDetail, id: string): TemplateResult {
+  private renderDetail(drawn: DrawnRow, id: string): TemplateResult {
+    const detail = drawn.row.detail as NphTableDetail;
     const description = trimmed(detail.description);
     const values = Array.isArray(detail.values) ? detail.values.filter((entry) => trimmed(entry?.label) !== '') : [];
     const badge = trimmed(detail.badge?.text);
-    return html`<tr class="detail" id=${id}>
-      <td colspan=${this.columnCount}>
+    /* In the treegrid the expanded item is a row of the level under its row, the only one there. */
+    const treeId = `detail ${drawn.row.key.trim()}`;
+    return html`<tr
+      class="detail"
+      id=${id}
+      data-tree-row=${this.isTree ? treeId : nothing}
+      tabindex=${this.isTree ? (this.stop === treeId ? '0' : '-1') : nothing}
+      aria-level=${this.isTree ? drawn.level + 1 : nothing}
+      aria-posinset=${this.isTree ? 1 : nothing}
+      aria-setsize=${this.isTree ? 1 : nothing}
+    >
+      <td colspan=${this.columnCount} tabindex=${this.isTree ? '-1' : nothing}>
         <div class="item">
           <nph-image size="lg" src=${trimmed(detail.src)} alt=${trimmed(detail.alt)}></nph-image>
           <div class="lines">
