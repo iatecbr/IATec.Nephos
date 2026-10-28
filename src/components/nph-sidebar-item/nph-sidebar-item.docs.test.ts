@@ -320,6 +320,27 @@ describe('nph-sidebar-item Validation: text only from the dictionary', () => {
     });
   }
 
+  it('Brands: closing a group hides its subitem, and the Tab order with it; opening shows it again', async () => {
+    const target = draw(validation.Brands as unknown as Renderable, 'en');
+    const groups = [...target.querySelectorAll<NphSidebarItem>('nph-sidebar-item[type="group"]')];
+    expect(groups).toHaveLength(14);
+    for (const group of groups) {
+      await group.updateComplete;
+      const subitems = group.nextElementSibling as HTMLElement;
+      expect(subitems.querySelector('nph-sidebar-subitem')).not.toBeNull();
+      const control = group.shadowRoot?.querySelector('.control') as HTMLElement;
+      await userEvent.click(control);
+      await group.updateComplete;
+      expect(group.expanded).toBe(false);
+      expect(getComputedStyle(subitems).display).toBe('none');
+      await userEvent.click(control);
+      await group.updateComplete;
+      expect(group.expanded).toBe(true);
+      expect(getComputedStyle(subitems).display).toBe('flex');
+    }
+    target.remove();
+  });
+
   it('only the Brands story carries data-nph-brand: the other pages follow the root brand, the frame only sets the mode', () => {
     for (const [name, story] of stories) {
       const target = draw(story, 'en');

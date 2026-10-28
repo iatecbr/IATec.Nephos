@@ -32,7 +32,7 @@ import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
 import type { NphDropdownMenuEntry } from '../nph-dropdown-menu/nph-dropdown-menu';
-import { collapsedMenu, inScheme, mainMenu, openGroup, panel } from './nph-sidebar-item.demo';
+import { collapsedMenu, followGroup, inScheme, mainMenu, openGroup, panel } from './nph-sidebar-item.demo';
 import type { MenuText, Scheme } from './nph-sidebar-item.demo';
 
 const meta: Meta = {
@@ -307,8 +307,16 @@ export const Brands: Story = {
               .counter=${12}
               active
             ></nph-sidebar-item>
-            <nph-sidebar-item type="group" label=${v.group.label} icon=${v.group.icon} expanded></nph-sidebar-item>
-            <nph-sidebar-subitem label=${v.subitems[0] ?? ''} href=${`#sub-${id}`} active></nph-sidebar-subitem>`)}
+            <nph-sidebar-item
+              type="group"
+              label=${v.group.label}
+              icon=${v.group.icon}
+              expanded
+              @nph-toggle=${followGroup}
+            ></nph-sidebar-item>
+            <div data-subitems style="display: flex; flex-direction: column;">
+              <nph-sidebar-subitem label=${v.subitems[0] ?? ''} href=${`#sub-${id}`} active></nph-sidebar-subitem>
+            </div>`)}
           ${panel(
             html`<nph-sidebar-rail-button
               label=${home?.label ?? ''}
