@@ -316,6 +316,6 @@ export function openOrder(s: Sample): TemplateResult {
  * `aria-conditional-attr` here. Reason: the tree rows carry `aria-level`, which ARIA 1.2 gives
  * to a row only inside a `treegrid`; the table reads and does not operate, so the level is
  * written on the `<tr>` as a known limit (P97). Alternative discarded for now: `role="treegrid"`
- * with the APG keyboard, a new contract that DSA-55 takes. Decided by Elvys on 27-10-2026.
+ * with the APG keyboard, a new contract that DSA-56 takes. Decided by Elvys on 27-10-2026.
  */
 export const TREE_LEVEL_EXCEPTION = { a11y: { options: { rules: { 'aria-conditional-attr': { enabled: false } } } } };

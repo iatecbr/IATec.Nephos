@@ -921,6 +921,11 @@ export class NphDropdownMenu extends LitElement {
     const loading = entry.loading === true;
     const inactive = entry.disabled === true || loading;
     const role = selection === 'single' ? 'menuitemradio' : selection === 'multiple' || isSwitch ? 'menuitemcheckbox' : 'menuitem';
+    /*
+     * The text names the item; the description, tag, counter and shortcut describe it (P92).
+     * The stories that show them carry the gate exception of `label-content-name-mismatch`
+     * (`SUPPLEMENTARY_TEXT_EXCEPTION` in the demo; Elvys, 27-10-2026, DSA-32).
+     */
     const described = [
       description === '' ? '' : `${id}-description`,
       tag === '' || loading ? '' : `${id}-tag`,

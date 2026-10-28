@@ -767,7 +767,7 @@ export class NphTable extends LitElement {
      * Accessibility exception (P72): `aria-level` on a row outside a `treegrid` (known limit,
      * P97). The stories that draw a tree leave the axe rule `aria-conditional-attr` out, with
      * the reason; the discarded alternative, `role="treegrid"` with the APG keyboard, is
-     * DSA-55. Decided by Elvys on 27-10-2026.
+     * DSA-56. Decided by Elvys on 27-10-2026.
      */
     return html`<tr class=${classes} aria-level=${this.isTree ? drawn.level : nothing}>
       ${this.hasDetailColumn

@@ -1,9 +1,9 @@
 ```json
 {
-  "id": "DSA-55",
+  "id": "DSA-56",
   "goal": "Make the nph-table tree a treegrid with the APG keyboard, so its rows carry aria-level where ARIA allows it, and remove the accessibility exception of its stories.",
   "phase": "F4",
-  "approved_order": 540,
+  "approved_order": 550,
   "owner": "elvys",
   "state": "blocked",
   "piece": "nph-table",
@@ -42,7 +42,7 @@
 }
 ```
 
-# DSA-55 — nph-table: the tree as a treegrid
+# DSA-56 — nph-table: the tree as a treegrid
 
 ## Goal
 The tree of `nph-table` has `role="treegrid"` and the keyboard of the APG treegrid pattern, its

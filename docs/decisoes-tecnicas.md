@@ -4189,6 +4189,11 @@ custom element definition per folder (`vite.config.lib.ts`, `scripts/test-packag
   menu drawn next to it: the visibility check reads the window only. Follow-up: hide or close the
   panel when the trigger has no visible intersection with its clipping ancestors (last Copilot round
   of PR #118).
+- **The accessibility gate (P72) leaves out `label-content-name-mismatch`** in the stories that show
+  a shortcut, a counter, a description or a tag: axe wants the visible text of the item inside its
+  name, and Understanding WCAG 2.5.3 counts those four as supplementary text, outside the label.
+  The exception is recorded in `nph-dropdown-menu.demo.ts`; decided by Elvys on 27/10/2026
+  (DSA-32).
 
 **Points for review.**
 
@@ -4381,7 +4386,7 @@ and P90. The names follow P64.
   so the level is written on the `<tr>` and its support by screen readers varies. The
   accessibility gate (P72) flags it; the stories that draw a tree carry an exception decided by
   Elvys on 27/10/2026 (DSA-32), and the move to `role="treegrid"` with the APG keyboard is
-  DSA-55.
+  DSA-56.
 - **The category content** of the cell is listed in the evidence but not described (D1 of
   DSA-49): there is no `category` type yet. The required example of items grouped by category
   shows the groups as the first level of the tree, open, with the total in the footer.
