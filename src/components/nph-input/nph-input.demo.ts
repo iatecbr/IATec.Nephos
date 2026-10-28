@@ -52,12 +52,15 @@ export interface SearchText {
   clearLabel: string;
   /** A value, so the clear button shows. */
   value?: string;
+  /** The size; `compact` is the search of the compact toolbar. */
+  size?: string;
 }
 
 /** Search: start icon `magnifying-glass` and the end icon that clears. */
 export function search(text: SearchText): TemplateResult {
   return html`<nph-input
     type="search"
+    size=${text.size ?? 'default'}
     label=${text.label}
     placeholder=${text.placeholder}
     icon-start="magnifying-glass"

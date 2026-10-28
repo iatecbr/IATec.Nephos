@@ -60,6 +60,17 @@
   block-size: var(--nph-control-height-large);
 }
 
+/*
+ * `compact` changes the height and the end padding, in every state: the 24 x 24 clear
+ * target fits inside the field and the X is drawn as far from the end border as the
+ * start icon is from the start border. The focus ring of the clear button goes past
+ * the field (P80, amendment of 28/10/2026): nothing here clips it.
+ */
+:host([size='compact']) .control {
+  block-size: var(--nph-input-height-compact);
+  padding-inline-end: var(--nph-input-clear-padding-end);
+}
+
 /* The value: `text/body-md` in `color/foreground`; the placeholder in `color/muted-foreground`. */
 .field {
   flex: 1;

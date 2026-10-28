@@ -6,8 +6,9 @@
  * semantics, the reference of the form controls. The field contract is P83:
  * - `type`: `text` (default), `email`, `tel`, `url` or `search` (D1). Password,
  *   number and mask are out of v1;
- * - `size`: `default` or `large`. Reflects, because the internal CSS selects the
- *   height by it; only the height changes;
+ * - `size`: `compact`, `default` or `large`. Reflects, because the internal CSS
+ *   selects the measures by it: `large` changes only the height; `compact` changes
+ *   the height and the end padding (P80, amendment of 28/10/2026);
  * - `value`: the current value. The `value` ATTRIBUTE is the initial value and the
  *   value of `form.reset()`, as in the native `<input>`: it applies only while the
  *   person has not edited the field and setting the property has not made it dirty;
@@ -38,7 +39,7 @@
  * - no slot, no `::part`, no color property;
  * - invalid input does not render and emits `console.error` only in development,
  *   one per cause and accumulating (P21 rule, adopted by P80): a `type` outside
- *   the five, a `size` outside the two and an icon outside `none` and the core.
+ *   the five, a `size` outside the three and an icon outside `none` and the core.
  *   `icon-end` without `clear-label` renders the field without the clear button,
  *   with one error (as `info` without `info-label` in P62.6). A field with no
  *   accessible name renders and warns once in development: the label may arrive
@@ -60,8 +61,8 @@ const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 export const NPH_INPUT_TYPES = ['text', 'email', 'tel', 'url', 'search'] as const;
 export type NphInputType = (typeof NPH_INPUT_TYPES)[number];
 
-/** The two sizes of the set. */
-export const NPH_INPUT_SIZES = ['default', 'large'] as const;
+/** The three sizes of the set. */
+export const NPH_INPUT_SIZES = ['compact', 'default', 'large'] as const;
 export type NphInputSize = (typeof NPH_INPUT_SIZES)[number];
 
 /** The keyword that turns an icon off; any other value is a core icon name. */
@@ -293,7 +294,8 @@ export class NphInput extends LitElement {
       return;
     }
     const type = (this.type ?? '').trim();
-    const size = (this.size ?? '').trim();
+    /* Not trimmed: the internal CSS selects the measures by the exact reflected attribute. */
+    const size = this.size ?? '';
     const start = iconValue(this.iconStart);
     const end = iconValue(this.iconEnd);
     let valid = true;
@@ -303,7 +305,7 @@ export class NphInput extends LitElement {
       valid = false;
     }
     if (!oneOf(NPH_INPUT_SIZES, size)) {
-      devError(`size "${size}" does not exist. Use ${NPH_INPUT_SIZES.join(' or ')}.`);
+      devError(`size "${size}" does not exist. Use ${NPH_INPUT_SIZES.join(', ')}.`);
       valid = false;
     }
     if (start !== NPH_INPUT_NO_ICON && !isCoreName(start)) {

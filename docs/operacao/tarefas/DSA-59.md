@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 580,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-input",
   "dependencies": [
     "DSA-16"
@@ -31,7 +31,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D1",
+      "question": "The evidence sets the end padding of the compact size to `input/clear-padding-end` (5 px) in every state. The code follows it literally, so a compact field with no clear button, or with the button hidden because there is no value, has its value and placeholder 5 px from the end border, while default and large keep 12 px. Is that intended, or should a compact field without the clear button keep `space/control-padding`? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-59/documentacao-figma-aceita-2026-10-28.md"
   ],
@@ -48,8 +55,8 @@
     "excerpt": null,
     "converted_decision": "The nph-input board (1195:532), with its Documentação frame (1211:690), was accepted with the size compact as the API and behavior specification of that size. Component set: nph-input (622:18359), size × state, 21 variants. The compact size, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "claude/strange-goldberg-ae2bb1", "commit": null, "pr": "https://github.com/iatecbr/IATec.Nephos/pull/139" },
+  "context": "docs/operacao/contextos/DSA-59.md",
   "updated_at": "2026-10-28"
 }
 ```

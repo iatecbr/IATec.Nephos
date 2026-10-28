@@ -2150,7 +2150,8 @@
       "When the person needs to type or edit a one-line value.",
       "Inside an nph-field when the field needs a label, help or an error message.",
       "With a start or end icon turned on by the property, without creating a variant.",
-      "default in general use; large on the screen that needs the 44 px target, for every field of the form and the button next to them."
+      "default in general use; large on the screen that needs the 44 px target, for every field of the form and the button next to them.",
+      "compact for the search of the compact nph-toolbar and for the compact table, with mouse and keyboard."
     ],
     "whenNotToUseTitle": "When not to use",
     "whenNotToUse": [
@@ -2158,7 +2159,8 @@
       "For a password, a number or a masked value: they are out of v1 and get their own task.",
       "To show the error message or the help: they belong to nph-field.",
       "To name the field with the placeholder alone: it disappears when the person types.",
-      "To show a value that cannot be edited: there is no read-only state."
+      "To show a value that cannot be edited: there is no read-only state.",
+      "In compact on a touch screen: its 28 px target is for mouse and keyboard only."
     ],
     "relationsText": "nph-field composes the label, the field, the help and the error message, and writes label, description, invalid and required on the input. On its own, nph-label names the input with for. The start and end icons come only from the nph-icon core.",
     "apiTitle": "API",
@@ -2173,7 +2175,7 @@
       ],
       [
         "size",
-        "default (control/height-default) or large (control/height-large). Only the height changes. Reflected to the attribute."
+        "compact (input/height-compact), default (control/height-default) or large (control/height-large). large changes only the height; compact also changes the end padding, to input/clear-padding-end. Reflected to the attribute."
       ],
       [
         "value",
@@ -2229,8 +2231,9 @@
       ]
     ],
     "sizesTitle": "Sizes",
-    "sizesText": "default serves general use; large is for the screen that needs the 44 px target for the accessibility of its users. A form uses a single size, and a field and a button side by side use the same one.",
-    "sizesCaption": "default and large, with a value: only the height changes.",
+    "sizesText": "default serves general use; large is for the screen that needs the 44 px target for the accessibility of its users; compact is for the search of the compact nph-toolbar and for the compact table, with mouse and keyboard, never on a touch screen. A form uses a single size, and a field and a button side by side use the same one.",
+    "sizesCaption": "compact, default and large, with a value: large changes only the height; compact also changes the end padding.",
+    "compactCaption": "The compact search, with a value. Press Tab to the clear button: its focus ring goes past the field and is not clipped.",
     "statesTitle": "States",
     "statesHeader": [
       "State",
@@ -2251,7 +2254,7 @@
       ],
       [
         "focus on clear",
-        "The container keeps color/input; the border focus/border and the halo focus/halo sit around the 24 by 24 clear target, keyboard only."
+        "The container keeps color/input; the border focus/border and the halo focus/halo sit around the 24 by 24 clear target, keyboard only. In compact the ring goes past the field while the button has focus; it is not clipped."
       ],
       [
         "invalid",
@@ -2308,7 +2311,7 @@
       ]
     ],
     "invalidTitle": "Invalid input",
-    "invalidText": "A type outside the five, a size outside the two or an icon outside the core draws nothing. icon-end without clear-label draws the field without the clear button.",
+    "invalidText": "A type outside the five, a size outside the three or an icon outside the core draws nothing. icon-end without clear-label draws the field without the clear button.",
     "anatomyTitle": "Anatomy",
     "anatomyHeader": [
       "Part",
@@ -2317,7 +2320,7 @@
     "anatomy": [
       [
         "Container",
-        "Height control/height-default or control/height-large, width layout/input-width, radius/control, border/width, side padding space/control-padding, gap space/inline, background color/background."
+        "Height control/height-default, control/height-large or input/height-compact, width layout/input-width, radius/control, border/width, side padding space/control-padding, with the end one input/clear-padding-end in compact, gap space/inline, background color/background."
       ],
       [
         "Start icon",
@@ -2372,7 +2375,7 @@
       ],
       [
         "Touch target",
-        "The target is the field itself; large guarantees 44 px. The clear button has its own 24 by 24 target."
+        "The target is the field itself; large guarantees 44 px, and compact, 28 px, is for mouse and keyboard only. The clear button has its own 24 by 24 target in the three sizes."
       ]
     ],
     "examplesTitle": "Examples",
@@ -2384,8 +2387,8 @@
     "referencesTitle": "References",
     "references": [
       "nph-input spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
-      "docs/decisoes-tecnicas.md — P80 (API and semantics, the reference of the form controls), P01, P02 and P03.",
-      "design.md — color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, control/height-default, control/height-large, layout/input-width, radius/control, border/width, space/control-padding, space/inline, space/inline-tight, text/body-md, icon/size-sm, color/foreground and color/muted-foreground.",
+      "docs/decisoes-tecnicas.md — P80 (API and semantics, the reference of the form controls) and its amendment of 28/10/2026, the size compact, P01, P02 and P03.",
+      "design.md — color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, control/height-default, control/height-large, layout/input-width, radius/control, border/width, space/control-padding, space/inline, space/inline-tight, text/body-md, icon/size-sm, color/foreground and color/muted-foreground. input/height-compact and input/clear-padding-end are in src/tokens/source/semantic.tokens.json.",
       "DS-IA-NEPHOS 5.0 Figma — page NPH — Input, frame nph-input (1195:532) and set 622:18359.",
       "Storybook — Validation, in the folder alongside."
     ],
@@ -6892,7 +6895,7 @@
       "components-nph-tooltip-validation--hover-and-focus": "Hover after a short wait and keyboard focus at once open the balloon on any element that receives focus: a button, a link and a field.",
       "components-nph-tooltip-validation--accessible-name": "On an icon-only button the balloon text is the accessible name of the action, announced once.",
       "components-nph-tooltip-validation--focusable-only": "The balloon goes only on an element that receives focus: a disabled button gets none.",
-      "components-nph-input-validation--matrix": "size × state of the set: placeholder, value, error, disabled and disabled with error. Move the mouse over a field for hover and click it for focus.",
+      "components-nph-input-validation--matrix": "size × state of the set, in compact, default and large: placeholder, value, value with the clear button, error, disabled and disabled with error. Move the mouse over a field for hover, click it for focus and press Tab to the clear button for its focus.",
       "components-nph-input-validation--types": "The five types of D1, each with a value it accepts. Password, number and mask are out of v1.",
       "components-nph-input-validation--icons": "Start and end icons, light, at icon/size-sm: none, start, end and both. The end icon only swaps the art; the action is always to clear.",
       "components-nph-input-validation--clear": "The clear button shows with a value. A click, Enter or Space empties it, brings the focus back to the field and fires input and change.",

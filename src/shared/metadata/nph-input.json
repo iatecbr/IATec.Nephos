@@ -7,14 +7,16 @@
     "When the person needs to type or edit a one-line value.",
     "Inside an nph-field when the field needs a label, help or an error message.",
     "With a start or end icon turned on by the property, without creating a variant.",
-    "default in general use; large on the screen that needs the 44 px target, for every field of the form and the button next to them."
+    "default in general use; large on the screen that needs the 44 px target, for every field of the form and the button next to them.",
+    "compact for the search of the compact nph-toolbar and for the compact table, with mouse and keyboard."
   ],
   "do_not_use_when": [
     "For multi-line text: the field holds one line.",
     "For a password, a number or a masked value: they are out of v1 and get their own task.",
     "To show the error message or the help: they belong to nph-field.",
     "To name the field with the placeholder alone: it disappears when the person types.",
-    "To show a value that cannot be edited: there is no read-only state."
+    "To show a value that cannot be edited: there is no read-only state.",
+    "In compact on a touch screen: its 28 px target is for mouse and keyboard only."
   ],
   "api": {
     "type": {
@@ -34,13 +36,14 @@
     "size": {
       "type": "enum",
       "values": [
+        "compact",
         "default",
         "large"
       ],
       "required": false,
       "default": "default",
       "reflects": true,
-      "constraint": "Only the height changes: control/height-default or control/height-large. Reflects because the internal CSS selects the height by it. One size per form, the same as the button next to the field."
+      "constraint": "large changes only the height: control/height-default or control/height-large. compact changes the height, input/height-compact, and the end padding, input/clear-padding-end. Reflects because the internal CSS selects the measures by it. One size per form, the same as the button next to the field."
     },
     "value": {
       "type": "string",
@@ -144,9 +147,9 @@
   "variants": {
     "size": {
       "axis": "size",
-      "choose_when": "default in general use; large on the screen that needs the 44 px target for the accessibility of its users. One size per form, the same as the button next to the field.",
+      "choose_when": "default in general use; large on the screen that needs the 44 px target for the accessibility of its users; compact for the search of the compact nph-toolbar and for the compact table, with mouse and keyboard. One size per form, the same as the button next to the field.",
       "do_not_combine_with": [
-        "default and large fields in the same form."
+        "Fields of different sizes in the same form."
       ]
     },
     "icons": {
@@ -170,7 +173,7 @@
     },
     "focus-clear": {
       "token": "focus/border",
-      "changes_for_user": "Keyboard focus on the clear button: the container keeps color/input, and the border and the halo sit around the 24 by 24 target."
+      "changes_for_user": "Keyboard focus on the clear button: the container keeps color/input, and the border and the halo sit around the 24 by 24 target. In compact the ring goes past the field while the button has focus."
     },
     "error": {
       "token": "status/error",
@@ -196,12 +199,12 @@
     "invalid: the value needs correction; nph-field writes the sentence and passes it as description."
   ],
   "tokens": {
-    "height": "control/height-default or control/height-large",
+    "height": "control/height-default, control/height-large or input/height-compact",
     "width": "layout/input-width",
     "radius": "radius/control",
     "border": "border/width, in color/input, color/input-hover, focus/border or status/error",
     "background": "color/background; color/muted when disabled",
-    "padding": "space/control-padding",
+    "padding": "space/control-padding; the end one is input/clear-padding-end in compact",
     "gap": "space/inline",
     "value": "text/body-md in color/foreground",
     "placeholder": "text/body-md in color/muted-foreground",
@@ -217,7 +220,8 @@
     "To show an error, set the error of nph-field; do not set invalid on the input alone.",
     "Read the value from the host on input or change; do not listen for an nph-* event.",
     "Use icon-end with clear-label only when the person will often clear the value.",
-    "Use the same size for every field and the button of one form."
+    "Use the same size for every field and the button of one form.",
+    "Use compact only for the search of the compact nph-toolbar and the compact table, never on a touch screen; never wrap it in a box that clips overflow, or the focus ring of its clear button is cut."
   ],
   "accessibility": {
     "semantics": "The native input inside the shadow root, of the chosen type. The host is form-associated and labelable.",
@@ -233,7 +237,7 @@
   },
   "invalid_combinations": [
     "A type outside text, email, tel, url and search — the field draws nothing.",
-    "A size outside default and large — the field draws nothing.",
+    "A size outside compact, default and large — the field draws nothing.",
     "An icon value outside none and the core names — the field draws nothing.",
     "icon-end without clear-label — the field renders without the clear button.",
     "invalid without the sentence in nph-field — red with no text."
@@ -261,14 +265,16 @@
     "Putting the error message inside the field.",
     "Using the placeholder as the only label.",
     "Using it for multi-line text.",
-    "Mixing default and large in one form."
+    "Mixing sizes in one form.",
+    "Using compact on a touch screen.",
+    "Clipping the overflow of a compact field: the focus ring of the clear button goes past it."
   ],
   "sources": {
-    "design_md": "design.md, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, control/height-*, layout/input-width, text/body-md and rule 6",
-    "decision": "P80 — API and semantics of nph-input, the reference of the form controls",
+    "design_md": "design.md, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, control/height-*, layout/input-width, text/body-md and rule 6; input/height-compact and input/clear-padding-end in the token source",
+    "decision": "P80 — API and semantics of nph-input, the reference of the form controls; its amendment of 28/10/2026 (DSA-59) adds compact",
     "tests": "src/components/nph-input/nph-input.test.ts",
     "usage_evidence": "the Examples section of the nph-icon Docs page",
     "storybook": "src/components/nph-input/nph-input.stories.ts and nph-input.docs.stories.ts",
-    "figma": "DS-IA-NEPHOS 5.0, nph-input frame 1195:532 and set 622:18359"
+    "figma": "DS-IA-NEPHOS 5.0, nph-input frame 1195:532, documentation frame 1211:690 and set 622:18359"
   }
 }

@@ -10,12 +10,14 @@ use_when:
   - "Inside an nph-field when the field needs a label, help or an error message."
   - "With a start or end icon turned on by the property, without creating a variant."
   - "default in general use; large on the screen that needs the 44 px target, for every field of the form and the button next to them."
+  - "compact for the search of the compact nph-toolbar and for the compact table, with mouse and keyboard."
 do_not_use_when:
   - "For multi-line text: the field holds one line."
   - "For a password, a number or a masked value: they are out of v1 and get their own task."
   - "To show the error message or the help: they belong to nph-field."
   - "To name the field with the placeholder alone: it disappears when the person types."
   - "To show a value that cannot be edited: there is no read-only state."
+  - "In compact on a touch screen: its 28 px target is for mouse and keyboard only."
 api:
   type:
     type: enum
@@ -28,14 +30,16 @@ api:
       of v1. Any other value draws nothing and emits console.error in development.
   size:
     type: enum
-    values: [default, large]
+    values: [compact, default, large]
     required: false
     default: default
     reflects: true
     constraint: >-
-      Only the height changes: control/height-default or control/height-large.
-      Reflects because the internal CSS selects the height by it. One size per
-      form, the same as the button next to the field.
+      large changes only the height: control/height-default or
+      control/height-large. compact changes the height, input/height-compact, and
+      the end padding, input/clear-padding-end. Reflects because the internal CSS
+      selects the measures by it. One size per form, the same as the button next
+      to the field.
   value:
     type: string
     required: false
@@ -161,9 +165,9 @@ api:
 variants:
   size:
     axis: size
-    choose_when: "default in general use; large on the screen that needs the 44 px target for the accessibility of its users. One size per form, the same as the button next to the field."
+    choose_when: "default in general use; large on the screen that needs the 44 px target for the accessibility of its users; compact for the search of the compact nph-toolbar and for the compact table, with mouse and keyboard. One size per form, the same as the button next to the field."
     do_not_combine_with:
-      - "default and large fields in the same form."
+      - "Fields of different sizes in the same form."
   icons:
     axis: appearance
     choose_when: "A start icon when it says what the field takes, such as magnifying-glass in a search. The end icon when the person will often clear the value."
@@ -180,7 +184,7 @@ states:
     changes_for_user: "The border takes focus/border with the focus/halo attached outside, at focus/radius-control and focus/ring-width."
   focus-clear:
     token: focus/border
-    changes_for_user: "Keyboard focus on the clear button: the container keeps color/input, and the border and the halo sit around the 24 by 24 target."
+    changes_for_user: "Keyboard focus on the clear button: the container keeps color/input, and the border and the halo sit around the 24 by 24 target. In compact the ring goes past the field while the button has focus."
   error:
     token: status/error
     changes_for_user: "The border is status/error, also on hover; the sentence is in nph-field."
@@ -199,12 +203,12 @@ business_rules:
 domain_errors:
   - "invalid: the value needs correction; nph-field writes the sentence and passes it as description."
 tokens:
-  height: "control/height-default or control/height-large"
+  height: "control/height-default, control/height-large or input/height-compact"
   width: layout/input-width
   radius: radius/control
   border: "border/width, in color/input, color/input-hover, focus/border or status/error"
   background: "color/background; color/muted when disabled"
-  padding: space/control-padding
+  padding: "space/control-padding; the end one is input/clear-padding-end in compact"
   gap: space/inline
   value: "text/body-md in color/foreground"
   placeholder: "text/body-md in color/muted-foreground"
@@ -220,6 +224,7 @@ ai_hints:
   - "Read the value from the host on input or change; do not listen for an nph-* event."
   - "Use icon-end with clear-label only when the person will often clear the value."
   - "Use the same size for every field and the button of one form."
+  - "Use compact only for the search of the compact nph-toolbar and the compact table, never on a touch screen; never wrap it in a box that clips overflow, or the focus ring of its clear button is cut."
 accessibility:
   semantics: "The native input inside the shadow root, of the chosen type. The host is form-associated and labelable."
   accessible_name: "From the label associated with the host: nph-label for, or a label element, referenced by the inner field. Without one, from label. The placeholder is not a name. With no name at all, the field renders and warns in development."
@@ -232,7 +237,7 @@ accessibility:
   color_alternative: "The error is said by the sentence of nph-field, read as the description of the field; the border color is not the only signal."
 invalid_combinations:
   - "A type outside text, email, tel, url and search — the field draws nothing."
-  - "A size outside default and large — the field draws nothing."
+  - "A size outside compact, default and large — the field draws nothing."
   - "An icon value outside none and the core names — the field draws nothing."
   - "icon-end without clear-label — the field renders without the clear button."
   - "invalid without the sentence in nph-field — red with no text."
@@ -248,14 +253,16 @@ anti_patterns:
   - "Putting the error message inside the field."
   - "Using the placeholder as the only label."
   - "Using it for multi-line text."
-  - "Mixing default and large in one form."
+  - "Mixing sizes in one form."
+  - "Using compact on a touch screen."
+  - "Clipping the overflow of a compact field: the focus ring of the clear button goes past it."
 sources:
-  design_md: "design.md, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, control/height-*, layout/input-width, text/body-md and rule 6"
-  decision: "P80 — API and semantics of nph-input, the reference of the form controls"
+  design_md: "design.md, color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, control/height-*, layout/input-width, text/body-md and rule 6; input/height-compact and input/clear-padding-end in the token source"
+  decision: "P80 — API and semantics of nph-input, the reference of the form controls; its amendment of 28/10/2026 (DSA-59) adds compact"
   tests: "src/components/nph-input/nph-input.test.ts"
   usage_evidence: "the Examples section of the nph-icon Docs page"
   storybook: "src/components/nph-input/nph-input.stories.ts and nph-input.docs.stories.ts"
-  figma: "DS-IA-NEPHOS 5.0, nph-input frame 1195:532 and set 622:18359"
+  figma: "DS-IA-NEPHOS 5.0, nph-input frame 1195:532, documentation frame 1211:690 and set 622:18359"
 ---
 
 # nph-input
@@ -273,6 +280,8 @@ the help and the error message belong to `nph-field`; the input shows only the `
 - With a start or end icon turned on by the property, without creating a variant.
 - `default` in general use; `large` on the screen that needs the 44 px target, for every
   field of the form and the button next to them.
+- `compact` for the search of the compact `nph-toolbar` and for the compact table, with mouse
+  and keyboard.
 
 **When NOT to use:**
 
@@ -281,14 +290,17 @@ the help and the error message belong to `nph-field`; the input shows only the `
 - **To show the error message or the help** — they belong to `nph-field`.
 - **To name the field with the placeholder alone** — it disappears when the person types.
 - **To show a value that cannot be edited** — there is no read-only state.
+- **In `compact` on a touch screen** — its 28 px target is for mouse and keyboard only.
 
 ## Variants
 
 **By appearance:** the start icon and the end icon, each turned on by a property; they do
 not create a variant.
 
-**By size:** `default` (`control/height-default`) and `large` (`control/height-large`). Only
-the height changes.
+**By size:** `compact` (`input/height-compact`), `default` (`control/height-default`) and
+`large` (`control/height-large`). `large` changes only the height; `compact` also changes the
+end padding to `input/clear-padding-end`, in every state, so the 24 × 24 clear target fits and
+the X sits 12 px from the end border, as the start icon does from the start border.
 
 **By density:** `not_applicable`.
 
@@ -296,10 +308,11 @@ the height changes.
 |---|---|
 | `default` | General use |
 | `large` | The screen needs the 44 px target for the accessibility of its users |
+| `compact` | The search of the compact `nph-toolbar` or the compact table, with mouse and keyboard |
 | Start icon | It says what the field takes, such as `magnifying-glass` in a search |
 | End icon | The person will often clear the value |
 
-**Do not combine with:** `default` and `large` fields in the same form.
+**Do not combine with:** fields of different sizes in the same form.
 
 ## States
 
@@ -308,7 +321,7 @@ the height changes.
 | `default` | `color/input` | The resting border, on `color/background` |
 | `hover` | `color/input-hover` | The border goes one step darker under the pointer |
 | `foco` | `focus/border`, `focus/halo` | The border takes `focus/border`, with the halo attached outside at `focus/radius-control` |
-| `foco-limpar` | `focus/border`, `focus/halo` | The container keeps `color/input`; the border at `focus/border-radius-control` and the halo at `focus/radius-control-with-border` sit around the 24 × 24 clear target |
+| `foco-limpar` | `focus/border`, `focus/halo` | The container keeps `color/input`; the border at `focus/border-radius-control` and the halo at `focus/radius-control-with-border` sit around the 24 × 24 clear target. In `compact` the halo goes 3 px past the top and the bottom of the field, only while the button has focus |
 | `erro` | `status/error` | The border is `status/error`, also on hover |
 | `erro-foco` | `status/error`, `focus/halo-error` | The border stays `status/error` and the halo is `focus/halo-error` |
 | `disabled` | `state/disabled-opacity`, `color/muted` | The whole piece at `state/disabled-opacity` on `color/muted`, with the `color/input` border |
@@ -342,7 +355,8 @@ sentence and passes it to the input as `description`.
 | Focus | The border takes `focus/border` with the halo outside, without changing the size |
 | Contrast | The `color/input` border meets 3:1 against the background (WCAG 1.4.11); the halo is decoration |
 | Alternative to color | The error is said by the sentence of `nph-field`, read as the description; the border color is not the only signal |
-| Touch target | The field itself; `large` guarantees 44 px. The clear button has its own 24 × 24 target |
+| Touch target | The field itself; `large` guarantees 44 px. `compact`, 28 px, is for mouse and keyboard only, never for touch. The clear button has its own 24 × 24 target in the three sizes |
+| Focus outside the field | In `compact` the focus ring of the clear button goes past the field; it is not clipped (WCAG 2.4.13, 2.4.11). A wrapper must not clip the overflow of the field |
 | Known limits | Forced colors and right-to-left are not treated yet. Autofill by browsers and password managers inside a shadow root varies |
 
 ## Relations
@@ -363,7 +377,7 @@ which names it on its own with `for`; `nph-icon`, through the start and end icon
 
 | Part | Token |
 |---|---|
-| Container | Height `control/height-default` or `control/height-large`; width `layout/input-width`; radius `radius/control`; border `border/width`; side padding `space/control-padding`; gap `space/inline`; background `color/background` |
+| Container | Height `control/height-default`, `control/height-large` or `input/height-compact`; width `layout/input-width`; radius `radius/control`; border `border/width`; side padding `space/control-padding`, with the end one `input/clear-padding-end` in `compact`; gap `space/inline`; background `color/background` |
 | Value | `text/body-md`, `color/foreground` |
 | Placeholder | `text/body-md`, `color/muted-foreground` |
 | Start and end icons | `icon/size-sm`, `color/muted-foreground` |
@@ -385,6 +399,9 @@ to the parent, with no minimum. There is no motion.
 - Read the value from the host on `input` or `change`; do not listen for an `nph-*` event.
 - Use `icon-end` with `clear-label` only when the person will often clear the value.
 - Use the same size for every field and the button of one form.
+- Use `compact` only for the search of the compact `nph-toolbar` and the compact table, never on
+  a touch screen; never wrap it in a box that clips overflow, or the focus ring of its clear
+  button is cut.
 
 ## Examples
 
@@ -401,8 +418,11 @@ with `name` and `autocomplete` for the form.
 - **Do not put the error message inside the field** — it belongs to `nph-field`.
 - **Do not use the placeholder as the only label** — it disappears when the person types.
 - **Do not use it for multi-line text.**
-- **Do not mix `default` and `large` in one form.**
-- **Invalid combinations:** a `type` outside the five; a `size` outside the two; an icon
+- **Do not mix sizes in one form.**
+- **Do not use `compact` on a touch screen.**
+- **Do not clip the overflow of a `compact` field** — the focus ring of the clear button goes
+  past it.
+- **Invalid combinations:** a `type` outside the five; a `size` outside the three; an icon
   value outside `none` and the core; `icon-end` without `clear-label`; `invalid` without the
   sentence in `nph-field`.
 - **Do not create without a decision:** a password, number or mask type, a read-only state,
@@ -412,11 +432,14 @@ with `name` and `autocomplete` for the form.
 
 - **The repository `design.md`:** `color/input`, `color/input-hover`, `status/error`,
   `focus/*`, `state/disabled-opacity`, `control/height-*`, `layout/input-width`,
-  `text/body-md` and rule 6.
+  `text/body-md` and rule 6. `input/height-compact` and `input/clear-padding-end` are in
+  `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P80, the API and semantics of `nph-input`, the
-  reference of the form controls; the field contract is P83.
+  reference of the form controls, and its amendment of 28/10/2026 (DSA-59), the size
+  `compact`; the field contract is P83.
 - **Tests:** `src/components/nph-input/nph-input.test.ts`.
 - **Usage evidence:** the Examples section of the `nph-icon` Docs page.
 - **Storybook:** `src/components/nph-input/nph-input.stories.ts` (Validation) and
   `nph-input.docs.stories.ts` (Docs).
-- **Figma:** `nph-input` frame (`1195:532`) and set `622:18359` in `DS-IA-NEPHOS 5.0`.
+- **Figma:** `nph-input` frame (`1195:532`), its documentation frame (`1211:690`) and set
+  `622:18359` in `DS-IA-NEPHOS 5.0`.
