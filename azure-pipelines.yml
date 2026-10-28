@@ -258,14 +258,23 @@ stages:
           # through sudo, which the agents do not allow (run 609156). The
           # system libraries Chromium needs must already be on the agent.
           # The core count is logged because Vitest sizes its browser pages
-          # from it; `vitest.config.ts` caps them per project.
+          # from it. Temporary diagnostics for the intermittent "Failed to
+          # fetch dynamically imported module": memory and load of the agent,
+          # the Vite request log (`vitest.config.ts`) and Chromium's own output
+          # (`DEBUG=pw:browser`).
           - bash: |
               set -euo pipefail
               echo "CPU cores seen by Node: $(node -p 'require("os").availableParallelism()')"
+              free -m
+              cat /proc/loadavg
               npx playwright install chromium
               npm test
+              cat /proc/loadavg
             displayName: Component tests (Chromium)
             workingDirectory: $(Build.SourcesDirectory)
+            env:
+              NEPHOS_TEST_DIAGNOSTICS: '1'
+              DEBUG: pw:browser
 
           - task: CmdLine@2
             displayName: Remove .npmrc

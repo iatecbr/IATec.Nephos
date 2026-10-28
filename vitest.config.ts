@@ -12,7 +12,7 @@
  */
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
-import { defineConfig } from 'vitest/config';
+import { defineConfig, type Plugin } from 'vitest/config';
 
 /** A new object per project: Vitest writes the project name into each instance. */
 const browser = () => ({
@@ -24,33 +24,59 @@ const browser = () => ({
 });
 
 /**
- * Browser pages per project. Without a cap, Vitest opens up to
- * `min(12, cores - 1)` pages in each project, so the two projects load up to
- * 24 pages at once. On the shared Azure agents (several agents per machine),
- * that load made a test file fail to import now and then, with "Failed to
- * fetch dynamically imported module", in a different file each run (builds
- * 610794, 611183 and 611621). The Vite optimizer did not reload in those runs,
- * so `optimizeDeps` is not the cause, and `retry` does not repeat a file that
- * failed to import.
+ * Temporary diagnostics for the intermittent "Failed to fetch dynamically
+ * imported module" on the Azure agents. With `NEPHOS_TEST_DIAGNOSTICS` set,
+ * the browser Vite server of each project logs to stderr every top-level test
+ * import, every response at or above 400 and every response closed before it
+ * finished. It tells whether the failing request reached Vite and what Vite
+ * answered.
  */
-const maxWorkers = 4;
+const TOP_LEVEL_IMPORT = /(\.test\.ts|\.stories\.ts|setup-file-with-project-annotations\.js)\?/;
+const requestLog = (project: string): Plugin[] =>
+  process.env.NEPHOS_TEST_DIAGNOSTICS
+    ? [
+        {
+          name: 'nephos:request-log',
+          configureServer(server) {
+            server.middlewares.use((req, res, next) => {
+              const start = Date.now();
+              const url = req.url ?? '';
+              let finished = false;
+              const log = (outcome: string) =>
+                process.stderr.write(
+                  `[nephos-diag] ${new Date().toISOString()} ${project} ${outcome} ${Date.now() - start}ms ${url}\n`,
+                );
+              res.on('finish', () => {
+                finished = true;
+                if (res.statusCode >= 400 || TOP_LEVEL_IMPORT.test(url)) {
+                  log(`${res.statusCode} ${res.statusMessage}`);
+                }
+              });
+              res.on('close', () => {
+                if (!finished) log('closed-before-finish');
+              });
+              next();
+            });
+          },
+        },
+      ]
+    : [];
 
 export default defineConfig({
   test: {
     projects: [
       {
+        plugins: requestLog('unit'),
         test: {
           name: 'unit',
           include: ['src/**/*.test.ts'],
-          maxWorkers,
           browser: browser(),
         },
       },
       {
-        plugins: [storybookTest({ configDir: '.storybook' })],
+        plugins: [storybookTest({ configDir: '.storybook' }), ...requestLog('storybook')],
         test: {
           name: 'storybook',
-          maxWorkers,
           browser: browser(),
         },
       },
