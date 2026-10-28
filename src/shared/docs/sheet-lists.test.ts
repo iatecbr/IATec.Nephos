@@ -4,7 +4,9 @@
  * - a page whose lists differ from `use_when` and `do_not_use_when` of
  *   `src/shared/metadata/<piece>.json`, in any of the three languages;
  * - an item of the Metadata without a translation in `pt-BR` or `es`;
- * - a dictionary list whose number of items differs from the Metadata.
+ * - a dictionary list whose number of items differs from the Metadata;
+ * - a page that does not build the block with `sheetUseDontUse` from the Metadata of its own piece,
+ *   even while its dictionary still equals the Metadata.
  *
  * The pages are found by file name, so a new `Docs` page is covered without being listed here.
  */
@@ -24,6 +26,11 @@ type Page = { Documentation: { render?: (args: unknown, context: unknown) => Tem
 
 const pages = import.meta.glob<Page>('../../components/*/*.docs.stories.ts', { eager: true });
 const sheets = import.meta.glob<SheetLists>('../metadata/*.json', { eager: true, import: 'default' });
+const sources = import.meta.glob<string>('../../components/*/*.docs.stories.ts', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+});
 
 /** `nph-icon` was the first page and kept the key `docs`; the others follow `<piece>Docs`. */
 const DICTIONARY_KEYS: Record<string, string> = { 'nph-icon': 'docs' };
@@ -52,6 +59,7 @@ function shownLists(page: Page, locale: string): { use: string[]; dontUse: strin
 const pieces = Object.entries(pages).map(([path, page]) => ({
   piece: path.split('/').at(-2) as string,
   page,
+  source: sources[path] ?? '',
 }));
 
 describe('Docs pages: the lists of the page are the lists of the sheet', () => {
@@ -59,8 +67,13 @@ describe('Docs pages: the lists of the page are the lists of the sheet', () => {
     expect(pieces.length).toBeGreaterThan(0);
   });
 
-  for (const { piece, page } of pieces) {
+  for (const { piece, page, source } of pieces) {
     const metadata = sheets[`../metadata/${piece}.json`];
+
+    it(`${piece}: the page builds the block from the Metadata of its own sheet`, () => {
+      expect(source).toContain(`import metadata from '../../shared/metadata/${piece}.json';`);
+      expect(source).toMatch(/\bsheetUseDontUse\(metadata, /);
+    });
 
     it(`${piece}: the sheet has Metadata with both lists`, () => {
       expect(metadata, `src/shared/metadata/${piece}.json`).toBeDefined();
