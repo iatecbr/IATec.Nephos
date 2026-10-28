@@ -78,6 +78,12 @@ const PROBES = [
   },
   { name: 'citation in a code comment', path: 'src/probe.ts', text: '/** The British `colour` is cited. */\n' },
   {
+    name: 'template literal after a block comment on the same line',
+    path: 'src/probe.ts',
+    text: '/* validation */ console.error(`Invalid colour: ${value}`);\n',
+    expect: ['colour'],
+  },
+  {
     name: 'json block, as the data of a task',
     path: 'docs/probe.md',
     text: '```json\n{\n  "goal": "Make the centre of the box the colour."\n}\n```\n',

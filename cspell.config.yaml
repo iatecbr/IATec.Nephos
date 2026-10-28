@@ -99,8 +99,8 @@ ignoreRegExpList:
   - '/\b(?:data-)?nph-[\w-]+/g'
   - '/\baria-[a-z]+/g'
   # In a code comment, a span between backticks is code or a quotation. A template literal in
-  # code is text and stays in.
-  - '/(?<=^\s*(?:\*|\/\/|\/\*).*)`[^`\n]*`/gm'
+  # code is text and stays in, also after a block comment closed on the same line.
+  - '/(?<=^\s*(?:\*|\/\/|\/\*)(?:(?!\*\/).)*)`[^`\n]*`/gm'
 
 languageSettings:
   - languageId: markdown
