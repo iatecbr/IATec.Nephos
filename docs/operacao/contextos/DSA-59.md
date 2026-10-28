@@ -26,15 +26,19 @@ contract converted to text in the evidence of the `figma-docs-accepted` gate.
 ## Commands run
 - `git merge --ff-only origin/v/5.0.0`
 - `npm ci`, `npm run build:tokens`, `npm run test:tokens` and `npm test` on the base: green
+- `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:naming`,
+  `test:spelling`, `test:operacao`, `build-storybook`, `build:lib`, `test:package` and
+  `git diff --check` on the head of the pull request
 
 ## Result
-The task is in progress on the branch `claude/strange-goldberg-ae2bb1`.
+In review in pull request #139, from the branch `claude/strange-goldberg-ae2bb1`.
 
 ## Evidence
-None yet. `review-and-merge` waits for the pull request.
+The proof table is in the description of the pull request. `review-and-merge` waits for the
+merge.
 
 ## Blocker
 None.
 
 ## Next command
-The proof commands, in sequence.
+Wait for the Copilot review of the pull request.
