@@ -167,7 +167,7 @@
     },
     "focus": {
       "token": "focus/border",
-      "changes_for_user": "The scroll area that overflows and the truncated text take the ring in table/focus-ring-width with the keyboard."
+      "changes_for_user": "The scroll area that overflows and the truncated text take the ring in table/focus-ring-width with the keyboard; in the tree, so do the focused row and cell."
     },
     "open": {
       "token": "table/expand-indent",
@@ -187,7 +187,7 @@
     "A missing value is the no-value dash, read as no-value-label; the cell is never left empty.",
     "A truncated text carries a tooltip and the focus on the cell, and needs the column width.",
     "With two actions or more, the frequent one stays visible and the rest go in the more, with Delete last.",
-    "The expanding row and the tree open only through the chevron; the tree goes down to three levels.",
+    "The expanding row and the tree open only through the chevron, never by a click on the row; in the tree, the keyboard on the row opens and closes it too (P101). The tree goes down to three levels.",
     "The caption names the table; without it, label does.",
     "Sorting, selection, filtering and pagination belong to the nph-data-table."
   ],
@@ -267,14 +267,17 @@
     "Use framed for a table standing alone on the page, and sticky-header for a long list inside a panel."
   ],
   "accessibility": {
-    "semantics": "A native table in the shadow root: column headers with scope col, the group header with scope colgroup over its colgroup, the body and the footer. The tree rows carry aria-level.",
+    "semantics": "A native table in the shadow root: column headers with scope col, the group header with scope colgroup over its colgroup, the body and the footer. A table that draws a tree is a treegrid (P101): its cells are gridcells, each row carries aria-level, aria-posinset and aria-setsize, and a row that opens carries aria-expanded. The flat table stays a native table.",
     "accessible_name": "The caption title (aria-labelledby), with the description as aria-describedby; without a caption, label. The icon-only buttons and the chevron carry a name per row, from the data.",
     "keyboard": [
       "Tab reaches the scroll area when it overflows, and the arrows scroll it",
       "Tab reaches the truncated text, which opens its tooltip",
-      "Tab reaches the links and the buttons of the cells and the chevron; Enter and Space activate the buttons"
+      "Tab reaches the links and the buttons of the cells and the chevron; Enter and Space activate the buttons",
+      "In the tree, Tab reaches one row and then the links, the buttons and the truncated text of that row only, and leaves the table",
+      "In the tree, on a row: Right opens a closed row or goes to its first cell, Left closes an open row or goes to its parent, Down and Up go to the next and the previous row, Home and End to the first and the last, Enter opens and closes",
+      "In the tree, on a cell: Right and Left move along the row, Left on the first cell goes back to the row, Down and Up keep the column, Home and End go to the first and the last cell, Ctrl+Home and Ctrl+End to that column in the first and the last row"
     ],
-    "focus": "The scroll area that overflows and the truncated text take the ring focus/border in table/focus-ring-width with the keyboard. The chevron, the buttons and the more use the focus of their own piece.",
+    "focus": "The scroll area that overflows and the truncated text take the ring focus/border in table/focus-ring-width with the keyboard, and so do the focused row and cell of the tree. The chevron, the buttons and the more use the focus of their own piece.",
     "contrast": "Text and link pass AA over background, stripe, header and hover, in light and dark; the status icons pass 3:1. Exception accepted in the evidence: the rating star in table/rating-foreground is below 3:1 in light, and the score stays as a number beside it.",
     "color_alternative": "The status has a shape and a name besides the color, the badge always has text, the link is underlined, and the no-value dash is read as text."
   },
@@ -323,7 +326,7 @@
   ],
   "sources": {
     "design_md": "design.md has no entry yet for the table/* tokens (pending decision D8 of DSA-49); they are in src/tokens/source/semantic.tokens.json",
-    "decision": "P97 — API and semantics of nph-table, 26-10-2026",
+    "decision": "P97 — API and semantics of nph-table, 26-10-2026; P101 — the tree as a treegrid, 28-10-2026",
     "tests": "src/components/nph-table/nph-table.test.ts",
     "usage_evidence": "none yet",
     "storybook": "src/components/nph-table/nph-table.stories.ts and nph-table.docs.stories.ts",
