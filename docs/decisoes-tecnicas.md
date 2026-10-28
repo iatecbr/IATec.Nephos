@@ -2514,8 +2514,12 @@ set accepted on 01/10/2026. On 28/10/2026 Indiane accepted a third size in the s
    keyboard, not for touch (`design.md`, A30), and `large` keeps the 44 px target. The clear
    button keeps its own 24 × 24 target (WCAG 2.5.8).
 
-**Breaking changes.** None. `size` gains a value, and `default` and `large` do not change. The
-exported `NPH_INPUT_SIZES` and `NphInputSize` gain `compact`.
+**Breaking changes.** One. A `size` with spaces around it, such as `"large "`, was accepted
+before, after a trim, and drew the measures of `default`, because the CSS did not match it. Now it
+is invalid input (item 1): the field draws nothing, leaves the form data and emits one
+`console.error` in development. Migration: remove the spaces from the value. Otherwise `size` only
+gains a value, `default` and `large` do not change, and the exported `NPH_INPUT_SIZES` and
+`NphInputSize` gain `compact`.
 
 **Source.** The evidence above, set `622:18359` and frame `1211:690` of the Figma file
 `DS-IA-NEPHOS 5.0`. Selecting the measures by the reflected `size`, as for `large`, is the

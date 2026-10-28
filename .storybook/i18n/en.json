@@ -2387,7 +2387,7 @@
     "references": [
       "nph-input spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
       "docs/decisoes-tecnicas.md — P80 (API and semantics, the reference of the form controls) and its amendment of 28/10/2026, the size compact, P01, P02 and P03.",
-      "design.md — color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, control/height-default, control/height-large, input/height-compact, input/clear-padding-end, layout/input-width, radius/control, border/width, space/control-padding, space/inline, space/inline-tight, text/body-md, icon/size-sm, color/foreground and color/muted-foreground.",
+      "design.md — color/input, color/input-hover, status/error, focus/*, state/disabled-opacity, color/muted, control/height-default, control/height-large, layout/input-width, radius/control, border/width, space/control-padding, space/inline, space/inline-tight, text/body-md, icon/size-sm, color/foreground and color/muted-foreground. input/height-compact and input/clear-padding-end are in src/tokens/source/semantic.tokens.json.",
       "DS-IA-NEPHOS 5.0 Figma — page NPH — Input, frame nph-input (1195:532) and set 622:18359.",
       "Storybook — Validation, in the folder alongside."
     ],
