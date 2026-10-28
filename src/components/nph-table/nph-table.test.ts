@@ -1033,7 +1033,12 @@ describe('tree', () => {
     expect(received).toEqual([{ row: 'south', open: true }]);
     expect(bodyRows(element)).toHaveLength(4);
     const chevron = root(element).querySelector('.chevron') as HTMLElement;
-    expect([chevron.getAttribute('icon-start'), chevron.getAttribute('aria-expanded')]).toEqual(['chevron-down', 'true']);
+    /* In the treegrid the row carries the open state, not the chevron (P101). */
+    expect([chevron.getAttribute('icon-start'), chevron.hasAttribute('aria-expanded'), bodyRows(element)[0]?.getAttribute('aria-expanded')]).toEqual([
+      'chevron-down',
+      false,
+      'true',
+    ]);
     const nested = bodyRows(element)[1]?.querySelector('.chevron') as HTMLElement;
     innerButton(nested).click();
     await element.updateComplete;

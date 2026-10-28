@@ -5037,8 +5037,10 @@ tree only, and the flat table does not change.
    counted among the valid rows of its level under the same parent (a row left out does not
    count), and a row that opens — by `children` or by `detail` — carries `aria-expanded` on
    the `<tr>`. The open expanded item is a row of the level under its row, the only one there.
-   The row carries the open state of the tree; the chevron keeps its `aria-expanded` on the
-   host of its `nph-button`, as P97 describes.
+   The row carries the open state of the tree, and the chevron does not: with `tabindex` on its
+   host (item 3), the host of the `nph-button` is a focusable element with no role, where ARIA
+   does not allow `aria-expanded`, and the gate (P72) flags it. The chevron keeps its name and,
+   for an expanded item, `aria-controls`.
 
 3. **Focus.** One row of the body is the Tab stop (`tabindex="0"`): the last row the focus was
    in, while it is drawn, and the first row otherwise; the other rows and every cell take

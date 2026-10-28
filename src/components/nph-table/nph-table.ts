@@ -921,7 +921,7 @@ export class NphTable extends LitElement {
       size="compact"
       icon-start=${drawn.open ? NPH_TABLE_ICONS.open : NPH_TABLE_ICONS.closed}
       label=${trimmed(drawn.row.toggleLabel)}
-      aria-expanded=${drawn.open ? 'true' : 'false'}
+      aria-expanded=${this.isTree ? nothing : drawn.open ? 'true' : 'false'}
       aria-controls=${controls}
       ?loading=${Boolean(drawn.row.loading)}
       tabindex=${this.outOfTab(drawn)}
