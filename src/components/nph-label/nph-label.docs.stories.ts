@@ -23,7 +23,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-label';
-import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-label.json';
 
@@ -50,6 +50,7 @@ function localeOf(context: GlobalsContext | undefined): string {
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   properties: 'properties-variants-and-states',
   relations: 'relations',
   anatomy: 'anatomy',
@@ -105,6 +106,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.properties, title: d.propertiesTitle },
           { id: SECTIONS.relations, title: d.relationsTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
@@ -130,6 +132,13 @@ export const Documentation: Story = {
             ${table(d.apiHeader, d.api.map(([term, rule]: [string, string]) => [term, rule] as const))}
             ${source(d.sourceLabel, d.sourceApi)}
           `,
+        )}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-label'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
         ${section(

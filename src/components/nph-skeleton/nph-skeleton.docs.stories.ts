@@ -5,15 +5,9 @@
  * the tests. The content is transcribed from the frame accepted in Figma (`1578:38`), from the
  * spec sheet (`ficha`) and from P69; nothing is decided here. The page follows the order of
  * the `nph-badge` page: it opens with the labelled matrix of the five shapes, and the two lists of
- * "When to use" are the ones of the sheet.
- *
- * Deferred answers of DSA-30, not fulfilled here:
- * - D1, option A: the lists of "When to use" still come from the dictionary, and a test
- *   (option D) checks that they equal the sheet's. Reading them from the Metadata needs a
- *   new technical decision (it widens P63) and an answer on how `pt-BR` and `es` read
- *   lists while the Metadata is English only.
- * - D2: there is no Usage section yet. It enters every Docs page, after API, in a later
- *   task that also gives `package.json` the `exports` for the import line.
+ * "When to use" are the ones of the sheet, read from its Metadata (P71). Usage shows the markup
+ * of the frame, `<nph-skeleton shape="line">`, with the shape written out though `line` is the
+ * default, because it is the one property of the piece (D1 of DSA-35, P69 and P70).
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the
  * `skeletonDocs` key. The story is SINGLE: it reads `globals.locale` and looks up the translation.
@@ -28,7 +22,7 @@ import './nph-skeleton';
 import { NPH_SKELETON_SHAPES } from './nph-skeleton';
 import { cardLoading, inScheme, paragraphLoading, peopleList } from './nph-skeleton.demo';
 import type { Scheme } from './nph-skeleton.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-skeleton.json';
 
@@ -55,6 +49,7 @@ function localeOf(context: GlobalsContext | undefined): string {
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   shapes: 'shapes',
   relations: 'relations',
   anatomy: 'anatomy',
@@ -102,6 +97,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.shapes, title: d.shapesTitle },
           { id: SECTIONS.relations, title: d.relationsTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
@@ -123,6 +119,13 @@ export const Documentation: Story = {
           SECTIONS.api,
           d.apiTitle,
           html`${table(d.apiHeader, d.api.map(pair))} ${source(d.sourceLabel, d.sourceApi)}`,
+        )}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-skeleton'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
         ${section(

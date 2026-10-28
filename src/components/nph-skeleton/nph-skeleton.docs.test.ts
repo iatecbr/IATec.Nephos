@@ -174,12 +174,10 @@ describe('nph-skeleton documentation — order of the model', () => {
       expect(opening).toEqual(['header', 'matrix', 'note', 'index']);
     });
 
-    /* Usage is deferred, not refused: D2 of DSA-30 approves it after API, and a later task adds it
-     * to every Docs page. This test lists today's sections and does not assert the section's absence. */
     it(`${locale}: the sections follow the model of the current Docs pages, with no anti-patterns section`, () => {
       const target = renderInLocale(locale);
       const sections = [...target.querySelectorAll('section[id]')].map((s) => s.id);
-      expect(sections).toEqual(['when-to-use', 'api', 'shapes', 'relations', 'anatomy', 'accessibility', 'examples', 'references']);
+      expect(sections).toEqual(['when-to-use', 'api', 'usage', 'shapes', 'relations', 'anatomy', 'accessibility', 'examples', 'references']);
       expect(target.querySelector('#anti-patterns')).toBeNull();
     });
 

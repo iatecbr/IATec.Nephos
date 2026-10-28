@@ -433,6 +433,15 @@
         "Não expõe propriedade de cor nem ::part inicial; herda currentColor do contexto."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-icon name=\"magnifying-glass\" size=\"sm\"></nph-icon>",
+    "usageTag": "A tag da peça. Ela não tem slot: toda propriedade chega por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Figma, quadro nph-icon (1130:956); docs/decisoes-tecnicas.md › P70",
     "coreTitle": "Núcleo de {total} ícones",
     "coreText": "O acervo é Font Awesome Pro e Classic é a família padrão. O catálogo completo, com busca, está em Icons Overview, nesta mesma pasta.",
     "coreCount": "{count} ícones",
@@ -604,6 +613,15 @@
         "Um nome do núcleo do nph-icon, antes do texto. Vazio: sem ícone."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-badge severity=\"secondary\" text=\"Selo\"></nph-badge>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Figma, quadro nph-badge (1196:1100); docs/decisoes-tecnicas.md › P70",
     "variantsTitle": "Tipo e ênfase",
     "variantsCaption": "Os tipos nas ênfases solid e light; na segunda linha de cada ênfase, com ícone.",
     "severityUseHeader": [
@@ -803,6 +821,15 @@
         "Cantos do botão só com ícone: square (o padrão) em radius/control ou circular em radius/full. O tamanho e o alvo de toque não mudam. Com texto, só square. Refletido no atributo."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-button severity=\"primary\" text=\"Salvar\"></nph-button>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Figma, quadro nph-button (1197:5449); docs/decisoes-tecnicas.md › P70",
     "variantsTitle": "Tipo e ênfase",
     "variantsCaption": "Os tipos em cada ênfase, no tamanho default. Passe o mouse para ver o hover e use Tab para ver o foco.",
     "severityNote": "info, warn, help e success existem só em solid.",
@@ -1149,6 +1176,15 @@
         "O nome acessível do ícone de informação. Sem ele, o ícone não aparece."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-label for=\"email\" text=\"E-mail\"></nph-label>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Figma, quadro nph-label (1194:1482); docs/decisoes-tecnicas.md › P70",
     "relationsTitle": "Relações e contexto",
     "relations": [
       "Dentro de um nph-field, o rótulo é o do próprio campo; não ponha um nph-label solto além dele.",
@@ -1306,6 +1342,15 @@
         "O que o balão é para o elemento: description (padrão), acrescentado ao aria-describedby dele, ou name, acrescentado ao aria-labelledby, para o botão só de ícone, cujo nome da ação é o texto do balão, anunciado uma vez."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<button id=\"save\">Salvar</button>\n<nph-tooltip for=\"save\" text=\"Salva um rascunho que você pode terminar depois.\"></nph-tooltip>",
+    "usageTag": "O tooltip ao lado do elemento que ele descreve, na mesma raiz, com for igual ao id do elemento. Ele não tem slot: o texto chega por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-tooltip; docs/decisoes-tecnicas.md › P70",
     "relationsTitle": "Relações e contexto",
     "relations": [
       "O balão abre a partir de qualquer elemento: o botão só de ícone leva o nome da ação; o ícone de informação do nph-label leva a explicação.",
@@ -1439,6 +1484,15 @@
         "Não é propriedade: a forma sempre usa color/muted."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-skeleton shape=\"line\"></nph-skeleton>",
+    "usageTag": "A tag da peça. Ela não tem slot: toda propriedade chega por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Figma, quadro nph-skeleton (1578:38); docs/decisoes-tecnicas.md › P70",
     "shapesTitle": "Formas",
     "shapesCaption": "As cinco formas do conjunto: linha, bloco e o avatar nos três tamanhos.",
     "shapesUseHeader": [
@@ -1607,6 +1661,15 @@
         "O evento disparado quando a pessoa alterna a peça. Sobe pela árvore, atravessa o shadow root e não é cancelável. detail.pressed traz o novo valor."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-togglebutton text=\"Negrito\"></nph-togglebutton>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-togglebutton; docs/decisoes-tecnicas.md › P70",
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",
@@ -1827,6 +1890,15 @@
         "O evento disparado quando a pessoa muda a seleção. Sobe pela árvore, atravessa o shadow root e não é cancelável. detail.value é a lista dos valores marcados, na ordem dos botões. O nph-change de cada botão não é interrompido."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-toggle-group label=\"Alinhamento do texto\">\n  <nph-togglebutton value=\"left\" text=\"Esquerda\"></nph-togglebutton>\n  <nph-togglebutton value=\"center\" text=\"Centro\"></nph-togglebutton>\n</nph-toggle-group>",
+    "usageTag": "O grupo com os filhos nph-togglebutton, que ele mesmo registra; cada botão tem um value.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-toggle-group; docs/decisoes-tecnicas.md › P70",
     "selectionTitle": "Seleção",
     "selectionText": "O quadro do Figma deixa a seleção única e a múltipla para o código: é comportamento, não aparência. O grupo a coordena, então cada botão deixa de decidir sozinho.",
     "selectionCaption": "Única sem value, única com value, múltipla sem value e múltipla com dois valores marcados.",
@@ -2018,6 +2090,15 @@
         "Nenhum. O avatar não tem slot, nem ::part, nem evento, nem iniciais, nem associação a formulário."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-avatar label=\"Ana Souza\"></nph-avatar>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-avatar; docs/decisoes-tecnicas.md › P70",
     "fallbackTitle": "Reserva",
     "fallbackText": "O quadro nunca fica vazio. Sem foto, o ícone de pessoa aparece: nph-icon user, estilo light, no icon/size-* do tamanho do avatar. O tipo do Figma tem foto como padrão, mas no código não existe tipo: ele deriva de src, então <nph-avatar> sem atributo desenha sem foto.",
     "fallbackCaption": "Uma foto, nenhum src e um src que falha, no tamanho lg. Os dois últimos desenham o mesmo ícone de pessoa.",
@@ -2230,6 +2311,15 @@
         "Os eventos nativos. input dispara quando a pessoa digita ou limpa; change quando o valor é confirmado ou limpo. Leia o valor no host."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-input type=\"email\" label=\"E-mail\"></nph-input>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-input; docs/decisoes-tecnicas.md › P70",
     "sizesTitle": "Tamanhos",
     "sizesText": "default serve ao uso geral; large é para a tela que precisa do alvo de 44 px para a acessibilidade de quem a usa; compact é para a busca do nph-toolbar compacto e para a tabela compacta, com mouse e teclado, nunca numa tela de toque. Um formulário usa um só tamanho, e campo e botão lado a lado usam o mesmo.",
     "sizesCaption": "compact, default e large, com valor: large muda só a altura; compact muda também o respiro do fim.",
@@ -2518,6 +2608,15 @@
         "Os eventos nativos. input dispara quando a pessoa escreve; change quando o valor é confirmado. Leia o valor no host."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-textarea label=\"Comentário\"></nph-textarea>",
+    "usageTag": "A tag da peça. O texto chega por atributo; o slot actions, opcional, recebe os nph-button do rodapé.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-textarea; docs/decisoes-tecnicas.md › P70",
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",
@@ -2744,6 +2843,15 @@
         "Nenhum. O grupo não tem ::part, evento, propriedade de cor nem associação a formulário."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-avatar-stack label=\"Ana, Bruno e mais 3 pessoas\" count=\"3\">\n  <nph-avatar></nph-avatar>\n  <nph-avatar></nph-avatar>\n</nph-avatar-stack>",
+    "usageTag": "O grupo com os filhos nph-avatar, que ele mesmo registra; o resto das pessoas vai em count.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-avatar-stack; docs/decisoes-tecnicas.md › P70",
     "compositionTitle": "Composição e contagem",
     "compositionText": "O 1º e o 2º avatares estão sempre lá; do 3º ao 5º entram como filhos. Quem não aparece entra na contagem, no fim do grupo, sobrepondo o último avatar como qualquer vizinho. A contagem não confere o nome: label e count são escritos juntos por quem usa o grupo.",
     "compositionCaption": "Dois avatares, cinco avatares, e cinco avatares com a contagem, no tamanho md.",
@@ -2907,6 +3015,15 @@
         "Opcional. O que a pessoa pode fazer. Vazia, resta só o título: a presença da descrição é o liga e desliga do board."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-empty heading=\"Nenhum resultado encontrado\" description=\"Tente outro termo de busca.\"></nph-empty>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-empty; docs/decisoes-tecnicas.md › P70",
     "relationsTitle": "Relações e contexto",
     "relations": [
       "No nph-combobox, a lista em state=vazio usa o nph-empty quando a busca não encontra opção.",
@@ -3087,6 +3204,15 @@
         "Sem slot, sem ::part, sem evento nph-* e sem associação a formulário."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-image src=\"backpack.jpg\" alt=\"Mochila azul\"></nph-image>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-image; docs/decisoes-tecnicas.md › P70",
     "sizesTitle": "Tamanhos",
     "sizesText": "Um tamanho por lugar, e um único tamanho por lista. Os tamanhos quadrados mantêm a mesma área com ou sem a imagem; media mantém a largura de conteúdo e tira a altura da proporção.",
     "sizesCaption": "Os seis tamanhos quadrados, de xs a 2xl, com imagem.",
@@ -3317,6 +3443,15 @@
         "O controle, ou as opções de um grupo de checkboxes, radios ou switches."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-field label=\"E-mail\">\n  <nph-input type=\"email\"></nph-input>\n</nph-field>",
+    "usageTag": "O campo com o controle no slot: o campo dá nome ao controle e leva a ajuda e o erro dele. O controle é importado à parte.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-field; docs/decisoes-tecnicas.md › P70",
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",
@@ -3567,6 +3702,15 @@
         "Os eventos nativos, disparados nesta ordem quando a pessoa alterna a peça. input borbulha e atravessa shadow roots; change borbulha e não atravessa. O novo valor é lido de event.target.checked."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-switch text=\"Notificações\"></nph-switch>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-switch; docs/decisoes-tecnicas.md › P70",
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",
@@ -3829,6 +3973,15 @@
         "Os eventos nativos. input dispara enquanto o valor se move; change quando ele assenta: depois de uma tecla ou de um clique, e ao soltar um arraste. Leia o valor no host."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-slider label=\"Volume\"></nph-slider>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-slider; docs/decisoes-tecnicas.md › P70",
     "variantsTitle": "Variantes",
     "variantsHeader": [
       "Variante",
@@ -4122,6 +4275,15 @@
         "As opções: filhas nph-option."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-select label=\"País\" placeholder=\"Selecione um país\">\n  <nph-option value=\"br\">Brasil</nph-option>\n  <nph-option value=\"pt\">Portugal</nph-option>\n</nph-select>",
+    "usageTag": "O select com as opções como filhos nph-option, que o próprio select registra.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-select; docs/decisoes-tecnicas.md › P70",
     "invalidTitle": "Entrada inválida não desenha nada.",
     "invalidText": "Um size fora de default e large, um start fora de none, icon e avatar, ou um icon fora do núcleo: o select não renderiza e emite console.error em desenvolvimento. A lupa renderiza e avisa: a busca pertence ao nph-combobox.",
     "sizesTitle": "Tamanhos",
@@ -4577,6 +4739,15 @@
         "Eventos nativos. input atravessa o shadow root a cada mudança que a pessoa faz; o host dispara change quando a pessoa sai do campo ou aperta Enter com um valor novo."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-input-otp length=\"6\" label=\"Código de verificação\"></nph-input-otp>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-input-otp; docs/decisoes-tecnicas.md › P70",
     "sizeTitle": "Comprimento e tamanho",
     "sizeText": "length define o número de casas pelo tamanho do código. size define o lado de cada casa: default na maioria das telas, large em tela de toque, onde o código costuma ser digitado no celular. As casas de um campo têm sempre o mesmo tamanho.",
     "sizeCaption": "Seis casas em default e em large; quatro casas em default.",
@@ -4806,6 +4977,15 @@
         "Disparado antes de o diálogo fechar quando a pessoa pede, com Esc ou com o botão fechar (detail.source). Borbulha, atravessa o shadow root e pode ser cancelado para manter o diálogo aberto."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-dialog heading=\"Editar perfil\" description=\"Mude como o seu nome aparece.\" close-label=\"Fechar\">\n  <nph-button slot=\"footer\" severity=\"secondary\" text=\"Cancelar\"></nph-button>\n  <nph-button slot=\"footer\" text=\"Salvar\"></nph-button>\n</nph-dialog>",
+    "usageTag": "O diálogo com os campos no slot padrão e as ações no slot footer; ele mesmo registra o nph-button. Ele abre quando open é definido.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-dialog; docs/decisoes-tecnicas.md › P70",
     "variantsTitle": "Variantes",
     "variantsText": "actions define como os botões do rodapé ficam. inline os põe à direita, lado a lado, o primário por último. stacked os põe um por linha em largura total, o primário em cima, abaixo do breakpoint md; a partir dele, ficam em linha.",
     "variantsCaption": "O mesmo diálogo com actions inline e stacked, numa janela mais estreita que o breakpoint md.",
@@ -5048,6 +5228,15 @@
         "Eventos nativos, só quando a pessoa alterna a peça: o input atravessa o shadow root a partir do checkbox interno, e o host dispara change, que borbulha. Definir checked ou indeterminate por código não dispara nada."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-checkbox text=\"Aceito os termos\"></nph-checkbox>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-checkbox; docs/decisoes-tecnicas.md › P70",
     "statesTitle": "Estados",
     "statesText": "A propriedade state do Figma é a interação: no código, só invalid e disabled são propriedades. O hover vem do mouse e o foco, do teclado.",
     "statesCaption": "Texto que quebra, com a caixa no topo; só a caixa, marcada; inválido, com a frase de erro fora da peça.",
@@ -5301,6 +5490,15 @@
         "Os eventos nativos, disparados no host quando a pessoa marca o rádio: input, que borbulha e atravessa o shadow root, depois change, que borbulha. Leia event.target.value. Uma mudança por código nunca os dispara."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-radio name=\"plan\" value=\"monthly\" text=\"Mensal\"></nph-radio>\n<nph-radio name=\"plan\" value=\"yearly\" text=\"Anual\"></nph-radio>",
+    "usageTag": "Duas opções de um grupo: o mesmo name e um value próprio. Ela não tem slot: o texto chega por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-radio; docs/decisoes-tecnicas.md › P70",
     "statesTitle": "Estados",
     "statesText": "A borda diz o estado; o preenchimento diz a escolha. Hover e foco são interação: passe o mouse sobre um rádio, ou chegue a ele com Tab.",
     "statesCaption": "Desmarcado e marcado, em repouso, com erro e desabilitado.",
@@ -5583,6 +5781,15 @@
         "O evento que a pessoa dispara ao ativar um item, com detail.value e detail.checked, null num item comum. Borbulha."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-button id=\"more\" text=\"Mais ações\"></nph-button>\n<nph-dropdown-menu for=\"more\"></nph-dropdown-menu>",
+    "usageTag": "O menu abre a partir do nph-button que for nomeia, importado à parte; os itens chegam como dados na propriedade items, definida por JavaScript.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-dropdown-menu; docs/decisoes-tecnicas.md › P70",
     "entryText": "Cada entrada de items é um item, um rótulo de grupo ou um separador:",
     "entryHeader": [
       "Campo",
@@ -5949,6 +6156,15 @@
         "O rodapé de atalhos: teclas nph-kbd e as palavras delas."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-combobox label=\"País\" placeholder=\"Busque um país\"></nph-combobox>",
+    "usageTag": "A tag da peça. As opções chegam como dados na propriedade options, definida por JavaScript, nunca como filhos.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-combobox; docs/decisoes-tecnicas.md › P70",
     "entryHeader": [
       "Entrada",
       "Regra"
@@ -6486,6 +6702,15 @@
         "Nenhum ::part e nenhuma propriedade de cor."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-table caption=\"Pedidos\"></nph-table>",
+    "usageTag": "A tag da peça. As colunas e as linhas chegam como dados nas propriedades columns e rows, definidas por JavaScript.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-table; docs/decisoes-tecnicas.md › P70",
     "variantsTitle": "Variantes",
     "variantsText": "A tabela é escolhida por tamanho, moldura e cabeçalho fixo. Use a moldura numa tabela sozinha na página e deixe-a de fora dentro de um card ou painel, que já têm borda. O cabeçalho fixo serve a uma lista longa dentro de um painel.",
     "variantsCaption": "Default sem moldura, large com moldura e uma tabela com moldura e cabeçalho fixo.",
@@ -7117,6 +7342,15 @@
         "Disparados pelo host, nessa ordem, quando a pessoa muda a escolha: uma opção marcada ou desmarcada, ou um chip removido."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-multi-combobox label=\"Habilidades\" remove-label=\"Remover\"></nph-multi-combobox>",
+    "usageTag": "A tag da peça. As opções chegam como dados na propriedade options, definida por JavaScript, nunca como filhos.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-multi-combobox; docs/decisoes-tecnicas.md › P70",
     "entryHeader": [
       "Entrada",
       "Regra"
@@ -7561,6 +7795,15 @@
         "A ação que a pessoa escolheu no menu de mais ações, disparada de novo no host com o detail do nph-dropdown-menu. Borbulha."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-sidebar-item label=\"Início\" icon=\"house\" href=\"/\"></nph-sidebar-item>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-sidebar-item; docs/decisoes-tecnicas.md › P70",
     "invalidTitle": "Entrada inválida não desenha nada.",
     "invalidText": "Um type fora de link e group, um ícone fora do núcleo, um link sem href, um grupo com href, counter ou active, um counter que não é número inteiro e actions sem actions-label: o item não renderiza e emite console.error em desenvolvimento, uma vez por causa.",
     "typesTitle": "Tipos",
@@ -7936,6 +8179,15 @@
         "Disparado só quando a pessoa se move, com detail page e pageSize; borbulha e é composed. Mudar page por código não dispara nada."
       ]
     ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-pagination page-count=\"10\" label=\"Paginação\" page-label=\"Página {page}\" previous-label=\"Página anterior\" next-label=\"Próxima página\"></nph-pagination>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-pagination; docs/decisoes-tecnicas.md › P70",
     "invalidTitle": "Entrada inválida não desenha nada.",
     "invalidText": "Um type fora dos seis, uma página ou contagem que não é inteira, sem contagem de páginas, range ou table sem total-items e page-size, page-sizes fora de table ou sem page-size, ir para a página fora de edges, e uma seta ou um texto de posição sem o seu texto emitem, cada um, um console.error em desenvolvimento. Sem label ou sem page-label, a peça desenha e avisa uma vez.",
     "typesTitle": "Tipos",
@@ -8312,6 +8564,7 @@
       "Marcação e importação",
       "O que faz"
     ],
+    "usageMarkup": "<nph-chip></nph-chip>",
     "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
     "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
     "typesTitle": "Tipos",

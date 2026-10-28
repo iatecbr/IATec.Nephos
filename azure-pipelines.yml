@@ -123,9 +123,13 @@ stages:
             displayName: Tokens are up to date
             workingDirectory: $(Build.SourcesDirectory)
 
+          # `test:package` ends by importing each component through the
+          # package in Chromium (DSA-35), so the browser is installed first,
+          # the same way as in the Test stage.
           - bash: |
               set -euo pipefail
               npm run build:lib
+              npx playwright install chromium
               npm run test:package
               npm run pack:check
             displayName: Build library and check the package

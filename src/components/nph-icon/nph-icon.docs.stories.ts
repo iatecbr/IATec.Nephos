@@ -39,20 +39,7 @@ import {
   tile,
   tileName,
 } from './nph-icon.demo';
-import {
-  header,
-  body,
-  demo,
-  source,
-  index,
-  list,
-  matrix,
-  note,
-  section,
-  table,
-  text,
-  textRole,
-} from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, textRole, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-icon.json';
 
@@ -101,6 +88,7 @@ const matrixRow =
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   core: 'core',
   size: 'size',
   color: 'color',
@@ -157,6 +145,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.core, title: coreHeading },
           { id: SECTIONS.size, title: d.sizeTitle },
           { id: SECTIONS.color, title: d.colorTitle },
@@ -190,6 +179,13 @@ export const Documentation: Story = {
             )}
             ${source(d.sourceLabel, d.sourceSpecContract)}
           `,
+        )}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-icon'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
         ${section(

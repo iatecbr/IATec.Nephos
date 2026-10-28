@@ -9,7 +9,6 @@
  * mode. Each group of the examples is an `nph-field` around the radios (P83; see `nph-radio.demo.ts`).
  *
  * Deferred, not fulfilled here:
- * - the Usage section (P70) enters every Docs page, after API, in DSA-35;
  * - `text/body-lg` in `text` and `list` (DSA-33).
  *
  * The text comes from the language dictionary, in `.storybook/i18n/`, under the `radioDocs` key.
@@ -24,7 +23,7 @@ import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook
 import './nph-radio';
 import { employment, inScheme, payment, radio, shift } from './nph-radio.demo';
 import type { Scheme } from './nph-radio.demo';
-import { body, demo, header, index, list, matrix, note, section, source, table, text } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, text, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-radio.json';
 
@@ -51,6 +50,7 @@ function localeOf(context: GlobalsContext | undefined): string {
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   states: 'states',
   group: 'group-and-keyboard',
   form: 'form',
@@ -100,6 +100,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.states, title: d.statesTitle },
           { id: SECTIONS.group, title: d.groupTitle },
           { id: SECTIONS.form, title: d.formTitle },
@@ -123,6 +124,13 @@ export const Documentation: Story = {
           SECTIONS.api,
           d.apiTitle,
           html`${table(d.apiHeader, d.api.map(pair))} ${source(d.sourceLabel, d.sourceApi)}`,
+        )}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-radio'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
         ${section(

@@ -20,7 +20,7 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
 import './nph-badge';
 import { NPH_BADGE_EMPHASES, NPH_BADGE_SEVERITIES } from './nph-badge';
-import { body, demo, header, index, list, matrix, note, section, source, table } from '../../shared/docs/page';
+import { body, demo, header, index, list, matrix, note, section, source, table, usage } from '../../shared/docs/page';
 import { sheetUseDontUse } from '../../shared/docs/sheet-lists';
 import metadata from '../../shared/metadata/nph-badge.json';
 
@@ -47,6 +47,7 @@ function localeOf(context: GlobalsContext | undefined): string {
 const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
+  usage: 'usage',
   variants: 'severity-and-emphasis',
   anatomy: 'anatomy',
   accessibility: 'accessibility',
@@ -86,6 +87,7 @@ export const Documentation: Story = {
         ${index(d.onThisPage, [
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
+          { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.variants, title: d.variantsTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
@@ -107,6 +109,13 @@ export const Documentation: Story = {
           d.apiTitle,
           html`${table(d.apiHeader, d.api.map(([term, rule]: [string, string]) => [term, rule] as const))}
           ${source(d.sourceLabel, d.sourceApi)}`,
+        )}
+
+        ${section(
+          SECTIONS.usage,
+          d.usageTitle,
+          html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-badge'], d.usageImport)}
+            ${source(d.sourceLabel, d.sourceUsage)}`,
         )}
 
         ${section(
