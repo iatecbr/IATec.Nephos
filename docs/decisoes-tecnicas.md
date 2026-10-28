@@ -5040,7 +5040,10 @@ tree only, and the flat table does not change.
    The row carries the open state of the tree, and the chevron does not: with `tabindex` on its
    host (item 3), the host of the `nph-button` is a focusable element with no role, where ARIA
    does not allow `aria-expanded`, and the gate (P72) flags it. The chevron keeps its name and,
-   for an expanded item, `aria-controls`.
+   for an expanded item, `aria-controls`. The footer row, when there is one, is outside the
+   levels: it carries no `aria-level`, and the arrows reach it after the last row. The rows keep
+   one template in both tables, so a row that stays keeps its elements, and the focus on its
+   buttons, when the table becomes a tree or stops being one.
 
 3. **Focus.** One row of the body is the Tab stop (`tabindex="0"`): the last row the focus was
    in, while it is drawn, and the first row otherwise; the other rows and every cell take
@@ -5049,12 +5052,15 @@ tree only, and the flat table does not change.
    host of an `nph-button`, which takes its inner button out of the Tab order). So Tab goes from
    the row to its own widgets and then leaves the table, as the APG treegrid says. The focused
    row and cell take the ring `focus/border` in `table/focus-ring-width`, drawn inside, as the
-   truncated text does.
+   truncated text does. A truncated cell reached by the arrows takes `tabindex="0"` in the
+   capture phase of the focus, before its `nph-tooltip` hears it: the tooltip opens only on an
+   element in the Tab order (P77), and the render then keeps the cell there, as its row is now
+   the Tab stop.
 
 4. **Keys** (the APG treegrid, rows first). On a row: Right Arrow opens a closed row, and on
    an open row or a leaf goes to its first cell; Left Arrow closes an open row, and on a closed
    row or a leaf goes to its parent row; Down Arrow and Up Arrow go to the next and the previous
-   row; Home and End, with or without Control, go to the first and the last row; Enter opens and
+   row, the footer last; Home and End, with or without Control, go to the first and the last row; Enter opens and
    closes the row. On a cell: Right Arrow and Left Arrow go to the next and the previous cell,
    and Left Arrow on the first cell goes back to the row; Down Arrow and Up Arrow go to the cell
    of the same column in the next and the previous row, or to that row when it has no such cell,
@@ -5080,6 +5086,13 @@ no hierarchy to read, and a grid there would add a keyboard the evidence does no
 - **The focus when the focused row leaves.** When the consumer replaces `rows` and the row
   that holds the focus is not drawn any more, the focus leaves with it, as with any element that
   leaves the page; the Tab stop goes to the first row.
+- **The tooltip of a truncated cell opens on hover only in the row that is the Tab stop.** It is
+  a regression of this decision: before it, every truncated cell of a tree had `tabindex="0"` and
+  its tooltip opened on hover in any row. `nph-tooltip` opens only on an element in the Tab order
+  (P77), and in the other rows the cell has `tabindex="-1"`, though the arrows reach it; there,
+  a hover also warns in development that the element does not receive focus. The text stays whole
+  in the name of the cell, and the arrows open the tooltip. Follow-up in `nph-tooltip` (P77): take
+  a cell with `tabindex="-1"` inside a `grid` or a `treegrid` as an element that receives focus.
 - **The expanded item under a row of the third level** is a row of `aria-level` 4: it is the
   detail of that row, not a fourth level of the tree, which still goes down to three.
 - **No Page Up and Page Down** and no selection: the APG makes both optional, and selection is

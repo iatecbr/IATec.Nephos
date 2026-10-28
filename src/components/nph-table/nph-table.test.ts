@@ -1368,6 +1368,67 @@ describe('treegrid (P101)', () => {
     expect(root(element).querySelectorAll('td.truncated')[1]?.getAttribute('tabindex')).toBe('-1');
   });
 
+  it('the footer is the last row the arrows reach, outside the levels (review 1 of PR 135)', async () => {
+    const element = await mount({ columns, rows: tree(true), footer: { unit: 'Total', amount: 35 } });
+    const footer = root(element).querySelector('tfoot tr') as HTMLTableRowElement;
+    expect([footer.getAttribute('tabindex'), footer.hasAttribute('aria-level')]).toEqual(['-1', false]);
+    expect([...footer.cells].every((cell) => cell.getAttribute('tabindex') === '-1')).toBe(true);
+    (bodyRows(element)[0] as HTMLTableRowElement).focus();
+    await press(element, '{End}');
+    expect(root(element).activeElement).toBe(footer);
+    expect(footer.getAttribute('tabindex')).toBe('0');
+    await press(element, '{ArrowLeft}');
+    expect(root(element).activeElement).toBe(footer);
+    await press(element, '{ArrowUp}');
+    expect(focusedRow(element)).toBe('North region');
+    await press(element, '{ArrowDown}');
+    expect(root(element).activeElement).toBe(footer);
+    (cellsOf(bodyRows(element)[0] as HTMLTableRowElement)[1] as HTMLTableCellElement).focus();
+    await press(element, '{Control>}{End}{/Control}');
+    expect(root(element).activeElement).toBe(footer.cells[1]);
+    expect(footer.cells[1]?.textContent?.trim()).toBe('35');
+  });
+
+  it('a focused button keeps its focus when the table becomes a tree and when it stops being one (review 1 of PR 135)', async () => {
+    const flat: NphTableRow[] = [
+      { key: 'south', cells: { unit: 'South region', amount: 30 } },
+      { key: 'north', cells: { unit: 'North region', amount: 5, act: { type: 'button', text: 'Report', action: 'report' } } },
+    ];
+    const element = await mount({ columns, rows: flat });
+    const button = bodyRows(element)[1]?.querySelector('nph-button') as HTMLElement;
+    innerButton(button).focus();
+    expect(root(element).activeElement).toBe(button);
+    element.rows = [{ ...(flat[0] as NphTableRow), toggleLabel: 'Units of the South region', children: [] }, flat[1] as NphTableRow];
+    await element.updateComplete;
+    expect(table(element).getAttribute('role')).toBe('treegrid');
+    expect(bodyRows(element)[1]?.querySelector('nph-button')).toBe(button);
+    expect(root(element).activeElement).toBe(button);
+    element.rows = flat;
+    await element.updateComplete;
+    expect(table(element).hasAttribute('role')).toBe(false);
+    expect(root(element).activeElement).toBe(button);
+  });
+
+  it('a truncated cell reached by the arrows opens its tooltip (review 1 of PR 135)', async () => {
+    const element = await mount({
+      columns: [{ key: 'unit', header: 'Unit', width: '4rem' }],
+      rows: [
+        { key: 'a', cells: { unit: { type: 'truncated', text: 'A very long unit name' } }, toggleLabel: 'Open a', open: true, children: [] },
+        { key: 'b', cells: { unit: { type: 'truncated', text: 'Another long unit name' } } },
+      ],
+    });
+    const [first, second] = [...root(element).querySelectorAll<HTMLTableCellElement>('td.truncated')] as HTMLTableCellElement[];
+    (bodyRows(element)[0] as HTMLTableRowElement).focus();
+    await press(element, '{ArrowRight}');
+    expect(root(element).activeElement).toBe(first);
+    await vi.waitFor(() => expect(first?.querySelector('nph-tooltip')?.hasAttribute('open')).toBe(true));
+    await press(element, '{ArrowDown}');
+    expect(root(element).activeElement).toBe(second);
+    expect(second?.getAttribute('tabindex')).toBe('0');
+    await vi.waitFor(() => expect(second?.querySelector('nph-tooltip')?.hasAttribute('open')).toBe(true));
+    expect(first?.getAttribute('tabindex')).toBe('-1');
+  });
+
   it('the focused row and cell take the ring focus/border in table/focus-ring-width, drawn inside', async () => {
     const element = await mount({ columns, rows: tree(true) });
     const row = bodyRows(element)[0] as HTMLTableRowElement;

@@ -252,6 +252,9 @@ interface DrawnRow {
   setSize: number;
 }
 
+/** The Tab stop id of the footer row of the treegrid. */
+const FOOTER_ROW = 'footer';
+
 /** The keys the tree moves the focus with (P101). */
 const TREE_KEYS = ['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End', 'Enter'] as const;
 
@@ -632,9 +635,10 @@ export class NphTable extends LitElement {
 
   /**
    * The Tab stop of the treegrid: the last row the focus was in, while it is drawn; otherwise
-   * the first row. A detail row counts while its row is open.
+   * the first row. A detail row counts while its row is open, and the footer while it is drawn.
    */
   private tabStop(): string {
+    if (this.activeRow === FOOTER_ROW && this.hasFooter()) return FOOTER_ROW;
     const drawn = (id: string) =>
       this.drawnRows.some((row) => {
         const key = row.row.key.trim();
@@ -645,15 +649,29 @@ export class NphTable extends LitElement {
     return first === undefined ? '' : `row ${first.row.key.trim()}`;
   }
 
-  /** The rows the arrows walk through, in order: the rows of data and the open detail rows. */
+  /** The rows the arrows walk through, in order: the rows of data, the open detail rows and the footer. */
   private treeRows(): HTMLTableRowElement[] {
-    return [...this.renderRoot.querySelectorAll<HTMLTableRowElement>('tbody > tr.row, tbody > tr.detail')];
+    return [...this.renderRoot.querySelectorAll<HTMLTableRowElement>('tr[data-tree-row]')];
   }
+
+  /**
+   * A truncated cell reached by the arrows joins the Tab order before its tooltip hears the
+   * focus: this listener runs in the capture phase, before the one of the tooltip on the cell,
+   * which opens only on an element in the Tab order (P77). The render then keeps it there, as
+   * its row is now the Tab stop.
+   */
+  private readonly onFocusCapture = {
+    handleEvent: (event: FocusEvent): void => {
+      const target = event.composedPath()[0];
+      if (this.isTree && target instanceof HTMLTableCellElement && target.classList.contains('truncated')) target.tabIndex = 0;
+    },
+    capture: true,
+  };
 
   /** The row of the tree that holds the focus moves the Tab stop to itself. */
   private onFocusIn(event: FocusEvent): void {
     if (!this.isTree) return;
-    const row = (event.target as Element | null)?.closest?.('tbody > tr.row, tbody > tr.detail');
+    const row = (event.target as Element | null)?.closest?.('tr[data-tree-row]');
     const id = row?.getAttribute('data-tree-row') ?? '';
     if (id !== '' && id !== this.activeRow) {
       this.activeRow = id;
@@ -787,6 +805,7 @@ export class NphTable extends LitElement {
         role=${this.scrollable ? 'region' : nothing}
         aria-labelledby=${this.scrollable ? named.labelledby : nothing}
         aria-label=${this.scrollable ? named.label : nothing}
+        @focusin=${this.onFocusCapture}
       >
         <table
           role=${this.isTree ? 'treegrid' : nothing}
@@ -932,27 +951,21 @@ export class NphTable extends LitElement {
   private renderRow(drawn: DrawnRow, position: number, striped: boolean, detailId: string): TemplateResult {
     const hasDetail = drawn.row.detail !== undefined && drawn.row.detail !== null;
     const classes = ['row', striped ? 'striped' : '', this.isTree ? `level-${drawn.level}` : ''].filter(Boolean).join(' ');
-    if (!this.isTree) {
-      return html`<tr class=${classes}>${this.renderCells(drawn, position, detailId)}</tr>`;
-    }
-    /* A row of the treegrid (P101): its level, its place among its siblings, its open state and the roving Tab stop. */
+    /* In the treegrid (P101), the row carries its level, its place among its siblings, its open
+       state and the roving Tab stop. One template for both tables, so a row that stays keeps its
+       elements, and the focus on its buttons, when the table becomes a tree or stops being one. */
+    const tree = this.isTree;
     const id = `row ${drawn.row.key.trim()}`;
     return html`<tr
       class=${classes}
-      data-tree-row=${id}
-      tabindex=${this.stop === id ? '0' : '-1'}
-      aria-level=${drawn.level}
-      aria-posinset=${drawn.position}
-      aria-setsize=${drawn.setSize}
-      aria-expanded=${drawn.hasChildren || hasDetail ? String(drawn.open) : nothing}
+      data-tree-row=${tree ? id : nothing}
+      tabindex=${tree ? (this.stop === id ? '0' : '-1') : nothing}
+      aria-level=${tree ? drawn.level : nothing}
+      aria-posinset=${tree ? drawn.position : nothing}
+      aria-setsize=${tree ? drawn.setSize : nothing}
+      aria-expanded=${tree && (drawn.hasChildren || hasDetail) ? String(drawn.open) : nothing}
     >
-      ${this.renderCells(drawn, position, detailId)}
-    </tr>`;
-  }
-
-  private renderCells(drawn: DrawnRow, position: number, detailId: string): TemplateResult {
-    const hasDetail = drawn.row.detail !== undefined && drawn.row.detail !== null;
-    return html`${this.hasDetailColumn
+      ${this.hasDetailColumn
         ? html`<td class="chevron-column" tabindex=${this.isTree ? '-1' : nothing}>
             ${hasDetail ? this.renderChevron(drawn, drawn.open ? detailId : nothing) : nothing}
           </td>`
@@ -966,7 +979,8 @@ export class NphTable extends LitElement {
           const tree = this.isTree && index === 0;
           return this.renderCell(cell, column, drawn, `cell-${position}-${index}`, tree);
         },
-      )}`;
+      )}
+    </tr>`;
   }
 
   /**
@@ -1115,16 +1129,24 @@ export class NphTable extends LitElement {
     </tr>`;
   }
 
-  private renderFoot(): TemplateResult | typeof nothing {
+  /** The footer is drawn when it has a value for one of the columns. */
+  private hasFooter(): boolean {
     const footer = this.footer;
-    if (footer === null || footer === undefined || typeof footer !== 'object') return nothing;
-    if (!this.validColumns.some((column) => footer[column.key] !== undefined && footer[column.key] !== null)) return nothing;
+    if (footer === null || footer === undefined || typeof footer !== 'object') return false;
+    return this.validColumns.some((column) => footer[column.key] !== undefined && footer[column.key] !== null);
+  }
+
+  private renderFoot(): TemplateResult | typeof nothing {
+    if (!this.hasFooter()) return nothing;
+    const footer = this.footer as NphTableFooter;
+    /* In the treegrid the footer is the last row the arrows reach, outside the levels (P101). */
+    const tree = this.isTree;
     return html`<tfoot>
-      <tr>
-        ${this.hasDetailColumn ? html`<td class="chevron-column"></td>` : nothing}
+      <tr data-tree-row=${tree ? FOOTER_ROW : nothing} tabindex=${tree ? (this.stop === FOOTER_ROW ? '0' : '-1') : nothing}>
+        ${this.hasDetailColumn ? html`<td class="chevron-column" tabindex=${tree ? '-1' : nothing}></td>` : nothing}
         ${this.validColumns.map((column) => {
           const value = footer[column.key];
-          return html`<td class=${this.alignClass(column)}>${value === null || value === undefined ? '' : String(value)}</td>`;
+          return html`<td class=${this.alignClass(column)} tabindex=${tree ? '-1' : nothing}>${value === null || value === undefined ? '' : String(value)}</td>`;
         })}
       </tr>
     </tfoot>`;

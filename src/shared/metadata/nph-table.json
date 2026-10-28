@@ -274,7 +274,7 @@
       "Tab reaches the truncated text, which opens its tooltip",
       "Tab reaches the links and the buttons of the cells and the chevron; Enter and Space activate the buttons",
       "In the tree, Tab reaches one row and then the links, the buttons and the truncated text of that row only, and leaves the table",
-      "In the tree, on a row: Right opens a closed row or goes to its first cell, Left closes an open row or goes to its parent, Down and Up go to the next and the previous row, Home and End to the first and the last, Enter opens and closes",
+      "In the tree, on a row: Right opens a closed row or goes to its first cell, Left closes an open row or goes to its parent, Down and Up go to the next and the previous row, the footer last, Home and End to the first and the last, Enter opens and closes",
       "In the tree, on a cell: Right and Left move along the row, Left on the first cell goes back to the row, Down and Up keep the column, Home and End go to the first and the last cell, Ctrl+Home and Ctrl+End to that column in the first and the last row"
     ],
     "focus": "The scroll area that overflows and the truncated text take the ring focus/border in table/focus-ring-width with the keyboard, and so do the focused row and cell of the tree. The chevron, the buttons and the more use the focus of their own piece.",
