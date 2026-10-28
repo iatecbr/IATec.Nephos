@@ -18,12 +18,16 @@
  * language dictionary, under the key `sidebarItemValidation` (`docs/i18n.md`, "Storybook");
  * the row and column names of the matrices are the technical attributes, the same in any
  * language.
+ *
+ * The `Brands` page proves the seven brands of P20 in light and dark, each frame with `data-nph-brand`
+ * and `data-nph-color-scheme` on the same element (DSA-36).
  */
 import { html, nothing } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { translations } from '../../../.storybook/i18n/index.js';
+import { BRAND_CONTRAST_EXCEPTION, brandFrames } from '../../shared/docs/brands';
 import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
@@ -280,6 +284,42 @@ export const Examples: Story = {
         ${inBothModes(context, 'examples', () => openGroup(text), v.exampleGroup)}
         ${inBothModes(context, 'examples', () => collapsedMenu(text), v.exampleCollapsed)}
       </div>`,
+    );
+  },
+};
+
+/** The seven brands in light and dark (DSA-36): the active item, the open group, the active subitem and the active rail button follow the brand of the frame. Carries `BRAND_CONTRAST_EXCEPTION` (`src/shared/docs/brands.ts`). */
+export const Brands: Story = {
+  name: 'Brands',
+  parameters: { a11y: { options: { rules: BRAND_CONTRAST_EXCEPTION } } },
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    const [home, inbox] = v.pages as MenuText['pages'];
+    return validationPage(
+      context,
+      page('brands'),
+      brandFrames(
+        validationTitle(context, 'nph-sidebar-item', page('brands').storyId),
+        ({ id }) => html`${panel(html`<nph-sidebar-item
+              label=${inbox?.label ?? ''}
+              icon=${inbox?.icon ?? ''}
+              href=${`#page-${id}`}
+              .counter=${12}
+              active
+            ></nph-sidebar-item>
+            <nph-sidebar-item type="group" label=${v.group.label} icon=${v.group.icon} expanded></nph-sidebar-item>
+            <nph-sidebar-subitem label=${v.subitems[0] ?? ''} href=${`#sub-${id}`} active></nph-sidebar-subitem>`)}
+          ${panel(
+            html`<nph-sidebar-rail-button
+              label=${home?.label ?? ''}
+              icon=${home?.icon ?? ''}
+              href=${`#rail-${id}`}
+              .counter=${3}
+              active
+            ></nph-sidebar-rail-button>`,
+            true,
+          )}`,
+      ),
     );
   },
 };

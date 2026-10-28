@@ -228,8 +228,8 @@ describe('nph-chip Validation: text only from the dictionary', () => {
   const idOf = (name: string): string =>
     `components-nph-chip-validation--${name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
 
-  it('the stories are the six pages of the contract', () => {
-    expect(stories.map(([name]) => name).sort()).toEqual(['Examples', 'InvalidInput', 'LongText', 'Removable', 'Selectable', 'Severities']);
+  it('the stories are the seven pages of the contract', () => {
+    expect(stories.map(([name]) => name).sort()).toEqual(['Brands', 'Examples', 'InvalidInput', 'LongText', 'Removable', 'Selectable', 'Severities']);
   });
 
   for (const [name, story] of stories) {
@@ -256,13 +256,33 @@ describe('nph-chip Validation: text only from the dictionary', () => {
             expect(allowed.has(value), `${name} ${locale}: ${value}`).toBe(true);
           }
         }
-        const schemes = [...target.querySelectorAll('figure[data-nph-color-scheme]')].map((figure) => figure.getAttribute('data-nph-color-scheme'));
-        expect(schemes.filter((scheme) => scheme === 'light').length).toBeGreaterThan(0);
-        expect(schemes.filter((scheme) => scheme === 'light')).toHaveLength(schemes.filter((scheme) => scheme === 'dark').length);
+        /* The shape of the brand frames is proved in src/shared/tokens/brand-validation.test.ts. */
+        if (name !== 'Brands') {
+          const schemes = [...target.querySelectorAll('figure[data-nph-color-scheme]')].map((figure) => figure.getAttribute('data-nph-color-scheme'));
+          expect(schemes.filter((scheme) => scheme === 'light').length).toBeGreaterThan(0);
+          expect(schemes.filter((scheme) => scheme === 'light')).toHaveLength(schemes.filter((scheme) => scheme === 'dark').length);
+        }
         target.remove();
       }
     });
   }
+
+  it('only the Brands story carries data-nph-brand: the other pages follow the root brand, the frame only sets the mode', () => {
+    for (const [name, story] of stories) {
+      const target = draw(story, 'en');
+      if (name === 'Brands') {
+        const branded = [...target.querySelectorAll('[data-nph-brand]')];
+        expect(branded, name).toHaveLength(14);
+        for (const frame of branded) {
+          expect(frame.hasAttribute('data-nph-color-scheme'), frame.outerHTML.slice(0, 120)).toBe(true);
+          expect(frame.hasAttribute('data-nph-brand-frame'), frame.outerHTML.slice(0, 120)).toBe(true);
+        }
+      } else {
+        expect(target.querySelector('[data-nph-brand]'), name).toBeNull();
+      }
+      target.remove();
+    }
+  });
 
   /** The chips of one mode of a story: the second half of the page is the dark copy of the first. */
   async function oneMode(story: unknown): Promise<NphChip[]> {

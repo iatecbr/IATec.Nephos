@@ -15,12 +15,16 @@
  * text and the captions come from the language dictionary, under the key `sliderValidation`
  * (`docs/i18n.md`, "Storybook"); the row and column names of the matrices are the technical
  * attributes, the same in any language.
+ *
+ * The `Brands` page proves the seven brands of P20 in light and dark, each frame carrying
+ * `data-nph-brand` and `data-nph-color-scheme` on the same element (DSA-36).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { format, translations } from '../../../.storybook/i18n/index.js';
+import { brandFrames } from '../../shared/docs/brands';
 import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
@@ -331,6 +335,30 @@ export const Examples: Story = {
         )}
         ${inBothModes(context, 'examples', () => volume({ label: v.volumeLabel }), v.exampleVolume)}
       </div>`,
+    );
+  },
+};
+
+/** The seven brands in light and dark (DSA-36): the filled track and the thumbs take the primary of the frame. */
+export const Brands: Story = {
+  name: 'Brands',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return validationPage(
+      context,
+      page('brands'),
+      brandFrames(
+        validationTitle(context, 'nph-slider', page('brands').storyId),
+        () => html`<nph-slider label=${v.volumeLabel} value="40"></nph-slider>
+          <nph-slider
+            mode="range"
+            label=${v.priceLabel}
+            start-label=${v.startLabel}
+            end-label=${v.endLabel}
+            start="20"
+            end="70"
+          ></nph-slider>`,
+      ),
     );
   },
 };

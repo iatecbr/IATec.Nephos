@@ -14,6 +14,9 @@
  * All visible text — section title, caption and the labels' example
  * content — comes from the language dictionary, under the `labelValidation`
  * key (`docs/i18n.md`, "Storybook"). The story reads `globals.locale`.
+ *
+ * The `Brands` page proves the seven brands of P20 in light and dark, each frame carrying
+ * `data-nph-brand` and `data-nph-color-scheme` on the same element (DSA-36).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
@@ -21,6 +24,8 @@ import type { Meta, StoryObj } from '@storybook/web-components-vite';
 import { userEvent } from 'storybook/test';
 
 import { LOCALE_GLOBAL, DEFAULT_LOCALE, translations } from '../../../.storybook/i18n/index.js';
+import { brandFrames } from '../../shared/docs/brands';
+import { validationPage, validationTitle } from '../../shared/docs/validation';
 import './nph-label';
 
 const meta: Meta = {
@@ -239,5 +244,25 @@ export const Open: Story = {
     if (trigger) {
       await userEvent.hover(trigger);
     }
+  },
+};
+
+/**
+ * The seven brands in light and dark (DSA-36): the label depends on the brand only through the focus of the
+ * information trigger (`focus/border` and `focus/halo`), which shows through the keyboard: click the field and use Tab.
+ */
+export const Brands: Story = {
+  name: 'Brands',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    const storyId = 'components-nph-label-validation--brands';
+    return validationPage(
+      context,
+      { piece: 'nph-label', storyId },
+      html`
+        <input aria-label=${v.tabStartLabel} style=${control} />
+        ${brandFrames(validationTitle(context, 'nph-label', storyId), () => withInfo(v))}
+      `,
+    );
   },
 };

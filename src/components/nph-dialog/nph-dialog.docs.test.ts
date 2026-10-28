@@ -240,8 +240,9 @@ describe('nph-dialog Validation: text only from the dictionary', () => {
   const idOf = (name: string): string =>
     `components-nph-dialog-validation--${name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
 
-  it('the stories are the six pages of the contract', () => {
+  it('the stories are the seven pages of the contract', () => {
     expect(stories.map(([name]) => name).sort()).toEqual([
+      'Brands',
       'FocusAndEscape',
       'LoadingAction',
       'ShortConfirmation',
@@ -269,7 +270,8 @@ describe('nph-dialog Validation: text only from the dictionary', () => {
   }
 
   it('the examples come in light and in dark mode, in frames of their own', () => {
-    for (const [name, story] of stories.filter(([name]) => name !== 'FocusAndEscape')) {
+    /* The shape of the brand frames is proved in src/shared/tokens/brand-validation.test.ts. */
+    for (const [name, story] of stories.filter(([name]) => name !== 'FocusAndEscape' && name !== 'Brands')) {
       const target = draw(story, 'en');
       const frames = [...target.querySelectorAll('iframe')].map((frame) => frameRequest(frame).globals.colorScheme);
       expect(frames, name).toEqual(['light', 'dark']);
@@ -292,10 +294,19 @@ describe('nph-dialog Validation: text only from the dictionary', () => {
     expect(dialog.open).toBe(true);
   });
 
-  it('there is no story per brand: the page follows the global brand', () => {
+  it('only the Brands story carries data-nph-brand: the other pages follow the root brand, the frame only sets the mode', () => {
     for (const [name, story] of stories) {
       const target = draw(story, 'en');
-      expect(target.querySelector('[data-nph-brand]'), name).toBeNull();
+      if (name === 'Brands') {
+        const branded = [...target.querySelectorAll('[data-nph-brand]')];
+        expect(branded, name).toHaveLength(14);
+        for (const frame of branded) {
+          expect(frame.hasAttribute('data-nph-color-scheme'), frame.outerHTML.slice(0, 120)).toBe(true);
+          expect(frame.hasAttribute('data-nph-brand-frame'), frame.outerHTML.slice(0, 120)).toBe(true);
+        }
+      } else {
+        expect(target.querySelector('[data-nph-brand]'), name).toBeNull();
+      }
       target.remove();
     }
   });

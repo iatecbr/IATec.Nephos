@@ -16,13 +16,17 @@
  * opens with what it proves, from the dictionary (`validationPages.claims`). The example text
  * and the captions come from the language dictionary, under the key `dropdownMenuValidation`
  * (`docs/i18n.md`, "Storybook").
+ *
+ * The `Brands` page proves the seven brands of P20 in light and dark, each frame with `data-nph-brand` and
+ * `data-nph-color-scheme` on the same element (DSA-36).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { format, translations } from '../../../.storybook/i18n/index.js';
-import { localeOf, validationPage } from '../../shared/docs/validation';
+import { BRAND_CONTRAST_EXCEPTION, brandFrames } from '../../shared/docs/brands';
+import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
 import './nph-dropdown-menu';
 import type { NphDropdownMenuItemSelectDetail } from './nph-dropdown-menu';
@@ -230,3 +234,38 @@ export const Examples: Story = {
   },
 };
 
+/**
+ * The seven brands in light and dark (DSA-36): the checked item and the counter take the primary of
+ * the brand, and so does the focus on the arrows. Carries `SUPPLEMENTARY_TEXT_EXCEPTION` and
+ * `BRAND_CONTRAST_EXCEPTION` (`src/shared/docs/brands.ts`).
+ */
+export const Brands: Story = {
+  name: 'Brands',
+  parameters: {
+    a11y: {
+      options: {
+        rules: { ...SUPPLEMENTARY_TEXT_EXCEPTION.a11y.options.rules, ...BRAND_CONTRAST_EXCEPTION },
+      },
+    },
+  },
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return validationPage(
+      context,
+      page('brands'),
+      brandFrames(
+        validationTitle(context, 'nph-dropdown-menu', page('brands').storyId),
+        () =>
+          menuWith({
+            trigger: v.trigger,
+            open: true,
+            items: [
+              { value: 'list', text: v.list, icon: 'list', selection: 'single', checked: true },
+              { value: 'unread', text: v.unread, icon: 'paper-plane', count: 12 },
+              { value: 'share', text: v.share, icon: 'share', count: 3 },
+            ],
+          }),
+      ),
+    );
+  },
+};

@@ -19,12 +19,16 @@
  * The example text and the captions come from the language dictionary, under the key
  * `selectValidation` (`docs/i18n.md`, "Storybook"); the row and column names of the
  * matrices are the technical attributes, the same in any language.
+ *
+ * The `Brands` page proves the seven brands of P20 in light and dark, each frame with `data-nph-brand` and
+ * `data-nph-color-scheme` on the same element (DSA-36).
  */
 import { html } from 'lit';
 import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { format, translations } from '../../../.storybook/i18n/index.js';
+import { brandFrames } from '../../shared/docs/brands';
 import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
@@ -429,6 +433,25 @@ export const Examples: Story = {
           v.exampleRequired,
         )}
       </div>`,
+    );
+  },
+};
+
+/** The seven brands in light and dark (DSA-36): the focus border and halo of the trigger, and the selected option with its check, follow the brand. */
+export const Brands: Story = {
+  name: 'Brands',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    return validationPage(
+      context,
+      page('brands'),
+      brandFrames(
+        validationTitle(context, 'nph-select', page('brands').storyId),
+        () => html`<nph-select label=${v.departmentLabel} value="d2">${departmentOptions(context)}</nph-select>
+          <div style=${listSurface}>
+            <nph-option .selected=${true}>${v.departments[1]}</nph-option>
+          </div>`,
+      ),
     );
   },
 };

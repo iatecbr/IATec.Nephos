@@ -222,8 +222,9 @@ describe('nph-togglebutton Validation: text only from the dictionary', () => {
     return target;
   }
 
-  it('the stories are the seven pages of the contract', () => {
+  it('the stories are the eight pages of the contract', () => {
     expect(stories.map(([name]) => name).sort()).toEqual([
+      'Brands',
       'Disabled',
       'Examples',
       'IconOnly',
@@ -236,6 +237,8 @@ describe('nph-togglebutton Validation: text only from the dictionary', () => {
 
   for (const [name, story] of stories) {
     it(`${name}: both modes, with the captions of the chosen language`, () => {
+      // The shape of the brand frames is proved in src/shared/tokens/brand-validation.test.ts.
+      if (name === 'Brands') return;
       for (const locale of LOCALES) {
         const target = draw(story, locale);
         const frames = [...target.querySelectorAll('[data-nph-color-scheme]')];
@@ -286,10 +289,19 @@ describe('nph-togglebutton Validation: text only from the dictionary', () => {
     });
   }
 
-  it('there is no story per brand: the page follows the global brand, the frame only sets the mode', () => {
+  it('only the Brands story carries data-nph-brand: the other pages follow the root brand, the frame only sets the mode', () => {
     for (const [name, story] of stories) {
       const target = draw(story, 'en');
-      expect(target.querySelector('[data-nph-brand]'), name).toBeNull();
+      if (name === 'Brands') {
+        const branded = [...target.querySelectorAll('[data-nph-brand]')];
+        expect(branded, name).toHaveLength(14);
+        for (const frame of branded) {
+          expect(frame.hasAttribute('data-nph-color-scheme'), name).toBe(true);
+          expect(frame.hasAttribute('data-nph-brand-frame'), name).toBe(true);
+        }
+      } else {
+        expect(target.querySelector('[data-nph-brand]'), name).toBeNull();
+      }
       target.remove();
     }
   });
