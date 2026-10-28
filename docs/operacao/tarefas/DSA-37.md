@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 340,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -15,15 +15,17 @@
       "id": "review-and-merge",
       "description": "cspell runs from an npm script and exits 0, the British spellings are fixed, the proof commands pass and the pull request is merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-37/review-and-merge-2026-10-28.md",
+      "result": "passed",
+      "verified_at": "2026-10-28",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
-  "evidence": [],
+  "evidence": [
+    "docs/operacao/evidencias/DSA-37/review-and-merge-2026-10-28.md"
+  ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p64",
     "docs/operacao/tarefas/DSA-30.md, D8, answered by Indiane on 2026-10-15"
@@ -31,8 +33,8 @@
   "external_origin": null,
   "git_review": {
     "branch": "claude/dsa-37-en-us",
-    "commit": null,
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/133"
+    "commit": "ffcb30cffe4575af8f071ba39ec5c614452d745a",
+    "pr": "133"
   },
   "context": null,
   "updated_at": "2026-10-28"
