@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 560,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-chip",
   "dependencies": [
     "DSA-03",
@@ -34,7 +34,38 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The evidence says the counter is nph-badge, type secondary and emphasis light, and it also gives the counter its own paint and space tokens (chip/counter-background, chip/counter-background-hover, chip/counter-background-disabled, chip/counter-foreground, chip/counter-padding-y and chip/counter-padding-x) that nph-badge does not paint: nph-badge has no color property and no ::part. The code draws the counter as its own pill with the chip/counter-* tokens and the text/label-sm role of the badge text, as nph-pagination did with its buttons (P99) and nph-sidebar-item with its counter (P98). It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence puts an nph-avatar before the text but does not give its size. The code uses the sm size of nph-avatar (avatar/size-sm), which fits the compact height. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence says a cut label shows the whole text in a tooltip on hover and on focus, but in the removable chip the body has no action and nph-tooltip draws only on an element that takes focus. The code makes the cut label itself focusable (tabindex 0), as the truncated cell of nph-table (P97), and points the tooltip at it; the focused label draws the focus ring around the whole chip. In the selectable chip the tooltip points at the chip button. A label that is not cut takes no focus and has no tooltip; a disabled chip has none. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    },
+    {
+      "id": "D-4",
+      "question": "The evidence leaves the X of the invalid chip without hover and focus tokens. The code uses the error pair, chip/error-remove-background-hover for the hover and active background and chip/error-focus-border with chip/error-focus-halo for the focus ring, to match the red border. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    },
+    {
+      "id": "D-5",
+      "question": "The evidence shows the selected selectable chip with the X and the counter, but not their order. The code draws icon, text, counter and X, in this order, and the end padding is the one of the X (chip/padding-end-remove or chip/padding-end-remove-default). It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-28"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-57/documentacao-figma-aceita-2026-10-28.md"
   ],
@@ -50,8 +81,12 @@
     "excerpt": null,
     "converted_decision": "The nph-chip board, with its Documentação frame (3077:2240), was accepted as the API and behavior specification of nph-chip. Component set: nph-chip (3076:1439), tipo × cor × conteúdo × tamanho × estado, 152 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": {
+    "branch": "claude/dsa-57-nph-chip",
+    "commit": null,
+    "pr": null
+  },
+  "context": "docs/operacao/contextos/DSA-57.md",
   "updated_at": "2026-10-28"
 }
 ```
