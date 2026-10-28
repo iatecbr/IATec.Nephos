@@ -2614,7 +2614,7 @@
       "O que faz"
     ],
     "usageMarkup": "<nph-textarea label=\"Comentário\"></nph-textarea>",
-    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo outro conteúdo chegam por atributo.",
+    "usageTag": "A tag da peça. O texto chega por atributo; o slot actions, opcional, recebe os nph-button do rodapé.",
     "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
     "sourceUsage": "ficha do nph-textarea; docs/decisoes-tecnicas.md › P70",
     "statesTitle": "Estados",

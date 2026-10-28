@@ -4,6 +4,7 @@
  * - that does not build the section with the `usage` block, or names the package by hand;
  * - whose Usage section is not the section right after API, or has no link in the index right
  *   after the link to API, in any of the three languages;
+ * - whose markup row says the piece has no slot while the component renders one;
  * - whose markup is not the `usageMarkup` of its dictionary, does not show its own tag, shows a
  *   tag that is not a component of the package, changes tags or attributes between languages, or
  *   makes a component report an error when it renders (the pieces whose data only comes by a
@@ -201,6 +202,14 @@ describe('Docs pages: the Usage section', () => {
         }
       });
     }
+
+    it(`${piece}: the text of the markup row does not deny a slot that the component renders`, () => {
+      const rendersSlot = Object.entries(modules).some(
+        ([path, text]) =>
+          path.split('/').at(-2) === piece && /<slot\b/.test(text.replace(/\/\*[\s\S]*?\*\/|\/\/[^\n]*/g, '')),
+      );
+      if (rendersSlot) expect(dictionaryOf(piece, 'en').usageTag).not.toMatch(/\bno slot\b/i);
+    });
 
     it(`${piece}: the markup has the same tags and attributes in the three languages`, () => {
       const expected = structureOf(dictionaryOf(piece, 'en').usageMarkup);

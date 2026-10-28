@@ -2614,7 +2614,7 @@
       "What it does"
     ],
     "usageMarkup": "<nph-textarea label=\"Comment\"></nph-textarea>",
-    "usageTag": "The tag of the piece. It has no slot: the text and every other content come as attributes.",
+    "usageTag": "The tag of the piece. The text comes as attributes; the actions slot, optional, takes the nph-button instances of the footer.",
     "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
     "sourceUsage": "nph-textarea spec sheet; docs/decisoes-tecnicas.md › P70",
     "statesTitle": "States",
