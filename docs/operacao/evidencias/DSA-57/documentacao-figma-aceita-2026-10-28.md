@@ -113,6 +113,8 @@ Tokens of each state, read from the variants:
 | seleção · selecionado + foco | chip/background-selected | chip/foreground-selected | counter chip/counter-background; X shown; ring focus/border and focus/halo around the whole chip |
 | seleção · selecionado + desabilitado | chip/background-selected, opacity 0.5 | chip/foreground-selected | counter chip/counter-background; X shown |
 
+Icons: the X icon and the content icon take chip/foreground in the cor padrão and in every status color, chip/invalid-foreground in inválido and chip/foreground-selected in the selected states. In a status chip, only the label takes the status color; the X stays in chip/foreground.
+
 Status colors exist for removível only, in the states padrão, hover no X, foco no X, ativo no X and desabilitado. Inválido, somente leitura and marcado exist in the cor padrão only. The number of the counter uses chip/counter-foreground in every state. Disabled, selecionado, selecionado + hover, selecionado + foco and selecionado + desabilitado have no border.
 
 Demonstrations in the frame, in light and dark: every state of removível and every state of seleção, one chip each.
