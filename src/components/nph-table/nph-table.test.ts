@@ -1033,12 +1033,420 @@ describe('tree', () => {
     expect(received).toEqual([{ row: 'south', open: true }]);
     expect(bodyRows(element)).toHaveLength(4);
     const chevron = root(element).querySelector('.chevron') as HTMLElement;
-    expect([chevron.getAttribute('icon-start'), chevron.getAttribute('aria-expanded')]).toEqual(['chevron-down', 'true']);
+    /* In the treegrid the row carries the open state, not the chevron (P101). */
+    expect([chevron.getAttribute('icon-start'), chevron.hasAttribute('aria-expanded'), bodyRows(element)[0]?.getAttribute('aria-expanded')]).toEqual([
+      'chevron-down',
+      false,
+      'true',
+    ]);
     const nested = bodyRows(element)[1]?.querySelector('.chevron') as HTMLElement;
     innerButton(nested).click();
     await element.updateComplete;
     expect(received.at(-1)).toEqual({ row: 'porto', open: true });
     expect(bodyRows(element).map((row) => row.getAttribute('aria-level'))).toEqual(['1', '2', '3', '2', '1']);
+  });
+});
+
+describe('treegrid (P101)', () => {
+  const columns: NphTableColumn[] = [...COLUMNS, { key: 'act', header: 'Action' }];
+  const tree = (open = false, loading = false): NphTableRow[] => [
+    {
+      key: 'south',
+      cells: { unit: 'South region', amount: 30, act: { type: 'button', text: 'Report', action: 'report' } },
+      toggleLabel: 'Units of the South region',
+      open,
+      loading,
+      children: [
+        {
+          key: 'porto',
+          cells: { unit: 'Porto Alegre', amount: 20 },
+          toggleLabel: 'Units of Porto Alegre',
+          children: [{ key: 'downtown', cells: { unit: 'Downtown', amount: 20 } }],
+        },
+        { key: 'curitiba', cells: { unit: 'Curitiba', amount: 10, act: { type: 'link', text: 'Site', href: '#curitiba' } } },
+      ],
+    },
+    { key: 'north', cells: { unit: 'North region', amount: 5, act: { type: 'button', text: 'Report', action: 'report' } } },
+  ];
+
+  /** The text of the first cell of the focused row, or of the row of the focused cell. */
+  function focusedRow(element: NphTable): string {
+    const active = root(element).activeElement;
+    const row = active?.closest('tr') as HTMLTableRowElement | null;
+    return row === null ? '' : (cellsOf(row)[0]?.textContent?.trim() ?? row.textContent?.trim() ?? '');
+  }
+
+  async function press(element: NphTable, keys: string): Promise<void> {
+    await userEvent.keyboard(keys);
+    await element.updateComplete;
+  }
+
+  it('a table with a tree is a treegrid, with rows and gridcells, in the tree the browser computes', async () => {
+    const element = await mount({ columns, rows: tree(true) });
+    expect(table(element).getAttribute('role')).toBe('treegrid');
+    expect((await axNode(table(element))).role).toBe('treegrid');
+    const row = bodyRows(element)[0] as HTMLTableRowElement;
+    expect((await axNode(row)).role).toBe('row');
+    expect((await axNode(cellsOf(row)[1] as HTMLTableCellElement)).role).toBe('gridcell');
+  });
+
+  it('the flat table keeps the native table: no role, no roving Tab stop, no level and no state on the row', async () => {
+    const element = await mount({
+      columns,
+      rows: [{ key: 'one', cells: { unit: 'One', amount: 1 }, toggleLabel: 'Details of one', open: true, detail: { name: 'Item' } }, ...ROWS],
+    });
+    expect(table(element).hasAttribute('role')).toBe(false);
+    expect((await axNode(table(element))).role).toBe('table');
+    const rows = root(element).querySelectorAll('tbody tr');
+    for (const row of rows) {
+      expect(['tabindex', 'aria-level', 'aria-expanded', 'aria-posinset', 'aria-setsize'].filter((name) => row.hasAttribute(name))).toEqual([]);
+    }
+    expect(root(element).querySelectorAll('tbody td[tabindex]')).toHaveLength(0);
+    /* The chevron keeps aria-expanded on its host (P97). */
+    expect(root(element).querySelector('.chevron')?.getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('each row carries its level, its place among the valid rows of its level and, when it opens, aria-expanded', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const rows = tree(true);
+    const south = rows[0] as NphTableRow;
+    const element = await mount({
+      columns,
+      rows: [{ ...south, children: [{ ...(south.children?.[0] as NphTableRow), open: true }, { key: '', cells: { unit: 'Rejected' } }, south.children?.[1] as NphTableRow] }, rows[1] as NphTableRow],
+    });
+    expect(
+      bodyRows(element).map((row) => [
+        cellsOf(row)[0]?.textContent?.trim(),
+        row.getAttribute('aria-level'),
+        row.getAttribute('aria-posinset'),
+        row.getAttribute('aria-setsize'),
+        row.getAttribute('aria-expanded'),
+      ]),
+    ).toEqual([
+      ['South region', '1', '1', '2', 'true'],
+      ['Porto Alegre', '2', '1', '2', 'true'],
+      ['Downtown', '3', '1', '1', null],
+      ['Curitiba', '2', '2', '2', null],
+      ['North region', '1', '2', '2', null],
+    ]);
+  });
+
+  it('one row is the Tab stop: Tab reaches the first row, then the widgets of that row only, then leaves the table', async () => {
+    const before = document.createElement('button');
+    before.textContent = 'Before';
+    document.body.append(before);
+    const element = await mount({ columns, rows: tree(true) });
+    const after = document.createElement('button');
+    after.textContent = 'After';
+    document.body.append(after);
+    expect(bodyRows(element).map((row) => row.getAttribute('tabindex'))).toEqual(['0', '-1', '-1', '-1']);
+    expect([...root(element).querySelectorAll('tbody td')].every((cell) => cell.getAttribute('tabindex') === '-1')).toBe(true);
+    before.focus();
+    await userEvent.keyboard('{Tab}');
+    expect(root(element).activeElement).toBe(bodyRows(element)[0]);
+    await userEvent.keyboard('{Tab}');
+    expect(root(element).activeElement).toBe(bodyRows(element)[0]?.querySelector('.chevron'));
+    await userEvent.keyboard('{Tab}');
+    expect(root(element).activeElement?.getAttribute('text')).toBe('Report');
+    expect(root(element).activeElement?.closest('tr')).toBe(bodyRows(element)[0]);
+    await userEvent.keyboard('{Tab}');
+    expect(document.activeElement).toBe(after);
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}');
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}');
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}');
+    expect(root(element).activeElement).toBe(bodyRows(element)[0]);
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}');
+    expect(document.activeElement).toBe(before);
+  });
+
+  it('the Tab stop follows the focus: the focused row takes it, with its widgets, and the others leave the Tab order', async () => {
+    const element = await mount({ columns, rows: tree(true) });
+    const curitiba = bodyRows(element)[2] as HTMLTableRowElement;
+    curitiba.focus();
+    await element.updateComplete;
+    expect(bodyRows(element).map((row) => row.getAttribute('tabindex'))).toEqual(['-1', '-1', '0', '-1']);
+    expect(curitiba.querySelector('a')?.hasAttribute('tabindex')).toBe(false);
+    const south = bodyRows(element)[0] as HTMLTableRowElement;
+    expect(south.querySelector('.chevron')?.getAttribute('tabindex')).toBe('-1');
+    expect(south.querySelector('nph-button[text="Report"]')?.getAttribute('tabindex')).toBe('-1');
+    await userEvent.keyboard('{Tab}');
+    expect(root(element).activeElement).toBe(curitiba.querySelector('a'));
+  });
+
+  it('a click on the chevron of a row that is not the Tab stop opens it and makes that row the Tab stop', async () => {
+    const element = await mount({ columns, rows: tree(true) });
+    const received: NphTableRowToggleDetail[] = [];
+    element.addEventListener('nph-row-toggle', (event) => received.push(event.detail));
+    const porto = bodyRows(element)[1] as HTMLTableRowElement;
+    const chevron = porto.querySelector('.chevron') as HTMLElement;
+    expect(chevron.getAttribute('tabindex')).toBe('-1');
+    await userEvent.click(innerButton(chevron));
+    await element.updateComplete;
+    expect(received).toEqual([{ row: 'porto', open: true }]);
+    expect(bodyRows(element).map((row) => row.getAttribute('tabindex'))).toEqual(['-1', '0', '-1', '-1', '-1']);
+    expect(chevron.hasAttribute('tabindex')).toBe(false);
+  });
+
+  it('Control goes only with Home and End: Control and an arrow or Enter does nothing', async () => {
+    const element = await mount({ columns, rows: tree() });
+    (bodyRows(element)[0] as HTMLTableRowElement).focus();
+    await press(element, '{Control>}{ArrowRight}{/Control}');
+    await press(element, '{Control>}{Enter}{/Control}');
+    await press(element, '{Control>}{ArrowDown}{/Control}');
+    expect(bodyRows(element)).toHaveLength(2);
+    expect(root(element).activeElement).toBe(bodyRows(element)[0]);
+  });
+
+  it('on a row: Right opens a closed row and Left closes an open one, each firing nph-row-toggle', async () => {
+    const element = await mount({ columns, rows: tree() });
+    const received: NphTableRowToggleDetail[] = [];
+    element.addEventListener('nph-row-toggle', (event) => received.push(event.detail));
+    (bodyRows(element)[0] as HTMLTableRowElement).focus();
+    await press(element, '{ArrowRight}');
+    expect(received).toEqual([{ row: 'south', open: true }]);
+    expect(bodyRows(element)).toHaveLength(4);
+    expect(bodyRows(element)[0]?.getAttribute('aria-expanded')).toBe('true');
+    expect(root(element).activeElement).toBe(bodyRows(element)[0]);
+    await press(element, '{ArrowLeft}');
+    expect(received.at(-1)).toEqual({ row: 'south', open: false });
+    expect(bodyRows(element)).toHaveLength(2);
+    expect(root(element).activeElement).toBe(bodyRows(element)[0]);
+  });
+
+  it('on a row: Right on an open row or a leaf goes to its first cell; Left on a closed row or a leaf goes to its parent', async () => {
+    const element = await mount({ columns, rows: tree(true) });
+    const [south, porto] = bodyRows(element) as HTMLTableRowElement[];
+    (south as HTMLTableRowElement).focus();
+    await press(element, '{ArrowRight}');
+    expect(root(element).activeElement).toBe(cellsOf(south as HTMLTableRowElement)[0]);
+    (porto as HTMLTableRowElement).focus();
+    await press(element, '{ArrowLeft}');
+    expect(root(element).activeElement).toBe(south);
+    await press(element, '{ArrowLeft}');
+    expect(bodyRows(element)).toHaveLength(2);
+    await press(element, '{ArrowLeft}');
+    expect(root(element).activeElement).toBe(bodyRows(element)[0]);
+  });
+
+  it('on a row: Down and Up go to the next and the previous row; Home and End, with or without Ctrl, to the first and the last', async () => {
+    const element = await mount({ columns, rows: tree(true) });
+    (bodyRows(element)[0] as HTMLTableRowElement).focus();
+    await press(element, '{ArrowDown}');
+    expect(focusedRow(element)).toBe('Porto Alegre');
+    await press(element, '{ArrowDown}');
+    expect(focusedRow(element)).toBe('Curitiba');
+    await press(element, '{ArrowUp}');
+    expect(focusedRow(element)).toBe('Porto Alegre');
+    await press(element, '{End}');
+    expect(focusedRow(element)).toBe('North region');
+    await press(element, '{ArrowDown}');
+    expect(focusedRow(element)).toBe('North region');
+    await press(element, '{Home}');
+    expect(focusedRow(element)).toBe('South region');
+    await press(element, '{Control>}{End}{/Control}');
+    expect(focusedRow(element)).toBe('North region');
+    await press(element, '{Control>}{Home}{/Control}');
+    expect(focusedRow(element)).toBe('South region');
+  });
+
+  it('on a row: Enter opens and closes it', async () => {
+    const element = await mount({ columns, rows: tree() });
+    (bodyRows(element)[0] as HTMLTableRowElement).focus();
+    await press(element, '{Enter}');
+    expect(bodyRows(element)).toHaveLength(4);
+    await press(element, '{Enter}');
+    expect(bodyRows(element)).toHaveLength(2);
+  });
+
+  it('a loading row does not open from the keyboard, as its chevron does not from a click', async () => {
+    const element = await mount({ columns, rows: tree(false, true) });
+    const received: NphTableRowToggleDetail[] = [];
+    element.addEventListener('nph-row-toggle', (event) => received.push(event.detail));
+    (bodyRows(element)[0] as HTMLTableRowElement).focus();
+    await press(element, '{ArrowRight}');
+    await press(element, '{Enter}');
+    expect(received).toEqual([]);
+    expect(bodyRows(element)).toHaveLength(2);
+    expect(root(element).activeElement).toBe(bodyRows(element)[0]);
+  });
+
+  it('on a cell: Right and Left move along the row, and Left on the first cell goes back to the row', async () => {
+    const element = await mount({ columns, rows: tree(true) });
+    const row = bodyRows(element)[0] as HTMLTableRowElement;
+    const cells = cellsOf(row);
+    (cells[0] as HTMLTableCellElement).focus();
+    await press(element, '{ArrowRight}');
+    expect(root(element).activeElement).toBe(cells[1]);
+    await press(element, '{ArrowRight}');
+    await press(element, '{ArrowRight}');
+    expect(root(element).activeElement).toBe(cells[2]);
+    await press(element, '{Home}');
+    expect(root(element).activeElement).toBe(cells[0]);
+    await press(element, '{End}');
+    expect(root(element).activeElement).toBe(cells[2]);
+    await press(element, '{ArrowLeft}');
+    await press(element, '{ArrowLeft}');
+    await press(element, '{ArrowLeft}');
+    expect(root(element).activeElement).toBe(row);
+  });
+
+  it('on a cell: Down and Up keep the column; Ctrl+Home and Ctrl+End go to that column in the first and the last row', async () => {
+    const element = await mount({ columns, rows: tree(true) });
+    const rows = bodyRows(element);
+    (cellsOf(rows[0] as HTMLTableRowElement)[1] as HTMLTableCellElement).focus();
+    await press(element, '{ArrowDown}');
+    expect(root(element).activeElement).toBe(cellsOf(rows[1] as HTMLTableRowElement)[1]);
+    await press(element, '{ArrowUp}');
+    expect(root(element).activeElement).toBe(cellsOf(rows[0] as HTMLTableRowElement)[1]);
+    await press(element, '{Control>}{End}{/Control}');
+    expect(root(element).activeElement).toBe(cellsOf(rows[3] as HTMLTableRowElement)[1]);
+    await press(element, '{Control>}{Home}{/Control}');
+    expect(root(element).activeElement).toBe(cellsOf(rows[0] as HTMLTableRowElement)[1]);
+  });
+
+  it('a key pressed inside a button of a row stays with the button', async () => {
+    const element = await mount({ columns, rows: tree(true) });
+    const chevron = bodyRows(element)[0]?.querySelector('.chevron') as HTMLElement;
+    innerButton(chevron).focus();
+    await press(element, '{ArrowDown}');
+    expect(root(element).activeElement).toBe(chevron);
+    expect(bodyRows(element)).toHaveLength(4);
+  });
+
+  it('an open detail inside a tree is a row of the level under its row, reached by the arrows', async () => {
+    const element = await mount({
+      columns,
+      rows: [
+        {
+          key: 'group',
+          cells: { unit: 'Group', amount: 1 },
+          toggleLabel: 'Items of group',
+          open: true,
+          children: [{ key: 'item', cells: { unit: 'Item', amount: 1 }, toggleLabel: 'Details of item', open: true, detail: { name: 'Blue mug' } }],
+        },
+      ],
+    });
+    const detail = root(element).querySelector('tbody tr.detail') as HTMLTableRowElement;
+    expect([detail.getAttribute('aria-level'), detail.getAttribute('aria-posinset'), detail.getAttribute('aria-setsize'), detail.getAttribute('tabindex')]).toEqual([
+      '3',
+      '1',
+      '1',
+      '-1',
+    ]);
+    const item = bodyRows(element)[1] as HTMLTableRowElement;
+    expect(item.getAttribute('aria-expanded')).toBe('true');
+    /* From the amount cell, Down reaches the detail row itself: its one cell spans the table. */
+    (item.querySelector('td:nth-child(3)') as HTMLTableCellElement).focus();
+    await press(element, '{ArrowDown}');
+    expect(root(element).activeElement).toBe(detail);
+    expect(detail.getAttribute('tabindex')).toBe('0');
+    await press(element, '{ArrowLeft}');
+    expect(root(element).activeElement).toBe(item);
+    await press(element, '{ArrowLeft}');
+    expect(root(element).querySelector('tbody tr.detail')).toBeNull();
+  });
+
+  it('when the row that held the Tab stop leaves, the first row takes it', async () => {
+    const element = await mount({ columns, rows: tree(true) });
+    /* Curitiba, under the open South region. */
+    (bodyRows(element)[2] as HTMLTableRowElement).focus();
+    await element.updateComplete;
+    element.rows = tree(false);
+    await element.updateComplete;
+    expect(bodyRows(element).map((row) => row.getAttribute('tabindex'))).toEqual(['0', '-1']);
+  });
+
+  it('a truncated cell is a Tab stop only in the row that holds the Tab stop', async () => {
+    const element = await mount({
+      columns: [{ key: 'unit', header: 'Unit', width: '4rem' }],
+      rows: [
+        { key: 'a', cells: { unit: { type: 'truncated', text: 'A very long unit name' } }, toggleLabel: 'Open a', children: [] },
+        { key: 'b', cells: { unit: { type: 'truncated', text: 'Another long unit name' } } },
+      ],
+    });
+    expect(root(element).querySelectorAll('td.truncated')[0]?.getAttribute('tabindex')).toBe('0');
+    expect(root(element).querySelectorAll('td.truncated')[1]?.getAttribute('tabindex')).toBe('-1');
+  });
+
+  it('the footer is the last row the arrows reach, outside the levels (review 1 of PR 135)', async () => {
+    const element = await mount({ columns, rows: tree(true), footer: { unit: 'Total', amount: 35 } });
+    const footer = root(element).querySelector('tfoot tr') as HTMLTableRowElement;
+    expect([footer.getAttribute('tabindex'), footer.hasAttribute('aria-level')]).toEqual(['-1', false]);
+    expect([...footer.cells].every((cell) => cell.getAttribute('tabindex') === '-1')).toBe(true);
+    (bodyRows(element)[0] as HTMLTableRowElement).focus();
+    await press(element, '{End}');
+    expect(root(element).activeElement).toBe(footer);
+    expect(footer.getAttribute('tabindex')).toBe('0');
+    await press(element, '{ArrowLeft}');
+    expect(root(element).activeElement).toBe(footer);
+    await press(element, '{ArrowUp}');
+    expect(focusedRow(element)).toBe('North region');
+    await press(element, '{ArrowDown}');
+    expect(root(element).activeElement).toBe(footer);
+    (cellsOf(bodyRows(element)[0] as HTMLTableRowElement)[1] as HTMLTableCellElement).focus();
+    await press(element, '{Control>}{End}{/Control}');
+    expect(root(element).activeElement).toBe(footer.cells[1]);
+    expect(footer.cells[1]?.textContent?.trim()).toBe('35');
+  });
+
+  it('a focused button keeps its focus when the table becomes a tree and when it stops being one (review 1 of PR 135)', async () => {
+    const flat: NphTableRow[] = [
+      { key: 'south', cells: { unit: 'South region', amount: 30 } },
+      { key: 'north', cells: { unit: 'North region', amount: 5, act: { type: 'actions', editLabel: 'Edit north', moreLabel: 'More of north' } } },
+    ];
+    const element = await mount({ columns, rows: flat });
+    const [button, more] = [...(bodyRows(element)[1]?.querySelectorAll('nph-button') ?? [])] as HTMLElement[];
+    innerButton(button).focus();
+    expect(root(element).activeElement).toBe(button);
+    element.rows = [{ ...(flat[0] as NphTableRow), toggleLabel: 'Units of the South region', children: [] }, flat[1] as NphTableRow];
+    await element.updateComplete;
+    expect(table(element).getAttribute('role')).toBe('treegrid');
+    expect(bodyRows(element)[1]?.querySelector('nph-button')).toBe(button);
+    expect(root(element).activeElement).toBe(button);
+    /* The row the focus is in is the Tab stop of the tree, so Tab goes on to its second action (review 2 of PR 135). */
+    expect(bodyRows(element).map((row) => row.getAttribute('tabindex'))).toEqual(['-1', '0']);
+    expect([button?.hasAttribute('tabindex'), more?.hasAttribute('tabindex')]).toEqual([false, false]);
+    await userEvent.keyboard('{Tab}');
+    expect(root(element).activeElement).toBe(more);
+    element.rows = flat;
+    await element.updateComplete;
+    expect(table(element).hasAttribute('role')).toBe(false);
+    expect(root(element).activeElement).toBe(more);
+  });
+
+  it('a truncated cell reached by the arrows opens its tooltip (review 1 of PR 135)', async () => {
+    const element = await mount({
+      columns: [{ key: 'unit', header: 'Unit', width: '4rem' }],
+      rows: [
+        { key: 'a', cells: { unit: { type: 'truncated', text: 'A very long unit name' } }, toggleLabel: 'Open a', open: true, children: [] },
+        { key: 'b', cells: { unit: { type: 'truncated', text: 'Another long unit name' } } },
+      ],
+    });
+    const [first, second] = [...root(element).querySelectorAll<HTMLTableCellElement>('td.truncated')] as HTMLTableCellElement[];
+    (bodyRows(element)[0] as HTMLTableRowElement).focus();
+    await press(element, '{ArrowRight}');
+    expect(root(element).activeElement).toBe(first);
+    await vi.waitFor(() => expect(first?.querySelector('nph-tooltip')?.hasAttribute('open')).toBe(true));
+    await press(element, '{ArrowDown}');
+    expect(root(element).activeElement).toBe(second);
+    expect(second?.getAttribute('tabindex')).toBe('0');
+    await vi.waitFor(() => expect(second?.querySelector('nph-tooltip')?.hasAttribute('open')).toBe(true));
+    expect(first?.getAttribute('tabindex')).toBe('-1');
+  });
+
+  it('the focused row and cell take the ring focus/border in table/focus-ring-width, drawn inside', async () => {
+    const element = await mount({ columns, rows: tree(true) });
+    const row = bodyRows(element)[0] as HTMLTableRowElement;
+    row.focus();
+    await userEvent.keyboard('{ArrowDown}{ArrowUp}');
+    const width = px('--nph-table-focus-ring-width');
+    const ring = (node: Element) => {
+      const style = getComputedStyle(node);
+      return [style.outlineStyle, parseFloat(style.outlineWidth), style.outlineColor, parseFloat(style.outlineOffset)];
+    };
+    expect(ring(row)).toEqual(['solid', width, color('--nph-focus-border'), -width]);
+    await userEvent.keyboard('{ArrowRight}');
+    expect(ring(cellsOf(row)[0] as HTMLTableCellElement)).toEqual(['solid', width, color('--nph-focus-border'), -width]);
   });
 });
 
