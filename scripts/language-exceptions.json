@@ -273,14 +273,13 @@
     "file": "docs/operacao/tarefas/DSA-55.md",
     "class": "contract-term",
     "names": [
-      "compacto",
       "tamanho",
       "Documentação",
       "tipo",
       "filtros",
       "Limpar"
     ],
-    "reason": "Name of the Figma frame (Documentação) and property and variant names of nph-toolbar, nph-togglebutton and nph-toggle-group (tipo, tamanho, compacto), quoted as they are in the accepted board (P64: Figma is in Portuguese). It also quotes the Figma value tipo \"filtros aplicados\" and the button text \"Limpar filtros\"."
+    "reason": "Name of the Figma frame (Documentação) and property and variant names of nph-toolbar, nph-togglebutton and nph-toggle-group (tipo, tamanho), quoted as they are in the accepted board (P64: Figma is in Portuguese). It also quotes the Figma value tipo \"filtros aplicados\" and the button text \"Limpar filtros\"."
   },
   {
     "file": "docs/operacao/tarefas/F4-T04.md",
@@ -468,5 +467,24 @@
       "seleção"
     ],
     "reason": "Name of the Figma frame (Documentação) and property, variant and piece names of nph-data-table, quoted as they are in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/evidencias/DSA-59/documentacao-figma-aceita-2026-10-28.md",
+    "class": "contract-term",
+    "names": [
+      "Documentação",
+      "foco",
+      "erro",
+      "limpar"
+    ],
+    "reason": "Figma frame and variant names of nph-input (Documentação frame; state foco, foco-limpar, erro, erro-foco), quoted as they are in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-59.md",
+    "class": "contract-term",
+    "names": [
+      "Documentação"
+    ],
+    "reason": "Name of the Figma frame (Documentação), quoted as it is in the accepted board (P64: Figma is in Portuguese)."
   }
 ]
