@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 340,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -32,7 +32,7 @@
   "git_review": {
     "branch": "claude/dsa-37-en-us",
     "commit": null,
-    "pr": null
+    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/133"
   },
   "context": null,
   "updated_at": "2026-10-28"
