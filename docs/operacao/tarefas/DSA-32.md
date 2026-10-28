@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 330,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -15,15 +15,17 @@
       "id": "review-and-merge",
       "description": "The addon and the Storybook Vitest integration are in package.json, every story runs with the WCAG 2.2 AA rules, the violations found are fixed, the proof commands pass and the pull request is merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-32/review-and-merge-2026-10-28.md",
+      "result": "passed",
+      "verified_at": "2026-10-28",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
-  "evidence": [],
+  "evidence": [
+    "docs/operacao/evidencias/DSA-32/review-and-merge-2026-10-28.md"
+  ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p72",
     "docs/decisoes-tecnicas.md#p19",
@@ -32,7 +34,7 @@
   "external_origin": null,
   "git_review": {
     "branch": "claude/dsa-32-a11y-gate-7539cc",
-    "commit": null,
+    "commit": "d9276985553c34e225a3a923cfaeafa0b7c5d9bc",
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/130"
   },
   "context": null,

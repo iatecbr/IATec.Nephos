@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 550,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": "nph-table",
   "dependencies": ["DSA-49", "DSA-32"],
   "gates": [
@@ -19,15 +19,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "The exception this task removes, and the gate that proves it, arrive with DSA-32.",
-      "owner": "elvys",
-      "what_resolves": "DSA-32 merged into v/5.0.0 and done.",
-      "opened_at": "2026-10-27"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [],
   "decision_refs": [
@@ -38,7 +30,7 @@
   "external_origin": null,
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-27"
+  "updated_at": "2026-10-28"
 }
 ```
 
