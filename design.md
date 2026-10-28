@@ -1925,7 +1925,7 @@ icones_nucleo:
     icones: [bars, house]
   direcao_e_revelacao:
     familia: 'Classic Light'
-    icones: [angle-left, arrow-down-to-line, arrow-left, arrow-right, arrow-up, caret-up, chevron-down, chevron-left, chevron-right, chevron-up, chevrons-down, chevrons-left, circle-chevron-down, circle-chevron-left, circle-down, circle-up, ellipsis, eye, eye-slash, square-chevron-left, triple-chevrons-left]
+    icones: [angle-left, arrow-down-to-line, arrow-left, arrow-left-to-line, arrow-right, arrow-up, caret-up, chevron-down, chevron-left, chevron-right, chevron-up, chevrons-down, chevrons-left, circle-chevron-down, circle-chevron-left, circle-down, circle-up, ellipsis, eye, eye-slash, square-chevron-left, triple-chevrons-left]
     nota: 'ellipsis (horizontal) means OMITTED ITEMS - pagination, breadcrumb. Do not confuse with ellipsis-vertical, which means MORE ACTIONS ON THIS ROW and lives in action.'
   acao:
     familia: 'Classic Light'
