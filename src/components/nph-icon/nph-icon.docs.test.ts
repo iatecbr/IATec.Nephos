@@ -173,6 +173,14 @@ describe('nph-icon documentation — order of the Figma frame', () => {
       expect(icon?.getAttribute('name')).toBe('circle-info');
       expect(icon?.hasAttribute('label')).toBe(false);
       expect(demos[1]?.textContent ?? '').toContain(d.infoExampleText);
+      const unit = icon?.parentElement as HTMLElement;
+      const probe = document.createElement('span');
+      probe.style.cssText = 'font-size: var(--nph-text-body-md-font-size); line-height: var(--nph-text-body-md-line-height);';
+      document.body.append(probe);
+      expect([getComputedStyle(unit).fontSize, getComputedStyle(unit).lineHeight]).toEqual([
+        getComputedStyle(probe).fontSize,
+        getComputedStyle(probe).lineHeight,
+      ]);
 
       const button = demos[2]?.querySelector('nph-button') as (HTMLElement & { updateComplete: Promise<unknown> }) | null;
       await button?.updateComplete;

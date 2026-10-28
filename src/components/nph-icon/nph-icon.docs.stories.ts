@@ -51,6 +51,7 @@ import {
   section,
   table,
   text,
+  textRole,
   useDontUse,
 } from '../../shared/docs/page';
 
@@ -85,8 +86,11 @@ const hidingRule = html`
   </style>
 `;
 
-/* Icon and text as one unit: the gap belongs to the container, not to `nph-icon`. */
-const withText = 'display: inline-flex; align-items: center; gap: var(--nph-space-inline-tight);';
+/*
+ * Icon and text as one unit: the gap belongs to the container, not to `nph-icon`. The text is an
+ * interface message, so it takes `text/body-md`.
+ */
+const withText = `display: inline-flex; align-items: center; gap: var(--nph-space-inline-tight); ${textRole('body-md')}`;
 
 /* Icons of one category in the matrix: cells of equal width, as many as fit in the row. */
 const matrixRow =
