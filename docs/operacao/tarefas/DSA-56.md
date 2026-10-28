@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 550,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-table",
   "dependencies": ["DSA-49", "DSA-32"],
   "gates": [
@@ -13,15 +13,15 @@
       "id": "review-and-merge",
       "description": "The tree of nph-table is a treegrid with the APG keyboard, recorded in a new technical decision, the exception TREE_LEVEL_EXCEPTION is gone from the stories, the accessibility gate passes without it, the proof commands pass and the pull request is merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-56/review-and-merge-2026-10-28.md",
+      "result": "passed",
+      "verified_at": "2026-10-28",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
-  "evidence": [],
+  "evidence": ["docs/operacao/evidencias/DSA-56/review-and-merge-2026-10-28.md"],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p97, known limit: aria-level on a row outside a treegrid",
     "docs/decisoes-tecnicas.md#p72",
@@ -29,12 +29,8 @@
     "Elvys, 27-10-2026, DSA-32: exception in the stories plus a task to move the tree to treegrid"
   ],
   "external_origin": null,
-  "git_review": {
-    "branch": "claude/dsa-56-nph-table-treegrid-acc4d6",
-    "commit": "550383b79681c60e114b1fe4bb5c46c29aea334c",
-    "pr": "https://github.com/iatecbr/IATec.Nephos/pull/135"
-  },
-  "context": "docs/operacao/contextos/DSA-56.md",
+  "git_review": { "branch": "claude/dsa-56-nph-table-treegrid-acc4d6", "commit": "bffd7d64e270a10862682bc7ba05ab5c44e8d1e3", "pr": "135" },
+  "context": null,
   "updated_at": "2026-10-28"
 }
 ```
