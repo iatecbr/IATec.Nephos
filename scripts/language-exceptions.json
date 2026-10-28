@@ -127,6 +127,38 @@
     "reason": "Figma property and value names of nph-pagination (tipo, posição, atual, estado, padrão, foco), the Documentação frame and the Portuguese labels of the accepted board (Paginação, Página N, Primeira, Próxima and Última página, ir para a página), quoted as they are in Figma (P64: Figma is in Portuguese); the code API is in English."
   },
   {
+    "file": "docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-27.md",
+    "class": "contract-term",
+    "names": [
+      "Documentação",
+      "tipo",
+      "tamanho",
+      "página",
+      "compacto",
+      "padrão",
+      "de",
+      "selecionados",
+      "Limpar",
+      "seleção",
+      "Excluir",
+      "Buscar",
+      "Filtrar",
+      "Página",
+      "centro",
+      "Mais",
+      "Fechar",
+      "Ações",
+      "da",
+      "tabela",
+      "contagem",
+      "caixa",
+      "limpar",
+      "texto",
+      "ícone"
+    ],
+    "reason": "Figma frame, property and variant names of nph-toolbar (Documentação frame; tipo em massa/página/ferramentas/flutuante; tamanho compacto/padrão/grande; contagem; booleans centro, caixa de seleção, limpar em texto and limpar em ícone) and the labels and accessible names of its examples (\"2 de 6 selecionados\", \"N de M selecionados\", Limpar seleção, Excluir, Buscar pessoas, Filtrar, Mais, Fechar, \"Ações da tabela\"), quoted as they are in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
     "file": "docs/operacao/evidencias/F5-T01/fichas-na-branch-padrao-2026-09-08.md",
     "class": "contract-term",
     "names": [
@@ -227,6 +259,17 @@
       "página"
     ],
     "reason": "Name of the Figma frame and of the component nph-pagination/ir para a página, quoted as they are in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-55.md",
+    "class": "contract-term",
+    "names": [
+      "compacto",
+      "tamanho",
+      "Documentação",
+      "tipo"
+    ],
+    "reason": "Name of the Figma frame (Documentação) and property and variant names of nph-toolbar, nph-togglebutton and nph-toggle-group (tipo, tamanho, compacto), quoted as they are in the accepted board (P64: Figma is in Portuguese)."
   },
   {
     "file": "docs/operacao/tarefas/F4-T04.md",
