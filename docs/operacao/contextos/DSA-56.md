@@ -20,13 +20,14 @@ stories; record the contract in P101; and make the sheet and the Metadata say th
 - The WAI-ARIA Authoring Practices treegrid pattern
 
 ## Changes
-The task moves to in progress. See the commits on the branch.
+The tree of `nph-table` is a `treegrid` with the APG keyboard (P101), the exception is gone from
+the stories, and the sheet, the Metadata and the dictionaries say the same. Pull request #135.
 
 ## Commands run
 - `node scripts/verificar-operacao.mjs` before the commit.
 
 ## Result
-In progress.
+In review: the proof commands pass on `550383b`.
 
 ## Evidence
 None recorded: `review-and-merge` waits for the PR.
@@ -35,4 +36,4 @@ None recorded: `review-and-merge` waits for the PR.
 None.
 
 ## Next command
-Commit the treegrid, its tests, the stories without the exception, P101 and the sheet.
+Answer the Copilot review of pull request #135.
