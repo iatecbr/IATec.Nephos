@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 380,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "done",
   "piece": null,
   "dependencies": [
     "DSA-30"
@@ -15,10 +15,10 @@
       "id": "review-and-merge",
       "description": "The brand Validation stories and their tests pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-36/review-and-merge-2026-10-28.md",
+      "result": "passed",
+      "verified_at": "2026-10-28",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -30,7 +30,9 @@
       "opened_at": "2026-10-28"
     }
   ],
-  "evidence": [],
+  "evidence": [
+    "docs/operacao/evidencias/DSA-36/review-and-merge-2026-10-28.md"
+  ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p20",
     "docs/decisoes-tecnicas.md#p67",
@@ -40,10 +42,10 @@
   "external_origin": null,
   "git_review": {
     "branch": "claude/dsa-36-brand-validation-337397",
-    "commit": null,
-    "pr": null
+    "commit": "211c3dc5e08b25c2a714c48e4a5062ed1c42a7d3",
+    "pr": "141"
   },
-  "context": "docs/operacao/contextos/DSA-36.md",
+  "context": null,
   "updated_at": "2026-10-28"
 }
 ```
