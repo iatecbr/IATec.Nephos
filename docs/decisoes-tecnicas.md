@@ -4433,6 +4433,7 @@ and P90. The names follow P64.
 - **The slot `action`**, the first slot of the wave, justified by `table/caption-action-gap`.
 - **The scroll area as a region only while it overflows.**
 - **`aria-level` on a row outside a `treegrid`**, and `aria-expanded` on the host of the chevron.
+  *Annotation of 28/10/2026:* the level is now on a row of a `treegrid` (P101).
 - **`rows` replaced on open**, so the state lives in the data.
 - **The hairline cover against the seam between cell backgrounds.**
 
@@ -5056,8 +5057,9 @@ tree only, and the flat table does not change.
    and Left Arrow on the first cell goes back to the row; Down Arrow and Up Arrow go to the cell
    of the same column in the next and the previous row, or to that row when it has no such cell,
    as the expanded item; Home and End go to the first and the last cell of the row; Control+Home
-   and Control+End go to the cell of the same column in the first and the last row. A key pressed
-   inside a button or a link stays with it. Opening and closing from the keyboard replace `rows`
+   and Control+End go to the cell of the same column in the first and the last row. Control goes
+   only with Home and End, and Alt, Shift and Meta with no key of the tree. A key pressed inside a
+   button or a link stays with it. Opening and closing from the keyboard replace `rows`
    and fire `nph-row-toggle`, as the chevron does; a row that loads does not open, as its click
    does not.
 
@@ -5076,6 +5078,8 @@ no hierarchy to read, and a grid there would add a keyboard the evidence does no
 - **The focus when the focused row leaves.** When the consumer replaces `rows` and the row
   that holds the focus is not drawn any more, the focus leaves with it, as with any element that
   leaves the page; the Tab stop goes to the first row.
+- **The expanded item under a row of the third level** is a row of `aria-level` 4: it is the
+  detail of that row, not a fourth level of the tree, which still goes down to three.
 - **No Page Up and Page Down** and no selection: the APG makes both optional, and selection is
   of `nph-data-table`.
 - **Forced colors and right-to-left** are not treated yet, as in P97: Right Arrow opens in both

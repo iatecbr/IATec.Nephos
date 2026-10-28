@@ -1168,6 +1168,30 @@ describe('treegrid (P101)', () => {
     expect(root(element).activeElement).toBe(curitiba.querySelector('a'));
   });
 
+  it('a click on the chevron of a row that is not the Tab stop opens it and makes that row the Tab stop', async () => {
+    const element = await mount({ columns, rows: tree(true) });
+    const received: NphTableRowToggleDetail[] = [];
+    element.addEventListener('nph-row-toggle', (event) => received.push(event.detail));
+    const porto = bodyRows(element)[1] as HTMLTableRowElement;
+    const chevron = porto.querySelector('.chevron') as HTMLElement;
+    expect(chevron.getAttribute('tabindex')).toBe('-1');
+    await userEvent.click(innerButton(chevron));
+    await element.updateComplete;
+    expect(received).toEqual([{ row: 'porto', open: true }]);
+    expect(bodyRows(element).map((row) => row.getAttribute('tabindex'))).toEqual(['-1', '0', '-1', '-1', '-1']);
+    expect(chevron.hasAttribute('tabindex')).toBe(false);
+  });
+
+  it('Control goes only with Home and End: Control and an arrow or Enter does nothing', async () => {
+    const element = await mount({ columns, rows: tree() });
+    (bodyRows(element)[0] as HTMLTableRowElement).focus();
+    await press(element, '{Control>}{ArrowRight}{/Control}');
+    await press(element, '{Control>}{Enter}{/Control}');
+    await press(element, '{Control>}{ArrowDown}{/Control}');
+    expect(bodyRows(element)).toHaveLength(2);
+    expect(root(element).activeElement).toBe(bodyRows(element)[0]);
+  });
+
   it('on a row: Right opens a closed row and Left closes an open one, each firing nph-row-toggle', async () => {
     const element = await mount({ columns, rows: tree() });
     const received: NphTableRowToggleDetail[] = [];

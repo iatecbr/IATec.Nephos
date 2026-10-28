@@ -667,6 +667,8 @@ export class NphTable extends LitElement {
    */
   private onKeyDown(event: KeyboardEvent): void {
     if (!this.isTree || !(TREE_KEYS as readonly string[]).includes(event.key) || event.altKey || event.shiftKey || event.metaKey) return;
+    /* Control goes only with Home and End. */
+    if (event.ctrlKey && event.key !== 'Home' && event.key !== 'End') return;
     const target = event.composedPath()[0];
     if (!(target instanceof HTMLElement)) return;
     const rows = this.treeRows();
@@ -730,7 +732,7 @@ export class NphTable extends LitElement {
         rows[rows.length - 1]?.focus();
         return true;
       default:
-        return event.ctrlKey ? false : this.toggleFromKey(row);
+        return this.toggleFromKey(row);
     }
   }
 
