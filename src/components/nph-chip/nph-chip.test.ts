@@ -504,6 +504,19 @@ describe('nph-chip — long text', () => {
     expect(hasPart(element, 'nph-tooltip')).toBe(false);
   });
 
+  it('a chip moved to another place observes its label again: cut later, it gets the balloon', async () => {
+    const element = await mount();
+    await frames(element);
+    expect(hasPart(element, 'nph-tooltip')).toBe(false);
+    const holder = document.createElement('div');
+    document.body.append(holder);
+    holder.append(element);
+    await frames(element);
+    element.style.maxInlineSize = `${width('--nph-chip-remove-size') * 3}px`;
+    await vi.waitFor(() => expect(hasPart(element, 'nph-tooltip')).toBe(true));
+    expect(label(element).getAttribute('tabindex')).toBe('0');
+  });
+
   it('a disabled chip has no balloon', async () => {
     const element = await mount({ ...REMOVABLE, text: LONG, disabled: true });
     await frames(element);
@@ -705,6 +718,13 @@ describe('nph-chip — focus rings', () => {
     expect(before.borderTopColor).toBe(color('--nph-focus-border'));
     expect(Number.parseFloat(before.width)).toBeCloseTo(box.width + 2 * width('--nph-border-width'), 1);
     expect(getComputedStyle(chip(element), '::after').borderTopColor).toBe(color('--nph-focus-halo'));
+  });
+
+  it('marked and disabled: disabled wins, with no ring', async () => {
+    const element = await mount({ ...REMOVABLE, marked: true, disabled: true });
+    expect(getComputedStyle(chip(element), '::before').content).toBe('none');
+    expect(getComputedStyle(chip(element), '::after').content).toBe('none');
+    expect(getComputedStyle(chip(element)).backgroundColor).toBe(color('--nph-chip-background-disabled'));
   });
 
   it('marked: hover background and the ring around the whole chip, without focus', async () => {

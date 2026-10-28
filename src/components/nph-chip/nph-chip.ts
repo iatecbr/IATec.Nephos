@@ -199,6 +199,9 @@ export class NphChip extends LitElement {
     this.resizeObserver = new ResizeObserver(() => this.measure());
     /* The font changes the width of the text once it loads. */
     document.fonts?.ready.then(() => this.measure());
+    /* A chip moved to another place observes its label again: the observer was
+       disconnected when it left, and only an update installs it (as nph-table). */
+    if (this.hasUpdated) this.requestUpdate();
   }
 
   override disconnectedCallback(): void {
