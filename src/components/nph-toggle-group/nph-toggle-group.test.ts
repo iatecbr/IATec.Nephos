@@ -320,6 +320,23 @@ describe('size', () => {
     expect(buttonsOf(group).map((child) => child.size)).toEqual(['large', 'large', 'large', 'large']);
   });
 
+  it('a size set on a button after mount, by attribute or property, goes back to the size of the group', async () => {
+    const group = await mount({ size: 'compact' });
+    const [first, second] = buttonsOf(group);
+    first?.setAttribute('size', 'large');
+    await vi.waitFor(() => expect(first?.size).toBe('compact'));
+    if (second) second.size = 'large';
+    await vi.waitFor(() => expect(second?.size).toBe('compact'));
+    await settle(group);
+    const height = pxOf(resolved('height', '--nph-control-height-compact'));
+    for (const child of buttonsOf(group)) {
+      expect(child.getAttribute('size')).toBe('compact');
+      expect(child.getBoundingClientRect().height).toBe(height);
+      const sizes = [...(child.shadowRoot?.querySelectorAll('nph-icon') ?? [])].map((icon) => icon.getAttribute('size'));
+      expect(new Set(sizes)).toEqual(new Set(['sm']));
+    }
+  });
+
   it('the size attribute on the host is read', async () => {
     const group = document.createElement('nph-toggle-group');
     group.setAttribute('label', 'Alignment');

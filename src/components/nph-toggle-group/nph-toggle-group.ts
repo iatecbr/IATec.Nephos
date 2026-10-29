@@ -148,7 +148,11 @@ export class NphToggleGroup extends LitElement {
   private accessibleNameChanged = false;
   /** The composition warnings already shown, so a problem that stays does not repeat. */
   private shownWarnings = new Set<string>();
-  /** Watches the `value` attribute of the direct children, which raises no `slotchange`. */
+  /**
+   * Watches the `value` and `size` attributes of the direct children, which raise no
+   * `slotchange`: a new `value` moves the selection, and a `size` set on a button is
+   * written back to the size of the group.
+   */
   private readonly childValueObserver = new MutationObserver((records) => this.onChildValueMutation(records));
 
   constructor() {
@@ -177,7 +181,7 @@ export class NphToggleGroup extends LitElement {
     super.connectedCallback();
     /* One observer on the host covers the current set of children: the records are
        filtered to the direct buttons, so a child added or removed later needs no wiring. */
-    this.childValueObserver.observe(this, { attributes: true, attributeFilter: ['value'], subtree: true });
+    this.childValueObserver.observe(this, { attributes: true, attributeFilter: ['value', 'size'], subtree: true });
     this.requestUpdate();
   }
 
@@ -186,7 +190,7 @@ export class NphToggleGroup extends LitElement {
     this.childValueObserver.disconnect();
   }
 
-  /** A direct button got a new `value` attribute: the group settles and checks again. */
+  /** A direct button got a new `value` or `size` attribute: the group settles and checks again. */
   private onChildValueMutation(records: MutationRecord[]): void {
     const changed = records.some(
       (record) => record.target instanceof Element && record.target.parentElement === this && isButton(record.target),
