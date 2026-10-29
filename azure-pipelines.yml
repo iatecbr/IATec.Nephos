@@ -277,10 +277,6 @@ stages:
           # Shared memory, whether the agent is a container and whether
           # Playwright launches Chromium with `--disable-dev-shm-usage` are
           # printed for the record, without a check.
-          #
-          # Experiment (PR #144): `--no-file-parallelism` runs one test file
-          # at a time, one page per project, to see whether the import failure
-          # needs concurrent pages.
           - bash: |
               set -euo pipefail
               echo "CPU cores seen by Node: $(node -p 'require("os").availableParallelism()')"
@@ -297,8 +293,8 @@ stages:
               trap 'cat /proc/loadavg' EXIT
               npx playwright install chromium
               status=0
-              npm test -- --shard=1/2 --no-file-parallelism || status=1
-              npm test -- --shard=2/2 --no-file-parallelism || status=1
+              npm test -- --shard=1/2 || status=1
+              npm test -- --shard=2/2 || status=1
               exit "${status}"
             displayName: Component tests (Chromium)
             workingDirectory: $(Build.SourcesDirectory)
