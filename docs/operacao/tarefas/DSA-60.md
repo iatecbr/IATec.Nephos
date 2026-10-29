@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 590,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-button",
   "dependencies": [],
   "gates": [
@@ -22,16 +22,17 @@
       "id": "review-and-merge",
       "description": "CSS, tests, stories and spec of nph-button pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-60/review-and-merge-2026-10-29.md",
+      "result": "passed",
+      "verified_at": "2026-10-29",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
   "evidence": [
-    "docs/operacao/evidencias/DSA-60/figma-docs-accepted-2026-10-29.md"
+    "docs/operacao/evidencias/DSA-60/figma-docs-accepted-2026-10-29.md",
+    "docs/operacao/evidencias/DSA-60/review-and-merge-2026-10-29.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -45,8 +46,8 @@
     "excerpt": null,
     "converted_decision": "The nph-button board (1197:5449) and the nph-icon-button board (2122:1591) keep their text; the secondary ghost hover of nph-button (461:13009) and nph-icon-button (498:15671) moves from color/muted to color/accent, through button/secondary-ghost-background-hover and icon-button/secondary-ghost-background-hover. Converted to text in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-60-button-ghost-hover", "commit": null, "pr": "https://github.com/iatecbr/IATec.Nephos/pull/143" },
-  "context": "docs/operacao/contextos/DSA-60.md",
+  "git_review": { "branch": "feat/dsa-60-button-ghost-hover", "commit": "4bef03b0e5a2a4208a3716edfd84ee072381a257", "pr": "143" },
+  "context": null,
   "updated_at": "2026-10-29"
 }
 ```
