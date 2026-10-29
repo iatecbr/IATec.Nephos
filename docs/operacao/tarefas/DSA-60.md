@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 590,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-button",
   "dependencies": [],
   "gates": [
@@ -45,8 +45,8 @@
     "excerpt": null,
     "converted_decision": "The nph-button board (1197:5449) and the nph-icon-button board (2122:1591) keep their text; the secondary ghost hover of nph-button (461:13009) and nph-icon-button (498:15671) moves from color/muted to color/accent, through button/secondary-ghost-background-hover and icon-button/secondary-ghost-background-hover. Converted to text in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-60-button-ghost-hover", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-60.md",
   "updated_at": "2026-10-29"
 }
 ```
