@@ -69,7 +69,7 @@ const PAIRS: ReadonlyArray<readonly [NphButtonSeverity, NphButtonEmphasis, Pair]
   ['secondary', 'light', { bg: '--nph-color-secondary-light', bgHover: '--nph-color-secondary-light-hover', fg: '--nph-color-secondary-foreground' }],
   ['danger', 'light', LIGHT_AND_OUTLINE.danger],
   ['primary', 'ghost', { bg: null, bgHover: '--nph-color-primary-surface', fg: '--nph-color-primary-on-surface' }],
-  ['secondary', 'ghost', { bg: null, bgHover: '--nph-color-muted', fg: '--nph-color-secondary-foreground' }],
+  ['secondary', 'ghost', { bg: null, bgHover: '--nph-button-secondary-ghost-background-hover', fg: '--nph-color-secondary-foreground' }],
   ['danger', 'ghost', { bg: null, bgHover: '--nph-color-destructive-surface', fg: '--nph-color-destructive-on-surface' }],
 ];
 
@@ -288,6 +288,71 @@ describe('colors per severity and emphasis, at rest and on hover, in both scheme
         expect(insetColor(button)).toBe(pair.borderHover ? resolved('color', pair.borderHover) : 'none');
       });
     }
+  }
+});
+
+describe('secondary ghost hover, on the component tokens (DSA-60)', () => {
+  const GHOST = { severity: 'secondary', emphasis: 'ghost', size: 'default' } as const;
+
+  /** A wrapper that points each component token at a different color, so the two can be told apart. */
+  function overridden(): HTMLElement {
+    const part = document.createElement('div');
+    part.style.setProperty('--nph-button-secondary-ghost-background-hover', 'var(--nph-color-primary)');
+    part.style.setProperty('--nph-icon-button-secondary-ghost-background-hover', 'var(--nph-color-destructive)');
+    document.body.append(part);
+    return part;
+  }
+
+  async function mountIn(parent: HTMLElement, props: Props): Promise<NphButton> {
+    const element = document.createElement('nph-button');
+    Object.assign(element, props);
+    parent.append(element);
+    await element.updateComplete;
+    return element;
+  }
+
+  for (const scheme of ['light', 'dark'] as const) {
+    it(`${scheme} · icon only: no background at rest, icon-button/secondary-ghost-background-hover on hover`, async () => {
+      document.documentElement.setAttribute('data-nph-color-scheme', scheme);
+      const element = await mount({ ...GHOST, iconStart: 'xmark', label: 'Close' });
+      const button = control(element);
+      expect(getComputedStyle(button).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+      await userEvent.hover(button);
+      expect(getComputedStyle(button).backgroundColor).toBe(
+        resolved('background-color', '--nph-icon-button-secondary-ghost-background-hover'),
+      );
+      expect(getComputedStyle(button).color).toBe(resolved('color', '--nph-color-secondary-foreground'));
+    });
+  }
+
+  it('with text, the hover reads button/secondary-ghost-background-hover, not the icon-button token', async () => {
+    const element = await mountIn(overridden(), { ...GHOST, text: 'Cancel', iconStart: 'xmark' });
+    const button = control(element);
+    await userEvent.hover(button);
+    expect(getComputedStyle(button).backgroundColor).toBe(resolved('background-color', '--nph-color-primary'));
+  });
+
+  for (const shape of NPH_BUTTON_SHAPES) {
+    it(`icon only, ${shape}: the hover reads icon-button/secondary-ghost-background-hover, not the button token`, async () => {
+      const element = await mountIn(overridden(), { ...GHOST, iconStart: 'xmark', label: 'Close', shape });
+      const button = control(element);
+      await userEvent.hover(button);
+      expect(getComputedStyle(button).backgroundColor).toBe(resolved('background-color', '--nph-color-destructive'));
+    });
+  }
+
+  for (const severity of ['primary', 'danger'] as const) {
+    it(`${severity} ghost, with text and icon only, does not read the secondary tokens`, async () => {
+      const part = overridden();
+      const surface = resolved('background-color', severity === 'primary' ? '--nph-color-primary-surface' : '--nph-color-destructive-surface');
+      for (const props of [{ text: 'Save' }, { iconStart: 'plus', label: 'Add' }]) {
+        const element = await mountIn(part, { severity, emphasis: 'ghost', ...props });
+        const button = control(element);
+        await userEvent.hover(button);
+        expect(getComputedStyle(button).backgroundColor).toBe(surface);
+        await userEvent.unhover(button);
+      }
+    });
   }
 });
 
