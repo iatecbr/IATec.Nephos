@@ -260,8 +260,7 @@ stages:
           # The core count is logged because Vitest sizes its browser pages
           # from it. Temporary diagnostics for the intermittent "Failed to
           # fetch dynamically imported module": memory and load of the agent,
-          # the Vite request log (`vitest.config.ts`) and Chromium's own output
-          # (`DEBUG=pw:browser`).
+          # and the Vite request log (`vitest.config.ts`).
           - bash: |
               set -euo pipefail
               echo "CPU cores seen by Node: $(node -p 'require("os").availableParallelism()')"
@@ -274,7 +273,6 @@ stages:
             workingDirectory: $(Build.SourcesDirectory)
             env:
               NEPHOS_TEST_DIAGNOSTICS: '1'
-              DEBUG: pw:browser
 
           - task: CmdLine@2
             displayName: Remove .npmrc
