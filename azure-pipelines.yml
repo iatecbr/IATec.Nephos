@@ -266,9 +266,10 @@ stages:
               echo "CPU cores seen by Node: $(node -p 'require("os").availableParallelism()')"
               free -m
               cat /proc/loadavg
+              # Runs on failure too; the step keeps the exit code of the tests.
+              trap 'cat /proc/loadavg' EXIT
               npx playwright install chromium
               npm test
-              cat /proc/loadavg
             displayName: Component tests (Chromium)
             workingDirectory: $(Build.SourcesDirectory)
             env:

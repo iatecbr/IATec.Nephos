@@ -31,7 +31,7 @@ const browser = () => ({
  * finished. It tells whether the failing request reached Vite and what Vite
  * answered.
  */
-const TOP_LEVEL_IMPORT = /(\.test\.ts|\.stories\.ts|setup-file-with-project-annotations\.js)\?/;
+const TOP_LEVEL_IMPORT = /(\.test\.ts|\.stories\.[jt]s|setup-file-with-project-annotations\.js)\?/;
 /** The repository has no Node type definitions; this is the part used here. */
 const node = (
   globalThis as unknown as {
