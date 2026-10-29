@@ -695,6 +695,19 @@ describe('the applied filters strip', () => {
     expect(focusedId()).toBe('year');
   });
 
+  it('a removed chip skips a hidden neighbor and one that draws nothing', async () => {
+    await mount(FILTERS.replace(
+        '<nph-button id="clear-filters"',
+        '<nph-chip id="last" text="Owner: Ana" remove-label="Remove filter"></nph-chip>\n  <nph-button id="clear-filters"',
+      ));
+    (document.getElementById('unit') as HTMLElement).style.display = 'none';
+    document.getElementById('year')?.removeAttribute('remove-label');
+    await settle();
+    expect(document.getElementById('year')?.hasAttribute('data-nph-rendered')).toBe(false);
+    await remove('status');
+    expect(focusedId()).toBe('last');
+  });
+
   it('Clear filters that also removes the button still announces and sends the focus to the trigger', async () => {
     const bar = await mount(FILTERS);
     const clear = document.getElementById('clear-filters') as HTMLElement;

@@ -569,9 +569,17 @@ export class NphToolbar extends LitElement {
       }
       /* The focus follows the last removal the person asked for. */
       if (this.mayMoveFocus(removal.focusInside)) {
-        /* The nearest chip that is still there and takes focus — not disabled, not read only (no X): after it, else before it. */
+        /*
+         * The nearest chip that is still there and takes focus — drawn, visible, not disabled and
+         * not read only (no X): after it, else before it.
+         */
         const neighbor = [...removal.after, ...removal.before].find(
-          (chip) => chips.includes(chip) && !isDisabled(chip) && !chip.hasAttribute('readonly'),
+          (chip) =>
+            chips.includes(chip) &&
+            chip.hasAttribute(RENDERED_ATTRIBUTE) &&
+            (chip.checkVisibility?.() ?? true) &&
+            !isDisabled(chip) &&
+            !chip.hasAttribute('readonly'),
         );
         this.moveFocusTo(neighbor ?? this.triggerElement());
       }
