@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 570,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-data-table",
   "dependencies": [
     "DSA-03",
@@ -98,7 +98,7 @@
     "excerpt": null,
     "converted_decision": "The nph-data-table board (1371:282), with its Documentação frame (2875:17577), was accepted as the API and behavior specification of nph-data-table. Component set: nph-data-table (2633:69628), estado × size × moldura × cabeçalho fixo × foco × grade × expande, with the inner pieces cabeçalho (1371:37), seleção (1371:68), linha (1371:138), ações (1371:69) and ajuste (2633:5120). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-58-data-table", "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-58-data-table", "commit": "b5302ee", "pr": 147 },
   "context": "docs/operacao/contextos/DSA-58.md",
   "updated_at": "2026-10-29"
 }

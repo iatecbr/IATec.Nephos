@@ -50,10 +50,10 @@ selection with the bulk bar and its count, the menu of the more and the empty by
 its button were also checked by hand in Storybook, in light and dark.
 
 ## Evidence
-None yet. `review-and-merge` waits for the pull request.
+None yet. `review-and-merge` waits for the merge of pull request #147.
 
 ## Blocker
 None.
 
 ## Next command
-`gh pr create --base v/5.0.0`
+Wait for the Copilot review of pull request #147.
