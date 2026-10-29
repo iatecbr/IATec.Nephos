@@ -497,6 +497,17 @@ describe('keyboard: the toolbar pattern of the APG (D-2)', () => {
     expect(focusedId()).toBe('filter');
   });
 
+  it('a fieldset that disables the checkbox holding the stop gives the stop to the next action', async () => {
+    const fieldset = document.createElement('fieldset');
+    document.body.append(fieldset);
+    const bar = await mount(BULK, fieldset);
+    expect(bar.querySelector('#all')?.hasAttribute('tabindex')).toBe(false);
+    fieldset.disabled = true;
+    await settle();
+    expect(bar.querySelector('#clear')?.hasAttribute('tabindex')).toBe(false);
+    expect(bar.querySelector('#all')?.getAttribute('tabindex')).toBe('-1');
+  });
+
   it('a loading action is still an action', async () => {
     await mount(PAGE.replace('id="create"', 'id="create" loading'));
     (document.getElementById('download') as HTMLElement).focus();
@@ -676,6 +687,22 @@ describe('the applied filters strip', () => {
     await userEvent.click(clear);
     await settle(root);
     expect(root.activeElement?.id).toBe('open-filters');
+  });
+
+  it('inside a shadow root, the focus taken outside it before a late removal is not taken back', async () => {
+    const outside = document.createElement('button');
+    outside.id = 'outside';
+    const outer = document.createElement('div');
+    document.body.append(outside, outer);
+    const root = outer.attachShadow({ mode: 'open' });
+    root.innerHTML = FILTERS;
+    await settle(root);
+    const chip = root.getElementById('unit') as HTMLElement;
+    await userEvent.click(chip.shadowRoot?.querySelector('button') as HTMLElement);
+    outside.focus();
+    chip.remove();
+    await settle(root);
+    expect(focusedId()).toBe('outside');
   });
 
   it('a consumer that removes the chip later still gets the focus rule', async () => {

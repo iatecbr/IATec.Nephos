@@ -204,6 +204,11 @@ export class NphToolbar extends LitElement {
    * Tab stop away.
    */
   private readonly childObserver = new MutationObserver((records) => this.onChildMutation(records));
+  /**
+   * Watches the `disabled` of the ancestor fieldsets: a disabled fieldset disables a form control
+   * of the bar (`nph-checkbox`) without touching its attribute, and the Tab stop must move on.
+   */
+  private readonly fieldsetObserver = new MutationObserver(() => this.syncActions());
 
   constructor() {
     super();
@@ -244,13 +249,30 @@ export class NphToolbar extends LitElement {
       childList: true,
       subtree: true,
     });
+    for (const fieldset of this.ancestorFieldsets()) {
+      this.fieldsetObserver.observe(fieldset, { attributes: true, attributeFilter: ['disabled'] });
+    }
     this.requestUpdate();
   }
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.childObserver.disconnect();
+    this.fieldsetObserver.disconnect();
     this.releaseActions(new Set());
+  }
+
+  /** The fieldsets around the bar, crossing the shadow roots it sits in. */
+  private ancestorFieldsets(): HTMLFieldSetElement[] {
+    const found: HTMLFieldSetElement[] = [];
+    let node: Node | null = this.parentNode;
+    while (node !== null) {
+      if (node instanceof HTMLFieldSetElement) {
+        found.push(node);
+      }
+      node = node instanceof ShadowRoot ? node.host : node.parentNode;
+    }
+    return found;
   }
 
   private get isFilters(): boolean {
@@ -490,7 +512,12 @@ export class NphToolbar extends LitElement {
     }
     const root = this.getRootNode() as Document | ShadowRoot;
     const active = root.activeElement;
-    return active === null || active === document.body || this.contains(active);
+    if (active !== null) {
+      return active === document.body || this.contains(active);
+    }
+    /* No focus in this shadow root: move it only if nothing in the document holds it. */
+    const outer = document.activeElement;
+    return outer === null || outer === document.body;
   }
 
   private moveFocusTo(target: Element | undefined | null): void {
