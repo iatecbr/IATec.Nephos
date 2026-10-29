@@ -212,11 +212,11 @@ read the documentation for that version.
 |---|---|
 | `lit` | ^3.3.3 |
 | `@fortawesome/pro-light-svg-icons` and `pro-solid-svg-icons` | 6.7.2 (pinned) |
-| `storybook` and `@storybook/web-components-vite` | ^10.6.2 |
-| `@storybook/addon-a11y` and `@storybook/addon-vitest` | ^10.6.2 |
+| `storybook` and `@storybook/web-components-vite` | ^10.6.5 |
+| `@storybook/addon-a11y` and `@storybook/addon-vitest` | ^10.6.5 |
 | `style-dictionary` | ^5.5.2 |
 | `vite` | ^8.2.2 |
-| `vitest` and `@vitest/browser-playwright` | ^4.1.11 |
+| `vitest` and `@vitest/browser-playwright` | ^5.0.5 |
 | `playwright` | ^1.62.1 |
 | `typescript` | ^5.9.3 |
 | `@fontsource/noto-sans` and `@fontsource/ibm-plex-mono` | ^5.3.0 |
