@@ -125,7 +125,8 @@ stages:
 
           # `test:package` ends by importing each component through the
           # package in Chromium (DSA-35), so the browser is installed first,
-          # the same way as in the Test stage.
+          # the same way as in the Test stage. `VITEST_PW_DEBUG` logs every
+          # request Chromium failed, as in the Test stage.
           - bash: |
               set -euo pipefail
               npm run build:lib
@@ -134,6 +135,8 @@ stages:
               npm run pack:check
             displayName: Build library and check the package
             workingDirectory: $(Build.SourcesDirectory)
+            env:
+              VITEST_PW_DEBUG: '1'
 
           # Static Storybook (P19: private CI artifact). It runs before the
           # pack, so a broken Storybook fails Build and Publish never starts.
@@ -269,23 +272,39 @@ stages:
           # The core count, memory and load of the agent are logged to read
           # timing failures: a loaded agent fails timing tests on its own. The
           # Vite request log (`vitest.config.ts`) tells whether a failing
-          # import reached Vite.
+          # import reached Vite, and `VITEST_PW_DEBUG` makes the Playwright
+          # provider log every request Chromium failed, with its network error.
+          # Shared memory, whether the agent is a container and whether
+          # Playwright launches Chromium with `--disable-dev-shm-usage` are
+          # printed for the record, without a check.
+          #
+          # Experiment (PR #144): `--no-file-parallelism` runs one test file
+          # at a time, one page per project, to see whether the import failure
+          # needs concurrent pages.
           - bash: |
               set -euo pipefail
               echo "CPU cores seen by Node: $(node -p 'require("os").availableParallelism()')"
               free -m
+              df -h /dev/shm || true
+              if [ -f /.dockerenv ] || grep -qaE 'docker|kubepods|containerd' /proc/1/cgroup; then
+                echo "Container: yes"
+              else
+                echo "Container: no"
+              fi
+              echo "Playwright default args with --disable-dev-shm-usage: $(grep -c -- '--disable-dev-shm-usage' node_modules/playwright-core/lib/coreBundle.js || true)"
               cat /proc/loadavg
               # Runs on failure too; the step keeps the exit code of the tests.
               trap 'cat /proc/loadavg' EXIT
               npx playwright install chromium
               status=0
-              npm test -- --shard=1/2 || status=1
-              npm test -- --shard=2/2 || status=1
+              npm test -- --shard=1/2 --no-file-parallelism || status=1
+              npm test -- --shard=2/2 --no-file-parallelism || status=1
               exit "${status}"
             displayName: Component tests (Chromium)
             workingDirectory: $(Build.SourcesDirectory)
             env:
               NEPHOS_TEST_DIAGNOSTICS: '1'
+              VITEST_PW_DEBUG: '1'
 
           - task: CmdLine@2
             displayName: Remove .npmrc
