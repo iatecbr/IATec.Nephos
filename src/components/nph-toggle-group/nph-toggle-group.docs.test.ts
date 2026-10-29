@@ -227,7 +227,7 @@ describe('nph-toggle-group Validation: text only from the dictionary', () => {
     return target;
   }
 
-  it('the stories are the six pages of the contract', () => {
+  it('the stories are the seven pages of the contract', () => {
     expect(stories.map(([name]) => name).sort()).toEqual([
       'ButtonStates',
       'Examples',
@@ -235,7 +235,16 @@ describe('nph-toggle-group Validation: text only from the dictionary', () => {
       'Matrix',
       'MultipleSelection',
       'SingleSelection',
+      'Sizes',
     ]);
+  });
+
+  it('Sizes: every group carries its size, with text and icon only', async () => {
+    const target = draw(validation.Sizes as Renderable, 'en');
+    const frame = target.querySelector('[data-nph-color-scheme="light"]') as HTMLElement;
+    const groups = [...frame.querySelectorAll('nph-toggle-group')] as HTMLElement[];
+    expect(groups.map((entry) => entry.getAttribute('size'))).toEqual(['compact', 'compact', 'default', 'default', 'large', 'large']);
+    target.remove();
   });
 
   for (const [name, story] of stories) {
@@ -371,7 +380,7 @@ describe('nph-toggle-group documentation — order of the model', () => {
     it(`${locale}: the sections follow the model of the current Docs pages, with no anti-patterns section`, () => {
       const target = renderInLocale(locale);
       const sections = [...target.querySelectorAll('section[id]')].map((s) => s.id);
-      expect(sections).toEqual(['when-to-use', 'api', 'usage', 'selection', 'anatomy', 'accessibility', 'examples', 'references']);
+      expect(sections).toEqual(['when-to-use', 'api', 'usage', 'sizes', 'selection', 'anatomy', 'accessibility', 'examples', 'references']);
       expect(target.querySelector('#anti-patterns')).toBeNull();
     });
 
