@@ -24,12 +24,12 @@ const browser = () => ({
 });
 
 /**
- * Temporary diagnostics for the intermittent "Failed to fetch dynamically
- * imported module" on the Azure agents. With `NEPHOS_TEST_DIAGNOSTICS` set,
- * the browser Vite server of each project logs to stderr every top-level test
- * import, every response at or above 400 and every response closed before it
- * finished. It tells whether the failing request reached Vite and what Vite
- * answered.
+ * Diagnostics for the intermittent "Failed to fetch dynamically imported
+ * module" on the Azure agents, kept on in the pipeline to read the next
+ * failure. With `NEPHOS_TEST_DIAGNOSTICS` set, the browser Vite server of each
+ * project logs to stderr every top-level test import, every response at or
+ * above 400 and every response closed before it finished. It tells whether the
+ * failing request reached Vite and what Vite answered. Off by default.
  */
 const TOP_LEVEL_IMPORT = /(\.test\.ts|\.stories\.[jt]s|setup-file-with-project-annotations\.js)\?/;
 /** The repository has no Node type definitions; this is the part used here. */
