@@ -5581,7 +5581,10 @@ renders nothing, as P97; a cause of its own leaves out only the part it names an
    trailing columns counted in every span, the body, and the rows drawn. Its development errors and
    warnings carry the tag of the element that reports them. Its tests do not change. This is the one
    change to `nph-table`, which the task otherwise leaves alone; drawing a second table would copy
-   its checks and its cells.
+   its checks and its cells. The Custom Elements Manifest plugin
+   (`custom-elements-manifest.config.mjs`) reads the module the analyzer writes for a superclass,
+   `/src/components/nph-table/nph-table`, as the source file, so the inheritance points at
+   `dist/nph-table/nph-table.js` in the published manifest.
 
 2. **Controlled data.** `rows` arrive already searched, sorted and paged. The table keeps what the
    person chose — `sort-key` and `sort-direction`, `selected`, `page` and `page-size` — and says so

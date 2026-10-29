@@ -22,13 +22,35 @@ the sheet.
 - `src/tokens/generated/tokens.css`: the `data-table/*` and `table/*` tokens
 
 ## Changes
-None yet.
+- `src/components/nph-data-table/`: component, CSS, unit tests, demo frame, Validation stories,
+  Docs page and its test.
+- `src/components/nph-table/nph-table.ts`: protected extension points that draw, by default,
+  what the table already drew, and the development messages under the tag that reports them.
+  The tests of nph-table did not change (P105, item 1).
+- `.storybook/i18n/`: `dataTableDocs`, `dataTableValidation`, the sidebar labels and the claims,
+  in `en`, `pt-BR` and `es`.
+- `fichas/nph-data-table.md` and the generated `src/shared/metadata/nph-data-table.json`.
+- `docs/decisoes-tecnicas.md`: P105.
+- `src/shared/docs/usage.test.ts`: the data table takes its columns by property, as nph-table.
+- `custom-elements-manifest.config.mjs`: the module of a superclass is read as its source file,
+  so the published manifest points the inheritance at `dist/nph-table/nph-table.js`.
+- `cspell.config.yaml` and `scripts/language-exceptions.json`: the Figma names and the sample
+  names the text quotes.
+- The task: D-1 to D-6 for Indiane.
 
 ## Commands run
 - `git merge --ff-only origin/v/5.0.0`
+- `npx vitest run --project unit src/components/nph-data-table src/components/nph-table src/shared`
+- `npx vitest run --project storybook src/components/nph-data-table`
+- `node scripts/verificar-operacao.mjs --gerar-metadata`
+- `npm run build:tokens`, `npm run test:tokens`, `npm test`, `npm run typecheck`, `npm run test:i18n`,
+  `npm run test:naming`, `npm run test:spelling`, `npm run test:operacao`, `npm run build-storybook`,
+  `npm run build:lib`, `npm run test:package` and `git diff --check`
 
 ## Result
-The task is in progress on the branch `feat/dsa-58-data-table`.
+The component, its stories, its sheet and P105 are on the branch `feat/dsa-58-data-table`. Sorting,
+selection with the bulk bar and its count, the menu of the more and the empty by search state with
+its button were also checked by hand in Storybook, in light and dark.
 
 ## Evidence
 None yet. `review-and-merge` waits for the pull request.
@@ -37,4 +59,4 @@ None yet. `review-and-merge` waits for the pull request.
 None.
 
 ## Next command
-`npm test`
+`gh pr create --base v/5.0.0`
