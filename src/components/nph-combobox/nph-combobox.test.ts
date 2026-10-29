@@ -776,7 +776,7 @@ describe('pointer', () => {
     const element = await mount();
     await userEvent.click(field(element));
     await settle();
-    await userEvent.click(document.body, { position: { x: 600, y: 600 } });
+    await userEvent.click(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
     await settle();
     expect(element.open).toBe(false);
     expect(element.value).toBe('');
