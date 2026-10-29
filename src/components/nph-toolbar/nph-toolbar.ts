@@ -115,6 +115,17 @@ function isDisabled(element: Element): boolean {
   return element.hasAttribute('disabled') || element.matches(':disabled');
 }
 
+/**
+ * The actions that can hold the Tab stop: drawn (an invalid piece renders nothing), not disabled
+ * and, when any of them is visible, visible. If none is visible — the bar inside a hidden
+ * container — the drawn and enabled ones keep the stop, so the bar is reachable once shown.
+ */
+function focusable(actions: readonly Element[]): Element[] {
+  const candidates = actions.filter((action) => action.hasAttribute(RENDERED_ATTRIBUTE) && !isDisabled(action));
+  const visible = candidates.filter((action) => action.checkVisibility?.() ?? true);
+  return visible.length > 0 ? visible : candidates;
+}
+
 function isRemovableChip(element: Element): boolean {
   return element.localName === 'nph-chip' && (element.getAttribute('type') ?? 'removable') === 'removable';
 }
@@ -196,7 +207,8 @@ export class NphToolbar extends LitElement {
   private readonly knownButtons = new WeakSet<Element>();
   /** Whether the focus was in the bar a moment ago: it outlives the removal of the focused chip. */
   private focusInside = false;
-  private pendingRemoval: PendingRemoval | undefined;
+  /** One pending removal per chip: the consumer may take several filters away late, in any order. */
+  private pendingRemovals = new Map<Element, PendingRemoval>();
   private pendingClear: { readonly focusInside: boolean } | undefined;
   /**
    * Watches the `size` of the direct children and the `disabled` of every action, which raise
@@ -245,7 +257,7 @@ export class NphToolbar extends LitElement {
     super.connectedCallback();
     this.childObserver.observe(this, {
       attributes: true,
-      attributeFilter: ['size', 'disabled'],
+      attributeFilter: ['size', 'disabled', RENDERED_ATTRIBUTE, 'hidden', 'style', 'class'],
       childList: true,
       subtree: true,
     });
@@ -333,7 +345,9 @@ export class NphToolbar extends LitElement {
         record.target.parentElement === this &&
         record.target.localName === 'nph-toggle-group',
     );
-    if (groupChanged || records.some((record) => record.attributeName === 'disabled')) {
+    /* An action that is disabled, stops rendering or is hidden gives its Tab stop away. */
+    const availability = ['disabled', RENDERED_ATTRIBUTE, 'hidden', 'style', 'class'];
+    if (groupChanged || records.some((record) => availability.includes(record.attributeName ?? ''))) {
       this.syncActions();
     }
   }
@@ -354,7 +368,7 @@ export class NphToolbar extends LitElement {
   /** The roving tabindex: one action holds the Tab stop, the others take `-1`. */
   private syncActions(): void {
     const actions = this.actions();
-    const enabled = actions.filter((action) => !isDisabled(action));
+    const enabled = focusable(actions);
     if (this.activeAction === undefined || !enabled.includes(this.activeAction)) {
       this.activeAction = enabled[0];
     }
@@ -422,7 +436,7 @@ export class NphToolbar extends LitElement {
     if (action === undefined) {
       return;
     }
-    const enabled = this.actions().filter((candidate) => !isDisabled(candidate));
+    const enabled = focusable(this.actions());
     const position = enabled.indexOf(action);
     if (position === -1) {
       return;
@@ -463,13 +477,13 @@ export class NphToolbar extends LitElement {
     const position = chips.indexOf(chip);
     const detail = (event as CustomEvent<{ text?: string }>).detail;
     this.pendingClear = undefined;
-    this.pendingRemoval = {
+    this.pendingRemovals.set(chip, {
       chip,
       after: chips.slice(position + 1),
       before: chips.slice(0, position).reverse(),
       text: detail?.text ?? '',
       focusInside: this.focusInside,
-    };
+    });
     /* A consumer listening on the chip may have removed it already. */
     this.settleFilters();
   }
@@ -486,7 +500,7 @@ export class NphToolbar extends LitElement {
     if (button === undefined || isDisabled(button)) {
       return;
     }
-    this.pendingRemoval = undefined;
+    this.pendingRemovals.clear();
     this.pendingClear = { focusInside: this.focusInside };
     /* After a real click, the slot may have seen the chips leave before this listener ran. */
     this.settleFilters();
@@ -542,13 +556,18 @@ export class NphToolbar extends LitElement {
     this.knownChips = chips;
     this.rememberButtons();
     this.hasChips = chips.length > 0;
-    const removal = this.pendingRemoval;
-    if (removal !== undefined && !chips.includes(removal.chip)) {
-      this.pendingRemoval = undefined;
+    const settled = [...this.pendingRemovals.values()].filter((removal) => !chips.includes(removal.chip));
+    const removal = settled[settled.length - 1];
+    if (removal !== undefined) {
+      for (const done of settled) {
+        this.pendingRemovals.delete(done.chip);
+      }
       const text = (this.removedText ?? '').trim();
       if (text !== '') {
-        this.announce(text.replaceAll('{text}', removal.text));
+        /* A function, so the text of the chip goes in literally: `$&` or `$$` stay as written. */
+        this.announce(settled.map((done) => text.replaceAll('{text}', () => done.text)).join(' '));
       }
+      /* The focus follows the last removal the person asked for. */
       if (this.mayMoveFocus(removal.focusInside)) {
         /* The nearest chip that is still there and takes focus: after it, else before it. */
         const neighbor = [...removal.after, ...removal.before].find((chip) => chips.includes(chip) && !isDisabled(chip));

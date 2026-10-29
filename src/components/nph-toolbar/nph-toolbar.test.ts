@@ -508,6 +508,28 @@ describe('keyboard: the toolbar pattern of the APG (D-2)', () => {
     expect(bar.querySelector('#all')?.getAttribute('tabindex')).toBe('-1');
   });
 
+  it('an action that draws nothing, or is hidden, never holds the stop, and one that stops drawing gives it away', async () => {
+    const bar = await mount(`<button id="before">before</button>
+      <nph-toolbar type="page" label="People">
+        <nph-button id="empty"></nph-button>
+        <nph-button id="hidden" style="display: none" severity="secondary" emphasis="ghost" text="Hidden"></nph-button>
+        <nph-button id="filter" severity="secondary" emphasis="ghost" text="Filter"></nph-button>
+        <nph-button slot="end" id="create" text="New person"></nph-button>
+      </nph-toolbar>`);
+    expect(bar.querySelector('#filter')?.hasAttribute('tabindex')).toBe(false);
+    expect(bar.querySelector('#empty')?.getAttribute('tabindex')).toBe('-1');
+    expect(bar.querySelector('#hidden')?.getAttribute('tabindex')).toBe('-1');
+    (document.getElementById('create') as HTMLElement).focus();
+    await userEvent.keyboard('{ArrowRight}');
+    expect(focusedId()).toBe('filter');
+    (document.getElementById('before') as HTMLElement).focus();
+    bar.querySelector('#filter')?.removeAttribute('text');
+    await settle();
+    expect(bar.querySelector('#create')?.hasAttribute('tabindex')).toBe(false);
+    await userEvent.tab();
+    expect(focusedId()).toBe('create');
+  });
+
   it('a loading action is still an action', async () => {
     await mount(PAGE.replace('id="create"', 'id="create" loading'));
     (document.getElementById('download') as HTMLElement).focus();
@@ -703,6 +725,28 @@ describe('the applied filters strip', () => {
     chip.remove();
     await settle(root);
     expect(focusedId()).toBe('outside');
+  });
+
+  it('two late removals that overlap are each announced, and the focus follows the last one asked', async () => {
+    const bar = await mount(FILTERS);
+    const status = part(bar, '[role="status"]');
+    const x = (id: string) => document.getElementById(id)?.shadowRoot?.querySelector('button') as HTMLElement;
+    await userEvent.click(x('status'));
+    await userEvent.click(x('unit'));
+    document.getElementById('status')?.remove();
+    await settle();
+    await vi.waitFor(() => expect(status.textContent).toBe('Filter removed: Status: Approved'));
+    expect(focusedId()).toBe('unit');
+    document.getElementById('unit')?.remove();
+    await settle();
+    await vi.waitFor(() => expect(status.textContent).toBe('Filter removed: Unit: Central'));
+    expect(focusedId()).toBe('year');
+  });
+
+  it('the text of the chip goes into the announcement literally', async () => {
+    const bar = await mount(FILTERS.replace('Status: Approved', () => 'Name: $& and $$'));
+    await remove('status');
+    await vi.waitFor(() => expect(part(bar, '[role="status"]').textContent).toBe('Filter removed: Name: $& and $$'));
   });
 
   it('a consumer that removes the chip later still gets the focus rule', async () => {
