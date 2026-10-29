@@ -774,6 +774,7 @@
   --nph-data-table-page-size-label-foreground: var(--nph-color-foreground);
   --nph-button-secondary-ghost-background-hover: var(--nph-color-accent);
   --nph-icon-button-secondary-ghost-background-hover: var(--nph-color-accent);
+  --nph-togglebutton-background-hover: var(--nph-color-accent);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);
@@ -803,6 +804,7 @@
   --nph-chip-foreground-selected: var(--nph-color-primary-foreground);
   --nph-data-table-row-selected-background: var(--nph-color-primary-surface);
   --nph-data-table-row-selected-indicator: var(--nph-color-primary);
+  --nph-togglebutton-background-checked: var(--nph-color-primary-surface-hover);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
@@ -952,6 +954,7 @@
   --nph-chip-remove-background-hover: var(--nph-theme-brand-200);
   --nph-chip-background-hover: var(--nph-theme-brand-200);
   --nph-chip-border: var(--nph-theme-brand-200);
+  --nph-togglebutton-background-checked-hover: var(--nph-theme-brand-200);
   --nph-table-link-foreground: var(--nph-color-link);
 }
 [data-nph-color-scheme="dark"] {
@@ -1100,4 +1103,5 @@
   --nph-chip-remove-background-hover: var(--nph-theme-brand-700);
   --nph-chip-background-hover: var(--nph-theme-brand-700);
   --nph-chip-border: var(--nph-theme-brand-400);
+  --nph-togglebutton-background-checked-hover: var(--nph-theme-brand-700);
 }

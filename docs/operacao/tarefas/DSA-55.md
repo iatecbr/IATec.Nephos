@@ -21,7 +21,8 @@
     "DSA-52",
     "DSA-57",
     "DSA-59",
-    "DSA-60"
+    "DSA-60",
+    "DSA-61"
   ],
   "gates": [
     {
@@ -45,11 +46,11 @@
   ],
   "blockers": [
     {
-      "id": "B2",
-      "what_blocks": "The center follows the bar at 28, 36 and 44 px. In Figma, nph-togglebutton and nph-toggle-group have the tamanho property and the togglebutton/* tokens (checked, checked hover and hover backgrounds) since 2026-10-27; in the code they have one height and the earlier states.",
-      "owner": "claude-figma",
-      "what_resolves": "The nph-togglebutton and nph-toggle-group documentation with the size and the new states is accepted in Figma, and their tokens and task are on v/5.0.0.",
-      "opened_at": "2026-10-27"
+      "id": "B4",
+      "what_blocks": "The secondary ghost actions of the bar use the hover of DSA-60, and its center follows the bar at 28, 36 and 44 px with nph-togglebutton and nph-toggle-group in the size and states of DSA-61; neither is in the code yet.",
+      "owner": "elvys",
+      "what_resolves": "DSA-60 (nph-button secondary ghost hover) and DSA-61 (nph-togglebutton and nph-toggle-group size and states) are done on v/5.0.0.",
+      "opened_at": "2026-10-29"
     }
   ],
   "pending_decisions": [],
@@ -60,7 +61,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-27.md, nph-toolbar visual acceptance, Figma UX QA and textual audit approved, documentation accepted; keyboard rule moved from Figma to this task; nph-chip enters the toolbar as an applied filter; approved_order 540",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-toolbar documentation accepted again with the tipo filtros aplicados: the applied filters go in a strip below the page bar, option A of the preview, with one nph-chip per filter and Limpar filtros after the last one, shown from the first chip; after a chip is removed the focus goes to the next chip, else the previous, else the button that opens the filters; no new token",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-input documentation with the compact size accepted; its tokens and DSA-59 are on v/5.0.0, which closes B1"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-28.md, nph-input documentation with the compact size accepted; its tokens and DSA-59 are on v/5.0.0, which closes B1",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-29.md, nph-togglebutton and nph-toggle-group documentation with the size and the new states accepted; their tokens and DSA-61 are on v/5.0.0, which closes B2"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -87,7 +89,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 **Keyboard.** By decision of Indiane, the keyboard rule left the Figma accessibility table and comes in this task: follow the W3C ARIA Authoring Practices toolbar pattern (https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/). This is the future toolbar that the D5 of DSA-23 points to.
 
 ## Why it is blocked
-The applied filters decided on 2026-10-28 go in a strip below the page bar (tipo `filtros aplicados`, with one nph-chip per filter and "Limpar filtros" after the last one); that closes the earlier question about where the chip goes, and it makes nph-chip (DSA-57) a dependency. The 14 `toolbar/*` tokens came with this task and are on `v/5.0.0`; the strip needs no new token. Each one is an alias of a semantic token; no core primitive was added. Three pieces the bar holds changed in Figma on 2026-10-27. B1 is closed: the nph-input compact documentation was accepted on 2026-10-28, and its tokens and its task, DSA-59, are on `v/5.0.0`; DSA-59 is now a dependency. B3 is closed: the secondary ghost hover tokens of nph-button and nph-icon-button and their task, DSA-60, are on `v/5.0.0`; DSA-60 is now a dependency. One is not in the code yet: the size and states of nph-togglebutton and nph-toggle-group (B2). DSA-52, the solid icon on hover, is `done`. nph-chip (DSA-57), used by the applied filters strip, and nph-input compact (DSA-59), used by the compact search, are `done`. The task becomes `ready` when B2 closes and DSA-60 is `done`, because the secondary ghost actions of the bar use its hover.
+The applied filters decided on 2026-10-28 go in a strip below the page bar (tipo `filtros aplicados`, with one nph-chip per filter and "Limpar filtros" after the last one); that closes the earlier question about where the chip goes, and it makes nph-chip (DSA-57) a dependency. The 14 `toolbar/*` tokens came with this task and are on `v/5.0.0`; the strip needs no new token. Each one is an alias of a semantic token; no core primitive was added. Three pieces the bar holds changed in Figma on 2026-10-27. B1 is closed: the nph-input compact documentation was accepted on 2026-10-28, and its tokens and its task, DSA-59, are on `v/5.0.0`; DSA-59 is now a dependency. B3 is closed: the secondary ghost hover tokens of nph-button and nph-icon-button and their task, DSA-60, are on `v/5.0.0`; DSA-60 is now a dependency. B2 is closed: the nph-togglebutton and nph-toggle-group documentation with the size and the new states was accepted on 2026-10-29, and their tokens and their task, DSA-61, are on `v/5.0.0`; DSA-61 is now a dependency. DSA-52, the solid icon on hover, is `done`. nph-chip (DSA-57), used by the applied filters strip, and nph-input compact (DSA-59), used by the compact search, are `done`. What is left is B4, in the code: the task becomes `ready` when DSA-60 and DSA-61 are `done`, because the secondary ghost actions of the bar use the hover of DSA-60, and its center follows the bar at 28, 36 and 44 px with the toggle pieces of DSA-61.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
