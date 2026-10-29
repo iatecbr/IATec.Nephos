@@ -21,7 +21,8 @@
     "DSA-54",
     "DSA-55",
     "DSA-56",
-    "DSA-57"
+    "DSA-57",
+    "DSA-60"
   ],
   "gates": [
     {
@@ -46,9 +47,9 @@
   "blockers": [
     {
       "id": "B1",
-      "what_blocks": "The toolbar and the bulk action bar of the nph-data-table are the nph-toolbar (DSA-55), which is blocked; its applied filters use the nph-chip (DSA-57), which is not done yet. The hover of the ghost ⋮ also waits for the nph-icon-button hover token that DSA-55 lists as its B3.",
+      "what_blocks": "The toolbar and the bulk action bar of the nph-data-table are the nph-toolbar (DSA-55), which is blocked only by its B4, in the code: it waits for DSA-60 and DSA-61 to be done. The hover of the ghost ⋮ uses the nph-icon-button secondary ghost hover of DSA-60, whose tokens are on v/5.0.0. The nph-chip (DSA-57) is done.",
       "owner": "elvys",
-      "what_resolves": "DSA-55 (nph-toolbar) and DSA-57 (nph-chip) are done on v/5.0.0.",
+      "what_resolves": "DSA-55 (nph-toolbar) and DSA-60 (secondary ghost hover) are done on v/5.0.0.",
       "opened_at": "2026-10-28"
     }
   ],
@@ -70,7 +71,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-10-28"
+  "updated_at": "2026-10-29"
 }
 ```
 
@@ -85,7 +86,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 ## Why it is blocked
 The 13 `data-table/*` tokens came with this task and are on `v/5.0.0`; no core primitive was needed. The table itself builds on nph-table (DSA-49, DSA-56), and the pieces inside are done: nph-icon, nph-badge, nph-checkbox, nph-skeleton, nph-switch, nph-select, nph-empty, nph-dropdown-menu, nph-icon-button and nph-pagination. The search field, an nph-input, comes inside the nph-toolbar.
 
-The toolbar above the table and the bulk action bar are the nph-toolbar (DSA-55), which is blocked, and its applied filters use the nph-chip (DSA-57), which is not done. When both are done, this task goes to `ready`.
+The toolbar above the table and the bulk action bar are the nph-toolbar (DSA-55). It is blocked only by its B4, in the code: it waits for DSA-60 and DSA-61 to be done. The hover of the ghost ⋮ in each row uses the secondary ghost hover of DSA-60, whose tokens are on `v/5.0.0`. The nph-chip (DSA-57), used by the applied filters, is done. When DSA-55 and DSA-60 are done, this task goes to `ready`.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
