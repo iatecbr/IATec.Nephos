@@ -687,6 +687,14 @@ describe('the applied filters strip', () => {
     expect(focusedId()).toBe('open-filters');
   });
 
+  it('a removed chip skips a read-only neighbor, which has no X to focus', async () => {
+    await mount(FILTERS);
+    document.getElementById('unit')?.setAttribute('readonly', '');
+    await settle();
+    await remove('status');
+    expect(focusedId()).toBe('year');
+  });
+
   it('Clear filters that also removes the button still announces and sends the focus to the trigger', async () => {
     const bar = await mount(FILTERS);
     const clear = document.getElementById('clear-filters') as HTMLElement;
