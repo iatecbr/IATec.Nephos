@@ -21,13 +21,17 @@ at most, with tests, stories and both specs updated.
   `togglebutton/background-checked` and `togglebutton/background-checked-hover`
 
 ## Changes
-None yet.
+- `nph-togglebutton`: `size`, the new rest, hover and checked states on `togglebutton/*`,
+  the solid icon on checked and on hover, and one icon at most (`icon-end` defaults to `none`).
+- `nph-toggle-group`: `size`, written on every button.
+- Tests, Validation and Docs stories, dictionaries, both specs, the P73 and P76 amendments.
 
 ## Commands run
 - `git merge --ff-only origin/v/5.0.0`
+- The proofs of `docs/operacao/component-handoff.md`, plus `build:lib` and `test:package`, on `9781ba2`: all exit 0.
 
 ## Result
-The task is in progress on the branch `feat/dsa-61-togglebutton-size-states`.
+Pull request #145 is open to `v/5.0.0`, under the Copilot review.
 
 ## Evidence
 None yet. `review-and-merge` waits for the pull request.
@@ -36,4 +40,4 @@ None yet. `review-and-merge` waits for the pull request.
 None.
 
 ## Next command
-`npm ci`
+`gh pr view 145 --json reviews`
