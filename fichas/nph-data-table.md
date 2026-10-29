@@ -265,7 +265,7 @@ api:
     reflects: false
     constraint: >-
       The options of items per page, whole numbers from 1. As an attribute, a JSON list.
-      Without it, the footer has no items per page.
+      Without it, the footer has no items per page, and wide draws the range type.
   total-items:
     type: number
     required: false

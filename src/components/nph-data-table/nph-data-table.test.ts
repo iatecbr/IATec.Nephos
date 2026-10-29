@@ -283,6 +283,16 @@ describe('sorting', () => {
     expect(sortButton(element, 'unit')).toBeNull();
   });
 
+  it('in size large too, the button fills the cell: the cell keeps no padding of its own', async () => {
+    const element = await mount({ size: 'large' });
+    const button = sortButton(element, 'name') as HTMLButtonElement;
+    const th = button.closest('th') as HTMLTableCellElement;
+    const box = button.getBoundingClientRect();
+    expect([Math.round(box.width), Math.round(box.height)]).toEqual([th.clientWidth, th.clientHeight]);
+    expect(getComputedStyle(th).paddingLeft).toBe('0px');
+    expect(getComputedStyle(button).paddingLeft).toBe(`${px('--nph-table-container-padding')}px`);
+  });
+
   it('an unsorted sortable column shows the two-way arrow in data-table/sort-icon-foreground and no aria-sort', async () => {
     const element = await mount();
     const button = sortButton(element, 'name') as HTMLButtonElement;
@@ -530,6 +540,14 @@ describe('row actions', () => {
     expect(Math.round(box.left - cell.getBoundingClientRect().left)).toBe(Math.round(cell.getBoundingClientRect().right - box.right));
   });
 
+  it('the actions column keeps the row height of both sizes', async () => {
+    const element = await mount(MORE);
+    expect(bodyRows(element)[0]?.getBoundingClientRect().height).toBe(px('--nph-table-row-height'));
+    element.size = 'large';
+    await settle(element);
+    expect(bodyRows(element)[0]?.getBoundingClientRect().height).toBe(px('--nph-table-row-height-large'));
+  });
+
   it('the ⋮ opens the nph-dropdown-menu of the row, and an item fires nph-row-action', async () => {
     const element = await mount(MORE);
     const spy = vi.fn();
@@ -678,6 +696,24 @@ describe('the footer', () => {
     expect([element.page, element.pageSize]).toEqual([2, 20]);
     expect(events).toEqual([{ page: 2, pageSize: 20 }]);
     expect(input).not.toHaveBeenCalled();
+  });
+
+  it('items per page counts from the page drawn, never past the last one of the total', async () => {
+    const element = await mount({ ...PAGES, page: 5, pageSize: 10, totalItems: 25 });
+    const events: NphPaginationChangeDetail[] = [];
+    element.addEventListener('nph-page-change', (event) => events.push(event.detail));
+    const select = root(element).querySelector('.pagination nph-select') as NphSelect;
+    select.value = '20';
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+    await settle(element);
+    /* Page 3 of 10 is the last of 25 items; its first item, 21, is on page 2 of 20. */
+    expect(events).toEqual([{ page: 2, pageSize: 20 }]);
+  });
+
+  it('wide without page-sizes keeps the navigation, in the range type', async () => {
+    const element = await mount({ ...PAGES, paginationLayout: 'wide', pageSizes: [] });
+    expect(pagination(element)?.type).toBe('range');
+    expect(pagination(element)?.hasAttribute('data-nph-rendered')).toBe(true);
   });
 
   it('a pagination-layout outside the list errors in development and the footer is left out', async () => {

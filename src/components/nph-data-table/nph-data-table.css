@@ -50,8 +50,8 @@ slot[hidden],
   vertical-align: middle;
 }
 
-/* Sortable header: a button the size of the cell, the ring inside it. */
-th.sortable {
+/* Sortable header: a button the size of the cell, the ring inside it, in both sizes. */
+:host([data-nph-rendered]) th.sortable {
   padding: 0;
 }
 
@@ -117,10 +117,10 @@ th.end > .sort {
   box-shadow: inset calc(-1 * var(--nph-data-table-row-selected-indicator-width)) 0 0 0 var(--nph-data-table-row-selected-indicator);
 }
 
-/* The ⋮ of each row, centered in its column. */
+/* The ⋮ of each row, centered in its column; the button fills the height of the row. */
 :host([data-nph-rendered]) .actions {
   inline-size: var(--nph-data-table-action-column-width);
-  padding-inline: 0;
+  padding: 0;
   text-align: center;
 }
 

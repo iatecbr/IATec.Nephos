@@ -474,9 +474,11 @@ export class NphDataTable extends NphTable {
   private onPageSize(event: Event): void {
     event.stopPropagation();
     const size = Number((event.currentTarget as NphSelect).value);
-    const current = whole(this.pageSize, 1);
+    const current = whole(this.pageSize, 1) ?? size;
     if (whole(size, 1) === null || size === current) return;
-    const first = (Math.max(1, this.page) - 1) * (current ?? size) + 1;
+    /* The page shown, as nph-pagination draws it: never past the last one of the total. */
+    const last = Math.max(1, Math.ceil((whole(this.totalItems, 0) ?? 0) / current));
+    const first = (Math.min(Math.max(1, whole(this.page, 1) ?? 1), last) - 1) * current + 1;
     this.pageSize = size;
     this.page = Math.max(1, Math.ceil(first / size));
     this.dispatchEvent(
@@ -652,8 +654,9 @@ export class NphDataTable extends NphTable {
     if (!oneOf(NPH_DATA_TABLE_PAGINATION_LAYOUTS, this.paginationLayout) || size === null || total === null || total <= size) {
       return nothing;
     }
-    const layout = this.paginationLayout;
     const sizes = Array.isArray(this.pageSizes) ? this.pageSizes.filter((value) => whole(value, 1) !== null) : [];
+    /* The table type of nph-pagination needs its sizes: without them, wide draws the range type. */
+    const layout = this.paginationLayout === 'wide' && sizes.length === 0 ? 'narrow' : this.paginationLayout;
     const page = Math.max(1, whole(this.page, 1) ?? 1);
     const pagination = html`<nph-pagination
       type=${layout === 'wide' ? 'table' : 'range'}
