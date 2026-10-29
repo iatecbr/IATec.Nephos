@@ -21,19 +21,31 @@ tests, stories and the spec updated, in the contract converted to text in the ev
   `icon-button/secondary-ghost-background-hover`
 
 ## Changes
-None yet.
+- `src/components/nph-button/nph-button.css`: the secondary ghost hover reads
+  `--nph-button-secondary-ghost-background-hover`, and the icon-only one
+  `--nph-icon-button-secondary-ghost-background-hover`.
+- `src/components/nph-button/nph-button.test.ts`: the matrix pair and new tests that tell the two
+  tokens apart.
+- `fichas/nph-button.md`, `src/shared/metadata/nph-button.json` (generated) and the `buttonDocs`
+  states in `.storybook/i18n/`.
 
 ## Commands run
 - `git merge --ff-only origin/v/5.0.0`
+- Wait for the Copilot review of the pull request.
+- `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:naming`,
+  `test:spelling`, `test:operacao`, `build-storybook`, `build:lib`, `test:package` and
+  `git diff --check` on the head of the pull request
 
 ## Result
-The task is in progress on the branch `feat/dsa-60-button-ghost-hover`.
+In review in pull request #143, from the branch `feat/dsa-60-button-ghost-hover`.
 
 ## Evidence
-None yet. `review-and-merge` waits for the pull request.
+The proof table is in the description of the pull request. `review-and-merge` waits for the
+merge.
 
 ## Blocker
-None.
+None. Outside this task: the `use` and `nao_use` of `color/muted` in `design.md` still cite
+the ghost secondary hover; recorded in the pull request for Indiane.
 
 ## Next command
-`npm ci`
+Wait for the Copilot review of the pull request.
