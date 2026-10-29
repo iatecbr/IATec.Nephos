@@ -235,7 +235,10 @@
   --_fg-hover: var(--nph-color-destructive-on-surface-hover);
 }
 
-/* ghost: no background at rest; hover gets the severity surface. */
+/*
+ * ghost: no background at rest; hover gets the severity surface. Secondary hovers on its
+ * component token instead: the button one with text, the icon-button one in the icon only.
+ */
 :host([severity='primary'][emphasis='ghost']) {
   --_bg: transparent;
   --_bg-hover: var(--nph-color-primary-surface);
@@ -243,8 +246,11 @@
 }
 :host([severity='secondary'][emphasis='ghost']) {
   --_bg: transparent;
-  --_bg-hover: var(--nph-color-muted);
+  --_bg-hover: var(--nph-button-secondary-ghost-background-hover);
   --_fg: var(--nph-color-secondary-foreground);
+}
+:host([data-nph-icon-only][severity='secondary'][emphasis='ghost']) {
+  --_bg-hover: var(--nph-icon-button-secondary-ghost-background-hover);
 }
 :host([severity='danger'][emphasis='ghost']) {
   --_bg: transparent;

@@ -977,7 +977,7 @@
       ],
       [
         "hover-active",
-        "A superfície muda para o token de hover do tipo e da ênfase, e os ícones ficam solid: os de início e de fim do botão com texto e o ícone do botão só com ícone."
+        "A superfície muda para o token de hover do tipo e da ênfase, e os ícones ficam solid: os de início e de fim do botão com texto e o ícone do botão só com ícone. No secondary ghost, o token de hover é button/secondary-ghost-background-hover com texto e icon-button/secondary-ghost-background-hover no botão só com ícone."
       ],
       [
         "focus",

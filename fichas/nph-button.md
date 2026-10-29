@@ -157,7 +157,7 @@ states:
     token: "the background and the text of the type and the emphasis, in the tokens block"
     changes_for_user: "Rest. The color communicates the type of the action."
   hover-active:
-    token: "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost. The icons switch from light to solid, in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88)"
+    token: "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost, except secondary ghost, which takes button/secondary-ghost-background-hover with text and icon-button/secondary-ghost-background-hover in the icon only. The icons switch from light to solid, in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88)"
     changes_for_user: "The surface changes and the icons turn solid, with text and in the icon only, which confirms that the target responds."
   focus:
     token: "border border/width in the color of the type (focus/border in secondary) and halo focus/ring-width in focus/halo or `focus/halo-<matiz>`; in the circular shape both follow radius/full"
@@ -186,6 +186,7 @@ tokens:
   light_primary: [color/primary-surface, color/primary-surface-hover, color/primary-on-surface, color/primary-on-surface-hover]
   light_secondary: [color/muted, color/secondary-surface-hover, color/secondary-light, color/secondary-light-hover, color/secondary-foreground]
   light_danger: [color/destructive-surface, color/destructive-surface-hover, color/destructive-on-surface, color/destructive-on-surface-hover]
+  ghost_secondary_hover: [button/secondary-ghost-background-hover, icon-button/secondary-ghost-background-hover]
 ai_hints:
   - "An action that happens on the screen is nph-button. Going to another destination is navigation, not a button."
   - "Choose severity by the meaning of the action, never by the color."
@@ -228,8 +229,8 @@ anti_patterns:
   - "Mixing sizes between a button and a field side by side."
   - "Painting the button by hand or creating a type, emphasis or size outside the matrix."
 sources:
-  design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block"
-  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button"
+  design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block; the component tokens button/secondary-ghost-background-hover and icon-button/secondary-ghost-background-hover are in src/tokens/source/semantic.tokens.json"
+  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button; the secondary ghost hover on the component tokens, decided in Figma on 27-10-2026 (DSA-60)"
   tests: "src/components/nph-button/nph-button.test.ts, nph-button.first-tooltip.test.ts and nph-button.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the button yet"
   storybook: "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts"
@@ -316,7 +317,7 @@ target on a touch screen; a size different from the field beside it.
 | State | Token | What changes for the person |
 |---|---|---|
 | `default` | the background and the text of the type and the emphasis | Rest. The color communicates the type of the action |
-| `hover-active` | `color/*-hover` and `status/*-hover` in `solid`; `*-surface-hover` and `*-on-surface-hover` in `outline` and `light`; the surface of the type in `ghost`. The icons switch from `light` to `solid` (the `variant` of `nph-icon`), in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88) | The surface changes and the icons turn solid, with text and in the icon only, which confirms that the target responds |
+| `hover-active` | `color/*-hover` and `status/*-hover` in `solid`; `*-surface-hover` and `*-on-surface-hover` in `outline` and `light`; the surface of the type in `ghost`, except `secondary` `ghost`, which takes `button/secondary-ghost-background-hover` with text and `icon-button/secondary-ghost-background-hover` in the icon only. The icons switch from `light` to `solid` (the `variant` of `nph-icon`), in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88) | The surface changes and the icons turn solid, with text and in the icon only, which confirms that the target responds |
 | `focus` | border `border/width` in the color of the type (`focus/border` in `secondary`) and halo `focus/ring-width` in `focus/halo` or `focus/halo-<matiz>`; in the circular shape both follow `radius/full` | A border in the color of the action and a halo outside mark the focus, without changing the size |
 | `disabled` | `state/disabled-opacity` | The whole button loses opacity, leaves the Tab order and stops responding |
 | `loading` | the spinner inherits the text color | The spinner takes the place of the start icon, the text stays and the click stops counting |
@@ -368,7 +369,7 @@ screen defines.
 | `solid` | `color/primary`, `color/secondary`, `status/<matiz>` or `color/destructive`, with the hover and the text of the pair |
 | `outline` | the light surface of the type, with the border and the text in the same color, inside |
 | `light` | the light surface of the type, without a border |
-| `ghost` | no background at rest; the surface of the type on hover |
+| `ghost` | no background at rest; the surface of the type on hover. In `secondary`, the hover is `button/secondary-ghost-background-hover` with text and `icon-button/secondary-ghost-background-hover` in the icon-only button |
 | Focus | `border/width`, `focus/border-radius-control`, `focus/ring-width`, `focus/radius-control-with-border`, `focus/border`, `focus/halo` and `focus/halo-<matiz>` |
 
 **Usage restrictions:** the component does not choose height, color, radius or typography: everything
@@ -417,7 +418,9 @@ circular icon-only button in `primary` `solid`.
 
 - **The repository `design.md`:** `control/height-*`, `space/control-padding`,
   `space/inline-tight`, `radius/control`, `radius/full`, `text/label-md`, `icon/size-*`,
-  `state/disabled-opacity`, `focus/*` and the colors `color/*` and `status/*`.
+  `state/disabled-opacity`, `focus/*` and the colors `color/*` and `status/*`. The component
+  tokens `button/secondary-ghost-background-hover` and
+  `icon-button/secondary-ghost-background-hover` are in `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P68, of 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log);
   the default `size` `default` and the name `label`, in P68;
   the solid hover on the hover tokens, which supersedes B4. The frame was accepted
@@ -426,7 +429,11 @@ circular icon-only button in `primary` `solid`.
   solid: in `hover-active`, the start and end icons of the button with text turn
   solid, in the same color as the text of the type (P88, which amends P68). On
   26-10-2026, Indiane decided that the icon-only button also switches its icon to
-  `solid` in `hover-active` (the amendment of P88). P86 adds the `shape` of the icon-only button and its tooltip, from the
+  `solid` in `hover-active` (the amendment of P88). On 27-10-2026, Indiane decided that the
+  `secondary` `ghost` hover follows the `nph-toolbar` preview: with text it takes
+  `button/secondary-ghost-background-hover` and in the icon only
+  `icon-button/secondary-ghost-background-hover`, both on `color/accent`, in place of
+  `color/muted` (DSA-60). P86 adds the `shape` of the icon-only button and its tooltip, from the
   `nph-icon-button` board accepted in Figma, with the textual audit approved.
 - **Tests:** `src/components/nph-button/nph-button.test.ts`, `nph-button.first-tooltip.test.ts` and
   `nph-button.docs.test.ts`.

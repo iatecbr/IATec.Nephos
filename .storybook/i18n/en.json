@@ -977,7 +977,7 @@
       ],
       [
         "hover-active",
-        "The surface changes to the hover token of the severity and emphasis, and the icons turn solid: the start and end icons of the button with text and the icon of the icon-only button."
+        "The surface changes to the hover token of the severity and emphasis, and the icons turn solid: the start and end icons of the button with text and the icon of the icon-only button. In secondary ghost, the hover token is button/secondary-ghost-background-hover with text and icon-button/secondary-ghost-background-hover in the icon only."
       ],
       [
         "focus",
