@@ -5610,8 +5610,9 @@ renders nothing, as P97; a cause of its own leaves out only the part it names an
    and one of the bulk type in the slot `bulk`, as direct children of the table, so each bar keeps
    its own children. While a row is selected the bulk bar takes the place of the page bar, and the
    table writes its `count-text` from `selected-text` with `{count}` and `{total}`, filled in the
-   language of the page. When the selection empties while the focus is in the bulk bar, the focus
-   goes to the header box.
+   language of the page. When the bulk bar leaves, or the footer, with the focus in it, the focus
+   stays in the table: the header box, else a sortable header, the first piece of the page bar or
+   the scroll area.
 
 6. **Row actions and `ajuste` (D-6).** `actions` holds the entries of an `nph-dropdown-menu` opened
    by the more of each row, an icon-only `nph-button` secondary ghost named `actions-label` with

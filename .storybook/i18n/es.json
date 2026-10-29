@@ -9620,7 +9620,7 @@
       ],
       [
         "Foco",
-        "Cuando la selección se vacía con el foco en la barra masiva, el foco va a la casilla del encabezado."
+        "Cuando la barra masiva sale, o el pie, con el foco en ella, el foco queda en la tabla: la casilla del encabezado, si no un encabezado ordenable, la barra de página o el área de desplazamiento."
       ]
     ],
     "rowActionsTitle": "Acciones de la fila y ajuste",

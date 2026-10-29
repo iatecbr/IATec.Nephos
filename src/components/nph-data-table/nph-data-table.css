@@ -45,6 +45,11 @@ slot[hidden],
   inline-size: var(--nph-data-table-selection-column-width);
 }
 
+/* The box and the switch sit in the middle of the row height, with no padding above and below. */
+:host([data-nph-rendered]) :is(.select, .switch) {
+  padding-block: 0;
+}
+
 .select > nph-checkbox {
   --nph-color-input: var(--nph-data-table-checkbox-border);
   vertical-align: middle;

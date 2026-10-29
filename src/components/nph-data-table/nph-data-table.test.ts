@@ -406,6 +406,16 @@ describe('selection', () => {
     expect(cell.getBoundingClientRect().width).toBe(box.getBoundingClientRect().width + 2 * padding);
   });
 
+  it('the selection and the switch columns keep the row height, in the header too', async () => {
+    const element = await mount({ ...SELECTION, ...SWITCH });
+    const height = px('--nph-table-row-height');
+    expect(root(element).querySelector('thead tr')?.getBoundingClientRect().height).toBe(height);
+    for (const row of bodyRows(element)) expect(row.getBoundingClientRect().height).toBe(height);
+    element.size = 'large';
+    await settle(element);
+    expect(bodyRows(element)[0]?.getBoundingClientRect().height).toBe(px('--nph-table-row-height-large'));
+  });
+
   it('checking a row selects it, paints its background and its mark, and fires nph-selection-change', async () => {
     const element = await mount(SELECTION);
     const spy = vi.fn();
@@ -518,6 +528,32 @@ describe('the bars', () => {
     await userEvent.click(clear);
     await settle(element);
     expect(root(element).activeElement).toBe(headerBox(element));
+  });
+
+  it('when the last rows leave with the selection, the header box is disabled and the focus goes to a sortable header', async () => {
+    const element = await mount({ ...SELECTION, emptyHeading: 'No person', selected: ['ana'] }, BARS);
+    const clear = element.querySelector('[slot="bulk"] nph-button') as NphButton;
+    clear.addEventListener('click', () => {
+      element.rows = [];
+      element.selected = [];
+    });
+    await userEvent.click(clear);
+    await settle(element);
+    expect(headerBox(element).disabled).toBe(true);
+    expect(root(element).activeElement).toBe(sortButton(element, 'name'));
+  });
+
+  it('another bulk bar in the slot takes the count too', async () => {
+    const element = await mount({ ...SELECTION, selectedText: '{count} selected', selected: ['ana'] }, BARS);
+    element.querySelector('[slot="bulk"]')?.remove();
+    const other = document.createElement('nph-toolbar');
+    Object.assign(other, { type: 'bulk', label: 'Selection' });
+    other.slot = 'bulk';
+    element.append(other);
+    await settle(element);
+    await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+    await settle(element);
+    expect(other.getAttribute('count-text')).toBe('1 selected');
   });
 
   it('without bars no space is left for them', async () => {
@@ -714,6 +750,17 @@ describe('the footer', () => {
     const element = await mount({ ...PAGES, paginationLayout: 'wide', pageSizes: [] });
     expect(pagination(element)?.type).toBe('range');
     expect(pagination(element)?.hasAttribute('data-nph-rendered')).toBe(true);
+  });
+
+  it('when items per page fits every record, the footer leaves and the focus stays in the table', async () => {
+    const element = await mount({ ...PAGES, pageSize: 5, pageSizes: [5, 20], totalItems: 12 });
+    const select = root(element).querySelector('.pagination nph-select') as NphSelect;
+    select.focus();
+    select.value = '20';
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+    await settle(element);
+    expect(root(element).querySelector('.pagination')).toBeNull();
+    expect(root(element).activeElement).toBe(sortButton(element, 'name'));
   });
 
   it('a pagination-layout outside the list errors in development and the footer is left out', async () => {

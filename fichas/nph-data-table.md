@@ -466,7 +466,7 @@ business_rules:
   - "A click on a column that is not sorted sorts it ascending; on the sorted column, it turns the direction around (pending decision D-3)."
   - "The header box checks and unchecks the rows drawn on the page; rows selected on other pages stay selected (pending decision D-4)."
   - "The bulk bar shows while one row or more is selected, in place of the page bar, with the count."
-  - "When the selection empties while the focus is in the bulk bar, the focus goes to the header box."
+  - "When the bulk bar leaves, or the footer, with the focus in it, the focus stays in the table: the header box, else a sortable header, the page bar or the scroll area."
   - "The footer stays outside the scroll area; with a single page, there is no footer and the total goes to the caption."
   - "The footer follows pagination-layout, set by the consumer for the width of the space, until the breakpoint tokens exist (pending decision D-1)."
   - "The `ajuste` column sits at the end of the row, before the actions (pending decision D-6)."
@@ -611,8 +611,9 @@ rule; so is the row that opens by the chevron (the `expande`), with `detail` and
 (`{ selected }`), `nph-row-action` (`{ row, action }`, the event of `nph-table`, also for the
 menu of the more), `nph-row-switch` (`{ row, checked }`) and `nph-filter-clear` bubble and
 are not composed; `nph-page-change` (`{ page, pageSize }`) is the one of `nph-pagination`,
-bubbles and is composed. Code never fires them. When the selection empties while the focus is
-in the bulk bar, the focus goes to the header box.
+bubbles and is composed. Code never fires them. When the bulk bar leaves, or the footer, with
+the focus in it, the focus stays in the table: the header box, else a sortable header, the page
+bar or the scroll area.
 
 **Business rule the piece carries:**
 

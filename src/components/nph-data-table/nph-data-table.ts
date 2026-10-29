@@ -233,6 +233,8 @@ export class NphDataTable extends NphTable {
   private places = new Map<string, number>();
   /** The focus was in the bulk bar before this render. */
   private focusInBulk = false;
+  /** The focus was in the footer before this render. */
+  private focusInFooter = false;
 
   constructor() {
     super();
@@ -320,6 +322,7 @@ export class NphDataTable extends NphTable {
 
     /* The bulk bar leaves while the focus is in it: the focus goes to the header box after the render. */
     this.focusInBulk = this.bulkElements().some((element) => element.matches(':focus-within'));
+    this.focusInFooter = this.renderRoot.querySelector('.pagination')?.matches(':focus-within') ?? false;
   }
 
   /** Whether every name a part needs is given; otherwise the part is left out. */
@@ -343,10 +346,31 @@ export class NphDataTable extends NphTable {
         }
       }
     }
-    if (this.focusInBulk && !this.bulkShown()) {
-      this.focusInBulk = false;
-      this.renderRoot.querySelector<HTMLElement>('thead nph-checkbox')?.focus();
+    /* A part that held the focus left: the focus stays in the table instead of falling to the page. */
+    if ((this.focusInBulk && !this.bulkShown()) || (this.focusInFooter && this.renderRoot.querySelector('.pagination') === null)) {
+      this.keepFocus();
     }
+    this.focusInBulk = false;
+    this.focusInFooter = false;
+  }
+
+  /**
+   * The first stable place that takes the focus: the header box, a sortable header, the first
+   * piece of the page bar, or the scroll area while it is a region.
+   */
+  private keepFocus(): void {
+    const box = this.renderRoot.querySelector<NphCheckbox>('thead nph-checkbox');
+    const toolbar = [...this.children]
+      .filter((child) => child.getAttribute('slot') === 'toolbar')
+      .flatMap((bar) => [...bar.querySelectorAll<HTMLElement>('nph-input, nph-button')])
+      .filter((piece) => !piece.hasAttribute('disabled'));
+    const candidates: Array<HTMLElement | null | undefined> = [
+      box !== null && !box.disabled ? box : null,
+      this.renderRoot.querySelector<HTMLElement>('button.sort'),
+      toolbar[0],
+      this.renderRoot.querySelector<HTMLElement>('.scroll[tabindex="0"]'),
+    ];
+    candidates.find((candidate) => candidate !== null && candidate !== undefined)?.focus();
   }
 
   /* ----- state ------------------------------------------------------------------- */
@@ -495,6 +519,8 @@ export class NphDataTable extends NphTable {
     const filled = slot.assignedElements().length > 0;
     if (slot.name === 'bulk') this.hasBulk = filled;
     else this.hasToolbar = filled;
+    /* Another bar in the same slot leaves it filled: the render still writes its count. */
+    this.requestUpdate();
   }
 
   /* ----- the extension points of nph-table (P105) ------------------------------------ */

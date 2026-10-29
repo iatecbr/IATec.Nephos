@@ -9620,7 +9620,7 @@
       ],
       [
         "Foco",
-        "Quando a seleção esvazia com o foco na barra em massa, o foco vai para a caixa do cabeçalho."
+        "Quando a barra em massa sai, ou o rodapé, com o foco nela, o foco fica na tabela: a caixa do cabeçalho, senão um cabeçalho ordenável, a barra de página ou a área de rolagem."
       ]
     ],
     "rowActionsTitle": "Ações da linha e ajuste",
