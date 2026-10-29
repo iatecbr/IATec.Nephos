@@ -772,6 +772,8 @@
   --nph-data-table-sort-icon-active-foreground: var(--nph-color-foreground);
   --nph-data-table-checkbox-border: var(--nph-color-input-hover);
   --nph-data-table-page-size-label-foreground: var(--nph-color-foreground);
+  --nph-button-secondary-ghost-background-hover: var(--nph-color-accent);
+  --nph-icon-button-secondary-ghost-background-hover: var(--nph-color-accent);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);
