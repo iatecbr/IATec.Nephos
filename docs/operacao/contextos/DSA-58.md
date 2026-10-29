@@ -31,11 +31,8 @@ the sheet.
   in `en`, `pt-BR` and `es`.
 - `fichas/nph-data-table.md` and the generated `src/shared/metadata/nph-data-table.json`.
 - `docs/decisoes-tecnicas.md`: P105.
-- `src/shared/docs/usage.test.ts`: the data table takes its columns by property, as nph-table.
-- `custom-elements-manifest.config.mjs`: the module of a superclass is read as its source file,
-  so the published manifest points the inheritance at `dist/nph-table/nph-table.js`.
-- `cspell.config.yaml` and `scripts/language-exceptions.json`: the Figma names and the sample
-  names the text quotes.
+- `custom-elements-manifest.config.mjs`: a superclass module is read as its source file.
+- `src/shared/docs/usage.test.ts`, `cspell.config.yaml` and `scripts/language-exceptions.json`.
 - The task: D-1 to D-6 for Indiane.
 
 ## Commands run
