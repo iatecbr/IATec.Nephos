@@ -249,6 +249,7 @@ export function peopleTable(t: DataTableText, options: TableOptions = {}): Templ
   const onClear = (event: Event) => {
     const table = event.currentTarget as NphDataTable;
     table.rows = pageRows();
+    table.totalItems = all.length;
     const input = table.querySelector('nph-input');
     if (input !== null) input.value = '';
   };
@@ -296,7 +297,7 @@ export function peopleTable(t: DataTableText, options: TableOptions = {}): Templ
     .page=${page}
     .pageSize=${pageSize}
     .pageSizes=${[5, 10, 20]}
-    .totalItems=${all.length}
+    .totalItems=${empty ? 0 : all.length}
     @nph-sort-change=${onSort}
     @nph-page-change=${onPage}
     @nph-filter-clear=${onClear}

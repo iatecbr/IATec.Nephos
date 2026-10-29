@@ -158,6 +158,7 @@ dictionaryDefinitions:
       - João
       - Larissa
       - maurocsjr
+      - Melo
       - Mendes
       - Moreira
       - Natália
@@ -168,9 +169,11 @@ dictionaryDefinitions:
       - Obra
       - Olinda
       - Otávio
+      - Pereira
       - Português
       - Qube
       - Recursos
+      - Reis
       - Humanos
       - Souza
       - Teixeira
@@ -305,6 +308,11 @@ dictionaryDefinitions:
       - seleção
       - tabela
       - intervalo
+      - nenhuma
+      - ordenação
+      - ordenável
+      - crescente
+      - decrescente
       - última
       - ícone
       - aberto

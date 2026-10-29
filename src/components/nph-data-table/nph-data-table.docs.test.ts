@@ -1,7 +1,7 @@
 /**
  * Contract of the `nph-data-table` Documentation page and of its Validation stories: index with
  * no orphan anchor in all three languages, no leftover placeholder, the Usage section with the
- * tag and the import line of the package, the labelled matrix with the four `estado`, the
+ * tag and the import line of the package, the labelled matrix with the four states, the
  * three mandatory examples in light and dark mode, every table drawn with its text from the
  * dictionary, the `dataTableDocs` and `dataTableValidation` dictionaries with the same shape in
  * pt-BR, en and es (`test:i18n` only reads `.md` pairs), no text of another language on the
@@ -169,7 +169,7 @@ describe('nph-data-table Documentation', () => {
       }
     });
 
-    it(`${locale}: the matrix shows the four estado`, async () => {
+    it(`${locale}: the matrix shows the four states`, async () => {
       const target = renderInLocale(locale);
       await ready(target);
       const matrix = target.querySelector('[data-nph-matrix]') as HTMLElement;
@@ -307,10 +307,10 @@ describe('nph-data-table Validation: text only from the dictionary', () => {
     }
   });
 
-  it('Matrix draws the four estado in the two sizes, every table valid', async () => {
+  it('Matrix draws the four states in the two sizes, every table valid', async () => {
     const target = draw(validation.Matrix as unknown as Renderable, 'en');
     const tables = await ready(target);
-    /* Four estado per size, two sizes, two modes. */
+    /* Four states per size, two sizes, two modes. */
     expect(tables).toHaveLength(16);
     for (const table of tables) {
       expect(table.hasAttribute('data-nph-rendered'), table.outerHTML.slice(0, 160)).toBe(true);
