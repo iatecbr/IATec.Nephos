@@ -75,7 +75,7 @@ What the code does not do yet, read on `v/5.0.0`:
 - **Rest and checked look.** The track has a `color/muted` background and border, and the checked inner area is raised with `elevation/subtle` and a `color/primary-border` outline. Figma asks for no background and no border when unchecked, and a flat `togglebutton/background-checked` background when checked.
 - **Hover background.** Today only the label color changes on hover. Figma adds `togglebutton/background-hover` (unchecked) and `togglebutton/background-checked-hover` (checked).
 - **Icon size and style.** The icon is always `nph-icon size="sm"`, in the default `light` style. Figma asks for `sm`, `md` or `lg` by size in the icon-only piece, and the `solid` style when checked and on hover.
-- **One icon at most.** `icon-start` and `icon-end` can both be set today. Figma allows one only; `icon-start` is the default.
+- **One icon at most.** `icon-start` and `icon-end` both default to `auto` today, so a piece with text shows two icons. Figma allows one only; `icon-start` is the default.
 
 With this task on `v/5.0.0`, B2 of DSA-55 is closed, and DSA-55 depends on this task.
 
