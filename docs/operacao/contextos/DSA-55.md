@@ -21,13 +21,27 @@ Authoring Practices, tests, stories, the Storybook dictionary and the sheet.
 - `src/tokens/generated/tokens.css`: the `toolbar/*` tokens, `elevation/dropdown` and `text/label-md`
 
 ## Changes
-None yet.
+- `src/components/nph-toolbar/`: component, CSS, unit tests, demo frame, Validation stories,
+  Docs page and its test.
+- `.storybook/i18n/`: `toolbarDocs`, `toolbarValidation`, the sidebar labels and the claims, in
+  `en`, `pt-BR` and `es`.
+- `fichas/nph-toolbar.md` and the generated `src/shared/metadata/nph-toolbar.json`.
+- `docs/decisoes-tecnicas.md`: P104 (P102 is taken by the Vitest 5 pull request and P103 was
+  reserved for DSA-59).
+- The task: D-1 to D-5 for Indiane.
 
 ## Commands run
 - `git merge --ff-only origin/v/5.0.0`
+- `npm ci`
+- `npx vitest run --project unit src/components/nph-toolbar src/shared`
+- `npx vitest run --project storybook src/components/nph-toolbar`
+- `node scripts/verificar-operacao.mjs --gerar-metadata`
+- `npm run test:naming`, `npm run test:spelling`, `npm run test:i18n`, `npm run typecheck`
 
 ## Result
-The task is in progress on the branch `feat/dsa-55-toolbar`.
+The component, its stories, its sheet and P104 are on the branch `feat/dsa-55-toolbar`. The
+focus rule of the applied filters was also checked by hand in Storybook: the X moves the focus to
+the next chip, the last one to the Filter button, and the strip hides.
 
 ## Evidence
 None yet. `review-and-merge` waits for the pull request.
@@ -36,4 +50,4 @@ None yet. `review-and-merge` waits for the pull request.
 None.
 
 ## Next command
-`npm test`
+`gh pr create --base v/5.0.0`
