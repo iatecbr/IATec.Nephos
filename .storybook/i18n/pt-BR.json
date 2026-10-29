@@ -321,7 +321,18 @@
     "components-nph-toolbar-validation--applied-filters": "Filtros aplicados",
     "components-nph-toolbar-validation--invalid-input": "Entrada inválida",
     "components-nph-toolbar-validation--examples": "Exemplos",
-    "components-nph-toolbar-validation--brands": "Marcas"
+    "components-nph-toolbar-validation--brands": "Marcas",
+    "components-nph-data-table-docs": "Docs",
+    "components-nph-data-table-docs--documentation": "Documentação",
+    "components-nph-data-table-validation": "Validação",
+    "components-nph-data-table-validation--matrix": "Matriz",
+    "components-nph-data-table-validation--appearance": "Aparência",
+    "components-nph-data-table-validation--header": "Cabeçalho",
+    "components-nph-data-table-validation--rows": "Linhas",
+    "components-nph-data-table-validation--footer": "Rodapé",
+    "components-nph-data-table-validation--invalid-input": "Entrada inválida",
+    "components-nph-data-table-validation--examples": "Exemplos",
+    "components-nph-data-table-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7333,7 +7344,15 @@
       "components-nph-toolbar-validation--applied-filters": "A faixa de filtros aplicados abaixo da barra de página, nos três tamanhos. Tire um chip pelo X: o foco vai para o próximo chip, senão para o anterior, senão para Filtrar, e a remoção é anunciada. Limpar filtros tira todos e manda o foco para Filtrar.",
       "components-nph-toolbar-validation--invalid-input": "Entrada inválida não desenha nada: um tipo ou um tamanho que não existe, e uma barra sem nome, cada um com um erro.",
       "components-nph-toolbar-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e escuro: uma tabela com itens marcados e sem caixa de seleção na barra, o topo de uma lista com a troca de visualização no centro e um editor com ações em grupos, a lixeira à parte e Mais por último.",
-      "components-nph-toolbar-validation--brands": "As sete marcas no claro e no escuro: a barra em massa compacta, cujo fundo, contagem e hover das ações seguem a marca."
+      "components-nph-toolbar-validation--brands": "As sete marcas no claro e no escuro: a barra em massa compacta, cujo fundo, contagem e hover das ações seguem a marca.",
+      "components-nph-data-table-validation--matrix": "Os quatro estado do set nos dois tamanhos: o padrão com a barra de página, as linhas selecionadas com a barra em massa no seu lugar, o vazio pela busca com o caminho para limpá-la, e o carregando com o cabeçalho visível.",
+      "components-nph-data-table-validation--appearance": "O que a tabela herda do nph-table, com a mesma regra: sem a moldura, o cabeçalho fixo, a grade, a faixa e a linha que abre pelo chevron.",
+      "components-nph-data-table-validation--header": "O cabeçalho ordenável: sem ordenação, uma coluna em ordem crescente e uma coluna de números em ordem decrescente, com a seta da direção e o aria-sort. Entre na tabela com Tab para ver o anel dentro da célula.",
+      "components-nph-data-table-validation--rows": "As peças da linha: a coluna de seleção, as linhas selecionadas com o seu fundo e a sua marca sobre a faixa, a coluna de ajuste, e uma tabela sem ações.",
+      "components-nph-data-table-validation--footer": "O rodapé pela largura do espaço: o tipo tabela com os seus itens por página, o rodapé médio com o rótulo e o select, só o tipo intervalo, e nenhum rodapé com uma página só.",
+      "components-nph-data-table-validation--invalid-input": "Entrada inválida: sem colunas não desenha nada; uma direção de ordenação desconhecida não desenha coluna ordenada; a seleção sem os seus nomes deixa a coluna de fora; um arranjo de rodapé desconhecido deixa o rodapé de fora. Cada um com o seu erro.",
+      "components-nph-data-table-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: pessoas por unidade com busca, ordenação e ações, linhas selecionadas prontas para baixar ou excluir, e uma busca sem resultado com o caminho para limpar o filtro.",
+      "components-nph-data-table-validation--brands": "As sete marcas no claro e no escuro: as linhas selecionadas, cujo fundo, marca e caixa seguem a marca."
     }
   },
   "multiComboboxDocs": {
@@ -9266,5 +9285,608 @@
     "exampleTable": "Tabela com itens marcados: a caixa de seleção está no cabeçalho da tabela, então a barra não tem",
     "exampleList": "Topo de uma lista, com a troca de visualização no centro",
     "exampleEditor": "Editor com ações em grupos, a lixeira à parte e Mais no fim"
+  },
+  "dataTableDocs": {
+    "summary": "A tabela para buscar, ordenar, selecionar e agir sobre registros, com barra de ferramentas acima, ações por linha e paginação.",
+    "matrixLabel": "estado da tabela",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-data-table, o design.md para os tokens e a P105 para a API. Seis decisões aguardam a dona do design (D-1 a D-6 da DSA-58) e aparecem aqui no padrão: o rodapé escolhido por quem usa, as setas da ordenação, o clique que inverte a direção, a caixa do cabeçalho sobre as linhas da página, as linhas de skeleton e a coluna de ajuste antes das ações.",
+    "onThisPage": "Nesta página",
+    "whenToUseTitle": "Quando usar",
+    "whenNotToUseTitle": "Quando não usar",
+    "description": "Valores por unidade, em reais.",
+    "sourceLabel": "Fonte:",
+    "sourceFrame": "Figma, página NPH — Data Table 1371:2, documentação 2875:17577, set 2633:69628",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "size",
+        "default (padrão) ou large, como no nph-table: a linha em table/row-height ou table/row-height-large. Refletido."
+      ],
+      [
+        "framed",
+        "Como no nph-table, a moldura do Figma: a borda e o canto da área de rolagem."
+      ],
+      [
+        "sticky-header",
+        "Como no nph-table, o cabeçalho fixo do Figma: o corpo rola sob o cabeçalho."
+      ],
+      [
+        "striped",
+        "Como no nph-table: uma linha sim, outra não, no fundo da faixa."
+      ],
+      [
+        "grid",
+        "Como no nph-table, a grade do Figma: a linha vertical entre as colunas."
+      ],
+      [
+        "caption",
+        "Como no nph-table, a legenda do Figma: o título acima da tabela, que a nomeia."
+      ],
+      [
+        "description",
+        "Como no nph-table: a linha sob o título da legenda."
+      ],
+      [
+        "total",
+        "Como no nph-table: um nph-badge secondary ao lado do título da legenda; com uma página só, ele leva o total."
+      ],
+      [
+        "label",
+        "Como no nph-table: o nome de uma tabela sem legenda."
+      ],
+      [
+        "no-value-label",
+        "Como no nph-table: o que o leitor de tela lê no traço de sem valor."
+      ],
+      [
+        "empty-heading",
+        "O título do nph-empty sem linhas; no vazio pela busca, ele diz o termo buscado."
+      ],
+      [
+        "empty-description",
+        "A descrição do nph-empty sem linhas."
+      ],
+      [
+        "columns",
+        "Propriedade. As colunas do nph-table, mais sortable: o cabeçalho vira um botão que ordena."
+      ],
+      [
+        "rows",
+        "Propriedade. As linhas do nph-table, mais name, o registro citado nos nomes, e switched. Chegam já buscadas, ordenadas e paginadas."
+      ],
+      [
+        "footer",
+        "Como no nph-table: um valor por coluna, como um total."
+      ],
+      [
+        "sort-key",
+        "A chave da coluna ordenada."
+      ],
+      [
+        "sort-direction",
+        "ascending ou descending, o aria-sort do cabeçalho ordenado. Vazio: nenhuma coluna ordenada."
+      ],
+      [
+        "selectable",
+        "Acrescenta a coluna de seleção, com um nph-checkbox no cabeçalho e em cada linha. Refletido."
+      ],
+      [
+        "selected",
+        "Propriedade. As chaves das linhas selecionadas, também as de outras páginas."
+      ],
+      [
+        "select-all-label",
+        "O nome da caixa do cabeçalho, como Selecionar todas."
+      ],
+      [
+        "select-label",
+        "O nome da caixa de uma linha, com o marcador de nome preenchido pelo nome da linha."
+      ],
+      [
+        "selected-text",
+        "A contagem da barra em massa, com os marcadores de contagem e de total, preenchidos no idioma da página."
+      ],
+      [
+        "actions",
+        "Propriedade. As entradas do nph-dropdown-menu que o mais de cada linha abre."
+      ],
+      [
+        "actions-label",
+        "O nome do mais de uma linha, com o marcador de nome."
+      ],
+      [
+        "switch-header",
+        "O título da coluna de ajuste; vazio, não há coluna."
+      ],
+      [
+        "switch-label",
+        "O nome do nph-switch de uma linha, com o marcador de nome."
+      ],
+      [
+        "loading",
+        "O estado carregando do Figma: um nph-skeleton nas células, o cabeçalho visível. Refletido."
+      ],
+      [
+        "clear-label",
+        "O estado vazio pela busca do Figma: o texto do botão sob o nph-empty, como Limpar filtro."
+      ],
+      [
+        "page",
+        "A página atual, a partir de 1."
+      ],
+      [
+        "page-size",
+        "Os itens por página, a partir de 1. Obrigatório para o rodapé."
+      ],
+      [
+        "page-sizes",
+        "As opções de itens por página."
+      ],
+      [
+        "total-items",
+        "O total de registros. Obrigatório para o rodapé; com uma página só, não há rodapé."
+      ],
+      [
+        "pagination-layout",
+        "wide, middle (padrão) ou narrow: o rodapé para a largura do espaço. Refletido."
+      ],
+      [
+        "pagination-label",
+        "O nome da navegação do nph-pagination."
+      ],
+      [
+        "page-label",
+        "O nome de cada número de página do nph-pagination."
+      ],
+      [
+        "first-label",
+        "A seta de primeira do nph-pagination; em wide."
+      ],
+      [
+        "previous-label",
+        "A seta de anterior do nph-pagination."
+      ],
+      [
+        "next-label",
+        "A seta de próxima do nph-pagination."
+      ],
+      [
+        "last-label",
+        "A seta de última do nph-pagination; em wide."
+      ],
+      [
+        "position-text",
+        "O texto do intervalo do nph-pagination."
+      ],
+      [
+        "page-size-label",
+        "O rótulo visível de itens por página, que nomeia o seu nph-select."
+      ],
+      [
+        "toolbar",
+        "Slot nomeado: um nph-toolbar do tipo página, com a busca, o filtro e as ações da tabela."
+      ],
+      [
+        "bulk",
+        "Slot nomeado: um nph-toolbar do tipo em massa, sem a sua caixa de seleção. Aparece enquanto há linha selecionada."
+      ],
+      [
+        "action",
+        "Slot nomeado, como no nph-table: a ação principal da legenda."
+      ],
+      [
+        "nph-sort-change",
+        "A pessoa ordenou: detail key e direction."
+      ],
+      [
+        "nph-selection-change",
+        "A pessoa marcou ou desmarcou uma caixa: detail selected."
+      ],
+      [
+        "nph-row-action",
+        "O evento do nph-table, também para o menu do mais: detail row e action."
+      ],
+      [
+        "nph-row-toggle",
+        "Como no nph-table: uma linha aberta ou fechada pelo seu chevron."
+      ],
+      [
+        "nph-row-switch",
+        "A pessoa mudou o switch de uma linha: detail row e checked."
+      ],
+      [
+        "nph-filter-clear",
+        "A pessoa ativou o botão do estado vazio pela busca."
+      ],
+      [
+        "nph-page-change",
+        "A pessoa andou no rodapé: detail page e pageSize. Composto."
+      ]
+    ],
+    "invalidTitle": "O que o nph-table rejeita não desenha nada.",
+    "invalidText": "Um size fora da lista ou colunas inválidas não desenham nada, como no nph-table. Um sort-direction ou um pagination-layout fora da lista, uma linha com filhos e uma coluna de controles sem os seus nomes deixam de fora só essa parte, e dizem o porquê em desenvolvimento.",
+    "sourceApi": "Ficha do nph-data-table; docs/decisoes-tecnicas.md › P105",
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-data-table caption=\"Pessoas por unidade\">\n  <nph-toolbar slot=\"toolbar\" type=\"page\" label=\"Ações da tabela\"></nph-toolbar>\n  <nph-toolbar slot=\"bulk\" type=\"bulk\" label=\"Pessoas selecionadas\"></nph-toolbar>\n</nph-data-table>",
+    "usageTag": "A tabela, com columns, rows e actions passadas como propriedades, e as duas barras nos seus slots. A tabela não registra as barras: cada uma é importada à parte.",
+    "usageImport": "Registra o componente com os seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Figma, documentação 2875:17577; docs/decisoes-tecnicas.md › P70",
+    "statesTitle": "Estados",
+    "statesText": "O estado do set no Figma. O cabeçalho continua visível em cada um.",
+    "statesHeader": [
+      "estado",
+      "No código"
+    ],
+    "states": [
+      [
+        "padrão",
+        "O padrão: a barra de página acima da tabela."
+      ],
+      [
+        "seleção em massa",
+        "selected com uma chave ou mais: a barra em massa ocupa o lugar da barra de página e diz quantas linhas estão selecionadas."
+      ],
+      [
+        "vazio pela busca",
+        "Sem linhas, com empty-heading e clear-label: o nph-empty com o termo buscado e o botão que o limpa."
+      ],
+      [
+        "carregando",
+        "loading: um nph-skeleton nas células de dado."
+      ]
+    ],
+    "sizesTitle": "Tamanhos e aparência",
+    "sizesText": "default em tela com ponteiro, large em tela de toque ou para leitura com mais respiro. A aparência vem do nph-table, com a mesma regra.",
+    "sizesCaption": "Size large com a moldura.",
+    "appearanceHeader": [
+      "Propriedade",
+      "O que faz"
+    ],
+    "appearance": [
+      [
+        "framed",
+        "A borda e o canto, para uma tabela sozinha na página."
+      ],
+      [
+        "sticky-header",
+        "O cabeçalho fica enquanto o corpo rola."
+      ],
+      [
+        "grid",
+        "A linha vertical entre as colunas do corpo."
+      ],
+      [
+        "striped",
+        "Uma linha sim, outra não, no fundo da faixa."
+      ],
+      [
+        "detail",
+        "A linha que abre pelo chevron, com o seu item expandido."
+      ]
+    ],
+    "sortingTitle": "Ordenação",
+    "sortingText": "Um cabeçalho ordenável é um botão do tamanho da célula, com a seta da direção. A tabela só diz o que a pessoa escolheu: quem usa ordena as linhas e as passa de novo.",
+    "sortingCaption": "O valor em ordem decrescente, alinhado ao fim com o seu cabeçalho.",
+    "sortingHeader": [
+      "ordenação",
+      "O que o cabeçalho mostra"
+    ],
+    "sorting": [
+      [
+        "nenhuma",
+        "Uma coluna sem sortable: só o título, e nenhum foco."
+      ],
+      [
+        "ordenável",
+        "A seta de duas pontas em data-table/sort-icon-foreground."
+      ],
+      [
+        "crescente",
+        "A seta para cima em data-table/sort-icon-active-foreground, e aria-sort ascending."
+      ],
+      [
+        "decrescente",
+        "A seta para baixo em data-table/sort-icon-active-foreground, e aria-sort descending."
+      ]
+    ],
+    "selectionTitle": "Seleção",
+    "selectionText": "A coluna de seleção tem um nph-checkbox no cabeçalho e em cada linha. A linha selecionada recebe o fundo e a marca no início, com a caixa marcada; a barra em massa ocupa o lugar da barra de página.",
+    "selectionCaption": "Duas linhas selecionadas, com a barra em massa e a sua contagem.",
+    "selectionHeader": [
+      "Regra",
+      "O que acontece"
+    ],
+    "selectionRules": [
+      [
+        "Caixa do cabeçalho",
+        "Marca ou desmarca as linhas da página; indeterminada quando só parte delas está marcada. As linhas de outras páginas continuam selecionadas."
+      ],
+      [
+        "Linha selecionada",
+        "data-table/row-selected-background e a marca data-table/row-selected-indicator, com a caixa marcada também."
+      ],
+      [
+        "Barra em massa",
+        "O nph-toolbar do tipo em massa, com a contagem escrita a partir de selected-text. A caixa de selecionar todas fica no cabeçalho da tabela."
+      ],
+      [
+        "Foco",
+        "Quando a seleção esvazia com o foco na barra em massa, o foco vai para a caixa do cabeçalho."
+      ]
+    ],
+    "rowActionsTitle": "Ações da linha e ajuste",
+    "rowActionsText": "O mais no fim da linha abre o nph-dropdown-menu das suas ações, com Excluir por último. A coluna de ajuste liga ou desliga um valor da linha sem abrir outra tela.",
+    "rowActionsCaption": "A coluna de ajuste antes do mais de cada linha.",
+    "footerTitle": "Rodapé",
+    "footerText": "O rodapé fica fora da área de rolagem e segue a largura do espaço da tabela. Com uma página só não há rodapé, e o total vai para a legenda.",
+    "footerCaption": "O rodapé largo e o estreito.",
+    "footerHeader": [
+      "pagination-layout",
+      "Rodapé"
+    ],
+    "footer": [
+      [
+        "wide",
+        "O nph-pagination do tipo tabela, com os seus próprios itens por página. A partir de 850 px."
+      ],
+      [
+        "middle",
+        "O rótulo e o nph-select de itens por página, e o nph-pagination do tipo intervalo. De 420 a 849 px."
+      ],
+      [
+        "narrow",
+        "Só o nph-pagination do tipo intervalo. Abaixo de 420 px ou no celular."
+      ]
+    ],
+    "sourceFooter": "Figma, documentação 2875:17577; tarefa DSA-58, decisão pendente D-1",
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Ela é um nph-table: as células, o chevron e o item expandido mantêm as suas próprias regras.",
+      "A barra de ferramentas é o nph-toolbar do tipo página, com a busca em nph-input, o filtro e as ações; os filtros aplicados vão na faixa dele, com nph-chip.",
+      "A seleção usa o nph-checkbox; o mais abre o nph-dropdown-menu; a coluna de ajuste usa o nph-switch.",
+      "O vazio pela busca usa o nph-empty e o carregando usa o nph-skeleton; o rodapé usa o nph-select e o nph-pagination."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Legenda",
+        "Opcional: o título, a descrição e o total em nph-badge secondary, como no nph-table."
+      ],
+      [
+        "Barra de ferramentas",
+        "O nph-toolbar do tipo página, fora da área de rolagem."
+      ],
+      [
+        "Cabeçalho ordenável",
+        "O título e a seta da direção, em table/icon-size."
+      ],
+      [
+        "Seleção",
+        "data-table/selection-column-width, com a borda da caixa em data-table/checkbox-border."
+      ],
+      [
+        "Linha",
+        "As células do nph-table; hover, faixa e a linha selecionada com a sua marca em data-table/row-selected-indicator-width."
+      ],
+      [
+        "Ações",
+        "O mais, um nph-button só ícone secondary ghost, em data-table/action-column-width."
+      ],
+      [
+        "Rodapé",
+        "O rótulo em data-table/page-size-label-foreground, o nph-select em data-table/page-size-width e o nph-pagination, a data-table/pagination-gap de distância."
+      ],
+      [
+        "Barra em massa",
+        "O nph-toolbar do tipo em massa, no lugar da barra de ferramentas."
+      ],
+      [
+        "Ajuste",
+        "Opcional: um nph-switch por linha."
+      ],
+      [
+        "Espaço",
+        "Legenda, barra, tabela e rodapé ficam a data-table/stack-gap; o estado vazio pela busca, a data-table/empty-gap."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "A tabela nativa do nph-table. O cabeçalho ordenado leva aria-sort; o cabeçalho ordenável é um botão nativo."
+      ],
+      [
+        "Foco visível",
+        "O cabeçalho ordenável recebe o anel focus/border em table/focus-ring-width dentro da célula, em volta do rótulo e da seta. Um cabeçalho que não ordena não recebe foco. A linha não recebe foco; as caixas, o mais e as barras usam o foco da sua própria peça."
+      ],
+      [
+        "Nome acessível",
+        "A legenda nomeia a tabela. A caixa do cabeçalho é Selecionar todas; cada caixa de linha, cada mais e cada switch levam o nome da linha."
+      ],
+      [
+        "Contraste",
+        "O texto passa AA sobre o fundo, a faixa, o hover, a linha selecionada e a barra em massa, no claro e no escuro. A seta da ordenação, a marca da linha selecionada e a borda da caixa desmarcada passam 3:1."
+      ],
+      [
+        "A cor não é o único sinal",
+        "A linha selecionada tem a caixa marcada e a marca. A ordenação mostra a seta. A barra em massa diz quantas linhas estão selecionadas. O vazio pela busca explica em texto."
+      ],
+      [
+        "Área de toque",
+        "As caixas, o mais e os botões mantêm a área da sua própria peça. Em tela de toque, use size large."
+      ]
+    ],
+    "sourceAccessibility": "Figma, documentação 2875:17577, seção Acessibilidade; docs/decisoes-tecnicas.md › P105",
+    "doTitle": "Faça",
+    "dontTitle": "Não faça",
+    "do": [
+      "Mostre o total selecionado na barra em massa: a pessoa confirma o alcance antes de agir.",
+      "Mantenha o cabeçalho visível no vazio e no carregando: a pessoa não perde as colunas de vista.",
+      "Alinhe números ao fim, no cabeçalho também: fica mais fácil comparar valores.",
+      "Nomeie a busca pelo que ela filtra, como Filtrar por pessoa."
+    ],
+    "dont": [
+      "Não deixe uma busca sem resultado com o corpo em branco: use o estado vazio pela busca.",
+      "Não marque a linha só pelo fundo: selecione-a, com a caixa marcada também.",
+      "Não alinhe números ao início: use align end, na célula e no cabeçalho."
+    ],
+    "examplesTitle": "Exemplos obrigatórios",
+    "referencesTitle": "Referências",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, página NPH — Data Table 1371:2, documentação 2875:17577, set 2633:69628",
+      "fichas/nph-data-table.md",
+      "docs/decisoes-tecnicas.md › P105",
+      "Tarefa DSA-58, decisões pendentes D-1 a D-6",
+      "W3C ARIA Authoring Practices, tabela ordenável"
+    ],
+    "whenToUse": [
+      "Em listas de registros que a pessoa busca, ordena ou filtra, como pessoas por unidade.",
+      "Seleção em massa quando há uma ação sobre várias linhas de uma vez, como baixar ou excluir.",
+      "Ações da linha no mais quando a linha tem mais de uma ação.",
+      "Uma coluna com switch quando a pessoa liga ou desliga um valor da linha sem abrir outra tela.",
+      "Size large em tela de toque ou para leitura com mais respiro; default nos outros casos."
+    ],
+    "whenNotToUse": [
+      "Para só ler e comparar dados, sem buscar, ordenar ou selecionar: use o nph-table.",
+      "Para montar o layout da página: a tabela guarda registros.",
+      "Com uma busca que não acha nada e o corpo em branco: use o estado vazio pela busca.",
+      "Para marcar uma linha só pelo fundo: selecione-a, com a caixa marcada também."
+    ],
+    "caption": "Pessoas por unidade",
+    "person": "Pessoa",
+    "unit": "Unidade",
+    "amount": "Valor",
+    "active": "Ativo",
+    "details": "Detalhes de {name}",
+    "people": [
+      "Ana Souza",
+      "Bruno Lima",
+      "Carla Dias",
+      "Diego Rocha",
+      "Elisa Martins",
+      "Fábio Nunes",
+      "Gabriela Reis",
+      "Heitor Alves",
+      "Isabel Costa",
+      "João Pereira",
+      "Karina Melo",
+      "Lucas Barros"
+    ],
+    "units": [
+      "Norte",
+      "Sul",
+      "Leste",
+      "Oeste"
+    ],
+    "tableActions": "Ações da tabela",
+    "selection": "Pessoas selecionadas",
+    "search": "Filtrar por pessoa",
+    "searchValue": "Zé",
+    "filter": "Filtrar",
+    "newPerson": "Nova pessoa",
+    "clearSelection": "Limpar seleção",
+    "download": "Baixar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "selectAll": "Selecionar todas",
+    "select": "Selecionar {name}",
+    "more": "Mais ações de {name}",
+    "activeLabel": "Ativo: {name}",
+    "selectedText": "{count} de {total} selecionadas",
+    "noValue": "sem valor",
+    "emptyHeading": "Nenhuma pessoa encontrada para “Zé”",
+    "emptyDescription": "Confira a grafia, ou limpe o filtro para ver todas as pessoas.",
+    "clearFilter": "Limpar filtro",
+    "pagination": "Paginação",
+    "page": "Página {page}",
+    "first": "Primeira página",
+    "previous": "Página anterior",
+    "next": "Próxima página",
+    "last": "Última página",
+    "position": "{start}–{end} de {total}",
+    "pageSize": "Itens por página",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "exampleList": "Pessoas por unidade, com busca, ordenação e ações",
+    "exampleSelected": "Linhas selecionadas, prontas para baixar ou excluir",
+    "exampleEmpty": "Busca sem resultado, com o caminho para limpar o filtro"
+  },
+  "dataTableValidation": {
+    "caption": "Pessoas por unidade",
+    "description": "Valores por unidade, em reais.",
+    "person": "Pessoa",
+    "unit": "Unidade",
+    "amount": "Valor",
+    "active": "Ativo",
+    "details": "Detalhes de {name}",
+    "people": [
+      "Ana Souza",
+      "Bruno Lima",
+      "Carla Dias",
+      "Diego Rocha",
+      "Elisa Martins",
+      "Fábio Nunes",
+      "Gabriela Reis",
+      "Heitor Alves",
+      "Isabel Costa",
+      "João Pereira",
+      "Karina Melo",
+      "Lucas Barros"
+    ],
+    "units": [
+      "Norte",
+      "Sul",
+      "Leste",
+      "Oeste"
+    ],
+    "tableActions": "Ações da tabela",
+    "selection": "Pessoas selecionadas",
+    "search": "Filtrar por pessoa",
+    "searchValue": "Zé",
+    "filter": "Filtrar",
+    "newPerson": "Nova pessoa",
+    "clearSelection": "Limpar seleção",
+    "download": "Baixar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "selectAll": "Selecionar todas",
+    "select": "Selecionar {name}",
+    "more": "Mais ações de {name}",
+    "activeLabel": "Ativo: {name}",
+    "selectedText": "{count} de {total} selecionadas",
+    "noValue": "sem valor",
+    "emptyHeading": "Nenhuma pessoa encontrada para “Zé”",
+    "emptyDescription": "Confira a grafia, ou limpe o filtro para ver todas as pessoas.",
+    "clearFilter": "Limpar filtro",
+    "pagination": "Paginação",
+    "page": "Página {page}",
+    "first": "Primeira página",
+    "previous": "Página anterior",
+    "next": "Próxima página",
+    "last": "Última página",
+    "position": "{start}–{end} de {total}",
+    "pageSize": "Itens por página",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "exampleList": "Pessoas por unidade, com busca, ordenação e ações",
+    "exampleSelected": "Linhas selecionadas, prontas para baixar ou excluir",
+    "exampleEmpty": "Busca sem resultado, com o caminho para limpar o filtro"
   }
 }

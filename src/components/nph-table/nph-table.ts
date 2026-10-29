@@ -201,17 +201,17 @@ export interface NphTableRowToggleDetail {
   readonly open: boolean;
 }
 
-/** Development error; outside a bundler with `import.meta.env`, it stays silent. */
-function devError(message: string): void {
+/** Development error, under the tag that reports it; outside a bundler with `import.meta.env`, it stays silent. */
+function devError(message: string, tag: string = TAG): void {
   if (import.meta.env?.DEV) {
-    console.error(`[${TAG}] ${message}`);
+    console.error(`[${tag}] ${message}`);
   }
 }
 
-/** Development warning; outside a bundler with `import.meta.env`, it stays silent. */
-function devWarn(message: string): void {
+/** Development warning, under the tag that reports it; outside a bundler with `import.meta.env`, it stays silent. */
+function devWarn(message: string, tag: string = TAG): void {
   if (import.meta.env?.DEV) {
-    console.warn(`[${TAG}] ${message}`);
+    console.warn(`[${tag}] ${message}`);
   }
 }
 
@@ -362,14 +362,14 @@ export class NphTable extends LitElement {
   private error(message: string): void {
     if (!this.reported.has(`error ${message}`)) {
       this.reported.add(`error ${message}`);
-      devError(message);
+      devError(message, this.localName);
     }
   }
 
   private warn(cause: string, message: string): void {
     if (!this.reported.has(`warn ${cause}`)) {
       this.reported.add(`warn ${cause}`);
-      devWarn(message);
+      devWarn(message, this.localName);
     }
   }
 

@@ -321,7 +321,18 @@
     "components-nph-toolbar-validation--applied-filters": "Applied filters",
     "components-nph-toolbar-validation--invalid-input": "Invalid input",
     "components-nph-toolbar-validation--examples": "Examples",
-    "components-nph-toolbar-validation--brands": "Brands"
+    "components-nph-toolbar-validation--brands": "Brands",
+    "components-nph-data-table-docs": "Docs",
+    "components-nph-data-table-docs--documentation": "Documentation",
+    "components-nph-data-table-validation": "Validation",
+    "components-nph-data-table-validation--matrix": "Matrix",
+    "components-nph-data-table-validation--appearance": "Appearance",
+    "components-nph-data-table-validation--header": "Header",
+    "components-nph-data-table-validation--rows": "Rows",
+    "components-nph-data-table-validation--footer": "Footer",
+    "components-nph-data-table-validation--invalid-input": "Invalid input",
+    "components-nph-data-table-validation--examples": "Examples",
+    "components-nph-data-table-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -7333,7 +7344,15 @@
       "components-nph-toolbar-validation--applied-filters": "The applied filters strip below the page bar, in the three sizes. Remove a chip with its X: the focus goes to the next chip, else to the previous one, else to Filter, and the removal is announced. Clear filters takes them all away and sends the focus to Filter.",
       "components-nph-toolbar-validation--invalid-input": "Invalid input draws nothing: a type or a size that does not exist, and a bar with no name, each with one error.",
       "components-nph-toolbar-validation--examples": "The three mandatory examples, each in light and dark mode: a table with checked items and no checkbox in the bar, the top of a list with the view switch in the center, and an editor with actions in groups, the trash apart and More last.",
-      "components-nph-toolbar-validation--brands": "The seven brands in light and dark: the compact bulk bar, whose background, count and action hover follow the brand."
+      "components-nph-toolbar-validation--brands": "The seven brands in light and dark: the compact bulk bar, whose background, count and action hover follow the brand.",
+      "components-nph-data-table-validation--matrix": "The four estado of the set in the two sizes: default with the page bar, selected rows with the bulk bar in its place, empty by search with the way to clear it, and loading with the header visible.",
+      "components-nph-data-table-validation--appearance": "What the table takes from nph-table, with the same rule: without the frame, the fixed header, the grid, the stripe and the row that opens by the chevron.",
+      "components-nph-data-table-validation--header": "The sortable header: no sort, a column sorted ascending and a number column sorted descending, with the arrow of the direction and aria-sort. Enter the table with Tab to see the ring inside the cell.",
+      "components-nph-data-table-validation--rows": "The pieces of the row: the selection column, the selected rows with their background and mark over the stripe, the switch column, and a table with no actions.",
+      "components-nph-data-table-validation--footer": "The footer by the width of the space: the table type with its items per page, the middle footer with the label and the select, the range type only, and no footer with a single page.",
+      "components-nph-data-table-validation--invalid-input": "Invalid input: no column draws nothing; an unknown sort direction draws no column sorted; selection without its names leaves the column out; an unknown footer layout leaves the footer out. Each one with its error.",
+      "components-nph-data-table-validation--examples": "The three mandatory examples, each in light and dark mode: people by unit with search, sorting and actions, selected rows ready to download or delete, and a search with no result with the way to clear the filter.",
+      "components-nph-data-table-validation--brands": "The seven brands in light and dark: the selected rows, whose background, mark and box follow the brand."
     }
   },
   "multiComboboxDocs": {
@@ -9266,5 +9285,608 @@
     "exampleTable": "Table with checked items: the checkbox is in the table header, so the bar has none",
     "exampleList": "Top of a list, with the view switch in the center",
     "exampleEditor": "Editor with actions in groups, the trash apart and More at the end"
+  },
+  "dataTableDocs": {
+    "summary": "The table to search, sort, select and act on records, with a toolbar above it, row actions and pagination.",
+    "matrixLabel": "estado of the table",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-data-table spec sheet, design.md for the tokens and P105 for the API. Six decisions wait for the design owner (D-1 to D-6 of DSA-58) and show here in their default: the footer chosen by the consumer, the sort arrows, the click that turns the direction around, the header box over the rows of the page, the skeleton rows and the switch column before the actions.",
+    "onThisPage": "On this page",
+    "whenToUseTitle": "When to use",
+    "whenNotToUseTitle": "When not to use",
+    "description": "Amounts by unit, in reais.",
+    "sourceLabel": "Source:",
+    "sourceFrame": "Figma, page NPH — Data Table 1371:2, documentation 2875:17577, set 2633:69628",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "size",
+        "default (default) or large, as in nph-table: the row in table/row-height or table/row-height-large. Reflected."
+      ],
+      [
+        "framed",
+        "As in nph-table, the Figma moldura: the border and the corner of the scroll area."
+      ],
+      [
+        "sticky-header",
+        "As in nph-table, the Figma cabeçalho fixo: the body scrolls under the header."
+      ],
+      [
+        "striped",
+        "As in nph-table: every other row on the stripe background."
+      ],
+      [
+        "grid",
+        "As in nph-table, the Figma grade: the vertical line between the columns."
+      ],
+      [
+        "caption",
+        "As in nph-table, the Figma legenda: the title above the table, which names it."
+      ],
+      [
+        "description",
+        "As in nph-table: the line under the caption title."
+      ],
+      [
+        "total",
+        "As in nph-table: an nph-badge secondary beside the caption title; with a single page, it carries the total."
+      ],
+      [
+        "label",
+        "As in nph-table: the name of a table without a caption."
+      ],
+      [
+        "no-value-label",
+        "As in nph-table: what the screen reader reads in the no-value dash."
+      ],
+      [
+        "empty-heading",
+        "The heading of the nph-empty with no row; in empty by search, it says the searched term."
+      ],
+      [
+        "empty-description",
+        "The description of the nph-empty with no row."
+      ],
+      [
+        "columns",
+        "Property. The columns of nph-table, plus sortable: the header becomes a button that sorts."
+      ],
+      [
+        "rows",
+        "Property. The rows of nph-table, plus name, the record named in the labels, and switched. They arrive already searched, sorted and paged."
+      ],
+      [
+        "footer",
+        "As in nph-table: a value per column, such as a total."
+      ],
+      [
+        "sort-key",
+        "The key of the sorted column."
+      ],
+      [
+        "sort-direction",
+        "ascending or descending, the aria-sort of the sorted header. Empty: no column is sorted."
+      ],
+      [
+        "selectable",
+        "Adds the selection column, with an nph-checkbox in the header and in each row. Reflected."
+      ],
+      [
+        "selected",
+        "Property. The keys of the selected rows, the ones on other pages too."
+      ],
+      [
+        "select-all-label",
+        "The name of the header box, such as Select all."
+      ],
+      [
+        "select-label",
+        "The name of a row box, with the name marker filled by the row name."
+      ],
+      [
+        "selected-text",
+        "The count of the bulk bar, with the count and total markers, filled in the language of the page."
+      ],
+      [
+        "actions",
+        "Property. The entries of the nph-dropdown-menu that the more of each row opens."
+      ],
+      [
+        "actions-label",
+        "The name of the more of a row, with the name marker."
+      ],
+      [
+        "switch-header",
+        "The title of the switch column; empty, there is none."
+      ],
+      [
+        "switch-label",
+        "The name of the nph-switch of a row, with the name marker."
+      ],
+      [
+        "loading",
+        "The Figma estado carregando: an nph-skeleton in the cells, the header visible. Reflected."
+      ],
+      [
+        "clear-label",
+        "The Figma estado vazio pela busca: the text of the button under the nph-empty, such as Clear filter."
+      ],
+      [
+        "page",
+        "The current page, from 1."
+      ],
+      [
+        "page-size",
+        "The items per page, from 1. Required for the footer."
+      ],
+      [
+        "page-sizes",
+        "The options of items per page."
+      ],
+      [
+        "total-items",
+        "The total of records. Required for the footer; with a single page there is none."
+      ],
+      [
+        "pagination-layout",
+        "wide, middle (default) or narrow: the footer for the width of the space. Reflected."
+      ],
+      [
+        "pagination-label",
+        "The name of the navigation of the nph-pagination."
+      ],
+      [
+        "page-label",
+        "The name of each page number of the nph-pagination."
+      ],
+      [
+        "first-label",
+        "The first arrow of the nph-pagination; in wide."
+      ],
+      [
+        "previous-label",
+        "The previous arrow of the nph-pagination."
+      ],
+      [
+        "next-label",
+        "The next arrow of the nph-pagination."
+      ],
+      [
+        "last-label",
+        "The last arrow of the nph-pagination; in wide."
+      ],
+      [
+        "position-text",
+        "The range text of the nph-pagination."
+      ],
+      [
+        "page-size-label",
+        "The visible label of items per page, which names its nph-select."
+      ],
+      [
+        "toolbar",
+        "Named slot: one nph-toolbar of the page type, with the search, the filter and the table actions."
+      ],
+      [
+        "bulk",
+        "Named slot: one nph-toolbar of the bulk type, without its checkbox. It shows while a row is selected."
+      ],
+      [
+        "action",
+        "Named slot, as in nph-table: the main action of the caption."
+      ],
+      [
+        "nph-sort-change",
+        "The person sorted: detail key and direction."
+      ],
+      [
+        "nph-selection-change",
+        "The person checked or unchecked a box: detail selected."
+      ],
+      [
+        "nph-row-action",
+        "The event of nph-table, also for the menu of the more: detail row and action."
+      ],
+      [
+        "nph-row-toggle",
+        "As in nph-table: a row opened or closed by its chevron."
+      ],
+      [
+        "nph-row-switch",
+        "The person turned the switch of a row: detail row and checked."
+      ],
+      [
+        "nph-filter-clear",
+        "The person activated the button of the empty by search state."
+      ],
+      [
+        "nph-page-change",
+        "The person moved in the footer: detail page and pageSize. Composed."
+      ]
+    ],
+    "invalidTitle": "What nph-table rejects draws nothing.",
+    "invalidText": "A size outside the list or invalid columns draw nothing, as in nph-table. A sort-direction or a pagination-layout outside the list, a row with children and a column of controls without its names leave only that part out, and say why in development.",
+    "sourceApi": "nph-data-table spec sheet; docs/decisoes-tecnicas.md › P105",
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-data-table caption=\"People by unit\">\n  <nph-toolbar slot=\"toolbar\" type=\"page\" label=\"Table actions\"></nph-toolbar>\n  <nph-toolbar slot=\"bulk\" type=\"bulk\" label=\"Selected people\"></nph-toolbar>\n</nph-data-table>",
+    "usageTag": "The table, with columns, rows and actions given as properties, and the two bars in their slots. The table does not register the bars: each one is imported on its own.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, documentation 2875:17577; docs/decisoes-tecnicas.md › P70",
+    "statesTitle": "States",
+    "statesText": "The Figma estado of the set. The header stays visible in each one.",
+    "statesHeader": [
+      "estado",
+      "In code"
+    ],
+    "states": [
+      [
+        "padrão",
+        "The default: the page bar above the table."
+      ],
+      [
+        "seleção em massa",
+        "selected with one key or more: the bulk bar takes the place of the page bar and says how many rows are selected."
+      ],
+      [
+        "vazio pela busca",
+        "No row, with empty-heading and clear-label: the nph-empty with the searched term and the button that clears it."
+      ],
+      [
+        "carregando",
+        "loading: an nph-skeleton in the cells of data."
+      ]
+    ],
+    "sizesTitle": "Sizes and appearance",
+    "sizesText": "default on a screen with a pointer, large on a touch screen or for reading with more air. The appearance comes from nph-table, with the same rule.",
+    "sizesCaption": "Size large with the frame.",
+    "appearanceHeader": [
+      "Property",
+      "What it does"
+    ],
+    "appearance": [
+      [
+        "framed",
+        "The border and the corner, for a table standing alone on the page."
+      ],
+      [
+        "sticky-header",
+        "The header stays while the body scrolls."
+      ],
+      [
+        "grid",
+        "The vertical line between the columns of the body."
+      ],
+      [
+        "striped",
+        "Every other row on the stripe background."
+      ],
+      [
+        "detail",
+        "The row that opens by the chevron, with its expanded item."
+      ]
+    ],
+    "sortingTitle": "Sorting",
+    "sortingText": "A sortable header is a button the size of the cell, with the arrow of the direction. The table only says what the person chose: the consumer sorts the rows and passes them again.",
+    "sortingCaption": "The amount sorted descending, aligned to the end with its header.",
+    "sortingHeader": [
+      "ordenação",
+      "What the header shows"
+    ],
+    "sorting": [
+      [
+        "nenhuma",
+        "A column without sortable: the title only, and no focus."
+      ],
+      [
+        "ordenável",
+        "The two-way arrow in data-table/sort-icon-foreground."
+      ],
+      [
+        "crescente",
+        "The arrow up in data-table/sort-icon-active-foreground, and aria-sort ascending."
+      ],
+      [
+        "decrescente",
+        "The arrow down in data-table/sort-icon-active-foreground, and aria-sort descending."
+      ]
+    ],
+    "selectionTitle": "Selection",
+    "selectionText": "The selection column has an nph-checkbox in the header and in each row. The selected row takes the background and the mark at the start, with its box checked; the bulk bar takes the place of the page bar.",
+    "selectionCaption": "Two rows selected, with the bulk bar and its count.",
+    "selectionHeader": [
+      "Rule",
+      "What happens"
+    ],
+    "selectionRules": [
+      [
+        "Header box",
+        "It checks or unchecks the rows of the page; indeterminate when only part of them is checked. Rows on other pages stay selected."
+      ],
+      [
+        "Selected row",
+        "data-table/row-selected-background and the mark data-table/row-selected-indicator, with the box checked too."
+      ],
+      [
+        "Bulk bar",
+        "The nph-toolbar of the bulk type, with the count written from selected-text. The select-all box stays in the table header."
+      ],
+      [
+        "Focus",
+        "When the selection empties while the focus is in the bulk bar, the focus goes to the header box."
+      ]
+    ],
+    "rowActionsTitle": "Row actions and switch",
+    "rowActionsText": "The more at the end of the row opens the nph-dropdown-menu of its actions, with Delete last. The switch column turns a value of the row on or off without opening another screen.",
+    "rowActionsCaption": "The switch column before the more of each row.",
+    "footerTitle": "Footer",
+    "footerText": "The footer stays outside the scroll area and follows the width of the table's space. With a single page there is no footer, and the total goes to the caption.",
+    "footerCaption": "The wide footer and the narrow one.",
+    "footerHeader": [
+      "pagination-layout",
+      "Footer"
+    ],
+    "footer": [
+      [
+        "wide",
+        "The nph-pagination of the table type, with its own items per page. From 850 px."
+      ],
+      [
+        "middle",
+        "The label and the nph-select of items per page, and the nph-pagination of the range type. From 420 to 849 px."
+      ],
+      [
+        "narrow",
+        "The nph-pagination of the range type only. Below 420 px or on a phone."
+      ]
+    ],
+    "sourceFooter": "Figma, documentation 2875:17577; task DSA-58, pending decision D-1",
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "It is an nph-table: the cells, the chevron and the expanded item keep their own rules.",
+      "The toolbar is the nph-toolbar of the page type, with the search in nph-input, the filter and the actions; the applied filters go in its own strip, with nph-chip.",
+      "Selection uses the nph-checkbox; the more opens the nph-dropdown-menu; the switch column uses the nph-switch.",
+      "Empty by search uses nph-empty and loading uses nph-skeleton; the footer uses nph-select and nph-pagination."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Caption",
+        "Optional: the title, the description and the total in nph-badge secondary, as in nph-table."
+      ],
+      [
+        "Toolbar",
+        "The nph-toolbar of the page type, outside the scroll area."
+      ],
+      [
+        "Sortable header",
+        "The title and the arrow of the direction, at table/icon-size."
+      ],
+      [
+        "Selection",
+        "data-table/selection-column-width, with the box border in data-table/checkbox-border."
+      ],
+      [
+        "Row",
+        "The cells of nph-table; hover, stripe and the selected row with its mark in data-table/row-selected-indicator-width."
+      ],
+      [
+        "Actions",
+        "The more, an icon-only nph-button secondary ghost, in data-table/action-column-width."
+      ],
+      [
+        "Footer",
+        "The label in data-table/page-size-label-foreground, the nph-select in data-table/page-size-width and the nph-pagination, data-table/pagination-gap apart."
+      ],
+      [
+        "Bulk bar",
+        "The nph-toolbar of the bulk type, in the place of the toolbar."
+      ],
+      [
+        "Switch column",
+        "Optional: an nph-switch per row."
+      ],
+      [
+        "Space",
+        "Caption, bar, table and footer are data-table/stack-gap apart; the empty by search state, data-table/empty-gap."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "The native table of nph-table. The sorted header carries aria-sort; the sortable header is a native button."
+      ],
+      [
+        "Visible focus",
+        "The sortable header takes the ring focus/border in table/focus-ring-width inside the cell, around the label and the arrow. A header that does not sort takes no focus. The row takes no focus; the boxes, the more and the bars use the focus of their own piece."
+      ],
+      [
+        "Accessible name",
+        "The caption names the table. The header box is Select all; each row box, each more and each switch carry the name of the row."
+      ],
+      [
+        "Contrast",
+        "Text passes AA over the background, the stripe, the hover, the selected row and the bulk bar, in light and dark. The sort arrow, the selected row mark and the unchecked box border pass 3:1."
+      ],
+      [
+        "Color is not the only signal",
+        "The selected row has its box checked and the mark. The sort shows the arrow. The bulk bar says how many rows are selected. Empty by search explains in text."
+      ],
+      [
+        "Touch target",
+        "The boxes, the more and the buttons keep the target of their own piece. On a touch screen, use size large."
+      ]
+    ],
+    "sourceAccessibility": "Figma, documentation 2875:17577, section Accessibility; docs/decisoes-tecnicas.md › P105",
+    "doTitle": "Do",
+    "dontTitle": "Do not",
+    "do": [
+      "Show the selected total in the bulk bar: the person confirms the reach before acting.",
+      "Keep the header visible in empty and loading: the person does not lose sight of the columns.",
+      "Align numbers to the end, in the header too: it makes values easier to compare.",
+      "Name the search by what it filters, such as Filter by person."
+    ],
+    "dont": [
+      "Do not leave a search with no result with a blank body: use the empty by search state.",
+      "Do not mark the row by the background alone: select it, with the box checked too.",
+      "Do not align numbers to the start: use align end, in the cell and in the header."
+    ],
+    "examplesTitle": "Mandatory examples",
+    "referencesTitle": "References",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, page NPH — Data Table 1371:2, documentation 2875:17577, set 2633:69628",
+      "fichas/nph-data-table.md",
+      "docs/decisoes-tecnicas.md › P105",
+      "Task DSA-58, pending decisions D-1 to D-6",
+      "W3C ARIA Authoring Practices, sortable table"
+    ],
+    "whenToUse": [
+      "For lists of records that the person searches, sorts or filters, such as people by unit.",
+      "Bulk selection when there is an action on several rows at once, such as download or delete.",
+      "Row actions in the more when the row has more than one action.",
+      "A column with a switch when the person turns a value of the row on or off without opening another screen.",
+      "Size large on a touch screen or for reading with more air; default in the other cases."
+    ],
+    "whenNotToUse": [
+      "To only read and compare data, without searching, sorting or selecting: use nph-table.",
+      "To lay out the page: the table holds records.",
+      "With a search that finds nothing and a blank body: use the empty by search state.",
+      "To mark a row by the background alone: select it, with the box checked too."
+    ],
+    "caption": "People by unit",
+    "person": "Person",
+    "unit": "Unit",
+    "amount": "Amount",
+    "active": "Active",
+    "details": "Details of {name}",
+    "people": [
+      "Ana Souza",
+      "Bruno Lima",
+      "Carla Dias",
+      "Diego Rocha",
+      "Elisa Martins",
+      "Fábio Nunes",
+      "Gabriela Reis",
+      "Heitor Alves",
+      "Isabel Costa",
+      "João Pereira",
+      "Karina Melo",
+      "Lucas Barros"
+    ],
+    "units": [
+      "North",
+      "South",
+      "East",
+      "West"
+    ],
+    "tableActions": "Table actions",
+    "selection": "Selected people",
+    "search": "Filter by person",
+    "searchValue": "Zé",
+    "filter": "Filter",
+    "newPerson": "New person",
+    "clearSelection": "Clear selection",
+    "download": "Download",
+    "delete": "Delete",
+    "edit": "Edit",
+    "selectAll": "Select all",
+    "select": "Select {name}",
+    "more": "More actions for {name}",
+    "activeLabel": "Active: {name}",
+    "selectedText": "{count} of {total} selected",
+    "noValue": "no value",
+    "emptyHeading": "No person found for “Zé”",
+    "emptyDescription": "Check the spelling, or clear the filter to see every person.",
+    "clearFilter": "Clear filter",
+    "pagination": "Pagination",
+    "page": "Page {page}",
+    "first": "First page",
+    "previous": "Previous page",
+    "next": "Next page",
+    "last": "Last page",
+    "position": "{start}–{end} of {total}",
+    "pageSize": "Items per page",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "exampleList": "People by unit, with search, sorting and actions",
+    "exampleSelected": "Selected rows, ready to download or delete",
+    "exampleEmpty": "Search with no result, with the way to clear the filter"
+  },
+  "dataTableValidation": {
+    "caption": "People by unit",
+    "description": "Amounts by unit, in reais.",
+    "person": "Person",
+    "unit": "Unit",
+    "amount": "Amount",
+    "active": "Active",
+    "details": "Details of {name}",
+    "people": [
+      "Ana Souza",
+      "Bruno Lima",
+      "Carla Dias",
+      "Diego Rocha",
+      "Elisa Martins",
+      "Fábio Nunes",
+      "Gabriela Reis",
+      "Heitor Alves",
+      "Isabel Costa",
+      "João Pereira",
+      "Karina Melo",
+      "Lucas Barros"
+    ],
+    "units": [
+      "North",
+      "South",
+      "East",
+      "West"
+    ],
+    "tableActions": "Table actions",
+    "selection": "Selected people",
+    "search": "Filter by person",
+    "searchValue": "Zé",
+    "filter": "Filter",
+    "newPerson": "New person",
+    "clearSelection": "Clear selection",
+    "download": "Download",
+    "delete": "Delete",
+    "edit": "Edit",
+    "selectAll": "Select all",
+    "select": "Select {name}",
+    "more": "More actions for {name}",
+    "activeLabel": "Active: {name}",
+    "selectedText": "{count} of {total} selected",
+    "noValue": "no value",
+    "emptyHeading": "No person found for “Zé”",
+    "emptyDescription": "Check the spelling, or clear the filter to see every person.",
+    "clearFilter": "Clear filter",
+    "pagination": "Pagination",
+    "page": "Page {page}",
+    "first": "First page",
+    "previous": "Previous page",
+    "next": "Next page",
+    "last": "Last page",
+    "position": "{start}–{end} of {total}",
+    "pageSize": "Items per page",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "exampleList": "People by unit, with search, sorting and actions",
+    "exampleSelected": "Selected rows, ready to download or delete",
+    "exampleEmpty": "Search with no result, with the way to clear the filter"
   }
 }

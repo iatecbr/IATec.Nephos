@@ -7,7 +7,7 @@
     "For lists of records that the person searches, sorts or filters, such as people by unit.",
     "Bulk selection when there is an action on several rows at once, such as download or delete.",
     "Row actions in the more when the row has more than one action.",
-    "Ajuste when the person turns a value of the row on or off without opening another screen.",
+    "A column with a switch when the person turns a value of the row on or off without opening another screen.",
     "Size large on a touch screen or for reading with more air; default in the other cases."
   ],
   "do_not_use_when": [
@@ -33,42 +33,42 @@
       "required": false,
       "default": false,
       "reflects": true,
-      "constraint": "As in nph-table, the Figma moldura: the border and the corner of the scroll area, for a table standing alone on the page."
+      "constraint": "As in nph-table, the Figma `moldura`: the border and the corner of the scroll area, for a table standing alone on the page."
     },
     "sticky-header": {
       "type": "boolean",
       "required": false,
       "default": false,
       "reflects": true,
-      "constraint": "As in nph-table, the Figma cabeçalho fixo: the body scrolls under the header, which stays."
+      "constraint": "As in nph-table, the Figma `cabeçalho fixo`: the body scrolls under the header, which stays."
     },
     "striped": {
       "type": "boolean",
       "required": false,
       "default": false,
       "reflects": true,
-      "constraint": "As in nph-table, the Figma faixa of the row: every other row on the stripe background."
+      "constraint": "As in nph-table, the Figma `faixa` of the row: every other row on the stripe background."
     },
     "grid": {
       "type": "boolean",
       "required": false,
       "default": false,
       "reflects": true,
-      "constraint": "As in nph-table, the Figma grade: the vertical line between the columns of the body."
+      "constraint": "As in nph-table, the Figma `grade`: the vertical line between the columns of the body."
     },
     "caption": {
       "type": "string",
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "As in nph-table, the Figma legenda and texto da legenda: the title above the table, already localized, which names it."
+      "constraint": "As in nph-table, the Figma `legenda` and `texto da legenda`: the title above the table, already localized, which names it."
     },
     "description": {
       "type": "string",
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "As in nph-table, the Figma descrição: the line under the caption title. Only with a caption."
+      "constraint": "As in nph-table, the Figma `descrição`: the line under the caption title. Only with a caption."
     },
     "total": {
       "type": "string",
@@ -89,7 +89,7 @@
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "As in nph-table: what the screen reader reads in the no-value dash, such as sem valor."
+      "constraint": "As in nph-table: what the screen reader reads in the no-value dash, such as `sem valor`."
     },
     "empty-heading": {
       "type": "string",
@@ -117,7 +117,7 @@
       "required": true,
       "default": "empty list",
       "reflects": false,
-      "constraint": "Property only. The rows of nph-table, with key, cells, detail, open, loading and toggleLabel, plus name, the record that fills {name}, and switched, the state of the ajuste. They arrive already searched, sorted and paged: the table cuts or orders nothing. A row with children is drawn without them and emits console.error in development."
+      "constraint": "Property only. The rows of nph-table, with key, cells, detail, open, loading and toggleLabel, plus name, the record that fills {name}, and switched, the state of the `ajuste`. They arrive already searched, sorted and paged: the table cuts or orders nothing. A row with children is drawn without them and emits console.error in development."
     },
     "footer": {
       "type": "object",
@@ -163,21 +163,21 @@
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "The name of the header box, already localized, such as Selecionar todas."
+      "constraint": "The name of the header box, already localized, such as `Selecionar todas`."
     },
     "select-label": {
       "type": "string",
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "The name of a row box, with the {name} marker filled by the row name, such as Selecionar {name}. A row without name has no box and the table emits console.error in development."
+      "constraint": "The name of a row box, with the {name} marker filled by the row name, such as `Selecionar {name}`. A row without name has no box and the table emits console.error in development."
     },
     "selected-text": {
       "type": "string",
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "The count of the bulk bar, with the {count} and {total} markers, filled with the numbers in the language of the page, such as {count} de {total} selecionadas. The table writes it as the count-text of the nph-toolbar in the slot bulk. {total} is total-items, or the rows drawn without it."
+      "constraint": "The count of the bulk bar, with the {count} and {total} markers, filled with the numbers in the language of the page, such as `{count} de {total} selecionadas`. The table writes it as the count-text of the nph-toolbar in the slot bulk. {total} is total-items, or the rows drawn without it."
     },
     "actions": {
       "type": "array",
@@ -191,35 +191,35 @@
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "The name of the more of a row, with {name}, such as Mais ações de {name}. Without it the actions column is left out and the table emits console.error in development."
+      "constraint": "The name of the more of a row, with {name}, such as `Mais ações de {name}`. Without it the actions column is left out and the table emits console.error in development."
     },
     "switch-header": {
       "type": "string",
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "The title of the ajuste column, already localized. Empty, there is no ajuste column. It needs switch-label."
+      "constraint": "The title of the `ajuste` column, already localized. Empty, there is no `ajuste` column. It needs switch-label."
     },
     "switch-label": {
       "type": "string",
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "The name of the nph-switch of a row, with {name}. Without it the ajuste column is left out and the table emits console.error in development."
+      "constraint": "The name of the nph-switch of a row, with {name}. Without it the `ajuste` column is left out and the table emits console.error in development."
     },
     "loading": {
       "type": "boolean",
       "required": false,
       "default": false,
       "reflects": true,
-      "constraint": "The Figma estado carregando: an nph-skeleton in the cells of data, as many rows as the rows shown or the page size, with the header visible and the header box disabled."
+      "constraint": "The Figma `estado` `carregando`: an nph-skeleton in the cells of data, as many rows as the rows shown or the page size, with the header visible and the header box disabled."
     },
     "clear-label": {
       "type": "string",
       "required": false,
       "default": "empty",
       "reflects": false,
-      "constraint": "The Figma estado vazio pela busca: with no row and an empty-heading, the body holds the nph-empty and an nph-button with this text, such as Limpar filtro, data-table/empty-gap apart. Empty, an empty body is the one of nph-table."
+      "constraint": "The Figma `estado` `vazio pela busca`: with no row and an empty-heading, the body holds the nph-empty and an nph-button with this text, such as `Limpar filtro`, data-table/empty-gap apart. Empty, an empty body is the one of nph-table."
     },
     "page": {
       "type": "number",
@@ -259,7 +259,7 @@
       "required": false,
       "default": "middle",
       "reflects": true,
-      "constraint": "The footer for the width of the table's space (pending decision D-1): wide is the nph-pagination tipo tabela; middle, the label and the nph-select of items per page and tipo intervalo; narrow, tipo intervalo only. A value outside the list leaves the footer out and emits console.error in development."
+      "constraint": "The footer for the width of the table's space (pending decision D-1): wide is the nph-pagination `tipo tabela`; middle, the label and the nph-select of items per page and `tipo intervalo`; narrow, `tipo intervalo` only. A value outside the list leaves the footer out and emits console.error in development."
     },
     "pagination-label": {
       "type": "string",
@@ -322,14 +322,14 @@
       "required": false,
       "default": "none",
       "reflects": false,
-      "constraint": "One nph-toolbar tipo página, with the search, the filter and the table actions. It stays outside the scroll area and leaves its place to the bulk bar while a row is selected."
+      "constraint": "One nph-toolbar `tipo página`, with the search, the filter and the table actions. It stays outside the scroll area and leaves its place to the bulk bar while a row is selected."
     },
     "bulk": {
       "type": "named slot",
       "required": false,
       "default": "none",
       "reflects": false,
-      "constraint": "One nph-toolbar tipo em massa, with its actions and without its own checkbox: the select-all box stays in the table header. It shows while a row is selected."
+      "constraint": "One nph-toolbar `tipo em massa`, with its actions and without its own checkbox: the select-all box stays in the table header. It shows while a row is selected."
     },
     "action": {
       "type": "named slot",
@@ -448,7 +448,7 @@
     "When the selection empties while the focus is in the bulk bar, the focus goes to the header box.",
     "The footer stays outside the scroll area; with a single page, there is no footer and the total goes to the caption.",
     "The footer follows pagination-layout, set by the consumer for the width of the space, until the breakpoint tokens exist (pending decision D-1).",
-    "The ajuste column sits at the end of the row, before the actions (pending decision D-6)."
+    "The `ajuste` column sits at the end of the row, before the actions (pending decision D-6)."
   ],
   "domain_errors": [],
   "tokens": {
@@ -466,14 +466,14 @@
     "Use nph-data-table when the person searches, sorts, selects or acts on records; to only read and compare data, use nph-table.",
     "Pass rows already searched, sorted and paged, and listen to nph-sort-change, nph-selection-change and nph-page-change to pass them again.",
     "Give each row a name, the record that fills {name} in the names of its box, its more and its switch.",
-    "Put an nph-toolbar tipo página in slot toolbar and an nph-toolbar tipo em massa, without its checkbox, in slot bulk.",
+    "Put an nph-toolbar `tipo página` in slot toolbar and an nph-toolbar `tipo em massa`, without its checkbox, in slot bulk.",
     "Mark a number column with align end, in the cell and in the header, and make it sortable when the person compares values.",
-    "Name the search after what it filters, such as Filtrar por pessoa.",
+    "Name the search after what it filters, such as `Filtrar por pessoa`.",
     "Use the empty by search state with clear-label when a search finds nothing; never leave the body blank.",
     "Choose pagination-layout by the width of the space: wide from the table's own items per page, middle in between, narrow on a phone."
   ],
   "accessibility": {
-    "semantics": "The native table of nph-table. The sorted header carries aria-sort; the sortable header is a native button the size of the cell. The selection, actions and ajuste headers of the boxes and of the more are cells of the header row, not column headers.",
+    "semantics": "The native table of nph-table. The sorted header carries aria-sort; the sortable header is a native button the size of the cell. The selection, actions and `ajuste` headers of the boxes and of the more are cells of the header row, not column headers.",
     "accessible_name": "The caption names the table. The header box is named select-all-label; each row box, select-label with the row name; each more, actions-label with the row name; each switch, switch-label with the row name. The sortable header is named by its title.",
     "keyboard": [
       "Tab reaches the sortable headers, the boxes, the switches, the more of each row and the pieces of the footer, in order; the row takes no focus",
