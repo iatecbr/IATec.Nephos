@@ -257,12 +257,35 @@ stages:
           # the browser is downloaded: `--with-deps` installs system packages
           # through sudo, which the agents do not allow (run 609156). The
           # system libraries Chromium needs must already be on the agent.
+          #
+          # The tests run in two shards, one after the other, so each Chromium
+          # process loads half the files. With the whole suite in one browser,
+          # Chromium now and then refused a module request that never reached
+          # Vite, and a test file failed with "Failed to fetch dynamically
+          # imported module" (builds 610794 to 611705; vitest-dev/vitest#11745
+          # and #10791). Both shards always run, and the step fails if either
+          # one fails.
+          #
+          # The core count, memory and load of the agent are logged to read
+          # timing failures: a loaded agent fails timing tests on its own. The
+          # Vite request log (`vitest.config.ts`) tells whether a failing
+          # import reached Vite.
           - bash: |
               set -euo pipefail
+              echo "CPU cores seen by Node: $(node -p 'require("os").availableParallelism()')"
+              free -m
+              cat /proc/loadavg
+              # Runs on failure too; the step keeps the exit code of the tests.
+              trap 'cat /proc/loadavg' EXIT
               npx playwright install chromium
-              npm test
+              status=0
+              npm test -- --shard=1/2 || status=1
+              npm test -- --shard=2/2 || status=1
+              exit "${status}"
             displayName: Component tests (Chromium)
             workingDirectory: $(Build.SourcesDirectory)
+            env:
+              NEPHOS_TEST_DIAGNOSTICS: '1'
 
           - task: CmdLine@2
             displayName: Remove .npmrc
