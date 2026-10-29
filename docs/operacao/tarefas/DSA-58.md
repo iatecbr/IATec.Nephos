@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 570,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-data-table",
   "dependencies": [
     "DSA-03",
@@ -45,7 +45,44 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The evidence switches the footer by the width of the table's space: from 850 px tipo tabela, from 420 to 849 px itens por página and tipo intervalo, below 420 px only tipo intervalo. There is no breakpoint token for 850 or 420 px, and a literal width is forbidden in the component. The code takes the footer from a pagination-layout property the consumer sets — wide, middle (the default, the master's middle case) or narrow — and does not switch it by itself. The automatic switch waits for the breakpoint tokens. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence says the sortable header carries an icon that shows the sort direction, without naming the glyphs. The code uses arrow-up-arrow-down for a column that sorts and is not sorted, arrow-up for ascending and arrow-up turned half a turn for descending, because arrow-down is not in the nph-icon core; nph-pagination turns its arrow the same way. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence does not say what a click on a sortable header does. The code sorts a column that was not sorted ascending, and a second click on the same column turns it descending and back; a click never returns the column to unsorted. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-4",
+      "question": "The evidence names the header box Selecionar todas, without saying all of what. The code checks and unchecks the rows drawn on the current page; rows selected on other pages stay selected, and the header box is indeterminate when only part of the drawn rows is checked. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-5",
+      "question": "The evidence puts nph-skeleton in the cells while carregando, without saying how many rows. The code draws as many skeleton rows as the rows already shown, or the page size when there are none, with the header visible. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-6",
+      "question": "The evidence describes the ajuste column, with an nph-switch, without saying where it goes. The code puts it at the end of the row, before the actions column. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-58/documentacao-figma-aceita-2026-10-28.md"
   ],
@@ -61,8 +98,8 @@
     "excerpt": null,
     "converted_decision": "The nph-data-table board (1371:282), with its Documentação frame (2875:17577), was accepted as the API and behavior specification of nph-data-table. Component set: nph-data-table (2633:69628), estado × size × moldura × cabeçalho fixo × foco × grade × expande, with the inner pieces cabeçalho (1371:37), seleção (1371:68), linha (1371:138), ações (1371:69) and ajuste (2633:5120). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-58-data-table", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-58.md",
   "updated_at": "2026-10-29"
 }
 ```
