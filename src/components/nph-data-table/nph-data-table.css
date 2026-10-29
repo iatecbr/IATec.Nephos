@@ -1,0 +1,150 @@
+/**
+ * Internal style of `nph-data-table`, drawn over the style of `nph-table`, which comes first.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties consumed here. No literal design value goes in: caption, bar, table and footer are
+ * `data-table/stack-gap` apart; the selection column is `data-table/selection-column-width`
+ * and the actions column `data-table/action-column-width`; the unchecked box border
+ * `data-table/checkbox-border`, re-pointed on the `nph-checkbox` of the table as `nph-dialog`
+ * re-points a color of its own pieces; the selected row `data-table/row-selected-background`
+ * with the mark `data-table/row-selected-indicator` in
+ * `data-table/row-selected-indicator-width` at the inline start; the sort arrow
+ * `data-table/sort-icon-foreground`, `data-table/sort-icon-active-foreground` in the sorted
+ * column, at `table/icon-size`; the sortable header takes the cell padding of `nph-table` and
+ * the ring `focus/border` in `table/focus-ring-width` inside the cell; the empty body
+ * `data-table/empty-gap` between the `nph-empty` and its button; the footer
+ * `data-table/pagination-gap`, the label `data-table/page-size-label-foreground` and the
+ * `nph-select` `data-table/page-size-width`.
+ *
+ * The only written quantities are box relations, not visual decisions: `0` (no padding, no
+ * margin, no offset), `100%` (the sort button fills its cell), `-1` (the ring drawn inside the
+ * cell, the mark cast to the inline start in a right-to-left page) and `0.5turn` (descending is
+ * the ascending arrow turned, as the last arrow of `nph-pagination`, pending decision D-2).
+ * Motion: none.
+ */
+
+/* Caption, bar, table and footer, one under the other. */
+:host([data-nph-rendered]) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-data-table-stack-gap);
+}
+
+.caption {
+  margin-block-end: 0;
+}
+
+/* The bar that is not shown takes up no space. */
+slot[hidden],
+.bars[hidden] {
+  display: none;
+}
+
+/* Selection: the box of the header and of each row. */
+.select {
+  inline-size: var(--nph-data-table-selection-column-width);
+}
+
+.select > nph-checkbox {
+  --nph-color-input: var(--nph-data-table-checkbox-border);
+  vertical-align: middle;
+}
+
+/* Sortable header: a button the size of the cell, the ring inside it. */
+th.sortable {
+  padding: 0;
+}
+
+.sort {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-table-cell-gap);
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  padding-block: var(--nph-table-cell-padding-block);
+  padding-inline: var(--nph-table-cell-padding-inline);
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+:host([size='large']) .sort {
+  padding-inline: var(--nph-table-container-padding);
+}
+
+th.end > .sort {
+  justify-content: flex-end;
+}
+
+.sort:focus-visible {
+  outline: var(--nph-table-focus-ring-width) solid var(--nph-focus-border);
+  outline-offset: calc(-1 * var(--nph-table-focus-ring-width));
+}
+
+.arrow {
+  --nph-icon-size-sm: var(--nph-table-icon-size);
+  flex: none;
+  color: var(--nph-data-table-sort-icon-foreground);
+}
+
+.sort:is(.ascending, .descending) > .arrow {
+  color: var(--nph-data-table-sort-icon-active-foreground);
+}
+
+.sort.descending > .arrow {
+  transform: rotate(0.5turn);
+}
+
+/* The selected row: its background, over the stripe and the hover, and the mark at the start. */
+:host([data-nph-rendered]) tbody tr.row.selected > td {
+  background: var(--nph-data-table-row-selected-background);
+}
+
+:host([data-nph-rendered]) tbody tr.row.selected > td + td {
+  box-shadow: calc(-1 * var(--nph-table-border-width)) 0 0 0 var(--nph-data-table-row-selected-background);
+}
+
+:host([data-nph-rendered]) tbody tr.row.selected > td:first-child {
+  box-shadow: inset var(--nph-data-table-row-selected-indicator-width) 0 0 0 var(--nph-data-table-row-selected-indicator);
+}
+
+:host([data-nph-rendered]) tbody tr.row.selected > td:first-child:dir(rtl) {
+  box-shadow: inset calc(-1 * var(--nph-data-table-row-selected-indicator-width)) 0 0 0 var(--nph-data-table-row-selected-indicator);
+}
+
+/* The ⋮ of each row, centered in its column. */
+:host([data-nph-rendered]) .actions {
+  inline-size: var(--nph-data-table-action-column-width);
+  padding-inline: 0;
+  text-align: center;
+}
+
+/* Empty by search: the nph-empty and the button that clears the search. */
+.empty-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--nph-data-table-empty-gap);
+}
+
+/* The footer, outside the scroll area: items per page and the nph-pagination. */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--nph-data-table-pagination-gap);
+}
+
+.page-size-label {
+  color: var(--nph-data-table-page-size-label-foreground);
+}
+
+#page-size {
+  inline-size: var(--nph-data-table-page-size-width);
+}
