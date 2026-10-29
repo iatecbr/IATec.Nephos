@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 540,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-toolbar",
   "dependencies": [
     "DSA-03",
@@ -45,7 +45,38 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The evidence says that in the em massa bar the hover of the actions uses toolbar/bulk-action-background-hover, without saying which actions. The code points the hover of the secondary ghost actions, with text and icon only, at that token inside the bulk bar; the danger ghost action keeps its own destructive hover, which stays visible over the highlighted background. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence sends the keyboard to the W3C ARIA Authoring Practices toolbar pattern, which leaves two choices open. The code wraps the arrow keys from the last action to the first and back, as nph-dropdown-menu does, and keeps the search field (nph-input) out of the arrow keys, as its own Tab stop before the actions, because the arrow keys edit its text. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence gives the bar the role toolbar but says the applied filters are not actions. The code gives the applied filters strip the role group, named by its label, with no arrow keys: the X of each chip and Limpar filtros are Tab stops of their own, which is what the focus rule after a removal assumes. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-4",
+      "question": "The evidence asks for the removal of a chip by its X to be announced in a status region, and says nothing about Limpar filtros. The code also announces, in the same region, the text the consumer gives when Limpar filtros takes every filter away, and then sends the focus to the button that opens the filters. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-5",
+      "question": "The evidence says that on a narrow screen the text of the buttons goes away first and then the actions at the back go to the More menu. The code does not do this by itself in this version: the bar does not wrap, and the sheet tells the consumer to compose the narrow bar with icon-only buttons and the More menu. Whether the bar must collapse by itself is open. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-28.md"
   ],
@@ -64,8 +95,8 @@
     "excerpt": null,
     "converted_decision": "The nph-toolbar board, with its Documentação frame (2944:6528), was accepted as the API and behavior specification of nph-toolbar, and accepted again on 2026-10-28 with the tipo filtros aplicados. Component set: nph-toolbar (2105:426), tipo × tamanho, 15 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-55-toolbar", "commit": "743aefb", "pr": 146 },
+  "context": "docs/operacao/contextos/DSA-55.md",
   "updated_at": "2026-10-29"
 }
 ```

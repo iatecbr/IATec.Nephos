@@ -1,0 +1,138 @@
+/**
+ * Internal style of `nph-toolbar`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here.
+ *
+ * The bar controls background, border, radius and space; every piece inside it keeps its
+ * own height, color, state and focus. The height of the bar comes from the pieces, never
+ * from a toolbar token. No literal design value goes in here.
+ */
+
+/* With invalid input, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: block;
+  position: relative;
+}
+
+/*
+ * Bulk bar: the hover of the secondary ghost actions, with text and icon only, uses the
+ * bar's own hover token, so it stays visible over the highlighted background (D-1). The
+ * tokens of `nph-button` are pointed at it here and inherited by the pieces in the bar,
+ * as `nph-dialog` does with the secondary color of its buttons.
+ */
+:host([type='bulk']) {
+  --nph-button-secondary-ghost-background-hover: var(--nph-toolbar-bulk-action-background-hover);
+  --nph-icon-button-secondary-ghost-background-hover: var(--nph-toolbar-bulk-action-background-hover);
+}
+
+/*
+ * The bar: one line, never wrapping. The start and the end share the free space, so the
+ * center sits in the middle and the end actions sit on the right.
+ */
+.bar {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-toolbar-gap);
+  padding: var(--nph-toolbar-padding);
+  border-radius: var(--nph-toolbar-radius);
+}
+
+:host([type='bulk']) .bar {
+  padding-inline: var(--nph-toolbar-bulk-padding-x);
+  background-color: var(--nph-toolbar-bulk-background);
+}
+
+:host([type='page']) .bar,
+:host([type='tools']) .bar {
+  border: var(--nph-toolbar-border-width) solid var(--nph-toolbar-border);
+  background-color: var(--nph-toolbar-background);
+}
+
+:host([type='floating']) .bar {
+  border: var(--nph-toolbar-border-width) solid var(--nph-toolbar-floating-border);
+  border-radius: var(--nph-toolbar-floating-radius);
+  background-color: var(--nph-toolbar-floating-background);
+  box-shadow: var(--nph-elevation-dropdown);
+}
+
+.zone {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-toolbar-gap);
+}
+
+.start,
+.end {
+  flex: 1 1 0;
+}
+
+.center {
+  flex: none;
+}
+
+.end {
+  justify-content: flex-end;
+}
+
+.zone[hidden] {
+  display: none;
+}
+
+/* The divider between groups of actions takes the height of the pieces. */
+::slotted(nph-separator) {
+  align-self: stretch;
+}
+
+/* The count: "N of M selected", in the label role, in the count color of the type. */
+.count {
+  flex: none;
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  white-space: nowrap;
+  color: var(--nph-toolbar-bulk-count-foreground);
+}
+
+:host([type='floating']) .count {
+  color: var(--nph-toolbar-floating-count-foreground);
+}
+
+/*
+ * The applied filters strip: no background and no border. The items wrap to a new line
+ * when they do not fit, with the same space between the items and between the lines, and
+ * the strip has padding only at its start.
+ */
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-toolbar-gap);
+  padding-inline-start: var(--nph-toolbar-padding);
+}
+
+/* With no chip, the strip is not shown and takes no height. */
+.strip[hidden] {
+  display: none;
+}
+
+/*
+ * The status region of the applied filters: never visible, but in the accessibility tree.
+ * It is clipped, not `display: none`, which the browser does not read, so it keeps
+ * announcing after the strip empties.
+ */
+.status {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}

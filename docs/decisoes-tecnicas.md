@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100 and P101. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101 and P104. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -5443,9 +5443,114 @@ approval.
 
 ---
 
+## P104 — `nph-toolbar`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `2944:6528`, set `2105:426`, page
+`1626:44`) gives one set with the Figma properties `tipo`, `tamanho`, `contagem`, `centro`,
+`caixa de seleção`, `limpar em texto` and `limpar em ícone`, and leaves the code API to the code.
+Five points need a decision of their own:
+
+- the booleans and the zones are pieces the consumer puts in the bar, not states of the bar: the
+  code has to say how the pieces go in and how the bar reaches them;
+- the evidence says the height of each size comes from the pieces, not from a toolbar token, so
+  the bar has to make every piece take its size;
+- the evidence says that in the bulk bar the hover of the actions uses
+  `toolbar/bulk-action-background-hover`, but `nph-button` has no color property and no `::part`
+  (P68);
+- the keyboard rule left Figma for this task: the W3C ARIA Authoring Practices toolbar pattern,
+  which leaves the wrap at the ends and the text fields open, and the applied filters strip, whose
+  filters "are not actions", has a focus rule of its own after a removal;
+- the removal of a filter is announced in a status region, but the text and the removal itself
+  belong to the consuming application (`nph-chip` does not remove itself, P100).
+
+**Decision.** `nph-toolbar` is a Web Component with **open Shadow DOM** (P01), CSS in its own file
+imported `?inline`. It has no own event, no `::part`, no color property and no form association.
+Anatomy only through semantic tokens. Invalid input renders nothing and emits `console.error` only
+in development, one per cause — the rule of P21. A problem in the composition renders anyway and
+emits `console.warn` only in development, once while it lasts, as P76. The names follow P64.
+
+1. **The Figma properties as attributes.** `type` is `bulk` (default, `em massa`), `page`
+   (`página`), `tools` (`ferramentas`), `floating` (`flutuante`) or `applied-filters`
+   (`filtros aplicados`); `size` is `compact`, `default` (default) or `large`. Both reflect, because the
+   internal CSS selects on them. `count-text` is the Figma `contagem`, already localized, drawn by
+   the bar in `text/label-md` with `toolbar/bulk-count-foreground` or
+   `toolbar/floating-count-foreground`, the only text the bar draws, because the color token is the
+   bar's; only in `bulk` and `floating`. `label` names the area and becomes the `aria-label` of the
+   host; `aria-label` or `aria-labelledby` on the host also count, and a bar with no name does not
+   render, as P76.
+
+2. **The zones are slots, the booleans are composition.** The default slot is the start; `center`
+   is the middle, shown only with content (the Figma `centro`); `end` holds the actions on the
+   right; `checkbox` takes the `nph-checkbox` of the bulk bar, before the count (the Figma
+   `caixa de seleção`). Clear in text or in icon is the button the consumer chooses. The start and
+   the end share the free space, so the center sits in the middle; the bar does not wrap.
+
+3. **The bar writes the size.** The bar writes `size` on every direct child that has one —
+   `nph-button`, `nph-togglebutton`, `nph-toggle-group` and `nph-input` — so they are 28, 36 or 44 px
+   high, and a `size` set on such a child is written back, as `nph-toggle-group` writes on its
+   buttons (P76). `nph-chip`, which has two sizes, takes `compact` in the compact bar and `default` in
+   the other two, as the evidence says. Only direct children are reached: a wrapper hides a piece
+   from the size and from the keyboard.
+
+4. **The bulk hover is inherited (D-1).** In the bulk bar, the host points
+   `--nph-button-secondary-ghost-background-hover` and
+   `--nph-icon-button-secondary-ghost-background-hover` at `toolbar/bulk-action-background-hover`;
+   the pieces inside inherit it, as `nph-dialog` points `--nph-color-secondary` for its buttons
+   (P87). No token is created or changed. The danger ghost action keeps its own hover.
+
+5. **Keyboard: the toolbar pattern (D-2).** The actions — `nph-button`, `nph-togglebutton`, also
+   inside an `nph-toggle-group`, and `nph-checkbox` — are one Tab stop, by a roving tabindex on the
+   host of each piece: `tabindex="-1"` on the hosts that do not hold the stop takes their shadow tree
+   out of the Tab order, and `focus()` still reaches the inner control through `delegatesFocus`. The
+   right and left arrows move between them, wrapping at the ends, and follow the reading direction in
+   a right-to-left page; Home and End go to the first and the last; a key with a modifier is left
+   alone. A disabled action is skipped and gives the stop away; a loading one is still an action.
+   `nph-input` keeps its own Tab stop and its arrow keys, which edit its text. A key from the panel
+   of `nph-dropdown-menu` or from a field does not move the bar. The bar gives the `tabindex` back to
+   a piece that leaves it.
+
+6. **The applied filters strip (D-3, D-4).** `applied-filters` is a `role="group"` with no arrow
+   keys: each X and the clear button are Tab stops of their own. Its children are removable
+   `nph-chip` and one `nph-button` after the last chip; with no chip the strip is not shown and takes
+   no height. The bar never removes a chip: the consumer takes the filter away on `nph-remove`. When
+   the chip leaves, if the focus was in the strip and did not go somewhere else, the focus goes to the
+   next chip, else to the previous one, else to `trigger`, the `id` of the button that opens the
+   filters, looked up in the same root as the `for` of `nph-tooltip` (P77); after the clear button
+   empties the strip, to `trigger`. A status region, clipped and never `display: none`, announces
+   `removed-text` with the `{text}` marker filled with the text of the chip, and `cleared-text`
+   after the clear button empties the strip, emptied first so the same sentence is announced again.
+   The strip has to stay in the page while it is empty.
+
+7. **The narrow bar is composition (D-5).** The bar does not collapse by itself: on a narrow screen
+   the consumer drops the text of the buttons first, then sends the actions at the back to More,
+   which opens `nph-dropdown-menu`.
+
+8. **Tokens.** The fourteen `toolbar/*` tokens of the evidence, each in its part: the bar in
+   `toolbar/background`, `toolbar/border` in `toolbar/border-width`, `toolbar/radius` and
+   `toolbar/padding`; the bulk bar in `toolbar/bulk-background`, `toolbar/bulk-padding-x`,
+   `toolbar/bulk-count-foreground` and `toolbar/bulk-action-background-hover`; the floating bar in
+   `toolbar/floating-background`, `toolbar/floating-border`, `toolbar/floating-radius`,
+   `toolbar/floating-count-foreground` and `elevation/dropdown`; the space in `toolbar/gap`. The count
+   is `text/label-md`.
+
+**Source.** Documentation `2944:6528`, set `2105:426` and page `1626:44` of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 27/10/2026 and again on 28/10/2026 with the applied
+filters, with the Figma UX QA and the textual audit approved; the keyboard rule is the W3C ARIA
+Authoring Practices toolbar pattern, by decision of Indiane. The attributes, the slots, the roving
+tabindex, the focus rule's trigger and the announcements are a technical proposal of this
+implementation.
+
+**Out of scope.** A vertical bar, which the evidence forbids. A bar that collapses by itself. The
+pagination, a sibling piece. `nph-data-table`, which places the bar above the table. A new token.
+
+**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-5 wait for Indiane. API
+and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100 or P101 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101 or P104 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

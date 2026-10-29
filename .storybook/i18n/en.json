@@ -311,7 +311,17 @@
     "components-nph-chip-validation--long-text": "Long text",
     "components-nph-chip-validation--invalid-input": "Invalid input",
     "components-nph-chip-validation--examples": "Examples",
-    "components-nph-chip-validation--brands": "Brands"
+    "components-nph-chip-validation--brands": "Brands",
+    "components-nph-toolbar-docs": "Docs",
+    "components-nph-toolbar-docs--documentation": "Documentation",
+    "components-nph-toolbar-validation": "Validation",
+    "components-nph-toolbar-validation--matrix": "Matrix",
+    "components-nph-toolbar-validation--options": "Options",
+    "components-nph-toolbar-validation--piece-states": "Piece states",
+    "components-nph-toolbar-validation--applied-filters": "Applied filters",
+    "components-nph-toolbar-validation--invalid-input": "Invalid input",
+    "components-nph-toolbar-validation--examples": "Examples",
+    "components-nph-toolbar-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -7316,7 +7326,14 @@
       "components-nph-chip-validation--invalid-input": "Invalid input draws nothing: a type or a severity that does not exist, an icon outside the core, two contents at once, a counter on a removable chip, an avatar on a selectable chip, a state in a status severity and an X with no remove-label, each with one error.",
       "components-nph-chip-validation--examples": "The three mandatory examples of the documentation: applied filters in the line of the toolbar, values chosen in a field with one invalid, and quick filters that the person checks and unchecks, each in light and dark mode.",
       "components-nph-chip-validation--brands": "The seven brands in light and dark: the background, border, selected state and counter of the chip follow the brand of the frame, and so does the focus ring on Tab.",
-      "components-nph-label-validation--brands": "The seven brands in light and dark: the label itself does not change; only the focus ring of the information icon follows the brand of the frame on Tab."
+      "components-nph-label-validation--brands": "The seven brands in light and dark: the label itself does not change; only the focus ring of the information icon follows the brand of the frame on Tab.",
+      "components-nph-toolbar-validation--matrix": "The five types in the three sizes, the fifteen variants of the set: bulk, page, tools, floating and the applied filters strip below the page bar. The bar paints background, border, radius and space; every piece inside it takes the size of the bar, 28, 36 or 44 px high.",
+      "components-nph-toolbar-validation--options": "The Figma booleans as composition: the bulk bar with and without the checkbox, with the view switch in the center and with clear as an icon only; the page bar with the center; and the compact floating bar.",
+      "components-nph-toolbar-validation--piece-states": "The states belong to the pieces: the main action of the page bar disabled and loading. Hover and focus are interaction states: move the mouse over an action, enter the bar with Tab and move with the arrow keys to see them.",
+      "components-nph-toolbar-validation--applied-filters": "The applied filters strip below the page bar, in the three sizes. Remove a chip with its X: the focus goes to the next chip, else to the previous one, else to Filter, and the removal is announced. Clear filters takes them all away and sends the focus to Filter.",
+      "components-nph-toolbar-validation--invalid-input": "Invalid input draws nothing: a type or a size that does not exist, and a bar with no name, each with one error.",
+      "components-nph-toolbar-validation--examples": "The three mandatory examples, each in light and dark mode: a table with checked items and no checkbox in the bar, the top of a list with the view switch in the center, and an editor with actions in groups, the trash apart and More last.",
+      "components-nph-toolbar-validation--brands": "The seven brands in light and dark: the compact bulk bar, whose background, count and action hover follow the brand."
     }
   },
   "multiComboboxDocs": {
@@ -8895,5 +8912,359 @@
     "exampleFilters": "Applied filters in the toolbar",
     "exampleField": "Values chosen in a field, one invalid",
     "exampleQuick": "Quick filters"
+  },
+  "toolbarDocs": {
+    "summary": "The bar that gathers, in a single line, the actions for one area of the screen, and the strip of applied filters below it.",
+    "matrixLabel": "type of bar",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-toolbar spec sheet, design.md for the tokens and P104 for the API. Five decisions wait for the design owner (D-1 to D-5 of DSA-55) and show here in their default: the bulk hover on the secondary ghost actions only, the arrow keys that wrap with the search out of them, the applied filters strip as a group with Tab stops, the announcement of Clear filters, and the narrow bar left to the consumer.",
+    "onThisPage": "On this page",
+    "whenToUseTitle": "When to use",
+    "whenNotToUseTitle": "When not to use",
+    "description": "Use it when several actions apply to the same set, such as a table, a list or an editor. The bar splits the actions into three zones — start, center and end — and each zone takes Nephos pieces. Choose the type by the situation and the size by the density of the screen.",
+    "sourceLabel": "Source:",
+    "sourceFrame": "Figma, page NPH — Toolbar 1626:44, documentation 2944:6528, set 2105:426",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "type",
+        "bulk (default), page, tools, floating or applied-filters, the Figma tipo. Reflected: it picks the background, the border and the layout."
+      ],
+      [
+        "size",
+        "compact, default (default) or large, the Figma tamanho. Reflected. The bar writes it on every direct child that has a size, so they are 28, 36 or 44 px high; nph-chip takes compact in the compact bar and default in the other two."
+      ],
+      [
+        "label",
+        "The name of the area, such as Table actions. Required: it becomes the aria-label of the host, the toolbar. A name the consumer puts on the host with aria-label or aria-labelledby also counts."
+      ],
+      [
+        "count-text",
+        "The count, \"2 of 6 selected\", already localized, drawn in text/label-md with the count color of the type. Only in bulk and floating."
+      ],
+      [
+        "trigger",
+        "Applied filters: the id of the button that opens the filters, in the same root. The focus goes there when no chip is left."
+      ],
+      [
+        "removed-text",
+        "Applied filters: the sentence announced after a chip leaves, with the text marker in braces, filled with the text of the chip."
+      ],
+      [
+        "cleared-text",
+        "Applied filters: the sentence announced after Clear filters empties the strip."
+      ],
+      [
+        "slot",
+        "The start: the clear button of the bulk bar, the search and Filter of the page bar, the groups of the tools bar; in applied-filters, the chips and Clear filters."
+      ],
+      [
+        "checkbox",
+        "Named slot, bulk only: one nph-checkbox before the count."
+      ],
+      [
+        "center",
+        "Named slot: one nph-toggle-group in the middle. The zone shows only with content."
+      ],
+      [
+        "end",
+        "Named slot: the actions on the right, the main one in primary solid, the destructive one in danger ghost after a divider, More and Close last."
+      ]
+    ],
+    "invalidTitle": "Invalid input draws nothing.",
+    "invalidText": "A type or a size outside the lists, or no name, draws nothing and says why in development. A problem in the composition — count-text outside bulk and floating, content in a slot the type does not show, two main actions, a divider that opens or closes the bar, and in applied-filters a child that is not a removable chip or the clear button, two buttons, the button before a chip, no trigger or no removed-text — draws and warns once in development.",
+    "sourceApi": "nph-toolbar spec sheet; docs/decisoes-tecnicas.md › P104",
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-toolbar type=\"page\" label=\"People\">\n  <nph-button severity=\"secondary\" emphasis=\"ghost\" icon-start=\"filter\" text=\"Filter\"></nph-button>\n  <nph-button slot=\"end\" text=\"New person\"></nph-button>\n</nph-toolbar>",
+    "usageTag": "The bar with its pieces as direct children: the default slot is the start and slot end holds the actions on the right. The bar does not register the pieces: each one is imported on its own.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, documentation 2944:6528; docs/decisoes-tecnicas.md › P70",
+    "typesTitle": "Types",
+    "typesText": "The type is chosen by the situation. The bar controls background, border, radius and space; each piece keeps its own color, state and focus.",
+    "typesHeader": [
+      "Type",
+      "What it does"
+    ],
+    "types": [
+      [
+        "bulk",
+        "There are checked items: highlighted background with no border, the optional checkbox, the count and the actions."
+      ],
+      [
+        "page",
+        "Top of a list or table: search and Filter at the start, create at the end."
+      ],
+      [
+        "tools",
+        "Content being edited: groups of icon-only actions, the trash apart and More last."
+      ],
+      [
+        "floating",
+        "Selection in a large area: the popover background, its border and the dropdown shadow, with the count and Close last."
+      ],
+      [
+        "applied-filters",
+        "A strip below the page bar, with no background and no border: one removable nph-chip per filter and Clear filters after the last one. It wraps when the items do not fit."
+      ]
+    ],
+    "sizesTitle": "Sizes",
+    "sizesText": "compact on a dense screen used with a mouse, default in general, large on a touch screen. The bar has no height of its own: its pieces are 28, 36 or 44 px high.",
+    "sizesCaption": "The page bar in compact, default and large.",
+    "optionsTitle": "Options",
+    "optionsText": "The Figma booleans are not properties of the bar: they are the pieces the consumer puts in it.",
+    "optionsCaption": "Bulk bar without the checkbox, with clear as an icon only, and with the view switch in the center.",
+    "optionsHeader": [
+      "Figma",
+      "In code"
+    ],
+    "options": [
+      [
+        "caixa de seleção",
+        "An nph-checkbox, indeterminate, in slot checkbox of the bulk bar. Leave it out when the table already has the checkbox in its header."
+      ],
+      [
+        "centro",
+        "An nph-toggle-group in slot center."
+      ],
+      [
+        "limpar em texto · limpar em ícone",
+        "The clear button with text, or icon only with a label and its tooltip, never both. Text is the default; icon only in a narrow bar."
+      ],
+      [
+        "contagem",
+        "The count-text attribute."
+      ]
+    ],
+    "statesTitle": "States",
+    "statesText": "The bar has no state of its own: hover, focus, disabled and loading belong to the pieces. The icon of the ghost buttons becomes solid on hover and when checked. In the bulk bar, the hover of the secondary ghost actions uses toolbar/bulk-action-background-hover.",
+    "statesCaption": "New person disabled, when no action is available, and loading, while the action runs.",
+    "filtersTitle": "Applied filters",
+    "filtersText": "The applied filters are not actions: they go in a strip of their own below the page bar. Remove a filter with its X, or all of them with Clear filters, to see the focus rule.",
+    "filtersCaption": "The page bar and its applied filters strip: Filter is the trigger.",
+    "filtersHeader": [
+      "Rule",
+      "What happens"
+    ],
+    "filtersRules": [
+      [
+        "No filter",
+        "The strip is not shown and the page bar keeps its height. Clear filters shows from the first chip."
+      ],
+      [
+        "Removing a chip",
+        "The bar never removes a chip: the consumer takes the filter away on nph-remove. Then the focus goes to the next chip, else to the previous one, else to the trigger."
+      ],
+      [
+        "Clear filters",
+        "The consumer takes every filter away; the focus goes to the trigger."
+      ],
+      [
+        "Announcement",
+        "A status region announces removed-text after a chip leaves, and cleared-text after Clear filters empties the strip."
+      ],
+      [
+        "Keep it in the page",
+        "Keep the strip in the page while it is empty: removing it loses the announcement and the focus."
+      ]
+    ],
+    "sourceFilters": "Figma, documentation 2944:6528, section Applied filters strip; docs/decisoes-tecnicas.md › P104",
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "It sits at the top of the area it controls: above the table, the list or the editor. The floating bar sits over the content, near the selection, or pinned to the foot of the area.",
+      "Pieces inside it: nph-checkbox, nph-input, nph-button, nph-toggle-group, nph-chip and nph-separator.",
+      "More opens nph-dropdown-menu, where the text of the action always shows.",
+      "The pagination is a sibling piece: it stays outside the bar."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Bar",
+        "toolbar/background, toolbar/border in toolbar/border-width, toolbar/radius and toolbar/padding. Bulk: toolbar/bulk-background, no border, sides in toolbar/bulk-padding-x. Floating: toolbar/floating-background, toolbar/floating-border, toolbar/floating-radius and elevation/dropdown."
+      ],
+      [
+        "Start",
+        "Bulk: the checkbox and the count in text/label-md, toolbar/bulk-count-foreground. Page: search and Filter. Tools: groups of icon-only buttons. Floating: the count in toolbar/floating-count-foreground."
+      ],
+      [
+        "Center",
+        "Optional: an nph-toggle-group, to choose the view or turn on a mode."
+      ],
+      [
+        "End",
+        "The actions on the right in ghost; the main action in primary solid; the destructive action in danger ghost, in a group of its own; More and Close last."
+      ],
+      [
+        "Divider",
+        "A vertical nph-separator between groups of actions. It never opens or closes the bar."
+      ],
+      [
+        "Space",
+        "toolbar/gap between the items and between the zones."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "The host is role toolbar, named by label; the applied filters strip is role group. The divider is decorative."
+      ],
+      [
+        "Keyboard",
+        "The actions are one Tab stop. The right and left arrows move between them, wrapping at the ends; Home and End go to the first and the last; a disabled action is skipped. The search keeps its own Tab stop and its arrow keys. In the applied filters strip, each X and Clear filters are Tab stops of their own."
+      ],
+      [
+        "Visible focus",
+        "Each piece shows its own focus, with border and halo. The bar draws no focus of its own."
+      ],
+      [
+        "Contrast",
+        "Text and icon over the bar background pass 4.5:1 and 3:1, in light and dark. In the bulk bar, the hover of the actions uses toolbar/bulk-action-background-hover so it stays visible."
+      ],
+      [
+        "Color is not the only signal",
+        "The destructive action has a label or a trash icon besides the red. The checked item in the center changes its background and its icon becomes solid."
+      ],
+      [
+        "Touch target",
+        "The actions are 28, 36 or 44 px; the checkbox is 24 px; the X of each chip is at least 24 px. On a touch screen, use large."
+      ],
+      [
+        "Accessible name",
+        "The bar carries the name of the area. An icon-only button carries a label and a tooltip with the same name. The X of each chip says the filter, and its removal is announced in a status region."
+      ]
+    ],
+    "sourceAccessibility": "Figma, documentation 2944:6528, section Accessibility; W3C ARIA Authoring Practices, toolbar pattern",
+    "doTitle": "Do",
+    "dontTitle": "Do not",
+    "do": [
+      "Use only one main action, at the end, in primary solid.",
+      "Separate the destructive action with the divider and use danger ghost.",
+      "Show the count in the bulk bar.",
+      "Send what does not fit to More: the bar does not wrap; only the applied filters strip wraps."
+    ],
+    "dont": [
+      "Do not put two main actions: use one primary solid and the others in ghost.",
+      "Do not use an outline on the secondary actions: use ghost.",
+      "Do not turn on clear in text and clear in icon together: choose one.",
+      "Do not leave the destructive action next to the others: use the divider before it."
+    ],
+    "examplesTitle": "Mandatory examples",
+    "referencesTitle": "References",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, page NPH — Toolbar 1626:44, documentation 2944:6528, set 2105:426",
+      "fichas/nph-toolbar.md",
+      "docs/decisoes-tecnicas.md › P104",
+      "Task DSA-55, pending decisions D-1 to D-5",
+      "W3C ARIA Authoring Practices, toolbar pattern"
+    ],
+    "whenToUse": [
+      "Bulk: the person checked items and will act on all of them at once.",
+      "Page: at the top of a list or table, to search, filter and create.",
+      "Tools: content being edited, with actions that apply to it.",
+      "Floating: the selection is in a large area and the top bar goes out of view.",
+      "Applied filters: the person filtered the list and needs to see each filter and take them away one by one or all at once."
+    ],
+    "whenNotToUse": [
+      "For a single action: use nph-button where it belongs.",
+      "To hold the actions that do not fit: that is nph-dropdown-menu, opened by More.",
+      "To move between pages: the pagination is a sibling piece and stays outside the bar.",
+      "For a vertical bar: there is none."
+    ],
+    "tableActions": "Table actions",
+    "people": "People",
+    "editor": "Editor",
+    "selection": "Selection",
+    "appliedFilters": "Applied filters",
+    "count": "2 of 6 selected",
+    "countExample": "3 of 12 selected",
+    "selectAll": "Select all",
+    "clearSelection": "Clear selection",
+    "export": "Export",
+    "delete": "Delete",
+    "search": "Search people",
+    "filter": "Filter",
+    "newPerson": "New person",
+    "download": "Download",
+    "settings": "Settings",
+    "view": "View",
+    "list": "List",
+    "grid": "Grid",
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "link": "Link",
+    "print": "Print",
+    "more": "More",
+    "close": "Close",
+    "filters": [
+      "Status: Approved",
+      "Unit: Central"
+    ],
+    "removeFilter": "Remove filter",
+    "clearFilters": "Clear filters",
+    "removed": "Filter removed: {text}",
+    "cleared": "All filters removed",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "exampleTable": "Table with checked items: the checkbox is in the table header, so the bar has none",
+    "exampleList": "Top of a list, with the view switch in the center",
+    "exampleEditor": "Editor with actions in groups, the trash apart and More at the end"
+  },
+  "toolbarValidation": {
+    "tableActions": "Table actions",
+    "people": "People",
+    "editor": "Editor",
+    "selection": "Selection",
+    "appliedFilters": "Applied filters",
+    "count": "2 of 6 selected",
+    "countExample": "3 of 12 selected",
+    "selectAll": "Select all",
+    "clearSelection": "Clear selection",
+    "export": "Export",
+    "delete": "Delete",
+    "search": "Search people",
+    "filter": "Filter",
+    "newPerson": "New person",
+    "download": "Download",
+    "settings": "Settings",
+    "view": "View",
+    "list": "List",
+    "grid": "Grid",
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "link": "Link",
+    "print": "Print",
+    "more": "More",
+    "close": "Close",
+    "filters": [
+      "Status: Approved",
+      "Unit: Central"
+    ],
+    "removeFilter": "Remove filter",
+    "clearFilters": "Clear filters",
+    "removed": "Filter removed: {text}",
+    "cleared": "All filters removed",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "exampleTable": "Table with checked items: the checkbox is in the table header, so the bar has none",
+    "exampleList": "Top of a list, with the view switch in the center",
+    "exampleEditor": "Editor with actions in groups, the trash apart and More at the end"
   }
 }
