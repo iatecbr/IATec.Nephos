@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 540,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-toolbar",
   "dependencies": [
     "DSA-03",
@@ -37,11 +37,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 76552944d5822fe6c5ec0880941c8d96a44b526b origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-55/review-and-merge-2026-10-29.md",
+      "result": "passed",
+      "verified_at": "2026-10-29",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -78,7 +78,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-28.md"
+    "docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-28.md",
+    "docs/operacao/evidencias/DSA-55/review-and-merge-2026-10-29.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -95,8 +96,8 @@
     "excerpt": null,
     "converted_decision": "The nph-toolbar board, with its Documentação frame (2944:6528), was accepted as the API and behavior specification of nph-toolbar, and accepted again on 2026-10-28 with the tipo filtros aplicados. Component set: nph-toolbar (2105:426), tipo × tamanho, 15 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-55-toolbar", "commit": "743aefb", "pr": 146 },
-  "context": "docs/operacao/contextos/DSA-55.md",
+  "git_review": { "branch": "feat/dsa-55-toolbar", "commit": "7655294", "pr": 146 },
+  "context": null,
   "updated_at": "2026-10-29"
 }
 ```

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 570,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "ready",
   "piece": "nph-data-table",
   "dependencies": [
     "DSA-03",
@@ -44,15 +44,7 @@
       "verified_by": null
     }
   ],
-  "blockers": [
-    {
-      "id": "B1",
-      "what_blocks": "The toolbar and the bulk action bar of the nph-data-table are the nph-toolbar (DSA-55), which is blocked only by its B4, in the code: it waits for DSA-60 and DSA-61 to be done. The hover of the ghost ⋮ uses the nph-icon-button secondary ghost hover of DSA-60, whose tokens are on v/5.0.0. The nph-chip (DSA-57) is done.",
-      "owner": "elvys",
-      "what_resolves": "DSA-55 (nph-toolbar) and DSA-60 (secondary ghost hover) are done on v/5.0.0.",
-      "opened_at": "2026-10-28"
-    }
-  ],
+  "blockers": [],
   "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-58/documentacao-figma-aceita-2026-10-28.md"
@@ -83,10 +75,10 @@ The `nph-data-table` exists in `src/components/nph-data-table/`, with a spec, te
 ## Where the contract is
 In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA-58/documentacao-figma-aceita-2026-10-28.md`. It carries the Figma documentation converted to text, with the tokens of each part and of each state. There is no need to open Figma.
 
-## Why it is blocked
+## Why it is ready
 The 13 `data-table/*` tokens came with this task and are on `v/5.0.0`; no core primitive was needed. The table itself builds on nph-table (DSA-49, DSA-56), and the pieces inside are done: nph-icon, nph-badge, nph-checkbox, nph-skeleton, nph-switch, nph-select, nph-empty, nph-dropdown-menu, nph-icon-button and nph-pagination. The search field, an nph-input, comes inside the nph-toolbar.
 
-The toolbar above the table and the bulk action bar are the nph-toolbar (DSA-55). It is blocked only by its B4, in the code: it waits for DSA-60 and DSA-61 to be done. The hover of the ghost ⋮ in each row uses the secondary ghost hover of DSA-60, whose tokens are on `v/5.0.0`. The nph-chip (DSA-57), used by the applied filters, is done. When DSA-55 and DSA-60 are done, this task goes to `ready`.
+The toolbar above the table and the bulk action bar are the nph-toolbar (DSA-55), which is `done` on `v/5.0.0` (PR #146). The hover of the ghost ⋮ in each row uses the secondary ghost hover of DSA-60, which is `done` (PR #143). The nph-chip (DSA-57), used by the applied filters, is done. B1 is closed: DSA-55 and DSA-60 are `done`, so every dependency is `done` and the task is `ready`.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
