@@ -44,10 +44,10 @@ focus rule of the applied filters was also checked by hand in Storybook: the X m
 the next chip, the last one to the Filter button, and the strip hides.
 
 ## Evidence
-None yet. `review-and-merge` waits for the pull request.
+None yet. `review-and-merge` waits for the merge of pull request #146.
 
 ## Blocker
 None.
 
 ## Next command
-`gh pr create --base v/5.0.0`
+Wait for the Copilot review of pull request #146.

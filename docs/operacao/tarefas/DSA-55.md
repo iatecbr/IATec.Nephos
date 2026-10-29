@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 540,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-toolbar",
   "dependencies": [
     "DSA-03",
@@ -95,7 +95,7 @@
     "excerpt": null,
     "converted_decision": "The nph-toolbar board, with its Documentação frame (2944:6528), was accepted as the API and behavior specification of nph-toolbar, and accepted again on 2026-10-28 with the tipo filtros aplicados. Component set: nph-toolbar (2105:426), tipo × tamanho, 15 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-55-toolbar", "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-55-toolbar", "commit": "743aefb", "pr": 146 },
   "context": "docs/operacao/contextos/DSA-55.md",
   "updated_at": "2026-10-29"
 }
