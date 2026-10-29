@@ -474,6 +474,29 @@ describe('keyboard: the toolbar pattern of the APG (D-2)', () => {
     expect(focusedId()).toBe('filter');
   });
 
+  it('a toggle button added to a group joins the roving, and removing the one with the stop gives it away', async () => {
+    const bar = await mount(PAGE);
+    const group = bar.querySelector('nph-toggle-group') as HTMLElement;
+    const added = document.createElement('nph-togglebutton');
+    added.id = 'table';
+    added.setAttribute('value', 'table');
+    added.setAttribute('text', 'Table');
+    group.append(added);
+    await settle();
+    expect(added.getAttribute('tabindex')).toBe('-1');
+    (document.getElementById('list') as HTMLElement).focus();
+    await userEvent.keyboard('{ArrowRight}{ArrowRight}');
+    expect(focusedId()).toBe('table');
+    (document.getElementById('before') as HTMLElement).focus();
+    added.remove();
+    await settle();
+    const stops = [...bar.querySelectorAll('nph-button, nph-togglebutton')].filter((action) => !action.hasAttribute('tabindex'));
+    expect(stops.map((action) => action.id)).toEqual(['filter']);
+    await userEvent.tab();
+    await userEvent.tab();
+    expect(focusedId()).toBe('filter');
+  });
+
   it('a loading action is still an action', async () => {
     await mount(PAGE.replace('id="create"', 'id="create" loading'));
     (document.getElementById('download') as HTMLElement).focus();
@@ -619,6 +642,40 @@ describe('the applied filters strip', () => {
     await settle();
     expect(focusedId()).toBe('open-filters');
     await vi.waitFor(() => expect(part(bar, '[role="status"]').textContent).toBe('All filters removed'));
+  });
+
+  it('a removed chip skips a disabled neighbor: the next enabled chip, else the previous one', async () => {
+    await mount(FILTERS);
+    (document.getElementById('unit') as HTMLElement & { disabled: boolean }).disabled = true;
+    await settle();
+    await remove('status');
+    expect(focusedId()).toBe('year');
+    await remove('year');
+    expect(focusedId()).toBe('open-filters');
+  });
+
+  it('Clear filters that also removes the button still announces and sends the focus to the trigger', async () => {
+    const bar = await mount(FILTERS);
+    const clear = document.getElementById('clear-filters') as HTMLElement;
+    clear.addEventListener('click', () => bar.replaceChildren(), { once: true });
+    await userEvent.click(clear);
+    await settle();
+    expect(focusedId()).toBe('open-filters');
+    await vi.waitFor(() => expect(part(bar, '[role="status"]').textContent).toBe('All filters removed'));
+  });
+
+  it('inside the shadow root of another component, the focus still goes to the trigger', async () => {
+    const outer = document.createElement('div');
+    document.body.append(outer);
+    const root = outer.attachShadow({ mode: 'open' });
+    root.innerHTML = FILTERS;
+    await settle(root);
+    const bar = root.querySelector('nph-toolbar') as NphToolbar;
+    const clear = root.getElementById('clear-filters') as HTMLElement;
+    clear.addEventListener('click', () => bar.querySelectorAll('nph-chip').forEach((chip) => chip.remove()), { once: true });
+    await userEvent.click(clear);
+    await settle(root);
+    expect(root.activeElement?.id).toBe('open-filters');
   });
 
   it('a consumer that removes the chip later still gets the focus rule', async () => {

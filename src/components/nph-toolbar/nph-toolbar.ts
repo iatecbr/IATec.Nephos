@@ -131,8 +131,9 @@ function isMainAction(element: Element): boolean {
 /** What a removal by the X left to settle once the chip is gone. */
 interface PendingRemoval {
   readonly chip: Element;
-  readonly next: Element | undefined;
-  readonly previous: Element | undefined;
+  /** The chips after it, nearest first, and the chips before it, nearest first. */
+  readonly after: readonly Element[];
+  readonly before: readonly Element[];
   readonly text: string;
   readonly focusInside: boolean;
 }
@@ -188,6 +189,11 @@ export class NphToolbar extends LitElement {
   private managedActions = new Set<Element>();
   /** The chips as the strip last saw them: the consumer may remove a chip before the bar hears of it. */
   private knownChips: Element[] = [];
+  /**
+   * Every clear button the strip has held. A consumer may remove the button with the chips, and
+   * after a real click the slot may see it leave before the bar hears the click.
+   */
+  private readonly knownButtons = new WeakSet<Element>();
   /** Whether the focus was in the bar a moment ago: it outlives the removal of the focused chip. */
   private focusInside = false;
   private pendingRemoval: PendingRemoval | undefined;
@@ -232,7 +238,12 @@ export class NphToolbar extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    this.childObserver.observe(this, { attributes: true, attributeFilter: ['size', 'disabled'], subtree: true });
+    this.childObserver.observe(this, {
+      attributes: true,
+      attributeFilter: ['size', 'disabled'],
+      childList: true,
+      subtree: true,
+    });
     this.requestUpdate();
   }
 
@@ -270,6 +281,14 @@ export class NphToolbar extends LitElement {
     });
   }
 
+  private rememberButtons(): void {
+    for (const child of this.children) {
+      if (slotOf(child) === '' && child.localName === 'nph-button') {
+        this.knownButtons.add(child);
+      }
+    }
+  }
+
   private chips(): Element[] {
     return [...this.children].filter((child) => slotOf(child) === '' && isRemovableChip(child));
   }
@@ -284,7 +303,15 @@ export class NphToolbar extends LitElement {
     if (sizeChanged) {
       this.syncSizes();
     }
-    if (records.some((record) => record.attributeName === 'disabled')) {
+    /* A toggle button added to or removed from a direct group raises no slotchange in the bar. */
+    const groupChanged = records.some(
+      (record) =>
+        record.type === 'childList' &&
+        record.target instanceof Element &&
+        record.target.parentElement === this &&
+        record.target.localName === 'nph-toggle-group',
+    );
+    if (groupChanged || records.some((record) => record.attributeName === 'disabled')) {
       this.syncActions();
     }
   }
@@ -416,8 +443,8 @@ export class NphToolbar extends LitElement {
     this.pendingClear = undefined;
     this.pendingRemoval = {
       chip,
-      next: chips[position + 1],
-      previous: chips[position - 1],
+      after: chips.slice(position + 1),
+      before: chips.slice(0, position).reverse(),
       text: detail?.text ?? '',
       focusInside: this.focusInside,
     };
@@ -430,9 +457,10 @@ export class NphToolbar extends LitElement {
     if (!this.valid || !this.isFilters) {
       return;
     }
+    this.rememberButtons();
     const button = event
       .composedPath()
-      .find((node): node is Element => node instanceof Element && node.parentElement === this && node.localName === 'nph-button');
+      .find((node): node is Element => node instanceof Element && this.knownButtons.has(node));
     if (button === undefined || isDisabled(button)) {
       return;
     }
@@ -452,12 +480,16 @@ export class NphToolbar extends LitElement {
     return root.getElementById?.(id) ?? null;
   }
 
-  /** The focus may move only when it was in the strip and has not gone somewhere else since. */
+  /**
+   * The focus may move only when it was in the strip and has not gone somewhere else since. It is
+   * read in the root of the bar: in a shadow root, `document.activeElement` is the outer host.
+   */
   private mayMoveFocus(focusInside: boolean): boolean {
     if (!focusInside) {
       return false;
     }
-    const active = document.activeElement;
+    const root = this.getRootNode() as Document | ShadowRoot;
+    const active = root.activeElement;
     return active === null || active === document.body || this.contains(active);
   }
 
@@ -481,6 +513,7 @@ export class NphToolbar extends LitElement {
   private settleFilters(): void {
     const chips = this.chips();
     this.knownChips = chips;
+    this.rememberButtons();
     this.hasChips = chips.length > 0;
     const removal = this.pendingRemoval;
     if (removal !== undefined && !chips.includes(removal.chip)) {
@@ -490,7 +523,8 @@ export class NphToolbar extends LitElement {
         this.announce(text.replaceAll('{text}', removal.text));
       }
       if (this.mayMoveFocus(removal.focusInside)) {
-        const neighbor = [removal.next, removal.previous].find((chip) => chip !== undefined && chips.includes(chip));
+        /* The nearest chip that is still there and takes focus: after it, else before it. */
+        const neighbor = [...removal.after, ...removal.before].find((chip) => chips.includes(chip) && !isDisabled(chip));
         this.moveFocusTo(neighbor ?? this.triggerElement());
       }
       return;
@@ -614,6 +648,7 @@ export class NphToolbar extends LitElement {
     }
     this.hasCenter = [...this.children].some((child) => slotOf(child) === 'center');
     this.knownChips = this.chips();
+    this.rememberButtons();
     this.hasChips = this.knownChips.length > 0;
   }
 
