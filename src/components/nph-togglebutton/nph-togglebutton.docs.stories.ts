@@ -51,6 +51,7 @@ const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
   usage: 'usage',
+  sizes: 'sizes',
   states: 'states',
   icons: 'icons',
   anatomy: 'anatomy',
@@ -73,14 +74,16 @@ function bothModes(d: Record<string, string>, content: () => TemplateResult): Te
   return html`<div style=${modes}>${schemes.map(([scheme, caption]) => inScheme(scheme, caption, content()))}</div>`;
 }
 
-/** The icon pairs of the Icons section: the two icon attributes of one row. */
+/** The icon pairs of the Icons section: the two icon attributes of one row, one icon at most. */
 const ICON_ROWS: ReadonlyArray<readonly [string, string]> = [
-  ['auto', 'auto'],
-  ['none', 'none'],
-  ['star', 'star'],
   ['auto', 'none'],
   ['none', 'auto'],
+  ['star', 'none'],
+  ['none', 'none'],
 ];
+
+/** The sizes of the Sizes section, in the order of the Figma `tamanho`. */
+const SIZES = ['compact', 'default', 'large'] as const;
 
 /** Reading page, built with the blocks of `src/shared/docs/page.ts`. */
 export const Documentation: Story = {
@@ -120,6 +123,7 @@ export const Documentation: Story = {
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
           { id: SECTIONS.usage, title: d.usageTitle },
+          { id: SECTIONS.sizes, title: d.sizesTitle },
           { id: SECTIONS.states, title: d.statesTitle },
           { id: SECTIONS.icons, title: d.iconsTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
@@ -149,6 +153,28 @@ export const Documentation: Story = {
           d.usageTitle,
           html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-togglebutton'], d.usageImport)}
             ${source(d.sourceLabel, d.sourceUsage)}`,
+        )}
+
+        ${section(
+          SECTIONS.sizes,
+          d.sizesTitle,
+          html`
+            ${text(d.sizesText)}
+            ${demo(
+              html`<div style=${column}>
+                ${SIZES.map(
+                  (size) => html`<div style=${row}>
+                    <nph-togglebutton size=${size} text=${d.showGrid}></nph-togglebutton>
+                    <nph-togglebutton size=${size} text=${d.showGrid} pressed></nph-togglebutton>
+                    <nph-togglebutton size=${size} icon-start="star" label=${d.favorites}></nph-togglebutton>
+                    <nph-togglebutton size=${size} icon-start="star" label=${d.favorites} pressed></nph-togglebutton>
+                  </div>`,
+                )}
+              </div>`,
+              d.sizesCaption,
+            )}
+            ${table(d.sizesHeader, d.sizes.map(pair))} ${source(d.sourceLabel, d.sourceSpec)}
+          `,
         )}
 
         ${section(

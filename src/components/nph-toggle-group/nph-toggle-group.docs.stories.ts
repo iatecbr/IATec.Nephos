@@ -51,6 +51,7 @@ const SECTIONS = {
   whenToUse: 'when-to-use',
   api: 'api',
   usage: 'usage',
+  sizes: 'sizes',
   selection: 'selection',
   anatomy: 'anatomy',
   accessibility: 'accessibility',
@@ -113,6 +114,7 @@ export const Documentation: Story = {
           { id: SECTIONS.whenToUse, title: d.whenToUseTitle },
           { id: SECTIONS.api, title: d.apiTitle },
           { id: SECTIONS.usage, title: d.usageTitle },
+          { id: SECTIONS.sizes, title: d.sizesTitle },
           { id: SECTIONS.selection, title: d.selectionTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
@@ -141,6 +143,32 @@ export const Documentation: Story = {
           d.usageTitle,
           html`${usage(d.usageHeader, d.usageMarkup, d.usageTag, ['nph-toggle-group'], d.usageImport)}
             ${source(d.sourceLabel, d.sourceUsage)}`,
+        )}
+
+        ${section(
+          SECTIONS.sizes,
+          d.sizesTitle,
+          html`
+            ${text(d.sizesText)}
+            ${demo(
+              html`<div style="display: flex; flex-direction: column; gap: var(--nph-space-stack);">
+                ${(['compact', 'default', 'large'] as const).map((size) =>
+                  group({
+                    label: alignmentText.group,
+                    size,
+                    value: ['left'],
+                    items: [
+                      { value: 'left', label: alignmentText.left, icon: 'align-left' },
+                      { value: 'center', label: alignmentText.center, icon: 'align-center' },
+                      { value: 'right', label: alignmentText.right, icon: 'align-right' },
+                    ],
+                  }),
+                )}
+              </div>`,
+              d.sizesCaption,
+            )}
+            ${source(d.sourceLabel, d.sourceSpec)}
+          `,
         )}
 
         ${section(

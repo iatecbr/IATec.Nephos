@@ -101,6 +101,7 @@
     "components-nph-toggle-group-docs--documentation": "Documentation",
     "components-nph-toggle-group-validation": "Validation",
     "components-nph-toggle-group-validation--matrix": "Matrix",
+    "components-nph-toggle-group-validation--sizes": "Sizes",
     "components-nph-toggle-group-validation--single-selection": "Single selection",
     "components-nph-toggle-group-validation--multiple-selection": "Multiple selection",
     "components-nph-toggle-group-validation--button-states": "Button states",
@@ -110,6 +111,7 @@
     "components-nph-togglebutton-docs--documentation": "Documentation",
     "components-nph-togglebutton-validation": "Validation",
     "components-nph-togglebutton-validation--matrix": "Matrix",
+    "components-nph-togglebutton-validation--sizes": "Sizes",
     "components-nph-togglebutton-validation--icons": "Icons",
     "components-nph-togglebutton-validation--icon-only": "Icon only",
     "components-nph-togglebutton-validation--disabled": "Disabled",
@@ -1623,7 +1625,7 @@
     "darkCaption": "Dark mode"
   },
   "togglebuttonDocs": {
-    "summary": "A button that holds a boolean value, on or off, and shows the state in the piece itself: the inner area rises, with a shadow and an outline. It takes text or an icon only, and fires nph-change when the person toggles it.",
+    "summary": "A button that holds a boolean value, on or off, and shows the state in the piece itself: the background and the label color change, and the icon turns solid. It comes in three sizes, takes text or an icon only, and fires nph-change when the person toggles it.",
     "onThisPage": "On this page",
     "derivedTitle": "This page is derived.",
     "derivedText": "In case of divergence, the canonical sources prevail: the nph-togglebutton spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P73. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
@@ -1633,7 +1635,7 @@
       "In a toolbar, when the option turns on or off with an immediate effect, among other buttons.",
       "With text, when the option name must be visible.",
       "Icon only, when the icon is recognized without a caption: give it an accessible name.",
-      "Start and end icons are optional: the raised inner area with an outline still shows the state."
+      "One icon at most, at the start by default: without an icon, the background and the label color still show the state."
     ],
     "whenNotToUseTitle": "When not to use",
     "whenNotToUse": [
@@ -1662,6 +1664,10 @@
         "Turns the piece off: it leaves the Tab order, does not toggle, does not fire nph-change and stays at state/disabled-opacity. Reflected to the attribute."
       ],
       [
+        "size",
+        "compact, default (default) or large: 28, 36 or 44 px high, with or without text. Reflected to the attribute. Icon only, the icon follows it: icon/size-sm, icon/size-md or icon/size-lg. Inside nph-toggle-group, the group sets it."
+      ],
+      [
         "text",
         "The option name, already localized. It is the accessible name and stays on one line. Without it, the piece is icon only and needs label."
       ],
@@ -1671,11 +1677,11 @@
       ],
       [
         "icon-start",
-        "auto (default), none or a name from the nph-icon core, before the text, at icon/size-sm. auto is xmark when off and check when on. A name is one fixed icon. Icon only uses this one."
+        "auto (default), none or a name from the nph-icon core, before the text, at icon/size-sm. auto is xmark when off and check when on. A name is one fixed icon. Icon only uses this one, at the icon size of size."
       ],
       [
         "icon-end",
-        "The same values, after the text. Icon only ignores it."
+        "none (default), auto or a name from the nph-icon core, after the text. One icon at most: with text, turn icon-start off with none to use it; both on draws nothing. Icon only ignores it."
       ],
       [
         "nph-change",
@@ -1691,6 +1697,27 @@
     "usageTag": "The tag of the piece. It has no slot: the text and every other content come as attributes.",
     "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
     "sourceUsage": "nph-togglebutton spec sheet; docs/decisoes-tecnicas.md › P70",
+    "sizesTitle": "Sizes",
+    "sizesText": "size takes compact, default or large, the Figma property tamanho. It changes the height and, in the icon-only piece, the size of the icon; the padding, the radius and the text role stay.",
+    "sizesCaption": "compact, default and large, each with text and icon only, off and on.",
+    "sizesHeader": [
+      "Size",
+      "Measures"
+    ],
+    "sizes": [
+      [
+        "compact",
+        "control/height-compact, 28 px. The icon is icon/size-sm, with text and icon only."
+      ],
+      [
+        "default",
+        "control/height-default, 36 px. The default. The icon is icon/size-sm with text and icon/size-md icon only."
+      ],
+      [
+        "large",
+        "control/height-large, 44 px. The icon is icon/size-sm with text and icon/size-lg icon only. On touch screens, use large."
+      ]
+    ],
     "statesTitle": "States",
     "statesHeader": [
       "State",
@@ -1699,15 +1726,15 @@
     "states": [
       [
         "unpressed",
-        "The track and the inner area share color/muted; the label and the icon use color/muted-foreground."
+        "No background and no visible border; the label uses color/muted-foreground and the icon is light."
       ],
       [
         "pressed",
-        "The inner area rises, with color/background, elevation/subtle and an outline in color/primary-border. The label and the icon use color/foreground, and the icon changes from xmark to check."
+        "The background is togglebutton/background-checked; the label uses color/foreground and the icon changes from xmark to check, solid. No semibold label and no stroke."
       ],
       [
         "hover",
-        "In the unpressed piece, the label and the icon go from color/muted-foreground to color/foreground."
+        "Unpressed, the background is togglebutton/background-hover; pressed, togglebutton/background-checked-hover. The label uses color/foreground and the icon is solid."
       ],
       [
         "focus",
@@ -1715,17 +1742,17 @@
       ],
       [
         "invalid",
-        "The border of the track becomes status/error; on focus, the border and the halo are status/error and focus/halo-error. The error message stays outside the piece."
+        "The border becomes status/error, over the background of the state; on focus, the border and the halo are status/error and focus/halo-error. The error message stays outside the piece."
       ],
       [
         "disabled",
-        "The whole piece at state/disabled-opacity, out of the Tab order. It wins over invalid: the error border is not drawn."
+        "The whole piece at state/disabled-opacity, out of the Tab order, in the rest colors of its pressed value and with the light icon: a pressed piece keeps togglebutton/background-checked. It wins over invalid: the error border is not drawn."
       ]
     ],
     "statesCaption": "unpressed, pressed, invalid, disabled and disabled with invalid. Move the mouse over a button to see hover and press Tab to see focus.",
     "iconsTitle": "Icons",
-    "iconsText": "Each side takes auto, none or a name from the nph-icon core. Icon only draws the icon of icon-start alone.",
-    "iconsCaption": "Each row is off and on: the auto pair, no icon, one fixed icon, start only, end only and icon only.",
+    "iconsText": "One icon at most: icon-start, auto by default, or icon-end, none by default. Each takes auto, none or a name from the nph-icon core. The icon is solid when the piece is on or under the pointer, and light when it is off at rest and when it is disabled. Icon only draws the icon of icon-start alone.",
+    "iconsCaption": "Each row is off and on: the default auto icon at the start, the auto icon at the end, a fixed icon at the start, no icon, and icon only.",
     "iconsHeader": [
       "Value",
       "What it draws"
@@ -1733,15 +1760,19 @@
     "icons": [
       [
         "auto",
-        "The default. xmark when off and check when on, both rendered and cross-faded by opacity."
+        "The default of icon-start. xmark when off and check when on, cross-faded by opacity."
       ],
       [
         "none",
-        "No icon on that side. Icon only with icon-start none has nothing to draw: the piece renders nothing."
+        "The default of icon-end: no icon on that side. Icon only with icon-start none has nothing to draw: the piece renders nothing."
       ],
       [
         "star",
-        "Any name from the nph-icon core, such as star: one fixed icon, with no swap."
+        "Any name from the nph-icon core, such as star: one fixed icon, with no swap of name."
+      ],
+      [
+        "icon-start and icon-end",
+        "Never both with text: both on is invalid input, and the piece draws nothing. Start is the default; use the end only when the icon tells what comes next, such as opening options."
       ]
     ],
     "anatomyTitle": "Anatomy",
@@ -1751,24 +1782,20 @@
     ],
     "anatomy": [
       [
-        "Track",
-        "The outer box: background color/muted, border border/width in color/muted, radius/control, height control/height-default and space/inline-tight of padding on the four sides. When invalid, the border is status/error."
+        "Box",
+        "The outer box: no background and no visible border at rest, radius/control, height by size (control/height-compact, control/height-default or control/height-large) and space/inline-tight of padding on the four sides. Background togglebutton/background-hover on hover, togglebutton/background-checked when pressed and togglebutton/background-checked-hover when pressed and on hover. When invalid, the border is status/error."
       ],
       [
         "Inner area",
-        "Holds the content: radius/inner, side padding space/control-padding and space/inline-tight between icon and label. When pressed: color/background, elevation/subtle and an outline in color/primary-border at border/width."
+        "Holds the content: radius/inner, side padding space/control-padding and space/inline-tight between icon and label. No background of its own."
       ],
       [
-        "Start icon",
-        "Optional, at icon/size-sm. By default xmark when off and check when on."
+        "Icon",
+        "Optional, one at most, at the start by default. icon/size-sm with text; icon only, icon/size-sm, icon/size-md or icon/size-lg by size. Light when off at rest and when disabled; solid when pressed or on hover."
       ],
       [
         "Label",
-        "The text, in text/label-md: color/muted-foreground when off; color/foreground when pressed or on hover."
-      ],
-      [
-        "End icon",
-        "Optional, with the same values and the same swap as the start icon."
+        "The text, in text/label-md: color/muted-foreground when off at rest; color/foreground when pressed or on hover."
       ],
       [
         "Focus",
@@ -1799,7 +1826,7 @@
       ],
       [
         "Contrast",
-        "The off label, color/muted-foreground on color/muted, passes 4.5:1: 5.76:1 in light and 6.61:1 in dark. The outline of the pressed inner area, color/primary-border on the track, passes 3:1 in every brand and in both modes; the lowest value is 3.31:1, in dark gerencial. The error border, status/error on color/background, is 6.88:1 in light and 5.01:1 in dark."
+        "The label and the icon pass 6:1 on the background of each state, in every brand and in both modes: color/muted-foreground on the page at rest, and color/foreground on the hover, checked and checked hover backgrounds. The error border, status/error on color/background, is 6.88:1 in light and 5.01:1 in dark."
       ],
       [
         "Known limit",
@@ -1807,11 +1834,11 @@
       ],
       [
         "Color is not the only signal",
-        "The pressed state shows in the raised inner area with an outline and in the icon, not only in the text color. The invalid piece changes its border; the error message stays outside."
+        "The pressed state shows in the background, in the label color and in the icon, which swaps from xmark to check, and aria-pressed exposes it. Known limit: the checked background is 1.26:1 on the page in light and 1.54:1 in dark, and in dark without an icon the label barely changes. The invalid piece changes its border; the error message stays outside."
       ],
       [
         "Touch target",
-        "The whole piece is the target: 36 px high, with or without text. Icon only is 50 by 36 px."
+        "The whole piece is the target: 28, 36 or 44 px high by size, with or without text. On touch screens, use large."
       ],
       [
         "Motion",
@@ -1833,7 +1860,7 @@
     "references": [
       "nph-togglebutton spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
       "docs/decisoes-tecnicas.md — P73 (API and semantics), P01, P02 and P03.",
-      "design.md — color/muted, border/width, status/error, color/background, elevation/subtle, color/primary-border, text/label-md, color/muted-foreground, color/foreground, color/primary, focus/*, state/disabled-opacity, control/height-default, radius/control, radius/inner, space/inline-tight, space/control-padding, icon/size-sm and motion/*.",
+      "design.md — color/muted-foreground, color/foreground, border/width, status/error, text/label-md, color/primary, focus/*, state/disabled-opacity, control/height-compact, control/height-default, control/height-large, radius/control, radius/inner, space/inline-tight, space/control-padding, icon/size-sm, icon/size-md, icon/size-lg and motion/*. The togglebutton/* tokens are in src/tokens/source/semantic.tokens.json.",
       "DS-IA-NEPHOS 5.0 Figma — page NPH — ToggleButton, frame nph-togglebutton (1512:27498) and set 1512:719.",
       "Storybook — Validation, in the folder alongside."
     ],
@@ -1895,6 +1922,10 @@
         "single (default) or multiple. It is behavior, not appearance: in single, checking a button unchecks the others and one stays checked once a choice is made; in multiple, each button is free."
       ],
       [
+        "size",
+        "compact, default (default) or large. Reflected to the attribute. Every button of the group takes it: 28, 36 or 44 px high and, icon only, the icon of that size. The group writes it on each button, so a size set on a button inside the group is overwritten."
+      ],
+      [
         "value",
         "The checked buttons, by the value of each. The attribute takes words separated by spaces, value=\"bold italic\"; the property is a list of strings. Single holds zero or one. With no value, none is checked. The group writes pressed on every button from it. Setting it from code never fires the event."
       ],
@@ -1920,6 +1951,9 @@
     "usageTag": "The group with its nph-togglebutton children, which it registers itself; each button has a value.",
     "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
     "sourceUsage": "nph-toggle-group spec sheet; docs/decisoes-tecnicas.md › P70",
+    "sizesTitle": "Sizes",
+    "sizesText": "size takes compact, default or large, the Figma property tamanho. The group writes it on every button, so all of them have the same height; the space/inline between them does not change.",
+    "sizesCaption": "Alignment in compact, default and large.",
     "selectionTitle": "Selection",
     "selectionText": "The Figma frame leaves single and multiple selection to code: it is behavior, not appearance. The group coordinates it, so each button no longer decides alone.",
     "selectionCaption": "Single with no value, single with a value, multiple with no value and multiple with two values checked.",
@@ -1965,7 +1999,7 @@
       ],
       [
         "Button",
-        "An nph-togglebutton, with its own state: pressed, focus, disabled and invalid. 36 px high, control/height-default."
+        "An nph-togglebutton, with its own state: pressed, focus, disabled and invalid. Its height is the one of the size of the group: control/height-compact, control/height-default or control/height-large."
       ],
       [
         "Space",
@@ -2000,11 +2034,11 @@
       ],
       [
         "Color is not the only signal",
-        "The pressed button changes its inner area (background, shadow and outline), not only the text color."
+        "The pressed button changes its background, its label color and its icon, not only the text color."
       ],
       [
         "Touch target",
-        "Each button is control/height-default high, and neighbors are space/inline apart."
+        "Each button is 28, 36 or 44 px high, by the size of the group, and neighbors are space/inline apart. On touch screens, use large."
       ],
       [
         "Known limit",
@@ -2033,7 +2067,7 @@
     "references": [
       "nph-toggle-group spec sheet — purpose, anatomy, selection, accessibility, tokens and anti-patterns.",
       "docs/decisoes-tecnicas.md — P76 (API and semantics), P73, P01, P02 and P03.",
-      "design.md — space/inline and control/height-default; the core icons align-left, align-center, align-right, bold, italic and underline.",
+      "design.md — space/inline, control/height-compact, control/height-default and control/height-large; the core icons align-left, align-center, align-right, bold, italic and underline.",
       "DS-IA-NEPHOS 5.0 Figma — page NPH — Toggle Group, frame nph-toggle-group (1580:61) and set 1580:60.",
       "Storybook — Validation, in the folder alongside."
     ],
@@ -7124,19 +7158,21 @@
       "components-nph-spinner-validation--accessibility": "With text beside it, the spinner is decorative; without text, it has an accessible name.",
       "components-nph-spinner-validation--invalid-input": "size=\"lg\" does not exist: nothing is drawn, and the area below stays empty on purpose.",
       "components-nph-toggle-group-validation--matrix": "Two and three buttons, with text and icon only, in a group named by its subject; each button keeps its own state.",
+      "components-nph-toggle-group-validation--sizes": "The three sizes, with text and icon only: the group writes its size on every button, 28, 36 or 44 px high.",
       "components-nph-toggle-group-validation--single-selection": "Single selection: it starts empty or with a value, checking one unchecks the others, and a click on the checked button does nothing.",
       "components-nph-toggle-group-validation--multiple-selection": "Multiple selection: each button checks and unchecks on its own, and the value gathers the checked ones.",
       "components-nph-toggle-group-validation--button-states": "Disabled and invalid stay on each button: the group adds nothing, and the error message stays outside it.",
       "components-nph-toggle-group-validation--interactive": "A click changes the selection and fires nph-value-change with detail.value, shown below the group; setting value from code does not fire it.",
       "components-nph-toggle-group-validation--examples": "The three required examples, each in light and dark mode: Alignment, Formatting and View.",
       "components-nph-togglebutton-validation--matrix": "Pressed off and on, valid and invalid, with text. Move the mouse over a button to see hover and press Tab to see focus.",
-      "components-nph-togglebutton-validation--icons": "Start and end icons: auto swaps xmark and check with the state, none draws no icon and a core name is one fixed icon.",
-      "components-nph-togglebutton-validation--icon-only": "Icon only: one icon, a label as the accessible name, 50 by 36 px and not square, side by side with one on.",
+      "components-nph-togglebutton-validation--sizes": "The three sizes, 28, 36 and 44 px high, with text and icon only, off and on; the icon-only icon follows the size.",
+      "components-nph-togglebutton-validation--icons": "One icon at most, at the start by default or at the end: auto swaps xmark and check with the state, none draws no icon and a core name is one fixed icon. The icon turns solid when on or on hover.",
+      "components-nph-togglebutton-validation--icon-only": "Icon only: one icon, a label as the accessible name, never square, side by side with one on.",
       "components-nph-togglebutton-validation--disabled": "Disabled: the whole piece at state/disabled-opacity, out of the Tab order; disabled wins over invalid.",
-      "components-nph-togglebutton-validation--invalid": "Invalid: the track border is status/error, pressed or not, with text or icon only; the message stays outside the piece.",
+      "components-nph-togglebutton-validation--invalid": "Invalid: the border is status/error over the background of the state, pressed or not, with text or icon only; the message stays outside the piece.",
       "components-nph-togglebutton-validation--interactive": "A click toggles the piece and fires nph-change with detail.pressed, shown below the button; setting pressed from code does not fire it.",
       "components-nph-togglebutton-validation--examples": "The three required examples, each in light and dark mode: Option off, Option on and Icon set.",
-      "components-nph-togglebutton-validation--brands": "The seven brands in light and dark: the pressed button follows the primary of the frame, and so does the focus halo on Tab.",
+      "components-nph-togglebutton-validation--brands": "The seven brands in light and dark: the pressed button takes the checked background of the brand of the frame, and the focus halo on Tab follows it too.",
       "components-nph-tooltip-validation--one-line": "The open balloon above an element, with a one-line text, as in the Figma example.",
       "components-nph-tooltip-validation--two-lines": "The open balloon with a two-line text: in every language it takes exactly two lines.",
       "components-nph-tooltip-validation--sides": "The four sides, top by default, with the action name of an icon-only button, in light and in dark mode.",

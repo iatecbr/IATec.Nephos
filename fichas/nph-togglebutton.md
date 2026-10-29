@@ -9,7 +9,7 @@ use_when:
   - "In a toolbar, when the option turns on or off with an immediate effect, among other buttons."
   - "With text, when the option name must be visible."
   - "Icon only, when the icon is recognized without a caption: give it an accessible name."
-  - "Start and end icons are optional: the raised inner area with an outline still shows the state."
+  - "One icon at most, at the start by default: without an icon, the background and the label color still show the state."
 do_not_use_when:
   - "To fire an action: use nph-button."
   - "Outside a toolbar, in a setting that turns on or off with an immediate effect: use nph-switch."
@@ -46,6 +46,18 @@ api:
       The Figma disabled property. Turns the piece off: it leaves the Tab order,
       does not toggle, does not fire nph-change and stays at state/disabled-opacity.
       It is not the only sign: state the reason in text when there is one.
+  size:
+    type: string
+    required: false
+    default: default
+    reflects: true
+    constraint: >-
+      The Figma property tamanho: compact, default or large, 28, 36 or 44 px high,
+      with or without text. Reflects because the internal CSS selects the height by
+      it, and it is compared as written: a value with spaces around it is invalid.
+      Icon only, the icon follows it: icon/size-sm, icon/size-md or icon/size-lg.
+      Inside nph-toggle-group, the group writes it on every button. Any other value
+      draws nothing and emits console.error in development.
   text:
     type: string
     required: false
@@ -72,23 +84,30 @@ api:
     reflects: false
     constraint: >-
       The icon before the text, in icon/size-sm. auto follows pressed: xmark when off
-      and check when on, both rendered and cross-faded by opacity. none turns the
-      icon off. A name from the nph-icon core is one fixed icon, with no swap. The
-      property is iconStart. Icon only uses this one. A value that is not auto, none
-      or a core name draws nothing and emits console.error in development.
+      and check when on, cross-faded by opacity. none turns the icon off. A name from
+      the nph-icon core is one fixed icon, with no swap of name. The icon is solid
+      when the piece is on or under the pointer, and light when it is off at rest and
+      when it is disabled. The property is iconStart. Icon only uses this one, at the
+      icon size of size. A value that is not auto, none or a core name draws nothing
+      and emits console.error in development.
   icon-end:
     type: string
     required: false
-    default: auto
+    default: none
     reflects: false
     constraint: >-
-      The icon after the text, with the same values and the same swap as icon-start.
-      The property is iconEnd. Icon only ignores it. A value that is not auto, none
-      or a core name draws nothing and emits console.error in development.
+      The icon after the text, with the same values, the same swap and the same
+      styles as icon-start. The default is none: the piece shows one icon at most,
+      and the start is the default side. With text, icon-start and icon-end both on
+      draws nothing and emits console.error in development; to use the end, set
+      icon-start to none. Use the end only when the icon tells what comes next, such
+      as opening options. The property is iconEnd. Icon only ignores it. A value
+      that is not auto, none or a core name draws nothing and emits console.error in
+      development.
 variants:
   pressed:
     axis: appearance
-    choose_when: "false for an option that is off: the track and the inner area share the background. true for an option that is on: the inner area is raised, with a shadow and an outline."
+    choose_when: "false for an option that is off: no background and the quiet label. true for an option that is on: the checked background, the foreground label and the solid check icon."
     do_not_combine_with: []
   content:
     axis: appearance
@@ -96,47 +115,55 @@ variants:
     do_not_combine_with:
       - "icon only with icon-start none: the piece would have nothing to show."
       - "icon only without label: the screen reader would announce only button."
+      - "with text, icon-start and icon-end both on: the piece shows one icon at most."
+  size:
+    axis: size
+    choose_when: "compact (28 px), default (36 px, the default) or large (44 px), with or without text. On touch screens, use large. Pieces side by side, and every button of an nph-toggle-group, take the same size."
+    do_not_combine_with:
+      - "compact: do not use as the main target on a touch screen."
+      - "any size: do not mix sizes among pieces side by side."
 states:
   unpressed:
-    token: color/muted
-    changes_for_user: "The track and the inner area share the background; the label and the icon use color/muted-foreground."
+    token: color/muted-foreground
+    changes_for_user: "No background and no visible border; the label and the icon use color/muted-foreground, and the icon is light."
   pressed:
-    token: "color/background for the inner area, elevation/subtle for the shadow and color/primary-border for the outline; the label and the icon use color/foreground"
-    changes_for_user: "The inner area rises, with a shadow and an outline, and the icon changes from xmark to check."
+    token: "togglebutton/background-checked for the box; the label and the icon use color/foreground"
+    changes_for_user: "The box takes the checked background, the label becomes color/foreground and the icon changes from xmark to check, solid. No semibold label and no stroke."
   hover:
-    token: color/foreground
-    changes_for_user: "In the off piece, the label and the icon go from color/muted-foreground to color/foreground."
+    token: "togglebutton/background-hover when off and togglebutton/background-checked-hover when on; the label and the icon use color/foreground"
+    changes_for_user: "The box takes the hover background of its pressed value, the label becomes color/foreground and the icon turns solid."
   focus:
     token: "border border/width in color/primary and halo focus/ring-width in focus/halo; when invalid, status/error and focus/halo-error"
     changes_for_user: "For keyboard users, a border and a halo outside the piece mark the focus, without changing the size."
   invalid:
     token: status/error
-    changes_for_user: "The track border becomes status/error; the error message stays outside the piece."
+    changes_for_user: "The border becomes status/error, over the background of the state; the error message stays outside the piece."
   disabled:
     token: state/disabled-opacity
-    changes_for_user: "The whole piece loses opacity, leaves the Tab order and stops responding."
+    changes_for_user: "The whole piece loses opacity, in the rest colors of its pressed value and with the light icon, leaves the Tab order and stops responding. A pressed piece keeps togglebutton/background-checked."
 business_rules:
   - "The piece holds one boolean, pressed. Only a click, Enter or Space by the person toggles it and fires nph-change; setting pressed from code never fires the event."
   - "nph-change bubbles, crosses the shadow root, is not cancelable and carries detail.pressed with the new value."
   - "disabled wins over invalid: a disabled piece draws no error border. It is not an error case."
-  - "Icon only shows one icon, from icon-start; icon-end is ignored. The piece is 50 by 36 px, never square, with label as the accessible name."
+  - "The piece shows one icon at most. icon-start is auto and icon-end is none by default; with text, both on is invalid input."
+  - "Icon only shows one icon, from icon-start; icon-end is ignored. The icon follows the size, and the piece hugs it, never square: 50 by 28, 54 by 36 or 58 by 44 px, with label as the accessible name."
+  - "The icon is drawn light and solid, stacked: solid when the piece is on or under the pointer, light when it is off at rest and when it is disabled."
   - "The off-to-on change animates background, border and colors on motion/state-duration and motion/state-easing, with the icons cross-fading by opacity. Width, height and position never animate."
   - "Under reduced motion the change takes motion/hover-duration, and the color still changes."
 domain_errors:
   - "invalid: the value of the option is not accepted by the screen. The piece shows the border; the message is written outside it."
 tokens:
-  track_background: color/muted
-  track_border: [border/width, color/muted]
-  track_radius: radius/control
-  track_padding: space/inline-tight
-  height: control/height-default
+  box_background: [togglebutton/background-hover, togglebutton/background-checked, togglebutton/background-checked-hover]
+  box_border: border/width
+  box_radius: radius/control
+  box_padding: space/inline-tight
+  height: [control/height-compact, control/height-default, control/height-large]
   inner_radius: radius/inner
   inner_padding: space/control-padding
   icon_text_gap: space/inline-tight
-  inner_pressed: [color/background, elevation/subtle, color/primary-border]
   text: text/label-md
   text_color: [color/muted-foreground, color/foreground]
-  icon: icon/size-sm
+  icon: [icon/size-sm, icon/size-md, icon/size-lg]
   invalid: status/error
   disabled: state/disabled-opacity
   focus: [border/width, focus/border-radius-control, focus/ring-width, focus/radius-control-with-border, color/primary, focus/halo, status/error, focus/halo-error]
@@ -146,10 +173,11 @@ ai_hints:
   - "Use nph-togglebutton for a button that holds on or off in a toolbar; to fire an action, use nph-button."
   - "Outside a toolbar, for a setting that turns on or off with an immediate effect, use nph-switch; in a form, when the choice goes with the submission, use nph-checkbox."
   - "Without text, fill in label; the piece shows one icon and has no other name."
-  - "Leave icon-start and icon-end on auto to get xmark when off and check when on; give a core icon name for one fixed icon, or none for no icon."
+  - "Leave icon-start on auto to get xmark when off and check when on; give a core icon name for one fixed icon, or none for no icon. Never turn on icon-start and icon-end together."
+  - "Choose size by the context: compact, default or large; on touch screens, use large. Inside nph-toggle-group, set size on the group."
   - "Read the new value from detail.pressed of nph-change; do not read it from the host after a click."
   - "Separate neighboring pieces with space/inline."
-  - "Do not mark the state only by the text color: pressed draws the raised inner area."
+  - "Do not mark the state only by the text color: pressed changes the background and the icon."
 accessibility:
   semantics: "A native button inside the component, with type=button and aria-pressed following pressed. Never role switch or aria-checked, because the piece is a button that holds a state. aria-invalid is not valid on a button: invalid is shown by the border, and the error message stays outside the piece."
   accessible_name: "The visible text. Icon only, the label, mandatory, as the aria-label of the native button; the icons are aria-hidden."
@@ -158,14 +186,16 @@ accessibility:
     - "Enter toggles."
     - "Space toggles."
   focus: "Keyboard only: a border in color/primary and a halo outside, without changing the size; when invalid, status/error and focus/halo-error. The border is color/primary and not focus/border, which design.md says is the only one that guarantees 3:1 against the halo. Known limit, measured in the test: in dark mode, color/primary is below 3:1 against the page background in gerencial (2.71:1) and rh (2.88:1), and against the halo in every brand (1.76:1 to 2.94:1); in light mode it passes, and the lowest value is 3.33:1 against the halo, in educacao."
-  contrast: "The rule is 4.5:1 for the label and the icon on their own background in both schemes, and 3:1 for the outline of the pressed inner area on the track; the test measures both. The off label, color/muted-foreground on color/muted, measures 5.76:1 in light and 6.61:1 in dark. The pressed outline, color/primary-border on the track, passes 3:1 in every brand and in both schemes: the lowest value is 3.31:1, in dark gerencial, and 4.27:1 in light educacao. The error border, status/error on color/background, measures 6.88:1 in light and 5.01:1 in dark. Known limit: the off label uses color/muted-foreground, and design.md marks that token as not for text needed to complete the task; the measured ratio passes 4.5:1 in both schemes."
-  color_alternative: "The pressed state shows in the raised inner area with an outline and in the icon, not only in the text color. The invalid piece changes its border; the error message stays outside."
+  contrast: "The label and the icon pass 6:1 on the background of each state, in every brand and in both schemes; the test measures every pair: color/muted-foreground on the page at rest, and color/foreground on togglebutton/background-hover, togglebutton/background-checked and togglebutton/background-checked-hover. The error border, status/error on color/background, measures 6.88:1 in light and 5.01:1 in dark. Known limit: the off label uses color/muted-foreground, and design.md marks that token as not for text needed to complete the task; the measured ratio passes 6:1 in both schemes."
+  color_alternative: "The pressed state shows in the background, in the label color and in the icon, which swaps from xmark to check and turns solid, and aria-pressed exposes it. Known limit, accepted with the board: the checked background is 1.26:1 on the page in light and 1.54:1 in dark, and in dark without an icon the label barely changes. The invalid piece changes its border; the error message stays outside."
 invalid_combinations:
   - "disabled with invalid — disabled wins, and the error border is not drawn."
   - "Icon only without label — the screen reader would announce only button."
   - "Icon only with icon-start none — there would be nothing to show."
   - "No text and no label — the piece has no accessible name and draws nothing."
   - "An icon-start or icon-end that is not auto, none or a core name — the piece draws nothing."
+  - "With text, icon-start and icon-end both on — one icon at most; the piece draws nothing."
+  - "A size that is not compact, default or large — the piece draws nothing."
 relations:
   combines_with: [nph-icon, nph-button]
   parents: ["toolbar", "nph-toggle-group"]
@@ -180,8 +210,8 @@ anti_patterns:
   - "Using the piece in a form, where nph-checkbox is the choice."
   - "Putting an error message inside the piece."
 sources:
-  design_md: "design.md, color/muted, border/width, status/error, color/background, elevation/subtle, color/primary-border, text/label-md, color/muted-foreground, color/foreground, color/primary, focus/*, state/disabled-opacity, control/height-default, radius/control, radius/inner, space/inline-tight, space/control-padding, icon/size-sm and motion/*"
-  decision: "P73 — API and semantics of nph-togglebutton, 19-10-2026"
+  design_md: "design.md, border/width, status/error, text/label-md, color/muted-foreground, color/foreground, color/primary, focus/*, state/disabled-opacity, control/height-compact, control/height-default, control/height-large, radius/control, radius/inner, space/inline-tight, space/control-padding, icon/size-sm, icon/size-md, icon/size-lg and motion/*; the togglebutton/* tokens in src/tokens/source/semantic.tokens.json"
+  decision: "P73 — API and semantics of nph-togglebutton, 19-10-2026, and its amendment of 29-10-2026 (DSA-61): size, the new states and one icon at most"
   tests: "src/components/nph-togglebutton/nph-togglebutton.test.ts"
   usage_evidence: "nph-toggle-group (DSA-23, PR #92) is made of this piece and consumes nph-change"
   storybook: "src/components/nph-togglebutton/nph-togglebutton.stories.ts and nph-togglebutton.docs.stories.ts"
@@ -202,8 +232,8 @@ replace `nph-button`: `nph-button` fires an action, `nph-togglebutton` holds a s
   buttons.
 - With text, when the option name must be visible.
 - Icon only, when the icon is recognized without a caption: give it an accessible name.
-- Start and end icons are optional: the raised inner area with an outline still shows the
-  state.
+- One icon at most, at the start by default: without an icon, the background and the label
+  color still show the state.
 
 **When NOT to use:**
 
@@ -220,30 +250,41 @@ icon only.
 
 | Variant | Choose when |
 |---|---|
-| `pressed` false | The option is off: the track and the inner area share the background |
-| `pressed` true | The option is on: the inner area is raised, with a shadow and an outline |
+| `pressed` false | The option is off: no background and the quiet label |
+| `pressed` true | The option is on: the checked background, the foreground label and the solid `check` icon |
 | With text | The option name must be visible |
 | Icon only | The icon is recognized without a caption; the piece takes `label` and shows one icon |
 
-**By size:** `not_applicable`. Size is not a property: the height comes from
-`control/height-default`, 36 px, with or without text.
+**By size:** `size`, the Figma property `tamanho`, with or without text. On touch screens,
+use `large`. Pieces side by side, and every button of an `nph-toggle-group`, take the same
+size.
+
+| `size` | Height | Icon only | When not to use |
+|---|---|---|---|
+| `compact` | `control/height-compact`, 28 px | `icon/size-sm` | As the main target on a touch screen |
+| `default` (the default) | `control/height-default`, 36 px | `icon/size-md` | With a different size from the pieces beside it |
+| `large` | `control/height-large`, 44 px | `icon/size-lg` | With a different size from the pieces beside it |
+
+With text, the icon is `icon/size-sm` in the three sizes.
 
 **By density:** `not_applicable`.
 
 **Choose this variant when:** the table above says it.
 
-**Do not combine with:** icon only with `icon-start` `none`; icon only without `label`.
+**Do not combine with:** icon only with `icon-start` `none`; icon only without `label`;
+with text, `icon-start` and `icon-end` both on.
 
 ## States
 
 | State | Token | What changes for the person |
 |---|---|---|
-| Off | `color/muted` for the track and the inner area; `color/muted-foreground` for the label and the icon | The inner area is flat and the label is quiet |
-| Pressed | `color/background`, `elevation/subtle` and `color/primary-border` for the inner area; `color/foreground` for the label and the icon | The inner area rises, with a shadow and an outline, and the icon changes from `xmark` to `check` |
-| Hover | `color/foreground` | In the off piece, the label and the icon go from `color/muted-foreground` to `color/foreground` |
+| Off | No background; `color/muted-foreground` for the label and the icon | No background and no visible border, the label is quiet and the icon is `light` |
+| Off, hover | `togglebutton/background-hover`; `color/foreground` for the label and the icon | The box takes the hover background, the label becomes `color/foreground` and the icon turns `solid` |
+| Pressed | `togglebutton/background-checked`; `color/foreground` for the label and the icon | The box takes the checked background, and the icon changes from `xmark` to `check`, `solid`. No semibold label and no stroke |
+| Pressed, hover | `togglebutton/background-checked-hover`; `color/foreground` for the label and the icon | The box takes the checked hover background; the icon stays `solid` |
 | Focus | border `border/width` in `color/primary` and halo `focus/ring-width` in `focus/halo` | A border and a halo outside the piece mark the focus, without changing the size |
-| Invalid | `status/error`, and on focus `status/error` with `focus/halo-error` | The track border becomes `status/error`; the message stays outside the piece |
-| Disabled | `state/disabled-opacity` | The whole piece loses opacity, leaves the Tab order and stops responding |
+| Invalid | `status/error`, and on focus `status/error` with `focus/halo-error` | The border becomes `status/error`, over the background of the state; the message stays outside the piece |
+| Disabled | `state/disabled-opacity` | The whole piece loses opacity, in the rest colors of its pressed value and with the `light` icon, leaves the Tab order and stops responding; a pressed piece keeps `togglebutton/background-checked` |
 
 **Feedback and focus:** focus appears only for keyboard users and **is not removed**.
 `disabled` **always wins** over `invalid`: a disabled piece draws no error border, and that
@@ -259,8 +300,13 @@ feedback.
   toggles it and fires `nph-change`; setting `pressed` from code never fires it.
 - `nph-change` bubbles, crosses the shadow root, is not cancelable and carries
   `detail.pressed` with the new value.
-- Icon only shows one icon, from `icon-start`; `icon-end` is ignored. The piece is
-  50 by 36 px, never square.
+- The piece shows one icon at most. `icon-start` is `auto` and `icon-end` is `none` by
+  default; with text, both on is invalid input. The start is the default side; the end only
+  when the icon tells what comes next, such as opening options.
+- Icon only shows one icon, from `icon-start`; `icon-end` is ignored. The icon follows the
+  size, and the piece hugs it, never square: 50 by 28, 54 by 36 or 58 by 44 px.
+- The icon is drawn `light` and `solid`, stacked: `solid` when the piece is on or under the
+  pointer, `light` when it is off at rest and when it is disabled.
 
 **Domain error states:** `invalid`. The value of the option is not accepted by the screen.
 The piece shows the border; the message is written outside it, by whoever uses the piece.
@@ -273,9 +319,9 @@ The piece shows the border; the message is written outside it, by whoever uses t
 | Accessible name | The visible text. Icon only, the `label`, mandatory, as the `aria-label` of the native button; the icons are `aria-hidden` |
 | Keyboard | Tab enters and leaves; Enter and Space toggle |
 | Focus | Keyboard only: a border in `color/primary` and a halo outside, without changing the size; when invalid, `status/error` and `focus/halo-error`. The border is `color/primary`, not `focus/border`, which `design.md` says is the only one that guarantees 3:1 against the halo. Known limit, measured in the test: in dark mode, `color/primary` is below 3:1 against the page background in gerencial (2.71:1) and rh (2.88:1), and against the halo in every brand (1.76:1 to 2.94:1); in light mode it passes, and the lowest value is 3.33:1 against the halo, in educacao |
-| Contrast | 4.5:1 for the label and the icon on their own background in both schemes, and 3:1 for the outline of the pressed inner area on the track; the test measures both. The off label, `color/muted-foreground` on `color/muted`, measures 5.76:1 in light and 6.61:1 in dark. The pressed outline, `color/primary-border` on the track, passes 3:1 in every brand and in both schemes: the lowest value is 3.31:1, in dark gerencial, and 4.27:1 in light educacao. The error border, `status/error` on `color/background`, measures 6.88:1 in light and 5.01:1 in dark. Known limit: the off label uses `color/muted-foreground`, and `design.md` marks that token as not for text needed to complete the task; the measured ratio passes 4.5:1 in both schemes |
-| Alternative to color | The pressed state shows in the raised inner area with an outline and in the icon, not only in the text color. The invalid piece changes its border |
-| Touch target | The whole piece is the target: 36 px high, with or without text |
+| Contrast | The label and the icon pass 6:1 on the background of each state, in every brand and in both schemes; the test measures every pair: `color/muted-foreground` on the page at rest, and `color/foreground` on `togglebutton/background-hover`, `togglebutton/background-checked` and `togglebutton/background-checked-hover`. The error border, `status/error` on `color/background`, measures 6.88:1 in light and 5.01:1 in dark. Known limit: the off label uses `color/muted-foreground`, and `design.md` marks that token as not for text needed to complete the task; the measured ratio passes 6:1 in both schemes |
+| Alternative to color | The pressed state shows in the background, in the label color and in the icon, which swaps from `xmark` to `check` and turns `solid`, and `aria-pressed` exposes it. Known limit, accepted with the board: the checked background is 1.26:1 on the page in light and 1.54:1 in dark, and in dark without an icon the label barely changes. The invalid piece changes its border |
+| Touch target | The whole piece is the target: 28, 36 or 44 px high by size, with or without text. On touch screens, use `large` |
 | Motion | Under reduced motion the change takes `motion/hover-duration`, and the color still changes |
 
 ## Relations
@@ -289,8 +335,8 @@ pieces are **planned** and do not exist yet: `nph-switch` (a setting outside a t
 **What is the parent:** a toolbar. `nph-toggle-group` is the parent of a set of these
 pieces.
 
-**What is the child:** `nph-icon`, through `icon-start` and `icon-end`, in `icon/size-sm`.
-The piece has no slot.
+**What is the child:** `nph-icon`, through `icon-start` or `icon-end`, in `icon/size-sm`
+with text and in the icon size of `size` icon only. The piece has no slot.
 
 **Which block this piece complements:** none yet.
 
@@ -300,11 +346,11 @@ The piece has no slot.
 
 | Part | Token |
 |---|---|
-| Track | `color/muted`, border `border/width` in `color/muted`, radius `radius/control`, padding on the four sides `space/inline-tight`, height `control/height-default` |
-| Inner area | radius `radius/inner`, side padding `space/control-padding`, gap `space/inline-tight` |
-| Pressed | `color/background`, `elevation/subtle`, outline `color/primary-border` at `border/width` |
-| Text | `text/label-md`, in `color/muted-foreground` when off and `color/foreground` when pressed or on hover |
-| Icon | `icon/size-sm` |
+| Box | No background at rest; `togglebutton/background-hover` on hover, `togglebutton/background-checked` when pressed and `togglebutton/background-checked-hover` when pressed and on hover. Border `border/width`, not seen until invalid; radius `radius/control`; padding on the four sides `space/inline-tight` |
+| Height | `control/height-compact`, `control/height-default` or `control/height-large`, by `size` |
+| Inner area | radius `radius/inner`, side padding `space/control-padding`, gap `space/inline-tight`; no background of its own |
+| Text | `text/label-md`, in `color/muted-foreground` when off at rest and `color/foreground` when pressed or on hover |
+| Icon | `icon/size-sm` with text; icon only, `icon/size-sm`, `icon/size-md` or `icon/size-lg` by `size` |
 | Invalid | `status/error` |
 | Disabled | `state/disabled-opacity` |
 | Focus | `border/width`, `focus/border-radius-control`, `focus/ring-width`, `focus/radius-control-with-border`, `color/primary`, `focus/halo`, `status/error` and `focus/halo-error` |
@@ -312,11 +358,10 @@ The piece has no slot.
 
 **Usage restrictions:** the component does not choose height, color, radius or
 typography: everything comes from a token. The width has no token: the piece hugs its
-content, and icon only is 50 by 36 px. In a part of the screen with another brand,
+content, and icon only is never square. In a part of the screen with another brand,
 `data-nph-brand` and `data-nph-color-scheme` go on the same element (P67). The `use` of
-some tokens in `design.md` is narrower than the accepted Figma (`color/muted`,
-`color/background`, `space/inline-tight` on four sides and the focus tokens): P73 records it
-for review.
+some tokens in `design.md` is narrower than the accepted Figma (`space/inline-tight` on
+four sides and the focus tokens): P73 records it for review.
 
 **AI hints:**
 
@@ -325,18 +370,22 @@ for review.
 - Outside a toolbar, for a setting that turns on or off with an immediate effect, use
   `nph-switch`; in a form, when the choice goes with the submission, use `nph-checkbox`.
 - Without text, fill in `label`; the piece shows one icon and has no other name.
-- Leave `icon-start` and `icon-end` on `auto` to get `xmark` when off and `check` when on;
-  give a core icon name for one fixed icon, or `none` for no icon.
+- Leave `icon-start` on `auto` to get `xmark` when off and `check` when on; give a core icon
+  name for one fixed icon, or `none` for no icon. Never turn on `icon-start` and `icon-end`
+  together.
+- Choose `size` by the context: `compact`, `default` or `large`; on touch screens, use
+  `large`. Inside `nph-toggle-group`, set `size` on the group.
 - Read the new value from `detail.pressed` of `nph-change`; do not read it from the host
   after a click.
 - Separate neighboring pieces with `space/inline`.
-- Do not mark the state only by the text color: `pressed` draws the raised inner area.
+- Do not mark the state only by the text color: `pressed` changes the background and the
+  icon.
 
 ## Examples
 
 **Recommended case:** in a toolbar, a piece with the text "Show grid" and the default
-icons, off at first and pressed when the grid is on, next to `nph-button` pieces that fire
-actions.
+icon at the start, off at first and pressed when the grid is on, next to `nph-button`
+pieces that fire actions, all in the same size.
 
 **Alternative case:** three icon-only pieces side by side, each with its `label`, one of
 them pressed, separated by `space/inline`.
@@ -353,19 +402,23 @@ them pressed, separated by `space/inline`.
   uses the piece.
 - **Invalid combinations:** `disabled` with `invalid`, where `disabled` wins; icon only
   without `label`; icon only with `icon-start` `none`; no text and no `label`; an icon that
-  is not `auto`, `none` or a core name.
-- **Do not create without a decision:** a size, a variant, a slot, an icon swap outside
-  `auto`, `none` and the core names, or a form association.
+  is not `auto`, `none` or a core name; with text, `icon-start` and `icon-end` both on; a
+  `size` that is not `compact`, `default` or `large`.
+- **Do not create without a decision:** a size beyond the three, a variant, a slot, an icon
+  swap outside `auto`, `none` and the core names, or a form association.
 
 ## Sources and decisions
 
-- **The repository `design.md`:** `color/muted`, `border/width`, `status/error`,
-  `color/background`, `elevation/subtle`, `color/primary-border`, `text/label-md`,
+- **The repository `design.md`:** `border/width`, `status/error`, `text/label-md`,
   `color/muted-foreground`, `color/foreground`, `color/primary`, `focus/*`,
-  `state/disabled-opacity`, `control/height-default`, `radius/control`, `radius/inner`,
-  `space/inline-tight`, `space/control-padding`, `icon/size-sm` and `motion/*`.
-- **The decision that originated it:** P73, of 19-10-2026. The board was accepted by
-  Indiane on 07-10-2026; the answer to D6, on motion, of 19-10-2026.
+  `state/disabled-opacity`, `control/height-compact`, `control/height-default`,
+  `control/height-large`, `radius/control`, `radius/inner`, `space/inline-tight`,
+  `space/control-padding`, `icon/size-sm`, `icon/size-md`, `icon/size-lg` and `motion/*`.
+  The `togglebutton/*` tokens are in `src/tokens/source/semantic.tokens.json`.
+- **The decision that originated it:** P73, of 19-10-2026, amended on 29-10-2026 (DSA-61):
+  `size`, the new rest, hover and checked states and one icon at most. The board was
+  accepted by Indiane on 07-10-2026; the answer to D6, on motion, of 19-10-2026; the board
+  with the size and the new states, on 29-10-2026.
 - **Tests:** `src/components/nph-togglebutton/nph-togglebutton.test.ts`.
 - **Usage evidence:** `nph-toggle-group` (DSA-23, PR #92) is made of this piece and
   consumes `nph-change`.

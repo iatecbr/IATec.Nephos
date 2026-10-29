@@ -486,5 +486,21 @@
       "Documentação"
     ],
     "reason": "Name of the Figma frame (Documentação), quoted as it is in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "fichas/nph-togglebutton.md",
+    "class": "contract-term",
+    "names": [
+      "tamanho"
+    ],
+    "reason": "Name of the Figma property of nph-togglebutton (tamanho), quoted as it is in the accepted board (P64: Figma is in Portuguese); the code API is size."
+  },
+  {
+    "file": "fichas/nph-toggle-group.md",
+    "class": "contract-term",
+    "names": [
+      "tamanho"
+    ],
+    "reason": "Name of the Figma property of nph-toggle-group (tamanho), quoted as it is in the accepted board (P64: Figma is in Portuguese); the code API is size."
   }
 ]

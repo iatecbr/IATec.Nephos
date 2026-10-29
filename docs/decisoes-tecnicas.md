@@ -39,10 +39,10 @@ P62.4 subsection for the detail).
 | **P70** | Package entry points and the Usage section | 15/10/2026 | Medium. Every `Docs` page shows the import line, so changing the path later changes every page and every consumer | Adopted by Indiane on 15/10/2026 (DSA-30, D2). Reviewed in the pull request that brings it |
 | **P71** | `Docs` page lists read from the Metadata | 15/10/2026 | Low. The lists move from the dictionary to the Metadata; the sheet does not change its format | Adopted by Indiane on 15/10/2026 (DSA-30, D1). Reviewed in the pull request that brings it |
 | **P72** | Accessibility gate in the tests | 15/10/2026 | Medium. Two new dependencies and a gate on every story; the earlier, the fewer violations to fix | Adopted by Indiane on 15/10/2026 (DSA-30, D3). Reviewed in the pull request that brings it |
-| **P73** | API and semantics of `nph-togglebutton` | 19/10/2026 | Low now. Only `nph-toggle-group` (DSA-23, PR #92) consumes it, and it consumes its event, so changing the event name or the state name later requires redoing both | Anatomy and behavior: board accepted by Indiane on 07/10/2026, motion answered on 19/10/2026 (D6). API and semantics reviewed in the pull request that brings them |
+| **P73** | API and semantics of `nph-togglebutton` | 19/10/2026 | Low now. Only `nph-toggle-group` (DSA-23, PR #92) consumes it, and it consumes its event, so changing the event name or the state name later requires redoing both | Anatomy and behavior: board accepted by Indiane on 07/10/2026, motion answered on 19/10/2026 (D6). API and semantics reviewed in the pull request that brings them. **Amended on 29/10/2026 (DSA-61)**: `size`, the new rest, hover and checked states, the solid icon and one icon at most |
 | **P74** | API and semantics of `nph-avatar` | 20/10/2026 | Low now. No piece consumes it yet; `nph-select` (DSA-29) and `nph-avatar-stack` (DSA-25) will, so changing `src`, `label` or `size`, or the border over the photo, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 06/10/2026, D1 to D4 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P75** | Package `@iatec/nephos`: first release candidate | 19/10/2026 | High and public. The name, the `exports` paths and the `rc` tag are what every consumer writes in a lockfile and in an import line | Approved by Elvys on 19/10/2026. Amends P70, adopted by Indiane on 15/10/2026: her confirmation is requested in the pull request that brings it |
-| **P76** | API and semantics of `nph-toggle-group` | 20/10/2026 | Low now. No piece consumes it yet; a toolbar will, so changing `label`, `selection`, `value` or the event `nph-value-change`, or the `value` attribute each button carries, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P76** | API and semantics of `nph-toggle-group` | 20/10/2026 | Low now. No piece consumes it yet; a toolbar will, so changing `label`, `selection`, `value` or the event `nph-value-change`, or the `value` attribute each button carries, later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026. API and semantics reviewed in the pull request that brings them. **Amended on 29/10/2026 (DSA-61)**: `size`, written on every button |
 | **P77** | `nph-tooltip`: any element, opened on hover and on keyboard focus (amends P65 and P62.6) | 21/10/2026 | Medium. `nph-button` (DSA-43) and the value balloon of the slider (DSA-39) will attach the balloon with `for`, so changing `for`, `side` or the rule of opening later requires redoing both | Anatomy and behavior: board accepted by Indiane on 20/10/2026, D1 answered on 20/10/2026; the plan is approved by Elvys on 21/10/2026. API and semantics approved by Elvys's merge of PR #94 (`3835337`). **Amended on 22/10/2026 (DSA-48)**: hover delay, keyboard, only focusable elements and `relation`; rules accepted by Indiane on 22/10/2026, the plan approved by Elvys the same day, API and semantics reviewed in the pull request that brings them |
 | **P78** | API and semantics of `nph-avatar-stack` | 22/10/2026 | Low now. No piece consumes it yet; a list of people, a card or a table row will, so changing `count`, `label` or the slot of `nph-avatar` children later requires redoing them | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D3 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P79** | API and semantics of `nph-switch` | 22/10/2026 | Low now. No piece consumes it yet; `nph-dropdown-menu` (DSA-45) will, without a label, so changing `checked`, `text`, `label` or the native events later requires redoing both | Anatomy and behavior: frame accepted by Indiane on 08/10/2026, D1 to D4 answered on 19/10/2026; the plan is approved by Elvys on 22/10/2026. API and semantics reviewed in the pull request that brings them |
@@ -1399,7 +1399,8 @@ that brings it; the merge is the approval.
 
 **Decision.** `nph-togglebutton` is a Web Component with **open Shadow DOM** (P01), CSS
 in its own file imported `?inline`, as in `nph-icon`. It has no slot, no `::part`, no
-color property and no size property. Anatomy only through semantic tokens. Invalid input
+color property and no size property *(superseded by the amendment of 29/10/2026, DSA-61:
+`size` exists)*. Anatomy only through semantic tokens. Invalid input
 renders nothing and emits `console.error` only in development, one per cause — the rule of
 P21, adopted here by its own decision, as in P66 and P68. The names follow P64.
 
@@ -1438,8 +1439,9 @@ P21, adopted here by its own decision, as in P66 and P68. The names follow P64.
    `click()`. The event is typed in `HTMLElementEventMap`, so a consumer gets `detail`
    typed.
 
-4. **Icons.** `icon-start` and `icon-end` take `auto` (default), `none` or a name from the
-   `nph-icon` core. `auto` is the pair of the board: `xmark` when off and `check` when on.
+4. **Icons.** *(Amended on 29/10/2026, DSA-61: `icon-end` defaults to `none`, one icon at
+   most, and each icon is drawn `light` and `solid`.)* `icon-start` and `icon-end` take
+   `auto` (default), `none` or a name from the `nph-icon` core. `auto` is the pair of the board: `xmark` when off and `check` when on.
    Both glyphs are rendered, stacked, and cross-fade by opacity, so the change is the
    motion of D6 and not a swap of nodes. `none` turns the icon off. A core name is one
    fixed icon, with no swap. The board says that the icon changes in the instance, so the
@@ -1452,7 +1454,8 @@ P21, adopted here by its own decision, as in P66 and P68. The names follow P64.
    listed in the sheet as an invalid combination, and is not a `console.error` case.
 
 6. **Icon only.** With no text, the piece shows one icon, from `icon-start`; `icon-end` is
-   ignored. It requires `label`. It is **50 by 36 px**, as the board measures it from the
+   ignored. It requires `label`. It is **50 by 36 px** *(amended on 29/10/2026, DSA-61: the
+   icon follows the size, 50 by 28, 54 by 36 or 58 by 44 px)*, as the board measures it from the
    variables of set `1512:719`, and it is **not square**: the rule of `nph-button`, which
    makes the icon-only box square, is not copied.
 
@@ -1514,12 +1517,75 @@ substitution, or create a semantic alias for it. It does not block the pull requ
 **Out of scope.** Form association and form submission. The Usage section of the page
 (P70, DSA-35). The page lists read from the Metadata (P71, DSA-34). The accessibility gate
 (P72, DSA-32). The brand story (DSA-36). `aria-invalid`, which is not valid on a button. A
-`size` property. A slot. The pieces `nph-switch` and `nph-checkbox`,
+`size` property *(added by the amendment of 29/10/2026, DSA-61)*. A slot. The pieces `nph-switch` and `nph-checkbox`,
 which are planned.
 
 **Status.** Anatomy and behavior accepted by Indiane on 07/10/2026; motion answered on
 19/10/2026. API and semantics are reviewed in the pull request that brings them; the merge
 is the approval.
+
+### Amendment of 29/10/2026 — DSA-61: size, the new states and one icon at most
+
+**Technical conflict.** The decision has no size property, draws the off piece on a
+`color/muted` track and the pressed one as a raised inner area with `elevation/subtle` and a
+`color/primary-border` outline, changes only the label color on hover, draws every icon
+`light` and lets `icon-start` and `icon-end` both default to `auto`, so a piece with text
+shows two icons. On 29/10/2026 Indiane accepted the board again (`1512:27498`, set
+`1512:719`), with the size and new states, and three tokens, `togglebutton/background-hover`,
+`togglebutton/background-checked` and `togglebutton/background-checked-hover`
+(`docs/operacao/evidencias/DSA-61/figma-docs-accepted-2026-10-29.md`).
+
+**Decision.**
+
+1. **`size`.** A new property, the Figma `tamanho`: `compact`, `default` (the default) or
+   `large`, reflected, because the internal CSS selects the height by it:
+   `control/height-compact`, `control/height-default` or `control/height-large`, with or
+   without text. It is compared as written, as in `nph-button` and `nph-input`: a value
+   with spaces around it is invalid input. Any other value draws nothing and emits one
+   `console.error` in development (item 7). Padding, radius, gap and text role do not
+   change with the size.
+2. **States.** The box has no background and no visible border off at rest; the border
+   stays, transparent, so the invalid border and the focus offsets do not change the size.
+   Off on hover the box takes `togglebutton/background-hover`; pressed,
+   `togglebutton/background-checked`; pressed on hover,
+   `togglebutton/background-checked-hover`. The label is `color/muted-foreground` off at rest
+   and `color/foreground` otherwise. The inner area has no background, shadow or outline of
+   its own: `elevation/subtle`, `color/primary-border` and the `color/muted` track leave the
+   piece. The pressed state shows in the background, the label color and the icon; no
+   semibold label and no stroke (decision of Indiane on 29/10/2026, option A of the preview).
+   Disabled keeps the rest colors of its pressed value, so a pressed disabled piece keeps
+   `togglebutton/background-checked`.
+3. **Solid icon.** Each icon is drawn twice, `light` and `solid`, stacked in one cell, as
+   P88 does for `nph-button`; the CSS shows `solid` when the piece is on or under the pointer
+   and enabled, and `light` off at rest and whenever the piece is disabled. For `auto` that
+   is four drawings, `xmark` and `check` in each style, still cross-faded by opacity on the
+   motion of D6 (item 8).
+4. **One icon at most.** `icon-start` keeps the default `auto`; `icon-end` now defaults to
+   `none`. With text, both on is invalid input: the piece draws nothing and emits one
+   `console.error` in development. To put the icon at the end, set `icon-start` to `none`.
+   Icon only keeps item 6: it draws `icon-start` and ignores `icon-end`. Removing the
+   `icon-end` attribute leaves the property `null`, and the piece reads it as `none`.
+5. **Icon only by size.** The icon of the icon-only piece follows the size: `icon/size-sm` in
+   `compact`, `icon/size-md` in `default` and `icon/size-lg` in `large`; with text it stays
+   `icon/size-sm`. The piece still hugs its content and is never square: 50 by 28, 54 by 36
+   and 58 by 44 px.
+6. **Motion.** The box animates its background, border and color; the inner area has
+   nothing left to animate. Item 8 holds otherwise.
+
+**Contrast, measured.** The label and the icon pass 6:1 on the background of each state in
+the seven brands and both schemes, as the board says: `color/muted-foreground` on the page,
+and `color/foreground` on the three `togglebutton/*` backgrounds. Known limit, accepted by
+Indiane on 29/10/2026: the checked background is 1.26:1 on the page in light and 1.54:1 in
+dark, and in dark without an icon the label barely changes; the state is also told by
+`aria-pressed`. The test pins both values.
+
+**Compatibility.** A consumer that set `icon-end` and left `icon-start` on its default now
+gets invalid input, and one that relied on two icons by default now gets one. No consumer in
+the repository does either; `nph-toggle-group` writes `size` on its buttons (P76, amendment
+of 29/10/2026).
+
+**Status.** Rules accepted by Indiane on 29/10/2026; reviewed in the pull request that
+brings them; the merge is the approval.
 
 ---
 
@@ -1716,8 +1782,8 @@ is the approval.
 
 **Decision.** `nph-toggle-group` is a Web Component with **open Shadow DOM** (P01), CSS in
 its own file imported `?inline`, as in `nph-icon`. Its shadow root holds only the default
-slot, and the host is the row. It has no `::part`, no color property, no size property and no
-form association. Anatomy only through semantic tokens: the group consumes one,
+slot, and the host is the row. It has no `::part`, no color property, no size property *(superseded
+by the amendment of 29/10/2026, DSA-61: `size` exists)* and no form association. Anatomy only through semantic tokens: the group consumes one,
 `space/inline`. Invalid input renders nothing and emits `console.error` only in development,
 one per cause — the rule of P21, adopted here by its own decision, as in P66, P68, P73 and
 P74. The names follow P64.
@@ -1848,14 +1914,37 @@ capture rule for the click and the invalid input and composition rules are a tec
 of this implementation.
 
 **Out of scope.** A toolbar and the roving tabindex across groups. `nph-switch` and
-`nph-checkbox`, which are planned. A `size`, `disabled` or `invalid` property on the group, a
-maximum, an orientation, a form association and a color property. Moving `value` into
+`nph-checkbox`, which are planned. A `size` *(added by the amendment of 29/10/2026, DSA-61)*,
+`disabled` or `invalid` property on the group, a maximum, an orientation, a form association and a color property. Moving `value` into
 `nph-togglebutton`. The Usage section of the page (P70, DSA-35), the page lists read from the
 Metadata (P71, DSA-34) and the accessibility gate (P72, DSA-32).
 
 **Status.** Anatomy and behavior accepted by Indiane on 08/10/2026; D1 to D3 answered on
 19/10/2026. API and semantics are reviewed in the pull request that brings them; the merge
 is the approval.
+
+### Amendment of 29/10/2026 — DSA-61: size
+
+**Technical conflict.** The decision has no size property: every button is
+`control/height-default`. On 29/10/2026 Indiane accepted the frame again (`1580:61`, set
+`1580:60`) with the property `tamanho`, `compacto`, `padrão` and `grande`, which every
+button of the group follows
+(`docs/operacao/evidencias/DSA-61/figma-docs-accepted-2026-10-29.md`).
+
+**Decision.**
+
+1. **`size`.** A new property, `compact`, `default` (the default) or `large`, reflected so the
+   attribute shows the size the buttons take. Any other value, compared as written, draws
+   nothing and emits one `console.error` in development, as `selection` does.
+2. **The group writes it.** The group is already the source of truth of `pressed`; it now
+   writes `size` on every `nph-togglebutton` child in the same pass, so the buttons always
+   share one height and, icon only, one icon size (P73, amendment of 29/10/2026). A `size`
+   set on a button inside the group is overwritten, and a button added later takes it.
+3. **Unchanged.** The group consumes only `space/inline`, between the buttons in every size,
+   and adds no color, border or focus.
+
+**Status.** Rules accepted by Indiane on 29/10/2026; reviewed in the pull request that
+brings them; the merge is the approval.
 
 ---
 

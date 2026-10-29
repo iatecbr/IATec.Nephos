@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 600,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-togglebutton",
   "dependencies": [],
   "gates": [
@@ -46,8 +46,8 @@
     "excerpt": null,
     "converted_decision": "The nph-togglebutton board frame (1512:27498) and the nph-toggle-group board frame (1580:61) were accepted as the specification of both pieces with the size and the new states. Component sets: nph-togglebutton (1512:719), 108 variants; nph-toggle-group (1580:60), 6 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-61-togglebutton-size-states", "commit": null, "pr": 145 },
+  "context": "docs/operacao/contextos/DSA-61.md",
   "updated_at": "2026-10-29"
 }
 ```
