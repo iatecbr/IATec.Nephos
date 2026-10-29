@@ -7,7 +7,7 @@
  * cell with the arrow of the direction, `aria-sort` and the ring inside the cell; the selection
  * column, the header box checked, indeterminate or unchecked, the selected row with its
  * background and its mark; the page bar and the bulk bar that takes its place with the count;
- * the ⋮ with the menu of the row; the ajuste column; loading and empty by search; the footer
+ * the ⋮ with the menu of the row; the switch column; loading and empty by search; the footer
  * in its three layouts; the events; the invalid input and the token contract.
  */
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -197,7 +197,7 @@ describe('registration and API', () => {
     expect(NPH_DATA_TABLE_ICONS).toEqual({ sortable: 'arrow-up-arrow-down', ascending: 'arrow-up', more: 'ellipsis-vertical' });
   });
 
-  it('the defaults: nothing sorted, no selection, no actions, no ajuste, not loading, the middle footer', () => {
+  it('the defaults: nothing sorted, no selection, no actions, no switch column, not loading, the middle footer', () => {
     const element = document.createElement('nph-data-table');
     expect([element.sortKey, element.sortDirection]).toEqual(['', '']);
     expect([element.selectable, element.loading]).toEqual([false, false]);
@@ -559,7 +559,7 @@ describe('row actions', () => {
   });
 });
 
-describe('ajuste', () => {
+describe('the switch column', () => {
   it('adds a column titled switch-header, before the actions, with an nph-switch per row named from the data', async () => {
     const element = await mount({ ...SWITCH, ...MORE });
     const titles = headers(element).map((cell) => cell.textContent?.trim());
@@ -621,7 +621,7 @@ describe('the footer', () => {
     return root(element).querySelector('nph-pagination');
   }
 
-  it('middle: the label and the nph-select of items per page, then the nph-pagination tipo intervalo', async () => {
+  it('middle: the label and the nph-select of items per page, then the nph-pagination the range type', async () => {
     const element = await mount(PAGES);
     const footer = root(element).querySelector('.pagination') as HTMLElement;
     const label = footer.querySelector('label') as HTMLElement;
@@ -635,14 +635,14 @@ describe('the footer', () => {
     expect(footer.closest('.scroll')).toBeNull();
   });
 
-  it('wide: the nph-pagination tipo tabela, with its own items per page', async () => {
+  it('wide: the nph-pagination the table type, with its own items per page', async () => {
     const element = await mount({ ...PAGES, paginationLayout: 'wide' });
     expect(pagination(element)?.type).toBe('table');
     expect(pagination(element)?.pageSizes).toEqual([10, 20, 50]);
     expect(root(element).querySelector('.pagination > nph-select')).toBeNull();
   });
 
-  it('narrow: only the nph-pagination tipo intervalo', async () => {
+  it('narrow: only the nph-pagination the range type', async () => {
     const element = await mount({ ...PAGES, paginationLayout: 'narrow' });
     expect(pagination(element)?.type).toBe('range');
     expect(root(element).querySelector('.pagination > nph-select')).toBeNull();

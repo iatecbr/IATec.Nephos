@@ -20,21 +20,21 @@
  *   `selected` is the list of row keys; the header box checks or unchecks the rows drawn and
  *   is indeterminate when only part of them is checked (`nph-selection-change`,
  *   `{ selected }`). A selected row takes the background and the mark at the inline start;
- * - the bars: the light-DOM `nph-toolbar` in the slot `toolbar` (tipo página) shows above the
- *   table, and the one in the slot `bulk` (tipo em massa) takes its place while a row is
+ * - the bars: the light-DOM `nph-toolbar` in the slot `toolbar` (the page type) shows above the
+ *   table, and the one in the slot `bulk` (the bulk type) takes its place while a row is
  *   selected, with `count-text` written from `selected-text` (`{count}`, `{total}`);
  * - row actions: `actions` holds the entries of an `nph-dropdown-menu` opened by the ⋮ of
  *   each row, an icon-only `nph-button` secondary ghost named `actions-label` with `{name}`.
  *   An entry fires `nph-row-action` (`{ row, action }`), the event of `nph-table`;
- * - ajuste: `switch-header` adds a column with an `nph-switch` per row, named `switch-label`
+ * - the switch column: `switch-header` adds a column with an `nph-switch` per row, named `switch-label`
  *   with `{name}`, on when the row has `switched` (`nph-row-switch`, `{ row, checked }`);
  * - states: `loading` puts an `nph-skeleton` in the cells, the header visible; with no row
  *   and `clear-label`, the body holds the `nph-empty` and the button that clears the search
  *   (`nph-filter-clear`);
  * - the footer: `page`, `page-size`, `page-sizes` and `total-items` draw the `nph-pagination`
- *   outside the scroll area in `pagination-layout` `wide` (its tipo tabela), `middle` (the
- *   label and the `nph-select` of items per page, and tipo intervalo) or `narrow` (tipo
- *   intervalo only); a single page draws no footer (`nph-page-change`, `{ page, pageSize }`);
+ *   outside the scroll area in `pagination-layout` `wide` (its table type), `middle` (the
+ *   label and the `nph-select` of items per page, and the range type) or `narrow` (the range
+ *   type only); a single page draws no footer (`nph-page-change`, `{ page, pageSize }`);
  * - invalid input (P21 rule): what `nph-table` rejects renders nothing. A `sort-direction` or
  *   a `pagination-layout` outside its list, a row with `children` (the tree is `nph-table`'s),
  *   a control without its name: each cause emits one `console.error` in development and only
@@ -70,7 +70,7 @@ const TAG = 'nph-data-table';
 export const NPH_DATA_TABLE_SORT_DIRECTIONS = ['ascending', 'descending'] as const;
 export type NphDataTableSortDirection = (typeof NPH_DATA_TABLE_SORT_DIRECTIONS)[number];
 
-/** The footer by the width of the table's space: tipo tabela, the middle case or tipo intervalo. */
+/** The footer by the width of the table's space: the table type, the middle case or the range type. */
 export const NPH_DATA_TABLE_PAGINATION_LAYOUTS = ['wide', 'middle', 'narrow'] as const;
 export type NphDataTablePaginationLayout = (typeof NPH_DATA_TABLE_PAGINATION_LAYOUTS)[number];
 
@@ -92,7 +92,7 @@ export interface NphDataTableColumn extends NphTableColumn {
 export interface NphDataTableRow extends NphTableRow {
   /** The name of the record, already localized, such as `Ana Souza`: it fills `{name}`. */
   readonly name?: string;
-  /** The `nph-switch` of the ajuste column is on. */
+  /** The `nph-switch` of the switch column is on. */
   readonly switched?: boolean;
 }
 
@@ -199,7 +199,7 @@ export class NphDataTable extends NphTable {
   declare actions: readonly NphDropdownMenuEntry[];
   /** The name of the ⋮ of a row, with `{name}`, such as `Mais ações de {name}`. */
   declare actionsLabel: string;
-  /** The title of the ajuste column; empty, there is no ajuste column. */
+  /** The title of the switch column; empty, there is no switch column. */
   declare switchHeader: string;
   /** The name of the `nph-switch` of a row, with `{name}`. */
   declare switchLabel: string;
