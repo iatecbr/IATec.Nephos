@@ -611,7 +611,7 @@ describe('the applied filters strip', () => {
     expect(texts).toContain('');
   });
 
-  it('Limpar filtros empties the strip: the focus goes to the trigger and it is announced (D-4)', async () => {
+  it('Clear filters empties the strip: the focus goes to the trigger and it is announced (D-4)', async () => {
     const bar = await mount(FILTERS);
     const clear = document.getElementById('clear-filters') as HTMLElement;
     clear.addEventListener('click', () => bar.querySelectorAll('nph-chip').forEach((chip) => chip.remove()), { once: true });

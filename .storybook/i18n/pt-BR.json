@@ -311,7 +311,17 @@
     "components-nph-chip-validation--long-text": "Texto longo",
     "components-nph-chip-validation--invalid-input": "Entrada inválida",
     "components-nph-chip-validation--examples": "Exemplos",
-    "components-nph-chip-validation--brands": "Marcas"
+    "components-nph-chip-validation--brands": "Marcas",
+    "components-nph-toolbar-docs": "Docs",
+    "components-nph-toolbar-docs--documentation": "Documentação",
+    "components-nph-toolbar-validation": "Validação",
+    "components-nph-toolbar-validation--matrix": "Matriz",
+    "components-nph-toolbar-validation--options": "Opções",
+    "components-nph-toolbar-validation--piece-states": "Estados das peças",
+    "components-nph-toolbar-validation--applied-filters": "Filtros aplicados",
+    "components-nph-toolbar-validation--invalid-input": "Entrada inválida",
+    "components-nph-toolbar-validation--examples": "Exemplos",
+    "components-nph-toolbar-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7316,7 +7326,14 @@
       "components-nph-chip-validation--invalid-input": "Entrada inválida não desenha nada: um tipo ou uma severidade que não existe, um ícone fora do núcleo, dois conteúdos ao mesmo tempo, um contador em chip removível, um avatar em chip selecionável, um estado em severidade de status e um X sem remove-label, cada um com um erro.",
       "components-nph-chip-validation--examples": "Os três exemplos obrigatórios da documentação: filtros aplicados na linha da barra de ferramentas, valores escolhidos em um campo com um inválido, e filtros rápidos que a pessoa marca e desmarca, cada um em modo claro e escuro.",
       "components-nph-chip-validation--brands": "As sete marcas no claro e no escuro: o fundo, a borda, o estado selecionado e o contador do chip seguem a marca do quadro, e o anel de foco no Tab também.",
-      "components-nph-label-validation--brands": "As sete marcas no claro e no escuro: o rótulo em si não muda; só o anel de foco do ícone de informação segue a marca do quadro no Tab."
+      "components-nph-label-validation--brands": "As sete marcas no claro e no escuro: o rótulo em si não muda; só o anel de foco do ícone de informação segue a marca do quadro no Tab.",
+      "components-nph-toolbar-validation--matrix": "Os cinco tipos nos três tamanhos, as quinze variantes do conjunto: em massa, página, ferramentas, flutuante e a faixa de filtros aplicados abaixo da barra de página. A barra pinta fundo, borda, raio e espaço; toda peça dentro dela recebe o tamanho da barra, 28, 36 ou 44 px de altura.",
+      "components-nph-toolbar-validation--options": "Os booleanos do Figma como composição: a barra em massa com e sem a caixa de seleção, com a troca de visualização no centro e com limpar só em ícone; a barra de página com o centro; e a barra flutuante compacta.",
+      "components-nph-toolbar-validation--piece-states": "Os estados pertencem às peças: a ação principal da barra de página desabilitada e carregando. Hover e foco são estados de interação: passe o mouse sobre uma ação, entre na barra com Tab e ande com as setas para vê-los.",
+      "components-nph-toolbar-validation--applied-filters": "A faixa de filtros aplicados abaixo da barra de página, nos três tamanhos. Tire um chip pelo X: o foco vai para o próximo chip, senão para o anterior, senão para Filtrar, e a remoção é anunciada. Limpar filtros tira todos e manda o foco para Filtrar.",
+      "components-nph-toolbar-validation--invalid-input": "Entrada inválida não desenha nada: um tipo ou um tamanho que não existe, e uma barra sem nome, cada um com um erro.",
+      "components-nph-toolbar-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e escuro: uma tabela com itens marcados e sem caixa de seleção na barra, o topo de uma lista com a troca de visualização no centro e um editor com ações em grupos, a lixeira à parte e Mais por último.",
+      "components-nph-toolbar-validation--brands": "As sete marcas no claro e no escuro: a barra em massa compacta, cujo fundo, contagem e hover das ações seguem a marca."
     }
   },
   "multiComboboxDocs": {
@@ -8895,5 +8912,359 @@
     "exampleFilters": "Filtros aplicados na barra de ferramentas",
     "exampleField": "Valores escolhidos em um campo, um inválido",
     "exampleQuick": "Filtros rápidos"
+  },
+  "toolbarDocs": {
+    "summary": "A barra que reúne, em uma só linha, as ações de uma área da tela, e a faixa de filtros aplicados abaixo dela.",
+    "matrixLabel": "tipo de barra",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-toolbar, o design.md para os tokens e a P104 para a API. Cinco decisões aguardam a dona do design (D-1 a D-5 da DSA-55) e aparecem aqui no padrão: o hover em massa só nas ações secondary ghost, as setas que dão a volta com a busca fora delas, a faixa de filtros aplicados como grupo com paradas de Tab, o anúncio de Limpar filtros e a barra estreita deixada ao consumidor.",
+    "onThisPage": "Nesta página",
+    "whenToUseTitle": "Quando usar",
+    "whenNotToUseTitle": "Quando não usar",
+    "description": "Use quando várias ações se aplicam ao mesmo conjunto, como uma tabela, uma lista ou um editor. A barra divide as ações em três zonas — início, centro e fim — e cada zona recebe peças Nephos. Escolha o tipo pela situação e o tamanho pela densidade da tela.",
+    "sourceLabel": "Fonte:",
+    "sourceFrame": "Figma, página NPH — Toolbar 1626:44, documentação 2944:6528, conjunto 2105:426",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "type",
+        "bulk (padrão), page, tools, floating ou applied-filters, o tipo do Figma. Refletida: escolhe o fundo, a borda e o layout."
+      ],
+      [
+        "size",
+        "compact, default (padrão) ou large, o tamanho do Figma. Refletida. A barra a escreve em todo filho direto que tem tamanho, que fica com 28, 36 ou 44 px de altura; o nph-chip fica compact na barra compacta e default nas outras duas."
+      ],
+      [
+        "label",
+        "O nome da área, como Ações da tabela. Obrigatório: vira o aria-label do host, a barra de ferramentas. Um nome que o consumidor põe no host com aria-label ou aria-labelledby também vale."
+      ],
+      [
+        "count-text",
+        "A contagem, \"2 de 6 selecionados\", já localizada, desenhada em text/label-md com a cor de contagem do tipo. Só em bulk e floating."
+      ],
+      [
+        "trigger",
+        "Filtros aplicados: o id do botão que abre os filtros, na mesma raiz. O foco vai para ele quando não sobra nenhum chip."
+      ],
+      [
+        "removed-text",
+        "Filtros aplicados: a frase anunciada depois que um chip sai, com o marcador text entre chaves, preenchido com o texto do chip."
+      ],
+      [
+        "cleared-text",
+        "Filtros aplicados: a frase anunciada depois que Limpar filtros esvazia a faixa."
+      ],
+      [
+        "slot",
+        "O início: o botão de limpar da barra em massa, a busca e Filtrar da barra de página, os grupos da barra de ferramentas; em applied-filters, os chips e Limpar filtros."
+      ],
+      [
+        "checkbox",
+        "Slot nomeado, só em bulk: um nph-checkbox antes da contagem."
+      ],
+      [
+        "center",
+        "Slot nomeado: um nph-toggle-group no meio. A zona só aparece com conteúdo."
+      ],
+      [
+        "end",
+        "Slot nomeado: as ações à direita, a principal em primary solid, a destrutiva em danger ghost depois de um divisor, Mais e Fechar por último."
+      ]
+    ],
+    "invalidTitle": "Entrada inválida não desenha nada.",
+    "invalidText": "Um tipo ou um tamanho fora das listas, ou nenhum nome, não desenha nada e diz o motivo em desenvolvimento. Um problema na composição — count-text fora de bulk e floating, conteúdo num slot que o tipo não mostra, duas ações principais, um divisor que abre ou fecha a barra e, em applied-filters, um filho que não é chip removível nem o botão de limpar, dois botões, o botão antes de um chip, sem trigger ou sem removed-text — desenha e avisa uma vez em desenvolvimento.",
+    "sourceApi": "ficha do nph-toolbar; docs/decisoes-tecnicas.md › P104",
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-toolbar type=\"page\" label=\"Pessoas\">\n  <nph-button severity=\"secondary\" emphasis=\"ghost\" icon-start=\"filter\" text=\"Filtrar\"></nph-button>\n  <nph-button slot=\"end\" text=\"Nova pessoa\"></nph-button>\n</nph-toolbar>",
+    "usageTag": "A barra com as suas peças como filhos diretos: o slot padrão é o início e o slot end guarda as ações à direita. A barra não registra as peças: cada uma é importada à parte.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Figma, documentação 2944:6528; docs/decisoes-tecnicas.md › P70",
+    "typesTitle": "Tipos",
+    "typesText": "O tipo é escolhido pela situação. A barra controla fundo, borda, raio e espaço; cada peça mantém a própria cor, estado e foco.",
+    "typesHeader": [
+      "Tipo",
+      "O que faz"
+    ],
+    "types": [
+      [
+        "bulk",
+        "Há itens marcados: fundo destacado sem borda, a caixa de seleção opcional, a contagem e as ações."
+      ],
+      [
+        "page",
+        "Topo de uma lista ou tabela: busca e Filtrar no início, criar no fim."
+      ],
+      [
+        "tools",
+        "Conteúdo em edição: grupos de ações só com ícone, a lixeira à parte e Mais por último."
+      ],
+      [
+        "floating",
+        "Seleção numa área grande: o fundo do popover, sua borda e a sombra do dropdown, com a contagem e Fechar por último."
+      ],
+      [
+        "applied-filters",
+        "Uma faixa abaixo da barra de página, sem fundo e sem borda: um nph-chip removível por filtro e Limpar filtros depois do último. Quebra linha quando os itens não cabem."
+      ]
+    ],
+    "sizesTitle": "Tamanhos",
+    "sizesText": "compact numa tela densa usada com mouse, default em geral, large numa tela de toque. A barra não tem altura própria: suas peças têm 28, 36 ou 44 px.",
+    "sizesCaption": "A barra de página em compact, default e large.",
+    "optionsTitle": "Opções",
+    "optionsText": "Os booleanos do Figma não são propriedades da barra: são as peças que o consumidor põe nela.",
+    "optionsCaption": "Barra em massa sem a caixa de seleção, com limpar só em ícone e com a troca de visualização no centro.",
+    "optionsHeader": [
+      "Figma",
+      "No código"
+    ],
+    "options": [
+      [
+        "caixa de seleção",
+        "Um nph-checkbox, indeterminado, no slot checkbox da barra em massa. Deixe de fora quando a tabela já tem a caixa de seleção no cabeçalho."
+      ],
+      [
+        "centro",
+        "Um nph-toggle-group no slot center."
+      ],
+      [
+        "limpar em texto · limpar em ícone",
+        "O botão de limpar com texto, ou só com ícone, com label e o seu tooltip, nunca os dois. Texto é o padrão; só ícone numa barra estreita."
+      ],
+      [
+        "contagem",
+        "O atributo count-text."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesText": "A barra não tem estado próprio: hover, foco, desabilitado e carregando pertencem às peças. O ícone dos botões ghost fica sólido no hover e quando marcado. Na barra em massa, o hover das ações secondary ghost usa toolbar/bulk-action-background-hover.",
+    "statesCaption": "Nova pessoa desabilitada, quando nenhuma ação está disponível, e carregando, enquanto a ação roda.",
+    "filtersTitle": "Filtros aplicados",
+    "filtersText": "Os filtros aplicados não são ações: vão numa faixa própria abaixo da barra de página. Tire um filtro pelo X, ou todos com Limpar filtros, para ver a regra de foco.",
+    "filtersCaption": "A barra de página e a sua faixa de filtros aplicados: Filtrar é o trigger.",
+    "filtersHeader": [
+      "Regra",
+      "O que acontece"
+    ],
+    "filtersRules": [
+      [
+        "Nenhum filtro",
+        "A faixa não aparece e a barra de página mantém a altura. Limpar filtros aparece desde o primeiro chip."
+      ],
+      [
+        "Remover um chip",
+        "A barra nunca remove um chip: o consumidor tira o filtro no nph-remove. Então o foco vai para o próximo chip, senão para o anterior, senão para o trigger."
+      ],
+      [
+        "Limpar filtros",
+        "O consumidor tira todos os filtros; o foco vai para o trigger."
+      ],
+      [
+        "Anúncio",
+        "Uma região de status anuncia removed-text depois que um chip sai, e cleared-text depois que Limpar filtros esvazia a faixa."
+      ],
+      [
+        "Mantenha na página",
+        "Mantenha a faixa na página enquanto estiver vazia: removê-la perde o anúncio e o foco."
+      ]
+    ],
+    "sourceFilters": "Figma, documentação 2944:6528, seção Faixa de filtros aplicados; docs/decisoes-tecnicas.md › P104",
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Fica no topo da área que controla: acima da tabela, da lista ou do editor. A barra flutuante fica sobre o conteúdo, perto da seleção, ou presa ao pé da área.",
+      "Peças dentro dela: nph-checkbox, nph-input, nph-button, nph-toggle-group, nph-chip e nph-separator.",
+      "Mais abre o nph-dropdown-menu, onde o texto da ação sempre aparece.",
+      "A paginação é uma peça irmã: fica fora da barra."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Barra",
+        "toolbar/background, toolbar/border em toolbar/border-width, toolbar/radius e toolbar/padding. Em massa: toolbar/bulk-background, sem borda, laterais em toolbar/bulk-padding-x. Flutuante: toolbar/floating-background, toolbar/floating-border, toolbar/floating-radius e elevation/dropdown."
+      ],
+      [
+        "Início",
+        "Em massa: a caixa de seleção e a contagem em text/label-md, toolbar/bulk-count-foreground. Página: busca e Filtrar. Ferramentas: grupos de botões só com ícone. Flutuante: a contagem em toolbar/floating-count-foreground."
+      ],
+      [
+        "Centro",
+        "Opcional: um nph-toggle-group, para escolher a visualização ou ligar um modo."
+      ],
+      [
+        "Fim",
+        "As ações à direita em ghost; a ação principal em primary solid; a ação destrutiva em danger ghost, num grupo próprio; Mais e Fechar por último."
+      ],
+      [
+        "Divisor",
+        "Um nph-separator vertical entre grupos de ações. Nunca abre nem fecha a barra."
+      ],
+      [
+        "Espaço",
+        "toolbar/gap entre os itens e entre as zonas."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "O host é role toolbar, nomeado por label; a faixa de filtros aplicados é role group. O divisor é decorativo."
+      ],
+      [
+        "Teclado",
+        "As ações são uma parada de Tab. As setas direita e esquerda passam entre elas, dando a volta nas pontas; Home e End vão para a primeira e a última; uma ação desabilitada é pulada. A busca mantém a própria parada de Tab e as suas setas. Na faixa de filtros aplicados, cada X e Limpar filtros são paradas de Tab próprias."
+      ],
+      [
+        "Foco visível",
+        "Cada peça mostra o próprio foco, com borda e halo. A barra não desenha foco próprio."
+      ],
+      [
+        "Contraste",
+        "Texto e ícone sobre o fundo da barra passam 4,5:1 e 3:1, no claro e no escuro. Na barra em massa, o hover das ações usa toolbar/bulk-action-background-hover para continuar visível."
+      ],
+      [
+        "A cor não é o único sinal",
+        "A ação destrutiva tem rótulo ou ícone de lixeira além do vermelho. O item marcado no centro muda o fundo e o ícone fica sólido."
+      ],
+      [
+        "Alvo de toque",
+        "As ações têm 28, 36 ou 44 px; a caixa de seleção tem 24 px; o X de cada chip tem pelo menos 24 px. Numa tela de toque, use large."
+      ],
+      [
+        "Nome acessível",
+        "A barra leva o nome da área. Um botão só com ícone leva label e tooltip com o mesmo nome. O X de cada chip diz o filtro, e a remoção é anunciada numa região de status."
+      ]
+    ],
+    "sourceAccessibility": "Figma, documentação 2944:6528, seção Acessibilidade; W3C ARIA Authoring Practices, padrão toolbar",
+    "doTitle": "Faça",
+    "dontTitle": "Não faça",
+    "do": [
+      "Use só uma ação principal, no fim, em primary solid.",
+      "Separe a ação destrutiva com o divisor e use danger ghost.",
+      "Mostre a contagem na barra em massa.",
+      "Mande o que não cabe para Mais: a barra não quebra linha; só a faixa de filtros aplicados quebra."
+    ],
+    "dont": [
+      "Não ponha duas ações principais: use uma primary solid e as outras em ghost.",
+      "Não use contorno nas ações secundárias: use ghost.",
+      "Não ligue limpar em texto e limpar em ícone juntos: escolha um.",
+      "Não deixe a ação destrutiva junto das outras: use o divisor antes dela."
+    ],
+    "examplesTitle": "Exemplos obrigatórios",
+    "referencesTitle": "Referências",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, página NPH — Toolbar 1626:44, documentação 2944:6528, conjunto 2105:426",
+      "fichas/nph-toolbar.md",
+      "docs/decisoes-tecnicas.md › P104",
+      "Tarefa DSA-55, decisões pendentes D-1 a D-5",
+      "W3C ARIA Authoring Practices, padrão toolbar"
+    ],
+    "whenToUse": [
+      "Em massa: a pessoa marcou itens e vai agir sobre todos de uma vez.",
+      "Página: no topo de uma lista ou tabela, para buscar, filtrar e criar.",
+      "Ferramentas: conteúdo em edição, com ações que se aplicam a ele.",
+      "Flutuante: a seleção está numa área grande e a barra do topo sai de vista.",
+      "Filtros aplicados: a pessoa filtrou a lista e precisa ver cada filtro e tirá-los um a um ou todos de uma vez."
+    ],
+    "whenNotToUse": [
+      "Para uma única ação: use nph-button onde ela pertence.",
+      "Para guardar as ações que não cabem: isso é o nph-dropdown-menu, aberto por Mais.",
+      "Para passar de uma página a outra: a paginação é uma peça irmã e fica fora da barra.",
+      "Para uma barra vertical: não existe."
+    ],
+    "tableActions": "Ações da tabela",
+    "people": "Pessoas",
+    "editor": "Editor",
+    "selection": "Seleção",
+    "appliedFilters": "Filtros aplicados",
+    "count": "2 de 6 selecionados",
+    "countExample": "3 de 12 selecionados",
+    "selectAll": "Selecionar todos",
+    "clearSelection": "Limpar seleção",
+    "export": "Exportar",
+    "delete": "Excluir",
+    "search": "Buscar pessoas",
+    "filter": "Filtrar",
+    "newPerson": "Nova pessoa",
+    "download": "Baixar",
+    "settings": "Configurações",
+    "view": "Visualização",
+    "list": "Lista",
+    "grid": "Grade",
+    "bold": "Negrito",
+    "italic": "Itálico",
+    "underline": "Sublinhado",
+    "link": "Link",
+    "print": "Imprimir",
+    "more": "Mais",
+    "close": "Fechar",
+    "filters": [
+      "Situação: Aprovado",
+      "Unidade: Central"
+    ],
+    "removeFilter": "Remover filtro",
+    "clearFilters": "Limpar filtros",
+    "removed": "Filtro removido: {text}",
+    "cleared": "Todos os filtros removidos",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "exampleTable": "Tabela com itens marcados: a caixa de seleção está no cabeçalho da tabela, então a barra não tem",
+    "exampleList": "Topo de uma lista, com a troca de visualização no centro",
+    "exampleEditor": "Editor com ações em grupos, a lixeira à parte e Mais no fim"
+  },
+  "toolbarValidation": {
+    "tableActions": "Ações da tabela",
+    "people": "Pessoas",
+    "editor": "Editor",
+    "selection": "Seleção",
+    "appliedFilters": "Filtros aplicados",
+    "count": "2 de 6 selecionados",
+    "countExample": "3 de 12 selecionados",
+    "selectAll": "Selecionar todos",
+    "clearSelection": "Limpar seleção",
+    "export": "Exportar",
+    "delete": "Excluir",
+    "search": "Buscar pessoas",
+    "filter": "Filtrar",
+    "newPerson": "Nova pessoa",
+    "download": "Baixar",
+    "settings": "Configurações",
+    "view": "Visualização",
+    "list": "Lista",
+    "grid": "Grade",
+    "bold": "Negrito",
+    "italic": "Itálico",
+    "underline": "Sublinhado",
+    "link": "Link",
+    "print": "Imprimir",
+    "more": "Mais",
+    "close": "Fechar",
+    "filters": [
+      "Situação: Aprovado",
+      "Unidade: Central"
+    ],
+    "removeFilter": "Remover filtro",
+    "clearFilters": "Limpar filtros",
+    "removed": "Filtro removido: {text}",
+    "cleared": "Todos os filtros removidos",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "exampleTable": "Tabela com itens marcados: a caixa de seleção está no cabeçalho da tabela, então a barra não tem",
+    "exampleList": "Topo de uma lista, com a troca de visualização no centro",
+    "exampleEditor": "Editor com ações em grupos, a lixeira à parte e Mais no fim"
   }
 }

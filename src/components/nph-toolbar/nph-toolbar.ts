@@ -5,8 +5,8 @@
  * Contract accepted in Figma (board `1626:44`, documentation `2944:6528`, set `2105:426`),
  * recorded as text in the evidence of the `figma-docs-accepted` gate of DSA-55, sheet
  * `fichas/nph-toolbar.md`, `design.md` and decision P104 — nph-toolbar: API and semantics:
- * - `type` (the Figma `tipo`): `bulk` (default, em massa), `page` (página), `tools`
- *   (ferramentas), `floating` (flutuante) or `applied-filters` (filtros aplicados). Reflects,
+ * - `type` (the Figma `tipo`): `bulk` (default), `page`, `tools`, `floating` or
+ *   `applied-filters`, the five types of the set. Reflects,
  *   because the internal CSS selects the background, the border and the layout by it;
  * - `size` (the Figma `tamanho`): `compact`, `default` (default) or `large`. The bar has no
  *   height of its own: it writes `size` on every direct child that has one (`nph-button`,
@@ -33,15 +33,15 @@
  * - in the bulk bar, the hover of the secondary ghost actions, with text and icon only, uses
  *   `toolbar/bulk-action-background-hover`, so it stays visible over the highlighted
  *   background (D-1);
- * - applied filters: one removable `nph-chip` per filter and one `nph-button` (Limpar filtros)
+ * - applied filters: one removable `nph-chip` per filter and one `nph-button` (Clear filters)
  *   after the last chip, each a Tab stop of its own (D-3). With no chip the strip is not
  *   shown, and the bar keeps its height. The bar never removes a chip: the consumer takes the
  *   filter away on `nph-remove`. When the chip leaves, the focus goes to the next chip, else to
  *   the previous one, else to `trigger`, the `id` of the button that opens the filters, looked
- *   up in the same root (`getRootNode()`), as the `for` of `nph-tooltip`. When Limpar filtros
+ *   up in the same root (`getRootNode()`), as the `for` of `nph-tooltip`. When Clear filters
  *   empties the strip, the focus goes to `trigger` too. A status region announces
  *   `removed-text` (with `{text}`, the text of the chip) after a chip leaves, and
- *   `cleared-text` after Limpar filtros empties the strip (D-4). Keep the strip in the page
+ *   `cleared-text` after Clear filters empties the strip (D-4). Keep the strip in the page
  *   while it is empty: removing it loses the announcement and the focus;
  * - no own event, no `::part`, no color property; every piece keeps its own color, state and
  *   focus;
@@ -169,7 +169,7 @@ export class NphToolbar extends LitElement {
   declare trigger: string;
   /** Applied filters: the announcement after a chip leaves, with `{text}`. */
   declare removedText: string;
-  /** Applied filters: the announcement after Limpar filtros empties the strip. */
+  /** Applied filters: the announcement after Clear filters empties the strip. */
   declare clearedText: string;
 
   declare private announcement: string;
@@ -477,7 +477,7 @@ export class NphToolbar extends LitElement {
     });
   }
 
-  /** After the children changed: a chip that left, or a strip that Limpar filtros emptied. */
+  /** After the children changed: a chip that left, or a strip that Clear filters emptied. */
   private settleFilters(): void {
     const chips = this.chips();
     this.knownChips = chips;

@@ -72,7 +72,7 @@
     },
     {
       "id": "D-5",
-      "question": "The evidence says that on a narrow screen the text of the buttons goes away first and then the actions at the back go to Mais. The code does not do this by itself in this version: the bar does not wrap, and the sheet tells the consumer to compose the narrow bar with icon-only buttons and Mais. Whether the bar must collapse by itself is open. It does not block the pull request.",
+      "question": "The evidence says that on a narrow screen the text of the buttons goes away first and then the actions at the back go to the More menu. The code does not do this by itself in this version: the bar does not wrap, and the sheet tells the consumer to compose the narrow bar with icon-only buttons and the More menu. Whether the bar must collapse by itself is open. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-29"
     }
