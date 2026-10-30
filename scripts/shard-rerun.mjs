@@ -28,22 +28,42 @@ const LOAD_FAILURE = 'Failed to fetch dynamically imported module';
 const NETWORK_CHANGE = 'net::ERR_NETWORK_CHANGED';
 const ANSI = /\u001b\[[0-9;]*m/g;
 const UNHANDLED = /Vitest caught (\d+) unhandled errors?/;
-const TESTER_NOT_READY = /The iframe "[^"]+" did not become ready within \d+ms/g;
+const TESTER_NOT_READY = /The iframe "[^"]+" did not become ready within \d+ms/;
 /** A module of the Vitest tester, as the Playwright provider names it in a failed request. */
 const TESTER_MODULE = /vitest\/browser|@vitest\/browser\/|__vitest_browser__/;
 
+/** The header Vitest prints above each unhandled error: "⎯⎯ Unhandled Error ⎯⎯" or "⎯⎯ Unhandled Rejection ⎯⎯". */
+const UNHANDLED_HEADER = /⎯+\s*Unhandled (Error|Rejection)\s*⎯+/;
+
 /**
  * How many unhandled errors the log reports, and whether all of them are testers that did not
- * become ready after the network change dropped a module of the tester.
+ * become ready after the network change dropped a module of the tester. Each error is read in
+ * its own block, from its header to the next header or separator, so an error printed after the
+ * count, or one that is not a tester, keeps the shard failed.
  * @param {string} text
  */
 function unhandledErrors(text) {
-  const count = Number(UNHANDLED.exec(text)?.[1] ?? (/Unhandled (Error|Rejection)/.test(text) ? Infinity : 0));
-  const notReady = text.match(TESTER_NOT_READY)?.length ?? 0;
-  const testerDropped = text
-    .split('\n')
-    .some((line) => line.includes(NETWORK_CHANGE) && TESTER_MODULE.test(line));
-  return { count, testersOnly: count > 0 && notReady >= count && testerDropped };
+  const lines = text.split('\n');
+  const blocks = [];
+  for (const [index, line] of lines.entries()) {
+    if (!UNHANDLED_HEADER.test(line)) continue;
+    const block = [];
+    for (const next of lines.slice(index + 1)) {
+      if (/^\s*(\S+\s+)?⎯/.test(next) || /Test Files /.test(next)) break;
+      block.push(next);
+    }
+    blocks.push(block.join('\n'));
+  }
+  const caught = Number(UNHANDLED.exec(text)?.[1] ?? 0);
+  const mentioned = /Unhandled (Error|Rejection)/.test(text);
+  const count = Math.max(caught, blocks.length, mentioned ? 1 : 0);
+  const testerDropped = lines.some((line) => line.includes(NETWORK_CHANGE) && TESTER_MODULE.test(line));
+  const testersOnly =
+    count > 0 &&
+    blocks.length >= count &&
+    blocks.every((block) => TESTER_NOT_READY.test(block)) &&
+    testerDropped;
+  return { count, testersOnly };
 }
 
 /**
@@ -128,9 +148,15 @@ const otherCause = (name, module = name) =>
   `${header(name)}\nError: Failed to import test file ${module}\nCaused by: SyntaxError: Unexpected token '}'`;
 const networkLine = `[PW Error] script request failed for http://localhost:63315/x.js url: ${NETWORK_CHANGE}`;
 const testerDroppedLine = `[PW Error] script request failed for http://localhost:63316/@id/__x00__vitest/browser url: ${NETWORK_CHANGE}`;
-const notReady = (count) =>
-  `Vitest caught ${count} unhandled error${count === 1 ? '' : 's'} during the test run.\n` +
+/** The unhandled errors section: the count Vitest prints, then one block per error. */
+const unhandledSection = (count, blocks) =>
+  `⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯\nVitest caught ${count} unhandled error${count === 1 ? '' : 's'} during the test run.\n` +
+  blocks.join('\n') +
+  '\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n Test Files  1 failed | 1 passed (2)';
+const testerBlock =
+  `⎯⎯⎯⎯⎯⎯ Unhandled Error ⎯⎯⎯⎯⎯⎯⎯\nError: Failed to run the test ${OTHER}.\n` +
   `Caused by: Error: The iframe "${OTHER}" did not become ready within 60000ms. The tester likely failed to initialize`;
+const rejectionBlock = `⎯⎯⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯⎯\nTypeError: Cannot read properties of undefined (reading 'open')`;
 
 const PROBES = [
   {
@@ -202,26 +228,38 @@ const PROBES = [
   {
     name: 'a file that failed to load and a tester that did not start, both after a network change',
     report: report([loadFailed(FILE)]),
-    log: `${testerDroppedLine}\n${loadLine(FILE)}\n${notReady(1)}`,
+    log: `${testerDroppedLine}\n${loadLine(FILE)}\n${unhandledSection(1, [testerBlock])}`,
     rerun: true,
   },
   {
     name: 'only a tester that did not start after a network change',
     report: report([passed(OTHER)]),
-    log: `${testerDroppedLine}\n${notReady(1)}`,
+    log: `${testerDroppedLine}\n${unhandledSection(1, [testerBlock])}`,
     rerun: true,
   },
   {
     name: 'a tester that did not start, with no tester module dropped by a network change',
     report: report([loadFailed(FILE)]),
-    log: `${networkLine}\n${loadLine(FILE)}\n${notReady(1)}`,
+    log: `${networkLine}\n${loadLine(FILE)}\n${unhandledSection(1, [testerBlock])}`,
     rerun: false,
   },
   {
     name: 'another unhandled error next to a tester that did not start',
     report: report([loadFailed(FILE)]),
-    log: `${testerDroppedLine}\n${loadLine(FILE)}\n${notReady(2)}`,
+    log: `${testerDroppedLine}\n${loadLine(FILE)}\n${unhandledSection(2, [testerBlock, rejectionBlock])}`,
     rerun: false,
+  },
+  {
+    name: 'a tester that did not start and an unhandled rejection printed after the count',
+    report: report([loadFailed(FILE)]),
+    log: `${testerDroppedLine}\n${loadLine(FILE)}\n${unhandledSection(1, [testerBlock, rejectionBlock])}`,
+    rerun: false,
+  },
+  {
+    name: 'two testers that did not start after a network change',
+    report: report([loadFailed(FILE)]),
+    log: `${testerDroppedLine}\n${loadLine(FILE)}\n${unhandledSection(2, [testerBlock, testerBlock])}`,
+    rerun: true,
   },
   { name: 'no JSON report', report: undefined, log: loadLine(FILE), rerun: false },
   { name: 'a failed shard with no failed file', report: report([passed(OTHER)]), log: '', rerun: false },
