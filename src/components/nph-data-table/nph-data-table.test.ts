@@ -763,6 +763,20 @@ describe('the footer', () => {
     expect(root(element).activeElement).toBe(sortButton(element, 'name'));
   });
 
+  it('with no other place, the focus goes to the scroll area, which leaves the Tab order when it loses it', async () => {
+    const element = await mount({ ...PAGES, columns: [{ key: 'name', header: 'Name' }], pageSize: 5, pageSizes: [5, 20], totalItems: 12 });
+    const select = root(element).querySelector('.pagination nph-select') as NphSelect;
+    select.focus();
+    select.value = '20';
+    select.dispatchEvent(new Event('change', { bubbles: true }));
+    await settle(element);
+    const area = root(element).querySelector('.scroll') as HTMLElement;
+    expect(root(element).activeElement).toBe(area);
+    expect(area.getAttribute('tabindex')).toBe('-1');
+    area.blur();
+    expect(area.hasAttribute('tabindex')).toBe(false);
+  });
+
   it('a pagination-layout outside the list errors in development and the footer is left out', async () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const element = await mount({ ...PAGES, paginationLayout: 'auto' });

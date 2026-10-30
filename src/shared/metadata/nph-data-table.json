@@ -445,7 +445,7 @@
     "A click on a column that is not sorted sorts it ascending; on the sorted column, it turns the direction around (pending decision D-3).",
     "The header box checks and unchecks the rows drawn on the page; rows selected on other pages stay selected (pending decision D-4).",
     "The bulk bar shows while one row or more is selected, in place of the page bar, with the count.",
-    "When the bulk bar leaves, or the footer, with the focus in it, the focus stays in the table: the header box, else a sortable header, the page bar or the scroll area.",
+    "When the bulk bar leaves, or the footer, with the focus in it, the focus stays in the table: the header box, else a sortable header, the page bar or the scroll area, which takes the focus from code even when it does not scroll.",
     "The footer stays outside the scroll area; with a single page, there is no footer and the total goes to the caption.",
     "The footer follows pagination-layout, set by the consumer for the width of the space, until the breakpoint tokens exist (pending decision D-1).",
     "The `ajuste` column sits at the end of the row, before the actions (pending decision D-6)."

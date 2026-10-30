@@ -5612,7 +5612,8 @@ renders nothing, as P97; a cause of its own leaves out only the part it names an
    table writes its `count-text` from `selected-text` with `{count}` and `{total}`, filled in the
    language of the page. When the bulk bar leaves, or the footer, with the focus in it, the focus
    stays in the table: the header box, else a sortable header, the first piece of the page bar or
-   the scroll area.
+   the scroll area, which takes the focus from code, with `tabindex="-1"` while it holds it, even
+   when it does not scroll.
 
 6. **Row actions and `ajuste` (D-6).** `actions` holds the entries of an `nph-dropdown-menu` opened
    by the more of each row, an icon-only `nph-button` secondary ghost named `actions-label` with

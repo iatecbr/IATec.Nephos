@@ -356,7 +356,8 @@ export class NphDataTable extends NphTable {
 
   /**
    * The first stable place that takes the focus: the header box, a sortable header, the first
-   * piece of the page bar, or the scroll area while it is a region.
+   * piece of the page bar, or the scroll area. A scroll area that does not overflow is not in the
+   * Tab order: it takes the focus from code only, with `tabindex="-1"` while it holds it.
    */
   private keepFocus(): void {
     const box = this.renderRoot.querySelector<NphCheckbox>('thead nph-checkbox');
@@ -368,9 +369,19 @@ export class NphDataTable extends NphTable {
       box !== null && !box.disabled ? box : null,
       this.renderRoot.querySelector<HTMLElement>('button.sort'),
       toolbar[0],
-      this.renderRoot.querySelector<HTMLElement>('.scroll[tabindex="0"]'),
     ];
-    candidates.find((candidate) => candidate !== null && candidate !== undefined)?.focus();
+    const target = candidates.find((candidate) => candidate !== null && candidate !== undefined);
+    if (target !== undefined && target !== null) {
+      target.focus();
+      return;
+    }
+    const area = this.renderRoot.querySelector<HTMLElement>('.scroll');
+    if (area === null) return;
+    if (!area.hasAttribute('tabindex')) {
+      area.setAttribute('tabindex', '-1');
+      area.addEventListener('blur', () => area.getAttribute('tabindex') === '-1' && area.removeAttribute('tabindex'), { once: true });
+    }
+    area.focus();
   }
 
   /* ----- state ------------------------------------------------------------------- */
