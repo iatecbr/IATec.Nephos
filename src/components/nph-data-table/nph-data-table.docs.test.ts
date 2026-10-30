@@ -328,7 +328,7 @@ describe('nph-data-table Validation: text only from the dictionary', () => {
     ]);
   });
 
-  it('Rows: the demonstration keeps a turned switch when the table sorts again', async () => {
+  it('Rows: the demonstration keeps a turned switch through another render and a new order', async () => {
     const target = draw(validation.Rows as unknown as Renderable, 'en');
     const table = (await ready(target))[2] as NphDataTable;
     const switches = () => [...(table.shadowRoot?.querySelectorAll<HTMLElement & { checked: boolean }>('td.switch nph-switch') ?? [])];
@@ -336,6 +336,11 @@ describe('nph-data-table Validation: text only from the dictionary', () => {
     const before = switches()[0]?.checked;
     (switches()[0]?.shadowRoot?.querySelector('button') as HTMLButtonElement).click();
     await table.updateComplete;
+    /* The rows of the table follow at once, so a render for another reason draws the switch as left. */
+    expect(table.rows[0]?.switched).toBe(!before);
+    table.selected = [table.rows[1]?.key ?? ''];
+    await ready(target);
+    expect(switches()[0]?.checked).toBe(!before);
     (table.shadowRoot?.querySelector('button.sort') as HTMLButtonElement).click();
     (table.shadowRoot?.querySelector('button.sort') as HTMLButtonElement).click();
     await ready(target);

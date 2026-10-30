@@ -249,8 +249,11 @@ export function peopleTable(t: DataTableText, options: TableOptions = {}): Templ
   };
   /* The consumer keeps the switch in its records, so a new page or a new order draws it again. */
   const onSwitch = (event: CustomEvent<NphDataTableRowSwitchDetail>) => {
-    const person = all.find((candidate) => candidate.key === event.detail.row);
-    if (person !== undefined) person.active = event.detail.checked;
+    const { row, checked } = event.detail;
+    const person = all.find((candidate) => candidate.key === row);
+    if (person !== undefined) person.active = checked;
+    const table = event.currentTarget as NphDataTable;
+    table.rows = table.rows.map((candidate) => (candidate.key === row ? { ...candidate, switched: checked } : candidate));
   };
   const onClear = (event: Event) => {
     const table = event.currentTarget as NphDataTable;
