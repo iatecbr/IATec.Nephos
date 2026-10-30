@@ -5626,20 +5626,23 @@ and the Chromium bug 41144540 answers it as by design. Running one file at a tim
 **Decision.**
 
 - In the `Component tests (Chromium)` step of `azure-pipelines.yml`, a test shard that fails is run
-  again **once** when its log shows `net::ERR_NETWORK_CHANGED` or "Failed to fetch dynamically
-  imported module".
-- Any other failure fails the step on the first run, and a shard that fails again after the rerun
-  fails the step.
+  again **once** when its only failure is test files that Chromium could not load: each failed file
+  failed to load, the log shows "Failed to fetch dynamically imported module" for it, no test failed
+  and no error went unhandled. `scripts/shard-rerun.mjs` decides it from the JSON report and the
+  log of the shard, and proves its own rules with probes (`--self-test`, in the repository checks
+  of the pipeline).
+- Any other failure fails the step on the first run, even next to a file that failed to load, and a
+  shard that fails again after the rerun fails the step.
 - The rerun and its reason are written to the log as an Azure warning.
-- `VITEST_PW_DEBUG` stays on in that step, since it writes the network error the rerun reads. The
-  infrastructure prints of the diagnosis leave.
+- `VITEST_PW_DEBUG` stays on in that step, so the log shows whether `net::ERR_NETWORK_CHANGED` came
+  with the failure. The infrastructure prints of the diagnosis leave.
 
 **Reason.** The cause is outside the repository: the network of a shared host. A rerun limited to
 that signature keeps every real failure as it is, and costs one shard, about a minute, only when
 the host changed its network.
 
-**Impact.** Only the pipeline changes; the tests, the configuration and `npm test` do not. Locally
-nothing changes.
+**Impact.** Only the pipeline and the new `scripts/shard-rerun.mjs` change; the tests, the
+configuration and `npm test` do not. Locally nothing changes.
 
 **Out of scope.** `npm run test:package` in the Build stage, which can fail the same way (build
 612025) and is not rerun. A dedicated agent or one whose network does not change during the job,

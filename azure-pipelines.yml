@@ -250,6 +250,7 @@ stages:
               npm run test:naming
               npm run test:operacao
               npm run test:i18n
+              node scripts/shard-rerun.mjs --self-test
             displayName: Typecheck and repository checks
             workingDirectory: $(Build.SourcesDirectory)
 
@@ -262,16 +263,18 @@ stages:
           # process loads half the files (PR #142). Both shards always run, and
           # the step fails if either one fails.
           #
-          # A shard that fails is run again once, and only once, when its log
-          # shows that Chromium aborted a module request because the network
-          # of the host changed (P106): `net::ERR_NETWORK_CHANGED`, which the
-          # Playwright provider logs with `VITEST_PW_DEBUG`, or "Failed to
-          # fetch dynamically imported module", which is how Vitest reports
-          # it. The agents share their host with other jobs, and Chromium on
-          # Linux drops every request in flight, localhost included, when an
-          # address or interface of the host changes (builds 612136 and
-          # 612149). Any other failure fails the step on the first run. The
-          # rerun and its reason are written to the log as a warning.
+          # A shard that fails is run again once, and only once, when its only
+          # failure is test files that Chromium could not load, with "Failed
+          # to fetch dynamically imported module" (P106). The agents share
+          # their host with other jobs, and Chromium on Linux drops every
+          # request in flight, localhost included, when an address or
+          # interface of the host changes (`net::ERR_NETWORK_CHANGED`, which
+          # the Playwright provider logs with `VITEST_PW_DEBUG`; builds 612136
+          # and 612149). `scripts/shard-rerun.mjs` reads the JSON report and
+          # the log of the shard: a failed test, an unhandled error or a file
+          # that failed for another reason fails the step on the first run,
+          # even next to a file that failed to load. The rerun and its reason
+          # are written to the log as a warning.
           #
           # The core count, memory and load of the agent are logged to read
           # timing failures: a loaded agent fails timing tests on its own. The
@@ -285,19 +288,19 @@ stages:
               # Runs on failure too; the step keeps the exit code of the tests.
               trap 'cat /proc/loadavg' EXIT
               npx playwright install chromium
-              network_change='net::ERR_NETWORK_CHANGED|Failed to fetch dynamically imported module'
               run_shard() {
                 local shard="$1"
                 local log="$(Agent.TempDirectory)/vitest-shard-${shard%/*}.log"
-                if npm test -- --shard="${shard}" 2>&1 | tee "${log}"; then
+                local report="$(Agent.TempDirectory)/vitest-shard-${shard%/*}.json"
+                if npm test -- --shard="${shard}" --reporter=default --reporter=json \
+                  --outputFile.json="${report}" 2>&1 | tee "${log}"; then
                   return 0
                 fi
                 local reason
-                reason="$(grep -oE "${network_change}" "${log}" | sort -u | paste -sd ';' -)" || true
-                if [ -z "${reason}" ]; then
+                if ! reason="$(node scripts/shard-rerun.mjs "${report}" "${log}")"; then
                   return 1
                 fi
-                echo "##vso[task.logissue type=warning]Shard ${shard} failed with a network change in Chromium (${reason}); running it again once (P106)."
+                echo "##vso[task.logissue type=warning]Shard ${shard} failed only because Chromium could not load test files (${reason}); running it again once (P106)."
                 npm test -- --shard="${shard}"
               }
               status=0
