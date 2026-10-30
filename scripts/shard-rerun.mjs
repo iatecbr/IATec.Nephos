@@ -21,6 +21,8 @@
  * runs the probes below and exits 1 if any of them is classified wrong.
  */
 import { readFileSync } from 'node:fs';
+import { relative } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const LOAD_FAILURE = 'Failed to fetch dynamically imported module';
 const NETWORK_CHANGE = 'net::ERR_NETWORK_CHANGED';
@@ -45,28 +47,36 @@ function unhandledErrors(text) {
 }
 
 /**
- * The cause the log gives for a test file that failed to import: the first `Caused by:` line of
- * its own error block, which ends at the next failed file or at the unhandled errors. The module
- * it names may be the file itself or one the file loads first, such as the Storybook setup.
+ * The cause the log gives for a test file that failed to import. Its error block starts at the
+ * `FAIL` header that names the file, by its path from the root, and ends at the next header or at
+ * the unhandled errors. Inside it, "Failed to import test file" names the module that failed,
+ * which may be the file itself or one it loads first, such as the Storybook setup (build 611680),
+ * and the first `Caused by:` line is the cause.
  * @param {string} text
- * @param {string} name
+ * @param {string} name The absolute path of the file, as in the JSON report.
+ * @param {string} root The folder the paths of the log are relative to.
  */
-function causeOf(text, name) {
-  const marker = `Failed to import test file ${name}`;
-  const start = text.indexOf(marker);
+function causeOf(text, name, root) {
+  const path = relative(root, name);
+  const lines = text.split('\n');
+  const start = lines.findIndex((line) => /\bFAIL\b/.test(line) && line.includes(`${path} [ ${path} ]`));
   if (start < 0) return '';
-  const rest = text.slice(start + marker.length);
-  const end = rest.search(/Failed to import test file |\sFAIL\s|Unhandled Errors?/);
-  const block = end < 0 ? rest : rest.slice(0, end);
-  return /Caused by: (.*)/.exec(block)?.[1] ?? '';
+  const block = [];
+  for (const line of lines.slice(start + 1)) {
+    if (/\bFAIL\b/.test(line) || /Unhandled Errors?/.test(line)) break;
+    block.push(line);
+  }
+  if (!block.some((line) => line.includes('Failed to import test file '))) return '';
+  return /Caused by: (.*)/.exec(block.join('\n'))?.[1] ?? '';
 }
 
 /**
  * @param {unknown} report The JSON report of Vitest, or `undefined` when it could not be read.
  * @param {string} log The output of the shard.
+ * @param {string} [root] The folder the paths of the log are relative to: the repository.
  * @returns {{ rerun: boolean, reason: string }}
  */
-export function classify(report, log) {
+export function classify(report, log, root = process.cwd()) {
   const text = log.replace(ANSI, '');
   if (!report || !Array.isArray(report.testResults)) {
     return { rerun: false, reason: 'the JSON report of the shard is missing' };
@@ -85,7 +95,7 @@ export function classify(report, log) {
   for (const file of failed) {
     const loaded = !String(file.message ?? '').startsWith('Failed to import test file');
     const testFailed = (file.assertionResults ?? []).some((test) => test.status === 'failed');
-    if (loaded || testFailed || !causeOf(text, file.name).includes(`${LOAD_FAILURE}: `)) {
+    if (loaded || testFailed || !causeOf(text, file.name, root).includes(`${LOAD_FAILURE}: `)) {
       return { rerun: false, reason: `${file.name} failed for another reason` };
     }
   }
@@ -101,16 +111,17 @@ const OTHER = '/agent/s/src/components/nph-chip/nph-chip.test.ts';
 const loadFailed = (name) => ({ name, status: 'failed', message: `Failed to import test file ${name}`, assertionResults: [] });
 const passed = (name) => ({ name, status: 'passed', message: '', assertionResults: [{ status: 'passed' }] });
 const report = (files, numFailedTests = 0) => ({ numFailedTests, testResults: files });
-const SETUP = '/agent/s/node_modules/@storybook/addon-vitest/dist/vitest-plugin/setup-file-with-project-annotations.js';
-const STORY = '/agent/s/src/components/nph-chip/nph-chip.stories.ts';
-/** The error block Vitest prints for a file that failed to import, with the module that failed. */
+const ROOT = '/agent/s';
+const SETUP = `${ROOT}/node_modules/@storybook/addon-vitest/dist/vitest-plugin/setup-file-with-project-annotations.js`;
+const STORY = `${ROOT}/src/components/nph-chip/nph-chip.stories.ts`;
+/** The `FAIL` header of a file, by its path from the root, as Vitest prints it. */
+const header = (name) => ` FAIL   unit (chromium)  ${relative(ROOT, name)} [ ${relative(ROOT, name)} ]`;
+/** The error block of a file that failed to import because `module` failed to load. */
 const loadLine = (name, module = name) =>
-  ` FAIL   unit (chromium)  ${name} [ ${name} ]\nError: Failed to import test file ${name}\n` +
-  ` ❯ collectTests deps/plugins.js:5823:3\n` +
+  `${header(name)}\nError: Failed to import test file ${module}\n ❯ collectTests deps/plugins.js:5823:3\n` +
   `Caused by: TypeError: ${LOAD_FAILURE}: http://localhost:63315${module}?import&browserv=1`;
-const otherCause = (name) =>
-  ` FAIL   unit (chromium)  ${name} [ ${name} ]\nError: Failed to import test file ${name}\n` +
-  `Caused by: SyntaxError: Unexpected token '}'`;
+const otherCause = (name, module = name) =>
+  `${header(name)}\nError: Failed to import test file ${module}\nCaused by: SyntaxError: Unexpected token '}'`;
 const networkLine = `[PW Error] script request failed for http://localhost:63315/x.js url: ${NETWORK_CHANGE}`;
 const testerDroppedLine = `[PW Error] script request failed for http://localhost:63316/@id/__x00__vitest/browser url: ${NETWORK_CHANGE}`;
 const notReady = (count) =>
@@ -144,14 +155,14 @@ const PROBES = [
   },
   {
     name: 'a story whose Storybook setup failed to load',
-    report: report([loadFailed(STORY)]),
+    report: report([{ ...loadFailed(STORY), message: `Failed to import test file ${SETUP}` }]),
     log: `${networkLine}\n${loadLine(STORY, SETUP)}`,
     rerun: true,
   },
   {
     name: 'two stories that share the setup, one for the load and one for another cause',
     report: report([loadFailed(STORY), loadFailed(FILE)]),
-    log: `${networkLine}\n${loadLine(STORY, SETUP)}\n${otherCause(FILE)}`,
+    log: `${networkLine}\n${loadLine(STORY, SETUP)}\n${otherCause(FILE, SETUP)}`,
     rerun: false,
   },
   {
@@ -203,7 +214,7 @@ const PROBES = [
 function selfTest() {
   let wrong = 0;
   for (const probe of PROBES) {
-    const { rerun, reason } = classify(probe.report, probe.log);
+    const { rerun, reason } = classify(probe.report, probe.log, ROOT);
     if (rerun !== probe.rerun) {
       wrong += 1;
       console.error(`shard-rerun: wrong for "${probe.name}": rerun ${rerun} (${reason})`);
@@ -230,18 +241,21 @@ function readLog(path) {
   }
 }
 
-const [first, logPath] = process.argv.slice(2);
-if (first === '--self-test') {
-  selfTest();
-} else if (first && logPath) {
-  const { rerun, reason } = classify(readReport(first), readLog(logPath));
-  if (rerun) {
-    console.log(reason);
+/* The command line runs only when this file is the entry point, not when it is imported. */
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
+  const [first, logPath] = process.argv.slice(2);
+  if (first === '--self-test') {
+    selfTest();
+  } else if (first && logPath) {
+    const { rerun, reason } = classify(readReport(first), readLog(logPath));
+    if (rerun) {
+      console.log(reason);
+    } else {
+      console.error(`shard-rerun: no rerun: ${reason}`);
+      process.exit(1);
+    }
   } else {
-    console.error(`shard-rerun: no rerun: ${reason}`);
-    process.exit(1);
+    console.error('Usage: node scripts/shard-rerun.mjs <report.json> <shard.log> | --self-test');
+    process.exit(2);
   }
-} else {
-  console.error('Usage: node scripts/shard-rerun.mjs <report.json> <shard.log> | --self-test');
-  process.exit(2);
 }
