@@ -47,9 +47,10 @@ function unhandledErrors(text) {
 }
 
 /**
- * The cause the log gives for a test file that failed to import. Its error block starts at the
- * `FAIL` header that names the file, by its path from the root, and ends at the next header or at
- * the unhandled errors. Inside it, "Failed to import test file" names the module that failed,
+ * The cause the log gives for a test file that failed to import. Its error block follows the
+ * `FAIL` header that names the file, by its path from the root, and the headers right after it,
+ * since files that share one error are listed together; it ends at the next header or at the
+ * unhandled errors. Inside it, "Failed to import test file" names the module that failed,
  * which may be the file itself or one it loads first, such as the Storybook setup (build 611680),
  * and the first `Caused by:` line is the cause.
  * @param {string} text
@@ -61,8 +62,11 @@ function causeOf(text, name, root) {
   const lines = text.split('\n');
   const start = lines.findIndex((line) => /\bFAIL\b/.test(line) && line.includes(`${path} [ ${path} ]`));
   if (start < 0) return '';
+  /* Files that share one error are listed as consecutive headers above a single block. */
+  let index = start + 1;
+  while (index < lines.length && (/\bFAIL\b/.test(lines[index]) || lines[index].trim() === '')) index += 1;
   const block = [];
-  for (const line of lines.slice(start + 1)) {
+  for (const line of lines.slice(index)) {
     if (/\bFAIL\b/.test(line) || /Unhandled Errors?/.test(line)) break;
     block.push(line);
   }
@@ -163,6 +167,18 @@ const PROBES = [
     name: 'two stories that share the setup, one for the load and one for another cause',
     report: report([loadFailed(STORY), loadFailed(FILE)]),
     log: `${networkLine}\n${loadLine(STORY, SETUP)}\n${otherCause(FILE, SETUP)}`,
+    rerun: false,
+  },
+  {
+    name: 'two stories listed together above one load failure of the setup',
+    report: report([loadFailed(STORY), loadFailed(FILE)]),
+    log: `${networkLine}\n${header(STORY)}\n${loadLine(FILE, SETUP)}`,
+    rerun: true,
+  },
+  {
+    name: 'two stories listed together above one error with another cause',
+    report: report([loadFailed(STORY), loadFailed(FILE)]),
+    log: `${networkLine}\n${header(STORY)}\n${otherCause(FILE, SETUP)}`,
     rerun: false,
   },
   {
