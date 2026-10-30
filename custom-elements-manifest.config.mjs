@@ -20,6 +20,11 @@
  * - a module that is not a public entry point, such as `nph-icon.icons.ts`,
  *   is bundled into a hashed chunk under `dist/shared/` and has no stable
  *   path, so it is left out of the manifest, with the exports that point to it;
+ * - a class that extends another component (`nph-data-table` extends
+ *   `nph-table`, P105) names the module of its superclass and of every
+ *   inherited member as the analyzer resolves it, `/src/components/<tag>/<tag>`,
+ *   with a leading slash and no extension: the plugin reads it as the source
+ *   file before it rewrites it;
  * - every component registers itself with `customElements.define(TAG, Class)`,
  *   where `TAG` is a constant that the analyzer does not resolve: it writes the
  *   word `TAG` as the tag name. By P03 the tag is the name of the folder and of
@@ -34,16 +39,22 @@ function publishedManifest() {
     return /^nph-[a-z]+(?:-[a-z]+)*$/.test(tag) && path === `src/components/${tag}/${tag}.ts` ? tag : null;
   };
 
+  /** A module reference as a source path: `/src/components/x/x` and `src/components/x/x.ts` are the same file. */
+  const sourceOf = (reference) => {
+    const path = reference.replace(/^\//, '');
+    return path.endsWith('.ts') ? path : `${path}.ts`;
+  };
+
   function rewrite(node, published, dropped) {
     if (Array.isArray(node)) {
       return node
-        .filter((item) => !(typeof item?.declaration?.module === 'string' && dropped.has(item.declaration.module)))
+        .filter((item) => !(typeof item?.declaration?.module === 'string' && dropped.has(sourceOf(item.declaration.module))))
         .map((item) => rewrite(item, published, dropped));
     }
     if (node === null || typeof node !== 'object') return node;
     for (const [key, value] of Object.entries(node)) {
-      if (key === 'module' && typeof value === 'string' && published.has(value)) {
-        node[key] = published.get(value);
+      if (key === 'module' && typeof value === 'string' && published.has(sourceOf(value))) {
+        node[key] = published.get(sourceOf(value));
       } else {
         node[key] = rewrite(value, published, dropped);
       }

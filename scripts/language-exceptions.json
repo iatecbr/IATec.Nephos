@@ -453,20 +453,35 @@
     "reason": "Figma frame, property and variant names of nph-data-table (Documentação frame; estado padrão/seleção em massa/vazio pela busca/carregando; moldura; cabeçalho fixo; foco; grade; expande; legenda, descrição, texto da legenda, texto da descrição, total; paginação, itens por página; the pieces linha, cabeçalho, seleção, ações and ajuste with their values; nph-toolbar tipo página/em massa; nph-pagination tipo tabela/intervalo) and the labels and accessible names the board specifies (\"Pessoas por unidade\", \"Valores por unidade, em reais.\", \"Limpar filtro\", \"Selecionar todas\", \"Selecionar Ana Souza\", \"Mais ações de Ana Souza\", \"Filtrar por pessoa\"), quoted as they are in the accepted board (P64: Figma is in Portuguese)."
   },
   {
+    "file": "docs/operacao/contextos/DSA-58.md",
+    "class": "contract-term",
+    "names": [
+      "ajuste"
+    ],
+    "reason": "The Figma piece ajuste of nph-data-table, quoted as it is in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
     "file": "docs/operacao/tarefas/DSA-58.md",
     "class": "contract-term",
     "names": [
-      "Documentação",
       "ajuste",
       "ações",
       "cabeçalho",
+      "carregando",
+      "Documentação",
       "estado",
       "foco",
+      "itens",
       "linha",
       "moldura",
-      "seleção"
+      "página",
+      "Selecionar",
+      "seleção",
+      "tabela",
+      "tipo",
+      "todas"
     ],
-    "reason": "Name of the Figma frame (Documentação) and property, variant and piece names of nph-data-table, quoted as they are in the accepted board (P64: Figma is in Portuguese)."
+    "reason": "Name of the Figma frame (Documentação) and property, variant and piece names of nph-data-table, quoted as they are in the accepted board (P64: Figma is in Portuguese). The pending decisions quote the Figma values tipo tabela, tipo intervalo, itens por página and carregando and the accessible name Selecionar todas, as the evidence does."
   },
   {
     "file": "docs/operacao/evidencias/DSA-59/documentacao-figma-aceita-2026-10-28.md",

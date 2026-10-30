@@ -43,7 +43,10 @@
  *   `header`, a repeated key or an `align` outside the two renders nothing. An invalid row
  *   is left out and an invalid cell is drawn blank; each cause emits one `console.error`
  *   in development. A table with no name, a no-value cell without `no-value-label` and a
- *   truncated cell in a column without `width` render and warn once in development.
+ *   truncated cell in a column without `width` render and warn once in development;
+ * - `nph-data-table` builds on this class (P105). The protected members below are its
+ *   extension points: each one draws, by default, exactly what this table draws, so the
+ *   table itself does not change.
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
@@ -198,17 +201,17 @@ export interface NphTableRowToggleDetail {
   readonly open: boolean;
 }
 
-/** Development error; outside a bundler with `import.meta.env`, it stays silent. */
-function devError(message: string): void {
+/** Development error, under the tag that reports it; outside a bundler with `import.meta.env`, it stays silent. */
+function devError(message: string, tag: string = TAG): void {
   if (import.meta.env?.DEV) {
-    console.error(`[${TAG}] ${message}`);
+    console.error(`[${tag}] ${message}`);
   }
 }
 
-/** Development warning; outside a bundler with `import.meta.env`, it stays silent. */
-function devWarn(message: string): void {
+/** Development warning, under the tag that reports it; outside a bundler with `import.meta.env`, it stays silent. */
+function devWarn(message: string, tag: string = TAG): void {
   if (import.meta.env?.DEV) {
-    console.warn(`[${TAG}] ${message}`);
+    console.warn(`[${tag}] ${message}`);
   }
 }
 
@@ -309,7 +312,8 @@ export class NphTable extends LitElement {
   declare footer: NphTableFooter | null;
 
   private valid = false;
-  private validColumns: readonly NphTableColumn[] = [];
+  /** The columns drawn: none while one of them is invalid. */
+  protected validColumns: readonly NphTableColumn[] = [];
   private drawnRows: readonly DrawnRow[] = [];
   private hasDetailColumn = false;
   private isTree = false;
@@ -358,14 +362,14 @@ export class NphTable extends LitElement {
   private error(message: string): void {
     if (!this.reported.has(`error ${message}`)) {
       this.reported.add(`error ${message}`);
-      devError(message);
+      devError(message, this.localName);
     }
   }
 
   private warn(cause: string, message: string): void {
     if (!this.reported.has(`warn ${cause}`)) {
       this.reported.add(`warn ${cause}`);
-      devWarn(message);
+      devWarn(message, this.localName);
     }
   }
 
@@ -815,7 +819,7 @@ export class NphTable extends LitElement {
     const named = caption !== '' ? { labelledby: CAPTION_ID, label: nothing } : { labelledby: nothing, label: label === '' ? nothing : label };
     const describedby = caption !== '' && description !== '' ? DESCRIPTION_ID : nothing;
     return html`
-      ${caption === '' ? nothing : this.renderCaption(caption, description)}
+      ${caption === '' ? nothing : this.renderCaption(caption, description)} ${this.renderAboveTable()}
       <div
         class="scroll"
         tabindex=${this.scrollable ? '0' : nothing}
@@ -835,7 +839,60 @@ export class NphTable extends LitElement {
           ${this.renderColumnGroups()} ${this.renderHead()} ${this.renderBody()} ${this.renderFoot()}
         </table>
       </div>
+      ${this.renderBelowTable()}
     `;
+  }
+
+  /* ----- extension points (P105): by default they draw what this table draws ----- */
+
+  /** What a subclass draws between the caption and the scroll area. */
+  protected renderAboveTable(): TemplateResult | typeof nothing {
+    return nothing;
+  }
+
+  /** What a subclass draws after the scroll area. */
+  protected renderBelowTable(): TemplateResult | typeof nothing {
+    return nothing;
+  }
+
+  /** The columns a subclass draws before the chevron and the columns of data. */
+  protected get leadingColumns(): number {
+    return 0;
+  }
+
+  /** The columns a subclass draws after the columns of data. */
+  protected get trailingColumns(): number {
+    return 0;
+  }
+
+  /** The header cells of the leading columns; `rowspan` is 2 under a two-level header. */
+  protected renderLeadingHeaders(_rowspan: number): TemplateResult | typeof nothing {
+    return nothing;
+  }
+
+  /** The header cells of the trailing columns; `rowspan` is 2 under a two-level header. */
+  protected renderTrailingHeaders(_rowspan: number): TemplateResult | typeof nothing {
+    return nothing;
+  }
+
+  /** The cells of the leading columns in a row of data. */
+  protected renderLeadingCells(_row: NphTableRow): TemplateResult | typeof nothing {
+    return nothing;
+  }
+
+  /** The cells of the trailing columns in a row of data. */
+  protected renderTrailingCells(_row: NphTableRow): TemplateResult | typeof nothing {
+    return nothing;
+  }
+
+  /** More classes for a row of data, separated by spaces. */
+  protected rowClasses(_row: NphTableRow): string {
+    return '';
+  }
+
+  /** The rows of data drawn, in order: the valid ones, at the open levels. */
+  protected get visibleRows(): readonly NphTableRow[] {
+    return this.drawnRows.map((drawn) => drawn.row);
   }
 
   private renderCaption(caption: string, description: string): TemplateResult {
@@ -855,9 +912,10 @@ export class NphTable extends LitElement {
   /** One `colgroup` per group of columns (and per column outside a group), so `scope="colgroup"` has its group. */
   private renderColumnGroups(): TemplateResult {
     const runs = this.runs();
-    return html`${this.hasDetailColumn ? html`<colgroup><col /></colgroup>` : nothing}${runs.map(
+    const extra = (count: number) => (count === 0 ? nothing : html`<colgroup>${Array.from({ length: count }, () => html`<col />`)}</colgroup>`);
+    return html`${extra(this.leadingColumns)}${this.hasDetailColumn ? html`<colgroup><col /></colgroup>` : nothing}${runs.map(
       (run) => html`<colgroup>${run.columns.map(() => html`<col />`)}</colgroup>`,
-    )}`;
+    )}${extra(this.trailingColumns)}`;
   }
 
   /** Neighbor columns of the same group, in order; a column without a group is a run of one. */
@@ -875,11 +933,11 @@ export class NphTable extends LitElement {
     return runs;
   }
 
-  private alignClass(column: NphTableColumn): string {
+  protected alignClass(column: NphTableColumn): string {
     return column.align === 'end' ? 'end' : 'start';
   }
 
-  private widthStyle(column: NphTableColumn): string | typeof nothing {
+  protected widthStyle(column: NphTableColumn): string | typeof nothing {
     const width = trimmed(column.width);
     return width === '' ? nothing : `inline-size: ${width}`;
   }
@@ -887,25 +945,23 @@ export class NphTable extends LitElement {
   private renderHead(): TemplateResult {
     const runs = this.runs();
     const twoLevels = runs.some((run) => run.group !== '');
-    const chevron = this.hasDetailColumn ? html`<td class="chevron-column" rowspan=${twoLevels ? 2 : 1}></td>` : nothing;
-    const header = (column: NphTableColumn, rowspan: number) =>
-      html`<th scope="col" class=${this.alignClass(column)} rowspan=${rowspan === 1 ? nothing : rowspan} style=${this.widthStyle(column)}>
-        ${column.header}
-      </th>`;
+    const rows = twoLevels ? 2 : 1;
+    const chevron = this.hasDetailColumn ? html`<td class="chevron-column" rowspan=${rows}></td>` : nothing;
+    const header = (column: NphTableColumn, rowspan: number) => this.renderHeaderCell(column, rowspan);
     if (!twoLevels) {
       return html`<thead>
         <tr>
-          ${chevron}${this.validColumns.map((column) => header(column, 1))}
+          ${this.renderLeadingHeaders(rows)}${chevron}${this.validColumns.map((column) => header(column, 1))}${this.renderTrailingHeaders(rows)}
         </tr>
       </thead>`;
     }
     return html`<thead>
       <tr>
-        ${chevron}${runs.map((run) =>
+        ${this.renderLeadingHeaders(rows)}${chevron}${runs.map((run) =>
           run.group === ''
             ? header(run.columns[0] as NphTableColumn, 2)
             : html`<th scope="colgroup" class="group" colspan=${run.columns.length}>${run.group}</th>`,
-        )}
+        )}${this.renderTrailingHeaders(rows)}
       </tr>
       <tr>
         ${runs.filter((run) => run.group !== '').flatMap((run) => run.columns.map((column) => header(column, 1)))}
@@ -913,11 +969,19 @@ export class NphTable extends LitElement {
     </thead>`;
   }
 
-  private get columnCount(): number {
-    return this.validColumns.length + (this.hasDetailColumn ? 1 : 0);
+  /** The header cell of a column of data. */
+  protected renderHeaderCell(column: NphTableColumn, rowspan: number): TemplateResult {
+    return html`<th scope="col" class=${this.alignClass(column)} rowspan=${rowspan === 1 ? nothing : rowspan} style=${this.widthStyle(column)}>
+      ${column.header}
+    </th>`;
   }
 
-  private renderBody(): TemplateResult {
+  /** Every column drawn: the leading ones, the chevron, the columns of data and the trailing ones. */
+  protected get columnCount(): number {
+    return this.leadingColumns + this.validColumns.length + (this.hasDetailColumn ? 1 : 0) + this.trailingColumns;
+  }
+
+  protected renderBody(): TemplateResult {
     if ((this.rows ?? []).length === 0) {
       const heading = trimmed(this.emptyHeading);
       return html`<tbody>
@@ -967,7 +1031,7 @@ export class NphTable extends LitElement {
 
   private renderRow(drawn: DrawnRow, position: number, striped: boolean, detailId: string): TemplateResult {
     const hasDetail = drawn.row.detail !== undefined && drawn.row.detail !== null;
-    const classes = ['row', striped ? 'striped' : '', this.isTree ? `level-${drawn.level}` : ''].filter(Boolean).join(' ');
+    const classes = ['row', striped ? 'striped' : '', this.isTree ? `level-${drawn.level}` : '', this.rowClasses(drawn.row)].filter(Boolean).join(' ');
     /* In the treegrid (P101), the row carries its level, its place among its siblings, its open
        state and the roving Tab stop. One template for both tables, so a row that stays keeps its
        elements, and the focus on its buttons, when the table becomes a tree or stops being one. */
@@ -982,7 +1046,7 @@ export class NphTable extends LitElement {
       aria-setsize=${tree ? drawn.setSize : nothing}
       aria-expanded=${tree && (drawn.hasChildren || hasDetail) ? String(drawn.open) : nothing}
     >
-      ${this.hasDetailColumn
+      ${this.renderLeadingCells(drawn.row)}${this.hasDetailColumn
         ? html`<td class="chevron-column" tabindex=${this.isTree ? '-1' : nothing}>
             ${hasDetail ? this.renderChevron(drawn, drawn.open ? detailId : nothing) : nothing}
           </td>`
@@ -996,7 +1060,7 @@ export class NphTable extends LitElement {
           const tree = this.isTree && index === 0;
           return this.renderCell(cell, column, drawn, `cell-${position}-${index}`, tree);
         },
-      )}
+      )}${this.renderTrailingCells(drawn.row)}
     </tr>`;
   }
 
@@ -1146,6 +1210,11 @@ export class NphTable extends LitElement {
     </tr>`;
   }
 
+  /** Empty cells of the footer under the leading or the trailing columns. */
+  private emptyCells(count: number): TemplateResult | typeof nothing {
+    return count === 0 ? nothing : html`${Array.from({ length: count }, () => html`<td></td>`)}`;
+  }
+
   /** The footer is drawn when it has a value for one of the columns. */
   private hasFooter(): boolean {
     const footer = this.footer;
@@ -1160,11 +1229,11 @@ export class NphTable extends LitElement {
     const tree = this.isTree;
     return html`<tfoot>
       <tr data-tree-row=${tree ? FOOTER_ROW : nothing} tabindex=${tree ? (this.stop === FOOTER_ROW ? '0' : '-1') : nothing}>
-        ${this.hasDetailColumn ? html`<td class="chevron-column" tabindex=${tree ? '-1' : nothing}></td>` : nothing}
+        ${this.emptyCells(this.leadingColumns)}${this.hasDetailColumn ? html`<td class="chevron-column" tabindex=${tree ? '-1' : nothing}></td>` : nothing}
         ${this.validColumns.map((column) => {
           const value = footer[column.key];
           return html`<td class=${this.alignClass(column)} tabindex=${tree ? '-1' : nothing}>${value === null || value === undefined ? '' : String(value)}</td>`;
-        })}
+        })}${this.emptyCells(this.trailingColumns)}
       </tr>
     </tfoot>`;
   }

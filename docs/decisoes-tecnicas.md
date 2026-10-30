@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104 and P106. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105 and P106. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -5610,6 +5610,106 @@ and semantics are reviewed in the pull request that brings them; the merge is th
 
 ---
 
+## P105 — `nph-data-table`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `2875:17577`, set `2633:69628`, board
+`1371:282`) gives one set with the Figma properties `estado`, `size`, `moldura`, `cabeçalho fixo`,
+`foco`, `grade` and `expande`, five inner pieces (`cabeçalho`, `seleção`, `linha`, `ações` and
+`ajuste`) and a footer that changes with the width of the table's space, and leaves the code API to
+the code. Five points need a decision of their own:
+
+- the table is the one of `nph-table` (P97, P101), which the task does not change, but the parts the
+  contract puts inside it — the sortable header, the selection column, the selected row, the more of
+  each row and the `ajuste` column — have no place in its API: the header is text, the cells have no
+  such types, and its drawing methods were private;
+- the toolbar and the bulk action bar are `nph-toolbar` (P104), which reaches only its direct
+  children for the size and the keyboard, so it cannot be drawn by the table around content of the
+  consumer;
+- the evidence says the column order, the searched term and the selected total "come from the
+  data": the table must not search, sort or page by itself;
+- the footer switches at 850 and 420 px, and there is no breakpoint token;
+- the descending sort needs a down arrow, and the `nph-icon` core has none.
+
+**Decision.** `nph-data-table` is a Web Component with **open Shadow DOM** (P01) that **extends the
+class of `nph-table`**: every attribute, property, cell, event and rule of `nph-table` holds, and the
+style of `nph-table` comes first, with the CSS of the data table over it, imported `?inline`. It has
+no `::part` and no color property. Anatomy only through semantic tokens. What `nph-table` rejects
+renders nothing, as P97; a cause of its own leaves out only the part it names and emits
+`console.error` only in development, once per cause — the rule of P21. The names follow P64.
+
+1. **Extension points of `nph-table`.** `nph-table` gains protected members that, by default, draw
+   exactly what it drew before: before and after the scroll area, the header cell of a column, the
+   cells before and after the header and the row of data, more classes for a row, the leading and
+   trailing columns counted in every span, the body, and the rows drawn. Its development errors and
+   warnings carry the tag of the element that reports them. Its tests do not change. This is the one
+   change to `nph-table`, which the task otherwise leaves alone; drawing a second table would copy
+   its checks and its cells. The Custom Elements Manifest plugin
+   (`custom-elements-manifest.config.mjs`) reads the module the analyzer writes for a superclass,
+   `/src/components/nph-table/nph-table`, as the source file, so the inheritance points at
+   `dist/nph-table/nph-table.js` in the published manifest.
+
+2. **Controlled data.** `rows` arrive already searched, sorted and paged. The table keeps what the
+   person chose — `sort-key` and `sort-direction`, `selected`, `page` and `page-size` — and says so
+   in `nph-sort-change` (`{ key, direction }`), `nph-selection-change` (`{ selected }`) and
+   `nph-page-change` (`{ page, pageSize }`); it never orders, filters or cuts a list. A row carries
+   `name`, the record that fills `{name}` in the names of its controls, and `switched`.
+
+3. **Sorting (D-2, D-3).** A column with `sortable` draws its header as a native button the size of
+   the cell, with the ring `focus/border` in `table/focus-ring-width` inside it; the sorted header
+   carries `aria-sort`. The arrow is `arrow-up-arrow-down` while not sorted, `arrow-up` ascending and
+   `arrow-up` turned half a turn descending, as `nph-pagination` turns its last arrow. A click sorts
+   another column ascending and turns the sorted one around.
+
+4. **Selection (D-4).** `selectable` adds a column of `nph-checkbox`, named by `select-all-label` in
+   the header and `select-label` with `{name}` in each row. `selected` is the list of row keys; the
+   header box checks or unchecks the rows drawn, keeps the ones of other pages, and is indeterminate
+   when only part of the drawn rows is checked. The selected row takes
+   `data-table/row-selected-background` and the mark `data-table/row-selected-indicator` in
+   `data-table/row-selected-indicator-width` at the inline start. The table points the input border of
+   its own boxes at `data-table/checkbox-border`, as `nph-dialog` points a color of its pieces (P87).
+
+5. **The bars are slots.** The consumer puts an `nph-toolbar` of the page type in the slot `toolbar`
+   and one of the bulk type in the slot `bulk`, as direct children of the table, so each bar keeps
+   its own children. While a row is selected the bulk bar takes the place of the page bar, and the
+   table writes its `count-text` from `selected-text` with `{count}` and `{total}`, filled in the
+   language of the page. When the bulk bar leaves, or the footer, with the focus in it, the focus
+   stays in the table: the header box, else a sortable header, the first piece of the page bar or
+   the scroll area, which takes the focus from code, with `tabindex="-1"` while it holds it, even
+   when it does not scroll.
+
+6. **Row actions and `ajuste` (D-6).** `actions` holds the entries of an `nph-dropdown-menu` opened
+   by the more of each row, an icon-only `nph-button` secondary ghost named `actions-label` with
+   `{name}`; an entry fires `nph-row-action`, the event of `nph-table`, with the value of the entry.
+   `switch-header` adds a column with an `nph-switch` per row, named `switch-label` with `{name}`,
+   at the end of the row before the actions, and fires `nph-row-switch` (`{ row, checked }`).
+
+7. **States (D-5).** `loading` draws an `nph-skeleton` in the cells of data — as many rows as the
+   rows shown, or the page size — with the header visible. With no row, an `empty-heading` and a
+   `clear-label`, the body holds the `nph-empty` and an `nph-button` that fires `nph-filter-clear`,
+   `data-table/empty-gap` apart.
+
+8. **The footer (D-1).** With `page-size` and more `total-items` than one page, the footer stays
+   outside the scroll area, in `pagination-layout`: `wide` is the `nph-pagination` table type, with
+   its own items per page; `middle` (the default, the master's case) is the label and the
+   `nph-select` of items per page and the range type; `narrow` is the range type only. The consumer
+   sets it for the width of the space until the breakpoint tokens exist.
+
+9. **A row with `children`** is drawn without them, with an error: the tree is `nph-table`'s.
+
+**Source.** Documentation `2875:17577`, set `2633:69628`, board `1371:282` and page `1371:2` of the
+Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 28/10/2026 with the Figma UX QA and the textual
+audit approved. The extension points, the controlled data, the slots, the names and the events are a
+technical proposal of this implementation.
+
+**Out of scope.** Load more and infinite scroll. A tree of records. A footer that switches by
+itself before the breakpoint tokens. A new token.
+
+**Status.** Anatomy and behavior accepted by Indiane on 28/10/2026. D-1 to D-6 of DSA-58 wait for
+Indiane. API and semantics are reviewed in the pull request that brings them; the merge is the
+approval.
+
+---
+
 ## P106 — One rerun of a browser test shard after a network change
 
 **Technical conflict.** The browser tests fail now and then on the Azure agents with "Failed to
@@ -5659,7 +5759,7 @@ is the approval.
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104 or P106 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105 or P106 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
