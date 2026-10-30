@@ -153,7 +153,7 @@ const IMPORT_LINE = /^import '([^']+)';$/;
  * empty piece, which reports the missing property. The `usageTag` of the page says where the
  * data comes from.
  */
-const DATA_BY_PROPERTY: Record<string, string> = { 'nph-dropdown-menu': 'items', 'nph-table': 'columns' };
+const DATA_BY_PROPERTY: Record<string, string> = { 'nph-dropdown-menu': 'items', 'nph-table': 'columns', 'nph-data-table': 'columns' };
 
 const pieces = Object.entries(pages).map(([path, page]) => ({
   piece: path.split('/').at(-2) as string,
