@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 570,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-data-table",
   "dependencies": [
     "DSA-03",
@@ -37,11 +37,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 0dc524b1555bb7768c7072025ec38cef7bdcbe0b origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-58/review-and-merge-2026-10-29.md",
+      "result": "passed",
+      "verified_at": "2026-10-29",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -84,7 +84,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-58/documentacao-figma-aceita-2026-10-28.md"
+    "docs/operacao/evidencias/DSA-58/documentacao-figma-aceita-2026-10-28.md",
+    "docs/operacao/evidencias/DSA-58/review-and-merge-2026-10-29.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -98,8 +99,8 @@
     "excerpt": null,
     "converted_decision": "The nph-data-table board (1371:282), with its Documentação frame (2875:17577), was accepted as the API and behavior specification of nph-data-table. Component set: nph-data-table (2633:69628), estado × size × moldura × cabeçalho fixo × foco × grade × expande, with the inner pieces cabeçalho (1371:37), seleção (1371:68), linha (1371:138), ações (1371:69) and ajuste (2633:5120). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-58-data-table", "commit": "b5302ee", "pr": 147 },
-  "context": "docs/operacao/contextos/DSA-58.md",
+  "git_review": { "branch": "feat/dsa-58-data-table", "commit": "0dc524b", "pr": 147 },
+  "context": null,
   "updated_at": "2026-10-29"
 }
 ```
