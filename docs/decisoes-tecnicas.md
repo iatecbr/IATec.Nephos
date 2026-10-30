@@ -5626,11 +5626,12 @@ and the Chromium bug 41144540 answers it as by design. Running one file at a tim
 **Decision.**
 
 - In the `Component tests (Chromium)` step of `azure-pipelines.yml`, a test shard that fails is run
-  again **once** when its only failure is test files that Chromium could not load: each failed file
-  failed to load, the log shows "Failed to fetch dynamically imported module" for it, no test failed
-  and no error went unhandled. `scripts/shard-rerun.mjs` decides it from the JSON report and the
-  log of the shard, and proves its own rules with probes (`--self-test`, in the repository checks
-  of the pipeline).
+  again **once** when its only failures come from the network change: each failed file failed to
+  load and the log shows "Failed to fetch dynamically imported module" for it, no test failed, and
+  every unhandled error is a Vitest tester that "did not become ready" while the log shows a module
+  of the tester dropped with `net::ERR_NETWORK_CHANGED` (build 612881). `scripts/shard-rerun.mjs`
+  decides it from the JSON report and the log of the shard, and proves its own rules with probes
+  (`--self-test`, in the repository checks of the pipeline).
 - Any other failure fails the step on the first run, even next to a file that failed to load, and a
   shard that fails again after the rerun fails the step.
 - The rerun and its reason are written to the log as an Azure warning.
@@ -5648,7 +5649,7 @@ configuration and `npm test` do not. Locally nothing changes.
 612025) and is not rerun. A dedicated agent or one whose network does not change during the job,
 which removes the cause and is an infrastructure decision. Fewer module requests per import, such
 as Font Awesome in one module, which changes `nph-icon` or the dependency configuration. A run that
-hangs until the timeout, which a rerun does not catch.
+hangs until the job timeout, which a rerun does not catch.
 
 **Status.** Decided by Elvys on 29/10/2026. Reviewed in the pull request that brings it; the merge
 is the approval.

@@ -264,17 +264,18 @@ stages:
           # the step fails if either one fails.
           #
           # A shard that fails is run again once, and only once, when its only
-          # failure is test files that Chromium could not load, with "Failed
-          # to fetch dynamically imported module" (P106). The agents share
-          # their host with other jobs, and Chromium on Linux drops every
-          # request in flight, localhost included, when an address or
-          # interface of the host changes (`net::ERR_NETWORK_CHANGED`, which
-          # the Playwright provider logs with `VITEST_PW_DEBUG`; builds 612136
-          # and 612149). `scripts/shard-rerun.mjs` reads the JSON report and
-          # the log of the shard: a failed test, an unhandled error or a file
-          # that failed for another reason fails the step on the first run,
-          # even next to a file that failed to load. The rerun and its reason
-          # are written to the log as a warning.
+          # failures come from a network change (P106). The agents share their
+          # host with other jobs, and Chromium on Linux drops every request in
+          # flight, localhost included, when an address or interface of the
+          # host changes (`net::ERR_NETWORK_CHANGED`, which the Playwright
+          # provider logs with `VITEST_PW_DEBUG`; builds 612136, 612149 and
+          # 612881). A test file then fails with "Failed to fetch dynamically
+          # imported module", or, when a module of the tester was dropped, its
+          # iframe "did not become ready". `scripts/shard-rerun.mjs` reads the
+          # JSON report and the log of the shard: a failed test, any other
+          # unhandled error or a file that failed for another reason fails the
+          # step on the first run, even next to a file that failed to load.
+          # The rerun and its reason are written to the log as a warning.
           #
           # The core count, memory and load of the agent are logged to read
           # timing failures: a loaded agent fails timing tests on its own. The

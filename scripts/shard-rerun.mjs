@@ -2,10 +2,14 @@
  * Whether a failed browser test shard may run again once (P106).
  *
  * On the Azure agents, Chromium drops every request in flight when the network of the shared
- * host changes, and a test file then fails to load with "Failed to fetch dynamically imported
- * module". A shard may run again only when that is its only failure: every failed file failed to
- * load, the log shows that error for the file, no test failed and no error went unhandled. Any
- * other failure keeps the shard failed, even next to a file that failed to load.
+ * host changes (`net::ERR_NETWORK_CHANGED`). A test file then fails to load with "Failed to fetch
+ * dynamically imported module", and when the dropped requests are the modules of the Vitest tester
+ * itself, the iframe of a file "did not become ready" and Vitest reports it as an unhandled error
+ * (build 612881). A shard may run again only when those are its only failures: every failed file
+ * failed to load and the log shows that error for the file, no test failed, and every unhandled
+ * error is a tester that did not become ready while the log shows a tester module dropped by a
+ * network change. Any other failure keeps the shard failed, even next to a file that failed to
+ * load.
  *
  * Usage, in the `Component tests (Chromium)` step of `azure-pipelines.yml`:
  *   node scripts/shard-rerun.mjs <json report of the shard> <log of the shard>
@@ -20,6 +24,24 @@ import { readFileSync } from 'node:fs';
 const LOAD_FAILURE = 'Failed to fetch dynamically imported module';
 const NETWORK_CHANGE = 'net::ERR_NETWORK_CHANGED';
 const ANSI = /\u001b\[[0-9;]*m/g;
+const UNHANDLED = /Vitest caught (\d+) unhandled errors?/;
+const TESTER_NOT_READY = /The iframe "[^"]+" did not become ready within \d+ms/g;
+/** A module of the Vitest tester, as the Playwright provider names it in a failed request. */
+const TESTER_MODULE = /vitest\/browser|@vitest\/browser\/|__vitest_browser__/;
+
+/**
+ * How many unhandled errors the log reports, and whether all of them are testers that did not
+ * become ready after the network change dropped a module of the tester.
+ * @param {string} text
+ */
+function unhandledErrors(text) {
+  const count = Number(UNHANDLED.exec(text)?.[1] ?? (/Unhandled (Error|Rejection)/.test(text) ? Infinity : 0));
+  const notReady = text.match(TESTER_NOT_READY)?.length ?? 0;
+  const testerDropped = text
+    .split('\n')
+    .some((line) => line.includes(NETWORK_CHANGE) && TESTER_MODULE.test(line));
+  return { count, testersOnly: count > 0 && notReady >= count && testerDropped };
+}
 
 /**
  * @param {unknown} report The JSON report of Vitest, or `undefined` when it could not be read.
@@ -34,11 +56,12 @@ export function classify(report, log) {
   if (report.numFailedTests > 0) {
     return { rerun: false, reason: `${report.numFailedTests} test(s) failed` };
   }
-  if (/Unhandled (Error|Rejection)/.test(text)) {
+  const unhandled = unhandledErrors(text);
+  if (unhandled.count > 0 && !unhandled.testersOnly) {
     return { rerun: false, reason: 'an error went unhandled' };
   }
   const failed = report.testResults.filter((file) => file.status === 'failed');
-  if (failed.length === 0) {
+  if (failed.length === 0 && unhandled.count === 0) {
     return { rerun: false, reason: 'the shard failed with no failed file' };
   }
   for (const file of failed) {
@@ -51,11 +74,11 @@ export function classify(report, log) {
       return { rerun: false, reason: `${file.name} failed for another reason` };
     }
   }
-  const network = text.includes(NETWORK_CHANGE) ? `; ${NETWORK_CHANGE} in the log` : '';
-  return {
-    rerun: true,
-    reason: `${failed.length} test file(s) failed to load with "${LOAD_FAILURE}"${network}`,
-  };
+  const parts = [];
+  if (failed.length > 0) parts.push(`${failed.length} test file(s) failed to load with "${LOAD_FAILURE}"`);
+  if (unhandled.count > 0) parts.push(`${unhandled.count} tester(s) did not become ready`);
+  if (text.includes(NETWORK_CHANGE)) parts.push(`${NETWORK_CHANGE} in the log`);
+  return { rerun: true, reason: parts.join('; ') };
 }
 
 const FILE = '/agent/s/src/components/nph-badge/nph-badge.test.ts';
@@ -65,6 +88,10 @@ const passed = (name) => ({ name, status: 'passed', message: '', assertionResult
 const report = (files, numFailedTests = 0) => ({ numFailedTests, testResults: files });
 const loadLine = (name) => `Caused by: TypeError: ${LOAD_FAILURE}: http://localhost:63315${name}?import&browserv=1`;
 const networkLine = `[PW Error] script request failed for http://localhost:63315/x.js url: ${NETWORK_CHANGE}`;
+const testerDroppedLine = `[PW Error] script request failed for http://localhost:63316/@id/__x00__vitest/browser url: ${NETWORK_CHANGE}`;
+const notReady = (count) =>
+  `Vitest caught ${count} unhandled error${count === 1 ? '' : 's'} during the test run.\n` +
+  `Caused by: Error: The iframe "${OTHER}" did not become ready within 60000ms. The tester likely failed to initialize`;
 
 const PROBES = [
   {
@@ -101,6 +128,30 @@ const PROBES = [
     name: 'an unhandled error next to a file that failed to load',
     report: report([loadFailed(FILE)]),
     log: `${loadLine(FILE)}\nUnhandled Rejection`,
+    rerun: false,
+  },
+  {
+    name: 'a file that failed to load and a tester that did not start, both after a network change',
+    report: report([loadFailed(FILE)]),
+    log: `${testerDroppedLine}\n${loadLine(FILE)}\n${notReady(1)}`,
+    rerun: true,
+  },
+  {
+    name: 'only a tester that did not start after a network change',
+    report: report([passed(OTHER)]),
+    log: `${testerDroppedLine}\n${notReady(1)}`,
+    rerun: true,
+  },
+  {
+    name: 'a tester that did not start, with no tester module dropped by a network change',
+    report: report([loadFailed(FILE)]),
+    log: `${networkLine}\n${loadLine(FILE)}\n${notReady(1)}`,
+    rerun: false,
+  },
+  {
+    name: 'another unhandled error next to a tester that did not start',
+    report: report([loadFailed(FILE)]),
+    log: `${testerDroppedLine}\n${loadLine(FILE)}\n${notReady(2)}`,
     rerun: false,
   },
   { name: 'no JSON report', report: undefined, log: loadLine(FILE), rerun: false },
