@@ -64,7 +64,7 @@ P62.4 subsection for the detail).
 | **P95** | API and semantics of `nph-combobox` and its list | 26/10/2026 | Medium. `nph-multi-combobox` (DSA-31) takes the list module, so changing the entries of `options`, the search, the groups, the highlight or the events `nph-search` and `nph-create` later requires redoing both. The options as data depart from the light-DOM options of P91 | Anatomy and behavior: board accepted by Indiane on 14/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P96** | API and semantics of `nph-multi-combobox`; the `checkbox` marker of `nph-option` (amends P91) | 26/10/2026 | Low now. No piece consumes the field yet; the marker defaults to `check`, so `nph-select` and `nph-combobox` do not change | Anatomy and behavior: board accepted by Indiane on 15/10/2026, D1 to D3 answered; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P102** | Vitest 5 for the browser tests (amends item 5 of P21) | 29/10/2026 | Low. Only the test runner and the Storybook packages that require it move; going back is a lockfile change and one test line | Decided by Elvys on 29/10/2026. Reviewed in the pull request that brings it |
-| **P106** | One rerun of a browser test shard after a network change on the Azure host | 29/10/2026 | Low. Only the Azure step changes; removing the rerun is a pipeline change, and a real failure still fails on the first run | Decided by Elvys on 29/10/2026. Reviewed in the pull request that brings it |
+| **P106** | Up to two reruns of a browser test shard after a network change on the Azure host | 29/10/2026 | Low. Only the Azure step changes; removing the reruns is a pipeline change, and a real failure still fails on the first run | Decided by Elvys on 29/10/2026 (one rerun) and 30/10/2026 (up to two). Reviewed in the pull request that brings it |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -5710,7 +5710,7 @@ approval.
 
 ---
 
-## P106 — One rerun of a browser test shard after a network change
+## P106 — Up to two reruns of a browser test shard after a network change
 
 **Technical conflict.** The browser tests fail now and then on the Azure agents with "Failed to
 fetch dynamically imported module", in Vitest 4 and in Vitest 5 (P102). The Playwright provider,
@@ -5726,22 +5726,24 @@ and the Chromium bug 41144540 answers it as by design. Running one file at a tim
 **Decision.**
 
 - In the `Component tests (Chromium)` step of `azure-pipelines.yml`, a test shard that fails is run
-  again **once** when its only failures come from the network change: each failed file failed to
+  again, **up to twice**, each time only when the only failures of its last attempt come from the
+  network change: each failed file failed to
   load and the cause of its own error in the log is "Failed to fetch dynamically imported module",
   for the file or for a module it loads first, such as the Storybook setup; no test failed; and
   every unhandled error is a Vitest tester that "did not become ready" while the log shows a module
   of the tester dropped with `net::ERR_NETWORK_CHANGED` (build 612881). `scripts/shard-rerun.mjs`
-  decides it from the JSON report and the log of the shard, and proves its own rules with probes
-  (`--self-test`, in the repository checks of the pipeline).
-- Any other failure fails the step on the first run, even next to a file that failed to load, and a
-  shard that fails again after the rerun fails the step.
-- The rerun and its reason are written to the log as an Azure warning.
+  decides it from the JSON report and the log of each attempt, holds the limit (`MAX_RERUNS`), and
+  proves its own rules with probes (`--self-test`, in the repository checks of the pipeline).
+- Any other failure fails the step at once, even next to a file that failed to load, and a shard
+  that still fails after the second rerun fails the step.
+- Each rerun, with its attempt number and its reason, is written to the log as an Azure warning.
 - `VITEST_PW_DEBUG` stays on in that step, so the log shows whether `net::ERR_NETWORK_CHANGED` came
   with the failure. The infrastructure prints of the diagnosis leave.
 
 **Reason.** The cause is outside the repository: the network of a shared host. A rerun limited to
-that signature keeps every real failure as it is, and costs one shard, about a minute, only when
-the host changed its network.
+that signature keeps every real failure as it is, and costs one shard, about two minutes, only when
+the host changed its network. One rerun was not enough: in build 612908 the network of the host
+changed twice, 1 min 40 s apart, the second time during the rerun.
 
 **Impact.** Only the pipeline and the new `scripts/shard-rerun.mjs` change; the tests, the
 configuration and `npm test` do not. Locally nothing changes.
@@ -5752,7 +5754,8 @@ which removes the cause and is an infrastructure decision. Fewer module requests
 as Font Awesome in one module, which changes `nph-icon` or the dependency configuration. A run that
 hangs until the job timeout, which a rerun does not catch.
 
-**Status.** Decided by Elvys on 29/10/2026. Reviewed in the pull request that brings it; the merge
+**Status.** Decided by Elvys on 29/10/2026 (rerun the shard, once) and changed by Elvys on
+30/10/2026 (up to two reruns, with the same rule). Reviewed in the pull request that brings it; the merge
 is the approval.
 
 ---

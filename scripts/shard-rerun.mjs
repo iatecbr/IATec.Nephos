@@ -1,5 +1,5 @@
 /**
- * Whether a failed browser test shard may run again once (P106).
+ * Whether a failed browser test shard may run again, up to twice (P106).
  *
  * On the Azure agents, Chromium drops every request in flight when the network of the shared
  * host changes (`net::ERR_NETWORK_CHANGED`). A test file then fails to load with "Failed to fetch
@@ -12,8 +12,11 @@
  * network change. Any other failure keeps the shard failed, even next to a file that failed to
  * load.
  *
+ * A shard runs again at most `MAX_RERUNS` times, each one only when the attempt before it failed
+ * that way; a shard that still fails after the last rerun fails the step.
+ *
  * Usage, in the `Component tests (Chromium)` step of `azure-pipelines.yml`:
- *   node scripts/shard-rerun.mjs <json report of the shard> <log of the shard>
+ *   node scripts/shard-rerun.mjs <json report of the attempt> <log of the attempt> <reruns so far>
  * It exits 0 and prints the reason when the shard may run again, and exits 1, with the reason on
  * stderr, when it may not.
  *
@@ -24,6 +27,8 @@ import { readFileSync } from 'node:fs';
 import { relative } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
+/** How many times a shard may run again after its first attempt: Elvys's decision of 30/10/2026. */
+export const MAX_RERUNS = 2;
 const LOAD_FAILURE = 'Failed to fetch dynamically imported module';
 const NETWORK_CHANGE = 'net::ERR_NETWORK_CHANGED';
 const ANSI = /\u001b\[[0-9;]*m/g;
@@ -98,9 +103,13 @@ function causeOf(text, name, root) {
  * @param {unknown} report The JSON report of Vitest, or `undefined` when it could not be read.
  * @param {string} log The output of the shard.
  * @param {string} [root] The folder the paths of the log are relative to: the repository.
+ * @param {number} [reruns] How many times the shard already ran again.
  * @returns {{ rerun: boolean, reason: string }}
  */
-export function classify(report, log, root = process.cwd()) {
+export function classify(report, log, root = process.cwd(), reruns = 0) {
+  if (reruns >= MAX_RERUNS) {
+    return { rerun: false, reason: `the shard already ran again ${reruns} time(s), the limit` };
+  }
   const text = log.replace(ANSI, '');
   if (!report || !Array.isArray(report.testResults)) {
     return { rerun: false, reason: 'the JSON report of the shard is missing' };
@@ -261,6 +270,20 @@ const PROBES = [
     log: `${testerDroppedLine}\n${loadLine(FILE)}\n${unhandledSection(2, [testerBlock, testerBlock])}`,
     rerun: true,
   },
+  {
+    name: 'the second rerun, after a first rerun that also failed to load a file',
+    report: report([loadFailed(FILE)]),
+    log: `${networkLine}\n${loadLine(FILE)}`,
+    reruns: 1,
+    rerun: true,
+  },
+  {
+    name: 'a third rerun, past the limit',
+    report: report([loadFailed(FILE)]),
+    log: `${networkLine}\n${loadLine(FILE)}`,
+    reruns: MAX_RERUNS,
+    rerun: false,
+  },
   { name: 'no JSON report', report: undefined, log: loadLine(FILE), rerun: false },
   { name: 'a failed shard with no failed file', report: report([passed(OTHER)]), log: '', rerun: false },
 ];
@@ -268,7 +291,7 @@ const PROBES = [
 function selfTest() {
   let wrong = 0;
   for (const probe of PROBES) {
-    const { rerun, reason } = classify(probe.report, probe.log, ROOT);
+    const { rerun, reason } = classify(probe.report, probe.log, ROOT, probe.reruns ?? 0);
     if (rerun !== probe.rerun) {
       wrong += 1;
       console.error(`shard-rerun: wrong for "${probe.name}": rerun ${rerun} (${reason})`);
@@ -297,11 +320,11 @@ function readLog(path) {
 
 /* The command line runs only when this file is the entry point, not when it is imported. */
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
-  const [first, logPath] = process.argv.slice(2);
+  const [first, logPath, reruns = '0'] = process.argv.slice(2);
   if (first === '--self-test') {
     selfTest();
   } else if (first && logPath) {
-    const { rerun, reason } = classify(readReport(first), readLog(logPath));
+    const { rerun, reason } = classify(readReport(first), readLog(logPath), process.cwd(), Number(reruns));
     if (rerun) {
       console.log(reason);
     } else {
@@ -309,7 +332,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
       process.exit(1);
     }
   } else {
-    console.error('Usage: node scripts/shard-rerun.mjs <report.json> <shard.log> | --self-test');
+    console.error('Usage: node scripts/shard-rerun.mjs <report.json> <shard.log> [reruns so far] | --self-test');
     process.exit(2);
   }
 }
