@@ -29,6 +29,7 @@ import type {
   NphDataTableColumn,
   NphDataTablePaginationLayout,
   NphDataTableRow,
+  NphDataTableRowSwitchDetail,
   NphDataTableSortChangeDetail,
 } from './nph-data-table';
 
@@ -246,6 +247,11 @@ export function peopleTable(t: DataTableText, options: TableOptions = {}): Templ
     pageSize = event.detail.pageSize ?? pageSize;
     (event.currentTarget as NphDataTable).rows = pageRows();
   };
+  /* The consumer keeps the switch in its records, so a new page or a new order draws it again. */
+  const onSwitch = (event: CustomEvent<NphDataTableRowSwitchDetail>) => {
+    const person = all.find((candidate) => candidate.key === event.detail.row);
+    if (person !== undefined) person.active = event.detail.checked;
+  };
   const onClear = (event: Event) => {
     const table = event.currentTarget as NphDataTable;
     table.rows = pageRows();
@@ -301,6 +307,7 @@ export function peopleTable(t: DataTableText, options: TableOptions = {}): Templ
     @nph-sort-change=${onSort}
     @nph-page-change=${onPage}
     @nph-filter-clear=${onClear}
+    @nph-row-switch=${onSwitch}
   >
     ${toolbar ? html`${pageBar(t, empty ? t.searchValue : '')}${bulkBar(t)}` : nothing}
   </nph-data-table>`;

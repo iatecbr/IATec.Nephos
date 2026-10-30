@@ -777,6 +777,15 @@ describe('the footer', () => {
     expect(area.hasAttribute('tabindex')).toBe(false);
   });
 
+  it('when the layout changes with the focus in the footer, the focus stays in the table', async () => {
+    const element = await mount(PAGES);
+    (root(element).querySelector('.pagination nph-select') as NphSelect).focus();
+    element.paginationLayout = 'narrow';
+    await settle(element);
+    expect(root(element).querySelector('.pagination nph-select')).toBeNull();
+    expect(root(element).activeElement).toBe(sortButton(element, 'name'));
+  });
+
   it('a pagination-layout outside the list errors in development and the footer is left out', async () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
     const element = await mount({ ...PAGES, paginationLayout: 'auto' });

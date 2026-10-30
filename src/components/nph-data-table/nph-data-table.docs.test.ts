@@ -328,6 +328,21 @@ describe('nph-data-table Validation: text only from the dictionary', () => {
     ]);
   });
 
+  it('Rows: the demonstration keeps a turned switch when the table sorts again', async () => {
+    const target = draw(validation.Rows as unknown as Renderable, 'en');
+    const table = (await ready(target))[2] as NphDataTable;
+    const switches = () => [...(table.shadowRoot?.querySelectorAll<HTMLElement & { checked: boolean }>('td.switch nph-switch') ?? [])];
+    const name = table.rows[0]?.name;
+    const before = switches()[0]?.checked;
+    (switches()[0]?.shadowRoot?.querySelector('button') as HTMLButtonElement).click();
+    await table.updateComplete;
+    (table.shadowRoot?.querySelector('button.sort') as HTMLButtonElement).click();
+    (table.shadowRoot?.querySelector('button.sort') as HTMLButtonElement).click();
+    await ready(target);
+    const index = table.rows.findIndex((row) => row.name === name);
+    expect(table.rows[index]?.switched).toBe(!before);
+  });
+
   it('Footer draws the three layouts and no footer with a single page', async () => {
     const target = draw(validation.Footer as unknown as Renderable, 'en');
     const tables = (await ready(target)).slice(0, 4);

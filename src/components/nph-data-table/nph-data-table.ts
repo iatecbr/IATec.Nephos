@@ -347,7 +347,8 @@ export class NphDataTable extends NphTable {
       }
     }
     /* A part that held the focus left: the focus stays in the table instead of falling to the page. */
-    if ((this.focusInBulk && !this.bulkShown()) || (this.focusInFooter && this.renderRoot.querySelector('.pagination') === null)) {
+    const footerHolds = this.renderRoot.querySelector('.pagination')?.matches(':focus-within') ?? false;
+    if ((this.focusInBulk && !this.bulkShown()) || (this.focusInFooter && !footerHolds)) {
       this.keepFocus();
     }
     this.focusInBulk = false;
