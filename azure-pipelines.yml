@@ -125,8 +125,7 @@ stages:
 
           # `test:package` ends by importing each component through the
           # package in Chromium (DSA-35), so the browser is installed first,
-          # the same way as in the Test stage. `VITEST_PW_DEBUG` logs every
-          # request Chromium failed, as in the Test stage.
+          # the same way as in the Test stage.
           - bash: |
               set -euo pipefail
               npm run build:lib
@@ -135,8 +134,6 @@ stages:
               npm run pack:check
             displayName: Build library and check the package
             workingDirectory: $(Build.SourcesDirectory)
-            env:
-              VITEST_PW_DEBUG: '1'
 
           # Static Storybook (P19: private CI artifact). It runs before the
           # pack, so a broken Storybook fails Build and Publish never starts.
@@ -262,39 +259,50 @@ stages:
           # system libraries Chromium needs must already be on the agent.
           #
           # The tests run in two shards, one after the other, so each Chromium
-          # process loads half the files. With the whole suite in one browser,
-          # Chromium now and then refused a module request that never reached
-          # Vite, and a test file failed with "Failed to fetch dynamically
-          # imported module" (builds 610794 to 611705; vitest-dev/vitest#11745
-          # and #10791). Both shards always run, and the step fails if either
-          # one fails.
+          # process loads half the files (PR #142). Both shards always run, and
+          # the step fails if either one fails.
+          #
+          # A shard that fails is run again once, and only once, when its log
+          # shows that Chromium aborted a module request because the network
+          # of the host changed (P106): `net::ERR_NETWORK_CHANGED`, which the
+          # Playwright provider logs with `VITEST_PW_DEBUG`, or "Failed to
+          # fetch dynamically imported module", which is how Vitest reports
+          # it. The agents share their host with other jobs, and Chromium on
+          # Linux drops every request in flight, localhost included, when an
+          # address or interface of the host changes (builds 612136 and
+          # 612149). Any other failure fails the step on the first run. The
+          # rerun and its reason are written to the log as a warning.
           #
           # The core count, memory and load of the agent are logged to read
           # timing failures: a loaded agent fails timing tests on its own. The
           # Vite request log (`vitest.config.ts`) tells whether a failing
-          # import reached Vite, and `VITEST_PW_DEBUG` makes the Playwright
-          # provider log every request Chromium failed, with its network error.
-          # Shared memory, whether the agent is a container and whether
-          # Playwright launches Chromium with `--disable-dev-shm-usage` are
-          # printed for the record, without a check.
+          # import reached Vite.
           - bash: |
               set -euo pipefail
               echo "CPU cores seen by Node: $(node -p 'require("os").availableParallelism()')"
               free -m
-              df -h /dev/shm || true
-              if [ -f /.dockerenv ] || grep -qaE 'docker|kubepods|containerd' /proc/1/cgroup; then
-                echo "Container: yes"
-              else
-                echo "Container: no"
-              fi
-              echo "Playwright default args with --disable-dev-shm-usage: $(grep -c -- '--disable-dev-shm-usage' node_modules/playwright-core/lib/coreBundle.js || true)"
               cat /proc/loadavg
               # Runs on failure too; the step keeps the exit code of the tests.
               trap 'cat /proc/loadavg' EXIT
               npx playwright install chromium
+              network_change='net::ERR_NETWORK_CHANGED|Failed to fetch dynamically imported module'
+              run_shard() {
+                local shard="$1"
+                local log="$(Agent.TempDirectory)/vitest-shard-${shard%/*}.log"
+                if npm test -- --shard="${shard}" 2>&1 | tee "${log}"; then
+                  return 0
+                fi
+                local reason
+                reason="$(grep -oE "${network_change}" "${log}" | sort -u | paste -sd ';' -)" || true
+                if [ -z "${reason}" ]; then
+                  return 1
+                fi
+                echo "##vso[task.logissue type=warning]Shard ${shard} failed with a network change in Chromium (${reason}); running it again once (P106)."
+                npm test -- --shard="${shard}"
+              }
               status=0
-              npm test -- --shard=1/2 || status=1
-              npm test -- --shard=2/2 || status=1
+              run_shard 1/2 || status=1
+              run_shard 2/2 || status=1
               exit "${status}"
             displayName: Component tests (Chromium)
             workingDirectory: $(Build.SourcesDirectory)

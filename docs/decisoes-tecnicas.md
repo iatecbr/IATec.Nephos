@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102 and P104. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104 and P106. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -64,6 +64,7 @@ P62.4 subsection for the detail).
 | **P95** | API and semantics of `nph-combobox` and its list | 26/10/2026 | Medium. `nph-multi-combobox` (DSA-31) takes the list module, so changing the entries of `options`, the search, the groups, the highlight or the events `nph-search` and `nph-create` later requires redoing both. The options as data depart from the light-DOM options of P91 | Anatomy and behavior: board accepted by Indiane on 14/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P96** | API and semantics of `nph-multi-combobox`; the `checkbox` marker of `nph-option` (amends P91) | 26/10/2026 | Low now. No piece consumes the field yet; the marker defaults to `check`, so `nph-select` and `nph-combobox` do not change | Anatomy and behavior: board accepted by Indiane on 15/10/2026, D1 to D3 answered; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P102** | Vitest 5 for the browser tests (amends item 5 of P21) | 29/10/2026 | Low. Only the test runner and the Storybook packages that require it move; going back is a lockfile change and one test line | Decided by Elvys on 29/10/2026. Reviewed in the pull request that brings it |
+| **P106** | One rerun of a browser test shard after a network change on the Azure host | 29/10/2026 | Low. Only the Azure step changes; removing the rerun is a pipeline change, and a real failure still fails on the first run | Decided by Elvys on 29/10/2026. Reviewed in the pull request that brings it |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -5609,9 +5610,51 @@ and semantics are reviewed in the pull request that brings them; the merge is th
 
 ---
 
+## P106 — One rerun of a browser test shard after a network change
+
+**Technical conflict.** The browser tests fail now and then on the Azure agents with "Failed to
+fetch dynamically imported module", in Vitest 4 and in Vitest 5 (P102). The Playwright provider,
+with `VITEST_PW_DEBUG`, shows the cause: in build 612149, Vite served the test file with `200 OK`,
+and 213 ms later Chromium failed 116 module requests with `net::ERR_NETWORK_CHANGED`. The agents
+are not containers and share their host with other jobs. Chromium on Linux drops every request in
+flight, localhost included, when an address or interface of the host changes
+(`TransportClientSocketPool::OnIPAddressChanged` in `net/socket/transport_client_socket_pool.cc`).
+At the Chromium of Playwright 1.62.1 (151.0.7922.34), no switch or feature turns that off on Linux,
+and the Chromium bug 41144540 answers it as by design. Running one file at a time
+(`--no-file-parallelism`) did not avoid it and made the run five times slower.
+
+**Decision.**
+
+- In the `Component tests (Chromium)` step of `azure-pipelines.yml`, a test shard that fails is run
+  again **once** when its log shows `net::ERR_NETWORK_CHANGED` or "Failed to fetch dynamically
+  imported module".
+- Any other failure fails the step on the first run, and a shard that fails again after the rerun
+  fails the step.
+- The rerun and its reason are written to the log as an Azure warning.
+- `VITEST_PW_DEBUG` stays on in that step, since it writes the network error the rerun reads. The
+  infrastructure prints of the diagnosis leave.
+
+**Reason.** The cause is outside the repository: the network of a shared host. A rerun limited to
+that signature keeps every real failure as it is, and costs one shard, about a minute, only when
+the host changed its network.
+
+**Impact.** Only the pipeline changes; the tests, the configuration and `npm test` do not. Locally
+nothing changes.
+
+**Out of scope.** `npm run test:package` in the Build stage, which can fail the same way (build
+612025) and is not rerun. A dedicated agent or one whose network does not change during the job,
+which removes the cause and is an infrastructure decision. Fewer module requests per import, such
+as Font Awesome in one module, which changes `nph-icon` or the dependency configuration. A run that
+hangs until the timeout, which a rerun does not catch.
+
+**Status.** Decided by Elvys on 29/10/2026. Reviewed in the pull request that brings it; the merge
+is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102 or P104 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104 or P106 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
