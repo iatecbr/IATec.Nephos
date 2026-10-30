@@ -5,11 +5,10 @@
  * custom properties consumed here. The `--_*` variables are internal to the
  * shadow root and are not API.
  *
- * No literal design value goes in here. Written box relations: `transparent` (the
- * off inner area shows the track), `nowrap` (the text stays on one line, because the
- * height is fixed in the token), `calc(-1 * ...)` (focus border and halo outside,
- * without changing the size) and `inset` with zeros in `box-shadow` (the outline of
- * the on inner area is a stroke on the inside, as in `nph-button`).
+ * No literal design value goes in here. Written box relations: `transparent` (the off
+ * box at rest has no background and its border is not seen), `nowrap` (the text stays
+ * on one line, because the height is fixed in the token) and `calc(-1 * ...)` (focus
+ * border and halo outside, without changing the size).
  */
 
 /* With invalid input, it takes no space: no visual fallback. */
@@ -28,8 +27,10 @@
 }
 
 /*
- * The track is the native button itself: border, radius, height and the gap
- * (`space/inline-tight`) between the border and the inner area. The piece hugs its
+ * The box is the native button itself: border, radius, height and the gap
+ * (`space/inline-tight`) between the border and the inner area. Off and at rest it
+ * has no background and no visible border; the border stays, `transparent`, so the
+ * error border and the focus offsets do not change the size. The piece hugs its
  * content, so there is no width token and the icon-only piece is not square.
  */
 .control {
@@ -44,9 +45,9 @@
   block-size: var(--nph-control-height-default);
   margin: 0;
   padding: var(--nph-space-inline-tight);
-  border: var(--nph-border-width) solid var(--nph-color-muted);
+  border: var(--nph-border-width) solid transparent;
   border-radius: var(--nph-radius-control);
-  background-color: var(--nph-color-muted);
+  background-color: transparent;
   color: var(--nph-color-muted-foreground);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
@@ -57,7 +58,16 @@
   outline: none;
 }
 
-/* The inner area holds icons and label. Off: it shows the track. On: raised, with an outline. */
+/* Size: the Figma `tamanho`, with or without text. */
+:host([size='compact']) .control {
+  block-size: var(--nph-control-height-compact);
+}
+
+:host([size='large']) .control {
+  block-size: var(--nph-control-height-large);
+}
+
+/* The inner area holds the icon and the label. It has no background of its own. */
 .surface {
   box-sizing: border-box;
   display: inline-flex;
@@ -67,14 +77,9 @@
   padding-block: 0;
   padding-inline: var(--nph-space-control-padding);
   border-radius: var(--nph-radius-inner);
-  background-color: transparent;
 }
 
-.glyph-fixed {
-  flex: none;
-}
-
-/* Both icons of the swap share one cell; opacity shows only the active one. */
+/* Every drawing of one icon shares one cell; opacity shows only the one of the state. */
 .glyphs {
   display: inline-grid;
   flex: none;
@@ -85,27 +90,35 @@
   opacity: 0;
 }
 
-:host(:not([pressed])) .glyph-off,
-:host([pressed]) .glyph-on {
+/*
+ * Which drawing shows. The pair of `auto` is `xmark` off and `check` on; a fixed icon is
+ * the same name in both. The style is `solid` when the piece is on or under the pointer,
+ * and `light` off at rest and whenever the piece is disabled.
+ */
+:host(:not([pressed])) .control:is(:disabled, :not(:hover)) :is(.glyph-off, .glyph-fixed).glyph-light,
+:host(:not([pressed])) .control:not(:disabled):hover :is(.glyph-off, .glyph-fixed).glyph-solid,
+:host([pressed]) .control:disabled :is(.glyph-on, .glyph-fixed).glyph-light,
+:host([pressed]) .control:not(:disabled) :is(.glyph-on, .glyph-fixed).glyph-solid {
   opacity: 1;
 }
 
-/* On: the label is already foreground; the inner area is raised with an outline on the inside. */
-:host([pressed]) .control {
-  color: var(--nph-color-foreground);
-}
-
-:host([pressed]) .surface {
-  background-color: var(--nph-color-background);
-  box-shadow: var(--nph-elevation-subtle), inset 0 0 0 var(--nph-border-width) var(--nph-color-primary-border);
-}
-
-/* Hover (only when the piece responds): the off piece goes from muted to foreground. */
+/* Hover (only when the piece responds): the off piece takes the hover background and foreground. */
 .control:not(:disabled):hover {
+  background-color: var(--nph-togglebutton-background-hover);
   color: var(--nph-color-foreground);
 }
 
-/* Invalid: error border on the track. Disabled wins: the border stays the resting one. */
+/* On: a flat background and the foreground label; on hover, the checked hover background. */
+:host([pressed]) .control {
+  background-color: var(--nph-togglebutton-background-checked);
+  color: var(--nph-color-foreground);
+}
+
+:host([pressed]) .control:not(:disabled):hover {
+  background-color: var(--nph-togglebutton-background-checked-hover);
+}
+
+/* Invalid: error border over the background of the state. Disabled wins: the border stays the resting one. */
 :host([invalid]:not([disabled])) .control {
   border-color: var(--nph-status-error);
   --_focus-border: var(--nph-status-error);
@@ -113,9 +126,9 @@
 }
 
 /*
- * Focus: tight border and halo on the outside, keyboard only. The track has its
+ * Focus: tight border and halo on the outside, keyboard only. The box has its
  * own border, and an absolute box starts at the padding edge, so the offsets add
- * the track border to land just outside it.
+ * the box border to land just outside it.
  */
 .control:focus-visible::before,
 .control:focus-visible::after {
@@ -143,13 +156,7 @@
  * are never animated. The icon color follows the label color (`currentColor`).
  */
 .control {
-  transition-property: background-color, border-color, color, box-shadow;
-  transition-duration: var(--nph-motion-state-duration);
-  transition-timing-function: var(--nph-motion-state-easing);
-}
-
-.surface {
-  transition-property: background-color, box-shadow;
+  transition-property: background-color, border-color, color;
   transition-duration: var(--nph-motion-state-duration);
   transition-timing-function: var(--nph-motion-state-easing);
 }
@@ -168,7 +175,6 @@
  */
 @media (prefers-reduced-motion: reduce) {
   .control,
-  .surface,
   .glyph {
     transition-duration: var(--nph-motion-hover-duration);
   }

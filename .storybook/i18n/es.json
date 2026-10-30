@@ -101,6 +101,7 @@
     "components-nph-toggle-group-docs--documentation": "Documentación",
     "components-nph-toggle-group-validation": "Validación",
     "components-nph-toggle-group-validation--matrix": "Matriz",
+    "components-nph-toggle-group-validation--sizes": "Tamaños",
     "components-nph-toggle-group-validation--single-selection": "Selección única",
     "components-nph-toggle-group-validation--multiple-selection": "Selección múltiple",
     "components-nph-toggle-group-validation--button-states": "Estados de los botones",
@@ -110,6 +111,7 @@
     "components-nph-togglebutton-docs--documentation": "Documentación",
     "components-nph-togglebutton-validation": "Validación",
     "components-nph-togglebutton-validation--matrix": "Matriz",
+    "components-nph-togglebutton-validation--sizes": "Tamaños",
     "components-nph-togglebutton-validation--icons": "Iconos",
     "components-nph-togglebutton-validation--icon-only": "Solo icono",
     "components-nph-togglebutton-validation--disabled": "Deshabilitado",
@@ -309,7 +311,17 @@
     "components-nph-chip-validation--long-text": "Texto largo",
     "components-nph-chip-validation--invalid-input": "Entrada no válida",
     "components-nph-chip-validation--examples": "Ejemplos",
-    "components-nph-chip-validation--brands": "Marcas"
+    "components-nph-chip-validation--brands": "Marcas",
+    "components-nph-toolbar-docs": "Docs",
+    "components-nph-toolbar-docs--documentation": "Documentación",
+    "components-nph-toolbar-validation": "Validación",
+    "components-nph-toolbar-validation--matrix": "Matriz",
+    "components-nph-toolbar-validation--options": "Opciones",
+    "components-nph-toolbar-validation--piece-states": "Estados de las piezas",
+    "components-nph-toolbar-validation--applied-filters": "Filtros aplicados",
+    "components-nph-toolbar-validation--invalid-input": "Entrada no válida",
+    "components-nph-toolbar-validation--examples": "Ejemplos",
+    "components-nph-toolbar-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -977,7 +989,7 @@
       ],
       [
         "hover-active",
-        "La superficie pasa al token de hover del tipo y del énfasis, y los iconos pasan a solid: los de inicio y de fin del botón con texto y el icono del botón solo con icono."
+        "La superficie pasa al token de hover del tipo y del énfasis, y los iconos pasan a solid: los de inicio y de fin del botón con texto y el icono del botón solo con icono. En secondary ghost, el token de hover es button/secondary-ghost-background-hover con texto e icon-button/secondary-ghost-background-hover en el botón solo con icono."
       ],
       [
         "focus",
@@ -1623,7 +1635,7 @@
     "darkCaption": "Modo oscuro"
   },
   "togglebuttonDocs": {
-    "summary": "Un botón que guarda un valor booleano, encendido o apagado, y muestra el estado en la propia pieza: el área interna se eleva, con sombra y contorno. Acepta texto o solo icono, y dispara nph-change cuando la persona lo alterna.",
+    "summary": "Un botón que guarda un valor booleano, encendido o apagado, y muestra el estado en la propia pieza: el fondo y el color del label cambian, y el icono pasa a sólido. Viene en tres tamaños, acepta texto o solo icono, y dispara nph-change cuando la persona lo alterna.",
     "onThisPage": "En esta página",
     "derivedTitle": "Esta página es derivada.",
     "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha nph-togglebutton, design.md para los tokens y docs/decisoes-tecnicas.md para la P73. El Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
@@ -1633,7 +1645,7 @@
       "En una barra de herramientas, cuando la opción se enciende o se apaga con efecto inmediato, entre otros botones.",
       "Con texto, cuando el nombre de la opción debe estar visible.",
       "Solo con icono, cuando el icono se reconoce sin leyenda: déle un nombre accesible.",
-      "Los iconos de inicio y de fin son opcionales: el área interna elevada, con contorno, ya muestra el estado."
+      "Como máximo un icono, al inicio por defecto: sin icono, el fondo y el color del label ya muestran el estado."
     ],
     "whenNotToUseTitle": "Cuándo no usar",
     "whenNotToUse": [
@@ -1662,6 +1674,10 @@
         "Apaga la pieza: sale del orden de Tab, no alterna, no dispara nph-change y queda en state/disabled-opacity. Reflejada en el atributo."
       ],
       [
+        "size",
+        "compact, default (por defecto) o large: 28, 36 o 44 px de alto, con o sin texto. Reflejado en el atributo. Solo icono, el icono lo sigue: icon/size-sm, icon/size-md o icon/size-lg. Dentro del nph-toggle-group, lo define el grupo."
+      ],
+      [
         "text",
         "El nombre de la opción, ya localizado. Es el nombre accesible y queda en una sola línea. Sin él, la pieza es solo icono y necesita label."
       ],
@@ -1671,11 +1687,11 @@
       ],
       [
         "icon-start",
-        "auto (por defecto), none o un nombre del núcleo del nph-icon, antes del texto, en icon/size-sm. auto es xmark apagado y check encendido. Un nombre es un icono fijo. Solo icono usa este."
+        "auto (por defecto), none o un nombre del núcleo del nph-icon, antes del texto, en icon/size-sm. auto es xmark apagado y check encendido. Un nombre es un icono fijo. Solo icono usa este, en el tamaño de icono de size."
       ],
       [
         "icon-end",
-        "Los mismos valores, después del texto. Solo icono lo ignora."
+        "none (por defecto), auto o un nombre del núcleo del nph-icon, después del texto. Como máximo un icono: con texto, apague icon-start con none para usarlo; los dos encendidos no dibujan nada. Solo icono lo ignora."
       ],
       [
         "nph-change",
@@ -1691,6 +1707,27 @@
     "usageTag": "La etiqueta de la pieza. No tiene slot: el texto y todo otro contenido llegan por atributo.",
     "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
     "sourceUsage": "ficha de nph-togglebutton; docs/decisoes-tecnicas.md › P70",
+    "sizesTitle": "Tamaños",
+    "sizesText": "size acepta compact, default o large, la propiedad tamanho de Figma. Cambia la altura y, en la pieza solo con icono, el tamaño del icono; el relleno, el radio y el rol de texto se mantienen.",
+    "sizesCaption": "compact, default y large, cada uno con texto y solo con icono, apagado y encendido.",
+    "sizesHeader": [
+      "Tamaño",
+      "Medidas"
+    ],
+    "sizes": [
+      [
+        "compact",
+        "control/height-compact, 28 px. El icono es icon/size-sm, con texto y solo con icono."
+      ],
+      [
+        "default",
+        "control/height-default, 36 px. El valor por defecto. El icono es icon/size-sm con texto e icon/size-md solo con icono."
+      ],
+      [
+        "large",
+        "control/height-large, 44 px. El icono es icon/size-sm con texto e icon/size-lg solo con icono. En pantallas táctiles, use large."
+      ]
+    ],
     "statesTitle": "Estados",
     "statesHeader": [
       "Estado",
@@ -1699,15 +1736,15 @@
     "states": [
       [
         "unpressed",
-        "La pista y el área interna comparten color/muted; el label y el icono usan color/muted-foreground."
+        "Sin fondo y sin borde visible; el label usa color/muted-foreground y el icono es light."
       ],
       [
         "pressed",
-        "El área interna se eleva, con color/background, elevation/subtle y un contorno en color/primary-border. El label y el icono usan color/foreground, y el icono pasa de xmark a check."
+        "El fondo es togglebutton/background-checked; el label usa color/foreground y el icono pasa de xmark a check, sólido. Sin label en semibold y sin trazo."
       ],
       [
         "hover",
-        "En la pieza apagada, el label y el icono pasan de color/muted-foreground a color/foreground."
+        "Apagada, el fondo es togglebutton/background-hover; presionada, togglebutton/background-checked-hover. El label usa color/foreground y el icono es sólido."
       ],
       [
         "focus",
@@ -1715,17 +1752,17 @@
       ],
       [
         "invalid",
-        "El borde de la pista pasa a ser status/error; en el foco, el borde y el halo son status/error y focus/halo-error. El mensaje de error queda fuera de la pieza."
+        "El borde pasa a ser status/error, sobre el fondo del estado; en el foco, el borde y el halo son status/error y focus/halo-error. El mensaje de error queda fuera de la pieza."
       ],
       [
         "disabled",
-        "Toda la pieza en state/disabled-opacity, fuera del orden de Tab. Vence a invalid: el borde de error no se dibuja."
+        "Toda la pieza en state/disabled-opacity, fuera del orden de Tab, en los colores de reposo de su valor de pressed y con el icono light: una pieza presionada mantiene togglebutton/background-checked. Vence a invalid: el borde de error no se dibuja."
       ]
     ],
     "statesCaption": "unpressed, pressed, invalid, disabled y disabled con invalid. Pase el ratón sobre un botón para ver el hover y use Tab para ver el foco.",
     "iconsTitle": "Iconos",
-    "iconsText": "Cada lado acepta auto, none o un nombre del núcleo del nph-icon. Solo icono dibuja únicamente el icono de icon-start.",
-    "iconsCaption": "Cada fila es apagado y encendido: el par auto, sin icono, un icono fijo, solo inicio, solo fin y solo icono.",
+    "iconsText": "Como máximo un icono: icon-start, auto por defecto, o icon-end, none por defecto. Cada uno acepta auto, none o un nombre del núcleo del nph-icon. El icono es sólido cuando la pieza está encendida o bajo el puntero, y light cuando está apagada en reposo y cuando está deshabilitada. Solo icono dibuja únicamente el icono de icon-start.",
+    "iconsCaption": "Cada fila es apagado y encendido: el icono auto por defecto al inicio, el icono auto al final, un icono fijo al inicio, sin icono y solo icono.",
     "iconsHeader": [
       "Valor",
       "Qué dibuja"
@@ -1733,15 +1770,19 @@
     "icons": [
       [
         "auto",
-        "El valor por defecto. xmark apagado y check encendido, los dos renderizados y con transición de opacidad."
+        "El valor por defecto de icon-start. xmark apagado y check encendido, con transición de opacidad."
       ],
       [
         "none",
-        "Ningún icono en ese lado. Solo icono con icon-start none no tiene nada que dibujar: la pieza no renderiza nada."
+        "El valor por defecto de icon-end: ningún icono en ese lado. Solo icono con icon-start none no tiene nada que dibujar: la pieza no renderiza nada."
       ],
       [
         "star",
-        "Cualquier nombre del núcleo del nph-icon, como star: un icono fijo, sin cambio."
+        "Cualquier nombre del núcleo del nph-icon, como star: un icono fijo, sin cambio de nombre."
+      ],
+      [
+        "icon-start e icon-end",
+        "Nunca los dos con texto: los dos encendidos son entrada inválida, y la pieza no dibuja nada. El inicio es el valor por defecto; use el final solo cuando el icono dice lo que viene después, como abrir opciones."
       ]
     ],
     "anatomyTitle": "Anatomía",
@@ -1751,24 +1792,20 @@
     ],
     "anatomy": [
       [
-        "Pista",
-        "La caja externa: fondo color/muted, borde border/width en color/muted, radius/control, altura control/height-default y space/inline-tight de relleno en los cuatro lados. Cuando es inválida, el borde es status/error."
+        "Caja",
+        "La caja externa: sin fondo y sin borde visible en reposo, radius/control, altura por tamaño (control/height-compact, control/height-default o control/height-large) y space/inline-tight de relleno en los cuatro lados. Fondo togglebutton/background-hover en hover, togglebutton/background-checked cuando está presionada y togglebutton/background-checked-hover cuando está presionada y en hover. Cuando es inválida, el borde es status/error."
       ],
       [
         "Área interna",
-        "Guarda el contenido: radius/inner, relleno lateral space/control-padding y space/inline-tight entre icono y texto. Cuando está presionada: color/background, elevation/subtle y un contorno en color/primary-border con border/width."
+        "Guarda el contenido: radius/inner, relleno lateral space/control-padding y space/inline-tight entre icono y texto. Sin fondo propio."
       ],
       [
-        "Icono de inicio",
-        "Opcional, en icon/size-sm. Por defecto xmark apagado y check encendido."
+        "Icono",
+        "Opcional, como máximo uno, al inicio por defecto. icon/size-sm con texto; solo icono, icon/size-sm, icon/size-md o icon/size-lg por tamaño. Light apagado en reposo y cuando está deshabilitado; sólido presionado o en hover."
       ],
       [
         "Etiqueta",
-        "El texto, en text/label-md: color/muted-foreground apagado; color/foreground presionado o en hover."
-      ],
-      [
-        "Icono de fin",
-        "Opcional, con los mismos valores y el mismo cambio del icono de inicio."
+        "El texto, en text/label-md: color/muted-foreground apagado en reposo; color/foreground presionado o en hover."
       ],
       [
         "Foco",
@@ -1799,7 +1836,7 @@
       ],
       [
         "Contraste",
-        "El label apagado, color/muted-foreground sobre color/muted, pasa de 4,5:1: 5,76:1 en claro y 6,61:1 en oscuro. El contorno del área interna presionada, color/primary-border sobre la pista, pasa de 3:1 en toda marca y en los dos modos; el menor valor es 3,31:1, en oscuro gerencial. El borde de error, status/error sobre color/background, es 6,88:1 en claro y 5,01:1 en oscuro."
+        "El label y el icono pasan de 6:1 sobre el fondo de cada estado, en toda marca y en los dos modos: color/muted-foreground sobre la página en reposo, y color/foreground sobre los fondos de hover, de marcado y de marcado en hover. El borde de error, status/error sobre color/background, es 6,88:1 en claro y 5,01:1 en oscuro."
       ],
       [
         "Límite conocido",
@@ -1807,11 +1844,11 @@
       ],
       [
         "El color no es la única señal",
-        "El estado presionado se muestra en el área interna elevada con contorno y en el icono, no solo en el color del texto. La pieza inválida cambia el borde; el mensaje de error queda fuera."
+        "El estado presionado se muestra en el fondo, en el color del label y en el icono, que pasa de xmark a check, y aria-pressed lo expone. Límite conocido: el fondo marcado tiene 1,26:1 sobre la página en claro y 1,54:1 en oscuro, y en oscuro sin icono el label casi no cambia. La pieza inválida cambia el borde; el mensaje de error queda fuera."
       ],
       [
         "Área de toque",
-        "Toda la pieza es el área: 36 px de alto, con o sin texto. Solo icono mide 50 por 36 px."
+        "Toda la pieza es el área: 28, 36 o 44 px de alto por tamaño, con o sin texto. En pantallas táctiles, use large."
       ],
       [
         "Movimiento",
@@ -1833,7 +1870,7 @@
     "references": [
       "ficha nph-togglebutton — función, variantes, estados, accesibilidad, tokens y antipatrones.",
       "docs/decisoes-tecnicas.md — P73 (API y semántica), P01, P02 y P03.",
-      "design.md — color/muted, border/width, status/error, color/background, elevation/subtle, color/primary-border, text/label-md, color/muted-foreground, color/foreground, color/primary, focus/*, state/disabled-opacity, control/height-default, radius/control, radius/inner, space/inline-tight, space/control-padding, icon/size-sm y motion/*.",
+      "design.md — color/muted-foreground, color/foreground, border/width, status/error, text/label-md, color/primary, focus/*, state/disabled-opacity, control/height-compact, control/height-default, control/height-large, radius/control, radius/inner, space/inline-tight, space/control-padding, icon/size-sm, icon/size-md, icon/size-lg y motion/*. Los tokens togglebutton/* están en src/tokens/source/semantic.tokens.json.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — ToggleButton, marco nph-togglebutton (1512:27498) y conjunto 1512:719.",
       "Storybook — Validación, en la carpeta de al lado."
     ],
@@ -1895,6 +1932,10 @@
         "single (por defecto) o multiple. Es comportamiento, no apariencia: en single, marcar un botón desmarca los demás y uno queda siempre marcado tras la primera elección; en multiple, cada botón es libre."
       ],
       [
+        "size",
+        "compact, default (por defecto) o large. Reflejado en el atributo. Todo botón del grupo lo recibe: 28, 36 o 44 px de alto y, solo con icono, el icono de ese tamaño. El grupo lo escribe en cada botón, así que un size definido en un botón dentro del grupo se sobrescribe."
+      ],
+      [
         "value",
         "Los botones marcados, por el value de cada uno. El atributo recibe palabras separadas por espacios, value=\"bold italic\"; la propiedad es una lista de textos. Single guarda cero o uno. Sin value, ninguno queda marcado. El grupo escribe pressed en cada botón a partir de él. Definirlo por código nunca dispara el evento."
       ],
@@ -1920,6 +1961,9 @@
     "usageTag": "El grupo con sus hijos nph-togglebutton, que él mismo registra; cada botón tiene un value.",
     "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
     "sourceUsage": "ficha de nph-toggle-group; docs/decisoes-tecnicas.md › P70",
+    "sizesTitle": "Tamaños",
+    "sizesText": "size acepta compact, default o large, la propiedad tamanho de Figma. El grupo lo escribe en cada botón, así que todos tienen la misma altura; el space/inline entre ellos no cambia.",
+    "sizesCaption": "Alineación en compact, default y large.",
     "selectionTitle": "Selección",
     "selectionText": "El marco de Figma deja la selección única y la múltiple para el código: es comportamiento, no apariencia. El grupo la coordina, así que cada botón deja de decidir solo.",
     "selectionCaption": "Única sin value, única con value, múltiple sin value y múltiple con dos valores marcados.",
@@ -1965,7 +2009,7 @@
       ],
       [
         "Botón",
-        "Un nph-togglebutton, con estado propio: pressed, foco, disabled e invalid. 36 px de alto, control/height-default."
+        "Un nph-togglebutton, con estado propio: pressed, foco, disabled e invalid. Su altura es la del tamaño del grupo: control/height-compact, control/height-default o control/height-large."
       ],
       [
         "Espacio",
@@ -2000,11 +2044,11 @@
       ],
       [
         "El color no es la única señal",
-        "El botón marcado cambia el área interna (fondo, sombra y contorno), no solo el color del texto."
+        "El botón marcado cambia el fondo, el color del label y el icono, no solo el color del texto."
       ],
       [
         "Área de toque",
-        "Cada botón tiene la altura de control/height-default, y los vecinos quedan a space/inline de distancia."
+        "Cada botón tiene 28, 36 o 44 px de alto, por el tamaño del grupo, y los vecinos quedan a space/inline de distancia. En pantallas táctiles, use large."
       ],
       [
         "Límite conocido",
@@ -2033,7 +2077,7 @@
     "references": [
       "ficha nph-toggle-group — función, anatomía, selección, accesibilidad, tokens y antipatrones.",
       "docs/decisoes-tecnicas.md — P76 (API y semántica), P73, P01, P02 y P03.",
-      "design.md — space/inline y control/height-default; los iconos del núcleo align-left, align-center, align-right, bold, italic y underline.",
+      "design.md — space/inline, control/height-compact, control/height-default y control/height-large; los iconos del núcleo align-left, align-center, align-right, bold, italic y underline.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Toggle Group, marco nph-toggle-group (1580:61) y conjunto 1580:60.",
       "Storybook — Validación, en la carpeta de al lado."
     ],
@@ -7124,19 +7168,21 @@
       "components-nph-spinner-validation--accessibility": "Con texto al lado, el spinner es decorativo; sin texto, tiene nombre accesible.",
       "components-nph-spinner-validation--invalid-input": "size=\"lg\" no existe: no se dibuja nada, y el área de abajo queda vacía a propósito.",
       "components-nph-toggle-group-validation--matrix": "Dos y tres botones, con texto y solo icono, en un grupo nombrado por su tema; cada botón guarda su propio estado.",
+      "components-nph-toggle-group-validation--sizes": "Los tres tamaños, con texto y solo con icono: el grupo escribe su tamaño en cada botón, de 28, 36 o 44 px de alto.",
       "components-nph-toggle-group-validation--single-selection": "Selección única: empieza vacía o con un valor, marcar uno desmarca los demás, y el clic en el botón marcado no hace nada.",
       "components-nph-toggle-group-validation--multiple-selection": "Selección múltiple: cada botón marca y desmarca por sí solo, y el valor reúne los marcados.",
       "components-nph-toggle-group-validation--button-states": "Deshabilitado e inválido quedan en cada botón: el grupo no añade nada, y el mensaje de error queda fuera de él.",
       "components-nph-toggle-group-validation--interactive": "Un clic cambia la selección y dispara nph-value-change con detail.value, mostrado debajo del grupo; definir value por código no lo dispara.",
       "components-nph-toggle-group-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: Alineación, Formato y Vista.",
       "components-nph-togglebutton-validation--matrix": "Presionado apagado y encendido, válido e inválido, con texto. Pase el ratón sobre un botón para ver el hover y use Tab para ver el foco.",
-      "components-nph-togglebutton-validation--icons": "Iconos de inicio y de fin: auto alterna xmark y check con el estado, none no dibuja icono y un nombre del núcleo es un icono fijo.",
-      "components-nph-togglebutton-validation--icon-only": "Solo icono: un icono, un label como nombre accesible, 50 por 36 px y no cuadrado, una al lado de otra con una encendida.",
+      "components-nph-togglebutton-validation--sizes": "Los tres tamaños, de 28, 36 y 44 px de alto, con texto y solo con icono, apagado y encendido; el icono de la pieza solo con icono sigue el tamaño.",
+      "components-nph-togglebutton-validation--icons": "Como máximo un icono, al inicio por defecto o al final: auto alterna xmark y check con el estado, none no dibuja icono y un nombre del núcleo es un icono fijo. El icono pasa a sólido encendido o en hover.",
+      "components-nph-togglebutton-validation--icon-only": "Solo icono: un icono, un label como nombre accesible, nunca cuadrado, una al lado de otra con una encendida.",
       "components-nph-togglebutton-validation--disabled": "Deshabilitado: toda la pieza en state/disabled-opacity, fuera del orden de Tab; disabled vence a invalid.",
-      "components-nph-togglebutton-validation--invalid": "Inválido: el borde de la pista es status/error, presionada o no, con texto o solo con icono; el mensaje queda fuera de la pieza.",
+      "components-nph-togglebutton-validation--invalid": "Inválido: el borde es status/error sobre el fondo del estado, presionada o no, con texto o solo con icono; el mensaje queda fuera de la pieza.",
       "components-nph-togglebutton-validation--interactive": "Un clic alterna la pieza y dispara nph-change con detail.pressed, mostrado debajo del botón; definir pressed desde el código no dispara el evento.",
       "components-nph-togglebutton-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: Opción apagada, Opción encendida y Conjunto de iconos.",
-      "components-nph-togglebutton-validation--brands": "Las siete marcas en claro y oscuro: el botón presionado sigue el primary del marco, y el halo de foco con Tab también.",
+      "components-nph-togglebutton-validation--brands": "Las siete marcas en claro y oscuro: el botón presionado usa el fondo marcado de la marca del marco, y el halo de foco con Tab también la sigue.",
       "components-nph-tooltip-validation--one-line": "El globo abierto sobre un elemento, con un texto de una línea, como en el ejemplo de Figma.",
       "components-nph-tooltip-validation--two-lines": "El globo abierto con un texto de dos líneas: en todos los idiomas ocupa exactamente dos líneas.",
       "components-nph-tooltip-validation--sides": "Los cuatro lados, arriba por defecto, con el nombre de la acción de un botón solo de icono, en modo claro y oscuro.",
@@ -7280,7 +7326,14 @@
       "components-nph-chip-validation--invalid-input": "La entrada no válida no dibuja nada: un tipo o una severidad que no existe, un ícono fuera del núcleo, dos contenidos a la vez, un contador en un chip removible, un avatar en un chip seleccionable, un estado en una severidad de estado y una X sin remove-label, cada uno con un error.",
       "components-nph-chip-validation--examples": "Los tres ejemplos obligatorios de la documentación: filtros aplicados en la línea de la barra de herramientas, valores elegidos en un campo con uno no válido, y filtros rápidos que la persona marca y desmarca, cada uno en modo claro y oscuro.",
       "components-nph-chip-validation--brands": "Las siete marcas en claro y oscuro: el fondo, el borde, el estado seleccionado y el contador del chip siguen la marca del marco, y el anillo de foco con Tab también.",
-      "components-nph-label-validation--brands": "Las siete marcas en claro y oscuro: la etiqueta en sí no cambia; solo el anillo de foco del icono de información sigue la marca del marco con Tab."
+      "components-nph-label-validation--brands": "Las siete marcas en claro y oscuro: la etiqueta en sí no cambia; solo el anillo de foco del icono de información sigue la marca del marco con Tab.",
+      "components-nph-toolbar-validation--matrix": "Los cinco tipos en los tres tamaños, las quince variantes del conjunto: en masa, página, herramientas, flotante y la franja de filtros aplicados debajo de la barra de página. La barra pinta fondo, borde, radio y espacio; cada pieza dentro de ella toma el tamaño de la barra, 28, 36 o 44 px de alto.",
+      "components-nph-toolbar-validation--options": "Los booleanos de Figma como composición: la barra en masa con y sin la casilla, con el cambio de vista en el centro y con limpiar solo en icono; la barra de página con el centro; y la barra flotante compacta.",
+      "components-nph-toolbar-validation--piece-states": "Los estados pertenecen a las piezas: la acción principal de la barra de página deshabilitada y cargando. Hover y foco son estados de interacción: pasa el ratón sobre una acción, entra en la barra con Tab y muévete con las flechas para verlos.",
+      "components-nph-toolbar-validation--applied-filters": "La franja de filtros aplicados debajo de la barra de página, en los tres tamaños. Quita un chip con su X: el foco va al chip siguiente, si no al anterior, si no a Filtrar, y la eliminación se anuncia. Limpiar filtros los quita todos y manda el foco a Filtrar.",
+      "components-nph-toolbar-validation--invalid-input": "La entrada no válida no dibuja nada: un tipo o un tamaño que no existe, y una barra sin nombre, cada uno con un error.",
+      "components-nph-toolbar-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: una tabla con elementos marcados y sin casilla en la barra, la parte superior de una lista con el cambio de vista en el centro y un editor con acciones en grupos, la papelera aparte y Más al final.",
+      "components-nph-toolbar-validation--brands": "Las siete marcas en claro y oscuro: la barra en masa compacta, cuyo fondo, conteo y hover de las acciones siguen la marca."
     }
   },
   "multiComboboxDocs": {
@@ -8859,5 +8912,359 @@
     "exampleFilters": "Filtros aplicados en la barra de herramientas",
     "exampleField": "Valores elegidos en un campo, uno no válido",
     "exampleQuick": "Filtros rápidos"
+  },
+  "toolbarDocs": {
+    "summary": "La barra que reúne, en una sola línea, las acciones de un área de la pantalla, y la franja de filtros aplicados debajo de ella.",
+    "matrixLabel": "tipo de barra",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-toolbar, design.md para los tokens y P104 para la API. Cinco decisiones esperan a la responsable del diseño (D-1 a D-5 de DSA-55) y aparecen aquí con su valor por defecto: el hover en masa solo en las acciones secondary ghost, las flechas que dan la vuelta con la búsqueda fuera de ellas, la franja de filtros aplicados como grupo con paradas de Tab, el anuncio de Limpiar filtros y la barra estrecha que queda al consumidor.",
+    "onThisPage": "En esta página",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "description": "Úsala cuando varias acciones se aplican al mismo conjunto, como una tabla, una lista o un editor. La barra divide las acciones en tres zonas — inicio, centro y final — y cada zona recibe piezas Nephos. Elige el tipo por la situación y el tamaño por la densidad de la pantalla.",
+    "sourceLabel": "Fuente:",
+    "sourceFrame": "Figma, página NPH — Toolbar 1626:44, documentación 2944:6528, conjunto 2105:426",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "type",
+        "bulk (por defecto), page, tools, floating o applied-filters, el tipo de Figma. Reflejada: elige el fondo, el borde y el diseño."
+      ],
+      [
+        "size",
+        "compact, default (por defecto) o large, el tamaño de Figma. Reflejada. La barra lo escribe en cada hijo directo que tiene tamaño, que queda con 28, 36 o 44 px de alto; nph-chip queda compact en la barra compacta y default en las otras dos."
+      ],
+      [
+        "label",
+        "El nombre del área, como Acciones de la tabla. Obligatorio: se vuelve el aria-label del host, la barra de herramientas. Un nombre que el consumidor pone en el host con aria-label o aria-labelledby también cuenta."
+      ],
+      [
+        "count-text",
+        "El conteo, \"2 de 6 seleccionados\", ya localizado, dibujado en text/label-md con el color de conteo del tipo. Solo en bulk y floating."
+      ],
+      [
+        "trigger",
+        "Filtros aplicados: el id del botón que abre los filtros, en la misma raíz. El foco va a él cuando no queda ningún chip."
+      ],
+      [
+        "removed-text",
+        "Filtros aplicados: la frase anunciada después de que sale un chip, con el marcador text entre llaves, rellenado con el texto del chip."
+      ],
+      [
+        "cleared-text",
+        "Filtros aplicados: la frase anunciada después de que Limpiar filtros vacía la franja."
+      ],
+      [
+        "slot",
+        "El inicio: el botón de limpiar de la barra en masa, la búsqueda y Filtrar de la barra de página, los grupos de la barra de herramientas; en applied-filters, los chips y Limpiar filtros."
+      ],
+      [
+        "checkbox",
+        "Slot con nombre, solo en bulk: un nph-checkbox antes del conteo."
+      ],
+      [
+        "center",
+        "Slot con nombre: un nph-toggle-group en el medio. La zona solo aparece con contenido."
+      ],
+      [
+        "end",
+        "Slot con nombre: las acciones a la derecha, la principal en primary solid, la destructiva en danger ghost después de un divisor, Más y Cerrar al final."
+      ]
+    ],
+    "invalidTitle": "La entrada no válida no dibuja nada.",
+    "invalidText": "Un tipo o un tamaño fuera de las listas, o ningún nombre, no dibuja nada y dice por qué en desarrollo. Un problema en la composición — count-text fuera de bulk y floating, contenido en un slot que el tipo no muestra, dos acciones principales, un divisor que abre o cierra la barra y, en applied-filters, un hijo que no es un chip removible ni el botón de limpiar, dos botones, el botón antes de un chip, sin trigger o sin removed-text — dibuja y avisa una vez en desarrollo.",
+    "sourceApi": "ficha de nph-toolbar; docs/decisoes-tecnicas.md › P104",
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-toolbar type=\"page\" label=\"Personas\">\n  <nph-button severity=\"secondary\" emphasis=\"ghost\" icon-start=\"filter\" text=\"Filtrar\"></nph-button>\n  <nph-button slot=\"end\" text=\"Nueva persona\"></nph-button>\n</nph-toolbar>",
+    "usageTag": "La barra con sus piezas como hijos directos: el slot por defecto es el inicio y el slot end guarda las acciones a la derecha. La barra no registra las piezas: cada una se importa aparte.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "Figma, documentación 2944:6528; docs/decisoes-tecnicas.md › P70",
+    "typesTitle": "Tipos",
+    "typesText": "El tipo se elige por la situación. La barra controla fondo, borde, radio y espacio; cada pieza mantiene su propio color, estado y foco.",
+    "typesHeader": [
+      "Tipo",
+      "Qué hace"
+    ],
+    "types": [
+      [
+        "bulk",
+        "Hay elementos marcados: fondo destacado sin borde, la casilla opcional, el conteo y las acciones."
+      ],
+      [
+        "page",
+        "Parte superior de una lista o tabla: búsqueda y Filtrar al inicio, crear al final."
+      ],
+      [
+        "tools",
+        "Contenido en edición: grupos de acciones solo con icono, la papelera aparte y Más al final."
+      ],
+      [
+        "floating",
+        "Selección en un área grande: el fondo del popover, su borde y la sombra del dropdown, con el conteo y Cerrar al final."
+      ],
+      [
+        "applied-filters",
+        "Una franja debajo de la barra de página, sin fondo y sin borde: un nph-chip removible por filtro y Limpiar filtros después del último. Salta de línea cuando los elementos no caben."
+      ]
+    ],
+    "sizesTitle": "Tamaños",
+    "sizesText": "compact en una pantalla densa usada con ratón, default en general, large en una pantalla táctil. La barra no tiene altura propia: sus piezas tienen 28, 36 o 44 px.",
+    "sizesCaption": "La barra de página en compact, default y large.",
+    "optionsTitle": "Opciones",
+    "optionsText": "Los booleanos de Figma no son propiedades de la barra: son las piezas que el consumidor pone en ella.",
+    "optionsCaption": "Barra en masa sin la casilla, con limpiar solo en icono y con el cambio de vista en el centro.",
+    "optionsHeader": [
+      "Figma",
+      "En el código"
+    ],
+    "options": [
+      [
+        "caixa de seleção",
+        "Un nph-checkbox, indeterminado, en el slot checkbox de la barra en masa. Déjalo fuera cuando la tabla ya tiene la casilla en su encabezado."
+      ],
+      [
+        "centro",
+        "Un nph-toggle-group en el slot center."
+      ],
+      [
+        "limpar em texto · limpar em ícone",
+        "El botón de limpiar con texto, o solo con icono, con label y su tooltip, nunca los dos. Texto es lo predeterminado; solo icono en una barra estrecha."
+      ],
+      [
+        "contagem",
+        "El atributo count-text."
+      ]
+    ],
+    "statesTitle": "Estados",
+    "statesText": "La barra no tiene estado propio: hover, foco, deshabilitado y cargando pertenecen a las piezas. El icono de los botones ghost se vuelve sólido en hover y cuando está marcado. En la barra en masa, el hover de las acciones secondary ghost usa toolbar/bulk-action-background-hover.",
+    "statesCaption": "Nueva persona deshabilitada, cuando no hay acción disponible, y cargando, mientras la acción se ejecuta.",
+    "filtersTitle": "Filtros aplicados",
+    "filtersText": "Los filtros aplicados no son acciones: van en una franja propia debajo de la barra de página. Quita un filtro con su X, o todos con Limpiar filtros, para ver la regla de foco.",
+    "filtersCaption": "La barra de página y su franja de filtros aplicados: Filtrar es el trigger.",
+    "filtersHeader": [
+      "Regla",
+      "Qué pasa"
+    ],
+    "filtersRules": [
+      [
+        "Ningún filtro",
+        "La franja no aparece y la barra de página mantiene su altura. Limpiar filtros aparece desde el primer chip."
+      ],
+      [
+        "Quitar un chip",
+        "La barra nunca quita un chip: el consumidor quita el filtro en nph-remove. Luego el foco va al chip siguiente, si no al anterior, si no al trigger."
+      ],
+      [
+        "Limpiar filtros",
+        "El consumidor quita todos los filtros; el foco va al trigger."
+      ],
+      [
+        "Anuncio",
+        "Una región de estado anuncia removed-text después de que sale un chip, y cleared-text después de que Limpiar filtros vacía la franja."
+      ],
+      [
+        "Mantenla en la página",
+        "Mantén la franja en la página mientras esté vacía: quitarla pierde el anuncio y el foco."
+      ]
+    ],
+    "sourceFilters": "Figma, documentación 2944:6528, sección Franja de filtros aplicados; docs/decisoes-tecnicas.md › P104",
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "Se ubica en la parte superior del área que controla: sobre la tabla, la lista o el editor. La barra flotante queda sobre el contenido, cerca de la selección, o fija al pie del área.",
+      "Piezas dentro de ella: nph-checkbox, nph-input, nph-button, nph-toggle-group, nph-chip y nph-separator.",
+      "Más abre nph-dropdown-menu, donde el texto de la acción siempre aparece.",
+      "La paginación es una pieza hermana: queda fuera de la barra."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Barra",
+        "toolbar/background, toolbar/border en toolbar/border-width, toolbar/radius y toolbar/padding. En masa: toolbar/bulk-background, sin borde, laterales en toolbar/bulk-padding-x. Flotante: toolbar/floating-background, toolbar/floating-border, toolbar/floating-radius y elevation/dropdown."
+      ],
+      [
+        "Inicio",
+        "En masa: la casilla y el conteo en text/label-md, toolbar/bulk-count-foreground. Página: búsqueda y Filtrar. Herramientas: grupos de botones solo con icono. Flotante: el conteo en toolbar/floating-count-foreground."
+      ],
+      [
+        "Centro",
+        "Opcional: un nph-toggle-group, para elegir la vista o activar un modo."
+      ],
+      [
+        "Final",
+        "Las acciones a la derecha en ghost; la acción principal en primary solid; la acción destructiva en danger ghost, en un grupo propio; Más y Cerrar al final."
+      ],
+      [
+        "Divisor",
+        "Un nph-separator vertical entre grupos de acciones. Nunca abre ni cierra la barra."
+      ],
+      [
+        "Espacio",
+        "toolbar/gap entre los elementos y entre las zonas."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "El host es role toolbar, nombrado por label; la franja de filtros aplicados es role group. El divisor es decorativo."
+      ],
+      [
+        "Teclado",
+        "Las acciones son una parada de Tab. Las flechas derecha e izquierda pasan entre ellas, dando la vuelta en los extremos; Home y End van a la primera y la última; una acción deshabilitada se salta. La búsqueda mantiene su propia parada de Tab y sus flechas. En la franja de filtros aplicados, cada X y Limpiar filtros son paradas de Tab propias."
+      ],
+      [
+        "Foco visible",
+        "Cada pieza muestra su propio foco, con borde y halo. La barra no dibuja foco propio."
+      ],
+      [
+        "Contraste",
+        "Texto e icono sobre el fondo de la barra pasan 4,5:1 y 3:1, en claro y oscuro. En la barra en masa, el hover de las acciones usa toolbar/bulk-action-background-hover para seguir visible."
+      ],
+      [
+        "El color no es la única señal",
+        "La acción destructiva tiene etiqueta o icono de papelera además del rojo. El elemento marcado en el centro cambia su fondo y su icono se vuelve sólido."
+      ],
+      [
+        "Objetivo táctil",
+        "Las acciones tienen 28, 36 o 44 px; la casilla tiene 24 px; la X de cada chip tiene al menos 24 px. En una pantalla táctil, usa large."
+      ],
+      [
+        "Nombre accesible",
+        "La barra lleva el nombre del área. Un botón solo con icono lleva label y un tooltip con el mismo nombre. La X de cada chip dice el filtro, y su eliminación se anuncia en una región de estado."
+      ]
+    ],
+    "sourceAccessibility": "Figma, documentación 2944:6528, sección Accesibilidad; W3C ARIA Authoring Practices, patrón toolbar",
+    "doTitle": "Haz",
+    "dontTitle": "No hagas",
+    "do": [
+      "Usa solo una acción principal, al final, en primary solid.",
+      "Separa la acción destructiva con el divisor y usa danger ghost.",
+      "Muestra el conteo en la barra en masa.",
+      "Envía lo que no cabe a Más: la barra no salta de línea; solo la franja de filtros aplicados salta."
+    ],
+    "dont": [
+      "No pongas dos acciones principales: usa una primary solid y las otras en ghost.",
+      "No uses contorno en las acciones secundarias: usa ghost.",
+      "No actives limpiar en texto y limpiar en icono juntos: elige uno.",
+      "No dejes la acción destructiva junto a las otras: usa el divisor antes de ella."
+    ],
+    "examplesTitle": "Ejemplos obligatorios",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, página NPH — Toolbar 1626:44, documentación 2944:6528, conjunto 2105:426",
+      "fichas/nph-toolbar.md",
+      "docs/decisoes-tecnicas.md › P104",
+      "Tarea DSA-55, decisiones pendientes D-1 a D-5",
+      "W3C ARIA Authoring Practices, patrón toolbar"
+    ],
+    "whenToUse": [
+      "En masa: la persona marcó elementos y va a actuar sobre todos a la vez.",
+      "Página: en la parte superior de una lista o tabla, para buscar, filtrar y crear.",
+      "Herramientas: contenido en edición, con acciones que se aplican a él.",
+      "Flotante: la selección está en un área grande y la barra superior sale de la vista.",
+      "Filtros aplicados: la persona filtró la lista y necesita ver cada filtro y quitarlos uno a uno o todos a la vez."
+    ],
+    "whenNotToUse": [
+      "Para una sola acción: usa nph-button donde corresponde.",
+      "Para guardar las acciones que no caben: eso es nph-dropdown-menu, abierto por Más.",
+      "Para pasar de una página a otra: la paginación es una pieza hermana y queda fuera de la barra.",
+      "Para una barra vertical: no existe."
+    ],
+    "tableActions": "Acciones de la tabla",
+    "people": "Personas",
+    "editor": "Editor",
+    "selection": "Selección",
+    "appliedFilters": "Filtros aplicados",
+    "count": "2 de 6 seleccionados",
+    "countExample": "3 de 12 seleccionados",
+    "selectAll": "Seleccionar todos",
+    "clearSelection": "Limpiar selección",
+    "export": "Exportar",
+    "delete": "Eliminar",
+    "search": "Buscar personas",
+    "filter": "Filtrar",
+    "newPerson": "Nueva persona",
+    "download": "Descargar",
+    "settings": "Configuración",
+    "view": "Vista",
+    "list": "Lista",
+    "grid": "Cuadrícula",
+    "bold": "Negrita",
+    "italic": "Cursiva",
+    "underline": "Subrayado",
+    "link": "Enlace",
+    "print": "Imprimir",
+    "more": "Más",
+    "close": "Cerrar",
+    "filters": [
+      "Estado: Aprobado",
+      "Unidad: Central"
+    ],
+    "removeFilter": "Quitar filtro",
+    "clearFilters": "Limpiar filtros",
+    "removed": "Filtro quitado: {text}",
+    "cleared": "Todos los filtros quitados",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "exampleTable": "Tabla con elementos marcados: la casilla está en el encabezado de la tabla, así que la barra no la tiene",
+    "exampleList": "Parte superior de una lista, con el cambio de vista en el centro",
+    "exampleEditor": "Editor con acciones en grupos, la papelera aparte y Más al final"
+  },
+  "toolbarValidation": {
+    "tableActions": "Acciones de la tabla",
+    "people": "Personas",
+    "editor": "Editor",
+    "selection": "Selección",
+    "appliedFilters": "Filtros aplicados",
+    "count": "2 de 6 seleccionados",
+    "countExample": "3 de 12 seleccionados",
+    "selectAll": "Seleccionar todos",
+    "clearSelection": "Limpiar selección",
+    "export": "Exportar",
+    "delete": "Eliminar",
+    "search": "Buscar personas",
+    "filter": "Filtrar",
+    "newPerson": "Nueva persona",
+    "download": "Descargar",
+    "settings": "Configuración",
+    "view": "Vista",
+    "list": "Lista",
+    "grid": "Cuadrícula",
+    "bold": "Negrita",
+    "italic": "Cursiva",
+    "underline": "Subrayado",
+    "link": "Enlace",
+    "print": "Imprimir",
+    "more": "Más",
+    "close": "Cerrar",
+    "filters": [
+      "Estado: Aprobado",
+      "Unidad: Central"
+    ],
+    "removeFilter": "Quitar filtro",
+    "clearFilters": "Limpiar filtros",
+    "removed": "Filtro quitado: {text}",
+    "cleared": "Todos los filtros quitados",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "exampleTable": "Tabla con elementos marcados: la casilla está en el encabezado de la tabla, así que la barra no la tiene",
+    "exampleList": "Parte superior de una lista, con el cambio de vista en el centro",
+    "exampleEditor": "Editor con acciones en grupos, la papelera aparte y Más al final"
   }
 }

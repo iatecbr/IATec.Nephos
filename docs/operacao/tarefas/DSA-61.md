@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 600,
   "owner": "elvys",
-  "state": "ready",
+  "state": "done",
   "piece": "nph-togglebutton",
   "dependencies": [],
   "gates": [
@@ -22,16 +22,17 @@
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and specs of nph-togglebutton and nph-toggle-group pass the proof commands and are merged into v/5.0.0.",
       "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "evidence": "docs/operacao/evidencias/DSA-61/review-and-merge-2026-10-29.md",
+      "result": "passed",
+      "verified_at": "2026-10-29",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
   "pending_decisions": [],
   "evidence": [
-    "docs/operacao/evidencias/DSA-61/figma-docs-accepted-2026-10-29.md"
+    "docs/operacao/evidencias/DSA-61/figma-docs-accepted-2026-10-29.md",
+    "docs/operacao/evidencias/DSA-61/review-and-merge-2026-10-29.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -46,7 +47,7 @@
     "excerpt": null,
     "converted_decision": "The nph-togglebutton board frame (1512:27498) and the nph-toggle-group board frame (1580:61) were accepted as the specification of both pieces with the size and the new states. Component sets: nph-togglebutton (1512:719), 108 variants; nph-toggle-group (1580:60), 6 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-61-togglebutton-size-states", "commit": "4c7697c488ab92aded2389e0cded062553fbba55", "pr": "145" },
   "context": null,
   "updated_at": "2026-10-29"
 }

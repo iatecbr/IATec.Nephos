@@ -39,6 +39,17 @@ api:
       choice is made; a click on the checked button does nothing. In multiple, each
       button is free. Any other value draws nothing and emits console.error in
       development.
+  size:
+    type: string
+    required: false
+    default: default
+    reflects: true
+    constraint: >-
+      The Figma property tamanho: compact, default or large. Every button of the
+      group takes it, 28, 36 or 44 px high and, icon only, the icon of that size:
+      the group writes size on every button, as it writes pressed, so a size set on
+      a button inside the group is overwritten. Compared as written, as on the
+      button. Any other value draws nothing and emits console.error in development.
   value:
     type: "list of strings (attribute: words separated by spaces)"
     required: false
@@ -82,12 +93,17 @@ variants:
     choose_when: "With text when the icon alone does not say the option. Icon only when the icon is known and each button has a label. The same for every button of the group."
     do_not_combine_with:
       - "buttons with text and icon-only buttons in the same group: choose one."
+  size:
+    axis: size
+    choose_when: "compact (28 px), default (36 px, the default) or large (44 px), the same for every button of the group. On touch screens, use large."
+    do_not_combine_with:
+      - "compact: do not use as the main target on a touch screen."
 states:
   group:
     token: space/inline
     changes_for_user: "The group has no state of its own: it spaces the buttons. Pressed, focus, disabled and invalid belong to each nph-togglebutton."
 business_rules:
-  - "The group is the source of truth of the selection: it writes pressed on every button from value, and the buttons never decide it alone."
+  - "The group is the source of truth of the selection and of the size: it writes pressed on every button from value and size on every button from its own size, and the buttons never decide them alone."
   - "In single selection, a click, Enter or Space on the checked button does nothing: it stays checked, no event fires and the click does not reach the page. With no value, none is checked until the first click."
   - "Only a click, Enter or Space by the person fires nph-value-change; setting value from code never fires it."
   - "Changing only the value attribute of a button is enough: the group observes it, writes pressed again and checks the composition, without firing nph-value-change."
@@ -97,7 +113,7 @@ domain_errors:
   - "invalid: a button whose value the screen does not accept shows its own error border; the message is written outside the group."
 tokens:
   gap: space/inline
-  button_height: "control/height-default, from each nph-togglebutton"
+  button_height: "control/height-compact, control/height-default or control/height-large, by size, from each nph-togglebutton"
   color_state_focus: "from each nph-togglebutton; the group adds none"
 ai_hints:
   - "Use nph-toggle-group for two or more options on the same subject in a toolbar; for a single option, use nph-togglebutton."
@@ -105,6 +121,7 @@ ai_hints:
   - "Choose selection single when the options exclude each other and multiple when they add up."
   - "Read the new value from detail.value of nph-value-change; do not read it from the buttons after a click."
   - "Do not put pressed on a button inside the group: set value on the group."
+  - "Set size on the group, not on its buttons: compact, default or large; on touch screens, use large."
   - "Use the same content for every button: text on all, or icon only on all."
   - "To fire an action, use nph-button; outside a toolbar use nph-switch; in a form use nph-checkbox."
 accessibility:
@@ -117,10 +134,11 @@ accessibility:
     - "There are no arrow keys: a roving tabindex across several groups belongs to a toolbar."
   focus: "Each button shows its own focus, as nph-togglebutton does; the group does not receive focus. space/inline is wider than the border and the halo of one button, so the focus of a button is not covered by its neighbor."
   contrast: "Comes from nph-togglebutton: the label and the icon on their own background in both schemes. The group adds no color. The known limit of the focus border of nph-togglebutton, color/primary, holds here unchanged."
-  color_alternative: "The pressed button changes its inner area, with background, shadow and outline, not only the text color."
+  color_alternative: "The pressed button changes its background, its label color and its icon, not only the text color."
 invalid_combinations:
   - "No name — no label, no aria-label and no aria-labelledby: the group draws nothing."
   - "A selection that is not single or multiple — the group draws nothing."
+  - "A size that is not compact, default or large — the group draws nothing."
   - "A button without value, with a value of more than one word, or two buttons with the same value — the button never joins the selection; the group warns in development."
   - "A value that matches no button — nothing is checked for it; the group warns in development."
   - "More than one value in single — only the first is kept; the group warns in development."
@@ -142,8 +160,8 @@ anti_patterns:
   - "Using the group in a form, where nph-checkbox is the choice."
   - "Putting an error message inside the group."
 sources:
-  design_md: "design.md, space/inline, control/height-default and the core icons align-left, align-center, align-right, bold, italic and underline"
-  decision: "P76 — API and semantics of nph-toggle-group"
+  design_md: "design.md, space/inline, control/height-compact, control/height-default, control/height-large and the core icons align-left, align-center, align-right, bold, italic and underline"
+  decision: "P76 — API and semantics of nph-toggle-group, and its amendment of 29-10-2026 (DSA-61): size"
   tests: "src/components/nph-toggle-group/nph-toggle-group.test.ts"
   usage_evidence: "none in code yet"
   storybook: "src/components/nph-toggle-group/nph-toggle-group.stories.ts and nph-toggle-group.docs.stories.ts"
@@ -192,7 +210,10 @@ two or three buttons; in code there is no maximum.
 | With text | The icon alone does not say the option |
 | Icon only | The icon is known and each button has a `label` |
 
-**By size:** `not_applicable`. Each button is `control/height-default` high.
+**By size:** `size`, the Figma property `tamanho`: `compact` (28 px), `default` (36 px, the
+default) or `large` (44 px). Every button of the group takes it: the group writes `size` on
+each one, so the buttons always have the same height. On touch screens, use `large`;
+`compact` is never the main target on a touch screen.
 
 **By density:** `not_applicable`.
 
@@ -215,8 +236,8 @@ so a focused button is not covered by its neighbor.
 
 **Business rule the group carries:**
 
-- The group is the source of truth of the selection: it writes `pressed` on every button
-  from `value`.
+- The group is the source of truth of the selection and of the size: it writes `pressed` on
+  every button from `value`, and `size` on every button from its own `size`.
 - In single selection, a click, Enter or Space on the checked button does nothing: it
   stays checked, no event fires and the click does not reach the page. With no value, none
   is checked until the first click.
@@ -239,8 +260,8 @@ message is written outside the group, by whoever uses it.
 | Keyboard | Tab moves through the buttons, one stop each, in order; a disabled button is skipped. Enter and Space toggle the focused button. There are no arrow keys: a roving tabindex across several groups belongs to a toolbar |
 | Focus | Each button shows its own focus, as `nph-togglebutton` does. The group does not receive focus |
 | Contrast | Comes from `nph-togglebutton`. The group adds no color. The known limit of the focus border of `nph-togglebutton`, `color/primary`, holds here unchanged |
-| Alternative to color | The pressed button changes its inner area, with background, shadow and outline, not only the text color |
-| Touch target | Each button is `control/height-default` high, 36 px, and neighbors are `space/inline` apart |
+| Alternative to color | The pressed button changes its background, its label color and its icon, not only the text color |
+| Touch target | Each button is 28, 36 or 44 px high, by the `size` of the group, and neighbors are `space/inline` apart. On touch screens, use `large` |
 
 ## Relations
 
@@ -262,10 +283,10 @@ choice in a form) are **planned** and do not exist yet.
 |---|---|
 | Container | No background, border, outline or focus of its own |
 | Space between buttons | `space/inline` |
-| Button | `control/height-default`, and every other token, from `nph-togglebutton` |
+| Button | `control/height-compact`, `control/height-default` or `control/height-large` by `size`, and every other token, from `nph-togglebutton` |
 
-**Usage restrictions:** the group consumes one token, `space/inline`, and chooses no height,
-color, radius or typography. The `use` of `space/inline` in `design.md` already names the
+**Usage restrictions:** the group consumes one token, `space/inline`, and chooses no
+color, radius or typography; the height is the one of the `size` it writes on its buttons. The `use` of `space/inline` in `design.md` already names the
 buttons of a group. In a part of the screen with another brand, `data-nph-brand` and
 `data-nph-color-scheme` go on the same element (P67).
 
@@ -280,6 +301,8 @@ buttons of a group. In a part of the screen with another brand, `data-nph-brand`
 - Read the new value from `detail.value` of `nph-value-change`; do not read it from the
   buttons after a click.
 - Do not put `pressed` on a button inside the group: set `value` on the group.
+- Set `size` on the group, not on its buttons: `compact`, `default` or `large`; on touch
+  screens, use `large`.
 - Use the same content for every button: text on all, or icon only on all.
 - To fire an action, use `nph-button`; outside a toolbar use `nph-switch`; in a form use
   `nph-checkbox`.
@@ -309,17 +332,18 @@ single selection.
 - **Invalid combinations:** no name; a `selection` that is not `single` or `multiple`; a
   button without `value`, with a `value` of more than one word or with a repeated one; a `value` that matches no button; more
   than one value in `single`; text mixed with icon only; a child that is not an
-  `nph-togglebutton`.
-- **Do not create without a decision:** a size, a `disabled` or `invalid` property on the
-  group, a maximum, an orientation, a color property or a form association.
+  `nph-togglebutton`; a `size` that is not `compact`, `default` or `large`.
+- **Do not create without a decision:** a size beyond the three, a `disabled` or `invalid`
+  property on the group, a maximum, an orientation, a color property or a form association.
 
 ## Sources and decisions
 
-- **The repository `design.md`:** `space/inline`, `control/height-default` and the core
-  icons `align-left`, `align-center`, `align-right`, `bold`, `italic` and `underline`.
-- **The decision that originated it:** P76, of 20-10-2026. The frame was accepted by
-  Indiane on 08-10-2026; the answers on icons, the number of buttons and single selection,
-  on 19-10-2026.
+- **The repository `design.md`:** `space/inline`, `control/height-compact`,
+  `control/height-default`, `control/height-large` and the core icons `align-left`,
+  `align-center`, `align-right`, `bold`, `italic` and `underline`.
+- **The decision that originated it:** P76, of 20-10-2026, amended on 29-10-2026 (DSA-61):
+  `size`. The frame was accepted by Indiane on 08-10-2026; the answers on icons, the number
+  of buttons and single selection, on 19-10-2026; the frame with the size, on 29-10-2026.
 - **Tests:** `src/components/nph-toggle-group/nph-toggle-group.test.ts`.
 - **Usage evidence:** none in code yet.
 - **Storybook:** `src/components/nph-toggle-group/nph-toggle-group.stories.ts` (Validation)

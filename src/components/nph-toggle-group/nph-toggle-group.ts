@@ -12,6 +12,9 @@
  * - `label`: the name of the group. The host is the `role="group"`, and `label`
  *   becomes its `aria-label`. A name the consumer puts on the host (`aria-label` or
  *   `aria-labelledby`) is also a name;
+ * - `size`: `compact`, `default` (default) or `large`, the Figma `tamanho`. Every button
+ *   of the group follows it: the group writes `size` on every child, as it writes
+ *   `pressed`, so a `size` set on a button inside the group is overwritten;
  * - `selection`: `single` (default) or `multiple`. In `single`, checking a button
  *   unchecks the others, and a click on the checked button does nothing (D3);
  * - `value`: the checked buttons, as the `value` of each. The attribute takes tokens
@@ -21,11 +24,11 @@
  * - own event `nph-value-change` (bubbles, composed, not cancelable) with
  *   `detail: { value }`, fired only when the person changes the selection. Setting
  *   `value` from code never fires it. The `nph-change` of each button is not stopped;
- * - no size, no `disabled` or `invalid` (they stay on each button), no `::part`, no
+ * - no `disabled` or `invalid` (they stay on each button), no `::part`, no
  *   color property, no form association, and the group itself is never focusable;
  * - invalid input does not render and emits `console.error` only in development, one
- *   per cause (the rule of P21): `selection` outside `single` and `multiple`, and no
- *   name. A problem in the composition renders anyway and emits `console.warn` only
+ *   per cause (the rule of P21): `selection` outside `single` and `multiple`, `size`
+ *   outside the three, and no name. A problem in the composition renders anyway and emits `console.warn` only
  *   in development (D2): fewer than two buttons, a child that is not an
  *   `nph-togglebutton`, a button without `value`, a `value` with more than one word, a
  *   repeated `value`, a value that matches no button, buttons with text mixed with icon-only buttons (D4), and more
@@ -35,7 +38,8 @@ import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
 
 import '../nph-togglebutton/nph-togglebutton';
-import type { NphTogglebutton } from '../nph-togglebutton/nph-togglebutton';
+import { NPH_TOGGLEBUTTON_SIZES } from '../nph-togglebutton/nph-togglebutton';
+import type { NphTogglebutton, NphTogglebuttonSize } from '../nph-togglebutton/nph-togglebutton';
 import toggleGroupCss from './nph-toggle-group.css?inline';
 
 const TAG = 'nph-toggle-group';
@@ -53,6 +57,10 @@ const BUTTON_CHANGE_EVENT = 'nph-change';
 
 export const NPH_TOGGLE_GROUP_SELECTIONS = ['single', 'multiple'] as const;
 export type NphToggleGroupSelection = (typeof NPH_TOGGLE_GROUP_SELECTIONS)[number];
+
+/** The sizes of the group are the ones of `nph-togglebutton`: every button follows the group. */
+export const NPH_TOGGLE_GROUP_SIZES = NPH_TOGGLEBUTTON_SIZES;
+export type NphToggleGroupSize = NphTogglebuttonSize;
 
 export interface NphToggleGroupValueChangeDetail {
   /** The `value` of the checked buttons, in the order of the buttons. */
@@ -74,6 +82,10 @@ function devWarn(message: string): void {
 
 function isSelection(value: string): value is NphToggleGroupSelection {
   return (NPH_TOGGLE_GROUP_SELECTIONS as readonly string[]).includes(value);
+}
+
+function isSize(value: string): value is NphToggleGroupSize {
+  return (NPH_TOGGLE_GROUP_SIZES as readonly string[]).includes(value);
 }
 
 function isButton(element: Element): element is NphTogglebutton {
@@ -110,6 +122,8 @@ export class NphToggleGroup extends LitElement {
   static override properties = {
     label: { type: String },
     selection: { type: String },
+    /* Reflects, as on the button: the attribute shows the size the buttons take. */
+    size: { type: String, reflect: true },
     value: {
       attribute: 'value',
       converter: {
@@ -123,6 +137,8 @@ export class NphToggleGroup extends LitElement {
   declare label: string;
   /** `single` or `multiple`. */
   declare selection: string;
+  /** `compact`, `default` or `large`; every button of the group takes it. */
+  declare size: NphToggleGroupSize;
   /** The `value` of the checked buttons. Changing it from code does not fire the event. */
   declare value: string[];
 
@@ -132,13 +148,18 @@ export class NphToggleGroup extends LitElement {
   private accessibleNameChanged = false;
   /** The composition warnings already shown, so a problem that stays does not repeat. */
   private shownWarnings = new Set<string>();
-  /** Watches the `value` attribute of the direct children, which raises no `slotchange`. */
+  /**
+   * Watches the `value` and `size` attributes of the direct children, which raise no
+   * `slotchange`: a new `value` moves the selection, and a `size` set on a button is
+   * written back to the size of the group.
+   */
   private readonly childValueObserver = new MutationObserver((records) => this.onChildValueMutation(records));
 
   constructor() {
     super();
     this.label = '';
     this.selection = 'single';
+    this.size = 'default';
     this.value = [];
     this.addEventListener('click', (event) => this.guardCheckedClick(event), { capture: true });
     this.addEventListener(BUTTON_CHANGE_EVENT, (event) => this.onButtonChange(event));
@@ -160,7 +181,7 @@ export class NphToggleGroup extends LitElement {
     super.connectedCallback();
     /* One observer on the host covers the current set of children: the records are
        filtered to the direct buttons, so a child added or removed later needs no wiring. */
-    this.childValueObserver.observe(this, { attributes: true, attributeFilter: ['value'], subtree: true });
+    this.childValueObserver.observe(this, { attributes: true, attributeFilter: ['value', 'size'], subtree: true });
     this.requestUpdate();
   }
 
@@ -169,7 +190,7 @@ export class NphToggleGroup extends LitElement {
     this.childValueObserver.disconnect();
   }
 
-  /** A direct button got a new `value` attribute: the group settles and checks again. */
+  /** A direct button got a new `value` or `size` attribute: the group settles and checks again. */
   private onChildValueMutation(records: MutationRecord[]): void {
     const changed = records.some(
       (record) => record.target instanceof Element && record.target.parentElement === this && isButton(record.target),
@@ -249,12 +270,13 @@ export class NphToggleGroup extends LitElement {
       .map(valueOf);
   }
 
-  /** The group is the source of truth: `pressed` of every child follows `value`. */
+  /** The group is the source of truth: `pressed` of every child follows `value`, and `size` the group. */
   private syncButtons(): void {
     const selectable = new Set(this.selectableButtons());
     for (const button of this.buttons()) {
       const value = valueOf(button);
       button.pressed = selectable.has(button) && this.value.includes(value);
+      button.size = this.size;
     }
   }
 
@@ -324,16 +346,23 @@ export class NphToggleGroup extends LitElement {
     if (
       changed.has('label') ||
       changed.has('selection') ||
+      changed.has('size') ||
       this.accessibleNameChanged ||
       !this.hasUpdated
     ) {
       this.accessibleNameChanged = false;
       const selection = this.selection ?? '';
+      /* Compared as written, as on the button, which selects its height by the exact attribute. */
+      const size = this.size ?? '';
       const named = ['aria-label', 'aria-labelledby'].some((name) => (this.getAttribute(name) ?? '').trim() !== '');
       let valid = true;
 
       if (!isSelection(selection)) {
         devError(`selection "${selection}" is not "single" or "multiple".`);
+        valid = false;
+      }
+      if (!isSize(size)) {
+        devError(`size "${size}" does not exist. Use ${NPH_TOGGLE_GROUP_SIZES.join(', ')}.`);
         valid = false;
       }
       if (!named) {

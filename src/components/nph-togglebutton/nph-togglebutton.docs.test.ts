@@ -222,7 +222,7 @@ describe('nph-togglebutton Validation: text only from the dictionary', () => {
     return target;
   }
 
-  it('the stories are the eight pages of the contract', () => {
+  it('the stories are the nine pages of the contract', () => {
     expect(stories.map(([name]) => name).sort()).toEqual([
       'Brands',
       'Disabled',
@@ -232,7 +232,32 @@ describe('nph-togglebutton Validation: text only from the dictionary', () => {
       'Interactive',
       'Invalid',
       'Matrix',
+      'Sizes',
     ]);
+  });
+
+  it('Sizes: the three sizes, with text and icon only, off and on', async () => {
+    const target = draw(validation.Sizes as Renderable, 'en');
+    const frame = target.querySelector('[data-nph-color-scheme="light"]') as HTMLElement;
+    const pieces = [...frame.querySelectorAll('nph-togglebutton')] as Piece[];
+    expect(pieces.map((piece) => piece.getAttribute('size'))).toEqual([
+      'compact', 'compact', 'compact', 'compact',
+      'default', 'default', 'default', 'default',
+      'large', 'large', 'large', 'large',
+    ]);
+    expect(pieces.map((piece) => piece.hasAttribute('text'))).toEqual(Array.from({ length: 3 }, () => [true, true, false, false]).flat());
+    expect(pieces.map((piece) => piece.hasAttribute('pressed'))).toEqual(Array.from({ length: 6 }, () => [false, true]).flat());
+    target.remove();
+  });
+
+  it('Icons: every row shows one icon at most', async () => {
+    const target = draw(validation.Icons as Renderable, 'en');
+    const pieces = [...target.querySelectorAll('nph-togglebutton')] as Piece[];
+    await Promise.all(pieces.map((piece) => piece.updateComplete));
+    for (const piece of pieces) {
+      expect(piece.shadowRoot?.querySelectorAll('.glyphs').length, piece.outerHTML).toBeLessThanOrEqual(1);
+    }
+    target.remove();
   });
 
   for (const [name, story] of stories) {
@@ -371,7 +396,7 @@ describe('nph-togglebutton documentation — order of the model', () => {
     it(`${locale}: the sections follow the model of the current Docs pages, with no anti-patterns section`, () => {
       const target = renderInLocale(locale);
       const sections = [...target.querySelectorAll('section[id]')].map((s) => s.id);
-      expect(sections).toEqual(['when-to-use', 'api', 'usage', 'states', 'icons', 'anatomy', 'accessibility', 'examples', 'references']);
+      expect(sections).toEqual(['when-to-use', 'api', 'usage', 'sizes', 'states', 'icons', 'anatomy', 'accessibility', 'examples', 'references']);
       expect(target.querySelector('#anti-patterns')).toBeNull();
     });
 

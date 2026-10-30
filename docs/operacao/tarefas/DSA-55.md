@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 540,
   "owner": "elvys",
-  "state": "blocked",
+  "state": "done",
   "piece": "nph-toolbar",
   "dependencies": [
     "DSA-03",
@@ -37,25 +37,49 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 76552944d5822fe6c5ec0880941c8d96a44b526b origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-55/review-and-merge-2026-10-29.md",
+      "result": "passed",
+      "verified_at": "2026-10-29",
+      "verified_by": "claude-code"
     }
   ],
-  "blockers": [
+  "blockers": [],
+  "pending_decisions": [
     {
-      "id": "B4",
-      "what_blocks": "The secondary ghost actions of the bar use the hover of DSA-60, and its center follows the bar at 28, 36 and 44 px with nph-togglebutton and nph-toggle-group in the size and states of DSA-61; neither is in the code yet.",
-      "owner": "elvys",
-      "what_resolves": "DSA-60 (nph-button secondary ghost hover) and DSA-61 (nph-togglebutton and nph-toggle-group size and states) are done on v/5.0.0.",
+      "id": "D-1",
+      "question": "The evidence says that in the em massa bar the hover of the actions uses toolbar/bulk-action-background-hover, without saying which actions. The code points the hover of the secondary ghost actions, with text and icon only, at that token inside the bulk bar; the danger ghost action keeps its own destructive hover, which stays visible over the highlighted background. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence sends the keyboard to the W3C ARIA Authoring Practices toolbar pattern, which leaves two choices open. The code wraps the arrow keys from the last action to the first and back, as nph-dropdown-menu does, and keeps the search field (nph-input) out of the arrow keys, as its own Tab stop before the actions, because the arrow keys edit its text. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence gives the bar the role toolbar but says the applied filters are not actions. The code gives the applied filters strip the role group, named by its label, with no arrow keys: the X of each chip and Limpar filtros are Tab stops of their own, which is what the focus rule after a removal assumes. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-4",
+      "question": "The evidence asks for the removal of a chip by its X to be announced in a status region, and says nothing about Limpar filtros. The code also announces, in the same region, the text the consumer gives when Limpar filtros takes every filter away, and then sends the focus to the button that opens the filters. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-10-29"
+    },
+    {
+      "id": "D-5",
+      "question": "The evidence says that on a narrow screen the text of the buttons goes away first and then the actions at the back go to the More menu. The code does not do this by itself in this version: the bar does not wrap, and the sheet tells the consumer to compose the narrow bar with icon-only buttons and the More menu. Whether the bar must collapse by itself is open. It does not block the pull request.",
+      "decider": "indiane",
       "opened_at": "2026-10-29"
     }
   ],
-  "pending_decisions": [],
   "evidence": [
-    "docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-28.md"
+    "docs/operacao/evidencias/DSA-55/documentacao-figma-aceita-2026-10-28.md",
+    "docs/operacao/evidencias/DSA-55/review-and-merge-2026-10-29.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -72,7 +96,7 @@
     "excerpt": null,
     "converted_decision": "The nph-toolbar board, with its Documentação frame (2944:6528), was accepted as the API and behavior specification of nph-toolbar, and accepted again on 2026-10-28 with the tipo filtros aplicados. Component set: nph-toolbar (2105:426), tipo × tamanho, 15 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-55-toolbar", "commit": "7655294", "pr": 146 },
   "context": null,
   "updated_at": "2026-10-29"
 }
@@ -88,8 +112,8 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 **Keyboard.** By decision of Indiane, the keyboard rule left the Figma accessibility table and comes in this task: follow the W3C ARIA Authoring Practices toolbar pattern (https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/). This is the future toolbar that the D5 of DSA-23 points to.
 
-## Why it is blocked
-The applied filters decided on 2026-10-28 go in a strip below the page bar (tipo `filtros aplicados`, with one nph-chip per filter and "Limpar filtros" after the last one); that closes the earlier question about where the chip goes, and it makes nph-chip (DSA-57) a dependency. The 14 `toolbar/*` tokens came with this task and are on `v/5.0.0`; the strip needs no new token. Each one is an alias of a semantic token; no core primitive was added. Three pieces the bar holds changed in Figma on 2026-10-27. B1 is closed: the nph-input compact documentation was accepted on 2026-10-28, and its tokens and its task, DSA-59, are on `v/5.0.0`; DSA-59 is now a dependency. B3 is closed: the secondary ghost hover tokens of nph-button and nph-icon-button and their task, DSA-60, are on `v/5.0.0`; DSA-60 is now a dependency. B2 is closed: the nph-togglebutton and nph-toggle-group documentation with the size and the new states was accepted on 2026-10-29, and their tokens and their task, DSA-61, are on `v/5.0.0`; DSA-61 is now a dependency. DSA-52, the solid icon on hover, is `done`. nph-chip (DSA-57), used by the applied filters strip, and nph-input compact (DSA-59), used by the compact search, are `done`. What is left is B4, in the code: the task becomes `ready` when DSA-60 and DSA-61 are `done`, because the secondary ghost actions of the bar use the hover of DSA-60, and its center follows the bar at 28, 36 and 44 px with the toggle pieces of DSA-61.
+## Why it is ready
+The applied filters decided on 2026-10-28 go in a strip below the page bar (tipo `filtros aplicados`, with one nph-chip per filter and "Limpar filtros" after the last one); that closes the earlier question about where the chip goes, and it makes nph-chip (DSA-57) a dependency. The 14 `toolbar/*` tokens came with this task and are on `v/5.0.0`; the strip needs no new token. Each one is an alias of a semantic token; no core primitive was added. Three pieces the bar holds changed in Figma on 2026-10-27. B1 is closed: the nph-input compact documentation was accepted on 2026-10-28, and its tokens and its task, DSA-59, are on `v/5.0.0`; DSA-59 is now a dependency. B3 is closed: the secondary ghost hover tokens of nph-button and nph-icon-button and their task, DSA-60, are on `v/5.0.0`; DSA-60 is now a dependency. B2 is closed: the nph-togglebutton and nph-toggle-group documentation with the size and the new states was accepted on 2026-10-29, and their tokens and their task, DSA-61, are on `v/5.0.0`; DSA-61 is now a dependency. DSA-52, the solid icon on hover, is `done`. nph-chip (DSA-57), used by the applied filters strip, and nph-input compact (DSA-59), used by the compact search, are `done`. B4 is closed: DSA-60 (the secondary ghost hover the actions of the bar use, PR #143) and DSA-61 (nph-togglebutton and nph-toggle-group at 28, 36 and 44 px with the new states, PR #145) are `done` on `v/5.0.0`, so every dependency is `done` and the task is `ready`.
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

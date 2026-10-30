@@ -3,8 +3,9 @@
  * Tab order and real clicks only exist where there is layout.
  *
  * They prove the contract accepted in Figma (frame `1580:61`, set `1580:60`) and the
- * decisions D1 to D3 of DSA-23: the API, the space between buttons, the semantics of
- * the group, single and multiple selection, the click that does nothing on the checked
+ * decisions D1 to D3 of DSA-23, as amended on 2026-10-29 (DSA-61): the API, the size
+ * every button follows, the space between buttons, the semantics of the group, single
+ * and multiple selection, the click that does nothing on the checked
  * button, the own event, the composition warnings, the invalid input and the token
  * contract. Color, state and focus belong to `nph-togglebutton`: here the tests only
  * prove that the group adds none.
@@ -17,12 +18,18 @@ import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import designMd from '../../../design.md?raw';
 import componentCss from './nph-toggle-group.css?raw';
-import { NPH_TOGGLE_GROUP_SELECTIONS, NPH_TOGGLE_GROUP_VALUE_CHANGE_EVENT, NphToggleGroup } from './nph-toggle-group';
+import {
+  NPH_TOGGLE_GROUP_SELECTIONS,
+  NPH_TOGGLE_GROUP_SIZES,
+  NPH_TOGGLE_GROUP_VALUE_CHANGE_EVENT,
+  NphToggleGroup,
+} from './nph-toggle-group';
 import type { NphToggleGroupValueChangeDetail } from './nph-toggle-group';
 import type { NphTogglebutton } from '../nph-togglebutton/nph-togglebutton';
 
 interface ButtonSpec {
   value?: string | null;
+  size?: string;
   text?: string;
   label?: string;
   disabled?: boolean;
@@ -33,6 +40,7 @@ interface ButtonSpec {
 interface GroupSpec {
   label?: string | null;
   selection?: string;
+  size?: string;
   value?: string[];
   buttons?: ButtonSpec[];
 }
@@ -68,6 +76,7 @@ function button(spec: ButtonSpec): NphTogglebutton {
   if (spec.disabled) element.disabled = true;
   if (spec.invalid) element.invalid = true;
   if (spec.iconStart !== undefined) element.iconStart = spec.iconStart;
+  if (spec.size !== undefined) element.setAttribute('size', spec.size);
   return element;
 }
 
@@ -75,6 +84,7 @@ async function mount(spec: GroupSpec = {}, parent: HTMLElement = document.body):
   const group = document.createElement('nph-toggle-group');
   if (spec.label !== null) group.label = spec.label ?? 'Alignment';
   if (spec.selection !== undefined) group.selection = spec.selection;
+  if (spec.size !== undefined) group.size = spec.size as NphToggleGroup['size'];
   if (spec.value !== undefined) group.value = spec.value;
   group.append(...(spec.buttons ?? ALIGNMENT).map(button));
   parent.append(group);
@@ -128,15 +138,18 @@ describe('registration and API', () => {
     expect(customElements.get('nph-toggle-group')).toBe(NphToggleGroup);
   });
 
-  it('the public API is exactly the one in P76', () => {
+  it('the public API is exactly the one in P76, with the size of its amendment', () => {
     const declared = [...(NphToggleGroup as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    expect(declared).toEqual(['label', 'selection', 'value']);
+    expect(declared).toEqual(['label', 'selection', 'size', 'value']);
     expect([...NPH_TOGGLE_GROUP_SELECTIONS]).toEqual(['single', 'multiple']);
+    expect([...NPH_TOGGLE_GROUP_SIZES]).toEqual(['compact', 'default', 'large']);
   });
 
-  it('the defaults are single selection with no value', async () => {
+  it('the defaults are single selection, default size and no value', async () => {
     const group = await mount();
     expect(group.selection).toBe('single');
+    expect(group.size).toBe('default');
+    expect(group.getAttribute('size')).toBe('default');
     expect(group.value).toEqual([]);
     expect(pressedOf(group)).toEqual([false, false, false]);
   });
@@ -149,9 +162,9 @@ describe('registration and API', () => {
     expect(group.shadowRoot?.querySelector('[part]')).toBeNull();
   });
 
-  it('has no size, disabled, invalid, max, orientation or color property', () => {
+  it('has no disabled, invalid, max, orientation or color property', () => {
     const declared = [...(NphToggleGroup as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    for (const name of ['size', 'disabled', 'invalid', 'max', 'orientation', 'color', 'variant', 'text', 'pressed']) {
+    for (const name of ['disabled', 'invalid', 'max', 'orientation', 'color', 'variant', 'text', 'pressed']) {
       expect(declared).not.toContain(name);
     }
     expect((NphToggleGroup as unknown as { formAssociated?: boolean }).formAssociated).toBeUndefined();
@@ -205,7 +218,8 @@ describe('layout', () => {
       expect(Math.round(child.getBoundingClientRect().height)).toBe(height);
     }
     expect(Math.round(group.getBoundingClientRect().height)).toBe(height);
-    expect(Math.round(buttonsOf(group)[0]?.getBoundingClientRect().width ?? 0)).toBe(50);
+    /* Icon only in the default size: the md icon, 54 px wide. */
+    expect(Math.round(buttonsOf(group)[0]?.getBoundingClientRect().width ?? 0)).toBe(54);
     const total = buttonsOf(group).reduce((sum, child) => sum + child.getBoundingClientRect().width, 0);
     expect(Math.round(group.getBoundingClientRect().width)).toBe(Math.round(total + 2 * 8));
   });
@@ -231,6 +245,7 @@ describe('layout', () => {
         getComputedStyle(inner(element)).color,
         getComputedStyle(inner(element)).backgroundColor,
         getComputedStyle(inner(element)).borderTopColor,
+        getComputedStyle(inner(element)).height,
         getComputedStyle(area).backgroundColor,
         getComputedStyle(area).boxShadow,
       ];
@@ -250,6 +265,94 @@ describe('layout', () => {
         expect(await paint(buttonsOf(group)[1] as NphTogglebutton), `${scheme} ${brand}`).toEqual(await paint(alone));
         part.remove();
       }
+    }
+  });
+});
+
+describe('size', () => {
+  const HEIGHT: Record<string, string> = {
+    compact: '--nph-control-height-compact',
+    default: '--nph-control-height-default',
+    large: '--nph-control-height-large',
+  };
+
+  it('every button takes the size of the group, with text and icon only, and the group is that high', async () => {
+    for (const size of NPH_TOGGLE_GROUP_SIZES) {
+      for (const buttons of [ALIGNMENT, VIEW]) {
+        const group = await mount({ size, buttons });
+        const height = pxOf(resolved('height', HEIGHT[size] ?? ''));
+        expect(group.getAttribute('size')).toBe(size);
+        for (const child of buttonsOf(group)) {
+          expect(child.size, size).toBe(size);
+          expect(child.getAttribute('size'), size).toBe(size);
+          expect(child.getBoundingClientRect().height, size).toBe(height);
+        }
+        expect(group.getBoundingClientRect().height, size).toBe(height);
+        group.remove();
+      }
+    }
+  });
+
+  it('the icon-only buttons take the icon of the size: sm, md and lg', async () => {
+    const expected: Record<string, string> = { compact: 'sm', default: 'md', large: 'lg' };
+    for (const size of NPH_TOGGLE_GROUP_SIZES) {
+      const group = await mount({ size });
+      for (const child of buttonsOf(group)) {
+        const sizes = [...(child.shadowRoot?.querySelectorAll('nph-icon') ?? [])].map((icon) => icon.getAttribute('size'));
+        expect(new Set(sizes), size).toEqual(new Set([expected[size]]));
+      }
+      group.remove();
+    }
+  });
+
+  it('the group is the source of truth: a size set on a button inside it is overwritten', async () => {
+    const group = await mount({ size: 'compact', buttons: ALIGNMENT.map((spec) => ({ ...spec, size: 'large' })) });
+    expect(buttonsOf(group).map((child) => child.size)).toEqual(['compact', 'compact', 'compact']);
+  });
+
+  it('a change of size at run time reaches every button, and a button added later takes it too', async () => {
+    const group = await mount();
+    group.size = 'large';
+    await settle(group);
+    expect(buttonsOf(group).map((child) => child.size)).toEqual(['large', 'large', 'large']);
+    group.append(button({ value: 'justify', label: 'Justify', iconStart: 'align-left' }));
+    await settle(group);
+    expect(buttonsOf(group).map((child) => child.size)).toEqual(['large', 'large', 'large', 'large']);
+  });
+
+  it('a size set on a button after mount, by attribute or property, goes back to the size of the group', async () => {
+    const group = await mount({ size: 'compact' });
+    const [first, second] = buttonsOf(group);
+    first?.setAttribute('size', 'large');
+    await vi.waitFor(() => expect(first?.size).toBe('compact'));
+    if (second) second.size = 'large';
+    await vi.waitFor(() => expect(second?.size).toBe('compact'));
+    await settle(group);
+    const height = pxOf(resolved('height', '--nph-control-height-compact'));
+    for (const child of buttonsOf(group)) {
+      expect(child.getAttribute('size')).toBe('compact');
+      expect(child.getBoundingClientRect().height).toBe(height);
+      const sizes = [...(child.shadowRoot?.querySelectorAll('nph-icon') ?? [])].map((icon) => icon.getAttribute('size'));
+      expect(new Set(sizes)).toEqual(new Set(['sm']));
+    }
+  });
+
+  it('the size attribute on the host is read', async () => {
+    const group = document.createElement('nph-toggle-group');
+    group.setAttribute('label', 'Alignment');
+    group.setAttribute('size', 'compact');
+    group.append(...ALIGNMENT.map(button));
+    document.body.append(group);
+    await settle(group);
+    expect(buttonsOf(group).map((child) => child.size)).toEqual(['compact', 'compact', 'compact']);
+  });
+
+  it('the space between the buttons stays space/inline in every size', async () => {
+    const gap = resolved('column-gap', '--nph-space-inline');
+    for (const size of NPH_TOGGLE_GROUP_SIZES) {
+      const group = await mount({ size });
+      expect(getComputedStyle(group).columnGap, size).toBe(gap);
+      group.remove();
     }
   });
 });
@@ -949,10 +1052,29 @@ describe('invalid input: it renders nothing and says why, once per cause', () =>
     expect(error).toHaveBeenCalledTimes(1);
   });
 
+  it('a size outside compact, default and large, or padded with whitespace', async () => {
+    for (const size of ['small', ' large ', '']) {
+      const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      const group = await mount({ size });
+      expect(group.hasAttribute('data-nph-rendered'), size).toBe(false);
+      expect(getComputedStyle(group).display).toBe('none');
+      expect(error, size).toHaveBeenCalledTimes(1);
+      expect(String(error.mock.calls[0]?.[0])).toContain('size');
+      group.remove();
+      vi.restoreAllMocks();
+    }
+  });
+
   it('both causes together say two things', async () => {
     const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
     await mount({ label: null, selection: 'radio' });
     expect(error).toHaveBeenCalledTimes(2);
+  });
+
+  it('the three causes together say three things', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    await mount({ label: null, selection: 'radio', size: 'small' });
+    expect(error).toHaveBeenCalledTimes(3);
   });
 
   it('a valid value set later makes it draw, and no new error appears', async () => {

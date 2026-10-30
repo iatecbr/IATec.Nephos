@@ -51,6 +51,8 @@ export interface GroupOptions {
   /** The name of the group: the subject. */
   label: string;
   selection?: 'single' | 'multiple';
+  /** The size every button of the group takes. */
+  size?: 'compact' | 'default' | 'large';
   /** The checked buttons. */
   value?: readonly string[];
   items: readonly GroupItem[];
@@ -58,8 +60,8 @@ export interface GroupOptions {
 
 /** A group with its buttons. The tags and attributes are the contract; the text comes in. */
 export function group(options: GroupOptions): TemplateResult {
-  const { label, selection = 'single', value = [], items } = options;
-  return html`<nph-toggle-group label=${label} selection=${selection} value=${value.join(' ')}>
+  const { label, selection = 'single', size = 'default', value = [], items } = options;
+  return html`<nph-toggle-group label=${label} selection=${selection} size=${size} value=${value.join(' ')}>
     ${items.map(
       (item) => html`<nph-togglebutton
         value=${item.value}

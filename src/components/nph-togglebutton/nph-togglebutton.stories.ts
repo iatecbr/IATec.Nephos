@@ -2,17 +2,18 @@
  * VALIDATION stories of `nph-togglebutton`.
  *
  * They prove the contract accepted in Figma (frame `1512:27498`, set `1512:719`) and
- * P73: the pressed and unpressed pieces with text, valid and invalid; the start and
- * end icons (`auto`, `none` and a fixed core name); the icon-only piece, side by
- * side with one on; the disabled piece, which wins over invalid; the click that
+ * P73 with its amendment of 2026-10-29 (DSA-61): the pressed and unpressed pieces with
+ * text, valid and invalid; the three sizes, with text and icon only; the start or end
+ * icon, one at most (`auto`, `none` and a fixed core name); the icon-only piece, side
+ * by side with one on; the disabled piece, which wins over invalid; the click that
  * toggles the piece and fires `nph-change`; and the three required examples of the
  * frame — "Option off", "Option on" and "Icon set". Every story shows the same
  * pieces in light and in dark mode, in the same story, through
  * `data-nph-color-scheme` on the frame (P20, P67).
  *
  * Hover and focus are interaction states: they show up by moving the mouse over a
- * button and by navigating with Tab, as in `nph-button`; the component test
- * measures both. Each page opens with what it proves, from the dictionary
+ * button (the hover background and the solid icon) and by navigating with Tab, as in
+ * `nph-button`; the component test measures both. Each page opens with what it proves, from the dictionary
  * (`validationPages.claims`). The example text of the pieces and the captions come
  * from the language dictionary, under the key `togglebuttonValidation`
  * (`docs/i18n.md`, "Storybook"); the row and column names of the matrices are the
@@ -111,18 +112,53 @@ export const Matrix: Story = {
   },
 };
 
-/** Start and end icons: `auto` swaps `xmark` and `check`, `none` draws nothing, a core name is one fixed icon. */
+/** The three sizes, 28, 36 and 44 px high, with text and icon only; the icon-only icon follows the size. */
+export const Sizes: Story = {
+  name: 'Sizes',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    const sizes = ['compact', 'default', 'large'] as const;
+    return validationPage(
+      context,
+      page('sizes'),
+      inBothModes(context, 'sizes', (label) =>
+        matrix(
+          label,
+          PRESSED_COLUMNS,
+          sizes.flatMap((size) => [
+            {
+              label: `size: ${size} · text`,
+              cells: [
+                html`<nph-togglebutton size=${size} text=${v.showGrid}></nph-togglebutton>`,
+                html`<nph-togglebutton size=${size} text=${v.showGrid} pressed></nph-togglebutton>`,
+              ],
+            },
+            {
+              label: `size: ${size} · label`,
+              cells: [
+                html`<nph-togglebutton size=${size} icon-start="star" label=${v.favorites}></nph-togglebutton>`,
+                html`<nph-togglebutton size=${size} icon-start="star" label=${v.favorites} pressed></nph-togglebutton>`,
+              ],
+            },
+          ]),
+        ),
+      ),
+    );
+  },
+};
+
+/** One icon at most, at the start or at the end: `auto` swaps `xmark` and `check`, `none` draws nothing, a core name is one fixed icon. */
 export const Icons: Story = {
   name: 'Icons',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
-    /* Each row: the two icon attributes, and the piece off and on. */
+    /* Each row: the two icon attributes, and the piece off and on. The first row is the default. */
     const rows = [
-      { start: 'auto', end: 'auto' },
-      { start: 'none', end: 'none' },
-      { start: 'star', end: 'star' },
       { start: 'auto', end: 'none' },
       { start: 'none', end: 'auto' },
+      { start: 'star', end: 'none' },
+      { start: 'none', end: 'star' },
+      { start: 'none', end: 'none' },
     ];
     const piece = (start: string, end: string, pressed: boolean): TemplateResult =>
       html`<nph-togglebutton text=${v.showGrid} icon-start=${start} icon-end=${end} ?pressed=${pressed}></nph-togglebutton>`;
@@ -143,7 +179,7 @@ export const Icons: Story = {
   },
 };
 
-/** Icon only: one icon, a label as the accessible name, 50 by 36 px, side by side with one on. */
+/** Icon only: one icon, a label as the accessible name, never square, side by side with one on. */
 export const IconOnly: Story = {
   name: 'Icon only',
   render: (_args, context: GlobalsContext) => {
@@ -229,7 +265,7 @@ export const Disabled: Story = {
   },
 };
 
-/** Invalid: the border of the track is `status/error`, pressed or not; the message stays outside the piece. */
+/** Invalid: the border of the box is `status/error`, over the background of the state; the message stays outside the piece. */
 export const Invalid: Story = {
   name: 'Invalid',
   render: (_args, context: GlobalsContext) => {
@@ -308,7 +344,7 @@ export const Examples: Story = {
   },
 };
 
-/** The seven brands in light and dark (DSA-36): the pressed button takes the primary of the frame. */
+/** The seven brands in light and dark (DSA-36): the pressed button takes the checked background of the brand of the frame. */
 export const Brands: Story = {
   name: 'Brands',
   render: (_args, context: GlobalsContext) => {

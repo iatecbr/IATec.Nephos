@@ -2,8 +2,9 @@
  * VALIDATION stories of `nph-toggle-group`.
  *
  * They prove the contract accepted in Figma (frame `1580:61`, set `1580:60`), the
- * decisions D1 to D3 of DSA-23 and P76: the group with and without text, with two and
- * three buttons; single selection, which starts empty or with a value and ignores a
+ * decisions D1 to D3 of DSA-23 and P76 with its amendment of 2026-10-29 (DSA-61): the
+ * group with and without text, with two and three buttons; the three sizes, which every
+ * button follows; single selection, which starts empty or with a value and ignores a
  * click on the checked button; multiple selection; the disabled and invalid states,
  * which stay on each button; the event `nph-value-change`; and the three required
  * examples of the frame — "Alignment", "Formatting" and "View". Every story shows the
@@ -104,6 +105,28 @@ export const Matrix: Story = {
           { label: 'buttons: 2', cells: [cell(2, true), cell(2, false)] },
           { label: 'buttons: 3', cells: [cell(3, true), cell(3, false)] },
         ]),
+      ),
+    );
+  },
+};
+
+/** The three sizes, with text and icon only: every button of the group takes the size of the group. */
+export const Sizes: Story = {
+  name: 'Sizes',
+  render: (_args, context: GlobalsContext) => {
+    const v = t(context);
+    const sizes = ['compact', 'default', 'large'] as const;
+    const cell = (size: (typeof sizes)[number], withText: boolean): TemplateResult =>
+      group({ label: v.viewGroup, size, value: ['list'], items: items(v, 3, withText) });
+    return validationPage(
+      context,
+      page('sizes'),
+      inBothModes(context, 'sizes', (label) =>
+        matrix(
+          label,
+          ['text: yes', 'text: no'],
+          sizes.map((size) => ({ label: `size: ${size}`, cells: [cell(size, true), cell(size, false)] })),
+        ),
       ),
     );
   },

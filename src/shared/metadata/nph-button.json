@@ -163,7 +163,7 @@
       "changes_for_user": "Rest. The color communicates the type of the action."
     },
     "hover-active": {
-      "token": "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost. The icons switch from light to solid, in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88)",
+      "token": "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost, except secondary ghost, which takes button/secondary-ghost-background-hover with text and icon-button/secondary-ghost-background-hover in the icon only. The icons switch from light to solid, in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88)",
       "changes_for_user": "The surface changes and the icons turn solid, with text and in the icon only, which confirms that the target responds."
     },
     "focus": {
@@ -257,6 +257,10 @@
       "color/destructive-surface-hover",
       "color/destructive-on-surface",
       "color/destructive-on-surface-hover"
+    ],
+    "ghost_secondary_hover": [
+      "button/secondary-ghost-background-hover",
+      "icon-button/secondary-ghost-background-hover"
     ]
   },
   "ai_hints": [
@@ -321,8 +325,8 @@
     "Painting the button by hand or creating a type, emphasis or size outside the matrix."
   ],
   "sources": {
-    "design_md": "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block",
-    "decision": "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button",
+    "design_md": "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block; the component tokens button/secondary-ghost-background-hover and icon-button/secondary-ghost-background-hover are in src/tokens/source/semantic.tokens.json",
+    "decision": "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button; the secondary ghost hover on the component tokens, decided in Figma on 27-10-2026 (DSA-60)",
     "tests": "src/components/nph-button/nph-button.test.ts, nph-button.first-tooltip.test.ts and nph-button.docs.test.ts",
     "usage_evidence": "pending — no approved screen consumes the button yet",
     "storybook": "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts",
