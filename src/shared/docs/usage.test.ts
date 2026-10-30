@@ -18,6 +18,7 @@
  * by `npm run test:package`, which imports every component through the package in a browser.
  */
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { userEvent } from 'vitest/browser';
 import { render } from 'lit';
 import type { TemplateResult } from 'lit';
 
@@ -124,6 +125,11 @@ function nextFrames(): Promise<void> {
 async function reportsOf(markup: string): Promise<string[]> {
   /* What earlier tests rendered may still have checks waiting for a frame: let them run first. */
   document.body.replaceChildren();
+  /*
+   * The pointer rests wherever an earlier test left it. Over the top of the page, it would hover
+   * the markup as it appears, and a tooltip without tokens would report that.
+   */
+  await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
   await nextFrames();
   const reported: string[] = [];
   const report = (...args: unknown[]) => {

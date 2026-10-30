@@ -250,6 +250,7 @@ stages:
               npm run test:naming
               npm run test:operacao
               npm run test:i18n
+              node scripts/shard-rerun.mjs --self-test
             displayName: Typecheck and repository checks
             workingDirectory: $(Build.SourcesDirectory)
 
@@ -259,12 +260,24 @@ stages:
           # system libraries Chromium needs must already be on the agent.
           #
           # The tests run in two shards, one after the other, so each Chromium
-          # process loads half the files. With the whole suite in one browser,
-          # Chromium now and then refused a module request that never reached
-          # Vite, and a test file failed with "Failed to fetch dynamically
-          # imported module" (builds 610794 to 611705; vitest-dev/vitest#11745
-          # and #10791). Both shards always run, and the step fails if either
-          # one fails.
+          # process loads half the files (PR #142). Both shards always run, and
+          # the step fails if either one fails.
+          #
+          # A shard that fails is run again, up to twice, when the only
+          # failures of its last attempt come from a network change (P106).
+          # The agents share their host with other jobs, and Chromium on Linux
+          # drops every request in flight, localhost included, when an address
+          # or interface of the host changes (`net::ERR_NETWORK_CHANGED`,
+          # which the Playwright provider logs with `VITEST_PW_DEBUG`; builds
+          # 612136, 612149, 612881 and 612908, where it changed twice in one
+          # build). A test file then fails with "Failed to fetch dynamically
+          # imported module", or, when a module of the tester was dropped, its
+          # iframe "did not become ready". `scripts/shard-rerun.mjs` reads the
+          # JSON report and the log of each attempt: a failed test, any other
+          # unhandled error or a file that failed for another reason fails the
+          # step at once, even next to a file that failed to load. Each rerun,
+          # with its attempt number and reason, is written to the log as a
+          # warning.
           #
           # The core count, memory and load of the agent are logged to read
           # timing failures: a loaded agent fails timing tests on its own. The
@@ -278,14 +291,33 @@ stages:
               # Runs on failure too; the step keeps the exit code of the tests.
               trap 'cat /proc/loadavg' EXIT
               npx playwright install chromium
+              run_shard() {
+                local shard="$1"
+                local attempt=1
+                local reason log report
+                while true; do
+                  log="$(Agent.TempDirectory)/vitest-shard-${shard%/*}-${attempt}.log"
+                  report="$(Agent.TempDirectory)/vitest-shard-${shard%/*}-${attempt}.json"
+                  if npm test -- --shard="${shard}" --reporter=default --reporter=json \
+                    --outputFile.json="${report}" 2>&1 | tee "${log}"; then
+                    return 0
+                  fi
+                  if ! reason="$(node scripts/shard-rerun.mjs "${report}" "${log}" "$((attempt - 1))")"; then
+                    return 1
+                  fi
+                  attempt=$((attempt + 1))
+                  echo "##vso[task.logissue type=warning]Shard ${shard}, attempt ${attempt} of 3: attempt $((attempt - 1)) failed only because Chromium could not load test files (${reason}); running the shard again (P106)."
+                done
+              }
               status=0
-              npm test -- --shard=1/2 || status=1
-              npm test -- --shard=2/2 || status=1
+              run_shard 1/2 || status=1
+              run_shard 2/2 || status=1
               exit "${status}"
             displayName: Component tests (Chromium)
             workingDirectory: $(Build.SourcesDirectory)
             env:
               NEPHOS_TEST_DIAGNOSTICS: '1'
+              VITEST_PW_DEBUG: '1'
 
           - task: CmdLine@2
             displayName: Remove .npmrc

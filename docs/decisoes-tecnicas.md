@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P104 and P105. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105 and P106. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -63,6 +63,8 @@ P62.4 subsection for the detail).
 | **P97** | API and semantics of `nph-table` | 26/10/2026 | Low now. No piece consumes it yet; a report or a statement screen will, and `nph-data-table` may build on it, so changing `columns`, `rows`, the cell types or the events later requires redoing them | Anatomy and behavior: board accepted by Indiane on 23/10/2026; the plan is approved by Elvys on 26/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P95** | API and semantics of `nph-combobox` and its list | 26/10/2026 | Medium. `nph-multi-combobox` (DSA-31) takes the list module, so changing the entries of `options`, the search, the groups, the highlight or the events `nph-search` and `nph-create` later requires redoing both. The options as data depart from the light-DOM options of P91 | Anatomy and behavior: board accepted by Indiane on 14/10/2026; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P96** | API and semantics of `nph-multi-combobox`; the `checkbox` marker of `nph-option` (amends P91) | 26/10/2026 | Low now. No piece consumes the field yet; the marker defaults to `check`, so `nph-select` and `nph-combobox` do not change | Anatomy and behavior: board accepted by Indiane on 15/10/2026, D1 to D3 answered; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
+| **P102** | Vitest 5 for the browser tests (amends item 5 of P21) | 29/10/2026 | Low. Only the test runner and the Storybook packages that require it move; going back is a lockfile change and one test line | Decided by Elvys on 29/10/2026. Reviewed in the pull request that brings it |
+| **P106** | Up to two reruns of a browser test shard after a network change on the Azure host | 29/10/2026 | Low. Only the Azure step changes; removing the reruns is a pipeline change, and a real failure still fails on the first run | Decided by Elvys on 29/10/2026 (one rerun) and 30/10/2026 (up to two). Reviewed in the pull request that brings it |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -414,6 +416,9 @@ default" of amendment I7, which stay above as the record. `regular` is no longer
 valid value and has no alias. Reason: at 16 px Regular draws a 1.5 px stroke and
 Light 1.0 px, the same weight as the text, so the Solid of the active item stands
 out. Thin and Sharp remain forbidden; Duotone is unchanged.
+
+**Annotation of 29/10/2026.** P102 moves the browser tests of item 5 to Vitest 5. The rest of
+item 5 does not change.
 
 ---
 
@@ -5443,6 +5448,63 @@ approval.
 
 ---
 
+## P102 — Vitest 5 for the browser tests
+
+This decision **amends item 5 of P21**, "Vitest in browser mode as the validation base", in its
+version only: the test runner, the browser mode and the two projects of `vitest.config.ts` stay.
+
+**Technical conflict.** The browser tests fail now and then on the Azure agents with "Failed to
+fetch dynamically imported module", and a run sometimes hangs until the 30-minute timeout. The
+diagnosis of PR #142 shows that Vite answered the failing imports with `200 OK`: the failure is on
+the Chromium side, below the top-level import. It matches vitest-dev/vitest#11745, where the
+maintainer says that Vitest 4 gets no more fixes and points to Vitest 5, and the comment on
+vitest-dev/vitest#10791 (`ERR_INSUFFICIENT_RESOURCES`). The two sequential shards of PR #142
+(`7db2065`) made the failure rarer but did not end it: PR #143 failed three times on `3c9d51f` with
+the shards on.
+
+**Decision.**
+
+- `vitest` and `@vitest/browser-playwright` move to `^5.0.5`.
+- `storybook`, `@storybook/web-components-vite`, `@storybook/addon-a11y` and
+  `@storybook/addon-vitest` move to `^10.6.5`, the first `@storybook/addon-vitest` that accepts
+  Vitest 5.
+- `vite` stays at `^8.2.2`, `playwright` at `^1.62.1` and `style-dictionary` at `^5.5.2`, with the
+  same locked versions, so the Chromium build does not change.
+- The test configuration does not change: no Vitest 5 option is set to bring back a Vitest 4
+  behavior, and the request log of `NEPHOS_TEST_DIAGNOSTICS` stays.
+
+**Reason.** The defect is upstream, in a version that no longer gets fixes. Moving only the runner
+and the Storybook packages it requires keeps one variable at a time: the shards, the browser and
+the server topology stay as they are.
+
+**Impact.**
+
+- `package-lock.json` is generated again from scratch. From the old lockfile, npm refuses the move
+  (`ERESOLVE`): `storybook` 10.6.5 has the optional peer `vite-plus@^0.2`, which pins
+  `@vitest/browser-playwright` to 4.1.10. Some 90 transitive dependencies move inside their semver
+  ranges.
+- Vitest 5 requires Node 22.12 or later. The validated Node 24.18, which the pipeline also uses,
+  meets it.
+- One test changes. The press outside of `nph-combobox` clicked at (600, 600) of `document.body`,
+  outside the 414 × 896 viewport. Vitest 4 let that click through; under Vitest 5, Playwright
+  refuses it ("`<html>` intercepts pointer events") until the test times out. The press moves to
+  the bottom-left corner of the viewport, as in `nph-multi-combobox`. The behavior under test does
+  not change.
+- The version table of `AGENTS.md` follows.
+
+**Out of scope.** Removing the sequential shards of the Azure pipeline, which waits for Vitest 5 to
+be proven there. The agent pool and the load of its hosts. Any other dependency.
+
+**Rite.** This decision touches the version that item 5 of P21 adopted, so it follows the section
+"How to change one of these decisions": the technical conflict is above, the proposal is this
+section, and the human review is the pull request. The text of P21 does not change; it only gets
+the annotation.
+
+**Status.** Decided by Elvys on 29/10/2026. Reviewed in the pull request that brings it; the merge
+is the approval.
+
+---
+
 ## P104 — `nph-toolbar`: API and semantics
 
 **Technical conflict.** The accepted documentation (frame `2944:6528`, set `2105:426`, page
@@ -5648,9 +5710,59 @@ approval.
 
 ---
 
+## P106 — Up to two reruns of a browser test shard after a network change
+
+**Technical conflict.** The browser tests fail now and then on the Azure agents with "Failed to
+fetch dynamically imported module", in Vitest 4 and in Vitest 5 (P102). The Playwright provider,
+with `VITEST_PW_DEBUG`, shows the cause: in build 612149, Vite served the test file with `200 OK`,
+and 213 ms later Chromium failed 116 module requests with `net::ERR_NETWORK_CHANGED`. The agents
+are not containers and share their host with other jobs. Chromium on Linux drops every request in
+flight, localhost included, when an address or interface of the host changes
+(`TransportClientSocketPool::OnIPAddressChanged` in `net/socket/transport_client_socket_pool.cc`).
+At the Chromium of Playwright 1.62.1 (151.0.7922.34), no switch or feature turns that off on Linux,
+and the Chromium bug 41144540 answers it as by design. Running one file at a time
+(`--no-file-parallelism`) did not avoid it and made the run five times slower.
+
+**Decision.**
+
+- In the `Component tests (Chromium)` step of `azure-pipelines.yml`, a test shard that fails is run
+  again, **up to twice**, each time only when the only failures of its last attempt come from the
+  network change: each failed file failed to
+  load and the cause of its own error in the log is "Failed to fetch dynamically imported module",
+  for the file or for a module it loads first, such as the Storybook setup; no test failed; and
+  every unhandled error is a Vitest tester that "did not become ready" while the log shows a module
+  of the tester dropped with `net::ERR_NETWORK_CHANGED` (build 612881). `scripts/shard-rerun.mjs`
+  decides it from the JSON report and the log of each attempt, holds the limit (`MAX_RERUNS`), and
+  proves its own rules with probes (`--self-test`, in the repository checks of the pipeline).
+- Any other failure fails the step at once, even next to a file that failed to load, and a shard
+  that still fails after the second rerun fails the step.
+- Each rerun, with its attempt number and its reason, is written to the log as an Azure warning.
+- `VITEST_PW_DEBUG` stays on in that step, so the log shows whether `net::ERR_NETWORK_CHANGED` came
+  with the failure. The infrastructure prints of the diagnosis leave.
+
+**Reason.** The cause is outside the repository: the network of a shared host. A rerun limited to
+that signature keeps every real failure as it is, and costs one shard, about two minutes, only when
+the host changed its network. One rerun was not enough: in build 612908 the network of the host
+changed twice, 1 min 40 s apart, the second time during the rerun.
+
+**Impact.** Only the pipeline and the new `scripts/shard-rerun.mjs` change; the tests, the
+configuration and `npm test` do not. Locally nothing changes.
+
+**Out of scope.** `npm run test:package` in the Build stage, which can fail the same way (build
+612025) and is not rerun. A dedicated agent or one whose network does not change during the job,
+which removes the cause and is an infrastructure decision. Fewer module requests per import, such
+as Font Awesome in one module, which changes `nph-icon` or the dependency configuration. A run that
+hangs until the job timeout, which a rerun does not catch.
+
+**Status.** Decided by Elvys on 29/10/2026 (rerun the shard, once) and changed by Elvys on
+30/10/2026 (up to two reruns, with the same rule). Reviewed in the pull request that brings it; the merge
+is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P104 or P105 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105 or P106 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
