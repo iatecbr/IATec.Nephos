@@ -6,7 +6,8 @@
  * dynamically imported module", and when the dropped requests are the modules of the Vitest tester
  * itself, the iframe of a file "did not become ready" and Vitest reports it as an unhandled error
  * (build 612881). A shard may run again only when those are its only failures: every failed file
- * failed to load and the log shows that error for the file, no test failed, and every unhandled
+ * failed to load and the cause of its own error in the log is that error, for the file or for a
+ * module it loads first such as the Storybook setup; no test failed; and every unhandled
  * error is a tester that did not become ready while the log shows a tester module dropped by a
  * network change. Any other failure keeps the shard failed, even next to a file that failed to
  * load.
@@ -44,6 +45,23 @@ function unhandledErrors(text) {
 }
 
 /**
+ * The cause the log gives for a test file that failed to import: the first `Caused by:` line of
+ * its own error block, which ends at the next failed file or at the unhandled errors. The module
+ * it names may be the file itself or one the file loads first, such as the Storybook setup.
+ * @param {string} text
+ * @param {string} name
+ */
+function causeOf(text, name) {
+  const marker = `Failed to import test file ${name}`;
+  const start = text.indexOf(marker);
+  if (start < 0) return '';
+  const rest = text.slice(start + marker.length);
+  const end = rest.search(/Failed to import test file |\sFAIL\s|Unhandled Errors?/);
+  const block = end < 0 ? rest : rest.slice(0, end);
+  return /Caused by: (.*)/.exec(block)?.[1] ?? '';
+}
+
+/**
  * @param {unknown} report The JSON report of Vitest, or `undefined` when it could not be read.
  * @param {string} log The output of the shard.
  * @returns {{ rerun: boolean, reason: string }}
@@ -67,10 +85,7 @@ export function classify(report, log) {
   for (const file of failed) {
     const loaded = !String(file.message ?? '').startsWith('Failed to import test file');
     const testFailed = (file.assertionResults ?? []).some((test) => test.status === 'failed');
-    const signature = text
-      .split('\n')
-      .some((line) => line.includes(`${LOAD_FAILURE}: `) && line.includes(file.name));
-    if (loaded || testFailed || !signature) {
+    if (loaded || testFailed || !causeOf(text, file.name).includes(`${LOAD_FAILURE}: `)) {
       return { rerun: false, reason: `${file.name} failed for another reason` };
     }
   }
@@ -86,7 +101,16 @@ const OTHER = '/agent/s/src/components/nph-chip/nph-chip.test.ts';
 const loadFailed = (name) => ({ name, status: 'failed', message: `Failed to import test file ${name}`, assertionResults: [] });
 const passed = (name) => ({ name, status: 'passed', message: '', assertionResults: [{ status: 'passed' }] });
 const report = (files, numFailedTests = 0) => ({ numFailedTests, testResults: files });
-const loadLine = (name) => `Caused by: TypeError: ${LOAD_FAILURE}: http://localhost:63315${name}?import&browserv=1`;
+const SETUP = '/agent/s/node_modules/@storybook/addon-vitest/dist/vitest-plugin/setup-file-with-project-annotations.js';
+const STORY = '/agent/s/src/components/nph-chip/nph-chip.stories.ts';
+/** The error block Vitest prints for a file that failed to import, with the module that failed. */
+const loadLine = (name, module = name) =>
+  ` FAIL   unit (chromium)  ${name} [ ${name} ]\nError: Failed to import test file ${name}\n` +
+  ` ❯ collectTests deps/plugins.js:5823:3\n` +
+  `Caused by: TypeError: ${LOAD_FAILURE}: http://localhost:63315${module}?import&browserv=1`;
+const otherCause = (name) =>
+  ` FAIL   unit (chromium)  ${name} [ ${name} ]\nError: Failed to import test file ${name}\n` +
+  `Caused by: SyntaxError: Unexpected token '}'`;
 const networkLine = `[PW Error] script request failed for http://localhost:63315/x.js url: ${NETWORK_CHANGE}`;
 const testerDroppedLine = `[PW Error] script request failed for http://localhost:63316/@id/__x00__vitest/browser url: ${NETWORK_CHANGE}`;
 const notReady = (count) =>
@@ -115,7 +139,25 @@ const PROBES = [
   {
     name: 'a file that failed to load for another reason',
     report: report([loadFailed(FILE)]),
-    log: `${networkLine}\nSyntaxError: Unexpected token`,
+    log: `${networkLine}\n${otherCause(FILE)}`,
+    rerun: false,
+  },
+  {
+    name: 'a story whose Storybook setup failed to load',
+    report: report([loadFailed(STORY)]),
+    log: `${networkLine}\n${loadLine(STORY, SETUP)}`,
+    rerun: true,
+  },
+  {
+    name: 'two stories that share the setup, one for the load and one for another cause',
+    report: report([loadFailed(STORY), loadFailed(FILE)]),
+    log: `${networkLine}\n${loadLine(STORY, SETUP)}\n${otherCause(FILE)}`,
+    rerun: false,
+  },
+  {
+    name: 'a file whose own block has another cause, after a load failure of another file',
+    report: report([loadFailed(FILE), loadFailed(OTHER)]),
+    log: `${loadLine(OTHER)}\n${otherCause(FILE)}`,
     rerun: false,
   },
   {
@@ -179,11 +221,20 @@ function readReport(path) {
   }
 }
 
+/** A missing log reads as empty, so no file shows the load failure and the shard is not rerun. */
+function readLog(path) {
+  try {
+    return readFileSync(path, 'utf8');
+  } catch {
+    return '';
+  }
+}
+
 const [first, logPath] = process.argv.slice(2);
 if (first === '--self-test') {
   selfTest();
 } else if (first && logPath) {
-  const { rerun, reason } = classify(readReport(first), readFileSync(logPath, 'utf8'));
+  const { rerun, reason } = classify(readReport(first), readLog(logPath));
   if (rerun) {
     console.log(reason);
   } else {

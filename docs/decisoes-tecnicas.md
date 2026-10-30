@@ -5627,7 +5627,8 @@ and the Chromium bug 41144540 answers it as by design. Running one file at a tim
 
 - In the `Component tests (Chromium)` step of `azure-pipelines.yml`, a test shard that fails is run
   again **once** when its only failures come from the network change: each failed file failed to
-  load and the log shows "Failed to fetch dynamically imported module" for it, no test failed, and
+  load and the cause of its own error in the log is "Failed to fetch dynamically imported module",
+  for the file or for a module it loads first, such as the Storybook setup; no test failed; and
   every unhandled error is a Vitest tester that "did not become ready" while the log shows a module
   of the tester dropped with `net::ERR_NETWORK_CHANGED` (build 612881). `scripts/shard-rerun.mjs`
   decides it from the JSON report and the log of the shard, and proves its own rules with probes
