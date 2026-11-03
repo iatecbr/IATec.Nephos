@@ -618,6 +618,8 @@
   --nph-data-table-action-column-width: var(--nph-core-space-900);
   --nph-data-table-page-size-width: var(--nph-core-layout-width-page-size-select);
   --nph-input-clear-padding-end: var(--nph-core-space-off-scale-5);
+  --nph-navigation-menu-panel-width: var(--nph-core-layout-width-input);
+  --nph-navigation-menu-current-indicator-width: var(--nph-core-focus-width-sm);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-table-border-width: var(--nph-border-width);
@@ -687,6 +689,22 @@
   --nph-data-table-pagination-gap: var(--nph-space-inline);
   --nph-data-table-empty-gap: var(--nph-space-stack);
   --nph-input-height-compact: var(--nph-control-height-compact);
+  --nph-navigation-menu-trigger-padding-x: var(--nph-space-control-padding);
+  --nph-navigation-menu-trigger-padding-y: var(--nph-space-inline);
+  --nph-navigation-menu-trigger-gap: var(--nph-space-inline-tight);
+  --nph-navigation-menu-trigger-radius: var(--nph-radius-control);
+  --nph-navigation-menu-trigger-icon-size: var(--nph-icon-size-sm);
+  --nph-navigation-menu-bar-gap: var(--nph-space-inline-tight);
+  --nph-navigation-menu-panel-offset: var(--nph-space-inline-tight);
+  --nph-navigation-menu-panel-border-width: var(--nph-border-width);
+  --nph-navigation-menu-panel-radius: var(--nph-radius-container);
+  --nph-navigation-menu-panel-padding: var(--nph-space-inline-tight);
+  --nph-navigation-menu-group-gap: var(--nph-space-inline-tight);
+  --nph-navigation-menu-item-padding: var(--nph-space-inline);
+  --nph-navigation-menu-item-gap: var(--nph-space-inline);
+  --nph-navigation-menu-item-text-gap: var(--nph-space-inline-tight);
+  --nph-navigation-menu-item-radius: var(--nph-radius-inner);
+  --nph-navigation-menu-item-icon-size: var(--nph-icon-size-md);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -775,6 +793,14 @@
   --nph-button-secondary-ghost-background-hover: var(--nph-color-accent);
   --nph-icon-button-secondary-ghost-background-hover: var(--nph-color-accent);
   --nph-togglebutton-background-hover: var(--nph-color-accent);
+  --nph-navigation-menu-trigger-foreground: var(--nph-color-foreground);
+  --nph-navigation-menu-trigger-foreground-hover: var(--nph-color-accent-foreground);
+  --nph-navigation-menu-panel-background: var(--nph-color-popover);
+  --nph-navigation-menu-item-title-foreground: var(--nph-color-popover-foreground);
+  --nph-navigation-menu-item-title-foreground-hover: var(--nph-color-accent-foreground);
+  --nph-navigation-menu-item-description-foreground: var(--nph-color-muted-foreground);
+  --nph-navigation-menu-item-icon-foreground: var(--nph-color-muted-foreground);
+  --nph-navigation-menu-item-icon-foreground-hover: var(--nph-color-accent-foreground);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);
@@ -805,6 +831,11 @@
   --nph-data-table-row-selected-background: var(--nph-color-primary-surface);
   --nph-data-table-row-selected-indicator: var(--nph-color-primary);
   --nph-togglebutton-background-checked: var(--nph-color-primary-surface-hover);
+  --nph-navigation-menu-trigger-background-hover: var(--nph-color-primary-surface);
+  --nph-navigation-menu-panel-border: var(--nph-color-dropdown-border);
+  --nph-navigation-menu-item-background-hover: var(--nph-color-primary-surface);
+  --nph-navigation-menu-current-foreground: var(--nph-color-primary-hover);
+  --nph-navigation-menu-current-indicator-background: var(--nph-color-primary);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */

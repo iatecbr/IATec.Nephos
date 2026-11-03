@@ -509,5 +509,27 @@
       "tamanho"
     ],
     "reason": "Name of the Figma property of nph-toggle-group (tamanho), quoted as it is in the accepted board (P64: Figma is in Portuguese); the code API is size."
+  },
+  {
+    "file": "docs/operacao/evidencias/DSA-62/figma-docs-accepted-2026-11-03.md",
+    "class": "contract-term",
+    "names": [
+      "aberto",
+      "de",
+      "largura",
+      "painel",
+      "tipo",
+      "ícone"
+    ],
+    "reason": "Figma property, variant and piece names of nph-navigation-menu (largura, aberto, tipo, ícone and the names of the top item and panel link pieces), quoted as they are in the accepted board (P64: Figma is in Portuguese)."
+  },
+  {
+    "file": "docs/operacao/tarefas/DSA-62.md",
+    "class": "contract-term",
+    "names": [
+      "atual",
+      "foco"
+    ],
+    "reason": "The state atual-foco of nph-navigation-menu, quoted as it is in the accepted board (P64: Figma is in Portuguese)."
   }
 ]
