@@ -621,6 +621,7 @@
   --nph-data-table-action-column-width: var(--nph-core-space-900);
   --nph-data-table-page-size-width: var(--nph-core-layout-width-page-size-select);
   --nph-input-clear-padding-end: var(--nph-core-space-off-scale-5);
+  --nph-icon-button-secondary-outline-border-hover: var(--nph-core-surface-300);
   --nph-navigation-menu-panel-width: var(--nph-core-layout-width-input);
   --nph-navigation-menu-current-indicator-width: var(--nph-core-focus-width-sm);
   --nph-notification-toast-width: var(--nph-core-layout-width-toast);
@@ -813,7 +814,9 @@
   --nph-data-table-checkbox-border: var(--nph-color-input-hover);
   --nph-data-table-page-size-label-foreground: var(--nph-color-foreground);
   --nph-button-secondary-ghost-background-hover: var(--nph-color-accent);
+  --nph-button-secondary-outline-background-hover: var(--nph-color-secondary-light-hover);
   --nph-icon-button-secondary-ghost-background-hover: var(--nph-color-accent);
+  --nph-icon-button-secondary-outline-background-hover: var(--nph-color-secondary-light-hover);
   --nph-togglebutton-background-hover: var(--nph-color-accent);
   --nph-navigation-menu-trigger-foreground: var(--nph-color-foreground);
   --nph-navigation-menu-trigger-foreground-hover: var(--nph-color-accent-foreground);
@@ -1029,6 +1032,13 @@
   --nph-status-success-surface-hover: var(--nph-core-success-100);
   --nph-table-header-background: var(--nph-core-surface-25);
   --nph-table-row-striped-background: var(--nph-core-surface-25);
+  --nph-button-secondary-outline-border: var(--nph-core-surface-200);
+  --nph-button-secondary-outline-border-hover: var(--nph-core-surface-400);
+  --nph-button-secondary-solid-background: var(--nph-core-surface-50);
+  --nph-button-secondary-solid-background-hover: var(--nph-core-surface-100);
+  --nph-icon-button-secondary-outline-border: var(--nph-core-surface-200);
+  --nph-icon-button-secondary-solid-background: var(--nph-core-surface-50);
+  --nph-icon-button-secondary-solid-background-hover: var(--nph-core-surface-100);
   --nph-color-secondary-on-dialog: var(--nph-color-secondary);
   --nph-color-secondary-on-dialog-hover: var(--nph-color-secondary-hover);
   --nph-color-primary-foreground: var(--nph-theme-brand-on-600);
@@ -1181,6 +1191,11 @@
   --nph-status-help-surface-hover: var(--nph-core-help-800);
   --nph-status-success-surface-hover: var(--nph-core-success-800);
   --nph-table-row-striped-background: var(--nph-core-surface-800);
+  --nph-button-secondary-outline-border: var(--nph-core-surface-400);
+  --nph-button-secondary-outline-border-hover: var(--nph-core-surface-300);
+  --nph-button-secondary-solid-background-hover: var(--nph-core-surface-500);
+  --nph-icon-button-secondary-outline-border: var(--nph-core-surface-400);
+  --nph-icon-button-secondary-solid-background-hover: var(--nph-core-surface-500);
   --nph-color-primary-foreground: var(--nph-theme-brand-on-400);
   --nph-color-primary: var(--nph-theme-brand-400);
   --nph-color-primary-surface: var(--nph-theme-brand-900);
@@ -1202,5 +1217,7 @@
   --nph-chip-remove-background-hover: var(--nph-theme-brand-700);
   --nph-chip-background-hover: var(--nph-theme-brand-700);
   --nph-chip-border: var(--nph-theme-brand-400);
+  --nph-button-secondary-solid-background: var(--nph-color-secondary);
+  --nph-icon-button-secondary-solid-background: var(--nph-color-secondary);
   --nph-togglebutton-background-checked-hover: var(--nph-theme-brand-700);
 }
