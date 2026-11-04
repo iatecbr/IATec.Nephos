@@ -144,6 +144,8 @@
   --nph-core-layout-width-media: 16rem;
   --nph-core-layout-width-page-size-select: 5.5rem;
   --nph-core-layout-width-chip: 14rem;
+  --nph-core-layout-width-toast: 22.5rem;
+  --nph-core-layout-width-toast-max: 27.5rem;
   --nph-core-line-height-100: 1rem;
   --nph-core-neutral-50: #f1f1f1;
   --nph-core-neutral-100: #e3e3e3;
@@ -269,6 +271,7 @@
   --nph-core-image-size-400: 4rem;
   --nph-core-image-size-500: 6rem;
   --nph-core-image-size-600: 8rem;
+  --nph-core-opacity-16: 0.16;
 }
 
 /* brand layer - one block per IATec vertical. */
@@ -620,6 +623,10 @@
   --nph-input-clear-padding-end: var(--nph-core-space-off-scale-5);
   --nph-navigation-menu-panel-width: var(--nph-core-layout-width-input);
   --nph-navigation-menu-current-indicator-width: var(--nph-core-focus-width-sm);
+  --nph-notification-toast-width: var(--nph-core-layout-width-toast);
+  --nph-notification-toast-width-max: var(--nph-core-layout-width-toast-max);
+  --nph-notification-close-background-hover-opacity: var(--nph-core-opacity-16);
+  --nph-notification-close-focus-border-width: var(--nph-core-focus-width-sm);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-table-border-width: var(--nph-border-width);
@@ -705,6 +712,21 @@
   --nph-navigation-menu-item-text-gap: var(--nph-space-inline-tight);
   --nph-navigation-menu-item-radius: var(--nph-radius-inner);
   --nph-navigation-menu-item-icon-size: var(--nph-icon-size-md);
+  --nph-notification-radius: var(--nph-radius-container);
+  --nph-notification-toast-radius: var(--nph-radius-overlay);
+  --nph-notification-border-width: var(--nph-border-width);
+  --nph-notification-padding-start: var(--nph-space-container-padding);
+  --nph-notification-padding-block: var(--nph-space-control-padding);
+  --nph-notification-padding-end: var(--nph-space-inline);
+  --nph-notification-gap: var(--nph-space-control-padding);
+  --nph-notification-content-gap: var(--nph-space-stack-tight);
+  --nph-notification-content-gap-single-line: var(--nph-space-inline);
+  --nph-notification-content-padding-block: var(--nph-space-stack-snug);
+  --nph-notification-content-actions-gap: var(--nph-space-stack);
+  --nph-notification-actions-gap: var(--nph-space-inline);
+  --nph-notification-actions-padding-top: var(--nph-space-stack-snug);
+  --nph-notification-icon-size: var(--nph-icon-size-md);
+  --nph-notification-stack-gap: var(--nph-space-stack-snug);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -801,6 +823,40 @@
   --nph-navigation-menu-item-description-foreground: var(--nph-color-muted-foreground);
   --nph-navigation-menu-item-icon-foreground: var(--nph-color-muted-foreground);
   --nph-navigation-menu-item-icon-foreground-hover: var(--nph-color-accent-foreground);
+  --nph-notification-info-surface: var(--nph-status-info-surface);
+  --nph-notification-info-border: var(--nph-status-info-border);
+  --nph-notification-info-solid: var(--nph-status-info);
+  --nph-notification-info-action-foreground: var(--nph-status-info-hover);
+  --nph-notification-info-action-background-hover: var(--nph-status-info-surface-hover);
+  --nph-notification-success-surface: var(--nph-status-success-surface);
+  --nph-notification-success-border: var(--nph-status-success-border);
+  --nph-notification-success-solid: var(--nph-status-success);
+  --nph-notification-success-action-foreground: var(--nph-status-success-hover);
+  --nph-notification-success-action-background-hover: var(--nph-status-success-surface-hover);
+  --nph-notification-warning-surface: var(--nph-status-warning-surface);
+  --nph-notification-warning-border: var(--nph-status-warning-border);
+  --nph-notification-warning-solid: var(--nph-status-warning);
+  --nph-notification-warning-action-foreground: var(--nph-status-warning-hover);
+  --nph-notification-warning-action-background-hover: var(--nph-status-warning-surface-hover);
+  --nph-notification-error-surface: var(--nph-status-error-surface);
+  --nph-notification-error-border: var(--nph-status-error-border);
+  --nph-notification-error-solid: var(--nph-status-error);
+  --nph-notification-error-action-foreground: var(--nph-color-destructive-hover);
+  --nph-notification-error-action-background-hover: var(--nph-color-destructive-surface-hover);
+  --nph-notification-help-surface: var(--nph-status-help-surface);
+  --nph-notification-help-border: var(--nph-status-help-border);
+  --nph-notification-help-solid: var(--nph-status-help);
+  --nph-notification-help-action-foreground: var(--nph-status-help-hover);
+  --nph-notification-help-action-background-hover: var(--nph-status-help-surface-hover);
+  --nph-notification-text: var(--nph-color-foreground);
+  --nph-notification-neutral-surface: var(--nph-color-background-subtle);
+  --nph-notification-neutral-border: var(--nph-color-border);
+  --nph-notification-neutral-icon: var(--nph-color-foreground);
+  --nph-notification-neutral-solid: var(--nph-color-inverse);
+  --nph-notification-neutral-on-solid: var(--nph-color-inverse-foreground);
+  --nph-notification-loading-surface: var(--nph-color-popover);
+  --nph-notification-neutral-close-background-hover: var(--nph-color-inverse-foreground);
+  --nph-notification-neutral-close-focus-border: var(--nph-color-inverse-foreground);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);
@@ -836,6 +892,12 @@
   --nph-navigation-menu-item-background-hover: var(--nph-color-primary-surface);
   --nph-navigation-menu-current-foreground: var(--nph-color-primary-hover);
   --nph-navigation-menu-current-indicator-background: var(--nph-color-primary);
+  --nph-notification-on-solid: var(--nph-status-on-solid);
+  --nph-notification-neutral-action-foreground: var(--nph-color-primary-on-surface);
+  --nph-notification-neutral-action-background-hover: var(--nph-color-primary-surface);
+  --nph-notification-loading-border: var(--nph-color-dropdown-border);
+  --nph-notification-close-background-hover: var(--nph-status-on-solid);
+  --nph-notification-close-focus-border: var(--nph-status-on-solid);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
@@ -918,6 +980,9 @@
   --nph-color-accent-subtle: var(--nph-core-neutral-50);
   --nph-color-tooltip: var(--nph-core-neutral-600);
   --nph-color-tooltip-foreground: var(--nph-core-base-white);
+  --nph-color-background-subtle: var(--nph-core-surface-25);
+  --nph-color-inverse: var(--nph-core-neutral-600);
+  --nph-color-inverse-foreground: var(--nph-core-base-white);
   --nph-focus-ring-error: var(--nph-core-danger-200);
   --nph-overlay-scrim: var(--nph-core-scrim-light);
   --nph-scrollbar-track: var(--nph-core-surface-50);
@@ -1068,6 +1133,9 @@
   --nph-color-accent-subtle: var(--nph-core-surface-700);
   --nph-color-tooltip: var(--nph-core-neutral-700);
   --nph-color-tooltip-foreground: var(--nph-core-neutral-100);
+  --nph-color-background-subtle: var(--nph-core-surface-900);
+  --nph-color-inverse: var(--nph-core-neutral-700);
+  --nph-color-inverse-foreground: var(--nph-core-neutral-100);
   --nph-focus-ring-error: var(--nph-core-danger-400);
   --nph-overlay-scrim: var(--nph-core-scrim-dark);
   --nph-scrollbar-track: var(--nph-core-surface-800);
