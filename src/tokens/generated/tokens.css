@@ -46,6 +46,7 @@
   --nph-core-duration-300: 250ms;
   --nph-core-duration-400: 400ms;
   --nph-core-duration-loop: 800ms;
+  --nph-core-duration-loop-long: 1400ms;
   --nph-core-duration-delay: 300ms;
   --nph-core-easing-enter: cubic-bezier(0, 0, 0.2, 1);
   --nph-core-easing-exit: cubic-bezier(0.4, 0, 1, 1);
@@ -546,6 +547,8 @@
   --nph-motion-hover-easing: var(--nph-core-easing-standard);
   --nph-motion-loop-duration: var(--nph-core-duration-loop);
   --nph-motion-loop-easing: var(--nph-core-easing-linear);
+  --nph-motion-loop-long-duration: var(--nph-core-duration-loop-long);
+  --nph-motion-loop-long-easing: var(--nph-core-easing-linear);
   --nph-motion-state-duration: var(--nph-core-duration-200);
   --nph-motion-state-easing: var(--nph-core-easing-standard);
   --nph-overlay-on-media: var(--nph-core-alpha-black-40);
@@ -628,6 +631,11 @@
   --nph-notification-toast-width-max: var(--nph-core-layout-width-toast-max);
   --nph-notification-close-background-hover-opacity: var(--nph-core-opacity-16);
   --nph-notification-close-focus-border-width: var(--nph-core-focus-width-sm);
+  --nph-progress-stop-size: var(--nph-core-space-100);
+  --nph-progress-height-md: var(--nph-core-space-200);
+  --nph-progress-height-sm: var(--nph-core-space-100);
+  --nph-progress-radius: var(--nph-core-radius-full);
+  --nph-progress-segment-radius: var(--nph-core-radius-full);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-table-border-width: var(--nph-border-width);
@@ -728,6 +736,13 @@
   --nph-notification-actions-padding-top: var(--nph-space-stack-snug);
   --nph-notification-icon-size: var(--nph-icon-size-md);
   --nph-notification-stack-gap: var(--nph-space-stack-snug);
+  --nph-progress-track-gap: var(--nph-space-inline-tight);
+  --nph-progress-gap: var(--nph-space-stack-tight);
+  --nph-progress-label-gap: var(--nph-space-inline);
+  --nph-progress-icon-size: var(--nph-icon-size-sm);
+  --nph-progress-segment-gap: var(--nph-space-inline-tight);
+  --nph-progress-loop-duration: var(--nph-motion-loop-long-duration);
+  --nph-progress-loop-easing: var(--nph-motion-loop-long-easing);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -860,6 +875,18 @@
   --nph-notification-loading-surface: var(--nph-color-popover);
   --nph-notification-neutral-close-background-hover: var(--nph-color-inverse-foreground);
   --nph-notification-neutral-close-focus-border: var(--nph-color-inverse-foreground);
+  --nph-progress-track-background: var(--nph-color-muted);
+  --nph-progress-indicator-background-success: var(--nph-status-success);
+  --nph-progress-indicator-background-error: var(--nph-status-error);
+  --nph-progress-label-foreground: var(--nph-color-foreground);
+  --nph-progress-value-foreground: var(--nph-color-muted-foreground);
+  --nph-progress-help-foreground: var(--nph-color-muted-foreground);
+  --nph-progress-help-foreground-error: var(--nph-status-error);
+  --nph-progress-icon-success: var(--nph-status-success);
+  --nph-progress-icon-error: var(--nph-status-error);
+  --nph-progress-segment-background-pending: var(--nph-color-muted);
+  --nph-progress-segment-background-success: var(--nph-status-success);
+  --nph-progress-segment-background-error: var(--nph-status-error);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);
@@ -901,6 +928,9 @@
   --nph-notification-loading-border: var(--nph-color-dropdown-border);
   --nph-notification-close-background-hover: var(--nph-status-on-solid);
   --nph-notification-close-focus-border: var(--nph-status-on-solid);
+  --nph-progress-indicator-background: var(--nph-color-primary-border);
+  --nph-progress-stop-background: var(--nph-color-primary-border);
+  --nph-progress-segment-background: var(--nph-color-primary-border);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
