@@ -326,7 +326,13 @@ tokens_semantic:
     claro: core/neutral/200
     escuro: core/surface/400
     use: "Divider, card outline, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox."
-    nao_use: "Form field border."
+    nao_use: "Form field border. The border and divider of nph-popover and nph-hover-card, and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle."
+  color/border-subtle:
+    css: '--nph-color-border-subtle'
+    claro: core/neutral/50
+    escuro: core/alpha/white-10
+    use: "Soft border and divider of a floating layer: border and divider of nph-popover and nph-hover-card, and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative, the elevation/dropdown shadow separates the layer from the background."
+    nao_use: "Outline of nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel or the loading nph-notification (color/dropdown-border); nph-dialog (color/dialog-separator); card (color/border); field (color/input)."
   color/input:
     css: '--nph-color-input'
     claro: core/neutral/400
@@ -666,7 +672,7 @@ tokens_semantic:
     claro: core/danger/600
     escuro: core/danger/400
     use: "Solid color of the state: icon, dot, message bar. Error that has already happened: validation failed, request broke. Also the border of an invalid field — the field that failed validation. And the asterisk that marks a required field in nph-label: there it is a notice of requirement, not an error."
-    nao_use: "destructive action by the user"
+    nao_use: "destructive action by the user; error text over a neutral surface (status/error-text)"
   status/error-surface:
     css: '--nph-status-error-surface'
     claro: core/danger/50
@@ -682,6 +688,12 @@ tokens_semantic:
     claro: core/danger/800
     escuro: core/danger/100
     use: "Text inside the message. Always together with the other three roles of status/error."
+  status/error-text:
+    css: '--nph-status-error-text'
+    claro: core/danger/600
+    escuro: core/danger/300
+    use: "Validation error text over a neutral surface (color/popover, color/background, color/card): the error message of nph-field. Passes 4.5:1 over the popover in dark, where status/error does not."
+    nao_use: "Destructive action; text over status/error-surface (status/error-foreground); icon, dot or bar (status/error)."
   status/success:
     css: '--nph-status-success'
     claro: core/success/600
@@ -1065,9 +1077,9 @@ tokens_space:
     use: "Vertical space between the title and the description of a header, and the extra room before the actions of the nph-dialog. DO NOT USE between fields of a form - there it is space/stack."
   space/inline-loose:
     css: '--nph-space-inline-loose'
-    alias: core/space/400
-    valor: 16
-    use: "Space between the footer actions of the nph-dialog and of an alert, side by side or stacked. DO NOT USE inside a regular group of buttons - there it is space/inline."
+    alias: core/space/300
+    valor: 12
+    use: "Space between the actions of a footer, side by side or stacked: nph-dialog, alert and nph-popover. DO NOT USE inside a regular group of buttons - there it is space/inline."
   space/overlay-padding:
     css: '--nph-space-overlay-padding'
     alias: core/space/600
@@ -2405,7 +2417,7 @@ It is not an inversion. Three rules:
 2. **No pure black or white.** The background is `surface/900`, not `#000000`. Text is `neutral/100`, not white. Absolute black with white text causes halation.
 3. **The border lightens much more than symmetry suggests.** `color/border` in light is `neutral/200`; in dark it is **not** `neutral/700` (it would give 2,04:1 and fail) — it is `surface/400`.
 
-**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-dropdown-menu uses `color/dropdown-border` (an alias of `color/border`); there the border is decorative and `elevation/dropdown` separates the menu from the background.
+**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-dropdown-menu uses `color/dropdown-border` (an alias of `color/border`); there the border is decorative and `elevation/dropdown` separates the menu from the background. The nph-popover and the nph-hover-card use `color/border-subtle`, also decorative, with the shadow doing the separation.
 
 ---
 
