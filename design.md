@@ -308,13 +308,25 @@ tokens_semantic:
     claro: core/neutral/600
     escuro: core/surface/200
     use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it."
-    nao_use: "Text needed to complete the task."
+    nao_use: "Text needed to complete the task. The meta line of nph-hover-card (date, time or short phrase below the description): there it is color/subtle-foreground."
+  color/subtle-foreground:
+    css: '--nph-color-subtle-foreground'
+    claro: core/neutral/500
+    escuro: core/neutral/300
+    use: "Third level of text: metadata one step below color/muted-foreground, such as the meta line of nph-hover-card (date, time or short phrase) and its icon. 4.74:1 over color/popover in light, 5.55:1 in dark."
+    nao_use: "Placeholder, caption or helper text (color/muted-foreground); text needed to complete the task."
   color/destructive:
     css: '--nph-color-destructive'
     claro: core/danger/600
     escuro: core/danger/400
-    use: "Action that deletes, revokes or cannot be undone. Also the background of the solid nph-badge, which labels a state or category by its meaning."
-    nao_use: "Validation error."
+    use: "Solid background of the action that deletes, revokes or cannot be undone: delete button, cancel subscription, revoke access. Also the background of the solid nph-badge, which labels a state or category by its meaning."
+    nao_use: "Text over a neutral surface: there it is color/destructive-text. Validation error: there it is status/error, and for its text status/error-text."
+  color/destructive-text:
+    css: '--nph-color-destructive-text'
+    claro: core/danger/600
+    escuro: core/danger/300
+    use: "Text and icon of a destructive action over a neutral surface (color/popover, color/background, color/card): the destructive item of a menu. 4.69:1 over color/popover in dark."
+    nao_use: "Over color/destructive-surface (color/destructive-on-surface); over solid color/destructive (color/destructive-foreground); validation error text (status/error-text)."
   color/destructive-foreground:
     css: '--nph-color-destructive-foreground'
     claro: core/base/white
@@ -331,8 +343,8 @@ tokens_semantic:
     css: '--nph-color-border-subtle'
     claro: core/neutral/50
     escuro: core/alpha/white-10
-    use: "Soft border and divider of a floating layer: border and divider of nph-popover and nph-hover-card, and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative, the elevation/dropdown shadow separates the layer from the background."
-    nao_use: "Outline of nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel or the loading nph-notification (color/dropdown-border); nph-dialog (color/dialog-separator); card (color/border); field (color/input)."
+    use: "Soft border and divider of a floating layer: border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative, the shadow completes the separation from the background."
+    nao_use: "nph-dialog (color/dialog-separator); card (color/border); field (color/input)."
   color/input:
     css: '--nph-color-input'
     claro: core/neutral/400
@@ -340,15 +352,55 @@ tokens_semantic:
     use: "Field border: input, select, textarea, checkbox."
   color/dropdown-border:
     css: '--nph-color-dropdown-border'
-    claro: color/border
-    escuro: color/border
-    use: "Outline of the open nph-dropdown-menu. Softer than color/input, so the menu does not weigh on the screen; the elevation/dropdown shadow completes the separation from the background. Decorative: the items are read by their text. USE only on the nph-dropdown-menu outline."
-    nao_use: "Select, combobox, date-picker or toast: those floating layers stay in color/input."
+    claro: color/border-subtle
+    escuro: color/border-subtle
+    use: "Outline of a floating list and panel: nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading variant of nph-notification. Same outline as nph-popover; the elevation/dropdown shadow completes the separation from the background. Decorative: the items are read by their text."
+    nao_use: "Select, combobox or date-picker (color/input); the other variants of nph-notification (status/*-border; in neutral, color/border); the divider between groups (dropdown/separator, color/border-subtle)."
   dropdown/item-hover-icon-foreground:
     css: '--nph-dropdown-item-hover-icon-foreground'
     claro: color/primary
     escuro: color/primary
-    use: "Start icon and submenu arrow of the nph-dropdown-menu item, type default, in hover; both turn solid. 4,78:1 in light and 6,26:1 in dark on color/primary-surface. USE only on those icons in that state. DO NOT USE on the label, which stays in color/popover-foreground, nor on the destructive item, which stays in color/destructive-on-surface."
+    use: "Start icon and submenu arrow of the nph-dropdown-menu item, type default, in hover; both turn solid. 4,78:1 in light and 6,26:1 in dark on color/primary-surface. USE only on those icons in that state. DO NOT USE on the label, which stays in color/popover-foreground, nor on the destructive item, which uses dropdown/item-destructive-foreground and, in hover, dropdown/item-destructive-hover-foreground."
+  dropdown/separator:
+    css: '--nph-dropdown-separator'
+    claro: color/border-subtle
+    escuro: color/border-subtle
+    use: "Line of the divider between groups of nph-dropdown-menu and nph-context-menu. Decorative."
+  dropdown/panel-radius:
+    css: '--nph-dropdown-panel-radius'
+    alias: core/radius/500
+    valor: 12
+    use: "Radius of the panel of nph-dropdown-menu and nph-context-menu, submenu included. Straight to core by decision: radius/container, the container with a medium corner, is 8 and leaves the menus out; no semantic token is 12."
+  dropdown/item-radius:
+    css: '--nph-dropdown-item-radius'
+    alias: core/radius/400
+    valor: 8
+    use: "Radius of the item of nph-dropdown-menu and nph-context-menu. Straight to core by decision: radius/inner, the nested-piece role, is 4; radius/container, the container with a medium corner, is 8 and leaves the menus out; the other tokens of 8 belong to other pieces (focus halo, avatar, image)."
+  dropdown/item-focus-border-radius:
+    css: '--nph-dropdown-item-focus-border-radius'
+    alias: core/radius/off-scale/9
+    valor: 9
+    use: "Radius of the 1 px focus border around the menu item (item 8, border 9). Straight to core by decision: the semantic tokens of 9 belong to the focus of pieces with radius/container or radius/inner."
+  dropdown/item-focus-halo-radius:
+    css: '--nph-dropdown-item-focus-halo-radius'
+    alias: core/radius/off-scale/13
+    valor: 13
+    use: "Radius of the focus halo around the focus border of the menu item. Straight to core by decision: the semantic tokens of 13 belong to the halo of a piece with radius/container and to the focus border of the nph-sidebar item."
+  dropdown/item-destructive-foreground:
+    css: '--nph-dropdown-item-destructive-foreground'
+    claro: color/destructive-text
+    escuro: color/destructive-text
+    use: "Label, shortcut and icon of the destructive menu item without background: rest, focus and disabled."
+  dropdown/item-destructive-hover-foreground:
+    css: '--nph-dropdown-item-destructive-hover-foreground'
+    claro: color/destructive-on-surface
+    escuro: color/destructive-on-surface
+    use: "Label, shortcut and icon of the destructive menu item in hover, over dropdown/item-destructive-hover-background."
+  dropdown/item-destructive-hover-background:
+    css: '--nph-dropdown-item-destructive-hover-background'
+    claro: color/destructive-surface
+    escuro: color/destructive-surface
+    use: "Background of the destructive menu item in hover."
   color/card:
     css: '--nph-color-card'
     claro: core/base/white
@@ -1231,7 +1283,7 @@ tokens_radius:
     css: '--nph-radius-inner'
     alias: core/radius/200
     valor: 4
-    use: "USE on an element nested inside a control or container: checkbox, icon with background, item inside a popover, thumbnail. The inner radius is always smaller than the outer. It is also the radius of the help balloon (nph-tooltip)."
+    use: "USE on an element nested inside a control or container (checkbox, icon with background, thumbnail) and on nph-tooltip. Nested, the inner radius is always smaller than the outer. DO NOT USE on the item of nph-dropdown-menu or nph-context-menu: there it is dropdown/item-radius."
   radius/control:
     css: '--nph-radius-control'
     alias: core/radius/300
@@ -1246,17 +1298,17 @@ tokens_radius:
     css: '--nph-radius-container'
     alias: core/radius/400
     valor: 8
-    use: "USE on popover and dropdown menu - the floating layer attached to a trigger. The tooltip uses radius/inner. DO NOT USE on a card or panel: those are radius/surface. DO NOT USE on a control."
+    use: "USE on a container with a medium corner: table, pagination, floating toolbar, the nph-navigation-menu panel and notification (except the toast, which is radius/overlay). DO NOT USE on nph-popover, nph-hover-card, nph-dropdown-menu or nph-context-menu: those have their own radius. DO NOT USE on a card or content panel: those are radius/surface. DO NOT USE on a control."
   radius/overlay:
     css: '--nph-radius-overlay'
     alias: core/radius/450
     valor: 10
-    use: "USE on a large floating layer: dialog, modal, side panel. It is the BASE of the reference kit scale (--radius = 10), from which control and container derive. Popover does NOT go here - it is radius/container; tooltip is radius/inner."
+    use: "USE on a large floating layer: dialog, modal, side panel, and the floating notice (toast) of nph-notification. It is the BASE of the reference kit scale (--radius = 10). DO NOT USE on tooltip (radius/inner) nor on popover, hover card or menu, which have their own radius."
   radius/surface:
     css: '--nph-radius-surface'
     alias: core/radius/600
     valor: 14
-    use: "USE on card, panel and sheet - the surface that carries content and does NOT float. Equivalent to the kit rounded-xl. DO NOT USE on a floating layer."
+    use: "USE on card, panel and sheet - the surface that carries content. Equivalent to the kit rounded-xl. DO NOT USE on a floating layer: dialog and modal are radius/overlay, the tooltip uses radius/inner, and popover, hover card and menu have their own radius."
   radius/full:
     css: '--nph-radius-full'
     alias: core/radius/full
@@ -1568,7 +1620,7 @@ tokens_alpha:
     css: '--nph-focus-border-radius-inner'
     alias: core/radius/off-scale/5
     valor: 5
-    use: "Radius of the 1 px focus border around a piece with radius/inner, such as the nph-dropdown-menu item."
+    use: "Radius of the 1 px focus border around a piece with radius/inner."
   focus/radius-inner-with-border:
     css: '--nph-focus-radius-inner-with-border'
     alias: core/radius/off-scale/9
@@ -1804,6 +1856,7 @@ tokens_motion:
     alias: core/duration/delay
     valor: 300
     use: "How long the pointer rests on an element before a help layer, such as the tooltip, opens. Keyboard focus does not wait. A single token: it has no curve, because nothing moves during the wait."
+    nao_use: "The preview of nph-hover-card, which waits longer before it opens (hover-card/open-delay, core/duration/delay-long, 600 ms)."
 
   motion/hover-duration:
     css: '--nph-motion-hover-duration'
@@ -2272,7 +2325,7 @@ The curve says what the piece is. The question is not how much to round.
 | The piece… | Token |
 |---|---|
 | is **operated** | `radius/control` (6) — system default |
-| **contains** and floats attached to a trigger | `radius/container` (8); the tooltip is `radius/inner` (4) |
+| **contains** with a medium corner (table, pagination, floating toolbar, nph-navigation-menu panel, notification) | `radius/container` (8); the tooltip is `radius/inner` (4); popover, hover card and menus have their own radius (`popover/radius`, `hover-card/radius`, `dropdown/panel-radius`) |
 | **floats large** | `radius/overlay` (10) |
 | **carries content** without floating | `radius/surface` (14) |
 | is a **marker** | `radius/subtle` (2) or `radius/full` |
@@ -2282,7 +2335,7 @@ The curve says what the piece is. The question is not how much to round.
 | Question | Rule |
 |---|---|
 | `control` × `container` | A button inside a card: the button is `control`, the card is `container`. |
-| `container` × `overlay` | Popover is `container`; tooltip is `inner`. Dialog, modal and side panel are `overlay`. |
+| `container` × `overlay` | A table or pagination is `container`; popover, hover card and menus have their own radius; tooltip is `inner`. Dialog, modal and side panel are `overlay`. |
 | `subtle` × `inner` | `subtle` is a marker that contains nothing. `inner` is a nested element with content. |
 | `full` × `control` | `full` only on a small piece whose shape communicates a marker. Button and field are never a pill. |
 
@@ -2417,7 +2470,7 @@ It is not an inversion. Three rules:
 2. **No pure black or white.** The background is `surface/900`, not `#000000`. Text is `neutral/100`, not white. Absolute black with white text causes halation.
 3. **The border lightens much more than symmetry suggests.** `color/border` in light is `neutral/200`; in dark it is **not** `neutral/700` (it would give 2,04:1 and fail) — it is `surface/400`.
 
-**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-dropdown-menu uses `color/dropdown-border` (an alias of `color/border`); there the border is decorative and `elevation/dropdown` separates the menu from the background. The nph-popover and the nph-hover-card use `color/border-subtle`, also decorative, with the shadow doing the separation.
+**Known limitation:** `color/border` on `color/popover` gives 2,81:1 in dark. On a floating layer, use `color/input` as the border, or let elevation do the separating. Exception: the nph-popover, the nph-hover-card and, through `color/dropdown-border`, the nph-dropdown-menu, the nph-context-menu, the nph-navigation-menu panel and the loading nph-notification use `color/border-subtle`; there the border is decorative and the `elevation/dropdown` shadow separates the layer from the background.
 
 ---
 
