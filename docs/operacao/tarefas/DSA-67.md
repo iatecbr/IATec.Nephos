@@ -79,6 +79,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - **nph-dialog**: `space/inline-loose` now resolves to 12, so the footer actions move from 16 to 12 apart with no code change. Its tests read the token and need no new value.
 - **nph-checkbox demo**: the indent that uses `--nph-space-inline-loose` moves from 16 to 12. If the demo should keep 16, it needs a token of its own; check it.
 - **nph-label**: the required asterisk keeps `--nph-status-error`, as `design.md` says (a notice of requirement, not an error). Over the popover in dark it gives 3.37:1; this task does not change it.
+- **nph-dropdown-menu**: `design.md` now names `color/border-subtle` for the divider between groups of a menu, as Figma does. The code still draws it with the nph-separator line (`color/border`); this task does not change it. The move belongs to a round of nph-dropdown-menu itself.
 - **nph-pagination** and **nph-navigation-menu**: `pagination/group-gap` and `navigation-menu/panel-offset` now point straight to core with the same values (16 and 4); nothing changes on screen.
 
 ## Why it is ready
