@@ -49,6 +49,7 @@
   --nph-core-duration-loop: 800ms;
   --nph-core-duration-loop-long: 1400ms;
   --nph-core-duration-delay: 300ms;
+  --nph-core-duration-delay-long: 600ms;
   --nph-core-easing-enter: cubic-bezier(0, 0, 0.2, 1);
   --nph-core-easing-exit: cubic-bezier(0.4, 0, 1, 1);
   --nph-core-easing-linear: cubic-bezier(0, 0, 1, 1);
@@ -667,6 +668,14 @@
   --nph-popover-arrow-width: var(--nph-core-space-400);
   --nph-popover-arrow-height: var(--nph-core-space-200);
   --nph-popover-arrow-inset: var(--nph-core-space-400);
+  --nph-hover-card-radius: var(--nph-core-radius-600);
+  --nph-hover-card-width: var(--nph-core-layout-width-popover-md);
+  --nph-hover-card-offset: var(--nph-core-space-100);
+  --nph-hover-card-arrow-width: var(--nph-core-space-400);
+  --nph-hover-card-arrow-height: var(--nph-core-space-200);
+  --nph-hover-card-arrow-inset: var(--nph-core-space-400);
+  --nph-hover-card-open-delay: var(--nph-core-duration-delay-long);
+  --nph-hover-card-close-delay: var(--nph-core-duration-delay);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-table-border-width: var(--nph-border-width);
@@ -782,6 +791,13 @@
   --nph-popover-footer-padding: var(--nph-space-container-padding);
   --nph-popover-title-gap: var(--nph-space-inline);
   --nph-popover-footer-gap: var(--nph-space-inline-loose);
+  --nph-hover-card-border-width: var(--nph-border-width);
+  --nph-hover-card-padding: var(--nph-space-container-padding);
+  --nph-hover-card-gap: var(--nph-space-stack-snug);
+  --nph-hover-card-meta-gap: var(--nph-space-inline-tight);
+  --nph-hover-card-icon-size: var(--nph-icon-size-sm);
+  --nph-hover-card-enter-duration: var(--nph-motion-enter-duration);
+  --nph-hover-card-exit-duration: var(--nph-motion-exit-duration);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -939,6 +955,12 @@
   --nph-popover-description: var(--nph-color-muted-foreground);
   --nph-popover-border: var(--nph-color-border-subtle);
   --nph-popover-divider: var(--nph-color-border-subtle);
+  --nph-hover-card-background: var(--nph-color-popover);
+  --nph-hover-card-foreground: var(--nph-color-popover-foreground);
+  --nph-hover-card-description-foreground: var(--nph-color-muted-foreground);
+  --nph-hover-card-meta-foreground: var(--nph-color-subtle-foreground);
+  --nph-hover-card-meta-icon-foreground: var(--nph-color-subtle-foreground);
+  --nph-hover-card-border: var(--nph-color-border-subtle);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);
@@ -983,6 +1005,8 @@
   --nph-progress-indicator-background: var(--nph-color-primary-border);
   --nph-progress-stop-background: var(--nph-color-primary-border);
   --nph-progress-segment-background: var(--nph-color-primary-border);
+  --nph-hover-card-focus-border: var(--nph-focus-border);
+  --nph-hover-card-focus-halo: var(--nph-focus-halo);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
@@ -1047,6 +1071,7 @@
   --nph-color-foreground: var(--nph-core-base-black);
   --nph-color-input: var(--nph-core-neutral-400);
   --nph-color-muted-foreground: var(--nph-core-neutral-600);
+  --nph-color-subtle-foreground: var(--nph-core-neutral-500);
   --nph-color-muted: var(--nph-core-surface-50);
   --nph-color-popover-foreground: var(--nph-core-neutral-950);
   --nph-color-popover: var(--nph-core-base-white);
@@ -1209,6 +1234,7 @@
   --nph-color-foreground: var(--nph-core-neutral-100);
   --nph-color-input: var(--nph-core-surface-300);
   --nph-color-muted-foreground: var(--nph-core-surface-200);
+  --nph-color-subtle-foreground: var(--nph-core-neutral-300);
   --nph-color-muted: var(--nph-core-surface-700);
   --nph-color-popover-foreground: var(--nph-core-neutral-100);
   --nph-color-popover: var(--nph-core-surface-700);
