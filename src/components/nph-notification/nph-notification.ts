@@ -228,6 +228,16 @@ export class NphNotification extends LitElement {
     this.coarse = false;
   }
 
+  /* `hidden` is the native attribute and keeps its native behavior; the timer only needs to know when it changes. */
+  static override get observedAttributes(): string[] {
+    return [...super.observedAttributes, 'hidden'];
+  }
+
+  override attributeChangedCallback(name: string, previous: string | null, next: string | null): void {
+    super.attributeChangedCallback(name, previous, next);
+    if (name === 'hidden' && this.hasUpdated) this.syncTimer();
+  }
+
   override connectedCallback(): void {
     super.connectedCallback();
     this.addEventListener('pointerenter', this.onPointerEnter);
@@ -509,6 +519,13 @@ export class NphNotification extends LitElement {
     if (this.renderRoot.querySelector('.container') !== this.observed) this.observeSize();
     this.syncReflow();
     this.syncTimer();
+    /* The buttons finish their own update after this one: measure again with their final width. */
+    const inner = [...this.renderRoot.querySelectorAll<LitElement>('nph-button')];
+    if (inner.length > 0) {
+      void Promise.all(inner.map((element) => element.updateComplete)).then(() => {
+        if (this.isConnected) this.syncReflow();
+      });
+    }
   }
 
   /** Arms, pauses or stops the timer after each update. */

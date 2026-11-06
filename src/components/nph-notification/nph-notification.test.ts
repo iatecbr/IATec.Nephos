@@ -463,6 +463,19 @@ describe('layout', () => {
     expect(note.hasAttribute('data-nph-reflowed')).toBe(true);
   });
 
+  it('a shorter action text on a reflowed notification goes back to one line, with no resize', async () => {
+    const { note } = await mount({
+      attributes: { layout: 'single-line', heading: 'Saved', description: 'Order sent to the warehouse.', action: 'Review the whole order and its history now' },
+      parentStyle: 'inline-size: 480px;',
+    });
+    expect(note.hasAttribute('data-nph-reflowed')).toBe(true);
+    note.action = 'Review';
+    await note.updateComplete;
+    await Promise.all(buttons(note).map((button) => button.updateComplete));
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(note.hasAttribute('data-nph-reflowed')).toBe(false);
+  });
+
   it('stacked never reflows', async () => {
     const { note } = await mount({ attributes: { description: `${DESCRIPTION} ${DESCRIPTION}` }, parentStyle: 'inline-size: 300px;' });
     expect(note.hasAttribute('data-nph-reflowed')).toBe(false);
@@ -927,6 +940,32 @@ describe('the time a toast stays', () => {
     await vi.advanceTimersByTimeAsync(60000);
     expect(seen).toEqual([]);
     expect(parent.isConnected).toBe(true);
+  });
+
+  it('a toast that starts hidden and is shown with hidden = false closes by itself', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
+    const { parent, note } = await mount({ attributes: { placement: 'toast', hidden: true } });
+    const seen: string[] = [];
+    parent.addEventListener('nph-close', () => seen.push('close'));
+    await advance(note, 60000);
+    expect(seen).toEqual([]);
+    note.hidden = false;
+    await advance(note, 5999);
+    expect(seen).toEqual([]);
+    await advance(note, 1);
+    expect(seen).toEqual(['close']);
+    expect(note.hidden).toBe(true);
+  });
+
+  it('hiding a toast whose timer is armed stops it: no nph-close while it is invisible', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
+    const { parent, note } = await mount({ attributes: { placement: 'toast' } });
+    const seen: string[] = [];
+    parent.addEventListener('nph-close', () => seen.push('close'));
+    await advance(note, 3000);
+    note.hidden = true;
+    await advance(note, 60000);
+    expect(seen).toEqual([]);
   });
 
   it('moving the notification in the page starts the timer again', async () => {
