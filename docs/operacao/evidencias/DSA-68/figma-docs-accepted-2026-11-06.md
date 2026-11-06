@@ -13,7 +13,7 @@
     "date": "2026-11-06",
     "author": "indiane",
     "excerpt": null,
-    "converted_decision": "Indiane accepted the nph-hover-card documentation frame (4422:2418, page 4128:31754), with the Figma UX QA and the textual audit approved, and approved the 10 points of the approval page: documentation acceptance; radius 14 straight on core, as the popover; offset 4 from the link to the card, with and without the arrow, straight on core; the arrow tokens of the popover (16 x 8, inset 16), with no arrow-offset token; width 320 on core/layout-width/popover-md; color/subtle-foreground as a new semantic token for the meta line; 8 between title, description and meta on space/stack-snug; open after 600 ms (new core/duration/delay-long) and close after 300 ms; relative time up to 30 days, then the date; the clock icon for the updated phrase. A finished component enters the first version. COMPONENT_SET nph-hover-card (4406:1105), opening x arrow x side, 10 variants."
+    "converted_decision": "Indiane accepted the nph-hover-card documentation frame (4422:2418, page 4128:31754), with the Figma UX QA and the textual audit approved, and approved the 10 points of the approval page: documentation acceptance; radius 14 straight on core, as the popover; offset 4 from the link to the card, with and without the arrow, straight on core; the arrow tokens of the popover (16 x 8, inset 16), with no arrow-offset token; width 320 on core/layout-width/popover-md; color/subtle-foreground as a new semantic token for the meta line; 8 between title, description and meta on space/stack-snug; open after 600 ms (new core/duration/delay-long) and close after 300 ms; relative time up to 30 days, then the date; the clock icon for the updated phrase. The same page said that the appendix points with no pending mark (1, 2, 5, 7 to 12 and 15) follow the appendix recommendation, and she approved the whole page. A finished component enters the first version. COMPONENT_SET nph-hover-card (4406:1105), opening x arrow x side, 10 variants."
   }
 }
 ```
@@ -33,7 +33,7 @@ The rest of this file is the contract converted to text, so that whoever codes d
 
 ## Purpose
 
-A read-only preview anchored to a link. It opens when the pointer rests on the link or when the link takes keyboard focus, and it sums up the destination with a title, a description and a meta line, without taking the person away from the page. It varies by opening, arrow and side.
+A read-only preview anchored to a link. It opens when the pointer rests on the link or when the link takes keyboard focus, and it sums up the destination with a title, a description and a meta line, without taking the person away from the page. It varies by opening, arrow and side. Trigger text, title, description, meta, show meta and meta icon are content properties.
 
 Use it next to a link that leads to a profile, a page or an item: the card shows the essentials before the click. Everything the card shows also exists at the destination. It does not replace nph-tooltip (short text about an element), nph-popover (opens on click and accepts actions) nor a modal dialog.
 
@@ -99,7 +99,7 @@ Not properties:
 
 ## Behavior
 
-- The pointer resting on the link opens the card after 600 ms (`hover-card/open-delay`); the card closes 300 ms after the pointer leaves the link and the card (`hover-card/close-delay`). Keyboard focus opens it with no wait.
+- The pointer resting on the link opens the card after 600 ms (`hover-card/open-delay`); the card closes 300 ms after the pointer leaves the link and the card (`hover-card/close-delay`); the pointer can move onto the card without closing it (WCAG 1.4.13). Keyboard focus opens it with no wait.
 - Esc closes the card. The card takes no focus and has no interactive content.
 - On touch there is no hover: tapping the link follows it to the destination.
 - The preview can be turned off, and everything the card shows also exists at the destination.
@@ -154,6 +154,9 @@ Three use cases, in light and dark:
 - Do not write a long description — one or two short sentences; the detail stays at the destination.
 
 ## Appendix points answered
+
+Points 3, 4, 6, 13, 14, 16, 17 and 18 were items of the approval page. The other points carried a recommendation in the appendix, and the approval page said they follow it; Indiane approved the whole page.
+
 
 1. Accessible alternative for touch and keyboard: focus opens the card; on touch, the link goes to the destination; everything in the card exists at the destination; Esc closes; the preview can be turned off.
 2. Actions inside the card: no, read only; actions belong to nph-popover.
