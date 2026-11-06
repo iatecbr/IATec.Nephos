@@ -500,6 +500,10 @@
   --nph-control-height-compact: var(--nph-core-control-height-compact);
   --nph-control-height-default: var(--nph-core-control-height-default);
   --nph-control-height-large: var(--nph-core-control-height-large);
+  --nph-dropdown-panel-radius: var(--nph-core-radius-500);
+  --nph-dropdown-item-radius: var(--nph-core-radius-400);
+  --nph-dropdown-item-focus-border-radius: var(--nph-core-radius-off-scale-9);
+  --nph-dropdown-item-focus-halo-radius: var(--nph-core-radius-off-scale-13);
   --nph-focus-border-radius-control: var(--nph-core-radius-off-scale-7);
   --nph-focus-radius-control: var(--nph-core-radius-450);
   --nph-focus-radius-control-with-border: var(--nph-core-radius-off-scale-11);
@@ -813,7 +817,11 @@
   --nph-elevation-raised: 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-100) var(--nph-core-shadow-spread-100) var(--nph-shadow-color), 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-200) var(--nph-core-shadow-spread-0) var(--nph-shadow-color);
   --nph-elevation-spotlight: 0px var(--nph-core-shadow-y-600) var(--nph-core-shadow-blur-700) var(--nph-core-shadow-spread-700) var(--nph-shadow-color-strong);
   --nph-elevation-subtle: 0px var(--nph-core-shadow-y-100) var(--nph-core-shadow-blur-100) var(--nph-core-shadow-spread-0) var(--nph-shadow-color-light);
-  --nph-color-dropdown-border: var(--nph-color-border);
+  --nph-color-dropdown-border: var(--nph-color-border-subtle);
+  --nph-dropdown-separator: var(--nph-color-border-subtle);
+  --nph-dropdown-item-destructive-foreground: var(--nph-color-destructive-text);
+  --nph-dropdown-item-destructive-hover-foreground: var(--nph-color-destructive-on-surface);
+  --nph-dropdown-item-destructive-hover-background: var(--nph-color-destructive-surface);
   --nph-focus-ring-default: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring);
   --nph-focus-ring-invalid: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-focus-ring-error);
   --nph-focus-ring-sidebar: 0px 0px 0px var(--nph-focus-ring-width) var(--nph-sidebar-ring);
@@ -1064,6 +1072,7 @@
   --nph-color-card-foreground: var(--nph-core-neutral-950);
   --nph-color-card: var(--nph-core-base-white);
   --nph-color-destructive: var(--nph-core-danger-600);
+  --nph-color-destructive-text: var(--nph-core-danger-600);
   --nph-color-destructive-foreground: var(--nph-core-base-white);
   --nph-color-dialog-foreground: var(--nph-core-neutral-950);
   --nph-color-dialog: var(--nph-core-base-white);
@@ -1225,6 +1234,7 @@
   --nph-color-card-foreground: var(--nph-core-neutral-100);
   --nph-color-card: var(--nph-core-surface-800);
   --nph-color-destructive: var(--nph-core-danger-400);
+  --nph-color-destructive-text: var(--nph-core-danger-300);
   --nph-color-destructive-foreground: var(--nph-core-neutral-950);
   --nph-color-dialog-foreground: var(--nph-core-neutral-100);
   --nph-color-dialog: var(--nph-core-surface-600);
