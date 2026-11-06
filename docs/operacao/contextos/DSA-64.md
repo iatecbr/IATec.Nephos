@@ -19,20 +19,22 @@ component tokens; remove the secondary light emphasis; move the secondary light 
 - `fichas/nph-button.md`, `fichas/nph-table.md`
 
 ## Changes
-None yet.
+- `nph-button`: secondary solid and outline on the ten component tokens; no secondary light; `secondary light` is invalid input.
+- `nph-table`: three secondary light compact buttons became secondary solid compact.
+- `nph-dialog`: redefines the four new solid secondary tokens with `color/secondary-on-dialog` (P87); D-1 for Indiane.
+- Sheets of the button, table and dialog, Storybook dictionary, `docs/decisoes-tecnicas.md`, generated metadata.
 
 ## Commands run
-- `git fetch origin` and `git merge --ff-only origin/v/5.0.0`
+- Every proof of the pull request, in sequence, on the head before the review round.
 
 ## Result
-The task is in progress on the branch `feat/dsa-64-secondary-buttons`.
+Pull request 148 is open against `v/5.0.0`, with the Copilot review requested. The task is in review.
 
 ## Evidence
-None yet. `review-and-merge` waits for the pull request.
+None yet. `review-and-merge` waits for the merge.
 
 ## Blocker
-None for the code. `nph-dialog` redefines `color/secondary` for the solid secondary button; the new token no longer
-follows that redefinition. Under check, then a question to the orchestrator.
+None. D-1 (the dialog overlay) does not block the pull request.
 
 ## Next command
-`npm test`
+`gh pr view 148`

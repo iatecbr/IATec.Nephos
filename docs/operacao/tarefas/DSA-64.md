@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 630,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-button",
   "dependencies": [],
   "gates": [
@@ -53,9 +53,9 @@
     "excerpt": null,
     "converted_decision": "The nph-button documentation frame (4178:15028, page 312:98) and the nph-icon-button documentation frame (4178:24324, page 2109:51809) were accepted as the specification of nph-button. They replace the boards 1197:5449 and 2122:1591. Component sets: nph-button (461:13009), 225 variants, and nph-icon-button (498:15671), 450 variants, with no secondary light. Converted to text in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-64-secondary-buttons", "commit": "2200b36", "pr": 148 },
   "context": null,
-  "updated_at": "2026-11-04"
+  "updated_at": "2026-11-06"
 }
 ```
 
