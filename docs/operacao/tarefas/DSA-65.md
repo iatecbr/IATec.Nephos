@@ -37,6 +37,12 @@
       "question": "The evidence names the step counts 3, 4 and 5 only as the Figma samples of the property `etapas`, and says the steps type splits the bar into a few fixed steps. The code accepts only those three counts and draws nothing for another one, with a console.error in development. Another count, such as 2 or 6, needs her answer. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-06"
+    },
+    {
+      "id": "D-2",
+      "question": "`design.md` still says the indeterminate bar has no value and was deferred (open point 3n, `tokens_motion`), and does not list `motion/loop-long-duration` and `motion/loop-long-easing`. The tokens and the accepted evidence give 1400 ms linear. This pull request does not edit `design.md`, by the instruction of the task; the file needs a change of its own, with the 1400 ms loop and the two roles. It does not block the pull request.",
+      "decider": "elvys",
+      "opened_at": "2026-11-06"
     }
   ],
   "evidence": [

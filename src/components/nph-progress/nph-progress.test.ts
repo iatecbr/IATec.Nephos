@@ -107,6 +107,19 @@ describe('registration and API', () => {
     expect(progress.value).toBe(40);
   });
 
+  it('the hidden attribute hides a valid bar, and removing it shows the bar again', async () => {
+    const progress = await mount({ value: 50, label: 'Upload' });
+    expect(progress.getBoundingClientRect().height).toBeGreaterThan(0);
+    progress.hidden = true;
+    await progress.updateComplete;
+    expect(getComputedStyle(progress).display).toBe('none');
+    expect(progress.getBoundingClientRect().height).toBe(0);
+    progress.hidden = false;
+    await progress.updateComplete;
+    expect(getComputedStyle(progress).display).toBe('block');
+    expect(progress.getBoundingClientRect().height).toBeGreaterThan(0);
+  });
+
   it('has no slot, no part and no event of its own', async () => {
     const progress = await mount({ label: 'File upload' });
     expect(progress.shadowRoot?.querySelector('slot')).toBeNull();

@@ -20,7 +20,8 @@
   display: none;
 }
 
-:host([data-nph-rendered]) {
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid bar. */
+:host([data-nph-rendered]:not([hidden])) {
   display: block;
   inline-size: 100%;
   min-inline-size: 3rem;
