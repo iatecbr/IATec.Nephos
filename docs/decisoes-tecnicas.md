@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106 and P107. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107 and P108. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -66,6 +66,7 @@ P62.4 subsection for the detail).
 | **P102** | Vitest 5 for the browser tests (amends item 5 of P21) | 29/10/2026 | Low. Only the test runner and the Storybook packages that require it move; going back is a lockfile change and one test line | Decided by Elvys on 29/10/2026. Reviewed in the pull request that brings it |
 | **P106** | Up to two reruns of a browser test shard after a network change on the Azure host | 29/10/2026 | Low. Only the Azure step changes; removing the reruns is a pipeline change, and a real failure still fails on the first run | Decided by Elvys on 29/10/2026 (one rerun) and 30/10/2026 (up to two). Reviewed in the pull request that brings it |
 | **P107** | API and semantics of `nph-progress` | 06/11/2026 | Low. No piece consumes the bar yet; `nph-notification` (DSA-63) may embed it later, and changing the `type`, `status`, `value`, `steps` and `step` properties or the invalid-input rule then requires redoing both | Anatomy and behavior: documentation accepted by Indiane on 05/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
+| **P108** | API and semantics of `nph-notification` | 06/11/2026 | Low now. No piece consumes it yet; the toast region of the consuming application will, and `nph-alert-dialog` does not, so changing `placement`, `severity`, `emphasis`, `layout`, `duration`, the events `nph-action` and `nph-close` or the invalid-input rule later requires redoing the region. The ghost action and the close on solid point public tokens of `nph-button`, a step beyond the component-token precedent of `nph-dialog` and `nph-toolbar` | Anatomy and behavior: documentation accepted by Indiane on 04/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -5843,9 +5844,136 @@ API and semantics are reviewed in the pull request that brings them; the merge i
 
 ---
 
+## P108 — `nph-notification`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `3442:10163`, set `3434:9035`, page
+`1369:2`, close focus on solid `4207:1146`) gives one set with the Figma properties `placement`,
+`severity`, `emphasis`, `layout`, `título`, `ações`, `ação secundária`, `fechar` and
+`barra de tempo`, and leaves the code API to the code. Six points need a decision of their own:
+
+- the booleans are texts and parts the consumer supplies, not states: the code has to say how the
+  title, the actions, the close button and the time bar come in, and how the person's answer comes
+  out;
+- `nph-button` has no color property and no `::part` (P68), yet the contract asks for a ghost
+  secondary action in the color of each severity, and a close button on solid with its own hover
+  and a focus border without the halo;
+- the toast that closes by itself has a time rule (WCAG 2.2.1), pause rules and exceptions
+  (error, loading, an action), and the evidence does not say who runs the timer or who removes the
+  element;
+- single-line must reflow to stacked "once the text goes beyond one line", which the CSS alone
+  cannot know;
+- the evidence describes the announcement only for the toast, and the piece has an inline
+  placement too;
+- the toast region is described as a stack at the corner of the screen with its own gap, but it is
+  not a piece of the set, and the minimum width of 320 px has no token.
+
+**Decision.** `nph-notification` is a Web Component with **open Shadow DOM** (P01), CSS in its own
+file imported `?inline`. It has no slot, no `::part`, no color property and no form association.
+Anatomy only through semantic tokens, the `notification/*` ones. Invalid input renders nothing and
+emits `console.error` only in development, one per cause while it lasts — the rule of P21 and
+P66. The names follow P64.
+
+1. **Properties.** `placement` (`inline`, the default, or `toast`), `severity` (`info`, the
+   default, `success`, `warning`, `error`, `help`, `neutral` or `loading`), `emphasis` (`subtle`,
+   the default, or `solid`) and `layout` (`stacked`, the default, or `single-line`), all four
+   reflected because the internal CSS selects by them. `heading` is the Figma `título`, optional,
+   and `description` is required; both are already localized by the consumer, and the piece writes
+   no word of its own. The name is `heading`, not `title`, the global HTML attribute that the
+   browser would show as a native tooltip. `action` and `secondary-action` are the text of the
+   Figma `ações` and `ação secundária`; `hide-close` is the Figma `fechar` turned around, so that
+   the default is the close button on; `close-label` is the accessible name of the close button,
+   required while it is shown, as in `nph-dialog` (P87). `duration`, a number of milliseconds,
+   6000 by default. `time-bar` is the Figma `barra de tempo`.
+
+2. **Invalid input.** A value outside a list; an empty `description`; `loading` outside the subtle
+   toast; a `duration` that is not 0 and is below 6000, negative or not a number; `secondary-action`
+   without `action` where it would be drawn (not on single-line); `time-bar` outside a subtle toast, on error, on loading, with an action that is drawn or with
+   `duration` 0; a visible close button with no `close-label`. What the Figma set says "has no
+   effect" is not invalid, it is not drawn: the actions on solid and on loading, the secondary
+   action on single-line and the close button on loading; and a valid `duration` on inline, on
+   error, on loading or with an action is ignored.
+
+3. **Events and who removes.** `nph-action` carries `detail.action`, `primary` or `secondary`, and
+   `nph-close` carries `detail.source`, `close-button` or `timeout`, the vocabulary of
+   `nph-dialog`. Both bubble and cross the shadow root; `nph-close` is cancelable. Without
+   `preventDefault()` the notification hides itself with `hidden`; the consumer removes the element.
+   The piece never removes itself and does not close after an action.
+
+4. **Time.** A toast that closes by itself stays `duration` milliseconds, 6000 by default; 0 keeps
+   it; below 6000 is invalid (WCAG 2.2.1). The piece runs the timer: it pauses while the pointer is
+   over the toast and while focus is inside it, and goes on with what was left. Error, loading and a
+   toast with an action never close by themselves, whatever `duration` says. When the consumer
+   cancels `nph-close` after a timeout, the toast stays and the time does not restart.
+
+5. **Announcement.** The host is `role="alert"` on error and warning and `role="status"` on the
+   others, and never takes or moves focus. The evidence specifies this for the toast; applying the
+   same rule to inline is an extension of this piece. The severity icon is decorative. The close
+   button is an icon-only `nph-button`, named by `close-label`, with the tooltip of that piece.
+
+6. **Reflow.** A single-line notification measures its text on a hidden twin that does not wrap,
+   and takes the stacked layout while everything does not fit on one line, with the action below
+   the text. The width of a toast stays the one of the layout it declared. The mark is internal, not
+   API.
+
+7. **Touch.** With `pointer: coarse` the actions take the size large of `nph-button`, and the touch
+   area of the close grows to `control/height-large` with no change in its drawing.
+
+8. **Composition: the public tokens of `nph-button`.** Nothing inside is reimplemented and no
+   inner piece changes. `nph-button` has no color property and no `::part`, so the colors of the
+   contract go through the public custom properties it already reads, set only on the element inside
+   the notification, never on the page: the pattern of `nph-dialog` (P87) and `nph-toolbar` (P104).
+   - The secondary action is a ghost `nph-button`, primary, and danger on error, and its
+     `color/primary-on-surface` and `color/primary-surface` (or `color/destructive-on-surface` and
+     `color/destructive-surface`) point at `notification/<severity>-action-foreground` and
+     `notification/<severity>-action-background-hover`. This goes one step beyond the precedent: the
+     dialog and the toolbar point component tokens of the button, but the ghost exists only in
+     primary, secondary and danger and no component token of the button carries the color of the
+     other severities, so a semantic token of the button is pointed.
+   - The close on solid points `color/secondary-foreground` at the text color,
+     `icon-button/secondary-ghost-background-hover` at the contract color mixed to the opacity of
+     `notification/close-background-hover-opacity`, `focus/border` at
+     `notification/close-focus-border`, `focus/halo` at transparent and `border/width` at
+     `notification/close-focus-border-width`, which only the focus border of the button reads.
+   - The main action is the `nph-button` of the type of the severity, solid, and primary on neutral;
+     the spinner and the skeleton keep their own tokens. No token is created or changed.
+
+9. **Geometry and elevation.** The inline notification takes the width of its area. The toast is
+   `notification/toast-width` stacked and `notification/toast-width-max` single-line, never wider
+   than its container, and uses `elevation/modal` directly, because an effect style is not a variable
+   and the build does not accept a shadow alias; in dark mode `shadow/color` is transparent, so the
+   toast has no shadow. The minimum of 320 px of the contract has no token: it holds by construction,
+   since the width of the toast comes from its token.
+
+10. **The toast region is not a piece.** It is the container of the consuming application, at the
+    bottom-right corner, with `notification/stack-gap` between the toasts, at most three visible, the
+    newest next to the corner and in front. The CSS of the piece does not read `notification/stack-gap`.
+    The sheet teaches how to build the region. A loading toast turns into success or error in the same
+    toast when the consumer changes `severity`. Whether the region becomes a piece is pending decision
+    D-1 of DSA-63.
+
+11. **The time bar.** An `nph-skeleton` line, stopped, decorative, as the Figma set shows it, until
+    `nph-progress` (DSA-65) is wired in; that is left for later, as are `nph-link`, for an action
+    that navigates, and `nph-alert-dialog`, for what needs an answer.
+
+**Source.** Documentation `3442:10163`, set `3434:9035` and page `1369:2` of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 04/11/2026 with the Figma UX QA and the textual audit
+approved, and the appendix points answered. The property names, the invalid-input rule, the events,
+who runs the timer and who removes the element, the reflow by measurement, the announcement on inline
+and the use of the public tokens of `nph-button` are a technical proposal of this implementation.
+
+**Out of scope.** The toast region as a piece, a toast manager or a queue, `nph-alert-dialog`,
+`nph-progress` in the time bar, `nph-link`, a width token for the minimum of 320 px, a free color and
+a new token.
+
+**Status.** Anatomy and behavior accepted by Indiane on 04/11/2026. D-1 of DSA-63 waits for Indiane
+and does not block the piece. API and semantics are reviewed in the pull request that brings them;
+the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106 or P107 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107 or P108 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

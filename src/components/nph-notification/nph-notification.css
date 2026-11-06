@@ -1,0 +1,307 @@
+/**
+ * Internal style of `nph-notification`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties this file consumes. The `--_*` variables are internal to the shadow root: they hold
+ * the token of each part of the severity × emphasis pair and are not API. The component exposes
+ * no `::part` and declares no custom property of its own.
+ *
+ * No literal design value goes in here. The written quantities are box relations: `transparent`
+ * (the solid has no visible border, but keeps the box of the subtle), `100%`, `0` (no halo),
+ * `nowrap`, `hidden` and `calc` of two tokens (the touch area of the close).
+ *
+ * COMPOSITION (P108). `nph-button` has no color property and no `::part`. The colors of the
+ * contract that its own tokens do not give go through the public custom properties it already
+ * reads, set on the element itself (the pattern of `nph-dialog` and `nph-toolbar`): the secondary
+ * action takes the ghost button of the severity and points its `*-on-surface` and `*-surface`
+ * colors at `notification/<severity>-action-*`; the close on solid points the secondary
+ * foreground, the icon-button ghost hover, the focus border, the focus halo and the border width
+ * (which only the focus border of the button reads) at the contract of frame `4207:1146`.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]:not([hidden])) {
+  display: block;
+  box-sizing: border-box;
+}
+
+/* Toast: its own width, and never wider than its container. Single-line takes the maximum. */
+:host([placement='toast']) {
+  inline-size: var(--nph-notification-toast-width);
+  max-inline-size: min(100%, var(--nph-notification-toast-width-max));
+}
+
+:host([placement='toast'][layout='single-line']) {
+  inline-size: var(--nph-notification-toast-width-max);
+}
+
+/* The token of each part, by severity: subtle surface and border, solid, action and close. */
+:host([severity='info']) {
+  --_surface: var(--nph-notification-info-surface);
+  --_border: var(--nph-notification-info-border);
+  --_solid: var(--nph-notification-info-solid);
+  --_action-foreground: var(--nph-notification-info-action-foreground);
+  --_action-background-hover: var(--nph-notification-info-action-background-hover);
+}
+:host([severity='success']) {
+  --_surface: var(--nph-notification-success-surface);
+  --_border: var(--nph-notification-success-border);
+  --_solid: var(--nph-notification-success-solid);
+  --_action-foreground: var(--nph-notification-success-action-foreground);
+  --_action-background-hover: var(--nph-notification-success-action-background-hover);
+}
+:host([severity='warning']) {
+  --_surface: var(--nph-notification-warning-surface);
+  --_border: var(--nph-notification-warning-border);
+  --_solid: var(--nph-notification-warning-solid);
+  --_action-foreground: var(--nph-notification-warning-action-foreground);
+  --_action-background-hover: var(--nph-notification-warning-action-background-hover);
+}
+:host([severity='error']) {
+  --_surface: var(--nph-notification-error-surface);
+  --_border: var(--nph-notification-error-border);
+  --_solid: var(--nph-notification-error-solid);
+  --_action-foreground: var(--nph-notification-error-action-foreground);
+  --_action-background-hover: var(--nph-notification-error-action-background-hover);
+}
+:host([severity='help']) {
+  --_surface: var(--nph-notification-help-surface);
+  --_border: var(--nph-notification-help-border);
+  --_solid: var(--nph-notification-help-solid);
+  --_action-foreground: var(--nph-notification-help-action-foreground);
+  --_action-background-hover: var(--nph-notification-help-action-background-hover);
+}
+
+/* Every colored severity writes on solid with the same token, and so does the close on it. */
+:host([severity='info']),
+:host([severity='success']),
+:host([severity='warning']),
+:host([severity='error']),
+:host([severity='help']) {
+  --_icon: var(--_solid);
+  --_on-solid: var(--nph-notification-on-solid);
+  --_close-hover: var(--nph-notification-close-background-hover);
+  --_close-focus: var(--nph-notification-close-focus-border);
+}
+
+/* Neutral has its own surface, border, icon, solid and close tokens, and a primary secondary action. */
+:host([severity='neutral']) {
+  --_surface: var(--nph-notification-neutral-surface);
+  --_border: var(--nph-notification-neutral-border);
+  --_solid: var(--nph-notification-neutral-solid);
+  --_icon: var(--nph-notification-neutral-icon);
+  --_on-solid: var(--nph-notification-neutral-on-solid);
+  --_action-foreground: var(--nph-notification-neutral-action-foreground);
+  --_action-background-hover: var(--nph-notification-neutral-action-background-hover);
+  --_close-hover: var(--nph-notification-neutral-close-background-hover);
+  --_close-focus: var(--nph-notification-neutral-close-focus-border);
+}
+
+/* Loading: the popover surface and its border, with the spinner in the primary color. */
+:host([severity='loading']) {
+  --_surface: var(--nph-notification-loading-surface);
+  --_border: var(--nph-notification-loading-border);
+}
+
+/* The box. Subtle and loading: surface and border. Solid: its color and a border that does not show. */
+.container {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nph-notification-gap);
+  padding-block: var(--nph-notification-padding-block);
+  padding-inline-start: var(--nph-notification-padding-start);
+  padding-inline-end: var(--nph-notification-padding-end);
+  border: var(--nph-notification-border-width) solid var(--_border);
+  border-radius: var(--nph-notification-radius);
+  background-color: var(--_surface);
+  color: var(--nph-notification-text);
+}
+
+:host([emphasis='solid']) .container {
+  border-color: transparent;
+  background-color: var(--_solid);
+  color: var(--_on-solid);
+}
+
+/* The toast: its own corners and the modal elevation, which has no shadow in dark mode. */
+:host([placement='toast']) .container {
+  border-radius: var(--nph-notification-toast-radius);
+  box-shadow: var(--nph-elevation-modal);
+}
+
+/* The severity icon or the spinner, as tall as the first line of text so the two line up. */
+.icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  inline-size: var(--nph-notification-icon-size);
+  padding-block: var(--nph-notification-content-padding-block);
+  color: var(--_icon);
+}
+
+:host([emphasis='solid']) .icon {
+  color: var(--_on-solid);
+}
+
+/* The spinner draws its arc in the primary color. */
+.spinner {
+  display: inline-flex;
+  color: var(--nph-color-primary);
+}
+
+/* Stacked: the text above, the actions below. */
+.body {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-notification-content-actions-gap);
+  padding-block: var(--nph-notification-content-padding-block);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-notification-content-gap);
+  min-inline-size: 0;
+}
+
+p {
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+.heading {
+  font-family: var(--nph-text-heading-xs-font-family);
+  font-size: var(--nph-text-heading-xs-font-size);
+  font-weight: var(--nph-text-heading-xs-font-weight);
+  line-height: var(--nph-text-heading-xs-line-height);
+  letter-spacing: var(--nph-text-heading-xs-letter-spacing);
+}
+
+.description {
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--nph-notification-actions-gap);
+  padding-block-start: var(--nph-notification-actions-padding-top);
+}
+
+/*
+ * Single-line: everything on one row. When the text does not fit, the component marks the host
+ * as reflowed and this block stops applying: the layout is the stacked one.
+ */
+:host([layout='single-line']:not([data-nph-reflowed])) .container {
+  align-items: center;
+}
+
+:host([layout='single-line']:not([data-nph-reflowed])) .body {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--nph-notification-content-gap-single-line);
+}
+
+:host([layout='single-line']:not([data-nph-reflowed])) .text {
+  flex: 1;
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--nph-notification-content-gap-single-line);
+}
+
+:host([layout='single-line']:not([data-nph-reflowed])) .actions {
+  flex: none;
+  padding-block-start: 0;
+}
+
+/*
+ * The hidden twin of the text, which measures it on one line. Its box has no size and clips it, so
+ * it takes no part in the layout and never widens the page.
+ */
+.probe-box {
+  position: absolute;
+  inline-size: 0;
+  block-size: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.probe {
+  display: flex;
+  flex-direction: row;
+  gap: var(--nph-notification-content-gap-single-line);
+  inline-size: max-content;
+  white-space: nowrap;
+}
+
+.close {
+  flex: none;
+  display: inline-flex;
+}
+
+/*
+ * On a touch screen the drawing of the close stays and its area grows to the large control
+ * height; the negative margin gives the growth back, so the box of the notification does not.
+ */
+@media (pointer: coarse) {
+  .close {
+    align-items: center;
+    justify-content: center;
+    min-inline-size: var(--nph-control-height-large);
+    min-block-size: var(--nph-control-height-large);
+    margin: calc((var(--nph-control-height-default) - var(--nph-control-height-large)) / 2);
+  }
+}
+
+/* The time bar sits on the base of the toast, over the whole width, with no label: it is decorative. */
+.time-bar {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+}
+
+/*
+ * The secondary action: the ghost button of the severity, with its label and its hover surface
+ * in the contract tokens. The ghost exists only in primary and danger here, so the colors of the
+ * type are pointed at the notification ones, on this element only.
+ */
+.secondary[severity='primary'] {
+  --nph-color-primary-on-surface: var(--_action-foreground);
+  --nph-color-primary-surface: var(--_action-background-hover);
+}
+
+.secondary[severity='danger'] {
+  --nph-color-destructive-on-surface: var(--_action-foreground);
+  --nph-color-destructive-surface: var(--_action-background-hover);
+}
+
+/*
+ * The close on solid: the icon in the text color; hover with the contract color at its opacity
+ * (16%); focus as a border in the text color, with the width of the contract and no halo. The
+ * halo and the border width are read by the focus of the button only (`nph-button.css`).
+ */
+:host([emphasis='solid']) .close nph-button {
+  --nph-color-secondary-foreground: var(--_on-solid);
+  --nph-icon-button-secondary-ghost-background-hover: color-mix(
+    in srgb,
+    var(--_close-hover) calc(var(--nph-notification-close-background-hover-opacity) * 100%),
+    transparent
+  );
+  --nph-focus-border: var(--_close-focus);
+  --nph-focus-halo: transparent;
+  --nph-border-width: var(--nph-notification-close-focus-border-width);
+}
