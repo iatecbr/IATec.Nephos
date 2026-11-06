@@ -332,7 +332,18 @@
     "components-nph-data-table-validation--footer": "Footer",
     "components-nph-data-table-validation--invalid-input": "Invalid input",
     "components-nph-data-table-validation--examples": "Examples",
-    "components-nph-data-table-validation--brands": "Brands"
+    "components-nph-data-table-validation--brands": "Brands",
+    "components-nph-progress-docs": "Docs",
+    "components-nph-progress-docs--documentation": "Documentation",
+    "components-nph-progress-validation": "Validation",
+    "components-nph-progress-validation--determinate": "Determinate",
+    "components-nph-progress-validation--indeterminate": "Indeterminate",
+    "components-nph-progress-validation--steps": "Steps",
+    "components-nph-progress-validation--status": "Status",
+    "components-nph-progress-validation--texts": "Texts",
+    "components-nph-progress-validation--width": "Width",
+    "components-nph-progress-validation--examples": "Examples",
+    "components-nph-progress-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -7352,7 +7363,15 @@
       "components-nph-data-table-validation--footer": "The footer by the width of the space: the table type with its items per page, the middle footer with the label and the select, the range type only, and no footer with a single page.",
       "components-nph-data-table-validation--invalid-input": "Invalid input: no column draws nothing; an unknown sort direction draws no column sorted; selection without its names leaves the column out; an unknown footer layout leaves the footer out. Each one with its error.",
       "components-nph-data-table-validation--examples": "The three mandatory examples, each in light and dark mode: people by unit with search, sorting and actions, selected rows ready to download or delete, and a search with no result with the way to clear the filter.",
-      "components-nph-data-table-validation--brands": "The seven brands in light and dark: the selected rows, whose background, mark and box follow the brand."
+      "components-nph-data-table-validation--brands": "The seven brands in light and dark: the selected rows, whose background, mark and box follow the brand.",
+      "components-nph-progress-validation--determinate": "The determinate bar from 0 to 100, in both sizes: the indicator is slightly shorter than the proportion by the track gap, the 4 x 4 end stop shows below 100, and at 0 only the end stop remains.",
+      "components-nph-progress-validation--indeterminate": "The indeterminate bar, in both sizes: a segment one third of the track runs in a loop of 1400 ms, linear, from the left edge to the right edge.",
+      "components-nph-progress-validation--steps": "The steps bar with 3, 4 and 5 steps, in both sizes: one equal segment per step, the first one done and the rest pending.",
+      "components-nph-progress-validation--status": "Success and error on determinate and on steps: the colors, the status icon and the help text, which on error says what failed.",
+      "components-nph-progress-validation--texts": "The optional texts: the label, the value text and the help text, and the aria-label that names the bar when there is no label.",
+      "components-nph-progress-validation--width": "Fluid width: the bar takes the whole container and never goes below the minimum of 48 px.",
+      "components-nph-progress-validation--examples": "The three required examples, each in light and dark mode: an upload in progress, a preparing with no percentage and a sign-up in steps.",
+      "components-nph-progress-validation--brands": "The seven brands in light and dark: the indicator, the end stop and the done segments follow the brand."
     }
   },
   "multiComboboxDocs": {
@@ -9888,5 +9907,263 @@
     "exampleList": "People by unit, with search, sorting and actions",
     "exampleSelected": "Selected rows, ready to download or delete",
     "exampleEmpty": "Search with no result, with the way to clear the filter"
+  },
+  "progressValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "sampleLabel": "File upload",
+    "ariaName": "Photo upload",
+    "uploadLabel": "File upload",
+    "uploadValue": "50%",
+    "uploadHelp": "Do not close this window.",
+    "preparingLabel": "Preparing the file",
+    "preparingValue": "In progress",
+    "preparingHelp": "This may take a few seconds.",
+    "signUpLabel": "Sign-up",
+    "signUpValue": "1 of 4",
+    "signUpHelp": "Step 1 of 4: personal data.",
+    "stepsValues": [
+      "1 of 3",
+      "2 of 4",
+      "3 of 5"
+    ],
+    "doneValue": "Done",
+    "doneHelp": "Upload complete.",
+    "errorValue": "Error",
+    "errorHelp": "The file is too large. Choose a file under 10 MB.",
+    "stepsDoneValue": "4 of 4",
+    "stepsDoneHelp": "Sign-up complete.",
+    "stepsErrorValue": "Error on step 3",
+    "stepsErrorHelp": "Step 3 of 4: the address could not be checked. Review it and try again."
+  },
+  "progressDocs": {
+    "summary": "The bar that shows how much of a long process is done, such as an upload or a sign-up in steps, or that it is under way while there is still no value.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-progress spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P107. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "When the process takes more than a few seconds and the system knows how much is done, or into how many fixed steps it splits.",
+      "determinate whenever there is a percentage.",
+      "indeterminate only until the first real value arrives, and switch to determinate as soon as it does.",
+      "steps when the process has a few fixed, known steps, such as a sign-up: show the N of M and say the current step in the help text.",
+      "At the end, show success or error with the icon and the help text, because the bar must not stay stopped at a partial value.",
+      "md in the body of the screen and sm in dense places, such as the header of a flow or a card.",
+      "Show the value as text next to the bar, because the track is subtle and the text gives the exact value."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "For a short wait with no value: use nph-spinner.",
+      "As a fixed level meter, such as used space or a grade: progress changes over time; for a fixed level, show only the value as text.",
+      "Without a label or an aria-label: the screen reader does not know what it measures.",
+      "As navigation between the steps of a flow: the steps type only shows progress; to mark each step, use nph-stepper.",
+      "As an adjustment control: the person does not drag or choose the value; use nph-slider."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "type",
+        "The Figma property tipo: determinate (default), indeterminate or steps. Reflected to the attribute."
+      ],
+      [
+        "size",
+        "The Figma property tamanho: md (default), the 8 px bar, or sm, the 4 px bar. Reflected to the attribute."
+      ],
+      [
+        "status",
+        "The Figma property status: active (default), success or error. On determinate, success and error exist only at value 100; indeterminate has only active. Reflected to the attribute."
+      ],
+      [
+        "value",
+        "A number from 0 to 100, 0 by default, read on determinate. At 0 only the end stop remains."
+      ],
+      [
+        "steps and step",
+        "Read on steps: steps is the number of steps, 3, 4 or 5, and step is the current one, from 1 to steps, 1 by default."
+      ],
+      [
+        "label",
+        "The visible label above the bar and its accessible name. Already localized."
+      ],
+      [
+        "value-text",
+        "The text next to the label: the percentage, the \"N of M\" or a state word. It is also the aria-valuetext. Already localized."
+      ],
+      [
+        "help",
+        "The help text below the bar, which describes it for the screen reader. Required on error. Already localized."
+      ],
+      [
+        "aria-label",
+        "The accessible name when there is no label."
+      ],
+      [
+        "width and color",
+        "Not properties: the bar takes the width of its container, with a minimum of 48 px, and the color comes from the status."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-progress value=\"50\" label=\"File upload\" value-text=\"50%\"></nph-progress>",
+    "usageTag": "The tag of the piece. It has no slot: every property comes as an attribute.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-progress (4385:3186); docs/decisoes-tecnicas.md › P107",
+    "typesTitle": "Types",
+    "typesCaption": "The three types: determinate, indeterminate and steps.",
+    "typesUseHeader": [
+      "Type",
+      "When to use"
+    ],
+    "typesUse": [
+      {
+        "value": "determinate",
+        "label": "Whenever there is a percentage. Below 100 the end stop shows at the end of the track, and the indicator is slightly shorter than the exact proportion: the exact value is the text one."
+      },
+      {
+        "value": "indeterminate",
+        "label": "Only until the first real value arrives. A segment one third of the track runs in a loop of 1400 ms; switch to determinate as soon as there is a value."
+      },
+      {
+        "value": "steps",
+        "label": "When the process has 3, 4 or 5 fixed, known steps. The current step has the color of the done ones: the \"N of M\" and the help text say which one it is."
+      }
+    ],
+    "sizesTitle": "Sizes",
+    "sizesCaption": "The two sizes: md and sm.",
+    "sizesUseHeader": [
+      "Size",
+      "When to use"
+    ],
+    "sizesUse": [
+      {
+        "value": "md",
+        "label": "The 8 px bar, in the body of the screen."
+      },
+      {
+        "value": "sm",
+        "label": "The 4 px bar, in dense places such as the header of a flow or a card."
+      }
+    ],
+    "statusTitle": "Status",
+    "statusCaption": "Active, success and error. Success and error bring the status icon, and on error the help text is required.",
+    "statusUseHeader": [
+      "Status",
+      "When to use"
+    ],
+    "statusUse": [
+      {
+        "value": "active",
+        "label": "While the process runs."
+      },
+      {
+        "value": "success",
+        "label": "When the process ends well: the bar and the icon circle-check take the success color, and the help text tells it ended."
+      },
+      {
+        "value": "error",
+        "label": "When the process fails: the bar, the icon circle-xmark and the help text take the error color, and the help text says what failed and what to do."
+      }
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "It works with nph-icon, which draws the status icon. The status controls the color of the bar, of the icon and of the help text.",
+      "A short wait with no value uses nph-spinner. A flow that marks each step and the current step uses nph-stepper; the steps bar only shows progress.",
+      "An action such as Cancel stays outside the bar, in an nph-button next to it.",
+      "The bar has no hover, pressed or focus state."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Label",
+        "Text above the bar, in progress/label-foreground, with text/label-md. It says which process is under way and names the bar."
+      ],
+      [
+        "Value text",
+        "Next to the label, in progress/value-foreground, with text/caption: the percentage, the \"N of M\" or a state word."
+      ],
+      [
+        "Status icon",
+        "Only on success and error: an nph-icon circle-check or circle-xmark, solid, at progress/icon-size. It is decorative."
+      ],
+      [
+        "Track",
+        "The band of the whole process, in progress/track-background, with the pill corners of progress/radius. It is decorative."
+      ],
+      [
+        "Indicator",
+        "The done part, in progress/indicator-background, or the success and error colors. On indeterminate, a segment one third of the track that runs in a loop."
+      ],
+      [
+        "End stop",
+        "A dot of progress/stop-size at the end of the track, on every determinate value below 100."
+      ],
+      [
+        "Help text",
+        "Below the bar, in progress/help-foreground, or progress/help-foreground-error on error."
+      ],
+      [
+        "Segment",
+        "On steps, one per step, apart by progress/segment-gap: done, pending, success or error."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Contrast",
+        "Label, value text and help text, including the error one, pass 4.5:1 over the background in both themes. The indicator and the done, success and error segments pass 3:1 against the background and against the track. The track and the pending segment are decorative."
+      ],
+      [
+        "Visible focus",
+        "The bar does not take focus, as it is not interactive, and has no focus ring. If there is an action next to it, the ring belongs to the button."
+      ],
+      [
+        "Color is not the only signal",
+        "Success and error also show through the status icon and the help text. The value shows as text. On steps, the \"N of M\" and the help text say which step the person is on."
+      ],
+      [
+        "Touch target",
+        "Does not apply: the bar takes no click."
+      ],
+      [
+        "Accessible name",
+        "The bar is read as a progress bar. The name comes from the label, or from aria-label when there is no label. The value goes from 0 to 100 in aria-valuenow; on steps, the \"N of M\" text goes in aria-valuetext. On indeterminate, the value is omitted."
+      ],
+      [
+        "Motion",
+        "The only motion is the indeterminate loop. It runs only while there is no value, and with reduced motion it stops."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplesCaption": "The three required examples: an upload in progress, a preparing with no percentage and a sign-up in steps.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-progress spec sheet — purpose, types, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P107 (API and semantics), P01, P02 and P03.",
+      "design.md — the progress/* tokens, motion/loop-long-duration and motion/loop-long-easing.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Progress, documentation frame nph-progress (4385:3186) and sets 4368:1532 and 4368:1185.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-progress spec sheet; Figma, frame nph-progress (4385:3186)",
+    "sourceApi": "nph-progress spec sheet; docs/decisoes-tecnicas.md › P107",
+    "sourceAnatomy": "Figma, sets 4368:1532 and 4368:1185; design.md",
+    "matrixLabel": "Component matrix"
   }
 }

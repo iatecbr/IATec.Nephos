@@ -1,0 +1,191 @@
+/**
+ * Internal style of `nph-progress`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties
+ * consumed here, the `progress/*` ones. The bar has no hover, pressed or focus state and no focus
+ * ring: it is not interactive.
+ *
+ * What is written, and is not a token:
+ * - `3rem`, the minimum width of the bar. The accepted evidence says the width is fluid with a
+ *   48 px minimum and that there is no width token, so the minimum is the one literal measure here;
+ * - `100%`, `calc(100% / 3)` and `300%`: relations of the box. The loop segment is one third of the
+ *   track and runs from outside the left edge to outside the right edge, three of its own widths
+ *   past the start;
+ * - the custom property `--_value`, set by the component, is the value from 0 to 100, a quantity of
+ *   the data and not a design value.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+:host([data-nph-rendered]) {
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 3rem;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-progress-gap);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-progress-label-gap);
+}
+
+.label {
+  color: var(--nph-progress-label-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+.value-text,
+.help {
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+}
+
+.value-text {
+  color: var(--nph-progress-value-foreground);
+}
+
+.help {
+  color: var(--nph-progress-help-foreground);
+}
+
+:host([status='error']) .help {
+  color: var(--nph-progress-help-foreground-error);
+}
+
+.status-icon {
+  flex: none;
+  inline-size: var(--nph-progress-icon-size);
+  block-size: var(--nph-progress-icon-size);
+  color: var(--nph-progress-icon-success);
+}
+
+:host([status='error']) .status-icon {
+  color: var(--nph-progress-icon-error);
+}
+
+/* The track: the band of the whole process. It is decorative: alone it carries no information. */
+.track {
+  position: relative;
+  block-size: var(--nph-progress-height-md);
+  overflow: hidden;
+  border-radius: var(--nph-progress-radius);
+  background-color: var(--nph-progress-track-background);
+}
+
+:host([size='sm']) .track {
+  block-size: var(--nph-progress-height-sm);
+}
+
+/* The steps type has no band: each segment is its own pill, apart by the segment gap. */
+:host([type='steps']) .track {
+  display: flex;
+  gap: var(--nph-progress-segment-gap);
+  overflow: visible;
+  background-color: transparent;
+}
+
+[hidden] {
+  display: none;
+}
+
+/*
+ * The indicator: the done part. Below 100 the track gap separates it from the rest of the track, so
+ * it is shorter than the exact proportion; the width never goes below zero.
+ */
+.indicator {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: calc(var(--_value) * 1% - var(--nph-progress-track-gap));
+  border-radius: var(--nph-progress-radius);
+  background-color: var(--nph-progress-indicator-background);
+}
+
+.indicator[data-full='true'] {
+  inline-size: 100%;
+}
+
+:host([status='success']) .indicator {
+  background-color: var(--nph-progress-indicator-background-success);
+}
+
+:host([status='error']) .indicator {
+  background-color: var(--nph-progress-indicator-background-error);
+}
+
+/* The end stop: shows where the track ends, on every determinate value below 100. */
+.stop {
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-start: 50%;
+  inline-size: var(--nph-progress-stop-size);
+  block-size: var(--nph-progress-stop-size);
+  max-block-size: 100%;
+  transform: translateY(-50%);
+  border-radius: var(--nph-progress-radius);
+  background-color: var(--nph-progress-stop-background);
+}
+
+/* Indeterminate: a segment one third of the track, in a loop, with no proportion. */
+.segment-loop {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: calc(100% / 3);
+  border-radius: var(--nph-progress-radius);
+  background-color: var(--nph-progress-indicator-background);
+  animation: nph-progress-loop var(--nph-progress-loop-duration) var(--nph-progress-loop-easing) infinite;
+}
+
+/* WCAG 2.3.3: the loop stops and the segment rests at the start of the track. */
+@media (prefers-reduced-motion: reduce) {
+  .segment-loop {
+    animation: none;
+  }
+}
+
+/* One pass: from outside the left edge to outside the right edge, back with no transition. */
+@keyframes nph-progress-loop {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+
+/* Steps: one segment per step, equal, each with the bar height of its size. */
+.segment {
+  flex: 1 1 0;
+  min-inline-size: 0;
+  border-radius: var(--nph-progress-segment-radius);
+  background-color: var(--nph-progress-segment-background);
+}
+
+.segment[data-state='pending'] {
+  background-color: var(--nph-progress-segment-background-pending);
+}
+
+.segment[data-state='success'] {
+  background-color: var(--nph-progress-segment-background-success);
+}
+
+.segment[data-state='error'] {
+  background-color: var(--nph-progress-segment-background-error);
+}

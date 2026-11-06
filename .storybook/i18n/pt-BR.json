@@ -332,7 +332,18 @@
     "components-nph-data-table-validation--footer": "Rodapé",
     "components-nph-data-table-validation--invalid-input": "Entrada inválida",
     "components-nph-data-table-validation--examples": "Exemplos",
-    "components-nph-data-table-validation--brands": "Marcas"
+    "components-nph-data-table-validation--brands": "Marcas",
+    "components-nph-progress-docs": "Docs",
+    "components-nph-progress-docs--documentation": "Documentação",
+    "components-nph-progress-validation": "Validação",
+    "components-nph-progress-validation--determinate": "Determinado",
+    "components-nph-progress-validation--indeterminate": "Indeterminado",
+    "components-nph-progress-validation--steps": "Etapas",
+    "components-nph-progress-validation--status": "Status",
+    "components-nph-progress-validation--texts": "Textos",
+    "components-nph-progress-validation--width": "Largura",
+    "components-nph-progress-validation--examples": "Exemplos",
+    "components-nph-progress-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7352,7 +7363,15 @@
       "components-nph-data-table-validation--footer": "O rodapé pela largura do espaço: o tipo tabela com os seus itens por página, o rodapé médio com o rótulo e o select, só o tipo intervalo, e nenhum rodapé com uma página só.",
       "components-nph-data-table-validation--invalid-input": "Entrada inválida: sem colunas não desenha nada; uma direção de ordenação desconhecida não desenha coluna ordenada; a seleção sem os seus nomes deixa a coluna de fora; um arranjo de rodapé desconhecido deixa o rodapé de fora. Cada um com o seu erro.",
       "components-nph-data-table-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: pessoas por unidade com busca, ordenação e ações, linhas selecionadas prontas para baixar ou excluir, e uma busca sem resultado com o caminho para limpar o filtro.",
-      "components-nph-data-table-validation--brands": "As sete marcas no claro e no escuro: as linhas selecionadas, cujo fundo, marca e caixa seguem a marca."
+      "components-nph-data-table-validation--brands": "As sete marcas no claro e no escuro: as linhas selecionadas, cujo fundo, marca e caixa seguem a marca.",
+      "components-nph-progress-validation--determinate": "A barra determinada de 0 a 100, nos dois tamanhos: o indicador fica um pouco menor que a proporção pela folga da trilha, o ponto final de 4 x 4 aparece abaixo de 100, e em 0 só o ponto final fica.",
+      "components-nph-progress-validation--indeterminate": "A barra indeterminada, nos dois tamanhos: um segmento de um terço da trilha corre num laço de 1400 ms, linear, da borda esquerda à direita.",
+      "components-nph-progress-validation--steps": "A barra de etapas com 3, 4 e 5 etapas, nos dois tamanhos: um segmento igual por etapa, a primeira concluída e as demais pendentes.",
+      "components-nph-progress-validation--status": "Sucesso e erro em determinado e em etapas: as cores, o ícone de status e o texto de ajuda, que no erro diz o que falhou.",
+      "components-nph-progress-validation--texts": "Os textos opcionais: o rótulo, o texto do valor e o texto de ajuda, e o aria-label que dá nome à barra quando não há rótulo.",
+      "components-nph-progress-validation--width": "Largura fluida: a barra ocupa todo o contêiner e nunca fica abaixo do mínimo de 48 px.",
+      "components-nph-progress-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: um envio em andamento, um preparo sem porcentagem e um cadastro em etapas.",
+      "components-nph-progress-validation--brands": "As sete marcas no claro e no escuro: o indicador, o ponto final e os segmentos concluídos seguem a marca."
     }
   },
   "multiComboboxDocs": {
@@ -9888,5 +9907,263 @@
     "exampleList": "Pessoas por unidade, com busca, ordenação e ações",
     "exampleSelected": "Linhas selecionadas, prontas para baixar ou excluir",
     "exampleEmpty": "Busca sem resultado, com o caminho para limpar o filtro"
+  },
+  "progressValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "sampleLabel": "Envio do arquivo",
+    "ariaName": "Envio da foto",
+    "uploadLabel": "Envio do arquivo",
+    "uploadValue": "50%",
+    "uploadHelp": "Não feche esta janela.",
+    "preparingLabel": "Preparando o arquivo",
+    "preparingValue": "Em andamento",
+    "preparingHelp": "Isso pode levar alguns segundos.",
+    "signUpLabel": "Cadastro",
+    "signUpValue": "1 de 4",
+    "signUpHelp": "Etapa 1 de 4: dados pessoais.",
+    "stepsValues": [
+      "1 de 3",
+      "2 de 4",
+      "3 de 5"
+    ],
+    "doneValue": "Concluído",
+    "doneHelp": "Envio concluído.",
+    "errorValue": "Erro",
+    "errorHelp": "O arquivo é grande demais. Escolha um arquivo com menos de 10 MB.",
+    "stepsDoneValue": "4 de 4",
+    "stepsDoneHelp": "Cadastro concluído.",
+    "stepsErrorValue": "Erro na etapa 3",
+    "stepsErrorHelp": "Etapa 3 de 4: não foi possível verificar o endereço. Revise-o e tente de novo."
+  },
+  "progressDocs": {
+    "summary": "A barra que mostra quanto de um processo longo já foi feito, como um envio de arquivo ou um cadastro em etapas, ou que ele está em andamento enquanto ainda não há valor.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha nph-progress, o design.md para os tokens e docs/decisoes-tecnicas.md para a P107. O Figma DS-IA-NEPHOS 5.0 é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Quando o processo leva mais de alguns segundos e o sistema sabe quanto já foi feito, ou em quantas etapas fixas ele se divide.",
+      "determinate sempre que houver uma porcentagem.",
+      "indeterminate só até chegar o primeiro valor real, e troque para determinate assim que ele chegar.",
+      "steps quando o processo tem poucas etapas fixas e conhecidas, como um cadastro: mostre o \"N de M\" e diga a etapa atual no texto de ajuda.",
+      "No fim, mostre sucesso ou erro com o ícone e o texto de ajuda, porque a barra não pode ficar parada num valor parcial.",
+      "md no corpo da tela e sm em lugares densos, como o cabeçalho de um fluxo ou um card.",
+      "Mostre o valor em texto ao lado da barra, porque a trilha é discreta e o texto dá o valor exato."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para uma espera curta sem valor: use nph-spinner.",
+      "Como medidor de nível fixo, como espaço usado ou nota: o progresso muda com o tempo; para um nível fixo, mostre só o valor em texto.",
+      "Sem rótulo nem aria-label: o leitor de tela não sabe o que a barra mede.",
+      "Como navegação entre as etapas de um fluxo: a barra steps só mostra o progresso; para marcar cada etapa, use nph-stepper.",
+      "Como controle de ajuste: a pessoa não arrasta nem escolhe o valor; use nph-slider."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "type",
+        "A propriedade tipo do Figma: determinate (padrão), indeterminate ou steps. Refletida no atributo."
+      ],
+      [
+        "size",
+        "A propriedade tamanho do Figma: md (padrão), a barra de 8 px, ou sm, a barra de 4 px. Refletida no atributo."
+      ],
+      [
+        "status",
+        "A propriedade status do Figma: active (padrão), success ou error. Em determinate, success e error existem só no valor 100; indeterminate tem só active. Refletida no atributo."
+      ],
+      [
+        "value",
+        "Um número de 0 a 100, 0 por padrão, lido em determinate. Em 0 só o ponto final fica."
+      ],
+      [
+        "steps e step",
+        "Lidas em steps: steps é o número de etapas, 3, 4 ou 5, e step é a etapa atual, de 1 a steps, 1 por padrão."
+      ],
+      [
+        "label",
+        "O rótulo visível acima da barra e o seu nome acessível. Já traduzido."
+      ],
+      [
+        "value-text",
+        "O texto ao lado do rótulo: a porcentagem, o \"N de M\" ou uma palavra de estado. É também o aria-valuetext. Já traduzido."
+      ],
+      [
+        "help",
+        "O texto de ajuda abaixo da barra, que a descreve para o leitor de tela. Obrigatório no erro. Já traduzido."
+      ],
+      [
+        "aria-label",
+        "O nome acessível quando não há rótulo."
+      ],
+      [
+        "width e color",
+        "Não são propriedades: a barra ocupa a largura do contêiner, com mínimo de 48 px, e a cor vem do status."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-progress value=\"50\" label=\"Envio do arquivo\" value-text=\"50%\"></nph-progress>",
+    "usageTag": "A tag da peça. Não tem slot: toda propriedade vem como atributo.",
+    "usageImport": "Registra o componente com os seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Figma, frame nph-progress (4385:3186); docs/decisoes-tecnicas.md › P107",
+    "typesTitle": "Tipos",
+    "typesCaption": "Os três tipos: determinate, indeterminate e steps.",
+    "typesUseHeader": [
+      "Tipo",
+      "Quando usar"
+    ],
+    "typesUse": [
+      {
+        "value": "determinate",
+        "label": "Sempre que houver uma porcentagem. Abaixo de 100 o ponto final aparece no fim da trilha, e o indicador fica um pouco menor que a proporção exata: o valor exato é o do texto."
+      },
+      {
+        "value": "indeterminate",
+        "label": "Só até chegar o primeiro valor real. Um segmento de um terço da trilha corre num laço de 1400 ms; troque para determinate assim que houver valor."
+      },
+      {
+        "value": "steps",
+        "label": "Quando o processo tem 3, 4 ou 5 etapas fixas e conhecidas. A etapa atual tem a cor das concluídas: o \"N de M\" e o texto de ajuda dizem qual é."
+      }
+    ],
+    "sizesTitle": "Tamanhos",
+    "sizesCaption": "Os dois tamanhos: md e sm.",
+    "sizesUseHeader": [
+      "Tamanho",
+      "Quando usar"
+    ],
+    "sizesUse": [
+      {
+        "value": "md",
+        "label": "A barra de 8 px, no corpo da tela."
+      },
+      {
+        "value": "sm",
+        "label": "A barra de 4 px, em lugares densos, como o cabeçalho de um fluxo ou um card."
+      }
+    ],
+    "statusTitle": "Status",
+    "statusCaption": "Ativo, sucesso e erro. Sucesso e erro trazem o ícone de status, e no erro o texto de ajuda é obrigatório.",
+    "statusUseHeader": [
+      "Status",
+      "Quando usar"
+    ],
+    "statusUse": [
+      {
+        "value": "active",
+        "label": "Enquanto o processo roda."
+      },
+      {
+        "value": "success",
+        "label": "Quando o processo termina bem: a barra e o ícone circle-check ficam na cor de sucesso, e o texto de ajuda diz que terminou."
+      },
+      {
+        "value": "error",
+        "label": "Quando o processo falha: a barra, o ícone circle-xmark e o texto de ajuda ficam na cor de erro, e o texto de ajuda diz o que falhou e o que fazer."
+      }
+    ],
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Trabalha com o nph-icon, que desenha o ícone de status. O status controla a cor da barra, do ícone e do texto de ajuda.",
+      "Uma espera curta sem valor usa o nph-spinner. Um fluxo que marca cada etapa e a etapa atual usa o nph-stepper; a barra de etapas só mostra o progresso.",
+      "Uma ação como Cancelar fica fora da barra, num nph-button ao lado.",
+      "A barra não tem estado de hover, pressionado nem foco."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Rótulo",
+        "Texto acima da barra, em progress/label-foreground, com text/label-md. Diz qual processo está em andamento e dá nome à barra."
+      ],
+      [
+        "Texto do valor",
+        "Ao lado do rótulo, em progress/value-foreground, com text/caption: a porcentagem, o \"N de M\" ou uma palavra de estado."
+      ],
+      [
+        "Ícone de status",
+        "Só em sucesso e erro: um nph-icon circle-check ou circle-xmark, sólido, em progress/icon-size. É decorativo."
+      ],
+      [
+        "Trilha",
+        "A faixa de todo o processo, em progress/track-background, com os cantos em pílula de progress/radius. É decorativa."
+      ],
+      [
+        "Indicador",
+        "A parte feita, em progress/indicator-background, ou nas cores de sucesso e erro. No indeterminado, um segmento de um terço da trilha que corre num laço."
+      ],
+      [
+        "Ponto final",
+        "Um ponto de progress/stop-size no fim da trilha, em todo valor determinado abaixo de 100."
+      ],
+      [
+        "Texto de ajuda",
+        "Abaixo da barra, em progress/help-foreground, ou progress/help-foreground-error no erro."
+      ],
+      [
+        "Segmento",
+        "Em steps, um por etapa, separados por progress/segment-gap: concluído, pendente, sucesso ou erro."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "O rótulo, o texto do valor e o texto de ajuda, inclusive o de erro, passam de 4,5:1 sobre o fundo nos dois temas. O indicador e os segmentos concluídos, de sucesso e de erro passam de 3:1 contra o fundo e contra a trilha. A trilha e o segmento pendente são decorativos."
+      ],
+      [
+        "Foco visível",
+        "A barra não recebe foco, pois não é interativa, e não tem anel de foco. Se houver uma ação ao lado, o anel é do botão."
+      ],
+      [
+        "A cor não é o único sinal",
+        "Sucesso e erro também aparecem no ícone de status e no texto de ajuda. O valor aparece em texto. Em steps, o \"N de M\" e o texto de ajuda dizem em que etapa a pessoa está."
+      ],
+      [
+        "Alvo de toque",
+        "Não se aplica: a barra não recebe clique."
+      ],
+      [
+        "Nome acessível",
+        "A barra é lida como barra de progresso. O nome vem do rótulo, ou do aria-label quando não há rótulo. O valor vai de 0 a 100 em aria-valuenow; em steps, o texto \"N de M\" vai em aria-valuetext. No indeterminado, o valor é omitido."
+      ],
+      [
+        "Movimento",
+        "O único movimento é o laço do indeterminado. Ele roda só enquanto não há valor, e com movimento reduzido ele para."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "examplesCaption": "Os três exemplos obrigatórios: um envio em andamento, um preparo sem porcentagem e um cadastro em etapas.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-progress — propósito, tipos, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P107 (API e semântica), P01, P02 e P03.",
+      "design.md — os tokens progress/*, motion/loop-long-duration e motion/loop-long-easing.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Progress, frame de documentação nph-progress (4385:3186) e conjuntos 4368:1532 e 4368:1185.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "Ficha do nph-progress; Figma, frame nph-progress (4385:3186)",
+    "sourceApi": "Ficha do nph-progress; docs/decisoes-tecnicas.md › P107",
+    "sourceAnatomy": "Figma, conjuntos 4368:1532 e 4368:1185; design.md",
+    "matrixLabel": "Matriz do componente"
   }
 }

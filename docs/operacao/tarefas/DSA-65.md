@@ -31,7 +31,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The evidence names the step counts 3, 4 and 5 only as the Figma samples of the property `etapas`, and says the steps type splits the bar into a few fixed steps. The code accepts only those three counts and draws nothing for another one, with a console.error in development. Another count, such as 2 or 6, needs her answer. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-06"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-65/figma-docs-accepted-2026-11-05.md"
   ],
