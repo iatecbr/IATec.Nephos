@@ -146,6 +146,7 @@ export class NphProgress extends LitElement {
   private problem: string | null = null;
   private reported = '';
   private warnedNoName = false;
+  private warnedNoHelp = false;
 
   constructor() {
     super();
@@ -171,9 +172,12 @@ export class NphProgress extends LitElement {
       this.reported = this.problem;
     } else {
       this.reported = '';
-      if (this.status === 'error' && this.text(this.help) === '') {
+      /* Once per cause: the flag clears when the help arrives or the status changes. */
+      const missingHelp = this.status === 'error' && this.text(this.help) === '';
+      if (missingHelp && !this.warnedNoHelp) {
         devMessage('warn', 'status "error" needs a `help` text that says what failed and what to do.');
       }
+      this.warnedNoHelp = missingHelp;
     }
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.problem === null);
   }

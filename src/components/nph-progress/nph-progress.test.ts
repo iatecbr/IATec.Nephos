@@ -631,6 +631,21 @@ describe('invalid input', () => {
     const progress = await mount({ status: 'error', value: 100, label: 'Upload' });
     expect(track(progress)).not.toBeNull();
     expect(warn.mock.calls.some((call) => String(call[0]).includes('`help`'))).toBe(true);
+    const count = () => warn.mock.calls.filter((call) => String(call[0]).includes('`help`')).length;
+    expect(count()).toBe(1);
+    /* Updates that do not change the cause stay silent. */
+    progress.label = 'Other';
+    await progress.updateComplete;
+    progress.label = 'Another';
+    await progress.updateComplete;
+    expect(count()).toBe(1);
+    /* The help arriving clears the state, and losing it again warns again. */
+    progress.help = 'The file is too large.';
+    await progress.updateComplete;
+    expect(count()).toBe(1);
+    progress.help = null;
+    await progress.updateComplete;
+    expect(count()).toBe(2);
   });
 
   it('a bar with no accessible name draws, and warns once, in development', async () => {
