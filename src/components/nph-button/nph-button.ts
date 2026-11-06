@@ -1,14 +1,17 @@
 /**
  * `nph-button` — the button that triggers an action identified by text.
  *
- * Contract accepted in Figma (frame `1197:5449`, sets `461:13009`, with
- * text, and `498:15671`, icon only, the `nph-icon-button` of board `2122:1591`),
- * decisions B1, B5 and B6 of the `Registro` (vault), solid hover on the hover
- * tokens (02-10-2026, supersedes B4), P68 and P86, which amends it:
+ * Contract accepted in Figma (documentation frames `4178:15028`, sets `461:13009`, with
+ * text, and `498:15671`, icon only, the `nph-icon-button`, frame `4178:24324`; they
+ * replace the boards `1197:5449` and `2122:1591`), decisions B1, B5 and B6 of the
+ * `Registro` (vault), solid hover on the hover tokens (02-10-2026, supersedes B4),
+ * P68 and P86, which amends it. DSA-64: secondary solid and outline on their own
+ * component tokens, and no secondary light:
  * - `severity` (the Figma `tipo`): `primary` (default), `secondary`, `info`,
  *   `warn`, `help`, `danger` or `success`. Chosen by the meaning of the action;
  * - `emphasis` (the `enfase`): `solid` (default), `outline`, `light` or `ghost`.
- *   `outline`, `light` and `ghost` exist only in primary, secondary and danger (B1);
+ *   `outline` and `ghost` exist only in primary, secondary and danger, and `light` only in
+ *   primary and danger: the secondary light emphasis was removed (B1, DSA-64);
  * - `size`: `compact`, `default` (default, via T4) or `large`;
  * - `text`: says what happens on click. It is the accessible name;
  * - `icon-start` and `icon-end`: one `nph-icon` core name each, at
@@ -77,6 +80,9 @@ export type NphButtonShape = (typeof NPH_BUTTON_SHAPES)[number];
 
 /** The severities that exist only in `solid` (B1). */
 const SOLID_ONLY: readonly NphButtonSeverity[] = ['info', 'warn', 'help', 'success'];
+
+/** The severities of the outline, light and ghost emphases that have no `light`: secondary lost it (B1, DSA-64). */
+const NO_LIGHT: readonly NphButtonSeverity[] = ['secondary'];
 
 /** In icon-only, the icon follows the box (Description of `498:15671`). */
 const ICON_ONLY_ICON_SIZE: Readonly<Record<NphButtonSize, NphIconSize>> = {
@@ -192,6 +198,9 @@ export class NphButton extends LitElement {
       valid = false;
     } else if (emphasis !== 'solid' && (SOLID_ONLY as readonly string[]).includes(severity)) {
       devError(`emphasis "${emphasis}" does not exist in severity "${severity}": only solid (B1).`);
+      valid = false;
+    } else if (emphasis === 'light' && (NO_LIGHT as readonly string[]).includes(severity)) {
+      devError(`emphasis "light" does not exist in severity "${severity}": only primary and danger have it (B1, DSA-64).`);
       valid = false;
     }
     if (!oneOf(NPH_BUTTON_SIZES, size)) {

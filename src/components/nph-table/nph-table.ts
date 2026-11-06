@@ -1130,7 +1130,7 @@ export class NphTable extends LitElement {
       case 'button':
         return html`<nph-button
           severity="secondary"
-          emphasis="light"
+          emphasis="solid"
           size="compact"
           text=${cell.text}
           tabindex=${tab}
@@ -1143,10 +1143,10 @@ export class NphTable extends LitElement {
         </span>`;
       case 'mixed-actions':
         return html`<span class="pieces">
-          <nph-button severity="secondary" emphasis="light" size="compact" text=${cell.text} tabindex=${tab} @click=${() => this.act(row, 'edit')}></nph-button>
+          <nph-button severity="secondary" emphasis="solid" size="compact" text=${cell.text} tabindex=${tab} @click=${() => this.act(row, 'edit')}></nph-button>
           <nph-button
             severity="secondary"
-            emphasis="light"
+            emphasis="solid"
             size="compact"
             icon-start=${NPH_TABLE_ICONS.more}
             label=${cell.moreLabel}

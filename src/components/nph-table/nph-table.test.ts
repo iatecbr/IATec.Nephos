@@ -728,10 +728,10 @@ describe('composite cells', () => {
     });
   }
 
-  it('button: an nph-button secondary light compact, and the cell takes table/action-cell-padding-block', async () => {
+  it('button: an nph-button secondary solid compact, and the cell takes table/action-cell-padding-block', async () => {
     const { td } = await single({ type: 'button', text: 'Pay', action: 'pay' });
     const button = td.querySelector('nph-button') as HTMLElement;
-    expect(['severity', 'emphasis', 'size', 'text'].map((name) => button.getAttribute(name))).toEqual(['secondary', 'light', 'compact', 'Pay']);
+    expect(['severity', 'emphasis', 'size', 'text'].map((name) => button.getAttribute(name))).toEqual(['secondary', 'solid', 'compact', 'Pay']);
     expect(parseFloat(getComputedStyle(td).paddingTop)).toBe(px('--nph-table-action-cell-padding-block'));
   });
 
@@ -748,13 +748,13 @@ describe('composite cells', () => {
     expect(parseFloat(getComputedStyle(td.querySelector('.pieces') as HTMLElement).columnGap)).toBe(px('--nph-table-cell-gap-tight'));
   });
 
-  it('mixed actions: a written Edit and the more as nph-button secondary light compact, at table/cell-gap', async () => {
+  it('mixed actions: a written Edit and the more as nph-button secondary solid compact, at table/cell-gap', async () => {
     const { td } = await single({ type: 'mixed-actions', text: 'Edit', moreLabel: 'More actions of Ana Souza' });
     const [edit, more] = [...td.querySelectorAll('nph-button')] as HTMLElement[];
-    expect(['severity', 'emphasis', 'size', 'text'].map((name) => (edit as HTMLElement).getAttribute(name))).toEqual(['secondary', 'light', 'compact', 'Edit']);
+    expect(['severity', 'emphasis', 'size', 'text'].map((name) => (edit as HTMLElement).getAttribute(name))).toEqual(['secondary', 'solid', 'compact', 'Edit']);
     expect(['severity', 'emphasis', 'size', 'icon-start', 'label'].map((name) => (more as HTMLElement).getAttribute(name))).toEqual([
       'secondary',
-      'light',
+      'solid',
       'compact',
       NPH_TABLE_ICONS.more,
       'More actions of Ana Souza',
