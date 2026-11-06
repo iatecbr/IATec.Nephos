@@ -9934,7 +9934,12 @@
     "stepsDoneValue": "4 de 4",
     "stepsDoneHelp": "Cadastro concluído.",
     "stepsErrorValue": "Erro na etapa 3",
-    "stepsErrorHelp": "Etapa 3 de 4: não foi possível verificar o endereço. Revise-o e tente de novo."
+    "stepsErrorHelp": "Etapa 3 de 4: não foi possível verificar o endereço. Revise-o e tente de novo.",
+    "widthLabels": [
+      "Contêiner: a largura do campo",
+      "Contêiner: metade dela",
+      "Contêiner: mais estreito que o mínimo"
+    ]
   },
   "progressDocs": {
     "summary": "A barra que mostra quanto de um processo longo já foi feito, como um envio de arquivo ou um cadastro em etapas, ou que ele está em andamento enquanto ainda não há valor.",

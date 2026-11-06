@@ -9934,7 +9934,12 @@
     "stepsDoneValue": "4 de 4",
     "stepsDoneHelp": "Registro completado.",
     "stepsErrorValue": "Error en el paso 3",
-    "stepsErrorHelp": "Paso 3 de 4: no se pudo verificar la dirección. Revísela e inténtelo de nuevo."
+    "stepsErrorHelp": "Paso 3 de 4: no se pudo verificar la dirección. Revísela e inténtelo de nuevo.",
+    "widthLabels": [
+      "Contenedor: el ancho del campo",
+      "Contenedor: la mitad",
+      "Contenedor: más estrecho que el mínimo"
+    ]
   },
   "progressDocs": {
     "summary": "La barra que muestra cuánto de un proceso largo ya se hizo, como una carga de archivo o un registro por pasos, o que está en curso mientras todavía no hay valor.",

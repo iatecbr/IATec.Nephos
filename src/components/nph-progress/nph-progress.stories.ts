@@ -302,10 +302,11 @@ export const Width: Story = {
   name: 'Width',
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
+    const [full, half, narrow] = v.widthLabels as string[];
     const widths: Array<[string, string]> = [
-      ['container: layout/field-width', 'var(--nph-layout-field-width)'],
-      ['container: half', 'calc(var(--nph-layout-field-width) / 2)'],
-      ['container: narrower than the minimum', 'var(--nph-progress-height-md)'],
+      [full as string, 'var(--nph-layout-field-width)'],
+      [half as string, 'calc(var(--nph-layout-field-width) / 2)'],
+      [narrow as string, 'var(--nph-progress-height-md)'],
     ];
     return validationPage(
       context,

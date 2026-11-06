@@ -88,6 +88,11 @@
   background-color: var(--nph-progress-track-background);
 }
 
+/* Determinate paints the rest of the track itself, so the gap after the indicator stays empty. */
+:host([type='determinate']) .track {
+  background-color: transparent;
+}
+
 :host([size='sm']) .track {
   block-size: var(--nph-progress-height-sm);
 }
@@ -129,6 +134,16 @@
   background-color: var(--nph-progress-indicator-background-error);
 }
 
+/* The rest of the track: from the value to the end, apart from the indicator by the track gap. */
+.rest {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  inline-size: calc(100% - var(--_value) * 1%);
+  border-radius: var(--nph-progress-radius);
+  background-color: var(--nph-progress-track-background);
+}
+
 /* The end stop: shows where the track ends, on every determinate value below 100. */
 .stop {
   position: absolute;
@@ -146,7 +161,8 @@
 .segment-loop {
   position: absolute;
   inset-block: 0;
-  inset-inline-start: 0;
+  /* The loop runs left to right in any direction: the segment is anchored at the physical edge. */
+  left: 0;
   inline-size: calc(100% / 3);
   border-radius: var(--nph-progress-radius);
   background-color: var(--nph-progress-indicator-background);

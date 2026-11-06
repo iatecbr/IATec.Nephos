@@ -9934,7 +9934,12 @@
     "stepsDoneValue": "4 of 4",
     "stepsDoneHelp": "Sign-up complete.",
     "stepsErrorValue": "Error on step 3",
-    "stepsErrorHelp": "Step 3 of 4: the address could not be checked. Review it and try again."
+    "stepsErrorHelp": "Step 3 of 4: the address could not be checked. Review it and try again.",
+    "widthLabels": [
+      "Container: the field width",
+      "Container: half of it",
+      "Container: narrower than the minimum"
+    ]
   },
   "progressDocs": {
     "summary": "The bar that shows how much of a long process is done, such as an upload or a sign-up in steps, or that it is under way while there is still no value.",

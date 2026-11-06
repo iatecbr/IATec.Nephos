@@ -133,6 +133,29 @@ describe('determinate: the indicator and the end stop', () => {
     expect(box.height).toBe(8);
   });
 
+  it('the gap after the indicator is empty: the track paints nothing there, the rest starts after the gap', async () => {
+    const progress = await mount({ value: 50 });
+    const gap = parseFloat(resolved('width', '--nph-progress-track-gap'));
+    const bar = track(progress).getBoundingClientRect();
+    const indicator = part(progress, '.indicator')!.getBoundingClientRect();
+    const rest = part(progress, '.rest')!.getBoundingClientRect();
+    expect(getComputedStyle(track(progress)).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    expect(rest.left - indicator.right).toBeCloseTo(gap, 1);
+    expect(rest.right).toBeCloseTo(bar.right, 1);
+    expect(rest.left).toBeCloseTo(bar.left + bar.width * 0.5, 1);
+    /* Nothing is painted in the middle of the gap: the element there is the track, with no color. */
+    const middle = document.elementsFromPoint(indicator.right + gap / 2, bar.top + bar.height / 2);
+    const painted = middle.filter((element) => element.shadowRoot === null && getComputedStyle(element).backgroundColor !== 'rgba(0, 0, 0, 0)');
+    expect(painted.map((element) => element.tagName)).not.toContain('SPAN');
+  });
+
+  it('at 0 the rest fills the whole track, and at 100 there is no rest', async () => {
+    const empty = await mount({ value: 0 });
+    expect(part(empty, '.rest')!.getBoundingClientRect().width).toBe(280);
+    const full = await mount({ value: 100 });
+    expect(part(full, '.rest')).toBeNull();
+  });
+
   it('never goes below zero width: at 1 the indicator is a sliver, not a negative box', async () => {
     const progress = await mount({ value: 1 });
     expect(part(progress, '.indicator')!.getBoundingClientRect().width).toBeGreaterThanOrEqual(0);
@@ -176,7 +199,9 @@ describe('determinate: the indicator and the end stop', () => {
 
   it('the colors come from the progress tokens', async () => {
     const progress = await mount({ value: 50 });
-    expect(getComputedStyle(track(progress)).backgroundColor).toBe(resolved('background-color', '--nph-progress-track-background'));
+    expect(getComputedStyle(part(progress, '.rest')!).backgroundColor).toBe(
+      resolved('background-color', '--nph-progress-track-background'),
+    );
     expect(getComputedStyle(part(progress, '.indicator')!).backgroundColor).toBe(
       resolved('background-color', '--nph-progress-indicator-background'),
     );
@@ -312,6 +337,24 @@ describe('indeterminate', () => {
     animation.pause();
     animation.currentTime = 0;
     expect(segment.getBoundingClientRect().right).toBeCloseTo(bar.left, 1);
+    animation.currentTime = 1399;
+    expect(segment.getBoundingClientRect().left).toBeGreaterThan(bar.right - 1);
+  });
+
+  it('in a right-to-left container the loop still runs left to right, starting outside the left edge', async () => {
+    const progress = await mount({ type: 'indeterminate', label: 'Preparing' });
+    (progress.parentElement as HTMLElement).dir = 'rtl';
+    await progress.updateComplete;
+    const bar = track(progress).getBoundingClientRect();
+    const segment = part(progress, '.segment-loop')!;
+    const animation = segment.getAnimations()[0] as Animation;
+    animation.pause();
+    animation.currentTime = 0;
+    expect(segment.getBoundingClientRect().right).toBeCloseTo(bar.left, 1);
+    animation.currentTime = 700;
+    const middle = segment.getBoundingClientRect();
+    expect(middle.left).toBeGreaterThan(bar.left);
+    expect(middle.left).toBeLessThan(bar.right);
     animation.currentTime = 1399;
     expect(segment.getBoundingClientRect().left).toBeGreaterThan(bar.right - 1);
   });

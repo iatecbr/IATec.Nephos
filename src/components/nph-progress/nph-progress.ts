@@ -282,13 +282,15 @@ export class NphProgress extends LitElement {
       return html`<span class="segment-loop"></span>`;
     }
     const full = this.value === 100;
+    /* The indicator and the rest of the track are two pills with the track gap between them: the
+     * track itself paints nothing, so the gap shows the background of the page. */
     return html`<span
         class="indicator"
         ?hidden=${this.value === 0}
         data-full=${full ? 'true' : 'false'}
         style=${styleMap({ '--_value': String(this.value) })}
       ></span>
-      ${full ? nothing : html`<span class="stop"></span>`}`;
+      ${full ? nothing : html`<span class="rest" style=${styleMap({ '--_value': String(this.value) })}></span><span class="stop"></span>`}`;
   }
 
   protected override render(): TemplateResult | typeof nothing {
