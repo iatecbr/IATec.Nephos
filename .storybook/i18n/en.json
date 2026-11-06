@@ -10059,7 +10059,7 @@
       ],
       [
         "duration",
-        "Milliseconds a toast stays before it closes by itself: 6000 by default, 0 to keep it, and never between 1 and 5999 (WCAG 2.2.1). It is ignored on inline, on error, on loading and with an action."
+        "Milliseconds a toast stays before it closes by itself: 6000 by default, 0 to keep it. A value between 1 and 5999 is invalid in every placement (WCAG 2.2.1). A valid value only counts on a toast that is not error, not loading and has no action; elsewhere it is ignored."
       ],
       [
         "time-bar",

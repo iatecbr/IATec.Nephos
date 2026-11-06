@@ -10059,7 +10059,7 @@
       ],
       [
         "duration",
-        "Milisegundos que un toast se queda antes de cerrarse solo: 6000 por defecto, 0 para mantenerlo, y nunca entre 1 y 5999 (WCAG 2.2.1). Se ignora en inline, en error, en loading y con acción."
+        "Milisegundos que un toast se queda antes de cerrarse solo: 6000 por defecto, 0 para mantenerlo. Un valor entre 1 y 5999 no es válido en ninguna posición (WCAG 2.2.1). Un valor válido solo cuenta en un toast que no es error, no es loading y no tiene acción; en los demás casos se ignora."
       ],
       [
         "time-bar",

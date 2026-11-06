@@ -440,6 +440,9 @@ application. The piece draws one toast; position and stacking belong to the regi
 </div>
 ```
 
+The distance from the corner is the application's choice: the example uses `layout/margin-compact`, and
+the contract names no token for it.
+
 - Anchor the region at the bottom-right corner with `position: fixed`.
 - Put `notification/stack-gap` between the toasts. The CSS of the piece does not read it: the
   gap belongs to the region.
