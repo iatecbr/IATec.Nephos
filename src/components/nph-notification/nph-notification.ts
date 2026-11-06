@@ -203,6 +203,7 @@ export class NphNotification extends LitElement {
   private reported: string[] = [];
   private pointerQuery: MediaQueryList | undefined;
   private resizeObserver: ResizeObserver | undefined;
+  private observed: Element | null = null;
   private timerId: number | undefined;
   private timerStartedAt = 0;
   private remaining = 0;
@@ -238,6 +239,11 @@ export class NphNotification extends LitElement {
       this.coarse = this.pointerQuery.matches;
       this.pointerQuery.addEventListener('change', this.onPointerChange);
     }
+    /* Back in the page after a move: the observer and the timer start again. */
+    if (this.hasUpdated) {
+      this.observeSize();
+      this.syncTimer();
+    }
   }
 
   override disconnectedCallback(): void {
@@ -250,6 +256,7 @@ export class NphNotification extends LitElement {
     this.pointerQuery = undefined;
     this.resizeObserver?.disconnect();
     this.resizeObserver = undefined;
+    this.observed = null;
     this.hovering = false;
     this.focusing = false;
     this.stopTimer();
@@ -441,11 +448,25 @@ export class NphNotification extends LitElement {
   // ---- reflow (single-line to stacked) -------------------------------------------------------
 
   protected override firstUpdated(): void {
+    /* The width of the text changes when the font arrives, with no change in the box. */
+    void document.fonts?.ready.then(() => {
+      if (this.isConnected) this.syncReflow();
+    });
+  }
+
+  /** Watches the box and the hidden twin of the text, so a change in either measures the reflow again. */
+  private observeSize(): void {
+    this.resizeObserver?.disconnect();
+    this.resizeObserver = undefined;
+    this.observed = null;
+    if (typeof ResizeObserver === 'undefined') return;
     const container = this.renderRoot.querySelector('.container');
-    if (container !== null && typeof ResizeObserver !== 'undefined') {
-      this.resizeObserver = new ResizeObserver(() => this.syncReflow());
-      this.resizeObserver.observe(container);
-    }
+    const probe = this.renderRoot.querySelector('.probe');
+    if (container === null) return;
+    this.observed = container;
+    this.resizeObserver = new ResizeObserver(() => this.syncReflow());
+    this.resizeObserver.observe(container);
+    if (probe !== null) this.resizeObserver.observe(probe);
   }
 
   /**
@@ -484,6 +505,8 @@ export class NphNotification extends LitElement {
 
   protected override updated(_changed: PropertyValues<this>): void {
     if (!this.isConnected) return;
+    /* The box is drawn only while the input is valid: watch it from the update that draws it. */
+    if (this.renderRoot.querySelector('.container') !== this.observed) this.observeSize();
     this.syncReflow();
     this.syncTimer();
   }

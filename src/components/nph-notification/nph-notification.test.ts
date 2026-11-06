@@ -451,6 +451,18 @@ describe('layout', () => {
     expect(note.hasAttribute('data-nph-reflowed')).toBe(false);
   });
 
+  it('a notification that was invalid and becomes valid also follows the width', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const { note } = await mount({
+      attributes: { layout: 'single-line', heading: 'Deadline is near', description: undefined, action: 'Review' },
+      parentStyle: 'inline-size: 360px;',
+    });
+    expect(note.hasAttribute('data-nph-rendered')).toBe(false);
+    note.description = 'The report is due in two days, so send it to the team today.';
+    await note.updateComplete;
+    expect(note.hasAttribute('data-nph-reflowed')).toBe(true);
+  });
+
   it('stacked never reflows', async () => {
     const { note } = await mount({ attributes: { description: `${DESCRIPTION} ${DESCRIPTION}` }, parentStyle: 'inline-size: 300px;' });
     expect(note.hasAttribute('data-nph-reflowed')).toBe(false);
@@ -914,6 +926,18 @@ describe('the time a toast stays', () => {
     note.remove();
     await vi.advanceTimersByTimeAsync(60000);
     expect(seen).toEqual([]);
+    expect(parent.isConnected).toBe(true);
+  });
+
+  it('moving the notification in the page starts the timer again', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
+    const { parent, note } = await mount({ attributes: { placement: 'toast' } });
+    const other = document.createElement('div');
+    document.body.append(other);
+    other.append(note);
+    await note.updateComplete;
+    await advance(note, 6000);
+    expect(note.hidden).toBe(true);
     expect(parent.isConnected).toBe(true);
   });
 

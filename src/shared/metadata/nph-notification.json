@@ -1,0 +1,346 @@
+{
+  "piece": "nph-notification",
+  "level": "component",
+  "status": "active",
+  "solves": "Reports a result, a risk or a piece of guidance as a system message, inside the page tied to an area (inline) or floating over it (toast), in the severity the consumer picks, with an optional title, up to two actions and a close button.",
+  "use_when": [
+    "Inline: a message tied to an area of the page, which stays until the problem is solved or the person closes it.",
+    "Inline at the top of the page, full width: a notice about the whole page.",
+    "Toast: to confirm an action or to report the end of a background task, without taking the person away from what they are doing.",
+    "Toast with error: only for a failure that does not stop the person, such as a send that can be repeated.",
+    "Choose the severity by meaning: success for what worked, error for what failed and needs action, warning for risk, info for useful information, neutral for a notice with no tone, loading for a task in progress.",
+    "Help for guidance, such as a tip, a tour or support content; never for the result of an operation.",
+    "Subtle emphasis by default, in both placements; solid only when the message needs more weight and has no action.",
+    "Single-line for short text; when the text goes beyond one line, it reflows to stacked and the action moves below."
+  ],
+  "do_not_use_when": [
+    "For what needs an answer before going on: use nph-alert-dialog.",
+    "For the error of a field: it stays in nph-field.",
+    "For an error that stops the person: use an inline notification near the problem.",
+    "For the result of an operation with the help severity: use success, error, warning or info.",
+    "For an action that navigates: the actions are buttons; a link waits for nph-link."
+  ],
+  "api": {
+    "placement": {
+      "type": "enum",
+      "values": [
+        "inline",
+        "toast"
+      ],
+      "required": false,
+      "default": "inline",
+      "reflects": true,
+      "constraint": "The Figma property `placement`. inline: inside the page, tied to an area, with the width of its area, persistent. toast: floats over the page, with the elevation/modal effect, and may close by itself. Reflects because the internal CSS selects by it. Any other value draws nothing and emits console.error in development."
+    },
+    "severity": {
+      "type": "enum",
+      "values": [
+        "info",
+        "success",
+        "warning",
+        "error",
+        "help",
+        "neutral",
+        "loading"
+      ],
+      "required": false,
+      "default": "info",
+      "reflects": true,
+      "constraint": "The meaning of the message, the Figma property `severity`; it sets the color and the drawing, so the consumer picks the severity and never the color. loading exists only on the subtle toast and has no actions, no close button and no time bar. Reflects because the internal CSS selects by it. Any other value draws nothing and emits console.error in development."
+    },
+    "emphasis": {
+      "type": "enum",
+      "values": [
+        "subtle",
+        "solid"
+      ],
+      "required": false,
+      "default": "subtle",
+      "reflects": true,
+      "constraint": "The Figma property `emphasis`. subtle: the soft background of the severity, with a border. solid: the full background of the severity, with no border, no actions and only the close button. Reflects because the internal CSS selects by it. Any other value draws nothing and emits console.error in development."
+    },
+    "layout": {
+      "type": "enum",
+      "values": [
+        "stacked",
+        "single-line"
+      ],
+      "required": false,
+      "default": "stacked",
+      "reflects": true,
+      "constraint": "The Figma property `layout`. stacked: the title on top, the description and the actions below. single-line: everything on one line, for short text, with only the main action. When the text goes beyond one line, a single-line notification reflows to stacked and the action moves below the text; a toast keeps the width of the layout it declared. Reflects because the internal CSS selects by it. Any other value draws nothing and emits console.error in development."
+    },
+    "heading": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The title, already localized by the consuming application: the result in words, such as Payment declined. It is the Figma property `título`, whose boolean is the presence of a non-empty heading. The name is not title, a global HTML attribute that the browser would show as a native tooltip. Empty or only spaces draws no title."
+    },
+    "description": {
+      "type": "string",
+      "required": true,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "What happened and what to do, already localized. Always present. Empty or only spaces draws nothing and emits console.error in development."
+    },
+    "action": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The text of the main action, already localized; it is the Figma boolean `ações`. The main action is an nph-button in the type of the severity, solid (primary on neutral), at size default. Firing it emits nph-action. Solid and loading take no actions: the text is ignored there, with no error. Empty draws no action."
+    },
+    "secondary-action": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The text of the secondary action, already localized; it is the Figma boolean `ação secundária`. It is an nph-button ghost, with its label in the color of the severity. It needs the main action: alone, it draws nothing and emits console.error in development. Single-line, solid and loading do not draw it, with no error. The property is secondaryAction."
+    },
+    "hide-close": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": false,
+      "constraint": "Turns off the close button, which is on by default; it is the Figma boolean `fechar` turned around. Loading has no close button whatever the property says. The property is hideClose."
+    },
+    "close-label": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The accessible name of the close button, already localized, such as Close. Required while the close button is shown: without it, the notification draws nothing and emits console.error in development. Loading needs none, but give it anyway when the same toast will turn into success or error. The property is closeLabel."
+    },
+    "duration": {
+      "type": "number",
+      "required": false,
+      "default": 6000,
+      "reflects": false,
+      "constraint": "Milliseconds a toast stays before it closes by itself. 0 keeps it until the person acts. A value between 1 and 5999, a negative one or one that is not a number is invalid (WCAG 2.2.1): the notification draws nothing and emits console.error in development. Only a subtle or solid toast that is not error, not loading and has no action reads it; a valid duration on inline, on error, on loading or with an action is ignored, with no error. It pauses while the pointer is over the toast and while focus is inside it."
+    },
+    "time-bar": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": false,
+      "constraint": "The Figma boolean `barra de tempo`: a line at the base of the toast that stands for the time until it closes. Only on a subtle toast that closes by itself: on inline, on solid, on error, on loading, with an action or with duration 0 it draws nothing and emits console.error in development. Until nph-progress is wired in, it is an nph-skeleton line, stopped, as Figma shows it. The property is timeBar."
+    },
+    "nph-action": {
+      "type": "event",
+      "required": false,
+      "default": "none",
+      "reflects": false,
+      "constraint": "Fired when the person activates an action. detail.action is primary or secondary. It bubbles and crosses the shadow root; it is not cancelable. The notification does not close on its own after an action: the consumer decides."
+    },
+    "nph-close": {
+      "type": "event",
+      "required": false,
+      "default": "none",
+      "reflects": false,
+      "constraint": "Fired before the notification closes. detail.source is close-button, when the person pressed the close button, or timeout, when the time of a toast ran out. It bubbles, crosses the shadow root and is cancelable: preventDefault keeps the notification on the page, and after a timeout the time does not restart. Without preventDefault the notification hides itself with the hidden attribute; the consumer removes the element."
+    }
+  },
+  "variants": {
+    "placement": {
+      "axis": "appearance",
+      "choose_when": "inline for a message tied to an area of the page, which stays until it is solved; toast to confirm an action or report the end of a background task.",
+      "do_not_combine_with": [
+        "severity loading with inline.",
+        "time-bar with inline."
+      ]
+    },
+    "severity": {
+      "axis": "appearance",
+      "choose_when": "success for what worked; error for what failed and needs action; warning for risk; info for useful information; help for guidance; neutral for a notice with no tone; loading for a task in progress, on the subtle toast.",
+      "do_not_combine_with": [
+        "help for the result of an operation.",
+        "loading with solid or with inline."
+      ]
+    },
+    "emphasis": {
+      "axis": "appearance",
+      "choose_when": "subtle by default; solid only when the message needs more weight and has no action.",
+      "do_not_combine_with": [
+        "solid with an action: the actions are not drawn.",
+        "solid with time-bar."
+      ]
+    },
+    "layout": {
+      "axis": "density",
+      "choose_when": "stacked by default; single-line for short text, with only the main action.",
+      "do_not_combine_with": [
+        "single-line with text longer than one line: use stacked, with the actions below.",
+        "single-line with a secondary action: it is not drawn."
+      ]
+    }
+  },
+  "states": {
+    "container": {
+      "token": "notification/<severity>-surface, notification/<severity>-border, notification/<severity>-solid",
+      "changes_for_user": "The notification has no state of its own: it never takes focus and does not react to hover. Hover, focus and pressed belong to the pieces inside."
+    },
+    "secondary-action-hover": {
+      "token": "notification/<severity>-action-background-hover",
+      "changes_for_user": "The ghost secondary action takes the hover background of its severity; its label rests in notification/<severity>-action-foreground."
+    },
+    "close-on-solid-hover": {
+      "token": "notification/close-background-hover at notification/close-background-hover-opacity",
+      "changes_for_user": "On solid, the close button takes the text color as a veil at 16 percent; neutral uses notification/neutral-close-background-hover."
+    },
+    "close-on-solid-focus": {
+      "token": "notification/close-focus-border in notification/close-focus-border-width",
+      "changes_for_user": "On solid, the close button shows a 2 px border in the text color and no halo; neutral uses notification/neutral-close-focus-border."
+    },
+    "closing-paused": {
+      "token": "not_applicable",
+      "changes_for_user": "While the pointer is over a toast that closes by itself, or focus is inside it, its time stops and goes on from what was left."
+    },
+    "reflowed": {
+      "token": "not_applicable",
+      "changes_for_user": "A single-line notification whose text does not fit on one line takes the stacked layout, with the action below the text."
+    }
+  },
+  "business_rules": [
+    "The consumer picks the severity, never the color: there is no color property.",
+    "The description is always present and says what happened and what to do; the heading, when there is one, says the result in words.",
+    "At most two actions, one main and one secondary; the secondary needs the main one.",
+    "Solid has no actions and loading has no actions and no close button; the parts the Figma set says have no effect are not drawn and raise no error.",
+    "An action and the time bar never go together: a toast with an action does not close by itself, and the code blocks the pair.",
+    "A toast that closes by itself stays at least 6 seconds and pauses while the pointer is over it or focus is inside it; error, loading and a toast with an action never close by themselves.",
+    "The notification never takes or moves focus.",
+    "The notification does not remove itself: on nph-close it hides with hidden unless the event is canceled, and the consumer removes the element.",
+    "A loading toast turns into success or error in the same toast when the task ends: the consumer changes severity, heading and description.",
+    "The toast region is the container of the consuming application, not a piece."
+  ],
+  "domain_errors": [],
+  "tokens": {
+    "container": [
+      "notification/radius",
+      "notification/toast-radius",
+      "notification/border-width"
+    ],
+    "padding": [
+      "notification/padding-start",
+      "notification/padding-block",
+      "notification/padding-end"
+    ],
+    "gap": [
+      "notification/gap",
+      "notification/content-gap",
+      "notification/content-gap-single-line",
+      "notification/content-padding-block",
+      "notification/content-actions-gap",
+      "notification/actions-gap",
+      "notification/actions-padding-top"
+    ],
+    "subtle": "notification/<severity>-surface and notification/<severity>-border",
+    "solid": "notification/<severity>-solid, with notification/on-solid",
+    "neutral": "notification/neutral-surface, notification/neutral-border, notification/neutral-icon, notification/neutral-solid and notification/neutral-on-solid",
+    "loading": "notification/loading-surface and notification/loading-border",
+    "text": [
+      "notification/text",
+      "text/heading-xs",
+      "text/body-md"
+    ],
+    "icon": [
+      "notification/icon-size",
+      "notification/<severity>-solid",
+      "notification/neutral-icon"
+    ],
+    "secondary_action": [
+      "notification/<severity>-action-foreground",
+      "notification/<severity>-action-background-hover",
+      "notification/neutral-action-foreground",
+      "notification/neutral-action-background-hover"
+    ],
+    "close_on_solid": [
+      "notification/close-background-hover",
+      "notification/close-background-hover-opacity",
+      "notification/close-focus-border",
+      "notification/close-focus-border-width",
+      "notification/neutral-close-background-hover",
+      "notification/neutral-close-focus-border"
+    ],
+    "width": [
+      "notification/toast-width",
+      "notification/toast-width-max"
+    ],
+    "elevation": "elevation/modal",
+    "touch": "control/height-large",
+    "focus": [
+      "focus/border",
+      "focus/halo"
+    ],
+    "region": "notification/stack-gap"
+  },
+  "ai_hints": [
+    "Use nph-notification to report a result, a risk or a piece of guidance; what needs an answer before going on is nph-alert-dialog and the error of a field stays in nph-field.",
+    "Use inline for a message tied to an area of the page and toast to confirm an action or report the end of a task.",
+    "Pick severity by meaning and never set a color; help is for guidance, never for the result of an operation.",
+    "Write the result in heading, such as Payment declined, and what happened and what to do in description, which is required.",
+    "Give action and secondary-action as text, listen to nph-action, and use at most two; solid and loading take none.",
+    "Give close-label, already localized, while the close button is shown; listen to nph-close and remove the element, because the notification only hides itself.",
+    "Keep error toasts and toasts with an action on the screen until the person acts or closes them; they never close by themselves.",
+    "Never turn on time-bar together with an action, on error, on loading or with duration 0.",
+    "Build the toast region in your own container, at the bottom-right corner, with at most three toasts and notification/stack-gap between them."
+  ],
+  "accessibility": {
+    "semantics": "The host has role alert on error and warning and role status on the others, and takes no focus. The contract specifies the announcement only for the toast; using the same rule for inline is an extension of this piece. The severity icon is decorative (aria-hidden): the title and the description say the severity in words. The close button is an icon-only nph-button.",
+    "accessible_name": "The close button is named by close-label, already localized; the nph-button shows its own tooltip with that name. The actions are named by their text. The notification has no name of its own: its role announces its content.",
+    "keyboard": [
+      "Tab reaches the actions and the close button, in reading order; the notification takes no focus itself.",
+      "Enter and Space activate an action or the close button, as in nph-button.",
+      "A toast that closes by itself pauses while focus is inside it and goes on when focus leaves."
+    ],
+    "focus": "The notification never moves focus when it appears or closes. Actions and close show the focus ring of nph-button. On solid, the close shows a 2 px border in the text color and no halo.",
+    "contrast": "Text passes 4.5:1 and icon passes 3:1 in every severity and emphasis, in light and dark, including the label of the main action and of the secondary action in the severity color.",
+    "color_alternative": "Each severity has its own icon drawing, and the title says the result in words; the loading toast shows a spinner next to the text."
+  },
+  "invalid_combinations": [
+    "A placement, severity, emphasis or layout outside its list — nothing is drawn and console.error is emitted in development.",
+    "An empty description — nothing is drawn.",
+    "severity loading outside the subtle toast — nothing is drawn.",
+    "A duration between 1 and 5999, or one that is negative or not a number — nothing is drawn; use 0 or 6000 and up.",
+    "secondary-action without action — nothing is drawn.",
+    "time-bar outside a subtle toast, on error, on loading, with an action or with duration 0 — nothing is drawn.",
+    "The close button shown with no close-label — nothing is drawn."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-button",
+      "nph-icon",
+      "nph-spinner",
+      "nph-skeleton"
+    ],
+    "parents": [
+      "a form area or any area of the page, for inline",
+      "the toast region of the consuming application, for toast"
+    ],
+    "children": [
+      "nph-icon",
+      "nph-spinner",
+      "nph-button",
+      "nph-skeleton"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "Using help for the result of an operation.",
+    "A neutral button as the main action, such as secondary outline on a warning.",
+    "Single-line with text longer than one line.",
+    "A toast for an error that stops the person.",
+    "Turning the title off and leaving the description without the result.",
+    "An action and the time bar together.",
+    "Detaching the instance to change severity, emphasis or layout."
+  ],
+  "sources": {
+    "design_md": "design.md, the notification/* tokens, color/inverse, color/inverse-foreground, color/background-subtle, elevation/modal, text/heading-xs, text/body-md, control/height-large and the focus tokens",
+    "decision": "P108 — nph-notification: API and semantics",
+    "tests": "src/components/nph-notification/nph-notification.test.ts and nph-notification.docs.test.ts",
+    "usage_evidence": "the mandatory examples of the nph-notification Examples story and Docs page: an error in a form area, an action confirmation and a task in progress",
+    "storybook": "src/components/nph-notification/nph-notification.stories.ts and nph-notification.docs.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, page NPH — Notification 1369:2, documentation 3442:10163, set 3434:9035, close focus on solid 4207:1146"
+  }
+}

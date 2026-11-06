@@ -6,8 +6,8 @@
  * precedent for component CSS: the piece takes its measures from its own tokens.
  *
  * THE TOAST REGION is not a piece (P108). `toastRegion` is the frame a consuming application
- * builds: a column at the corner, `notification/stack-gap` between the toasts, the newest next to
- * the corner. Here it is drawn in the flow of the page, so a page can show it next to other
+ * builds: a column that ends at the corner, `notification/stack-gap` between the toasts, the newest
+ * one last, next to the corner. Here it is drawn in the flow of the page, so a page can show it next to other
  * examples; an application fixes it to the bottom-right corner of the window.
  *
  * The functions take the visible text as arguments: this file holds none, because every visible
@@ -102,7 +102,7 @@ export function column(items: TemplateResult[]): TemplateResult {
 
 /**
  * The toast region frame (P108): what a consuming application builds. A column that ends at the
- * corner, with `notification/stack-gap` between the toasts. The newest toast comes first, next to
+ * corner, with `notification/stack-gap` between the toasts. The newest toast comes last, next to
  * the corner, and at most three show.
  */
 export function toastRegion(toasts: TemplateResult[], label: string): TemplateResult {

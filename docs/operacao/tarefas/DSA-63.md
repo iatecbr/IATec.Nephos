@@ -35,7 +35,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The accepted documentation describes a toast region at the bottom-right corner, with up to three toasts, but it is not a component set in Figma and the task builds no new piece. The code leaves the region to the consuming application: the sheet teaches how to build it and the Storybook shows it as a frame. Should the region become a piece of its own? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-06"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-63/figma-docs-accepted-2026-11-04.md"
   ],
