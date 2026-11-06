@@ -1,0 +1,191 @@
+/**
+ * Internal style of `nph-breadcrumb`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties
+ * consumed here: the `breadcrumb/*` ones, and the global focus tokens, which the accepted evidence
+ * gives to the link and to the ellipsis (`focus/border`, `border/width`,
+ * `focus/border-radius-control`, `focus/halo`, `focus/ring-width` and
+ * `focus/radius-control-with-border`). The typography comes from the `breadcrumb/font-*` and
+ * `breadcrumb/line-height` tokens, and not from `text/body-md`: the evidence points them straight
+ * to core.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `none`, `nowrap`
+ * (one line, never wrapped), `underline`, `scale: -1 1` (the separator mirrors in right-to-left
+ * writing) and `calc(-1 * ...)` (focus border and halo outside the box, without changing its size).
+ *
+ * THE MENU WIDTH — the hidden levels menu is an `nph-dropdown-menu`, whose panel reads its width from
+ * `layout/input-width`. Here that one custom property, set on the menu element, is the only way in:
+ * the width hugs the widest option between `breadcrumb/menu-min-width` and
+ * `breadcrumb/menu-max-width`, the text cut by the ellipsis the menu already draws. That needs
+ * `calc-size()`. Where the browser does not know it, the menu keeps the ceiling as its fixed width,
+ * which is what `nph-dropdown-menu` does by itself: the text is still cut at the ceiling, and the
+ * hug and the floor are a known limit (P109).
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid trail. */
+:host([data-nph-rendered]:not([hidden])) {
+  display: block;
+}
+
+.list {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--nph-breadcrumb-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--nph-breadcrumb-font-family);
+  font-size: var(--nph-breadcrumb-font-size);
+  line-height: var(--nph-breadcrumb-line-height);
+  letter-spacing: var(--nph-breadcrumb-letter-spacing);
+}
+
+/* A level with the separator that follows it: the gap is the same between every part of the trail. */
+.part {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--nph-breadcrumb-gap);
+  white-space: nowrap;
+}
+
+.link,
+.current {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nph-breadcrumb-item-icon-gap);
+  border-radius: var(--nph-breadcrumb-item-radius);
+}
+
+.link {
+  color: var(--nph-breadcrumb-link-foreground);
+  font-weight: var(--nph-breadcrumb-link-font-weight);
+  text-decoration: none;
+  outline: none;
+}
+
+.current {
+  color: var(--nph-breadcrumb-current-foreground);
+  font-weight: var(--nph-breadcrumb-current-font-weight);
+}
+
+.link:hover {
+  color: var(--nph-breadcrumb-link-foreground-hover);
+}
+
+.link:hover .label {
+  text-decoration: underline;
+}
+
+.link:focus-visible {
+  color: var(--nph-breadcrumb-link-foreground-focus);
+}
+
+.level-icon {
+  flex: none;
+  inline-size: var(--nph-breadcrumb-item-icon-size);
+  block-size: var(--nph-breadcrumb-item-icon-size);
+}
+
+.separator {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  color: var(--nph-breadcrumb-separator-foreground);
+}
+
+.separator nph-icon {
+  inline-size: var(--nph-breadcrumb-icon-size);
+  block-size: var(--nph-breadcrumb-icon-size);
+}
+
+/* In right-to-left writing the chevron points the other way. */
+:host(:dir(rtl)) .separator nph-icon {
+  scale: -1 1;
+}
+
+/* The ellipsis: a button at `breadcrumb/ellipsis-target-size`, the icon in the middle. */
+.ellipsis {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--nph-breadcrumb-ellipsis-target-size);
+  block-size: var(--nph-breadcrumb-ellipsis-target-size);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--nph-breadcrumb-item-radius);
+  background: none;
+  color: var(--nph-breadcrumb-ellipsis-foreground);
+  font: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+.ellipsis nph-icon {
+  inline-size: var(--nph-breadcrumb-icon-size);
+  block-size: var(--nph-breadcrumb-icon-size);
+}
+
+/* Hover and open: the icon and the background. The menu writes `aria-expanded` on the button. */
+.ellipsis:hover,
+.ellipsis[aria-expanded='true'] {
+  background-color: var(--nph-breadcrumb-ellipsis-background-hover);
+  color: var(--nph-breadcrumb-ellipsis-foreground-hover);
+}
+
+/*
+ * Focus, keyboard only, on the link and on the ellipsis: two layers outside the box. The border
+ * `border/width` in `focus/border`, radius `focus/border-radius-control`; the halo `focus/ring-width`
+ * in `focus/halo`, radius `focus/radius-control-with-border`. The icon of the ellipsis keeps the
+ * color of rest on focus.
+ */
+.link:focus-visible::before,
+.link:focus-visible::after,
+.ellipsis:focus-visible::before,
+.ellipsis:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.link:focus-visible::before,
+.ellipsis:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+
+.link:focus-visible::after,
+.ellipsis:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}
+
+/* The hidden levels menu: the ceiling as its width for every browser; the hug and the floor are below. */
+nph-dropdown-menu {
+  --nph-layout-input-width: var(--nph-breadcrumb-menu-max-width);
+}
+
+@supports (inline-size: calc-size(fit-content, size)) {
+  nph-dropdown-menu {
+    --nph-layout-input-width: calc-size(fit-content, clamp(var(--nph-breadcrumb-menu-min-width), size, var(--nph-breadcrumb-menu-max-width)));
+  }
+}
+
+/* The anchor the menu clicks to lead where a visible link would: it is never drawn. */
+.proxy {
+  display: none;
+}

@@ -495,6 +495,14 @@
     "reason": "Name of the Figma frame (Documentação), quoted as it is in the accepted board (P64: Figma is in Portuguese)."
   },
   {
+    "file": "fichas/nph-breadcrumb.md",
+    "class": "contract-term",
+    "names": [
+      "com"
+    ],
+    "reason": "Value of the Figma icons property of nph-breadcrumb (without and with), quoted as it is in the accepted documentation frame (P64: Figma is in Portuguese); the code API is icon on each level."
+  },
+  {
     "file": "fichas/nph-progress.md",
     "class": "contract-term",
     "names": [

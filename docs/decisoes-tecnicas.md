@@ -5843,9 +5843,150 @@ API and semantics are reviewed in the pull request that brings them; the merge i
 
 ---
 
+## P109 — `nph-breadcrumb`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `4512:4741`, sets `4490:2886`, `4490:2678`
+and `4490:2697` and separator `1635:16`) gives the Figma properties `niveis`, `ícones`, `tipo`,
+`state`, `rótulo` and `ícone`, and leaves the code API to the code. Six points need a decision of
+their own:
+
+- the path is a list of levels, each with a text, a destination and an optional icon, and the last
+  one is not a link: the code has to say how that list goes in, since a slot could not enforce "every
+  level above has an `href`, the current page has none";
+- in Figma `niveis` is `2`, `3`, `4` or `recolhido`, a count of levels and a mode in one property,
+  and the evidence says "use collapsed when the trail does not fit the width" without saying who
+  decides;
+- the ellipsis opens the hidden levels in an `nph-dropdown-menu`, which needs a trigger by `for`
+  in the same root, writes `aria-haspopup` and `aria-expanded` on it, and fires `nph-item-select`,
+  while the trail must behave as a list of links, where an activated level is a navigation;
+- the menu width hugs the widest option between a floor and a ceiling, and `nph-dropdown-menu` keeps
+  a fixed width of `layout/input-width` until a round of its own (accepted point 4 of the evidence);
+- the contract says nothing about a trail with 5 or more levels that is not collapsed, nor about an
+  icon in the menu of the hidden levels;
+- the piece has no loading state, by decision of the accepted documentation, and a trail that does
+  not fit is a layout decision of the page.
+
+**Decision.** `nph-breadcrumb` is a Web Component with **open Shadow DOM** (P01). It has no slot, no
+event, no `::part` and no color property. Anatomy only through semantic tokens, the `breadcrumb/*`
+ones and the global focus ones. What it rejects renders nothing and emits `console.error` only in
+development, once per cause — the rule of P66. The names follow P64.
+
+1. **`levels` is a property.** The path is a list of `{ label, href?, icon? }`, from the first level
+   to the current page, set by property only (no attribute, no slot): a list of objects does not
+   serialize to an attribute, and a slot per level could not check the rule of the last level. The
+   last level is the current page. The texts are already localized by the consuming application: the
+   piece writes no word of its own. The first level reads "Home", as the evidence says.
+
+2. **`collapsed` is a boolean chosen by the consumer.** It is the Figma `niveis=recolhido`, and it
+   reflects, so the consumer can style and check the state. Off, the trail draws every level and
+   accepts 2, 3 or 4, the counts of the accepted Figma set; more than 4 renders nothing (D-1).
+   On, it draws the first level, the ellipsis and the last two levels, and the levels in between go
+   to the menu; it needs 4 levels or more, since with 3 there would be nothing to hide. The
+   consumer chooses it because the width is the page to know: the piece does not measure itself,
+   so it never changes shape without the page asking, and the same `levels` renders the same trail.
+
+3. **Icons: all or none.** `icon` on a level is the core name of an `nph-icon` and has the Figma
+   rule `ícones=com`: every level has its own, in the light style on a link and the solid style on
+   the current page, in the color of its label. A trail with an icon on only some of the levels, or
+   with an icon outside the core, renders nothing. The menu of the hidden levels carries no icon,
+   because the contract does not say it does (D-2).
+
+4. **`href` above the current page, none on it.** Every level above the current page is a link and
+   needs an `href`; the current page is text with `aria-current="page"` and has none. A level that
+   breaks it renders nothing: a link with no destination is a dead end, and a current page that
+   leads somewhere is the link to itself that the evidence forbids. The `href` is also parsed as the
+   browser would (`new URL(href, document.baseURI)`) and only `http:`, `https:`, `mailto:` and `tel:`
+   are taken, so `javascript:` and its obfuscated spellings, such as `java` plus a line break plus
+   `script:`, render nothing: the path may come from untrusted data, and it reaches both the visible
+   link and the anchor the menu clicks. It is the rule of the link cell of `nph-table`.
+
+5. **The accessible name.** `label` names the navigation landmark; the host `aria-label` does it
+   when there is no `label`, read by a property whose attribute is `aria-label` (as in P107), since
+   a property called `ariaLabel` is the native ARIA reflection of the element. A trail with neither
+   renders and warns once in development, because the name may arrive after the first render, as in
+   P107. `ellipsis-label` is the accessible name of the ellipsis button, and it is required on the
+   collapsed trail, since the icon has no text; without it the collapsed trail renders nothing.
+
+6. **The ellipsis is a native button of the shadow root.** The `nph-dropdown-menu` beside it finds
+   the button by `for` in the same root (P77, P92) and writes `aria-haspopup="menu"` and
+   `aria-expanded` on it. The open state of the button is read from `aria-expanded` in CSS, so the
+   hover look stays while the menu is open. It is a native `button` and not an `nph-button` because
+   the `nph-button` does not pass `aria-haspopup` and `aria-expanded` to its inner button (a known
+   limit of `nph-dropdown-menu`), and the open look of the ellipsis depends on them. Its target is
+   `breadcrumb/ellipsis-target-size`.
+
+7. **A hidden level activated is a native click.** The `nph-item-select` of the menu does not leave
+   the trail: the piece stops it and clicks a hidden anchor of its own shadow root, set to the `href`
+   of the chosen level. The result travels the way a visible link does, a native `click` that bubbles,
+   is `composed` and cancelable, and a router that listens to the click on the document handles it
+   as it handles a link. The piece fires no event of its own and adds no API to be told apart from a
+   link. The limit is recorded in the sheet: `target` and the modifier keys do not apply to a click
+   made by code.
+
+8. **The width of the menu.** The `nph-dropdown-menu` panel reads its width from
+   `--nph-layout-input-width`, the one custom property it already exposes for that, and P02 forbids
+   reaching into its inside. The breadcrumb sets that property on its own menu element:
+   `breadcrumb/menu-max-width` for every browser, so the menu never passes the ceiling and the text
+   is cut by the ellipsis the menu already draws; and, under
+   `@supports (inline-size: calc-size(fit-content, size))`,
+   `calc-size(fit-content, clamp(breadcrumb/menu-min-width, size, breadcrumb/menu-max-width))`, which
+   hugs the widest option between the floor and the ceiling. The floor and the ceiling are
+   `breadcrumb/menu-min-width` and `breadcrumb/menu-max-width`. It holds only in the breadcrumb: the
+   `nph-dropdown-menu` keeps its fixed `layout/input-width` until a round of its own, as the evidence
+   says. Where `calc-size()` does not exist, the menu keeps the ceiling as a fixed width, as the
+   `nph-dropdown-menu` does by itself: the hug and the floor do not hold, and the sheet records it.
+   A `fit-content(<length>)` middle step was not kept: a browser that lacks `calc-size()` may lack it
+   too, and an invalid width would leave the panel with no ceiling.
+
+9. **One line.** The trail is `nowrap` and never shrinks. A trail that does not fit is a trail the
+   page must collapse, and the sheet records that the choice is the consumer's. Collapsing by itself
+   would need a measure the piece cannot read before it renders, and would change the shape of the
+   trail with no one asking.
+
+10. **Right-to-left.** The chevron of the separator mirrors by `:dir(rtl)`, as the evidence says;
+    the order of the levels follows the reading direction of the page.
+
+11. **Loading.** The piece has no loading state. During loading, a line of `nph-skeleton` takes the
+    place of the trail, as a documentation rule that the consuming application applies.
+
+12. **Invalid input.** A `levels` that is not a list or has fewer than 2 levels; more than 4 levels
+    on a trail that is not collapsed; a collapsed trail with fewer than 4 levels; a level without
+    `label`; a level above the current page without `href`, or the current page with one; an `icon`
+    outside the core or on only some of the levels; a collapsed trail without `ellipsis-label` — each
+    renders nothing and emits `console.error` only in development, once per cause: a re-render with
+    the same input stays silent, and a fixed input draws again with no leftover. A trail without an
+    accessible name renders and warns once.
+
+**Source.** Documentation `4512:4741`, sets `4490:2886`, `4490:2678` and `4490:2697` and separator
+`1635:16` of the Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 06/11/2026 with the Figma UX
+QA and the textual audit approved, and the points of its approval page. The property names,
+the shape of `levels`, the semantics, the invalid-input rule, the native click of a hidden level and
+the way the menu width is applied are a technical proposal of this implementation.
+
+**Out of scope.** An `nph-link`: the link stays an inner piece of the breadcrumb until it exists. An
+icon in the menu of the hidden levels. The radius of the menu and the focus border of the menu item,
+which a round of `nph-dropdown-menu` reviews. A trail of 5 or more levels without `collapsed`. A
+collapse by width done by the piece. A loading state. A new token.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — 5 or more levels without collapsing.** The accepted set draws 2, 3 or 4 levels, or the
+  collapsed trail. The code refuses 5 or more levels on a trail that is not collapsed and asks for
+  `collapsed`. If the product has paths that long and wants them drawn in full, the contract needs
+  new counts; Figma does not have them.
+- **D-2 — an icon in the menu of the hidden levels.** The contract says the menu has no header and
+  no group label, and says nothing about the icon of each level. The code draws the hidden levels as
+  text only, even when the trail has icons. If the menu should carry the icon of the level, Indiane
+  decides, and it is a round of the breadcrumb and of the item of `nph-dropdown-menu`.
+
+**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 and D-2 wait for Indiane.
+API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106 or P107 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107 or P109 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
