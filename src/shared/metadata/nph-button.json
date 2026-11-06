@@ -51,7 +51,7 @@
       "required": false,
       "default": "solid",
       "reflects": true,
-      "constraint": "The Figma emphasis: how much the action stands out. outline, light and ghost only exist in primary, secondary and danger; in the other types, only solid. A combination outside that draws nothing and emits console.error in development."
+      "constraint": "The Figma emphasis: how much the action stands out. outline and ghost only exist in primary, secondary and danger, and light only in primary and danger: secondary has no light. In the other types, only solid. The default of secondary is also solid. A combination outside that, such as secondary light, draws nothing and emits console.error in development."
     },
     "size": {
       "type": "enum",
@@ -122,7 +122,7 @@
   "variants": {
     "severity": {
       "axis": "appearance",
-      "choose_when": "By the meaning of the action, never by the color. primary: use for the main action of the block. secondary: use for the alternative action that accompanies the main one, such as Cancel next to Save. danger: use for an action that deletes, revokes or cannot be undone. info: use for an action tied to neutral information, such as a system notice or a contextual tip. warn: use for an action that requires care before proceeding. help: use for an action that opens help or guidance, such as an explanation, a tour or support content. success: use for an action that confirms something succeeded. info, warn, help and success exist only in solid.",
+      "choose_when": "By the meaning of the action, never by the color. primary: use for the main action of the block. secondary: use for the neutral action that accompanies the main one, such as Cancel next to Save; it is a color type, not a level of hierarchy, and its default is solid. danger: use for an action that deletes, revokes or cannot be undone. info: use for an action tied to neutral information, such as a system notice or a contextual tip. warn: use for an action that requires care before proceeding. help: use for an action that opens help or guidance, such as an explanation, a tour or support content. success: use for an action that confirms something succeeded. info, warn, help and success exist only in solid.",
       "do_not_combine_with": [
         "primary: do not use next to another primary solid action in the same block.",
         "secondary: do not use as the only main action of the block.",
@@ -135,9 +135,11 @@
     },
     "emphasis": {
       "axis": "appearance",
-      "choose_when": "solid for the action with weight; outline when it accompanies the main one and needs to be delimited; light when the outline would weigh too much; ghost for a tertiary action.",
+      "choose_when": "solid for the action with weight, and it is the default, also in secondary; outline for an alternative action of the same weight, side by side with another; light, only in primary and danger, when the outline would weigh too much; ghost for the icon-only button, a table row action, a support action such as close, copy or scroll, and a third-level action such as Show all.",
       "do_not_combine_with": [
-        "outline, light or ghost in info, warn, help or success"
+        "outline, light or ghost in info, warn, help or success",
+        "light in secondary: the emphasis does not exist there",
+        "outline as the default Cancel: Cancel next to Save is secondary solid"
       ]
     },
     "shape": {
@@ -163,7 +165,7 @@
       "changes_for_user": "Rest. The color communicates the type of the action."
     },
     "hover-active": {
-      "token": "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost, except secondary ghost, which takes button/secondary-ghost-background-hover with text and icon-button/secondary-ghost-background-hover in the icon only. The icons switch from light to solid, in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88)",
+      "token": "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost, except secondary ghost, which takes button/secondary-ghost-background-hover with text and icon-button/secondary-ghost-background-hover in the icon only. Secondary solid takes button/secondary-solid-background-hover with text and icon-button/secondary-solid-background-hover in the icon only; secondary outline changes the border (button/secondary-outline-border-hover, icon-button/secondary-outline-border-hover) and the background (button/secondary-outline-background-hover, icon-button/secondary-outline-background-hover). The icons switch from light to solid, in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88)",
       "changes_for_user": "The surface changes and the icons turn solid, with text and in the icon only, which confirms that the target responds."
     },
     "focus": {
@@ -219,8 +221,10 @@
       "color/primary-foreground"
     ],
     "solid_secondary": [
-      "color/secondary",
-      "color/secondary-hover",
+      "button/secondary-solid-background",
+      "button/secondary-solid-background-hover",
+      "icon-button/secondary-solid-background",
+      "icon-button/secondary-solid-background-hover",
       "color/secondary-foreground"
     ],
     "solid_status": [
@@ -245,11 +249,14 @@
       "color/primary-on-surface",
       "color/primary-on-surface-hover"
     ],
-    "light_secondary": [
+    "outline_secondary": [
       "color/muted",
-      "color/secondary-surface-hover",
-      "color/secondary-light",
-      "color/secondary-light-hover",
+      "button/secondary-outline-border",
+      "button/secondary-outline-border-hover",
+      "button/secondary-outline-background-hover",
+      "icon-button/secondary-outline-border",
+      "icon-button/secondary-outline-border-hover",
+      "icon-button/secondary-outline-background-hover",
       "color/secondary-foreground"
     ],
     "light_danger": [
@@ -266,7 +273,7 @@
   "ai_hints": [
     "An action that happens on the screen is nph-button. Going to another destination is navigation, not a button.",
     "Choose severity by the meaning of the action, never by the color.",
-    "One main action per block, in primary solid; the action beside it goes in secondary solid. Outline is not the default.",
+    "One main action per block, in primary solid; the action beside it goes in secondary solid, the default of secondary. Outline is not the default Cancel, and secondary has no light.",
     "Set size large on a touch screen and the same size as the field beside it.",
     "Without text, fill in label: it is the accessible name and the text of the tooltip the button renders.",
     "An action with a consequence has text, except in the actions column of a table, where the icon-only button and its tooltip give the name.",
@@ -283,11 +290,12 @@
       "In the icon-only button, keyboard focus opens the tooltip at once and Esc closes it; Enter and Space leave it alone."
     ],
     "focus": "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; it is an open item.",
-    "contrast": "Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in primary outline and light of the light scheme. The outline border passes 3:1. The focus border of primary has the limit described in `focus`.",
+    "contrast": "Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in primary outline and light of the light scheme. The primary and danger outline borders pass 3:1; the secondary outline border is 1.93:1 in the light scheme and 4.18:1 in the dark one, an accepted exception because the text, or the icon with its label and tooltip, identifies the button. The focus border of primary has the limit described in `focus`.",
     "color_alternative": "The text says what happens on click; color is never the only sign of intent, focus or state."
   },
   "invalid_combinations": [
     "outline, light or ghost in info, warn, help or success — the matrix does not have them.",
+    "light in secondary — the emphasis was removed; use solid.",
     "Icon only without label — the screen reader would announce only button.",
     "Two icons without text — they do not state the action.",
     "Icon only in an action with a consequence, such as delete or publish, outside the actions column of a table — write the text.",
@@ -325,11 +333,11 @@
     "Painting the button by hand or creating a type, emphasis or size outside the matrix."
   ],
   "sources": {
-    "design_md": "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block; the component tokens button/secondary-ghost-background-hover and icon-button/secondary-ghost-background-hover are in src/tokens/source/semantic.tokens.json",
-    "decision": "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button; the secondary ghost hover on the component tokens, decided in Figma on 27-10-2026 (DSA-60)",
+    "design_md": "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block; the component tokens button/secondary-solid-*, button/secondary-outline-*, button/secondary-ghost-background-hover and their icon-button/* twins are in src/tokens/source/semantic.tokens.json",
+    "decision": "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button; the secondary ghost hover on the component tokens, decided in Figma on 27-10-2026 (DSA-60); the secondary solid and outline on the component tokens and the removal of the secondary light emphasis, accepted in Figma on 04-11-2026 (DSA-64)",
     "tests": "src/components/nph-button/nph-button.test.ts, nph-button.first-tooltip.test.ts and nph-button.docs.test.ts",
     "usage_evidence": "pending — no approved screen consumes the button yet",
     "storybook": "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts",
-    "figma": "DS-IA-NEPHOS 5.0, nph-button frame 1197:5449 and sets 461:13009 and 498:15671; nph-icon-button board 2122:1591, frame 2128:3953"
+    "figma": "DS-IA-NEPHOS 5.0, nph-button documentation frame 4178:15028 and nph-icon-button documentation frame 4178:24324, which replace the boards 1197:5449 and 2122:1591; sets 461:13009 and 498:15671"
   }
 }

@@ -320,9 +320,9 @@ no-value dash; a composite cell takes a `type`:
 | `texto cortado` | `truncated` | `text` | Focusable cell with an `nph-tooltip` |
 | `sem valor` | `null` | — | The dash, read as `no-value-label` |
 | `status` | `status` | `status` (`success`, `error`), `text` | `circle-check` or `circle-xmark` in `table/status-*-icon`, with the name |
-| `botão` | `button` | `text`, `action` | `nph-button` secondary light compact |
+| `botão` | `button` | `text`, `action` | `nph-button` secondary solid compact |
 | `ações` | `actions` | `editLabel`, `moreLabel` | Edit and more, icon-only `nph-button` secondary ghost |
-| `ações mistas` | `mixed-actions` | `text`, `moreLabel` | Written Edit and more, `nph-button` secondary light compact |
+| `ações mistas` | `mixed-actions` | `text`, `moreLabel` | Written Edit and more, `nph-button` secondary solid compact |
 | `avaliação` | `rating` | `text` | One solid `star` in `table/rating-foreground` and the score |
 | `carregando` | `loading` | — | `nph-skeleton` line; the cell is `aria-busy` |
 | `categoria` | — | — | Not yet: pending decision D1 |
@@ -385,7 +385,7 @@ where that row has the new `open`.
 ## Relations
 
 **Combines with:** `nph-avatar` md, `nph-badge` light, `nph-icon`, the icon-only
-`nph-button` (the chevron, the actions and the more), the `nph-button` secondary light
+`nph-button` (the chevron, the actions and the more), the `nph-button` secondary solid
 compact, `nph-image` (the thumbnail and the photo of the expanded item), `nph-skeleton`,
 `nph-tooltip` and `nph-empty`. Each keeps its own rules. The more fires `nph-row-action`;
 opening the `nph-dropdown-menu` from it, with Delete last in destructive, is a follow-up. Sorting, selection, filtering and pagination belong to the
