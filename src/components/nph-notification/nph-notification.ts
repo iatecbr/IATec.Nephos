@@ -68,6 +68,9 @@ import notificationCss from './nph-notification.css?inline';
 
 const TAG = 'nph-notification';
 
+/** The longest delay `setTimeout` takes: 2^31 - 1 milliseconds. */
+const MAX_TIMER_DELAY = 2 ** 31 - 1;
+
 /** Internal marks, not API. */
 const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 const REFLOWED_ATTRIBUTE = 'data-nph-reflowed';
@@ -206,6 +209,7 @@ export class NphNotification extends LitElement {
   private observed: Element | null = null;
   private timerId: number | undefined;
   private timerStartedAt = 0;
+  private timerSlice = 0;
   private remaining = 0;
   private armedDuration = 0;
   private hovering = false;
@@ -492,7 +496,13 @@ export class NphNotification extends LitElement {
     let reflow = false;
     if (this.valid && this.layout === 'single-line') {
       const style = getComputedStyle(container);
-      const width = (selector: string): number => container.querySelector<HTMLElement>(selector)?.offsetWidth ?? 0;
+      /* The box of a part and its inline margins: the close takes negative ones on a touch screen. */
+      const width = (selector: string): number => {
+        const element = container.querySelector<HTMLElement>(selector);
+        if (element === null) return 0;
+        const margins = getComputedStyle(element);
+        return element.offsetWidth + (parseFloat(margins.marginInlineStart) || 0) + (parseFloat(margins.marginInlineEnd) || 0);
+      };
       const gap = parseFloat(style.columnGap) || 0;
       const probeGap = parseFloat(getComputedStyle(probe).columnGap) || 0;
       const border = container.offsetWidth - container.clientWidth;
@@ -519,6 +529,8 @@ export class NphNotification extends LitElement {
     /* The box is drawn only while the input is valid: watch it from the update that draws it. */
     if (this.renderRoot.querySelector('.container') !== this.observed) this.observeSize();
     this.syncReflow();
+    /* A focused part that left the page sends no focusout: ask the browser where the focus is now. */
+    this.focusing = this.focusing && this.matches(':focus-within');
     this.syncTimer();
     /* The buttons finish their own update after this one: measure again with their final width. */
     const inner = [...this.renderRoot.querySelectorAll<LitElement>('nph-button')];
@@ -552,14 +564,17 @@ export class NphNotification extends LitElement {
   private resumeTimer(): void {
     if (this.timerId !== undefined || this.remaining <= 0) return;
     this.timerStartedAt = Date.now();
-    this.timerId = window.setTimeout(this.onTimeout, this.remaining);
+    /* `setTimeout` takes a 32-bit delay: a longer time runs in slices. */
+    this.timerSlice = Math.min(this.remaining, MAX_TIMER_DELAY);
+    this.timerId = window.setTimeout(this.onTimer, this.timerSlice);
   }
 
   private pauseTimer(): void {
     if (this.timerId === undefined) return;
     window.clearTimeout(this.timerId);
     this.timerId = undefined;
-    this.remaining = Math.max(0, this.remaining - (Date.now() - this.timerStartedAt));
+    /* A deadline that passed before its callback ran still has a moment left: the toast closes when the pause ends. */
+    this.remaining = Math.max(1, this.remaining - (Date.now() - this.timerStartedAt));
   }
 
   private stopTimer(): void {
@@ -569,9 +584,13 @@ export class NphNotification extends LitElement {
     }
   }
 
-  private readonly onTimeout = (): void => {
+  private readonly onTimer = (): void => {
     this.timerId = undefined;
-    this.remaining = 0;
+    this.remaining = Math.max(0, this.remaining - this.timerSlice);
+    if (this.remaining > 0) {
+      this.resumeTimer();
+      return;
+    }
     this.close('timeout');
   };
 

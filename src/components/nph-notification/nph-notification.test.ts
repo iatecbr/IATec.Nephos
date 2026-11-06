@@ -484,6 +484,24 @@ describe('layout', () => {
     expect(small.note.hasAttribute('data-nph-reflowed')).toBe(false);
   });
 
+  it('the reflow counts the inline margins of the close: the negative ones of a touch screen give room back', async () => {
+    const attributes = { layout: 'single-line', heading: 'Saved', description: 'Order sent to the warehouse.', action: 'Review' };
+    const { parent, note } = await mount({ attributes, parentStyle: 'inline-size: 640px;' });
+    const refit = async (width: number): Promise<boolean> => {
+      parent.style.inlineSize = `${width}px`;
+      note.requestUpdate();
+      await note.updateComplete;
+      return note.hasAttribute('data-nph-reflowed');
+    };
+    let threshold = 640;
+    while (!(await refit(threshold - 1)) && threshold > 100) threshold -= 1;
+    expect(threshold).toBeGreaterThan(100);
+    const close = part<HTMLElement>(note, '.close');
+    close.style.margin = '-4px';
+    expect(await refit(threshold - 6)).toBe(false);
+    expect(await refit(threshold - 12)).toBe(true);
+  });
+
   it('stacked never reflows', async () => {
     const { note } = await mount({ attributes: { description: `${DESCRIPTION} ${DESCRIPTION}` }, parentStyle: 'inline-size: 300px;' });
     expect(note.hasAttribute('data-nph-reflowed')).toBe(false);
@@ -1008,6 +1026,43 @@ describe('the time a toast stays', () => {
     expect(note.hidden).toBe(false);
     await advance(note, 1);
     expect(seen).toEqual(['close', 'close']);
+  });
+
+  it('removing the focused close button releases the pause: the toast closes after the time that was left', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
+    const { note } = await mount({ attributes: { placement: 'toast' } });
+    await advance(note, 3000);
+    closeButton(note).focus();
+    await advance(note, 1000);
+    note.hideClose = true;
+    await advance(note, 2999);
+    expect(note.hidden).toBe(false);
+    await advance(note, 1);
+    expect(note.hidden).toBe(true);
+  });
+
+  it('a duration beyond the 32-bit delay of setTimeout is honored, not cut short', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
+    const { note } = await mount({ attributes: { placement: 'toast', duration: '2147483648' } });
+    await advance(note, 60000);
+    expect(note.hidden).toBe(false);
+    await advance(note, 2147483647 - 60000);
+    expect(note.hidden).toBe(false);
+    await advance(note, 1);
+    expect(note.hidden).toBe(true);
+  });
+
+  it('a pause that starts after the deadline and before the timeout callback still closes the toast when it ends', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
+    const { note } = await mount({ attributes: { placement: 'toast' } });
+    await advance(note, 5999);
+    vi.setSystemTime(Date.now() + 10);
+    note.dispatchEvent(new PointerEvent('pointerenter'));
+    await advance(note, 60000);
+    expect(note.hidden).toBe(false);
+    note.dispatchEvent(new PointerEvent('pointerleave'));
+    await advance(note, 1);
+    expect(note.hidden).toBe(true);
   });
 
   it('moving the notification in the page starts the timer again', async () => {
