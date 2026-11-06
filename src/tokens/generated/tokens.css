@@ -11,6 +11,7 @@
   --nph-core-alpha-black-40: rgba(0, 0, 0, 0.4);
   --nph-core-alpha-black-5: rgba(0, 0, 0, 0.05);
   --nph-core-alpha-black-60: rgba(0, 0, 0, 0.6);
+  --nph-core-alpha-white-10: rgba(255, 255, 255, 0.1);
   --nph-core-avatar-overlap-100: -0.5rem;
   --nph-core-avatar-size-100: 1.5rem;
   --nph-core-avatar-size-200: 2rem;
@@ -148,6 +149,9 @@
   --nph-core-layout-width-toast: 22.5rem;
   --nph-core-layout-width-toast-max: 27.5rem;
   --nph-core-layout-width-menu-min: 8rem;
+  --nph-core-layout-width-popover-sm: 15rem;
+  --nph-core-layout-width-popover-md: 20rem;
+  --nph-core-layout-width-popover-lg: 25rem;
   --nph-core-line-height-100: 1rem;
   --nph-core-line-height-200: 1.25rem;
   --nph-core-neutral-50: #f1f1f1;
@@ -586,7 +590,7 @@
   --nph-space-stack-tight: var(--nph-core-space-100);
   --nph-space-stack: var(--nph-core-space-400);
   --nph-space-stack-snug: var(--nph-core-space-200);
-  --nph-space-inline-loose: var(--nph-core-space-400);
+  --nph-space-inline-loose: var(--nph-core-space-300);
   --nph-space-overlay-padding: var(--nph-core-space-600);
   --nph-switch-track-width: var(--nph-core-layout-width-switch-track);
   --nph-table-row-height: var(--nph-core-space-800);
@@ -619,6 +623,7 @@
   --nph-image-radius-md: var(--nph-core-radius-300);
   --nph-image-radius-lg: var(--nph-core-radius-400);
   --nph-image-media-width: var(--nph-core-layout-width-media);
+  --nph-pagination-group-gap: var(--nph-core-space-400);
   --nph-pagination-page-size-width: var(--nph-core-layout-width-page-size-select);
   --nph-pagination-page-input-width: var(--nph-core-space-1000);
   --nph-pagination-disabled-opacity: var(--nph-state-disabled-opacity);
@@ -632,6 +637,7 @@
   --nph-data-table-page-size-width: var(--nph-core-layout-width-page-size-select);
   --nph-input-clear-padding-end: var(--nph-core-space-off-scale-5);
   --nph-icon-button-secondary-outline-border-hover: var(--nph-core-surface-300);
+  --nph-navigation-menu-panel-offset: var(--nph-core-space-100);
   --nph-navigation-menu-panel-width: var(--nph-core-layout-width-input);
   --nph-navigation-menu-current-indicator-width: var(--nph-core-focus-width-sm);
   --nph-notification-toast-width: var(--nph-core-layout-width-toast);
@@ -652,6 +658,15 @@
   --nph-breadcrumb-letter-spacing: var(--nph-core-tracking-normal);
   --nph-breadcrumb-link-font-weight: var(--nph-core-weight-regular);
   --nph-breadcrumb-current-font-weight: var(--nph-core-weight-medium);
+  --nph-popover-radius: var(--nph-core-radius-600);
+  --nph-popover-header-gap: var(--nph-core-space-300);
+  --nph-popover-width-sm: var(--nph-core-layout-width-popover-sm);
+  --nph-popover-width-md: var(--nph-core-layout-width-popover-md);
+  --nph-popover-width-lg: var(--nph-core-layout-width-popover-lg);
+  --nph-popover-offset: var(--nph-core-space-100);
+  --nph-popover-arrow-width: var(--nph-core-space-400);
+  --nph-popover-arrow-height: var(--nph-core-space-200);
+  --nph-popover-arrow-inset: var(--nph-core-space-400);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-table-border-width: var(--nph-border-width);
@@ -689,7 +704,6 @@
   --nph-pagination-padding-x: var(--nph-space-control-padding);
   --nph-pagination-padding-y: var(--nph-space-inline);
   --nph-pagination-item-gap: var(--nph-space-inline);
-  --nph-pagination-group-gap: var(--nph-space-inline-loose);
   --nph-pagination-control-gap: var(--nph-space-inline);
   --nph-pagination-item-size: var(--nph-control-height-default);
   --nph-pagination-item-radius: var(--nph-radius-control);
@@ -727,7 +741,6 @@
   --nph-navigation-menu-trigger-radius: var(--nph-radius-control);
   --nph-navigation-menu-trigger-icon-size: var(--nph-icon-size-sm);
   --nph-navigation-menu-bar-gap: var(--nph-space-inline-tight);
-  --nph-navigation-menu-panel-offset: var(--nph-space-inline-tight);
   --nph-navigation-menu-panel-border-width: var(--nph-border-width);
   --nph-navigation-menu-panel-radius: var(--nph-radius-container);
   --nph-navigation-menu-panel-padding: var(--nph-space-inline-tight);
@@ -764,6 +777,11 @@
   --nph-breadcrumb-item-icon-gap: var(--nph-space-inline-tight);
   --nph-breadcrumb-item-radius: var(--nph-radius-control);
   --nph-breadcrumb-gap: var(--nph-space-inline);
+  --nph-popover-border-width: var(--nph-border-width);
+  --nph-popover-padding: var(--nph-space-container-padding);
+  --nph-popover-footer-padding: var(--nph-space-container-padding);
+  --nph-popover-title-gap: var(--nph-space-inline);
+  --nph-popover-footer-gap: var(--nph-space-inline-loose);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -916,6 +934,11 @@
   --nph-breadcrumb-ellipsis-foreground: var(--nph-color-muted-foreground);
   --nph-breadcrumb-ellipsis-foreground-hover: var(--nph-color-foreground);
   --nph-breadcrumb-ellipsis-background-hover: var(--nph-color-accent);
+  --nph-popover-background: var(--nph-color-popover);
+  --nph-popover-foreground: var(--nph-color-popover-foreground);
+  --nph-popover-description: var(--nph-color-muted-foreground);
+  --nph-popover-border: var(--nph-color-border-subtle);
+  --nph-popover-divider: var(--nph-color-border-subtle);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);
@@ -1045,6 +1068,7 @@
   --nph-color-background-subtle: var(--nph-core-surface-25);
   --nph-color-inverse: var(--nph-core-neutral-600);
   --nph-color-inverse-foreground: var(--nph-core-base-white);
+  --nph-color-border-subtle: var(--nph-core-neutral-50);
   --nph-focus-ring-error: var(--nph-core-danger-200);
   --nph-overlay-scrim: var(--nph-core-scrim-light);
   --nph-scrollbar-track: var(--nph-core-surface-50);
@@ -1089,6 +1113,7 @@
   --nph-status-warning-surface-hover: var(--nph-core-warn-100);
   --nph-status-help-surface-hover: var(--nph-core-help-100);
   --nph-status-success-surface-hover: var(--nph-core-success-100);
+  --nph-status-error-text: var(--nph-core-danger-600);
   --nph-table-header-background: var(--nph-core-surface-25);
   --nph-table-row-striped-background: var(--nph-core-surface-25);
   --nph-button-secondary-outline-border: var(--nph-core-surface-200);
@@ -1205,6 +1230,7 @@
   --nph-color-background-subtle: var(--nph-core-surface-900);
   --nph-color-inverse: var(--nph-core-neutral-700);
   --nph-color-inverse-foreground: var(--nph-core-neutral-100);
+  --nph-color-border-subtle: var(--nph-core-alpha-white-10);
   --nph-focus-ring-error: var(--nph-core-danger-400);
   --nph-overlay-scrim: var(--nph-core-scrim-dark);
   --nph-scrollbar-track: var(--nph-core-surface-800);
@@ -1249,6 +1275,7 @@
   --nph-status-warning-surface-hover: var(--nph-core-warn-800);
   --nph-status-help-surface-hover: var(--nph-core-help-800);
   --nph-status-success-surface-hover: var(--nph-core-success-800);
+  --nph-status-error-text: var(--nph-core-danger-300);
   --nph-table-row-striped-background: var(--nph-core-surface-800);
   --nph-button-secondary-outline-border: var(--nph-core-surface-400);
   --nph-button-secondary-outline-border-hover: var(--nph-core-surface-300);
