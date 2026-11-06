@@ -3439,8 +3439,10 @@ modal dialog covers the window it opens in, which a page with several examples i
    master in P66. **Known limit:** content whose width is a percentage shrinks to its own size.
 
 7. **Tokens redefined in the scope of the window, with no new value.** The window redefines
-   `--nph-color-secondary` and `--nph-color-secondary-hover` as `color/secondary-on-dialog` and its
-   hover, which reach by inheritance every element inside the window that reads `color/secondary`
+   `--nph-color-secondary` and `--nph-color-secondary-hover`, and, since DSA-64, the solid secondary
+   tokens of the button (`--nph-button-secondary-solid-background`,
+   `--nph-icon-button-secondary-solid-background` and their hovers), as `color/secondary-on-dialog`
+   and its hover, which reach by inheritance every element inside the window that reads them
    — today, the `nph-button` in the content and in the footer: in dark,
    `color/secondary` is the same `surface/600` as `color/dialog`. The `nph-button` keeps no color
    property (P68): the dialog uses the token channel the button already reads. On its own

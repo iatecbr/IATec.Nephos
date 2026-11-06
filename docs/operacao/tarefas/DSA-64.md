@@ -29,7 +29,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "Inside nph-dialog, the solid secondary nph-button keeps the overlay of P87 (color/secondary-on-dialog and its hover): the dialog now redefines the four new solid secondary tokens (button/secondary-solid-background, icon-button/secondary-solid-background and their hovers) with the same values it already gave color/secondary, because the button no longer reads color/secondary. The base solid secondary is now surface/50 in light and surface/600 in dark, and color/secondary-on-dialog is color/secondary in light and surface/800 in dark. Should the dialog still keep the overlay of P87? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-06"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-64/figma-docs-accepted-2026-11-04.md"
   ],

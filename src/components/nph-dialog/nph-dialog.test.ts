@@ -1184,6 +1184,26 @@ describe('colors redefined in the window (P87)', () => {
     await userEvent.unhover(cancel);
   });
 
+  it('an icon-only solid secondary nph-button also paints color/secondary-on-dialog, at rest and on hover, in both schemes (DSA-64)', async () => {
+    for (const scheme of SCHEMES) {
+      document.documentElement.setAttribute('data-nph-color-scheme', scheme);
+      const dialog = await mount({
+        content: '<nph-button id="inner" severity="secondary" icon-start="plus" label="Add"></nph-button>',
+        footer: ACTIONS,
+      });
+      await openIt(dialog);
+      const inner = dialog.querySelector('#inner') as NphButton;
+      const control = inner.shadowRoot?.querySelector('button') as HTMLButtonElement;
+      expect(getComputedStyle(control).backgroundColor, scheme).toBe(resolved('background-color', '--nph-color-secondary-on-dialog'));
+      await userEvent.hover(control);
+      expect(getComputedStyle(control).backgroundColor, scheme).toBe(resolved('background-color', '--nph-color-secondary-on-dialog-hover'));
+      await userEvent.unhover(control);
+      dialog.open = false;
+      await closed(dialog);
+      document.body.replaceChildren();
+    }
+  });
+
   it('in dark, the redefined secondary differs from the dialog background, which the regular secondary equals', () => {
     document.documentElement.setAttribute('data-nph-color-scheme', 'dark');
     expect(resolved('background-color', '--nph-color-secondary')).toBe(resolved('background-color', '--nph-color-dialog'));
