@@ -154,7 +154,10 @@ export class NphBreadcrumb extends LitElement {
       this.reported = '';
     }
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.problem === null);
-    if (this.problem === null && (changed.has('levels') || changed.has('collapsed') || this.hiddenEntries.length === 0)) {
+    if (this.problem !== null) {
+      /* Nothing is kept from an input that was rejected: the list is rebuilt when the trail recovers. */
+      this.hiddenEntries = [];
+    } else if (changed.has('levels') || changed.has('collapsed') || this.hiddenEntries.length === 0) {
       /* A new list only when the path changes: the menu redraws on a new `items`. */
       this.hiddenEntries = this.collapsed
         ? this.levels.slice(1, this.levels.length - 2).map((level, offset) => ({ value: String(offset + 1), text: text(level.label) }))

@@ -38,6 +38,9 @@ beforeAll(async () => {
  * Takes the trails out of the page. A menu taken out while it is shown, or still leaving, logs a
  * lookup error in development, so each one is closed and left to leave first.
  */
+/** The listeners a test puts on the page; aborted at the end of each test, so none leaks into the next. */
+let listeners = new AbortController();
+
 async function clearPage(): Promise<void> {
   for (const trail of document.querySelectorAll('nph-breadcrumb')) {
     const shown = trail.shadowRoot?.querySelector('nph-dropdown-menu');
@@ -52,6 +55,8 @@ async function clearPage(): Promise<void> {
 
 afterEach(async () => {
   await userEvent.unhover(document.body).catch(() => {});
+  listeners.abort();
+  listeners = new AbortController();
   await clearPage();
   document.documentElement.removeAttribute('dir');
   vi.restoreAllMocks();
@@ -247,6 +252,21 @@ describe('invalid input', () => {
     trail.label = 'Another name';
     await trail.updateComplete;
     expect(error).toHaveBeenCalledTimes(1);
+  });
+
+  it('a rejected input keeps no hidden levels: the menu follows the path once the trail recovers', async () => {
+    const trail = await mountCollapsed();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    trail.levels = [{ label: 'Start', href: '#start' }, { label: 'One', href: '#one' }, { label: 'Two', href: '#two' }, { label: 'Three', href: '#three' }, { label: 'Four' }];
+    trail.ellipsisLabel = '';
+    await trail.updateComplete;
+    expect(trail.hasAttribute('data-nph-rendered')).toBe(false);
+    trail.ellipsisLabel = 'Show hidden levels';
+    await settle(trail);
+    expect(menu(trail).items).toEqual([
+      { value: '1', text: 'One' },
+      { value: '2', text: 'Two' },
+    ]);
   });
 
   it('draws again, with no leftover, once the input is fixed', async () => {
@@ -576,7 +596,7 @@ describe('the hidden levels menu', () => {
           seen.push({ anchor, bubbles: event.bubbles, composed: event.composed, cancelable: event.cancelable });
         }
       },
-      { capture: true },
+      { capture: true, signal: listeners.signal },
     );
     await openMenu(trail);
     await userEvent.click(menuItems(trail)[1] as HTMLElement);
@@ -609,7 +629,7 @@ describe('the hidden levels menu', () => {
         const anchor = event.composedPath()[0] as HTMLElement;
         if (anchor.tagName === 'A') destinations.push(anchor.getAttribute('href') ?? '');
       },
-      { capture: true },
+      { capture: true, signal: listeners.signal },
     );
     await userEvent.keyboard('{Tab}{Tab}{ArrowDown}');
     await settle(trail);
@@ -623,8 +643,8 @@ describe('the hidden levels menu', () => {
   it('the event of the menu does not leave the trail', async () => {
     const trail = await mountCollapsed();
     const seen = vi.fn();
-    document.body.addEventListener('nph-item-select', seen);
-    document.addEventListener('click', (event) => event.preventDefault(), { capture: true });
+    document.body.addEventListener('nph-item-select', seen, { signal: listeners.signal });
+    document.addEventListener('click', (event) => event.preventDefault(), { capture: true, signal: listeners.signal });
     await openMenu(trail);
     await userEvent.click(menuItems(trail)[0] as HTMLElement);
     await settle(trail);
