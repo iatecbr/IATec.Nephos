@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 640,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-progress",
   "dependencies": [
     "DSA-03"
@@ -54,7 +54,7 @@
     "excerpt": null,
     "converted_decision": "The nph-progress documentation frame (4385:3186, page 1626:26) was accepted as the API and behavior specification of nph-progress. Component sets: nph-progress (4368:1532), 36 variants, and the nph-progress segment set (4368:1185), 8 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-65-progress", "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-65-progress", "commit": null, "pr": 149 },
   "context": "docs/operacao/contextos/DSA-65.md",
   "updated_at": "2026-11-06"
 }
