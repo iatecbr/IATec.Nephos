@@ -830,7 +830,7 @@
       ],
       [
         "emphasis",
-        "Cuánto se destaca la acción: solid (predeterminado), outline, light o ghost. outline, light y ghost existen solo en primary, secondary y danger. Se refleja en el atributo."
+        "Cuánto se destaca la acción: solid (predeterminado), outline, light o ghost. outline y ghost existen solo en primary, secondary y danger, y light solo en primary y danger: secondary no tiene light. Se refleja en el atributo."
       ],
       [
         "size",
@@ -1000,7 +1000,7 @@
       ],
       [
         "hover-active",
-        "La superficie pasa al token de hover del tipo y del énfasis, y los iconos pasan a solid: los de inicio y de fin del botón con texto y el icono del botón solo con icono. En secondary ghost, el token de hover es button/secondary-ghost-background-hover con texto e icon-button/secondary-ghost-background-hover en el botón solo con icono."
+        "La superficie pasa al token de hover del tipo y del énfasis, y los iconos pasan a solid: los de inicio y de fin del botón con texto y el icono del botón solo con icono. En secondary ghost, el token de hover es button/secondary-ghost-background-hover con texto e icon-button/secondary-ghost-background-hover en el botón solo con icono. En secondary solid, es button/secondary-solid-background-hover con texto e icon-button/secondary-solid-background-hover en el botón solo con icono. En secondary outline, cambian el borde y el fondo, en los tokens button/secondary-outline-* con texto e icon-button/secondary-outline-* en el botón solo con icono."
       ],
       [
         "focus",
@@ -1052,7 +1052,7 @@
     "accessibility": [
       [
         "Contraste",
-        "Texto e icono pasan 4,5:1 en todos los tipos y énfasis, en los dos modos y en todas las marcas; el menor valor es 4,64:1, en primary outline y light del modo claro. Los bordes pasan 3:1."
+        "Texto e icono pasan 4,5:1 en todos los tipos y énfasis, en los dos modos y en todas las marcas; el menor valor es 4,64:1, en primary outline y light del modo claro. Los bordes del outline de primary y danger pasan 3:1; el borde del secondary outline no pasa en el modo claro (1,93:1), y el texto, o el icono con su label y tooltip, identifica el botón."
       ],
       [
         "Foco visible",
@@ -6714,7 +6714,7 @@
       "Con números alineados al inicio: alinéelos al final.",
       "Con una acción escrita como enlace: use el botón en la celda."
     ],
-    "relationsText": "La celda compuesta recibe otras piezas, y cada una mantiene sus propias reglas: nph-avatar md, nph-badge light, nph-icon, el nph-button solo con icono en el chevron, en las acciones y en el más, el nph-button secondary light compact, nph-image, nph-skeleton y nph-tooltip. El más dispara nph-row-action; abrir el nph-dropdown-menu desde él es un seguimiento. Sin filas, el cuerpo lleva el nph-empty. Ordenar, seleccionar, filtrar y paginar son del nph-data-table.",
+    "relationsText": "La celda compuesta recibe otras piezas, y cada una mantiene sus propias reglas: nph-avatar md, nph-badge light, nph-icon, el nph-button solo con icono en el chevron, en las acciones y en el más, el nph-button secondary solid compact, nph-image, nph-skeleton y nph-tooltip. El más dispara nph-row-action; abrir el nph-dropdown-menu desde él es un seguimiento. Sin filas, el cuerpo lleva el nph-empty. Ordenar, seleccionar, filtrar y paginar son del nph-data-table.",
     "apiTitle": "API",
     "apiHeader": [
       "Propiedad",
@@ -6879,7 +6879,7 @@
       ],
       [
         "button",
-        "nph-button secondary light compact; la celda usa table/action-cell-padding-block."
+        "nph-button secondary solid compact; la celda usa table/action-cell-padding-block."
       ],
       [
         "actions",
@@ -6887,7 +6887,7 @@
       ],
       [
         "mixed-actions",
-        "Un Editar escrito y el más como nph-button secondary light compact, de 28 de alto."
+        "Un Editar escrito y el más como nph-button secondary solid compact, de 28 de alto."
       ],
       [
         "rating",

@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 630,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-button",
   "dependencies": [],
   "gates": [
@@ -29,7 +29,14 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "Inside nph-dialog, the solid secondary nph-button keeps the overlay of P87 (color/secondary-on-dialog and its hover): the dialog now redefines the four new solid secondary tokens (button/secondary-solid-background, icon-button/secondary-solid-background and their hovers) with the same values it already gave color/secondary, because the button no longer reads color/secondary. The base solid secondary is now surface/50 in light and surface/600 in dark, and color/secondary-on-dialog is color/secondary in light and surface/800 in dark. Should the dialog still keep the overlay of P87? It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-06"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-64/figma-docs-accepted-2026-11-04.md"
   ],
@@ -46,9 +53,9 @@
     "excerpt": null,
     "converted_decision": "The nph-button documentation frame (4178:15028, page 312:98) and the nph-icon-button documentation frame (4178:24324, page 2109:51809) were accepted as the specification of nph-button. They replace the boards 1197:5449 and 2122:1591. Component sets: nph-button (461:13009), 225 variants, and nph-icon-button (498:15671), 450 variants, with no secondary light. Converted to text in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-64-secondary-buttons", "commit": "2200b36", "pr": 148 },
   "context": null,
-  "updated_at": "2026-11-04"
+  "updated_at": "2026-11-06"
 }
 ```
 

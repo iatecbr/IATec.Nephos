@@ -41,10 +41,11 @@ api:
     default: solid
     reflects: true
     constraint: >-
-      The Figma emphasis: how much the action stands out. outline, light and ghost only
-      exist in primary, secondary and danger; in the other types, only solid.
-      A combination outside that draws nothing and emits console.error in
-      development.
+      The Figma emphasis: how much the action stands out. outline and ghost only exist
+      in primary, secondary and danger, and light only in primary and danger: secondary
+      has no light. In the other types, only solid. The default of secondary is also
+      solid. A combination outside that, such as secondary light, draws nothing and
+      emits console.error in development.
   size:
     type: enum
     values: [compact, default, large]
@@ -128,7 +129,7 @@ api:
 variants:
   severity:
     axis: appearance
-    choose_when: "By the meaning of the action, never by the color. primary: use for the main action of the block. secondary: use for the alternative action that accompanies the main one, such as Cancel next to Save. danger: use for an action that deletes, revokes or cannot be undone. info: use for an action tied to neutral information, such as a system notice or a contextual tip. warn: use for an action that requires care before proceeding. help: use for an action that opens help or guidance, such as an explanation, a tour or support content. success: use for an action that confirms something succeeded. info, warn, help and success exist only in solid."
+    choose_when: "By the meaning of the action, never by the color. primary: use for the main action of the block. secondary: use for the neutral action that accompanies the main one, such as Cancel next to Save; it is a color type, not a level of hierarchy, and its default is solid. danger: use for an action that deletes, revokes or cannot be undone. info: use for an action tied to neutral information, such as a system notice or a contextual tip. warn: use for an action that requires care before proceeding. help: use for an action that opens help or guidance, such as an explanation, a tour or support content. success: use for an action that confirms something succeeded. info, warn, help and success exist only in solid."
     do_not_combine_with:
       - "primary: do not use next to another primary solid action in the same block."
       - "secondary: do not use as the only main action of the block."
@@ -139,8 +140,11 @@ variants:
       - "success: do not use to label a permanent state, such as active: use nph-badge."
   emphasis:
     axis: appearance
-    choose_when: "solid for the action with weight; outline when it accompanies the main one and needs to be delimited; light when the outline would weigh too much; ghost for a tertiary action."
-    do_not_combine_with: ["outline, light or ghost in info, warn, help or success"]
+    choose_when: "solid for the action with weight, and it is the default, also in secondary; outline for an alternative action of the same weight, side by side with another; light, only in primary and danger, when the outline would weigh too much; ghost for the icon-only button, a table row action, a support action such as close, copy or scroll, and a third-level action such as Show all."
+    do_not_combine_with:
+      - "outline, light or ghost in info, warn, help or success"
+      - "light in secondary: the emphasis does not exist there"
+      - "outline as the default Cancel: Cancel next to Save is secondary solid"
   shape:
     axis: appearance
     choose_when: "Only in the icon-only button. square, the default, or circular: a choice of context, with no fixed rule. The shape changes neither the size nor the touch target."
@@ -157,7 +161,7 @@ states:
     token: "the background and the text of the type and the emphasis, in the tokens block"
     changes_for_user: "Rest. The color communicates the type of the action."
   hover-active:
-    token: "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost, except secondary ghost, which takes button/secondary-ghost-background-hover with text and icon-button/secondary-ghost-background-hover in the icon only. The icons switch from light to solid, in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88)"
+    token: "the hover token of the pair: color/*-hover and status/*-hover in solid; *-surface-hover and *-on-surface-hover in outline and light; the surface of the type in ghost, except secondary ghost, which takes button/secondary-ghost-background-hover with text and icon-button/secondary-ghost-background-hover in the icon only. Secondary solid takes button/secondary-solid-background-hover with text and icon-button/secondary-solid-background-hover in the icon only; secondary outline changes the border (button/secondary-outline-border-hover, icon-button/secondary-outline-border-hover) and the background (button/secondary-outline-background-hover, icon-button/secondary-outline-background-hover). The icons switch from light to solid, in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88)"
     changes_for_user: "The surface changes and the icons turn solid, with text and in the icon only, which confirms that the target responds."
   focus:
     token: "border border/width in the color of the type (focus/border in secondary) and halo focus/ring-width in focus/halo or `focus/halo-<matiz>`; in the circular shape both follow radius/full"
@@ -180,17 +184,17 @@ tokens:
   disabled: state/disabled-opacity
   focus: [border/width, focus/border-radius-control, focus/ring-width, focus/radius-control-with-border, focus/border, focus/halo, focus/halo-info, focus/halo-warn, focus/halo-help, focus/halo-danger, focus/halo-success]
   solid_primary: [color/primary, color/primary-hover, color/primary-foreground]
-  solid_secondary: [color/secondary, color/secondary-hover, color/secondary-foreground]
+  solid_secondary: [button/secondary-solid-background, button/secondary-solid-background-hover, icon-button/secondary-solid-background, icon-button/secondary-solid-background-hover, color/secondary-foreground]
   solid_status: [status/info, status/info-hover, status/warning, status/warning-hover, status/help, status/help-hover, status/success, status/success-hover, status/on-solid]
   solid_danger: [color/destructive, color/destructive-hover, color/destructive-foreground]
   light_primary: [color/primary-surface, color/primary-surface-hover, color/primary-on-surface, color/primary-on-surface-hover]
-  light_secondary: [color/muted, color/secondary-surface-hover, color/secondary-light, color/secondary-light-hover, color/secondary-foreground]
+  outline_secondary: [color/muted, button/secondary-outline-border, button/secondary-outline-border-hover, button/secondary-outline-background-hover, icon-button/secondary-outline-border, icon-button/secondary-outline-border-hover, icon-button/secondary-outline-background-hover, color/secondary-foreground]
   light_danger: [color/destructive-surface, color/destructive-surface-hover, color/destructive-on-surface, color/destructive-on-surface-hover]
   ghost_secondary_hover: [button/secondary-ghost-background-hover, icon-button/secondary-ghost-background-hover]
 ai_hints:
   - "An action that happens on the screen is nph-button. Going to another destination is navigation, not a button."
   - "Choose severity by the meaning of the action, never by the color."
-  - "One main action per block, in primary solid; the action beside it goes in secondary solid. Outline is not the default."
+  - "One main action per block, in primary solid; the action beside it goes in secondary solid, the default of secondary. Outline is not the default Cancel, and secondary has no light."
   - "Set size large on a touch screen and the same size as the field beside it."
   - "Without text, fill in label: it is the accessible name and the text of the tooltip the button renders."
   - "An action with a consequence has text, except in the actions column of a table, where the icon-only button and its tooltip give the name."
@@ -205,10 +209,11 @@ accessibility:
     - "Space activates."
     - "In the icon-only button, keyboard focus opens the tooltip at once and Esc closes it; Enter and Space leave it alone."
   focus: "Keyboard only: a border in the color of the type, flush, and a halo outside, without changing the size. The border is the indicator. Known limit: in dark mode, color/primary falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas`; it is an open item."
-  contrast: "Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in primary outline and light of the light scheme. The outline border passes 3:1. The focus border of primary has the limit described in `focus`."
+  contrast: "Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in primary outline and light of the light scheme. The primary and danger outline borders pass 3:1; the secondary outline border is 1.93:1 in the light scheme and 4.18:1 in the dark one, an accepted exception because the text, or the icon with its label and tooltip, identifies the button. The focus border of primary has the limit described in `focus`."
   color_alternative: "The text says what happens on click; color is never the only sign of intent, focus or state."
 invalid_combinations:
   - "outline, light or ghost in info, warn, help or success — the matrix does not have them."
+  - "light in secondary — the emphasis was removed; use solid."
   - "Icon only without label — the screen reader would announce only button."
   - "Two icons without text — they do not state the action."
   - "Icon only in an action with a consequence, such as delete or publish, outside the actions column of a table — write the text."
@@ -229,12 +234,12 @@ anti_patterns:
   - "Mixing sizes between a button and a field side by side."
   - "Painting the button by hand or creating a type, emphasis or size outside the matrix."
 sources:
-  design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block; the component tokens button/secondary-ghost-background-hover and icon-button/secondary-ghost-background-hover are in src/tokens/source/semantic.tokens.json"
-  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button; the secondary ghost hover on the component tokens, decided in Figma on 27-10-2026 (DSA-60)"
+  design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block; the component tokens button/secondary-solid-*, button/secondary-outline-*, button/secondary-ghost-background-hover and their icon-button/* twins are in src/tokens/source/semantic.tokens.json"
+  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button; the secondary ghost hover on the component tokens, decided in Figma on 27-10-2026 (DSA-60); the secondary solid and outline on the component tokens and the removal of the secondary light emphasis, accepted in Figma on 04-11-2026 (DSA-64)"
   tests: "src/components/nph-button/nph-button.test.ts, nph-button.first-tooltip.test.ts and nph-button.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the button yet"
   storybook: "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts"
-  figma: "DS-IA-NEPHOS 5.0, nph-button frame 1197:5449 and sets 461:13009 and 498:15671; nph-icon-button board 2122:1591, frame 2128:3953"
+  figma: "DS-IA-NEPHOS 5.0, nph-button documentation frame 4178:15028 and nph-icon-button documentation frame 4178:24324, which replace the boards 1197:5449 and 2122:1591; sets 461:13009 and 498:15671"
 ---
 
 # nph-button
@@ -271,16 +276,19 @@ they are on, and communicates through the type and the emphasis the weight of th
 | `severity` | When to use | When not to use |
 |---|---|---|
 | `primary` | Use for the main action of the block. | Do not use next to another `primary` `solid` action in the same block. |
-| `secondary` | Use for the alternative action that accompanies the main one, such as Cancel next to Save. | Do not use as the only main action of the block. |
+| `secondary` | Use for the neutral action that accompanies the main one, such as Cancel next to Save. It is a color type, not a level of hierarchy, and its default is `solid`. | Do not use as the only main action of the block. |
 | `danger` | Use for an action that deletes, revokes or cannot be undone. | Do not use with an icon only outside the actions column of a table: write the text. |
 | `info` | Use for an action tied to neutral information, such as a system notice or a contextual tip. | Do not use for an error, a risk or a confirmation. |
 | `warn` | Use for an action that requires care before proceeding. | Do not use for an error that has already happened; for an action that deletes or cannot be undone, use `danger`. |
 | `help` | Use for an action that opens help or guidance, such as an explanation, a tour or support content. | Do not use to report a system state. |
 | `success` | Use for an action that confirms something succeeded. | Do not use to label a permanent state, such as active: use `nph-badge`. |
 
-- `emphasis`: `solid` for the action with weight; `outline` when it accompanies the main one and
-  needs to be delimited; `light` when the outline would weigh too much; `ghost` for a tertiary action.
-  `outline`, `light` and `ghost` exist **only** in `primary`, `secondary` and `danger`.
+- `emphasis`: `solid` for the action with weight, the default also in `secondary`; `outline` for an
+  alternative action of the same weight, side by side with another, and never the default Cancel;
+  `light` when the outline would weigh too much; `ghost` for the icon-only button, a table row
+  action, a support action such as close, copy or scroll, and a third-level action such as Show all.
+  `outline` and `ghost` exist **only** in `primary`, `secondary` and `danger`, and `light` **only** in
+  `primary` and `danger`: `secondary` has no `light`.
 
 **By size:** `compact` (28), `default` (36, the default) and `large` (44). `large`
 meets the touch target of 44 px. `compact` stays tied to a table, toolbar
@@ -317,7 +325,7 @@ target on a touch screen; a size different from the field beside it.
 | State | Token | What changes for the person |
 |---|---|---|
 | `default` | the background and the text of the type and the emphasis | Rest. The color communicates the type of the action |
-| `hover-active` | `color/*-hover` and `status/*-hover` in `solid`; `*-surface-hover` and `*-on-surface-hover` in `outline` and `light`; the surface of the type in `ghost`, except `secondary` `ghost`, which takes `button/secondary-ghost-background-hover` with text and `icon-button/secondary-ghost-background-hover` in the icon only. The icons switch from `light` to `solid` (the `variant` of `nph-icon`), in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88) | The surface changes and the icons turn solid, with text and in the icon only, which confirms that the target responds |
+| `hover-active` | `color/*-hover` and `status/*-hover` in `solid`; `*-surface-hover` and `*-on-surface-hover` in `outline` and `light`; the surface of the type in `ghost`, except `secondary` `ghost`, which takes `button/secondary-ghost-background-hover` with text and `icon-button/secondary-ghost-background-hover` in the icon only; `secondary` `solid` takes `button/secondary-solid-background-hover` with text and `icon-button/secondary-solid-background-hover` in the icon only; `secondary` `outline` changes its border (`button/secondary-outline-border-hover` with text, `icon-button/secondary-outline-border-hover` in the icon only) and its background (`button/secondary-outline-background-hover` and `icon-button/secondary-outline-background-hover`). The icons switch from `light` to `solid` (the `variant` of `nph-icon`), in the same color as the text of the type: the start and end icons of the button with text and the icon of the icon-only button (P88) | The surface changes and the icons turn solid, with text and in the icon only, which confirms that the target responds |
 | `focus` | border `border/width` in the color of the type (`focus/border` in `secondary`) and halo `focus/ring-width` in `focus/halo` or `focus/halo-<matiz>`; in the circular shape both follow `radius/full` | A border in the color of the action and a halo outside mark the focus, without changing the size |
 | `disabled` | `state/disabled-opacity` | The whole button loses opacity, leaves the Tab order and stops responding |
 | `loading` | the spinner inherits the text color | The spinner takes the place of the start icon, the text stays and the click stops counting |
@@ -340,7 +348,7 @@ screen defines.
 | Accessible name | The visible text. Without text, the `label`, mandatory, which is also the text of the tooltip: the tooltip names the native button and the name is announced once. On touch the tooltip does not open, an accepted exception: the icon must be easy to recognize, and an ambiguous action uses a button with text |
 | Keyboard | Tab enters and leaves; Enter and Space activate. In the icon-only button, focus opens the tooltip at once and Esc closes it |
 | Focus | Keyboard only: a border in the color of the type and a halo outside, without changing the size. In dark mode, the border of `primary` falls below 3:1 against the background in `Gerencial`, `Recursos Humanos` and `Igrejas` (open item of 02-10-2026) |
-| Contrast | Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in `primary` `outline` and `light` of the light scheme. The `outline` border passes 3:1 |
+| Contrast | Text and icon pass 4.5:1 in every type and emphasis, in both schemes and in every brand; the lowest value is 4.64:1, in `primary` `outline` and `light` of the light scheme. The `primary` and `danger` `outline` borders pass 3:1; the `secondary` `outline` border is 1.93:1 in the light scheme and 4.18:1 in the dark one, an accepted exception, because the text, or the icon with its label and tooltip, identifies the button |
 | Alternative to color | The text says what happens on click; color is never the only sign |
 
 ## Relations
@@ -366,9 +374,9 @@ screen defines.
 | Radius | `radius/control`; `radius/full` in the circular icon-only button |
 | Text | `text/label-md`, the same in every size |
 | Icon | `icon/size-sm` with text; `sm`, `md` or `lg` in the icon-only button |
-| `solid` | `color/primary`, `color/secondary`, `status/<matiz>` or `color/destructive`, with the hover and the text of the pair |
-| `outline` | the light surface of the type, with the border and the text in the same color, inside |
-| `light` | the light surface of the type, without a border |
+| `solid` | `color/primary`, `status/<matiz>` or `color/destructive`, with the hover and the text of the pair. In `secondary`, `button/secondary-solid-background` and its hover with text, and `icon-button/secondary-solid-background` and its hover in the icon-only button, with the text in `color/secondary-foreground` |
+| `outline` | the light surface of the type, with the border and the text in the same color, inside. In `secondary`, the rest background is `color/muted`, and the border and the hover are `button/secondary-outline-border`, `button/secondary-outline-border-hover` and `button/secondary-outline-background-hover` with text, and the `icon-button/secondary-outline-*` ones in the icon-only button |
+| `light` | the light surface of the type, without a border; only in `primary` and `danger` |
 | `ghost` | no background at rest; the surface of the type on hover. In `secondary`, the hover is `button/secondary-ghost-background-hover` with text and `icon-button/secondary-ghost-background-hover` in the icon-only button |
 | Focus | `border/width`, `focus/border-radius-control`, `focus/ring-width`, `focus/radius-control-with-border`, `focus/border`, `focus/halo` and `focus/halo-<matiz>` |
 
@@ -382,7 +390,7 @@ in P68: the `use` of some tokens in `design.md` does not cite this usage yet.
 - An action that happens on the screen is `nph-button`. Going to another destination is navigation, not a
   button.
 - Choose `severity` by the meaning of the action, never by the color.
-- One main action per block, in `primary` `solid`; the action beside it goes in `secondary` `solid`. `outline` is not the default.
+- One main action per block, in `primary` `solid`; the action beside it goes in `secondary` `solid`, the default of `secondary`. `outline` is not the default Cancel, and `secondary` has no `light`.
 - Set `size` `large` on a touch screen and the same size as the field beside it.
 - Without text, fill in `label`: it is the accessible name and the text of the tooltip.
 - An action with a consequence has text, except in the actions column of a table, where the
@@ -409,7 +417,7 @@ circular icon-only button in `primary` `solid`.
 - **Do not remove or redraw the focus.**
 - **Do not mix sizes** between a button and a field side by side.
 - **Invalid combinations:** `outline`, `light` or `ghost` in `info`, `warn`, `help` or
-  `success`; icon only without `label`; two icons without text; icon only in an action with a
+  `success`; `light` in `secondary`; icon only without `label`; two icons without text; icon only in an action with a
   consequence outside the actions column of a table; `circular` with text; `compact` as the main
   target on a touch screen.
 - **Do not create without a decision:** a type, emphasis, size or color outside the matrix.
@@ -419,8 +427,9 @@ circular icon-only button in `primary` `solid`.
 - **The repository `design.md`:** `control/height-*`, `space/control-padding`,
   `space/inline-tight`, `radius/control`, `radius/full`, `text/label-md`, `icon/size-*`,
   `state/disabled-opacity`, `focus/*` and the colors `color/*` and `status/*`. The component
-  tokens `button/secondary-ghost-background-hover` and
-  `icon-button/secondary-ghost-background-hover` are in `src/tokens/source/semantic.tokens.json`.
+  tokens `button/secondary-solid-*`, `button/secondary-outline-*`,
+  `button/secondary-ghost-background-hover` and their `icon-button/*` twins are in
+  `src/tokens/source/semantic.tokens.json`.
 - **The decision that originated it:** P68, of 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log);
   the default `size` `default` and the name `label`, in P68;
   the solid hover on the hover tokens, which supersedes B4. The frame was accepted
@@ -433,12 +442,15 @@ circular icon-only button in `primary` `solid`.
   `secondary` `ghost` hover follows the `nph-toolbar` preview: with text it takes
   `button/secondary-ghost-background-hover` and in the icon only
   `icon-button/secondary-ghost-background-hover`, both on `color/accent`, in place of
-  `color/muted` (DSA-60). P86 adds the `shape` of the icon-only button and its tooltip, from the
+  `color/muted` (DSA-60). On 03-11-2026, Indiane removed the `secondary` `light` emphasis, and on
+  04-11-2026 she fixed the `secondary` `solid` and `outline` colors on component tokens and made
+  `secondary` `solid` the default of the type (DSA-64). P86 adds the `shape` of the icon-only button and its tooltip, from the
   `nph-icon-button` board accepted in Figma, with the textual audit approved.
 - **Tests:** `src/components/nph-button/nph-button.test.ts`, `nph-button.first-tooltip.test.ts` and
   `nph-button.docs.test.ts`.
 - **Usage evidence:** pending — no approved screen consumes the button yet.
 - **Storybook:** `src/components/nph-button/nph-button.stories.ts` (Validation) and
   `nph-button.docs.stories.ts` (Docs).
-- **Figma:** `nph-button` frame (`1197:5449`) and sets `461:13009` and `498:15671`, and the
-  `nph-icon-button` board (`2122:1591`, frame `2128:3953`), in `DS-IA-NEPHOS 5.0`.
+- **Figma:** `nph-button` documentation frame (`4178:15028`) and `nph-icon-button` documentation
+  frame (`4178:24324`), which replace the boards `1197:5449` and `2122:1591`; sets `461:13009`
+  and `498:15671`, in `DS-IA-NEPHOS 5.0`.

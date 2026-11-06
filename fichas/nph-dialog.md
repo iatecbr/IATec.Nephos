@@ -359,7 +359,9 @@ and the actions and opens and closes it with `open`. The `nph-alert-dialog` buil
 | Motion | `motion/enter-*`, `motion/exit-*`; `motion/hover-duration` with reduced motion |
 
 **Usage restrictions:** the dialog redefines, in the scope of its window, `color/secondary` and its
-hover as `color/secondary-on-dialog` and its hover, so the solid secondary `nph-button` does not
+hover, and the solid secondary tokens of the button (`button/secondary-solid-background`,
+`icon-button/secondary-solid-background` and their hovers), as `color/secondary-on-dialog` and its
+hover, so the solid secondary `nph-button` does not
 disappear on `color/dialog` in dark mode; and `color/border`, on its own lines only, as
 `color/dialog-separator`. No token gets a new value. `layout/dialog-content-sm`, `-md` and `-lg` are
 the width of the default content part in Figma, not a rule of the code: the dialog hugs its content.

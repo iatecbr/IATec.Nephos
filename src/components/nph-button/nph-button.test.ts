@@ -37,7 +37,7 @@ interface Pair {
 
 const SOLID: Readonly<Record<NphButtonSeverity, Pair>> = {
   primary: { bg: '--nph-color-primary', bgHover: '--nph-color-primary-hover', fg: '--nph-color-primary-foreground' },
-  secondary: { bg: '--nph-color-secondary', bgHover: '--nph-color-secondary-hover', fg: '--nph-color-secondary-foreground' },
+  secondary: { bg: '--nph-button-secondary-solid-background', bgHover: '--nph-button-secondary-solid-background-hover', fg: '--nph-color-secondary-foreground' },
   info: { bg: '--nph-status-info', bgHover: '--nph-status-info-hover', fg: '--nph-status-on-solid' },
   warn: { bg: '--nph-status-warning', bgHover: '--nph-status-warning-hover', fg: '--nph-status-on-solid' },
   help: { bg: '--nph-status-help', bgHover: '--nph-status-help-hover', fg: '--nph-status-on-solid' },
@@ -63,14 +63,19 @@ const LIGHT_AND_OUTLINE = {
 const PAIRS: ReadonlyArray<readonly [NphButtonSeverity, NphButtonEmphasis, Pair]> = [
   ...NPH_BUTTON_SEVERITIES.map((severity) => [severity, 'solid', SOLID[severity]] as const),
   ['primary', 'outline', { ...LIGHT_AND_OUTLINE.primary, border: LIGHT_AND_OUTLINE.primary.fg, borderHover: LIGHT_AND_OUTLINE.primary.fgHover }],
-  ['secondary', 'outline', { bg: '--nph-color-muted', bgHover: '--nph-color-secondary-surface-hover', fg: '--nph-color-secondary-foreground', border: '--nph-color-secondary-foreground', borderHover: '--nph-color-secondary-foreground' }],
+  ['secondary', 'outline', { bg: '--nph-color-muted', bgHover: '--nph-button-secondary-outline-background-hover', fg: '--nph-color-secondary-foreground', border: '--nph-button-secondary-outline-border', borderHover: '--nph-button-secondary-outline-border-hover' }],
   ['danger', 'outline', { ...LIGHT_AND_OUTLINE.danger, border: LIGHT_AND_OUTLINE.danger.fg, borderHover: LIGHT_AND_OUTLINE.danger.fgHover }],
   ['primary', 'light', LIGHT_AND_OUTLINE.primary],
-  ['secondary', 'light', { bg: '--nph-color-secondary-light', bgHover: '--nph-color-secondary-light-hover', fg: '--nph-color-secondary-foreground' }],
   ['danger', 'light', LIGHT_AND_OUTLINE.danger],
   ['primary', 'ghost', { bg: null, bgHover: '--nph-color-primary-surface', fg: '--nph-color-primary-on-surface' }],
   ['secondary', 'ghost', { bg: null, bgHover: '--nph-button-secondary-ghost-background-hover', fg: '--nph-color-secondary-foreground' }],
   ['danger', 'ghost', { bg: null, bgHover: '--nph-color-destructive-surface', fg: '--nph-color-destructive-on-surface' }],
+];
+
+/** The same pairs in the icon only: secondary solid and outline read the icon-button tokens (DSA-64). */
+const ICON_ONLY_PAIRS: ReadonlyArray<readonly [NphButtonEmphasis, Pair]> = [
+  ['solid', { bg: '--nph-icon-button-secondary-solid-background', bgHover: '--nph-icon-button-secondary-solid-background-hover', fg: '--nph-color-secondary-foreground' }],
+  ['outline', { bg: '--nph-color-muted', bgHover: '--nph-icon-button-secondary-outline-background-hover', fg: '--nph-color-secondary-foreground', border: '--nph-icon-button-secondary-outline-border', borderHover: '--nph-icon-button-secondary-outline-border-hover' }],
 ];
 
 /** Focus per severity, the same in all emphases. */
@@ -353,6 +358,115 @@ describe('secondary ghost hover, on the component tokens (DSA-60)', () => {
         await userEvent.unhover(button);
       }
     });
+  }
+});
+
+describe('secondary solid and outline, on the component tokens (DSA-64)', () => {
+  const TEXT = { size: 'default', text: 'Cancel', iconStart: 'xmark' } as const;
+  const ICON_ONLY = { size: 'default', iconStart: 'xmark', label: 'Close' } as const;
+
+  /** A wrapper that points each component token at a different color, so the button and the icon-button ones can be told apart. */
+  function overridden(): HTMLElement {
+    const part = document.createElement('div');
+    const tokens: ReadonlyArray<readonly [string, string]> = [
+      ['solid-background', '--nph-color-primary'],
+      ['solid-background-hover', '--nph-status-info'],
+      ['outline-border', '--nph-color-primary'],
+      ['outline-border-hover', '--nph-status-info'],
+      ['outline-background-hover', '--nph-color-primary'],
+    ];
+    for (const [name, color] of tokens) {
+      part.style.setProperty(`--nph-button-secondary-${name}`, `var(${color})`);
+      part.style.setProperty(`--nph-icon-button-secondary-${name}`, `var(${color === '--nph-color-primary' ? '--nph-color-destructive' : '--nph-status-warning'})`);
+    }
+    document.body.append(part);
+    return part;
+  }
+
+  async function mountIn(parent: HTMLElement, props: Props): Promise<NphButton> {
+    const element = document.createElement('nph-button');
+    Object.assign(element, props);
+    parent.append(element);
+    await element.updateComplete;
+    return element;
+  }
+
+  for (const scheme of ['light', 'dark'] as const) {
+    for (const [emphasis, pair] of ICON_ONLY_PAIRS) {
+      it(`${scheme} · icon only · secondary ${emphasis}: the icon-button tokens, at rest and on hover`, async () => {
+        document.documentElement.setAttribute('data-nph-color-scheme', scheme);
+        const element = await mount({ severity: 'secondary', emphasis, ...ICON_ONLY });
+        const button = control(element);
+        expect(getComputedStyle(button).backgroundColor).toBe(resolved('background-color', pair.bg ?? ''));
+        expect(insetColor(button)).toBe(pair.border ? resolved('color', pair.border) : 'none');
+        await userEvent.hover(button);
+        expect(getComputedStyle(button).backgroundColor).toBe(resolved('background-color', pair.bgHover));
+        expect(insetColor(button)).toBe(pair.borderHover ? resolved('color', pair.borderHover) : 'none');
+        expect(getComputedStyle(button).color).toBe(resolved('color', pair.fg));
+      });
+    }
+  }
+
+  it('the outline border changes on hover, with text and icon only', async () => {
+    for (const props of [TEXT, ICON_ONLY]) {
+      document.documentElement.setAttribute('data-nph-color-scheme', 'light');
+      const element = await mount({ severity: 'secondary', emphasis: 'outline', ...props });
+      const button = control(element);
+      const rest = insetColor(button);
+      await userEvent.hover(button);
+      expect(insetColor(button)).not.toBe(rest);
+      await userEvent.unhover(button);
+      expect(insetColor(button)).toBe(rest);
+    }
+  });
+
+  it('in light, the icon-only outline border hover is a different color from the one with text (surface/300 and surface/400)', () => {
+    document.documentElement.setAttribute('data-nph-color-scheme', 'light');
+    expect(resolved('color', '--nph-icon-button-secondary-outline-border-hover')).not.toBe(
+      resolved('color', '--nph-button-secondary-outline-border-hover'),
+    );
+  });
+
+  for (const emphasis of ['solid', 'outline'] as const) {
+    it(`${emphasis}: with text it reads the button tokens, icon only reads the icon-button ones`, async () => {
+      const part = overridden();
+      const withText = control(await mountIn(part, { severity: 'secondary', emphasis, ...TEXT }));
+      const iconOnly = control(await mountIn(part, { severity: 'secondary', emphasis, ...ICON_ONLY }));
+      await userEvent.hover(withText);
+      if (emphasis === 'solid') {
+        expect(getComputedStyle(withText).backgroundColor).toBe(resolved('background-color', '--nph-status-info'));
+      } else {
+        expect(getComputedStyle(withText).backgroundColor).toBe(resolved('background-color', '--nph-color-primary'));
+        expect(insetColor(withText)).toBe(resolved('color', '--nph-status-info'));
+      }
+      await userEvent.unhover(withText);
+      await userEvent.hover(iconOnly);
+      if (emphasis === 'solid') {
+        expect(getComputedStyle(iconOnly).backgroundColor).toBe(resolved('background-color', '--nph-status-warning'));
+      } else {
+        expect(getComputedStyle(iconOnly).backgroundColor).toBe(resolved('background-color', '--nph-color-destructive'));
+        expect(insetColor(iconOnly)).toBe(resolved('color', '--nph-status-warning'));
+      }
+    });
+  }
+
+  it('the secondary outline keeps color/muted at rest', async () => {
+    const element = await mount({ severity: 'secondary', emphasis: 'outline', ...TEXT });
+    expect(getComputedStyle(control(element)).backgroundColor).toBe(resolved('background-color', '--nph-color-muted'));
+  });
+
+  for (const severity of ['primary', 'danger'] as const) {
+    for (const emphasis of ['solid', 'outline'] as const) {
+      it(`${severity} ${emphasis}, with text and icon only, does not read the secondary tokens`, async () => {
+        const part = overridden();
+        const base = await mount({ severity, emphasis, ...TEXT });
+        const expectedRest = getComputedStyle(control(base)).backgroundColor;
+        for (const props of [TEXT, ICON_ONLY]) {
+          const element = await mountIn(part, { severity, emphasis, ...props });
+          expect(getComputedStyle(control(element)).backgroundColor).toBe(expectedRest);
+        }
+      });
+    }
   }
 });
 
@@ -791,6 +905,8 @@ describe('mount and invalid input', () => {
     ['emphasis outside the list', { emphasis: 'link' as NphButtonEmphasis, text: 'Save' }, 1],
     ['outline in info (B1)', { severity: 'info', emphasis: 'outline', text: 'Save' }, 1],
     ['ghost in success (B1)', { severity: 'success', emphasis: 'ghost', text: 'Save' }, 1],
+    ['light in secondary, with text (B1, DSA-64)', { severity: 'secondary', emphasis: 'light', text: 'Save' }, 1],
+    ['light in secondary, icon only (B1, DSA-64)', { severity: 'secondary', emphasis: 'light', iconStart: 'plus', label: 'Add' }, 1],
     ['size outside the list', { size: 'small' as NphButtonSize, text: 'Save' }, 1],
     ['icon outside the core', { text: 'Save', iconStart: 'not-a-core-name' }, 1],
     ['icon only without label', { iconStart: 'plus' }, 1],

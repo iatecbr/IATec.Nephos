@@ -1072,8 +1072,9 @@ its own decision, as in P66. The names follow P64.
 - **`nph-button`**
   - `severity` (default `primary`), `emphasis` (`solid`, default, `outline`,
     `light` or `ghost`) and `size` (`compact`, `default`, default, or `large`).
-    `outline`, `light` and `ghost` exist only in `primary`, `secondary` and
-    `danger` (B1). The `default` default is Indiane's decision on 05/10/2026,
+    `outline` and `ghost` exist only in `primary`, `secondary` and
+    `danger`, and `light` only in `primary` and `danger` (B1; the `secondary`
+    `light` was removed in DSA-64). The `default` default is Indiane's decision on 05/10/2026,
     through T4 (`compact` is tied to the dense context), and supersedes the
     `padrão compact` of the accepted frame (`1197:5449`, section 5). The three
     are reflected to the attribute, as are `disabled` and `loading`: the internal
@@ -3438,8 +3439,10 @@ modal dialog covers the window it opens in, which a page with several examples i
    master in P66. **Known limit:** content whose width is a percentage shrinks to its own size.
 
 7. **Tokens redefined in the scope of the window, with no new value.** The window redefines
-   `--nph-color-secondary` and `--nph-color-secondary-hover` as `color/secondary-on-dialog` and its
-   hover, which reach by inheritance every element inside the window that reads `color/secondary`
+   `--nph-color-secondary` and `--nph-color-secondary-hover`, and, since DSA-64, the solid secondary
+   tokens of the button (`--nph-button-secondary-solid-background`,
+   `--nph-icon-button-secondary-solid-background` and their hovers), as `color/secondary-on-dialog`
+   and its hover, which reach by inheritance every element inside the window that reads them
    — today, the `nph-button` in the content and in the footer: in dark,
    `color/secondary` is the same `surface/600` as `color/dialog`. The `nph-button` keeps no color
    property (P68): the dialog uses the token channel the button already reads. On its own
@@ -4493,9 +4496,9 @@ and P90. The names follow P64.
    | `link` | `link` | `<a>` underlined in `table/link-foreground`; only an `http`, `https`, `mailto` or `tel` address, a path or a fragment |
    | `texto cortado` | `truncated` | the focusable cell and an `nph-tooltip` (below) |
    | `status` | `status` | `circle-check` or `circle-xmark` in `table/status-*-icon`, with the name |
-   | `botão` | `button` | `nph-button` secondary light compact |
+   | `botão` | `button` | `nph-button` secondary solid compact |
    | `ações` | `actions` | Edit (`pen-to-square`) and more (`ellipsis-vertical`), icon-only `nph-button` secondary ghost default |
-   | `ações mistas` | `mixed-actions` | written Edit and more, `nph-button` secondary light compact |
+   | `ações mistas` | `mixed-actions` | written Edit and more, `nph-button` secondary solid compact |
    | `avaliação` | `rating` | one solid `star` in `table/rating-foreground` and the score |
    | `carregando` | `loading` | `nph-skeleton` line; the cell carries `aria-busy="true"` while it loads |
 
@@ -4618,7 +4621,7 @@ and P90. The names follow P64.
 - **Data by property and one tag**, forced by the packaging.
 - **`striped` and `grid` on the table**, not per cell.
 - **`start` and `end`** in place of the Figma `esquerda` and `direita`.
-- **`secondary` as the severity** of the ghost and light buttons of the actions and of the chevron.
+- **`secondary` as the severity** of the ghost and solid buttons of the actions and of the chevron.
 - **The slot `action`**, the first slot of the wave, justified by `table/caption-action-gap`.
 - **The scroll area as a region only while it overflows.**
 - **`aria-level` on a row outside a `treegrid`**, and `aria-expanded` on the host of the chevron.

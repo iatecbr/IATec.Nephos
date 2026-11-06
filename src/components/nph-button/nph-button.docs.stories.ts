@@ -54,8 +54,15 @@ const SECTIONS = {
   references: 'references',
 } as const;
 
-/** The severities that have outline, light and ghost (B1). */
-const WITH_LIGHT_EMPHASES = ['primary', 'secondary', 'danger'];
+/**
+ * The pairs that exist (B1): solid in all; outline and ghost in primary, secondary and
+ * danger; light only in primary and danger (the secondary light was removed, DSA-64).
+ */
+function exists(severity: string, emphasis: string): boolean {
+  if (emphasis === 'solid') return true;
+  if (emphasis === 'light') return ['primary', 'danger'].includes(severity);
+  return ['primary', 'secondary', 'danger'].includes(severity);
+}
 
 /* Demonstration frame. Not a precedent for component CSS. */
 const column = 'display: flex; flex-direction: column; gap: var(--nph-space-stack);';
@@ -77,7 +84,7 @@ export const Documentation: Story = {
           NPH_BUTTON_EMPHASES.map((emphasis) => ({
             label: `emphasis: ${emphasis}`,
             cells: NPH_BUTTON_SEVERITIES.map((severity) =>
-              emphasis === 'solid' || WITH_LIGHT_EMPHASES.includes(severity)
+              exists(severity, emphasis)
                 ? html`<nph-button severity=${severity} emphasis=${emphasis} size="default" text=${save}></nph-button>`
                 : html``,
             ),
@@ -129,9 +136,7 @@ export const Documentation: Story = {
               html`<div style=${column}>
                 ${NPH_BUTTON_EMPHASES.map(
                   (emphasis) => html`<div style=${row}>
-                    ${NPH_BUTTON_SEVERITIES.filter(
-                      (severity) => emphasis === 'solid' || WITH_LIGHT_EMPHASES.includes(severity),
-                    ).map(
+                    ${NPH_BUTTON_SEVERITIES.filter((severity) => exists(severity, emphasis)).map(
                       (severity) =>
                         html`<nph-button severity=${severity} emphasis=${emphasis} size="default" text=${severity}></nph-button>`,
                     )}
