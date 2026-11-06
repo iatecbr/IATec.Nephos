@@ -343,7 +343,17 @@
     "components-nph-progress-validation--texts": "Texts",
     "components-nph-progress-validation--width": "Width",
     "components-nph-progress-validation--examples": "Examples",
-    "components-nph-progress-validation--brands": "Brands"
+    "components-nph-progress-validation--brands": "Brands",
+    "components-nph-breadcrumb-docs": "Docs",
+    "components-nph-breadcrumb-docs--documentation": "Documentation",
+    "components-nph-breadcrumb-validation": "Validation",
+    "components-nph-breadcrumb-validation--levels": "Levels",
+    "components-nph-breadcrumb-validation--collapsed": "Collapsed",
+    "components-nph-breadcrumb-validation--menu-width": "Menu width",
+    "components-nph-breadcrumb-validation--direction": "Direction",
+    "components-nph-breadcrumb-validation--loading": "Loading",
+    "components-nph-breadcrumb-validation--examples": "Examples",
+    "components-nph-breadcrumb-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -7371,7 +7381,14 @@
       "components-nph-progress-validation--texts": "The optional texts: the label, the value text and the help text, and the aria-label that names the bar when there is no label.",
       "components-nph-progress-validation--width": "Fluid width: the bar takes the whole container and never goes below the minimum of 48 px.",
       "components-nph-progress-validation--examples": "The three required examples, each in light and dark mode: an upload in progress, a preparing with no percentage and a sign-up in steps.",
-      "components-nph-progress-validation--brands": "The seven brands in light and dark: the indicator, the end stop and the done segments follow the brand."
+      "components-nph-progress-validation--brands": "The seven brands in light and dark: the indicator, the end stop and the done segments follow the brand.",
+      "components-nph-breadcrumb-validation--levels": "The trail of 2, 3 and 4 levels, each without and with icons: the links in the muted color, the chevron separator between the levels, and the current page last, in text, with the solid icon when the trail has icons.",
+      "components-nph-breadcrumb-validation--collapsed": "The collapsed trail, without and with icons: the first level, the ellipsis button and the last two levels, with the menu of the hidden levels open, in path order.",
+      "components-nph-breadcrumb-validation--menu-width": "The width of the hidden levels menu: it hugs the widest option between a floor of 128 px and a ceiling of 280 px, and a text past the ceiling is cut with an ellipsis.",
+      "components-nph-breadcrumb-validation--direction": "Right-to-left writing: the trail reads from the right and the chevron separator mirrors.",
+      "components-nph-breadcrumb-validation--loading": "The piece has no loading state: while the page loads, a line nph-skeleton takes the place of the trail.",
+      "components-nph-breadcrumb-validation--examples": "The three required examples, each in light and dark mode: two levels with text only, four levels with icons, and a long collapsed trail with the menu open.",
+      "components-nph-breadcrumb-validation--brands": "The seven brands in light and dark mode: the focus border and the halo of the link and of the ellipsis button follow the brand of the frame."
     }
   },
   "multiComboboxDocs": {
@@ -10169,6 +10186,230 @@
     "sourceSpec": "nph-progress spec sheet; Figma, frame nph-progress (4385:3186)",
     "sourceApi": "nph-progress spec sheet; docs/decisoes-tecnicas.md › P107",
     "sourceAnatomy": "Figma, sets 4368:1532 and 4368:1185; design.md",
+    "matrixLabel": "Component matrix"
+  },
+  "breadcrumbValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "navLabel": "Breadcrumb",
+    "ellipsisLabel": "Show hidden levels",
+    "home": "Home",
+    "projects": "Projects",
+    "nephos": "Nephos",
+    "designSystem": "Design system",
+    "navigation": "Navigation",
+    "breadcrumb": "Breadcrumb",
+    "menuFloor": [
+      "Docs"
+    ],
+    "menuHug": [
+      "Reports and charts",
+      "Release notes"
+    ],
+    "menuCeiling": [
+      "A level label so long that it goes well past the ceiling of the hidden levels menu",
+      "Short"
+    ]
+  },
+  "breadcrumbDocs": {
+    "summary": "The trail that shows the path to the current page and leads back to each level above it.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-breadcrumb spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P109. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "On a page that sits inside a hierarchy, when the person needs to go up a level.",
+      "Choose the trail by the real path of the page: 2, 3 or 4 levels drawn, or collapsed when the path does not fit the width.",
+      "collapsed on a narrow screen: the trail keeps one line, with the first level and the last two in view.",
+      "Icons when the trail needs them, on every level; without icons, on none.",
+      "At the top of the page content, above the title."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "As the navigation menu of the product: the trail shows where the page is, not where the person can go; use the navigation menu.",
+      "As tabs that switch the content of one page: use tabs.",
+      "As a back button: the trail leads to the levels of the path, and does not show the history of visited pages.",
+      "For a path with a single level: the trail has at least the first level and the current page.",
+      "As a loading state: while the page loads, a line of nph-skeleton takes the place of the trail."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "levels",
+        "The path, from the first level to the current page, as a list of { label, href, icon }. Property only: set from JavaScript. Every level above the current page has an href; the last one is the current page and has none."
+      ],
+      [
+        "collapsed",
+        "The collapsed value of the Figma levels property. Off, the trail draws all its levels, 2, 3 or 4. On, it draws the first level, the ellipsis button and the last two levels, and needs 4 levels or more. Reflected to the attribute."
+      ],
+      [
+        "label",
+        "The accessible name of the navigation landmark. Already localized."
+      ],
+      [
+        "ellipsis-label",
+        "The accessible name of the ellipsis button, such as \"Show hidden levels\". Required when collapsed. Already localized."
+      ],
+      [
+        "aria-label",
+        "The accessible name of the landmark when there is no label."
+      ],
+      [
+        "icon",
+        "A field of each level, not a property of the trail: a core name of nph-icon. Every level has one or none does."
+      ],
+      [
+        "width, color and size",
+        "Not properties: the trail takes the width of its content, never wraps, and has a single size. The color comes from the tokens."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-breadcrumb id=\"trail\" label=\"Breadcrumb\"></nph-breadcrumb>\n<script>\n  trail.levels = [\n    { label: 'Home', href: '/' },\n    { label: 'Projects', href: '/projects' },\n    { label: 'Breadcrumb' },\n  ];\n</script>",
+    "usageTag": "The tag of the piece. The path comes as data in the levels property, set from JavaScript; the last level is the current page and has no href.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-breadcrumb (4512:4741); docs/decisoes-tecnicas.md › P109",
+    "levelsTitle": "Levels",
+    "levelsCaption": "The trail of 2, 3 and 4 levels, and the collapsed trail.",
+    "levelsUseHeader": [
+      "Levels",
+      "When to use"
+    ],
+    "levelsUse": [
+      {
+        "value": "2",
+        "label": "A page one level below the first: Home and the current page."
+      },
+      {
+        "value": "3",
+        "label": "A page two levels below the first."
+      },
+      {
+        "value": "4",
+        "label": "The longest trail drawn in full. Beyond this, use collapsed."
+      },
+      {
+        "value": "collapsed",
+        "label": "When the path does not fit the width, such as on a narrow screen: the first level, the ellipsis and the last two stay in view, and the levels in between sit in a menu. It needs 4 levels or more."
+      }
+    ],
+    "iconsTitle": "Icons",
+    "iconsCaption": "The same four levels without and with icons.",
+    "iconsUseHeader": [
+      "Icons",
+      "When to use"
+    ],
+    "iconsUse": [
+      {
+        "value": "without",
+        "label": "The default. The text of each level is enough."
+      },
+      {
+        "value": "with",
+        "label": "When the trail needs them: every level has its own, in the light style on a link and the solid style on the current page. The first level keeps its text: the house never stands alone."
+      }
+    ],
+    "hiddenLevelsTitle": "Hidden levels",
+    "hiddenLevelsCaption": "The collapsed trail with the menu of the hidden levels open.",
+    "hiddenLevels": [
+      "The ellipsis button opens an nph-dropdown-menu with the hidden levels, in path order, with no header and no group label.",
+      "The menu hugs its widest option, between 128 and 280 px, and cuts a longer text with an ellipsis. This holds only in the breadcrumb.",
+      "Choosing a level leads to its page, the same way a visible link does, and gives the focus back to the ellipsis button.",
+      "The piece has no loading state: while the page loads, a line nph-skeleton takes the place of the trail."
+    ],
+    "loadingCaption": "While the page loads, a line nph-skeleton takes the place of the trail, and then the trail takes it back.",
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "It sits above the page title, at the top of the content. It does not replace the navigation menu, the tabs or the back button, and it does not show the history of visited pages.",
+      "It works with nph-icon, which draws the separator, the ellipsis and the level icons, and with nph-dropdown-menu, which holds the hidden levels.",
+      "The link stays an inner piece of the trail until an nph-link exists.",
+      "On a narrow screen use the collapsed trail: it stays on one line. In right-to-left writing the separator mirrors."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Level icon",
+        "Optional. An nph-icon at breadcrumb/item-icon-size before the label, in its color: light on the link, solid on the current page. It is decorative."
+      ],
+      [
+        "Link",
+        "A level above the current page. Text at breadcrumb/font-size, regular, in breadcrumb/link-foreground; on hover breadcrumb/link-foreground-hover with an underline; on focus the focus border and the halo."
+      ],
+      [
+        "Separator",
+        "The nph-icon chevron-right at breadcrumb/icon-size in breadcrumb/separator-foreground, between the levels. It is decorative and mirrors in right-to-left writing."
+      ],
+      [
+        "Ellipsis",
+        "A button of breadcrumb/ellipsis-target-size with the nph-icon ellipsis, in place of the middle levels, only in the collapsed trail. It opens the menu of the hidden levels."
+      ],
+      [
+        "Current page",
+        "The last level, in text, at medium weight and breadcrumb/current-foreground, with the solid icon when the trail has icons. It has no action."
+      ],
+      [
+        "Gap",
+        "breadcrumb/gap between the parts of the trail; breadcrumb/item-icon-gap between a level icon and its label."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Contrast",
+        "The links, the separator, the link icons and the ellipsis at rest pass the required level over the background in both themes. The current page has the highest contrast of the trail, never lower than the links."
+      ],
+      [
+        "Visible focus",
+        "The link and the ellipsis show the focus border and the halo outside. The border is the signal that meets 3:1 in both themes. The current page takes no focus."
+      ],
+      [
+        "Color is not the only signal",
+        "The current page stands apart without relying on color: it is not a link, it has medium weight and, with icons, the solid icon. The link hover adds an underline to the color change."
+      ],
+      [
+        "Touch target",
+        "The ellipsis is 24 by 24. The links are 20 px tall and sit 32 px from each other, with the separator in between."
+      ],
+      [
+        "Accessible name",
+        "A navigation landmark named by label or aria-label, with an ordered list. The current page carries aria-current=\"page\". The separator and the level icons are decorative. The ellipsis has its own name, and the menu tells it is expanded."
+      ],
+      [
+        "Keyboard",
+        "Tab goes through the links and the ellipsis. On the ellipsis, Enter, Space and the down arrow open the menu; the arrows move inside; Esc closes it and gives the focus back."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplesCaption": "The three required examples: two levels with text only, four levels with icons and a long collapsed trail with the menu open.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-breadcrumb spec sheet — purpose, levels, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P109 (API and semantics), P01, P02 and P03.",
+      "design.md — the breadcrumb/* tokens and the focus tokens.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Breadcrumb, documentation frame nph-breadcrumb (4512:4741), sets 4490:2886, 4490:2678 and 4490:2697, and the separator 1635:16.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-breadcrumb spec sheet; Figma, frame nph-breadcrumb (4512:4741)",
+    "sourceApi": "nph-breadcrumb spec sheet; docs/decisoes-tecnicas.md › P109",
+    "sourceAnatomy": "Figma, sets 4490:2886, 4490:2678 and 4490:2697; design.md",
     "matrixLabel": "Component matrix"
   }
 }
