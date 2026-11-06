@@ -3,8 +3,8 @@
   "$extensions": {
     "com.iatec.nephos": {
       "layer": "semantic",
-      "expectedCount": 694,
-      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09; o novo valor claro de color/accent e os 3 tokens scrollbar/* lidos variavel a variavel em 2026-10-14; radius/control-inner e layout/max-list-height, do nph-select e do nph-combobox, lidos variavel a variavel em 2026-10-14; text/highlight-weight lido em 2026-10-14; layout/multi-combobox-width, do nph-multi-combobox, lido variavel a variavel em 2026-10-15; layout/textarea-min-height e layout/textarea-max-height, do nph-textarea, lidos variavel a variavel em 2026-10-16; scheme/is-light e scheme/is-dark, booleanos do nph-empty, lidos variavel a variavel em 2026-10-16; o novo valor claro de color/muted (core/surface/50), lido em 2026-10-19; os 13 tokens do nph-dialog (layout/dialog-min-width, layout/dialog-sm, -md e -lg, layout/dialog-content-sm, -md e -lg, layout/dialog-max-height, space/stack-snug, space/inline-loose, space/overlay-padding, color/dialog-separator e color/secondary-on-dialog) lidos variavel a variavel em 2026-10-21; color/secondary-on-dialog-hover e os novos valores claros de color/secondary (core/surface/100) e color/secondary-hover (core/surface/200), lidos variavel a variavel em 2026-10-21; os 3 tokens do nph-dropdown-menu (color/dropdown-border, focus/border-radius-inner e focus/radius-inner-with-border) lidos variavel a variavel em 2026-10-21; dropdown/item-hover-icon-foreground, cor do icone solid do item do nph-dropdown-menu em hover (tipo default), lido variavel a variavel em 2026-10-21; motion/hover-delay, a espera do cursor do nph-tooltip (DSA-48), lido em 2026-10-22; os 23 tokens do nph-image (image/size-xs a 2xl, radius-sm a lg, background, foreground, border, border-width, focus-border, overlay, on-overlay, gap, media-width, icon-size-sm a lg, illustration-light e illustration-dark) e overlay/on-media-strong e overlay/on-media-foreground, lidos variavel a variavel em 2026-10-23 (DSA-51); os 43 tokens do nph-table (table/*, todos alias de semantico, de theme ou de core: caption-action-gap, max-width, scrollbar-radius, scrollbar-thumb, scrollbar-track, scrollbar-width, status-error-icon adicionados em 2026-10-25), lidos variavel a variavel em 2026-10-25 (DSA-49); os tokens sidebar/* do nph-sidebar-item, do nph-sidebar-subitem e do nph-sidebar-rail-button (sidebar/item-*, sidebar/group-*, sidebar/flyout-*, sidebar/rail-*, sidebar/panel-background, sidebar/panel-border, sidebar/panel-radius, sidebar/panel-spacing, sidebar/separator, sidebar/section-gap e sidebar/search-*) e os raios de foco focus/border-radius-sidebar-item, focus/radius-sidebar-item, focus/border-radius-container e focus/radius-container, lidos variavel a variavel em 2026-10-26 (DSA-53); os 19 tokens pagination/* do nph-pagination, todos alias de semantico ou de core, e o papel de texto text/label-md-strong (label-md com peso 600, numero da pagina atual), lidos variavel a variavel em 2026-10-27 (DSA-54); os 14 tokens toolbar/* do nph-toolbar, todos alias de semantico, lidos variavel a variavel em 2026-10-27 (DSA-55); os 62 tokens chip/* do nph-chip, alias de semantico, de theme ou de core (background-hover, remove-background-hover, counter-background, counter-background-hover e border trocam de tom entre claro e escuro), lidos variavel a variavel em 2026-10-28 (DSA-57); os 13 tokens data-table/* do nph-data-table, todos alias de semantico ou de core, lidos variavel a variavel em 2026-10-28 (DSA-58); os 2 tokens input/* do tamanho compacto do nph-input (height-compact, alias de control/height-compact, e clear-padding-end, alias de core/space/off-scale/5), lidos variavel a variavel em 2026-10-28 (DSA-59); button/secondary-ghost-background-hover e icon-button/secondary-ghost-background-hover, fundo em hover do nph-button e do nph-icon-button secondary ghost, alias de color/accent, lidos variavel a variavel em 2026-10-29 (DSA-60); os 3 tokens togglebutton/* do nph-togglebutton (background-hover, alias de color/accent; background-checked, alias de color/primary-surface-hover; background-checked-hover, theme/brand-200 no claro e theme/brand-700 no escuro), lidos variavel a variavel em 2026-10-29 (DSA-61); os 31 tokens navigation-menu/* do nph-navigation-menu, todos alias de semantico (panel-width e current-indicator-width direto em core, sem semantico da mesma funcao), lidos variavel a variavel em 2026-11-03 (DSA-62); os 59 tokens notification/* do nph-notification, alias de semantico (toast-width, toast-width-max, close-background-hover-opacity e close-focus-border-width direto em core, sem semantico da mesma funcao), color/inverse e color/inverse-foreground, superficie invertida do neutral solid, e color/background-subtle, que o Figma tinha e o codigo nao, lidos variavel a variavel em 2026-11-04 (DSA-63); os 10 tokens button/secondary-* e icon-button/secondary-* do secondary solid e outline (borda, hover da borda, fundo do solid no claro e hover do solid direto em core, com valor decidido diferente do semantico da mesma funcao; fundo do solid no escuro em color/secondary; hover do fundo do outline em color/secondary-light-hover), lidos variavel a variavel em 2026-11-04 (DSA-64); os 27 tokens progress/* do nph-progress, alias de semantico (height-md, height-sm e stop-size direto em core, sem semantico da mesma funcao; radius e segment-radius direto em core/radius/full por decisao, pois radius/full e de marcador pequeno), e motion/loop-long-duration e motion/loop-long-easing, o laco longo de 1400 ms, linear, do indeterminado, lidos variavel a variavel em 2026-11-05 (DSA-65); os 22 tokens breadcrumb/* do nph-breadcrumb, alias de semantico; menu-min-width em core/layout-width/menu-min e ellipsis-target-size em core/target-size/minimum, valores novos no core por decisao (core/space/1400 e core/image-size/600 valem 128, mas sao escala de espaco e tamanho de imagem; os valores 24 existentes sao caixa de icone, espaco, raio, avatar, imagem, logo ou texto, nenhum com a funcao de alvo); menu-max-width direto em core/layout-width/input por decisao (layout/input-width vale 280, mas e largura de campo); font-family, font-size, line-height, letter-spacing, link-font-weight e current-font-weight direto em core por decisao (nao ha semantico de tipografia por propriedade; text/body-md e papel de texto com valores proprios e o rotulo do item liga ao core, como no Figma), lidos variavel a variavel em 2026-11-06 (DSA-66)",
+      "expectedCount": 715,
+      "origin": "Figma DS-IA-NEPHOS 5.0, colecao semantic, leituras de 2026-08-24 e 2026-08-25; os 14 papeis de texto lidos dos estilos do mesmo arquivo em 2026-08-27; os 11 estilos de efeito lidos camada a camada em 2026-09-03; 42 tokens que o Figma tinha e o codigo nao, e os novos valores de color/input, color/muted-foreground, color/secondary, color/secondary-foreground e color/secondary-hover, lidos em 2026-10-05 (DSA-04); os 8 tokens de avatar e do trilho do nph-switch (avatar/size-*, avatar/radius-*, avatar/overlap e switch/track-width) lidos variavel a variavel em 2026-10-08; skeleton/line-height lido em 2026-10-09; o novo valor claro de color/accent e os 3 tokens scrollbar/* lidos variavel a variavel em 2026-10-14; radius/control-inner e layout/max-list-height, do nph-select e do nph-combobox, lidos variavel a variavel em 2026-10-14; text/highlight-weight lido em 2026-10-14; layout/multi-combobox-width, do nph-multi-combobox, lido variavel a variavel em 2026-10-15; layout/textarea-min-height e layout/textarea-max-height, do nph-textarea, lidos variavel a variavel em 2026-10-16; scheme/is-light e scheme/is-dark, booleanos do nph-empty, lidos variavel a variavel em 2026-10-16; o novo valor claro de color/muted (core/surface/50), lido em 2026-10-19; os 13 tokens do nph-dialog (layout/dialog-min-width, layout/dialog-sm, -md e -lg, layout/dialog-content-sm, -md e -lg, layout/dialog-max-height, space/stack-snug, space/inline-loose, space/overlay-padding, color/dialog-separator e color/secondary-on-dialog) lidos variavel a variavel em 2026-10-21; color/secondary-on-dialog-hover e os novos valores claros de color/secondary (core/surface/100) e color/secondary-hover (core/surface/200), lidos variavel a variavel em 2026-10-21; os 3 tokens do nph-dropdown-menu (color/dropdown-border, focus/border-radius-inner e focus/radius-inner-with-border) lidos variavel a variavel em 2026-10-21; dropdown/item-hover-icon-foreground, cor do icone solid do item do nph-dropdown-menu em hover (tipo default), lido variavel a variavel em 2026-10-21; motion/hover-delay, a espera do cursor do nph-tooltip (DSA-48), lido em 2026-10-22; os 23 tokens do nph-image (image/size-xs a 2xl, radius-sm a lg, background, foreground, border, border-width, focus-border, overlay, on-overlay, gap, media-width, icon-size-sm a lg, illustration-light e illustration-dark) e overlay/on-media-strong e overlay/on-media-foreground, lidos variavel a variavel em 2026-10-23 (DSA-51); os 43 tokens do nph-table (table/*, todos alias de semantico, de theme ou de core: caption-action-gap, max-width, scrollbar-radius, scrollbar-thumb, scrollbar-track, scrollbar-width, status-error-icon adicionados em 2026-10-25), lidos variavel a variavel em 2026-10-25 (DSA-49); os tokens sidebar/* do nph-sidebar-item, do nph-sidebar-subitem e do nph-sidebar-rail-button (sidebar/item-*, sidebar/group-*, sidebar/flyout-*, sidebar/rail-*, sidebar/panel-background, sidebar/panel-border, sidebar/panel-radius, sidebar/panel-spacing, sidebar/separator, sidebar/section-gap e sidebar/search-*) e os raios de foco focus/border-radius-sidebar-item, focus/radius-sidebar-item, focus/border-radius-container e focus/radius-container, lidos variavel a variavel em 2026-10-26 (DSA-53); os 19 tokens pagination/* do nph-pagination, todos alias de semantico ou de core, e o papel de texto text/label-md-strong (label-md com peso 600, numero da pagina atual), lidos variavel a variavel em 2026-10-27 (DSA-54); os 14 tokens toolbar/* do nph-toolbar, todos alias de semantico, lidos variavel a variavel em 2026-10-27 (DSA-55); os 62 tokens chip/* do nph-chip, alias de semantico, de theme ou de core (background-hover, remove-background-hover, counter-background, counter-background-hover e border trocam de tom entre claro e escuro), lidos variavel a variavel em 2026-10-28 (DSA-57); os 13 tokens data-table/* do nph-data-table, todos alias de semantico ou de core, lidos variavel a variavel em 2026-10-28 (DSA-58); os 2 tokens input/* do tamanho compacto do nph-input (height-compact, alias de control/height-compact, e clear-padding-end, alias de core/space/off-scale/5), lidos variavel a variavel em 2026-10-28 (DSA-59); button/secondary-ghost-background-hover e icon-button/secondary-ghost-background-hover, fundo em hover do nph-button e do nph-icon-button secondary ghost, alias de color/accent, lidos variavel a variavel em 2026-10-29 (DSA-60); os 3 tokens togglebutton/* do nph-togglebutton (background-hover, alias de color/accent; background-checked, alias de color/primary-surface-hover; background-checked-hover, theme/brand-200 no claro e theme/brand-700 no escuro), lidos variavel a variavel em 2026-10-29 (DSA-61); os 31 tokens navigation-menu/* do nph-navigation-menu, todos alias de semantico (panel-width e current-indicator-width direto em core, sem semantico da mesma funcao), lidos variavel a variavel em 2026-11-03 (DSA-62); os 59 tokens notification/* do nph-notification, alias de semantico (toast-width, toast-width-max, close-background-hover-opacity e close-focus-border-width direto em core, sem semantico da mesma funcao), color/inverse e color/inverse-foreground, superficie invertida do neutral solid, e color/background-subtle, que o Figma tinha e o codigo nao, lidos variavel a variavel em 2026-11-04 (DSA-63); os 10 tokens button/secondary-* e icon-button/secondary-* do secondary solid e outline (borda, hover da borda, fundo do solid no claro e hover do solid direto em core, com valor decidido diferente do semantico da mesma funcao; fundo do solid no escuro em color/secondary; hover do fundo do outline em color/secondary-light-hover), lidos variavel a variavel em 2026-11-04 (DSA-64); os 27 tokens progress/* do nph-progress, alias de semantico (height-md, height-sm e stop-size direto em core, sem semantico da mesma funcao; radius e segment-radius direto em core/radius/full por decisao, pois radius/full e de marcador pequeno), e motion/loop-long-duration e motion/loop-long-easing, o laco longo de 1400 ms, linear, do indeterminado, lidos variavel a variavel em 2026-11-05 (DSA-65); os 22 tokens breadcrumb/* do nph-breadcrumb, alias de semantico; menu-min-width em core/layout-width/menu-min e ellipsis-target-size em core/target-size/minimum, valores novos no core por decisao (core/space/1400 e core/image-size/600 valem 128, mas sao escala de espaco e tamanho de imagem; os valores 24 existentes sao caixa de icone, espaco, raio, avatar, imagem, logo ou texto, nenhum com a funcao de alvo); menu-max-width direto em core/layout-width/input por decisao (layout/input-width vale 280, mas e largura de campo); font-family, font-size, line-height, letter-spacing, link-font-weight e current-font-weight direto em core por decisao (nao ha semantico de tipografia por propriedade; text/body-md e papel de texto com valores proprios e o rotulo do item liga ao core, como no Figma), lidos variavel a variavel em 2026-11-06 (DSA-66); os 19 tokens popover/* do nph-popover, alias de semantico (radius em core/radius/600, header-gap em core/space/300, offset em core/space/100 e arrow-width, arrow-height e arrow-inset em core/space/400 e core/space/200 direto em core por decisao: radius/container vale 8 e o 14 vem do estilo suave; space/stack-snug vale 8; nenhum semantico descreve a distancia ate o gatilho nem a seta; width-sm, -md e -lg em core/layout-width/popover-* por decisao, pois layout/separator-width, layout/field-width e layout/dialog-sm sao de outra peca), color/border-subtle (contorno e divisoria suaves de camada flutuante: core/neutral/50 no claro, core/alpha/white-10 no escuro) e status/error-text (texto de erro de validacao sobre superficie neutra: core/danger/600 no claro, core/danger/300 no escuro), o novo valor de space/inline-loose (core/space/300, 12; acoes de rodape de dialogo, alerta e popover) e pagination/group-gap religado direto a core/space/400 por decisao, para a paginacao ficar em 16, e navigation-menu/panel-offset religado direto a core/space/100 por decisao, como popover/offset (mesmo valor, 4), lidos variavel a variavel em 2026-11-06 (DSA-67)",
       "modeSet": {
         "name": "color-scheme",
         "modes": [
@@ -1141,6 +1141,18 @@
           }
         }
       }
+    },
+    "border-subtle": {
+      "$type": "color",
+      "$value": "{core.neutral.50}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{core.neutral.50}",
+            "dark": "{core.alpha.white-10}"
+          }
+        }
+      }
     }
   },
   "control": {
@@ -2144,7 +2156,7 @@
     },
     "inline-loose": {
       "$type": "dimension",
-      "$value": "{core.space.400}"
+      "$value": "{core.space.300}"
     },
     "overlay-padding": {
       "$type": "dimension",
@@ -2498,6 +2510,18 @@
           "modes": {
             "light": "{core.success.100}",
             "dark": "{core.success.800}"
+          }
+        }
+      }
+    },
+    "error-text": {
+      "$type": "color",
+      "$value": "{core.danger.600}",
+      "$extensions": {
+        "com.iatec.nephos": {
+          "modes": {
+            "light": "{core.danger.600}",
+            "dark": "{core.danger.300}"
           }
         }
       }
@@ -3315,7 +3339,7 @@
     },
     "group-gap": {
       "$type": "dimension",
-      "$value": "{space.inline-loose}"
+      "$value": "{core.space.400}"
     },
     "control-gap": {
       "$type": "dimension",
@@ -3971,7 +3995,7 @@
     },
     "panel-offset": {
       "$type": "dimension",
-      "$value": "{space.inline-tight}"
+      "$value": "{core.space.100}"
     },
     "panel-background": {
       "$type": "color",
@@ -4494,6 +4518,84 @@
     "current-font-weight": {
       "$type": "number",
       "$value": "{core.weight.medium}"
+    }
+  },
+  "popover": {
+    "background": {
+      "$type": "color",
+      "$value": "{color.popover}"
+    },
+    "foreground": {
+      "$type": "color",
+      "$value": "{color.popover-foreground}"
+    },
+    "description": {
+      "$type": "color",
+      "$value": "{color.muted-foreground}"
+    },
+    "border": {
+      "$type": "color",
+      "$value": "{color.border-subtle}"
+    },
+    "divider": {
+      "$type": "color",
+      "$value": "{color.border-subtle}"
+    },
+    "border-width": {
+      "$type": "dimension",
+      "$value": "{border.width}"
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{core.radius.600}"
+    },
+    "padding": {
+      "$type": "dimension",
+      "$value": "{space.container-padding}"
+    },
+    "footer-padding": {
+      "$type": "dimension",
+      "$value": "{space.container-padding}"
+    },
+    "header-gap": {
+      "$type": "dimension",
+      "$value": "{core.space.300}"
+    },
+    "title-gap": {
+      "$type": "dimension",
+      "$value": "{space.inline}"
+    },
+    "footer-gap": {
+      "$type": "dimension",
+      "$value": "{space.inline-loose}"
+    },
+    "width-sm": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.popover-sm}"
+    },
+    "width-md": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.popover-md}"
+    },
+    "width-lg": {
+      "$type": "dimension",
+      "$value": "{core.layout-width.popover-lg}"
+    },
+    "offset": {
+      "$type": "dimension",
+      "$value": "{core.space.100}"
+    },
+    "arrow-width": {
+      "$type": "dimension",
+      "$value": "{core.space.400}"
+    },
+    "arrow-height": {
+      "$type": "dimension",
+      "$value": "{core.space.200}"
+    },
+    "arrow-inset": {
+      "$type": "dimension",
+      "$value": "{core.space.400}"
     }
   }
 }
