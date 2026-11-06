@@ -308,7 +308,13 @@ tokens_semantic:
     claro: core/neutral/600
     escuro: core/surface/200
     use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it."
-    nao_use: "Text needed to complete the task."
+    nao_use: "Text needed to complete the task. The meta line of nph-hover-card (date, time or short phrase below the description): there it is color/subtle-foreground."
+  color/subtle-foreground:
+    css: '--nph-color-subtle-foreground'
+    claro: core/neutral/500
+    escuro: core/neutral/300
+    use: "Third level of text: metadata one step below color/muted-foreground, such as the meta line of nph-hover-card (date, time or short phrase) and its icon. 4.74:1 over color/popover in light, 5.55:1 in dark."
+    nao_use: "Placeholder, caption or helper text (color/muted-foreground); text needed to complete the task."
   color/destructive:
     css: '--nph-color-destructive'
     claro: core/danger/600
@@ -1804,6 +1810,7 @@ tokens_motion:
     alias: core/duration/delay
     valor: 300
     use: "How long the pointer rests on an element before a help layer, such as the tooltip, opens. Keyboard focus does not wait. A single token: it has no curve, because nothing moves during the wait."
+    nao_use: "The preview of nph-hover-card, which waits longer before it opens (hover-card/open-delay, core/duration/delay-long, 600 ms)."
 
   motion/hover-duration:
     css: '--nph-motion-hover-duration'
