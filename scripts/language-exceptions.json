@@ -495,6 +495,15 @@
     "reason": "Name of the Figma frame (Documentação), quoted as it is in the accepted board (P64: Figma is in Portuguese)."
   },
   {
+    "file": "fichas/nph-progress.md",
+    "class": "contract-term",
+    "names": [
+      "tamanho",
+      "tipo"
+    ],
+    "reason": "Names of the Figma properties of nph-progress (tipo, tamanho), quoted as they are in the accepted documentation frame (P64: Figma is in Portuguese); the code API is type and size."
+  },
+  {
     "file": "fichas/nph-togglebutton.md",
     "class": "contract-term",
     "names": [

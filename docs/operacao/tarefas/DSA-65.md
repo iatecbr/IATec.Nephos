@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 640,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-progress",
   "dependencies": [
     "DSA-03"
@@ -31,7 +31,20 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The evidence names the step counts 3, 4 and 5 only as the Figma samples of the property `etapas`, and says the steps type splits the bar into a few fixed steps. The code accepts only those three counts and draws nothing for another one, with a console.error in development. Another count, such as 2 or 6, needs her answer. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-06"
+    },
+    {
+      "id": "D-2",
+      "question": "`design.md` still says the indeterminate bar has no value and was deferred (open point 3n, `tokens_motion`), and does not list `motion/loop-long-duration` and `motion/loop-long-easing`. The tokens and the accepted evidence give 1400 ms linear. This pull request does not edit `design.md`, by the instruction of the task; the file needs a change of its own, with the 1400 ms loop and the two roles. It does not block the pull request.",
+      "decider": "elvys",
+      "opened_at": "2026-11-06"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-65/figma-docs-accepted-2026-11-05.md"
   ],
@@ -47,9 +60,9 @@
     "excerpt": null,
     "converted_decision": "The nph-progress documentation frame (4385:3186, page 1626:26) was accepted as the API and behavior specification of nph-progress. Component sets: nph-progress (4368:1532), 36 variants, and the nph-progress segment set (4368:1185), 8 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-05"
+  "git_review": { "branch": "feat/dsa-65-progress", "commit": null, "pr": 149 },
+  "context": "docs/operacao/contextos/DSA-65.md",
+  "updated_at": "2026-11-06"
 }
 ```
 

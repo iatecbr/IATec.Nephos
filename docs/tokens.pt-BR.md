@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=2fb6f2ce5d473c9d2f4a658b9b70c1237cdbf35f266199c452cdcbbb06d74b37 | status=revisado -->
+<!-- i18n: lang=pt-BR | source=docs/tokens.md | source-sha256=f671b293e34f31613d48567efcfa3c3a3d9f03ea0f9c6923005264e6d653346f | status=revisado -->
 
 # Tokens — fonte, geração e consumo
 
@@ -253,8 +253,12 @@ deixaria o `nph-spinner` travado, porque implementá-lo exigiria consumir
 das notas de movimento respondia `core/easing/linear` para o girador — um token
 `core` — e agora responde um papel.
 
-**A barra indeterminada continua sem valor.** O `nph-progress` foi adiado e não
-existe peça para decidir sobre ela.
+**A barra indeterminada já tem o seu valor.** O `nph-progress` o tirou da
+documentação aceita: uma passada em **1400 ms**, curva `linear`, repetição
+infinita. Entra como `core/duration/loop-long` e os papéis
+`motion/loop-long-duration` e `motion/loop-long-easing`, que `progress/loop-duration`
+e `progress/loop-easing` apelidam. `motion/loop-duration` fica em 800 ms, para o
+girador.
 
 ### A colisão de nome, e como ela foi resolvida
 

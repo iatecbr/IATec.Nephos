@@ -1,6 +1,6 @@
 # Technical decisions — Nephos
 
-This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105 and P106. If this file and any other document in the
+This is the **single source** of the technical decisions P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P88, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106 and P107. If this file and any other document in the
 repository disagree, this one prevails.
 
 ## Technical review queue — Elvys
@@ -65,6 +65,7 @@ P62.4 subsection for the detail).
 | **P96** | API and semantics of `nph-multi-combobox`; the `checkbox` marker of `nph-option` (amends P91) | 26/10/2026 | Low now. No piece consumes the field yet; the marker defaults to `check`, so `nph-select` and `nph-combobox` do not change | Anatomy and behavior: board accepted by Indiane on 15/10/2026, D1 to D3 answered; the plan is approved by Elvys on 23/10/2026. API and semantics reviewed in the pull request that brings them |
 | **P102** | Vitest 5 for the browser tests (amends item 5 of P21) | 29/10/2026 | Low. Only the test runner and the Storybook packages that require it move; going back is a lockfile change and one test line | Decided by Elvys on 29/10/2026. Reviewed in the pull request that brings it |
 | **P106** | Up to two reruns of a browser test shard after a network change on the Azure host | 29/10/2026 | Low. Only the Azure step changes; removing the reruns is a pipeline change, and a real failure still fails on the first run | Decided by Elvys on 29/10/2026 (one rerun) and 30/10/2026 (up to two). Reviewed in the pull request that brings it |
+| **P107** | API and semantics of `nph-progress` | 06/11/2026 | Low. No piece consumes the bar yet; `nph-notification` (DSA-63) may embed it later, and changing the `type`, `status`, `value`, `steps` and `step` properties or the invalid-input rule then requires redoing both | Anatomy and behavior: documentation accepted by Indiane on 05/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -5763,9 +5764,88 @@ is the approval.
 
 ---
 
+## P107 — `nph-progress`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `4385:3186`, sets `4368:1532` and
+`4368:1185`) gives one set with the Figma properties `tipo`, `tamanho`, `status`, `valor`,
+`movimento`, `etapas`, `rótulo`, `valor em texto` and `ajuda`, and leaves the code API to the code.
+Five points need a decision of their own:
+
+- the bar must be read as a progress bar named by its label and described by its help text, and
+  an id reference works only inside one shadow root, so a role on the host could not point at the
+  texts the piece draws;
+- the three types share one piece, and the status icon, the value text and the help text are
+  optional texts whose words depend on the language of the page;
+- in Figma `valor`, `movimento` and `etapas` are samples of continuous or open data, and success
+  and error exist only at value 100 on the determinate type;
+- the evidence says the indeterminate loop "runs only while there is no value and gives way to
+  determinate at the first real value", without saying who switches;
+- the minimum width of 48 px has no token, by decision of the accepted documentation.
+
+**Decision.** `nph-progress` is a Web Component with **open Shadow DOM** (P01). It has no slot, no
+event, no `::part` and no color property. Anatomy only through semantic tokens, the `progress/*`
+ones. What it rejects renders nothing and emits `console.error` only in development, once per
+cause — the rule of P66. The names follow P64.
+
+1. **Properties.** `type` (`determinate`, the default, `indeterminate` or `steps`), `size` (`md`,
+   the default, or `sm`) and `status` (`active`, the default, `success` or `error`), all three
+   reflected because the internal CSS selects the parts by them. `value`, a number from 0 to 100,
+   0 by default, read on `determinate`. `steps`, 3, 4 or 5, and `step`, the current one from 1 to
+   `steps`, 1 by default, read on `steps`. `label`, `value-text` and `help`, the optional texts,
+   already localized by the consumer: the piece writes no word of its own. The host `aria-label`
+   names the bar when there is no `label`; it is read by a property whose attribute is
+   `aria-label`, since a property called `ariaLabel` is the native ARIA reflection of the element.
+
+2. **Semantics.** The `role="progressbar"` lives on the track, inside the shadow root, named by the
+   label with `aria-labelledby` (or by the host `aria-label`) and described by the help text with
+   `aria-describedby`. `aria-valuemin` is 0 and `aria-valuemax` 100. `determinate` gives
+   `aria-valuenow` the value; `steps` gives it `round(100 * step / steps)`, 100 on success, so the
+   current step counts, as it has the color of the done ones, and so does the errored one, since the
+   text says which step it is; `indeterminate` omits it. `aria-valuetext` is `value-text`. The status
+   icon, `circle-check` or `circle-xmark` in solid at `progress/icon-size`, is decorative.
+
+3. **Invalid input.** A `type`, `size` or `status` outside the values; a `value` that is not a
+   number from 0 to 100; success or error on `determinate` below 100, which the contract does not
+   have, so `<nph-progress status="success">` alone, with its default 0, renders nothing; any status
+   but `active` on `indeterminate`; a `steps` outside 3 to 5 or a `step` outside 1 to `steps`. An
+   error without `help` renders and warns, because the contract requires the text and the text may
+   arrive after the first render, as may the accessible name.
+
+4. **Geometry.** The width is fluid: the host is 100% of the container with a minimum of `3rem`, the
+   one literal measure of the CSS, written by decision of the accepted documentation and
+   recorded in the header of `nph-progress.css`. Below 100 the indicator is `value%` minus
+   `progress/track-gap`, never below zero, with the end stop, `progress/stop-size` on both sizes and
+   never taller than the bar, at the end of the track; at 0 only the end stop remains; at 100 the
+   indicator fills the track and the end stop goes.
+
+5. **Motion.** The only motion is the indeterminate loop: one segment, a third of the track, one pass
+   in `progress/loop-duration` with `progress/loop-easing`, from outside the left edge to outside the
+   right edge, so it is never stopped in the middle, and back with no transition. It exists only on
+   `type="indeterminate"`: the consumer switches `type` to `determinate` when the first real value
+   arrives, which is how the loop "gives way". With reduced motion the loop stops and the segment
+   rests at the start of the track, with the state word beside it (WCAG 2.3.3).
+
+6. **Steps.** One equal segment per step, apart by `progress/segment-gap`, each as tall as the bar.
+   On active the segments up to `step` are done and the rest pending; on error the done ones, the
+   `step` one in error and the rest pending; on success all in success. The step counts are the
+   three of the accepted Figma set; another count is a pending decision of Indiane (D-1 of DSA-65).
+
+**Source.** Documentation `4385:3186`, sets `4368:1532` and `4368:1185` and page `1626:26` of the
+Figma file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 05/11/2026 with the Figma UX QA and the
+textual audit approved. The property names, the semantics, the invalid-input rule and the choice of
+who switches the type are a technical proposal of this implementation.
+
+**Out of scope.** `nph-stepper`, a task list and a summary card, which the accepted documentation
+leaves out of this piece. A width token. A free color. A new token.
+
+**Status.** Anatomy and behavior accepted by Indiane on 05/11/2026. D-1 of DSA-65 waits for Indiane.
+API and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105 or P106 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106 or P107 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
