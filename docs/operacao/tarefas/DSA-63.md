@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 620,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-notification",
   "dependencies": [
     "DSA-03",
@@ -53,7 +53,7 @@
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
   "context": null,
-  "updated_at": "2026-11-04"
+  "updated_at": "2026-11-06"
 }
 ```
 
