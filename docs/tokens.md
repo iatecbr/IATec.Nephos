@@ -249,8 +249,12 @@ The role also settles an earlier contradiction: the "agent test" in the motion
 notes answered `core/easing/linear` for the spinner — a `core` token — and now it
 answers a role.
 
-**The indeterminate bar still has no value.** `nph-progress` was deferred and
-there is no piece to decide about.
+**The indeterminate bar has its value.** `nph-progress` took it from the accepted
+documentation: one pass in **1400 ms**, `linear` curve, infinite repetition. It
+enters as `core/duration/loop-long` and the roles `motion/loop-long-duration`
+and `motion/loop-long-easing`, which `progress/loop-duration` and
+`progress/loop-easing` alias. `motion/loop-duration` stays at 800 ms, for the
+spinner.
 
 ### The name collision, and how it was settled
 

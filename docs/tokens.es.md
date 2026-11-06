@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=2fb6f2ce5d473c9d2f4a658b9b70c1237cdbf35f266199c452cdcbbb06d74b37 | status=revisado -->
+<!-- i18n: lang=es | source=docs/tokens.md | source-sha256=f671b293e34f31613d48567efcfa3c3a3d9f03ea0f9c6923005264e6d653346f | status=revisado -->
 
 # Tokens — fuente, generación y consumo
 
@@ -258,8 +258,12 @@ El papel también resuelve una contradicción anterior: la "prueba del agente" d
 las notas de movimiento respondía `core/easing/linear` para el spinner — un token
 `core` — y ahora responde un papel.
 
-**La barra indeterminada sigue sin valor.** `nph-progress` fue aplazado y no
-existe pieza sobre la cual decidir.
+**La barra indeterminada ya tiene su valor.** `nph-progress` lo tomó de la
+documentación aceptada: una pasada en **1400 ms**, curva `linear`, repetición
+infinita. Entra como `core/duration/loop-long` y los papeles
+`motion/loop-long-duration` y `motion/loop-long-easing`, que `progress/loop-duration`
+y `progress/loop-easing` aliasan. `motion/loop-duration` sigue en 800 ms, para el
+spinner.
 
 ### La colisión de nombre, y cómo se resolvió
 

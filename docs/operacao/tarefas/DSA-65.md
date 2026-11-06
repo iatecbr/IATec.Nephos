@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 640,
   "owner": "elvys",
-  "state": "ready",
+  "state": "done",
   "piece": "nph-progress",
   "dependencies": [
     "DSA-03"
@@ -23,17 +23,31 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 0c86aa01a68c9e9d5ee5c3689b4f9b962f4844a6 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-65/review-and-merge-2026-11-06.md",
+      "result": "passed",
+      "verified_at": "2026-11-06",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The evidence names the step counts 3, 4 and 5 only as the Figma samples of the property `etapas`, and says the steps type splits the bar into a few fixed steps. The code accepts only those three counts and draws nothing for another one, with a console.error in development. Another count, such as 2 or 6, needs her answer. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-06"
+    },
+    {
+      "id": "D-2",
+      "question": "`design.md` still says the indeterminate bar has no value and was deferred (open point 3n, `tokens_motion`), and does not list `motion/loop-long-duration` and `motion/loop-long-easing`. The tokens and the accepted evidence give 1400 ms linear. This pull request does not edit `design.md`, by the instruction of the task; the file needs a change of its own, with the 1400 ms loop and the two roles. It does not block the pull request.",
+      "decider": "elvys",
+      "opened_at": "2026-11-06"
+    }
+  ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-65/figma-docs-accepted-2026-11-05.md"
+    "docs/operacao/evidencias/DSA-65/figma-docs-accepted-2026-11-05.md",
+    "docs/operacao/evidencias/DSA-65/review-and-merge-2026-11-06.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -47,9 +61,9 @@
     "excerpt": null,
     "converted_decision": "The nph-progress documentation frame (4385:3186, page 1626:26) was accepted as the API and behavior specification of nph-progress. Component sets: nph-progress (4368:1532), 36 variants, and the nph-progress segment set (4368:1185), 8 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-65-progress", "commit": "0c86aa0", "pr": 149 },
   "context": null,
-  "updated_at": "2026-11-05"
+  "updated_at": "2026-11-06"
 }
 ```
 
