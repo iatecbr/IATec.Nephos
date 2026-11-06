@@ -23,7 +23,7 @@
       "required": true,
       "default": "empty list",
       "reflects": false,
-      "constraint": "Property only. The path, in order, from the first level to the current page, as a list of { label, href, icon }. label is required, already localized, on one line. href is required on every level above the current page and forbidden on the last one, which is the current page. icon is optional, a core name of nph-icon, all the levels or none. The first level reads Home. A list that is not a list, has fewer than 2 levels, or breaks a rule above draws nothing and emits console.error in development, one per cause."
+      "constraint": "Property only. The path, in order, from the first level to the current page, as a list of { label, href, icon }. label is required, already localized, on one line. href is required on every level above the current page and forbidden on the last one, which is the current page. href takes http, https, mailto, tel or a relative address; any other protocol, javascript among them, in any spelling the browser reads as such, is refused. icon is optional, a core name of nph-icon, all the levels or none. The first level reads Home. A list that is not a list, has fewer than 2 levels, or breaks a rule above draws nothing and emits console.error in development, one per cause."
     },
     "collapsed": {
       "type": "boolean",

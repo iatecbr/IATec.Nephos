@@ -5894,7 +5894,11 @@ development, once per cause — the rule of P66. The names follow P64.
 4. **`href` above the current page, none on it.** Every level above the current page is a link and
    needs an `href`; the current page is text with `aria-current="page"` and has none. A level that
    breaks it renders nothing: a link with no destination is a dead end, and a current page that
-   leads somewhere is the link to itself that the evidence forbids.
+   leads somewhere is the link to itself that the evidence forbids. The `href` is also parsed as the
+   browser would (`new URL(href, document.baseURI)`) and only `http:`, `https:`, `mailto:` and `tel:`
+   are taken, so `javascript:` and its obfuscated spellings, such as `java` plus a line break plus
+   `script:`, render nothing: the path may come from untrusted data, and it reaches both the visible
+   link and the anchor the menu clicks. It is the rule of the link cell of `nph-table`.
 
 5. **The accessible name.** `label` names the navigation landmark; the host `aria-label` does it
    when there is no `label`, read by a property whose attribute is `aria-label` (as in P107), since
@@ -5922,14 +5926,17 @@ development, once per cause — the rule of P66. The names follow P64.
 8. **The width of the menu.** The `nph-dropdown-menu` panel reads its width from
    `--nph-layout-input-width`, the one custom property it already exposes for that, and P02 forbids
    reaching into its inside. The breadcrumb sets that property on its own menu element:
-   `fit-content(breadcrumb/menu-max-width)` for every browser, so the menu hugs the widest option up
-   to the ceiling, with the text cut by the ellipsis the menu already draws; and, under
+   `breadcrumb/menu-max-width` for every browser, so the menu never passes the ceiling and the text
+   is cut by the ellipsis the menu already draws; and, under
    `@supports (inline-size: calc-size(fit-content, size))`,
    `calc-size(fit-content, clamp(breadcrumb/menu-min-width, size, breadcrumb/menu-max-width))`, which
-   adds the floor. The floor and the ceiling are `breadcrumb/menu-min-width` and
-   `breadcrumb/menu-max-width`. It holds only in the breadcrumb: the `nph-dropdown-menu` keeps its
-   fixed `layout/input-width` until a round of its own, as the evidence says. Where `calc-size()` does
-   not exist, the floor does not hold, and the sheet records it.
+   hugs the widest option between the floor and the ceiling. The floor and the ceiling are
+   `breadcrumb/menu-min-width` and `breadcrumb/menu-max-width`. It holds only in the breadcrumb: the
+   `nph-dropdown-menu` keeps its fixed `layout/input-width` until a round of its own, as the evidence
+   says. Where `calc-size()` does not exist, the menu keeps the ceiling as a fixed width, as the
+   `nph-dropdown-menu` does by itself: the hug and the floor do not hold, and the sheet records it.
+   A `fit-content(<length>)` middle step was not kept: a browser that lacks `calc-size()` may lack it
+   too, and an invalid width would leave the panel with no ceiling.
 
 9. **One line.** The trail is `nowrap` and never shrinks. A trail that does not fit is a trail the
    page must collapse, and the sheet records that the choice is the consumer's. Collapsing by itself

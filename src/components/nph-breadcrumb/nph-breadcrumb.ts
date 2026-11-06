@@ -38,7 +38,8 @@
  * LAYOUT — the trail never wraps and never shrinks: a trail that does not fit is a trail that must be
  * collapsed, and the limit is recorded in the sheet. The hidden levels menu hugs its widest option
  * between `breadcrumb/menu-min-width` and `breadcrumb/menu-max-width`, with the text cut by an
- * ellipsis above the ceiling. It holds only here: the `nph-dropdown-menu` keeps its own fixed width
+ * ellipsis above the ceiling, where the browser knows `calc-size()`; elsewhere the menu keeps the
+ * ceiling as its fixed width. It holds only here: the `nph-dropdown-menu` keeps its own fixed width
  * (accepted point 4 of the evidence), and the breadcrumb reaches it through the one custom property
  * the menu already reads for its width, never through its inside (P02).
  *
@@ -46,7 +47,9 @@
  * rule): `levels` that is not a list or has fewer than 2 levels; more than 4 levels on a trail that
  * is not collapsed; a collapsed trail with fewer than 4; a level without `label`; a level above the
  * current page without `href`, or the current page with one; an `icon` outside the core or on only
- * some of the levels; a collapsed trail without `ellipsis-label`. A trail with no accessible name
+ * some of the levels; an `href` with a protocol other than `http:`, `https:`, `mailto:` or `tel:`
+ * (`javascript:` among them, in any spelling the browser reads as such); a collapsed trail without
+ * `ellipsis-label`. A trail with no accessible name
  * draws and warns: the name may arrive after the first render.
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
@@ -72,6 +75,22 @@ export const NPH_BREADCRUMB_MAX_LEVELS = 4;
 
 /** The collapsed trail shows the first level, the ellipsis and the last two: it needs one level to hide. */
 export const NPH_BREADCRUMB_MIN_COLLAPSED_LEVELS = 4;
+
+/** The protocols a link of the trail may take; a relative path and a fragment resolve to the page's. */
+export const NPH_BREADCRUMB_LINK_PROTOCOLS = ['http:', 'https:', 'mailto:', 'tel:'] as const;
+
+/**
+ * Whether an address may be the `href` of a level. It is parsed as the browser would — tabs and line
+ * breaks inside the scheme are dropped — so `java\nscript:` is caught as `javascript:` (the same rule
+ * as the link cell of `nph-table`).
+ */
+export function isSafeHref(href: string): boolean {
+  try {
+    return (NPH_BREADCRUMB_LINK_PROTOCOLS as readonly string[]).includes(new URL(href, document.baseURI).protocol);
+  } catch {
+    return false;
+  }
+}
 
 /** One level of the path. */
 export interface NphBreadcrumbLevel {
@@ -201,6 +220,9 @@ export class NphBreadcrumb extends LitElement {
       const href = text(level.href);
       if (index < last && href === '') {
         return `level ${String(index + 1)} is a link and needs an \`href\`: the page it leads to.`;
+      }
+      if (index < last && !isSafeHref(href)) {
+        return `level ${String(index + 1)} has an unsafe \`href\`. A link takes ${NPH_BREADCRUMB_LINK_PROTOCOLS.join(', ')} or a relative address.`;
       }
       if (index === last && href !== '') {
         return 'the last level is the current page and has no `href`: it is text, not a link.';

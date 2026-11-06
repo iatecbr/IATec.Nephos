@@ -225,6 +225,11 @@ describe('invalid input', () => {
     ['five levels on a trail that is not collapsed', { levels: [...LONG_PATH.slice(0, 4), { label: 'Now' }] }, /levels has 5 levels/],
     ['a collapsed trail with three levels', { levels: PATH.slice(1), collapsed: true, ellipsisLabel: 'More' }, /collapsed trail needs 4 levels or more/],
     ['a level without a label', { levels: [{ label: '', href: '#h' }, { label: 'Now' }] }, /level 1 has no `label`/],
+    ['a javascript: href', { levels: [{ label: 'Home', href: 'javascript:alert(1)' }, { label: 'Now' }] }, /level 1 has an unsafe `href`/],
+    ['a javascript: href split by a line break', { levels: [{ label: 'Home', href: 'java\nscript:alert(1)' }, { label: 'Now' }] }, /level 1 has an unsafe `href`/],
+    ['a javascript: href with a tab and capitals', { levels: [{ label: 'Home', href: ' JaVa\tScRiPt:alert(1)' }, { label: 'Now' }] }, /level 1 has an unsafe `href`/],
+    ['a data: href', { levels: [{ label: 'Home', href: 'data:text/html,<p>x</p>' }, { label: 'Now' }] }, /level 1 has an unsafe `href`/],
+    ['an unsafe href on a hidden level', { levels: [{ label: 'Home', href: '#h' }, { label: 'Hidden', href: 'vbscript:msgbox(1)' }, { label: 'Two', href: '#t' }, { label: 'Three', href: '#e' }, { label: 'Now' }], collapsed: true, ellipsisLabel: 'More' }, /level 2 has an unsafe `href`/],
     ['a link without href', { levels: [{ label: 'Home' }, { label: 'Now' }] }, /level 1 is a link and needs an `href`/],
     ['the current page with an href', { levels: [{ label: 'Home', href: '#h' }, { label: 'Now', href: '#n' }] }, /current page and has no `href`/],
     ['an icon outside the core', { levels: [{ label: 'Home', href: '#h', icon: 'rocket' }, { label: 'Now', icon: 'file' }] }, /icon "rocket" of level 1 does not belong/],
@@ -267,6 +272,16 @@ describe('invalid input', () => {
       { value: '1', text: 'One' },
       { value: '2', text: 'Two' },
     ]);
+  });
+
+  it('takes http, https, mailto, tel, a relative path and a fragment as destinations', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    for (const href of ['https://example.com/a', 'http://example.com', 'mailto:team@example.com', 'tel:+5511999999999', '/projects', 'projects/one', '#top', '?page=2']) {
+      const trail = await mount({ levels: [{ label: 'Home', href }, { label: 'Now' }] });
+      expect(trail.hasAttribute('data-nph-rendered'), href).toBe(true);
+      trail.remove();
+    }
+    expect(error).not.toHaveBeenCalled();
   });
 
   it('draws again, with no leftover, once the input is fixed', async () => {
@@ -705,6 +720,21 @@ describe('the width of the menu', () => {
     expect(text.scrollWidth).toBeGreaterThan(text.clientWidth);
   });
 
+  it('without calc-size() the menu keeps the ceiling as a fixed width and still cuts the text there', async () => {
+    const long = 'A level label so long that it goes well past the ceiling of the hidden levels menu';
+    for (const labels of [['Docs'], [long, 'Short']]) {
+      const trail = await mountCollapsed({ levels: withLabels(labels) });
+      /* The value the base rule of the CSS gives, in place of the one under `@supports`. */
+      menu(trail).style.setProperty('--nph-layout-input-width', 'var(--nph-breadcrumb-menu-max-width)');
+      await openMenu(trail);
+      expect(panel(trail).getBoundingClientRect().width).toBe(MAX);
+      const text = menu(trail).shadowRoot?.querySelector('.text') as HTMLElement;
+      expect(getComputedStyle(text).textOverflow).toBe('ellipsis');
+      if (labels.length === 2) expect(text.scrollWidth).toBeGreaterThan(text.clientWidth);
+      await clearPage();
+    }
+  });
+
   it('holds only in the breadcrumb: a menu of its own keeps layout/input-width', async () => {
     const lone = document.createElement('nph-dropdown-menu');
     lone.items = [{ value: 'a', text: 'Docs' }];
@@ -713,7 +743,7 @@ describe('the width of the menu', () => {
   });
 
   it('the rule is written in the CSS of the breadcrumb: the ceiling for every browser, the floor where calc-size exists', () => {
-    expect(componentCss).toMatch(/--nph-layout-input-width:\s*fit-content\(var\(--nph-breadcrumb-menu-max-width\)\)/);
+    expect(componentCss).toMatch(/--nph-layout-input-width:\s*var\(--nph-breadcrumb-menu-max-width\)/);
     expect(componentCss).toMatch(/@supports \(inline-size: calc-size\(fit-content, size\)\)/);
     expect(componentCss).toMatch(/calc-size\(fit-content, clamp\(var\(--nph-breadcrumb-menu-min-width\), size, var\(--nph-breadcrumb-menu-max-width\)\)\)/);
   });
