@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 630,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-button",
   "dependencies": [],
   "gates": [
@@ -21,11 +21,11 @@
     {
       "id": "review-and-merge",
       "description": "CSS, tests, stories, metadata and spec of nph-button, and the secondary light buttons of nph-table, pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 6c20ee7d5acfed31a4ef9d71416e5b28766f078c origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-64/review-and-merge-2026-11-06.md",
+      "result": "passed",
+      "verified_at": "2026-11-06",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -38,7 +38,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-64/figma-docs-accepted-2026-11-04.md"
+    "docs/operacao/evidencias/DSA-64/figma-docs-accepted-2026-11-04.md",
+    "docs/operacao/evidencias/DSA-64/review-and-merge-2026-11-06.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -53,7 +54,7 @@
     "excerpt": null,
     "converted_decision": "The nph-button documentation frame (4178:15028, page 312:98) and the nph-icon-button documentation frame (4178:24324, page 2109:51809) were accepted as the specification of nph-button. They replace the boards 1197:5449 and 2122:1591. Component sets: nph-button (461:13009), 225 variants, and nph-icon-button (498:15671), 450 variants, with no secondary light. Converted to text in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-64-secondary-buttons", "commit": "2200b36", "pr": 148 },
+  "git_review": { "branch": "feat/dsa-64-secondary-buttons", "commit": "6c20ee7", "pr": 148 },
   "context": null,
   "updated_at": "2026-11-06"
 }
