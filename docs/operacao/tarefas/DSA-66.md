@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 650,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-breadcrumb",
   "dependencies": [
     "DSA-03",
@@ -49,8 +49,8 @@
     "excerpt": null,
     "converted_decision": "The nph-breadcrumb documentation frame (4512:4741, page 1626:13) was accepted as the API and behavior specification of nph-breadcrumb. Component sets: nph-breadcrumb (4490:2886), 8 variants; the nph-breadcrumb item set (4490:2678), 4 variants; the nph-breadcrumb ellipsis set (4490:2697), 4 variants; the nph-breadcrumb separator component (1635:16). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-66-breadcrumb", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-66.md",
   "updated_at": "2026-11-06"
 }
 ```
