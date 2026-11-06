@@ -22,13 +22,25 @@ dictionary and the sheet.
   focus tokens
 
 ## Changes
-None yet.
+- `src/components/nph-notification/`: component, CSS, unit tests, demo frame, Validation stories
+  (with Brands), Docs page and its test.
+- `.storybook/i18n/`: `notificationDocs`, `notificationValidation`, the sidebar labels and the
+  claims, in `en`, `pt-BR` and `es`.
+- `fichas/nph-notification.md` and the generated `src/shared/metadata/nph-notification.json`.
+- `docs/decisoes-tecnicas.md`: P108 (P107 belongs to the DSA-65 pull request).
+- The task: D-1 for Indiane (the toast region as a piece of its own).
 
 ## Commands run
 - `git fetch origin` and `git merge --ff-only origin/v/5.0.0`
+- `npm ci`
+- `npx vitest run --project unit src/components/nph-notification src/shared`
+- `npx vitest run --project storybook src/components/nph-notification`
+- `node scripts/verificar-operacao.mjs --gerar-metadata`
+- `npm run build:tokens`, `test:tokens`, `test`, `typecheck`, `test:i18n`, `test:naming`,
+  `test:spelling`, `test:operacao`, `build-storybook`, `build:lib` and `test:package`
 
 ## Result
-The task is in progress on the branch `feat/dsa-63-notification`.
+The component, its stories, its sheet and P108 are in pull request 150, from the branch `feat/dsa-63-notification`.
 
 ## Evidence
 None yet. `review-and-merge` waits for the pull request.
@@ -37,4 +49,4 @@ None yet. `review-and-merge` waits for the pull request.
 None.
 
 ## Next command
-`npx vitest run --project unit src/components/nph-notification`
+`gh pr merge 150` (Elvys merges)

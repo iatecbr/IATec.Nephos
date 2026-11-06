@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 620,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-notification",
   "dependencies": [
     "DSA-03",
@@ -58,7 +58,7 @@
     "excerpt": null,
     "converted_decision": "The nph-notification documentation frame (3442:10163, page 1369:2) was accepted as the API and behavior specification of nph-notification. Component set: nph-notification (3434:9035), 50 variants; the focus of the close button on solid is specified in frame 4207:1146. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-63-notification", "commit": "1635676", "pr": 150 },
   "context": null,
   "updated_at": "2026-11-06"
 }
