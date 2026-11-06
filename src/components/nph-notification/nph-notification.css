@@ -205,6 +205,10 @@ p {
  * Single-line: everything on one row. When the text does not fit, the component marks the host
  * as reflowed and this block stops applying: the layout is the stacked one.
  */
+:host([layout='single-line']:not([data-nph-reflowed])) .container {
+  align-items: center;
+}
+
 :host([layout='single-line']:not([data-nph-reflowed])) .body {
   flex-direction: row;
   align-items: center;

@@ -332,7 +332,22 @@
     "components-nph-data-table-validation--footer": "Rodapé",
     "components-nph-data-table-validation--invalid-input": "Entrada inválida",
     "components-nph-data-table-validation--examples": "Exemplos",
-    "components-nph-data-table-validation--brands": "Marcas"
+    "components-nph-data-table-validation--brands": "Marcas",
+    "components-nph-notification-docs": "Docs",
+    "components-nph-notification-docs--documentation": "Documentação",
+    "components-nph-notification-validation": "Validação",
+    "components-nph-notification-validation--severities": "Severidades",
+    "components-nph-notification-validation--emphasis": "Ênfase",
+    "components-nph-notification-validation--layouts": "Disposições",
+    "components-nph-notification-validation--actions": "Ações",
+    "components-nph-notification-validation--close": "Fechar",
+    "components-nph-notification-validation--toast": "Toast",
+    "components-nph-notification-validation--time-bar": "Barra de tempo",
+    "components-nph-notification-validation--region": "Região",
+    "components-nph-notification-validation--required-examples": "Exemplos obrigatórios",
+    "components-nph-notification-validation--surfaces": "Superfícies",
+    "components-nph-notification-validation--invalid-input": "Entrada inválida",
+    "components-nph-notification-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7352,7 +7367,19 @@
       "components-nph-data-table-validation--footer": "O rodapé pela largura do espaço: o tipo tabela com os seus itens por página, o rodapé médio com o rótulo e o select, só o tipo intervalo, e nenhum rodapé com uma página só.",
       "components-nph-data-table-validation--invalid-input": "Entrada inválida: sem colunas não desenha nada; uma direção de ordenação desconhecida não desenha coluna ordenada; a seleção sem os seus nomes deixa a coluna de fora; um arranjo de rodapé desconhecido deixa o rodapé de fora. Cada um com o seu erro.",
       "components-nph-data-table-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: pessoas por unidade com busca, ordenação e ações, linhas selecionadas prontas para baixar ou excluir, e uma busca sem resultado com o caminho para limpar o filtro.",
-      "components-nph-data-table-validation--brands": "As sete marcas no claro e no escuro: as linhas selecionadas, cujo fundo, marca e caixa seguem a marca."
+      "components-nph-data-table-validation--brands": "As sete marcas no claro e no escuro: as linhas selecionadas, cujo fundo, marca e caixa seguem a marca.",
+      "components-nph-notification-validation--severities": "As seis severidades com desenho próprio, sutis, cada uma com seu ícone e seus tokens: info, success, warning, error, help e neutral. A cor nunca é o único sinal.",
+      "components-nph-notification-validation--emphasis": "A ênfase sólida nas seis severidades: a cor da severidade como fundo, sem borda, e o texto e o ícone no token on-solid. A sólida não tem ações, só o botão de fechar.",
+      "components-nph-notification-validation--layouts": "Empilhada, em uma linha e uma linha que não cabe, que vira empilhada com a ação abaixo do texto. A de uma linha leva só a ação principal.",
+      "components-nph-notification-validation--actions": "A ação principal é um nph-button do tipo da severidade, sólido, e a secundária é ghost, com o rótulo na cor da severidade. O neutral usa primary nas duas.",
+      "components-nph-notification-validation--close": "O botão de fechar ligado e desligado, e no sólido, onde o hover é a cor do contrato a 16% e o foco é uma borda de 2 px na cor do texto, sem halo. Use Tab até o botão para ver o foco.",
+      "components-nph-notification-validation--toast": "O toast, empilhado e em uma linha, com a elevação modal, que não projeta sombra no modo escuro. Um toast de erro com ação e um toast loading nunca fecham sozinhos.",
+      "components-nph-notification-validation--time-bar": "A barra de tempo na base de um toast sutil que fecha sozinho, desenhada com o nph-skeleton até o nph-progress entrar. Nunca vai com ação, em error nem em loading.",
+      "components-nph-notification-validation--region": "A moldura da região de toasts que uma aplicação consumidora monta: uma coluna no canto, até três toasts, com notification/stack-gap entre eles. A região não é uma peça da biblioteca.",
+      "components-nph-notification-validation--required-examples": "Os três exemplos obrigatórios, cada um no modo claro e escuro: um erro inline com ação numa área de formulário, um toast de sucesso para confirmar uma ação e um toast loading para uma tarefa em andamento.",
+      "components-nph-notification-validation--surfaces": "A notificação sobre color/background e sobre color/popover, no modo claro e escuro: as superfícies próprias mantêm o contraste.",
+      "components-nph-notification-validation--invalid-input": "Uma barra de tempo num toast com ação é bloqueada: nada é desenhado em nenhum dos modos, e o console mostra um erro em desenvolvimento.",
+      "components-nph-notification-validation--brands": "As sete marcas no claro e no escuro: o arco do toast loading e a ação secundária do neutral seguem a marca."
     }
   },
   "multiComboboxDocs": {
@@ -9888,5 +9915,369 @@
     "exampleList": "Pessoas por unidade, com busca, ordenação e ações",
     "exampleSelected": "Linhas selecionadas, prontas para baixar ou excluir",
     "exampleEmpty": "Busca sem resultado, com o caminho para limpar o filtro"
+  },
+  "notificationValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "close": "Fechar",
+    "action": "Revisar",
+    "secondaryAction": "Depois",
+    "retry": "Tentar de novo",
+    "longDescription": "O relatório está pronto e foi enviado para todas as pessoas da lista de distribuição, então você pode falar com elas.",
+    "noHeadingDescription": "Alterações salvas.",
+    "shortHeading": "Salvo",
+    "shortDescription": "Suas alterações foram salvas.",
+    "fieldName": "Nome",
+    "fieldEmail": "E-mail",
+    "regionLabel": "Notificações",
+    "samples": {
+      "info": {
+        "heading": "Manutenção hoje",
+        "description": "O sistema ficará indisponível das 22h às 23h."
+      },
+      "success": {
+        "heading": "Pedido enviado",
+        "description": "O pedido saiu do estoque e chega na quinta-feira."
+      },
+      "warning": {
+        "heading": "O prazo está perto",
+        "description": "O relatório vence em dois dias."
+      },
+      "error": {
+        "heading": "Falha ao salvar",
+        "description": "As alterações não foram salvas. Verifique a conexão e tente de novo."
+      },
+      "help": {
+        "heading": "Busca rápida",
+        "description": "Tecle a barra para buscar de qualquer página."
+      },
+      "neutral": {
+        "heading": "Relatório agendado",
+        "description": "O relatório sai amanhã às 9h."
+      },
+      "loading": {
+        "heading": "Salvando alterações…",
+        "description": "Mantenha esta página aberta enquanto as alterações são salvas."
+      }
+    },
+    "severitiesCaption": "Inline, sutil, uma por severidade.",
+    "emphasisCaption": "Sólida, uma por severidade, com o botão de fechar.",
+    "layoutsCaption": "Empilhada, em uma linha, uma linha que reflui e uma linha sem título.",
+    "actionsCaption": "A ação principal e a secundária, em todas as severidades.",
+    "closeCaption": "Fechar no sutil, sem ele, e no sólido em error e em neutral.",
+    "toastCaption": "Toasts: success empilhado e em uma linha, um error com ação e um toast loading.",
+    "timeBarCaption": "Toasts sutis que fecham sozinhos, com a barra de tempo na base.",
+    "regionCaption": "A moldura da região, no máximo três toasts, o mais novo junto ao canto.",
+    "requiredCaption": "Um erro inline com ação numa área de formulário, um toast de sucesso e um toast loading.",
+    "backgroundCaption": "Sobre color/background.",
+    "popoverCaption": "Sobre color/popover, a superfície de um popover.",
+    "invalidCaption": "Um toast com ação e barra de tempo: nada é desenhado em nenhum dos modos."
+  },
+  "notificationDocs": {
+    "summary": "A mensagem do sistema que informa um resultado, um risco ou uma orientação, dentro da página (inline) ou flutuando sobre ela (toast).",
+    "matrixLabel": "Matriz do componente",
+    "subtleLabel": "ênfase: sutil",
+    "solidLabel": "ênfase: sólida",
+    "severityNames": {
+      "info": "severidade: info",
+      "success": "severidade: success",
+      "warning": "severidade: warning",
+      "error": "severidade: error",
+      "help": "severidade: help",
+      "neutral": "severidade: neutral"
+    },
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-notification, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P108. O arquivo DS-IA-NEPHOS 5.0 do Figma é a fonte visual. Nenhuma regra é criada aqui.",
+    "onThisPage": "Nesta página",
+    "sourceLabel": "Fonte:",
+    "purpose": "Use inline para uma mensagem ligada a uma área da página, que fica até o problema ser resolvido ou a pessoa fechar. Use toast para confirmar uma ação ou avisar o fim de uma tarefa em segundo plano, sem tirar a pessoa do que ela está fazendo. Não substitui o diálogo de alerta, para o que precisa de resposta antes de seguir, nem a mensagem de erro de um campo.",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Inline: uma mensagem ligada a uma área da página, que fica até o problema ser resolvido ou a pessoa fechar.",
+      "Inline no topo da página, em largura total: um aviso sobre a página inteira.",
+      "Toast: para confirmar uma ação ou avisar o fim de uma tarefa em segundo plano, sem tirar a pessoa do que ela está fazendo.",
+      "Toast com error: só para uma falha que não impede a pessoa, como um envio que pode ser repetido.",
+      "Escolha a severidade pelo significado: success para o que deu certo, error para o que falhou e pede ação, warning para risco, info para informação útil, neutral para um aviso sem tom e loading para uma tarefa em andamento.",
+      "Help para orientação, como uma dica, um tour ou conteúdo de suporte; nunca para o resultado de uma operação.",
+      "Ênfase sutil por padrão, nas duas posições; sólida só quando a mensagem precisa de mais peso e não tem ação.",
+      "Uma linha para texto curto; quando o texto passa de uma linha, ela reflui para empilhada e a ação vai para baixo."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para o que precisa de resposta antes de seguir: use o nph-alert-dialog.",
+      "Para o erro de um campo: ele fica no nph-field.",
+      "Para um erro que impede a pessoa: use uma notificação inline perto do problema.",
+      "Para o resultado de uma operação com a severidade help: use success, error, warning ou info.",
+      "Para uma ação que navega: as ações são botões; um link espera o nph-link."
+    ],
+    "sourceFigma": "Figma, documentação do nph-notification (3442:10163)",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade ou evento",
+      "Regra"
+    ],
+    "api": [
+      [
+        "placement",
+        "inline (padrão): dentro da página, ligada a uma área, persistente. toast: flutua sobre a página, com elevação, e pode fechar sozinho. Um valor fora da lista não desenha nada e emite console.error em desenvolvimento."
+      ],
+      [
+        "severity",
+        "info (padrão), success, warning, error, help, neutral ou loading. Quem consome escolhe a severidade, nunca a cor. loading existe só no toast sutil."
+      ],
+      [
+        "emphasis",
+        "subtle (padrão): fundo suave da severidade, com borda. solid: o fundo cheio da severidade, sem ações, só o botão de fechar."
+      ],
+      [
+        "layout",
+        "stacked (padrão): o título em cima, a descrição e a ação embaixo. single-line: tudo em uma linha, para texto curto, só com a ação principal. Quando o texto passa de uma linha, ela reflui para empilhada."
+      ],
+      [
+        "heading",
+        "Opcional. O título, que diz o resultado em palavras. O nome não é title, o atributo HTML global, que o navegador mostra como dica nativa."
+      ],
+      [
+        "description",
+        "Obrigatória. O que aconteceu e o que fazer, já traduzido pela aplicação. Sem ela, a peça não desenha nada."
+      ],
+      [
+        "action",
+        "O texto da ação principal: um nph-button do tipo da severidade, sólido (primary no neutral). Não é desenhada no sólido nem no loading."
+      ],
+      [
+        "secondary-action",
+        "O texto da ação secundária: um botão ghost com o rótulo na cor da severidade. Precisa da ação principal e não é desenhada na linha única, no sólido nem no loading."
+      ],
+      [
+        "hide-close",
+        "Desliga o botão de fechar, que vem ligado por padrão. O loading não tem botão de fechar."
+      ],
+      [
+        "close-label",
+        "O nome acessível do botão de fechar, já traduzido. Obrigatório enquanto o botão aparece."
+      ],
+      [
+        "duration",
+        "Milissegundos que um toast fica antes de fechar sozinho: 6000 por padrão, 0 para mantê-lo, e nunca entre 1 e 5999 (WCAG 2.2.1). É ignorada no inline, no error, no loading e com ação."
+      ],
+      [
+        "time-bar",
+        "Mostra a barra de tempo na base do toast. Só num toast sutil que fecha sozinho; nunca com ação, no error nem no loading, onde não desenha nada e emite console.error em desenvolvimento."
+      ],
+      [
+        "nph-action",
+        "Evento disparado quando a pessoa usa uma ação. detail.action é primary ou secondary. Faz bubbling e é composed."
+      ],
+      [
+        "nph-close",
+        "Evento disparado quando a pessoa fecha a notificação ou o tempo acaba. detail.source é close-button ou timeout. Faz bubbling, é composed e cancelável; sem preventDefault() a notificação se esconde, e a aplicação remove o elemento."
+      ]
+    ],
+    "sourceApi": "ficha do nph-notification; docs/decisoes-tecnicas.md › P108",
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-notification severity=\"success\" heading=\"Pedido enviado\" description=\"O pedido saiu do estoque e chega na quinta-feira.\" close-label=\"Fechar\"></nph-notification>",
+    "usageTag": "A tag da peça. Ela não tem slot: o texto e todo o resto do conteúdo chegam como atributos.",
+    "usageImport": "Registra o componente com seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "ficha do nph-notification; docs/decisoes-tecnicas.md › P70",
+    "variantsTitle": "Variantes",
+    "variantsHeader": [
+      "Propriedade",
+      "Quando escolher"
+    ],
+    "variants": [
+      [
+        "placement",
+        "inline para uma mensagem ligada a uma área, que fica; no topo da página, em largura total, para um aviso sobre a página inteira. toast para a confirmação de uma ação ou o fim de uma tarefa em segundo plano."
+      ],
+      [
+        "severity",
+        "Pelo significado: success para o que deu certo, error para o que falhou e pede ação, warning para risco, info para informação útil, neutral para um aviso sem tom, help para orientação e loading para uma tarefa em andamento."
+      ],
+      [
+        "emphasis",
+        "subtle por padrão, nas duas posições. solid só quando a mensagem precisa de mais peso e não tem ação."
+      ],
+      [
+        "layout",
+        "stacked por padrão. single-line para texto curto, só com a ação principal."
+      ]
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "1. Contêiner",
+        "Sutil: a superfície da severidade e uma borda de 1 px. Sólido: a cor cheia da severidade, sem borda visível. Loading: a superfície de popover e a borda dela. Raio notification/radius no inline e notification/toast-radius no toast."
+      ],
+      [
+        "2. Ícone da severidade",
+        "nph-icon, sólido, um desenho por severidade: circle-info, circle-check, triangle-exclamation, circle-xmark, circle-question e bell. O loading usa o nph-spinner no lugar."
+      ],
+      [
+        "3. Título (opcional)",
+        "text/heading-xs. Diz o resultado em palavras."
+      ],
+      [
+        "4. Descrição",
+        "text/body-md. Sempre presente: diz o que aconteceu e o que fazer."
+      ],
+      [
+        "5. Ações (opcional)",
+        "Até dois nph-button: o principal no tipo da severidade, sólido, e o secundário ghost. A linha única leva só o principal."
+      ],
+      [
+        "6. Fechar (opcional)",
+        "nph-button secondary ghost só com o ícone xmark, no canto do fim."
+      ],
+      [
+        "7. Barra de tempo (opcional)",
+        "Uma linha na base do toast, só num toast sutil que fecha sozinho."
+      ],
+      [
+        "8. Elevação do toast",
+        "O efeito elevation/modal, que não projeta sombra no modo escuro."
+      ]
+    ],
+    "actionsTitle": "Ações e fechar",
+    "actionsList": [
+      "A ação principal é um nph-button do tipo da severidade, sólido: info, success, warn para warning, danger para error e help; primary no neutral.",
+      "A ação secundária é ghost, com o rótulo na cor da severidade e a superfície do hover no token de notificação correspondente.",
+      "Use no máximo duas ações. O sólido e o loading não têm nenhuma, e a linha única leva só a principal.",
+      "Uma ação e a barra de tempo nunca vão juntas: um toast com ação fica até a pessoa agir.",
+      "O botão de fechar é um nph-button só com ícone, nomeado por close-label."
+    ],
+    "actionsCaption": "A ação principal e a secundária, no sutil.",
+    "toastTitle": "Toast e região",
+    "toastList": [
+      "Um toast tem 360 px de largura, ou o máximo de 440 px quando é de uma linha; nunca fica mais largo que o contêiner.",
+      "A região de toasts não é uma peça da biblioteca: a aplicação a monta no canto inferior direito, com até três toasts, notification/stack-gap entre eles, o mais novo junto ao canto e na frente.",
+      "Um toast loading vira success ou error no mesmo toast quando a tarefa acaba: a aplicação troca a severidade dele.",
+      "O toast nunca move o foco."
+    ],
+    "regionCaption": "A moldura da região: um toast loading, um toast de sucesso e um toast de erro com ação.",
+    "regionLabel": "Notificações",
+    "sourceToast": "Figma, documentação do nph-notification (3442:10163); ficha do nph-notification",
+    "statesTitle": "Estados",
+    "statesHeader": [
+      "Estado",
+      "Regra"
+    ],
+    "states": [
+      [
+        "Hover, foco e pressionado",
+        "Vêm das peças de dentro, o nph-button e o nph-button só com ícone. O contêiner não tem estado próprio e nunca recebe o foco."
+      ],
+      [
+        "Fechar no sólido, hover",
+        "Fundo notification/close-background-hover a 16% (neutral: notification/neutral-close-background-hover)."
+      ],
+      [
+        "Fechar no sólido, foco",
+        "Uma borda de 2 px em notification/close-focus-border (neutral: notification/neutral-close-focus-border), com o raio da borda de foco do botão de ícone e sem halo."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "O texto passa de 4,5:1 e o ícone passa de 3:1 em toda severidade e ênfase, no claro e no escuro (WCAG 1.4.3)."
+      ],
+      [
+        "Foco visível",
+        "As ações e o fechar mostram o anel de foco do nph-button. No sólido, o fechar mostra a borda de 2 px, sem halo."
+      ],
+      [
+        "A cor não é o único sinal",
+        "Cada severidade tem um desenho de ícone próprio, e o título diz o resultado em palavras."
+      ],
+      [
+        "Alvo de toque",
+        "Com mouse, as ações e o fechar usam control/height-default. Numa tela de toque, as ações passam ao tamanho large, e a área de toque do fechar cresce até control/height-large sem crescer o desenho."
+      ],
+      [
+        "Nome acessível",
+        "O fechar é nomeado por close-label. O ícone da severidade fica fora da leitura, porque o texto já diz isso."
+      ],
+      [
+        "Anúncio",
+        "Error e warning são anunciados como alerta (role=\"alert\"); os demais como status (role=\"status\"). A notificação nunca move o foco."
+      ],
+      [
+        "Tempo",
+        "Um toast que fecha sozinho fica pelo menos 6 segundos e pausa enquanto o ponteiro está sobre ele ou o foco está dentro dele. Toasts de erro e toasts com ação só saem quando a pessoa age ou os fecha (WCAG 2.2.1)."
+      ],
+      [
+        "Loading",
+        "O nph-spinner fica ao lado do título, então é decorativo e nunca o único sinal."
+      ]
+    ],
+    "sourceAccessibility": "Figma, documentação do nph-notification (3442:10163); nph-notification.test.ts",
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "O ícone vem só do nph-icon, na cor da severidade; no loading, do nph-spinner.",
+      "As ações são nph-button no tamanho default: o principal no tipo da severidade, sólido, e o secundário ghost.",
+      "O que precisa de resposta antes de seguir não é uma notificação: vai para o diálogo de alerta, que ainda não existe. O erro de um campo fica no nph-field.",
+      "A barra de tempo é uma linha de nph-skeleton até o nph-progress entrar; uma ação de texto que navega espera o nph-link."
+    ],
+    "examplesTitle": "Exemplos obrigatórios",
+    "exampleError": "Erro numa área de formulário: inline, com uma ação.",
+    "exampleSuccess": "Confirmação de uma ação: toast de sucesso.",
+    "exampleLoading": "Tarefa em andamento: toast loading.",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-notification — propósito, anatomia, API, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P108 (nph-notification: API e semântica)."
+    ],
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "close": "Fechar",
+    "action": "Revisar",
+    "secondaryAction": "Depois",
+    "retry": "Tentar de novo",
+    "fieldName": "Nome",
+    "fieldEmail": "E-mail",
+    "shortDescription": "Suas alterações foram salvas.",
+    "samples": {
+      "info": {
+        "heading": "Manutenção hoje",
+        "description": "O sistema ficará indisponível das 22h às 23h."
+      },
+      "success": {
+        "heading": "Pedido enviado",
+        "description": "O pedido saiu do estoque e chega na quinta-feira."
+      },
+      "warning": {
+        "heading": "O prazo está perto",
+        "description": "O relatório vence em dois dias."
+      },
+      "error": {
+        "heading": "Falha ao salvar",
+        "description": "As alterações não foram salvas. Verifique a conexão e tente de novo."
+      },
+      "help": {
+        "heading": "Busca rápida",
+        "description": "Tecle a barra para buscar de qualquer página."
+      },
+      "neutral": {
+        "heading": "Relatório agendado",
+        "description": "O relatório sai amanhã às 9h."
+      },
+      "loading": {
+        "heading": "Salvando alterações…",
+        "description": "Mantenha esta página aberta enquanto as alterações são salvas."
+      }
+    }
   }
 }
