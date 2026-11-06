@@ -841,7 +841,7 @@
       ],
       [
         "emphasis",
-        "How much the action stands out: solid (default), outline, light or ghost. outline, light and ghost exist only in primary, secondary and danger. Reflected to the attribute."
+        "How much the action stands out: solid (default), outline, light or ghost. outline and ghost exist only in primary, secondary and danger, and light only in primary and danger: secondary has no light. Reflected to the attribute."
       ],
       [
         "size",
@@ -1011,7 +1011,7 @@
       ],
       [
         "hover-active",
-        "The surface changes to the hover token of the severity and emphasis, and the icons turn solid: the start and end icons of the button with text and the icon of the icon-only button. In secondary ghost, the hover token is button/secondary-ghost-background-hover with text and icon-button/secondary-ghost-background-hover in the icon only."
+        "The surface changes to the hover token of the severity and emphasis, and the icons turn solid: the start and end icons of the button with text and the icon of the icon-only button. In secondary ghost, the hover token is button/secondary-ghost-background-hover with text and icon-button/secondary-ghost-background-hover in the icon only. In secondary solid, it is button/secondary-solid-background-hover with text and icon-button/secondary-solid-background-hover in the icon only. In secondary outline, the border and the background change, on the button/secondary-outline-* tokens with text and the icon-button/secondary-outline-* ones in the icon only."
       ],
       [
         "focus",
@@ -1063,7 +1063,7 @@
     "accessibility": [
       [
         "Contrast",
-        "Text and icon pass 4.5:1 in every severity and emphasis, in both modes and in every brand; the lowest value is 4.64:1, in primary outline and light in light mode. Borders pass 3:1."
+        "Text and icon pass 4.5:1 in every severity and emphasis, in both modes and in every brand; the lowest value is 4.64:1, in primary outline and light in light mode. The primary and danger outline borders pass 3:1; the secondary outline border does not in light mode (1.93:1), and the text, or the icon with its label and tooltip, identifies the button."
       ],
       [
         "Visible focus",
@@ -6725,7 +6725,7 @@
       "With numbers aligned to the start: align them to the end.",
       "With an action written as a link: use the button in the cell."
     ],
-    "relationsText": "The composite cell receives other pieces, and each keeps its own rules: nph-avatar md, nph-badge light, nph-icon, the icon-only nph-button in the chevron, the actions and the more, the nph-button secondary light compact, nph-image, nph-skeleton and nph-tooltip. The more fires nph-row-action; opening the nph-dropdown-menu from it is a follow-up. With no row, the body holds the nph-empty. Sorting, selection, filtering and pagination belong to the nph-data-table.",
+    "relationsText": "The composite cell receives other pieces, and each keeps its own rules: nph-avatar md, nph-badge light, nph-icon, the icon-only nph-button in the chevron, the actions and the more, the nph-button secondary solid compact, nph-image, nph-skeleton and nph-tooltip. The more fires nph-row-action; opening the nph-dropdown-menu from it is a follow-up. With no row, the body holds the nph-empty. Sorting, selection, filtering and pagination belong to the nph-data-table.",
     "apiTitle": "API",
     "apiHeader": [
       "Property",
@@ -6890,7 +6890,7 @@
       ],
       [
         "button",
-        "nph-button secondary light compact; the cell takes table/action-cell-padding-block."
+        "nph-button secondary solid compact; the cell takes table/action-cell-padding-block."
       ],
       [
         "actions",
@@ -6898,7 +6898,7 @@
       ],
       [
         "mixed-actions",
-        "A written Edit and the more as nph-button secondary light compact, 28 high."
+        "A written Edit and the more as nph-button secondary solid compact, 28 high."
       ],
       [
         "rating",

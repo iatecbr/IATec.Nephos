@@ -147,7 +147,9 @@
   --nph-core-layout-width-chip: 14rem;
   --nph-core-layout-width-toast: 22.5rem;
   --nph-core-layout-width-toast-max: 27.5rem;
+  --nph-core-layout-width-menu-min: 8rem;
   --nph-core-line-height-100: 1rem;
+  --nph-core-line-height-200: 1.25rem;
   --nph-core-neutral-50: #f1f1f1;
   --nph-core-neutral-100: #e3e3e3;
   --nph-core-neutral-200: #c7c7c7;
@@ -221,6 +223,7 @@
   --nph-core-sistemas-700: #234e94;
   --nph-core-sistemas-800: #183462;
   --nph-core-sistemas-900: #0c1a31;
+  --nph-core-size-200: 0.875rem;
   --nph-core-size-600: 1.5rem;
   --nph-core-space-50: 0.125rem;
   --nph-core-space-100: 0.25rem;
@@ -256,6 +259,8 @@
   --nph-core-surface-800: #1e2228;
   --nph-core-surface-900: #0f1114;
   --nph-core-surface-950: #08080a;
+  --nph-core-weight-regular: 400;
+  --nph-core-weight-medium: 500;
   --nph-core-weight-semibold: 600;
   --nph-core-warn-50: #fdeee7;
   --nph-core-warn-100: #fbdece;
@@ -273,6 +278,8 @@
   --nph-core-image-size-500: 6rem;
   --nph-core-image-size-600: 8rem;
   --nph-core-opacity-16: 0.16;
+  --nph-core-tracking-normal: 0;
+  --nph-core-target-size-minimum: 1.5rem;
 }
 
 /* brand layer - one block per IATec vertical. */
@@ -636,6 +643,15 @@
   --nph-progress-height-sm: var(--nph-core-space-100);
   --nph-progress-radius: var(--nph-core-radius-full);
   --nph-progress-segment-radius: var(--nph-core-radius-full);
+  --nph-breadcrumb-menu-min-width: var(--nph-core-layout-width-menu-min);
+  --nph-breadcrumb-menu-max-width: var(--nph-core-layout-width-input);
+  --nph-breadcrumb-ellipsis-target-size: var(--nph-core-target-size-minimum);
+  --nph-breadcrumb-font-family: var(--nph-core-font-sans);
+  --nph-breadcrumb-font-size: var(--nph-core-size-200);
+  --nph-breadcrumb-line-height: var(--nph-core-line-height-200);
+  --nph-breadcrumb-letter-spacing: var(--nph-core-tracking-normal);
+  --nph-breadcrumb-link-font-weight: var(--nph-core-weight-regular);
+  --nph-breadcrumb-current-font-weight: var(--nph-core-weight-medium);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-table-border-width: var(--nph-border-width);
@@ -743,6 +759,11 @@
   --nph-progress-segment-gap: var(--nph-space-inline-tight);
   --nph-progress-loop-duration: var(--nph-motion-loop-long-duration);
   --nph-progress-loop-easing: var(--nph-motion-loop-long-easing);
+  --nph-breadcrumb-icon-size: var(--nph-icon-size-sm);
+  --nph-breadcrumb-item-icon-size: var(--nph-icon-size-sm);
+  --nph-breadcrumb-item-icon-gap: var(--nph-space-inline-tight);
+  --nph-breadcrumb-item-radius: var(--nph-radius-control);
+  --nph-breadcrumb-gap: var(--nph-space-inline);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -887,6 +908,14 @@
   --nph-progress-segment-background-pending: var(--nph-color-muted);
   --nph-progress-segment-background-success: var(--nph-status-success);
   --nph-progress-segment-background-error: var(--nph-status-error);
+  --nph-breadcrumb-link-foreground: var(--nph-color-muted-foreground);
+  --nph-breadcrumb-link-foreground-hover: var(--nph-color-foreground);
+  --nph-breadcrumb-link-foreground-focus: var(--nph-color-foreground);
+  --nph-breadcrumb-current-foreground: var(--nph-color-foreground);
+  --nph-breadcrumb-separator-foreground: var(--nph-color-muted-foreground);
+  --nph-breadcrumb-ellipsis-foreground: var(--nph-color-muted-foreground);
+  --nph-breadcrumb-ellipsis-foreground-hover: var(--nph-color-foreground);
+  --nph-breadcrumb-ellipsis-background-hover: var(--nph-color-accent);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);

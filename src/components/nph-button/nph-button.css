@@ -155,16 +155,23 @@
   --_focus-halo: var(--nph-focus-halo-success);
 }
 
-/* solid: hover uses the severity hover token (decision of 02-10-2026). */
+/*
+ * solid: hover uses the severity hover token (decision of 02-10-2026). Secondary takes its
+ * component token instead: the button one with text, the icon-button one in the icon only.
+ */
 :host([severity='primary'][emphasis='solid']) {
   --_bg: var(--nph-color-primary);
   --_bg-hover: var(--nph-color-primary-hover);
   --_fg: var(--nph-color-primary-foreground);
 }
 :host([severity='secondary'][emphasis='solid']) {
-  --_bg: var(--nph-color-secondary);
-  --_bg-hover: var(--nph-color-secondary-hover);
+  --_bg: var(--nph-button-secondary-solid-background);
+  --_bg-hover: var(--nph-button-secondary-solid-background-hover);
   --_fg: var(--nph-color-secondary-foreground);
+}
+:host([data-nph-icon-only][severity='secondary'][emphasis='solid']) {
+  --_bg: var(--nph-icon-button-secondary-solid-background);
+  --_bg-hover: var(--nph-icon-button-secondary-solid-background-hover);
 }
 :host([severity='info'][emphasis='solid']) {
   --_bg: var(--nph-status-info);
@@ -192,7 +199,11 @@
   --_fg: var(--nph-status-on-solid);
 }
 
-/* outline: light surface and border in the text color, on the inside. */
+/*
+ * outline: light surface and border on the inside. Secondary has its own border, and a border
+ * and background hover, on component tokens: the button ones with text, the icon-button ones
+ * in the icon only; its rest background stays `color/muted`, with no component token.
+ */
 :host([severity='primary'][emphasis='outline']) {
   --_bg: var(--nph-color-primary-surface);
   --_bg-hover: var(--nph-color-primary-surface-hover);
@@ -203,9 +214,15 @@
 }
 :host([severity='secondary'][emphasis='outline']) {
   --_bg: var(--nph-color-muted);
-  --_bg-hover: var(--nph-color-secondary-surface-hover);
+  --_bg-hover: var(--nph-button-secondary-outline-background-hover);
   --_fg: var(--nph-color-secondary-foreground);
-  --_outline: inset 0 0 0 var(--nph-border-width) var(--nph-color-secondary-foreground);
+  --_outline: inset 0 0 0 var(--nph-border-width) var(--nph-button-secondary-outline-border);
+  --_outline-hover: inset 0 0 0 var(--nph-border-width) var(--nph-button-secondary-outline-border-hover);
+}
+:host([data-nph-icon-only][severity='secondary'][emphasis='outline']) {
+  --_bg-hover: var(--nph-icon-button-secondary-outline-background-hover);
+  --_outline: inset 0 0 0 var(--nph-border-width) var(--nph-icon-button-secondary-outline-border);
+  --_outline-hover: inset 0 0 0 var(--nph-border-width) var(--nph-icon-button-secondary-outline-border-hover);
 }
 :host([severity='danger'][emphasis='outline']) {
   --_bg: var(--nph-color-destructive-surface);
@@ -216,17 +233,12 @@
   --_outline-hover: inset 0 0 0 var(--nph-border-width) var(--nph-color-destructive-on-surface-hover);
 }
 
-/* light: light surface, no border. */
+/* light: light surface, no border. Only primary and danger have it (B1). */
 :host([severity='primary'][emphasis='light']) {
   --_bg: var(--nph-color-primary-surface);
   --_bg-hover: var(--nph-color-primary-surface-hover);
   --_fg: var(--nph-color-primary-on-surface);
   --_fg-hover: var(--nph-color-primary-on-surface-hover);
-}
-:host([severity='secondary'][emphasis='light']) {
-  --_bg: var(--nph-color-secondary-light);
-  --_bg-hover: var(--nph-color-secondary-light-hover);
-  --_fg: var(--nph-color-secondary-foreground);
 }
 :host([severity='danger'][emphasis='light']) {
   --_bg: var(--nph-color-destructive-surface);

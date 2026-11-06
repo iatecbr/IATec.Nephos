@@ -51,9 +51,14 @@ const row = 'display: flex; flex-wrap: wrap; align-items: center; gap: var(--nph
 
 const page = (storyId: string) => ({ piece: 'nph-button', storyId: `components-nph-button-validation--${storyId}` });
 
-/** The pairs that exist (B1): solid in all; the other emphases only in three severities. */
+/**
+ * The pairs that exist (B1): solid in all; outline and ghost in primary, secondary and
+ * danger; light only in primary and danger (the secondary light was removed, DSA-64).
+ */
 function exists(severity: NphButtonSeverity, emphasis: NphButtonEmphasis): boolean {
-  return emphasis === 'solid' || ['primary', 'secondary', 'danger'].includes(severity);
+  if (emphasis === 'solid') return true;
+  if (emphasis === 'light') return ['primary', 'danger'].includes(severity);
+  return ['primary', 'secondary', 'danger'].includes(severity);
 }
 
 /** Severity in the columns, emphasis in the rows, as on the Docs page. */

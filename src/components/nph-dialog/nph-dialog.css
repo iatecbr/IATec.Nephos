@@ -11,10 +11,13 @@
  * visual decisions. One value is literal by rule: the `md` breakpoint in the media query,
  * because a media query does not accept a custom property (`design.md`, §2f, and P87).
  *
- * Two semantic tokens are redefined in the scope of the window, with no new value (P87):
- * `color/secondary` and its hover take `color/secondary-on-dialog` and its hover, so a
- * solid secondary `nph-button` stays visible on `color/dialog`; and `color/border`, only
- * on the dialog's own `nph-separator`, takes `color/dialog-separator`.
+ * Tokens are redefined in the scope of the window, with no new value (P87): `color/secondary`
+ * and its hover, and the solid secondary tokens of the button (`button/secondary-solid-background`
+ * and `icon-button/secondary-solid-background`, with their hovers), take
+ * `color/secondary-on-dialog` and its hover, so a solid secondary `nph-button` stays visible on
+ * `color/dialog`. The button reads its own tokens since DSA-64, which is why they are redefined
+ * here too. And `color/border`, only on the dialog's own `nph-separator`, takes
+ * `color/dialog-separator`.
  */
 
 /*
@@ -51,6 +54,10 @@
   --_edge: var(--nph-layout-margin-compact);
   --nph-color-secondary: var(--nph-color-secondary-on-dialog);
   --nph-color-secondary-hover: var(--nph-color-secondary-on-dialog-hover);
+  --nph-button-secondary-solid-background: var(--nph-color-secondary-on-dialog);
+  --nph-button-secondary-solid-background-hover: var(--nph-color-secondary-on-dialog-hover);
+  --nph-icon-button-secondary-solid-background: var(--nph-color-secondary-on-dialog);
+  --nph-icon-button-secondary-solid-background-hover: var(--nph-color-secondary-on-dialog-hover);
   box-sizing: border-box;
   inline-size: fit-content;
   min-inline-size: min(var(--nph-layout-dialog-min-width), 100% - 2 * var(--_edge));
