@@ -5887,7 +5887,7 @@ P66. The names follow P64.
 
 2. **Invalid input.** A value outside a list; an empty `description`; `loading` outside the subtle
    toast; a `duration` that is not 0 and is below 6000, negative or not a number; `secondary-action`
-   without `action`; `time-bar` outside a subtle toast, on error, on loading, with an action or with
+   without `action` where it would be drawn (not on single-line); `time-bar` outside a subtle toast, on error, on loading, with an action that is drawn or with
    `duration` 0; a visible close button with no `close-label`. What the Figma set says "has no
    effect" is not invalid, it is not drawn: the actions on solid and on loading, the secondary
    action on single-line and the close button on loading; and a valid `duration` on inline, on

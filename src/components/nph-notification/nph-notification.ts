@@ -348,13 +348,13 @@ export class NphNotification extends LitElement {
         `duration ${String(duration)} is not valid. Use 0 to keep the toast, or ${NPH_NOTIFICATION_MIN_DURATION} milliseconds or more (WCAG 2.2.1); nothing was drawn.`,
       );
     }
-    if (lists && trimmed(this.secondaryAction) !== '' && trimmed(this.action) === '' && !this.solid && !this.loading) {
+    if (lists && this.secondaryActionText !== '' && trimmed(this.action) === '') {
       errors.push('secondary-action needs the main action: at most two actions, one main and one secondary; nothing was drawn.');
     }
     if (this.timeBar) {
       if (lists && (placement !== 'toast' || emphasis !== 'subtle' || severity === 'error' || severity === 'loading')) {
         errors.push('time-bar exists only on a subtle toast, and never on error or on loading; nothing was drawn.');
-      } else if (lists && (trimmed(this.action) !== '' || trimmed(this.secondaryAction) !== '')) {
+      } else if (lists && (this.mainActionText !== '' || this.secondaryActionText !== '')) {
         errors.push('time-bar and an action never go together: a toast with an action does not close by itself; nothing was drawn.');
       } else if (!Number.isFinite(duration) || duration <= 0) {
         errors.push('time-bar needs a toast that closes by itself: set a duration of 6000 or more; nothing was drawn.');
@@ -506,7 +506,8 @@ export class NphNotification extends LitElement {
         (parseFloat(style.paddingInlineStart) || 0) +
         (parseFloat(style.paddingInlineEnd) || 0) +
         border;
-      reflow = Math.ceil(needed) > container.getBoundingClientRect().width;
+      /* Layout widths on both sides: a transform on an ancestor scales the box on screen, not the room inside it. */
+      reflow = Math.ceil(needed) > container.offsetWidth;
     }
     this.toggleAttribute(REFLOWED_ATTRIBUTE, reflow);
   }
@@ -530,7 +531,7 @@ export class NphNotification extends LitElement {
 
   /** Arms, pauses or stops the timer after each update. */
   private syncTimer(): void {
-    const closes = this.autoCloses && !this.hidden;
+    const closes = this.autoCloses && !this.hidden && this.isConnected;
     const armed = closes ? this.duration : 0;
     if (armed !== this.armedDuration) {
       this.stopTimer();

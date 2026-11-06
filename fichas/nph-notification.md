@@ -269,7 +269,7 @@ invalid_combinations:
   - "An empty description — nothing is drawn."
   - "severity loading outside the subtle toast — nothing is drawn."
   - "A duration between 1 and 5999, or one that is negative or not a number — nothing is drawn; use 0 or 6000 and up."
-  - "secondary-action without action — nothing is drawn."
+  - "secondary-action without action, where the secondary action is drawn (not on single-line, solid or loading) — nothing is drawn."
   - "time-bar outside a subtle toast, on error, on loading, with an action or with duration 0 — nothing is drawn."
   - "The close button shown with no close-label — nothing is drawn."
 relations:
@@ -587,7 +587,7 @@ a `solid` toast for a message that needs more weight, with only the close button
   properties.
 - **Do not forget to remove the element after `nph-close`** — the notification only hides.
 - **Invalid combinations:** a value outside its list; an empty `description`; `loading` outside
-  the subtle toast; a `duration` between 1 and 5999; `secondary-action` without `action`;
+  the subtle toast; a `duration` between 1 and 5999; `secondary-action` without `action` where it would be drawn (not on single-line);
   `time-bar` outside a subtle toast that closes by itself; the close button shown with no
   `close-label`. The notification draws nothing and emits `console.error` in development.
 - **Do not create or adapt without a decision:** a toast region tag, a color property, a slot, a

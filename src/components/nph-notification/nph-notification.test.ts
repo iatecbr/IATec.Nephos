@@ -476,6 +476,14 @@ describe('layout', () => {
     expect(note.hasAttribute('data-nph-reflowed')).toBe(false);
   });
 
+  it('the reflow compares layout widths: a scaled ancestor does not change the answer', async () => {
+    const attributes = { layout: 'single-line', heading: 'Deadline is near', description: 'The report is due in two days.', action: 'Review' };
+    const big = await mount({ attributes, parentStyle: 'inline-size: 300px; transform: scale(2); transform-origin: top left;' });
+    expect(big.note.hasAttribute('data-nph-reflowed')).toBe(true);
+    const small = await mount({ attributes, parentStyle: 'inline-size: 640px; transform: scale(0.5); transform-origin: top left;' });
+    expect(small.note.hasAttribute('data-nph-reflowed')).toBe(false);
+  });
+
   it('stacked never reflows', async () => {
     const { note } = await mount({ attributes: { description: `${DESCRIPTION} ${DESCRIPTION}` }, parentStyle: 'inline-size: 300px;' });
     expect(note.hasAttribute('data-nph-reflowed')).toBe(false);
@@ -572,6 +580,21 @@ describe('actions', () => {
     const { note } = await mount({ attributes: { layout: 'single-line', action: 'Review', 'secondary-action': 'Later' } });
     expect(buttons(note).map(textOf)).toEqual(['Review']);
     expect(has(note, '.secondary')).toBe(false);
+  });
+
+  it('single-line with a secondary action and no main one is not invalid: the secondary is ignored, with no error', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const { note } = await mount({ attributes: { layout: 'single-line', 'secondary-action': 'Later' } });
+    expect(note.hasAttribute('data-nph-rendered')).toBe(true);
+    expect(buttons(note)).toHaveLength(0);
+    expect(error).not.toHaveBeenCalled();
+  });
+
+  it('the time bar is blocked by an action that is drawn, not by one that is ignored', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const { note } = await mount({ attributes: { placement: 'toast', layout: 'single-line', 'secondary-action': 'Later', 'time-bar': true } });
+    expect(note.hasAttribute('data-nph-rendered')).toBe(true);
+    expect(error).not.toHaveBeenCalled();
   });
 
   it('solid has no actions, only the close button', async () => {
@@ -966,6 +989,25 @@ describe('the time a toast stays', () => {
     note.hidden = true;
     await advance(note, 60000);
     expect(seen).toEqual([]);
+  });
+
+  it('a toast that was closed, removed, shown again while out of the page and put back does not close before it is back', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
+    const { parent, note } = await mount({ attributes: { placement: 'toast' } });
+    const seen: string[] = [];
+    document.body.addEventListener('nph-close', () => seen.push('close'));
+    await advance(note, 6000);
+    expect(seen).toEqual(['close']);
+    note.remove();
+    note.hidden = false;
+    await vi.advanceTimersByTimeAsync(60000);
+    expect(seen).toEqual(['close']);
+    parent.append(note);
+    await advance(note, 5999);
+    expect(seen).toEqual(['close']);
+    expect(note.hidden).toBe(false);
+    await advance(note, 1);
+    expect(seen).toEqual(['close', 'close']);
   });
 
   it('moving the notification in the page starts the timer again', async () => {
