@@ -33,7 +33,20 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The accepted Figma set has trails of 2, 3 and 4 levels and the collapsed one, and says nothing about a trail with 5 or more levels that is not collapsed. The code draws only those counts and draws nothing for another one, with a console.error in development; a longer path uses the collapsed trail. A trail of 5 or more levels drawn in full needs her answer. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-06"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence says the hidden levels menu is an nph-dropdown-menu with the hidden levels in path order, and does not say whether each option carries the icon of its level. The code draws the options as text only. Whether the menu carries the level icons needs her answer. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-06"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-66/figma-docs-accepted-2026-11-06.md"
   ],
