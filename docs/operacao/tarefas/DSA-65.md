@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 640,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-progress",
   "dependencies": [
     "DSA-03"
@@ -23,11 +23,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 0c86aa01a68c9e9d5ee5c3689b4f9b962f4844a6 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-65/review-and-merge-2026-11-06.md",
+      "result": "passed",
+      "verified_at": "2026-11-06",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -46,7 +46,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-65/figma-docs-accepted-2026-11-05.md"
+    "docs/operacao/evidencias/DSA-65/figma-docs-accepted-2026-11-05.md",
+    "docs/operacao/evidencias/DSA-65/review-and-merge-2026-11-06.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -60,8 +61,8 @@
     "excerpt": null,
     "converted_decision": "The nph-progress documentation frame (4385:3186, page 1626:26) was accepted as the API and behavior specification of nph-progress. Component sets: nph-progress (4368:1532), 36 variants, and the nph-progress segment set (4368:1185), 8 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-65-progress", "commit": null, "pr": 149 },
-  "context": "docs/operacao/contextos/DSA-65.md",
+  "git_review": { "branch": "feat/dsa-65-progress", "commit": "0c86aa0", "pr": 149 },
+  "context": null,
   "updated_at": "2026-11-06"
 }
 ```
