@@ -485,9 +485,12 @@ export class NphNavigationMenu extends LitElement {
     if (this.shownIndex() !== index || this.pinned) return;
     /* The panel that is open is followed by its trigger's value, as the wait to open is. */
     const value = this.triggerValue(item, index);
+    const selected = this.active;
     this.hoverTimer = window.setTimeout(() => {
       this.hoverTimer = undefined;
       if (this.problem !== null || this.pinned) return;
+      /* The consumer chose another panel during the wait: this close was for the one that was open. */
+      if (this.active !== selected) return;
       const now = this.enabledTriggerIndex(value);
       if (now === null) {
         /* The trigger that was open is gone or disabled: nothing is left to keep open for it. */

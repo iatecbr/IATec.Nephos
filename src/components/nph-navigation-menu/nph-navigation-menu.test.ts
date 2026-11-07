@@ -1509,6 +1509,24 @@ describe('regressions of the Copilot review, round 3', () => {
   });
 });
 
+describe('regressions of the Copilot review, round 4', () => {
+  it('a close that is running does not close the panel the consumer selected meanwhile', async () => {
+    const menu = await mount();
+    quickHover(menu);
+    await userEvent.hover(trigger(menu, 0));
+    await wait(HOVER + 200);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
+    menu.active = 'resources';
+    menu.items = [ITEMS[1], ITEMS[2]] as NphNavigationMenuItem[];
+    await wait(HOVER + 200);
+    await settle(menu);
+    expect(menu.open).toBe(true);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    expect(trigger(menu, 0).textContent).toContain('Resources');
+  });
+});
+
 describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
   const used = new Set([...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1] ?? ''));
