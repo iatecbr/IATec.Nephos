@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 610,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-navigation-menu",
   "dependencies": [
     "DSA-03",
@@ -34,7 +34,38 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The evidence says the Menu button opens the same items as a vertical list and does not say how a trigger and its groups show in it. The code shows each trigger as a group, with its label as the group label and its links below. If the list should fold the groups of a trigger, Indiane decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
+    },
+    {
+      "id": "D-2",
+      "question": "The evidence has the current state for the top item of both types, a trigger included, and does not say who turns it on for a trigger. The code derives it from the current link in its panel. If a trigger should be marked current on its own, a new field is needed. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence has no motion for the trigger arrow or for the panel. The code has none: the arrow does not turn and the panel enters and leaves with no transition. Whether the arrow turns or the panel fades needs her answer. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
+    },
+    {
+      "id": "D-4",
+      "question": "The evidence closes the panel 0.5 s after the pointer leaves and asks for motion/hover-delay, which is 300 ms and has no semantic token for 500 ms. The code uses motion/hover-delay to open and to close. If the closing wait must be 500 ms, a token is needed, and tokens come from Figma. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
+    },
+    {
+      "id": "D-5",
+      "question": "navigation-menu/current-foreground is color/primary-hover, which in the dark scheme resolves to a dark shade in four brands, over the dark bar (1.49:1 to 2.16:1). The Brands story carries the contrast exception that nph-sidebar-item and nph-dropdown-menu already carry for the same token (DSA-36, D2). The token is hers to review. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-62/figma-docs-accepted-2026-11-03.md"
   ],
@@ -50,8 +81,8 @@
     "excerpt": null,
     "converted_decision": "The nph-navigation-menu documentation frame (3977:7913, page 1626:16) was accepted as the API and behavior specification of nph-navigation-menu. Component sets: nph-navigation-menu (3969:7897), with the inner pieces top item (3957:6662) and panel link (3957:6722). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-62-navigation-menu", "commit": null, "pr": 154 },
+  "context": "docs/operacao/contextos/DSA-62.md",
   "updated_at": "2026-11-03"
 }
 ```

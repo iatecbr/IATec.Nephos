@@ -368,7 +368,18 @@
     "components-nph-breadcrumb-validation--direction": "Direction",
     "components-nph-breadcrumb-validation--loading": "Loading",
     "components-nph-breadcrumb-validation--examples": "Examples",
-    "components-nph-breadcrumb-validation--brands": "Brands"
+    "components-nph-breadcrumb-validation--brands": "Brands",
+    "components-nph-navigation-menu-docs": "Docs",
+    "components-nph-navigation-menu-docs--documentation": "Documentation",
+    "components-nph-navigation-menu-validation": "Validation",
+    "components-nph-navigation-menu-validation--bar": "Bar",
+    "components-nph-navigation-menu-validation--panel": "Panel",
+    "components-nph-navigation-menu-validation--current": "Current",
+    "components-nph-navigation-menu-validation--narrow": "Narrow",
+    "components-nph-navigation-menu-validation--long-text": "Long text",
+    "components-nph-navigation-menu-validation--direction": "Direction",
+    "components-nph-navigation-menu-validation--examples": "Examples",
+    "components-nph-navigation-menu-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -7415,7 +7426,15 @@
       "components-nph-breadcrumb-validation--direction": "Right-to-left writing: the trail reads from the right and the chevron separator mirrors.",
       "components-nph-breadcrumb-validation--loading": "The piece has no loading state: while the page loads, a line nph-skeleton takes the place of the trail.",
       "components-nph-breadcrumb-validation--examples": "The three required examples, each in light and dark mode: two levels with text only, four levels with icons, and a long collapsed trail with the menu open.",
-      "components-nph-breadcrumb-validation--brands": "The seven brands in light and dark mode: the focus border and the halo of the link and of the ellipsis button follow the brand of the frame."
+      "components-nph-breadcrumb-validation--brands": "The seven brands in light and dark mode: the focus border and the halo of the link and of the ellipsis button follow the brand of the frame.",
+      "components-nph-navigation-menu-validation--bar": "The closed bar: a top link, a trigger with its arrow and a disabled item, with the text in the foreground color and no background at rest.",
+      "components-nph-navigation-menu-validation--panel": "The panel of a trigger open: one group of links, and two labeled groups side by side with the vertical separator between them. The panel hugs its content and each link is 280 px wide.",
+      "components-nph-navigation-menu-validation--current": "The current page marked by more than color: the bar under the top item and the bar at the start of the panel link, with the current text color. A trigger holding the current link shows as current too.",
+      "components-nph-navigation-menu-validation--narrow": "The narrow width: the bar turns into the Menu button, closed and open, with the same items as a vertical list where each trigger shows as a group and the current link is marked.",
+      "components-nph-navigation-menu-validation--long-text": "A long title and description in a panel link: each is cut with an ellipsis on one line and the link keeps its width.",
+      "components-nph-navigation-menu-validation--direction": "Right-to-left writing: the bar reads from the right, the panel opens from the start edge of its trigger and the indicator of the panel link sits at its start.",
+      "components-nph-navigation-menu-validation--examples": "The three required examples, each in light and dark mode: the closed bar with two triggers and the link of the current page, an open trigger with a panel of two groups, and the narrow width with the Menu button open.",
+      "components-nph-navigation-menu-validation--brands": "The seven brands in light and dark mode: the focus border and the halo of the items follow the brand of the frame."
     }
   },
   "multiComboboxDocs": {
@@ -10801,6 +10820,247 @@
     "sourceSpec": "nph-breadcrumb spec sheet; Figma, frame nph-breadcrumb (4512:4741)",
     "sourceApi": "nph-breadcrumb spec sheet; docs/decisoes-tecnicas.md › P109",
     "sourceAnatomy": "Figma, sets 4490:2886, 4490:2678 and 4490:2697; design.md",
+    "matrixLabel": "Component matrix"
+  },
+  "navigationMenuValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "navLabel": "Main navigation",
+    "menuLabel": "Menu",
+    "products": "Products",
+    "resources": "Resources",
+    "pricing": "Pricing",
+    "groupBuild": "Build",
+    "groupManage": "Manage",
+    "components": "Components",
+    "componentsDescription": "Reusable building blocks.",
+    "tokens": "Tokens",
+    "tokensDescription": "Design decisions as values.",
+    "icons": "Icons",
+    "iconsDescription": "The core icon set.",
+    "guides": "Guides",
+    "guidesDescription": "From setup to release.",
+    "changelog": "Changelog",
+    "changelogDescription": "What changed, by version.",
+    "status": "Status",
+    "statusDescription": "Current state of the services.",
+    "docs": "Documentation",
+    "blog": "Blog",
+    "support": "Support",
+    "supportDescription": "Talk to the team.",
+    "longTitle": "A panel link title so long that it goes well past the width of the link and must be cut",
+    "longDescription": "A description just as long, which also goes past the width of the link on a single line and is cut with an ellipsis"
+  },
+  "navigationMenuDocs": {
+    "summary": "The main navigation bar: top items that are links or triggers, and a panel of grouped links under each trigger.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-navigation-menu spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P110. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "For the main and stable sections of a product or site, always visible at the top.",
+      "A trigger when the section has inner pages; a top link when it goes straight to one page.",
+      "Two labeled groups in a panel when it puts together links of different kinds.",
+      "narrow when the items do not fit on one line: the bar turns into the Menu button, which opens the same items as a vertical list."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "For actions on an object, such as delete: navigation goes to pages and does not change data; use nph-dropdown-menu.",
+      "As an application command bar (menubar): the piece is disclosure navigation, with no arrow-key menubar pattern.",
+      "To switch content on the same page: use tabs.",
+      "As side navigation with several levels: use the sidebar.",
+      "To hide the bar behind the Menu button when the items fit: menus hidden away reduce the discovery of the sections."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "items",
+        "The top items of the bar, in order. Property only: set from JavaScript. A link item is { label, href }; a trigger item is { type: 'trigger', label, groups } with an optional value; a group is { label, links }; a link is { title, href, description, icon, current, disabled }."
+      ],
+      [
+        "narrow",
+        "The narrow value of the Figma width property. The bar turns into the Menu button, which opens the same items as a vertical list. Needs menu-label. Reflected to the attribute."
+      ],
+      [
+        "open",
+        "The yes value of the Figma open property. Wide, the panel of the active trigger is shown; narrow, the list is shown. The piece turns it on and off; the consumer may set it. Reflected to the attribute."
+      ],
+      [
+        "active",
+        "The value of the trigger whose panel open shows. Without a value, a trigger has its index as text. Empty: the first trigger that is not disabled."
+      ],
+      [
+        "label",
+        "The accessible name of the navigation landmark. Already localized."
+      ],
+      [
+        "menu-label",
+        "The accessible name of the Menu button, such as \"Menu\". Required when narrow. Already localized."
+      ],
+      [
+        "aria-label",
+        "The accessible name of the landmark when there is no label."
+      ],
+      [
+        "current",
+        "A field of a link, not a property of the bar: the page the person is on. One per menu. A trigger shows as current when its panel holds the current link."
+      ],
+      [
+        "width, color and size",
+        "Not properties: the wide panel hugs its content, the narrow panel and the panel link are 280 px wide, and the color comes from the tokens."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-navigation-menu id=\"menu\" label=\"Main navigation\"></nph-navigation-menu>\n<script>\n  menu.items = [\n    {\n      type: 'trigger',\n      label: 'Products',\n      groups: [{ label: 'Build', links: [{ title: 'Components', href: '/components' }] }],\n    },\n    { label: 'Pricing', href: '/pricing', current: true },\n  ];\n</script>",
+    "usageTag": "The tag of the piece. The items come as data in the items property, set from JavaScript; a trigger carries its groups of links and a link carries its href.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-navigation-menu (3977:7913); docs/decisoes-tecnicas.md › P110",
+    "barTitle": "The bar",
+    "barCaption": "The closed bar with a trigger, a link and a disabled item.",
+    "barUseHeader": [
+      "Top item",
+      "When to use"
+    ],
+    "barUse": [
+      {
+        "value": "trigger",
+        "label": "When the section has inner pages. It carries an arrow and opens a panel of grouped links."
+      },
+      {
+        "value": "link",
+        "label": "When the section goes straight to one page. It has no arrow."
+      },
+      {
+        "value": "disabled",
+        "label": "An item that is not available now. It loses opacity, takes no hover and no focus."
+      }
+    ],
+    "panelTitle": "The panel",
+    "panelCaption": "A trigger open, with two labeled groups of links.",
+    "panel": [
+      "The panel opens below its trigger, aligned to its start edge, in the top layer, and never leaves the window sideways.",
+      "A panel link has a title, an optional description and an optional icon. Two groups sit side by side, with a vertical separator between them.",
+      "A trigger opens on click, Enter or Space. With the mouse it opens after a short wait and closes the same time after the pointer leaves the trigger and the panel. Esc closes it and gives the focus back to the trigger.",
+      "The wide panel hugs its content. Every panel link is 280 px wide."
+    ],
+    "currentTitle": "Current page",
+    "currentCaption": "The current link of the panel marked, and its trigger shown as current too.",
+    "current": [
+      "The current page is marked by more than color: a bar under the top item, or at the start of the panel link, together with the current text color.",
+      "A menu has one current page. A trigger shows as current when its panel holds the current link.",
+      "A top link marked as current carries aria-current=\"page\"; the current panel link too, and its icon is solid."
+    ],
+    "narrowTitle": "Narrow width",
+    "narrowCaption": "The Menu button open, with the same items as a vertical list.",
+    "narrow": [
+      "When the items do not fit on one line, the bar turns into the Menu button. The consumer chooses narrow; the piece does not measure itself.",
+      "The Menu button opens the same items as a vertical list in a panel 280 px wide. Each trigger shows as a group, with its label as the group label.",
+      "Do not hide the bar behind the Menu button when the items fit."
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "It sits at the top of the page, in the header of a product or site. It does not replace an application command bar, tabs or the sidebar.",
+      "It works with nph-icon, which draws the arrow, the link icons and the Menu button icon, with nph-separator, which divides the groups, and with nph-tooltip, which names the Menu button.",
+      "For actions on an object, such as delete, use nph-dropdown-menu: navigation goes to pages and does not change data."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Bar",
+        "The row of top items, navigation-menu/bar-gap apart."
+      ],
+      [
+        "Trigger",
+        "A top item with the chevron-down arrow, at navigation-menu/trigger-icon-size, that opens the panel."
+      ],
+      [
+        "Top link",
+        "A top item without an arrow, which goes straight to the page."
+      ],
+      [
+        "Current indicator",
+        "A bar of navigation-menu/current-indicator-width in navigation-menu/current-indicator-background, under the top item and at the start of the current panel link."
+      ],
+      [
+        "Panel",
+        "The floating surface in navigation-menu/panel-background, with the navigation-menu/panel-border border, navigation-menu/panel-radius radius and the elevation/dropdown shadow, navigation-menu/panel-offset below the trigger."
+      ],
+      [
+        "Group label",
+        "The label of a group of links, as the group label of nph-dropdown-menu."
+      ],
+      [
+        "Panel link",
+        "A title, an optional description and an optional icon, in navigation-menu/item-* tokens."
+      ],
+      [
+        "Separator",
+        "A vertical nph-separator between the groups."
+      ],
+      [
+        "Menu button",
+        "A button with the bars icon, only in the narrow width."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Contrast",
+        "The text over the background and the popover pass the required level in both themes, except the current text in the dark scheme of four of the seven brands, where it falls to 1.49:1 to 2.16:1 over the dark bar (a token limit); the indicator and the focus border, in the primary color, have at least 3:1 against the background."
+      ],
+      [
+        "Visible focus",
+        "The top item, the panel link and the Menu button show the focus border and the halo outside, without changing their size. The border meets 3:1."
+      ],
+      [
+        "Color is not the only signal",
+        "The current page has the indicator besides the current text color. The open trigger shows the panel and the hover background."
+      ],
+      [
+        "Target size",
+        "The top items and the Menu button are larger than 24 by 24; the Menu button is 36 px square."
+      ],
+      [
+        "Accessible name",
+        "A navigation landmark named by label or aria-label. A trigger is a button with aria-expanded and aria-controls. The link of the current page carries aria-current=\"page\". The arrow and the link icons are decorative. The Menu button has the name \"Menu\"."
+      ],
+      [
+        "Keyboard",
+        "Tab moves between the items and through the links of an open panel; Enter and Space open and close a trigger; Esc closes the panel and gives the focus back. It is disclosure navigation, not a menubar: there are no arrow keys."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplesCaption": "The three required examples: the closed bar, an open trigger with two groups and the narrow width with the Menu button open.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-navigation-menu spec sheet — purpose, items, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P110 (API and semantics), P01, P02 and P03.",
+      "design.md — the navigation-menu/* tokens and the focus tokens.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Navigation Menu, documentation frame nph-navigation-menu (3977:7913), sets 3969:7897, 3957:6662 and 3957:6722.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-navigation-menu spec sheet; Figma, frame nph-navigation-menu (3977:7913)",
+    "sourceApi": "nph-navigation-menu spec sheet; docs/decisoes-tecnicas.md › P110",
+    "sourceAnatomy": "Figma, sets 3969:7897, 3957:6662 and 3957:6722; design.md",
     "matrixLabel": "Component matrix"
   }
 }
