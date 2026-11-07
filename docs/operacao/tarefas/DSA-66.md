@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 650,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-breadcrumb",
   "dependencies": [
     "DSA-03",
@@ -25,11 +25,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 986871acfea034a61427faa1561282404a5f52d6 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-66/review-and-merge-2026-11-07.md",
+      "result": "passed",
+      "verified_at": "2026-11-07",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -48,7 +48,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-66/figma-docs-accepted-2026-11-06.md"
+    "docs/operacao/evidencias/DSA-66/figma-docs-accepted-2026-11-06.md",
+    "docs/operacao/evidencias/DSA-66/review-and-merge-2026-11-07.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -62,9 +63,9 @@
     "excerpt": null,
     "converted_decision": "The nph-breadcrumb documentation frame (4512:4741, page 1626:13) was accepted as the API and behavior specification of nph-breadcrumb. Component sets: nph-breadcrumb (4490:2886), 8 variants; the nph-breadcrumb item set (4490:2678), 4 variants; the nph-breadcrumb ellipsis set (4490:2697), 4 variants; the nph-breadcrumb separator component (1635:16). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-66-breadcrumb", "commit": null, "pr": 151 },
-  "context": "docs/operacao/contextos/DSA-66.md",
-  "updated_at": "2026-11-06"
+  "git_review": { "branch": "feat/dsa-66-breadcrumb", "commit": "986871a", "pr": 151 },
+  "context": null,
+  "updated_at": "2026-11-07"
 }
 ```
 
