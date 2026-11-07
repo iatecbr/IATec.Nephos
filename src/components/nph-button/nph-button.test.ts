@@ -1147,6 +1147,83 @@ describe('tooltip of the icon-only button (P86)', () => {
   });
 });
 
+describe('the trigger of an open popover (P111, amends P68)', () => {
+  const TRIGGER = { severity: 'secondary', text: 'Filters', iconStart: 'plus' } as const;
+
+  async function open(props: Props = TRIGGER, haspopup = 'dialog'): Promise<NphButton> {
+    const element = await mount(props);
+    element.setAttribute('aria-haspopup', haspopup);
+    element.setAttribute('aria-expanded', 'true');
+    await element.updateComplete;
+    return element;
+  }
+
+  it('open, it draws hover-active at rest: the hover background, the hover color and the solid icon', async () => {
+    const closed = await mount(TRIGGER);
+    const restBackground = getComputedStyle(control(closed)).backgroundColor;
+    const element = await open();
+    const style = getComputedStyle(control(element));
+    expect(style.backgroundColor).toBe(resolved('background-color', '--nph-button-secondary-solid-background-hover'));
+    expect(style.backgroundColor).not.toBe(restBackground);
+    expect(await visibleVariants(control(element))).toEqual(['solid']);
+    expect(element.hasAttribute('data-nph-open')).toBe(true);
+  });
+
+  it('open, the icon-only trigger swaps its icon too and reads the icon-button token', async () => {
+    const element = await open({ severity: 'secondary', iconStart: 'plus', label: 'Add' });
+    expect(getComputedStyle(control(element)).backgroundColor).toBe(
+      resolved('background-color', '--nph-icon-button-secondary-solid-background-hover'),
+    );
+    expect(await visibleVariants(control(element))).toEqual(['solid']);
+  });
+
+  it('closed again, it goes back to the resting look', async () => {
+    const closed = await mount(TRIGGER);
+    const rest = getComputedStyle(control(closed)).backgroundColor;
+    const element = await open();
+    element.setAttribute('aria-expanded', 'false');
+    await element.updateComplete;
+    expect(getComputedStyle(control(element)).backgroundColor).toBe(rest);
+    expect(await visibleVariants(control(element))).toEqual(['light']);
+    expect(element.hasAttribute('data-nph-open')).toBe(false);
+  });
+
+  it('hands aria-haspopup and aria-expanded to the native button, which is the element with a role', async () => {
+    const element = await open();
+    expect(control(element).getAttribute('aria-haspopup')).toBe('dialog');
+    expect(control(element).getAttribute('aria-expanded')).toBe('true');
+    element.setAttribute('aria-expanded', 'false');
+    await element.updateComplete;
+    expect(control(element).getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('any other aria-haspopup, such as the menu of nph-dropdown-menu, changes nothing', async () => {
+    const closed = await mount(TRIGGER);
+    const rest = getComputedStyle(control(closed)).backgroundColor;
+    const element = await open(TRIGGER, 'menu');
+    expect(getComputedStyle(control(element)).backgroundColor).toBe(rest);
+    expect(await visibleVariants(control(element))).toEqual(['light']);
+    expect(element.hasAttribute('data-nph-open')).toBe(false);
+    expect(control(element).hasAttribute('aria-haspopup')).toBe(false);
+    expect(control(element).hasAttribute('aria-expanded')).toBe(false);
+  });
+
+  it('a disabled trigger does not draw the open look', async () => {
+    const closed = await mount({ ...TRIGGER, disabled: true });
+    const rest = getComputedStyle(control(closed)).backgroundColor;
+    const element = await open({ ...TRIGGER, disabled: true });
+    expect(getComputedStyle(control(element)).backgroundColor).toBe(rest);
+  });
+
+  it('without aria-haspopup, aria-expanded alone changes nothing', async () => {
+    const element = await mount(TRIGGER);
+    element.setAttribute('aria-expanded', 'true');
+    await element.updateComplete;
+    expect(element.hasAttribute('data-nph-open')).toBe(false);
+    expect(control(element).hasAttribute('aria-expanded')).toBe(false);
+  });
+});
+
 describe('what the button does not have', () => {
   it('has no slot or part', async () => {
     const element = await mount();

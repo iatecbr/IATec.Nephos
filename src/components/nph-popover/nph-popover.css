@@ -1,0 +1,254 @@
+/**
+ * Internal style of `nph-popover`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties consumed here. The `--_*` variables are internal to the shadow root and are not
+ * API. The component exposes no `::part`.
+ *
+ * No literal design value goes in here. Written box relations and resets (P111): `0`, `1`,
+ * `auto`, `none` and `100%` (box and flex relations, the resets of the browser's `[popover]`
+ * style, and the arrow sitting on the edge of the surface), `calc(-1 * ...)` (the slide of the
+ * surface; the arrow's overlap with the border), `column`, `flex-start`, `flex-end` and
+ * `border-box`. The measures of the surface come from the `popover/*` tokens; the tokens the
+ * inner pieces read are redefined in scope with no new value (`color/border` on the divider and
+ * `control/height-compact` in the footer on a touch screen, as `nph-dialog` does in P87).
+ */
+
+/* The host takes no room in the flow: the surface lives in the top layer. */
+:host {
+  position: absolute;
+  inline-size: 0;
+  block-size: 0;
+  overflow: visible;
+}
+
+:host([size='sm']) {
+  --_width: var(--nph-popover-width-sm);
+}
+:host([size='md']) {
+  --_width: var(--nph-popover-width-md);
+}
+:host([size='lg']) {
+  --_width: var(--nph-popover-width-lg);
+}
+
+/*
+ * The distance from the trigger to the surface is `popover/offset`. With the arrow, the tip keeps
+ * that distance and the surface sits one arrow height further (D-1 of DSA-67).
+ */
+:host {
+  --_gap: var(--nph-popover-offset);
+}
+:host([arrow]) {
+  --_gap: calc(var(--nph-popover-offset) + var(--nph-popover-arrow-height));
+}
+
+/*
+ * The surface is a `popover`, so it sits in the top layer: no `z-index` and no clipping by an
+ * ancestor. The resets undo the browser's `[popover]` style: `inset`, `margin: auto`, the
+ * padding and the color. It does NOT clip what it holds (`overflow: visible`), so the focus ring
+ * of an inner piece is not cut. JavaScript sets `top` and `left`.
+ */
+.surface {
+  position: fixed;
+  inset: auto;
+  box-sizing: border-box;
+  inline-size: var(--_width);
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: var(--nph-popover-border-width) solid var(--nph-popover-border);
+  border-radius: var(--nph-popover-radius);
+  background-color: var(--nph-popover-background);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-popover-foreground);
+  text-align: start;
+  outline: none;
+  /* Leaving: the exit role. Opacity and a short slide toward the trigger. */
+  opacity: 0;
+  transition-property: opacity, translate;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/* Entering: the enter role. */
+.surface[data-open] {
+  opacity: 1;
+  translate: none;
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+/*
+ * The side is the one the surface resolved to (the requested one, or the opposite when it did
+ * not fit). The gap is a margin on the edge that faces the trigger; the surface slides in from
+ * `popover/offset` toward it.
+ */
+.surface[data-side='bottom'] {
+  margin-top: var(--_gap);
+  translate: 0 calc(-1 * var(--nph-popover-offset));
+}
+.surface[data-side='top'] {
+  margin-bottom: var(--_gap);
+  translate: 0 var(--nph-popover-offset);
+}
+.surface[data-side='right'] {
+  margin-left: var(--_gap);
+  translate: calc(-1 * var(--nph-popover-offset)) 0;
+}
+.surface[data-side='left'] {
+  margin-right: var(--_gap);
+  translate: var(--nph-popover-offset) 0;
+}
+.surface[data-open][data-side] {
+  translate: none;
+}
+
+/* ----- content ------------------------------------------------------------- */
+
+/* Title, description and body: `popover/header-gap` between them, `popover/padding` around. */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-popover-header-gap);
+  padding: var(--nph-popover-padding);
+}
+
+/* The title and the close button share the first line; the button never shrinks. */
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--nph-popover-title-gap);
+}
+
+/* A long string with no space breaks instead of being cut. */
+.heading {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--nph-popover-foreground);
+  font-family: var(--nph-text-label-lg-font-family);
+  font-size: var(--nph-text-label-lg-font-size);
+  font-weight: var(--nph-text-label-lg-font-weight);
+  line-height: var(--nph-text-label-lg-line-height);
+  letter-spacing: var(--nph-text-label-lg-letter-spacing);
+}
+
+.close {
+  flex: none;
+}
+
+.description {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--nph-popover-description);
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+}
+
+/* Nothing takes room when its part is off: the body wrapper is hidden with no content. */
+[hidden] {
+  display: none !important;
+}
+
+.body {
+  min-inline-size: 0;
+}
+
+/* ----- footer -------------------------------------------------------------- */
+
+/* The divider: the `nph-separator` line, from edge to edge, in `popover/divider`. */
+.divider {
+  --nph-color-border: var(--nph-popover-divider);
+  display: block;
+}
+
+/*
+ * The actions: compact buttons at the end, `popover/footer-gap` between them and
+ * `popover/footer-padding` around. On a touch screen the compact height goes back to the default
+ * one, by redefining the token in scope (P87 precedent): the slotted buttons inherit it.
+ */
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--nph-popover-footer-gap);
+  padding: var(--nph-popover-footer-padding);
+}
+
+@media (pointer: coarse) {
+  .footer {
+    --nph-control-height-compact: var(--nph-control-height-default);
+  }
+}
+
+/* ----- arrow --------------------------------------------------------------- */
+
+/*
+ * The arrow is decorative. Its base sits on the inner edge of the border, one border width
+ * inside the surface, so the fill covers the border under it; the tip goes `popover/arrow-height`
+ * beyond the outer edge. The outline is drawn only on the two slanted edges. The corner of the
+ * view box decides the direction, so no rotation is written here.
+ */
+.arrow {
+  --_depth: calc(var(--nph-popover-arrow-height) + var(--nph-popover-border-width));
+  position: absolute;
+  display: block;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.arrow-fill {
+  fill: var(--nph-popover-background);
+  stroke: none;
+}
+
+.arrow-line {
+  fill: none;
+  stroke: var(--nph-popover-border);
+  stroke-width: var(--nph-popover-border-width);
+  vector-effect: non-scaling-stroke;
+}
+
+/* On the top and bottom edges: wide, as the base is long. The offset runs along the edge. */
+.surface[data-side='bottom'] .arrow,
+.surface[data-side='top'] .arrow {
+  inline-size: var(--nph-popover-arrow-width);
+  block-size: var(--_depth);
+  left: calc(var(--_arrow-offset) - var(--nph-popover-border-width));
+}
+.surface[data-side='bottom'] .arrow {
+  bottom: 100%;
+}
+.surface[data-side='top'] .arrow {
+  top: 100%;
+}
+
+/* On the left and right edges: tall. */
+.surface[data-side='right'] .arrow,
+.surface[data-side='left'] .arrow {
+  inline-size: var(--_depth);
+  block-size: var(--nph-popover-arrow-width);
+  top: calc(var(--_arrow-offset) - var(--nph-popover-border-width));
+}
+.surface[data-side='right'] .arrow {
+  right: 100%;
+}
+.surface[data-side='left'] .arrow {
+  left: 100%;
+}
+
+/*
+ * Reduced motion: the semantic alias `motion/hover-duration`, as in `nph-dialog` and
+ * `nph-tooltip`. The curve stays: the surface still appears and still leaves.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .surface,
+  .surface[data-open] {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+}
