@@ -597,7 +597,7 @@ export class NphNavigationMenu extends LitElement {
 
   /* ----- drawing -------------------------------------------------------------- */
 
-  private renderLink(link: NphNavigationMenuLink, id: string): TemplateResult {
+  private renderLink(link: NphNavigationMenuLink): TemplateResult {
     const title = text(link.title);
     const description = text(link.description);
     const icon = text(link.icon);
@@ -629,7 +629,7 @@ export class NphNavigationMenu extends LitElement {
     return html`<div class="group" role=${label === '' ? nothing : 'group'} aria-labelledby=${label === '' ? nothing : `${id}-label`}>
       ${label === '' ? nothing : html`<span class="group-label" id="${id}-label">${label}</span>`}
       <ul class="links">
-        ${group.links.map((link, index) => html`<li>${this.renderLink(link, `${id}-link-${String(index)}`)}</li>`)}
+        ${group.links.map((link) => html`<li>${this.renderLink(link)}</li>`)}
       </ul>
     </div>`;
   }
@@ -717,7 +717,7 @@ export class NphNavigationMenu extends LitElement {
             section.kind === 'links'
               ? html`<div class="group">
                   <ul class="links">
-                    ${section.links.map((link, index) => html`<li>${this.renderLink(topLinkAsPanelLink(link), `${id}-link-${String(index)}`)}</li>`)}
+                    ${section.links.map((link) => html`<li>${this.renderLink(topLinkAsPanelLink(link))}</li>`)}
                   </ul>
                 </div>`
               : html`<span class="group-label" id="${id}-label">${text(section.trigger.label)}</span>

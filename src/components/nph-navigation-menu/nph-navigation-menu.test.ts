@@ -790,27 +790,31 @@ describe('the panel', () => {
 
   it('the wide panel hugs its content: two groups, each link panel-width wide, a vertical separator between them', async () => {
     /* Two groups of panel-width are wider than the narrow window of the runner. */
+    const before = { width: window.innerWidth, height: window.innerHeight };
     await page.viewport(1200, 800);
-    const menu = await mount();
-    await openByClick(menu, 0);
-    const links = qa(menu, '#panel-0 .link');
-    expect(links).toHaveLength(3);
-    for (const link of links) expect(link.getBoundingClientRect().width).toBeCloseTo(px('--nph-navigation-menu-panel-width'), 0);
-    const groups = qa(menu, '#panel-0 .group');
-    expect(groups).toHaveLength(2);
-    const separators = qa(menu, '#panel-0 nph-separator');
-    expect(separators).toHaveLength(1);
-    expect(separators[0]?.getAttribute('orientation')).toBe('vertical');
-    const [first, second] = groups.map((group) => group.getBoundingClientRect()) as [DOMRect, DOMRect];
-    const line = (separators[0] as HTMLElement).getBoundingClientRect();
-    expect(line.left).toBeGreaterThanOrEqual(first.right);
-    expect(line.right).toBeLessThanOrEqual(second.left);
-    expect(second.left - first.right).toBeCloseTo(2 * px('--nph-navigation-menu-group-gap') + line.width, 0);
-    const shell = panel(menu, 0).getBoundingClientRect();
-    const padding = px('--nph-navigation-menu-panel-padding');
-    const border = px('--nph-navigation-menu-panel-border-width');
-    expect(shell.width).toBeCloseTo(first.width + second.width + line.width + 2 * px('--nph-navigation-menu-group-gap') + 2 * padding + 2 * border, 0);
-    await page.viewport(414, 896);
+    try {
+      const menu = await mount();
+      await openByClick(menu, 0);
+      const links = qa(menu, '#panel-0 .link');
+      expect(links).toHaveLength(3);
+      for (const link of links) expect(link.getBoundingClientRect().width).toBeCloseTo(px('--nph-navigation-menu-panel-width'), 0);
+      const groups = qa(menu, '#panel-0 .group');
+      expect(groups).toHaveLength(2);
+      const separators = qa(menu, '#panel-0 nph-separator');
+      expect(separators).toHaveLength(1);
+      expect(separators[0]?.getAttribute('orientation')).toBe('vertical');
+      const [first, second] = groups.map((group) => group.getBoundingClientRect()) as [DOMRect, DOMRect];
+      const line = (separators[0] as HTMLElement).getBoundingClientRect();
+      expect(line.left).toBeGreaterThanOrEqual(first.right);
+      expect(line.right).toBeLessThanOrEqual(second.left);
+      expect(second.left - first.right).toBeCloseTo(2 * px('--nph-navigation-menu-group-gap') + line.width, 0);
+      const shell = panel(menu, 0).getBoundingClientRect();
+      const padding = px('--nph-navigation-menu-panel-padding');
+      const border = px('--nph-navigation-menu-panel-border-width');
+      expect(shell.width).toBeCloseTo(first.width + second.width + line.width + 2 * px('--nph-navigation-menu-group-gap') + 2 * padding + 2 * border, 0);
+    } finally {
+      await page.viewport(before.width, before.height);
+    }
   });
 
   it('in a window narrower than the panel, the groups shrink to fit it and keep to one row', async () => {
