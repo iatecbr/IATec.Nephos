@@ -24,7 +24,7 @@ import {
   NPH_POPOVER_SIZES,
   NphPopover,
 } from './nph-popover';
-import type { NphPopoverAlignment, NphPopoverCloseSource, NphPopoverSide, NphPopoverSize } from './nph-popover';
+import type { NphPopoverCloseSource, NphPopoverSize } from './nph-popover';
 import type { NphButton } from '../nph-button/nph-button';
 import '../nph-button/nph-button';
 import '../nph-field/nph-field';

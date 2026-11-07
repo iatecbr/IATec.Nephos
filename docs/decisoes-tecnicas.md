@@ -6246,6 +6246,16 @@ of its approval page. The property names, the way the trigger is bound, the clos
 leaves open, the focus rule, the placement and the arrow geometry are a technical proposal of this
 implementation.
 
+**Effects on other pieces.** The accepted tokens move three things the task asked to check, and none
+needed a new token. `nph-field` draws its error message in `status/error-text` instead of
+`status/error`: light is unchanged, dark goes from 3.37:1 to 4.69:1 over the popover, and its test and
+sheet read the new token. `nph-dialog` takes `space/inline-loose` at 12 with no code change: its tests
+read the token, so the footer actions are 12 apart. The indent of the group selection demo of
+`nph-checkbox` reads the same token and goes from 16 to 12: no test asserts the 16, and the indent is a
+demonstration frame that is not a precedent for component CSS, so it is accepted at 12 with no token of
+its own. `nph-label` keeps `status/error` on the required asterisk, as `design.md` says, and
+`nph-dropdown-menu` is not changed.
+
 **Out of scope.** A popover inside a dialog. A new variant of `nph-button`. A change of
 `nph-dropdown-menu`. A token. A constrained height or a scroll of the surface. Any color property.
 

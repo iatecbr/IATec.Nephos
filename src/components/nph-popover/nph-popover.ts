@@ -563,6 +563,8 @@ export class NphPopover extends LitElement {
     }
     if (!this.shown) {
       this.shown = true;
+      /* A flag left by a close that never reached the exit must not carry over to this opening. */
+      this.keepFocus = false;
       try {
         surface.showPopover();
       } catch {
