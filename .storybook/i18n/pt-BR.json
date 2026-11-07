@@ -358,7 +358,17 @@
     "components-nph-notification-validation--required-examples": "Exemplos obrigatórios",
     "components-nph-notification-validation--surfaces": "Superfícies",
     "components-nph-notification-validation--invalid-input": "Entrada inválida",
-    "components-nph-notification-validation--brands": "Marcas"
+    "components-nph-notification-validation--brands": "Marcas",
+    "components-nph-breadcrumb-docs": "Docs",
+    "components-nph-breadcrumb-docs--documentation": "Documentação",
+    "components-nph-breadcrumb-validation": "Validação",
+    "components-nph-breadcrumb-validation--levels": "Níveis",
+    "components-nph-breadcrumb-validation--collapsed": "Recolhida",
+    "components-nph-breadcrumb-validation--menu-width": "Largura do menu",
+    "components-nph-breadcrumb-validation--direction": "Direção",
+    "components-nph-breadcrumb-validation--loading": "Carregamento",
+    "components-nph-breadcrumb-validation--examples": "Exemplos",
+    "components-nph-breadcrumb-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7398,7 +7408,14 @@
       "components-nph-notification-validation--required-examples": "Os três exemplos obrigatórios, cada um no modo claro e escuro: um erro inline com ação numa área de formulário, um toast de sucesso para confirmar uma ação e um toast loading para uma tarefa em andamento.",
       "components-nph-notification-validation--surfaces": "A notificação sobre color/background e sobre color/popover, no modo claro e escuro: as superfícies próprias mantêm o contraste.",
       "components-nph-notification-validation--invalid-input": "Uma barra de tempo num toast com ação é bloqueada: nada é desenhado em nenhum dos modos, e o console mostra um erro em desenvolvimento.",
-      "components-nph-notification-validation--brands": "As sete marcas no claro e no escuro: o arco do toast loading e a ação secundária do neutral seguem a marca."
+      "components-nph-notification-validation--brands": "As sete marcas no claro e no escuro: o arco do toast loading e a ação secundária do neutral seguem a marca.",
+      "components-nph-breadcrumb-validation--levels": "A trilha de 2, 3 e 4 níveis, cada uma sem e com ícones: os links na cor suave, o chevron como separador entre os níveis, e a página atual por último, em texto, com o ícone sólido quando a trilha tem ícones.",
+      "components-nph-breadcrumb-validation--collapsed": "A trilha recolhida, sem e com ícones: o primeiro nível, o botão de reticências e os dois últimos níveis, com o menu dos níveis ocultos aberto, na ordem do caminho.",
+      "components-nph-breadcrumb-validation--menu-width": "A largura do menu dos níveis ocultos: ele abraça a opção mais larga entre um piso de 128 px e um teto de 280 px, e o texto que passa do teto é cortado com reticências.",
+      "components-nph-breadcrumb-validation--direction": "Escrita da direita para a esquerda: a trilha se lê a partir da direita e o chevron do separador espelha.",
+      "components-nph-breadcrumb-validation--loading": "A peça não tem estado de carregamento: enquanto a página carrega, uma linha de nph-skeleton toma o lugar da trilha.",
+      "components-nph-breadcrumb-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: dois níveis só com texto, quatro níveis com ícones e uma trilha longa recolhida com o menu aberto.",
+      "components-nph-breadcrumb-validation--brands": "As sete marcas nos modos claro e escuro: a borda de foco e o halo do link e do botão de reticências seguem a marca do quadro."
     }
   },
   "multiComboboxDocs": {
@@ -10561,5 +10578,229 @@
         "description": "Mantenha esta página aberta enquanto as alterações são salvas."
       }
     }
+  },
+  "breadcrumbValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "navLabel": "Trilha de navegação",
+    "ellipsisLabel": "Mostrar níveis ocultos",
+    "home": "Home",
+    "projects": "Projetos",
+    "nephos": "Nephos",
+    "designSystem": "Design system",
+    "navigation": "Navegação",
+    "breadcrumb": "Trilha de navegação",
+    "menuFloor": [
+      "Docs"
+    ],
+    "menuHug": [
+      "Relatórios e gráficos",
+      "Notas de versão"
+    ],
+    "menuCeiling": [
+      "Um rótulo de nível tão longo que passa bem do teto do menu dos níveis ocultos",
+      "Curto"
+    ]
+  },
+  "breadcrumbDocs": {
+    "summary": "A trilha que mostra o caminho até a página atual e leva de volta a cada nível acima dela.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-breadcrumb, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P109. O arquivo DS-IA-NEPHOS 5.0 do Figma é a fonte visual. Nenhuma regra nasce aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Numa página que fica dentro de uma hierarquia, quando a pessoa precisa subir um nível.",
+      "Escolha a trilha pelo caminho real da página: 2, 3 ou 4 níveis desenhados, ou collapsed quando o caminho não cabe na largura.",
+      "collapsed numa tela estreita: a trilha fica numa linha só, com o primeiro nível e os dois últimos à vista.",
+      "Ícones quando a trilha precisar deles, em todos os níveis; sem ícones, em nenhum.",
+      "No topo do conteúdo da página, acima do título."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Como menu de navegação do produto: a trilha mostra onde a página está, não para onde a pessoa pode ir; use o menu de navegação.",
+      "Como abas que trocam o conteúdo de uma página: use abas.",
+      "Como botão voltar: a trilha leva aos níveis do caminho e não mostra o histórico de páginas visitadas.",
+      "Para um caminho de um nível só: a trilha tem, no mínimo, o primeiro nível e a página atual.",
+      "Como estado de carregamento: enquanto a página carrega, uma linha de nph-skeleton toma o lugar da trilha."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "levels",
+        "O caminho, do primeiro nível até a página atual, como uma lista de { label, href, icon }. Só propriedade: definida pelo JavaScript. Todo nível acima da página atual tem href; o último é a página atual e não tem."
+      ],
+      [
+        "collapsed",
+        "O valor recolhido da propriedade de níveis do Figma. Desligada, a trilha desenha todos os níveis, 2, 3 ou 4. Ligada, desenha o primeiro nível, o botão de reticências e os dois últimos níveis, e exige 4 níveis ou mais. Refletida no atributo."
+      ],
+      [
+        "label",
+        "O nome acessível do marco de navegação. Já localizado."
+      ],
+      [
+        "ellipsis-label",
+        "O nome acessível do botão de reticências, como \"Mostrar níveis ocultos\". Obrigatório quando recolhida. Já localizado."
+      ],
+      [
+        "aria-label",
+        "O nome acessível do marco quando não há label."
+      ],
+      [
+        "icon",
+        "Um campo de cada nível, não uma propriedade da trilha: um nome do núcleo do nph-icon. Todos os níveis têm um ou nenhum tem."
+      ],
+      [
+        "largura, cor e tamanho",
+        "Não são propriedades: a trilha ocupa a largura do seu conteúdo, nunca quebra de linha e tem um único tamanho. A cor vem dos tokens."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-breadcrumb id=\"trail\" label=\"Trilha de navegação\"></nph-breadcrumb>\n<script>\n  trail.levels = [\n    { label: 'Home', href: '/' },\n    { label: 'Projetos', href: '/projetos' },\n    { label: 'Trilha de navegação' },\n  ];\n</script>",
+    "usageTag": "A tag da peça. O caminho chega como dado na propriedade levels, definida pelo JavaScript; o último nível é a página atual e não tem href.",
+    "usageImport": "Registra o componente com os seus estilos. O CSS dos tokens gerado é importado à parte.",
+    "sourceUsage": "Figma, frame nph-breadcrumb (4512:4741); docs/decisoes-tecnicas.md › P109",
+    "levelsTitle": "Níveis",
+    "levelsCaption": "A trilha de 2, 3 e 4 níveis, e a trilha recolhida.",
+    "levelsUseHeader": [
+      "Níveis",
+      "Quando usar"
+    ],
+    "levelsUse": [
+      {
+        "value": "2",
+        "label": "Uma página um nível abaixo do primeiro: Home e a página atual."
+      },
+      {
+        "value": "3",
+        "label": "Uma página dois níveis abaixo do primeiro."
+      },
+      {
+        "value": "4",
+        "label": "A trilha mais longa desenhada por inteiro. Além disso, use collapsed."
+      },
+      {
+        "value": "collapsed",
+        "label": "Quando o caminho não cabe na largura, como numa tela estreita: o primeiro nível, as reticências e os dois últimos ficam à vista, e os níveis do meio ficam num menu. Exige 4 níveis ou mais."
+      }
+    ],
+    "iconsTitle": "Ícones",
+    "iconsCaption": "Os mesmos quatro níveis sem e com ícones.",
+    "iconsUseHeader": [
+      "Ícones",
+      "Quando usar"
+    ],
+    "iconsUse": [
+      {
+        "value": "without",
+        "label": "O padrão. O texto de cada nível basta."
+      },
+      {
+        "value": "with",
+        "label": "Quando a trilha precisa deles: todo nível tem o seu, no estilo leve no link e no estilo sólido na página atual. O primeiro nível mantém o texto: a casa nunca fica sozinha."
+      }
+    ],
+    "hiddenLevelsTitle": "Níveis ocultos",
+    "hiddenLevelsCaption": "A trilha recolhida com o menu dos níveis ocultos aberto.",
+    "hiddenLevels": [
+      "O botão de reticências abre um nph-dropdown-menu com os níveis ocultos, na ordem do caminho, sem cabeçalho e sem rótulo de grupo.",
+      "O menu abraça a opção mais larga, entre 128 e 280 px, e corta com reticências um texto maior. Isso vale só no breadcrumb.",
+      "Escolher um nível leva à sua página, do mesmo jeito que um link visível, e devolve o foco ao botão de reticências.",
+      "A peça não tem estado de carregamento: enquanto a página carrega, uma linha de nph-skeleton toma o lugar da trilha."
+    ],
+    "loadingCaption": "Enquanto a página carrega, uma linha de nph-skeleton toma o lugar da trilha, e depois a trilha volta.",
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Fica acima do título da página, no topo do conteúdo. Não substitui o menu de navegação, as abas nem o botão voltar, e não mostra o histórico de páginas visitadas.",
+      "Trabalha com o nph-icon, que desenha o separador, as reticências e os ícones dos níveis, e com o nph-dropdown-menu, que guarda os níveis ocultos.",
+      "O link continua sendo uma peça interna da trilha até existir um nph-link.",
+      "Numa tela estreita use a trilha recolhida: ela fica numa linha só. Na escrita da direita para a esquerda o separador espelha."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Ícone do nível",
+        "Opcional. Um nph-icon em breadcrumb/item-icon-size antes do rótulo, na cor dele: leve no link, sólido na página atual. É decorativo."
+      ],
+      [
+        "Link",
+        "Um nível acima da página atual. Texto em breadcrumb/font-size, regular, em breadcrumb/link-foreground; no hover, breadcrumb/link-foreground-hover com sublinhado; no foco, a borda de foco e o halo."
+      ],
+      [
+        "Separador",
+        "O nph-icon chevron-right em breadcrumb/icon-size, em breadcrumb/separator-foreground, entre os níveis. É decorativo e espelha na escrita da direita para a esquerda."
+      ],
+      [
+        "Reticências",
+        "Um botão de breadcrumb/ellipsis-target-size com o nph-icon ellipsis, no lugar dos níveis do meio, só na trilha recolhida. Abre o menu dos níveis ocultos."
+      ],
+      [
+        "Página atual",
+        "O último nível, em texto, com peso médio e breadcrumb/current-foreground, com o ícone sólido quando a trilha tem ícones. Não tem ação."
+      ],
+      [
+        "Espaço",
+        "breadcrumb/gap entre as partes da trilha; breadcrumb/item-icon-gap entre o ícone de um nível e o rótulo dele."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "Os links, o separador, os ícones dos links e as reticências em repouso passam o nível exigido sobre o fundo nos dois temas. A página atual tem o maior contraste da trilha, nunca menor que o dos links."
+      ],
+      [
+        "Foco visível",
+        "O link e as reticências mostram a borda de foco e o halo por fora. A borda é o sinal que cumpre 3:1 nos dois temas. A página atual não recebe foco."
+      ],
+      [
+        "A cor não é o único sinal",
+        "A página atual se destaca sem depender da cor: não é link, tem peso médio e, com ícones, o ícone sólido. O hover do link soma o sublinhado à mudança de cor."
+      ],
+      [
+        "Área de toque",
+        "As reticências medem 24 por 24. Os links têm 20 px de altura e ficam a 32 px um do outro, com o separador no meio."
+      ],
+      [
+        "Nome acessível",
+        "Um marco de navegação nomeado por label ou aria-label, com uma lista ordenada. A página atual leva aria-current=\"page\". O separador e os ícones dos níveis são decorativos. As reticências têm nome próprio, e o menu informa que está expandido."
+      ],
+      [
+        "Teclado",
+        "Tab percorre os links e as reticências. Nas reticências, Enter, Espaço e a seta para baixo abrem o menu; as setas movem dentro dele; Esc fecha e devolve o foco."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "examplesCaption": "Os três exemplos obrigatórios: dois níveis só com texto, quatro níveis com ícones e uma trilha longa recolhida com o menu aberto.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-breadcrumb — propósito, níveis, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P109 (API e semântica), P01, P02 e P03.",
+      "design.md — os tokens breadcrumb/* e os tokens de foco.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Breadcrumb, frame de documentação nph-breadcrumb (4512:4741), conjuntos 4490:2886, 4490:2678 e 4490:2697, e o separador 1635:16.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "Ficha do nph-breadcrumb; Figma, frame nph-breadcrumb (4512:4741)",
+    "sourceApi": "Ficha do nph-breadcrumb; docs/decisoes-tecnicas.md › P109",
+    "sourceAnatomy": "Figma, conjuntos 4490:2886, 4490:2678 e 4490:2697; design.md",
+    "matrixLabel": "Matriz do componente"
   }
 }

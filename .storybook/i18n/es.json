@@ -358,7 +358,17 @@
     "components-nph-notification-validation--required-examples": "Ejemplos obligatorios",
     "components-nph-notification-validation--surfaces": "Superficies",
     "components-nph-notification-validation--invalid-input": "Entrada no válida",
-    "components-nph-notification-validation--brands": "Marcas"
+    "components-nph-notification-validation--brands": "Marcas",
+    "components-nph-breadcrumb-docs": "Docs",
+    "components-nph-breadcrumb-docs--documentation": "Documentación",
+    "components-nph-breadcrumb-validation": "Validación",
+    "components-nph-breadcrumb-validation--levels": "Niveles",
+    "components-nph-breadcrumb-validation--collapsed": "Recogida",
+    "components-nph-breadcrumb-validation--menu-width": "Ancho del menú",
+    "components-nph-breadcrumb-validation--direction": "Dirección",
+    "components-nph-breadcrumb-validation--loading": "Carga",
+    "components-nph-breadcrumb-validation--examples": "Ejemplos",
+    "components-nph-breadcrumb-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7398,7 +7408,14 @@
       "components-nph-notification-validation--required-examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: un error inline con acción en un área de formulario, un toast de éxito para confirmar una acción y un toast loading para una tarea en curso.",
       "components-nph-notification-validation--surfaces": "La notificación sobre color/background y sobre color/popover, en modo claro y oscuro: las superficies propias mantienen el contraste.",
       "components-nph-notification-validation--invalid-input": "Una barra de tiempo en un toast con acción queda bloqueada: no se dibuja nada en ningún modo, y la consola muestra un error en desarrollo.",
-      "components-nph-notification-validation--brands": "Las siete marcas en claro y oscuro: el arco del toast loading y la acción secundaria del neutral siguen la marca."
+      "components-nph-notification-validation--brands": "Las siete marcas en claro y oscuro: el arco del toast loading y la acción secundaria del neutral siguen la marca.",
+      "components-nph-breadcrumb-validation--levels": "La ruta de 2, 3 y 4 niveles, cada una sin y con iconos: los enlaces en el color suave, el chevron como separador entre los niveles, y la página actual al final, en texto, con el icono sólido cuando la ruta tiene iconos.",
+      "components-nph-breadcrumb-validation--collapsed": "La ruta recogida, sin y con iconos: el primer nivel, el botón de puntos suspensivos y los dos últimos niveles, con el menú de los niveles ocultos abierto, en el orden del camino.",
+      "components-nph-breadcrumb-validation--menu-width": "El ancho del menú de los niveles ocultos: abraza la opción más ancha entre un piso de 128 px y un techo de 280 px, y el texto que pasa del techo se corta con puntos suspensivos.",
+      "components-nph-breadcrumb-validation--direction": "Escritura de derecha a izquierda: la ruta se lee desde la derecha y el chevron del separador se refleja.",
+      "components-nph-breadcrumb-validation--loading": "La pieza no tiene estado de carga: mientras la página carga, una línea de nph-skeleton ocupa el lugar de la ruta.",
+      "components-nph-breadcrumb-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: dos niveles solo con texto, cuatro niveles con iconos y una ruta larga recogida con el menú abierto.",
+      "components-nph-breadcrumb-validation--brands": "Las siete marcas en modo claro y oscuro: el borde de foco y el halo del enlace y del botón de puntos suspensivos siguen la marca del marco."
     }
   },
   "multiComboboxDocs": {
@@ -10561,5 +10578,229 @@
         "description": "Mantén esta página abierta mientras se guardan los cambios."
       }
     }
+  },
+  "breadcrumbValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "navLabel": "Ruta de navegación",
+    "ellipsisLabel": "Mostrar niveles ocultos",
+    "home": "Inicio",
+    "projects": "Proyectos",
+    "nephos": "Nephos",
+    "designSystem": "Design system",
+    "navigation": "Navegación",
+    "breadcrumb": "Ruta de navegación",
+    "menuFloor": [
+      "Docs"
+    ],
+    "menuHug": [
+      "Informes y gráficos",
+      "Notas de versión"
+    ],
+    "menuCeiling": [
+      "Una etiqueta de nivel tan larga que pasa con creces el techo del menú de los niveles ocultos",
+      "Corto"
+    ]
+  },
+  "breadcrumbDocs": {
+    "summary": "La ruta que muestra el camino hasta la página actual y lleva de vuelta a cada nivel por encima de ella.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-breadcrumb, design.md para los tokens y docs/decisoes-tecnicas.md para la P109. El archivo DS-IA-NEPHOS 5.0 de Figma es la fuente visual. Ninguna regla nace aquí.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "En una página que está dentro de una jerarquía, cuando la persona necesita subir un nivel.",
+      "Elija la ruta por el camino real de la página: 2, 3 o 4 niveles dibujados, o collapsed cuando el camino no cabe en el ancho.",
+      "collapsed en una pantalla estrecha: la ruta queda en una sola línea, con el primer nivel y los dos últimos a la vista.",
+      "Iconos cuando la ruta los necesita, en todos los niveles; sin iconos, en ninguno.",
+      "En la parte superior del contenido de la página, encima del título."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Como menú de navegación del producto: la ruta muestra dónde está la página, no a dónde puede ir la persona; use el menú de navegación.",
+      "Como pestañas que cambian el contenido de una página: use pestañas.",
+      "Como botón volver: la ruta lleva a los niveles del camino y no muestra el historial de páginas visitadas.",
+      "Para un camino de un solo nivel: la ruta tiene, como mínimo, el primer nivel y la página actual.",
+      "Como estado de carga: mientras la página carga, una línea de nph-skeleton ocupa el lugar de la ruta."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "levels",
+        "El camino, del primer nivel a la página actual, como una lista de { label, href, icon }. Solo propiedad: se define desde JavaScript. Todo nivel por encima de la página actual tiene href; el último es la página actual y no lo tiene."
+      ],
+      [
+        "collapsed",
+        "El valor recogido de la propiedad de niveles de Figma. Apagada, la ruta dibuja todos sus niveles, 2, 3 o 4. Encendida, dibuja el primer nivel, el botón de puntos suspensivos y los dos últimos niveles, y exige 4 niveles o más. Reflejada en el atributo."
+      ],
+      [
+        "label",
+        "El nombre accesible del punto de referencia de navegación. Ya localizado."
+      ],
+      [
+        "ellipsis-label",
+        "El nombre accesible del botón de puntos suspensivos, como \"Mostrar niveles ocultos\". Obligatorio cuando está recogida. Ya localizado."
+      ],
+      [
+        "aria-label",
+        "El nombre accesible del punto de referencia cuando no hay label."
+      ],
+      [
+        "icon",
+        "Un campo de cada nivel, no una propiedad de la ruta: un nombre del núcleo de nph-icon. Todos los niveles tienen uno o ninguno lo tiene."
+      ],
+      [
+        "ancho, color y tamaño",
+        "No son propiedades: la ruta ocupa el ancho de su contenido, nunca salta de línea y tiene un único tamaño. El color viene de los tokens."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-breadcrumb id=\"trail\" label=\"Ruta de navegación\"></nph-breadcrumb>\n<script>\n  trail.levels = [\n    { label: 'Inicio', href: '/' },\n    { label: 'Proyectos', href: '/proyectos' },\n    { label: 'Ruta de navegación' },\n  ];\n</script>",
+    "usageTag": "La etiqueta de la pieza. El camino llega como dato en la propiedad levels, definida desde JavaScript; el último nivel es la página actual y no tiene href.",
+    "usageImport": "Registra el componente con sus estilos. El CSS de los tokens generado se importa aparte.",
+    "sourceUsage": "Figma, frame nph-breadcrumb (4512:4741); docs/decisoes-tecnicas.md › P109",
+    "levelsTitle": "Niveles",
+    "levelsCaption": "La ruta de 2, 3 y 4 niveles, y la ruta recogida.",
+    "levelsUseHeader": [
+      "Niveles",
+      "Cuándo usar"
+    ],
+    "levelsUse": [
+      {
+        "value": "2",
+        "label": "Una página un nivel por debajo del primero: Inicio y la página actual."
+      },
+      {
+        "value": "3",
+        "label": "Una página dos niveles por debajo del primero."
+      },
+      {
+        "value": "4",
+        "label": "La ruta más larga dibujada completa. Más allá, use collapsed."
+      },
+      {
+        "value": "collapsed",
+        "label": "Cuando el camino no cabe en el ancho, como en una pantalla estrecha: el primer nivel, los puntos suspensivos y los dos últimos quedan a la vista, y los niveles del medio van en un menú. Exige 4 niveles o más."
+      }
+    ],
+    "iconsTitle": "Iconos",
+    "iconsCaption": "Los mismos cuatro niveles sin y con iconos.",
+    "iconsUseHeader": [
+      "Iconos",
+      "Cuándo usar"
+    ],
+    "iconsUse": [
+      {
+        "value": "without",
+        "label": "El valor por defecto. El texto de cada nivel basta."
+      },
+      {
+        "value": "with",
+        "label": "Cuando la ruta los necesita: todo nivel tiene el suyo, en el estilo ligero en el enlace y en el estilo sólido en la página actual. El primer nivel mantiene el texto: la casa nunca queda sola."
+      }
+    ],
+    "hiddenLevelsTitle": "Niveles ocultos",
+    "hiddenLevelsCaption": "La ruta recogida con el menú de los niveles ocultos abierto.",
+    "hiddenLevels": [
+      "El botón de puntos suspensivos abre un nph-dropdown-menu con los niveles ocultos, en el orden del camino, sin encabezado y sin etiqueta de grupo.",
+      "El menú abraza la opción más ancha, entre 128 y 280 px, y corta con puntos suspensivos un texto mayor. Esto vale solo en el breadcrumb.",
+      "Elegir un nivel lleva a su página, igual que un enlace visible, y devuelve el foco al botón de puntos suspensivos.",
+      "La pieza no tiene estado de carga: mientras la página carga, una línea de nph-skeleton ocupa el lugar de la ruta."
+    ],
+    "loadingCaption": "Mientras la página carga, una línea de nph-skeleton ocupa el lugar de la ruta, y después la ruta vuelve.",
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "Va encima del título de la página, en la parte superior del contenido. No sustituye el menú de navegación, las pestañas ni el botón volver, y no muestra el historial de páginas visitadas.",
+      "Trabaja con nph-icon, que dibuja el separador, los puntos suspensivos y los iconos de los niveles, y con nph-dropdown-menu, que guarda los niveles ocultos.",
+      "El enlace sigue siendo una pieza interna de la ruta hasta que exista un nph-link.",
+      "En una pantalla estrecha use la ruta recogida: queda en una sola línea. En la escritura de derecha a izquierda el separador se refleja."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Icono del nivel",
+        "Opcional. Un nph-icon en breadcrumb/item-icon-size antes de la etiqueta, en su color: ligero en el enlace, sólido en la página actual. Es decorativo."
+      ],
+      [
+        "Enlace",
+        "Un nivel por encima de la página actual. Texto en breadcrumb/font-size, regular, en breadcrumb/link-foreground; en hover, breadcrumb/link-foreground-hover con subrayado; en foco, el borde de foco y el halo."
+      ],
+      [
+        "Separador",
+        "El nph-icon chevron-right en breadcrumb/icon-size, en breadcrumb/separator-foreground, entre los niveles. Es decorativo y se refleja en la escritura de derecha a izquierda."
+      ],
+      [
+        "Puntos suspensivos",
+        "Un botón de breadcrumb/ellipsis-target-size con el nph-icon ellipsis, en lugar de los niveles del medio, solo en la ruta recogida. Abre el menú de los niveles ocultos."
+      ],
+      [
+        "Página actual",
+        "El último nivel, en texto, con peso medio y breadcrumb/current-foreground, con el icono sólido cuando la ruta tiene iconos. No tiene acción."
+      ],
+      [
+        "Espacio",
+        "breadcrumb/gap entre las partes de la ruta; breadcrumb/item-icon-gap entre el icono de un nivel y su etiqueta."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "Los enlaces, el separador, los iconos de los enlaces y los puntos suspensivos en reposo pasan el nivel exigido sobre el fondo en los dos temas. La página actual tiene el mayor contraste de la ruta, nunca menor que el de los enlaces."
+      ],
+      [
+        "Foco visible",
+        "El enlace y los puntos suspensivos muestran el borde de foco y el halo por fuera. El borde es la señal que cumple 3:1 en los dos temas. La página actual no recibe foco."
+      ],
+      [
+        "El color no es la única señal",
+        "La página actual se distingue sin depender del color: no es un enlace, tiene peso medio y, con iconos, el icono sólido. El hover del enlace suma el subrayado al cambio de color."
+      ],
+      [
+        "Área táctil",
+        "Los puntos suspensivos miden 24 por 24. Los enlaces tienen 20 px de alto y quedan a 32 px uno del otro, con el separador en medio."
+      ],
+      [
+        "Nombre accesible",
+        "Un punto de referencia de navegación nombrado por label o aria-label, con una lista ordenada. La página actual lleva aria-current=\"page\". El separador y los iconos de los niveles son decorativos. Los puntos suspensivos tienen nombre propio, y el menú informa que está expandido."
+      ],
+      [
+        "Teclado",
+        "Tab recorre los enlaces y los puntos suspensivos. En los puntos suspensivos, Enter, Espacio y la flecha abajo abren el menú; las flechas se mueven dentro; Esc lo cierra y devuelve el foco."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "examplesCaption": "Los tres ejemplos obligatorios: dos niveles solo con texto, cuatro niveles con iconos y una ruta larga recogida con el menú abierto.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha de nph-breadcrumb — propósito, niveles, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P109 (API y semántica), P01, P02 y P03.",
+      "design.md — los tokens breadcrumb/* y los tokens de foco.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Breadcrumb, frame de documentación nph-breadcrumb (4512:4741), conjuntos 4490:2886, 4490:2678 y 4490:2697, y el separador 1635:16.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha de nph-breadcrumb; Figma, frame nph-breadcrumb (4512:4741)",
+    "sourceApi": "Ficha de nph-breadcrumb; docs/decisoes-tecnicas.md › P109",
+    "sourceAnatomy": "Figma, conjuntos 4490:2886, 4490:2678 y 4490:2697; design.md",
+    "matrixLabel": "Matriz del componente"
   }
 }
