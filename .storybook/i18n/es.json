@@ -369,6 +369,17 @@
     "components-nph-breadcrumb-validation--loading": "Carga",
     "components-nph-breadcrumb-validation--examples": "Ejemplos",
     "components-nph-breadcrumb-validation--brands": "Marcas",
+    "components-nph-navigation-menu-docs": "Docs",
+    "components-nph-navigation-menu-docs--documentation": "Documentación",
+    "components-nph-navigation-menu-validation": "Validación",
+    "components-nph-navigation-menu-validation--bar": "Barra",
+    "components-nph-navigation-menu-validation--panel": "Panel",
+    "components-nph-navigation-menu-validation--current": "Actual",
+    "components-nph-navigation-menu-validation--narrow": "Estrecha",
+    "components-nph-navigation-menu-validation--long-text": "Texto largo",
+    "components-nph-navigation-menu-validation--direction": "Dirección",
+    "components-nph-navigation-menu-validation--examples": "Ejemplos",
+    "components-nph-navigation-menu-validation--brands": "Marcas",
     "components-nph-popover-docs": "Docs",
     "components-nph-popover-docs--documentation": "Documentación",
     "components-nph-popover-validation": "Validación",
@@ -7425,6 +7436,14 @@
       "components-nph-breadcrumb-validation--loading": "La pieza no tiene estado de carga: mientras la página carga, una línea de nph-skeleton ocupa el lugar de la ruta.",
       "components-nph-breadcrumb-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: dos niveles solo con texto, cuatro niveles con iconos y una ruta larga recogida con el menú abierto.",
       "components-nph-breadcrumb-validation--brands": "Las siete marcas en modo claro y oscuro: el borde de foco y el halo del enlace y del botón de puntos suspensivos siguen la marca del marco.",
+      "components-nph-navigation-menu-validation--bar": "La barra cerrada: un enlace superior, un disparador con su flecha y un elemento deshabilitado, con el texto en el color de primer plano y sin fondo en reposo.",
+      "components-nph-navigation-menu-validation--panel": "El panel de un disparador abierto: un grupo de enlaces, y dos grupos con etiqueta lado a lado con el separador vertical entre ellos. El panel se ajusta al contenido y cada enlace mide 280 px de ancho.",
+      "components-nph-navigation-menu-validation--current": "La página actual marcada por algo más que el color: la barra bajo el elemento superior y la barra al inicio del enlace del panel, con el color de texto del actual. Un disparador que contiene el enlace actual también se muestra como actual.",
+      "components-nph-navigation-menu-validation--narrow": "El ancho estrecho: la barra se convierte en el botón Menú, cerrado y abierto, con los mismos elementos en una lista vertical, donde cada disparador se muestra como un grupo y el enlace actual queda marcado.",
+      "components-nph-navigation-menu-validation--long-text": "Un título y una descripción largos en un enlace del panel: cada uno se corta con puntos suspensivos en una línea y el enlace mantiene su ancho.",
+      "components-nph-navigation-menu-validation--direction": "Escritura de derecha a izquierda: la barra se lee desde la derecha, el panel se abre desde el borde inicial de su disparador y el indicador del enlace del panel queda al inicio.",
+      "components-nph-navigation-menu-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: la barra cerrada con dos disparadores y el enlace de la página actual, un disparador abierto con un panel de dos grupos, y el ancho estrecho con el botón Menú abierto.",
+      "components-nph-navigation-menu-validation--brands": "Las siete marcas en modo claro y oscuro: el borde y el halo de foco de los elementos siguen la marca del marco.",
       "components-nph-popover-validation--placement": "Los cuatro lados y las tres alineaciones, con la flecha: la superficie se abre a 4 px de la punta de la flecha, alineada con el disparador, y la flecha apunta hacia él.",
       "components-nph-popover-validation--sizes": "Los tres anchos, 240, 320 y 400 px, sin la flecha: solo cambia el ancho; márgenes, espacios y botones del pie quedan iguales.",
       "components-nph-popover-validation--parts": "El título siempre aparece; la descripción, el cuerpo, el botón de cerrar y el pie se activan y desactivan, y el divisor viene con el pie.",
@@ -10816,6 +10835,247 @@
     "sourceSpec": "Ficha de nph-breadcrumb; Figma, frame nph-breadcrumb (4512:4741)",
     "sourceApi": "Ficha de nph-breadcrumb; docs/decisoes-tecnicas.md › P109",
     "sourceAnatomy": "Figma, conjuntos 4490:2886, 4490:2678 y 4490:2697; design.md",
+    "matrixLabel": "Matriz del componente"
+  },
+  "navigationMenuValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "navLabel": "Navegación principal",
+    "menuLabel": "Menú",
+    "products": "Productos",
+    "resources": "Recursos",
+    "pricing": "Precios",
+    "groupBuild": "Construir",
+    "groupManage": "Gestionar",
+    "components": "Componentes",
+    "componentsDescription": "Bloques reutilizables.",
+    "tokens": "Tokens",
+    "tokensDescription": "Decisiones de diseño en valores.",
+    "icons": "Íconos",
+    "iconsDescription": "El conjunto de íconos del núcleo.",
+    "guides": "Guías",
+    "guidesDescription": "De la configuración a la publicación.",
+    "changelog": "Historial de versiones",
+    "changelogDescription": "Qué cambió, por versión.",
+    "status": "Estado",
+    "statusDescription": "Estado actual de los servicios.",
+    "docs": "Documentación",
+    "blog": "Blog",
+    "support": "Soporte",
+    "supportDescription": "Habla con el equipo.",
+    "longTitle": "Un título de enlace del panel tan largo que pasa bien del ancho del enlace y debe cortarse",
+    "longDescription": "Una descripción igual de larga, que también pasa del ancho del enlace en una sola línea y se corta con puntos suspensivos"
+  },
+  "navigationMenuDocs": {
+    "summary": "La barra de navegación principal: elementos superiores que son enlaces o disparadores, y un panel de enlaces agrupados bajo cada disparador.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-navigation-menu, design.md para los tokens y docs/decisoes-tecnicas.md para la P110. El archivo DS-IA-NEPHOS 5.0 de Figma es la fuente visual. Aquí no se crea ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Para las secciones principales y estables de un producto o sitio, siempre visibles en la parte superior.",
+      "Un disparador cuando la sección tiene páginas internas; un enlace superior cuando va directo a una página.",
+      "Dos grupos con etiqueta en un panel cuando reúne enlaces de tipos distintos.",
+      "narrow cuando los elementos no caben en una línea: la barra se convierte en el botón Menú, que abre los mismos elementos en una lista vertical."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para acciones sobre un objeto, como eliminar: la navegación va a páginas y no cambia datos; usa nph-dropdown-menu.",
+      "Como barra de comandos de aplicación (menubar): la pieza es navegación por divulgación, sin el patrón de flechas de la barra de menús.",
+      "Para cambiar el contenido de la misma página: usa pestañas.",
+      "Como navegación lateral con varios niveles: usa la barra lateral.",
+      "Para esconder la barra detrás del botón Menú cuando los elementos caben: los menús escondidos reducen el descubrimiento de las secciones."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "items",
+        "Los elementos superiores de la barra, en orden. Solo propiedad: se define desde JavaScript. Un elemento enlace es { label, href }; un elemento disparador es { type: 'trigger', label, groups } con un value opcional; un grupo es { label, links }; un enlace es { title, href, description, icon, current, disabled }."
+      ],
+      [
+        "narrow",
+        "El valor estrecha de la propiedad de ancho de Figma. La barra se convierte en el botón Menú, que abre los mismos elementos en una lista vertical. Exige menu-label. Se refleja en el atributo."
+      ],
+      [
+        "open",
+        "El valor sí de la propiedad abierto de Figma. En la barra ancha muestra el panel del disparador activo; en la estrecha muestra la lista. La pieza lo enciende y apaga; el consumidor puede definirlo. Se refleja en el atributo."
+      ],
+      [
+        "active",
+        "El value del disparador cuyo panel muestra open. Sin value, el disparador tiene su índice como texto. Vacío: el primer disparador que no está deshabilitado."
+      ],
+      [
+        "label",
+        "El nombre accesible del marco de navegación. Ya traducido."
+      ],
+      [
+        "menu-label",
+        "El nombre accesible del botón Menú, como \"Menú\". Obligatorio cuando narrow. Ya traducido."
+      ],
+      [
+        "aria-label",
+        "El nombre accesible del marco cuando no hay label."
+      ],
+      [
+        "current",
+        "Un campo del enlace, no una propiedad de la barra: la página en la que está la persona. Uno por menú. El disparador se muestra como actual cuando su panel contiene el enlace actual."
+      ],
+      [
+        "ancho, color y tamaño",
+        "No son propiedades: el panel ancho se ajusta al contenido, el panel estrecho y el enlace del panel miden 280 px de ancho, y el color viene de los tokens."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-navigation-menu id=\"menu\" label=\"Navegación principal\"></nph-navigation-menu>\n<script>\n  menu.items = [\n    {\n      type: 'trigger',\n      label: 'Productos',\n      groups: [{ label: 'Construir', links: [{ title: 'Componentes', href: '/componentes' }] }],\n    },\n    { label: 'Precios', href: '/precios', current: true },\n  ];\n</script>",
+    "usageTag": "La etiqueta de la pieza. Los elementos llegan como datos en la propiedad items, definida desde JavaScript; el disparador lleva sus grupos de enlaces y el enlace lleva su href.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "sourceUsage": "Figma, marco nph-navigation-menu (3977:7913); docs/decisoes-tecnicas.md › P110",
+    "barTitle": "La barra",
+    "barCaption": "La barra cerrada con un disparador, un enlace y un elemento deshabilitado.",
+    "barUseHeader": [
+      "Elemento superior",
+      "Cuándo usar"
+    ],
+    "barUse": [
+      {
+        "value": "trigger",
+        "label": "Cuando la sección tiene páginas internas. Lleva una flecha y abre un panel de enlaces agrupados."
+      },
+      {
+        "value": "link",
+        "label": "Cuando la sección va directo a una página. No tiene flecha."
+      },
+      {
+        "value": "disabled",
+        "label": "Un elemento que no está disponible ahora. Pierde opacidad, no tiene hover ni foco."
+      }
+    ],
+    "panelTitle": "El panel",
+    "panelCaption": "Un disparador abierto, con dos grupos de enlaces con etiqueta.",
+    "panel": [
+      "El panel se abre debajo del disparador, alineado a su borde inicial, en la capa superior, y nunca sale de la ventana por los lados.",
+      "Un enlace del panel tiene título, descripción opcional e ícono opcional. Dos grupos quedan lado a lado, con un separador vertical entre ellos.",
+      "Un disparador se abre con clic, Enter o Espacio. Con el mouse, se abre tras una espera corta y se cierra el mismo tiempo después de que el puntero sale del disparador y del panel. Esc lo cierra y devuelve el foco al disparador.",
+      "El panel ancho se ajusta al contenido. Todo enlace del panel mide 280 px de ancho."
+    ],
+    "currentTitle": "Página actual",
+    "currentCaption": "El enlace actual del panel marcado, y su disparador también como actual.",
+    "current": [
+      "La página actual se marca con algo más que el color: una barra bajo el elemento superior, o al inicio del enlace del panel, junto con el color de texto del actual.",
+      "Un menú tiene una página actual. El disparador se muestra como actual cuando su panel contiene el enlace actual.",
+      "Un enlace superior marcado como actual lleva aria-current=\"page\"; el enlace actual del panel también, y su ícono es sólido."
+    ],
+    "narrowTitle": "Ancho estrecho",
+    "narrowCaption": "El botón Menú abierto, con los mismos elementos en una lista vertical.",
+    "narrow": [
+      "Cuando los elementos no caben en una línea, la barra se convierte en el botón Menú. El consumidor elige narrow; la pieza no se mide sola.",
+      "El botón Menú abre los mismos elementos en una lista vertical, en un panel de 280 px. Cada disparador se muestra como un grupo, con su etiqueta como etiqueta del grupo.",
+      "No escondas la barra detrás del botón Menú cuando los elementos caben."
+    ],
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "Va en la parte superior de la página, en el encabezado de un producto o sitio. No reemplaza una barra de comandos de aplicación, pestañas ni la barra lateral.",
+      "Funciona con nph-icon, que dibuja la flecha, los íconos de los enlaces y el ícono del botón Menú, con nph-separator, que divide los grupos, y con nph-tooltip, que da el nombre al botón Menú.",
+      "Para acciones sobre un objeto, como eliminar, usa nph-dropdown-menu: la navegación va a páginas y no cambia datos."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Barra",
+        "La fila de elementos superiores, separados por navigation-menu/bar-gap."
+      ],
+      [
+        "Disparador",
+        "Un elemento superior con la flecha chevron-down, en navigation-menu/trigger-icon-size, que abre el panel."
+      ],
+      [
+        "Enlace superior",
+        "Un elemento superior sin flecha, que va directo a la página."
+      ],
+      [
+        "Indicador de actual",
+        "Una barra de navigation-menu/current-indicator-width en navigation-menu/current-indicator-background, bajo el elemento superior y al inicio del enlace actual del panel."
+      ],
+      [
+        "Panel",
+        "La superficie flotante en navigation-menu/panel-background, con el borde navigation-menu/panel-border, el radio navigation-menu/panel-radius y la sombra elevation/dropdown, navigation-menu/panel-offset debajo del disparador."
+      ],
+      [
+        "Etiqueta del grupo",
+        "La etiqueta de un grupo de enlaces, como la etiqueta de grupo del nph-dropdown-menu."
+      ],
+      [
+        "Enlace del panel",
+        "Un título, una descripción opcional y un ícono opcional, en los tokens navigation-menu/item-*."
+      ],
+      [
+        "Separador",
+        "Un nph-separator vertical entre los grupos."
+      ],
+      [
+        "Botón Menú",
+        "Un botón con el ícono bars, solo en el ancho estrecho."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "El texto sobre el fondo y sobre el popover pasa el nivel exigido en los dos temas, salvo el texto del actual en el modo oscuro de cuatro de las siete marcas, donde cae a 1,49:1 a 2,16:1 sobre la barra oscura (límite del token); el indicador y el borde de foco, en el color primario, tienen al menos 3:1 contra el fondo."
+      ],
+      [
+        "Foco visible",
+        "El elemento superior, el enlace del panel y el botón Menú muestran el borde y el halo de foco por fuera, sin cambiar su tamaño. El borde cumple 3:1."
+      ],
+      [
+        "El color no es la única señal",
+        "La página actual tiene el indicador además del color de texto del actual. El disparador abierto muestra el panel y el fondo de hover."
+      ],
+      [
+        "Tamaño del objetivo",
+        "Los elementos superiores y el botón Menú son mayores que 24 por 24; el botón Menú es un cuadrado de 36 px."
+      ],
+      [
+        "Nombre accesible",
+        "Un marco de navegación con nombre por label o aria-label. El disparador es un botón con aria-expanded y aria-controls. El enlace de la página actual lleva aria-current=\"page\". La flecha y los íconos de los enlaces son decorativos. El botón Menú tiene el nombre \"Menú\"."
+      ],
+      [
+        "Teclado",
+        "Tab pasa por los elementos y por los enlaces de un panel abierto; Enter y Espacio abren y cierran un disparador; Esc cierra el panel y devuelve el foco. Es navegación por divulgación, no una barra de menús: no hay flechas."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "examplesCaption": "Los tres ejemplos obligatorios: la barra cerrada, un disparador abierto con dos grupos y el ancho estrecho con el botón Menú abierto.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha del nph-navigation-menu — finalidad, elementos, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P110 (API y semántica), P01, P02 y P03.",
+      "design.md — los tokens navigation-menu/* y los tokens de foco.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Navigation Menu, marco de documentación nph-navigation-menu (3977:7913), conjuntos 3969:7897, 3957:6662 y 3957:6722.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha del nph-navigation-menu; Figma, marco nph-navigation-menu (3977:7913)",
+    "sourceApi": "Ficha del nph-navigation-menu; docs/decisoes-tecnicas.md › P110",
+    "sourceAnatomy": "Figma, conjuntos 3969:7897, 3957:6662 y 3957:6722; design.md",
     "matrixLabel": "Matriz del componente"
   },
   "popoverValidation": {
