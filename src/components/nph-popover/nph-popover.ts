@@ -108,14 +108,18 @@ function deepActiveElement(): Element | null {
   return active;
 }
 
-/** `node` is `ancestor` or sits inside it, going up across shadow roots. */
+/**
+ * `node` is `ancestor` or sits inside it, going up the way the person sees it: from a slotted element
+ * to the slot it is assigned to, and out of a shadow root to its host. A body that a consumer
+ * component forwards through its own `<slot>` is inside the popover, though its `parentNode` is not.
+ */
 function within(node: Node | null, ancestor: Node): boolean {
   let current: Node | null = node;
   while (current !== null) {
     if (current === ancestor) {
       return true;
     }
-    current = current.parentNode ?? (current instanceof ShadowRoot ? current.host : null);
+    current = (current as Element).assignedSlot ?? current.parentNode ?? (current instanceof ShadowRoot ? current.host : null);
   }
   return false;
 }
@@ -275,6 +279,7 @@ export class NphPopover extends LitElement {
     super.connectedCallback();
     this.textWatch.observe(this, { characterData: true, childList: true, subtree: true });
     this.attach();
+    this.watchRoot();
     if (this.hasUpdated) {
       /* Moved in the DOM: show again if it was open. */
       this.requestUpdate();
@@ -284,6 +289,7 @@ export class NphPopover extends LitElement {
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.textWatch.disconnect();
+    this.rootWatch.disconnect();
     this.detach();
     this.hideNow();
     if (this.retryFrame !== undefined) {
@@ -306,6 +312,22 @@ export class NphPopover extends LitElement {
     const root = this.getRootNode() as Document | ShadowRoot;
     const found = root.getElementById?.(id) ?? null;
     return found instanceof HTMLElement && found !== this ? found : null;
+  }
+
+  /*
+   * The trigger is found by id, so a node that takes its place under the same id, or an id that moves
+   * to another node, must be found again: the root is watched for insertions, removals and id changes,
+   * and the popover is wired again when the lookup no longer gives the node it holds.
+   */
+  private readonly rootWatch = new MutationObserver(() => {
+    if (this.isConnected && this.lookUp() !== this.trigger) {
+      this.attach();
+    }
+  });
+
+  private watchRoot(): void {
+    this.rootWatch.disconnect();
+    this.rootWatch.observe(this.getRootNode(), { childList: true, subtree: true, attributes: true, attributeFilter: ['id'] });
   }
 
   /** Finds the trigger; an element rendered right after the popover is found one frame later (P77 item 10). */

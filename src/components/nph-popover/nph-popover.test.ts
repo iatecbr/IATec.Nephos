@@ -402,6 +402,39 @@ describe('the trigger', () => {
     expect(popover.open).toBe(true);
   });
 
+  it('a node that takes the place of the trigger under the same id is wired, and the old one is cleaned', async () => {
+    const { popover, trigger } = await mount();
+    const replacement = document.createElement('button');
+    replacement.id = 'trigger';
+    replacement.style.cssText = 'position: fixed; left: 400px; top: 300px;';
+    replacement.textContent = 'Filters';
+    trigger.replaceWith(replacement);
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    await settle(popover);
+    expect(replacement.getAttribute('aria-haspopup')).toBe('dialog');
+    expect(replacement.getAttribute('aria-expanded')).toBe('false');
+    expect(trigger.hasAttribute('aria-expanded')).toBe(false);
+    await userEvent.click(replacement);
+    await settle(popover);
+    expect(popover.open).toBe(true);
+  });
+
+  it('an id that moves to another node moves the trigger with it', async () => {
+    const { popover, trigger } = await mount();
+    const other = document.createElement('button');
+    other.id = 'later';
+    document.body.append(other);
+    await settle(popover);
+    trigger.id = 'old';
+    other.id = 'trigger';
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    await settle(popover);
+    expect(other.getAttribute('aria-haspopup')).toBe('dialog');
+    other.click();
+    await settle(popover);
+    expect(popover.open).toBe(true);
+  });
+
   it('leaving the page cleans the trigger and the id it wrote', async () => {
     const { popover, trigger } = await mount();
     popover.remove();
@@ -704,6 +737,43 @@ describe('closing, and where the focus goes', () => {
     setup.popover.open = false;
     await settle(setup.popover);
     expect(seen).toEqual([]);
+  });
+});
+
+describe('a body forwarded through the slot of a consumer component', () => {
+  /** The consumer draws the trigger and the popover in its own shadow root and forwards its children to the body. */
+  async function forwarded(): Promise<{ host: HTMLElement; popover: NphPopover; trigger: HTMLButtonElement; field: HTMLInputElement }> {
+    const host = document.createElement('div');
+    const root = host.attachShadow({ mode: 'open' });
+    root.innerHTML = '<button id="t" style="position: fixed; left: 400px; top: 300px;">Filters</button><nph-popover for="t" heading="Filters"><slot></slot></nph-popover>';
+    const field = document.createElement('input');
+    field.id = 'forwarded';
+    host.append(field);
+    document.body.append(host);
+    const popover = root.querySelector('nph-popover') as NphPopover;
+    const trigger = root.querySelector('button') as HTMLButtonElement;
+    await settle(popover);
+    return { host, popover, trigger, field };
+  }
+
+  it('moving the focus from the trigger to the forwarded control does not close it', async () => {
+    const { popover, trigger, field } = await forwarded();
+    popover.open = true;
+    await settle(popover);
+    trigger.focus();
+    field.focus();
+    await settle(popover);
+    expect(popover.open).toBe(true);
+  });
+
+  it('closing with the focus on the forwarded control gives the focus back to the trigger', async () => {
+    const { popover, trigger, field } = await forwarded();
+    popover.open = true;
+    await settle(popover);
+    field.focus();
+    popover.open = false;
+    await settle(popover);
+    expect(popover.shadowRoot?.ownerDocument.activeElement?.shadowRoot?.activeElement).toBe(trigger);
   });
 });
 
