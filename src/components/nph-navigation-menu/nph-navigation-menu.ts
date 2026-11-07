@@ -230,6 +230,13 @@ export class NphNavigationMenu extends LitElement {
     this.hostName = null;
   }
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+    /* The browser closed the popover when the element left the page: draw it again if `open` is still on. */
+    this.lastShown = null;
+    this.requestUpdate();
+  }
+
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.clearHoverTimer();
@@ -249,9 +256,13 @@ export class NphNavigationMenu extends LitElement {
     }
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.problem === null);
     /* A bar that changes width while open closes: what was open no longer exists in the other shape. */
-    if (changed.has('narrow') && changed.get('narrow') !== undefined && this.open) {
-      this.open = false;
-      this.pinned = false;
+    if (changed.has('narrow') && changed.get('narrow') !== undefined) {
+      /* A hover wait that was running belongs to the other shape: it must not open the new one. */
+      this.clearHoverTimer();
+      if (this.open) {
+        this.open = false;
+        this.pinned = false;
+      }
     }
     if (!this.open) {
       this.pinned = false;
@@ -367,7 +378,8 @@ export class NphNavigationMenu extends LitElement {
     let first: number | null = null;
     for (const [index, item] of this.items.entries()) {
       if (!isTrigger(item)) continue;
-      if (this.triggerValue(item, index) === wanted && wanted !== '') return index;
+      /* A disabled trigger never shows its panel, whether `active` names it or it was disabled while open. */
+      if (this.triggerValue(item, index) === wanted && wanted !== '') return item.disabled === true ? null : index;
       if (first === null && item.disabled !== true) first = index;
     }
     return first;
@@ -440,6 +452,7 @@ export class NphNavigationMenu extends LitElement {
   private onEntryEnter(index: number, event: PointerEvent): void {
     if (event.pointerType !== 'mouse') return;
     this.clearHoverTimer();
+    if (this.items[index]?.disabled === true) return;
     if (this.shownIndex() === index) return;
     this.hoverTimer = window.setTimeout(() => {
       this.hoverTimer = undefined;
@@ -583,11 +596,22 @@ export class NphNavigationMenu extends LitElement {
     const visible = anchor.bottom > 0 && anchor.top < view.height && anchor.right > 0 && anchor.left < view.width;
     panel.style.visibility = visible ? '' : 'hidden';
     if (!visible) return;
+    /* Measuring drops the height limit; the scroll position comes back after it. */
+    const scrollTop = panel.scrollTop;
+    panel.style.maxHeight = '';
+    panel.style.overflowY = '';
     panel.style.maxWidth = `${String(view.width)}px`;
     panel.style.top = '0px';
     panel.style.left = '0px';
-    const { width } = panel.getBoundingClientRect();
+    const { width, height } = panel.getBoundingClientRect();
     const style = getComputedStyle(panel);
+    /* Only a panel taller than the room below its control scrolls: a scrolling box clips the focus halo (P92). */
+    const room = view.height - anchor.bottom - (Number.parseFloat(style.marginTop) || 0);
+    if (height > room) {
+      panel.style.maxHeight = `${String(Math.max(room, 0))}px`;
+      panel.style.overflowY = 'auto';
+      panel.scrollTop = scrollTop;
+    }
     const rtl = getComputedStyle(anchorElement).direction === 'rtl';
     let x = rtl ? anchor.right - width : anchor.left;
     x = Math.min(Math.max(x, 0), Math.max(view.width - width, 0));
@@ -624,12 +648,13 @@ export class NphNavigationMenu extends LitElement {
     </a>`;
   }
 
-  private renderGroup(group: NphNavigationMenuGroup, id: string): TemplateResult {
+  /** `unavailable`: the trigger of the group is disabled, so every link in it is too (the narrow list). */
+  private renderGroup(group: NphNavigationMenuGroup, id: string, unavailable = false): TemplateResult {
     const label = text(group.label);
     return html`<div class="group" role=${label === '' ? nothing : 'group'} aria-labelledby=${label === '' ? nothing : `${id}-label`}>
       ${label === '' ? nothing : html`<span class="group-label" id="${id}-label">${label}</span>`}
       <ul class="links">
-        ${group.links.map((link) => html`<li>${this.renderLink(link)}</li>`)}
+        ${group.links.map((link) => html`<li>${this.renderLink(unavailable && link.disabled !== true ? { ...link, disabled: true } : link)}</li>`)}
       </ul>
     </div>`;
   }
@@ -721,7 +746,7 @@ export class NphNavigationMenu extends LitElement {
                   </ul>
                 </div>`
               : html`<span class="group-label" id="${id}-label">${text(section.trigger.label)}</span>
-                  ${section.trigger.groups.map((group, index) => this.renderGroup(group, `${id}-group-${String(index)}`))}`;
+                  ${section.trigger.groups.map((group, index) => this.renderGroup(group, `${id}-group-${String(index)}`, section.trigger.disabled === true))}`;
           return html`${position === 0 ? nothing : html`<nph-separator class="divider"></nph-separator>`}<div
               class="section"
               role=${section.kind === 'trigger' ? 'group' : nothing}

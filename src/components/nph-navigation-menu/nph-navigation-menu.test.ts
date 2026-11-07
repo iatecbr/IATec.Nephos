@@ -1250,6 +1250,94 @@ describe('focus', () => {
   });
 });
 
+describe('regressions of the Copilot review', () => {
+  it('an instance that is removed and put back while open draws its panel again', async () => {
+    const menu = await mount({ open: true });
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    menu.remove();
+    document.body.append(menu);
+    await settle(menu);
+    await frame();
+    expect(menu.open).toBe(true);
+    expect(trigger(menu, 0).getAttribute('aria-expanded')).toBe('true');
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+  });
+
+  it('a hover wait that is running when the width changes does not open the narrow list', async () => {
+    const menu = await mount();
+    menu.style.setProperty('--nph-motion-hover-delay', '120ms');
+    await userEvent.hover(trigger(menu, 0));
+    menu.narrow = true;
+    await settle(menu);
+    await wait(300);
+    expect(menu.open).toBe(false);
+    expect(shownPanels(menu)).toEqual([]);
+  });
+
+  it('`active` that names a disabled trigger shows no panel', async () => {
+    const items = [{ ...(ITEMS[0] as object), disabled: true }, ITEMS[1], ITEMS[2]] as NphNavigationMenuItem[];
+    const menu = await mount({ items, open: true, active: 'products' });
+    expect(shownPanels(menu)).toEqual([]);
+    expect(trigger(menu, 0).getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('a trigger disabled while its panel is open closes it', async () => {
+    const menu = await mount();
+    await openByClick(menu, 0);
+    menu.items = [{ ...(ITEMS[0] as object), disabled: true }, ITEMS[1], ITEMS[2]] as NphNavigationMenuItem[];
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual([]);
+  });
+
+  it('resting the mouse on a disabled trigger opens nothing', async () => {
+    const items = [{ ...(ITEMS[0] as object), disabled: true }, ITEMS[2]] as NphNavigationMenuItem[];
+    const menu = await mount({ items });
+    quickHover(menu);
+    await userEvent.hover(q(menu, '.entry')).catch(() => {});
+    await wait(HOVER + 200);
+    expect(shownPanels(menu)).toEqual([]);
+    expect(menu.open).toBe(false);
+  });
+
+  it('a narrow list taller than the room below the button scrolls inside, and keeps its links reachable', async () => {
+    const links = Array.from({ length: 30 }, (_, index) => ({ title: `Link ${String(index)}`, href: `#l${String(index)}` }));
+    const items = [{ type: 'trigger', label: 'Many', groups: [{ links }] }] as NphNavigationMenuItem[];
+    const menu = await mount({ items, narrow: true, open: true });
+    await settle(menu);
+    await frame();
+    const box = list(menu).getBoundingClientRect();
+    expect(box.bottom).toBeLessThanOrEqual(document.documentElement.clientHeight + 0.5);
+    expect(getComputedStyle(list(menu)).overflowY).toBe('auto');
+    expect(list(menu).scrollHeight).toBeGreaterThan(list(menu).clientHeight);
+    list(menu).scrollTop = list(menu).scrollHeight;
+    expect(list(menu).scrollTop).toBeGreaterThan(0);
+  });
+
+  it('a panel that fits does not scroll', async () => {
+    const menu = await mount({ open: true });
+    await settle(menu);
+    expect(getComputedStyle(panel(menu, 0)).overflowY).toBe('visible');
+    expect(panel(menu, 0).style.maxHeight).toBe('');
+  });
+
+  it('the links of a disabled trigger are disabled in the narrow list, and a disabled link of its own stays so', async () => {
+    const items = [
+      { type: 'trigger', label: 'Off', disabled: true, groups: [{ links: [{ title: 'One', href: '#1' }, { title: 'Two', href: '#2', disabled: true }] }] },
+      ITEMS[1],
+    ] as NphNavigationMenuItem[];
+    const menu = await mount({ items, narrow: true, open: true });
+    await settle(menu);
+    const [one, two, docs] = qa<HTMLAnchorElement>(menu, '#panel-list .link') as [HTMLAnchorElement, HTMLAnchorElement, HTMLAnchorElement];
+    for (const link of [one, two]) {
+      expect(link.getAttribute('aria-disabled')).toBe('true');
+      expect(link.hasAttribute('href')).toBe(false);
+    }
+    expect(docs.hasAttribute('href')).toBe(true);
+    await userEvent.keyboard('{Tab}{Tab}');
+    expect(root(menu).activeElement).toBe(docs);
+  });
+});
+
 describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
   const used = new Set([...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1] ?? ''));

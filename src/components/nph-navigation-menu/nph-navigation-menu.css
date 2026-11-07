@@ -165,7 +165,7 @@ nav {
 /*
  * The panel is a `popover`, so it sits in the top layer: no `z-index` and no clipping by an ancestor.
  * The resets undo the browser's `[popover]` style: `inset`, `margin: auto`, the padding, the color and
- * the overflow. JavaScript sets `top` and `left`. The distance to the control is `panel-offset`, as a
+ * the overflow. JavaScript sets `top` and `left`, and the maximum height with the scroll only when the panel is taller than the room below its control. The distance to the control is `panel-offset`, as a
  * margin on the side that faces it. The wide panel hugs its content.
  */
 .panel {
