@@ -1389,7 +1389,7 @@ describe('token contract', () => {
 
   it('design.md ties the tokens of the evidence to the checkbox', () => {
     expect(designMd).toContain('use: "Field border: input, select, textarea, checkbox."');
-    expect(designMd).toMatch(/radius\/inner[\s\S]{0,200}USE on an element nested inside a control or container: checkbox/);
+    expect(designMd).toMatch(/radius\/inner[\s\S]{0,200}USE on an element nested inside a control or container \(checkbox/);
     expect(designMd).toMatch(/focus\/border[\s\S]{0,900}Applies to checkbox, radio and switch/);
     expect(designMd).toContain('use: "State change that STAYS: selection, checkbox, toggle, tab change."');
     expect(designMd).toMatch(/motion\/hover-duration:\s*\n\s*css: '--nph-motion-hover-duration'\s*\n\s*alias: core\/duration\/100/);
