@@ -84,6 +84,16 @@ function deepActive(): Element | null {
   return active;
 }
 
+/** `node` is `ancestor` or sits inside it, going up across shadow roots. */
+function within(node: Node | null, ancestor: Node): boolean {
+  let current: Node | null = node;
+  while (current !== null) {
+    if (current === ancestor) return true;
+    current = current.parentNode ?? (current instanceof ShadowRoot ? current.host : null);
+  }
+  return false;
+}
+
 /**
  * Opens a popover once it has rendered and found its trigger, then releases the focus it took.
  * The popover stays open: a focus that goes to nothing does not close it.
@@ -98,7 +108,9 @@ async function openOne(popover: NphPopover): Promise<void> {
   await popover.updateComplete;
   await frame();
   await frame();
-  (deepActive() as HTMLElement | null)?.blur?.();
+  /* Only the focus the popover took: if the page was left, or the person moved the focus, it is not ours to release. */
+  const active = deepActive();
+  if (popover.isConnected && active !== null && within(active, popover)) (active as HTMLElement).blur();
 }
 
 /** The `ref` that opens the popover it is on, after the ones that were asked for before it. */

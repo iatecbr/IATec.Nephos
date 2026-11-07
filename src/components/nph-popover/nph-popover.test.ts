@@ -106,6 +106,15 @@ async function until(condition: () => boolean, ms = 1500): Promise<void> {
   }
 }
 
+function within(node: Node | null, ancestor: Node): boolean {
+  let current: Node | null = node;
+  while (current !== null) {
+    if (current === ancestor) return true;
+    current = current.parentNode ?? (current instanceof ShadowRoot ? current.host : null);
+  }
+  return false;
+}
+
 function deepActive(): Element | null {
   let active = document.activeElement;
   while (active?.shadowRoot?.activeElement) active = active.shadowRoot.activeElement;
@@ -521,6 +530,29 @@ describe('closing, and where the focus goes', () => {
     await userEvent.keyboard('{Escape}');
     await settle(setup.popover);
     expect(setup.popover.open).toBe(false);
+  });
+
+  it('with two popovers open, Esc closes the last one shown and leaves the other open', async () => {
+    const first = await mount({}, { body: '<input id="a" />' });
+    await open(first);
+    const second = document.createElement('nph-popover');
+    const other = document.createElement('button');
+    other.id = 'other';
+    other.style.cssText = 'position: fixed; left: 40px; top: 400px;';
+    second.setAttribute('for', 'other');
+    second.heading = 'Second';
+    second.innerHTML = '<input id="b" />';
+    first.popover.addEventListener('nph-close', (event) => event.preventDefault());
+    document.body.append(other, second);
+    await settle(second);
+    other.click();
+    await settle(second);
+    expect(first.popover.open && second.open).toBe(true);
+    await userEvent.keyboard('{Escape}');
+    await settle(second);
+    expect(second.open).toBe(false);
+    expect(first.popover.open).toBe(true);
+    await until(() => !shown(second));
   });
 
   it('Esc with the focus on the trigger closes it too', async () => {
@@ -1300,6 +1332,41 @@ describe('the exit and the motion', () => {
     setup.popover.open = true;
     await settle(setup.popover);
     expect(deepActive()?.id).toBe('field');
+  });
+
+  it('while it leaves, nothing in the surface takes focus or a click', async () => {
+    const setup = await mount({}, { body: '<input id="field" />', footer: FOOTER });
+    await open(setup);
+    const apply = setup.popover.querySelector('nph-button[text="Apply"]') as NphButton;
+    const clicked = vi.fn();
+    apply.addEventListener('click', clicked);
+    await userEvent.keyboard('{Escape}');
+    await settle(setup.popover);
+    expect(shown(setup.popover)).toBe(true);
+    expect(surface(setup.popover).inert).toBe(true);
+    await userEvent.tab();
+    expect(setup.popover.contains(deepActive())).toBe(false);
+    expect(within(deepActive(), setup.popover)).toBe(false);
+    apply.click();
+    const box = apply.getBoundingClientRect();
+    expect(document.elementFromPoint(box.left + box.width / 2, box.top + box.height / 2)).not.toBe(apply);
+    await until(() => !shown(setup.popover));
+  });
+
+  it('a body that was only spaces shows when its text node is edited in place, and hides again when it is emptied', async () => {
+    const setup = await mount({}, { body: ' ' });
+    await open(setup);
+    const body = part(setup.popover, '.body') as HTMLElement;
+    expect(body.hidden).toBe(true);
+    const text = setup.popover.firstChild as Text;
+    expect(text.nodeType).toBe(Node.TEXT_NODE);
+    text.data = 'A message that arrives late.';
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(body.hidden).toBe(false);
+    expect(body.getBoundingClientRect().height).toBeGreaterThan(0);
+    text.data = '   ';
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(body.hidden).toBe(true);
   });
 
   it('opening again during the exit cancels it', async () => {

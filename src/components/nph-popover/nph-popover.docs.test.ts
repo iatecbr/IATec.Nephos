@@ -196,6 +196,24 @@ describe('nph-popover Validation: text only from the dictionary', () => {
     }
   });
 
+  it('a demo that was left does not blur the focus the person put somewhere else', async () => {
+    const target = document.createElement('div');
+    const outside = document.createElement('input');
+    document.body.append(target, outside);
+    render((validation.Interactive as Renderable).render?.({}, { globals: { locale: 'en' } }) as TemplateResult, target);
+    /* The Interactive story draws its popover closed: open an open demo instead. */
+    const demo = document.createElement('div');
+    document.body.append(demo);
+    render((validation.Sizes as Renderable).render?.({}, { globals: { locale: 'en' } }) as TemplateResult, demo);
+    const popover = popoversOf(demo)[0] as NphPopover;
+    const start = performance.now();
+    while (!popover.open && performance.now() - start < 3000) await settle(10);
+    expect(popover.open).toBe(true);
+    outside.focus();
+    await settle(400);
+    expect(document.activeElement).toBe(outside);
+  });
+
   it('Examples: light and dark, with the captions of the chosen language', () => {
     const story = validation.Examples as Renderable;
     for (const locale of LOCALES) {

@@ -162,7 +162,8 @@ business_rules:
   - "The popover is not modal: the page stays usable, nothing traps the Tab key, and it closes with Esc, a press outside, the close button, the footer action or the focus leaving it."
   - "On close the focus goes back to the trigger when it was inside the popover and the person did not move it: Esc, the close button and the footer action give it back; a press outside and the focus leaving leave it where the person put it."
   - "A footer action closes the popover because the consumer sets open to false in its handler; the popover fires no event for it."
-  - "Esc closes only the popover: it does not reach a dialog around it."
+  - "Esc closes only the popover: it does not reach a dialog around it, and it is not taken from a control of the body that used it, such as an open nph-select list. With more than one popover open it belongs to the last one shown."
+  - "While the surface leaves it is inert: it takes no focus and no click."
   - "The footer is one divider, from edge to edge, in popover/divider, then the actions, compact, popover/footer-gap apart. On a touch screen the footer buttons go back to the default size."
   - "The surface does not clip its content, so the focus ring of an inner piece is not cut."
   - "The title is always visible and names the surface; the description describes it."
@@ -302,7 +303,9 @@ duration shortens.
   a press outside, the close button, the footer action or the focus leaving it.
 - A footer action closes the popover because the consumer sets `open` to `false` in the handler of
   its button; the popover fires no event for it.
-- Esc closes only the popover: it does not reach a dialog around it.
+- Esc closes only the popover: it does not reach a dialog around it, and it is not taken from a control
+  of the body that used it. With more than one popover open it belongs to the last one shown.
+- While the surface leaves it is inert: it takes no focus and no click.
 - The footer is one divider, from edge to edge, in `popover/divider`, and then the actions, compact,
   `popover/footer-gap` apart and `popover/footer-padding` around them. On a touch screen the footer
   buttons go back to the default size.

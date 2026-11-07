@@ -6359,7 +6359,10 @@ only in development, once per cause: the rule of P21. The names follow P64.
    handler of its button**, so no attribute is invented on the button. The focus returns to the
    trigger on any close in which it was inside the popover, which covers Esc, the close button and
    the footer action; a press outside and the focus leaving leave it where the person put it. Esc
-   stops at the popover and does not reach a dialog around it (P77, item 4). Closing on the focus
+   runs in the bubbling phase, after the controls of the body, so a control that used the key (an open
+   `nph-select` list) keeps it; with more than one popover open it belongs to the last one shown; it stops
+   at the popover and does not reach a dialog around it (P77, item 4). While the surface leaves, it is
+   `inert`: it is still in the top layer, but takes no focus and no click. Closing on the focus
    leaving is an addition of this decision: the contract lists four closes, and a non-modal surface
    that stays open over the content after Tab would cover it.
 

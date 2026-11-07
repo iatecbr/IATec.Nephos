@@ -83,6 +83,9 @@ const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 
 let nextId = 0;
 
+/** The popovers shown right now, in the order they were shown: Esc belongs to the last one that is open. */
+const shownPopovers: NphPopover[] = [];
+
 /** Development error; outside a bundler with `import.meta.env`, it stays silent. */
 function devError(message: string): void {
   if (import.meta.env?.DEV) {
@@ -270,6 +273,7 @@ export class NphPopover extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
+    this.textWatch.observe(this, { characterData: true, childList: true, subtree: true });
     this.attach();
     if (this.hasUpdated) {
       /* Moved in the DOM: show again if it was open. */
@@ -279,6 +283,7 @@ export class NphPopover extends LitElement {
 
   override disconnectedCallback(): void {
     super.disconnectedCallback();
+    this.textWatch.disconnect();
     this.detach();
     this.hideNow();
     if (this.retryFrame !== undefined) {
@@ -420,6 +425,10 @@ export class NphPopover extends LitElement {
    */
   private readonly onDocumentKeydown = (event: KeyboardEvent): void => {
     if ((event.key !== 'Escape' && event.key !== 'Esc') || !this.open || event.defaultPrevented) {
+      return;
+    }
+    /* With more than one open, the key is for the last one shown, so the first listener does not take it for all. */
+    if (shownPopovers.filter((popover) => popover.open).at(-1) !== this) {
       return;
     }
     /* Esc closes the popover only, not a dialog around it (P77 item 4): its default is taken. */
@@ -564,6 +573,15 @@ export class NphPopover extends LitElement {
     if (divider) divider.hidden = !hasFooter;
   }
 
+  /*
+   * A text node edited in place fires no `slotchange`: its edits, and a child added or removed, are
+   * watched here, so a body that was only spaces shows when text arrives, and the other way round.
+   */
+  private readonly textWatch = new MutationObserver(() => {
+    this.syncRegions();
+    this.onViewportChange();
+  });
+
   private readonly onSlotChange = (): void => {
     this.syncRegions();
     this.onViewportChange();
@@ -574,12 +592,14 @@ export class NphPopover extends LitElement {
   private show(surface: HTMLElement): void {
     /* Opened again while it was leaving: the exit stops, and the focus rule runs again, since `hide` gave it back. */
     const reopening = this.closeTimer !== undefined;
+    surface.inert = false;
     if (this.closeTimer !== undefined) {
       clearTimeout(this.closeTimer);
       this.closeTimer = undefined;
     }
     if (!this.shown) {
       this.shown = true;
+      shownPopovers.push(this);
       /* A flag left by a close that never reached the exit must not carry over to this opening. */
       this.keepFocus = false;
       try {
@@ -621,6 +641,8 @@ export class NphPopover extends LitElement {
       return;
     }
     this.returnFocus();
+    /* Leaving: the surface is still in the top layer until the exit ends, but nothing in it takes focus or a click. */
+    surface.inert = true;
     const duration = parseFloat(getComputedStyle(surface).transitionDuration) * 1000;
     if (!(duration > 0)) {
       this.hideNow();
@@ -658,6 +680,8 @@ export class NphPopover extends LitElement {
     this.resizeObserver = undefined;
     this.shown = false;
     this.initialFocus = null;
+    const position = shownPopovers.indexOf(this);
+    if (position >= 0) shownPopovers.splice(position, 1);
     const surface = this.surface;
     if (surface) {
       surface.removeAttribute('data-open');
