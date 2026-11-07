@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 660,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-popover",
   "dependencies": [
     "DSA-03",
@@ -52,8 +52,8 @@
     "excerpt": null,
     "converted_decision": "The nph-popover documentation frame (4749:5857, page 1626:23) was accepted as the API and behavior specification of nph-popover. Component set: nph-popover (4727:1544), 15 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-67-popover", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-67.md",
   "updated_at": "2026-11-06"
 }
 ```
