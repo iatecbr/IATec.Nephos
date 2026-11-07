@@ -1434,6 +1434,81 @@ describe('regressions of the Copilot review, round 2', () => {
   });
 });
 
+describe('regressions of the Copilot review, round 3', () => {
+  const awayFromBar = { position: { x: 1, y: window.innerHeight - 2 } };
+
+  it('hovering another trigger does not take away the panel that holds the keyboard focus', async () => {
+    const menu = await mount();
+    quickHover(menu);
+    await userEvent.keyboard('{Tab}{Enter}');
+    await settle(menu);
+    await userEvent.keyboard('{Tab}');
+    expect(root(menu).activeElement?.closest('.panel')?.id).toBe('panel-0');
+    await userEvent.hover(trigger(menu, 1));
+    await wait(HOVER + 200);
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    expect(root(menu).activeElement?.closest('.panel')?.id).toBe('panel-0');
+  });
+
+  it('passing over a disabled trigger does not cancel the close of the panel the pointer left', async () => {
+    const items = [ITEMS[0], { ...(ITEMS[1] as object), disabled: true }, ITEMS[2]] as NphNavigationMenuItem[];
+    const menu = await mount({ items });
+    quickHover(menu);
+    await userEvent.hover(trigger(menu, 0));
+    await wait(HOVER + 200);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    await userEvent.hover(qa(menu, '.entry')[1] as HTMLElement);
+    await wait(HOVER + 200);
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual([]);
+  });
+
+  it('a close that is running follows its trigger when the items are reordered', async () => {
+    const menu = await mount();
+    quickHover(menu);
+    await userEvent.hover(trigger(menu, 0));
+    await wait(HOVER + 200);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    await userEvent.hover(document.body, awayFromBar);
+    menu.items = [ITEMS[1], ITEMS[0], ITEMS[2]] as NphNavigationMenuItem[];
+    await wait(HOVER + 200);
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual([]);
+    expect(menu.open).toBe(false);
+  });
+
+  it('a close that is running closes when its trigger is removed', async () => {
+    const menu = await mount();
+    quickHover(menu);
+    await userEvent.hover(trigger(menu, 0));
+    await wait(HOVER + 200);
+    await userEvent.hover(document.body, awayFromBar);
+    menu.items = [ITEMS[1], ITEMS[2]] as NphNavigationMenuItem[];
+    await wait(HOVER + 200);
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual([]);
+    expect(menu.open).toBe(false);
+  });
+
+  it('items that become invalid during a hover wait cancel it, and no error is thrown', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    for (const bad of [null, [null]]) {
+      const menu = await mount();
+      quickHover(menu);
+      await userEvent.hover(trigger(menu, 0));
+      menu.items = bad as never;
+      await wait(HOVER + 200);
+      menu.items = ITEMS;
+      await settle(menu);
+      expect(shownPanels(menu), String(bad)).toEqual([]);
+      expect(menu.open, String(bad)).toBe(false);
+      menu.remove();
+    }
+    expect(error).toHaveBeenCalled();
+  });
+});
+
 describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
   const used = new Set([...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1] ?? ''));

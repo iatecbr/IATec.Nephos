@@ -257,6 +257,8 @@ export class NphNavigationMenu extends LitElement {
       this.reported = '';
     }
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.problem === null);
+    /* A bar that is rejected waits for no one: a hover wait that is running would read the rejected data. */
+    if (this.problem !== null) this.clearHoverTimer();
     /* A bar that changes width while open closes: what was open no longer exists in the other shape. */
     if (changed.has('narrow') && changed.get('narrow') !== undefined) {
       /* A hover wait that was running belongs to the other shape: it must not open the new one. */
@@ -451,17 +453,25 @@ export class NphNavigationMenu extends LitElement {
     this.openPanel(index, true);
   }
 
+  /** The focus is on a link inside a panel: what a person who tabbed in must not lose to the pointer. */
+  private focusInPanel(): boolean {
+    const focused = this.shadowRoot?.activeElement ?? null;
+    return focused !== null && focused.closest('.panel') !== null;
+  }
+
   private onEntryEnter(index: number, event: PointerEvent): void {
     if (event.pointerType !== 'mouse') return;
-    this.clearHoverTimer();
     const item = this.items[index];
-    if (item === undefined || item.disabled === true) return;
+    /* A disabled trigger is not there for the pointer: it neither opens nor cancels a close that is running. */
+    if (this.problem !== null || item === undefined || item.disabled === true) return;
+    this.clearHoverTimer();
     if (this.shownIndex() === index) return;
     /* The wait belongs to the trigger that started it, by its value: a list that is reordered or replaced
      * meanwhile opens that trigger where it is now, and nothing if it is gone or disabled. */
-    const value = this.triggerValue(item as NphNavigationMenuItem, index);
+    const value = this.triggerValue(item, index);
     this.hoverTimer = window.setTimeout(() => {
       this.hoverTimer = undefined;
+      if (this.problem !== null || this.focusInPanel()) return;
       const now = this.enabledTriggerIndex(value);
       if (now !== null) this.openPanel(now, false);
     }, this.hoverDelay());
@@ -469,20 +479,32 @@ export class NphNavigationMenu extends LitElement {
 
   private onEntryLeave(index: number, event: PointerEvent): void {
     if (event.pointerType !== 'mouse') return;
+    const item = this.items[index];
+    if (this.problem !== null || item === undefined || item.disabled === true) return;
     this.clearHoverTimer();
     if (this.shownIndex() !== index || this.pinned) return;
+    /* The panel that is open is followed by its trigger's value, as the wait to open is. */
+    const value = this.triggerValue(item, index);
     this.hoverTimer = window.setTimeout(() => {
       this.hoverTimer = undefined;
-      if (this.pinned || this.shownIndex() !== index) return;
+      if (this.problem !== null || this.pinned) return;
+      const now = this.enabledTriggerIndex(value);
+      if (now === null) {
+        /* The trigger that was open is gone or disabled: nothing is left to keep open for it. */
+        if (this.open) this.closePanel();
+        return;
+      }
+      /* Another panel is open now (the consumer changed `active`): it is not this wait's to close. */
+      if (this.shownIndex() !== now) return;
       /* A person who tabbed into the panel keeps it: the pointer leaving must not take the focused link away. */
-      const focused = this.shadowRoot?.activeElement ?? null;
-      if (focused !== null && this.renderRoot.querySelector(`#panel-${String(index)}`)?.contains(focused) === true) return;
+      if (this.focusInPanel()) return;
       this.closePanel();
     }, this.hoverDelay());
   }
 
   /** The index of the enabled trigger with this value, or `null`. */
   private enabledTriggerIndex(value: string): number | null {
+    if (!Array.isArray(this.items)) return null;
     for (const [index, item] of this.items.entries()) {
       if (isTrigger(item) && item.disabled !== true && this.triggerValue(item, index) === value) return index;
     }
