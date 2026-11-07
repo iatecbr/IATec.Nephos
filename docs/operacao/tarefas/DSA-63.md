@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 620,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-notification",
   "dependencies": [
     "DSA-03",
@@ -27,11 +27,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 28ffd51fc91a445ffa0532ceda8bd70eefd47b19 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-63/review-and-merge-2026-11-07.md",
+      "result": "passed",
+      "verified_at": "2026-11-07",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -44,7 +44,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-63/figma-docs-accepted-2026-11-04.md"
+    "docs/operacao/evidencias/DSA-63/figma-docs-accepted-2026-11-04.md",
+    "docs/operacao/evidencias/DSA-63/review-and-merge-2026-11-07.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -58,9 +59,9 @@
     "excerpt": null,
     "converted_decision": "The nph-notification documentation frame (3442:10163, page 1369:2) was accepted as the API and behavior specification of nph-notification. Component set: nph-notification (3434:9035), 50 variants; the focus of the close button on solid is specified in frame 4207:1146. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-63-notification", "commit": "1635676", "pr": 150 },
+  "git_review": { "branch": "feat/dsa-63-notification", "commit": "28ffd51", "pr": 150 },
   "context": null,
-  "updated_at": "2026-11-06"
+  "updated_at": "2026-11-07"
 }
 ```
 
