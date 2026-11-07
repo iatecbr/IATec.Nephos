@@ -11023,7 +11023,7 @@
     "accessibility": [
       [
         "Contraste",
-        "O texto sobre o fundo e sobre o popover passa no nível exigido nos dois temas, exceto o texto do atual no modo escuro das marcas gerencial, educacao, igrejas e rh, onde cai para 1,49:1 a 2,16:1 sobre a barra escura (limite do token); o indicador e a borda de foco, na cor primária, têm ao menos 3:1 contra o fundo."
+        "O texto sobre o fundo e sobre o popover passa no nível exigido nos dois temas, exceto o texto do atual no modo escuro de quatro das sete marcas, onde cai para 1,49:1 a 2,16:1 sobre a barra escura (limite do token); o indicador e a borda de foco, na cor primária, têm ao menos 3:1 contra o fundo."
       ],
       [
         "Foco visível",

@@ -11023,7 +11023,7 @@
     "accessibility": [
       [
         "Contrast",
-        "The text over the background and the popover pass the required level in both themes, except the current text in the dark scheme of the brands gerencial, educacao, igrejas and rh, where it falls to 1.49:1 to 2.16:1 over the dark bar (a token limit); the indicator and the focus border, in the primary color, have at least 3:1 against the background."
+        "The text over the background and the popover pass the required level in both themes, except the current text in the dark scheme of four of the seven brands, where it falls to 1.49:1 to 2.16:1 over the dark bar (a token limit); the indicator and the focus border, in the primary color, have at least 3:1 against the background."
       ],
       [
         "Visible focus",
