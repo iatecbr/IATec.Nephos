@@ -1338,6 +1338,102 @@ describe('regressions of the Copilot review', () => {
   });
 });
 
+describe('regressions of the Copilot review, round 2', () => {
+  it('a hover wait follows its trigger when the items are reordered, and opens nothing if it is gone', async () => {
+    const menu = await mount();
+    quickHover(menu);
+    await userEvent.hover(trigger(menu, 0));
+    menu.items = [ITEMS[1], ITEMS[0], ITEMS[2]] as NphNavigationMenuItem[];
+    await wait(HOVER + 200);
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual(['panel-1']);
+    expect(menu.active).toBe('products');
+    menu.open = false;
+    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual([]);
+    await userEvent.hover(trigger(menu, 1));
+    menu.items = [ITEMS[1], ITEMS[2]] as NphNavigationMenuItem[];
+    await wait(HOVER + 200);
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual([]);
+  });
+
+  it('a hover wait on a trigger that is disabled before it ends opens nothing', async () => {
+    const menu = await mount();
+    quickHover(menu);
+    await userEvent.hover(trigger(menu, 0));
+    menu.items = [{ ...(ITEMS[0] as object), disabled: true }, ITEMS[1], ITEMS[2]] as NphNavigationMenuItem[];
+    await wait(HOVER + 200);
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual([]);
+  });
+
+  it('a panel the pointer opened stays while a link inside has the focus, even if the pointer leaves', async () => {
+    const menu = await mount();
+    quickHover(menu);
+    await userEvent.keyboard('{Tab}');
+    await userEvent.hover(trigger(menu, 0));
+    await wait(HOVER + 200);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    await userEvent.keyboard('{Tab}');
+    expect(root(menu).activeElement?.closest('.panel')?.id).toBe('panel-0');
+    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
+    await wait(HOVER + 200);
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    expect(root(menu).activeElement?.closest('.panel')?.id).toBe('panel-0');
+  });
+
+  it('the focus leaving the bar with no new target closes the panel', async () => {
+    const menu = await mount();
+    await openByClick(menu, 0);
+    (trigger(menu, 0) as HTMLElement).focus();
+    (root(menu).activeElement as HTMLElement).blur();
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual([]);
+  });
+
+  it('the first Esc closes only the panel and leaves a modal dialog around the bar open', async () => {
+    const dialog = document.createElement('dialog');
+    document.body.append(dialog);
+    const menu = document.createElement('nph-navigation-menu');
+    Object.assign(menu, { items: ITEMS, label: 'Main' });
+    dialog.append(menu);
+    dialog.showModal();
+    await settle(menu);
+    await openByClick(menu, 0);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    await userEvent.keyboard('{Escape}');
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual([]);
+    expect(dialog.open).toBe(true);
+    dialog.close();
+  });
+
+  it('follows the trigger when a scroller inside another shadow root scrolls', async () => {
+    const host = document.createElement('div');
+    document.body.append(host);
+    const outer = host.attachShadow({ mode: 'open' });
+    const scroller = document.createElement('div');
+    scroller.style.cssText = 'overflow: auto; block-size: 300px;';
+    const spacer = document.createElement('div');
+    spacer.style.blockSize = '2000px';
+    const menu = document.createElement('nph-navigation-menu');
+    Object.assign(menu, { items: ITEMS, label: 'Main' });
+    scroller.append(menu, spacer);
+    outer.append(scroller);
+    await settle(menu);
+    await openByClick(menu, 0);
+    const gap = () => panel(menu, 0).getBoundingClientRect().top - trigger(menu, 0).getBoundingClientRect().bottom;
+    const before = gap();
+    scroller.scrollTop = 12;
+    await frame();
+    await frame();
+    expect(gap()).toBeCloseTo(before, 0);
+  });
+});
+
 describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
   const used = new Set([...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1] ?? ''));

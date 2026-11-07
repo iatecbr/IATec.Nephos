@@ -183,7 +183,7 @@
       "There are no arrow keys: this is disclosure navigation, not a menubar."
     ],
     "focus": "Keyboard only, on the top item, the panel link and the Menu button: a border of border/width in focus/border and a halo in focus/halo outside the box, without changing its size. The border carries the focus; the halo is reinforcement. A disabled item takes no focus.",
-    "contrast": "The text of the top items and of the panel links, the description and the icons pass the required WCAG level over the background in both themes. The indicator and the focus border, in the primary color, have at least 3:1 against the background in both schemes.",
+    "contrast": "The text of the top items and of the panel links, the description and the icons pass the required WCAG level over the background in both themes, with one known limit: the current text, navigation-menu/current-foreground, which is color/primary-hover, falls to 1.49:1 to 2.16:1 over the dark bar in the dark scheme of the brands gerencial, educacao, igrejas and rh (D-5). The indicator and the focus border, in the primary color, have at least 3:1 against the background in both schemes.",
     "color_alternative": "The current page is told apart without color: the indicator comes with the current text color (WCAG 1.4.1). The open trigger shows its panel and the hover background."
   },
   "invalid_combinations": [

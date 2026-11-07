@@ -216,6 +216,8 @@ export class NphNavigationMenu extends LitElement {
   private pinned = false;
   private hoverTimer: number | undefined;
   private listening = false;
+  private pressing = false;
+  private readonly scrollTargets: EventTarget[] = [];
   private resizeObserver: ResizeObserver | undefined;
   private lastShown: string | null = null;
 
@@ -452,11 +454,16 @@ export class NphNavigationMenu extends LitElement {
   private onEntryEnter(index: number, event: PointerEvent): void {
     if (event.pointerType !== 'mouse') return;
     this.clearHoverTimer();
-    if (this.items[index]?.disabled === true) return;
+    const item = this.items[index];
+    if (item === undefined || item.disabled === true) return;
     if (this.shownIndex() === index) return;
+    /* The wait belongs to the trigger that started it, by its value: a list that is reordered or replaced
+     * meanwhile opens that trigger where it is now, and nothing if it is gone or disabled. */
+    const value = this.triggerValue(item as NphNavigationMenuItem, index);
     this.hoverTimer = window.setTimeout(() => {
       this.hoverTimer = undefined;
-      this.openPanel(index, false);
+      const now = this.enabledTriggerIndex(value);
+      if (now !== null) this.openPanel(now, false);
     }, this.hoverDelay());
   }
 
@@ -466,8 +473,20 @@ export class NphNavigationMenu extends LitElement {
     if (this.shownIndex() !== index || this.pinned) return;
     this.hoverTimer = window.setTimeout(() => {
       this.hoverTimer = undefined;
-      if (!this.pinned && this.shownIndex() === index) this.closePanel();
+      if (this.pinned || this.shownIndex() !== index) return;
+      /* A person who tabbed into the panel keeps it: the pointer leaving must not take the focused link away. */
+      const focused = this.shadowRoot?.activeElement ?? null;
+      if (focused !== null && this.renderRoot.querySelector(`#panel-${String(index)}`)?.contains(focused) === true) return;
+      this.closePanel();
     }, this.hoverDelay());
+  }
+
+  /** The index of the enabled trigger with this value, or `null`. */
+  private enabledTriggerIndex(value: string): number | null {
+    for (const [index, item] of this.items.entries()) {
+      if (isTrigger(item) && item.disabled !== true && this.triggerValue(item, index) === value) return index;
+    }
+    return null;
   }
 
   private onMenuClick(): void {
@@ -488,15 +507,30 @@ export class NphNavigationMenu extends LitElement {
     this.closePanel();
   }
 
+  /** A press inside the bar: the focus that leaves with no target is a click on its padding, not a leave. */
+  private onPress = (): void => {
+    this.pressing = true;
+    window.setTimeout(() => {
+      this.pressing = false;
+    }, 0);
+  };
+
   private onFocusOut = (event: FocusEvent): void => {
     const next = event.relatedTarget as Node | null;
-    if (next !== null && !this.contains(next) && !(this.shadowRoot?.contains(next) ?? false)) {
+    if (next === null) {
+      /* The focus left to nowhere (a `blur()`, another window): the bar was left, unless it is a click inside. */
+      if (!this.pressing) this.closePanel();
+      return;
+    }
+    if (!this.contains(next) && !(this.shadowRoot?.contains(next) ?? false)) {
       this.closePanel();
     }
   };
 
   private onDocumentKeydown = (event: KeyboardEvent): void => {
     if (event.key !== 'Escape' || !this.open) return;
+    /* The Esc is the panel's: it must not also close a dialog around the bar (the dropdown menu does the same). */
+    event.preventDefault();
     event.stopPropagation();
     this.closeToControl();
   };
@@ -517,12 +551,35 @@ export class NphNavigationMenu extends LitElement {
     document.addEventListener('pointerdown', this.onDocumentPointerdown, true);
     window.addEventListener('scroll', this.onViewportChange, true);
     window.addEventListener('resize', this.onViewportChange);
+    this.updateScrollTargets();
     this.resizeObserver = new ResizeObserver(() => this.placeShown());
+  }
+
+  /** A `scroll` is not composed: a scroller inside another shadow root is heard only on its own path. */
+  private updateScrollTargets(): void {
+    this.clearScrollTargets();
+    let node: Node | null = this;
+    while (node !== null) {
+      if (node instanceof Element || node instanceof ShadowRoot) {
+        node.addEventListener('scroll', this.onViewportChange, true);
+        this.scrollTargets.push(node);
+      }
+      /* The flat tree: a slotted node goes through its slot, inside the shadow root around it. */
+      node = node instanceof ShadowRoot ? node.host : ((node as Element).assignedSlot ?? node.parentNode);
+    }
+  }
+
+  private clearScrollTargets(): void {
+    for (const target of this.scrollTargets) {
+      target.removeEventListener('scroll', this.onViewportChange, true);
+    }
+    this.scrollTargets.length = 0;
   }
 
   private stopListening(): void {
     if (!this.listening) return;
     this.listening = false;
+    this.clearScrollTargets();
     document.removeEventListener('keydown', this.onDocumentKeydown, true);
     document.removeEventListener('pointerdown', this.onDocumentPointerdown, true);
     window.removeEventListener('scroll', this.onViewportChange, true);
@@ -766,7 +823,7 @@ export class NphNavigationMenu extends LitElement {
     const name = this.name();
     if (this.narrow) {
       const label = text(this.menuLabel);
-      return html`<nav aria-label=${name === null ? nothing : name} @focusout=${this.onFocusOut}>
+      return html`<nav aria-label=${name === null ? nothing : name} @focusout=${this.onFocusOut} @pointerdown=${this.onPress}>
         <button
           class="menu-button"
           id=${MENU_BUTTON_ID}
@@ -782,7 +839,7 @@ export class NphNavigationMenu extends LitElement {
         ${this.renderNarrowList()}
       </nav>`;
     }
-    return html`<nav aria-label=${name === null ? nothing : name} @focusout=${this.onFocusOut}>
+    return html`<nav aria-label=${name === null ? nothing : name} @focusout=${this.onFocusOut} @pointerdown=${this.onPress}>
       <ul class="bar">
         ${this.items.map((item, index) => this.renderTopItem(item, index))}
       </ul>
