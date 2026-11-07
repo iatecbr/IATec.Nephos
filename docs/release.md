@@ -142,6 +142,12 @@ replaced, so every attempt needs a new `rc.N`.
 4. Check the version in the feed (`npm view @iatec/nephos@5.0.0-rc.N --registry
    <feed>`, with a feed token) and install it in a scratch project.
 
+The feed has `latest` on `5.0.0-rc.1`: the registry gives `latest` to the first
+version ever published of a package, whatever `--tag` says (the pipeline ran
+`npm publish --tag rc`). Later release candidates go only to `rc`, so
+`latest` stays on `rc.1` until a stable version is published. Install a
+candidate with its exact version or with `@rc`, never without a tag.
+
 If Build fails on the version guard, the tag does not match
 `package.json`: fix the version through a PR and tag again with the right name.
 If Publish says the version already exists, bump to the next `rc.N`.
