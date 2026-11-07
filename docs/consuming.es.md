@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=60517e08b884afd347a4ed366a86151de020c7c4a5fc31cd7e078bf09b1f0906 | status=rascunho -->
+<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=d72a7c8a64c9562a38123f7ce58744efd7c27c2cfda31c9ac3dcd2d94aa8f9be | status=rascunho -->
 
 # Consumir Nephos
 
@@ -12,9 +12,10 @@ Nephos. La decisión detrás de él es la **P75**, en
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), que existe solo en inglés.
 
 > **Release candidate.** El paquete se publica como `5.0.0-rc.N` bajo la etiqueta npm
-> `rc`, nunca bajo `latest`, en un feed privado. Sirve para productos que probarán
-> Nephos antes de una versión estable; la API todavía puede cambiar entre release
-> candidates.
+> `rc` en un feed privado; el pipeline nunca lo publica bajo `latest`. Instálelo
+> por su versión exacta o con `@rc`, nunca sin etiqueta. Sirve para productos que
+> probarán Nephos antes de una versión estable; la API todavía puede cambiar entre
+> release candidates.
 
 ## Qué es el paquete
 

@@ -372,6 +372,16 @@ stages:
             inputs:
               version: $(nodeVersion)
 
+          # The workspace survives between runs on self-hosted agents, and the
+          # download adds to the folder instead of replacing it. A tarball of
+          # an earlier run (run 620317 found `5.0.0-rc.1` next to `5.0.0-rc.2`)
+          # would make the version step see two files, so the folder is emptied
+          # first.
+          - bash: |
+              set -euo pipefail
+              rm -rf "$(Pipeline.Workspace)/$(packArtifactName)"
+            displayName: Clean the package artifact folder
+
           - task: DownloadPipelineArtifact@2
             displayName: Download package artifact
             inputs:
@@ -407,7 +417,13 @@ stages:
           - bash: |
               set -euo pipefail
               export NPM_CONFIG_USERCONFIG="$(Build.SourcesDirectory)/.npmrc"
-              TARBALL="$(ls "$(Pipeline.Workspace)/$(packArtifactName)"/*.tgz)"
+              # Exactly one tarball must be there: never publish a guess.
+              set -- "$(Pipeline.Workspace)/$(packArtifactName)"/*.tgz
+              if [ "$#" -ne 1 ] || [ ! -f "$1" ]; then
+                echo "##vso[task.logissue type=error]Expected exactly one tarball in the package artifact, found: $*"
+                exit 1
+              fi
+              TARBALL="$1"
               echo "Tarball: ${TARBALL}"
 
               VERSION="$(tar -xzOf "${TARBALL}" package/package.json | node -p "JSON.parse(require('fs').readFileSync(0, 'utf8')).version")"
