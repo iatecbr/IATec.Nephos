@@ -1,0 +1,361 @@
+/**
+ * Internal style of `nph-navigation-menu`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties
+ * consumed here: the `navigation-menu/*` ones, and the global tokens the accepted evidence gives to the
+ * parts that have none of their own: the focus ones (`focus/border`, `border/width`, `focus/halo`,
+ * `focus/ring-width`, `focus/border-radius-control`, `focus/radius-control-with-border`,
+ * `focus/border-radius-inner` and `focus/radius-inner-with-border`), `state/disabled-opacity`, the
+ * effect `elevation/dropdown`, the text roles `text/label-md`, `text/label-sm` and `text/body-sm`, and,
+ * for the Menu button, the tokens of the secondary ghost `nph-icon-button`.
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `1`, `none`, `auto`,
+ * `nowrap` and `ellipsis` (the title and the description stay on one line), `max-content` (the wide panel hugs its content),
+ * `calc(-1 * ...)` (focus border and halo outside the box, without changing its size) and `z-index: 1`
+ * (the focused item paints its halo over its neighbors).
+ *
+ * The group label is a CSS replica of the group label of `nph-dropdown-menu` (the evidence calls it an
+ * instance of it): `nph-dropdown-menu` is one tag (P92), so its label cannot be imported.
+ */
+
+/* Invalid input takes up no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid menu. */
+:host([data-nph-rendered]:not([hidden])) {
+  display: block;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+}
+
+.bar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--nph-navigation-menu-bar-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry {
+  flex: none;
+}
+
+/* ----- the top item: trigger and link ------------------------------------------------------- */
+
+.top {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nph-navigation-menu-trigger-gap);
+  margin: 0;
+  padding-block: var(--nph-navigation-menu-trigger-padding-y);
+  padding-inline: var(--nph-navigation-menu-trigger-padding-x);
+  border: 0;
+  border-radius: var(--nph-navigation-menu-trigger-radius);
+  background: none;
+  color: var(--nph-navigation-menu-trigger-foreground);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+}
+
+.trigger-icon {
+  flex: none;
+  inline-size: var(--nph-navigation-menu-trigger-icon-size);
+  block-size: var(--nph-navigation-menu-trigger-icon-size);
+}
+
+/* Hover, and the trigger whose panel is open: the surface and the accent text. */
+.top:not([data-current]):not([aria-disabled='true']):not(:disabled):hover,
+.top:not([data-current]).trigger[aria-expanded='true'] {
+  background-color: var(--nph-navigation-menu-trigger-background-hover);
+  color: var(--nph-navigation-menu-trigger-foreground-hover);
+}
+
+/* The current item: the current text and the indicator, which is drawn by a part of its own. */
+.top[data-current] {
+  color: var(--nph-navigation-menu-current-foreground);
+}
+
+.indicator {
+  position: absolute;
+  pointer-events: none;
+  background-color: var(--nph-navigation-menu-current-indicator-background);
+}
+
+/* On the top item the indicator is the bottom edge, full width. */
+.top > .indicator {
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: var(--nph-navigation-menu-current-indicator-width);
+}
+
+/* Disabled: `state/disabled-opacity` on the whole item, no hover, no focus. */
+.top:disabled,
+.top[aria-disabled='true'],
+.link[aria-disabled='true'] {
+  opacity: var(--nph-state-disabled-opacity);
+  cursor: default;
+}
+
+/*
+ * Focus, keyboard only, two layers outside the box: the border `border/width` in `focus/border`
+ * (the evidence says `color/primary`, which is the value `focus/border` takes) and the halo
+ * `focus/ring-width` in `focus/halo`. Top item: the radii of the control.
+ */
+.top:focus-visible::before,
+.top:focus-visible::after,
+.link:focus-visible::before,
+.link:focus-visible::after,
+.menu-button:focus-visible::before,
+.menu-button:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.top:focus-visible::before,
+.menu-button:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-control);
+}
+
+.top:focus-visible::after,
+.menu-button:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-control-with-border);
+}
+
+/* Panel link: the radii of the inner item. */
+.link:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-focus-border);
+  border-radius: var(--nph-focus-border-radius-inner);
+}
+
+.link:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-focus-radius-inner-with-border);
+}
+
+.link:focus-visible {
+  z-index: 1;
+}
+
+/* ----- the panel ---------------------------------------------------------------------------- */
+
+/*
+ * The panel is a `popover`, so it sits in the top layer: no `z-index` and no clipping by an ancestor.
+ * The resets undo the browser's `[popover]` style: `inset`, `margin: auto`, the padding, the color and
+ * the overflow. JavaScript sets `top` and `left`. The distance to the control is `panel-offset`, as a
+ * margin on the side that faces it. The wide panel hugs its content.
+ */
+.panel {
+  position: fixed;
+  inset: auto;
+  box-sizing: border-box;
+  inline-size: max-content;
+  margin: 0;
+  margin-block-start: var(--nph-navigation-menu-panel-offset);
+  padding: var(--nph-navigation-menu-panel-padding);
+  overflow: visible;
+  border: var(--nph-navigation-menu-panel-border-width) solid var(--nph-navigation-menu-panel-border);
+  border-radius: var(--nph-navigation-menu-panel-radius);
+  background-color: var(--nph-navigation-menu-panel-background);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-navigation-menu-item-title-foreground);
+  text-align: start;
+}
+
+/* The narrow panel is `panel-width` wide, padding and border included. */
+.panel[data-nph-panel='narrow'] {
+  inline-size: var(--nph-navigation-menu-panel-width);
+}
+
+/* Wide: the groups side by side; the vertical separator between them stretches to their height. */
+.groups {
+  display: flex;
+  align-items: stretch;
+  gap: var(--nph-navigation-menu-group-gap);
+}
+
+.divider {
+  flex: none;
+}
+
+/* Narrow: the sections one under the other, `group-gap` apart. */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-navigation-menu-group-gap);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-navigation-menu-group-gap);
+}
+
+.group {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  min-inline-size: 0;
+  gap: var(--nph-navigation-menu-group-gap);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-navigation-menu-group-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Group label: `text/label-sm` in `color/muted-foreground`; `space/inline` on the sides, `space/inline-tight` above and below. */
+.group-label {
+  padding-block: var(--nph-space-inline-tight);
+  padding-inline: var(--nph-space-inline);
+  color: var(--nph-navigation-menu-item-description-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+/* ----- the panel link ----------------------------------------------------------------------- */
+
+.link {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-navigation-menu-item-gap);
+  inline-size: var(--nph-navigation-menu-panel-width);
+  max-inline-size: 100%;
+  padding: var(--nph-navigation-menu-item-padding);
+  border-radius: var(--nph-navigation-menu-item-radius);
+  color: var(--nph-navigation-menu-item-title-foreground);
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+}
+
+/* In the narrow list the link fills the panel, which is `panel-width` wide with its padding. */
+.panel[data-nph-panel='narrow'] .link {
+  inline-size: auto;
+}
+
+.link-icon {
+  flex: none;
+  inline-size: var(--nph-navigation-menu-item-icon-size);
+  block-size: var(--nph-navigation-menu-item-icon-size);
+  color: var(--nph-navigation-menu-item-icon-foreground);
+}
+
+.texts {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--nph-navigation-menu-item-text-gap);
+  min-inline-size: 0;
+}
+
+.title,
+.description {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.title {
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  color: var(--nph-navigation-menu-item-title-foreground);
+}
+
+.description {
+  color: var(--nph-navigation-menu-item-description-foreground);
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+}
+
+.link:not([data-current]):not([aria-disabled='true']):hover {
+  background-color: var(--nph-navigation-menu-item-background-hover);
+}
+
+.link:not([data-current]):not([aria-disabled='true']):hover .title {
+  color: var(--nph-navigation-menu-item-title-foreground-hover);
+}
+
+.link:not([data-current]):not([aria-disabled='true']):hover .link-icon {
+  color: var(--nph-navigation-menu-item-icon-foreground-hover);
+}
+
+/* The current link: title and icon in the current color; the indicator is the start edge, full height. */
+.link[data-current] .title,
+.link[data-current] .link-icon {
+  color: var(--nph-navigation-menu-current-foreground);
+}
+
+.link > .indicator {
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: var(--nph-navigation-menu-current-indicator-width);
+}
+
+/* ----- the Menu button ---------------------------------------------------------------------- */
+
+/* The `nph-icon-button`, secondary ghost, default size, square: its tokens, on a native button. */
+.menu-button {
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--nph-control-height-default);
+  block-size: var(--nph-control-height-default);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--nph-radius-control);
+  background: none;
+  color: var(--nph-color-secondary-foreground);
+  cursor: pointer;
+  outline: none;
+}
+
+.menu-button:hover,
+.menu-button[aria-expanded='true'] {
+  background-color: var(--nph-icon-button-secondary-ghost-background-hover);
+}
+
+.menu-button nph-icon {
+  flex: none;
+}

@@ -6112,9 +6112,166 @@ API and semantics are reviewed in the pull request that brings them; the merge i
 
 ---
 
+## P110 — `nph-navigation-menu`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `3977:7913`, sets `3969:7897`, `3957:6662` and
+`3957:6722`) gives the Figma properties `largura`, `aberto`, `tipo`, `state`, `rótulo`, `ícone`, `título`,
+`descrição` and `mostrar descrição`, and leaves the code API to the code. Eight points need a decision of
+their own:
+
+- the bar is composition: how many top items, groups and links there are is not a property, and a slot
+  could not enforce "a trigger has groups, a group has links, a link has a destination";
+- `largura` is a mode of the piece (`larga` and `estreita`), and the evidence says "use narrow when the
+  items do not fit on one line" without saying who decides;
+- `aberto` is one Figma property, but it means the panel of one of several triggers when wide and the
+  vertical list when narrow;
+- the evidence has the state `atual` for the top item of both types, a trigger included, and does not say
+  who turns it on for a trigger, which is a button that goes to no page;
+- the Menu button is the `nph-icon-button`, and the evidence gives it `aria-expanded`, while `nph-button`
+  does not pass `aria-expanded` to its inner native button (the limit P109 point 6 records for the
+  ellipsis of the breadcrumb);
+- the evidence closes the panel 0.5 s after the pointer leaves and opens it after 0.3 to 0.5 s, and asks
+  for `motion/hover-delay`, which is 300 ms and has no semantic token for 500 ms;
+- the evidence does not say how a trigger and its groups show in the narrow list;
+- the evidence has no motion for the arrow or for the panel.
+
+**Decision.** `nph-navigation-menu` is a Web Component with **open Shadow DOM** (P01). It has no slot, no
+event, no `::part` and no color property. Anatomy only through semantic tokens, the `navigation-menu/*`
+ones and the global ones the evidence names (focus, `state/disabled-opacity`, `elevation/dropdown`, the
+text roles). What it rejects renders nothing and emits `console.error` only in development, once per
+cause — the rule of P66. The names follow P64.
+
+1. **`items` is a property.** The top items are a list: a link item is `{ label, href, current?,
+   disabled? }` and a trigger item is `{ type: 'trigger', label, value?, groups, disabled? }`; a group is
+   `{ label?, links }` and a link is `{ title, href, description?, icon?, current?, disabled? }`. Set by
+   property only (no attribute, no slot): a list of objects does not serialize to an attribute, and a slot
+   could not check the rule of each level. The texts are already localized by the consuming application:
+   the piece writes no word of its own. `href` takes `http:`, `https:`, `mailto:`, `tel:` or a relative
+   address, parsed as the browser would (`new URL(href, document.baseURI)`), so `javascript:` and its
+   obfuscated spellings render nothing; it is the rule of `nph-breadcrumb` (P109 point 4) and of the link
+   cell of `nph-table`. A disabled link needs no `href`.
+
+2. **`narrow` is a boolean chosen by the consumer.** It is the Figma `largura=estreita`, and it reflects.
+   The piece does not measure itself: the width is the page's to know, so it never changes shape without
+   the page asking, and the same `items` renders the same bar. It is the rule of `collapsed` in P109
+   point 2. A narrow bar needs `menu-label`, the accessible name of the Menu button, and renders nothing
+   without it.
+
+3. **`open` and `active`.** `open` is the Figma `aberto=sim`, a boolean that reflects: wide, it shows the
+   panel of the active trigger; narrow, the list. The piece turns it on and off, and the consumer may set
+   it. `active` is the `value` of the trigger whose panel `open` shows; a trigger without `value` has its
+   index as text, and an empty or unknown `active` falls back to the first trigger that is not disabled.
+   A click on a trigger writes both. The piece fires no event: the consumer needs none to draw the bar,
+   and the evidence defines none. A bar that changes width while open closes.
+
+4. **The current state.** `current` on a link, the top one or a panel one, marks the page. A menu has one
+   current page, and more than one renders nothing. The state `atual` of a trigger is **derived**: a
+   trigger shows as current when its panel holds the current link, so there is a single place that says
+   where the person is (D-2). The link carries `aria-current="page"`; a trigger that holds the current
+   link carries `aria-current="true"`, which is the section and not a page. The indicator is a part of its
+   own, hidden from assistive technology, and always comes with the current text color (WCAG 1.4.1). A
+   current item does not change on hover: the evidence has no hover state for it. The current panel link
+   draws its icon solid, since solid marks the active item (AGENTS.md); the icon of the other links stays
+   light, and it does not swap to solid on hover, as the item of `nph-dropdown-menu` does, because the
+   evidence gives the icon a hover color and no swap.
+
+5. **The accessible name.** `label` names the navigation landmark; the host `aria-label` does it when
+   there is no `label`, read by a property whose attribute is `aria-label` (as in P107 and P109 point 5).
+   A bar with neither renders and warns once in development, because the name may arrive after the first
+   render. A trigger is named by its label, and a panel link by its content: the title and, when it has
+   one, the description. A link is not given `aria-labelledby` on its title, because the visible
+   description would then be outside its name (the axe rule `label-content-name-mismatch`).
+
+6. **Disclosure navigation.** A `nav` with a name; each trigger is a native `button` with `aria-expanded`
+   and `aria-controls` pointing to its panel, in the same shadow root. The panel comes right after its
+   trigger in the DOM, so it is in the Tab order right after it, and a closed panel is out of it. Enter
+   and Space open and close it; Esc closes it and gives the focus back to the trigger; a click outside, and
+   the focus leaving the bar, close it; following a link closes it. There are no arrow keys: it is not a
+   menubar, as the evidence says.
+
+7. **The layer.** The panel is a `popover="manual"`, so it lives in the top layer, as the balloon of
+   `nph-tooltip` (P77) and the panel of `nph-dropdown-menu` (P92): no `z-index` and no clipping by an
+   ancestor. It opens `navigation-menu/panel-offset` below its control, aligned to its start edge (the
+   right one in right-to-left writing), and never leaves the window sideways. It follows the trigger on
+   scroll and resize. It never turns up: the bar is always at the top of the page, which the evidence
+   says. The wide panel hugs its content; the narrow panel and the panel link take
+   `navigation-menu/panel-width`, as the evidence says. In a window narrower than its content the groups
+   shrink to fit it. It does not depend on the `nph-popover` (DSA-67).
+
+8. **The pointer.** A trigger opens when the mouse rests on it for `motion/hover-delay`, and the panel
+   closes the same time after the pointer leaves the trigger and the panel, and stays open while the
+   pointer is over either. The evidence asks for 0.5 s to close and has no semantic token for it:
+   `motion/hover-delay` is 300 ms and `core/duration-delay-long` is 600 ms, and a component never reads
+   `core/*`. The piece reads `motion/hover-delay` for both, read the way `nph-tooltip` reads it, and the
+   difference is the pending decision D-4. A click on a trigger the pointer opened keeps it open until
+   another click, so the click that follows a hover does not close what it just meant to open. Touch and
+   pen open by click only.
+
+9. **The Menu button.** It is a native `button` in the shadow root, with `aria-label` from `menu-label`,
+   `aria-expanded` and `aria-controls`, drawn with the tokens of the secondary ghost `nph-icon-button`
+   (`icon-button/secondary-ghost-background-hover`, `color/secondary-foreground`),
+   `control/height-default` square, `radius/control` and the global focus tokens, with the `bars` icon and
+   an `nph-tooltip` with `relation="name"` and the same text, as every icon-only button carries (P86). It
+   is a native `button` and not an `nph-button` for the reason of P109 point 6: the `nph-button` does not
+   pass `aria-expanded` to its inner button, and the evidence gives the Menu button `aria-expanded`. The
+   look of the open button is read from `aria-expanded` in CSS.
+
+10. **The narrow list.** It opens the same items as a vertical list in a panel `panel-width` wide. Each
+    trigger shows as a group: its label is the label of the group (drawn as the group label of
+    `nph-dropdown-menu`, by a CSS replica, since `nph-dropdown-menu` is one tag, P92, and its label cannot
+    be imported), followed by its groups and links; the top links come together in one section; the
+    sections are separated by a horizontal `nph-separator`, `group-gap` apart. The current link is marked.
+    The evidence does not say how a trigger shows here (D-1).
+
+11. **Motion.** The evidence has no motion for the arrow or the panel, so the arrow does not turn and the
+    panel enters and leaves with no transition (D-3).
+
+12. **Invalid input.** An `items` that is not a list or is empty; an item with a `type` other than `link`
+    and `trigger`; a link or a panel link without `label` or `title`; a link without `href` that is not
+    disabled, or with a protocol other than the four; a trigger without `groups` or a group without
+    `links`; an `icon` outside the core; two triggers with the same `value`; more than one current link;
+    a narrow bar without `menu-label` — each renders nothing and emits `console.error` only in
+    development, once per cause: a re-render with the same input stays silent, and a fixed input draws
+    again with no leftover. A bar without an accessible name renders and warns once. A missing
+    `motion/hover-delay` opens and closes on hover with no wait and reports it once.
+
+**Source.** Documentation `3977:7913` and sets `3969:7897`, `3957:6662` and `3957:6722` of the Figma file
+`DS-IA-NEPHOS 5.0`, accepted by Indiane on 03/11/2026 with the Figma UX QA and the textual audit approved,
+and the twelve points of its appendix answered as recommended. The property names, the shape of `items`,
+the semantics, the invalid-input rule, the derived current state of the trigger, the use of
+`motion/hover-delay` for closing and the narrow list are a technical proposal of this implementation.
+
+**Out of scope.** A featured card inside the panel, a menubar pattern and more than one level of panels,
+as the task says. A new token. A change in `nph-dropdown-menu`, `nph-icon-button`, `nph-separator` or
+`nph-icon`. A collapse by width done by the piece. A motion for the arrow or the panel.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — a trigger in the narrow list.** The evidence says the Menu button opens "the same items as a
+  vertical list" and does not say how a trigger and its groups show. The code shows each trigger as a
+  group, with its label as the group label, and its links below. If the list should fold the groups of a
+  trigger, Indiane decides.
+- **D-2 — who turns on the current state of a trigger.** The evidence has the state `atual` for the top
+  item of both types. The code derives it from the current link in the panel. If a trigger should be
+  marked current on its own, a new field would be needed.
+- **D-3 — motion.** The evidence has no motion for the arrow or the panel. The code has none: the arrow
+  does not turn and the panel enters and leaves with no transition.
+- **D-4 — the closing wait.** The evidence says 0.5 s to close and the token `motion/hover-delay` is
+  300 ms, with no semantic token for 500 ms. The code uses `motion/hover-delay` for opening and closing.
+  If the closing wait must be 500 ms, a token is needed, and tokens come from Figma.
+- **D-5 — the contrast of the current text in dark mode.** `navigation-menu/current-foreground` is
+  `color/primary-hover`, which in the dark scheme resolves to a dark shade in four brands, over the dark
+  bar (1.49:1 to 2.16:1). The `Brands` story carries `BRAND_CONTRAST_EXCEPTION`, as the sidebar item and
+  the dropdown menu already do for the same token (DSA-36, D2).
+
+**Status.** Anatomy and behavior accepted by Indiane on 03/11/2026. D-1 to D-5 wait for Indiane. API and
+semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108 or P109 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109 or P110 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

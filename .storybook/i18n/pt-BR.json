@@ -368,7 +368,18 @@
     "components-nph-breadcrumb-validation--direction": "Direção",
     "components-nph-breadcrumb-validation--loading": "Carregamento",
     "components-nph-breadcrumb-validation--examples": "Exemplos",
-    "components-nph-breadcrumb-validation--brands": "Marcas"
+    "components-nph-breadcrumb-validation--brands": "Marcas",
+    "components-nph-navigation-menu-docs": "Docs",
+    "components-nph-navigation-menu-docs--documentation": "Documentação",
+    "components-nph-navigation-menu-validation": "Validação",
+    "components-nph-navigation-menu-validation--bar": "Barra",
+    "components-nph-navigation-menu-validation--panel": "Painel",
+    "components-nph-navigation-menu-validation--current": "Atual",
+    "components-nph-navigation-menu-validation--narrow": "Estreita",
+    "components-nph-navigation-menu-validation--long-text": "Texto longo",
+    "components-nph-navigation-menu-validation--direction": "Direção",
+    "components-nph-navigation-menu-validation--examples": "Exemplos",
+    "components-nph-navigation-menu-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7415,7 +7426,15 @@
       "components-nph-breadcrumb-validation--direction": "Escrita da direita para a esquerda: a trilha se lê a partir da direita e o chevron do separador espelha.",
       "components-nph-breadcrumb-validation--loading": "A peça não tem estado de carregamento: enquanto a página carrega, uma linha de nph-skeleton toma o lugar da trilha.",
       "components-nph-breadcrumb-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: dois níveis só com texto, quatro níveis com ícones e uma trilha longa recolhida com o menu aberto.",
-      "components-nph-breadcrumb-validation--brands": "As sete marcas nos modos claro e escuro: a borda de foco e o halo do link e do botão de reticências seguem a marca do quadro."
+      "components-nph-breadcrumb-validation--brands": "As sete marcas nos modos claro e escuro: a borda de foco e o halo do link e do botão de reticências seguem a marca do quadro.",
+      "components-nph-navigation-menu-validation--bar": "A barra fechada: um link de topo, um gatilho com a seta e um item desabilitado, com o texto na cor do primeiro plano e sem fundo em repouso.",
+      "components-nph-navigation-menu-validation--panel": "O painel de um gatilho aberto: um grupo de links, e dois grupos com rótulo lado a lado com o separador vertical entre eles. O painel abraça o conteúdo e cada link tem 280 px de largura.",
+      "components-nph-navigation-menu-validation--current": "A página atual marcada por mais do que a cor: a barra sob o item de topo e a barra no início do link do painel, com a cor de texto do atual. Um gatilho que guarda o link atual também aparece como atual.",
+      "components-nph-navigation-menu-validation--narrow": "A largura estreita: a barra vira o botão Menu, fechado e aberto, com os mesmos itens em lista vertical, onde cada gatilho aparece como um grupo e o link atual fica marcado.",
+      "components-nph-navigation-menu-validation--long-text": "Um título e uma descrição longos em um link do painel: cada um é cortado com reticências em uma linha e o link mantém a largura.",
+      "components-nph-navigation-menu-validation--direction": "Escrita da direita para a esquerda: a barra lê da direita, o painel abre a partir da borda inicial do gatilho e o indicador do link do painel fica no início.",
+      "components-nph-navigation-menu-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: a barra fechada com dois gatilhos e o link da página atual, um gatilho aberto com um painel de dois grupos, e a largura estreita com o botão Menu aberto.",
+      "components-nph-navigation-menu-validation--brands": "As sete marcas em modo claro e escuro: a borda e o halo de foco dos itens seguem a marca do quadro."
     }
   },
   "multiComboboxDocs": {
@@ -10801,6 +10820,247 @@
     "sourceSpec": "Ficha do nph-breadcrumb; Figma, frame nph-breadcrumb (4512:4741)",
     "sourceApi": "Ficha do nph-breadcrumb; docs/decisoes-tecnicas.md › P109",
     "sourceAnatomy": "Figma, conjuntos 4490:2886, 4490:2678 e 4490:2697; design.md",
+    "matrixLabel": "Matriz do componente"
+  },
+  "navigationMenuValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "navLabel": "Navegação principal",
+    "menuLabel": "Menu",
+    "products": "Produtos",
+    "resources": "Recursos",
+    "pricing": "Preços",
+    "groupBuild": "Construir",
+    "groupManage": "Gerenciar",
+    "components": "Componentes",
+    "componentsDescription": "Blocos reutilizáveis.",
+    "tokens": "Tokens",
+    "tokensDescription": "Decisões de design em valores.",
+    "icons": "Ícones",
+    "iconsDescription": "O conjunto de ícones do núcleo.",
+    "guides": "Guias",
+    "guidesDescription": "Da configuração à publicação.",
+    "changelog": "Histórico de versões",
+    "changelogDescription": "O que mudou, por versão.",
+    "status": "Status",
+    "statusDescription": "Estado atual dos serviços.",
+    "docs": "Documentação",
+    "blog": "Blog",
+    "support": "Suporte",
+    "supportDescription": "Fale com a equipe.",
+    "longTitle": "Um título de link do painel tão longo que passa bem da largura do link e precisa ser cortado",
+    "longDescription": "Uma descrição igualmente longa, que também passa da largura do link em uma única linha e é cortada com reticências"
+  },
+  "navigationMenuDocs": {
+    "summary": "A barra de navegação principal: itens de topo que são links ou gatilhos, e um painel de links agrupados sob cada gatilho.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, valem as fontes canônicas: a ficha do nph-navigation-menu, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P110. O arquivo DS-IA-NEPHOS 5.0 no Figma é a fonte visual. Nenhuma regra é criada aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Para as seções principais e estáveis de um produto ou site, sempre visíveis no topo.",
+      "Um gatilho quando a seção tem páginas internas; um link de topo quando ela vai direto a uma página.",
+      "Dois grupos com rótulo em um painel quando ele reúne links de tipos diferentes.",
+      "narrow quando os itens não cabem em uma linha: a barra vira o botão Menu, que abre os mesmos itens em lista vertical."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para ações sobre um objeto, como excluir: a navegação vai a páginas e não altera dados; use o nph-dropdown-menu.",
+      "Como barra de comandos de aplicativo (menubar): a peça é navegação por divulgação, sem o padrão de setas da barra de menus.",
+      "Para trocar o conteúdo da mesma página: use abas.",
+      "Como navegação lateral com vários níveis: use a barra lateral.",
+      "Para esconder a barra atrás do botão Menu quando os itens cabem: menus escondidos reduzem a descoberta das seções."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "items",
+        "Os itens de topo da barra, em ordem. Só propriedade: definida por JavaScript. Um item link é { label, href }; um item gatilho é { type: 'trigger', label, groups } com um value opcional; um grupo é { label, links }; um link é { title, href, description, icon, current, disabled }."
+      ],
+      [
+        "narrow",
+        "O valor estreita da propriedade de largura do Figma. A barra vira o botão Menu, que abre os mesmos itens em lista vertical. Exige menu-label. Refletida no atributo."
+      ],
+      [
+        "open",
+        "O valor sim da propriedade aberto do Figma. Na barra larga, mostra o painel do gatilho ativo; na estreita, mostra a lista. A peça liga e desliga; o consumidor pode definir. Refletida no atributo."
+      ],
+      [
+        "active",
+        "O value do gatilho cujo painel o open mostra. Sem value, o gatilho tem o seu índice como texto. Vazio: o primeiro gatilho que não está desabilitado."
+      ],
+      [
+        "label",
+        "O nome acessível do marco de navegação. Já traduzido."
+      ],
+      [
+        "menu-label",
+        "O nome acessível do botão Menu, como \"Menu\". Obrigatório quando narrow. Já traduzido."
+      ],
+      [
+        "aria-label",
+        "O nome acessível do marco quando não há label."
+      ],
+      [
+        "current",
+        "Um campo do link, não uma propriedade da barra: a página em que a pessoa está. Um por menu. O gatilho aparece como atual quando o painel dele guarda o link atual."
+      ],
+      [
+        "largura, cor e tamanho",
+        "Não são propriedades: o painel largo abraça o conteúdo, o painel estreito e o link do painel têm 280 px de largura, e a cor vem dos tokens."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-navigation-menu id=\"menu\" label=\"Navegação principal\"></nph-navigation-menu>\n<script>\n  menu.items = [\n    {\n      type: 'trigger',\n      label: 'Produtos',\n      groups: [{ label: 'Construir', links: [{ title: 'Componentes', href: '/componentes' }] }],\n    },\n    { label: 'Preços', href: '/precos', current: true },\n  ];\n</script>",
+    "usageTag": "A tag da peça. Os itens chegam como dados na propriedade items, definida por JavaScript; o gatilho leva os seus grupos de links e o link leva o seu href.",
+    "usageImport": "Registra o componente com os seus estilos. O CSS gerado dos tokens é importado à parte.",
+    "sourceUsage": "Figma, quadro nph-navigation-menu (3977:7913); docs/decisoes-tecnicas.md › P110",
+    "barTitle": "A barra",
+    "barCaption": "A barra fechada com um gatilho, um link e um item desabilitado.",
+    "barUseHeader": [
+      "Item de topo",
+      "Quando usar"
+    ],
+    "barUse": [
+      {
+        "value": "trigger",
+        "label": "Quando a seção tem páginas internas. Leva uma seta e abre um painel de links agrupados."
+      },
+      {
+        "value": "link",
+        "label": "Quando a seção vai direto a uma página. Não tem seta."
+      },
+      {
+        "value": "disabled",
+        "label": "Um item que não está disponível agora. Perde opacidade, não tem hover nem foco."
+      }
+    ],
+    "panelTitle": "O painel",
+    "panelCaption": "Um gatilho aberto, com dois grupos de links com rótulo.",
+    "panel": [
+      "O painel abre abaixo do gatilho, alinhado à borda inicial dele, na camada superior, e nunca sai da janela pelos lados.",
+      "Um link do painel tem título, descrição opcional e ícone opcional. Dois grupos ficam lado a lado, com um separador vertical entre eles.",
+      "Um gatilho abre com clique, Enter ou Espaço. Com o mouse, abre depois de uma espera curta e fecha o mesmo tempo depois de o ponteiro sair do gatilho e do painel. Esc fecha e devolve o foco ao gatilho.",
+      "O painel largo abraça o conteúdo. Todo link do painel tem 280 px de largura."
+    ],
+    "currentTitle": "Página atual",
+    "currentCaption": "O link atual do painel marcado, e o gatilho dele também como atual.",
+    "current": [
+      "A página atual é marcada por mais do que a cor: uma barra sob o item de topo, ou no início do link do painel, junto com a cor de texto do atual.",
+      "Um menu tem uma página atual. O gatilho aparece como atual quando o painel dele guarda o link atual.",
+      "Um link de topo marcado como atual leva aria-current=\"page\"; o link atual do painel também, e o ícone dele é sólido."
+    ],
+    "narrowTitle": "Largura estreita",
+    "narrowCaption": "O botão Menu aberto, com os mesmos itens em lista vertical.",
+    "narrow": [
+      "Quando os itens não cabem em uma linha, a barra vira o botão Menu. O consumidor escolhe narrow; a peça não se mede sozinha.",
+      "O botão Menu abre os mesmos itens em lista vertical, em um painel de 280 px. Cada gatilho aparece como um grupo, com o rótulo dele como rótulo do grupo.",
+      "Não esconda a barra atrás do botão Menu quando os itens cabem."
+    ],
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Fica no topo da página, no cabeçalho de um produto ou site. Não substitui uma barra de comandos de aplicativo, abas nem a barra lateral.",
+      "Trabalha com o nph-icon, que desenha a seta, os ícones dos links e o ícone do botão Menu, com o nph-separator, que divide os grupos, e com o nph-tooltip, que dá o nome ao botão Menu.",
+      "Para ações sobre um objeto, como excluir, use o nph-dropdown-menu: a navegação vai a páginas e não altera dados."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Barra",
+        "A linha de itens de topo, separados por navigation-menu/bar-gap."
+      ],
+      [
+        "Gatilho",
+        "Um item de topo com a seta chevron-down, em navigation-menu/trigger-icon-size, que abre o painel."
+      ],
+      [
+        "Link de topo",
+        "Um item de topo sem seta, que vai direto à página."
+      ],
+      [
+        "Indicador de atual",
+        "Uma barra de navigation-menu/current-indicator-width em navigation-menu/current-indicator-background, sob o item de topo e no início do link atual do painel."
+      ],
+      [
+        "Painel",
+        "A superfície flutuante em navigation-menu/panel-background, com a borda navigation-menu/panel-border, o raio navigation-menu/panel-radius e a sombra elevation/dropdown, navigation-menu/panel-offset abaixo do gatilho."
+      ],
+      [
+        "Rótulo do grupo",
+        "O rótulo de um grupo de links, como o rótulo de grupo do nph-dropdown-menu."
+      ],
+      [
+        "Link do painel",
+        "Um título, uma descrição opcional e um ícone opcional, nos tokens navigation-menu/item-*."
+      ],
+      [
+        "Separador",
+        "Um nph-separator vertical entre os grupos."
+      ],
+      [
+        "Botão Menu",
+        "Um botão com o ícone bars, só na largura estreita."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "O texto sobre o fundo e sobre o popover passa no nível exigido nos dois temas; o indicador e a borda de foco, na cor primária, têm ao menos 3:1 contra o fundo."
+      ],
+      [
+        "Foco visível",
+        "O item de topo, o link do painel e o botão Menu mostram a borda e o halo de foco por fora, sem mudar o tamanho. A borda atende 3:1."
+      ],
+      [
+        "A cor não é o único sinal",
+        "A página atual tem o indicador além da cor de texto do atual. O gatilho aberto mostra o painel e o fundo de hover."
+      ],
+      [
+        "Tamanho do alvo",
+        "Os itens de topo e o botão Menu são maiores que 24 por 24; o botão Menu é um quadrado de 36 px."
+      ],
+      [
+        "Nome acessível",
+        "Um marco de navegação nomeado por label ou aria-label. O gatilho é um botão com aria-expanded e aria-controls. O link da página atual leva aria-current=\"page\". A seta e os ícones dos links são decorativos. O botão Menu tem o nome \"Menu\"."
+      ],
+      [
+        "Teclado",
+        "Tab passa pelos itens e pelos links de um painel aberto; Enter e Espaço abrem e fecham um gatilho; Esc fecha o painel e devolve o foco. É navegação por divulgação, não uma barra de menus: não há setas."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "examplesCaption": "Os três exemplos obrigatórios: a barra fechada, um gatilho aberto com dois grupos e a largura estreita com o botão Menu aberto.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-navigation-menu — finalidade, itens, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P110 (API e semântica), P01, P02 e P03.",
+      "design.md — os tokens navigation-menu/* e os tokens de foco.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Navigation Menu, quadro de documentação nph-navigation-menu (3977:7913), conjuntos 3969:7897, 3957:6662 e 3957:6722.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "Ficha do nph-navigation-menu; Figma, quadro nph-navigation-menu (3977:7913)",
+    "sourceApi": "Ficha do nph-navigation-menu; docs/decisoes-tecnicas.md › P110",
+    "sourceAnatomy": "Figma, conjuntos 3969:7897, 3957:6662 e 3957:6722; design.md",
     "matrixLabel": "Matriz do componente"
   }
 }

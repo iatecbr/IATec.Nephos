@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 610,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-navigation-menu",
   "dependencies": [
     "DSA-03",
@@ -51,7 +51,7 @@
     "converted_decision": "The nph-navigation-menu documentation frame (3977:7913, page 1626:16) was accepted as the API and behavior specification of nph-navigation-menu. Component sets: nph-navigation-menu (3969:7897), with the inner pieces top item (3957:6662) and panel link (3957:6722). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "context": "docs/operacao/contextos/DSA-62.md",
   "updated_at": "2026-11-03"
 }
 ```
