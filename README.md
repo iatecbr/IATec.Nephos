@@ -82,7 +82,7 @@ Omitting both gives you Sistemas in light mode.
 ## Using the package
 
 Nephos is published as `@iatec/nephos`. Release candidates (`5.0.0-rc.N`) go to a
-private Azure DevOps Artifacts feed under the npm tag `rc`, never `latest`; **every
+private Azure DevOps Artifacts feed under the npm tag `rc`; the pipeline never publishes them to `latest`; **every
 consumer needs a Font Awesome Pro npm token**, because `lit` and Font Awesome Pro
 are peer dependencies. Install, tokens, and the Angular, Vue, React and Blazor setups
 are in [`docs/consuming.md`](docs/consuming.md).

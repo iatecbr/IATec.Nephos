@@ -7,9 +7,10 @@ Web Components. The decision behind it is **P75** in
 [`decisoes-tecnicas.md`](decisoes-tecnicas.md), which exists in English only.
 
 > **Release candidate.** The package is published as `5.0.0-rc.N` under the npm
-> tag `rc`, never under `latest`, to a private feed. It is for products that
-> will try Nephos before a stable release; the API can still change between
-> release candidates.
+> tag `rc` to a private feed; the pipeline never publishes it under `latest`.
+> Install it by its exact version or with `@rc`, never without a tag. It is for
+> products that will try Nephos before a stable release; the API can still
+> change between release candidates.
 
 ## What the package is
 
