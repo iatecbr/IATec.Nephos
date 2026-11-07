@@ -26,10 +26,10 @@ native scrollbar stylesheet.
 | `@iatec/nephos/scrollbar.css` | The color of the native scrollbar. Load it right after `tokens.css`. |
 | `@iatec/nephos/custom-elements.json` | The manifest that editors and documentation tools read. |
 
-Available in `5.0.0-rc.1`: `nph-badge`, `nph-button`, `nph-icon`, `nph-kbd`,
-`nph-label`, `nph-separator`, `nph-skeleton`, `nph-spinner`, `nph-togglebutton`
-and `nph-tooltip`. The properties, variants and states of each one are in
-Storybook (`npm run storybook`) and in its sheet, `fichas/<name>.md`.
+Available in `5.0.0-rc.2`: every `nph-*` entry point the package exports. The
+list of components, with their properties, is in `custom-elements.json`. The
+variants and states of each one are in Storybook (`npm run storybook`) and in
+its sheet, `fichas/<name>.md`.
 
 ## Install
 
