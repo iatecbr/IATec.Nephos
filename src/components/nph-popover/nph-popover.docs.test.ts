@@ -177,6 +177,25 @@ describe('nph-popover Validation: text only from the dictionary', () => {
     expect(popoversOf(target).map((piece) => `${piece.size} ${piece.arrow}`)).toEqual(['sm false', 'md false', 'lg false']);
   });
 
+  it('the footer actions of the demos close their popover, as the contract says (the consumer sets open to false)', async () => {
+    const target = document.createElement('div');
+    document.body.append(target);
+    render((validation.Interactive as Renderable).render?.({}, { globals: { locale: 'en' } }) as TemplateResult, target);
+    const popover = popoversOf(target)[0] as NphPopover;
+    await popover.updateComplete;
+    await settle();
+    popover.open = true;
+    await popover.updateComplete;
+    const buttons = [...popover.querySelectorAll<HTMLElement>('[slot="footer"]')];
+    expect(buttons).toHaveLength(2);
+    for (const button of buttons) {
+      popover.open = true;
+      await popover.updateComplete;
+      button.click();
+      expect(popover.open).toBe(false);
+    }
+  });
+
   it('Examples: light and dark, with the captions of the chosen language', () => {
     const story = validation.Examples as Renderable;
     for (const locale of LOCALES) {

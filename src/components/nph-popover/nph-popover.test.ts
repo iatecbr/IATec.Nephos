@@ -478,14 +478,58 @@ describe('closing, and where the focus goes', () => {
   it('Esc closes the popover only: it does not reach a listener of the page', async () => {
     const setup = await mount();
     const page_ = vi.fn();
-    document.addEventListener('keydown', page_);
+    window.addEventListener('keydown', page_);
     try {
       await open(setup);
       await userEvent.keyboard('{Escape}');
       expect(page_).not.toHaveBeenCalled();
     } finally {
-      document.removeEventListener('keydown', page_);
+      window.removeEventListener('keydown', page_);
     }
+  });
+
+  it('Esc that a control of the body used closes only that control: an open nph-select list stays inside the popover', async () => {
+    await import('../nph-select/nph-select');
+    const setup = await mount(
+      {},
+      { body: '<nph-select label="Department"><nph-option value="legal">Legal</nph-option><nph-option value="sales">Sales</nph-option></nph-select>' },
+    );
+    const select = setup.popover.querySelector('nph-select') as HTMLElement & { open: boolean; updateComplete: Promise<unknown> };
+    await open(setup);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await userEvent.keyboard('{ArrowDown}');
+    await select.updateComplete;
+    expect(select.open).toBe(true);
+    const seen = closes(setup.popover);
+    await userEvent.keyboard('{Escape}');
+    await settle(setup.popover);
+    expect(select.open).toBe(false);
+    expect(setup.popover.open).toBe(true);
+    expect(seen).toEqual([]);
+  });
+
+  it('Esc that a control consumed with preventDefault does not close the popover; the next one does', async () => {
+    const setup = await mount({}, { body: '<input id="field" />' });
+    const field = document.getElementById('field') as HTMLInputElement;
+    const consume = (event: KeyboardEvent): void => event.preventDefault();
+    field.addEventListener('keydown', consume);
+    await open(setup);
+    await userEvent.keyboard('{Escape}');
+    await settle(setup.popover);
+    expect(setup.popover.open).toBe(true);
+    field.removeEventListener('keydown', consume);
+    await userEvent.keyboard('{Escape}');
+    await settle(setup.popover);
+    expect(setup.popover.open).toBe(false);
+  });
+
+  it('Esc with the focus on the trigger closes it too', async () => {
+    const setup = await mount({}, { body: '<input id="field" />' });
+    await open(setup);
+    control(setup.trigger).focus();
+    await userEvent.keyboard('{Escape}');
+    await settle(setup.popover);
+    expect(setup.popover.open).toBe(false);
   });
 
   it('a second Esc, with the popover closed, reaches the page', async () => {
@@ -494,12 +538,12 @@ describe('closing, and where the focus goes', () => {
     await userEvent.keyboard('{Escape}');
     await settle(setup.popover);
     const page_ = vi.fn();
-    document.addEventListener('keydown', page_);
+    window.addEventListener('keydown', page_);
     try {
       await userEvent.keyboard('{Escape}');
       expect(page_).toHaveBeenCalledTimes(1);
     } finally {
-      document.removeEventListener('keydown', page_);
+      window.removeEventListener('keydown', page_);
     }
   });
 
@@ -584,6 +628,28 @@ describe('closing, and where the focus goes', () => {
     control(setup.trigger).focus();
     await settle(setup.popover);
     expect(setup.popover.open).toBe(true);
+  });
+
+  it('Shift+Tab from the first control to the trigger and then to the page closes it with source focus-out', async () => {
+    const before = document.createElement('input');
+    before.id = 'before';
+    before.style.cssText = 'position: fixed; left: 40px; top: 40px;';
+    document.body.append(before);
+    const setup = await mount({}, { body: '<input id="field" />' });
+    /* The trigger sits after the field before it in the page, so Shift+Tab from the trigger reaches it. */
+    document.body.prepend(before);
+    const seen = closes(setup.popover);
+    await open(setup);
+    expect(deepActive()?.id).toBe('field');
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}');
+    await settle(setup.popover);
+    expect(deepActive()).toBe(control(setup.trigger));
+    expect(setup.popover.open).toBe(true);
+    await userEvent.keyboard('{Shift>}{Tab}{/Shift}');
+    await settle(setup.popover);
+    expect(deepActive()).toBe(before);
+    expect(setup.popover.open).toBe(false);
+    expect(seen).toEqual(['focus-out']);
   });
 
   it('setting open to false from code with the focus on the page gives nothing back', async () => {
@@ -1222,6 +1288,18 @@ describe('the exit and the motion', () => {
     expect(surface(setup.popover).hasAttribute('data-open')).toBe(false);
     await until(() => !shown(setup.popover));
     expect(shown(setup.popover)).toBe(false);
+  });
+
+  it('opening again during the exit brings the focus back into the surface', async () => {
+    const setup = await mount({}, { body: '<input id="field" />' });
+    await open(setup);
+    expect(deepActive()?.id).toBe('field');
+    setup.popover.open = false;
+    await settle(setup.popover);
+    expect(deepActive()).toBe(control(setup.trigger));
+    setup.popover.open = true;
+    await settle(setup.popover);
+    expect(deepActive()?.id).toBe('field');
   });
 
   it('opening again during the exit cancels it', async () => {

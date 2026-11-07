@@ -133,8 +133,14 @@ export interface CellOptions {
 
 /** The footer of the filter example: Clear, secondary solid, and Apply, primary solid, both compact. */
 export function filterFooter(clear: string, apply: string): TemplateResult {
-  return html`<nph-button slot="footer" size="compact" severity="secondary" text=${clear}></nph-button
-    ><nph-button slot="footer" size="compact" text=${apply}></nph-button>`;
+  return html`<nph-button slot="footer" size="compact" severity="secondary" text=${clear} @click=${closeFooter}></nph-button
+    ><nph-button slot="footer" size="compact" text=${apply} @click=${closeFooter}></nph-button>`;
+}
+
+/** A footer action closes the popover the way the contract says: the consumer sets `open` to `false`. */
+function closeFooter(event: Event): void {
+  const popover = (event.currentTarget as Element).closest('nph-popover');
+  if (popover !== null) popover.open = false;
 }
 
 /** The body of the short form: an `nph-field` with an `nph-input`. */

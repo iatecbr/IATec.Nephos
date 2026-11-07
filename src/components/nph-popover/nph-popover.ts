@@ -327,6 +327,7 @@ export class NphPopover extends LitElement {
     }
     this.trigger = found;
     found.addEventListener('click', this.onTriggerClick);
+    found.addEventListener('focusout', this.onTriggerFocusout);
     if (!found.hasAttribute('aria-haspopup')) {
       found.setAttribute('aria-haspopup', 'dialog');
       this.wroteHaspopup = true;
@@ -355,6 +356,7 @@ export class NphPopover extends LitElement {
       return;
     }
     trigger.removeEventListener('click', this.onTriggerClick);
+    trigger.removeEventListener('focusout', this.onTriggerFocusout);
     trigger.removeAttribute('aria-expanded');
     trigger.removeAttribute('aria-controls');
     if (this.wroteHaspopup) {
@@ -411,12 +413,16 @@ export class NphPopover extends LitElement {
     this.open = false;
   }
 
+  /*
+   * Esc runs in the bubbling phase, after the controls inside the body: a control that used the key,
+   * such as an open `nph-select` list, stops it or prevents its default, and the popover stays open
+   * for that press. During the exit the popover is already closed: a second Esc reaches the page.
+   */
   private readonly onDocumentKeydown = (event: KeyboardEvent): void => {
-    /* During the exit the popover is already closed: a second Esc reaches the page. */
-    if ((event.key !== 'Escape' && event.key !== 'Esc') || !this.open) {
+    if ((event.key !== 'Escape' && event.key !== 'Esc') || !this.open || event.defaultPrevented) {
       return;
     }
-    /* Esc closes the popover only, not a dialog around it (P77 item 4). */
+    /* Esc closes the popover only, not a dialog around it (P77 item 4): its default is taken. */
     event.stopPropagation();
     event.preventDefault();
     this.close('escape');
@@ -444,6 +450,15 @@ export class NphPopover extends LitElement {
     if (this.open) {
       this.close('focus-out');
     }
+  };
+
+  /** Shift+Tab from the trigger, or any move out of it to the page, closes it too: the set is trigger and popover. */
+  private readonly onTriggerFocusout = (event: FocusEvent): void => {
+    const next = event.relatedTarget;
+    if (!this.open || !(next instanceof Node) || within(next, this) || within(next, this.trigger as Node)) {
+      return;
+    }
+    this.close('focus-out');
   };
 
   private readonly onCloseClick = (): void => {
@@ -557,6 +572,8 @@ export class NphPopover extends LitElement {
   /* ----- the layer ------------------------------------------------------------ */
 
   private show(surface: HTMLElement): void {
+    /* Opened again while it was leaving: the exit stops, and the focus rule runs again, since `hide` gave it back. */
+    const reopening = this.closeTimer !== undefined;
     if (this.closeTimer !== undefined) {
       clearTimeout(this.closeTimer);
       this.closeTimer = undefined;
@@ -570,7 +587,7 @@ export class NphPopover extends LitElement {
       } catch {
         /* Not connected, or already showing: nothing to do. */
       }
-      document.addEventListener('keydown', this.onDocumentKeydown, true);
+      document.addEventListener('keydown', this.onDocumentKeydown);
       document.addEventListener('pointerdown', this.onDocumentPointerdown, true);
       window.addEventListener('scroll', this.onViewportChange, true);
       window.addEventListener('resize', this.onViewportChange);
@@ -588,6 +605,11 @@ export class NphPopover extends LitElement {
       this.place(surface);
       /* New content may still be rendering its inner pieces: measure again on the next frame. */
       this.onViewportChange();
+      if (reopening) {
+        this.keepFocus = false;
+        this.moveFocusIn(surface);
+        void this.refocusWhenDrawn(surface, ++this.openings);
+      }
     }
     surface.setAttribute('data-open', '');
   }
@@ -627,7 +649,7 @@ export class NphPopover extends LitElement {
       clearTimeout(this.closeTimer);
       this.closeTimer = undefined;
     }
-    document.removeEventListener('keydown', this.onDocumentKeydown, true);
+    document.removeEventListener('keydown', this.onDocumentKeydown);
     document.removeEventListener('pointerdown', this.onDocumentPointerdown, true);
     window.removeEventListener('scroll', this.onViewportChange, true);
     window.removeEventListener('resize', this.onViewportChange);
