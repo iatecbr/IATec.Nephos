@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 670,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-hover-card",
   "dependencies": [
     "DSA-03",
@@ -50,9 +50,9 @@
     "excerpt": null,
     "converted_decision": "The nph-hover-card documentation frame (4422:2418, page 4128:31754) was accepted as the API and behavior specification of nph-hover-card. Component set: nph-hover-card (4406:1105), 10 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
-  "updated_at": "2026-11-06"
+  "git_review": { "branch": "feat/dsa-68-hover-card", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-68.md",
+  "updated_at": "2026-11-07"
 }
 ```
 
