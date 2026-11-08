@@ -6622,8 +6622,13 @@ A new token, and a change in `color/primary` of any brand.
   Gerencial brand (2.71:1). The `Brands` story measured the link in `color/primary` below 4.5:1 in the dark
   scheme of other brands (up to 3.81:1). The fix belongs to `color/primary` of each brand, which Indiane
   owns; the piece does not change it and the story carries the contrast exception.
+- **D-4 — a window too short for the card.** The contract says nothing about a window shorter than the card
+  and its link, and says the description wraps with no scrolling. When no side fits, the code keeps the card
+  beside the link, never over it, so the link stays reachable by pointer and keyboard, and the window cuts
+  what does not fit; the card does not scroll. Indiane decides whether the card needs another fallback for
+  such a window, such as a maximum height with scrolling, which the contract rules out today.
 
-**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1, D-2 and D-3 wait for Indiane. API and
+**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-4 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---

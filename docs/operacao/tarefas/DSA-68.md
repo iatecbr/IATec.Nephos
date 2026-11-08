@@ -52,6 +52,12 @@
       "question": "Point 9 of the contract names only the Gerencial brand for the contrast of the link in dark (2.71:1). The Brands story measured the link in color/primary below 4.5:1 in the dark scheme of other brands too (up to 3.81:1). The fix belongs to color/primary of each brand; the code does not change it and the Brands story carries the contrast exception. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-07"
+    },
+    {
+      "id": "D-4",
+      "question": "When no side fits the card in a window too short for it, the code keeps the card beside the link, never over it, so the link stays reachable, and the window cuts what does not fit; the card does not scroll, because the contract says the description wraps with no scrolling. Whether such a window needs another fallback, such as a maximum height with scrolling, needs her answer. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
     }
   ],
   "evidence": [

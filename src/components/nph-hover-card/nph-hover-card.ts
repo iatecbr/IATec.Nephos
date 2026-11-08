@@ -665,8 +665,21 @@ export class NphHoverCard extends LitElement {
       x = side === 'left' ? anchor.left - gap - width : anchor.right + gap;
     }
     /* Never outside the window; the margin box starts at `top`/`left`, so add the margin back. */
+    const beside = { x, y };
     x = Math.min(Math.max(x, 0), Math.max(view.width - width, 0));
     y = Math.min(Math.max(y, 0), Math.max(view.height - height, 0));
+    /*
+     * No side fits: the clamp may slide the card over the link, which then cannot be clicked. The link
+     * wins: the card stays beside it and the window cuts what does not fit (D-4 of P112).
+     */
+    const covers = x < anchor.right && x + width > anchor.left && y < anchor.bottom && y + height > anchor.top;
+    if (covers) {
+      if (side === 'top' || side === 'bottom') {
+        y = beside.y;
+      } else {
+        x = beside.x;
+      }
+    }
     card.style.left = `${String(x - Number.parseFloat(style.marginLeft))}px`;
     card.style.top = `${String(y - Number.parseFloat(style.marginTop))}px`;
     card.setAttribute('data-side', side);

@@ -840,6 +840,27 @@ describe('findings of the Copilot review of the second head', () => {
   });
 });
 
+describe('findings of the Copilot review of the third head', () => {
+  it('in a window too short for any side the card stays beside the link and never covers it', async () => {
+    await page.viewport(414, 200);
+    try {
+      const long = 'A long summary of the destination, long enough to make the card taller than the window. '.repeat(4);
+      const card = await mount({ open: true, description: long, style: 'position:fixed;left:150px;top:90px' });
+      await opened(card);
+      const link = linkOf(card).getBoundingClientRect();
+      const surface = surfaceOf(card).getBoundingClientRect();
+      expect(surface.height).toBeGreaterThan(200);
+      const overlap = surface.left < link.right && surface.right > link.left && surface.top < link.bottom && surface.bottom > link.top;
+      expect(overlap).toBe(false);
+      /* The link answers the pointer: the point at its center is the link, not the card. */
+      const hit = document.elementFromPoint(link.left + link.width / 2, link.top + link.height / 2);
+      expect(hit).toBe(card);
+    } finally {
+      await page.viewport(414, 896);
+    }
+  });
+});
+
 describe('the closed card takes no room and no pointer', () => {
   it('a card never opened is not in the layout', async () => {
     const card = await mount();
