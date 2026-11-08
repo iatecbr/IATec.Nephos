@@ -448,8 +448,13 @@ export class NphContextMenu extends LitElement {
       event.preventDefault();
       return;
     }
-    /* The browser's own context menu of a touch held down: the long press of this menu answers it. */
-    if (now - this.lastTouchAt < SAME_GESTURE_MS * 2 && (event as PointerEvent).pointerType !== 'mouse') {
+    /*
+     * The browser's own context menu of a touch held down: the long press of this menu answers it.
+     * A `contextmenu` that says it is a touch is cancelled for a while; one that says nothing, as in
+     * browsers whose event is a plain mouse event, only within the time of the same gesture.
+     */
+    const kind = (event as PointerEvent).pointerType;
+    if (kind === 'touch' ? now - this.lastTouchAt < SAME_GESTURE_MS * 2 : kind === undefined && now - this.lastTouchAt < SAME_GESTURE_MS) {
       event.preventDefault();
       return;
     }

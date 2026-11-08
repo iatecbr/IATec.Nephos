@@ -63,12 +63,6 @@
       "question": "The code closes the submenu first on Esc and the whole menu on the second press, as the APG menu pattern does; the evidence says Esc closes the menu. If one Esc should close everything, she decides. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-08"
-    },
-    {
-      "id": "D-6",
-      "question": "arrow-pointer enters the closed core of nph-icon, and a test ties that core to the icones_nucleo list of design.md, so the name was added to that list (direcao_e_revelacao), with no token, as DSA-54 did for arrow-left-to-line. The brief of the task said not to edit design.md, so the edit is its own commit for the orchestrator to confirm. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-08"
     }
   ],
   "evidence": [

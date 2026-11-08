@@ -6579,7 +6579,9 @@ amend the look P92 records, not its API: the panel and the item take `dropdown/p
 `dropdown/item-destructive-foreground` (and `dropdown/item-destructive-hover-*` on hover), and the
 start icon turns solid on hover and on visible focus in every type, selection and size, light at rest
 and disabled; the compact destructive item follows from the same rules. `nph-icon` takes
-`arrow-pointer`, light and solid, which the example of the opening point uses. `color/dropdown-border`
+`arrow-pointer`, light and solid, which the example of the opening point uses; a test ties the closed
+core of `nph-icon` to the icon list of `design.md`, so the name was added to that list, with no token,
+as DSA-54 did for `arrow-left-to-line`. `color/dropdown-border`
 now resolves to `color/border-subtle`, so the outline of the `nph-navigation-menu` panel and of the
 loading `nph-notification` changes color with no code change.
 
@@ -6602,11 +6604,8 @@ loading state or a header on an item. An event of opening or closing. A token. A
   (DSA-45). The code keeps the label color in both menus.
 - **D-5 — Esc in the submenu.** The code closes the submenu first and the menu on the second press; the
   evidence says Esc closes the menu.
-- **D-6 — `arrow-pointer` in `design.md`.** The icon enters the closed core of `nph-icon`, and a test
-  ties that core to the `icones_nucleo` list of `design.md`, so the name was added to that list, with no
-  token, as DSA-54 did for `arrow-left-to-line`.
 
-**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-6 wait for Indiane. API
+**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-5 wait for Indiane. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---
