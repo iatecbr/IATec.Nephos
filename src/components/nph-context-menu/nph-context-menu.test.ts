@@ -1152,7 +1152,9 @@ describe('roles and names the browser computes', () => {
     expect(keyShortcutsOf('⌘⇧K')).toBe('Meta+Shift+K');
     expect(keyShortcutsOf('Ctrl+Shift+k')).toBe('Control+Shift+K');
     expect(keyShortcutsOf('Del')).toBe('Delete');
-    expect(keyShortcutsOf('Alt+←')).toBe('Alt+←');
+    expect(keyShortcutsOf('Alt+←')).toBe('Alt+ArrowLeft');
+    expect(keyShortcutsOf('Shift+→')).toBe('Shift+ArrowRight');
+    expect(keyShortcutsOf('Supr')).toBe('Delete');
     expect(keyShortcutsOf('F2')).toBe('F2');
   });
 

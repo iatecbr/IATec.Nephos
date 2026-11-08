@@ -8,9 +8,9 @@
  * `src/shared/docs/sheet-lists.test.ts` checks every page.
  */
 import { afterEach, describe, expect, it } from 'vitest';
-import { render } from 'lit';
+import { html, render } from 'lit';
 import type { TemplateResult } from 'lit';
-import { userEvent } from 'vitest/browser';
+import { page, userEvent } from 'vitest/browser';
 
 import '../../tokens/generated/tokens.css';
 import { format, sidebarLabel, translations } from '../../../.storybook/i18n/index.js';
@@ -18,6 +18,7 @@ import metadata from '../../shared/metadata/nph-context-menu.json';
 import { Documentation } from './nph-context-menu.docs.stories';
 import * as validation from './nph-context-menu.stories';
 import type { NphContextMenu, NphContextMenuItem } from './nph-context-menu';
+import { fileItems } from './nph-context-menu.demo';
 
 afterEach(() => {
   document.body.replaceChildren();
@@ -339,6 +340,69 @@ describe('nph-context-menu Validation: text only from the dictionary', () => {
       expect(menu.open).toBe(false);
       target.remove();
     }
+  });
+
+  it('the shortcuts of the three dictionaries are valid aria-keyshortcuts: modifiers, arrows, Delete and single keys', async () => {
+    const valid = /^((Control|Alt|Shift|Meta)\+)*(Arrow(Left|Right|Up|Down)|Delete|Enter|Escape|Backspace|Tab|Space|F\d{1,2}|[A-Z0-9])$/;
+    for (const locale of LOCALES) {
+      const target = document.createElement('div');
+      document.body.append(target);
+      render(
+        html`<div id="shortcuts-object"></div><nph-context-menu for="shortcuts-object" open .items=${fileItems(texts(locale))}></nph-context-menu>`,
+        target,
+      );
+      const [menu] = await settled(target);
+      const keys = [...(menu?.shadowRoot?.querySelectorAll('.item[aria-keyshortcuts]') ?? [])].map((item) => item.getAttribute('aria-keyshortcuts') ?? '');
+      expect(keys.length, locale).toBe(5);
+      for (const key of keys) {
+        expect(key, `${locale}: ${key}`).toMatch(valid);
+      }
+      expect(keys, locale).toContain('Alt+ArrowLeft');
+      expect(keys, locale).toContain('Delete');
+      target.remove();
+    }
+  });
+
+  it('SubmenuLeft: in a wide window the submenu of every example, in both modes, opens to the left', async () => {
+    await page.viewport(1400, 900);
+    try {
+      for (const locale of LOCALES) {
+        const target = draw(validation.SubmenuLeft as Renderable, locale);
+        const menus = await settled(target);
+        expect(menus).toHaveLength(2);
+        /* The object moves to the end of the window on the next frame and the menu is placed again. */
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        await Promise.all(menus.map((menu) => menu.updateComplete));
+        for (const menu of menus) {
+          const sub = menu.shadowRoot?.querySelector<HTMLElement>('.panel[data-level="1"]');
+          expect(sub?.dataset.side, `${locale} ${menu.closest('[data-nph-color-scheme]')?.getAttribute('data-nph-color-scheme')}`).toBe('left');
+          const main = menu.shadowRoot?.querySelector<HTMLElement>('.panel[data-level="0"]') as HTMLElement;
+          expect((sub as HTMLElement).getBoundingClientRect().right).toBeLessThanOrEqual(main.getBoundingClientRect().left + 1);
+        }
+        target.remove();
+        /* The Docs page shows the same example third in its examples. */
+        const docsPage = renderInLocale(locale);
+        const left = [...docsPage.querySelectorAll('section#examples [data-nph-demo]')][2] as HTMLElement;
+        const docsMenus = await settled(left);
+        expect(docsMenus).toHaveLength(2);
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        for (const menu of docsMenus) {
+          expect(menu.shadowRoot?.querySelector<HTMLElement>('.panel[data-level="1"]')?.dataset.side, `docs ${locale}`).toBe('left');
+        }
+        docsPage.remove();
+      }
+    } finally {
+      await page.viewport(414, 896);
+    }
+  });
+
+  it('Brands: the checked single choice stays in the frames, with the exception of the gate recorded', () => {
+    const target = draw(validation.Brands as Renderable, 'en');
+    const menu = target.querySelector('nph-context-menu') as NphContextMenu;
+    expect((menu.items as NphContextMenuItem[]).some((entry) => entry.selection === 'single' && entry.checked === true)).toBe(true);
+    const rules = ((validation.Brands as { parameters?: { a11y?: { options?: { rules?: Record<string, unknown> } } } }).parameters?.a11y?.options?.rules) ?? {};
+    expect(Object.keys(rules).sort()).toEqual(['color-contrast', 'label-content-name-mismatch']);
+    target.remove();
   });
 
   it('pt-BR and es have the same shape as en', () => {

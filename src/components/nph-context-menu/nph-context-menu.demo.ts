@@ -25,20 +25,21 @@ export type Scheme = 'light' | 'dark';
  * The same example in a color scheme of its own, on the same element that resolves the tokens
  * (P67). The open menu is a descendant of the figure, so it takes its scheme too.
  */
-export function inScheme(scheme: Scheme, caption: string, content: TemplateResult): TemplateResult {
+export function inScheme(scheme: Scheme, caption: string, content: TemplateResult, wide = false): TemplateResult {
   return html`<figure
     data-nph-color-scheme=${scheme}
-    style="margin: 0; display: flex; flex-direction: column; gap: var(--nph-space-inline); padding: var(--nph-space-section); background: var(--nph-color-background); color: var(--nph-color-foreground); border: var(--nph-border-width) solid var(--nph-color-border); border-radius: var(--nph-radius-control); inline-size: fit-content; min-inline-size: calc(2 * var(--nph-layout-input-width)); max-inline-size: 100%; box-sizing: border-box;"
+    style="margin: 0; display: flex; flex-direction: column; gap: var(--nph-space-inline); padding: var(--nph-space-section); background: var(--nph-color-background); color: var(--nph-color-foreground); border: var(--nph-border-width) solid var(--nph-color-border); border-radius: var(--nph-radius-control); inline-size: ${wide ? '100%' : 'fit-content'}; min-inline-size: calc(2 * var(--nph-layout-input-width)); max-inline-size: 100%; box-sizing: border-box;"
   >
     ${content}
     <figcaption style="color: var(--nph-color-muted-foreground);">${caption}</figcaption>
   </figure>`;
 }
 
-/** The same example in light and in dark mode, side by side. */
-export function bothModes(captions: { light: string; dark: string }, content: () => TemplateResult): TemplateResult {
-  return html`<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--nph-space-stack);">
-    ${inScheme('light', captions.light, content())} ${inScheme('dark', captions.dark, content())}
+/** The same example in light and in dark mode, side by side, or one above the other, each across the window, with `stacked`. */
+export function bothModes(captions: { light: string; dark: string }, content: () => TemplateResult, stacked = false): TemplateResult {
+  const direction = stacked ? 'flex-direction: column; inline-size: 100%;' : 'flex-wrap: wrap;';
+  return html`<div style="display: flex; ${direction} align-items: flex-start; gap: var(--nph-space-stack);">
+    ${inScheme('light', captions.light, content(), stacked)} ${inScheme('dark', captions.dark, content(), stacked)}
   </div>`;
 }
 
@@ -51,7 +52,11 @@ export interface MenuOptions {
   open?: boolean;
   /** The `value` of the item whose submenu is shown open. */
   submenu?: string;
-  /** Pins the object to the end of the line, so there is no room for the submenu on that side. */
+  /**
+   * Pushes the object to the end of its frame. The collision of the menu is measured against the window,
+   * so the frame must span the window (`stacked` in `bothModes`): then there is no room for the submenu
+   * on that side.
+   */
   pinned?: boolean;
   /** The rows of the open menu, to keep the room under the object. */
   rows?: number;
@@ -70,10 +75,10 @@ export function rowsOf(entries: readonly NphContextMenuEntry[]): number {
  */
 export function menuWith({ object, items, size = 'default', open = false, submenu = '', pinned = false, rows = rowsOf(items) }: MenuOptions): TemplateResult {
   const id = `nph-context-menu-demo-${++nextId}`;
+  const side = pinned ? 'margin-inline-start: auto;' : '';
   const room = open
     ? `calc(${rows} * (var(--nph-icon-size-md) + 2 * var(--nph-space-inline)) + 2 * var(--nph-space-section))`
     : 'var(--nph-control-height-large)';
-  const side = pinned ? 'margin-inline-start: auto;' : '';
   return html`<div style="display: flex; flex-direction: column; inline-size: 100%;">
     <div
       id=${id}

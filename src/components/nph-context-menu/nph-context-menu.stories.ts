@@ -25,7 +25,7 @@ import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { format, translations } from '../../../.storybook/i18n/index.js';
-import { brandFrames } from '../../shared/docs/brands';
+import { BRAND_CONTRAST_EXCEPTION, brandFrames } from '../../shared/docs/brands';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
 import './nph-context-menu';
@@ -59,14 +59,14 @@ const page = (storyId: string) => ({
 type ModeContent = () => TemplateResult;
 
 /** The same demonstration in both modes, each with its caption. */
-function inBothModes(context: GlobalsContext | undefined, content: ModeContent, name?: string): TemplateResult {
+function inBothModes(context: GlobalsContext | undefined, content: ModeContent, name?: string, stacked = false): TemplateResult {
   const v = t(context);
   const modes: Array<[Scheme, string]> = [
     ['light', v.lightCaption],
     ['dark', v.darkCaption],
   ];
-  return html`<div style=${modesFrame}>
-    ${modes.map(([scheme, caption]) => inScheme(scheme, name === undefined ? caption : `${name} · ${caption}`, content()))}
+  return html`<div style=${stacked ? `${modesFrame} flex-direction: column;` : modesFrame}>
+    ${modes.map(([scheme, caption]) => inScheme(scheme, name === undefined ? caption : `${name} · ${caption}`, content(), stacked))}
   </div>`;
 }
 
@@ -94,7 +94,7 @@ export const SubmenuLeft: Story = {
     validationPage(
       context,
       page('submenu-left'),
-      inBothModes(context, () => fileMenu(t(context), { submenu: 'share', size: 'compact', pinned: true })),
+      inBothModes(context, () => fileMenu(t(context), { submenu: 'share', size: 'compact', pinned: true }), undefined, true),
     ),
 };
 
@@ -169,20 +169,26 @@ export const Examples: Story = {
       page('examples'),
       html`${inBothModes(context, () => fileMenu(v), v.exampleClosed)}
       ${inBothModes(context, () => fileMenu(v, { submenu: 'share' }), v.exampleRight)}
-      ${inBothModes(context, () => fileMenu(v, { submenu: 'share', size: 'compact', pinned: true }), v.exampleLeft)}`,
+      ${inBothModes(context, () => fileMenu(v, { submenu: 'share', size: 'compact', pinned: true }), v.exampleLeft, true)}`,
     );
   },
 };
 
 /**
- * The seven brands in light and dark (DSA-36): the open submenu item and the solid icon take the primary of
- * the brand, and so does the focus on the arrows. The checked single choice is not drawn here: it
- * paints `color/primary-hover` as text, which the token limit recorded for `nph-dropdown-menu` makes fail the
- * contrast rule in dark.
+ * The seven brands in light and dark (DSA-36): the checked single choice, the open submenu item and the
+ * solid icon take the primary of the brand, and so does the focus on the arrows. Carries
+ * `SUPPLEMENTARY_TEXT_EXCEPTION` and `BRAND_CONTRAST_EXCEPTION` (`src/shared/docs/brands.ts`): the checked
+ * choice paints `color/primary-hover` as text, the token limit recorded for `nph-dropdown-menu`.
  */
 export const Brands: Story = {
   name: 'Brands',
-  parameters: SUPPLEMENTARY_TEXT_EXCEPTION,
+  parameters: {
+    a11y: {
+      options: {
+        rules: { ...SUPPLEMENTARY_TEXT_EXCEPTION.a11y.options.rules, ...BRAND_CONTRAST_EXCEPTION },
+      },
+    },
+  },
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return validationPage(
@@ -194,8 +200,9 @@ export const Brands: Story = {
           open: true,
           submenu: 'share',
           pinned: false,
-          rows: 4,
+          rows: 5,
           items: [
+            { value: 'list', text: v.list, icon: 'list', selection: 'single', checked: true },
             { value: 'edit', text: v.edit, icon: 'pen', shortcut: v.shortcutEdit },
             {
               value: 'share',

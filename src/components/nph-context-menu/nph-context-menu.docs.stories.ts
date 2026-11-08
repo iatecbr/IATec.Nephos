@@ -188,7 +188,7 @@ export const Documentation: Story = {
           html`
             ${demo(bothModes(modes, () => fileMenu(d)), d.exampleClosed)}
             ${demo(bothModes(modes, () => fileMenu(d, { submenu: 'share' })), d.exampleRight)}
-            ${demo(bothModes(modes, () => fileMenu(d, { submenu: 'share', size: 'compact', pinned: true })), d.exampleLeft)}
+            ${demo(bothModes(modes, () => fileMenu(d, { submenu: 'share', size: 'compact', pinned: true }), true), d.exampleLeft)}
             ${source(d.sourceLabel, d.sourceSpec)}
           `,
         )}

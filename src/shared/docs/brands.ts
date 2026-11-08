@@ -45,7 +45,8 @@ export const SCHEMES: readonly string[] = [
  * limit, and tokens come from Figma (DSA-36, D2, and D-5 of DSA-62, for Indiane). Alternative
  * discarded: drawing only the states that pass, which would hide the limit. The exception leaves when
  * the token is fixed. Decided by Elvys on 2026-10-28 for the first two pieces; the extension to
- * `nph-navigation-menu` (DSA-62) is for him to confirm in the pull request.
+ * `nph-navigation-menu` (DSA-62) and to `nph-context-menu` (DSA-69, the checked single choice of the
+ * `Brands` story) is for him to confirm in the pull request.
  */
 export const BRAND_CONTRAST_EXCEPTION = { 'color-contrast': { enabled: false } } as const;
 
