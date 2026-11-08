@@ -214,6 +214,21 @@ describe('nph-popover Validation: text only from the dictionary', () => {
     expect(document.activeElement).toBe(outside);
   });
 
+  it('a press of the person drops the openings still waiting: the demos stay closed and the focus stays where the person put it', async () => {
+    const outside = document.createElement('input');
+    const demo = document.createElement('div');
+    document.body.append(outside, demo);
+    render((validation.Sizes as Renderable).render?.({}, { globals: { locale: 'en' } }) as TemplateResult, demo);
+    const popovers = popoversOf(demo);
+    expect(popovers).toHaveLength(3);
+    /* The openings are queued by the render; the person presses before any of them runs. */
+    document.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true }));
+    outside.focus();
+    await settle(600);
+    expect(popovers.map((popover) => popover.open)).toEqual([false, false, false]);
+    expect(document.activeElement).toBe(outside);
+  });
+
   it('Examples: light and dark, with the captions of the chosen language', () => {
     const story = validation.Examples as Renderable;
     for (const locale of LOCALES) {

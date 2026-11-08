@@ -10,7 +10,7 @@
  * style, and the arrow sitting on the edge of the surface), `calc(-1 * ...)` (the slide of the
  * surface; the arrow's overlap with the border), `column`, `flex-start`, `flex-end` and
  * `border-box`. The measures of the surface come from the `popover/*` tokens; the tokens the
- * inner pieces read are redefined in scope with no new value (`color/border` on the divider and
+ * inner pieces read are redefined in scope with no new value (`color/border` and `border/width` on the divider and
  * `control/height-compact` in the footer on a touch screen, as `nph-dialog` does in P87).
  */
 
@@ -164,6 +164,7 @@
 /* The divider: the `nph-separator` line, from edge to edge, in `popover/divider`. */
 .divider {
   --nph-color-border: var(--nph-popover-divider);
+  --nph-border-width: var(--nph-popover-border-width);
   display: block;
 }
 

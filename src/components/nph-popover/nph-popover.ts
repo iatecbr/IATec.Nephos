@@ -314,14 +314,35 @@ export class NphPopover extends LitElement {
     return found instanceof HTMLElement && found !== this ? found : null;
   }
 
+  /**
+   * `aria-controls` names the host. The consumer may give the host an id after it connected, or take
+   * it away: the attribute follows, and the id the popover generated is the only one it ever removes.
+   */
+  private syncControls(): void {
+    const trigger = this.trigger;
+    if (trigger === null) {
+      return;
+    }
+    if (this.id === '') {
+      this.id = this.uid;
+    }
+    this.wroteId = this.id === this.uid;
+    trigger.setAttribute('aria-controls', this.id);
+  }
+
   /*
    * The trigger is found by id, so a node that takes its place under the same id, or an id that moves
    * to another node, must be found again: the root is watched for insertions, removals and id changes,
    * and the popover is wired again when the lookup no longer gives the node it holds.
    */
   private readonly rootWatch = new MutationObserver(() => {
-    if (this.isConnected && this.lookUp() !== this.trigger) {
+    if (!this.isConnected) {
+      return;
+    }
+    if (this.lookUp() !== this.trigger) {
       this.attach();
+    } else {
+      this.syncControls();
     }
   });
 
@@ -360,11 +381,7 @@ export class NphPopover extends LitElement {
       this.wroteHaspopup = true;
     }
     /* A reference to an id: the host, which holds the surface in its shadow root. */
-    if (this.id === '') {
-      this.id = this.uid;
-      this.wroteId = true;
-    }
-    found.setAttribute('aria-controls', this.id);
+    this.syncControls();
     found.setAttribute('aria-expanded', String(this.open));
     if (this.shown) {
       this.resizeObserver?.disconnect();
@@ -390,10 +407,10 @@ export class NphPopover extends LitElement {
       trigger.removeAttribute('aria-haspopup');
       this.wroteHaspopup = false;
     }
-    if (this.wroteId) {
+    if (this.wroteId && this.id === this.uid) {
       this.removeAttribute('id');
-      this.wroteId = false;
     }
+    this.wroteId = false;
     this.trigger = null;
   }
 
@@ -535,6 +552,10 @@ export class NphPopover extends LitElement {
     }
     const waiting = this.trigger === null && this.retryFrame !== undefined;
     this.valid = causes.length === 0 && !waiting;
+    /* An inactive trigger opens nothing, by the click or by `open` set from code or in the markup. */
+    if (this.open && !this.shown && this.trigger !== null && this.triggerInactive) {
+      this.open = false;
+    }
     const label = (this.closeLabel ?? '').trim();
     this.closeShown = this.closable && label !== '';
     if (this.valid && this.closable && label === '') {

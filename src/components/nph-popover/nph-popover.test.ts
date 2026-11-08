@@ -435,6 +435,58 @@ describe('the trigger', () => {
     expect(popover.open).toBe(true);
   });
 
+  it('an id the consumer gives the host later is followed by aria-controls and is never removed by the popover', async () => {
+    const { popover, trigger } = await mount();
+    const generated = popover.id;
+    expect(generated).not.toBe('');
+    popover.id = 'mine';
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    expect(trigger.getAttribute('aria-controls')).toBe('mine');
+    popover.remove();
+    expect(popover.id).toBe('mine');
+    expect(trigger.hasAttribute('aria-controls')).toBe(false);
+  });
+
+  it('an id the consumer takes away is generated again, and aria-controls follows', async () => {
+    const { popover, trigger } = await mount();
+    popover.id = 'mine';
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    popover.removeAttribute('id');
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    expect(popover.id).not.toBe('');
+    expect(trigger.getAttribute('aria-controls')).toBe(popover.id);
+  });
+
+  it('an inactive trigger opens nothing, also by open set from code or by the attribute in the markup', async () => {
+    for (const make of [
+      (trigger: NphButton) => trigger.setAttribute('disabled', ''),
+      (trigger: NphButton) => trigger.setAttribute('aria-disabled', 'true'),
+      (trigger: NphButton) => trigger.setAttribute('loading', ''),
+    ]) {
+      const { popover, trigger } = await mount();
+      make(trigger);
+      await trigger.updateComplete;
+      popover.open = true;
+      await settle(popover);
+      expect(popover.open).toBe(false);
+      expect(shown(popover)).toBe(false);
+      expect(trigger.getAttribute('aria-expanded')).toBe('false');
+      document.body.replaceChildren();
+    }
+    const trigger = document.createElement('button');
+    trigger.id = 'trigger';
+    trigger.disabled = true;
+    const popover = document.createElement('nph-popover');
+    popover.setAttribute('for', 'trigger');
+    popover.setAttribute('open', '');
+    popover.heading = 'Filters';
+    document.body.append(trigger, popover);
+    await settle(popover);
+    await settle(popover);
+    expect(popover.open).toBe(false);
+    expect(shown(popover)).toBe(false);
+  });
+
   it('leaving the page cleans the trigger and the id it wrote', async () => {
     const { popover, trigger } = await mount();
     popover.remove();
@@ -1216,6 +1268,15 @@ describe('the parts and their measures', () => {
     expect(line.right).toBeCloseTo(box.right - border, 0);
     expect(line.height).toBeCloseTo(border, 0);
     expect(getComputedStyle(divider).backgroundColor).toBe(colorOf('--nph-popover-divider'));
+  });
+
+  it('the divider takes popover/border-width too: overriding the token changes the surface, the arrow and the divider together', async () => {
+    const setup = await mount({ arrow: true }, { footer: FOOTER });
+    setup.popover.style.setProperty('--nph-popover-border-width', '4px');
+    await open(setup);
+    expect(getComputedStyle(surface(setup.popover)).borderTopWidth).toBe('4px');
+    expect((part(setup.popover, '.divider') as HTMLElement).getBoundingClientRect().height).toBeCloseTo(4, 0);
+    expect(getComputedStyle(part(setup.popover, '.arrow-line') as unknown as SVGElement).strokeWidth).toBe('4px');
   });
 
   it('the footer actions sit at the end, popover/footer-gap apart, with popover/footer-padding around', async () => {

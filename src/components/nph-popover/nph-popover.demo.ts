@@ -76,6 +76,17 @@ export function bothModes(captions: { light: string; dark: string }, content: ()
 let nextId = 0;
 let queue: Promise<void> = Promise.resolve();
 
+/**
+ * Counts the turns the person took on the page. A press or a key means they are in charge of the
+ * focus: the openings still waiting in the queue are dropped, so none takes it away from them.
+ */
+let turn = 0;
+if (typeof document !== 'undefined') {
+  for (const type of ['pointerdown', 'keydown']) {
+    document.addEventListener(type, () => (turn += 1), true);
+  }
+}
+
 const frame = (): Promise<void> => new Promise((resolve) => requestAnimationFrame(() => resolve()));
 
 function deepActive(): Element | null {
@@ -118,7 +129,8 @@ async function openOne(popover: NphPopover): Promise<void> {
 /** The `ref` that opens the popover it is on, after the ones that were asked for before it. */
 const openInTurn = (element: Element | undefined): void => {
   if (element === undefined) return;
-  queue = queue.then(() => openOne(element as NphPopover)).catch(() => undefined);
+  const asked = turn;
+  queue = queue.then(() => (turn === asked ? openOne(element as NphPopover) : undefined)).catch(() => undefined);
 };
 
 /* ----- the cells ---------------------------------------------------------------- */
