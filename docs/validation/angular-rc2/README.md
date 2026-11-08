@@ -82,9 +82,11 @@ These were found while checking the counts. They are reported, not resolved.
    `ux-audit.md` keeps the source's summary table verbatim and all 112 headings.
 3. **P2 in `validation.md` is a bullet list**, with no numbers: 10 top-level
    bullets, each with its own suggested fix.
-4. **Two small inconsistencies in the source are kept as written:** "48 routes"
-   in the summary versus "40 lazy routes" in E10, and "all 40 components" in E4
-   versus 41 exported by rc.2.
+4. **Small inconsistencies in the source are kept as written:** "48 routes" in
+   the summary versus "40 lazy routes" in E10; "all 40 components" in E4 versus 41
+   exported by rc.2; and, in the breadcrumb audit finding, the page width at 768 px
+   is given as 782 px while the natural list width is 766 px and the container
+   736 px.
 
 ## Evidence
 
@@ -135,3 +137,10 @@ evidence today.
 Quoted labels, strings and measurements taken from the validation app's
 Portuguese interface are kept verbatim in backticks, with an English gloss where
 the meaning matters. They are test data, not repository text.
+
+The component sheets in `fichas/` are English only, so any sentence the Portuguese
+reports attribute to "the sheet" is the validator's paraphrase, translated back
+into English here, not a quotation. The authoritative text is
+`fichas/<name>.md` at the commit being triaged. One case was checked: the
+breadcrumb sentence in P0 #4 does not exist in the current sheet, and
+`validation.md` carries an editorial note saying so.
