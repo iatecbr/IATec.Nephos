@@ -31,6 +31,7 @@ beforeAll(async () => {
 let listeners = new AbortController();
 
 afterEach(async () => {
+  vi.useRealTimers();
   await userEvent.unhover(document.body).catch(() => {});
   listeners.abort();
   listeners = new AbortController();
@@ -104,13 +105,39 @@ function resolved(property: string, token: string): string {
 }
 
 const px = (token: string): number => Number.parseFloat(resolved('width', token));
-const wait = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 const frame = (): Promise<void> => new Promise((resolve) => requestAnimationFrame(() => resolve()));
 
-/** The hover wait of the token, shortened on the element so the tests do not sit and wait. */
-const HOVER = 40;
-function quickHover(menu: NphNavigationMenu): void {
-  menu.style.setProperty('--nph-motion-hover-delay', `${String(HOVER)}ms`);
+/**
+ * The hover waits. The wait is the `motion/hover-delay` token, 300 ms, and the tests of the pointer drive a
+ * fake clock (`setTimeout` and `clearTimeout` only) and send the `pointerenter` and `pointerleave` that the
+ * browser sends to the entry of a trigger. So the wait is exact, "not before" and "after" are proved on the
+ * millisecond, and no test sits on real time, which an overloaded runner stretches. A real mouse is proved by
+ * its own test, which waits for the state and never for a time.
+ */
+const DELAY = 300;
+
+function useClock(): void {
+  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+}
+
+/** Moves the fake clock and lets the piece draw what the timers changed. */
+async function elapse(menu: NphNavigationMenu, ms: number): Promise<void> {
+  vi.advanceTimersByTime(ms);
+  await settle(menu);
+}
+
+function mouse(element: Element, type: 'pointerenter' | 'pointerleave'): void {
+  element.dispatchEvent(new PointerEvent(type, { pointerType: 'mouse' }));
+}
+
+/** The entry (the `li`) of the top item at this index: the panel is inside it, so is the pointer over it. */
+const entry = (menu: NphNavigationMenu, index: number): HTMLElement => qa(menu, '.entry')[index] as HTMLElement;
+const over = (menu: NphNavigationMenu, index: number): void => mouse(entry(menu, index), 'pointerenter');
+const out = (menu: NphNavigationMenu, index: number): void => mouse(entry(menu, index), 'pointerleave');
+
+/** A click as a mouse sends it: `detail` is the click count, which a click by code or by key leaves at 0. */
+function mouseClick(element: Element): void {
+  element.dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true, detail: 1 }));
 }
 
 /** Opens a panel by click and waits for it to be shown and placed. */
@@ -664,102 +691,132 @@ describe('opening and closing', () => {
 });
 
 describe('the pointer', () => {
-  it('resting on a trigger opens its panel after the hover delay, and not before', async () => {
+  it('resting on a trigger opens its panel after the hover delay, not a millisecond before', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await userEvent.hover(trigger(menu, 0));
+    over(menu, 0);
+    await elapse(menu, DELAY - 1);
     expect(shownPanels(menu)).toEqual([]);
-    await wait(HOVER + 200);
-    await settle(menu);
+    await elapse(menu, 1);
     expect(shownPanels(menu)).toEqual(['panel-0']);
     expect(trigger(menu, 0).getAttribute('aria-expanded')).toBe('true');
   });
 
   it('the delay is the motion/hover-delay token', async () => {
     expect(resolved('transition-duration', '--nph-motion-hover-delay')).toBe('0.3s');
+    expect(DELAY).toBe(300);
   });
 
-  it('leaving the trigger closes the panel after the same wait, not before', async () => {
+  it('leaving the trigger closes the panel after the same wait, not a millisecond before', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await userEvent.hover(trigger(menu, 0));
-    await wait(HOVER + 200);
-    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
+    over(menu, 0);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual(['panel-0']);
-    await wait(HOVER + 200);
-    await settle(menu);
+    out(menu, 0);
+    await elapse(menu, DELAY - 1);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    await elapse(menu, 1);
     expect(shownPanels(menu)).toEqual([]);
+    expect(menu.open).toBe(false);
   });
 
   it('the panel stays open while the pointer is over it, and closes after the pointer leaves it', async () => {
+    useClock();
     const menu = await mount();
-    menu.style.setProperty('--nph-motion-hover-delay', '80ms');
-    await userEvent.hover(trigger(menu, 0));
-    await wait(300);
+    over(menu, 0);
+    await elapse(menu, DELAY);
+    /* From the trigger to the panel the pointer crosses the gap: it leaves the entry and comes back to it. */
+    out(menu, 0);
+    await elapse(menu, DELAY / 2);
+    over(menu, 0);
+    await elapse(menu, 10 * DELAY);
     expect(shownPanels(menu)).toEqual(['panel-0']);
-    await userEvent.hover(q(menu, '#panel-0 .link'));
-    await wait(300);
-    expect(shownPanels(menu)).toEqual(['panel-0']);
-    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
-    await wait(300);
-    await settle(menu);
+    out(menu, 0);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual([]);
   });
 
   it('a click on a panel the pointer opened keeps it open; a second click closes it', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await userEvent.hover(trigger(menu, 0));
-    await wait(HOVER + 200);
-    await userEvent.click(trigger(menu, 0));
+    over(menu, 0);
+    await elapse(menu, DELAY);
+    mouseClick(trigger(menu, 0));
     await settle(menu);
     expect(shownPanels(menu)).toEqual(['panel-0']);
-    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
-    await wait(HOVER + 200);
+    out(menu, 0);
+    await elapse(menu, 10 * DELAY);
     expect(shownPanels(menu)).toEqual(['panel-0']);
-    await userEvent.click(trigger(menu, 0));
+    mouseClick(trigger(menu, 0));
     await settle(menu);
     expect(shownPanels(menu)).toEqual([]);
   });
 
   it('a panel opened by click stays open when the pointer leaves', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await openByClick(menu, 0);
-    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
-    await wait(HOVER + 200);
+    mouseClick(trigger(menu, 0));
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    over(menu, 0);
+    out(menu, 0);
+    await elapse(menu, 10 * DELAY);
     expect(shownPanels(menu)).toEqual(['panel-0']);
   });
 
   it('moving from one trigger to another switches the panel', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await userEvent.hover(trigger(menu, 0));
-    await wait(HOVER + 200);
-    await userEvent.hover(trigger(menu, 1));
-    await wait(HOVER + 200);
-    await settle(menu);
+    over(menu, 0);
+    await elapse(menu, DELAY);
+    out(menu, 0);
+    over(menu, 1);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual(['panel-1']);
   });
 
   it('a link is not a trigger: resting on it opens nothing', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await userEvent.hover(topItems(menu)[2] as HTMLElement);
-    await wait(HOVER + 200);
+    over(menu, 2);
+    await elapse(menu, 10 * DELAY);
+    expect(shownPanels(menu)).toEqual([]);
+  });
+
+  it('touch and pen do not open by hover: only the mouse does', async () => {
+    useClock();
+    const menu = await mount();
+    for (const pointerType of ['touch', 'pen']) {
+      entry(menu, 0).dispatchEvent(new PointerEvent('pointerenter', { pointerType }));
+    }
+    await elapse(menu, 10 * DELAY);
     expect(shownPanels(menu)).toEqual([]);
   });
 
   it('a missing delay token opens at once and reports it once', async () => {
+    useClock();
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     const menu = await mount();
     menu.style.setProperty('--nph-motion-hover-delay', 'soon');
-    await userEvent.hover(trigger(menu, 0));
-    await wait(120);
-    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
-    await userEvent.hover(trigger(menu, 1));
-    await wait(120);
+    over(menu, 0);
+    await elapse(menu, 1);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    out(menu, 0);
+    over(menu, 1);
+    await elapse(menu, 1);
+    expect(shownPanels(menu)).toEqual(['panel-1']);
     expect(error.mock.calls.filter((call) => /motion\/hover-delay is not defined/.test(String(call[0])))).toHaveLength(1);
+  });
+
+  it('a real mouse opens the panel and closes it: it waits for the state, never for a time', async () => {
+    const menu = await mount();
+    menu.style.setProperty('--nph-motion-hover-delay', '40ms');
+    await userEvent.hover(trigger(menu, 0));
+    await vi.waitFor(() => expect(shownPanels(menu)).toEqual(['panel-0']), { timeout: 5000 });
+    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
+    await vi.waitFor(() => expect(shownPanels(menu)).toEqual([]), { timeout: 5000 });
+    expect(menu.open).toBe(false);
   });
 });
 
@@ -1264,12 +1321,12 @@ describe('regressions of the Copilot review', () => {
   });
 
   it('a hover wait that is running when the width changes does not open the narrow list', async () => {
+    useClock();
     const menu = await mount();
-    menu.style.setProperty('--nph-motion-hover-delay', '120ms');
-    await userEvent.hover(trigger(menu, 0));
+    over(menu, 0);
     menu.narrow = true;
     await settle(menu);
-    await wait(300);
+    await elapse(menu, 10 * DELAY);
     expect(menu.open).toBe(false);
     expect(shownPanels(menu)).toEqual([]);
   });
@@ -1290,11 +1347,11 @@ describe('regressions of the Copilot review', () => {
   });
 
   it('resting the mouse on a disabled trigger opens nothing', async () => {
+    useClock();
     const items = [{ ...(ITEMS[0] as object), disabled: true }, ITEMS[2]] as NphNavigationMenuItem[];
     const menu = await mount({ items });
-    quickHover(menu);
-    await userEvent.hover(q(menu, '.entry')).catch(() => {});
-    await wait(HOVER + 200);
+    over(menu, 0);
+    await elapse(menu, 10 * DELAY);
     expect(shownPanels(menu)).toEqual([]);
     expect(menu.open).toBe(false);
   });
@@ -1340,47 +1397,45 @@ describe('regressions of the Copilot review', () => {
 
 describe('regressions of the Copilot review, round 2', () => {
   it('a hover wait follows its trigger when the items are reordered, and opens nothing if it is gone', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await userEvent.hover(trigger(menu, 0));
+    over(menu, 0);
     menu.items = [ITEMS[1], ITEMS[0], ITEMS[2]] as NphNavigationMenuItem[];
-    await wait(HOVER + 200);
     await settle(menu);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual(['panel-1']);
     expect(menu.active).toBe('products');
     menu.open = false;
-    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
+    out(menu, 1);
     await settle(menu);
     expect(shownPanels(menu)).toEqual([]);
-    await userEvent.hover(trigger(menu, 1));
+    over(menu, 1);
     menu.items = [ITEMS[1], ITEMS[2]] as NphNavigationMenuItem[];
-    await wait(HOVER + 200);
     await settle(menu);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual([]);
   });
 
   it('a hover wait on a trigger that is disabled before it ends opens nothing', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await userEvent.hover(trigger(menu, 0));
+    over(menu, 0);
     menu.items = [{ ...(ITEMS[0] as object), disabled: true }, ITEMS[1], ITEMS[2]] as NphNavigationMenuItem[];
-    await wait(HOVER + 200);
     await settle(menu);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual([]);
   });
 
   it('a panel the pointer opened stays while a link inside has the focus, even if the pointer leaves', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await userEvent.keyboard('{Tab}');
-    await userEvent.hover(trigger(menu, 0));
-    await wait(HOVER + 200);
+    over(menu, 0);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual(['panel-0']);
-    await userEvent.keyboard('{Tab}');
+    q(menu, '#panel-0 .link').focus();
     expect(root(menu).activeElement?.closest('.panel')?.id).toBe('panel-0');
-    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
-    await wait(HOVER + 200);
-    await settle(menu);
+    out(menu, 0);
+    await elapse(menu, 10 * DELAY);
     expect(shownPanels(menu)).toEqual(['panel-0']);
     expect(root(menu).activeElement?.closest('.panel')?.id).toBe('panel-0');
   });
@@ -1435,70 +1490,72 @@ describe('regressions of the Copilot review, round 2', () => {
 });
 
 describe('regressions of the Copilot review, round 3', () => {
-  const awayFromBar = { position: { x: 1, y: window.innerHeight - 2 } };
-
   it('hovering another trigger does not take away the panel that holds the keyboard focus', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await userEvent.keyboard('{Tab}{Enter}');
-    await settle(menu);
-    await userEvent.keyboard('{Tab}');
+    over(menu, 0);
+    await elapse(menu, DELAY);
+    q(menu, '#panel-0 .link').focus();
     expect(root(menu).activeElement?.closest('.panel')?.id).toBe('panel-0');
-    await userEvent.hover(trigger(menu, 1));
-    await wait(HOVER + 200);
-    await settle(menu);
+    out(menu, 0);
+    over(menu, 1);
+    await elapse(menu, 10 * DELAY);
     expect(shownPanels(menu)).toEqual(['panel-0']);
     expect(root(menu).activeElement?.closest('.panel')?.id).toBe('panel-0');
   });
 
   it('passing over a disabled trigger does not cancel the close of the panel the pointer left', async () => {
+    useClock();
     const items = [ITEMS[0], { ...(ITEMS[1] as object), disabled: true }, ITEMS[2]] as NphNavigationMenuItem[];
     const menu = await mount({ items });
-    quickHover(menu);
-    await userEvent.hover(trigger(menu, 0));
-    await wait(HOVER + 200);
+    over(menu, 0);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual(['panel-0']);
-    await userEvent.hover(qa(menu, '.entry')[1] as HTMLElement);
-    await wait(HOVER + 200);
-    await settle(menu);
+    out(menu, 0);
+    over(menu, 1);
+    await elapse(menu, DELAY / 2);
+    out(menu, 1);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual([]);
   });
 
   it('a close that is running follows its trigger when the items are reordered', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await userEvent.hover(trigger(menu, 0));
-    await wait(HOVER + 200);
+    over(menu, 0);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual(['panel-0']);
-    await userEvent.hover(document.body, awayFromBar);
+    out(menu, 0);
     menu.items = [ITEMS[1], ITEMS[0], ITEMS[2]] as NphNavigationMenuItem[];
-    await wait(HOVER + 200);
     await settle(menu);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual([]);
     expect(menu.open).toBe(false);
   });
 
   it('a close that is running closes when its trigger is removed', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await userEvent.hover(trigger(menu, 0));
-    await wait(HOVER + 200);
-    await userEvent.hover(document.body, awayFromBar);
+    over(menu, 0);
+    await elapse(menu, DELAY);
+    out(menu, 0);
     menu.items = [ITEMS[1], ITEMS[2]] as NphNavigationMenuItem[];
-    await wait(HOVER + 200);
     await settle(menu);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual([]);
     expect(menu.open).toBe(false);
   });
 
   it('items that become invalid during a hover wait cancel it, and no error is thrown', async () => {
+    useClock();
     const error = vi.spyOn(console, 'error').mockImplementation(() => {});
     for (const bad of [null, [null]]) {
+      /* The update that rejects the data comes first, as it does in the browser, where a microtask runs before a timer. */
       const menu = await mount();
-      quickHover(menu);
-      await userEvent.hover(trigger(menu, 0));
+      over(menu, 0);
       menu.items = bad as never;
-      await wait(HOVER + 200);
+      await menu.updateComplete;
+      await elapse(menu, 10 * DELAY);
       menu.items = ITEMS;
       await settle(menu);
       expect(shownPanels(menu), String(bad)).toEqual([]);
@@ -1507,20 +1564,32 @@ describe('regressions of the Copilot review, round 3', () => {
     }
     expect(error).toHaveBeenCalled();
   });
+
+  it('a hover wait that fires before the update that rejects the items reads nothing it cannot read', async () => {
+    useClock();
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    const menu = await mount();
+    over(menu, 0);
+    menu.items = [null] as never;
+    /* No await: the timer runs on the data the validation has not seen yet. */
+    expect(() => vi.advanceTimersByTime(10 * DELAY)).not.toThrow();
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual([]);
+  });
 });
 
 describe('regressions of the Copilot review, round 4', () => {
   it('a close that is running does not close the panel the consumer selected meanwhile', async () => {
+    useClock();
     const menu = await mount();
-    quickHover(menu);
-    await userEvent.hover(trigger(menu, 0));
-    await wait(HOVER + 200);
+    over(menu, 0);
+    await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual(['panel-0']);
-    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
+    out(menu, 0);
     menu.active = 'resources';
     menu.items = [ITEMS[1], ITEMS[2]] as NphNavigationMenuItem[];
-    await wait(HOVER + 200);
     await settle(menu);
+    await elapse(menu, DELAY);
     expect(menu.open).toBe(true);
     expect(shownPanels(menu)).toEqual(['panel-0']);
     expect(trigger(menu, 0).textContent).toContain('Resources');
