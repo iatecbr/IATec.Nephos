@@ -172,6 +172,9 @@ states:
   loading:
     token: "the spinner inherits the color of the pair's text; no token of its own"
     changes_for_user: "The spinner takes the place of the start icon, the text stays and the click stops counting."
+  popover-open:
+    token: "the same tokens as hover-active, the icons included"
+    changes_for_user: "The trigger of an open popover keeps the look of hover-active while the popover is open, even with the pointer away, and the native button carries aria-haspopup and aria-expanded."
 business_rules: []
 domain_errors: []
 tokens:
@@ -235,7 +238,7 @@ anti_patterns:
   - "Painting the button by hand or creating a type, emphasis or size outside the matrix."
 sources:
   design_md: "design.md, control/height-*, space/control-padding, space/inline-tight, radius/control, radius/full, text/label-md, icon/size-*, state/disabled-opacity, focus/* and the color/* and status/* colors of the tokens block; the component tokens button/secondary-solid-*, button/secondary-outline-*, button/secondary-ghost-background-hover and their icon-button/* twins are in src/tokens/source/semantic.tokens.json"
-  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button; the secondary ghost hover on the component tokens, decided in Figma on 27-10-2026 (DSA-60); the secondary solid and outline on the component tokens and the removal of the secondary light emphasis, accepted in Figma on 04-11-2026 (DSA-64)"
+  decision: "P68 — API and semantics of nph-badge and nph-button, 05-10-2026; B1, B5 and B6 of the `Registro de decisões` (Decision log); solid hover on the hover tokens, 02-10-2026; default size default and the name label, in P68; P86 — shape and tooltip of the icon-only button, which amends P68; P88 — solid icon in hover-active, 21-10-2026, which amends P68, and its amendment of 27-10-2026 for the icon-only button; the secondary ghost hover on the component tokens, decided in Figma on 27-10-2026 (DSA-60); the secondary solid and outline on the component tokens and the removal of the secondary light emphasis, accepted in Figma on 04-11-2026 (DSA-64); P111 — the trigger of an open popover draws hover-active and hands aria-haspopup and aria-expanded to the native button"
   tests: "src/components/nph-button/nph-button.test.ts, nph-button.first-tooltip.test.ts and nph-button.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the button yet"
   storybook: "src/components/nph-button/nph-button.stories.ts and nph-button.docs.stories.ts"
@@ -329,6 +332,7 @@ target on a touch screen; a size different from the field beside it.
 | `focus` | border `border/width` in the color of the type (`focus/border` in `secondary`) and halo `focus/ring-width` in `focus/halo` or `focus/halo-<matiz>`; in the circular shape both follow `radius/full` | A border in the color of the action and a halo outside mark the focus, without changing the size |
 | `disabled` | `state/disabled-opacity` | The whole button loses opacity, leaves the Tab order and stops responding |
 | `loading` | the spinner inherits the text color | The spinner takes the place of the start icon, the text stays and the click stops counting |
+| Open trigger | the same tokens as `hover-active`, the icons included | A button that carries `aria-haspopup` dialog and `aria-expanded` true on the host, the trigger of an open `nph-popover`, keeps the look of `hover-active` while the popover is open and hands the two attributes to its native button. It is a state read from the attributes, not a variant; any other `aria-haspopup`, such as the `menu` of `nph-dropdown-menu`, changes nothing (P111, amends P68) |
 
 **Feedback and focus:** focus appears only for keyboard users and **is not removed**. The
 border is the indicator; the halo is the second layer. Known limit: in dark mode,

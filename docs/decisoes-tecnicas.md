@@ -67,6 +67,7 @@ P62.4 subsection for the detail).
 | **P106** | Up to two reruns of a browser test shard after a network change on the Azure host | 29/10/2026 | Low. Only the Azure step changes; removing the reruns is a pipeline change, and a real failure still fails on the first run | Decided by Elvys on 29/10/2026 (one rerun) and 30/10/2026 (up to two). Reviewed in the pull request that brings it |
 | **P107** | API and semantics of `nph-progress` | 06/11/2026 | Low. No piece consumes the bar yet; `nph-notification` (DSA-63) may embed it later, and changing the `type`, `status`, `value`, `steps` and `step` properties or the invalid-input rule then requires redoing both | Anatomy and behavior: documentation accepted by Indiane on 05/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P108** | API and semantics of `nph-notification` | 06/11/2026 | Low now. No piece consumes it yet; the toast region of the consuming application will, and `nph-alert-dialog` does not, so changing `placement`, `severity`, `emphasis`, `layout`, `duration`, the events `nph-action` and `nph-close` or the invalid-input rule later requires redoing the region. The ghost action and the close on solid point public tokens of `nph-button`, a step beyond the component-token precedent of `nph-dialog` and `nph-toolbar` | Anatomy and behavior: documentation accepted by Indiane on 04/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
+| **P111** | API and semantics of `nph-popover`; the open trigger and the ARIA of `nph-button` (amends P68) | 07/11/2026 | Low now. No piece consumes the popover yet; `nph-hover-card` and `nph-navigation-menu` have their own surfaces, so changing `for`, `side`, `align`, `arrow`, `size`, `closable`, the `footer` slot, the event `nph-close` or the invalid-input rule later requires redoing every consumer. The change to `nph-button` is small and scoped to `aria-haspopup="dialog"`, so it touches no other trigger | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -6276,9 +6277,178 @@ semantics are reviewed in the pull request that brings them; the merge is the ap
 
 ---
 
+## P111 — `nph-popover`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `4749:5857`, set `4727:1544`) gives the
+Figma properties `lado`, `alinhamento`, `seta`, `tamanho`, `descrição`, `corpo`, `fechar` and
+`rodapé`, and leaves the code API to the code. Seven points need a decision of their own:
+
+- the popover is anchored to a trigger that stays outside it, and the evidence asks the trigger to
+  carry `aria-haspopup`, `aria-expanded` and `aria-controls`: the code has to say how the two find
+  each other, and where an id reference can point, since the surface lives in a shadow root;
+- the trigger in the open state takes the `hover-active` look with no new `nph-button` variant
+  (accepted point 18), and `nph-button` paints that state only inside its own shadow root, from its
+  own `:hover`, and does not pass `aria-haspopup` and `aria-expanded` to the native button (a known
+  limit of the `nph-dropdown-menu` sheet);
+- the evidence says the popover closes with Esc, a press outside, the close button or the footer
+  action and that the focus returns to the trigger, and says nothing about the focus on open, about
+  Tab, about what a footer action is, or about the event;
+- the offset is 4 and the arrow is 8 tall and 16 wide, with no word on where they meet;
+- the footer buttons are compact and go back to the default size on a touch screen, and the buttons
+  are the consumer's, so the size attribute cannot be set by the popover;
+- the title and the description are bound in Figma to core typography, and the popover consumes no
+  core token;
+- a surface that does not fit on the side asked for, or in the window, needs a rule, and the
+  contract is silent.
+
+**Decision.** `nph-popover` is a Web Component with **open Shadow DOM** (P01). Anatomy only through
+semantic tokens: the `popover/*` ones, `elevation/dropdown`, the motion roles and the text roles. It
+has no `::part` and no color property. What it rejects renders nothing and emits `console.error`
+only in development, once per cause: the rule of P21. The names follow P64.
+
+1. **The trigger is found by `for`, in the same root.** The popover looks the element up by id with
+   `getRootNode()`, like `nph-tooltip` (P77) and `nph-dropdown-menu` (P92), one frame later when it
+   was rendered right after. The trigger stays outside the component. The popover writes
+   `aria-haspopup="dialog"` (unless the trigger already has one), `aria-expanded` and
+   `aria-controls` on it and removes what it wrote when it leaves. `aria-controls` points to the id
+   of the popover **host**, which the popover generates when the consumer gave none: the surface is
+   in the shadow root, and an id reference does not cross it (D-3). A disabled, `aria-disabled` or
+   loading trigger opens nothing.
+
+2. **The open trigger is a state of `nph-button`, not a variant (Q1, option A; amends P68).** An
+   `nph-button` that carries `aria-haspopup="dialog"` and `aria-expanded="true"` on the host draws
+   the `hover-active` state, icons included, through an internal `data-nph-open` marker, and hands
+   `aria-haspopup` and `aria-expanded` to its native button, which is the element with a role. It is
+   a state read from the attributes, so the API of `nph-button` does not change: the two attributes
+   are observed with `observedAttributes`, not declared as properties. The scope is deliberately the
+   value `dialog`: the trigger of an `nph-dropdown-menu` carries `menu` and keeps its look and the
+   limit its sheet records (D-2). `aria-controls` stays on the host: it cannot cross the shadow root
+   of the button either. The task does not list `nph-button` among the pieces it does not change.
+
+3. **`open`, `heading` and `description`.** `open` reflects; the trigger toggles it and the consumer
+   may set it. `heading` is required, already localized, always visible: the `<h2>` of the surface
+   and its accessible name by `aria-labelledby`. `description` is optional and is the
+   `aria-describedby`. The surface is a **non-modal `dialog`**: no `aria-modal`, no inert page, no Tab
+   trap. The piece writes no word of its own.
+
+4. **`side`, `align`, `arrow` and `size` reflect.** The consumer states what it asks for and the
+   internal CSS selects by it. The side the surface **resolved to** is `data-side` on the surface, not
+   on the host, so a turn does not rewrite what the consumer set. `side` is `bottom` (default), `top`,
+   `right` or `left`; `align` is `start`, `center` (default) or `end`; `size` is `sm`, `md` (default)
+   or `lg` and changes only the width. A value outside a list renders nothing.
+
+5. **Placement and the turn.** The surface is a `popover="manual"`, so it lives in the top layer: no
+   `z-index`, no clipping by an ancestor, as the `nph-dropdown-menu` panel (P92). JavaScript sets its
+   `top` and `left` from the trigger. The distance is `popover/offset` as a margin on the edge that
+   faces the trigger. The surface turns to the **opposite side when the one asked for does not fit and
+   the opposite has more room**, never leaves the window, follows the trigger on scroll and resize,
+   and is hidden while the trigger is out of the window. The sides are physical; `start` and `end`
+   follow the writing direction on the top and bottom sides, and are the top and the bottom on the
+   others. The height follows the content and is not constrained.
+
+6. **The arrow.** Off by default and decorative (`aria-hidden`). It is an inline SVG whose view box
+   carries the direction, so no rotation is written and no literal enters the CSS; it is
+   `popover/arrow-width` by `popover/arrow-height`, filled in `popover/background`, outlined in
+   `popover/border` on its two slanted edges only (`vector-effect: non-scaling-stroke`), and its base
+   overlaps the border by one border width so the fill covers the border under it. It keeps
+   `popover/arrow-inset` from the corner with `start` and `end` and sits in the middle with `center`.
+   When the window pushes the surface sideways, the arrow slides back by the same amount, never
+   closer to a corner than the inset, so the tip still points to the trigger. **With the arrow, the
+   tip keeps `popover/offset` from the trigger and the surface sits one arrow height further**: the
+   only reading that does not overlap the two measures (D-1).
+
+7. **Close and focus.** It closes with Esc, a press outside the surface and the trigger, the close
+   button, the footer action, or the focus leaving the popover for the page. The `nph-close` event
+   (`bubbles`, `composed`, `cancelable`, `detail: { source }` with `escape`, `outside`, `close-button`
+   or `focus-out`) is fired before the close when the person asks, and `preventDefault()` keeps it
+   open: the shape of `nph-dialog` (P87). The trigger, a footer action and `open` set from code never
+   fire it; **a footer action closes the popover because the consumer sets `open` to `false` in the
+   handler of its button**, so no attribute is invented on the button. The focus returns to the
+   trigger on any close in which it was inside the popover, which covers Esc, the close button and
+   the footer action; a press outside and the focus leaving leave it where the person put it. Esc
+   runs in the bubbling phase, after the controls of the body, so a control that used the key (an open
+   `nph-select` list) keeps it; with more than one popover open it belongs to the last one shown; it stops
+   at the popover and does not reach a dialog around it (P77, item 4). While the surface leaves, it is
+   `inert`: it is still in the top layer, but takes no focus and no click. Closing on the focus
+   leaving is an addition of this decision: the contract lists four closes, and a non-modal surface
+   that stays open over the content after Tab would cover it.
+
+8. **Focus on open: the rule of P87.** The first element with `autofocus` in the body or the footer;
+   otherwise the first focusable element of the body, then of the footer, then the close button, then
+   the surface itself (`tabindex="-1"`), looking into open shadow roots and slots. The rule runs again
+   once the pieces have drawn, only for the same opening and only if the focus is still where it put
+   it. The helpers are copied from `nph-dialog`: there is no shared helper.
+
+9. **Parts.** The default slot is the body (`nph-field`) and the `footer` slot takes the actions; both
+   are shown only when they have content, and **the divider comes with the footer**: with no footer
+   there is none. `closable` draws the close button, a compact ghost secondary `nph-button` with the
+   `xmark` icon (the `nph-icon-button` of the contract is the icon-only `nph-button` since DSA-43),
+   and `close-label` is its accessible name, required while it is shown: without it the popover draws
+   with no button and says why, as `nph-dialog` does.
+
+10. **Compact footer buttons go back to the default size on a touch screen.** Under
+    `@media (pointer: coarse)` the footer redefines `--nph-control-height-compact` as
+    `--nph-control-height-default`, with no new value: the slotted buttons inherit it. It is the
+    precedent of P87, which redefines tokens in scope. It holds because the compact rule of
+    `nph-button` changes only its internal height variable.
+
+11. **Typography: semantic roles.** The title is `text/label-lg` (16, 24, medium) and the description
+    `text/body-sm` (12, 16, regular): the semantic roles whose composition equals the core values
+    bound in Figma (`core/size/300`, `core/line-height/300` and `core/weight/medium`; `core/size/100`,
+    `core/line-height/100` and `core/weight/regular`), since a component consumes no core token. The
+    `use` of `text/label-lg` in `design.md` says it is not for titles (D-4).
+
+12. **Not clipped, not nested.** The surface has `overflow: visible`, so the focus ring of an inner
+    piece is not cut. Its parts are its own: there is no `nph-card` inside, as the evidence says. A
+    popover inside a dialog is out of scope.
+
+13. **Invalid input.** A `for` that is empty or matches no element in the same root, an empty
+    `heading`, and a `side`, an `align` or a `size` outside the lists — each renders nothing and emits
+    `console.error` only in development, once per cause while it lasts. A `closable` with no
+    `close-label` draws without the button and emits an error.
+
+**Source.** Documentation `4749:5857` and set `4727:1544` of the Figma file `DS-IA-NEPHOS 5.0`,
+accepted by Indiane on 06/11/2026 with the Figma UX QA and the textual audit approved, and the points
+of its approval page. The property names, the way the trigger is bound, the close rules the evidence
+leaves open, the focus rule, the placement and the arrow geometry are a technical proposal of this
+implementation.
+
+**Effects on other pieces.** The accepted tokens move three things the task asked to check, and none
+needed a new token. `nph-field` draws its error message in `status/error-text` instead of
+`status/error`: light is unchanged, dark goes from 3.37:1 to 4.69:1 over the popover, and its test and
+sheet read the new token. `nph-dialog` takes `space/inline-loose` at 12 with no code change: its tests
+read the token, so the footer actions are 12 apart. The indent of the group selection demo of
+`nph-checkbox` reads the same token and goes from 16 to 12: no test asserts the 16, and the indent is a
+demonstration frame that is not a precedent for component CSS, so it is accepted at 12 with no token of
+its own. `nph-label` keeps `status/error` on the required asterisk, as `design.md` says, and
+`nph-dropdown-menu` is not changed.
+
+**Out of scope.** A popover inside a dialog. A new variant of `nph-button`. A change of
+`nph-dropdown-menu`. A token. A constrained height or a scroll of the surface. Any color property.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the distance with the arrow.** The contract gives the offset as 4 and the arrow as 16 by
+  8, and does not say where they meet. The code keeps the tip 4 from the trigger and puts the surface
+  one arrow height further. If she wants the surface 4 from the trigger, with the arrow overlapping
+  the gap, it is her measure.
+- **D-2 — the open look on the dropdown trigger.** The open look and the ARIA of the native button
+  are scoped to `aria-haspopup="dialog"`. If the trigger of `nph-dropdown-menu` should look open
+  too, she decides, and it belongs to a round of that piece.
+- **D-3 — `aria-controls`.** It points to the popover host, because an id reference does not cross a
+  shadow root. It does not block the pull request.
+- **D-4 — the title role.** The title is drawn in `text/label-lg`, which matches the accepted values
+  exactly, while `design.md` says that role is not for titles. A role or tokens for the popover title
+  is hers to give.
+
+**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-4 wait for Indiane. API
+and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109 or P110 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110 or P111 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

@@ -379,7 +379,16 @@
     "components-nph-navigation-menu-validation--long-text": "Long text",
     "components-nph-navigation-menu-validation--direction": "Direction",
     "components-nph-navigation-menu-validation--examples": "Examples",
-    "components-nph-navigation-menu-validation--brands": "Brands"
+    "components-nph-navigation-menu-validation--brands": "Brands",
+    "components-nph-popover-docs": "Docs",
+    "components-nph-popover-docs--documentation": "Documentation",
+    "components-nph-popover-validation": "Validation",
+    "components-nph-popover-validation--placement": "Placement",
+    "components-nph-popover-validation--sizes": "Sizes",
+    "components-nph-popover-validation--parts": "Parts",
+    "components-nph-popover-validation--direction": "Direction",
+    "components-nph-popover-validation--interactive": "Interactive",
+    "components-nph-popover-validation--examples": "Examples"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -3551,7 +3560,7 @@
       ],
       [
         "error",
-        "The error message, in text/body-md and status/error, with no icon. Filled in, the field is invalid and the control is in error; the message replaces the help."
+        "The error message, in text/body-md and status/error-text, with no icon. Filled in, the field is invalid and the control is in error; the message replaces the help."
       ],
       [
         "counter",
@@ -3630,7 +3639,7 @@
       ],
       [
         "4. Error message",
-        "text/body-md in status/error, with no icon, in the message line of the field."
+        "text/body-md in status/error-text, with no icon, in the message line of the field."
       ],
       [
         "5. Counter",
@@ -3681,7 +3690,7 @@
     "references": [
       "nph-field spec sheet — purpose, anatomy, API, accessibility, tokens and anti-patterns.",
       "docs/decisoes-tecnicas.md — P83 (nph-field: API, semantics and the field–control contract).",
-      "design.md — layout/field-width, space/stack-tight, space/inline-tight, text/caption, text/body-md, color/muted-foreground and status/error.",
+      "design.md — layout/field-width, space/stack-tight, space/inline-tight, text/caption, text/body-md, color/muted-foreground and status/error-text.",
       "Figma DS-IA-NEPHOS 5.0 — page NPH — Field, frame 1194:21863 and set 657:50.",
       "Storybook — Validation, in the folder next to this one."
     ],
@@ -3760,7 +3769,7 @@
     "longHelp": "A longer help text wraps to more lines inside the width of the field, and nothing is cut.",
     "noMessageCaption": "No help, no error, no counter: the message line is not drawn and keeps no height.",
     "helpCaption": "Help text: text/caption in color/muted-foreground.",
-    "errorCaption": "Error: the message replaces the help, in text/body-md and status/error, with no icon; the control is in error.",
+    "errorCaption": "Error: the message replaces the help, in text/body-md and status/error-text, with no icon; the control is in error.",
     "longCaption": "A long help text wraps, with no ellipsis.",
     "counterHelpCaption": "Counter at the end of the help line.",
     "counterAloneCaption": "Counter with no help text: at the end of the line.",
@@ -7434,7 +7443,13 @@
       "components-nph-navigation-menu-validation--long-text": "A long title and description in a panel link: each is cut with an ellipsis on one line and the link keeps its width.",
       "components-nph-navigation-menu-validation--direction": "Right-to-left writing: the bar reads from the right, the panel opens from the start edge of its trigger and the indicator of the panel link sits at its start.",
       "components-nph-navigation-menu-validation--examples": "The three required examples, each in light and dark mode: the closed bar with two triggers and the link of the current page, an open trigger with a panel of two groups, and the narrow width with the Menu button open.",
-      "components-nph-navigation-menu-validation--brands": "The seven brands in light and dark mode: the focus border and the halo of the items follow the brand of the frame."
+      "components-nph-navigation-menu-validation--brands": "The seven brands in light and dark mode: the focus border and the halo of the items follow the brand of the frame.",
+      "components-nph-popover-validation--placement": "The four sides and the three alignments, with the arrow: the surface opens at 4 px from the tip of the arrow, aligned to the trigger, and the arrow points to it.",
+      "components-nph-popover-validation--sizes": "The three widths, 240, 320 and 400 px, without the arrow: only the width changes; margins, gaps and footer buttons stay the same.",
+      "components-nph-popover-validation--parts": "The title is always there; the description, the body, the close button and the footer turn on and off, and the divider comes with the footer.",
+      "components-nph-popover-validation--direction": "Right-to-left writing: start and end follow the direction on the top and bottom sides, and the arrow follows them.",
+      "components-nph-popover-validation--interactive": "A popover to try: the trigger opens it and carries aria-expanded; Esc, a press outside, the close button or the footer closes it, and the focus goes back to the trigger.",
+      "components-nph-popover-validation--examples": "The three required examples, each in light and dark mode: filter with confirmation, short form, and information with the close button and the arrow."
     }
   },
   "multiComboboxDocs": {
@@ -11062,5 +11077,278 @@
     "sourceApi": "nph-navigation-menu spec sheet; docs/decisoes-tecnicas.md › P110",
     "sourceAnatomy": "Figma, sets 3969:7897, 3957:6662 and 3957:6722; design.md",
     "matrixLabel": "Component matrix"
+  },
+  "popoverValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "closeLabel": "Close",
+    "trigger": "Share",
+    "title": "Share this report",
+    "description": "Choose who can see it.",
+    "clear": "Clear",
+    "cancel": "Cancel",
+    "apply": "Apply",
+    "save": "Save",
+    "filtersTrigger": "Filters",
+    "filtersTitle": "Filter results",
+    "filtersDescription": "Narrow the list by status and owner.",
+    "renameTrigger": "Rename",
+    "renameTitle": "Rename report",
+    "renameDescription": "Choose a name your team will recognize.",
+    "fieldLabel": "Name",
+    "fieldValue": "Quarterly report",
+    "infoTrigger": "Details",
+    "infoTitle": "About this report",
+    "infoDescription": "It is updated every night at 02:00."
+  },
+  "popoverDocs": {
+    "summary": "The non-modal surface anchored to a trigger, to adjust or decide something short without leaving the page.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-popover spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P111. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenNotToUseTitle": "When not to use",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "for",
+        "The id of the element that opens the popover, in the same root as the popover. The trigger stays outside; the popover writes aria-haspopup, aria-expanded and aria-controls on it. Required."
+      ],
+      [
+        "open",
+        "The state. The trigger turns it on and off; the consumer may set it, and setting it to false is how a footer action closes the popover. Reflected to the attribute."
+      ],
+      [
+        "heading",
+        "The title, already localized. Always visible; it names the surface. Required."
+      ],
+      [
+        "description",
+        "The support text below the title, already localized. Optional; it describes the surface."
+      ],
+      [
+        "side",
+        "One of bottom (default), top, right or left. The popover turns to the opposite side when the one asked for does not fit. Reflected."
+      ],
+      [
+        "align",
+        "One of start, center (default) or end. Reflected."
+      ],
+      [
+        "arrow",
+        "An arrow that points to the trigger. Off by default. Reflected."
+      ],
+      [
+        "size",
+        "One of sm (240), md (320, default) or lg (400). It changes only the width. Reflected."
+      ],
+      [
+        "closable",
+        "Draws the close button. Off by default. Reflected."
+      ],
+      [
+        "close-label",
+        "The accessible name of the close button, already localized. Required while the button is shown."
+      ],
+      [
+        "slot",
+        "The default slot is the body, such as an nph-field. The footer slot takes the action buttons; the divider comes with it."
+      ],
+      [
+        "nph-close",
+        "The event, with detail source: escape, outside, close-button or focus-out. Cancelable. Setting open from code, the trigger and a footer action never fire it."
+      ],
+      [
+        "color and parts",
+        "Not properties: the colors come from the tokens, and the piece has no ::part."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-button id=\"filters\" severity=\"secondary\" text=\"Filters\"></nph-button>\n<nph-popover for=\"filters\" heading=\"Filter results\" description=\"Narrow the list by status and owner.\">\n  <nph-button slot=\"footer\" size=\"compact\" severity=\"secondary\" text=\"Clear\"></nph-button>\n  <nph-button slot=\"footer\" size=\"compact\" text=\"Apply\"></nph-button>\n</nph-popover>",
+    "usageTag": "The tag of the piece and its trigger, an nph-button. for is the id of the trigger. The footer actions go in the footer slot, and a footer action closes the popover by setting open to false in its handler.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-popover (4749:5857); docs/decisoes-tecnicas.md › P111",
+    "placementTitle": "Side and alignment",
+    "placementCaption": "The four sides, with the arrow and the three alignments of the Figma set.",
+    "placementUseHeader": [
+      "Property",
+      "When to use"
+    ],
+    "placementUse": [
+      {
+        "value": "side: bottom",
+        "label": "The default: the surface opens below the trigger."
+      },
+      {
+        "value": "side: top, right, left",
+        "label": "When the layout asks for it. The popover turns to the opposite side by itself when the one asked for does not fit and the other has more room, and never leaves the window."
+      },
+      {
+        "value": "align: center",
+        "label": "The default: the surface is centered on the trigger."
+      },
+      {
+        "value": "align: start, end",
+        "label": "When the surface should start or end where the trigger does. On the top and bottom sides they follow the writing direction; on the left and right sides, start is the top and end the bottom."
+      }
+    ],
+    "arrowTitle": "Arrow",
+    "arrowCaption": "With the arrow, the surface sits one arrow height further, so the tip keeps the distance of 4 from the trigger.",
+    "arrow": [
+      "The arrow is optional and off by default: the link to the trigger is already clear by proximity and the drawing is cleaner.",
+      "Use it when the trigger sits among other elements and the link needs to be clear.",
+      "It is decorative, 16 by 8, and with start or end it keeps 16 from the corner. When the window pushes the surface sideways, it slides back so the tip still points to the trigger."
+    ],
+    "sizesTitle": "Sizes",
+    "sizesCaption": "sm, md and lg, without the arrow: only the width changes.",
+    "sizesUseHeader": [
+      "Size",
+      "When to use"
+    ],
+    "sizesUse": [
+      {
+        "value": "sm",
+        "label": "240 wide. A short title and description."
+      },
+      {
+        "value": "md",
+        "label": "320 wide, the default. When the footer or a field comes in."
+      },
+      {
+        "value": "lg",
+        "label": "400 wide. When the field needs more width."
+      }
+    ],
+    "partsTitle": "Parts",
+    "partsCaption": "The title is always there; description, body, close button and footer turn on and off.",
+    "parts": [
+      "The description comes on by default; the body, the close button and the footer come off.",
+      "Turn the footer on when the action needs confirmation: one primary solid and one secondary solid, compact, at the end. The divider comes with the footer.",
+      "Turn the close button on when there is no footer and the content asks for a visible way out besides Esc and a press outside, such as information to read calmly.",
+      "The surface does not clip its content, so the focus ring of the inner pieces is not cut."
+    ],
+    "closingTitle": "Closing and focus",
+    "closing": [
+      "It closes with Esc, a press outside, the close button, the footer action or the focus leaving it. A footer action closes it when the consumer sets open to false.",
+      "The focus goes back to the trigger on Esc, the close button and the footer action. A press outside and the focus leaving leave it where the person put it.",
+      "Esc closes only the popover: it does not reach a dialog around it. The popover is not modal and traps no Tab.",
+      "On open, the focus goes to the first element with autofocus, then to the first focusable element of the body, then of the footer, then to the close button, then to the surface."
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "It combines with nph-button (the trigger, the footer and the close button), nph-field (the body) and nph-separator (the divider).",
+      "The popover controls the position, the opening and the focus; each inner piece controls its own color and state.",
+      "It does not replace nph-dropdown-menu, a list of commands, nor a modal dialog, a decision that blocks the page. Its parts are its own: there is no nph-card inside. A popover inside a dialog is out of scope for now."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Trigger",
+        "An nph-button, secondary solid. Open, it takes the hover-active look and carries aria-expanded true."
+      ],
+      [
+        "Surface",
+        "popover/background, a very soft 1 px border in popover/border, corners of popover/radius, the elevation/dropdown shadow in light and none in dark. It does not clip its content."
+      ],
+      [
+        "Title",
+        "Always visible; text/label-lg in popover/foreground. It names the surface."
+      ],
+      [
+        "Description",
+        "Optional; text/body-sm in popover/description."
+      ],
+      [
+        "Body",
+        "Optional; an nph-field, in the default slot."
+      ],
+      [
+        "Close",
+        "Optional; a compact ghost nph-button with the xmark icon, 28 by 28."
+      ],
+      [
+        "Footer",
+        "Optional; a divider in popover/divider from edge to edge, then the compact actions at the end, popover/footer-gap apart and popover/footer-padding around them."
+      ],
+      [
+        "Arrow",
+        "Optional; popover/arrow-width by popover/arrow-height, filled in popover/background and outlined in popover/border, with popover/arrow-inset from the corner. Decorative."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Contrast",
+        "Title and description pass 4.5:1 over the surface in both themes. The border and the divider are decorative."
+      ],
+      [
+        "Visible focus",
+        "The trigger, the close button, the field and the footer buttons show the focus ring of their own component. The surface takes no ring."
+      ],
+      [
+        "Color is not the only signal",
+        "Open, the surface shows anchored to the trigger and the trigger carries aria-expanded true; the hover-active look is an extra signal."
+      ],
+      [
+        "Touch target",
+        "The trigger is 36 tall; the close button is 28 by 28 and the footer buttons are 28 tall. On a touch screen the footer buttons go back to 36."
+      ],
+      [
+        "Accessible name",
+        "The surface is a non-modal dialog named by the title and described by the description. The close button carries close-label. The arrow is decorative. The trigger carries aria-haspopup dialog, aria-expanded and aria-controls."
+      ],
+      [
+        "Keyboard",
+        "Enter and Space on the trigger open it. Esc closes it and gives the focus back. Tab moves through the body and the footer and then on to the page, which closes it."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplesCaption": "The three required examples: filter with confirmation, short form, and information with the close button and the arrow.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-popover spec sheet — purpose, variants, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P111 (API and semantics), P01, P02 and P03.",
+      "design.md — the popover/* tokens and the elevation/dropdown style.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Popover, documentation frame nph-popover (4749:5857) and set 4727:1544.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-popover spec sheet; Figma, frame nph-popover (4749:5857)",
+    "sourceApi": "nph-popover spec sheet; docs/decisoes-tecnicas.md › P111",
+    "sourceAnatomy": "Figma, set 4727:1544; design.md",
+    "matrixLabel": "Component matrix",
+    "whenToUse": [
+      "When the person needs to adjust or decide something short without losing their place on the page, such as filtering, choosing a due date or renaming something.",
+      "Choose no arrow by default; use the arrow when the trigger sits among other elements and the link needs to be clear.",
+      "Choose the size by the content: sm for a short title and description, md when the footer or a field comes in, lg when the field needs more width.",
+      "Turn the footer on when the action needs confirmation; the divider comes with it.",
+      "Turn the close button on when there is no footer and the content asks for a visible way out besides Esc and a press outside, such as information to read calmly."
+    ],
+    "whenNotToUse": [
+      "As a list of commands: use nph-dropdown-menu.",
+      "For a decision that blocks the page: use a modal dialog.",
+      "For a short notice with no action: use a short text next to the element, with no floating surface.",
+      "With two primary actions in the footer: use one primary solid and one secondary solid.",
+      "With an outlined trigger: use the secondary solid nph-button.",
+      "Inside a dialog: not part of the contract yet."
+    ]
   }
 }

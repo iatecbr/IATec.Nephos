@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 660,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-popover",
   "dependencies": [
     "DSA-03",
@@ -36,7 +36,32 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "With the arrow, the accepted contract gives the distance from the trigger to the surface as 4 and the arrow as 16 by 8, and does not say where they meet. The code keeps the tip 4 from the trigger and puts the surface one arrow height further. If the surface should be 4 from the trigger, with the arrow overlapping the gap, it is her measure. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
+    },
+    {
+      "id": "D-2",
+      "question": "The look of the open trigger and the ARIA of the native button were added to nph-button only for a trigger that carries aria-haspopup dialog, so the trigger of nph-dropdown-menu keeps its look. Whether the open trigger of nph-dropdown-menu should look open too needs her answer, and belongs to a round of that piece. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
+    },
+    {
+      "id": "D-3",
+      "question": "The trigger carries aria-controls pointing to the popover host, not to the surface, because an id reference does not cross a shadow root. It needs her knowledge that the reference names the host. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
+    },
+    {
+      "id": "D-4",
+      "question": "The popover title is drawn in text/label-lg, the semantic role that matches the core typography bound in Figma (core/size/300, core/line-height/300, core/weight/medium), while design.md says that role is not for titles. A role or tokens for the popover title are hers to give. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-67/figma-docs-accepted-2026-11-06.md"
   ],
@@ -52,8 +77,8 @@
     "excerpt": null,
     "converted_decision": "The nph-popover documentation frame (4749:5857, page 1626:23) was accepted as the API and behavior specification of nph-popover. Component set: nph-popover (4727:1544), 15 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-67-popover", "commit": null, "pr": 155 },
+  "context": "docs/operacao/contextos/DSA-67.md",
   "updated_at": "2026-11-06"
 }
 ```
