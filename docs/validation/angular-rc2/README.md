@@ -12,9 +12,10 @@ re-ranked.
 
 ## Status
 
-- **Raw findings, awaiting triage.** Indiane triages them and opens the DSA
-  tasks from Jira. These files carry **no DSA ID** on purpose: the IDs come from
-  Jira, not from this repository.
+- **Raw findings, with a triage proposal.** [`triage.md`](triage.md) sorts them by
+  who can act (Figma and Indiane, code, documentation, outside the library).
+  Indiane decides and opens the DSA tasks from Jira. These files carry **no DSA
+  ID** on purpose: the IDs come from Jira, not from this repository.
 - **Nothing here is a decision.** Every "suggested fix" is the validator's
   proposal. A finding about a token, a component sheet or a rule becomes a change
   only through the usual path in `AGENTS.md` and `CLAUDE.md` (for example, tokens
@@ -26,6 +27,7 @@ re-ranked.
 | File | What it holds |
 |---|---|
 | [`validation.md`](validation.md) | DX, Angular integration and packaging: per-component verdicts, prioritized findings P0/P1/P2, packaging findings E1–E13, reproduction steps, what was not tested, the Phase B install result. |
+| [`triage.md`](triage.md) | Triage of both reports: group A (Figma and Indiane, 16 themes), group B (code, in 19 batches), group C (documentation), group D (outside the library or to verify), what rc.2 already resolved, and the questions for Indiane and Elvys. Proposal only; no decision. |
 | [`ux-audit.md`](ux-audit.md) | Layout and usability audit made with the `impeccable` skill: the top 10 findings, cross-cutting patterns, four composed screens, 41 components, notes from the batches. Each finding has a severity, a cause (`component`, `composition` or `both`), where, user impact and a suggestion. |
 
 ## What was validated
