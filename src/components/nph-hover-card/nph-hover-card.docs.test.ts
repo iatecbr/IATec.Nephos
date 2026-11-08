@@ -4,7 +4,7 @@
  * with the same shape in pt-BR, en and es (`test:i18n` only reads `.md` pairs), and the two "When to
  * use" lists equal to the ones of the sheet.
  */
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'lit';
 import type { TemplateResult } from 'lit';
 
@@ -14,6 +14,9 @@ import metadata from '../../shared/metadata/nph-hover-card.json';
 import { Documentation } from './nph-hover-card.docs.stories';
 import * as validation from './nph-hover-card.stories';
 import { NphHoverCard } from './nph-hover-card';
+import { summary } from './nph-hover-card.demo';
+import type { ExampleTexts } from './nph-hover-card.demo';
+import { page } from 'vitest/browser';
 
 /**
  * A card taken out of the page while it is shown, or still leaving, has nothing left to report; but
@@ -190,6 +193,28 @@ describe('nph-hover-card Validation: text only from the dictionary', () => {
     const source = shape(translations('en').hoverCardValidation);
     expect(shape(translations('pt-BR').hoverCardValidation)).toEqual(source);
     expect(shape(translations('es').hoverCardValidation)).toEqual(source);
+  });
+});
+
+describe('nph-hover-card examples in a narrow window', () => {
+  it('the image of the summary example stays inside the card when the window is narrower than the card', async () => {
+    await page.viewport(256, 700);
+    try {
+      const target = document.createElement('div');
+      document.body.append(target);
+      render(summary(translations('en').hoverCardValidation as unknown as ExampleTexts), target);
+      const card = target.querySelector('nph-hover-card') as NphHoverCard;
+      await card.updateComplete;
+      const surface = card.shadowRoot?.querySelector('.card') as HTMLElement;
+      await vi.waitFor(() => expect(surface.matches(':popover-open')).toBe(true));
+      const image = card.querySelector('nph-image') as HTMLElement;
+      const inner = surface.getBoundingClientRect();
+      expect(image.getBoundingClientRect().right).toBeLessThanOrEqual(inner.right);
+      expect(image.getBoundingClientRect().left).toBeGreaterThanOrEqual(inner.left);
+      expect(inner.right).toBeLessThanOrEqual(256);
+    } finally {
+      await page.viewport(414, 896);
+    }
   });
 });
 

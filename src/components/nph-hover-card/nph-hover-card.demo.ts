@@ -194,7 +194,7 @@ export function summary(texts: ExampleTexts): TemplateResult {
       meta=${texts.summaryDate}
       meta-icon="calendar"
       open
-      >${texts.summaryLink}<nph-image slot="media" size="media" ratio="16:9" src=${IMAGE_WIDE} alt=${texts.summaryImageAlt}></nph-image
+      >${texts.summaryLink}<nph-image slot="media" size="media" ratio="16:9" style="max-inline-size: 100%;" src=${IMAGE_WIDE} alt=${texts.summaryImageAlt}></nph-image
     ></nph-hover-card>`,
   );
 }
@@ -211,7 +211,7 @@ export function item(texts: ExampleTexts): TemplateResult {
       meta=${texts.itemTime}
       meta-title=${texts.itemTimeFull}
       open
-      >${texts.itemLink}<nph-badge slot="media" severity="success" emphasis="light" text=${texts.itemStatus}></nph-badge
+      >${texts.itemLink}<nph-badge slot="media" severity="secondary" emphasis="light" text=${texts.itemStatus}></nph-badge
     ></nph-hover-card>`,
   );
 }

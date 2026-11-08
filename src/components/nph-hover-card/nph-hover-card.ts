@@ -40,7 +40,7 @@
  * positioning is not relied on.
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
-import type { TemplateResult } from 'lit';
+import type { PropertyValues, TemplateResult } from 'lit';
 
 import '../nph-icon/nph-icon';
 import { isCoreName } from '../nph-icon/nph-icon.icons';
@@ -161,6 +161,9 @@ export class NphHoverCard extends LitElement {
   private frame: number | undefined;
   private reported = '';
   private resizeObserver: ResizeObserver | undefined;
+  /** Tells when an ancestor with `overflow` clips the link out of sight, which the window check cannot see. */
+  private intersectionObserver: IntersectionObserver | undefined;
+  private linkClipped = false;
   private readonly scrollTargets: EventTarget[] = [];
 
   constructor() {
@@ -268,9 +271,13 @@ export class NphHoverCard extends LitElement {
     }
   }
 
-  protected override updated(): void {
+  protected override updated(changed: PropertyValues<this>): void {
     if (!this.isConnected) {
       return;
+    }
+    /* A close timer left by an earlier opening must not close a card that was turned on again. */
+    if (changed.has('open') && this.open) {
+      this.cancelClose();
     }
     this.syncVisibility();
   }
@@ -466,6 +473,19 @@ export class NphHoverCard extends LitElement {
       const link = this.link;
       if (link) this.resizeObserver.observe(link);
       this.resizeObserver.observe(card);
+      this.linkClipped = false;
+      if (link && typeof IntersectionObserver !== 'undefined') {
+        this.intersectionObserver = new IntersectionObserver((entries) => {
+          const last = entries.at(-1);
+          if (last === undefined) return;
+          const clipped = !last.isIntersecting;
+          if (clipped !== this.linkClipped) {
+            this.linkClipped = clipped;
+            this.onViewportChange();
+          }
+        });
+        this.intersectionObserver.observe(link);
+      }
       this.updateScrollTargets();
       this.place(card);
       /* The first style is opacity 0; the next one starts the enter transition. */
@@ -505,6 +525,9 @@ export class NphHoverCard extends LitElement {
     this.clearScrollTargets();
     this.resizeObserver?.disconnect();
     this.resizeObserver = undefined;
+    this.intersectionObserver?.disconnect();
+    this.intersectionObserver = undefined;
+    this.linkClipped = false;
     this.shown = false;
     const card = this.card;
     if (card) {
@@ -586,8 +609,9 @@ export class NphHoverCard extends LitElement {
     if (link === null) return;
     const anchor = link.getBoundingClientRect();
     const view = { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight };
-    /* The link is scrolled out of the window: the card goes with it, not stuck to the edge. */
-    const visible = anchor.bottom > 0 && anchor.top < view.height && anchor.right > 0 && anchor.left < view.width;
+    /* The link is scrolled out of the window, or clipped by a scrolling ancestor: the card goes with it, not stuck to the edge. */
+    const visible =
+      !this.linkClipped && anchor.bottom > 0 && anchor.top < view.height && anchor.right > 0 && anchor.left < view.width;
     card.style.visibility = visible ? '' : 'hidden';
     if (!visible) {
       return;

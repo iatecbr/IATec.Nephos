@@ -792,6 +792,54 @@ describe('findings of the Copilot review of the first head', () => {
   });
 });
 
+describe('findings of the Copilot review of the second head', () => {
+  it('a close timer left by an earlier opening does not close a card turned on again', async () => {
+    const card = await mount({ closeDelay: '600ms' });
+    await hoverOpen(card);
+    await userEvent.unhover(linkOf(card));
+    /* The close delay is pending. The application turns the card off and on again. */
+    card.open = false;
+    await card.updateComplete;
+    card.open = true;
+    await card.updateComplete;
+    await pause(1200);
+    expect(card.open).toBe(true);
+    expect(isShown(card)).toBe(true);
+  });
+
+  it('an update of the content alone does not cancel the pending close', async () => {
+    const card = await mount({ closeDelay: '300ms' });
+    await hoverOpen(card);
+    await userEvent.unhover(linkOf(card));
+    card.heading = 'Another title';
+    await card.updateComplete;
+    await vi.waitFor(() => expect(card.open).toBe(false), { timeout: 2000 });
+  });
+
+  it('the card goes away with its link when a scrolling ancestor clips the link, and comes back with it', async () => {
+    /* The link sits below the box, inside the window: only the box clips it. */
+    const box = document.createElement('div');
+    box.style.cssText = 'position:fixed;left:200px;top:100px;width:200px;height:80px;overflow:auto';
+    const above = document.createElement('div');
+    above.style.height = '300px';
+    const below = document.createElement('div');
+    below.style.height = '600px';
+    box.append(above);
+    document.body.append(box);
+    const card = await mount({ open: true, style: 'display:inline-block', parent: box });
+    box.append(below);
+    await opened(card);
+    const link = linkOf(card).getBoundingClientRect();
+    expect(link.top).toBeGreaterThan(180);
+    expect(link.bottom).toBeLessThan(window.innerHeight);
+    await vi.waitFor(() => expect(surfaceOf(card).style.visibility).toBe('hidden'), { timeout: 2000 });
+    box.scrollTop = 250;
+    await vi.waitFor(() => expect(surfaceOf(card).style.visibility).toBe(''), { timeout: 2000 });
+    box.scrollTop = 0;
+    await vi.waitFor(() => expect(surfaceOf(card).style.visibility).toBe('hidden'), { timeout: 2000 });
+  });
+});
+
 describe('the closed card takes no room and no pointer', () => {
   it('a card never opened is not in the layout', async () => {
     const card = await mount();
