@@ -509,6 +509,8 @@ export class NphNavigationMenu extends LitElement {
   private enabledTriggerIndex(value: string): number | null {
     if (!Array.isArray(this.items)) return null;
     for (const [index, item] of this.items.entries()) {
+      /* Data the validation has not seen yet may be anything: a hover wait can run before the update that rejects it. */
+      if (item === null || typeof item !== 'object') continue;
       if (isTrigger(item) && item.disabled !== true && this.triggerValue(item, index) === value) return index;
     }
     return null;
