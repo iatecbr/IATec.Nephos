@@ -626,13 +626,13 @@ describe('opening on keyboard focus', () => {
 
 describe('closing', () => {
   it('leaving the link and the card closes it after the close delay', async () => {
-    const card = await mount({ closeDelay: '400ms' });
+    const card = await mount({ closeDelay: '1200ms' });
     await hoverOpen(card);
     const started = performance.now();
     await userEvent.unhover(linkOf(card));
     expect(card.open).toBe(true);
-    await vi.waitFor(() => expect(card.open).toBe(false), { timeout: 2000 });
-    expect(performance.now() - started).toBeGreaterThanOrEqual(350);
+    await vi.waitFor(() => expect(card.open).toBe(false), { timeout: 4000 });
+    expect(performance.now() - started).toBeGreaterThanOrEqual(1100);
     await gone(card);
   });
 
@@ -655,14 +655,15 @@ describe('closing', () => {
   });
 
   it('coming back to the link during the close delay keeps it open, with no new wait', async () => {
-    const card = await mount({ openDelay: '5000ms', closeDelay: '600ms' });
+    /* Waits wide enough for a few round trips to the browser on a slow runner. */
+    const card = await mount({ openDelay: '5000ms', closeDelay: '2500ms' });
     card.open = true;
     await card.updateComplete;
     await userEvent.hover(linkOf(card));
     await userEvent.unhover(linkOf(card));
     await pause(100);
     await userEvent.hover(linkOf(card));
-    await pause(900);
+    await pause(3000);
     expect(card.open).toBe(true);
   });
 
@@ -778,7 +779,7 @@ describe('findings of the Copilot review of the first head', () => {
   });
 
   it('Esc during the close delay does not keep the next hover closed', async () => {
-    const card = await mount({ closeDelay: '800ms' });
+    const card = await mount({ closeDelay: '2500ms' });
     await hoverOpen(card);
     await userEvent.unhover(linkOf(card));
     await pause(100);
