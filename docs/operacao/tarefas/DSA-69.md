@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 680,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-context-menu",
   "dependencies": [
     "DSA-03",
@@ -25,11 +25,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0, with the nph-dropdown-menu and nph-icon changes.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor f0448f9b3ab1d546c2e3f4cfada868377757e7e1 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-69/review-and-merge-2026-11-08.md",
+      "result": "passed",
+      "verified_at": "2026-11-08",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -66,7 +66,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-69/figma-docs-accepted-2026-11-06.md"
+    "docs/operacao/evidencias/DSA-69/figma-docs-accepted-2026-11-06.md",
+    "docs/operacao/evidencias/DSA-69/review-and-merge-2026-11-08.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -82,10 +83,10 @@
   },
   "git_review": {
     "branch": "feat/dsa-69-context-menu",
-    "commit": null,
+    "commit": "f0448f9b3ab1d546c2e3f4cfada868377757e7e1",
     "pr": 160
   },
-  "context": "docs/operacao/contextos/DSA-69.md",
+  "context": null,
   "updated_at": "2026-11-08"
 }
 ```
