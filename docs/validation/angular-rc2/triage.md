@@ -19,9 +19,9 @@ Checked against `origin/v/5.0.0` at `43537e0` by reading code; the test suite wa
 |---|---|---|
 | **A** | Needs a design decision, a token, a contract or a documentation change in Figma, or is an open D item | **122** |
 | **B** | Code here, no change to token or visual contract | **33** (in 19 batches) |
-| **C** | Documentation here: sheets, `docs/`, the Angular guide, Storybook | **43** |
-| **D** | Outside the library, already documented, not reproduced or not tested | **76** |
-| **Already resolved** | Fixed in rc.2 itself, before the base moved | **2** |
+| **C** | Documentation here: sheets, `docs/`, the Angular guide, Storybook | **44** |
+| **D** | Outside the library, already documented, not reproduced or not tested | **75** |
+| **Resolved in rc.2 itself** | Marked resolved by the source (`bfd9207`, before `caaece9`); **0 rows** are resolved by commits after `caaece9` | **2** |
 | **Composition** | Defect of the validation app, excluded | **5** |
 | **Total rows** | | **281** |
 
@@ -49,17 +49,18 @@ minimum target, wrap policy, token, contract or scope, even when the fix is only
 CSS. When a row could be either, it is listed in A with a question, not in B with
 a guess.
 
-### Already resolved since rc.2
+### Resolved in rc.2 itself; nothing resolved since
 
 Only 20 commits separate rc.2 (`caaece9`) from the base, and the only code change is
 `nph-popover` (DSA-67, `f0a1c46`), which also moved `nph-button` (an open popover
 trigger draws `hover-active`) and `nph-field` (the error text token is now
 `status/error-text`). None of those changes closes a finding, so no B or C row is
-resolved by later work.
+resolved by later work. Both rows below were already marked resolved by the source,
+and `bfd9207` is an ancestor of `caaece9` (checked with `git merge-base --is-ancestor`).
 
 | Row | State | Where |
 |---|---|---|
-| `E1` | `docs/consuming.md` no longer lists 10 components: it says "every `nph-*` entry point the package exports" and points to the manifest. Nothing left to do for that file | `bfd9207` (`chore(release): 5.0.0-rc.2`) |
+| `E1` | `docs/consuming.md` no longer lists 10 components: it says "every `nph-*` entry point the package exports" and points to the manifest. The source called it partially resolved because the root `README.md` has no component list; it still has none and links to `consuming.md`, so nothing needs writing unless Indiane wants a list there | `bfd9207` (`chore(release): 5.0.0-rc.2`) |
 | `E12` | The published rc.2 carries `5.0.0-rc.2` in `package.json` | `bfd9207` |
 
 Two rows are already covered without a commit: `P0 #5` is documented in the sheet
@@ -555,7 +556,7 @@ Batches that touch `nph-dropdown-menu`, `nph-icon` or `nph-hover-card` (in progr
 
 - **Rows:** `UX-tooltip-1`, `UX-skeleton-1`
 - **Probable file:** `src/components/nph-tooltip/nph-tooltip.ts:957`, `src/components/nph-skeleton/nph-skeleton.ts:36-40`
-- **Proposed fix:** Warn in development when the tooltip text is taller than `layout/max-tooltip-height`, and when `shape="block"` renders with zero height. Letting the balloon grow, or giving the skeleton a default height, is group A.
+- **Proposed fix:** Warn in development when the tooltip text is taller than `layout/max-tooltip-height`, and when `shape="block"` renders with zero height. Letting the balloon grow, or giving the skeleton a default height, is group A (`UX-field-2` in A-16 is the same tooltip root cause, split by what each row proposes).
 - **Acceptance:** A three-line tooltip and a zero-height block each warn once in development; nothing in production.
 - **Risk:** Medium for the skeleton (a late height gives a false positive: warn once).
 - **Overlap:** Depends on B-01: without it the warning is dead code in the build.
@@ -633,7 +634,7 @@ Batches that touch `nph-dropdown-menu`, `nph-icon` or `nph-hover-card` (in progr
 
 ## 4. Group C: documentation that can be written now
 
-43 rows. They need no Figma decision. Two targets: the Angular section of `docs/consuming.md` (the consumer side: value accessor recipe, router, attribute versus property) and the sheet of each piece. Sheets are English only, `fichas/`; a change to `README.md` or `docs/tokens.md` also needs the `en` and `es` pairs (`npm run i18n:update`, `npm run test:i18n`).
+44 rows. They need no Figma decision. Two targets: the Angular section of `docs/consuming.md` (the consumer side: value accessor recipe, router, attribute versus property) and the sheet of each piece. Sheets are English only, `fichas/`; a change to `README.md` or `docs/tokens.md` also needs the `en` and `es` pairs (`npm run i18n:update`, `npm run test:i18n`).
 
 ### 4.1 Angular guide (`docs/consuming.md`, Angular section)
 
@@ -641,7 +642,7 @@ These recipes close many rows at once. The consuming doc has no text today on an
 
 - A generic `ControlValueAccessor` recipe (tag to property and event map, `null` to `[]` for the toggle group and multi-combobox, `{ start, end }` for the range slider, `setDisabledState`) and the limits that remain: toggle group `disabled`, `FormControl` updates on `change` and not on every keystroke. Until B-19 is decided, this is the only path (`P0#1`).
 - `[attr.for]` for `nph-tooltip`, `nph-dropdown-menu` and `nph-label`, until B-02 lands (`P0#3`).
-- The `href` interceptor and `current` or `active` from `router.url`, with the router link directive written on the consumer side (`P0#4`).
+- The `href` interceptor and `current` or `active` from `router.url`, with the router link directive written on the consumer side (`P0#4`). The source also proposes a cancelable `nph-navigate` event on the pieces with `href`; that is a new API and a decision for Elvys, so `P0#4` stays in group C.
 - `[attr.value]` on the children of `nph-toggle-group`, and the rule that a literal attribute sets the `form.reset()` default and a property binding does not (`P1#7`).
 - The `(click)` plus `requestSubmit()` pattern for `nph-button` in a form, until B-04 lands (`P1#8`).
 - The controlled `open` workaround and why `[open]` drifts (`P1#6`), and reassigning `items` and `options` immutably.
@@ -653,6 +654,7 @@ These recipes close many rows at once. The consuming doc has no text today on an
 | Source row | Piece | Finding | Where to write it |
 |---|---|---|---|
 | `P0#4` | breadcrumb, sidebar-*, navigation-menu | `href` does not talk to the Angular Router: a full page reload without consumer code. | consuming.md, Angular: router interceptor for `href` (`composedPath()` plus `router.navigateByUrl`) and deriving `active` from `router.url` |
+| `P2#4` | select, option | `<nph-option value="">` is born selected and hides the placeholder. | select and option sheets: an option with an empty `value` is a real choice (the sheet only says it leaves the piece `valueMissing`), so with `value` `''` it is selected and hides the placeholder; show "no choice" with no such option. Changing the behavior instead would be a decision for Elvys |
 | `P2#7` | chip, data-table | Focus falls to `BODY` after removing a chip and after clearing the data-table filter. | consuming.md, Angular: move focus after `nph-remove` and after clearing a filter; chip sheet |
 | `P2#10` | all pieces | "Multiple versions of Lit loaded" warning in `ng serve`. | consuming.md, Angular: the "Multiple versions of Lit" warning is a dev server artifact |
 | `E2` | docs | Fonts do not ship in the package and the root `README.md` does not mention them. | root `README.md` and `consuming.md`: Fonts section (Noto Sans 400, 500, 600; IBM Plex Mono 400); today one sentence at `consuming.md:87` |
@@ -698,11 +700,10 @@ These recipes close many rows at once. The consuming doc has no text today on an
 
 ## 5. Group D: outside the library, already documented, or to verify
 
-76 rows. Nothing to write or fix here, except the rows marked "verify again", which need a fresh run in the validation app before anyone acts on them.
+75 rows. Nothing to write or fix here, except the rows marked "verify again", which need a fresh run in the validation app before anyone acts on them.
 
 | Source row | Piece | Finding | Reason |
 |---|---|---|---|
-| `P2#4` | select, option | `<nph-option value="">` is born selected and hides the placeholder. | The sheet already says a chosen option of empty value shows the placeholder (`fichas/nph-select.md:93`) |
 | `P2#8` | sidebar-* | Sheets and tokens diverge in token names. | Not reproduced: `--nph-sidebar-background` and `--nph-sidebar-panel-background` both exist; the sheets use the Figma path notation |
 | `E9` | package | Peers and `exports` resolve with `moduleResolution: bundler` (row is OK). | Row is OK, no action |
 | `E10` | package | Production build of 40 lazy routes is within the default budget (row is OK). | Row is OK, no action |
@@ -816,6 +817,7 @@ These are code or architecture decisions that the batches wait on:
 - **B-19.** A value accessor package or entry point, or the recipe only? The current docs promise no wrapper.
 - **B-01.** Should the published package log invalid input by default, and how does a consumer switch it off?
 - **B-03, B-07, B-08.** Names and `detail` of the new events (`nph-open-change`, `nph-status-change`) and whether `nph-table` stops replacing `rows`.
+- **P0#4.** A cancelable `nph-navigate` event on the pieces with `href`, or the consumer recipe only?
 - **B-04.** `type="submit"` and form association on `nph-button` (a new API on top of P68).
 - **B-17.** Keep the Font Awesome peers (P21, P75) or ship the icon paths in the package.
 - **E11.** Run `npm dist-tag rm` on the feed `latest` tag, or leave it as `docs/release.md` describes. Not run here.
