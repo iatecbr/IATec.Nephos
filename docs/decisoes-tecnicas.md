@@ -6581,7 +6581,7 @@ start icon turns solid on hover and on visible focus in every type, selection an
 and disabled; the compact destructive item follows from the same rules. `nph-icon` takes
 `arrow-pointer`, light and solid, which the example of the opening point uses; a test ties the closed
 core of `nph-icon` to the icon list of `design.md`, so the name was added to that list, with no token,
-as DSA-54 did for `arrow-left-to-line`. `color/dropdown-border`
+as DSA-54 did for `arrow-left-to-line`. Elvys authorized that edit on 08/11/2026, limited to the `icones_nucleo` list (`direcao_e_revelacao`) and with no token; Indiane approved the icon in point 8 of the DSA-69 evidence. `color/dropdown-border`
 now resolves to `color/border-subtle`, so the outline of the `nph-navigation-menu` panel and of the
 loading `nph-notification` changes color with no code change.
 
