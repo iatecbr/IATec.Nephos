@@ -413,8 +413,8 @@ Batches that touch `nph-dropdown-menu`, `nph-icon` or `nph-hover-card` (in progr
 
 - **Rows:** `P1#6`, `P2#5`
 - **Probable file:** `nph-dialog.ts`, `nph-dropdown-menu.ts`, `nph-tooltip.ts`, `nph-navigation-menu.ts`
-- **Proposed fix:** Emit a state-reflecting event (proposed `nph-open-change` with `detail: { open }`) when the piece changes `open` by itself (Esc, outside click, focus, blur); `grep` finds no such event in `src/`. For the tooltip, fall back to `side="top"` when `side` is invalid instead of staying open and invisible. The "second Esc arrives with `cancelable=false`" part belongs to the browser (`nph-dialog.ts:633`), so it needs a decision, not a fix.
-- **Acceptance:** `[open]="s()" (nph-open-change)="s.set($event.detail.open)"` stays in sync through Esc and outside click on each of the four pieces; unit tests per piece.
+- **Proposed fix:** Emit a state-reflecting event (proposed `nph-open-change` with `detail: { open }`) when the piece changes `open` by itself (Esc, outside click, focus, blur); `grep` finds no such event in `src/`. For the tooltip, the sheet and code already say an invalid `side` draws no balloon and reports an error (`nph-tooltip.ts:322-323`), so a fallback to `top` would break that contract and is a decision for Elvys; with the event, the invisible-but-open state at least stays in sync. The "second Esc arrives with `cancelable=false`" part belongs to the browser (`nph-dialog.ts:633`), so it needs a decision, not a fix.
+- **Acceptance:** `[open]="s()" (nph-open-change)="s.set($event.detail.open)"` stays in sync through Esc and outside click on each of the four pieces, including a tooltip with an invalid `side`; unit tests per piece.
 - **Risk:** Medium. New public event on four pieces: name and detail are Elvys's decision, then four sheets.
 - **Overlap:** Touches `nph-dropdown-menu` (DSA-69) and `nph-navigation-menu` (DSA-62, plus PR #158). Do after both merge.
 
@@ -492,7 +492,7 @@ Batches that touch `nph-dropdown-menu`, `nph-icon` or `nph-hover-card` (in progr
 
 - **Rows:** `UX-slider-1`, `UX-slider-2`
 - **Probable file:** `src/components/nph-slider/nph-slider.ts:873` (`?autofocus` on thumb 0) and `:633-650` (`onPointerDown`)
-- **Proposed fix:** Remove `?autofocus` and focus the thumb from code when the label is clicked. On touch, apply the value on `pointerup` when the pointer did not move vertically, instead of at `pointerdown`.
+- **Proposed fix:** Remove `?autofocus` and focus the thumb from code when the label is clicked. On touch, apply the value on `pointerup` when the pointer did not move vertically, instead of at `pointerdown`. Both changes alter established behavior (a press on the track moves the value at `pointerdown`, and a label click reaches the thumb through `autofocus` and `delegatesFocus`), and the slider sheet is silent on them, so record a decision first and keep the mouse path as it is.
 - **Acceptance:** After load `document.activeElement` is `BODY`; a vertical swipe over the track scrolls the page and fires no `input` or `change`; clicking the label still focuses the thumb.
 - **Risk:** High for touch: pointer capture and `delegatesFocus` depend on the current behavior (commit `673ec17`).
 
