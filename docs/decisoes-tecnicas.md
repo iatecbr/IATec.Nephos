@@ -6320,7 +6320,8 @@ per cause — the rule of P66. The names follow P64.
    `texto do gatilho`, and a link outside, in another root, would not receive `hover-card/focus-border` and
    `hover-card/focus-halo`, which the contract draws in each variant. The cost is recorded in the sheet: the
    link of the piece is not the link of the consumer, so it has no `target`, `rel` or `download`, and a click
-   on it reaches the document as a composed event. `href` takes `http:`, `https:` or a relative address,
+   on it reaches the document as a composed event whose `target` is the host: a router must find the anchor
+   in `event.composedPath()`, and no compatibility with every router is promised. `href` takes `http:`, `https:` or a relative address,
    parsed as the browser would (`new URL(href, document.baseURI)`), so `javascript:` and its obfuscated
    spellings draw no card and give the link no destination; `mailto:` and `tel:` are not taken, since a
    preview of those destinations has nothing to show. It is the rule of the breadcrumb (P109 point 4)

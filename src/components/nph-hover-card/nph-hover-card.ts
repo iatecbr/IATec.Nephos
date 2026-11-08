@@ -360,8 +360,8 @@ export class NphHoverCard extends LitElement {
     this.cancelClose();
     if (!this.drawable) return;
     this.pointerOnLink = true;
-    /* Still on screen (open, or leaving): coming back keeps it, with no new wait. */
-    const wait = this.open ? 0 : this.delay('--nph-hover-card-open-delay');
+    /* Still on screen (open, or leaving: `shown` outlives `open` by the exit): coming back keeps it, with no new wait. */
+    const wait = this.open || this.shown ? 0 : this.delay('--nph-hover-card-open-delay');
     if (wait === 0) {
       this.overLink = true;
       this.sync();

@@ -130,6 +130,13 @@ async function tabTo(card: NphHoverCard): Promise<void> {
   expect(card.shadowRoot?.activeElement).toBe(linkOf(card));
 }
 
+/** Opens from code and then lets the pointer take the holds: the open wait of the test is long. */
+async function hoverOpenFast(card: NphHoverCard): Promise<void> {
+  card.open = true;
+  await opened(card);
+  await userEvent.hover(linkOf(card));
+}
+
 async function hoverOpen(card: NphHoverCard): Promise<void> {
   await userEvent.hover(linkOf(card));
   await opened(card);
@@ -754,6 +761,20 @@ describe('findings of the Copilot review of the first head', () => {
     await pause(700);
     expect(card.open).toBe(false);
     expect(isShown(card)).toBe(false);
+  });
+
+  it('the pointer coming back while the card leaves keeps it, with no new wait', async () => {
+    const card = await mount({ openDelay: '5000ms', closeDelay: '30ms' });
+    card.style.setProperty('--nph-hover-card-exit-duration', '1500ms');
+    await hoverOpenFast(card);
+    await userEvent.unhover(linkOf(card));
+    await vi.waitFor(() => expect(card.open).toBe(false), { timeout: 2000 });
+    /* Leaving: `open` is off, the card is still in the top layer. */
+    expect(isShown(card)).toBe(true);
+    await userEvent.hover(linkOf(card));
+    await vi.waitFor(() => expect(card.open).toBe(true), { timeout: 500 });
+    await pause(1700);
+    expect(isShown(card)).toBe(true);
   });
 
   it('Esc during the close delay does not keep the next hover closed', async () => {
