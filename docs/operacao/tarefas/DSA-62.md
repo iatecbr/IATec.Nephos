@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 610,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-navigation-menu",
   "dependencies": [
     "DSA-03",
@@ -26,11 +26,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 6082af72ae2cc64ec0dca22970e8a906c314038c origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-62/review-and-merge-2026-11-07.md",
+      "result": "passed",
+      "verified_at": "2026-11-07",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -67,7 +67,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-62/figma-docs-accepted-2026-11-03.md"
+    "docs/operacao/evidencias/DSA-62/figma-docs-accepted-2026-11-03.md",
+    "docs/operacao/evidencias/DSA-62/review-and-merge-2026-11-07.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -81,9 +82,9 @@
     "excerpt": null,
     "converted_decision": "The nph-navigation-menu documentation frame (3977:7913, page 1626:16) was accepted as the API and behavior specification of nph-navigation-menu. Component sets: nph-navigation-menu (3969:7897), with the inner pieces top item (3957:6662) and panel link (3957:6722). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-62-navigation-menu", "commit": null, "pr": 154 },
-  "context": "docs/operacao/contextos/DSA-62.md",
-  "updated_at": "2026-11-03"
+  "git_review": { "branch": "feat/dsa-62-navigation-menu", "commit": "6082af72ae2cc64ec0dca22970e8a906c314038c", "pr": 154 },
+  "context": null,
+  "updated_at": "2026-11-07"
 }
 ```
 

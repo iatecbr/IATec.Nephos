@@ -1620,7 +1620,7 @@ publication around them.
    Artifacts feed `IATec.Community`
    (`https://sda-iatec.pkgs.visualstudio.com/_packaging/IATec.Community/npm/registry/`), by an
    Azure Pipeline that is a separate pull request. `publishConfig` carries the registry and the
-   npm dist-tag `rc`: a release candidate never takes `latest`. Azure Artifacts versions are
+   npm dist-tag `rc`: the pipeline never publishes a release candidate to `latest`. Azure Artifacts versions are
    immutable, so each publish bumps the counter (`rc.2`, `rc.3`, ...); a published version is
    never replaced.
 3. **Scope of `rc.1`: the 10 components that exist on `v/5.0.0`**: `nph-badge`,
@@ -1692,6 +1692,13 @@ point (`import '@iatec/nephos'`) that registers everything.
 **Annotation of 26/10/2026.** The Azure Pipeline also publishes the static Storybook as the
 private pipeline artifact `storybook` (see the annotation of the same date in P19). The
 package, the feed and the `rc` tag do not change.
+
+**Annotation of 07/11/2026.** The feed has `latest` on `5.0.0-rc.1`. The pipeline published it
+with `npm publish --tag rc` (run 609226), and Azure Artifacts, like the npm registry, gives
+`latest` to the first version ever published of a package, whatever `--tag` says. This is the
+only exception to "a release candidate never takes `latest`": `5.0.0-rc.2` and later go only to
+`rc`, so `latest` stays on `rc.1` until a stable version is published. A consumer installs a
+release candidate by its exact version or with `@rc`, never without a tag (`docs/release.md`).
 
 **Status.** Approved by Elvys on 19/10/2026. It amends P70, which Indiane adopted on
 15/10/2026: her confirmation is requested in the review of the pull request that brings

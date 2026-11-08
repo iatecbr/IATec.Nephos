@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=README.md | source-sha256=a16c6fcf02ba5ada8d053e3abe32b9105ef2cf06854950dd7d705c6f88332fb6 | status=revisado -->
+<!-- i18n: lang=pt-BR | source=README.md | source-sha256=708063a78d777b197200be401cad6da1ff872c8dd28f94b49aa8e7bd673edd16 | status=revisado -->
 
 # Nephos 5.0
 
@@ -86,7 +86,7 @@ Omitir os dois entrega Sistemas no claro.
 ## Usando o pacote
 
 O Nephos é publicado como `@iatec/nephos`. As release candidates (`5.0.0-rc.N`) vão
-para um feed privado do Azure DevOps Artifacts, sob a tag npm `rc`, nunca `latest`;
+para um feed privado do Azure DevOps Artifacts, sob a tag npm `rc`; a pipeline nunca as publica em `latest`;
 **todo consumidor precisa de um token npm do Font Awesome Pro**, porque `lit` e Font
 Awesome Pro são peer dependencies. A instalação, os tokens e a configuração para
 Angular, Vue, React e Blazor estão em [`docs/consuming.md`](docs/consuming.md).
