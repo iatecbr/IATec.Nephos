@@ -188,21 +188,21 @@
  * `dropdown/item-destructive-hover-foreground`.
  */
 .item:not([aria-disabled]):hover,
-.item[aria-expanded='true'] {
+.item:not([aria-disabled])[aria-expanded='true'] {
   background-color: var(--nph-color-primary-surface);
 }
 
 .item[data-severity='destructive']:not([aria-disabled]):hover,
-.item[data-severity='destructive'][aria-expanded='true'] {
+.item[data-severity='destructive']:not([aria-disabled])[aria-expanded='true'] {
   background-color: var(--nph-dropdown-item-destructive-hover-background);
 }
 
 .item[data-severity='destructive']:not([aria-disabled]):hover,
 .item[data-severity='destructive']:not([aria-disabled]):hover .text,
 .item[data-severity='destructive']:not([aria-disabled]):hover .shortcut,
-.item[data-severity='destructive'][aria-expanded='true'],
-.item[data-severity='destructive'][aria-expanded='true'] .text,
-.item[data-severity='destructive'][aria-expanded='true'] .shortcut {
+.item[data-severity='destructive']:not([aria-disabled])[aria-expanded='true'],
+.item[data-severity='destructive']:not([aria-disabled])[aria-expanded='true'] .text,
+.item[data-severity='destructive']:not([aria-disabled])[aria-expanded='true'] .shortcut {
   color: var(--nph-dropdown-item-destructive-hover-foreground);
 }
 
@@ -214,18 +214,18 @@
  */
 .item:not([aria-disabled]):hover .glyph-rest,
 .item:not([aria-disabled]):focus-visible .glyph-rest,
-.item[aria-expanded='true'] .glyph-rest {
+.item:not([aria-disabled])[aria-expanded='true'] .glyph-rest {
   display: none;
 }
 
 .item:not([aria-disabled]):hover .glyph-hover,
 .item:not([aria-disabled]):focus-visible .glyph-hover,
-.item[aria-expanded='true'] .glyph-hover {
+.item:not([aria-disabled])[aria-expanded='true'] .glyph-hover {
   display: inline-flex;
 }
 
 .item[data-severity='default']:not([aria-disabled]):hover .glyph-hover,
-.item[data-severity='default'][aria-expanded='true'] .glyph-hover {
+.item[data-severity='default']:not([aria-disabled])[aria-expanded='true'] .glyph-hover {
   color: var(--nph-dropdown-item-hover-icon-foreground);
 }
 

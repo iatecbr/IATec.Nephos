@@ -1119,6 +1119,22 @@ describe('the submenu', () => {
     expect(spy.mock.calls.some((call) => String(call[0]).includes('open-submenu "nope"'))).toBe(true);
   });
 
+  it('disabling the item while its submenu is open closes the submenu, and the item draws no highlight and a light icon', async () => {
+    const setup = await mount();
+    await openAt(setup);
+    await openSubmenuOf(setup.menu);
+    setup.menu.items = ITEMS.map((entry) => ('value' in entry && entry.value === 'share' ? { ...entry, disabled: true } : entry));
+    await settle(setup.menu);
+    expect(setup.menu.openSubmenu).toBe('');
+    const parent = byText(setup.menu, 'Share');
+    expect(parent.getAttribute('aria-expanded')).toBe('false');
+    expect(parent.getAttribute('aria-disabled')).toBe('true');
+    expect(getComputedStyle(parent).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    expect(getComputedStyle(parent.querySelector('.glyph-rest') as HTMLElement).display).not.toBe('none');
+    expect(getComputedStyle(parent.querySelector('.glyph-hover') as HTMLElement).display).toBe('none');
+    await vi.waitFor(() => expect(shown(setup.menu, 1)).toBe(false));
+  });
+
   it('a disabled item with a submenu does not open it', async () => {
     const setup = await mount([{ value: 'share', text: 'Share', disabled: true, submenu: SUBMENU }, { value: 'x', text: 'X' }]);
     setup.object.focus();

@@ -989,6 +989,9 @@ export class NphContextMenu extends LitElement {
       const row = this.groups.flatMap((group) => group.rows).find((candidate) => candidate.sub !== null && candidate.entry.value === wanted && candidate.entry.disabled !== true);
       if (row !== undefined) {
         this.subRow = row;
+      } else if (this.groups.some((group) => group.rows.some((candidate) => candidate.sub !== null && candidate.entry.value === wanted))) {
+        /* The item that holds the submenu was disabled while it was open: the submenu closes. */
+        this.openSubmenu = '';
       } else if (this.valid) {
         devError(`open-submenu "${wanted}" matches no enabled item with a submenu.`);
       }
