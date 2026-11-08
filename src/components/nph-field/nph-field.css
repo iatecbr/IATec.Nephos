@@ -88,14 +88,14 @@
   color: var(--nph-color-muted-foreground);
 }
 
-/* Error: `text/body-md` in `status/error`, with no icon (D2 to D4). */
+/* Error: `text/body-md` in `status/error-text`, with no icon (D2 to D4; DSA-67). */
 .message__text--error {
   font-family: var(--nph-text-body-md-font-family);
   font-size: var(--nph-text-body-md-font-size);
   font-weight: var(--nph-text-body-md-font-weight);
   line-height: var(--nph-text-body-md-line-height);
   letter-spacing: var(--nph-text-body-md-letter-spacing);
-  color: var(--nph-status-error);
+  color: var(--nph-status-error-text);
 }
 
 /* The counter never takes the error color, and it keeps to the end of its line. */
