@@ -260,6 +260,18 @@
     "components-nph-dropdown-menu-validation--interactive": "Interactive",
     "components-nph-dropdown-menu-validation--examples": "Examples",
     "components-nph-dropdown-menu-validation--brands": "Brands",
+    "components-nph-context-menu-docs": "Docs",
+    "components-nph-context-menu-docs--documentation": "Documentation",
+    "components-nph-context-menu-validation": "Validation",
+    "components-nph-context-menu-validation--menu": "Menu",
+    "components-nph-context-menu-validation--submenu": "Submenu",
+    "components-nph-context-menu-validation--submenu-left": "Submenu left",
+    "components-nph-context-menu-validation--choices": "Choices",
+    "components-nph-context-menu-validation--sizes": "Sizes",
+    "components-nph-context-menu-validation--direction": "Direction",
+    "components-nph-context-menu-validation--interactive": "Interactive",
+    "components-nph-context-menu-validation--examples": "Examples",
+    "components-nph-context-menu-validation--brands": "Brands",
     "components-nph-table-docs": "Docs",
     "components-nph-table-docs--documentation": "Documentation",
     "components-nph-table-validation": "Validation",
@@ -6168,6 +6180,305 @@
     "exampleView": "Single choice with a counter",
     "exampleOptions": "Tag, switch and destructive"
   },
+  "contextMenuDocs": {
+    "summary": "The menu of the actions of the object under the pointer, opened at the point of the right click, with one submenu level.",
+    "matrixLabel": "nph-context-menu: size by submenu",
+    "closedWord": "closed",
+    "openWord": "open",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-context-menu spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P113. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "onThisPage": "On this page",
+    "sourceLabel": "Source:",
+    "sourceSpec": "fichas/nph-context-menu.md; Figma, documentation frame 4838:27591.",
+    "sourceApi": "P113 in docs/decisoes-tecnicas.md; fichas/nph-context-menu.md.",
+    "sourceBehavior": "Figma, frame 4838:27591, Behavior; P113.",
+    "sourceAnatomy": "Figma, frame 4838:27591, Anatomy; design.md.",
+    "sourceAccessibility": "Figma, frame 4838:27591, Accessibility; P113.",
+    "sourceUsage": "nph-context-menu spec sheet; docs/decisoes-tecnicas.md › P113",
+    "whenToUseTitle": "When to use",
+    "whenNotToUseTitle": "When not to use",
+    "whenToUse": [
+      "For frequent actions on an object the person is already looking at, such as a file, a table row or a card.",
+      "For few actions in short groups, with the destructive item last, after a separator.",
+      "The default size on most screens; the compact size on dense screens, such as tables.",
+      "A submenu of one level only, for actions that unfold, such as Share."
+    ],
+    "whenNotToUse": [
+      "As the only path to an action: every action of the menu also exists on the screen, for whoever does not use the right button.",
+      "For many actions: use a screen or a dialog.",
+      "For actions that open from a visible button: use nph-dropdown-menu.",
+      "For actions that must stay always in view: use a toolbar."
+    ],
+    "relationsText": "The object that takes the right click stays outside the component and is named by for. The item, the group label and the separator take the look of nph-dropdown-menu, through its dropdown tokens; the start icon, the arrow and the check are nph-icon, and multiple choice is an nph-checkbox.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "for",
+        "The id of the object that takes the right click, in the same root as the menu. The object stays outside the component and the menu writes no ARIA on it. Required."
+      ],
+      [
+        "open",
+        "The state. The menu turns it on and off; the consumer may set it, and a menu opened from code sits at the start top corner of the object and follows it on scroll. Reflected to the attribute."
+      ],
+      [
+        "items",
+        "The entries, in order, as data: items, labels and separators. Property only. Required."
+      ],
+      [
+        "open-submenu",
+        "The value of the item whose submenu is open; empty is closed. The menu writes it; the consumer may set it to show the submenu open. Reflected."
+      ],
+      [
+        "size",
+        "One of default or compact, one per menu. Reflected."
+      ],
+      [
+        "label",
+        "The accessible name of the menu, already localized."
+      ],
+      [
+        "nph-item-select",
+        "The event, which bubbles, with detail value, checked and origin: the element that was under the pointer when the menu opened. Changing items or open from code never fires it."
+      ],
+      [
+        "color and parts",
+        "Not properties: the colors come from the tokens, and the piece has no ::part."
+      ]
+    ],
+    "entryText": "Each entry of items is an item, a group label or a separator; the submenu of an item is a list of the same entries, one level only:",
+    "entryHeader": [
+      "Field",
+      "Rule"
+    ],
+    "entry": [
+      [
+        "value",
+        "Required. What nph-item-select reports."
+      ],
+      [
+        "text",
+        "Required. The label, on one line, cut with an ellipsis; the accessible name."
+      ],
+      [
+        "icon",
+        "A core name of nph-icon: light at rest, solid on highlight."
+      ],
+      [
+        "severity",
+        "default or destructive. The destructive item goes last, after a separator."
+      ],
+      [
+        "selection",
+        "none, single or multiple. Single shows the check at the end; multiple shows the box at the start."
+      ],
+      [
+        "checked",
+        "The state of a choice."
+      ],
+      [
+        "shortcut",
+        "Plain text at the end, such as Ctrl+C. It goes in aria-keyshortcuts. Not on an item with a submenu."
+      ],
+      [
+        "submenu",
+        "A list of entries, one level: the arrow at the end of the item."
+      ],
+      [
+        "disabled",
+        "The item takes the focus and does not activate."
+      ],
+      [
+        "type",
+        "item (the default), label or separator."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<div id=\"file\" tabindex=\"0\">File</div>\n<nph-context-menu for=\"file\"></nph-context-menu>",
+    "usageTag": "The menu listens to the right click on the object that for names; the items come as data in the items property, set from JavaScript. Give the object a tabindex so the focus can go back to it.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "openingTitle": "Opening and closing",
+    "openingHeader": [
+      "Gesture",
+      "Rule"
+    ],
+    "opening": [
+      [
+        "Right click",
+        "Opens the menu with its start top corner at the point of the click and cancels the menu of the browser. It turns to the other side of the point when it does not fit."
+      ],
+      [
+        "Keyboard",
+        "Shift+F10 or the Menu key opens it below the object, on the first item."
+      ],
+      [
+        "Touch",
+        "A press held for about 700 ms opens it at the point of the press; a press that moves opens nothing."
+      ],
+      [
+        "Closing",
+        "Esc closes the submenu and then the menu, and gives the focus back to the object. A click outside, Tab, the focus leaving or a scroll of the page close it."
+      ],
+      [
+        "Activating",
+        "A common item and a single choice close the menu; a multiple choice keeps it open. In a table or a list, origin says which row to act on."
+      ]
+    ],
+    "neverOnlyPath": [
+      "The menu is a shortcut, never the only path: every action of the menu also exists on the screen.",
+      "Hide an action the person can never perform (permission); disable one that is unavailable now."
+    ],
+    "submenuTitle": "Submenu",
+    "submenuText": "An item with a submenu draws the arrow and carries no shortcut. The submenu is a second panel equal to the first, with its first item on the same line as the item that opened it. It opens to the right and to the left only when there is no room. One level only.",
+    "submenuCaption": "The submenu open to the right: Copy link, Download file and More options. The item that opened it keeps the highlight.",
+    "sizesTitle": "Sizes",
+    "sizesText": "default is the size for most screens; compact serves dense screens, such as tables. The size is set on the whole menu: never mix the two. The compact size also takes the destructive item, with the color change only.",
+    "sizesCaption": "size default, with rows of 36, and size compact, with rows of 28.",
+    "choicesTitle": "Choices",
+    "choicesText": "Single choice shows the check at the end and the text in color/primary-hover; multiple choice shows the box at the start and keeps the menu open. A group label names a group, and a disabled item takes the focus but does not activate.",
+    "choicesCaption": "A group label, single choice, multiple choice and a disabled item.",
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "1. Panel",
+        "Surface in color/popover, a border of border/width in color/dropdown-border, corners of dropdown/panel-radius, the elevation/dropdown shadow and padding space/inline-tight. It opens at the point of the click."
+      ],
+      [
+        "2. Item",
+        "Optional start icon and the label; padding and gap space/inline, corners of dropdown/item-radius, no background at rest. The icon is light at rest and solid on highlight."
+      ],
+      [
+        "3. Shortcut",
+        "Optional text at the end of the item, in text/caption and color/muted-foreground."
+      ],
+      [
+        "4. Item with a submenu",
+        "Shows the chevron-right arrow of nph-icon and carries no shortcut."
+      ],
+      [
+        "5. Separator",
+        "The line between groups, in dropdown/separator, with space/inline-tight above and below."
+      ],
+      [
+        "6. Destructive item",
+        "Last, after a separator; label, shortcut and icon in dropdown/item-destructive-foreground, and in hover on dropdown/item-destructive-hover-background."
+      ],
+      [
+        "7. Submenu",
+        "A second panel equal to the first, with its first item on the line of the item that opened it."
+      ],
+      [
+        "8. Group label",
+        "Optional, at the top of a group: text/label-sm in color/muted-foreground."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Contrast",
+        "The label passes AA on color/popover; the destructive item measures at least 4.69:1 in dropdown/item-destructive-foreground. The focus border passes 3:1 in both themes."
+      ],
+      [
+        "Visible focus",
+        "The item in focus shows the color/primary border and the focus/halo halo; the border carries the focus."
+      ],
+      [
+        "Color is not the only signal",
+        "The item with a submenu has the arrow and, open, keeps the hover background. Choices show the check or the box. The destructive item says the action in its label."
+      ],
+      [
+        "Touch target",
+        "The item passes 24 by 24 in both sizes and takes the width of the panel."
+      ],
+      [
+        "Accessible name",
+        "The panel is a menu and each item a menuitem, menuitemradio or menuitemcheckbox, named by its text. The item with a submenu carries aria-haspopup and aria-expanded. The shortcut goes in aria-keyshortcuts; icon and arrow are not read."
+      ],
+      [
+        "Keyboard",
+        "Shift+F10 or the Menu key opens it. Arrows, Home, End and a typed letter move. Enter and Space activate. The right arrow opens the submenu and the left arrow closes it. Esc closes. Tab closes and moves on."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "exampleClosed": "Closed menu: actions with shortcuts, an item with a submenu and the destructive item last.",
+    "exampleRight": "Submenu open to the right, on the same line as the item that opened it.",
+    "exampleLeft": "Submenu open to the left, when there is no room to the right; compact size.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, page NPH — Context Menu, documentation frame 4838:27591.",
+      "fichas/nph-context-menu.md, the spec sheet.",
+      "docs/decisoes-tecnicas.md, P113 — API and semantics of nph-context-menu.",
+      "design.md, the dropdown tokens and color/destructive-text.",
+      "WAI-ARIA Authoring Practices, Menu pattern."
+    ],
+    "object": "File",
+    "back": "Back",
+    "reload": "Reload",
+    "copyLink": "Copy link",
+    "edit": "Edit",
+    "share": "Share",
+    "delete": "Delete",
+    "downloadFile": "Download file",
+    "moreOptions": "More options",
+    "shortcutBack": "Alt+←",
+    "shortcutReload": "Ctrl+R",
+    "shortcutCopyLink": "Ctrl+C",
+    "shortcutEdit": "Ctrl+E",
+    "shortcutDelete": "Del",
+    "viewGroup": "View mode",
+    "list": "List",
+    "grid": "Grid",
+    "archived": "Archived",
+    "shared": "Shared with me",
+    "off": "Locked"
+  },
+  "contextMenuValidation": {
+    "object": "File",
+    "back": "Back",
+    "reload": "Reload",
+    "copyLink": "Copy link",
+    "edit": "Edit",
+    "share": "Share",
+    "delete": "Delete",
+    "downloadFile": "Download file",
+    "moreOptions": "More options",
+    "shortcutBack": "Alt+←",
+    "shortcutReload": "Ctrl+R",
+    "shortcutCopyLink": "Ctrl+C",
+    "shortcutEdit": "Ctrl+E",
+    "shortcutDelete": "Del",
+    "viewGroup": "View mode",
+    "list": "List",
+    "grid": "Grid",
+    "archived": "Archived",
+    "shared": "Shared with me",
+    "off": "Locked",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "interactiveObject": "Right-click here, or focus it and press Shift+F10",
+    "statusIdle": "No item activated yet.",
+    "statusChosen": "Activated {value}; checked: {checked}.",
+    "exampleClosed": "Closed menu: actions with shortcuts, an item with a submenu and the destructive item last",
+    "exampleRight": "Submenu open to the right, on the same line as its item",
+    "exampleLeft": "Submenu open to the left, when there is no room to the right; compact size"
+  },
   "comboboxDocs": {
     "summary": "The field where the person types to filter a list of options and picks one. It takes part in the form that contains it; the label, the help and the error message belong to nph-field.",
     "onThisPage": "On this page",
@@ -7349,6 +7660,15 @@
       "components-nph-dropdown-menu-validation--interactive": "The trigger opens the menu; activating an item fires nph-item-select, whose value and checked show below the trigger. A switch keeps the menu open.",
       "components-nph-dropdown-menu-validation--examples": "The three required examples, each in light and dark mode: the account menu, single choice with a counter, and tag, switch and destructive.",
       "components-nph-dropdown-menu-validation--brands": "The seven brands in light and dark: the checked item and the counter of an item take the primary of the brand of the frame, and so does the focus ring when moving with the arrow keys.",
+      "components-nph-context-menu-validation--menu": "The menu with its submenu closed: actions with shortcuts, an item with a submenu and the destructive item last, after a separator, in light and dark mode.",
+      "components-nph-context-menu-validation--submenu": "The submenu open to the right, a second panel equal to the first, with its first item on the same line as the item that opened it; that item keeps the highlight with the solid icon and arrow.",
+      "components-nph-context-menu-validation--submenu-left": "The submenu open to the left, when there is no room to the right, in the compact size: the object is at the end of the line, so the second panel turns to the other side.",
+      "components-nph-context-menu-validation--choices": "Single choice shows the check at the end and the text in color/primary-hover; multiple choice shows the box at the start; a group label names a group; a disabled item loses opacity.",
+      "components-nph-context-menu-validation--sizes": "The two sizes, one per menu: default rows of 36 and compact rows of 28, the compact one with the destructive item, which changes only its color.",
+      "components-nph-context-menu-validation--direction": "Right-to-left writing: the start top corner is the right one, the arrow of the submenu is mirrored and the submenu opens to the left.",
+      "components-nph-context-menu-validation--interactive": "An object to try: the right click, Shift+F10 or the Menu key opens the menu at the point; the arrows, Enter, Esc and the right and left arrows work on it; activating an item fires nph-item-select.",
+      "components-nph-context-menu-validation--examples": "The three required examples, each in light and dark mode: the closed menu, the submenu open to the right, and the submenu open to the left in the compact size.",
+      "components-nph-context-menu-validation--brands": "The seven brands in light and dark mode: the open submenu item, the solid icon and the focus take the primary of the brand of the frame.",
       "components-nph-combobox-validation--matrix": "size × state: placeholder, value, value with the clear button, error, disabled and both, with the divider and the arrow area in color/accent. Move the mouse for hover, press Tab for focus and again for the clear button.",
       "components-nph-combobox-validation--start": "The start of the field: the magnifying glass, an icon and an avatar, before a choice and with the start of the chosen option.",
       "components-nph-combobox-validation--list-states": "The seven states of the list, open: results, search with the typed stretch highlighted, status, groups, loading, create and empty; and the shortcuts footer (D-1 to D-3).",

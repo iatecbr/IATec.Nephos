@@ -66,7 +66,7 @@
   "variants": {
     "severity": {
       "axis": "appearance",
-      "choose_when": "default for every action. destructive only for the action that deletes or ends, such as Delete or Sign out: the text, the icon and the shortcut take color/destructive-on-surface.",
+      "choose_when": "default for every action. destructive only for the action that deletes or ends, such as Delete or Sign out: the text, the icon and the shortcut take dropdown/item-destructive-foreground.",
       "do_not_combine_with": [
         "destructive on a common action: the risk warning loses its meaning."
       ]
@@ -91,12 +91,12 @@
       "changes_for_user": "The row is quiet; the start icon is light."
     },
     "hover": {
-      "token": "color/primary-surface (destructive: color/destructive-surface); icon in dropdown/item-hover-icon-foreground",
+      "token": "color/primary-surface; icon in dropdown/item-hover-icon-foreground. Destructive: dropdown/item-destructive-hover-background, with the label, shortcut and icon in dropdown/item-destructive-hover-foreground",
       "changes_for_user": "The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color."
     },
     "focus": {
-      "token": "border border/width in color/primary, radius focus/border-radius-inner; halo focus/ring-width in focus/halo, radius focus/radius-inner-with-border",
-      "changes_for_user": "For keyboard users, a border and a halo outside the row mark the focused item."
+      "token": "border border/width in color/primary, radius dropdown/item-focus-border-radius; halo focus/ring-width in focus/halo, radius dropdown/item-focus-halo-radius",
+      "changes_for_user": "For keyboard users, a border and a halo outside the row mark the focused item; the start icon turns solid."
     },
     "disabled": {
       "token": "state/disabled-opacity",
@@ -125,7 +125,7 @@
       "color/popover",
       "color/popover-foreground",
       "layout/input-width",
-      "radius/container",
+      "dropdown/panel-radius",
       "elevation/dropdown"
     ],
     "panel_border": [
@@ -146,10 +146,13 @@
       "space/inline",
       "space/inline-tight"
     ],
-    "separator": "space/inline-tight",
+    "separator": [
+      "dropdown/separator",
+      "space/inline-tight"
+    ],
     "item": [
       "space/inline",
-      "radius/inner",
+      "dropdown/item-radius",
       "text/body-md",
       "color/popover-foreground"
     ],
@@ -175,19 +178,23 @@
       "text/label-md",
       "color/primary-hover"
     ],
-    "destructive": "color/destructive-on-surface",
+    "destructive": [
+      "dropdown/item-destructive-foreground",
+      "dropdown/item-destructive-hover-foreground",
+      "dropdown/item-destructive-hover-background"
+    ],
     "hover": [
       "color/primary-surface",
-      "color/destructive-surface",
+      "dropdown/item-destructive-hover-background",
       "dropdown/item-hover-icon-foreground"
     ],
     "focus": [
       "border/width",
       "color/primary",
-      "focus/border-radius-inner",
+      "dropdown/item-focus-border-radius",
       "focus/ring-width",
       "focus/halo",
-      "focus/radius-inner-with-border"
+      "dropdown/item-focus-halo-radius"
     ],
     "disabled": "state/disabled-opacity",
     "motion": [
@@ -219,7 +226,7 @@
       "Tab and Shift+Tab close the menu and move on from the trigger, wherever the menu sits in the DOM."
     ],
     "focus": "The focus moves to the items. Keyboard only, a border of border/width in color/primary and a halo in focus/halo show outside the row; the border carries the focus (5.37:1 in light and 4.59:1 in dark), the halo is decorative. Opened by a mouse click, the first item takes the focus without showing it.",
-    "contrast": "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The solid icon in dropdown/item-hover-icon-foreground on color/primary-surface measures 4.78:1 in light and 6.26:1 in dark. The menu border, the separator and the halo are decorative.",
+    "contrast": "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The solid icon in dropdown/item-hover-icon-foreground on color/primary-surface measures 4.78:1 in light and 6.26:1 in dark. The destructive item measures at least 4.69:1 on the panel in dropdown/item-destructive-foreground, and in hover uses dropdown/item-destructive-hover-foreground on dropdown/item-destructive-hover-background. The menu border, the separator and the halo are decorative.",
     "color_alternative": "The destructive item is recognized by the icon of the action and by the text. Single choice shows the check; multiple choice shows the checked box; the switch shows the knob position; the tag carries text."
   },
   "invalid_combinations": [
@@ -266,7 +273,7 @@
     "Drawing the trigger inside the menu: it is an nph-button outside, named by for."
   ],
   "sources": {
-    "design_md": "design.md, color/popover, color/popover-foreground, color/dropdown-border, color/primary-surface, color/destructive-surface, color/destructive-on-surface, color/primary-hover, color/primary-foreground, color/muted-foreground, dropdown/item-hover-icon-foreground, layout/input-width, radius/container, radius/inner, radius/full, elevation/dropdown, space/inline, space/inline-tight, icon/size-md, text/body-md, text/caption, text/label-sm, text/label-md, focus/*, state/disabled-opacity and motion/*",
+    "design_md": "design.md, color/popover, color/popover-foreground, color/dropdown-border, color/primary-surface, color/primary-hover, color/primary-foreground, color/muted-foreground, dropdown/*, layout/input-width, radius/full, elevation/dropdown, space/inline, space/inline-tight, icon/size-md, text/body-md, text/caption, text/label-sm, text/label-md, focus/*, state/disabled-opacity and motion/*",
     "decision": "P92 — API and semantics of nph-dropdown-menu, 24-10-2026",
     "tests": "src/components/nph-dropdown-menu/nph-dropdown-menu.test.ts",
     "usage_evidence": "no screen consumes it yet",

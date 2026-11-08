@@ -260,6 +260,18 @@
     "components-nph-dropdown-menu-validation--interactive": "Interactivo",
     "components-nph-dropdown-menu-validation--examples": "Ejemplos",
     "components-nph-dropdown-menu-validation--brands": "Marcas",
+    "components-nph-context-menu-docs": "Docs",
+    "components-nph-context-menu-docs--documentation": "Documentación",
+    "components-nph-context-menu-validation": "Validación",
+    "components-nph-context-menu-validation--menu": "Menú",
+    "components-nph-context-menu-validation--submenu": "Submenú",
+    "components-nph-context-menu-validation--submenu-left": "Submenú a la izquierda",
+    "components-nph-context-menu-validation--choices": "Selecciones",
+    "components-nph-context-menu-validation--sizes": "Tamaños",
+    "components-nph-context-menu-validation--direction": "Dirección",
+    "components-nph-context-menu-validation--interactive": "Interactivo",
+    "components-nph-context-menu-validation--examples": "Ejemplos",
+    "components-nph-context-menu-validation--brands": "Marcas",
     "components-nph-table-docs": "Docs",
     "components-nph-table-docs--documentation": "Documentación",
     "components-nph-table-validation": "Validación",
@@ -6168,6 +6180,305 @@
     "exampleView": "Elección única con contador",
     "exampleOptions": "Etiqueta, interruptor y destructivo"
   },
+  "contextMenuDocs": {
+    "summary": "El menú de las acciones del objeto bajo el puntero, abierto en el punto del clic derecho, con un nivel de submenú.",
+    "matrixLabel": "nph-context-menu: tamaño por submenú",
+    "closedWord": "cerrado",
+    "openWord": "abierto",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha del nph-context-menu, el design.md para los tokens y el docs/decisoes-tecnicas.md para la P113. El archivo de Figma DS-IA-NEPHOS 5.0 es la fuente visual. Aquí no se crea ninguna regla.",
+    "onThisPage": "En esta página",
+    "sourceLabel": "Fuente:",
+    "sourceSpec": "fichas/nph-context-menu.md; Figma, marco de documentación 4838:27591.",
+    "sourceApi": "P113 en docs/decisoes-tecnicas.md; fichas/nph-context-menu.md.",
+    "sourceBehavior": "Figma, marco 4838:27591, Comportamiento; P113.",
+    "sourceAnatomy": "Figma, marco 4838:27591, Anatomía; design.md.",
+    "sourceAccessibility": "Figma, marco 4838:27591, Accesibilidad; P113.",
+    "sourceUsage": "ficha del nph-context-menu; docs/decisoes-tecnicas.md › P113",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenToUse": [
+      "Para acciones frecuentes sobre un objeto que la persona ya está mirando, como un archivo, una fila de tabla o una tarjeta.",
+      "Para pocas acciones en grupos cortos, con el elemento destructivo al final, tras un separador.",
+      "El tamaño estándar en la mayoría de las pantallas; el compacto en pantallas densas, como las tablas.",
+      "Un submenú de un solo nivel, para acciones que se despliegan, como Compartir."
+    ],
+    "whenNotToUse": [
+      "Como único camino a una acción: toda acción del menú también existe en la pantalla, para quien no usa el botón derecho.",
+      "Para muchas acciones: use una pantalla o un diálogo.",
+      "Para acciones que se abren desde un botón visible: use el nph-dropdown-menu.",
+      "Para acciones que deben estar siempre a la vista: use una barra de herramientas."
+    ],
+    "relationsText": "El objeto que recibe el clic derecho queda fuera del componente y se nombra con for. El elemento, la etiqueta de grupo y el separador toman el aspecto del nph-dropdown-menu, mediante sus tokens dropdown; el ícono de inicio, la flecha y el check son el nph-icon, y la selección múltiple es un nph-checkbox.",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "for",
+        "El id del objeto que recibe el clic derecho, en el mismo root del menú. El objeto queda fuera del componente y el menú no escribe ARIA en él. Obligatoria."
+      ],
+      [
+        "open",
+        "El estado. El menú lo activa y desactiva; el consumidor puede definirlo, y un menú abierto por código queda en la esquina superior de inicio del objeto y lo sigue en el scroll. Reflejada en el atributo."
+      ],
+      [
+        "items",
+        "Las entradas, en orden, como datos: elementos, etiquetas y separadores. Solo propiedad. Obligatoria."
+      ],
+      [
+        "open-submenu",
+        "El value del elemento cuyo submenú está abierto; vacío es cerrado. El menú lo escribe; el consumidor puede definirlo para mostrar el submenú abierto. Reflejada."
+      ],
+      [
+        "size",
+        "Uno entre default o compact, uno por menú. Reflejada."
+      ],
+      [
+        "label",
+        "El nombre accesible del menú, ya traducido."
+      ],
+      [
+        "nph-item-select",
+        "El evento, que burbujea, con detail value, checked y origin: el elemento que estaba bajo el puntero cuando el menú se abrió. Cambiar items u open por código nunca lo dispara."
+      ],
+      [
+        "color y partes",
+        "No son propiedades: los colores vienen de los tokens, y la pieza no tiene ::part."
+      ]
+    ],
+    "entryText": "Cada entrada de items es un elemento, una etiqueta de grupo o un separador; el submenú de un elemento es una lista de las mismas entradas, de un solo nivel:",
+    "entryHeader": [
+      "Campo",
+      "Regla"
+    ],
+    "entry": [
+      [
+        "value",
+        "Obligatorio. Lo que informa nph-item-select."
+      ],
+      [
+        "text",
+        "Obligatorio. La etiqueta, en una línea, cortada con puntos suspensivos; el nombre accesible."
+      ],
+      [
+        "icon",
+        "Un nombre del núcleo del nph-icon: ligero en reposo, sólido en el resaltado."
+      ],
+      [
+        "severity",
+        "default o destructive. El elemento destructivo va al final, tras un separador."
+      ],
+      [
+        "selection",
+        "none, single o multiple. La única muestra el check al final; la múltiple muestra la casilla al inicio."
+      ],
+      [
+        "checked",
+        "El estado de una selección."
+      ],
+      [
+        "shortcut",
+        "Texto simple al final, como Ctrl+C. Va en aria-keyshortcuts. No en un elemento con submenú."
+      ],
+      [
+        "submenu",
+        "Una lista de entradas, de un solo nivel: la flecha al final del elemento."
+      ],
+      [
+        "disabled",
+        "El elemento recibe el foco y no se activa."
+      ],
+      [
+        "type",
+        "item (el valor por defecto), label o separator."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<div id=\"file\" tabindex=\"0\">Archivo</div>\n<nph-context-menu for=\"file\"></nph-context-menu>",
+    "usageTag": "El menú escucha el clic derecho en el objeto que for nombra; los elementos llegan como datos en la propiedad items, definida por JavaScript. Dale un tabindex al objeto para que el foco pueda volver a él.",
+    "usageImport": "Registra el componente con sus estilos. El CSS generado de los tokens se importa aparte.",
+    "openingTitle": "Abrir y cerrar",
+    "openingHeader": [
+      "Gesto",
+      "Regla"
+    ],
+    "opening": [
+      [
+        "Clic derecho",
+        "Abre el menú con la esquina superior de inicio en el punto del clic y cancela el menú del navegador. Gira al otro lado del punto cuando no cabe."
+      ],
+      [
+        "Teclado",
+        "Shift+F10 o la tecla Menú lo abre debajo del objeto, en el primer elemento."
+      ],
+      [
+        "Toque",
+        "Un toque sostenido unos 700 ms lo abre en el punto del toque; un toque que se mueve no abre nada."
+      ],
+      [
+        "Cerrar",
+        "Esc cierra el submenú y luego el menú, y devuelve el foco al objeto. Un clic fuera, Tab, el foco que sale o el scroll de la página lo cierran."
+      ],
+      [
+        "Activar",
+        "Un elemento común y una selección única cierran el menú; una selección múltiple lo mantiene abierto. En una tabla o lista, origin dice en qué fila actuar."
+      ]
+    ],
+    "neverOnlyPath": [
+      "El menú es un atajo, nunca el único camino: toda acción del menú también existe en la pantalla.",
+      "Oculte la acción que la persona nunca puede hacer (permiso); deshabilite la que no está disponible ahora."
+    ],
+    "submenuTitle": "Submenú",
+    "submenuText": "Un elemento con submenú muestra la flecha y no lleva atajo. El submenú es un segundo panel igual al primero, con su primer elemento en la misma línea del elemento que lo abrió. Se abre a la derecha y a la izquierda solo cuando no hay espacio. Un solo nivel.",
+    "submenuCaption": "El submenú abierto a la derecha: Copiar enlace, Descargar archivo y Más opciones. El elemento que lo abrió mantiene el resaltado.",
+    "sizesTitle": "Tamaños",
+    "sizesText": "default es el tamaño de la mayoría de las pantallas; compact sirve a pantallas densas, como las tablas. El tamaño vale para todo el menú: nunca mezcle los dos. El tamaño compacto también lleva el elemento destructivo, solo con el cambio de color.",
+    "sizesCaption": "size default, con filas de 36, y size compact, con filas de 28.",
+    "choicesTitle": "Selecciones",
+    "choicesText": "La selección única muestra el check al final y el texto en color/primary-hover; la selección múltiple muestra la casilla al inicio y mantiene el menú abierto. La etiqueta de grupo nombra un grupo, y un elemento deshabilitado recibe el foco pero no se activa.",
+    "choicesCaption": "Una etiqueta de grupo, selección única, selección múltiple y un elemento deshabilitado.",
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "1. Panel",
+        "Superficie en color/popover, borde de border/width en color/dropdown-border, esquinas de dropdown/panel-radius, la sombra elevation/dropdown y padding space/inline-tight. Se abre en el punto del clic."
+      ],
+      [
+        "2. Elemento",
+        "Ícono de inicio opcional y la etiqueta; padding y gap space/inline, esquinas de dropdown/item-radius, sin fondo en reposo. El ícono es ligero en reposo y sólido en el resaltado."
+      ],
+      [
+        "3. Atajo",
+        "Texto opcional al final del elemento, en text/caption y color/muted-foreground."
+      ],
+      [
+        "4. Elemento con submenú",
+        "Muestra la flecha chevron-right del nph-icon y no lleva atajo."
+      ],
+      [
+        "5. Separador",
+        "La línea entre grupos, en dropdown/separator, con space/inline-tight arriba y abajo."
+      ],
+      [
+        "6. Elemento destructivo",
+        "Al final, tras un separador; etiqueta, atajo e ícono en dropdown/item-destructive-foreground, y en hover sobre dropdown/item-destructive-hover-background."
+      ],
+      [
+        "7. Submenú",
+        "Un segundo panel igual al primero, con su primer elemento en la línea del elemento que lo abrió."
+      ],
+      [
+        "8. Etiqueta de grupo",
+        "Opcional, en lo alto de un grupo: text/label-sm en color/muted-foreground."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "La etiqueta pasa AA sobre color/popover; el elemento destructivo mide al menos 4,69:1 en dropdown/item-destructive-foreground. El borde del foco pasa 3:1 en los dos temas."
+      ],
+      [
+        "Foco visible",
+        "El elemento en foco muestra el borde color/primary y el halo focus/halo; el borde lleva el foco."
+      ],
+      [
+        "El color no es la única señal",
+        "El elemento con submenú tiene la flecha y, abierto, mantiene el fondo del hover. Las selecciones muestran el check o la casilla. El elemento destructivo dice la acción en la etiqueta."
+      ],
+      [
+        "Área táctil",
+        "El elemento supera 24 por 24 en los dos tamaños y ocupa el ancho del panel."
+      ],
+      [
+        "Nombre accesible",
+        "El panel es un menú y cada elemento un menuitem, menuitemradio o menuitemcheckbox, nombrado por su texto. El elemento con submenú lleva aria-haspopup y aria-expanded. El atajo va en aria-keyshortcuts; ícono y flecha no se leen."
+      ],
+      [
+        "Teclado",
+        "Shift+F10 o la tecla Menú lo abre. Flechas, Home, End y una letra escrita mueven. Enter y Espacio activan. La flecha derecha abre el submenú y la izquierda lo cierra. Esc cierra. Tab cierra y sigue adelante."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "exampleClosed": "Menú cerrado: acciones con atajos, un elemento con submenú y el elemento destructivo al final.",
+    "exampleRight": "Submenú abierto a la derecha, en la misma línea del elemento que lo abrió.",
+    "exampleLeft": "Submenú abierto a la izquierda, cuando no hay espacio a la derecha; tamaño compacto.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Figma DS-IA-NEPHOS 5.0, página NPH — Context Menu, marco de documentación 4838:27591.",
+      "fichas/nph-context-menu.md, la ficha.",
+      "docs/decisoes-tecnicas.md, P113 — API y semántica del nph-context-menu.",
+      "design.md, los tokens dropdown y color/destructive-text.",
+      "WAI-ARIA Authoring Practices, patrón Menu."
+    ],
+    "object": "Archivo",
+    "back": "Atrás",
+    "reload": "Recargar",
+    "copyLink": "Copiar enlace",
+    "edit": "Editar",
+    "share": "Compartir",
+    "delete": "Eliminar",
+    "downloadFile": "Descargar archivo",
+    "moreOptions": "Más opciones",
+    "shortcutBack": "Alt+←",
+    "shortcutReload": "Ctrl+R",
+    "shortcutCopyLink": "Ctrl+C",
+    "shortcutEdit": "Ctrl+E",
+    "shortcutDelete": "Supr",
+    "viewGroup": "Modo de vista",
+    "list": "Lista",
+    "grid": "Cuadrícula",
+    "archived": "Archivados",
+    "shared": "Compartidos conmigo",
+    "off": "Bloqueado"
+  },
+  "contextMenuValidation": {
+    "object": "Archivo",
+    "back": "Atrás",
+    "reload": "Recargar",
+    "copyLink": "Copiar enlace",
+    "edit": "Editar",
+    "share": "Compartir",
+    "delete": "Eliminar",
+    "downloadFile": "Descargar archivo",
+    "moreOptions": "Más opciones",
+    "shortcutBack": "Alt+←",
+    "shortcutReload": "Ctrl+R",
+    "shortcutCopyLink": "Ctrl+C",
+    "shortcutEdit": "Ctrl+E",
+    "shortcutDelete": "Supr",
+    "viewGroup": "Modo de vista",
+    "list": "Lista",
+    "grid": "Cuadrícula",
+    "archived": "Archivados",
+    "shared": "Compartidos conmigo",
+    "off": "Bloqueado",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "interactiveObject": "Haz clic derecho aquí, o enfócalo y pulsa Shift+F10",
+    "statusIdle": "Ningún elemento activado todavía.",
+    "statusChosen": "Activado {value}; checked: {checked}.",
+    "exampleClosed": "Menú cerrado: acciones con atajos, un elemento con submenú y el elemento destructivo al final",
+    "exampleRight": "Submenú abierto a la derecha, en la misma línea de su elemento",
+    "exampleLeft": "Submenú abierto a la izquierda, cuando no hay espacio a la derecha; tamaño compacto"
+  },
   "comboboxDocs": {
     "summary": "El campo donde la persona escribe para filtrar una lista de opciones y elige una. Forma parte del formulario que lo contiene; la etiqueta, la ayuda y el mensaje de error son del nph-field.",
     "onThisPage": "En esta página",
@@ -7349,6 +7660,15 @@
       "components-nph-dropdown-menu-validation--interactive": "El disparador abre el menú; activar un ítem dispara nph-item-select, cuyos value y checked aparecen debajo del disparador. Un interruptor mantiene el menú abierto.",
       "components-nph-dropdown-menu-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: el menú de la cuenta, elección única con contador, y etiqueta, interruptor y destructivo.",
       "components-nph-dropdown-menu-validation--brands": "Las siete marcas en claro y oscuro: el ítem marcado y el contador de un ítem usan el primary de la marca del marco, y el anillo de foco al moverse con las flechas también.",
+      "components-nph-context-menu-validation--menu": "El menú con el submenú cerrado: acciones con atajos, un elemento con submenú y el elemento destructivo al final, tras un separador, en modo claro y oscuro.",
+      "components-nph-context-menu-validation--submenu": "El submenú abierto a la derecha, un segundo panel igual al primero, con su primer elemento en la misma línea del elemento que lo abrió; ese elemento mantiene el resaltado, con el ícono y la flecha sólidos.",
+      "components-nph-context-menu-validation--submenu-left": "El submenú abierto a la izquierda, cuando no hay espacio a la derecha, en el tamaño compacto: el objeto está al final de la línea, así que el segundo panel gira al otro lado.",
+      "components-nph-context-menu-validation--choices": "La selección única muestra el check al final y el texto en color/primary-hover; la selección múltiple muestra la casilla al inicio; la etiqueta de grupo nombra un grupo; un elemento deshabilitado pierde opacidad.",
+      "components-nph-context-menu-validation--sizes": "Los dos tamaños, uno por menú: filas de 36 en el estándar y de 28 en el compacto, el compacto con el elemento destructivo, que solo cambia el color.",
+      "components-nph-context-menu-validation--direction": "Escritura de derecha a izquierda: la esquina superior de inicio es la derecha, la flecha del submenú se refleja y el submenú se abre a la izquierda.",
+      "components-nph-context-menu-validation--interactive": "Un objeto para probar: el clic derecho, Shift+F10 o la tecla Menú abre el menú en el punto; las flechas, Enter, Esc y las flechas derecha e izquierda funcionan en él; activar un elemento dispara nph-item-select.",
+      "components-nph-context-menu-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: el menú cerrado, el submenú abierto a la derecha y el submenú abierto a la izquierda en el tamaño compacto.",
+      "components-nph-context-menu-validation--brands": "Las siete marcas en modo claro y oscuro: el elemento del submenú abierto, el ícono sólido y el foco usan el primario de la marca del marco.",
       "components-nph-combobox-validation--matrix": "size × estado: placeholder, valor, valor con el botón borrar, error, deshabilitado y ambos, con el divisor y el área de la flecha en color/accent. Pase el mouse para el hover, presione Tab para el foco y otra vez para el botón borrar.",
       "components-nph-combobox-validation--start": "El inicio del campo: la lupa, un ícono y un avatar, antes de una elección y con el inicio de la opción elegida.",
       "components-nph-combobox-validation--list-states": "Los siete estados de la lista, abierta: resultados, búsqueda con el tramo escrito resaltado, estado, grupos, cargando, crear y vacía; y el pie de atajos (D-1 a D-3).",

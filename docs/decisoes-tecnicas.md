@@ -68,6 +68,7 @@ P62.4 subsection for the detail).
 | **P107** | API and semantics of `nph-progress` | 06/11/2026 | Low. No piece consumes the bar yet; `nph-notification` (DSA-63) may embed it later, and changing the `type`, `status`, `value`, `steps` and `step` properties or the invalid-input rule then requires redoing both | Anatomy and behavior: documentation accepted by Indiane on 05/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P108** | API and semantics of `nph-notification` | 06/11/2026 | Low now. No piece consumes it yet; the toast region of the consuming application will, and `nph-alert-dialog` does not, so changing `placement`, `severity`, `emphasis`, `layout`, `duration`, the events `nph-action` and `nph-close` or the invalid-input rule later requires redoing the region. The ghost action and the close on solid point public tokens of `nph-button`, a step beyond the component-token precedent of `nph-dialog` and `nph-toolbar` | Anatomy and behavior: documentation accepted by Indiane on 04/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P111** | API and semantics of `nph-popover`; the open trigger and the ARIA of `nph-button` (amends P68) | 07/11/2026 | Low now. No piece consumes the popover yet; `nph-hover-card` and `nph-navigation-menu` have their own surfaces, so changing `for`, `side`, `align`, `arrow`, `size`, `closable`, the `footer` slot, the event `nph-close` or the invalid-input rule later requires redoing every consumer. The change to `nph-button` is small and scoped to `aria-haspopup="dialog"`, so it touches no other trigger | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
+| **P113** | API and semantics of `nph-context-menu`; the accepted changes of `nph-dropdown-menu` and `nph-icon` | 08/11/2026 | Low now. No piece consumes the context menu yet; `nph-data-table` is its first expected parent, so changing `for`, `items`, `open-submenu`, `size`, the event `nph-item-select` (with `origin`) or the invalid-input rule later requires redoing every consumer. The `nph-dropdown-menu` change is visual only | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -6446,9 +6447,173 @@ and semantics are reviewed in the pull request that brings them; the merge is th
 
 ---
 
+## P113 — `nph-context-menu`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `4838:27591`, set `4819:15828`) gives the
+Figma properties `submenu`, `tamanho` and `foco`, the behavior and the accessibility, and leaves the
+code API to the code. Seven points need a decision of their own:
+
+- the evidence leaves open whether the context menu is a piece of its own or a directive over
+  `nph-dropdown-menu`; that menu opens from a visible trigger, below it, in one level, as one tag
+  (P92), and the context menu opens at a point and unfolds a submenu;
+- the menu opens at the point of a right click on an object that is not a button: the code has to say
+  how the object is found, what the menu writes on it, and how the keyboard and touch gestures that
+  the browser may or may not turn into a `contextmenu` event are handled;
+- the submenu is a second panel, and the evidence gives its side and its line but not how it is
+  opened, closed and named, nor what Esc closes;
+- the evidence asks every action to also exist on the screen, and says a menu in a table "acts only on
+  the row", so the code has to tell the consumer which element was under the pointer;
+- the shortcut goes in `aria-keyshortcuts`, whose syntax is not the one of the visible text;
+- the icon at rest is `color/muted-foreground` in the DSA-69 evidence and "the color of the label" in
+  the DSA-45 evidence of the item the two menus share;
+- there is no event, no state and no limit for opening, closing, the long press and the scroll.
+
+**Decision.** `nph-context-menu` is a Web Component with **open Shadow DOM** (P01). Anatomy only
+through semantic tokens: the `dropdown/*` ones, `elevation/dropdown`, the motion roles and the text
+roles; **no `context-menu/*` token**, as the approval page decided. It has no `::part` and no color
+property. What it rejects renders nothing and emits `console.error` only in development, once per
+cause: the rule of P21. The names follow P64.
+
+1. **A piece of its own, with the look of the dropdown item (Q1).** It is one tag, with the item, the
+   group label and the separator drawn in its own shadow root, so every ARIA reference stays in one
+   root (P91). The CSS of the item is a replica of `nph-dropdown-menu` with the same `dropdown/*`
+   tokens, as the group label of `nph-navigation-menu` is (P110); the helper `groupsOf` is not shared,
+   because the `submenu` of the context menu is a list of entries and the one of the dropdown is a
+   boolean. Opening at a point and unfolding a submenu would need a new API on the dropdown, which the
+   task does not authorize.
+
+2. **`for` names the object, and the menu writes nothing on it (Q2).** The id is looked up with
+   `getRootNode()`, one frame later when it was rendered right after, like `nph-popover` (P111). The
+   object is not a button, so there is no `aria-haspopup` or `aria-expanded` to write. An object that
+   holds several targets, such as the rows of an `nph-data-table`, is one object. The menu listens to
+   `contextmenu`, `keydown`, `pointerdown`, `pointermove`, `pointerup` and `pointercancel` there.
+
+3. **Opening: pointer, keyboard and touch (Q3).** `contextmenu` opens the menu at `clientX` and
+   `clientY` and cancels the menu of the browser. Shift+F10 and the Menu key are handled on `keydown`
+   and open the menu below the object, at its start edge, on the first item: the browser's own
+   `contextmenu` for the same key is not read as a pointer event (browsers fill its coordinates and
+   `button` differently), so a `contextmenu` within one second of that key, or of a long press, is the
+   same gesture and opens nothing twice. On touch, a `pointerdown` of a primary touch starts a timer of
+   700 ms, the evidence's "about 700 ms", and the press opens the menu at its point unless it ends,
+   is cancelled or moves farther than 10 px first. The `contextmenu` that Android sends for a held
+   touch is cancelled, so it does not open the menu at the browser's own delay. These two numbers have
+   no token (D-3). A right click on the menu itself, when it sits inside the object, opens nothing.
+
+4. **Placement (Q4).** The panel is a `popover="manual"`, so it lives in the top layer: no `z-index`,
+   no clipping by an ancestor. JavaScript sets `top` and `left`: the start top corner at the point;
+   when the panel does not fit to the right it turns to the left of the point, when it does not fit
+   below it turns above, and it never leaves the window. Only a menu taller than the window scrolls
+   inside. In right-to-left writing the corner of the point is the top end one. A menu opened from
+   code (`open`) sits at the start top corner of the object, takes no focus and follows the object on
+   scroll; a menu the person opened closes on a scroll of the page or of a container around the
+   object, as the evidence says.
+
+5. **The submenu is a second panel (Q9).** One level, in the same shadow root, a `popover="manual"` of
+   its own, `role="menu"` named by the item that opened it (`aria-labelledby`), with the item
+   carrying `aria-haspopup="menu"`, `aria-expanded` and, while open, `aria-controls`. It sits flush
+   with the first panel, to the right, with its first item on the line of the parent item (past its
+   border and padding); when there is no room on the right it turns to the left. The item that opened
+   it keeps the hover background, with the icon and the arrow solid. The right arrow (the left one in
+   right-to-left writing), Enter, Space and a click open it; the right arrow, Enter and Space move
+   the focus to its first item; the opposite arrow closes it and gives the focus back to the item. A
+   pointer over an item with a submenu opens it after `motion/hover-delay`, read from the token as
+   `nph-navigation-menu` does (P110); a pointer over an item with none closes it after the same wait;
+   the pointer inside the submenu keeps it open. `open-submenu`, a reflecting string, is the `value`
+   of the open item: the menu writes it, the consumer may set it to show the submenu open, and a
+   value that names no enabled item with a submenu is reported in development.
+
+6. **Items (Q6).** `items` is property only: entries of `item`, `label` and `separator`, grouped as in
+   `nph-dropdown-menu`. An item has `value` and `text`, and optionally `icon`, `severity`,
+   `selection`, `checked`, `shortcut`, `submenu` and `disabled`. `description`, `avatar`, `tag`,
+   `count`, `switch`, `loading` and the header are not in the accepted contract, so they are not in
+   the API. An item with a `submenu` takes no `selection` and no `shortcut` (the arrow takes the end
+   of the item) and its list has at least one valid item and no `submenu` of its own; any of those
+   leaves the item out, with one error per cause.
+
+7. **The event carries the object (Q7).** `nph-item-select` bubbles, with
+   `detail: { value, checked, origin }`: `checked` is the new state of a single or multiple choice
+   and `null` on a common item; `origin` is the element that was under the pointer when the menu
+   opened (`composedPath()[0]`), or `null` when the menu was opened from code. It is what lets a row of
+   a table act only on itself (D-1). Opening and closing fire no event (D-2). The menu then replaces
+   `items` with a new list, also inside a submenu, and never changes the objects of the consumer.
+
+8. **Choices and closing (Q5, Q8).** Single choice is `menuitemradio` with the check, exclusive inside
+   its group; multiple choice is `menuitemcheckbox` with an inert `nph-checkbox`. A common item and a
+   single choice close the whole menu and give the focus back to the object; a multiple choice keeps
+   it open. Esc closes **one level at a time**: the submenu first, giving the focus back to its item,
+   then the menu, giving it back to the object (APG; the evidence says "Esc closes the menu", D-5);
+   it stops at the menu and does not reach a dialog around it (P77, item 4). A press outside, Tab,
+   the focus leaving and a scroll close it. When the object is not focusable, such as a table row,
+   giving the focus back is a no-op, and the sheet records it as a limit.
+
+9. **Focus.** Opened by keyboard, the first item takes the focus and shows it; opened by the mouse or
+   by touch, it takes the focus without showing it, as `nph-dropdown-menu` does; opened from code, no
+   focus moves. The arrows move with wrap, Home and End go to the ends, a typed character goes to the
+   next item that starts with it, Enter and Space activate.
+
+10. **The shortcut in `aria-keyshortcuts`.** The visible text (`Ctrl+C`, `⌘D`, `Del`) is written in the
+    syntax of the attribute (`Control+C`, `Meta+D`, `Delete`) by `keyShortcutsOf`; it is not in the
+    name or in `aria-describedby`. The stories that show a shortcut carry the gate exception of
+    `label-content-name-mismatch` that `nph-dropdown-menu` carries (P72, decided by Elvys on
+    27-10-2026); its extension to this piece is for him to confirm in the pull request.
+
+11. **The icon at rest keeps the color of the item (D-4).** The DSA-69 evidence lists the icon with the
+    shortcut in `color/muted-foreground`; the DSA-45 evidence of the same item says the start icon is
+    "in the color of the label". The code keeps the label color in both menus, as the dropdown
+    already shipped, so the two menus stay equal.
+
+12. **Invalid input.** A `for` that is empty or matches no element in the same root, a `size` outside
+    the two, no valid item, and the invalid items above each render nothing (or leave the item out)
+    and emit `console.error` only in development, once per cause while it lasts.
+
+**Source.** Documentation `4838:27591` and set `4819:15828` of the Figma file `DS-IA-NEPHOS 5.0`,
+accepted by Indiane on 06/11/2026 with the Figma UX QA and the textual audit approved, and the 18
+points of its approval page. The property names, the way the object is bound, the gestures, the
+placement, the submenu mechanics, the event and the close rules the evidence leaves open are a
+technical proposal of this implementation.
+
+**Effects on other pieces.** The accepted changes land in `nph-dropdown-menu` in the same task and
+amend the look P92 records, not its API: the panel and the item take `dropdown/panel-radius` (12) and
+`dropdown/item-radius` (8), the focus ring `dropdown/item-focus-border-radius` and
+`dropdown/item-focus-halo-radius`, the separator `dropdown/separator`, the destructive item
+`dropdown/item-destructive-foreground` (and `dropdown/item-destructive-hover-*` on hover), and the
+start icon turns solid on hover and on visible focus in every type, selection and size, light at rest
+and disabled; the compact destructive item follows from the same rules. `nph-icon` takes
+`arrow-pointer`, light and solid, which the example of the opening point uses. `color/dropdown-border`
+now resolves to `color/border-subtle`, so the outline of the `nph-navigation-menu` panel and of the
+loading `nph-notification` changes color with no code change.
+
+**Out of scope.** A second level of submenu. A description, an avatar, a tag, a counter, a switch, a
+loading state or a header on an item. An event of opening or closing. A token. A directive over
+`nph-dropdown-menu`. A forced-colors mode.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the object of a table menu.** The evidence says the menu in a table "opens over the clicked
+  row and acts only on it" and does not say how the code knows the row. The code names one object with
+  `for` and reports the element under the pointer in `detail.origin`. If the menu should instead be
+  one per row, or `origin` should be the row itself, it is her call.
+- **D-2 — no event of opening or closing.** The contract has none, so the code fires none; a consumer
+  that must prepare the items for the row under the pointer listens to `contextmenu` on the object
+  before the menu does, or sets `items` on its own `contextmenu`.
+- **D-3 — the long press.** The evidence says about 700 ms. The code uses 700 ms and a movement limit of
+  10 px, which have no token, and cancels the touch `contextmenu` of the browser.
+- **D-4 — the icon color at rest.** `color/muted-foreground` (DSA-69) or the color of the label
+  (DSA-45). The code keeps the label color in both menus.
+- **D-5 — Esc in the submenu.** The code closes the submenu first and the menu on the second press; the
+  evidence says Esc closes the menu.
+- **D-6 — `arrow-pointer` in `design.md`.** The icon enters the closed core of `nph-icon`, and a test
+  ties that core to the `icones_nucleo` list of `design.md`, so the name was added to that list, with no
+  token, as DSA-54 did for `arrow-left-to-line`.
+
+**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-6 wait for Indiane. API
+and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110 or P111 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111 or P113 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;
