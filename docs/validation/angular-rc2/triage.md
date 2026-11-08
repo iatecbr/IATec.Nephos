@@ -368,7 +368,7 @@ Batches that touch `nph-dropdown-menu`, `nph-icon` or `nph-hover-card` (in progr
 | B-05 | `nph-toggle-group`: coerce `value` | `P1#10` | no |
 | B-06 | `nph-chip`: `readOnly` alias | `P1#7` | no |
 | B-07 | `nph-image`: status change event | `P1#9` | no |
-| B-08 | `nph-table` and `nph-data-table`: rows and the Lit change-in-update warning | `P1#9`, `VAL4-table-vis-1`, `VAL4-data-table-vis-3` | Indirect: the row actions open `nph-dropdown-menu`. |
+| B-08 | `nph-table` and `nph-data-table`: the Lit change-in-update warning (and one open decision on `rows`) | `P1#9`, `VAL4-table-vis-1`, `VAL4-data-table-vis-3` | Indirect: the row actions open `nph-dropdown-menu`. |
 | B-09 | `nph-slider`: initial focus and touch scrolling | `UX-slider-1`, `UX-slider-2` | no |
 | B-10 | `nph-field` and `nph-label`: error live region and empty label | `UX-field-5`, `UX-tela-cadastro-2`, `UX-tela-cadastro-5` | no |
 | B-11 | `nph-pagination` and `nph-input`: announce the page and a numeric go-to-page field | `UX-pagination-4`, `UX-pagination-3` | no |
@@ -473,12 +473,12 @@ Batches that touch `nph-dropdown-menu`, `nph-icon` or `nph-hover-card` (in progr
 |---|---|---|
 | `P1#9` | image, table, combobox | Internal state changes without telling Angular (`status`, `rows`, `options`). |
 
-### B-08. `nph-table` and `nph-data-table`: rows and the Lit change-in-update warning
+### B-08. `nph-table` and `nph-data-table`: the Lit change-in-update warning (and one open decision on `rows`)
 
 - **Rows:** `P1#9`, `VAL4-table-vis-1`, `VAL4-data-table-vis-3`
 - **Probable file:** `src/components/nph-table/nph-table.ts:579-622`
-- **Proposed fix:** `updated()` calls `measure()`, which calls `requestUpdate()`: Lit warns in development ("scheduled an update after an update completed"). Move the measurement out of `updated()` or settle it without a second update. Separately, the table replaces `rows` itself when a row opens (line 622): emit an event and let the app reassign, or accept an app-controlled `open` per row (a decision).
-- **Acceptance:** No Lit dev warning when `/table` and `/data-table` load; the `rows` part has a recorded decision first.
+- **Proposed fix:** `updated()` calls `measure()`, which calls `requestUpdate()`: Lit warns in development ("scheduled an update after an update completed"). Move the measurement out of `updated()` or settle it without a second update. The `rows` part of P1 #9 already has the API the report asked for: the table emits `nph-row-toggle` with `{ row, open }` (`nph-table.ts:622-629`) and the sheet tells the consumer to reassign `rows` after it (`fichas/nph-table.md:354-356, 440-441`), so that recipe is group C. What stays open here is only a decision, with no code until it is made: whether the table should stop replacing `rows` itself when a row opens.
+- **Acceptance:** No Lit dev warning when `/table` and `/data-table` load; the `rows` question is recorded as a decision first.
 - **Risk:** Medium. Measuring after layout is easy to break.
 - **Overlap:** Indirect: the row actions open `nph-dropdown-menu`.
 
@@ -640,12 +640,13 @@ Batches that touch `nph-dropdown-menu`, `nph-icon` or `nph-hover-card` (in progr
 
 These recipes close many rows at once. The consuming doc has no text today on any of them (checked with `grep`).
 
-- A generic `ControlValueAccessor` recipe (tag to property and event map, `null` to `[]` for the toggle group and multi-combobox, `{ start, end }` for the range slider, `setDisabledState`) and the limits that remain: toggle group `disabled`, `FormControl` updates on `change` and not on every keystroke. Until B-19 is decided, this is the only path (`P0#1`).
+- A generic `ControlValueAccessor` recipe (tag to property and event map, `null` to `[]` for the toggle group and multi-combobox, `{ start, end }` for the range slider, `setDisabledState`) and the limits that remain: toggle group `disabled` and the range slider value. The accessor must call its registered callback on `input` for `nph-input`, `nph-textarea` and `nph-input-otp`, which already hold the new value when `input` fires; calling it only on `change` made validation and `dirty` wait for blur or Enter in the validation app (`validation.md`, P0 #1), and that was the app accessor's choice, not a library limit. Until B-19 is decided, this is the only path (`P0#1`).
 - `[attr.for]` for `nph-tooltip`, `nph-dropdown-menu` and `nph-label`, until B-02 lands (`P0#3`).
 - The `href` interceptor and `current` or `active` from `router.url`, with the router link directive written on the consumer side (`P0#4`). The source also proposes a cancelable `nph-navigate` event on the pieces with `href`; that is a new API and a decision for Elvys, so `P0#4` stays in group C.
 - `[attr.value]` on the children of `nph-toggle-group`, and the rule that a literal attribute sets the `form.reset()` default and a property binding does not (`P1#7`).
 - The `(click)` plus `requestSubmit()` pattern for `nph-button` in a form, until B-04 lands (`P1#8`).
 - The controlled `open` workaround and why `[open]` drifts (`P1#6`), and reassigning `items` and `options` immutably.
+- The controlled rows pattern the table already supports: keep the key-to-open map in the app, derive `rows` with `computed()` and reassign it after `nph-row-toggle` (`{ row, open }`); `fichas/nph-table.md:354-356` says so (`P1#9`, table part).
 - The attribute-to-property map: boolean attributes such as `required="false"` are true, `counter` and `chipIcon` need property bindings, `value-text` needs `[attr.value-text]`; typing `$event` needs `strictTemplates`.
 - Fonts, the "Multiple versions of Lit" dev warning, the install token variable, and `angular.json` styles with the package specifier (`E2`, `P2#10`, `E7`, `E8`).
 
@@ -663,12 +664,12 @@ These recipes close many rows at once. The consuming doc has no text today on an
 | `UX-chip-2` | nph-chip | After removing chip by keyboard, focus goes to `body` | chip sheet and Angular guide: pattern to focus the next chip after `nph-remove` |
 | `UX-separator-1` | nph-separator | Vertical separator with explicit height sticks to the top of an `align-items:center` row because the host forces `align-self: stretch` | separator sheet: with an explicit height inside an `align-items: center` row, give the host `align-self: center` (the stretch is the documented contract) |
 | `UX-progress-1` | nph-progress | In a shrink-to-fit parent (`max-content`, `align-items:flex-start`) the bar collapses to its label width | progress sheet: in a shrink-to-fit parent give the parent a width (the CSS already has `inline-size: 100%` and `min-inline-size: 3rem`) |
-| `VAL4-togglebutton-gap-1` | togglebutton | Sheet does not say how to compose with nph-field in Angular (error message stays outside the piece) | sheet: add an example where the consumer writes the error text outside the piece, sets `invalid` on the button and links it with `aria-describedby` |
+| `VAL4-togglebutton-gap-1` | togglebutton | Sheet does not say how to compose with nph-field in Angular (error message stays outside the piece) | togglebutton sheet: the error text is written by the consumer outside the piece and `invalid` is set on the button. State the limit: `aria-describedby` on the host does not describe the native button in the shadow root (`nph-togglebutton.ts:239-247`), so the error is not tied to the control the keyboard and screen reader use. An association API would be a separate decision for Elvys, not part of this documentation task |
 | `VAL4-toolbar-dx-3` | toolbar | (nph-remove) per chip in @for needs closure or detail.text; repeated texts make the bar-level handler ambiguous; sheet gives no guidance | sheet: listen to `nph-remove` on each chip with the item in a closure; the bar-level handler is only safe when the texts are unique |
 | `VAL4-toolbar-gap-1` | toolbar | Sheet does not say how the bar reacts when children are added/removed later via @if/@for | sheet: one line saying that direct children added or removed later are observed (size and roving tabindex are applied again) |
 | `VAL4-dropdown-menu-dx-4` | dropdown-menu | Menu swaps its own items after activation; consumer must reassign a new list to mirror `checked` (OnPush/signals) | Angular guide (optional): the `signal.update` recipe for reassigning `items` |
 | `VAL4-field-dx-2` | field | `required`/`disabled` must be [prop] or a bare attribute; required="false" would be true | Angular guide and field sheet: a boolean attribute counts by presence (`required="false"` turns it on); use `[required]="false"` |
-| `VAL4-field-dx-3` | field | Inside <fieldset disabled> the control's `.disabled` stays false (only invalid/description change) | field sheet: the host `disabled` property does not reflect `<fieldset disabled>`; read `matches(':disabled')` |
+| `VAL4-field-dx-3` | field | Inside <fieldset disabled> the control's `.disabled` stays false (only invalid/description change) | field sheet: the host `disabled` property does not reflect `<fieldset disabled>`. Explain the fieldset rule on its own, including the exception for controls inside the first `<legend>`. `matches(':disabled')` answers it only for form-associated controls: `nph-field` and `nph-switch` are not, and the switch detects the fieldset itself and disables its inner button (`nph-switch.ts:93-113`) while its host still does not match `:disabled`. Do not recommend one selector for every piece |
 | `VAL4-field-gap-3` | field | Sheet does not document the <fieldset disabled> interaction beyond 'disables the control' | same note as `VAL4-field-dx-3` |
 | `VAL4-label-dx-2` | label | A child written by the consumer is NOT replaced by `text` (the consumer child stays before the rendered text) | label sheet: a child written between the tags is not supported and stays in the DOM before the rendered `<label>`; fix the code comment that says it is replaced |
 | `VAL4-label-gap-2` | label | Sheet says the consumer's child would be replaced; in practice it stays in the DOM | same note as `VAL4-label-dx-2` |
