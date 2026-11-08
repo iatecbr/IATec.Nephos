@@ -67,6 +67,7 @@ P62.4 subsection for the detail).
 | **P106** | Up to two reruns of a browser test shard after a network change on the Azure host | 29/10/2026 | Low. Only the Azure step changes; removing the reruns is a pipeline change, and a real failure still fails on the first run | Decided by Elvys on 29/10/2026 (one rerun) and 30/10/2026 (up to two). Reviewed in the pull request that brings it |
 | **P107** | API and semantics of `nph-progress` | 06/11/2026 | Low. No piece consumes the bar yet; `nph-notification` (DSA-63) may embed it later, and changing the `type`, `status`, `value`, `steps` and `step` properties or the invalid-input rule then requires redoing both | Anatomy and behavior: documentation accepted by Indiane on 05/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P108** | API and semantics of `nph-notification` | 06/11/2026 | Low now. No piece consumes it yet; the toast region of the consuming application will, and `nph-alert-dialog` does not, so changing `placement`, `severity`, `emphasis`, `layout`, `duration`, the events `nph-action` and `nph-close` or the invalid-input rule later requires redoing the region. The ghost action and the close on solid point public tokens of `nph-button`, a step beyond the component-token precedent of `nph-dialog` and `nph-toolbar` | Anatomy and behavior: documentation accepted by Indiane on 04/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
+| **P112** | API and semantics of `nph-hover-card` | 07/11/2026 | Low now. No piece consumes it yet; a profile, a page or an item link will, and changing `href`, the default slot, `heading`, `meta`, `meta-icon`, `meta-title`, `side`, `arrow`, `open`, the slot `media`, the closing on blur or the invalid-input rule later requires redoing every card. The slot `media` and the alignment of the card to the link wait for Indiane (D-1, D-2) | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -6269,9 +6270,189 @@ semantics are reviewed in the pull request that brings them; the merge is the ap
 
 ---
 
+## P112 — `nph-hover-card`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `4422:2418`, component set `4406:1105`) gives the
+Figma properties `abertura`, `seta`, `lado`, `texto do gatilho`, `título`, `descrição`, `meta`, `mostrar meta`
+and `ícone da meta`, and leaves the code API to the code. Eleven points need a decision of their own:
+
+- the trigger is a text link that the contract draws in every variant, with its own color, underline,
+  typography and focus tokens (`hover-card/focus-border`, `hover-card/focus-halo`), and the content property
+  is called `texto do gatilho`: the code has to say whether the piece wraps a link of the consumer, points to
+  one by `for` as `nph-tooltip` does (P77), or renders the link itself;
+- `título` could be the `title` attribute, which is the native tooltip of every element, and `mostrar meta`
+  is a boolean that the code could take as a property of its own;
+- the contract gives the wait to open (600 ms) and to close (300 ms), the pointer onto the card (WCAG 1.4.13),
+  keyboard focus and Esc, and says nothing about what happens when the focus leaves, when a click follows the
+  pointer, or when the card is closed from code;
+- the contract fixes the distance of 4 from the link and the arrow of 16 by 8 at 16 from the corner, and says
+  nothing about the side that does not fit, nor about the alignment of the card to the link when there is no
+  arrow;
+- the arrow overlaps the card by the width of its border, so the distance of the card is not the distance of
+  the arrow;
+- the card must not clip inside an ancestor with `overflow`, and the contract says nothing about a layer;
+- the contract says the card is read only and that a screen reader user reaches the same content through the
+  link, which the semantics of a dialog, a tooltip or a described link would contradict;
+- the three required examples (profile, summary with an image, item with a status) need an avatar, an image
+  and a badge in the card, and the Figma set has no slot for them: they are "by instance";
+- the contract does not say what the piece does with an input it cannot draw;
+- the contract has no event, and the evidence says the preview can be turned off;
+- the contrast of the link in the dark scheme: point 9 of the contract names the Gerencial brand (2.71:1) and
+  says the fix belongs to `color/primary` of that brand; the `Brands` story measured the same failure in other
+  brands (up to 3.81:1).
+
+**Decision.** `nph-hover-card` is a Web Component with **open Shadow DOM** (P01). It has no event and no
+`::part`. Anatomy only through semantic tokens: the `hover-card/*` ones, the text roles, `elevation/dropdown`
+and the global focus ones. What it rejects draws no card and emits `console.error` only in development, once
+per cause — the rule of P66. The names follow P64.
+
+1. **The default slot is the text of the link, and `href` is a property.** The piece renders the link itself,
+   a native `a` of its shadow root, whose content is the default slot. It does not wrap a link of the consumer
+   and does not point to one by `for`, as `nph-tooltip` (P77) and `nph-popover` do: the contract hands the
+   piece the visual of the link (color, underline, typography, focus) and names the content property
+   `texto do gatilho`, and a link outside, in another root, would not receive `hover-card/focus-border` and
+   `hover-card/focus-halo`, which the contract draws in each variant. The cost is recorded in the sheet: the
+   link of the piece is not the link of the consumer, so it has no `target`, `rel` or `download`, and a click
+   on it reaches the document as a composed event. `href` takes `http:`, `https:` or a relative address,
+   parsed as the browser would (`new URL(href, document.baseURI)`), so `javascript:` and its obfuscated
+   spellings draw no card and give the link no destination; `mailto:` and `tel:` are not taken, since a
+   preview of those destinations has nothing to show. It is the rule of the breadcrumb (P109 point 4)
+   narrowed to the protocols a preview can describe.
+
+2. **`heading`, not `title`; `description`; `meta`; `meta-icon`; `meta-title`.** `heading` is the Figma
+   `título`; it is not called `title` because `title` is the native tooltip attribute of the host and would
+   show a second balloon over the card. `description` is the Figma `descrição`. `meta` is the Figma `meta`,
+   and an empty `meta` is the Figma `mostrar meta` turned off: one property instead of a text and a boolean
+   that could disagree. `meta-icon` is the Figma `ícone da meta`, a core name of `nph-icon` in the light
+   style, `clock` by default (the preferred values are `clock` and `calendar`); a name outside the core, while
+   the line shows, draws no card, and while the line is off it is not read. `meta-title` is the full date: it
+   becomes the `title` of the meta text, which is the contract rule "relative time up to 30 days, then the full
+   date, the full date always in `title`". The consumer calculates and writes the time: the piece writes no
+   word and computes no time, so the texts stay localized by the application, as in P109 point 1. This is a
+   decision of the code, not an item for Indiane.
+
+3. **Opening and closing.** The two waits are read from `hover-card/open-delay` and `hover-card/close-delay`
+   with `getComputedStyle`, so a brand or an application that changes the token changes the wait. The pointer
+   resting on the link opens the card after the first; leaving before it ends opens nothing; a press on the
+   link cancels it (a click follows the link and nothing opens). Keyboard focus on the link opens the card
+   with no wait, only when the link matches `:focus-visible`, so a mouse click that focuses the link opens
+   nothing. A pointer that leaves the link and the card closes it after the second; coming back to the link
+   or to the card during that wait keeps it open, with no new wait, as the tooltip does (P77). Losing focus
+   closes it with no wait: there is no card to cross by keyboard, so the 300 ms would only leave a card on
+   screen over a link the person has left. While any of the three holds (pointer on the link, pointer on the
+   card, focus on the link) is on, the card stays open. Esc closes it with no wait, only while it is open, in
+   the capture phase with `stopPropagation`, so a dialog around it does not close with the same key (P77 point
+   4); the card then stays closed until the pointer and the focus are both gone. Touch is ignored in both
+   directions: there is no hover, the tap follows the link, and a touch event never closes a card the keyboard
+   opened. A delay token that is not defined (the tokens are not loaded) gives no wait and is reported once in
+   development.
+
+4. **`side`, flip and alignment.** `side` is the Figma `lado` (`bottom` by default, `top`, `left`, `right`) and
+   is the preferred side: the card flips to the opposite side when it does not fit, takes the side with the most
+   room when neither fits, and is kept inside the window. The placement is measured in JavaScript, as in
+   P77 and P92, with no dependence on CSS anchor positioning. **Alignment (D-2).** The contract defines only
+   the arrow, which starts at `hover-card/arrow-inset` from the corner of the card. The code uses one rule with
+   and without the arrow: the center of the link sits at the arrow inset plus half the arrow base from the
+   start corner of the card, so the arrow tip, when there is an arrow, is on the center of the link, and the
+   card does not move when the arrow is turned on. In right-to-left writing the rule is mirrored and the card
+   starts at the right. On the left and right sides the same rule runs along the height.
+
+5. **The arrow.** `arrow` reflects. It is an SVG, `aria-hidden`, of `hover-card/arrow-width` by
+   `hover-card/arrow-height`, with the fill of the card and the outline of its border, drawn for the resolved
+   side after the flip. It overlaps the card by `hover-card/border-width`, so its base covers the border of
+   the card. The distance from the link to the tip is `hover-card/offset`, with and without the arrow, as the
+   contract says, and so the card sits at the offset plus the arrow height minus the border width, which is
+   11 with the tokens of the contract. When the window pushes the card, the tip keeps following the center of
+   the link, inside the rounded corners.
+
+6. **The layer.** The card is a `popover="manual"`, so it lives in the top layer, as the balloon of
+   `nph-tooltip` (P77) and the panel of `nph-dropdown-menu` (P92): no `z-index` and no clipping by an
+   ancestor with `overflow`. `manual` because the browser's light dismiss would close it on a click elsewhere,
+   which is not in the contract. The card follows the link on scroll and resize, and is not drawn while the
+   link is outside the window.
+
+7. **No role, no `aria-describedby`.** The card is a plain container: no `role="tooltip"`, no dialog, no
+   `aria-describedby` or `aria-labelledby` on the link, and it never takes focus. The contract says the card
+   repeats the destination, and that a screen reader user reaches the same content through the link; a
+   description on the link would read the preview before the destination and make the link longer on every
+   visit. The arrow and the meta icon are `aria-hidden`. A closed card is not displayed, so assistive
+   technology does not reach it.
+
+8. **The slot `media`, for the required examples only (D-1).** The contract has three required examples,
+   profile with an avatar, summary with an image and a date, item with a status and a time, built with
+   `nph-avatar`, `nph-image` and `nph-badge` "by instance", and the Figma set has no slot. In code, an instance
+   is a child, so the piece offers one optional slot, `media`, at the start of the card, which takes no room
+   while it is empty. It is not a place for actions: the card stays read only. Whether the slot should exist
+   and where it sits in the card is a decision of Indiane.
+
+9. **Invalid input.** An empty or unsafe `href`, an empty `heading`, a `side` outside the list, and a
+   `meta-icon` outside the core while the meta line shows: each draws no card, keeps the link (with no
+   destination when the `href` is the cause) and emits `console.error` only in development, once per cause: a
+   re-render with the same input stays silent, and a fixed input draws again with no leftover. A card that
+   cannot be drawn never opens, from the pointer, the focus or `open`.
+
+10. **No event.** The piece fires nothing: the card opens and closes by itself, the consumer may read `open`
+    (it reflects) and may set it to show the card open, under the same closing rules, and the contract defines
+    no event. The preview "can be turned off" by the application by not rendering the piece and leaving the
+    plain link.
+
+11. **The focus of the link.** Two pseudo-element layers outside the box of the link, as `nph-button`: a border
+    of `hover-card/border-width` in `hover-card/focus-border`, with the radius `focus/border-radius-inner`, and
+    a halo of `focus/ring-width` in `hover-card/focus-halo`, with the radius
+    `focus/radius-inner-with-border`. The link is `inline-block` so the box of the layers is the box of its
+    text; a link that breaks across lines draws the ring around the whole box, a known limit recorded in the
+    sheet. The link takes `color/primary`, underlined, `text/label-md` and `radius/inner`.
+
+12. **Motion.** The card enters on `hover-card/enter-duration` with `motion/enter-easing` and leaves on
+    `hover-card/exit-duration` with `motion/exit-easing`, animating only opacity; it leaves the top layer when
+    the exit ends. With reduced motion the duration is `motion/hover-duration`, as in `nph-tooltip`: the card
+    still appears and still leaves.
+
+**Inherited limit.** The contrast of the link in the dark scheme is 2.71:1 in the Gerencial brand, as point 9
+of the accepted contract says, and the `Brands` story measured it below 4.5:1 in other brands too (up to
+3.81:1). It comes from `color/primary` of each brand; point 9 says the fix belongs to that token, that the
+underline stays and that this task does not change it. The `Brands` story carries the contrast exception of
+`src/shared/docs/brands.ts` (the same one as `nph-sidebar-item`, `nph-dropdown-menu` and
+`nph-navigation-menu`), which leaves when the token is fixed. The sheet records it. D-3 asks Indiane to
+confirm the extent.
+
+**Source.** Documentation `4422:2418` and component set `4406:1105` of the Figma file `DS-IA-NEPHOS 5.0`,
+accepted by Indiane on 06/11/2026 with the Figma UX QA and the textual audit approved, and the ten points of
+its approval page. The property names, the link rendered by the piece, the `href` protocols, the reading of the
+two waits from the tokens, the closing on blur, the capture of Esc, the flip, the alignment, the layer, the
+absence of role, the invalid-input rule and the slot `media` are a technical proposal of this implementation.
+
+**Out of scope.** Loading remote content into the card, which the contract leaves out of the first version
+(reopen it with real remote content, weighing `nph-spinner` before `nph-skeleton`). An action, a link or a
+field in the card, which belong to `nph-popover`. A `for` that attaches the card to a link outside the piece.
+An `nph-link`. A `target`, `rel` or `download` on the link. A width other than `hover-card/width`. An event.
+A new token, and a change in `color/primary` of any brand.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the slot `media`.** The Figma set has no slot, and the three required examples (profile with an
+  avatar, summary with an image and a date, item with a status and a time) are built "by instance". For the
+  code to reproduce them, the piece has an optional slot `media`, at the start of the card. Indiane decides
+  whether the slot exists and where it sits in the card; if it does not, the examples need another route, such
+  as a fixed set of properties for the avatar, the image and the badge.
+- **D-2 — the alignment of the card to the link.** The contract defines the arrow at 16 from the corner and
+  nothing about the alignment of the card when there is no arrow. The code uses the same rule with and without
+  the arrow, so the card does not move when the arrow is turned on: the center of the link sits at the arrow
+  inset plus half the arrow base from the start corner of the card, mirrored in right-to-left writing.
+  Indiane decides whether the card without the arrow aligns another way, such as centered on the link.
+- **D-3 — the contrast of the link in dark, beyond Gerencial.** Point 9 of the contract names only the
+  Gerencial brand (2.71:1). The `Brands` story measured the link in `color/primary` below 4.5:1 in the dark
+  scheme of other brands (up to 3.81:1). The fix belongs to `color/primary` of each brand, which Indiane
+  owns; the piece does not change it and the story carries the contrast exception.
+
+**Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1, D-2 and D-3 wait for Indiane. API and
+semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109 or P110 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110 or P112 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

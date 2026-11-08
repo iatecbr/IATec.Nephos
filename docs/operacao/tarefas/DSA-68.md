@@ -34,7 +34,26 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The accepted Figma set has no slot for the avatar, the image and the badge of the three required examples (they are by instance). The code adds an optional slot media at the start of the card so the examples can be built with the real piece. Whether the slot exists, and where it sits in the card, needs her answer. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
+    },
+    {
+      "id": "D-2",
+      "question": "The contract defines the arrow at 16 from the card corner and says nothing about how the card aligns to the link when there is no arrow. The code uses the same rule with and without the arrow, so the card does not move when the arrow is turned on. Whether the card without the arrow aligns another way, such as centered on the link, needs her answer. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
+    },
+    {
+      "id": "D-3",
+      "question": "Point 9 of the contract names only the Gerencial brand for the contrast of the link in dark (2.71:1). The Brands story measured the link in color/primary below 4.5:1 in the dark scheme of other brands too (up to 3.81:1). The fix belongs to color/primary of each brand; the code does not change it and the Brands story carries the contrast exception. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-07"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-68/figma-docs-accepted-2026-11-06.md"
   ],

@@ -379,7 +379,16 @@
     "components-nph-navigation-menu-validation--long-text": "Texto longo",
     "components-nph-navigation-menu-validation--direction": "Direção",
     "components-nph-navigation-menu-validation--examples": "Exemplos",
-    "components-nph-navigation-menu-validation--brands": "Marcas"
+    "components-nph-navigation-menu-validation--brands": "Marcas",
+    "components-nph-hover-card-docs": "Docs",
+    "components-nph-hover-card-docs--documentation": "Documentação",
+    "components-nph-hover-card-validation": "Validação",
+    "components-nph-hover-card-validation--sides": "Lados",
+    "components-nph-hover-card-validation--meta-line": "Linha de meta",
+    "components-nph-hover-card-validation--in-sentence": "Em uma frase",
+    "components-nph-hover-card-validation--direction": "Direção",
+    "components-nph-hover-card-validation--examples": "Exemplos",
+    "components-nph-hover-card-validation--brands": "Marcas"
   },
   "colorScheme": {
     "light": "Modo claro",
@@ -7434,7 +7443,13 @@
       "components-nph-navigation-menu-validation--long-text": "Um título e uma descrição longos em um link do painel: cada um é cortado com reticências em uma linha e o link mantém a largura.",
       "components-nph-navigation-menu-validation--direction": "Escrita da direita para a esquerda: a barra lê da direita, o painel abre a partir da borda inicial do gatilho e o indicador do link do painel fica no início.",
       "components-nph-navigation-menu-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: a barra fechada com dois gatilhos e o link da página atual, um gatilho aberto com um painel de dois grupos, e a largura estreita com o botão Menu aberto.",
-      "components-nph-navigation-menu-validation--brands": "As sete marcas em modo claro e escuro: a borda e o halo de foco dos itens seguem a marca do quadro."
+      "components-nph-navigation-menu-validation--brands": "As sete marcas em modo claro e escuro: a borda e o halo de foco dos itens seguem a marca do quadro.",
+      "components-nph-hover-card-validation--sides": "O cartão aberto em cada lado, sem a seta e com ela: a 4 do link sem a seta; com ela, a ponta da seta fica a 4 do link e o cartão a 11. O cartão tem 320 de largura.",
+      "components-nph-hover-card-validation--meta-line": "A linha de meta como frase, tempo relativo com a data completa no title, data, horário e desligada: o ícone de relógio para frase ou horário e o de calendário para data.",
+      "components-nph-hover-card-validation--in-sentence": "O link na linha de uma frase com o cartão fechado, e o mesmo link com o cartão aberto: a peça acompanha a linha do texto.",
+      "components-nph-hover-card-validation--direction": "Escrita da direita para a esquerda: o cartão começa à direita do link e a seta continua apontando para o centro do link.",
+      "components-nph-hover-card-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: um perfil com avatar, o resumo de um link com imagem e data, e um item com status e horário.",
+      "components-nph-hover-card-validation--brands": "As sete marcas no modo claro e no escuro: a borda e o halo de foco do link seguem a marca do quadro."
     }
   },
   "multiComboboxDocs": {
@@ -11061,6 +11076,249 @@
     "sourceSpec": "Ficha do nph-navigation-menu; Figma, quadro nph-navigation-menu (3977:7913)",
     "sourceApi": "Ficha do nph-navigation-menu; docs/decisoes-tecnicas.md › P110",
     "sourceAnatomy": "Figma, conjuntos 3969:7897, 3957:6662 e 3957:6722; design.md",
+    "matrixLabel": "Matriz do componente"
+  },
+  "hoverCardValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "linkText": "Nephos",
+    "heading": "Design system Nephos",
+    "description": "O design system da IATec, feito com Web Components.",
+    "updatedToday": "Atualizado hoje",
+    "updatedDays": "Há 3 dias",
+    "updatedDaysFull": "4 de novembro de 2026",
+    "date": "4 de novembro de 2026",
+    "time": "14:30",
+    "sentenceBefore": "Tudo o que você precisa está na documentação do ",
+    "sentenceAfter": ".",
+    "profileLink": "Ana Souza",
+    "profileName": "Ana Souza",
+    "profileRole": "Líder de design systems",
+    "profileJoined": "Entrou em março de 2024",
+    "profileJoinedFull": "4 de março de 2024",
+    "profileAvatarLabel": "Foto de Ana Souza",
+    "summaryLink": "Notas da versão",
+    "summaryTitle": "Notas da versão 5.0 do Nephos",
+    "summaryText": "O que mudou nos componentes, nos tokens e no Storybook, e como atualizar.",
+    "summaryDate": "4 de novembro de 2026",
+    "summaryImageAlt": "Capa das notas da versão",
+    "itemLink": "Hover card",
+    "itemTitle": "Hover card",
+    "itemText": "Cartão de pré-visualização somente leitura ancorado a um link.",
+    "itemStatus": "Ativo",
+    "itemTime": "14:30"
+  },
+  "hoverCardDocs": {
+    "summary": "O cartão somente leitura que antecipa o destino de um link, aberto pelo ponteiro parado sobre ele ou pelo foco do teclado.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-hover-card, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P112. O arquivo DS-IA-NEPHOS 5.0 do Figma é a fonte visual. Nenhuma regra nasce aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Junto a um link para um perfil, uma página ou um item, quando o link é o caminho principal e uma pré-visualização ajuda a decidir se vale abrir.",
+      "Quando tudo o que o cartão mostra também existe no destino.",
+      "Com a linha de meta para um horário ou um detalhe de contexto; sem ela quando não ajuda a decidir.",
+      "Com a seta quando vários links ficam próximos ou o cartão cai longe do link; sem ela por padrão.",
+      "Abrindo abaixo por padrão; outro lado só quando o espaço acaba."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para pôr um botão, um link ou um campo no cartão, ou qualquer coisa em que a pessoa precise agir: use o nph-popover, que abre no clique e aceita ações.",
+      "Para um texto curto sobre um elemento: use o nph-tooltip.",
+      "Para um conteúdo que a pessoa precisa responder ou concluir antes de seguir: use o nph-dialog.",
+      "Para guardar no cartão uma informação que não está no destino: o cartão é uma prévia do destino, e no toque ele nunca abre.",
+      "Para uma descrição longa: o cartão leva um título, uma ou duas frases curtas e uma linha de meta; o detalhe fica no destino.",
+      "Para um link cujo destino não cabe em um título e uma descrição."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "href",
+        "O destino do link. Obrigatório. Só um endereço http:, https: ou relativo; qualquer outro deixa o link sem destino e não desenha o cartão."
+      ],
+      [
+        "slot padrão",
+        "O texto do link, o conteúdo do elemento. O link é uma âncora nativa desenhada pela peça, em color/primary e sublinhada."
+      ],
+      [
+        "heading",
+        "O título do cartão: o nome curto do destino. Obrigatório, já traduzido. Não é title, o atributo de dica nativo de todo elemento."
+      ],
+      [
+        "description",
+        "O resumo do destino, em uma ou duas frases curtas, já traduzido. Opcional."
+      ],
+      [
+        "meta",
+        "O texto curto da linha de meta: uma frase, um tempo relativo até 30 dias, uma data completa ou um horário como 14:30. Vazio desliga a linha. A aplicação formata; a peça não calcula tempo."
+      ],
+      [
+        "meta-icon",
+        "O nome, no núcleo, do ícone da linha de meta, no estilo claro. clock por padrão, para frase ou horário; calendar para data."
+      ],
+      [
+        "meta-title",
+        "A data completa, como title do texto da meta. Opcional. Sempre informe quando a meta é um tempo relativo."
+      ],
+      [
+        "side",
+        "Onde o cartão abre em relação ao link: bottom, o padrão, top, left ou right. Ele vira para o lado oposto quando não cabe e nunca sai da janela. Reflete no atributo."
+      ],
+      [
+        "arrow",
+        "Desenha a seta que aponta para o link. Desligada por padrão. Reflete no atributo."
+      ],
+      [
+        "open",
+        "O estado do cartão. A peça liga e desliga sozinha; a aplicação pode ligar para mostrar o cartão aberto. Reflete no atributo."
+      ],
+      [
+        "slot media",
+        "Um slot opcional no início do cartão, para um avatar, uma imagem ou um selo. Somente leitura: nada nele recebe foco nem ação."
+      ],
+      [
+        "largura e eventos",
+        "Não são propriedades: uma só largura, 320, em todas as variantes. A peça não dispara evento."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-hover-card\n  href=\"/nephos\"\n  heading=\"Design system Nephos\"\n  description=\"O design system da IATec, feito com Web Components.\"\n  meta=\"Atualizado hoje\"\n>Nephos</nph-hover-card>",
+    "usageTag": "A tag da peça. O texto do link é o conteúdo e o cartão é desenhado pelos atributos. O slot media recebe um avatar, uma imagem ou um selo.",
+    "usageImport": "Registra o componente com os seus estilos. O CSS de tokens gerado é importado à parte.",
+    "sourceUsage": "Figma, frame nph-hover-card (4422:2418); docs/decisoes-tecnicas.md › P112",
+    "sidesTitle": "Lados e seta",
+    "sidesCaption": "O cartão sem a seta abaixo do link, e com a seta abaixo e acima dele.",
+    "sidesUseHeader": [
+      "Propriedade",
+      "Quando usar"
+    ],
+    "sidesUse": [
+      {
+        "value": "bottom",
+        "label": "O padrão. Prefira: o cartão abre abaixo do link e o olhar segue do link para o cartão."
+      },
+      {
+        "value": "top, left, right",
+        "label": "Só quando não há espaço embaixo. O cartão vira para o lado oposto sozinho quando o escolhido não cabe."
+      },
+      {
+        "value": "arrow",
+        "label": "Desligada por padrão. Ligada quando vários links ficam próximos ou o cartão cai longe do link, para ficar claro a qual link ele pertence."
+      }
+    ],
+    "metaLineTitle": "Linha de meta",
+    "metaLineCaption": "A linha de meta como frase, como data e desligada.",
+    "metaLine": [
+      "A linha de meta é um texto curto com um ícone, abaixo da descrição: um horário ou um detalhe de contexto. Desligue, com a meta vazia, quando ela não ajuda a decidir.",
+      "O tempo é relativo até 30 dias (\"Atualizado hoje\", \"Há 3 dias\"), depois a data completa; um horário se escreve \"14:30\". A data completa sempre vai em meta-title.",
+      "Escolha o ícone pelo tipo de texto: relógio para frase ou horário, calendário para data.",
+      "A meta é um degrau mais suave que a descrição, em color/subtle-foreground, e nunca fica abaixo do piso de contraste."
+    ],
+    "behaviorTitle": "Comportamento",
+    "behaviorCaption": "O link na linha de uma frase, com o cartão fechado. Pare o ponteiro sobre ele, ou aperte Tab até ele, para abrir o cartão.",
+    "behavior": [
+      "O ponteiro parado sobre o link abre o cartão depois de 600 ms; o cartão fecha 300 ms depois que o ponteiro sai do link e do cartão.",
+      "O ponteiro pode ir para o cartão sem fechá-lo. O foco do teclado no link abre o cartão sem espera, e Esc fecha.",
+      "No toque não há hover: tocar no link leva ao destino.",
+      "O cartão é somente leitura: não tem botão, link nem campo e nunca recebe foco.",
+      "Tudo o que o cartão mostra também existe no destino."
+    ],
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Fica junto de um link que leva a um perfil, uma página ou um item. Não substitui o nph-tooltip (texto curto sobre um elemento), o nph-popover (abre no clique e aceita ações) nem um diálogo modal.",
+      "Trabalha com o nph-icon na linha de meta e, no slot media, com o nph-avatar, o nph-image e o nph-badge. Cada peça controla a própria cor.",
+      "Espaço: 4 do link ao cartão, com e sem a seta; com a seta o cartão fica a 11, já que a seta tem 8 de altura e sobrepõe o cartão em 1."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Link",
+        "Um link nativo em color/primary, sublinhado, text/label-md e com 20 de altura. Com foco de teclado mostra uma borda de 1 px em hover-card/focus-border e, por fora, um halo de 4 px em hover-card/focus-halo."
+      ],
+      [
+        "Seta",
+        "Opcional. 16 por 8, a 16 do canto do cartão e aria-hidden; sobrepõe o cartão em 1 px e usa o mesmo preenchimento e a mesma borda."
+      ],
+      [
+        "Cartão",
+        "Preenchimento hover-card/background, borda de 1 px em hover-card/border, cantos de 14, a sombra elevation/dropdown, margem interna 16, 8 entre as partes e largura 320."
+      ],
+      [
+        "Mídia",
+        "Opcional, no slot media: um avatar, uma imagem ou um selo, no início do cartão."
+      ],
+      [
+        "Título",
+        "O nome curto do destino, text/label-lg, hover-card/foreground."
+      ],
+      [
+        "Descrição",
+        "text/body-sm em hover-card/description-foreground; quebra linha e nunca rola."
+      ],
+      [
+        "Linha de meta",
+        "Opcional. Um nph-icon em hover-card/icon-size e um texto text/caption, a 4 um do outro, em hover-card/meta-foreground."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "Título, descrição e meta passam 4,5:1 sobre color/popover nos dois temas. A meta é um degrau mais suave que a descrição, nunca abaixo desse piso. O link passa na marca padrão; no escuro da marca Gerencial fica em 2,71:1, um limite do color/primary dessa marca."
+      ],
+      [
+        "Foco visível",
+        "O link mostra a borda de foco, que passa 3:1, e o halo por fora. O foco abre o mesmo cartão que o ponteiro. O cartão é somente leitura e não tem estado de foco."
+      ],
+      [
+        "A cor não é o único sinal",
+        "O link é sublinhado além da cor. A meta se distingue pelo ícone e pelo lugar, no fim do cartão, e não só pelo tom de cinza."
+      ],
+      [
+        "Alvo de toque",
+        "O link tem 20 de altura e cumpre a WCAG 2.5.8 pela exceção de espaçamento ou, dentro de uma frase, pela exceção do link em linha. O cartão não tem alvo. No toque o conteúdo do cartão precisa existir no destino."
+      ],
+      [
+        "Nome acessível",
+        "O nome lido vem do texto do link. A seta e o ícone da meta são aria-hidden. O cartão repete o destino, então quem usa leitor de tela chega ao mesmo conteúdo pelo link."
+      ],
+      [
+        "Teclado",
+        "Tab até o link abre o cartão sem espera; Esc fecha e não fecha um diálogo em volta; Tab para fora fecha."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "examplesCaption": "Os três exemplos obrigatórios: um perfil com avatar, o resumo de um link com imagem e data, e um item com status e horário.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-hover-card — propósito, propriedades, comportamento, acessibilidade e tokens.",
+      "docs/decisoes-tecnicas.md — P112 (API e semântica), P01, P02 e P03.",
+      "design.md — os tokens hover-card/*, o color/subtle-foreground e os tokens de foco.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Hover Card, frame de documentação nph-hover-card (4422:2418), conjunto de componentes 4406:1105.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "Ficha do nph-hover-card; Figma, frame nph-hover-card (4422:2418)",
+    "sourceApi": "Ficha do nph-hover-card; docs/decisoes-tecnicas.md › P112",
+    "sourceAnatomy": "Figma, conjunto 4406:1105; design.md",
     "matrixLabel": "Matriz do componente"
   }
 }

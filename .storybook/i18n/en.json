@@ -379,7 +379,16 @@
     "components-nph-navigation-menu-validation--long-text": "Long text",
     "components-nph-navigation-menu-validation--direction": "Direction",
     "components-nph-navigation-menu-validation--examples": "Examples",
-    "components-nph-navigation-menu-validation--brands": "Brands"
+    "components-nph-navigation-menu-validation--brands": "Brands",
+    "components-nph-hover-card-docs": "Docs",
+    "components-nph-hover-card-docs--documentation": "Documentation",
+    "components-nph-hover-card-validation": "Validation",
+    "components-nph-hover-card-validation--sides": "Sides",
+    "components-nph-hover-card-validation--meta-line": "Meta line",
+    "components-nph-hover-card-validation--in-sentence": "In a sentence",
+    "components-nph-hover-card-validation--direction": "Direction",
+    "components-nph-hover-card-validation--examples": "Examples",
+    "components-nph-hover-card-validation--brands": "Brands"
   },
   "colorScheme": {
     "light": "Light mode",
@@ -7434,7 +7443,13 @@
       "components-nph-navigation-menu-validation--long-text": "A long title and description in a panel link: each is cut with an ellipsis on one line and the link keeps its width.",
       "components-nph-navigation-menu-validation--direction": "Right-to-left writing: the bar reads from the right, the panel opens from the start edge of its trigger and the indicator of the panel link sits at its start.",
       "components-nph-navigation-menu-validation--examples": "The three required examples, each in light and dark mode: the closed bar with two triggers and the link of the current page, an open trigger with a panel of two groups, and the narrow width with the Menu button open.",
-      "components-nph-navigation-menu-validation--brands": "The seven brands in light and dark mode: the focus border and the halo of the items follow the brand of the frame."
+      "components-nph-navigation-menu-validation--brands": "The seven brands in light and dark mode: the focus border and the halo of the items follow the brand of the frame.",
+      "components-nph-hover-card-validation--sides": "The card open on each side, without the arrow and with it: 4 from the link without the arrow; with it, the arrow tip is 4 from the link and the card sits 11 away. The card is 320 wide.",
+      "components-nph-hover-card-validation--meta-line": "The meta line as a phrase, a relative time with the full date in the title, a date, a time and turned off: the clock icon for a phrase or a time and the calendar for a date.",
+      "components-nph-hover-card-validation--in-sentence": "The link in the line of a sentence with the card closed, and the same link with the card open: the piece takes the line of the text.",
+      "components-nph-hover-card-validation--direction": "Right-to-left writing: the card starts at the right of the link and the arrow keeps pointing to the center of the link.",
+      "components-nph-hover-card-validation--examples": "The three required examples, each in light and dark mode: a profile with an avatar, a link summary with an image and a date, and an item with a status and a time.",
+      "components-nph-hover-card-validation--brands": "The seven brands in light and dark mode: the focus border and the halo of the link follow the brand of the frame."
     }
   },
   "multiComboboxDocs": {
@@ -11061,6 +11076,249 @@
     "sourceSpec": "nph-navigation-menu spec sheet; Figma, frame nph-navigation-menu (3977:7913)",
     "sourceApi": "nph-navigation-menu spec sheet; docs/decisoes-tecnicas.md › P110",
     "sourceAnatomy": "Figma, sets 3969:7897, 3957:6662 and 3957:6722; design.md",
+    "matrixLabel": "Component matrix"
+  },
+  "hoverCardValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "linkText": "Nephos",
+    "heading": "Nephos design system",
+    "description": "The IATec design system, built with Web Components.",
+    "updatedToday": "Updated today",
+    "updatedDays": "3 days ago",
+    "updatedDaysFull": "November 4, 2026",
+    "date": "November 4, 2026",
+    "time": "14:30",
+    "sentenceBefore": "Everything you need is in the ",
+    "sentenceAfter": " documentation.",
+    "profileLink": "Ana Souza",
+    "profileName": "Ana Souza",
+    "profileRole": "Design systems lead",
+    "profileJoined": "Joined March 2024",
+    "profileJoinedFull": "March 4, 2024",
+    "profileAvatarLabel": "Photo of Ana Souza",
+    "summaryLink": "Release notes",
+    "summaryTitle": "Nephos 5.0 release notes",
+    "summaryText": "What changed in the components, the tokens and the Storybook, and how to upgrade.",
+    "summaryDate": "November 4, 2026",
+    "summaryImageAlt": "Cover of the release notes",
+    "itemLink": "Hover card",
+    "itemTitle": "Hover card",
+    "itemText": "Read-only preview card anchored to a link.",
+    "itemStatus": "Active",
+    "itemTime": "14:30"
+  },
+  "hoverCardDocs": {
+    "summary": "The read-only card that previews the destination of a link, opened by the pointer resting on it or by keyboard focus.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-hover-card spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P112. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "Next to a link to a profile, a page or an item, when the link is the main path and a preview helps decide whether to open it.",
+      "When everything the card shows also exists at the destination.",
+      "With the meta line for a time or a context detail; without it when it does not help the decision.",
+      "With the arrow when several links sit close together or the card lands far from the link; without it by default.",
+      "Opening below by default; another side only when the space runs out."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "To put a button, a link or a field in the card, or anything the person must act on: use nph-popover, which opens on click and accepts actions.",
+      "For a short text about an element: use nph-tooltip.",
+      "For content the person must answer or finish before going on: use nph-dialog.",
+      "To keep in the card information that is not at the destination: the card is a preview of the destination, and on touch it never opens.",
+      "For a long description: the card takes a title, one or two short sentences and one meta line; the detail stays at the destination.",
+      "For a link whose destination cannot be summed up in a title and a description."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "href",
+        "The destination of the link. Required. Only an http:, https: or relative address; anything else leaves the link with no destination and draws no card."
+      ],
+      [
+        "default slot",
+        "The text of the link, the content of the element. The link is a native anchor drawn by the piece, in color/primary and underlined."
+      ],
+      [
+        "heading",
+        "The title of the card: the short name of the destination. Required, already localized. It is not title, the native tooltip attribute of every element."
+      ],
+      [
+        "description",
+        "The summary of the destination, in one or two short sentences, already localized. Optional."
+      ],
+      [
+        "meta",
+        "The short text of the meta line: a phrase, a relative time up to 30 days, a full date or a time such as 14:30. Empty turns the line off. The application formats it; the piece computes no time."
+      ],
+      [
+        "meta-icon",
+        "The core name of the icon of the meta line, in the light style. clock by default, for a phrase or a time; calendar for a date."
+      ],
+      [
+        "meta-title",
+        "The full date, as the title of the meta text. Optional. Always give it when the meta is a relative time."
+      ],
+      [
+        "side",
+        "Where the card opens relative to the link: bottom, the default, top, left or right. It flips to the opposite side when it does not fit and never leaves the window. Reflected to the attribute."
+      ],
+      [
+        "arrow",
+        "Draws the arrow that points to the link. Off by default. Reflected to the attribute."
+      ],
+      [
+        "open",
+        "The state of the card. The piece turns it on and off by itself; the application may turn it on to show the card open. Reflected to the attribute."
+      ],
+      [
+        "slot media",
+        "An optional slot at the start of the card, for an avatar, an image or a badge. Read only: nothing in it takes focus or action."
+      ],
+      [
+        "width and events",
+        "Not properties: one width, 320, in every variant. The piece fires no event."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-hover-card\n  href=\"/nephos\"\n  heading=\"Nephos design system\"\n  description=\"The IATec design system, built with Web Components.\"\n  meta=\"Updated today\"\n>Nephos</nph-hover-card>",
+    "usageTag": "The tag of the piece. The text of the link is its content and the card is drawn from the attributes. The slot media takes an avatar, an image or a badge.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-hover-card (4422:2418); docs/decisoes-tecnicas.md › P112",
+    "sidesTitle": "Sides and arrow",
+    "sidesCaption": "The card without the arrow below the link, and with the arrow below and above it.",
+    "sidesUseHeader": [
+      "Property",
+      "When to use"
+    ],
+    "sidesUse": [
+      {
+        "value": "bottom",
+        "label": "The default. Prefer it: the card opens below the link and the eye goes on from the link to the card."
+      },
+      {
+        "value": "top, left, right",
+        "label": "Only when there is no room below. The card flips to the opposite side by itself when the chosen one does not fit."
+      },
+      {
+        "value": "arrow",
+        "label": "Off by default. On when several links sit close together or the card lands far from the link, so it is clear which link it belongs to."
+      }
+    ],
+    "metaLineTitle": "Meta line",
+    "metaLineCaption": "The meta line as a phrase, as a date, and turned off.",
+    "metaLine": [
+      "The meta line is one short text with an icon, below the description: a time or a context detail. Turn it off, with an empty meta, when it does not help the decision.",
+      "Time is relative up to 30 days (\"Updated today\", \"3 days ago\"), then the full date; a time reads \"14:30\". The full date always goes in meta-title.",
+      "Choose the icon by the kind of text: clock for a phrase or a time, calendar for a date.",
+      "The meta is one step softer than the description, in color/subtle-foreground, and never below the contrast floor."
+    ],
+    "behaviorTitle": "Behavior",
+    "behaviorCaption": "The link in the line of a sentence, with the card closed. Rest the pointer on it, or press Tab until it, to open the card.",
+    "behavior": [
+      "The pointer resting on the link opens the card after 600 ms; the card closes 300 ms after the pointer leaves the link and the card.",
+      "The pointer can move onto the card without closing it. Keyboard focus on the link opens the card with no wait, and Esc closes it.",
+      "On touch there is no hover: tapping the link follows it to the destination.",
+      "The card is read only: it has no button, link or field and never takes focus.",
+      "Everything the card shows also exists at the destination."
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "It sits next to a link that leads to a profile, a page or an item. It does not replace nph-tooltip (a short text about an element), nph-popover (it opens on click and takes actions) or a modal dialog.",
+      "It works with nph-icon in the meta line and, in the slot media, with nph-avatar, nph-image and nph-badge. Each piece controls its own color.",
+      "Space: 4 from the link to the card, with and without the arrow; with the arrow the card sits 11 away, since the arrow is 8 tall and overlaps the card by 1."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "Link",
+        "A native link in color/primary, underlined, text/label-md and 20 tall. On keyboard focus it shows a 1 px border in hover-card/focus-border and, outside it, a 4 px halo in hover-card/focus-halo."
+      ],
+      [
+        "Arrow",
+        "Optional. 16 by 8, 16 from the card corner and aria-hidden; it overlaps the card by 1 px and uses the same fill and border."
+      ],
+      [
+        "Card",
+        "Fill hover-card/background, a 1 px border in hover-card/border, corners of 14, the elevation/dropdown shadow, inner margin 16, 8 between the parts and width 320."
+      ],
+      [
+        "Media",
+        "Optional, in the slot media: an avatar, an image or a badge, at the start of the card."
+      ],
+      [
+        "Title",
+        "The short name of the destination, text/label-lg, hover-card/foreground."
+      ],
+      [
+        "Description",
+        "text/body-sm in hover-card/description-foreground; it wraps and never scrolls."
+      ],
+      [
+        "Meta line",
+        "Optional. An nph-icon at hover-card/icon-size and a text/caption text, 4 apart, in hover-card/meta-foreground."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Contrast",
+        "Title, description and meta pass 4.5:1 over color/popover in both themes. The meta is one step softer than the description, never below that floor. The link passes in the default brand; in dark mode of the Gerencial brand it is 2.71:1, a limit of color/primary of that brand."
+      ],
+      [
+        "Visible focus",
+        "The link shows the focus border, which passes 3:1, and the halo outside it. Focus opens the same card as the pointer. The card is read only and has no focus state."
+      ],
+      [
+        "Color is not the only signal",
+        "The link is underlined besides its color. The meta stands apart by its icon and its place at the end of the card, not only by its shade of gray."
+      ],
+      [
+        "Touch target",
+        "The link is 20 tall and meets WCAG 2.5.8 by the spacing exception or, inside a sentence, by the inline link exception. The card has no target. On touch the content of the card must exist at the destination."
+      ],
+      [
+        "Accessible name",
+        "The name read comes from the link text. The arrow and the meta icon are aria-hidden. The card repeats the destination, so a screen reader user reaches the same content through the link."
+      ],
+      [
+        "Keyboard",
+        "Tab to the link opens the card with no wait; Esc closes it and does not close a dialog around it; Tab away closes it."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplesCaption": "The three required examples: a profile with an avatar, a link summary with an image and a date, and an item with a status and a time.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-hover-card spec sheet — purpose, properties, behavior, accessibility and tokens.",
+      "docs/decisoes-tecnicas.md — P112 (API and semantics), P01, P02 and P03.",
+      "design.md — the hover-card/* tokens, color/subtle-foreground and the focus tokens.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Hover Card, documentation frame nph-hover-card (4422:2418), component set 4406:1105.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-hover-card spec sheet; Figma, frame nph-hover-card (4422:2418)",
+    "sourceApi": "nph-hover-card spec sheet; docs/decisoes-tecnicas.md › P112",
+    "sourceAnatomy": "Figma, set 4406:1105; design.md",
     "matrixLabel": "Component matrix"
   }
 }
