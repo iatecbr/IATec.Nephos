@@ -6007,11 +6007,11 @@
     "states": [
       [
         "Hover",
-        "color/primary-surface (destructive: color/destructive-surface). The start icon and the submenu arrow turn solid in dropdown/item-hover-icon-foreground; the label keeps its color."
+        "color/primary-surface; destructive: dropdown/item-destructive-hover-background, with the label, shortcut and icon in dropdown/item-destructive-hover-foreground. The start icon and the submenu arrow turn solid in dropdown/item-hover-icon-foreground; the label keeps its color."
       ],
       [
         "Focus",
-        "By keyboard: a border of border/width in color/primary and a halo in focus/halo, outside the row."
+        "By keyboard: a border of border/width in color/primary and a halo in focus/halo, outside the row; the start icon turns solid."
       ],
       [
         "Disabled",
@@ -6034,7 +6034,7 @@
     "anatomy": [
       [
         "1. Menu",
-        "Panel in color/popover with a border of border/width in color/dropdown-border, radius/container, elevation/dropdown, width layout/input-width and padding space/inline-tight."
+        "Panel in color/popover with a border of border/width in color/dropdown-border, dropdown/panel-radius, elevation/dropdown, width layout/input-width and padding space/inline-tight."
       ],
       [
         "2. Profile header",
@@ -6046,11 +6046,11 @@
       ],
       [
         "4. Item",
-        "Padding and gap space/inline, radius/inner, no background at rest; label in text/body-md and color/popover-foreground."
+        "Padding and gap space/inline, dropdown/item-radius, no background at rest; label in text/body-md and color/popover-foreground."
       ],
       [
         "5. Separator",
-        "The nph-separator line between groups, with space/inline-tight above and below."
+        "The nph-separator line in dropdown/separator between groups, with space/inline-tight above and below."
       ]
     ],
     "accessibilityTitle": "Accessibility",

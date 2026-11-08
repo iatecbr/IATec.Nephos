@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 680,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": "nph-context-menu",
   "dependencies": [
     "DSA-03",
@@ -49,8 +49,8 @@
     "excerpt": null,
     "converted_decision": "The nph-context-menu documentation frame (4838:27591, page 4128:17776) was accepted as the API and behavior specification of nph-context-menu. Component set: nph-context-menu (4819:15828), 12 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-69-context-menu", "commit": null, "pr": null },
+  "context": "docs/operacao/contextos/DSA-69.md",
   "updated_at": "2026-11-06"
 }
 ```

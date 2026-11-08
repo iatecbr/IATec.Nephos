@@ -37,7 +37,7 @@
   padding: var(--nph-space-inline-tight);
   overflow: visible;
   border: var(--nph-border-width) solid var(--nph-color-dropdown-border);
-  border-radius: var(--nph-radius-container);
+  border-radius: var(--nph-dropdown-panel-radius);
   background-color: var(--nph-color-popover);
   box-shadow: var(--nph-elevation-dropdown);
   color: var(--nph-color-popover-foreground);
@@ -73,8 +73,12 @@
   translate: none;
 }
 
-/* The separator: the `nph-separator` line, `space/inline-tight` above and below. */
+/*
+ * The separator: the `nph-separator` line in `dropdown/separator`, `space/inline-tight` above
+ * and below. The line takes the color from `--nph-color-border`, which this scope redefines.
+ */
 .separator {
+  --nph-color-border: var(--nph-dropdown-separator);
   display: block;
   margin-block: var(--nph-space-inline-tight);
 }
@@ -148,7 +152,7 @@
   align-items: center;
   gap: var(--nph-space-inline);
   padding: var(--nph-space-inline);
-  border-radius: var(--nph-radius-inner);
+  border-radius: var(--nph-dropdown-item-radius);
   color: var(--nph-color-popover-foreground);
   outline: none;
   cursor: default;
@@ -228,32 +232,49 @@
   color: var(--nph-color-primary-hover);
 }
 
-/* Destructive: text, icon and shortcut in `color/destructive-on-surface`. */
+/* Destructive: text, icon and shortcut in `dropdown/item-destructive-foreground`, at rest, in focus and disabled. */
 .item[data-severity='destructive'],
 .item[data-severity='destructive'] .text,
 .item[data-severity='destructive'] .shortcut {
-  color: var(--nph-color-destructive-on-surface);
+  color: var(--nph-dropdown-item-destructive-foreground);
 }
 
 /*
- * Hover, only when the item responds: `color/primary-surface`, the label unchanged; the
- * start icon and the submenu arrow turn solid in `dropdown/item-hover-icon-foreground`
- * (rule of 21-10-2026). Destructive: `color/destructive-surface`, with no solid swap.
+ * Hover, only when the item responds: `color/primary-surface`, the label unchanged.
+ * Destructive: `dropdown/item-destructive-hover-background`, with the label, the shortcut and
+ * the icon in `dropdown/item-destructive-hover-foreground`.
  */
 .item:not([aria-disabled]):hover {
   background-color: var(--nph-color-primary-surface);
 }
 
 .item[data-severity='destructive']:not([aria-disabled]):hover {
-  background-color: var(--nph-color-destructive-surface);
+  background-color: var(--nph-dropdown-item-destructive-hover-background);
 }
 
-.item[data-severity='default']:not([aria-disabled]):hover .glyph-rest {
+.item[data-severity='destructive']:not([aria-disabled]):hover,
+.item[data-severity='destructive']:not([aria-disabled]):hover .text,
+.item[data-severity='destructive']:not([aria-disabled]):hover .shortcut {
+  color: var(--nph-dropdown-item-destructive-hover-foreground);
+}
+
+/*
+ * The start icon and the submenu arrow turn solid on highlight (hover and visible focus), in
+ * every type, selection and size; light at rest and when disabled (DSA-69). Only the default
+ * type changes the icon color on hover, to `dropdown/item-hover-icon-foreground`: focus and the
+ * destructive item keep the color they have.
+ */
+.item:not([aria-disabled]):hover .glyph-rest,
+.item:not([aria-disabled]):focus-visible .glyph-rest {
   display: none;
 }
 
-.item[data-severity='default']:not([aria-disabled]):hover .glyph-hover {
+.item:not([aria-disabled]):hover .glyph-hover,
+.item:not([aria-disabled]):focus-visible .glyph-hover {
   display: inline-flex;
+}
+
+.item[data-severity='default']:not([aria-disabled]):hover .glyph-hover {
   color: var(--nph-dropdown-item-hover-icon-foreground);
 }
 
@@ -282,13 +303,13 @@
 .item:focus-visible::before {
   inset: calc(-1 * var(--nph-border-width));
   border: var(--nph-border-width) solid var(--nph-color-primary);
-  border-radius: var(--nph-focus-border-radius-inner);
+  border-radius: var(--nph-dropdown-item-focus-border-radius);
 }
 
 .item:focus-visible::after {
   inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
   border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
-  border-radius: var(--nph-focus-radius-inner-with-border);
+  border-radius: var(--nph-dropdown-item-focus-halo-radius);
 }
 
 /*

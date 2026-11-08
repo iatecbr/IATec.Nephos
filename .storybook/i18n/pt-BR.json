@@ -6007,11 +6007,11 @@
     "states": [
       [
         "Hover",
-        "color/primary-surface (destrutivo: color/destructive-surface). O ícone de início e a seta do submenu ficam sólidos em dropdown/item-hover-icon-foreground; o rótulo mantém a cor."
+        "color/primary-surface; destrutivo: dropdown/item-destructive-hover-background, com o rótulo, o atalho e o ícone em dropdown/item-destructive-hover-foreground. O ícone de início e a seta do submenu ficam sólidos em dropdown/item-hover-icon-foreground; o rótulo mantém a cor."
       ],
       [
         "Foco",
-        "Pelo teclado: uma borda de border/width em color/primary e um halo em focus/halo, fora da linha."
+        "Pelo teclado: uma borda de border/width em color/primary e um halo em focus/halo, fora da linha; o ícone de início fica sólido."
       ],
       [
         "Desabilitado",
@@ -6034,7 +6034,7 @@
     "anatomy": [
       [
         "1. Menu",
-        "Painel em color/popover com borda de border/width em color/dropdown-border, radius/container, elevation/dropdown, largura layout/input-width e padding space/inline-tight."
+        "Painel em color/popover com borda de border/width em color/dropdown-border, dropdown/panel-radius, elevation/dropdown, largura layout/input-width e padding space/inline-tight."
       ],
       [
         "2. Cabeçalho de perfil",
@@ -6046,11 +6046,11 @@
       ],
       [
         "4. Item",
-        "Padding e gap space/inline, radius/inner, sem fundo em repouso; rótulo em text/body-md e color/popover-foreground."
+        "Padding e gap space/inline, dropdown/item-radius, sem fundo em repouso; rótulo em text/body-md e color/popover-foreground."
       ],
       [
         "5. Separador",
-        "A linha do nph-separator entre grupos, com space/inline-tight em cima e embaixo."
+        "A linha do nph-separator em dropdown/separator entre grupos, com space/inline-tight em cima e embaixo."
       ]
     ],
     "accessibilityTitle": "Acessibilidade",
