@@ -1420,6 +1420,30 @@ describe('anatomy, measures and colors', () => {
     expect(byText(setup.menu, 'Grid').querySelector('.check')).toBeNull();
   });
 
+  it('a checked single choice that is destructive keeps dropdown/item-destructive-foreground at rest, in focus and on hover', async () => {
+    const setup = await mount([
+      { value: 'wipe', text: 'Wipe', icon: 'trash', severity: 'destructive', selection: 'single', checked: true, shortcut: 'Del' },
+      { value: 'keep', text: 'Keep', selection: 'single' },
+    ]);
+    setup.object.focus();
+    await userEvent.keyboard('{ContextMenu}');
+    await settle(setup.menu);
+    await entered(setup.menu);
+    const item = byText(setup.menu, 'Wipe');
+    const text = item.querySelector('.text') as HTMLElement;
+    const destructive = resolved('color', '--nph-dropdown-item-destructive-foreground');
+    expect(item.matches(':focus-visible')).toBe(true);
+    expect(getComputedStyle(text).color).toBe(destructive);
+    expect(getComputedStyle(item.querySelector('.shortcut') as HTMLElement).color).toBe(destructive);
+    expect(getComputedStyle(item.querySelector('.glyph-hover') as HTMLElement).color).toBe(destructive);
+    expect(getComputedStyle(text).fontSize).toBe(resolved('font-size', '--nph-text-label-md-font-size'));
+    await userEvent.keyboard('{ArrowDown}');
+    expect(getComputedStyle(text).color).toBe(destructive);
+    expect(getComputedStyle(item.querySelector('.glyph-rest') as HTMLElement).color).toBe(destructive);
+    await userEvent.hover(item);
+    expect(getComputedStyle(text).color).toBe(resolved('color', '--nph-dropdown-item-destructive-hover-foreground'));
+  });
+
   it('multiple choice shows the nph-checkbox box at the start', async () => {
     const setup = await mount([{ value: 'a', text: 'Archived', icon: 'pen', selection: 'multiple', checked: true }]);
     await openAt(setup);

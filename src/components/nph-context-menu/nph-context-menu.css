@@ -181,6 +181,13 @@
   color: var(--nph-dropdown-item-destructive-foreground);
 }
 
+/* A checked single choice that is destructive keeps the destructive color: the choice only adds the check and `text/label-md`. */
+.item[data-severity='destructive'][data-selection='single'][data-checked],
+.item[data-severity='destructive'][data-selection='single'][data-checked] .text,
+.item[data-severity='destructive'][data-selection='single'][data-checked] .shortcut {
+  color: var(--nph-dropdown-item-destructive-foreground);
+}
+
 /*
  * Highlight: hover, visible focus and the item whose submenu is open. Hover and the open submenu
  * paint `color/primary-surface`, the label unchanged; destructive paints
