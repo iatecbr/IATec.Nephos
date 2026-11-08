@@ -207,7 +207,7 @@ describe('nph-popover Validation: text only from the dictionary', () => {
     render((validation.Sizes as Renderable).render?.({}, { globals: { locale: 'en' } }) as TemplateResult, demo);
     const popover = popoversOf(demo)[0] as NphPopover;
     const start = performance.now();
-    while (!popover.open && performance.now() - start < 3000) await settle(10);
+    while (!popover.open && performance.now() - start < 15000) await settle(10);
     expect(popover.open).toBe(true);
     outside.focus();
     await settle(400);

@@ -99,6 +99,8 @@ function within(node: Node | null, ancestor: Node): boolean {
  * The popover stays open: a focus that goes to nothing does not close it.
  */
 async function openOne(popover: NphPopover): Promise<void> {
+  /* A popover whose page was left while it waited in the queue costs nothing: the line moves on. */
+  if (!popover.isConnected) return;
   await popover.updateComplete;
   /* The popover looks its trigger up one frame after it connects. */
   await frame();
