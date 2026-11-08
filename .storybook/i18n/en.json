@@ -11089,6 +11089,7 @@
     "updatedDaysFull": "November 4, 2026",
     "date": "November 4, 2026",
     "time": "14:30",
+    "timeFull": "November 7, 2026, 2:30 PM",
     "sentenceBefore": "Everything you need is in the ",
     "sentenceAfter": " documentation.",
     "profileLink": "Ana Souza",
@@ -11106,7 +11107,8 @@
     "itemTitle": "Hover card",
     "itemText": "Read-only preview card anchored to a link.",
     "itemStatus": "Active",
-    "itemTime": "14:30"
+    "itemTime": "14:30",
+    "itemTimeFull": "November 7, 2026, 2:30 PM"
   },
   "hoverCardDocs": {
     "summary": "The read-only card that previews the destination of a link, opened by the pointer resting on it or by keyboard focus.",

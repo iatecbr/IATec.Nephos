@@ -37,6 +37,7 @@ export interface ExampleTexts {
   updatedDaysFull: string;
   date: string;
   time: string;
+  timeFull: string;
   sentenceBefore: string;
   sentenceAfter: string;
   profileLink: string;
@@ -55,6 +56,7 @@ export interface ExampleTexts {
   itemText: string;
   itemStatus: string;
   itemTime: string;
+  itemTimeFull: string;
 }
 
 /**
@@ -129,7 +131,7 @@ export function metaKind(texts: ExampleTexts, kind: 'phrase' | 'relative' | 'dat
     phrase: { meta: texts.updatedToday, icon: 'clock', title: '' },
     relative: { meta: texts.updatedDays, icon: 'clock', title: texts.updatedDaysFull },
     date: { meta: texts.date, icon: 'calendar', title: '' },
-    time: { meta: texts.time, icon: 'clock', title: '' },
+    time: { meta: texts.time, icon: 'clock', title: texts.timeFull },
     off: { meta: '', icon: 'clock', title: '' },
   }[kind];
   return room(
@@ -207,6 +209,7 @@ export function item(texts: ExampleTexts): TemplateResult {
       heading=${texts.itemTitle}
       description=${texts.itemText}
       meta=${texts.itemTime}
+      meta-title=${texts.itemTimeFull}
       open
       >${texts.itemLink}<nph-badge slot="media" severity="success" emphasis="light" text=${texts.itemStatus}></nph-badge
     ></nph-hover-card>`,

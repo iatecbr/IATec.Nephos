@@ -11089,6 +11089,7 @@
     "updatedDaysFull": "4 de novembro de 2026",
     "date": "4 de novembro de 2026",
     "time": "14:30",
+    "timeFull": "7 de novembro de 2026, 14:30",
     "sentenceBefore": "Tudo o que você precisa está na documentação do ",
     "sentenceAfter": ".",
     "profileLink": "Ana Souza",
@@ -11106,7 +11107,8 @@
     "itemTitle": "Hover card",
     "itemText": "Cartão de pré-visualização somente leitura ancorado a um link.",
     "itemStatus": "Ativo",
-    "itemTime": "14:30"
+    "itemTime": "14:30",
+    "itemTimeFull": "7 de novembro de 2026, 14:30"
   },
   "hoverCardDocs": {
     "summary": "O cartão somente leitura que antecipa o destino de um link, aberto pelo ponteiro parado sobre ele ou pelo foco do teclado.",

@@ -170,6 +170,22 @@ describe('nph-hover-card Validation: text only from the dictionary', () => {
     }
   });
 
+  it('a time in the meta line always carries the full date in meta-title', async () => {
+    for (const name of ['MetaLine', 'Examples'] as const) {
+      const target = document.createElement('div');
+      document.body.append(target);
+      render((validation[name] as Renderable).render?.({}, { globals: { locale: 'en' } }) as TemplateResult, target);
+      const cards = [...target.querySelectorAll('nph-hover-card')] as NphHoverCard[];
+      await Promise.all(cards.map((card) => card.updateComplete));
+      const times = cards.filter((card) => /^\d{1,2}:\d{2}$/.test(card.meta));
+      expect(times.length, name).toBeGreaterThan(0);
+      for (const card of times) expect(card.metaTitle, `${name} ${card.meta}`).not.toBe('');
+      for (const card of cards) card.open = false;
+      await Promise.all(cards.map((card) => card.updateComplete));
+      target.remove();
+    }
+  });
+
   it('pt-BR and es have the same shape as en', () => {
     const source = shape(translations('en').hoverCardValidation);
     expect(shape(translations('pt-BR').hoverCardValidation)).toEqual(source);

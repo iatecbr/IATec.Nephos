@@ -189,6 +189,8 @@
 }
 
 .meta-text {
+  /* A flex item keeps a content-based minimum: without this, a long unbroken word would overflow. */
+  min-inline-size: 0;
   overflow-wrap: break-word;
 }
 

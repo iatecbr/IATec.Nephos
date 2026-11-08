@@ -143,7 +143,10 @@ export class NphHoverCard extends LitElement {
   declare open: boolean;
 
   /** Where the pointer and the focus are, physically. */
+  /** The pointer rests on the link long enough to open the card: a hold. */
   private overLink = false;
+  /** The pointer is on the link, at once: only what Esc and the end of the dismissal look at. */
+  private pointerOnLink = false;
   private overCard = false;
   private hasFocus = false;
   /** Esc was pressed: the card stays closed until the pointer and the focus are both gone. */
@@ -173,12 +176,21 @@ export class NphHoverCard extends LitElement {
     this.open = false;
   }
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+    if (this.hasUpdated) {
+      /* Moved in the DOM: the card was hidden on disconnect, so draw it again if it was open. */
+      this.requestUpdate();
+    }
+  }
+
   override disconnectedCallback(): void {
     super.disconnectedCallback();
     this.cancelWait();
     this.cancelClose();
     this.hideNow();
     this.overLink = false;
+    this.pointerOnLink = false;
     this.overCard = false;
     this.hasFocus = false;
     this.dismissed = false;
@@ -271,7 +283,8 @@ export class NphHoverCard extends LitElement {
    */
   private sync(immediate = false): void {
     const any = this.overLink || this.overCard || this.hasFocus;
-    if (!any) {
+    /* The dismissal by Esc ends only when the pointer and the focus are both gone, not when the wait is pending. */
+    if (!this.present) {
       this.dismissed = false;
     }
     if (any && !this.dismissed) {
@@ -298,6 +311,11 @@ export class NphHoverCard extends LitElement {
       return;
     }
     this.scheduleClose();
+  }
+
+  /** The pointer is on the link or the card, or the focus is on the link: whether Esc has anything to dismiss. */
+  private get present(): boolean {
+    return this.pointerOnLink || this.overCard || this.hasFocus;
   }
 
   /** A delay token as the browser resolves it, in milliseconds. */
@@ -341,6 +359,7 @@ export class NphHoverCard extends LitElement {
     this.cancelWait();
     this.cancelClose();
     if (!this.drawable) return;
+    this.pointerOnLink = true;
     /* Still on screen (open, or leaving): coming back keeps it, with no new wait. */
     const wait = this.open ? 0 : this.delay('--nph-hover-card-open-delay');
     if (wait === 0) {
@@ -358,6 +377,7 @@ export class NphHoverCard extends LitElement {
   private readonly onLinkLeave = (event: PointerEvent): void => {
     if (event.pointerType === 'touch') return;
     this.cancelWait();
+    this.pointerOnLink = false;
     this.overLink = false;
     this.sync();
   };
@@ -400,7 +420,8 @@ export class NphHoverCard extends LitElement {
     if (event.key !== 'Escape' || !this.open) {
       return;
     }
-    this.dismissed = true;
+    /* Dismissed only while something still holds it: Esc during the close delay has nothing to wait out. */
+    this.dismissed = this.present;
     this.cancelWait();
     this.cancelClose();
     this.open = false;

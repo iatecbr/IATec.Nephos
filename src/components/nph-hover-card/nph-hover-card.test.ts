@@ -722,6 +722,54 @@ describe('closing', () => {
   });
 });
 
+describe('findings of the Copilot review of the first head', () => {
+  it('a long unbroken word in the meta wraps inside the card instead of overflowing it', async () => {
+    const card = await mount({ meta: 'x'.repeat(150), open: true });
+    await opened(card);
+    const surface = surfaceOf(card);
+    const text = surface.querySelector('.meta-text') as HTMLElement;
+    expect(text.getBoundingClientRect().right).toBeLessThanOrEqual(surface.getBoundingClientRect().right);
+    expect(text.scrollWidth).toBeLessThanOrEqual(text.clientWidth + 1);
+  });
+
+  it('an open card moved to another parent is shown again', async () => {
+    const card = await mount({ open: true });
+    await opened(card);
+    const box = document.createElement('div');
+    document.body.append(box);
+    box.append(card);
+    await card.updateComplete;
+    await vi.waitFor(() => expect(isShown(card)).toBe(true));
+    expect(card.hasAttribute('open')).toBe(true);
+  });
+
+  it('after Esc, the pointer entering the link and Tab leaving before the wait ends does not reopen it', async () => {
+    const card = await mount({ openDelay: '400ms' });
+    await tabTo(card);
+    await opened(card);
+    await userEvent.keyboard('{Escape}');
+    await vi.waitFor(() => expect(card.open).toBe(false));
+    await userEvent.hover(linkOf(card));
+    await userEvent.tab();
+    await pause(700);
+    expect(card.open).toBe(false);
+    expect(isShown(card)).toBe(false);
+  });
+
+  it('Esc during the close delay does not keep the next hover closed', async () => {
+    const card = await mount({ closeDelay: '800ms' });
+    await hoverOpen(card);
+    await userEvent.unhover(linkOf(card));
+    await pause(100);
+    expect(card.open).toBe(true);
+    await userEvent.keyboard('{Escape}');
+    await vi.waitFor(() => expect(card.open).toBe(false));
+    await gone(card);
+    await userEvent.hover(linkOf(card));
+    await opened(card);
+  });
+});
+
 describe('the closed card takes no room and no pointer', () => {
   it('a card never opened is not in the layout', async () => {
     const card = await mount();
