@@ -33,6 +33,11 @@
  * - `loading` (the `carregando`): the `nph-spinner` replaces the start
  *   icon, the end icon disappears and the text stays. The button remains
  *   focusable and the click does not reach the consumer;
+ * - the trigger of an open popover (P111, amends P68): a button that carries
+ *   `aria-haspopup="dialog"` and `aria-expanded="true"` on the host draws the `hover-active`
+ *   state, icons included, and hands the two attributes to the native button, which is the
+ *   element with a role. It is a state read from the attributes, not a variant. Any other
+ *   `aria-haspopup`, such as the `menu` of `nph-dropdown-menu`, changes nothing;
  * - no slot, no own event, no color property and no `::part`. The
  *   click is the native `click`, which crosses the shadow root;
  * - invalid input does not render and emits `console.error` only in
@@ -54,6 +59,8 @@ const TAG = 'nph-button';
 /** Internal markers, not API. */
 const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 const ICON_ONLY_ATTRIBUTE = 'data-nph-icon-only';
+/** Present while the button is the trigger of an open popover (P111): the CSS draws `hover-active`. */
+const OPEN_ATTRIBUTE = 'data-nph-open';
 /** The `id` of the native button, which the tooltip finds by `for`; unique in the shadow root. */
 const CONTROL_ID = 'control';
 
@@ -128,6 +135,21 @@ export class NphButton extends LitElement {
     loading: { type: Boolean, reflect: true },
     shape: { type: String, reflect: true },
   };
+
+  /*
+   * The two ARIA attributes of the host are observed without becoming properties, so the
+   * public API stays the one of P68 and P86: a popover writes them on its trigger (P111).
+   */
+  static override get observedAttributes(): string[] {
+    return [...super.observedAttributes, 'aria-expanded', 'aria-haspopup'];
+  }
+
+  override attributeChangedCallback(name: string, previous: string | null, value: string | null): void {
+    super.attributeChangedCallback(name, previous, value);
+    if (name === 'aria-expanded' || name === 'aria-haspopup') {
+      this.requestUpdate();
+    }
+  }
 
   declare severity: NphButtonSeverity;
   declare emphasis: NphButtonEmphasis;
@@ -238,6 +260,16 @@ export class NphButton extends LitElement {
     this.iconOnly = text === '' && icons === 1;
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);
     this.toggleAttribute(ICON_ONLY_ATTRIBUTE, this.valid && this.iconOnly);
+    this.toggleAttribute(OPEN_ATTRIBUTE, this.valid && this.popoverTrigger && this.expanded);
+  }
+
+  /** The trigger of a popover: `aria-haspopup="dialog"` on the host (P111). */
+  private get popoverTrigger(): boolean {
+    return this.getAttribute('aria-haspopup') === 'dialog';
+  }
+
+  private get expanded(): boolean {
+    return this.getAttribute('aria-expanded') === 'true';
   }
 
   /*
@@ -288,6 +320,8 @@ export class NphButton extends LitElement {
       aria-label=${this.iconOnly ? label : nothing}
       aria-disabled=${this.loading && !this.disabled ? 'true' : nothing}
       aria-busy=${this.loading ? 'true' : nothing}
+      aria-haspopup=${this.popoverTrigger ? 'dialog' : nothing}
+      aria-expanded=${this.popoverTrigger ? String(this.expanded) : nothing}
       @click=${(event: Event) => this.blockInactive(event)}
     >
       ${content}

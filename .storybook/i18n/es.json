@@ -380,6 +380,15 @@
     "components-nph-navigation-menu-validation--direction": "Dirección",
     "components-nph-navigation-menu-validation--examples": "Ejemplos",
     "components-nph-navigation-menu-validation--brands": "Marcas",
+    "components-nph-popover-docs": "Docs",
+    "components-nph-popover-docs--documentation": "Documentación",
+    "components-nph-popover-validation": "Validación",
+    "components-nph-popover-validation--placement": "Posición",
+    "components-nph-popover-validation--sizes": "Tamaños",
+    "components-nph-popover-validation--parts": "Partes",
+    "components-nph-popover-validation--direction": "Dirección",
+    "components-nph-popover-validation--interactive": "Interactivo",
+    "components-nph-popover-validation--examples": "Ejemplos",
     "components-nph-hover-card-docs": "Docs",
     "components-nph-hover-card-docs--documentation": "Documentación",
     "components-nph-hover-card-validation": "Validación",
@@ -3560,7 +3569,7 @@
       ],
       [
         "error",
-        "El mensaje de error, en text/body-md y status/error, sin icono. Completado, el campo es inválido y el control queda en error; el mensaje reemplaza la ayuda."
+        "El mensaje de error, en text/body-md y status/error-text, sin icono. Completado, el campo es inválido y el control queda en error; el mensaje reemplaza la ayuda."
       ],
       [
         "counter",
@@ -3639,7 +3648,7 @@
       ],
       [
         "4. Mensaje de error",
-        "text/body-md en status/error, sin icono, en la línea de mensaje del campo."
+        "text/body-md en status/error-text, sin icono, en la línea de mensaje del campo."
       ],
       [
         "5. Contador",
@@ -3690,7 +3699,7 @@
     "references": [
       "Ficha de nph-field — propósito, anatomía, API, accesibilidad, tokens y antipatrones.",
       "docs/decisoes-tecnicas.md — P83 (nph-field: API, semántica y el contrato entre campo y control).",
-      "design.md — layout/field-width, space/stack-tight, space/inline-tight, text/caption, text/body-md, color/muted-foreground y status/error.",
+      "design.md — layout/field-width, space/stack-tight, space/inline-tight, text/caption, text/body-md, color/muted-foreground y status/error-text.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Field, frame 1194:21863 y set 657:50.",
       "Storybook — Validación, en la carpeta al lado de esta."
     ],
@@ -3769,7 +3778,7 @@
     "longHelp": "Un texto de ayuda más largo pasa a más líneas dentro del ancho del campo, y nada se corta.",
     "noMessageCaption": "Sin ayuda, sin error, sin contador: la línea de mensaje no se dibuja y no guarda altura.",
     "helpCaption": "Texto de ayuda: text/caption en color/muted-foreground.",
-    "errorCaption": "Error: el mensaje reemplaza la ayuda, en text/body-md y status/error, sin icono; el control queda en error.",
+    "errorCaption": "Error: el mensaje reemplaza la ayuda, en text/body-md y status/error-text, sin icono; el control queda en error.",
     "longCaption": "Un texto de ayuda largo pasa a otra línea, sin puntos suspensivos.",
     "counterHelpCaption": "Contador al final de la línea de ayuda.",
     "counterAloneCaption": "Contador sin texto de ayuda: al final de la línea.",
@@ -7444,6 +7453,12 @@
       "components-nph-navigation-menu-validation--direction": "Escritura de derecha a izquierda: la barra se lee desde la derecha, el panel se abre desde el borde inicial de su disparador y el indicador del enlace del panel queda al inicio.",
       "components-nph-navigation-menu-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: la barra cerrada con dos disparadores y el enlace de la página actual, un disparador abierto con un panel de dos grupos, y el ancho estrecho con el botón Menú abierto.",
       "components-nph-navigation-menu-validation--brands": "Las siete marcas en modo claro y oscuro: el borde y el halo de foco de los elementos siguen la marca del marco.",
+      "components-nph-popover-validation--placement": "Los cuatro lados y las tres alineaciones, con la flecha: la superficie se abre a 4 px de la punta de la flecha, alineada con el disparador, y la flecha apunta hacia él.",
+      "components-nph-popover-validation--sizes": "Los tres anchos, 240, 320 y 400 px, sin la flecha: solo cambia el ancho; márgenes, espacios y botones del pie quedan iguales.",
+      "components-nph-popover-validation--parts": "El título siempre aparece; la descripción, el cuerpo, el botón de cerrar y el pie se activan y desactivan, y el divisor viene con el pie.",
+      "components-nph-popover-validation--direction": "Escritura de derecha a izquierda: inicio y fin siguen la dirección en los lados superior e inferior, y la flecha los acompaña.",
+      "components-nph-popover-validation--interactive": "Un popover para probar: el disparador lo abre y lleva aria-expanded; Esc, un clic fuera, el botón de cerrar o el pie lo cierran, y el foco vuelve al disparador.",
+      "components-nph-popover-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: filtro con confirmación, formulario corto e información con el botón de cerrar y la flecha.",
       "components-nph-hover-card-validation--sides": "La tarjeta abierta en cada lado, sin la flecha y con ella: a 4 del enlace sin la flecha; con ella, la punta de la flecha queda a 4 del enlace y la tarjeta a 11. La tarjeta mide 320 de ancho.",
       "components-nph-hover-card-validation--meta-line": "La línea de meta como frase, tiempo relativo con la fecha completa en el title, fecha, hora y apagada: el icono de reloj para frase u hora y el de calendario para fecha.",
       "components-nph-hover-card-validation--in-sentence": "El enlace en la línea de una frase con la tarjeta cerrada, y el mismo enlace con la tarjeta abierta: la pieza sigue la línea del texto.",
@@ -11077,6 +11092,279 @@
     "sourceApi": "Ficha del nph-navigation-menu; docs/decisoes-tecnicas.md › P110",
     "sourceAnatomy": "Figma, conjuntos 3969:7897, 3957:6662 y 3957:6722; design.md",
     "matrixLabel": "Matriz del componente"
+  },
+  "popoverValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "closeLabel": "Cerrar",
+    "trigger": "Compartir",
+    "title": "Compartir este informe",
+    "description": "Elige quién puede verlo.",
+    "clear": "Limpiar",
+    "cancel": "Cancelar",
+    "apply": "Aplicar",
+    "save": "Guardar",
+    "filtersTrigger": "Filtros",
+    "filtersTitle": "Filtrar resultados",
+    "filtersDescription": "Reduce la lista por estado y responsable.",
+    "renameTrigger": "Renombrar",
+    "renameTitle": "Renombrar informe",
+    "renameDescription": "Elige un nombre que tu equipo reconozca.",
+    "fieldLabel": "Nombre",
+    "fieldValue": "Informe trimestral",
+    "infoTrigger": "Detalles",
+    "infoTitle": "Acerca de este informe",
+    "infoDescription": "Se actualiza cada noche a las 02:00."
+  },
+  "popoverDocs": {
+    "summary": "La superficie no modal anclada a un disparador, para ajustar o decidir algo corto sin salir de la página.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-popover, design.md para los tokens y docs/decisoes-tecnicas.md para la P111. El archivo DS-IA-NEPHOS 5.0 de Figma es la fuente visual. Ninguna regla nace aquí.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenNotToUseTitle": "Cuándo no usar",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "for",
+        "El id del elemento que abre el popover, en la misma raíz del popover. El disparador queda fuera; el popover escribe aria-haspopup, aria-expanded y aria-controls en él. Obligatoria."
+      ],
+      [
+        "open",
+        "El estado. El disparador lo activa y desactiva; el consumidor puede definirlo, y definirlo como false es como una acción del pie cierra el popover. Reflejada en el atributo."
+      ],
+      [
+        "heading",
+        "El título, ya traducido. Siempre visible; nombra la superficie. Obligatoria."
+      ],
+      [
+        "description",
+        "El texto de apoyo debajo del título, ya traducido. Opcional; describe la superficie."
+      ],
+      [
+        "side",
+        "El lado de Figma: bottom (por defecto), top, right o left. El popover se vuelve al lado opuesto cuando el pedido no cabe. Reflejada."
+      ],
+      [
+        "align",
+        "La alineación de Figma: start, center (por defecto) o end. Reflejada."
+      ],
+      [
+        "arrow",
+        "La flecha de Figma: una flecha que apunta al disparador. Desactivada por defecto. Reflejada."
+      ],
+      [
+        "size",
+        "El tamaño de Figma: sm (240), md (320, por defecto) o lg (400). Cambia solo el ancho. Reflejada."
+      ],
+      [
+        "closable",
+        "El cerrar de Figma: dibuja el botón de cerrar. Desactivado por defecto. Reflejada."
+      ],
+      [
+        "close-label",
+        "El nombre accesible del botón de cerrar, ya traducido. Obligatoria mientras el botón aparece."
+      ],
+      [
+        "slot",
+        "El slot por defecto es el cuerpo, el cuerpo de Figma, como un nph-field. El slot footer recibe los botones de acción, el pie de Figma; el divisor viene con él."
+      ],
+      [
+        "nph-close",
+        "El evento, con detail source: escape, outside, close-button o focus-out. Cancelable. Definir open por código, el disparador y una acción del pie nunca lo disparan."
+      ],
+      [
+        "color y partes",
+        "No son propiedades: los colores vienen de los tokens, y la pieza no tiene ::part."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-button id=\"filters\" severity=\"secondary\" text=\"Filters\"></nph-button>\n<nph-popover for=\"filters\" heading=\"Filter results\" description=\"Narrow the list by status and owner.\">\n  <nph-button slot=\"footer\" size=\"compact\" severity=\"secondary\" text=\"Clear\"></nph-button>\n  <nph-button slot=\"footer\" size=\"compact\" text=\"Apply\"></nph-button>\n</nph-popover>",
+    "usageTag": "La etiqueta de la pieza y su disparador, un nph-button. for es el id del disparador. Las acciones del pie van en el slot footer, y una acción del pie cierra el popover definiendo open como false en su handler.",
+    "usageImport": "Registra el componente con sus estilos. El CSS de los tokens generado se importa aparte.",
+    "sourceUsage": "Figma, frame nph-popover (4749:5857); docs/decisoes-tecnicas.md › P111",
+    "placementTitle": "Lado y alineación",
+    "placementCaption": "Los cuatro lados, con la flecha y las tres alineaciones del conjunto de Figma.",
+    "placementUseHeader": [
+      "Propiedad",
+      "Cuándo usar"
+    ],
+    "placementUse": [
+      {
+        "value": "side: bottom",
+        "label": "El valor por defecto: la superficie se abre debajo del disparador."
+      },
+      {
+        "value": "side: top, right, left",
+        "label": "Cuando el layout lo pide. El popover se vuelve al lado opuesto solo cuando el pedido no cabe y el otro tiene más espacio, y nunca sale de la ventana."
+      },
+      {
+        "value": "align: center",
+        "label": "El valor por defecto: la superficie queda centrada en el disparador."
+      },
+      {
+        "value": "align: start, end",
+        "label": "Cuando la superficie debe empezar o terminar donde el disparador empieza o termina. En los lados superior e inferior siguen la dirección de la escritura; en los lados izquierdo y derecho, start es arriba y end abajo."
+      }
+    ],
+    "arrowTitle": "Flecha",
+    "arrowCaption": "Con la flecha, la superficie queda una altura de flecha más lejos, y la punta mantiene la distancia de 4 al disparador.",
+    "arrow": [
+      "La flecha es opcional y viene desactivada: el vínculo con el disparador ya es claro por la proximidad y el dibujo queda más limpio.",
+      "Úsala cuando el disparador está entre otros elementos y el vínculo necesita quedar claro.",
+      "Es decorativa, 16 por 8, y con start o end guarda 16 de la esquina. Cuando la ventana empuja la superficie hacia un lado, se desliza de vuelta para que la punta siga apuntando al disparador."
+    ],
+    "sizesTitle": "Tamaños",
+    "sizesCaption": "sm, md y lg, sin la flecha: solo cambia el ancho.",
+    "sizesUseHeader": [
+      "Tamaño",
+      "Cuándo usar"
+    ],
+    "sizesUse": [
+      {
+        "value": "sm",
+        "label": "240 de ancho. Un título y una descripción cortos."
+      },
+      {
+        "value": "md",
+        "label": "320 de ancho, el valor por defecto. Cuando entran el pie o un campo."
+      },
+      {
+        "value": "lg",
+        "label": "400 de ancho. Cuando el campo pide más ancho."
+      }
+    ],
+    "partsTitle": "Partes",
+    "partsCaption": "El título siempre aparece; descripción, cuerpo, botón de cerrar y pie se activan y desactivan.",
+    "parts": [
+      "La descripción viene activada por defecto; el cuerpo, el botón de cerrar y el pie vienen desactivados.",
+      "Activa el pie cuando la acción necesita confirmación: un primario sólido y un secundario sólido, compactos, al final. El divisor viene con el pie.",
+      "Activa el botón de cerrar cuando no hay pie y el contenido pide una salida visible además de Esc y del clic fuera, como una información para leer con calma.",
+      "La superficie no recorta el contenido, para que el anillo de foco de las piezas internas no se corte."
+    ],
+    "closingTitle": "Cerrar y foco",
+    "closing": [
+      "Se cierra con Esc, un clic fuera, el botón de cerrar, la acción del pie o el foco que sale de él. Una acción del pie lo cierra cuando el consumidor define open como false.",
+      "El foco vuelve al disparador con Esc, el botón de cerrar y la acción del pie. Un clic fuera y el foco que sale lo dejan donde la persona lo puso.",
+      "Esc cierra solo el popover: no alcanza un dialog alrededor. El popover no es modal y no atrapa el Tab.",
+      "Al abrir, el foco va al primer elemento con autofocus, luego al primer enfocable del cuerpo, luego del pie, luego al botón de cerrar, luego a la superficie."
+    ],
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "Se combina con nph-button (el disparador, el pie y el botón de cerrar), nph-field (el cuerpo) y nph-separator (el divisor).",
+      "El popover controla la posición, la apertura y el foco; cada pieza interna controla su propio color y estado.",
+      "No sustituye a nph-dropdown-menu, una lista de comandos, ni a un dialog modal, una decisión que bloquea la página. Las partes son propias: no hay nph-card dentro. Un popover dentro de un dialog está fuera de alcance por ahora."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Disparador",
+        "Un nph-button, secundario sólido. Abierto, toma la apariencia de hover-active y lleva aria-expanded true."
+      ],
+      [
+        "Superficie",
+        "popover/background, un borde de 1 px muy suave en popover/border, esquinas de popover/radius, la sombra elevation/dropdown en claro y ninguna en oscuro. No recorta el contenido."
+      ],
+      [
+        "Título",
+        "Siempre visible; text/label-lg en popover/foreground. Nombra la superficie."
+      ],
+      [
+        "Descripción",
+        "Opcional; text/body-sm en popover/description."
+      ],
+      [
+        "Cuerpo",
+        "Opcional; un nph-field, en el slot por defecto."
+      ],
+      [
+        "Cerrar",
+        "Opcional; un nph-button ghost compacto con el ícono xmark, 28 por 28."
+      ],
+      [
+        "Pie",
+        "Opcional; un divisor en popover/divider de borde a borde, luego las acciones compactas al final, a popover/footer-gap una de otra y con popover/footer-padding alrededor."
+      ],
+      [
+        "Flecha",
+        "Opcional; popover/arrow-width por popover/arrow-height, rellena en popover/background y con contorno en popover/border, a popover/arrow-inset de la esquina. Decorativa."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "Título y descripción pasan 4,5:1 sobre la superficie en los dos temas. El borde y el divisor son decorativos."
+      ],
+      [
+        "Foco visible",
+        "El disparador, el botón de cerrar, el campo y los botones del pie muestran el anillo de foco de su propio componente. La superficie no lleva anillo."
+      ],
+      [
+        "El color no es la única señal",
+        "Abierto, la superficie aparece anclada al disparador y el disparador lleva aria-expanded true; la apariencia de hover-active es una señal extra."
+      ],
+      [
+        "Área táctil",
+        "El disparador mide 36 de alto; el botón de cerrar mide 28 por 28 y los botones del pie 28 de alto. En pantalla táctil los botones del pie vuelven a 36."
+      ],
+      [
+        "Nombre accesible",
+        "La superficie es un dialog no modal nombrado por el título y descrito por la descripción. El botón de cerrar lleva close-label. La flecha es decorativa. El disparador lleva aria-haspopup dialog, aria-expanded y aria-controls."
+      ],
+      [
+        "Teclado",
+        "Enter y Espacio en el disparador lo abren. Esc lo cierra y devuelve el foco. Tab recorre el cuerpo y el pie y sigue a la página, lo que lo cierra."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "examplesCaption": "Los tres ejemplos obligatorios: filtro con confirmación, formulario corto e información con el botón de cerrar y la flecha.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha de nph-popover — propósito, variantes, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P111 (API y semántica), P01, P02 y P03.",
+      "design.md — los tokens popover/* y el estilo elevation/dropdown.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Popover, frame de documentación nph-popover (4749:5857) y conjunto 4727:1544.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha de nph-popover; Figma, frame nph-popover (4749:5857)",
+    "sourceApi": "Ficha de nph-popover; docs/decisoes-tecnicas.md › P111",
+    "sourceAnatomy": "Figma, conjunto 4727:1544; design.md",
+    "matrixLabel": "Matriz del componente",
+    "whenToUse": [
+      "Cuando la persona necesita ajustar o decidir algo corto sin perder su lugar en la página, como filtrar, elegir una fecha de entrega o renombrar algo.",
+      "Elige sin flecha por defecto; usa la flecha cuando el disparador está entre otros elementos y el vínculo necesita quedar claro.",
+      "Elige el tamaño por el contenido: sm para título y descripción cortos, md cuando entran el pie o un campo, lg cuando el campo pide más ancho.",
+      "Activa el pie cuando la acción necesita confirmación; el divisor viene con él.",
+      "Activa el botón de cerrar cuando no hay pie y el contenido pide una salida visible además de Esc y del clic fuera, como una información para leer con calma."
+    ],
+    "whenNotToUse": [
+      "Como lista de comandos: usa nph-dropdown-menu.",
+      "Para una decisión que bloquea la página: usa un dialog modal.",
+      "Para un aviso corto sin acción: usa un texto corto junto al elemento, sin superficie flotante.",
+      "Con dos acciones primarias en el pie: usa un primario sólido y un secundario sólido.",
+      "Con un disparador con contorno: usa el nph-button secundario sólido.",
+      "Dentro de un dialog: todavía no forma parte del contrato."
+    ]
   },
   "hoverCardValidation": {
     "lightCaption": "Modo claro",

@@ -299,14 +299,26 @@ describe('the message line (D2 to D5)', () => {
     expect(getComputedStyle(text).color).toBe(colorOf('--nph-color-muted-foreground'));
   });
 
-  it('the error replaces the help, in text/body-md and status/error, with no icon (D2 to D4)', async () => {
+  it('the error replaces the help, in text/body-md and status/error-text, with no icon (D2 to D4; DSA-67)', async () => {
     const field = await mount({ help: 'Use your work email.', error: 'Enter a valid email.' });
     const text = textOf(field) as HTMLElement;
     expect(text.textContent).toBe('Enter a valid email.');
     expect(root(field).textContent).not.toContain('Use your work email.');
     expect(typographyFrom(text)).toEqual(typographyOf('body-md'));
-    expect(getComputedStyle(text).color).toBe(colorOf('--nph-status-error'));
+    expect(getComputedStyle(text).color).toBe(colorOf('--nph-status-error-text'));
     expect(messageOf(field)?.querySelector('nph-icon, svg')).toBeNull();
+  });
+
+  it('in dark, the message takes the lighter status/error-text, not status/error (DSA-67)', async () => {
+    document.documentElement.setAttribute('data-nph-color-scheme', 'dark');
+    try {
+      const field = await mount({ error: 'Enter a valid email.' });
+      const text = textOf(field) as HTMLElement;
+      expect(getComputedStyle(text).color).toBe(colorOf('--nph-status-error-text'));
+      expect(colorOf('--nph-status-error-text')).not.toBe(colorOf('--nph-status-error'));
+    } finally {
+      document.documentElement.removeAttribute('data-nph-color-scheme');
+    }
   });
 
   it('the help comes back when the error is emptied', async () => {
@@ -700,7 +712,7 @@ describe('token contract', () => {
         ...typography('caption'),
         ...typography('body-md'),
         '--nph-color-muted-foreground',
-        '--nph-status-error',
+        '--nph-status-error-text',
       ]),
     );
     for (const name of used) {
@@ -708,11 +720,13 @@ describe('token contract', () => {
     }
   });
 
-  it('design.md names space/stack-tight for a label and what it describes, and status/error for an invalid field', () => {
+  it('design.md names space/stack-tight for a label and what it describes, status/error for an invalid field and status/error-text for its message', () => {
     const stack = /space\/stack-tight:\s*\n\s*css: '--nph-space-stack-tight'[\s\S]*?use: "([^"]*)"/.exec(designMd);
     expect(stack?.[1]).toMatch(/label and field/);
     const error = /status\/error:\s*\n\s*css: '--nph-status-error'[\s\S]*?use: "([^"]*)"/.exec(designMd);
     expect(error?.[1]).toMatch(/border of an invalid field/);
+    const errorText = /status\/error-text:\s*\n\s*css: '--nph-status-error-text'[\s\S]*?use: "([^"]*)"/.exec(designMd);
+    expect(errorText?.[1]).toMatch(/error message of nph-field/);
     expect(designMd).toMatch(/layout\/field-width:\s*\n\s*css: '--nph-layout-field-width'/);
   });
 

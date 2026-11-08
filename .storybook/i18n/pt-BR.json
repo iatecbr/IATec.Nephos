@@ -380,6 +380,15 @@
     "components-nph-navigation-menu-validation--direction": "Direção",
     "components-nph-navigation-menu-validation--examples": "Exemplos",
     "components-nph-navigation-menu-validation--brands": "Marcas",
+    "components-nph-popover-docs": "Docs",
+    "components-nph-popover-docs--documentation": "Documentação",
+    "components-nph-popover-validation": "Validação",
+    "components-nph-popover-validation--placement": "Posição",
+    "components-nph-popover-validation--sizes": "Tamanhos",
+    "components-nph-popover-validation--parts": "Partes",
+    "components-nph-popover-validation--direction": "Direção",
+    "components-nph-popover-validation--interactive": "Interativo",
+    "components-nph-popover-validation--examples": "Exemplos",
     "components-nph-hover-card-docs": "Docs",
     "components-nph-hover-card-docs--documentation": "Documentação",
     "components-nph-hover-card-validation": "Validação",
@@ -3560,7 +3569,7 @@
       ],
       [
         "error",
-        "A mensagem de erro, em text/body-md e status/error, sem ícone. Preenchida, o campo fica inválido e o controle em erro; a mensagem substitui o apoio."
+        "A mensagem de erro, em text/body-md e status/error-text, sem ícone. Preenchida, o campo fica inválido e o controle em erro; a mensagem substitui o apoio."
       ],
       [
         "counter",
@@ -3639,7 +3648,7 @@
       ],
       [
         "4. Mensagem de erro",
-        "text/body-md em status/error, sem ícone, na linha de mensagem do campo."
+        "text/body-md em status/error-text, sem ícone, na linha de mensagem do campo."
       ],
       [
         "5. Contador",
@@ -3690,7 +3699,7 @@
     "references": [
       "Ficha do nph-field — propósito, anatomia, API, acessibilidade, tokens e antipadrões.",
       "docs/decisoes-tecnicas.md — P83 (nph-field: API, semântica e o contrato entre campo e controle).",
-      "design.md — layout/field-width, space/stack-tight, space/inline-tight, text/caption, text/body-md, color/muted-foreground e status/error.",
+      "design.md — layout/field-width, space/stack-tight, space/inline-tight, text/caption, text/body-md, color/muted-foreground e status/error-text.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Field, frame 1194:21863 e set 657:50.",
       "Storybook — Validação, na pasta ao lado desta."
     ],
@@ -3769,7 +3778,7 @@
     "longHelp": "Um texto de apoio mais longo quebra em mais linhas dentro da largura do campo, e nada é cortado.",
     "noMessageCaption": "Sem apoio, sem erro, sem contador: a linha de mensagem não é desenhada e não guarda altura.",
     "helpCaption": "Texto de apoio: text/caption em color/muted-foreground.",
-    "errorCaption": "Erro: a mensagem substitui o apoio, em text/body-md e status/error, sem ícone; o controle fica em erro.",
+    "errorCaption": "Erro: a mensagem substitui o apoio, em text/body-md e status/error-text, sem ícone; o controle fica em erro.",
     "longCaption": "Um texto de apoio longo quebra, sem reticências.",
     "counterHelpCaption": "Contador no fim da linha de apoio.",
     "counterAloneCaption": "Contador sem texto de apoio: no fim da linha.",
@@ -7444,6 +7453,12 @@
       "components-nph-navigation-menu-validation--direction": "Escrita da direita para a esquerda: a barra lê da direita, o painel abre a partir da borda inicial do gatilho e o indicador do link do painel fica no início.",
       "components-nph-navigation-menu-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: a barra fechada com dois gatilhos e o link da página atual, um gatilho aberto com um painel de dois grupos, e a largura estreita com o botão Menu aberto.",
       "components-nph-navigation-menu-validation--brands": "As sete marcas em modo claro e escuro: a borda e o halo de foco dos itens seguem a marca do quadro.",
+      "components-nph-popover-validation--placement": "Os quatro lados e os três alinhamentos, com a seta: a superfície abre a 4 px da ponta da seta, alinhada ao gatilho, e a seta aponta para ele.",
+      "components-nph-popover-validation--sizes": "As três larguras, 240, 320 e 400 px, sem a seta: só a largura muda; margens, espaços e botões do rodapé ficam iguais.",
+      "components-nph-popover-validation--parts": "O título sempre aparece; a descrição, o corpo, o botão de fechar e o rodapé ligam e desligam, e o divisor vem com o rodapé.",
+      "components-nph-popover-validation--direction": "Escrita da direita para a esquerda: início e fim seguem a direção nos lados superior e inferior, e a seta os acompanha.",
+      "components-nph-popover-validation--interactive": "Um popover para experimentar: o gatilho abre e carrega aria-expanded; Esc, um clique fora, o botão de fechar ou o rodapé fecham, e o foco volta ao gatilho.",
+      "components-nph-popover-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: filtro com confirmação, formulário curto e informação com o botão de fechar e a seta.",
       "components-nph-hover-card-validation--sides": "O cartão aberto em cada lado, sem a seta e com ela: a 4 do link sem a seta; com ela, a ponta da seta fica a 4 do link e o cartão a 11. O cartão tem 320 de largura.",
       "components-nph-hover-card-validation--meta-line": "A linha de meta como frase, tempo relativo com a data completa no title, data, horário e desligada: o ícone de relógio para frase ou horário e o de calendário para data.",
       "components-nph-hover-card-validation--in-sentence": "O link na linha de uma frase com o cartão fechado, e o mesmo link com o cartão aberto: a peça acompanha a linha do texto.",
@@ -11077,6 +11092,279 @@
     "sourceApi": "Ficha do nph-navigation-menu; docs/decisoes-tecnicas.md › P110",
     "sourceAnatomy": "Figma, conjuntos 3969:7897, 3957:6662 e 3957:6722; design.md",
     "matrixLabel": "Matriz do componente"
+  },
+  "popoverValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "closeLabel": "Fechar",
+    "trigger": "Compartilhar",
+    "title": "Compartilhar este relatório",
+    "description": "Escolha quem pode vê-lo.",
+    "clear": "Limpar",
+    "cancel": "Cancelar",
+    "apply": "Aplicar",
+    "save": "Salvar",
+    "filtersTrigger": "Filtros",
+    "filtersTitle": "Filtrar resultados",
+    "filtersDescription": "Reduza a lista por status e responsável.",
+    "renameTrigger": "Renomear",
+    "renameTitle": "Renomear relatório",
+    "renameDescription": "Escolha um nome que a sua equipe reconheça.",
+    "fieldLabel": "Nome",
+    "fieldValue": "Relatório trimestral",
+    "infoTrigger": "Detalhes",
+    "infoTitle": "Sobre este relatório",
+    "infoDescription": "Ele é atualizado toda noite às 02:00."
+  },
+  "popoverDocs": {
+    "summary": "A superfície não modal ancorada a um gatilho, para ajustar ou decidir algo curto sem sair da página.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-popover, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P111. O arquivo DS-IA-NEPHOS 5.0 do Figma é a fonte visual. Nenhuma regra nasce aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenNotToUseTitle": "Quando não usar",
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "for",
+        "O id do elemento que abre o popover, na mesma raiz do popover. O gatilho fica fora; o popover escreve aria-haspopup, aria-expanded e aria-controls nele. Obrigatória."
+      ],
+      [
+        "open",
+        "O estado. O gatilho liga e desliga; o consumidor pode defini-lo, e defini-lo como false é como uma ação do rodapé fecha o popover. Refletida no atributo."
+      ],
+      [
+        "heading",
+        "O título, já traduzido. Sempre visível; nomeia a superfície. Obrigatória."
+      ],
+      [
+        "description",
+        "O texto de apoio abaixo do título, já traduzido. Opcional; descreve a superfície."
+      ],
+      [
+        "side",
+        "O lado do Figma: bottom (padrão), top, right ou left. O popover vira para o lado oposto quando o pedido não cabe. Refletida."
+      ],
+      [
+        "align",
+        "O alinhamento do Figma: start, center (padrão) ou end. Refletida."
+      ],
+      [
+        "arrow",
+        "A seta do Figma: uma seta que aponta para o gatilho. Desligada por padrão. Refletida."
+      ],
+      [
+        "size",
+        "O tamanho do Figma: sm (240), md (320, padrão) ou lg (400). Muda só a largura. Refletida."
+      ],
+      [
+        "closable",
+        "O fechar do Figma: desenha o botão de fechar. Desligado por padrão. Refletida."
+      ],
+      [
+        "close-label",
+        "O nome acessível do botão de fechar, já traduzido. Obrigatória enquanto o botão aparece."
+      ],
+      [
+        "slot",
+        "O slot padrão é o corpo, o corpo do Figma, como um nph-field. O slot footer recebe os botões de ação, o rodapé do Figma; o divisor vem com ele."
+      ],
+      [
+        "nph-close",
+        "O evento, com detail source: escape, outside, close-button ou focus-out. Cancelável. Definir open por código, o gatilho e uma ação do rodapé nunca o disparam."
+      ],
+      [
+        "cor e partes",
+        "Não são propriedades: as cores vêm dos tokens, e a peça não tem ::part."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-button id=\"filters\" severity=\"secondary\" text=\"Filters\"></nph-button>\n<nph-popover for=\"filters\" heading=\"Filter results\" description=\"Narrow the list by status and owner.\">\n  <nph-button slot=\"footer\" size=\"compact\" severity=\"secondary\" text=\"Clear\"></nph-button>\n  <nph-button slot=\"footer\" size=\"compact\" text=\"Apply\"></nph-button>\n</nph-popover>",
+    "usageTag": "A tag da peça e o seu gatilho, um nph-button. for é o id do gatilho. As ações do rodapé vão no slot footer, e uma ação do rodapé fecha o popover definindo open como false no seu handler.",
+    "usageImport": "Registra o componente com os seus estilos. O CSS dos tokens gerado é importado à parte.",
+    "sourceUsage": "Figma, frame nph-popover (4749:5857); docs/decisoes-tecnicas.md › P111",
+    "placementTitle": "Lado e alinhamento",
+    "placementCaption": "Os quatro lados, com a seta e os três alinhamentos do conjunto do Figma.",
+    "placementUseHeader": [
+      "Propriedade",
+      "Quando usar"
+    ],
+    "placementUse": [
+      {
+        "value": "side: bottom",
+        "label": "O padrão: a superfície abre abaixo do gatilho."
+      },
+      {
+        "value": "side: top, right, left",
+        "label": "Quando o layout pede. O popover vira para o lado oposto sozinho quando o pedido não cabe e o outro tem mais espaço, e nunca sai da janela."
+      },
+      {
+        "value": "align: center",
+        "label": "O padrão: a superfície fica centralizada no gatilho."
+      },
+      {
+        "value": "align: start, end",
+        "label": "Quando a superfície deve começar ou terminar onde o gatilho começa ou termina. Nos lados superior e inferior seguem a direção da escrita; nos lados esquerdo e direito, start é o topo e end a base."
+      }
+    ],
+    "arrowTitle": "Seta",
+    "arrowCaption": "Com a seta, a superfície fica uma altura de seta mais longe, e a ponta mantém a distância de 4 do gatilho.",
+    "arrow": [
+      "A seta é opcional e vem desligada: o vínculo com o gatilho já é claro pela proximidade e o desenho fica mais limpo.",
+      "Use quando o gatilho está entre outros elementos e o vínculo precisa ficar claro.",
+      "Ela é decorativa, 16 por 8, e com start ou end guarda 16 do canto. Quando a janela empurra a superfície para o lado, ela desliza de volta para a ponta continuar apontando para o gatilho."
+    ],
+    "sizesTitle": "Tamanhos",
+    "sizesCaption": "sm, md e lg, sem a seta: só a largura muda.",
+    "sizesUseHeader": [
+      "Tamanho",
+      "Quando usar"
+    ],
+    "sizesUse": [
+      {
+        "value": "sm",
+        "label": "240 de largura. Um título e uma descrição curtos."
+      },
+      {
+        "value": "md",
+        "label": "320 de largura, o padrão. Quando entram o rodapé ou um campo."
+      },
+      {
+        "value": "lg",
+        "label": "400 de largura. Quando o campo pede mais largura."
+      }
+    ],
+    "partsTitle": "Partes",
+    "partsCaption": "O título sempre aparece; descrição, corpo, botão de fechar e rodapé ligam e desligam.",
+    "parts": [
+      "A descrição vem ligada por padrão; o corpo, o botão de fechar e o rodapé vêm desligados.",
+      "Ligue o rodapé quando a ação precisa de confirmação: um primário sólido e um secundário sólido, compactos, no fim. O divisor vem com o rodapé.",
+      "Ligue o botão de fechar quando não há rodapé e o conteúdo pede uma saída visível além do Esc e do clique fora, como uma informação para ler com calma.",
+      "A superfície não recorta o conteúdo, para o anel de foco das peças internas não ser cortado."
+    ],
+    "closingTitle": "Fechar e foco",
+    "closing": [
+      "Fecha com Esc, um clique fora, o botão de fechar, a ação do rodapé ou o foco que sai dele. Uma ação do rodapé o fecha quando o consumidor define open como false.",
+      "O foco volta ao gatilho com Esc, o botão de fechar e a ação do rodapé. Um clique fora e o foco que sai o deixam onde a pessoa o pôs.",
+      "Esc fecha só o popover: não alcança um dialog em volta. O popover não é modal e não prende o Tab.",
+      "Ao abrir, o foco vai ao primeiro elemento com autofocus, depois ao primeiro focável do corpo, depois do rodapé, depois ao botão de fechar, depois à superfície."
+    ],
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Combina com nph-button (o gatilho, o rodapé e o botão de fechar), nph-field (o corpo) e nph-separator (o divisor).",
+      "O popover controla a posição, a abertura e o foco; cada peça interna controla a própria cor e o próprio estado.",
+      "Não substitui o nph-dropdown-menu, uma lista de comandos, nem um dialog modal, uma decisão que bloqueia a página. As partes são próprias: não há nph-card dentro. Um popover dentro de um dialog está fora do escopo por enquanto."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Gatilho",
+        "Um nph-button, secundário sólido. Aberto, ganha a aparência de hover-active e carrega aria-expanded true."
+      ],
+      [
+        "Superfície",
+        "popover/background, uma borda de 1 px bem suave em popover/border, cantos de popover/radius, a sombra elevation/dropdown no claro e nenhuma no escuro. Não recorta o conteúdo."
+      ],
+      [
+        "Título",
+        "Sempre visível; text/label-lg em popover/foreground. Nomeia a superfície."
+      ],
+      [
+        "Descrição",
+        "Opcional; text/body-sm em popover/description."
+      ],
+      [
+        "Corpo",
+        "Opcional; um nph-field, no slot padrão."
+      ],
+      [
+        "Fechar",
+        "Opcional; um nph-button ghost compacto com o ícone xmark, 28 por 28."
+      ],
+      [
+        "Rodapé",
+        "Opcional; um divisor em popover/divider de ponta a ponta, depois as ações compactas no fim, a popover/footer-gap uma da outra e com popover/footer-padding em volta."
+      ],
+      [
+        "Seta",
+        "Opcional; popover/arrow-width por popover/arrow-height, preenchida em popover/background e contornada em popover/border, a popover/arrow-inset do canto. Decorativa."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Contraste",
+        "Título e descrição passam 4,5:1 sobre a superfície nos dois temas. A borda e o divisor são decorativos."
+      ],
+      [
+        "Foco visível",
+        "O gatilho, o botão de fechar, o campo e os botões do rodapé mostram o anel de foco do próprio componente. A superfície não leva anel."
+      ],
+      [
+        "A cor não é o único sinal",
+        "Aberto, a superfície aparece ancorada ao gatilho e o gatilho carrega aria-expanded true; a aparência de hover-active é um sinal extra."
+      ],
+      [
+        "Alvo de toque",
+        "O gatilho tem 36 de altura; o botão de fechar tem 28 por 28 e os botões do rodapé têm 28 de altura. Em tela de toque os botões do rodapé voltam a 36."
+      ],
+      [
+        "Nome acessível",
+        "A superfície é um dialog não modal nomeado pelo título e descrito pela descrição. O botão de fechar leva close-label. A seta é decorativa. O gatilho carrega aria-haspopup dialog, aria-expanded e aria-controls."
+      ],
+      [
+        "Teclado",
+        "Enter e Espaço no gatilho abrem. Esc fecha e devolve o foco. Tab percorre o corpo e o rodapé e segue para a página, o que fecha."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "examplesCaption": "Os três exemplos obrigatórios: filtro com confirmação, formulário curto e informação com o botão de fechar e a seta.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-popover — propósito, variantes, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P111 (API e semântica), P01, P02 e P03.",
+      "design.md — os tokens popover/* e o estilo elevation/dropdown.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Popover, frame de documentação nph-popover (4749:5857) e conjunto 4727:1544.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "Ficha do nph-popover; Figma, frame nph-popover (4749:5857)",
+    "sourceApi": "Ficha do nph-popover; docs/decisoes-tecnicas.md › P111",
+    "sourceAnatomy": "Figma, conjunto 4727:1544; design.md",
+    "matrixLabel": "Matriz do componente",
+    "whenToUse": [
+      "Quando a pessoa precisa ajustar ou decidir algo curto sem perder o lugar na página, como filtrar, escolher uma data de entrega ou renomear algo.",
+      "Escolha sem seta por padrão; use a seta quando o gatilho está entre outros elementos e o vínculo precisa ficar claro.",
+      "Escolha o tamanho pelo conteúdo: sm para título e descrição curtos, md quando entram o rodapé ou um campo, lg quando o campo pede mais largura.",
+      "Ligue o rodapé quando a ação precisa de confirmação; o divisor vem com ele.",
+      "Ligue o botão de fechar quando não há rodapé e o conteúdo pede uma saída visível além do Esc e do clique fora, como uma informação para ler com calma."
+    ],
+    "whenNotToUse": [
+      "Como lista de comandos: use nph-dropdown-menu.",
+      "Para uma decisão que bloqueia a página: use um dialog modal.",
+      "Para um aviso curto sem ação: use um texto curto ao lado do elemento, sem superfície flutuante.",
+      "Com duas ações primárias no rodapé: use um primário sólido e um secundário sólido.",
+      "Com um gatilho contornado: use o nph-button secundário sólido.",
+      "Dentro de um dialog: ainda não faz parte do contrato."
+    ]
   },
   "hoverCardValidation": {
     "lightCaption": "Modo claro",
