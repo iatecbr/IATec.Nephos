@@ -33,7 +33,44 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The accepted contract says the context menu in a table opens over the clicked row and acts only on it, and does not say how the code knows the row. The code names one object with for and reports the element under the pointer in detail.origin of nph-item-select. If the menu should be one per row, or origin should be the row itself, it is her call. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-08"
+    },
+    {
+      "id": "D-2",
+      "question": "The contract has no event of opening or closing, so the code fires none. A consumer that must prepare the items for the row under the pointer sets items in its own contextmenu listener. If the piece should announce opening, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-08"
+    },
+    {
+      "id": "D-3",
+      "question": "The evidence says a long press of about 700 ms. The code uses 700 ms and a movement limit of 10 px, which have no token, and cancels the touch contextmenu that the browser sends before it. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-08"
+    },
+    {
+      "id": "D-4",
+      "question": "The DSA-69 evidence lists the item icon in color/muted-foreground, while the DSA-45 evidence of the same item says the start icon is in the color of the label. The code keeps the label color in both menus, as nph-dropdown-menu already shipped. The color she wants for the icon at rest is hers to confirm. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-08"
+    },
+    {
+      "id": "D-5",
+      "question": "The code closes the submenu first on Esc and the whole menu on the second press, as the APG menu pattern does; the evidence says Esc closes the menu. If one Esc should close everything, she decides. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-08"
+    },
+    {
+      "id": "D-6",
+      "question": "arrow-pointer enters the closed core of nph-icon, and a test ties that core to the icones_nucleo list of design.md, so the name was added to that list (direcao_e_revelacao), with no token, as DSA-54 did for arrow-left-to-line. The brief of the task said not to edit design.md, so the edit is its own commit for the orchestrator to confirm. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-08"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-69/figma-docs-accepted-2026-11-06.md"
   ],
@@ -49,9 +86,13 @@
     "excerpt": null,
     "converted_decision": "The nph-context-menu documentation frame (4838:27591, page 4128:17776) was accepted as the API and behavior specification of nph-context-menu. Component set: nph-context-menu (4819:15828), 12 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-69-context-menu", "commit": null, "pr": null },
+  "git_review": {
+    "branch": "feat/dsa-69-context-menu",
+    "commit": null,
+    "pr": null
+  },
   "context": "docs/operacao/contextos/DSA-69.md",
-  "updated_at": "2026-11-06"
+  "updated_at": "2026-11-08"
 }
 ```
 
