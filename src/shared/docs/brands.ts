@@ -36,16 +36,19 @@ export const SCHEMES: readonly string[] = [
 
 /**
  * Accessibility exception (P72, `docs/stories.md` §2.3), only on the `Brands` stories of
- * `nph-sidebar-item`, `nph-dropdown-menu` and `nph-navigation-menu`: the gate leaves out the axe rule
+ * `nph-sidebar-item`, `nph-dropdown-menu`, `nph-navigation-menu` and `nph-hover-card`: the gate leaves out the axe rule
  * `color-contrast`. Reason: in the dark scheme, `color/primary-hover` resolves to
  * `theme/brand-400-hover`, a darker shade in `gerencial`, `educacao`, `igrejas` and `rh`, and those
  * pieces paint it as text: the active item and the open group on `sidebar/panel-background` (1.00:1 to
  * 1.86:1), the checked item on the popover (1.01:1 to 1.46:1) and the current item of the navigation
  * bar, `navigation-menu/current-foreground`, on the dark background (1.49:1 to 2.16:1). It is a token
- * limit, and tokens come from Figma (DSA-36, D2, and D-5 of DSA-62, for Indiane). Alternative
+ * limit, and tokens come from Figma (DSA-36, D2, and D-5 of DSA-62, for Indiane). The link of
+ * `nph-hover-card` is painted in `color/primary`, which in the dark scheme of some brands is a dark
+ * shade over the dark background (2.71:1 to 3.81:1; the accepted documentation names only
+ * `gerencial`, point 9, and the fix belongs to `color/primary`; D-3 of DSA-68). Alternative
  * discarded: drawing only the states that pass, which would hide the limit. The exception leaves when
  * the token is fixed. Decided by Elvys on 2026-10-28 for the first two pieces; the extension to
- * `nph-navigation-menu` (DSA-62) is for him to confirm in the pull request.
+ * `nph-navigation-menu` (DSA-62) and `nph-hover-card` (DSA-68) is for him to confirm in the pull request.
  */
 export const BRAND_CONTRAST_EXCEPTION = { 'color-contrast': { enabled: false } } as const;
 
