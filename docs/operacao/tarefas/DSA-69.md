@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 680,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-context-menu",
   "dependencies": [
     "DSA-03",
@@ -83,7 +83,7 @@
   "git_review": {
     "branch": "feat/dsa-69-context-menu",
     "commit": null,
-    "pr": null
+    "pr": 160
   },
   "context": "docs/operacao/contextos/DSA-69.md",
   "updated_at": "2026-11-08"
