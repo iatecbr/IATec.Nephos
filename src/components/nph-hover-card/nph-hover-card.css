@@ -80,9 +80,6 @@
   position: fixed;
   inset: auto;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  gap: var(--nph-hover-card-gap);
   inline-size: var(--nph-hover-card-width);
   max-inline-size: 100%;
   margin: 0;
@@ -98,6 +95,17 @@
   transition-property: opacity;
   transition-duration: var(--nph-hover-card-exit-duration);
   transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/*
+ * `display` is set only while the card is in the top layer: a `display` on the class itself would
+ * beat the `display: none` of the browser for a closed `[popover]`, and the closed card would stay in
+ * the layout and in the accessibility tree.
+ */
+.card:popover-open {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-hover-card-gap);
 }
 
 :host([arrow]) .card {

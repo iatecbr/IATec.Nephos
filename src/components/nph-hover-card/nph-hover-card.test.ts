@@ -722,6 +722,29 @@ describe('closing', () => {
   });
 });
 
+describe('the closed card takes no room and no pointer', () => {
+  it('a card never opened is not in the layout', async () => {
+    const card = await mount();
+    const surface = surfaceOf(card);
+    expect(getComputedStyle(surface).display).toBe('none');
+    expect(surface.getBoundingClientRect().width).toBe(0);
+  });
+
+  it('after it closes, the card leaves the layout and the pointer on its old place does not reopen it', async () => {
+    const card = await mount({ closeDelay: '20ms' });
+    await hoverOpen(card);
+    const where = surfaceOf(card).getBoundingClientRect();
+    await userEvent.unhover(linkOf(card));
+    await vi.waitFor(() => expect(card.open).toBe(false), { timeout: 2000 });
+    await gone(card);
+    expect(getComputedStyle(surfaceOf(card)).display).toBe('none');
+    expect(surfaceOf(card).getBoundingClientRect().width).toBe(0);
+    await userEvent.hover(document.body, { position: { x: Math.round(where.left + 20), y: Math.round(where.top + 20) } });
+    await pause(250);
+    expect(card.open).toBe(false);
+  });
+});
+
 describe('open from code', () => {
   it('open on mount shows the card next to the link', async () => {
     const card = await mount({ open: true });
