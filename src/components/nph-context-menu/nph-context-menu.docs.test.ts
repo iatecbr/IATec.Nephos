@@ -7,7 +7,7 @@
  * of the sheet. The page reads the lists from the Metadata (P71), and
  * `src/shared/docs/sheet-lists.test.ts` checks every page.
  */
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { html, render } from 'lit';
 import type { TemplateResult } from 'lit';
 import { page, userEvent } from 'vitest/browser';
@@ -22,6 +22,7 @@ import { fileItems } from './nph-context-menu.demo';
 
 afterEach(() => {
   document.body.replaceChildren();
+  window.scrollTo(0, 0);
 });
 
 const LOCALES = ['pt-BR', 'en', 'es'] as const;
@@ -166,6 +167,46 @@ describe('nph-context-menu Documentation', () => {
       expect(background(dark)).not.toBe(background(light));
     });
   }
+
+  it('in a narrow window the frames of the page and of every Validation story stay inside it', async () => {
+    await page.viewport(414, 896);
+    const width = document.documentElement.clientWidth;
+    const targets: HTMLElement[] = [renderInLocale('en')];
+    for (const [name, story] of Object.entries(validation)) {
+      if (name === 'default' || typeof (story as { render?: unknown }).render !== 'function') continue;
+      const target = document.createElement('div');
+      document.body.append(target);
+      render((story as { render: (a: unknown, c: unknown) => TemplateResult }).render({}, { globals: { locale: 'en' } }), target);
+      targets.push(target);
+    }
+    for (const target of targets) {
+      for (const frame of target.querySelectorAll<HTMLElement>('figure[data-nph-color-scheme]')) {
+        expect(frame.getBoundingClientRect().right, frame.querySelector('figcaption')?.textContent ?? '').toBeLessThanOrEqual(width + 1);
+      }
+    }
+  });
+
+  it('on the Docs page, a panel is drawn only while its object is inside the window', async () => {
+    const target = renderInLocale('en');
+    const menus = await settled(target);
+    const height = document.documentElement.clientHeight;
+    const width = document.documentElement.clientWidth;
+    const isInside = (object: HTMLElement): boolean => {
+      const box = object.getBoundingClientRect();
+      return box.bottom > 0 && box.top < height && box.right > 0 && box.left < width;
+    };
+    let hidden = 0;
+    for (const menu of menus) {
+      const object = target.querySelector(`#${menu.getAttribute('for')}`) as HTMLElement;
+      const panel = menu.shadowRoot?.querySelector('.panel[data-level="0"]') as HTMLElement;
+      await vi.waitFor(() => {
+        const inside = isInside(object);
+        expect(panel.style.visibility === 'hidden', `${menu.getAttribute('for')} inside=${inside}`).toBe(!inside);
+      });
+      if (!isInside(object)) hidden += 1;
+    }
+    expect(hidden).toBeGreaterThan(0);
+  });
 
   it('pt-BR and es have the same shape as en', () => {
     const source = shape(docs('en'));
@@ -385,7 +426,13 @@ describe('nph-context-menu Validation: text only from the dictionary', () => {
         const left = [...docsPage.querySelectorAll('section#examples [data-nph-demo]')][2] as HTMLElement;
         const docsMenus = await settled(left);
         expect(docsMenus).toHaveLength(2);
-        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        /* The panels of an example below the window are not drawn: scroll the example into view. */
+        left.scrollIntoView({ block: 'start' });
+        await vi.waitFor(() => {
+          for (const menu of docsMenus) {
+            expect(menu.shadowRoot?.querySelector<HTMLElement>('.panel[data-level="1"]')?.dataset.side).toBeDefined();
+          }
+        });
         for (const menu of docsMenus) {
           expect(menu.shadowRoot?.querySelector<HTMLElement>('.panel[data-level="1"]')?.dataset.side, `docs ${locale}`).toBe('left');
         }

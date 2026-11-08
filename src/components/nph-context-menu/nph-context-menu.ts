@@ -325,6 +325,7 @@ export class NphContextMenu extends LitElement {
   private closeTimers: Partial<Record<Level, number>> = {};
   private frame: number | undefined;
   private resizeObserver: ResizeObserver | undefined;
+  private intersectionObserver: IntersectionObserver | undefined;
   private readonly scrollTargets: EventTarget[] = [];
   private point: Point | null = null;
   private origin: Element | null = null;
@@ -1063,6 +1064,11 @@ export class NphContextMenu extends LitElement {
         this.resizeObserver = new ResizeObserver(() => this.onViewportChange());
         /* The panel too: inner pieces that render after the first measure make it grow. */
         this.resizeObserver.observe(panel);
+        /* The object entering or leaving the window, by scroll or by a layout that moves it, places the panels again. */
+        if (this.target !== null && typeof IntersectionObserver === 'function') {
+          this.intersectionObserver = new IntersectionObserver(() => this.onViewportChange());
+          this.intersectionObserver.observe(this.target);
+        }
         this.updateScrollTargets();
       } else {
         this.resizeObserver?.observe(panel);
@@ -1134,6 +1140,8 @@ export class NphContextMenu extends LitElement {
     this.clearHover();
     this.resizeObserver?.disconnect();
     this.resizeObserver = undefined;
+    this.intersectionObserver?.disconnect();
+    this.intersectionObserver = undefined;
     this.shown = { 0: false, 1: false };
     for (const level of [0, 1] as const) {
       const panel = this.panel(level);
@@ -1211,6 +1219,16 @@ export class NphContextMenu extends LitElement {
    */
   private place(level: Level, panel: HTMLElement): void {
     const view = { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight };
+    /*
+     * The object is scrolled out of the window: the panels go with it, not stuck to the edge over the
+     * content below, as in `nph-dropdown-menu`. They come back when the object does.
+     */
+    const anchor = this.target?.getBoundingClientRect();
+    const visible = anchor === undefined || (anchor.bottom > 0 && anchor.top < view.height && anchor.right > 0 && anchor.left < view.width);
+    panel.style.visibility = visible ? '' : 'hidden';
+    if (!visible) {
+      return;
+    }
     /* Measuring drops the scroll limits; the scroll position comes back after it. */
     const scrollTop = panel.scrollTop;
     panel.style.maxHeight = '';

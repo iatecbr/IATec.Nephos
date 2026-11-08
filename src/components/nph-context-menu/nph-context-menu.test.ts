@@ -558,6 +558,49 @@ describe('placement', () => {
     expect(document.activeElement).toBe(object);
   });
 
+  it('a menu opened from code is hidden while its object is out of the window, and comes back with it', async () => {
+    const tall = document.createElement('div');
+    tall.style.cssText = 'height: 4000px;';
+    const object = document.createElement('div');
+    object.id = 'object';
+    object.style.cssText = 'position: absolute; left: 40px; top: 2000px; width: 240px; height: 80px;';
+    const menu = document.createElement('nph-context-menu');
+    menu.setAttribute('for', 'object');
+    menu.items = ITEMS;
+    menu.open = true;
+    document.body.append(tall, object, menu);
+    await settle(menu);
+    expect(panel(menu).style.visibility).toBe('hidden');
+    window.scrollTo(0, 1900);
+    await vi.waitFor(() => expect(panel(menu).style.visibility).toBe(''));
+    await entered(menu);
+    expect(panel(menu).getBoundingClientRect().top).toBeCloseTo(object.getBoundingClientRect().top, 0);
+    window.scrollTo(0, 0);
+    await vi.waitFor(() => expect(panel(menu).style.visibility).toBe('hidden'));
+  });
+
+  it('several menus opened from code, below the window, draw no panel over the content', async () => {
+    const tall = document.createElement('div');
+    tall.style.cssText = 'height: 6000px;';
+    document.body.append(tall);
+    const menus: NphContextMenu[] = [];
+    for (const top of [1500, 2500, 3500]) {
+      const object = document.createElement('div');
+      object.id = `object-${top}`;
+      object.style.cssText = `position: absolute; left: 40px; top: ${top}px; width: 240px; height: 80px;`;
+      const menu = document.createElement('nph-context-menu');
+      menu.setAttribute('for', object.id);
+      menu.items = ITEMS;
+      menu.open = true;
+      document.body.append(object, menu);
+      menus.push(menu);
+    }
+    await Promise.all(menus.map((menu) => settle(menu)));
+    for (const menu of menus) {
+      expect(panel(menu).style.visibility).toBe('hidden');
+    }
+  });
+
   it('right to left: the top end corner is at the point', async () => {
     document.documentElement.setAttribute('dir', 'rtl');
     const setup = await mount();

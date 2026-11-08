@@ -28,7 +28,7 @@ export type Scheme = 'light' | 'dark';
 export function inScheme(scheme: Scheme, caption: string, content: TemplateResult, wide = false): TemplateResult {
   return html`<figure
     data-nph-color-scheme=${scheme}
-    style="margin: 0; display: flex; flex-direction: column; gap: var(--nph-space-inline); padding: var(--nph-space-section); background: var(--nph-color-background); color: var(--nph-color-foreground); border: var(--nph-border-width) solid var(--nph-color-border); border-radius: var(--nph-radius-control); inline-size: ${wide ? '100%' : 'fit-content'}; min-inline-size: calc(2 * var(--nph-layout-input-width)); max-inline-size: 100%; box-sizing: border-box;"
+    style="margin: 0; display: flex; flex-direction: column; gap: var(--nph-space-inline); padding: var(--nph-space-section); background: var(--nph-color-background); color: var(--nph-color-foreground); border: var(--nph-border-width) solid var(--nph-color-border); border-radius: var(--nph-radius-control); inline-size: ${wide ? '100%' : 'fit-content'}; min-inline-size: min(100%, calc(2 * var(--nph-layout-input-width))); max-inline-size: 100%; box-sizing: border-box;"
   >
     ${content}
     <figcaption style="color: var(--nph-color-muted-foreground);">${caption}</figcaption>
