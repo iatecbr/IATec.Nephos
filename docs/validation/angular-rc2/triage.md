@@ -102,7 +102,7 @@ the CSS the audit asks for (`nph-progress.css:24-28`, DSA-65).
 
 ### A-02. Width policy for controls with a fixed width
 
-**What the audit found.** `input`, `textarea`, `select` and `combobox` use `layout/input-width` (280 px), `nph-field` uses `layout/field-width` (320 px), `multi-combobox` 420 px, `slider` 280 px, `input-otp` 256 or 304 px, `image size="media"` 256 px and `empty` 280 px. None has `max-inline-size: 100%`, so each overflows a narrow container, and the sheets say the consumer decides. The `nph-field` sheet records that the field may stretch to its container (D6).
+**What the audit found.** `input`, `textarea`, `select` and `combobox` use `layout/input-width` (280 px), `nph-field` uses `layout/field-width` (320 px), `multi-combobox` 420 px, `slider` 280 px, `input-otp` 256 or 304 px, `image size="media"` 256 px and `empty` 280 px. `nph-field` and `nph-empty` already cap at `max-inline-size: 100%` (`nph-field.css:22`, `nph-empty.css:32`), so they shrink without overflowing and their rows are about filling or centering in a larger container. The other controls have no cap, so each overflows a narrow container, and the sheets say the consumer decides. The `nph-field` sheet records that the field may stretch to its container (D6).
 
 **To decide or adjust in Figma.** Should every fixed width become `min(token, 100%)` as one library rule? Does `nph-field` get a fluid mode or only a documented token override? For `slider` with `inputs`, `steppers` and `limits`, what minimum width keeps a four-digit value readable? Should `badge` and `button` truncate with an ellipsis or wrap when the text is longer than the container, and should `checkbox` break long words as `radio` and `switch` already do?
 
@@ -634,7 +634,7 @@ Batches that touch `nph-dropdown-menu`, `nph-icon` or `nph-hover-card` (in progr
 
 ## 4. Group C: documentation that can be written now
 
-44 rows. They need no Figma decision. Two targets: the Angular section of `docs/consuming.md` (the consumer side: value accessor recipe, router, attribute versus property) and the sheet of each piece. Sheets are English only, `fichas/`; a change to `README.md` or `docs/tokens.md` also needs the `en` and `es` pairs (`npm run i18n:update`, `npm run test:i18n`).
+44 rows. They need no Figma decision. Two targets: the Angular section of `docs/consuming.md` (the consumer side: value accessor recipe, router, attribute versus property) and the sheet of each piece. Sheets are English only (`fichas/`). `README.md`, `docs/tokens.md` and `docs/consuming.md` have `pt-BR` and `es` translations beside the English source (`docs/i18n.md`), so a change to the Angular guide also updates those two pairs (`npm run i18n:update`, `npm run test:i18n`).
 
 ### 4.1 Angular guide (`docs/consuming.md`, Angular section)
 
@@ -673,7 +673,7 @@ These recipes close many rows at once. The consuming doc has no text today on an
 | `VAL4-label-dx-2` | label | A child written by the consumer is NOT replaced by `text` (the consumer child stays before the rendered text) | label sheet: a child written between the tags is not supported and stays in the DOM before the rendered `<label>`; fix the code comment that says it is replaced |
 | `VAL4-label-gap-2` | label | Sheet says the consumer's child would be replaced; in practice it stays in the DOM | same note as `VAL4-label-dx-2` |
 | `VAL4-textarea-gap-1` | textarea | `readOnly` property vs `readonly` attribute not shown in an Angular example (both work) | Angular guide: short example with `[readOnly]="true"` and the `readonly` attribute |
-| `VAL4-option-gap-2` | option | Sheet does not say what happens with marker=checkbox outside multi-combobox (works as single choice) | option sheet: add that outside a select or combobox, `marker=checkbox` behaves as a single choice with a box |
+| `VAL4-option-gap-2` | option | Sheet does not say what happens with marker=checkbox outside multi-combobox (works as single choice) | option sheet: say what the report saw, `marker=checkbox` inside `nph-select` is a single choice that draws a box (the inner checkbox is `inert`), and that an option never chooses itself: the list that owns it writes `selected`. Do not document a lone option as a choice control |
 | `VAL4-multi-combobox-dx-1` | multi-combobox | `value` getter returns a new array on every read (m.value === m.value is false); reference comparisons never match | sheet: `value` returns a copy on every read, so compare by content |
 | `VAL4-multi-combobox-dx-3` | multi-combobox | [counter]/[chipIcon] must be property bindings; counter="true" would be a string (boolean attrs) | Angular guide: short attribute-to-property table and the boolean-by-presence note (with `VAL4-field-dx-2`) |
 | `VAL4-checkbox-gap-2` | checkbox | Nothing says how to obtain a group's value (no group API; FormArray/nph-field only give ARIA) | Angular guide: `FormArray` plus `nph-field` recipe (with the accessor recipe of `P0#1`) |
@@ -689,12 +689,12 @@ These recipes close many rows at once. The consuming doc has no text today on an
 | `VAL4-progress-gap-2` | progress | Does not say what to do with `value-text` when the type changes from indeterminate to determinate | progress sheet: when the type changes from indeterminate to determinate, rewrite `value-text` |
 | `VAL4-empty-gap-1` | empty | Sheet cites the angular.json glob only indirectly; does not document base-href/subpath | empty sheet: point to the Angular guide (assets glob and the subpath limit of P84) |
 | `VAL4-empty-gap-2` | empty | No example of use as a list's empty state | empty sheet or Angular guide: list empty-state example |
-| `VAL4-table-dx-5` | table | On-demand loading: row needs `loading:true` but also a placeholder `detail` (with name and toggleLabel) for the chevron to exist | table sheet: document the placeholder `detail` (name and toggle label) that a row needs while `loading` |
+| `VAL4-table-dx-5` | table | On-demand loading: row needs `loading:true` but also a placeholder `detail` (with name and toggleLabel) for the chevron to exist | table sheet: document that a row which opens needs `detail.name` inside the `detail` object and `toggleLabel` on the row itself, next to `loading`; without either the whole row is left out |
 | `VAL4-data-table-dx-4` | data-table | Dozens of text attributes (selected-text, page-label, …) must be passed on every use: no defaults, no one-place configuration | Angular guide: one shared labels object spread over the many text attributes (sheets keep P99 item 5: texts arrive localized) |
 | `VAL4-data-table-gap-2` | data-table | Does not explain how the consumer handles selection when the filter changes (prune/keep) | data-table sheet: what the selection does when the filter changes and how `{count} of {total}` shows it |
 | `VAL4-data-table-gap-3` | data-table | No Angular integration example (computed/trackBy) nor one for server pagination | Angular guide: `computed()` example for search, sort and page, and server pagination |
 | `VAL4-pagination-dx-2` | pagination | Numeric props/arrays need [prop] ([totalItems], [pageSizes]); attribute also works via converter; mixing styles is confusing | same attribute-to-property table as `VAL4-progress-dx-1` |
-| `VAL4-pagination-vis-1` | pagination | `page` above the count draws the last page but the consumer signal stays at 99; no correction event | pagination sheet: after setting `page`, read `el.page` back or clamp in the consumer (`min(page, pageCount)`) |
+| `VAL4-pagination-vis-1` | pagination | `page` above the count draws the last page but the consumer signal stays at 99; no correction event | pagination sheet and Angular guide: the element keeps the assigned `page` and clamps only the page it draws, so reading `el.page` back does not help; clamp the consumer state to the effective count, derived from `totalItems` and `pageSize` when given and from `pageCount` otherwise |
 | `VAL4-pagination-gap-1` | pagination | Sheet does not say how to react when `page` is out of range | same note as `VAL4-pagination-vis-1` |
 | `VAL4-navigation-menu-dx-4` | navigation-menu | `items` is attribute:false; reassigning the list in a computed() is mandatory (mutating does not update) | navigation-menu sheet: reassign `items` with a new list; mutating does not update |
 
