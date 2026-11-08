@@ -76,7 +76,7 @@ api:
 variants:
   severity:
     axis: appearance
-    choose_when: "default for every action. destructive only for the action that deletes or ends, such as Delete or Sign out: the text, the icon and the shortcut take color/destructive-on-surface."
+    choose_when: "default for every action. destructive only for the action that deletes or ends, such as Delete or Sign out: the text, the icon and the shortcut take dropdown/item-destructive-foreground."
     do_not_combine_with:
       - "destructive on a common action: the risk warning loses its meaning."
   selection:
@@ -94,11 +94,11 @@ states:
     token: "no background; text in color/popover-foreground"
     changes_for_user: "The row is quiet; the start icon is light."
   hover:
-    token: "color/primary-surface (destructive: color/destructive-surface); icon in dropdown/item-hover-icon-foreground"
+    token: "color/primary-surface; icon in dropdown/item-hover-icon-foreground. Destructive: dropdown/item-destructive-hover-background, with the label, shortcut and icon in dropdown/item-destructive-hover-foreground"
     changes_for_user: "The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color."
   focus:
-    token: "border border/width in color/primary, radius focus/border-radius-inner; halo focus/ring-width in focus/halo, radius focus/radius-inner-with-border"
-    changes_for_user: "For keyboard users, a border and a halo outside the row mark the focused item."
+    token: "border border/width in color/primary, radius dropdown/item-focus-border-radius; halo focus/ring-width in focus/halo, radius dropdown/item-focus-halo-radius"
+    changes_for_user: "For keyboard users, a border and a halo outside the row mark the focused item; the start icon turns solid."
   disabled:
     token: state/disabled-opacity
     changes_for_user: "The whole row loses opacity; it takes the focus but does not activate."
@@ -118,23 +118,23 @@ business_rules:
   - "Opening fades in and slides space/inline-tight on motion/enter-duration and motion/enter-easing; closing on motion/exit-duration and motion/exit-easing. Under reduced motion, opacity only, on motion/hover-duration."
 domain_errors: []
 tokens:
-  panel: [color/popover, color/popover-foreground, layout/input-width, radius/container, elevation/dropdown]
+  panel: [color/popover, color/popover-foreground, layout/input-width, dropdown/panel-radius, elevation/dropdown]
   panel_border: [border/width, color/dropdown-border]
   panel_padding: space/inline-tight
   trigger_distance: space/inline-tight
   header: [space/inline, text/body-md, text/caption, color/muted-foreground]
   group_label: [text/label-sm, color/muted-foreground, space/inline, space/inline-tight]
-  separator: space/inline-tight
-  item: [space/inline, radius/inner, text/body-md, color/popover-foreground]
+  separator: [dropdown/separator, space/inline-tight]
+  item: [space/inline, dropdown/item-radius, text/body-md, color/popover-foreground]
   item_compact: space/inline-tight
   icon: icon/size-md
   description: [text/caption, color/muted-foreground]
   shortcut: [text/caption, color/muted-foreground]
   counter: [color/primary-hover, color/primary-foreground, radius/full, icon/size-md, space/inline, text/label-sm]
   single_choice: [text/label-md, color/primary-hover]
-  destructive: color/destructive-on-surface
-  hover: [color/primary-surface, color/destructive-surface, dropdown/item-hover-icon-foreground]
-  focus: [border/width, color/primary, focus/border-radius-inner, focus/ring-width, focus/halo, focus/radius-inner-with-border]
+  destructive: [dropdown/item-destructive-foreground, dropdown/item-destructive-hover-foreground, dropdown/item-destructive-hover-background]
+  hover: [color/primary-surface, dropdown/item-destructive-hover-background, dropdown/item-hover-icon-foreground]
+  focus: [border/width, color/primary, dropdown/item-focus-border-radius, focus/ring-width, focus/halo, dropdown/item-focus-halo-radius]
   disabled: state/disabled-opacity
   motion: [motion/enter-duration, motion/enter-easing, motion/exit-duration, motion/exit-easing]
   motion_reduced: motion/hover-duration
@@ -157,7 +157,7 @@ accessibility:
     - "Esc closes the menu and gives the focus back to the trigger, and does not reach a dialog around it."
     - "Tab and Shift+Tab close the menu and move on from the trigger, wherever the menu sits in the DOM."
   focus: "The focus moves to the items. Keyboard only, a border of border/width in color/primary and a halo in focus/halo show outside the row; the border carries the focus (5.37:1 in light and 4.59:1 in dark), the halo is decorative. Opened by a mouse click, the first item takes the focus without showing it."
-  contrast: "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The solid icon in dropdown/item-hover-icon-foreground on color/primary-surface measures 4.78:1 in light and 6.26:1 in dark. The menu border, the separator and the halo are decorative."
+  contrast: "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The solid icon in dropdown/item-hover-icon-foreground on color/primary-surface measures 4.78:1 in light and 6.26:1 in dark. The destructive item measures at least 4.69:1 on the panel in dropdown/item-destructive-foreground, and in hover uses dropdown/item-destructive-hover-foreground on dropdown/item-destructive-hover-background. The menu border, the separator and the halo are decorative."
   color_alternative: "The destructive item is recognized by the icon of the action and by the text. Single choice shows the check; multiple choice shows the checked box; the switch shows the knob position; the tag carries text."
 invalid_combinations:
   - "switch with a selection other than none — a switch is not a choice; the item is left out."
@@ -178,7 +178,7 @@ anti_patterns:
   - "Putting a long sentence in the tag."
   - "Drawing the trigger inside the menu: it is an nph-button outside, named by for."
 sources:
-  design_md: "design.md, color/popover, color/popover-foreground, color/dropdown-border, color/primary-surface, color/destructive-surface, color/destructive-on-surface, color/primary-hover, color/primary-foreground, color/muted-foreground, dropdown/item-hover-icon-foreground, layout/input-width, radius/container, radius/inner, radius/full, elevation/dropdown, space/inline, space/inline-tight, icon/size-md, text/body-md, text/caption, text/label-sm, text/label-md, focus/*, state/disabled-opacity and motion/*"
+  design_md: "design.md, color/popover, color/popover-foreground, color/dropdown-border, color/primary-surface, color/primary-hover, color/primary-foreground, color/muted-foreground, dropdown/*, layout/input-width, radius/full, elevation/dropdown, space/inline, space/inline-tight, icon/size-md, text/body-md, text/caption, text/label-sm, text/label-md, focus/*, state/disabled-opacity and motion/*"
   decision: "P92 — API and semantics of nph-dropdown-menu, 24-10-2026"
   tests: "src/components/nph-dropdown-menu/nph-dropdown-menu.test.ts"
   usage_evidence: "no screen consumes it yet"
@@ -240,7 +240,7 @@ the box.
 | `value` | Required. What `nph-item-select` reports |
 | `text` | Required. The label, on one line, cut with an ellipsis; the accessible name |
 | `description` | Text below the label, in `text/caption` |
-| `icon` | A core name of `nph-icon`, light at `icon/size-md`; solid on hover |
+| `icon` | A core name of `nph-icon`, light at `icon/size-md`; solid on highlight (hover and focus), in every type, selection and size |
 | `avatar` | The photo of an `nph-avatar` sm; an empty string draws the person icon. Only without `icon` |
 | `severity` | `default` or `destructive` |
 | `selection` | `none`, `single` or `multiple` |
@@ -261,14 +261,17 @@ the box.
 | State | Token | What changes for the person |
 |---|---|---|
 | Rest | no background; text in `color/popover-foreground` | The row is quiet; the start icon is light |
-| Hover | `color/primary-surface` (destructive: `color/destructive-surface`); icon in `dropdown/item-hover-icon-foreground` | The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color |
-| Focus | border `border/width` in `color/primary`, radius `focus/border-radius-inner`; halo `focus/ring-width` in `focus/halo`, radius `focus/radius-inner-with-border` | For keyboard users, a border and a halo outside the row |
+| Hover | `color/primary-surface`; icon in `dropdown/item-hover-icon-foreground`. Destructive: `dropdown/item-destructive-hover-background`, with the label, shortcut and icon in `dropdown/item-destructive-hover-foreground` | The row takes the surface; the start icon and the submenu arrow turn solid; the label keeps its color |
+| Focus | border `border/width` in `color/primary`, radius `dropdown/item-focus-border-radius`; halo `focus/ring-width` in `focus/halo`, radius `dropdown/item-focus-halo-radius` | For keyboard users, a border and a halo outside the row; the start icon turns solid |
 | Disabled | `state/disabled-opacity` | The whole row loses opacity; it takes the focus but does not activate |
 | Loading | `nph-spinner` sm at the end | The spinner takes the end; the item is busy and does not activate |
 
 **Feedback and focus:** focus appears only for keyboard users and **is not removed**. The
-destructive item hovers in `color/destructive-surface` and keeps its light icon in
-`color/destructive-on-surface`.
+start icon is light at rest and when disabled, and solid on highlight (hover and focus), in every
+type, selection and size. The destructive item rests in `dropdown/item-destructive-foreground`
+(also in focus and disabled) and hovers in `dropdown/item-destructive-hover-background`, with the
+label, shortcut and solid icon in `dropdown/item-destructive-hover-foreground`. The compact size
+takes the destructive item with the color change only.
 
 **Business rule the piece carries:**
 
@@ -294,7 +297,7 @@ destructive item hovers in `color/destructive-surface` and keeps its light icon 
 | Accessible name | The menu: `label`, or the trigger. The item: its `text`; the description, the tag, the counter and the shortcut describe it, in that order. Support icons are not read |
 | Keyboard | The menu button pattern of the APG: on the trigger, Enter, Space and ↓ open on the first item, ↑ on the last; in the menu, ↑ ↓ with wrap, Home, End, a typed character, Enter and Space activate, Esc closes and gives the focus back, Tab and Shift+Tab close and move on from the trigger |
 | Focus | The `color/primary` border carries the focus, 5.37:1 in light and 4.59:1 in dark; the halo is decorative |
-| Contrast | The item text passes AA on `color/popover` and on `color/primary-surface`. The solid icon on hover measures 4.78:1 in light and 6.26:1 in dark |
+| Contrast | The item text passes AA on `color/popover` and on `color/primary-surface`. The solid icon on hover measures 4.78:1 in light and 6.26:1 in dark; the destructive item measures at least 4.69:1 in `dropdown/item-destructive-foreground` |
 | Alternative to color | The destructive item has the icon of the action; single choice shows the check; multiple choice the checked box; the switch the knob position; the tag carries text |
 | Touch target | The whole row, above 24 by 24 in every size |
 | Known limits | On item hover, the inner box and track do not take their own hover (D-3). `aria-haspopup` and `aria-expanded` on an `nph-button` do not reach its inner button. A nested menu is out of scope. A forced-colors mode is not handled. When the panel scrolls, the halo of a focused item is cut by 1 px on the sides. An `nph-button` that goes into `loading` while the menu is open does not close it by a press. A trigger clipped by a scrolling ancestor, still inside the window, keeps the menu drawn |
@@ -318,19 +321,19 @@ destructive item hovers in `color/destructive-surface` and keeps its light icon 
 
 | Part | Token |
 |---|---|
-| Panel | `color/popover`, `layout/input-width`, `radius/container`, `elevation/dropdown`, padding `space/inline-tight` |
+| Panel | `color/popover`, `layout/input-width`, `dropdown/panel-radius`, `elevation/dropdown`, padding `space/inline-tight` |
 | Panel border | `border/width` in `color/dropdown-border`, only on this menu |
 | Distance to the trigger | `space/inline-tight` |
 | Profile header | `nph-avatar` md, `space/inline` around and between; name in `text/body-md`, status in `text/caption` and `color/muted-foreground` |
 | Group label | `text/label-sm` in `color/muted-foreground`, `space/inline` on the sides, `space/inline-tight` above and below |
-| Separator | `nph-separator`, `space/inline-tight` above and below |
-| Item | `space/inline` padding and gap (`space/inline-tight` above and below in compact), `radius/inner`, `text/body-md` in `color/popover-foreground` |
+| Separator | `nph-separator` in `dropdown/separator`, `space/inline-tight` above and below |
+| Item | `space/inline` padding and gap (`space/inline-tight` above and below in compact), `dropdown/item-radius`, `text/body-md` in `color/popover-foreground` |
 | Description and shortcut | `text/caption` in `color/muted-foreground` |
 | Counter | `color/primary-hover`, `radius/full`, height `icon/size-md`, `space/inline` on the sides; number in `text/label-sm` and `color/primary-foreground` |
 | Single choice | `text/label-md` in `color/primary-hover`; check solid at `icon/size-sm` |
-| Destructive | `color/destructive-on-surface` |
-| Hover | `color/primary-surface`, `color/destructive-surface`, `dropdown/item-hover-icon-foreground` |
-| Focus | `border/width`, `color/primary`, `focus/border-radius-inner`, `focus/ring-width`, `focus/halo`, `focus/radius-inner-with-border` |
+| Destructive | `dropdown/item-destructive-foreground`; hover `dropdown/item-destructive-hover-foreground` on `dropdown/item-destructive-hover-background` |
+| Hover | `color/primary-surface`, `dropdown/item-destructive-hover-background`, `dropdown/item-hover-icon-foreground` |
+| Focus | `border/width`, `color/primary`, `dropdown/item-focus-border-radius`, `focus/ring-width`, `focus/halo`, `dropdown/item-focus-halo-radius` |
 | Disabled | `state/disabled-opacity` |
 | Motion | `motion/enter-*` and `motion/exit-*`; `motion/hover-duration` under reduced motion |
 
@@ -370,14 +373,15 @@ Unread, or a list of options with a tag, a switch and a destructive Delete.
 - **Do not draw the trigger inside the menu** — it is an `nph-button` outside, named by `for`.
 - **Invalid combinations:** a switch with a selection; a submenu with a switch or a
   selection; an item without `value` or `text`; `for` empty or matching nothing.
-- **Do not create without a decision:** a nested menu, an item with a link, a size per item
-  or a context menu.
+- **Do not create without a decision:** a nested menu, an item with a link or a size per item.
+  The menu of the right click is `nph-context-menu`, a piece of its own that shares the look of
+  this one.
 
 ## Sources and decisions
 
-- **The repository `design.md`:** the tokens of the table above, with `color/dropdown-border`,
-  `dropdown/item-hover-icon-foreground`, `focus/border-radius-inner` and
-  `focus/radius-inner-with-border`, taken with this piece.
+- **The repository `design.md`:** the tokens of the table above, with `color/dropdown-border`
+  (which resolves to `color/border-subtle`) and the `dropdown/*` tokens, taken with this piece and
+  with DSA-69.
 - **The decision that originated it:** P92, of 24-10-2026. The board was accepted by Indiane
   on 21-10-2026, with the solid icon rule of the same day.
 - **Tests:** `src/components/nph-dropdown-menu/nph-dropdown-menu.test.ts`.

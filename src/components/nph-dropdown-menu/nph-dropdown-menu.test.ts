@@ -623,11 +623,11 @@ describe('focus visibility', () => {
     const halo = getComputedStyle(item, '::after');
     expect(border.borderTopColor).toBe(resolved('color', '--nph-color-primary'));
     expect(Number.parseFloat(border.borderTopWidth)).toBeCloseTo(px('--nph-border-width'), 1);
-    expect(border.borderTopLeftRadius).toBe(resolved('border-radius', '--nph-focus-border-radius-inner'));
+    expect(border.borderTopLeftRadius).toBe(resolved('border-radius', '--nph-dropdown-item-focus-border-radius'));
     expect(Number.parseFloat(border.top)).toBeCloseTo(-px('--nph-border-width'), 1);
     expect(halo.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
     expect(Number.parseFloat(halo.borderTopWidth)).toBeCloseTo(px('--nph-focus-ring-width'), 1);
-    expect(halo.borderTopLeftRadius).toBe(resolved('border-radius', '--nph-focus-radius-inner-with-border'));
+    expect(halo.borderTopLeftRadius).toBe(resolved('border-radius', '--nph-dropdown-item-focus-halo-radius'));
     expect(Number.parseFloat(halo.top)).toBeCloseTo(-(px('--nph-border-width') + px('--nph-focus-ring-width')), 1);
   });
 });
@@ -990,13 +990,13 @@ describe('anatomy, measures and colors', () => {
     return menu;
   }
 
-  it('the panel: color/popover, color/dropdown-border, radius/container, elevation/dropdown, layout/input-width and space/inline-tight', async () => {
+  it('the panel: color/popover, color/dropdown-border, dropdown/panel-radius, elevation/dropdown, layout/input-width and space/inline-tight', async () => {
     const menu = await openMenu();
     const style = getComputedStyle(panel(menu));
     expect(style.backgroundColor).toBe(resolved('background-color', '--nph-color-popover'));
     expect(style.borderTopColor).toBe(resolved('color', '--nph-color-dropdown-border'));
     expect(Number.parseFloat(style.borderTopWidth)).toBeCloseTo(px('--nph-border-width'), 1);
-    expect(style.borderTopLeftRadius).toBe(resolved('border-radius', '--nph-radius-container'));
+    expect(style.borderTopLeftRadius).toBe(resolved('border-radius', '--nph-dropdown-panel-radius'));
     expect(style.boxShadow).toBe(resolved('box-shadow', '--nph-elevation-dropdown'));
     expect(panel(menu).getBoundingClientRect().width).toBeCloseTo(px('--nph-layout-input-width'), 0);
     expect(Number.parseFloat(style.paddingTop)).toBeCloseTo(px('--nph-space-inline-tight'), 1);
@@ -1068,11 +1068,11 @@ describe('anatomy, measures and colors', () => {
     expect(itemOf(menu, 'a').getBoundingClientRect().height).toBeCloseTo(md + 2 * tight, 0);
   });
 
-  it('the item: radius/inner, no background at rest, text/body-md in color/popover-foreground, cut with an ellipsis', async () => {
+  it('the item: dropdown/item-radius, no background at rest, text/body-md in color/popover-foreground, cut with an ellipsis', async () => {
     const menu = await openMenu([{ value: 'a', text: 'A very long label that does not fit in the width of the menu at all', icon: 'pen' }]);
     const item = itemOf(menu, 'a');
     const style = getComputedStyle(item);
-    expect(style.borderTopLeftRadius).toBe(resolved('border-radius', '--nph-radius-inner'));
+    expect(style.borderTopLeftRadius).toBe(resolved('border-radius', '--nph-dropdown-item-radius'));
     expect(style.backgroundColor).toBe('rgba(0, 0, 0, 0)');
     const text = item.querySelector('.text') as HTMLElement;
     expect(getComputedStyle(text).color).toBe(resolved('color', '--nph-color-popover-foreground'));
@@ -1100,20 +1100,99 @@ describe('anatomy, measures and colors', () => {
       expect(getComputedStyle(item.querySelector('.text') as HTMLElement).color).toBe(resolved('color', '--nph-color-popover-foreground'));
     });
 
-    it(`${scheme}: the destructive item is color/destructive-on-surface and hovers in color/destructive-surface, with no solid swap`, async () => {
+    it(`${scheme}: the destructive item is dropdown/item-destructive-foreground and hovers in dropdown/item-destructive-hover-*, with the solid icon`, async () => {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
       const menu = await openMenu([{ value: 'delete', text: 'Delete', icon: 'trash', severity: 'destructive', shortcut: 'Del' }]);
       const item = itemOf(menu, 'delete');
-      const destructive = resolved('color', '--nph-color-destructive-on-surface');
-      expect(getComputedStyle(item.querySelector('.text') as HTMLElement).color).toBe(destructive);
-      expect(getComputedStyle(item.querySelector('.shortcut') as HTMLElement).color).toBe(destructive);
+      const destructive = resolved('color', '--nph-dropdown-item-destructive-foreground');
+      const text = item.querySelector('.text') as HTMLElement;
+      const shortcut = item.querySelector('.shortcut') as HTMLElement;
+      const restIcon = item.querySelector('.glyph-rest') as HTMLElement;
+      expect(getComputedStyle(text).color).toBe(destructive);
+      expect(getComputedStyle(shortcut).color).toBe(destructive);
+      expect(getComputedStyle(restIcon).color).toBe(destructive);
+      expect(getComputedStyle(restIcon).display).not.toBe('none');
       await userEvent.hover(item);
-      expect(getComputedStyle(item).backgroundColor).toBe(resolved('background-color', '--nph-color-destructive-surface'));
-      const solid = [...item.querySelectorAll('nph-icon[variant="solid"]')].filter((icon) => getComputedStyle(icon).display !== 'none');
-      expect(solid).toHaveLength(0);
-      expect(getComputedStyle(item.querySelector('.glyph-rest') as HTMLElement).color).toBe(destructive);
+      const hoverColor = resolved('color', '--nph-dropdown-item-destructive-hover-foreground');
+      expect(getComputedStyle(item).backgroundColor).toBe(resolved('background-color', '--nph-dropdown-item-destructive-hover-background'));
+      expect(getComputedStyle(text).color).toBe(hoverColor);
+      expect(getComputedStyle(shortcut).color).toBe(hoverColor);
+      const hoverIcon = item.querySelector('.glyph-hover') as HTMLElement;
+      expect(getComputedStyle(hoverIcon).display).not.toBe('none');
+      expect(getComputedStyle(restIcon).display).toBe('none');
+      expect(getComputedStyle(hoverIcon).color).toBe(hoverColor);
+    });
+
+    it(`${scheme}: the destructive item in focus keeps dropdown/item-destructive-foreground with the solid icon`, async () => {
+      document.documentElement.setAttribute('data-nph-color-scheme', scheme);
+      const { menu, trigger } = await mount([{ value: 'delete', text: 'Delete', icon: 'trash', severity: 'destructive', shortcut: 'Del' }]);
+      trigger.focus();
+      await userEvent.keyboard('{Enter}');
+      await settle(menu);
+      const item = itemOf(menu, 'delete');
+      expect(item.matches(':focus-visible')).toBe(true);
+      const destructive = resolved('color', '--nph-dropdown-item-destructive-foreground');
+      expect(getComputedStyle(item.querySelector('.text') as HTMLElement).color).toBe(destructive);
+      expect(getComputedStyle(item).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+      const solid = item.querySelector('.glyph-hover') as HTMLElement;
+      expect(getComputedStyle(solid).display).not.toBe('none');
+      expect(getComputedStyle(item.querySelector('.glyph-rest') as HTMLElement).display).toBe('none');
+      expect(getComputedStyle(solid).color).toBe(destructive);
     });
   }
+
+  it('a disabled destructive item stays in dropdown/item-destructive-foreground with the light icon, also when hovered or focused', async () => {
+    const menu = await openMenu([{ value: 'delete', text: 'Delete', icon: 'trash', severity: 'destructive', disabled: true }]);
+    const item = itemOf(menu, 'delete');
+    const destructive = resolved('color', '--nph-dropdown-item-destructive-foreground');
+    await userEvent.hover(item, { force: true });
+    expect(getComputedStyle(item.querySelector('.text') as HTMLElement).color).toBe(destructive);
+    expect(getComputedStyle(item).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+    expect(getComputedStyle(item.querySelector('.glyph-hover') as HTMLElement).display).toBe('none');
+    expect(getComputedStyle(item.querySelector('.glyph-rest') as HTMLElement).display).not.toBe('none');
+  });
+
+  it('the start icon turns solid on hover and on focus in every type, selection and size, and stays light at rest and disabled', async () => {
+    const entries: NphDropdownMenuEntry[] = [
+      { value: 'plain', text: 'Plain', icon: 'pen' },
+      { value: 'single', text: 'Single', icon: 'list', selection: 'single', checked: true },
+      { value: 'multiple', text: 'Multiple', icon: 'filter', selection: 'multiple' },
+      { value: 'off', text: 'Off', icon: 'gear', disabled: true },
+    ];
+    for (const size of ['default', 'compact'] as const) {
+      const menu = await openMenu(entries, { size });
+      const light = (value: string) => getComputedStyle(itemOf(menu, value).querySelector('.glyph-rest') as HTMLElement).display !== 'none';
+      for (const value of ['plain', 'single', 'multiple', 'off']) {
+        expect(light(value), `${size} ${value} at rest`).toBe(true);
+      }
+      for (const value of ['plain', 'single', 'multiple']) {
+        await userEvent.hover(itemOf(menu, value));
+        expect(light(value), `${size} ${value} hover`).toBe(false);
+        await userEvent.unhover(itemOf(menu, value));
+      }
+      await userEvent.hover(itemOf(menu, 'off'), { force: true });
+      expect(light('off'), `${size} disabled hover`).toBe(true);
+      document.body.replaceChildren();
+    }
+  });
+
+  it('a compact destructive item has the same colors, with the 28 px row of the compact size', async () => {
+    const menu = await openMenu([{ value: 'delete', text: 'Delete', icon: 'trash', severity: 'destructive' }], { size: 'compact' });
+    const item = itemOf(menu, 'delete');
+    const md = px('--nph-icon-size-md');
+    const tight = px('--nph-space-inline-tight');
+    expect(item.getBoundingClientRect().height).toBeCloseTo(md + 2 * tight, 0);
+    expect(getComputedStyle(item.querySelector('.text') as HTMLElement).color).toBe(resolved('color', '--nph-dropdown-item-destructive-foreground'));
+    await userEvent.hover(item);
+    expect(getComputedStyle(item).backgroundColor).toBe(resolved('background-color', '--nph-dropdown-item-destructive-hover-background'));
+    expect(getComputedStyle(item.querySelector('.text') as HTMLElement).color).toBe(resolved('color', '--nph-dropdown-item-destructive-hover-foreground'));
+  });
+
+  it('the separator line is dropdown/separator', async () => {
+    const menu = await openMenu();
+    const separator = menu.shadowRoot?.querySelector('.separator') as HTMLElement;
+    expect(getComputedStyle(separator).backgroundColor).toBe(resolved('background-color', '--nph-dropdown-separator'));
+  });
 
   it('a disabled item: state/disabled-opacity on the whole row, and no hover', async () => {
     const menu = await openMenu([{ value: 'off', text: 'Off', icon: 'pen', disabled: true }]);
@@ -1280,11 +1359,22 @@ describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
   const used = new Set([...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1] ?? ''));
 
-  it('every custom property in the CSS exists in tokens.css, including the four of this task', () => {
+  it('every custom property in the CSS exists in tokens.css, including the eight dropdown tokens of DSA-69', () => {
     for (const name of used) {
       expect(tokensCss, name).toContain(`${name}:`);
     }
-    for (const name of ['--nph-color-dropdown-border', '--nph-focus-border-radius-inner', '--nph-focus-radius-inner-with-border', '--nph-dropdown-item-hover-icon-foreground']) {
+    for (const name of [
+      '--nph-color-dropdown-border',
+      '--nph-dropdown-panel-radius',
+      '--nph-dropdown-item-radius',
+      '--nph-dropdown-item-focus-border-radius',
+      '--nph-dropdown-item-focus-halo-radius',
+      '--nph-dropdown-separator',
+      '--nph-dropdown-item-destructive-foreground',
+      '--nph-dropdown-item-destructive-hover-foreground',
+      '--nph-dropdown-item-destructive-hover-background',
+      '--nph-dropdown-item-hover-icon-foreground',
+    ]) {
       expect(used, name).toContain(name);
     }
   });

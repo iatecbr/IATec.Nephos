@@ -1,0 +1,286 @@
+/**
+ * Internal style of `nph-context-menu`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token
+ * custom properties consumed here. The context menu has no token of its own: the panel, the
+ * item, the group label and the separator take the `dropdown/*` tokens of `nph-dropdown-menu`
+ * (DSA-69), and this file is a replica of that item with the same tokens (P113).
+ *
+ * No literal design value goes in here. Written box relations and resets: `0`, `1`, `auto` and
+ * `none` (box and flex relations, and the resets of the browser's `[popover]` style),
+ * `ellipsis` and `nowrap` (the label on one line), `calc(-1 * ...)` (the focus border and the
+ * halo outside the item, without changing its size; the slide of the panel), `-1 1` (the
+ * submenu arrow mirrored in right-to-left) and `z-index: 1` (the focused item paints its halo
+ * over its neighbors). The heights of the row come from its content: `icon/size-md` plus
+ * `space/inline` above and below is 36, the compact padding gives 28, and the 24 touch area of
+ * the `nph-checkbox` gives 40.
+ */
+
+/* The host takes no room in the flow: the panels live in the top layer. */
+:host {
+  position: absolute;
+  inline-size: 0;
+  block-size: 0;
+  overflow: visible;
+}
+
+/*
+ * A panel is a `popover`, so it sits in the top layer: no `z-index` and no clipping by an
+ * ancestor. The resets undo the browser's `[popover]` style: `inset`, `margin: auto`, the
+ * padding, the color and the overflow. JavaScript sets `top` and `left`, and the maximum
+ * height and the scroll only when the menu is taller than the window (P113).
+ */
+.panel {
+  position: fixed;
+  inset: auto;
+  box-sizing: border-box;
+  inline-size: var(--nph-layout-input-width);
+  margin: 0;
+  padding: var(--nph-space-inline-tight);
+  overflow: visible;
+  border: var(--nph-border-width) solid var(--nph-color-dropdown-border);
+  border-radius: var(--nph-dropdown-panel-radius);
+  background-color: var(--nph-color-popover);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-color-popover-foreground);
+  text-align: start;
+  /* Leaving: the exit role. */
+  opacity: 0;
+  translate: 0 calc(-1 * var(--nph-space-inline-tight));
+  transition-property: opacity, translate;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/* Entering: the enter role, faded in and slid `space/inline-tight` into place. */
+.panel[data-open] {
+  opacity: 1;
+  translate: none;
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+/* While it leaves, the panel takes no focus and no click. */
+.panel:not([data-open]) {
+  pointer-events: none;
+}
+
+/* The separator: the `nph-separator` line in `dropdown/separator`, `space/inline-tight` above and below. */
+.separator {
+  --nph-color-border: var(--nph-dropdown-separator);
+  display: block;
+  margin-block: var(--nph-space-inline-tight);
+}
+
+/* One line, cut with an ellipsis: a long label never leaves the panel. */
+.text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--nph-color-popover-foreground);
+  font-family: var(--nph-text-body-md-font-family);
+  font-size: var(--nph-text-body-md-font-size);
+  font-weight: var(--nph-text-body-md-font-weight);
+  line-height: var(--nph-text-body-md-line-height);
+  letter-spacing: var(--nph-text-body-md-letter-spacing);
+}
+
+.shortcut {
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+  white-space: nowrap;
+}
+
+/* Group label: `text/label-sm` in `color/muted-foreground`; `space/inline` on the sides, `space/inline-tight` above and below. */
+.group-label {
+  padding-block: var(--nph-space-inline-tight);
+  padding-inline: var(--nph-space-inline);
+  color: var(--nph-color-muted-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+/* The item: padding and gap `space/inline`, `dropdown/item-radius`, no background at rest. */
+.item {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--nph-space-inline);
+  padding: var(--nph-space-inline);
+  border-radius: var(--nph-dropdown-item-radius);
+  color: var(--nph-color-popover-foreground);
+  outline: none;
+  cursor: default;
+}
+
+/* Compact: `space/inline-tight` on top and bottom. */
+:host([size='compact']) .item {
+  padding-block: var(--nph-space-inline-tight);
+}
+
+.icon,
+.checkbox {
+  flex: none;
+}
+
+.texts {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+/* The end: the shortcut, the submenu arrow or the check. */
+.end {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--nph-space-inline);
+}
+
+.end:empty {
+  display: none;
+}
+
+/* The submenu arrow points to the right; in right-to-left it is mirrored. */
+:host(:dir(rtl)) .arrow {
+  scale: -1 1;
+}
+
+/* The solid twin of an icon shows only on highlight. */
+.glyph-hover {
+  display: none;
+}
+
+/* Single choice, checked: `text/label-md` in `color/primary-hover`, on the text and the icon. */
+.item[data-selection='single'][data-checked] .text {
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+.item[data-selection='single'][data-checked],
+.item[data-selection='single'][data-checked] .text {
+  color: var(--nph-color-primary-hover);
+}
+
+/* Destructive: text, icon and shortcut in `dropdown/item-destructive-foreground`, at rest, in focus and disabled. */
+.item[data-severity='destructive'],
+.item[data-severity='destructive'] .text,
+.item[data-severity='destructive'] .shortcut {
+  color: var(--nph-dropdown-item-destructive-foreground);
+}
+
+/* A checked single choice that is destructive keeps the destructive color: the choice only adds the check and `text/label-md`. */
+.item[data-severity='destructive'][data-selection='single'][data-checked],
+.item[data-severity='destructive'][data-selection='single'][data-checked] .text,
+.item[data-severity='destructive'][data-selection='single'][data-checked] .shortcut {
+  color: var(--nph-dropdown-item-destructive-foreground);
+}
+
+/*
+ * Highlight: hover, visible focus and the item whose submenu is open. Hover and the open submenu
+ * paint `color/primary-surface`, the label unchanged; destructive paints
+ * `dropdown/item-destructive-hover-background`, with the label, shortcut and icon in
+ * `dropdown/item-destructive-hover-foreground`.
+ */
+.item:not([aria-disabled]):hover,
+.item:not([aria-disabled])[aria-expanded='true'] {
+  background-color: var(--nph-color-primary-surface);
+}
+
+.item[data-severity='destructive']:not([aria-disabled]):hover,
+.item[data-severity='destructive']:not([aria-disabled])[aria-expanded='true'] {
+  background-color: var(--nph-dropdown-item-destructive-hover-background);
+}
+
+.item[data-severity='destructive']:not([aria-disabled]):hover,
+.item[data-severity='destructive']:not([aria-disabled]):hover .text,
+.item[data-severity='destructive']:not([aria-disabled]):hover .shortcut,
+.item[data-severity='destructive']:not([aria-disabled])[aria-expanded='true'],
+.item[data-severity='destructive']:not([aria-disabled])[aria-expanded='true'] .text,
+.item[data-severity='destructive']:not([aria-disabled])[aria-expanded='true'] .shortcut {
+  color: var(--nph-dropdown-item-destructive-hover-foreground);
+}
+
+/*
+ * The start icon and the submenu arrow turn solid on highlight, in every type, selection and
+ * size; light at rest and when disabled. Only the default type changes the icon color on hover
+ * and with the submenu open, to `dropdown/item-hover-icon-foreground`: focus and the destructive
+ * item keep the color they have.
+ */
+.item:not([aria-disabled]):hover .glyph-rest,
+.item:not([aria-disabled]):focus-visible .glyph-rest,
+.item:not([aria-disabled])[aria-expanded='true'] .glyph-rest {
+  display: none;
+}
+
+.item:not([aria-disabled]):hover .glyph-hover,
+.item:not([aria-disabled]):focus-visible .glyph-hover,
+.item:not([aria-disabled])[aria-expanded='true'] .glyph-hover {
+  display: inline-flex;
+}
+
+.item[data-severity='default']:not([aria-disabled]):hover .glyph-hover,
+.item[data-severity='default']:not([aria-disabled])[aria-expanded='true'] .glyph-hover {
+  color: var(--nph-dropdown-item-hover-icon-foreground);
+}
+
+/* Disabled: `state/disabled-opacity` on the whole item. */
+.item[data-disabled] {
+  opacity: var(--nph-state-disabled-opacity);
+}
+
+/*
+ * Focus, keyboard only: two layers outside the item box. The border `border/width` in
+ * `color/primary`, radius `dropdown/item-focus-border-radius`; the halo `focus/ring-width` in
+ * `focus/halo`, radius `dropdown/item-focus-halo-radius`.
+ */
+.item:focus-visible {
+  z-index: 1;
+}
+
+.item:focus-visible::before,
+.item:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.item:focus-visible::before {
+  inset: calc(-1 * var(--nph-border-width));
+  border: var(--nph-border-width) solid var(--nph-color-primary);
+  border-radius: var(--nph-dropdown-item-focus-border-radius);
+}
+
+.item:focus-visible::after {
+  inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
+  border-radius: var(--nph-dropdown-item-focus-halo-radius);
+}
+
+/*
+ * Reduced motion: opacity only, and the duration of `design.md` 2g, 100 ms, through the
+ * semantic alias `motion/hover-duration`, as in `nph-dropdown-menu`.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    translate: none;
+  }
+
+  .panel,
+  .panel[data-open] {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+}

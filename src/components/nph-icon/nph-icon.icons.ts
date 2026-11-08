@@ -24,6 +24,8 @@ import { faChevronLeft as lChevronLeft } from '@fortawesome/pro-light-svg-icons/
 import { faChevronLeft as sChevronLeft } from '@fortawesome/pro-solid-svg-icons/faChevronLeft';
 import { faArrowLeft as lArrowLeft } from '@fortawesome/pro-light-svg-icons/faArrowLeft';
 import { faArrowLeft as sArrowLeft } from '@fortawesome/pro-solid-svg-icons/faArrowLeft';
+import { faArrowPointer as lArrowPointer } from '@fortawesome/pro-light-svg-icons/faArrowPointer';
+import { faArrowPointer as sArrowPointer } from '@fortawesome/pro-solid-svg-icons/faArrowPointer';
 import { faArrowRight as lArrowRight } from '@fortawesome/pro-light-svg-icons/faArrowRight';
 import { faArrowRight as sArrowRight } from '@fortawesome/pro-solid-svg-icons/faArrowRight';
 import { faEye as lEye } from '@fortawesome/pro-light-svg-icons/faEye';
@@ -227,6 +229,7 @@ export const NPH_ICON_NAMES = [
   'chevron-left',
   'arrow-left',
   'arrow-right',
+  'arrow-pointer',
   'eye',
   'eye-slash',
   'ellipsis',
@@ -354,6 +357,7 @@ const GLYPHS = {
   'chevron-left': glyph(lChevronLeft, sChevronLeft),
   'arrow-left': glyph(lArrowLeft, sArrowLeft),
   'arrow-right': glyph(lArrowRight, sArrowRight),
+  'arrow-pointer': glyph(lArrowPointer, sArrowPointer),
   eye: glyph(lEye, sEye),
   'eye-slash': glyph(lEyeSlash, sEyeSlash),
   ellipsis: glyph(lEllipsis, sEllipsis),
