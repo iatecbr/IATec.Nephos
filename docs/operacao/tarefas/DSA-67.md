@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 660,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-popover",
   "dependencies": [
     "DSA-03",
@@ -28,11 +28,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 6a1ef8901df8c813ab17336e73a5334411956ec1 origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-67/review-and-merge-2026-11-07.md",
+      "result": "passed",
+      "verified_at": "2026-11-07",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -63,7 +63,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-67/figma-docs-accepted-2026-11-06.md"
+    "docs/operacao/evidencias/DSA-67/figma-docs-accepted-2026-11-06.md",
+    "docs/operacao/evidencias/DSA-67/review-and-merge-2026-11-07.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -77,9 +78,9 @@
     "excerpt": null,
     "converted_decision": "The nph-popover documentation frame (4749:5857, page 1626:23) was accepted as the API and behavior specification of nph-popover. Component set: nph-popover (4727:1544), 15 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-67-popover", "commit": null, "pr": 155 },
-  "context": "docs/operacao/contextos/DSA-67.md",
-  "updated_at": "2026-11-06"
+  "git_review": { "branch": "feat/dsa-67-popover", "commit": "6a1ef8901df8c813ab17336e73a5334411956ec1", "pr": 155 },
+  "context": null,
+  "updated_at": "2026-11-07"
 }
 ```
 
