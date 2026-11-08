@@ -1,0 +1,253 @@
+/**
+ * Internal style of `nph-hover-card`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom
+ * properties this file consumes: the `hover-card/*` ones, `elevation/dropdown`, the typography
+ * roles of the parts and the global tokens of the focus ring of the link (`focus/ring-width`,
+ * `focus/border-radius-inner` and `focus/radius-inner-with-border`). The component exposes no
+ * `::part` and declares no custom property of its own beyond the private `--_gap`.
+ *
+ * No literal design value goes in here. The keywords below (`inline`, `inline-block`, `fixed`,
+ * `auto`, `visible`, `none`, `underline`, `0`, `manual`) are layout relations and resets of the
+ * browser's `[popover]` style, not visual decisions.
+ */
+
+/* The host sits in the flow of a sentence, like the link it holds. */
+:host {
+  display: inline;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+/*
+ * The trigger: a text link in `color/primary`, underlined, `text/label-md`, 20 tall (the line
+ * height of the role). It is `inline-block` so the box of its focus layers is the box of its text.
+ */
+.link {
+  position: relative;
+  display: inline-block;
+  border-radius: var(--nph-radius-inner);
+  color: var(--nph-color-primary);
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+  text-decoration: underline;
+  outline: none;
+}
+
+/*
+ * Focus, keyboard only: two layers outside the box, as on `nph-button`. The border
+ * `hover-card/border-width` in `hover-card/focus-border`, radius `focus/border-radius-inner`; the
+ * halo `focus/ring-width` in `hover-card/focus-halo`, radius `focus/radius-inner-with-border`.
+ */
+.link:focus-visible::before,
+.link:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.link:focus-visible::before {
+  inset: calc(-1 * var(--nph-hover-card-border-width));
+  border: var(--nph-hover-card-border-width) solid var(--nph-hover-card-focus-border);
+  border-radius: var(--nph-focus-border-radius-inner);
+}
+
+.link:focus-visible::after {
+  inset: calc(-1 * (var(--nph-hover-card-border-width) + var(--nph-focus-ring-width)));
+  border: var(--nph-focus-ring-width) solid var(--nph-hover-card-focus-halo);
+  border-radius: var(--nph-focus-radius-inner-with-border);
+}
+
+/*
+ * The card is a `popover`, so it sits in the top layer: no `z-index` and no clipping by an
+ * ancestor. The resets below undo the browser's `[popover]` style: `margin: auto` (it centers the
+ * popover), `overflow: auto` (it would scroll a long text: the card never cuts) and a background
+ * and color of its own. JavaScript sets `top` and `left`.
+ *
+ * The distance to the link is `--_gap`, a margin on the side that faces it (physical sides, like
+ * `side` itself): the margin box is what JavaScript places, so the border box ends up that far
+ * from the link. With the arrow the card sits `offset + arrow-height - border-width` away: the
+ * arrow overlaps the card by the width of its border, and its tip is `offset` from the link.
+ */
+.card {
+  --_gap: var(--nph-hover-card-offset);
+  position: fixed;
+  inset: auto;
+  box-sizing: border-box;
+  inline-size: var(--nph-hover-card-width);
+  max-inline-size: 100%;
+  margin: 0;
+  padding: var(--nph-hover-card-padding);
+  overflow: visible;
+  border: var(--nph-hover-card-border-width) solid var(--nph-hover-card-border);
+  border-radius: var(--nph-hover-card-radius);
+  background-color: var(--nph-hover-card-background);
+  box-shadow: var(--nph-elevation-dropdown);
+  color: var(--nph-hover-card-foreground);
+  /* Leaving: the exit role. Only opacity moves (design.md: animate opacity and transform). */
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: var(--nph-hover-card-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/*
+ * `display` is set only while the card is in the top layer: a `display` on the class itself would
+ * beat the `display: none` of the browser for a closed `[popover]`, and the closed card would stay in
+ * the layout and in the accessibility tree.
+ */
+.card:popover-open {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-hover-card-gap);
+}
+
+:host([arrow]) .card {
+  --_gap: calc(var(--nph-hover-card-offset) + var(--nph-hover-card-arrow-height) - var(--nph-hover-card-border-width));
+}
+
+/* Entering: the enter role. */
+.card[data-open] {
+  opacity: 1;
+  transition-duration: var(--nph-hover-card-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+.card[data-side='top'] {
+  margin-bottom: var(--_gap);
+}
+
+.card[data-side='bottom'] {
+  margin-top: var(--_gap);
+}
+
+.card[data-side='left'] {
+  margin-right: var(--_gap);
+}
+
+.card[data-side='right'] {
+  margin-left: var(--_gap);
+}
+
+/* Measures `arrow-inset` (width) and `arrow-width` (height) in pixels for the placement; never seen. */
+.probe {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  inline-size: var(--nph-hover-card-arrow-inset);
+  block-size: var(--nph-hover-card-arrow-width);
+}
+
+/* The slot `media`: an avatar, an image or a badge. It takes no room until something is in it. */
+.media[hidden] {
+  display: none;
+}
+
+.heading {
+  font-family: var(--nph-text-label-lg-font-family);
+  font-size: var(--nph-text-label-lg-font-size);
+  font-weight: var(--nph-text-label-lg-font-weight);
+  line-height: var(--nph-text-label-lg-line-height);
+  letter-spacing: var(--nph-text-label-lg-letter-spacing);
+  color: var(--nph-hover-card-foreground);
+  overflow-wrap: break-word;
+}
+
+.description {
+  font-family: var(--nph-text-body-sm-font-family);
+  font-size: var(--nph-text-body-sm-font-size);
+  font-weight: var(--nph-text-body-sm-font-weight);
+  line-height: var(--nph-text-body-sm-line-height);
+  letter-spacing: var(--nph-text-body-sm-letter-spacing);
+  color: var(--nph-hover-card-description-foreground);
+  overflow-wrap: break-word;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-hover-card-meta-gap);
+  font-family: var(--nph-text-caption-font-family);
+  font-size: var(--nph-text-caption-font-size);
+  font-weight: var(--nph-text-caption-font-weight);
+  line-height: var(--nph-text-caption-line-height);
+  letter-spacing: var(--nph-text-caption-letter-spacing);
+  color: var(--nph-hover-card-meta-foreground);
+}
+
+.meta-icon {
+  flex: none;
+  inline-size: var(--nph-hover-card-icon-size);
+  block-size: var(--nph-hover-card-icon-size);
+  color: var(--nph-hover-card-meta-icon-foreground);
+}
+
+.meta-text {
+  /* A flex item keeps a content-based minimum: without this, a long unbroken word would overflow. */
+  min-inline-size: 0;
+  overflow-wrap: break-word;
+}
+
+/*
+ * The arrow: `arrow-width` x `arrow-height`, on the edge of the card that faces the link, its
+ * tip toward the link. It sits in the padding box of the card, so `-arrow-height` puts the tip
+ * `arrow-height` outside the padding edge: the base covers the border of the card. JavaScript
+ * draws the path for the resolved side and sets its place along the edge.
+ */
+.arrow {
+  position: absolute;
+  overflow: visible;
+  pointer-events: none;
+  fill: var(--nph-hover-card-background);
+  stroke: var(--nph-hover-card-border);
+  stroke-width: var(--nph-hover-card-border-width);
+}
+
+.arrow path {
+  vector-effect: non-scaling-stroke;
+}
+
+.card[data-side='bottom'] .arrow,
+.card[data-side='top'] .arrow {
+  inline-size: var(--nph-hover-card-arrow-width);
+  block-size: var(--nph-hover-card-arrow-height);
+}
+
+.card[data-side='left'] .arrow,
+.card[data-side='right'] .arrow {
+  inline-size: var(--nph-hover-card-arrow-height);
+  block-size: var(--nph-hover-card-arrow-width);
+}
+
+.card[data-side='bottom'] .arrow {
+  inset-block-start: calc(-1 * var(--nph-hover-card-arrow-height));
+}
+
+.card[data-side='top'] .arrow {
+  inset-block-end: calc(-1 * var(--nph-hover-card-arrow-height));
+}
+
+.card[data-side='right'] .arrow {
+  left: calc(-1 * var(--nph-hover-card-arrow-height));
+}
+
+.card[data-side='left'] .arrow {
+  right: calc(-1 * var(--nph-hover-card-arrow-height));
+}
+
+/*
+ * Reduced motion: the card still appears and still leaves, only quicker. Components never consume
+ * core tokens, so this uses the semantic alias `motion/hover-duration` (100 ms), as `nph-tooltip`.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card[data-open] {
+    transition-duration: var(--nph-motion-hover-duration);
+  }
+}

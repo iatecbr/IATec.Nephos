@@ -1,0 +1,237 @@
+{
+  "piece": "nph-hover-card",
+  "level": "component",
+  "status": "active",
+  "solves": "Previews the destination of a link in a read-only card, with a title, a description and a meta line, opened when the pointer rests on the link or when the link takes keyboard focus, so the person decides whether to follow the link without leaving the page.",
+  "use_when": [
+    "Next to a link to a profile, a page or an item, when the link is the main path and a preview helps decide whether to open it.",
+    "When everything the card shows also exists at the destination.",
+    "With the meta line for a time or a context detail; without it when it does not help the decision.",
+    "With the arrow when several links sit close together or the card lands far from the link; without it by default.",
+    "Opening below by default; another side only when the space runs out."
+  ],
+  "do_not_use_when": [
+    "To put a button, a link or a field in the card, or anything the person must act on: use nph-popover, which opens on click and accepts actions.",
+    "For a short text about an element: use nph-tooltip.",
+    "For content the person must answer or finish before going on: use nph-dialog.",
+    "To keep in the card information that is not at the destination: the card is a preview of the destination, and on touch it never opens.",
+    "For a long description: the card takes a title, one or two short sentences and one meta line; the detail stays at the destination.",
+    "For a link whose destination cannot be summed up in a title and a description."
+  ],
+  "api": {
+    "href": {
+      "type": "string",
+      "required": true,
+      "default": "unset",
+      "reflects": false,
+      "constraint": "The destination of the link, in the shadow root of the piece. It takes http, https or a relative address, parsed as the browser would, so javascript and its obfuscated spellings are refused; mailto and tel are not accepted. Empty or unsafe draws the link with no destination and no card, and emits console.error in development, one per cause. The link has no target, rel or download."
+    },
+    "heading": {
+      "type": "string",
+      "required": true,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The title of the card, the Figma property `título`, already localized: the short name of the destination. It is not called title, because that is the native tooltip attribute. Empty or whitespace-only draws no card and emits console.error in development."
+    },
+    "description": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The summary of the destination, the Figma property `descrição`, already localized: one or two short sentences. It wraps and the card never scrolls or cuts it. Empty leaves the line out."
+    },
+    "meta": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The short text of the meta line, the Figma property `meta`, already localized: a phrase, a date or a time such as 14:30. Empty or whitespace-only turns the line off, which is the Figma boolean `mostrar meta`. The consumer calculates the time: relative up to 30 days, then the full date; the piece writes no word and computes nothing."
+    },
+    "meta-icon": {
+      "type": "string",
+      "required": false,
+      "default": "clock",
+      "reflects": false,
+      "constraint": "The core name of the nph-icon of the meta line, the Figma property `ícone da meta`, in the light style. clock for a phrase or a time, calendar for a date. A name outside the core, while the meta line shows, draws no card and emits console.error in development; while the line is off the name is not read."
+    },
+    "meta-title": {
+      "type": "string",
+      "required": false,
+      "default": "empty",
+      "reflects": false,
+      "constraint": "The full date, already localized. It becomes the title of the meta text, so the person who sees a relative time or a time can read the full date. The consumer gives it whenever the meta is relative or a time; the piece does not require it."
+    },
+    "side": {
+      "type": "enum",
+      "values": [
+        "bottom",
+        "top",
+        "left",
+        "right"
+      ],
+      "required": false,
+      "default": "bottom",
+      "reflects": true,
+      "constraint": "The preferred side of the card, the Figma property `lado`, with the values `baixo`, `cima`, `esquerda` and `direita`. The card flips to the opposite side when the preferred one does not fit, takes the side with the most room when neither fits, and never leaves the window. Any other value draws no card and emits console.error in development."
+    },
+    "arrow": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "Draws the arrow whose tip points to the link, the Figma property `seta` with the values `sem` and `com`. Reflects so the consumer can style and check the state."
+    },
+    "open": {
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "reflects": true,
+      "constraint": "The state of the card. The piece turns it on and off by itself: pointer, keyboard focus, leave, blur and Esc. The consumer may turn it on to show the card open, and the same closing rules apply; a card that cannot be drawn never opens. Reflects so the consumer can style and check the state."
+    },
+    "slots": {
+      "default": "the text of the link, the Figma property `texto do gatilho`, required",
+      "media": "optional, at the start of the card: the avatar, image or badge of the required examples; takes no room while empty"
+    },
+    "events": "none"
+  },
+  "variants": {
+    "arrow": {
+      "axis": "appearance",
+      "choose_when": "Without the arrow (`sem`) by default; with the arrow (`com`) when several links sit close together or the card lands far from the link.",
+      "do_not_combine_with": []
+    },
+    "side": {
+      "axis": "appearance",
+      "choose_when": "Bottom (`baixo`) by default; top (`cima`), left (`esquerda`) or right (`direita`) only when the space below runs out or the layout asks for it.",
+      "do_not_combine_with": [
+        "a side outside the list"
+      ]
+    }
+  },
+  "states": {
+    "link-rest": {
+      "token": "color/primary",
+      "changes_for_user": "The link shows in the primary color, underlined, in the label-md text role."
+    },
+    "link-focus": {
+      "token": "hover-card/focus-border, hover-card/focus-halo",
+      "changes_for_user": "For keyboard users, a border and a halo outside the link mark the focus, and the card opens with no wait."
+    },
+    "card-closed": {
+      "token": "not_applicable",
+      "changes_for_user": "The card is not shown. The link is all there is on the page."
+    },
+    "card-open": {
+      "token": "hover-card/background",
+      "changes_for_user": "The card is shown next to the link, at hover-card/offset, entering on hover-card/enter-duration and leaving on hover-card/exit-duration."
+    }
+  },
+  "business_rules": [
+    "The pointer resting on the link opens the card after hover-card/open-delay. Leaving before the wait ends opens nothing, and a press on the link during the wait cancels it.",
+    "Keyboard focus on the link opens the card with no wait. A mouse click that focuses the link does not match keyboard focus and opens nothing.",
+    "The card closes hover-card/close-delay after the pointer leaves the link and the card. The pointer may go onto the card and it stays open while the pointer is there (WCAG 1.4.13). Coming back to the link or to the card during the wait keeps it open, with no new wait.",
+    "Losing focus closes the card with no wait: there is no card to cross by keyboard. While the focus is on the link, the card stays open even when the pointer leaves.",
+    "Esc closes the card with no wait, only while it is open, and does not reach a dialog around it. The card stays closed until the pointer and the focus are both gone.",
+    "Touch opens nothing: there is no hover, and the tap follows the link to the destination. A touch event never closes a card that the keyboard opened.",
+    "The card is read only: no button, link or field inside, no focus, no role and no aria-describedby on the link. Everything the card shows also exists at the destination.",
+    "The card is a manual popover in the top layer: no z-index and no clipping by an ancestor with overflow. Light dismiss does not close it.",
+    "The card is 4 from the link, or from the tip of the arrow, with and without the arrow. With the arrow the card sits at the offset plus the arrow height minus the border width, because the arrow overlaps the card by the width of its border.",
+    "The card is hover-card/width wide and the width never changes.",
+    "The card aligns to the link by the start edge, mirrored in right-to-left writing: the center of the link sits at the arrow inset plus half the arrow base from the start corner of the card, with and without the arrow, so the card does not move when the arrow is turned on (D-2).",
+    "The card flips to the opposite side when the preferred one does not fit. It is kept inside the window; the arrow keeps pointing to the center of the link, inside the rounded corners.",
+    "While the link is outside the window, the card is not drawn at the edge; it follows the link on scroll and resize.",
+    "The meta is the consumer's text. Time is relative up to 30 days, as in Updated today or 3 days ago, then the full date; a time reads 14:30; the full date always goes in meta-title. The piece writes no word and computes no time.",
+    "The meta line turns off with an empty meta: the card keeps only the title and the description.",
+    "The slot media sits first in the card, only to compose the avatar, image or badge of the required examples (D-1). It is not a place for actions.",
+    "Every text comes from the consumer, already localized: the piece writes no word of its own."
+  ],
+  "domain_errors": [
+    "An empty or unsafe href: the link draws with no destination, no card is drawn and console.error is emitted in development, one per cause.",
+    "An empty heading: no card is drawn and console.error is emitted in development, one per cause.",
+    "A side outside bottom, top, left and right: no card is drawn and console.error is emitted in development.",
+    "A meta-icon outside the core while the meta line shows: no card is drawn and console.error is emitted in development.",
+    "A delay token that is not defined, because the tokens are not loaded: the card opens and closes with no wait and console.error is emitted in development, once."
+  ],
+  "tokens": {
+    "surface": "hover-card/background, hover-card/border, hover-card/border-width, hover-card/radius, hover-card/width, elevation/dropdown",
+    "spacing": "hover-card/padding, hover-card/gap, hover-card/meta-gap",
+    "title": "hover-card/foreground, text/label-lg",
+    "description": "hover-card/description-foreground, text/body-sm",
+    "meta": "hover-card/meta-foreground, hover-card/meta-icon-foreground, hover-card/icon-size, text/caption",
+    "link": "color/primary, text/label-md, radius/inner",
+    "arrow": "hover-card/arrow-width, hover-card/arrow-height, hover-card/arrow-inset, hover-card/background, hover-card/border",
+    "distance": "hover-card/offset",
+    "delay": "hover-card/open-delay, hover-card/close-delay",
+    "motion": "hover-card/enter-duration, hover-card/exit-duration, motion/enter-easing, motion/exit-easing, motion/hover-duration",
+    "focus": "hover-card/focus-border, hover-card/focus-halo, focus/ring-width, focus/border-radius-inner, focus/radius-inner-with-border"
+  },
+  "ai_hints": [
+    "Use nph-hover-card next to a link whose destination can be summed up in a title and a short description; for a short text about an element use nph-tooltip, and for content with an action use nph-popover.",
+    "Give href, the text of the link in the default slot and heading; description and meta are optional.",
+    "Never put an action, a link or a field in the card, and never keep in it what the destination does not show: the card is a preview.",
+    "Write the meta as the consumer: relative up to 30 days, then the full date, and put the full date in meta-title; choose calendar for a date and keep clock for a phrase or a time.",
+    "Leave the arrow off by default; turn it on when several links sit close together or the card lands far from the link.",
+    "Leave the side at bottom; choose another only when the space below runs out, since the card flips by itself when it does not fit.",
+    "Use the slot media only for an avatar, an image or a badge, as in the required examples.",
+    "Do not rely on the card on touch: it never opens there, and the tap follows the link."
+  ],
+  "accessibility": {
+    "semantics": "A native link, in the shadow root, named by its text. The card is a plain container in the top layer, with no role, never focusable and with no aria-describedby on the link. The arrow and the meta icon are decorative and hidden from assistive technology. A closed card is not displayed, so assistive technology does not reach it: the content is reached through the link.",
+    "accessible_name": "The link: the text of the default slot. The card has no name of its own and takes none from the link.",
+    "keyboard": [
+      "Tab moves focus to the link and opens the card with no wait.",
+      "Enter on the link follows it, as on any link.",
+      "Esc closes the card and does not reach a dialog around it; the focus stays on the link.",
+      "Tab away from the link closes the card with no wait."
+    ],
+    "focus": "Keyboard only, on the link: a border of hover-card/border-width in hover-card/focus-border and a halo of focus/ring-width in hover-card/focus-halo outside the box, as nph-button. The card takes no focus and has no focus state.",
+    "contrast": "The title, the description and the meta pass 4.5 to 1 over the card in both themes, and the meta is never below that floor. The link in color/primary passes in the default brand in both themes; in the dark scheme of the Gerencial brand it measures 2.71 to 1, and in other brands up to 3.81 to 1, a limit inherited from color/primary of each brand (point 9 of the accepted contract), which is not fixed here. The card border is decorative and the shadow separates the card from the page in light.",
+    "color_alternative": "The link is underlined, not told only by color. The meta stands apart by its icon and its place at the end of the card, not only by its shade."
+  },
+  "invalid_combinations": [
+    "An action, a link or a field inside the card: the card is read only; use nph-popover.",
+    "A heading left out or empty: no card is drawn.",
+    "An href that is empty or takes a protocol other than http and https: no card is drawn.",
+    "A side outside bottom, top, left and right: no card is drawn.",
+    "A meta-icon outside the core while the meta line shows: no card is drawn.",
+    "A card that is the only place for information the destination does not have: on touch it never opens.",
+    "Anything but an avatar, an image or a badge in the slot media."
+  ],
+  "relations": {
+    "combines_with": [
+      "nph-icon",
+      "nph-avatar",
+      "nph-image",
+      "nph-badge"
+    ],
+    "parents": [
+      "a sentence or a line of text that holds the link"
+    ],
+    "children": [
+      "nph-icon",
+      "nph-avatar",
+      "nph-image",
+      "nph-badge"
+    ],
+    "complements_block": [],
+    "appears_in": []
+  },
+  "anti_patterns": [
+    "Putting a button, a link or a field in the card.",
+    "Using the card for a short text about an element, which is nph-tooltip.",
+    "Leaving in the card information that is not at the destination.",
+    "Writing a long description in the card.",
+    "Computing the time inside the card instead of giving the meta already written, with the full date in meta-title.",
+    "Choosing the meta icon against the kind of text.",
+    "Relying on the card on touch.",
+    "Asking the card to be a dialog, a menu or a form."
+  ],
+  "sources": {
+    "design_md": "design.md, the hover-card/* tokens, color/subtle-foreground, color/popover, color/border-subtle, color/primary, elevation/dropdown, the text roles and the global focus/* tokens",
+    "decision": "P112 — nph-hover-card: API and semantics",
+    "tests": "src/components/nph-hover-card/nph-hover-card.test.ts",
+    "usage_evidence": "no screen consumes it yet",
+    "storybook": "src/components/nph-hover-card/nph-hover-card.stories.ts and nph-hover-card.docs.stories.ts",
+    "figma": "DS-IA-NEPHOS 5.0, nph-hover-card documentation frame 4422:2418 on page 4128:31754, component set 4406:1105, examples 4406:1107, 4406:1130 and 4406:1151"
+  }
+}
