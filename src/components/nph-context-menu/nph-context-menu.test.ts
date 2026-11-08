@@ -9,6 +9,7 @@
  * submenu, the roles and names the browser computes, the colors and measures, and the token
  * contract.
  */
+/* cspell:ignore supr */
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { cdp, page, userEvent } from 'vitest/browser';
 

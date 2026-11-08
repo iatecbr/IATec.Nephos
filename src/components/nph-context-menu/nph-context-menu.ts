@@ -158,6 +158,8 @@ const MODIFIER_SYMBOLS: Readonly<Record<string, string>> = {
   '⎋': 'Escape',
 };
 
+/* `supr` is the Spanish label of the Delete key. */
+/* cspell:ignore supr */
 const KEY_NAMES: Readonly<Record<string, string>> = {
   ctrl: 'Control',
   control: 'Control',
