@@ -5,7 +5,8 @@
  * lido em 05-10-2026 pela propriedade `nome` (93 opcoes) e `estilo`
  * (`regular`, `solid`). A lista esta copiada abaixo, na ordem do Figma.
  * `arrow-left-to-line` (`2962:7` light, `2962:12` solid) entrou no conjunto
- * com a DSA-54, em 27-10-2026, e fecha a lista.
+ * com a DSA-54, em 27-10-2026. `arrow-pointer` (`5005:20391` light, `5005:20395`
+ * solid) entrou com a DSA-69, em 06-11-2026, e fecha a lista.
  *
  * Confere:
  * - os nomes do mapa `src/components/nph-icon/nph-icon.icons.ts` (entradas
@@ -32,6 +33,7 @@ const FIGMA_NAMES = [
   'user-circle-plus', 'user-circle-minus', 'thumbtack-slash', 'arrow-down-arrow-up',
   'circle-chevron-down', 'chevrons-down', 'angle-left', 'circle-chevron-left', 'chevrons-left',
   'triple-chevrons-left', 'square-chevron-left', 'arrow-left-to-line',
+  'arrow-pointer',
 ];
 const FIGMA_STYLES = ['regular', 'solid'];
 

@@ -121,6 +121,27 @@ describe('alignment and text formatting icons (DSA-23, D1)', () => {
   });
 });
 
+describe('arrow-pointer (DSA-69)', () => {
+  it('is a core name, listed in the direction category of design.md (the second list of the block)', () => {
+    const start = designMd.indexOf('icones_nucleo:');
+    const block = designMd.slice(start, designMd.indexOf('icones_segunda_leva:'));
+    const direction = [...block.matchAll(/icones:\s*\[([^\]]+)\]/g)][1]?.[1] ?? '';
+    const listed = direction.split(',').map((name) => name.trim());
+    expect(listed).toContain('arrow-left');
+    expect(NPH_ICON_NAMES as readonly string[]).toContain('arrow-pointer');
+    expect(listed).toContain('arrow-pointer');
+  });
+
+  it('draws a different artwork in light and in solid, with no error', async () => {
+    const light = await mount({ name: 'arrow-pointer', variant: 'light', size: 'md' });
+    const solid = await mount({ name: 'arrow-pointer', variant: 'solid', size: 'md' });
+    expect(pathOf(light).length).toBeGreaterThan(0);
+    expect(pathOf(solid).length).toBeGreaterThan(0);
+    expect(pathOf(solid)).not.toBe(pathOf(light));
+    expect(errors).not.toHaveBeenCalled();
+  });
+});
+
 describe('variant', () => {
   it('light is the default when the attribute is absent', async () => {
     const withoutAttribute = await mount({ name: 'star', size: 'sm' });
