@@ -107,12 +107,12 @@ Indiane answered D-1, D-2, D-4, D-5 and D-6 on the approval page of 2026-11-09 (
 |---|---|---|
 | D-1 | Accepted: `space/inline-tight` (4 px) between the trigger and the open menu, as the nph-select list (shadcn and Primer default). | Nothing changes. |
 | D-2 | Accepted: the menu fades and slides `space/inline-tight` on enter (`motion/enter-*`) and on exit (`motion/exit-*`), as shipped. | Nothing changes. |
-| D-4 | Option 2: a small size of nph-switch, with a track that fits the 20 px slot, so every row keeps its height. The small size is drawn in Figma first and comes with its own tokens. | Changes in DSA-70. The spec is in "D-4: the small nph-switch" below. |
+| D-4 | Option 2 of the approval page: a small size of nph-switch, with a track that fits the 20 px slot, so every row keeps its height. The small size was drawn in Figma and comes with its own tokens. | Changes in DSA-70. The spec is in "D-4: the small nph-switch" below. |
 | D-5 | Accepted: only the checked item of single choice takes the brand text color, `text/label-md` and the check, as the accepted Figma draws it; the other items of the group stay common. | Nothing changes. |
 | D-6 | Exception to the code: the pointer over an item moves the keyboard focus to it, and the keyboard goes on from that item (Radix: the highlighted item is the focused item). | Changes in DSA-70. |
 
 ## D-4: the small nph-switch (Figma documentation accepted on 2026-11-09)
-Indiane chose option 1 (track 32 by 16) on the Figma preview frame `5433:13774`
+Indiane chose option 1 of the Figma preview frame `5433:13774` (track 32 by 16)
 and accepted the `nph-switch` documentation with the small size (board
 `1549:2`). This section is the contract; there is no need to open Figma.
 
@@ -159,9 +159,10 @@ the icon, CSS, tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## Pending decisions
-The evidence gives the contract, so the code can start. Six points remain for
-Indiane; the code follows the stated default meanwhile, and each answer only
-adjusts one rule.
+The evidence gives the contract, so the code can start. This table keeps the
+defaults given at handoff. Indiane answered D-1, D-2, D-4, D-5 and D-6 on
+2026-11-09 (section "Decisions answered on 2026-11-09 (lot 2)"); only D-3 stays
+open, and the code follows its default meanwhile.
 
 | ID | What the evidence gives | What is missing | What the code does meanwhile |
 |---|---|---|---|
@@ -170,7 +171,7 @@ adjusts one rule.
 | D-3 | On item hover, the box and the track take their own hover. | A way to force the hover of `nph-checkbox` and `nph-switch` from outside. | Ships without it, as a known limit; a follow-up task gives the two pieces an API. |
 | D-4 | The switch sits in a 20 px slot. | The switch track is 24 high and has no size. | Superseded by the answer of 2026-11-09: the slot uses the small nph-switch (section "D-4: the small nph-switch"). |
 | D-5 | Single choice highlights text and icon in `color/primary-hover`. | Whether it is every item of the group or the checked one. | The checked item only, with the check. |
-| D-6 | Hover paints the item. | Whether the pointer moves the keyboard focus. | Hover paints only; the focus moves by keyboard. |
+| D-6 | Hover paints the item. | Whether the pointer moves the keyboard focus. | Superseded by the answer of 2026-11-09: the pointer over an item moves the keyboard focus to it (changes in DSA-70). |
 
 ## Relations with other tasks
 - The menu opens from an `nph-button` (DSA-13, done), which stays outside the

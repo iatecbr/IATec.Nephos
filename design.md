@@ -1508,7 +1508,7 @@ tokens_core_borda:
   core/border-width/default: { valor: 1, css: '--nph-core-border-width-default', alias_de: 'border/width' }
 
 tokens_core_icon:
-  regra: 'NEVER consume directly. Use icon/size-sm, -md and -lg. Read from Figma when migrating the tokens to JSON.'
+  regra: 'NEVER consume directly. Use icon/size-sm, -md and -lg, and switch/thumb-size-sm. Read from Figma when migrating the tokens to JSON.'
   core/icon-size/50:  { valor: 12, css: '--nph-core-icon-size-50',  alias_de: 'switch/thumb-size-sm' }
   core/icon-size/100: { valor: 16, css: '--nph-core-icon-size-100', alias_de: 'icon/size-sm' }
   core/icon-size/200: { valor: 20, css: '--nph-core-icon-size-200', alias_de: 'icon/size-md' }
@@ -1528,7 +1528,7 @@ tokens_core_control:
   core/control-height/large:   { valor: 44, css: '--nph-core-control-height-large',   alias_de: 'control/height-large' }
 
 tokens_core_layout:
-  regra: 'NEVER consume directly. Use the semantic layout/* tokens and switch/track-width.'
+  regra: 'NEVER consume directly. Use the semantic layout/* tokens, switch/track-width and switch/track-width-sm.'
   core/layout-width/app:               { valor: 1440, css: '--nph-core-layout-width-app',               alias_de: 'layout/max-app' }
   core/layout-width/reading:           { valor: 560,  css: '--nph-core-layout-width-reading',           alias_de: 'layout/max-reading' }
   core/layout-width/sidebar-expanded:  { valor: 280,  css: '--nph-core-layout-width-sidebar-expanded',  alias_de: 'layout/sidebar-expanded' }
