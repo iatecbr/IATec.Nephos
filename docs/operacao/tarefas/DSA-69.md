@@ -45,18 +45,6 @@
       "question": "The contract has no event of opening or closing, so the code fires none. A consumer that must prepare the items for the row under the pointer sets items in its own contextmenu listener. If the piece should announce opening, she decides. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-08"
-    },
-    {
-      "id": "D-4",
-      "question": "The DSA-69 evidence lists the item icon in color/muted-foreground, while the DSA-45 evidence of the same item says the start icon is in the color of the label. The code keeps the label color in both menus, as nph-dropdown-menu already shipped. The color she wants for the icon at rest is hers to confirm. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-08"
-    },
-    {
-      "id": "D-5",
-      "question": "The code closes the submenu first on Esc and the whole menu on the second press, as the APG menu pattern does; the evidence says Esc closes the menu. If one Esc should close everything, she decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-08"
     }
   ],
   "evidence": [
@@ -66,7 +54,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-context-menu: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 11 points of the approval page approved (radius 12 and 8, outline on color/border-subtle, dropdown/separator, color/destructive-text, solid icon on highlight in nph-dropdown-menu, compact destructive item, no context-menu tokens, arrow-pointer in nph-icon, cleanup, notification/error-action-foreground unchanged); a finished component enters the first version",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420); tokens on v/5.0.0"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420); tokens on v/5.0.0",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -116,6 +105,14 @@ Indiane answered D-3 in Figma (frame `5374:10420`, lot 1 of the pending decision
 | ID | Answer | What the code does |
 |---|---|---|
 | D-3 | Long press: 700 ms and 10 px, now tokens. `context-menu/long-press-delay` points to `motion/long-press-delay` (`core/duration/long-press`, 700 ms); `context-menu/long-press-tolerance` points to `motion/long-press-tolerance` (`core/space/off-scale/10`). | Reads the two tokens instead of the literal values. |
+
+## Decisions answered on 2026-11-09 (lot 2)
+Indiane answered D-4, D-5 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-1, D-2 stays open: it is a technical choice of the code.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-4 | Accepted: the item icon at rest keeps the label color in both menus, as nph-dropdown-menu shipped; the two menus stay the same. | Nothing changes. |
+| D-5 | Accepted as shipped: the first Escape closes the submenu and the second closes the menu (APG menu). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`, together with the nph-dropdown-menu and nph-icon changes.

@@ -34,26 +34,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The accepted Figma set has no slot for the avatar, the image and the badge of the three required examples (they are by instance). The code adds an optional slot media at the start of the card so the examples can be built with the real piece. Whether the slot exists, and where it sits in the card, needs her answer. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-07"
-    },
-    {
-      "id": "D-2",
-      "question": "The contract defines the arrow at 16 from the card corner and says nothing about how the card aligns to the link when there is no arrow. The code uses the same rule with and without the arrow, so the card does not move when the arrow is turned on. Whether the card without the arrow aligns another way, such as centered on the link, needs her answer. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-07"
-    },
-    {
-      "id": "D-4",
-      "question": "When no side fits the card in a window too short for it, the code keeps the card beside the link, never over it, so the link stays reachable, and the window cuts what does not fit; the card does not scroll, because the contract says the description wraps with no scrolling. Whether such a window needs another fallback, such as a maximum height with scrolling, needs her answer. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-07"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-68/figma-docs-accepted-2026-11-06.md",
     "docs/operacao/evidencias/DSA-68/review-and-merge-2026-11-08.md"
@@ -61,7 +42,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-hover-card: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 10 points of the approval page approved (radius 14, offset 4, arrow tokens of the popover, width 320, color/subtle-foreground, 8 between texts, delays 600 and 300, relative time up to 30 days, clock icon); a finished component enters the first version",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420); tokens on v/5.0.0"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420); tokens on v/5.0.0",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -105,6 +87,15 @@ Indiane answered D-3 in Figma (frame `5374:10420`, lot 1 of the pending decision
 | ID | Answer | What the code does |
 |---|---|---|
 | D-3 | `color/link` in dark points to the new `theme/brand-text-dark`, at least 4.5:1 in the seven brands. The trigger link of `nph-hover-card` uses `color/link` instead of `color/primary`; in light the tone is the same. | Swaps `color/primary` for `color/link` on the link; the Brands story drops the contrast exception. |
+
+## Decisions answered on 2026-11-09 (lot 2)
+Indiane answered D-1, D-2, D-4 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Accepted: the optional `media` slot at the start of the card stays (Radix and shadcn show the hover card with an avatar). | Nothing changes. |
+| D-2 | Option 2: without the arrow, the card centers on the link (Radix default `align=center`). With the arrow, the rule of 16 px from the card corner stays. | Changes in DSA-70. |
+| D-4 | Accepted as shipped: when no side fits, the card stays beside the link, never over it, and the window cuts what does not fit (WCAG 1.4.13). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

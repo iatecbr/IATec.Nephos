@@ -33,27 +33,15 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The accepted Figma set has trails of 2, 3 and 4 levels and the collapsed one, and says nothing about a trail with 5 or more levels that is not collapsed. The code draws only those counts and draws nothing for another one, with a console.error in development; a longer path uses the collapsed trail. A trail of 5 or more levels drawn in full needs her answer. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-06"
-    },
-    {
-      "id": "D-2",
-      "question": "The evidence says the hidden levels menu is an nph-dropdown-menu with the hidden levels in path order, and does not say whether each option carries the icon of its level. The code draws the options as text only. Whether the menu carries the level icons needs her answer. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-06"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-66/figma-docs-accepted-2026-11-06.md",
     "docs/operacao/evidencias/DSA-66/review-and-merge-2026-11-07.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-breadcrumb: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 12 points of the approval page approved (128 menu floor and 24 target as new core values, 280 menu ceiling straight to core, menu width that hugs the content only in the breadcrumb, link kept as an inner piece, loading as a rule only)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-breadcrumb: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 12 points of the approval page approved (128 menu floor and 24 target as new core values, 280 menu ceiling straight to core, menu width that hugs the content only in the breadcrumb, link kept as an inner piece, loading as a rule only)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -65,7 +53,7 @@
   },
   "git_review": { "branch": "feat/dsa-66-breadcrumb", "commit": "986871a", "pr": 151 },
   "context": null,
-  "updated_at": "2026-11-07"
+  "updated_at": "2026-11-09"
 }
 ```
 
@@ -86,6 +74,14 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The 22 `breadcrumb/*` tokens came with this task and are on `v/5.0.0`, with two new core primitives (`core/layout-width/menu-min`, 128, and `core/target-size/minimum`, 24) and five core primitives that Figma had and the code did not (`core/size/200`, `core/line-height/200`, `core/tracking/normal`, `core/weight/regular` and `core/weight/medium`). The pieces inside are done: nph-icon (DSA-03), nph-skeleton (DSA-26) and nph-dropdown-menu (DSA-45).
+
+## Decisions answered on 2026-11-09 (lot 2)
+Indiane answered D-1, D-2 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Accepted: a trail of 5 levels or more always uses the collapsed trail (Carbon collapses from 5 levels). | Nothing changes. |
+| D-2 | Accepted: the hidden levels menu is text only, in path order (Carbon, MUI). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

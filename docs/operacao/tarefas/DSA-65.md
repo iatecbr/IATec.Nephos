@@ -31,27 +31,15 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The evidence names the step counts 3, 4 and 5 only as the Figma samples of the property `etapas`, and says the steps type splits the bar into a few fixed steps. The code accepts only those three counts and draws nothing for another one, with a console.error in development. Another count, such as 2 or 6, needs her answer. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-06"
-    },
-    {
-      "id": "D-2",
-      "question": "`design.md` still says the indeterminate bar has no value and was deferred (open point 3n, `tokens_motion`), and does not list `motion/loop-long-duration` and `motion/loop-long-easing`. The tokens and the accepted evidence give 1400 ms linear. This pull request does not edit `design.md`, by the instruction of the task; the file needs a change of its own, with the 1400 ms loop and the two roles. It does not block the pull request.",
-      "decider": "elvys",
-      "opened_at": "2026-11-06"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-65/figma-docs-accepted-2026-11-05.md",
     "docs/operacao/evidencias/DSA-65/review-and-merge-2026-11-06.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-05.md, nph-progress: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 11 points of the approval page approved (1400 ms loop, 4 x 4 end stop on both sizes, fluid width, gaps in space/inline-tight and space/stack-tight, radius straight to core)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-05.md, nph-progress: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 11 points of the approval page approved (1400 ms loop, 4 x 4 end stop on both sizes, fluid width, gaps in space/inline-tight and space/stack-tight, radius straight to core)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -63,7 +51,7 @@
   },
   "git_review": { "branch": "feat/dsa-65-progress", "commit": "0c86aa0", "pr": 149 },
   "context": null,
-  "updated_at": "2026-11-06"
+  "updated_at": "2026-11-09"
 }
 ```
 
@@ -84,6 +72,14 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The 27 `progress/*` tokens came with this task and are on `v/5.0.0`, with `motion/loop-long-duration`, `motion/loop-long-easing` and one core primitive (`core/duration/loop-long`, 1400 ms). This also answers the open point of PF-15 on the duration of the indeterminate bar; `docs/tokens.md` still says that bar has no value, so update that paragraph with the spec. The piece inside is done: nph-icon (DSA-03).
+
+## Decisions answered on 2026-11-09 (lot 2)
+Indiane answered D-1, D-2 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Option 2: the steps type accepts 2 steps or more; the usage guidance asks to avoid more than 7 (Carbon, Ant Design). | Changes in DSA-70. |
+| D-2 | Done on 2026-11-09, with Indiane's release: `design.md` lists `core/duration/loop-long`, `motion/loop-long-duration` and `motion/loop-long-easing` (1400 ms, linear), and open point 3n records the value. | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

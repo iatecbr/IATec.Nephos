@@ -36,20 +36,8 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D-1",
-      "question": "The evidence says the Menu button opens the same items as a vertical list and does not say how a trigger and its groups show in it. The code shows each trigger as a group, with its label as the group label and its links below. If the list should fold the groups of a trigger, Indiane decides. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-07"
-    },
-    {
       "id": "D-2",
       "question": "The evidence has the current state for the top item of both types, a trigger included, and does not say who turns it on for a trigger. The code derives it from the current link in its panel. If a trigger should be marked current on its own, a new field is needed. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-07"
-    },
-    {
-      "id": "D-3",
-      "question": "The evidence has no motion for the trigger arrow or for the panel. The code has none: the arrow does not turn and the panel enters and leaves with no transition. Whether the arrow turns or the panel fades needs her answer. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-07"
     }
@@ -61,7 +49,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-03.md, nph-navigation-menu: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the twelve appendix points answered as recommended, atual-foco state created before the tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-4 and D-5 (lot 1 of the pending decisions, Figma frame 5374:10420); tokens on v/5.0.0"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-4 and D-5 (lot 1 of the pending decisions, Figma frame 5374:10420); tokens on v/5.0.0",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -95,6 +84,14 @@ Indiane answered D-4 and D-5 in Figma (frame `5374:10420`, lot 1 of the pending 
 |---|---|---|
 | D-4 | Closing wait: 500 ms. `navigation-menu/close-delay` points to `motion/hover-close-delay` (`core/duration/delay-medium`). Opening keeps `motion/hover-delay`. | Closes on `navigation-menu/close-delay`. |
 | D-5 | `navigation-menu/current-foreground` points to the new `color/primary-text`: `theme/brand-700` in light, as before, and `theme/brand-text-dark` in dark, at least 4.5:1 in the seven brands. | The Brands story drops the contrast exception. |
+
+## Decisions answered on 2026-11-09 (lot 2)
+Indiane answered D-1, D-3 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-2 stays open: it is a technical choice of the code.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Option 2: in the narrow width, each trigger is a collapsed row with its arrow, as the accepted Figma draws the narrow list; a tap opens its links below it and turns the arrow (disclosure navigation, APG). | Changes in DSA-70. |
+| D-3 | Option 2: the trigger arrow turns 180 degrees when its panel opens, and the panel fades in on `motion/enter-*` and out on `motion/exit-*`. With reduced motion, nothing moves. | Changes in DSA-70. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

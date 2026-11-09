@@ -29,14 +29,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "Inside nph-dialog, the solid secondary nph-button keeps the overlay of P87 (color/secondary-on-dialog and its hover): the dialog now redefines the four new solid secondary tokens (button/secondary-solid-background, icon-button/secondary-solid-background and their hovers) with the same values it already gave color/secondary, because the button no longer reads color/secondary. The base solid secondary is now surface/50 in light and surface/600 in dark, and color/secondary-on-dialog is color/secondary in light and surface/800 in dark. Should the dialog still keep the overlay of P87? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-06"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-64/figma-docs-accepted-2026-11-04.md",
     "docs/operacao/evidencias/DSA-64/review-and-merge-2026-11-06.md"
@@ -44,7 +37,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-03.md, secondary light removed from nph-button and nph-icon-button; every secondary light instance becomes secondary solid, the table action cell included",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-04.md, secondary outline and solid colors (decisions 2 and 3), secondary solid as the default of the secondary type, documentation accepted, appendix points answered as recommended"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-04.md, secondary outline and solid colors (decisions 2 and 3), secondary solid as the default of the secondary type, documentation accepted, appendix points answered as recommended",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -56,7 +50,7 @@
   },
   "git_review": { "branch": "feat/dsa-64-secondary-buttons", "commit": "6c20ee7", "pr": 148 },
   "context": null,
-  "updated_at": "2026-11-06"
+  "updated_at": "2026-11-09"
 }
 ```
 
@@ -85,6 +79,13 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The ten tokens came with this task and are on `v/5.0.0`: five `button/secondary-*` and five `icon-button/secondary-*`. No core primitive was added. In each piece, the outline border, the outline border hover and the solid hover point straight to `core/surface/*`, and so does the solid background in light, because the decided values differ from the semantic tokens of the same function (appendix points Pend. 1 and Reg. 3). The solid background in dark is an alias of `color/secondary`, and the outline hover background is an alias of `color/secondary-light-hover`.
+
+## Decisions answered on 2026-11-09 (lot 2)
+Indiane answered D-1 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Option 2: no overlay. Inside nph-dialog, the solid secondary uses the same background as outside (`button/secondary-solid-background`, `icon-button/secondary-solid-background` and their hovers); nph-dialog stops redefining them. The label identifies the button. | Changes in DSA-70. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

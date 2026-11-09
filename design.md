@@ -301,8 +301,8 @@ tokens_semantic:
     css: '--nph-color-muted'
     claro: core/surface/50
     escuro: core/surface/700
-    use: "Permanent background without emphasis: table header, disabled area. Also the background of the outline secondary nph-button and the hover of the ghost secondary."
-    nao_use: "Hover, except that of the ghost secondary nph-button."
+    use: "Permanent background without emphasis: table header, disabled area. Also the background of the outline secondary nph-button."
+    nao_use: "Hover: there it is color/accent, including the ghost secondary nph-button (button/secondary-ghost-background-hover, DSA-60)."
   color/muted-foreground:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
@@ -1851,6 +1851,7 @@ tokens_core_duration:
   '300': { valor: 250, css: '--nph-core-duration-300', use: "Layer that appears, and expansion." }
   '400': { valor: 400, css: '--nph-core-duration-400', use: "Large movement. NEVER in a repeated interaction." }
   loop:  { valor: 800, css: '--nph-core-duration-loop', use: "Continuous loop of the spinner: 800 ms per turn, infinite repetition. OUTSIDE the transition scale, which ends at 400 and describes movement that starts and ends; a loop repeats (PF-05)." }
+  loop-long: { valor: 1400, css: '--nph-core-duration-loop-long', use: "Long continuous loop: one pass of the indeterminate nph-progress bar, 1400 ms, infinite repetition. OUTSIDE the transition scale, like loop. Consumed by motion/loop-long-duration." }
   delay: { valor: 300, css: '--nph-core-duration-delay', use: "Wait before reacting to the pointer: 300 ms. OUTSIDE the transition scale, because it is not movement; it is still time before it (DSA-48)." }
   long-press: { valor: 700, css: '--nph-core-duration-long-press', use: "Long-press wait: 700 ms. OUTSIDE the transition scale, because it is not movement; it is still time. Consumed by motion/long-press-delay." }
   delay-medium: { valor: 500, css: '--nph-core-duration-delay-medium', use: "Medium wait before reacting to the pointer: 500 ms. OUTSIDE the transition scale, because it is not movement; it is still time. Consumed by motion/hover-close-delay." }
@@ -1955,6 +1956,18 @@ tokens_motion:
     alias: core/easing/linear
     valor: 'cubic-bezier(0, 0, 1, 1)'
     use: "The curve of the loop role - constant speed, with no start or end. USE always together with motion/loop-duration. It is this role that makes the spinner consumable without touching core/*, as rule 4 requires."
+
+  motion/loop-long-duration:
+    css: '--nph-motion-loop-long-duration'
+    alias: core/duration/loop-long
+    valor: 1400
+    use: "Long continuous loop: the indeterminate nph-progress bar, one pass every 1400 ms, with infinite repetition. USE always together with motion/loop-long-easing."
+    nao_use: "The spinner, which turns in motion/loop-duration (800 ms)."
+  motion/loop-long-easing:
+    css: '--nph-motion-loop-long-easing'
+    alias: core/easing/linear
+    valor: 'cubic-bezier(0, 0, 1, 1)'
+    use: "The curve of the long loop role - constant speed. USE always together with motion/loop-long-duration."
 
 # ---------------------------------------------------------------
 # ICONS - Font Awesome Pro library. The question that comes BEFORE the
@@ -2292,7 +2305,7 @@ When two tokens seem to fit, this is what decides.
 
 | Question | Rule |
 |---|---|
-| `muted` × `accent` | `muted` is permanent; `accent` is temporary. If the state disappears when the mouse leaves, it is `accent`. Exception: the hover of the ghost secondary `nph-button` is `color/muted`, as Figma draws it. |
+| `muted` × `accent` | `muted` is permanent; `accent` is temporary. If the state disappears when the mouse leaves, it is `accent`. No exception: the hover of the ghost secondary `nph-button` is `color/accent` too, through `button/secondary-ghost-background-hover` (DSA-60). |
 | `destructive` × `status/error` | `destructive` is what the **user is going to do**. `status/error` is what the **system has already reported**. The "Delete" button is `destructive`; the message "Invalid CPF" is `status/error`. On the `nph-badge`, the danger type labels a negative state of an item, such as rejected; the system message stays `status/error`. |
 | `border` × `input` | `border` is divider and outline. `input` is the boundary of a form control — more visible as required by WCAG 1.4.11. |
 | `card` × `popover` | `card` is fixed content on the page. `popover` is a floating layer. |
@@ -2713,7 +2726,7 @@ Before building or modifying a component, **open its metadata file**.
 | 3k | ~~Grid and layout foundation~~ Resolved: 12 columns, 4 breakpoints, two maximum widths and the shell measures | UX |
 | 3l | **Shell behavior** — at which breakpoint the bar collapses — is layout anatomy and depends on a real screen or an approved mock | UX |
 | 3m | ~~Motion foundation~~ Resolved: durations, curves, roles and the reduced motion rule. **The seven foundations are closed** | UX |
-| 3n | ~~**Loop duration**~~ **Resolved: 800 ms per turn of the spinner**, with the `linear` curve and infinite repetition. It entered the code as `core/duration/loop` and the `motion/loop-*` role. **The indeterminate bar still has no value** — `nph-progress` was deferred | UX |
+| 3n | ~~**Loop duration**~~ **Resolved: 800 ms per turn of the spinner**, with the `linear` curve and infinite repetition. It entered the code as `core/duration/loop` and the `motion/loop-*` role. The indeterminate bar of `nph-progress` got its own value on 2026-11-05: 1400 ms, `linear`, as `core/duration/loop-long` and the `motion/loop-long-*` role (DSA-65) | UX |
 | 3o | ~~**Icons**~~ Resolved: rules, sizes, contract, library and the complete core, in three batches | UX |
 | 4 | ~~Chart colors — they do not exist~~ Resolved: four families of semantic tokens, verified under the three vision deficiencies | UX |
 | 5 | ~~Alpha — transparencies without a token~~ Resolved: 19 alpha primitives in black and white, plus `overlay/scrim`, `overlay/on-media` and `state/disabled-opacity` | UX |

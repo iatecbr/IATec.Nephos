@@ -29,38 +29,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The evidence names the create row of the `criar` list, which offers the typed text as a new item, but does not draw it. The code draws it as an `nph-option` with the `plus` start icon and the text `create-label` followed by the typed text in quotes, the typed text in `text/highlight-weight`. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D-2",
-      "question": "The evidence says the `atalhos` footer shows the keys as `nph-kbd`, but not which keys, which words or the box of the footer. The code gives the footer a `shortcuts` slot the consumer fills, with a `color/border` line above it and `space/inline` around it. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D-3",
-      "question": "The evidence gives the `busca` list the rest of the text in `color/muted-foreground`, on the popover background. It does not say the color of that rest on the active option (`color/accent`). The code keeps `color/muted-foreground` there too. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D-4",
-      "question": "The evidence does not say what Escape does with the list closed. The code clears the typed text, as the APG suggests; with no typed text, Escape passes on. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    },
-    {
-      "id": "D-5",
-      "question": "The evidence does not say which option is active while the person types. The code makes the first available match active, so Enter chooses it (automatic selection of the APG). It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-26"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-46/documentacao-figma-aceita-2026-10-14.md",
     "docs/operacao/evidencias/DSA-46/review-and-merge-2026-10-26.md"
@@ -68,7 +37,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-14.md, modern nph-combobox: divider before the arrow area, arrow area in color/accent, the open state, status dot, check of the option in color/primary, text/highlight-weight; documentation accepted and textual audit approved",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-14.md and 2026-10-21.md, the nph-combobox tokens go with the nph-select ones; task DSA-46 opened on 21-10 (diary 2026-10-21.md) with the nph-empty and nph-dropdown-menu accepted"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-14.md and 2026-10-21.md, the nph-combobox tokens go with the nph-select ones; task DSA-46 opened on 21-10 (diary 2026-10-21.md) with the nph-empty and nph-dropdown-menu accepted",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -80,7 +50,7 @@
   },
   "git_review": { "branch": "claude/dsa-46-nph-combobox-43fc0a", "commit": "9638f0d39b2cc4af3d0ae0ea1df02424f80f360b", "pr": "120" },
   "context": null,
-  "updated_at": "2026-10-26"
+  "updated_at": "2026-11-09"
 }
 ```
 
@@ -122,6 +92,17 @@ adjusts one rule.
 | D-3 | The rest of the text in `color/muted-foreground` in the `busca` list. | That color on the active option. | `color/muted-foreground` there too. |
 | D-4 | Escape closes the open list. | Escape with the list closed. | Clears the typed text; with none, passes on. |
 | D-5 | Typing filters the list. | Which option is active while typing. | The first available match, so Enter chooses it. |
+
+## Decisions answered on 2026-11-09 (lot 2)
+Indiane answered D-1, D-2, D-3, D-4, D-5 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Accepted: the create row is an `nph-option` with the `plus` start icon and `create-label` followed by the typed text in quotes, the typed text in `text/highlight-weight`, as the accepted Figma (`1758:1089`). | Nothing changes. |
+| D-2 | Accepted: the footer is a `shortcuts` slot the consumer fills, with a `color/border` line above it and `space/inline` around it. | Nothing changes. |
+| D-3 | Accepted: on the active option the rest of the text stays `color/muted-foreground` (5.76:1 in light, 5.11:1 in dark over `color/accent`), so the matched part keeps its emphasis. | Nothing changes. |
+| D-4 | Accepted as shipped: Escape with the list closed clears the typed text; with no text, it passes on (APG combobox). | Nothing changes. |
+| D-5 | Accepted as shipped: while typing, the first available match is active, so Enter chooses it (APG combobox, automatic selection). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, list,

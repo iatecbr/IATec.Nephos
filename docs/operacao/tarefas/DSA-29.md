@@ -29,20 +29,7 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [
-    {
-      "id": "D-1",
-      "question": "The evidence gives the background and the border of the disabled trigger, but not the arrow area. The code keeps `color/accent` on it, under the opacity of the whole piece. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-23"
-    },
-    {
-      "id": "D-2",
-      "question": "The evidence says the list opens below the trigger (D1). It does not say what happens near the bottom of the window. The code turns the list up, `space/inline-tight` above the trigger, when it does not fit below and fits above. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-23"
-    }
-  ],
+  "pending_decisions": [],
   "evidence": [
     "docs/operacao/evidencias/DSA-29/documentacao-figma-aceita-2026-10-14.md",
     "docs/operacao/evidencias/DSA-29/review-and-merge-2026-10-24.md"
@@ -51,7 +38,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-14.md, nph-select reopened with divider, arrow area, status dot and the open state; documentation accepted and textual audit approved",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D1 to D9 of the nph-select",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420)"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -108,6 +96,14 @@ Indiane answered D-3 in Figma (frame `5374:10420`, lot 1 of the pending decision
 | ID | Answer | What the code does |
 |---|---|---|
 | D-3 | Selected and disabled: the option keeps `color/primary-surface` and the check, under `state/disabled-opacity`. It is rule 1 of the combined states, the same for every component. | Keeps what it does today. |
+
+## Decisions answered on 2026-11-09 (lot 2)
+Indiane answered D-1, D-2 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Option 2: when the field is disabled, the arrow area drops its `color/accent` background and matches the rest of the field; the divider stays. In light both tones are `core/surface/50`, so the change shows in dark. | Changes in DSA-70. |
+| D-2 | Accepted as shipped: near the bottom of the window the list opens upward, `space/inline-tight` above the trigger, when it fits there (Floating UI flip; WCAG 1.4.13). | Nothing changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, option,

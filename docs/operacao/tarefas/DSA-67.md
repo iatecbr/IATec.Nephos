@@ -38,26 +38,8 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D-1",
-      "question": "With the arrow, the accepted contract gives the distance from the trigger to the surface as 4 and the arrow as 16 by 8, and does not say where they meet. The code keeps the tip 4 from the trigger and puts the surface one arrow height further. If the surface should be 4 from the trigger, with the arrow overlapping the gap, it is her measure. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-07"
-    },
-    {
-      "id": "D-2",
-      "question": "The look of the open trigger and the ARIA of the native button were added to nph-button only for a trigger that carries aria-haspopup dialog, so the trigger of nph-dropdown-menu keeps its look. Whether the open trigger of nph-dropdown-menu should look open too needs her answer, and belongs to a round of that piece. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-07"
-    },
-    {
       "id": "D-3",
       "question": "The trigger carries aria-controls pointing to the popover host, not to the surface, because an id reference does not cross a shadow root. It needs her knowledge that the reference names the host. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-07"
-    },
-    {
-      "id": "D-4",
-      "question": "The popover title is drawn in text/label-lg, the semantic role that matches the core typography bound in Figma (core/size/300, core/line-height/300, core/weight/medium), while design.md says that role is not for titles. A role or tokens for the popover title are hers to give. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-07"
     }
@@ -68,7 +50,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-popover: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, 12 of the 13 points of the approval page approved (soft border token, error text token, 12 between footer actions, 12 between title and content, widths, radius, offset, arrow, compact footer buttons, open trigger, parts of its own) and the popover enters the first version"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-popover: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, 12 of the 13 points of the approval page approved (soft border token, error text token, 12 between footer actions, 12 between title and content, widths, radius, offset, arrow, compact footer buttons, open trigger, parts of its own) and the popover enters the first version",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -80,7 +63,7 @@
   },
   "git_review": { "branch": "feat/dsa-67-popover", "commit": "6a1ef8901df8c813ab17336e73a5334411956ec1", "pr": 155 },
   "context": null,
-  "updated_at": "2026-11-07"
+  "updated_at": "2026-11-09"
 }
 ```
 
@@ -110,6 +93,15 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 
 ## Why it is ready
 The 19 `popover/*` tokens came with this task and are on `v/5.0.0`, with two new semantic tokens (`color/border-subtle` and `status/error-text`), three new core primitives (`core/layout-width/popover-sm`, `-md` and `-lg`), `core/alpha/white-10`, which Figma had and the code did not, and the new value of `space/inline-loose`. The pieces inside are done: nph-icon (DSA-03), nph-separator (DSA-10), nph-button (DSA-13 and DSA-64), nph-icon-button (DSA-43) and nph-field (DSA-28).
+
+## Decisions answered on 2026-11-09 (lot 2)
+Indiane answered D-1, D-2, D-4 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-3 stays open: it is a technical choice of the code.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Accepted: the tip of the arrow sits `popover/offset` (4 px) from the trigger and the surface one arrow height further, as Radix adds the arrow height to the offset. | Nothing changes. |
+| D-2 | Option 2: the open trigger of nph-dropdown-menu takes the same open look as the popover trigger (`button/secondary-solid-background-hover`) and carries `aria-expanded` (APG menu button). | Changes in DSA-70. |
+| D-4 | Option 2: the popover title uses `text/heading-sm` (16 px, weight 600), a heading role that already exists; no new token. Figma follows. | Changes in DSA-70. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.

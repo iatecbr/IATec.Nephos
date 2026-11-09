@@ -31,38 +31,8 @@
   "blockers": [],
   "pending_decisions": [
     {
-      "id": "D-1",
-      "question": "The evidence does not give the distance between the trigger and the open menu. The code uses `space/inline-tight`, as the list of nph-select (DSA-29, D1). It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-24"
-    },
-    {
-      "id": "D-2",
-      "question": "The evidence does not give the motion of opening and closing. The code fades the menu in on `motion/enter-*` and out on `motion/exit-*`, sliding `space/inline-tight`, as the list of nph-select (DSA-29, D2). It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-24"
-    },
-    {
       "id": "D-3",
       "question": "On item hover, the evidence asks the nph-checkbox box and the nph-switch track to take their own hover (unchecked: `color/input-hover`, for 3:1 on `color/primary-surface`). Both pieces hover only through `:hover` inside their own shadow root and have no way to force it. The code ships without the forced hover, as a known limit, with a follow-up task for an API in the two pieces. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-24"
-    },
-    {
-      "id": "D-4",
-      "question": "The nph-switch track is `icon/size-lg` high and has no size; the evidence puts it in a 20 px slot. The code keeps the slot at `icon/size-md`, with the track centered and overflowing it, so the row keeps its height. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-24"
-    },
-    {
-      "id": "D-5",
-      "question": "The evidence says single choice highlights text and icon in `color/primary-hover` with `text/label-md`. The code reads it as the checked item only, which also shows the check; an unchecked item of the group stays as the common item. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-24"
-    },
-    {
-      "id": "D-6",
-      "question": "The evidence does not say whether the pointer over an item moves the keyboard focus. The code keeps hover as paint only; the focus moves by keyboard. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-24"
     }
@@ -75,7 +45,8 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, nph-dropdown-menu modernized: item hover in color/primary-surface, focus border and halo, color/dropdown-border only for the dropdown",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, nph-dropdown-menu visual acceptance, tag, switch and profile header, Figma UX QA approved, documentation accepted, textual audit approved, right-from-bracket icon and the 4 tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, solid icon in the active state: in the item hover, type default, start icon and submenu arrow turn solid in dropdown/item-hover-icon-foreground"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, solid icon in the active state: in the item hover, type default, start icon and submenu arrow turn solid in dropdown/item-hover-icon-foreground",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -91,7 +62,7 @@
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/118"
   },
   "context": null,
-  "updated_at": "2026-10-26"
+  "updated_at": "2026-11-09"
 }
 ```
 
@@ -128,6 +99,17 @@ catalog, light and solid. Add it to
 `right-to-bracket`, from `@fortawesome/pro-light-svg-icons` and
 `@fortawesome/pro-solid-svg-icons`. The evidence, section "Icons", says where
 else the name goes.
+
+## Decisions answered on 2026-11-09 (lot 2)
+Indiane answered D-1, D-2, D-4, D-5, D-6 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-3 stays open: it is a technical choice of the code.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-1 | Accepted: `space/inline-tight` (4 px) between the trigger and the open menu, as the nph-select list (shadcn and Primer default). | Nothing changes. |
+| D-2 | Accepted: the menu fades and slides `space/inline-tight` on enter (`motion/enter-*`) and on exit (`motion/exit-*`); with reduced motion it only fades. | Nothing changes. |
+| D-4 | Option 2: a small size of nph-switch, with a track that fits the 20 px slot, so every row keeps its height. The small size is drawn in Figma first and comes with its own tokens; until then the code keeps the current slot. | Nothing changes until the small nph-switch is accepted in Figma. |
+| D-5 | Accepted: only the checked item of single choice takes the brand text color, `text/label-md` and the check, as the accepted Figma draws it; the other items of the group stay common. | Nothing changes. |
+| D-6 | Exception to the code: the pointer over an item moves the keyboard focus to it, and the keyboard goes on from that item (Radix: the highlighted item is the focused item). | Changes in DSA-70. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — menu, item, parts,
