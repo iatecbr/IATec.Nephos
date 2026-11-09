@@ -46,7 +46,7 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-20.md, nph-dropdown-menu modernized: item hover in color/primary-surface, focus border and halo, color/dropdown-border only for the dropdown",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, nph-dropdown-menu visual acceptance, tag, switch and profile header, Figma UX QA approved, documentation accepted, textual audit approved, right-from-bracket icon and the 4 tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-21.md, solid icon in the active state: in the item hover, type default, start icon and submenu arrow turn solid in dropdown/item-hover-icon-foreground",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -101,12 +101,12 @@ catalog, light and solid. Add it to
 else the name goes.
 
 ## Decisions answered on 2026-11-09 (lot 2)
-Indiane answered D-1, D-2, D-4, D-5, D-6 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-3 stays open: it is a technical choice of the code.
+Indiane answered D-1, D-2, D-4, D-5 and D-6 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-3 stays open: it is a technical choice of the code.
 
 | ID | Answer | What the code does |
 |---|---|---|
 | D-1 | Accepted: `space/inline-tight` (4 px) between the trigger and the open menu, as the nph-select list (shadcn and Primer default). | Nothing changes. |
-| D-2 | Accepted: the menu fades and slides `space/inline-tight` on enter (`motion/enter-*`) and on exit (`motion/exit-*`); with reduced motion it only fades. | Nothing changes. |
+| D-2 | Accepted: the menu fades and slides `space/inline-tight` on enter (`motion/enter-*`) and on exit (`motion/exit-*`), as shipped. | Nothing changes. |
 | D-4 | Option 2: a small size of nph-switch, with a track that fits the 20 px slot, so every row keeps its height. The small size is drawn in Figma first and comes with its own tokens; until then the code keeps the current slot. | Nothing changes until the small nph-switch is accepted in Figma. |
 | D-5 | Accepted: only the checked item of single choice takes the brand text color, `text/label-md` and the check, as the accepted Figma draws it; the other items of the group stay common. | Nothing changes. |
 | D-6 | Exception to the code: the pointer over an item moves the keyboard focus to it, and the keyboard goes on from that item (Radix: the highlighted item is the focused item). | Changes in DSA-70. |

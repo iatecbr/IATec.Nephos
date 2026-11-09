@@ -38,7 +38,7 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-03.md, secondary light removed from nph-button and nph-icon-button; every secondary light instance becomes secondary solid, the table action cell included",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-04.md, secondary outline and solid colors (decisions 2 and 3), secondary solid as the default of the secondary type, documentation accepted, appendix points answered as recommended",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",

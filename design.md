@@ -444,13 +444,13 @@ tokens_semantic:
     css: '--nph-color-secondary-on-dialog'
     claro: color/secondary
     escuro: core/surface/800
-    use: "Background of the solid secondary nph-button inside the nph-dialog. In dark, color/secondary is the same surface/600 as the dialog and the button would disappear; here it goes down to surface/800. In light it repeats color/secondary."
+    use: "Background of the solid secondary nph-button inside the nph-dialog, until DSA-70 lands. Indiane decided on 2026-11-09 (DSA-64 D-1) that the button keeps its own background inside the dialog (button/secondary-solid-background), so this token loses that use; whether it stays for another use is open."
     nao_use: "Outside the nph-dialog."
   color/secondary-on-dialog-hover:
     css: '--nph-color-secondary-on-dialog-hover'
     claro: color/secondary-hover
     escuro: core/surface/700
-    use: "Hover-active of the solid secondary nph-button inside the nph-dialog, with color/secondary-foreground on top."
+    use: "Hover-active of the solid secondary nph-button inside the nph-dialog, until DSA-70 lands (DSA-64 D-1: the button keeps its own hover inside the dialog); whether it stays for another use is open."
     nao_use: "Outside the nph-dialog."
   color/primary-surface:
     css: '--nph-color-primary-surface'

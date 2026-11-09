@@ -34,8 +34,8 @@
   "evidence": [],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 1 of the pending decisions (Figma frame 5374:10420); tokens on v/5.0.0 (0a27c10)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452) and asked for one new task instead of reopening the done ones"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 1 of the pending decisions (Figma frame 5374:10420); tokens on v/5.0.0 (0a27c10)",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452) and asked for one new task instead of reopening the done ones"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -67,19 +67,19 @@ Each change in the table below is in the code of its piece, with its tests, stor
 | nph-dropdown-menu | DSA-45 D-6 | The pointer over an item moves the keyboard focus to it; the keyboard goes on from there. |
 | nph-navigation-menu | DSA-62 D-1 | Narrow width: each trigger is a collapsed row with its arrow; a tap opens its links below it and turns the arrow. |
 | nph-navigation-menu | DSA-62 D-3 | The trigger arrow turns 180 degrees when its panel opens; the panel fades in on `motion/enter-*` and out on `motion/exit-*`; with reduced motion nothing moves. |
-| nph-button, nph-dialog | DSA-64 D-1 | Inside nph-dialog the solid secondary keeps its own background: nph-dialog stops redefining `button/secondary-solid-background`, `icon-button/secondary-solid-background` and their hovers. |
+| nph-button, nph-dialog | DSA-64 D-1 | Inside nph-dialog the solid secondary keeps its own background: the `.panel` rule of `nph-dialog.css` stops redefining `--nph-color-secondary`, `--nph-color-secondary-hover`, `--nph-button-secondary-solid-background`, `--nph-icon-button-secondary-solid-background` and their hovers. `color/secondary-on-dialog` and its hover stay in the tokens. |
 | nph-progress | DSA-65 D-1 | The steps type accepts 2 steps or more; the spec says to avoid more than 7. |
 | nph-dropdown-menu | DSA-67 D-2 | The open trigger takes the open look of the popover trigger (`button/secondary-solid-background-hover`) and carries `aria-expanded`. |
 | nph-popover | DSA-67 D-4 | The title reads `text/heading-sm` instead of `text/label-lg`. |
 | nph-hover-card | DSA-68 D-2 | Without the arrow, the card centers on the link; with the arrow, the 16 px rule stays. |
+| nph-table | Lot 1, item 6 (link of the table) | `table/link-foreground` in dark points to `color/link` (`theme/brand-text-dark`) instead of `theme/brand-200`, as Figma already has it. The token source and the test `link in dark mode` in `nph-table.test.ts` change together, so the suite stays green. |
 
-The link of nph-table needs no code: `table/link-foreground` now points to `color/link` in both modes (token on `v/5.0.0`).
 
 ## How it is proved
 **`review-and-merge`** passes when each row of the table is in the code, with the tests and stories of each piece updated and its spec in `fichas/` saying the same; the proof commands in `docs/operacao/component-handoff.md` exit 0; and the work is merged into `v/5.0.0`.
 
 ## What this task does not do
-It does not add the small size of nph-switch (DSA-45 D-4): that size comes through Figma first. It does not answer the technical points still open in DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2. It does not create or remove tokens.
+It does not add the small size of nph-switch (DSA-45 D-4): that size comes through Figma first. It does not answer the technical points still open in DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2. It does not create or remove tokens; it only points `table/link-foreground` in dark to another token.
 
 ## Sources
 - `docs/operacao/tarefas/DSA-29.md`, `DSA-36.md`, `DSA-45.md`, `DSA-62.md`, `DSA-64.md`, `DSA-65.md`, `DSA-67.md`, `DSA-68.md`, `DSA-69.md`, sections "Decisions answered on 2026-11-09"

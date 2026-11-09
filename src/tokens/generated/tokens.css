@@ -1002,7 +1002,6 @@
   --nph-sidebar-separator: var(--nph-color-primary-surface);
   --nph-sidebar-search-background: var(--nph-color-primary-surface);
   --nph-table-row-hover-background: var(--nph-color-primary-surface);
-  --nph-table-link-foreground: var(--nph-color-link);
   --nph-image-focus-border: var(--nph-focus-border);
   --nph-pagination-item-background-active: var(--nph-color-primary-surface-hover);
   --nph-toolbar-bulk-background: var(--nph-color-primary-surface);
@@ -1196,6 +1195,7 @@
   --nph-chip-background-hover: var(--nph-theme-brand-200);
   --nph-chip-border: var(--nph-theme-brand-200);
   --nph-togglebutton-background-checked-hover: var(--nph-theme-brand-200);
+  --nph-table-link-foreground: var(--nph-color-link);
 }
 [data-nph-color-scheme="dark"] {
   --nph-scheme-is-light: 0;
@@ -1350,6 +1350,7 @@
   --nph-sidebar-panel-border: var(--nph-theme-brand-700);
   --nph-sidebar-search-border: var(--nph-theme-brand-700);
   --nph-table-header-background: var(--nph-color-muted);
+  --nph-table-link-foreground: var(--nph-theme-brand-200);
   --nph-chip-counter-background: var(--nph-theme-brand-700);
   --nph-chip-counter-background-hover: var(--nph-theme-brand-900);
   --nph-chip-remove-background-hover: var(--nph-theme-brand-700);

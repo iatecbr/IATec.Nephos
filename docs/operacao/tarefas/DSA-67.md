@@ -51,7 +51,7 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-popover: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, 12 of the 13 points of the approval page approved (soft border token, error text token, 12 between footer actions, 12 between title and content, widths, radius, offset, arrow, compact footer buttons, open trigger, parts of its own) and the popover enters the first version",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -95,7 +95,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 The 19 `popover/*` tokens came with this task and are on `v/5.0.0`, with two new semantic tokens (`color/border-subtle` and `status/error-text`), three new core primitives (`core/layout-width/popover-sm`, `-md` and `-lg`), `core/alpha/white-10`, which Figma had and the code did not, and the new value of `space/inline-loose`. The pieces inside are done: nph-icon (DSA-03), nph-separator (DSA-10), nph-button (DSA-13 and DSA-64), nph-icon-button (DSA-43) and nph-field (DSA-28).
 
 ## Decisions answered on 2026-11-09 (lot 2)
-Indiane answered D-1, D-2, D-4 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-3 stays open: it is a technical choice of the code.
+Indiane answered D-1, D-2 and D-4 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-3 stays open: it is a technical choice of the code.
 
 | ID | Answer | What the code does |
 |---|---|---|

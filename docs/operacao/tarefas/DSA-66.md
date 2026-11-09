@@ -41,7 +41,7 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-breadcrumb: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 12 points of the approval page approved (128 menu floor and 24 target as new core values, 280 menu ceiling straight to core, menu width that hugs the content only in the breadcrumb, link kept as an inner piece, loading as a rule only)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -76,7 +76,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 The 22 `breadcrumb/*` tokens came with this task and are on `v/5.0.0`, with two new core primitives (`core/layout-width/menu-min`, 128, and `core/target-size/minimum`, 24) and five core primitives that Figma had and the code did not (`core/size/200`, `core/line-height/200`, `core/tracking/normal`, `core/weight/regular` and `core/weight/medium`). The pieces inside are done: nph-icon (DSA-03), nph-skeleton (DSA-26) and nph-dropdown-menu (DSA-45).
 
 ## Decisions answered on 2026-11-09 (lot 2)
-Indiane answered D-1, D-2 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
+Indiane answered D-1 and D-2 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
 
 | ID | Answer | What the code does |
 |---|---|---|

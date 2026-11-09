@@ -39,7 +39,7 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-05.md, nph-progress: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 11 points of the approval page approved (1400 ms loop, 4 x 4 end stop on both sizes, fluid width, gaps in space/inline-tight and space/stack-tight, radius straight to core)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -74,7 +74,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 The 27 `progress/*` tokens came with this task and are on `v/5.0.0`, with `motion/loop-long-duration`, `motion/loop-long-easing` and one core primitive (`core/duration/loop-long`, 1400 ms). This also answers the open point of PF-15 on the duration of the indeterminate bar; `docs/tokens.md` still says that bar has no value, so update that paragraph with the spec. The piece inside is done: nph-icon (DSA-03).
 
 ## Decisions answered on 2026-11-09 (lot 2)
-Indiane answered D-1, D-2 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
+Indiane answered D-1 and D-2 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
 
 | ID | Answer | What the code does |
 |---|---|---|

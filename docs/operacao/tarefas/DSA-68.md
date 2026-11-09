@@ -43,7 +43,7 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-hover-card: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 10 points of the approval page approved (radius 14, offset 4, arrow tokens of the popover, width 320, color/subtle-foreground, 8 between texts, delays 600 and 300, relative time up to 30 days, clock icon); a finished component enters the first version",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420); tokens on v/5.0.0",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -89,7 +89,7 @@ Indiane answered D-3 in Figma (frame `5374:10420`, lot 1 of the pending decision
 | D-3 | `color/link` in dark points to the new `theme/brand-text-dark`, at least 4.5:1 in the seven brands. The trigger link of `nph-hover-card` uses `color/link` instead of `color/primary`; in light the tone is the same. | Swaps `color/primary` for `color/link` on the link; the Brands story drops the contrast exception. |
 
 ## Decisions answered on 2026-11-09 (lot 2)
-Indiane answered D-1, D-2, D-4 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
+Indiane answered D-1, D-2 and D-4 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
 
 | ID | Answer | What the code does |
 |---|---|---|

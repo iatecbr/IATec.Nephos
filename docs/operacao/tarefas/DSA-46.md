@@ -38,7 +38,7 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-14.md, modern nph-combobox: divider before the arrow area, arrow area in color/accent, the open state, status dot, check of the option in color/primary, text/highlight-weight; documentation accepted and textual audit approved",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-14.md and 2026-10-21.md, the nph-combobox tokens go with the nph-select ones; task DSA-46 opened on 21-10 (diary 2026-10-21.md) with the nph-empty and nph-dropdown-menu accepted",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -94,7 +94,7 @@ adjusts one rule.
 | D-5 | Typing filters the list. | Which option is active while typing. | The first available match, so Enter chooses it. |
 
 ## Decisions answered on 2026-11-09 (lot 2)
-Indiane answered D-1, D-2, D-3, D-4, D-5 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
+Indiane answered D-1, D-2, D-3, D-4 and D-5 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
 
 | ID | Answer | What the code does |
 |---|---|---|

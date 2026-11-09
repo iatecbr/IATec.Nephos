@@ -39,7 +39,7 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-14.md, nph-select reopened with divider, arrow area, status dot and the open state; documentation accepted and textual audit approved",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D1 to D9 of the nph-select",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420)",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -98,7 +98,7 @@ Indiane answered D-3 in Figma (frame `5374:10420`, lot 1 of the pending decision
 | D-3 | Selected and disabled: the option keeps `color/primary-surface` and the check, under `state/disabled-opacity`. It is rule 1 of the combined states, the same for every component. | Keeps what it does today. |
 
 ## Decisions answered on 2026-11-09 (lot 2)
-Indiane answered D-1, D-2 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
+Indiane answered D-1 and D-2 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions).
 
 | ID | Answer | What the code does |
 |---|---|---|

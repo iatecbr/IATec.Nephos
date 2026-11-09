@@ -55,7 +55,7 @@
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-context-menu: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 11 points of the approval page approved (radius 12 and 8, outline on color/border-subtle, dropdown/separator, color/destructive-text, solid icon on highlight in nph-dropdown-menu, compact destructive item, no context-menu tokens, arrow-pointer in nph-icon, cleanup, notification/error-action-foreground unchanged); a finished component enters the first version",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420); tokens on v/5.0.0",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered the lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452); code changes in DSA-70"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -107,7 +107,7 @@ Indiane answered D-3 in Figma (frame `5374:10420`, lot 1 of the pending decision
 | D-3 | Long press: 700 ms and 10 px, now tokens. `context-menu/long-press-delay` points to `motion/long-press-delay` (`core/duration/long-press`, 700 ms); `context-menu/long-press-tolerance` points to `motion/long-press-tolerance` (`core/space/off-scale/10`). | Reads the two tokens instead of the literal values. |
 
 ## Decisions answered on 2026-11-09 (lot 2)
-Indiane answered D-4, D-5 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-1, D-2 stays open: it is a technical choice of the code.
+Indiane answered D-4 and D-5 on the approval page of 2026-11-09 (Figma frame `5404:10452`, lot 2 of the pending decisions). D-1 and D-2 stay open: they are technical choices of the code.
 
 | ID | Answer | What the code does |
 |---|---|---|
