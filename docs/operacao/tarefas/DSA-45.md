@@ -107,7 +107,7 @@ Indiane answered D-1, D-2, D-4, D-5 and D-6 on the approval page of 2026-11-09 (
 |---|---|---|
 | D-1 | Accepted: `space/inline-tight` (4 px) between the trigger and the open menu, as the nph-select list (shadcn and Primer default). | Nothing changes. |
 | D-2 | Accepted: the menu fades and slides `space/inline-tight` on enter (`motion/enter-*`) and on exit (`motion/exit-*`), as shipped. | Nothing changes. |
-| D-4 | Option 2: a small size of nph-switch, with a track that fits the 20 px slot, so every row keeps its height. The small size is drawn in Figma first and comes with its own tokens. | Accepted in Figma on 2026-11-09 and its tokens are on `v/5.0.0`: the switch slot uses the small nph-switch. See "D-4: the small nph-switch" below. |
+| D-4 | Option 2: a small size of nph-switch, with a track that fits the 20 px slot, so every row keeps its height. The small size is drawn in Figma first and comes with its own tokens. | Changes in DSA-70. The spec is in "D-4: the small nph-switch" below. |
 | D-5 | Accepted: only the checked item of single choice takes the brand text color, `text/label-md` and the check, as the accepted Figma draws it; the other items of the group stay common. | Nothing changes. |
 | D-6 | Exception to the code: the pointer over an item moves the keyboard focus to it, and the keyboard goes on from that item (Radix: the highlighted item is the focused item). | Changes in DSA-70. |
 
