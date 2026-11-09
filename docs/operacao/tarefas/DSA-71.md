@@ -80,6 +80,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - Overflow in the segmented and tab button styles, which the usage rule limits to few tabs.
 - What moves on a tab change (the underline slides or only the color changes), within `tabs/indicator-duration`.
 - A whole list disabled at once, if the API offers it.
+- Where the Tab stop goes when the active tab is disabled (the active tab itself or the first enabled tab).
 - A large counter (for example "99+") and its maximum.
 - Who provides and translates the hidden context text of the counter ("12 items"): a property of the code.
 - Event, aria, slot, property and console warning, following the APG and the Custom Elements Manifest.

@@ -54,7 +54,7 @@ Use it to switch panels of the same context, such as the steps of a request or t
 | `tabs/item-height` | `control/height-compact` | Height of the segmented tab, inside the rail |
 | `tabs/underline-item-height` | `control/height-default` | Height of the underline tab |
 | `tabs/item-padding-x` | `space/control-padding` | Side padding of the tab, every style |
-| `tabs/item-padding-y` | `space/inline-tight` | Top and bottom padding of the tab, segmented and tab button styles; the underline has none, its height comes from `tabs/underline-item-height` |
+| `tabs/item-padding-y` | `space/inline-tight` | Minimum top and bottom padding of the tab, segmented and tab button styles; the tab height is fixed by `tabs/item-height` or `tabs/button-height`, and the counter may take part of this padding; the underline has none, its height comes from `tabs/underline-item-height` |
 | `tabs/item-gap` | `space/inline` | Gap between icon, label, counter and tag |
 | `tabs/item-radius` | `radius/inner` | Corners of the segmented tab |
 | `tabs/item-foreground` | `color/muted-foreground` | Label and icon of the inactive tab, every style |
@@ -154,7 +154,7 @@ Inherited decisions: a cut label shows the whole text in nph-tooltip, on hover a
 
 Icon and image: the icon is nph-icon at `icon/size-sm`, light at rest and in focus, solid in hover and when active; it comes from nph-icon itself, with no exported file. The component has no image.
 
-Event, aria, slot, property and console warning stay with the code (Elvys), following the APG and the Custom Elements Manifest.
+Event, aria, slot, property and console warning stay with the code, following the APG and the Custom Elements Manifest.
 
 ## Accessibility
 
