@@ -99,6 +99,7 @@
   --nph-core-help-700: #581f8c;
   --nph-core-help-800: #3b145e;
   --nph-core-help-900: #1d0a2f;
+  --nph-core-icon-size-50: 0.75rem;
   --nph-core-icon-size-100: 1rem;
   --nph-core-icon-size-200: 1.25rem;
   --nph-core-icon-size-300: 1.5rem;
@@ -140,6 +141,7 @@
   --nph-core-layout-width-multi-combobox: 26.25rem;
   --nph-core-layout-width-separator: 15rem;
   --nph-core-layout-width-switch-track: 2.5rem;
+  --nph-core-layout-width-switch-track-sm: 2rem;
   --nph-core-layout-width-dialog-min: 20rem;
   --nph-core-layout-width-dialog-sm: 25rem;
   --nph-core-layout-width-dialog-lg: 45rem;
@@ -610,6 +612,9 @@
   --nph-space-inline-loose: var(--nph-core-space-300);
   --nph-space-overlay-padding: var(--nph-core-space-600);
   --nph-switch-track-width: var(--nph-core-layout-width-switch-track);
+  --nph-switch-track-width-sm: var(--nph-core-layout-width-switch-track-sm);
+  --nph-switch-thumb-size-sm: var(--nph-core-icon-size-50);
+  --nph-switch-track-padding-sm: var(--nph-core-space-50);
   --nph-table-row-height: var(--nph-core-space-800);
   --nph-table-focus-ring-width: var(--nph-core-focus-width-sm);
   --nph-table-sticky-divider-width: var(--nph-core-shadow-y-100);
@@ -694,6 +699,7 @@
   --nph-hover-card-close-delay: var(--nph-core-duration-delay);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-section-gap: var(--nph-space-stack);
+  --nph-switch-track-height-sm: var(--nph-icon-size-sm);
   --nph-table-border-width: var(--nph-border-width);
   --nph-table-radius: var(--nph-radius-container);
   --nph-table-row-height-large: var(--nph-control-height-large);

@@ -1228,6 +1228,26 @@ tokens_switch:
     alias: core/layout-width/switch-track
     valor: 40
     use: "Width of the nph-switch track: 40. USE only on the nph-switch track, with the height of icon/size-lg (24). DO NOT USE on another piece."
+  switch/track-width-sm:
+    css: '--nph-switch-track-width-sm'
+    alias: core/layout-width/switch-track-sm
+    valor: 32
+    use: "Width of the small nph-switch track: 32. USE only on the track of the small size, with the height of switch/track-height-sm (16). DO NOT USE on another piece."
+  switch/track-height-sm:
+    css: '--nph-switch-track-height-sm'
+    alias: icon/size-sm
+    valor: 16
+    use: "Height of the small nph-switch track: 16. USE only on the track of the small size, which fits the 20 px switch slot of the nph-dropdown-menu item. DO NOT USE on another piece."
+  switch/thumb-size-sm:
+    css: '--nph-switch-thumb-size-sm'
+    alias: core/icon-size/50
+    valor: 12
+    use: "Knob of the small nph-switch: 12. USE only on the knob of the small size. DO NOT USE on another piece."
+  switch/track-padding-sm:
+    css: '--nph-switch-track-padding-sm'
+    alias: core/space/50
+    valor: 2
+    use: "Gap between the track and the knob of the small nph-switch: 2. USE only on the track of the small size. DO NOT USE on another piece."
 
 tokens_skeleton:
   skeleton/line-height:
@@ -1489,6 +1509,7 @@ tokens_core_borda:
 
 tokens_core_icon:
   regra: 'NEVER consume directly. Use icon/size-sm, -md and -lg. Read from Figma when migrating the tokens to JSON.'
+  core/icon-size/50:  { valor: 12, css: '--nph-core-icon-size-50',  alias_de: 'switch/thumb-size-sm' }
   core/icon-size/100: { valor: 16, css: '--nph-core-icon-size-100', alias_de: 'icon/size-sm' }
   core/icon-size/200: { valor: 20, css: '--nph-core-icon-size-200', alias_de: 'icon/size-md' }
   core/icon-size/300: { valor: 24, css: '--nph-core-icon-size-300', alias_de: 'icon/size-lg' }
@@ -1532,6 +1553,7 @@ tokens_core_layout:
   core/layout-width/dialog-content-lg: { valor: 672, css: '--nph-core-layout-width-dialog-content-lg', alias_de: 'layout/dialog-content-lg' }
   core/layout-height/dialog-max:       { valor: 640, css: '--nph-core-layout-height-dialog-max', alias_de: 'layout/dialog-max-height' }
   core/layout-width/switch-track:      { valor: 40, css: '--nph-core-layout-width-switch-track', alias_de: 'switch/track-width' }
+  core/layout-width/switch-track-sm:   { valor: 32, css: '--nph-core-layout-width-switch-track-sm', alias_de: 'switch/track-width-sm' }
 
 # ---------------------------------------------------------------
 # PRIMITIVES WITHOUT A CONSUMER - they exist in Figma and NO semantic

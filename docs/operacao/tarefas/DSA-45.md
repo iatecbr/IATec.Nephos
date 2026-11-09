@@ -107,9 +107,51 @@ Indiane answered D-1, D-2, D-4, D-5 and D-6 on the approval page of 2026-11-09 (
 |---|---|---|
 | D-1 | Accepted: `space/inline-tight` (4 px) between the trigger and the open menu, as the nph-select list (shadcn and Primer default). | Nothing changes. |
 | D-2 | Accepted: the menu fades and slides `space/inline-tight` on enter (`motion/enter-*`) and on exit (`motion/exit-*`), as shipped. | Nothing changes. |
-| D-4 | Option 2: a small size of nph-switch, with a track that fits the 20 px slot, so every row keeps its height. The small size is drawn in Figma first and comes with its own tokens; until then the code keeps the current slot. | Nothing changes until the small nph-switch is accepted in Figma. |
+| D-4 | Option 2: a small size of nph-switch, with a track that fits the 20 px slot, so every row keeps its height. The small size is drawn in Figma first and comes with its own tokens. | Accepted in Figma on 2026-11-09 and its tokens are on `v/5.0.0`: the switch slot uses the small nph-switch. See "D-4: the small nph-switch" below. |
 | D-5 | Accepted: only the checked item of single choice takes the brand text color, `text/label-md` and the check, as the accepted Figma draws it; the other items of the group stay common. | Nothing changes. |
 | D-6 | Exception to the code: the pointer over an item moves the keyboard focus to it, and the keyboard goes on from that item (Radix: the highlighted item is the focused item). | Changes in DSA-70. |
+
+## D-4: the small nph-switch (Figma documentation accepted on 2026-11-09)
+Indiane chose option 1 (track 32 by 16) on the Figma preview frame `5433:13774`
+and accepted the `nph-switch` documentation with the small size (board
+`1549:2`). This section is the contract; there is no need to open Figma.
+
+**What changes in the code.** The `nph-switch` gains a small size. In the
+switch slot of the item (`interruptor`), the item uses the small `nph-switch`,
+without a label. The slot stays 20 px high, the track no longer overflows it
+and the row keeps its height in every size of the item. The name of the size
+API (attribute and values) is a choice of the code; in Figma it is the variant
+`tamanho` = `padrão` (default) | `pequeno` (small).
+
+| Part | Default size | Small size |
+|---|---|---|
+| Track | 40 by 24: `switch/track-width` by `icon/size-lg` | 32 by 16: `switch/track-width-sm` by `switch/track-height-sm` |
+| Knob | 16: `icon/size-sm` | 12: `switch/thumb-size-sm` |
+| Gap between track and knob | 4: `space/inline-tight` | 2: `switch/track-padding-sm` |
+| Label, when shown | `text/label-md`, `space/inline` from the track | the same; the piece is 20 high and the track is vertically centered |
+
+**Tokens (T9: component → semantic → primitive; new values first in core).**
+
+| Token | Points to | Value |
+|---|---|---|
+| `switch/track-width-sm` | `core/layout-width/switch-track-sm` (new) | 32 |
+| `switch/track-height-sm` | `icon/size-sm` | 16 |
+| `switch/thumb-size-sm` | `core/icon-size/50` (new) | 12 |
+| `switch/track-padding-sm` | `core/space/50` | 2 |
+
+**What stays the same in both sizes.** Colors, states (default, hover, focus,
+error, error-focus, disabled), focus border and halo, `radius/full` and
+`border/width`. The knob travel follows the same rule: track width minus knob
+minus twice the gap.
+
+**When to use.** Small only inside the `nph-dropdown-menu` item, whose switch
+slot is 20 px high. Everywhere else, the default size. Do not use the small
+size outside the menu item: alone, its target is below 24 by 24 (WCAG 2.5.8).
+Inside the item, the whole row is the target, above 24 by 24 in every size.
+
+**Accessible name.** In the item, the switch has no label. The name read
+comes from the item label, as the evidence of the `figma-docs-accepted` gate
+already says (section "Accessibility", row "Accessible name").
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — menu, item, parts,
