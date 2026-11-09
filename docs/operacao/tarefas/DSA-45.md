@@ -168,7 +168,7 @@ adjusts one rule.
 | D-1 | The menu opens attached to a button. | The distance between the trigger and the menu. | `space/inline-tight`, as the list of `nph-select`. |
 | D-2 | Opening and closing belong to code. | The motion. | Fade and a slide of `space/inline-tight` on `motion/enter-*` and `motion/exit-*`, as the list of `nph-select`. |
 | D-3 | On item hover, the box and the track take their own hover. | A way to force the hover of `nph-checkbox` and `nph-switch` from outside. | Ships without it, as a known limit; a follow-up task gives the two pieces an API. |
-| D-4 | The switch sits in a 20 px slot. | The switch track is 24 high and has no size. | Slot at `icon/size-md`, track centered and overflowing it. |
+| D-4 | The switch sits in a 20 px slot. | The switch track is 24 high and has no size. | Superseded by the answer of 2026-11-09: the slot uses the small nph-switch (section "D-4: the small nph-switch"). |
 | D-5 | Single choice highlights text and icon in `color/primary-hover`. | Whether it is every item of the group or the checked one. | The checked item only, with the check. |
 | D-6 | Hover paints the item. | Whether the pointer moves the keyboard focus. | Hover paints only; the focus moves by keyboard. |
 
@@ -186,7 +186,7 @@ adjusts one rule.
   section "Solid icon in hover", carries the rule.
 
 ## What this task does not do
-It does not create a token or change a token value. It does not change Figma.
+The code creates no token and changes no token value; the D-4 tokens are already on `v/5.0.0`. It does not change Figma.
 Positioning, opening, closing, keyboard and events are technical proposals for
 the PR.
 
