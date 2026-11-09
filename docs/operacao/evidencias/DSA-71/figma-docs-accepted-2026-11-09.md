@@ -54,12 +54,12 @@ Use it to switch panels of the same context, such as the steps of a request or t
 | `tabs/item-height` | `control/height-compact` | Height of the segmented tab, inside the rail |
 | `tabs/underline-item-height` | `control/height-default` | Height of the underline tab |
 | `tabs/item-padding-x` | `space/control-padding` | Side padding of the tab, every style |
-| `tabs/item-padding-y` | `space/inline-tight` | Top and bottom padding of the tab, every style |
+| `tabs/item-padding-y` | `space/inline-tight` | Top and bottom padding of the tab, segmented and tab button styles; the underline has none, its height comes from `tabs/underline-item-height` |
 | `tabs/item-gap` | `space/inline` | Gap between icon, label, counter and tag |
 | `tabs/item-radius` | `radius/inner` | Corners of the segmented tab |
-| `tabs/item-foreground` | `color/muted-foreground` | Label of the inactive tab, every style |
-| `tabs/item-foreground-hover` | `color/foreground` | Label in hover, segmented and underline |
-| `tabs/item-foreground-active` | `color/primary-text` | Label of the active tab, segmented and underline |
+| `tabs/item-foreground` | `color/muted-foreground` | Label and icon of the inactive tab, every style |
+| `tabs/item-foreground-hover` | `color/foreground` | Label and icon in hover, segmented and underline |
+| `tabs/item-foreground-active` | `color/primary-text` | Label and icon of the active tab, segmented and underline |
 | `tabs/item-background-active` | `color/background` | Card of the active segmented tab, with the `elevation/subtle` effect style |
 | `tabs/item-disabled-opacity` | `state/disabled-opacity` | Opacity of the disabled tab, on the whole tab |
 | `tabs/underline-border-color` | `color/border` | Base line of the underline list, under every tab |
@@ -78,13 +78,13 @@ Use it to switch panels of the same context, such as the steps of a request or t
 | `tabs/button-height` | `control/height-default` | Height of the tab in the tab button styles |
 | `tabs/button-radius` | `radius/control` | Corners of the tab in the tab button styles |
 | `tabs/button-background-hover` | `color/accent` | Background of the inactive tab in hover, tab button styles |
-| `tabs/button-foreground-hover` | `color/foreground` | Label in hover, tab button styles |
+| `tabs/button-foreground-hover` | `color/foreground` | Label and icon in hover, tab button styles |
 | `tabs/button-solid-background-active` | `color/primary` | Background of the active solid tab |
-| `tabs/button-solid-foreground-active` | `color/primary-foreground` | Label of the active solid tab |
+| `tabs/button-solid-foreground-active` | `color/primary-foreground` | Label and icon of the active solid tab |
 | `tabs/button-light-background-active` | `color/primary-surface` | Background of the active light tab |
-| `tabs/button-light-foreground-active` | `color/primary-on-surface` | Label of the active light tab |
+| `tabs/button-light-foreground-active` | `color/primary-on-surface` | Label and icon of the active light tab |
 | `tabs/button-outline-background-active` | `color/primary-surface` | Background of the active outline tab |
-| `tabs/button-outline-foreground-active` | `color/primary-on-surface` | Label of the active outline tab |
+| `tabs/button-outline-foreground-active` | `color/primary-on-surface` | Label and icon of the active outline tab |
 | `tabs/button-outline-border-color-active` | `theme/brand-200` light, `core/alpha/white-15` dark | Border of the active outline tab |
 | `tabs/button-outline-border-width` | `border/width` | Thickness of that border |
 | `tabs/button-focus-radius` | `focus/radius-control-with-border` | Halo corners, tab button styles |
@@ -97,18 +97,18 @@ Use it to switch panels of the same context, such as the steps of a request or t
 | `tabs/counter-padding-y` | `space/inline-tight` | Top and bottom padding of the counter |
 | `tabs/counter-radius` | `radius/full` | Corners of the counter |
 
-The label uses the `text/label-md` text style directly, with no `tabs/*` token (it becomes the `--nph-text-label-md-*` group, as in nph-badge); the counter number uses `text/label-sm`. The icon is nph-icon at `icon/size-sm`. The tag uses the tokens of nph-badge; the scroll arrows and the tooltip use the tokens of nph-icon-button and nph-tooltip. Widths hug the content, with no token.
+The label uses the `text/label-md` text style directly, with no `tabs/*` token (it becomes the `--nph-text-label-md-*` group, as in nph-badge); the counter number uses `text/label-sm`. The icon is nph-icon at `icon/size-sm`, in the same color token as the label in every state. The tag uses the tokens of nph-badge; the scroll arrows and the tooltip use the tokens of nph-icon-button and nph-tooltip. Width has no token: the list fills its container and the tabs share the width; in the underline style, when the tabs do not fit, each tab keeps its content width and the list scrolls. The Figma component sets hug only to show the variants.
 
 ## Anatomy
 
 1. **List**: the `color/muted` rail in the segmented style; the `color/border` base line in the underline style; in the tab button styles, only the gap between tabs. It groups the tabs.
 2. **Tab**: the clickable control. Each tab shows one panel.
-3. **Start icon**: optional. nph-icon at `icon/size-sm`, before the label, on every tab or on none. Light at rest and in focus; solid in hover and when active.
+3. **Start icon**: optional. nph-icon at `icon/size-sm`, before the label, on every tab or on none. Light at rest and in focus; solid in hover and when active. Its color is the label color in every state (`tabs/item-foreground`, `-hover`, `-active` and the `tabs/button-*-foreground-*` tokens).
 4. **Label**: `text/label-md`, one line. A cut label shows the whole text in nph-tooltip.
 5. **Counter**: optional. A piece of nph-tabs itself (`nph-tabs / contador`), after the label, with the number in `text/label-sm`. Background `color/background` inside the segmented rail, `color/secondary-light` outside it and `tabs/counter-background-active` on the active tab.
-6. **Tag**: optional. nph-badge primary light, after the counter, with one word, such as "New". On the active light and outline tab button, it turns primary solid.
-7. **Indicator**: segmented: a `color/background` card with `elevation/subtle`. Underline: the active line under the tab, in `color/primary-text`, at `tabs/indicator-width`. Tab button: `color/primary` background in solid and `color/primary-surface` in light and outline; in outline, with a soft border at `border/width`.
-8. **Scroll arrows**: underline only, when the tabs do not fit: nph-icon-button at both ends.
+6. **Tag**: optional. nph-badge primary light, after the counter, with one word, such as "New". On the active light and outline tab button, it turns primary solid; on the active solid tab button it stays primary light.
+7. **Indicator**: segmented: a `color/background` card with `elevation/subtle`. Underline: the active line under the tab, in `color/primary-text`, at `tabs/indicator-width`, drawn inside the tab and over the 1 px base line of the list. Tab button: `color/primary` background in solid and `color/primary-surface` in light and outline; in outline, with a soft border at `border/width`.
+8. **Scroll arrows**: underline only, when the tabs do not fit: nph-icon-button at both ends, secondary ghost, compact, square, with the light `chevron-left` and `chevron-right` icons.
 9. **Panel**: the content of the active tab. It stays outside the piece, with the consumer.
 
 The order inside the tab is fixed: icon, label, counter, tag.
@@ -125,7 +125,8 @@ The order inside the tab is fixed: icon, label, counter, tag.
 | `tag` | Turns on the tag after the counter, with one short word, such as "New". |
 | `abas` (tabs) | In the list: how many tabs the example shows. In use, the list takes the tabs it needs. |
 | `rolagem` (scrolling) | Underline only: arrows at both ends when the tabs do not fit. |
-| full width | Not a property: the instance fills its container and the tabs share the width. |
+| full width | Not a property: the list fills its container and the tabs share the width; in the underline style with scrolling, each tab keeps its content width. |
+| orientation | Horizontal only; Figma has no vertical list. |
 | size | Not a property: one size. |
 | activation | Not a visual property: see Behavior. |
 

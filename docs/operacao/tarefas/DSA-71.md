@@ -65,7 +65,7 @@ The `nph-tabs` exists in `src/components/nph-tabs/`, with a spec, tests and stor
 In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA-71/figma-docs-accepted-2026-11-09.md`. It carries the Figma documentation converted to text, with the tokens of each part, the default behavior and the answers to the appendix points. There is no need to open Figma.
 
 ## Specification to follow closely
-- **Styles**: segmented (default), underline, and tab button solid, light and outline. One size. The instance fills its container.
+- **Styles**: segmented (default), underline, and tab button solid, light and outline. One size, horizontal only. The list fills its container and the tabs share the width; in the underline style with scrolling, each tab keeps its content width.
 - **Keyboard** (APG Tabs): the list is a single Tab stop, on the active tab; left and right arrows move the focus with wrap, skipping a disabled tab; Home and End go to the first and the last enabled tab.
 - **Activation**: automatic on focus by default; manual (Enter or Space) as an option for a slow panel. A click on the active tab does nothing; hover only paints.
 - **Roles**: `tablist`, `tab` with `aria-selected` and `aria-controls`, `tabpanel` with `aria-labelledby`; the icon is `aria-hidden`; the counter number enters the accessible name with hidden context text and the visible number is `aria-hidden`.
@@ -73,11 +73,15 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - **Counter**: a piece of nph-tabs itself, with three tones (inactive outside the rail, inactive inside the rail, active).
 - **Combined states** (rule T11): active + disabled keeps the active look under `tabs/item-disabled-opacity`; active + hover keeps the active look.
 - **Inherited decisions**: the cut label follows DSA-48 D1 and D2 and DSA-57 D-3 (nph-tooltip on hover and on focus, a click cancels the wait); the order icon, label, counter, tag follows DSA-57 D-5; reduced motion follows DSA-62 D-3.
-- **Icon and image**: nph-icon at `icon/size-sm`, light at rest and in focus, solid in hover and when active; no exported file. No image.
+- **Icon and image**: nph-icon at `icon/size-sm`, light at rest and in focus, solid in hover and when active, in the label color of each state; no exported file. No image.
 
 ## Open points for the code
 - Whether the scroll arrow hides or is disabled at an end of the list.
 - Overflow in the segmented and tab button styles, which the usage rule limits to few tabs.
+- What moves on a tab change (the underline slides or only the color changes), within `tabs/indicator-duration`.
+- A whole list disabled at once, if the API offers it.
+- A large counter (for example "99+") and its maximum.
+- Who provides and translates the hidden context text of the counter ("12 items"): a property of the code.
 - Event, aria, slot, property and console warning, following the APG and the Custom Elements Manifest.
 
 ## Why it is ready
