@@ -911,14 +911,16 @@ tokens_semantic:
     use: "Same rule as brand/sistemas-strong. The `Comercial` 500 (#3e8391) gives 4.32:1; the 600 gives 6.16:1. `Financeiro` does not need a variant: the 500 (#4d7549) already gives 5.25:1."
 
 # ---------------------------------------------------------------
-# BRAND LAYER. One mode per vertical. Only the semantic layer consumes it.
+# BRAND LAYER. One mode per vertical. The semantic layer consumes it; a
+# component token consumes it straight only by decision.
 # ---------------------------------------------------------------
 tokens_theme:
   modos: [Sistemas, Gerencial, Educacao, Comercial, Financeiro, Igrejas, Recursos Humanos]
   nota: >-
     Nephos is multi-brand. The active brand is a dimension independent of the color scheme:
     a product can be in Educacao + dark without anything being re-authored.
-    These tokens are not consumed by components - only by the semantic layer.
+    Component CSS never consumes these tokens. The semantic layer consumes them; a component
+    token aliases one straight only by decision, when no semantic token has the same function.
   theme/brand-400:
     css: '--nph-theme-brand-400'
     valor_por_modo: "core/<vertical>/400 in six verticals; core/educacao/700 in `Educacao`"
@@ -954,11 +956,11 @@ tokens_theme:
   theme/brand-200:
     css: '--nph-theme-brand-200'
     valor_por_modo: core/<vertical>/200
-    use: "Light tone of the active brand. Border of a piece in light emphasis in light mode. Consumed only by semantic."
+    use: "Light tone of the active brand. Border of a piece in light emphasis in light mode. Consumed by semantic; a component token uses it straight only by decision, when no semantic token has the same function."
   theme/brand-300:
     css: '--nph-theme-brand-300'
     valor_por_modo: core/<vertical>/300
-    use: "Tone 300 of the active brand. Created for the focus border in dark mode, where the 400 failed the 3:1 minimum in `Gerencial` and `Recursos Humanos`. Do not use for fill or text."
+    use: "Tone 300 of the active brand. Created for the focus border in dark mode, where the 400 failed the 3:1 minimum in `Gerencial` and `Recursos Humanos`. Do not use for fill or text, except in a component token that uses it straight by decision."
   theme/brand-800:
     css: '--nph-theme-brand-800'
     valor_por_modo: core/<vertical>/800
@@ -966,7 +968,7 @@ tokens_theme:
   theme/brand-900:
     css: '--nph-theme-brand-900'
     valor_por_modo: core/<vertical>/900
-    use: "Darkest tone of the active brand. Background of a piece in light emphasis in dark mode. Consumed only by semantic."
+    use: "Darkest tone of the active brand. Background of a piece in light emphasis in dark mode. Consumed by semantic; a component token uses it straight only by decision, when no semantic token has the same function."
   theme/brand-focus:
     css: '--nph-theme-brand-focus'
     valor_por_modo: "core/<vertical>/500 in six verticals; core/educacao/700 in `Educacao`"
@@ -1440,13 +1442,14 @@ tokens_core_alpha:
 
 # ---------------------------------------------------------------
 # SHADOW PRIMITIVES - they are not design tokens and no
-# component consumes them. They exist to BUILD the eight elevation
-# styles. Components use the elevation/* style, never these.
+# component CSS consumes them. They exist to BUILD the eight elevation
+# styles. Components use the elevation/* style, never these; a
+# component token aliases one straight only by decision.
 # Documented from what the styles actually bind
 # in Figma - it is not a proposal, it is a reading of the file.
 # ---------------------------------------------------------------
 tokens_core_sombra:
-  regra: 'NEVER consume one of these in a component. They only appear inside an elevation/* style. If you need a shadow, pick the style; if none fits, stop and ask - do not build a new shadow by hand.'
+  regra: 'NEVER consume one of these in component CSS. They appear inside an elevation/* style, or in a component token that aliases one straight by decision. If you need a shadow, pick the style; if none fits, stop and ask - do not build a new shadow by hand.'
   spread_e_negativo: 'Every shadow-spread is zero or negative. Negative spread shrinks the shadow relative to the box, which is what keeps the smudge from escaping out the sides in a large-radius shadow.'
 
   shadow-y:
@@ -1491,8 +1494,9 @@ tokens_core_sombra:
     elevation/spotlight: ['25 / 50 / -12 / shadow/color-strong']
 
 # ---------------------------------------------------------------
-# SCRIM, FOCUS AND LAYOUT PRIMITIVES - each one has exactly one
-# semantic consumer. Components consume the semantic one.
+# SCRIM, FOCUS AND LAYOUT PRIMITIVES - a semantic token consumes them,
+# or a component token aliases one straight by decision. Component CSS
+# consumes the semantic or the component token, never these.
 # ---------------------------------------------------------------
 tokens_core_veu:
   regra: 'NEVER consume directly. Use overlay/scrim, which switches between the modes by itself.'
@@ -1500,7 +1504,7 @@ tokens_core_veu:
   core/scrim/dark:  { valor: 'rgba(0,0,0,0.65)', css: '--nph-core-scrim-dark',  alias_de: 'overlay/scrim in dark mode' }
 
 tokens_core_foco:
-  regra: 'NEVER consume directly. The focus ring comes from the focus-ring/* styles, which already bind the width and the color, or from the focus halo of rule 6.'
+  regra: 'NEVER consume in component CSS. The focus ring comes from the focus-ring/* styles, which already bind the width and the color, or from the focus halo of rule 6. A component token aliases core/focus-width/* straight only by decision, when no semantic token has the same function.'
   core/focus-width/default: { valor: 4, css: '--nph-core-focus-width-default', alias_de: 'focus/ring-width' }
 
 tokens_core_borda:
@@ -1528,7 +1532,7 @@ tokens_core_control:
   core/control-height/large:   { valor: 44, css: '--nph-core-control-height-large',   alias_de: 'control/height-large' }
 
 tokens_core_layout:
-  regra: 'NEVER consume directly. Use the semantic layout/* tokens, switch/track-width and switch/track-width-sm.'
+  regra: 'NEVER consume in component CSS. Use the semantic layout/* tokens or the component token. A component token aliases core/layout-width/* straight only by decision, when no semantic token has the same function.'
   core/layout-width/app:               { valor: 1440, css: '--nph-core-layout-width-app',               alias_de: 'layout/max-app' }
   core/layout-width/reading:           { valor: 560,  css: '--nph-core-layout-width-reading',           alias_de: 'layout/max-reading' }
   core/layout-width/sidebar-expanded:  { valor: 280,  css: '--nph-core-layout-width-sidebar-expanded',  alias_de: 'layout/sidebar-expanded' }
