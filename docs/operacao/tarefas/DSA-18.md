@@ -35,12 +35,6 @@
       "question": "D4 says the circle sits at the top, aligned with the first line of a wrapping text, but not whether the top edges align or the centers do. The code centers the circle on the first line: the 24 x 24 target is 4 px taller than the line of text/label-md, so the text moves down by half of that, computed from tokens. Does Indiane confirm, or want the top edges aligned? It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-22"
-    },
-    {
-      "id": "D7",
-      "question": "The evidence says error and disabled do not combine, but not what the piece does when both are set. The code lets disabled win: the error border is suppressed, the piece takes state/disabled-opacity, and it is not a console error. Does Indiane confirm? It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-22"
     }
   ],
   "evidence": [
@@ -49,7 +43,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, D1 to D3 read from the accepted Figma set; D4 and D5 answered by Indiane"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, D1 to D3 read from the accepted Figma set; D4 and D5 answered by Indiane",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D7 (lot 1 of the pending decisions, Figma frame 5374:10420)"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -65,7 +60,7 @@
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/109"
   },
   "context": null,
-  "updated_at": "2026-10-24"
+  "updated_at": "2026-11-09"
 }
 ```
 
@@ -97,13 +92,19 @@ group is not a component.
 | D4 | `space/inline` is measured from the 24 × 24 area. The text wraps to the available width; with two lines, the circle sits at the top, aligned with the first line. | Sets gap, top alignment and wrapping. |
 | D5 | The change from unchecked to checked, and back, animates fill and border over `motion/state-duration` with `motion/state-easing`; the dot fades in and out by opacity, on the same pair. Under `prefers-reduced-motion`, it uses `core/duration/100`, and the color still changes. | Adds the transition on `motion/state`, with reduced motion. |
 
+## Decisions answered on 2026-11-09
+Indiane answered D7 in Figma (frame `5374:10420`, lot 1 of the pending decisions).
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D7 | Error and disabled: disabled wins. The error border goes away and only `state/disabled-opacity` stays. It is rule 2 of the combined states, the same for every component. | Keeps what it does today. |
+
 ## Pending decisions
-The evidence gives the whole contract, so the code can start. Two points remain for Indiane; the code follows the stated default meanwhile, and the answer only adjusts one rule each. The reduced-motion duration is not a new item: it is the open D7 of DSA-22, which this piece follows as `nph-togglebutton` does.
+The evidence gives the whole contract, so the code can start. One point remains for Indiane; the code follows the stated default meanwhile, and the answer only adjusts one rule. The reduced-motion duration is not a new item: it is the open D7 of DSA-22, which this piece follows as `nph-togglebutton` does.
 
 | ID | What the evidence gives | What is missing | What the code does with the answer |
 |---|---|---|---|
 | D6 | D4: with two lines, the circle sits at the top, aligned with the first line. | Whether the top edges or the centers align. | Centers the circle on the first line. If the answer is the top edges, the text loses its top offset. |
-| D7 | Error and disabled do not combine. | What the piece does when both are set. | Disabled wins: no error border, and no console error. If the answer differs, only that CSS rule changes. |
 
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS,

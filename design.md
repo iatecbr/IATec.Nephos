@@ -480,13 +480,20 @@ tokens_semantic:
   color/link:
     css: '--nph-color-link'
     claro: theme/brand-600
-    escuro: theme/brand-300
-    use: "Text of an action that reads as a link inside a composition, such as the resend-code action below the nph-input-otp: a ghost nph-button with the label in color/link and underlined. Meets 4.5:1 on color/background in light and dark in the seven brands. Do not use for the label of a regular nph-button or for body text: those keep their own tokens."
+    escuro: theme/brand-text-dark
+    use: "Text of an action that reads as a link inside a composition, such as the resend-code action below the nph-input-otp: a ghost nph-button with the label in color/link and underlined; and the trigger link of nph-hover-card. Meets 4.5:1 on color/background in light and dark in the seven brands. Do not use for the label of a regular nph-button or for body text: those keep their own tokens."
   color/primary-hover:
     css: '--nph-color-primary-hover'
     claro: theme/brand-700
     escuro: theme/brand-400-hover
     use: "Background of color/primary in the hover-active state of the solid nph-button, with color/primary-foreground on top (supersedes B4)."
+    nao_use: "Text or icon on background, card or popover: in dark it fails 4.5:1 in four brands. Use color/primary-text."
+  color/primary-text:
+    css: '--nph-color-primary-text'
+    claro: theme/brand-700
+    escuro: theme/brand-text-dark
+    use: "Brand-colored text and icon on background, card or popover: the current item of nph-navigation-menu, the active and open item and the flyout title of nph-sidebar-item, the checked item of single choice in nph-dropdown-menu. In light it is the same tone as color/primary-hover; in dark it measures at least 4.5:1 in the seven brands."
+    nao_use: "Fill: the brand fill is color/primary. Link text: color/link."
   color/destructive-surface:
     css: '--nph-color-destructive-surface'
     claro: core/danger/50
@@ -972,6 +979,10 @@ tokens_theme:
     css: '--nph-theme-brand-halo-dark'
     valor_por_modo: "core/<vertical>/700 in `Sistemas`, `Comercial` and `Financeiro`; core/<vertical>/500 in `Gerencial` and `Recursos Humanos`; core/igrejas/600 in `Igrejas`; core/educacao/800 in `Educacao`"
     use: "Focus halo tone in dark mode, consumed only by focus/halo. In each brand it is darker than the focus border (theme/brand-300) and the closest to it at which the border still measures at least 3:1 against the halo; `Educacao` uses 800. Do not use for fill, border or text."
+  theme/brand-text-dark:
+    css: '--nph-theme-brand-text-dark'
+    valor_por_modo: "core/<vertical>/300 in `Sistemas`, `Educacao`, `Comercial` and `Financeiro`; core/<vertical>/200 in `Gerencial`, `Igrejas` and `Recursos Humanos`"
+    use: "Brand tone for text and icon on background, card or popover in dark mode, consumed by color/primary-text and color/link. In each brand it measures at least 4.5:1 on core/surface/700 and on the nph-sidebar panel (theme/brand-800); lowest: 5.2:1 in `Financeiro`. Do not use for fill or border."
   theme/brand-400-hover:
     css: '--nph-theme-brand-400-hover'
     valor_por_modo: "core/<vertical>/300 in `Sistemas`, `Comercial` and `Financeiro`; core/<vertical>/500 in `Gerencial`, `Igrejas` and `Recursos Humanos`; core/educacao/800 in `Educacao`"
@@ -1841,6 +1852,8 @@ tokens_core_duration:
   '400': { valor: 400, css: '--nph-core-duration-400', use: "Large movement. NEVER in a repeated interaction." }
   loop:  { valor: 800, css: '--nph-core-duration-loop', use: "Continuous loop of the spinner: 800 ms per turn, infinite repetition. OUTSIDE the transition scale, which ends at 400 and describes movement that starts and ends; a loop repeats (PF-05)." }
   delay: { valor: 300, css: '--nph-core-duration-delay', use: "Wait before reacting to the pointer: 300 ms. OUTSIDE the transition scale, because it is not movement; it is still time before it (DSA-48)." }
+  long-press: { valor: 700, css: '--nph-core-duration-long-press', use: "Long-press wait: 700 ms. OUTSIDE the transition scale, because it is not movement; it is still time. Consumed by motion/long-press-delay." }
+  delay-medium: { valor: 500, css: '--nph-core-duration-delay-medium', use: "Medium wait before reacting to the pointer: 500 ms. OUTSIDE the transition scale, because it is not movement; it is still time. Consumed by motion/hover-close-delay." }
 
 tokens_core_easing:
   standard: { valor: 'cubic-bezier(0.4, 0, 0.2, 1)', css: '--nph-core-easing-standard', use: "Accelerates and decelerates. What changes in place." }
@@ -1849,14 +1862,33 @@ tokens_core_easing:
   linear:   { valor: 'linear', css: '--nph-core-easing-linear', fonte_json: 'cubicBezier [0, 0, 1, 1] - the exact equivalent, because cubicBezier is the DTCG type the system uses for curves (PF-16)', css_gerado: 'cubic-bezier(0, 0, 1, 1)', use: "Constant speed. ONLY progress and spinner. DO NOT USE in an interface transition." }
 
 tokens_motion:
-  regra_do_par: "Each motion role is TWO tokens: -duration and -easing. They go together and NEVER mix between roles - do not use the enter duration with the exit curve. Shape aligned with Figma: each token is a variable and a custom property. The loop role came in with the spinner (PF-05). The one exception is motion/hover-delay: a wait, not a movement, so it is a single token with no curve (DSA-48)."
+  regra_do_par: "Each motion role is TWO tokens: -duration and -easing. They go together and NEVER mix between roles - do not use the enter duration with the exit curve. Shape aligned with Figma: each token is a variable and a custom property. The loop role came in with the spinner (PF-05). The exceptions are the waits - motion/hover-delay (DSA-48), motion/hover-close-delay and motion/long-press-delay - and motion/long-press-tolerance, a distance: none of them is a movement, so each is a single token with no curve."
 
   motion/hover-delay:
     css: '--nph-motion-hover-delay'
     alias: core/duration/delay
     valor: 300
     use: "How long the pointer rests on an element before a help layer, such as the tooltip, opens. Keyboard focus does not wait. A single token: it has no curve, because nothing moves during the wait."
-    nao_use: "The preview of nph-hover-card, which waits longer before it opens (hover-card/open-delay, core/duration/delay-long, 600 ms)."
+    nao_use: "The preview of nph-hover-card, which waits longer before it opens (hover-card/open-delay, core/duration/delay-long, 600 ms). Closing a panel: motion/hover-close-delay."
+
+  motion/hover-close-delay:
+    css: '--nph-motion-hover-close-delay'
+    alias: core/duration/delay-medium
+    valor: 500
+    use: "How long a panel opened by hover stays open after the pointer leaves it, before it closes, so the pointer can reach the panel on a diagonal. Keyboard focus does not wait. Consumed by navigation-menu/close-delay."
+    nao_use: "nph-hover-card, which closes faster (hover-card/close-delay, core/duration/delay, 300 ms)."
+
+  motion/long-press-delay:
+    css: '--nph-motion-long-press-delay'
+    alias: core/duration/long-press
+    valor: 700
+    use: "How long the finger rests before a long press opens a menu, such as nph-context-menu on touch. A right click does not wait. Consumed by context-menu/long-press-delay."
+
+  motion/long-press-tolerance:
+    css: '--nph-motion-long-press-tolerance'
+    alias: core/space/off-scale/10
+    valor: 10
+    use: "How far the finger may move during a long press without cancelling it: 10 px. Beyond it, the gesture is a scroll and the menu does not open. Consumed by context-menu/long-press-tolerance."
 
   motion/hover-duration:
     css: '--nph-motion-hover-duration'

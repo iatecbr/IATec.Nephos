@@ -50,6 +50,8 @@
   --nph-core-duration-loop-long: 1400ms;
   --nph-core-duration-delay: 300ms;
   --nph-core-duration-delay-long: 600ms;
+  --nph-core-duration-long-press: 700ms;
+  --nph-core-duration-delay-medium: 500ms;
   --nph-core-easing-enter: cubic-bezier(0, 0, 0.2, 1);
   --nph-core-easing-exit: cubic-bezier(0.4, 0, 1, 1);
   --nph-core-easing-linear: cubic-bezier(0, 0, 1, 1);
@@ -306,6 +308,7 @@
   --nph-theme-brand-halo: var(--nph-core-sistemas-100);
   --nph-theme-brand-halo-dark: var(--nph-core-sistemas-700);
   --nph-theme-brand-400-hover: var(--nph-core-sistemas-300);
+  --nph-theme-brand-text-dark: var(--nph-core-sistemas-300);
 }
 [data-nph-brand="gerencial"] {
   --nph-theme-brand-400: var(--nph-core-gerencial-400);
@@ -324,6 +327,7 @@
   --nph-theme-brand-halo: var(--nph-core-gerencial-300);
   --nph-theme-brand-halo-dark: var(--nph-core-gerencial-500);
   --nph-theme-brand-400-hover: var(--nph-core-gerencial-500);
+  --nph-theme-brand-text-dark: var(--nph-core-gerencial-200);
 }
 [data-nph-brand="educacao"] {
   --nph-theme-brand-400: var(--nph-core-educacao-700);
@@ -342,6 +346,7 @@
   --nph-theme-brand-halo: var(--nph-core-educacao-300);
   --nph-theme-brand-halo-dark: var(--nph-core-educacao-800);
   --nph-theme-brand-400-hover: var(--nph-core-educacao-800);
+  --nph-theme-brand-text-dark: var(--nph-core-educacao-300);
 }
 [data-nph-brand="comercial"] {
   --nph-theme-brand-400: var(--nph-core-comercial-400);
@@ -360,6 +365,7 @@
   --nph-theme-brand-halo: var(--nph-core-comercial-100);
   --nph-theme-brand-halo-dark: var(--nph-core-comercial-700);
   --nph-theme-brand-400-hover: var(--nph-core-comercial-300);
+  --nph-theme-brand-text-dark: var(--nph-core-comercial-300);
 }
 [data-nph-brand="financeiro"] {
   --nph-theme-brand-400: var(--nph-core-financeiro-400);
@@ -378,6 +384,7 @@
   --nph-theme-brand-halo: var(--nph-core-financeiro-200);
   --nph-theme-brand-halo-dark: var(--nph-core-financeiro-700);
   --nph-theme-brand-400-hover: var(--nph-core-financeiro-300);
+  --nph-theme-brand-text-dark: var(--nph-core-financeiro-300);
 }
 [data-nph-brand="igrejas"] {
   --nph-theme-brand-400: var(--nph-core-igrejas-400);
@@ -396,6 +403,7 @@
   --nph-theme-brand-halo: var(--nph-core-igrejas-200);
   --nph-theme-brand-halo-dark: var(--nph-core-igrejas-600);
   --nph-theme-brand-400-hover: var(--nph-core-igrejas-500);
+  --nph-theme-brand-text-dark: var(--nph-core-igrejas-200);
 }
 [data-nph-brand="rh"] {
   --nph-theme-brand-400: var(--nph-core-rh-400);
@@ -414,6 +422,7 @@
   --nph-theme-brand-halo: var(--nph-core-rh-300);
   --nph-theme-brand-halo-dark: var(--nph-core-rh-500);
   --nph-theme-brand-400-hover: var(--nph-core-rh-500);
+  --nph-theme-brand-text-dark: var(--nph-core-rh-200);
 }
 
 /* layer 2 - semantic, invariants: alias and final value equal in light and dark,
@@ -567,6 +576,9 @@
   --nph-motion-loop-long-easing: var(--nph-core-easing-linear);
   --nph-motion-state-duration: var(--nph-core-duration-200);
   --nph-motion-state-easing: var(--nph-core-easing-standard);
+  --nph-motion-long-press-delay: var(--nph-core-duration-long-press);
+  --nph-motion-long-press-tolerance: var(--nph-core-space-off-scale-10);
+  --nph-motion-hover-close-delay: var(--nph-core-duration-delay-medium);
   --nph-overlay-on-media: var(--nph-core-alpha-black-40);
   --nph-overlay-on-media-strong: var(--nph-core-alpha-black-60);
   --nph-overlay-on-media-foreground: var(--nph-core-base-white);
@@ -763,6 +775,7 @@
   --nph-navigation-menu-item-text-gap: var(--nph-space-inline-tight);
   --nph-navigation-menu-item-radius: var(--nph-radius-inner);
   --nph-navigation-menu-item-icon-size: var(--nph-icon-size-md);
+  --nph-navigation-menu-close-delay: var(--nph-motion-hover-close-delay);
   --nph-notification-radius: var(--nph-radius-container);
   --nph-notification-toast-radius: var(--nph-radius-overlay);
   --nph-notification-border-width: var(--nph-border-width);
@@ -802,6 +815,8 @@
   --nph-hover-card-icon-size: var(--nph-icon-size-sm);
   --nph-hover-card-enter-duration: var(--nph-motion-enter-duration);
   --nph-hover-card-exit-duration: var(--nph-motion-exit-duration);
+  --nph-context-menu-long-press-delay: var(--nph-motion-long-press-delay);
+  --nph-context-menu-long-press-tolerance: var(--nph-motion-long-press-tolerance);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -970,15 +985,15 @@
   --nph-hover-card-meta-icon-foreground: var(--nph-color-subtle-foreground);
   --nph-hover-card-border: var(--nph-color-border-subtle);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
-  --nph-sidebar-item-foreground-active: var(--nph-color-primary-hover);
-  --nph-sidebar-item-foreground-open: var(--nph-color-primary-hover);
+  --nph-sidebar-item-foreground-active: var(--nph-color-primary-text);
+  --nph-sidebar-item-foreground-open: var(--nph-color-primary-text);
   --nph-sidebar-item-background-hover: var(--nph-color-primary-surface);
   --nph-sidebar-item-background-active: var(--nph-color-primary-surface);
   --nph-sidebar-item-badge-background: var(--nph-color-primary-hover);
   --nph-sidebar-item-badge-foreground: var(--nph-color-primary-foreground);
   --nph-sidebar-group-line: var(--nph-color-primary-surface);
   --nph-sidebar-flyout-border: var(--nph-color-primary-surface-hover);
-  --nph-sidebar-flyout-title: var(--nph-color-primary-hover);
+  --nph-sidebar-flyout-title: var(--nph-color-primary-text);
   --nph-sidebar-flyout-option-hover: var(--nph-color-primary-surface);
   --nph-sidebar-rail-background-hover: var(--nph-color-primary-surface);
   --nph-sidebar-rail-background-active: var(--nph-color-primary-hover);
@@ -1002,7 +1017,7 @@
   --nph-navigation-menu-trigger-background-hover: var(--nph-color-primary-surface);
   --nph-navigation-menu-panel-border: var(--nph-color-dropdown-border);
   --nph-navigation-menu-item-background-hover: var(--nph-color-primary-surface);
-  --nph-navigation-menu-current-foreground: var(--nph-color-primary-hover);
+  --nph-navigation-menu-current-foreground: var(--nph-color-primary-text);
   --nph-navigation-menu-current-indicator-background: var(--nph-color-primary);
   --nph-notification-on-solid: var(--nph-status-on-solid);
   --nph-notification-neutral-action-foreground: var(--nph-color-primary-on-surface);
@@ -1168,6 +1183,7 @@
   --nph-color-primary-border: var(--nph-theme-brand-600);
   --nph-color-link: var(--nph-theme-brand-600);
   --nph-color-primary-hover: var(--nph-theme-brand-700);
+  --nph-color-primary-text: var(--nph-theme-brand-700);
   --nph-focus-ring: var(--nph-theme-brand-700);
   --nph-focus-border: var(--nph-theme-brand-focus);
   --nph-focus-halo: var(--nph-theme-brand-halo);
@@ -1325,8 +1341,9 @@
   --nph-color-primary-surface-hover: var(--nph-theme-brand-800);
   --nph-color-primary-on-surface-hover: var(--nph-theme-brand-100);
   --nph-color-primary-border: var(--nph-theme-brand-300);
-  --nph-color-link: var(--nph-theme-brand-300);
+  --nph-color-link: var(--nph-theme-brand-text-dark);
   --nph-color-primary-hover: var(--nph-theme-brand-400-hover);
+  --nph-color-primary-text: var(--nph-theme-brand-text-dark);
   --nph-focus-ring: var(--nph-theme-brand-400);
   --nph-focus-border: var(--nph-theme-brand-300);
   --nph-focus-halo: var(--nph-theme-brand-halo-dark);

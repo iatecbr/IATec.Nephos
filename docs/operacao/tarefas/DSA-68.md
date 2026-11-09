@@ -48,12 +48,6 @@
       "opened_at": "2026-11-07"
     },
     {
-      "id": "D-3",
-      "question": "Point 9 of the contract names only the Gerencial brand for the contrast of the link in dark (2.71:1). The Brands story measured the link in color/primary below 4.5:1 in the dark scheme of other brands too (up to 3.81:1). The fix belongs to color/primary of each brand; the code does not change it and the Brands story carries the contrast exception. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-07"
-    },
-    {
       "id": "D-4",
       "question": "When no side fits the card in a window too short for it, the code keeps the card beside the link, never over it, so the link stays reachable, and the window cuts what does not fit; the card does not scroll, because the contract says the description wraps with no scrolling. Whether such a window needs another fallback, such as a maximum height with scrolling, needs her answer. It does not block the pull request.",
       "decider": "indiane",
@@ -66,7 +60,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-hover-card: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 10 points of the approval page approved (radius 14, offset 4, arrow tokens of the popover, width 320, color/subtle-foreground, 8 between texts, delays 600 and 300, relative time up to 30 days, clock icon); a finished component enters the first version"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-hover-card: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 10 points of the approval page approved (radius 14, offset 4, arrow tokens of the popover, width 320, color/subtle-foreground, 8 between texts, delays 600 and 300, relative time up to 30 days, clock icon); a finished component enters the first version",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420); tokens on v/5.0.0"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -78,7 +73,7 @@
   },
   "git_review": { "branch": "feat/dsa-68-hover-card", "commit": "08aee1e2bc6446628e350314a075af21ba7b3ff5", "pr": 157 },
   "context": null,
-  "updated_at": "2026-11-08"
+  "updated_at": "2026-11-09"
 }
 ```
 
@@ -104,11 +99,18 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 ## Why it is ready
 The 23 `hover-card/*` tokens came with this task and are on `v/5.0.0`, with one new semantic token (`color/subtle-foreground`) and one new core primitive (`core/duration/delay-long`, 600 ms). The pieces inside are done: nph-icon (DSA-03); and, in the required examples only, nph-badge (DSA-12), nph-avatar (DSA-24) and nph-image (DSA-51).
 
+## Decisions answered on 2026-11-09
+Indiane answered D-3 in Figma (frame `5374:10420`, lot 1 of the pending decisions). The tokens are on `v/5.0.0`.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-3 | `color/link` in dark points to the new `theme/brand-text-dark`, at least 4.5:1 in the seven brands. The trigger link of `nph-hover-card` uses `color/link` instead of `color/primary`; in light the tone is the same. | Swaps `color/primary` for `color/link` on the link; the Brands story drops the contrast exception. |
+
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## What this task does not do
-It does not create a token or change a token value. It does not load remote content into the card (out of the first version). It does not change Figma.
+It does not create a token or change a token value. The tokens named in the 2026-11-09 answers came later, from Figma (lot 1 of the pending decisions); the code reads them. It does not load remote content into the card (out of the first version). It does not change Figma.
 
 ## Sources
 - Figma `DS-IA-NEPHOS 5.0`, page `NPH — Hover Card` (`4128:31754`), documentation frame `4422:2418`

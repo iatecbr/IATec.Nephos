@@ -41,12 +41,6 @@
       "question": "The evidence says the list opens below the trigger (D1). It does not say what happens near the bottom of the window. The code turns the list up, `space/inline-tight` above the trigger, when it does not fit below and fits above. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-10-23"
-    },
-    {
-      "id": "D-3",
-      "question": "The evidence does not draw an option that is both selected and disabled. The code keeps `color/primary-surface` and the check, under the opacity of the disabled option. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-10-23"
     }
   ],
   "evidence": [
@@ -56,7 +50,8 @@
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, Elvys writes component code and specs; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-14.md, nph-select reopened with divider, arrow area, status dot and the open state; documentation accepted and textual audit approved",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D1 to D9 of the nph-select"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-19.md, Indiane answered D1 to D9 of the nph-select",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420)"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -72,7 +67,7 @@
     "pr": "https://github.com/iatecbr/IATec.Nephos/pull/114"
   },
   "context": null,
-  "updated_at": "2026-10-24"
+  "updated_at": "2026-11-09"
 }
 ```
 
@@ -107,13 +102,20 @@ the PR.
 | D8 | `color/accent` for the permanent arrow area and `color/primary-surface` for the selected option are confirmed; `design.md` now lists both uses. Measured: the `color/primary` check on `color/primary-surface` is 4.78:1 (light) and 6.26:1 (dark); the arrow on `color/accent` is 5.76:1 and 5.11:1. | Nothing beyond the tokens already named. |
 | D9 | `layout/max-list-height` (296 px) holds 8 options of 36 px plus the `space/inline-tight` padding. The list border is outside that height, so the list measures 298 px and shows 8 whole options. With avatar options (40 px), 7 whole options show and 8 px of the 8th. | Applies `layout/max-list-height` to the inside of the list, with the border outside it. |
 
+## Decisions answered on 2026-11-09
+Indiane answered D-3 in Figma (frame `5374:10420`, lot 1 of the pending decisions).
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-3 | Selected and disabled: the option keeps `color/primary-surface` and the check, under `state/disabled-opacity`. It is rule 1 of the combined states, the same for every component. | Keeps what it does today. |
+
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, option,
 list, CSS, tests, stories and spec pass the proof commands in
 `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## Pending decisions
-The evidence gives the contract, so the code can start. Three points remain for
+The evidence gives the contract, so the code can start. Two points remain for
 Indiane; the code follows the stated default meanwhile, and each answer only
 adjusts one rule.
 
@@ -121,7 +123,6 @@ adjusts one rule.
 |---|---|---|---|
 | D-1 | The disabled trigger: `color/muted` background, `color/input` border, opacity on the piece. | The arrow area when disabled. | Keeps `color/accent`, under the opacity of the piece. |
 | D-2 | The list opens below the trigger (D1). | What happens near the bottom of the window. | Turns up, `space/inline-tight` above the trigger, when it does not fit below and fits above. |
-| D-3 | The option states `selecionada` and `disabled`, apart. | An option that is both. | Keeps `color/primary-surface` and the check, under the opacity of the disabled option. |
 
 ## Relations with other tasks
 - The start avatar is an `nph-avatar` instance (DSA-24). The start icon, the

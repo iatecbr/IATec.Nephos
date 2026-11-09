@@ -47,12 +47,6 @@
       "opened_at": "2026-11-08"
     },
     {
-      "id": "D-3",
-      "question": "The evidence says a long press of about 700 ms. The code uses 700 ms and a movement limit of 10 px, which have no token, and cancels the touch contextmenu that the browser sends before it. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-08"
-    },
-    {
       "id": "D-4",
       "question": "The DSA-69 evidence lists the item icon in color/muted-foreground, while the DSA-45 evidence of the same item says the start icon is in the color of the label. The code keeps the label color in both menus, as nph-dropdown-menu already shipped. The color she wants for the icon at rest is hers to confirm. It does not block the pull request.",
       "decider": "indiane",
@@ -71,7 +65,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-context-menu: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 11 points of the approval page approved (radius 12 and 8, outline on color/border-subtle, dropdown/separator, color/destructive-text, solid icon on highlight in nph-dropdown-menu, compact destructive item, no context-menu tokens, arrow-pointer in nph-icon, cleanup, notification/error-action-foreground unchanged); a finished component enters the first version"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-06.md, nph-context-menu: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the 11 points of the approval page approved (radius 12 and 8, outline on color/border-subtle, dropdown/separator, color/destructive-text, solid icon on highlight in nph-dropdown-menu, compact destructive item, no context-menu tokens, arrow-pointer in nph-icon, cleanup, notification/error-action-foreground unchanged); a finished component enters the first version",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-3 (lot 1 of the pending decisions, Figma frame 5374:10420); tokens on v/5.0.0"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -87,7 +82,7 @@
     "pr": 160
   },
   "context": null,
-  "updated_at": "2026-11-08"
+  "updated_at": "2026-11-09"
 }
 ```
 
@@ -115,11 +110,18 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 ## Why it is ready
 The eight `dropdown/*` tokens came with this task and are on `v/5.0.0`, with one new semantic token (`color/destructive-text`) and the new target of `color/dropdown-border`. The pieces inside are done: nph-icon (DSA-03), nph-checkbox (DSA-17) and nph-dropdown-menu (DSA-45).
 
+## Decisions answered on 2026-11-09
+Indiane answered D-3 in Figma (frame `5374:10420`, lot 1 of the pending decisions). The tokens are on `v/5.0.0`.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-3 | Long press: 700 ms and 10 px, now tokens. `context-menu/long-press-delay` points to `motion/long-press-delay` (`core/duration/long-press`, 700 ms); `context-menu/long-press-tolerance` points to `motion/long-press-tolerance` (`core/space/off-scale/10`). | Reads the two tokens instead of the literal values. |
+
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`, together with the nph-dropdown-menu and nph-icon changes.
 
 ## What this task does not do
-It does not create a token or change a token value. It does not create `context-menu/*` tokens. It does not change Figma.
+It does not create a token or change a token value. It does not create `context-menu/*` tokens itself: the two `context-menu/long-press-*` tokens came later, from Figma (lot 1 of the pending decisions, 2026-11-09), and the code reads them. It does not change Figma.
 
 ## Sources
 - Figma `DS-IA-NEPHOS 5.0`, page `NPH — Context Menu` (`4128:17776`), documentation frame `4838:27591`

@@ -52,18 +52,6 @@
       "question": "The evidence has no motion for the trigger arrow or for the panel. The code has none: the arrow does not turn and the panel enters and leaves with no transition. Whether the arrow turns or the panel fades needs her answer. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-07"
-    },
-    {
-      "id": "D-4",
-      "question": "The evidence closes the panel 0.5 s after the pointer leaves and asks for motion/hover-delay, which is 300 ms and has no semantic token for 500 ms. The code uses motion/hover-delay to open and to close. If the closing wait must be 500 ms, a token is needed, and tokens come from Figma. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-07"
-    },
-    {
-      "id": "D-5",
-      "question": "navigation-menu/current-foreground is color/primary-hover, which in the dark scheme resolves to a dark shade in four brands, over the dark bar (1.49:1 to 2.16:1). The Brands story carries the contrast exception that nph-sidebar-item and nph-dropdown-menu already carry for the same token (DSA-36, D2). The token is hers to review. It does not block the pull request.",
-      "decider": "indiane",
-      "opened_at": "2026-11-07"
     }
   ],
   "evidence": [
@@ -72,7 +60,8 @@
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
-    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-03.md, nph-navigation-menu: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the twelve appendix points answered as recommended, atual-foco state created before the tokens"
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-03.md, nph-navigation-menu: visual acceptance, Figma UX QA and textual audit approved, documentation accepted, the twelve appendix points answered as recommended, atual-foco state created before the tokens",
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered D-4 and D-5 (lot 1 of the pending decisions, Figma frame 5374:10420); tokens on v/5.0.0"
   ],
   "external_origin": {
     "classification": "internal-allowed",
@@ -84,7 +73,7 @@
   },
   "git_review": { "branch": "feat/dsa-62-navigation-menu", "commit": "6082af72ae2cc64ec0dca22970e8a906c314038c", "pr": 154 },
   "context": null,
-  "updated_at": "2026-11-07"
+  "updated_at": "2026-11-09"
 }
 ```
 
@@ -99,11 +88,19 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 ## Why it is ready
 The 31 `navigation-menu/*` tokens came with this task and are on `v/5.0.0`; no core primitive was needed. The pieces inside are done: nph-icon (DSA-03), nph-separator (DSA-10), nph-icon-button (DSA-43) and the group label of nph-dropdown-menu (DSA-45).
 
+## Decisions answered on 2026-11-09
+Indiane answered D-4 and D-5 in Figma (frame `5374:10420`, lot 1 of the pending decisions). The tokens are on `v/5.0.0`.
+
+| ID | Answer | What the code does |
+|---|---|---|
+| D-4 | Closing wait: 500 ms. `navigation-menu/close-delay` points to `motion/hover-close-delay` (`core/duration/delay-medium`). Opening keeps `motion/hover-delay`. | Closes on `navigation-menu/close-delay`. |
+| D-5 | `navigation-menu/current-foreground` points to the new `color/primary-text`: `theme/brand-700` in light, as before, and `theme/brand-text-dark` in dark, at least 4.5:1 in the seven brands. | The Brands story drops the contrast exception. |
+
 ## How it is proved
 **`figma-docs-accepted`** — passed. **`review-and-merge`** — component, CSS, tests, stories and spec pass the proof commands in `docs/operacao/component-handoff.md` and are merged into `v/5.0.0`.
 
 ## What this task does not do
-It does not create a token or change a token value. It does not change nph-dropdown-menu, nph-icon-button, nph-separator, nph-icon or any other piece it uses. It does not add a featured card inside the panel, a menubar pattern or more than one level of panels. It does not change Figma.
+It does not create a token or change a token value. The tokens named in the 2026-11-09 answers came later, from Figma (lot 1 of the pending decisions); the code reads them. It does not change nph-dropdown-menu, nph-icon-button, nph-separator, nph-icon or any other piece it uses. It does not add a featured card inside the panel, a menubar pattern or more than one level of panels. It does not change Figma.
 
 ## Sources
 - Figma `DS-IA-NEPHOS 5.0`, page `NPH — Navigation Menu` (`1626:16`), documentation frame `3977:7913`
