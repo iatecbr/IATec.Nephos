@@ -37,7 +37,8 @@ regra_de_leitura: >-
 modos: [claro, escuro]
 
 # ---------------------------------------------------------------
-# LAYER 1 - PRIMITIVES. No component consumes from here.
+# LAYER 1 - PRIMITIVES. No component CSS consumes from here; a component
+# token aliases one straight only by decision.
 # ---------------------------------------------------------------
 tokens_core:
   sistemas:
@@ -1443,7 +1444,7 @@ tokens_core_alpha:
 # ---------------------------------------------------------------
 # SHADOW PRIMITIVES - they are not design tokens and no
 # component CSS consumes them. They exist to BUILD the eight elevation
-# styles. Components use the elevation/* style, never these; a
+# styles. Component CSS uses the elevation/* style, never these; a
 # component token aliases one straight only by decision.
 # Documented from what the styles actually bind
 # in Figma - it is not a proposal, it is a reading of the file.
@@ -2572,7 +2573,7 @@ Never do it. Each row is a prevented error.
 
 | # | Never |
 |---|---|
-| A1 | Consume `tokens_core` directly in a component |
+| A1 | Consume `tokens_core` directly in component CSS — a component token aliases a primitive straight only by decision, when no semantic token has the same function |
 | A2 | Write hexadecimal, `rgb()` or `hsl()` in component CSS |
 | A3 | Two `color/primary` buttons in the same decision block |
 | A4 | Pin `color/primary` to a value of its own, ignoring the active brand |
@@ -2596,7 +2597,7 @@ Never do it. Each row is a prevented error.
 | A22 | More than one `heading-lg` on the same page |
 | A23 | Use a variant of the family (Condensed, Display, SemiCondensed) |
 | A24 | Write a literal `margin`, `padding` or `gap` — only `var(--nph-space-*)` |
-| A25 | Consume `core/space/*` in a component — components use the 7 semantic ones |
+| A25 | Consume `core/space/*` in component CSS — components use the 7 semantic ones or their own component token |
 | A26 | Use 6, 10, 14 or 18px because "it looked better" |
 | A27 | Push an element with a margin to fix alignment |
 | A28 | Use the 2px half-step outside chip, icon or table cell |
@@ -2604,7 +2605,7 @@ Never do it. Each row is a prevented error.
 | A30 | Use `control/height-compact` on a touch-sensitive screen |
 | A31 | Solve with distance what needed a card, divider or title |
 | A32 | Write a literal `border-radius` — only `var(--nph-radius-*)` |
-| A33 | Consume `core/radius/*` in a component |
+| A33 | Consume `core/radius/*` in component CSS |
 | A34 | Use a 3, 5 or 10px radius because "it looked better" |
 | A35 | Use `radius/full` on a regular button, field or card |
 | A36 | Give the same radius to the inner element and to the container |
