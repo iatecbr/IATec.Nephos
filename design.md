@@ -249,7 +249,7 @@ tokens_semantic:
     css: '--nph-color-background'
     claro: core/base/white
     escuro: core/surface/900
-    use: "Page background and background of any area that is not a card."
+    use: "Page background and background of any area that is not a card. Also the active tab of the segmented nph-tabs and the counter inside its rail (tabs/item-background-active, tabs/counter-background-rail)."
     nao_use: "On a card, popover or sidebar."
   color/foreground:
     css: '--nph-color-foreground'
@@ -261,7 +261,7 @@ tokens_semantic:
     css: '--nph-color-primary'
     claro: theme/brand-600
     escuro: theme/brand-400
-    use: "Background of the most important action on the screen. Comes from the active brand: Nephos is multi-brand and primary changes when the brand changes. Also the background of the solid nph-badge, which labels a state or category by its meaning."
+    use: "Background of the most important action on the screen. Comes from the active brand: Nephos is multi-brand and primary changes when the brand changes. Also the background of the solid nph-badge, which labels a state or category by its meaning, and of the active tab of the solid nph-tabs tab button (tabs/button-solid-background-active)."
     nao_use: "Two primaries in the same decision block. Pinning a value of its own, ignoring the active brand."
   color/primary-foreground:
     css: '--nph-color-primary-foreground'
@@ -279,7 +279,7 @@ tokens_semantic:
     css: '--nph-color-secondary-foreground'
     claro: core/surface/900
     escuro: core/surface/100
-    use: "Text on color/secondary. On the secondary nph-button and nph-badge, also text, icon and border on color/secondary-light and color/muted, and the text of the ghost secondary nph-button, which has no background."
+    use: "Text on color/secondary. On the secondary nph-button and nph-badge, also text, icon and border on color/secondary-light and color/muted, the text of the ghost secondary nph-button, which has no background, and the number of the nph-tabs counter (tabs/counter-foreground)."
   color/secondary-hover:
     css: '--nph-color-secondary-hover'
     claro: core/surface/200
@@ -301,13 +301,13 @@ tokens_semantic:
     css: '--nph-color-muted'
     claro: core/surface/50
     escuro: core/surface/700
-    use: "Permanent background without emphasis: table header, disabled area. Also the background of the outline secondary nph-button."
+    use: "Permanent background without emphasis: table header, disabled area. Also the background of the outline secondary nph-button and the rail of the segmented nph-tabs (tabs/list-background)."
     nao_use: "Hover: there it is color/accent, including the ghost secondary nph-button (button/secondary-ghost-background-hover, DSA-60)."
   color/muted-foreground:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
     escuro: core/surface/200
-    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it."
+    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label of the inactive nph-tabs tab (tabs/item-foreground)."
     nao_use: "Text needed to complete the task. The meta line of nph-hover-card (date, time or short phrase below the description): there it is color/subtle-foreground."
   color/subtle-foreground:
     css: '--nph-color-subtle-foreground'
@@ -337,7 +337,7 @@ tokens_semantic:
     css: '--nph-color-border'
     claro: core/neutral/200
     escuro: core/surface/400
-    use: "Divider, card outline, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox."
+    use: "Divider, card outline, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox, and the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color)."
     nao_use: "Form field border. The border and divider of nph-popover and nph-hover-card, and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle."
   color/border-subtle:
     css: '--nph-color-border-subtle'
@@ -456,7 +456,7 @@ tokens_semantic:
     css: '--nph-color-primary-surface'
     claro: theme/brand-50
     escuro: theme/brand-900
-    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and nph-combobox and the hover of the nph-dropdown-menu item. Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select and nph-combobox option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted."
+    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and nph-combobox, the hover of the nph-dropdown-menu item and the active tab of the light and outline nph-tabs tab button (tabs/button-light-background-active, tabs/button-outline-background-active). Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select and nph-combobox option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted."
   color/primary-on-surface:
     css: '--nph-color-primary-on-surface'
     claro: theme/brand-600
@@ -492,7 +492,7 @@ tokens_semantic:
     css: '--nph-color-primary-text'
     claro: theme/brand-700
     escuro: theme/brand-text-dark
-    use: "Brand-colored text and icon on background, card or popover: the current item of nph-navigation-menu, the active and open item and the flyout title of nph-sidebar-item, the checked item of single choice in nph-dropdown-menu. In light it is the same tone as color/primary-hover; in dark it measures at least 4.5:1 in the seven brands."
+    use: "Brand-colored text and icon on background, card or popover: the current item of nph-navigation-menu, the active and open item and the flyout title of nph-sidebar-item, the checked item of single choice in nph-dropdown-menu, the label and the line of the active nph-tabs tab in the segmented and underline styles (tabs/item-foreground-active, tabs/indicator-color). In light it is the same tone as color/primary-hover; in dark it measures at least 4.5:1 in the seven brands."
     nao_use: "Fill: the brand fill is color/primary. Link text: color/link."
   color/destructive-surface:
     css: '--nph-color-destructive-surface'
@@ -528,7 +528,7 @@ tokens_semantic:
     css: '--nph-color-secondary-light'
     claro: core/surface/50
     escuro: core/surface/700
-    use: "Background of the alternative action in light emphasis: secondary light nph-button and nph-badge, with color/secondary-foreground. DO NOT USE in outline — there it is color/muted."
+    use: "Background of the alternative action in light emphasis: secondary light nph-button and nph-badge, with color/secondary-foreground. Also the counter of the inactive nph-tabs tab outside the rail (tabs/counter-background). DO NOT USE in outline — there it is color/muted."
   color/secondary-light-hover:
     css: '--nph-color-secondary-light-hover'
     claro: core/surface/100
@@ -570,7 +570,7 @@ tokens_semantic:
     css: '--nph-focus-border'
     claro: theme/brand-focus
     escuro: theme/brand-300
-    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button and on the info trigger of the nph-label. It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it, from 3,10:1 to 5,88:1."
+    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button, on the info trigger of the nph-label and on the nph-tabs tab in every style (tabs/focus-border-color). It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it, from 3,10:1 to 5,88:1."
   focus/halo:
     css: '--nph-focus-halo'
     claro: theme/brand-halo
@@ -1102,7 +1102,7 @@ tokens_space:
     css: '--nph-space-inline-tight'
     alias: core/space/100
     valor: 4
-    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it, and the offset between the nph-select trigger and its list. DO NOT USE between independent elements - there it is space/inline."
+    use: "Horizontal space INSIDE a unit: an icon and its text, a value and its unit. Exception: the top and bottom breathing room of the nph-badge, as Figma draws it, the offset between the nph-select trigger and its list, and the nph-tabs list as the accepted Figma draws it: the rail padding, the gap between tabs in the segmented and tab button styles, the top and bottom of the tab and of its counter, and the gap to the scroll arrows (tabs/list-padding, tabs/list-gap, tabs/item-padding-y, tabs/counter-padding-y, tabs/scroll-gap). DO NOT USE between independent elements - there it is space/inline."
   space/inline:
     css: '--nph-space-inline'
     alias: core/space/200
@@ -1127,7 +1127,7 @@ tokens_space:
     css: '--nph-space-control-padding'
     alias: core/space/300
     valor: 12
-    use: "Inner horizontal padding of button, field and select - what is operated - and the sides of the nph-badge. DO NOT USE on a card."
+    use: "Inner horizontal padding of button, field and select - what is operated - the sides of the nph-badge and of the nph-tabs tab (tabs/item-padding-x). DO NOT USE on a card."
   space/container-padding:
     css: '--nph-space-container-padding'
     alias: core/space/400
@@ -1173,7 +1173,7 @@ tokens_control:
     css: '--nph-control-height-compact'
     alias: core/control-height/compact
     valor: 28
-    use: "Control height in a dense screen: table, toolbar, filter. NEVER on a touch target - it fails WCAG 2.5.8."
+    use: "Control height in a dense screen: table, toolbar, filter. NEVER on a touch target - it fails WCAG 2.5.8. Exception: the tab inside the segmented nph-tabs rail (tabs/item-height), as the accepted Figma draws it: the tab sits in a rail of control/height-default and stays above 24 x 24."
   control/height-default:
     css: '--nph-control-height-default'
     alias: core/control-height/default
@@ -1314,7 +1314,7 @@ tokens_radius:
     css: '--nph-radius-inner'
     alias: core/radius/200
     valor: 4
-    use: "USE on an element nested inside a control or container (checkbox, icon with background, thumbnail) and on nph-tooltip. Nested, the inner radius is always smaller than the outer. DO NOT USE on the item of nph-dropdown-menu or nph-context-menu: there it is dropdown/item-radius."
+    use: "USE on an element nested inside a control or container (checkbox, icon with background, thumbnail), on nph-tooltip and on the tab inside the segmented nph-tabs rail (tabs/item-radius). Nested, the inner radius is always smaller than the outer. DO NOT USE on the item of nph-dropdown-menu or nph-context-menu: there it is dropdown/item-radius."
   radius/control:
     css: '--nph-radius-control'
     alias: core/radius/300

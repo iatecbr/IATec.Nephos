@@ -12,6 +12,7 @@
   --nph-core-alpha-black-5: rgba(0, 0, 0, 0.05);
   --nph-core-alpha-black-60: rgba(0, 0, 0, 0.6);
   --nph-core-alpha-white-10: rgba(255, 255, 255, 0.1);
+  --nph-core-alpha-white-15: rgba(255, 255, 255, 0.15);
   --nph-core-avatar-overlap-100: -0.5rem;
   --nph-core-avatar-size-100: 1.5rem;
   --nph-core-avatar-size-200: 2rem;
@@ -697,6 +698,8 @@
   --nph-hover-card-arrow-inset: var(--nph-core-space-400);
   --nph-hover-card-open-delay: var(--nph-core-duration-delay-long);
   --nph-hover-card-close-delay: var(--nph-core-duration-delay);
+  --nph-tabs-item-disabled-opacity: var(--nph-state-disabled-opacity);
+  --nph-tabs-indicator-width: var(--nph-core-focus-width-sm);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-section-gap: var(--nph-space-stack);
   --nph-switch-track-height-sm: var(--nph-icon-size-sm);
@@ -823,6 +826,31 @@
   --nph-hover-card-exit-duration: var(--nph-motion-exit-duration);
   --nph-context-menu-long-press-delay: var(--nph-motion-long-press-delay);
   --nph-context-menu-long-press-tolerance: var(--nph-motion-long-press-tolerance);
+  --nph-tabs-list-height: var(--nph-control-height-default);
+  --nph-tabs-list-padding: var(--nph-space-inline-tight);
+  --nph-tabs-list-gap: var(--nph-space-inline-tight);
+  --nph-tabs-list-radius: var(--nph-radius-control);
+  --nph-tabs-item-height: var(--nph-control-height-compact);
+  --nph-tabs-underline-item-height: var(--nph-control-height-default);
+  --nph-tabs-item-padding-x: var(--nph-space-control-padding);
+  --nph-tabs-item-padding-y: var(--nph-space-inline-tight);
+  --nph-tabs-item-gap: var(--nph-space-inline);
+  --nph-tabs-item-radius: var(--nph-radius-inner);
+  --nph-tabs-underline-border-width: var(--nph-border-width);
+  --nph-tabs-focus-border-width: var(--nph-border-width);
+  --nph-tabs-focus-ring-width: var(--nph-focus-ring-width);
+  --nph-tabs-focus-radius: var(--nph-focus-radius-inner-with-border);
+  --nph-tabs-focus-border-radius: var(--nph-focus-border-radius-inner);
+  --nph-tabs-indicator-duration: var(--nph-motion-state-duration);
+  --nph-tabs-scroll-gap: var(--nph-space-inline-tight);
+  --nph-tabs-button-height: var(--nph-control-height-default);
+  --nph-tabs-button-radius: var(--nph-radius-control);
+  --nph-tabs-button-outline-border-width: var(--nph-border-width);
+  --nph-tabs-button-focus-radius: var(--nph-focus-radius-control-with-border);
+  --nph-tabs-button-focus-border-radius: var(--nph-focus-border-radius-control);
+  --nph-tabs-counter-padding-x: var(--nph-space-inline);
+  --nph-tabs-counter-padding-y: var(--nph-space-inline-tight);
+  --nph-tabs-counter-radius: var(--nph-radius-full);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -990,6 +1018,17 @@
   --nph-hover-card-meta-foreground: var(--nph-color-subtle-foreground);
   --nph-hover-card-meta-icon-foreground: var(--nph-color-subtle-foreground);
   --nph-hover-card-border: var(--nph-color-border-subtle);
+  --nph-tabs-list-background: var(--nph-color-muted);
+  --nph-tabs-item-foreground: var(--nph-color-muted-foreground);
+  --nph-tabs-item-foreground-hover: var(--nph-color-foreground);
+  --nph-tabs-item-background-active: var(--nph-color-background);
+  --nph-tabs-underline-border-color: var(--nph-color-border);
+  --nph-tabs-indicator-hover-color: var(--nph-color-border);
+  --nph-tabs-button-background-hover: var(--nph-color-accent);
+  --nph-tabs-button-foreground-hover: var(--nph-color-foreground);
+  --nph-tabs-counter-background: var(--nph-color-secondary-light);
+  --nph-tabs-counter-background-rail: var(--nph-color-background);
+  --nph-tabs-counter-foreground: var(--nph-color-secondary-foreground);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-text);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-text);
@@ -1036,6 +1075,16 @@
   --nph-progress-segment-background: var(--nph-color-primary-border);
   --nph-hover-card-focus-border: var(--nph-focus-border);
   --nph-hover-card-focus-halo: var(--nph-focus-halo);
+  --nph-tabs-item-foreground-active: var(--nph-color-primary-text);
+  --nph-tabs-indicator-color: var(--nph-color-primary-text);
+  --nph-tabs-focus-border-color: var(--nph-focus-border);
+  --nph-tabs-focus-ring-color: var(--nph-focus-halo);
+  --nph-tabs-button-solid-background-active: var(--nph-color-primary);
+  --nph-tabs-button-solid-foreground-active: var(--nph-color-primary-foreground);
+  --nph-tabs-button-light-background-active: var(--nph-color-primary-surface);
+  --nph-tabs-button-light-foreground-active: var(--nph-color-primary-on-surface);
+  --nph-tabs-button-outline-background-active: var(--nph-color-primary-surface);
+  --nph-tabs-button-outline-foreground-active: var(--nph-color-primary-on-surface);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
@@ -1201,6 +1250,8 @@
   --nph-chip-background-hover: var(--nph-theme-brand-200);
   --nph-chip-border: var(--nph-theme-brand-200);
   --nph-togglebutton-background-checked-hover: var(--nph-theme-brand-200);
+  --nph-tabs-button-outline-border-color-active: var(--nph-theme-brand-200);
+  --nph-tabs-counter-background-active: var(--nph-theme-brand-200);
   --nph-table-link-foreground: var(--nph-color-link);
 }
 [data-nph-color-scheme="dark"] {
@@ -1340,6 +1391,7 @@
   --nph-button-secondary-solid-background-hover: var(--nph-core-surface-500);
   --nph-icon-button-secondary-outline-border: var(--nph-core-surface-400);
   --nph-icon-button-secondary-solid-background-hover: var(--nph-core-surface-500);
+  --nph-tabs-button-outline-border-color-active: var(--nph-core-alpha-white-15);
   --nph-color-primary-foreground: var(--nph-theme-brand-on-400);
   --nph-color-primary: var(--nph-theme-brand-400);
   --nph-color-primary-surface: var(--nph-theme-brand-900);
@@ -1365,4 +1417,5 @@
   --nph-button-secondary-solid-background: var(--nph-color-secondary);
   --nph-icon-button-secondary-solid-background: var(--nph-color-secondary);
   --nph-togglebutton-background-checked-hover: var(--nph-theme-brand-700);
+  --nph-tabs-counter-background-active: var(--nph-theme-brand-700);
 }
