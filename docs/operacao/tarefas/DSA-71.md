@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 700,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-tabs",
   "dependencies": [
     "DSA-03",
@@ -81,7 +81,7 @@
     "excerpt": null,
     "converted_decision": "The nph-tabs documentation frame (3483:11200, page 1626:14) was accepted as the API and behavior specification of nph-tabs. COMPONENT_SET nph-tabs (3472:9192), the list, 16 variants; the tab set (3472:8748), 30 variants; the counter set (3472:8747), 3 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-71-tabs", "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-71-tabs", "commit": null, "pr": 162 },
   "context": "docs/operacao/contextos/DSA-71.md",
   "updated_at": "2026-11-09"
 }
