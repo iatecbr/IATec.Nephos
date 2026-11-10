@@ -303,7 +303,8 @@ without changing its size. The current page is never told by color alone.
 - `narrow` is the consumer's choice, and the Menu button opens the same items as a vertical list.
   In it each trigger is a collapsed row with its arrow: a click, Enter or Space opens its links below
   it and turns the arrow. Each row opens and closes on its own, and the links of a collapsed row are
-  hidden, out of the Tab order and of the accessibility tree. The top links stay plain links.
+  hidden, out of the Tab order and of the accessibility tree. The top links stay plain links. A row
+  label wider than the line shrinks with an ellipsis, and the arrow stays inside the row.
 - There is no featured card in the panel, and there is a single level of panels.
 - Every text comes from the consumer, already localized.
 

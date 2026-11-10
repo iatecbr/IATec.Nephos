@@ -438,6 +438,7 @@ describe('opening by keyboard', () => {
     object.focus();
     await userEvent.keyboard('{ContextMenu}');
     await settle(menu);
+    await entered(menu);
     const before = panel(menu).getBoundingClientRect().top;
     const event = rightClick(object, 10, 10);
     expect(event.defaultPrevented).toBe(true);

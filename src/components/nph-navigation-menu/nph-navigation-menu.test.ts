@@ -1286,6 +1286,25 @@ describe('the narrow list: a trigger is a row that opens its links', () => {
     return Math.abs((a ?? 0) + 1) < 0.01 && Math.abs((d ?? 0) + 1) < 0.01;
   };
 
+  it('a label wider than the line shrinks with an ellipsis and the arrow stays inside the row', async () => {
+    const long = 'A trigger label so long that it cannot fit in the narrow panel, even with the whole line for itself';
+    const menu = await mount({
+      narrow: true,
+      items: [{ type: 'trigger', label: long, value: 'long', groups: [{ links: [{ title: 'Docs', href: '#docs' }] }] }, { label: 'Pricing', href: '#pricing' }],
+    });
+    await openList(menu);
+    const button = row(menu, 0);
+    const label = button.querySelector('.top-label') as HTMLElement;
+    const arrow = button.querySelector('.trigger-icon') as HTMLElement;
+    const box = button.getBoundingClientRect();
+    expect(label.scrollWidth).toBeGreaterThan(label.clientWidth);
+    expect(getComputedStyle(label).textOverflow).toBe('ellipsis');
+    expect(getComputedStyle(label).overflow).toBe('hidden');
+    expect(arrow.getBoundingClientRect().right).toBeLessThanOrEqual(box.right + 0.5);
+    expect(arrow.getBoundingClientRect().left).toBeGreaterThanOrEqual(label.getBoundingClientRect().right - 0.5);
+    expect(button.scrollWidth).toBeLessThanOrEqual(button.clientWidth);
+  });
+
   it('each trigger is a collapsed row with its arrow: a button, aria-expanded false, aria-controls pointing to its region', async () => {
     const menu = await mount({ narrow: true });
     await openList(menu);

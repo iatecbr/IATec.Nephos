@@ -143,7 +143,9 @@ async function openWhenReady(element: Element | undefined, active?: string, row?
   menu.open = true;
   if (row === undefined) return;
   await menu.updateComplete;
-  menu.shadowRoot?.querySelector<HTMLElement>(`#row-${String(ROW_INDEX[row])}`)?.click();
+  /* The page may prepare the scene again (a language change renders the bar again): click only a collapsed row. */
+  const button = menu.shadowRoot?.querySelector<HTMLElement>(`#row-${String(ROW_INDEX[row])}`);
+  if (button?.getAttribute('aria-expanded') === 'false') button.click();
 }
 
 export interface BarOptions {

@@ -103,6 +103,17 @@ nav {
   inline-size: 100%;
 }
 
+/* A label wider than the line shrinks with an ellipsis: the arrow stays inside the row. */
+.row > .top-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row > .trigger-icon {
+  flex: none;
+}
+
 /* Hover, and the trigger whose panel is open: the surface and the accent text. */
 .top:not([data-current]):not([aria-disabled='true']):not(:disabled):hover,
 .top:not([data-current]).trigger[aria-expanded='true'],
