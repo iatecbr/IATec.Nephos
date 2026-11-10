@@ -5179,7 +5179,7 @@
     "relationsTitle": "Relações e contexto",
     "relations": [
       "Abre sempre sobre o véu overlay/scrim; o véu não faz parte da peça.",
-      "O rodapé combina o nph-button secundário sólido, em color/secondary-on-dialog, com um primário ou um danger. Cor, estado e foco dos botões são do nph-button.",
+      "O rodapé combina o nph-button secundário sólido, com o próprio fundo, com um primário ou um danger. Cor, estado e foco dos botões são do nph-button.",
       "O botão fechar é o nph-button secundário, ghost, compact, só com ícone.",
       "As linhas são nph-separator em color/dialog-separator, mais suave que color/border.",
       "O nph-alert-dialog se apoia no nph-dialog sem o botão fechar.",
@@ -5323,7 +5323,7 @@
     "shortConfirmationCaption": "Confirmação curta em sm, sem ação destrutiva e sem área de conteúdo: o texto do cabeçalho define a largura, até o teto.",
     "wideContentCaption": "Conteúdo largo em lg, uma lista, com as duas linhas ligadas: só a lista rola; o cabeçalho e o rodapé ficam.",
     "stackedCaption": "Ações empilhadas: numa janela mais estreita que o breakpoint md, um botão por linha em largura total, o primário em cima.",
-    "loadingCaption": "O primário em loading enquanto a ação termina, ao lado do secundário sólido em color/secondary-on-dialog.",
+    "loadingCaption": "O primário em loading enquanto a ação termina, ao lado do secundário sólido, que mantém o próprio fundo.",
     "focusCaption": "Pressione o botão para abrir o diálogo: o foco vai para o primeiro campo. O Tab fica no diálogo; Esc ou o botão fechar o fecham, e o foco volta ao botão."
   },
   "checkboxDocs": {
@@ -5921,7 +5921,7 @@
     "api": [
       [
         "for",
-        "O id do elemento que abre o menu, na mesma raiz do menu: o nph-button fora do componente. O menu escreve aria-haspopup e aria-expanded nele."
+        "O id do elemento que abre o menu, na mesma raiz do menu: o nph-button fora do componente. O menu escreve aria-haspopup e aria-expanded nele; enquanto o menu está aberto, um nph-button como gatilho toma o visual de aberto, o mesmo do estado hover-active."
       ],
       [
         "open",
@@ -6120,7 +6120,7 @@
       ],
       [
         "Limites conhecidos",
-        "No hover do item, a caixa e o trilho não tomam o próprio hover. O aria-expanded num nph-button não chega ao botão interno. O menu aninhado fica fora de escopo."
+        "No hover do item, a caixa e o trilho não tomam o próprio hover. O menu aninhado fica fora de escopo."
       ]
     ],
     "examplesTitle": "Exemplos",
@@ -10416,7 +10416,7 @@
       ],
       [
         "steps e step",
-        "Lidas em steps: steps é o número de etapas, 3, 4 ou 5, e step é a etapa atual, de 1 a steps, 1 por padrão."
+        "Lidas em steps: steps é o número de etapas, um inteiro de 2 ou mais, e step é a etapa atual, de 1 a steps, 1 por padrão. Evite mais de 7 etapas; não há máximo imposto."
       ],
       [
         "label",
@@ -10465,7 +10465,7 @@
       },
       {
         "value": "steps",
-        "label": "Quando o processo tem 3, 4 ou 5 etapas fixas e conhecidas. A etapa atual tem a cor das concluídas: o \"N de M\" e o texto de ajuda dizem qual é."
+        "label": "Quando o processo tem 2 ou mais etapas fixas e conhecidas; evite mais de 7. A etapa atual tem a cor das concluídas: o \"N de M\" e o texto de ajuda dizem qual é."
       }
     ],
     "sizesTitle": "Tamanhos",
@@ -11614,7 +11614,7 @@
       ],
       [
         "Título",
-        "Sempre visível; text/label-lg em popover/foreground. Nomeia a superfície."
+        "Sempre visível; text/heading-sm em popover/foreground. Nomeia a superfície."
       ],
       [
         "Descrição",

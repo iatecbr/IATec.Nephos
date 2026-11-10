@@ -362,6 +362,60 @@ describe('the trigger', () => {
   });
 });
 
+describe('the open trigger (DSA-67 D-2)', () => {
+  async function mountButton(): Promise<{ menu: NphDropdownMenu; button: HTMLElement; control: HTMLButtonElement }> {
+    const button = document.createElement('nph-button');
+    button.id = 'more';
+    button.setAttribute('severity', 'secondary');
+    button.setAttribute('text', 'More');
+    const menu = document.createElement('nph-dropdown-menu');
+    menu.setAttribute('for', 'more');
+    menu.items = ITEMS;
+    document.body.append(button, menu);
+    await settle(menu);
+    await settle(menu);
+    const control = button.shadowRoot?.querySelector('.control') as HTMLButtonElement;
+    return { menu, button, control };
+  }
+
+  it('an nph-button trigger takes the open look and the expanded state while the menu is open, and loses them on close', async () => {
+    const { menu, button, control } = await mountButton();
+    await userEvent.unhover(document.body);
+    const rest = getComputedStyle(control).backgroundColor;
+    expect(control.getAttribute('aria-haspopup')).toBe('menu');
+    expect(control.getAttribute('aria-expanded')).toBe('false');
+    expect(button.hasAttribute('data-nph-open')).toBe(false);
+
+    menu.open = true;
+    await settle(menu);
+    await settle(menu);
+    await vi.waitFor(() => expect(button.hasAttribute('data-nph-open')).toBe(true));
+    expect(control.getAttribute('aria-expanded')).toBe('true');
+    expect(getComputedStyle(control).backgroundColor).toBe(
+      resolved('background-color', '--nph-button-secondary-solid-background-hover'),
+    );
+    expect(getComputedStyle(control).backgroundColor).not.toBe(rest);
+
+    menu.open = false;
+    await settle(menu);
+    await settle(menu);
+    await vi.waitFor(() => expect(button.hasAttribute('data-nph-open')).toBe(false));
+    expect(control.getAttribute('aria-expanded')).toBe('false');
+    expect(getComputedStyle(control).backgroundColor).toBe(rest);
+  });
+
+  it('a plain button trigger carries aria-expanded true while open and false when closed', async () => {
+    const { menu, trigger } = await mount();
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    menu.open = true;
+    await settle(menu);
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    menu.open = false;
+    await settle(menu);
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+  });
+});
+
 describe('opening and closing', () => {
   it('a click on the trigger opens the menu below it, focused on the first item', async () => {
     const { menu, trigger } = await mount();

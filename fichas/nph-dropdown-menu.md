@@ -25,7 +25,7 @@ api:
     constraint: >-
       The id of the element that opens the menu, looked up in the same root as the
       menu, like the native label for and nph-tooltip (P77). The button stays outside
-      the component; the menu writes aria-haspopup=menu and aria-expanded on it. Empty
+      the component; the menu writes aria-haspopup=menu and aria-expanded on it, and an nph-button trigger draws its open look while the menu is open. Empty
       or matching no element in the same root after one frame: the menu draws nothing
       and emits console.error in development. A trigger that changes its id after the
       lookup is not followed.
@@ -268,6 +268,7 @@ the box.
 | Focus | border `border/width` in `color/primary`, radius `dropdown/item-focus-border-radius`; halo `focus/ring-width` in `focus/halo`, radius `dropdown/item-focus-halo-radius` | For keyboard users, a border and a halo outside the row; the start icon turns solid |
 | Disabled | `state/disabled-opacity` | The whole row loses opacity; it takes the focus but does not activate |
 | Loading | `nph-spinner` sm at the end | The spinner takes the end; the item is busy and does not activate |
+| Open trigger | the trigger `nph-button` reads `button/secondary-solid-background-hover` (secondary solid), the same open look as the trigger of `nph-popover`; it carries `aria-haspopup` menu and `aria-expanded` | While the menu is open, the trigger keeps the hover look even with the pointer away; closed, it goes back to rest. The `nph-button` hands both attributes to its native button (DSA-67 D-2) |
 
 **Feedback and focus:** focus appears only for keyboard users and **is not removed**. The
 start icon is light at rest and when disabled, and solid on highlight (hover and focus), in every
@@ -303,7 +304,7 @@ takes the destructive item with the color change only.
 | Contrast | The item text passes AA on `color/popover` and on `color/primary-surface`; the checked item of single choice reads `color/primary-text`, at least 4.5:1 on `color/popover` in the seven brands. The solid icon on hover measures 4.78:1 in light and 6.26:1 in dark; the destructive item measures at least 4.69:1 in `dropdown/item-destructive-foreground` |
 | Alternative to color | The destructive item has the icon of the action; single choice shows the check; multiple choice the checked box; the switch the knob position; the tag carries text |
 | Touch target | The whole row, above 24 by 24 in every size |
-| Known limits | On item hover, the inner box and track do not take their own hover (D-3). `aria-haspopup` and `aria-expanded` on an `nph-button` do not reach its inner button. A nested menu is out of scope. A forced-colors mode is not handled. When the panel scrolls, the halo of a focused item is cut by 1 px on the sides. An `nph-button` that goes into `loading` while the menu is open does not close it by a press. A trigger clipped by a scrolling ancestor, still inside the window, keeps the menu drawn |
+| Known limits | On item hover, the inner box and track do not take their own hover (D-3). A nested menu is out of scope. A forced-colors mode is not handled. When the panel scrolls, the halo of a focused item is cut by 1 px on the sides. An `nph-button` that goes into `loading` while the menu is open does not close it by a press. A trigger clipped by a scrolling ancestor, still inside the window, keeps the menu drawn |
 
 ## Relations
 

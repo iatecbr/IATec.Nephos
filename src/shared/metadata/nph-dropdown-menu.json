@@ -21,7 +21,7 @@
       "required": true,
       "default": "empty",
       "reflects": true,
-      "constraint": "The id of the element that opens the menu, looked up in the same root as the menu, like the native label for and nph-tooltip (P77). The button stays outside the component; the menu writes aria-haspopup=menu and aria-expanded on it. Empty or matching no element in the same root after one frame: the menu draws nothing and emits console.error in development. A trigger that changes its id after the lookup is not followed."
+      "constraint": "The id of the element that opens the menu, looked up in the same root as the menu, like the native label for and nph-tooltip (P77). The button stays outside the component; the menu writes aria-haspopup=menu and aria-expanded on it, and an nph-button trigger draws its open look while the menu is open. Empty or matching no element in the same root after one frame: the menu draws nothing and emits console.error in development. A trigger that changes its id after the lookup is not followed."
     },
     "open": {
       "type": "boolean",

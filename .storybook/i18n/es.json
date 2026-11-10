@@ -5179,7 +5179,7 @@
     "relationsTitle": "Relaciones y contexto",
     "relations": [
       "Siempre se abre sobre el velo overlay/scrim; el velo no es parte de la pieza.",
-      "El pie combina el nph-button secundario sólido, en color/secondary-on-dialog, con un primario o un danger. Color, estado y foco de los botones son del nph-button.",
+      "El pie combina el nph-button secundario sólido, con su propio fondo, con un primario o un danger. Color, estado y foco de los botones son del nph-button.",
       "El botón cerrar es el nph-button secundario, ghost, compact, solo con icono.",
       "Las líneas son nph-separator en color/dialog-separator, más suave que color/border.",
       "El nph-alert-dialog se apoya en el nph-dialog sin el botón cerrar.",
@@ -5323,7 +5323,7 @@
     "shortConfirmationCaption": "Confirmación corta en sm, sin acción destructiva y sin área de contenido: el texto del encabezado define el ancho, hasta el techo.",
     "wideContentCaption": "Contenido ancho en lg, una lista, con las dos líneas activadas: solo la lista se desplaza; el encabezado y el pie quedan.",
     "stackedCaption": "Acciones apiladas: en una ventana más estrecha que el breakpoint md, un botón por línea a ancho completo, el primario arriba.",
-    "loadingCaption": "El primario en loading mientras la acción termina, junto al secundario sólido en color/secondary-on-dialog.",
+    "loadingCaption": "El primario en loading mientras la acción termina, junto al secundario sólido, que mantiene su propio fondo.",
     "focusCaption": "Pulse el botón para abrir el diálogo: el foco va al primer campo. El Tab queda en el diálogo; Esc o el botón cerrar lo cierran, y el foco vuelve al botón."
   },
   "checkboxDocs": {
@@ -5921,7 +5921,7 @@
     "api": [
       [
         "for",
-        "El id del elemento que abre el menú, en la misma raíz del menú: el nph-button fuera del componente. El menú escribe aria-haspopup y aria-expanded en él."
+        "El id del elemento que abre el menú, en la misma raíz del menú: el nph-button fuera del componente. El menú escribe aria-haspopup y aria-expanded en él; mientras el menú está abierto, un nph-button como disparador toma el aspecto de abierto, el mismo del estado hover-active."
       ],
       [
         "open",
@@ -6120,7 +6120,7 @@
       ],
       [
         "Límites conocidos",
-        "En el hover del ítem, la casilla y el riel no toman su propio hover. El aria-expanded en un nph-button no llega a su botón interno. El menú anidado queda fuera de alcance."
+        "En el hover del ítem, la casilla y el riel no toman su propio hover. El menú anidado queda fuera de alcance."
       ]
     ],
     "examplesTitle": "Ejemplos",
@@ -10416,7 +10416,7 @@
       ],
       [
         "steps y step",
-        "Leídas en steps: steps es el número de pasos, 3, 4 o 5, y step es el paso actual, de 1 a steps, 1 por defecto."
+        "Leídas en steps: steps es el número de pasos, un entero de 2 o más, y step es el paso actual, de 1 a steps, 1 por defecto. Evite más de 7 pasos; no se impone un máximo."
       ],
       [
         "label",
@@ -10465,7 +10465,7 @@
       },
       {
         "value": "steps",
-        "label": "Cuando el proceso tiene 3, 4 o 5 pasos fijos y conocidos. El paso actual tiene el color de los completados: el \"N de M\" y el texto de ayuda dicen cuál es."
+        "label": "Cuando el proceso tiene 2 o más pasos fijos y conocidos; evite más de 7. El paso actual tiene el color de los completados: el \"N de M\" y el texto de ayuda dicen cuál es."
       }
     ],
     "sizesTitle": "Tamaños",
@@ -11614,7 +11614,7 @@
       ],
       [
         "Título",
-        "Siempre visible; text/label-lg en popover/foreground. Nombra la superficie."
+        "Siempre visible; text/heading-sm en popover/foreground. Nombra la superficie."
       ],
       [
         "Descripción",

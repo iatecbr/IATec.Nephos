@@ -181,7 +181,7 @@
   ],
   "tokens": {
     "surface": "popover/background, popover/foreground, popover/border, popover/border-width, popover/radius, elevation/dropdown",
-    "title_and_description": "popover/foreground, popover/description, text/label-lg, text/body-sm",
+    "title_and_description": "popover/foreground, popover/description, text/heading-sm, text/body-sm",
     "spacing": "popover/padding, popover/header-gap, popover/title-gap, popover/footer-gap, popover/footer-padding",
     "divider": "popover/divider, popover/border-width",
     "width": "popover/width-sm, popover/width-md, popover/width-lg",
@@ -244,7 +244,7 @@
     "Drawing a divider with no footer."
   ],
   "sources": {
-    "design_md": "design.md, the popover/* tokens, color/popover, color/popover-foreground, color/muted-foreground, color/border-subtle, elevation/dropdown, text/label-lg, text/body-sm and the motion roles",
+    "design_md": "design.md, the popover/* tokens, color/popover, color/popover-foreground, color/muted-foreground, color/border-subtle, elevation/dropdown, text/heading-sm, text/body-sm and the motion roles",
     "decision": "P111 — nph-popover: API and semantics",
     "tests": "src/components/nph-popover/nph-popover.test.ts",
     "usage_evidence": "no screen consumes it yet",

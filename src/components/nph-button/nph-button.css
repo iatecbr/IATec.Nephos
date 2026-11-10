@@ -87,8 +87,8 @@
 
 /*
  * hover-active: only when the button responds. The trigger of an open popover draws the same
- * state while the popover is open (P111): `data-nph-open` is the internal marker the component
- * sets from `aria-haspopup="dialog"` and `aria-expanded="true"` on the host.
+ * state while the popover or the menu is open (P111, DSA-67): `data-nph-open` is the internal marker
+ * the component sets from `aria-haspopup="dialog"` or `"menu"` and `aria-expanded="true"` on the host.
  */
 .control:not(:disabled):not([aria-disabled='true']):is(:hover, :active),
 :host([data-nph-open]) .control:not(:disabled):not([aria-disabled='true']) {

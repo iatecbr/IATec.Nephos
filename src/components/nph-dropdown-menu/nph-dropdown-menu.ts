@@ -13,7 +13,8 @@
  * - `for`: the `id` of the element that opens the menu, looked up in the SAME root as the
  *   menu (`getRootNode()`), like the native `<label for>` and `nph-tooltip` (P77). The
  *   button stays outside the component. The menu writes `aria-haspopup="menu"` and
- *   `aria-expanded` on it;
+ *   `aria-expanded` on it; an `nph-button` trigger draws its open look (`hover-active`) while
+ *   the menu is open and hands both attributes to its native button (DSA-67 D-2);
  * - `open`: the state. Reflects. The menu turns it on and off; the consumer may set it;
  * - `items`: the entries, in order. An item (`type` absent or `item`) has `value` and
  *   `text`, and optionally `description`, `icon`, `avatar`, `severity` (`default` or

@@ -1348,12 +1348,16 @@ describe('the parts and their measures', () => {
     expect(gap).toBe(12);
   });
 
-  it('the title is text/label-lg in popover/foreground and the description text/body-sm in popover/description', async () => {
+  it('the title is text/heading-sm (16 px, 600, 24 px) in popover/foreground and the description text/body-sm in popover/description (DSA-67 D-4)', async () => {
     const setup = await mount({ description: 'Narrow the list.' });
     await open(setup);
     const heading = part(setup.popover, '.heading') as HTMLElement;
     const description = part(setup.popover, '.description') as HTMLElement;
-    expect(typographyFrom(heading)).toEqual(typographyOf('label-lg'));
+    expect(typographyFrom(heading)).toEqual(typographyOf('heading-sm'));
+    expect(getComputedStyle(heading).fontSize).toBe('16px');
+    expect(getComputedStyle(heading).fontWeight).toBe('600');
+    expect(getComputedStyle(heading).lineHeight).toBe('24px');
+    expect(typographyFrom(heading)).not.toEqual(typographyOf('label-lg'));
     expect(typographyFrom(description)).toEqual(typographyOf('body-sm'));
     expect(getComputedStyle(heading).color).toBe(colorOf('--nph-popover-foreground'));
     expect(getComputedStyle(description).color).toBe(colorOf('--nph-popover-description'));

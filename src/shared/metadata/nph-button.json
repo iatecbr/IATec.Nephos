@@ -182,7 +182,7 @@
     },
     "popover-open": {
       "token": "the same tokens as hover-active, the icons included",
-      "changes_for_user": "The trigger of an open popover keeps the look of hover-active while the popover is open, even with the pointer away, and the native button carries aria-haspopup and aria-expanded."
+      "changes_for_user": "The trigger of an open popover or menu keeps the look of hover-active while it is open, even with the pointer away, and the native button carries aria-haspopup and aria-expanded."
     }
   },
   "business_rules": [],

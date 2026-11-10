@@ -1147,7 +1147,7 @@ describe('tooltip of the icon-only button (P86)', () => {
   });
 });
 
-describe('the trigger of an open popover (P111, amends P68)', () => {
+describe('the trigger of an open popover or menu (P111, amends P68; DSA-67 D-2)', () => {
   const TRIGGER = { severity: 'secondary', text: 'Filters', iconStart: 'plus' } as const;
 
   async function open(props: Props = TRIGGER, haspopup = 'dialog'): Promise<NphButton> {
@@ -1197,10 +1197,46 @@ describe('the trigger of an open popover (P111, amends P68)', () => {
     expect(control(element).getAttribute('aria-expanded')).toBe('false');
   });
 
-  it('any other aria-haspopup, such as the menu of nph-dropdown-menu, changes nothing', async () => {
+  it('the menu trigger of nph-dropdown-menu draws the same open look as the popover trigger (DSA-67 D-2)', async () => {
+    const closed = await mount(TRIGGER);
+    const restBackground = getComputedStyle(control(closed)).backgroundColor;
+    const element = await open(TRIGGER, 'menu');
+    const style = getComputedStyle(control(element));
+    expect(style.backgroundColor).toBe(resolved('background-color', '--nph-button-secondary-solid-background-hover'));
+    expect(style.backgroundColor).not.toBe(restBackground);
+    expect(await visibleVariants(control(element))).toEqual(['solid']);
+    expect(element.hasAttribute('data-nph-open')).toBe(true);
+  });
+
+  it('the menu trigger hands aria-haspopup="menu" and aria-expanded to the native button', async () => {
+    const element = await open(TRIGGER, 'menu');
+    expect(control(element).getAttribute('aria-haspopup')).toBe('menu');
+    expect(control(element).getAttribute('aria-expanded')).toBe('true');
+    element.setAttribute('aria-expanded', 'false');
+    await element.updateComplete;
+    expect(control(element).getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('the menu trigger closed, or with aria-expanded absent, keeps the resting look', async () => {
     const closed = await mount(TRIGGER);
     const rest = getComputedStyle(control(closed)).backgroundColor;
-    const element = await open(TRIGGER, 'menu');
+    const element = await mount(TRIGGER);
+    element.setAttribute('aria-haspopup', 'menu');
+    element.setAttribute('aria-expanded', 'false');
+    await element.updateComplete;
+    expect(getComputedStyle(control(element)).backgroundColor).toBe(rest);
+    expect(element.hasAttribute('data-nph-open')).toBe(false);
+    expect(control(element).getAttribute('aria-expanded')).toBe('false');
+    element.removeAttribute('aria-expanded');
+    await element.updateComplete;
+    expect(getComputedStyle(control(element)).backgroundColor).toBe(rest);
+    expect(element.hasAttribute('data-nph-open')).toBe(false);
+  });
+
+  it('any other aria-haspopup, such as listbox, changes nothing', async () => {
+    const closed = await mount(TRIGGER);
+    const rest = getComputedStyle(control(closed)).backgroundColor;
+    const element = await open(TRIGGER, 'listbox');
     expect(getComputedStyle(control(element)).backgroundColor).toBe(rest);
     expect(await visibleVariants(control(element))).toEqual(['light']);
     expect(element.hasAttribute('data-nph-open')).toBe(false);

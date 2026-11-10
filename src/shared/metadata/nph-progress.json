@@ -67,7 +67,7 @@
       "required": false,
       "default": "none",
       "reflects": false,
-      "constraint": "The number of steps, read on steps: 3, 4 or 5, the counts of the accepted Figma set. Required on steps; any other count draws nothing and emits console.error in development. Another count is a pending decision of Indiane (D-1 of DSA-65)."
+      "constraint": "The number of steps, read on steps: an integer of 2 or more. Required on steps; a count that is not an integer, or is below 2, draws nothing and emits console.error in development. There is no enforced maximum: avoid more than 7 steps (the usage guidance of Carbon and Ant Design), and the bar still draws any count."
     },
     "step": {
       "type": "number",
@@ -108,7 +108,7 @@
   "variants": {
     "type": {
       "axis": "appearance",
-      "choose_when": "determinate when there is a percentage; indeterminate while there is no value yet; steps when the process has 3, 4 or 5 fixed steps.",
+      "choose_when": "determinate when there is a percentage; indeterminate while there is no value yet; steps when the process has 2 or more fixed steps, preferably no more than 7.",
       "do_not_combine_with": [
         "value on steps",
         "steps on determinate",
@@ -181,7 +181,7 @@
     "Use determinate whenever there is a percentage, and indeterminate only until the first real value arrives; then switch the type.",
     "Always give a label, or an aria-label when the label is off, because the label is the accessible name.",
     "At the end, set success or error with value 100 and the help text; on error, the help text says what failed.",
-    "On steps, give steps (3, 4 or 5) and the current step, and write the N of M in value-text and the current step in help.",
+    "On steps, give steps (2 or more, avoid more than 7) and the current step, and write the N of M in value-text and the current step in help.",
     "Do not use nph-progress as navigation between steps or as a fixed level meter."
   ],
   "accessibility": {
@@ -195,7 +195,7 @@
   "invalid_combinations": [
     "Success or error on determinate below 100 — the contract has them only at value 100.",
     "Success or error on indeterminate — it has only active.",
-    "Steps with a count other than 3, 4 or 5, or a step outside 1 to steps.",
+    "Steps that is not an integer of 2 or more, or a step outside 1 to steps.",
     "A free color, a width token or a focus state — the color comes from the status and the bar is not interactive.",
     "An error without the help text — color alone does not say what failed."
   ],

@@ -5179,7 +5179,7 @@
     "relationsTitle": "Relations and context",
     "relations": [
       "It always opens over the overlay/scrim veil; the veil is not part of the piece.",
-      "The footer combines the solid secondary nph-button, in color/secondary-on-dialog, with a primary or a danger. Color, state and focus of the buttons belong to nph-button.",
+      "The footer combines the solid secondary nph-button, with its own background, with a primary or a danger. Color, state and focus of the buttons belong to nph-button.",
       "The close button is the nph-button secondary, ghost, compact, with an icon only.",
       "The lines are nph-separator in color/dialog-separator, softer than color/border.",
       "The nph-alert-dialog builds on the nph-dialog without the close button.",
@@ -5323,7 +5323,7 @@
     "shortConfirmationCaption": "Short confirmation in sm, without a destructive action and with no content area: the header text sets the width, up to the ceiling.",
     "wideContentCaption": "Wide content in lg, a list, with both lines on: only the list scrolls; the header and the footer stay.",
     "stackedCaption": "Stacked actions: in a window narrower than the md breakpoint, one button per line at full width, the primary on top.",
-    "loadingCaption": "The primary in loading while the action finishes, next to the solid secondary in color/secondary-on-dialog.",
+    "loadingCaption": "The primary in loading while the action finishes, next to the solid secondary, which keeps its own background.",
     "focusCaption": "Press the button to open the dialog: the focus goes to the first field. Tab stays in the dialog; Esc or the close button close it, and the focus goes back to the button."
   },
   "checkboxDocs": {
@@ -5921,7 +5921,7 @@
     "api": [
       [
         "for",
-        "The id of the element that opens the menu, in the same root as the menu: the nph-button outside the component. The menu writes aria-haspopup and aria-expanded on it."
+        "The id of the element that opens the menu, in the same root as the menu: the nph-button outside the component. The menu writes aria-haspopup and aria-expanded on it; while the menu is open, an nph-button trigger takes the open look, the same as the hover-active state."
       ],
       [
         "open",
@@ -6120,7 +6120,7 @@
       ],
       [
         "Known limits",
-        "On item hover, the box and the track do not take their own hover. aria-expanded on an nph-button does not reach its inner button. The nested menu is out of scope."
+        "On item hover, the box and the track do not take their own hover. The nested menu is out of scope."
       ]
     ],
     "examplesTitle": "Examples",
@@ -10416,7 +10416,7 @@
       ],
       [
         "steps and step",
-        "Read on steps: steps is the number of steps, 3, 4 or 5, and step is the current one, from 1 to steps, 1 by default."
+        "Read on steps: steps is the number of steps, an integer of 2 or more, and step is the current one, from 1 to steps, 1 by default. Avoid more than 7 steps; no maximum is enforced."
       ],
       [
         "label",
@@ -10465,7 +10465,7 @@
       },
       {
         "value": "steps",
-        "label": "When the process has 3, 4 or 5 fixed, known steps. The current step has the color of the done ones: the \"N of M\" and the help text say which one it is."
+        "label": "When the process has 2 or more fixed, known steps; avoid more than 7. The current step has the color of the done ones: the \"N of M\" and the help text say which one it is."
       }
     ],
     "sizesTitle": "Sizes",
@@ -11614,7 +11614,7 @@
       ],
       [
         "Title",
-        "Always visible; text/label-lg in popover/foreground. It names the surface."
+        "Always visible; text/heading-sm in popover/foreground. It names the surface."
       ],
       [
         "Description",
