@@ -11,6 +11,9 @@
   --nph-core-alpha-black-40: rgba(0, 0, 0, 0.4);
   --nph-core-alpha-black-5: rgba(0, 0, 0, 0.05);
   --nph-core-alpha-black-60: rgba(0, 0, 0, 0.6);
+  --nph-core-alpha-danger-400-40: rgba(227, 81, 81, 0.4);
+  --nph-core-alpha-success-400-40: rgba(69, 181, 110, 0.4);
+  --nph-core-alpha-warn-400-40: rgba(238, 121, 61, 0.4);
   --nph-core-alpha-white-10: rgba(255, 255, 255, 0.1);
   --nph-core-alpha-white-15: rgba(255, 255, 255, 0.15);
   --nph-core-avatar-overlap-100: -0.5rem;
@@ -714,6 +717,14 @@
   --nph-stepper-connector-min-width: var(--nph-core-space-600);
   --nph-stepper-text-max-width: var(--nph-core-layout-width-stepper-text);
   --nph-stepper-item-disabled-opacity: var(--nph-state-disabled-opacity);
+  --nph-file-upload-padding: var(--nph-core-space-700);
+  --nph-file-upload-padding-compact-block: var(--nph-core-space-300);
+  --nph-file-upload-gap-compact: var(--nph-core-space-300);
+  --nph-file-upload-disabled-opacity: var(--nph-state-disabled-opacity);
+  --nph-file-upload-item-padding-block: var(--nph-core-space-300);
+  --nph-file-upload-item-gap: var(--nph-core-space-300);
+  --nph-file-upload-item-actions-gap: var(--nph-core-space-100);
+  --nph-file-upload-item-thumbnail-radius: var(--nph-core-radius-300);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-panel-width: var(--nph-layout-sidebar-expanded);
   --nph-sidebar-section-gap: var(--nph-space-stack);
@@ -880,6 +891,22 @@
   --nph-stepper-focus-ring-width: var(--nph-focus-ring-width);
   --nph-stepper-focus-radius: var(--nph-focus-radius-control-with-border);
   --nph-stepper-state-duration: var(--nph-motion-state-duration);
+  --nph-file-upload-border-width: var(--nph-border-width);
+  --nph-file-upload-radius: var(--nph-radius-container);
+  --nph-file-upload-gap: var(--nph-space-stack-snug);
+  --nph-file-upload-padding-compact-inline: var(--nph-space-container-padding);
+  --nph-file-upload-gap-text-compact: var(--nph-space-stack-tight);
+  --nph-file-upload-icon-size: var(--nph-icon-size-lg);
+  --nph-file-upload-error-gap: var(--nph-space-inline-tight);
+  --nph-file-upload-list-gap: var(--nph-space-stack);
+  --nph-file-upload-item-focus-border-radius: var(--nph-focus-border-radius-container);
+  --nph-file-upload-item-focus-halo-radius: var(--nph-focus-radius-container);
+  --nph-file-upload-item-border-width: var(--nph-border-width);
+  --nph-file-upload-item-radius: var(--nph-radius-container);
+  --nph-file-upload-item-padding-inline: var(--nph-space-container-padding);
+  --nph-file-upload-item-text-gap: var(--nph-space-stack-tight);
+  --nph-file-upload-item-status-gap: var(--nph-space-inline-tight);
+  --nph-file-upload-item-thumbnail-size: var(--nph-image-size-sm);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1073,6 +1100,28 @@
   --nph-stepper-description-foreground-error: var(--nph-status-error-text);
   --nph-stepper-connector-background: var(--nph-color-border);
   --nph-stepper-item-background-hover: var(--nph-color-accent);
+  --nph-file-upload-background: var(--nph-color-background);
+  --nph-file-upload-background-error: var(--nph-status-error-surface);
+  --nph-file-upload-background-limit: var(--nph-status-warning-surface);
+  --nph-file-upload-border: var(--nph-color-border);
+  --nph-file-upload-icon-foreground: var(--nph-color-muted-foreground);
+  --nph-file-upload-icon-foreground-error: var(--nph-status-error);
+  --nph-file-upload-icon-foreground-limit: var(--nph-status-warning);
+  --nph-file-upload-foreground: var(--nph-color-foreground);
+  --nph-file-upload-muted-foreground: var(--nph-color-muted-foreground);
+  --nph-file-upload-error-foreground: var(--nph-status-error);
+  --nph-file-upload-item-background: var(--nph-color-background);
+  --nph-file-upload-item-border: var(--nph-color-border);
+  --nph-file-upload-item-background-success: var(--nph-status-success-surface);
+  --nph-file-upload-item-background-error: var(--nph-status-error-surface);
+  --nph-file-upload-item-border-done-hover: var(--nph-color-input);
+  --nph-file-upload-item-thumbnail-background: var(--nph-color-muted);
+  --nph-file-upload-item-icon-foreground: var(--nph-color-muted-foreground);
+  --nph-file-upload-item-icon-foreground-success: var(--nph-status-success);
+  --nph-file-upload-item-icon-foreground-error: var(--nph-status-error);
+  --nph-file-upload-item-foreground: var(--nph-color-foreground);
+  --nph-file-upload-item-muted-foreground: var(--nph-color-muted-foreground);
+  --nph-file-upload-item-error-foreground: var(--nph-status-error);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-text);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-text);
@@ -1136,6 +1185,13 @@
   --nph-stepper-connector-background-complete: var(--nph-color-primary-border);
   --nph-stepper-focus-border: var(--nph-focus-border);
   --nph-stepper-focus-ring: var(--nph-focus-halo);
+  --nph-file-upload-background-dragging: var(--nph-color-primary-surface);
+  --nph-file-upload-border-dragging: var(--nph-color-primary-border);
+  --nph-file-upload-icon-foreground-dragging: var(--nph-color-primary-on-surface);
+  --nph-file-upload-foreground-dragging: var(--nph-color-primary-on-surface);
+  --nph-file-upload-item-background-uploading: var(--nph-color-primary-surface);
+  --nph-file-upload-item-focus-border: var(--nph-focus-border);
+  --nph-file-upload-item-focus-halo: var(--nph-focus-halo);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */
@@ -1278,6 +1334,10 @@
   --nph-icon-button-secondary-outline-border: var(--nph-core-surface-200);
   --nph-icon-button-secondary-solid-background: var(--nph-core-surface-50);
   --nph-icon-button-secondary-solid-background-hover: var(--nph-core-surface-100);
+  --nph-file-upload-item-background-done: var(--nph-core-neutral-50);
+  --nph-file-upload-item-border-done: var(--nph-core-neutral-100);
+  --nph-file-upload-item-thumbnail-background-success: var(--nph-core-success-100);
+  --nph-file-upload-item-thumbnail-background-error: var(--nph-core-danger-100);
   --nph-color-secondary-on-dialog: var(--nph-color-secondary);
   --nph-color-secondary-on-dialog-hover: var(--nph-color-secondary-hover);
   --nph-color-primary-foreground: var(--nph-theme-brand-on-600);
@@ -1303,6 +1363,13 @@
   --nph-togglebutton-background-checked-hover: var(--nph-theme-brand-200);
   --nph-tabs-button-outline-border-color-active: var(--nph-theme-brand-200);
   --nph-tabs-counter-background-active: var(--nph-theme-brand-200);
+  --nph-file-upload-border-error: var(--nph-status-error);
+  --nph-file-upload-border-limit: var(--nph-status-warning);
+  --nph-file-upload-item-border-uploading: var(--nph-theme-brand-200);
+  --nph-file-upload-item-border-success: var(--nph-status-success-border);
+  --nph-file-upload-item-border-error: var(--nph-status-error-border);
+  --nph-file-upload-item-thumbnail-background-uploading: var(--nph-theme-brand-100);
+  --nph-file-upload-item-icon-foreground-uploading: var(--nph-theme-brand-600);
   --nph-table-link-foreground: var(--nph-color-link);
 }
 [data-nph-color-scheme="dark"] {
@@ -1443,6 +1510,14 @@
   --nph-icon-button-secondary-outline-border: var(--nph-core-surface-400);
   --nph-icon-button-secondary-solid-background-hover: var(--nph-core-surface-500);
   --nph-tabs-button-outline-border-color-active: var(--nph-core-alpha-white-15);
+  --nph-file-upload-border-error: var(--nph-core-alpha-danger-400-40);
+  --nph-file-upload-border-limit: var(--nph-core-alpha-warn-400-40);
+  --nph-file-upload-item-border-success: var(--nph-core-alpha-success-400-40);
+  --nph-file-upload-item-border-error: var(--nph-core-alpha-danger-400-40);
+  --nph-file-upload-item-background-done: var(--nph-core-surface-700);
+  --nph-file-upload-item-border-done: var(--nph-core-alpha-white-10);
+  --nph-file-upload-item-thumbnail-background-success: var(--nph-core-success-800);
+  --nph-file-upload-item-thumbnail-background-error: var(--nph-core-danger-800);
   --nph-color-primary-foreground: var(--nph-theme-brand-on-400);
   --nph-color-primary: var(--nph-theme-brand-400);
   --nph-color-primary-surface: var(--nph-theme-brand-900);
@@ -1469,4 +1544,7 @@
   --nph-icon-button-secondary-solid-background: var(--nph-color-secondary);
   --nph-togglebutton-background-checked-hover: var(--nph-theme-brand-700);
   --nph-tabs-counter-background-active: var(--nph-theme-brand-700);
+  --nph-file-upload-item-border-uploading: var(--nph-theme-brand-400);
+  --nph-file-upload-item-thumbnail-background-uploading: var(--nph-theme-brand-800);
+  --nph-file-upload-item-icon-foreground-uploading: var(--nph-theme-brand-100);
 }

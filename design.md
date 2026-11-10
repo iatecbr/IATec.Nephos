@@ -256,7 +256,7 @@ tokens_semantic:
     css: '--nph-color-foreground'
     claro: core/base/black
     escuro: core/neutral/100
-    use: "Default text on the base background."
+    use: "Default text on the base background. Also the phrase of the nph-file-upload drop zone and the file name of the nph-file-upload-item, including over status/error-surface, status/warning-surface and status/success-surface (file-upload/foreground, file-upload-item/foreground): the neutral text measures 13.31:1 or more over those surfaces, and the status is also told by icon and text."
     nao_use: "On color/primary or on a state color."
   color/primary:
     css: '--nph-color-primary'
@@ -350,7 +350,7 @@ tokens_semantic:
     css: '--nph-color-input'
     claro: core/neutral/400
     escuro: core/surface/300
-    use: "Field border: input, select, textarea, checkbox."
+    use: "Field border: input, select, textarea, checkbox. Also the border of the completed nph-file-upload-item on hover (file-upload-item/border-done-hover): the whole item is the click area of the file name link."
   color/dropdown-border:
     css: '--nph-color-dropdown-border'
     claro: color/border-subtle
@@ -457,12 +457,12 @@ tokens_semantic:
     css: '--nph-color-primary-surface'
     claro: theme/brand-50
     escuro: theme/brand-900
-    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and nph-combobox, the hover of the nph-dropdown-menu item and the active tab of the light and outline nph-tabs tab button (tabs/button-light-background-active, tabs/button-outline-background-active). Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select and nph-combobox option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted. Also the background of the completed nph-stepper step marker (stepper/marker-background-complete), always with color/primary-on-surface."
+    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and nph-combobox, the hover of the nph-dropdown-menu item and the active tab of the light and outline nph-tabs tab button (tabs/button-light-background-active, tabs/button-outline-background-active). Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select and nph-combobox option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted. Also the background of the completed nph-stepper step marker (stepper/marker-background-complete), always with color/primary-on-surface. Also the background of the nph-file-upload drop zone while a file is dragged over it (file-upload/background-dragging) and of the nph-file-upload-item while it uploads (file-upload-item/background-uploading), with color/primary-on-surface for the icon and the phrase of the zone."
   color/primary-on-surface:
     css: '--nph-color-primary-on-surface'
     claro: theme/brand-600
     escuro: theme/brand-100
-    use: "Text, icon and border on color/primary-surface. Vivid brand color in light mode, light tone in dark mode. USE only on it, except for the exception. Exception: text of the ghost nph-button, which has no background. DO NOT USE on solid color/primary — there color/primary-foreground applies. Also the check of the completed nph-stepper step marker (stepper/marker-foreground-complete)."
+    use: "Text, icon and border on color/primary-surface. Vivid brand color in light mode, light tone in dark mode. USE only on it, except for the exception. Exception: text of the ghost nph-button, which has no background. DO NOT USE on solid color/primary — there color/primary-foreground applies. Also the check of the completed nph-stepper step marker (stepper/marker-foreground-complete). Also the icon and the phrase of the nph-file-upload drop zone while a file is dragged over it (file-upload/icon-foreground-dragging, file-upload/foreground-dragging)."
   color/primary-surface-hover:
     css: '--nph-color-primary-surface-hover'
     claro: theme/brand-100
@@ -477,7 +477,7 @@ tokens_semantic:
     css: '--nph-color-primary-border'
     claro: theme/brand-600
     escuro: theme/brand-300
-    use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. In light it is the same tone as the primary; in dark it goes up one tone, because the dark primary does not reach 3:1 as an outline in two of the seven brands. Also the ring of the current nph-stepper step (stepper/marker-border-current) and the 1 px connector line before the current step (stepper/connector-background-complete): a 1 px line reads as a border, so the no-fill rule does not apply to it."
+    use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. In light it is the same tone as the primary; in dark it goes up one tone, because the dark primary does not reach 3:1 as an outline in two of the seven brands. Also the ring of the current nph-stepper step (stepper/marker-border-current) and the 1 px connector line before the current step (stepper/connector-background-complete): a 1 px line reads as a border, so the no-fill rule does not apply to it. Also the border of the nph-file-upload drop zone while a file is dragged over it (file-upload/border-dragging), which marks the target."
   color/link:
     css: '--nph-color-link'
     claro: theme/brand-600
@@ -689,13 +689,13 @@ tokens_semantic:
     css: '--nph-status-warning'
     claro: core/warn/600
     escuro: core/warn/400
-    use: "Solid color of the state: icon, dot, message bar. Something may go wrong, or requires care before proceeding. Also the solid background of the nph-badge and of the nph-button, with status/on-solid. The `nao_use` still applies."
+    use: "Solid color of the state: icon, dot, message bar. Something may go wrong, or requires care before proceeding. Also the solid background of the nph-badge and of the nph-button, with status/on-solid. The `nao_use` still applies. Also the border of the nph-file-upload drop zone in the limit state in light mode (file-upload/border-limit; in dark mode core/alpha/warn-400-40) and its icon (file-upload/icon-foreground-limit): reaching the limit is a notice, not a failure."
     nao_use: "error that has already happened"
   status/warning-surface:
     css: '--nph-status-warning-surface'
     claro: core/warn/50
     escuro: core/warn/900
-    use: "Message background. Always together with the other three roles of status/warning. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border."
+    use: "Message background. Always together with the other three roles of status/warning. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border. Also the background of the nph-file-upload drop zone in the limit state (file-upload/background-limit); the phrase stays on color/foreground and the rule on color/muted-foreground, as accepted in Figma."
   status/warning-border:
     css: '--nph-status-warning-border'
     claro: core/warn/200
@@ -731,18 +731,18 @@ tokens_semantic:
     css: '--nph-status-error'
     claro: core/danger/600
     escuro: core/danger/400
-    use: "Solid color of the state: icon, dot, message bar. Error that has already happened: validation failed, request broke. Also the border of an invalid field — the field that failed validation. And the asterisk that marks a required field in nph-label: there it is a notice of requirement, not an error. Also the background of the nph-stepper step marker with an error (stepper/marker-background-error)."
+    use: "Solid color of the state: icon, dot, message bar. Error that has already happened: validation failed, request broke. Also the border of an invalid field — the field that failed validation. And the asterisk that marks a required field in nph-label: there it is a notice of requirement, not an error. Also the background of the nph-stepper step marker with an error (stepper/marker-background-error). Also the border of the nph-file-upload drop zone in the error state in light mode (file-upload/border-error; in dark mode core/alpha/danger-400-40), and the icon and the reason of the error in the zone and in the nph-file-upload-item (file-upload/icon-foreground-error, file-upload/error-foreground, file-upload-item/icon-foreground-error, file-upload-item/error-foreground)."
     nao_use: "destructive action by the user; error text over a neutral surface (status/error-text)"
   status/error-surface:
     css: '--nph-status-error-surface'
     claro: core/danger/50
     escuro: core/danger/900
-    use: "Message background. Always together with the other three roles of status/error."
+    use: "Message background. Always together with the other three roles of status/error. Also the background of the nph-file-upload drop zone in the error state and of the nph-file-upload-item in the error status (file-upload/background-error, file-upload-item/background-error); the name, the status line and the reason stay on color/foreground, color/muted-foreground and status/error, as accepted in Figma."
   status/error-border:
     css: '--nph-status-error-border'
     claro: core/danger/200
     escuro: core/danger/400
-    use: "Message border. Always together with the other three roles of status/error."
+    use: "Message border. Always together with the other three roles of status/error. Also the border of the nph-file-upload-item in the error status in light mode (file-upload-item/border-error); in dark mode the item points to core/alpha/danger-400-40, so the border is soft as in light."
   status/error-foreground:
     css: '--nph-status-error-foreground'
     claro: core/danger/800
@@ -764,12 +764,12 @@ tokens_semantic:
     css: '--nph-status-success-surface'
     claro: core/success/50
     escuro: core/success/900
-    use: "Message background. Always together with the other three roles of status/success. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border."
+    use: "Message background. Always together with the other three roles of status/success. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border. Also the background of the nph-file-upload-item in the sent status (file-upload-item/background-success); the text stays on color/foreground and color/muted-foreground, as accepted in Figma."
   status/success-border:
     css: '--nph-status-success-border'
     claro: core/success/200
     escuro: core/success/400
-    use: "Message border. Always together with the other three roles of status/success."
+    use: "Message border. Always together with the other three roles of status/success. Also the border of the nph-file-upload-item in the sent status in light mode (file-upload-item/border-success); in dark mode the item points to core/alpha/success-400-40."
   status/success-foreground:
     css: '--nph-status-success-foreground'
     claro: core/success/800
@@ -1136,12 +1136,12 @@ tokens_space:
     css: '--nph-space-container-padding'
     alias: core/space/400
     valor: 16
-    use: "Inner padding of card, panel, popover and dialog - what contains. DO NOT USE on a control."
+    use: "Inner padding of card, panel, popover and dialog - what contains. DO NOT USE on a control. Also the side padding of the nph-file-upload-item and of the compact nph-file-upload drop zone (file-upload-item/padding-inline, file-upload/padding-compact-inline): the item and the zone are containers of controls, not controls."
   space/stack-snug:
     css: '--nph-space-stack-snug'
     alias: core/space/200
     valor: 8
-    use: "Vertical space between the title and the description of a header, and the extra room before the actions of the nph-dialog. DO NOT USE between fields of a form - there it is space/stack."
+    use: "Vertical space between the title and the description of a header, and the extra room before the actions of the nph-dialog. DO NOT USE between fields of a form - there it is space/stack. Also the gap between the icon, the action line and the rule of the nph-file-upload drop zone in the default format (file-upload/gap)."
   space/inline-loose:
     css: '--nph-space-inline-loose'
     alias: core/space/300
@@ -1335,7 +1335,7 @@ tokens_radius:
     css: '--nph-radius-container'
     alias: core/radius/400
     valor: 8
-    use: "USE on a container with a medium corner: table, pagination, floating toolbar, the nph-navigation-menu panel and notification (except the toast, which is radius/overlay). DO NOT USE on nph-popover, nph-hover-card, nph-dropdown-menu, nph-context-menu or the nph-sidebar flyout panel: those have their own radius. DO NOT USE on a card or content panel: those are radius/surface. DO NOT USE on a control."
+    use: "USE on a container with a medium corner: table, pagination, floating toolbar, the nph-navigation-menu panel and notification (except the toast, which is radius/overlay). DO NOT USE on nph-popover, nph-hover-card, nph-dropdown-menu, nph-context-menu or the nph-sidebar flyout panel: those have their own radius. DO NOT USE on a card or content panel: those are radius/surface. DO NOT USE on a control. Also the corner of the nph-file-upload drop zone and of the nph-file-upload-item (file-upload/radius, file-upload-item/radius)."
   radius/overlay:
     css: '--nph-radius-overlay'
     alias: core/radius/450
@@ -2060,7 +2060,7 @@ tokens_icon:
     css: '--nph-icon-size-lg'
     alias: core/icon-size/300
     valor: 24
-    use: "Section header, empty state, an icon that carries meaning alone and the large icon-only nph-button. DO NOT USE on a dense screen or in a list."
+    use: "Section header, empty state, an icon that carries meaning alone and the large icon-only nph-button. DO NOT USE on a dense screen or in a list. Also the icon of the nph-file-upload drop zone (file-upload/icon-size); the zone is a section area, not a list."
 
 icones_nucleo:
   navegacao_e_menus:
