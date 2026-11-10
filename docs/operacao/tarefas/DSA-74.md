@@ -49,6 +49,7 @@
     "docs/operacao/evidencias/DSA-74/figma-docs-accepted-2026-11-10.md"
   ],
   "decision_refs": [
+    "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-10.md, nph-file-upload: visual acceptance, Figma UX QA and textual audit approved, documentation accepted (item 1), and items 2 to 11 of the approval page approved (dashed border style token, spacing straight to core, thumbnail radius, the three uploading and done tokens per theme on the primitive, icon box and uploading icon on the primitive, state borders in dark at 40%, dragging icon on color/primary-on-surface, file-lines and file-image in nph-icon, compact format only in a container of 668 px or more, list with no scroll of its own, the other points of the appendix as recommended)"
   ],
   "external_origin": {
@@ -84,7 +85,7 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - **Width**: the compact format only applies when the container is at least 668 px wide; below that the zone uses the default format, stacked; it never breaks into lines. Use a container query (Pend. 19). The default format is drawn at 480.
 - **List**: no scroll of its own. It grows downward, item below item, with `file-upload/list-gap`, and scrolls with the page, up to the limit of files of the rule (Pend. 20). With no files, only the zone appears.
 - **Combined states** (rule T11): zone in error or in limit + disabled: disabled wins, with no state border and no state background, only `file-upload/disabled-opacity`. Selected or checked does not apply. The item has no disabled state; with the whole form disabled, the code follows the same rule.
-- **Inherited decisions**: the trigger is a real nph-button inside the zone; the dashed border comes from the stroke style only; typography comes from the `text/*` styles; the zone icon is `icon/size-lg`; the error border is `status/error`. Outside the component: web address, confirmation on removal, automatic upload as the default, an extra state for a server error, and a single file (nph-input-file).
+- **Inherited decisions**: the trigger is a real nph-button inside the zone; the dashed border comes from the stroke style only; typography comes from the `text/*` styles (`text/label-md` for the file name, `text/body-md` for the phrase of the zone, `text/body-sm` for the rule, format, size and status); the zone icon is `icon/size-lg`; the error, limit and sent borders are `status/*` in light and the status color at 40% in dark (`core/alpha/*-400-40`). The icon box has no background on done, done-hover and done-focus (her choice on the piece, with no token). Outside the component: web address, confirmation on removal, automatic upload as the default, an extra state for a server error, and a single file (nph-input-file).
 - **Icon and image**: the zone icon is `cloud-arrow-up` of nph-icon at `file-upload/icon-size` (24), light on empty and disabled, solid on hover, focus, dragging, error and limit; in the error, `circle-xmark` light at `icon/size-sm` before the reason. In the item: `file-lines` (file type) or the thumbnail (image type), `circle-check` and `circle-xmark` light at 16, nph-spinner sm at 16, `rotate-right` on "Try again" and `xmark` on the remove button, with the weight of their own pieces. `file-lines` and `file-image` (light and solid) are new in nph-icon.
 
 ## Open points for the code
@@ -92,12 +93,12 @@ In the evidence of the `figma-docs-accepted` gate: `docs/operacao/evidencias/DSA
 - The `file-lines` and `file-image` icons (light and solid) go into nph-icon with this task; the Figma nph-icon set already has them.
 - The hidden texts and the live region messages ("2 files added", "Error: X not sent. Reason.", "Uploading · 64%", "Upload complete, click to open"): who provides and translates them.
 - The size and the type of the validation: where the format and size rules run and how the reason of each error is chosen (format and size are separate messages).
-- How the thumbnail of the image type is generated (64 x 64, `object-fit: cover`) and what the image type does if nph-image is not in the first version (the image icon in the box, as the file type).
+- How the thumbnail of the image type is generated (64 x 64, `object-fit: cover`) and what the image type does if nph-image is not in the first version (the `file-image` icon in the box, as the file type).
 - How the container query for the 668 px switch is written and what the zone does between 480 and 668.
 - Event, aria, slot, property and console warning, following the APG and the Custom Elements Manifest.
 
 ## Tokens that stay without a component token
-The size of the `circle-xmark` of the reason uses `icon/size-sm`; the width of the focus halo uses `focus/ring-width`; the width of the focus border of the item is the one of `focus/border`'s rule (1 px); `file-upload/list-gap` belongs to the composition (zone and list), not to the zone.
+The size of the `circle-xmark` of the reason and of the icons of the item uses `icon/size-sm`; the width of the focus halo uses `focus/ring-width`; the width of the focus border of the item is the one of `focus/border`'s rule (1 px); `file-upload/list-gap` belongs to the composition (zone and list), not to the zone.
 
 ## Why it is ready
 The 64 tokens (`file-upload/*` 28 and `file-upload-item/*` 36) and the three new primitives `core/alpha/danger-400-40`, `core/alpha/success-400-40` and `core/alpha/warn-400-40` came with this task and are on `v/5.0.0`. Two tokens that exist in Figma wait for the build: `core/border-style/dashed` and `file-upload/border-style` (gate `stroke-style-token`). The pieces inside are done: nph-icon (DSA-03), nph-spinner (DSA-09), nph-button (DSA-13), nph-field (DSA-28) and nph-image (DSA-51).

@@ -695,7 +695,7 @@ tokens_semantic:
     css: '--nph-status-warning-surface'
     claro: core/warn/50
     escuro: core/warn/900
-    use: "Message background. Always together with the other three roles of status/warning. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border. Also the background of the nph-file-upload drop zone in the limit state (file-upload/background-limit); the phrase stays on color/foreground and the rule on color/muted-foreground, as accepted in Figma."
+    use: "Message background. Always together with the other three roles of status/warning. Exception: in the light nph-badge only the -surface and -foreground pair applies, without -border. Also the background of the nph-file-upload drop zone in the limit state (file-upload/background-limit); the phrase and the rule stay on color/muted-foreground (file-upload/muted-foreground), as accepted in Figma."
   status/warning-border:
     css: '--nph-status-warning-border'
     claro: core/warn/200
