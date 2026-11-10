@@ -4484,7 +4484,7 @@
       ],
       [
         "disabled",
-        "color/muted, borda color/input e state/disabled-opacity na peça inteira; vence o erro."
+        "color/muted, borda color/input e state/disabled-opacity na peça inteira, inclusive a área da seta, que perde o color/accent e mantém o divisor; vence o erro."
       ]
     ],
     "statesCaption": "Placeholder, valor, erro e desabilitado.",
@@ -6343,7 +6343,7 @@
       ],
       [
         "Toque",
-        "Um toque mantido por cerca de 700 ms abre no ponto do toque; um toque que se move não abre nada."
+        "Um toque mantido por context-menu/long-press-delay (700 ms) abre no ponto do toque; um toque que se move além de context-menu/long-press-tolerance (10 px) não abre nada."
       ],
       [
         "Fechar",
@@ -7643,7 +7643,7 @@
       "components-nph-slider-validation--invalid-input": "Entrada inválida não desenha nada: uma orientation ou um mode que não existem, min que não fica abaixo de max, um step zero. marks na orientação vertical não é desenhado; o resto renderiza.",
       "components-nph-slider-validation--examples": "Os três exemplos obrigatórios do board aceito: Brilho, Faixa de preço e Volume, cada um em modo claro e escuro.",
       "components-nph-slider-validation--brands": "As sete marcas no claro e no escuro: a trilha preenchida e os marcadores, simples e de intervalo, seguem o primary do quadro, e o anel de foco no Tab também.",
-      "components-nph-select-validation--matrix": "size × estado: placeholder, valor, erro, desabilitado e os dois, com a área da seta em color/accent. Passe o mouse para o hover, aperte Tab para o foco.",
+      "components-nph-select-validation--matrix": "size × estado: placeholder, valor, erro, desabilitado e os dois, com a área da seta em color/accent (color/muted quando desabilitado). Passe o mouse para o hover, aperte Tab para o foco.",
       "components-nph-select-validation--start": "O início do gatilho (D4): none, icon e avatar, antes da escolha e com o início da opção escolhida; o ponto de uma opção nunca vai ao gatilho.",
       "components-nph-select-validation--option": "A opção: os quatro inícios, o texto secundário, ativa com o visual de hover, selecionada com o check vencendo a ativa, desabilitada, e o ponto em cada estado (D5, D6).",
       "components-nph-select-validation--open": "A lista aberta: a space/inline-tight abaixo do gatilho, com a largura dele, a seta para cima e a opção escolhida com o check (D1, D2).",
@@ -11773,7 +11773,7 @@
       ],
       [
         "slot padrão",
-        "O texto do link, o conteúdo do elemento. O link é uma âncora nativa desenhada pela peça, em color/primary e sublinhada."
+        "O texto do link, o conteúdo do elemento. O link é uma âncora nativa desenhada pela peça, em color/link e sublinhada."
       ],
       [
         "heading",
@@ -11801,7 +11801,7 @@
       ],
       [
         "arrow",
-        "Desenha a seta que aponta para o link. Desligada por padrão. Reflete no atributo."
+        "Desenha a seta que aponta para o link. Desligada por padrão. Sem ela o cartão fica centralizado no link; com ela a seta fica a 16 do canto do cartão. Reflete no atributo."
       ],
       [
         "open",
@@ -11876,7 +11876,7 @@
     "anatomy": [
       [
         "Link",
-        "Um link nativo em color/primary, sublinhado, text/label-md e com 20 de altura. Com foco de teclado mostra uma borda de 1 px em hover-card/focus-border e, por fora, um halo de 4 px em hover-card/focus-halo."
+        "Um link nativo em color/link, sublinhado, text/label-md e com 20 de altura. Com foco de teclado mostra uma borda de 1 px em hover-card/focus-border e, por fora, um halo de 4 px em hover-card/focus-halo."
       ],
       [
         "Seta",
@@ -11911,7 +11911,7 @@
     "accessibility": [
       [
         "Contraste",
-        "Título, descrição e meta passam 4,5:1 sobre color/popover nos dois temas. A meta é um degrau mais suave que a descrição, nunca abaixo desse piso. O link passa na marca padrão; no escuro da marca Gerencial fica em 2,71:1, um limite do color/primary dessa marca."
+        "Título, descrição e meta passam 4,5:1 sobre color/popover nos dois temas. A meta é um degrau mais suave que a descrição, nunca abaixo desse piso. O link em color/link passa 4,5:1 nos dois temas e nas sete marcas."
       ],
       [
         "Foco visível",

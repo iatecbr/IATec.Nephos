@@ -91,7 +91,7 @@
 }
 
 /*
- * The arrow area: `color/accent`, `control/height-*` wide, as tall as the trigger
+ * The arrow area: `color/accent` (`color/muted` when disabled, below), `control/height-*` wide, as tall as the trigger
  * minus its two borders (D7). The divider sits beside it, outside that width.
  * Radius `radius/none` on the left and `radius/control-inner` on the right.
  */
@@ -182,6 +182,11 @@
 
 :host(:disabled) .trigger::after {
   content: none;
+}
+
+/* Disabled (D-1 of DSA-29): the arrow area takes the background of the field; the divider stays. */
+:host(:disabled) .arrow {
+  background-color: var(--nph-color-muted);
 }
 
 /*

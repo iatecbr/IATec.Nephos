@@ -4484,7 +4484,7 @@
       ],
       [
         "disabled",
-        "color/muted, border color/input and state/disabled-opacity on the whole piece; it wins over the error."
+        "color/muted, border color/input and state/disabled-opacity on the whole piece, the arrow area included, which drops color/accent and keeps its divider; it wins over the error."
       ]
     ],
     "statesCaption": "Placeholder, value, error and disabled.",
@@ -6343,7 +6343,7 @@
       ],
       [
         "Touch",
-        "A press held for about 700 ms opens it at the point of the press; a press that moves opens nothing."
+        "A press held for context-menu/long-press-delay (700 ms) opens it at the point of the press; a press that moves farther than context-menu/long-press-tolerance (10 px) opens nothing."
       ],
       [
         "Closing",
@@ -7643,7 +7643,7 @@
       "components-nph-slider-validation--invalid-input": "Invalid input draws nothing: an orientation or a mode that does not exist, min not below max, a step of zero. marks in the vertical orientation is not drawn; the rest renders.",
       "components-nph-slider-validation--examples": "The three required examples of the accepted board: Brightness, Price range and Volume, each in light and dark mode.",
       "components-nph-slider-validation--brands": "The seven brands in light and dark: the filled track and the thumbs, single and range, follow the primary of the frame, and so does the focus ring on Tab.",
-      "components-nph-select-validation--matrix": "size × state: placeholder, value, error, disabled and both, with the arrow area in color/accent. Move the mouse for hover, press Tab for focus.",
+      "components-nph-select-validation--matrix": "size × state: placeholder, value, error, disabled and both, with the arrow area in color/accent (color/muted when disabled). Move the mouse for hover, press Tab for focus.",
       "components-nph-select-validation--start": "The start of the trigger (D4): none, icon and avatar, before a choice and with the start of the chosen option; the dot of an option never goes to the trigger.",
       "components-nph-select-validation--option": "The option: the four starts, the secondary text, active with the hover look, selected with the check winning over active, disabled, and the dot in every state (D5, D6).",
       "components-nph-select-validation--open": "The open list: space/inline-tight below the trigger, with its width, the arrow up and the chosen option with the check (D1, D2).",
@@ -11773,7 +11773,7 @@
       ],
       [
         "default slot",
-        "The text of the link, the content of the element. The link is a native anchor drawn by the piece, in color/primary and underlined."
+        "The text of the link, the content of the element. The link is a native anchor drawn by the piece, in color/link and underlined."
       ],
       [
         "heading",
@@ -11801,7 +11801,7 @@
       ],
       [
         "arrow",
-        "Draws the arrow that points to the link. Off by default. Reflected to the attribute."
+        "Draws the arrow that points to the link. Off by default. Without it the card is centered on the link; with it the arrow sits 16 from the card corner. Reflected to the attribute."
       ],
       [
         "open",
@@ -11876,7 +11876,7 @@
     "anatomy": [
       [
         "Link",
-        "A native link in color/primary, underlined, text/label-md and 20 tall. On keyboard focus it shows a 1 px border in hover-card/focus-border and, outside it, a 4 px halo in hover-card/focus-halo."
+        "A native link in color/link, underlined, text/label-md and 20 tall. On keyboard focus it shows a 1 px border in hover-card/focus-border and, outside it, a 4 px halo in hover-card/focus-halo."
       ],
       [
         "Arrow",
@@ -11911,7 +11911,7 @@
     "accessibility": [
       [
         "Contrast",
-        "Title, description and meta pass 4.5:1 over color/popover in both themes. The meta is one step softer than the description, never below that floor. The link passes in the default brand; in dark mode of the Gerencial brand it is 2.71:1, a limit of color/primary of that brand."
+        "Title, description and meta pass 4.5:1 over color/popover in both themes. The meta is one step softer than the description, never below that floor. The link in color/link passes 4.5:1 in both themes and in the seven brands."
       ],
       [
         "Visible focus",

@@ -4484,7 +4484,7 @@
       ],
       [
         "disabled",
-        "color/muted, borde color/input y state/disabled-opacity en la pieza entera; gana sobre el error."
+        "color/muted, borde color/input y state/disabled-opacity en la pieza entera, incluida el área de la flecha, que pierde el color/accent y mantiene su divisor; gana sobre el error."
       ]
     ],
     "statesCaption": "Placeholder, valor, error y deshabilitado.",
@@ -6343,7 +6343,7 @@
       ],
       [
         "Toque",
-        "Un toque sostenido unos 700 ms lo abre en el punto del toque; un toque que se mueve no abre nada."
+        "Un toque sostenido por context-menu/long-press-delay (700 ms) lo abre en el punto del toque; un toque que se mueve más allá de context-menu/long-press-tolerance (10 px) no abre nada."
       ],
       [
         "Cerrar",
@@ -7643,7 +7643,7 @@
       "components-nph-slider-validation--invalid-input": "La entrada inválida no dibuja nada: una orientation o un mode que no existen, min que no queda por debajo de max, un step de cero. marks en la orientación vertical no se dibuja; el resto se renderiza.",
       "components-nph-slider-validation--examples": "Los tres ejemplos obligatorios del board aceptado: Brillo, Rango de precios y Volumen, cada uno en modo claro y oscuro.",
       "components-nph-slider-validation--brands": "Las siete marcas en claro y oscuro: el riel relleno y los controles, simple y de rango, siguen el primary del marco, y el anillo de foco con Tab también.",
-      "components-nph-select-validation--matrix": "size × estado: placeholder, valor, error, deshabilitado y ambos, con el área de la flecha en color/accent. Pasa el mouse para el hover, pulsa Tab para el foco.",
+      "components-nph-select-validation--matrix": "size × estado: placeholder, valor, error, deshabilitado y ambos, con el área de la flecha en color/accent (color/muted si está deshabilitado). Pasa el mouse para el hover, pulsa Tab para el foco.",
       "components-nph-select-validation--start": "El inicio del disparador (D4): none, icon y avatar, antes de la elección y con el inicio de la opción elegida; el punto de una opción nunca va al disparador.",
       "components-nph-select-validation--option": "La opción: los cuatro inicios, el texto secundario, activa con el aspecto de hover, seleccionada con el check ganando sobre la activa, deshabilitada, y el punto en cada estado (D5, D6).",
       "components-nph-select-validation--open": "La lista abierta: a space/inline-tight debajo del disparador, con su ancho, la flecha hacia arriba y la opción elegida con el check (D1, D2).",
@@ -11773,7 +11773,7 @@
       ],
       [
         "slot predeterminado",
-        "El texto del enlace, el contenido del elemento. El enlace es un ancla nativa dibujada por la pieza, en color/primary y subrayada."
+        "El texto del enlace, el contenido del elemento. El enlace es un ancla nativa dibujada por la pieza, en color/link y subrayada."
       ],
       [
         "heading",
@@ -11801,7 +11801,7 @@
       ],
       [
         "arrow",
-        "Dibuja la flecha que apunta al enlace. Apagada por defecto. Se refleja en el atributo."
+        "Dibuja la flecha que apunta al enlace. Apagada por defecto. Sin ella la tarjeta queda centrada en el enlace; con ella la flecha queda a 16 de la esquina de la tarjeta. Se refleja en el atributo."
       ],
       [
         "open",
@@ -11876,7 +11876,7 @@
     "anatomy": [
       [
         "Enlace",
-        "Un enlace nativo en color/primary, subrayado, text/label-md y de 20 de alto. Con foco de teclado muestra un borde de 1 px en hover-card/focus-border y, por fuera, un halo de 4 px en hover-card/focus-halo."
+        "Un enlace nativo en color/link, subrayado, text/label-md y de 20 de alto. Con foco de teclado muestra un borde de 1 px en hover-card/focus-border y, por fuera, un halo de 4 px en hover-card/focus-halo."
       ],
       [
         "Flecha",
@@ -11911,7 +11911,7 @@
     "accessibility": [
       [
         "Contraste",
-        "Título, descripción y meta pasan 4,5:1 sobre color/popover en los dos temas. La meta es un escalón más suave que la descripción, nunca por debajo de ese piso. El enlace pasa en la marca por defecto; en oscuro de la marca Gerencial queda en 2,71:1, un límite del color/primary de esa marca."
+        "Título, descripción y meta pasan 4,5:1 sobre color/popover en los dos temas. La meta es un escalón más suave que la descripción, nunca por debajo de ese piso. El enlace en color/link pasa 4,5:1 en los dos temas y en las siete marcas."
       ],
       [
         "Foco visible",

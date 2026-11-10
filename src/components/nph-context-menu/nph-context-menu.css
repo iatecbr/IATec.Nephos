@@ -2,9 +2,10 @@
  * Internal style of `nph-context-menu`.
  *
  * Classes and selectors here are NOT public API (P02). The contract is the token
- * custom properties consumed here. The context menu has no token of its own: the panel, the
- * item, the group label and the separator take the `dropdown/*` tokens of `nph-dropdown-menu`
- * (DSA-69), and this file is a replica of that item with the same tokens (P113).
+ * custom properties consumed here. The panel, the item, the group label and the separator take the
+ * `dropdown/*` tokens of `nph-dropdown-menu` (DSA-69), and this file is a replica of that item with
+ * the same tokens (P113). The only tokens of the menu itself, `context-menu/long-press-delay` and
+ * `context-menu/long-press-tolerance`, are read by the code, not by this file.
  *
  * No literal design value goes in here. Written box relations and resets: `0`, `1`, `auto` and
  * `none` (box and flex relations, and the resets of the browser's `[popover]` style),

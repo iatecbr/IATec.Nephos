@@ -110,7 +110,7 @@ states:
 business_rules:
   - "An item has value and text, both required, and optionally icon, severity, selection, checked, shortcut, submenu and disabled. An invalid entry is left out, with one console.error per cause in development."
   - "An item with a submenu takes no selection and no shortcut, and its submenu holds at least one valid item and no submenu of its own. A label entry opens a group and names it; a separator entry closes the group; a group with no item is dropped, and its separator goes to the next group."
-  - "The menu opens on the contextmenu event of the object (the right click, Shift+F10 or the Menu key) and cancels the menu of the browser. On touch, a press held for about 700 ms opens it at the point of the press; a press that moves, or that ends before, opens nothing, and the menu of the browser that follows a touch is cancelled."
+  - "The menu opens on the contextmenu event of the object (the right click, Shift+F10 or the Menu key) and cancels the menu of the browser. On touch, a press held for context-menu/long-press-delay (700 ms) opens it at the point of the press; a press that moves farther than context-menu/long-press-tolerance (10 px), or that ends before, opens nothing, and the menu of the browser that follows a touch is cancelled. The two tokens are read from the computed style, with no literal fallback: when one does not resolve, the long press does not arm and the piece logs one development error naming it."
   - "The panel opens with its start top corner at the point of the click, and turns to the other side of the point (to the left, or above) when it does not fit. It never leaves the window. Only a menu taller than the window scrolls inside. Opened by keyboard, it opens below the object, at its start edge."
   - "The submenu opens to the right of the item, with its first item on the same line as the item that opened it, and opens to the left only when there is no room on the right. In right-to-left writing, everything mirrors: the corner of the point is the top end one and the submenu opens to the left by default."
   - "When the person activates an item, the menu fires nph-item-select, which bubbles, with detail value, checked and origin: checked is the new state of a single or multiple choice and null on a common item; origin is the element that was under the pointer when the menu opened, so a row acts only on itself, and null when the menu was opened from code. A single choice already checked fires again with checked true. Changing items or open from code fires nothing."
@@ -138,6 +138,7 @@ tokens:
   focus: [border/width, color/primary, dropdown/item-focus-border-radius, focus/ring-width, focus/halo, dropdown/item-focus-halo-radius]
   disabled: state/disabled-opacity
   motion: [motion/enter-duration, motion/enter-easing, motion/exit-duration, motion/exit-easing, motion/hover-delay]
+  long_press: [context-menu/long-press-delay, context-menu/long-press-tolerance]
   motion_reduced: motion/hover-duration
 ai_hints:
   - "Use nph-context-menu for the actions of an object the person is looking at; for actions that open from a button, use nph-dropdown-menu."
@@ -267,7 +268,10 @@ is light at rest and when disabled, and solid on highlight, in every type, selec
 **Business rule the piece carries:**
 
 - The menu opens on `contextmenu` (the right click, Shift+F10, the Menu key) and cancels the menu of
-  the browser; on touch, a press held for about 700 ms opens it at the point of the press.
+  the browser; on touch, a press held for `context-menu/long-press-delay` (700 ms) that moves no farther
+  than `context-menu/long-press-tolerance` (10 px) opens it at the point of the press. The two tokens are
+  read from the computed style; when one does not resolve, the long press does not arm and the piece
+  logs one development error naming it.
 - The panel opens with its start top corner at the point and turns to the other side of it when it
   does not fit; it never leaves the window.
 - When the person activates an item, the menu fires `nph-item-select`, which bubbles, with
@@ -327,9 +331,10 @@ not a tag of its own.
 | Focus | `border/width`, `color/primary`, `dropdown/item-focus-border-radius`, `focus/ring-width`, `focus/halo`, `dropdown/item-focus-halo-radius` |
 | Disabled | `state/disabled-opacity` |
 | Motion | `motion/enter-*` and `motion/exit-*`; `motion/hover-delay` for the submenu; `motion/hover-duration` under reduced motion |
+| Long press | `context-menu/long-press-delay` (how long a touch is held) and `context-menu/long-press-tolerance` (how far it may move), read by the code from the computed style |
 
-**Usage restrictions:** the component has no token of its own and does not choose width, height,
-color, radius or typography: everything comes from a token. The row height comes from its content. In
+**Usage restrictions:** the component has only the two tokens of the long press as its own and does
+not choose width, height, color, radius or typography: everything comes from a token. The row height comes from its content. In
 a part of the screen with another brand, `data-nph-brand` and `data-nph-color-scheme` go on the same
 element (P67).
 

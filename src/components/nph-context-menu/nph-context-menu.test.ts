@@ -18,6 +18,7 @@ import '@fontsource/noto-sans/latin-500.css';
 import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import componentCss from './nph-context-menu.css?raw';
+import componentSource from './nph-context-menu.ts?raw';
 import { NPH_CONTEXT_MENU_SIZES, NphContextMenu, groupsOf, keyShortcutsOf } from './nph-context-menu';
 import type { NphContextMenuEntry, NphContextMenuItemSelectDetail } from './nph-context-menu';
 
@@ -459,15 +460,29 @@ describe('opening by a long press', () => {
     object.dispatchEvent(new PointerEvent(type, { bubbles: true, cancelable: true, composed: true, pointerType: 'touch', isPrimary: true, clientX: x, clientY: y, pointerId: 7 }));
   }
 
-  it('a touch held for about 700 ms opens the menu at the point, and a shorter one does not', async () => {
+  /* The two tokens of the long press, as the browser computes them on the menu (D-3 of DSA-69). */
+  const delayToken = (menu: NphContextMenu): number => {
+    const match = /^(\d*\.?\d+)(ms|s)$/.exec(getComputedStyle(menu).getPropertyValue('--nph-context-menu-long-press-delay').trim());
+    return Number.parseFloat(match?.[1] ?? 'NaN') * (match?.[2] === 's' ? 1000 : 1);
+  };
+  const toleranceToken = (): number => px('--nph-context-menu-long-press-tolerance');
+
+  it('the tokens are the long press delay and tolerance of the contract: 700 ms and 10 px', async () => {
     const setup = await mount();
+    expect(delayToken(setup.menu)).toBe(700);
+    expect(toleranceToken()).toBe(10);
+  });
+
+  it('a touch held for context-menu/long-press-delay opens the menu at the point, and not before', async () => {
+    const setup = await mount();
+    const delay = delayToken(setup.menu);
     touch('pointerdown', setup.object, 90, 70);
-    await sleep(300);
+    await sleep(delay / 2);
     touch('pointerup', setup.object, 90, 70);
-    await sleep(600);
+    await sleep(delay);
     expect(shown(setup.menu)).toBe(false);
     touch('pointerdown', setup.object, 90, 70);
-    await sleep(500);
+    await sleep(delay - 200);
     expect(shown(setup.menu)).toBe(false);
     await sleep(300);
     await settle(setup.menu);
@@ -478,13 +493,74 @@ describe('opening by a long press', () => {
     expect(box.top).toBeCloseTo(70, 0);
   });
 
-  it('a touch that moves is a scroll, not a long press', async () => {
+  it('the delay is read from the token on the menu: another value changes when it opens', async () => {
     const setup = await mount();
+    setup.menu.style.setProperty('--nph-context-menu-long-press-delay', '0.1s');
+    touch('pointerdown', setup.object, 90, 70);
+    await sleep(40);
+    expect(shown(setup.menu)).toBe(false);
+    await vi.waitFor(() => expect(shown(setup.menu)).toBe(true), { timeout: 1000 });
+  });
+
+  it('a touch that moves beyond context-menu/long-press-tolerance is a scroll, not a long press', async () => {
+    const setup = await mount();
+    const tolerance = toleranceToken();
     touch('pointerdown', setup.object, 90, 70);
     await sleep(100);
-    touch('pointermove', setup.object, 90, 110);
-    await sleep(800);
+    touch('pointermove', setup.object, 90, 70 + tolerance + 1);
+    await sleep(delayToken(setup.menu) + 100);
     expect(shown(setup.menu)).toBe(false);
+  });
+
+  it('a touch that moves within the tolerance is still a long press', async () => {
+    const setup = await mount();
+    const tolerance = toleranceToken();
+    touch('pointerdown', setup.object, 90, 70);
+    await sleep(100);
+    touch('pointermove', setup.object, 90 + tolerance - 1, 70);
+    touch('pointermove', setup.object, 90, 70 + tolerance);
+    await sleep(delayToken(setup.menu));
+    await settle(setup.menu);
+    expect(shown(setup.menu)).toBe(true);
+  });
+
+  it('the tolerance is read from the token on the menu, in px or rem', async () => {
+    const setup = await mount();
+    setup.menu.style.setProperty('--nph-context-menu-long-press-delay', '0.1s');
+    setup.menu.style.setProperty('--nph-context-menu-long-press-tolerance', '2px');
+    touch('pointerdown', setup.object, 90, 70);
+    touch('pointermove', setup.object, 90, 75);
+    await sleep(250);
+    expect(shown(setup.menu)).toBe(false);
+    setup.menu.style.setProperty('--nph-context-menu-long-press-tolerance', '2rem');
+    touch('pointerdown', setup.object, 90, 70);
+    touch('pointermove', setup.object, 90, 90);
+    await vi.waitFor(() => expect(shown(setup.menu)).toBe(true), { timeout: 1000 });
+  });
+
+  for (const token of ['delay', 'tolerance'] as const) {
+    it(`a missing context-menu/long-press-${token} disables the long press and logs once`, async () => {
+      const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const setup = await mount();
+      setup.menu.style.setProperty('--nph-context-menu-long-press-delay', token === 'delay' ? 'initial' : '0.1s');
+      setup.menu.style.setProperty('--nph-context-menu-long-press-tolerance', token === 'tolerance' ? 'initial' : '10px');
+      for (let press = 0; press < 3; press += 1) {
+        touch('pointerdown', setup.object, 90, 70);
+        await sleep(250);
+        touch('pointerup', setup.object, 90, 70);
+      }
+      expect(shown(setup.menu)).toBe(false);
+      const named = spy.mock.calls.filter((call) => String(call[0]).includes(`context-menu/long-press-${token}`));
+      expect(named).toHaveLength(1);
+      expect(String(named[0]?.[0])).toContain('[nph-context-menu]');
+    });
+  }
+
+  it('the source holds no literal for the long press', () => {
+    const code = componentSource.replace(/\/\*[\s\S]*?\*\//g, '');
+    expect(code).not.toMatch(/LONG_PRESS|\b700\b/);
+    expect(code).toContain('--nph-context-menu-long-press-delay');
+    expect(code).toContain('--nph-context-menu-long-press-tolerance');
   });
 
   it('the menu of the browser that follows a touch is cancelled and does not open on its own', async () => {
@@ -1486,11 +1562,13 @@ describe('token contract', () => {
   const cssWithoutComments = componentCss.replace(/\/\*[\s\S]*?\*\//g, '');
   const used = new Set([...cssWithoutComments.matchAll(/var\((--nph-[a-z0-9-]+)\)/g)].map((match) => match[1] ?? ''));
 
-  it('every custom property in the CSS exists in tokens.css, and none is a context-menu token', () => {
+  it('every custom property in the CSS exists in tokens.css; the only context-menu tokens are the two of the long press, read by the code', () => {
     for (const name of used) {
       expect(tokensCss, name).toContain(`${name}:`);
     }
-    expect(tokensCss).not.toMatch(/--nph-context-menu-/);
+    expect([...used].filter((name) => name.startsWith('--nph-context-menu-'))).toEqual([]);
+    const own = [...new Set([...tokensCss.matchAll(/(--nph-context-menu-[a-z0-9-]+):/g)].map((match) => match[1]))];
+    expect(own.sort()).toEqual(['--nph-context-menu-long-press-delay', '--nph-context-menu-long-press-tolerance']);
   });
 
   it('uses the dropdown tokens of the item, the panel and the separator', () => {
