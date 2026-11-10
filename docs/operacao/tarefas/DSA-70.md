@@ -39,7 +39,9 @@
       "opened_at": "2026-11-09"
     }
   ],
-  "evidence": [],
+  "evidence": [
+    "docs/operacao/evidencias/DSA-70/review-and-merge-partial-2026-11-09.md"
+  ],
   "decision_refs": [
     "docs/decisoes-tecnicas.md#p114",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -54,7 +56,7 @@
     "excerpt": null,
     "converted_decision": "The previews of lot 2 (frame 5404:10452, draft page) and of lot 1 (frame 5374:10420) were answered by Indiane on 2026-11-09. Each answer is written, in text, in the section 'Decisions answered on 2026-11-09' of its own task; the table below lists only the answers that change the code. There is no need to open Figma."
   },
-  "git_review": { "branch": "feat/dsa-70-d-itens", "commit": null, "pr": "163" },
+  "git_review": { "branch": "feat/dsa-70-d-itens", "commit": "2984ec2ecaad43884a882d45b8ef8fa791bdb248", "pr": "163" },
   "context": "docs/operacao/contextos/DSA-70.md",
   "updated_at": "2026-11-09"
 }
@@ -86,7 +88,7 @@ Each change in the table below is in the code of its piece, with its tests, stor
 
 
 ## Status of the rows
-All the rows are in the code except the `nph-table` one. That row changes the value of a token in the token source, and the code agent never creates or changes a token, so it waits for Indiane (pending decision `T-1`). The task stays open until the row is in: it does not go to `done` before. The technical choices of the other rows are in P114 (`docs/decisoes-tecnicas.md`). The open items DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2 stay open.
+All the rows are in the code, merged into `v/5.0.0` by PR #163 (evidence `review-and-merge-partial-2026-11-09.md`), except the `nph-table` one. That row changes the value of a token in the token source, and the code agent never creates or changes a token, so it waits for Indiane (pending decision `T-1`). The task stays open until the row is in: it does not go to `done` before. The technical choices of the other rows are in P114 (`docs/decisoes-tecnicas.md`). The open items DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2 stay open.
 
 ## How it is proved
 **`review-and-merge`** passes when each row of the table is in the code, with the tests and stories of each piece updated and its spec in `fichas/` saying the same; the proof commands in `docs/operacao/component-handoff.md` exit 0; and the work is merged into `v/5.0.0`.
