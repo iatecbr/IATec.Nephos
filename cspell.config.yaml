@@ -255,6 +255,8 @@ dictionaryDefinitions:
       - stylesheet
       - subfolders
       - tabindex
+      - tablist
+      - tabpanel
       - textareas
       - textboxes
       - togglebutton

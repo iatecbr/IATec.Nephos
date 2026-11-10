@@ -381,6 +381,18 @@
     "components-nph-breadcrumb-validation--loading": "Loading",
     "components-nph-breadcrumb-validation--examples": "Examples",
     "components-nph-breadcrumb-validation--brands": "Brands",
+    "components-nph-tabs-docs": "Docs",
+    "components-nph-tabs-docs--documentation": "Documentation",
+    "components-nph-tabs-validation": "Validation",
+    "components-nph-tabs-validation--variants": "Variants",
+    "components-nph-tabs-validation--content": "Content",
+    "components-nph-tabs-validation--states": "States",
+    "components-nph-tabs-validation--scroll": "Scroll",
+    "components-nph-tabs-validation--cut-label": "Cut label",
+    "components-nph-tabs-validation--panels": "Panels",
+    "components-nph-tabs-validation--direction": "Direction",
+    "components-nph-tabs-validation--examples": "Examples",
+    "components-nph-tabs-validation--brands": "Brands",
     "components-nph-navigation-menu-docs": "Docs",
     "components-nph-navigation-menu-docs--documentation": "Documentation",
     "components-nph-navigation-menu-validation": "Validation",
@@ -7798,7 +7810,16 @@
       "components-nph-hover-card-validation--in-sentence": "The link in the line of a sentence with the card closed, and the same link with the card open: the piece takes the line of the text.",
       "components-nph-hover-card-validation--direction": "Right-to-left writing: the card starts at the right of the link and the arrow keeps pointing to the center of the link.",
       "components-nph-hover-card-validation--examples": "The three required examples, each in light and dark mode: a profile with an avatar, a link summary with an image and a date, and an item with a status and a time.",
-      "components-nph-hover-card-validation--brands": "The seven brands in light and dark mode: the focus border and the halo of the link follow the brand of the frame."
+      "components-nph-hover-card-validation--brands": "The seven brands in light and dark mode: the focus border and the halo of the link follow the brand of the frame.",
+      "components-nph-tabs-validation--variants": "The five styles, each with the second tab active: the segmented rail with a card on the active tab, the underline with a line under it, and the solid, light and outline tab buttons with a background on the active tab.",
+      "components-nph-tabs-validation--content": "What a tab turns on, in every style: the start icon, the counter after the label and the tag after the counter, always in this order, and the three tones of the counter: inactive outside the rail, inactive inside the rail and active.",
+      "components-nph-tabs-validation--states": "Active, rest and disabled in every style, and the active tab disabled as well, which keeps its active look under the disabled opacity. Hover and focus show up with the pointer and the keyboard, and the tests prove them.",
+      "components-nph-tabs-validation--scroll": "The underline list that does not fit: each tab keeps the width of its content and an arrow sits at each end, disabled at the end the list has reached; when the tabs fit, they share the width and no arrow shows.",
+      "components-nph-tabs-validation--cut-label": "In the segmented and the tab button styles the tabs share the width, and a label that does not fit ends in an ellipsis; its whole text shows in a balloon on hover and on focus.",
+      "components-nph-tabs-validation--panels": "The panel is the consumer content, slotted by the value of each tab: only the panel of the active tab shows, and the list stays on top of it.",
+      "components-nph-tabs-validation--direction": "Right-to-left writing: the list reads from the right and the arrows follow the ends of the line.",
+      "components-nph-tabs-validation--examples": "The three required examples, each in light and dark mode: requests by step with icon, counter and tag; the request detail inside a panel; and the arrows at both ends when the tabs do not fit.",
+      "components-nph-tabs-validation--brands": "The seven brands in light and dark mode: the label and the line of the active tab, the counter, the tag and the focus follow the brand of the frame."
     }
   },
   "multiComboboxDocs": {
@@ -11950,5 +11971,315 @@
     "sourceApi": "nph-hover-card spec sheet; docs/decisoes-tecnicas.md › P112",
     "sourceAnatomy": "Figma, set 4406:1105; design.md",
     "matrixLabel": "Component matrix"
+  },
+  "tabsDocs": {
+    "summary": "The list of tabs that switches the content of a section of the same page, without leaving it.",
+    "onThisPage": "On this page",
+    "derivedTitle": "This page is derived.",
+    "derivedText": "In case of divergence, the canonical sources prevail: the nph-tabs spec sheet, design.md for the tokens and docs/decisoes-tecnicas.md for P115. The DS-IA-NEPHOS 5.0 Figma file is the visual source. No rule is created here.",
+    "sourceLabel": "Source:",
+    "whenToUseTitle": "When to use",
+    "whenToUse": [
+      "To switch between parts of the same subject, on the same page, when the person sees one part at a time.",
+      "Segmented: few tabs with short labels, inside a card or panel.",
+      "Underline: the top of a page or section, and when there are many tabs; the tabs scroll when they do not fit.",
+      "Tab button: a short bar that needs more weight, on top of a panel.",
+      "Turn on the counter when each tab counts items; the icon, when labels look alike; the tag, to mark a new tab."
+    ],
+    "whenNotToUseTitle": "When not to use",
+    "whenNotToUse": [
+      "To go from one page to another: use nph-sidebar or nph-breadcrumb.",
+      "For steps in sequence, with next and back: use nph-stepper.",
+      "To switch the view of the same list: use nph-toggle-group.",
+      "The segmented style with many tabs or long labels: use the underline.",
+      "An icon on only some tabs: on every tab or on none."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Property",
+      "Rule"
+    ],
+    "api": [
+      [
+        "tabs",
+        "The tabs, in order, as a list of { value, text, icon, counter, counterLabel, tag, disabled }. Property only: set from JavaScript. value names the tab and its panel and is unique; text is the label, one line; icon is a core name of nph-icon, on every tab or on none; counter is a whole number from zero up and needs counterLabel; tag is one word."
+      ],
+      [
+        "value",
+        "The value of the active tab. There is always one: without a value that names a tab, the first enabled tab is active and the component writes value. Reflected to the attribute."
+      ],
+      [
+        "variant",
+        "The Figma style: segmented (default), underline, solid, light or outline; the last three are the tab button. Reflected to the attribute."
+      ],
+      [
+        "activation",
+        "automatic (default): a tab becomes active when the arrows put the focus on it. manual: the arrows only move the focus, and Enter, Space or a click activate. Reflected to the attribute."
+      ],
+      [
+        "label",
+        "The accessible name of the list of tabs. Already localized."
+      ],
+      [
+        "aria-label",
+        "The accessible name of the list when there is no label."
+      ],
+      [
+        "scroll-previous-label and scroll-next-label",
+        "The names of the two scroll arrows of the underline style. Without them the arrows are not drawn. Already localized."
+      ],
+      [
+        "nph-tab-change",
+        "The event the list fires when the person activates a tab, with detail { value }. It bubbles and is composed. Setting value from code fires nothing."
+      ],
+      [
+        "slot",
+        "The panel of each tab is content of the consumer, with slot set to the value of the tab. The default slot is not used."
+      ],
+      [
+        "size, orientation and width",
+        "Not properties: one size, horizontal only, and the list fills its container with the tabs sharing the width."
+      ]
+    ],
+    "usageTitle": "Usage",
+    "usageHeader": [
+      "Markup and import",
+      "What it does"
+    ],
+    "usageMarkup": "<nph-tabs id=\"requests\" variant=\"underline\" label=\"Requests\" scroll-previous-label=\"Scroll tabs back\" scroll-next-label=\"Scroll tabs forward\">\n  <p slot=\"pending\">Requests waiting for someone to act.</p>\n  <p slot=\"done\">Requests that reached the last step.</p>\n</nph-tabs>\n<script>\n  requests.tabs = [\n    { value: 'pending', text: 'Pending', counter: 12, counterLabel: '12 items' },\n    { value: 'done', text: 'Done' },\n  ];\n</script>",
+    "usageTag": "The tag of the piece. The tabs come as data in the tabs property, set from JavaScript; the panel of each tab is the content with slot set to its value.",
+    "usageImport": "Registers the component with its styles. The generated token CSS is imported on its own.",
+    "sourceUsage": "Figma, frame nph-tabs (3483:11200); docs/decisoes-tecnicas.md › P115",
+    "variantsTitle": "Variants",
+    "variantsCaption": "The five styles, each with the second tab active.",
+    "variantsUseHeader": [
+      "Style",
+      "When to use"
+    ],
+    "variantsUse": [
+      {
+        "value": "segmented",
+        "label": "The default. Views inside a card or panel, with few tabs and short labels. A rail holds the tabs and a card marks the active one."
+      },
+      {
+        "value": "underline",
+        "label": "Sections and long lists, at the top of a page or section. A line marks the active tab. When the tabs do not fit, each keeps its width and the list scrolls."
+      },
+      {
+        "value": "solid",
+        "label": "A short bar that needs more weight: the active tab takes a solid background in the primary color."
+      },
+      {
+        "value": "light",
+        "label": "A short bar with the active tab on a light primary surface."
+      },
+      {
+        "value": "outline",
+        "label": "A short bar with the active tab on a light primary surface and a soft border."
+      }
+    ],
+    "contentTitle": "Content of a tab",
+    "contentCaption": "The label alone, then with the icon, the counter and the tag turned on.",
+    "contentUseHeader": [
+      "Content",
+      "When to use"
+    ],
+    "contentUse": [
+      {
+        "value": "icon",
+        "label": "When the labels look alike. On every tab or on none; it is light at rest and solid in hover and when active."
+      },
+      {
+        "value": "counter",
+        "label": "When each tab counts items. It needs counterLabel, the hidden text that goes with the number in the accessible name, such as \"12 items\". Above 99 it shows 99+."
+      },
+      {
+        "value": "tag",
+        "label": "To mark a new tab, with one word. It follows the counter."
+      }
+    ],
+    "scrollingTitle": "Scrolling and long labels",
+    "scrollingCaption": "The underline list that does not fit scrolls; in the other styles a label that does not fit is cut.",
+    "scrolling": [
+      "Only the underline style scrolls: when the tabs do not fit, each keeps the width of its content, and an arrow sits at each end. The arrow is disabled at the end the list has reached.",
+      "The arrows are not in the Tab order, because the arrow keys already move through the tabs; the focused tab scrolls into view.",
+      "In the segmented and the tab button styles the tabs share the width and the list does not scroll: the usage rule asks for few tabs. A label that does not fit ends in an ellipsis and its whole text shows in a balloon on hover and on focus.",
+      "With reduced motion nothing moves: the active tab changes at once."
+    ],
+    "keyboardTitle": "Keyboard",
+    "keyboardHeader": [
+      "Input",
+      "What it does"
+    ],
+    "keyboard": [
+      [
+        "Tab",
+        "Enters the list on the active tab, since the list is a single Tab stop; the next Tab goes to the panel. A panel with no focusable item takes the focus itself."
+      ],
+      [
+        "Left and right arrows",
+        "Move the focus to the previous and the next tab, wrapping at the ends and skipping a disabled tab. In right-to-left writing the arrows swap."
+      ],
+      [
+        "Home and End",
+        "Focus the first and the last enabled tab."
+      ],
+      [
+        "Activation",
+        "Automatic by default: the tab that receives the focus from the arrows becomes active. In manual activation, only Enter or Space activate it."
+      ],
+      [
+        "Click or tap",
+        "Activates the tab and puts the focus on it. A click on the active tab does nothing, and a disabled tab neither activates nor takes the focus."
+      ],
+      [
+        "Pointer and Esc",
+        "Hover only paints. Esc does nothing: the list opens no layer."
+      ]
+    ],
+    "relationsTitle": "Relations and context",
+    "relations": [
+      "Inside a card or panel the list stays on top, and the panel of the active tab goes right below it.",
+      "It works with nph-icon (the start icon), nph-badge (the tag), nph-button (the scroll arrows, as the icon-only button) and nph-tooltip (the cut label). The counter is a piece of nph-tabs itself.",
+      "It does not replace page navigation, steps in sequence or the view switch of a list: use nph-sidebar, nph-breadcrumb, nph-stepper or nph-toggle-group."
+    ],
+    "anatomyTitle": "Anatomy",
+    "anatomyHeader": [
+      "Part",
+      "Rule"
+    ],
+    "anatomy": [
+      [
+        "List",
+        "The tabs together: the muted rail in the segmented style, the base line in the underline style and only the gap between tabs in the tab button styles."
+      ],
+      [
+        "Tab",
+        "The clickable control, one per panel. The whole tab is the target."
+      ],
+      [
+        "Start icon",
+        "Optional. nph-icon at the small size, before the label, in the label color: light at rest and in focus, solid in hover and when active."
+      ],
+      [
+        "Label",
+        "The text role text/label-md, on one line. A cut label shows its whole text in nph-tooltip."
+      ],
+      [
+        "Counter",
+        "Optional. A piece of nph-tabs, after the label, with the number in text/label-sm, on three tones: inactive outside the rail, inactive inside the rail and active."
+      ],
+      [
+        "Tag",
+        "Optional. An nph-badge in primary light, after the counter, with one word. On the active light and outline tab button it turns primary solid."
+      ],
+      [
+        "Indicator",
+        "Segmented: a card with a subtle elevation. Underline: a line in the primary text color under the active tab. Tab button: a background, with a soft border in outline."
+      ],
+      [
+        "Scroll arrows",
+        "Underline only, when the tabs do not fit: nph-button icon only, secondary ghost, compact and square, with the chevrons."
+      ],
+      [
+        "Panel",
+        "The content of the active tab. It stays with the consumer."
+      ]
+    ],
+    "accessibilityTitle": "Accessibility",
+    "accessibilityHeader": [
+      "Criterion",
+      "Rule"
+    ],
+    "accessibility": [
+      [
+        "Semantics",
+        "The list is a tablist, each tab a button with role tab, aria-selected and aria-controls, and each panel a tabpanel named by its tab (APG, Tabs pattern)."
+      ],
+      [
+        "Accessible name",
+        "The label is the name of the tab. The icon is decorative; the counter number is hidden from the screen reader and its context text, such as \"12 items\", goes into the name."
+      ],
+      [
+        "Contrast",
+        "The inactive label, the active label and line, and the label of every tab button meet 4.5:1 in light and dark mode, in the seven brands. The counter pill is decorative and the number stays readable."
+      ],
+      [
+        "Visible focus",
+        "The focused tab shows the focus border and the halo outside it, in every style, as nph-button does."
+      ],
+      [
+        "Color is not the only signal",
+        "The active tab has a card, a line or a background, and its icon turns solid, besides the color of the text."
+      ],
+      [
+        "Target size",
+        "The whole tab is the target, above 24 by 24."
+      ],
+      [
+        "Disabled",
+        "A disabled tab is a disabled button: it takes no focus and no click. An active and disabled tab keeps its active look under the disabled opacity."
+      ]
+    ],
+    "examplesTitle": "Examples",
+    "examplesCaption": "The three required examples: requests by step with icon, counter and tag; the request detail inside a panel; and the arrows at both ends when the tabs do not fit.",
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "referencesTitle": "References",
+    "references": [
+      "nph-tabs spec sheet — purpose, styles, behavior, accessibility, tokens and anti-patterns.",
+      "docs/decisoes-tecnicas.md — P115 (API and semantics), P01, P02 and P03.",
+      "design.md — the tabs/* tokens and the focus tokens.",
+      "DS-IA-NEPHOS 5.0 Figma — page NPH — Tabs, documentation frame nph-tabs (3483:11200), sets 3472:9192, 3472:8748 and 3472:8747.",
+      "WAI-ARIA Authoring Practices, Tabs pattern.",
+      "Storybook — Validation, in the folder alongside."
+    ],
+    "sourceSpec": "nph-tabs spec sheet; Figma, frame nph-tabs (3483:11200)",
+    "sourceApi": "nph-tabs spec sheet; docs/decisoes-tecnicas.md › P115",
+    "sourceAnatomy": "Figma, sets 3472:9192, 3472:8748 and 3472:8747; design.md",
+    "matrixLabel": "Component matrix"
+  },
+  "tabsValidation": {
+    "lightCaption": "Light mode",
+    "darkCaption": "Dark mode",
+    "navLabel": "Requests",
+    "scrollPreviousLabel": "Scroll tabs back",
+    "scrollNextLabel": "Scroll tabs forward",
+    "all": "All",
+    "pending": "Pending",
+    "review": "In review",
+    "done": "Done",
+    "newTag": "New",
+    "items": "{count} items",
+    "stateActive": "Active",
+    "stateRest": "Rest",
+    "stateDisabled": "Disabled",
+    "longLabels": [
+      "Requests waiting for the legal review",
+      "Requests returned to the author for changes",
+      "Requests approved with a pending budget note"
+    ],
+    "sections": [
+      "Overview",
+      "Requests",
+      "Approvals",
+      "Budgets",
+      "Contracts",
+      "Invoices",
+      "Suppliers",
+      "Reports",
+      "Audits",
+      "Policies",
+      "Settings",
+      "History"
+    ],
+    "panels": {
+      "all": "Every request, from any step.",
+      "pending": "Requests waiting for someone to act.",
+      "review": "Requests being checked by the reviewers.",
+      "done": "Requests that reached the last step."
+    },
+    "detailTitle": "Request 2481",
+    "detailText": "Purchase of two laptops for the support team, waiting for the budget approval."
   }
 }

@@ -381,6 +381,18 @@
     "components-nph-breadcrumb-validation--loading": "Carregamento",
     "components-nph-breadcrumb-validation--examples": "Exemplos",
     "components-nph-breadcrumb-validation--brands": "Marcas",
+    "components-nph-tabs-docs": "Docs",
+    "components-nph-tabs-docs--documentation": "Documentação",
+    "components-nph-tabs-validation": "Validação",
+    "components-nph-tabs-validation--variants": "Variantes",
+    "components-nph-tabs-validation--content": "Conteúdo",
+    "components-nph-tabs-validation--states": "Estados",
+    "components-nph-tabs-validation--scroll": "Rolagem",
+    "components-nph-tabs-validation--cut-label": "Rótulo cortado",
+    "components-nph-tabs-validation--panels": "Painéis",
+    "components-nph-tabs-validation--direction": "Direção",
+    "components-nph-tabs-validation--examples": "Exemplos",
+    "components-nph-tabs-validation--brands": "Marcas",
     "components-nph-navigation-menu-docs": "Docs",
     "components-nph-navigation-menu-docs--documentation": "Documentação",
     "components-nph-navigation-menu-validation": "Validação",
@@ -7798,7 +7810,16 @@
       "components-nph-hover-card-validation--in-sentence": "O link na linha de uma frase com o cartão fechado, e o mesmo link com o cartão aberto: a peça acompanha a linha do texto.",
       "components-nph-hover-card-validation--direction": "Escrita da direita para a esquerda: o cartão começa à direita do link e a seta continua apontando para o centro do link.",
       "components-nph-hover-card-validation--examples": "Os três exemplos obrigatórios, cada um no modo claro e no escuro: um perfil com avatar, o resumo de um link com imagem e data, e um item com status e horário.",
-      "components-nph-hover-card-validation--brands": "As sete marcas no modo claro e no escuro: a borda e o halo de foco do link seguem a marca do quadro."
+      "components-nph-hover-card-validation--brands": "As sete marcas no modo claro e no escuro: a borda e o halo de foco do link seguem a marca do quadro.",
+      "components-nph-tabs-validation--variants": "Os cinco estilos, cada um com a segunda aba ativa: o trilho segmentado com um cartão na aba ativa, o sublinhado com uma linha embaixo dela, e os botões solid, light e outline com um fundo na aba ativa.",
+      "components-nph-tabs-validation--content": "O que uma aba liga, em todos os estilos: o ícone de início, o contador depois do rótulo e a tag depois do contador, sempre nessa ordem, e os três tons do contador: inativo fora do trilho, inativo dentro do trilho e ativo.",
+      "components-nph-tabs-validation--states": "Ativa, em repouso e desabilitada em todos os estilos, e a aba ativa também desabilitada, que mantém o visual de ativa sob a opacidade de desabilitado. O hover e o foco aparecem com o ponteiro e o teclado, e os testes os provam.",
+      "components-nph-tabs-validation--scroll": "A lista sublinhada que não cabe: cada aba guarda a largura do seu conteúdo e uma seta fica em cada ponta, desabilitada na ponta que a lista alcançou; quando as abas cabem, dividem a largura e nenhuma seta aparece.",
+      "components-nph-tabs-validation--cut-label": "Nos estilos segmentado e botão as abas dividem a largura, e um rótulo que não cabe termina em reticências; o texto inteiro aparece num balão no hover e no foco.",
+      "components-nph-tabs-validation--panels": "O painel é conteúdo do consumidor, encaixado pelo valor de cada aba: só o painel da aba ativa aparece, e a lista fica em cima dele.",
+      "components-nph-tabs-validation--direction": "Escrita da direita para a esquerda: a lista lê da direita e as setas acompanham as pontas da linha.",
+      "components-nph-tabs-validation--examples": "Os três exemplos obrigatórios, cada um em modo claro e escuro: pedidos por etapa com ícone, contador e tag; o detalhe do pedido dentro de um painel; e as setas nas duas pontas quando as abas não cabem.",
+      "components-nph-tabs-validation--brands": "As sete marcas em modo claro e escuro: o rótulo e a linha da aba ativa, o contador, a tag e o foco seguem a marca do quadro."
     }
   },
   "multiComboboxDocs": {
@@ -11950,5 +11971,315 @@
     "sourceApi": "Ficha do nph-hover-card; docs/decisoes-tecnicas.md › P112",
     "sourceAnatomy": "Figma, conjunto 4406:1105; design.md",
     "matrixLabel": "Matriz do componente"
+  },
+  "tabsDocs": {
+    "summary": "A lista de abas que troca o conteúdo de uma seção da mesma página, sem sair dela.",
+    "onThisPage": "Nesta página",
+    "derivedTitle": "Esta página é derivada.",
+    "derivedText": "Em caso de divergência, prevalecem as fontes canônicas: a ficha do nph-tabs, o design.md para os tokens e o docs/decisoes-tecnicas.md para a P115. O arquivo DS-IA-NEPHOS 5.0 do Figma é a fonte visual. Nenhuma regra nasce aqui.",
+    "sourceLabel": "Fonte:",
+    "whenToUseTitle": "Quando usar",
+    "whenToUse": [
+      "Para alternar entre partes do mesmo assunto, na mesma página, quando a pessoa vê uma parte por vez.",
+      "Segmentado: poucas abas com rótulos curtos, dentro de um cartão ou painel.",
+      "Sublinhado: o topo de uma página ou seção, e quando há muitas abas; as abas rolam quando não cabem.",
+      "Botão: uma barra curta que precisa de mais peso, no alto de um painel.",
+      "Ligue o contador quando cada aba conta itens; o ícone, quando os rótulos se parecem; a tag, para marcar uma aba nova."
+    ],
+    "whenNotToUseTitle": "Quando não usar",
+    "whenNotToUse": [
+      "Para ir de uma página a outra: use nph-sidebar ou nph-breadcrumb.",
+      "Para passos em sequência, com avançar e voltar: use nph-stepper.",
+      "Para trocar a visão da mesma lista: use nph-toggle-group.",
+      "O estilo segmentado com muitas abas ou rótulos longos: use o sublinhado.",
+      "Um ícone em apenas algumas abas: em todas as abas ou em nenhuma."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propriedade",
+      "Regra"
+    ],
+    "api": [
+      [
+        "tabs",
+        "As abas, em ordem, como uma lista de { value, text, icon, counter, counterLabel, tag, disabled }. Só propriedade: definida pelo JavaScript. value nomeia a aba e o seu painel e é único; text é o rótulo, numa linha; icon é um nome do núcleo do nph-icon, em todas as abas ou em nenhuma; counter é um número inteiro de zero em diante e exige counterLabel; tag é uma palavra."
+      ],
+      [
+        "value",
+        "O valor da aba ativa. Sempre há uma: sem um valor que nomeie uma aba, a primeira aba habilitada fica ativa e o componente escreve value. Refletida no atributo."
+      ],
+      [
+        "variant",
+        "O estilo do Figma: segmented (padrão), underline, solid, light ou outline; os três últimos são o botão de aba. Refletida no atributo."
+      ],
+      [
+        "activation",
+        "automatic (padrão): uma aba fica ativa quando as setas levam o foco até ela. manual: as setas só movem o foco, e Enter, Espaço ou um clique ativam. Refletida no atributo."
+      ],
+      [
+        "label",
+        "O nome acessível da lista de abas. Já localizado."
+      ],
+      [
+        "aria-label",
+        "O nome acessível da lista quando não há label."
+      ],
+      [
+        "scroll-previous-label e scroll-next-label",
+        "Os nomes das duas setas de rolagem do estilo sublinhado. Sem eles as setas não são desenhadas. Já localizados."
+      ],
+      [
+        "nph-tab-change",
+        "O evento que a lista dispara quando a pessoa ativa uma aba, com detail { value }. Sobe pela árvore e é composto. Definir value pelo código não dispara nada."
+      ],
+      [
+        "slot",
+        "O painel de cada aba é conteúdo do consumidor, com slot igual ao valor da aba. O slot padrão não é usado."
+      ],
+      [
+        "tamanho, orientação e largura",
+        "Não são propriedades: um só tamanho, só horizontal, e a lista preenche o contêiner com as abas dividindo a largura."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcação e importação",
+      "O que faz"
+    ],
+    "usageMarkup": "<nph-tabs id=\"requests\" variant=\"underline\" label=\"Pedidos\" scroll-previous-label=\"Rolar as abas para trás\" scroll-next-label=\"Rolar as abas para frente\">\n  <p slot=\"pending\">Pedidos esperando alguém agir.</p>\n  <p slot=\"done\">Pedidos que chegaram à última etapa.</p>\n</nph-tabs>\n<script>\n  requests.tabs = [\n    { value: 'pending', text: 'Pendentes', counter: 12, counterLabel: '12 itens' },\n    { value: 'done', text: 'Concluídos' },\n  ];\n</script>",
+    "usageTag": "A tag da peça. As abas chegam como dado na propriedade tabs, definida pelo JavaScript; o painel de cada aba é o conteúdo com slot igual ao seu valor.",
+    "usageImport": "Registra o componente com os seus estilos. O CSS dos tokens gerado é importado à parte.",
+    "sourceUsage": "Figma, quadro nph-tabs (3483:11200); docs/decisoes-tecnicas.md › P115",
+    "variantsTitle": "Variantes",
+    "variantsCaption": "Os cinco estilos, cada um com a segunda aba ativa.",
+    "variantsUseHeader": [
+      "Estilo",
+      "Quando usar"
+    ],
+    "variantsUse": [
+      {
+        "value": "segmented",
+        "label": "O padrão. Visões dentro de um cartão ou painel, com poucas abas e rótulos curtos. Um trilho guarda as abas e um cartão marca a ativa."
+      },
+      {
+        "value": "underline",
+        "label": "Seções e listas longas, no topo de uma página ou seção. Uma linha marca a aba ativa. Quando as abas não cabem, cada uma guarda a sua largura e a lista rola."
+      },
+      {
+        "value": "solid",
+        "label": "Uma barra curta que precisa de mais peso: a aba ativa recebe um fundo sólido na cor primária."
+      },
+      {
+        "value": "light",
+        "label": "Uma barra curta com a aba ativa sobre uma superfície primária clara."
+      },
+      {
+        "value": "outline",
+        "label": "Uma barra curta com a aba ativa sobre uma superfície primária clara e uma borda suave."
+      }
+    ],
+    "contentTitle": "Conteúdo de uma aba",
+    "contentCaption": "O rótulo sozinho, depois com o ícone, o contador e a tag ligados.",
+    "contentUseHeader": [
+      "Conteúdo",
+      "Quando usar"
+    ],
+    "contentUse": [
+      {
+        "value": "icon",
+        "label": "Quando os rótulos se parecem. Em todas as abas ou em nenhuma; é leve em repouso e sólido no hover e quando ativa."
+      },
+      {
+        "value": "counter",
+        "label": "Quando cada aba conta itens. Exige counterLabel, o texto oculto que acompanha o número no nome acessível, como \"12 itens\". Acima de 99 mostra 99+."
+      },
+      {
+        "value": "tag",
+        "label": "Para marcar uma aba nova, com uma palavra. Vem depois do contador."
+      }
+    ],
+    "scrollingTitle": "Rolagem e rótulos longos",
+    "scrollingCaption": "A lista sublinhada que não cabe rola; nos outros estilos um rótulo que não cabe é cortado.",
+    "scrolling": [
+      "Só o estilo sublinhado rola: quando as abas não cabem, cada uma guarda a largura do seu conteúdo e uma seta fica em cada ponta. A seta fica desabilitada na ponta que a lista alcançou.",
+      "As setas ficam fora da ordem do Tab, porque as teclas de seta já percorrem as abas; a aba com foco rola até a vista.",
+      "Nos estilos segmentado e botão as abas dividem a largura e a lista não rola: a regra de uso pede poucas abas. Um rótulo que não cabe termina em reticências e o texto inteiro aparece num balão no hover e no foco.",
+      "Com movimento reduzido nada se move: a aba ativa muda de uma vez."
+    ],
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Entrada",
+      "O que faz"
+    ],
+    "keyboard": [
+      [
+        "Tab",
+        "Entra na lista pela aba ativa, já que a lista é uma única parada do Tab; o Tab seguinte vai para o painel. Um painel sem item focável recebe o foco."
+      ],
+      [
+        "Setas esquerda e direita",
+        "Movem o foco para a aba anterior e a seguinte, voltando ao começo ou ao fim nas pontas e pulando a aba desabilitada. Na escrita da direita para a esquerda as setas se trocam."
+      ],
+      [
+        "Home e End",
+        "Focam a primeira e a última aba habilitada."
+      ],
+      [
+        "Ativação",
+        "Automática por padrão: a aba que recebe o foco pelas setas fica ativa. Na ativação manual, só Enter ou Espaço a ativam."
+      ],
+      [
+        "Clique ou toque",
+        "Ativa a aba e leva o foco até ela. Um clique na aba ativa não faz nada, e uma aba desabilitada nem ativa nem recebe o foco."
+      ],
+      [
+        "Ponteiro e Esc",
+        "O hover só pinta. O Esc não faz nada: a lista não abre nenhuma camada."
+      ]
+    ],
+    "relationsTitle": "Relações e contexto",
+    "relations": [
+      "Dentro de um cartão ou painel a lista fica no alto, e o painel da aba ativa logo abaixo dela.",
+      "Combina com nph-icon (o ícone de início), nph-badge (a tag), nph-button (as setas de rolagem, como o botão só de ícone) e nph-tooltip (o rótulo cortado). O contador é uma peça do próprio nph-tabs.",
+      "Não substitui a navegação entre páginas, os passos em sequência nem a troca de visão de uma lista: use nph-sidebar, nph-breadcrumb, nph-stepper ou nph-toggle-group."
+    ],
+    "anatomyTitle": "Anatomia",
+    "anatomyHeader": [
+      "Parte",
+      "Regra"
+    ],
+    "anatomy": [
+      [
+        "Lista",
+        "As abas juntas: o trilho apagado no estilo segmentado, a linha de base no sublinhado e só o espaço entre as abas nos estilos de botão."
+      ],
+      [
+        "Aba",
+        "O controle clicável, um por painel. A aba inteira é o alvo."
+      ],
+      [
+        "Ícone de início",
+        "Opcional. nph-icon no tamanho pequeno, antes do rótulo, na cor do rótulo: leve em repouso e em foco, sólido no hover e quando ativa."
+      ],
+      [
+        "Rótulo",
+        "O papel de texto text/label-md, numa linha. Um rótulo cortado mostra o texto inteiro no nph-tooltip."
+      ],
+      [
+        "Contador",
+        "Opcional. Uma peça do nph-tabs, depois do rótulo, com o número em text/label-sm, em três tons: inativo fora do trilho, inativo dentro do trilho e ativo."
+      ],
+      [
+        "Tag",
+        "Opcional. Um nph-badge em primário claro, depois do contador, com uma palavra. No botão light e outline ativo vira primário sólido."
+      ],
+      [
+        "Indicador",
+        "Segmentado: um cartão com elevação sutil. Sublinhado: uma linha na cor de texto primária sob a aba ativa. Botão: um fundo, com uma borda suave no outline."
+      ],
+      [
+        "Setas de rolagem",
+        "Só no sublinhado, quando as abas não cabem: nph-button só de ícone, secundário ghost, compacto e quadrado, com os chevrons."
+      ],
+      [
+        "Painel",
+        "O conteúdo da aba ativa. Fica com o consumidor."
+      ]
+    ],
+    "accessibilityTitle": "Acessibilidade",
+    "accessibilityHeader": [
+      "Critério",
+      "Regra"
+    ],
+    "accessibility": [
+      [
+        "Semântica",
+        "A lista é um tablist, cada aba um botão com role tab, aria-selected e aria-controls, e cada painel um tabpanel nomeado pela sua aba (APG, padrão Tabs)."
+      ],
+      [
+        "Nome acessível",
+        "O rótulo é o nome da aba. O ícone é decorativo; o número do contador fica escondido do leitor de tela e o seu texto de contexto, como \"12 itens\", entra no nome."
+      ],
+      [
+        "Contraste",
+        "O rótulo inativo, o rótulo e a linha ativos e o rótulo de cada botão atingem 4,5:1 no modo claro e escuro, nas sete marcas. A pílula do contador é decorativa e o número continua legível."
+      ],
+      [
+        "Foco visível",
+        "A aba com foco mostra a borda de foco e o halo por fora, em todos os estilos, como o nph-button faz."
+      ],
+      [
+        "A cor não é o único sinal",
+        "A aba ativa tem um cartão, uma linha ou um fundo, e o seu ícone fica sólido, além da cor do texto."
+      ],
+      [
+        "Tamanho do alvo",
+        "A aba inteira é o alvo, acima de 24 por 24."
+      ],
+      [
+        "Desabilitada",
+        "Uma aba desabilitada é um botão desabilitado: não recebe foco nem clique. Uma aba ativa e desabilitada mantém o visual de ativa sob a opacidade de desabilitado."
+      ]
+    ],
+    "examplesTitle": "Exemplos",
+    "examplesCaption": "Os três exemplos obrigatórios: pedidos por etapa com ícone, contador e tag; o detalhe do pedido dentro de um painel; e as setas nas duas pontas quando as abas não cabem.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "referencesTitle": "Referências",
+    "references": [
+      "Ficha do nph-tabs — propósito, estilos, comportamento, acessibilidade, tokens e antipadrões.",
+      "docs/decisoes-tecnicas.md — P115 (API e semântica), P01, P02 e P03.",
+      "design.md — os tokens tabs/* e os tokens de foco.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Tabs, quadro de documentação nph-tabs (3483:11200), conjuntos 3472:9192, 3472:8748 e 3472:8747.",
+      "WAI-ARIA Authoring Practices, padrão Tabs.",
+      "Storybook — Validação, na pasta ao lado."
+    ],
+    "sourceSpec": "Ficha do nph-tabs; Figma, quadro nph-tabs (3483:11200)",
+    "sourceApi": "Ficha do nph-tabs; docs/decisoes-tecnicas.md › P115",
+    "sourceAnatomy": "Figma, conjuntos 3472:9192, 3472:8748 e 3472:8747; design.md",
+    "matrixLabel": "Matriz do componente"
+  },
+  "tabsValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo escuro",
+    "navLabel": "Pedidos",
+    "scrollPreviousLabel": "Rolar as abas para trás",
+    "scrollNextLabel": "Rolar as abas para frente",
+    "all": "Todos",
+    "pending": "Pendentes",
+    "review": "Em análise",
+    "done": "Concluídos",
+    "newTag": "Novo",
+    "items": "{count} itens",
+    "stateActive": "Ativa",
+    "stateRest": "Repouso",
+    "stateDisabled": "Desabilitada",
+    "longLabels": [
+      "Pedidos aguardando a revisão jurídica",
+      "Pedidos devolvidos ao autor para ajustes",
+      "Pedidos aprovados com uma nota de orçamento pendente"
+    ],
+    "sections": [
+      "Visão geral",
+      "Pedidos",
+      "Aprovações",
+      "Orçamentos",
+      "Contratos",
+      "Faturas",
+      "Fornecedores",
+      "Relatórios",
+      "Auditorias",
+      "Políticas",
+      "Configurações",
+      "Histórico"
+    ],
+    "panels": {
+      "all": "Todos os pedidos, de qualquer etapa.",
+      "pending": "Pedidos esperando alguém agir.",
+      "review": "Pedidos sendo conferidos pelos revisores.",
+      "done": "Pedidos que chegaram à última etapa."
+    },
+    "detailTitle": "Pedido 2481",
+    "detailText": "Compra de dois notebooks para a equipe de suporte, aguardando a aprovação do orçamento."
   }
 }

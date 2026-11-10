@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 700,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": "nph-tabs",
   "dependencies": [
     "DSA-03",
@@ -34,7 +34,38 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The accepted Figma documentation asks for the whole text of a cut label in nph-tooltip on hover and on focus, but nph-tooltip only opens on an element with tabIndex 0 or more, and an inactive tab has -1. The code gives tabindex 0 to the cut tab under the pointer while the pointer rests on it, and takes it back when the pointer leaves. She confirms that this serves, or asks for a change in nph-tooltip, which is another task. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-09"
+    },
+    {
+      "id": "D-2",
+      "question": "The icon-only nph-button of the scroll arrows requires a label, and the accepted documentation gives no text for it. The code adds two properties, scroll-previous-label and scroll-next-label, and draws no arrow without them. She confirms the two properties and the text the product uses. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-09"
+    },
+    {
+      "id": "D-3",
+      "question": "The accepted documentation only cites 99+ as an example of a large counter. The code shows 99+ above 99 and keeps the full number in the hidden context text. She confirms the limit of 99. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-09"
+    },
+    {
+      "id": "D-4",
+      "question": "In the segmented and the tab button styles with many tabs, the code cuts the label with an ellipsis and a balloon instead of scrolling. The documentation asks for few tabs there and leaves the overflow to the code. She confirms this or asks for scrolling in those styles too. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-09"
+    },
+    {
+      "id": "D-5",
+      "question": "The accepted documentation asks for the scroll arrows to be out of the screen reader. aria-hidden on the icon-only nph-button, which holds a focusable element in its shadow root, fails the accessibility gate (aria-hidden-focus). The arrows are out of the Tab order (tabindex -1) and keep their name. She confirms this, or asks for another way to hide them, which needs a change in nph-button and is another task. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-09"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-71/figma-docs-accepted-2026-11-09.md"
   ],
@@ -50,8 +81,8 @@
     "excerpt": null,
     "converted_decision": "The nph-tabs documentation frame (3483:11200, page 1626:14) was accepted as the API and behavior specification of nph-tabs. COMPONENT_SET nph-tabs (3472:9192), the list, 16 variants; the tab set (3472:8748), 30 variants; the counter set (3472:8747), 3 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-71-tabs", "commit": null, "pr": 162 },
+  "context": "docs/operacao/contextos/DSA-71.md",
   "updated_at": "2026-11-09"
 }
 ```
