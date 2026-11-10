@@ -3,7 +3,7 @@
   "task": "DSA-70",
   "worktree": "/Users/elvys.marcos/Projects/IATec/Community/IATec.Nephos/.claude/worktrees/optimistic-jones-3dadc1",
   "start_sha": "0aff214",
-  "end_sha": null
+  "end_sha": "dc857e7"
 }
 ```
 
@@ -27,13 +27,13 @@ Apply in the code the answers Indiane gave on 2026-11-09 to the pending decision
 - `git fetch origin && git checkout -B feat/dsa-70-d-itens origin/v/5.0.0`
 
 ## Result
-The task is in review on the branch `feat/dsa-70-d-itens`.
+PR #163 is merged into `v/5.0.0` (merge `dc857e7`). The task stays `in-review`: the nph-table row is not in the code.
 
 ## Evidence
-None yet. `review-and-merge` waits for the merge and for the nph-table row.
+`docs/operacao/evidencias/DSA-70/review-and-merge-partial-2026-11-09.md`. The gate `review-and-merge` stays pending until the nph-table row is in.
 
 ## Blocker
 The nph-table row (`table/link-foreground` in dark) is left to Indiane.
 
 ## Next command
-`gh pr edit 163 --add-reviewer @copilot`
+When Indiane brings the token: change the source and the test `link in dark mode` of `nph-table.test.ts` together, then close the gate.
