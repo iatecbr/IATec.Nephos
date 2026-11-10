@@ -1073,8 +1073,9 @@ tokens_texto_destaque:
 
 # ---------------------------------------------------------------
 # SPACING - primitives in core (invisible) and 7 intent tokens
-# in the semantic collection. Components consume ONLY the
-# semantic ones. Base 4px with a half-step of 2. Values in px; in CSS
+# in the semantic collection. Component CSS consumes ONLY the
+# semantic or component tokens; a component token aliases a primitive
+# straight only by decision. Base 4px with a half-step of 2. Values in px; in CSS
 # use rem, root 16px.
 # ---------------------------------------------------------------
 espacamento_regras:
@@ -1273,7 +1274,9 @@ tokens_scheme:
 
 # ---------------------------------------------------------------
 # RADIUS - primitives in core (invisible) and intent tokens in the
-# semantic collection. Components consume ONLY the semantic ones.
+# semantic collection. Component CSS consumes ONLY the semantic or
+# component tokens; a component token aliases a primitive straight
+# only by decision.
 # ATTENTION: radius is in px, NOT in rem. There are TWO foundations like this -
 # this one and shadow, which declares the same in elevacao_regras.
 # Radius must not grow with the user font: the piece would change
@@ -1500,7 +1503,7 @@ tokens_core_sombra:
 # consumes the semantic or the component token, never these.
 # ---------------------------------------------------------------
 tokens_core_veu:
-  regra: 'NEVER consume directly. Use overlay/scrim, which switches between the modes by itself.'
+  regra: 'NEVER consume in component CSS. Use overlay/scrim, which switches between the modes by itself.'
   core/scrim/light: { valor: 'rgba(0,0,0,0.45)', css: '--nph-core-scrim-light', alias_de: 'overlay/scrim in light mode' }
   core/scrim/dark:  { valor: 'rgba(0,0,0,0.65)', css: '--nph-core-scrim-dark',  alias_de: 'overlay/scrim in dark mode' }
 
