@@ -352,7 +352,7 @@ export class NphTabs extends LitElement {
     }
     this.measure();
     if (changed.has('value') || changed.has('tabs')) {
-      this.measurePanels();
+      void this.measurePanels();
     }
   }
 
@@ -395,14 +395,42 @@ export class NphTabs extends LitElement {
     }
   }
 
-  /** A panel with no item that takes the Tab key takes it itself (APG). */
-  private measurePanels(): void {
+  /**
+   * Whether an element takes part in the Tab order: not disabled, not out of it by a negative
+   * `tabindex`, not hidden and not inert. A host that delegates its focus, such as `nph-button`, is
+   * in the order unless its own `tabindex` or `disabled` says otherwise.
+   */
+  private takesTab(element: Element): boolean {
+    if (element.matches(':disabled') || element.hasAttribute('disabled') || element.closest('[inert], [hidden]') !== null) {
+      return false;
+    }
+    if (!(element as HTMLElement).checkVisibility?.({ visibilityProperty: true })) {
+      return false;
+    }
+    const declared = element.getAttribute('tabindex');
+    if (declared !== null && Number.parseInt(declared, 10) < 0) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * A panel with no item that takes the Tab key takes it itself (APG). A component of the consumer
+   * draws nothing until it has rendered, so its `updateComplete` is awaited before it is measured.
+   */
+  private async measurePanels(): Promise<void> {
+    const found = [...this.renderRoot.querySelectorAll<HTMLElement>('.panel')].map((panel) => ({
+      panel,
+      nodes: panel.querySelector('slot')?.assignedElements({ flatten: true }) ?? [],
+    }));
+    const everything = found.flatMap(({ nodes }) => nodes.flatMap((node) => [node, ...node.querySelectorAll('*')]));
+    await Promise.all(
+      everything.map((element) => (element as Element & { updateComplete?: Promise<unknown> }).updateComplete).filter((pending) => pending !== undefined),
+    );
     const stops: string[] = [];
-    for (const panel of this.renderRoot.querySelectorAll<HTMLElement>('.panel')) {
-      const slot = panel.querySelector('slot');
-      const nodes = slot?.assignedElements({ flatten: true }) ?? [];
-      const focusable = nodes.some((node) => node.matches(FOCUSABLE) || node.querySelector(FOCUSABLE) !== null);
-      if (!focusable && nodes.length > 0) {
+    for (const { panel, nodes } of found) {
+      const reachable = nodes.some((node) => [node, ...node.querySelectorAll(FOCUSABLE)].some((item) => item.matches(FOCUSABLE) && this.takesTab(item)));
+      if (!reachable && nodes.length > 0) {
         stops.push(panel.dataset.value ?? '');
       }
     }
@@ -575,10 +603,32 @@ export class NphTabs extends LitElement {
     if (button === null || button !== this.hovered) {
       return;
     }
-    const entering = event.relatedTarget instanceof Node && button.contains(event.relatedTarget);
+    const target = event.relatedTarget;
+    /* The pointer going from the tab to its own balloon keeps the tab eligible: the balloon stays open
+       while the pointer is over it (WCAG 1.4.13), and the tab is given back when it leaves both. */
+    const entering = target instanceof Node && (button.contains(target) || this.balloonOf(button) === target);
     if (!entering) {
       this.releaseHovered();
     }
+  }
+
+  /** The balloon of a tab, when its label is cut. */
+  private balloonOf(button: HTMLButtonElement): Element | null {
+    return this.renderRoot.querySelector(`nph-tooltip[for="${button.id}"]`);
+  }
+
+  /** The pointer left the balloon: unless it went back to the tab, the tab is given back. */
+  private onBalloonPointerout(event: PointerEvent): void {
+    const button = this.hovered;
+    if (button === null) {
+      return;
+    }
+    const target = event.relatedTarget;
+    const balloon = this.balloonOf(button);
+    if (target instanceof Node && (button.contains(target) || balloon === target)) {
+      return;
+    }
+    this.releaseHovered();
   }
 
   private releaseHovered(): void {
@@ -668,7 +718,7 @@ export class NphTabs extends LitElement {
       tabindex=${active && this.panelStops.includes(tab.value) ? '0' : nothing}
       ?hidden=${!active}
     >
-      <slot name=${tab.value} @slotchange=${() => this.measurePanels()}></slot>
+      <slot name=${tab.value} @slotchange=${() => void this.measurePanels()}></slot>
     </div>`;
   }
 
@@ -703,6 +753,7 @@ export class NphTabs extends LitElement {
               id=${`balloon-${String(index)}`}
               for=${`tab-${String(index)}`}
               .text=${trimmed(tab.text)}
+              @pointerout=${(event: PointerEvent) => this.onBalloonPointerout(event)}
             ></nph-tooltip>`
           : nothing,
       )}

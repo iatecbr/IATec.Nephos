@@ -37,8 +37,15 @@
 
 /* The only scroller: the underline tabs keep their width and the list scrolls; the others never do. */
 .scroller {
+  /* The room for the focus border and the halo, drawn outside the tab: without it the scroller clips
+     the ring of the first and the last tab and of the whole height. The negative margin gives the
+     room back, so the list keeps its place and size. */
+  --_ring-room: calc(var(--nph-tabs-focus-border-width) + var(--nph-tabs-focus-ring-width));
+
   flex: 1 1 0;
   min-inline-size: 0;
+  margin: calc(-1 * var(--_ring-room));
+  padding: var(--_ring-room);
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none;

@@ -590,6 +590,43 @@ describe('the keyboard', () => {
   });
 });
 
+describe('the panel that takes the Tab key', () => {
+  /** Mounts a list whose first panel holds the markup, and returns it. */
+  async function withPanel(markup: string): Promise<NphTabs> {
+    const tabs = await mount({}, false);
+    const panel = document.createElement('div');
+    panel.slot = 'all';
+    panel.innerHTML = markup;
+    tabs.append(panel);
+    await settle(tabs);
+    await frame();
+    await tabs.updateComplete;
+    return tabs;
+  }
+
+  const cases: Array<[string, string, boolean]> = [
+    ['text only', '<p>Text only</p>', true],
+    ['a button out of the Tab order', '<p>Text</p><button tabindex="-1">Out</button>', true],
+    ['a disabled button', '<p>Text</p><button disabled>Off</button>', true],
+    ['a disabled nph-button', '<p>Text</p><nph-button text="Off" disabled></nph-button>', true],
+    ['an nph-button with a negative tabindex', '<p>Text</p><nph-button text="Out" tabindex="-1"></nph-button>', true],
+    ['a hidden button', '<p>Text</p><button hidden>Hidden</button>', true],
+    ['an inert button', '<p>Text</p><div inert><button>Inert</button></div>', true],
+    ['a button that is not displayed', '<p>Text</p><button style="display: none">None</button>', true],
+    ['a button in the Tab order', '<p>Text</p><button>Action</button>', false],
+    ['a link', '<p>Text</p><a href="#top">Link</a>', false],
+    ['an nph-button in the Tab order', '<p>Text</p><nph-button text="Go"></nph-button>', false],
+    ['an element with tabindex 0', '<div tabindex="0">Focusable</div>', false],
+  ];
+
+  for (const [name, markup, takesIt] of cases) {
+    it(`${name}: the panel ${takesIt ? 'takes' : 'does not take'} the Tab key`, async () => {
+      const tabs = await withPanel(markup);
+      expect(panels(tabs)[0]?.getAttribute('tabindex') === '0').toBe(takesIt);
+    });
+  }
+});
+
 describe('the pointer', () => {
   it('a click activates the tab, puts the focus on it and fires the event once', async () => {
     const tabs = await mount();
@@ -1060,6 +1097,23 @@ describe('the cut label and its balloon', () => {
     expect(tab(tabs, 0).tabIndex).toBe(-1);
   });
 
+  it('the pointer can cross from the tab to its balloon: the balloon stays open and the tab stays eligible (WCAG 1.4.13)', async () => {
+    const spy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const tabs = await mountCut({ value: 'b' });
+    await userEvent.hover(tab(tabs, 0));
+    await vi.waitFor(() => expect(tooltips(tabs)[0]?.open).toBe(true), { timeout: 2000 });
+    const bubble = tooltips(tabs)[0]?.shadowRoot?.querySelector('.bubble') as HTMLElement;
+    await userEvent.hover(bubble);
+    await wait(400);
+    expect(tooltips(tabs)[0]?.open).toBe(true);
+    expect(tab(tabs, 0).tabIndex).toBe(0);
+    await userEvent.unhover(bubble);
+    await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
+    await vi.waitFor(() => expect(tooltips(tabs)[0]?.open).toBe(false), { timeout: 2000 });
+    expect(tab(tabs, 0).tabIndex).toBe(-1);
+    expect(spy).not.toHaveBeenCalled();
+  });
+
   it('a click during the wait cancels the balloon and the tab still activates', async () => {
     const tabs = await mountCut({ value: 'b' });
     const seen = collect(tabs);
@@ -1098,6 +1152,29 @@ describe('the focus', () => {
       );
       tabs.remove();
     }
+  });
+
+  it('the scroller keeps room for the border and the halo: the ring of the first and the last tab is not clipped', async () => {
+    for (const variant of NPH_TABS_VARIANTS) {
+      const tabs = await mount({ variant });
+      const scroller = root(tabs).querySelector('.scroller') as HTMLElement;
+      const room = px('--nph-tabs-focus-border-width') + px('--nph-tabs-focus-ring-width');
+      for (const index of [0, 3]) {
+        const box = tab(tabs, index).getBoundingClientRect();
+        const clip = scroller.getBoundingClientRect();
+        expect(box.left - room, `${variant} ${index} left`).toBeGreaterThanOrEqual(clip.left - 0.5);
+        expect(box.right + room, `${variant} ${index} right`).toBeLessThanOrEqual(clip.right + 0.5);
+        expect(box.top - room, `${variant} ${index} top`).toBeGreaterThanOrEqual(clip.top - 0.5);
+        expect(box.bottom + room, `${variant} ${index} bottom`).toBeLessThanOrEqual(clip.bottom + 0.5);
+      }
+      tabs.remove();
+    }
+  });
+
+  it('the room for the ring does not move the list: its place and size are those of the tokens', async () => {
+    const tabs = await mount({ variant: 'underline' });
+    expect(tablist(tabs).getBoundingClientRect().height).toBe(px('--nph-tabs-underline-item-height'));
+    expect(tab(tabs, 0).getBoundingClientRect().left).toBe(tabs.getBoundingClientRect().left);
   });
 
   it('a mouse click draws no ring', async () => {

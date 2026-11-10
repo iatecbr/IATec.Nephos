@@ -6866,9 +6866,11 @@ cause: the rule of P21. An empty list is a mount: nothing, no error (P68). The n
    tab and `hidden` while inactive. The tab carries `aria-controls` pointing to its panel. Both live
    in the same shadow root, since an ARIA reference does not cross a root (P91). The piece does not
    own the content of the panel. A panel with no focusable item takes `tabindex="0"` (APG); the
-   piece decides it by a selector list of the elements that already take the Tab key, measured when
-   the active tab or the slot changes, and it is a heuristic: a focusable item the list does not
-   know gets one more Tab stop.
+   piece decides it by a selector list of the elements that already take the Tab key, kept only when
+   they take part in the Tab order (not disabled, no negative `tabindex`, not hidden, not inert), and
+   measured when the active tab or the slot changes, after the components of the consumer have
+   rendered. It is a heuristic: a focusable item the list does not know gets one more Tab stop, and a
+   control the consumer enables later is seen on the next change.
 
 5. **The event is `nph-tab-change`.** It bubbles and is `composed`, with `detail: { value }`, and is
    fired only when the person activates a tab, never when code changes `value`, and never on a click
