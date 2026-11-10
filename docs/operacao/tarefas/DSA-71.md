@@ -58,6 +58,12 @@
       "question": "In the segmented and the tab button styles with many tabs, the code cuts the label with an ellipsis and a balloon instead of scrolling. The documentation asks for few tabs there and leaves the overflow to the code. She confirms this or asks for scrolling in those styles too. It does not block the pull request.",
       "decider": "indiane",
       "opened_at": "2026-11-09"
+    },
+    {
+      "id": "D-5",
+      "question": "The accepted documentation asks for the scroll arrows to be out of the screen reader. aria-hidden on the icon-only nph-button, which holds a focusable element in its shadow root, fails the accessibility gate (aria-hidden-focus). The arrows are out of the Tab order (tabindex -1) and keep their name. She confirms this, or asks for another way to hide them, which needs a change in nph-button and is another task. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-09"
     }
   ],
   "evidence": [

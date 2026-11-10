@@ -12082,7 +12082,7 @@
     "scrollingCaption": "A lista sublinhada que não cabe rola; nos outros estilos um rótulo que não cabe é cortado.",
     "scrolling": [
       "Só o estilo sublinhado rola: quando as abas não cabem, cada uma guarda a largura do seu conteúdo e uma seta fica em cada ponta. A seta fica desabilitada na ponta que a lista alcançou.",
-      "As setas ficam fora da ordem do Tab e escondidas do leitor de tela, porque as teclas de seta já percorrem as abas; a aba com foco rola até a vista.",
+      "As setas ficam fora da ordem do Tab, porque as teclas de seta já percorrem as abas; a aba com foco rola até a vista.",
       "Nos estilos segmentado e botão as abas dividem a largura e a lista não rola: a regra de uso pede poucas abas. Um rótulo que não cabe termina em reticências e o texto inteiro aparece num balão no hover e no foco.",
       "Com movimento reduzido nada se move: a aba ativa muda de uma vez."
     ],

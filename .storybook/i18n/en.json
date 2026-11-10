@@ -12082,7 +12082,7 @@
     "scrollingCaption": "The underline list that does not fit scrolls; in the other styles a label that does not fit is cut.",
     "scrolling": [
       "Only the underline style scrolls: when the tabs do not fit, each keeps the width of its content, and an arrow sits at each end. The arrow is disabled at the end the list has reached.",
-      "The arrows are not in the Tab order and are hidden from the screen reader, because the arrow keys already move through the tabs; the focused tab scrolls into view.",
+      "The arrows are not in the Tab order, because the arrow keys already move through the tabs; the focused tab scrolls into view.",
       "In the segmented and the tab button styles the tabs share the width and the list does not scroll: the usage rule asks for few tabs. A label that does not fit ends in an ellipsis and its whole text shows in a balloon on hover and on focus.",
       "With reduced motion nothing moves: the active tab changes at once."
     ],

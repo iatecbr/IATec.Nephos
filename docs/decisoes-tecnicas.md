@@ -6905,9 +6905,10 @@ cause: the rule of P21. An empty list is a mount: nothing, no error (P68). The n
 
 9. **The cut label shows its balloon, with a limit.** The label is one line, cut by an ellipsis. It is
    measured (`ResizeObserver` and `document.fonts.ready`, as `nph-chip`), and only a cut label of an
-   enabled tab gets an `nph-tooltip` with the whole text, `relation="name"` and an explicit
-   `aria-labelledby` (the balloon, then the context text of the counter, then the tag), so the label
-   is not read twice (P100). `nph-tooltip` opens only on an element with `tabIndex` of 0 or more
+   enabled tab gets an `nph-tooltip` with the whole text, as its description (the default
+   relation), as the cut label of the removable chip (P100): the name of the tab stays its content,
+   with the counter text and the tag, so a name built from the balloon would drop the visible text
+   (axe `label-content-name-mismatch`). `nph-tooltip` opens only on an element with `tabIndex` of 0 or more
    (P77), and an inactive tab has -1. The piece promotes the cut tab under the pointer to
    `tabindex="0"` while the pointer is on it, on `pointerover` and before the tooltip reads it, and
    gives it back to the roving value when the pointer leaves; the arrows write the roving value before
@@ -6922,8 +6923,10 @@ cause: the rule of P21. An empty list is a mount: nothing, no error (P68). The n
     writing. Its name comes from `scroll-previous-label` and `scroll-next-label`, which are text of
     the consumer (D-2); without them the arrows are not drawn and the piece warns once. At an end of
     the list the arrow is disabled, not hidden, so the list does not change width. The arrows have
-    `tabindex="-1"` and `aria-hidden`: out of the Tab order and out of the screen reader, because the
-    arrow keys already scroll the list. A click scrolls by three quarters of the visible width, smooth
+    `tabindex="-1"`: out of the Tab order, because the arrow keys already scroll the list. The accepted
+    documentation also asks them out of the screen reader, but `aria-hidden` on `nph-button`, which
+    holds a focusable element in its shadow root, is an axe violation (`aria-hidden-focus`) that
+    fails the gate, so they keep their name (D-5). A click scrolls by three quarters of the visible width, smooth
     unless reduced motion asks otherwise.
 
 11. **Segmented and tab button cut instead of scrolling.** The evidence leaves the overflow of these
@@ -6968,8 +6971,12 @@ list. Scrolling in the segmented and tab button styles. A form association.
   whole `counterLabel` in the name.
 - **D-4 — segmented and tab button.** With many tabs these styles cut the label, with a balloon,
   instead of scrolling. She confirms it, or asks for the scroll in these styles too.
+- **D-5 — the scroll arrows and the screen reader.** The documentation asks the arrows out of the screen
+  reader, but `aria-hidden` on a button that holds a focusable element fails the accessibility gate
+  (`aria-hidden-focus`). The arrows are out of the Tab order and keep their name. She confirms it, or
+  asks for another way to hide them, which needs a change in `nph-button`, another task.
 
-**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 to D-4 wait for Indiane. API
+**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 to D-5 wait for Indiane. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
 
 ---

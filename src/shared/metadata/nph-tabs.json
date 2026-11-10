@@ -207,7 +207,7 @@
     "A click or tap activates the tab and puts the focus on it. A click on the active tab does nothing. A disabled tab neither activates nor takes the focus. Hover only paints.",
     "Esc and a click outside do nothing: the list opens no layer, and after a tab change the focus stays on the tab.",
     "The panel of each tab is a slot named by the value of the tab. The piece draws a tabpanel for each tab, named by its tab and hidden while inactive, in the same root as the tab, since an ARIA reference does not cross a root. A panel with no focusable item takes tabindex 0, decided by a selector list.",
-    "Only the underline style scrolls: when the tabs do not fit, each tab keeps its content width and the list scrolls, with an arrow at each end. The arrows are out of the Tab order and out of the screen reader, because the arrow keys already scroll the list; the tab that receives the focus scrolls into view.",
+    "Only the underline style scrolls: when the tabs do not fit, each tab keeps its content width and the list scrolls, with an arrow at each end. The arrows are out of the Tab order and keep their name, because the arrow keys already scroll the list (D-5); the tab that receives the focus scrolls into view.",
     "Segmented and tab button do not scroll and do not wrap: the tabs share the width and a label that does not fit is cut with an ellipsis and a balloon. The usage rule asks for few tabs and short labels there.",
     "A label that does not fit is cut with an ellipsis and shows the whole text in an nph-tooltip, on hover and on keyboard focus. A label that is not cut has no balloon, and a disabled tab has none.",
     "Only color and background change when the active tab changes, and on hover, within tabs/indicator-duration: nothing slides. With reduced motion, nothing moves.",
@@ -253,8 +253,8 @@
     "On an underline list that can scroll, give scroll-previous-label and scroll-next-label."
   ],
   "accessibility": {
-    "semantics": "A tablist of native buttons with role tab, aria-selected and aria-controls, and a tabpanel for each tab, named by its tab with aria-labelledby, hidden while inactive. The icon is decorative and hidden from assistive technology. The scroll arrows are out of the Tab order and out of the screen reader.",
-    "accessible_name": "The tab list: label, else the aria-label of the host. A tab: its label, followed by the counterLabel when there is a counter, and by the tag; the visible number is hidden from assistive technology. A cut label is named by the balloon, followed by the same counter text and the tag, so it is not read twice. The scroll arrows are named by scroll-previous-label and scroll-next-label.",
+    "semantics": "A tablist of native buttons with role tab, aria-selected and aria-controls, and a tabpanel for each tab, named by its tab with aria-labelledby, hidden while inactive. The icon is decorative and hidden from assistive technology. The scroll arrows are out of the Tab order and keep their name (D-5).",
+    "accessible_name": "The tab list: label, else the aria-label of the host. A tab: its label, followed by the counterLabel when there is a counter, and by the tag; the visible number is hidden from assistive technology. A cut label keeps the same name; the balloon is its description. The scroll arrows are named by scroll-previous-label and scroll-next-label.",
     "keyboard": [
       "Tab: enters the list on the active tab, the list being a single Tab stop; the next Tab goes to the panel. A panel with no focusable item takes the focus.",
       "Left and right arrows: move the focus to the previous and the next tab, wrapping around and skipping a disabled tab.",

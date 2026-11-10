@@ -20,7 +20,9 @@
  * - `label` and the host `aria-label`: the accessible name of the `tablist`;
  * - `scroll-previous-label` and `scroll-next-label`: the names of the two scroll arrows of the
  *   underline style, which `nph-button` icon only requires and shows in its balloon. Without them
- *   the arrows are not drawn and a warning is emitted in development;
+ *   the arrows are not drawn and a warning is emitted in development. The arrows are out of the Tab
+ *   order (`tabindex="-1"`) but not hidden from assistive technology: `aria-hidden` on a button
+ *   that holds a focusable element is an axe violation (`aria-hidden-focus`), so they keep a name;
  * - the panels stay with the consumer: each one is the slot named by the `value` of its tab
  *   (`<div slot="pending">`). The component draws the `role="tabpanel"` around the slot, since the
  *   ARIA references of the tab and of the panel must live in the same root (P91);
@@ -612,14 +614,6 @@ export class NphTabs extends LitElement {
     const icon = trimmed(tab.icon);
     const tag = trimmed(tab.tag);
     const hasCounter = tab.counter !== undefined && tab.counter !== null;
-    const balloon = this.cutValues.includes(tab.value) && this.isEnabled(tab);
-    /* With a cut label the balloon is the name, as the selectable chip (P100): the label is not read
-       again as a description, and the counter and the tag stay in the name after it. */
-    const labelledby = balloon
-      ? [`balloon-${String(index)}`, hasCounter ? `context-${String(index)}` : '', tag !== '' ? `tag-${String(index)}` : '']
-          .filter((id) => id !== '')
-          .join(' ')
-      : nothing;
     const tagEmphasis = selected && (this.variant === 'light' || this.variant === 'outline') ? 'solid' : 'light';
     return html`<button
       class="tab"
@@ -628,7 +622,6 @@ export class NphTabs extends LitElement {
       role="tab"
       aria-selected=${selected ? 'true' : 'false'}
       aria-controls=${`panel-${String(index)}`}
-      aria-labelledby=${labelledby}
       tabindex=${tab.value === stop ? '0' : '-1'}
       ?disabled=${!this.isEnabled(tab)}
     >
@@ -659,7 +652,6 @@ export class NphTabs extends LitElement {
       icon-start=${start ? 'chevron-left' : 'chevron-right'}
       label=${trimmed(previous ? this.scrollPreviousLabel : this.scrollNextLabel)}
       tabindex="-1"
-      aria-hidden="true"
       ?disabled=${previous ? this.atStart : this.atEnd}
       @click=${() => this.scrollList(direction)}
     ></nph-button>`;
@@ -710,7 +702,6 @@ export class NphTabs extends LitElement {
           ? html`<nph-tooltip
               id=${`balloon-${String(index)}`}
               for=${`tab-${String(index)}`}
-              relation="name"
               .text=${trimmed(tab.text)}
             ></nph-tooltip>`
           : nothing,

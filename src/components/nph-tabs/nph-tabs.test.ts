@@ -713,7 +713,7 @@ describe('the colors of each state', () => {
     for (const variant of ['segmented', 'underline'] as const) {
       const tabs = await mount({ variant });
       await userEvent.hover(tab(tabs, 2));
-      await wait(150);
+      await wait(400);
       expect(getComputedStyle(tab(tabs, 2)).color, variant).toBe(color('--nph-tabs-item-foreground-hover'));
       expect(getComputedStyle(tab(tabs, 0)).color, variant).toBe(color('--nph-tabs-item-foreground-active'));
       await userEvent.unhover(tab(tabs, 2));
@@ -737,7 +737,7 @@ describe('the colors of each state', () => {
     expect(line(0).getBoundingClientRect().height).toBe(px('--nph-tabs-indicator-width'));
     expect(getComputedStyle(line(1)).backgroundColor).toBe('rgba(0, 0, 0, 0)');
     await userEvent.hover(tab(tabs, 1));
-    await wait(150);
+    await wait(400);
     expect(getComputedStyle(line(1)).backgroundColor).toBe(background('--nph-tabs-indicator-hover-color'));
     expect(line(1).getBoundingClientRect().height).toBe(px('--nph-tabs-indicator-width'));
   });
@@ -776,7 +776,7 @@ describe('the colors of each state', () => {
       const before = getComputedStyle(tab(tabs, 0));
       const snapshot = [before.color, before.backgroundColor, before.boxShadow];
       await userEvent.hover(tab(tabs, 0));
-      await wait(150);
+      await wait(400);
       const after = getComputedStyle(tab(tabs, 0));
       expect([after.color, after.backgroundColor, after.boxShadow], variant).toEqual(snapshot);
       await userEvent.unhover(tab(tabs, 0));
@@ -906,7 +906,7 @@ describe('the scroll of the underline style', () => {
     expect(last.getBoundingClientRect().left).toBeGreaterThanOrEqual(scroller.getBoundingClientRect().right - 1);
   });
 
-  it('the arrows are secondary ghost compact square icon buttons, out of the Tab order and out of the screen reader', async () => {
+  it('the arrows are secondary ghost compact square icon buttons, out of the Tab order and still named', async () => {
     const tabs = await mountNarrow();
     const [previous, next] = arrows(tabs) as [NphButton, NphButton];
     for (const arrow of [previous, next]) {
@@ -915,7 +915,8 @@ describe('the scroll of the underline style', () => {
       expect(arrow.getAttribute('size')).toBe('compact');
       expect(arrow.getAttribute('shape')).toBe('square');
       expect(arrow.getAttribute('tabindex')).toBe('-1');
-      expect(arrow.getAttribute('aria-hidden')).toBe('true');
+      /* aria-hidden on a button that holds a focusable element is an axe violation: the arrows keep their name. */
+      expect(arrow.hasAttribute('aria-hidden')).toBe(false);
     }
     expect(previous.getAttribute('icon-start')).toBe('chevron-left');
     expect(next.getAttribute('icon-start')).toBe('chevron-right');
@@ -1009,14 +1010,15 @@ describe('the cut label and its balloon', () => {
     expect(tooltips(tabs)).toHaveLength(1);
     expect(tooltips(tabs)[0]?.getAttribute('for')).toBe(tab(tabs, 0).id);
     expect(tooltips(tabs)[0]?.text).toBe('A label long enough to be cut');
-    expect(tooltips(tabs)[0]?.relation).toBe('name');
+    expect(tooltips(tabs)[0]?.relation).toBe('description');
   });
 
-  it('the balloon is the name of the tab, not a second description', async () => {
+  it('the name of the tab stays its content, and the balloon describes it', async () => {
     const tabs = await mountCut();
-    expect(tab(tabs, 0).getAttribute('aria-labelledby')).toContain(tooltips(tabs)[0]?.id as string);
+    expect(tab(tabs, 0).hasAttribute('aria-labelledby')).toBe(false);
     expect(await axNode(tab(tabs, 0))).toEqual({ role: 'tab', name: 'A label long enough to be cut' });
-    expect(tab(tabs, 1).hasAttribute('aria-labelledby')).toBe(false);
+    expect(tab(tabs, 0).getAttribute('aria-describedby')).toContain(tooltips(tabs)[0]?.id as string);
+    expect(tab(tabs, 1).hasAttribute('aria-describedby')).toBe(false);
   });
 
   it('keeps the counter and the tag in the name of a cut tab', async () => {

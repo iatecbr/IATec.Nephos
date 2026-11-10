@@ -12082,7 +12082,7 @@
     "scrollingCaption": "La lista subrayada que no cabe se desplaza; en los otros estilos una etiqueta que no cabe se corta.",
     "scrolling": [
       "Solo el estilo subrayado se desplaza: cuando las pestañas no caben, cada una guarda el ancho de su contenido y una flecha queda en cada extremo. La flecha queda deshabilitada en el extremo que la lista alcanzó.",
-      "Las flechas quedan fuera del orden del Tab y ocultas del lector de pantalla, porque las teclas de flecha ya recorren las pestañas; la pestaña con foco se desplaza hasta la vista.",
+      "Las flechas quedan fuera del orden del Tab, porque las teclas de flecha ya recorren las pestañas; la pestaña con foco se desplaza hasta la vista.",
       "En los estilos segmentado y botón las pestañas se reparten el ancho y la lista no se desplaza: la regla de uso pide pocas pestañas. Una etiqueta que no cabe termina en puntos suspensivos y el texto completo aparece en un globo al pasar el puntero y con el foco.",
       "Con movimiento reducido nada se mueve: la pestaña activa cambia de una vez."
     ],
