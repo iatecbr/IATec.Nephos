@@ -26,6 +26,7 @@ import {
   isCount,
 } from './nph-tabs';
 import type { NphTab, NphTabsChangeDetail } from './nph-tabs';
+import '../nph-chip/nph-chip';
 import type { NphButton } from '../nph-button/nph-button';
 import type { NphTooltip } from '../nph-tooltip/nph-tooltip';
 
@@ -617,6 +618,15 @@ describe('the panel that takes the Tab key', () => {
     ['a link', '<p>Text</p><a href="#top">Link</a>', false],
     ['an nph-button in the Tab order', '<p>Text</p><nph-button text="Go"></nph-button>', false],
     ['an element with tabindex 0', '<div tabindex="0">Focusable</div>', false],
+    ['a readonly nph-chip whose label fits (no target to tab to)', '<p>Text</p><nph-chip readonly text="Status"></nph-chip>', true],
+    ['a disabled selectable nph-chip', '<p>Text</p><nph-chip type="selectable" text="Status" disabled></nph-chip>', true],
+    ['a removable nph-chip with its X', '<p>Text</p><nph-chip text="Status" remove-label="Remove"></nph-chip>', false],
+    ['a selectable nph-chip', '<p>Text</p><nph-chip type="selectable" text="Status"></nph-chip>', false],
+    [
+      'a readonly nph-chip whose label is cut (the label takes the focus for its balloon)',
+      '<p>Text</p><nph-chip readonly text="A status label long enough to be cut by the maximum width of the chip, with many more words"></nph-chip>',
+      false,
+    ],
   ];
 
   for (const [name, markup, takesIt] of cases) {

@@ -92,9 +92,14 @@ export interface NphTab {
   disabled?: boolean;
 }
 
-/** The elements a panel can hold that already take the Tab key; a panel without one takes it itself. */
+/**
+ * The elements a panel can hold that already take the Tab key; a panel without one takes it itself.
+ * Only native and `tabindex` targets: a component of the consumer is not listed by its tag, since
+ * what takes the Tab key is what it draws inside its own shadow root (an `nph-chip` with no X and a
+ * label that fits has none), and the search goes in there.
+ */
 const FOCUSABLE =
-  'a[href], area[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"]), [contenteditable=""], [contenteditable="true"], nph-button, nph-input, nph-textarea, nph-select, nph-combobox, nph-multi-combobox, nph-checkbox, nph-radio, nph-switch, nph-slider, nph-input-otp, nph-togglebutton, nph-chip';
+  'a[href], area[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), summary, [tabindex]:not([tabindex="-1"]), [contenteditable=""], [contenteditable="true"]';
 
 /** Development messages; outside a bundler with `import.meta.env`, they stay silent. */
 function devError(message: string): void {
@@ -395,23 +400,55 @@ export class NphTabs extends LitElement {
     }
   }
 
+  /** The parent in the flat tree: a shadow root leads to its host. */
+  private parentOf(element: Element): Element | null {
+    if (element.parentElement !== null) {
+      return element.parentElement;
+    }
+    const root = element.getRootNode();
+    return root instanceof ShadowRoot ? root.host : null;
+  }
+
   /**
    * Whether an element takes part in the Tab order: not disabled, not out of it by a negative
-   * `tabindex`, not hidden and not inert. A host that delegates its focus, such as `nph-button`, is
-   * in the order unless its own `tabindex` or `disabled` says otherwise.
+   * `tabindex`, not hidden and not inert, itself or by a parent, through shadow roots. A host that
+   * delegates its focus, such as `nph-button`, takes the whole shadow root out of the order with a
+   * negative `tabindex`.
    */
   private takesTab(element: Element): boolean {
-    if (element.matches(':disabled') || element.hasAttribute('disabled') || element.closest('[inert], [hidden]') !== null) {
+    if (element.matches(':disabled') || element.hasAttribute('disabled')) {
       return false;
     }
     if (!(element as HTMLElement).checkVisibility?.({ visibilityProperty: true })) {
       return false;
     }
-    const declared = element.getAttribute('tabindex');
-    if (declared !== null && Number.parseInt(declared, 10) < 0) {
-      return false;
+    for (let node: Element | null = element; node !== null; node = this.parentOf(node)) {
+      if (node.hasAttribute('hidden') || node.hasAttribute('inert')) {
+        return false;
+      }
+      const declared = node.getAttribute('tabindex');
+      const negative = declared !== null && Number.parseInt(declared, 10) < 0;
+      if (negative && (node === element || node.shadowRoot?.delegatesFocus === true)) {
+        return false;
+      }
     }
     return true;
+  }
+
+  /** Whether the subtree of a node, shadow roots included, holds an item that takes the Tab key. */
+  private holdsTab(node: Element | ShadowRoot): boolean {
+    if (node instanceof Element) {
+      if (node.matches(FOCUSABLE) && this.takesTab(node)) {
+        return true;
+      }
+      if (node.shadowRoot !== null && this.holdsTab(node.shadowRoot)) {
+        return true;
+      }
+    }
+    return [...node.querySelectorAll('*')].some(
+      (element) =>
+        (element.matches(FOCUSABLE) && this.takesTab(element)) || (element.shadowRoot !== null && this.holdsTab(element.shadowRoot)),
+    );
   }
 
   /**
@@ -429,7 +466,7 @@ export class NphTabs extends LitElement {
     );
     const stops: string[] = [];
     for (const { panel, nodes } of found) {
-      const reachable = nodes.some((node) => [node, ...node.querySelectorAll(FOCUSABLE)].some((item) => item.matches(FOCUSABLE) && this.takesTab(item)));
+      const reachable = nodes.some((node) => this.holdsTab(node));
       if (!reachable && nodes.length > 0) {
         stops.push(panel.dataset.value ?? '');
       }

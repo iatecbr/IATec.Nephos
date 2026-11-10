@@ -6955,7 +6955,9 @@ cause: the rule of P21. An empty list is a mount: nothing, no error (P68). The n
    in the same shadow root, since an ARIA reference does not cross a root (P91). The piece does not
    own the content of the panel. A panel with no focusable item takes `tabindex="0"` (APG); the
    piece decides it by a selector list of the elements that already take the Tab key, kept only when
-   they take part in the Tab order (not disabled, no negative `tabindex`, not hidden, not inert), and
+   they take part in the Tab order (not disabled, no negative `tabindex`, not hidden, not inert) and are
+   searched inside the shadow roots of the components of the consumer, so an `nph-chip` counts only for
+   the X, the button or the cut label it draws, and
    measured when the active tab or the slot changes, after the components of the consumer have
    rendered. It is a heuristic: a focusable item the list does not know gets one more Tab stop, and a
    control the consumer enables later is seen on the next change.
