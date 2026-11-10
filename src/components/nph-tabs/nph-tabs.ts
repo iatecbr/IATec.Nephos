@@ -196,6 +196,8 @@ export class NphTabs extends LitElement {
   private reported = '';
   private warned = new Set<string>();
   private resizeObserver: ResizeObserver | undefined;
+  /** Watches the `dir` of the host and of every parent: a new direction moves nothing that a resize would tell. */
+  private directionObserver: MutationObserver | undefined;
   private observed: Element[] = [];
   /** The tab that took `tabindex="0"` from the pointer, so its balloon can open; `null` when none. */
   private hovered: HTMLButtonElement | null = null;
@@ -224,6 +226,10 @@ export class NphTabs extends LitElement {
     this.resizeObserver = new ResizeObserver(() => this.measure());
     /* The font changes the width of the text once it loads. */
     document.fonts?.ready.then(() => this.measure());
+    this.directionObserver = new MutationObserver(() => this.measure());
+    for (let node: Element | null = this; node !== null; node = this.parentOf(node)) {
+      this.directionObserver.observe(node, { attributes: true, attributeFilter: ['dir'] });
+    }
     /* A list moved to another place observes its parts again: the observer was disconnected when it
        left, and only an update installs it. */
     if (this.hasUpdated) this.requestUpdate();
@@ -234,7 +240,10 @@ export class NphTabs extends LitElement {
     this.resizeObserver?.disconnect();
     this.resizeObserver = undefined;
     this.observed = [];
-    this.hovered = null;
+    this.directionObserver?.disconnect();
+    this.directionObserver = undefined;
+    /* The Tab stop the pointer lent to a tab goes back now: the pointer never leaves a list that was removed. */
+    this.releaseHovered();
   }
 
   /* ----- validation -------------------------------------------------------- */
@@ -388,7 +397,7 @@ export class NphTabs extends LitElement {
       if (overflowing !== this.overflowing) {
         this.overflowing = overflowing;
       }
-      const rtl = getComputedStyle(this).direction === 'rtl';
+      const rtl = this.isRtl();
       if (rtl !== this.rtl) {
         this.rtl = rtl;
       }
@@ -422,15 +431,31 @@ export class NphTabs extends LitElement {
     if (!(element as HTMLElement).checkVisibility?.({ visibilityProperty: true })) {
       return false;
     }
-    for (let node: Element | null = element; node !== null; node = this.parentOf(node)) {
+    /*
+     * A shadow host with a negative `tabindex`, delegating its focus or not, takes its whole shadow tree
+     * out of the order (the browser skips the scope); a negative `tabindex` on a light parent does not
+     * touch what is inside it.
+     */
+    if ((element.getAttribute('tabindex') ?? '').trim().startsWith('-')) {
+      return false;
+    }
+    for (let node: Element | null = element; node !== null; ) {
       if (node.hasAttribute('hidden') || node.hasAttribute('inert')) {
         return false;
       }
-      const declared = node.getAttribute('tabindex');
-      const negative = declared !== null && Number.parseInt(declared, 10) < 0;
-      if (negative && (node === element || node.shadowRoot?.delegatesFocus === true)) {
+      const next: Element | null = node.parentElement;
+      if (next !== null) {
+        node = next;
+        continue;
+      }
+      const root = node.getRootNode();
+      if (!(root instanceof ShadowRoot)) {
+        break;
+      }
+      if (Number.parseInt(root.host.getAttribute('tabindex') ?? '', 10) < 0) {
         return false;
       }
+      node = root.host;
     }
     return true;
   }
@@ -474,6 +499,11 @@ export class NphTabs extends LitElement {
     if (stops.length !== this.panelStops.length || stops.some((value, index) => value !== this.panelStops[index])) {
       this.panelStops = stops;
     }
+  }
+
+  /** The writing direction, read when it is used: a `dir` that changes after the mount is never stale. */
+  private isRtl(): boolean {
+    return getComputedStyle(this).direction === 'rtl';
   }
 
   /* ----- state ------------------------------------------------------------- */
@@ -581,7 +611,7 @@ export class NphTabs extends LitElement {
     let next: number | undefined;
     if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
       /* The arrow that points to the end of the line goes to the next tab, in either writing direction. */
-      const forward = (event.key === 'ArrowRight') !== this.rtl;
+      const forward = (event.key === 'ArrowRight') !== this.isRtl();
       const at = enabled.indexOf(from);
       const step = forward ? 1 : -1;
       next = enabled[(at + step + enabled.length) % enabled.length];
@@ -675,7 +705,8 @@ export class NphTabs extends LitElement {
       return;
     }
     const tab = this.tabs[this.tabButtons().indexOf(button)];
-    button.tabIndex = tab !== undefined && tab.value === this.tabStop() ? 0 : -1;
+    const drawn = this.problem === null && this.tabs.length > 0;
+    button.tabIndex = drawn && tab !== undefined && tab.value === this.tabStop() ? 0 : -1;
   }
 
   private scrollList(direction: 1 | -1): void {
@@ -685,7 +716,7 @@ export class NphTabs extends LitElement {
     }
     const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     /* `direction` is toward the end of the line; in right-to-left writing the end is the left. */
-    const sign = this.rtl ? -direction : direction;
+    const sign = this.isRtl() ? -direction : direction;
     scroller.scrollBy({ left: sign * scroller.clientWidth * 0.75, behavior: reduced ? 'auto' : 'smooth' });
   }
 

@@ -521,6 +521,17 @@ describe('the keyboard', () => {
     expect(root(tabs).activeElement).toBe(tab(tabs, 3));
   });
 
+  it('a dir that changes after the mount is read when the arrows are pressed, and the scroll arrows follow it', async () => {
+    const tabs = await mount();
+    await userEvent.tab();
+    document.documentElement.setAttribute('dir', 'rtl');
+    await userEvent.keyboard('{ArrowLeft}');
+    expect(root(tabs).activeElement).toBe(tab(tabs, 1));
+    document.documentElement.removeAttribute('dir');
+    await userEvent.keyboard('{ArrowRight}');
+    expect(root(tabs).activeElement).toBe(tab(tabs, 2));
+  });
+
   it('manual: the arrows move the focus only; Enter and Space activate', async () => {
     const tabs = await mount({ activation: 'manual' });
     const seen = collect(tabs);
@@ -598,10 +609,18 @@ describe('the panel that takes the Tab key', () => {
     const panel = document.createElement('div');
     panel.slot = 'all';
     panel.innerHTML = markup;
+    /* A shadow root cannot come from markup: the elements that ask for one get it here. */
+    for (const host of panel.querySelectorAll<HTMLElement>('[data-shadow]')) {
+      host.attachShadow({ mode: 'open', delegatesFocus: host.hasAttribute('data-delegates') }).innerHTML = host.dataset.shadow ?? '';
+    }
+    for (const inner of panel.querySelectorAll<NphTabs>('nph-tabs[data-inner]')) {
+      inner.tabs = [{ value: 'a', text: 'A' }, { value: 'b', text: 'B' }];
+    }
     tabs.append(panel);
     await settle(tabs);
     await frame();
     await tabs.updateComplete;
+    await frame();
     return tabs;
   }
 
@@ -614,6 +633,11 @@ describe('the panel that takes the Tab key', () => {
     ['a hidden button', '<p>Text</p><button hidden>Hidden</button>', true],
     ['an inert button', '<p>Text</p><div inert><button>Inert</button></div>', true],
     ['a button that is not displayed', '<p>Text</p><button style="display: none">None</button>', true],
+    ['a button inside an open shadow root', '<p>Text</p><div data-shadow="<button>Inside</button>"></div>', false],
+    ['a button inside a shadow host with a negative tabindex', '<p>Text</p><div data-shadow="<button>Inside</button>" tabindex="-1"></div>', true],
+    ['a button inside a delegating shadow host with a negative tabindex', '<p>Text</p><div data-shadow="<button>Inside</button>" data-delegates tabindex="-1"></div>', true],
+    ['a button inside a light parent with a negative tabindex (the parent does not touch it)', '<p>Text</p><div tabindex="-1"><button>Inside</button></div>', false],
+    ['a nested nph-tabs with a negative tabindex', '<p>Text</p><nph-tabs tabindex="-1" label="Inner" data-inner></nph-tabs>', true],
     ['a button in the Tab order', '<p>Text</p><button>Action</button>', false],
     ['a link', '<p>Text</p><a href="#top">Link</a>', false],
     ['an nph-button in the Tab order', '<p>Text</p><nph-button text="Go"></nph-button>', false],
@@ -1008,6 +1032,18 @@ describe('the scroll of the underline style', () => {
     expect(box.left).toBeGreaterThanOrEqual(view.left - 1);
   });
 
+  it('a dir set on a parent after the mount mirrors the arrows and the direction of the scroll', async () => {
+    const tabs = await mountNarrow();
+    const icon = (index: number) => arrows(tabs)[index]?.getAttribute('icon-start');
+    expect([icon(0), icon(1)]).toEqual(['chevron-left', 'chevron-right']);
+    (tabs.parentElement as HTMLElement).setAttribute('dir', 'rtl');
+    await vi.waitFor(() => expect([icon(0), icon(1)]).toEqual(['chevron-right', 'chevron-left']));
+    await settle(tabs);
+    const scroller = root(tabs).querySelector('.scroller') as HTMLElement;
+    (arrows(tabs)[1] as NphButton).click();
+    await vi.waitFor(() => expect(scroller.scrollLeft).toBeLessThan(-100));
+  });
+
   it('without the two labels the arrows are not drawn and a warning is emitted once', async () => {
     const spy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const tabs = await mountNarrow({ scrollNextLabel: null });
@@ -1122,6 +1158,23 @@ describe('the cut label and its balloon', () => {
     await vi.waitFor(() => expect(tooltips(tabs)[0]?.open).toBe(false), { timeout: 2000 });
     expect(tab(tabs, 0).tabIndex).toBe(-1);
     expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('a list removed and put back while the pointer lent a Tab stop keeps one Tab stop only', async () => {
+    const tabs = await mountCut({ value: 'b' });
+    await userEvent.hover(tab(tabs, 0));
+    await vi.waitFor(() => expect(tooltips(tabs)[0]?.open).toBe(true), { timeout: 2000 });
+    expect(tab(tabs, 0).tabIndex).toBe(0);
+    const host = tabs.parentElement as HTMLElement;
+    tabs.remove();
+    expect(tab(tabs, 0).tabIndex).toBe(-1);
+    host.append(tabs);
+    await settle(tabs);
+    await wait(100);
+    await settle(tabs);
+    expect(buttons(tabs).filter((button) => button.tabIndex === 0)).toHaveLength(1);
+    expect(tab(tabs, 1).tabIndex).toBe(0);
+    await userEvent.unhover(document.body);
   });
 
   it('a click during the wait cancels the balloon and the tab still activates', async () => {
