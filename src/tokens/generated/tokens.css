@@ -160,6 +160,7 @@
   --nph-core-layout-width-popover-sm: 15rem;
   --nph-core-layout-width-popover-md: 20rem;
   --nph-core-layout-width-popover-lg: 25rem;
+  --nph-core-layout-width-stepper-text: 10rem;
   --nph-core-line-height-100: 1rem;
   --nph-core-line-height-200: 1.25rem;
   --nph-core-neutral-50: #f1f1f1;
@@ -708,6 +709,11 @@
   --nph-hover-card-close-delay: var(--nph-core-duration-delay);
   --nph-tabs-item-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-tabs-indicator-width: var(--nph-core-focus-width-sm);
+  --nph-stepper-marker-size: var(--nph-core-icon-size-300);
+  --nph-stepper-marker-border-width-current: var(--nph-core-focus-width-sm);
+  --nph-stepper-connector-min-width: var(--nph-core-space-600);
+  --nph-stepper-text-max-width: var(--nph-core-layout-width-stepper-text);
+  --nph-stepper-item-disabled-opacity: var(--nph-state-disabled-opacity);
   --nph-focus-halo-error: var(--nph-focus-halo-danger);
   --nph-sidebar-panel-width: var(--nph-layout-sidebar-expanded);
   --nph-sidebar-section-gap: var(--nph-space-stack);
@@ -860,6 +866,20 @@
   --nph-tabs-counter-padding-x: var(--nph-space-inline);
   --nph-tabs-counter-padding-y: var(--nph-space-inline-tight);
   --nph-tabs-counter-radius: var(--nph-radius-full);
+  --nph-stepper-marker-radius: var(--nph-radius-full);
+  --nph-stepper-marker-border-width: var(--nph-border-width);
+  --nph-stepper-marker-icon-size: var(--nph-icon-size-sm);
+  --nph-stepper-connector-thickness: var(--nph-border-width);
+  --nph-stepper-connector-gap: var(--nph-space-inline);
+  --nph-stepper-item-gap: var(--nph-space-inline);
+  --nph-stepper-item-padding-x: var(--nph-space-inline);
+  --nph-stepper-item-padding-y: var(--nph-space-inline-tight);
+  --nph-stepper-item-radius: var(--nph-radius-control);
+  --nph-stepper-focus-border-width: var(--nph-border-width);
+  --nph-stepper-focus-border-radius: var(--nph-focus-border-radius-control);
+  --nph-stepper-focus-ring-width: var(--nph-focus-ring-width);
+  --nph-stepper-focus-radius: var(--nph-focus-radius-control-with-border);
+  --nph-stepper-state-duration: var(--nph-motion-state-duration);
 }
 
 /* layer 2 - semantic, dependent invariants: the alias points to theme/* or
@@ -1040,6 +1060,19 @@
   --nph-tabs-counter-background: var(--nph-color-secondary-light);
   --nph-tabs-counter-background-rail: var(--nph-color-background);
   --nph-tabs-counter-foreground: var(--nph-color-secondary-foreground);
+  --nph-stepper-marker-background: var(--nph-color-muted);
+  --nph-stepper-marker-border: var(--nph-color-border);
+  --nph-stepper-marker-foreground: var(--nph-color-muted-foreground);
+  --nph-stepper-marker-background-error: var(--nph-status-error);
+  --nph-stepper-label-foreground: var(--nph-color-muted-foreground);
+  --nph-stepper-label-foreground-hover: var(--nph-color-foreground);
+  --nph-stepper-label-foreground-current: var(--nph-color-foreground);
+  --nph-stepper-label-foreground-complete: var(--nph-color-foreground);
+  --nph-stepper-label-foreground-error: var(--nph-status-error-text);
+  --nph-stepper-description-foreground: var(--nph-color-muted-foreground);
+  --nph-stepper-description-foreground-error: var(--nph-status-error-text);
+  --nph-stepper-connector-background: var(--nph-color-border);
+  --nph-stepper-item-background-hover: var(--nph-color-accent);
   --nph-dropdown-item-hover-icon-foreground: var(--nph-color-primary);
   --nph-sidebar-item-foreground-active: var(--nph-color-primary-text);
   --nph-sidebar-item-foreground-open: var(--nph-color-primary-text);
@@ -1095,6 +1128,14 @@
   --nph-tabs-button-light-foreground-active: var(--nph-color-primary-on-surface);
   --nph-tabs-button-outline-background-active: var(--nph-color-primary-surface);
   --nph-tabs-button-outline-foreground-active: var(--nph-color-primary-on-surface);
+  --nph-stepper-marker-border-current: var(--nph-color-primary-border);
+  --nph-stepper-marker-foreground-current: var(--nph-color-primary-text);
+  --nph-stepper-marker-background-complete: var(--nph-color-primary-surface);
+  --nph-stepper-marker-foreground-complete: var(--nph-color-primary-on-surface);
+  --nph-stepper-marker-foreground-error: var(--nph-status-on-solid);
+  --nph-stepper-connector-background-complete: var(--nph-color-primary-border);
+  --nph-stepper-focus-border: var(--nph-focus-border);
+  --nph-stepper-focus-ring: var(--nph-focus-halo);
 }
 
 /* layer 2 - semantic, variants: one block per color scheme. */

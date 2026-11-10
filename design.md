@@ -291,7 +291,7 @@ tokens_semantic:
     css: '--nph-color-accent'
     claro: core/surface/50
     escuro: core/surface/600
-    use: "Temporary highlight: hover, focused item, active row. Exception: the permanent background of the nph-select and nph-combobox arrow area, with the arrow in color/muted-foreground (5.76:1 light, 5.11:1 dark)."
+    use: "Temporary highlight: hover, focused item, active row. Exception: the permanent background of the nph-select and nph-combobox arrow area, with the arrow in color/muted-foreground (5.76:1 light, 5.11:1 dark). Also the hover background of the pending and completed nph-stepper step (stepper/item-background-hover); not on the step with an error nor with focus."
     nao_use: "Permanent block background, except the nph-select and nph-combobox arrow area."
   color/accent-foreground:
     css: '--nph-color-accent-foreground'
@@ -302,13 +302,13 @@ tokens_semantic:
     css: '--nph-color-muted'
     claro: core/surface/50
     escuro: core/surface/700
-    use: "Permanent background without emphasis: table header, disabled area. Also the background of the outline secondary nph-button and the rail of the segmented nph-tabs (tabs/list-background)."
+    use: "Permanent background without emphasis: table header, disabled area. Also the background of the outline secondary nph-button and the rail of the segmented nph-tabs (tabs/list-background). Also the background of the pending nph-stepper step marker (stepper/marker-background), decorative: the number carries the status."
     nao_use: "Hover: there it is color/accent, including the ghost secondary nph-button (button/secondary-ghost-background-hover, DSA-60)."
   color/muted-foreground:
     css: '--nph-color-muted-foreground'
     claro: core/neutral/600
     escuro: core/surface/200
-    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label and icon of the inactive nph-tabs tab (tabs/item-foreground)."
+    use: "Caption, helper text, placeholder, metadata. Also the icon of the info trigger of the nph-label, as the accepted Figma draws it, and the label and icon of the inactive nph-tabs tab (tabs/item-foreground). Also the number and the label of the pending nph-stepper step, the description (except on the step with an error) and “Optional” (stepper/marker-foreground, stepper/label-foreground, stepper/description-foreground)."
     nao_use: "Text needed to complete the task. The meta line of nph-hover-card (date, time or short phrase below the description): there it is color/subtle-foreground."
   color/subtle-foreground:
     css: '--nph-color-subtle-foreground'
@@ -338,7 +338,7 @@ tokens_semantic:
     css: '--nph-color-border'
     claro: core/neutral/200
     escuro: core/surface/400
-    use: "Divider, card outline, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox, and the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color)."
+    use: "Divider, card outline, table row. Also the vertical divider that separates the text from the arrow area in nph-select and nph-combobox, and the base line and the hover line of the underline nph-tabs (tabs/underline-border-color, tabs/indicator-hover-color). Also the outline of the pending nph-stepper step marker and the nph-stepper connector after the current step (stepper/marker-border, stepper/connector-background), both decorative."
     nao_use: "Form field border. The border and divider of nph-popover and nph-hover-card, and the divider between groups of a menu (nph-dropdown-menu and nph-context-menu): there it is color/border-subtle."
   color/border-subtle:
     css: '--nph-color-border-subtle'
@@ -457,12 +457,12 @@ tokens_semantic:
     css: '--nph-color-primary-surface'
     claro: theme/brand-50
     escuro: theme/brand-900
-    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and nph-combobox, the hover of the nph-dropdown-menu item and the active tab of the light and outline nph-tabs tab button (tabs/button-light-background-active, tabs/button-outline-background-active). Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select and nph-combobox option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted."
+    use: "Background of the main action in light emphasis: nph-button with light or outline emphasis. Also the light nph-badge, the hover of the ghost nph-button, the selected option of nph-select and nph-combobox, the hover of the nph-dropdown-menu item and the active tab of the light and outline nph-tabs tab button (tabs/button-light-background-active, tabs/button-outline-background-active). Follows the active brand. USE always with color/primary-on-surface. Exceptions: the selected nph-select and nph-combobox option keeps its label in color/popover-foreground and takes the check in color/primary (4.78:1 light, 6.26:1 dark); the hovered nph-dropdown-menu item keeps its label in color/popover-foreground, and the destructive item hovers in color/destructive-surface. DO NOT USE as page, card or area background — for that there are color/background, color/card and color/muted. Also the background of the completed nph-stepper step marker (stepper/marker-background-complete), always with color/primary-on-surface."
   color/primary-on-surface:
     css: '--nph-color-primary-on-surface'
     claro: theme/brand-600
     escuro: theme/brand-100
-    use: "Text, icon and border on color/primary-surface. Vivid brand color in light mode, light tone in dark mode. USE only on it, except for the exception. Exception: text of the ghost nph-button, which has no background. DO NOT USE on solid color/primary — there color/primary-foreground applies."
+    use: "Text, icon and border on color/primary-surface. Vivid brand color in light mode, light tone in dark mode. USE only on it, except for the exception. Exception: text of the ghost nph-button, which has no background. DO NOT USE on solid color/primary — there color/primary-foreground applies. Also the check of the completed nph-stepper step marker (stepper/marker-foreground-complete)."
   color/primary-surface-hover:
     css: '--nph-color-primary-surface-hover'
     claro: theme/brand-100
@@ -477,7 +477,7 @@ tokens_semantic:
     css: '--nph-color-primary-border'
     claro: theme/brand-600
     escuro: theme/brand-300
-    use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. In light it is the same tone as the primary; in dark it goes up one tone, because the dark primary does not reach 3:1 as an outline in two of the seven brands."
+    use: "Outline of a chosen or active control, when the brand color marks the choice: option card, selected item. Do not use for fill or text: those are color/primary and color/primary-foreground. In light it is the same tone as the primary; in dark it goes up one tone, because the dark primary does not reach 3:1 as an outline in two of the seven brands. Also the ring of the current nph-stepper step (stepper/marker-border-current) and the 1 px connector line before the current step (stepper/connector-background-complete): a 1 px line reads as a border, so the no-fill rule does not apply to it."
   color/link:
     css: '--nph-color-link'
     claro: theme/brand-600
@@ -493,7 +493,7 @@ tokens_semantic:
     css: '--nph-color-primary-text'
     claro: theme/brand-700
     escuro: theme/brand-text-dark
-    use: "Brand-colored text and icon on background, card or popover: the current item of nph-navigation-menu, the active and open item and the flyout title of nph-sidebar-item and the active option of the nph-sidebar flyout panel, the checked item of single choice in nph-dropdown-menu, the label, the icon and the line of the active nph-tabs tab in the segmented and underline styles (tabs/item-foreground-active, tabs/indicator-color). In light it is the same tone as color/primary-hover; in dark it measures at least 4.5:1 in the seven brands."
+    use: "Brand-colored text and icon on background, card or popover: the current item of nph-navigation-menu, the active and open item and the flyout title of nph-sidebar-item and the active option of the nph-sidebar flyout panel, the checked item of single choice in nph-dropdown-menu, the label, the icon and the line of the active nph-tabs tab in the segmented and underline styles (tabs/item-foreground-active, tabs/indicator-color). In light it is the same tone as color/primary-hover; in dark it measures at least 4.5:1 in the seven brands. Also the number of the current nph-stepper step (stepper/marker-foreground-current)."
     nao_use: "Fill: the brand fill is color/primary. Link text: color/link."
   color/destructive-surface:
     css: '--nph-color-destructive-surface'
@@ -571,7 +571,7 @@ tokens_semantic:
     css: '--nph-focus-border'
     claro: theme/brand-focus
     escuro: theme/brand-300
-    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button, on the info trigger of the nph-label, on the nph-tabs tab in every style (tabs/focus-border-color) and on every focusable piece of nph-sidebar (item, subitem, rail button, flyout option, collapse and close buttons): there color/primary fell below 3:1 against the dark panel in some brands. It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it, from 3,10:1 to 5,88:1."
+    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button, on the info trigger of the nph-label, on the nph-tabs tab in every style (tabs/focus-border-color) and on every focusable piece of nph-sidebar (item, subitem, rail button, flyout option, collapse and close buttons): there color/primary fell below 3:1 against the dark panel in some brands. It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it, from 3,10:1 to 5,88:1. Also the clickable nph-stepper step (stepper/focus-border), with no hover background under the focus."
   focus/halo:
     css: '--nph-focus-halo'
     claro: theme/brand-halo
@@ -731,7 +731,7 @@ tokens_semantic:
     css: '--nph-status-error'
     claro: core/danger/600
     escuro: core/danger/400
-    use: "Solid color of the state: icon, dot, message bar. Error that has already happened: validation failed, request broke. Also the border of an invalid field — the field that failed validation. And the asterisk that marks a required field in nph-label: there it is a notice of requirement, not an error."
+    use: "Solid color of the state: icon, dot, message bar. Error that has already happened: validation failed, request broke. Also the border of an invalid field — the field that failed validation. And the asterisk that marks a required field in nph-label: there it is a notice of requirement, not an error. Also the background of the nph-stepper step marker with an error (stepper/marker-background-error)."
     nao_use: "destructive action by the user; error text over a neutral surface (status/error-text)"
   status/error-surface:
     css: '--nph-status-error-surface'
@@ -752,7 +752,7 @@ tokens_semantic:
     css: '--nph-status-error-text'
     claro: core/danger/600
     escuro: core/danger/300
-    use: "Validation error text over a neutral surface (color/popover, color/background, color/card): the error message of nph-field. Passes 4.5:1 over the popover in dark, where status/error does not."
+    use: "Validation error text over a neutral surface (color/popover, color/background, color/card): the error message of nph-field. Passes 4.5:1 over the popover in dark, where status/error does not. Also the label and the reason (description) of the nph-stepper step with an error (stepper/label-foreground-error, stepper/description-foreground-error)."
     nao_use: "Destructive action; text over status/error-surface (status/error-foreground); icon, dot or bar (status/error)."
   status/success:
     css: '--nph-status-success'
@@ -779,7 +779,7 @@ tokens_semantic:
     css: '--nph-status-on-solid'
     claro: color/background
     escuro: color/background
-    use: "Text and icon on the solid status background: nph-badge and nph-button in the info, warn, help and success types. DO NOT USE on the light surface of the message — there status/<matiz>-foreground applies."
+    use: "Text and icon on the solid status background: nph-badge and nph-button in the info, warn, help and success types. DO NOT USE on the light surface of the message — there status/<matiz>-foreground applies. Also the triangle of the nph-stepper step marker with an error, on status/error (stepper/marker-foreground-error)."
   status/info-hover:
     css: '--nph-status-info-hover'
     claro: core/info/700
@@ -1564,6 +1564,7 @@ tokens_core_layout:
   core/layout-height/dialog-max:       { valor: 640, css: '--nph-core-layout-height-dialog-max', alias_de: 'layout/dialog-max-height' }
   core/layout-width/switch-track:      { valor: 40, css: '--nph-core-layout-width-switch-track', alias_de: 'switch/track-width' }
   core/layout-width/switch-track-sm:   { valor: 32, css: '--nph-core-layout-width-switch-track-sm', alias_de: 'switch/track-width-sm' }
+  core/layout-width/stepper-text:      { valor: 160, css: '--nph-core-layout-width-stepper-text', alias_de: 'stepper/text-max-width' }
 
 # ---------------------------------------------------------------
 # PRIMITIVES WITHOUT A CONSUMER - they exist in Figma and NO semantic
@@ -1938,7 +1939,7 @@ tokens_motion:
     css: '--nph-motion-state-duration'
     alias: core/duration/200
     valor: 150
-    use: "State change that STAYS: selection, checkbox, toggle, tab change."
+    use: "State change that STAYS: selection, checkbox, toggle, tab change. Also the status change and the hover of the nph-stepper step (stepper/state-duration)."
   motion/state-easing:
     css: '--nph-motion-state-easing'
     alias: core/easing/standard
