@@ -1,6 +1,6 @@
 {
   "name": "@iatec/nephos",
-  "version": "5.0.0-rc.2",
+  "version": "5.0.0-rc.3",
   "description": "Nephos, IATec's Design System: Web Components written in Lit, with the design tokens as CSS custom properties.",
   "license": "Unlicense",
   "type": "module",
