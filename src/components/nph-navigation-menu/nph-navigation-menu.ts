@@ -35,6 +35,20 @@
  * trigger and the icon of a link are decorative and hidden from assistive technology. The Menu button
  * is a native `button` with `aria-label` and `aria-expanded`, as P110 records.
  *
+ * NARROW LIST — disclosure navigation again (APG): each trigger is a collapsed row with its arrow,
+ * a native `button` with `aria-expanded` and `aria-controls` pointing at the region with its links,
+ * which is `hidden` (out of the accessibility tree and of the Tab order) until the row is opened. A
+ * click, Enter or Space opens the links below the row and turns the arrow; each row opens and closes
+ * on its own. Which rows are open is internal state, with no attribute, and every row starts collapsed
+ * each time the list opens. A disabled trigger is a disabled row and opens nothing. The top links stay
+ * plain links.
+ *
+ * MOTION — the arrow of a trigger (and of a row) turns half a turn when its panel opens, and the panel
+ * fades in on the `motion/enter-*` tokens and out on the `motion/exit-*` ones, as the panel of
+ * `nph-dropdown-menu` does: `data-open` is the open style, and the panel leaves the top layer when the
+ * exit ends (it is `inert` meanwhile). With reduced motion nothing moves: no turn, no fade, and the
+ * panel leaves the top layer at once.
+ *
  * LAYER — the panel is a `popover="manual"`, so it lives in the top layer, as the balloon of
  * `nph-tooltip` and the panel of `nph-dropdown-menu`: no `z-index` and no clipping by an ancestor.
  * It opens `navigation-menu/panel-offset` below its trigger, aligned to the start edge, never leaves
@@ -42,9 +56,10 @@
  * the narrow panel and the panel link are `navigation-menu/panel-width` wide.
  *
  * POINTER — a trigger opens its panel when the mouse rests on it for `motion/hover-delay`, and the
- * panel closes the same time after the pointer leaves the trigger and the panel; while the pointer is
- * over either, it stays. A click on a trigger the pointer opened keeps it open until another click.
- * Touch and pen open it by click only.
+ * panel closes `navigation-menu/close-delay` after the pointer leaves the trigger and the panel; while
+ * the pointer is over either, it stays, and a pointer that comes back within the wait keeps it open. A
+ * click on a trigger the pointer opened keeps it open until another click. Touch and pen open it by
+ * click only.
  *
  * Invalid input draws nothing and emits `console.error` only in development, one per cause (P66 rule):
  * `items` that is not a list or is empty; an item or a link without its text; a link without `href`
@@ -211,7 +226,7 @@ export class NphNavigationMenu extends LitElement {
   private problem: string | null = null;
   private reported = '';
   private warnedNoName = false;
-  private warnedDelay = false;
+  private readonly warnedDelays = new Set<string>();
   /** True once a click or a key has opened the panel: the pointer leaving no longer closes it. */
   private pinned = false;
   private hoverTimer: number | undefined;
@@ -220,6 +235,10 @@ export class NphNavigationMenu extends LitElement {
   private readonly scrollTargets: EventTarget[] = [];
   private resizeObserver: ResizeObserver | undefined;
   private lastShown: string | null = null;
+  /** The exits that are running: the panel stays in the top layer until its fade ends. */
+  private readonly closeTimers = new Map<HTMLElement, number>();
+  /** The narrow rows that are open, by trigger value. Internal state: no attribute, no property. */
+  private readonly openRows = new Set<string>();
 
   constructor() {
     super();
@@ -243,6 +262,12 @@ export class NphNavigationMenu extends LitElement {
     super.disconnectedCallback();
     this.clearHoverTimer();
     this.stopListening();
+    /* The browser closed the popovers with the element: the exits that were running end here. */
+    for (const [panel, timer] of this.closeTimers) {
+      clearTimeout(timer);
+      panel.removeAttribute('data-open');
+    }
+    this.closeTimers.clear();
   }
 
   protected override willUpdate(changed: PropertyValues): void {
@@ -270,6 +295,9 @@ export class NphNavigationMenu extends LitElement {
     }
     if (!this.open) {
       this.pinned = false;
+    } else if (changed.has('open')) {
+      /* The list starts collapsed each time it opens (not while it fades out, so it does not jump). */
+      this.openRows.clear();
     }
   }
 
@@ -401,17 +429,27 @@ export class NphNavigationMenu extends LitElement {
     }
   }
 
-  /** The wait before a panel opens or closes by pointer: the `motion/hover-delay` token. */
-  private hoverDelay(): number {
-    const delay = milliseconds(getComputedStyle(this).getPropertyValue('--nph-motion-hover-delay'));
+  /** A wait read from its token, as computed on the element. Not defined: no wait, and one error per token. */
+  private delayOf(property: string, token: string, consequence: string): number {
+    const delay = milliseconds(getComputedStyle(this).getPropertyValue(property));
     if (Number.isNaN(delay)) {
-      if (!this.warnedDelay) {
-        this.warnedDelay = true;
-        devError('motion/hover-delay is not defined (load tokens.css); the panel opens and closes on hover with no wait.');
+      if (!this.warnedDelays.has(token)) {
+        this.warnedDelays.add(token);
+        devError(`${token} is not defined (load tokens.css); ${consequence}`);
       }
       return 0;
     }
     return delay;
+  }
+
+  /** The wait before a panel opens by pointer: the `motion/hover-delay` token. */
+  private hoverDelay(): number {
+    return this.delayOf('--nph-motion-hover-delay', 'motion/hover-delay', 'the panel opens on hover with no wait.');
+  }
+
+  /** The wait before a panel closes by pointer: the `navigation-menu/close-delay` token. */
+  private closeDelay(): number {
+    return this.delayOf('--nph-navigation-menu-close-delay', 'navigation-menu/close-delay', 'the panel closes on hover with no wait.');
   }
 
   private openPanel(index: number, pinned: boolean): void {
@@ -502,7 +540,7 @@ export class NphNavigationMenu extends LitElement {
       /* A person who tabbed into the panel keeps it: the pointer leaving must not take the focused link away. */
       if (this.focusInPanel()) return;
       this.closePanel();
-    }, this.hoverDelay());
+    }, this.closeDelay());
   }
 
   /** The index of the enabled trigger with this value, or `null`. */
@@ -523,6 +561,16 @@ export class NphNavigationMenu extends LitElement {
       this.open = true;
       this.pinned = true;
     }
+  }
+
+  /** A row of the narrow list: opens or closes its links, and no other row. A disabled row opens nothing. */
+  private onRowClick(value: string): void {
+    if (this.openRows.has(value)) {
+      this.openRows.delete(value);
+    } else {
+      this.openRows.add(value);
+    }
+    this.requestUpdate();
   }
 
   /** A link that is followed ends the visit. The click itself goes on as the browser would have it. */
@@ -628,20 +676,10 @@ export class NphNavigationMenu extends LitElement {
   private syncPanels(): void {
     const shown = this.shownPanelId();
     for (const panel of this.renderRoot.querySelectorAll<HTMLElement>('.panel')) {
-      const wanted = panel.id === shown;
-      const isOpen = panel.matches(':popover-open');
-      if (wanted && !isOpen) {
-        try {
-          panel.showPopover();
-        } catch {
-          /* Not connected, or already showing: nothing to do. */
-        }
-      } else if (!wanted && isOpen) {
-        try {
-          panel.hidePopover();
-        } catch {
-          /* Already hidden: nothing to do. */
-        }
+      if (panel.id === shown) {
+        this.showPanel(panel);
+      } else {
+        this.hidePanel(panel);
       }
     }
     if (shown !== null) {
@@ -656,6 +694,55 @@ export class NphNavigationMenu extends LitElement {
       this.stopListening();
     }
     this.lastShown = shown;
+  }
+
+  /** Into the top layer, and `data-open` starts the enter. A panel that was still leaving comes back from where it is. */
+  private showPanel(panel: HTMLElement): void {
+    const timer = this.closeTimers.get(panel);
+    if (timer !== undefined) {
+      clearTimeout(timer);
+      this.closeTimers.delete(panel);
+    }
+    panel.inert = false;
+    if (!panel.matches(':popover-open')) {
+      try {
+        panel.showPopover();
+      } catch {
+        /* Not connected, or already showing: nothing to do. */
+      }
+      /* The first style is the closed one; the next one starts the enter transition. */
+      void panel.offsetWidth;
+    }
+    panel.setAttribute('data-open', '');
+  }
+
+  /** Starts the exit; the panel leaves the top layer when the exit ends, at once without a transition. */
+  private hidePanel(panel: HTMLElement): void {
+    panel.removeAttribute('data-open');
+    if (!panel.matches(':popover-open')) return;
+    /* A panel on its way out takes no focus and no pointer. */
+    panel.inert = true;
+    if (this.closeTimers.has(panel)) return;
+    const duration = Number.parseFloat(getComputedStyle(panel).transitionDuration) * 1000;
+    if (!(duration > 0)) {
+      this.hideNow(panel);
+      return;
+    }
+    this.closeTimers.set(
+      panel,
+      window.setTimeout(() => {
+        this.closeTimers.delete(panel);
+        this.hideNow(panel);
+      }, duration),
+    );
+  }
+
+  private hideNow(panel: HTMLElement): void {
+    try {
+      panel.hidePopover();
+    } catch {
+      /* Already hidden, or not connected: nothing to do. */
+    }
   }
 
   /** The element the shown panel hangs from: its trigger, or the Menu button. */
@@ -816,6 +903,36 @@ export class NphNavigationMenu extends LitElement {
     return sections;
   }
 
+  /**
+   * A trigger in the narrow list: a collapsed row with its arrow, and below it the region with its
+   * links, `hidden` until the row is opened. A disabled trigger is a disabled row that never opens.
+   */
+  private renderRow(trigger: NphNavigationMenuTrigger, index: number, id: string): TemplateResult {
+    const key = String(index);
+    const value = this.triggerValue(trigger, index);
+    const disabled = trigger.disabled === true;
+    const expanded = !disabled && this.openRows.has(value);
+    const current = trigger.groups.some((group) => group.links.some((link) => link.current === true));
+    return html`<button
+        class="row"
+        id="row-${key}"
+        type="button"
+        ?disabled=${disabled}
+        aria-expanded=${expanded ? 'true' : 'false'}
+        aria-controls="row-${key}-region"
+        aria-current=${current ? 'true' : nothing}
+        ?data-current=${current}
+        @click=${() => this.onRowClick(value)}
+      >
+        <span class="top-label">${text(trigger.label)}</span>
+        <nph-icon class="trigger-icon" name="chevron-down" size="sm" aria-hidden="true"></nph-icon>
+        ${current ? html`<span class="indicator" aria-hidden="true"></span>` : nothing}
+      </button>
+      <div class="region" id="row-${key}-region" role="group" aria-labelledby="row-${key}" ?hidden=${!expanded}>
+        ${trigger.groups.map((group, groupIndex) => this.renderGroup(group, `${id}-group-${String(groupIndex)}`, disabled))}
+      </div>`;
+  }
+
   private renderNarrowList(): TemplateResult {
     const sections = this.sections();
     return html`<div class="panel" id="panel-list" popover="manual" data-nph-panel="narrow">
@@ -829,15 +946,8 @@ export class NphNavigationMenu extends LitElement {
                     ${section.links.map((link) => html`<li>${this.renderLink(topLinkAsPanelLink(link))}</li>`)}
                   </ul>
                 </div>`
-              : html`<span class="group-label" id="${id}-label">${text(section.trigger.label)}</span>
-                  ${section.trigger.groups.map((group, index) => this.renderGroup(group, `${id}-group-${String(index)}`, section.trigger.disabled === true))}`;
-          return html`${position === 0 ? nothing : html`<nph-separator class="divider"></nph-separator>`}<div
-              class="section"
-              role=${section.kind === 'trigger' ? 'group' : nothing}
-              aria-labelledby=${section.kind === 'trigger' ? `${id}-label` : nothing}
-            >
-              ${body}
-            </div>`;
+              : this.renderRow(section.trigger, section.index, id);
+          return html`${position === 0 ? nothing : html`<nph-separator class="divider"></nph-separator>`}<div class="section">${body}</div>`;
         })}
       </div>
     </div>`;

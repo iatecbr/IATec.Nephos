@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 690,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-review",
   "piece": null,
   "dependencies": [
     "DSA-27",
@@ -31,9 +31,17 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "T-1",
+      "question": "The nph-table row of this task changes the value of the token table/link-foreground in dark (theme/brand-200 to color/link, theme/brand-text-dark). The code agent never creates or changes a token (CLAUDE.md, rule 1), so the row is not in the code. Indiane, in Figma, brings the token value to v/5.0.0 (or releases the agent to change it); then the source and the test 'link in dark mode' of nph-table.test.ts change together and the task can close.",
+      "decider": "indiane",
+      "opened_at": "2026-11-09"
+    }
+  ],
   "evidence": [],
   "decision_refs": [
+    "docs/decisoes-tecnicas.md#p114",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 1 of the pending decisions (Figma frame 5374:10420); tokens on v/5.0.0 (0a27c10)",
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-11-09.md, Indiane answered lot 2 of the pending decisions (approval page of 2026-11-09, Figma frame 5404:10452) and asked for one new task instead of reopening the done ones"
@@ -46,8 +54,8 @@
     "excerpt": null,
     "converted_decision": "The previews of lot 2 (frame 5404:10452, draft page) and of lot 1 (frame 5374:10420) were answered by Indiane on 2026-11-09. Each answer is written, in text, in the section 'Decisions answered on 2026-11-09' of its own task; the table below lists only the answers that change the code. There is no need to open Figma."
   },
-  "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "git_review": { "branch": "feat/dsa-70-d-itens", "commit": null, "pr": "163" },
+  "context": "docs/operacao/contextos/DSA-70.md",
   "updated_at": "2026-11-09"
 }
 ```
@@ -76,6 +84,9 @@ Each change in the table below is in the code of its piece, with its tests, stor
 | nph-switch, nph-dropdown-menu | DSA-45 D-4 | nph-switch gains the small size; the item switch slot uses it (spec in DSA-45, section 'D-4: the small nph-switch'). |
 | nph-table | Lot 1, item 6 (link of the table) | `table/link-foreground` in dark points to `color/link` (`theme/brand-text-dark`) instead of `theme/brand-200`, as Figma already has it. The token source and the test `link in dark mode` in `nph-table.test.ts` change together, so the suite stays green. |
 
+
+## Status of the rows
+All the rows are in the code except the `nph-table` one. That row changes the value of a token in the token source, and the code agent never creates or changes a token, so it waits for Indiane (pending decision `T-1`). The task stays open until the row is in: it does not go to `done` before. The technical choices of the other rows are in P114 (`docs/decisoes-tecnicas.md`). The open items DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2 stay open.
 
 ## How it is proved
 **`review-and-merge`** passes when each row of the table is in the code, with the tests and stories of each piece updated and its spec in `fichas/` saying the same; the proof commands in `docs/operacao/component-handoff.md` exit 0; and the work is merged into `v/5.0.0`.

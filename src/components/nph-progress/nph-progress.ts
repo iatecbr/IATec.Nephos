@@ -16,8 +16,9 @@
  *   gone and only the end stop remains. Below 100 the end stop shows, and `progress/track-gap`
  *   separates the indicator from the rest of the track, so the indicator is slightly shorter than
  *   the exact proportion: the exact value is the text one;
- * - `steps` and `step`, read on `steps`: the number of steps, 3, 4 or 5 (the counts of the accepted
- *   Figma set), and the current one, from 1 to `steps`, 1 by default. On active the steps up to the
+ * - `steps` and `step`, read on `steps`: the number of steps, an integer of 2 or more (DSA-65 D-1),
+ *   and the current one, from 1 to `steps`, 1 by default. There is no enforced maximum: the usage
+ *   guidance asks to avoid more than 7 steps, and the bar draws any count. On active the steps up to the
  *   current one are done and the rest pending; on error, the done ones, the step with the error and
  *   the rest pending; on success, all in success;
  * - `label`, `value-text` and `help`: the optional texts, already localized. The label is the
@@ -45,7 +46,7 @@
  * fallback (P66 rule): a `type`, `size` or `status` outside the values; a `value` that is not a
  * number from 0 to 100; success or error on `determinate` below 100 (the contract has them only at
  * 100, so `<nph-progress status="success">` alone, with its 0, draws nothing); any status but
- * `active` on `indeterminate`; a `steps` outside 3 to 5 or a `step` outside 1 to `steps`. An error
+ * `active` on `indeterminate`; a `steps` that is not an integer of 2 or more or a `step` outside 1 to `steps`. An error
  * without `help` draws and warns, as does a bar with no accessible name: the text may arrive after
  * the first render.
  */
@@ -72,8 +73,8 @@ export type NphProgressSize = (typeof NPH_PROGRESS_SIZES)[number];
 export const NPH_PROGRESS_STATUSES = ['active', 'success', 'error'] as const;
 export type NphProgressStatus = (typeof NPH_PROGRESS_STATUSES)[number];
 
-/** The step counts of the accepted Figma set (`etapas`). */
-export const NPH_PROGRESS_STEP_COUNTS = [3, 4, 5] as const;
+/** The fewest steps of the `etapas` type: from 2 up, with no maximum (DSA-65 D-1). */
+export const NPH_PROGRESS_MIN_STEPS = 2;
 
 function isOneOf<T extends string>(list: readonly T[], value: unknown): value is T {
   return typeof value === 'string' && (list as readonly string[]).includes(value);
@@ -125,7 +126,7 @@ export class NphProgress extends LitElement {
   /** From 0 to 100, read on `determinate`. 0 by default. */
   declare value: number;
 
-  /** The number of steps, 3, 4 or 5, read on `steps`. */
+  /** The number of steps, an integer of 2 or more, read on `steps`. */
   declare steps: number | null;
 
   /** The current step, from 1 to `steps`, read on `steps`. 1 by default. */
@@ -211,8 +212,8 @@ export class NphProgress extends LitElement {
     }
     if (this.type === 'steps') {
       const steps = this.steps;
-      if (!(NPH_PROGRESS_STEP_COUNTS as readonly unknown[]).includes(steps)) {
-        return `steps ${String(steps)} does not exist. Use ${list(NPH_PROGRESS_STEP_COUNTS)}.`;
+      if (typeof steps !== 'number' || !Number.isInteger(steps) || steps < NPH_PROGRESS_MIN_STEPS) {
+        return `steps ${String(steps)} does not exist. Use an integer of ${String(NPH_PROGRESS_MIN_STEPS)} or more.`;
       }
       const step = this.step;
       if (!Number.isInteger(step) || step < 1 || step > (steps as number)) {

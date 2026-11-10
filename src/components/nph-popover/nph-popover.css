@@ -128,11 +128,11 @@
   margin: 0;
   overflow-wrap: anywhere;
   color: var(--nph-popover-foreground);
-  font-family: var(--nph-text-label-lg-font-family);
-  font-size: var(--nph-text-label-lg-font-size);
-  font-weight: var(--nph-text-label-lg-font-weight);
-  line-height: var(--nph-text-label-lg-line-height);
-  letter-spacing: var(--nph-text-label-lg-letter-spacing);
+  font-family: var(--nph-text-heading-sm-font-family);
+  font-size: var(--nph-text-heading-sm-font-size);
+  font-weight: var(--nph-text-heading-sm-font-weight);
+  line-height: var(--nph-text-heading-sm-line-height);
+  letter-spacing: var(--nph-text-heading-sm-letter-spacing);
 }
 
 .close {

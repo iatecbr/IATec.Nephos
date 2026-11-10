@@ -25,7 +25,7 @@ import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { format, translations } from '../../../.storybook/i18n/index.js';
-import { BRAND_CONTRAST_EXCEPTION, brandFrames } from '../../shared/docs/brands';
+import { brandFrames } from '../../shared/docs/brands';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
 import './nph-dropdown-menu';
@@ -235,19 +235,13 @@ export const Examples: Story = {
 };
 
 /**
- * The seven brands in light and dark (DSA-36): the checked item and the counter take the primary of
- * the brand, and so does the focus on the arrows. Carries `SUPPLEMENTARY_TEXT_EXCEPTION` and
- * `BRAND_CONTRAST_EXCEPTION` (`src/shared/docs/brands.ts`).
+ * The seven brands in light and dark (DSA-36): the checked item takes `color/primary-text` and the counter
+ * the primary of the brand, and so does the focus on the arrows. Carries `SUPPLEMENTARY_TEXT_EXCEPTION`
+ * only: the contrast check runs on every frame.
  */
 export const Brands: Story = {
   name: 'Brands',
-  parameters: {
-    a11y: {
-      options: {
-        rules: { ...SUPPLEMENTARY_TEXT_EXCEPTION.a11y.options.rules, ...BRAND_CONTRAST_EXCEPTION },
-      },
-    },
-  },
+  parameters: SUPPLEMENTARY_TEXT_EXCEPTION,
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return validationPage(

@@ -19,7 +19,7 @@ import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { translations } from '../../../.storybook/i18n/index.js';
-import { BRAND_CONTRAST_EXCEPTION, brandFrames } from '../../shared/docs/brands';
+import { brandFrames } from '../../shared/docs/brands';
 import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
@@ -130,16 +130,12 @@ export const Examples: Story = {
 };
 
 /**
- * The seven brands in light and dark (DSA-36): the focus border and halo of the link follow the brand.
- * Carries `BRAND_CONTRAST_EXCEPTION` (`src/shared/docs/brands.ts`): the link is painted in
- * `color/primary`, which in the dark scheme of some brands resolves to 2.71:1 up to 3.81:1 over the
- * dark background (point 9 of the accepted documentation names `gerencial`: the fix belongs to
- * `color/primary` of the brand, and the underline stays; D-3 of DSA-68 for Indiane). It is a token
- * limit, and tokens come from Figma. The exception leaves when the token is fixed.
+ * The seven brands in light and dark (DSA-36): the focus border and halo of the link follow the brand,
+ * and so does the link itself, painted in `color/link` (D-3 of DSA-68), which in dark mode points to
+ * `theme/brand-text-dark`, at least 4.5:1 in the seven brands. It carries no contrast exception.
  */
 export const Brands: Story = {
   name: 'Brands',
-  parameters: { a11y: { options: { rules: BRAND_CONTRAST_EXCEPTION } } },
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return validationPage(

@@ -53,6 +53,7 @@ const SECTIONS = {
   usage: 'usage',
   states: 'states',
   label: 'label',
+  sizes: 'sizes',
   anatomy: 'anatomy',
   accessibility: 'accessibility',
   examples: 'examples',
@@ -108,6 +109,7 @@ export const Documentation: Story = {
           { id: SECTIONS.usage, title: d.usageTitle },
           { id: SECTIONS.states, title: d.statesTitle },
           { id: SECTIONS.label, title: d.labelTitle },
+          { id: SECTIONS.sizes, title: d.sizesTitle },
           { id: SECTIONS.anatomy, title: d.anatomyTitle },
           { id: SECTIONS.accessibility, title: d.accessibilityTitle },
           { id: SECTIONS.examples, title: d.examplesTitle },
@@ -166,6 +168,26 @@ export const Documentation: Story = {
               d.labelCaption,
             )}
             ${source(d.sourceLabel, d.sourceSpec)}
+          `,
+        )}
+
+        ${section(
+          SECTIONS.sizes,
+          d.sizesTitle,
+          html`
+            ${text(d.sizesText)}
+            ${demo(
+              html`<div style=${row}>
+                ${(['default', 'small'] as const).map(
+                  (size) => html`<div style=${column}>
+                    <nph-switch size=${size} label=${d.wifi}></nph-switch>
+                    <nph-switch size=${size} label=${d.wifi} checked></nph-switch>
+                  </div>`,
+                )}
+              </div>`,
+              d.sizesCaption,
+            )}
+            ${source(d.sourceLabel, d.sourceSizes)}
           `,
         )}
 

@@ -362,6 +362,60 @@ describe('the trigger', () => {
   });
 });
 
+describe('the open trigger (DSA-67 D-2)', () => {
+  async function mountButton(): Promise<{ menu: NphDropdownMenu; button: HTMLElement; control: HTMLButtonElement }> {
+    const button = document.createElement('nph-button');
+    button.id = 'more';
+    button.setAttribute('severity', 'secondary');
+    button.setAttribute('text', 'More');
+    const menu = document.createElement('nph-dropdown-menu');
+    menu.setAttribute('for', 'more');
+    menu.items = ITEMS;
+    document.body.append(button, menu);
+    await settle(menu);
+    await settle(menu);
+    const control = button.shadowRoot?.querySelector('.control') as HTMLButtonElement;
+    return { menu, button, control };
+  }
+
+  it('an nph-button trigger takes the open look and the expanded state while the menu is open, and loses them on close', async () => {
+    const { menu, button, control } = await mountButton();
+    await userEvent.unhover(document.body);
+    const rest = getComputedStyle(control).backgroundColor;
+    expect(control.getAttribute('aria-haspopup')).toBe('menu');
+    expect(control.getAttribute('aria-expanded')).toBe('false');
+    expect(button.hasAttribute('data-nph-open')).toBe(false);
+
+    menu.open = true;
+    await settle(menu);
+    await settle(menu);
+    await vi.waitFor(() => expect(button.hasAttribute('data-nph-open')).toBe(true));
+    expect(control.getAttribute('aria-expanded')).toBe('true');
+    expect(getComputedStyle(control).backgroundColor).toBe(
+      resolved('background-color', '--nph-button-secondary-solid-background-hover'),
+    );
+    expect(getComputedStyle(control).backgroundColor).not.toBe(rest);
+
+    menu.open = false;
+    await settle(menu);
+    await settle(menu);
+    await vi.waitFor(() => expect(button.hasAttribute('data-nph-open')).toBe(false));
+    expect(control.getAttribute('aria-expanded')).toBe('false');
+    expect(getComputedStyle(control).backgroundColor).toBe(rest);
+  });
+
+  it('a plain button trigger carries aria-expanded true while open and false when closed', async () => {
+    const { menu, trigger } = await mount();
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+    menu.open = true;
+    await settle(menu);
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    menu.open = false;
+    await settle(menu);
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+  });
+});
+
 describe('opening and closing', () => {
   it('a click on the trigger opens the menu below it, focused on the first item', async () => {
     const { menu, trigger } = await mount();
@@ -689,6 +743,65 @@ describe('keyboard in the menu', () => {
     expect(active(menu)).toBe(itemOf(menu, 'b'));
     await userEvent.keyboard('{ArrowDown}');
     expect(active(menu)).toBe(itemOf(menu, 'c'));
+  });
+});
+
+describe('the pointer moves the focus (DSA-45 D-6)', () => {
+  async function opened(entries: NphDropdownMenuEntry[] = ITEMS): Promise<Setup> {
+    const setup = await mount(entries);
+    setup.trigger.focus();
+    await userEvent.keyboard('{Enter}');
+    await settle(setup.menu);
+    return setup;
+  }
+
+  it('the item under the pointer takes the keyboard focus, and the arrows go on from it', async () => {
+    const { menu } = await opened();
+    const all = items(menu);
+    expect(active(menu)).toBe(all[0]);
+    await userEvent.hover(itemOf(menu, 'delete'));
+    expect(active(menu)).toBe(itemOf(menu, 'delete'));
+    await userEvent.keyboard('{ArrowUp}');
+    expect(active(menu)).toBe(itemOf(menu, 'duplicate'));
+    await userEvent.hover(itemOf(menu, 'rename'));
+    expect(active(menu)).toBe(itemOf(menu, 'rename'));
+    await userEvent.keyboard('{ArrowDown}');
+    expect(active(menu)).toBe(itemOf(menu, 'duplicate'));
+  });
+
+  it('a menu opened by a mouse click also follows the pointer, and the menu stays open', async () => {
+    const { menu, trigger } = await mount();
+    await userEvent.click(trigger);
+    await settle(menu);
+    await userEvent.hover(itemOf(menu, 'duplicate'));
+    expect(active(menu)).toBe(itemOf(menu, 'duplicate'));
+    expect(menu.open).toBe(true);
+  });
+
+  it('a disabled or loading item is not focused by the pointer', async () => {
+    const { menu } = await opened([
+      { value: 'a', text: 'A' },
+      { value: 'b', text: 'B', disabled: true },
+      { value: 'c', text: 'C', loading: true },
+    ]);
+    await userEvent.hover(itemOf(menu, 'b'), { force: true });
+    expect(active(menu)).toBe(itemOf(menu, 'a'));
+    await userEvent.hover(itemOf(menu, 'c'), { force: true });
+    expect(active(menu)).toBe(itemOf(menu, 'a'));
+  });
+
+  it('leaving the panel with the pointer keeps the focus on the last item', async () => {
+    const { menu } = await opened();
+    await userEvent.hover(itemOf(menu, 'duplicate'));
+    await userEvent.unhover(itemOf(menu, 'duplicate'));
+    expect(active(menu)).toBe(itemOf(menu, 'duplicate'));
+    expect(menu.open).toBe(true);
+  });
+
+  it('a touch pointer never moves the focus', async () => {
+    const { menu } = await opened();
+    itemOf(menu, 'delete').dispatchEvent(new PointerEvent('pointermove', { bubbles: true, composed: true, pointerType: 'touch' }));
+    expect(active(menu)).toBe(items(menu)[0]);
   });
 });
 
@@ -1068,6 +1181,39 @@ describe('anatomy, measures and colors', () => {
     expect(itemOf(menu, 'a').getBoundingClientRect().height).toBeCloseTo(md + 2 * tight, 0);
   });
 
+  it('the switch of an item is the small nph-switch: the track fits the 20 px slot and the row keeps its height in every size', async () => {
+    const menu = await openMenu([
+      { value: 'a', text: 'Rename', icon: 'pen' },
+      { value: 'c', text: 'Sync', switch: true },
+      { value: 'e', text: 'Sync on', switch: true, checked: true },
+    ]);
+    const md = px('--nph-icon-size-md');
+    const inline = px('--nph-space-inline');
+    const tight = px('--nph-space-inline-tight');
+    for (const value of ['c', 'e']) {
+      const item = itemOf(menu, value);
+      const piece = item.querySelector('nph-switch') as HTMLElement & { size: string; updateComplete: Promise<unknown> };
+      await piece.updateComplete;
+      expect(piece.size).toBe('small');
+      expect(piece.getAttribute('size')).toBe('small');
+      expect(piece.hasAttribute('text')).toBe(false);
+      const slot = (item.querySelector('.slot') as HTMLElement).getBoundingClientRect();
+      const track = (piece.shadowRoot?.querySelector('.track') as HTMLElement).getBoundingClientRect();
+      expect([track.width, track.height]).toEqual([px('--nph-switch-track-width-sm'), px('--nph-switch-track-height-sm')]);
+      expect(slot.height).toBeCloseTo(md, 2);
+      expect(piece.getBoundingClientRect().height).toBeCloseTo(md, 2);
+      expect(track.top).toBeGreaterThanOrEqual(slot.top);
+      expect(track.bottom).toBeLessThanOrEqual(slot.bottom);
+    }
+    const base = itemOf(menu, 'a').getBoundingClientRect().height;
+    expect(itemOf(menu, 'c').getBoundingClientRect().height).toBeCloseTo(base, 2);
+    expect(itemOf(menu, 'e').getBoundingClientRect().height).toBeCloseTo(md + 2 * inline, 2);
+    menu.size = 'compact';
+    await settle(menu);
+    expect(itemOf(menu, 'c').getBoundingClientRect().height).toBeCloseTo(md + 2 * tight, 2);
+    expect(itemOf(menu, 'c').getBoundingClientRect().height).toBeCloseTo(itemOf(menu, 'a').getBoundingClientRect().height, 2);
+  });
+
   it('the item: dropdown/item-radius, no background at rest, text/body-md in color/popover-foreground, cut with an ellipsis', async () => {
     const menu = await openMenu([{ value: 'a', text: 'A very long label that does not fit in the width of the menu at all', icon: 'pen' }]);
     const item = itemOf(menu, 'a');
@@ -1202,16 +1348,16 @@ describe('anatomy, measures and colors', () => {
     expect(getComputedStyle(item).backgroundColor).toBe('rgba(0, 0, 0, 0)');
   });
 
-  it('single choice, checked: text/label-md in color/primary-hover and the solid check at the end', async () => {
+  it('single choice, checked: text/label-md in color/primary-text and the solid check at the end', async () => {
     const menu = await openMenu([
       { value: 'list', text: 'List', icon: 'list', selection: 'single', checked: true },
       { value: 'grid', text: 'Grid', icon: 'grid-2', selection: 'single' },
     ]);
     const checked = itemOf(menu, 'list');
     const text = checked.querySelector('.text') as HTMLElement;
-    expect(getComputedStyle(text).color).toBe(resolved('color', '--nph-color-primary-hover'));
+    expect(getComputedStyle(text).color).toBe(resolved('color', '--nph-color-primary-text'));
     expect(getComputedStyle(text).fontWeight).toBe(resolved('font-weight', '--nph-text-label-md-font-weight'));
-    expect(getComputedStyle(checked.querySelector('.icon') as HTMLElement).color).toBe(resolved('color', '--nph-color-primary-hover'));
+    expect(getComputedStyle(checked.querySelector('.icon') as HTMLElement).color).toBe(resolved('color', '--nph-color-primary-text'));
     const check = checked.querySelector('.check') as HTMLElement;
     expect(check.getAttribute('name')).toBe('check');
     expect(check.getAttribute('variant')).toBe('solid');

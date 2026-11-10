@@ -3814,14 +3814,16 @@
     "whenToUse": [
       "Para uma configuração que liga ou desliga, com efeito imediato, fora de uma barra de ferramentas.",
       "Várias configurações empilham, um nph-switch por linha: não há componente de grupo.",
-      "Sem texto só quando o nome já está no contexto, como numa célula de tabela, sempre com label."
+      "Sem texto só quando o nome já está no contexto, como numa célula de tabela, sempre com label.",
+      "O tamanho pequeno apenas no espaço do interruptor do item do nph-dropdown-menu, sem rótulo."
     ],
     "whenNotToUseTitle": "Quando não usar",
     "whenNotToUse": [
       "Num formulário, quando a escolha só vale no envio: use nph-checkbox.",
       "Numa barra de ferramentas, entre outros botões: use nph-togglebutton.",
       "Para pintar o trilho ou o botão à mão: use checked, invalid e disabled.",
-      "Para esconder o rótulo apagando o texto: deixe text vazio e dê label."
+      "Para esconder o rótulo apagando o texto: deixe text vazio e dê label.",
+      "O tamanho pequeno fora do item do nph-dropdown-menu: sozinho, o alvo de toque fica abaixo de 24 por 24 (WCAG 2.5.8)."
     ],
     "relationsText": "Numa barra de ferramentas, entre outros botões, a peça é nph-togglebutton; num formulário cuja escolha só vale no envio, é nph-checkbox. A peça traz o próprio texto: não precisa de nph-field para ter nome. Dentro do nph-field, é uma opção de um grupo.",
     "apiTitle": "API",
@@ -3833,6 +3835,10 @@
       [
         "checked",
         "O estado ligado, a propriedade marcado do Figma. false por padrão. Refletida no atributo. Um clique, Enter ou Espaço da pessoa a alterna e dispara input e change; mudá-la por código não dispara nada."
+      ],
+      [
+        "size",
+        "A variante tamanho do Figma. default ou small; default por padrão. Refletida no atributo. small é o trilho de 32 por 16 com botão de 12 e espaço de 2, numa peça de 20 de altura, e serve apenas ao espaço do interruptor do item do nph-dropdown-menu: sozinho, o alvo de toque fica abaixo de 24 por 24 (WCAG 2.5.8). Um valor fora dos dois não desenha nada e emite console.error em desenvolvimento."
       ],
       [
         "text",
@@ -3899,6 +3905,9 @@
     "labelTitle": "Rótulo",
     "labelText": "O rótulo fica depois do trilho, a space/inline dele, em text/label-md e color/foreground. Quebra na largura disponível; com duas linhas, o trilho fica no topo, alinhado à primeira linha. Sem texto, a peça é só o trilho, e label dá o nome.",
     "labelCaption": "Com rótulo, só o trilho com label e um rótulo longo em duas linhas.",
+    "sizesTitle": "Tamanhos",
+    "sizesText": "default é o tamanho de todo interruptor. small tem o trilho de 32 por 16, o botão de 12 e espaço de 2, numa peça de 20 de altura com o trilho centralizado; o curso do botão é a largura do trilho menos o botão e os dois espaços, como no default. Serve apenas ao espaço do interruptor do item do nph-dropdown-menu, sem rótulo: sozinho, o alvo de toque fica abaixo de 24 por 24 (WCAG 2.5.8). Cores, estados e foco não mudam.",
+    "sizesCaption": "size default e size small, cada um desligado e ligado. O pequeno aparece aqui só para comparar as medidas.",
     "anatomyTitle": "Anatomia",
     "anatomyHeader": [
       "Parte",
@@ -3912,6 +3921,10 @@
       [
         "Botão",
         "O círculo em icon/size-sm, a space/inline-tight da borda do trilho. Desligado: à esquerda, em color/background. Ligado: à direita, em color/primary-foreground. Desliza por transform."
+      ],
+      [
+        "Tamanho pequeno",
+        "O trilho é switch/track-width-sm por switch/track-height-sm, o botão switch/thumb-size-sm e o espaço switch/track-padding-sm, numa peça de altura icon/size-md com o trilho centralizado na vertical. Cores, estados, foco e radius/full não mudam."
       ],
       [
         "Rótulo",
@@ -3962,7 +3975,7 @@
       ],
       [
         "Alvo de toque",
-        "O trilho inteiro, 40 por 24 px; com rótulo, a peça inteira."
+        "O trilho inteiro, 40 por 24 px; com rótulo, a peça inteira. O trilho pequeno, de 32 por 16 px, fica abaixo de 24 por 24 (WCAG 2.5.8): serve apenas ao item do nph-dropdown-menu, onde a linha inteira é o alvo."
       ],
       [
         "Movimento",
@@ -3985,7 +3998,7 @@
     "references": [
       "ficha nph-switch — função, variantes, estados, acessibilidade, tokens e anti-padrões.",
       "docs/decisoes-tecnicas.md — P79 (API e semântica), P73, P01, P02 e P03.",
-      "design.md — switch/track-width, icon/size-lg, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity e motion/*.",
+      "design.md — switch/track-width, switch/track-width-sm, switch/track-height-sm, switch/thumb-size-sm, switch/track-padding-sm, icon/size-lg, icon/size-md, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity e motion/*.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Switch, quadro nph-switch (1549:2) e conjunto 1548:56.",
       "Storybook — Validação, na pasta ao lado."
     ],
@@ -3994,7 +4007,8 @@
     "sourceStates": "Figma, conjunto 1548:56; design.md",
     "sourceAnatomy": "Figma, conjunto 1548:56; design.md",
     "sourceAccessibility": "ficha nph-switch; nph-switch.test.ts",
-    "matrixLabel": "Matriz do componente"
+    "matrixLabel": "Matriz do componente",
+    "sourceSizes": "Ficha do nph-switch; Figma, quadro 1549:2"
   },
   "switchValidation": {
     "lightCaption": "Modo claro",
@@ -4470,7 +4484,7 @@
       ],
       [
         "disabled",
-        "color/muted, borda color/input e state/disabled-opacity na peça inteira; vence o erro."
+        "color/muted, borda color/input e state/disabled-opacity na peça inteira, inclusive a área da seta, que perde o color/accent e mantém o divisor; vence o erro."
       ]
     ],
     "statesCaption": "Placeholder, valor, erro e desabilitado.",
@@ -5165,7 +5179,7 @@
     "relationsTitle": "Relações e contexto",
     "relations": [
       "Abre sempre sobre o véu overlay/scrim; o véu não faz parte da peça.",
-      "O rodapé combina o nph-button secundário sólido, em color/secondary-on-dialog, com um primário ou um danger. Cor, estado e foco dos botões são do nph-button.",
+      "O rodapé combina o nph-button secundário sólido, com o próprio fundo, com um primário ou um danger. Cor, estado e foco dos botões são do nph-button.",
       "O botão fechar é o nph-button secundário, ghost, compact, só com ícone.",
       "As linhas são nph-separator em color/dialog-separator, mais suave que color/border.",
       "O nph-alert-dialog se apoia no nph-dialog sem o botão fechar.",
@@ -5309,7 +5323,7 @@
     "shortConfirmationCaption": "Confirmação curta em sm, sem ação destrutiva e sem área de conteúdo: o texto do cabeçalho define a largura, até o teto.",
     "wideContentCaption": "Conteúdo largo em lg, uma lista, com as duas linhas ligadas: só a lista rola; o cabeçalho e o rodapé ficam.",
     "stackedCaption": "Ações empilhadas: numa janela mais estreita que o breakpoint md, um botão por linha em largura total, o primário em cima.",
-    "loadingCaption": "O primário em loading enquanto a ação termina, ao lado do secundário sólido em color/secondary-on-dialog.",
+    "loadingCaption": "O primário em loading enquanto a ação termina, ao lado do secundário sólido, que mantém o próprio fundo.",
     "focusCaption": "Pressione o botão para abrir o diálogo: o foco vai para o primeiro campo. O Tab fica no diálogo; Esc ou o botão fechar o fecham, e o foco volta ao botão."
   },
   "checkboxDocs": {
@@ -5907,7 +5921,7 @@
     "api": [
       [
         "for",
-        "O id do elemento que abre o menu, na mesma raiz do menu: o nph-button fora do componente. O menu escreve aria-haspopup e aria-expanded nele."
+        "O id do elemento que abre o menu, na mesma raiz do menu: o nph-button fora do componente. O menu escreve aria-haspopup e aria-expanded nele; enquanto o menu está aberto, um nph-button como gatilho toma o visual de aberto, o mesmo do estado hover-active."
       ],
       [
         "open",
@@ -5979,7 +5993,7 @@
       ],
       [
         "switch",
-        "O nph-switch no fim, sem rótulo."
+        "O nph-switch pequeno no fim, sem rótulo."
       ],
       [
         "checked",
@@ -6106,7 +6120,7 @@
       ],
       [
         "Limites conhecidos",
-        "No hover do item, a caixa e o trilho não tomam o próprio hover. O aria-expanded num nph-button não chega ao botão interno. O menu aninhado fica fora de escopo."
+        "No hover do item, a caixa e o trilho não tomam o próprio hover. O menu aninhado fica fora de escopo."
       ]
     ],
     "examplesTitle": "Exemplos",
@@ -6329,7 +6343,7 @@
       ],
       [
         "Toque",
-        "Um toque mantido por cerca de 700 ms abre no ponto do toque; um toque que se move não abre nada."
+        "Um toque mantido por context-menu/long-press-delay (700 ms) abre no ponto do toque; um toque que se move além de context-menu/long-press-tolerance (10 px) não abre nada."
       ],
       [
         "Fechar",
@@ -7629,7 +7643,7 @@
       "components-nph-slider-validation--invalid-input": "Entrada inválida não desenha nada: uma orientation ou um mode que não existem, min que não fica abaixo de max, um step zero. marks na orientação vertical não é desenhado; o resto renderiza.",
       "components-nph-slider-validation--examples": "Os três exemplos obrigatórios do board aceito: Brilho, Faixa de preço e Volume, cada um em modo claro e escuro.",
       "components-nph-slider-validation--brands": "As sete marcas no claro e no escuro: a trilha preenchida e os marcadores, simples e de intervalo, seguem o primary do quadro, e o anel de foco no Tab também.",
-      "components-nph-select-validation--matrix": "size × estado: placeholder, valor, erro, desabilitado e os dois, com a área da seta em color/accent. Passe o mouse para o hover, aperte Tab para o foco.",
+      "components-nph-select-validation--matrix": "size × estado: placeholder, valor, erro, desabilitado e os dois, com a área da seta em color/accent (color/muted quando desabilitado). Passe o mouse para o hover, aperte Tab para o foco.",
       "components-nph-select-validation--start": "O início do gatilho (D4): none, icon e avatar, antes da escolha e com o início da opção escolhida; o ponto de uma opção nunca vai ao gatilho.",
       "components-nph-select-validation--option": "A opção: os quatro inícios, o texto secundário, ativa com o visual de hover, selecionada com o check vencendo a ativa, desabilitada, e o ponto em cada estado (D5, D6).",
       "components-nph-select-validation--open": "A lista aberta: a space/inline-tight abaixo do gatilho, com a largura dele, a seta para cima e a opção escolhida com o check (D1, D2).",
@@ -10402,7 +10416,7 @@
       ],
       [
         "steps e step",
-        "Lidas em steps: steps é o número de etapas, 3, 4 ou 5, e step é a etapa atual, de 1 a steps, 1 por padrão."
+        "Lidas em steps: steps é o número de etapas, um inteiro de 2 ou mais, e step é a etapa atual, de 1 a steps, 1 por padrão. Evite mais de 7 etapas; não há máximo imposto."
       ],
       [
         "label",
@@ -10451,7 +10465,7 @@
       },
       {
         "value": "steps",
-        "label": "Quando o processo tem 3, 4 ou 5 etapas fixas e conhecidas. A etapa atual tem a cor das concluídas: o \"N de M\" e o texto de ajuda dizem qual é."
+        "label": "Quando o processo tem 2 ou mais etapas fixas e conhecidas; evite mais de 7. A etapa atual tem a cor das concluídas: o \"N de M\" e o texto de ajuda dizem qual é."
       }
     ],
     "sizesTitle": "Tamanhos",
@@ -11299,7 +11313,8 @@
     "panel": [
       "O painel abre abaixo do gatilho, alinhado à borda inicial dele, na camada superior, e nunca sai da janela pelos lados.",
       "Um link do painel tem título, descrição opcional e ícone opcional. Dois grupos ficam lado a lado, com um separador vertical entre eles.",
-      "Um gatilho abre com clique, Enter ou Espaço. Com o mouse, abre depois de uma espera curta e fecha o mesmo tempo depois de o ponteiro sair do gatilho e do painel. Esc fecha e devolve o foco ao gatilho.",
+      "Um gatilho abre com clique, Enter ou Espaço. Com o mouse, abre depois de uma espera curta e fecha depois de uma espera maior, quando o ponteiro sai do gatilho e do painel; um ponteiro que volta a tempo mantém o painel aberto. Esc fecha e devolve o foco ao gatilho.",
+      "Quando o painel abre, a seta do gatilho gira meia volta e o painel aparece com um fade; ao fechar, some com um fade. Com movimento reduzido, nada se move.",
       "O painel largo abraça o conteúdo. Todo link do painel tem 280 px de largura."
     ],
     "currentTitle": "Página atual",
@@ -11310,10 +11325,11 @@
       "Um link de topo marcado como atual leva aria-current=\"page\"; o link atual do painel também, e o ícone dele é sólido."
     ],
     "narrowTitle": "Largura estreita",
-    "narrowCaption": "O botão Menu aberto, com os mesmos itens em lista vertical.",
+    "narrowCaption": "O botão Menu aberto, com cada gatilho como uma linha recolhida e uma linha aberta.",
     "narrow": [
       "Quando os itens não cabem em uma linha, a barra vira o botão Menu. O consumidor escolhe narrow; a peça não se mede sozinha.",
-      "O botão Menu abre os mesmos itens em lista vertical, em um painel de 280 px. Cada gatilho aparece como um grupo, com o rótulo dele como rótulo do grupo.",
+      "O botão Menu abre os mesmos itens em lista vertical, em um painel de 280 px. Cada gatilho é uma linha recolhida, com a seta dele.",
+      "Um clique, Enter ou Espaço em uma linha abre os links dela logo abaixo e gira a seta; cada linha abre e fecha por conta própria. Os links de uma linha recolhida ficam ocultos e fora da ordem de Tab.",
       "Não esconda a barra atrás do botão Menu quando os itens cabem."
     ],
     "relationsTitle": "Relações e contexto",
@@ -11361,6 +11377,10 @@
         "Um nph-separator vertical entre os grupos."
       ],
       [
+        "Linha estreita",
+        "Um gatilho na lista estreita: um botão com o rótulo, a seta no fim, aria-expanded e aria-controls, que abre os links dele logo abaixo."
+      ],
+      [
         "Botão Menu",
         "Um botão com o ícone bars, só na largura estreita."
       ]
@@ -11373,7 +11393,7 @@
     "accessibility": [
       [
         "Contraste",
-        "O texto sobre o fundo e sobre o popover passa no nível exigido nos dois temas, exceto o texto do atual no modo escuro de quatro das sete marcas, onde cai para 1,49:1 a 2,16:1 sobre a barra escura (limite do token); o indicador e a borda de foco, na cor primária, têm ao menos 3:1 contra o fundo."
+        "O texto sobre o fundo e sobre o popover passa no nível exigido nos dois temas, nas sete marcas, inclusive o texto do atual; o indicador e a borda de foco, na cor primária, têm ao menos 3:1 contra o fundo."
       ],
       [
         "Foco visível",
@@ -11389,11 +11409,11 @@
       ],
       [
         "Nome acessível",
-        "Um marco de navegação nomeado por label ou aria-label. O gatilho é um botão com aria-expanded e aria-controls. O link da página atual leva aria-current=\"page\". A seta e os ícones dos links são decorativos. O botão Menu tem o nome \"Menu\"."
+        "Um marco de navegação nomeado por label ou aria-label. O gatilho, e a linha da lista estreita, é um botão com aria-expanded e aria-controls. O link da página atual leva aria-current=\"page\". A seta e os ícones dos links são decorativos. O botão Menu tem o nome \"Menu\"."
       ],
       [
         "Teclado",
-        "Tab passa pelos itens e pelos links de um painel aberto; Enter e Espaço abrem e fecham um gatilho; Esc fecha o painel e devolve o foco. É navegação por divulgação, não uma barra de menus: não há setas."
+        "Tab passa pelos itens e pelos links de um painel aberto, ou de uma linha aberta; Enter e Espaço abrem e fecham um gatilho ou uma linha; Esc fecha o painel e devolve o foco. É navegação por divulgação, não uma barra de menus: não há setas."
       ]
     ],
     "examplesTitle": "Exemplos",
@@ -11600,7 +11620,7 @@
       ],
       [
         "Título",
-        "Sempre visível; text/label-lg em popover/foreground. Nomeia a superfície."
+        "Sempre visível; text/heading-sm em popover/foreground. Nomeia a superfície."
       ],
       [
         "Descrição",
@@ -11753,7 +11773,7 @@
       ],
       [
         "slot padrão",
-        "O texto do link, o conteúdo do elemento. O link é uma âncora nativa desenhada pela peça, em color/primary e sublinhada."
+        "O texto do link, o conteúdo do elemento. O link é uma âncora nativa desenhada pela peça, em color/link e sublinhada."
       ],
       [
         "heading",
@@ -11781,7 +11801,7 @@
       ],
       [
         "arrow",
-        "Desenha a seta que aponta para o link. Desligada por padrão. Reflete no atributo."
+        "Desenha a seta que aponta para o link. Desligada por padrão. Sem ela o cartão fica centralizado no link; com ela a seta fica a 16 do canto do cartão. Reflete no atributo."
       ],
       [
         "open",
@@ -11856,7 +11876,7 @@
     "anatomy": [
       [
         "Link",
-        "Um link nativo em color/primary, sublinhado, text/label-md e com 20 de altura. Com foco de teclado mostra uma borda de 1 px em hover-card/focus-border e, por fora, um halo de 4 px em hover-card/focus-halo."
+        "Um link nativo em color/link, sublinhado, text/label-md e com 20 de altura. Com foco de teclado mostra uma borda de 1 px em hover-card/focus-border e, por fora, um halo de 4 px em hover-card/focus-halo."
       ],
       [
         "Seta",
@@ -11891,7 +11911,7 @@
     "accessibility": [
       [
         "Contraste",
-        "Título, descrição e meta passam 4,5:1 sobre color/popover nos dois temas. A meta é um degrau mais suave que a descrição, nunca abaixo desse piso. O link passa na marca padrão; no escuro da marca Gerencial fica em 2,71:1, um limite do color/primary dessa marca."
+        "Título, descrição e meta passam 4,5:1 sobre color/popover nos dois temas. A meta é um degrau mais suave que a descrição, nunca abaixo desse piso. O link em color/link passa 4,5:1 nos dois temas e nas sete marcas."
       ],
       [
         "Foco visível",

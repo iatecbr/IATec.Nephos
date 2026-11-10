@@ -14,7 +14,8 @@
  * - on touch there is no hover: tapping the link follows it to the destination;
  * - bottom by default; it may sit top, left or right and flips when it does not fit. An optional
  *   arrow points to the link; the distance from the link is `hover-card/offset` (4), to the card
- *   or to the arrow tip;
+ *   or to the arrow tip. Without the arrow the card centers on the link along the side; with it the
+ *   arrow sits `hover-card/arrow-inset` from the card corner (D-2 of DSA-68);
  * - the arrow and the meta icon are decorative (`aria-hidden`).
  *
  * API (P112):
@@ -650,18 +651,23 @@ export class NphHoverCard extends LitElement {
     const probe = card.querySelector('.probe')?.getBoundingClientRect();
     const inset = probe?.width ?? 0;
     const arrowWidth = probe?.height ?? 0;
-    /* The tip, with or without the arrow, sits on the center of the link, `arrow-inset` from the card corner. */
-    const shift = inset + arrowWidth / 2;
     const rtl = style.direction === 'rtl';
     const cx = anchor.left + anchor.width / 2;
     const cy = anchor.top + anchor.height / 2;
+    /*
+     * Along the link (D-2 of DSA-68): without the arrow the card centers on the link, like Radix
+     * `align=center`; with the arrow its tip sits on the center of the link, `arrow-inset` from the
+     * card corner, so the corner is `shift` from the center, mirrored in right-to-left writing.
+     */
+    const shiftAlong = (length: number): number => (this.arrow ? inset + arrowWidth / 2 : length / 2);
     let x: number;
     let y: number;
     if (side === 'top' || side === 'bottom') {
+      const shift = shiftAlong(width);
       x = rtl ? cx + shift - width : cx - shift;
       y = side === 'top' ? anchor.top - gap - height : anchor.bottom + gap;
     } else {
-      y = cy - shift;
+      y = cy - shiftAlong(height);
       x = side === 'left' ? anchor.left - gap - width : anchor.right + gap;
     }
     /* Never outside the window; the margin box starts at `top`/`left`, so add the margin back. */

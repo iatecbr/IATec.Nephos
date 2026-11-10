@@ -186,7 +186,7 @@ states:
     changes_for_user: "The border stays status/error and the halo is focus/halo-error."
   disabled:
     token: state/disabled-opacity
-    changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the color/input border; it does not open and wins over the error."
+    changes_for_user: "The whole piece at state/disabled-opacity on color/muted, with the color/input border, and the arrow area on color/muted too, with the divider kept; it does not open and wins over the error."
 business_rules:
   - "The person chooses by a click on an option, or by Enter, Space or Alt+ArrowUp on the active option; the list closes and the focus stays on the trigger."
   - "A choice of a different value fires input and then change; choosing the option already chosen, Escape, Tab, a click outside and code fire nothing."
@@ -208,7 +208,7 @@ tokens:
   placeholder: "text/body-md in color/muted-foreground"
   start: "nph-icon icon/size-sm in color/muted-foreground, or nph-avatar sm"
   divider: "border/width in color/border"
-  arrow_area: "color/accent, control/height-* wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in color/muted-foreground"
+  arrow_area: "color/accent (color/muted when disabled), control/height-* wide, radius/none on the left and radius/control-inner on the right; the arrow icon/size-sm in color/muted-foreground"
   list: "color/popover, border/width in color/input, radius/container, elevation/dropdown, padding space/inline-tight, maximum height layout/max-list-height"
   list_offset: space/inline-tight
   motion: "motion/enter-duration, motion/enter-easing, motion/exit-duration and motion/exit-easing; motion/hover-duration with reduced motion"
@@ -318,7 +318,7 @@ without a start in the same list; the magnifying glass as the start icon.
 | `aberto` | `focus/border`, `focus/halo` | The focus look with the list open below the trigger and the arrow up |
 | `erro` | `status/error` | The border is `status/error`, also on hover |
 | `erro-foco` | `status/error`, `focus/halo-error` | The border stays `status/error` and the halo is `focus/halo-error` |
-| `disabled` | `state/disabled-opacity`, `color/muted` | The whole piece at `state/disabled-opacity` on `color/muted`, with the `color/input` border; the arrow area keeps `color/accent` (D-1, open) |
+| `disabled` | `state/disabled-opacity`, `color/muted` | The whole piece at `state/disabled-opacity` on `color/muted`, with the `color/input` border; the arrow area drops `color/accent` and takes `color/muted` like the rest of the field, with the divider kept |
 
 **Feedback and focus:** `disabled` wins over everything; `erro` keeps its border on hover, on
 focus and open. The focus look shows for the keyboard and while the list is open; a click
@@ -382,14 +382,15 @@ its options; `nph-icon` and `nph-avatar`, in the start, the arrow and the check;
 | Placeholder | `text/body-md`, `color/muted-foreground` |
 | Start | `nph-icon` `icon/size-sm` in `color/muted-foreground`, or `nph-avatar` `sm` |
 | Divider | `border/width` in `color/border`, beside the arrow area (D7) |
-| Arrow area | `color/accent`; `control/height-*` wide, the trigger height minus its two borders; `radius/none` on the left, `radius/control-inner` on the right; the arrow `icon/size-sm` in `color/muted-foreground` |
+| Arrow area | `color/accent`, `color/muted` when disabled; `control/height-*` wide, the trigger height minus its two borders; `radius/none` on the left, `radius/control-inner` on the right; the arrow `icon/size-sm` in `color/muted-foreground` |
 | List | `color/popover`; border `border/width` in `color/input`; `radius/container`; `elevation/dropdown`; padding `space/inline-tight`; maximum height `layout/max-list-height`, border outside it (D9); offset `space/inline-tight` (D1) |
 | Motion | `motion/enter-duration`, `motion/enter-easing`, `motion/exit-duration`, `motion/exit-easing`; with reduced motion, opacity only in `motion/hover-duration` (D2, `design.md` 2g) |
 | Focus | `focus/border`, `focus/halo`, `focus/halo-error`, `focus/ring-width`, `focus/radius-control` |
 | Disabled | `state/disabled-opacity` on `color/muted` |
 
-**Usage restrictions:** `color/accent` is the permanent background of the arrow area; do not
-change it, also not for an error. `color/muted` is only the disabled background. The width may
+**Usage restrictions:** `color/accent` is the background of the arrow area while the field is
+enabled; do not change it, also not for an error. `color/muted` is only the disabled background, of
+the arrow area too. The width may
 stretch to the parent.
 
 **AI hints:**

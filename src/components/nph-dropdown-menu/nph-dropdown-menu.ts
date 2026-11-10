@@ -13,7 +13,8 @@
  * - `for`: the `id` of the element that opens the menu, looked up in the SAME root as the
  *   menu (`getRootNode()`), like the native `<label for>` and `nph-tooltip` (P77). The
  *   button stays outside the component. The menu writes `aria-haspopup="menu"` and
- *   `aria-expanded` on it;
+ *   `aria-expanded` on it; an `nph-button` trigger draws its open look (`hover-active`) while
+ *   the menu is open and hands both attributes to its native button (DSA-67 D-2);
  * - `open`: the state. Reflects. The menu turns it on and off; the consumer may set it;
  * - `items`: the entries, in order. An item (`type` absent or `item`) has `value` and
  *   `text`, and optionally `description`, `icon`, `avatar`, `severity` (`default` or
@@ -35,6 +36,9 @@
  *   wrap, Home and End go to the ends, a typed character goes to the next item that starts
  *   with it, Enter and Space activate, Esc closes and gives the focus back, Tab closes and
  *   lets the focus move on. A disabled or loading item takes the focus but does not activate;
+ * - pointer: the item under a moving mouse or pen takes the keyboard focus (the highlighted item
+ *   is the focused item, as in Radix), and the keyboard goes on from it. A disabled or loading
+ *   item does not take it from the pointer; leaving the panel does not blur;
  * - invalid input does not render and emits `console.error` only in development, one per
  *   cause (P21 rule): `for` empty or matching no element in the same root, no valid item and
  *   a `size` outside the two. An invalid entry is left out, with one error per cause.
@@ -47,7 +51,8 @@
  *
  * INNER PIECES — `nph-checkbox` (multiple choice) and `nph-switch` are drawn `inert`: the
  * item carries the role, the state and the focus, and the pieces only show it. They never
- * take `disabled`: the item already paints `state/disabled-opacity` on the whole row.
+ * take `disabled`: the item already paints `state/disabled-opacity` on the whole row. The
+ * switch is the small size, without a label, so it fits the slot of `icon/size-md` (DSA-45 D-4).
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
@@ -556,6 +561,24 @@ export class NphDropdownMenu extends LitElement {
     return null;
   }
 
+  /**
+   * The pointer over an item moves the keyboard focus to it (DSA-45 D-6): the highlighted item is
+   * the focused item, so the arrows go on from where the pointer is. It listens to a move, not to
+   * an entry, so a menu that opens under a still pointer does not take the focus from its first
+   * item. A disabled or loading item is skipped, and touch never gets here as a hover. The item
+   * comes into focus without scrolling the panel: it is already under the pointer.
+   */
+  private onPointermove(event: PointerEvent): void {
+    if (event.pointerType === 'touch') {
+      return;
+    }
+    const item = event.composedPath().find((target): target is HTMLElement => target instanceof HTMLElement && target.classList.contains('item'));
+    if (item === undefined || item.hasAttribute('aria-disabled') || this.shadowRoot?.activeElement === item) {
+      return;
+    }
+    item.focus({ preventScroll: true });
+  }
+
   /** A press on the panel outside an item keeps the focus where it is, so the menu stays open. */
   private onMousedown(event: MouseEvent): void {
     const onItem = event.composedPath().some((target) => target instanceof HTMLElement && target.classList.contains('item'));
@@ -941,7 +964,7 @@ export class NphDropdownMenu extends LitElement {
           : html`<span class="count" id="${id}-count">${count}</span>`}${tag === ''
           ? nothing
           : html`<span class="slot" id="${id}-tag"><nph-badge class="tag" text=${tag}></nph-badge></span>`}${isSwitch
-          ? html`<span class="slot"><nph-switch class="switch" inert label=${text} ?checked=${checked}></nph-switch></span>`
+          ? html`<span class="slot"><nph-switch class="switch" inert size="small" label=${text} ?checked=${checked}></nph-switch></span>`
           : nothing}${entry.submenu === true ? this.iconPair('chevron-right', 'sm', 'arrow') : nothing}${selection === 'single' && checked
           ? html`<nph-icon class="check" name="check" variant="solid" size="sm"></nph-icon>`
           : nothing}`;
@@ -1001,6 +1024,7 @@ export class NphDropdownMenu extends LitElement {
       @click=${this.onClick}
       @focusout=${this.onFocusout}
       @mousedown=${this.onMousedown}
+      @pointermove=${this.onPointermove}
     >
       ${this.renderHeader()}
       <div class="menu" role="menu" aria-label=${name === '' ? nothing : name}>

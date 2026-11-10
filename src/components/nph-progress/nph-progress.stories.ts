@@ -22,7 +22,7 @@ import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
 import './nph-progress';
-import { NPH_PROGRESS_SIZES, NPH_PROGRESS_STEP_COUNTS } from './nph-progress';
+import { NPH_PROGRESS_SIZES } from './nph-progress';
 import { examples, inScheme } from './nph-progress.demo';
 import type { Scheme } from './nph-progress.demo';
 
@@ -33,6 +33,9 @@ const meta: Meta = {
 export default meta;
 
 type Story = StoryObj;
+
+/** The counts the Steps story draws; the component takes any integer of 2 or more. */
+const STEP_COUNTS = [3, 4, 5] as const;
 
 /** Shortcut: the dictionary of these stories in the chosen language. */
 function t(context: GlobalsContext | undefined) {
@@ -123,7 +126,7 @@ export const Steps: Story = {
         validationTitle(context, 'nph-progress', page('steps').storyId),
         [],
         NPH_PROGRESS_SIZES.flatMap((size) =>
-          NPH_PROGRESS_STEP_COUNTS.map((steps, position) => ({
+          STEP_COUNTS.map((steps, position) => ({
             label: `size: ${size} · steps: ${steps}`,
             cells: [
               inSlot(

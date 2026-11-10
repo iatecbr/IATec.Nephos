@@ -22,14 +22,14 @@
 }
 
 /*
- * The trigger: a text link in `color/primary`, underlined, `text/label-md`, 20 tall (the line
+ * The trigger: a text link in `color/link`, underlined, `text/label-md`, 20 tall (the line
  * height of the role). It is `inline-block` so the box of its focus layers is the box of its text.
  */
 .link {
   position: relative;
   display: inline-block;
   border-radius: var(--nph-radius-inner);
-  color: var(--nph-color-primary);
+  color: var(--nph-color-link);
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
   font-weight: var(--nph-text-label-md-font-weight);

@@ -8,7 +8,8 @@
  *
  * The three examples are the required ones of the accepted documentation (frame `3977:7913`): the
  * closed bar with two triggers and the link of the current page, an open trigger with a panel of two
- * groups, and the narrow width with the Menu button open. Every visible text comes from the
+ * groups, and the narrow width with the Menu button open, one row of the list opened and the other
+ * collapsed. Every visible text comes from the
  * dictionary, passed in by the page that calls this file.
  */
 import { html } from 'lit';
@@ -125,14 +126,26 @@ export function itemsOf(texts: ExampleTexts, options: { current?: 'pricing' | 'c
   ];
 }
 
-/** Opens a panel once the bar has rendered: it fires no event, so the page asks for it by `open`. */
-async function openWhenReady(element: Element | undefined, active?: string): Promise<void> {
+/** The place of each trigger in `itemsOf`, which names its row in the narrow list (`row-<index>`). */
+const ROW_INDEX = { products: 0, resources: 1 } as const;
+
+/**
+ * Opens a panel once the bar has rendered: it fires no event, so the page asks for it by `open`. The
+ * narrow list opens its rows by the person's click and has no attribute for it, so the scene clicks the
+ * row the page asks for, as a person would.
+ */
+async function openWhenReady(element: Element | undefined, active?: string, row?: keyof typeof ROW_INDEX): Promise<void> {
   const menu = element as NphNavigationMenu | undefined;
   if (menu === undefined) return;
   await menu.updateComplete;
   if (!menu.isConnected) return;
   if (active !== undefined) menu.active = active;
   menu.open = true;
+  if (row === undefined) return;
+  await menu.updateComplete;
+  /* The page may prepare the scene again (a language change renders the bar again): click only a collapsed row. */
+  const button = menu.shadowRoot?.querySelector<HTMLElement>(`#row-${String(ROW_INDEX[row])}`);
+  if (button?.getAttribute('aria-expanded') === 'false') button.click();
 }
 
 export interface BarOptions {
@@ -146,6 +159,8 @@ export interface BarOptions {
   narrow?: boolean;
   /** Draws the vertical list open (narrow only). */
   listOpen?: boolean;
+  /** Opens the row of this trigger in the open list (narrow only); the others stay collapsed. */
+  rowOpen?: 'products' | 'resources';
   /** How many panel rows the open panel has, to keep the room below the bar. */
   rows?: number;
 }
@@ -154,7 +169,7 @@ export interface BarOptions {
  * A bar. The room below it holds the open panel, so the panel does not cover the next example: one
  * row per link, plus the paddings of the panel.
  */
-export function bar(texts: ExampleTexts, { current, disabled, open, narrow = false, listOpen = false, rows = 3 }: BarOptions = {}): TemplateResult {
+export function bar(texts: ExampleTexts, { current, disabled, open, narrow = false, listOpen = false, rowOpen, rows = 3 }: BarOptions = {}): TemplateResult {
   const isOpen = open !== undefined || listOpen;
   const room = isOpen
     ? `calc(var(--nph-control-height-default) + var(--nph-text-label-sm-line-height) + ${rows} * (var(--nph-text-label-md-line-height) + var(--nph-text-body-sm-line-height) + var(--nph-navigation-menu-item-text-gap) + 2 * var(--nph-navigation-menu-item-padding) + var(--nph-navigation-menu-group-gap)) + 2 * var(--nph-navigation-menu-panel-padding) + var(--nph-space-section))`
@@ -166,7 +181,7 @@ export function bar(texts: ExampleTexts, { current, disabled, open, narrow = fal
       ?narrow=${narrow}
       label=${texts.navLabel}
       menu-label=${texts.menuLabel}
-      ${ref(open !== undefined ? (element?: Element) => void openWhenReady(element, open) : listOpen ? (element?: Element) => void openWhenReady(element) : undefined)}
+      ${ref(open !== undefined ? (element?: Element) => void openWhenReady(element, open) : listOpen ? (element?: Element) => void openWhenReady(element, undefined, rowOpen) : undefined)}
     ></nph-navigation-menu>
   </div>`;
 }
@@ -175,6 +190,6 @@ export function bar(texts: ExampleTexts, { current, disabled, open, narrow = fal
 export function examples(texts: ExampleTexts): TemplateResult {
   return html`<div style="display: flex; flex-direction: column; gap: var(--nph-space-stack);">
     ${bar(texts, { current: 'pricing' })} ${bar(texts, { current: 'components', open: 'products', rows: 3 })}
-    ${bar(texts, { narrow: true, current: 'components', listOpen: true, rows: 9 })}
+    ${bar(texts, { narrow: true, current: 'components', listOpen: true, rowOpen: 'products', rows: 9 })}
   </div>`;
 }

@@ -1153,19 +1153,37 @@ describe('actions', () => {
   });
 });
 
-describe('colors redefined in the window (P87)', () => {
-  it('a solid secondary nph-button paints color/secondary-on-dialog, in the footer and in the content, in both schemes', async () => {
+describe('the solid secondary inside the window (DSA-64 D-1)', () => {
+  const background = (button: Element | null | undefined): string =>
+    getComputedStyle(button?.shadowRoot?.querySelector('button') as HTMLButtonElement).backgroundColor;
+
+  /** The solid secondary outside any dialog, at rest and on hover: the reference of the same scheme. */
+  async function outside(props: Record<string, string>): Promise<{ rest: string; hover: string }> {
+    const reference = document.createElement('nph-button');
+    reference.setAttribute('severity', 'secondary');
+    for (const [name, value] of Object.entries(props)) reference.setAttribute(name, value);
+    document.body.append(reference);
+    await (reference as NphButton).updateComplete;
+    const rest = background(reference);
+    await userEvent.hover(reference);
+    const hover = background(reference);
+    await userEvent.unhover(reference);
+    reference.remove();
+    return { rest, hover };
+  }
+
+  it('a solid secondary nph-button keeps its own background, in the footer and in the content, in both schemes', async () => {
     for (const scheme of SCHEMES) {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
+      const { rest } = await outside({ text: 'Browse' });
+      expect(rest, scheme).toBe(resolved('background-color', '--nph-button-secondary-solid-background'));
       const dialog = await mount({
         content: '<nph-button id="inner" severity="secondary" text="Browse"></nph-button>',
         footer: ACTIONS,
       });
       await openIt(dialog);
-      const expected = resolved('background-color', '--nph-color-secondary-on-dialog');
       for (const button of [dialog.querySelector('#inner'), dialog.querySelector('nph-button[slot="footer"]')]) {
-        const control = button?.shadowRoot?.querySelector('button') as HTMLButtonElement;
-        expect(getComputedStyle(control).backgroundColor, scheme).toBe(expected);
+        expect(background(button), scheme).toBe(rest);
       }
       dialog.open = false;
       await closed(dialog);
@@ -1173,52 +1191,62 @@ describe('colors redefined in the window (P87)', () => {
     }
   });
 
-  it('on hover, color/secondary-on-dialog-hover', async () => {
+  it('on hover, it keeps the hover background of the button, the same as outside', async () => {
     document.documentElement.setAttribute('data-nph-color-scheme', 'dark');
+    const { hover } = await outside({ text: 'Cancel' });
+    expect(hover).toBe(resolved('background-color', '--nph-button-secondary-solid-background-hover'));
     const dialog = await mount({ content: FORM, footer: ACTIONS });
     await openIt(dialog);
     const cancel = dialog.querySelector('nph-button') as NphButton;
     await userEvent.hover(cancel);
-    const control = cancel.shadowRoot?.querySelector('button') as HTMLButtonElement;
-    expect(getComputedStyle(control).backgroundColor).toBe(resolved('background-color', '--nph-color-secondary-on-dialog-hover'));
+    expect(background(cancel)).toBe(hover);
     await userEvent.unhover(cancel);
   });
 
-  it('an icon-only solid secondary nph-button also paints color/secondary-on-dialog, at rest and on hover, in both schemes (DSA-64)', async () => {
+  it('an icon-only solid secondary nph-button keeps its own background too, at rest and on hover, in both schemes', async () => {
     for (const scheme of SCHEMES) {
       document.documentElement.setAttribute('data-nph-color-scheme', scheme);
+      const { rest, hover } = await outside({ 'icon-start': 'plus', label: 'Add' });
+      expect(rest, scheme).toBe(resolved('background-color', '--nph-icon-button-secondary-solid-background'));
       const dialog = await mount({
         content: '<nph-button id="inner" severity="secondary" icon-start="plus" label="Add"></nph-button>',
         footer: ACTIONS,
       });
       await openIt(dialog);
       const inner = dialog.querySelector('#inner') as NphButton;
-      const control = inner.shadowRoot?.querySelector('button') as HTMLButtonElement;
-      expect(getComputedStyle(control).backgroundColor, scheme).toBe(resolved('background-color', '--nph-color-secondary-on-dialog'));
-      await userEvent.hover(control);
-      expect(getComputedStyle(control).backgroundColor, scheme).toBe(resolved('background-color', '--nph-color-secondary-on-dialog-hover'));
-      await userEvent.unhover(control);
+      expect(background(inner), scheme).toBe(rest);
+      await userEvent.hover(inner);
+      expect(background(inner), scheme).toBe(hover);
+      await userEvent.unhover(inner);
       dialog.open = false;
       await closed(dialog);
       document.body.replaceChildren();
     }
   });
 
-  it('in dark, the redefined secondary differs from the dialog background, which the regular secondary equals', () => {
+  it('in dark, it does not take color/secondary-on-dialog, which differs from the background it keeps', async () => {
     document.documentElement.setAttribute('data-nph-color-scheme', 'dark');
-    expect(resolved('background-color', '--nph-color-secondary')).toBe(resolved('background-color', '--nph-color-dialog'));
-    expect(resolved('background-color', '--nph-color-secondary-on-dialog')).not.toBe(resolved('background-color', '--nph-color-dialog'));
+    const dialog = await mount({ content: FORM, footer: ACTIONS });
+    await openIt(dialog);
+    const cancel = dialog.querySelector('nph-button') as NphButton;
+    expect(background(cancel)).not.toBe(resolved('background-color', '--nph-color-secondary-on-dialog'));
   });
 
-  it('outside the dialog, the secondary keeps color/secondary', async () => {
-    document.documentElement.setAttribute('data-nph-color-scheme', 'dark');
-    const outside = document.createElement('nph-button');
-    outside.severity = 'secondary';
-    outside.text = 'Outside';
-    document.body.append(outside);
-    await outside.updateComplete;
-    const control = outside.shadowRoot?.querySelector('button') as HTMLButtonElement;
-    expect(getComputedStyle(control).backgroundColor).toBe(resolved('background-color', '--nph-color-secondary'));
+  it('the window redefines no secondary token: the scope of the panel reads what the page reads', async () => {
+    const dialog = await mount({ content: FORM, footer: ACTIONS });
+    const panel = await openIt(dialog);
+    const names = [
+      '--nph-color-secondary',
+      '--nph-color-secondary-hover',
+      '--nph-button-secondary-solid-background',
+      '--nph-button-secondary-solid-background-hover',
+      '--nph-icon-button-secondary-solid-background',
+      '--nph-icon-button-secondary-solid-background-hover',
+    ];
+    for (const name of names) {
+      expect(getComputedStyle(panel).getPropertyValue(name), name).toBe(getComputedStyle(document.documentElement).getPropertyValue(name));
+      expect(componentCss, name).not.toMatch(new RegExp(`${name}\\s*:`));
+    }
   });
 });
 
@@ -1385,8 +1413,6 @@ describe('token contract', () => {
       '--nph-layout-dialog-lg',
       '--nph-layout-dialog-max-height',
       '--nph-color-dialog-separator',
-      '--nph-color-secondary-on-dialog',
-      '--nph-color-secondary-on-dialog-hover',
       '--nph-overlay-scrim',
       '--nph-space-stack',
       '--nph-space-stack-snug',

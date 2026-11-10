@@ -188,7 +188,7 @@
   display: none;
 }
 
-/* Tag and switch sit in a slot of `icon/size-md`, so the row keeps its height (D-4). */
+/* Tag and switch sit in a slot of `icon/size-md`, so the row keeps its height; the switch is the small size, 20 high (D-4). */
 .slot {
   display: inline-flex;
   align-items: center;
@@ -218,7 +218,7 @@
   display: none;
 }
 
-/* Single choice, checked: `text/label-md` in `color/primary-hover`, on the text and the icon (D-5). */
+/* Single choice, checked: `text/label-md` in `color/primary-text`, on the text, the icon and the check (D-5, DSA-36 D2). */
 .item[data-selection='single'][data-checked] .text {
   font-family: var(--nph-text-label-md-font-family);
   font-size: var(--nph-text-label-md-font-size);
@@ -229,7 +229,7 @@
 
 .item[data-selection='single'][data-checked],
 .item[data-selection='single'][data-checked] .text {
-  color: var(--nph-color-primary-hover);
+  color: var(--nph-color-primary-text);
 }
 
 /* Destructive: text, icon and shortcut in `dropdown/item-destructive-foreground`, at rest, in focus and disabled. */

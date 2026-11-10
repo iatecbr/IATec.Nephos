@@ -40,9 +40,11 @@ api:
     reflects: true
     constraint: >-
       It is the Figma value `estreita` of the property `largura`. On, the bar turns into the Menu
-      button, which opens the same items as a vertical list; it needs menu-label, and without it the
-      piece draws nothing and emits console.error in development. The consumer chooses it, since the
-      width is the page to know. Reflects so the consumer can style and check the state.
+      button, which opens the same items as a vertical list, where each trigger is a collapsed row
+      that opens its links below it; it needs menu-label, and without it the piece draws nothing and
+      emits console.error in development. The consumer chooses it, since the width is the page to
+      know. Reflects so the consumer can style and check the state. Which rows are open is internal:
+      there is no attribute for it.
   open:
     type: boolean
     required: false
@@ -132,12 +134,14 @@ states:
     changes_for_user: "The title and the icon take the current color and a bar at the start of the link marks the page; the icon is solid."
 business_rules:
   - "A menu has one current page: at most one link is current. A trigger shows as current when its panel holds the current link."
-  - "A trigger opens its panel on click, Enter or Space. With the mouse, it opens after motion/hover-delay and closes the same time after the pointer leaves the trigger and the panel; the panel stays open while the pointer is over it. A click on a panel the pointer opened keeps it open."
+  - "A trigger opens its panel on click, Enter or Space. With the mouse, it opens after motion/hover-delay and closes after navigation-menu/close-delay once the pointer leaves the trigger and the panel; the panel stays open while the pointer is over it, and a pointer that comes back within the close delay keeps it open. A click on a panel the pointer opened keeps it open."
+  - "The trigger arrow turns half a turn when its panel opens, and back when it closes. The panel fades in on motion/enter-duration and motion/enter-easing and out on motion/exit-duration and motion/exit-easing, and leaves the top layer when the exit ends. With reduced motion nothing moves: no turn and no fade, and the state changes at once."
   - "Esc closes the panel and gives the focus back to its trigger. A click outside, and the focus leaving the bar, close it. Following a link closes it."
   - "Disclosure navigation, not a menubar: Tab moves between the items and into the open panel, Enter and Space open and close. There are no arrow keys."
   - "The wide panel hugs its content; the narrow panel and every panel link are navigation-menu/panel-width wide. Two groups sit side by side, with a vertical nph-separator between them."
   - "The panel opens navigation-menu/panel-offset below its trigger, aligned to its start edge, and never leaves the window sideways."
-  - "narrow turns the bar into the Menu button, which opens the same items as a vertical list. Each trigger shows as a group, with its label as the group label, and the top links come together. The consumer chooses narrow; the piece does not measure itself."
+  - "narrow turns the bar into the Menu button, which opens the same items as a vertical list. The top links stay plain links and come together. The consumer chooses narrow; the piece does not measure itself."
+  - "In the narrow list each trigger is a collapsed row with its arrow. A click, Enter or Space on the row opens its links below it and turns the arrow; each row opens and closes on its own, with no exclusivity. The links of a collapsed row are hidden: out of the accessibility tree and of the Tab order. Every row starts collapsed each time the list opens. A disabled trigger is a disabled row that opens nothing."
   - "The trigger arrow and the panel link icon are decorative. Light is the style of the icon, solid marks the current panel link."
   - "The piece has no slot, no event and no featured card inside the panel, and only one level of panels."
   - "Every text comes from the consumer, already localized: the piece writes no word of its own."
@@ -150,6 +154,8 @@ domain_errors:
 tokens:
   top_item: "navigation-menu/trigger-foreground, navigation-menu/trigger-background-hover, navigation-menu/trigger-foreground-hover, navigation-menu/trigger-padding-x, navigation-menu/trigger-padding-y, navigation-menu/trigger-gap, navigation-menu/trigger-radius, navigation-menu/trigger-icon-size"
   bar: "navigation-menu/bar-gap"
+  pointer: "navigation-menu/close-delay, motion/hover-delay"
+  motion: "motion/enter-duration, motion/enter-easing, motion/exit-duration, motion/exit-easing"
   panel: "navigation-menu/panel-background, navigation-menu/panel-border, navigation-menu/panel-border-width, navigation-menu/panel-radius, navigation-menu/panel-padding, navigation-menu/panel-width, navigation-menu/panel-offset, navigation-menu/group-gap, elevation/dropdown"
   panel_link: "navigation-menu/item-background-hover, navigation-menu/item-title-foreground, navigation-menu/item-title-foreground-hover, navigation-menu/item-description-foreground, navigation-menu/item-padding, navigation-menu/item-gap, navigation-menu/item-text-gap, navigation-menu/item-radius, navigation-menu/item-icon-size, navigation-menu/item-icon-foreground, navigation-menu/item-icon-foreground-hover"
   current: "navigation-menu/current-foreground, navigation-menu/current-indicator-background, navigation-menu/current-indicator-width"
@@ -166,16 +172,17 @@ ai_hints:
   - "Give the bar a label, or an aria-label, because it is the accessible name of the navigation landmark."
   - "Choose narrow when the items do not fit on one line, and then give menu-label; the piece does not measure itself."
 accessibility:
-  semantics: "A nav, named. Each trigger is a native button with aria-expanded and aria-controls pointing to its panel; the link of the current page carries aria-current page, and a trigger that holds it carries aria-current true. The panel is part of the page's Tab order, right after its trigger. The arrow and the link icons are decorative and hidden from assistive technology. A panel link is named by its content, the title and the description. The Menu button is a native button with an accessible name and aria-expanded."
+  semantics: "A nav, named. Each trigger is a native button with aria-expanded and aria-controls pointing to its panel; the link of the current page carries aria-current page, and a trigger that holds it carries aria-current true. The panel is part of the page's Tab order, right after its trigger. In the narrow list the trigger is a native button row with aria-expanded and aria-controls pointing to the region with its links, which is hidden while the row is collapsed. The arrow and the link icons are decorative and hidden from assistive technology. A panel link is named by its content, the title and the description. The Menu button is a native button with an accessible name and aria-expanded."
   accessible_name: "The landmark: label, else the aria-label of the host. A trigger: its label. A link: its content, the title and the optional description. The Menu button: menu-label, because its icon has no text."
   keyboard:
     - "Tab moves between the top items and, when a panel is open, through its links, which come right after their trigger."
     - "Enter and Space on a trigger open or close its panel; Enter follows a link."
+    - "In the narrow list, Tab moves through the rows and through the links of the rows that are open; Enter and Space on a row open or close it."
     - "Esc closes the open panel and gives the focus back to its trigger, or to the Menu button."
     - "There are no arrow keys: this is disclosure navigation, not a menubar."
   focus: "Keyboard only, on the top item, the panel link and the Menu button: a border of border/width in focus/border and a halo in focus/halo outside the box, without changing its size. The border carries the focus; the halo is reinforcement. A disabled item takes no focus."
-  contrast: "The text of the top items and of the panel links, the description and the icons pass the required WCAG level over the background in both themes, with one known limit: the current text, navigation-menu/current-foreground, which is color/primary-hover, falls to 1.49:1 to 2.16:1 over the dark bar in the dark scheme of four of the seven brands (D-5). The indicator and the focus border, in the primary color, have at least 3:1 against the background in both schemes."
-  color_alternative: "The current page is told apart without color: the indicator comes with the current text color (WCAG 1.4.1). The open trigger shows its panel and the hover background."
+  contrast: "The text of the top items and of the panel links, the description and the icons pass the required WCAG level over the background in both themes and in the seven brands, the current text included: navigation-menu/current-foreground is color/primary-text. The indicator and the focus border, in the primary color, have at least 3:1 against the background in both schemes."
+  color_alternative: "The current page is told apart without color: the indicator comes with the current text color (WCAG 1.4.1). The open trigger shows its panel and the hover background, and the arrow turns."
 invalid_combinations:
   - "narrow without menu-label — the Menu button has an icon and no text."
   - "A trigger without groups or a group without links — the panel would be empty."
@@ -282,14 +289,22 @@ without changing its size. The current page is never told by color alone.
 
 - A menu has one current page. A trigger shows as current when its panel holds the current link.
 - A trigger opens on click, Enter or Space. With the mouse it opens after `motion/hover-delay` and
-  closes the same time after the pointer leaves the trigger and the panel. A click on a panel the
-  pointer opened keeps it open.
+  closes after `navigation-menu/close-delay` once the pointer leaves the trigger and the panel; a
+  pointer that comes back within the close delay keeps it open. A click on a panel the pointer
+  opened keeps it open.
+- The trigger arrow turns half a turn when its panel opens and back when it closes. The panel fades
+  in on `motion/enter-*` and out on `motion/exit-*` and leaves the top layer when the exit ends.
+  With reduced motion nothing moves: no turn and no fade.
 - Esc closes the panel and gives the focus back to its trigger. A click outside, the focus leaving
   the bar and following a link close it.
 - It is disclosure navigation, not a menubar: Tab and Enter, no arrow keys.
 - The wide panel hugs its content; the narrow panel and every panel link are
   `navigation-menu/panel-width` wide. Two groups sit side by side with a vertical `nph-separator`.
 - `narrow` is the consumer's choice, and the Menu button opens the same items as a vertical list.
+  In it each trigger is a collapsed row with its arrow: a click, Enter or Space opens its links below
+  it and turns the arrow. Each row opens and closes on its own, and the links of a collapsed row are
+  hidden, out of the Tab order and of the accessibility tree. The top links stay plain links. A row
+  label wider than the line shrinks with an ellipsis, and the arrow stays inside the row.
 - There is no featured card in the panel, and there is a single level of panels.
 - Every text comes from the consumer, already localized.
 
@@ -302,14 +317,15 @@ bar with no accessible name draws and warns once in development.
 
 | Criterion | Rule |
 |---|---|
-| Semantics | A `nav`, named. Each trigger is a native `button` with `aria-expanded` and `aria-controls`; the link of the current page carries `aria-current="page"` and a trigger that holds it `aria-current="true"`. The panel comes right after its trigger in the Tab order. The arrow and the link icons are decorative. A panel link is named by its content, the title and the description |
+| Semantics | A `nav`, named. Each trigger is a native `button` with `aria-expanded` and `aria-controls`; the link of the current page carries `aria-current="page"` and a trigger that holds it `aria-current="true"`. The panel comes right after its trigger in the Tab order. In the narrow list the trigger is a native `button` row with `aria-expanded` and `aria-controls` pointing to the region with its links, which is `hidden` while the row is collapsed. The arrow and the link icons are decorative. A panel link is named by its content, the title and the description |
 | Accessible name | The landmark: `label`, else the `aria-label` of the host. A trigger: its label. A link: its content, the title and the optional description. The Menu button: `menu-label` |
-| Keyboard | Tab moves between the items and through the links of an open panel. Enter and Space open and close a trigger; Enter follows a link; Esc closes the panel and gives the focus back. There are no arrow keys |
+| Keyboard | Tab moves between the items and through the links of an open panel. Enter and Space open and close a trigger; Enter follows a link; Esc closes the panel and gives the focus back. In the narrow list Tab moves through the rows and through the links of the rows that are open, and Enter and Space open and close a row. There are no arrow keys |
 | Focus | Keyboard only, on the top item, the panel link and the Menu button: a border of `border/width` in `focus/border` and a halo in `focus/halo` outside the box, without changing its size. A disabled item takes no focus |
-| Contrast | The text, the description and the icons pass the required WCAG level in both themes, except the current text in the dark scheme of four of the seven brands, where `navigation-menu/current-foreground` (`color/primary-hover`) gives 1.49:1 to 2.16:1 over the dark bar (D-5, a token limit). The indicator and the focus border, in the primary color, have at least 3:1 against the background in both schemes |
-| Alternative to color | The current page has the indicator besides the current text color (WCAG 1.4.1). The open trigger shows the panel and the hover background |
+| Contrast | The text, the description and the icons pass the required WCAG level in both themes and in the seven brands, the current text included (`navigation-menu/current-foreground` is `color/primary-text`). The indicator and the focus border, in the primary color, have at least 3:1 against the background in both schemes |
+| Alternative to color | The current page has the indicator besides the current text color (WCAG 1.4.1). The open trigger shows the panel and the hover background, and its arrow turns |
+| Motion | The arrow turns and the panel fades on `motion/enter-*` and `motion/exit-*`. With `prefers-reduced-motion: reduce` nothing moves: no turn and no fade, and the panel leaves the top layer at once |
 | Touch target | The top items and the Menu button exceed 24 by 24; the Menu button is `control/height-default` square |
-| Known limits | (a) The Menu button is a native `button` that replicates the tokens of the secondary ghost `nph-icon-button`, because `nph-button` does not pass `aria-expanded` to its inner button (P110). (b) The contract gives the closing wait as 0.5 s and has no semantic token for it; the piece reads `motion/hover-delay` for opening and closing (D-4). (c) The contract does not say how a trigger shows in the narrow list; the piece shows it as a group, with its label as the group label (D-1). (d) The contract has the current state for a trigger and does not say who sets it; the piece derives it from the current link in its panel (D-2). (e) The contract has no motion for the arrow or the panel; the piece has none (D-3). (f) The piece does not measure itself: the consumer chooses `narrow`. (g) The current text does not reach the contrast in the dark scheme of four brands (D-5) |
+| Known limits | (a) The Menu button is a native `button` that replicates the tokens of the secondary ghost `nph-icon-button`, because `nph-button` does not pass `aria-expanded` to its inner button (P110). (b) The contract has the current state for a trigger and does not say who sets it; the piece derives it from the current link in its panel (D-2). (c) The piece does not measure itself: the consumer chooses `narrow` |
 
 ## Relations
 
@@ -333,6 +349,8 @@ the piece. The top item and the panel link are inner pieces, not tags of their o
 |---|---|
 | Top item | `navigation-menu/trigger-foreground`, `navigation-menu/trigger-background-hover`, `navigation-menu/trigger-foreground-hover`, `navigation-menu/trigger-padding-x`, `navigation-menu/trigger-padding-y`, `navigation-menu/trigger-gap`, `navigation-menu/trigger-radius`, `navigation-menu/trigger-icon-size` |
 | Bar | `navigation-menu/bar-gap` |
+| Pointer | `navigation-menu/close-delay` (the wait before a panel closes), `motion/hover-delay` (the wait before it opens) |
+| Motion | `motion/enter-duration`, `motion/enter-easing`, `motion/exit-duration`, `motion/exit-easing` |
 | Panel | `navigation-menu/panel-background`, `navigation-menu/panel-border`, `navigation-menu/panel-border-width`, `navigation-menu/panel-radius`, `navigation-menu/panel-padding`, `navigation-menu/panel-width`, `navigation-menu/panel-offset`, `navigation-menu/group-gap`, `elevation/dropdown` |
 | Panel link | `navigation-menu/item-background-hover`, `navigation-menu/item-title-foreground`, `navigation-menu/item-title-foreground-hover`, `navigation-menu/item-description-foreground`, `navigation-menu/item-padding`, `navigation-menu/item-gap`, `navigation-menu/item-text-gap`, `navigation-menu/item-radius`, `navigation-menu/item-icon-size`, `navigation-menu/item-icon-foreground`, `navigation-menu/item-icon-foreground-hover` |
 | Current | `navigation-menu/current-foreground`, `navigation-menu/current-indicator-background`, `navigation-menu/current-indicator-width` |
@@ -366,8 +384,8 @@ comes from a token. It has no slot, no event, no `::part` and no color property.
 **Recommended case:** a closed bar with two triggers and the link of the current page; a trigger
 open, with a panel of two groups of links, each with its title, description and icon.
 
-**Alternative case:** the narrow width, with the Menu button open and the vertical list, the
-current link marked.
+**Alternative case:** the narrow width, with the Menu button open and the vertical list: each
+trigger a collapsed row with its arrow, one row open with its links, the current link marked.
 
 ## Anti-patterns
 

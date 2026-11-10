@@ -175,7 +175,7 @@ domain_errors:
   - "closable with no close-label: it draws without the close button and emits console.error in development."
 tokens:
   surface: "popover/background, popover/foreground, popover/border, popover/border-width, popover/radius, elevation/dropdown"
-  title_and_description: "popover/foreground, popover/description, text/label-lg, text/body-sm"
+  title_and_description: "popover/foreground, popover/description, text/heading-sm, text/body-sm"
   spacing: "popover/padding, popover/header-gap, popover/title-gap, popover/footer-gap, popover/footer-padding"
   divider: "popover/divider, popover/border-width"
   width: "popover/width-sm, popover/width-md, popover/width-lg"
@@ -220,7 +220,7 @@ anti_patterns:
   - "Leaving the trigger without an accessible name."
   - "Drawing a divider with no footer."
 sources:
-  design_md: "design.md, the popover/* tokens, color/popover, color/popover-foreground, color/muted-foreground, color/border-subtle, elevation/dropdown, text/label-lg, text/body-sm and the motion roles"
+  design_md: "design.md, the popover/* tokens, color/popover, color/popover-foreground, color/muted-foreground, color/border-subtle, elevation/dropdown, text/heading-sm, text/body-sm and the motion roles"
   decision: "P111 — nph-popover: API and semantics"
   tests: "src/components/nph-popover/nph-popover.test.ts"
   usage_evidence: "no screen consumes it yet"
@@ -329,7 +329,7 @@ cause. A `closable` with no `close-label` draws without the close button and say
 | Contrast | Title and description pass 4.5:1 over the surface in both themes. The border and the divider are decorative: in light, `#f1f1f1` over white is very soft and the surface stands apart by the shadow; in dark, by the lighter background |
 | Alternative to color | Open, the surface shows anchored to the trigger and the trigger carries `aria-expanded` true; the hover-active look of the trigger is an extra signal, not the only one |
 | Touch target | The trigger is 36 tall. The close button is 28 by 28 and the footer buttons are 28 tall, above the 24 by 24 minimum. On a touch screen the footer buttons go back to 36 |
-| Known limits | (a) The look of the open trigger and the ARIA of the native button belong to `nph-button` and apply only to a trigger that carries `aria-haspopup` dialog; the trigger of `nph-dropdown-menu` keeps its look (D-2). (b) With the arrow, the contract gives the offset of 4 and the arrow of 8 by 16 but not where they meet: the code keeps the tip 4 from the trigger, with the surface one arrow height further (D-1). (c) `aria-controls` points to the popover host, not to the surface, because an id reference does not cross a shadow root (D-3). (d) The title is drawn in `text/label-lg`, the role that matches the accepted values, although `design.md` says that role is not for titles (D-4). (e) The popover does not constrain its height: a surface taller than the window is not scrollable. (f) A popover inside a dialog is out of scope |
+| Known limits | (a) The look of the open trigger and the ARIA of the native button belong to `nph-button` and apply to a trigger that carries `aria-haspopup` dialog or menu (the trigger of `nph-dropdown-menu` takes the same open look, DSA-67 D-2). (b) With the arrow, the contract gives the offset of 4 and the arrow of 8 by 16 but not where they meet: the code keeps the tip 4 from the trigger, with the surface one arrow height further (D-1). (c) `aria-controls` points to the popover host, not to the surface, because an id reference does not cross a shadow root (D-3). (d) The popover does not constrain its height: a surface taller than the window is not scrollable. (e) A popover inside a dialog is out of scope |
 
 ## Relations
 
@@ -351,7 +351,7 @@ and the close `nph-button`, drawn by the piece. Its parts are its own: there is 
 | Part | Token |
 |---|---|
 | Surface | `popover/background`, `popover/foreground`, `popover/border`, `popover/border-width`, `popover/radius`, `elevation/dropdown` |
-| Title and description | `popover/foreground`, `popover/description`, `text/label-lg`, `text/body-sm` |
+| Title and description | `popover/foreground`, `popover/description`, `text/heading-sm`, `text/body-sm` |
 | Spacing | `popover/padding`, `popover/header-gap`, `popover/title-gap`, `popover/footer-gap`, `popover/footer-padding` |
 | Divider | `popover/divider`, `popover/border-width` |
 | Width | `popover/width-sm`, `popover/width-md`, `popover/width-lg` |

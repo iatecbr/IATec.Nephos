@@ -8,7 +8,7 @@ import { cdp } from 'vitest/browser';
 import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import componentCss from './nph-progress.css?raw';
-import { NPH_PROGRESS_SIZES, NPH_PROGRESS_STATUSES, NPH_PROGRESS_STEP_COUNTS, NPH_PROGRESS_TYPES, NphProgress } from './nph-progress';
+import { NPH_PROGRESS_MIN_STEPS, NPH_PROGRESS_SIZES, NPH_PROGRESS_STATUSES, NPH_PROGRESS_TYPES, NphProgress } from './nph-progress';
 
 afterEach(() => {
   document.body.replaceChildren();
@@ -72,7 +72,7 @@ describe('registration and API', () => {
     expect([...NPH_PROGRESS_TYPES]).toEqual(['determinate', 'indeterminate', 'steps']);
     expect([...NPH_PROGRESS_SIZES]).toEqual(['md', 'sm']);
     expect([...NPH_PROGRESS_STATUSES]).toEqual(['active', 'success', 'error']);
-    expect([...NPH_PROGRESS_STEP_COUNTS]).toEqual([3, 4, 5]);
+    expect(NPH_PROGRESS_MIN_STEPS).toBe(2);
   });
 
   it('defaults: determinate, md, active, value 0, step 1, no text', async () => {
@@ -414,7 +414,7 @@ describe('steps', () => {
   const states = (progress: NphProgress) => [...(progress.shadowRoot?.querySelectorAll('.segment') ?? [])].map((s) => s.getAttribute('data-state'));
 
   it('draws one equal segment per step, apart by the segment gap, each as tall as the bar', async () => {
-    for (const steps of [3, 4, 5]) {
+    for (const steps of [2, 3, 4, 5]) {
       const progress = await mount({ type: 'steps', steps, label: 'Sign-up' });
       const segments = [...(progress.shadowRoot?.querySelectorAll('.segment') ?? [])] as HTMLElement[];
       expect(segments).toHaveLength(steps);
@@ -455,6 +455,27 @@ describe('steps', () => {
     expect(color('error')).toBe(resolved('background-color', '--nph-progress-segment-background-error'));
     const ok = await mount({ type: 'steps', steps: 3, status: 'success', label: 'Sign-up' });
     expect(getComputedStyle(part(ok, '.segment')!).backgroundColor).toBe(resolved('background-color', '--nph-progress-segment-background-success'));
+  });
+
+  it('accepts 2 steps (DSA-65 D-1): two equal segments, with no error', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const progress = await mount({ type: 'steps', steps: 2, step: 1, label: 'Sign-up', valueText: '1 of 2' });
+    expect(progress.hasAttribute('data-nph-rendered')).toBe(true);
+    expect(states(progress)).toEqual(['done', 'pending']);
+    expect(track(progress).getAttribute('aria-valuenow')).toBe('50');
+    expect(error).not.toHaveBeenCalled();
+  });
+
+  it('has no enforced maximum: 8 and more steps still render, one segment each', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    for (const steps of [8, 12]) {
+      const progress = await mount({ type: 'steps', steps, step: 3, label: 'Sign-up' });
+      expect(progress.hasAttribute('data-nph-rendered')).toBe(true);
+      expect(states(progress)).toHaveLength(steps);
+      expect(states(progress).slice(0, 3)).toEqual(['done', 'done', 'done']);
+      progress.remove();
+    }
+    expect(error).not.toHaveBeenCalled();
   });
 
   it('has no end stop and no indicator', async () => {
@@ -586,8 +607,10 @@ describe('invalid input', () => {
     ['success on indeterminate', { type: 'indeterminate', status: 'success' }, 'only "active"'],
     ['error on indeterminate', { type: 'indeterminate', status: 'error' }, 'only "active"'],
     ['steps without a count', { type: 'steps' }, 'steps null'],
-    ['steps with a count outside 3 to 5', { type: 'steps', steps: 6 }, 'steps 6'],
-    ['steps with 2', { type: 'steps', steps: 2 }, 'steps 2'],
+    ['steps with 1', { type: 'steps', steps: 1 }, 'steps 1'],
+    ['steps with 0', { type: 'steps', steps: 0 }, 'steps 0'],
+    ['steps with a negative count', { type: 'steps', steps: -3 }, 'steps -3'],
+    ['steps with a count that is not an integer', { type: 'steps', steps: 2.5 }, 'steps 2.5'],
     ['step 0', { type: 'steps', steps: 4, step: 0 }, 'step 0'],
     ['step beyond the count', { type: 'steps', steps: 4, step: 5 }, 'step 5'],
     ['step not an integer', { type: 'steps', steps: 4, step: 1.5 }, 'step 1.5'],
