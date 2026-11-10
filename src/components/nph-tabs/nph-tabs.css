@@ -1,0 +1,328 @@
+/**
+ * Internal style of `nph-tabs`.
+ *
+ * Classes and selectors here are NOT public API (P02). The contract is the token custom properties
+ * consumed here: the `tabs/*` ones, the `text/label-md` and `text/label-sm` roles, and
+ * `elevation/subtle` for the card of the active segmented tab. The `--_*` variables are internal to
+ * the shadow root: they hold the token of the style and the state, and are not API.
+ *
+ * No literal design value goes in here. Written box relations: `0`, `none`, `nowrap` (one line),
+ * `minmax(0, 1fr)` and `minmax(max-content, 1fr)` (the tabs share the width, and the underline tabs
+ * keep their content width when they do not fit), `100%` (the list fills its container), `inset` with
+ * zeros in `box-shadow` (the border and the base line are drawn inside and never change the size) and
+ * `calc(-1 * ...)` (focus border and halo outside the tab, without changing its size).
+ *
+ * MOTION — the change of the active tab and the hover run on `tabs/indicator-duration`, as the PAIR
+ * of that token with `motion/state-easing`. With reduced motion nothing moves (DSA-62 D-3): the
+ * change is immediate. Width, height and position are never animated, and the active line is drawn
+ * inside each tab, so it does not slide.
+ */
+
+/* With invalid input, or no tab, it takes no space: no visual fallback. */
+:host {
+  display: none;
+}
+
+/* `:not([hidden])`: the `hidden` attribute of the consumer still hides a valid list. */
+:host([data-nph-rendered]:not([hidden])) {
+  display: block;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--nph-tabs-scroll-gap);
+  min-inline-size: 0;
+}
+
+/* The only scroller: the underline tabs keep their width and the list scrolls; the others never do. */
+.scroller {
+  flex: 1 1 0;
+  min-inline-size: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.arrow {
+  flex: none;
+}
+
+/*
+ * The list. The tabs share the width of the container; the label of a tab that does not fit is cut
+ * by an ellipsis, with its whole text in a balloon.
+ */
+.list {
+  box-sizing: border-box;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--nph-tabs-list-gap);
+  min-inline-size: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--nph-text-label-md-font-family);
+  font-size: var(--nph-text-label-md-font-size);
+  font-weight: var(--nph-text-label-md-font-weight);
+  line-height: var(--nph-text-label-md-line-height);
+  letter-spacing: var(--nph-text-label-md-letter-spacing);
+}
+
+/* Segmented: the rail. The tab is shorter than the rail by the padding on both sides. */
+:host([variant='segmented']) .list {
+  block-size: var(--nph-tabs-list-height);
+  padding: var(--nph-tabs-list-padding);
+  border-radius: var(--nph-tabs-list-radius);
+  background-color: var(--nph-tabs-list-background);
+}
+
+/* Underline: no gap, and the base line drawn inside the list, under every tab. */
+:host([variant='underline']) .list {
+  grid-auto-columns: minmax(max-content, 1fr);
+  gap: 0;
+  box-shadow: inset 0 calc(-1 * var(--nph-tabs-underline-border-width)) 0 0 var(--nph-tabs-underline-border-color);
+}
+
+/* Tab button: only the gap between the tabs. */
+:host(:is([variant='solid'], [variant='light'], [variant='outline'])) .list {
+  block-size: var(--nph-tabs-list-height);
+}
+
+/* ----- the tab ------------------------------------------------------------ */
+
+.tab {
+  --_bg: transparent;
+  --_fg: var(--nph-tabs-item-foreground);
+  --_border: transparent;
+  --_border-width: 0;
+  --_counter-bg: var(--nph-tabs-counter-background);
+  --_line: transparent;
+  --_shadow: 0 0 0 0 transparent;
+  --_focus-radius: var(--nph-tabs-focus-radius);
+  --_focus-border-radius: var(--nph-tabs-focus-border-radius);
+
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--nph-tabs-item-gap);
+  min-inline-size: 0;
+  margin: 0;
+  padding-block: var(--nph-tabs-item-padding-y);
+  padding-inline: var(--nph-tabs-item-padding-x);
+  border: none;
+  border-radius: 0;
+  background-color: var(--_bg);
+  box-shadow: var(--_shadow), inset 0 0 0 var(--_border-width) var(--_border);
+  color: var(--_fg);
+  font: inherit;
+  letter-spacing: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+}
+
+:host([variant='segmented']) .tab {
+  block-size: var(--nph-tabs-item-height);
+  border-radius: var(--nph-tabs-item-radius);
+  --_counter-bg: var(--nph-tabs-counter-background-rail);
+}
+
+:host([variant='underline']) .tab {
+  block-size: var(--nph-tabs-underline-item-height);
+  padding-block: 0;
+}
+
+:host(:is([variant='solid'], [variant='light'], [variant='outline'])) .tab {
+  block-size: var(--nph-tabs-button-height);
+  border-radius: var(--nph-tabs-button-radius);
+  --_focus-radius: var(--nph-tabs-button-focus-radius);
+  --_focus-border-radius: var(--nph-tabs-button-focus-border-radius);
+}
+
+/* The icon: light at rest and in focus, solid in hover and when active; the color of the label. */
+.icon {
+  flex: none;
+}
+
+.icon-solid {
+  display: none;
+}
+
+.tab:not(:disabled):hover .icon-light,
+.tab[aria-selected='true'] .icon-light {
+  display: none;
+}
+
+.tab:not(:disabled):hover .icon-solid,
+.tab[aria-selected='true'] .icon-solid {
+  display: inline-flex;
+}
+
+/* The label: one line, cut with an ellipsis; the balloon holds the whole text. */
+.label {
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The counter: a pill of the piece itself, in the badge text role. */
+.counter {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  padding-block: var(--nph-tabs-counter-padding-y);
+  padding-inline: var(--nph-tabs-counter-padding-x);
+  border-radius: var(--nph-tabs-counter-radius);
+  background-color: var(--_counter-bg);
+  color: var(--nph-tabs-counter-foreground);
+  font-family: var(--nph-text-label-sm-font-family);
+  font-size: var(--nph-text-label-sm-font-size);
+  font-weight: var(--nph-text-label-sm-font-weight);
+  line-height: var(--nph-text-label-sm-line-height);
+  letter-spacing: var(--nph-text-label-sm-letter-spacing);
+}
+
+.tag {
+  flex: none;
+}
+
+/* The context text of the counter, for the accessible name only. */
+.hidden {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* ----- hover: it only paints ---------------------------------------------- */
+
+:host(:is([variant='segmented'], [variant='underline'])) .tab:not(:disabled):not([aria-selected='true']):hover {
+  --_fg: var(--nph-tabs-item-foreground-hover);
+}
+
+:host([variant='underline']) .tab:not(:disabled):not([aria-selected='true']):hover {
+  --_line: var(--nph-tabs-indicator-hover-color);
+}
+
+:host(:is([variant='solid'], [variant='light'], [variant='outline'])) .tab:not(:disabled):not([aria-selected='true']):hover {
+  --_bg: var(--nph-tabs-button-background-hover);
+  --_fg: var(--nph-tabs-button-foreground-hover);
+}
+
+/* ----- active: the look is kept in hover and when disabled ---------------- */
+
+:host(:is([variant='segmented'], [variant='underline'])) .tab[aria-selected='true'] {
+  --_fg: var(--nph-tabs-item-foreground-active);
+  --_counter-bg: var(--nph-tabs-counter-background-active);
+}
+
+:host([variant='segmented']) .tab[aria-selected='true'] {
+  --_bg: var(--nph-tabs-item-background-active);
+  --_shadow: var(--nph-elevation-subtle);
+}
+
+:host([variant='underline']) .tab[aria-selected='true'] {
+  --_line: var(--nph-tabs-indicator-color);
+}
+
+:host([variant='solid']) .tab[aria-selected='true'] {
+  --_bg: var(--nph-tabs-button-solid-background-active);
+  --_fg: var(--nph-tabs-button-solid-foreground-active);
+  --_counter-bg: var(--nph-tabs-counter-background-active);
+}
+
+:host([variant='light']) .tab[aria-selected='true'] {
+  --_bg: var(--nph-tabs-button-light-background-active);
+  --_fg: var(--nph-tabs-button-light-foreground-active);
+  --_counter-bg: var(--nph-tabs-counter-background-active);
+}
+
+:host([variant='outline']) .tab[aria-selected='true'] {
+  --_bg: var(--nph-tabs-button-outline-background-active);
+  --_fg: var(--nph-tabs-button-outline-foreground-active);
+  --_border: var(--nph-tabs-button-outline-border-color-active);
+  --_counter-bg: var(--nph-tabs-counter-background-active);
+}
+
+:host([variant='outline']) .tab {
+  --_border-width: var(--nph-tabs-button-outline-border-width);
+}
+
+/* Disabled: the whole tab at the disabled opacity; an active disabled tab keeps its active look. */
+.tab:disabled {
+  opacity: var(--nph-tabs-item-disabled-opacity);
+  cursor: default;
+}
+
+/* The line of the underline: the active one and the one in hover, drawn inside the tab over the base line. */
+.line {
+  display: none;
+}
+
+:host([variant='underline']) .line {
+  display: block;
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: var(--nph-tabs-indicator-width);
+  background-color: var(--_line);
+  pointer-events: none;
+}
+
+/* ----- focus: a border and, outside it, a halo ----------------------------- */
+
+.tab:focus-visible::before,
+.tab:focus-visible::after {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+.tab:focus-visible::before {
+  inset: calc(-1 * var(--nph-tabs-focus-border-width));
+  border: var(--nph-tabs-focus-border-width) solid var(--nph-tabs-focus-border-color);
+  border-radius: var(--_focus-border-radius);
+}
+
+.tab:focus-visible::after {
+  inset: calc(-1 * (var(--nph-tabs-focus-border-width) + var(--nph-tabs-focus-ring-width)));
+  border: var(--nph-tabs-focus-ring-width) solid var(--nph-tabs-focus-ring-color);
+  border-radius: var(--_focus-radius);
+}
+
+/* The panel: it stays with the consumer; a panel with no item that takes the Tab key takes it. */
+.panel:focus-visible {
+  outline: none;
+  border-radius: var(--nph-tabs-focus-border-radius);
+  box-shadow:
+    0 0 0 var(--nph-tabs-focus-border-width) var(--nph-tabs-focus-border-color),
+    0 0 0 calc(var(--nph-tabs-focus-border-width) + var(--nph-tabs-focus-ring-width)) var(--nph-tabs-focus-ring-color);
+}
+
+/* ----- motion --------------------------------------------------------------- */
+
+.tab,
+.counter,
+.line {
+  transition-property: background-color, color, box-shadow;
+  transition-duration: var(--nph-tabs-indicator-duration);
+  transition-timing-function: var(--nph-motion-state-easing);
+}
+
+/* Reduced motion: nothing moves, the change is immediate (DSA-62 D-3). */
+@media (prefers-reduced-motion: reduce) {
+  .tab,
+  .counter,
+  .line {
+    transition: none;
+  }
+}
