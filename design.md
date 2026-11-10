@@ -262,7 +262,7 @@ tokens_semantic:
     css: '--nph-color-primary'
     claro: theme/brand-600
     escuro: theme/brand-400
-    use: "Background of the most important action on the screen. Comes from the active brand: Nephos is multi-brand and primary changes when the brand changes. Also the background of the solid nph-badge, which labels a state or category by its meaning, and of the active tab of the solid nph-tabs tab button (tabs/button-solid-background-active)."
+    use: "Background of the most important action on the screen. Comes from the active brand: Nephos is multi-brand and primary changes when the brand changes. Also the background of the solid nph-badge, which labels a state or category by its meaning, and of the active tab of the solid nph-tabs tab button (tabs/button-solid-background-active), and of the active rail button and the corner button of nph-sidebar (sidebar/rail-background-active), with color/primary-foreground on top (sidebar/rail-foreground-active)."
     nao_use: "Two primaries in the same decision block. Pinning a value of its own, ignoring the active brand."
   color/primary-foreground:
     css: '--nph-color-primary-foreground'
@@ -344,7 +344,7 @@ tokens_semantic:
     css: '--nph-color-border-subtle'
     claro: core/neutral/50
     escuro: core/alpha/white-10
-    use: "Soft border and divider of a floating layer: border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative, the shadow completes the separation from the background."
+    use: "Soft border and divider of a floating layer: border and divider of nph-popover, border of nph-hover-card, outline of a floating list and panel through color/dropdown-border (nph-dropdown-menu, nph-context-menu, the nph-navigation-menu panel and the loading nph-notification), the border of the nph-sidebar flyout panel (sidebar/flyout-border), and the divider between groups of nph-dropdown-menu and nph-context-menu. Softer than color/border; decorative, the shadow completes the separation from the background."
     nao_use: "nph-dialog (color/dialog-separator); card (color/border); field (color/input)."
   color/input:
     css: '--nph-color-input'
@@ -493,7 +493,7 @@ tokens_semantic:
     css: '--nph-color-primary-text'
     claro: theme/brand-700
     escuro: theme/brand-text-dark
-    use: "Brand-colored text and icon on background, card or popover: the current item of nph-navigation-menu, the active and open item and the flyout title of nph-sidebar-item, the checked item of single choice in nph-dropdown-menu, the label, the icon and the line of the active nph-tabs tab in the segmented and underline styles (tabs/item-foreground-active, tabs/indicator-color). In light it is the same tone as color/primary-hover; in dark it measures at least 4.5:1 in the seven brands."
+    use: "Brand-colored text and icon on background, card or popover: the current item of nph-navigation-menu, the active and open item and the flyout title of nph-sidebar-item and the active option of the nph-sidebar flyout panel, the checked item of single choice in nph-dropdown-menu, the label, the icon and the line of the active nph-tabs tab in the segmented and underline styles (tabs/item-foreground-active, tabs/indicator-color). In light it is the same tone as color/primary-hover; in dark it measures at least 4.5:1 in the seven brands."
     nao_use: "Fill: the brand fill is color/primary. Link text: color/link."
   color/destructive-surface:
     css: '--nph-color-destructive-surface'
@@ -571,7 +571,7 @@ tokens_semantic:
     css: '--nph-focus-border'
     claro: theme/brand-focus
     escuro: theme/brand-300
-    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button, on the info trigger of the nph-label and on the nph-tabs tab in every style (tabs/focus-border-color). It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it, from 3,10:1 to 5,88:1."
+    use: "1 px focus border of the control that receives focus with border and halo (rule 6), as on the secondary of the nph-button, on the info trigger of the nph-label, on the nph-tabs tab in every style (tabs/focus-border-color) and on every focusable piece of nph-sidebar (item, subitem, rail button, flyout option, collapse and close buttons): there color/primary fell below 3:1 against the dark panel in some brands. It is the one that meets the 3:1 minimum; the halo is decoration. The 3:1 is measured against the halo, the neighbor outside the border; the inside of the control (box or track) does not count. Applies to checkbox, radio and switch. Known limit: in `Sistemas`, in light mode, the border measures 2,92:1 against the halo, because no halo tone reaches 3:1. In dark mode every brand meets it, from 3,10:1 to 5,88:1."
   focus/halo:
     css: '--nph-focus-halo'
     claro: theme/brand-halo
@@ -1335,7 +1335,7 @@ tokens_radius:
     css: '--nph-radius-container'
     alias: core/radius/400
     valor: 8
-    use: "USE on a container with a medium corner: table, pagination, floating toolbar, the nph-navigation-menu panel and notification (except the toast, which is radius/overlay). DO NOT USE on nph-popover, nph-hover-card, nph-dropdown-menu or nph-context-menu: those have their own radius. DO NOT USE on a card or content panel: those are radius/surface. DO NOT USE on a control."
+    use: "USE on a container with a medium corner: table, pagination, floating toolbar, the nph-navigation-menu panel and notification (except the toast, which is radius/overlay). DO NOT USE on nph-popover, nph-hover-card, nph-dropdown-menu, nph-context-menu or the nph-sidebar flyout panel: those have their own radius. DO NOT USE on a card or content panel: those are radius/surface. DO NOT USE on a control."
   radius/overlay:
     css: '--nph-radius-overlay'
     alias: core/radius/450
@@ -1539,9 +1539,11 @@ tokens_core_layout:
   regra: 'NEVER consume in component CSS. Use the semantic layout/* tokens or the component token. A component token aliases core/layout-width/* straight only by decision, when no semantic token has the same function.'
   core/layout-width/app:               { valor: 1440, css: '--nph-core-layout-width-app',               alias_de: 'layout/max-app' }
   core/layout-width/reading:           { valor: 560,  css: '--nph-core-layout-width-reading',           alias_de: 'layout/max-reading' }
-  core/layout-width/sidebar-expanded:  { valor: 280,  css: '--nph-core-layout-width-sidebar-expanded',  alias_de: 'layout/sidebar-expanded' }
-  core/layout-width/sidebar-collapsed: { valor: 64,   css: '--nph-core-layout-width-sidebar-collapsed', alias_de: 'layout/sidebar-collapsed' }
+  core/layout-width/sidebar-expanded:  { valor: 256,  css: '--nph-core-layout-width-sidebar-expanded',  alias_de: 'layout/sidebar-expanded' }
+  core/layout-width/sidebar-collapsed: { valor: 80,   css: '--nph-core-layout-width-sidebar-collapsed', alias_de: 'layout/sidebar-collapsed' }
   core/layout-height/header:           { valor: 56,   css: '--nph-core-layout-height-header',           alias_de: 'layout/header-height' }
+  core/layout-height/sidebar-logo:     { valor: 24,   css: '--nph-core-layout-height-sidebar-logo',     alias_de: 'sidebar/logo-max-height' }
+  core/layout-height/sidebar-logo-mark: { valor: 32,  css: '--nph-core-layout-height-sidebar-logo-mark', alias_de: 'sidebar/logo-mark-size' }
   core/layout-width/tooltip:           { valor: 235, css: '--nph-core-layout-width-tooltip', alias_de: 'layout/max-tooltip-width' }
   core/layout-height/tooltip:          { valor: 44, css: '--nph-core-layout-height-tooltip', alias_de: 'layout/max-tooltip-height' }
   core/layout-width/field:             { valor: 320, css: '--nph-core-layout-width-field', alias_de: 'layout/field-width' }
@@ -1620,7 +1622,7 @@ tokens_alpha:
     alias_escuro: core/scrim/dark
     claro: 'rgba(0,0,0,0.45)'
     escuro: 'rgba(0,0,0,0.65)'
-    use: "Scrim behind dialog and side panel. USE whenever there is a modal. Stronger in dark because the background is already dark. The only alpha value outside the scale of 8."
+    use: "Scrim behind dialog and side panel, and behind the mobile nph-sidebar through sidebar/scrim. USE whenever there is a modal. Stronger in dark because the background is already dark. The only alpha value outside the scale of 8."
   overlay/on-media:
     css: '--nph-overlay-on-media'
     alias: core/alpha/black-40
@@ -1741,12 +1743,12 @@ tokens_layout:
   layout/sidebar-expanded:
     css: '--nph-layout-sidebar-expanded'
     alias: core/layout-width/sidebar-expanded
-    valor: 280
+    valor: 256
     use: "Width of the open sidebar. Applies to the application shell and to the documentation page in Figma."
   layout/sidebar-collapsed:
     css: '--nph-layout-sidebar-collapsed'
     alias: core/layout-width/sidebar-collapsed
-    valor: 64
+    valor: 80
     use: "Width of the collapsed sidebar, icon only."
   layout/header-height:
     css: '--nph-layout-header-height'
@@ -2400,7 +2402,7 @@ The curve says what the piece is. The question is not how much to round.
 | The piece… | Token |
 |---|---|
 | is **operated** | `radius/control` (6) — system default |
-| **contains** with a medium corner (table, pagination, floating toolbar, nph-navigation-menu panel, notification) | `radius/container` (8); the tooltip is `radius/inner` (4); popover, hover card and menus have their own radius (`popover/radius`, `hover-card/radius`, `dropdown/panel-radius`) |
+| **contains** with a medium corner (table, pagination, floating toolbar, nph-navigation-menu panel, notification) | `radius/container` (8); the tooltip is `radius/inner` (4); popover, hover card, menus and the nph-sidebar flyout panel have their own radius (`popover/radius`, `hover-card/radius`, `dropdown/panel-radius`, `sidebar/flyout-radius`) |
 | **floats large** | `radius/overlay` (10) |
 | **carries content** without floating | `radius/surface` (14) |
 | is a **marker** | `radius/subtle` (2) or `radius/full` |
