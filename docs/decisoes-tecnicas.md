@@ -70,6 +70,7 @@ P62.4 subsection for the detail).
 | **P111** | API and semantics of `nph-popover`; the open trigger and the ARIA of `nph-button` (amends P68) | 07/11/2026 | Low now. No piece consumes the popover yet; `nph-hover-card` and `nph-navigation-menu` have their own surfaces, so changing `for`, `side`, `align`, `arrow`, `size`, `closable`, the `footer` slot, the event `nph-close` or the invalid-input rule later requires redoing every consumer. The change to `nph-button` is small and scoped to `aria-haspopup="dialog"`, so it touches no other trigger | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P112** | API and semantics of `nph-hover-card` | 07/11/2026 | Low now. No piece consumes it yet; a profile, a page or an item link will, and changing `href`, the default slot, `heading`, `meta`, `meta-icon`, `meta-title`, `side`, `arrow`, `open`, the slot `media`, the closing on blur or the invalid-input rule later requires redoing every card. The slot `media` and the alignment of the card to the link wait for Indiane (D-1, D-2) | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P113** | API and semantics of `nph-context-menu`; the accepted changes of `nph-dropdown-menu` and `nph-icon` | 08/11/2026 | Low now. No piece consumes the context menu yet; `nph-data-table` is its first expected parent, so changing `for`, `items`, `open-submenu`, `size`, the event `nph-item-select` (with `origin`) or the invalid-input rule later requires redoing every consumer. The `nph-dropdown-menu` change is visual only | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
+| **P115** | API and semantics of `nph-tabs` | 09/11/2026 | Low now. No piece consumes it yet; a section with parts, a request or a record will, and changing `tabs`, `value`, `variant`, `activation`, the named slot of the panel, the event `nph-tab-change`, the names of the scroll arrows or the invalid-input rule later requires redoing every consumer. The balloon of the cut tab (D-1), the names of the arrows (D-2), `99+` (D-3) and the cut label in the segmented and tab button styles (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
 credential and platform of **Font Awesome Pro**. See `PO-001` in the vault.
@@ -6797,9 +6798,185 @@ and semantics are reviewed in the pull request that brings them; the merge is th
 
 ---
 
+## P115 — `nph-tabs`: API and semantics
+
+**Technical conflict.** The accepted documentation (frame `3483:11200`, sets `3472:9192`, `3472:8748`
+and `3472:8747`) gives the Figma properties `estilo`, `state`, `rótulo`, `ícone início`, `contador`,
+`tag`, `abas`, `rolagem` and `tom`, the keyboard behavior of the APG Tabs pattern and the
+accessibility, and leaves the code API to the code, with eight points open in the task. Ten points
+need a decision of their own:
+
+- the tabs are a list of items with a text, an optional icon, counter and tag, and a state of their
+  own, and the panel of each one is content of the consumer: the code has to say how the list goes in
+  and how the panels are bound to the tabs, since an ARIA reference (`aria-controls`,
+  `aria-labelledby`) does not cross a shadow root;
+- the evidence says there is always one active tab, and says the choice between automatic and manual
+  activation is "a property of the code", without saying who owns the active tab: the consumer or the
+  piece;
+- the piece fires an event when the person chooses a tab, and `nph-value-change` is already typed
+  with a list by `nph-toggle-group` (P76), as `nph-change` was for the chip (P100);
+- the evidence says the counter number enters the accessible name "with hidden context text", without
+  saying who writes that text, which is text in the language of the consuming application;
+- the evidence says a cut label shows the whole text in `nph-tooltip` on hover and on focus, and the
+  tooltip draws only on an element with `tabIndex` of 0 or more (P77), while an inactive tab has -1
+  because the list is a single Tab stop;
+- the scroll arrows are an icon-only `nph-button` (DSA-43), which needs an accessible name, and the
+  Figma has no text for it;
+- the evidence leaves open what the arrow does at an end of the list, what happens in the segmented
+  and tab button styles when the tabs do not fit, what moves on a tab change, whether the whole list
+  can be disabled, where the Tab stop goes when the active tab is disabled, and how a large counter
+  shows;
+- the evidence says nothing about input the contract does not accept, such as a repeated `value` or an
+  icon on only some of the tabs;
+- the panel with no focusable item takes the focus (APG), and the piece does not own the content of
+  the panel;
+- the label and the counter number use the text styles directly, with no token of their own.
+
+**Decision.** `nph-tabs` is a Web Component with **open Shadow DOM** (P01), in one tag, with its CSS
+in its own file imported `?inline`. It has no `::part`, no color property, no form association and no
+vertical list. Anatomy only through semantic tokens, the `tabs/*` ones, the text roles and the global
+focus ones. What it rejects renders nothing and emits `console.error` only in development, once per
+cause: the rule of P21. An empty list is a mount: nothing, no error (P68). The names follow P64.
+
+1. **One component, `tabs` is a property.** The tabs are a list of
+   `{ value, text, icon?, counter?, counterLabel?, tag?, disabled? }`, set by property only (no
+   attribute, no slot): a list of objects does not serialize to an attribute, and a slot per tab
+   could not check the rules of the list. `value` names the tab and its panel and is unique. `text` is
+   the label, one line, already localized: the piece writes no word of its own. `icon` is a core name
+   of `nph-icon`, on every tab or on none. `tag` is one word and is drawn as an `nph-badge`, primary
+   light, and primary solid on the active light and outline tab, as the Figma says. The order inside a
+   tab is fixed: icon, label, counter, tag (DSA-57 D-5, as in P100). The counter is a pill of the piece
+   itself, with the `tabs/counter-*` tokens, since the evidence calls it a piece of `nph-tabs`.
+
+2. **`value` is the active tab, and the piece is the source of truth.** `value` reflects. The piece
+   writes it when the person activates a tab, and without a `value` that names a tab, the first
+   enabled tab is active and the piece writes `value`, so one tab is always active and the panel is
+   never empty (the Do of the documentation). A `value` that names no tab warns in development and
+   falls back to the first enabled tab. A `value` set from code changes the tab and fires nothing.
+   An active tab that is disabled keeps the active look under `tabs/item-disabled-opacity`: the
+   combined state T11 of the evidence.
+
+3. **`variant` and `activation`.** `variant` is the Figma `estilo`: `segmented` (default),
+   `underline`, `solid`, `light` or `outline`, the last three being the tab button. `activation` is
+   `automatic` (default) or `manual`, as the APG says. Both reflect, because the internal CSS and the
+   consumer read them. Outside its list, each one renders nothing and emits `console.error`.
+
+4. **The panel is a slot named by the `value`.** The consumer writes `<div slot="pending">` and the
+   piece draws a `role="tabpanel"` around the slot of each tab, with `aria-labelledby` pointing to the
+   tab and `hidden` while inactive. The tab carries `aria-controls` pointing to its panel. Both live
+   in the same shadow root, since an ARIA reference does not cross a root (P91). The piece does not
+   own the content of the panel. A panel with no focusable item takes `tabindex="0"` (APG); the
+   piece decides it by a selector list of the elements that already take the Tab key, measured when
+   the active tab or the slot changes, and it is a heuristic: a focusable item the list does not
+   know gets one more Tab stop.
+
+5. **The event is `nph-tab-change`.** It bubbles and is `composed`, with `detail: { value }`, and is
+   fired only when the person activates a tab, never when code changes `value`, and never on a click
+   on the active tab. It is not `nph-value-change`: `nph-toggle-group` already types that name with a
+   list (`string[]`, P76), the same reason P100 gives for not using `nph-change`.
+
+6. **Invalid input.** The rule of P21: nothing is drawn and `console.error` is emitted in development,
+   once per cause, for a `variant` or `activation` outside its list, a `tabs` that is not a list, a
+   tab that is not an object, a tab without `value` or `text`, a repeated `value`, an `icon` outside
+   the core of `nph-icon` or on only some of the tabs, a `counter` that is not a whole number from
+   zero up, a `counter` without `counterLabel`, a `tag` with more than one word, and every tab
+   disabled. A re-render with the same input stays silent, and a fixed input draws again with no
+   leftover. A list with no accessible name renders and warns once, because the name may arrive
+   after the first render, as in P107 and P109.
+
+7. **Keyboard and activation (APG).** The list is one Tab stop, kept by a roving `tabindex`: 0 on
+   the active tab and -1 on the others. When the active tab is disabled, the Tab stop goes to the
+   first enabled tab, since a disabled tab takes no focus (it is a native disabled button). The left
+   and right arrows move the focus with wrap and skip a disabled tab; in right-to-left writing the
+   arrow that points to the end of the line goes to the next tab. Home and End go to the first and
+   the last enabled tab. With `automatic` activation, the tab becomes active when the arrows put the
+   focus on it; with `manual`, the arrows only move the focus and Enter, Space or a click activate. A
+   click activates the tab and puts the focus on it, and a click on the active tab does nothing.
+   Hover only paints. Esc and a click outside do nothing, and after a tab change the focus stays on
+   the tab. The focus is reached by the native focus of the browser, which brings the tab into view.
+
+8. **The accessible name.** The label is the name of the tab; the icon is `aria-hidden`. The counter
+   number is `aria-hidden` and the hidden context text of the consumer, `counterLabel`, enters the
+   name after the label, such as "Pending, 12 items": it is a property of the code, required with
+   `counter`, because the piece writes no word. The tag enters the name by its content. `label` names
+   the `tablist`, and the host `aria-label` does it when there is no `label`, read by a property whose
+   attribute is `aria-label` since a property called `ariaLabel` is the native ARIA reflection (P107,
+   P109).
+
+9. **The cut label shows its balloon, with a limit.** The label is one line, cut by an ellipsis. It is
+   measured (`ResizeObserver` and `document.fonts.ready`, as `nph-chip`), and only a cut label of an
+   enabled tab gets an `nph-tooltip` with the whole text, `relation="name"` and an explicit
+   `aria-labelledby` (the balloon, then the context text of the counter, then the tag), so the label
+   is not read twice (P100). `nph-tooltip` opens only on an element with `tabIndex` of 0 or more
+   (P77), and an inactive tab has -1. The piece promotes the cut tab under the pointer to
+   `tabindex="0"` while the pointer is on it, on `pointerover` and before the tooltip reads it, and
+   gives it back to the roving value when the pointer leaves; the arrows write the roving value before
+   they move the focus, so the balloon opens for the focused tab. A touch pointer does not promote.
+   It is a limit, registered in the sheet and as D-1.
+
+10. **The scroll arrows.** Only the underline scrolls. When the tabs do not fit, each tab keeps its
+    width (`minmax(max-content, 1fr)`) and the list scrolls, with an arrow at each end, measured by
+    `ResizeObserver`. The arrow is an `nph-button` with severity `secondary`, emphasis `ghost`, size
+    `compact` and shape `square` (the icon-only `nph-button` of DSA-43; there is no sheet for an
+    `nph-icon-button`), with the icons `chevron-left` and `chevron-right`, mirrored in right-to-left
+    writing. Its name comes from `scroll-previous-label` and `scroll-next-label`, which are text of
+    the consumer (D-2); without them the arrows are not drawn and the piece warns once. At an end of
+    the list the arrow is disabled, not hidden, so the list does not change width. The arrows have
+    `tabindex="-1"` and `aria-hidden`: out of the Tab order and out of the screen reader, because the
+    arrow keys already scroll the list. A click scrolls by three quarters of the visible width, smooth
+    unless reduced motion asks otherwise.
+
+11. **Segmented and tab button cut instead of scrolling.** The evidence leaves the overflow of these
+    styles to the code and the usage rule asks for few tabs and short labels. The tabs share the width
+    (`minmax(0, 1fr)`), the list does not scroll and does not wrap, and a label that does not fit is
+    cut with an ellipsis and the balloon of item 9 (D-4).
+
+12. **Only color moves.** The change of the active tab and the hover run on `tabs/indicator-duration`
+    and change color, background and the shadow of the card; the line of the underline is drawn inside
+    each tab and does not slide. With reduced motion nothing moves (DSA-62 D-3), and the scroll
+    arrows scroll with no animation.
+
+13. **No disabled for the whole list.** `disabled` is per tab. A list with every tab disabled is
+    invalid (item 6), since the person would have nothing to activate.
+
+14. **A large counter.** The visible number above 99 shows `99+` (D-3). The accessible name keeps the
+    whole `counterLabel` of the consumer and the API has no maximum.
+
+15. **Tokens.** Only `--nph-tabs-*`, the text roles `--nph-text-label-md-*` (the label) and
+    `--nph-text-label-sm-*` (the counter number), `--nph-elevation-subtle` (the card) and the motion
+    easing. The label has no token of its own, as in `nph-badge`. No token was created or changed.
+
+**Source.** Documentation `3483:11200` and sets `3472:9192`, `3472:8748` and `3472:8747` of the Figma
+file `DS-IA-NEPHOS 5.0`, accepted by Indiane on 09/11/2026 with the Figma UX QA and the textual audit
+approved, and the points of its approval page. The property names, the shape of `tabs`, the binding of
+the panel, the event, the invalid-input rule, the accessible name of the counter, the balloon of the
+cut label and the scroll arrows are a technical proposal of this implementation.
+
+**Out of scope.** A vertical list. A token, new or changed. A change in `nph-tooltip`, so that it opens
+on an element with `tabIndex` of -1. Steps in sequence: that is `nph-stepper`. A disabled for the whole
+list. Scrolling in the segmented and tab button styles. A form association.
+
+**Pending decisions for Indiane.**
+
+- **D-1 — the balloon of the cut tab.** The Figma asks for the balloon of the cut label on every tab,
+  but `nph-tooltip` opens only on an element with `tabIndex` of 0 or more. The code promotes the cut tab
+  under the pointer to `tabindex="0"` while the pointer is on it. She confirms it, or asks for a change
+  in `nph-tooltip`, which is a task of its own.
+- **D-2 — the names of the scroll arrows.** The icon-only `nph-button` needs a name and the Figma has
+  no text for it, so the code takes `scroll-previous-label` and `scroll-next-label` from the consumer.
+- **D-3 — `99+`.** The Figma cites "99+" only as an example. The code shows `99+` above 99 and keeps the
+  whole `counterLabel` in the name.
+- **D-4 — segmented and tab button.** With many tabs these styles cut the label, with a balloon,
+  instead of scrolling. She confirms it, or asks for the scroll in these styles too.
+
+**Status.** Anatomy and behavior accepted by Indiane on 09/11/2026. D-1 to D-4 wait for Indiane. API
+and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112 or P113 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113 or P115 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

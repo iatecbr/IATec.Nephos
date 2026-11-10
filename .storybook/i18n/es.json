@@ -381,6 +381,18 @@
     "components-nph-breadcrumb-validation--loading": "Carga",
     "components-nph-breadcrumb-validation--examples": "Ejemplos",
     "components-nph-breadcrumb-validation--brands": "Marcas",
+    "components-nph-tabs-docs": "Docs",
+    "components-nph-tabs-docs--documentation": "Documentación",
+    "components-nph-tabs-validation": "Validación",
+    "components-nph-tabs-validation--variants": "Variantes",
+    "components-nph-tabs-validation--content": "Contenido",
+    "components-nph-tabs-validation--states": "Estados",
+    "components-nph-tabs-validation--scroll": "Desplazamiento",
+    "components-nph-tabs-validation--cut-label": "Etiqueta cortada",
+    "components-nph-tabs-validation--panels": "Paneles",
+    "components-nph-tabs-validation--direction": "Dirección",
+    "components-nph-tabs-validation--examples": "Ejemplos",
+    "components-nph-tabs-validation--brands": "Marcas",
     "components-nph-navigation-menu-docs": "Docs",
     "components-nph-navigation-menu-docs--documentation": "Documentación",
     "components-nph-navigation-menu-validation": "Validación",
@@ -7784,7 +7796,16 @@
       "components-nph-hover-card-validation--in-sentence": "El enlace en la línea de una frase con la tarjeta cerrada, y el mismo enlace con la tarjeta abierta: la pieza sigue la línea del texto.",
       "components-nph-hover-card-validation--direction": "Escritura de derecha a izquierda: la tarjeta empieza a la derecha del enlace y la flecha sigue apuntando al centro del enlace.",
       "components-nph-hover-card-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: un perfil con avatar, el resumen de un enlace con imagen y fecha, y un elemento con estado y hora.",
-      "components-nph-hover-card-validation--brands": "Las siete marcas en modo claro y oscuro: el borde y el halo de foco del enlace siguen la marca del marco."
+      "components-nph-hover-card-validation--brands": "Las siete marcas en modo claro y oscuro: el borde y el halo de foco del enlace siguen la marca del marco.",
+      "components-nph-tabs-validation--variants": "Los cinco estilos, cada uno con la segunda pestaña activa: el riel segmentado con una tarjeta en la pestaña activa, el subrayado con una línea debajo de ella, y los botones solid, light y outline con un fondo en la pestaña activa.",
+      "components-nph-tabs-validation--content": "Lo que una pestaña activa, en todos los estilos: el icono de inicio, el contador después de la etiqueta y la tag después del contador, siempre en ese orden, y los tres tonos del contador: inactivo fuera del riel, inactivo dentro del riel y activo.",
+      "components-nph-tabs-validation--states": "Activa, en reposo y deshabilitada en todos los estilos, y la pestaña activa también deshabilitada, que mantiene el aspecto de activa bajo la opacidad de deshabilitado. El hover y el foco aparecen con el puntero y el teclado, y las pruebas los comprueban.",
+      "components-nph-tabs-validation--scroll": "La lista subrayada que no cabe: cada pestaña guarda el ancho de su contenido y una flecha queda en cada extremo, deshabilitada en el extremo que la lista alcanzó; cuando las pestañas caben, se reparten el ancho y ninguna flecha aparece.",
+      "components-nph-tabs-validation--cut-label": "En los estilos segmentado y botón las pestañas se reparten el ancho, y una etiqueta que no cabe termina en puntos suspensivos; el texto completo aparece en un globo al pasar el puntero y con el foco.",
+      "components-nph-tabs-validation--panels": "El panel es contenido del consumidor, encajado por el valor de cada pestaña: solo aparece el panel de la pestaña activa, y la lista queda encima de él.",
+      "components-nph-tabs-validation--direction": "Escritura de derecha a izquierda: la lista se lee desde la derecha y las flechas siguen los extremos de la línea.",
+      "components-nph-tabs-validation--examples": "Los tres ejemplos obligatorios, cada uno en modo claro y oscuro: pedidos por etapa con icono, contador y tag; el detalle del pedido dentro de un panel; y las flechas en los dos extremos cuando las pestañas no caben.",
+      "components-nph-tabs-validation--brands": "Las siete marcas en modo claro y oscuro: la etiqueta y la línea de la pestaña activa, el contador, la tag y el foco siguen la marca del marco."
     }
   },
   "multiComboboxDocs": {
@@ -11930,5 +11951,315 @@
     "sourceApi": "Ficha del nph-hover-card; docs/decisoes-tecnicas.md › P112",
     "sourceAnatomy": "Figma, conjunto 4406:1105; design.md",
     "matrixLabel": "Matriz del componente"
+  },
+  "tabsDocs": {
+    "summary": "La lista de pestañas que cambia el contenido de una sección de la misma página, sin salir de ella.",
+    "onThisPage": "En esta página",
+    "derivedTitle": "Esta página es derivada.",
+    "derivedText": "En caso de divergencia, prevalecen las fuentes canónicas: la ficha de nph-tabs, design.md para los tokens y docs/decisoes-tecnicas.md para la P115. El archivo DS-IA-NEPHOS 5.0 de Figma es la fuente visual. Aquí no nace ninguna regla.",
+    "sourceLabel": "Fuente:",
+    "whenToUseTitle": "Cuándo usar",
+    "whenToUse": [
+      "Para alternar entre partes del mismo asunto, en la misma página, cuando la persona ve una parte a la vez.",
+      "Segmentado: pocas pestañas con etiquetas cortas, dentro de una tarjeta o panel.",
+      "Subrayado: la parte superior de una página o sección, y cuando hay muchas pestañas; las pestañas se desplazan cuando no caben.",
+      "Botón: una barra corta que necesita más peso, encima de un panel.",
+      "Active el contador cuando cada pestaña cuenta elementos; el icono, cuando las etiquetas se parecen; la tag, para marcar una pestaña nueva."
+    ],
+    "whenNotToUseTitle": "Cuándo no usar",
+    "whenNotToUse": [
+      "Para ir de una página a otra: use nph-sidebar o nph-breadcrumb.",
+      "Para pasos en secuencia, con siguiente y volver: use nph-stepper.",
+      "Para cambiar la vista de la misma lista: use nph-toggle-group.",
+      "El estilo segmentado con muchas pestañas o etiquetas largas: use el subrayado.",
+      "Un icono en solo algunas pestañas: en todas las pestañas o en ninguna."
+    ],
+    "apiTitle": "API",
+    "apiHeader": [
+      "Propiedad",
+      "Regla"
+    ],
+    "api": [
+      [
+        "tabs",
+        "Las pestañas, en orden, como una lista de { value, text, icon, counter, counterLabel, tag, disabled }. Solo propiedad: se define desde JavaScript. value nombra la pestaña y su panel y es único; text es la etiqueta, en una línea; icon es un nombre del núcleo de nph-icon, en todas las pestañas o en ninguna; counter es un número entero de cero en adelante y exige counterLabel; tag es una palabra."
+      ],
+      [
+        "value",
+        "El valor de la pestaña activa. Siempre hay una: sin un valor que nombre una pestaña, la primera pestaña habilitada queda activa y el componente escribe value. Reflejada en el atributo."
+      ],
+      [
+        "variant",
+        "El estilo de Figma: segmented (predeterminado), underline, solid, light u outline; los tres últimos son el botón de pestaña. Reflejada en el atributo."
+      ],
+      [
+        "activation",
+        "automatic (predeterminado): una pestaña queda activa cuando las flechas le llevan el foco. manual: las flechas solo mueven el foco, y Enter, Espacio o un clic activan. Reflejada en el atributo."
+      ],
+      [
+        "label",
+        "El nombre accesible de la lista de pestañas. Ya localizado."
+      ],
+      [
+        "aria-label",
+        "El nombre accesible de la lista cuando no hay label."
+      ],
+      [
+        "scroll-previous-label y scroll-next-label",
+        "Los nombres de las dos flechas de desplazamiento del estilo subrayado. Sin ellos las flechas no se dibujan. Ya localizados."
+      ],
+      [
+        "nph-tab-change",
+        "El evento que la lista dispara cuando la persona activa una pestaña, con detail { value }. Sube por el árbol y es compuesto. Definir value desde el código no dispara nada."
+      ],
+      [
+        "slot",
+        "El panel de cada pestaña es contenido del consumidor, con slot igual al valor de la pestaña. El slot predeterminado no se usa."
+      ],
+      [
+        "tamaño, orientación y ancho",
+        "No son propiedades: un solo tamaño, solo horizontal, y la lista llena el contenedor con las pestañas repartiéndose el ancho."
+      ]
+    ],
+    "usageTitle": "Uso",
+    "usageHeader": [
+      "Marcado e importación",
+      "Qué hace"
+    ],
+    "usageMarkup": "<nph-tabs id=\"requests\" variant=\"underline\" label=\"Pedidos\" scroll-previous-label=\"Desplazar las pestañas hacia atrás\" scroll-next-label=\"Desplazar las pestañas hacia adelante\">\n  <p slot=\"pending\">Pedidos esperando que alguien actúe.</p>\n  <p slot=\"done\">Pedidos que llegaron a la última etapa.</p>\n</nph-tabs>\n<script>\n  requests.tabs = [\n    { value: 'pending', text: 'Pendientes', counter: 12, counterLabel: '12 elementos' },\n    { value: 'done', text: 'Concluidos' },\n  ];\n</script>",
+    "usageTag": "La tag de la pieza. Las pestañas llegan como dato en la propiedad tabs, definida desde JavaScript; el panel de cada pestaña es el contenido con slot igual a su valor.",
+    "usageImport": "Registra el componente con sus estilos. El CSS de los tokens generado se importa aparte.",
+    "sourceUsage": "Figma, marco nph-tabs (3483:11200); docs/decisoes-tecnicas.md › P115",
+    "variantsTitle": "Variantes",
+    "variantsCaption": "Los cinco estilos, cada uno con la segunda pestaña activa.",
+    "variantsUseHeader": [
+      "Estilo",
+      "Cuándo usar"
+    ],
+    "variantsUse": [
+      {
+        "value": "segmented",
+        "label": "El predeterminado. Vistas dentro de una tarjeta o panel, con pocas pestañas y etiquetas cortas. Un riel guarda las pestañas y una tarjeta marca la activa."
+      },
+      {
+        "value": "underline",
+        "label": "Secciones y listas largas, en la parte superior de una página o sección. Una línea marca la pestaña activa. Cuando las pestañas no caben, cada una guarda su ancho y la lista se desplaza."
+      },
+      {
+        "value": "solid",
+        "label": "Una barra corta que necesita más peso: la pestaña activa recibe un fondo sólido en el color primario."
+      },
+      {
+        "value": "light",
+        "label": "Una barra corta con la pestaña activa sobre una superficie primaria clara."
+      },
+      {
+        "value": "outline",
+        "label": "Una barra corta con la pestaña activa sobre una superficie primaria clara y un borde suave."
+      }
+    ],
+    "contentTitle": "Contenido de una pestaña",
+    "contentCaption": "La etiqueta sola, y luego con el icono, el contador y la tag activados.",
+    "contentUseHeader": [
+      "Contenido",
+      "Cuándo usar"
+    ],
+    "contentUse": [
+      {
+        "value": "icon",
+        "label": "Cuando las etiquetas se parecen. En todas las pestañas o en ninguna; es ligero en reposo y sólido al pasar el puntero y cuando está activa."
+      },
+      {
+        "value": "counter",
+        "label": "Cuando cada pestaña cuenta elementos. Exige counterLabel, el texto oculto que acompaña al número en el nombre accesible, como \"12 elementos\". Por encima de 99 muestra 99+."
+      },
+      {
+        "value": "tag",
+        "label": "Para marcar una pestaña nueva, con una palabra. Va después del contador."
+      }
+    ],
+    "scrollingTitle": "Desplazamiento y etiquetas largas",
+    "scrollingCaption": "La lista subrayada que no cabe se desplaza; en los otros estilos una etiqueta que no cabe se corta.",
+    "scrolling": [
+      "Solo el estilo subrayado se desplaza: cuando las pestañas no caben, cada una guarda el ancho de su contenido y una flecha queda en cada extremo. La flecha queda deshabilitada en el extremo que la lista alcanzó.",
+      "Las flechas quedan fuera del orden del Tab y ocultas del lector de pantalla, porque las teclas de flecha ya recorren las pestañas; la pestaña con foco se desplaza hasta la vista.",
+      "En los estilos segmentado y botón las pestañas se reparten el ancho y la lista no se desplaza: la regla de uso pide pocas pestañas. Una etiqueta que no cabe termina en puntos suspensivos y el texto completo aparece en un globo al pasar el puntero y con el foco.",
+      "Con movimiento reducido nada se mueve: la pestaña activa cambia de una vez."
+    ],
+    "keyboardTitle": "Teclado",
+    "keyboardHeader": [
+      "Entrada",
+      "Qué hace"
+    ],
+    "keyboard": [
+      [
+        "Tab",
+        "Entra en la lista por la pestaña activa, ya que la lista es una única parada del Tab; el siguiente Tab va al panel. Un panel sin elemento enfocable recibe el foco."
+      ],
+      [
+        "Flechas izquierda y derecha",
+        "Mueven el foco a la pestaña anterior y a la siguiente, volviendo al principio o al final en los extremos y saltando la pestaña deshabilitada. En la escritura de derecha a izquierda las flechas se intercambian."
+      ],
+      [
+        "Home y End",
+        "Enfocan la primera y la última pestaña habilitada."
+      ],
+      [
+        "Activación",
+        "Automática por defecto: la pestaña que recibe el foco por las flechas queda activa. En la activación manual, solo Enter o Espacio la activan."
+      ],
+      [
+        "Clic o toque",
+        "Activa la pestaña y le lleva el foco. Un clic en la pestaña activa no hace nada, y una pestaña deshabilitada ni se activa ni recibe el foco."
+      ],
+      [
+        "Puntero y Esc",
+        "El hover solo pinta. El Esc no hace nada: la lista no abre ninguna capa."
+      ]
+    ],
+    "relationsTitle": "Relaciones y contexto",
+    "relations": [
+      "Dentro de una tarjeta o panel la lista queda arriba, y el panel de la pestaña activa justo debajo de ella.",
+      "Combina con nph-icon (el icono de inicio), nph-badge (la tag), nph-button (las flechas de desplazamiento, como el botón solo de icono) y nph-tooltip (la etiqueta cortada). El contador es una pieza del propio nph-tabs.",
+      "No sustituye la navegación entre páginas, los pasos en secuencia ni el cambio de vista de una lista: use nph-sidebar, nph-breadcrumb, nph-stepper o nph-toggle-group."
+    ],
+    "anatomyTitle": "Anatomía",
+    "anatomyHeader": [
+      "Parte",
+      "Regla"
+    ],
+    "anatomy": [
+      [
+        "Lista",
+        "Las pestañas juntas: el riel apagado en el estilo segmentado, la línea de base en el subrayado y solo el espacio entre las pestañas en los estilos de botón."
+      ],
+      [
+        "Pestaña",
+        "El control en el que se hace clic, una por panel. La pestaña entera es el objetivo."
+      ],
+      [
+        "Icono de inicio",
+        "Opcional. nph-icon en el tamaño pequeño, antes de la etiqueta, en el color de la etiqueta: ligero en reposo y con foco, sólido al pasar el puntero y cuando está activa."
+      ],
+      [
+        "Etiqueta",
+        "El rol de texto text/label-md, en una línea. Una etiqueta cortada muestra el texto completo en nph-tooltip."
+      ],
+      [
+        "Contador",
+        "Opcional. Una pieza de nph-tabs, después de la etiqueta, con el número en text/label-sm, en tres tonos: inactivo fuera del riel, inactivo dentro del riel y activo."
+      ],
+      [
+        "Tag",
+        "Opcional. Un nph-badge en primario claro, después del contador, con una palabra. En el botón light y outline activo pasa a primario sólido."
+      ],
+      [
+        "Indicador",
+        "Segmentado: una tarjeta con elevación sutil. Subrayado: una línea en el color de texto primario bajo la pestaña activa. Botón: un fondo, con un borde suave en outline."
+      ],
+      [
+        "Flechas de desplazamiento",
+        "Solo en el subrayado, cuando las pestañas no caben: nph-button solo de icono, secundario ghost, compacto y cuadrado, con los chevrones."
+      ],
+      [
+        "Panel",
+        "El contenido de la pestaña activa. Queda con el consumidor."
+      ]
+    ],
+    "accessibilityTitle": "Accesibilidad",
+    "accessibilityHeader": [
+      "Criterio",
+      "Regla"
+    ],
+    "accessibility": [
+      [
+        "Semántica",
+        "La lista es un tablist, cada pestaña un botón con role tab, aria-selected y aria-controls, y cada panel un tabpanel nombrado por su pestaña (APG, patrón Tabs)."
+      ],
+      [
+        "Nombre accesible",
+        "La etiqueta es el nombre de la pestaña. El icono es decorativo; el número del contador queda oculto del lector de pantalla y su texto de contexto, como \"12 elementos\", entra en el nombre."
+      ],
+      [
+        "Contraste",
+        "La etiqueta inactiva, la etiqueta y la línea activas y la etiqueta de cada botón alcanzan 4,5:1 en modo claro y oscuro, en las siete marcas. La píldora del contador es decorativa y el número sigue legible."
+      ],
+      [
+        "Foco visible",
+        "La pestaña con foco muestra el borde de foco y el halo por fuera, en todos los estilos, como hace nph-button."
+      ],
+      [
+        "El color no es la única señal",
+        "La pestaña activa tiene una tarjeta, una línea o un fondo, y su icono pasa a sólido, además del color del texto."
+      ],
+      [
+        "Tamaño del objetivo",
+        "La pestaña entera es el objetivo, por encima de 24 por 24."
+      ],
+      [
+        "Deshabilitada",
+        "Una pestaña deshabilitada es un botón deshabilitado: no recibe foco ni clic. Una pestaña activa y deshabilitada mantiene el aspecto de activa bajo la opacidad de deshabilitado."
+      ]
+    ],
+    "examplesTitle": "Ejemplos",
+    "examplesCaption": "Los tres ejemplos obligatorios: pedidos por etapa con icono, contador y tag; el detalle del pedido dentro de un panel; y las flechas en los dos extremos cuando las pestañas no caben.",
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "referencesTitle": "Referencias",
+    "references": [
+      "Ficha de nph-tabs — propósito, estilos, comportamiento, accesibilidad, tokens y antipatrones.",
+      "docs/decisoes-tecnicas.md — P115 (API y semántica), P01, P02 y P03.",
+      "design.md — los tokens tabs/* y los tokens de foco.",
+      "Figma DS-IA-NEPHOS 5.0 — página NPH — Tabs, marco de documentación nph-tabs (3483:11200), conjuntos 3472:9192, 3472:8748 y 3472:8747.",
+      "WAI-ARIA Authoring Practices, patrón Tabs.",
+      "Storybook — Validación, en la carpeta de al lado."
+    ],
+    "sourceSpec": "Ficha de nph-tabs; Figma, marco nph-tabs (3483:11200)",
+    "sourceApi": "Ficha de nph-tabs; docs/decisoes-tecnicas.md › P115",
+    "sourceAnatomy": "Figma, conjuntos 3472:9192, 3472:8748 y 3472:8747; design.md",
+    "matrixLabel": "Matriz del componente"
+  },
+  "tabsValidation": {
+    "lightCaption": "Modo claro",
+    "darkCaption": "Modo oscuro",
+    "navLabel": "Pedidos",
+    "scrollPreviousLabel": "Desplazar las pestañas hacia atrás",
+    "scrollNextLabel": "Desplazar las pestañas hacia adelante",
+    "all": "Todos",
+    "pending": "Pendientes",
+    "review": "En revisión",
+    "done": "Concluidos",
+    "newTag": "Nuevo",
+    "items": "{count} elementos",
+    "stateActive": "Activa",
+    "stateRest": "Reposo",
+    "stateDisabled": "Deshabilitada",
+    "longLabels": [
+      "Pedidos esperando la revisión jurídica",
+      "Pedidos devueltos al autor para ajustes",
+      "Pedidos aprobados con una nota de presupuesto pendiente"
+    ],
+    "sections": [
+      "Resumen",
+      "Pedidos",
+      "Aprobaciones",
+      "Presupuestos",
+      "Contratos",
+      "Facturas",
+      "Proveedores",
+      "Informes",
+      "Auditorías",
+      "Políticas",
+      "Configuración",
+      "Historial"
+    ],
+    "panels": {
+      "all": "Todos los pedidos, de cualquier etapa.",
+      "pending": "Pedidos esperando que alguien actúe.",
+      "review": "Pedidos que los revisores están comprobando.",
+      "done": "Pedidos que llegaron a la última etapa."
+    },
+    "detailTitle": "Pedido 2481",
+    "detailText": "Compra de dos portátiles para el equipo de soporte, a la espera de la aprobación del presupuesto."
   }
 }

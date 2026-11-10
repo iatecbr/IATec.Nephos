@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 700,
   "owner": "elvys",
-  "state": "in-progress",
+  "state": "in-review",
   "piece": "nph-tabs",
   "dependencies": [
     "DSA-03",
@@ -34,7 +34,32 @@
     }
   ],
   "blockers": [],
-  "pending_decisions": [],
+  "pending_decisions": [
+    {
+      "id": "D-1",
+      "question": "The accepted Figma documentation asks for the whole text of a cut label in nph-tooltip on hover and on focus, but nph-tooltip only opens on an element with tabIndex 0 or more, and an inactive tab has -1. The code gives tabindex 0 to the cut tab under the pointer while the pointer rests on it, and takes it back when the pointer leaves. She confirms that this serves, or asks for a change in nph-tooltip, which is another task. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-09"
+    },
+    {
+      "id": "D-2",
+      "question": "The icon-only nph-button of the scroll arrows requires a label, and the accepted documentation gives no text for it. The code adds two properties, scroll-previous-label and scroll-next-label, and draws no arrow without them. She confirms the two properties and the text the product uses. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-09"
+    },
+    {
+      "id": "D-3",
+      "question": "The accepted documentation only cites 99+ as an example of a large counter. The code shows 99+ above 99 and keeps the full number in the hidden context text. She confirms the limit of 99. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-09"
+    },
+    {
+      "id": "D-4",
+      "question": "In the segmented and the tab button styles with many tabs, the code cuts the label with an ellipsis and a balloon instead of scrolling. The documentation asks for few tabs there and leaves the overflow to the code. She confirms this or asks for scrolling in those styles too. It does not block the pull request.",
+      "decider": "indiane",
+      "opened_at": "2026-11-09"
+    }
+  ],
   "evidence": [
     "docs/operacao/evidencias/DSA-71/figma-docs-accepted-2026-11-09.md"
   ],
