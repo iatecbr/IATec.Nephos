@@ -110,7 +110,7 @@ The 64 tokens (`file-upload/*` 28 and `file-upload-item/*` 36) and the three new
 The code does not create a token or change a token value, except the two `border-style` tokens of the gate `stroke-style-token`. It does not change Figma. It does not change nph-button, nph-icon-button, nph-spinner or nph-image. It does not build the single-file field (nph-input-file) nor the file list in table columns (that is a composition with nph-data-table).
 
 ## Sources
-- Figma `DS-IA-NEPHOS 5.0`, documentation frame `5311:8328`, appendix `5722:4910`, `5720:4860` and `5318:10033`
+- Figma `DS-IA-NEPHOS 5.0`, documentation frame `5311:8328` and the evidence of the `figma-docs-accepted` gate
 - Component sets: drop zone `5297:7473`, file item `5298:7669`
 - WAI-ARIA APG, Button pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 - Salt, File drop zone: https://www.saltdesignsystem.com/salt/components/file-drop-zone/accessibility

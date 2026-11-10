@@ -151,7 +151,7 @@ In the zone, in the default format from top to bottom (icon, phrase and button, 
 |---|---|
 | `formato` | `padrão` (the default of the set): icon, phrase, button and rule in a column. `compacta`: everything in one row, for a form with other fields. It is the format of the zone, not the control size. |
 | `estado` (zone) | `vazio` (default), `hover`, `foco`, `arrastando`, `erro`, `limite` and `desabilitado`. On hover and focus the button changes and the icon turns solid; the zone border does not change. On dragging, background, border, phrase and icon go to the brand colors and the button disappears, with its place kept so the height does not change. On error, the background goes to `status/error-surface`, the border to `status/error` in light and to the status color at 40% in dark (`core/alpha/danger-400-40`), and the rule becomes the reason. On limit, the background goes to `status/warning-surface` and the border to `status/warning` in light and to `core/alpha/warn-400-40` in dark; the phrase says the limit and the button is disabled. On disabled, the whole zone is under `state/disabled-opacity`. |
-| `estado` (item) | `pronto` (default), `enviando`, `enviado`, `erro`, `concluído`, `concluído-hover` and `concluído-foco`. Ready shows when the upload happens together with the form. Uploading shows nph-spinner and the percentage, with no bar. Done is the file already saved: the name opens the file; on hover the name is underlined and the border is `color/input`; on focus the ring draws the whole row. |
+| `estado` (item) | `pronto` (default), `enviando`, `enviado`, `erro`, `concluído`, `concluído-hover` and `concluído-foco`. Ready shows when the upload happens together with the form. Uploading shows nph-spinner and the percentage, with no bar. Done is the file already saved: the name opens the file; on hover the name is underlined and the border is `file-upload-item/border-done-hover` (→ `color/input`); on focus the ring draws the whole row. |
 | `tipo` (item) | `arquivo` (default) shows the `file-lines` icon in the box, in the color of the state; `imagem` shows the nph-image thumbnail. nph-icon also has `file-image`, for an image; there is no icon per extension, because the type is already written in the name. |
 | Not a property | Required: asterisk on the nph-field label. Help: nph-field help text. Automatic upload or upload with the form: set in code; ready exists in the upload with the form. Size of the button and of the ×: follows the form. Long name: cut on one line with an ellipsis. |
 
@@ -192,7 +192,7 @@ Inherited decisions:
 
 - The pieces are the zone (format × state) and the item (state × file or image type). Outside the component: web address, confirmation on removal, automatic upload as the default, an extra state for a server error, and a single file (nph-input-file, decision map line 140).
 - The trigger is a real nph-button inside the zone; the whole zone does not open the picker; hover and focus come from the button.
-- The dashed border comes only from the stroke style; typography from the `text/*` styles; the zone icon at `icon/size-lg`; the error border in `status/error`.
+- The dashed border comes only from the stroke style; typography from the `text/*` styles; the zone icon at `icon/size-lg`; the error border in `status/error` in light and in `core/alpha/danger-400-40` in dark.
 - Follows rule T11 as the other components (disabled wins).
 
 Icon and image:
@@ -212,7 +212,7 @@ Event, aria, slot, property and console warning stay with the code, following th
 | visible focus | The zone takes no focus of its own: the focus comes from the "Choose files" button, with the nph-button ring. On done, the name is the link that opens the file, and the ring in `focus/border` and `focus/halo` draws the whole row, above 3:1 over the background in both themes. The × and "Try again" show the ring of their own piece. The name is a link with the click area stretched across the row and the × a separate button, to avoid a control inside a control (WCAG 4.1.2). |
 | color is not the only sign | Every colored state has text and an icon: on the zone error, the rule becomes the reason with `circle-xmark`; on the item error, the reason comes with `circle-xmark`; sent and done bring `circle-check` and the word; the limit says what to do (WCAG 1.4.1 and 3.3.1). |
 | target size | The button and the × use the size of the form, default or large, never compact; target of at least 24 × 24 (WCAG 2.5.8). Dragging has the button as an alternative (WCAG 2.5.7). |
-| accessible name | The button uses the visible text (WCAG 2.5.3). The × carries the file name: "Cancel upload of relatorio-anual-2026.pdf" while uploading and "Remove relatorio-anual-2026.pdf" in the other states. Decorative icons stay `aria-hidden`. Progress, upload complete and error are announced as a status (WCAG 4.1.3). |
+| accessible name | The button uses the visible text (WCAG 2.5.3). The × carries the file name: "Cancel upload of relatorio-anual-2026.pdf" while uploading and "Remove relatorio-anual-2026.pdf" in the other states. Decorative icons stay `aria-hidden`. Upload complete and error are announced as a status (WCAG 4.1.3); the progress stays in the visible text, with no announcement per percent. |
 
 ## Relations and context
 
@@ -250,8 +250,8 @@ Empty (the rule shows before the choice), the list in use (an upload in progress
 
 | Do not | Use instead |
 |---|---|
-| Show the error only by the color of the zone | The reason in place of the rule, with `circle-xmark` |
-| Use the compact size on the button or on the × | Default or large, as the form |
+| Show the error only by the color of the zone: the person does not know what happened | The reason in place of the rule, with `circle-xmark` |
+| Use the compact size on the button or on the ×: in the form, the × is lower than the sibling fields and the target shrinks | Default or large, as the form |
 
 ## Appendix points answered
 
