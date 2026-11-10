@@ -1,4 +1,4 @@
-<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=d72a7c8a64c9562a38123f7ce58744efd7c27c2cfda31c9ac3dcd2d94aa8f9be | status=rascunho -->
+<!-- i18n: lang=es | source=docs/consuming.md | source-sha256=e84bac118a4831cce0021a1463fe4dcf59f11d8a9e23be762e99c730dd7cb40b | status=rascunho -->
 
 # Consumir Nephos
 
@@ -32,7 +32,7 @@ desplazamiento nativa.
 | `@iatec/nephos/scrollbar.css` | El color de la barra de desplazamiento nativa. Cárguelo justo después de `tokens.css`. |
 | `@iatec/nephos/custom-elements.json` | El manifiesto que leen los editores y las herramientas de documentación. |
 
-Disponibles en `5.0.0-rc.2`: todos los puntos de entrada `nph-*` que exporta el
+Disponibles en `5.0.0-rc.3`: todos los puntos de entrada `nph-*` que exporta el
 paquete. La lista de componentes, con sus propiedades, está en
 `custom-elements.json`. Las variantes y los estados de cada uno están en Storybook
 (`npm run storybook`) y en su ficha, `fichas/<name>.md`.

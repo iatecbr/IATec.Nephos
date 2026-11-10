@@ -1,4 +1,4 @@
-<!-- i18n: lang=pt-BR | source=docs/consuming.md | source-sha256=d72a7c8a64c9562a38123f7ce58744efd7c27c2cfda31c9ac3dcd2d94aa8f9be | status=rascunho -->
+<!-- i18n: lang=pt-BR | source=docs/consuming.md | source-sha256=e84bac118a4831cce0021a1463fe4dcf59f11d8a9e23be762e99c730dd7cb40b | status=rascunho -->
 
 # Consumindo o Nephos
 
@@ -30,7 +30,7 @@ JavaScript de cada componente, as declarações TypeScript, um Custom Elements M
 | `@iatec/nephos/scrollbar.css` | A cor da barra de rolagem nativa. Carregue logo depois de `tokens.css`. |
 | `@iatec/nephos/custom-elements.json` | O manifesto que editores e ferramentas de documentação leem. |
 
-Disponíveis na `5.0.0-rc.2`: todos os pontos de entrada `nph-*` que o pacote
+Disponíveis na `5.0.0-rc.3`: todos os pontos de entrada `nph-*` que o pacote
 exporta. A lista de componentes, com suas propriedades, está em
 `custom-elements.json`. As variantes e os estados de cada um estão no Storybook
 (`npm run storybook`) e na sua ficha, `fichas/<name>.md`.
