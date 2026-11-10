@@ -11313,7 +11313,8 @@
     "panel": [
       "The panel opens below its trigger, aligned to its start edge, in the top layer, and never leaves the window sideways.",
       "A panel link has a title, an optional description and an optional icon. Two groups sit side by side, with a vertical separator between them.",
-      "A trigger opens on click, Enter or Space. With the mouse it opens after a short wait and closes the same time after the pointer leaves the trigger and the panel. Esc closes it and gives the focus back to the trigger.",
+      "A trigger opens on click, Enter or Space. With the mouse it opens after a short wait and closes after a longer one once the pointer leaves the trigger and the panel; a pointer that comes back in time keeps it open. Esc closes it and gives the focus back to the trigger.",
+      "When the panel opens, the arrow of the trigger turns half a turn and the panel fades in; it fades out when it closes. With reduced motion nothing moves.",
       "The wide panel hugs its content. Every panel link is 280 px wide."
     ],
     "currentTitle": "Current page",
@@ -11324,10 +11325,11 @@
       "A top link marked as current carries aria-current=\"page\"; the current panel link too, and its icon is solid."
     ],
     "narrowTitle": "Narrow width",
-    "narrowCaption": "The Menu button open, with the same items as a vertical list.",
+    "narrowCaption": "The Menu button open, with each trigger as a collapsed row and one row open.",
     "narrow": [
       "When the items do not fit on one line, the bar turns into the Menu button. The consumer chooses narrow; the piece does not measure itself.",
-      "The Menu button opens the same items as a vertical list in a panel 280 px wide. Each trigger shows as a group, with its label as the group label.",
+      "The Menu button opens the same items as a vertical list in a panel 280 px wide. Each trigger is a collapsed row with its arrow.",
+      "A click, Enter or Space on a row opens its links below it and turns the arrow; each row opens and closes on its own. The links of a collapsed row are hidden and out of the Tab order.",
       "Do not hide the bar behind the Menu button when the items fit."
     ],
     "relationsTitle": "Relations and context",
@@ -11375,6 +11377,10 @@
         "A vertical nph-separator between the groups."
       ],
       [
+        "Narrow row",
+        "A trigger in the narrow list: a button with the label, the arrow at the end, aria-expanded and aria-controls, that opens its links below it."
+      ],
+      [
         "Menu button",
         "A button with the bars icon, only in the narrow width."
       ]
@@ -11387,7 +11393,7 @@
     "accessibility": [
       [
         "Contrast",
-        "The text over the background and the popover pass the required level in both themes, except the current text in the dark scheme of four of the seven brands, where it falls to 1.49:1 to 2.16:1 over the dark bar (a token limit); the indicator and the focus border, in the primary color, have at least 3:1 against the background."
+        "The text over the background and the popover pass the required level in both themes, in the seven brands, including the current text; the indicator and the focus border, in the primary color, have at least 3:1 against the background."
       ],
       [
         "Visible focus",
@@ -11403,11 +11409,11 @@
       ],
       [
         "Accessible name",
-        "A navigation landmark named by label or aria-label. A trigger is a button with aria-expanded and aria-controls. The link of the current page carries aria-current=\"page\". The arrow and the link icons are decorative. The Menu button has the name \"Menu\"."
+        "A navigation landmark named by label or aria-label. A trigger, and a row of the narrow list, is a button with aria-expanded and aria-controls. The link of the current page carries aria-current=\"page\". The arrow and the link icons are decorative. The Menu button has the name \"Menu\"."
       ],
       [
         "Keyboard",
-        "Tab moves between the items and through the links of an open panel; Enter and Space open and close a trigger; Esc closes the panel and gives the focus back. It is disclosure navigation, not a menubar: there are no arrow keys."
+        "Tab moves between the items and through the links of an open panel, or of an open row; Enter and Space open and close a trigger or a row; Esc closes the panel and gives the focus back. It is disclosure navigation, not a menubar: there are no arrow keys."
       ]
     ],
     "examplesTitle": "Examples",

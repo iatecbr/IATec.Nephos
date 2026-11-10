@@ -11313,7 +11313,8 @@
     "panel": [
       "El panel se abre debajo del disparador, alineado a su borde inicial, en la capa superior, y nunca sale de la ventana por los lados.",
       "Un enlace del panel tiene título, descripción opcional e ícono opcional. Dos grupos quedan lado a lado, con un separador vertical entre ellos.",
-      "Un disparador se abre con clic, Enter o Espacio. Con el mouse, se abre tras una espera corta y se cierra el mismo tiempo después de que el puntero sale del disparador y del panel. Esc lo cierra y devuelve el foco al disparador.",
+      "Un disparador se abre con clic, Enter o Espacio. Con el mouse, se abre tras una espera corta y se cierra tras una espera mayor cuando el puntero sale del disparador y del panel; un puntero que vuelve a tiempo mantiene el panel abierto. Esc lo cierra y devuelve el foco al disparador.",
+      "Cuando el panel se abre, la flecha del disparador gira media vuelta y el panel aparece con un fundido; al cerrarse, desaparece con un fundido. Con movimiento reducido, nada se mueve.",
       "El panel ancho se ajusta al contenido. Todo enlace del panel mide 280 px de ancho."
     ],
     "currentTitle": "Página actual",
@@ -11324,10 +11325,11 @@
       "Un enlace superior marcado como actual lleva aria-current=\"page\"; el enlace actual del panel también, y su ícono es sólido."
     ],
     "narrowTitle": "Ancho estrecho",
-    "narrowCaption": "El botón Menú abierto, con los mismos elementos en una lista vertical.",
+    "narrowCaption": "El botón Menú abierto, con cada disparador como una fila contraída y una fila abierta.",
     "narrow": [
       "Cuando los elementos no caben en una línea, la barra se convierte en el botón Menú. El consumidor elige narrow; la pieza no se mide sola.",
-      "El botón Menú abre los mismos elementos en una lista vertical, en un panel de 280 px. Cada disparador se muestra como un grupo, con su etiqueta como etiqueta del grupo.",
+      "El botón Menú abre los mismos elementos en una lista vertical, en un panel de 280 px. Cada disparador es una fila contraída, con su flecha.",
+      "Un clic, Enter o Espacio en una fila abre sus enlaces justo debajo y gira la flecha; cada fila se abre y se cierra por su cuenta. Los enlaces de una fila contraída quedan ocultos y fuera del orden de Tab.",
       "No escondas la barra detrás del botón Menú cuando los elementos caben."
     ],
     "relationsTitle": "Relaciones y contexto",
@@ -11375,6 +11377,10 @@
         "Un nph-separator vertical entre los grupos."
       ],
       [
+        "Fila estrecha",
+        "Un disparador en la lista estrecha: un botón con la etiqueta, la flecha al final, aria-expanded y aria-controls, que abre sus enlaces justo debajo."
+      ],
+      [
         "Botón Menú",
         "Un botón con el ícono bars, solo en el ancho estrecho."
       ]
@@ -11387,7 +11393,7 @@
     "accessibility": [
       [
         "Contraste",
-        "El texto sobre el fondo y sobre el popover pasa el nivel exigido en los dos temas, salvo el texto del actual en el modo oscuro de cuatro de las siete marcas, donde cae a 1,49:1 a 2,16:1 sobre la barra oscura (límite del token); el indicador y el borde de foco, en el color primario, tienen al menos 3:1 contra el fondo."
+        "El texto sobre el fondo y sobre el popover pasa el nivel exigido en los dos temas, en las siete marcas, incluido el texto del actual; el indicador y el borde de foco, en el color primario, tienen al menos 3:1 contra el fondo."
       ],
       [
         "Foco visible",
@@ -11403,11 +11409,11 @@
       ],
       [
         "Nombre accesible",
-        "Un marco de navegación con nombre por label o aria-label. El disparador es un botón con aria-expanded y aria-controls. El enlace de la página actual lleva aria-current=\"page\". La flecha y los íconos de los enlaces son decorativos. El botón Menú tiene el nombre \"Menú\"."
+        "Un marco de navegación con nombre por label o aria-label. El disparador, y la fila de la lista estrecha, es un botón con aria-expanded y aria-controls. El enlace de la página actual lleva aria-current=\"page\". La flecha y los íconos de los enlaces son decorativos. El botón Menú tiene el nombre \"Menú\"."
       ],
       [
         "Teclado",
-        "Tab pasa por los elementos y por los enlaces de un panel abierto; Enter y Espacio abren y cierran un disparador; Esc cierra el panel y devuelve el foco. Es navegación por divulgación, no una barra de menús: no hay flechas."
+        "Tab pasa por los elementos y por los enlaces de un panel abierto, o de una fila abierta; Enter y Espacio abren y cierran un disparador o una fila; Esc cierra el panel y devuelve el foco. Es navegación por divulgación, no una barra de menús: no hay flechas."
       ]
     ],
     "examplesTitle": "Ejemplos",

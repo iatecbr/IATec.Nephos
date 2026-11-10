@@ -25,6 +25,10 @@ beforeAll(async () => {
   await document.fonts.load('400 14px "Noto Sans"');
   await document.fonts.load('500 14px "Noto Sans"');
   await document.fonts.ready;
+  /* The waits are the computed tokens, never a written number. */
+  DELAY = milliseconds(resolved('transition-duration', '--nph-motion-hover-delay'));
+  CLOSE_DELAY = milliseconds(resolved('transition-duration', '--nph-navigation-menu-close-delay'));
+  EXIT = milliseconds(resolved('transition-duration', '--nph-motion-exit-duration'));
 });
 
 /** The listeners a test puts on the page; aborted at the end of each test, so none leaks into the next. */
@@ -90,9 +94,13 @@ const inside = <T extends HTMLElement = HTMLElement>(element: HTMLElement, selec
 const trigger = (menu: NphNavigationMenu, index: number): HTMLButtonElement => q(menu, `#trigger-${String(index)}`);
 const panel = (menu: NphNavigationMenu, index: number): HTMLElement => q(menu, `#panel-${String(index)}`);
 const list = (menu: NphNavigationMenu): HTMLElement => q(menu, '#panel-list');
+/** A trigger as a row of the narrow list, and the region with its links; the index is its place in `items`. */
+const row = (menu: NphNavigationMenu, index: number): HTMLButtonElement => q(menu, `#row-${String(index)}`);
+const region = (menu: NphNavigationMenu, index: number): HTMLElement => q(menu, `#row-${String(index)}-region`);
 const menuButton = (menu: NphNavigationMenu): HTMLButtonElement => q(menu, '.menu-button');
 const topItems = (menu: NphNavigationMenu): HTMLElement[] => qa(menu, '.top');
-const isShown = (element: HTMLElement): boolean => element.matches(':popover-open');
+/** Shown as the person sees it: in the top layer and in the open style. A panel that is fading out is not shown. */
+const isShown = (element: HTMLElement): boolean => element.matches(':popover-open') && element.hasAttribute('data-open');
 const shownPanels = (menu: NphNavigationMenu): string[] => qa(menu, '.panel').filter(isShown).map((element) => element.id);
 
 function resolved(property: string, token: string): string {
@@ -107,14 +115,23 @@ function resolved(property: string, token: string): string {
 const px = (token: string): number => Number.parseFloat(resolved('width', token));
 const frame = (): Promise<void> => new Promise((resolve) => requestAnimationFrame(() => resolve()));
 
+/** `300ms` or `0.3s` in milliseconds. */
+function milliseconds(value: string): number {
+  return Number.parseFloat(value) * (value.trim().endsWith('ms') ? 1 : 1000);
+}
+
 /**
- * The hover waits. The wait is the `motion/hover-delay` token, 300 ms, and the tests of the pointer drive a
- * fake clock (`setTimeout` and `clearTimeout` only) and send the `pointerenter` and `pointerleave` that the
- * browser sends to the entry of a trigger. So the wait is exact, "not before" and "after" are proved on the
+ * The hover waits. Opening waits `motion/hover-delay` (`DELAY`) and closing waits `navigation-menu/close-delay`
+ * (`CLOSE_DELAY`); both are read from the computed tokens once the tokens are loaded. The tests of the pointer
+ * drive a fake clock (`setTimeout` and `clearTimeout` only) and send the `pointerenter` and `pointerleave` that
+ * the browser sends to the entry of a trigger. So the wait is exact, "not before" and "after" are proved on the
  * millisecond, and no test sits on real time, which an overloaded runner stretches. A real mouse is proved by
- * its own test, which waits for the state and never for a time.
+ * its own test, which waits for the state and never for a time. `EXIT` is the fade out of a panel, which keeps
+ * it in the top layer for that long.
  */
-const DELAY = 300;
+let DELAY = 0;
+let CLOSE_DELAY = 0;
+let EXIT = 0;
 
 function useClock(): void {
   vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
@@ -702,23 +719,60 @@ describe('the pointer', () => {
     expect(trigger(menu, 0).getAttribute('aria-expanded')).toBe('true');
   });
 
-  it('the delay is the motion/hover-delay token', async () => {
+  it('opening waits motion/hover-delay and closing waits navigation-menu/close-delay, two tokens', async () => {
     expect(resolved('transition-duration', '--nph-motion-hover-delay')).toBe('0.3s');
     expect(DELAY).toBe(300);
+    expect(resolved('transition-duration', '--nph-navigation-menu-close-delay')).toBe('0.5s');
+    expect(CLOSE_DELAY).toBe(500);
+    expect(CLOSE_DELAY).toBeGreaterThan(DELAY);
   });
 
-  it('leaving the trigger closes the panel after the same wait, not a millisecond before', async () => {
+  it('leaving the trigger closes the panel after the close delay, not a millisecond before', async () => {
     useClock();
     const menu = await mount();
     over(menu, 0);
     await elapse(menu, DELAY);
     expect(shownPanels(menu)).toEqual(['panel-0']);
     out(menu, 0);
-    await elapse(menu, DELAY - 1);
+    /* The open wait is over and the close wait is not: the panel is still there. */
+    await elapse(menu, DELAY);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    await elapse(menu, CLOSE_DELAY - DELAY - 1);
     expect(shownPanels(menu)).toEqual(['panel-0']);
     await elapse(menu, 1);
     expect(shownPanels(menu)).toEqual([]);
     expect(menu.open).toBe(false);
+  });
+
+  it('a pointer that comes back within the close delay keeps the panel open', async () => {
+    useClock();
+    const menu = await mount();
+    over(menu, 0);
+    await elapse(menu, DELAY);
+    out(menu, 0);
+    await elapse(menu, CLOSE_DELAY - 1);
+    over(menu, 0);
+    await elapse(menu, 10 * CLOSE_DELAY);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    expect(menu.open).toBe(true);
+  });
+
+  it('a missing close delay token closes at once and reports it once', async () => {
+    useClock();
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const menu = await mount();
+    menu.style.setProperty('--nph-navigation-menu-close-delay', 'later');
+    over(menu, 0);
+    await elapse(menu, DELAY);
+    expect(shownPanels(menu)).toEqual(['panel-0']);
+    out(menu, 0);
+    await elapse(menu, 1);
+    expect(shownPanels(menu)).toEqual([]);
+    over(menu, 0);
+    await elapse(menu, DELAY);
+    out(menu, 0);
+    await elapse(menu, 1);
+    expect(error.mock.calls.filter((call) => /navigation-menu\/close-delay is not defined/.test(String(call[0])))).toHaveLength(1);
   });
 
   it('the panel stays open while the pointer is over it, and closes after the pointer leaves it', async () => {
@@ -730,10 +784,10 @@ describe('the pointer', () => {
     out(menu, 0);
     await elapse(menu, DELAY / 2);
     over(menu, 0);
-    await elapse(menu, 10 * DELAY);
+    await elapse(menu, 10 * CLOSE_DELAY);
     expect(shownPanels(menu)).toEqual(['panel-0']);
     out(menu, 0);
-    await elapse(menu, DELAY);
+    await elapse(menu, CLOSE_DELAY);
     expect(shownPanels(menu)).toEqual([]);
   });
 
@@ -812,6 +866,7 @@ describe('the pointer', () => {
   it('a real mouse opens the panel and closes it: it waits for the state, never for a time', async () => {
     const menu = await mount();
     menu.style.setProperty('--nph-motion-hover-delay', '40ms');
+    menu.style.setProperty('--nph-navigation-menu-close-delay', '40ms');
     await userEvent.hover(trigger(menu, 0));
     await vi.waitFor(() => expect(shownPanels(menu)).toEqual(['panel-0']), { timeout: 5000 });
     await userEvent.hover(document.body, { position: { x: 1, y: window.innerHeight - 2 } });
@@ -1124,11 +1179,17 @@ describe('the narrow width', () => {
     const sections = inside(list(menu), '.section');
     expect(sections).toHaveLength(3);
     expect(inside(sections[0] as HTMLElement, '.link .title').map((title) => title.textContent)).toEqual(['Home', 'Pricing']);
-    expect(inside(sections[1] as HTMLElement, '.group-label').map((label) => label.textContent)).toEqual(['Products', 'Build', 'Manage']);
+    expect(inside(sections[1] as HTMLElement, '.row .top-label').map((label) => label.textContent)).toEqual(['Products']);
+    expect(inside(sections[1] as HTMLElement, '.group-label').map((label) => label.textContent)).toEqual(['Build', 'Manage']);
     expect(inside(sections[1] as HTMLElement, '.link .title').map((title) => title.textContent)).toEqual(['Components', 'Tokens', 'Guides']);
-    expect(inside(sections[2] as HTMLElement, '.group-label').map((label) => label.textContent)).toEqual(['Resources']);
+    expect(inside(sections[2] as HTMLElement, '.row .top-label').map((label) => label.textContent)).toEqual(['Resources']);
     expect(inside(list(menu), ':scope > .list > nph-separator')).toHaveLength(2);
-    expect((await axNode(sections[1] as HTMLElement)).name).toBe('Products');
+    /* The links of a row are named as a group by their row once it is open. */
+    await userEvent.click(row(menu, 2));
+    await settle(menu);
+    const node = await axNode(region(menu, 2));
+    expect(node.role).toBe('group');
+    expect(node.name).toBe('Products');
   });
 
   it('the current link is marked in the list, and the list links are as wide as the panel', async () => {
@@ -1158,7 +1219,15 @@ describe('the narrow width', () => {
     document.addEventListener('click', (event) => event.preventDefault(), { capture: true, signal: listeners.signal });
     const menu = await mount({ narrow: true, open: true });
     await settle(menu);
-    await userEvent.click(q(menu, '#panel-list .link'));
+    /* A link of a row that was opened, and then a top link. */
+    await userEvent.click(row(menu, 0));
+    await settle(menu);
+    await userEvent.click(q(menu, '#row-0-region .link'));
+    await settle(menu);
+    expect(shownPanels(menu)).toEqual([]);
+    menu.open = true;
+    await settle(menu);
+    await userEvent.click(q(menu, '#panel-list a.link[href="#pricing"]'));
     await settle(menu);
     expect(shownPanels(menu)).toEqual([]);
   });
@@ -1194,6 +1263,335 @@ describe('the narrow width', () => {
     const halo = getComputedStyle(menuButton(menu), '::after');
     expect(halo.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
     expect(halo.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-focus-radius-control-with-border'));
+  });
+});
+
+describe('the narrow list: a trigger is a row that opens its links', () => {
+  /** The links of a region, as a person tabs through them. */
+  const linksOf = (menu: NphNavigationMenu, index: number): HTMLElement[] => inside(region(menu, index), '.link');
+  /** The text of the element the focus is on, inside the shadow root. */
+  const focused = (menu: NphNavigationMenu): string => {
+    const element = root(menu).activeElement as HTMLElement | null;
+    return element?.querySelector('.title, .top-label')?.textContent ?? element?.id ?? '';
+  };
+  const openList = async (menu: NphNavigationMenu): Promise<void> => {
+    menu.open = true;
+    await settle(menu);
+    await frame();
+  };
+  /** The turn of the arrow of a row, as a matrix: `none` when it is not turned. */
+  const turn = (menu: NphNavigationMenu, index: number): string => getComputedStyle(q(menu, `#row-${String(index)} .trigger-icon`)).transform;
+  const turned = (value: string): boolean => {
+    const [a, , , d] = value.replace(/^matrix\(|\)$/g, '').split(',').map(Number);
+    return Math.abs((a ?? 0) + 1) < 0.01 && Math.abs((d ?? 0) + 1) < 0.01;
+  };
+
+  it('each trigger is a collapsed row with its arrow: a button, aria-expanded false, aria-controls pointing to its region', async () => {
+    const menu = await mount({ narrow: true });
+    await openList(menu);
+    for (const index of [0, 1]) {
+      const button = row(menu, index);
+      expect(button.tagName).toBe('BUTTON');
+      expect(button.getAttribute('aria-expanded')).toBe('false');
+      expect(button.getAttribute('aria-controls')).toBe(`row-${String(index)}-region`);
+      expect(root(menu).getElementById(`row-${String(index)}-region`)).toBe(region(menu, index));
+      expect(region(menu, index).hidden).toBe(true);
+      const arrow = button.querySelector('.trigger-icon') as NphIcon;
+      expect(arrow.name).toBe('chevron-down');
+      expect(arrow.getAttribute('aria-hidden')).toBe('true');
+    }
+    const node = await axNode(row(menu, 0));
+    expect(node.role).toBe('button');
+    expect(node.name).toBe('Products');
+    /* The top link stays a plain link: no button, no aria-expanded. */
+    const pricing = qa<HTMLAnchorElement>(menu, '#panel-list a.link').find((link) => link.getAttribute('href') === '#pricing') as HTMLAnchorElement;
+    expect(pricing.hasAttribute('aria-expanded')).toBe(false);
+    expect(pricing.tagName).toBe('A');
+  });
+
+  it('the links of a collapsed row are not rendered: display none, out of the Tab order and of the accessibility tree', async () => {
+    const menu = await mount({ narrow: true });
+    await openList(menu);
+    expect(getComputedStyle(region(menu, 0)).display).toBe('none');
+    for (const link of linksOf(menu, 0)) expect(link.getBoundingClientRect().height).toBe(0);
+    expect((await axNode(linksOf(menu, 0)[0] as HTMLElement)).ignored).toBe(true);
+    /* Menu button, the two rows, the top link: no link of a collapsed row in between. */
+    await userEvent.keyboard('{Tab}{Tab}');
+    expect(root(menu).activeElement).toBe(row(menu, 0));
+    await userEvent.keyboard('{Tab}');
+    expect(root(menu).activeElement).toBe(row(menu, 1));
+    await userEvent.keyboard('{Tab}');
+    expect(root(menu).activeElement?.getAttribute('href')).toBe('#pricing');
+  });
+
+  it('a click opens the links below the row and turns aria-expanded; a second click collapses them', async () => {
+    const menu = await mount({ narrow: true });
+    await openList(menu);
+    await userEvent.click(row(menu, 0));
+    await settle(menu);
+    expect(row(menu, 0).getAttribute('aria-expanded')).toBe('true');
+    expect(region(menu, 0).hidden).toBe(false);
+    const rowBox = row(menu, 0).getBoundingClientRect();
+    const links = linksOf(menu, 0);
+    expect(links).toHaveLength(3);
+    expect(links[0]?.getBoundingClientRect().top).toBeGreaterThanOrEqual(rowBox.bottom - 0.5);
+    for (const link of links) expect(link.getBoundingClientRect().height).toBeGreaterThan(0);
+    const node = await axNode(links[0] as HTMLElement);
+    expect(node.ignored).toBe(false);
+    expect(node.role).toBe('link');
+    /* The list stays open: opening a row is not leaving the menu. */
+    expect(menu.open).toBe(true);
+    expect(shownPanels(menu)).toEqual(['panel-list']);
+    await userEvent.click(row(menu, 0));
+    await settle(menu);
+    expect(row(menu, 0).getAttribute('aria-expanded')).toBe('false');
+    expect(region(menu, 0).hidden).toBe(true);
+  });
+
+  it('Enter and Space on a row open and close it', async () => {
+    const menu = await mount({ narrow: true });
+    await userEvent.keyboard('{Tab}{Enter}');
+    await settle(menu);
+    await userEvent.keyboard('{Tab}');
+    expect(root(menu).activeElement).toBe(row(menu, 0));
+    await userEvent.keyboard('{Enter}');
+    await settle(menu);
+    expect(row(menu, 0).getAttribute('aria-expanded')).toBe('true');
+    await userEvent.keyboard('{Enter}');
+    await settle(menu);
+    expect(row(menu, 0).getAttribute('aria-expanded')).toBe('false');
+    await userEvent.keyboard(' ');
+    await settle(menu);
+    expect(row(menu, 0).getAttribute('aria-expanded')).toBe('true');
+    await userEvent.keyboard(' ');
+    await settle(menu);
+    expect(row(menu, 0).getAttribute('aria-expanded')).toBe('false');
+    expect(shownPanels(menu)).toEqual(['panel-list']);
+  });
+
+  it('each row opens and closes on its own: no exclusivity', async () => {
+    const menu = await mount({ narrow: true });
+    await openList(menu);
+    await userEvent.click(row(menu, 0));
+    await userEvent.click(row(menu, 1));
+    await settle(menu);
+    expect([row(menu, 0), row(menu, 1)].map((button) => button.getAttribute('aria-expanded'))).toEqual(['true', 'true']);
+    expect([region(menu, 0), region(menu, 1)].map((element) => element.hidden)).toEqual([false, false]);
+    await userEvent.click(row(menu, 0));
+    await settle(menu);
+    expect([row(menu, 0), row(menu, 1)].map((button) => button.getAttribute('aria-expanded'))).toEqual(['false', 'true']);
+    expect([region(menu, 0), region(menu, 1)].map((element) => element.hidden)).toEqual([true, false]);
+  });
+
+  it('Tab goes through the rows and through the links of the rows that are open', async () => {
+    const menu = await mount({ narrow: true });
+    await openList(menu);
+    await userEvent.click(row(menu, 1));
+    await settle(menu);
+    menuButton(menu).focus();
+    const order: string[] = [];
+    for (let step = 0; step < 6; step += 1) {
+      await userEvent.keyboard('{Tab}');
+      order.push(focused(menu));
+    }
+    /* Products (collapsed: no links), Resources and its open links, then the top link, which is the last stop. */
+    expect(order.slice(0, 5)).toEqual(['Products', 'Resources', 'Docs', 'Blog', 'Pricing']);
+  });
+
+  it('the arrow of a row is turned half a turn while it is open, and back when it is collapsed', async () => {
+    const menu = await mount({ narrow: true });
+    await openList(menu);
+    expect(turn(menu, 0)).toBe('none');
+    const arrow = q(menu, '#row-0 .trigger-icon');
+    expect(getComputedStyle(arrow).display).not.toBe('inline');
+    await userEvent.click(row(menu, 0));
+    await settle(menu);
+    await vi.waitFor(() => expect(turned(turn(menu, 0))).toBe(true));
+    expect(turn(menu, 1)).toBe('none');
+    await userEvent.click(row(menu, 0));
+    await settle(menu);
+    await vi.waitFor(() => expect(turn(menu, 0)).toBe('none'));
+  });
+
+  it('every row starts collapsed each time the list opens', async () => {
+    const menu = await mount({ narrow: true });
+    await openList(menu);
+    await userEvent.click(row(menu, 0));
+    await settle(menu);
+    expect(row(menu, 0).getAttribute('aria-expanded')).toBe('true');
+    menu.open = false;
+    await settle(menu);
+    await openList(menu);
+    expect(row(menu, 0).getAttribute('aria-expanded')).toBe('false');
+    expect(region(menu, 0).hidden).toBe(true);
+  });
+
+  it('a row that holds the current link is current too, and an open row shows the link marked', async () => {
+    const items = [{ ...(ITEMS[0] as object), groups: [{ links: [{ title: 'Components', href: '#components' }, { title: 'Tokens', href: '#tokens', current: true }] }] }, ITEMS[1]] as NphNavigationMenuItem[];
+    const menu = await mount({ items, narrow: true });
+    await openList(menu);
+    expect(row(menu, 0).getAttribute('aria-current')).toBe('true');
+    expect(row(menu, 0).hasAttribute('data-current')).toBe(true);
+    expect(row(menu, 0).querySelector('.indicator')).not.toBeNull();
+    expect(getComputedStyle(row(menu, 0)).color).toBe(resolved('color', '--nph-navigation-menu-current-foreground'));
+    expect(row(menu, 1).hasAttribute('aria-current')).toBe(false);
+    await userEvent.click(row(menu, 0));
+    await settle(menu);
+    expect(q(menu, '#row-0-region .link[data-current]').getAttribute('aria-current')).toBe('page');
+  });
+
+  it('the row is the width of the list, with the label at the start and the arrow at the end', async () => {
+    const menu = await mount({ narrow: true });
+    await openList(menu);
+    const inner = list(menu).getBoundingClientRect().width - 2 * px('--nph-navigation-menu-panel-padding') - 2 * px('--nph-navigation-menu-panel-border-width');
+    expect(row(menu, 0).getBoundingClientRect().width).toBeCloseTo(inner, 0);
+    const box = row(menu, 0).getBoundingClientRect();
+    const label = (row(menu, 0).querySelector('.top-label') as HTMLElement).getBoundingClientRect();
+    const arrow = q(menu, '#row-0 .trigger-icon').getBoundingClientRect();
+    expect(label.left).toBeLessThan(arrow.left);
+    expect(box.right - arrow.right).toBeCloseTo(px('--nph-navigation-menu-trigger-padding-x'), 0);
+  });
+
+  it('the focus ring of a row: border and halo outside, by keyboard only', async () => {
+    const menu = await mount({ narrow: true });
+    await userEvent.keyboard('{Tab}{Enter}{Tab}');
+    await settle(menu);
+    expect(root(menu).activeElement).toBe(row(menu, 0));
+    const border = getComputedStyle(row(menu, 0), '::before');
+    expect(border.borderTopColor).toBe(resolved('color', '--nph-focus-border'));
+    expect(border.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-focus-border-radius-control'));
+    const halo = getComputedStyle(row(menu, 0), '::after');
+    expect(halo.borderTopColor).toBe(resolved('color', '--nph-focus-halo'));
+  });
+});
+
+describe('motion: the arrow turns and the panel fades', () => {
+  const arrowOf = (menu: NphNavigationMenu, index: number): HTMLElement => q(menu, `#trigger-${String(index)} .trigger-icon`);
+  const turned = (value: string): boolean => {
+    const [a, , , d] = value.replace(/^matrix\(|\)$/g, '').split(',').map(Number);
+    return Math.abs((a ?? 0) + 1) < 0.01 && Math.abs((d ?? 0) + 1) < 0.01;
+  };
+
+  it('the arrow of a trigger turns half a turn when its panel opens, and back when it closes', async () => {
+    const menu = await mount();
+    expect(getComputedStyle(arrowOf(menu, 0)).transform).toBe('none');
+    expect(getComputedStyle(arrowOf(menu, 0)).display).not.toBe('inline');
+    await openByClick(menu, 0);
+    await vi.waitFor(() => expect(turned(getComputedStyle(arrowOf(menu, 0)).transform)).toBe(true));
+    expect(getComputedStyle(arrowOf(menu, 1)).transform).toBe('none');
+    await openByClick(menu, 0);
+    await vi.waitFor(() => expect(getComputedStyle(arrowOf(menu, 0)).transform).toBe('none'));
+  });
+
+  it('the arrow turns on the enter tokens and back on the exit tokens', async () => {
+    const menu = await mount();
+    const arrow = arrowOf(menu, 0);
+    expect(getComputedStyle(arrow).transitionProperty).toBe('transform');
+    expect(getComputedStyle(arrow).transitionDuration).toBe(resolved('transition-duration', '--nph-motion-exit-duration'));
+    expect(getComputedStyle(arrow).transitionTimingFunction).toBe(resolved('transition-timing-function', '--nph-motion-exit-easing'));
+    await openByClick(menu, 0);
+    expect(getComputedStyle(arrow).transitionDuration).toBe(resolved('transition-duration', '--nph-motion-enter-duration'));
+    expect(getComputedStyle(arrow).transitionTimingFunction).toBe(resolved('transition-timing-function', '--nph-motion-enter-easing'));
+  });
+
+  it('the panel fades in on the enter tokens: opacity, with the enter duration and easing', async () => {
+    const menu = await mount();
+    await openByClick(menu, 0);
+    const style = getComputedStyle(panel(menu, 0));
+    expect(panel(menu, 0).hasAttribute('data-open')).toBe(true);
+    expect(style.transitionProperty).toBe('opacity');
+    expect(style.transitionDuration).toBe(resolved('transition-duration', '--nph-motion-enter-duration'));
+    expect(style.transitionTimingFunction).toBe(resolved('transition-timing-function', '--nph-motion-enter-easing'));
+    await vi.waitFor(() => expect(getComputedStyle(panel(menu, 0)).opacity).toBe('1'));
+  });
+
+  it('the panel fades out on the exit tokens, stays in the top layer until the fade ends, and is inert meanwhile', async () => {
+    const menu = await mount();
+    await openByClick(menu, 0);
+    await vi.waitFor(() => expect(getComputedStyle(panel(menu, 0)).opacity).toBe('1'));
+    const closing = panel(menu, 0);
+    menu.open = false;
+    await menu.updateComplete;
+    /* Out of the open style, still drawn: the fade is running. */
+    expect(closing.hasAttribute('data-open')).toBe(false);
+    expect(closing.matches(':popover-open')).toBe(true);
+    expect(closing.inert).toBe(true);
+    const style = getComputedStyle(closing);
+    expect(style.transitionProperty).toBe('opacity');
+    expect(style.transitionDuration).toBe(resolved('transition-duration', '--nph-motion-exit-duration'));
+    expect(style.transitionTimingFunction).toBe(resolved('transition-timing-function', '--nph-motion-exit-easing'));
+    expect(EXIT).toBeGreaterThan(0);
+    await vi.waitFor(() => expect(closing.matches(':popover-open')).toBe(false), { timeout: 5000 });
+    expect(getComputedStyle(closing).opacity).toBe('0');
+  });
+
+  it('a panel that is fading out comes back when it is asked for again, and takes the focus again', async () => {
+    const menu = await mount();
+    await openByClick(menu, 0);
+    menu.open = false;
+    await menu.updateComplete;
+    expect(panel(menu, 0).inert).toBe(true);
+    menu.open = true;
+    await settle(menu);
+    expect(panel(menu, 0).inert).toBe(false);
+    expect(isShown(panel(menu, 0))).toBe(true);
+    await new Promise((resolve) => setTimeout(resolve, EXIT + 100));
+    expect(isShown(panel(menu, 0))).toBe(true);
+  });
+
+  it('the narrow list fades on the same tokens', async () => {
+    const menu = await mount({ narrow: true, open: true });
+    await settle(menu);
+    const style = getComputedStyle(list(menu));
+    expect(style.transitionProperty).toBe('opacity');
+    expect(style.transitionDuration).toBe(resolved('transition-duration', '--nph-motion-enter-duration'));
+    menu.open = false;
+    await menu.updateComplete;
+    expect(getComputedStyle(list(menu)).transitionDuration).toBe(resolved('transition-duration', '--nph-motion-exit-duration'));
+    await vi.waitFor(() => expect(list(menu).matches(':popover-open')).toBe(false), { timeout: 5000 });
+  });
+
+  it('with reduced motion nothing moves: no turn, no fade, and the panel leaves the top layer at once', async () => {
+    const session = cdp();
+    try {
+      await session.send('Emulation.setEmulatedMedia', {
+        features: [{ name: 'prefers-reduced-motion', value: 'reduce' }],
+      });
+      expect(matchMedia('(prefers-reduced-motion: reduce)').matches).toBe(true);
+      const menu = await mount();
+      for (const element of [panel(menu, 0), arrowOf(menu, 0)]) {
+        const style = getComputedStyle(element);
+        expect(style.transitionProperty).toBe('none');
+        expect(style.transitionDuration).toBe('0s');
+      }
+      await openByClick(menu, 0);
+      for (const element of [panel(menu, 0), arrowOf(menu, 0)]) {
+        const style = getComputedStyle(element);
+        expect(style.transitionProperty).toBe('none');
+        expect(style.transitionDuration).toBe('0s');
+      }
+      /* The state is there at once: the panel drawn and the arrow turned, with no wait. */
+      expect(getComputedStyle(panel(menu, 0)).opacity).toBe('1');
+      expect(turned(getComputedStyle(arrowOf(menu, 0)).transform)).toBe(true);
+      menu.open = false;
+      await menu.updateComplete;
+      expect(panel(menu, 0).matches(':popover-open')).toBe(false);
+      expect(getComputedStyle(arrowOf(menu, 0)).transform).toBe('none');
+      /* The narrow list and its rows too. */
+      const narrow = await mount({ narrow: true, open: true });
+      await settle(narrow);
+      expect(getComputedStyle(list(narrow)).transitionProperty).toBe('none');
+      await userEvent.click(row(narrow, 0));
+      await settle(narrow);
+      expect(getComputedStyle(q(narrow, '#row-0 .trigger-icon')).transitionProperty).toBe('none');
+      expect(turned(getComputedStyle(q(narrow, '#row-0 .trigger-icon')).transform)).toBe(true);
+    } finally {
+      /* Back to the test browser's default; `features: []` does not undo it. */
+      await session.send('Emulation.setEmulatedMedia', {
+        features: [{ name: 'prefers-reduced-motion', value: 'no-preference' }],
+      });
+    }
+    await vi.waitFor(() => expect(matchMedia('(prefers-reduced-motion: reduce)').matches).toBe(false));
   });
 });
 
@@ -1361,6 +1759,9 @@ describe('regressions of the Copilot review', () => {
     const items = [{ type: 'trigger', label: 'Many', groups: [{ links }] }] as NphNavigationMenuItem[];
     const menu = await mount({ items, narrow: true, open: true });
     await settle(menu);
+    await userEvent.click(row(menu, 0));
+    await settle(menu);
+    await frame();
     await frame();
     const box = list(menu).getBoundingClientRect();
     expect(box.bottom).toBeLessThanOrEqual(document.documentElement.clientHeight + 0.5);
@@ -1384,13 +1785,21 @@ describe('regressions of the Copilot review', () => {
     ] as NphNavigationMenuItem[];
     const menu = await mount({ items, narrow: true, open: true });
     await settle(menu);
+    /* The disabled row is a disabled button that opens nothing; its links stay out of sight and out of the Tab order. */
+    expect(row(menu, 0).disabled).toBe(true);
+    expect(row(menu, 0).getAttribute('aria-expanded')).toBe('false');
+    expect(region(menu, 0).hidden).toBe(true);
+    await userEvent.click(row(menu, 1));
+    await settle(menu);
     const [one, two, docs] = qa<HTMLAnchorElement>(menu, '#panel-list .link') as [HTMLAnchorElement, HTMLAnchorElement, HTMLAnchorElement];
     for (const link of [one, two]) {
       expect(link.getAttribute('aria-disabled')).toBe('true');
       expect(link.hasAttribute('href')).toBe(false);
     }
     expect(docs.hasAttribute('href')).toBe(true);
-    await userEvent.keyboard('{Tab}{Tab}');
+    /* The focus is on the open row (the disabled one is skipped): Tab goes to the first link of its region. */
+    expect(root(menu).activeElement).toBe(row(menu, 1));
+    await userEvent.keyboard('{Tab}');
     expect(root(menu).activeElement).toBe(docs);
   });
 });
@@ -1513,9 +1922,9 @@ describe('regressions of the Copilot review, round 3', () => {
     expect(shownPanels(menu)).toEqual(['panel-0']);
     out(menu, 0);
     over(menu, 1);
-    await elapse(menu, DELAY / 2);
+    await elapse(menu, CLOSE_DELAY / 2);
     out(menu, 1);
-    await elapse(menu, DELAY);
+    await elapse(menu, CLOSE_DELAY);
     expect(shownPanels(menu)).toEqual([]);
   });
 
@@ -1528,7 +1937,7 @@ describe('regressions of the Copilot review, round 3', () => {
     out(menu, 0);
     menu.items = [ITEMS[1], ITEMS[0], ITEMS[2]] as NphNavigationMenuItem[];
     await settle(menu);
-    await elapse(menu, DELAY);
+    await elapse(menu, CLOSE_DELAY);
     expect(shownPanels(menu)).toEqual([]);
     expect(menu.open).toBe(false);
   });
@@ -1541,7 +1950,7 @@ describe('regressions of the Copilot review, round 3', () => {
     out(menu, 0);
     menu.items = [ITEMS[1], ITEMS[2]] as NphNavigationMenuItem[];
     await settle(menu);
-    await elapse(menu, DELAY);
+    await elapse(menu, CLOSE_DELAY);
     expect(shownPanels(menu)).toEqual([]);
     expect(menu.open).toBe(false);
   });
@@ -1589,7 +1998,7 @@ describe('regressions of the Copilot review, round 4', () => {
     menu.active = 'resources';
     menu.items = [ITEMS[1], ITEMS[2]] as NphNavigationMenuItem[];
     await settle(menu);
-    await elapse(menu, DELAY);
+    await elapse(menu, CLOSE_DELAY);
     expect(menu.open).toBe(true);
     expect(shownPanels(menu)).toEqual(['panel-0']);
     expect(trigger(menu, 0).textContent).toContain('Resources');

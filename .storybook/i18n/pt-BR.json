@@ -11313,7 +11313,8 @@
     "panel": [
       "O painel abre abaixo do gatilho, alinhado à borda inicial dele, na camada superior, e nunca sai da janela pelos lados.",
       "Um link do painel tem título, descrição opcional e ícone opcional. Dois grupos ficam lado a lado, com um separador vertical entre eles.",
-      "Um gatilho abre com clique, Enter ou Espaço. Com o mouse, abre depois de uma espera curta e fecha o mesmo tempo depois de o ponteiro sair do gatilho e do painel. Esc fecha e devolve o foco ao gatilho.",
+      "Um gatilho abre com clique, Enter ou Espaço. Com o mouse, abre depois de uma espera curta e fecha depois de uma espera maior, quando o ponteiro sai do gatilho e do painel; um ponteiro que volta a tempo mantém o painel aberto. Esc fecha e devolve o foco ao gatilho.",
+      "Quando o painel abre, a seta do gatilho gira meia volta e o painel aparece com um fade; ao fechar, some com um fade. Com movimento reduzido, nada se move.",
       "O painel largo abraça o conteúdo. Todo link do painel tem 280 px de largura."
     ],
     "currentTitle": "Página atual",
@@ -11324,10 +11325,11 @@
       "Um link de topo marcado como atual leva aria-current=\"page\"; o link atual do painel também, e o ícone dele é sólido."
     ],
     "narrowTitle": "Largura estreita",
-    "narrowCaption": "O botão Menu aberto, com os mesmos itens em lista vertical.",
+    "narrowCaption": "O botão Menu aberto, com cada gatilho como uma linha recolhida e uma linha aberta.",
     "narrow": [
       "Quando os itens não cabem em uma linha, a barra vira o botão Menu. O consumidor escolhe narrow; a peça não se mede sozinha.",
-      "O botão Menu abre os mesmos itens em lista vertical, em um painel de 280 px. Cada gatilho aparece como um grupo, com o rótulo dele como rótulo do grupo.",
+      "O botão Menu abre os mesmos itens em lista vertical, em um painel de 280 px. Cada gatilho é uma linha recolhida, com a seta dele.",
+      "Um clique, Enter ou Espaço em uma linha abre os links dela logo abaixo e gira a seta; cada linha abre e fecha por conta própria. Os links de uma linha recolhida ficam ocultos e fora da ordem de Tab.",
       "Não esconda a barra atrás do botão Menu quando os itens cabem."
     ],
     "relationsTitle": "Relações e contexto",
@@ -11375,6 +11377,10 @@
         "Um nph-separator vertical entre os grupos."
       ],
       [
+        "Linha estreita",
+        "Um gatilho na lista estreita: um botão com o rótulo, a seta no fim, aria-expanded e aria-controls, que abre os links dele logo abaixo."
+      ],
+      [
         "Botão Menu",
         "Um botão com o ícone bars, só na largura estreita."
       ]
@@ -11387,7 +11393,7 @@
     "accessibility": [
       [
         "Contraste",
-        "O texto sobre o fundo e sobre o popover passa no nível exigido nos dois temas, exceto o texto do atual no modo escuro de quatro das sete marcas, onde cai para 1,49:1 a 2,16:1 sobre a barra escura (limite do token); o indicador e a borda de foco, na cor primária, têm ao menos 3:1 contra o fundo."
+        "O texto sobre o fundo e sobre o popover passa no nível exigido nos dois temas, nas sete marcas, inclusive o texto do atual; o indicador e a borda de foco, na cor primária, têm ao menos 3:1 contra o fundo."
       ],
       [
         "Foco visível",
@@ -11403,11 +11409,11 @@
       ],
       [
         "Nome acessível",
-        "Um marco de navegação nomeado por label ou aria-label. O gatilho é um botão com aria-expanded e aria-controls. O link da página atual leva aria-current=\"page\". A seta e os ícones dos links são decorativos. O botão Menu tem o nome \"Menu\"."
+        "Um marco de navegação nomeado por label ou aria-label. O gatilho, e a linha da lista estreita, é um botão com aria-expanded e aria-controls. O link da página atual leva aria-current=\"page\". A seta e os ícones dos links são decorativos. O botão Menu tem o nome \"Menu\"."
       ],
       [
         "Teclado",
-        "Tab passa pelos itens e pelos links de um painel aberto; Enter e Espaço abrem e fecham um gatilho; Esc fecha o painel e devolve o foco. É navegação por divulgação, não uma barra de menus: não há setas."
+        "Tab passa pelos itens e pelos links de um painel aberto, ou de uma linha aberta; Enter e Espaço abrem e fecham um gatilho ou uma linha; Esc fecha o painel e devolve o foco. É navegação por divulgação, não uma barra de menus: não há setas."
       ]
     ],
     "examplesTitle": "Exemplos",
