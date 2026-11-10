@@ -8,8 +8,9 @@
  * No literal design value goes in here. Written box relations: `transparent` (the off
  * track has no outline and the inner button has no surface), `0` and `none` (reset of
  * the native button and the resting position of the knob), the integer factors in
- * `calc()` (the knob travel and the halo outside the track) and `inset` with zeros in
- * `box-shadow` (the outline is a stroke inside the track, as in `nph-togglebutton`).
+ * `calc()` (the knob travel, the halo outside the track and the half that centers the
+ * small track) and `inset` with zeros in `box-shadow` (the outline is a stroke inside the
+ * track, as in `nph-togglebutton`).
  * `left` and `top` are physical on purpose: the evidence places the off knob on the left
  * and the on knob on the right (P79, RTL is a known limit).
  */
@@ -64,22 +65,42 @@
 /*
  * The track: switch/track-width by icon/size-lg, fully rounded. Off it is color/input with
  * no outline; on it is color/primary with a color/primary-border outline drawn inside (D4).
+ * The measures of the track and the knob are internal variables, so the small size (DSA-45
+ * D-4) changes them in one place: the track, the knob and the gap, and nothing else.
  */
 .track {
+  --_track-width: var(--nph-switch-track-width);
+  --_track-height: var(--nph-icon-size-lg);
+  --_thumb: var(--nph-icon-size-sm);
+  --_gap: var(--nph-space-inline-tight);
   --_fill: var(--nph-color-input);
   --_outline: transparent;
   --_focus-border: var(--nph-focus-border);
   --_focus-halo: var(--nph-focus-halo);
-  --_travel: calc(var(--nph-switch-track-width) - var(--nph-icon-size-sm) - 2 * var(--nph-space-inline-tight));
+  --_travel: calc(var(--_track-width) - var(--_thumb) - 2 * var(--_gap));
 
   position: relative;
   box-sizing: border-box;
   flex: none;
-  inline-size: var(--nph-switch-track-width);
-  block-size: var(--nph-icon-size-lg);
+  inline-size: var(--_track-width);
+  block-size: var(--_track-height);
   border-radius: var(--nph-radius-full);
   background-color: var(--_fill);
   box-shadow: inset 0 0 0 var(--nph-border-width) var(--_outline);
+}
+
+/*
+ * Small (DSA-45 D-4): the track is switch/track-width-sm by switch/track-height-sm, the knob
+ * switch/thumb-size-sm and the gap switch/track-padding-sm. The piece is icon/size-md high
+ * (the 20 of the label line), with the track centered on it by the margin above and below.
+ * Colors, states, focus and radius stay the same.
+ */
+:host([size='small']) .track {
+  --_track-width: var(--nph-switch-track-width-sm);
+  --_track-height: var(--nph-switch-track-height-sm);
+  --_thumb: var(--nph-switch-thumb-size-sm);
+  --_gap: var(--nph-switch-track-padding-sm);
+  margin-block: calc((var(--nph-icon-size-md) - var(--_track-height)) / 2);
 }
 
 :host([checked]) .track {
@@ -104,17 +125,18 @@
 }
 
 /*
- * The knob: a circle in icon/size-sm, space/inline-tight from the track edge. Two knobs
+ * The knob: a circle in icon/size-sm, space/inline-tight from the track edge (the small
+ * size: switch/thumb-size-sm and switch/track-padding-sm). Two knobs
  * share the place: the off one in color/background and the on one in
  * color/primary-foreground, which fades in over it.
  */
 .knob {
   position: absolute;
-  top: var(--nph-space-inline-tight);
-  left: var(--nph-space-inline-tight);
+  top: var(--_gap);
+  left: var(--_gap);
   box-sizing: border-box;
-  inline-size: var(--nph-icon-size-sm);
-  block-size: var(--nph-icon-size-sm);
+  inline-size: var(--_thumb);
+  block-size: var(--_thumb);
   border-radius: var(--nph-radius-full);
   transform: none;
 }

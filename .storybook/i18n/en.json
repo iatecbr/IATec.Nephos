@@ -3814,14 +3814,16 @@
     "whenToUse": [
       "For a setting that turns on or off, with an immediate effect, outside a toolbar.",
       "Several settings stack, one nph-switch per line: there is no group component.",
-      "Without text only when the name is already in the context, such as a table cell, always with label."
+      "Without text only when the name is already in the context, such as a table cell, always with label.",
+      "The small size only in the switch slot of the nph-dropdown-menu item, without a label."
     ],
     "whenNotToUseTitle": "When not to use",
     "whenNotToUse": [
       "In a form, when the choice only counts on submission: use nph-checkbox.",
       "In a toolbar, among other buttons: use nph-togglebutton.",
       "To paint the track or the knob by hand: use checked, invalid and disabled.",
-      "To hide the label by deleting its text: leave text empty and give label."
+      "To hide the label by deleting its text: leave text empty and give label.",
+      "The small size outside the nph-dropdown-menu item: alone, its target is below 24 by 24 (WCAG 2.5.8)."
     ],
     "relationsText": "In a toolbar, among other buttons, the piece is nph-togglebutton; in a form whose choice only counts on submission, it is nph-checkbox. The piece brings its own text: it does not need nph-field to have a name. Inside nph-field, it is one option of a group.",
     "apiTitle": "API",
@@ -3833,6 +3835,10 @@
       [
         "checked",
         "The on state, the Figma property marcado. false by default. Reflected to the attribute. A click, Enter or Space by the person toggles it and fires input and change; setting it from code fires nothing."
+      ],
+      [
+        "size",
+        "The size variant of the Figma set. default or small; default by default. Reflected to the attribute. small is the track 32 by 16 with a knob of 12 and a gap of 2, in a piece 20 high, and is only for the switch slot of the nph-dropdown-menu item: alone, its target is below 24 by 24 (WCAG 2.5.8). A value outside the two draws nothing and emits console.error in development."
       ],
       [
         "text",
@@ -3899,6 +3905,9 @@
     "labelTitle": "Label",
     "labelText": "The label sits after the track, space/inline from it, in text/label-md and color/foreground. It wraps to the available width; with two lines, the track sits at the top, aligned with the first line. Without text the piece is only the track, and label gives it a name.",
     "labelCaption": "With a label, only the track with label, and a long label on two lines.",
+    "sizesTitle": "Sizes",
+    "sizesText": "default is the size for every switch. small has the track 32 by 16, the knob 12 and a gap of 2, in a piece 20 high with the track centered; the knob travel is the track width minus the knob and the two gaps, as in default. It is only for the switch slot of the nph-dropdown-menu item, without a label: alone, its target is below 24 by 24 (WCAG 2.5.8). Colors, states and focus do not change.",
+    "sizesCaption": "size default and size small, each off and on. The small one is shown here only to compare the measures.",
     "anatomyTitle": "Anatomy",
     "anatomyHeader": [
       "Part",
@@ -3912,6 +3921,10 @@
       [
         "Knob",
         "The circle in icon/size-sm, space/inline-tight from the track edge. Off: on the left, in color/background. On: on the right, in color/primary-foreground. It slides by transform."
+      ],
+      [
+        "Small size",
+        "The track is switch/track-width-sm by switch/track-height-sm, the knob switch/thumb-size-sm and the gap switch/track-padding-sm, in a piece icon/size-md high with the track vertically centered. Colors, states, focus and radius/full do not change."
       ],
       [
         "Label",
@@ -3962,7 +3975,7 @@
       ],
       [
         "Touch target",
-        "The whole track, 40 by 24 px; with a label, the whole piece."
+        "The whole track, 40 by 24 px; with a label, the whole piece. The small track, 32 by 16 px, is below 24 by 24 (WCAG 2.5.8): it is only for the nph-dropdown-menu item, where the whole row is the target."
       ],
       [
         "Motion",
@@ -3985,7 +3998,7 @@
     "references": [
       "nph-switch spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
       "docs/decisoes-tecnicas.md — P79 (API and semantics), P73, P01, P02 and P03.",
-      "design.md — switch/track-width, icon/size-lg, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity and motion/*.",
+      "design.md — switch/track-width, switch/track-width-sm, switch/track-height-sm, switch/thumb-size-sm, switch/track-padding-sm, icon/size-lg, icon/size-md, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity and motion/*.",
       "DS-IA-NEPHOS 5.0 Figma — page NPH — Switch, frame nph-switch (1549:2) and set 1548:56.",
       "Storybook — Validation, in the folder alongside."
     ],
@@ -3994,7 +4007,8 @@
     "sourceStates": "Figma, set 1548:56; design.md",
     "sourceAnatomy": "Figma, set 1548:56; design.md",
     "sourceAccessibility": "nph-switch spec sheet; nph-switch.test.ts",
-    "matrixLabel": "Component matrix"
+    "matrixLabel": "Component matrix",
+    "sourceSizes": "nph-switch spec sheet; Figma, board 1549:2"
   },
   "switchValidation": {
     "lightCaption": "Light mode",
@@ -5979,7 +5993,7 @@
       ],
       [
         "switch",
-        "The nph-switch at the end, without a label."
+        "The small nph-switch at the end, without a label."
       ],
       [
         "checked",

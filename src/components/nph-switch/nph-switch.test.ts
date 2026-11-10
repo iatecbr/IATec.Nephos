@@ -21,10 +21,10 @@ import '../../tokens/generated/tokens.css';
 import tokensCss from '../../tokens/generated/tokens.css?raw';
 import designMd from '../../../design.md?raw';
 import componentCss from './nph-switch.css?raw';
-import { NphSwitch } from './nph-switch';
+import { NPH_SWITCH_SIZES, NphSwitch } from './nph-switch';
 import '../nph-field/nph-field';
 
-type Props = Partial<Pick<NphSwitch, 'checked' | 'invalid' | 'disabled' | 'text' | 'label'>>;
+type Props = Partial<Pick<NphSwitch, 'checked' | 'invalid' | 'disabled' | 'size' | 'text' | 'label'>>;
 
 beforeAll(async () => {
   await document.fonts.load('500 14px "Noto Sans"');
@@ -136,7 +136,8 @@ describe('registration and API', () => {
 
   it('the public API is exactly the one in P79', () => {
     const declared = [...(NphSwitch as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    expect(declared).toEqual(['checked', 'invalid', 'disabled', 'text', 'label']);
+    expect(declared).toEqual(['checked', 'invalid', 'disabled', 'size', 'text', 'label']);
+    expect(NPH_SWITCH_SIZES).toEqual(['default', 'small']);
   });
 
   it('declares the option role the field reads (contract of the field, P83)', () => {
@@ -146,6 +147,7 @@ describe('registration and API', () => {
   it('the defaults are off, valid and enabled', async () => {
     const element = await mount();
     expect([element.checked, element.invalid, element.disabled]).toEqual([false, false, false]);
+    expect(element.size).toBe('default');
     expect([element.text, element.label]).toEqual(['Wi-Fi', '']);
   });
 
@@ -168,10 +170,145 @@ describe('registration and API', () => {
     expect([element.text, element.label]).toEqual(['Wi-Fi', 'Wireless network']);
   });
 
+  it('reflects size, and the attribute sets it', async () => {
+    const element = await mount({ text: 'Wi-Fi', size: 'small' });
+    expect(element.getAttribute('size')).toBe('small');
+    element.size = 'default';
+    await element.updateComplete;
+    expect(element.getAttribute('size')).toBe('default');
+    const fromAttribute = document.createElement('nph-switch');
+    fromAttribute.setAttribute('size', 'small');
+    fromAttribute.setAttribute('label', 'Wi-Fi');
+    document.body.append(fromAttribute);
+    await fromAttribute.updateComplete;
+    expect(fromAttribute.size).toBe('small');
+  });
+
   it('has the open shadow root with delegated focus', async () => {
     const element = await mount();
     expect(element.shadowRoot?.mode).toBe('open');
     expect(element.shadowRoot?.delegatesFocus).toBe(true);
+  });
+});
+
+describe('the small size (DSA-45 D-4)', () => {
+  const SMALL = { text: 'Wi-Fi', size: 'small' } as const;
+
+  it('the default track is 40 by 24 with a 16 knob and a 4 gap', async () => {
+    const element = await mount({ text: 'Wi-Fi', size: 'default' });
+    const box = track(element).getBoundingClientRect();
+    expect([box.width, box.height]).toEqual([px('--nph-switch-track-width'), px('--nph-icon-size-lg', 'height')]);
+    expect([box.width, box.height]).toEqual([40, 24]);
+    const knob = knobOff(element).getBoundingClientRect();
+    expect([knob.width, knob.height]).toEqual([px('--nph-icon-size-sm'), px('--nph-icon-size-sm')]);
+    expect(knob.left - box.left).toBeCloseTo(px('--nph-space-inline-tight', 'padding-left'), 2);
+  });
+
+  it('the small track is switch/track-width-sm by switch/track-height-sm, 32 by 16, fully rounded', async () => {
+    const element = await mount(SMALL);
+    const box = track(element).getBoundingClientRect();
+    expect([box.width, box.height]).toEqual([px('--nph-switch-track-width-sm'), px('--nph-switch-track-height-sm', 'height')]);
+    expect([box.width, box.height]).toEqual([32, 16]);
+    expect(getComputedStyle(track(element)).borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-radius-full'));
+  });
+
+  it('the small knob is switch/thumb-size-sm, 12, switch/track-padding-sm, 2, from the track edge', async () => {
+    const element = await mount(SMALL);
+    const outer = track(element).getBoundingClientRect();
+    const gap = px('--nph-switch-track-padding-sm', 'padding-left');
+    expect(gap).toBe(2);
+    for (const knob of [knobOff(element), knobOn(element)]) {
+      const box = knob.getBoundingClientRect();
+      expect([box.width, box.height]).toEqual([px('--nph-switch-thumb-size-sm'), px('--nph-switch-thumb-size-sm')]);
+      expect([box.width, box.height]).toEqual([12, 12]);
+      expect(box.left - outer.left).toBeCloseTo(gap, 2);
+      expect(box.top - outer.top).toBeCloseTo(gap, 2);
+      expect(outer.bottom - box.bottom).toBeCloseTo(gap, 2);
+    }
+  });
+
+  it('on, the small knob travels the track width minus the knob minus twice the gap, 16 px, by transform', async () => {
+    const element = await mount({ ...SMALL, checked: true });
+    await settled(element);
+    const outer = track(element).getBoundingClientRect();
+    const box = knobOn(element).getBoundingClientRect();
+    const gap = px('--nph-switch-track-padding-sm', 'padding-left');
+    expect(outer.right - box.right).toBeCloseTo(gap, 2);
+    const expected = px('--nph-switch-track-width-sm') - px('--nph-switch-thumb-size-sm') - 2 * gap;
+    expect(translateX(knobOn(element))).toBeCloseTo(expected, 2);
+    expect(expected).toBe(16);
+    expect(getComputedStyle(knobOn(element)).left).toBe(resolved('left', '--nph-switch-track-padding-sm'));
+  });
+
+  it('the small piece is icon/size-md high, 20, with the track vertically centered, with and without a label', async () => {
+    for (const props of [SMALL, { label: 'Wi-Fi', size: 'small' } as const]) {
+      const element = await mount(props);
+      const piece = element.getBoundingClientRect();
+      const outer = track(element).getBoundingClientRect();
+      expect(piece.height).toBe(px('--nph-icon-size-md', 'height'));
+      expect(piece.height).toBe(20);
+      expect(outer.top - piece.top).toBeCloseTo(piece.bottom - outer.bottom, 2);
+      expect(outer.top - piece.top).toBeCloseTo(2, 2);
+    }
+  });
+
+  it('the small label is the same text/label-md, space/inline from the track', async () => {
+    const element = await mount(SMALL);
+    const text = part(element, '.text');
+    const style = getComputedStyle(text);
+    expect(style.fontSize).toBe(resolved('font-size', '--nph-text-label-md-font-size'));
+    expect(style.lineHeight).toBe(resolved('line-height', '--nph-text-label-md-line-height'));
+    expect(text.getBoundingClientRect().left - track(element).getBoundingClientRect().right).toBeCloseTo(px('--nph-space-inline', 'column-gap'), 2);
+    expect(text.getBoundingClientRect().height).toBe(20);
+  });
+
+  it('colors, hover, focus and invalid are the same as in the default size', async () => {
+    const element = await mount({ ...SMALL, checked: true, invalid: true });
+    const style = getComputedStyle(track(element));
+    expect(style.backgroundColor).toBe(resolved('background-color', '--nph-color-primary'));
+    expect(insetColor(track(element))).toBe(resolved('color', '--nph-status-error'));
+    expect(getComputedStyle(knobOn(element)).backgroundColor).toBe(resolved('background-color', '--nph-color-primary-foreground'));
+    await userEvent.hover(element);
+    await settled(element);
+    expect(getComputedStyle(track(element)).backgroundColor).toBe(resolved('background-color', '--nph-color-primary-hover'));
+  });
+
+  it('the focus border and halo stay round around the small track', async () => {
+    const element = await mount(SMALL);
+    await userEvent.tab();
+    expect(element.matches(':focus-within') || element.shadowRoot?.activeElement === control(element)).toBe(true);
+    const outer = track(element).getBoundingClientRect();
+    const before = getComputedStyle(track(element), '::before');
+    const after = getComputedStyle(track(element), '::after');
+    expect(before.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-radius-full'));
+    expect(after.borderTopLeftRadius).toBe(resolved('border-top-left-radius', '--nph-radius-full'));
+    expect(parseFloat(before.width)).toBeCloseTo(outer.width, 1);
+    expect(parseFloat(before.height)).toBeCloseTo(outer.height, 1);
+    expect(track(element).getBoundingClientRect().height).toBe(outer.height);
+  });
+
+  it('a size outside the two draws nothing and emits one error in development', async () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const element = await mount({ text: 'Wi-Fi', size: 'large' as never });
+    expect(error).toHaveBeenCalledTimes(1);
+    expect(String(error.mock.calls[0]?.[0])).toContain('[nph-switch]');
+    expect(String(error.mock.calls[0]?.[0])).toContain('size "large"');
+    expect(element.shadowRoot?.querySelector('button')).toBeNull();
+    expect(element.hasAttribute('data-nph-rendered')).toBe(false);
+    expect([element.getBoundingClientRect().width, element.getBoundingClientRect().height]).toEqual([0, 0]);
+    element.size = 'small';
+    await element.updateComplete;
+    expect(element.hasAttribute('data-nph-rendered')).toBe(true);
+    expect(track(element).getBoundingClientRect().width).toBe(32);
+  });
+
+  it('a small switch toggles like the default one', async () => {
+    const element = await mount(SMALL);
+    const heard = vi.fn();
+    element.addEventListener('change', heard);
+    element.click();
+    expect(element.checked).toBe(true);
+    expect(heard).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -1032,9 +1169,9 @@ describe('what the piece does not have', () => {
     expect(element.shadowRoot?.querySelector('slot, [part]')).toBeNull();
   });
 
-  it('has no size, no variant, no color and no form property', () => {
+  it('has no variant, no color and no form property', () => {
     const declared = [...(NphSwitch as unknown as { elementProperties: Map<string, unknown> }).elementProperties.keys()];
-    for (const name of ['size', 'variant', 'color', 'value', 'name', 'pressed', 'required', 'description']) {
+    for (const name of ['variant', 'color', 'value', 'name', 'pressed', 'required', 'description']) {
       expect(declared).not.toContain(name);
     }
   });
@@ -1065,6 +1202,11 @@ describe('token contract', () => {
         '--nph-focus-border',
         '--nph-focus-halo',
         '--nph-switch-track-width',
+        '--nph-switch-track-width-sm',
+        '--nph-switch-track-height-sm',
+        '--nph-switch-thumb-size-sm',
+        '--nph-switch-track-padding-sm',
+        '--nph-icon-size-md',
         '--nph-icon-size-sm',
         '--nph-space-inline-tight',
         '--nph-icon-size-lg',

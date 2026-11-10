@@ -6,13 +6,15 @@
   "use_when": [
     "For a setting that turns on or off, with an immediate effect, outside a toolbar.",
     "Several settings stack, one nph-switch per line: there is no group component.",
-    "Without text only when the name is already in the context, such as a table cell, always with label."
+    "Without text only when the name is already in the context, such as a table cell, always with label.",
+    "The small size only in the switch slot of the nph-dropdown-menu item, without a label."
   ],
   "do_not_use_when": [
     "In a form, when the choice only counts on submission: use nph-checkbox.",
     "In a toolbar, among other buttons: use nph-togglebutton.",
     "To paint the track or the knob by hand: use checked, invalid and disabled.",
-    "To hide the label by deleting its text: leave text empty and give label."
+    "To hide the label by deleting its text: leave text empty and give label.",
+    "The small size outside the nph-dropdown-menu item: alone, its target is below 24 by 24 (WCAG 2.5.8)."
   ],
   "api": {
     "checked": {
@@ -21,6 +23,17 @@
       "default": false,
       "reflects": true,
       "constraint": "The Figma property marcado. Reflects because the internal CSS selects the state by it; the piece is not associated with a form. A click, Enter or Space by the person toggles it and fires input and then change; setting it from code fires nothing. The name and the mapping from marcado are a technical proposal of P79."
+    },
+    "size": {
+      "type": "enum",
+      "values": [
+        "default",
+        "small"
+      ],
+      "required": false,
+      "default": "default",
+      "reflects": true,
+      "constraint": "The size variant of the Figma set. Reflects because the internal CSS selects the small track by it. Small is the track 32 by 16, the knob 12 and the gap 2, in a piece 20 high, for the switch slot of the nph-dropdown-menu item; alone, its target is below 24 by 24 (WCAG 2.5.8), so everywhere else the size is default. A value outside the two draws nothing and emits console.error in development. The name of the property and its values are a technical choice of the code."
     },
     "text": {
       "type": "string",
@@ -56,6 +69,13 @@
       "axis": "appearance",
       "choose_when": "false for a setting that is off: the knob on the left, the track in color/input. true for a setting that is on: the knob on the right, the track in color/primary with an outline.",
       "do_not_combine_with": []
+    },
+    "size": {
+      "axis": "size",
+      "choose_when": "default everywhere: the track 40 by 24. small only in the switch slot of the nph-dropdown-menu item, without a label: the track 32 by 16 in a piece 20 high, so the row keeps its height.",
+      "do_not_combine_with": [
+        "small outside the nph-dropdown-menu item: the target is below 24 by 24 (WCAG 2.5.8)."
+      ]
     },
     "label": {
       "axis": "appearance",
@@ -98,7 +118,8 @@
     "A disabled fieldset around the piece disables it as disabled does, except inside the first legend of that fieldset, as the browser does.",
     "The knob slides by transform, never by layout position, and the track fill and outline change on motion/state-duration and motion/state-easing.",
     "Under reduced motion the knob does not slide: it changes side by opacity on motion/hover-duration, and the color still changes.",
-    "Inside nph-field, the piece is one option of a group: nphFieldRole is option, and the field writes invalid and disabled on it."
+    "Inside nph-field, the piece is one option of a group: nphFieldRole is option, and the field writes invalid and disabled on it.",
+    "The small size changes only the measures: the track, the knob and the gap, in a piece icon/size-md high with the track centered. Colors, states, focus, radius and the knob travel rule (track width minus the knob minus twice the gap) are the same."
   ],
   "domain_errors": [
     "invalid: the value of the setting is not accepted by the screen. The piece shows the outline; the sentence is written outside it."
@@ -121,6 +142,13 @@
       "icon/size-sm",
       "radius/full",
       "space/inline-tight"
+    ],
+    "small": [
+      "switch/track-width-sm",
+      "switch/track-height-sm",
+      "switch/thumb-size-sm",
+      "switch/track-padding-sm",
+      "icon/size-md"
     ],
     "knob_color": [
       "color/background",
@@ -150,6 +178,7 @@
     "Use nph-switch for a setting that turns on or off with an immediate effect, outside a toolbar; in a toolbar, use nph-togglebutton; in a form, use nph-checkbox.",
     "Stack several settings, one nph-switch per line; there is no group component.",
     "Without text, fill in label; the piece is only the track and has no other name.",
+    "Use size small only in the switch slot of the nph-dropdown-menu item; everywhere else, the default size.",
     "Read the new value from event.target.checked in the change event; there is no nph event.",
     "Write the error sentence outside the piece; invalid only changes the track outline.",
     "Do not paint the track or the knob: checked, invalid and disabled draw every state."
@@ -189,14 +218,15 @@
     "Using the piece among toolbar buttons.",
     "Painting the track or the knob by hand.",
     "Deleting the label text to hide it without giving label.",
+    "Using the small size outside the nph-dropdown-menu item.",
     "Putting the error sentence inside the piece.",
     "Grouping several pieces in a component of its own: they stack, one per line."
   ],
   "sources": {
-    "design_md": "design.md, switch/track-width, icon/size-lg, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity and motion/*",
+    "design_md": "design.md, switch/track-width, switch/track-width-sm, switch/track-height-sm, switch/thumb-size-sm, switch/track-padding-sm, icon/size-lg, icon/size-md, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity and motion/*",
     "decision": "P79 — API and semantics of nph-switch, 22-10-2026",
     "tests": "src/components/nph-switch/nph-switch.test.ts",
-    "usage_evidence": "no piece consumes it yet; nph-dropdown-menu (DSA-45) will use it without a label",
+    "usage_evidence": "nph-dropdown-menu uses the small size in the switch slot of its item, without a label",
     "storybook": "src/components/nph-switch/nph-switch.stories.ts and nph-switch.docs.stories.ts",
     "figma": "DS-IA-NEPHOS 5.0, nph-switch frame 1549:2 and set 1548:56"
   }

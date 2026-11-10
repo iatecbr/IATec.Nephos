@@ -385,8 +385,24 @@ describe('nph-switch documentation — order of the model', () => {
     it(`${locale}: the sections follow the model of the current Docs pages, with no anti-patterns section`, () => {
       const target = renderInLocale(locale);
       const sections = [...target.querySelectorAll('section[id]')].map((s) => s.id);
-      expect(sections).toEqual(['when-to-use', 'api', 'usage', 'states', 'label', 'anatomy', 'accessibility', 'examples', 'references']);
+      expect(sections).toEqual(['when-to-use', 'api', 'usage', 'states', 'label', 'sizes', 'anatomy', 'accessibility', 'examples', 'references']);
       expect(target.querySelector('#anti-patterns')).toBeNull();
+    });
+
+    it(`${locale}: the sizes section shows the default and the small switch, off and on, each named by label`, async () => {
+      const target = renderInLocale(locale);
+      const pieces = [...(target.querySelector('section#sizes') as HTMLElement).querySelectorAll('nph-switch')] as Piece[];
+      await Promise.all(pieces.map((piece) => piece.updateComplete));
+      expect(pieces.map((piece) => [piece.getAttribute('size'), piece.hasAttribute('checked')])).toEqual([
+        ['default', false],
+        ['default', true],
+        ['small', false],
+        ['small', true],
+      ]);
+      const widths = pieces.map((piece) => (piece.shadowRoot?.querySelector('.track') as HTMLElement).getBoundingClientRect().width);
+      expect(widths[0]).toBeGreaterThan(widths[2] as number);
+      expect(widths[2]).toBe(widths[3]);
+      expect(pieces.every((piece) => !piece.hasAttribute('text') && (piece.getAttribute('label') ?? '') !== '')).toBe(true);
     });
 
     it(`${locale}: one side-by-side use and do-not-use block`, () => {

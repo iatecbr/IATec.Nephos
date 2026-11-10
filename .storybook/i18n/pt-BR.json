@@ -3814,14 +3814,16 @@
     "whenToUse": [
       "Para uma configuração que liga ou desliga, com efeito imediato, fora de uma barra de ferramentas.",
       "Várias configurações empilham, um nph-switch por linha: não há componente de grupo.",
-      "Sem texto só quando o nome já está no contexto, como numa célula de tabela, sempre com label."
+      "Sem texto só quando o nome já está no contexto, como numa célula de tabela, sempre com label.",
+      "O tamanho pequeno apenas no espaço do interruptor do item do nph-dropdown-menu, sem rótulo."
     ],
     "whenNotToUseTitle": "Quando não usar",
     "whenNotToUse": [
       "Num formulário, quando a escolha só vale no envio: use nph-checkbox.",
       "Numa barra de ferramentas, entre outros botões: use nph-togglebutton.",
       "Para pintar o trilho ou o botão à mão: use checked, invalid e disabled.",
-      "Para esconder o rótulo apagando o texto: deixe text vazio e dê label."
+      "Para esconder o rótulo apagando o texto: deixe text vazio e dê label.",
+      "O tamanho pequeno fora do item do nph-dropdown-menu: sozinho, o alvo de toque fica abaixo de 24 por 24 (WCAG 2.5.8)."
     ],
     "relationsText": "Numa barra de ferramentas, entre outros botões, a peça é nph-togglebutton; num formulário cuja escolha só vale no envio, é nph-checkbox. A peça traz o próprio texto: não precisa de nph-field para ter nome. Dentro do nph-field, é uma opção de um grupo.",
     "apiTitle": "API",
@@ -3833,6 +3835,10 @@
       [
         "checked",
         "O estado ligado, a propriedade marcado do Figma. false por padrão. Refletida no atributo. Um clique, Enter ou Espaço da pessoa a alterna e dispara input e change; mudá-la por código não dispara nada."
+      ],
+      [
+        "size",
+        "A variante tamanho do Figma. default ou small; default por padrão. Refletida no atributo. small é o trilho de 32 por 16 com botão de 12 e espaço de 2, numa peça de 20 de altura, e serve apenas ao espaço do interruptor do item do nph-dropdown-menu: sozinho, o alvo de toque fica abaixo de 24 por 24 (WCAG 2.5.8). Um valor fora dos dois não desenha nada e emite console.error em desenvolvimento."
       ],
       [
         "text",
@@ -3899,6 +3905,9 @@
     "labelTitle": "Rótulo",
     "labelText": "O rótulo fica depois do trilho, a space/inline dele, em text/label-md e color/foreground. Quebra na largura disponível; com duas linhas, o trilho fica no topo, alinhado à primeira linha. Sem texto, a peça é só o trilho, e label dá o nome.",
     "labelCaption": "Com rótulo, só o trilho com label e um rótulo longo em duas linhas.",
+    "sizesTitle": "Tamanhos",
+    "sizesText": "default é o tamanho de todo interruptor. small tem o trilho de 32 por 16, o botão de 12 e espaço de 2, numa peça de 20 de altura com o trilho centralizado; o curso do botão é a largura do trilho menos o botão e os dois espaços, como no default. Serve apenas ao espaço do interruptor do item do nph-dropdown-menu, sem rótulo: sozinho, o alvo de toque fica abaixo de 24 por 24 (WCAG 2.5.8). Cores, estados e foco não mudam.",
+    "sizesCaption": "size default e size small, cada um desligado e ligado. O pequeno aparece aqui só para comparar as medidas.",
     "anatomyTitle": "Anatomia",
     "anatomyHeader": [
       "Parte",
@@ -3912,6 +3921,10 @@
       [
         "Botão",
         "O círculo em icon/size-sm, a space/inline-tight da borda do trilho. Desligado: à esquerda, em color/background. Ligado: à direita, em color/primary-foreground. Desliza por transform."
+      ],
+      [
+        "Tamanho pequeno",
+        "O trilho é switch/track-width-sm por switch/track-height-sm, o botão switch/thumb-size-sm e o espaço switch/track-padding-sm, numa peça de altura icon/size-md com o trilho centralizado na vertical. Cores, estados, foco e radius/full não mudam."
       ],
       [
         "Rótulo",
@@ -3962,7 +3975,7 @@
       ],
       [
         "Alvo de toque",
-        "O trilho inteiro, 40 por 24 px; com rótulo, a peça inteira."
+        "O trilho inteiro, 40 por 24 px; com rótulo, a peça inteira. O trilho pequeno, de 32 por 16 px, fica abaixo de 24 por 24 (WCAG 2.5.8): serve apenas ao item do nph-dropdown-menu, onde a linha inteira é o alvo."
       ],
       [
         "Movimento",
@@ -3985,7 +3998,7 @@
     "references": [
       "ficha nph-switch — função, variantes, estados, acessibilidade, tokens e anti-padrões.",
       "docs/decisoes-tecnicas.md — P79 (API e semântica), P73, P01, P02 e P03.",
-      "design.md — switch/track-width, icon/size-lg, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity e motion/*.",
+      "design.md — switch/track-width, switch/track-width-sm, switch/track-height-sm, switch/thumb-size-sm, switch/track-padding-sm, icon/size-lg, icon/size-md, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity e motion/*.",
       "Figma DS-IA-NEPHOS 5.0 — página NPH — Switch, quadro nph-switch (1549:2) e conjunto 1548:56.",
       "Storybook — Validação, na pasta ao lado."
     ],
@@ -3994,7 +4007,8 @@
     "sourceStates": "Figma, conjunto 1548:56; design.md",
     "sourceAnatomy": "Figma, conjunto 1548:56; design.md",
     "sourceAccessibility": "ficha nph-switch; nph-switch.test.ts",
-    "matrixLabel": "Matriz do componente"
+    "matrixLabel": "Matriz do componente",
+    "sourceSizes": "Ficha do nph-switch; Figma, quadro 1549:2"
   },
   "switchValidation": {
     "lightCaption": "Modo claro",
@@ -5979,7 +5993,7 @@
       ],
       [
         "switch",
-        "O nph-switch no fim, sem rótulo."
+        "O nph-switch pequeno no fim, sem rótulo."
       ],
       [
         "checked",

@@ -81,7 +81,7 @@ variants:
       - "destructive on a common action: the risk warning loses its meaning."
   selection:
     axis: appearance
-    choose_when: "none for an action. single when only one option of the group holds at a time: the checked one shows the check at the end and its text and icon in color/primary-hover. multiple when several hold together: the nph-checkbox box comes at the start."
+    choose_when: "none for an action. single when only one option of the group holds at a time: the checked one shows the check at the end and its text and icon in color/primary-text. multiple when several hold together: the nph-checkbox box comes at the start."
     do_not_combine_with:
       - "switch: a switch is not a choice."
       - "submenu: a submenu item is neither a choice nor a switch."
@@ -112,6 +112,7 @@ business_rules:
   - "When the person activates an item, the menu fires nph-item-select, which bubbles, with detail value and checked: the new state of a single choice, a multiple choice or a switch, and null on a common item. A single choice already checked fires again with checked true. Changing items or open from code fires nothing."
   - "After an activation, the menu replaces items with a new list that carries the new checked; the objects of the consumer are never changed."
   - "A common item and a single choice close the menu and give the focus back to the trigger; a multiple choice and a switch keep it open. A submenu item activates as a common item: the nested menu is out of scope."
+  - "The switch of the item is the small nph-switch, without a label, in a slot of icon/size-md: the track no longer overflows the slot and the row keeps its height in every size of the item."
   - "A disabled or loading item takes the focus but does not activate. In loading, the spinner takes the end of the item, in place of shortcut, counter, tag, switch, arrow and check."
   - "The menu opens space/inline-tight below the trigger, aligned to its start edge, turns up when it does not fit below and fits above, never leaves the window and follows the trigger on scroll and resize. layout/input-width is the preferred width; a narrower window, or a larger font, holds the panel inside it. Only a menu taller than the room scrolls inside."
   - "A trigger that is disabled, aria-disabled or an nph-button in loading opens nothing, by click or by key."
@@ -131,7 +132,8 @@ tokens:
   description: [text/caption, color/muted-foreground]
   shortcut: [text/caption, color/muted-foreground]
   counter: [color/primary-hover, color/primary-foreground, radius/full, icon/size-md, space/inline, text/label-sm]
-  single_choice: [text/label-md, color/primary-hover]
+  switch: [icon/size-md, switch/track-width-sm, switch/track-height-sm, switch/thumb-size-sm, switch/track-padding-sm]
+  single_choice: [text/label-md, color/primary-text]
   destructive: [dropdown/item-destructive-foreground, dropdown/item-destructive-hover-foreground, dropdown/item-destructive-hover-background]
   hover: [color/primary-surface, dropdown/item-destructive-hover-background, dropdown/item-hover-icon-foreground]
   focus: [border/width, color/primary, dropdown/item-focus-border-radius, focus/ring-width, focus/halo, dropdown/item-focus-halo-radius]
@@ -153,11 +155,12 @@ accessibility:
     - "On the trigger, Enter, Space and the down arrow open the menu on the first item; the up arrow on the last."
     - "In the menu, the down and up arrows move, with wrap; Home and End go to the ends."
     - "A typed character goes to the next item that starts with it."
+    - "The pointer over an item moves the focus to it, and the arrows go on from that item; a disabled or loading item does not take the focus from the pointer."
     - "Enter and Space activate the item."
     - "Esc closes the menu and gives the focus back to the trigger, and does not reach a dialog around it."
     - "Tab and Shift+Tab close the menu and move on from the trigger, wherever the menu sits in the DOM."
   focus: "The focus moves to the items. Keyboard only, a border of border/width in color/primary and a halo in focus/halo show outside the row; the border carries the focus (5.37:1 in light and 4.59:1 in dark), the halo is decorative. Opened by a mouse click, the first item takes the focus without showing it."
-  contrast: "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The solid icon in dropdown/item-hover-icon-foreground on color/primary-surface measures 4.78:1 in light and 6.26:1 in dark. The destructive item measures at least 4.69:1 on the panel in dropdown/item-destructive-foreground, and in hover uses dropdown/item-destructive-hover-foreground on dropdown/item-destructive-hover-background. The menu border, the separator and the halo are decorative."
+  contrast: "The item text passes AA on color/popover and on the hover color/primary-surface, in light and dark. The checked item of single choice reads color/primary-text, at least 4.5:1 on color/popover in the seven brands, light and dark. The solid icon in dropdown/item-hover-icon-foreground on color/primary-surface measures 4.78:1 in light and 6.26:1 in dark. The destructive item measures at least 4.69:1 on the panel in dropdown/item-destructive-foreground, and in hover uses dropdown/item-destructive-hover-foreground on dropdown/item-destructive-hover-background. The menu border, the separator and the halo are decorative."
   color_alternative: "The destructive item is recognized by the icon of the action and by the text. Single choice shows the check; multiple choice shows the checked box; the switch shows the knob position; the tag carries text."
 invalid_combinations:
   - "switch with a selection other than none — a switch is not a choice; the item is left out."
@@ -178,7 +181,7 @@ anti_patterns:
   - "Putting a long sentence in the tag."
   - "Drawing the trigger inside the menu: it is an nph-button outside, named by for."
 sources:
-  design_md: "design.md, color/popover, color/popover-foreground, color/dropdown-border, color/primary-surface, color/primary-hover, color/primary-foreground, color/muted-foreground, dropdown/*, layout/input-width, radius/full, elevation/dropdown, space/inline, space/inline-tight, icon/size-md, text/body-md, text/caption, text/label-sm, text/label-md, focus/*, state/disabled-opacity and motion/*"
+  design_md: "design.md, color/popover, color/popover-foreground, color/dropdown-border, color/primary-surface, color/primary-text, color/primary-hover, color/primary-foreground, color/muted-foreground, dropdown/*, layout/input-width, radius/full, elevation/dropdown, space/inline, space/inline-tight, icon/size-md, switch/*, text/body-md, text/caption, text/label-sm, text/label-md, focus/*, state/disabled-opacity and motion/*"
   decision: "P92 — API and semantics of nph-dropdown-menu, 24-10-2026"
   tests: "src/components/nph-dropdown-menu/nph-dropdown-menu.test.ts"
   usage_evidence: "no screen consumes it yet"
@@ -244,7 +247,7 @@ the box.
 | `avatar` | The photo of an `nph-avatar` sm; an empty string draws the person icon. Only without `icon` |
 | `severity` | `default` or `destructive` |
 | `selection` | `none`, `single` or `multiple` |
-| `switch` | The `nph-switch` at the end, without a label |
+| `switch` | The small `nph-switch` at the end, without a label, in a slot of `icon/size-md` that keeps the row height |
 | `checked` | The state of a choice or a switch |
 | `shortcut` | Plain text at the end, in `text/caption` |
 | `count` | The number in the counter pill |
@@ -295,9 +298,9 @@ takes the destructive item with the color change only.
 |---|---|
 | Semantics | A popover panel with a `role=menu` inside; every group is a `role=group`, named by its label when it has one. Items are `menuitem`, `menuitemradio` (single choice) or `menuitemcheckbox` (multiple choice and switch), with `aria-checked`. The profile header sits outside the menu. The inner `nph-checkbox` and `nph-switch` are `inert` |
 | Accessible name | The menu: `label`, or the trigger. The item: its `text`; the description, the tag, the counter and the shortcut describe it, in that order. Support icons are not read |
-| Keyboard | The menu button pattern of the APG: on the trigger, Enter, Space and ↓ open on the first item, ↑ on the last; in the menu, ↑ ↓ with wrap, Home, End, a typed character, Enter and Space activate, Esc closes and gives the focus back, Tab and Shift+Tab close and move on from the trigger |
+| Keyboard | The menu button pattern of the APG: on the trigger, Enter, Space and ↓ open on the first item, ↑ on the last; in the menu, ↑ ↓ with wrap, Home, End, a typed character, Enter and Space activate, Esc closes and gives the focus back, Tab and Shift+Tab close and move on from the trigger. The pointer over an item moves the focus to it, and the arrows go on from there |
 | Focus | The `color/primary` border carries the focus, 5.37:1 in light and 4.59:1 in dark; the halo is decorative |
-| Contrast | The item text passes AA on `color/popover` and on `color/primary-surface`. The solid icon on hover measures 4.78:1 in light and 6.26:1 in dark; the destructive item measures at least 4.69:1 in `dropdown/item-destructive-foreground` |
+| Contrast | The item text passes AA on `color/popover` and on `color/primary-surface`; the checked item of single choice reads `color/primary-text`, at least 4.5:1 on `color/popover` in the seven brands. The solid icon on hover measures 4.78:1 in light and 6.26:1 in dark; the destructive item measures at least 4.69:1 in `dropdown/item-destructive-foreground` |
 | Alternative to color | The destructive item has the icon of the action; single choice shows the check; multiple choice the checked box; the switch the knob position; the tag carries text |
 | Touch target | The whole row, above 24 by 24 in every size |
 | Known limits | On item hover, the inner box and track do not take their own hover (D-3). `aria-haspopup` and `aria-expanded` on an `nph-button` do not reach its inner button. A nested menu is out of scope. A forced-colors mode is not handled. When the panel scrolls, the halo of a focused item is cut by 1 px on the sides. An `nph-button` that goes into `loading` while the menu is open does not close it by a press. A trigger clipped by a scrolling ancestor, still inside the window, keeps the menu drawn |
@@ -329,8 +332,9 @@ takes the destructive item with the color change only.
 | Separator | `nph-separator` in `dropdown/separator`, `space/inline-tight` above and below |
 | Item | `space/inline` padding and gap (`space/inline-tight` above and below in compact), `dropdown/item-radius`, `text/body-md` in `color/popover-foreground` |
 | Description and shortcut | `text/caption` in `color/muted-foreground` |
+| Switch | The small `nph-switch` (`size` small: track `switch/track-width-sm` by `switch/track-height-sm`, knob `switch/thumb-size-sm`, gap `switch/track-padding-sm`), in a slot of `icon/size-md` |
 | Counter | `color/primary-hover`, `radius/full`, height `icon/size-md`, `space/inline` on the sides; number in `text/label-sm` and `color/primary-foreground` |
-| Single choice | `text/label-md` in `color/primary-hover`; check solid at `icon/size-sm` |
+| Single choice | `text/label-md` in `color/primary-text`; check solid at `icon/size-sm` |
 | Destructive | `dropdown/item-destructive-foreground`; hover `dropdown/item-destructive-hover-foreground` on `dropdown/item-destructive-hover-background` |
 | Hover | `color/primary-surface`, `dropdown/item-destructive-hover-background`, `dropdown/item-hover-icon-foreground` |
 | Focus | `border/width`, `color/primary`, `dropdown/item-focus-border-radius`, `focus/ring-width`, `focus/halo`, `dropdown/item-focus-halo-radius` |

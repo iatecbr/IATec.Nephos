@@ -27,7 +27,7 @@ import type { TemplateResult } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { translations } from '../../../.storybook/i18n/index.js';
-import { BRAND_CONTRAST_EXCEPTION, brandFrames } from '../../shared/docs/brands';
+import { brandFrames } from '../../shared/docs/brands';
 import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
@@ -288,10 +288,9 @@ export const Examples: Story = {
   },
 };
 
-/** The seven brands in light and dark (DSA-36): the active item, the open group, the active subitem and the active rail button follow the brand of the frame. Carries `BRAND_CONTRAST_EXCEPTION` (`src/shared/docs/brands.ts`). */
+/** The seven brands in light and dark (DSA-36): the active item, the open group, the active subitem and the active rail button follow the brand of the frame. The contrast check runs on every frame, with no exception. */
 export const Brands: Story = {
   name: 'Brands',
-  parameters: { a11y: { options: { rules: BRAND_CONTRAST_EXCEPTION } } },
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     const [home, inbox] = v.pages as MenuText['pages'];
