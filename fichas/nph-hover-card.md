@@ -122,8 +122,8 @@ variants:
     do_not_combine_with: ["a side outside the list"]
 states:
   link-rest:
-    token: "color/primary"
-    changes_for_user: "The link shows in the primary color, underlined, in the label-md text role."
+    token: "color/link"
+    changes_for_user: "The link shows in the link color, underlined, in the label-md text role."
   link-focus:
     token: "hover-card/focus-border, hover-card/focus-halo"
     changes_for_user: "For keyboard users, a border and a halo outside the link mark the focus, and the card opens with no wait."
@@ -144,7 +144,7 @@ business_rules:
   - "The card is a manual popover in the top layer: no z-index and no clipping by an ancestor with overflow. Light dismiss does not close it."
   - "The card is 4 from the link, or from the tip of the arrow, with and without the arrow. With the arrow the card sits at the offset plus the arrow height minus the border width, because the arrow overlaps the card by the width of its border."
   - "The card is hover-card/width wide and the width never changes."
-  - "The card aligns to the link by the start edge, mirrored in right-to-left writing: the center of the link sits at the arrow inset plus half the arrow base from the start corner of the card, with and without the arrow, so the card does not move when the arrow is turned on (D-2)."
+  - "Without the arrow the card is centered on the link along the side it sits on (Radix align center), kept inside the window by the same collision handling. With the arrow the card aligns to the link by the start edge, mirrored in right-to-left writing: the center of the link sits at the arrow inset plus half the arrow base from the start corner of the card (D-2)."
   - "The card flips to the opposite side when the preferred one does not fit. It is kept inside the window; the arrow keeps pointing to the center of the link, inside the rounded corners."
   - "While the link is outside the window, the card is not drawn at the edge; it follows the link on scroll and resize."
   - "The meta is the consumer's text. Time is relative up to 30 days, as in Updated today or 3 days ago, then the full date; a time reads 14:30; the full date always goes in meta-title. The piece writes no word and computes no time."
@@ -163,7 +163,7 @@ tokens:
   title: "hover-card/foreground, text/label-lg"
   description: "hover-card/description-foreground, text/body-sm"
   meta: "hover-card/meta-foreground, hover-card/meta-icon-foreground, hover-card/icon-size, text/caption"
-  link: "color/primary, text/label-md, radius/inner"
+  link: "color/link, text/label-md, radius/inner"
   arrow: "hover-card/arrow-width, hover-card/arrow-height, hover-card/arrow-inset, hover-card/background, hover-card/border"
   distance: hover-card/offset
   delay: "hover-card/open-delay, hover-card/close-delay"
@@ -187,7 +187,7 @@ accessibility:
     - "Esc closes the card and does not reach a dialog around it; the focus stays on the link."
     - "Tab away from the link closes the card with no wait."
   focus: "Keyboard only, on the link: a border of hover-card/border-width in hover-card/focus-border and a halo of focus/ring-width in hover-card/focus-halo outside the box, as nph-button. The card takes no focus and has no focus state."
-  contrast: "The title, the description and the meta pass 4.5 to 1 over the card in both themes, and the meta is never below that floor. The link in color/primary passes in the default brand in both themes; in the dark scheme of the Gerencial brand it measures 2.71 to 1, and in other brands up to 3.81 to 1, a limit inherited from color/primary of each brand (point 9 of the accepted contract), which is not fixed here. The card border is decorative and the shadow separates the card from the page in light."
+  contrast: "The title, the description and the meta pass 4.5 to 1 over the card in both themes, and the meta is never below that floor. The link in color/link passes 4.5 to 1 in both themes and in the seven brands, (D-3). The card border is decorative and the shadow separates the card from the page in light."
   color_alternative: "The link is underlined, not told only by color. The meta stands apart by its icon and its place at the end of the card, not only by its shade."
 invalid_combinations:
   - "An action, a link or a field inside the card: the card is read only; use nph-popover."
@@ -213,7 +213,7 @@ anti_patterns:
   - "Relying on the card on touch."
   - "Asking the card to be a dialog, a menu or a form."
 sources:
-  design_md: "design.md, the hover-card/* tokens, color/subtle-foreground, color/popover, color/border-subtle, color/primary, elevation/dropdown, the text roles and the global focus/* tokens"
+  design_md: "design.md, the hover-card/* tokens, color/subtle-foreground, color/popover, color/border-subtle, color/link, elevation/dropdown, the text roles and the global focus/* tokens"
   decision: "P112 — nph-hover-card: API and semantics"
   tests: "src/components/nph-hover-card/nph-hover-card.test.ts"
   usage_evidence: "no screen consumes it yet"
@@ -277,7 +277,7 @@ variant.
 
 | Part | State | Token | What changes for the person |
 |---|---|---|---|
-| Link | Rest | `color/primary` | The link shows in the primary color, underlined, in the label-md text role |
+| Link | Rest | `color/link` | The link shows in the link color, underlined, in the label-md text role |
 | Link | Focus | `hover-card/focus-border`, `hover-card/focus-halo` | For keyboard users, a border and a halo outside the link, and the card opens with no wait |
 | Card | Closed | `not_applicable` | The card is not shown |
 | Card | Open | `hover-card/background` | The card is shown next to the link, at `hover-card/offset` |
@@ -308,8 +308,9 @@ with the easing of its role, animating only opacity. With reduced motion, the du
   with the arrow the card sits at the offset plus the arrow height minus the border width, because the
   arrow overlaps the card by the width of its border.
 - The card is `hover-card/width` wide.
-- The card aligns to the link by the start edge, mirrored in right-to-left writing, with the same rule
-  with and without the arrow, so it does not move when the arrow is turned on (D-2).
+- Without the arrow the card is centered on the link along the side it sits on. With the arrow the card
+  aligns to the link by the start edge, mirrored in right-to-left writing, 16 (`hover-card/arrow-inset`)
+  from the card corner to the arrow (D-2).
 - The card flips to the opposite side when the preferred one does not fit and is kept inside the window;
   the arrow keeps pointing to the center of the link.
 - Time in the meta is relative up to 30 days, then the full date; a time reads `14:30`; the full date
@@ -330,10 +331,10 @@ loaded) makes the card open and close with no wait and reports it once.
 | Keyboard | Tab moves focus to the link and opens the card with no wait. Enter follows the link. Esc closes the card and does not reach a dialog around it; the focus stays on the link. Tab away closes it with no wait |
 | Visible focus | Keyboard only, on the link: a border of `hover-card/border-width` in `hover-card/focus-border` and a halo of `focus/ring-width` in `hover-card/focus-halo` outside the box. The border carries the focus; the halo is reinforcement. The card takes no focus |
 | Pointer (WCAG 1.4.13) | The pointer may go from the link to the card without closing it, the card stays open while the pointer is over it, and Esc dismisses it |
-| Contrast | The title, the description and the meta pass 4.5:1 over the card in both themes; the meta is one step softer than the description, never below the floor. The link in `color/primary` passes in the default brand in both themes |
+| Contrast | The title, the description and the meta pass 4.5:1 over the card in both themes; the meta is one step softer than the description, never below the floor. The link in `color/link` passes 4.5:1 in both themes and in the seven brands (D-3) |
 | Alternative to color | The link is underlined, not told only by color. The meta stands apart by its icon and its place at the end of the card |
 | Touch target | The link is a text link as tall as its line. It meets the target size rule by the spacing exception, when no other target sits closer than the minimum, or, inside a sentence, by the inline link exception. The card has no target. On touch there is no hover: the content of the card must exist at the destination |
-| Known limits | (a) The link is an `a` of the shadow root of the piece, not the link of the consumer: it has no `target`, `rel` or `download`, and a click on it reaches the document as a composed event whose `target` is the host, not the anchor: a router that listens to the click on the document must find the anchor in `event.composedPath()`, and one that looks for it with `event.target.closest('a[href]')` does not see it and may leave a full page navigation to happen. (b) The width is `hover-card/width` in every variant; only a window narrower than the card makes it shrink, to the width of the window. (c) The focus of the link is drawn by two pseudo-element layers, and the link is inline-block, so a link that breaks across lines draws the ring around the whole box instead of around each line. (d) The contrast of the link in the dark scheme is 2.71:1 in the Gerencial brand and up to 3.81:1 in others, a limit inherited from `color/primary` of each brand (point 9 of the accepted contract); the underline stays, and this piece does not change it. (e) In a window too short for the card and its link, the card stays beside the link, never over it, and the window cuts what does not fit: the card does not scroll. (f) The card is a preview with no action: on touch it never opens, so it is never the only way to the content |
+| Known limits | (a) The link is an `a` of the shadow root of the piece, not the link of the consumer: it has no `target`, `rel` or `download`, and a click on it reaches the document as a composed event whose `target` is the host, not the anchor: a router that listens to the click on the document must find the anchor in `event.composedPath()`, and one that looks for it with `event.target.closest('a[href]')` does not see it and may leave a full page navigation to happen. (b) The width is `hover-card/width` in every variant; only a window narrower than the card makes it shrink, to the width of the window. (c) The focus of the link is drawn by two pseudo-element layers, and the link is inline-block, so a link that breaks across lines draws the ring around the whole box instead of around each line. (d) In a window too short for the card and its link, the card stays beside the link, never over it, and the window cuts what does not fit: the card does not scroll. (e) The card is a preview with no action: on touch it never opens, so it is never the only way to the content |
 
 ## Relations
 
@@ -371,7 +372,7 @@ goes (`href`), what it reads (the default slot), what the card says (`heading`, 
 | Width | `hover-card/width` |
 | Link to card, or to the arrow tip | `hover-card/offset` |
 | Arrow | `hover-card/arrow-width`, `hover-card/arrow-height` and `hover-card/arrow-inset` |
-| Link | `color/primary`, `text/label-md` and `radius/inner` |
+| Link | `color/link`, `text/label-md` and `radius/inner` |
 | Link focus | `hover-card/focus-border`, `hover-card/focus-halo`, `focus/ring-width`, `focus/border-radius-inner` and `focus/radius-inner-with-border` |
 | Wait before opening | `hover-card/open-delay` |
 | Wait before closing | `hover-card/close-delay` |

@@ -172,7 +172,7 @@ tokens:
   between_actions: space/inline-loose
   title_to_close: space/inline
   lines: color/dialog-separator
-  secondary_action: [color/secondary-on-dialog, color/secondary-on-dialog-hover]
+  secondary_action: [button/secondary-solid-background, button/secondary-solid-background-hover]
   enter: [motion/enter-duration, motion/enter-easing]
   exit: [motion/exit-duration, motion/exit-easing]
   reduced_motion: motion/hover-duration
@@ -180,7 +180,7 @@ ai_hints:
   - "Use nph-dialog for a short task that needs an answer before going on; a long flow goes to a page and a notice with no answer stays on the page."
   - "Write the task or the question in heading: it is the name the screen reader reads."
   - "Put the fields in the default slot and the nph-button actions in the footer slot, the solid secondary first and the primary last."
-  - "Use the solid secondary for Cancel, never outline: inside the dialog it paints color/secondary-on-dialog by itself."
+  - "Use the solid secondary for Cancel, never outline: inside the dialog it keeps its own background, the same as outside; the label identifies it."
   - "Use the primary in loading while the action finishes, instead of closing or disabling it."
   - "To confirm a destructive action, choose nph-alert-dialog."
   - "Open and close it only through open, and listen to nph-close to know when the person closed it."
@@ -193,7 +193,7 @@ accessibility:
     - "Enter and Space activate the buttons, as in nph-button."
     - "A content area that scrolls with nothing focusable inside takes the focus with Tab; the arrows and Page Down scroll it."
   focus: "On open, the focus moves into the dialog by the rule of the business rules; on close, it goes back to the element that had it. The visible focus is the one of nph-button and of each element of the content; the content area that takes the focus draws focus/ring inside its own box."
-  contrast: "Title and description pass 4.5:1 on color/dialog in both modes; the text of the footer buttons passes on their own background, the secondary on color/secondary-on-dialog."
+  contrast: "Title and description pass 4.5:1 on color/dialog in both modes; the text of the footer buttons passes on their own background, the secondary on its own background, button/secondary-solid-background."
   color_alternative: "The title says the subject and the buttons say the actions; color only reinforces."
 invalid_combinations:
   - "An empty heading: the dialog has no name, so nothing is drawn."
@@ -215,8 +215,8 @@ anti_patterns:
   - "Confirming a destructive action with nph-dialog instead of nph-alert-dialog."
   - "Turning off the close button when the footer offers no way out."
 sources:
-  design_md: "design.md, color/dialog, color/dialog-foreground, color/dialog-separator, color/secondary-on-dialog, color/secondary-on-dialog-hover, overlay/scrim, elevation/modal, radius/overlay, space/overlay-padding, space/stack, space/stack-snug, space/inline-loose, layout/dialog-*, the motion roles and the md breakpoint of tokens_breakpoint"
-  decision: "P87 — nph-dialog: API and semantics, 22-10-2026; D1 to D6 of DSA-44 pending with Indiane"
+  design_md: "design.md, color/dialog, color/dialog-foreground, color/dialog-separator, button/secondary-solid-background, icon-button/secondary-solid-background, overlay/scrim, elevation/modal, radius/overlay, space/overlay-padding, space/stack, space/stack-snug, space/inline-loose, layout/dialog-*, the motion roles and the md breakpoint of tokens_breakpoint"
+  decision: "P87 — nph-dialog: API and semantics, 22-10-2026; D1 to D6 of DSA-44 pending with Indiane; DSA-64 D-1 — the solid secondary keeps its own background inside the dialog"
   tests: "src/components/nph-dialog/nph-dialog.test.ts and nph-dialog.docs.test.ts"
   usage_evidence: "pending — no approved screen consumes the dialog yet"
   storybook: "src/components/nph-dialog/nph-dialog.stories.ts and nph-dialog.docs.stories.ts, with the examples in nph-dialog.fixtures.stories.ts"
@@ -355,15 +355,15 @@ and the actions and opens and closes it with `open`. The `nph-alert-dialog` buil
 | Close button | `nph-button` secondary, ghost, compact, at `space/inline` from the title |
 | Spaces | `space/stack` between header, line and content; `space/stack` plus `space/stack-snug` before the actions; `space/inline-loose` between the actions |
 | Lines | `nph-separator` in `color/dialog-separator` |
-| Solid secondary | `color/secondary-on-dialog` and `color/secondary-on-dialog-hover` |
+| Solid secondary | `button/secondary-solid-background` and its hover, `icon-button/secondary-solid-background` and its hover: the same as outside the dialog |
 | Motion | `motion/enter-*`, `motion/exit-*`; `motion/hover-duration` with reduced motion |
 
-**Usage restrictions:** the dialog redefines, in the scope of its window, `color/secondary` and its
-hover, and the solid secondary tokens of the button (`button/secondary-solid-background`,
-`icon-button/secondary-solid-background` and their hovers), as `color/secondary-on-dialog` and its
-hover, so the solid secondary `nph-button` does not
-disappear on `color/dialog` in dark mode; and `color/border`, on its own lines only, as
-`color/dialog-separator`. No token gets a new value. `layout/dialog-content-sm`, `-md` and `-lg` are
+**Usage restrictions:** the dialog redefines, in the scope of its window, only `color/border`, on
+its own lines, as `color/dialog-separator`. The solid secondary `nph-button` keeps its own background
+inside the dialog, the same as outside it: the dialog does not redefine `color/secondary`, its hover
+or the solid secondary tokens of the button, and the label identifies the button (DSA-64 D-1).
+`color/secondary-on-dialog` and its hover stay in the tokens, and the dialog does not read them. No
+token gets a new value. `layout/dialog-content-sm`, `-md` and `-lg` are
 the width of the default content part in Figma, not a rule of the code: the dialog hugs its content.
 The `md` breakpoint is written as `48rem` in the media query, because a media query does not accept
 a custom property (P87).

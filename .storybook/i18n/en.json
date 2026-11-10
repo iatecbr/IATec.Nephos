@@ -3826,14 +3826,16 @@
     "whenToUse": [
       "For a setting that turns on or off, with an immediate effect, outside a toolbar.",
       "Several settings stack, one nph-switch per line: there is no group component.",
-      "Without text only when the name is already in the context, such as a table cell, always with label."
+      "Without text only when the name is already in the context, such as a table cell, always with label.",
+      "The small size only in the switch slot of the nph-dropdown-menu item, without a label."
     ],
     "whenNotToUseTitle": "When not to use",
     "whenNotToUse": [
       "In a form, when the choice only counts on submission: use nph-checkbox.",
       "In a toolbar, among other buttons: use nph-togglebutton.",
       "To paint the track or the knob by hand: use checked, invalid and disabled.",
-      "To hide the label by deleting its text: leave text empty and give label."
+      "To hide the label by deleting its text: leave text empty and give label.",
+      "The small size outside the nph-dropdown-menu item: alone, its target is below 24 by 24 (WCAG 2.5.8)."
     ],
     "relationsText": "In a toolbar, among other buttons, the piece is nph-togglebutton; in a form whose choice only counts on submission, it is nph-checkbox. The piece brings its own text: it does not need nph-field to have a name. Inside nph-field, it is one option of a group.",
     "apiTitle": "API",
@@ -3845,6 +3847,10 @@
       [
         "checked",
         "The on state, the Figma property marcado. false by default. Reflected to the attribute. A click, Enter or Space by the person toggles it and fires input and change; setting it from code fires nothing."
+      ],
+      [
+        "size",
+        "The size variant of the Figma set. default or small; default by default. Reflected to the attribute. small is the track 32 by 16 with a knob of 12 and a gap of 2, in a piece 20 high, and is only for the switch slot of the nph-dropdown-menu item: alone, its target is below 24 by 24 (WCAG 2.5.8). A value outside the two draws nothing and emits console.error in development."
       ],
       [
         "text",
@@ -3911,6 +3917,9 @@
     "labelTitle": "Label",
     "labelText": "The label sits after the track, space/inline from it, in text/label-md and color/foreground. It wraps to the available width; with two lines, the track sits at the top, aligned with the first line. Without text the piece is only the track, and label gives it a name.",
     "labelCaption": "With a label, only the track with label, and a long label on two lines.",
+    "sizesTitle": "Sizes",
+    "sizesText": "default is the size for every switch. small has the track 32 by 16, the knob 12 and a gap of 2, in a piece 20 high with the track centered; the knob travel is the track width minus the knob and the two gaps, as in default. It is only for the switch slot of the nph-dropdown-menu item, without a label: alone, its target is below 24 by 24 (WCAG 2.5.8). Colors, states and focus do not change.",
+    "sizesCaption": "size default and size small, each off and on. The small one is shown here only to compare the measures.",
     "anatomyTitle": "Anatomy",
     "anatomyHeader": [
       "Part",
@@ -3924,6 +3933,10 @@
       [
         "Knob",
         "The circle in icon/size-sm, space/inline-tight from the track edge. Off: on the left, in color/background. On: on the right, in color/primary-foreground. It slides by transform."
+      ],
+      [
+        "Small size",
+        "The track is switch/track-width-sm by switch/track-height-sm, the knob switch/thumb-size-sm and the gap switch/track-padding-sm, in a piece icon/size-md high with the track vertically centered. Colors, states, focus and radius/full do not change."
       ],
       [
         "Label",
@@ -3974,7 +3987,7 @@
       ],
       [
         "Touch target",
-        "The whole track, 40 by 24 px; with a label, the whole piece."
+        "The whole track, 40 by 24 px; with a label, the whole piece. The small track, 32 by 16 px, is below 24 by 24 (WCAG 2.5.8): it is only for the nph-dropdown-menu item, where the whole row is the target."
       ],
       [
         "Motion",
@@ -3997,7 +4010,7 @@
     "references": [
       "nph-switch spec sheet — purpose, variants, states, accessibility, tokens and anti-patterns.",
       "docs/decisoes-tecnicas.md — P79 (API and semantics), P73, P01, P02 and P03.",
-      "design.md — switch/track-width, icon/size-lg, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity and motion/*.",
+      "design.md — switch/track-width, switch/track-width-sm, switch/track-height-sm, switch/thumb-size-sm, switch/track-padding-sm, icon/size-lg, icon/size-md, icon/size-sm, radius/full, color/input, color/input-hover, color/primary, color/primary-hover, color/primary-border, color/primary-foreground, color/background, color/foreground, border/width, status/error, space/inline, space/inline-tight, text/label-md, focus/*, state/disabled-opacity and motion/*.",
       "DS-IA-NEPHOS 5.0 Figma — page NPH — Switch, frame nph-switch (1549:2) and set 1548:56.",
       "Storybook — Validation, in the folder alongside."
     ],
@@ -4006,7 +4019,8 @@
     "sourceStates": "Figma, set 1548:56; design.md",
     "sourceAnatomy": "Figma, set 1548:56; design.md",
     "sourceAccessibility": "nph-switch spec sheet; nph-switch.test.ts",
-    "matrixLabel": "Component matrix"
+    "matrixLabel": "Component matrix",
+    "sourceSizes": "nph-switch spec sheet; Figma, board 1549:2"
   },
   "switchValidation": {
     "lightCaption": "Light mode",
@@ -4482,7 +4496,7 @@
       ],
       [
         "disabled",
-        "color/muted, border color/input and state/disabled-opacity on the whole piece; it wins over the error."
+        "color/muted, border color/input and state/disabled-opacity on the whole piece, the arrow area included, which drops color/accent and keeps its divider; it wins over the error."
       ]
     ],
     "statesCaption": "Placeholder, value, error and disabled.",
@@ -5177,7 +5191,7 @@
     "relationsTitle": "Relations and context",
     "relations": [
       "It always opens over the overlay/scrim veil; the veil is not part of the piece.",
-      "The footer combines the solid secondary nph-button, in color/secondary-on-dialog, with a primary or a danger. Color, state and focus of the buttons belong to nph-button.",
+      "The footer combines the solid secondary nph-button, with its own background, with a primary or a danger. Color, state and focus of the buttons belong to nph-button.",
       "The close button is the nph-button secondary, ghost, compact, with an icon only.",
       "The lines are nph-separator in color/dialog-separator, softer than color/border.",
       "The nph-alert-dialog builds on the nph-dialog without the close button.",
@@ -5321,7 +5335,7 @@
     "shortConfirmationCaption": "Short confirmation in sm, without a destructive action and with no content area: the header text sets the width, up to the ceiling.",
     "wideContentCaption": "Wide content in lg, a list, with both lines on: only the list scrolls; the header and the footer stay.",
     "stackedCaption": "Stacked actions: in a window narrower than the md breakpoint, one button per line at full width, the primary on top.",
-    "loadingCaption": "The primary in loading while the action finishes, next to the solid secondary in color/secondary-on-dialog.",
+    "loadingCaption": "The primary in loading while the action finishes, next to the solid secondary, which keeps its own background.",
     "focusCaption": "Press the button to open the dialog: the focus goes to the first field. Tab stays in the dialog; Esc or the close button close it, and the focus goes back to the button."
   },
   "checkboxDocs": {
@@ -5919,7 +5933,7 @@
     "api": [
       [
         "for",
-        "The id of the element that opens the menu, in the same root as the menu: the nph-button outside the component. The menu writes aria-haspopup and aria-expanded on it."
+        "The id of the element that opens the menu, in the same root as the menu: the nph-button outside the component. The menu writes aria-haspopup and aria-expanded on it; while the menu is open, an nph-button trigger takes the open look, the same as the hover-active state."
       ],
       [
         "open",
@@ -5991,7 +6005,7 @@
       ],
       [
         "switch",
-        "The nph-switch at the end, without a label."
+        "The small nph-switch at the end, without a label."
       ],
       [
         "checked",
@@ -6118,7 +6132,7 @@
       ],
       [
         "Known limits",
-        "On item hover, the box and the track do not take their own hover. aria-expanded on an nph-button does not reach its inner button. The nested menu is out of scope."
+        "On item hover, the box and the track do not take their own hover. The nested menu is out of scope."
       ]
     ],
     "examplesTitle": "Examples",
@@ -6341,7 +6355,7 @@
       ],
       [
         "Touch",
-        "A press held for about 700 ms opens it at the point of the press; a press that moves opens nothing."
+        "A press held for context-menu/long-press-delay (700 ms) opens it at the point of the press; a press that moves farther than context-menu/long-press-tolerance (10 px) opens nothing."
       ],
       [
         "Closing",
@@ -7641,7 +7655,7 @@
       "components-nph-slider-validation--invalid-input": "Invalid input draws nothing: an orientation or a mode that does not exist, min not below max, a step of zero. marks in the vertical orientation is not drawn; the rest renders.",
       "components-nph-slider-validation--examples": "The three required examples of the accepted board: Brightness, Price range and Volume, each in light and dark mode.",
       "components-nph-slider-validation--brands": "The seven brands in light and dark: the filled track and the thumbs, single and range, follow the primary of the frame, and so does the focus ring on Tab.",
-      "components-nph-select-validation--matrix": "size × state: placeholder, value, error, disabled and both, with the arrow area in color/accent. Move the mouse for hover, press Tab for focus.",
+      "components-nph-select-validation--matrix": "size × state: placeholder, value, error, disabled and both, with the arrow area in color/accent (color/muted when disabled). Move the mouse for hover, press Tab for focus.",
       "components-nph-select-validation--start": "The start of the trigger (D4): none, icon and avatar, before a choice and with the start of the chosen option; the dot of an option never goes to the trigger.",
       "components-nph-select-validation--option": "The option: the four starts, the secondary text, active with the hover look, selected with the check winning over active, disabled, and the dot in every state (D5, D6).",
       "components-nph-select-validation--open": "The open list: space/inline-tight below the trigger, with its width, the arrow up and the chosen option with the check (D1, D2).",
@@ -10423,7 +10437,7 @@
       ],
       [
         "steps and step",
-        "Read on steps: steps is the number of steps, 3, 4 or 5, and step is the current one, from 1 to steps, 1 by default."
+        "Read on steps: steps is the number of steps, an integer of 2 or more, and step is the current one, from 1 to steps, 1 by default. Avoid more than 7 steps; no maximum is enforced."
       ],
       [
         "label",
@@ -10472,7 +10486,7 @@
       },
       {
         "value": "steps",
-        "label": "When the process has 3, 4 or 5 fixed, known steps. The current step has the color of the done ones: the \"N of M\" and the help text say which one it is."
+        "label": "When the process has 2 or more fixed, known steps; avoid more than 7. The current step has the color of the done ones: the \"N of M\" and the help text say which one it is."
       }
     ],
     "sizesTitle": "Sizes",
@@ -11320,7 +11334,8 @@
     "panel": [
       "The panel opens below its trigger, aligned to its start edge, in the top layer, and never leaves the window sideways.",
       "A panel link has a title, an optional description and an optional icon. Two groups sit side by side, with a vertical separator between them.",
-      "A trigger opens on click, Enter or Space. With the mouse it opens after a short wait and closes the same time after the pointer leaves the trigger and the panel. Esc closes it and gives the focus back to the trigger.",
+      "A trigger opens on click, Enter or Space. With the mouse it opens after a short wait and closes after a longer one once the pointer leaves the trigger and the panel; a pointer that comes back in time keeps it open. Esc closes it and gives the focus back to the trigger.",
+      "When the panel opens, the arrow of the trigger turns half a turn and the panel fades in; it fades out when it closes. With reduced motion nothing moves.",
       "The wide panel hugs its content. Every panel link is 280 px wide."
     ],
     "currentTitle": "Current page",
@@ -11331,10 +11346,11 @@
       "A top link marked as current carries aria-current=\"page\"; the current panel link too, and its icon is solid."
     ],
     "narrowTitle": "Narrow width",
-    "narrowCaption": "The Menu button open, with the same items as a vertical list.",
+    "narrowCaption": "The Menu button open, with each trigger as a collapsed row and one row open.",
     "narrow": [
       "When the items do not fit on one line, the bar turns into the Menu button. The consumer chooses narrow; the piece does not measure itself.",
-      "The Menu button opens the same items as a vertical list in a panel 280 px wide. Each trigger shows as a group, with its label as the group label.",
+      "The Menu button opens the same items as a vertical list in a panel 280 px wide. Each trigger is a collapsed row with its arrow.",
+      "A click, Enter or Space on a row opens its links below it and turns the arrow; each row opens and closes on its own. The links of a collapsed row are hidden and out of the Tab order.",
       "Do not hide the bar behind the Menu button when the items fit."
     ],
     "relationsTitle": "Relations and context",
@@ -11382,6 +11398,10 @@
         "A vertical nph-separator between the groups."
       ],
       [
+        "Narrow row",
+        "A trigger in the narrow list: a button with the label, the arrow at the end, aria-expanded and aria-controls, that opens its links below it."
+      ],
+      [
         "Menu button",
         "A button with the bars icon, only in the narrow width."
       ]
@@ -11394,7 +11414,7 @@
     "accessibility": [
       [
         "Contrast",
-        "The text over the background and the popover pass the required level in both themes, except the current text in the dark scheme of four of the seven brands, where it falls to 1.49:1 to 2.16:1 over the dark bar (a token limit); the indicator and the focus border, in the primary color, have at least 3:1 against the background."
+        "The text over the background and the popover pass the required level in both themes, in the seven brands, including the current text; the indicator and the focus border, in the primary color, have at least 3:1 against the background."
       ],
       [
         "Visible focus",
@@ -11410,11 +11430,11 @@
       ],
       [
         "Accessible name",
-        "A navigation landmark named by label or aria-label. A trigger is a button with aria-expanded and aria-controls. The link of the current page carries aria-current=\"page\". The arrow and the link icons are decorative. The Menu button has the name \"Menu\"."
+        "A navigation landmark named by label or aria-label. A trigger, and a row of the narrow list, is a button with aria-expanded and aria-controls. The link of the current page carries aria-current=\"page\". The arrow and the link icons are decorative. The Menu button has the name \"Menu\"."
       ],
       [
         "Keyboard",
-        "Tab moves between the items and through the links of an open panel; Enter and Space open and close a trigger; Esc closes the panel and gives the focus back. It is disclosure navigation, not a menubar: there are no arrow keys."
+        "Tab moves between the items and through the links of an open panel, or of an open row; Enter and Space open and close a trigger or a row; Esc closes the panel and gives the focus back. It is disclosure navigation, not a menubar: there are no arrow keys."
       ]
     ],
     "examplesTitle": "Examples",
@@ -11621,7 +11641,7 @@
       ],
       [
         "Title",
-        "Always visible; text/label-lg in popover/foreground. It names the surface."
+        "Always visible; text/heading-sm in popover/foreground. It names the surface."
       ],
       [
         "Description",
@@ -11774,7 +11794,7 @@
       ],
       [
         "default slot",
-        "The text of the link, the content of the element. The link is a native anchor drawn by the piece, in color/primary and underlined."
+        "The text of the link, the content of the element. The link is a native anchor drawn by the piece, in color/link and underlined."
       ],
       [
         "heading",
@@ -11802,7 +11822,7 @@
       ],
       [
         "arrow",
-        "Draws the arrow that points to the link. Off by default. Reflected to the attribute."
+        "Draws the arrow that points to the link. Off by default. Without it the card is centered on the link; with it the arrow sits 16 from the card corner. Reflected to the attribute."
       ],
       [
         "open",
@@ -11877,7 +11897,7 @@
     "anatomy": [
       [
         "Link",
-        "A native link in color/primary, underlined, text/label-md and 20 tall. On keyboard focus it shows a 1 px border in hover-card/focus-border and, outside it, a 4 px halo in hover-card/focus-halo."
+        "A native link in color/link, underlined, text/label-md and 20 tall. On keyboard focus it shows a 1 px border in hover-card/focus-border and, outside it, a 4 px halo in hover-card/focus-halo."
       ],
       [
         "Arrow",
@@ -11912,7 +11932,7 @@
     "accessibility": [
       [
         "Contrast",
-        "Title, description and meta pass 4.5:1 over color/popover in both themes. The meta is one step softer than the description, never below that floor. The link passes in the default brand; in dark mode of the Gerencial brand it is 2.71:1, a limit of color/primary of that brand."
+        "Title, description and meta pass 4.5:1 over color/popover in both themes. The meta is one step softer than the description, never below that floor. The link in color/link passes 4.5:1 in both themes and in the seven brands."
       ],
       [
         "Visible focus",

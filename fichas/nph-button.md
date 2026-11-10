@@ -174,7 +174,7 @@ states:
     changes_for_user: "The spinner takes the place of the start icon, the text stays and the click stops counting."
   popover-open:
     token: "the same tokens as hover-active, the icons included"
-    changes_for_user: "The trigger of an open popover keeps the look of hover-active while the popover is open, even with the pointer away, and the native button carries aria-haspopup and aria-expanded."
+    changes_for_user: "The trigger of an open popover or menu keeps the look of hover-active while it is open, even with the pointer away, and the native button carries aria-haspopup and aria-expanded."
 business_rules: []
 domain_errors: []
 tokens:
@@ -332,7 +332,7 @@ target on a touch screen; a size different from the field beside it.
 | `focus` | border `border/width` in the color of the type (`focus/border` in `secondary`) and halo `focus/ring-width` in `focus/halo` or `focus/halo-<matiz>`; in the circular shape both follow `radius/full` | A border in the color of the action and a halo outside mark the focus, without changing the size |
 | `disabled` | `state/disabled-opacity` | The whole button loses opacity, leaves the Tab order and stops responding |
 | `loading` | the spinner inherits the text color | The spinner takes the place of the start icon, the text stays and the click stops counting |
-| Open trigger | the same tokens as `hover-active`, the icons included | A button that carries `aria-haspopup` dialog and `aria-expanded` true on the host, the trigger of an open `nph-popover`, keeps the look of `hover-active` while the popover is open and hands the two attributes to its native button. It is a state read from the attributes, not a variant; any other `aria-haspopup`, such as the `menu` of `nph-dropdown-menu`, changes nothing (P111, amends P68) |
+| Open trigger | the same tokens as `hover-active`, the icons included | A button that carries `aria-haspopup` dialog or menu and `aria-expanded` true on the host, the trigger of an open `nph-popover` or `nph-dropdown-menu`, keeps the look of `hover-active` while it is open and hands the two attributes, with the same `aria-haspopup` value, to its native button. It is a state read from the attributes, not a variant; any other `aria-haspopup` changes nothing (P111, amends P68; DSA-67 D-2) |
 
 **Feedback and focus:** focus appears only for keyboard users and **is not removed**. The
 border is the indicator; the halo is the second layer. Known limit: in dark mode,
@@ -378,7 +378,7 @@ screen defines.
 | Radius | `radius/control`; `radius/full` in the circular icon-only button |
 | Text | `text/label-md`, the same in every size |
 | Icon | `icon/size-sm` with text; `sm`, `md` or `lg` in the icon-only button |
-| `solid` | `color/primary`, `status/<matiz>` or `color/destructive`, with the hover and the text of the pair. In `secondary`, `button/secondary-solid-background` and its hover with text, and `icon-button/secondary-solid-background` and its hover in the icon-only button, with the text in `color/secondary-foreground` |
+| `solid` | `color/primary`, `status/<matiz>` or `color/destructive`, with the hover and the text of the pair. In `secondary`, `button/secondary-solid-background` and its hover with text, and `icon-button/secondary-solid-background` and its hover in the icon-only button, with the text in `color/secondary-foreground`. Inside `nph-dialog` it keeps the same background, with no overlay (DSA-64 D-1) |
 | `outline` | the light surface of the type, with the border and the text in the same color, inside. In `secondary`, the rest background is `color/muted`, and the border and the hover are `button/secondary-outline-border`, `button/secondary-outline-border-hover` and `button/secondary-outline-background-hover` with text, and the `icon-button/secondary-outline-*` ones in the icon-only button |
 | `light` | the light surface of the type, without a border; only in `primary` and `danger` |
 | `ghost` | no background at rest; the surface of the type on hover. In `secondary`, the hover is `button/secondary-ghost-background-hover` with text and `icon-button/secondary-ghost-background-hover` in the icon-only button |
@@ -448,7 +448,7 @@ circular icon-only button in `primary` `solid`.
   `icon-button/secondary-ghost-background-hover`, both on `color/accent`, in place of
   `color/muted` (DSA-60). On 03-11-2026, Indiane removed the `secondary` `light` emphasis, and on
   04-11-2026 she fixed the `secondary` `solid` and `outline` colors on component tokens and made
-  `secondary` `solid` the default of the type (DSA-64). P86 adds the `shape` of the icon-only button and its tooltip, from the
+  `secondary` `solid` the default of the type (DSA-64); on 09-11-2026 she decided that, inside `nph-dialog`, the `secondary` `solid` keeps its own background, with no overlay (DSA-64 D-1). P86 adds the `shape` of the icon-only button and its tooltip, from the
   `nph-icon-button` board accepted in Figma, with the textual audit approved.
 - **Tests:** `src/components/nph-button/nph-button.test.ts`, `nph-button.first-tooltip.test.ts` and
   `nph-button.docs.test.ts`.

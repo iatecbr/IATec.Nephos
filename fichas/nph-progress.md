@@ -70,9 +70,10 @@ api:
     default: "none"
     reflects: false
     constraint: >-
-      The number of steps, read on steps: 3, 4 or 5, the counts of the accepted Figma set.
-      Required on steps; any other count draws nothing and emits console.error in
-      development. Another count is a pending decision of Indiane (D-1 of DSA-65).
+      The number of steps, read on steps: an integer of 2 or more. Required on steps; a
+      count that is not an integer, or is below 2, draws nothing and emits console.error in
+      development. There is no enforced maximum: avoid more than 7 steps (the usage
+      guidance of Carbon and Ant Design), and the bar still draws any count.
   step:
     type: number
     required: false
@@ -120,7 +121,7 @@ api:
 variants:
   type:
     axis: appearance
-    choose_when: "determinate when there is a percentage; indeterminate while there is no value yet; steps when the process has 3, 4 or 5 fixed steps."
+    choose_when: "determinate when there is a percentage; indeterminate while there is no value yet; steps when the process has 2 or more fixed steps, preferably no more than 7."
     do_not_combine_with: [value on steps, steps on determinate, status success or error on indeterminate]
   size:
     axis: size
@@ -174,7 +175,7 @@ ai_hints:
   - "Use determinate whenever there is a percentage, and indeterminate only until the first real value arrives; then switch the type."
   - "Always give a label, or an aria-label when the label is off, because the label is the accessible name."
   - "At the end, set success or error with value 100 and the help text; on error, the help text says what failed."
-  - "On steps, give steps (3, 4 or 5) and the current step, and write the N of M in value-text and the current step in help."
+  - "On steps, give steps (2 or more, avoid more than 7) and the current step, and write the N of M in value-text and the current step in help."
   - "Do not use nph-progress as navigation between steps or as a fixed level meter."
 accessibility:
   semantics: "The track is a progressbar with aria-valuemin 0 and aria-valuemax 100. Determinate gives aria-valuenow the value; steps gives it the share of steps, counting the current one, with the N of M in aria-valuetext; indeterminate omits it. The status icon is decorative."
@@ -186,7 +187,7 @@ accessibility:
 invalid_combinations:
   - "Success or error on determinate below 100 — the contract has them only at value 100."
   - "Success or error on indeterminate — it has only active."
-  - "Steps with a count other than 3, 4 or 5, or a step outside 1 to steps."
+  - "Steps that is not an integer of 2 or more, or a step outside 1 to steps."
   - "A free color, a width token or a focus state — the color comes from the status and the bar is not interactive."
   - "An error without the help text — color alone does not say what failed."
 relations:
@@ -225,7 +226,8 @@ progress, and the bar ends with success or error, never stopped at a partial val
 - `determinate` whenever there is a percentage.
 - `indeterminate` only until the first real value arrives, and switch to `determinate` as
   soon as it does.
-- `steps` when the process has a few fixed, known steps, such as a sign-up: show the "N of M"
+- `steps` when the process has 2 or more fixed, known steps, such as a sign-up; avoid more than
+  7 steps, as Carbon and Ant Design advise (no maximum is enforced): show the "N of M"
   and say the current step in the help text.
 - At the end, show success or error with the icon and the help text, because the bar must not
   stay stopped at a partial value.
@@ -249,14 +251,14 @@ progress, and the bar ends with success or error, never stopped at a partial val
 
 | Variant | Values | Choose when |
 |---|---|---|
-| `type` | `determinate` (default), `indeterminate`, `steps` | `determinate` when there is a percentage; `indeterminate` while there is no value yet; `steps` when the process has 3, 4 or 5 fixed steps |
+| `type` | `determinate` (default), `indeterminate`, `steps` | `determinate` when there is a percentage; `indeterminate` while there is no value yet; `steps` when the process has 2 or more fixed steps; avoid more than 7, because the segments get thin and the "N of M" stops being quick to read (no maximum is enforced) |
 | `size` | `md` (default), `sm` | `md` in the body of the screen; `sm` in dense places |
 | `status` | `active` (default), `success`, `error` | `active` while the process runs; `success` and `error` when it ends |
 
 `type` is the Figma property `tipo` (`determinado`, `indeterminado` and `etapas`), `size` is
 `tamanho` and `status` is `status` (`ativo`, `sucesso` and `erro`). In Figma the values of
 `valor` (0, 25, 50, 75 and 100) and the step counts (`etapas`) are samples; on screen the
-value is continuous, from 0 to 100, and the step counts are the three of the accepted set.
+value is continuous, from 0 to 100, and the step count is any integer of 2 or more.
 
 **By size and density:** `size`. `md` is the 8 px bar and `sm` the 4 px one; the end stop is
 4 x 4 on both and the label, value text and help text do not change.
@@ -353,7 +355,7 @@ token gives it. The color comes from the status and there is no free color.
   accessible name.
 - At the end, set `success` or `error` with `value` 100 and the help text; on error, the help
   text says what failed.
-- On `steps`, give `steps` (3, 4 or 5) and the current `step`, and write the "N of M" in
+- On `steps`, give `steps` (2 or more; avoid more than 7, with no maximum enforced) and the current `step`, and write the "N of M" in
   `value-text` and the current step in `help`.
 - Do not use `nph-progress` as navigation between steps or as a fixed level meter.
 

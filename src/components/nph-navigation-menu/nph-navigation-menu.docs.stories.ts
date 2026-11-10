@@ -74,7 +74,7 @@ export const Documentation: Story = {
     const demoBar = html`<div style=${stack}>${bar(v, { current: 'pricing' })} ${bar(v, { current: 'pricing', disabled: true })}</div>`;
     const demoPanel = bar(v, { open: 'products', rows: 3 });
     const demoCurrent = bar(v, { current: 'components', open: 'products', rows: 3 });
-    const demoNarrow = bar(v, { narrow: true, current: 'components', listOpen: true, rows: 9 });
+    const demoNarrow = bar(v, { narrow: true, current: 'components', listOpen: true, rowOpen: 'products', rows: 9 });
 
     return html`
       <div style=${body}>

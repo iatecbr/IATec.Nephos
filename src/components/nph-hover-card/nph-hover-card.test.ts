@@ -261,15 +261,25 @@ describe('the link', () => {
     expect(ax).toBe('See Nephos');
   });
 
-  it('is in color/primary, underlined, text/label-md and 20 tall', async () => {
+  it('is in color/link, underlined, text/label-md and 20 tall', async () => {
     const card = await mount();
     const link = linkOf(card);
     const style = getComputedStyle(link);
-    expect(style.color).toBe(paint('--nph-color-primary'));
+    expect(style.color).toBe(paint('--nph-color-link'));
     expect(style.textDecorationLine).toBe('underline');
     expect(style.fontSize).toBe(`${px('--nph-text-label-md-font-size')}px`);
     expect(style.fontWeight).toBe(resolved('font-weight', '--nph-text-label-md-font-weight'));
     expect(link.getBoundingClientRect().height).toBeCloseTo(px('--nph-text-label-md-line-height'), 0);
+  });
+
+  it('follows color/link in both schemes, not color/primary (D-3)', async () => {
+    const card = await mount();
+    for (const scheme of SCHEMES) {
+      document.documentElement.setAttribute('data-nph-color-scheme', scheme);
+      expect(getComputedStyle(linkOf(card)).color, scheme).toBe(paint('--nph-color-link', scheme));
+    }
+    expect(componentCss).toContain('color: var(--nph-color-link)');
+    expect(componentCss).not.toContain('--nph-color-primary');
   });
 
   it('keeps the link when the card is invalid', async () => {
@@ -973,14 +983,66 @@ describe('placement and distances', () => {
     });
   }
 
-  it('the link, with the arrow or without, puts the card on the same place along the link', async () => {
-    const without = await mount({ open: true, style: 'position:fixed;left:500px;top:300px' });
-    await opened(without);
-    const a = surfaceOf(without).getBoundingClientRect().left;
-    without.remove();
-    const withArrow = await mount({ open: true, arrow: true, style: 'position:fixed;left:500px;top:300px' });
-    await opened(withArrow);
-    expect(surfaceOf(withArrow).getBoundingClientRect().left).toBe(a);
+  /* The center of a box along the cross axis of its side: x for top and bottom, y for left and right. */
+  const centerAlong = (box: DOMRect, side: NphHoverCardSide): number =>
+    side === 'top' || side === 'bottom' ? box.left + box.width / 2 : box.top + box.height / 2;
+
+  for (const side of sides) {
+    it(`${side}: without the arrow the card is centered on the link (D-2)`, async () => {
+      const card = await mount({ open: true, side, label: 'See Nephos now', style: 'position:fixed;left:400px;top:300px' });
+      await opened(card);
+      const link = linkOf(card).getBoundingClientRect();
+      const surface = surfaceOf(card).getBoundingClientRect();
+      expect(surfaceOf(card).getAttribute('data-side')).toBe(side);
+      expect(Math.abs(centerAlong(surface, side) - centerAlong(link, side))).toBeLessThanOrEqual(1);
+    });
+
+    it(`${side}: with the arrow the arrow is 16 from the card corner and the tip is on the link center`, async () => {
+      const card = await mount({ open: true, side, arrow: true, label: 'See Nephos now', style: 'position:fixed;left:400px;top:300px' });
+      await opened(card);
+      const link = linkOf(card).getBoundingClientRect();
+      const surface = surfaceOf(card).getBoundingClientRect();
+      const arrow = (card.shadowRoot?.querySelector('.arrow') as SVGElement).getBoundingClientRect();
+      const inset = px('--nph-hover-card-arrow-inset');
+      if (side === 'top' || side === 'bottom') {
+        expect(arrow.left - surface.left).toBe(inset);
+      } else {
+        expect(arrow.top - surface.top).toBe(inset);
+      }
+      expect(Math.abs(centerAlong(arrow, side) - centerAlong(link, side))).toBeLessThanOrEqual(1);
+      /* The card is not centered on the link: the arrow rule moves it. */
+      expect(Math.abs(centerAlong(surface, side) - centerAlong(link, side))).toBeGreaterThan(1);
+    });
+  }
+
+  it('turning the arrow on moves the card along the link and turning it off puts it back', async () => {
+    const card = await mount({ open: true, style: 'position:fixed;left:500px;top:300px' });
+    await opened(card);
+    const centered = surfaceOf(card).getBoundingClientRect().left;
+    card.arrow = true;
+    await card.updateComplete;
+    await vi.waitFor(() => expect(surfaceOf(card).getBoundingClientRect().left).not.toBe(centered));
+    card.arrow = false;
+    await card.updateComplete;
+    await vi.waitFor(() => expect(surfaceOf(card).getBoundingClientRect().left).toBe(centered));
+  });
+
+  it('without the arrow the card near the window edge is pushed back inside it, not centered', async () => {
+    const left = await mount({ open: true, label: 'N', style: 'position:fixed;left:4px;top:300px' });
+    await opened(left);
+    const leftSurface = surfaceOf(left).getBoundingClientRect();
+    expect(leftSurface.left).toBe(0);
+    expect(centerAlong(leftSurface, 'bottom')).not.toBeCloseTo(centerAlong(linkOf(left).getBoundingClientRect(), 'bottom'), 0);
+    left.remove();
+    const right = await mount({ open: true, label: 'N', style: 'position:fixed;right:4px;top:300px' });
+    await opened(right);
+    expect(surfaceOf(right).getBoundingClientRect().right).toBe(document.documentElement.clientWidth);
+    right.remove();
+    const top = await mount({ open: true, side: 'right', label: 'N', style: 'position:fixed;left:200px;top:4px' });
+    await opened(top);
+    const topSurface = surfaceOf(top).getBoundingClientRect();
+    expect(surfaceOf(top).getAttribute('data-side')).toBe('right');
+    expect(topSurface.top).toBe(0);
   });
 
   it('flips to the opposite side when the preferred one does not fit', async () => {
@@ -1013,8 +1075,19 @@ describe('placement and distances', () => {
     expect(getComputedStyle(surfaceOf(card)).zIndex).toBe('auto');
   });
 
-  it('in right-to-left writing the card starts at the right of the link', async () => {
-    const ltr = await mount({ open: true, style: 'position:fixed;left:600px;top:300px' });
+  it('in right-to-left writing the card is still centered on the link without the arrow', async () => {
+    const wrap = document.createElement('div');
+    wrap.dir = 'rtl';
+    document.body.append(wrap);
+    const rtl = await mount({ open: true, label: 'See Nephos now', style: 'position:fixed;left:600px;top:300px', parent: wrap });
+    await opened(rtl);
+    const surface = surfaceOf(rtl).getBoundingClientRect();
+    const link = linkOf(rtl).getBoundingClientRect();
+    expect(Math.abs(surface.left + surface.width / 2 - (link.left + link.width / 2))).toBeLessThanOrEqual(1);
+  });
+
+  it('in right-to-left writing the card with the arrow starts at the right of the link', async () => {
+    const ltr = await mount({ open: true, arrow: true, style: 'position:fixed;left:600px;top:300px' });
     await opened(ltr);
     const left = surfaceOf(ltr).getBoundingClientRect();
     const link = linkOf(ltr).getBoundingClientRect();
@@ -1024,7 +1097,7 @@ describe('placement and distances', () => {
     const wrap = document.createElement('div');
     wrap.dir = 'rtl';
     document.body.append(wrap);
-    const rtl = await mount({ open: true, style: 'position:fixed;left:600px;top:300px', parent: wrap });
+    const rtl = await mount({ open: true, arrow: true, style: 'position:fixed;left:600px;top:300px', parent: wrap });
     await opened(rtl);
     const surface = surfaceOf(rtl).getBoundingClientRect();
     const rtlLink = linkOf(rtl).getBoundingClientRect();

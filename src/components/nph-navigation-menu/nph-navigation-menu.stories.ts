@@ -5,7 +5,8 @@
  * `3957:6662` and `3957:6722`) and P110: the closed bar, with a trigger, a link and a disabled item;
  * the panel of a trigger open, with one group and with two labeled groups separated by a vertical
  * `nph-separator`; the current page marked by more than color, on a top link and on a panel link; the
- * narrow width with the Menu button open and the vertical list; the mirror in right-to-left writing;
+ * narrow width with the Menu button open and the vertical list, with its rows collapsed and with one
+ * row open; the mirror in right-to-left writing;
  * a long title and description cut on one line; and the three required examples in light and in dark
  * mode, in the same story. Each page opens with what it proves, and the matrix names its rows by
  * attribute, as on the Docs page. All visible text, including the labels of the bars, comes from the
@@ -20,7 +21,7 @@ import { html } from 'lit';
 import type { Meta, StoryObj } from '@storybook/web-components-vite';
 
 import { translations } from '../../../.storybook/i18n/index.js';
-import { BRAND_CONTRAST_EXCEPTION, brandFrames } from '../../shared/docs/brands';
+import { brandFrames } from '../../shared/docs/brands';
 import { matrix } from '../../shared/docs/page';
 import { localeOf, validationPage, validationTitle } from '../../shared/docs/validation';
 import type { GlobalsContext } from '../../shared/docs/validation';
@@ -91,7 +92,7 @@ export const Current: Story = {
   },
 };
 
-/** The narrow width: the Menu button, closed and with the vertical list open. */
+/** The narrow width: the Menu button, closed, and with the vertical list open: every row collapsed, and one row open. */
 export const Narrow: Story = {
   name: 'Narrow',
   render: (_args, context: GlobalsContext) => {
@@ -101,7 +102,8 @@ export const Narrow: Story = {
       page('narrow'),
       matrix(validationTitle(context, 'nph-navigation-menu', page('narrow').storyId), [], [
         { label: 'width: narrow · open: no', cells: [bar(v, { narrow: true })] },
-        { label: 'width: narrow · open: yes', cells: [bar(v, { narrow: true, current: 'components', listOpen: true, rows: 9 })] },
+        { label: 'width: narrow · open: yes · row: collapsed', cells: [bar(v, { narrow: true, current: 'components', listOpen: true, rows: 3 })] },
+        { label: 'width: narrow · open: yes · row: open', cells: [bar(v, { narrow: true, current: 'components', listOpen: true, rowOpen: 'products', rows: 9 })] },
       ]),
     );
   },
@@ -174,16 +176,12 @@ export const Examples: Story = {
 
 /**
  * The seven brands in light and dark (DSA-36): the focus border and halo of the items follow the brand.
- * Carries `BRAND_CONTRAST_EXCEPTION` (`src/shared/docs/brands.ts`): in the dark scheme the current item
- * is painted in `navigation-menu/current-foreground`, which is `color/primary-hover`, and in `gerencial`,
- * `educacao`, `igrejas` and `rh` that token resolves to a dark shade over the dark bar (1.49:1 to
- * 2.16:1). It is the same token limit that the exception already records for `nph-sidebar-item` and
- * `nph-dropdown-menu`; tokens come from Figma, and it is the pending decision D-5 of DSA-62 for Indiane.
- * The exception leaves when the token is fixed.
+ * It carries no contrast exception: the current item is painted in `navigation-menu/current-foreground`,
+ * which is `color/primary-text`, at least 4.5:1 over the bar in the seven brands and both schemes, so
+ * the axe `color-contrast` check runs on it.
  */
 export const Brands: Story = {
   name: 'Brands',
-  parameters: { a11y: { options: { rules: BRAND_CONTRAST_EXCEPTION } } },
   render: (_args, context: GlobalsContext) => {
     const v = t(context);
     return validationPage(

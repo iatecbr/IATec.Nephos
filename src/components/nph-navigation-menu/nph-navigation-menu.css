@@ -14,6 +14,10 @@
  * `calc(-1 * ...)` (focus border and halo outside the box, without changing its size) and `z-index: 1`
  * (the focused item paints its halo over its neighbors).
  *
+ * Motion: the panel fades on `motion/enter-*` (in) and `motion/exit-*` (out), and the arrow of a trigger
+ * and of a narrow row turns half a turn (`0.5turn`, a written angle, not a design value) on the same
+ * roles. With reduced motion nothing moves: `transition: none`.
+ *
  * The group label is a CSS replica of the group label of `nph-dropdown-menu` (the evidence calls it an
  * instance of it): `nph-dropdown-menu` is one tag (P92), so its label cannot be imported.
  */
@@ -49,7 +53,8 @@ nav {
 
 /* ----- the top item: trigger and link ------------------------------------------------------- */
 
-.top {
+.top,
+.row {
   position: relative;
   box-sizing: border-box;
   display: inline-flex;
@@ -77,17 +82,50 @@ nav {
   flex: none;
   inline-size: var(--nph-navigation-menu-trigger-icon-size);
   block-size: var(--nph-navigation-menu-trigger-icon-size);
+  /* Turning back: the exit role. */
+  transition-property: transform;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/* The panel is open: the arrow turns half a turn, on the enter role. */
+.trigger[aria-expanded='true'] > .trigger-icon,
+.row[aria-expanded='true'] > .trigger-icon {
+  transform: rotate(0.5turn);
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
+}
+
+/* The row of the narrow list: the trigger as a line of its own, the label at the start and the arrow at the end. */
+.row {
+  display: flex;
+  justify-content: space-between;
+  inline-size: 100%;
+}
+
+/* A label wider than the line shrinks with an ellipsis: the arrow stays inside the row. */
+.row > .top-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row > .trigger-icon {
+  flex: none;
 }
 
 /* Hover, and the trigger whose panel is open: the surface and the accent text. */
 .top:not([data-current]):not([aria-disabled='true']):not(:disabled):hover,
-.top:not([data-current]).trigger[aria-expanded='true'] {
+.top:not([data-current]).trigger[aria-expanded='true'],
+.row:not([data-current]):not(:disabled):hover,
+.row:not([data-current])[aria-expanded='true'] {
   background-color: var(--nph-navigation-menu-trigger-background-hover);
   color: var(--nph-navigation-menu-trigger-foreground-hover);
 }
 
 /* The current item: the current text and the indicator, which is drawn by a part of its own. */
-.top[data-current] {
+.top[data-current],
+.row[data-current] {
   color: var(--nph-navigation-menu-current-foreground);
 }
 
@@ -98,7 +136,8 @@ nav {
 }
 
 /* On the top item the indicator is the bottom edge, full width. */
-.top > .indicator {
+.top > .indicator,
+.row > .indicator {
   inset-inline: 0;
   inset-block-end: 0;
   block-size: var(--nph-navigation-menu-current-indicator-width);
@@ -106,6 +145,7 @@ nav {
 
 /* Disabled: `state/disabled-opacity` on the whole item, no hover, no focus. */
 .top:disabled,
+.row:disabled,
 .top[aria-disabled='true'],
 .link[aria-disabled='true'] {
   opacity: var(--nph-state-disabled-opacity);
@@ -119,6 +159,8 @@ nav {
  */
 .top:focus-visible::before,
 .top:focus-visible::after,
+.row:focus-visible::before,
+.row:focus-visible::after,
 .link:focus-visible::before,
 .link:focus-visible::after,
 .menu-button:focus-visible::before,
@@ -130,6 +172,7 @@ nav {
 }
 
 .top:focus-visible::before,
+.row:focus-visible::before,
 .menu-button:focus-visible::before {
   inset: calc(-1 * var(--nph-border-width));
   border: var(--nph-border-width) solid var(--nph-focus-border);
@@ -137,6 +180,7 @@ nav {
 }
 
 .top:focus-visible::after,
+.row:focus-visible::after,
 .menu-button:focus-visible::after {
   inset: calc(-1 * (var(--nph-border-width) + var(--nph-focus-ring-width)));
   border: var(--nph-focus-ring-width) solid var(--nph-focus-halo);
@@ -183,6 +227,18 @@ nav {
   box-shadow: var(--nph-elevation-dropdown);
   color: var(--nph-navigation-menu-item-title-foreground);
   text-align: start;
+  /* Leaving: the exit role. The panel stays in the top layer until the fade ends. */
+  opacity: 0;
+  transition-property: opacity;
+  transition-duration: var(--nph-motion-exit-duration);
+  transition-timing-function: var(--nph-motion-exit-easing);
+}
+
+/* Entering: the enter role. */
+.panel[data-open] {
+  opacity: 1;
+  transition-duration: var(--nph-motion-enter-duration);
+  transition-timing-function: var(--nph-motion-enter-easing);
 }
 
 /* The narrow panel is `panel-width` wide, padding and border included. */
@@ -201,7 +257,7 @@ nav {
   flex: none;
 }
 
-/* Narrow: the sections one under the other, `group-gap` apart. */
+/* Narrow: the sections one under the other, `group-gap` apart; a trigger is a row and, below it, its region. */
 .list {
   display: flex;
   flex-direction: column;
@@ -212,6 +268,17 @@ nav {
   display: flex;
   flex-direction: column;
   gap: var(--nph-navigation-menu-group-gap);
+}
+
+.region {
+  display: flex;
+  flex-direction: column;
+  gap: var(--nph-navigation-menu-group-gap);
+}
+
+/* A row that is collapsed hides its links: out of the accessibility tree and of the Tab order. */
+.region[hidden] {
+  display: none;
 }
 
 .group {
@@ -358,4 +425,17 @@ nav {
 
 .menu-button nph-icon {
   flex: none;
+}
+
+/* ----- reduced motion ----------------------------------------------------------------------- */
+
+/* Nothing moves: no fade and no turn; the state changes at once. */
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .panel[data-open],
+  .trigger-icon,
+  .trigger[aria-expanded='true'] > .trigger-icon,
+  .row[aria-expanded='true'] > .trigger-icon {
+    transition: none;
+  }
 }

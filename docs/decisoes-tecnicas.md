@@ -70,6 +70,7 @@ P62.4 subsection for the detail).
 | **P111** | API and semantics of `nph-popover`; the open trigger and the ARIA of `nph-button` (amends P68) | 07/11/2026 | Low now. No piece consumes the popover yet; `nph-hover-card` and `nph-navigation-menu` have their own surfaces, so changing `for`, `side`, `align`, `arrow`, `size`, `closable`, the `footer` slot, the event `nph-close` or the invalid-input rule later requires redoing every consumer. The change to `nph-button` is small and scoped to `aria-haspopup="dialog"`, so it touches no other trigger | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P112** | API and semantics of `nph-hover-card` | 07/11/2026 | Low now. No piece consumes it yet; a profile, a page or an item link will, and changing `href`, the default slot, `heading`, `meta`, `meta-icon`, `meta-title`, `side`, `arrow`, `open`, the slot `media`, the closing on blur or the invalid-input rule later requires redoing every card. The slot `media` and the alignment of the card to the link wait for Indiane (D-1, D-2) | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
 | **P113** | API and semantics of `nph-context-menu`; the accepted changes of `nph-dropdown-menu` and `nph-icon` | 08/11/2026 | Low now. No piece consumes the context menu yet; `nph-data-table` is its first expected parent, so changing `for`, `items`, `open-submenu`, `size`, the event `nph-item-select` (with `origin`) or the invalid-input rule later requires redoing every consumer. The `nph-dropdown-menu` change is visual only | Anatomy and behavior: documentation accepted by Indiane on 06/11/2026. The plan is approved by the wave. API and semantics reviewed in the pull request that brings them |
+| **P114** | The answers of 2026-11-09 applied in the code: the size of `nph-switch`, the focus of the dropdown item, the open trigger of `nph-button`, the disclosure and motion of `nph-navigation-menu` and the other choices (amends P87, P111 and P113) | 09/11/2026 | Low. The pieces are not consumed by another piece beyond the dropdown item that draws the small switch; changing `size` of `nph-switch`, `NPH_PROGRESS_MIN_STEPS` or the narrow rows of `nph-navigation-menu` later requires redoing every consumer | Answers by Indiane on 2026-11-09, in the tasks. The choices are reviewed in the pull request that brings them |
 | **P115** | API and semantics of `nph-tabs` | 09/11/2026 | Low now. No piece consumes it yet; a section with parts, a request or a record will, and changing `tabs`, `value`, `variant`, `activation`, the named slot of the panel, the event `nph-tab-change`, the names of the scroll arrows or the invalid-input rule later requires redoing every consumer. The balloon of the cut tab (D-1), the names of the arrows (D-2), `99+` (D-3) and the cut label in the segmented and tab button styles (D-4) wait for Indiane | Anatomy and behavior: documentation accepted by Indiane on 09/11/2026. API and semantics reviewed in the pull request that brings them |
 
 **Outside this note, still awaiting his confirmation:** license, CI variable,
@@ -3457,7 +3458,8 @@ modal dialog covers the window it opens in, which a page with several examples i
    `--nph-icon-button-secondary-solid-background` and their hovers), as `color/secondary-on-dialog`
    and its hover, which reach by inheritance every element inside the window that reads them
    — today, the `nph-button` in the content and in the footer: in dark,
-   `color/secondary` is the same `surface/600` as `color/dialog`. The `nph-button` keeps no color
+   `color/secondary` is the same `surface/600` as `color/dialog`. **Superseded by P114 (item 4):** the
+   window no longer redefines those tokens, only `color/border`. The `nph-button` keeps no color
    property (P68): the dialog uses the token channel the button already reads. On its own
    `nph-separator` only, the dialog redefines `--nph-color-border` as `color/dialog-separator`: an
    exception, scoped to the dialog, to the sentence of P66 "the color does not change"; the text of
@@ -6269,11 +6271,13 @@ as the task says. A new token. A change in `nph-dropdown-menu`, `nph-icon-button
   does not turn and the panel enters and leaves with no transition.
 - **D-4 — the closing wait.** The evidence says 0.5 s to close and the token `motion/hover-delay` is
   300 ms, with no semantic token for 500 ms. The code uses `motion/hover-delay` for opening and closing.
-  If the closing wait must be 500 ms, a token is needed, and tokens come from Figma.
+  If the closing wait must be 500 ms, a token is needed, and tokens come from Figma. **Answered on
+  2026-11-09; see P114 (item 7).**
 - **D-5 — the contrast of the current text in dark mode.** `navigation-menu/current-foreground` is
   `color/primary-hover`, which in the dark scheme resolves to a dark shade in four brands, over the dark
-  bar (1.49:1 to 2.16:1). The `Brands` story carries `BRAND_CONTRAST_EXCEPTION`, as the sidebar item and
-  the dropdown menu already do for the same token (DSA-36, D2).
+  bar (1.49:1 to 2.16:1). The `Brands` story carried `BRAND_CONTRAST_EXCEPTION`, as the sidebar item and
+  the dropdown menu did for the same token (DSA-36, D2). **Answered on 2026-11-09:** the token is
+  `color/primary-text` and the exception left the story (P114).
 
 **Status.** Anatomy and behavior accepted by Indiane on 03/11/2026. D-1 to D-5 wait for Indiane. API and
 semantics are reviewed in the pull request that brings them; the merge is the approval.
@@ -6684,8 +6688,9 @@ cause: the rule of P21. The names follow P64.
    same gesture and opens nothing twice. On touch, a `pointerdown` of a primary touch starts a timer of
    700 ms, the evidence's "about 700 ms", and the press opens the menu at its point unless it ends,
    is cancelled or moves farther than 10 px first. The `contextmenu` that Android sends for a held
-   touch is cancelled, so it does not open the menu at the browser's own delay. These two numbers have
-   no token (D-3). A right click on the menu itself, when it sits inside the object, opens nothing.
+   touch is cancelled, so it does not open the menu at the browser's own delay. These two numbers had
+   no token (D-3); **superseded by P114 (item 10):** they are the tokens `context-menu/long-press-delay` and
+   `context-menu/long-press-tolerance`. A right click on the menu itself, when it sits inside the object, opens nothing.
 
 4. **Placement (Q4).** The panel is a `popover="manual"`, so it lives in the top layer: no `z-index`,
    no clipping by an ancestor. JavaScript sets `top` and `left`: the start top corner at the point;
@@ -6795,6 +6800,89 @@ loading state or a header on an item. An event of opening or closing. A token. A
 
 **Status.** Anatomy and behavior accepted by Indiane on 06/11/2026. D-1 to D-5 wait for Indiane. API
 and semantics are reviewed in the pull request that brings them; the merge is the approval.
+
+---
+
+## P114 — The answers of 2026-11-09 applied in the code: the technical choices
+
+**Technical conflict.** Indiane answered the pending decisions of lots 1 and 2 on 2026-11-09 (Figma
+frames `5374:10420` and `5404:10452`). Each answer says what the piece does, and leaves to the code
+how: the name of the size of the switch, how the pointer and the keyboard share one focus, how the
+narrow navigation list is a disclosure, how an exit transition ends, where a token is read, and which
+piece paints the open look of a menu trigger. Eleven points needed a choice of their own, recorded here
+so the next reader does not have to rebuild them from the diffs. No token is created or changed: the
+code reads tokens that already exist.
+
+**Decision.** Pieces and rows are in `docs/operacao/tarefas/DSA-70.md`.
+
+1. **The size of `nph-switch` is `size`, `default` or `small` (DSA-45 D-4).** The property is reflected
+   and the constant is `NPH_SWITCH_SIZES`. An invalid value follows the rule of `nph-button`: nothing is
+   rendered and one development error says so. The measures of the track and the knob are internal
+   variables, overridden in `:host([size='small'])` by `switch/track-width-sm`, `switch/track-height-sm`,
+   `switch/thumb-size-sm` and `switch/track-padding-sm`; the knob travel keeps its formula. The small
+   track gets a block margin of `(icon/size-md - track height) / 2`, so the piece is 20 high and the
+   track is centered on the first line of a label. The item of `nph-dropdown-menu` draws the small switch
+   with `label` as its accessible name, hidden by `inert`, and no visible text.
+2. **The pointer moves the focus of the dropdown item on `pointermove` (DSA-45 D-6).** It is not
+   `pointerenter` or `mouseover`: a menu that opens under a still pointer must not take the focus from its
+   first item (the Radix approach). The focus uses `preventScroll`. Touch pointers, disabled items and
+   loading items are skipped, and leaving the panel does not blur. The arrows already read the focused
+   item, so they continue from the hovered one. Known side effect: after keyboard navigation the ring
+   follows the pointer, because the browser keeps `:focus-visible` on a scripted focus.
+3. **`nph-button` paints the open look for `aria-haspopup="menu"` as for `dialog` (DSA-67 D-2).** The
+   open trigger of the dropdown is an `nph-button` and the button painted the look only for `dialog`.
+   The getter returns `dialog`, `menu` or none, other values are ignored, and the inner native button
+   receives the same `aria-haspopup` and `aria-expanded` as the host. The rule and the token
+   (`button/secondary-solid-background-hover`) do not change. This amends the limit written in P111,
+   that the button knew only the dialog.
+4. **The secondary solid of `nph-dialog` is not redefined (DSA-64 D-1).** The window keeps only
+   `color/border` for its own separator. In dark `color/secondary` equals `color/dialog`, so the solid
+   secondary blends into the window; the label identifies the button, as Indiane decided. The tokens
+   `color/secondary-on-dialog` and its hover stay in the source and nothing reads them. This amends
+   item 7 of P87.
+5. **`nph-progress` steps: any integer from 2 (DSA-65 D-1).** `NPH_PROGRESS_MIN_STEPS` (2) replaces the
+   exported list `NPH_PROGRESS_STEP_COUNTS`. A non-integer is invalid. There is no maximum and no
+   warning: the guidance to avoid more than 7 steps is in the sheet and in the Docs page.
+6. **The title of `nph-popover` reads the five `text/heading-sm` roles (DSA-67 D-4).**
+7. **`nph-navigation-menu` waits `navigation-menu/close-delay` to close and `motion/hover-delay` to open
+   (DSA-62 D-4).** Both are read from the computed style by one helper, with no literal fallback; a
+   token that does not resolve closes at once and logs one error for that token. A pointer that comes
+   back within the close delay keeps the panel open.
+8. **The narrow list is a disclosure (DSA-62 D-1).** Each trigger is a `button` row with the arrow,
+   `aria-expanded` and `aria-controls` pointing to a `role="group"` region named by the row; the region
+   is `hidden` while collapsed. The rows open and close independently (APG does not ask for exclusivity)
+   and they collapse again each time the list opens. The state is a private set, not an attribute, so
+   the public API is unchanged. A disabled trigger is a disabled row that never opens.
+9. **The arrow turns `0.5turn` and the panel fades on `motion/enter-*` and `motion/exit-*` (DSA-62
+   D-3).** The panel follows the exit technique of `nph-dropdown-menu`: `data-open` is the open style,
+   the panel stays `inert` and in the top layer until the computed `transition-duration` ends and then
+   `hidePopover()` runs; asking for it again during the exit cancels the timer. It is a fade with no
+   slide. With reduced motion both the arrow and the panel use `transition: none` and the panel leaves
+   the top layer at once.
+10. **`nph-hover-card` centers on the link when it has no arrow (DSA-68 D-2), and its link reads
+    `color/link` (DSA-68 D-3).** Without the arrow the corner of the card is half its length from the
+    link center on the cross axis; with the arrow the rule of 16 px stays. Collision handling is
+    unchanged. `nph-context-menu` reads `context-menu/long-press-delay` and
+    `context-menu/long-press-tolerance` from the computed style of the host on each press, with no
+    literal fallback: a token that does not resolve keeps the long press from arming and logs one error
+    for that token. The delay accepts `s` and `ms`, the tolerance `px` and `rem`, and a move farther than
+    the tolerance cancels (exactly the tolerance does not). This amends item 3 of P113, which said the
+    two numbers had no token.
+11. **`nph-select` disabled: the arrow area takes `color/muted`, the field's own background (DSA-29
+    D-1).** The divider and the opacity stay.
+
+The `Brands` stories of `nph-dropdown-menu`, `nph-sidebar-item`, `nph-navigation-menu` and
+`nph-hover-card` no longer carry `BRAND_CONTRAST_EXCEPTION`: the gate passes without it in the seven
+brands and both schemes. The story of `nph-context-menu` keeps it, because its checked item still reads
+`color/primary-hover`.
+
+**Left out.** The row of `nph-table` that points `table/link-foreground` in dark to `color/link`: it
+changes a token value, and the code agent never creates or changes a token. It waits for Indiane, in
+Figma, and DSA-70 stays open until it comes. DSA-45 D-3, DSA-62 D-2, DSA-67 D-3 and DSA-69 D-1 and D-2
+stay open.
+
+**Status.** The answers come from Indiane, recorded in the tasks. The technical choices above are
+reviewed in the pull request that brings them; the merge is the approval.
 
 ---
 
@@ -6985,7 +7073,7 @@ and semantics are reviewed in the pull request that brings them; the merge is th
 
 ## How to change one of these decisions
 
-Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113 or P115 without:
+Do not change, replace or reopen P01, P02, P03, P17, P19, P20, P21, P62, P63, P64, P65, P66, P67, P68, P69, P70, P71, P72, P73, P74, P75, P76, P77, P78, P79, P80, P81, P82, P83, P84, P85, P86, P87, P90, P91, P92, P93, P94, P95, P96, P97, P98, P99, P100, P101, P102, P104, P105, P106, P107, P108, P109, P110, P111, P112, P113, P114 or P115 without:
 
 1. explaining the concrete technical conflict;
 2. recording a change proposal;

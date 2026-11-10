@@ -110,8 +110,8 @@
   },
   "states": {
     "link-rest": {
-      "token": "color/primary",
-      "changes_for_user": "The link shows in the primary color, underlined, in the label-md text role."
+      "token": "color/link",
+      "changes_for_user": "The link shows in the link color, underlined, in the label-md text role."
     },
     "link-focus": {
       "token": "hover-card/focus-border, hover-card/focus-halo",
@@ -137,7 +137,7 @@
     "The card is a manual popover in the top layer: no z-index and no clipping by an ancestor with overflow. Light dismiss does not close it.",
     "The card is 4 from the link, or from the tip of the arrow, with and without the arrow. With the arrow the card sits at the offset plus the arrow height minus the border width, because the arrow overlaps the card by the width of its border.",
     "The card is hover-card/width wide and the width never changes.",
-    "The card aligns to the link by the start edge, mirrored in right-to-left writing: the center of the link sits at the arrow inset plus half the arrow base from the start corner of the card, with and without the arrow, so the card does not move when the arrow is turned on (D-2).",
+    "Without the arrow the card is centered on the link along the side it sits on (Radix align center), kept inside the window by the same collision handling. With the arrow the card aligns to the link by the start edge, mirrored in right-to-left writing: the center of the link sits at the arrow inset plus half the arrow base from the start corner of the card (D-2).",
     "The card flips to the opposite side when the preferred one does not fit. It is kept inside the window; the arrow keeps pointing to the center of the link, inside the rounded corners.",
     "While the link is outside the window, the card is not drawn at the edge; it follows the link on scroll and resize.",
     "The meta is the consumer's text. Time is relative up to 30 days, as in Updated today or 3 days ago, then the full date; a time reads 14:30; the full date always goes in meta-title. The piece writes no word and computes no time.",
@@ -158,7 +158,7 @@
     "title": "hover-card/foreground, text/label-lg",
     "description": "hover-card/description-foreground, text/body-sm",
     "meta": "hover-card/meta-foreground, hover-card/meta-icon-foreground, hover-card/icon-size, text/caption",
-    "link": "color/primary, text/label-md, radius/inner",
+    "link": "color/link, text/label-md, radius/inner",
     "arrow": "hover-card/arrow-width, hover-card/arrow-height, hover-card/arrow-inset, hover-card/background, hover-card/border",
     "distance": "hover-card/offset",
     "delay": "hover-card/open-delay, hover-card/close-delay",
@@ -185,7 +185,7 @@
       "Tab away from the link closes the card with no wait."
     ],
     "focus": "Keyboard only, on the link: a border of hover-card/border-width in hover-card/focus-border and a halo of focus/ring-width in hover-card/focus-halo outside the box, as nph-button. The card takes no focus and has no focus state.",
-    "contrast": "The title, the description and the meta pass 4.5 to 1 over the card in both themes, and the meta is never below that floor. The link in color/primary passes in the default brand in both themes; in the dark scheme of the Gerencial brand it measures 2.71 to 1, and in other brands up to 3.81 to 1, a limit inherited from color/primary of each brand (point 9 of the accepted contract), which is not fixed here. The card border is decorative and the shadow separates the card from the page in light.",
+    "contrast": "The title, the description and the meta pass 4.5 to 1 over the card in both themes, and the meta is never below that floor. The link in color/link passes 4.5 to 1 in both themes and in the seven brands, (D-3). The card border is decorative and the shadow separates the card from the page in light.",
     "color_alternative": "The link is underlined, not told only by color. The meta stands apart by its icon and its place at the end of the card, not only by its shade."
   },
   "invalid_combinations": [
@@ -227,7 +227,7 @@
     "Asking the card to be a dialog, a menu or a form."
   ],
   "sources": {
-    "design_md": "design.md, the hover-card/* tokens, color/subtle-foreground, color/popover, color/border-subtle, color/primary, elevation/dropdown, the text roles and the global focus/* tokens",
+    "design_md": "design.md, the hover-card/* tokens, color/subtle-foreground, color/popover, color/border-subtle, color/link, elevation/dropdown, the text roles and the global focus/* tokens",
     "decision": "P112 — nph-hover-card: API and semantics",
     "tests": "src/components/nph-hover-card/nph-hover-card.test.ts",
     "usage_evidence": "no screen consumes it yet",

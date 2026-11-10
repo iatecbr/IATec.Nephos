@@ -1125,6 +1125,35 @@ describe('states and precedence', () => {
     expect(border(element)).toBe(resolved('color', '--nph-color-input'));
   });
 
+  for (const scheme of ['light', 'dark'] as const) {
+    it(`${scheme}: disabled, the arrow area takes the background of the field and keeps its divider; enabled keeps color/accent (D-1)`, async () => {
+      document.documentElement.setAttribute('data-nph-color-scheme', scheme);
+      const element = await mount('label="Department"');
+      const arrow = element.shadowRoot?.querySelector('.arrow') as HTMLElement;
+      expect(getComputedStyle(arrow).backgroundColor).toBe(resolved('background-color', '--nph-color-accent'));
+      element.disabled = true;
+      await element.updateComplete;
+      const style = getComputedStyle(arrow);
+      expect(style.backgroundColor).toBe(getComputedStyle(trigger(element)).backgroundColor);
+      expect(style.backgroundColor).toBe(resolved('background-color', '--nph-color-muted'));
+      /* The divider stays, and the opacity stays on the whole piece. */
+      expect(style.borderLeftWidth).toBe(`${px('--nph-border-width')}px`);
+      expect(style.borderLeftStyle).toBe('solid');
+      expect(style.borderLeftColor).toBe(resolved('color', '--nph-color-border'));
+      expect(getComputedStyle(element).opacity).toBe(resolved('opacity', '--nph-state-disabled-opacity'));
+      element.disabled = false;
+      await element.updateComplete;
+      expect(getComputedStyle(arrow).backgroundColor).toBe(resolved('background-color', '--nph-color-accent'));
+    });
+  }
+
+  it('a disabled fieldset drops the color/accent of the arrow area too', async () => {
+    const holder = await markup(`<fieldset disabled><nph-select label="Department">${options()}</nph-select></fieldset>`);
+    const element = holder.querySelector('nph-select') as NphSelect;
+    const arrow = element.shadowRoot?.querySelector('.arrow') as HTMLElement;
+    expect(getComputedStyle(arrow).backgroundColor).toBe(resolved('background-color', '--nph-color-muted'));
+  });
+
   it('disabling an invalid select that has the keyboard focus drops the error and focus looks', async () => {
     const element = await mount('label="Department" invalid');
     await userEvent.tab();

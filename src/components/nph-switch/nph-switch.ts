@@ -24,10 +24,15 @@
  *   never fires them. The new value is read from `event.target.checked`. No `nph-*` event
  *   and nothing in `HTMLElementEventMap` (contract of the field, P83);
  * - `nphFieldRole` is `'option'`: inside `nph-field`, the piece is one option of a group;
- * - no size, no slot, no `::part`, no form association (a choice that goes with a
- *   submission is `nph-checkbox`);
+ * - `size`: `default` or `small` (the size variant of the Figma set, DSA-45 D-4).
+ *   Reflects, because the internal CSS selects the small track by it. Small is the track
+ *   32 by 16, the knob 12 and the gap 2, in a piece 20 high; it is only for the switch slot
+ *   of the `nph-dropdown-menu` item, because alone its target is below 24 by 24 (WCAG
+ *   2.5.8). Colors, states, focus and the knob travel rule do not change;
+ * - no slot, no `::part`, no form association (a choice that goes with a submission is
+ *   `nph-checkbox`);
  * - invalid input does not render and emits `console.error` only in development (P21
- *   rule): no text and no label.
+ *   rule): no text and no label, and a `size` outside the two.
  */
 import { LitElement, html, nothing, unsafeCSS } from 'lit';
 import type { PropertyValues, TemplateResult } from 'lit';
@@ -41,6 +46,10 @@ const RENDERED_ATTRIBUTE = 'data-nph-rendered';
 
 /** Internal marker, not API: disabled by the property or by a disabled `<fieldset>` around it. */
 const INACTIVE_ATTRIBUTE = 'data-nph-inactive';
+
+/** The two sizes of the switch (the size variant of the Figma set). */
+export const NPH_SWITCH_SIZES = ['default', 'small'] as const;
+export type NphSwitchSize = (typeof NPH_SWITCH_SIZES)[number];
 
 /** Development error; outside a bundler with `import.meta.env`, it stays silent. */
 function devError(message: string): void {
@@ -63,6 +72,7 @@ export class NphSwitch extends LitElement {
     checked: { type: Boolean, reflect: true },
     invalid: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
+    size: { type: String, reflect: true },
     text: { type: String },
     label: { type: String },
   };
@@ -71,6 +81,8 @@ export class NphSwitch extends LitElement {
   declare checked: boolean;
   declare invalid: boolean;
   declare disabled: boolean;
+  /** `default`, or `small` for the switch slot of the `nph-dropdown-menu` item. */
+  declare size: NphSwitchSize;
   /** The label, already localized by the consuming application. */
   declare text: string;
   /** Accessible name of the piece without text. With text, it is not used. */
@@ -83,6 +95,7 @@ export class NphSwitch extends LitElement {
     this.checked = false;
     this.invalid = false;
     this.disabled = false;
+    this.size = 'default';
     this.text = '';
     this.label = '';
     /* `click()` called on the host itself also stops in disabled. */
@@ -156,13 +169,19 @@ export class NphSwitch extends LitElement {
     /* Read on every update: a fieldset around the piece may have changed. */
     this.toggleAttribute(INACTIVE_ATTRIBUTE, this.inactive);
     /* Only the inputs that decide validity are checked again, so the error does not repeat on a toggle. */
-    if (!changed.has('text') && !changed.has('label')) {
+    if (!changed.has('text') && !changed.has('label') && !changed.has('size')) {
       return;
     }
-    this.valid = (this.text ?? '').trim() !== '' || (this.label ?? '').trim() !== '';
-    if (!this.valid) {
-      devError('without text, the piece needs a label: it is the accessible name of the piece that is only the track.');
+    let valid = true;
+    if (!(NPH_SWITCH_SIZES as readonly string[]).includes(this.size)) {
+      devError(`size "${this.size}" does not exist. Use ${NPH_SWITCH_SIZES.join(', ')}.`);
+      valid = false;
     }
+    if ((this.text ?? '').trim() === '' && (this.label ?? '').trim() === '') {
+      devError('without text, the piece needs a label: it is the accessible name of the piece that is only the track.');
+      valid = false;
+    }
+    this.valid = valid;
     this.toggleAttribute(RENDERED_ATTRIBUTE, this.valid);
   }
 

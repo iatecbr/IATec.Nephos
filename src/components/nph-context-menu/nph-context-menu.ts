@@ -8,10 +8,12 @@
  * - ONE tag, a piece of its own. `nph-dropdown-menu` opens from a visible trigger, below it, in a
  *   single level (P92); the context menu opens at a point and unfolds one submenu, so it draws
  *   its own panels with the item, the group label and the separator of that menu: the same
- *   `dropdown/*` tokens, no token of its own;
+ *   `dropdown/*` tokens; its only tokens are the two of the long press, read in code;
  * - `for`: the `id` of the object that takes the right click, looked up in the SAME root as the
  *   menu (`getRootNode()`), like `nph-popover` (P111). The menu listens to `contextmenu` there,
- *   to Shift+F10 and the Menu key, and to a touch held for about 700 ms. The object is not a
+ *   to Shift+F10 and the Menu key, and to a touch held for `context-menu/long-press-delay`
+ *   (700 ms) that moves no farther than `context-menu/long-press-tolerance` (10 px; D-3 of
+ *   DSA-69, read from the computed tokens, with no fallback). The object is not a
  *   button, so the menu writes no ARIA on it;
  * - `open`: the state. Reflects. The menu turns it on and off; the consumer may set it, and a
  *   menu opened from code sits at the start corner of the object, follows it on scroll and takes
@@ -113,12 +115,6 @@ export interface NphContextMenuItemSelectDetail {
 /** A typed search keeps its characters together for this long, as in `nph-dropdown-menu`. */
 const TYPEAHEAD_MS = 500;
 
-/** The touch held this long opens the menu (the evidence: about 700 ms). */
-const LONG_PRESS_MS = 700;
-
-/** A held touch that moves farther than this many pixels is a scroll or a drag, not a long press. */
-const LONG_PRESS_MOVE = 10;
-
 /** A `contextmenu` that follows a key or a long press within this time is the same gesture. */
 const SAME_GESTURE_MS = 1000;
 
@@ -144,6 +140,14 @@ function milliseconds(value: string): number {
   const match = /^\s*(-?\d*\.?\d+)\s*(ms|s)\s*$/.exec(value);
   if (match === null) return Number.NaN;
   return Number.parseFloat(match[1] as string) * (match[2] === 's' ? 1000 : 1);
+}
+
+/** A length as the browser resolves a token (`10px` or `0.625rem`) in pixels; `NaN` when it is not a length. */
+function pixels(value: string): number {
+  const match = /^\s*(-?\d*\.?\d+)\s*(px|rem)\s*$/.exec(value);
+  if (match === null) return Number.NaN;
+  const amount = Number.parseFloat(match[1] as string);
+  return match[2] === 'rem' ? amount * Number.parseFloat(getComputedStyle(document.documentElement).fontSize) : amount;
 }
 
 const MODIFIER_SYMBOLS: Readonly<Record<string, string>> = {
@@ -336,8 +340,11 @@ export class NphContextMenu extends LitElement {
   private typedTimer: number | undefined;
   private hoverTimer: number | undefined;
   private warnedDelay = false;
+  private readonly warnedLongPress = new Set<string>();
   private longPressTimer: number | undefined;
   private pressStart: Point | null = null;
+  /** The distance a held touch may move, read from its token when the touch went down. */
+  private pressTolerance = 0;
   private lastTouchAt = Number.NEGATIVE_INFINITY;
   private lastGestureAt = Number.NEGATIVE_INFINITY;
 
@@ -499,6 +506,11 @@ export class NphContextMenu extends LitElement {
       return;
     }
     this.cancelLongPress();
+    const press = this.longPress();
+    if (press === null) {
+      return;
+    }
+    this.pressTolerance = press.tolerance;
     this.pressStart = { x: event.clientX, y: event.clientY };
     const origin = NphContextMenu.originOf(event);
     this.longPressTimer = window.setTimeout(() => {
@@ -510,7 +522,7 @@ export class NphContextMenu extends LitElement {
       }
       this.lastGestureAt = performance.now();
       this.openAt(start, origin, 'first');
-    }, LONG_PRESS_MS);
+    }, press.delay);
   };
 
   private readonly onTargetPointermove = (event: PointerEvent): void => {
@@ -518,7 +530,7 @@ export class NphContextMenu extends LitElement {
     if (start === null || event.pointerType !== 'touch') {
       return;
     }
-    if (Math.hypot(event.clientX - start.x, event.clientY - start.y) > LONG_PRESS_MOVE) {
+    if (Math.hypot(event.clientX - start.x, event.clientY - start.y) > this.pressTolerance) {
       this.cancelLongPress();
     }
   };
@@ -763,6 +775,27 @@ export class NphContextMenu extends LitElement {
       return 0;
     }
     return delay;
+  }
+
+  /**
+   * The long press, read from its two tokens as computed on the element when the touch goes down:
+   * `context-menu/long-press-delay` and `context-menu/long-press-tolerance`. There is no literal
+   * fallback: when a token does not resolve, the long press does not arm, with one error per token.
+   */
+  private longPress(): { delay: number; tolerance: number } | null {
+    const style = getComputedStyle(this);
+    const delay = milliseconds(style.getPropertyValue('--nph-context-menu-long-press-delay'));
+    const tolerance = pixels(style.getPropertyValue('--nph-context-menu-long-press-tolerance'));
+    this.reportLongPress('context-menu/long-press-delay', Number.isNaN(delay));
+    this.reportLongPress('context-menu/long-press-tolerance', Number.isNaN(tolerance));
+    return Number.isNaN(delay) || Number.isNaN(tolerance) ? null : { delay: Math.max(delay, 0), tolerance: Math.max(tolerance, 0) };
+  }
+
+  private reportLongPress(token: string, missing: boolean): void {
+    if (missing && !this.warnedLongPress.has(token)) {
+      this.warnedLongPress.add(token);
+      devError(`${token} is not defined (load tokens.css); a long press does not open the menu.`);
+    }
   }
 
   private clearHover(): void {
