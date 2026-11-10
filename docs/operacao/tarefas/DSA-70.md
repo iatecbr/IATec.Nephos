@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 690,
   "owner": "elvys",
-  "state": "ready",
+  "state": "in-progress",
   "piece": null,
   "dependencies": [
     "DSA-27",
@@ -47,7 +47,7 @@
     "converted_decision": "The previews of lot 2 (frame 5404:10452, draft page) and of lot 1 (frame 5374:10420) were answered by Indiane on 2026-11-09. Each answer is written, in text, in the section 'Decisions answered on 2026-11-09' of its own task; the table below lists only the answers that change the code. There is no need to open Figma."
   },
   "git_review": { "branch": null, "commit": null, "pr": null },
-  "context": null,
+  "context": "docs/operacao/contextos/DSA-70.md",
   "updated_at": "2026-11-09"
 }
 ```
