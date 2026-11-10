@@ -5,7 +5,7 @@
   "phase": "F4",
   "approved_order": 700,
   "owner": "elvys",
-  "state": "in-review",
+  "state": "done",
   "piece": "nph-tabs",
   "dependencies": [
     "DSA-03",
@@ -26,11 +26,11 @@
     {
       "id": "review-and-merge",
       "description": "Component, CSS, tests, stories and spec pass the proof commands and are merged into v/5.0.0.",
-      "command": null,
-      "evidence": null,
-      "result": "pending",
-      "verified_at": null,
-      "verified_by": null
+      "command": "git merge-base --is-ancestor 205d905f450b299053758be55073273c6018af9c origin/v/5.0.0",
+      "evidence": "docs/operacao/evidencias/DSA-71/review-and-merge-2026-11-09.md",
+      "result": "passed",
+      "verified_at": "2026-11-09",
+      "verified_by": "claude-code"
     }
   ],
   "blockers": [],
@@ -67,7 +67,8 @@
     }
   ],
   "evidence": [
-    "docs/operacao/evidencias/DSA-71/figma-docs-accepted-2026-11-09.md"
+    "docs/operacao/evidencias/DSA-71/figma-docs-accepted-2026-11-09.md",
+    "docs/operacao/evidencias/DSA-71/review-and-merge-2026-11-09.md"
   ],
   "decision_refs": [
     "WORK BRAIN — 03 MEMÓRIA/diario/2026/2026-10-08.md, component code and specs belong to the code owner; Claude takes only tokens",
@@ -81,8 +82,8 @@
     "excerpt": null,
     "converted_decision": "The nph-tabs documentation frame (3483:11200, page 1626:14) was accepted as the API and behavior specification of nph-tabs. COMPONENT_SET nph-tabs (3472:9192), the list, 16 variants; the tab set (3472:8748), 30 variants; the counter set (3472:8747), 3 variants. The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-71-tabs", "commit": null, "pr": 162 },
-  "context": "docs/operacao/contextos/DSA-71.md",
+  "git_review": { "branch": "feat/dsa-71-tabs", "commit": "205d905f450b299053758be55073273c6018af9c", "pr": 162 },
+  "context": null,
   "updated_at": "2026-11-09"
 }
 ```
