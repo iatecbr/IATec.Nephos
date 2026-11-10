@@ -17,13 +17,17 @@ Apply in the code the answers Indiane gave on 2026-11-09 to the pending decision
 - `src/tokens/generated/tokens.css`: the tokens the rows name, all present
 
 ## Changes
-None yet.
+- `nph-switch`: the small size; `nph-dropdown-menu`: checked text in `color/primary-text`, pointer focus, small switch in the item; `nph-button`: open look for `aria-haspopup="menu"`.
+- `nph-dialog`, `nph-progress`, `nph-popover`, `nph-select`, `nph-hover-card`, `nph-context-menu` and `nph-navigation-menu`: the rows of the table in the task; stories, tests, sheets and the Storybook dictionary.
+- The `Brands` stories of the dropdown menu, the sidebar item, the navigation menu and the hover card no longer carry the contrast exception.
+- P114 in `docs/decisoes-tecnicas.md`; pending decision `T-1` (the nph-table row) in the task.
 
 ## Commands run
+- The twelve proofs of the wave, in sequence, on the head of the pull request.
 - `git fetch origin && git checkout -B feat/dsa-70-d-itens origin/v/5.0.0`
 
 ## Result
-The task is in progress on the branch `feat/dsa-70-d-itens`.
+The task is in review on the branch `feat/dsa-70-d-itens`.
 
 ## Evidence
 None yet. `review-and-merge` waits for the merge and for the nph-table row.
@@ -32,4 +36,4 @@ None yet. `review-and-merge` waits for the merge and for the nph-table row.
 The nph-table row (`table/link-foreground` in dark) is left to Indiane.
 
 ## Next command
-`npm run test:operacao`
+`gh pr edit 163 --add-reviewer @copilot`
