@@ -65,7 +65,7 @@
     "excerpt": null,
     "converted_decision": "The nph-tree documentation frame (5876:216753, page 1626:35) was accepted as the API and behavior specification of nph-tree. COMPONENT_SET nph-tree item set (5485:350), COMPONENT_SET nph-tree group set (5485:421) and COMPONENT_SET nph-tree (5485:766). The specification, converted to text, is in the evidence of the figma-docs-accepted gate."
   },
-  "git_review": { "branch": "feat/dsa-75-tree", "commit": null, "pr": null },
+  "git_review": { "branch": "feat/dsa-75-tree", "commit": null, "pr": 167 },
   "context": "docs/operacao/contextos/DSA-75.md",
   "updated_at": "2026-11-11"
 }
