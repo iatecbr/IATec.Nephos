@@ -19,7 +19,13 @@ import { Documentation } from './nph-sidebar.docs.stories';
 import * as validation from './nph-sidebar.stories';
 import type { NphSidebar, NphSidebarEntry } from './nph-sidebar';
 
+/* Every page drawn: unmounted after the test, so the observers of the examples are disconnected with it. */
+const drawn: HTMLElement[] = [];
+
 afterEach(() => {
+  for (const target of drawn.splice(0)) {
+    render(nothing, target);
+  }
   document.body.replaceChildren();
 });
 
@@ -30,6 +36,7 @@ type Renderable = { render?: (args: unknown, context: unknown) => TemplateResult
 function draw(story: Renderable, locale: string): HTMLElement {
   const target = document.createElement('div');
   document.body.append(target);
+  drawn.push(target);
   render(story.render?.({}, { globals: { locale } }) as TemplateResult, target);
   return target;
 }
